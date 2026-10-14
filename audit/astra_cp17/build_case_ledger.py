@@ -35,7 +35,7 @@ def ingest(report,path,run,artifact,origin):
     if expected is not None and count!=expected+extra_smoke:issues.append(dict(file=str(path),problem='TOTAL_MISMATCH',expected=expected,smoke=extra_smoke,observed=count))
     reports.append(dict(run_id=run,artifact_id=artifact,original=str(path.relative_to(ROOT)),sha256=hashlib.sha256(path.read_bytes()).hexdigest(),status=report.get('status'),cases=count,expected=expected,
         cp6_restored=report.get('cp6_restored'),advisor_gate=report.get('advisor_gate'),groups_complete=report.get('groups_complete')))
-for run in ('38522545215','38525930341','38525930407'):
+for run in ('38522545215','38525930341','38525930407','38527771239'):
     for directory in sorted((ROOT/'evidence'/run).glob('*')):
         if not directory.is_dir():continue
         receipt=directory/'receipt.json'
@@ -46,7 +46,7 @@ for run in ('38522545215','38525930341','38525930407'):
         for path in sorted((directory/'original').glob(pattern)):
             if 'PREEXECUTION_PLAN' in path.name:continue
             report=json.loads(path.read_text())
-            origin='WRITER_ORACLE_ASTRA_EXECUTION' if run=='38522545215' else ('ASTRA_PREEXISTING_CONTRACT' if run=='38525930341' else 'ASTRA_AFTER_FABLE_LEAD')
+            origin='WRITER_ORACLE_ASTRA_EXECUTION' if run=='38522545215' else ('ASTRA_PREEXISTING_CONTRACT' if run=='38525930341' else ('ASTRA_NEW_INTEGRATION_AND_ATTRIBUTED_LEADS' if run=='38527771239' else 'ASTRA_AFTER_FABLE_LEAD'))
             ingest(report,path,int(run),int(directory.name),origin)
 result=dict(candidate_sha='0b7049d9203bac52b47a4c89f3e0d75646067a8f',partial=True,scope='Downloaded native + own + payroll canonical JSON artifacts only; legacy baseline/carry/continuations tracked separately until complete',counts=dict(Counter(r['status'] for r in rows)),executions=len(rows),unique_case_ids=len(set(r['case_id'] for r in rows)),origins=dict(Counter(r['oracle_origin'] for r in rows)),reports=reports,issues=issues,rows=rows)
 (ROOT/'CASE_LEDGER_PARTIAL.json').write_text(json.dumps(result,indent=2)+'\n')

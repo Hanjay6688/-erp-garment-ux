@@ -3,15 +3,16 @@
   "partial": true,
   "scope": "Downloaded native + own + payroll canonical JSON artifacts only; legacy baseline/carry/continuations tracked separately until complete",
   "counts": {
-    "PASS": 841,
-    "COUNTEREXAMPLE": 3
+    "PASS": 1086,
+    "COUNTEREXAMPLE": 4
   },
-  "executions": 844,
-  "unique_case_ids": 698,
+  "executions": 1090,
+  "unique_case_ids": 927,
   "origins": {
-    "WRITER_ORACLE_ASTRA_EXECUTION": 798,
+    "WRITER_ORACLE_ASTRA_EXECUTION": 1041,
     "ASTRA_PREEXISTING_CONTRACT": 41,
-    "ASTRA_AFTER_FABLE_LEAD": 5
+    "ASTRA_AFTER_FABLE_LEAD": 5,
+    "ASTRA_NEW_INTEGRATION_AND_ATTRIBUTED_LEADS": 3
   },
   "reports": [
     {
@@ -112,6 +113,18 @@
     },
     {
       "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "sha256": "bc37f88c8787ec44acf737e1493f81e8eeddd40a22e9be75a8be75b407884f49",
+      "status": "PASS",
+      "cases": 20,
+      "expected": 20,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "groups_complete": null
+    },
+    {
+      "run_id": 38522545215,
       "artifact_id": 11876182169,
       "original": "evidence/38522545215/11876182169/original/CP7_F04_NATIVE_NETTING.json",
       "sha256": "8fc7daaacf03f3d169557130f16ad82b5cf912c4f49277d0728d010d46093f45",
@@ -148,6 +161,18 @@
     },
     {
       "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "sha256": "72b9a18a0b73afeaaa934956aeb5a11ae41867a4a4cb311bfa76b1600d5e8eb8",
+      "status": "PASS",
+      "cases": 25,
+      "expected": 25,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "groups_complete": null
+    },
+    {
+      "run_id": 38522545215,
       "artifact_id": 11876311555,
       "original": "evidence/38522545215/11876311555/original/CP7_P18_FULL_CYCLE.json",
       "sha256": "f9ad9ac0574997f34aa2366cc62da5e77aff79a95ea12620b743e95f444cfbc8",
@@ -166,6 +191,18 @@
       "status": "PASS",
       "cases": 43,
       "expected": 43,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "groups_complete": null
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876434618,
+      "original": "evidence/38522545215/11876434618/original/CP7_P19_REMINDER_V2.json",
+      "sha256": "823d3c7c1e2f39d36b7d8df2cd07ba6400877b7f9c61adb297d62c9e804dbcf7",
+      "status": "PASS",
+      "cases": 16,
+      "expected": 16,
       "cp6_restored": true,
       "advisor_gate": true,
       "groups_complete": null
@@ -208,6 +245,18 @@
     },
     {
       "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "sha256": "cb21387dc0e019ad4653555794d2bb05bdff7adadca0c4046c29b0b2ed29d888",
+      "status": "PASS",
+      "cases": 20,
+      "expected": 20,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "groups_complete": null
+    },
+    {
+      "run_id": 38522545215,
       "artifact_id": 11876565047,
       "original": "evidence/38522545215/11876565047/original/CP7_F04_NATIVE_MODELS.json",
       "sha256": "ad0378f16bc90cdbfc038069757557906441bce42c7d5454205b9b57e0d4876d",
@@ -220,12 +269,120 @@
     },
     {
       "run_id": 38522545215,
+      "artifact_id": 11876579022,
+      "original": "evidence/38522545215/11876579022/original/CP7_P21_FULL_REHEARSAL.json",
+      "sha256": "3c857df5cfd9b63b83c8f55e5aadf4032c33bf86f097d8cdd23fb7705867563f",
+      "status": "PASS",
+      "cases": 0,
+      "expected": null,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "groups_complete": null
+    },
+    {
+      "run_id": 38522545215,
       "artifact_id": 11876636650,
       "original": "evidence/38522545215/11876636650/original/CP7_SUPPLIER_PAYMENT_CORRECTION.json",
       "sha256": "a1df8087d06733c8944a10375c5e59ff310912335e815dc4752fd1a279526eee",
       "status": "PASS",
       "cases": 23,
       "expected": 23,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "groups_complete": null
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "sha256": "c65d95fa45bcc882e0411576157c276dfd4f79e106141b7911c2f2895479d901",
+      "status": "PASS",
+      "cases": 21,
+      "expected": 21,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "groups_complete": null
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "sha256": "21c88c8ec4ceedd02a050ab811a653a1e1f39fcd6c61931e78f18a5ce8716af5",
+      "status": "PASS",
+      "cases": 17,
+      "expected": 17,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "groups_complete": null
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876806892,
+      "original": "evidence/38522545215/11876806892/original/CP7_P19_AI_V2.json",
+      "sha256": "e2177297c63b1df66614077b5dbe307a73a318fb6838f202f5f42cfb6ffdd609",
+      "status": "PASS",
+      "cases": 9,
+      "expected": 9,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "groups_complete": null
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "sha256": "1e3e914e6abe0bbe78309e661da1e60c4cd36729e0bad529ff830a2b1707fe10",
+      "status": "PASS",
+      "cases": 22,
+      "expected": 22,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "groups_complete": null
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877151724,
+      "original": "evidence/38522545215/11877151724/original/CP7_K6_PROOF_RUNNER.json",
+      "sha256": "49bdb9215d17ad8ff5a7ad21cfad9d297f4c02becb4956a5ef65b1577b282a3b",
+      "status": "PASS",
+      "cases": 10,
+      "expected": 10,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "groups_complete": null
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "sha256": "3a66a7013962798c378de7ad9fcb37febed773eea96f5092726979ca6bb586dd",
+      "status": "PASS",
+      "cases": 57,
+      "expected": 57,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "groups_complete": null
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877285932,
+      "original": "evidence/38522545215/11877285932/original/CP7_K2_RETENTION.json",
+      "sha256": "291bebdd5499f13f5d14e3a1133be51803bcbcfa991ab7ef3896060959e8b5da",
+      "status": "PASS",
+      "cases": 10,
+      "expected": 10,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "groups_complete": null
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877307703,
+      "original": "evidence/38522545215/11877307703/original/CP7_RULE_LIFECYCLE.json",
+      "sha256": "d389b81f2101cf033766c1708ef0d14b9d9a0315273dc956691e0ba835f89e1c",
+      "status": "PASS",
+      "cases": 16,
+      "expected": 16,
       "cp6_restored": true,
       "advisor_gate": true,
       "groups_complete": null
@@ -345,6 +502,18 @@
       "sha256": "b091ac16d80831284d1ebdf3457a4248b98552046fa9a0390324eceb0f0a4726",
       "status": "COUNTEREXAMPLE",
       "cases": 5,
+      "expected": null,
+      "cp6_restored": null,
+      "advisor_gate": null,
+      "groups_complete": null
+    },
+    {
+      "run_id": 38527771239,
+      "artifact_id": 11876618228,
+      "original": "evidence/38527771239/11876618228/original/CP17_OWN_CASES_INTEGRATION.json",
+      "sha256": "f95faa239b585909876334cecd6883aeba2f5f3b40e127971100c37c09918d63",
+      "status": "COUNTEREXAMPLE",
+      "cases": 3,
       "expected": null,
       "cp6_restored": null,
       "advisor_gate": null,
@@ -7940,6 +8109,402 @@
     },
     {
       "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "native",
+      "case_id": "PL5H_PENDING_WITHOUT_POLICY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "native",
+      "case_id": "PL5H_POLICY_SIGNED_VERSIONED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "native",
+      "case_id": "PL5H_POLICY_VALUES_AND_AUTHORITY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "native",
+      "case_id": "PL5H_PRODUCT_SIZE_SUFFICIENT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "native",
+      "case_id": "PL5H_MODEL_FALLBACK_SAME_MODEL",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "native",
+      "case_id": "PL5H_INSUFFICIENT_NO_VALUE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "native",
+      "case_id": "PL5H_NEVER_CROSS_MODEL",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "native",
+      "case_id": "PL5H_NEVER_100_PERCENT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "native",
+      "case_id": "PL5H_WILSON_EXACT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "native",
+      "case_id": "PL5H_CANCEL_CORRECT_BACKDATE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "native",
+      "case_id": "PL5H_WINDOW_FINISH_DATE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "native",
+      "case_id": "PL5H_LIMIT_200_UNDER_8S",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "native",
+      "case_id": "PL5H_PLAN_USES_HISTORY_LIVE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "native",
+      "case_id": "PL5H_CATALOG_PRIVATE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "races",
+      "case_id": "PL5H_RACE_SAME_REVISION",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "races",
+      "case_id": "PL5H_RACE_SAME_REQUEST_TWO_SESSIONS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "http",
+      "case_id": "PL5H_HTTP_FLOW",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "http",
+      "case_id": "PL5H_HTTP_REVOKED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "browser",
+      "case_id": "PL5H_BROWSER_DESKTOP_POLICY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876158449,
+      "original": "evidence/38522545215/11876158449/original/CP7_PL5_HISTORY_YIELD.json",
+      "group": "browser",
+      "case_id": "PL5H_BROWSER_MOBILE_POLICY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
       "artifact_id": 11876182169,
       "original": "evidence/38522545215/11876182169/original/CP7_F04_NATIVE_NETTING.json",
       "group": "native",
@@ -12395,6 +12960,495 @@
     },
     {
       "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "native",
+      "case_id": "CP7_RETURN_CORRECTION_EXACT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "native",
+      "case_id": "CP7_RETURN_CORRECTION_INCREASE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "native",
+      "case_id": "CP7_RETURN_CORRECTION_FULLY_RETURNED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "native",
+      "case_id": "CP7_RETURN_CORRECTION_TWO_ALLOCATIONS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "native",
+      "case_id": "CP7_RETURN_CORRECTION_GRADES_LOCATION",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "native",
+      "case_id": "CP7_RETURN_CORRECTION_MICROSECONDS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "native",
+      "case_id": "CP7_RETURN_CORRECTION_DATE_MOVE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "native",
+      "case_id": "CP7_RETURN_CORRECTION_YEAR_364",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "native",
+      "case_id": "CP7_RETURN_CORRECTION_FINAL_POST_FAILURE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "native",
+      "case_id": "CP7_RETURN_CORRECTION_STALE_SOURCE_STOCK",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "native",
+      "case_id": "CP7_RETURN_CORRECTION_CURRENT_PERMISSIONS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "native",
+      "case_id": "CP7_RETURN_CORRECTION_CLOSED_FIELDS_NATIVE_CAPS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "native",
+      "case_id": "CP7_RETURN_CORRECTION_REPLAY_RESTORE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "native",
+      "case_id": "CP7_RETURN_CORRECTION_IMMUTABLE_HISTORY_SOURCE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "native",
+      "case_id": "CP7_RETURN_CORRECTION_DOWNSTREAM_STOCK",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "native",
+      "case_id": "CP7_RETURN_CORRECTION_CLOSED_BOOKS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "races",
+      "case_id": "CP7_RETURN_CORRECTION_RACE_SAME_UUID",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "races",
+      "case_id": "CP7_RETURN_CORRECTION_RACE_COMPETING",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "races",
+      "case_id": "CP7_RETURN_CORRECTION_RACE_AUTH_RETIRE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "races",
+      "case_id": "CP7_RETURN_CORRECTION_RACE_STOCK_CHANGE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "http",
+      "case_id": "CP7_RETURN_CORRECTION_HTTP_ATOMIC_REPLAY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "http",
+      "case_id": "CP7_RETURN_CORRECTION_HTTP_YEAR_364",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "http",
+      "case_id": "CP7_RETURN_CORRECTION_HTTP_CURRENT_RETIRE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "browser",
+      "case_id": "CP7_RETURN_CORRECTION_BROWSER_DESKTOP",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876289281,
+      "original": "evidence/38522545215/11876289281/original/CP7_RETURN_CORRECTION.json",
+      "group": "browser",
+      "case_id": "CP7_RETURN_CORRECTION_BROWSER_MOBILE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
       "artifact_id": 11876311555,
       "original": "evidence/38522545215/11876311555/original/CP7_P18_FULL_CYCLE.json",
       "group": "native",
@@ -13303,6 +14357,314 @@
       "original": "evidence/38522545215/11876366776/original/CP7_RECEIPT_CORRECTION.json",
       "group": "browser",
       "case_id": "RF_BROWSER_MOBILE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876434618,
+      "original": "evidence/38522545215/11876434618/original/CP7_P19_REMINDER_V2.json",
+      "group": "native",
+      "case_id": "P19M_SET_STEPS_SEAL",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876434618,
+      "original": "evidence/38522545215/11876434618/original/CP7_P19_REMINDER_V2.json",
+      "group": "native",
+      "case_id": "P19M_RESOLVED_AFTER_SNAPSHOT_NOT_SENT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876434618,
+      "original": "evidence/38522545215/11876434618/original/CP7_P19_REMINDER_V2.json",
+      "group": "native",
+      "case_id": "P19M_STILL_OPEN_SENT_ONCE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876434618,
+      "original": "evidence/38522545215/11876434618/original/CP7_P19_REMINDER_V2.json",
+      "group": "native",
+      "case_id": "P19M_PARTIAL_AND_THRESHOLD",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876434618,
+      "original": "evidence/38522545215/11876434618/original/CP7_P19_REMINDER_V2.json",
+      "group": "native",
+      "case_id": "P19M_FABRIC_HELD_ON_MATERIAL_CHANGE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876434618,
+      "original": "evidence/38522545215/11876434618/original/CP7_P19_REMINDER_V2.json",
+      "group": "native",
+      "case_id": "P19M_AR_PAID_NOT_SENT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876434618,
+      "original": "evidence/38522545215/11876434618/original/CP7_P19_REMINDER_V2.json",
+      "group": "native",
+      "case_id": "P19M_POLICY_AND_DESTINATION",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876434618,
+      "original": "evidence/38522545215/11876434618/original/CP7_P19_REMINDER_V2.json",
+      "group": "native",
+      "case_id": "P19M_REQUEST_ONE_UUID",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876434618,
+      "original": "evidence/38522545215/11876434618/original/CP7_P19_REMINDER_V2.json",
+      "group": "native",
+      "case_id": "P19M_AUTHORITY_AND_V1_APART",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876434618,
+      "original": "evidence/38522545215/11876434618/original/CP7_P19_REMINDER_V2.json",
+      "group": "races",
+      "case_id": "P19M_RACE_TWO_CLAIMS_ONE_CLAIM",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876434618,
+      "original": "evidence/38522545215/11876434618/original/CP7_P19_REMINDER_V2.json",
+      "group": "races",
+      "case_id": "P19M_RACE_FG_COMMITTED_WHILE_WAITING",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876434618,
+      "original": "evidence/38522545215/11876434618/original/CP7_P19_REMINDER_V2.json",
+      "group": "races",
+      "case_id": "P19M_RACE_TWO_STEPS_ONE_UNIT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876434618,
+      "original": "evidence/38522545215/11876434618/original/CP7_P19_REMINDER_V2.json",
+      "group": "http",
+      "case_id": "P19M_HTTP_FLOW",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876434618,
+      "original": "evidence/38522545215/11876434618/original/CP7_P19_REMINDER_V2.json",
+      "group": "http",
+      "case_id": "P19M_HTTP_REVOKED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876434618,
+      "original": "evidence/38522545215/11876434618/original/CP7_P19_REMINDER_V2.json",
+      "group": "browser",
+      "case_id": "P19M_BROWSER_DESKTOP_REMINDERS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876434618,
+      "original": "evidence/38522545215/11876434618/original/CP7_P19_REMINDER_V2.json",
+      "group": "browser",
+      "case_id": "P19M_BROWSER_MOBILE_REMINDERS",
       "status": "PASS",
       "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
       "full_boundary_restored": null,
@@ -14930,6 +16292,386 @@
     },
     {
       "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "native",
+      "case_id": "P19R_PUBLISH_STEPS_SEAL",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "native",
+      "case_id": "P19R_ACTUAL_STOCK_AT_REPORT_TIME",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "native",
+      "case_id": "P19R_FRESHNESS_STATES_WORDED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "native",
+      "case_id": "P19R_FINANCE_FROM_OWNER_REPORT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "native",
+      "case_id": "P19R_FINANCE_ACCESS_CURRENT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "native",
+      "case_id": "P19R_REVISION_SERIES",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "native",
+      "case_id": "P19R_REQUEST_ONE_UUID",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "native",
+      "case_id": "P19R_AUTHORITY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "native",
+      "case_id": "P19R_FIELDS_AND_IDENTITY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "native",
+      "case_id": "P19R_V1_APART",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "races",
+      "case_id": "P19R_RACE_TWO_STEPS_ONE_UNIT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "races",
+      "case_id": "P19R_RACE_TWO_REVISIONS_ONE_SEALS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "races",
+      "case_id": "P19R_RACE_STOCK_COMMITTED_DURING_JOB",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "races",
+      "case_id": "P19R_RACE_ACCESS_CHANGED_MID_JOB",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "races",
+      "case_id": "P19R_RACE_SAME_UUID_TWO_SESSIONS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "races",
+      "case_id": "P19R_RACE_LIMIT_RETRIES_THEN_CONTINUES",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "http",
+      "case_id": "P19R_HTTP_FLOW",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "http",
+      "case_id": "P19R_HTTP_REVOKED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "browser",
+      "case_id": "P19R_BROWSER_DESKTOP_REPORT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876493062,
+      "original": "evidence/38522545215/11876493062/original/CP7_P19_REPORT_V2.json",
+      "group": "browser",
+      "case_id": "P19R_BROWSER_MOBILE_REPORT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
       "artifact_id": 11876565047,
       "original": "evidence/38522545215/11876565047/original/CP7_F04_NATIVE_MODELS.json",
       "group": "native",
@@ -16008,6 +17750,3128 @@
       }
     },
     {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "native",
+      "case_id": "P08_PHYSICAL_SINGLE_FREE_STOCK",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "native",
+      "case_id": "P08_PHYSICAL_SUFFICIENT_FREE_STOCK",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "native",
+      "case_id": "P08_PHYSICAL_WIP_IDENTITY_UPPER_BOUND",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "native",
+      "case_id": "P08_PHYSICAL_LINKED_DRAFT_KNOWN",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "native",
+      "case_id": "P08_PHYSICAL_LINKED_DRAFT_PLUS_FREE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "native",
+      "case_id": "P08_PHYSICAL_WRONG_MATERIAL_DRAFT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "native",
+      "case_id": "P08_PHYSICAL_OVERCOMMITTED_DRAFT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "native",
+      "case_id": "P08_PHYSICAL_UNLINKED_NATIVE_DRAFT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "native",
+      "case_id": "P08_PHYSICAL_INCOMING_ON_TIME",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "native",
+      "case_id": "P08_PHYSICAL_INCOMING_LATE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "native",
+      "case_id": "P08_PHYSICAL_INCOMING_NO_DATE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "native",
+      "case_id": "P08_PHYSICAL_INCOMING_OVERDUE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "native",
+      "case_id": "P08_PHYSICAL_SHARED_SPLIT_THEN_DRAFTS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "native",
+      "case_id": "P08_PHYSICAL_RECEIPT_STALES_ORIGINAL",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "native",
+      "case_id": "P08_PHYSICAL_POSTED_ISSUE_ONCE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "native",
+      "case_id": "P08_PHYSICAL_KERNEL_BRANCHES_SYNTHETIC",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "races",
+      "case_id": "P08_PHYSICAL_REAL_MVCC_RECEIPT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "races",
+      "case_id": "P08_PHYSICAL_REAL_MVCC_NATIVE_POST",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "http",
+      "case_id": "P08_PHYSICAL_REAL_AUTH_HTTP",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "browser",
+      "case_id": "P08_PHYSICAL_BROWSER_DESKTOP",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876698485,
+      "original": "evidence/38522545215/11876698485/original/CP7_FABRIC_PHYSICAL.json",
+      "group": "browser",
+      "case_id": "P08_PHYSICAL_BROWSER_MOBILE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "group": "native",
+      "case_id": "K4R_SERVER_FINISHES_WITHOUT_PAGE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "group": "native",
+      "case_id": "K4R_PAGE_AND_SERVER_ONE_JOB",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "group": "native",
+      "case_id": "K4R_ACCESS_RECHECKED_EACH_UNIT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "group": "native",
+      "case_id": "K4R_DENIED_JOB_DOES_NOT_HOLD_OTHERS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "group": "native",
+      "case_id": "K4R_LIMIT_REQUIRED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "group": "native",
+      "case_id": "K4R_SCHEDULE_DEFINED_PRIVATE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "group": "native",
+      "case_id": "K4R_STATUS_REPORTS_RUNNER",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "group": "races",
+      "case_id": "K4R_RACE_PAGE_AND_SERVER_ONE_UNIT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "group": "races",
+      "case_id": "K4R_RACE_TWO_TICKS_ONE_UNIT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "group": "races",
+      "case_id": "K4R_RACE_COLD_START_TWO_TICKS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "group": "races",
+      "case_id": "K4R_RACE_LIMIT_STOPS_THEN_CONTINUES",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "group": "races",
+      "case_id": "K4R_RACE_ACCESS_CHANGED_DURING_UNIT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "group": "races",
+      "case_id": "K4R_RACE_PG_CRON_FINISHES_JOB",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "group": "http",
+      "case_id": "K4R_HTTP_CLOSED_PAGE_FINISHES",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "group": "http",
+      "case_id": "K4R_HTTP_TICK_NOT_REACHABLE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "group": "browser",
+      "case_id": "K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876738561,
+      "original": "evidence/38522545215/11876738561/original/CP7_K4_RUNNER.json",
+      "group": "browser",
+      "case_id": "K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876806892,
+      "original": "evidence/38522545215/11876806892/original/CP7_P19_AI_V2.json",
+      "group": "native",
+      "case_id": "P19A_BRIEF_EQUALS_INDEX",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876806892,
+      "original": "evidence/38522545215/11876806892/original/CP7_P19_AI_V2.json",
+      "group": "native",
+      "case_id": "P19A_FIELDS_AND_BOUNDS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876806892,
+      "original": "evidence/38522545215/11876806892/original/CP7_P19_AI_V2.json",
+      "group": "native",
+      "case_id": "P19A_STALE_SNAPSHOT_LABELLED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876806892,
+      "original": "evidence/38522545215/11876806892/original/CP7_P19_AI_V2.json",
+      "group": "native",
+      "case_id": "P19A_ACCESS_AND_NO_FINANCE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876806892,
+      "original": "evidence/38522545215/11876806892/original/CP7_P19_AI_V2.json",
+      "group": "races",
+      "case_id": "P19A_RACE_BRIEF_WHILE_STOCK_COMMITS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876806892,
+      "original": "evidence/38522545215/11876806892/original/CP7_P19_AI_V2.json",
+      "group": "http",
+      "case_id": "P19A_HTTP_FLOW",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876806892,
+      "original": "evidence/38522545215/11876806892/original/CP7_P19_AI_V2.json",
+      "group": "http",
+      "case_id": "P19A_HTTP_REVOKED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876806892,
+      "original": "evidence/38522545215/11876806892/original/CP7_P19_AI_V2.json",
+      "group": "browser",
+      "case_id": "P19A_BROWSER_DESKTOP_AI",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876806892,
+      "original": "evidence/38522545215/11876806892/original/CP7_P19_AI_V2.json",
+      "group": "browser",
+      "case_id": "P19A_BROWSER_MOBILE_AI",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "native",
+      "case_id": "P19P_INDEX_RETAINED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "native",
+      "case_id": "P19P_SAVE_FROM_STALE_SNAPSHOT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "native",
+      "case_id": "P19P_PREVIEW_READ_ONLY_LIVE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "native",
+      "case_id": "P19P_APPLY_AFTER_UNRELATED_CHANGE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "native",
+      "case_id": "P19P_FG_INCREASE_NEED_CHANGED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "native",
+      "case_id": "P19P_WIP_INCREASE_NEED_CHANGED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "native",
+      "case_id": "P19P_POLICY_CHANGED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "native",
+      "case_id": "P19P_CAPACITY_USED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "native",
+      "case_id": "P19P_TARGET_PLANNED_AND_LINKED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "native",
+      "case_id": "P19P_FIELDS_KINDS_ACCESS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "native",
+      "case_id": "P19P_V1_V2_SHARED_CAPACITY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "races",
+      "case_id": "P19P_RACE_CAPACITY_TWO_TARGETS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "races",
+      "case_id": "P19P_RACE_SAME_TARGET",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "races",
+      "case_id": "P19P_RACE_FG_WHILE_WAITING",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "races",
+      "case_id": "P19P_RACE_INTENT_IN_FLIGHT_AT_CAPTURE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "races",
+      "case_id": "P19P_RACE_V1_HOLDS_V2_REFUSED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "races",
+      "case_id": "P19P_RACE_V2_HOLDS_V1_REFUSED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "races",
+      "case_id": "P19P_RACE_V1_ROLLBACK_FREES_CAPACITY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "http",
+      "case_id": "P19P_HTTP_FLOW",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "http",
+      "case_id": "P19P_HTTP_REVOKED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "browser",
+      "case_id": "P19P_BROWSER_DESKTOP_PLAN",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11876905905,
+      "original": "evidence/38522545215/11876905905/original/CP7_P19_PLAN_V2.json",
+      "group": "browser",
+      "case_id": "P19P_BROWSER_MOBILE_PLAN",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877151724,
+      "original": "evidence/38522545215/11877151724/original/CP7_K6_PROOF_RUNNER.json",
+      "group": "native",
+      "case_id": "K6P_PASS_PROVES_FINISHED_HISTORY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877151724,
+      "original": "evidence/38522545215/11877151724/original/CP7_K6_PROOF_RUNNER.json",
+      "group": "native",
+      "case_id": "K6P_CANCEL_CORRECT_BACKDATE_REPROVEN_BY_SERVER",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877151724,
+      "original": "evidence/38522545215/11877151724/original/CP7_K6_PROOF_RUNNER.json",
+      "group": "native",
+      "case_id": "K6P_LIMIT_REQUIRED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877151724,
+      "original": "evidence/38522545215/11877151724/original/CP7_K6_PROOF_RUNNER.json",
+      "group": "native",
+      "case_id": "K6P_SCHEDULE_DEFINED_PRIVATE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877151724,
+      "original": "evidence/38522545215/11877151724/original/CP7_K6_PROOF_RUNNER.json",
+      "group": "races",
+      "case_id": "K6P_RACE_SECOND_TICK_NEVER_WAITS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877151724,
+      "original": "evidence/38522545215/11877151724/original/CP7_K6_PROOF_RUNNER.json",
+      "group": "races",
+      "case_id": "K6P_RACE_WINDOW_STOPPED_THEN_SKIPPED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877151724,
+      "original": "evidence/38522545215/11877151724/original/CP7_K6_PROOF_RUNNER.json",
+      "group": "races",
+      "case_id": "K6P_RACE_CAPTURE_DURING_WINDOW",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877151724,
+      "original": "evidence/38522545215/11877151724/original/CP7_K6_PROOF_RUNNER.json",
+      "group": "races",
+      "case_id": "K6P_RACE_PG_CRON_FINISHES_PASS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877151724,
+      "original": "evidence/38522545215/11877151724/original/CP7_K6_PROOF_RUNNER.json",
+      "group": "http",
+      "case_id": "K6P_HTTP_TICK_NOT_REACHABLE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877151724,
+      "original": "evidence/38522545215/11877151724/original/CP7_K6_PROOF_RUNNER.json",
+      "group": "http",
+      "case_id": "K6P_HTTP_CAPTURE_USES_SERVER_PROOFS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "P05_NATIVE_DRAFT_ONCE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "P05_NATIVE_POSTED_ONCE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "P05_NATIVE_RETURN_SEPARATE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "P05_NATIVE_NATIVE_INVERSES",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "P05_NATIVE_OPERATIONAL_REDACTION",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "P05_NATIVE_CURRENT_REVOKE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "P05_NATIVE_CLOSED_QUERY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "P05_NATIVE_PRIVATE_CAPS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "P05_NATIVE_TIMEZONES",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "P05_NATIVE_UNKNOWN_HISTORY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "P05_NATIVE_GLOBAL_30_ROOTS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUTTING_NATIVE_SLICE_ONCE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUTTING_SOURCE_CLOSED_SCOPE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUTTING_IMMUTABLE_ENGINE_ARCHIVE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_INPUT_NATIVE_PROSPECTIVE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_INPUT_NATIVE_LATE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_INPUT_NATIVE_IMMUTABLE_CAS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_INPUT_NATIVE_UUID_RECOVERY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_INPUT_NATIVE_CLOSED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_INPUT_NATIVE_CURRENT_AUTH",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_OBS_NATIVE_POSTED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_OBS_NATIVE_UNPOSTED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_OBS_NATIVE_LATE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_OBS_NATIVE_INPUT_REVISION",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_OBS_NATIVE_UUID_RECOVERY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_OBS_NATIVE_CLOSED_CAS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_OBS_NATIVE_PRIVATE_ACTOR",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_MODEL_NATIVE_WIDTH_BASELINE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_MODEL_NATIVE_EARLY_POLICY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_MODEL_NATIVE_MISSING_SCOPE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_MODEL_NATIVE_UUID",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_MODEL_NATIVE_CLOSED_CAS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "native",
+      "case_id": "CUT_MODEL_NATIVE_PRIVATE_ACTOR",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "races",
+      "case_id": "P05_RACE_SAME_UUID",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "races",
+      "case_id": "P05_RACE_CURRENT_REVOKE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "races",
+      "case_id": "CUT_INPUT_RACE_CURRENT_REVOKE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "races",
+      "case_id": "CUT_INPUT_RACE_NATIVE_VERSION",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "races",
+      "case_id": "CUT_OBS_RACE_CURRENT_REVOKE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "races",
+      "case_id": "CUT_OBS_RACE_NATIVE_VERSION",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "races",
+      "case_id": "CUT_MODEL_RACE_CURRENT_REVOKE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "races",
+      "case_id": "CUT_MODEL_RACE_NATIVE_VERSION",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "http",
+      "case_id": "P05_ACTUAL_AUTH_HTTP",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "http",
+      "case_id": "CUTTING_ACTUAL_AUTH_HTTP",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "http",
+      "case_id": "CUT_INPUT_ACTUAL_AUTH_HTTP",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "http",
+      "case_id": "CUT_OBS_ACTUAL_AUTH_HTTP",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "http",
+      "case_id": "CUT_MODEL_ACTUAL_AUTH_HTTP",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "browser",
+      "case_id": "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "browser",
+      "case_id": "P05_BROWSER_MOBILE_CURRENT_AUTH",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "browser",
+      "case_id": "CUTTING_SOURCE_BROWSER_DESKTOP",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "browser",
+      "case_id": "CUTTING_SOURCE_BROWSER_MOBILE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "browser",
+      "case_id": "CUT_INPUT_BROWSER_DESKTOP",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "browser",
+      "case_id": "CUT_INPUT_BROWSER_MOBILE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "browser",
+      "case_id": "CUT_LEARNING_MODEL_DESKTOP",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "browser",
+      "case_id": "CUT_LEARNING_MODEL_MOBILE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "browser",
+      "case_id": "CUT_LEARNING_OBSERVATION_DESKTOP",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877207460,
+      "original": "evidence/38522545215/11877207460/original/CP7_F04_NATIVE_CUTTING_MODEL.json",
+      "group": "browser",
+      "case_id": "CUT_LEARNING_OBSERVATION_MOBILE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877285932,
+      "original": "evidence/38522545215/11877285932/original/CP7_K2_RETENTION.json",
+      "group": "native",
+      "case_id": "K2_KEPT_SEVEN_DAYS_LABELLED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877285932,
+      "original": "evidence/38522545215/11877285932/original/CP7_K2_RETENTION.json",
+      "group": "native",
+      "case_id": "K2_EXPIRED_REFUSED_EVERYWHERE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877285932,
+      "original": "evidence/38522545215/11877285932/original/CP7_K2_RETENTION.json",
+      "group": "native",
+      "case_id": "K2_RUNNING_NEVER_EXPIRES",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877285932,
+      "original": "evidence/38522545215/11877285932/original/CP7_K2_RETENTION.json",
+      "group": "native",
+      "case_id": "K2_PURGE_ONLY_EXPIRED_TEMPORARY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877285932,
+      "original": "evidence/38522545215/11877285932/original/CP7_K2_RETENTION.json",
+      "group": "native",
+      "case_id": "K2_PURGE_KEEPS_DOCUMENT_RUNS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877285932,
+      "original": "evidence/38522545215/11877285932/original/CP7_K2_RETENTION.json",
+      "group": "native",
+      "case_id": "K2_PURGE_PRIVATE_ONCE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877285932,
+      "original": "evidence/38522545215/11877285932/original/CP7_K2_RETENTION.json",
+      "group": "races",
+      "case_id": "K2_RACE_TWO_PURGES_ONE_LOG",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877285932,
+      "original": "evidence/38522545215/11877285932/original/CP7_K2_RETENTION.json",
+      "group": "http",
+      "case_id": "K2_HTTP_EXPIRED_REFUSED",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877285932,
+      "original": "evidence/38522545215/11877285932/original/CP7_K2_RETENTION.json",
+      "group": "browser",
+      "case_id": "K2_BROWSER_DESKTOP_RETENTION",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877285932,
+      "original": "evidence/38522545215/11877285932/original/CP7_K2_RETENTION.json",
+      "group": "browser",
+      "case_id": "K2_BROWSER_MOBILE_RETENTION",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877307703,
+      "original": "evidence/38522545215/11877307703/original/CP7_RULE_LIFECYCLE.json",
+      "group": "native",
+      "case_id": "P18_E01_NATIVE_SOURCE_TO_ALL_CONSUMERS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877307703,
+      "original": "evidence/38522545215/11877307703/original/CP7_RULE_LIFECYCLE.json",
+      "group": "native",
+      "case_id": "P18_E01_CASH_INVERSE_IMMUTABLE_ARCHIVE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877307703,
+      "original": "evidence/38522545215/11877307703/original/CP7_RULE_LIFECYCLE.json",
+      "group": "native",
+      "case_id": "P18_E01_CURRENT_AUTHORITY",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877307703,
+      "original": "evidence/38522545215/11877307703/original/CP7_RULE_LIFECYCLE.json",
+      "group": "native",
+      "case_id": "P18_E01_OWNING_NOTE_CORRECTION_ALL_CONSUMERS",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877307703,
+      "original": "evidence/38522545215/11877307703/original/CP7_RULE_LIFECYCLE.json",
+      "group": "native",
+      "case_id": "P18_E01_CORRECTED_DEMAND_PROSPECTIVE_MODEL",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877307703,
+      "original": "evidence/38522545215/11877307703/original/CP7_RULE_LIFECYCLE.json",
+      "group": "native",
+      "case_id": "P16_LIFECYCLE_INVOICE_AND_RECEIPT_INVERSE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877307703,
+      "original": "evidence/38522545215/11877307703/original/CP7_RULE_LIFECYCLE.json",
+      "group": "native",
+      "case_id": "P16_LIFECYCLE_CORRECTED_REPLACEMENT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877307703,
+      "original": "evidence/38522545215/11877307703/original/CP7_RULE_LIFECYCLE.json",
+      "group": "native",
+      "case_id": "P16_LIFECYCLE_PAID_AND_PAYMENT_INVERSE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877307703,
+      "original": "evidence/38522545215/11877307703/original/CP7_RULE_LIFECYCLE.json",
+      "group": "native",
+      "case_id": "P16_LIFECYCLE_MISSING_SOURCE_UNKNOWN",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877307703,
+      "original": "evidence/38522545215/11877307703/original/CP7_RULE_LIFECYCLE.json",
+      "group": "native",
+      "case_id": "P16_LIFECYCLE_REPLAY_CURRENT_REVOKE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877307703,
+      "original": "evidence/38522545215/11877307703/original/CP7_RULE_LIFECYCLE.json",
+      "group": "races",
+      "case_id": "P18_E01_CASH_INVERSE_DURING_SAVED_REPORT_WAIT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877307703,
+      "original": "evidence/38522545215/11877307703/original/CP7_RULE_LIFECYCLE.json",
+      "group": "races",
+      "case_id": "P16_LIFECYCLE_RACE_CORRECTION_WAIT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877307703,
+      "original": "evidence/38522545215/11877307703/original/CP7_RULE_LIFECYCLE.json",
+      "group": "http",
+      "case_id": "P18_E01_EXACT_AUTH_NATIVE_SOURCE_TO_REPORT",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877307703,
+      "original": "evidence/38522545215/11877307703/original/CP7_RULE_LIFECYCLE.json",
+      "group": "http",
+      "case_id": "P16_LIFECYCLE_HTTP_ARCHIVED_CURRENT_AUTH",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877307703,
+      "original": "evidence/38522545215/11877307703/original/CP7_RULE_LIFECYCLE.json",
+      "group": "browser",
+      "case_id": "P18_E01_BRIDGE_BROWSER_DESKTOP",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38522545215,
+      "artifact_id": 11877307703,
+      "original": "evidence/38522545215/11877307703/original/CP7_RULE_LIFECYCLE.json",
+      "group": "browser",
+      "case_id": "P18_E01_BRIDGE_BROWSER_MOBILE",
+      "status": "PASS",
+      "oracle_origin": "WRITER_ORACLE_ASTRA_EXECUTION",
+      "full_boundary_restored": null,
+      "public_schema_unchanged": null,
+      "session_leaks": null,
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
       "run_id": 38525930341,
       "artifact_id": 11875549257,
       "original": "evidence/38525930341/11875549257/original/CP17_OWN_CASES_CONT_STATE.json",
@@ -16960,6 +21824,69 @@
       "case_id": "CP17-ASTRA-PAY-05-EARLY-INSTALLMENT",
       "status": "COUNTEREXAMPLE",
       "oracle_origin": "ASTRA_AFTER_FABLE_LEAD",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38527771239,
+      "artifact_id": 11876618228,
+      "original": "evidence/38527771239/11876618228/original/CP17_OWN_CASES_INTEGRATION.json",
+      "group": "native",
+      "case_id": "CP17-ASTRA-SKN22-OPENING-TO-CORRECTION",
+      "status": "PASS",
+      "oracle_origin": "ASTRA_NEW_INTEGRATION_AND_ATTRIBUTED_LEADS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38527771239,
+      "artifact_id": 11876618228,
+      "original": "evidence/38527771239/11876618228/original/CP17_OWN_CASES_INTEGRATION.json",
+      "group": "native",
+      "case_id": "CP17-ASTRA-PAY-06-DATED-PARTIAL",
+      "status": "COUNTEREXAMPLE",
+      "oracle_origin": "ASTRA_NEW_INTEGRATION_AND_ATTRIBUTED_LEADS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-14",
+        "before": "2026-10-14",
+        "after": "2026-10-14"
+      }
+    },
+    {
+      "run_id": 38527771239,
+      "artifact_id": 11876618228,
+      "original": "evidence/38527771239/11876618228/original/CP17_OWN_CASES_INTEGRATION.json",
+      "group": "native",
+      "case_id": "CP17-ASTRA-HPP-01-OVERLAPPING-SOURCE",
+      "status": "PASS",
+      "oracle_origin": "ASTRA_NEW_INTEGRATION_AND_ATTRIBUTED_LEADS",
       "full_boundary_restored": true,
       "public_schema_unchanged": true,
       "session_leaks": {

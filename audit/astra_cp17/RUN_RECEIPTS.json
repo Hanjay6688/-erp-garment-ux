@@ -1,0 +1,591 @@
+[
+  {
+    "id": 38522545215,
+    "head_sha": "adf0c7d2e9918708095ca0d3818d5a20f8456252",
+    "status": "completed",
+    "conclusion": "success",
+    "run_attempt": 1,
+    "created_at": "2026-10-14T06:29:54Z",
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38522545215",
+    "jobs": [
+      {
+        "id": 115715349670,
+        "name": "AUDIT/Astra/p18-full-cycle",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:02:39Z",
+        "completed_at": "2026-10-14T07:08:07Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715349851,
+        "name": "AUDIT/Astra/cutting-correction",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:03:23Z",
+        "completed_at": "2026-10-14T07:10:29Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715349855,
+        "name": "AUDIT/Astra/f03-p09",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T06:45:48Z",
+        "completed_at": "2026-10-14T06:55:20Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715349858,
+        "name": "AUDIT/Astra/f03-customer_refund",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T06:55:22Z",
+        "completed_at": "2026-10-14T07:02:41Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715349868,
+        "name": "AUDIT/Astra/pl-netting",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:00:04Z",
+        "completed_at": "2026-10-14T07:10:54Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715349879,
+        "name": "AUDIT/Astra/f03-cash_installments",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T06:47:20Z",
+        "completed_at": "2026-10-14T06:57:13Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715349901,
+        "name": "AUDIT/Astra/f03-supplier_credit",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T06:49:22Z",
+        "completed_at": "2026-10-14T06:55:41Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715349921,
+        "name": "AUDIT/Astra/pl-model",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T06:56:12Z",
+        "completed_at": "2026-10-14T07:03:20Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715349937,
+        "name": "AUDIT/Astra/f03-p13",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T06:50:00Z",
+        "completed_at": "2026-10-14T07:00:02Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715349938,
+        "name": "AUDIT/Astra/receipt-correction",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:03:23Z",
+        "completed_at": "2026-10-14T07:15:38Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715349947,
+        "name": "AUDIT/Astra/f03-p10",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T06:49:02Z",
+        "completed_at": "2026-10-14T06:56:10Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715350036,
+        "name": "AUDIT/Astra/pl-schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T06:57:15Z",
+        "completed_at": "2026-10-14T07:05:48Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715350052,
+        "name": "AUDIT/Astra/note-correction",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:02:43Z",
+        "completed_at": "2026-10-14T07:19:27Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715350091,
+        "name": "AUDIT/Astra/pl-supply",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T06:55:43Z",
+        "completed_at": "2026-10-14T07:03:21Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715350174,
+        "name": "AUDIT/Astra/f03-p12",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T06:50:14Z",
+        "completed_at": "2026-10-14T07:02:38Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715350192,
+        "name": "AUDIT/Astra/sales-return-correction",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:05:50Z",
+        "completed_at": "2026-10-14T07:22:08Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715351160,
+        "name": "AUDIT/Astra/p19-plan-v2",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:15:10Z",
+        "completed_at": "2026-10-14T07:22:06Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715351172,
+        "name": "AUDIT/Astra/payment-correction",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:08:10Z",
+        "completed_at": "2026-10-14T07:15:09Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715351228,
+        "name": "AUDIT/Astra/p19-report-v2",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:15:40Z",
+        "completed_at": "2026-10-14T07:24:52Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715351268,
+        "name": "AUDIT/Astra/p19-reminder-v2",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:17:30Z",
+        "completed_at": "2026-10-14T07:25:11Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715351302,
+        "name": "AUDIT/Astra/supplier-payment-correction",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:10:55Z",
+        "completed_at": "2026-10-14T07:18:06Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715351305,
+        "name": "AUDIT/Astra/misc-correction",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:10:30Z",
+        "completed_at": "2026-10-14T07:17:29Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715351322,
+        "name": "AUDIT/Astra/p19-ai-v2",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:18:08Z",
+        "completed_at": "2026-10-14T07:24:38Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715351413,
+        "name": "AUDIT/Astra/pl5-history-yield",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:19:29Z",
+        "completed_at": "2026-10-14T07:26:18Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715351457,
+        "name": "AUDIT/Astra/k2-retention",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:22:08Z",
+        "completed_at": "2026-10-14T07:29:01Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715351554,
+        "name": "AUDIT/Astra/k4-runner",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:22:09Z",
+        "completed_at": "2026-10-14T07:30:35Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715352563,
+        "name": "AUDIT/Astra/p21-full-rehearsal",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:24:54Z",
+        "completed_at": "2026-10-14T07:31:33Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715352602,
+        "name": "AUDIT/Astra/k6-proof-runner",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:24:40Z",
+        "completed_at": "2026-10-14T07:31:51Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715352682,
+        "name": "AUDIT/Astra/fabric-physical",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:25:13Z",
+        "completed_at": "2026-10-14T07:32:41Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715352726,
+        "name": "AUDIT/Astra/rule-lifecycle",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:29:03Z",
+        "completed_at": "2026-10-14T07:38:03Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115715352806,
+        "name": "AUDIT/Astra/cutting-model",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:26:20Z",
+        "completed_at": "2026-10-14T07:35:39Z",
+        "steps": [],
+        "steps_total": 33
+      }
+    ]
+  },
+  {
+    "id": 38523724159,
+    "head_sha": "794bdb402b3c3ef64a3e5e49819e6a509e4aac9a",
+    "status": "completed",
+    "conclusion": "failure",
+    "run_attempt": 1,
+    "created_at": "2026-10-14T06:41:48Z",
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38523724159",
+    "jobs": [
+      {
+        "id": 115719087397,
+        "name": "AUDIT/Astra/baseline-ar",
+        "status": "completed",
+        "conclusion": "failure",
+        "started_at": "2026-10-14T06:50:17Z",
+        "completed_at": "2026-10-14T06:59:57Z",
+        "steps": [
+          {
+            "name": "Run original baseline contracts on pinned FULL composition",
+            "conclusion": "failure"
+          }
+        ],
+        "steps_total": 33
+      },
+      {
+        "id": 115719087438,
+        "name": "AUDIT/Astra/baseline-temporal",
+        "status": "completed",
+        "conclusion": "failure",
+        "started_at": "2026-10-14T06:43:09Z",
+        "completed_at": "2026-10-14T06:50:12Z",
+        "steps": [
+          {
+            "name": "Run original baseline contracts on pinned FULL composition",
+            "conclusion": "failure"
+          }
+        ],
+        "steps_total": 33
+      },
+      {
+        "id": 115719087495,
+        "name": "AUDIT/Astra/baseline-regression",
+        "status": "completed",
+        "conclusion": "failure",
+        "started_at": "2026-10-14T06:48:07Z",
+        "completed_at": "2026-10-14T06:55:59Z",
+        "steps": [
+          {
+            "name": "Run original baseline contracts on pinned FULL composition",
+            "conclusion": "failure"
+          }
+        ],
+        "steps_total": 33
+      }
+    ]
+  },
+  {
+    "id": 38525347545,
+    "head_sha": "d91a31570aabc365c60413e242d9737ec1ad7e7f",
+    "status": "completed",
+    "conclusion": "failure",
+    "run_attempt": 1,
+    "created_at": "2026-10-14T06:58:03Z",
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38525347545",
+    "jobs": []
+  },
+  {
+    "id": 38525347357,
+    "head_sha": "d91a31570aabc365c60413e242d9737ec1ad7e7f",
+    "status": "completed",
+    "conclusion": "success",
+    "run_attempt": 1,
+    "created_at": "2026-10-14T06:58:03Z",
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38525347357",
+    "jobs": [
+      {
+        "id": 115724292447,
+        "name": "Rebuild test chain to v2.6.20 and fingerprint its catalog",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T06:58:06Z",
+        "completed_at": "2026-10-14T07:00:40Z",
+        "steps": [],
+        "steps_total": 19
+      }
+    ]
+  },
+  {
+    "id": 38525930341,
+    "head_sha": "d5badfb901c3b6a196ce747b8b10cbef5a1a0a7c",
+    "status": "completed",
+    "conclusion": "failure",
+    "run_attempt": 1,
+    "created_at": "2026-10-14T07:03:39Z",
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38525930341",
+    "jobs": [
+      {
+        "id": 115726145992,
+        "name": "AUDIT/Astra/own-money",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:03:42Z",
+        "completed_at": "2026-10-14T07:12:00Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115726146052,
+        "name": "AUDIT/Astra/own-staged",
+        "status": "completed",
+        "conclusion": "failure",
+        "started_at": "2026-10-14T07:03:42Z",
+        "completed_at": "2026-10-14T07:10:16Z",
+        "steps": [
+          {
+            "name": "Execute frozen Astra contract oracles on FULL composition",
+            "conclusion": "failure"
+          }
+        ],
+        "steps_total": 33
+      },
+      {
+        "id": 115726146100,
+        "name": "AUDIT/Astra/own-planning",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:03:42Z",
+        "completed_at": "2026-10-14T07:09:26Z",
+        "steps": [],
+        "steps_total": 33
+      }
+    ]
+  },
+  {
+    "id": 38525930407,
+    "head_sha": "d5badfb901c3b6a196ce747b8b10cbef5a1a0a7c",
+    "status": "completed",
+    "conclusion": "failure",
+    "run_attempt": 1,
+    "created_at": "2026-10-14T07:03:39Z",
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38525930407",
+    "jobs": [
+      {
+        "id": 115726145641,
+        "name": "AUDIT/Astra/own-payroll-leads",
+        "status": "completed",
+        "conclusion": "failure",
+        "started_at": "2026-10-14T07:03:42Z",
+        "completed_at": "2026-10-14T07:09:49Z",
+        "steps": [
+          {
+            "name": "Execute frozen Astra contract oracles on FULL composition",
+            "conclusion": "failure"
+          }
+        ],
+        "steps_total": 33
+      }
+    ]
+  },
+  {
+    "id": 38526619037,
+    "head_sha": "b8fd81b698a08f0fd6dec92009c333bf22137f7a",
+    "status": "completed",
+    "conclusion": "failure",
+    "run_attempt": 1,
+    "created_at": "2026-10-14T07:10:22Z",
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38526619037",
+    "jobs": [
+      {
+        "id": 115728374937,
+        "name": "AUDIT/Astra/baseline-ar-races-only",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:10:25Z",
+        "completed_at": "2026-10-14T07:30:18Z",
+        "steps": [],
+        "steps_total": 33
+      },
+      {
+        "id": 115728375145,
+        "name": "AUDIT/Astra/baseline-continued-regression",
+        "status": "completed",
+        "conclusion": "failure",
+        "started_at": "2026-10-14T07:10:24Z",
+        "completed_at": "2026-10-14T07:28:16Z",
+        "steps": [
+          {
+            "name": "Run original baseline contracts on pinned FULL composition",
+            "conclusion": "failure"
+          }
+        ],
+        "steps_total": 33
+      }
+    ]
+  },
+  {
+    "id": 38527771239,
+    "head_sha": "9f4310be86f2948aebffd120d151b1679ef619fa",
+    "status": "completed",
+    "conclusion": "failure",
+    "run_attempt": 1,
+    "created_at": "2026-10-14T07:21:17Z",
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38527771239",
+    "jobs": [
+      {
+        "id": 115732095969,
+        "name": "AUDIT/Astra/own-integration",
+        "status": "completed",
+        "conclusion": "failure",
+        "started_at": "2026-10-14T07:21:19Z",
+        "completed_at": "2026-10-14T07:27:27Z",
+        "steps": [
+          {
+            "name": "Execute frozen Astra contract oracles on FULL composition",
+            "conclusion": "failure"
+          }
+        ],
+        "steps_total": 34
+      }
+    ]
+  },
+  {
+    "id": 38528844098,
+    "head_sha": "7fa821cd2b75f918446216024e41b227c8a6845b",
+    "status": "completed",
+    "conclusion": "failure",
+    "run_attempt": 1,
+    "created_at": "2026-10-14T07:31:08Z",
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38528844098",
+    "jobs": [
+      {
+        "id": 115735550503,
+        "name": "AUDIT/Astra/baseline-c0-oracles-only",
+        "status": "completed",
+        "conclusion": "failure",
+        "started_at": "2026-10-14T07:31:11Z",
+        "completed_at": "2026-10-14T07:35:29Z",
+        "steps": [
+          {
+            "name": "Run original baseline contracts on pinned FULL composition",
+            "conclusion": "failure"
+          }
+        ],
+        "steps_total": 33
+      }
+    ]
+  },
+  {
+    "id": 38529725289,
+    "head_sha": "c5d0386bf62fdeaa43fa66f4fd924fb950a76aeb",
+    "status": "completed",
+    "conclusion": "success",
+    "run_attempt": 1,
+    "created_at": "2026-10-14T07:39:13Z",
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38529725289",
+    "jobs": [
+      {
+        "id": 115738434791,
+        "name": "AUDIT/Astra/baseline-c0-oracles-only",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-14T07:39:15Z",
+        "completed_at": "2026-10-14T07:47:39Z",
+        "steps": [],
+        "steps_total": 33
+      }
+    ]
+  }
+]

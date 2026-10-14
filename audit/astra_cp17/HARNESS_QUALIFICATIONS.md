@@ -65,3 +65,9 @@ Run38528844098/job115735550503 stopped importing T2 before installing FULL or ex
 ## Q06 — AR progress file retained its pre-completion label
 
 In run38526619037 the per-step CP17_AR_RACES.json still says INCOMPLETE because it was saved before the final assignment. All28 case rows are PASS, parent boundaries unchanged, clones removed, and the final CP17_BASELINE_AR-RACES-ONLY.json records WRITER_PASS, cp6_restored:true and advisor_gate:true. Keep both Originals; classify only the stale progress label as AUDITOR_TOOL. No race rerun is needed.
+
+## Final disposition of continuations
+
+Q01 qualified by run38525930341 at d5badfb901c3b6a196ce747b8b10cbef5a1a0a7c. Q03/Q04 qualified by run38526619037: all326+AS34 accounted for,76 carried byte-exact without execution,28 first-execution AR races PASS with parent restoration. Q05/Q07 qualified by run38529725289 at c5d0386bf62fdeaa43fa66f4fd924fb950a76aeb:25 first-execution C0 cases PASS; full/public/function-owner-ACL restoration and advisor gate true. Original red runs and historical raw statuses remain unchanged.
+
+The integration wrapper's outer `oracle_origin` string is inherited generic metadata; the pre-execution INTEGRATION_MANIFEST and case-source hashes identify the three newly authored integration/lead cases. The final ledger uses their actual origin and does not relabel the Original JSON.

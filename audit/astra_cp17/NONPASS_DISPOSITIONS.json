@@ -1,0 +1,833 @@
+[
+  {
+    "execution_index": 1047,
+    "group": "native",
+    "case_id": "AS20-39_VALIDATION_NEGATIVE",
+    "raw_status": "COUNTEREXAMPLE",
+    "run_id": 38525930341,
+    "original": "evidence/38525930341/11875549257/original/CP17_OWN_CASES_STAGE.json",
+    "disposition": "PREVIOUSLY_ACCEPTED_DETECTOR_BOUNDARY",
+    "reason": "The old direct semantic-corruption probe remains COUNTEREXAMPLE; accepted CP7 staged-validator limitation. No new public-command defect inferred.",
+    "evidence": "Prior Astra e800e016 report and current full Original"
+  },
+  {
+    "execution_index": 1086,
+    "group": "native",
+    "case_id": "CP17-ASTRA-PAY-04-EARLY-FULL",
+    "raw_status": "COUNTEREXAMPLE",
+    "run_id": 38525930407,
+    "original": "evidence/38525930407/11875608786/original/CP17_OWN_CASES_PAYROLL_LEADS.json",
+    "disposition": "CONFIRMED_PRODUCT_DEFECT",
+    "finding": "ASTRA-CP17-FIN-01",
+    "severity": "S0"
+  },
+  {
+    "execution_index": 1087,
+    "group": "native",
+    "case_id": "CP17-ASTRA-PAY-05-EARLY-INSTALLMENT",
+    "raw_status": "COUNTEREXAMPLE",
+    "run_id": 38525930407,
+    "original": "evidence/38525930407/11875608786/original/CP17_OWN_CASES_PAYROLL_LEADS.json",
+    "disposition": "CONFIRMED_PRODUCT_DEFECT",
+    "finding": "ASTRA-CP17-FIN-01",
+    "severity": "S0"
+  },
+  {
+    "execution_index": 1089,
+    "group": "native",
+    "case_id": "CP17-ASTRA-PAY-06-DATED-PARTIAL",
+    "raw_status": "COUNTEREXAMPLE",
+    "run_id": 38527771239,
+    "original": "evidence/38527771239/11876618228/original/CP17_OWN_CASES_INTEGRATION.json",
+    "disposition": "CONFIRMED_PRODUCT_DEFECT",
+    "finding": "ASTRA-CP17-FIN-01",
+    "severity": "S0"
+  },
+  {
+    "execution_index": 1233,
+    "group": "BUSINESS",
+    "case_id": "WORK:WORK_CENTS",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1234,
+    "group": "BUSINESS",
+    "case_id": "WORK:WORK_ZERO_RATE",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1235,
+    "group": "BUSINESS",
+    "case_id": "WORK:WORK_UNPAID",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1236,
+    "group": "BUSINESS",
+    "case_id": "WORK:WORK_PARTIAL_PAY",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1237,
+    "group": "BUSINESS",
+    "case_id": "WORK:WORK_TIMEZONE",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1238,
+    "group": "BUSINESS",
+    "case_id": "WORK:DIRECT_POST",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1239,
+    "group": "BUSINESS",
+    "case_id": "WORK:PO_CONTRACTOR",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1240,
+    "group": "BUSINESS",
+    "case_id": "WORK:SNAPSHOT_DELETE",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1241,
+    "group": "BUSINESS",
+    "case_id": "WORK:PAYABLE_EXCEEDS_COMPLETED",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1242,
+    "group": "BUSINESS",
+    "case_id": "WORK:NEGATIVE_PAYABLE",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1243,
+    "group": "BUSINESS",
+    "case_id": "WORK:EMPTY_POST",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1244,
+    "group": "BUSINESS",
+    "case_id": "WORK:BEFORE_PICKUP",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1245,
+    "group": "BUSINESS",
+    "case_id": "WORK:FUTURE",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1246,
+    "group": "BUSINESS",
+    "case_id": "WORK:DOUBLE_POST",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1247,
+    "group": "BUSINESS",
+    "case_id": "WORK:POSTED_EDIT",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1248,
+    "group": "BUSINESS",
+    "case_id": "WORK:POSTED_DELETE",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1249,
+    "group": "BUSINESS",
+    "case_id": "WORK:POSTED_HEADER",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1250,
+    "group": "BUSINESS",
+    "case_id": "WORK:REVERSE_REUSE",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1251,
+    "group": "BUSINESS",
+    "case_id": "WORK:ROLE_UNREGISTERED",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1252,
+    "group": "BUSINESS",
+    "case_id": "WORK:ROLE_INACTIVE_OWNER",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1253,
+    "group": "BUSINESS",
+    "case_id": "WORK:ROLE_EMPTY_CLAIMS",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1254,
+    "group": "BUSINESS",
+    "case_id": "WORK:HPP_THROUGH_SALE_0",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1255,
+    "group": "BUSINESS",
+    "case_id": "WORK:HPP_THROUGH_SALE_1.27",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1256,
+    "group": "BUSINESS",
+    "case_id": "INVOICE:UTC:4:False",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1257,
+    "group": "BUSINESS",
+    "case_id": "INVOICE:UTC:4:True",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1258,
+    "group": "BUSINESS",
+    "case_id": "INVOICE:UTC:7:False",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1259,
+    "group": "BUSINESS",
+    "case_id": "INVOICE:UTC:7:True",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1260,
+    "group": "BUSINESS",
+    "case_id": "INVOICE:Asia/Jakarta:4:False",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1261,
+    "group": "BUSINESS",
+    "case_id": "INVOICE:Asia/Jakarta:4:True",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1262,
+    "group": "BUSINESS",
+    "case_id": "INVOICE:Asia/Jakarta:7:False",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1263,
+    "group": "BUSINESS",
+    "case_id": "INVOICE:Asia/Jakarta:7:True",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1264,
+    "group": "BUSINESS",
+    "case_id": "INVOICE:Pacific/Kiritimati:4:False",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1265,
+    "group": "BUSINESS",
+    "case_id": "INVOICE:Pacific/Kiritimati:4:True",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1266,
+    "group": "BUSINESS",
+    "case_id": "INVOICE:Pacific/Kiritimati:7:False",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1267,
+    "group": "BUSINESS",
+    "case_id": "INVOICE:Pacific/Kiritimati:7:True",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1268,
+    "group": "BUSINESS",
+    "case_id": "INVOICE:America/Los_Angeles:4:False",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1269,
+    "group": "BUSINESS",
+    "case_id": "INVOICE:America/Los_Angeles:4:True",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1270,
+    "group": "BUSINESS",
+    "case_id": "INVOICE:America/Los_Angeles:7:False",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1271,
+    "group": "BUSINESS",
+    "case_id": "INVOICE:America/Los_Angeles:7:True",
+    "raw_status": "CONTROL_PASS",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "FROZEN_CONTROL_PASS_RETAINED",
+    "reason": "Control result is successful in the frozen contract; not silently renamed PASS."
+  },
+  {
+    "execution_index": 1272,
+    "group": "BUSINESS",
+    "case_id": "CALENDAR:1_MONTHS:UTC:False",
+    "raw_status": "DATE_POLICY_REVIEW_REQUIRED",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "OWNER_ACCEPTED_HOLD_RETAINED",
+    "approved_comparator": {
+      "decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
+      "status": "MATCH",
+      "source_sha256": "9c893ddc2fdd25775b71eea766c617ea13224da99c0b443f6c6f5780258c2b5f",
+      "mismatches": [
+        {},
+        {}
+      ]
+    },
+    "reason": "Owner24Sep/C6: transfer to WIP uses cutting date; historical HOLD remains."
+  },
+  {
+    "execution_index": 1274,
+    "group": "BUSINESS",
+    "case_id": "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+    "raw_status": "DATE_POLICY_REVIEW_REQUIRED",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "OWNER_ACCEPTED_HOLD_RETAINED",
+    "approved_comparator": {
+      "decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
+      "status": "MATCH",
+      "source_sha256": "9c893ddc2fdd25775b71eea766c617ea13224da99c0b443f6c6f5780258c2b5f",
+      "mismatches": [
+        {},
+        {}
+      ]
+    },
+    "reason": "Owner24Sep/C6: transfer to WIP uses cutting date; historical HOLD remains."
+  },
+  {
+    "execution_index": 1276,
+    "group": "BUSINESS",
+    "case_id": "CALENDAR:2_MONTHS:UTC:False",
+    "raw_status": "DATE_POLICY_REVIEW_REQUIRED",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "OWNER_ACCEPTED_HOLD_RETAINED",
+    "approved_comparator": {
+      "decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
+      "status": "MATCH",
+      "source_sha256": "9c893ddc2fdd25775b71eea766c617ea13224da99c0b443f6c6f5780258c2b5f",
+      "mismatches": [
+        {},
+        {}
+      ]
+    },
+    "reason": "Owner24Sep/C6: transfer to WIP uses cutting date; historical HOLD remains."
+  },
+  {
+    "execution_index": 1278,
+    "group": "BUSINESS",
+    "case_id": "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+    "raw_status": "DATE_POLICY_REVIEW_REQUIRED",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "OWNER_ACCEPTED_HOLD_RETAINED",
+    "approved_comparator": {
+      "decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
+      "status": "MATCH",
+      "source_sha256": "9c893ddc2fdd25775b71eea766c617ea13224da99c0b443f6c6f5780258c2b5f",
+      "mismatches": [
+        {},
+        {}
+      ]
+    },
+    "reason": "Owner24Sep/C6: transfer to WIP uses cutting date; historical HOLD remains."
+  },
+  {
+    "execution_index": 1280,
+    "group": "BUSINESS",
+    "case_id": "CALENDAR:3_MONTHS:UTC:False",
+    "raw_status": "DATE_POLICY_REVIEW_REQUIRED",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "OWNER_ACCEPTED_HOLD_RETAINED",
+    "approved_comparator": {
+      "decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
+      "status": "MATCH",
+      "source_sha256": "9c893ddc2fdd25775b71eea766c617ea13224da99c0b443f6c6f5780258c2b5f",
+      "mismatches": [
+        {},
+        {}
+      ]
+    },
+    "reason": "Owner24Sep/C6: transfer to WIP uses cutting date; historical HOLD remains."
+  },
+  {
+    "execution_index": 1282,
+    "group": "BUSINESS",
+    "case_id": "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+    "raw_status": "DATE_POLICY_REVIEW_REQUIRED",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "OWNER_ACCEPTED_HOLD_RETAINED",
+    "approved_comparator": {
+      "decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
+      "status": "MATCH",
+      "source_sha256": "9c893ddc2fdd25775b71eea766c617ea13224da99c0b443f6c6f5780258c2b5f",
+      "mismatches": [
+        {},
+        {}
+      ]
+    },
+    "reason": "Owner24Sep/C6: transfer to WIP uses cutting date; historical HOLD remains."
+  },
+  {
+    "execution_index": 1284,
+    "group": "BUSINESS",
+    "case_id": "CALENDAR:JAN31:UTC:False",
+    "raw_status": "DATE_POLICY_REVIEW_REQUIRED",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "OWNER_ACCEPTED_HOLD_RETAINED",
+    "approved_comparator": {
+      "decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
+      "status": "MATCH",
+      "source_sha256": "9c893ddc2fdd25775b71eea766c617ea13224da99c0b443f6c6f5780258c2b5f",
+      "mismatches": [
+        {},
+        {}
+      ]
+    },
+    "reason": "Owner24Sep/C6: transfer to WIP uses cutting date; historical HOLD remains."
+  },
+  {
+    "execution_index": 1286,
+    "group": "BUSINESS",
+    "case_id": "CALENDAR:JAN31:Pacific/Kiritimati:False",
+    "raw_status": "DATE_POLICY_REVIEW_REQUIRED",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "OWNER_ACCEPTED_HOLD_RETAINED",
+    "approved_comparator": {
+      "decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
+      "status": "MATCH",
+      "source_sha256": "9c893ddc2fdd25775b71eea766c617ea13224da99c0b443f6c6f5780258c2b5f",
+      "mismatches": [
+        {},
+        {}
+      ]
+    },
+    "reason": "Owner24Sep/C6: transfer to WIP uses cutting date; historical HOLD remains."
+  },
+  {
+    "execution_index": 1288,
+    "group": "BUSINESS",
+    "case_id": "CALENDAR:FEB28:UTC:False",
+    "raw_status": "DATE_POLICY_REVIEW_REQUIRED",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "OWNER_ACCEPTED_HOLD_RETAINED",
+    "approved_comparator": {
+      "decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
+      "status": "MATCH",
+      "source_sha256": "9c893ddc2fdd25775b71eea766c617ea13224da99c0b443f6c6f5780258c2b5f",
+      "mismatches": [
+        {},
+        {}
+      ]
+    },
+    "reason": "Owner24Sep/C6: transfer to WIP uses cutting date; historical HOLD remains."
+  },
+  {
+    "execution_index": 1290,
+    "group": "BUSINESS",
+    "case_id": "CALENDAR:FEB28:Pacific/Kiritimati:False",
+    "raw_status": "DATE_POLICY_REVIEW_REQUIRED",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "OWNER_ACCEPTED_HOLD_RETAINED",
+    "approved_comparator": {
+      "decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
+      "status": "MATCH",
+      "source_sha256": "9c893ddc2fdd25775b71eea766c617ea13224da99c0b443f6c6f5780258c2b5f",
+      "mismatches": [
+        {},
+        {}
+      ]
+    },
+    "reason": "Owner24Sep/C6: transfer to WIP uses cutting date; historical HOLD remains."
+  },
+  {
+    "execution_index": 1292,
+    "group": "BUSINESS",
+    "case_id": "CALENDAR:MAY31:UTC:False",
+    "raw_status": "DATE_POLICY_REVIEW_REQUIRED",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "OWNER_ACCEPTED_HOLD_RETAINED",
+    "approved_comparator": {
+      "decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
+      "status": "MATCH",
+      "source_sha256": "9c893ddc2fdd25775b71eea766c617ea13224da99c0b443f6c6f5780258c2b5f",
+      "mismatches": [
+        {},
+        {}
+      ]
+    },
+    "reason": "Owner24Sep/C6: transfer to WIP uses cutting date; historical HOLD remains."
+  },
+  {
+    "execution_index": 1294,
+    "group": "BUSINESS",
+    "case_id": "CALENDAR:MAY31:Pacific/Kiritimati:False",
+    "raw_status": "DATE_POLICY_REVIEW_REQUIRED",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/BUSINESS.json",
+    "disposition": "OWNER_ACCEPTED_HOLD_RETAINED",
+    "approved_comparator": {
+      "decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
+      "status": "MATCH",
+      "source_sha256": "9c893ddc2fdd25775b71eea766c617ea13224da99c0b443f6c6f5780258c2b5f",
+      "mismatches": [
+        {},
+        {}
+      ]
+    },
+    "reason": "Owner24Sep/C6: transfer to WIP uses cutting date; historical HOLD remains."
+  },
+  {
+    "execution_index": 1418,
+    "group": "NEW_CASES",
+    "case_id": "DATE:False:Asia/Jakarta:True:20",
+    "raw_status": "COUNTEREXAMPLE",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/NEW_CASES.json",
+    "disposition": "APPROVED_DATE_ORACLE_MATCH_RAW_COUNTEREXAMPLE_RETAINED",
+    "approved_status": "MATCH",
+    "decision": "Owner24Sep: dated stage-value transfer policy; not an extra execution of this case."
+  },
+  {
+    "execution_index": 1419,
+    "group": "NEW_CASES",
+    "case_id": "DATE:False:Asia/Jakarta:True:20.003",
+    "raw_status": "COUNTEREXAMPLE",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/NEW_CASES.json",
+    "disposition": "APPROVED_DATE_ORACLE_MATCH_RAW_COUNTEREXAMPLE_RETAINED",
+    "approved_status": "MATCH",
+    "decision": "Owner24Sep: dated stage-value transfer policy; not an extra execution of this case."
+  },
+  {
+    "execution_index": 1421,
+    "group": "NEW_CASES",
+    "case_id": "DATE:False:UTC:True:20",
+    "raw_status": "COUNTEREXAMPLE",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/NEW_CASES.json",
+    "disposition": "APPROVED_DATE_ORACLE_MATCH_RAW_COUNTEREXAMPLE_RETAINED",
+    "approved_status": "MATCH",
+    "decision": "Owner24Sep: dated stage-value transfer policy; not an extra execution of this case."
+  },
+  {
+    "execution_index": 1422,
+    "group": "NEW_CASES",
+    "case_id": "DATE:False:UTC:True:20.003",
+    "raw_status": "COUNTEREXAMPLE",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/NEW_CASES.json",
+    "disposition": "APPROVED_DATE_ORACLE_MATCH_RAW_COUNTEREXAMPLE_RETAINED",
+    "approved_status": "MATCH",
+    "decision": "Owner24Sep: dated stage-value transfer policy; not an extra execution of this case."
+  },
+  {
+    "execution_index": 1424,
+    "group": "NEW_CASES",
+    "case_id": "DATE:False:Etc/GMT+12:True:20",
+    "raw_status": "COUNTEREXAMPLE",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/NEW_CASES.json",
+    "disposition": "APPROVED_DATE_ORACLE_MATCH_RAW_COUNTEREXAMPLE_RETAINED",
+    "approved_status": "MATCH",
+    "decision": "Owner24Sep: dated stage-value transfer policy; not an extra execution of this case."
+  },
+  {
+    "execution_index": 1425,
+    "group": "NEW_CASES",
+    "case_id": "DATE:False:Etc/GMT+12:True:20.003",
+    "raw_status": "COUNTEREXAMPLE",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/NEW_CASES.json",
+    "disposition": "APPROVED_DATE_ORACLE_MATCH_RAW_COUNTEREXAMPLE_RETAINED",
+    "approved_status": "MATCH",
+    "decision": "Owner24Sep: dated stage-value transfer policy; not an extra execution of this case."
+  },
+  {
+    "execution_index": 1427,
+    "group": "NEW_CASES",
+    "case_id": "DATE:False:Pacific/Kiritimati:True:20",
+    "raw_status": "COUNTEREXAMPLE",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/NEW_CASES.json",
+    "disposition": "APPROVED_DATE_ORACLE_MATCH_RAW_COUNTEREXAMPLE_RETAINED",
+    "approved_status": "MATCH",
+    "decision": "Owner24Sep: dated stage-value transfer policy; not an extra execution of this case."
+  },
+  {
+    "execution_index": 1428,
+    "group": "NEW_CASES",
+    "case_id": "DATE:False:Pacific/Kiritimati:True:20.003",
+    "raw_status": "COUNTEREXAMPLE",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/NEW_CASES.json",
+    "disposition": "APPROVED_DATE_ORACLE_MATCH_RAW_COUNTEREXAMPLE_RETAINED",
+    "approved_status": "MATCH",
+    "decision": "Owner24Sep: dated stage-value transfer policy; not an extra execution of this case."
+  },
+  {
+    "execution_index": 1449,
+    "group": "NEW_CASES",
+    "case_id": "ADJUSTMENT_DATE:False",
+    "raw_status": "INCOMPLETE",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/NEW_CASES.json",
+    "disposition": "EXPECTED_ORACLE_CHANGE_ORIGINAL_INCOMPLETE_RETAINED",
+    "approved_comparator": {
+      "approved_oracle": "MATCH",
+      "decision": "Owner 24 Sep: ADJUSTMENT_DATE tidak disahkan otomatis; telusuri pembaca effective_date, bila aman ubah oracle tanggalnya dengan bukti. Writer trace: readers are run_v267_financial_truth_checks V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER (fact effective_date = its own journal economic_date; AZ sets both to the same date) and the pocket_period_recost trigger (pocket recost journal date); no reader requires the invoice date. Proof in the case: those checks and the pocket checks do not increase after the invoice and after its reversal."
+    },
+    "supplement_group": "APPROVED_ORACLE_B"
+  },
+  {
+    "execution_index": 1457,
+    "group": "AO_TRIAL",
+    "case_id": "INVOICE:UTC:False",
+    "raw_status": "INCOMPLETE",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/AO_TRIAL.json",
+    "disposition": "EXPECTED_ORACLE_CHANGE_ORIGINAL_INCOMPLETE_RETAINED",
+    "approved_comparator": {
+      "approved_oracle": "MATCH",
+      "decision": "Owner 24 Sep: AO periode terbuka - tanggal koreksi WIP/FG mengikuti hari barangnya berpindah tahap; jurnal invoice tetap pada tanggal invoice."
+    },
+    "supplement_group": "APPROVED_ORACLE_B"
+  },
+  {
+    "execution_index": 1458,
+    "group": "AO_TRIAL",
+    "case_id": "INVOICE:UTC:True",
+    "raw_status": "INCOMPLETE",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/AO_TRIAL.json",
+    "disposition": "EXPECTED_ORACLE_CHANGE_ORIGINAL_INCOMPLETE_RETAINED",
+    "approved_comparator": {
+      "approved_oracle": "MATCH",
+      "decision": "Owner 24 Sep: AO periode tertutup - tanggal posting mengikuti hari pengakuan, tanggal ekonomi invoice tetap tersimpan (sejak AS)."
+    },
+    "supplement_group": "APPROVED_ORACLE_B"
+  },
+  {
+    "execution_index": 1459,
+    "group": "AO_TRIAL",
+    "case_id": "INVOICE:Pacific/Kiritimati:False",
+    "raw_status": "INCOMPLETE",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/AO_TRIAL.json",
+    "disposition": "EXPECTED_ORACLE_CHANGE_ORIGINAL_INCOMPLETE_RETAINED",
+    "approved_comparator": {
+      "approved_oracle": "MATCH",
+      "decision": "Owner 24 Sep: AO periode terbuka - tanggal koreksi WIP/FG mengikuti hari barangnya berpindah tahap; jurnal invoice tetap pada tanggal invoice."
+    },
+    "supplement_group": "APPROVED_ORACLE_B"
+  },
+  {
+    "execution_index": 1460,
+    "group": "AO_TRIAL",
+    "case_id": "INVOICE:Pacific/Kiritimati:True",
+    "raw_status": "INCOMPLETE",
+    "run_id": 38526619037,
+    "original": "evidence/38526619037/11876692954/original/AO_TRIAL.json",
+    "disposition": "EXPECTED_ORACLE_CHANGE_ORIGINAL_INCOMPLETE_RETAINED",
+    "approved_comparator": {
+      "approved_oracle": "MATCH",
+      "decision": "Owner 24 Sep: AO periode tertutup - tanggal posting mengikuti hari pengakuan, tanggal ekonomi invoice tetap tersimpan (sejak AS)."
+    },
+    "supplement_group": "APPROVED_ORACLE_B"
+  },
+  {
+    "execution_index": 1512,
+    "group": "AR_SEQUENTIAL",
+    "case_id": "ACCESSORY_CONNECTED_ZERO",
+    "raw_status": "INCOMPLETE",
+    "run_id": 38523724159,
+    "original": "evidence/38523724159/11874359808/original/AR_SEQUENTIAL.json",
+    "disposition": "EXPECTED_CHANGE_ERP_DEC02",
+    "replacement": "AR_SUPERSEDING:ACCESSORY_CONNECTED_ZERO_REFUSED_BC_FREE_POLICY",
+    "reason": "Zero accessory must refuse absent explicit FREE/Special policy; replacement passed with BC_FREE_REQUIRES_POLICY."
+  }
+]

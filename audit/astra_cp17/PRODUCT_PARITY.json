@@ -1,0 +1,152 @@
+{
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "candidate_tree": "ce6aed0a0af920e8aa80248f3cabcd293688df18",
+  "auditor_checkpoint_sha": "04fa05c0d6b6b8c80ee9253eb4a2486d2a92e580",
+  "auditor_checkpoint_tree": "5d4d366acd2c26f175434fa81cc5cb8d184c3459",
+  "root_changes": [
+    ".github",
+    "audit"
+  ],
+  "workflow_changes": [
+    {
+      "path": ".github/workflows/audit-astra-cp17-baseline-continuation.yml",
+      "before": null,
+      "after": "65b66a348bb5d4d10d61c1fe0c2f743c979295a8"
+    },
+    {
+      "path": ".github/workflows/audit-astra-cp17-baseline.yml",
+      "before": null,
+      "after": "eb390373202c5b4da5ffb979c43b59c5ec7d28b2"
+    },
+    {
+      "path": ".github/workflows/audit-astra-cp17-c0-oracles.yml",
+      "before": null,
+      "after": "d55cacb2f7cc8a71c0bf0e9c0d601120d25084a9"
+    },
+    {
+      "path": ".github/workflows/audit-astra-cp17-cp1.yml",
+      "before": null,
+      "after": "26c86de32f4fd17fe981ff42cb7a89fc9e422c05"
+    },
+    {
+      "path": ".github/workflows/audit-astra-cp17-integration.yml",
+      "before": null,
+      "after": "6fbcbc805b47a0d0b6835e4a7c39517e474fbe08"
+    },
+    {
+      "path": ".github/workflows/audit-astra-cp17-native.yml",
+      "before": null,
+      "after": "608a190fc60ac16fdc2e9759dc01cb90e62d9f80"
+    },
+    {
+      "path": ".github/workflows/audit-astra-cp17-own.yml",
+      "before": null,
+      "after": "47f564b21ef96756ed6abb989b8daf119463b14e"
+    },
+    {
+      "path": ".github/workflows/audit-astra-cp17-payroll-leads.yml",
+      "before": null,
+      "after": "8e9be8305f87fd5de50856144f22552ebea2f981"
+    }
+  ],
+  "unchanged_product_roots": [
+    {
+      "path": ".env.example",
+      "sha": "d6a21b53a2dcc907f5e3d5f303e8116777634d4c"
+    },
+    {
+      "path": ".gitignore",
+      "sha": "54bd669ede51e7ce2cc6426163a7fca4ff51174a"
+    },
+    {
+      "path": ".nvmrc",
+      "sha": "2bd5a0a98a36cc08ada88b804d3be047e6aa5b8a"
+    },
+    {
+      "path": "CLAUDE.md",
+      "sha": "6803f040147610dd1ccbb89e583fa7740fb4bff4"
+    },
+    {
+      "path": "README.md",
+      "sha": "c777da71e8bdb41c352396ea933edae1455859eb"
+    },
+    {
+      "path": "contracts",
+      "sha": "577e074196ae7ac9c1a257def4f69ccedf007208"
+    },
+    {
+      "path": "docs",
+      "sha": "e7faa79c1c603e8d5652a1d2306894310f665865"
+    },
+    {
+      "path": "index.html",
+      "sha": "4912086ce24a0fb4f7dfc2b03e3cefdcbee8f91c"
+    },
+    {
+      "path": "ops",
+      "sha": "0f2856d55c429a174708f3a440930e0c060b63db"
+    },
+    {
+      "path": "package-lock.json",
+      "sha": "ca9159d26989e0263b6b757f5f824bd9333d8cf6"
+    },
+    {
+      "path": "package.json",
+      "sha": "8707f6817acfc294caeab8aa54496df5b8dde04e"
+    },
+    {
+      "path": "playwright.config.ts",
+      "sha": "3b34f7eeab7ca9f0636c2591b283d4bd1028032f"
+    },
+    {
+      "path": "playwright.cp5.config.ts",
+      "sha": "263b8a045c13da515f8ea16a8131a6016a9ceb44"
+    },
+    {
+      "path": "playwright.cp6.config.ts",
+      "sha": "e645a15a619b59ffa1d317ff5706668e95e1c735"
+    },
+    {
+      "path": "playwright.cp7.config.ts",
+      "sha": "17eb680edc9e760a162e1c71b35251e2ebdc6f94"
+    },
+    {
+      "path": "scripts",
+      "sha": "b67664091c4394b0ff6a187409d9e9b32213a0e0"
+    },
+    {
+      "path": "src",
+      "sha": "d6553972f94a4ad4e9170e8a946b30cdac9712fd"
+    },
+    {
+      "path": "supabase",
+      "sha": "5d040436db384b4e574785376367b360a084acb7"
+    },
+    {
+      "path": "tests",
+      "sha": "92d07e2b20108bcf2ed7314ed615f6024f498798"
+    },
+    {
+      "path": "tsconfig.app.json",
+      "sha": "e9712ec6ad208afe25edf063984a6170459299dd"
+    },
+    {
+      "path": "tsconfig.contracts.json",
+      "sha": "0b63a91ed3b967d75979f62cc41463956ce97f95"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha": "9bf63d3b4775e9c155571a03536236596b2c7990"
+    },
+    {
+      "path": "vite.config.ts",
+      "sha": "4d782219003da02d024ed397e11abb686694c1cb"
+    },
+    {
+      "path": "wrangler.jsonc",
+      "sha": "ae6a9bd9d1ba683b82098ee075370638c1022486"
+    }
+  ],
+  "product_identical": true,
+  "policy": "Further final-report commit may only change audit/astra_cp17; CI candidate itself checked out pinned in every workflow."
+}

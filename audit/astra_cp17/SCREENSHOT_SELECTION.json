@@ -1,0 +1,19 @@
+{
+  "derivative_selection": true,
+  "original_artifact_id": 11875499613,
+  "original_zip_sha256": "3de416eaeb7bf410d641e2360884082503f892e787dbc222277d9824fedf2db2",
+  "source_run": 38522545215,
+  "selected_files": [
+    {
+      "name": "P12_PAYROLL_SETTLEMENT_DESKTOP.png",
+      "bytes": 664493,
+      "sha256": "79a191d5e3af4300fa13d270d3aa5633f23100f0412e2f763a3045a3d3db006d"
+    },
+    {
+      "name": "P12_PAYROLL_SETTLEMENT_MOBILE.png",
+      "bytes": 450659,
+      "sha256": "29dc349778f094d777247ce579c031f16daf0d93a0afd4416318cb679e3f8c5c"
+    }
+  ],
+  "note": "Two original PNG files copied byte-exact. This ZIP is a new selection, not the GitHub Original ZIP. It shows the legal same-day payroll browser control, not the PAY06 early-date witness. Mobile screenshot visually inspected by Astra; no screenshot edit."
+}

@@ -1,0 +1,14 @@
+{
+  "report": "AUDIT_ASTRA_CP17_0b7049d9.md",
+  "locked_utc": "2026-10-14T07:56:55.129753+00:00",
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "verdict": "TAHAN_PENERIMAAN_PENUH",
+  "report_sha256": "20ea41e6f4fbc13e0fc782704531c7217e79cc970d4cd697c94aee492a53fc80",
+  "case_ledger_sha256": "edba743c5491846e4657a25c51e0aabd4c0ef2c33dd41682704c0804554ebe47",
+  "runs": 10,
+  "jobs": 44,
+  "case_executions": 1708,
+  "new_product_findings": 1,
+  "cp2_database_restore": "UNVERIFIABLE_THIS_SESSION",
+  "production_go": false
+}

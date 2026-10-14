@@ -306,5 +306,62 @@
     "git_blob": "b4540da4ea676730630c8fbc95f79f53dead1cf4",
     "parts": [],
     "path": "audit/astra_cp17/preserved/38527771239_job_115732095969.log.gz"
+  },
+  {
+    "original_filename": "cp17-astra-0b7049d9-rule-lifecycle-json.zip",
+    "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-rule-lifecycle-json.zip",
+    "bytes": 47819,
+    "sha256": "88c35a004dc36899ee53f1e4836a9194df403c2eae250c8e26897c21f31799dc",
+    "git_blob": "007c1292c9fb959ac4a47a650d83e3c136890bc4",
+    "parts": []
+  },
+  {
+    "original_filename": "cp17-astra-0b7049d9-cutting-model-json.zip",
+    "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-cutting-model-json.zip",
+    "bytes": 76070,
+    "sha256": "b8fbaac552ce6a7542bc825595bf8712b7c5901cbf1ed4f32ae83cd90776eb65",
+    "git_blob": "e9dfc78d64417aa7b46dfbc8c31d3d69f5f531f3",
+    "parts": []
+  },
+  {
+    "original_filename": "cp17-astra-0b7049d9-c0-oracles-only-json.zip",
+    "path": "audit/astra_cp17/preserved/38528844098_cp17-astra-0b7049d9-c0-oracles-only-json.zip",
+    "bytes": 7035,
+    "sha256": "87af4f892f78a976ff295c7c35d8740c35874ec91d65668310476073363ab878",
+    "git_blob": "8b57bf6f29e72134aa654e53425fd1d0dd30351a",
+    "parts": []
+  },
+  {
+    "original_filename": "cp17-astra-0b7049d9-c0-oracles-only-raw.zip",
+    "path": "audit/astra_cp17/preserved/38528844098_cp17-astra-0b7049d9-c0-oracles-only-raw.zip",
+    "bytes": 1607871,
+    "sha256": "b6bf4803237252ff1815877b5e1c5175158c33e8c32618c44f98e7b33a004b5b",
+    "git_blob": "f27e709817410f2f162192e6d394e7c5f10d4e89",
+    "parts": []
+  },
+  {
+    "original_filename": "job_115735550503.log.gz",
+    "path": "audit/astra_cp17/preserved/38528844098_job_115735550503.log.gz",
+    "bytes": 38061,
+    "sha256": "ccfebbf11df346578575fed746e2e3693390d787cca7287b648f99282fbca3f1",
+    "git_blob": "00995acf42b7e930db526b7450bf7f09888f2958",
+    "parts": []
+  },
+  {
+    "original_filename": "cp17-astra-0b7049d9-c0-oracles-only-json.zip",
+    "parts": [],
+    "path": "audit/astra_cp17/preserved/38529725289_cp17-astra-0b7049d9-c0-oracles-only-json.zip",
+    "bytes": 974433,
+    "sha256": "0c7db408fb09c2def801c263a120cf3938dbdf326edfb2c37eebc9803709b85e",
+    "git_blob": "51d48de2e691a55cb6609d29823917b2bacbbbf2"
+  },
+  {
+    "original_filename": "38522545215_11875499613_payroll_screenshot_selection.zip",
+    "derivative_selection": true,
+    "parts": [],
+    "path": "audit/astra_cp17/preserved/38522545215_11875499613_payroll_screenshot_selection.zip",
+    "bytes": 1095277,
+    "sha256": "d0901c52cd71f7277049c0727c59d8e95fc7337af24890f6993307b512d786ef",
+    "git_blob": "e447156fcfc298fe9ee60ea295b2ee583e3b2080"
   }
 ]
