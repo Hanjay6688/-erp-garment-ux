@@ -44,6 +44,10 @@ def run():
    assert cur.execute("select pg_get_functiondef('cp7_payroll.rebuild_nonwork(uuid)'::regprocedure)").fetchone()[0]==bundle.settlement.derive_nonwork(bundle.settlement.accepted('populate_payroll_draft'))
    p09.INSTALLED_FUNCTIONS=after;report['combined_declared_execute_grants']={k:sorted(v)for k,v in grants.items()};report['exact_guard_sha256']={k:hashlib.sha256(v.encode()).hexdigest()for k,v in expected_definitions.items()};report['all_other_predecessor_definitions_and_owners_unchanged']=True
    conn.commit();installed=True;verify(cur);conn.rollback()
+   # FABLE-012 observation only (no change): what `authenticated` can execute in erp on the installed stack.
+   try:
+    import cp7_access_inventory;report['fable012_erp_execute_inventory']=cp7_access_inventory.inventory(cur);conn.rollback()
+   except Exception as e:conn.rollback();report['fable012_erp_execute_inventory']=dict(error=str(e))
   report['advisors_with_cp7']=advisors(package.boundary.PG)
   report['native']=native.strict_group('CP7_CP17_FIXES',cases.cases,verify)
   report['races']=modes.run_races(cases,verify,'cp7_cp17_fixes')
