@@ -1,0 +1,552 @@
+[
+ {
+  "job_id": 115644190455,
+  "run_id": 38499922493,
+  "workflow": "claude-p19-transport.yml",
+  "job": "p19-staged12",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P19_STAGED": {
+    "PASS": 6
+   },
+   "AUDITOR_RACES_CP7_P19_STAGED": {
+    "PASS": 4
+   },
+   "AUDITOR_HTTP_CP7_P19_STAGED": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_P19_STAGED_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 14
+  },
+  "summary": {
+   "label": "CP7_P19_STAGED",
+   "status": "PASS",
+   "observed": 14,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115644190597,
+  "run_id": 38499922493,
+  "workflow": "claude-p19-transport.yml",
+  "job": "pl5-history-yield-20",
+  "conclusion": "success",
+  "groups": {
+   "CP7_PL5_HISTORY_YIELD": {
+    "PASS": 14
+   },
+   "AUDITOR_RACES_CP7_PL5_HISTORY_YIELD": {
+    "PASS": 2
+   },
+   "AUDITOR_HTTP_CP7_PL5_HISTORY_YIELD": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_PL5_HISTORY_YIELD_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 20
+  },
+  "summary": {
+   "label": "CP7_PL5_HISTORY_YIELD",
+   "status": "PASS",
+   "observed": 20,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115644190619,
+  "run_id": 38499922493,
+  "workflow": "claude-p19-transport.yml",
+  "job": "k2-retention-10",
+  "conclusion": "success",
+  "groups": {
+   "CP7_K2_RETENTION": {
+    "PASS": 6
+   },
+   "AUDITOR_RACES_CP7_K2_RETENTION": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_CP7_K2_RETENTION": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_K2_RETENTION_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 10
+  },
+  "summary": {
+   "label": "CP7_K2_RETENTION",
+   "status": "PASS",
+   "observed": 10,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115644190647,
+  "run_id": 38499922493,
+  "workflow": "claude-p19-transport.yml",
+  "job": "p19-scale5",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P19_SCALE": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P19_SCALE_BROWSER": {
+    "PASS": 4
+   }
+  },
+  "total": {
+   "PASS": 5
+  },
+  "summary": {
+   "label": "CP7_P19_SCALE",
+   "status": "PASS",
+   "observed": 5,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115644190673,
+  "run_id": 38499922493,
+  "workflow": "claude-p19-transport.yml",
+  "job": "k3-cleanup-25",
+  "conclusion": "success",
+  "groups": {
+   "CP7_K3_CLEANUP": {
+    "PASS": 9
+   },
+   "AUDITOR_RACES_CP7_K3_CLEANUP": {
+    "PASS": 12
+   },
+   "AUDITOR_HTTP_CP7_K3_CLEANUP": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_K3_CLEANUP_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 25
+  },
+  "summary": {
+   "label": "CP7_K3_CLEANUP",
+   "status": "PASS",
+   "observed": 25,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115644190678,
+  "run_id": 38499922493,
+  "workflow": "claude-p19-transport.yml",
+  "job": "p19-transport11",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P19_TRANSPORT": {
+    "PASS": 6
+   },
+   "AUDITOR_RACES_CP7_P19_TRANSPORT": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_P19_TRANSPORT": {
+    "PASS": 3
+   },
+   "AUDITOR_BROWSER_CP7_P19_TRANSPORT_BROWSER": {
+    "PASS": 3
+   }
+  },
+  "total": {
+   "PASS": 15
+  },
+  "summary": {
+   "label": "CP7_P19_TRANSPORT",
+   "status": "PASS",
+   "observed": 15,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115644190709,
+  "run_id": 38499922493,
+  "workflow": "claude-p19-transport.yml",
+  "job": "p19-reminder-v2-16",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P19_REMINDER_V2": {
+    "PASS": 9
+   },
+   "AUDITOR_RACES_CP7_P19_REMINDER_V2": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_P19_REMINDER_V2": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_P19_REMINDER_V2_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 16
+  },
+  "summary": {
+   "label": "CP7_P19_REMINDER_V2",
+   "status": "PASS",
+   "observed": 16,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115644190714,
+  "run_id": 38499922493,
+  "workflow": "claude-p19-transport.yml",
+  "job": "k4-runner-17",
+  "conclusion": "success",
+  "groups": {
+   "CP7_K4_RUNNER": {
+    "PASS": 7
+   },
+   "AUDITOR_RACES_CP7_K4_RUNNER": {
+    "PASS": 6
+   },
+   "AUDITOR_HTTP_CP7_K4_RUNNER": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_K4_RUNNER_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 17
+  },
+  "summary": {
+   "label": "CP7_K4_RUNNER",
+   "status": "PASS",
+   "observed": 17,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115644190715,
+  "run_id": 38499922493,
+  "workflow": "claude-p19-transport.yml",
+  "job": "p19-ai-v2-9",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P19_AI_V2": {
+    "PASS": 4
+   },
+   "AUDITOR_RACES_CP7_P19_AI_V2": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_CP7_P19_AI_V2": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_P19_AI_V2_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 9
+  },
+  "summary": {
+   "label": "CP7_P19_AI_V2",
+   "status": "PASS",
+   "observed": 9,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115644190728,
+  "run_id": 38499922493,
+  "workflow": "claude-p19-transport.yml",
+  "job": "p19-report-v2-20",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P19_REPORT_V2": {
+    "PASS": 10
+   },
+   "AUDITOR_RACES_CP7_P19_REPORT_V2": {
+    "PASS": 6
+   },
+   "AUDITOR_HTTP_CP7_P19_REPORT_V2": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_P19_REPORT_V2_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 20
+  },
+  "summary": {
+   "label": "CP7_P19_REPORT_V2",
+   "status": "PASS",
+   "observed": 20,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115644190731,
+  "run_id": 38499922493,
+  "workflow": "claude-p19-transport.yml",
+  "job": "p19-plan-v2-22",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P19_PLAN_V2": {
+    "PASS": 11
+   },
+   "AUDITOR_RACES_CP7_P19_PLAN_V2": {
+    "PASS": 7
+   },
+   "AUDITOR_HTTP_CP7_P19_PLAN_V2": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_P19_PLAN_V2_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 22
+  },
+  "summary": {
+   "label": "CP7_P19_PLAN_V2",
+   "status": "PASS",
+   "observed": 22,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115644190881,
+  "run_id": 38499922493,
+  "workflow": "claude-p19-transport.yml",
+  "job": "k6-proof-runner-10",
+  "conclusion": "success",
+  "groups": {
+   "CP7_K6_PROOF_RUNNER": {
+    "PASS": 4
+   },
+   "AUDITOR_RACES_CP7_K6_PROOF_RUNNER": {
+    "PASS": 4
+   },
+   "AUDITOR_HTTP_CP7_K6_PROOF_RUNNER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 10
+  },
+  "summary": {
+   "label": "CP7_K6_PROOF_RUNNER",
+   "status": "PASS",
+   "observed": 10,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115644220763,
+  "run_id": 38499931807,
+  "workflow": "cp7-f03-full.yml",
+  "job": "Full F03 stack / p11",
+  "conclusion": "success",
+  "groups": {
+   "CP7_F03_FULL_P11_NATIVE": {
+    "PASS": 8
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P11_HTTP": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P11_COMMANDS": {
+    "PASS": 6
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P11_COMMAND_RACES": {
+    "PASS": 2
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P11_COMMAND_HTTP": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P11_DRAFTS": {
+    "PASS": 7
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P11_DRAFT_RACES": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P11_DRAFT_HTTP": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P11_PAYMENTS": {
+    "PASS": 8
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P11_PAYMENT_RACES": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P11_PAYMENT_HTTP": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P11_RETURNS": {
+    "PASS": 11
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P11_RETURN_RACES": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P11_RETURN_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_P11_BROWSER": {
+    "PASS": 10
+   }
+  },
+  "total": {
+   "PASS": 64
+  },
+  "summary": {
+   "label": "CP7_F03_FULL_P11",
+   "status": "PASS",
+   "observed": 64,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115644248711,
+  "run_id": 38499939794,
+  "workflow": "cp7-prefreeze-ui.yml",
+  "job": "Full F03 stack / prefreeze_ui",
+  "conclusion": "success",
+  "groups": {
+   "AUDITOR_BROWSER_CP7_PREFREEZE_LEGACY_RUNTIME_GAP": {
+    "INCOMPLETE": 2
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_PREFREEZE_UI_BROWSER": {
+    "PASS": 31
+   }
+  },
+  "total": {
+   "INCOMPLETE": 2,
+   "PASS": 31
+  },
+  "summary": {
+   "label": "CP7_F03_FULL_PREFREEZE_UI",
+   "status": "PASS",
+   "observed": 31,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115644276036,
+  "run_id": 38499948491,
+  "workflow": "fable-cp7-native.yml",
+  "job": "fable-fable_cp7_xc1-0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "conclusion": "failure",
+  "groups": {
+   "FABLE_FABLE_CP7_XC1_NATIVE": {
+    "PASS": 1
+   },
+   "AUDITOR_RACES_FABLE_FABLE_CP7_XC1": {
+    "COUNTEREXAMPLE": 1,
+    "PASS": 3
+   }
+  },
+  "total": {
+   "PASS": 4,
+   "COUNTEREXAMPLE": 1
+  },
+  "summary": {
+   "label": "FABLE_FABLE_CP7_XC1",
+   "status": "INCOMPLETE",
+   "observed": null,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115644310853,
+  "run_id": 38499956853,
+  "workflow": "fable-cp7-native.yml",
+  "job": "fable-fable_cp7_core-0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "conclusion": "success",
+  "groups": {
+   "FABLE_FABLE_CP7_CORE_NATIVE": {
+    "PASS": 5
+   },
+   "AUDITOR_RACES_FABLE_FABLE_CP7_CORE": {
+    "PASS": 5
+   },
+   "AUDITOR_HTTP_FABLE_FABLE_CP7_CORE": {
+    "PASS": 1
+   }
+  },
+  "total": {
+   "PASS": 11
+  },
+  "summary": {
+   "label": "FABLE_FABLE_CP7_CORE",
+   "status": "PASS",
+   "observed": null,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115645028154,
+  "run_id": 38500182116,
+  "workflow": "fable-cp7-native.yml",
+  "job": "fable-fable_cp7_xc1-0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "conclusion": "success",
+  "groups": {
+   "FABLE_FABLE_CP7_XC1_NATIVE": {
+    "PASS": 1
+   },
+   "AUDITOR_RACES_FABLE_FABLE_CP7_XC1": {
+    "PASS": 4
+   }
+  },
+  "total": {
+   "PASS": 5
+  },
+  "summary": {
+   "label": "FABLE_FABLE_CP7_XC1",
+   "status": "PASS",
+   "observed": null,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ }
+]

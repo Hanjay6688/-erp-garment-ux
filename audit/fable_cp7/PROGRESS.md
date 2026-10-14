@@ -90,3 +90,8 @@ Laporan: `AUDIT_FABLE_d0b9e9c2.md` v1.0 — vonis HOLD dengan syarat §2.
 - 16:05 UTC: 9 run selesai, 25 job dibaca, 478 baris kasus (477 PASS, 1 COUNTEREXAMPLE kasus Fable baru = F-OPS-05). v1.1 FINAL:
   A1 DITUTUP (+F-OPS-05 minor), A2 OPEN (3 run Fable 10/10), A3 DITUTUP, A5 DITUTUP, A6 TIDAK LENGKAP, A7 TERIMA, A8 DITUTUP.
 - 2026-10-13T16:30:49Z: owner D13-10..13 dicatat (A2 diterima sebagai keterbatasan terbuka; pembanding terurut sebagai pelengkap diizinkan; putaran 2 = A6 browser P11 + F-OPS-05). Menunggu kandidat putaran 2.
+
+## Putaran silang 2 (14 Okt, 02:00–03:35 UTC) — kandidat 0b7049d9 (produk = 7a0b4a90)
+- Dispatch: penulis p19-transport 38499922493, f03-full 38499931807, prefreeze-ui 38499939794 (head 0e45da9e = kandidat + docs); Fable xc1 38499948491
+  (run 1: 1 COUNTEREXAMPLE = fixture Fable tanda polos, tidak ada yang dihapus), xc1 ulang 38500182116 (5/5 PASS, fixture ber-OID, oracle sama), core 38499956853 (11/11).
+- v1.2 FINAL: R2-A6 LENGKAP, R2-F05 DITUTUP, R2-REG cocok, tidak ada temuan baru, tidak ada bantahan ke Astra. 24 job dibaca, 376 baris kasus.

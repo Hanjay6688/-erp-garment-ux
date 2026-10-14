@@ -1,0 +1,3918 @@
+[
+{
+"status": "ALIGNED_PER_OBJECT",
+"constraints_equal": true,
+"views_equal": true,
+"sequences_equal": true,
+"schema_equal": true,
+"capsules_equal": true,
+"capsules": [
+{
+"view": "erp.v_fg_partial_completion_progress",
+"status": "ALIGNED",
+"replay_sha256": "efb2d15345589645f2184c3a749da42acc11bad1d4585988c3e02c5c762464e6",
+"hosted_sha256": "7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037",
+"hosted_md5_equal": true
+},
+{
+"view": "erp.v_wip_control_status_v1",
+"status": "ALIGNED",
+"replay_sha256": "a823510e0e5e5f57dc124001db93ec9636e8120970281473e10fedc54089420a",
+"hosted_sha256": "2aa2bab69b86be921b022eaca8142a1523124c05bd639b8a641ccf572ac8ded4",
+"hosted_md5_equal": true
+}
+]
+},
+{
+"group": "T3_HOSTED_FINGERPRINT",
+"equal": true,
+"kinds": 16,
+"differ": {},
+"explained": {
+"platform_ledger": "fixture ledger keeps empty statements and repository stamps (G-01 round 1, ledger_content_order.json)"
+}
+},
+{
+"status": "PASS_ALIGNED_CHAIN_TO_AB",
+"refused_step": null,
+"alignment": {
+"label": "G01_ALIGNMENT",
+"sql_sha256": "4e59a131ecec997fbb7b8bbcb9a9fd02c4913be59172d0182ee8e9736863deb2",
+"constraints": {
+"attendance_hpp_journal_line_links.attendance_hpp_journal_line_links_link_type_check": {
+"hosted": "72f8ce2c1e",
+"aligned": "72f8ce2c1e"
+},
+"attendance_hpp_pools.attendance_hpp_pools_status_check": {
+"hosted": "e05afeb3b8",
+"aligned": "e05afeb3b8"
+},
+"attendance_periods.attendance_periods_status_check": {
+"hosted": "e69cd6fdeb",
+"aligned": "e69cd6fdeb"
+},
+"attendance_records.attendance_records_lifecycle_check": {
+"hosted": "452991f694",
+"aligned": "452991f694"
+},
+"fg_stock_movements.fg_stock_movements_movement_type_check": {
+"hosted": "9fbfff8cd0",
+"aligned": "9fbfff8cd0"
+},
+"idempotency_requests.idempotency_requests_status_check": {
+"hosted": "0d9b2286cf",
+"aligned": "0d9b2286cf"
+},
+"manual_reminders.manual_reminders_priority_check": {
+"hosted": "a6e0cfdb2b",
+"aligned": "a6e0cfdb2b"
+},
+"manual_reminders.manual_reminders_status_check": {
+"hosted": "78723b79b2",
+"aligned": "78723b79b2"
+},
+"material_purchase_cost_corrections.material_purchase_cost_corrections_post_seq_state": {
+"hosted": "caefcf97c1",
+"aligned": "caefcf97c1"
+},
+"material_purchase_items.material_purchase_items_invoice_match_state_check": {
+"hosted": "c7c0506ea2",
+"aligned": "c7c0506ea2"
+},
+"material_purchase_items.material_purchase_items_price_source_check": {
+"hosted": "ac30b11606",
+"aligned": "ac30b11606"
+},
+"material_purchase_items.material_purchase_items_price_state_check": {
+"hosted": "dfa5f56214",
+"aligned": "dfa5f56214"
+},
+"material_stock_movements.material_stock_movements_movement_type_check": {
+"hosted": "a218ef6894",
+"aligned": "a218ef6894"
+},
+"material_supplier_invoices.material_supplier_invoices_status_check": {
+"hosted": "12080adf85",
+"aligned": "12080adf85"
+},
+"material_transfers.material_transfers_status_check": {
+"hosted": "12080adf85",
+"aligned": "12080adf85"
+},
+"qc_inspections.qc_inspections_completion_mode_check": {
+"hosted": "b1a922fa1a",
+"aligned": "b1a922fa1a"
+},
+"rework_component_lines.rework_component_lines_rate_basis_check": {
+"hosted": "8ec02e222b",
+"aligned": "8ec02e222b"
+},
+"sewing_terminal_events.sewing_terminal_events_event_kind_check": {
+"hosted": "bbd293f60d",
+"aligned": "bbd293f60d"
+},
+"stock_explainability_snapshots.stock_explainability_snapshots_basis_source_check": {
+"hosted": "d94c5cd613",
+"aligned": "d94c5cd613"
+},
+"stock_explainability_snapshots.stock_explainability_snapshots_health_status_check": {
+"hosted": "2ec01ea1f0",
+"aligned": "2ec01ea1f0"
+},
+"stock_explainability_snapshots.stock_explainability_snapshots_subject_type_check": {
+"hosted": "360d893e1b",
+"aligned": "360d893e1b"
+},
+"stock_policy_versions.stock_policy_versions_basis_source_check": {
+"hosted": "d94c5cd613",
+"aligned": "d94c5cd613"
+},
+"stock_policy_versions.stock_policy_versions_subject_type_check": {
+"hosted": "360d893e1b",
+"aligned": "360d893e1b"
+}
+},
+"views": {
+"erp.v_case_browser": {
+"hosted": "7056975536aee94c6d8d1783904206a7",
+"aligned": "7056975536aee94c6d8d1783904206a7"
+},
+"erp.v_customer_receivables": {
+"hosted": "dd5b423149289667606424e199601660",
+"aligned": "dd5b423149289667606424e199601660"
+},
+"erp.v_laundry_po_operational_progress": {
+"hosted": "e4b0fe144c51d3f7413a94b631d80c30",
+"aligned": "e4b0fe144c51d3f7413a94b631d80c30"
+},
+"erp.v_payroll_nota_browser": {
+"hosted": "947eb0f63e95b62bda77e77c87134b1d",
+"aligned": "947eb0f63e95b62bda77e77c87134b1d"
+},
+"erp.v_payroll_production_work_eligibility": {
+"hosted": "004d37be4306832a21a275bd5b7d2b0f",
+"aligned": "004d37be4306832a21a275bd5b7d2b0f"
+}
+},
+"sequences": {
+"aligned": {
+"erp.app_access_audit_id_seq": "i:erp.app_access_audit.id",
+"erp.audit_logs_id_seq": "a:erp.audit_logs.id",
+"erp.cost_recalc_queue_id_seq": "a:erp.cost_recalc_queue.id",
+"erp.cutting_qty_correction_seq": null,
+"erp.fg_stock_book_order_seq": null,
+"erp.production_pattern_audit_id_seq": "i:erp.production_pattern_audit.id"
+},
+"hosted_owned": {
+"erp.app_access_audit_id_seq": "i:erp.app_access_audit.id",
+"erp.production_pattern_audit_id_seq": "i:erp.production_pattern_audit.id",
+"erp.audit_logs_id_seq": "a:erp.audit_logs.id",
+"erp.cost_recalc_queue_id_seq": "a:erp.cost_recalc_queue.id"
+},
+"hosted_count": 6
+},
+"schema_erp": {
+"hosted": "authenticated:USAGE:false,postgres:CREATE:false,postgres:USAGE:false,service_role:USAGE:false",
+"aligned": "authenticated:USAGE:false,postgres:CREATE:false,postgres:USAGE:false,service_role:USAGE:false"
+},
+"constraints_equal": true,
+"views_equal": true,
+"sequences_equal": true,
+"schema_equal": true,
+"capsules": [
+{
+"view": "erp.v_fg_partial_completion_progress",
+"status": "ALIGNED",
+"replay_sha256": "efb2d15345589645f2184c3a749da42acc11bad1d4585988c3e02c5c762464e6",
+"hosted_sha256": "7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037",
+"hosted_md5_equal": true
+},
+{
+"view": "erp.v_wip_control_status_v1",
+"status": "ALIGNED",
+"replay_sha256": "a823510e0e5e5f57dc124001db93ec9636e8120970281473e10fedc54089420a",
+"hosted_sha256": "2aa2bab69b86be921b022eaca8142a1523124c05bd639b8a641ccf572ac8ded4",
+"hosted_md5_equal": true
+}
+],
+"capsules_equal": true,
+"status": "ALIGNED_PER_OBJECT"
+}
+},
+{
+"run_identity": {
+"label": "T3_PREP",
+"tool_head": "0e45da9ef2a1957e29f31106e70f036748d4e0dc",
+"product_ref": "144d0709a5ee3daaa84395a37fefd0466dfc828c",
+"product_paths": [
+"supabase/migrations",
+"supabase/dev",
+"supabase/release",
+"supabase/rollbacks",
+"src"
+],
+"run_id": "38499922493",
+"run_attempt": "1",
+"workflow": "CP7 P19 Analysis Job Transport",
+"job": "phase",
+"event": "workflow_dispatch",
+"github_sha": "0e45da9ef2a1957e29f31106e70f036748d4e0dc",
+"release_evidence": false,
+"production_go": false,
+"mode": "install"
+}
+},
+{
+"group": "T3_HOSTED_CAPSULES",
+"equal": true,
+"capsules": {
+"bs_resolution_v2619_rollback_capsule": {
+"hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+"clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+"equal": true
+},
+"bs_resolution_v2619a_rollback_capsule": {
+"hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+"clone": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+"equal": true
+},
+"bs_resolution_v2619b_rollback_capsule": {
+"hosted": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+"clone": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+"equal": true
+},
+"bs_resolution_v2619c_rollback_capsule": {
+"hosted": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+"clone": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+"equal": true
+},
+"cp3_r4_rollback_capsule": {
+"hosted": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+"clone": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+"equal": true
+},
+"cp45_v2617_rollback_capsule": {
+"hosted": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+"clone": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+"equal": true
+},
+"cp45_v2617a_rollback_capsule": {
+"hosted": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+"clone": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+"equal": true
+},
+"cp4_v2616_rollback_capsule": {
+"hosted": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+"clone": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+"equal": true
+},
+"cp6_v2620_rollback_capsule": {
+"hosted": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+"clone": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+"equal": true
+},
+"cutting_bridge_v2618_rollback_capsule": {
+"hosted": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+"clone": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+"equal": true
+},
+"cutting_bridge_v2618a_rollback_capsule": {
+"hosted": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+"clone": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+"equal": true
+}
+},
+"cp6_v2620_rows_differing": []
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AC",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AD",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AE",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AF",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AG",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AH",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AI",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AJ",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AK",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AL",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AM",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AN",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AO",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AP",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AQ",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AR",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AS",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AT",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AU",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AV",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AW",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AX",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AY",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AZ",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "BA",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "BB",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "BC",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "BD",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "BE",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "BF",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_RUN",
+"stage": "PACKAGE",
+"status": "PASS",
+"result": "ALL_FILES_INSTALLED"
+},
+{
+"group": "T3_PACKAGE_RUN",
+"stage": "AW_AX_AY_AZ_VERIFY",
+"status": "PASS",
+"result": {
+"stage": "BE_PLUS_BF_T1",
+"functions": 9,
+"sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+"ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+"ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+"az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9",
+"ba_sql_sha256": "3359a42fe93c35da481d164e5e6d70e79da41559621a65736418bfc8f32d93a7",
+"bb_sql_sha256": "a423268697f9290d7278bd98a364f9207562769c277d036ccf1c31902bbdf142",
+"bc_sql_sha256": "f72f72d38ed8d44cd24002e94733f55473760244686296a3970961d7aa4a9ec7",
+"bd_sql_sha256": "f480f8dd7dc2620e19994e328b971ef159ba81dca1b8272ae42b59e0d370f947",
+"be_sql_sha256": "695475db3719617bd2c10d82c4dee2eaa567f4c10f322697a1714b17b60d29f6",
+"bf_sql_sha256": "d5e66d221878db1ba34b0c159e05c13f6b12bac3acc2b3066fcff514ef876ffd"
+}
+},
+{
+"group": "T3_SECURITY_ADVISORS",
+"status": "REVIEW_REQUIRED",
+"before": 73,
+"after": 216,
+"added": [
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"accounting_close_filings_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_customer_credit_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_customer_credits_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_legacy_documents_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_open_sales_draft_lines_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_open_sales_drafts_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_opening_credits_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_opening_reworks_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_opening_sale_return_receipts_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_opening_sale_return_rights_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_payroll_entitlements_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_purchase_commitment_cancellations_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_purchase_commitment_drafts_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_purchase_commitment_lines_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_purchase_commitments_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_receipt_invoiced_parts_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_wip_bs_splits_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_wip_pickups_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_wip_split_value_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_accessory_zones_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_adjustment_purposes_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_count_variances_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_customer_custody_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_document_links_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_documents_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_execution_context_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_free_issue_lines_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_internal_use_lines_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_lot_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_note_roundings_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_opening_note_lines_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_outstanding_returns_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_policy_setting_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_policy_settings_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_return_lots_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_claim_credit_applications_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_custody_sources_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_execution_context_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_charge_lines_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_charge_shares_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_component_rates_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_components_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_invoice_lines_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_invoices_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_package_components_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_package_rates_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_packages_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_priced_lines_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_receipt_allocations_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_scoped_rates_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_size_estimates_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_vendor_terms_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_opening_laundry_claim_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_opening_laundry_claims_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_opening_laundry_uninvoiced_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_pending_price_sales_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_policy_setting_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_policy_settings_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_requests_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_conversion_cost_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_conversion_cost_sources_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_conversion_returns_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_conversion_sources_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_execution_context_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_nonpo_transfer_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_pocket_receipt_origins_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_pocket_sewing_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_pocket_source_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_pocket_target_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_pocket_usage_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_redye_price_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_redye_services_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_rework_targets_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_context_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_laundry_delivery_sources_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_po_boms_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_requests_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_rollback_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_sku_members_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_sku_versions_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_skus_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_supplier_credit_moves_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_wave_skus_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bs_case_manual_origins_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ac_relation_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ac_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ad_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ae_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620af_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ag_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ah_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ai_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620aj_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ak_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620al_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620am_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620an_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ao_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ap_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620aq_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ar_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620as_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620at_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620au_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620av_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620aw_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ax_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ay_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620az_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ba_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620bb_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620bc_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620bd_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620be_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620bf_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"fg_unsourced_receipts_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"fg_unsourced_repair_wages_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_bs_value_events",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_cost_origins",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_financial_sources",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_opening_stock_sources",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_origin_cost_events",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_prepayment_events",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_prepayment_payments",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_prepayments",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_production_sources",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_receipt_headers",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_receipt_lines",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_wip_output_identity_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_wip_output_reversals",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_wip_outputs",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"invoice_recost_execution_context",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"laundry_rate_owner_estimates_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"po_hpp_gl_lot_state_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"po_hpp_gl_material_state_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"pocket_fabric_execution_context",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"pocket_fabric_materials",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"pocket_fabric_usage",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"pocket_period_destinations",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"pocket_period_events",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"pocket_period_sources",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"pocket_periods",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"product_identity_mutation_context_v1",
+"table"
+]
+],
+"removed": []
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "RECEIPT",
+"raw_qty": 100,
+"raw_value": 1000,
+"supplier_ap": 1000,
+"grni": 0
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "CUTTING",
+"raw_qty": 40,
+"raw_value": 400,
+"consumed_value": 600,
+"produced_pcs": 60
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "SEWING",
+"legs": [
+30,
+30
+],
+"cost": 120,
+"completion_ids": [
+"e1b8cb9e-3c61-4c84-b994-380187cab6e9",
+"85e43509-d4d1-422e-a16f-e8c336e0b58b"
+]
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "LAUNDRY_QC",
+"laundry_legs": [
+30,
+30
+],
+"qc": [
+20,
+40
+],
+"fg": 60
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "FINAL_FG",
+"fg": 60,
+"value": 900,
+"hpp": 15,
+"wip": 0,
+"raw": 600,
+"sewing": 120,
+"accessory": 60,
+"laundry": 120,
+"current_hpp_components": {
+"ACCESSORY": "60.000000",
+"LABOR": "120.000000",
+"LAUNDRY": "120.000000",
+"MATERIAL": "600.000000"
+},
+"hpp_completeness": {
+"po_id": "e15c1105-9af9-4fbf-b214-6e46738a28a1",
+"po_number": "E01-2594a18b08f1",
+"po_status": "FINISHED",
+"hpp_per_pcs": 15.0,
+"is_adjusted": false,
+"latest_hpp_at": "2026-10-14T09:33:25.132173+07:00",
+"qty_basis_pcs": 60,
+"display_status": "LENGKAP_BERDASARKAN_DATA_SAAT_INI",
+"pending_reasons": [],
+"current_hpp_total": 900.0,
+"engine_cost_state": "ACTUAL",
+"pending_reason_count": 0
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "NOTA_PAYROLL",
+"note": "9cbc2730-b240-46e0-9065-b4f811a2e023",
+"payroll": "80fe59e7-23bd-4b31-a59b-202c511f1c9e",
+"labor": 120,
+"accessory_reimbursement": 60,
+"approved_unpaid": 180,
+"same_request_once": true,
+"stock_hpp_journals_unchanged": true
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "REPORT_READY",
+"confidence": {
+"info": [],
+"as_of": "2026-10-14",
+"engine": "PERIOD_READINESS_V1",
+"filing": null,
+"status": "READY",
+"blockers": [],
+"window_from": "2026-10-11",
+"failed_checks": [],
+"closed_through": "2026-10-10",
+"warning_issue_count": "0",
+"changed_since_filing": false,
+"critical_issue_count": "0",
+"pending_cost_recalc_count": "0"
+},
+"seed_completion": {
+"attendance": [
+{
+"contractor": "a1000000-0000-0000-0000-000000000001",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "a3485be5-5e2a-43cc-ab8e-79eaf09217fc",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000002",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "abdeb61c-c8bb-4765-b810-3ba8db6e48ad",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000003",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "0d88802f-e4f3-4e20-a31c-972773362c03",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000005",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "4ae04974-a495-46ac-9914-edf900e6680b",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+}
+],
+"approved": [
+"a6000000-0000-0000-0000-000000000021"
+],
+"work_payrolls": [
+{
+"contractor": "a1000000-0000-0000-0000-000000000001",
+"start": "2026-08-30",
+"end": "2026-09-01"
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000004",
+"start": "2026-01-01",
+"end": "2026-01-01"
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000006",
+"start": "2026-04-01",
+"end": "2026-04-01"
+}
+],
+"refused": []
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "DRAFT_SALE",
+"available": 40,
+"no_gl": true
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "PAYMENT",
+"cash": 200,
+"ar": 300,
+"revenue": 500,
+"cogs": 300,
+"fg": 40,
+"fg_value": 600
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "RETURN_AND_REPORT",
+"fg": 45,
+"fg_value": 675,
+"cogs": 225,
+"revenue": 375,
+"ar": 175,
+"cash": 200,
+"gross_profit": 150,
+"replay_no_second_effect": true
+},
+{
+"group": "CP7_P19_AI_V2",
+"case": "P19A_BRIEF_EQUALS_INDEX",
+"status": "PASS",
+"priority_equals_independent_order": 1,
+"selected": 2,
+"freshness_same_as_its_RPC": true,
+"writes_nothing": true,
+"need_counts": {
+"targets": 3,
+"need_unknown": 0,
+"with_open_need": 1
+},
+"full_boundary_restored": true,
+"public_schema_unchanged": true,
+"session_leaks": {
+"advisory_locks": 0,
+"advisory_lock_keys": [],
+"other_sessions": []
+},
+"business_day": {
+"planned": "2026-10-14",
+"before": "2026-10-14",
+"after": "2026-10-14"
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "RECEIPT",
+"raw_qty": 100,
+"raw_value": 1000,
+"supplier_ap": 1000,
+"grni": 0
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "CUTTING",
+"raw_qty": 40,
+"raw_value": 400,
+"consumed_value": 600,
+"produced_pcs": 60
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "SEWING",
+"legs": [
+30,
+30
+],
+"cost": 120,
+"completion_ids": [
+"3ce143ce-feb8-4fd9-84a2-8b7046a0a3f6",
+"c80a0936-8095-4001-8c98-f4c53ce7d1fe"
+]
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "LAUNDRY_QC",
+"laundry_legs": [
+30,
+30
+],
+"qc": [
+20,
+40
+],
+"fg": 60
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "FINAL_FG",
+"fg": 60,
+"value": 900,
+"hpp": 15,
+"wip": 0,
+"raw": 600,
+"sewing": 120,
+"accessory": 60,
+"laundry": 120,
+"current_hpp_components": {
+"ACCESSORY": "60.000000",
+"LABOR": "120.000000",
+"LAUNDRY": "120.000000",
+"MATERIAL": "600.000000"
+},
+"hpp_completeness": {
+"po_id": "def5b904-1084-4095-83ef-92c1202f4148",
+"po_number": "E01-c11416263e72",
+"po_status": "FINISHED",
+"hpp_per_pcs": 15.0,
+"is_adjusted": false,
+"latest_hpp_at": "2026-10-14T09:33:30.027656+07:00",
+"qty_basis_pcs": 60,
+"display_status": "LENGKAP_BERDASARKAN_DATA_SAAT_INI",
+"pending_reasons": [],
+"current_hpp_total": 900.0,
+"engine_cost_state": "ACTUAL",
+"pending_reason_count": 0
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "NOTA_PAYROLL",
+"note": "58dfc506-fb23-4ec3-9ebb-b43223aa7d3e",
+"payroll": "e46ab8e3-9dd2-4e46-9c0a-699168c29d4f",
+"labor": 120,
+"accessory_reimbursement": 60,
+"approved_unpaid": 180,
+"same_request_once": true,
+"stock_hpp_journals_unchanged": true
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "REPORT_READY",
+"confidence": {
+"info": [],
+"as_of": "2026-10-14",
+"engine": "PERIOD_READINESS_V1",
+"filing": null,
+"status": "READY",
+"blockers": [],
+"window_from": "2026-10-11",
+"failed_checks": [],
+"closed_through": "2026-10-10",
+"warning_issue_count": "0",
+"changed_since_filing": false,
+"critical_issue_count": "0",
+"pending_cost_recalc_count": "0"
+},
+"seed_completion": {
+"attendance": [
+{
+"contractor": "a1000000-0000-0000-0000-000000000001",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "6149014c-2b4e-49db-bfd2-06bfb062fc63",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000002",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "473c0997-68aa-48f9-8c66-0b119d32f3d7",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000003",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "9e4c32c5-4205-4e60-9d21-ab3fb9bdc543",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000005",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "bdac3125-8b62-45a0-afb2-927ec2877bd6",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+}
+],
+"approved": [
+"a6000000-0000-0000-0000-000000000021"
+],
+"work_payrolls": [
+{
+"contractor": "a1000000-0000-0000-0000-000000000001",
+"start": "2026-08-30",
+"end": "2026-09-01"
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000004",
+"start": "2026-01-01",
+"end": "2026-01-01"
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000006",
+"start": "2026-04-01",
+"end": "2026-04-01"
+}
+],
+"refused": []
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "DRAFT_SALE",
+"available": 40,
+"no_gl": true
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "PAYMENT",
+"cash": 200,
+"ar": 300,
+"revenue": 500,
+"cogs": 300,
+"fg": 40,
+"fg_value": 600
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "RETURN_AND_REPORT",
+"fg": 45,
+"fg_value": 675,
+"cogs": 225,
+"revenue": 375,
+"ar": 175,
+"cash": 200,
+"gross_profit": 150,
+"replay_no_second_effect": true
+},
+{
+"group": "CP7_P19_AI_V2",
+"case": "P19A_FIELDS_AND_BOUNDS",
+"status": "PASS",
+"targets_list_closed": true,
+"at_most_twenty_distinct": true,
+"unknown_target_refused": true,
+"unknown_or_unfinished_run_refused": true,
+"run_without_index_refused": true,
+"full_boundary_restored": true,
+"public_schema_unchanged": true,
+"session_leaks": {
+"advisory_locks": 0,
+"advisory_lock_keys": [],
+"other_sessions": []
+},
+"business_day": {
+"planned": "2026-10-14",
+"before": "2026-10-14",
+"after": "2026-10-14"
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "RECEIPT",
+"raw_qty": 100,
+"raw_value": 1000,
+"supplier_ap": 1000,
+"grni": 0
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "CUTTING",
+"raw_qty": 40,
+"raw_value": 400,
+"consumed_value": 600,
+"produced_pcs": 60
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "SEWING",
+"legs": [
+30,
+30
+],
+"cost": 120,
+"completion_ids": [
+"09d7052c-17d3-4f5c-94de-ee05dd5d7c30",
+"bc1ced3c-4d3d-42ba-8223-2d51d23e5c37"
+]
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "LAUNDRY_QC",
+"laundry_legs": [
+30,
+30
+],
+"qc": [
+20,
+40
+],
+"fg": 60
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "FINAL_FG",
+"fg": 60,
+"value": 900,
+"hpp": 15,
+"wip": 0,
+"raw": 600,
+"sewing": 120,
+"accessory": 60,
+"laundry": 120,
+"current_hpp_components": {
+"ACCESSORY": "60.000000",
+"LABOR": "120.000000",
+"LAUNDRY": "120.000000",
+"MATERIAL": "600.000000"
+},
+"hpp_completeness": {
+"po_id": "63fd4d6c-9f8e-4ebf-a2de-e226d421578c",
+"po_number": "E01-6db1b9f4296a",
+"po_status": "FINISHED",
+"hpp_per_pcs": 15.0,
+"is_adjusted": false,
+"latest_hpp_at": "2026-10-14T09:33:33.919102+07:00",
+"qty_basis_pcs": 60,
+"display_status": "LENGKAP_BERDASARKAN_DATA_SAAT_INI",
+"pending_reasons": [],
+"current_hpp_total": 900.0,
+"engine_cost_state": "ACTUAL",
+"pending_reason_count": 0
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "NOTA_PAYROLL",
+"note": "ee0d0083-67e1-4fe4-a170-0bba31ec1a5d",
+"payroll": "c43b34bf-1bd6-42f6-ba9c-651ac13410e5",
+"labor": 120,
+"accessory_reimbursement": 60,
+"approved_unpaid": 180,
+"same_request_once": true,
+"stock_hpp_journals_unchanged": true
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "REPORT_READY",
+"confidence": {
+"info": [],
+"as_of": "2026-10-14",
+"engine": "PERIOD_READINESS_V1",
+"filing": null,
+"status": "READY",
+"blockers": [],
+"window_from": "2026-10-11",
+"failed_checks": [],
+"closed_through": "2026-10-10",
+"warning_issue_count": "0",
+"changed_since_filing": false,
+"critical_issue_count": "0",
+"pending_cost_recalc_count": "0"
+},
+"seed_completion": {
+"attendance": [
+{
+"contractor": "a1000000-0000-0000-0000-000000000001",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "c7348ec4-0317-45d5-84ec-88704bbe74a1",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000002",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "a98b3c16-4706-400e-a115-c4ad0056c80d",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000003",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "23d47182-6438-423b-8657-3e3a576c153f",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000005",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "addad646-1c52-4625-a8ae-9750de9f9181",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+}
+],
+"approved": [
+"a6000000-0000-0000-0000-000000000021"
+],
+"work_payrolls": [
+{
+"contractor": "a1000000-0000-0000-0000-000000000001",
+"start": "2026-08-30",
+"end": "2026-09-01"
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000004",
+"start": "2026-01-01",
+"end": "2026-01-01"
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000006",
+"start": "2026-04-01",
+"end": "2026-04-01"
+}
+],
+"refused": []
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "DRAFT_SALE",
+"available": 40,
+"no_gl": true
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "PAYMENT",
+"cash": 200,
+"ar": 300,
+"revenue": 500,
+"cogs": 300,
+"fg": 40,
+"fg_value": 600
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "RETURN_AND_REPORT",
+"fg": 45,
+"fg_value": 675,
+"cogs": 225,
+"revenue": 375,
+"ar": 175,
+"cash": 200,
+"gross_profit": 150,
+"replay_no_second_effect": true
+},
+{
+"group": "CP7_P19_AI_V2",
+"case": "P19A_STALE_SNAPSHOT_LABELLED",
+"status": "PASS",
+"served_after_change": true,
+"freshness_stale_verified": true,
+"snapshot_values_unchanged": true,
+"full_boundary_restored": true,
+"public_schema_unchanged": true,
+"session_leaks": {
+"advisory_locks": 0,
+"advisory_lock_keys": [],
+"other_sessions": []
+},
+"business_day": {
+"planned": "2026-10-14",
+"before": "2026-10-14",
+"after": "2026-10-14"
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "RECEIPT",
+"raw_qty": 100,
+"raw_value": 1000,
+"supplier_ap": 1000,
+"grni": 0
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "CUTTING",
+"raw_qty": 40,
+"raw_value": 400,
+"consumed_value": 600,
+"produced_pcs": 60
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "SEWING",
+"legs": [
+30,
+30
+],
+"cost": 120,
+"completion_ids": [
+"07094449-bd28-40e7-b5d5-1e22ef861d22",
+"d295f896-8632-456c-9838-4954e501c396"
+]
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "LAUNDRY_QC",
+"laundry_legs": [
+30,
+30
+],
+"qc": [
+20,
+40
+],
+"fg": 60
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "FINAL_FG",
+"fg": 60,
+"value": 900,
+"hpp": 15,
+"wip": 0,
+"raw": 600,
+"sewing": 120,
+"accessory": 60,
+"laundry": 120,
+"current_hpp_components": {
+"ACCESSORY": "60.000000",
+"LABOR": "120.000000",
+"LAUNDRY": "120.000000",
+"MATERIAL": "600.000000"
+},
+"hpp_completeness": {
+"po_id": "bc27c7ea-a04c-42ca-b1bd-c93be0666778",
+"po_number": "E01-d4e652877cc9",
+"po_status": "FINISHED",
+"hpp_per_pcs": 15.0,
+"is_adjusted": false,
+"latest_hpp_at": "2026-10-14T09:33:37.732762+07:00",
+"qty_basis_pcs": 60,
+"display_status": "LENGKAP_BERDASARKAN_DATA_SAAT_INI",
+"pending_reasons": [],
+"current_hpp_total": 900.0,
+"engine_cost_state": "ACTUAL",
+"pending_reason_count": 0
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "NOTA_PAYROLL",
+"note": "75afe8df-931d-41f2-a296-3d05bd98ea36",
+"payroll": "ed6f436b-38f1-4737-afdc-8aa0806bcc99",
+"labor": 120,
+"accessory_reimbursement": 60,
+"approved_unpaid": 180,
+"same_request_once": true,
+"stock_hpp_journals_unchanged": true
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "REPORT_READY",
+"confidence": {
+"info": [],
+"as_of": "2026-10-14",
+"engine": "PERIOD_READINESS_V1",
+"filing": null,
+"status": "READY",
+"blockers": [],
+"window_from": "2026-10-11",
+"failed_checks": [],
+"closed_through": "2026-10-10",
+"warning_issue_count": "0",
+"changed_since_filing": false,
+"critical_issue_count": "0",
+"pending_cost_recalc_count": "0"
+},
+"seed_completion": {
+"attendance": [
+{
+"contractor": "a1000000-0000-0000-0000-000000000001",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "4af4ef15-f710-4e14-8689-8a16e4a6c3cf",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000002",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "5db7c9b0-7bd4-46b5-9b09-d71596008b31",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000003",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "b90f1fc6-bba3-46d0-b590-c0cc4c779429",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000005",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "4bd11c7b-05cc-46a6-a30c-66f0c2f2da1a",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+}
+],
+"approved": [
+"a6000000-0000-0000-0000-000000000021"
+],
+"work_payrolls": [
+{
+"contractor": "a1000000-0000-0000-0000-000000000001",
+"start": "2026-08-30",
+"end": "2026-09-01"
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000004",
+"start": "2026-01-01",
+"end": "2026-01-01"
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000006",
+"start": "2026-04-01",
+"end": "2026-04-01"
+}
+],
+"refused": []
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "DRAFT_SALE",
+"available": 40,
+"no_gl": true
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "PAYMENT",
+"cash": 200,
+"ar": 300,
+"revenue": 500,
+"cogs": 300,
+"fg": 40,
+"fg_value": 600
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "RETURN_AND_REPORT",
+"fg": 45,
+"fg_value": 675,
+"cogs": 225,
+"revenue": 375,
+"ar": 175,
+"cash": 200,
+"gross_profit": 150,
+"replay_no_second_effect": true
+},
+{
+"group": "CP7_P19_AI_V2",
+"case": "P19A_ACCESS_AND_NO_FINANCE",
+"status": "PASS",
+"foreign_run_refused": true,
+"own_run_served": true,
+"no_finance_or_HPP_in_brief": true,
+"permission_loss_refused": true,
+"only_the_public_wrapper": true,
+"full_boundary_restored": true,
+"public_schema_unchanged": true,
+"session_leaks": {
+"advisory_locks": 0,
+"advisory_lock_keys": [],
+"other_sessions": []
+},
+"business_day": {
+"planned": "2026-10-14",
+"before": "2026-10-14",
+"after": "2026-10-14"
+}
+},
+{
+"group": "CP7_P19_AI_V2",
+"planned": [
+"P19A_BRIEF_EQUALS_INDEX",
+"P19A_FIELDS_AND_BOUNDS",
+"P19A_STALE_SNAPSHOT_LABELLED",
+"P19A_ACCESS_AND_NO_FINANCE"
+],
+"final": {
+"P19A_BRIEF_EQUALS_INDEX": "PASS",
+"P19A_FIELDS_AND_BOUNDS": "PASS",
+"P19A_STALE_SNAPSHOT_LABELLED": "PASS",
+"P19A_ACCESS_AND_NO_FINANCE": "PASS"
+},
+"missing": [],
+"status": "PASS"
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "RECEIPT",
+"raw_qty": 100,
+"raw_value": 1000,
+"supplier_ap": 1000,
+"grni": 0
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "CUTTING",
+"raw_qty": 40,
+"raw_value": 400,
+"consumed_value": 600,
+"produced_pcs": 60
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "SEWING",
+"legs": [
+30,
+30
+],
+"cost": 120,
+"completion_ids": [
+"46e1336d-62f4-43e2-a0ed-06fdfce07696",
+"84373cd8-ca26-491e-be50-1f8fd1577451"
+]
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "LAUNDRY_QC",
+"laundry_legs": [
+30,
+30
+],
+"qc": [
+20,
+40
+],
+"fg": 60
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "FINAL_FG",
+"fg": 60,
+"value": 900,
+"hpp": 15,
+"wip": 0,
+"raw": 600,
+"sewing": 120,
+"accessory": 60,
+"laundry": 120,
+"current_hpp_components": {
+"ACCESSORY": "60.000000",
+"LABOR": "120.000000",
+"LAUNDRY": "120.000000",
+"MATERIAL": "600.000000"
+},
+"hpp_completeness": {
+"po_id": "00de7355-56a4-4d3d-8478-183e204401a8",
+"po_number": "E01-09b6f0547278",
+"po_status": "FINISHED",
+"hpp_per_pcs": 15.0,
+"is_adjusted": false,
+"latest_hpp_at": "2026-10-14T09:33:56.257044+07:00",
+"qty_basis_pcs": 60,
+"display_status": "LENGKAP_BERDASARKAN_DATA_SAAT_INI",
+"pending_reasons": [],
+"current_hpp_total": 900.0,
+"engine_cost_state": "ACTUAL",
+"pending_reason_count": 0
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "NOTA_PAYROLL",
+"note": "6c10552f-d3c1-4222-8017-a890f74d9ba5",
+"payroll": "4fe93e4e-92d1-45be-8aed-89562a526e52",
+"labor": 120,
+"accessory_reimbursement": 60,
+"approved_unpaid": 180,
+"same_request_once": true,
+"stock_hpp_journals_unchanged": true
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "REPORT_READY",
+"confidence": {
+"info": [],
+"as_of": "2026-10-14",
+"engine": "PERIOD_READINESS_V1",
+"filing": null,
+"status": "READY",
+"blockers": [],
+"window_from": "2026-10-11",
+"failed_checks": [],
+"closed_through": "2026-10-10",
+"warning_issue_count": "0",
+"changed_since_filing": false,
+"critical_issue_count": "0",
+"pending_cost_recalc_count": "0"
+},
+"seed_completion": {
+"attendance": [
+{
+"contractor": "a1000000-0000-0000-0000-000000000001",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "20e50497-374b-498f-bb6d-6416e8683074",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000002",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "6bf1ad59-f2c0-4779-bd11-a3fc28b424bb",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000003",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "c5adabf9-e38f-44ab-936a-d77dbf7220ee",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000005",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "858f8e42-a92b-4252-b22f-6ccfdf23b36d",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+}
+],
+"approved": [
+"a6000000-0000-0000-0000-000000000021"
+],
+"work_payrolls": [
+{
+"contractor": "a1000000-0000-0000-0000-000000000001",
+"start": "2026-08-30",
+"end": "2026-09-01"
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000004",
+"start": "2026-01-01",
+"end": "2026-01-01"
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000006",
+"start": "2026-04-01",
+"end": "2026-04-01"
+}
+],
+"refused": []
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "DRAFT_SALE",
+"available": 40,
+"no_gl": true
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "PAYMENT",
+"cash": 200,
+"ar": 300,
+"revenue": 500,
+"cogs": 300,
+"fg": 40,
+"fg_value": 600
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "RETURN_AND_REPORT",
+"fg": 45,
+"fg_value": 675,
+"cogs": 225,
+"revenue": 375,
+"ar": 175,
+"cash": 200,
+"gross_profit": 150,
+"replay_no_second_effect": true
+},
+{
+"group": "AUDITOR_RACES_CP7_P19_AI_V2",
+"case": "P19A_RACE_BRIEF_WHILE_STOCK_COMMITS",
+"status": "PASS",
+"snapshot_values_fixed_under_concurrent_stock": true,
+"freshness_counts_the_commit": true,
+"fg_changes": [
+0,
+0,
+1
+],
+"copy_runtime": {
+"stage": "EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK",
+"source_sha256": "b2a5c98f12832128df5d5a44b5ceccf4bb343c0e0ee22305a9abc64ab0415273",
+"full_family_acceptance": false
+},
+"session_leaks": [],
+"business_day": {
+"planned": "2026-10-14",
+"before": "2026-10-14",
+"after": "2026-10-14"
+}
+},
+{
+"group": "AUDITOR_RACES_CP7_P19_AI_V2",
+"planned": [
+"P19A_RACE_BRIEF_WHILE_STOCK_COMMITS"
+],
+"final": {
+"P19A_RACE_BRIEF_WHILE_STOCK_COMMITS": "PASS"
+},
+"missing": []
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "RECEIPT",
+"raw_qty": 100,
+"raw_value": 1000,
+"supplier_ap": 1000,
+"grni": 0
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "CUTTING",
+"raw_qty": 40,
+"raw_value": 400,
+"consumed_value": 600,
+"produced_pcs": 60
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "SEWING",
+"legs": [
+30,
+30
+],
+"cost": 120,
+"completion_ids": [
+"80dd01a2-1d62-414d-a150-4ac8a522a4c8",
+"5404ccba-6068-406e-ad3d-fe0680fc8450"
+]
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "LAUNDRY_QC",
+"laundry_legs": [
+30,
+30
+],
+"qc": [
+20,
+40
+],
+"fg": 60
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "FINAL_FG",
+"fg": 60,
+"value": 900,
+"hpp": 15,
+"wip": 0,
+"raw": 600,
+"sewing": 120,
+"accessory": 60,
+"laundry": 120,
+"current_hpp_components": {
+"ACCESSORY": "60.000000",
+"LABOR": "120.000000",
+"LAUNDRY": "120.000000",
+"MATERIAL": "600.000000"
+},
+"hpp_completeness": {
+"po_id": "9772fbc9-8695-49b8-a831-b6eca0ba9c3c",
+"po_number": "E01-dfb2a3803858",
+"po_status": "FINISHED",
+"hpp_per_pcs": 15.0,
+"is_adjusted": false,
+"latest_hpp_at": "2026-10-14T09:34:10.988189+07:00",
+"qty_basis_pcs": 60,
+"display_status": "LENGKAP_BERDASARKAN_DATA_SAAT_INI",
+"pending_reasons": [],
+"current_hpp_total": 900.0,
+"engine_cost_state": "ACTUAL",
+"pending_reason_count": 0
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "NOTA_PAYROLL",
+"note": "1a602346-d086-40ca-8778-cd740c504f94",
+"payroll": "abbf1e99-e81c-4163-9813-da4053d09edf",
+"labor": 120,
+"accessory_reimbursement": 60,
+"approved_unpaid": 180,
+"same_request_once": true,
+"stock_hpp_journals_unchanged": true
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "REPORT_READY",
+"confidence": {
+"info": [],
+"as_of": "2026-10-14",
+"engine": "PERIOD_READINESS_V1",
+"filing": null,
+"status": "READY",
+"blockers": [],
+"window_from": "2026-10-11",
+"failed_checks": [],
+"closed_through": "2026-10-10",
+"warning_issue_count": "0",
+"changed_since_filing": false,
+"critical_issue_count": "0",
+"pending_cost_recalc_count": "0"
+},
+"seed_completion": {
+"attendance": [
+{
+"contractor": "a1000000-0000-0000-0000-000000000001",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "1383e6ee-01fe-4ff5-8ca3-550d7acd2cdf",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000002",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "ef9441aa-ffdb-4e2e-89fe-2e4dfcb27881",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000003",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "09b8e15f-749e-40f1-a172-d7871371e6af",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000005",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "d368e221-e6b5-42fe-8121-f51928b825a8",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+}
+],
+"approved": [
+"a6000000-0000-0000-0000-000000000021"
+],
+"work_payrolls": [
+{
+"contractor": "a1000000-0000-0000-0000-000000000001",
+"start": "2026-08-30",
+"end": "2026-09-01"
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000004",
+"start": "2026-01-01",
+"end": "2026-01-01"
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000006",
+"start": "2026-04-01",
+"end": "2026-04-01"
+}
+],
+"refused": []
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "DRAFT_SALE",
+"available": 40,
+"no_gl": true
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "PAYMENT",
+"cash": 200,
+"ar": 300,
+"revenue": 500,
+"cogs": 300,
+"fg": 40,
+"fg_value": 600
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "RETURN_AND_REPORT",
+"fg": 45,
+"fg_value": 675,
+"cogs": 225,
+"revenue": 375,
+"ar": 175,
+"cash": 200,
+"gross_profit": 150,
+"replay_no_second_effect": true
+},
+{
+"group": "AUDITOR_HTTP_CP7_P19_AI_V2",
+"case": "P19A_HTTP_FLOW",
+"status": "PASS",
+"real_Auth_brief": true,
+"foreign_403": true,
+"anonymous_refused": 401,
+"session_leaks": [],
+"business_day": {
+"planned": "2026-10-14",
+"before": "2026-10-14",
+"after": "2026-10-14"
+}
+},
+{
+"group": "AUDITOR_HTTP_CP7_P19_AI_V2",
+"case": "P19A_HTTP_REVOKED",
+"status": "PASS",
+"deactivated_user_403": true,
+"session_leaks": [],
+"business_day": {
+"planned": "2026-10-14",
+"before": "2026-10-14",
+"after": "2026-10-14"
+}
+},
+{
+"group": "AUDITOR_HTTP_CP7_P19_AI_V2",
+"planned": [
+"P19A_HTTP_FLOW",
+"P19A_HTTP_REVOKED"
+],
+"final": {
+"P19A_HTTP_FLOW": "PASS",
+"P19A_HTTP_REVOKED": "PASS"
+},
+"missing": []
+},
+{
+"auditor_browser_script_sha256": "0eb89d65d678a688bc307ad4c7a48ccd68f5e0b1b6f77dc49e2cc94cc193b3d0",
+"bytes": 5326
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "RECEIPT",
+"raw_qty": 100,
+"raw_value": 1000,
+"supplier_ap": 1000,
+"grni": 0
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "CUTTING",
+"raw_qty": 40,
+"raw_value": 400,
+"consumed_value": 600,
+"produced_pcs": 60
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "SEWING",
+"legs": [
+30,
+30
+],
+"cost": 120,
+"completion_ids": [
+"1443e5d5-4502-4e2e-a27f-aa3b4769986b",
+"7f77faa1-9bdf-44bc-af54-9b6f43e63519"
+]
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "LAUNDRY_QC",
+"laundry_legs": [
+30,
+30
+],
+"qc": [
+20,
+40
+],
+"fg": 60
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "FINAL_FG",
+"fg": 60,
+"value": 900,
+"hpp": 15,
+"wip": 0,
+"raw": 600,
+"sewing": 120,
+"accessory": 60,
+"laundry": 120,
+"current_hpp_components": {
+"ACCESSORY": "60.000000",
+"LABOR": "120.000000",
+"LAUNDRY": "120.000000",
+"MATERIAL": "600.000000"
+},
+"hpp_completeness": {
+"po_id": "1498eac2-30e7-4a25-84c0-ffec1220c030",
+"po_number": "E01-5ef1603a52e2",
+"po_status": "FINISHED",
+"hpp_per_pcs": 15.0,
+"is_adjusted": false,
+"latest_hpp_at": "2026-10-14T09:34:30.380823+07:00",
+"qty_basis_pcs": 60,
+"display_status": "LENGKAP_BERDASARKAN_DATA_SAAT_INI",
+"pending_reasons": [],
+"current_hpp_total": 900.0,
+"engine_cost_state": "ACTUAL",
+"pending_reason_count": 0
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "NOTA_PAYROLL",
+"note": "ddbdfad3-df20-48d5-be5e-fd01c1dc7a16",
+"payroll": "b54af1d3-fc34-4549-ad79-3d0b34e16419",
+"labor": 120,
+"accessory_reimbursement": 60,
+"approved_unpaid": 180,
+"same_request_once": true,
+"stock_hpp_journals_unchanged": true
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "REPORT_READY",
+"confidence": {
+"info": [],
+"as_of": "2026-10-14",
+"engine": "PERIOD_READINESS_V1",
+"filing": null,
+"status": "READY",
+"blockers": [],
+"window_from": "2026-10-11",
+"failed_checks": [],
+"closed_through": "2026-10-10",
+"warning_issue_count": "0",
+"changed_since_filing": false,
+"critical_issue_count": "0",
+"pending_cost_recalc_count": "0"
+},
+"seed_completion": {
+"attendance": [
+{
+"contractor": "a1000000-0000-0000-0000-000000000001",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "7fbf9bd0-ce0a-429d-ae44-7d2f94b74aff",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000002",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "1905024a-98f8-458a-acbc-8addb4cea127",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000003",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "707d8278-8a8d-4a0d-a5b9-385ff8936003",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000005",
+"days": 4,
+"lines": 4,
+"periods": [
+{
+"start": "2026-10-11",
+"end": "2026-10-14",
+"period_id": "c1e8888c-6916-4381-8d44-25ca71a6f959",
+"row_version": 3,
+"days": 4,
+"lines": 4
+}
+],
+"occupied": [],
+"posted_drafts": []
+}
+],
+"approved": [
+"a6000000-0000-0000-0000-000000000021"
+],
+"work_payrolls": [
+{
+"contractor": "a1000000-0000-0000-0000-000000000001",
+"start": "2026-08-30",
+"end": "2026-09-01"
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000004",
+"start": "2026-01-01",
+"end": "2026-01-01"
+},
+{
+"contractor": "a1000000-0000-0000-0000-000000000006",
+"start": "2026-04-01",
+"end": "2026-04-01"
+}
+],
+"refused": []
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "DRAFT_SALE",
+"available": 40,
+"no_gl": true
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "PAYMENT",
+"cash": 200,
+"ar": 300,
+"revenue": 500,
+"cogs": 300,
+"fg": 40,
+"fg_value": 600
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "RETURN_AND_REPORT",
+"fg": 45,
+"fg_value": 675,
+"cogs": 225,
+"revenue": 375,
+"ar": 175,
+"cash": 200,
+"gross_profit": 150,
+"replay_no_second_effect": true
+},
+{
+"group": "AUDITOR_BROWSER_CP7_P19_AI_V2_BROWSER",
+"case": "P19A_BROWSER_DESKTOP_AI",
+"status": "PASS",
+"staged_run_by_click": true,
+"target_chosen_in_table": true,
+"brief_calls": 1,
+"finance_read": true,
+"prompt_labelled": true,
+"whole_readers_called": 0,
+"no_horizontal_scroll": true,
+"screenshots": [
+"P19A_DESKTOP_PROMPT.png"
+],
+"business_day": {
+"planned": "2026-10-14",
+"before": "2026-10-14",
+"after": "2026-10-14"
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "RECEIPT",
+"raw_qty": 100,
+"raw_value": 1000,
+"supplier_ap": 1000,
+"grni": 0
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "CUTTING",
+"raw_qty": 40,
+"raw_value": 400,
+"consumed_value": 600,
+"produced_pcs": 60
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "SEWING",
+"legs": [
+30,
+30
+],
+"cost": 120,
+"completion_ids": [
+"f19b47fb-fa3c-44b0-b988-c8762ad615a9",
+"604e7ec0-5c6b-41c1-95d9-9d601feaea44"
+]
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "LAUNDRY_QC",
+"laundry_legs": [
+30,
+30
+],
+"qc": [
+20,
+40
+],
+"fg": 60
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "FINAL_FG",
+"fg": 60,
+"value": 900,
+"hpp": 15,
+"wip": 0,
+"raw": 600,
+"sewing": 120,
+"accessory": 60,
+"laundry": 120,
+"current_hpp_components": {
+"ACCESSORY": "60.000000",
+"LABOR": "120.000000",
+"LAUNDRY": "120.000000",
+"MATERIAL": "600.000000"
+},
+"hpp_completeness": {
+"po_id": "a5ffeace-5fd0-4ca2-842f-f6debe7837f7",
+"po_number": "E01-ef62b0aa4f83",
+"po_status": "FINISHED",
+"hpp_per_pcs": 15.0,
+"is_adjusted": false,
+"latest_hpp_at": "2026-10-14T09:34:38.563606+07:00",
+"qty_basis_pcs": 60,
+"display_status": "LENGKAP_BERDASARKAN_DATA_SAAT_INI",
+"pending_reasons": [],
+"current_hpp_total": 900.0,
+"engine_cost_state": "ACTUAL",
+"pending_reason_count": 0
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "NOTA_PAYROLL",
+"note": "cf899ed0-a3f3-4af1-98fe-89a581c3de42",
+"payroll": "086bcb16-22d5-44fc-a222-e5108716d9e0",
+"labor": 120,
+"accessory_reimbursement": 60,
+"approved_unpaid": 180,
+"same_request_once": true,
+"stock_hpp_journals_unchanged": true
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "REPORT_READY",
+"confidence": {
+"info": [],
+"as_of": "2026-10-14",
+"engine": "PERIOD_READINESS_V1",
+"filing": null,
+"status": "READY",
+"blockers": [],
+"window_from": "2026-10-11",
+"failed_checks": [],
+"closed_through": "2026-10-10",
+"warning_issue_count": "0",
+"changed_since_filing": false,
+"critical_issue_count": "0",
+"pending_cost_recalc_count": "0"
+},
+"seed_completion": {
+"attendance": [],
+"approved": [],
+"work_payrolls": [],
+"refused": []
+}
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "DRAFT_SALE",
+"available": 40,
+"no_gl": true
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "PAYMENT",
+"cash": 200,
+"ar": 300,
+"revenue": 500,
+"cogs": 300,
+"fg": 40,
+"fg_value": 600
+},
+{
+"label": "CP7_E01_CHECKPOINT",
+"checkpoint": "RETURN_AND_REPORT",
+"fg": 45,
+"fg_value": 675,
+"cogs": 225,
+"revenue": 375,
+"ar": 175,
+"cash": 200,
+"gross_profit": 150,
+"replay_no_second_effect": true
+},
+{
+"group": "AUDITOR_BROWSER_CP7_P19_AI_V2_BROWSER",
+"case": "P19A_BROWSER_MOBILE_AI",
+"status": "PASS",
+"staged_run_by_click": true,
+"target_chosen_in_table": true,
+"brief_calls": 1,
+"finance_read": false,
+"prompt_labelled": true,
+"whole_readers_called": 0,
+"no_horizontal_scroll": true,
+"screenshots": [
+"P19A_MOBILE_PROMPT.png"
+],
+"business_day": {
+"planned": "2026-10-14",
+"before": "2026-10-14",
+"after": "2026-10-14"
+}
+},
+{
+"group": "AUDITOR_BROWSER_CP7_P19_AI_V2_BROWSER",
+"planned": [
+"P19A_BROWSER_DESKTOP_AI",
+"P19A_BROWSER_MOBILE_AI"
+],
+"final": {
+"P19A_BROWSER_DESKTOP_AI": "PASS",
+"P19A_BROWSER_MOBILE_AI": "PASS"
+},
+"status": "RUN_COMPLETE",
+"console_errors": 0,
+"users_created": 2,
+"auth_cleanup_failures": []
+},
+{
+"label": "CP7_P19_AI_V2",
+"status": "PASS",
+"source_sha256": "b2a5c98f12832128df5d5a44b5ceccf4bb343c0e0ee22305a9abc64ab0415273",
+"observed_case_count": 9,
+"cp6_restored": true,
+"advisor_gate": true,
+"error": null,
+"traceback": null
+},
+{
+"group": "T3_RUNTIME_SCHEMA_PROFILE",
+"authenticated_usage": true,
+"acl_unchanged": true
+},
+{
+"t3_backup_restore_drill": {
+"status": "RESTORED_SAME_MEANING",
+"checks": {
+"restore_errors_only_pg_cron": true,
+"catalog_explained": true,
+"data_identical": true,
+"engine_answer_present": true,
+"engine_equal": true
+},
+"dump": {
+"exit": 0,
+"stderr": "",
+"seconds": 1.1,
+"bytes": 10638084
+},
+"restore": {
+"exit": 1,
+"seconds": 3.7,
+"error_count": 19,
+"ignored_reported": 19,
+"unexplained": [],
+"errors": [
+"pg_restore: error: could not execute query: ERROR:  can only create extension in database postgres",
+"pg_restore: error: could not execute query: ERROR:  extension \"pg_cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  relation \"cron.jobid_seq\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  relation \"cron.runid_seq\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist"
+]
+},
+"catalog": {
+"match": [
+"app_ledger",
+"config_hash",
+"default_acl",
+"function",
+"function_owner_acl",
+"platform_ledger",
+"policy",
+"relation",
+"relation_owner_acl",
+"schema",
+"sequence",
+"trigger"
+],
+"differ": {
+"constraint": {
+"source": {
+"n": 2155,
+"md5": "344d937d7b895739431b3c0571e40960"
+},
+"restored": {
+"n": 2155,
+"md5": "b81cbb5246a8832807de8839a3de15ff"
+}
+},
+"extension": {
+"source": {
+"n": 6,
+"md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+},
+"restored": {
+"n": 5,
+"md5": "2193000efffb6e05911a1c3af1f57381"
+}
+},
+"index": {
+"source": {
+"n": 913,
+"md5": "07758af6439607a0302f57cfd5eb556b"
+},
+"restored": {
+"n": 913,
+"md5": "f0f899946e4e9be0d80ff5f82cd7d90b"
+}
+},
+"view": {
+"source": {
+"n": 51,
+"md5": "c08bd89cf82d60763558b988fea065b3"
+},
+"restored": {
+"n": 51,
+"md5": "1fdac63ca8f241d961df89bbc0cbcbaf"
+}
+}
+},
+"objects": {
+"constraint": {
+"differing": 29,
+"by_class": {
+"VARCHAR_IN_LIST_REPARSE": 29
+},
+"detail": null,
+"unclassified": []
+},
+"extension": {
+"differing": 1,
+"by_class": {
+"PG_CRON_ONLY_IN_DATABASE_POSTGRES": 1
+},
+"detail": null,
+"unclassified": []
+},
+"index": {
+"differing": 1,
+"by_class": {
+"VARCHAR_IN_LIST_REPARSE": 1
+},
+"detail": null,
+"unclassified": []
+},
+"view": {
+"differing": 6,
+"by_class": {
+"VARCHAR_IN_LIST_REPARSE": 6
+},
+"detail": null,
+"unclassified": []
+}
+}
+},
+"data": {
+"tables": 407,
+"rows": 1860,
+"schemas": [
+"_realtime",
+"auth",
+"erp",
+"realtime",
+"storage",
+"supabase_functions",
+"supabase_migrations",
+"vault"
+],
+"differ": {}
+},
+"engine": {
+"day": "2026-10-13",
+"equal": true,
+"source_status": "READY",
+"restored_status": "READY"
+},
+"source_cron_jobs": 0,
+"error": null
+}
+},
+{
+"group": "T3_CUTOVER_DATA_CHECKS",
+"uuid_quality": {
+"status": "CLEAN",
+"pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+"columns_checked": 1109,
+"refused_values": {},
+"refused_total": 0,
+"non_v4_defaults": {},
+"non_rfc_values": {},
+"non_rfc_total": 0,
+"reads_only": true,
+"note": "Frontend UUID pattern (canonical 8-4-4-4-12, D08) against every erp uuid column; non_rfc_values is information only"
+},
+"cash_bank_aliases": {
+"status": "NONE",
+"aliases": [],
+"reads_only": true,
+"note": "Active cash accounts sharing one COA account (CASH_BANK opening identity is per cash account)"
+}
+},
+{
+"t3_package_run": {
+"label": "T3_PREP",
+"mode": "install",
+"status": "ALL_STAGES_INSTALLED",
+"production_go": false,
+"release_evidence": false,
+"run_identity": {
+"label": "T3_PREP",
+"tool_head": "0e45da9ef2a1957e29f31106e70f036748d4e0dc",
+"product_ref": "144d0709a5ee3daaa84395a37fefd0466dfc828c",
+"product_paths": [
+"supabase/migrations",
+"supabase/dev",
+"supabase/release",
+"supabase/rollbacks",
+"src"
+],
+"run_id": "38499922493",
+"run_attempt": "1",
+"workflow": "CP7 P19 Analysis Job Transport",
+"job": "phase",
+"event": "workflow_dispatch",
+"github_sha": "0e45da9ef2a1957e29f31106e70f036748d4e0dc",
+"release_evidence": false,
+"production_go": false,
+"mode": "install"
+},
+"auth_users_before": 0,
+"ledger_start": {
+"app": [
+"v2.6.20aa",
+"v2.6.20ab"
+],
+"platform_last": "20260914190500"
+},
+"fingerprint_AB": {
+"view": {
+"n": 51,
+"md5": "68b2fbf688881496413307954006bdbe"
+},
+"index": {
+"n": 605,
+"md5": "65816b59b4bd7675995b7b9bc98fa4c5"
+},
+"policy": {
+"n": 190,
+"md5": "48bb358e009dc8d19417bbb3982f6d3f"
+},
+"schema": {
+"n": 2,
+"md5": "6ee1ffa742c0945434188ce249e139ca"
+},
+"trigger": {
+"n": 448,
+"md5": "971341de44cfecc9a587fc140c6cf30a"
+},
+"function": {
+"n": 574,
+"md5": "5e235119482f9767a74ba3fe7fbd2619"
+},
+"relation": {
+"n": 272,
+"md5": "5a8c31607ad25d70808ba9f7699bf690"
+},
+"sequence": {
+"n": 6,
+"md5": "dacd751dd3a5f2f7efbc203171be4ead"
+},
+"extension": {
+"n": 6,
+"md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+},
+"app_ledger": {
+"n": 83,
+"md5": "7ad6fed4ecef5f62d3be04fffdbc9e69"
+},
+"constraint": {
+"n": 1308,
+"md5": "1a354c9c9ddc0b40782e80339e1dbacd"
+},
+"config_hash": {
+"n": 6,
+"md5": "2193b4becca1d4d89e40b444b0a8af29"
+},
+"default_acl": {
+"n": 6,
+"md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+},
+"platform_ledger": {
+"n": 98,
+"md5": "39e21c0d5d36ef100d312dd736898487"
+},
+"function_owner_acl": {
+"n": 574,
+"md5": "12a9878282b3db31bec2d8e34eb57c59"
+},
+"relation_owner_acl": {
+"n": 272,
+"md5": "bf0e6b7cd7ea3e25b7b94918cd3cc844"
+}
+},
+"hosted_capsules": {
+"equal": true,
+"capsules": {
+"bs_resolution_v2619_rollback_capsule": {
+"hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+"clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+"equal": true
+},
+"bs_resolution_v2619a_rollback_capsule": {
+"hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+"clone": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+"equal": true
+},
+"bs_resolution_v2619b_rollback_capsule": {
+"hosted": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+"clone": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+"equal": true
+},
+"bs_resolution_v2619c_rollback_capsule": {
+"hosted": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+"clone": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+"equal": true
+},
+"cp3_r4_rollback_capsule": {
+"hosted": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+"clone": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+"equal": true
+},
+"cp45_v2617_rollback_capsule": {
+"hosted": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+"clone": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+"equal": true
+},
+"cp45_v2617a_rollback_capsule": {
+"hosted": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+"clone": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+"equal": true
+},
+"cp4_v2616_rollback_capsule": {
+"hosted": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+"clone": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+"equal": true
+},
+"cp6_v2620_rollback_capsule": {
+"hosted": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+"clone": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+"equal": true
+},
+"cutting_bridge_v2618_rollback_capsule": {
+"hosted": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+"clone": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+"equal": true
+},
+"cutting_bridge_v2618a_rollback_capsule": {
+"hosted": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+"clone": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+"equal": true
+}
+},
+"cp6_v2620_rows_differing": []
+},
+"ledger_final": {
+"app": [
+"v2.6.20aa",
+"v2.6.20ab",
+"v2.6.20ac",
+"v2.6.20ad",
+"v2.6.20ae",
+"v2.6.20af",
+"v2.6.20ag",
+"v2.6.20ah",
+"v2.6.20ai",
+"v2.6.20aj",
+"v2.6.20ak",
+"v2.6.20al",
+"v2.6.20am",
+"v2.6.20an",
+"v2.6.20ao",
+"v2.6.20ap",
+"v2.6.20aq",
+"v2.6.20ar",
+"v2.6.20as",
+"v2.6.20at",
+"v2.6.20au",
+"v2.6.20av",
+"v2.6.20aw",
+"v2.6.20ax",
+"v2.6.20ay",
+"v2.6.20az"
+],
+"platform_last": "20260928134500"
+},
+"fingerprint_final": {
+"view": {
+"n": 51,
+"md5": "c08bd89cf82d60763558b988fea065b3"
+},
+"index": {
+"n": 913,
+"md5": "07758af6439607a0302f57cfd5eb556b"
+},
+"policy": {
+"n": 190,
+"md5": "48bb358e009dc8d19417bbb3982f6d3f"
+},
+"schema": {
+"n": 2,
+"md5": "6ee1ffa742c0945434188ce249e139ca"
+},
+"trigger": {
+"n": 532,
+"md5": "4875366c3bc04e51eeb02386afa0ee84"
+},
+"function": {
+"n": 1009,
+"md5": "96aeb01a3407e13b0e10b06131dd6f02"
+},
+"relation": {
+"n": 415,
+"md5": "080e1cb6f08e00a325ca0970325958c1"
+},
+"sequence": {
+"n": 6,
+"md5": "dacd751dd3a5f2f7efbc203171be4ead"
+},
+"extension": {
+"n": 6,
+"md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+},
+"app_ledger": {
+"n": 113,
+"md5": "113fe2269e955b01cfc479fcc8dd2a46"
+},
+"constraint": {
+"n": 2155,
+"md5": "344d937d7b895739431b3c0571e40960"
+},
+"config_hash": {
+"n": 6,
+"md5": "2193b4becca1d4d89e40b444b0a8af29"
+},
+"default_acl": {
+"n": 6,
+"md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+},
+"platform_ledger": {
+"n": 128,
+"md5": "baf385423c6d01a00d12b33047c07ba2"
+},
+"function_owner_acl": {
+"n": 1009,
+"md5": "a0233dcc6c1fc36192b1547d6d8fc9b7"
+},
+"relation_owner_acl": {
+"n": 415,
+"md5": "76c59ae744c15052a11a5b8fd18b59bf"
+}
+},
+"writer_runtime": {
+"status": "PASS",
+"production_go": false,
+"independent_acceptance": false,
+"full_family_acceptance": false,
+"schema_profile": "HOSTED_USAGE_UNCHANGED"
+},
+"backup_restore_drill": "RESTORED_SAME_MEANING",
+"cutover_data_checks": {
+"uuid_quality": {
+"status": "CLEAN",
+"pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+"columns_checked": 1109,
+"refused_values": {},
+"refused_total": 0,
+"non_v4_defaults": {},
+"non_rfc_values": {},
+"non_rfc_total": 0,
+"reads_only": true,
+"note": "Frontend UUID pattern (canonical 8-4-4-4-12, D08) against every erp uuid column; non_rfc_values is information only"
+},
+"cash_bank_aliases": {
+"status": "NONE",
+"aliases": [],
+"reads_only": true,
+"note": "Active cash accounts sharing one COA account (CASH_BANK opening identity is per cash account)"
+}
+},
+"primary_unchanged": true,
+"auth_users_after": 0,
+"gate": {
+"installed": true,
+"primary_unchanged": true,
+"backup_restore_drill": true,
+"security_advisors": true,
+"writer_runtime": true
+}
+}
+}
+]
