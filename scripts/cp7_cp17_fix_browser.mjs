@@ -34,7 +34,7 @@ async function pickupReversal(ui,today){
   assert.equal(after.history,1);assert.equal(after.active_pickups,0);assert.equal(requests.length,1)
   assert.equal(requests[0].p_payload.group_id,f.group);assert.equal(requests[0].p_payload.pickup_id,f.pickup)
   await noSideScroll(ui,page);await page.screenshot({path:`cp6-proof/t3/${name}_COMMITTED.png`,fullPage:true})
-  return{status:'PASS',pickup:'REVERSED',group:'CUT with fabric still posted',po_restored:after.po,mandor_cleared:after.po[2]===null,one_request:true,history_rows:1}
+  return{status:'PASS',pickup:'REVERSED',cutting_group:'CUT with fabric still posted',po_restored:after.po,mandor_cleared:after.po[2]===null,one_request:true,history_rows:1}
  }catch(error){let actual;try{actual=state()}catch(e){actual={observation_error:String(e)}};await failure(page,name,error,actual,requests);throw error}
  finally{await user.context.close()}
 }

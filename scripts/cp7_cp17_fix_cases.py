@@ -620,7 +620,7 @@ def cases(cur,today):
         right=mandor('CP17-SG01-B-'+uuid.uuid4().hex[:8]);reposted=pickup_post(g['group'],right,g['at'](10))
         assert one(cur,'select contractor_id::text from erp.production_orders where id=%s',(g['po'],))==right
         assert one(cur,'select status from erp.cutting_pickups where id=%s',(g['pickup'],))=='REVERSED'
-        return dict(status='PASS',pickup='REVERSED',group='CUT with fabric still posted',po_restored=[str(x) for x in g['po_before']],mandor_cleared=True,
+        return dict(status='PASS',pickup='REVERSED',cutting_group='CUT with fabric still posted',po_restored=[str(x) for x in g['po_before']],mandor_cleared=True,
                     batches_kept_as_history=True,no_stock_or_journal=True,same_request_replay_identical=True,reposted_to_other_mandor=reposted)
     def pickup_refused():
         g=picked();w=pickup_read(g);before=b.boundary.snapshot(cur)
