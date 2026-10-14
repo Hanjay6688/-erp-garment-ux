@@ -1,0 +1,45 @@
+{
+  "created_at": "2026-10-14T11:44:06.379086+00:00",
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "tags": [
+    "bb",
+    "bc",
+    "bd",
+    "bd-revision",
+    "bd-range",
+    "be",
+    "be-revision",
+    "bf"
+  ],
+  "source_sha256": {
+    "scripts/cp6_bb_modes.py": "581acfb670e66c97c5ee1608d586d82a8393b497a19baf2c58287a310a91198b",
+    "scripts/cp6_bc_modes.py": "047e807053dcdfd542dd1737674b1ac206d2873ddfd64c57e277b716ce6fb4c8",
+    "scripts/cp6_bd_modes.py": "0559eec22e4981cad85fa6d3674d91238057725f896ea45f48c391e94339b60e",
+    "scripts/cp6_bd_revision_modes.py": "2374442d924ccd8214213c6b77c8ed9ac0479827146c04bc389d93cec0ec9450",
+    "scripts/cp6_bd_range_modes.py": "1187480d4929f781e4a33bb9ccaac27037d41f5147a1ed2ce3a3362adddefd7c",
+    "scripts/cp6_be_modes.py": "5a108f0f128b9f19eec4c6ea1960faef0f381320947a598bbf2b59420e34cccf",
+    "scripts/cp6_be_revision_modes.py": "36257052d9c29e674d39d4d0778dbdc04f6bfc5011bcc466c32606e467a3cae2",
+    "scripts/cp6_bf_combined_modes.py": "95602b19903fed7865e3724bf1e76f56eedbf9abd04dfbbe13be6e01037ef3f9",
+    "scripts/cp6_bb_browser.mjs": "e71fdea3de7c8778f8ba794cc1be3af675b95948e24c5f31cfbb4b75ad507838",
+    "scripts/cp6_bc_browser.mjs": "c12cedf5a2b1827f391bb3e19f2a0a0b08b2e0fc2332be3317907678ff5b6cb4",
+    "scripts/cp6_bd_browser.mjs": "5977b722a63e893007d8c0e0ffebb57e43e3c089543d19011357699c7a090560",
+    "scripts/cp6_be_browser.mjs": "8404393b08fb53ef3b82b9d30104cc62d31911843ee6f946a9c2515369597c60",
+    "scripts/cp6_bf_vendor_browser.mjs": "eaefed8be0e58ddb5df620ccf7eab054225e8daeb50e34652933110fb6c1206c",
+    "scripts/cp6_bf_probe.py": "966ab01ad809f53ca895eadfe9394e51737a7b85944a5a5b1752220bb0b57bd7",
+    "scripts/cp6_bf_free_probe.py": "4ca726a62372f223df8c503c57781c9bc21c9100f97f4f4f5b4de821ebcc3318",
+    "scripts/cp6_bf_conversion_history_probe.py": "9f9c37887f62bc013040dd8fdad46a6f79dd3a5b97e1c259ffbc9ff7a7850558",
+    "scripts/cp6_bf_supplier_probe.py": "c38a6640a1f183b2461fcc3414751d84209264165d53fca13349cf78cf41c0b8",
+    "scripts/cp6_bf_combined_probe.py": "62a352b56313eb13948b093486f2e1af05b73b417ecbdb2cd25cab7691f6019b",
+    "scripts/cp6_bf_vendor_probe.py": "f0cd0820fe33b9142ed63bae451f2e87d456b40333e2b6f6dd8d3f7812d87bbd",
+    "audit/astra_cp17/coverage_modes.py": "0118af6058f9126ec480a18cc3484161b0cad2fc6a7a54dcfee86d3ae451cb51"
+  },
+  "expected": "Original after-phase statuses PASS; preserve first outcome and all cleanup gates",
+  "retry": false,
+  "production_go": false,
+  "requirement_gaps": [
+    "ACC-D01..D10 concurrency Auth and browser",
+    "LAU-T30..T36 concurrency Auth mixed coverage desktop phone",
+    "ALL opening balances real browser continuations",
+    "BF full accepted combined production identity/finance flows"
+  ]
+}
