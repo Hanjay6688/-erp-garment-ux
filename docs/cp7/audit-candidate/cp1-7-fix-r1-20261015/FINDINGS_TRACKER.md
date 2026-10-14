@@ -70,8 +70,9 @@ dipakai untuk backup baru. Backup CP7C memakai kunci baru (rancangan CP7C sudah 
 Status per 15 Okt 2026 dini hari (WIB). "PASS" berarti lulus di CI pada commit yang disebut. Kualifikasi semua
 workflow pada satu commit dicatat di `README.md` dan `CI_RECEIPT.json`.
 
-Run CP17 terakhir yang lengkap: `e0fb701d`, run 38630670309, **39/39 PASS** (native 31, race 1, HTTP 4, browser 3),
-`cp6_restored` dan gerbang advisor PASS, uji langkah tunggu pemasang 6/6 PASS.
+Run CP17 terakhir yang lengkap: `93977e24`, run 38632608821, **40/40 PASS** (native 31, race 2, HTTP 4, browser 3),
+`cp6_restored` dan gerbang advisor PASS, uji langkah tunggu pemasang 6/6 PASS. Sebelumnya `e0fb701d` run 38630670309
+39/39 PASS.
 
 | ID | Status | Bukti/kode |
 |---|---|---|
@@ -82,7 +83,7 @@ Run CP17 terakhir yang lengkap: `e0fb701d`, run 38630670309, **39/39 PASS** (nat
 | R-SG03 | Kasus cuci ulang produk sama tanpa tagihan vendor **PASS** | `cp7_cp17_fix_cases.py` (`rewash_free`) |
 | Kasbon (D14-6) | 3 kasus native, HTTP, browser desktop **PASS**. Bug layar ditemukan dan dibetulkan: pesan "kasbon tercatat" hilang saat halaman payroll memuat ulang | `kasbon.sql`, `cp7_kasbon_bundle.py`, `PayrollKasbonPanel.tsx`, `KASBON_D14_6.md` |
 | R-LUSIN (D14-5) | Dibangun di layar draf penjualan + uji unit/DOM. **Belum**: uji browser khusus (butuh fixture stok 3 ukuran satu SKU). Uji browser helper lusin P11 yang lama tetap jalan di `CP7 Pre-freeze UI Regression` | `src/sales/seriesDozens.ts`, `SalesDraftPanel.tsx` |
-| FABLE-007 | Tanpa perubahan produk. Uji pertama (`6553d7c7`, run 38631233950) ditolak saat menyiapkan data oleh penjaga Native `erp.guard_payroll_period_overlap` (skema dasar; tidak ada di migrasi pohon ini, karena itu tidak ditemukan Fable): payroll aktif kedua yang bertumpuk tidak bisa dibuat. Uji diganti `CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS` (berurutan dan bersamaan) | `cp7_cp17_fix_cases.py` |
+| FABLE-007 | Tanpa perubahan produk. Uji pertama (`6553d7c7`, run 38631233950) ditolak saat menyiapkan data oleh penjaga Native `erp.guard_payroll_period_overlap` (skema dasar; tidak ada di migrasi pohon ini, karena itu tidak ditemukan Fable): payroll aktif kedua yang bertumpuk tidak bisa dibuat. Uji diganti `CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS` (berurutan dan bersamaan): **PASS** di `93977e24` (run 38632608821) — payroll kedua di atas hari absensi ditolak, dari dua payroll bertumpuk yang dikirim bersamaan satu lolos dan satu ditolak, detektor `PAYROLL_ATTENDANCE_DUPLICATE` 0 | `cp7_cp17_fix_cases.py` |
 | R-ACC01 (FABLE-012) | Inventaris 160 fungsi `erp`; 82 penulis tanpa rujukan dari kode yang berjalan dengan hak pemanggil dibuktikan tidak terjangkau dari Data API (`CP17_HTTP_ERP_WRITERS_NOT_REACHABLE` **PASS**). Pencabutan EXECUTE belum: sekitar 700 pemanggilan langsung di 194 berkas alat uji lama (pertanyaan owner). Setelan hosted dibaca Fable (D14-7) | `cp7_access_inventory.py` |
 | R-DOC01, R-DOC02, R-DOC03, R-DOC05 | Selesai di `495821c8`: pemeriksaan salinan paket PASS (30 berkas), komentar basi dibetulkan, bukti CP1/CP2 dibawa ke pohon, 4 tabel tanpa RLS dijelaskan | `cp7_release_copy_check.py`, `docs/evidence/cp1-cp2/`, `DOC_FINDINGS_FABLE_002_003_004_RLS.md` |
 | R-DOC04 (FABLE-005) | Pemetaan 75 C6 + 22 ALL sudah dibuat Astra; ditautkan, tanpa kode baru | `audit/astra_cp17/followup-681dd7a9/C6_75_ALL22_CROSSWALK.md` (cabang Astra, `d4a83b42`) |
