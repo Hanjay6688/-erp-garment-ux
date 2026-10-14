@@ -59,8 +59,12 @@ begin
  if not exists(select 1 from erp.materials m where m.id=p_material and ((m.material_type='FABRIC' and exists(select 1 from erp.material_rolls r where r.id=p_roll and r.material_id=m.id)) or (m.material_type<>'FABRIC' and p_roll is null)))
   or not exists(select 1 from erp.locations where id=p_location) then raise exception 'CP7_MATERIAL_LEDGER_SCOPE';end if;
  select count(*) into total from erp.material_stock_movements where material_id=p_material and roll_id is not distinct from p_roll and location_id=p_location and physical_at<=statement_timestamp();
+ -- STK01: the restated running balance follows the cost engine's effective
+ -- history. A reversed movement and its inverse are both kept as rows but do
+ -- not count, so a reopen + re-post never shows two active consumptions.
  with prefix as (
-  select sm.*,sum(sm.qty_signed) over(order by sm.physical_at,sm.system_created_at,sm.id rows unbounded preceding) running_qty
+  select sm.*,sum(case when sm.reversal_of_id is null and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=sm.id)
+   then sm.qty_signed else 0 end) over(order by sm.physical_at,sm.system_created_at,sm.id rows unbounded preceding) running_qty
   from erp.material_stock_movements sm where sm.material_id=p_material and sm.roll_id is not distinct from p_roll and sm.location_id=p_location and sm.physical_at<=statement_timestamp()
  ), paged as (select * from prefix order by physical_at desc,system_created_at desc,id desc limit p_limit offset p_offset)
  select coalesce(jsonb_agg(jsonb_build_object('movement_id',x.id,'physical_at',x.physical_at,'recorded_at',x.system_created_at,

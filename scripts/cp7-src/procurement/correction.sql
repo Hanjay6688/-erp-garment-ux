@@ -1090,9 +1090,15 @@ begin
  if not exists(select 1 from erp.materials m where m.id=p_material and((m.material_type='FABRIC'and exists(select 1 from erp.material_rolls r where r.id=p_roll and r.material_id=m.id))
    or(m.material_type<>'FABRIC'and p_roll is null)))
   or not exists(select 1 from erp.locations where id=p_location)then raise exception 'CP7_MATERIAL_LEDGER_SCOPE';end if;
- with base as(
-  select sm.*,coalesce(l.origin_id,sm.id)origin from erp.material_stock_movements sm left join cp7_receipt_fix.ledger_links l on l.member_id=sm.id
+ -- STK01: an inverse movement joins its original's row (as a correction
+ -- member), so the restated running balance matches the cost engine's
+ -- effective history: a reopened and re-posted issue is one active consumption.
+ with raw as(
+  select sm.*,l.origin_id link_origin from erp.material_stock_movements sm left join cp7_receipt_fix.ledger_links l on l.member_id=sm.id
   where sm.material_id=p_material and sm.roll_id is not distinct from p_roll and sm.location_id=p_location and sm.physical_at<=statement_timestamp()
+ ),base as(
+  select r.*,coalesce(r.link_origin,case when r.reversal_of_id is not null then(select coalesce(o.link_origin,o.id)from raw o where o.id=r.reversal_of_id)end,r.id)origin
+  from raw r
  ),grouped as(
   select b.origin,sum(b.qty_signed)effective_qty,count(*)-1 correction_count,max(b.system_created_at)last_recorded_at,
    jsonb_agg(jsonb_build_object('movement_id',b.id,'qty_signed',b.qty_signed::text,'movement_type',b.movement_type,'recorded_at',b.system_created_at,
