@@ -1,6 +1,6 @@
 # Laporan Fable v1.2 — putaran silang 2 CP7, kandidat `0b7049d9`
 
-**Status:** v1.2 FINAL (14 Okt 2026, 03:35 UTC). Review sumber dan 6 run independen selesai, semua dibaca per kasus (24 job, 17 dengan baris kasus: 376 baris, 373 PASS, 2 INCOMPLETE legacy pre-freeze seperti sebelumnya, 1 COUNTEREXAMPLE = fixture Fable pada run pertama XC1, lihat R2-F05; 0 FAIL, 0 pengulangan hari bisnis). Register run: `runs/xc2_0b7049d9/`.
+**Status:** v1.2 FINAL (14 Okt 2026, 03:35 UTC). Review sumber dan 6 run independen selesai, semua dibaca per kasus (24 job, 17 dengan baris kasus: 301 baris, 298 PASS, 2 INCOMPLETE legacy pre-freeze seperti sebelumnya, 1 COUNTEREXAMPLE = fixture Fable pada run pertama XC1, lihat R2-F05; 0 FAIL, 0 pengulangan hari bisnis). Register run: `runs/xc2_0b7049d9/`.
 Menjawab `docs/cp7/audit-candidate/crosscheck-r2-20261014/HANDOFF_FABLE.md` (D13-12, D13-13). Cakupan CP7 saja.
 Keputusan owner yang sudah disahkan tidak dibuka ulang. `production_go:false`.
 

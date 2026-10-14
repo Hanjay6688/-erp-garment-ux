@@ -94,4 +94,4 @@ Laporan: `AUDIT_FABLE_d0b9e9c2.md` v1.0 — vonis HOLD dengan syarat §2.
 ## Putaran silang 2 (14 Okt, 02:00–03:35 UTC) — kandidat 0b7049d9 (produk = 7a0b4a90)
 - Dispatch: penulis p19-transport 38499922493, f03-full 38499931807, prefreeze-ui 38499939794 (head 0e45da9e = kandidat + docs); Fable xc1 38499948491
   (run 1: 1 COUNTEREXAMPLE = fixture Fable tanda polos, tidak ada yang dihapus), xc1 ulang 38500182116 (5/5 PASS, fixture ber-OID, oracle sama), core 38499956853 (11/11).
-- v1.2 FINAL: R2-A6 LENGKAP, R2-F05 DITUTUP, R2-REG cocok, tidak ada temuan baru, tidak ada bantahan ke Astra. 24 job dibaca, 376 baris kasus.
+- v1.2 FINAL: R2-A6 LENGKAP, R2-F05 DITUTUP, R2-REG cocok, tidak ada temuan baru, tidak ada bantahan ke Astra. 24 job dibaca, 301 baris kasus.
