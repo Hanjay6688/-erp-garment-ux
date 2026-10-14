@@ -57,3 +57,11 @@ a3c61eec1d07d850e41e0ec7c32cfeb19ba78466ab3aa919fb25152d24b270ae.
 ## Q05 — C0 admission uses obsolete BA reader definition
 
 Run38526619037 completes all original326+AS34, AO12, approved supplements but rejects `erp.get_owner_financial_snapshot_v2(date,date,date)` before C0 case execution. Zero C0 cases ran. A separate c0-oracles-only phase changes only T2 admission to the candidate FULL verifier, retaining the exact pinned25-case oracle and adjustment transport adapter. No earlier case is rerun and all earlier raw statuses remain unchanged.
+
+## Q07 — C0-only workflow omitted its seed matrix field
+
+Run38528844098/job115735550503 stopped importing T2 before installing FULL or executing a case: empty CP6_T2_SEED did not satisfy the AS_IS/QUIETED admission. The C0-only workflow explicitly supplies AS_IS, matching the unchanged C0 factory contract (no seed quieting). A new first-case execution retains the prior log and zero-case result. This is an auditor workflow error, not a product defect.
+
+## Q06 — AR progress file retained its pre-completion label
+
+In run38526619037 the per-step CP17_AR_RACES.json still says INCOMPLETE because it was saved before the final assignment. All28 case rows are PASS, parent boundaries unchanged, clones removed, and the final CP17_BASELINE_AR-RACES-ONLY.json records WRITER_PASS, cp6_restored:true and advisor_gate:true. Keep both Originals; classify only the stale progress label as AUDITOR_TOOL. No race rerun is needed.

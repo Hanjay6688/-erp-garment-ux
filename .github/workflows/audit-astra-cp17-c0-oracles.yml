@@ -25,6 +25,7 @@ jobs:
         - phase: c0-oracles-only
           suite: c0-oracles-only
           bucket: ''
+          seed: AS_IS
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres
