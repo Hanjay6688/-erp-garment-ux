@@ -1,0 +1,83 @@
+{
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "first_fullstack_run": 38574107235,
+  "first_AR_artifact": 11900512054,
+  "first_AR_zip_sha256": "484d2e428ab88d537932489b21547f130e4cb15899406a4d37d03c4982bb88eb",
+  "first_AR_reports": {
+    "AR_SEQUENTIAL": {
+      "member": "FULLSTACK_T2_AR/AR_SEQUENTIAL.json",
+      "sha256": "fa907147ce3d90dbef5dc5afa1a78823bbfd000f4a9d255fdd94130866fb686e"
+    },
+    "AR_SUPERSEDING": {
+      "member": "FULLSTACK_T2_AR/AR_SUPERSEDING.json",
+      "sha256": "cc02c86bb16cde5e41c4651f96347159f011e30121680f628b3e0519f95e00bd"
+    }
+  },
+  "budgets": {
+    "ar_missing_races": 28,
+    "c0": 25
+  },
+  "ar_expected_race_ids": [
+    "CONCURRENT_CUSTOMER_RECEIVABLE_IMPORTED_FIRST",
+    "CONCURRENT_CUSTOMER_RECEIVABLE_LEGACY_FIRST",
+    "CONCURRENT_SUPPLIER_PAYABLE_IMPORTED_FIRST",
+    "CONCURRENT_SUPPLIER_PAYABLE_LEGACY_FIRST",
+    "CONCURRENT_VENDOR_PAYABLE_IMPORTED_FIRST",
+    "CONCURRENT_VENDOR_PAYABLE_LEGACY_FIRST",
+    "CONCURRENT_CONTRACTOR_RECEIVABLE_IMPORTED_FIRST",
+    "CONCURRENT_CONTRACTOR_RECEIVABLE_LEGACY_FIRST",
+    "CONCURRENT_CONTRACTOR_PAYABLE_IMPORTED_FIRST",
+    "CONCURRENT_CONTRACTOR_PAYABLE_LEGACY_FIRST",
+    "CONCURRENT_CASH_BANK_IMPORTED_FIRST",
+    "CONCURRENT_CASH_BANK_LEGACY_FIRST",
+    "CONCURRENT_MATERIAL_IMPORTED_FIRST",
+    "CONCURRENT_MATERIAL_LEGACY_FIRST",
+    "CONCURRENT_FINISHED_GOODS_IMPORTED_FIRST",
+    "CONCURRENT_FINISHED_GOODS_LEGACY_FIRST",
+    "CONCURRENT_WIP_IMPORTED_FIRST",
+    "CONCURRENT_WIP_LEGACY_FIRST",
+    "CONCURRENT_BS_IMPORTED_FIRST",
+    "CONCURRENT_BS_LEGACY_FIRST",
+    "WINNER_ABORT_IMPORTED",
+    "SAME_HEADER_IMPORTED",
+    "WINNER_ABORT_LEGACY",
+    "SAME_HEADER_LEGACY",
+    "REQUEST_CONCURRENT_REPLAY",
+    "REQUEST_CONCURRENT_PAYLOAD",
+    "REQUEST_CONCURRENT_ACTION",
+    "STALE_SNAPSHOT_ISOLATION"
+  ],
+  "c0_expected_ids": [
+    "G8C0:AS:DATE:False:Asia/Jakarta:True:20",
+    "G8C0:AS:DATE:False:Asia/Jakarta:True:20.003",
+    "G8C0:AS:DATE:False:UTC:True:20",
+    "G8C0:AS:DATE:False:UTC:True:20.003",
+    "G8C0:AS:DATE:False:Etc/GMT+12:True:20",
+    "G8C0:AS:DATE:False:Etc/GMT+12:True:20.003",
+    "G8C0:AS:DATE:False:Pacific/Kiritimati:True:20",
+    "G8C0:AS:DATE:False:Pacific/Kiritimati:True:20.003",
+    "G8C0:CALENDAR:1_MONTHS:UTC:False",
+    "G8C0:CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+    "G8C0:CALENDAR:2_MONTHS:UTC:False",
+    "G8C0:CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+    "G8C0:CALENDAR:3_MONTHS:UTC:False",
+    "G8C0:CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+    "G8C0:CALENDAR:JAN31:UTC:False",
+    "G8C0:CALENDAR:JAN31:Pacific/Kiritimati:False",
+    "G8C0:CALENDAR:FEB28:UTC:False",
+    "G8C0:CALENDAR:FEB28:Pacific/Kiritimati:False",
+    "G8C0:CALENDAR:MAY31:UTC:False",
+    "G8C0:CALENDAR:MAY31:Pacific/Kiritimati:False",
+    "G8C0:AO:INVOICE:UTC:False",
+    "G8C0:AO:INVOICE:UTC:True",
+    "G8C0:AO:INVOICE:Pacific/Kiritimati:False",
+    "G8C0:AO:INVOICE:Pacific/Kiritimati:True",
+    "G8C0:AS:ADJUSTMENT_DATE:False"
+  ],
+  "original_c0_oracle_sha256": "7c2c19b6e722d325ba902cfd9eb1ae2f98d4e2ec27245070ab485df0af9e66a7",
+  "metadata_only_change": "Two explicit CP6 BE verifier references now use the exact installed final CP7 catalogue verifier; all case/race bodies and expected values remain original. Declared CP7 owner financial report overlay is verified instead of incorrectly requiring its predecessor body.",
+  "probe_sha256": "e99354d824e6e0fb3592a2a22c80869d678dfafb1f23dde7ce285326d3424f7e",
+  "original_AR_146_reused_execution_credit": 0,
+  "no_automatic_rerun": true,
+  "production_go": false
+}
