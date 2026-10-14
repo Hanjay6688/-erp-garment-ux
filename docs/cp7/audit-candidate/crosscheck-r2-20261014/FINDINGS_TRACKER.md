@@ -42,4 +42,6 @@ untuk diketahui. Alat offsite memakai aturan tanda yang sama, jadi paket CP7C pe
 | Auditor | Commit laporan | R2-A6 | R2-F05 | A2 | Catatan |
 |---|---|---|---|---|---|
 | Astra | `57ac8aab` (laporan terkunci), `fb24bd92` (pemeriksaan paket final) | **LENGKAP** | **DITUTUP** | MASIH TERBUKA, bukan penghalang (D13-10) | A1, A3, A8 DITUTUP; 141 eksekusi CI / 139 ID unik + 1 DOM; koreksi kalimat pergantian hari (92 eksekusi ulang, 41 ditandai rollover) sudah dimasukkan ke README. |
-| Fable | belum masuk | — | — | — | Kotak `HANDOFF_FABLE.md` memuat ringkasan hasil Astra untuk silang. |
+| Fable | `46fe722c` (v1.2 final), `c17a53b2`, `319e6624` (koreksi) | **LENGKAP** | **DITUTUP** | MASIH TERBUKA, bukan penghalang (D13-10) | R2-REG cocok kata per kata; tidak ada temuan baru; tidak ada bantahan terhadap Astra. Run pertama kasus Fable merah karena fixture Fable sendiri memakai tanda polos; fixture dibetulkan tanpa mengubah oracle, 5/5 PASS; kedua log disimpan. |
+
+**Kedua auditor menutup R2-A6 dan F-OPS-05. CP7 dibekukan final pada `0b7049d9` (D13-13): `../../FREEZE_CP7_FINAL_20261014.md`.**

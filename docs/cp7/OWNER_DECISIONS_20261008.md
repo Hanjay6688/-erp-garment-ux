@@ -291,3 +291,8 @@ Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
 - Putaran 2 berisi dua butir D13-12: kasus browser P11 desktop dan HP untuk helper lusin (A6), dan F-OPS-05 (hanya
   tanda ber-OID yang boleh mengizinkan penghapusan, ditambah uji tanda lama yang disalin ke database asing).
 - Kandidat putaran 2 satu SHA/tree yang sama untuk Astra dan Fable (D13-13). Register ini masuk ke kandidat itu.
+
+Status D13-13 (14 Okt 2026, penulis): kedua butir D13-12 ditutup oleh Astra (`57ac8aab`, `fb24bd92`) dan Fable
+(`46fe722c`..`319e6624`) pada kandidat `0b7049d9`. CP7 dibekukan final pada `0b7049d9203bac52b47a4c89f3e0d75646067a8f`
+(tree `ce6aed0a0af920e8aa80248f3cabcd293688df18`), dengan A2 sebagai keterbatasan terbuka. Rincian:
+`docs/cp7/FREEZE_CP7_FINAL_20261014.md`. `production_go:false`.
