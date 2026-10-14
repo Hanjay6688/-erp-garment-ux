@@ -1,0 +1,20 @@
+{
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "created_at": "2026-10-14T11:58:44.638636+00:00",
+  "qualification": "Q10: modes wrapper only invoked native factory for BF. BD-range exported cases() only, so its first job ran zero cases. BD revision REV rows are already in BD native; BE revision native rows are already in BF combined. Only the two RANGE rows lack an execution.",
+  "previous_run": 38558702356,
+  "previous_job": 115834143948,
+  "case_ids": [
+    "RANGE:SAME_EFFECTIVE_BASE_RATE_MIXED_SINGLE_32_SINGLETON_27",
+    "RANGE:SKU_WEIGHTED_HPP_PHYSICAL_STOCK_SALE_RETURN_INVOICE"
+  ],
+  "factory": "cp6_bd_revision_modes.cases; only RANGE prefixes selected before execution; all REV cases retained in the original BD run without rerun",
+  "expected": "PASS according to original factory expectations; no changed input or expected value",
+  "production_go": false,
+  "retry": false,
+  "source_sha256": {
+    "audit/astra_cp17/coverage_native_modes.py": "06d8a86884abf31f4ef4d2567c0edb8152ceac43f6b30ba5e53941f62ebaf8b7",
+    "scripts/cp6_bd_revision_modes.py": "2374442d924ccd8214213c6b77c8ed9ac0479827146c04bc389d93cec0ec9450",
+    "scripts/cp6_bd_range_cases.py": "68c79b991b3eb23627e24862ab20d461d331a8ac599c8a9472c4c738d45d7b1b"
+  }
+}
