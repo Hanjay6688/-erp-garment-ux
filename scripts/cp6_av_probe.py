@@ -29,7 +29,8 @@ import cp6_ao_ap_runtime as prior
 import cp6_successor_regression as boundary
 
 OUT=AUDITOR/'cp6-proof/av'
-r1.OUT=OUT
+# SOL-002: the output folder is set when this probe runs, not when it is imported; the BE probe imports this module
+# lazily for fixtures, and an import-time assignment moved BE's remaining results here (artifact 11892298930: 4/16).
 chain=r1.chain
 peer=r1.peer
 now,edit,observe,production,receipt,final=r1.now,r1.edit,r1.observe,r1.production,r1.receipt,r1.final
@@ -401,6 +402,7 @@ def found_races(phase,verify):
 
 
 def run(phase):
+    r1.OUT=OUT
     assert os.environ.get('CP6_AR_CONFIRM')=='cp6_rollback' and os.environ.get('CP6_DATABASE_CONTAINER')=='supabase_db_cp5-local'
     report=dict(status='INCOMPLETE',phase=phase,source=r1.source(),installed_functions_patched_for_testing=False,production_go=False,independent_acceptance=False)
     r1.save('RESULT_'+phase.upper(),report)

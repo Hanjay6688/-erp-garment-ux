@@ -281,7 +281,19 @@ def run(phase):
         if not report['primary_unchanged'] or report['clone_remaining']:report['status']='INCOMPLETE'
         r1.save('RESULT_'+phase.upper(),report)
     print(json.dumps(dict(be_probe_phase=phase,**report),default=str),flush=True)
+    artifact_gate(phase)
     assert report['status']=='REVIEW_COMPLETE',report.get('error') or report.get('mismatch')
+
+def artifact_gate(phase):
+    """SOL-002: what is uploaded (this probe's own folder) must hold every planned case ID exactly once and the terminal
+    result; a missing or extra result fails the job instead of leaving a partial evidence package."""
+    group=json.loads((OUT/('BE_CASES_'+phase.upper()+'.json')).read_text())
+    result=json.loads((OUT/('RESULT_'+phase.upper()+'.json')).read_text())
+    planned=[k for k,_,_ in PLAN];saved=list(group.get('cases',{}))
+    assert sorted(saved)==sorted(planned) and len(saved)==len(set(saved)),('BE_ARTIFACT_CASE_SET',sorted(set(planned)-set(saved)),sorted(set(saved)-set(planned)))
+    assert all(isinstance(v,dict) and v.get('status') for v in group['cases'].values()),'BE_ARTIFACT_CASE_WITHOUT_STATUS'
+    assert result.get('final')=={k:v['status'] for k,v in group['cases'].items()} and result.get('status') in ('REVIEW_COMPLETE','INCOMPLETE'),'BE_ARTIFACT_TERMINAL'
+    assert not any((r1.OUT.parent/'av').glob('BE_*')),'BE_ARTIFACT_WRITTEN_ELSEWHERE'
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--phase',choices=('before','after'),required=True);run(p.parse_args().phase)

@@ -127,6 +127,37 @@ def owner_verified(cur):
         return native.verified(cur)
     finally:fixture_api.admin=previous
 
+DIAG_FIELDS=('message_primary','message_detail','message_hint','context','schema_name','table_name','column_name','constraint_name',
+             'datatype_name','source_function','source_file','source_line','internal_query','internal_position','statement_position')
+
+def private_diagnostic(exc,report,report_path,work,rows):
+    """SOL-003: keep the PostgreSQL diagnostic of a failed install in a private file next to the report (owner-only
+    permissions; never printed). The public report keeps the restricted code and only names this file and its sha256.
+    Nothing here changes what is refused or the admission state."""
+    try:
+        diag=getattr(exc,'diag',None)
+        out=dict(label='CP6_OWNER_MAINTENANCE_PRIVATE_DIAGNOSTIC',error_type=type(exc).__name__,sqlstate=getattr(exc,'sqlstate',None),
+          refused_code=str(exc) if isinstance(exc,Refused) else None,current_file_key=report.get('current_file_key'),
+          current_file_sha256=next((r['package_sha256'] for r,_ in rows or () if r['key']==report.get('current_file_key')),None),
+          files_installed=[f['key'] for f in report['files']],files_planned=len(rows or ()))
+        out['postgres']={k:getattr(diag,k,None) for k in DIAG_FIELDS} if diag is not None else None
+        if diag is None and not isinstance(exc,Refused):out['message']=str(exc)[:4000]
+        try:
+            if work is not None and not work.closed:
+                out['session']=dict(zip(('current_user','session_user','search_path','transaction_isolation','server_version','database'),
+                  work.execute("select current_user,session_user,current_setting('search_path'),current_setting('transaction_isolation'),"
+                               "current_setting('server_version'),current_database()").fetchone()))
+        except Exception as session_exc:out['session']=dict(unavailable=type(session_exc).__name__)
+        path=Path(report_path).with_name(Path(report_path).stem+'.private-diagnostic.json')
+        path.parent.mkdir(parents=True,exist_ok=True)
+        data=(json.dumps(out,indent=2,default=str)+'\n').encode()
+        fd=os.open(path,os.O_WRONLY|os.O_CREAT|os.O_TRUNC,0o600)
+        with os.fdopen(fd,'wb') as handle:handle.write(data)
+        os.chmod(path,0o600)
+        return dict(file=path.name,sha256=hashlib.sha256(data).hexdigest(),permissions='0600')
+    except Exception as diag_exc:
+        return dict(unavailable=type(diag_exc).__name__)
+
 def run(target,control,*,profile,report_path,mode=FULL,apply=False,window=None,backup=None,certificate=None,drain_seconds=15):
     report=dict(label='CP6_OWNER_MAINTENANCE',status='INCOMPLETE',profile=profile,mode='APPLY' if apply else 'READ_ONLY_PLAN',
       install_mode=mode,manifest_sha256=FULL_SHA if mode==FULL else MANIFEST_SHA,release_manifest_sha256=MANIFEST_SHA,
@@ -192,6 +223,7 @@ def run(target,control,*,profile,report_path,mode=FULL,apply=False,window=None,b
         report.update(status='REFUSED' if isinstance(exc,Refused) or getattr(exc,'sqlstate',None)=='P0001' else 'INCOMPLETE',
           error_type=type(exc).__name__,sqlstate=getattr(exc,'sqlstate',None),
           error_code=str(exc) if isinstance(exc,Refused) else core._public_failure_code(exc))
+        report['private_diagnostic']=private_diagnostic(exc,report,report_path,work,locals().get('rows'))
         return report
     finally:
         try:
