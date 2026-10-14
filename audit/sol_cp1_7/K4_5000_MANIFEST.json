@@ -1,0 +1,23 @@
+{
+  "case_id": "SOL_K4_5000_REAL_CRON_NO_PAGE",
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "target_count": 5000,
+  "history_days": 3,
+  "fixture": "ordinary Native scale writers, explicit synthetic input; no direct business inserts",
+  "driver": "real pg_cron, no auditor step/tick after request, readonly status polling only",
+  "test_only_schedule_override": "5 seconds",
+  "per_tick_statement_timeout": "8s unchanged",
+  "driver_deadline_seconds": 1800,
+  "expected": "DONE; 5000 unique recommendations and labels match fixture; every unit once; all page hashes/ranges; reopening same UUID/run; unchanged business boundary; no scheduler/copy sessions remaining",
+  "case_budget": 1,
+  "repeat_original_K4_control_budget": 17,
+  "oracle": "literal coverage and invariant, no full-build mirror expected-value oracle",
+  "scope_limits": [
+    "not SLA",
+    "not forecast numerical accuracy",
+    "not hosted",
+    "not physical browser"
+  ],
+  "probe_sha256": "f5eabffe3a8a6d81f643ba557939911592c64d7ef22b5a37e2bcac545c5c675b",
+  "production_go": false
+}
