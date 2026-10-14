@@ -1,0 +1,24 @@
+{
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "reason": "Authorized Fable final cross-check; native catalogue privileges are distinct from role guard bypass",
+  "oracle_origin": "ASTRA_NEW_AFTER_FABLE012_EXPOSURE",
+  "cases": [
+    {
+      "id": "CP17-ASTRA-RBAC-01-CATALOG",
+      "expected": "No ERP table without RLS; anon no reachable native writer/public facade; definer facade search_path pinned. Authenticated grants recorded, not called exploits."
+    },
+    {
+      "id": "CP17-ASTRA-RBAC-02-ROLE-BOUNDARY",
+      "expected": "Custom finance role, inactive owner, unregistered subject each refused close/reopen by owner guard. Active owner actual reopen succeeds inside rollback; session/current_user authenticated throughout tested calls."
+    }
+  ],
+  "source_hashes": {
+    "cases_rbac_followup.py": "ada0413cf02823ba1291871a61f3dc53d6d0786d8c1b72696c08820556bc0918",
+    "rbac_followup.py": "2c2f60e5fd10d6c2415b6fb2adacd3d22415802330b8fccb9a6609eced4fb3dd"
+  },
+  "runtime": "PINNED_FULL_NATIVE_SQL",
+  "hosted": false,
+  "real_http": false,
+  "production_go": false,
+  "retry": false
+}
