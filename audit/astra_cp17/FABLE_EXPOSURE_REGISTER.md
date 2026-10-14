@@ -14,7 +14,7 @@ klaim blind discovery untuk kasus yang dirancang setelah melihat petunjuk Fable.
   belum diverifikasi Astra sebagai 53 eksekusi atau 53 kelulusan.
 - Pesan owner: CP3/3.5 memiliki 12 dugaan statis, dengan tiga contoh: periode
   kolam biaya absensi bertumpang tindih; absensi dibayar lewat nota lain;
-  pembayaran payroll sebelum akrual. Ketiganya berstatus LEAD_UNVERIFIED.
+  pembayaran payroll sebelum akrual. Pada saat diterima, ketiganya LEAD_UNVERIFIED; hasil pemeriksaan Astra ada di bawah.
 - Pesan owner: lima review lain masih berjalan. Tidak ada hasilnya dalam pesan.
 - Branch Fable `audit/fable-cp1-7-0b7049d9-20261014` pada commit
   `31cf30090b712897714f35c5a507cd1cd48c5d04`: dibaca
@@ -34,3 +34,14 @@ Oracle lama Astra yang disalin dari e800e016 juga mendahului petunjuk tersebut.
 CP1 tetap mencakup baseline/fingerprint/riwayat migrasi. CP2 lama sebelum
 v2.6.10 tidak dapat diberi PASS tanpa set pemulihan dan bukti restore yang
 sesuai. Bukti restore sintetis CP6/CP7 tidak menggantikan bukti CP2 historis.
+
+## Rekap hasil independen setelah paparan
+
+| Petunjuk Fable | Bukti Astra | Disposisi |
+|---|---|---|
+| Pembayaran payroll mendahului akrual | PAY-04 dan PAY-05 pada run38525930407; PAY-06 pada run38527771239, respons public RPC dan laporan tanggal cutoff | TERBUKTI: satu akar masalah ASTRA-CP17-FIN-01, S0; tiga saksi runtime, kontrol sah juga PASS |
+| Absensi yang sudah dibayar/di-approve dimasukkan nota lain | PAY-02-PAID-SOURCE dan PAY-03-APPROVED-SOURCE, run38525930407 | TIDAK TERBUKTI pada dua jalur ini: server menolak period overlap; bukan pembebasan semua kemungkinan jalur |
+| Dua kolam HPP mengambil biaya absensi yang sama lewat periode bertumpang tindih | HPP-01-OVERLAPPING-SOURCE, run38527771239 | TIDAK TERBUKTI pada saksi ini: kolam kedua tanpa payroll exact-period ditolak. Sumber biaya identik tidak teralokasi dua kali; bukan bukti bahwa semua overlap mustahil |
+| CP2 tanpa bukti restore | Receipt writer CP2_ENCRYPTED_RECOVERY.json dibaca, bukan ciphertext atau kunci | ADA receipt pembukaan arsip149 anggota, tetapi restore database historis tetap tidak dapat diverifikasi |
+
+Sembilan dugaan lain dari klaim12, lima review yang belum selesai, dan daftar53 run tidak tersedia dalam materi yang diterima atau kedua file pada commit Fable tersebut. Tidak dihitung sebagai temuan/kelulusan Astra. Hasil Fable tambahan, bila kelak tersedia, harus ditambahkan sebagai addendum dengan asal bukti; tidak boleh ditulis mundur sebagai penemuan blind Astra.
