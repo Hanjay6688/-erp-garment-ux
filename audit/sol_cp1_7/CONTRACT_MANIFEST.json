@@ -1,0 +1,115 @@
+{
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "probe_sha256": "c23f39981159c616818df1d532f71707e71abb70a90af67bce72339dbac6e587",
+  "fixture_origin": "reused synthetic stock receipt builder, exact unit cost 10; ordinary public sale/payment/return commands",
+  "oracle_origin": "SOL_LITERAL_BUSINESS_CONTRACT_EXPECTED_VALUES_NOT_FROM_HELPER_UNDER_TEST",
+  "layer": "Native SQL public facades with authenticated ERP app actor; not a real Auth HTTP claim",
+  "IDs": [
+    "SOL_DIMENSIONAL_CASH_RETURN",
+    "SOL_IDENTICAL_LINE_CORRECTION",
+    "SOL_ROLE_REDACTION_AND_REVOKE",
+    "SOL_REPORT_EXACT_READONLY",
+    "SOL_UUID_ATOMIC_REFUSAL"
+  ],
+  "cases": [
+    {
+      "id": "SOL_DIMENSIONAL_CASH_RETURN",
+      "invariants": [
+        "INV-U01",
+        "INV-U04",
+        "INV-S01",
+        "INV-S07",
+        "INV-H01",
+        "INV-H02",
+        "INV-P01"
+      ],
+      "expected": {
+        "draft_GL_change": "0",
+        "stock_draft": [
+          "7",
+          "8"
+        ],
+        "sale": "70.05",
+        "return": "26.40",
+        "paid": "35.00",
+        "AR": "8.65",
+        "stock_after": [
+          "8",
+          "9"
+        ],
+        "revenue": "43.65",
+        "COGS": "30"
+      }
+    },
+    {
+      "id": "SOL_IDENTICAL_LINE_CORRECTION",
+      "invariants": [
+        "INV-K01",
+        "INV-K03",
+        "INV-S07",
+        "INV-H02"
+      ],
+      "expected": {
+        "original_two_identical_lines": [
+          "3",
+          "3"
+        ],
+        "corrected_line_qty": [
+          "3",
+          "2"
+        ],
+        "available": "5",
+        "AR": "86.25",
+        "COGS": "50",
+        "originals": "immutable"
+      }
+    },
+    {
+      "id": "SOL_ROLE_REDACTION_AND_REVOKE",
+      "invariants": [
+        "INV-A01",
+        "INV-A02",
+        "INV-L07"
+      ],
+      "expected": {
+        "operational_finance": "absent",
+        "finance_read": "CP7_FINANCE_ACCESS_DENIED",
+        "revoked_sales_read": "CP7_SALES_ACCESS_DENIED"
+      }
+    },
+    {
+      "id": "SOL_REPORT_EXACT_READONLY",
+      "invariants": [
+        "INV-L01",
+        "INV-L06"
+      ],
+      "expected": {
+        "AR": "51.75",
+        "FG": "-30",
+        "revenue": "51.75",
+        "COGS": "30",
+        "gross_profit": "21.75",
+        "read_effects": "none"
+      }
+    },
+    {
+      "id": "SOL_UUID_ATOMIC_REFUSAL",
+      "invariants": [
+        "INV-C01",
+        "INV-C04",
+        "INV-K01"
+      ],
+      "expected": {
+        "same_uuid": "one_effect",
+        "different_payload": "CP7_SALES_REQUEST_CHANGED",
+        "shortage": "Insufficient FG stock",
+        "posted_edit": "CP7_SALES_DRAFT_ONLY",
+        "retained_reservation": "3",
+        "AR": "51.75",
+        "COGS": "30"
+      }
+    }
+  ],
+  "existing_K3_25": "unmodified controls also execute; duplicates explicitly excluded from new unique-oracle count",
+  "production_go": false
+}
