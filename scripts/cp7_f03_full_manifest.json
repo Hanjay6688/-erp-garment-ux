@@ -1169,6 +1169,7 @@
     }
   },
   "expected_private_roles": [
+    "cp7_guard",
     "cp7_cutting_write",
     "cp7_cutting_read",
     "cp7_transaction_source_read",
@@ -1204,5 +1205,5 @@
     "cp7_policy",
     "cp7_capture"
   ],
-  "private_role_review": "All original31 roles and the prior qualified readonly transaction source role retained. Two new cutting facade owners cp7_cutting_write/read are NOLOGIN/NOINHERIT, with no ERP table access or direct Native inverse EXEC. Only their closed private command/workspace entrypoints are admitted; exact current authority and original source history required. New role qualification remains pending on the exact current source; all prior business case budgets unchanged."
+  "private_role_review": "All original31 roles and the prior qualified readonly transaction source role retained. Two new cutting facade owners cp7_cutting_write/read are NOLOGIN/NOINHERIT, with no ERP table access or direct Native inverse EXEC. Only their closed private command/workspace entrypoints are admitted; exact current authority and original source history required. New role qualification remains pending on the exact current source; all prior business case budgets unchanged. CP1–CP7 audit fix r1 (15 Oct 2026): role cp7_guard added first. NOLOGIN/NOINHERIT, owns only schema cp7_guard; its postgres-owned functions back two triggers on native rows (cash never negative per owner D14-3, laundry claim settlement not before its source or the vendor's dated payable per Astra FIN02). No grants to any client role; uninstall drops the schema with both triggers."
 }

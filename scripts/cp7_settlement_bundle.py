@@ -64,7 +64,9 @@ end $verify$;"""%(hashlib.sha256(before.encode()).hexdigest(),hashlib.sha256(own
  d:=pg_get_functiondef('erp.require_owner_admin()'::regprocedure);
  execute replace(d,$anchor$%s$anchor$,$delta$%s$delta$);
 end $patch$;"""%(nota.ANCHOR,CONTEXT+nota.ANCHOR,OWNER_ANCHOR,CONTEXT+OWNER_ANCHOR)
-    return '\n'.join((guard,sql,derived+';\nalter function cp7_payroll.rebuild_nonwork(uuid) owner to postgres;\n',"revoke all on function cp7_payroll.rebuild_nonwork(uuid) from public,anon,authenticated,service_role,cp7_capture,cp7_payroll_read,cp7_nota_write,cp7_payroll_header,cp7_payroll_write;",patch))
+    # FIN01/D14-2: payment date may not precede the payroll's latest payable source.
+    date_guard=(ROOT/'scripts/cp7-src/payroll/payment-date-guard.sql').read_text()
+    return '\n'.join((guard,sql,derived+';\nalter function cp7_payroll.rebuild_nonwork(uuid) owner to postgres;\n',"revoke all on function cp7_payroll.rebuild_nonwork(uuid) from public,anon,authenticated,service_role,cp7_capture,cp7_payroll_read,cp7_nota_write,cp7_payroll_header,cp7_payroll_write;",patch,date_guard))
 
 def bundle():return read.bundle()+'\n'+extension()
-RULES={**read.RULES,'settlement_access':('cp7_payroll_read',True,'s'),'require_settlement_context':('postgres',True,'s'),'settlement_meaning':('postgres',True,'s'),'apply_settlement':('postgres',True,'v'),'settlement_command':('cp7_payroll_write',False,'v'),'rebuild_nonwork':('postgres',True,'v')}
+RULES={**read.RULES,'settlement_access':('cp7_payroll_read',True,'s'),'require_settlement_context':('postgres',True,'s'),'settlement_meaning':('postgres',True,'s'),'apply_settlement':('postgres',True,'v'),'settlement_command':('cp7_payroll_write',False,'v'),'rebuild_nonwork':('postgres',True,'v'),'payment_floor':('postgres',True,'s'),'assert_payment_date':('postgres',True,'s'),'guard_paid_date':('postgres',True,'v')}

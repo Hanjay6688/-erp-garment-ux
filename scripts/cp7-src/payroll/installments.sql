@@ -294,6 +294,8 @@ begin
   amount:=(p->>'amount')::numeric;
   begin pay_date:=(p->>'payment_date')::date;exception when datetime_field_overflow or invalid_datetime_format then raise exception 'CP7_INSTALLMENT_PAYMENT_DATE';end;
   if pay_date::text is distinct from p->>'payment_date'or pay_date>(statement_timestamp()at time zone 'Asia/Jakarta')::date then raise exception 'CP7_INSTALLMENT_PAYMENT_DATE';end if;
+  -- FIN01/D14-2: no installment may be dated before the payroll's latest payable source.
+  perform cp7_payroll.assert_payment_date(ident,pay_date);
   if not(d->>'managed')::boolean then
    insert into cp7_installment.accounts(payroll_id,approved_meaning,approved_net,payable_account_id,created_by)
     values(ident,cp7_installment.meaning(ident),h.net_payable,erp.account_id('CONTRACTOR_PAYABLE'),auth.uid());
