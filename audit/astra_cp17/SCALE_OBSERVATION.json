@@ -1,0 +1,3999 @@
+{
+  "run_id": 38558465155,
+  "job_id": 115833361095,
+  "artifact_id": 11895379201,
+  "artifact_sha256": "378cde2b3367d352fe52da1faab6a92c4c008fca37db4b566c79e8bb4d7fe23e",
+  "expected_case_count": 5,
+  "case_statuses": {
+    "P19S_NATIVE_ROLLED_BACK_100_GRID_CAP": "PASS",
+    "P19S_BROWSER_DESKTOP_100": "PASS",
+    "P19S_BROWSER_DESKTOP_300": "PASS",
+    "P19S_BROWSER_DESKTOP_1000": "PASS",
+    "P19S_BROWSER_DESKTOP_5000": "PASS"
+  },
+  "click_measurement_count": 48,
+  "browser_verdict_counts": {
+    "COMPLETE_RESULT": 25,
+    "HONEST_CAP_REFUSAL": 23
+  },
+  "staged_vectors": [
+    {
+      "size": 100,
+      "history_days": 1,
+      "fresh_ms": 2253.899999999965,
+      "ack_ms": 5.7999999999883585,
+      "progress_ms": 123.20000000001164,
+      "completed_open_ms": 549.5,
+      "page_count": 1,
+      "page_load_min_ms": null,
+      "page_load_max_ms": null
+    },
+    {
+      "size": 100,
+      "history_days": 30,
+      "fresh_ms": 2386.70000000007,
+      "ack_ms": 10,
+      "progress_ms": 117.90000000002328,
+      "completed_open_ms": 547.9000000000233,
+      "page_count": 1,
+      "page_load_min_ms": null,
+      "page_load_max_ms": null
+    },
+    {
+      "size": 100,
+      "history_days": 100,
+      "fresh_ms": 2687.3000000000466,
+      "ack_ms": 7.200000000069849,
+      "progress_ms": 105.40000000002328,
+      "completed_open_ms": 521.6999999999534,
+      "page_count": 1,
+      "page_load_min_ms": null,
+      "page_load_max_ms": null
+    },
+    {
+      "size": 300,
+      "history_days": 1,
+      "fresh_ms": 5611,
+      "ack_ms": 6.099999999976717,
+      "progress_ms": 221.40000000002328,
+      "completed_open_ms": 893.7000000000698,
+      "page_count": 2,
+      "page_load_min_ms": 460.4000000000233,
+      "page_load_max_ms": 460.4000000000233
+    },
+    {
+      "size": 300,
+      "history_days": 30,
+      "fresh_ms": 5957.20000000007,
+      "ack_ms": 5.099999999976717,
+      "progress_ms": 194.30000000004657,
+      "completed_open_ms": 922.2000000000698,
+      "page_count": 2,
+      "page_load_min_ms": 445.69999999995343,
+      "page_load_max_ms": 445.69999999995343
+    },
+    {
+      "size": 300,
+      "history_days": 100,
+      "fresh_ms": 6837.399999999907,
+      "ack_ms": 5,
+      "progress_ms": 193.89999999990687,
+      "completed_open_ms": 859.4000000000233,
+      "page_count": 2,
+      "page_load_min_ms": 474.70000000006985,
+      "page_load_max_ms": 474.70000000006985
+    },
+    {
+      "size": 1000,
+      "history_days": 1,
+      "fresh_ms": 16123,
+      "ack_ms": 6.100000000093132,
+      "progress_ms": 530.8000000000466,
+      "completed_open_ms": 1002.6999999999534,
+      "page_count": 6,
+      "page_load_min_ms": 174.80000000004657,
+      "page_load_max_ms": 757.6999999999534
+    },
+    {
+      "size": 1000,
+      "history_days": 30,
+      "fresh_ms": 17263.899999999907,
+      "ack_ms": 7.699999999953434,
+      "progress_ms": 523.7999999998137,
+      "completed_open_ms": 965.1999999999534,
+      "page_count": 6,
+      "page_load_min_ms": 183.69999999995343,
+      "page_load_max_ms": 801.1999999999534
+    },
+    {
+      "size": 1000,
+      "history_days": 100,
+      "fresh_ms": 20102.5,
+      "ack_ms": 5.2000000001862645,
+      "progress_ms": 497.20000000018626,
+      "completed_open_ms": 1026.1000000000931,
+      "page_count": 6,
+      "page_load_min_ms": 168,
+      "page_load_max_ms": 768.3999999999069
+    },
+    {
+      "size": 5000,
+      "history_days": 1,
+      "fresh_ms": 84955.3999999999,
+      "ack_ms": 5.5,
+      "progress_ms": 3260,
+      "completed_open_ms": 1298.8999999999069,
+      "page_count": 26,
+      "page_load_min_ms": 585.5,
+      "page_load_max_ms": 795.2999999998137
+    },
+    {
+      "size": 5000,
+      "history_days": 30,
+      "fresh_ms": 90481.8999999999,
+      "ack_ms": 5.899999999906868,
+      "progress_ms": 2848.7999999998137,
+      "completed_open_ms": 1057.1999999997206,
+      "page_count": 26,
+      "page_load_min_ms": 588.1000000000931,
+      "page_load_max_ms": 751.3000000002794
+    },
+    {
+      "size": 5000,
+      "history_days": 100,
+      "fresh_ms": 104767.20000000019,
+      "ack_ms": 5.399999999906868,
+      "progress_ms": 3241.600000000093,
+      "completed_open_ms": 1242.7999999998137,
+      "page_count": 26,
+      "page_load_min_ms": 588.5,
+      "page_load_max_ms": 749.6000000000931
+    }
+  ],
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "owner_latency_acceptance": false,
+  "factory_capacity_or_SLA": false,
+  "production_go": false,
+  "measurements": [
+    {
+      "case": "P19S_BROWSER_DESKTOP_100",
+      "size": 100,
+      "history_days": 1,
+      "control": "CAPTURE",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 5.7999999999883585,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 1705.5,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 5.7999999999883585,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 1705.5,
+          "meets_limit": true
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": "873ba8eb25030c8144a620ec0a51bd3597b0c0aed13e8905e355ad8bcf899b22",
+      "original_utf8_bytes": 4164978,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 4165007,
+      "witness": "P19S_BROWSER_100_1_CAPTURE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_100",
+      "size": 100,
+      "history_days": 1,
+      "control": "BACKGROUND",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 10.400000000023283,
+      "click_to_computing_since_ms": 40.79999999998836,
+      "click_to_segment_progress_ms": 1542.2000000000116,
+      "click_to_complete_ms": 1921.2999999999884,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 10.400000000023283,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 1921.2999999999884,
+          "meets_limit": true
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_BACKGROUND_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": "5da6239b6bfc2b42552a1411b673dc7c17477660e35cb50c8f000b730dedd137",
+      "original_utf8_bytes": 4164978,
+      "segments_read": 3,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 4683304,
+      "witness": "P19S_BROWSER_100_1_BACKGROUND.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_100",
+      "size": 100,
+      "history_days": 1,
+      "control": "CAPTURE_WITH_FINANCE",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 7.2000000000116415,
+      "click_to_computing_since_ms": 3002.7000000000116,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 8028.900000000023,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 7.2000000000116415,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8028.900000000023,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_capture_analysis_v1",
+        "code": "57014",
+        "cap": "STATEMENT_TIMEOUT_8S",
+        "time_to_refusal_rendered_ms": 8028.900000000023,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_capture_analysis_v1",
+        "http_status": 500,
+        "code": "57014",
+        "sqlstate": "57014",
+        "message": "canceling statement due to statement timeout",
+        "job_state": null,
+        "job_failure": null,
+        "stored_job": null,
+        "cap": "STATEMENT_TIMEOUT_8S"
+      },
+      "refusal_code": "57014",
+      "refusal_sqlstate": "57014",
+      "refused_by_rpc": "erp_cp7_capture_analysis_v1",
+      "refusal_http_status": 500,
+      "cap": "STATEMENT_TIMEOUT_8S",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 100,
+      "witness": "P19S_BROWSER_100_1_CAPTURE_WITH_FINANCE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_100",
+      "size": 100,
+      "history_days": 1,
+      "control": "STAGED",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 5.7999999999883585,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 2253.899999999965,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 5.7999999999883585,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 2253.899999999965,
+          "meets_limit": true
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_STAGED_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": {
+        "steps": 21,
+        "pages_read": 1,
+        "targets_total": 100,
+        "page_count": 1,
+        "identity_hash": "600293528fa77a93ee85f7274aed40674507beed00b2fb8c1dbcfe3c5aefd77a",
+        "reassembled_analysis_sha256": "81a186dbce1347baab7f9ffc9bd692a58f9a8fcd970afead639f24976d46fc46",
+        "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_100_1_STAGED.json",
+        "job_state": "DONE",
+        "unit_count": 21,
+        "units_done": 21,
+        "click_to_staged_progress_ms": 123.20000000001164
+      },
+      "page_loads": [],
+      "completed_open": {
+        "t0": 811.2000000000116,
+        "trusted_click": true,
+        "elapsed_ms": 549.5,
+        "run_id": "db41190b-e3de-4a24-a577-6e4f8ee26ba2",
+        "target_ms": 3000,
+        "within_target": true
+      },
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 4700457,
+      "witness": "P19S_BROWSER_100_1_STAGED.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_100",
+      "size": 100,
+      "history_days": 30,
+      "control": "CAPTURE",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 6,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 1785.7999999999884,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 6,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 1785.7999999999884,
+          "meets_limit": true
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": "cb3836d14669cff1120a915b4adda885cdd75260fb3fe1e746e4d03559684240",
+      "original_utf8_bytes": 4165078,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 4165107,
+      "witness": "P19S_BROWSER_100_30_CAPTURE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_100",
+      "size": 100,
+      "history_days": 30,
+      "control": "BACKGROUND",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 11.799999999988358,
+      "click_to_computing_since_ms": 43.100000000034925,
+      "click_to_segment_progress_ms": 1614.2000000000116,
+      "click_to_complete_ms": 2036.2000000000116,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 11.799999999988358,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 2036.2000000000116,
+          "meets_limit": true
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_BACKGROUND_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": "76f79a2667b5fba058bbcb3a8a95d949e845472aebcecd1e3b0320a21f461688",
+      "original_utf8_bytes": 4165078,
+      "segments_read": 3,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 4683404,
+      "witness": "P19S_BROWSER_100_30_BACKGROUND.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_100",
+      "size": 100,
+      "history_days": 30,
+      "control": "CAPTURE_WITH_FINANCE",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 7.699999999953434,
+      "click_to_computing_since_ms": 3003,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 8029.599999999977,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 7.699999999953434,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8029.599999999977,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_capture_analysis_v1",
+        "code": "57014",
+        "cap": "STATEMENT_TIMEOUT_8S",
+        "time_to_refusal_rendered_ms": 8029.599999999977,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_capture_analysis_v1",
+        "http_status": 500,
+        "code": "57014",
+        "sqlstate": "57014",
+        "message": "canceling statement due to statement timeout",
+        "job_state": null,
+        "job_failure": null,
+        "stored_job": null,
+        "cap": "STATEMENT_TIMEOUT_8S"
+      },
+      "refusal_code": "57014",
+      "refusal_sqlstate": "57014",
+      "refused_by_rpc": "erp_cp7_capture_analysis_v1",
+      "refusal_http_status": 500,
+      "cap": "STATEMENT_TIMEOUT_8S",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 100,
+      "witness": "P19S_BROWSER_100_30_CAPTURE_WITH_FINANCE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_100",
+      "size": 100,
+      "history_days": 30,
+      "control": "STAGED",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 10,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 2386.70000000007,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 10,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 2386.70000000007,
+          "meets_limit": true
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_STAGED_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": {
+        "steps": 21,
+        "pages_read": 1,
+        "targets_total": 100,
+        "page_count": 1,
+        "identity_hash": "8edee7229b1daedef7357badd23a863d91416091ee0978a01f8d25a637e2e9e2",
+        "reassembled_analysis_sha256": "63a8cd834965f4d4674f5b37fc5de05ad7b94b79eb875c05bc272d089dfc0050",
+        "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_100_30_STAGED.json",
+        "job_state": "DONE",
+        "unit_count": 21,
+        "units_done": 21,
+        "click_to_staged_progress_ms": 117.90000000002328
+      },
+      "page_loads": [],
+      "completed_open": {
+        "t0": 902,
+        "trusted_click": true,
+        "elapsed_ms": 547.9000000000233,
+        "run_id": "3fe093bb-260b-47e9-8811-b8e710b2b8c6",
+        "target_ms": 3000,
+        "within_target": true
+      },
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 4700561,
+      "witness": "P19S_BROWSER_100_30_STAGED.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_100",
+      "size": 100,
+      "history_days": 100,
+      "control": "CAPTURE",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 8.300000000046566,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 2215.0999999999767,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 8.300000000046566,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 2215.0999999999767,
+          "meets_limit": true
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": "d6688d9d90c0534da10f75cdf3b840e1ddb76e5344d515f59ed809fae3be10b5",
+      "original_utf8_bytes": 4165178,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 4165207,
+      "witness": "P19S_BROWSER_100_100_CAPTURE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_100",
+      "size": 100,
+      "history_days": 100,
+      "control": "BACKGROUND",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 8.900000000023283,
+      "click_to_computing_since_ms": 37.20000000006985,
+      "click_to_segment_progress_ms": 2015.5,
+      "click_to_complete_ms": 2413.3000000000466,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 8.900000000023283,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 2413.3000000000466,
+          "meets_limit": true
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_BACKGROUND_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": "1258cab921c7d3286e41eb47e4abb0adec656e11b14f45bbe9e0556cfcf7947e",
+      "original_utf8_bytes": 4165178,
+      "segments_read": 3,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 4683504,
+      "witness": "P19S_BROWSER_100_100_BACKGROUND.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_100",
+      "size": 100,
+      "history_days": 100,
+      "control": "CAPTURE_WITH_FINANCE",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 9.300000000046566,
+      "click_to_computing_since_ms": 3003.3000000000466,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 7354.599999999977,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 9.300000000046566,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 7354.599999999977,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": "455e88a492fd5851eaf37dc9672a878eb58868f40eeca507ff48eee5b94972c7",
+      "original_utf8_bytes": 4204723,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 4204752,
+      "witness": "P19S_BROWSER_100_100_CAPTURE_WITH_FINANCE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_100",
+      "size": 100,
+      "history_days": 100,
+      "control": "STAGED",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 7.200000000069849,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 2687.3000000000466,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 7.200000000069849,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 2687.3000000000466,
+          "meets_limit": true
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_STAGED_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": {
+        "steps": 21,
+        "pages_read": 1,
+        "targets_total": 100,
+        "page_count": 1,
+        "identity_hash": "cea5e87829dee83b0241c9d9ae4ef30d7a8f90c824c1ba1ea8596cc7e977dd3d",
+        "reassembled_analysis_sha256": "bc8c7d0794661d225cfc6796e7f2a5bb8a69a29f8e29e0ee61fe94bb64c2a992",
+        "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_100_100_STAGED.json",
+        "job_state": "DONE",
+        "unit_count": 21,
+        "units_done": 21,
+        "click_to_staged_progress_ms": 105.40000000002328
+      },
+      "page_loads": [],
+      "completed_open": {
+        "t0": 928.1000000000931,
+        "trusted_click": true,
+        "elapsed_ms": 521.6999999999534,
+        "run_id": "d7f26ba0-9b24-4a0b-ae65-5171602f1fbc",
+        "target_ms": 3000,
+        "within_target": true
+      },
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 4700659,
+      "witness": "P19S_BROWSER_100_100_STAGED.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_300",
+      "size": 300,
+      "history_days": 1,
+      "control": "CAPTURE",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 6.899999999906868,
+      "click_to_computing_since_ms": 3016,
+      "click_to_segment_progress_ms": 5174.599999999977,
+      "click_to_complete_ms": 6355.29999999993,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 6.899999999906868,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 6355.29999999993,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": "462ec1d97908b4baccd1b5b4ec6844f6cafb37918154d05db30a1478c857aa52",
+      "original_utf8_bytes": 12470380,
+      "segments_read": 7,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 26489370,
+      "witness": "P19S_BROWSER_300_1_CAPTURE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_300",
+      "size": 300,
+      "history_days": 1,
+      "control": "BACKGROUND",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 5.700000000069849,
+      "click_to_computing_since_ms": 49.60000000009313,
+      "click_to_segment_progress_ms": 3965.20000000007,
+      "click_to_complete_ms": 5252.300000000047,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 5.700000000069849,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 5252.300000000047,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_BACKGROUND_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": "6459429850236181be06ed493fb4fa7e09375ad6c57599dd37aa106b284f5191",
+      "original_utf8_bytes": 12470380,
+      "segments_read": 7,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 14019387,
+      "witness": "P19S_BROWSER_300_1_BACKGROUND.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_300",
+      "size": 300,
+      "history_days": 1,
+      "control": "CAPTURE_WITH_FINANCE",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 6.700000000069849,
+      "click_to_computing_since_ms": 3010.5999999999767,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 8042.800000000047,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 6.700000000069849,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8042.800000000047,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_capture_analysis_v1",
+        "code": "57014",
+        "cap": "STATEMENT_TIMEOUT_8S",
+        "time_to_refusal_rendered_ms": 8042.800000000047,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_capture_analysis_v1",
+        "http_status": 500,
+        "code": "57014",
+        "sqlstate": "57014",
+        "message": "canceling statement due to statement timeout",
+        "job_state": null,
+        "job_failure": null,
+        "stored_job": null,
+        "cap": "STATEMENT_TIMEOUT_8S"
+      },
+      "refusal_code": "57014",
+      "refusal_sqlstate": "57014",
+      "refused_by_rpc": "erp_cp7_capture_analysis_v1",
+      "refusal_http_status": 500,
+      "cap": "STATEMENT_TIMEOUT_8S",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 100,
+      "witness": "P19S_BROWSER_300_1_CAPTURE_WITH_FINANCE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_300",
+      "size": 300,
+      "history_days": 1,
+      "control": "STAGED",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 6.099999999976717,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 5611,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 6.099999999976717,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 5611,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_STAGED_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": {
+        "steps": 26,
+        "pages_read": 2,
+        "targets_total": 300,
+        "page_count": 2,
+        "identity_hash": "958cba2190ce060bacc02d8d4bf8d2134eba06afde9822777b86e0783e7a212b",
+        "reassembled_analysis_sha256": "4239ef02c1af6faa442bc39dbf8fa404667f646bbbcc9824339bf27944fca14d",
+        "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_300_1_STAGED.json",
+        "job_state": "DONE",
+        "unit_count": 26,
+        "units_done": 26,
+        "click_to_staged_progress_ms": 221.40000000002328
+      },
+      "page_loads": [
+        {
+          "index": 1,
+          "t0": 7135.5,
+          "trusted_click": true,
+          "elapsed_ms": 460.4000000000233,
+          "target_ms": 3000,
+          "within_target": true
+        }
+      ],
+      "completed_open": {
+        "t0": 784.5999999999767,
+        "trusted_click": true,
+        "elapsed_ms": 893.7000000000698,
+        "run_id": "0722f523-2b15-4c01-9fa1-61cf1843683b",
+        "target_ms": 3000,
+        "within_target": true
+      },
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 14040674,
+      "witness": "P19S_BROWSER_300_1_STAGED.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_300",
+      "size": 300,
+      "history_days": 30,
+      "control": "CAPTURE",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 6,
+      "click_to_computing_since_ms": 3010.1999999999534,
+      "click_to_segment_progress_ms": 5570.400000000023,
+      "click_to_complete_ms": 6761.29999999993,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 6,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 6761.29999999993,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": "496bda42b7a32ff54d23ea6c9d54a20208ffcada1bd00012c3adbe513b4686d7",
+      "original_utf8_bytes": 12470680,
+      "segments_read": 7,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 26489970,
+      "witness": "P19S_BROWSER_300_30_CAPTURE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_300",
+      "size": 300,
+      "history_days": 30,
+      "control": "BACKGROUND",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 4.300000000046566,
+      "click_to_computing_since_ms": 49.40000000002328,
+      "click_to_segment_progress_ms": 4511.699999999953,
+      "click_to_complete_ms": 5730.300000000047,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 4.300000000046566,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 5730.300000000047,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_BACKGROUND_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": "11d64f246b6cefda0efacf5330bc9dca7766182569bebba503fd50891c0639f3",
+      "original_utf8_bytes": 12470680,
+      "segments_read": 7,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 14019687,
+      "witness": "P19S_BROWSER_300_30_BACKGROUND.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_300",
+      "size": 300,
+      "history_days": 30,
+      "control": "CAPTURE_WITH_FINANCE",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 4.200000000069849,
+      "click_to_computing_since_ms": 3009.9000000000233,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 8036.400000000023,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 4.200000000069849,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8036.400000000023,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_capture_analysis_v1",
+        "code": "57014",
+        "cap": "STATEMENT_TIMEOUT_8S",
+        "time_to_refusal_rendered_ms": 8036.400000000023,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_capture_analysis_v1",
+        "http_status": 500,
+        "code": "57014",
+        "sqlstate": "57014",
+        "message": "canceling statement due to statement timeout",
+        "job_state": null,
+        "job_failure": null,
+        "stored_job": null,
+        "cap": "STATEMENT_TIMEOUT_8S"
+      },
+      "refusal_code": "57014",
+      "refusal_sqlstate": "57014",
+      "refused_by_rpc": "erp_cp7_capture_analysis_v1",
+      "refusal_http_status": 500,
+      "cap": "STATEMENT_TIMEOUT_8S",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 100,
+      "witness": "P19S_BROWSER_300_30_CAPTURE_WITH_FINANCE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_300",
+      "size": 300,
+      "history_days": 30,
+      "control": "STAGED",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 5.099999999976717,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 5957.20000000007,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 5.099999999976717,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 5957.20000000007,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_STAGED_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": {
+        "steps": 26,
+        "pages_read": 2,
+        "targets_total": 300,
+        "page_count": 2,
+        "identity_hash": "5789717a1bd92c66e8c17b15139ba4380c2baf497c875ccc4a2586c5104f078d",
+        "reassembled_analysis_sha256": "ef3723fbb8cf67f5ae690a039efc8ee2f3b6134ca128ad728e67d142b842d9b5",
+        "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_300_30_STAGED.json",
+        "job_state": "DONE",
+        "unit_count": 26,
+        "units_done": 26,
+        "click_to_staged_progress_ms": 194.30000000004657
+      },
+      "page_loads": [
+        {
+          "index": 1,
+          "t0": 7473.800000000047,
+          "trusted_click": true,
+          "elapsed_ms": 445.69999999995343,
+          "target_ms": 3000,
+          "within_target": true
+        }
+      ],
+      "completed_open": {
+        "t0": 900.3999999999069,
+        "trusted_click": true,
+        "elapsed_ms": 922.2000000000698,
+        "run_id": "cb13de3a-a683-442d-a4a8-3d7e42ac5dd0",
+        "target_ms": 3000,
+        "within_target": true
+      },
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 14040973,
+      "witness": "P19S_BROWSER_300_30_STAGED.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_300",
+      "size": 300,
+      "history_days": 100,
+      "control": "CAPTURE",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 6.200000000069849,
+      "click_to_computing_since_ms": 3016.5,
+      "click_to_segment_progress_ms": 6969.70000000007,
+      "click_to_complete_ms": 8194.70000000007,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 6.200000000069849,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8194.70000000007,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": "6088f4b50eeff991b3649d95b6e92d54f235adc3679562e9dcb32dee4a32ab42",
+      "original_utf8_bytes": 12470980,
+      "segments_read": 7,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 26490570,
+      "witness": "P19S_BROWSER_300_100_CAPTURE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_300",
+      "size": 300,
+      "history_days": 100,
+      "control": "BACKGROUND",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 5.600000000093132,
+      "click_to_computing_since_ms": 69.60000000009313,
+      "click_to_segment_progress_ms": 5976.400000000023,
+      "click_to_complete_ms": 7240.400000000023,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 5.600000000093132,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 7240.400000000023,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_BACKGROUND_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": "8807ead393a8b746354e2f4ef61d79b23d66741fa1d0d688ccaed46e36a6e394",
+      "original_utf8_bytes": 12470980,
+      "segments_read": 7,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 14019987,
+      "witness": "P19S_BROWSER_300_100_BACKGROUND.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_300",
+      "size": 300,
+      "history_days": 100,
+      "control": "CAPTURE_WITH_FINANCE",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 4.300000000046566,
+      "click_to_computing_since_ms": 3010,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 8063.600000000093,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 4.300000000046566,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8063.600000000093,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_capture_analysis_v1",
+        "code": "57014",
+        "cap": "STATEMENT_TIMEOUT_8S",
+        "time_to_refusal_rendered_ms": 8063.600000000093,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_capture_analysis_v1",
+        "http_status": 500,
+        "code": "57014",
+        "sqlstate": "57014",
+        "message": "canceling statement due to statement timeout",
+        "job_state": null,
+        "job_failure": null,
+        "stored_job": null,
+        "cap": "STATEMENT_TIMEOUT_8S"
+      },
+      "refusal_code": "57014",
+      "refusal_sqlstate": "57014",
+      "refused_by_rpc": "erp_cp7_capture_analysis_v1",
+      "refusal_http_status": 500,
+      "cap": "STATEMENT_TIMEOUT_8S",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 100,
+      "witness": "P19S_BROWSER_300_100_CAPTURE_WITH_FINANCE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_300",
+      "size": 300,
+      "history_days": 100,
+      "control": "STAGED",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 5,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 6837.399999999907,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 5,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 6837.399999999907,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_STAGED_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": {
+        "steps": 28,
+        "pages_read": 2,
+        "targets_total": 300,
+        "page_count": 2,
+        "identity_hash": "208a4c45bb3b4645d8a2e7ade77f8f9835b301c787804ba45b5bf9d273ba44d2",
+        "reassembled_analysis_sha256": "29f41aa568a7b3ad1ce11e263109209440dd8d204b9a4139e1d1e797da8e48d7",
+        "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_300_100_STAGED.json",
+        "job_state": "DONE",
+        "unit_count": 28,
+        "units_done": 28,
+        "click_to_staged_progress_ms": 193.89999999990687
+      },
+      "page_loads": [
+        {
+          "index": 1,
+          "t0": 8369.199999999953,
+          "trusted_click": true,
+          "elapsed_ms": 474.70000000006985,
+          "target_ms": 3000,
+          "within_target": true
+        }
+      ],
+      "completed_open": {
+        "t0": 764.5,
+        "trusted_click": true,
+        "elapsed_ms": 859.4000000000233,
+        "run_id": "d57d4a18-b162-416b-967b-12ecd1bf24d3",
+        "target_ms": 3000,
+        "within_target": true
+      },
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 14042740,
+      "witness": "P19S_BROWSER_300_100_STAGED.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_1000",
+      "size": 1000,
+      "history_days": 1,
+      "control": "CAPTURE",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 5,
+      "click_to_computing_since_ms": 3010.1999999999534,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 8045.199999999953,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 5,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8045.199999999953,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_capture_operational_analysis_v1",
+        "code": "57014",
+        "cap": "STATEMENT_TIMEOUT_8S",
+        "time_to_refusal_rendered_ms": 8045.199999999953,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_capture_operational_analysis_v1",
+        "http_status": 500,
+        "code": "57014",
+        "sqlstate": "57014",
+        "message": "canceling statement due to statement timeout",
+        "job_state": null,
+        "job_failure": null,
+        "stored_job": null,
+        "cap": "STATEMENT_TIMEOUT_8S"
+      },
+      "refusal_code": "57014",
+      "refusal_sqlstate": "57014",
+      "refused_by_rpc": "erp_cp7_capture_operational_analysis_v1",
+      "refusal_http_status": 500,
+      "cap": "STATEMENT_TIMEOUT_8S",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 100,
+      "witness": "P19S_BROWSER_1000_1_CAPTURE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_1000",
+      "size": 1000,
+      "history_days": 1,
+      "control": "BACKGROUND",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 5.800000000046566,
+      "click_to_computing_since_ms": 60,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 8070,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 5.800000000046566,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8070,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_BACKGROUND_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_run_analysis_job_v1",
+        "code": "CP7_ANALYSIS_JOB_STOPPED",
+        "cap": "STATEMENT_TIMEOUT_8S",
+        "time_to_refusal_rendered_ms": 8070,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_run_analysis_job_v1",
+        "http_status": 200,
+        "code": "CP7_ANALYSIS_JOB_STOPPED",
+        "sqlstate": "57014",
+        "job_state": "FAILED",
+        "job_failure": {
+          "code": "CP7_ANALYSIS_JOB_STOPPED",
+          "sqlstate": "57014"
+        },
+        "stored_job": {
+          "request_id": "73e1f6cb-e115-4fbc-8bb4-4321f8608976",
+          "state": "FAILED",
+          "attempts": 1,
+          "failure_sqlstate": "57014",
+          "failure_code": "CP7_ANALYSIS_JOB_STOPPED",
+          "run_id": null
+        },
+        "cap": "STATEMENT_TIMEOUT_8S"
+      },
+      "refusal_code": "CP7_ANALYSIS_JOB_STOPPED",
+      "refusal_sqlstate": "57014",
+      "refused_by_rpc": "erp_cp7_run_analysis_job_v1",
+      "refusal_http_status": 200,
+      "cap": "STATEMENT_TIMEOUT_8S",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 929,
+      "witness": "P19S_BROWSER_1000_1_BACKGROUND.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_1000",
+      "size": 1000,
+      "history_days": 1,
+      "control": "CAPTURE_WITH_FINANCE",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 5.5,
+      "click_to_computing_since_ms": 3016.6999999999534,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 8042.199999999953,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 5.5,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8042.199999999953,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_capture_analysis_v1",
+        "code": "57014",
+        "cap": "STATEMENT_TIMEOUT_8S",
+        "time_to_refusal_rendered_ms": 8042.199999999953,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_capture_analysis_v1",
+        "http_status": 500,
+        "code": "57014",
+        "sqlstate": "57014",
+        "message": "canceling statement due to statement timeout",
+        "job_state": null,
+        "job_failure": null,
+        "stored_job": null,
+        "cap": "STATEMENT_TIMEOUT_8S"
+      },
+      "refusal_code": "57014",
+      "refusal_sqlstate": "57014",
+      "refused_by_rpc": "erp_cp7_capture_analysis_v1",
+      "refusal_http_status": 500,
+      "cap": "STATEMENT_TIMEOUT_8S",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 100,
+      "witness": "P19S_BROWSER_1000_1_CAPTURE_WITH_FINANCE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_1000",
+      "size": 1000,
+      "history_days": 1,
+      "control": "STAGED",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 6.100000000093132,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 16123,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 6.100000000093132,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 16123,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_STAGED_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": {
+        "steps": 38,
+        "pages_read": 6,
+        "targets_total": 1000,
+        "page_count": 6,
+        "identity_hash": "3a6f9eaf919b790a11b345eec187c832f66277c90bec5d38db850efcfb8c2607",
+        "reassembled_analysis_sha256": "ed76b4ee0ab6b950ae009b810eac0c918b52f49434a649c6f9fcccc1736c0795",
+        "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_1000_1_STAGED.json",
+        "job_state": "DONE",
+        "unit_count": 38,
+        "units_done": 38,
+        "click_to_staged_progress_ms": 530.8000000000466
+      },
+      "page_loads": [
+        {
+          "index": 1,
+          "t0": 17619.600000000093,
+          "trusted_click": true,
+          "elapsed_ms": 757.6999999999534,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 2,
+          "t0": 18585.600000000093,
+          "trusted_click": true,
+          "elapsed_ms": 740,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 3,
+          "t0": 19502.399999999907,
+          "trusted_click": true,
+          "elapsed_ms": 693.9000000001397,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 4,
+          "t0": 20368.399999999907,
+          "trusted_click": true,
+          "elapsed_ms": 718.9000000001397,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 5,
+          "t0": 21252,
+          "trusted_click": true,
+          "elapsed_ms": 174.80000000004657,
+          "target_ms": 3000,
+          "within_target": true
+        }
+      ],
+      "completed_open": {
+        "t0": 873.5,
+        "trusted_click": true,
+        "elapsed_ms": 1002.6999999999534,
+        "run_id": "73482105-7587-4fa6-9b66-88322f87de5e",
+        "target_ms": 3000,
+        "within_target": true
+      },
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 46728415,
+      "witness": "P19S_BROWSER_1000_1_STAGED.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_1000",
+      "size": 1000,
+      "history_days": 30,
+      "control": "CAPTURE",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 11.800000000046566,
+      "click_to_computing_since_ms": 3021.7000000001863,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 8094.700000000186,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 11.800000000046566,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8094.700000000186,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_capture_operational_analysis_v1",
+        "code": "57014",
+        "cap": "STATEMENT_TIMEOUT_8S",
+        "time_to_refusal_rendered_ms": 8094.700000000186,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_capture_operational_analysis_v1",
+        "http_status": 500,
+        "code": "57014",
+        "sqlstate": "57014",
+        "message": "canceling statement due to statement timeout",
+        "job_state": null,
+        "job_failure": null,
+        "stored_job": null,
+        "cap": "STATEMENT_TIMEOUT_8S"
+      },
+      "refusal_code": "57014",
+      "refusal_sqlstate": "57014",
+      "refused_by_rpc": "erp_cp7_capture_operational_analysis_v1",
+      "refusal_http_status": 500,
+      "cap": "STATEMENT_TIMEOUT_8S",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 100,
+      "witness": "P19S_BROWSER_1000_30_CAPTURE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_1000",
+      "size": 1000,
+      "history_days": 30,
+      "control": "BACKGROUND",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 5.399999999906868,
+      "click_to_computing_since_ms": 57.5999999998603,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 8076.800000000047,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 5.399999999906868,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8076.800000000047,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_BACKGROUND_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_run_analysis_job_v1",
+        "code": "CP7_ANALYSIS_JOB_STOPPED",
+        "cap": "STATEMENT_TIMEOUT_8S",
+        "time_to_refusal_rendered_ms": 8076.800000000047,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_run_analysis_job_v1",
+        "http_status": 200,
+        "code": "CP7_ANALYSIS_JOB_STOPPED",
+        "sqlstate": "57014",
+        "job_state": "FAILED",
+        "job_failure": {
+          "code": "CP7_ANALYSIS_JOB_STOPPED",
+          "sqlstate": "57014"
+        },
+        "stored_job": {
+          "request_id": "c81bed93-8a45-473d-9527-d670063fe0d9",
+          "state": "FAILED",
+          "attempts": 1,
+          "failure_sqlstate": "57014",
+          "failure_code": "CP7_ANALYSIS_JOB_STOPPED",
+          "run_id": null
+        },
+        "cap": "STATEMENT_TIMEOUT_8S"
+      },
+      "refusal_code": "CP7_ANALYSIS_JOB_STOPPED",
+      "refusal_sqlstate": "57014",
+      "refused_by_rpc": "erp_cp7_run_analysis_job_v1",
+      "refusal_http_status": 200,
+      "cap": "STATEMENT_TIMEOUT_8S",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 929,
+      "witness": "P19S_BROWSER_1000_30_BACKGROUND.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_1000",
+      "size": 1000,
+      "history_days": 30,
+      "control": "CAPTURE_WITH_FINANCE",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 4,
+      "click_to_computing_since_ms": 3015,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 8034.800000000047,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 4,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8034.800000000047,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_capture_analysis_v1",
+        "code": "57014",
+        "cap": "STATEMENT_TIMEOUT_8S",
+        "time_to_refusal_rendered_ms": 8034.800000000047,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_capture_analysis_v1",
+        "http_status": 500,
+        "code": "57014",
+        "sqlstate": "57014",
+        "message": "canceling statement due to statement timeout",
+        "job_state": null,
+        "job_failure": null,
+        "stored_job": null,
+        "cap": "STATEMENT_TIMEOUT_8S"
+      },
+      "refusal_code": "57014",
+      "refusal_sqlstate": "57014",
+      "refused_by_rpc": "erp_cp7_capture_analysis_v1",
+      "refusal_http_status": 500,
+      "cap": "STATEMENT_TIMEOUT_8S",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 100,
+      "witness": "P19S_BROWSER_1000_30_CAPTURE_WITH_FINANCE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_1000",
+      "size": 1000,
+      "history_days": 30,
+      "control": "STAGED",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 7.699999999953434,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 17263.899999999907,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 7.699999999953434,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 17263.899999999907,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_STAGED_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": {
+        "steps": 40,
+        "pages_read": 6,
+        "targets_total": 1000,
+        "page_count": 6,
+        "identity_hash": "eaf9cad1e464a1310154a3d9a5d00f3df10d239ba615b013de968607844eab1a",
+        "reassembled_analysis_sha256": "fbf17a153ad437d9cd698999e3f4a2c70b0f6a6d5f26aa8a081ed6648db544a5",
+        "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_1000_30_STAGED.json",
+        "job_state": "DONE",
+        "unit_count": 40,
+        "units_done": 40,
+        "click_to_staged_progress_ms": 523.7999999998137
+      },
+      "page_loads": [
+        {
+          "index": 1,
+          "t0": 18714.5,
+          "trusted_click": true,
+          "elapsed_ms": 801.1999999999534,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 2,
+          "t0": 19714.300000000047,
+          "trusted_click": true,
+          "elapsed_ms": 746.3999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 3,
+          "t0": 20647.399999999907,
+          "trusted_click": true,
+          "elapsed_ms": 666,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 4,
+          "t0": 21480,
+          "trusted_click": true,
+          "elapsed_ms": 675.0999999998603,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 5,
+          "t0": 22330.300000000047,
+          "trusted_click": true,
+          "elapsed_ms": 183.69999999995343,
+          "target_ms": 3000,
+          "within_target": true
+        }
+      ],
+      "completed_open": {
+        "t0": 851.0999999998603,
+        "trusted_click": true,
+        "elapsed_ms": 965.1999999999534,
+        "run_id": "e4d73bd7-f0d5-4d1b-bff7-271a26ca4743",
+        "target_ms": 3000,
+        "within_target": true
+      },
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 46730837,
+      "witness": "P19S_BROWSER_1000_30_STAGED.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_1000",
+      "size": 1000,
+      "history_days": 100,
+      "control": "CAPTURE",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 9.400000000139698,
+      "click_to_computing_since_ms": 3010.600000000093,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 8074.800000000047,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 9.400000000139698,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8074.800000000047,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_capture_operational_analysis_v1",
+        "code": "57014",
+        "cap": "STATEMENT_TIMEOUT_8S",
+        "time_to_refusal_rendered_ms": 8074.800000000047,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_capture_operational_analysis_v1",
+        "http_status": 500,
+        "code": "57014",
+        "sqlstate": "57014",
+        "message": "canceling statement due to statement timeout",
+        "job_state": null,
+        "job_failure": null,
+        "stored_job": null,
+        "cap": "STATEMENT_TIMEOUT_8S"
+      },
+      "refusal_code": "57014",
+      "refusal_sqlstate": "57014",
+      "refused_by_rpc": "erp_cp7_capture_operational_analysis_v1",
+      "refusal_http_status": 500,
+      "cap": "STATEMENT_TIMEOUT_8S",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 100,
+      "witness": "P19S_BROWSER_1000_100_CAPTURE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_1000",
+      "size": 1000,
+      "history_days": 100,
+      "control": "BACKGROUND",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 5.2000000001862645,
+      "click_to_computing_since_ms": 69.9000000001397,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 8141.200000000186,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 5.2000000001862645,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8141.200000000186,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_BACKGROUND_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_run_analysis_job_v1",
+        "code": "CP7_ANALYSIS_JOB_STOPPED",
+        "cap": "STATEMENT_TIMEOUT_8S",
+        "time_to_refusal_rendered_ms": 8141.200000000186,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_run_analysis_job_v1",
+        "http_status": 200,
+        "code": "CP7_ANALYSIS_JOB_STOPPED",
+        "sqlstate": "57014",
+        "job_state": "FAILED",
+        "job_failure": {
+          "code": "CP7_ANALYSIS_JOB_STOPPED",
+          "sqlstate": "57014"
+        },
+        "stored_job": {
+          "request_id": "4f78f8fc-9757-40f6-9cdc-b8680617ca29",
+          "state": "FAILED",
+          "attempts": 1,
+          "failure_sqlstate": "57014",
+          "failure_code": "CP7_ANALYSIS_JOB_STOPPED",
+          "run_id": null
+        },
+        "cap": "STATEMENT_TIMEOUT_8S"
+      },
+      "refusal_code": "CP7_ANALYSIS_JOB_STOPPED",
+      "refusal_sqlstate": "57014",
+      "refused_by_rpc": "erp_cp7_run_analysis_job_v1",
+      "refusal_http_status": 200,
+      "cap": "STATEMENT_TIMEOUT_8S",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 929,
+      "witness": "P19S_BROWSER_1000_100_BACKGROUND.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_1000",
+      "size": 1000,
+      "history_days": 100,
+      "control": "CAPTURE_WITH_FINANCE",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 4,
+      "click_to_computing_since_ms": 3009.8000000000466,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 8030.300000000047,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 4,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8030.300000000047,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_capture_analysis_v1",
+        "code": "57014",
+        "cap": "STATEMENT_TIMEOUT_8S",
+        "time_to_refusal_rendered_ms": 8030.300000000047,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_capture_analysis_v1",
+        "http_status": 500,
+        "code": "57014",
+        "sqlstate": "57014",
+        "message": "canceling statement due to statement timeout",
+        "job_state": null,
+        "job_failure": null,
+        "stored_job": null,
+        "cap": "STATEMENT_TIMEOUT_8S"
+      },
+      "refusal_code": "57014",
+      "refusal_sqlstate": "57014",
+      "refused_by_rpc": "erp_cp7_capture_analysis_v1",
+      "refusal_http_status": 500,
+      "cap": "STATEMENT_TIMEOUT_8S",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 100,
+      "witness": "P19S_BROWSER_1000_100_CAPTURE_WITH_FINANCE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_1000",
+      "size": 1000,
+      "history_days": 100,
+      "control": "STAGED",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 5.2000000001862645,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 20102.5,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 5.2000000001862645,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 20102.5,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_STAGED_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": {
+        "steps": 45,
+        "pages_read": 6,
+        "targets_total": 1000,
+        "page_count": 6,
+        "identity_hash": "e49d00e2021df7cada2f146285ef30aa9196a972b9f07c55f5ccc68fc7e89c62",
+        "reassembled_analysis_sha256": "01ecfe64b2a1ae20eab3841b543924b01f74b034cf3abeb311cfc587b648ff59",
+        "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_1000_100_STAGED.json",
+        "job_state": "DONE",
+        "unit_count": 45,
+        "units_done": 45,
+        "click_to_staged_progress_ms": 497.20000000018626
+      },
+      "page_loads": [
+        {
+          "index": 1,
+          "t0": 21550.399999999907,
+          "trusted_click": true,
+          "elapsed_ms": 768.3999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 2,
+          "t0": 22483.199999999953,
+          "trusted_click": true,
+          "elapsed_ms": 720.5999999998603,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 3,
+          "t0": 23382.899999999907,
+          "trusted_click": true,
+          "elapsed_ms": 677.3999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 4,
+          "t0": 24216.09999999986,
+          "trusted_click": true,
+          "elapsed_ms": 674.3000000000466,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 5,
+          "t0": 25049.59999999986,
+          "trusted_click": true,
+          "elapsed_ms": 168,
+          "target_ms": 3000,
+          "within_target": true
+        }
+      ],
+      "completed_open": {
+        "t0": 888.5,
+        "trusted_click": true,
+        "elapsed_ms": 1026.1000000000931,
+        "run_id": "01feeb4a-4584-423e-871f-88ea4e7147c2",
+        "target_ms": 3000,
+        "within_target": true
+      },
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 46735552,
+      "witness": "P19S_BROWSER_1000_100_STAGED.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_5000",
+      "size": 5000,
+      "history_days": 1,
+      "control": "CAPTURE",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 6.5,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 626.5,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 6.5,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 626.5,
+          "meets_limit": true
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_capture_operational_analysis_v1",
+        "code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+        "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+        "time_to_refusal_rendered_ms": 626.5,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_capture_operational_analysis_v1",
+        "http_status": 400,
+        "code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+        "sqlstate": "P0001",
+        "message": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+        "job_state": null,
+        "job_failure": null,
+        "stored_job": null,
+        "cap": "HISTORY_SOURCE_PRODUCTS_1000"
+      },
+      "refusal_code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+      "refusal_sqlstate": "P0001",
+      "refused_by_rpc": "erp_cp7_capture_operational_analysis_v1",
+      "refusal_http_status": 400,
+      "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 87,
+      "witness": "P19S_BROWSER_5000_1_CAPTURE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_5000",
+      "size": 5000,
+      "history_days": 1,
+      "control": "BACKGROUND",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 19.199999999953434,
+      "click_to_computing_since_ms": 90.29999999981374,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 891.8999999999069,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 19.199999999953434,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 891.8999999999069,
+          "meets_limit": true
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_BACKGROUND_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_run_analysis_job_v1",
+        "code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+        "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+        "time_to_refusal_rendered_ms": 891.8999999999069,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_run_analysis_job_v1",
+        "http_status": 200,
+        "code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+        "sqlstate": "P0001",
+        "job_state": "FAILED",
+        "job_failure": {
+          "code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+          "sqlstate": "P0001"
+        },
+        "stored_job": {
+          "request_id": "6518ae10-ed11-4a41-b05f-bd2899c41d55",
+          "state": "FAILED",
+          "attempts": 1,
+          "failure_sqlstate": "P0001",
+          "failure_code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+          "run_id": null
+        },
+        "cap": "HISTORY_SOURCE_PRODUCTS_1000"
+      },
+      "refusal_code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+      "refusal_sqlstate": "P0001",
+      "refused_by_rpc": "erp_cp7_run_analysis_job_v1",
+      "refusal_http_status": 200,
+      "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 936,
+      "witness": "P19S_BROWSER_5000_1_BACKGROUND.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_5000",
+      "size": 5000,
+      "history_days": 1,
+      "control": "CAPTURE_WITH_FINANCE",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 7.2000000001862645,
+      "click_to_computing_since_ms": 3016.5,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 8060.299999999814,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 7.2000000001862645,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8060.299999999814,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_capture_analysis_v1",
+        "code": "57014",
+        "cap": "STATEMENT_TIMEOUT_8S",
+        "time_to_refusal_rendered_ms": 8060.299999999814,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [
+          "HISTORY_SOURCE_PRODUCTS_1000"
+        ],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_capture_analysis_v1",
+        "http_status": 500,
+        "code": "57014",
+        "sqlstate": "57014",
+        "message": "canceling statement due to statement timeout",
+        "job_state": null,
+        "job_failure": null,
+        "stored_job": null,
+        "cap": "STATEMENT_TIMEOUT_8S"
+      },
+      "refusal_code": "57014",
+      "refusal_sqlstate": "57014",
+      "refused_by_rpc": "erp_cp7_capture_analysis_v1",
+      "refusal_http_status": 500,
+      "cap": "STATEMENT_TIMEOUT_8S",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 100,
+      "witness": "P19S_BROWSER_5000_1_CAPTURE_WITH_FINANCE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_5000",
+      "size": 5000,
+      "history_days": 1,
+      "control": "STAGED",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 5.5,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 84955.3999999999,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 5.5,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 84955.3999999999,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_STAGED_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": {
+        "steps": 126,
+        "pages_read": 26,
+        "targets_total": 5000,
+        "page_count": 26,
+        "identity_hash": "34d7e47156cf3042868c28a125f940442888fb2d5a18a52b8664fdb05f410ec3",
+        "reassembled_analysis_sha256": "20d382035f3487c70fdfc27a1b96e79323b7f614eeaeae542f145ddf1cde2d35",
+        "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_5000_1_STAGED.json",
+        "job_state": "DONE",
+        "unit_count": 126,
+        "units_done": 126,
+        "click_to_staged_progress_ms": 3260
+      },
+      "page_loads": [
+        {
+          "index": 1,
+          "t0": 86557.1000000001,
+          "trusted_click": true,
+          "elapsed_ms": 749.1999999997206,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 2,
+          "t0": 87506.3999999999,
+          "trusted_click": true,
+          "elapsed_ms": 735.3999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 3,
+          "t0": 88458.3999999999,
+          "trusted_click": true,
+          "elapsed_ms": 725.6000000000931,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 4,
+          "t0": 89389.6000000001,
+          "trusted_click": true,
+          "elapsed_ms": 780.1000000000931,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 5,
+          "t0": 90339.5,
+          "trusted_click": true,
+          "elapsed_ms": 795.2999999998137,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 6,
+          "t0": 91356.29999999981,
+          "trusted_click": true,
+          "elapsed_ms": 663.6000000000931,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 7,
+          "t0": 92189.20000000019,
+          "trusted_click": true,
+          "elapsed_ms": 649.6999999997206,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 8,
+          "t0": 93005.8999999999,
+          "trusted_click": true,
+          "elapsed_ms": 656.3000000002794,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 9,
+          "t0": 93839,
+          "trusted_click": true,
+          "elapsed_ms": 671.1000000000931,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 10,
+          "t0": 94689.29999999981,
+          "trusted_click": true,
+          "elapsed_ms": 672.7000000001863,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 11,
+          "t0": 95556.1000000001,
+          "trusted_click": true,
+          "elapsed_ms": 655.8999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 12,
+          "t0": 96372.20000000019,
+          "trusted_click": true,
+          "elapsed_ms": 644.2999999998137,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 13,
+          "t0": 97172.79999999981,
+          "trusted_click": true,
+          "elapsed_ms": 648.1000000000931,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 14,
+          "t0": 97988.79999999981,
+          "trusted_click": true,
+          "elapsed_ms": 660.2000000001863,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 15,
+          "t0": 98839,
+          "trusted_click": true,
+          "elapsed_ms": 638.6000000000931,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 16,
+          "t0": 99638.8999999999,
+          "trusted_click": true,
+          "elapsed_ms": 644.6000000000931,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 17,
+          "t0": 100439,
+          "trusted_click": true,
+          "elapsed_ms": 648.1000000000931,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 18,
+          "t0": 101255.5,
+          "trusted_click": true,
+          "elapsed_ms": 670.2000000001863,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 19,
+          "t0": 102089.29999999981,
+          "trusted_click": true,
+          "elapsed_ms": 642.6000000000931,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 20,
+          "t0": 102905.29999999981,
+          "trusted_click": true,
+          "elapsed_ms": 682.5,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 21,
+          "t0": 103805.5,
+          "trusted_click": true,
+          "elapsed_ms": 640.2999999998137,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 22,
+          "t0": 104605.5,
+          "trusted_click": true,
+          "elapsed_ms": 671.3999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 23,
+          "t0": 105437.5,
+          "trusted_click": true,
+          "elapsed_ms": 660,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 24,
+          "t0": 106271.8999999999,
+          "trusted_click": true,
+          "elapsed_ms": 640.2000000001863,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 25,
+          "t0": 107077,
+          "trusted_click": true,
+          "elapsed_ms": 585.5,
+          "target_ms": 3000,
+          "within_target": true
+        }
+      ],
+      "completed_open": {
+        "t0": 1664.8999999999069,
+        "trusted_click": true,
+        "elapsed_ms": 1298.8999999999069,
+        "run_id": "da40e114-fdf2-46d2-9084-96f48f077c73",
+        "target_ms": 3000,
+        "within_target": true
+      },
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 233104477,
+      "witness": "P19S_BROWSER_5000_1_STAGED.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_5000",
+      "size": 5000,
+      "history_days": 30,
+      "control": "CAPTURE",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 13.5,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 1009.5,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 13.5,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 1009.5,
+          "meets_limit": true
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_capture_operational_analysis_v1",
+        "code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+        "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+        "time_to_refusal_rendered_ms": 1009.5,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_capture_operational_analysis_v1",
+        "http_status": 400,
+        "code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+        "sqlstate": "P0001",
+        "message": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+        "job_state": null,
+        "job_failure": null,
+        "stored_job": null,
+        "cap": "HISTORY_SOURCE_PRODUCTS_1000"
+      },
+      "refusal_code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+      "refusal_sqlstate": "P0001",
+      "refused_by_rpc": "erp_cp7_capture_operational_analysis_v1",
+      "refusal_http_status": 400,
+      "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 87,
+      "witness": "P19S_BROWSER_5000_30_CAPTURE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_5000",
+      "size": 5000,
+      "history_days": 30,
+      "control": "BACKGROUND",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 5.5,
+      "click_to_computing_since_ms": 69,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 893.2999999998137,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 5.5,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 893.2999999998137,
+          "meets_limit": true
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_BACKGROUND_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_run_analysis_job_v1",
+        "code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+        "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+        "time_to_refusal_rendered_ms": 893.2999999998137,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_run_analysis_job_v1",
+        "http_status": 200,
+        "code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+        "sqlstate": "P0001",
+        "job_state": "FAILED",
+        "job_failure": {
+          "code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+          "sqlstate": "P0001"
+        },
+        "stored_job": {
+          "request_id": "7cb50c0a-b539-40d2-9438-46bf135a7d63",
+          "state": "FAILED",
+          "attempts": 1,
+          "failure_sqlstate": "P0001",
+          "failure_code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+          "run_id": null
+        },
+        "cap": "HISTORY_SOURCE_PRODUCTS_1000"
+      },
+      "refusal_code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+      "refusal_sqlstate": "P0001",
+      "refused_by_rpc": "erp_cp7_run_analysis_job_v1",
+      "refusal_http_status": 200,
+      "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 936,
+      "witness": "P19S_BROWSER_5000_30_BACKGROUND.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_5000",
+      "size": 5000,
+      "history_days": 30,
+      "control": "CAPTURE_WITH_FINANCE",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 7.100000000093132,
+      "click_to_computing_since_ms": 3018.8000000002794,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 8042.800000000279,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 7.100000000093132,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8042.800000000279,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_capture_analysis_v1",
+        "code": "57014",
+        "cap": "STATEMENT_TIMEOUT_8S",
+        "time_to_refusal_rendered_ms": 8042.800000000279,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [
+          "HISTORY_SOURCE_PRODUCTS_1000"
+        ],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_capture_analysis_v1",
+        "http_status": 500,
+        "code": "57014",
+        "sqlstate": "57014",
+        "message": "canceling statement due to statement timeout",
+        "job_state": null,
+        "job_failure": null,
+        "stored_job": null,
+        "cap": "STATEMENT_TIMEOUT_8S"
+      },
+      "refusal_code": "57014",
+      "refusal_sqlstate": "57014",
+      "refused_by_rpc": "erp_cp7_capture_analysis_v1",
+      "refusal_http_status": 500,
+      "cap": "STATEMENT_TIMEOUT_8S",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 100,
+      "witness": "P19S_BROWSER_5000_30_CAPTURE_WITH_FINANCE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_5000",
+      "size": 5000,
+      "history_days": 30,
+      "control": "STAGED",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 5.899999999906868,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 90481.8999999999,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 5.899999999906868,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 90481.8999999999,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_STAGED_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": {
+        "steps": 138,
+        "pages_read": 26,
+        "targets_total": 5000,
+        "page_count": 26,
+        "identity_hash": "0d54fe165aa50225d719421bb03103f0c96f64ae999ea822a35dd368de231423",
+        "reassembled_analysis_sha256": "6d6f0e55287bbb7a37e60121906aaba6cac98e6d8186d5fc44b661f96b41ec90",
+        "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_5000_30_STAGED.json",
+        "job_state": "DONE",
+        "unit_count": 138,
+        "units_done": 138,
+        "click_to_staged_progress_ms": 2848.7999999998137
+      },
+      "page_loads": [
+        {
+          "index": 1,
+          "t0": 92114.8999999999,
+          "trusted_click": true,
+          "elapsed_ms": 709.2000000001863,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 2,
+          "t0": 93147.5,
+          "trusted_click": true,
+          "elapsed_ms": 735.3999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 3,
+          "t0": 94047.29999999981,
+          "trusted_click": true,
+          "elapsed_ms": 751.3000000002794,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 4,
+          "t0": 94964.20000000019,
+          "trusted_click": true,
+          "elapsed_ms": 725.8999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 5,
+          "t0": 95864,
+          "trusted_click": true,
+          "elapsed_ms": 710.2000000001863,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 6,
+          "t0": 96797.1000000001,
+          "trusted_click": true,
+          "elapsed_ms": 667.6000000000931,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 7,
+          "t0": 97646.8999999999,
+          "trusted_click": true,
+          "elapsed_ms": 698.2000000001863,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 8,
+          "t0": 98447.5,
+          "trusted_click": true,
+          "elapsed_ms": 665.7000000001863,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 9,
+          "t0": 99280.29999999981,
+          "trusted_click": true,
+          "elapsed_ms": 670.5,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 10,
+          "t0": 100130.20000000019,
+          "trusted_click": true,
+          "elapsed_ms": 664.7999999998137,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 11,
+          "t0": 100963.70000000019,
+          "trusted_click": true,
+          "elapsed_ms": 656.7999999998137,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 12,
+          "t0": 101797,
+          "trusted_click": true,
+          "elapsed_ms": 633.2000000001863,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 13,
+          "t0": 102613.70000000019,
+          "trusted_click": true,
+          "elapsed_ms": 662.7999999998137,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 14,
+          "t0": 103463.6000000001,
+          "trusted_click": true,
+          "elapsed_ms": 625.7999999998137,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 15,
+          "t0": 104246.8999999999,
+          "trusted_click": true,
+          "elapsed_ms": 662.8999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 16,
+          "t0": 105080.3999999999,
+          "trusted_click": true,
+          "elapsed_ms": 647.7000000001863,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 17,
+          "t0": 105913.3999999999,
+          "trusted_click": true,
+          "elapsed_ms": 685.8999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 18,
+          "t0": 106746.70000000019,
+          "trusted_click": true,
+          "elapsed_ms": 650.8999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 19,
+          "t0": 107563.29999999981,
+          "trusted_click": true,
+          "elapsed_ms": 684.1000000000931,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 20,
+          "t0": 108413.3999999999,
+          "trusted_click": true,
+          "elapsed_ms": 632.8000000002794,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 21,
+          "t0": 109246.8999999999,
+          "trusted_click": true,
+          "elapsed_ms": 666.3000000002794,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 22,
+          "t0": 110080.20000000019,
+          "trusted_click": true,
+          "elapsed_ms": 643.1999999997206,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 23,
+          "t0": 110879.6000000001,
+          "trusted_click": true,
+          "elapsed_ms": 646.7999999998137,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 24,
+          "t0": 111713,
+          "trusted_click": true,
+          "elapsed_ms": 641.1000000000931,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 25,
+          "t0": 112513,
+          "trusted_click": true,
+          "elapsed_ms": 588.1000000000931,
+          "target_ms": 3000,
+          "within_target": true
+        }
+      ],
+      "completed_open": {
+        "t0": 838.1000000000931,
+        "trusted_click": true,
+        "elapsed_ms": 1057.1999999997206,
+        "run_id": "aa2ba047-5e88-4f8b-a1b7-ea6a476bdb31",
+        "target_ms": 3000,
+        "within_target": true
+      },
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 233118375,
+      "witness": "P19S_BROWSER_5000_30_STAGED.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_5000",
+      "size": 5000,
+      "history_days": 100,
+      "control": "CAPTURE",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 9.399999999906868,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 858.5,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 9.399999999906868,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 858.5,
+          "meets_limit": true
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_capture_operational_analysis_v1",
+        "code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+        "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+        "time_to_refusal_rendered_ms": 858.5,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [
+          "HISTORY_GRID_100000"
+        ],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_capture_operational_analysis_v1",
+        "http_status": 400,
+        "code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+        "sqlstate": "P0001",
+        "message": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+        "job_state": null,
+        "job_failure": null,
+        "stored_job": null,
+        "cap": "HISTORY_SOURCE_PRODUCTS_1000"
+      },
+      "refusal_code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+      "refusal_sqlstate": "P0001",
+      "refused_by_rpc": "erp_cp7_capture_operational_analysis_v1",
+      "refusal_http_status": 400,
+      "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 87,
+      "witness": "P19S_BROWSER_5000_100_CAPTURE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_5000",
+      "size": 5000,
+      "history_days": 100,
+      "control": "BACKGROUND",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 5.899999999906868,
+      "click_to_computing_since_ms": 75.60000000009313,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 1011.6000000000931,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 5.899999999906868,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 1011.6000000000931,
+          "meets_limit": true
+        },
+        "progress_status_visible_by_3000ms": true,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_BACKGROUND_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_run_analysis_job_v1",
+        "code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+        "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+        "time_to_refusal_rendered_ms": 1011.6000000000931,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [
+          "HISTORY_GRID_100000"
+        ],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_run_analysis_job_v1",
+        "http_status": 200,
+        "code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+        "sqlstate": "P0001",
+        "job_state": "FAILED",
+        "job_failure": {
+          "code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+          "sqlstate": "P0001"
+        },
+        "stored_job": {
+          "request_id": "3d1ac7dc-f28d-4076-94d5-d2f9f565000c",
+          "state": "FAILED",
+          "attempts": 1,
+          "failure_sqlstate": "P0001",
+          "failure_code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+          "run_id": null
+        },
+        "cap": "HISTORY_SOURCE_PRODUCTS_1000"
+      },
+      "refusal_code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+      "refusal_sqlstate": "P0001",
+      "refused_by_rpc": "erp_cp7_run_analysis_job_v1",
+      "refusal_http_status": 200,
+      "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 936,
+      "witness": "P19S_BROWSER_5000_100_BACKGROUND.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_5000",
+      "size": 5000,
+      "history_days": 100,
+      "control": "CAPTURE_WITH_FINANCE",
+      "ui_status": "REFUSAL_RENDERED",
+      "click_to_first_status_ms": 7,
+      "click_to_computing_since_ms": 3016.0999999996275,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 8077.5999999996275,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 7,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 8077.5999999996275,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": false,
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "phase": "erp_cp7_capture_analysis_v1",
+        "code": "57014",
+        "cap": "STATEMENT_TIMEOUT_8S",
+        "time_to_refusal_rendered_ms": 8077.5999999996275,
+        "kind": "HONEST_CAP_REFUSAL",
+        "structural_caps_also_apply": [
+          "HISTORY_SOURCE_PRODUCTS_1000",
+          "HISTORY_GRID_100000"
+        ],
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": {
+        "rpc": "erp_cp7_capture_analysis_v1",
+        "http_status": 500,
+        "code": "57014",
+        "sqlstate": "57014",
+        "message": "canceling statement due to statement timeout",
+        "job_state": null,
+        "job_failure": null,
+        "stored_job": null,
+        "cap": "STATEMENT_TIMEOUT_8S"
+      },
+      "refusal_code": "57014",
+      "refusal_sqlstate": "57014",
+      "refused_by_rpc": "erp_cp7_capture_analysis_v1",
+      "refusal_http_status": 500,
+      "cap": "STATEMENT_TIMEOUT_8S",
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": null,
+      "page_loads": null,
+      "completed_open": null,
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 100,
+      "witness": "P19S_BROWSER_5000_100_CAPTURE_WITH_FINANCE.json"
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_5000",
+      "size": 5000,
+      "history_days": 100,
+      "control": "STAGED",
+      "ui_status": "RESULT_RENDERED",
+      "click_to_first_status_ms": 5.399999999906868,
+      "click_to_computing_since_ms": null,
+      "click_to_segment_progress_ms": null,
+      "click_to_complete_ms": 104767.20000000019,
+      "owner_budgets": {
+        "first_visible_acknowledgement": {
+          "class": "ROUTINE_READ",
+          "limit_ms": 1000,
+          "inclusive": false,
+          "elapsed_ms": 5.399999999906868,
+          "meets_limit": true
+        },
+        "complete_or_refusal_rendered": {
+          "class": "HEAVY_COMPLETE",
+          "limit_ms": 3000,
+          "inclusive": true,
+          "elapsed_ms": 104767.20000000019,
+          "meets_limit": false
+        },
+        "progress_status_visible_by_3000ms": false,
+        "owner_named_background_exception": "P19_PLANNING_ANALYSIS_STAGED_20261007",
+        "owner_latency_acceptance": false
+      },
+      "verdict": {
+        "kind": "COMPLETE_RESULT",
+        "acceptable": true,
+        "counterexample": false
+      },
+      "refusal": null,
+      "refusal_code": null,
+      "refusal_sqlstate": null,
+      "refused_by_rpc": null,
+      "refusal_http_status": null,
+      "cap": null,
+      "original_sha256": null,
+      "original_utf8_bytes": null,
+      "segments_read": 0,
+      "staged": {
+        "steps": 165,
+        "pages_read": 26,
+        "targets_total": 5000,
+        "page_count": 26,
+        "identity_hash": "603aaefdd8660b95700f1748c9be2c39e31266297eaf4eb43e79f09edcc7394b",
+        "reassembled_analysis_sha256": "1f109ce2e92598cd183f099d8b8cfe42855d03e54c7b09307d9c7b3390e07e82",
+        "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_5000_100_STAGED.json",
+        "job_state": "DONE",
+        "unit_count": 165,
+        "units_done": 165,
+        "click_to_staged_progress_ms": 3241.600000000093
+      },
+      "page_loads": [
+        {
+          "index": 1,
+          "t0": 106396.59999999963,
+          "trusted_click": true,
+          "elapsed_ms": 733.5,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 2,
+          "t0": 107329.5,
+          "trusted_click": true,
+          "elapsed_ms": 746.7999999998137,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 3,
+          "t0": 108312.69999999972,
+          "trusted_click": true,
+          "elapsed_ms": 692.8999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 4,
+          "t0": 109196,
+          "trusted_click": true,
+          "elapsed_ms": 724.0999999996275,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 5,
+          "t0": 110095.8999999999,
+          "trusted_click": true,
+          "elapsed_ms": 749.6000000000931,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 6,
+          "t0": 111012.59999999963,
+          "trusted_click": true,
+          "elapsed_ms": 687.5,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 7,
+          "t0": 111862.29999999981,
+          "trusted_click": true,
+          "elapsed_ms": 680.2000000001863,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 8,
+          "t0": 112695.5,
+          "trusted_click": true,
+          "elapsed_ms": 717.6999999997206,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 9,
+          "t0": 113562.19999999972,
+          "trusted_click": true,
+          "elapsed_ms": 669.2000000001863,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 10,
+          "t0": 114395.69999999972,
+          "trusted_click": true,
+          "elapsed_ms": 684.8999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 11,
+          "t0": 115245.69999999972,
+          "trusted_click": true,
+          "elapsed_ms": 698.3999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 12,
+          "t0": 116112.79999999981,
+          "trusted_click": true,
+          "elapsed_ms": 640.7000000001863,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 13,
+          "t0": 116912.19999999972,
+          "trusted_click": true,
+          "elapsed_ms": 674.6000000000931,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 14,
+          "t0": 117762.19999999972,
+          "trusted_click": true,
+          "elapsed_ms": 637.3999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 15,
+          "t0": 118578.69999999972,
+          "trusted_click": true,
+          "elapsed_ms": 652.3999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 16,
+          "t0": 119445.69999999972,
+          "trusted_click": true,
+          "elapsed_ms": 637.8999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 17,
+          "t0": 120245.3999999999,
+          "trusted_click": true,
+          "elapsed_ms": 644.1000000000931,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 18,
+          "t0": 121078.8999999999,
+          "trusted_click": true,
+          "elapsed_ms": 659.7999999998137,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 19,
+          "t0": 121928.5,
+          "trusted_click": true,
+          "elapsed_ms": 637.5,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 20,
+          "t0": 122745.29999999981,
+          "trusted_click": true,
+          "elapsed_ms": 647.2000000001863,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 21,
+          "t0": 123578.79999999981,
+          "trusted_click": true,
+          "elapsed_ms": 658.2000000001863,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 22,
+          "t0": 124445.5,
+          "trusted_click": true,
+          "elapsed_ms": 639.1999999997206,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 23,
+          "t0": 125278.3999999999,
+          "trusted_click": true,
+          "elapsed_ms": 675.3999999999069,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 24,
+          "t0": 126145,
+          "trusted_click": true,
+          "elapsed_ms": 647.5,
+          "target_ms": 3000,
+          "within_target": true
+        },
+        {
+          "index": 25,
+          "t0": 126978.5,
+          "trusted_click": true,
+          "elapsed_ms": 588.5,
+          "target_ms": 3000,
+          "within_target": true
+        }
+      ],
+      "completed_open": {
+        "t0": 936.1000000000931,
+        "trusted_click": true,
+        "elapsed_ms": 1242.7999999998137,
+        "run_id": "b755c494-d0a1-400b-b7b2-fe3e2679172f",
+        "target_ms": 3000,
+        "within_target": true
+      },
+      "page_load_target_ms": 3000,
+      "load_target_mandatory": false,
+      "response_utf8_bytes": 233143231,
+      "witness": "P19S_BROWSER_5000_100_STAGED.json"
+    }
+  ]
+}

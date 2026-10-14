@@ -12,7 +12,7 @@ def ingest(p,run,artifact,groups,outer):
         if set(planned)!=set(cases):issues.append(dict(original=str(p.relative_to(ROOT)),group=group,planned=planned,observed=list(cases)))
         for key,v in cases.items():
             row=dict(run_id=run,artifact_id=artifact,original=str(p.relative_to(ROOT)),group=group,case_id=key,status=v.get('status'),
-                oracle_origin='ASTRA_NEW_OBSERVATION' if key.startswith('CP17-ASTRA-FIN-07') else 'INHERITED_ORACLE_ASTRA_EXECUTION',
+                oracle_origin=('ASTRA_AFTER_AUTHORIZED_FABLE_EXPOSURE' if key.startswith(('CP17-ASTRA-R3-','CP17-ASTRA-CLAIM-','CP17-ASTRA-POOL-')) else 'ASTRA_NEW_OBSERVATION' if key.startswith('CP17-ASTRA-FIN-07') else 'INHERITED_ORACLE_ASTRA_EXECUTION'),
                 original_case_sha256=hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':')).encode()).hexdigest(),
                 full_boundary_restored=v.get('full_boundary_restored'),public_schema_unchanged=v.get('public_schema_unchanged'),
                 status_outside_vocabulary=v.get('status_outside_vocabulary'))
@@ -25,6 +25,14 @@ def ingest(p,run,artifact,groups,outer):
                     row.update(disposition='Q11_PRE_BD_FIXTURE_LACKS_REQUIRED_SOURCE_IDENTITY',current_contract='Owner D09 26Sep: pending custody requires count sheet+line or source lot; BD D09 correct/duplicate/missing-source controls PASS')
                 elif key=='CP17-ASTRA-FIN-07-FULL-DETECTOR-OBSERVATION':
                     row.update(disposition='CONFIRMED_FIN01_ADDITIONAL_OBSERVATION',finding='ASTRA-CP17-FIN-01')
+                elif key=='CP17-ASTRA-R3-02-REWORK-ALL-BS-SCRAP' and v.get('status')=='COUNTEREXAMPLE':
+                    row.update(disposition='CONFIRMED_RWK01_ACCRUED_WORK_NOT_ELIGIBLE_AFTER_SCRAP',finding='ASTRA-CP17-RWK-01')
+                elif key=='CP17-ASTRA-R3-03-CUTTING-REPOST-CHRONOLOGY' and v.get('status')=='COUNTEREXAMPLE':
+                    row.update(disposition='CONFIRMED_STK01_PUBLIC_RESTATED_MATERIAL_PREFIX_DOUBLE_COUNTS',finding='ASTRA-CP17-STK-01')
+                elif key=='CP17-ASTRA-CLAIM-02-BEFORE-SOURCE' and v.get('status')=='COUNTEREXAMPLE':
+                    row.update(disposition='CONFIRMED_FIN02_CLAIM_SETTLEMENT_PRECEDES_SOURCE_AND_DATED_AP',finding='ASTRA-CP17-FIN-02')
+                elif key=='CP17-ASTRA-POOL-03-POLICY-AFTER-ACTIVE' and v.get('status')=='COUNTEREXAMPLE':
+                    row.update(disposition='CONFIRMED_HPP01_ACTIVE_POOL_STALE_AFTER_EXCLUDED_CONTRACTOR_POLICY',finding='ASTRA-CP17-HPP-01')
                 elif key=='BE_REV_HTTP:PUBLIC_SEWING_AND_PERIOD_ACCESS' and run==38558702356:
                     row.update(disposition='Q12_LEGACY_POCKET_FIXTURE_REVOKED_BASELINE_SCHEMA_USAGE_BEFORE_HTTP',
                         qualification_run=38561483350,original_business_http_executed=False)
@@ -62,7 +70,7 @@ for directory in sorted((ROOT/'continuation').glob('*/*')):
         elif p.name.startswith('ASTRA_CP17_COVERAGE_') and not p.stem.endswith('_CASES'):
             if 'group'not in d:continue
             groups={'native':d['group']}
-        elif p.name.startswith('CP17_OWN_CASES_FINANCE_OBSERVABILITY'):
+        elif p.name.startswith(('CP17_OWN_CASES_FINANCE_OBSERVABILITY','CP17_OWN_CASES_FABLE_SEAMS','CP17_OWN_CASES_CLAIM_DATE','CP17_OWN_CASES_POOL_CLOSURE')):
             groups={'native':d}
         elif p.name.startswith('CP7_') and 'expected_case_count'in d:
             groups=d.get('groups') or {k:v for k,v in d.items()if isinstance(v,dict)and isinstance(v.get('cases',v.get('races')),dict)}

@@ -1,0 +1,17 @@
+{
+  "last_run": {
+    "id": 38572768164,
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "0d7f3dcc72e1fbee19883c1056361c54527f6885",
+    "run_attempt": 1,
+    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38572768164",
+    "created_at": "2026-10-14T13:33:27Z",
+    "updated_at": "2026-10-14T13:40:23Z"
+  },
+  "auditor_head_before_report": "0d7f3dcc72e1fbee19883c1056361c54527f6885",
+  "writer_head_observed": "00b0eb24b2f014d102f0082111d13ee3be429cf2",
+  "writer_untouched": true,
+  "all_continuation_jobs": "See CONTINUATION_JOB_RECEIPTS.json: 38 completed",
+  "production_go": false
+}

@@ -32,8 +32,8 @@ profile('pocket',r'BE04:|POCKET|BE_.*POCKET',
  'scripts/cp6_be_probe.py scripts/cp6_be_pocket_probe.py scripts/cp6_ar_trial.py',
  'Historical and native pocket sources, numerator/denominator, rounded allocations and recost to WIP/FG/COGS.',
  'Closed-period/date assertions use the explicit owner-approved C6 disposition; old raw statuses are retained.')
-profile('laundry',r'T0[2-8]:|T1[23567]:|T2[01234]:|DEC0[1246]:|W05:|D0[79]:|D12:|LAU_T14|BD_|REV:X0[1235]|R13:',
- 'scripts/cp6_bd_probe.py scripts/cp6_bd_revision_cases.py scripts/cp6_bd_modes.py scripts/cp6_bd_revision_modes.py scripts/cp6_bd_browser.mjs',
+profile('laundry',r'T0[2-8]:|T1[23567]:|T2[01234]:|DEC0[1246]:|W05:|D0[79]:|D12:|LAU_T14|BD_|REV:X0[1235]|R13:|CP17-ASTRA-CLAIM-',
+ 'scripts/cp6_bd_probe.py scripts/cp6_bd_revision_cases.py scripts/cp6_bd_modes.py scripts/cp6_bd_revision_modes.py scripts/cp6_bd_browser.mjs audit/astra_cp17/cases_claim_date.py',
  'Vendor/version/source-specific prices, known subtotal versus unknown total, billable capacity, accrued AP and downstream cost; correction/claim credit follows source.')
 profile('laundry_race',r'BD_RACE|BD_HTTP|BD_BROWSER|T32:|REV:X03|REV:X05',
  'scripts/cp6_bd_modes.py scripts/cp6_bd_revision_modes.py scripts/cp6_bd_browser.mjs',
@@ -42,20 +42,20 @@ profile('recost_close',r'S06:|B04:|P0[147]:|W9:|A6:|AY:|AZ:|G8C0:|RECOST|PERIOD|
  'scripts/cp6_aw_probe.py scripts/cp6_ba_probe.py scripts/cp6_ay_probe.py scripts/cp6_az_probe.py scripts/cp7_finance_cases.py scripts/cp7_recost_cases.py',
  'Economic/physical/book dates, late source correction, source-chain valuation, close preflight and immutable filed versus current report.',
  'AW pre-BA changed_since_filing expectations and CONTROL_PASS/OBSERVED vocabulary are qualified separately; never relabel their raw results.')
-profile('procurement',r'P09|RECEIPT|RF_|MATERIAL|SUPPLIER|A4:',
- 'scripts/cp7_procurement_cases.py scripts/cp7_receipt_correction_cases.py scripts/cp6_ba_probe.py',
+profile('procurement',r'P09|RECEIPT|RF_|MATERIAL|SUPPLIER|A4:|CP17-ASTRA-R3-03-CUTTING',
+ 'scripts/cp7_procurement_cases.py scripts/cp7_receipt_correction_cases.py scripts/cp6_ba_probe.py audit/astra_cp17/cases_fable_seams.py',
  'Receipt/invoice/source return and supplier settlement conserve document cents, quantity, dated stock and journal/subledger amounts.')
 profile('sales',r'P10|P11|SALE|SALES|RETURN|REFUND|PAYMENT_CORRECTION|F03_CASH|SKN22',
  'scripts/cp7_sales_chain_cases.py scripts/cp7_sales_payment_cases.py scripts/cp7_sales_return_correction_cases.py audit/astra_cp17/cases_integration.py',
  'Actual FG, draft reservation, posted sale, receipt, return/refund and linked correction are separate native effects.')
-profile('payroll',r'P12|PAYROLL|ATTENDANCE|ROSTER|F03_E05|NOTE_|CP17-ASTRA-(PAY|HPP|FIN)|AS20-18',
- 'scripts/cp7_installment_cases.py audit/astra_cp17/cases_payroll_leads.py audit/astra_cp17/cases_integration.py audit/astra_cp17/cases_finance_observability.py',
+profile('payroll',r'P12|PAYROLL|ATTENDANCE|ROSTER|F03_E05|NOTE_|CP17-ASTRA-(PAY|HPP|FIN|POOL)|CP17-ASTRA-R3-.*REWORK|AS20-18',
+ 'scripts/cp7_installment_cases.py audit/astra_cp17/cases_payroll_leads.py audit/astra_cp17/cases_integration.py audit/astra_cp17/cases_finance_observability.py audit/astra_cp17/cases_fable_seams.py audit/astra_cp17/cases_pool_closure.py',
  'Accrual/attendance/source entitlement and settlement are distinct; duplicate-source negative controls and dated payable report.',
- 'FIN-01 is a confirmed blocking defect. Passing ordinary payroll cases cannot override it; Fable overlap claims are narrowed to the tested source identity.')
-profile('finance',r'P13|P19R|FINANCE|FINANCIAL|AS20-33|SKN22|FIN-07|PAY-06',
- 'scripts/cp7_finance_cases.py scripts/cp7_p19_report_v2_cases.py audit/astra_cp17/cases_integration.py',
+ 'FIN-01, RWK-01 and HPP-01 are confirmed blocking defects. Passing ordinary payroll cases cannot override it; Fable overlap claims are narrowed to the tested source identity.')
+profile('finance',r'P13|P19R|FINANCE|FINANCIAL|AS20-33|SKN22|FIN-07|PAY-06|CP17-ASTRA-CLAIM-',
+ 'scripts/cp7_finance_cases.py scripts/cp7_p19_report_v2_cases.py audit/astra_cp17/cases_integration.py audit/astra_cp17/cases_claim_date.py',
  'Owner report uses exact money/dated ledger sources, separates cash/revenue/profit/AP/AR, retains archived original and current-change marker.',
- 'FIN-01 remains blocking for payroll-related dated liabilities even when totals balance.')
+ 'FIN-01 and FIN-02 remain blocking for dated payroll/vendor liabilities even when totals balance.')
 profile('identity_policy',r'POLICY|STOP|PAUSED|MEMBERSHIP|SUCCESSOR|R03:|R06:|R12:|AS20-16|AS20C-08',
  'contracts/cp7/production-policy.ts scripts/cp6_bf_combined_modes.py tests/cp7/productionPolicy.test.ts',
  'Commercial brand/size membership and production state are versioned; STOP/PAUSED forbid new starts without deleting existing work.')
@@ -221,7 +221,9 @@ def build():
             continue
         cfg=routes[row['id']]
         disposition='REVIEWED_WITH_BOUNDED_EXECUTION_AND_SOURCE_EVIDENCE'
-        if row['id'] in ('AUD-G05','AUD-G06','BR-T25'):disposition='BLOCKED_BY_FIN01_DATED_PAYROLL_LIABILITY'
+        if row['id']=='AUD-G05':disposition='BLOCKED_BY_FIN01_RWK01_HPP01_PAYROLL_BASIS'
+        if row['id'] in ('AUD-G06','BR-T25'):disposition='BLOCKED_BY_FIN01_AND_FIN02_DATED_LIABILITIES'
+        if row['id']=='AUD-S04':disposition='BLOCKED_BY_STK01_PUBLIC_RESTATED_HISTORY'
         if row['id']=='AUD-G14':disposition='FIXTURE_LOAD_MEASURED_REAL_FACTORY_CAPACITY_NOT_VERIFIED'
         if row['id'] in ('CP7-18','BR-T40','UX32-T11'):disposition='BROWSER_EMULATION_VERIFIED_PHYSICAL_OWNER_DEVICE_NOT_VERIFIED'
         row['astra_review']=dict(disposition=disposition,**cfg,case_evidence=links(cfg['profiles']),
@@ -235,7 +237,7 @@ def build():
     for key,p in profiles.items():
         p['source_inventory']=[dict(path=s,exists=(ROOT/s).exists(),sha256=hashlib.sha256((ROOT/s).read_bytes()).hexdigest() if (ROOT/s).exists() else None) for s in p['sources']]
     result=dict(candidate='0b7049d9203bac52b47a4c89f3e0d75646067a8f',status='REVIEW_DISPOSITIONS_COMPLETE_ACCEPTANCE_WITHHELD',profiles=profiles,rows=rows,
-        counts=dict(total=len(rows),active=len(active),outside=len(rows)-len(active)),production_go=False)
+        counts=dict(total=len(rows),active=len(active),outside=len(rows)-len(active),dispositions=dict(collections.Counter(r['astra_review']['disposition']for r in rows))),production_go=False)
     (OUT/'REQUIREMENT_CROSSWALK.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n')
     (OUT/'CASE_EVIDENCE_INDEX.json').write_text(json.dumps(evidence_index,indent=2)+'\n')
     journey_rows=json.loads((REG/'cases.json').read_text())
@@ -251,7 +253,7 @@ def build():
     (OUT/'CHARTER_AND_OWNER_CROSSWALK.json').write_text(json.dumps(dict(charters=journey_rows,owner_rows=owner_rows),indent=2,ensure_ascii=False)+'\n')
     def esc(s):return str(s or '').replace('|','/').replace('\n',' ')
     md=['# Matriks review CP1–CP7: kebutuhan, charter, dan keputusan owner','',
-        'Kandidat `0b7049d9203bac52b47a4c89f3e0d75646067a8f`. Semua 271 baris diinventarisasi: 254 dalam lingkup kini dan 17 future/opsional tidak dipilih. Ini disposisi review dengan bukti terbatas, **bukan 254 klaim lulus seluruh klausul**. FIN01 dan pemulihan CP2 tetap menghalangi penerimaan penuh. Daftar sumber/hash dan seluruh tautan EV ada di `REQUIREMENT_CROSSWALK.json` dan `CASE_EVIDENCE_INDEX.json`.','',
+        'Kandidat `0b7049d9203bac52b47a4c89f3e0d75646067a8f`. Semua 271 baris diinventarisasi: 254 dalam lingkup kini dan 17 future/opsional tidak dipilih. Ini disposisi review dengan bukti terbatas, **bukan 254 klaim lulus seluruh klausul**. FIN01, FIN02, RWK01, STK01, HPP01 dan pemulihan CP2 tetap menghalangi penerimaan penuh. Daftar sumber/hash dan seluruh tautan EV ada di `REQUIREMENT_CROSSWALK.json` dan `CASE_EVIDENCE_INDEX.json`.','',
         'Setiap profil menjelaskan jalur sah, refusal/replay/koreksi, pembaca hilir, serta batasnya. EV berisi Original/run/artifact/group/case/status mentah. Pencarian pola hanya alat navigasi; tidak mengubah PASS suatu kasus menjadi sertifikat setiap kombinasi requirement. Bukti private SQL kernel 143 kasus dipisah dari browser/Auth dan tidak ditambahkan ke jumlah kasus bisnis.','',
         '| ID | Lingkup | Skenario / expected | Disposisi | Profil / petunjuk EV utama |','|---|---|---|---|---|']
     for row in rows:

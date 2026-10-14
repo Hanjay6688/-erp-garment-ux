@@ -1,0 +1,271 @@
+{
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "control_sha": "0d7f3dcc72e1fbee19883c1056361c54527f6885",
+  "run_id": 38572768164,
+  "job_id": 115881983961,
+  "artifact_id": 11898319571,
+  "artifact_sha256": "0d2a143067b6e1465246b942b79932fb6cc1b314e71f59cf43be1d59a28347bc",
+  "originals": [
+    {
+      "path": "continuation/38572768164/11898319571/original/ASTRA_CP17_CP5_EXACT.json",
+      "sha256": "f6c09a16959c56c365a92b922101e717571c3c275247b95defa6baef9ff5093e"
+    },
+    {
+      "path": "continuation/38572768164/11898319571/original/CP5_EXACT_RACE_ORIGINAL.json",
+      "sha256": "185335007a47ff6d8565367726521f0cf14e950118bee23ecdd189ab99c9125a"
+    }
+  ],
+  "program_counts": {
+    "INCOMPLETE": 3,
+    "PASS": 1
+  },
+  "programs": [
+    {
+      "id": "CP17-CP5-EXACT-1",
+      "source": "supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql",
+      "source_sha256": "f1b5bb04874d86fff8b867780a1d1aa2997371152576ab82b9dfbbfacacedf77",
+      "status": "INCOMPLETE",
+      "exit_code": 3,
+      "stdout_sha256": "5d5ecdde7bab07bc7109fb9046db4ed55d69e3418f523b6ff9a9e94378483bac",
+      "stdout_tail": "13:38:37.970657+00:00\", \"row_version\": 3, \"correction_of_period_id\": null}\n(1 row)\n\nINSERT 0 1\n populate_payroll_draft \n------------------------\n \n(1 row)\n\nINSERT 0 1\nINSERT 0 1\nINSERT 0 1\n                                                                           post_attendance_period_v1                                                                           \n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n {\"status\": \"POSTED\", \"period_id\": \"317548ab-9a8b-4f92-9be0-5ed0ae857c97\", \"posted_at\": \"2026-10-14T13:38:37.983235+00:00\", \"row_version\": 3, \"correction_of_period_id\": null}\n(1 row)\n\n                                                                           post_attendance_period_v1                                                                           \n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n {\"status\": \"POSTED\", \"period_id\": \"006f5cef-b083-4e86-8f38-35a6d174d2cf\", \"posted_at\": \"2026-10-14T13:38:37.985023+00:00\", \"row_version\": 3, \"correction_of_period_id\": null}\n(1 row)\n\n                                                                          post_attendance_period_v1                                                                           \n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n {\"status\": \"POSTED\", \"period_id\": \"dde4e17e-8ab6-4a49-813e-3ff80f62196a\", \"posted_at\": \"2026-10-14T13:38:37.98642+00:00\", \"row_version\": 3, \"correction_of_period_id\": null}\n(1 row)\n\nINSERT 0 3\n populate_payroll_draft \n------------------------\n \n(1 row)\n\n populate_payroll_draft \n------------------------\n \n(1 row)\n\n populate_payroll_draft \n------------------------\n \n(1 row)\n\n approve_payroll \n-----------------\n \n(1 row)\n\n approve_payroll \n-----------------\n \n(1 row)\n\n approve_payroll \n-----------------\n \n(1 row)\n\npsql:/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql:563: ERROR:  Cutting Bridge facade/private-table/CP4 owner boundary regressed\nCONTEXT:  PL/pgSQL function inline_code_block line 546 at RAISE\n",
+      "database_remaining": 0,
+      "remaining_sessions": [
+        [
+          227,
+          "supabase_admin",
+          "",
+          "idle in transaction"
+        ]
+      ]
+    },
+    {
+      "id": "CP17-CP5-EXACT-2",
+      "source": "supabase/tests/cp5_bs_resolution_recovery_rollback.sql",
+      "source_sha256": "01f08634191c8df006d372eeb02e6815f444cb5517ec13b9350c28705ef9d5cc",
+      "status": "INCOMPLETE",
+      "exit_code": 3,
+      "stdout_sha256": "df53ca5d51e8e96d7f9096d63a50dd36ac7fc7affcad283d77b381f46039e859",
+      "stdout_tail": "------------------------------------------------------------------------------------------\n {\"status\": \"POSTED\", \"period_id\": \"0ecb5504-1fb7-4592-ab82-b250765f5ce8\", \"posted_at\": \"2026-10-14T13:38:58.068362+00:00\", \"row_version\": 3, \"correction_of_period_id\": null}\n(1 row)\n\n                                                                           post_attendance_period_v1                                                                           \n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n {\"status\": \"POSTED\", \"period_id\": \"484bce40-4314-4027-87cd-dde1074a4e8e\", \"posted_at\": \"2026-10-14T13:38:58.070081+00:00\", \"row_version\": 3, \"correction_of_period_id\": null}\n(1 row)\n\n                                                                           post_attendance_period_v1                                                                           \n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n {\"status\": \"POSTED\", \"period_id\": \"e1003eae-dbde-4af0-a62e-31620b5be764\", \"posted_at\": \"2026-10-14T13:38:58.071438+00:00\", \"row_version\": 3, \"correction_of_period_id\": null}\n(1 row)\n\nINSERT 0 3\n populate_payroll_draft \n------------------------\n \n(1 row)\n\n populate_payroll_draft \n------------------------\n \n(1 row)\n\n populate_payroll_draft \n------------------------\n \n(1 row)\n\n approve_payroll \n-----------------\n \n(1 row)\n\n approve_payroll \n-----------------\n \n(1 row)\n\n approve_payroll \n-----------------\n \n(1 row)\n\npsql:/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/supabase/tests/cp5_bs_resolution_recovery_rollback.sql:967: ERROR:  BE_NONPO_REWORK_UNSUPPORTED: rework ini memerlukan PO dan produk asal; gunakan perbaikan barang non-PO (AX) untuk barang tanpa PO\nCONTEXT:  PL/pgSQL function save_rework_order_v2(jsonb,uuid,bigint) line 66 at RAISE\nPL/pgSQL function erp.save_bs_resolution_action_v1(text,jsonb,uuid,bigint) line 72 at assignment\nSQL expression \"erp.save_bs_resolution_action_v1(\n    p_action,p_payload,p_client_request_id,p_expected_version\n  )\"\nPL/pgSQL function public.erp_save_bs_resolution_action_v1(text,jsonb,uuid,bigint) line 3 at RETURN\nPL/pgSQL function inline_code_block line 470 at assignment\n",
+      "database_remaining": 0,
+      "remaining_sessions": [
+        [
+          269,
+          "supabase_admin",
+          "",
+          "idle in transaction"
+        ]
+      ]
+    },
+    {
+      "id": "CP17-CP5-EXACT-3",
+      "source": "supabase/tests/cp5_rework_accessory_lineage_rollback.sql",
+      "source_sha256": "493776d96578526330db6c2f0aaf595424937ea2b980d19ccfe00efb06d3ed6e",
+      "status": "PASS",
+      "exit_code": 0,
+      "stdout_sha256": "2fc5ff53d3ff917ba5cb7af22fea1ecd13a17c15d1210917ff556865b97cdc67",
+      "stdout_tail": "--------------------------------------------------------------------------------------------------------------------------------------------------------------\n {\"status\": \"POSTED\", \"period_id\": \"1ad1172a-d62c-4e4a-9cb4-6130d098b0c3\", \"posted_at\": \"2026-10-14T13:39:18.383844+00:00\", \"row_version\": 3, \"correction_of_period_id\": null}\n(1 row)\n\nINSERT 0 1\n populate_payroll_draft \n------------------------\n \n(1 row)\n\nINSERT 0 1\nINSERT 0 1\nINSERT 0 1\n                                                                           post_attendance_period_v1                                                                           \n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n {\"status\": \"POSTED\", \"period_id\": \"bff1a9ab-c31c-473d-bbe4-51db06185cfe\", \"posted_at\": \"2026-10-14T13:39:18.396808+00:00\", \"row_version\": 3, \"correction_of_period_id\": null}\n(1 row)\n\n                                                                           post_attendance_period_v1                                                                           \n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n {\"status\": \"POSTED\", \"period_id\": \"4e7026db-e991-48f5-9631-2e6c7555b343\", \"posted_at\": \"2026-10-14T13:39:18.398586+00:00\", \"row_version\": 3, \"correction_of_period_id\": null}\n(1 row)\n\n                                                                          post_attendance_period_v1                                                                           \n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n {\"status\": \"POSTED\", \"period_id\": \"857d81cb-7218-4c63-a4c8-9856cbff37d4\", \"posted_at\": \"2026-10-14T13:39:18.40057+00:00\", \"row_version\": 3, \"correction_of_period_id\": null}\n(1 row)\n\nINSERT 0 3\n populate_payroll_draft \n------------------------\n \n(1 row)\n\n populate_payroll_draft \n------------------------\n \n(1 row)\n\n populate_payroll_draft \n------------------------\n \n(1 row)\n\n approve_payroll \n-----------------\n \n(1 row)\n\n approve_payroll \n-----------------\n \n(1 row)\n\n approve_payroll \n-----------------\n \n(1 row)\n\nDO\nROLLBACK\n",
+      "database_remaining": 0,
+      "remaining_sessions": [
+        [
+          311,
+          "supabase_admin",
+          "",
+          "idle in transaction"
+        ]
+      ]
+    },
+    {
+      "id": "CP17-CP5-EXACT-4",
+      "source": "scripts/cp5_bs_resolution_concurrency.py",
+      "source_sha256": "a9f117aa10abf23627fb5f6eacfe5e5d0675fc1461d21786d88994003663b33b",
+      "status": "INCOMPLETE",
+      "exit_code": 1,
+      "stdout_sha256": "925ea5949adf4e2c8169764a9db870d20bc19feca26e73aa073c0afb20e89d4b",
+      "stdout_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp5_bs_resolution_concurrency.py\", line 1000, in <module>\n    raise failure\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp5_bs_resolution_concurrency.py\", line 912, in <module>\n    report['receipt_reversal_wins_vs_damage_claim'] = run_damage_source_reversal_wins_race()\n                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp5_bs_resolution_concurrency.py\", line 608, in run_damage_source_reversal_wins_race\n    raise RuntimeError(f'DAMAGE source reversal-wins mismatch: reversal={reversal_winner}, claim={claim_loser}')\nRuntimeError: DAMAGE source reversal-wins mismatch: reversal={'status': 'FAIL', 'error': 'Laundry receipt reversal refused: posted WIP source history is missing or duplicated\\nCONTEXT:  PL/pgSQL function erp.append_cp6_laundry_wip_reversal_v2620() line 42 at RAISE'}, claim={'unexpected_response': {'action': 'SAVE_CLAIM', 'result': {'status': 'OPEN', 'qty_claimed': 1, 'row_version': 1, 'claim_number': 'CP5-RACE-DAMAGE-SOURCE-B', 'laundry_claim_id': '64af6c2b-7cda-4865-8217-4fb5a25cccc7', 'compensation_amount': 0.0}}, 'status': 'UNEXPECTED_SUCCESS', 'elapsed_seconds': 0.013}\n",
+      "database_remaining": 0,
+      "remaining_sessions": [
+        [
+          374,
+          "supabase_admin",
+          "",
+          "idle in transaction"
+        ]
+      ]
+    }
+  ],
+  "business_case_credit": 0,
+  "race_original": {
+    "status": "FAIL",
+    "production_go": false,
+    "disposition_vs_disposition": {
+      "winner": {
+        "response": {
+          "action": "DISPOSE_BS",
+          "result": {
+            "status": "PARTIAL",
+            "qty_pcs": 1,
+            "bs_case_id": "c6c00000-0000-4000-8000-000000000201",
+            "row_version": 2,
+            "resolution_type": "SCRAP",
+            "bs_resolution_id": "2eea5a93-fb42-4bbf-8912-fd3e74af95ab"
+          }
+        },
+        "status": "PASS"
+      },
+      "loser": {
+        "error": "STALE_VERSION expected 1, current 2\nCONTEXT:  PL/pgSQL function resolve_bs_case_disposition_v2(uuid,text,integer,numeric,uuid,timestamp with time zone,text,uuid,bigint) line 30 at RAISE\nPL/pgSQL function erp.save_bs_resolution_action_v1(text,jsonb,uuid,bigint) line 95 at assignment\nPL/pgSQL function public.erp_save_bs_resolution_action_v1(text,jsonb,uuid,bigint) line 3 at RETURN",
+        "status": "EXPECTED_REJECTION",
+        "elapsed_seconds": 1.014
+      },
+      "final": {
+        "status": "PARTIAL",
+        "row_version": 2,
+        "resolved_qty": 1,
+        "resolution_count": 1
+      }
+    },
+    "claim_reversal_vs_bs_cash_compensation": {
+      "cash_winner": {
+        "response": {
+          "action": "DISPOSE_BS",
+          "result": {
+            "status": "RESOLVED",
+            "qty_pcs": 1,
+            "bs_case_id": "c6c00000-0000-4000-8000-000000000317",
+            "row_version": 2,
+            "resolution_type": "CASH_COMPENSATION",
+            "bs_resolution_id": "77445ad0-75d9-4e1f-95be-dcb28dbcd624"
+          }
+        },
+        "status": "PASS"
+      },
+      "reversal_loser": {
+        "error": "CLAIM_RESOLUTION_IN_USE_BY_ACTIVE_BS_CASH_COMPENSATION\nDETAIL:  Reverse the dependent BS CASH_COMPENSATION disposition before reversing or deleting its settled Laundry claim.\nCONTEXT:  PL/pgSQL function erp.guard_laundry_claim_bs_dependency_v2619c() line 15 at RAISE",
+        "status": "EXPECTED_REJECTION",
+        "elapsed_seconds": 1.003
+      },
+      "cash_winner_final": {
+        "claim_status": "SETTLED",
+        "cash_resolution_count": 1
+      },
+      "reversal_winner": {
+        "status": "PASS"
+      },
+      "cash_loser": {
+        "error": "Linked laundry claim must be SETTLED\nCONTEXT:  PL/pgSQL function resolve_bs_case_disposition_v2(uuid,text,integer,numeric,uuid,timestamp with time zone,text,uuid,bigint) line 45 at RAISE\nPL/pgSQL function erp.save_bs_resolution_action_v1(text,jsonb,uuid,bigint) line 95 at assignment\nPL/pgSQL function public.erp_save_bs_resolution_action_v1(text,jsonb,uuid,bigint) line 3 at RETURN",
+        "status": "EXPECTED_REJECTION",
+        "elapsed_seconds": 1.001
+      },
+      "reversal_winner_final": {
+        "claim_status": "REJECTED",
+        "cash_resolution_count": 0
+      }
+    },
+    "damage_claim_vs_capacity": {
+      "winner": {
+        "response": {
+          "action": "SAVE_CLAIM",
+          "result": {
+            "status": "OPEN",
+            "qty_claimed": 2,
+            "row_version": 1,
+            "claim_number": "CP5-RACE-DAMAGE-A",
+            "laundry_claim_id": "2fb140d1-6717-42de-a3aa-ec014f7902d5",
+            "compensation_amount": 0.0
+          }
+        },
+        "status": "PASS"
+      },
+      "loser": {
+        "error": "Laundry DAMAGE conservation failed. Posted BS 3, other active claims 2, requested 2\nCONTEXT:  PL/pgSQL function erp.validate_laundry_claim_lineage() line 85 at RAISE\nSQL statement \"insert into erp.laundry_claims(\n      claim_number,vendor_id,delivery_id,receipt_line_id,qty_claimed,claim_type,\n      compensation_amount,status,opened_at,resolution_date,notes\n    ) values(\n      btrim(p_payload->>'claim_number'),(p_payload->>'vendor_id')::uuid,\n      nullif(p_payload->>'delivery_id','')::uuid,nullif(p_payload->>'receipt_line_id','')::uuid,\n      (p_payload->>'qty_claimed')::integer,v_claim_type,\n      coalesce(nullif(p_payload->>'compensation_amount','')::numeric,0),'OPEN',\n      coalesce(nullif(p_payload->>'opened_at','')::timestamptz,statement_timestamp()),\n      nullif(p_payload->>'resolution_date','')::date,nullif(btrim(p_payload->>'notes'),'')\n    ) returning *\"\nPL/pgSQL function erp.save_laundry_claim_v2(jsonb,uuid,bigint) line 55 at SQL statement\nPL/pgSQL function erp.save_bs_resolution_action_v1(text,jsonb,uuid,bigint) line 208 at assignment\nPL/pgSQL function public.erp_save_bs_resolution_action_v1(text,jsonb,uuid,bigint) line 3 at RETURN",
+        "status": "EXPECTED_REJECTION",
+        "elapsed_seconds": 1.012
+      },
+      "final": {
+        "receipt_bs": 3,
+        "claim_count": 1,
+        "claimed_qty": 2,
+        "remaining_capacity": 1
+      }
+    },
+    "damage_claim_wins_vs_receipt_reversal": {
+      "claim_winner": {
+        "response": {
+          "action": "SAVE_CLAIM",
+          "result": {
+            "status": "OPEN",
+            "qty_claimed": 1,
+            "row_version": 1,
+            "claim_number": "CP5-RACE-DAMAGE-SOURCE-A",
+            "laundry_claim_id": "23a12d55-6275-48ee-b256-3701884ec52c",
+            "compensation_amount": 0.0
+          }
+        },
+        "status": "PASS"
+      },
+      "reversal_loser": {
+        "error": "Reject or reverse/correct dependent DAMAGE claims before reversing their receipt\nCONTEXT:  PL/pgSQL function erp.guard_laundry_claim_receipt_source_v2619b() line 21 at RAISE",
+        "status": "EXPECTED_REJECTION",
+        "elapsed_seconds": 1.012
+      },
+      "final": {
+        "active_claims": 1,
+        "receipt_status": "POSTED"
+      }
+    },
+    "failure": "DAMAGE source reversal-wins mismatch: reversal={'status': 'FAIL', 'error': 'Laundry receipt reversal refused: posted WIP source history is missing or duplicated\\nCONTEXT:  PL/pgSQL function erp.append_cp6_laundry_wip_reversal_v2620() line 42 at RAISE'}, claim={'unexpected_response': {'action': 'SAVE_CLAIM', 'result': {'status': 'OPEN', 'qty_claimed': 1, 'row_version': 1, 'claim_number': 'CP5-RACE-DAMAGE-SOURCE-B', 'laundry_claim_id': '64af6c2b-7cda-4865-8217-4fb5a25cccc7', 'compensation_amount': 0.0}}, 'status': 'UNEXPECTED_SUCCESS', 'elapsed_seconds': 0.013}",
+    "residue": {
+      "claims": 0,
+      "groups": 0,
+      "models": 0,
+      "orders": 0,
+      "batches": 0,
+      "vendors": 0,
+      "bs_cases": 0,
+      "receipts": 0,
+      "app_users": 0,
+      "audit_logs": 0,
+      "deliveries": 0,
+      "contractors": 0,
+      "idempotency": 0,
+      "access_audit": 0,
+      "bs_components": 0,
+      "receipt_lines": 0,
+      "bs_resolutions": 0,
+      "delivery_lines": 0,
+      "execution_context": 0
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "cutting_guard_qualification": {
+    "classification": "GUARD_BY_DESIGN_HISTORICAL_CP4_HASH_VS_DECLARED_CP7_DELTA",
+    "legacy_assertion_md5": "965de305e5a381cfdf5588f2b9d4babc",
+    "full_expected_md5": "ec31bbfd0fba3e18a66f7f3ea33473e8",
+    "full_expected_sha256": "57efdfe8af1a3dddba35332e81f00a27c7e2fcf9c0708e31c53a3eb74766fcdf",
+    "installation_proof": "cp7_p21_full_rehearsal_probe.install asserts exact expected definitions and owners/ACLs before full_runtime_before; report reached runtime_before/after",
+    "sources": [
+      {
+        "path": "scripts/cp7_settlement_bundle.py",
+        "sha256": "2d30805dfa75124e713ba6de9056761f0d7d9b084d19043fa55688c39d4177b0"
+      },
+      {
+        "path": "scripts/cp7_note_report_bundle.py",
+        "sha256": "c7fce16600d1530614111710b30a46da7fcd2d9cfad994c23dcafa3abee57ec8"
+      },
+      {
+        "path": "scripts/cp7_p21_full_rehearsal_probe.py",
+        "sha256": "b1c8be5afc64cf32b696cefd202e86c4a7709ac2c96b41fc187129f3dff81dd8"
+      },
+      {
+        "path": "audit/astra_cp17/full_stack.py",
+        "sha256": "9271976ffd578c00d1a093995a00b7da256062d8ebd146fa778cdf7790c852e3"
+      },
+      {
+        "path": "supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql",
+        "sha256": "f1b5bb04874d86fff8b867780a1d1aa2997371152576ab82b9dfbbfacacedf77"
+      }
+    ],
+    "limit": "At least the old MD5 operand must fail on correctly installed FULL CP7; no claim to have captured every other operand or to change raw INCOMPLETE into PASS"
+  }
+}

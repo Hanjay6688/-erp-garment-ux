@@ -1,0 +1,3162 @@
+{
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "control_sha": "0d7f3dcc72e1fbee19883c1056361c54527f6885",
+  "run_id": 38572768164,
+  "job_id": 115881983672,
+  "artifact_id": 11899491205,
+  "artifact_sha256": "38b288036169c8c0e9a679cb0f2734484a4c66a4d2f4a486de327c474d62a928",
+  "originals": [
+    {
+      "path": "continuation/38572768164/11899491205/original/ASTRA_CP17_POOL_POLICY_AFTER_ACTIVE_FIRST.json",
+      "sha256": "d56d7345e25ec1400f017a95edfe3c6b1df2d80fd53757d96345a4bb0820e0ac"
+    },
+    {
+      "path": "continuation/38572768164/11899491205/original/CP17_OWN_CASES_POOL_CLOSURE.json",
+      "sha256": "cacb6e1797d22b087f9369a8766861fdab9f3fb39f2ae4844fd4cada7369f4a4"
+    },
+    {
+      "path": "continuation/38572768164/11899491205/original/ASTRA_CP17_POOL_DISTINCT_PERIODS_FIRST.json",
+      "sha256": "7218e8484f98f965ad12c612a4e2095bc10f275448a3ef42e6b68df05a32b9fa"
+    }
+  ],
+  "finding": "ASTRA-CP17-HPP-01",
+  "policy_case": {
+    "pool": {
+      "preview": {
+        "status": "READY",
+        "manifest": {
+          "sources": [
+            {
+              "payroll_id": "186de1e2-d297-401f-b3de-a195351550b4",
+              "contractor_id": "2c056db2-1d7e-4f8b-b68b-2af15e16337c",
+              "policy_version_id": "663f883b-abe0-49e7-afe2-b5dc6de1ea7a",
+              "is_special_snapshot": false,
+              "policy_effective_to": null,
+              "policy_effective_from": "2026-10-12",
+              "attendance_amount_cents": 100000,
+              "contractor_role_snapshot": "MANDOR",
+              "original_debit_amount_cents": 100000,
+              "attendance_required_snapshot": true,
+              "original_debit_journal_line_id": "f73c7af0-43ca-4cb6-8dcf-0c6e7c07b26b"
+            }
+          ],
+          "period_end": "2026-10-13",
+          "destinations": [
+            {
+              "po_id": "7ba5925b-41df-4c21-8bb8-a445a1984d06",
+              "sewing_qty": 10,
+              "contractor_id": "2c056db2-1d7e-4f8b-b68b-2af15e16337c",
+              "cutting_group_id": "d72f232e-6100-470d-a248-64d6f4440fff",
+              "policy_version_id": "663f883b-abe0-49e7-afe2-b5dc6de1ea7a",
+              "is_special_snapshot": false,
+              "physical_at_epoch_us": 1791860400000000,
+              "contractor_role_snapshot": "MANDOR",
+              "sewing_terminal_event_id": "a34a05a0-8c77-4941-95af-cf3da205297c",
+              "source_work_completion_id": "48f7aa10-2cdb-47ce-99bd-395eeac005d4",
+              "attendance_required_snapshot": true
+            }
+          ],
+          "period_start": "2026-10-13",
+          "operation_type": "ATTENDANCE_HPP_POOL",
+          "denominator_qty": 10,
+          "numerator_cents": 100000,
+          "contract_version": "ATTENDANCE_HPP_SEWING_TERMINAL_V1"
+        },
+        "denominator_qty": 10,
+        "manifest_sha256": "fb5d627e2bdde6f4eb33e86165b359f24a0e395d058a226afcb22e927cf1a7a4",
+        "numerator_amount": 1000.0,
+        "unit_cost_per_sewn_pcs": 100.0
+      },
+      "made": {
+        "status": "DRAFT",
+        "pool_id": "f87bd0ff-a5a1-4ee6-b5cb-7c09059a444a",
+        "pool_number": "AHPP-20261014133906552896-4868ec8f",
+        "row_version": 1,
+        "denominator_qty": 10,
+        "manifest_sha256": "fb5d627e2bdde6f4eb33e86165b359f24a0e395d058a226afcb22e927cf1a7a4",
+        "numerator_amount": 1000.0,
+        "unit_cost_per_sewn_pcs": 100.0
+      },
+      "active": {
+        "status": "ACTIVE",
+        "pool_id": "f87bd0ff-a5a1-4ee6-b5cb-7c09059a444a",
+        "validation": "PASS",
+        "row_version": 2,
+        "journal_entry_id": "411bd34a-b347-4150-8730-568823c76602"
+      },
+      "id": "f87bd0ff-a5a1-4ee6-b5cb-7c09059a444a"
+    },
+    "excluded_contractor": "e931c18e-0c4c-49f3-b41e-36f715956d1d",
+    "before": {
+      "pools": [
+        {
+          "id": "f87bd0ff-a5a1-4ee6-b5cb-7c09059a444a",
+          "reason": "Astra fixed pool closure oracle",
+          "status": "ACTIVE",
+          "created_at": "2026-10-14T20:39:06.553085+07:00",
+          "created_by": "c8c00000-0000-4000-8000-000000000001",
+          "period_end": "2026-10-13",
+          "pool_number": "AHPP-20261014133906552896-4868ec8f",
+          "row_version": 2,
+          "activated_at": "2026-10-14T20:39:06.564017+07:00",
+          "activated_by": "c8c00000-0000-4000-8000-000000000001",
+          "cancelled_at": null,
+          "cancelled_by": null,
+          "period_start": "2026-10-13",
+          "denominator_qty": 10,
+          "source_manifest": {
+            "sources": [
+              {
+                "payroll_id": "186de1e2-d297-401f-b3de-a195351550b4",
+                "contractor_id": "2c056db2-1d7e-4f8b-b68b-2af15e16337c",
+                "policy_version_id": "663f883b-abe0-49e7-afe2-b5dc6de1ea7a",
+                "is_special_snapshot": false,
+                "policy_effective_to": null,
+                "policy_effective_from": "2026-10-12",
+                "attendance_amount_cents": 100000,
+                "contractor_role_snapshot": "MANDOR",
+                "original_debit_amount_cents": 100000,
+                "attendance_required_snapshot": true,
+                "original_debit_journal_line_id": "f73c7af0-43ca-4cb6-8dcf-0c6e7c07b26b"
+              }
+            ],
+            "period_end": "2026-10-13",
+            "destinations": [
+              {
+                "po_id": "7ba5925b-41df-4c21-8bb8-a445a1984d06",
+                "sewing_qty": 10,
+                "contractor_id": "2c056db2-1d7e-4f8b-b68b-2af15e16337c",
+                "cutting_group_id": "d72f232e-6100-470d-a248-64d6f4440fff",
+                "policy_version_id": "663f883b-abe0-49e7-afe2-b5dc6de1ea7a",
+                "is_special_snapshot": false,
+                "physical_at_epoch_us": 1791860400000000,
+                "contractor_role_snapshot": "MANDOR",
+                "sewing_terminal_event_id": "a34a05a0-8c77-4941-95af-cf3da205297c",
+                "source_work_completion_id": "48f7aa10-2cdb-47ce-99bd-395eeac005d4",
+                "attendance_required_snapshot": true
+              }
+            ],
+            "period_start": "2026-10-13",
+            "operation_type": "ATTENDANCE_HPP_POOL",
+            "denominator_qty": 10,
+            "numerator_cents": 100000,
+            "contract_version": "ATTENDANCE_HPP_SEWING_TERMINAL_V1"
+          },
+          "numerator_amount": 1000.0,
+          "cancellation_reason": null,
+          "correction_of_pool_id": null,
+          "post_journal_entry_id": "411bd34a-b347-4150-8730-568823c76602",
+          "source_manifest_sha256": "fb5d627e2bdde6f4eb33e86165b359f24a0e395d058a226afcb22e927cf1a7a4",
+          "unit_cost_per_sewn_pcs": 100.0,
+          "cancellation_journal_entry_id": null
+        }
+      ],
+      "sources": [
+        {
+          "id": "9563ad7a-5db2-44f5-a02a-27db581c91d6",
+          "pool_id": "f87bd0ff-a5a1-4ee6-b5cb-7c09059a444a",
+          "created_at": "2026-10-14T20:39:06.553369+07:00",
+          "payroll_id": "186de1e2-d297-401f-b3de-a195351550b4",
+          "contractor_id": "2c056db2-1d7e-4f8b-b68b-2af15e16337c",
+          "attendance_amount": 1000.0,
+          "policy_version_id": "663f883b-abe0-49e7-afe2-b5dc6de1ea7a",
+          "is_special_snapshot": false,
+          "contractor_role_snapshot": "MANDOR",
+          "attendance_required_snapshot": true,
+          "original_debit_journal_line_id": "f73c7af0-43ca-4cb6-8dcf-0c6e7c07b26b"
+        }
+      ],
+      "allocations": [
+        {
+          "id": "a0f21ac1-387d-40c6-86f9-0ad2d700e5d3",
+          "po_id": "7ba5925b-41df-4c21-8bb8-a445a1984d06",
+          "pool_id": "f87bd0ff-a5a1-4ee6-b5cb-7c09059a444a",
+          "created_at": "2026-10-14T20:39:06.553889+07:00",
+          "sewing_qty": 10,
+          "contractor_id": "2c056db2-1d7e-4f8b-b68b-2af15e16337c",
+          "pool_source_id": "9563ad7a-5db2-44f5-a02a-27db581c91d6",
+          "allocated_amount": 1000.0,
+          "cutting_group_id": "d72f232e-6100-470d-a248-64d6f4440fff",
+          "sewing_terminal_event_id": "a34a05a0-8c77-4941-95af-cf3da205297c"
+        }
+      ],
+      "detectors": [
+        {
+          "family": "integrity",
+          "name": "BS_RESOLUTION_OVER_QTY",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "DUPLICATE_CURRENT_HPP",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "FAILED_RECOST_QUEUE",
+          "severity": "WARN",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "FG_CACHE_MISMATCH",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "KASBON_PAID_OVERSETTLED",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "KASBON_STATUS_MISMATCH",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "LAUNDRY_OVER_RETURN",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "NEGATIVE_FG_BALANCE",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "NEGATIVE_MATERIAL_LOCATION_BALANCE",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "PAYROLL_ATTENDANCE_DUPLICATE",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "PAYROLL_PAID_NEGATIVE_NET",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "QC_SOURCE_OVER_ALLOCATION",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "REWORK_COMPLETION_UNRECONCILED",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "REWORK_FG_QTY_MISMATCH",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "REWORK_GOOD_WITHOUT_FG",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "REWORK_PAYROLL_BEFORE_COST_POST",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "STALE_RECOST_QUEUE",
+          "severity": "WARN",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "UNBALANCED_POSTED_JOURNALS",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_CASH_ADVANCE_CAPACITY",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_CASH_ADVANCE_PAYROLL_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_CASH_ADVANCE_SOURCE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_OPENING_RECEIPT_JOURNAL_DRIFT",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_OPENING_RECEIPT_SOURCE_DRIFT",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PERIOD_POCKET_HPP",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PERIOD_POCKET_LEDGER",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PERIOD_POCKET_OVERLAP",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PERIOD_POCKET_SOURCES",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_POCKET_EXPENSE_LEDGER",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_POCKET_NO_CUTTING",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_POCKET_SOURCE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PREPAYMENT_CAPACITY",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PREPAYMENT_EVENT_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PREPAYMENT_GL_SUBLEDGER",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PREPAYMENT_OPENING_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PREPAYMENT_PAYMENT_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PREPAYMENT_PAYMENT_SOURCE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620M_OPENING_SUBLEDGER_STATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620M_ORPHAN_PAYMENT_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620M_SUPPLIER_PAYMENT_EXACT_STATUS",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620N_SUPPLIER_CENT_FACT_LEDGER",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620O_SUPPLIER_RETURN_ALLOCATION",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620P_SUPPLIER_RETURN_MATCH_STATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620R_SUPPLIER_INVOICE_SOURCE_STATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620S_SUPPLIER_PAYMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620T_JOURNAL_FUTURE_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620T_MATERIAL_ADJUSTMENT_REVALUATION",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620U_JOURNAL_REVERSAL_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620U_MATERIAL_ADJUSTMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620U_MATERIAL_RECEIPT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620V_MISC_FINANCE_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620W_SCRAP_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620Y_SALES_PAYMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_AP_GL_SUBLEDGER_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_BROWSER_ROLE_DIRECT_INVOICE_WRITE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_ESTIMATED_RECEIPT_MISSING_GRNI_RECLASS",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_GRNI_GL_SUBLEDGER_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_GRNI_MAPPING_INVALID",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_INVOICE_MATCH_OVER_RECEIPT",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_LEGACY_CORRECTION_ON_GRNI",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_MISSING_GRNI_MAPPING",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_PAYMENT_EXCEEDS_FINAL_AP",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_POSTED_INVOICE_MISSING_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_POSTED_RETURN_MISSING_LIABILITY_SNAPSHOT",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620AD_OPENING_MATERIAL_TIMELINE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620AE_OPENING_MATERIAL_ROLL_INTEGRITY",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620AF_OPENING_SOURCE_LINEAGE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620AG_SALE_RESERVATION_LINEAGE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620AH_RETURN_ALLOCATION_LINEAGE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620AI_WORK_SOURCE_LINEAGE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_DRAFT_SALE_VALUE_LEAK",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_HPP_COMPONENT_SUM_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_HPP_STATE_HAS_SUBCENT",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_PO_HPP_BOOK_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_PO_HPP_TARGET_STATE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_SALE_REVENUE_REPORT_INPUT_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_SALES_RETURN_REPORT_INPUT_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_WIP_SOURCE_CONSERVATION_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620D_REDISPATCH_PARTICIPANT_LINEAGE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620D_SALE_LIFECYCLE_HPP_DIMENSION_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620E_OPENING_FG_GL_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620E_OPENING_HPP_LINEAGE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620E_REDISPATCH_EVENT_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620E_SALES_RETURN_VALUE_EXCEEDS_SALE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620F_CONVERSION_VALUE_LINEAGE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620F_NON_PO_PRODUCT_HPP_BOOK_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620G_LAUNDRY_WIP_CUSTODY_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620H_CUSTOMER_AR_STATUS_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620H_FAILED_WASH_RETURN_TIME_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620I_SALES_PAYMENT_JOURNAL_LINEAGE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620J_SALES_PAYMENT_IMMUTABLE_FACT_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620K_PAYMENT_ALLOCATION_DATE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620L_NEGATIVE_VENDOR_AP",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620L_NONFINITE_LEDGER_MONEY",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620M_OPENING_SUBLEDGER_STATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620M_ORPHAN_PAYMENT_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620M_SUPPLIER_PAYMENT_EXACT_STATUS",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620N_SUPPLIER_CENT_FACT_LEDGER",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620O_SUPPLIER_RETURN_ALLOCATION",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620P_SUPPLIER_RETURN_MATCH_STATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620R_SUPPLIER_INVOICE_SOURCE_STATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620S_SUPPLIER_PAYMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620T_JOURNAL_FUTURE_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620T_MATERIAL_ADJUSTMENT_REVALUATION",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620U_JOURNAL_REVERSAL_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620U_MATERIAL_ADJUSTMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620U_MATERIAL_RECEIPT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620V_MISC_FINANCE_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620W_SCRAP_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620Y_SALES_PAYMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V267_AP_GL_SUBLEDGER_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V267_GRNI_GL_SUBLEDGER_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V267_INVOICE_MATCH_OVER_RECEIPT",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V267_PAYMENT_EXCEEDS_FINAL_AP",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_ACTIVE_SALE_MISSING_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_AR_GL_SUBLEDGER_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_BALANCE_SHEET_EQUATION",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_BROWSER_DIRECT_LEDGER_OR_INVOICE_WRITE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_COST_RECALC_EXHAUSTED",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_COST_RECALC_PENDING",
+          "severity": "WARNING",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_DAILY_BALANCE_LEDGER_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_LIABILITY_VIEW_HELPER_PRIVILEGE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_POSTED_CUSTOMER_PAYMENT_MISSING_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_POSTED_SALES_RETURN_MISSING_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_PRODUCTION_FG_WITHOUT_CURRENT_HPP",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_UNBALANCED_POSTED_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        }
+      ]
+    },
+    "policy_attempt": {
+      "accepted": true,
+      "value": {
+        "is_special": false,
+        "row_version": 1,
+        "effective_to": null,
+        "contractor_id": "e931c18e-0c4c-49f3-b41e-36f715956d1d",
+        "effective_from": "2026-10-12",
+        "policy_version_id": "efbab88e-c98e-4320-afca-13c06dd0b37e",
+        "contractor_role_snapshot": "MANDOR",
+        "attendance_required_snapshot": true
+      }
+    },
+    "validation": {
+      "accepted": false,
+      "sqlstate": "P0001",
+      "message": "STALE_POOL_INPUT: payroll, policy, journal debit, or SELESAI_DIJAHIT facts changed after preview",
+      "detail": null
+    },
+    "after": {
+      "pools": [
+        {
+          "id": "f87bd0ff-a5a1-4ee6-b5cb-7c09059a444a",
+          "reason": "Astra fixed pool closure oracle",
+          "status": "ACTIVE",
+          "created_at": "2026-10-14T20:39:06.553085+07:00",
+          "created_by": "c8c00000-0000-4000-8000-000000000001",
+          "period_end": "2026-10-13",
+          "pool_number": "AHPP-20261014133906552896-4868ec8f",
+          "row_version": 2,
+          "activated_at": "2026-10-14T20:39:06.564017+07:00",
+          "activated_by": "c8c00000-0000-4000-8000-000000000001",
+          "cancelled_at": null,
+          "cancelled_by": null,
+          "period_start": "2026-10-13",
+          "denominator_qty": 10,
+          "source_manifest": {
+            "sources": [
+              {
+                "payroll_id": "186de1e2-d297-401f-b3de-a195351550b4",
+                "contractor_id": "2c056db2-1d7e-4f8b-b68b-2af15e16337c",
+                "policy_version_id": "663f883b-abe0-49e7-afe2-b5dc6de1ea7a",
+                "is_special_snapshot": false,
+                "policy_effective_to": null,
+                "policy_effective_from": "2026-10-12",
+                "attendance_amount_cents": 100000,
+                "contractor_role_snapshot": "MANDOR",
+                "original_debit_amount_cents": 100000,
+                "attendance_required_snapshot": true,
+                "original_debit_journal_line_id": "f73c7af0-43ca-4cb6-8dcf-0c6e7c07b26b"
+              }
+            ],
+            "period_end": "2026-10-13",
+            "destinations": [
+              {
+                "po_id": "7ba5925b-41df-4c21-8bb8-a445a1984d06",
+                "sewing_qty": 10,
+                "contractor_id": "2c056db2-1d7e-4f8b-b68b-2af15e16337c",
+                "cutting_group_id": "d72f232e-6100-470d-a248-64d6f4440fff",
+                "policy_version_id": "663f883b-abe0-49e7-afe2-b5dc6de1ea7a",
+                "is_special_snapshot": false,
+                "physical_at_epoch_us": 1791860400000000,
+                "contractor_role_snapshot": "MANDOR",
+                "sewing_terminal_event_id": "a34a05a0-8c77-4941-95af-cf3da205297c",
+                "source_work_completion_id": "48f7aa10-2cdb-47ce-99bd-395eeac005d4",
+                "attendance_required_snapshot": true
+              }
+            ],
+            "period_start": "2026-10-13",
+            "operation_type": "ATTENDANCE_HPP_POOL",
+            "denominator_qty": 10,
+            "numerator_cents": 100000,
+            "contract_version": "ATTENDANCE_HPP_SEWING_TERMINAL_V1"
+          },
+          "numerator_amount": 1000.0,
+          "cancellation_reason": null,
+          "correction_of_pool_id": null,
+          "post_journal_entry_id": "411bd34a-b347-4150-8730-568823c76602",
+          "source_manifest_sha256": "fb5d627e2bdde6f4eb33e86165b359f24a0e395d058a226afcb22e927cf1a7a4",
+          "unit_cost_per_sewn_pcs": 100.0,
+          "cancellation_journal_entry_id": null
+        }
+      ],
+      "sources": [
+        {
+          "id": "9563ad7a-5db2-44f5-a02a-27db581c91d6",
+          "pool_id": "f87bd0ff-a5a1-4ee6-b5cb-7c09059a444a",
+          "created_at": "2026-10-14T20:39:06.553369+07:00",
+          "payroll_id": "186de1e2-d297-401f-b3de-a195351550b4",
+          "contractor_id": "2c056db2-1d7e-4f8b-b68b-2af15e16337c",
+          "attendance_amount": 1000.0,
+          "policy_version_id": "663f883b-abe0-49e7-afe2-b5dc6de1ea7a",
+          "is_special_snapshot": false,
+          "contractor_role_snapshot": "MANDOR",
+          "attendance_required_snapshot": true,
+          "original_debit_journal_line_id": "f73c7af0-43ca-4cb6-8dcf-0c6e7c07b26b"
+        }
+      ],
+      "allocations": [
+        {
+          "id": "a0f21ac1-387d-40c6-86f9-0ad2d700e5d3",
+          "po_id": "7ba5925b-41df-4c21-8bb8-a445a1984d06",
+          "pool_id": "f87bd0ff-a5a1-4ee6-b5cb-7c09059a444a",
+          "created_at": "2026-10-14T20:39:06.553889+07:00",
+          "sewing_qty": 10,
+          "contractor_id": "2c056db2-1d7e-4f8b-b68b-2af15e16337c",
+          "pool_source_id": "9563ad7a-5db2-44f5-a02a-27db581c91d6",
+          "allocated_amount": 1000.0,
+          "cutting_group_id": "d72f232e-6100-470d-a248-64d6f4440fff",
+          "sewing_terminal_event_id": "a34a05a0-8c77-4941-95af-cf3da205297c"
+        }
+      ],
+      "detectors": [
+        {
+          "family": "integrity",
+          "name": "BS_RESOLUTION_OVER_QTY",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "DUPLICATE_CURRENT_HPP",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "FAILED_RECOST_QUEUE",
+          "severity": "WARN",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "FG_CACHE_MISMATCH",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "KASBON_PAID_OVERSETTLED",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "KASBON_STATUS_MISMATCH",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "LAUNDRY_OVER_RETURN",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "NEGATIVE_FG_BALANCE",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "NEGATIVE_MATERIAL_LOCATION_BALANCE",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "PAYROLL_ATTENDANCE_DUPLICATE",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "PAYROLL_PAID_NEGATIVE_NET",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "QC_SOURCE_OVER_ALLOCATION",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "REWORK_COMPLETION_UNRECONCILED",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "REWORK_FG_QTY_MISMATCH",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "REWORK_GOOD_WITHOUT_FG",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "REWORK_PAYROLL_BEFORE_COST_POST",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "STALE_RECOST_QUEUE",
+          "severity": "WARN",
+          "issues": 0
+        },
+        {
+          "family": "integrity",
+          "name": "UNBALANCED_POSTED_JOURNALS",
+          "severity": "ERROR",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_CASH_ADVANCE_CAPACITY",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_CASH_ADVANCE_PAYROLL_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_CASH_ADVANCE_SOURCE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_OPENING_RECEIPT_JOURNAL_DRIFT",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_OPENING_RECEIPT_SOURCE_DRIFT",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PERIOD_POCKET_HPP",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PERIOD_POCKET_LEDGER",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PERIOD_POCKET_OVERLAP",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PERIOD_POCKET_SOURCES",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_POCKET_EXPENSE_LEDGER",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_POCKET_NO_CUTTING",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_POCKET_SOURCE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PREPAYMENT_CAPACITY",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PREPAYMENT_EVENT_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PREPAYMENT_GL_SUBLEDGER",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PREPAYMENT_OPENING_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PREPAYMENT_PAYMENT_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "AP_PREPAYMENT_PAYMENT_SOURCE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620M_OPENING_SUBLEDGER_STATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620M_ORPHAN_PAYMENT_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620M_SUPPLIER_PAYMENT_EXACT_STATUS",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620N_SUPPLIER_CENT_FACT_LEDGER",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620O_SUPPLIER_RETURN_ALLOCATION",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620P_SUPPLIER_RETURN_MATCH_STATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620R_SUPPLIER_INVOICE_SOURCE_STATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620S_SUPPLIER_PAYMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620T_JOURNAL_FUTURE_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620T_MATERIAL_ADJUSTMENT_REVALUATION",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620U_JOURNAL_REVERSAL_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620U_MATERIAL_ADJUSTMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620U_MATERIAL_RECEIPT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620V_MISC_FINANCE_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620W_SCRAP_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620Y_SALES_PAYMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_AP_GL_SUBLEDGER_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_BROWSER_ROLE_DIRECT_INVOICE_WRITE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_ESTIMATED_RECEIPT_MISSING_GRNI_RECLASS",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_GRNI_GL_SUBLEDGER_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_GRNI_MAPPING_INVALID",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_INVOICE_MATCH_OVER_RECEIPT",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_LEGACY_CORRECTION_ON_GRNI",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_MISSING_GRNI_MAPPING",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_PAYMENT_EXCEEDS_FINAL_AP",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_POSTED_INVOICE_MISSING_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v267",
+          "name": "V267_POSTED_RETURN_MISSING_LIABILITY_SNAPSHOT",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620AD_OPENING_MATERIAL_TIMELINE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620AE_OPENING_MATERIAL_ROLL_INTEGRITY",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620AF_OPENING_SOURCE_LINEAGE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620AG_SALE_RESERVATION_LINEAGE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620AH_RETURN_ALLOCATION_LINEAGE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620AI_WORK_SOURCE_LINEAGE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_DRAFT_SALE_VALUE_LEAK",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_HPP_COMPONENT_SUM_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_HPP_STATE_HAS_SUBCENT",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_PO_HPP_BOOK_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_PO_HPP_TARGET_STATE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_SALE_REVENUE_REPORT_INPUT_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_SALES_RETURN_REPORT_INPUT_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620C_WIP_SOURCE_CONSERVATION_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620D_REDISPATCH_PARTICIPANT_LINEAGE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620D_SALE_LIFECYCLE_HPP_DIMENSION_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620E_OPENING_FG_GL_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620E_OPENING_HPP_LINEAGE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620E_REDISPATCH_EVENT_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620E_SALES_RETURN_VALUE_EXCEEDS_SALE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620F_CONVERSION_VALUE_LINEAGE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620F_NON_PO_PRODUCT_HPP_BOOK_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620G_LAUNDRY_WIP_CUSTODY_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620H_CUSTOMER_AR_STATUS_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620H_FAILED_WASH_RETURN_TIME_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620I_SALES_PAYMENT_JOURNAL_LINEAGE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620J_SALES_PAYMENT_IMMUTABLE_FACT_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620K_PAYMENT_ALLOCATION_DATE_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620L_NEGATIVE_VENDOR_AP",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620L_NONFINITE_LEDGER_MONEY",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620M_OPENING_SUBLEDGER_STATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620M_ORPHAN_PAYMENT_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620M_SUPPLIER_PAYMENT_EXACT_STATUS",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620N_SUPPLIER_CENT_FACT_LEDGER",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620O_SUPPLIER_RETURN_ALLOCATION",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620P_SUPPLIER_RETURN_MATCH_STATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620R_SUPPLIER_INVOICE_SOURCE_STATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620S_SUPPLIER_PAYMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620T_JOURNAL_FUTURE_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620T_MATERIAL_ADJUSTMENT_REVALUATION",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620U_JOURNAL_REVERSAL_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620U_MATERIAL_ADJUSTMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620U_MATERIAL_RECEIPT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620V_MISC_FINANCE_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620W_SCRAP_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620Y_SALES_PAYMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V267_AP_GL_SUBLEDGER_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V267_GRNI_GL_SUBLEDGER_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V267_INVOICE_MATCH_OVER_RECEIPT",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V267_PAYMENT_EXCEEDS_FINAL_AP",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_ACTIVE_SALE_MISSING_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_AR_GL_SUBLEDGER_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_BALANCE_SHEET_EQUATION",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_BROWSER_DIRECT_LEDGER_OR_INVOICE_WRITE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_COST_RECALC_EXHAUSTED",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_COST_RECALC_PENDING",
+          "severity": "WARNING",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_DAILY_BALANCE_LEDGER_MISMATCH",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_LIABILITY_VIEW_HELPER_PRIVILEGE",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_POSTED_CUSTOMER_PAYMENT_MISSING_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_POSTED_SALES_RETURN_MISSING_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_PRODUCTION_FG_WITHOUT_CURRENT_HPP",
+          "severity": "CRITICAL",
+          "issues": 0
+        },
+        {
+          "family": "v268",
+          "name": "V268_UNBALANCED_POSTED_JOURNAL",
+          "severity": "CRITICAL",
+          "issues": 0
+        }
+      ]
+    }
+  },
+  "conservation_case": {
+    "pools": [
+      {
+        "id": "475ced8a-8a1f-4739-9709-92a37ee702e5",
+        "reason": "Astra fixed pool closure oracle",
+        "status": "ACTIVE",
+        "created_at": "2026-10-14T20:39:05.283187+07:00",
+        "created_by": "c8c00000-0000-4000-8000-000000000001",
+        "period_end": "2026-10-13",
+        "pool_number": "AHPP-20261014133905282941-eb4f201f",
+        "row_version": 2,
+        "activated_at": "2026-10-14T20:39:05.300978+07:00",
+        "activated_by": "c8c00000-0000-4000-8000-000000000001",
+        "cancelled_at": null,
+        "cancelled_by": null,
+        "period_start": "2026-10-12",
+        "denominator_qty": 20,
+        "source_manifest": {
+          "sources": [
+            {
+              "payroll_id": "2ea089a4-6c2d-4437-bad1-87bd015ab597",
+              "contractor_id": "85de1f43-9224-4686-af4b-daafb6c84bde",
+              "policy_version_id": "57e8d32c-ab6b-499b-b0f8-eefc4c9167a6",
+              "is_special_snapshot": false,
+              "policy_effective_to": null,
+              "policy_effective_from": "2026-10-11",
+              "attendance_amount_cents": 100000,
+              "contractor_role_snapshot": "MANDOR",
+              "original_debit_amount_cents": 100000,
+              "attendance_required_snapshot": true,
+              "original_debit_journal_line_id": "5493191d-97ca-40b2-b9f5-2ed621e89304"
+            }
+          ],
+          "period_end": "2026-10-13",
+          "destinations": [
+            {
+              "po_id": "48278a0d-9cd5-49d2-b406-09bd9421fd5c",
+              "sewing_qty": 10,
+              "contractor_id": "452e0b10-8466-4ccd-95d2-f847c9b25d7c",
+              "cutting_group_id": "6419b97c-9a6b-4467-9c43-579ff57f4c5a",
+              "policy_version_id": "e5e146cb-bb1c-42c5-9386-1cf2eaf97da6",
+              "is_special_snapshot": false,
+              "physical_at_epoch_us": 1791860400000000,
+              "contractor_role_snapshot": "MANDOR",
+              "sewing_terminal_event_id": "13c59fc8-1db9-400c-ab19-d8c84c71e5bb",
+              "source_work_completion_id": "bf84fb90-b8e5-4909-b886-cf105b8fca6c",
+              "attendance_required_snapshot": true
+            },
+            {
+              "po_id": "36d02570-47a9-4021-b243-c90d2a321a4c",
+              "sewing_qty": 10,
+              "contractor_id": "85de1f43-9224-4686-af4b-daafb6c84bde",
+              "cutting_group_id": "a07ec964-1dc9-4e77-b378-c1564099f6e2",
+              "policy_version_id": "57e8d32c-ab6b-499b-b0f8-eefc4c9167a6",
+              "is_special_snapshot": false,
+              "physical_at_epoch_us": 1791860400000000,
+              "contractor_role_snapshot": "MANDOR",
+              "sewing_terminal_event_id": "25c6c803-e326-401f-9e21-45b891c7c32c",
+              "source_work_completion_id": "b0f76b91-170f-4f40-812d-bcdf412dae88",
+              "attendance_required_snapshot": true
+            }
+          ],
+          "period_start": "2026-10-12",
+          "operation_type": "ATTENDANCE_HPP_POOL",
+          "denominator_qty": 20,
+          "numerator_cents": 100000,
+          "contract_version": "ATTENDANCE_HPP_SEWING_TERMINAL_V1"
+        },
+        "numerator_amount": 1000.0,
+        "cancellation_reason": null,
+        "correction_of_pool_id": null,
+        "post_journal_entry_id": "f068f756-6297-44ad-b992-2d5161dda290",
+        "source_manifest_sha256": "ed09bd4d72159914ba2de1bfc964df00a82e6f53ca7d7137717c9305c0894580",
+        "unit_cost_per_sewn_pcs": 50.0,
+        "cancellation_journal_entry_id": null
+      },
+      {
+        "id": "82633c2b-f5ae-4d66-b8e4-368daa3b582d",
+        "reason": "Astra fixed pool closure oracle",
+        "status": "ACTIVE",
+        "created_at": "2026-10-14T20:39:05.331603+07:00",
+        "created_by": "c8c00000-0000-4000-8000-000000000001",
+        "period_end": "2026-10-13",
+        "pool_number": "AHPP-20261014133905331415-136cb10e",
+        "row_version": 2,
+        "activated_at": "2026-10-14T20:39:05.341856+07:00",
+        "activated_by": "c8c00000-0000-4000-8000-000000000001",
+        "cancelled_at": null,
+        "cancelled_by": null,
+        "period_start": "2026-10-13",
+        "denominator_qty": 20,
+        "source_manifest": {
+          "sources": [
+            {
+              "payroll_id": "cb1c6eaa-df86-45e7-89f3-d0b01dce6c4f",
+              "contractor_id": "452e0b10-8466-4ccd-95d2-f847c9b25d7c",
+              "policy_version_id": "e5e146cb-bb1c-42c5-9386-1cf2eaf97da6",
+              "is_special_snapshot": false,
+              "policy_effective_to": null,
+              "policy_effective_from": "2026-10-11",
+              "attendance_amount_cents": 100000,
+              "contractor_role_snapshot": "MANDOR",
+              "original_debit_amount_cents": 100000,
+              "attendance_required_snapshot": true,
+              "original_debit_journal_line_id": "31b1ef47-ff27-4754-bd9a-001976999911"
+            }
+          ],
+          "period_end": "2026-10-13",
+          "destinations": [
+            {
+              "po_id": "48278a0d-9cd5-49d2-b406-09bd9421fd5c",
+              "sewing_qty": 10,
+              "contractor_id": "452e0b10-8466-4ccd-95d2-f847c9b25d7c",
+              "cutting_group_id": "6419b97c-9a6b-4467-9c43-579ff57f4c5a",
+              "policy_version_id": "e5e146cb-bb1c-42c5-9386-1cf2eaf97da6",
+              "is_special_snapshot": false,
+              "physical_at_epoch_us": 1791860400000000,
+              "contractor_role_snapshot": "MANDOR",
+              "sewing_terminal_event_id": "13c59fc8-1db9-400c-ab19-d8c84c71e5bb",
+              "source_work_completion_id": "bf84fb90-b8e5-4909-b886-cf105b8fca6c",
+              "attendance_required_snapshot": true
+            },
+            {
+              "po_id": "36d02570-47a9-4021-b243-c90d2a321a4c",
+              "sewing_qty": 10,
+              "contractor_id": "85de1f43-9224-4686-af4b-daafb6c84bde",
+              "cutting_group_id": "a07ec964-1dc9-4e77-b378-c1564099f6e2",
+              "policy_version_id": "57e8d32c-ab6b-499b-b0f8-eefc4c9167a6",
+              "is_special_snapshot": false,
+              "physical_at_epoch_us": 1791860400000000,
+              "contractor_role_snapshot": "MANDOR",
+              "sewing_terminal_event_id": "25c6c803-e326-401f-9e21-45b891c7c32c",
+              "source_work_completion_id": "b0f76b91-170f-4f40-812d-bcdf412dae88",
+              "attendance_required_snapshot": true
+            }
+          ],
+          "period_start": "2026-10-13",
+          "operation_type": "ATTENDANCE_HPP_POOL",
+          "denominator_qty": 20,
+          "numerator_cents": 100000,
+          "contract_version": "ATTENDANCE_HPP_SEWING_TERMINAL_V1"
+        },
+        "numerator_amount": 1000.0,
+        "cancellation_reason": null,
+        "correction_of_pool_id": null,
+        "post_journal_entry_id": "3a6a8393-3d01-4d9c-be91-922c1d8290af",
+        "source_manifest_sha256": "2201575d0ce7eb160e4900d335581a016a4deb3c45a9564b2c5ef6509c53a6a9",
+        "unit_cost_per_sewn_pcs": 50.0,
+        "cancellation_journal_entry_id": null
+      }
+    ],
+    "sources": [
+      {
+        "id": "7f24f867-6783-49c5-978e-07815dc0301e",
+        "pool_id": "475ced8a-8a1f-4739-9709-92a37ee702e5",
+        "created_at": "2026-10-14T20:39:05.283933+07:00",
+        "payroll_id": "2ea089a4-6c2d-4437-bad1-87bd015ab597",
+        "contractor_id": "85de1f43-9224-4686-af4b-daafb6c84bde",
+        "attendance_amount": 1000.0,
+        "policy_version_id": "57e8d32c-ab6b-499b-b0f8-eefc4c9167a6",
+        "is_special_snapshot": false,
+        "contractor_role_snapshot": "MANDOR",
+        "attendance_required_snapshot": true,
+        "original_debit_journal_line_id": "5493191d-97ca-40b2-b9f5-2ed621e89304"
+      },
+      {
+        "id": "c04d9912-a453-4e64-b83f-ba34dac2e16f",
+        "pool_id": "82633c2b-f5ae-4d66-b8e4-368daa3b582d",
+        "created_at": "2026-10-14T20:39:05.331867+07:00",
+        "payroll_id": "cb1c6eaa-df86-45e7-89f3-d0b01dce6c4f",
+        "contractor_id": "452e0b10-8466-4ccd-95d2-f847c9b25d7c",
+        "attendance_amount": 1000.0,
+        "policy_version_id": "e5e146cb-bb1c-42c5-9386-1cf2eaf97da6",
+        "is_special_snapshot": false,
+        "contractor_role_snapshot": "MANDOR",
+        "attendance_required_snapshot": true,
+        "original_debit_journal_line_id": "31b1ef47-ff27-4754-bd9a-001976999911"
+      }
+    ],
+    "allocations": [
+      {
+        "id": "c666c3fc-12cb-478a-92c8-cae3ae6591ca",
+        "po_id": "48278a0d-9cd5-49d2-b406-09bd9421fd5c",
+        "pool_id": "475ced8a-8a1f-4739-9709-92a37ee702e5",
+        "created_at": "2026-10-14T20:39:05.285144+07:00",
+        "sewing_qty": 10,
+        "contractor_id": "452e0b10-8466-4ccd-95d2-f847c9b25d7c",
+        "pool_source_id": "7f24f867-6783-49c5-978e-07815dc0301e",
+        "allocated_amount": 500.0,
+        "cutting_group_id": "6419b97c-9a6b-4467-9c43-579ff57f4c5a",
+        "sewing_terminal_event_id": "13c59fc8-1db9-400c-ab19-d8c84c71e5bb"
+      },
+      {
+        "id": "3a8295d8-f2db-4a5b-bd8d-0984bd9c7c99",
+        "po_id": "36d02570-47a9-4021-b243-c90d2a321a4c",
+        "pool_id": "475ced8a-8a1f-4739-9709-92a37ee702e5",
+        "created_at": "2026-10-14T20:39:05.285344+07:00",
+        "sewing_qty": 10,
+        "contractor_id": "85de1f43-9224-4686-af4b-daafb6c84bde",
+        "pool_source_id": "7f24f867-6783-49c5-978e-07815dc0301e",
+        "allocated_amount": 500.0,
+        "cutting_group_id": "a07ec964-1dc9-4e77-b378-c1564099f6e2",
+        "sewing_terminal_event_id": "25c6c803-e326-401f-9e21-45b891c7c32c"
+      },
+      {
+        "id": "1a2c5192-7a77-4049-9e5f-2e537aa948d7",
+        "po_id": "48278a0d-9cd5-49d2-b406-09bd9421fd5c",
+        "pool_id": "82633c2b-f5ae-4d66-b8e4-368daa3b582d",
+        "created_at": "2026-10-14T20:39:05.332401+07:00",
+        "sewing_qty": 10,
+        "contractor_id": "452e0b10-8466-4ccd-95d2-f847c9b25d7c",
+        "pool_source_id": "c04d9912-a453-4e64-b83f-ba34dac2e16f",
+        "allocated_amount": 500.0,
+        "cutting_group_id": "6419b97c-9a6b-4467-9c43-579ff57f4c5a",
+        "sewing_terminal_event_id": "13c59fc8-1db9-400c-ab19-d8c84c71e5bb"
+      },
+      {
+        "id": "8d2030bb-dd55-4649-8c39-e1df49e769c6",
+        "po_id": "36d02570-47a9-4021-b243-c90d2a321a4c",
+        "pool_id": "82633c2b-f5ae-4d66-b8e4-368daa3b582d",
+        "created_at": "2026-10-14T20:39:05.332428+07:00",
+        "sewing_qty": 10,
+        "contractor_id": "85de1f43-9224-4686-af4b-daafb6c84bde",
+        "pool_source_id": "c04d9912-a453-4e64-b83f-ba34dac2e16f",
+        "allocated_amount": 500.0,
+        "cutting_group_id": "a07ec964-1dc9-4e77-b378-c1564099f6e2",
+        "sewing_terminal_event_id": "25c6c803-e326-401f-9e21-45b891c7c32c"
+      }
+    ],
+    "detectors": [
+      {
+        "family": "integrity",
+        "name": "BS_RESOLUTION_OVER_QTY",
+        "severity": "ERROR",
+        "issues": 0
+      },
+      {
+        "family": "integrity",
+        "name": "DUPLICATE_CURRENT_HPP",
+        "severity": "ERROR",
+        "issues": 0
+      },
+      {
+        "family": "integrity",
+        "name": "FAILED_RECOST_QUEUE",
+        "severity": "WARN",
+        "issues": 0
+      },
+      {
+        "family": "integrity",
+        "name": "FG_CACHE_MISMATCH",
+        "severity": "ERROR",
+        "issues": 0
+      },
+      {
+        "family": "integrity",
+        "name": "KASBON_PAID_OVERSETTLED",
+        "severity": "ERROR",
+        "issues": 0
+      },
+      {
+        "family": "integrity",
+        "name": "KASBON_STATUS_MISMATCH",
+        "severity": "ERROR",
+        "issues": 0
+      },
+      {
+        "family": "integrity",
+        "name": "LAUNDRY_OVER_RETURN",
+        "severity": "ERROR",
+        "issues": 0
+      },
+      {
+        "family": "integrity",
+        "name": "NEGATIVE_FG_BALANCE",
+        "severity": "ERROR",
+        "issues": 0
+      },
+      {
+        "family": "integrity",
+        "name": "NEGATIVE_MATERIAL_LOCATION_BALANCE",
+        "severity": "ERROR",
+        "issues": 0
+      },
+      {
+        "family": "integrity",
+        "name": "PAYROLL_ATTENDANCE_DUPLICATE",
+        "severity": "ERROR",
+        "issues": 0
+      },
+      {
+        "family": "integrity",
+        "name": "PAYROLL_PAID_NEGATIVE_NET",
+        "severity": "ERROR",
+        "issues": 0
+      },
+      {
+        "family": "integrity",
+        "name": "QC_SOURCE_OVER_ALLOCATION",
+        "severity": "ERROR",
+        "issues": 0
+      },
+      {
+        "family": "integrity",
+        "name": "REWORK_COMPLETION_UNRECONCILED",
+        "severity": "ERROR",
+        "issues": 0
+      },
+      {
+        "family": "integrity",
+        "name": "REWORK_FG_QTY_MISMATCH",
+        "severity": "ERROR",
+        "issues": 0
+      },
+      {
+        "family": "integrity",
+        "name": "REWORK_GOOD_WITHOUT_FG",
+        "severity": "ERROR",
+        "issues": 0
+      },
+      {
+        "family": "integrity",
+        "name": "REWORK_PAYROLL_BEFORE_COST_POST",
+        "severity": "ERROR",
+        "issues": 0
+      },
+      {
+        "family": "integrity",
+        "name": "STALE_RECOST_QUEUE",
+        "severity": "WARN",
+        "issues": 0
+      },
+      {
+        "family": "integrity",
+        "name": "UNBALANCED_POSTED_JOURNALS",
+        "severity": "ERROR",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_CASH_ADVANCE_CAPACITY",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_CASH_ADVANCE_PAYROLL_JOURNAL",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_CASH_ADVANCE_SOURCE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_OPENING_RECEIPT_JOURNAL_DRIFT",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_OPENING_RECEIPT_SOURCE_DRIFT",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_PERIOD_POCKET_HPP",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_PERIOD_POCKET_LEDGER",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_PERIOD_POCKET_OVERLAP",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_PERIOD_POCKET_SOURCES",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_POCKET_EXPENSE_LEDGER",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_POCKET_NO_CUTTING",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_POCKET_SOURCE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_PREPAYMENT_CAPACITY",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_PREPAYMENT_EVENT_JOURNAL",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_PREPAYMENT_GL_SUBLEDGER",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_PREPAYMENT_OPENING_JOURNAL",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_PREPAYMENT_PAYMENT_JOURNAL",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "AP_PREPAYMENT_PAYMENT_SOURCE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620M_OPENING_SUBLEDGER_STATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620M_ORPHAN_PAYMENT_JOURNAL",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620M_SUPPLIER_PAYMENT_EXACT_STATUS",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620N_SUPPLIER_CENT_FACT_LEDGER",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620O_SUPPLIER_RETURN_ALLOCATION",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620P_SUPPLIER_RETURN_MATCH_STATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620R_SUPPLIER_INVOICE_SOURCE_STATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620S_SUPPLIER_PAYMENT_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620T_JOURNAL_FUTURE_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620T_MATERIAL_ADJUSTMENT_REVALUATION",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620U_JOURNAL_REVERSAL_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620U_MATERIAL_ADJUSTMENT_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620U_MATERIAL_RECEIPT_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620V_MISC_FINANCE_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620W_SCRAP_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620Y_SALES_PAYMENT_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V267_AP_GL_SUBLEDGER_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V267_BROWSER_ROLE_DIRECT_INVOICE_WRITE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V267_ESTIMATED_RECEIPT_MISSING_GRNI_RECLASS",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V267_GRNI_GL_SUBLEDGER_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V267_GRNI_MAPPING_INVALID",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V267_INVOICE_MATCH_OVER_RECEIPT",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V267_LEGACY_CORRECTION_ON_GRNI",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V267_MISSING_GRNI_MAPPING",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V267_PAYMENT_EXCEEDS_FINAL_AP",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V267_POSTED_INVOICE_MISSING_JOURNAL",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v267",
+        "name": "V267_POSTED_RETURN_MISSING_LIABILITY_SNAPSHOT",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620AD_OPENING_MATERIAL_TIMELINE_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620AE_OPENING_MATERIAL_ROLL_INTEGRITY",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620AF_OPENING_SOURCE_LINEAGE_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620AG_SALE_RESERVATION_LINEAGE_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620AH_RETURN_ALLOCATION_LINEAGE_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620AI_WORK_SOURCE_LINEAGE_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620C_DRAFT_SALE_VALUE_LEAK",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620C_HPP_COMPONENT_SUM_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620C_HPP_STATE_HAS_SUBCENT",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620C_PO_HPP_BOOK_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620C_PO_HPP_TARGET_STATE_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620C_SALE_REVENUE_REPORT_INPUT_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620C_SALES_RETURN_REPORT_INPUT_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620C_WIP_SOURCE_CONSERVATION_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620D_REDISPATCH_PARTICIPANT_LINEAGE_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620D_SALE_LIFECYCLE_HPP_DIMENSION_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620E_OPENING_FG_GL_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620E_OPENING_HPP_LINEAGE_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620E_REDISPATCH_EVENT_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620E_SALES_RETURN_VALUE_EXCEEDS_SALE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620F_CONVERSION_VALUE_LINEAGE_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620F_NON_PO_PRODUCT_HPP_BOOK_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620G_LAUNDRY_WIP_CUSTODY_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620H_CUSTOMER_AR_STATUS_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620H_FAILED_WASH_RETURN_TIME_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620I_SALES_PAYMENT_JOURNAL_LINEAGE_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620J_SALES_PAYMENT_IMMUTABLE_FACT_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620K_PAYMENT_ALLOCATION_DATE_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620L_NEGATIVE_VENDOR_AP",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620L_NONFINITE_LEDGER_MONEY",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620M_OPENING_SUBLEDGER_STATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620M_ORPHAN_PAYMENT_JOURNAL",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620M_SUPPLIER_PAYMENT_EXACT_STATUS",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620N_SUPPLIER_CENT_FACT_LEDGER",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620O_SUPPLIER_RETURN_ALLOCATION",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620P_SUPPLIER_RETURN_MATCH_STATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620R_SUPPLIER_INVOICE_SOURCE_STATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620S_SUPPLIER_PAYMENT_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620T_JOURNAL_FUTURE_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620T_MATERIAL_ADJUSTMENT_REVALUATION",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620U_JOURNAL_REVERSAL_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620U_MATERIAL_ADJUSTMENT_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620U_MATERIAL_RECEIPT_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620V_MISC_FINANCE_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620W_SCRAP_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620Y_SALES_PAYMENT_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V267_AP_GL_SUBLEDGER_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V267_GRNI_GL_SUBLEDGER_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V267_INVOICE_MATCH_OVER_RECEIPT",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V267_PAYMENT_EXCEEDS_FINAL_AP",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V268_ACTIVE_SALE_MISSING_JOURNAL",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V268_AR_GL_SUBLEDGER_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V268_BALANCE_SHEET_EQUATION",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V268_BROWSER_DIRECT_LEDGER_OR_INVOICE_WRITE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V268_COST_RECALC_EXHAUSTED",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V268_COST_RECALC_PENDING",
+        "severity": "WARNING",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V268_DAILY_BALANCE_LEDGER_MISMATCH",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V268_LIABILITY_VIEW_HELPER_PRIVILEGE",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V268_POSTED_CUSTOMER_PAYMENT_MISSING_JOURNAL",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V268_POSTED_SALES_RETURN_MISSING_JOURNAL",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V268_PRODUCTION_FG_WITHOUT_CURRENT_HPP",
+        "severity": "CRITICAL",
+        "issues": 0
+      },
+      {
+        "family": "v268",
+        "name": "V268_UNBALANCED_POSTED_JOURNAL",
+        "severity": "CRITICAL",
+        "issues": 0
+      }
+    ],
+    "first": {
+      "preview": {
+        "status": "READY",
+        "manifest": {
+          "sources": [
+            {
+              "payroll_id": "2ea089a4-6c2d-4437-bad1-87bd015ab597",
+              "contractor_id": "85de1f43-9224-4686-af4b-daafb6c84bde",
+              "policy_version_id": "57e8d32c-ab6b-499b-b0f8-eefc4c9167a6",
+              "is_special_snapshot": false,
+              "policy_effective_to": null,
+              "policy_effective_from": "2026-10-11",
+              "attendance_amount_cents": 100000,
+              "contractor_role_snapshot": "MANDOR",
+              "original_debit_amount_cents": 100000,
+              "attendance_required_snapshot": true,
+              "original_debit_journal_line_id": "5493191d-97ca-40b2-b9f5-2ed621e89304"
+            }
+          ],
+          "period_end": "2026-10-13",
+          "destinations": [
+            {
+              "po_id": "48278a0d-9cd5-49d2-b406-09bd9421fd5c",
+              "sewing_qty": 10,
+              "contractor_id": "452e0b10-8466-4ccd-95d2-f847c9b25d7c",
+              "cutting_group_id": "6419b97c-9a6b-4467-9c43-579ff57f4c5a",
+              "policy_version_id": "e5e146cb-bb1c-42c5-9386-1cf2eaf97da6",
+              "is_special_snapshot": false,
+              "physical_at_epoch_us": 1791860400000000,
+              "contractor_role_snapshot": "MANDOR",
+              "sewing_terminal_event_id": "13c59fc8-1db9-400c-ab19-d8c84c71e5bb",
+              "source_work_completion_id": "bf84fb90-b8e5-4909-b886-cf105b8fca6c",
+              "attendance_required_snapshot": true
+            },
+            {
+              "po_id": "36d02570-47a9-4021-b243-c90d2a321a4c",
+              "sewing_qty": 10,
+              "contractor_id": "85de1f43-9224-4686-af4b-daafb6c84bde",
+              "cutting_group_id": "a07ec964-1dc9-4e77-b378-c1564099f6e2",
+              "policy_version_id": "57e8d32c-ab6b-499b-b0f8-eefc4c9167a6",
+              "is_special_snapshot": false,
+              "physical_at_epoch_us": 1791860400000000,
+              "contractor_role_snapshot": "MANDOR",
+              "sewing_terminal_event_id": "25c6c803-e326-401f-9e21-45b891c7c32c",
+              "source_work_completion_id": "b0f76b91-170f-4f40-812d-bcdf412dae88",
+              "attendance_required_snapshot": true
+            }
+          ],
+          "period_start": "2026-10-12",
+          "operation_type": "ATTENDANCE_HPP_POOL",
+          "denominator_qty": 20,
+          "numerator_cents": 100000,
+          "contract_version": "ATTENDANCE_HPP_SEWING_TERMINAL_V1"
+        },
+        "denominator_qty": 20,
+        "manifest_sha256": "ed09bd4d72159914ba2de1bfc964df00a82e6f53ca7d7137717c9305c0894580",
+        "numerator_amount": 1000.0,
+        "unit_cost_per_sewn_pcs": 50.0
+      },
+      "made": {
+        "status": "DRAFT",
+        "pool_id": "475ced8a-8a1f-4739-9709-92a37ee702e5",
+        "pool_number": "AHPP-20261014133905282941-eb4f201f",
+        "row_version": 1,
+        "denominator_qty": 20,
+        "manifest_sha256": "ed09bd4d72159914ba2de1bfc964df00a82e6f53ca7d7137717c9305c0894580",
+        "numerator_amount": 1000.0,
+        "unit_cost_per_sewn_pcs": 50.0
+      },
+      "active": {
+        "status": "ACTIVE",
+        "pool_id": "475ced8a-8a1f-4739-9709-92a37ee702e5",
+        "validation": "PASS",
+        "row_version": 2,
+        "journal_entry_id": "f068f756-6297-44ad-b992-2d5161dda290"
+      },
+      "id": "475ced8a-8a1f-4739-9709-92a37ee702e5"
+    },
+    "second": {
+      "preview": {
+        "status": "READY",
+        "manifest": {
+          "sources": [
+            {
+              "payroll_id": "cb1c6eaa-df86-45e7-89f3-d0b01dce6c4f",
+              "contractor_id": "452e0b10-8466-4ccd-95d2-f847c9b25d7c",
+              "policy_version_id": "e5e146cb-bb1c-42c5-9386-1cf2eaf97da6",
+              "is_special_snapshot": false,
+              "policy_effective_to": null,
+              "policy_effective_from": "2026-10-11",
+              "attendance_amount_cents": 100000,
+              "contractor_role_snapshot": "MANDOR",
+              "original_debit_amount_cents": 100000,
+              "attendance_required_snapshot": true,
+              "original_debit_journal_line_id": "31b1ef47-ff27-4754-bd9a-001976999911"
+            }
+          ],
+          "period_end": "2026-10-13",
+          "destinations": [
+            {
+              "po_id": "48278a0d-9cd5-49d2-b406-09bd9421fd5c",
+              "sewing_qty": 10,
+              "contractor_id": "452e0b10-8466-4ccd-95d2-f847c9b25d7c",
+              "cutting_group_id": "6419b97c-9a6b-4467-9c43-579ff57f4c5a",
+              "policy_version_id": "e5e146cb-bb1c-42c5-9386-1cf2eaf97da6",
+              "is_special_snapshot": false,
+              "physical_at_epoch_us": 1791860400000000,
+              "contractor_role_snapshot": "MANDOR",
+              "sewing_terminal_event_id": "13c59fc8-1db9-400c-ab19-d8c84c71e5bb",
+              "source_work_completion_id": "bf84fb90-b8e5-4909-b886-cf105b8fca6c",
+              "attendance_required_snapshot": true
+            },
+            {
+              "po_id": "36d02570-47a9-4021-b243-c90d2a321a4c",
+              "sewing_qty": 10,
+              "contractor_id": "85de1f43-9224-4686-af4b-daafb6c84bde",
+              "cutting_group_id": "a07ec964-1dc9-4e77-b378-c1564099f6e2",
+              "policy_version_id": "57e8d32c-ab6b-499b-b0f8-eefc4c9167a6",
+              "is_special_snapshot": false,
+              "physical_at_epoch_us": 1791860400000000,
+              "contractor_role_snapshot": "MANDOR",
+              "sewing_terminal_event_id": "25c6c803-e326-401f-9e21-45b891c7c32c",
+              "source_work_completion_id": "b0f76b91-170f-4f40-812d-bcdf412dae88",
+              "attendance_required_snapshot": true
+            }
+          ],
+          "period_start": "2026-10-13",
+          "operation_type": "ATTENDANCE_HPP_POOL",
+          "denominator_qty": 20,
+          "numerator_cents": 100000,
+          "contract_version": "ATTENDANCE_HPP_SEWING_TERMINAL_V1"
+        },
+        "denominator_qty": 20,
+        "manifest_sha256": "2201575d0ce7eb160e4900d335581a016a4deb3c45a9564b2c5ef6509c53a6a9",
+        "numerator_amount": 1000.0,
+        "unit_cost_per_sewn_pcs": 50.0
+      },
+      "made": {
+        "status": "DRAFT",
+        "pool_id": "82633c2b-f5ae-4d66-b8e4-368daa3b582d",
+        "pool_number": "AHPP-20261014133905331415-136cb10e",
+        "row_version": 1,
+        "denominator_qty": 20,
+        "manifest_sha256": "2201575d0ce7eb160e4900d335581a016a4deb3c45a9564b2c5ef6509c53a6a9",
+        "numerator_amount": 1000.0,
+        "unit_cost_per_sewn_pcs": 50.0
+      },
+      "active": {
+        "status": "ACTIVE",
+        "pool_id": "82633c2b-f5ae-4d66-b8e4-368daa3b582d",
+        "validation": "PASS",
+        "row_version": 2,
+        "journal_entry_id": "3a6a8393-3d01-4d9c-be91-922c1d8290af"
+      },
+      "id": "82633c2b-f5ae-4d66-b8e4-368daa3b582d"
+    },
+    "payrolls": [
+      {
+        "contractor": "85de1f43-9224-4686-af4b-daafb6c84bde",
+        "payroll": "2ea089a4-6c2d-4437-bad1-87bd015ab597",
+        "start": "2026-10-12",
+        "end": "2026-10-13"
+      },
+      {
+        "contractor": "452e0b10-8466-4ccd-95d2-f847c9b25d7c",
+        "payroll": "cb1c6eaa-df86-45e7-89f3-d0b01dce6c4f",
+        "start": "2026-10-13",
+        "end": "2026-10-13"
+      }
+    ],
+    "scope": "Both actual costs 1000; shared destination alone is not duplicate cost"
+  },
+  "case_gates": {
+    "CP17-ASTRA-POOL-02-DISTINCT-PERIOD-CONSERVATION": {
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "CP17-ASTRA-POOL-03-POLICY-AFTER-ACTIVE": {
+      "status": "COUNTEREXAMPLE",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    }
+  },
+  "limits": [
+    "No fresh after-policy preview or full financial report",
+    "No business cancellation/browser for this witness",
+    "Shared destination allocation is not itself duplicated money"
+  ]
+}

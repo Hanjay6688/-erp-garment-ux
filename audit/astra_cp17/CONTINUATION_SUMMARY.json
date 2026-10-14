@@ -1,33 +1,35 @@
 {
   "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
   "candidate_tree": "ce6aed0a0af920e8aa80248f3cabcd293688df18",
-  "status": "DRAFT_AWAITING_DECLARED_SCALE_MEASUREMENT",
-  "updated_utc": "2026-10-14T12:42:59.159943+00:00",
+  "status": "ROUND_REVIEW_CLOSED_ACCEPTANCE_WITHHELD",
+  "updated_utc": "2026-10-14T14:05:34.675164+00:00",
   "first_report_commit": "f70361d551d9dbc9931e330216901a8b702feab5",
   "first_executions": 1708,
-  "continuation_executions": 1198,
-  "combined_executions": 2906,
-  "combined_unique_case_names": 2395,
+  "continuation_executions": 1210,
+  "combined_executions": 2918,
+  "combined_unique_case_names": 2407,
   "combined_counts": {
-    "PASS": 2820,
-    "COUNTEREXAMPLE": 13,
+    "PASS": 2828,
+    "COUNTEREXAMPLE": 17,
     "CONTROL_PASS": 39,
     "DATE_POLICY_REVIEW_REQUIRED": 12,
     "INCOMPLETE": 18,
     "FAIL": 4
   },
-  "continuation_runs": 7,
-  "continuation_jobs": 34,
-  "pending_jobs": [
-    115833361095
-  ],
-  "business_browser_executions": 272,
+  "continuation_runs": 10,
+  "continuation_jobs": 38,
+  "pending_jobs": [],
+  "business_browser_executions": 276,
   "feature_complete": false,
   "audit_complete": false,
   "production_go": false,
   "outcome": "TAHAN_PENERIMAAN_PENUH",
   "confirmed_product_root_causes": [
-    "ASTRA-CP17-FIN-01"
+    "ASTRA-CP17-FIN-01",
+    "ASTRA-CP17-RWK-01",
+    "ASTRA-CP17-STK-01",
+    "ASTRA-CP17-FIN-02",
+    "ASTRA-CP17-HPP-01"
   ],
   "cp2_database_restore": "UNVERIFIABLE_THIS_SESSION",
   "new_fable_material": "Draft source hypotheses R1 12, R3 13, R4 6 plus 3 Original runtime artifacts; cross-check only, not added to Astra execution count"

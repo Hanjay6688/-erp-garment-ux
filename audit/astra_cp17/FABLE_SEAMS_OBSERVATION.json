@@ -1,0 +1,356 @@
+{
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "run_id": 38567853922,
+  "job_id": 115865040095,
+  "artifact_id": 11895499774,
+  "artifact_sha256": "861863d06a71c20bf59d9ce3e5226f8bb003b4c09d09d4ab1b01708d816ab22e",
+  "case_source_commit": "7912acb719e80365a40776f8df0e8a020377990d",
+  "case_statuses": {
+    "CP17-ASTRA-R3-01-REWORK-GOOD-CONTROL": "PASS",
+    "CP17-ASTRA-R3-02-REWORK-ALL-BS-SCRAP": "COUNTEREXAMPLE",
+    "CP17-ASTRA-R3-03-CUTTING-REPOST-CHRONOLOGY": "COUNTEREXAMPLE"
+  },
+  "restoration": {
+    "cp6_restored": true,
+    "advisor_gate": true
+  },
+  "case_boundaries": {
+    "CP17-ASTRA-R3-01-REWORK-GOOD-CONTROL": {
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "CP17-ASTRA-R3-02-REWORK-ALL-BS-SCRAP": {
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "CP17-ASTRA-R3-03-CUTTING-REPOST-CHRONOLOGY": {
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    }
+  },
+  "rwk01": {
+    "bs_status": "SCRAPPED",
+    "component_lines": [
+      [
+        "41e88ca6-57eb-4ae2-a9d3-d69c261f3f15",
+        2,
+        "30.00",
+        "60.00"
+      ]
+    ],
+    "journals": [
+      [
+        "6201b564-6110-4e9a-b1b7-e2c1d38e8c51",
+        "POSTED",
+        "2026-10-14",
+        "2026-10-14",
+        "0.00",
+        "60.00"
+      ]
+    ],
+    "eligible": [],
+    "matching_cards": []
+  },
+  "stk01": {
+    "cut_at": "2026-10-12 08:00:00+07:00",
+    "cutoff": "2026-10-13 08:00:00+07:00",
+    "repost_accepted": true,
+    "by_stage": {
+      "before": {
+        "dated_qty": "0.000000",
+        "current_qty": "0.000000",
+        "public_material_ledger": {
+          "page": {
+            "rows": [
+              {
+                "note": null,
+                "source_id": "67849d91-047f-4d9b-b546-9c48017e2be5",
+                "valuation": {
+                  "basis": "CURRENT_RESTATED_MOVEMENT_COST",
+                  "state": "KNOWN",
+                  "unit_cost": "10.000000",
+                  "movement_value": "-100.000000"
+                },
+                "qty_signed": "-10.000000",
+                "movement_id": "b39542b6-0554-4383-9cf7-060e69254690",
+                "physical_at": "2026-10-12T08:00:00+07:00",
+                "recorded_at": "2026-10-14T20:03:06.763882+07:00",
+                "running_qty": "0.000000",
+                "source_type": "CUTTING_GROUP",
+                "movement_type": "CUTTING_ISSUE",
+                "reversal_of_id": null
+              },
+              {
+                "note": null,
+                "source_id": "94eb2918-c269-4d54-b3ae-e7df5db442e3",
+                "valuation": {
+                  "basis": "CURRENT_RESTATED_MOVEMENT_COST",
+                  "state": "KNOWN",
+                  "unit_cost": "10.000000",
+                  "movement_value": "100.000000"
+                },
+                "qty_signed": "10.000000",
+                "movement_id": "f082fb78-b35e-41cb-a7be-88fac7dc0491",
+                "physical_at": "2026-10-11T23:30:00+07:00",
+                "recorded_at": "2026-10-14T20:03:06.73423+07:00",
+                "running_qty": "10.000000",
+                "source_type": "MATERIAL_PURCHASE_ROLL",
+                "movement_type": "PURCHASE",
+                "reversal_of_id": null
+              }
+            ],
+            "limit": 100,
+            "total": "2",
+            "offset": 0,
+            "next_offset": null
+          },
+          "read_at": "2026-10-14T20:03:06.794146+07:00",
+          "roll_id": "94eb2918-c269-4d54-b3ae-e7df5db442e3",
+          "location_id": "da1c261c-36bf-47f4-be5e-72b83d543b14",
+          "material_id": "92d1e72d-fe35-4b2d-976b-55d6c078cb7f",
+          "history_basis": "CURRENT_RESTATED_NOT_AS_KNOWN",
+          "contract_version": "cp7.material-ledger.v1",
+          "financial_captured": true
+        }
+      },
+      "reopened": {
+        "dated_qty": "0.000000",
+        "current_qty": "10.000000",
+        "public_material_ledger": {
+          "page": {
+            "rows": [
+              {
+                "note": "Potongan belum dijemput dan bahan asal sudah diperiksa",
+                "source_id": "67849d91-047f-4d9b-b546-9c48017e2be5",
+                "valuation": {
+                  "basis": "CURRENT_RESTATED_MOVEMENT_COST",
+                  "state": "KNOWN",
+                  "unit_cost": "0.000000",
+                  "movement_value": "0.000000"
+                },
+                "qty_signed": "10.000000",
+                "movement_id": "ce25e3b1-e0b9-4490-ac9e-b44fe2a41555",
+                "physical_at": "2026-10-14T20:03:06.811203+07:00",
+                "recorded_at": "2026-10-14T20:03:06.811204+07:00",
+                "running_qty": "10.000000",
+                "source_type": "CUTTING_PRESEWING_REVERSAL",
+                "movement_type": "REVERSAL",
+                "reversal_of_id": "b39542b6-0554-4383-9cf7-060e69254690"
+              },
+              {
+                "note": null,
+                "source_id": "67849d91-047f-4d9b-b546-9c48017e2be5",
+                "valuation": {
+                  "basis": "CURRENT_RESTATED_MOVEMENT_COST",
+                  "state": "KNOWN",
+                  "unit_cost": "10.000000",
+                  "movement_value": "-100.000000"
+                },
+                "qty_signed": "-10.000000",
+                "movement_id": "b39542b6-0554-4383-9cf7-060e69254690",
+                "physical_at": "2026-10-12T08:00:00+07:00",
+                "recorded_at": "2026-10-14T20:03:06.763882+07:00",
+                "running_qty": "0.000000",
+                "source_type": "CUTTING_GROUP",
+                "movement_type": "CUTTING_ISSUE",
+                "reversal_of_id": null
+              },
+              {
+                "note": null,
+                "source_id": "94eb2918-c269-4d54-b3ae-e7df5db442e3",
+                "valuation": {
+                  "basis": "CURRENT_RESTATED_MOVEMENT_COST",
+                  "state": "KNOWN",
+                  "unit_cost": "10.000000",
+                  "movement_value": "100.000000"
+                },
+                "qty_signed": "10.000000",
+                "movement_id": "f082fb78-b35e-41cb-a7be-88fac7dc0491",
+                "physical_at": "2026-10-11T23:30:00+07:00",
+                "recorded_at": "2026-10-14T20:03:06.73423+07:00",
+                "running_qty": "10.000000",
+                "source_type": "MATERIAL_PURCHASE_ROLL",
+                "movement_type": "PURCHASE",
+                "reversal_of_id": null
+              }
+            ],
+            "limit": 100,
+            "total": "3",
+            "offset": 0,
+            "next_offset": null
+          },
+          "read_at": "2026-10-14T20:03:06.841976+07:00",
+          "roll_id": "94eb2918-c269-4d54-b3ae-e7df5db442e3",
+          "location_id": "da1c261c-36bf-47f4-be5e-72b83d543b14",
+          "material_id": "92d1e72d-fe35-4b2d-976b-55d6c078cb7f",
+          "history_basis": "CURRENT_RESTATED_NOT_AS_KNOWN",
+          "contract_version": "cp7.material-ledger.v1",
+          "financial_captured": true
+        }
+      },
+      "after": {
+        "dated_qty": "-10.000000",
+        "current_qty": "0.000000",
+        "public_material_ledger": {
+          "page": {
+            "rows": [
+              {
+                "note": "Potongan belum dijemput dan bahan asal sudah diperiksa",
+                "source_id": "67849d91-047f-4d9b-b546-9c48017e2be5",
+                "valuation": {
+                  "basis": "CURRENT_RESTATED_MOVEMENT_COST",
+                  "state": "KNOWN",
+                  "unit_cost": "0.000000",
+                  "movement_value": "0.000000"
+                },
+                "qty_signed": "10.000000",
+                "movement_id": "ce25e3b1-e0b9-4490-ac9e-b44fe2a41555",
+                "physical_at": "2026-10-14T20:03:06.811203+07:00",
+                "recorded_at": "2026-10-14T20:03:06.811204+07:00",
+                "running_qty": "0.000000",
+                "source_type": "CUTTING_PRESEWING_REVERSAL",
+                "movement_type": "REVERSAL",
+                "reversal_of_id": "b39542b6-0554-4383-9cf7-060e69254690"
+              },
+              {
+                "note": null,
+                "source_id": "67849d91-047f-4d9b-b546-9c48017e2be5",
+                "valuation": {
+                  "basis": "CURRENT_RESTATED_MOVEMENT_COST",
+                  "state": "KNOWN",
+                  "unit_cost": "10.000000",
+                  "movement_value": "-100.000000"
+                },
+                "qty_signed": "-10.000000",
+                "movement_id": "d6e1e24c-9bf5-49da-a73c-5447ff200a59",
+                "physical_at": "2026-10-12T08:00:00+07:00",
+                "recorded_at": "2026-10-14T20:03:06.85696+07:00",
+                "running_qty": "-10.000000",
+                "source_type": "CUTTING_GROUP",
+                "movement_type": "CUTTING_ISSUE",
+                "reversal_of_id": null
+              },
+              {
+                "note": null,
+                "source_id": "67849d91-047f-4d9b-b546-9c48017e2be5",
+                "valuation": {
+                  "basis": "CURRENT_RESTATED_MOVEMENT_COST",
+                  "state": "KNOWN",
+                  "unit_cost": "10.000000",
+                  "movement_value": "-100.000000"
+                },
+                "qty_signed": "-10.000000",
+                "movement_id": "b39542b6-0554-4383-9cf7-060e69254690",
+                "physical_at": "2026-10-12T08:00:00+07:00",
+                "recorded_at": "2026-10-14T20:03:06.763882+07:00",
+                "running_qty": "0.000000",
+                "source_type": "CUTTING_GROUP",
+                "movement_type": "CUTTING_ISSUE",
+                "reversal_of_id": null
+              },
+              {
+                "note": null,
+                "source_id": "94eb2918-c269-4d54-b3ae-e7df5db442e3",
+                "valuation": {
+                  "basis": "CURRENT_RESTATED_MOVEMENT_COST",
+                  "state": "KNOWN",
+                  "unit_cost": "10.000000",
+                  "movement_value": "100.000000"
+                },
+                "qty_signed": "10.000000",
+                "movement_id": "f082fb78-b35e-41cb-a7be-88fac7dc0491",
+                "physical_at": "2026-10-11T23:30:00+07:00",
+                "recorded_at": "2026-10-14T20:03:06.73423+07:00",
+                "running_qty": "10.000000",
+                "source_type": "MATERIAL_PURCHASE_ROLL",
+                "movement_type": "PURCHASE",
+                "reversal_of_id": null
+              }
+            ],
+            "limit": 100,
+            "total": "4",
+            "offset": 0,
+            "next_offset": null
+          },
+          "read_at": "2026-10-14T20:03:06.872302+07:00",
+          "roll_id": "94eb2918-c269-4d54-b3ae-e7df5db442e3",
+          "location_id": "da1c261c-36bf-47f4-be5e-72b83d543b14",
+          "material_id": "92d1e72d-fe35-4b2d-976b-55d6c078cb7f",
+          "history_basis": "CURRENT_RESTATED_NOT_AS_KNOWN",
+          "contract_version": "cp7.material-ledger.v1",
+          "financial_captured": true
+        }
+      }
+    },
+    "journal_headers": [
+      [
+        {
+          "id": "6e1319eb-6c24-433a-9aea-6e2beba4cca1",
+          "status": "POSTED",
+          "source_id": "67849d91-047f-4d9b-b546-9c48017e2be5",
+          "created_at": "2026-10-14T20:03:06.851706+07:00",
+          "created_by": "c8c00000-0000-4000-8000-000000000001",
+          "posting_at": "2026-10-14T20:03:06.851706+07:00",
+          "description": "Material issued to cutting",
+          "source_type": "CUTTING_MATERIAL_ISSUE",
+          "economic_date": "2026-10-12",
+          "journal_number": "JRN-20261014200306865-b35bb16c",
+          "period_shifted": false,
+          "reversal_of_id": null,
+          "transaction_date": "2026-10-12"
+        }
+      ],
+      [
+        {
+          "id": "8c720f14-1527-490f-ab9c-696047ae61c8",
+          "status": "REVERSED",
+          "source_id": "67849d91-047f-4d9b-b546-9c48017e2be5",
+          "created_at": "2026-10-14T20:03:06.758021+07:00",
+          "created_by": "c8c00000-0000-4000-8000-000000000001",
+          "posting_at": "2026-10-14T20:03:06.758021+07:00",
+          "description": "Material issued to cutting",
+          "source_type": "CUTTING_MATERIAL_ISSUE",
+          "economic_date": "2026-10-12",
+          "journal_number": "JRN-20261014200306775-3c3272f0",
+          "period_shifted": false,
+          "reversal_of_id": null,
+          "transaction_date": "2026-10-12"
+        }
+      ],
+      [
+        {
+          "id": "490d9024-87cb-49b8-b87a-3f5120bdfa65",
+          "status": "POSTED",
+          "source_id": "8c720f14-1527-490f-ab9c-696047ae61c8",
+          "created_at": "2026-10-14T20:03:06.800791+07:00",
+          "created_by": "c8c00000-0000-4000-8000-000000000001",
+          "posting_at": "2026-10-14T20:03:06.800791+07:00",
+          "description": "Reversal: Material issued to cutting | Potongan belum dijemput dan bahan asal sudah diperiksa",
+          "source_type": "JOURNAL_REVERSAL",
+          "economic_date": "2026-10-14",
+          "journal_number": "JRN-20261014200306809-1f3be40f",
+          "period_shifted": false,
+          "reversal_of_id": "8c720f14-1527-490f-ab9c-696047ae61c8",
+          "transaction_date": "2026-10-14"
+        }
+      ]
+    ]
+  },
+  "limits": "No new full detector observation or browser invocation for these three probes. Positive normal rework reaches posted Nota60. Current stock stays0; dated public prefix becomes-10; do not infer all cost or financial readers wrong.",
+  "production_go": false
+}

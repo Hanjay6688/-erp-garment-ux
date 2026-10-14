@@ -729,6 +729,200 @@
     {
       "kind": "ORIGINAL_ARTIFACT_ZIP",
       "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": 11895379201,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558465155/11895379201/original.zip",
+      "filename": "38558465155-11895379201.zip",
+      "bytes": 4503405,
+      "sha256": "378cde2b3367d352fe52da1faab6a92c4c008fca37db4b566c79e8bb4d7fe23e",
+      "decoded_bytes": 4503405,
+      "decoded_sha256": "378cde2b3367d352fe52da1faab6a92c4c008fca37db4b566c79e8bb4d7fe23e",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11895379201.zip.part001",
+          "bytes": 600000,
+          "sha256": "9b32bf64d8e79842c923765c32e0b9522461a68a901d2614a5464107726da524",
+          "git_blob_sha": "5bc67192906b50404e3f889f91a59a9594b55a4b"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11895379201.zip.part002",
+          "bytes": 600000,
+          "sha256": "16a7daf7a480aee58ab60ca42a8726d32c624bbb1a663058678b27ebb3fa9b31",
+          "git_blob_sha": "079f4ee45eb21ec8ef62559f470390c9a012d7dc"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11895379201.zip.part003",
+          "bytes": 600000,
+          "sha256": "e680bf3d7104f2d12df8cfca7db313cb87245cc41e8c38c1d80f44869aedb161",
+          "git_blob_sha": "313b6a9f341dba5069495828239adfd6f3b9576e"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11895379201.zip.part004",
+          "bytes": 600000,
+          "sha256": "421bf142389697f78f1cd3929a8a064083cfe88d3450436890cfe0b19d88b470",
+          "git_blob_sha": "b2ff78830507d81ed8ce691898525b665581fcf5"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11895379201.zip.part005",
+          "bytes": 600000,
+          "sha256": "7c98160fcf156a9ec161c5df621d1794a04678025baa878ffbf26df5de35a38b",
+          "git_blob_sha": "eff2fb7fc345ec5d53ee33949bd22a97d190b153"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11895379201.zip.part006",
+          "bytes": 600000,
+          "sha256": "9f000cbd39c84f506eb830b7eac3190d2c460529ca495358edc77a7deed8f405",
+          "git_blob_sha": "b31ee5ba509510b6ab72107b029cd57fabba34be"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11895379201.zip.part007",
+          "bytes": 600000,
+          "sha256": "c0baf2d305cc005c0a3db10e65540260355c8dad6db772d810b695976ca77d3b",
+          "git_blob_sha": "fc6ab483ab76ef7185d0c334cae88f6faf987599"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11895379201.zip.part008",
+          "bytes": 303405,
+          "sha256": "f5c013e040ac926fe3cce2feeed1d8300a3ae678cae8e3e9962122bb285fd267",
+          "git_blob_sha": "4d29e608415c971eea52039fe009778452ae31e3"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "CP7_P19_SCALE.json",
+        "P19S_BROWSER_1000_100_BACKGROUND.json",
+        "P19S_BROWSER_1000_100_CAPTURE.json",
+        "P19S_BROWSER_1000_100_CAPTURE_WITH_FINANCE.json",
+        "P19S_BROWSER_1000_100_STAGED.json",
+        "P19S_BROWSER_1000_1_BACKGROUND.json",
+        "P19S_BROWSER_1000_1_CAPTURE.json",
+        "P19S_BROWSER_1000_1_CAPTURE_WITH_FINANCE.json",
+        "P19S_BROWSER_1000_1_STAGED.json",
+        "P19S_BROWSER_1000_30_BACKGROUND.json",
+        "P19S_BROWSER_1000_30_CAPTURE.json",
+        "P19S_BROWSER_1000_30_CAPTURE_WITH_FINANCE.json",
+        "P19S_BROWSER_1000_30_STAGED.json",
+        "P19S_BROWSER_100_100_BACKGROUND.json",
+        "P19S_BROWSER_100_100_CAPTURE.json",
+        "P19S_BROWSER_100_100_CAPTURE_WITH_FINANCE.json",
+        "P19S_BROWSER_100_100_STAGED.json",
+        "P19S_BROWSER_100_1_BACKGROUND.json",
+        "P19S_BROWSER_100_1_CAPTURE.json",
+        "P19S_BROWSER_100_1_CAPTURE_WITH_FINANCE.json",
+        "P19S_BROWSER_100_1_STAGED.json",
+        "P19S_BROWSER_100_30_BACKGROUND.json",
+        "P19S_BROWSER_100_30_CAPTURE.json",
+        "P19S_BROWSER_100_30_CAPTURE_WITH_FINANCE.json",
+        "P19S_BROWSER_100_30_STAGED.json",
+        "P19S_BROWSER_300_100_BACKGROUND.json",
+        "P19S_BROWSER_300_100_CAPTURE.json",
+        "P19S_BROWSER_300_100_CAPTURE_WITH_FINANCE.json",
+        "P19S_BROWSER_300_100_STAGED.json",
+        "P19S_BROWSER_300_1_BACKGROUND.json",
+        "P19S_BROWSER_300_1_CAPTURE.json",
+        "P19S_BROWSER_300_1_CAPTURE_WITH_FINANCE.json",
+        "P19S_BROWSER_300_1_STAGED.json",
+        "P19S_BROWSER_300_30_BACKGROUND.json",
+        "P19S_BROWSER_300_30_CAPTURE.json",
+        "P19S_BROWSER_300_30_CAPTURE_WITH_FINANCE.json",
+        "P19S_BROWSER_300_30_STAGED.json",
+        "P19S_BROWSER_5000_100_BACKGROUND.json",
+        "P19S_BROWSER_5000_100_CAPTURE.json",
+        "P19S_BROWSER_5000_100_CAPTURE_WITH_FINANCE.json",
+        "P19S_BROWSER_5000_100_STAGED.json",
+        "P19S_BROWSER_5000_1_BACKGROUND.json",
+        "P19S_BROWSER_5000_1_CAPTURE.json",
+        "P19S_BROWSER_5000_1_CAPTURE_WITH_FINANCE.json",
+        "P19S_BROWSER_5000_1_STAGED.json",
+        "P19S_BROWSER_5000_30_BACKGROUND.json",
+        "P19S_BROWSER_5000_30_CAPTURE.json",
+        "P19S_BROWSER_5000_30_STAGED.json",
+        "P19S_BROWSER_5000_30_CAPTURE_WITH_FINANCE.json",
+        "P19S_BROWSER_SEED_100.json",
+        "P19S_BROWSER_SEED_1000.json",
+        "P19S_BROWSER_SEED_300.json",
+        "P19S_BROWSER_SEED_5000.json",
+        "P19S_BROWSER_SQL_LADDER_100.json",
+        "P19S_BROWSER_SQL_LADDER_1000.json",
+        "P19S_BROWSER_SQL_LADDER_300.json",
+        "P19S_BROWSER_SQL_LADDER_5000.json",
+        "P19_SCALE_BROWSER_ORIGINAL_100_100_BACKGROUND.json",
+        "P19_SCALE_BROWSER_ORIGINAL_100_100_CAPTURE.json",
+        "P19_SCALE_BROWSER_ORIGINAL_100_100_CAPTURE_WITH_FINANCE.json",
+        "P19_SCALE_BROWSER_ORIGINAL_100_1_BACKGROUND.json",
+        "P19_SCALE_BROWSER_ORIGINAL_100_1_CAPTURE.json",
+        "P19_SCALE_BROWSER_ORIGINAL_100_30_BACKGROUND.json",
+        "P19_SCALE_BROWSER_ORIGINAL_100_30_CAPTURE.json",
+        "P19_SCALE_BROWSER_ORIGINAL_300_100_BACKGROUND.json",
+        "P19_SCALE_BROWSER_ORIGINAL_300_100_CAPTURE.json",
+        "P19_SCALE_BROWSER_ORIGINAL_300_1_BACKGROUND.json",
+        "P19_SCALE_BROWSER_ORIGINAL_300_1_CAPTURE.json",
+        "P19_SCALE_BROWSER_ORIGINAL_300_30_BACKGROUND.json",
+        "P19_SCALE_BROWSER_ORIGINAL_300_30_CAPTURE.json",
+        "P19_SCALE_BROWSER_STAGED_HEADER_1000_100_STAGED.json",
+        "P19_SCALE_BROWSER_STAGED_HEADER_1000_1_STAGED.json",
+        "P19_SCALE_BROWSER_STAGED_HEADER_1000_30_STAGED.json",
+        "P19_SCALE_BROWSER_STAGED_HEADER_100_100_STAGED.json",
+        "P19_SCALE_BROWSER_STAGED_HEADER_100_1_STAGED.json",
+        "P19_SCALE_BROWSER_STAGED_HEADER_100_30_STAGED.json",
+        "P19_SCALE_BROWSER_STAGED_HEADER_300_100_STAGED.json",
+        "P19_SCALE_BROWSER_STAGED_HEADER_300_1_STAGED.json",
+        "P19_SCALE_BROWSER_STAGED_HEADER_300_30_STAGED.json",
+        "P19_SCALE_BROWSER_STAGED_HEADER_5000_100_STAGED.json",
+        "P19_SCALE_BROWSER_STAGED_HEADER_5000_1_STAGED.json",
+        "P19_SCALE_BROWSER_STAGED_HEADER_5000_30_STAGED.json",
+        "P19_SCALE_NATIVE_100.json",
+        "P19_SCALE_NATIVE_ORIGINAL_100_1_BACKGROUND.json",
+        "P19_SCALE_NATIVE_ORIGINAL_100_1_ORDINARY.json",
+        "P19_SCALE_NATIVE_SEED_100.json",
+        "P19_SCALE_NATIVE_STAGED_100_1.json",
+        "P19_SCALE_ORIGINAL_100_100_BACKGROUND.json",
+        "P19_SCALE_ORIGINAL_100_100_ORDINARY.json",
+        "P19_SCALE_ORIGINAL_100_1_BACKGROUND.json",
+        "P19_SCALE_ORIGINAL_100_1_ORDINARY.json",
+        "P19_SCALE_ORIGINAL_100_30_BACKGROUND.json",
+        "P19_SCALE_ORIGINAL_100_30_ORDINARY.json",
+        "P19_SCALE_PHASE_SCALING.json",
+        "P19_SCALE_PROFILE_1000_1.json",
+        "P19_SCALE_PROFILE_1000_100.json",
+        "P19_SCALE_PROFILE_1000_30.json",
+        "P19_SCALE_PROFILE_100_1.json",
+        "P19_SCALE_PROFILE_100_100.json",
+        "P19_SCALE_PROFILE_100_30.json",
+        "P19_SCALE_PROFILE_300_1.json",
+        "P19_SCALE_PROFILE_300_100.json",
+        "P19_SCALE_PROFILE_300_30.json",
+        "P19_SCALE_PROFILE_5000_1.json",
+        "P19_SCALE_PROFILE_5000_100.json",
+        "P19_SCALE_PROFILE_5000_30.json",
+        "P19_SCALE_SIZE_100.json",
+        "P19_SCALE_SIZE_1000.json",
+        "P19_SCALE_SIZE_300.json",
+        "P19_SCALE_SIZE_5000.json",
+        "P19_SCALE_STAGED_1000_1.json",
+        "P19_SCALE_STAGED_1000_100.json",
+        "P19_SCALE_STAGED_1000_30.json",
+        "P19_SCALE_STAGED_100_1.json",
+        "P19_SCALE_STAGED_100_30.json",
+        "P19_SCALE_STAGED_100_100.json",
+        "P19_SCALE_STAGED_300_1.json",
+        "P19_SCALE_STAGED_300_100.json",
+        "P19_SCALE_STAGED_300_30.json",
+        "P19_SCALE_STAGED_5000_1.json",
+        "P19_SCALE_STAGED_5000_100.json",
+        "P19_SCALE_STAGED_5000_30.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
       "run_id": 38558702356,
       "artifact_id": 11890883382,
       "job_id": null,
@@ -1191,6 +1385,151 @@
     },
     {
       "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38567853922,
+      "artifact_id": 11895499774,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38567853922/11895499774/original.zip",
+      "filename": "38567853922-11895499774.zip",
+      "bytes": 210283,
+      "sha256": "861863d06a71c20bf59d9ce3e5226f8bb003b4c09d09d4ab1b01708d816ab22e",
+      "decoded_bytes": 210283,
+      "decoded_sha256": "861863d06a71c20bf59d9ce3e5226f8bb003b4c09d09d4ab1b01708d816ab22e",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38567853922-11895499774.zip",
+          "bytes": 210283,
+          "sha256": "861863d06a71c20bf59d9ce3e5226f8bb003b4c09d09d4ab1b01708d816ab22e",
+          "git_blob_sha": "fe76805a9af1838484f0f701c2a38537e4e8c716"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17-ASTRA-R3-01-REWORK-GOOD-CONTROL.json",
+        "ASTRA_CP17-ASTRA-R3-02-REWORK-ALL-BS-SCRAP.json",
+        "ASTRA_CP17-ASTRA-R3-03-CUTTING-REPOST-CHRONOLOGY.json",
+        "ASTRA_CP17_OWN_INTEGRATION.json",
+        "ASTRA_CP17_R3_CUTTING_REPOST_FIRST.json",
+        "ASTRA_CP17_R3_REWORK_False_FIRST.json",
+        "ASTRA_CP17_R3_REWORK_True_FIRST.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "CP17_OWN_CASES_FABLE_SEAMS.json",
+        "CP17_OWN_CASES_FABLE_SEAMS_PREEXECUTION_PLAN.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38568716349,
+      "artifact_id": 11897120989,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38568716349/11897120989/original.zip",
+      "filename": "38568716349-11897120989.zip",
+      "bytes": 234055,
+      "sha256": "11379d4eff3e8261aff5b2a82f1cf840e57794f87d56fb32dbaac1d3e08b3928",
+      "decoded_bytes": 234055,
+      "decoded_sha256": "11379d4eff3e8261aff5b2a82f1cf840e57794f87d56fb32dbaac1d3e08b3928",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38568716349-11897120989.zip",
+          "bytes": 234055,
+          "sha256": "11379d4eff3e8261aff5b2a82f1cf840e57794f87d56fb32dbaac1d3e08b3928",
+          "git_blob_sha": "432a916b90728c5fc3895d469689200f3dd2f599"
+        }
+      ],
+      "members": [
+        "ASTRA_CP17-ASTRA-CLAIM-01-SAME-DAY-CONTROL.json",
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17-ASTRA-CLAIM-02-BEFORE-SOURCE.json",
+        "ASTRA_CP17_CLAIM_DATE_False_FIRST.json",
+        "ASTRA_CP17_OWN_INTEGRATION.json",
+        "ASTRA_CP17_CLAIM_DATE_True_FIRST.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "CP17_OWN_CASES_CLAIM_DATE.json",
+        "CP17_OWN_CASES_CLAIM_DATE_PREEXECUTION_PLAN.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38572768164,
+      "artifact_id": 11898319571,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38572768164/11898319571/original.zip",
+      "filename": "38572768164-11898319571.zip",
+      "bytes": 37932,
+      "sha256": "0d2a143067b6e1465246b942b79932fb6cc1b314e71f59cf43be1d59a28347bc",
+      "decoded_bytes": 37932,
+      "decoded_sha256": "0d2a143067b6e1465246b942b79932fb6cc1b314e71f59cf43be1d59a28347bc",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38572768164-11898319571.zip",
+          "bytes": 37932,
+          "sha256": "0d2a143067b6e1465246b942b79932fb6cc1b314e71f59cf43be1d59a28347bc",
+          "git_blob_sha": "8eec3a85ce374a32cd42b8e59e271d3a5b912ec8"
+        }
+      ],
+      "members": [
+        "ASTRA_CASE_MANIFEST.json",
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CP17_CP5_EXACT.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "CP5_EXACT_RACE_ORIGINAL.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38572768164,
+      "artifact_id": 11899491205,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38572768164/11899491205/original.zip",
+      "filename": "38572768164-11899491205.zip",
+      "bytes": 181477,
+      "sha256": "38b288036169c8c0e9a679cb0f2734484a4c66a4d2f4a486de327c474d62a928",
+      "decoded_bytes": 181477,
+      "decoded_sha256": "38b288036169c8c0e9a679cb0f2734484a4c66a4d2f4a486de327c474d62a928",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38572768164-11899491205.zip",
+          "bytes": 181477,
+          "sha256": "38b288036169c8c0e9a679cb0f2734484a4c66a4d2f4a486de327c474d62a928",
+          "git_blob_sha": "f8a88ead0c5ec061cf31e2cd9c3e68625b9d08be"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CP17-ASTRA-POOL-02-DISTINCT-PERIOD-CONSERVATION.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17-ASTRA-POOL-03-POLICY-AFTER-ACTIVE.json",
+        "ASTRA_CP17_OWN_INTEGRATION.json",
+        "ASTRA_CP17_POOL_DISTINCT_PERIODS_FIRST.json",
+        "ASTRA_CP17_POOL_POLICY_AFTER_ACTIVE_FIRST.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "CP17_OWN_CASES_POOL_CLOSURE.json",
+        "CP17_OWN_CASES_POOL_CLOSURE_PREEXECUTION_PLAN.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
       "evidence_origin": "FABLE_EXECUTION_ASTRA_CROSSCHECK_ONLY",
       "run_id": 38558699494,
       "artifact_id": 11891152632,
@@ -1552,6 +1891,27 @@
           "bytes": 103192,
           "sha256": "eefa113bfd439be13661590ac6c69f398ecf4b312d4cb89ea11f729cfcb147a6",
           "git_blob_sha": "521232ac79e8440c1aaceddff67050986e955d37"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": null,
+      "job_id": 115833361095,
+      "source_path": "audit/astra_cp17/continuation/logs/38558465155-115833361095.log",
+      "filename": "38558465155-115833361095.log.gz",
+      "bytes": 64413,
+      "sha256": "05ad8ac6d0f93ff9511739dad203699508e8d525bc9b60998f6fcb3e0d55a243",
+      "decoded_bytes": 453079,
+      "decoded_sha256": "0c9f647699342fb2e04a6ee5fa64fffc698cf2894264467f3eb8c0fb634b5775",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-115833361095.log.gz",
+          "bytes": 64413,
+          "sha256": "05ad8ac6d0f93ff9511739dad203699508e8d525bc9b60998f6fcb3e0d55a243",
+          "git_blob_sha": "bc78760880e3db99fd0c2914753b21b8f6b601d9"
         }
       ]
     },
@@ -2016,9 +2376,93 @@
           "git_blob_sha": "69726fcf4e856b8d9a959396ac2a4242b25684d8"
         }
       ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38567853922,
+      "artifact_id": null,
+      "job_id": 115865040095,
+      "source_path": "audit/astra_cp17/continuation/logs/38567853922-115865040095.log",
+      "filename": "38567853922-115865040095.log.gz",
+      "bytes": 51041,
+      "sha256": "253640ae6bb244c40e1ed91f41d17d3a3eee0e7ba9d9c9aa91f3bb0708236818",
+      "decoded_bytes": 345859,
+      "decoded_sha256": "3e0dc97741cba2a14fb9a324793b1eff54b44611825edffbcda4ddd2646b7ca4",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38567853922-115865040095.log.gz",
+          "bytes": 51041,
+          "sha256": "253640ae6bb244c40e1ed91f41d17d3a3eee0e7ba9d9c9aa91f3bb0708236818",
+          "git_blob_sha": "d79578a61c90d0f71fec2010ae5c8b4c78ec3ada"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38568716349,
+      "artifact_id": null,
+      "job_id": 115867957632,
+      "source_path": "audit/astra_cp17/continuation/logs/38568716349-115867957632.log",
+      "filename": "38568716349-115867957632.log.gz",
+      "bytes": 64345,
+      "sha256": "76d46a84e0134f2a36498f92aefc6e4143d6182dfbac7ca8ec1a1003cc2d8030",
+      "decoded_bytes": 487320,
+      "decoded_sha256": "fdfbae60a609b52fff69ce7f32cd41e6c0bfcbe732a79e7ed99c44fdee09551e",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38568716349-115867957632.log.gz",
+          "bytes": 64345,
+          "sha256": "76d46a84e0134f2a36498f92aefc6e4143d6182dfbac7ca8ec1a1003cc2d8030",
+          "git_blob_sha": "5e94c844a88ce72823316bb98456345bd4292e92"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38572768164,
+      "artifact_id": null,
+      "job_id": 115881983672,
+      "source_path": "audit/astra_cp17/continuation/logs/38572768164-115881983672.log",
+      "filename": "38572768164-115881983672.log.gz",
+      "bytes": 52561,
+      "sha256": "0c1bc969687b3e1bfa9bbbbce76776ccd6ab62edb6472d4925afded7fde649bb",
+      "decoded_bytes": 393047,
+      "decoded_sha256": "c4732a9e8005b928790551d2be216eefbf885f872ded6f370e6026292a34eaa1",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38572768164-115881983672.log.gz",
+          "bytes": 52561,
+          "sha256": "0c1bc969687b3e1bfa9bbbbce76776ccd6ab62edb6472d4925afded7fde649bb",
+          "git_blob_sha": "53ece200b83cf90ba660888d67cef0890c4bc6f1"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38572768164,
+      "artifact_id": null,
+      "job_id": 115881983961,
+      "source_path": "audit/astra_cp17/continuation/logs/38572768164-115881983961.log",
+      "filename": "38572768164-115881983961.log.gz",
+      "bytes": 42970,
+      "sha256": "ae5c4f738bd4022ad60cfa52ffc3347291f2591b314f557e828fa7fcbf8ccbd3",
+      "decoded_bytes": 275543,
+      "decoded_sha256": "e1b41fb71c0e7786ee118bb501617a8b9f8059eacc0725cfbff8cfcf3dc7a54e",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38572768164-115881983961.log.gz",
+          "bytes": 42970,
+          "sha256": "ae5c4f738bd4022ad60cfa52ffc3347291f2591b314f557e828fa7fcbf8ccbd3",
+          "git_blob_sha": "90c4a6a0bb9c70730fcae1958c9621bd4d3c05b9"
+        }
+      ]
     }
   ],
-  "original_zip_count": 36,
-  "decoded_log_count": 33,
+  "original_zip_count": 41,
+  "decoded_log_count": 38,
   "policy": "Exact Original ZIP bytes and GitHub decoded job logs (UTF-8 with one final newline). No signed URLs or credentials. Raw bundles not selected are not claimed permanently preserved. Fable files are cross-check evidence, never Astra executions."
 }

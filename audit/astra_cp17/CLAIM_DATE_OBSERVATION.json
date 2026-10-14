@@ -1,0 +1,327 @@
+{
+  "finding": "ASTRA-CP17-FIN-02",
+  "run_id": 38568716349,
+  "job_id": 115867957632,
+  "artifact_id": 11897120989,
+  "cases": [
+    {
+      "original": "continuation/38568716349/11897120989/original/ASTRA_CP17_CLAIM_DATE_False_FIRST.json",
+      "sha256": "7b310679d77195d9601954e7daa0735280eb0769947804334c9d130f10d9eb84",
+      "early": false,
+      "source_day": "2026-10-09",
+      "resolution_day": "2026-10-09",
+      "attempt": {
+        "accepted": true,
+        "value": {
+          "accepted": {
+            "action": "SAVE_CLAIM",
+            "result": {
+              "status": "ACCEPTED",
+              "qty_claimed": 1,
+              "row_version": 2,
+              "claim_number": "AS-CLAIM-e1c055b85b12",
+              "laundry_claim_id": "7dacc413-e20e-4851-8a72-04e375c93dc0",
+              "compensation_amount": 20.0
+            }
+          },
+          "settled": {
+            "action": "RESOLVE_CLAIM",
+            "result": {
+              "status": "SETTLED",
+              "resolved_at": "2026-10-14T13:10:22.334519+00:00",
+              "row_version": 3,
+              "resolution_date": "2026-10-09",
+              "laundry_claim_id": "7dacc413-e20e-4851-8a72-04e375c93dc0"
+            }
+          }
+        }
+      },
+      "detector_counts": {
+        "integrity": 18,
+        "v267": 49,
+        "v268": 68
+      },
+      "detectors_identical_all_zero": true,
+      "confidence_blockers_identical": true,
+      "preflight_blockers_identical": true,
+      "before": {
+        "journals": [
+          [
+            "7054c9ec-c23d-4e99-88e8-18272c06eb32",
+            "VENDOR_INVOICE",
+            "8e78f279-9593-422d-96ef-e6caa44f1dd9",
+            "2026-10-09",
+            "2026-10-09",
+            "POSTED",
+            "0.00",
+            "80.00"
+          ]
+        ],
+        "dated_ap": "80.00",
+        "current_ap": "80.00",
+        "performance": {
+          "cogs_gl": "0.00",
+          "net_profit": "0.00",
+          "gross_profit": "0.00",
+          "other_income": "0.00",
+          "line_discounts": "0.00",
+          "net_margin_pct": null,
+          "gross_margin_pct": null,
+          "sales_revenue_gl": "0.00",
+          "posted_sales_returns": "0.00",
+          "operational_net_sales": "0.00",
+          "sales_revenue_reconciled": true,
+          "sales_revenue_bridge_delta": "0.00",
+          "gross_sales_before_discount": "0.00",
+          "operating_and_other_expense": "0.00"
+        },
+        "financial_position": {
+          "cash": "0.00",
+          "assets": "1959.00",
+          "customer_ar": "0.00",
+          "liabilities": "1959.00",
+          "fg_inventory": "0.00",
+          "wip_inventory": "1959.00",
+          "recorded_equity": "0.00",
+          "current_earnings": "0.00",
+          "supplier_final_ap": "0.00",
+          "balance_difference": "0.00",
+          "material_inventory": "0.00",
+          "liabilities_plus_equity": "1959.00",
+          "grni_estimated_liability": "100.00"
+        },
+        "confidence": "BLOCKED",
+        "preflight": "BLOCKED",
+        "blockers": {
+          "ATTENDANCE_CELL_MISSING": 4,
+          "PAYROLL_NOT_APPROVED": 1,
+          "PAYROLL_WORK_UNCOVERED": 3
+        }
+      },
+      "after": {
+        "journals": [
+          [
+            "7054c9ec-c23d-4e99-88e8-18272c06eb32",
+            "VENDOR_INVOICE",
+            "8e78f279-9593-422d-96ef-e6caa44f1dd9",
+            "2026-10-09",
+            "2026-10-09",
+            "POSTED",
+            "0.00",
+            "80.00"
+          ],
+          [
+            "c9fca575-daeb-4ffe-9726-02b95ea08e3e",
+            "LAUNDRY_CLAIM_SETTLEMENT",
+            "7dacc413-e20e-4851-8a72-04e375c93dc0",
+            "2026-10-09",
+            "2026-10-09",
+            "POSTED",
+            "20.00",
+            "0.00"
+          ]
+        ],
+        "dated_ap": "60.00",
+        "current_ap": "60.00",
+        "performance": {
+          "cogs_gl": "0.00",
+          "net_profit": "20.00",
+          "gross_profit": "0.00",
+          "other_income": "0.00",
+          "line_discounts": "0.00",
+          "net_margin_pct": null,
+          "gross_margin_pct": null,
+          "sales_revenue_gl": "0.00",
+          "posted_sales_returns": "0.00",
+          "operational_net_sales": "0.00",
+          "sales_revenue_reconciled": true,
+          "sales_revenue_bridge_delta": "0.00",
+          "gross_sales_before_discount": "0.00",
+          "operating_and_other_expense": "-20.00"
+        },
+        "financial_position": {
+          "cash": "0.00",
+          "assets": "1959.00",
+          "customer_ar": "0.00",
+          "liabilities": "1939.00",
+          "fg_inventory": "0.00",
+          "wip_inventory": "1959.00",
+          "recorded_equity": "0.00",
+          "current_earnings": "20.00",
+          "supplier_final_ap": "0.00",
+          "balance_difference": "0.00",
+          "material_inventory": "0.00",
+          "liabilities_plus_equity": "1959.00",
+          "grni_estimated_liability": "100.00"
+        },
+        "confidence": "BLOCKED",
+        "preflight": "BLOCKED",
+        "blockers": {
+          "ATTENDANCE_CELL_MISSING": 4,
+          "PAYROLL_NOT_APPROVED": 1,
+          "PAYROLL_WORK_UNCOVERED": 3
+        }
+      }
+    },
+    {
+      "original": "continuation/38568716349/11897120989/original/ASTRA_CP17_CLAIM_DATE_True_FIRST.json",
+      "sha256": "8b8828817afd2bfac94696d2eec2539d7ba979189f239c63ccc728669fd6a819",
+      "early": true,
+      "source_day": "2026-10-09",
+      "resolution_day": "2026-10-08",
+      "attempt": {
+        "accepted": true,
+        "value": {
+          "accepted": {
+            "action": "SAVE_CLAIM",
+            "result": {
+              "status": "ACCEPTED",
+              "qty_claimed": 1,
+              "row_version": 2,
+              "claim_number": "AS-CLAIM-863d2be621c6",
+              "laundry_claim_id": "20582e37-2ebf-4d6d-9c25-530ba6353aac",
+              "compensation_amount": 20.0
+            }
+          },
+          "settled": {
+            "action": "RESOLVE_CLAIM",
+            "result": {
+              "status": "SETTLED",
+              "resolved_at": "2026-10-14T13:10:23.749599+00:00",
+              "row_version": 3,
+              "resolution_date": "2026-10-08",
+              "laundry_claim_id": "20582e37-2ebf-4d6d-9c25-530ba6353aac"
+            }
+          }
+        }
+      },
+      "detector_counts": {
+        "integrity": 18,
+        "v267": 49,
+        "v268": 68
+      },
+      "detectors_identical_all_zero": true,
+      "confidence_blockers_identical": true,
+      "preflight_blockers_identical": true,
+      "before": {
+        "journals": [
+          [
+            "56fce41c-269f-4342-8323-c8f085ae9a55",
+            "VENDOR_INVOICE",
+            "1bcd0a53-7f91-4c8b-8334-088680a31d82",
+            "2026-10-09",
+            "2026-10-09",
+            "POSTED",
+            "0.00",
+            "80.00"
+          ]
+        ],
+        "dated_ap": "0",
+        "current_ap": "80.00",
+        "performance": {
+          "cogs_gl": "0.00",
+          "net_profit": "0.00",
+          "gross_profit": "0.00",
+          "other_income": "0.00",
+          "line_discounts": "0.00",
+          "net_margin_pct": null,
+          "gross_margin_pct": null,
+          "sales_revenue_gl": "0.00",
+          "posted_sales_returns": "0.00",
+          "operational_net_sales": "0.00",
+          "sales_revenue_reconciled": true,
+          "sales_revenue_bridge_delta": "0.00",
+          "gross_sales_before_discount": "0.00",
+          "operating_and_other_expense": "0.00"
+        },
+        "financial_position": {
+          "cash": "0.00",
+          "assets": "1859.00",
+          "customer_ar": "0.00",
+          "liabilities": "1859.00",
+          "fg_inventory": "0.00",
+          "wip_inventory": "1759.00",
+          "recorded_equity": "0.00",
+          "current_earnings": "0.00",
+          "supplier_final_ap": "0.00",
+          "balance_difference": "0.00",
+          "material_inventory": "100.00",
+          "liabilities_plus_equity": "1859.00",
+          "grni_estimated_liability": "100.00"
+        },
+        "confidence": "BLOCKED",
+        "preflight": "BLOCKED",
+        "blockers": {
+          "ATTENDANCE_CELL_MISSING": 4,
+          "PAYROLL_NOT_APPROVED": 1,
+          "PAYROLL_WORK_UNCOVERED": 3
+        }
+      },
+      "after": {
+        "journals": [
+          [
+            "33a4ebb8-b350-498b-824e-b5d6edc11c1f",
+            "LAUNDRY_CLAIM_SETTLEMENT",
+            "20582e37-2ebf-4d6d-9c25-530ba6353aac",
+            "2026-10-08",
+            "2026-10-08",
+            "POSTED",
+            "20.00",
+            "0.00"
+          ],
+          [
+            "56fce41c-269f-4342-8323-c8f085ae9a55",
+            "VENDOR_INVOICE",
+            "1bcd0a53-7f91-4c8b-8334-088680a31d82",
+            "2026-10-09",
+            "2026-10-09",
+            "POSTED",
+            "0.00",
+            "80.00"
+          ]
+        ],
+        "dated_ap": "-20.00",
+        "current_ap": "60.00",
+        "performance": {
+          "cogs_gl": "0.00",
+          "net_profit": "20.00",
+          "gross_profit": "0.00",
+          "other_income": "0.00",
+          "line_discounts": "0.00",
+          "net_margin_pct": null,
+          "gross_margin_pct": null,
+          "sales_revenue_gl": "0.00",
+          "posted_sales_returns": "0.00",
+          "operational_net_sales": "0.00",
+          "sales_revenue_reconciled": true,
+          "sales_revenue_bridge_delta": "0.00",
+          "gross_sales_before_discount": "0.00",
+          "operating_and_other_expense": "-20.00"
+        },
+        "financial_position": {
+          "cash": "0.00",
+          "assets": "1859.00",
+          "customer_ar": "0.00",
+          "liabilities": "1839.00",
+          "fg_inventory": "0.00",
+          "wip_inventory": "1759.00",
+          "recorded_equity": "0.00",
+          "current_earnings": "20.00",
+          "supplier_final_ap": "0.00",
+          "balance_difference": "0.00",
+          "material_inventory": "100.00",
+          "liabilities_plus_equity": "1859.00",
+          "grni_estimated_liability": "100.00"
+        },
+        "confidence": "BLOCKED",
+        "preflight": "BLOCKED",
+        "blockers": {
+          "ATTENDANCE_CELL_MISSING": 4,
+          "PAYROLL_NOT_APPROVED": 1,
+          "PAYROLL_WORK_UNCOVERED": 3
+        }
+      }
+    }
+  ],
+  "scope": "Exact summarized fields linked by SHA256 to complete Original; not a substitute for full evidence. No browser or business reversal observation."
+}

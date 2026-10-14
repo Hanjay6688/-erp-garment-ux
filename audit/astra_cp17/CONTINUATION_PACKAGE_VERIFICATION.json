@@ -1,0 +1,24 @@
+{
+  "status": "PASS_PACKAGE_CONSISTENCY",
+  "checked_utc": "2026-10-14T14:00:52.012748+00:00",
+  "checks": {
+    "first_locked_report_unchanged": true,
+    "first_locked_ledger_unchanged": true,
+    "all_continuation_jobs_completed": 38,
+    "run_count": 10,
+    "combined_business_executions": 2918,
+    "unresolved_ledger_classification_issues": 0,
+    "confirmed_runtime_roots": 5,
+    "fable_rows": 31,
+    "guide_scenario_rows": 29,
+    "invariant_rows": 82,
+    "requirement_rows": 271,
+    "local_markdown_links_checked": 26,
+    "product_paths_changed": 0,
+    "first_archives_verified": 50,
+    "continuation_archives_verified": 79,
+    "continuation_parts": 113
+  },
+  "limitations": "Verification checks evidence consistency, not product acceptance or missing CP2/production gates",
+  "production_go": false
+}

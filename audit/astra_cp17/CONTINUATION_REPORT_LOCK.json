@@ -1,0 +1,209 @@
+{
+  "report": "AUDIT_ASTRA_CP17_CONTINUATION_0b7049d9.md",
+  "locked_utc": "2026-10-14T14:05:34.707090+00:00",
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "candidate_tree": "ce6aed0a0af920e8aa80248f3cabcd293688df18",
+  "parent_report_commit": "f70361d551d9dbc9931e330216901a8b702feab5",
+  "last_execution_control_sha": "0d7f3dcc72e1fbee19883c1056361c54527f6885",
+  "verdict": "TAHAN_PENERIMAAN_PENUH",
+  "status": "ROUND_REVIEW_CLOSED_ACCEPTANCE_WITHHELD",
+  "continuation_runs": 10,
+  "continuation_jobs": 38,
+  "pending_jobs": [],
+  "case_executions_combined": 2918,
+  "runtime_root_causes": 5,
+  "static_gaps": 3,
+  "cp2_database_restore": "UNVERIFIABLE_THIS_SESSION",
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false,
+  "files": {
+    "AUDIT_ASTRA_CP17_CONTINUATION_0b7049d9.md": {
+      "bytes": 18949,
+      "sha256": "bde149fbedc674aa35eb3942426981093ef30d20e3120818fe10282ebbb14855"
+    },
+    "CASE_LEDGER_CONTINUATION.json": {
+      "bytes": 738792,
+      "sha256": "61ad66dfa4a332dac359d46e4b55227c16e761e688b2be093196ee5694cb3430"
+    },
+    "CASE_EVIDENCE_INDEX.json": {
+      "bytes": 1064549,
+      "sha256": "cb7964d186ae437b40d096720e1e7c901703dfc22823a8c0a0ef751cede4990b"
+    },
+    "CHARTER_AND_OWNER_CROSSWALK.json": {
+      "bytes": 571635,
+      "sha256": "314b90d3d11bc233cb1ec017ce5c33a2ab9e70f934b973a3eeee79ffb6f8da95"
+    },
+    "CLAIM_DATE_OBSERVATION.json": {
+      "bytes": 10448,
+      "sha256": "b5418996b3d4653ccab5a812eb5ed8c7759981c03ff7c8f413df28e94ce955bc"
+    },
+    "CONTINUATION_ARCHIVE_INDEX.json": {
+      "bytes": 102191,
+      "sha256": "965c36d0aedf13f81f303e5f24255c90b228db3bd35bdd38327d85fd190966ef"
+    },
+    "CONTINUATION_ARTIFACTS.json": {
+      "bytes": 67118,
+      "sha256": "1dcbe860e60497ae819a99811f52a44950436801abedb295dcfc0b50525d2224"
+    },
+    "CONTINUATION_CHECKPOINT.json": {
+      "bytes": 1085,
+      "sha256": "b12a49e9682e603db7d148812009b6d384a0a2282329384ae0a8039bbf1cae21"
+    },
+    "CONTINUATION_JOB_RECEIPTS.json": {
+      "bytes": 414768,
+      "sha256": "ca359a8880243fb11ebebbc11b3965c803360517e6983226e5360727af26a2d0"
+    },
+    "CONTINUATION_NONPASS.json": {
+      "bytes": 21534,
+      "sha256": "31253c7b95235b8ae72020866aec95c92b3b84eb4af5c7fa339a8d817ef1d402"
+    },
+    "CONTINUATION_QUALIFICATIONS.md": {
+      "bytes": 7294,
+      "sha256": "1e4a1ce379661ca9b43471e723b2888a5f9795b5cf5200e8e1cd230725808c28"
+    },
+    "CONTINUATION_SUMMARY.json": {
+      "bytes": 1220,
+      "sha256": "930be74d31279b1b68b93b231920f0a9231f8003e6bf860654a2e2c0858f647b"
+    },
+    "CONTINUATION_PACKAGE_VERIFICATION.json": {
+      "bytes": 821,
+      "sha256": "9e7d886bb10da8e91b42be3b0ce25d621bc222e00abac52333cdb7c66e8bca11"
+    },
+    "CP5_EXACT_OBSERVATION.json": {
+      "bytes": 20140,
+      "sha256": "6e4e4f449987de32eb108229c9af02ed006679065b602107ce784007112016cb"
+    },
+    "CP5_EXACT_REVIEW.md": {
+      "bytes": 4578,
+      "sha256": "822500b340b8df3ac0e11d16bb31595e17a6ed5893ab8dfa5cdc98b90286efac"
+    },
+    "FABLE_CONTINUATION_REVIEW.md": {
+      "bytes": 13085,
+      "sha256": "a1785ea67013bc8cf72042bbd87dd986671b00a797fbf80a9fd5d1f40b34269e"
+    },
+    "FABLE_EXPOSURE_CONTINUATION.json": {
+      "bytes": 1771,
+      "sha256": "1d59393d96e96291f858da8ea1fd25df235d92d3d25b3680db0403b407320ae7"
+    },
+    "FABLE_SEAMS_OBSERVATION.json": {
+      "bytes": 13941,
+      "sha256": "393b42f9942c7af100ce03dc9c6ebe906e45b077c7e506f3471fcf2c270d569a"
+    },
+    "FINAL_EXECUTION_RECEIPT.json": {
+      "bytes": 637,
+      "sha256": "bbff8c35f9112fdb158208f4a2b6cabeffe4fc5f4c14fa61878c6bb68d993ecc"
+    },
+    "FINDING_FIN02_LAUNDRY_CLAIM_DATE.md": {
+      "bytes": 4647,
+      "sha256": "a19c7c8ccfe9a7acad6dc4510696046a2dd747ba3b638e38ad6c0aa776af0a67"
+    },
+    "FINDING_RWK01_REWORK_ENTITLEMENT.md": {
+      "bytes": 3813,
+      "sha256": "2102becf3db644208f2b046fc0aeb132f1499066b098f282e3665d350c19e479"
+    },
+    "FINDING_STK01_CUTTING_HISTORY.md": {
+      "bytes": 4461,
+      "sha256": "42c36092152f83bbe618af3f966c8803b7c4351b8e6e6a8363ba0b8858fea1bf"
+    },
+    "FINDING_HPP01_ACTIVE_POOL_POLICY.md": {
+      "bytes": 4393,
+      "sha256": "0115617aa35b7025c34dde9c84cacce81d952efbd53152700f8173c561a9178a"
+    },
+    "FIN01_FULL_OBSERVATION.json": {
+      "bytes": 14106,
+      "sha256": "27eb36add2d43b8fb16fb1fd917a5f25721aefa9f1a5830baab7b8124b0d27ec"
+    },
+    "HANDOFF_WRITER_CP17_CONTINUATION.md": {
+      "bytes": 8534,
+      "sha256": "e185d827e2210c0e3f1fd05caab4c333484752a6a89ed7554fdf7f3e0b6c6772"
+    },
+    "INVARIANT_MATRIX_CONTINUATION.md": {
+      "bytes": 37493,
+      "sha256": "2919dff28df5c5ae837d373ebe18b73897256612a2ebd5efa4eaae80cc9f348b"
+    },
+    "INVARIANT_CROSSWALK_CONTINUATION.json": {
+      "bytes": 1241978,
+      "sha256": "283479d0dc60e4e172e45db897ce51b7a24d36b17f1a71e585659446947268c2"
+    },
+    "POOL_CLOSURE_OBSERVATION.json": {
+      "bytes": 94862,
+      "sha256": "bd8283dd32f9c470c4d9ac60da3f429a51b038a872a48094a7cf0aaf904a4dfe"
+    },
+    "PRODUCT_PARITY_CONTINUATION.json": {
+      "bytes": 21199,
+      "sha256": "06817310f3f7ce93e0056c9bf68184c187f08825c3edaa2522047a1b62541c78"
+    },
+    "REQUIREMENT_CROSSWALK.json": {
+      "bytes": 3151315,
+      "sha256": "f4389ddd49164d32556f613925e29d09dd0bde4e568dae98f2f3fed01baf8e48"
+    },
+    "REQUIREMENT_REVIEW.md": {
+      "bytes": 122030,
+      "sha256": "4657b8224b8ec07c0d50ec62d0c286cbf6d5e2f79a235f50a2e7530649b1bd0d"
+    },
+    "SCALE_OBSERVATION.json": {
+      "bytes": 127999,
+      "sha256": "ddf8888e6ffedbaa63437a4cb91f3d2dbe853837feb4a5c8349aab36a37c834d"
+    },
+    "SCALE_REVIEW.md": {
+      "bytes": 1895,
+      "sha256": "6f8e2b845ad1f1de7a79c2e8c0d1dcdb7edfb37fdb40d94f85339074afd41d6d"
+    },
+    "SOURCE_GAPS_CP5.md": {
+      "bytes": 5393,
+      "sha256": "28fe26760743681bce8016fd94c537257bf776acc21245b1cbf68a25bdb8396e"
+    },
+    "STATUS.md": {
+      "bytes": 1989,
+      "sha256": "39522eeb97a4732f92f05c6e9ecaf4ae828583c23f8002d4f883423bb949a99c"
+    },
+    "CLAIM_PROVENANCE_CONTINUATION.md": {
+      "bytes": 4263,
+      "sha256": "d54a090b4425b03ee1076ac32b93ec50a2ae600468eeeca0358966502c6293a9"
+    },
+    "OWNER_CONTINUATION_REGISTER.md": {
+      "bytes": 2704,
+      "sha256": "b0134cbf9fa02b8941bf17062ba9eb946b7a3c3b72d8c6d22902776c6acdbc01"
+    },
+    "SCENARIO_COVERAGE_CONTINUATION.md": {
+      "bytes": 5874,
+      "sha256": "e011fc1ee639b7e093d59739c2f732882edc00d2e5a73a161f731ae7abedf4ab"
+    },
+    "SUPPLEMENTAL_CHECKS.json": {
+      "bytes": 3078,
+      "sha256": "44e0ec2b20d58f8e11544084697d3493032ab035354944f6e733bdfdccce9329"
+    },
+    "build_continuation_ledger.py": {
+      "bytes": 8023,
+      "sha256": "543a324ee77872fa3e31ed897e557b0098600cefec66907d7652b47d9ad09718"
+    },
+    "build_continuation_report.py": {
+      "bytes": 21372,
+      "sha256": "c4c22bb3da41d4606574f7d7261fbb5625df309925b32af842bbd473d6f9b2b6"
+    },
+    "build_invariant_review.py": {
+      "bytes": 10694,
+      "sha256": "7aa4f35d84f0f747da7e7e15f6fc6a8dff53424c69ae0a45a3d5912f249f2d22"
+    },
+    "requirement_review.py": {
+      "bytes": 27924,
+      "sha256": "f2a0f39dd3f10efbb96b4785f0e4ad29c1b30b037922d2f4ce6b9a9dc38dd17d"
+    },
+    "review_scale.py": {
+      "bytes": 4355,
+      "sha256": "59a55a6f30d3c937e9dad345793586a3f70c5c94e941b07e08a3295e6678aaa4"
+    },
+    "prepare_continuation_archives.py": {
+      "bytes": 2826,
+      "sha256": "edd106d585f71e6014408cdc7775342f5f43e49e29baf91e17c4bce4ac5b2cce"
+    },
+    "verify_continuation_archives.py": {
+      "bytes": 1374,
+      "sha256": "3450a3fc9392157f53f0e3f8b39442f21e9017bd98ab33ac158592bd0aa42e79"
+    }
+  },
+  "first_locked_report_sha256": "20ea41e6f4fbc13e0fc782704531c7217e79cc970d4cd697c94aee492a53fc80",
+  "first_locked_ledger_sha256": "edba743c5491846e4657a25c51e0aabd4c0ef2c33dd41682704c0804554ebe47",
+  "archive_verification": "50 first archives plus79 continuation ZIP/log archives verified;113 continuation parts; exact bytes/CRC/Git blob match"
+}

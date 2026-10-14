@@ -1,4 +1,4 @@
-# Kualifikasi hasil lanjutan — Q08 sampai Q14
+# Kualifikasi hasil lanjutan — Q08 sampai Q15
 
 Kandidat tetap `0b7049d9203bac52b47a4c89f3e0d75646067a8f`. Semua status mentah disimpan. Penjelasan alat/oracle berikut bukan perubahan produk, bukan penghapusan hasil merah, dan bukan izin mengulang kasus untuk mencari hijau. Ledger individual: `CONTINUATION_NONPASS.json`.
 
@@ -45,3 +45,9 @@ Bukti yang dibawa: laporan Astra pada `57ac8aab164f7c3fc25cf8e2500a8346477da618`
 ## Temuan produk yang berbeda dari seluruh kualifikasi di atas
 
 `CP17-ASTRA-FIN-07-FULL-DETECTOR-OBSERVATION` tetap COUNTEREXAMPLE. Ia memperluas observasi FIN01; bukan cacat adaptor/oracle. Perubahan kewajiban bertanggal −375,25 dan 135 baris detector yang tetap nol dijelaskan pada laporan lanjutan. Status BLOCKED laporan contoh yang sudah ada sebelum kasus tetap diungkapkan.
+
+## Q15 — program CP5 historis dijalankan identik
+
+Run `38572768164`, job `115881983961`: empat program pada clone FULL terpisah, 1 PASS dan 3 INCOMPLETE; Original race tetap FAIL. [CP5_EXACT_REVIEW.md](CP5_EXACT_REVIEW.md) memberi disposisi setiap program. Assertion akhir cutting memuat hash CP4 owner-admin; FULL CP7 mengubahnya dengan delta settlement yang dideklarasikan dan diverifikasi persis. Diagnosis source ini dikunci dengan kedua hash; tidak mengklaim seluruh operand lain sudah diamati. Non-PO rework ditolak sesuai jalur AX current; fixture race receipt lama tidak membawa lineage WIP CP6. Semua sumber, exit, stdout dan hasil parsial dipertahankan; tidak ada replay demi hijau. Keempat program bukan tambahan hitungan kasus bisnis.
+
+Probe R3-02/R3-03/CLAIM-02/POOL-03 juga tetap COUNTEREXAMPLE produk, masing-masing RWK01/STK01/FIN02/HPP01. Penjelasan alat di atas tidak menutupnya.

@@ -3302,11 +3302,11 @@
         "head_sha": "58f13749f0a7753941a56c4a85473b9927491f25",
         "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/jobs/115833361095",
         "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38558465155/job/115833361095",
-        "status": "in_progress",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "created_at": "2026-10-14T11:42:27Z",
         "started_at": "2026-10-14T11:50:45Z",
-        "completed_at": null,
+        "completed_at": "2026-10-14T13:00:47Z",
         "name": "AUDIT/Astra/coverage-p19-scale",
         "steps": [
           {
@@ -3455,115 +3455,123 @@
           },
           {
             "name": "Independently rerun unchanged writer cases on pinned product",
-            "status": "in_progress",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 19,
             "started_at": "2026-10-14T11:55:25Z",
-            "completed_at": null
+            "completed_at": "2026-10-14T13:00:20Z"
           },
           {
             "name": "Emit unmodified per-case verdicts and gate status",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 20,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-10-14T13:00:20Z",
+            "completed_at": "2026-10-14T13:00:23Z"
           },
           {
             "name": "Assert candidate stayed byte-identical",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 21,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-10-14T13:00:23Z",
+            "completed_at": "2026-10-14T13:00:25Z"
           },
           {
             "name": "Remove disposable database",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 22,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-10-14T13:00:25Z",
+            "completed_at": "2026-10-14T13:00:37Z"
           },
           {
             "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 23,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-10-14T13:00:37Z",
+            "completed_at": "2026-10-14T13:00:40Z"
           },
           {
             "name": "Retain every complete Original JSON independently of the full archive",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 24,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-10-14T13:00:40Z",
+            "completed_at": "2026-10-14T13:00:42Z"
           },
           {
             "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 41,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-10-14T13:00:42Z",
+            "completed_at": "2026-10-14T13:00:42Z"
           },
           {
             "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 42,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-10-14T13:00:42Z",
+            "completed_at": "2026-10-14T13:00:43Z"
           },
           {
             "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 43,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-10-14T13:00:43Z",
+            "completed_at": "2026-10-14T13:00:43Z"
           },
           {
             "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 44,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-10-14T13:00:43Z",
+            "completed_at": "2026-10-14T13:00:43Z"
           },
           {
             "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 45,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-10-14T13:00:43Z",
+            "completed_at": "2026-10-14T13:00:43Z"
           },
           {
             "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 46,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-10-14T13:00:43Z",
+            "completed_at": "2026-10-14T13:00:43Z"
           },
           {
             "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 47,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-10-14T13:00:43Z",
+            "completed_at": "2026-10-14T13:00:43Z"
           },
           {
             "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
-            "status": "pending",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "number": 48,
-            "started_at": null,
-            "completed_at": null
+            "started_at": "2026-10-14T13:00:43Z",
+            "completed_at": "2026-10-14T13:00:44Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 49,
+            "started_at": "2026-10-14T13:00:44Z",
+            "completed_at": "2026-10-14T13:00:44Z"
           }
         ],
         "check_run_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/check-runs/115833361095",
@@ -9637,6 +9645,1221 @@
         ],
         "runner_id": 1000015523,
         "runner_name": "GitHub Actions 1000015523",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      }
+    ]
+  },
+  "38567853922": {
+    "total_count": 1,
+    "jobs": [
+      {
+        "id": 115865040095,
+        "run_id": 38567853922,
+        "workflow_name": "AUDIT/cp17-20261014/Astra/0b7049d9/fable-seams/1",
+        "head_branch": "audit/astra-cp1-7-0b7049d9-20261014",
+        "run_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/runs/38567853922",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUFnRys8AAAAa-hg03w",
+        "head_sha": "7912acb719e80365a40776f8df0e8a020377990d",
+        "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/jobs/115865040095",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38567853922/job/115865040095",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-10-14T12:57:35Z",
+        "started_at": "2026-10-14T12:57:37Z",
+        "completed_at": "2026-10-14T13:03:58Z",
+        "name": "AUDIT/Astra/own-fable-seams",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-14T12:57:38Z",
+            "completed_at": "2026-10-14T12:57:39Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-14T12:57:39Z",
+            "completed_at": "2026-10-14T12:57:56Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-14T12:57:56Z",
+            "completed_at": "2026-10-14T12:58:15Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-14T12:58:15Z",
+            "completed_at": "2026-10-14T12:58:40Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-14T12:58:40Z",
+            "completed_at": "2026-10-14T12:58:56Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-14T12:58:56Z",
+            "completed_at": "2026-10-14T12:59:13Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-14T12:59:13Z",
+            "completed_at": "2026-10-14T12:59:31Z"
+          },
+          {
+            "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-14T12:59:31Z",
+            "completed_at": "2026-10-14T12:59:31Z"
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-10-14T12:59:31Z",
+            "completed_at": "2026-10-14T12:59:31Z"
+          },
+          {
+            "name": "Prove pinned product and record evidence origins",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-14T12:59:31Z",
+            "completed_at": "2026-10-14T12:59:32Z"
+          },
+          {
+            "name": "Verify current ownership and frozen predecessor guards",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-10-14T12:59:32Z",
+            "completed_at": "2026-10-14T12:59:34Z"
+          },
+          {
+            "name": "Install pinned disposable runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-10-14T12:59:34Z",
+            "completed_at": "2026-10-14T12:59:49Z"
+          },
+          {
+            "name": "Install candidate browser dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-10-14T12:59:49Z",
+            "completed_at": "2026-10-14T13:00:18Z"
+          },
+          {
+            "name": "Install pinned Supabase CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-10-14T13:00:18Z",
+            "completed_at": "2026-10-14T13:00:20Z"
+          },
+          {
+            "name": "Record proposed source and prepare isolated proof paths",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-10-14T13:00:20Z",
+            "completed_at": "2026-10-14T13:00:20Z"
+          },
+          {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-14T13:00:20Z",
+            "completed_at": "2026-10-14T13:01:35Z"
+          },
+          {
+            "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-14T13:01:35Z",
+            "completed_at": "2026-10-14T13:02:01Z"
+          },
+          {
+            "name": "Provision isolated rollback authority",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18,
+            "started_at": "2026-10-14T13:02:01Z",
+            "completed_at": "2026-10-14T13:02:01Z"
+          },
+          {
+            "name": "Clone the aligned AB state for install",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-10-14T13:02:01Z",
+            "completed_at": "2026-10-14T13:02:04Z"
+          },
+          {
+            "name": "Execute frozen Astra contract oracles on FULL composition",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 20,
+            "started_at": "2026-10-14T13:02:04Z",
+            "completed_at": "2026-10-14T13:03:46Z"
+          },
+          {
+            "name": "Emit unmodified per-case verdicts and gate status",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-10-14T13:03:46Z",
+            "completed_at": "2026-10-14T13:03:46Z"
+          },
+          {
+            "name": "Assert candidate stayed byte-identical",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-10-14T13:03:46Z",
+            "completed_at": "2026-10-14T13:03:46Z"
+          },
+          {
+            "name": "Remove disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23,
+            "started_at": "2026-10-14T13:03:46Z",
+            "completed_at": "2026-10-14T13:03:54Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-10-14T13:03:54Z",
+            "completed_at": "2026-10-14T13:03:55Z"
+          },
+          {
+            "name": "Retain every complete Original JSON independently of the full archive",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-10-14T13:03:55Z",
+            "completed_at": "2026-10-14T13:03:56Z"
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 43,
+            "started_at": "2026-10-14T13:03:56Z",
+            "completed_at": "2026-10-14T13:03:56Z"
+          },
+          {
+            "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 44,
+            "started_at": "2026-10-14T13:03:56Z",
+            "completed_at": "2026-10-14T13:03:56Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 45,
+            "started_at": "2026-10-14T13:03:56Z",
+            "completed_at": "2026-10-14T13:03:56Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 46,
+            "started_at": "2026-10-14T13:03:56Z",
+            "completed_at": "2026-10-14T13:03:56Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 47,
+            "started_at": "2026-10-14T13:03:56Z",
+            "completed_at": "2026-10-14T13:03:56Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 48,
+            "started_at": "2026-10-14T13:03:56Z",
+            "completed_at": "2026-10-14T13:03:56Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 49,
+            "started_at": "2026-10-14T13:03:56Z",
+            "completed_at": "2026-10-14T13:03:57Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 50,
+            "started_at": "2026-10-14T13:03:57Z",
+            "completed_at": "2026-10-14T13:03:57Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 51,
+            "started_at": "2026-10-14T13:03:57Z",
+            "completed_at": "2026-10-14T13:03:57Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/check-runs/115865040095",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000015554,
+        "runner_name": "GitHub Actions 1000015554",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      }
+    ]
+  },
+  "38568716349": {
+    "total_count": 1,
+    "jobs": [
+      {
+        "id": 115867957632,
+        "run_id": 38568716349,
+        "workflow_name": "AUDIT/cp17-20261014/Astra/0b7049d9/claim-date/1",
+        "head_branch": "audit/astra-cp1-7-0b7049d9-20261014",
+        "run_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/runs/38568716349",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUFnRys8AAAAa-kS5gA",
+        "head_sha": "c547c196d092776df7580298bbc780120ccefc32",
+        "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/jobs/115867957632",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38568716349/job/115867957632",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-10-14T13:03:57Z",
+        "started_at": "2026-10-14T13:03:59Z",
+        "completed_at": "2026-10-14T13:11:19Z",
+        "name": "AUDIT/Astra/own-claim-date",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-14T13:04:00Z",
+            "completed_at": "2026-10-14T13:04:03Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-14T13:04:03Z",
+            "completed_at": "2026-10-14T13:04:22Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-14T13:04:22Z",
+            "completed_at": "2026-10-14T13:04:49Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-14T13:04:49Z",
+            "completed_at": "2026-10-14T13:05:23Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-14T13:05:23Z",
+            "completed_at": "2026-10-14T13:05:43Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-14T13:05:43Z",
+            "completed_at": "2026-10-14T13:06:02Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-14T13:06:02Z",
+            "completed_at": "2026-10-14T13:06:21Z"
+          },
+          {
+            "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-14T13:06:21Z",
+            "completed_at": "2026-10-14T13:06:21Z"
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-10-14T13:06:21Z",
+            "completed_at": "2026-10-14T13:06:22Z"
+          },
+          {
+            "name": "Prove pinned product and record evidence origins",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-14T13:06:22Z",
+            "completed_at": "2026-10-14T13:06:23Z"
+          },
+          {
+            "name": "Verify current ownership and frozen predecessor guards",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-10-14T13:06:23Z",
+            "completed_at": "2026-10-14T13:06:25Z"
+          },
+          {
+            "name": "Install pinned disposable runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-10-14T13:06:25Z",
+            "completed_at": "2026-10-14T13:06:49Z"
+          },
+          {
+            "name": "Install candidate browser dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-10-14T13:06:49Z",
+            "completed_at": "2026-10-14T13:07:18Z"
+          },
+          {
+            "name": "Install pinned Supabase CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-10-14T13:07:18Z",
+            "completed_at": "2026-10-14T13:07:20Z"
+          },
+          {
+            "name": "Record proposed source and prepare isolated proof paths",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-10-14T13:07:20Z",
+            "completed_at": "2026-10-14T13:07:21Z"
+          },
+          {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-14T13:07:21Z",
+            "completed_at": "2026-10-14T13:09:01Z"
+          },
+          {
+            "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-14T13:09:01Z",
+            "completed_at": "2026-10-14T13:09:26Z"
+          },
+          {
+            "name": "Provision isolated rollback authority",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18,
+            "started_at": "2026-10-14T13:09:26Z",
+            "completed_at": "2026-10-14T13:09:26Z"
+          },
+          {
+            "name": "Clone the aligned AB state for install",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-10-14T13:09:26Z",
+            "completed_at": "2026-10-14T13:09:33Z"
+          },
+          {
+            "name": "Execute frozen Astra contract oracles on FULL composition",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 20,
+            "started_at": "2026-10-14T13:09:33Z",
+            "completed_at": "2026-10-14T13:11:01Z"
+          },
+          {
+            "name": "Emit unmodified per-case verdicts and gate status",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-10-14T13:11:01Z",
+            "completed_at": "2026-10-14T13:11:01Z"
+          },
+          {
+            "name": "Assert candidate stayed byte-identical",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-10-14T13:11:01Z",
+            "completed_at": "2026-10-14T13:11:02Z"
+          },
+          {
+            "name": "Remove disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23,
+            "started_at": "2026-10-14T13:11:02Z",
+            "completed_at": "2026-10-14T13:11:10Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-10-14T13:11:10Z",
+            "completed_at": "2026-10-14T13:11:12Z"
+          },
+          {
+            "name": "Retain every complete Original JSON independently of the full archive",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-10-14T13:11:12Z",
+            "completed_at": "2026-10-14T13:11:13Z"
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 43,
+            "started_at": "2026-10-14T13:11:13Z",
+            "completed_at": "2026-10-14T13:11:13Z"
+          },
+          {
+            "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 44,
+            "started_at": "2026-10-14T13:11:13Z",
+            "completed_at": "2026-10-14T13:11:13Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 45,
+            "started_at": "2026-10-14T13:11:13Z",
+            "completed_at": "2026-10-14T13:11:14Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 46,
+            "started_at": "2026-10-14T13:11:14Z",
+            "completed_at": "2026-10-14T13:11:14Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 47,
+            "started_at": "2026-10-14T13:11:14Z",
+            "completed_at": "2026-10-14T13:11:14Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 48,
+            "started_at": "2026-10-14T13:11:14Z",
+            "completed_at": "2026-10-14T13:11:14Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 49,
+            "started_at": "2026-10-14T13:11:14Z",
+            "completed_at": "2026-10-14T13:11:14Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 50,
+            "started_at": "2026-10-14T13:11:14Z",
+            "completed_at": "2026-10-14T13:11:14Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 51,
+            "started_at": "2026-10-14T13:11:14Z",
+            "completed_at": "2026-10-14T13:11:14Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/check-runs/115867957632",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000015555,
+        "runner_name": "GitHub Actions 1000015555",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      }
+    ]
+  },
+  "38572768164": {
+    "total_count": 2,
+    "jobs": [
+      {
+        "id": 115881983672,
+        "run_id": 38572768164,
+        "workflow_name": "AUDIT/cp17-20261014/Astra/0b7049d9/final-gaps/1",
+        "head_branch": "audit/astra-cp1-7-0b7049d9-20261014",
+        "run_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/runs/38572768164",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUFnRys8AAAAa-xq-uA",
+        "head_sha": "0d7f3dcc72e1fbee19883c1056361c54527f6885",
+        "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/jobs/115881983672",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38572768164/job/115881983672",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-10-14T13:33:28Z",
+        "started_at": "2026-10-14T13:33:30Z",
+        "completed_at": "2026-10-14T13:39:58Z",
+        "name": "AUDIT/Astra/own-pool-closure",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-14T13:33:30Z",
+            "completed_at": "2026-10-14T13:33:32Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-14T13:33:32Z",
+            "completed_at": "2026-10-14T13:33:50Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-14T13:33:50Z",
+            "completed_at": "2026-10-14T13:34:11Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-14T13:34:11Z",
+            "completed_at": "2026-10-14T13:34:35Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-14T13:34:35Z",
+            "completed_at": "2026-10-14T13:34:54Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-14T13:34:54Z",
+            "completed_at": "2026-10-14T13:35:10Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-14T13:35:10Z",
+            "completed_at": "2026-10-14T13:35:26Z"
+          },
+          {
+            "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-14T13:35:26Z",
+            "completed_at": "2026-10-14T13:35:27Z"
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-10-14T13:35:27Z",
+            "completed_at": "2026-10-14T13:35:27Z"
+          },
+          {
+            "name": "Prove pinned product and record evidence origins",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-14T13:35:27Z",
+            "completed_at": "2026-10-14T13:35:28Z"
+          },
+          {
+            "name": "Verify current ownership and frozen predecessor guards",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-10-14T13:35:28Z",
+            "completed_at": "2026-10-14T13:35:30Z"
+          },
+          {
+            "name": "Install pinned disposable runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-10-14T13:35:30Z",
+            "completed_at": "2026-10-14T13:35:49Z"
+          },
+          {
+            "name": "Install candidate browser dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-10-14T13:35:49Z",
+            "completed_at": "2026-10-14T13:36:17Z"
+          },
+          {
+            "name": "Install pinned Supabase CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-10-14T13:36:17Z",
+            "completed_at": "2026-10-14T13:36:19Z"
+          },
+          {
+            "name": "Record proposed source and prepare isolated proof paths",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-10-14T13:36:19Z",
+            "completed_at": "2026-10-14T13:36:21Z"
+          },
+          {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-14T13:36:21Z",
+            "completed_at": "2026-10-14T13:37:35Z"
+          },
+          {
+            "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-14T13:37:35Z",
+            "completed_at": "2026-10-14T13:38:00Z"
+          },
+          {
+            "name": "Provision isolated rollback authority",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18,
+            "started_at": "2026-10-14T13:38:00Z",
+            "completed_at": "2026-10-14T13:38:01Z"
+          },
+          {
+            "name": "Clone the aligned AB state for install",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-10-14T13:38:01Z",
+            "completed_at": "2026-10-14T13:38:04Z"
+          },
+          {
+            "name": "Execute frozen Astra contract oracles on FULL composition",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 20,
+            "started_at": "2026-10-14T13:38:04Z",
+            "completed_at": "2026-10-14T13:39:45Z"
+          },
+          {
+            "name": "Emit unmodified per-case verdicts and gate status",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-10-14T13:39:45Z",
+            "completed_at": "2026-10-14T13:39:46Z"
+          },
+          {
+            "name": "Assert candidate stayed byte-identical",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-10-14T13:39:46Z",
+            "completed_at": "2026-10-14T13:39:46Z"
+          },
+          {
+            "name": "Remove disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23,
+            "started_at": "2026-10-14T13:39:46Z",
+            "completed_at": "2026-10-14T13:39:53Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-10-14T13:39:53Z",
+            "completed_at": "2026-10-14T13:39:55Z"
+          },
+          {
+            "name": "Retain every complete Original JSON independently of the full archive",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-10-14T13:39:55Z",
+            "completed_at": "2026-10-14T13:39:55Z"
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 43,
+            "started_at": "2026-10-14T13:39:55Z",
+            "completed_at": "2026-10-14T13:39:55Z"
+          },
+          {
+            "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 44,
+            "started_at": "2026-10-14T13:39:55Z",
+            "completed_at": "2026-10-14T13:39:55Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 45,
+            "started_at": "2026-10-14T13:39:55Z",
+            "completed_at": "2026-10-14T13:39:55Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 46,
+            "started_at": "2026-10-14T13:39:55Z",
+            "completed_at": "2026-10-14T13:39:56Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 47,
+            "started_at": "2026-10-14T13:39:56Z",
+            "completed_at": "2026-10-14T13:39:56Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 48,
+            "started_at": "2026-10-14T13:39:56Z",
+            "completed_at": "2026-10-14T13:39:56Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 49,
+            "started_at": "2026-10-14T13:39:56Z",
+            "completed_at": "2026-10-14T13:39:56Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 50,
+            "started_at": "2026-10-14T13:39:56Z",
+            "completed_at": "2026-10-14T13:39:56Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 51,
+            "started_at": "2026-10-14T13:39:56Z",
+            "completed_at": "2026-10-14T13:39:56Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/check-runs/115881983672",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000015559,
+        "runner_name": "GitHub Actions 1000015559",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 115881983961,
+        "run_id": 38572768164,
+        "workflow_name": "AUDIT/cp17-20261014/Astra/0b7049d9/final-gaps/1",
+        "head_branch": "audit/astra-cp1-7-0b7049d9-20261014",
+        "run_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/runs/38572768164",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUFnRys8AAAAa-xq_2Q",
+        "head_sha": "0d7f3dcc72e1fbee19883c1056361c54527f6885",
+        "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/jobs/115881983961",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38572768164/job/115881983961",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-10-14T13:33:28Z",
+        "started_at": "2026-10-14T13:33:30Z",
+        "completed_at": "2026-10-14T13:40:22Z",
+        "name": "AUDIT/Astra/own-cp5-exact",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-14T13:33:30Z",
+            "completed_at": "2026-10-14T13:33:32Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-14T13:33:32Z",
+            "completed_at": "2026-10-14T13:33:50Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-14T13:33:50Z",
+            "completed_at": "2026-10-14T13:34:10Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-14T13:34:10Z",
+            "completed_at": "2026-10-14T13:34:36Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-14T13:34:36Z",
+            "completed_at": "2026-10-14T13:34:57Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-14T13:34:57Z",
+            "completed_at": "2026-10-14T13:35:18Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-14T13:35:18Z",
+            "completed_at": "2026-10-14T13:35:37Z"
+          },
+          {
+            "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-14T13:35:37Z",
+            "completed_at": "2026-10-14T13:35:37Z"
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-10-14T13:35:37Z",
+            "completed_at": "2026-10-14T13:35:37Z"
+          },
+          {
+            "name": "Prove pinned product and record evidence origins",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-14T13:35:37Z",
+            "completed_at": "2026-10-14T13:35:38Z"
+          },
+          {
+            "name": "Verify current ownership and frozen predecessor guards",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-10-14T13:35:38Z",
+            "completed_at": "2026-10-14T13:35:39Z"
+          },
+          {
+            "name": "Install pinned disposable runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-10-14T13:35:39Z",
+            "completed_at": "2026-10-14T13:35:56Z"
+          },
+          {
+            "name": "Install candidate browser dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-10-14T13:35:56Z",
+            "completed_at": "2026-10-14T13:36:18Z"
+          },
+          {
+            "name": "Install pinned Supabase CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-10-14T13:36:18Z",
+            "completed_at": "2026-10-14T13:36:20Z"
+          },
+          {
+            "name": "Record proposed source and prepare isolated proof paths",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-10-14T13:36:20Z",
+            "completed_at": "2026-10-14T13:36:21Z"
+          },
+          {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-14T13:36:21Z",
+            "completed_at": "2026-10-14T13:37:36Z"
+          },
+          {
+            "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-14T13:37:36Z",
+            "completed_at": "2026-10-14T13:37:55Z"
+          },
+          {
+            "name": "Provision isolated rollback authority",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18,
+            "started_at": "2026-10-14T13:37:55Z",
+            "completed_at": "2026-10-14T13:37:55Z"
+          },
+          {
+            "name": "Clone the aligned AB state for install",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-10-14T13:37:55Z",
+            "completed_at": "2026-10-14T13:37:58Z"
+          },
+          {
+            "name": "Execute frozen Astra contract oracles on FULL composition",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 20,
+            "started_at": "2026-10-14T13:37:58Z",
+            "completed_at": "2026-10-14T13:40:09Z"
+          },
+          {
+            "name": "Emit unmodified per-case verdicts and gate status",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-10-14T13:40:09Z",
+            "completed_at": "2026-10-14T13:40:09Z"
+          },
+          {
+            "name": "Assert candidate stayed byte-identical",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-10-14T13:40:09Z",
+            "completed_at": "2026-10-14T13:40:09Z"
+          },
+          {
+            "name": "Remove disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23,
+            "started_at": "2026-10-14T13:40:09Z",
+            "completed_at": "2026-10-14T13:40:16Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-10-14T13:40:16Z",
+            "completed_at": "2026-10-14T13:40:17Z"
+          },
+          {
+            "name": "Retain every complete Original JSON independently of the full archive",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-10-14T13:40:17Z",
+            "completed_at": "2026-10-14T13:40:18Z"
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 43,
+            "started_at": "2026-10-14T13:40:18Z",
+            "completed_at": "2026-10-14T13:40:18Z"
+          },
+          {
+            "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 44,
+            "started_at": "2026-10-14T13:40:18Z",
+            "completed_at": "2026-10-14T13:40:18Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 45,
+            "started_at": "2026-10-14T13:40:18Z",
+            "completed_at": "2026-10-14T13:40:18Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 46,
+            "started_at": "2026-10-14T13:40:18Z",
+            "completed_at": "2026-10-14T13:40:19Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 47,
+            "started_at": "2026-10-14T13:40:19Z",
+            "completed_at": "2026-10-14T13:40:19Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 48,
+            "started_at": "2026-10-14T13:40:19Z",
+            "completed_at": "2026-10-14T13:40:19Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 49,
+            "started_at": "2026-10-14T13:40:19Z",
+            "completed_at": "2026-10-14T13:40:19Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 50,
+            "started_at": "2026-10-14T13:40:19Z",
+            "completed_at": "2026-10-14T13:40:19Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 51,
+            "started_at": "2026-10-14T13:40:19Z",
+            "completed_at": "2026-10-14T13:40:19Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/check-runs/115881983961",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000015558,
+        "runner_name": "GitHub Actions 1000015558",
         "runner_group_id": 0,
         "runner_group_name": "GitHub Actions"
       }
