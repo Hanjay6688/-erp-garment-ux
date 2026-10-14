@@ -1,0 +1,46 @@
+{
+  "read_at": "2026-10-14T12:33:38.232813+00:00",
+  "snapshot_sha": "1826aec19595c0e78f7a26107d77e0c445c94408",
+  "consent": "Owner explicitly allowed reading Fable and asked independent recap; first Astra report already locked f70361d5",
+  "report_state": "DRAFT_v0.1_NOT_LOCKED",
+  "files": [
+    {
+      "path": "continuation/fable-exposure/AC_VIEW_MISMATCH.md",
+      "sha256": "b98d2995f2cfce00e4f2ae7c7d4a84f7c6faaf4275045b1851bca758cd803e56"
+    },
+    {
+      "path": "continuation/fable-exposure/AUDIT_FABLE_0b7049d9.md",
+      "sha256": "a97a7078bec0f14cd881bcc6bc1ab87e138787f3958600629ee98725f03c50f4"
+    },
+    {
+      "path": "continuation/fable-exposure/REGISTER_RUNS.md",
+      "sha256": "229b1be6db9f9f0cb5fe11046a944f86aba1ce8687587bc5e30714e2b2210d64"
+    },
+    {
+      "path": "continuation/fable-exposure/review/R1_CP3_PAYROLL_HPP.md",
+      "sha256": "3160ff6ea63cb7742e835c68c6a5d264d7f8d22261b76dcb3835a37b517257d2"
+    },
+    {
+      "path": "continuation/fable-exposure/review/R3_CP5_BS_REWORK_CLAIMS.md",
+      "sha256": "b83ff587ae11371d9393dbd4eaba6bb3b1c5659be50bc18c42548d1c388c5040"
+    },
+    {
+      "path": "continuation/fable-exposure/review/R4_CP6_CUTOVER_T3.md",
+      "sha256": "77bce5a52a7dbb82f7b114c3c3558cf5e36903b564faefecc78c2344548101c2"
+    },
+    {
+      "path": "continuation/fable-exposure/review/R5_CROSS_STAGE_SEAMS.md",
+      "sha256": "35023e0c1b6cd521983c542ab66eb5592a4fc19cc6cc6ed38e7e0337954d52f1"
+    },
+    {
+      "path": "continuation/fable-exposure/review/R6_CP1_CP2_EVIDENCE_INVENTORY.md",
+      "sha256": "3d399733e6fbc081318eb8e9039a2452113dd4aaa0d5e83ec297fe73330e0bd5"
+    }
+  ],
+  "runtime_runs_opened": [
+    38558699494,
+    38559631518,
+    38560570589
+  ],
+  "counts_not_added_to_astra": true
+}

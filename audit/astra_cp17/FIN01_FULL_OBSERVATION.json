@@ -1,0 +1,391 @@
+{
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "run_id": 38559168896,
+  "job_id": 115835678985,
+  "artifact_id": 11891897967,
+  "original": "continuation/38559168896/11891897967/original/CP17_OWN_CASES_FINANCE_OBSERVABILITY.json",
+  "original_sha256": "44299f2dd6dbaeaaf8d71681deaf6609d110c99fbeaa64bdc2f48d2770fff396",
+  "case_id": "CP17-ASTRA-FIN-07-FULL-DETECTOR-OBSERVATION",
+  "status": "COUNTEREXAMPLE",
+  "accepted": true,
+  "dated_payable": "-375.25",
+  "as_of": "2026-10-12",
+  "accrual_date": "2026-10-13",
+  "detector_rows": 135,
+  "detector_families": {
+    "integrity": 18,
+    "v267": 49,
+    "v268": 68
+  },
+  "all_issues_zero": true,
+  "detector_lists_identical": true,
+  "confidence_before": "BLOCKED",
+  "confidence_during": "BLOCKED",
+  "blockers_identical": true,
+  "blocker_count": 8,
+  "blocker_codes": {
+    "ATTENDANCE_CELL_MISSING": 4,
+    "PAYROLL_NOT_APPROVED": 1,
+    "PAYROLL_WORK_UNCOVERED": 3
+  },
+  "close_preflight_before": {
+    "info": [],
+    "engine": "PERIOD_READINESS_V1",
+    "status": "BLOCKED",
+    "through": "2026-10-12",
+    "blockers": [
+      {
+        "code": "ATTENDANCE_CELL_MISSING",
+        "scope": "WINDOW",
+        "family": "ATTENDANCE",
+        "reason": "Absensi CP3 R3 Worker A (CP3 R3 Normal A) kosong 2 hari antara 2026-10-11 dan 2026-10-12; hari libur dicatat OFF.",
+        "severity": "POLICY",
+        "reference": {
+          "worker_id": "0874eb1d-62e4-4fc8-af0b-012af17d4bc0",
+          "sample_days": [
+            "2026-10-11",
+            "2026-10-12"
+          ],
+          "window_from": "2026-10-11",
+          "worker_name": "CP3 R3 Worker A",
+          "last_missing": "2026-10-12",
+          "missing_days": "2",
+          "contractor_id": "a1000000-0000-0000-0000-000000000001",
+          "first_missing": "2026-10-11",
+          "contractor_name": "CP3 R3 Normal A"
+        },
+        "impact_date": "2026-10-11"
+      },
+      {
+        "code": "ATTENDANCE_CELL_MISSING",
+        "scope": "WINDOW",
+        "family": "ATTENDANCE",
+        "reason": "Absensi CP3 R3 Worker Special (CP3 R3 Special) kosong 2 hari antara 2026-10-11 dan 2026-10-12; hari libur dicatat OFF.",
+        "severity": "POLICY",
+        "reference": {
+          "worker_id": "3600ae63-91ef-4c4f-a049-2d25f7d908a6",
+          "sample_days": [
+            "2026-10-11",
+            "2026-10-12"
+          ],
+          "window_from": "2026-10-11",
+          "worker_name": "CP3 R3 Worker Special",
+          "last_missing": "2026-10-12",
+          "missing_days": "2",
+          "contractor_id": "a1000000-0000-0000-0000-000000000003",
+          "first_missing": "2026-10-11",
+          "contractor_name": "CP3 R3 Special"
+        },
+        "impact_date": "2026-10-11"
+      },
+      {
+        "code": "ATTENDANCE_CELL_MISSING",
+        "scope": "WINDOW",
+        "family": "ATTENDANCE",
+        "reason": "Absensi CP3 R4 Worker C (CP3 R4 Pending Approval C) kosong 2 hari antara 2026-10-11 dan 2026-10-12; hari libur dicatat OFF.",
+        "severity": "POLICY",
+        "reference": {
+          "worker_id": "6e608af8-1e09-483d-94b5-f36d73dcd1e6",
+          "sample_days": [
+            "2026-10-11",
+            "2026-10-12"
+          ],
+          "window_from": "2026-10-11",
+          "worker_name": "CP3 R4 Worker C",
+          "last_missing": "2026-10-12",
+          "missing_days": "2",
+          "contractor_id": "a1000000-0000-0000-0000-000000000005",
+          "first_missing": "2026-10-11",
+          "contractor_name": "CP3 R4 Pending Approval C"
+        },
+        "impact_date": "2026-10-11"
+      },
+      {
+        "code": "ATTENDANCE_CELL_MISSING",
+        "scope": "WINDOW",
+        "family": "ATTENDANCE",
+        "reason": "Absensi CP3 R3 Worker B (CP3 R3 Normal B) kosong 2 hari antara 2026-10-11 dan 2026-10-12; hari libur dicatat OFF.",
+        "severity": "POLICY",
+        "reference": {
+          "worker_id": "e1d38bbd-d3f0-4d32-bd6f-e4ad168d83cc",
+          "sample_days": [
+            "2026-10-11",
+            "2026-10-12"
+          ],
+          "window_from": "2026-10-11",
+          "worker_name": "CP3 R3 Worker B",
+          "last_missing": "2026-10-12",
+          "missing_days": "2",
+          "contractor_id": "a1000000-0000-0000-0000-000000000002",
+          "first_missing": "2026-10-11",
+          "contractor_name": "CP3 R3 Normal B"
+        },
+        "impact_date": "2026-10-11"
+      },
+      {
+        "code": "PAYROLL_NOT_APPROVED",
+        "scope": "AS_OF",
+        "family": "PAYROLL",
+        "reason": "Payroll CP3R4-PAY-C-FEB-PENDING (2026-02-01 s/d 2026-02-01) masih CALCULATED; belum disetujui.",
+        "severity": "POLICY",
+        "reference": {
+          "status": "CALCULATED",
+          "payroll_id": "a6000000-0000-0000-0000-000000000021",
+          "period_end": "2026-02-01",
+          "period_start": "2026-02-01",
+          "contractor_id": "a1000000-0000-0000-0000-000000000005",
+          "payroll_number": "CP3R4-PAY-C-FEB-PENDING"
+        },
+        "impact_date": "2026-02-01"
+      },
+      {
+        "code": "PAYROLL_WORK_UNCOVERED",
+        "scope": "AS_OF",
+        "family": "PAYROLL",
+        "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000004: 1 baris (100 pcs) pada atau sebelum 2026-10-12 belum masuk payroll.",
+        "severity": "POLICY",
+        "reference": {
+          "lines": "1",
+          "contractor_id": "a1000000-0000-0000-0000-000000000004",
+          "remaining_qty": "100",
+          "remaining_amount": "100.00",
+          "first_eligible_at": "2026-01-01T06:00:00+00:00"
+        },
+        "impact_date": "2026-01-01"
+      },
+      {
+        "code": "PAYROLL_WORK_UNCOVERED",
+        "scope": "AS_OF",
+        "family": "PAYROLL",
+        "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000006: 1 baris (5 pcs) pada atau sebelum 2026-10-12 belum masuk payroll.",
+        "severity": "POLICY",
+        "reference": {
+          "lines": "1",
+          "contractor_id": "a1000000-0000-0000-0000-000000000006",
+          "remaining_qty": "5",
+          "remaining_amount": "0.00",
+          "first_eligible_at": "2026-04-01T03:00:00+00:00"
+        },
+        "impact_date": "2026-04-01"
+      },
+      {
+        "code": "PAYROLL_WORK_UNCOVERED",
+        "scope": "AS_OF",
+        "family": "PAYROLL",
+        "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 2 baris (20 pcs) pada atau sebelum 2026-10-12 belum masuk payroll.",
+        "severity": "POLICY",
+        "reference": {
+          "lines": "2",
+          "contractor_id": "a1000000-0000-0000-0000-000000000001",
+          "remaining_qty": "20",
+          "remaining_amount": "0.00",
+          "first_eligible_at": "2026-08-30T10:00:00+00:00"
+        },
+        "impact_date": "2026-08-30"
+      }
+    ],
+    "window_from": "2026-10-11",
+    "date_allowed": true,
+    "policy_count": "8",
+    "recalc_count": "0",
+    "blocker_count": "8",
+    "closed_through": "2026-10-10",
+    "critical_count": "0"
+  },
+  "close_preflight_during": {
+    "info": [],
+    "engine": "PERIOD_READINESS_V1",
+    "status": "BLOCKED",
+    "through": "2026-10-12",
+    "blockers": [
+      {
+        "code": "ATTENDANCE_CELL_MISSING",
+        "scope": "WINDOW",
+        "family": "ATTENDANCE",
+        "reason": "Absensi CP3 R3 Worker A (CP3 R3 Normal A) kosong 2 hari antara 2026-10-11 dan 2026-10-12; hari libur dicatat OFF.",
+        "severity": "POLICY",
+        "reference": {
+          "worker_id": "0874eb1d-62e4-4fc8-af0b-012af17d4bc0",
+          "sample_days": [
+            "2026-10-11",
+            "2026-10-12"
+          ],
+          "window_from": "2026-10-11",
+          "worker_name": "CP3 R3 Worker A",
+          "last_missing": "2026-10-12",
+          "missing_days": "2",
+          "contractor_id": "a1000000-0000-0000-0000-000000000001",
+          "first_missing": "2026-10-11",
+          "contractor_name": "CP3 R3 Normal A"
+        },
+        "impact_date": "2026-10-11"
+      },
+      {
+        "code": "ATTENDANCE_CELL_MISSING",
+        "scope": "WINDOW",
+        "family": "ATTENDANCE",
+        "reason": "Absensi CP3 R3 Worker Special (CP3 R3 Special) kosong 2 hari antara 2026-10-11 dan 2026-10-12; hari libur dicatat OFF.",
+        "severity": "POLICY",
+        "reference": {
+          "worker_id": "3600ae63-91ef-4c4f-a049-2d25f7d908a6",
+          "sample_days": [
+            "2026-10-11",
+            "2026-10-12"
+          ],
+          "window_from": "2026-10-11",
+          "worker_name": "CP3 R3 Worker Special",
+          "last_missing": "2026-10-12",
+          "missing_days": "2",
+          "contractor_id": "a1000000-0000-0000-0000-000000000003",
+          "first_missing": "2026-10-11",
+          "contractor_name": "CP3 R3 Special"
+        },
+        "impact_date": "2026-10-11"
+      },
+      {
+        "code": "ATTENDANCE_CELL_MISSING",
+        "scope": "WINDOW",
+        "family": "ATTENDANCE",
+        "reason": "Absensi CP3 R4 Worker C (CP3 R4 Pending Approval C) kosong 2 hari antara 2026-10-11 dan 2026-10-12; hari libur dicatat OFF.",
+        "severity": "POLICY",
+        "reference": {
+          "worker_id": "6e608af8-1e09-483d-94b5-f36d73dcd1e6",
+          "sample_days": [
+            "2026-10-11",
+            "2026-10-12"
+          ],
+          "window_from": "2026-10-11",
+          "worker_name": "CP3 R4 Worker C",
+          "last_missing": "2026-10-12",
+          "missing_days": "2",
+          "contractor_id": "a1000000-0000-0000-0000-000000000005",
+          "first_missing": "2026-10-11",
+          "contractor_name": "CP3 R4 Pending Approval C"
+        },
+        "impact_date": "2026-10-11"
+      },
+      {
+        "code": "ATTENDANCE_CELL_MISSING",
+        "scope": "WINDOW",
+        "family": "ATTENDANCE",
+        "reason": "Absensi CP3 R3 Worker B (CP3 R3 Normal B) kosong 2 hari antara 2026-10-11 dan 2026-10-12; hari libur dicatat OFF.",
+        "severity": "POLICY",
+        "reference": {
+          "worker_id": "e1d38bbd-d3f0-4d32-bd6f-e4ad168d83cc",
+          "sample_days": [
+            "2026-10-11",
+            "2026-10-12"
+          ],
+          "window_from": "2026-10-11",
+          "worker_name": "CP3 R3 Worker B",
+          "last_missing": "2026-10-12",
+          "missing_days": "2",
+          "contractor_id": "a1000000-0000-0000-0000-000000000002",
+          "first_missing": "2026-10-11",
+          "contractor_name": "CP3 R3 Normal B"
+        },
+        "impact_date": "2026-10-11"
+      },
+      {
+        "code": "PAYROLL_NOT_APPROVED",
+        "scope": "AS_OF",
+        "family": "PAYROLL",
+        "reason": "Payroll CP3R4-PAY-C-FEB-PENDING (2026-02-01 s/d 2026-02-01) masih CALCULATED; belum disetujui.",
+        "severity": "POLICY",
+        "reference": {
+          "status": "CALCULATED",
+          "payroll_id": "a6000000-0000-0000-0000-000000000021",
+          "period_end": "2026-02-01",
+          "period_start": "2026-02-01",
+          "contractor_id": "a1000000-0000-0000-0000-000000000005",
+          "payroll_number": "CP3R4-PAY-C-FEB-PENDING"
+        },
+        "impact_date": "2026-02-01"
+      },
+      {
+        "code": "PAYROLL_WORK_UNCOVERED",
+        "scope": "AS_OF",
+        "family": "PAYROLL",
+        "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000004: 1 baris (100 pcs) pada atau sebelum 2026-10-12 belum masuk payroll.",
+        "severity": "POLICY",
+        "reference": {
+          "lines": "1",
+          "contractor_id": "a1000000-0000-0000-0000-000000000004",
+          "remaining_qty": "100",
+          "remaining_amount": "100.00",
+          "first_eligible_at": "2026-01-01T06:00:00+00:00"
+        },
+        "impact_date": "2026-01-01"
+      },
+      {
+        "code": "PAYROLL_WORK_UNCOVERED",
+        "scope": "AS_OF",
+        "family": "PAYROLL",
+        "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000006: 1 baris (5 pcs) pada atau sebelum 2026-10-12 belum masuk payroll.",
+        "severity": "POLICY",
+        "reference": {
+          "lines": "1",
+          "contractor_id": "a1000000-0000-0000-0000-000000000006",
+          "remaining_qty": "5",
+          "remaining_amount": "0.00",
+          "first_eligible_at": "2026-04-01T03:00:00+00:00"
+        },
+        "impact_date": "2026-04-01"
+      },
+      {
+        "code": "PAYROLL_WORK_UNCOVERED",
+        "scope": "AS_OF",
+        "family": "PAYROLL",
+        "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 2 baris (20 pcs) pada atau sebelum 2026-10-12 belum masuk payroll.",
+        "severity": "POLICY",
+        "reference": {
+          "lines": "2",
+          "contractor_id": "a1000000-0000-0000-0000-000000000001",
+          "remaining_qty": "20",
+          "remaining_amount": "0.00",
+          "first_eligible_at": "2026-08-30T10:00:00+00:00"
+        },
+        "impact_date": "2026-08-30"
+      }
+    ],
+    "window_from": "2026-10-11",
+    "date_allowed": true,
+    "policy_count": "8",
+    "recalc_count": "0",
+    "blocker_count": "8",
+    "closed_through": "2026-10-10",
+    "critical_count": "0"
+  },
+  "financial_position_before": {
+    "cash": "0.00",
+    "assets": "1759.00",
+    "customer_ar": "0.00",
+    "liabilities": "1759.00",
+    "fg_inventory": "0.00",
+    "wip_inventory": "1759.00",
+    "recorded_equity": "0.00",
+    "current_earnings": "0.00",
+    "supplier_final_ap": "0.00",
+    "balance_difference": "0.00",
+    "material_inventory": "0.00",
+    "liabilities_plus_equity": "1759.00",
+    "grni_estimated_liability": "0.00"
+  },
+  "financial_position_during": {
+    "cash": "-375.25",
+    "assets": "1383.75",
+    "customer_ar": "0.00",
+    "liabilities": "1383.75",
+    "fg_inventory": "0.00",
+    "wip_inventory": "1759.00",
+    "recorded_equity": "0.00",
+    "current_earnings": "0.00",
+    "supplier_final_ap": "0.00",
+    "balance_difference": "0.00",
+    "material_inventory": "0.00",
+    "liabilities_plus_equity": "1383.75",
+    "grni_estimated_liability": "0.00"
+  },
+  "full_boundary_restored": true,
+  "not_claimed": "No claim of false READY, no business reversal executed; strict runner verifies transaction rollback. No proof about every UI banner."
+}

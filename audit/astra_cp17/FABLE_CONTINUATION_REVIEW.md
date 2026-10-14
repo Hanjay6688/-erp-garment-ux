@@ -1,0 +1,63 @@
+# Rekap tambahan Fable dan penilaian Astra
+
+Materi dibaca atas izin owner yang sudah tercatat dalam `FABLE_EXPOSURE_REGISTER.md`. Pembacaan lanjutan: 14 Oktober 2026, sesudah laporan Astra `f70361d5` terkunci dan sesudah sumber/manifes seluruh uji lanjutan Astra dikunci. Snapshot cabang Fable: `1826aec19595c0e78f7a26107d77e0c445c94408`. Penulis tetap `00b0eb24b2f014d102f0082111d13ee3be429cf2`.
+
+**Laporan Fable yang tersedia masih DRAFT v0.1, belum dikunci.** R2 belum tersedia; R5 hanya catatan awal. Sekarang tersedia 12 hipotesis R1, 13 hipotesis R3, dan 6 butir R4 (termasuk INFO). Kalimat laporan Astra pertama bahwa sembilan rincian R1 belum tersedia benar pada waktu penguncian, lalu diperbarui oleh dokumen ini. Tidak menganggap draft atau tingkat keparahan hipotesis sebagai putusan final. Salinan dokumen disimpan di `continuation/fable-exposure/`; identitas arsip runtime di `CONTINUATION_ARCHIVE_INDEX.json`.
+
+## Bukti runtime Fable yang dibaca langsung
+
+| Run / artifact | Hasil mentah | Penilaian Astra |
+|---|---|---|
+| 38558699494 / 11891152632, chain2 | CLOSED_PERIOD INCOMPLETE karena tipe date/datetime; OPEN_PAYABLES COUNTEREXAMPLE | Pembayaran 180 dengan tanggal ekonomi sebelum akrual mendukung keluarga FIN01. Detector payroll 3 baris nol; dua fungsi readiness privat gagal permission, sehingga tidak boleh diklaim keduanya memberi nol. |
+| 38559631518 / 11891793540, chain3 | CLOSED_PERIOD INCOMPLETE karena kolom `created_at` tidak ada; R3-03 PASS dengan `25P02` | PASS R3-03 **bukan bukti tanggal settlement aman**: transaksi sudah aborted, writer yang dituju tidak tercapai. |
+| 38560570589 / 11892997891, chain4 | Dua kasus PASS; restoration true | Koreksi supplier/payroll/vendor mengakui jurnal setelah tanggal tutup dan menampilkan `changed_since_filing=true`: bukti positif untuk jalur yang tercapai. Klaim laundry ditolak karena `Posted BS 0 ... requested 1`; ini fixture yang tidak memenuhi prasyarat klaim, bukan penolakan tanggal. |
+
+**Batas pembacaan penting:** pada chain2 Fable, snapshot 10 Oktober READY dengan liabilities 1759; tanggal itu sudah ditutup. Pembayaran ekonomi 9 Oktober tidak dengan sendirinya membuktikan nilai snapshot cutoff salah karena tanggal pengakuan buku berbeda. Astra tidak menggabungkan READY tersebut dengan saksi open-period Astra menjadi klaim palsu “laporan READY salah” yang tidak diperlihatkan satu saksi utuh. Bukti FIN01 Astra sendiri tetap cukup: open-period 12 Oktober berubah dari liabilities 1759 menjadi 1383,75, payable kontraktor −375,25, 135 detector nol; confidence sebelum/sesudah BLOCKED oleh delapan masalah contoh lain yang sama.
+
+Chain4 juga memuat `CP7_RECEIPT_CORRECTION_PRICE` REFUSED `CP7_RECEIPT_FIX_REQUEST_REQUIRED`. Itu belum mencapai koreksi receipt; tidak dihitung sebagai pengujian sukses pengakuan koreksi receipt tertutup. Tiga jalur lain memang menghasilkan jurnal dengan tanggal buku 14 Oktober dan tanggal ekonomi 13 Oktober. Baris movement sebelum/sesudah tetap sama; tidak menguji seluruh kemungkinan backdate fisik.
+
+Enam hasil tingkat kasus dalam tiga Original ini adalah **FABLE_EXECUTION_ASTRA_CROSSCHECK**, tidak masuk ledger eksekusi Astra. Keberhasilan job chain4 tidak menghapus dua keterbatasan fixture/coverage di atas.
+
+## Seluruh hipotesis yang kini tersedia
+
+| ID Fable | Pokok | Disposisi Astra sekarang |
+|---|---|---|
+| R1-01 | Periode pool overlap / payroll periode berbeda | Probe Astra membantah penggunaan ulang **sumber payroll identik**. Varian dua Mandor dengan periode payroll berbeda dan denominator beririsan dalam catatan baru belum dibuktikan/bantah; jangan menutup seluruh R1-01. |
+| R1-02 | Policy baru untuk Mandor yang dahulu dikeluarkan membuat pool ACTIVE stale | STATIC, perlu positive control dan actual basis/detector sebelum/sesudah. Belum jadi temuan runtime. |
+| R1-03 | Absensi dibayar dua payroll/Nota overlap | PAY-02/PAY-03 Astra menolak header kedua dengan overlap aktif, termasuk setelah PAID. Dugaan terbantah untuk jalur yang diuji; trigger baseline memang terpasang. |
+| R1-04 | Tanggal pembatalan pool dan resync | STATIC; harus memeriksa effective primitive dan aturan D01/current-clock, tidak menilai dari body bootstrap saja. |
+| R1-05 | Pembayaran payroll sebelum akrual | **TERBUKTI, satu akar FIN01**; kredit lead Fable, bukti full/partial/final dan laporan/detector Astra sendiri. |
+| R1-06 | Cap SELESAI_DIJAHIT memakai max komponen | Pertanyaan makna fakta selesai jahit vs upah per komponen; catatan Fable sendiri menyebut allowed by design. Belum ada cacat terhadap keputusan owner yang terbukti. |
+| R1-07 | Exclusion denominator tidak terlihat pada preview | Dugaan permukaan informasi; belum ada rekaman preview current yang membuktikan misleading READY. |
+| R1-08 | Lock periode dibatasi 367 hari | Batas fail-closed terlihat di sumber. Belum membuktikan payroll >367 hari wajib didukung kontrak/cutover current. |
+| R1-09 | Token memakai xmin | Sumber memang memakai xmin bersama row_version. Dugaan perubahan token akibat freeze/upgrade belum diuji; penolakan stale tidak disamakan dengan cacat uang. |
+| R1-10 | Numeric pada preview CP3 melewati JS safe integer | Perlu nilai yang sah menurut kontrak dan jalur UI current, plus expected exact. Belum mereproduksi kehilangan sen; JSON angka saja bukan bukti efek pengguna. |
+| R1-11 | Direct native-column writes / lineage | Admission dan derived routine merupakan bagian bundle yang dideklarasikan; belum dibuktikan bypass status/lineage. Perlu membaca audit/context efektif pada aksi yang dimaksud. |
+| R1-12 | Derivative dari catalogue mungkin tidak cocok dengan runtime | Kekhawatiran bundle tidak dapat dipasang **terbantah pada kandidat ini** oleh instalasi FULL, exact predecessor guards, dan kasus payroll. Tidak menghapus kewajiban guard pada kandidat lain. |
+| R3-01 | Upah rework all-BS tidak eligible jika case SCRAPPED | Dugaan serius yang masih STATIC; prioritas reproduksi dengan accrual, status BS, sumber entitlement, dan payroll nyata. Ordinary-rework PASS tidak menutup varian all-BS/SCRAPPED. |
+| R3-02 | Helper memakai current_date UTC | Catatan R4 dan runtime chain1 Fable sendiri menunjukkan helper efektif sudah ditulis ulang; klaim atas bootstrap usang dibantah untuk dua helper itu. Hosted timezone tetap tidak diperiksa. |
+| R3-03 | Settlement klaim sebelum sumber AP/claim | **BELUM TERUJI SECARA SAH**. Chain2 permission denied, chain3 aborted transaction, chain4 tidak punya BS cukup. Tidak dinyatakan lulus maupun cacat tanggal terbukti. |
+| R3-04 | Kerugian BS baru muncul saat PO selesai | GBD-03 opsi 1 sudah diputuskan untuk lingkupnya. Perlu memastikan cakupannya pada QC/sewing BS; tidak memperluas atau membatalkan keputusan owner sepihak. |
+| R3-05 | Reverse menghapus baris bs_resolutions | DELETE terlihat di sumber dan audit old_data disebutkan. Dampak terhadap history/as-known current belum dibuktikan; perlu menilai apakah baris itu projection atau sumber audit kontraktual. |
+| R3-06 | Pickup POSTED tidak punya correction/reversal | Guard immutable dan blocker reopen terlihat; dugaan alur koreksi belum lengkap masih terbuka. Harus inventaris rute sah/keputusan owner sebelum memerintahkan writer menambah aksi baru. |
+| R3-07 | Native inverse terhadap PICKED_UP | Jalur CP7 menolak pickup downstream (kasus Astra PASS). Akses langsung native yang diduga tidak dibuktikan melalui fasad berizin; exposed schema hosted tidak diperiksa. Bukan bukti bypass aplikasi. |
+| R3-08 | Reopen lalu re-POST tanggal lama menggandakan saldo bertanggal | Dugaan penting; kasus reopen yang ada berhenti pada DRAFT dan tidak membuktikan re-POST. Belum runtime; jangan tutup dengan PASS reopen biasa. |
+| R3-09 | Tidak ada rute pengembalian sisa kain fisik | Dugaan celah kebutuhan/rute, belum dibuktikan dari inventaris seluruh writer efektif. Reported remaining memang bukan bukti stok fisik kembali. Jangan mengarang fitur baru tanpa kontrak. |
+| R3-10 | Reverse saat ON_HOLD gagal dengan pesan teknis | Guard sengaja meminta RELEASE. Bukti UI penyelesaian/pesan current belum ada; bukan bukti jumlah salah. |
+| R3-11 | Reversal rework/QC memakai hari pembalikan | Harus dinilai terhadap current-clock/D01 yang berlaku dan effect chain, bukan selalu menganggap restatement historis wajib. Belum ada penyimpangan current contract yang terbukti. |
+| R3-12 | Plain rewash tidak punya biaya vendor | Belum selesai membaca source invoice BD/coverage yang sah. Kasus rewash/redye biasa tidak otomatis menutup varian plain rewash ini. |
+| R3-13 | SQL/race CP5 historis tidak dijalankan identik | Ada regresi current BUSINESS rework, BB/BE/BF, native source, dan browser/Auth/race; itu tidak membuktikan tiga SQL lama dan seluruh race CP5 identik dijalankan. Keterbatasan exact-suite tetap tercatat. |
+| R4-01 | MANIFEST T3 rollbacks NOT_TESTED / komentar jumlah lama | Literal metadata dikonfirmasi; bukti P21/rollback tersimpan terpisah. Masukkan catatan dokumentasi operator agar sumber dan receipt pengujian jelas, bukan tuduhan rollback produk gagal. |
+| R4-02 | Tidak ada lantai tanggal cutover global untuk inflow | STATIC dan bergantung kontrak backfill/cutover. Belum ada bukti native bahwa satu barang legacy benar-benar dihitung dua kali. |
+| R4-03 | changed_since_filing hanya mengikuti READY | Referensi AW belum cukup untuk body final sesudah BA. W9 Astra dan chain4 Fable menunjukkan marker tetap true setelah koreksi yang diuji; varian quantity-only backdate masih belum dibuktikan. |
+| R4-04 | Opening preview mengizinkan lokasi ada tetapi salah tipe/inactive | Dugaan diagnostik STATIC; prepare fail-closed. Belum ada reproduksi current input dan output; tidak disamakan dengan posting stok salah. |
+| R4-05 | Reopen accounting tidak punya fasad publik | INFO, operasi terkendali; Fable sendiri tidak menyebut pelanggaran kontrak. |
+| R4-06 | Workflow historis mempunyai filter branch | INFO; seluruh workflow Astra memakai branch auditor dan checkout kandidat eksplisit. Filter lama bukan bukti kandidat tidak diuji. |
+
+## Catatan AC dan metadata rilis
+
+`AC_VIEW_MISMATCH.md` Fable mengklasifikasikan penolakan aligned-install sebagai **GUARD_BY_DESIGN**, bukan bug CP7. Jalur release T3 dimulai setelah AB dan memakai release variant yang dipin; migrasi asli dan release variant memang tidak boleh dianggap byte-identik. Saran dokumentasi sumber kanonik untuk pemasangan berikutnya layak direkap. Tidak mengedit migrasi historis, melonggarkan guard, atau membuka gate CP7C untuk menanggapi catatan ini.
+
+## Yang diteruskan kepada penulis
+
+Wajib perbaikan produk yang sudah terbukti: **FIN01**. Wajib bukti untuk klaim penuh CP1–CP7: restore database CP2 atau pengecualian scope eksplisit dari owner. Hipotesis lain di atas adalah daftar triase terbuka, dengan prioritas R3-01/R3-08, R1-02 dan R3-03 ber-fixture sah. Mereka **bukan instruksi memperbaiki bug yang sudah terbukti**. Laporan penuh tidak mengklaim semua dugaan Fable sudah selesai diverifikasi. Tidak ada pesan dikirim kepada Fable/penulis.

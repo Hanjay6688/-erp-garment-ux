@@ -1,0 +1,2024 @@
+{
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "entries": [
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": 11890679179,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558323653/11890679179/original.zip",
+      "filename": "38558323653-11890679179.zip",
+      "bytes": 668923,
+      "sha256": "7928cd688a5273a39441bd5a4a0d0a71cbb735a34a5621330e52836878444752",
+      "decoded_bytes": 668923,
+      "decoded_sha256": "7928cd688a5273a39441bd5a4a0d0a71cbb735a34a5621330e52836878444752",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11890679179.zip.part001",
+          "bytes": 600000,
+          "sha256": "4cc65553f064ffcca29e975a16436ce0f23c520997e1aa7279a3c756f28d400d",
+          "git_blob_sha": "e4965fbf0f87eca5056d6dbba934280d7f2492f4"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11890679179.zip.part002",
+          "bytes": 68923,
+          "sha256": "a012f35aa7245e7ef795d04e48b73b789e4377535e4d0e70be9e124ce814d234",
+          "git_blob_sha": "97f8fe43ebe2778ebff84fc1f9bf17d71973d4de"
+        }
+      ],
+      "members": [
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17_COVERAGE_BE.json",
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CP17_COVERAGE_BE_CASES.json",
+        "ASTRA_CP17_COVERAGE_BE_PREEXECUTION_PLAN.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": 11890877730,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558323653/11890877730/original.zip",
+      "filename": "38558323653-11890877730.zip",
+      "bytes": 831724,
+      "sha256": "dae3b859e3bd916229dfd4947b242827097ebbeb38cba85b0e235003a893d5cb",
+      "decoded_bytes": 831724,
+      "decoded_sha256": "dae3b859e3bd916229dfd4947b242827097ebbeb38cba85b0e235003a893d5cb",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11890877730.zip.part001",
+          "bytes": 600000,
+          "sha256": "4d67a9a95482a70e54a26beaa034ea1be1c6993ee93135f14be2807d8d6bad54",
+          "git_blob_sha": "6cecc802d9cbd387762391c2ca47ffe5401bb7c9"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11890877730.zip.part002",
+          "bytes": 231724,
+          "sha256": "4881c84a3bdbe8f73dd7dab740c71076aedb784ac50e01bb6660dbecfd6cd6e4",
+          "git_blob_sha": "1feced7cddbcfbfdadeeffc768b0ce994b4fbd71"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17_COVERAGE_AX.json",
+        "ASTRA_CP17_COVERAGE_AX_CASES.json",
+        "ASTRA_CP17_COVERAGE_AX_PREEXECUTION_PLAN.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": 11891067541,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558323653/11891067541/original.zip",
+      "filename": "38558323653-11891067541.zip",
+      "bytes": 1149430,
+      "sha256": "3a907c43204ae242232d578f07d1b49978653c6dd9143f73531c3a2766f62108",
+      "decoded_bytes": 1149430,
+      "decoded_sha256": "3a907c43204ae242232d578f07d1b49978653c6dd9143f73531c3a2766f62108",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11891067541.zip.part001",
+          "bytes": 600000,
+          "sha256": "6a4bcf4ca23edeb1679e1cfa1a5e1bb9e861f4ecef8b29c2661960977863ed21",
+          "git_blob_sha": "eed50938023b9b9fdd21b2aae01cee6e22de0844"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11891067541.zip.part002",
+          "bytes": 549430,
+          "sha256": "97d2122de948b91fc435acdfc5aa75b2dd86fef6abdd789c480c7ede8fb3494c",
+          "git_blob_sha": "bbc6539329ae4d67bb6f59071ac7ab0c1b0eb467"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17_COVERAGE_AZ.json",
+        "ASTRA_CP17_COVERAGE_AZ_CASES.json",
+        "ASTRA_CP17_COVERAGE_AZ_PREEXECUTION_PLAN.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": 11891593289,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558323653/11891593289/original.zip",
+      "filename": "38558323653-11891593289.zip",
+      "bytes": 1734473,
+      "sha256": "396fe762f8c9492df072c962091ed71614522e5e5f3163c8cb893a16f4e87458",
+      "decoded_bytes": 1734473,
+      "decoded_sha256": "396fe762f8c9492df072c962091ed71614522e5e5f3163c8cb893a16f4e87458",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11891593289.zip.part001",
+          "bytes": 600000,
+          "sha256": "572cb435b3f0fdea3f714fe4c08b32fb0eb52b59ca33b0920c7b08f3a92774c8",
+          "git_blob_sha": "d926c92b3eccc15cc6bea3812420d58fe8af2d69"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11891593289.zip.part002",
+          "bytes": 600000,
+          "sha256": "483452324509f448143ded1c67aa57ad46670ee0fc1d8c10bfd1e37a16592b3b",
+          "git_blob_sha": "395f5432810a09347bc4dfeb27a0640bc1c67987"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11891593289.zip.part003",
+          "bytes": 534473,
+          "sha256": "7bb8aa14439c78de886e955c2b8d45ce173ca97c153d52479ce9cbb343213fd8",
+          "git_blob_sha": "9267ca3f7d0d7852b11a1717304ba7d081e58d3a"
+        }
+      ],
+      "members": [
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17_COVERAGE_BC.json",
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CP17_COVERAGE_BC_CASES.json",
+        "ASTRA_CP17_COVERAGE_BC_PREEXECUTION_PLAN.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": 11891648242,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558323653/11891648242/original.zip",
+      "filename": "38558323653-11891648242.zip",
+      "bytes": 1594943,
+      "sha256": "6439f2aed79c089ac5924066fe96f51b687bc611656463d0cbc60539e0f4881b",
+      "decoded_bytes": 1594943,
+      "decoded_sha256": "6439f2aed79c089ac5924066fe96f51b687bc611656463d0cbc60539e0f4881b",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11891648242.zip.part001",
+          "bytes": 600000,
+          "sha256": "6f646a44d9a906732f448da146a8561575df60678d63b1f59a91a50ea784642c",
+          "git_blob_sha": "4591c6b65e28834cbe6cb2a653cf6c2331796302"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11891648242.zip.part002",
+          "bytes": 600000,
+          "sha256": "06e7a724b11044f059ec9e08b38db43caa187c27c4f4bdb37fd021d5353d0ddb",
+          "git_blob_sha": "335b172bb1315418ba01929522f1fcc95096d03c"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11891648242.zip.part003",
+          "bytes": 394943,
+          "sha256": "102ab71239f6013a30663b28ecf76c781dcf258df570ae8ef9331cc8ec365ff6",
+          "git_blob_sha": "915eb59a15b4a5e58a2b060e1c5408b065750320"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17_COVERAGE_BD.json",
+        "ASTRA_CP17_COVERAGE_BD_CASES.json",
+        "ASTRA_CP17_COVERAGE_BD_PREEXECUTION_PLAN.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": 11891696500,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558323653/11891696500/original.zip",
+      "filename": "38558323653-11891696500.zip",
+      "bytes": 700493,
+      "sha256": "6afd0d1cd2c033bd2b0fa631c29f8b534b3ec4c1660c3d93d9aeb45d15b939a2",
+      "decoded_bytes": 700493,
+      "decoded_sha256": "6afd0d1cd2c033bd2b0fa631c29f8b534b3ec4c1660c3d93d9aeb45d15b939a2",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11891696500.zip.part001",
+          "bytes": 600000,
+          "sha256": "448813ef29fd0eccd499d5e98ebbce2ef398a67a12782ee20d3b903cde14d9ff",
+          "git_blob_sha": "46909069b1e99ab17a23807568cb3aae288a3036"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11891696500.zip.part002",
+          "bytes": 100493,
+          "sha256": "fb53e96d7928dd2787e708e881994708f6f29b857389524f6b1e9e576bb3d0c8",
+          "git_blob_sha": "96c43f3c3b64e1a26157c74199a23676922b2fa6"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17_COVERAGE_AW.json",
+        "ASTRA_CP17_COVERAGE_AW_CASES.json",
+        "ASTRA_CP17_COVERAGE_AW_PREEXECUTION_PLAN.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": 11891806971,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558323653/11891806971/original.zip",
+      "filename": "38558323653-11891806971.zip",
+      "bytes": 2274771,
+      "sha256": "8c049d727edc90119048ed9f6f4324bbc42cc48422ecec1d9230d3a913399cd0",
+      "decoded_bytes": 2274771,
+      "decoded_sha256": "8c049d727edc90119048ed9f6f4324bbc42cc48422ecec1d9230d3a913399cd0",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11891806971.zip.part001",
+          "bytes": 600000,
+          "sha256": "2fdb952bd378d5871289111e2cc59565a067d56330c33cbcf060fc2dcf2b07fa",
+          "git_blob_sha": "d5aa41161f5c6bdf4566da885f7f6753a17d3467"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11891806971.zip.part002",
+          "bytes": 600000,
+          "sha256": "ea9084d0b8c2d0e4c339fe41878799bbe063f5df906f863fb74b611c18defa14",
+          "git_blob_sha": "cf15bac7dd9537b233cb70892110ec44b96aa4a3"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11891806971.zip.part003",
+          "bytes": 600000,
+          "sha256": "b39c6303a068012f3398d1333a698621117c06a88706f30118e0066ff2aabe56",
+          "git_blob_sha": "b8ff2455055a6de4600a2add9f13fb3e065989a8"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11891806971.zip.part004",
+          "bytes": 474771,
+          "sha256": "97df8dbfd07c098910203dae8140edc0290c9ac4b0dac09a07a3317cd100cc21",
+          "git_blob_sha": "3a93674dd78ae41cffc23afeb22bf973bf311eee"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CP17_COVERAGE_BA.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17_COVERAGE_BA_CASES.json",
+        "ASTRA_CP17_COVERAGE_BA_PREEXECUTION_PLAN.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": 11892041479,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558323653/11892041479/original.zip",
+      "filename": "38558323653-11892041479.zip",
+      "bytes": 371225,
+      "sha256": "3c9d39995082c184076736e60dc63df2198a3724c61fc28e252b1dcd5642e6f2",
+      "decoded_bytes": 371225,
+      "decoded_sha256": "3c9d39995082c184076736e60dc63df2198a3724c61fc28e252b1dcd5642e6f2",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11892041479.zip",
+          "bytes": 371225,
+          "sha256": "3c9d39995082c184076736e60dc63df2198a3724c61fc28e252b1dcd5642e6f2",
+          "git_blob_sha": "02d53762cf50a0305e214ee056614b181e7b95f2"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17_COVERAGE_AY.json",
+        "ASTRA_CP17_COVERAGE_AY_CASES.json",
+        "ASTRA_CP17_COVERAGE_AY_PREEXECUTION_PLAN.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": 11892081531,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558323653/11892081531/original.zip",
+      "filename": "38558323653-11892081531.zip",
+      "bytes": 1999717,
+      "sha256": "de163eb6b2500fd54a60e4bfbbcdcb305f83b60bb0842ee1ceb02924f61eaf6d",
+      "decoded_bytes": 1999717,
+      "decoded_sha256": "de163eb6b2500fd54a60e4bfbbcdcb305f83b60bb0842ee1ceb02924f61eaf6d",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11892081531.zip.part001",
+          "bytes": 600000,
+          "sha256": "dc22fc1a295fc83370c23d8a802a1fb7a33870eb47db2debe58ffc090ee1a1b5",
+          "git_blob_sha": "2bd464906c524eacb4faf5ed6cc2fd291cb08ad9"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11892081531.zip.part002",
+          "bytes": 600000,
+          "sha256": "41a3fffb981bfe444ad33d8d3b8c31f9dd3781201d6911eb387bd52eb105162c",
+          "git_blob_sha": "acc60243dd52b6f83e0b26e14829922c0e2e7195"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11892081531.zip.part003",
+          "bytes": 600000,
+          "sha256": "c8e3c23c49a7fbc4d926897dcd5c8a490d2f6fe4aca19c6a59c2630245349980",
+          "git_blob_sha": "838e98e294e93cc9a3df1d3212c289c5b5e22b71"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-11892081531.zip.part004",
+          "bytes": 199717,
+          "sha256": "b4dae2cdcee1234a4eafc44062cfc7298088b49abb3c3d4db819b0fec6610044",
+          "git_blob_sha": "ebb4ce5920bb9e7e2e74486ce90eb276d85c5623"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CP17_COVERAGE_BB.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17_COVERAGE_BB_CASES.json",
+        "ASTRA_CP17_COVERAGE_BB_PREEXECUTION_PLAN.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": 11890929102,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558465155/11890929102/original.zip",
+      "filename": "38558465155-11890929102.zip",
+      "bytes": 43534,
+      "sha256": "037f64ef786cf0595b87202b1990c51b76fa07f3e5b8d40c1ecd50f10002df3b",
+      "decoded_bytes": 43534,
+      "decoded_sha256": "037f64ef786cf0595b87202b1990c51b76fa07f3e5b8d40c1ecd50f10002df3b",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11890929102.zip",
+          "bytes": 43534,
+          "sha256": "037f64ef786cf0595b87202b1990c51b76fa07f3e5b8d40c1ecd50f10002df3b",
+          "git_blob_sha": "2b4d02786da1d149432ee43af5e4171d87f2f765"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "CP7_TRANSACTION_SOURCE.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": 11891019952,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558465155/11891019952/original.zip",
+      "filename": "38558465155-11891019952.zip",
+      "bytes": 54945,
+      "sha256": "2ed88832264e35be4b327bba8104d16d681551383d47a9a0bbfb00407eaf4ded",
+      "decoded_bytes": 54945,
+      "decoded_sha256": "2ed88832264e35be4b327bba8104d16d681551383d47a9a0bbfb00407eaf4ded",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11891019952.zip",
+          "bytes": 54945,
+          "sha256": "2ed88832264e35be4b327bba8104d16d681551383d47a9a0bbfb00407eaf4ded",
+          "git_blob_sha": "6ad5bd68185fa6b2135741f65e7d6e35488fbc44"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "CP7_P19_TRANSPORT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": 11891168753,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558465155/11891168753/original.zip",
+      "filename": "38558465155-11891168753.zip",
+      "bytes": 819367,
+      "sha256": "e6a94ef5a13b99f15a2f006d6ada63e5e87611f542153fc8ab78142b231c6bf9",
+      "decoded_bytes": 819367,
+      "decoded_sha256": "e6a94ef5a13b99f15a2f006d6ada63e5e87611f542153fc8ab78142b231c6bf9",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11891168753.zip.part001",
+          "bytes": 600000,
+          "sha256": "549b22c767e38ed9ec52ff931b680a576b2a290dd83aa34a59cd8cf9eb676d3d",
+          "git_blob_sha": "8aadcbf04ac06684331f738e4e220a8dd55008f8"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11891168753.zip.part002",
+          "bytes": 219367,
+          "sha256": "05822f8a6e937e9cefec26f0f25b70fac6f01e80c883917b2c8f7f247d9d0d7b",
+          "git_blob_sha": "aa138bbc7f60697a8f3f8661f5ca2ba228af6914"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "CP7_P19_NATIVE_LOAD.json",
+        "P19_LOAD_HTTP_CAPTURE_0.json",
+        "P19_LOAD_HTTP_CAPTURE_1.json",
+        "P19_LOAD_HTTP_CAPTURE_2.json",
+        "P19_LOAD_HTTP_CAPTURE_3.json",
+        "P19_LOAD_PROFILE_0.json",
+        "P19_LOAD_PROFILE_1.json",
+        "P19_LOAD_PROFILE_12.json",
+        "P19_LOAD_PROFILE_4.json",
+        "P19_LOAD_SQL_CAPTURE_0.json",
+        "P19_LOAD_SQL_CAPTURE_1.json",
+        "P19_LOAD_SQL_CAPTURE_2.json",
+        "P19_LOAD_SQL_CAPTURE_3.json",
+        "P19_LOAD_UNDERPROVISIONED_12.json",
+        "P19_LOAD_WRITER_AND_READERS.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": 11891286886,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558465155/11891286886/original.zip",
+      "filename": "38558465155-11891286886.zip",
+      "bytes": 38820,
+      "sha256": "f8caacc9794b0c2a2898faac17fc922ca2f4c1eb68994e4b1215876058d2c461",
+      "decoded_bytes": 38820,
+      "decoded_sha256": "f8caacc9794b0c2a2898faac17fc922ca2f4c1eb68994e4b1215876058d2c461",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11891286886.zip",
+          "bytes": 38820,
+          "sha256": "f8caacc9794b0c2a2898faac17fc922ca2f4c1eb68994e4b1215876058d2c461",
+          "git_blob_sha": "4e3a880d7fc2f0e5ccc854cf175101e4a0187a52"
+        }
+      ],
+      "members": [
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "ALIGNED_CHAIN.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "CP7_SALES_CHAIN.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": 11891452128,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558465155/11891452128/original.zip",
+      "filename": "38558465155-11891452128.zip",
+      "bytes": 167863,
+      "sha256": "2bb303ec7af50c829d654157e0a8b5039c616fee0b76c3aaf9dec5851003b4c2",
+      "decoded_bytes": 167863,
+      "decoded_sha256": "2bb303ec7af50c829d654157e0a8b5039c616fee0b76c3aaf9dec5851003b4c2",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11891452128.zip",
+          "bytes": 167863,
+          "sha256": "2bb303ec7af50c829d654157e0a8b5039c616fee0b76c3aaf9dec5851003b4c2",
+          "git_blob_sha": "72aa308c0e642ca95af80d88ca7d5b34d87aab5c"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "CP7_P18_FABRIC_RULE.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": 11891607025,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558465155/11891607025/original.zip",
+      "filename": "38558465155-11891607025.zip",
+      "bytes": 137023,
+      "sha256": "2ed0731b39aa65acc607b4dff0c75f5b19cef009aba69f2a63deccdedcb1675b",
+      "decoded_bytes": 137023,
+      "decoded_sha256": "2ed0731b39aa65acc607b4dff0c75f5b19cef009aba69f2a63deccdedcb1675b",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11891607025.zip",
+          "bytes": 137023,
+          "sha256": "2ed0731b39aa65acc607b4dff0c75f5b19cef009aba69f2a63deccdedcb1675b",
+          "git_blob_sha": "a546b761b840c27e1890333115bfb098eb304a03"
+        }
+      ],
+      "members": [
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ALIGNED_CHAIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "CP7_FABRIC_RECIPE.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": 11891758180,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558465155/11891758180/original.zip",
+      "filename": "38558465155-11891758180.zip",
+      "bytes": 48553,
+      "sha256": "deae91fd7bcec2518d6fd191a5a0da93590d1476b0713852c4881beec37ae6f9",
+      "decoded_bytes": 48553,
+      "decoded_sha256": "deae91fd7bcec2518d6fd191a5a0da93590d1476b0713852c4881beec37ae6f9",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11891758180.zip",
+          "bytes": 48553,
+          "sha256": "deae91fd7bcec2518d6fd191a5a0da93590d1476b0713852c4881beec37ae6f9",
+          "git_blob_sha": "21a08e1e37b1b771a83301452203ac7b5bf92a82"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "CP7_F05_NATIVE_ANALYSIS.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": 11892639629,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558465155/11892639629/original.zip",
+      "filename": "38558465155-11892639629.zip",
+      "bytes": 44823,
+      "sha256": "0e3c28190191dff7f57b53860e7a6d76681dc266dcffe3c55feec71cf87eb905",
+      "decoded_bytes": 44823,
+      "decoded_sha256": "0e3c28190191dff7f57b53860e7a6d76681dc266dcffe3c55feec71cf87eb905",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11892639629.zip",
+          "bytes": 44823,
+          "sha256": "0e3c28190191dff7f57b53860e7a6d76681dc266dcffe3c55feec71cf87eb905",
+          "git_blob_sha": "2c970e76ddd26744744febf4a0b17e92f136cf24"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "CP7_P18_E01_BRIDGE.json",
+        "P19_BROWSER_LOADING_DESKTOP.json",
+        "P19_BROWSER_LOADING_MOBILE.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": 11892747497,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558465155/11892747497/original.zip",
+      "filename": "38558465155-11892747497.zip",
+      "bytes": 57193,
+      "sha256": "3e41f22c48b8c03a75231075c00df29cfd25512b15fe1f99529d5eeea59165bc",
+      "decoded_bytes": 57193,
+      "decoded_sha256": "3e41f22c48b8c03a75231075c00df29cfd25512b15fe1f99529d5eeea59165bc",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11892747497.zip",
+          "bytes": 57193,
+          "sha256": "3e41f22c48b8c03a75231075c00df29cfd25512b15fe1f99529d5eeea59165bc",
+          "git_blob_sha": "7fffdbc2ef5f3acaae2c1b1714d81f728c074280"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "CP7_P19_STAGED.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": 11893252628,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558465155/11893252628/original.zip",
+      "filename": "38558465155-11893252628.zip",
+      "bytes": 67126,
+      "sha256": "ae7e950c05dc685e8ca820bd53c65a27d25723d3a19ae6d13b7278300ade8896",
+      "decoded_bytes": 67126,
+      "decoded_sha256": "ae7e950c05dc685e8ca820bd53c65a27d25723d3a19ae6d13b7278300ade8896",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-11893252628.zip",
+          "bytes": 67126,
+          "sha256": "ae7e950c05dc685e8ca820bd53c65a27d25723d3a19ae6d13b7278300ade8896",
+          "git_blob_sha": "076463b56294a69df853c481ca3ef7612af30e74"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "CP7_F05_NATIVE_ATTENTION.json",
+        "F05_CAPTURE_OBLIGATION_REPORT_DESKTOP_HTTP_RESPONSE.json",
+        "F05_CAPTURE_OBLIGATION_REPORT_DESKTOP_HTTP_TRACE.json",
+        "F05_CAPTURE_OBLIGATION_REPORT_MOBILE_HTTP_RESPONSE.json",
+        "F05_CAPTURE_OBLIGATION_REPORT_MOBILE_HTTP_TRACE.json",
+        "F05_CAPTURE_OTHER_DESKTOP_HTTP_RESPONSE.json",
+        "F05_CAPTURE_OTHER_DESKTOP_HTTP_TRACE.json",
+        "F05_CAPTURE_OTHER_MOBILE_HTTP_RESPONSE.json",
+        "F05_CAPTURE_OTHER_MOBILE_HTTP_TRACE.json",
+        "F05_LOCAL_CLAIM_DESKTOP_HTTP_RESPONSE.json",
+        "F05_LOCAL_CLAIM_DESKTOP_HTTP_TRACE.json",
+        "F05_LOCAL_CLAIM_MOBILE_HTTP_RESPONSE.json",
+        "F05_LOCAL_CLAIM_MOBILE_HTTP_TRACE.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702356,
+      "artifact_id": 11890883382,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558702356/11890883382/original.zip",
+      "filename": "38558702356-11890883382.zip",
+      "bytes": 39035,
+      "sha256": "8647a69eea6c77000b39db0d38452a60beee7fadae8eb290357d9d79ec0ccf8b",
+      "decoded_bytes": 39035,
+      "decoded_sha256": "8647a69eea6c77000b39db0d38452a60beee7fadae8eb290357d9d79ec0ccf8b",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-11890883382.zip",
+          "bytes": 39035,
+          "sha256": "8647a69eea6c77000b39db0d38452a60beee7fadae8eb290357d9d79ec0ccf8b",
+          "git_blob_sha": "4ac080aad42a0dbbaf5505f4f377eb5140fcc37c"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CP17_COVERAGE_MODES_BE.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702356,
+      "artifact_id": 11890973805,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558702356/11890973805/original.zip",
+      "filename": "38558702356-11890973805.zip",
+      "bytes": 38193,
+      "sha256": "c7a5475575a2e4431758f7ed575a522cc20974a2697b84082728a817b24ca35f",
+      "decoded_bytes": 38193,
+      "decoded_sha256": "c7a5475575a2e4431758f7ed575a522cc20974a2697b84082728a817b24ca35f",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-11890973805.zip",
+          "bytes": 38193,
+          "sha256": "c7a5475575a2e4431758f7ed575a522cc20974a2697b84082728a817b24ca35f",
+          "git_blob_sha": "a2813e78db7b3a27ae5ff7b48ec3cb93a21ee365"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CP17_COVERAGE_MODES_BD.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702356,
+      "artifact_id": 11891802678,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558702356/11891802678/original.zip",
+      "filename": "38558702356-11891802678.zip",
+      "bytes": 36033,
+      "sha256": "ea551d68cbb9cd2b41c5b57312128ee96095cee26dc69afc9fb67aff5cde97a4",
+      "decoded_bytes": 36033,
+      "decoded_sha256": "ea551d68cbb9cd2b41c5b57312128ee96095cee26dc69afc9fb67aff5cde97a4",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-11891802678.zip",
+          "bytes": 36033,
+          "sha256": "ea551d68cbb9cd2b41c5b57312128ee96095cee26dc69afc9fb67aff5cde97a4",
+          "git_blob_sha": "ef4b50e54921c491dfbe6d43a83b614c5ec51087"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17_COVERAGE_MODES_BB.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702356,
+      "artifact_id": 11891972636,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558702356/11891972636/original.zip",
+      "filename": "38558702356-11891972636.zip",
+      "bytes": 37296,
+      "sha256": "1db27d668e23f4d4321b5c4dbff735d9da94b797346b531c3adff03ee06ba0cf",
+      "decoded_bytes": 37296,
+      "decoded_sha256": "1db27d668e23f4d4321b5c4dbff735d9da94b797346b531c3adff03ee06ba0cf",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-11891972636.zip",
+          "bytes": 37296,
+          "sha256": "1db27d668e23f4d4321b5c4dbff735d9da94b797346b531c3adff03ee06ba0cf",
+          "git_blob_sha": "fe03063d79b68153f8f239fb3c93c42f8f025c5c"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17_COVERAGE_MODES_BC.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702356,
+      "artifact_id": 11892106763,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558702356/11892106763/original.zip",
+      "filename": "38558702356-11892106763.zip",
+      "bytes": 34153,
+      "sha256": "326e61af7c4e1d4df5c3a1f0f7ea07508ecbd2745f96e6f08d6dbf1245178c57",
+      "decoded_bytes": 34153,
+      "decoded_sha256": "326e61af7c4e1d4df5c3a1f0f7ea07508ecbd2745f96e6f08d6dbf1245178c57",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-11892106763.zip",
+          "bytes": 34153,
+          "sha256": "326e61af7c4e1d4df5c3a1f0f7ea07508ecbd2745f96e6f08d6dbf1245178c57",
+          "git_blob_sha": "31187483502a3383ca73bfd8ea0f9c66387a19ee"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17_COVERAGE_MODES_BD_RANGE.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702356,
+      "artifact_id": 11892122820,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558702356/11892122820/original.zip",
+      "filename": "38558702356-11892122820.zip",
+      "bytes": 38946,
+      "sha256": "49826ca27414f1594ac8ef26e83c17b68c15b2de7bf1314c2b811f02a7f75de2",
+      "decoded_bytes": 38946,
+      "decoded_sha256": "49826ca27414f1594ac8ef26e83c17b68c15b2de7bf1314c2b811f02a7f75de2",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-11892122820.zip",
+          "bytes": 38946,
+          "sha256": "49826ca27414f1594ac8ef26e83c17b68c15b2de7bf1314c2b811f02a7f75de2",
+          "git_blob_sha": "5b97b849f9851b3fe56a9e41eea5a27c453b4113"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17_COVERAGE_MODES_BD_REVISION.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702356,
+      "artifact_id": 11892411883,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558702356/11892411883/original.zip",
+      "filename": "38558702356-11892411883.zip",
+      "bytes": 3800829,
+      "sha256": "24cb977f2c4f1f607448657992b6e6d21bb3bd084508280360a13963c2303f6c",
+      "decoded_bytes": 3800829,
+      "decoded_sha256": "24cb977f2c4f1f607448657992b6e6d21bb3bd084508280360a13963c2303f6c",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-11892411883.zip.part001",
+          "bytes": 600000,
+          "sha256": "3f2532f95985caa38e7d1767dc263205c8ea1d9e3dd7b35bd1a5f6a5506aad62",
+          "git_blob_sha": "7951769564387bb8cb7ac15adc347e53767461d6"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-11892411883.zip.part002",
+          "bytes": 600000,
+          "sha256": "a618dd4d67218c9a15091dbff90153f4fa16911ad762730d4d3f0627455a421b",
+          "git_blob_sha": "ff5c54c77c422e3de86519ba7eb3c93e5d69b755"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-11892411883.zip.part003",
+          "bytes": 600000,
+          "sha256": "d3da877fccbff2e0382eaf5272188b794c2740e95d39a65c19f99d72341aadab",
+          "git_blob_sha": "29c8329c43b4bac83d4f4dbbaf0c11e1d4975847"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-11892411883.zip.part004",
+          "bytes": 600000,
+          "sha256": "bb9a7a56d99af8918a3cbe7e039126f9007e4704f48846f20c7ba4ec626d3a78",
+          "git_blob_sha": "0138fa7fa5755463be58803e00e073f534e1c8c1"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-11892411883.zip.part005",
+          "bytes": 600000,
+          "sha256": "7fc8cb5b5b38c839d31a094fdda5a53ce9d44d90cc7fca94f0db3051af0c416d",
+          "git_blob_sha": "af73b632546d6894dac99a62c1d4a36cc8b5bf13"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-11892411883.zip.part006",
+          "bytes": 600000,
+          "sha256": "bf1fef0c499d961d9d541b1d73804c5a625b7a8c99f1e3f36c38f04a8a8a0b93",
+          "git_blob_sha": "cc0c5d69fe7d46fe67e58bf6cf9f3f75063c851a"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-11892411883.zip.part007",
+          "bytes": 200829,
+          "sha256": "ff6cb352d39be2e87c1f9e52e6ad10b308659fc9c0a131407517a5e441a74198",
+          "git_blob_sha": "56838b353548b7ac466f32619db244fb8ef56bc3"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CP17_COVERAGE_MODES_BF.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17_COVERAGE_MODES_BF_NATIVE.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702356,
+      "artifact_id": 11892550001,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558702356/11892550001/original.zip",
+      "filename": "38558702356-11892550001.zip",
+      "bytes": 39957,
+      "sha256": "e9186eb1387ff28169a22c745a2025582c8559e0e9d724afb7754174d5d3b63a",
+      "decoded_bytes": 39957,
+      "decoded_sha256": "e9186eb1387ff28169a22c745a2025582c8559e0e9d724afb7754174d5d3b63a",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-11892550001.zip",
+          "bytes": 39957,
+          "sha256": "e9186eb1387ff28169a22c745a2025582c8559e0e9d724afb7754174d5d3b63a",
+          "git_blob_sha": "aa6a57d26568247a36f360dc8d06672653d55abf"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17_COVERAGE_MODES_BE_REVISION.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702641,
+      "artifact_id": 11890748459,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558702641/11890748459/original.zip",
+      "filename": "38558702641-11890748459.zip",
+      "bytes": 130613,
+      "sha256": "0e16b4faa49c0fb5e2ab9b1a3956efc4740dc1ff990e3eff4280086b08036578",
+      "decoded_bytes": 130613,
+      "decoded_sha256": "0e16b4faa49c0fb5e2ab9b1a3956efc4740dc1ff990e3eff4280086b08036578",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702641-11890748459.zip",
+          "bytes": 130613,
+          "sha256": "0e16b4faa49c0fb5e2ab9b1a3956efc4740dc1ff990e3eff4280086b08036578",
+          "git_blob_sha": "faea33f5a32a0ab5fbe4fa69e3c600a74bd2c1e9"
+        }
+      ],
+      "members": [
+        "javascript.sarif"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702641,
+      "artifact_id": 11891469186,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558702641/11891469186/original.zip",
+      "filename": "38558702641-11891469186.zip",
+      "bytes": 502980,
+      "sha256": "bde0d4d3a45a26d5f51f48cbc91cb0f1ed17aef9bca935582b16773f03952bfc",
+      "decoded_bytes": 502980,
+      "decoded_sha256": "bde0d4d3a45a26d5f51f48cbc91cb0f1ed17aef9bca935582b16773f03952bfc",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702641-11891469186.zip",
+          "bytes": 502980,
+          "sha256": "bde0d4d3a45a26d5f51f48cbc91cb0f1ed17aef9bca935582b16773f03952bfc",
+          "git_blob_sha": "a26aabd7419fd80a8cf85c02b1768f0ecb466454"
+        }
+      ],
+      "members": [
+        "P19_SALES_ADMISSION_KERNEL.json",
+        "desktop-planner.png",
+        "f04-private-kernels.json",
+        "fabric-recipe.json",
+        "history-availability-parity.json",
+        "material-pool.json",
+        "mobile-planner.png",
+        "results.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702641,
+      "artifact_id": 11891747070,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38558702641/11891747070/original.zip",
+      "filename": "38558702641-11891747070.zip",
+      "bytes": 58754,
+      "sha256": "9d02ee9797ec08c8829853ac87f1da22430fab56e45794df53af09201389465a",
+      "decoded_bytes": 58754,
+      "decoded_sha256": "9d02ee9797ec08c8829853ac87f1da22430fab56e45794df53af09201389465a",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702641-11891747070.zip",
+          "bytes": 58754,
+          "sha256": "9d02ee9797ec08c8829853ac87f1da22430fab56e45794df53af09201389465a",
+          "git_blob_sha": "037d05453bfc9e8458c9646cc155af2fcef3ca6b"
+        }
+      ],
+      "members": [
+        "actions.sarif"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38559168896,
+      "artifact_id": 11891897967,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38559168896/11891897967/original.zip",
+      "filename": "38559168896-11891897967.zip",
+      "bytes": 158026,
+      "sha256": "3d208eab91f5d92793f35e82bfe1dff0f1b270fd0abf4f75282e7141c3a33dbc",
+      "decoded_bytes": 158026,
+      "decoded_sha256": "3d208eab91f5d92793f35e82bfe1dff0f1b270fd0abf4f75282e7141c3a33dbc",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38559168896-11891897967.zip",
+          "bytes": 158026,
+          "sha256": "3d208eab91f5d92793f35e82bfe1dff0f1b270fd0abf4f75282e7141c3a33dbc",
+          "git_blob_sha": "1902092f1c0bac573abfc1cfc665404704ed2285"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17-ASTRA-FIN-07-FULL-DETECTOR-OBSERVATION.json",
+        "ASTRA_CP17_FIN01_FULL_OBSERVABILITY_FIRST.json",
+        "ASTRA_CP17_OWN_INTEGRATION.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "CP17_OWN_CASES_FINANCE_OBSERVABILITY.json",
+        "CP17_OWN_CASES_FINANCE_OBSERVABILITY_PREEXECUTION_PLAN.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38560416364,
+      "artifact_id": 11893358428,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38560416364/11893358428/original.zip",
+      "filename": "38560416364-11893358428.zip",
+      "bytes": 151236,
+      "sha256": "ce58f0a641a4a087dc1e185b873265a2815ff1563d946e7d86fced29da911e0f",
+      "decoded_bytes": 151236,
+      "decoded_sha256": "ce58f0a641a4a087dc1e185b873265a2815ff1563d946e7d86fced29da911e0f",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38560416364-11893358428.zip",
+          "bytes": 151236,
+          "sha256": "ce58f0a641a4a087dc1e185b873265a2815ff1563d946e7d86fced29da911e0f",
+          "git_blob_sha": "d4413d9aca4fa1d621977e2bf82634e071716344"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CP17_NATIVE_MODES_BD_RANGE.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17_NATIVE_MODES_BD_RANGE_CASES.json",
+        "ASTRA_CP17_NATIVE_MODES_BD_RANGE_PREEXECUTION_PLAN.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38561483350,
+      "artifact_id": 11893039442,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/38561483350/11893039442/original.zip",
+      "filename": "38561483350-11893039442.zip",
+      "bytes": 34398,
+      "sha256": "5bb35354ddfe39eb0e2cbfaa76fe37071d9fd53ab20fd95c5d07302ec0d00dec",
+      "decoded_bytes": 34398,
+      "decoded_sha256": "5bb35354ddfe39eb0e2cbfaa76fe37071d9fd53ab20fd95c5d07302ec0d00dec",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38561483350-11893039442.zip",
+          "bytes": 34398,
+          "sha256": "5bb35354ddfe39eb0e2cbfaa76fe37071d9fd53ab20fd95c5d07302ec0d00dec",
+          "git_blob_sha": "241ae0537c4291181b3ab5182773a0cb92ccd31e"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "ASTRA_CASE_MANIFEST.json",
+        "ASTRA_CP17_SEWING_HTTP_QUALIFICATION.json",
+        "ASTRA_EXECUTION_ORIGIN.json",
+        "ASTRA_SOURCE_RECEIPT.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "FABLE_EXECUTION_ASTRA_CROSSCHECK_ONLY",
+      "run_id": 38558699494,
+      "artifact_id": 11891152632,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/fable-exposure/38558699494/11891152632/original.zip",
+      "filename": "38558699494-11891152632.zip",
+      "bytes": 1684306,
+      "sha256": "573d149ebbcf7d69f1ac93850ea982816ba274fa27f894cb70f34b346c063325",
+      "decoded_bytes": 1684306,
+      "decoded_sha256": "573d149ebbcf7d69f1ac93850ea982816ba274fa27f894cb70f34b346c063325",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558699494-11891152632.zip.part001",
+          "bytes": 600000,
+          "sha256": "cf1cc57db3a81f7a96e5e6a0361df1b3153fd78baa5c5a34c7c2d81fcdd980ca",
+          "git_blob_sha": "aac286c285e54573499e934ebcc36c089d002ae2"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558699494-11891152632.zip.part002",
+          "bytes": 600000,
+          "sha256": "b079f9573966f526a2044547f3f0bd36fc2f476bec569f1b349418f90355d993",
+          "git_blob_sha": "05ac38c3aae8efec6a96cbb7df51e37fbd12f4bf"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558699494-11891152632.zip.part003",
+          "bytes": 484306,
+          "sha256": "ef7b597d45801f13d805a1442a1e64016204ee1e495a893587cadf908259eeec",
+          "git_blob_sha": "8f7d734ecb149c8e5cd43e0bb067d6bc2f04200a"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "CLONE_install.clone-erp.sql",
+        "CLONE_install.connection-fence.txt",
+        "CLONE_install.database-identity.txt",
+        "CLONE_install.source-erp.sql",
+        "CLONE_install.txt",
+        "FABLE_FABLE_CP17_CHAIN2.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "FABLE_EXECUTION_ASTRA_CROSSCHECK_ONLY",
+      "run_id": 38559631518,
+      "artifact_id": 11891793540,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/fable-exposure/38559631518/11891793540/original.zip",
+      "filename": "38559631518-11891793540.zip",
+      "bytes": 1683118,
+      "sha256": "1465432208aa9103f289268131ab26d8d2c970dec5ef7effaeeaa7f63824289e",
+      "decoded_bytes": 1683118,
+      "decoded_sha256": "1465432208aa9103f289268131ab26d8d2c970dec5ef7effaeeaa7f63824289e",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38559631518-11891793540.zip.part001",
+          "bytes": 600000,
+          "sha256": "082ba08a7f2ffca6b8eb5967babf853a59d02b6867f839818e61b05c175783e6",
+          "git_blob_sha": "e58b84c1ecbedd64a114a67c9e9b2748cef245cc"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38559631518-11891793540.zip.part002",
+          "bytes": 600000,
+          "sha256": "cdfa4078e118a2a0bc7299d62c38ae2908d0de07aa3e5834ebd2c665a4eda81f",
+          "git_blob_sha": "a052186ddfa0be890d49be7e53f4bbcd9bf4b5be"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38559631518-11891793540.zip.part003",
+          "bytes": 483118,
+          "sha256": "bc7cceeb24696bc1b6b4427ded65e61a29a88a94e712277ca644a17b7915aea6",
+          "git_blob_sha": "9ede203aff57b2139b7f2116d75da0f286190ba5"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "CLONE_install.clone-erp.sql",
+        "CLONE_install.connection-fence.txt",
+        "CLONE_install.database-identity.txt",
+        "CLONE_install.source-erp.sql",
+        "CLONE_install.txt",
+        "FABLE_FABLE_CP17_CHAIN3.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "ORIGINAL_ARTIFACT_ZIP",
+      "evidence_origin": "FABLE_EXECUTION_ASTRA_CROSSCHECK_ONLY",
+      "run_id": 38560570589,
+      "artifact_id": 11892997891,
+      "job_id": null,
+      "source_path": "audit/astra_cp17/continuation/fable-exposure/38560570589/11892997891/original.zip",
+      "filename": "38560570589-11892997891.zip",
+      "bytes": 1684318,
+      "sha256": "7a6191a755719911259278b9f333bb075f571a58eb0c5a4e4245b9cff50e6c1e",
+      "decoded_bytes": 1684318,
+      "decoded_sha256": "7a6191a755719911259278b9f333bb075f571a58eb0c5a4e4245b9cff50e6c1e",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38560570589-11892997891.zip.part001",
+          "bytes": 600000,
+          "sha256": "06d54f77b3054cf293873339fab3156fed90f40df37e4179e899d6d8016f987d",
+          "git_blob_sha": "8a7a96c1b302864c4501027749a46ea0b781f3b5"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38560570589-11892997891.zip.part002",
+          "bytes": 600000,
+          "sha256": "786a7b1e4b84a826d9f0053db0d6a5251f80aa7fe6581a579d70c1d4123aaef7",
+          "git_blob_sha": "22e1c95c37d3d5a10ac964b2ea52882f77b9fb1c"
+        },
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38560570589-11892997891.zip.part003",
+          "bytes": 484318,
+          "sha256": "fd75a282210451e7f347ce81549f22ec5be953cdc4f9ce45d843cb11537a6429",
+          "git_blob_sha": "c990404ccbdfa9aac9afaca6aef4ba0ec95d1c28"
+        }
+      ],
+      "members": [
+        "ALIGNED_CHAIN.json",
+        "CLONE_install.connection-fence.txt",
+        "CLONE_install.clone-erp.sql",
+        "CLONE_install.database-identity.txt",
+        "CLONE_install.source-erp.sql",
+        "CLONE_install.txt",
+        "FABLE_FABLE_CP17_CHAIN4.json",
+        "T3_BACKUP_RESTORE_DRILL.json",
+        "T3_PACKAGE_FILES_INSTALL.json",
+        "T3_PACKAGE_INSTALL.json"
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": null,
+      "job_id": 115832889914,
+      "source_path": "audit/astra_cp17/continuation/logs/38558323653-115832889914.log",
+      "filename": "38558323653-115832889914.log.gz",
+      "bytes": 55604,
+      "sha256": "a3e1a00c03e7adf8fc4d9ab23d10b5ee9705be3598a33746cbb3e0188c84b3c8",
+      "decoded_bytes": 377228,
+      "decoded_sha256": "a1bb45b7061d29b3e100153dfc777d13bf68a0baa557f2a4fcfcbb39ac46e3c9",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-115832889914.log.gz",
+          "bytes": 55604,
+          "sha256": "a3e1a00c03e7adf8fc4d9ab23d10b5ee9705be3598a33746cbb3e0188c84b3c8",
+          "git_blob_sha": "9cf6a63e51a5cce38d412a4238d09adf6d98d172"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": null,
+      "job_id": 115832890210,
+      "source_path": "audit/astra_cp17/continuation/logs/38558323653-115832890210.log",
+      "filename": "38558323653-115832890210.log.gz",
+      "bytes": 57627,
+      "sha256": "3cdc7cd3580ea3d988a732eb784d3b0a592b4143049370190d211fea523b57fd",
+      "decoded_bytes": 343807,
+      "decoded_sha256": "cb799e1b889ad59404c774ed2a07d6b9cadc7eac41ca0cf323a4b42fdea3bc94",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-115832890210.log.gz",
+          "bytes": 57627,
+          "sha256": "3cdc7cd3580ea3d988a732eb784d3b0a592b4143049370190d211fea523b57fd",
+          "git_blob_sha": "b37fa348282ecf181b3690b90b5746142f3c5d67"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": null,
+      "job_id": 115832890221,
+      "source_path": "audit/astra_cp17/continuation/logs/38558323653-115832890221.log",
+      "filename": "38558323653-115832890221.log.gz",
+      "bytes": 53611,
+      "sha256": "dc50e0effb4e37a3a6ec7f3e6b64e4c449e672f39c0d9de9e84d99f919ac894c",
+      "decoded_bytes": 328491,
+      "decoded_sha256": "525358e6db8fb9931bc28b0dcb220e7555d2ad23a5c855b119c79fbffb4e6584",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-115832890221.log.gz",
+          "bytes": 53611,
+          "sha256": "dc50e0effb4e37a3a6ec7f3e6b64e4c449e672f39c0d9de9e84d99f919ac894c",
+          "git_blob_sha": "e9cb02d76d88fcd3fb7574fe66dc7ea9cf2576fc"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": null,
+      "job_id": 115832890322,
+      "source_path": "audit/astra_cp17/continuation/logs/38558323653-115832890322.log",
+      "filename": "38558323653-115832890322.log.gz",
+      "bytes": 49987,
+      "sha256": "7ef3d858a51d41893bc090334b9f249e0b54450b2bcdfad54d17e1a2059d791b",
+      "decoded_bytes": 312377,
+      "decoded_sha256": "e5f9bb09149eaade09ae6d2d3d456b368489fbe3ea8b4d29a89886e7d909deb6",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-115832890322.log.gz",
+          "bytes": 49987,
+          "sha256": "7ef3d858a51d41893bc090334b9f249e0b54450b2bcdfad54d17e1a2059d791b",
+          "git_blob_sha": "4e2b4415a96572ed5ed44b54ee9ee5c7073a0fc0"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": null,
+      "job_id": 115832890372,
+      "source_path": "audit/astra_cp17/continuation/logs/38558323653-115832890372.log",
+      "filename": "38558323653-115832890372.log.gz",
+      "bytes": 48105,
+      "sha256": "9eae63927c08e1a50c4d35bd8a9646bc49006c80fe8a99d75301c64bd03575fe",
+      "decoded_bytes": 310639,
+      "decoded_sha256": "7cfde1d5d7259b0d52d28aa1eebaaf1aa073c2729d9599f39e90ec7a2accace2",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-115832890372.log.gz",
+          "bytes": 48105,
+          "sha256": "9eae63927c08e1a50c4d35bd8a9646bc49006c80fe8a99d75301c64bd03575fe",
+          "git_blob_sha": "1b545b28fb40c6285eea111e759fb524f57999e4"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": null,
+      "job_id": 115832890398,
+      "source_path": "audit/astra_cp17/continuation/logs/38558323653-115832890398.log",
+      "filename": "38558323653-115832890398.log.gz",
+      "bytes": 50076,
+      "sha256": "6b2661743663fe658674f1075a18b2296da1244254dcb3e2c5ff6b4e1a54dda6",
+      "decoded_bytes": 302216,
+      "decoded_sha256": "91436852642a60eb4e6a76ca2961061e6a78067c66dbd30635f3e58c016c4ab7",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-115832890398.log.gz",
+          "bytes": 50076,
+          "sha256": "6b2661743663fe658674f1075a18b2296da1244254dcb3e2c5ff6b4e1a54dda6",
+          "git_blob_sha": "4cec8231db641c1b645c73052888fc0ddabfe503"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": null,
+      "job_id": 115832890399,
+      "source_path": "audit/astra_cp17/continuation/logs/38558323653-115832890399.log",
+      "filename": "38558323653-115832890399.log.gz",
+      "bytes": 49559,
+      "sha256": "6ed45c2fa4c7f32b9dcfde468d5885a46f1e22bcb346175eb9f89306f08c1743",
+      "decoded_bytes": 317779,
+      "decoded_sha256": "5861052abe10918575617e3d3eba2dd5f74b77a2778fb23ea85401e74d56b29d",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-115832890399.log.gz",
+          "bytes": 49559,
+          "sha256": "6ed45c2fa4c7f32b9dcfde468d5885a46f1e22bcb346175eb9f89306f08c1743",
+          "git_blob_sha": "a2cb00b3661ac13c1e125be5013e06767b32a32c"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": null,
+      "job_id": 115832890442,
+      "source_path": "audit/astra_cp17/continuation/logs/38558323653-115832890442.log",
+      "filename": "38558323653-115832890442.log.gz",
+      "bytes": 54868,
+      "sha256": "48d74ab4e22fbedb3787836b638a6faf9f651c6bc7ed1e9331067801f0e1a09e",
+      "decoded_bytes": 361465,
+      "decoded_sha256": "678c4f115cfa837cb0d3cc394c45893593cb850edaad7c55aae8d8a727bfe4ec",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-115832890442.log.gz",
+          "bytes": 54868,
+          "sha256": "48d74ab4e22fbedb3787836b638a6faf9f651c6bc7ed1e9331067801f0e1a09e",
+          "git_blob_sha": "b6af47e68193e9c9bad58c02d7aa4e30ee3f905d"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558323653,
+      "artifact_id": null,
+      "job_id": 115832890453,
+      "source_path": "audit/astra_cp17/continuation/logs/38558323653-115832890453.log",
+      "filename": "38558323653-115832890453.log.gz",
+      "bytes": 55234,
+      "sha256": "368b84437bc9a325ccea26f67e04db9c274bbf30efb2f92f4fe4ddbcb68bf32a",
+      "decoded_bytes": 338286,
+      "decoded_sha256": "e76f3009b5cd7c822142a9a9e5a9e90ea28a61e5fc9840ce6b45f7f49b4c780d",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558323653-115832890453.log.gz",
+          "bytes": 55234,
+          "sha256": "368b84437bc9a325ccea26f67e04db9c274bbf30efb2f92f4fe4ddbcb68bf32a",
+          "git_blob_sha": "b60eb55da31e7bf1d1bd0e1a48972356f0cae2f6"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": null,
+      "job_id": 115833360842,
+      "source_path": "audit/astra_cp17/continuation/logs/38558465155-115833360842.log",
+      "filename": "38558465155-115833360842.log.gz",
+      "bytes": 51051,
+      "sha256": "7a0c707450f3303ccfb7b57e78599b07569215a734de5b6126d5793e4002a43f",
+      "decoded_bytes": 324465,
+      "decoded_sha256": "c95cdf486183dadab05eca41709874f48d67b248178b0165c123b3687806fbe9",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-115833360842.log.gz",
+          "bytes": 51051,
+          "sha256": "7a0c707450f3303ccfb7b57e78599b07569215a734de5b6126d5793e4002a43f",
+          "git_blob_sha": "719ea7af6572c3ec41706c928eecfc6e4813bc5f"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": null,
+      "job_id": 115833361077,
+      "source_path": "audit/astra_cp17/continuation/logs/38558465155-115833361077.log",
+      "filename": "38558465155-115833361077.log.gz",
+      "bytes": 103192,
+      "sha256": "eefa113bfd439be13661590ac6c69f398ecf4b312d4cb89ea11f729cfcb147a6",
+      "decoded_bytes": 1259640,
+      "decoded_sha256": "c4b6d52e2b953388ef2f535f144cea4c5e404c7eefa2c078bd607dea8b985e37",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-115833361077.log.gz",
+          "bytes": 103192,
+          "sha256": "eefa113bfd439be13661590ac6c69f398ecf4b312d4cb89ea11f729cfcb147a6",
+          "git_blob_sha": "521232ac79e8440c1aaceddff67050986e955d37"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": null,
+      "job_id": 115833361226,
+      "source_path": "audit/astra_cp17/continuation/logs/38558465155-115833361226.log",
+      "filename": "38558465155-115833361226.log.gz",
+      "bytes": 69672,
+      "sha256": "333bf2e618a9ea450d7a4794fa25e4e324d06691e5c7549c0a48954e4da73650",
+      "decoded_bytes": 460307,
+      "decoded_sha256": "0bbec046f295db5fb687bf96176114d52ed6ad92690a91245314245044ae123d",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-115833361226.log.gz",
+          "bytes": 69672,
+          "sha256": "333bf2e618a9ea450d7a4794fa25e4e324d06691e5c7549c0a48954e4da73650",
+          "git_blob_sha": "0129e88312f41ecdec17c2f8c0f3df97530fedc3"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": null,
+      "job_id": 115833361237,
+      "source_path": "audit/astra_cp17/continuation/logs/38558465155-115833361237.log",
+      "filename": "38558465155-115833361237.log.gz",
+      "bytes": 52685,
+      "sha256": "4b160cfe1bc9b0b4457905b727735d69c4553b82ed1ad3e1ea69a01de54ecf8f",
+      "decoded_bytes": 332760,
+      "decoded_sha256": "1ef5a76a7de081029a04fbad1009a416396b71fbb7c5da34c74ea2f31f57e74f",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-115833361237.log.gz",
+          "bytes": 52685,
+          "sha256": "4b160cfe1bc9b0b4457905b727735d69c4553b82ed1ad3e1ea69a01de54ecf8f",
+          "git_blob_sha": "68cf243f7db2c4999ac4e3f4e5ae17fa0a7a2ca9"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": null,
+      "job_id": 115833361241,
+      "source_path": "audit/astra_cp17/continuation/logs/38558465155-115833361241.log",
+      "filename": "38558465155-115833361241.log.gz",
+      "bytes": 56211,
+      "sha256": "f5f981498e496375afa70c095f39f42d00076355da354cfbdbefa8e05851703d",
+      "decoded_bytes": 365869,
+      "decoded_sha256": "a7e27508ff47d82afdf77afccadaf14e5e2d0993b49c3cd0a3afcae8022340cf",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-115833361241.log.gz",
+          "bytes": 56211,
+          "sha256": "f5f981498e496375afa70c095f39f42d00076355da354cfbdbefa8e05851703d",
+          "git_blob_sha": "651506411493617924634e51f8b61b16c3062bae"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": null,
+      "job_id": 115833361265,
+      "source_path": "audit/astra_cp17/continuation/logs/38558465155-115833361265.log",
+      "filename": "38558465155-115833361265.log.gz",
+      "bytes": 46027,
+      "sha256": "71dda62f548fff0e03906fd376396e2c7c644fc1163f62272ccf438ece55bb59",
+      "decoded_bytes": 288991,
+      "decoded_sha256": "a14edf1178004710f0156ee72a318835bbd3e11fcdbeaf1ed24776c6144885eb",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-115833361265.log.gz",
+          "bytes": 46027,
+          "sha256": "71dda62f548fff0e03906fd376396e2c7c644fc1163f62272ccf438ece55bb59",
+          "git_blob_sha": "58d75640f2f5607d1913913f5d79236e4f374f7e"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": null,
+      "job_id": 115833361279,
+      "source_path": "audit/astra_cp17/continuation/logs/38558465155-115833361279.log",
+      "filename": "38558465155-115833361279.log.gz",
+      "bytes": 51032,
+      "sha256": "99ee31f2d10ae6162fa670372bdc4390c5e8826528d5345bcac60a4a34867150",
+      "decoded_bytes": 319966,
+      "decoded_sha256": "17a3ec4959bf21d2518cba892c622aa852b65b6073539a23ca9860e09d3ab1c9",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-115833361279.log.gz",
+          "bytes": 51032,
+          "sha256": "99ee31f2d10ae6162fa670372bdc4390c5e8826528d5345bcac60a4a34867150",
+          "git_blob_sha": "ae4518dd231eb9e8c49f2121c12c3612d07ef4bf"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": null,
+      "job_id": 115833361303,
+      "source_path": "audit/astra_cp17/continuation/logs/38558465155-115833361303.log",
+      "filename": "38558465155-115833361303.log.gz",
+      "bytes": 49865,
+      "sha256": "9b7686f59e82c70548671232a8c00feeeb695b7c31be1260cd94f9b65c5b45b7",
+      "decoded_bytes": 306555,
+      "decoded_sha256": "94084adb93ff30fc55755e4780d3864e55d83c1b3de8ad7b2b001d49c6cfdb26",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-115833361303.log.gz",
+          "bytes": 49865,
+          "sha256": "9b7686f59e82c70548671232a8c00feeeb695b7c31be1260cd94f9b65c5b45b7",
+          "git_blob_sha": "a5a10993f551a3cd22908516cc326c4b5c6ace1b"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": null,
+      "job_id": 115833361313,
+      "source_path": "audit/astra_cp17/continuation/logs/38558465155-115833361313.log",
+      "filename": "38558465155-115833361313.log.gz",
+      "bytes": 316064,
+      "sha256": "0e9f32f7cdf061c2b68190f081fe6db30e33f2746c56f39d8fc587c8a76de189",
+      "decoded_bytes": 6613571,
+      "decoded_sha256": "2cd17106c2941ddd13c5fa5a76aa7254c8fa5109d5fc248e6e4b06a667cb7b3a",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-115833361313.log.gz",
+          "bytes": 316064,
+          "sha256": "0e9f32f7cdf061c2b68190f081fe6db30e33f2746c56f39d8fc587c8a76de189",
+          "git_blob_sha": "14852357ae7e3e9aaeb9ddfef8b059d73c4ba27a"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558465155,
+      "artifact_id": null,
+      "job_id": 115833361325,
+      "source_path": "audit/astra_cp17/continuation/logs/38558465155-115833361325.log",
+      "filename": "38558465155-115833361325.log.gz",
+      "bytes": 50865,
+      "sha256": "81c7ee1ae1d20e83396db21dec9f3e7b8ccd6e834fdcb41e365bab582fa1df3c",
+      "decoded_bytes": 327222,
+      "decoded_sha256": "21080e190cc1b83efa77c68347da0562a1d8f94417b3533c4febc02285199a5a",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558465155-115833361325.log.gz",
+          "bytes": 50865,
+          "sha256": "81c7ee1ae1d20e83396db21dec9f3e7b8ccd6e834fdcb41e365bab582fa1df3c",
+          "git_blob_sha": "36d1f8445eb46812e26a3c22afe1b4c3419a4c17"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702356,
+      "artifact_id": null,
+      "job_id": 115834143948,
+      "source_path": "audit/astra_cp17/continuation/logs/38558702356-115834143948.log",
+      "filename": "38558702356-115834143948.log.gz",
+      "bytes": 43898,
+      "sha256": "0df8dfe9766b2105426cfc602df2ec23acd72cf822f1b63cbe7be7b212d7a29b",
+      "decoded_bytes": 277279,
+      "decoded_sha256": "90e332897520872a1d9dd6c44f1036d985de36e0d96c96984af2e84307685d8d",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-115834143948.log.gz",
+          "bytes": 43898,
+          "sha256": "0df8dfe9766b2105426cfc602df2ec23acd72cf822f1b63cbe7be7b212d7a29b",
+          "git_blob_sha": "dd00883615bf23957d78e17b34b23c5eefe6a88f"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702356,
+      "artifact_id": null,
+      "job_id": 115834144286,
+      "source_path": "audit/astra_cp17/continuation/logs/38558702356-115834144286.log",
+      "filename": "38558702356-115834144286.log.gz",
+      "bytes": 46298,
+      "sha256": "612c2fdba84069d7516eab70ef9557a359b8d9bb256e05eaaa6cffaad02e58d0",
+      "decoded_bytes": 289328,
+      "decoded_sha256": "1f6b2b54bda64af23c2c441757bb859f2a269dc687fd970d3e51e35cdc00f0ce",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-115834144286.log.gz",
+          "bytes": 46298,
+          "sha256": "612c2fdba84069d7516eab70ef9557a359b8d9bb256e05eaaa6cffaad02e58d0",
+          "git_blob_sha": "3e34da94b2f82da939a0afd2e72cffa0b020f127"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702356,
+      "artifact_id": null,
+      "job_id": 115834144321,
+      "source_path": "audit/astra_cp17/continuation/logs/38558702356-115834144321.log",
+      "filename": "38558702356-115834144321.log.gz",
+      "bytes": 47514,
+      "sha256": "492732058e8a33f58416aed54fd7eb8764489b3aaf6ac2b396bf2e11c60ce811",
+      "decoded_bytes": 291376,
+      "decoded_sha256": "d29d4252ce00116d2b61c472906c16cf25acaf9726327b9304d9970232453fd7",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-115834144321.log.gz",
+          "bytes": 47514,
+          "sha256": "492732058e8a33f58416aed54fd7eb8764489b3aaf6ac2b396bf2e11c60ce811",
+          "git_blob_sha": "e5b625164822a05486bb0fbbb03f07de024a8434"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702356,
+      "artifact_id": null,
+      "job_id": 115834144352,
+      "source_path": "audit/astra_cp17/continuation/logs/38558702356-115834144352.log",
+      "filename": "38558702356-115834144352.log.gz",
+      "bytes": 49042,
+      "sha256": "4c7507ba618749845e53f2439fb37ba6a428e652f3df90100e3148e10fbbbc2d",
+      "decoded_bytes": 300756,
+      "decoded_sha256": "655cc394c35d8aa824aad00e20d3495e16cb937aff645cf2824762b2e48f0fa2",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-115834144352.log.gz",
+          "bytes": 49042,
+          "sha256": "4c7507ba618749845e53f2439fb37ba6a428e652f3df90100e3148e10fbbbc2d",
+          "git_blob_sha": "0a9af5fd62921650f8c276e155634f387ecb9f59"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702356,
+      "artifact_id": null,
+      "job_id": 115834144388,
+      "source_path": "audit/astra_cp17/continuation/logs/38558702356-115834144388.log",
+      "filename": "38558702356-115834144388.log.gz",
+      "bytes": 48625,
+      "sha256": "6def03eb3167ac86e6e8838924f6044c1d572b6910efb474bdbd550e37940535",
+      "decoded_bytes": 296288,
+      "decoded_sha256": "01e4144db379ee9b8c9ccb590fca9d8e49d51dad9fa6dd679c6bc6088c047d2c",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-115834144388.log.gz",
+          "bytes": 48625,
+          "sha256": "6def03eb3167ac86e6e8838924f6044c1d572b6910efb474bdbd550e37940535",
+          "git_blob_sha": "b67d447443e21a481360f682eccb71b60fe20055"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702356,
+      "artifact_id": null,
+      "job_id": 115834144415,
+      "source_path": "audit/astra_cp17/continuation/logs/38558702356-115834144415.log",
+      "filename": "38558702356-115834144415.log.gz",
+      "bytes": 83621,
+      "sha256": "0b36560a7fd37c7855968210f778a90d3ffa60c0ef8555aec712051c25149e86",
+      "decoded_bytes": 527652,
+      "decoded_sha256": "2c1a800ebb411182ec445370b19e7ff6ea309116622632c3a25d883d359172c1",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-115834144415.log.gz",
+          "bytes": 83621,
+          "sha256": "0b36560a7fd37c7855968210f778a90d3ffa60c0ef8555aec712051c25149e86",
+          "git_blob_sha": "eb719508161d08c20761274e333066fbe8b3df3a"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702356,
+      "artifact_id": null,
+      "job_id": 115834144434,
+      "source_path": "audit/astra_cp17/continuation/logs/38558702356-115834144434.log",
+      "filename": "38558702356-115834144434.log.gz",
+      "bytes": 48397,
+      "sha256": "9bb2997edd6a53d7be8430e0019750dbe2178cdb4d6ab111da88ec95bb57c689",
+      "decoded_bytes": 294781,
+      "decoded_sha256": "b069a2e40d7ccd8d5c495a7f0706ad8822492a753cde2929be1d95f7226611cb",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-115834144434.log.gz",
+          "bytes": 48397,
+          "sha256": "9bb2997edd6a53d7be8430e0019750dbe2178cdb4d6ab111da88ec95bb57c689",
+          "git_blob_sha": "02fd0d4acea220cf2981287031e19cc396b5ad6b"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702356,
+      "artifact_id": null,
+      "job_id": 115834144443,
+      "source_path": "audit/astra_cp17/continuation/logs/38558702356-115834144443.log",
+      "filename": "38558702356-115834144443.log.gz",
+      "bytes": 49828,
+      "sha256": "0e785d99fcb2121d78fb4802227373f3b0f6e601bf265f5d6c9c93802d07a368",
+      "decoded_bytes": 304335,
+      "decoded_sha256": "0e2d58c39cee9498ac3221a01e8023070360b186c87b431eadb90e2ebfcbf51d",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702356-115834144443.log.gz",
+          "bytes": 49828,
+          "sha256": "0e785d99fcb2121d78fb4802227373f3b0f6e601bf265f5d6c9c93802d07a368",
+          "git_blob_sha": "1bba6cb880e4da08f69cc2b6c615801d5875815a"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702641,
+      "artifact_id": null,
+      "job_id": 115834144176,
+      "source_path": "audit/astra_cp17/continuation/logs/38558702641-115834144176.log",
+      "filename": "38558702641-115834144176.log.gz",
+      "bytes": 47180,
+      "sha256": "015aacbb17c5f523277075b2372fa2d63d0133ad84de152123d4200a7246be59",
+      "decoded_bytes": 229108,
+      "decoded_sha256": "0be9e274d54a1868b4af90a457af6db9c2bec3a6f72ff47ad73fab2ee999f4cb",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702641-115834144176.log.gz",
+          "bytes": 47180,
+          "sha256": "015aacbb17c5f523277075b2372fa2d63d0133ad84de152123d4200a7246be59",
+          "git_blob_sha": "a06235694eb3132b42495a4908f7543b9404581f"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702641,
+      "artifact_id": null,
+      "job_id": 115834144530,
+      "source_path": "audit/astra_cp17/continuation/logs/38558702641-115834144530.log",
+      "filename": "38558702641-115834144530.log.gz",
+      "bytes": 27342,
+      "sha256": "c5f377a29b43b9c6885550efcd3de9d4ff01c208a7f47df240d2da3c004dc142",
+      "decoded_bytes": 175247,
+      "decoded_sha256": "9a0741f45107e4a415b381b206cc55b093ef6e348449d7f839b3006ebda5e5e7",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702641-115834144530.log.gz",
+          "bytes": 27342,
+          "sha256": "c5f377a29b43b9c6885550efcd3de9d4ff01c208a7f47df240d2da3c004dc142",
+          "git_blob_sha": "961100a7a65c57292dfc60061babcfe10e5c6322"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38558702641,
+      "artifact_id": null,
+      "job_id": 115834144675,
+      "source_path": "audit/astra_cp17/continuation/logs/38558702641-115834144675.log",
+      "filename": "38558702641-115834144675.log.gz",
+      "bytes": 60777,
+      "sha256": "f74d205305e044434ccd4b6b5fe0798d32f307ad467ba12898b6ca2997e27100",
+      "decoded_bytes": 552870,
+      "decoded_sha256": "f17cd1fe56f0bcb55e154cf3b348bc40446990c517ce9cec9bfa00e1e1e06e12",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38558702641-115834144675.log.gz",
+          "bytes": 60777,
+          "sha256": "f74d205305e044434ccd4b6b5fe0798d32f307ad467ba12898b6ca2997e27100",
+          "git_blob_sha": "22e3e0195aa198437f3219b3e665fa17b21b9575"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38559168896,
+      "artifact_id": null,
+      "job_id": 115835678985,
+      "source_path": "audit/astra_cp17/continuation/logs/38559168896-115835678985.log",
+      "filename": "38559168896-115835678985.log.gz",
+      "bytes": 57785,
+      "sha256": "5fe8c24f2392f3a5d17b63c4aa4b3862a2b0f8f090e271dacc838289d2ea3ae3",
+      "decoded_bytes": 416080,
+      "decoded_sha256": "951ccfeba3aabf3ce395a77c215befa32e15168313363ea72979d0153932eed7",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38559168896-115835678985.log.gz",
+          "bytes": 57785,
+          "sha256": "5fe8c24f2392f3a5d17b63c4aa4b3862a2b0f8f090e271dacc838289d2ea3ae3",
+          "git_blob_sha": "d35fb7bdb6237620c8001bf82a553081271877c3"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38560416364,
+      "artifact_id": null,
+      "job_id": 115839822085,
+      "source_path": "audit/astra_cp17/continuation/logs/38560416364-115839822085.log",
+      "filename": "38560416364-115839822085.log.gz",
+      "bytes": 46562,
+      "sha256": "387f690059cfad9e2c55b9f10cbf15c5aa6ea8419238f9a3f49376bb564f6a56",
+      "decoded_bytes": 286759,
+      "decoded_sha256": "e157f708450911fa0cd5ee52fb55c713c61e3a0b1b380ddce4b4d2b3b2ae592a",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38560416364-115839822085.log.gz",
+          "bytes": 46562,
+          "sha256": "387f690059cfad9e2c55b9f10cbf15c5aa6ea8419238f9a3f49376bb564f6a56",
+          "git_blob_sha": "5cbac760f9e30b84e926ffcce263140347db79d8"
+        }
+      ]
+    },
+    {
+      "kind": "DECODED_JOB_LOG",
+      "evidence_origin": "ASTRA_EXECUTION",
+      "run_id": 38561483350,
+      "artifact_id": null,
+      "job_id": 115843363666,
+      "source_path": "audit/astra_cp17/continuation/logs/38561483350-115843363666.log",
+      "filename": "38561483350-115843363666.log.gz",
+      "bytes": 44321,
+      "sha256": "aa19889bfae35ee5fafe84a30faa022f48e8af148fded5d16e4bc36817447347",
+      "decoded_bytes": 281401,
+      "decoded_sha256": "8d9ffb18124e95591baa2ddced7b177dfc19952d30f8e7f7b6ec816700898b23",
+      "parts": [
+        {
+          "path": "audit/astra_cp17/preserved-continuation/38561483350-115843363666.log.gz",
+          "bytes": 44321,
+          "sha256": "aa19889bfae35ee5fafe84a30faa022f48e8af148fded5d16e4bc36817447347",
+          "git_blob_sha": "69726fcf4e856b8d9a959396ac2a4242b25684d8"
+        }
+      ]
+    }
+  ],
+  "original_zip_count": 36,
+  "decoded_log_count": 33,
+  "policy": "Exact Original ZIP bytes and GitHub decoded job logs (UTF-8 with one final newline). No signed URLs or credentials. Raw bundles not selected are not claimed permanently preserved. Fable files are cross-check evidence, never Astra executions."
+}

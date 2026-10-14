@@ -1,0 +1,80 @@
+{
+  "javascript": {
+    "artifact_id": 11890748459,
+    "original": "continuation/38558702641/11890748459/original/javascript.sarif",
+    "sha256": "4ad07843fdae0aed04b4a9fdd99b2409c84272cdf607f2ecfb333c12849d0803",
+    "runs": [
+      {
+        "results": 0,
+        "execution_successful": true,
+        "warning_error_notifications": 0
+      }
+    ],
+    "meaning": "Zero findings in this SARIF analysis, not a claim about every repository alert or every language"
+  },
+  "actions": {
+    "artifact_id": 11891747070,
+    "original": "continuation/38558702641/11891747070/original/actions.sarif",
+    "sha256": "b112ff878a0a145ff823280e8e0bdfcd09c42ca620173432331f066e77d3b6c1",
+    "runs": [
+      {
+        "results": 0,
+        "execution_successful": true,
+        "warning_error_notifications": 0
+      }
+    ],
+    "meaning": "Zero findings in this SARIF analysis, not a claim about every repository alert or every language"
+  },
+  "shell_browser": {
+    "artifact_id": 11891469186,
+    "stats": {
+      "startTime": "2026-10-14T12:00:50.527Z",
+      "duration": 9781.13,
+      "expected": 6,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "actual_business_case_credit": 0,
+    "scope": "Preview/demo shell; real Auth browsers are indexed separately in native ledger"
+  },
+  "f04-private-kernels": {
+    "artifact_id": 11891469186,
+    "passed": 143,
+    "failures": [],
+    "original": "continuation/38558702641/11891469186/original/f04-private-kernels.json",
+    "sha256": "50d4be9dc33259e98808f82cc5b2c040cce17cca29923d2356e66c0e1624d402",
+    "scope": "private native kernel/fixture; included in unit-test total, not additional real Auth business cases"
+  },
+  "material-pool": {
+    "artifact_id": 11891469186,
+    "passed": 12,
+    "failures": null,
+    "original": "continuation/38558702641/11891469186/original/material-pool.json",
+    "sha256": "908f5b4604567b62aba9b96d76eaaf94f42d1b3eefe2cf520bfdff1cce735a10",
+    "scope": "private native kernel/fixture; included in unit-test total, not additional real Auth business cases"
+  },
+  "fabric-recipe": {
+    "artifact_id": 11891469186,
+    "passed": 28,
+    "failures": null,
+    "original": "continuation/38558702641/11891469186/original/fabric-recipe.json",
+    "sha256": "7f17ee3a2cef9c26d34b8bb6eefc18185663173a31cc3e7b130065e3af006541",
+    "scope": "private native kernel/fixture; included in unit-test total, not additional real Auth business cases"
+  },
+  "history-availability-parity": {
+    "artifact_id": 11891469186,
+    "passed": 28,
+    "failures": null,
+    "original": "continuation/38558702641/11891469186/original/history-availability-parity.json",
+    "sha256": "504ec4d453f4a6e783f3e23222305dd6accca88c38b7fa383e2657fa92c7d4d4",
+    "scope": "private native kernel/fixture; included in unit-test total, not additional real Auth business cases"
+  },
+  "vitest": {
+    "files_passed": 203,
+    "tests_passed": 1727,
+    "job_id": 115834144176,
+    "original_log": "continuation/logs/38558702641-115834144176.log",
+    "native_kernel_cases_already_included": true
+  }
+}

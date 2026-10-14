@@ -1,0 +1,43 @@
+{
+  "updated_at": "2026-10-14T12:47:29.300431+00:00",
+  "task": "All continuation evidence reviewed except P19 scale still running; preserve report and artifacts before final lock",
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "runs": {
+    "families": 38558323653,
+    "native": 38558465155,
+    "modes": 38558702356,
+    "shell": 38558702641,
+    "finance_observation": 38559168896,
+    "two_missing_ranges": 38560416364,
+    "sewing_http": 38561483350
+  },
+  "report_locked": "f70361d551d9dbc9931e330216901a8b702feab5",
+  "next": [
+    "Fetch P19 scale first results, preserve Original and full job log",
+    "Rebuild ledger, matrix, summary and report; qualify any nonpass",
+    "Lock final continuation report and writer handoff on own branch"
+  ],
+  "do_not": [
+    "Rerun executed business cases for green",
+    "Edit product or writer branch",
+    "Access hosted database or Drive"
+  ],
+  "working_files": [
+    "build_continuation_ledger.py",
+    "requirement_review.py",
+    "CASE_LEDGER_CONTINUATION.json",
+    "REQUIREMENT_CROSSWALK.json",
+    "CASE_EVIDENCE_INDEX.json",
+    "CHARTER_AND_OWNER_CROSSWALK.json"
+  ],
+  "finding_observation": "FIN07: dated liability -375.25; all 135 detector rows remain zero; report BLOCKED before and during for same 8 unrelated seed blockers. Do not claim false READY.",
+  "qualified_results": {
+    "Q08": "5 raw INCOMPLETE rows preserve OBSERVED/CONTROL_PASS in AW/AX",
+    "Q09": "AW three FAILs use obsolete pre-BA changed_since_filing oracle; BA W9 controls PASS",
+    "Q10": "BD-range mode exported only cases(), no case invoked; separately execute only two RANGE cases",
+    "Q11": "BC four nonpasses use pre-D09 custody fixtures missing mandatory source provenance; BD D09 and current BC browser pass",
+    "Q12": "BE revision HTTP stopped during pocket fixture ACL restoration, before Auth request; execute only missing HTTP phase preserving baseline ACL"
+  },
+  "new_fable_snapshot": "1826aec19595c0e78f7a26107d77e0c445c94408",
+  "new_fable_triage": "31 R1/R3/R4 entries; chain2/3/4 Originals cross-checked; invalid R3-03 PASS is not date proof"
+}
