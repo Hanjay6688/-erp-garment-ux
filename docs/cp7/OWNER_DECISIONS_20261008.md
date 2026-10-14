@@ -296,3 +296,44 @@ Status D13-13 (14 Okt 2026, penulis): kedua butir D13-12 ditutup oleh Astra (`57
 (`46fe722c`..`319e6624`) pada kandidat `0b7049d9`. CP7 dibekukan final pada `0b7049d9203bac52b47a4c89f3e0d75646067a8f`
 (tree `ce6aed0a0af920e8aa80248f3cabcd293688df18`), dengan A2 sebagai keterbatasan terbuka. Rincian:
 `docs/cp7/FREEZE_CP7_FINAL_20261014.md`. `production_go:false`.
+
+## Keputusan owner 14 Okt 2026: audit penuh CP1–CP7 (D14-1..D14-5)
+
+### D14-1 (owner ke auditor Fable)
+
+Disalin tanpa mengubah kata-kata dari register Fable `audit/fable_cp17/OWNER_DECISIONS_TO_AUDITOR_20261014.md`
+(cabang `audit/fable-cp1-7-0b7049d9-20261014`, commit `29c7fbd21f0eecbbc7f72af7ccf2507e390a14a9`,
+2026-10-14T13:17:08Z). Berkas auditor itu sumbernya.
+
+| No | Keputusan owner (verbatim) | Konsekuensi menurut register Fable |
+|---|---|---|
+| D14-1 | "gw kasi ijin akses 1-2" — dijawab pada pertanyaan cakupan Fable dengan dua pilihan: **"Baca-saja hosted Enteng"** dan **"Ambil arsip CP2 dari Drive"**. | Hanya untuk verifikasi CP1/CP2: query SELECT katalog baca-saja ke Enteng `siimvrusnzxexizpyoib`, dan mengambil arsip CP2 terenkripsi + kuncinya dari Drive untuk restore di database sekali pakai. Tidak ada tulis ke hosted dan tidak ada pemasangan. |
+
+Catatan penulis: D14-1 adalah izin untuk auditor Fable, bukan untuk penulis. Larangan penulis menyentuh hosted dan
+Drive (D13-9a) tidak berubah.
+
+### D14-2..D14-5 (owner ke penulis Claude, sesudah laporan Fable, Astra dan Sol)
+
+Diberikan langsung di sesi penulis pada 15 Okt 2026 sekitar 00:15 WIB (2026-10-14T17:15Z), lewat pertanyaan
+pilihan. Pertanyaan dan jawaban ditulis persis.
+
+| No | Pertanyaan penulis | Jawaban owner (verbatim) |
+|---|---|---|
+| D14-2 | "Upah mandor dibayar dengan tanggal sebelum utang upahnya tercatat (sebelum Nota/periode disetujui). Aturannya mau bagaimana?" Pilihan yang dipilih berbunyi: "Tanggal bayar harus sama atau sesudah utang upahnya ada. Bayar duluan hanya lewat kasbon yang tercatat. Tanggal mundur tetap boleh asal tidak mendahului utangnya." | "Tolak, kecuali kasbon (Disarankan)" |
+| D14-3 | "Kas atau bank jadi minus karena pembayaran (Sol: bank saldo 0 bisa bayar supplier 1 rupiah). Boleh minus?" Pilihan yang dipilih berbunyi: "Semua pembayaran keluar (supplier, laundry, upah, kas lain) ditolak kalau membuat saldo kas/bank minus pada tanggal mana pun." | "Tidak boleh, tolak (Disarankan)" |
+| D14-4 | "Sisa kain sesudah potong yang benar-benar dikembalikan ke gudang. Sekarang aplikasi hanya mencatat 'sisa terlapor', belum ada tombol untuk memasukkannya lagi ke stok. Dibuatkan?" Pilihan yang dipilih berbunyi: "Ada langkah 'kain kembali ke gudang': roll yang sama masuk stok lagi beserta nilainya, biaya PO berkurang sebesar itu." | "Ya, masuk stok lagi (Disarankan)" |
+| D14-5 | "Form penjualan asli: helper lusin sekarang hanya mengisi satu baris ukuran. Perlu fitur bagi 1 lusin ke beberapa ukuran sekaligus (misal 4/4/4)?" | "justru biar gampang gitu dong auto bagi kalo lusin, apalagi sales, lu inget kan kalau gw jual itu biasa satu seri. berjalan 2 arah juga misal gw ketik 4/5/4 tulisannya jadi 1 lusin 1 potong kan gitu" |
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
+
+- D14-2 (FABLE-001 / Astra FIN01): pembayaran upah biasa, penuh maupun cicilan, ditolak bila tanggal bayarnya
+  mendahului tanggal utang upah yang dilunasinya. Bayar duluan hanya lewat kasbon yang tercatat. Tanggal mundur yang
+  tidak mendahului utangnya, aturan periode tertutup, dan pembalikan tetap seperti sekarang.
+- D14-3 (SOL-001): semua pengeluaran kas/bank ditolak bila saldo akun itu menjadi minus pada tanggal bayar atau tanggal
+  sesudahnya. Belum ada rekening yang diizinkan minus.
+- D14-4 (FABLE-010 / Astra SG-02): dibuat langkah "kain kembali ke gudang" untuk roll yang sama, dengan nilai ikut
+  kembali dan biaya PO berkurang sebesar itu.
+- D14-5 (Sol, kebutuhan lama `SALES_MANUAL_13`): form penjualan tersambung mendapat bagi lusin otomatis ke satu seri
+  ukuran dan tampilan balik "x lusin y potong" dari isian per ukuran. Bagi rata yang tidak pas tetap ditolak dengan
+  pesan jelas (perilaku helper lama: pecahan pcs ditolak), sampai owner menentukan lain.
+- `production_go:false`.
