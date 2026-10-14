@@ -38,7 +38,14 @@ per mandor, kunci per mandor.
 
 ## Bukti
 Kasus CP17: `CP17_KASBON_GIVE_DEDUCT_PAY`, `CP17_KASBON_LIMITS_REFUSED`, `CP17_KASBON_RELEASE_CANCEL_REPLAY`,
-`CP17_HTTP_KASBON_GIVE`. Layar: `src/PayrollKasbonPanel.tsx` (+ uji DOM).
+`CP17_HTTP_KASBON_GIVE`. Layar: `src/PayrollKasbonPanel.tsx` (+ uji DOM). Browser desktop
+`CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP`: beri 2.500 dari bank bermodal (bank −2.500, piutang mandor +2.500, satu
+jurnal), lalu potong dari payroll draf mandor itu (bersih 6.000 → 3.500).
+
+Bug layar yang ditemukan saat menulis uji browser: halaman payroll mengosongkan rinciannya saat memuat ulang
+(juga tepat sesudah kasbon disimpan), sehingga panel kasbon tertutup dan pesan "kasbon tercatat" hilang sebelum
+terbaca. Sekarang hanya mandor lain yang menutup panel; uji DOM memutar ulang pemuatan halaman (gagal tanpa
+perbaikan, lulus dengan perbaikan).
 
 ## Batas yang tersisa
 - Navigasi sumber jurnal `CP7_KASBON` di buku besar menampilkan "sumber belum didukung" (tidak rusak).

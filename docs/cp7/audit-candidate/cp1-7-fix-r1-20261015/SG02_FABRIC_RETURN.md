@@ -32,3 +32,7 @@ sama masuk stok lagi beserta nilainya, biaya PO berkurang sebesar itu."
   `CP17_SG02_ONCE_AND_SAME_REQUEST_REPLAY`, `CP17_SG02_BEFORE_CUT_OR_FUTURE_REFUSED`. Oracle dari gerakan stok, baris
   jurnal per PO dan baris roll, bukan dari fungsi yang diuji.
 - Uji layar: `src/CuttingFabricReturnPanel.dom.test.tsx`, `src/cuttingReturnContract.test.ts`.
+- Browser HP (Auth dan PostgREST nyata): `CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE` — 3,5 ditolak di layar (melebihi sisa 3),
+  2 disimpan; stok roll naik 2, satu gerakan kembali, satu permintaan, halaman tidak lebih lebar dari layar.
+  Run pertama gagal karena tabel roll membuat halaman 722 piksel di layar 412 piksel (ketukan meleset); tampilan
+  dibetulkan di `src/connected-pickup.css`, oracle tidak diubah.

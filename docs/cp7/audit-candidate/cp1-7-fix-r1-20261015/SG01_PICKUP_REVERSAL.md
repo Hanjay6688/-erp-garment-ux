@@ -60,3 +60,6 @@ Penulis pickup Native dan semua penjaga PO tidak berubah. Potongan dibagi ulang 
   PO yang dipakai dua potongan tetap `SEWING` dan Mandornya tidak berubah.
 - Layar `src/PickupReversalPanel.tsx` (+ uji DOM) ada di halaman Bagi Potongan, dan hanya muncul untuk pickup yang sudah
   diposting.
+- Browser desktop (Auth dan PostgREST nyata): `CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP` — tinjau dulu tanpa menulis
+  apa pun, lalu batal dengan alasan; pickup `REVERSED`, potongan `CUT` dengan bahan tetap keluar, PO dan Mandor pulih
+  sesuai nilai yang dibaca langsung sebelum pickup, satu baris riwayat, satu permintaan.
