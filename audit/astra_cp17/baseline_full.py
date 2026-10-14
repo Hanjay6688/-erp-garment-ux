@@ -21,7 +21,7 @@ from cp7_catalog_state import exact_public_catalog
 import cp6_auditor_runner as native
 
 PHASE=sys.argv[1]
-assert PHASE in ('ar','regression','temporal')
+assert PHASE in ('ar','regression','temporal','continued-regression','ar-races-only')
 OUT=full_stack.OUT
 avt.OUT=OUT
 native.r1.OUT=OUT
@@ -36,6 +36,13 @@ def run():
                 oracle_origin='FROZEN_LEGACY_UNCHANGED',fixture_origin='CANDIDATE_T2_REVIEWED_ADAPTER',
                 evidence_origin='INDEPENDENT_NATIVE_RERUN',production_go=False)
     try:
+        if PHASE=='continued-regression':
+            import hashlib
+            p=HERE/'first_results/BUSINESS_38523724159.json'
+            original=json.loads(p.read_text())
+            assert len(original['cases'])==76 and all(r['status']=='PASS' for r in original['cases'].values())
+            legacy_group.CARRY={'BUSINESS':original['cases']}
+            report['carried_first_execution']=dict(run_id='38523724159',file=str(p),sha256=hashlib.sha256(p.read_bytes()).hexdigest(),case_ids=list(original['cases']),not_executed_again=True)
         with full_stack.installed(report):
             avt.install_au=lambda:already_installed()['status']
             t2.change=already_installed
@@ -43,7 +50,10 @@ def run():
                 pins=t2.av_runtime.pins,qualify=None,refuse_post_use=None)
             with exact_public_catalog(native,retain_raw=True,retain_locations=True) as catalog:
                 if PHASE=='ar':t2.ar_phase(report)
-                elif PHASE=='regression':t2.regression_phase(report)
+                elif PHASE in ('regression','continued-regression'):t2.regression_phase(report)
+                elif PHASE=='ar-races-only':
+                    import ar_races_only
+                    ar_races_only.run(report)
                 else:avt.temporal_phase(report)
                 report['candidate_catalog_adapter']=catalog
     except Exception as exc:

@@ -26,3 +26,30 @@ abd3f982560546db6485f915e91104143c198885c5c10266eeeaa4ae80104181.
 The run remains red/INCOMPLETE at the outer gate; no post-case rerun is requested.
 Any later tool qualification must use a separate declared isolation probe and
 preserve the full before/after data difference and all first case results.
+
+## Q03 — regression logging collision after 76 completed cases
+
+First regression job 115719087495, run 38523724159, recorded 76 PASS rows
+before Python logging collided with a case result's existing `case` field.
+The case itself, CROSS:SUPPLIER_CENT:CORRECTION_ROUND_DELTA, was already saved.
+Correction changes the log envelope to `case_id` and preserves the result's
+original `case`. Continuation carries the byte-exact first BUSINESS.json,
+explicitly marks all 76 as not executed again, and executes only the missing
+284 baseline cases plus originally planned supplements. Expected maps and
+case operations remain unchanged. First raw artifact: 11874823769, SHA-256
+00e182422829867b0a15050e1016f4c1b52ca0f86a715196281edfcd3fc0ee14.
+
+## Q04 — AR installation verifier predates CP7
+
+First AR job 115719087397 recorded sequential146 (145 PASS, one historical
+INCOMPLETE for ACCESSORY_CONNECTED_ZERO) and its one PASS replacement
+ACCESSORY_CONNECTED_ZERO_REFUSED_BC_FREE_POLICY. The latter is the existing
+ERP-DEC02 expected-change disposition; the old raw result remains INCOMPLETE.
+Before any of the 28 race operations, the old BA verifier rejected the intended
+CP7 replacement of get_owner_financial_snapshot_v2. No AR race executed.
+
+Continuation uses candidate P21 FULL verification, executes each unchanged
+race operation in a fresh child clone, proves parent boundary equality and
+OID-bound disposal. Sequential147 are not repeated. First raw artifact:
+11874359808, SHA-256
+a3c61eec1d07d850e41e0ec7c32cfeb19ba78466ab3aa919fb25152d24b270ae.

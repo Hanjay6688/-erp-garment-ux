@@ -13,6 +13,7 @@ import cp6_auditor_business_day as day
 import cp6_av_trial as avt
 from cp6_ao_ap_inventory import function_pins
 import full_stack
+CARRY={}
 
 def group(name,factory):
     report=dict(status='INCOMPLETE',stage='CP17_FULL_COMPOSITION',cases={},production_go=False,
@@ -32,7 +33,16 @@ def group(name,factory):
         report['planned_case_ids']=planned
         assert not native.duplicate_ids(planned),('CP17_DUPLICATE_CASE_IDS',planned)
         avt.save(name,report)  # Manifest BEFORE the first operation.
+        carried=CARRY.get(name,{})
+        assert set(carried).issubset(planned),'CARRIED_ID_NOT_IN_FROZEN_PLAN'
+        report['carried_case_ids']=list(carried)
+        report['executed_this_run']=[]
         for key,operation in cases:
+            if key in carried:
+                report['cases'][key]=carried[key]
+                avt.save(name,report)
+                print(json.dumps(dict(group=name,case_id=key,evidence_origin='CARRIED_FIRST_EXECUTION_38523724159',status=carried[key]['status'])),flush=True)
+                continue
             before=avt.predecessor.snapshot(cur);public_before=native.public_state(cur)
             sessions=native.session_state(cur);before_day=day.wib_day(cur)
             actor_before=cur.execute("select current_user,current_setting('request.jwt.claims',true)").fetchone()
@@ -55,7 +65,7 @@ def group(name,factory):
             if ended:
                 row.update(status='INCOMPLETE',harness_error='CASE_ENDED_GROUP_TRANSACTION',detail=ended)
                 report['cases'][key]=row;report['error']='CASE_ENDED_GROUP_TRANSACTION';avt.save(name,report)
-                print(json.dumps(dict(group=name,case=key,**row),default=str),flush=True)
+                print(json.dumps(dict(row,group=name,case_id=key),default=str),flush=True)
                 break
             row['full_boundary_restored']=avt.predecessor.snapshot(cur)==before
             row['public_schema_unchanged']=native.public_state(cur)==public_before
@@ -66,7 +76,8 @@ def group(name,factory):
                 row.update(status='INCOMPLETE',harness_check_failed=True)
             day.guard(row,today,before_day,day.wib_day(cur))
             report['cases'][key]=row;avt.save(name,report)
-            print(json.dumps(dict(group=name,case=key,**row),default=str),flush=True)
+            report['executed_this_run'].append(key)
+            print(json.dumps(dict(row,group=name,case_id=key),default=str),flush=True)
         report['missing']=[k for k in planned if k not in report['cases']]
         report['function_owner_acl_restored']=function_pins(cur)==catalog
         conn.rollback();report['runtime_after']=full_stack.composition.verify(cur)
