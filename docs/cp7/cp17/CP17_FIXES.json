@@ -1,0 +1,56 @@
+{
+ "contract": "cp7.cp17-fixes.v1",
+ "expected_case_count": 17,
+ "required_case_counts": {
+  "native": 14,
+  "races": 1,
+  "http": 2
+ },
+ "required_case_ids": {
+  "native": [
+   "CP17_FIN01_FULL_PAY_BEFORE_ATTENDANCE_REFUSED",
+   "CP17_FIN01_WORK_ONLY_BEFORE_COMPLETION_REFUSED",
+   "CP17_FIN01_INSTALLMENT_BEFORE_ACCRUAL_REFUSED",
+   "CP17_FIN01_DIRECT_NATIVE_PAYMENT_REFUSED",
+   "CP17_CASH_EMPTY_BANK_REFUSED",
+   "CP17_CASH_EXACT_ZERO_ALLOWED_THEN_REFUSED",
+   "CP17_CASH_BACKDATE_BEFORE_FUNDS_REFUSED",
+   "CP17_CASH_LATER_DAY_PROTECTED",
+   "CP17_CASH_PAYROLL_EMPTY_BANK_REFUSED",
+   "CP17_CASH_LAUNDRY_VENDOR_EMPTY_BANK_REFUSED",
+   "CP17_FIN02_CLAIM_SAME_DAY_CONTROL",
+   "CP17_FIN02_CLAIM_BEFORE_SOURCE_REFUSED",
+   "CP17_FIN02_CLAIM_AP_NOT_AVAILABLE_REFUSED",
+   "CP17_STK01_REOPEN_REPOST_CARD_NOT_NEGATIVE"
+  ],
+  "races": [
+   "CP17_RACE_TWO_PAYMENTS_ONE_BANK"
+  ],
+  "http": [
+   "CP17_HTTP_CASH_EMPTY_BANK_REFUSED",
+   "CP17_HTTP_PAYROLL_EARLY_REFUSED"
+  ]
+ },
+ "public_rpcs": [
+  "erp_cp7_save_payroll_v1",
+  "erp_cp7_save_payroll_installment_v1",
+  "erp_cp7_create_supplier_payment_v1",
+  "erp_save_laundry_bd_action_v1",
+  "erp_save_bs_resolution_action_v1",
+  "erp_cp7_get_material_ledger_v1",
+  "erp_cp7_get_material_ledger_v2"
+ ],
+ "owner_decisions": {
+  "D14_2": "Pembayaran upah sebelum utangnya ada: \"Tolak, kecuali kasbon (Disarankan)\" (15 Okt 2026)",
+  "D14_3": "Kas/bank minus: \"Tidak boleh, tolak (Disarankan)\" (15 Okt 2026)"
+ },
+ "findings": {
+  "FIN01": "Fable FABLE-001, Astra FIN01",
+  "CASH": "Sol SOL-001",
+  "FIN02": "Fable FABLE-008, Astra FIN02",
+  "STK01": "Astra STK01"
+ },
+ "oracle_independence": "Dates from the Native accrual journals and source rows; balances from journal lines and stock movements; never from the guard functions.",
+ "fixture_capital": "Banks that pay hold owner capital through the accepted Native journal (scripts/cp7_cash_funding.py) only where a case says so; empty-bank cases keep the bank empty.",
+ "production_go": false
+}
