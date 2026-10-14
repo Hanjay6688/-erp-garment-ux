@@ -1,0 +1,1512 @@
+{
+  "round_id": "cp17-20261014",
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "status": "PREDECLARED_BEFORE_EXECUTION",
+  "suites": [
+    {
+      "suite": "f03-p09",
+      "probe": "cp7_f03_full_probe.py",
+      "bucket": "p09",
+      "args": "",
+      "timeout": 180,
+      "expected_cases": 132,
+      "expected_smoke": 3,
+      "groups": [
+        {
+          "key": "smoke",
+          "kind": "native",
+          "module": "cp7_procurement_cases",
+          "entry": "smoke",
+          "smoke": true,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "native",
+          "kind": "native",
+          "module": "cp7_procurement_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 9
+        },
+        {
+          "key": "races",
+          "kind": "races",
+          "module": "cp7_procurement_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 3
+        },
+        {
+          "key": "http",
+          "kind": "http",
+          "module": "cp7_procurement_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "material_smoke",
+          "kind": "native",
+          "module": "cp7_material_cases",
+          "entry": "smoke",
+          "smoke": true,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "material",
+          "kind": "native",
+          "module": "cp7_material_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 13
+        },
+        {
+          "key": "material_crossflow",
+          "kind": "native",
+          "module": "cp7_material_cases",
+          "entry": "crossflow_cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "material_races",
+          "kind": "races",
+          "module": "cp7_material_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 3
+        },
+        {
+          "key": "material_http",
+          "kind": "http",
+          "module": "cp7_material_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "material_count",
+          "kind": "native",
+          "module": "cp7_material_count_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 17
+        },
+        {
+          "key": "material_count_races",
+          "kind": "races",
+          "module": "cp7_material_count_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "material_count_http",
+          "kind": "http",
+          "module": "cp7_material_count_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "invoice",
+          "kind": "native",
+          "module": "cp7_invoice_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 9
+        },
+        {
+          "key": "invoice_races",
+          "kind": "races",
+          "module": "cp7_invoice_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 3
+        },
+        {
+          "key": "invoice_http",
+          "kind": "http",
+          "module": "cp7_invoice_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "combined_invoice",
+          "kind": "native",
+          "module": "cp7_invoice_document_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 6
+        },
+        {
+          "key": "combined_invoice_races",
+          "kind": "races",
+          "module": "cp7_invoice_document_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 3
+        },
+        {
+          "key": "combined_invoice_http",
+          "kind": "http",
+          "module": "cp7_invoice_document_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p09_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 22
+        },
+        {
+          "key": "return_smoke",
+          "kind": "native",
+          "module": "cp7_supplier_return_cases",
+          "entry": "smoke",
+          "smoke": true,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "returns",
+          "kind": "native",
+          "module": "cp7_supplier_return_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 10
+        },
+        {
+          "key": "return_races",
+          "kind": "races",
+          "module": "cp7_supplier_return_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 3
+        },
+        {
+          "key": "return_http",
+          "kind": "http",
+          "module": "cp7_supplier_return_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "receipt_reversal",
+          "kind": "native",
+          "module": "cp7_receipt_reversal_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 7
+        },
+        {
+          "key": "receipt_reversal_races",
+          "kind": "races",
+          "module": "cp7_receipt_reversal_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 3
+        },
+        {
+          "key": "receipt_reversal_http",
+          "kind": "http",
+          "module": "cp7_receipt_reversal_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "uom",
+          "kind": "native",
+          "module": "cp7_procurement_uom_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 6
+        },
+        {
+          "key": "uom_races",
+          "kind": "races",
+          "module": "cp7_procurement_uom_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "uom_http",
+          "kind": "http",
+          "module": "cp7_procurement_uom_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p09_procurement_probe.py",
+          "expected_executions": 1
+        }
+      ],
+      "scope": [
+        "CP3-5 consumers",
+        "CP6",
+        "CP7 F03"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "c838bfd09084545e4b27d610881d50302f7040300d3fe6fbe2c2d9a644b9eafd",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "f03-p10",
+      "probe": "cp7_f03_full_probe.py",
+      "bucket": "p10",
+      "args": "",
+      "timeout": 180,
+      "expected_cases": 34,
+      "expected_smoke": 0,
+      "groups": [
+        {
+          "key": "native",
+          "kind": "native",
+          "module": "cp7_fg_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 7
+        },
+        {
+          "key": "http",
+          "kind": "http",
+          "module": "cp7_fg_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "adjustments",
+          "kind": "native",
+          "module": "cp7_fg_adjustment_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 8
+        },
+        {
+          "key": "adjustment_races",
+          "kind": "races",
+          "module": "cp7_fg_adjustment_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "adjustment_http",
+          "kind": "http",
+          "module": "cp7_fg_adjustment_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "book",
+          "kind": "native",
+          "module": "cp7_fg_book_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 6
+        },
+        {
+          "key": "book_races",
+          "kind": "races",
+          "module": "cp7_fg_book_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "book_http",
+          "kind": "http",
+          "module": "cp7_fg_book_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p10_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p10_fg_probe.py",
+          "expected_executions": 6
+        }
+      ],
+      "scope": [
+        "CP3-5 consumers",
+        "CP6",
+        "CP7 F03"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "c838bfd09084545e4b27d610881d50302f7040300d3fe6fbe2c2d9a644b9eafd",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "f03-p12",
+      "probe": "cp7_f03_full_probe.py",
+      "bucket": "p12",
+      "args": "",
+      "timeout": 180,
+      "expected_cases": 91,
+      "expected_smoke": 0,
+      "groups": [
+        {
+          "key": "native",
+          "kind": "native",
+          "module": "cp7_nota_source_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 5
+        },
+        {
+          "key": "http",
+          "kind": "http",
+          "module": "cp7_nota_source_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "notes",
+          "kind": "native",
+          "module": "cp7_nota_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 7
+        },
+        {
+          "key": "note_races",
+          "kind": "races",
+          "module": "cp7_nota_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 3
+        },
+        {
+          "key": "note_http",
+          "kind": "http",
+          "module": "cp7_nota_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "admission_regression",
+          "kind": "http",
+          "module": "cp7_procurement_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p12_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "payroll_review",
+          "kind": "native",
+          "module": "cp7_settlement_read_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 4
+        },
+        {
+          "key": "payroll_review_http",
+          "kind": "http",
+          "module": "cp7_settlement_read_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "payroll_review_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p12_payroll_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "settlement",
+          "kind": "native",
+          "module": "cp7_settlement_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 8
+        },
+        {
+          "key": "settlement_races",
+          "kind": "races",
+          "module": "cp7_settlement_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 4
+        },
+        {
+          "key": "settlement_http",
+          "kind": "http",
+          "module": "cp7_settlement_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "settlement_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p12_settlement_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 3
+        },
+        {
+          "key": "attendance_read",
+          "kind": "native",
+          "module": "cp7_attendance_read_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 6
+        },
+        {
+          "key": "attendance_read_http",
+          "kind": "http",
+          "module": "cp7_attendance_read_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "attendance_read_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p12_attendance_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "roster",
+          "kind": "native",
+          "module": "cp7_roster_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 6
+        },
+        {
+          "key": "roster_races",
+          "kind": "races",
+          "module": "cp7_roster_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 3
+        },
+        {
+          "key": "roster_http",
+          "kind": "http",
+          "module": "cp7_roster_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "roster_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p12_roster_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "attendance_write",
+          "kind": "native",
+          "module": "cp7_attendance_write_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 10
+        },
+        {
+          "key": "attendance_write_races",
+          "kind": "races",
+          "module": "cp7_attendance_write_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 4
+        },
+        {
+          "key": "attendance_write_http",
+          "kind": "http",
+          "module": "cp7_attendance_write_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "attendance_write_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p12_attendance_write_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "opening_payroll",
+          "kind": "native",
+          "module": "cp7_opening_payroll_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 5
+        },
+        {
+          "key": "opening_payroll_races",
+          "kind": "races",
+          "module": "cp7_opening_payroll_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "opening_payroll_http",
+          "kind": "http",
+          "module": "cp7_opening_payroll_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "opening_payroll_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p12_opening_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p12_nota_probe.py",
+          "expected_executions": 2
+        }
+      ],
+      "scope": [
+        "CP3-5 consumers",
+        "CP6",
+        "CP7 F03"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "c838bfd09084545e4b27d610881d50302f7040300d3fe6fbe2c2d9a644b9eafd",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "f03-p13",
+      "probe": "cp7_f03_full_probe.py",
+      "bucket": "p13",
+      "args": "",
+      "timeout": 180,
+      "expected_cases": 50,
+      "expected_smoke": 0,
+      "groups": [
+        {
+          "key": "native",
+          "kind": "native",
+          "module": "cp7_finance_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 8
+        },
+        {
+          "key": "races",
+          "kind": "races",
+          "module": "cp7_finance_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "http",
+          "kind": "http",
+          "module": "cp7_finance_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p13_finance_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "period_native",
+          "kind": "native",
+          "module": "cp7_period_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 8
+        },
+        {
+          "key": "period_races",
+          "kind": "races",
+          "module": "cp7_period_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "period_http",
+          "kind": "http",
+          "module": "cp7_period_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "period_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p13_period_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "analysis_native",
+          "kind": "native",
+          "module": "cp7_finance_analysis_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 8
+        },
+        {
+          "key": "analysis_races",
+          "kind": "races",
+          "module": "cp7_finance_analysis_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "analysis_http",
+          "kind": "http",
+          "module": "cp7_finance_analysis_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "analysis_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p13_analysis_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "recost_native",
+          "kind": "native",
+          "module": "cp7_recost_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 8
+        },
+        {
+          "key": "recost_races",
+          "kind": "races",
+          "module": "cp7_recost_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "recost_http",
+          "kind": "http",
+          "module": "cp7_recost_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "recost_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_p13_recost_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_p13_finance_probe.py",
+          "expected_executions": 2
+        }
+      ],
+      "scope": [
+        "CP3-5 consumers",
+        "CP6",
+        "CP7 F03"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "c838bfd09084545e4b27d610881d50302f7040300d3fe6fbe2c2d9a644b9eafd",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "f03-cash_installments",
+      "probe": "cp7_f03_full_probe.py",
+      "bucket": "cash_installments",
+      "args": "",
+      "timeout": 180,
+      "expected_cases": 61,
+      "expected_smoke": 0,
+      "groups": [
+        {
+          "key": "cp7_f03_cash_native",
+          "kind": "native",
+          "module": "cp7_f03_cash_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_f03_cash_probe.py",
+          "expected_executions": 3
+        },
+        {
+          "key": "cp7_f03_cash_http",
+          "kind": "http",
+          "module": "cp7_f03_cash_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_cash_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "cp7_f03_cash_journal_native",
+          "kind": "native",
+          "module": "cp7_journal_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_f03_cash_probe.py",
+          "expected_executions": 6
+        },
+        {
+          "key": "cp7_f03_cash_journal_http",
+          "kind": "http",
+          "module": "cp7_journal_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_cash_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "cp7_f03_cash_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_f03_cash_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_cash_probe.py",
+          "expected_executions": 10
+        },
+        {
+          "key": "cp7_f03_misc_native",
+          "kind": "native",
+          "module": "cp7_misc_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_f03_misc_probe.py",
+          "expected_executions": 9
+        },
+        {
+          "key": "cp7_f03_misc_races",
+          "kind": "races",
+          "module": "cp7_misc_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_misc_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "cp7_f03_misc_http",
+          "kind": "http",
+          "module": "cp7_misc_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_misc_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "cp7_f03_misc_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_f03_misc_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_misc_probe.py",
+          "expected_executions": 2
+        },
+        {
+          "key": "cp7_f03_e05_native",
+          "kind": "native",
+          "module": "cp7_installment_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_f03_e05_probe.py",
+          "expected_executions": 20
+        },
+        {
+          "key": "cp7_f03_e05_races",
+          "kind": "races",
+          "module": "cp7_installment_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_e05_probe.py",
+          "expected_executions": 3
+        },
+        {
+          "key": "cp7_f03_e05_http",
+          "kind": "http",
+          "module": "cp7_installment_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_e05_probe.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "cp7_f03_e05_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_f03_e05_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_e05_probe.py",
+          "expected_executions": 2
+        }
+      ],
+      "scope": [
+        "CP3-5 consumers",
+        "CP6",
+        "CP7 F03"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "c838bfd09084545e4b27d610881d50302f7040300d3fe6fbe2c2d9a644b9eafd",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "f03-supplier_credit",
+      "probe": "cp7_f03_full_probe.py",
+      "bucket": "supplier_credit",
+      "args": "",
+      "timeout": 180,
+      "expected_cases": 5,
+      "expected_smoke": 0,
+      "groups": [
+        {
+          "key": "native",
+          "kind": "native",
+          "module": "cp7_f03_supplier_credit_cases",
+          "entry": "cases",
+          "smoke": false,
+          "retained_probe": "cp7_f03_supplier_credit_cases.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "races",
+          "kind": "races",
+          "module": "cp7_f03_supplier_credit_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_supplier_credit_cases.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "http",
+          "kind": "http",
+          "module": "cp7_f03_supplier_credit_cases",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_supplier_credit_cases.py",
+          "expected_executions": 1
+        },
+        {
+          "key": "browser",
+          "kind": "browser",
+          "module": "scripts/cp7_f03_supplier_credit_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_supplier_credit_cases.py",
+          "expected_executions": 2
+        }
+      ],
+      "scope": [
+        "CP3-5 consumers",
+        "CP6",
+        "CP7 F03"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "c838bfd09084545e4b27d610881d50302f7040300d3fe6fbe2c2d9a644b9eafd",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "f03-customer_refund",
+      "probe": "cp7_f03_full_probe.py",
+      "bucket": "customer_refund",
+      "args": "",
+      "timeout": 180,
+      "expected_cases": 10,
+      "expected_smoke": 0,
+      "groups": [
+        {
+          "key": "native",
+          "kind": "native",
+          "module": "cp7_f03_e03_cases",
+          "entry": "cases",
+          "smoke": false,
+          "expected_executions": 1,
+          "retained_probe": "cp7_f03_e03_probe.py"
+        },
+        {
+          "key": "refund_native",
+          "kind": "native",
+          "module": "cp7_f03_refund_cases",
+          "entry": "cases",
+          "smoke": false,
+          "expected_executions": 2,
+          "retained_probe": "cp7_f03_e03_probe.py"
+        },
+        {
+          "key": "refund_races",
+          "kind": "races",
+          "module": "cp7_f03_refund_cases",
+          "entry": null,
+          "smoke": false,
+          "expected_executions": 1,
+          "retained_probe": "cp7_f03_e03_probe.py"
+        },
+        {
+          "key": "refund_http",
+          "kind": "http",
+          "module": "cp7_f03_refund_cases",
+          "entry": null,
+          "smoke": false,
+          "expected_executions": 1,
+          "retained_probe": "cp7_f03_e03_probe.py"
+        },
+        {
+          "key": "refund_browser",
+          "kind": "browser",
+          "module": "scripts/cp7_f03_refund_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "expected_executions": 2,
+          "retained_probe": "cp7_f03_e03_probe.py"
+        },
+        {
+          "key": "http",
+          "kind": "http",
+          "module": "cp7_f03_e03_cases",
+          "entry": null,
+          "smoke": false,
+          "expected_executions": 1,
+          "retained_probe": "cp7_f03_e03_probe.py"
+        },
+        {
+          "key": "browser",
+          "kind": "browser",
+          "module": "scripts/cp7_f03_e03_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "expected_executions": 2,
+          "retained_probe": "cp7_f03_e03_probe.py"
+        }
+      ],
+      "scope": [
+        "CP3-5 consumers",
+        "CP6",
+        "CP7 F03"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "c838bfd09084545e4b27d610881d50302f7040300d3fe6fbe2c2d9a644b9eafd",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "pl-supply",
+      "probe": "cp7_f04_supply_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 120,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "91c5f76509563a6216c96a05337f12b2ab9bc3bbcb22169c164492d363727358",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "pl-model",
+      "probe": "cp7_f04_model_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 120,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "06bcae49f159c22e1979eca34120e7df476b58f0bf2dc49b7cf1cbf0339714f2",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "pl-schedule",
+      "probe": "cp7_f04_schedule_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 120,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "ce77f2d030597059b245c9a1139b2f8b25afc62162e2d1cf5a4a82826d59a6f1",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "pl-netting",
+      "probe": "cp7_f04_netting_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 120,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "789bb483887367cc50121c6c66862c37cc9482e0672ff14a5e34dc4e0fe3edd1",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "p18-full-cycle",
+      "probe": "cp7_p18_full_cycle_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "77ca0349b1e462cb98fff6c207f54ebd3ab2de94ad2eeeb7eaa7b81389153732",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "note-correction",
+      "probe": "cp7_note_correction_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "541ac67fe3fb7c883f51e474d730ddd8a32f4c2c8d3e02afa46f21197db462b7",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "receipt-correction",
+      "probe": "cp7_receipt_correction_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "8e58e6864cdd3a8e7612ab718b0bd889301d862acd10c13676541c0b538e1d57",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "cutting-correction",
+      "probe": "cp7_cutting_correction_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "f9d783e2b5111741240648e603792d183ad6d6d1b44d92f96bd807c67179fed9",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "sales-return-correction",
+      "probe": "cp7_sales_return_correction_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "167ae96c99b615234b79c4a80d0d47df5d1b548043d3f06a80f055cf0bcdeffd",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "payment-correction",
+      "probe": "cp7_payment_correction_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "b532224f08daa3b9f119cfcfc793ad044bd4c0fdc513c1283803f7ff1a3a9191",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "misc-correction",
+      "probe": "cp7_misc_correction_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "230fcf8d82e3efa3182d23d54bedd96aed7207d444a93c1dcb451e215d0ccc5b",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "supplier-payment-correction",
+      "probe": "cp7_supplier_payment_correction_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "176155adb2c3045f582218fe9d071564b588e2361c33b9963494644be1ae87f7",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "p19-plan-v2",
+      "probe": "cp7_p19_plan_v2_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "07360323bc05cdbeed235c95a758d419a1c56a8168c451052a3098a7a2ca8d56",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "p19-report-v2",
+      "probe": "cp7_p19_report_v2_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "cdda53438ac8b8f23fc7b6cf06181beb204504efd6fa4b172b50b8e77527bf99",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "p19-reminder-v2",
+      "probe": "cp7_p19_reminder_v2_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "4e67e0069737bea902fb8f8076df6b2c8c4231401e9149cf48f6c7a73fcef788",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "p19-ai-v2",
+      "probe": "cp7_p19_ai_v2_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "d582d11794f2d9a912901452099b2075c3f6d1b3095fa8d0cef7465b545c598e",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "pl5-history-yield",
+      "probe": "cp7_pl5_history_yield_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "56b994edbfedc686c385bf3beb46de6f52742476a1dd369992a052e40208e136",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "k2-retention",
+      "probe": "cp7_k2_retention_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "bb11e72472c4ff4562f2e396e5b9b06ec262ae55eaaae90ddfd9c79a2caf6c46",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "k4-runner",
+      "probe": "cp7_k4_runner_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "d02aa2c0e66842c35e3813da648b420b6dfff0f424b8aa296dfcf385d54bdbe7",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "k6-proof-runner",
+      "probe": "cp7_k6_proof_runner_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "f2ba37fb54934b96794ddb46b9c7970cef715347dbeafec1ea7bbd57e8f7657a",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "p21-full-rehearsal",
+      "probe": "cp7_p21_full_rehearsal_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "b1c8be5afc64cf32b696cefd202e86c4a7709ac2c96b41fc187129f3dff81dd8",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "fabric-physical",
+      "probe": "cp7_fabric_physical_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "ad0726d08abd8d895f5112a9a4a0c686f89b48e8c9d89b6b1f2ee357a0832b6e",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "cutting-model",
+      "probe": "cp7_cutting_model_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "854aa1dc06ef981e382c8cc399c5d20a34ce870f461348122bb626d05c8c9323",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    },
+    {
+      "suite": "rule-lifecycle",
+      "probe": "cp7_rule_lifecycle_probe.py",
+      "bucket": "",
+      "args": "",
+      "timeout": 180,
+      "scope": [
+        "CP7",
+        "affected CP3-6 Native sources"
+      ],
+      "oracle_origin": "WRITER_UNCHANGED",
+      "fixture_origin": "WRITER_UNCHANGED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "source_sha256": "8a7346dfbb1c85674079d430248bbef30c7a665962e8736b7ab89625edec3391",
+      "case_declaration": "candidate probe and imported provider; runtime planned IDs persisted before first case"
+    }
+  ],
+  "harness_adaptation": "disable automatic business-day group retry; preserve original guard and first status (Pro Max 1.9)",
+  "no_acceptance_by_writer_tests_alone": true,
+  "additional_independent_contract_cases": "separate manifest before their own execution",
+  "prior_same_candidate_runs": [
+    "38435365859",
+    "38435746105"
+  ],
+  "prior_credit": "separate carried evidence, not new executions",
+  "conflict_of_interest": {
+    "pl-netting": "Astra authored PR44; examine but acceptance requires another auditor"
+  }
+}

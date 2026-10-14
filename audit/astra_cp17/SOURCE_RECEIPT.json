@@ -1,0 +1,31 @@
+{
+  "round_id": "cp17-20261014",
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "candidate_tree": "ce6aed0a0af920e8aa80248f3cabcd293688df18",
+  "package_sha": "00b0eb24b2f014d102f0082111d13ee3be429cf2",
+  "product_trees": {
+    "src": "d6553972f94a4ad4e9170e8a946b30cdac9712fd",
+    "supabase": "5d040436db384b4e574785376367b360a084acb7",
+    "supabase/migrations": "8f6053bbd0bda80da18065418ad43371cdfd9461",
+    "supabase/release": "be1e91c172ffb5c05b694a3a54c69562700c6d5e",
+    "supabase/dev": "88759f4fc51864a1ec9e224fcb4f236204b5c853",
+    "supabase/rollbacks": "9e216e7bcca6b583341d9ea78cbc0414134ecee2",
+    "scripts": "b67664091c4394b0ff6a187409d9e9b32213a0e0",
+    "scripts/cp7-src": "7bcf45e174499f3712c67ee08788a90a8c5f7881",
+    ".github/workflows": "4d7712279bfdfb6aec10dca4a216dd927875f483"
+  },
+  "guide": {
+    "path": "docs/AUDIT_PANDUAN_PRO_MAX.md",
+    "sha256": "5752e96df751de5ebe4b86d3f572cffa1bbe94eb42bf8e283fa6e04f9f593639"
+  },
+  "lockfile_sha256": "3f52c1eb326b53129977e78e7c95b14e0d0bebd8c8229e0cab96e88c85d88195",
+  "owner_registers": {
+    "docs/cp7/OWNER_DECISIONS_20261008.md": "c626838670e9b33d1d5967bf7b4623e0896ba8c28afa936a8a0e2c2d33470e98",
+    "docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25.md": "ffa61953def6305c21c2ba61ab8526442974083cc43e65062220be322e059559",
+    "docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25_LAMPIRAN_C6.md": "4bf8671ee27544c811a821668cef845379afd9e3823b3d4117f5833258de97bf",
+    "docs/cp6-d11-kebijakan-dan-gbd03.md": "4d351c4fc727b73a29c181fb8c0c6aaaebb6aa4b7f17fbd7e9fd3db4407af8f0"
+  },
+  "created_at_utc": "2026-10-14T06:29:20.609283+00:00",
+  "production_go": false,
+  "audit_complete": false
+}
