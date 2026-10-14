@@ -1,0 +1,20 @@
+{
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "created_at": "2026-10-14T12:07:05.326602+00:00",
+  "qualification": "Q12",
+  "case_ids": [
+    "BE_REV_HTTP:PUBLIC_SEWING_AND_PERIOD_ACCESS"
+  ],
+  "prior_run": 38558702356,
+  "prior_job": 115834144443,
+  "prior_business_http_requests_executed": 0,
+  "expected": "Original permission/dependency/version/replay/revocation oracle, unchanged; PASS only with exact existing schema ACL and full cleanup",
+  "scope": "Run only missing HTTP business phase. Fixture SQL grants/revokes of the already-present schema USAGE are suppressed as a pair; business fixture data and role permissions not changed; original enclosing ACL assertions remain.",
+  "production_go": false,
+  "retry": false,
+  "source_sha256": {
+    "audit/astra_cp17/sewing_http_qualification.py": "4777cdbb687269e731d6123b39d737d42ed24fe705122f16b04ced965c176f06",
+    "scripts/cp6_be_revision_modes.py": "36257052d9c29e674d39d4d0778dbdc04f6bfc5011bcc466c32606e467a3cae2",
+    "scripts/cp6_pocket_period_trial.py": "941681fc7f3958c369a487c422fe560bfd35f3d482d970b4b1d4caaa1d091994"
+  }
+}
