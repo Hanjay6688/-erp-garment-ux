@@ -51,6 +51,7 @@ def legacy(verify):
   exact_old=old,exact_new=new,
   probe_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
 full.legacy=legacy
+namespace['legacy']=legacy
 def runtime(browser_mode=False):
  normal=full.probe.run(k3_cleanup=True)
  for t in holder:t.join(10)
