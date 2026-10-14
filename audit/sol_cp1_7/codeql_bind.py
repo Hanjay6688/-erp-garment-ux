@@ -1,5 +1,5 @@
 """Qualify the original Sol SARIF without rescanning or changing its gate."""
-import hashlib, json, os, shutil, subprocess, urllib.request, zipfile
+import hashlib, json, os, shutil, subprocess, urllib.request, urllib.parse, zipfile
 from pathlib import Path
 
 SOURCE = '0b7049d9203bac52b47a4c89f3e0d75646067a8f'
@@ -18,10 +18,16 @@ ARTIFACTS = {
 ROOT = Path('cp6-codeql')
 (ROOT/'original').mkdir(parents=True, exist_ok=True)
 (ROOT/'sarif').mkdir(exist_ok=True)
+class SignedRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self,req,fp,code,msg,headers,newurl):
+        redirected=super().redirect_request(req,fp,code,msg,headers,newurl)
+        if urllib.parse.urlparse(req.full_url).netloc!=urllib.parse.urlparse(newurl).netloc:
+            redirected.remove_header('Authorization')
+        return redirected
 def api(path):
     req = urllib.request.Request('https://api.github.com/repos/Hanjay6688/-erp-garment-ux/'+path,
           headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'], 'Accept':'application/vnd.github+json'})
-    return urllib.request.urlopen(req).read()
+    return urllib.request.build_opener(SignedRedirect()).open(req).read()
 
 assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip() == SOURCE
 inventory=[]
@@ -54,7 +60,9 @@ binding={'source_sha':SOURCE,'scan_run':SCAN_RUN,'scan_workflow_sha':SCAN_WORKFL
  'qualification_workflow_sha':os.environ['GITHUB_SHA'], 'qualification_run':os.environ['GITHUB_RUN_ID'],
  'initial_failure':'AUDITOR_TOOL: source SHA compared with routing workflow SHA before SARIF validation',
  'change':'Run the unchanged source gate with GITHUB_SHA explicitly bound to its product checkout; preserve the actual workflow identity separately.',
- 'rescanned':False,'weakened_oracle':False,'artifacts':inventory,'production_go':False}
+ 'rescanned':False,'weakened_oracle':False,'artifacts':inventory,'production_go':False,
+ 'first_binding_run':38563769739,'first_binding_failure':'AUDITOR_TOOL: Authorization header incorrectly forwarded to signed Azure artifact redirect; no SARIF gate or product case executed',
+ 'redirect_correction':'Remove Authorization only on cross-origin signed download redirect, preserving authenticated GitHub API metadata reads.'}
 (ROOT/'SOL_BINDING.json').write_text(json.dumps(binding,indent=2)+'\n')
 env=dict(os.environ,GITHUB_SHA=SOURCE,CP6_CODEQL_LANGUAGE='all-four-original-languages')
 code=subprocess.call(['python','scripts/cp6_codeql_artifact_gate.py'],env=env)
