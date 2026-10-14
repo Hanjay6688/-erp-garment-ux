@@ -80,8 +80,12 @@ jobs:
         - key: capture
           label: Hosted-faithful baseline to AB, pins captured again and compared with the committed package (T3_PREP)
           proof: t3
-        # browser: the unchanged AU browser flow (10 cases, real Auth, PostgREST) on the
-        # committed 30-file package, with this branch's UI.
+        # browser: the unchanged AU browser flow (10 cases, real Auth, PostgREST) and the BF browser
+        # set on the committed 30-file package, with the frozen CP6 UI and tools it was qualified with
+        # (e43e0ed4, run 36828454996: 31/31 and 10/10). This branch's UI needs CP7 RPCs that the CP6
+        # package does not install (erp_cp7_get_recost_queue_v1; P11 sales replaced the simulation
+        # screen), see docs/cp7/PREFREEZE_RUNTIME_MIGRATION_20261006.md; the same CP6 browser oracles
+        # run unchanged on this branch's UI with the full CP7 stack in cp7-prefreeze-ui.yml.
         - key: browser
           label: Hosted-faithful baseline to AB, committed 30-file package, AU and BF browser flows (T3_PREP)
           proof: t3
@@ -109,6 +113,7 @@ jobs:
       with:
         path: auditor
         fetch-depth: 0
+        ref: ${{ matrix.key == 'browser' && 'e43e0ed4bab5ba9a803100e57ddfd7cd2647c631' || github.sha }}
     - uses: actions/checkout@v4
       with:
         path: harness
