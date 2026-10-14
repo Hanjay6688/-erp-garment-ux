@@ -1,0 +1,15 @@
+{
+  "original_run": 38562774720,
+  "product_change": false,
+  "expected_change": false,
+  "only_diff": "Compare exact monetary values using Decimal instead of decimal string serialization (30.00 == 30).",
+  "original_statuses": {
+    "PASS": 4,
+    "INCOMPLETE": 1
+  },
+  "original_error_class": "AUDITOR_TOOL",
+  "original_probe_sha256": "c23f39981159c616818df1d532f71707e71abb70a90af67bce72339dbac6e587",
+  "new_probe_sha256": "b346f3e558d1d7ea3ccd78910ac2651324387dd667efe212254425ac401da4de",
+  "case_ids_unchanged": true,
+  "new_qualification": true
+}
