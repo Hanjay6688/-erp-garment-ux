@@ -68,7 +68,7 @@ IDS=dict(
             'CP17_SG03_REWASH_SAME_PRODUCT_NO_VENDOR_BILL',
             'CP17_SG01_PICKUP_REVERSE_BEFORE_SEWING','CP17_SG01_PICKUP_REVERSE_REFUSED'],
     races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK'],
-    http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED','CP17_HTTP_KASBON_GIVE'],
+    http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED','CP17_HTTP_KASBON_GIVE','CP17_HTTP_ERP_WRITERS_NOT_REACHABLE'],
 )
 REQUIRED={k:len(v)for k,v in IDS.items()}
 EXPECTED=sum(REQUIRED.values())
@@ -705,4 +705,24 @@ def http_cases(http,today):
         assert r['status']==200 and r['body']['advance']['free']=='150.00' and r['body']['advance']['advance_date']==str(day),r
         with http.connect()as conn,conn.cursor()as cur:assert balance(cur,bank)-bank0==-150
         return dict(status='PASS',real_Auth_kasbon_given=r['body']['advance']['number'],stale_review_refused=True)
-    return [('CP17_HTTP_CASH_EMPTY_BANK_REFUSED',cash_refused),('CP17_HTTP_PAYROLL_EARLY_REFUSED',payroll_early),('CP17_HTTP_KASBON_GIVE',kasbon_give_http)]
+    def erp_writers_closed():
+        """FABLE-012: the erp writers that nothing running with the caller's rights refers to are not reachable over the
+        Data API. The PostgREST of this copy serves only `public` (PGRST_DB_SCHEMAS=public, as the hosted runbook
+        requires); every such writer asked for through the erp profile is refused before any SQL runs."""
+        import cp6_auditor_modes as modes,cp7_access_inventory as access
+        user=http.login('OWNER','cp17-erp-direct')
+        with http.connect()as conn,conn.cursor()as cur:
+            inv=access.inventory(cur);before=b.boundary.snapshot(cur);conn.rollback()
+        writers=inv['writers_without_invoker_reference'];assert len(writers)>=60,len(writers)
+        refused,other=[],[]
+        for sig in writers:
+            name=sig.split('(',1)[0].split('.',1)[1]
+            r=modes._call(modes.REST_URL+'/rpc/'+name,{},{'apikey':http._anon,'Authorization':'Bearer '+user._token,'Content-Profile':'erp'})
+            body=r['body'] if isinstance(r['body'],dict) else {}
+            (refused if r['status']==406 and body.get('code')=='PGRST106' else other).append([sig,r['status'],body.get('code')])
+        assert not other,('CP17_ERP_WRITER_REACHABLE',other[:5])
+        with http.connect()as conn,conn.cursor()as cur:assert b.boundary.snapshot(cur)==before,'CP17_ERP_DIRECT_CHANGED_BOUNDARY'
+        return dict(status='PASS',writers_without_invoker_reference=len(writers),refused_by_data_api=len(refused),
+                    refusal='406 PGRST106 (schema not exposed)',exposed_schemas=['public'],hosted_setting='to be read by Fable (owner D14-7)')
+    return [('CP17_HTTP_CASH_EMPTY_BANK_REFUSED',cash_refused),('CP17_HTTP_PAYROLL_EARLY_REFUSED',payroll_early),('CP17_HTTP_KASBON_GIVE',kasbon_give_http),
+            ('CP17_HTTP_ERP_WRITERS_NOT_REACHABLE',erp_writers_closed)]
