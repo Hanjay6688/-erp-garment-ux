@@ -42,6 +42,17 @@ describe('P11 complete draft form',()=>{
  it('keeps entered draft but blocks saving when its reviewed source is stale',async()=>{
   const d=detail();await mount(d);await fill('Jumlah invoice 1','5');await fill('Alasan simpan invoice','Alasan masih dipertahankan');await reviewed();await mount(d,true);expect(input('Jumlah invoice 1').value).toBe('5');expect(input('Alasan simpan invoice').value).toBe('Alasan masih dipertahankan');await click(button('Simpan draft invoice'));expect(saved).not.toHaveBeenCalled();expect(container.textContent).toContain('Dokumen berubah')
  })
+ it('splits dozens over one size series and reads 4/5/4 back as 1 lusin 1 potong (owner D14-5)',async()=>{
+  const d=detail(),third='44444444-4444-4444-8444-444444444444';d.items.push({...d.items[1],id:third,product_id:third,product_sku:'PHYSICAL-3',size_code:'34',qty_pcs:'4'})
+  await mount(d);const series=container.querySelector('[aria-label="Seri SKU-HIST"]')!
+  expect(series.textContent).toContain('3 ukuran (32/33/34)');expect(series.textContent).toContain('Total seri: 1 lusin 7 potong (19 PCS)')
+  await fill('Jumlah invoice 1','4');await fill('Jumlah invoice 2','5');await fill('Jumlah invoice 3','4');expect(series.textContent).toContain('Total seri: 1 lusin 1 potong (13 PCS)')
+  await fill('Lusin seri SKU-HIST','1');await click(button('Bagi rata ke 3 ukuran seri SKU-HIST'))
+  expect(['1','2','3'].map(n=>input(`Jumlah invoice ${n}`).value)).toEqual(['4','4','4']);expect(series.textContent).toContain('Total seri: 1 lusin (12 PCS)');expect(input('Draft invoice sudah diperiksa').checked).toBe(false)
+  await fill('Sisa potong seri SKU-HIST','1');await click(button('Bagi rata ke 3 ukuran seri SKU-HIST'))
+  expect(series.querySelector('[role="alert"]')!.textContent).toBe('1 lusin 1 potong (13 PCS) tidak bisa dibagi rata ke 3 ukuran. Isi per ukuran, atau ubah jumlahnya.')
+  expect(['1','2','3'].map(n=>input(`Jumlah invoice ${n}`).value)).toEqual(['4','4','4'])
+ })
  it('keeps immutable source IDs for duplicate SKU lines after quantity changes and deletion',async()=>{
   const d=detail();d.items[0].qty_pcs='5';d.items[1]={...d.items[1],product_id:d.items[0].product_id,qty_pcs:'10'}
   await act(async()=>root.render(<SalesDraftPanel initial={d} correction locked={false} stale={false} onSave={saved} onClose={()=>{}}/>));await flush()
