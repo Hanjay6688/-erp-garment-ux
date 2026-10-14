@@ -53,3 +53,7 @@ race operation in a fresh child clone, proves parent boundary equality and
 OID-bound disposal. Sequential147 are not repeated. First raw artifact:
 11874359808, SHA-256
 a3c61eec1d07d850e41e0ec7c32cfeb19ba78466ab3aa919fb25152d24b270ae.
+
+## Q05 — C0 admission uses obsolete BA reader definition
+
+Run38526619037 completes all original326+AS34, AO12, approved supplements but rejects `erp.get_owner_financial_snapshot_v2(date,date,date)` before C0 case execution. Zero C0 cases ran. A separate c0-oracles-only phase changes only T2 admission to the candidate FULL verifier, retaining the exact pinned25-case oracle and adjustment transport adapter. No earlier case is rerun and all earlier raw statuses remain unchanged.

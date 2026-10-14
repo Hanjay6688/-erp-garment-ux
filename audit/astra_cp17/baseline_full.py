@@ -21,7 +21,7 @@ from cp7_catalog_state import exact_public_catalog
 import cp6_auditor_runner as native
 
 PHASE=sys.argv[1]
-assert PHASE in ('ar','regression','temporal','continued-regression','ar-races-only')
+assert PHASE in ('ar','regression','temporal','continued-regression','ar-races-only','c0-oracles-only')
 OUT=full_stack.OUT
 avt.OUT=OUT
 native.r1.OUT=OUT
@@ -54,6 +54,24 @@ def run():
                 elif PHASE=='ar-races-only':
                     import ar_races_only
                     ar_races_only.run(report)
+                elif PHASE=='c0-oracles-only':
+                    # Only T2's admission reference changes; no module-global
+                    # BA verifier or frozen C0 assertion is modified.
+                    previous_bep=t2.bep
+                    previous_group=native.strict_group
+                    t2.bep=types.SimpleNamespace(**dict(vars(previous_bep),verified=full_stack.composition.verify))
+                    def once(group,factory,verify):
+                        def planned(cur,today):
+                            cases=factory(cur,today)
+                            full_stack.save(group+'_PREEXECUTION_PLAN',dict(case_ids=[k for k,_ in cases],business_day=str(today),**full_stack.identity()))
+                            return cases
+                        return native._strict_group_once(group,planned,verify)
+                    native.strict_group=once
+                    try:
+                        report['c0_oracle']=t2.c0_oracle_group()
+                    finally:
+                        t2.bep=previous_bep;native.strict_group=previous_group
+                    report['status']='WRITER_PASS' if report['c0_oracle']['status']=='PASS' and report['c0_oracle']['counts']=={'PASS':25} else 'DISPOSITION_REQUIRED'
                 else:avt.temporal_phase(report)
                 report['candidate_catalog_adapter']=catalog
     except Exception as exc:
