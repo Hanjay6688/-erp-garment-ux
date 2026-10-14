@@ -67,12 +67,20 @@ dipakai untuk backup baru. Backup CP7C memakai kunci baru (rancangan CP7C sudah 
 
 ## G. Status pengerjaan (penulis, berjalan; bukan penerimaan)
 
+Status ditulis per 14 Okt 2026 malam. "PASS" berarti lulus di CI pada commit yang disebut; kualifikasi satu commit
+untuk semua workflow belum dilakukan.
+
 | ID | Status | Bukti/kode |
 |---|---|---|
-| R-FIN01, R-CASH, R-FIN02 | Penjaga terpasang; kasus CP17 FIN01/CASH/FIN02 + race + HTTP **PASS** di `628f9dad` (run 38613964485). Detektor bertanggal belum | `cp7_dated_guard_bundle.py`, `cp7_cp17_fix_cases.py` |
-| R-STK01 | Kasus PASS di `628f9dad` | `cp7_cp17_fix_cases.py` (`stock_card`) |
-| R-HPP01 | Delta Native terpasang; 3 kasus PASS di `628f9dad` | `cp7_hpp_policy_guard_bundle.py` |
-| R-RWK01 | Delta Native terpasang; 3 kasus belum terbukti (salah login di data uji, diperbaiki `ad647cf0`). PARTIAL/ON_HOLD tetap belum bisa dibayar sampai owner memutuskan | `cp7_rework_eligibility_bundle.py` |
-| R-SG02 | Dibangun: perintah "kain kembali ke gudang" (sekali per potongan, paling banyak sisa yang dicatat saat potong, tanggal tidak sebelum potong/tidak di masa depan/tidak di periode tutup), memakai `erp.post_cutting_material_returns` Native tanpa perubahan; layar di Bagi Potongan; 4 kasus native CP17 + uji layar. **Belum**: pembalikan bila jumlah salah (Native juga belum punya), browser | `cp7-src/cutting-correction/return.sql`, `CuttingFabricReturnPanel.tsx`, `SG02_FABRIC_RETURN.md` |
-| R-LUSIN | Dibangun di layar draf penjualan + uji unit/DOM; browser belum | `src/sales/seriesDozens.ts`, `SalesDraftPanel.tsx` |
-| R-SG01, R-SG03, kasbon (D14-6), R-ACC01, R-EV01/02, R-DOC01–05 | Belum dikerjakan | — |
+| R-FIN01, R-CASH, R-FIN02 | Penjaga terpasang. Kasus CP17 FIN01/CASH/FIN02, race, dan HTTP **PASS** di `75dad50d` (run 38618991955). Detektor data lama (`cp7_guard.findings()`) PASS | `cp7_dated_guard_bundle.py`, `dated-guards.sql`, `cp7_cp17_fix_cases.py` |
+| R-STK01, R-HPP01, R-RWK01 | Kasus PASS di `75dad50d`. RWK01: OPEN/PARTIAL tetap belum bisa dibayar sampai owner memutuskan | `cp7_rework_eligibility_bundle.py`, `cp7_hpp_policy_guard_bundle.py` |
+| R-SG02 | Dibangun; 4 kasus PASS di `75dad50d` dan `a166afd7`. **Belum**: pembalikan bila jumlah salah (Native juga belum punya), uji browser | `return.sql`, `CuttingFabricReturnPanel.tsx`, `SG02_FABRIC_RETURN.md` |
+| R-SG01 | Dibangun tingkat (a): batal Bagi Potongan sebelum dijahit, dengan 2 delta Native yang dideklarasikan. Uji lokal PASS; 2 kasus CP17 menunggu CI di `ad150b2f` | `pickup.sql`, `cp7_pickup_reversal_bundle.py`, `PickupReversalPanel.tsx`, `SG01_PICKUP_REVERSAL.md` |
+| R-SG03 | Kasus cuci ulang produk sama tanpa tagihan vendor PASS di `a166afd7` | `cp7_cp17_fix_cases.py` (`rewash_free`) |
+| Kasbon (D14-6) | Dibangun (beri, potong dari payroll draf, batal). Dua kesalahan ditemukan CI dan diperbaiki: kolom yang tidak ada (`a166afd7`), dan token rekening di uji (`ad150b2f`); menunggu CI | `kasbon.sql`, `cp7_kasbon_bundle.py`, `PayrollKasbonPanel.tsx`, `KASBON_D14_6.md` |
+| R-LUSIN | Dibangun di layar draf penjualan + uji unit/DOM; uji browser belum | `src/sales/seriesDozens.ts`, `SalesDraftPanel.tsx` |
+| R-ACC01 (FABLE-012) | Inventaris: 160 fungsi `erp` bisa dijalankan `authenticated`, 82 penulis tanpa rujukan dari kode yang berjalan dengan hak pemanggil. Bukti baru: 82 penulis itu ditolak Data API sebelum SQL berjalan (406 PGRST106, hanya `public` terbuka); menunggu CI. Pencabutan EXECUTE belum: sekitar 700 pemanggilan langsung di 194 berkas alat uji lama akan ikut tertolak (pertanyaan ke owner). Setelan hosted dibaca Fable (D14-7) | `cp7_access_inventory.py`, kasus `CP17_HTTP_ERP_WRITERS_NOT_REACHABLE` |
+| R-DOC01, R-DOC02, R-DOC03, R-DOC05 | Selesai di `495821c8`: pemeriksaan salinan paket PASS (30 berkas), komentar basi dibetulkan, bukti CP1/CP2 dibawa ke pohon, 4 tabel tanpa RLS dijelaskan | `cp7_release_copy_check.py`, `docs/evidence/cp1-cp2/`, `DOC_FINDINGS_FABLE_002_003_004_RLS.md` |
+| A2 (urutan daftar fungsi di pembanding) | Akar masalah ditemukan: `jsonb_agg(... order by 1)` mengurutkan dengan angka tetap 1, jadi urutan ikut rencana query; menunggu izin owner (D13-11) | `cp6_auditor_runner.py:35` |
+| T3 browser AU/BF | Merah sejak sebelum putaran ini (11 Okt `5548ff18`, 14 Okt `00b0eb24`); belum diperiksa | `cp6-t3-release-package.yml` |
+| R-EV01, R-EV02 | Belum dikerjakan | — |
