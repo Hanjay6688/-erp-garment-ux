@@ -70,3 +70,18 @@ describe('plan v2 refusals from a dated snapshot', () => {
     expect(normalizeClientError({ code: '40001', message: 'could not serialize access' }).code).toBe('RETRYABLE_CONFLICT')
   })
 })
+
+describe('CP1–CP7 dated guards', () => {
+  it('shows the server sentence without its code', () => {
+    const cash = normalizeClientError({ code: 'P0001', message: 'CP7_CASH_NEGATIVE: saldo BC bank (BC1) menjadi minus -100.00 pada tanggal 2026-10-15 atau sesudahnya. Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.' })
+    expect([cash.code, cash.retryable]).toEqual(['REJECTED', false])
+    expect(cash.message).toBe('Saldo BC bank (BC1) menjadi minus -100.00 pada tanggal 2026-10-15 atau sesudahnya. Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.')
+    expect(normalizeClientError({ code: 'P0001', message: 'CP7_PAYROLL_PAID_BEFORE_ACCRUAL: tanggal bayar 2026-10-12 sebelum utang upah terakhir di payroll ini tercatat (2026-10-13). Bayar sebelum itu hanya lewat kasbon.' }).message)
+      .toBe('Tanggal bayar 2026-10-12 sebelum utang upah terakhir di payroll ini tercatat (2026-10-13). Bayar sebelum itu hanya lewat kasbon.')
+    expect(normalizeClientError({ code: 'P0001', message: 'CP7_LAUNDRY_CLAIM_BEFORE_SOURCE: klaim K1 diselesaikan tanggal 2026-10-08, sebelum klaim/sumbernya ada (2026-10-09).' }).message).toContain('sebelum klaim/sumbernya ada')
+    expect(normalizeClientError({ code: 'P0001', message: 'CP7_HPP_POLICY_CHANGES_ACTIVE_POOL: kebijakan HPP mandor ini mengubah dasar pool HPP absensi yang sudah AKTIF. Batalkan pool itu dulu, lalu simpan kebijakan dan buat pool pengganti.' }).message).toMatch(/^Kebijakan HPP mandor ini/)
+  })
+  it('leaves a bare code without a sentence to the generic refusal', () => {
+    expect(normalizeClientError({ code: 'P0001', message: 'CP7_CASH_NEGATIVE' }).message).toBe('CP7_CASH_NEGATIVE')
+  })
+})
