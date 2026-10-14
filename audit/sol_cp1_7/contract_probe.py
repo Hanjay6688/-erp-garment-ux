@@ -86,7 +86,7 @@ def factory(cur,today):
   assert one['snapshot']['financial_position']==two['snapshot']['financial_position']and one['snapshot']['performance']==two['snapshot']['performance']
   expected={('financial_position','customer_ar'):'51.75',('financial_position','fg_inventory'):'-30',('performance','sales_revenue_gl'):'51.75',('performance','cogs_gl'):'30',('performance','gross_profit'):'21.75'}
   got={s+'/'+k:str(D(one['snapshot'][s][k])-D(baseline['snapshot'][s][k]))for s,k in expected}
-  assert got=={s+'/'+k:str(D(n))for(s,k),n in expected.items()},got
+  assert {key:D(value)for key,value in got.items()}=={s+'/'+k:D(n)for(s,k),n in expected.items()},got
   return dict(status='PASS',literal_expected={s+'/'+k:str(D(n))for(s,k),n in expected.items()},observed=got,two_public_reads_same_business_values=True,all_ERP_platform_Auth_schema_ACL_boundary_unchanged=True)
  def replay():
   f=stock(cur,today);p=drafts.payload(f,'3','17.25');key=uuid.uuid4();one=drafts.create(cur,f,p,key);assert drafts.create(cur,f,p,key)==one and available(cur,f)==7
