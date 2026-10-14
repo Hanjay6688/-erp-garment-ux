@@ -10,7 +10,7 @@ Pro Max §10–§11; ini bukan penyatuan resmi auditor dan bukan penerimaan. `pr
 | Astra | `audit/astra_cp17/AUDIT_ASTRA_CP17_0b7049d9.md` (`f70361d5`), lanjutan (`d5dcf4e3`), addendum silang `followup-681dd7a9/` (`d4a83b42`), cabang `audit/astra-cp1-7-0b7049d9-20261014` | TAHAN penerimaan penuh |
 | Sol | `audit/sol_cp1_7/AUDIT_REPORT.md`, `FINDINGS.json`, `WRITER_HANDOFF.md` (`10bfe397`), cabang `audit/sol-cp1-7-0b7049d9-20261014` | HOLD |
 
-Keputusan owner yang dipakai: D14-2..D14-5 (`../../OWNER_DECISIONS_20261008.md`, 15 Okt 00:15 WIB).
+Keputusan owner yang dipakai: D14-2..D14-7 (`../../OWNER_DECISIONS_20261008.md`, 15 Okt 2026).
 
 ## A. Cacat yang terbukti saat dijalankan (wajib diperbaiki)
 
@@ -29,14 +29,15 @@ Keputusan owner yang dipakai: D14-2..D14-5 (`../../OWNER_DECISIONS_20261008.md`,
 |---|---|---|---|
 | R-SG01 | Fable FABLE-009, Astra SG-01 | Bagi Potongan (pickup) yang sudah POSTED tidak punya jalur koreksi | Pembalik/pengganti milik Native untuk pickup produksi, dengan penghalang dependency yang menunjuk jalan keluarnya; pengaman immutabilitas tetap. Uji salah mandor/tanggal/batch sebelum dan sesudah jahit/laundry/QC |
 | R-SG02 | Fable FABLE-010, Astra SG-02 | Sisa kain hanya "terlapor", tidak bisa masuk stok lagi | D14-4: langkah "kain kembali ke gudang" per roll/lokasi/waktu memakai `post_cutting_material_returns` yang sudah ada; nilai kembali dan biaya PO turun. Pakai lagi, pembalikan, replay, browser |
-| R-SG03 | Astra SG-03 | Rewash berbayar tanpa ganti SKU belum punya sumber tagihan | Ditelusuri dulu terhadap kebijakan laundry yang sudah ada (LAU-DEC, D11). Bila belum ada aturan, ditanyakan ke owner; tidak dikarang |
+| R-SG03 | Astra SG-03 | Rewash berbayar tanpa ganti SKU belum punya sumber tagihan | Sudah diputuskan owner lewat D06 (Lampiran C6 rev4): LAU-06a cuci ulang produk sama **tanpa tagihan vendor**, LAU-T28 meminta fee 0 yang eksplisit dan berversi; fee cuci ulang hanya lewat LAU-05b (tarif vendor) atau LAU-06b (celup ulang ke SKU baru). Penulis membuktikan fee 0 eksplisit itu dengan kasus, tanpa menambah jalur tagihan baru |
+| R-KASBON | D14-6 (akibat D14-2) | Kasbon tunai ke mandor sesudah cutover belum bisa dicatat | Pencatatan kasbon tunai (kas keluar → piutang mandor) yang dipotong otomatis di payroll berikutnya, tunduk pada aturan kas D14-3 |
 | R-LUSIN | Sol (kebutuhan lama `SALES_MANUAL_13`) | Form penjualan tersambung belum bisa membagi lusin ke satu seri ukuran | D14-5: bagi rata otomatis ke ukuran seri + tampilan balik "x lusin y potong"; bagi tidak rata ditolak dengan pesan jelas. Uji unit, browser desktop/HP, simpan/baca ulang |
 
 ## C. Akses
 
 | ID | Asal | Masalah | Rencana |
 |---|---|---|---|
-| R-ACC01 | Fable FABLE-012; Astra RBAC (2 kasus PASS, 6 penolakan) | Peran `authenticated` punya USAGE skema `erp` dan EXECUTE ke 160 fungsi `erp` (108 bernama penulis). Pemeriksaan peran di dalam fungsi menolak non-owner, tetapi jalur langsung melewati fasad | Inventaris dulu siapa yang memanggil tiap fungsi (fasad SECURITY DEFINER, trigger, pembaca); lalu cabut EXECUTE langsung dari `authenticated` yang tidak dibutuhkan; panggilan langsung → 42501; seluruh suite fasad tetap lulus. Skema yang diekspos API hosted: menunggu jawaban owner atas izin baca untuk auditor |
+| R-ACC01 | Fable FABLE-012; Astra RBAC (2 kasus PASS, 6 penolakan) | Peran `authenticated` punya USAGE skema `erp` dan EXECUTE ke 160 fungsi `erp` (108 bernama penulis). Pemeriksaan peran di dalam fungsi menolak non-owner, tetapi jalur langsung melewati fasad | Inventaris dulu siapa yang memanggil tiap fungsi (fasad SECURITY DEFINER, trigger, pembaca); lalu cabut EXECUTE langsung dari `authenticated` yang tidak dibutuhkan; panggilan langsung → 42501; seluruh suite fasad tetap lulus. Skema yang diekspos API hosted: owner mengizinkan Fable membaca (D14-7), owner yang menyampaikan ke Fable |
 
 ## D. Alat bukti dan dokumen
 

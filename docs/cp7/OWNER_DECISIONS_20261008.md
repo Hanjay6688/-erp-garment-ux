@@ -337,3 +337,19 @@ Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
   ukuran dan tampilan balik "x lusin y potong" dari isian per ukuran. Bagi rata yang tidak pas tetap ditolak dengan
   pesan jelas (perilaku helper lama: pecahan pcs ditolak), sampai owner menentukan lain.
 - `production_go:false`.
+
+### D14-6 dan D14-7 (owner ke penulis Claude, 15 Okt 2026, lanjutan)
+
+Lewat pertanyaan pilihan di sesi penulis, sesudah D14-2..D14-5. Pertanyaan dan jawaban ditulis persis.
+
+| No | Pertanyaan penulis | Jawaban owner (verbatim) |
+|---|---|---|
+| D14-6 | "Kasbon tunai baru ke mandor (sesudah tanggal cutover) ternyata belum bisa dicatat di aplikasi. Yang ada baru kasbon dari saldo awal dan kasbon aksesori. Karena bayar upah duluan sekarang hanya boleh lewat kasbon, perlu saya buatkan pencatatan kasbon tunai?" Pilihan yang dipilih berbunyi: "Catat kasbon tunai ke mandor (kas keluar, jadi piutang mandor), lalu otomatis dipotong di Nota/payroll berikutnya. Kasbon tidak bisa melebihi saldo kas (aturan kas tidak boleh minus)." | "Ya, buatkan (Disarankan)" |
+| D14-7 | "Fable minta izin membaca pengaturan API di database Enteng (baca saja) untuk memastikan data internal tidak terbuka langsung ke aplikasi. Diizinkan?" Pilihan yang dipilih berbunyi: "Hanya membaca daftar bagian database yang terbuka lewat API. Tidak mengubah apa pun. Saya tetap mencabut hak langsung yang tidak perlu, jadi aman apa pun hasilnya." | "Ya, baca saja (Disarankan)" |
+
+Akibat (ringkasan penulis):
+
+- D14-6: dibuat pencatatan kasbon tunai ke mandor sesudah cutover (kas keluar menjadi piutang mandor), yang dipotong
+  otomatis di payroll berikutnya dan tunduk pada D14-3.
+- D14-7 adalah izin untuk auditor Fable. Penulis tidak membaca hosted. Bagi Fable, keputusan ini berlabel
+  `UNVERIFIED_OWNER_DECISION` sampai owner menyampaikannya langsung (Pro Max §2.9).
