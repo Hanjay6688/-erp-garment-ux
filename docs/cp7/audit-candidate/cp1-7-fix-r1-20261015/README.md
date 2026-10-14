@@ -55,6 +55,8 @@ browser 3).
 | Sol SOL-003, OPEN-AZ-FIRST (R-EV02) | Diagnosis PostgreSQL disimpan di berkas terpisah (termasuk proses lain di database saat gagal). Penyebab paling mungkin kegagalan pertama di AZ: autovacuum masuk ke database yang sudah ditutup, dan blok pertama AZ menolak. Log Sol tidak menyebut blok mana yang menolak, jadi ini **belum terbukti**. Pemasang menunggu proses lain keluar sebelum tiap berkas dan hanya mengulang penolakan `PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE` (teks pengaman tidak berubah) | `scripts/cp6_readiness_owner_install.py`, `scripts/cp6_readiness_owner_drain_test.py` (6 kasus, juga jalan di workflow CP17) |
 
 Perbaikan lain yang ditemukan saat mengerjakan putaran ini:
+- Data uji lama di `CP7 P08 Physical Fabric` (job `attention284`, 4 kasus) membayar dari rekening kosong dan kini ditolak
+  penjaga kas D14-3 (run 38633926468, log disimpan). Data uji diberi modal owner lewat jurnal Native; penjaga tidak diubah.
 - Panel kasbon menutup diri dan menghapus pesan "kasbon tercatat" saat halaman payroll memuat ulang (uji DOM baru).
 - Di HP, panel kain kembali membuat halaman Bagi Potongan 722 piksel di layar 412 piksel; sekarang muat di layar.
 - Workflow `CP6 T3 Release Package`: bagian browser merah sejak 6 Okt karena memasang tampilan CP7 di atas database

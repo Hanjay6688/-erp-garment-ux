@@ -15,6 +15,7 @@ import cp7_installment_cases as installments
 import cp7_opening_payroll_cases as opening
 import cp6_bc_probe as bc
 import cp6_bd_probe as bd
+import cp7_cash_funding as funding
 
 b,auth,parent=previous.b,previous.auth,previous.parent
 FINER=('finance.payroll.view','warehouse.accessory.view','production.laundry.view','finance.hpp.view')
@@ -45,7 +46,10 @@ def revoke(cur,role,p):cur.execute('delete from erp.app_role_permissions where r
 def accessory_fixture(cur,today):
  day=today-timedelta(days=1);fx=bc.fixture(cur,day,days=8)
  _,item=bc.note(cur,fx,10,'3.00',day-timedelta(days=5))
- old=bc.payroll(cur,fx,day,'100.00',5);bc.pay_through(cur,old)
+ old=bc.payroll(cur,fx,day,'100.00',5)
+ # Owner D14-3: the fixture bank is created empty and cash may never go negative, so the old payroll's bank first
+ # holds owner capital (accepted Native journal) for its gross; the cash guard is unchanged. Run 38633926468 kept.
+ funding.fund(cur,fx['cash'],'100.00',funding.open_day(cur));bc.pay_through(cur,old)
  lot=bc.receive(cur,fx,'NOTE_RETURN',day=day-timedelta(days=2),note_item_id=item,qty='4')['lot_ids'][0]
  bc.inspect(cur,lot,bc.local_at(day-timedelta(days=2),12),'P16 Native inspector',usable=4)
  bc.policy(cur,'ACC_DEC05',dict(mode='CREDIT_THEN_CARRY',credit_conditions=['USABLE']))
@@ -57,6 +61,11 @@ def allocate_accessory(cur,f):
 def pay_accessory(cur,f):
  for name in('approve_payroll','post_payroll_payment'):bc.internal(cur,name,f['payroll'])
 
+def main_cash(cur):return bd.one(cur,'select id::text from erp.cash_accounts where is_active order by cash_account_code limit 1')
+def fund_main(cur,amount):
+ # Owner D14-3: bd.pay pays from the first active cash account; it first holds owner capital for exactly what the
+ # case pays (accepted Native journal). The cash guard is unchanged (run 38633926468 kept).
+ b.api.admin(cur);funding.fund(cur,main_cash(cur),amount,funding.open_day(cur));b.api.admin(cur)
 def laundry_fixture(cur,today,invoice=False):
  day=today-timedelta(days=1);fx=bd.fixture(cur,day,'P16 Native obligation');bd.invoice_policies(cur)
  # Native posting requires one effective vendor/process rate. A known receipt
@@ -149,7 +158,7 @@ def cases(cur,today,qualification_bundle=None):
   return dict(status='PASS',actual_lawfully_priced_receipt_estimate_not_final_invoice_AP_or_zero_unknown_review_age_created=True)
  def laundry_cycle():
   setup(cur,today);f=laundry_fixture(cur,today,invoice=True);e=capture(cur,today);r=row(cur,e,'LAUNDRY_AP',f['invoice']);amount(r,'17312.90');assert r['state']=='ACTIVE'and r['value']['value']=='1'
-  unknown(row(cur,e,'LAUNDRY_RECEIPT',f['line']));first=bd.pay(cur,f['invoice'],'7312.90',f['day']);amount(row(cur,e,'LAUNDRY_AP',f['invoice']),'10000')
+  unknown(row(cur,e,'LAUNDRY_RECEIPT',f['line']));fund_main(cur,'17312.90');first=bd.pay(cur,f['invoice'],'7312.90',f['day']);amount(row(cur,e,'LAUNDRY_AP',f['invoice']),'10000')
   bd.pay(cur,f['invoice'],'10000.00',f['day']);r=row(cur,e,'LAUNDRY_AP',f['invoice']);amount(r,'0');assert r['business_resolved']
   r=row(cur,e,'LAUNDRY_RECEIPT',f['line']);amount(r,'0');assert r['business_resolved']
   bd.internal(cur,'reverse_vendor_payment',first,'Actual Native laundry payment inverse');amount(row(cur,e,'LAUNDRY_AP',f['invoice']),'7312.90');unknown(row(cur,e,'LAUNDRY_RECEIPT',f['line']))
@@ -209,7 +218,7 @@ def races(tools,today):
  def payment_snapshot():
   with tools.connect()as conn,conn.cursor()as cur:setup(cur,today);f=laundry_fixture(cur,today,invoice=True);e=capture(cur,today);conn.commit()
   with tools.connect()as conn,conn.cursor()as cur:
-   pid=bd.pay(cur,f['invoice'],'7312.90',f['day'])
+   fund_main(cur,'7312.90');pid=bd.pay(cur,f['invoice'],'7312.90',f['day'])
    with tools.connect()as reader,reader.cursor()as read:before=row(read,e,'LAUNDRY_AP',f['invoice']);amount(before,'17312.90')
    conn.commit()
   with tools.connect()as conn,conn.cursor()as cur:after=row(cur,e,'LAUNDRY_AP',f['invoice']);amount(after,'10000')
