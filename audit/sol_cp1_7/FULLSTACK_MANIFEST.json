@@ -1,0 +1,315 @@
+{
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "probe_sha256": "d64d15e253d9927a7e4653e068a114ff8c46b69e05fa23635a7005d330441bac",
+  "foundations": [
+    {
+      "key": "snapshot_native",
+      "kind": "native",
+      "module": "snapshot",
+      "factory": "cases",
+      "expected_count": 10,
+      "expected_ids": [
+        "P02_CAPTURE_FACTS_BOUNDARY",
+        "P02_REPLAY_STALE_REQUEST_CONFLICT",
+        "P02_SERVER_PROJECTION_REVOKE",
+        "P02_ACTOR_SCOPE",
+        "P02_IMMUTABLE_CURSOR",
+        "P02_INCOMPLETE_REFUSED",
+        "P02_COMPUTE_PRIVILEGES_IMMUTABLE",
+        "P02_INSERT_BACKDATE_DELETE_STATUS",
+        "P02_FINANCE_DEPENDENCY_NO_OPS_LEAK",
+        "P02_COMPLETE_PAGE_PROFILES"
+      ],
+      "provider_path": "scripts/cp7_snapshot_cases.py",
+      "provider_sha256": "b0f96102c7c508984d830028bbd191804703b7844d8963817ce2917b2050f9f4"
+    },
+    {
+      "key": "snapshot_races",
+      "kind": "races",
+      "module": "snapshot",
+      "factory": "races",
+      "expected_count": 4,
+      "expected_ids": [
+        "P02_CONCURRENT_COHERENCE",
+        "P02_REVOCATION_DURING_CAPTURE",
+        "P02_CONCURRENT_REQUEST_REPLAY",
+        "P02_CAPTURE_CLOCK_AFTER_WAIT"
+      ],
+      "provider_path": "scripts/cp7_snapshot_cases.py",
+      "provider_sha256": "b0f96102c7c508984d830028bbd191804703b7844d8963817ce2917b2050f9f4"
+    },
+    {
+      "key": "snapshot_http",
+      "kind": "http",
+      "module": "snapshot",
+      "factory": "http_cases",
+      "expected_count": 2,
+      "expected_ids": [
+        "P02_HTTP_REAL_AUTH_REPLAY_REVOKE",
+        "P02_HTTP_OPERATIONS_REDACTION"
+      ],
+      "provider_path": "scripts/cp7_snapshot_cases.py",
+      "provider_sha256": "b0f96102c7c508984d830028bbd191804703b7844d8963817ce2917b2050f9f4"
+    },
+    {
+      "key": "identity_smoke",
+      "kind": "native",
+      "module": "identity",
+      "factory": "smoke",
+      "expected_count": 1,
+      "expected_ids": [
+        "P03_FIXTURE_AND_COMMAND_SMOKE"
+      ],
+      "provider_path": "scripts/cp7_identity_cases.py",
+      "provider_sha256": "f3e71a95c91169c8007cbbc1e1729f795573a9c6b260d1bea55f453f8932011c"
+    },
+    {
+      "key": "identity_native",
+      "kind": "native",
+      "module": "identity",
+      "factory": "cases",
+      "expected_count": 10,
+      "expected_ids": [
+        "P03_STATUS_DOMAIN_BOUNDARY",
+        "P03_REPLAY_CONFLICT",
+        "P03_BULK_ATOMIC_STALE",
+        "P03_MEMBERSHIP_REVIEW",
+        "P03_PAST_REVIEW_PAUSED",
+        "P03_PRIVILEGES_REVOKE",
+        "P03_MALFORMED_NO_PARTIAL",
+        "P03_PRICE_REVISION_POLICY_STABLE",
+        "P03_FUTURE_MEMBERSHIP_REVIEW",
+        "P03_HISTORICAL_IDENTITY_CONSERVATION"
+      ],
+      "provider_path": "scripts/cp7_identity_cases.py",
+      "provider_sha256": "f3e71a95c91169c8007cbbc1e1729f795573a9c6b260d1bea55f453f8932011c"
+    },
+    {
+      "key": "identity_races",
+      "kind": "races",
+      "module": "identity",
+      "factory": "races",
+      "expected_count": 4,
+      "expected_ids": [
+        "P03_COMPETING_POLICY_REVISIONS",
+        "P03_REVOKE_WHILE_WAITING",
+        "P03_MEMBERSHIP_WHILE_WAITING",
+        "P03_DUPLICATE_REQUEST_RACE"
+      ],
+      "provider_path": "scripts/cp7_identity_cases.py",
+      "provider_sha256": "f3e71a95c91169c8007cbbc1e1729f795573a9c6b260d1bea55f453f8932011c"
+    },
+    {
+      "key": "identity_http",
+      "kind": "http",
+      "module": "identity",
+      "factory": "http_cases",
+      "expected_count": 1,
+      "expected_ids": [
+        "P03_HTTP_POLICY_AUTH_REPLAY_REVOKE"
+      ],
+      "provider_path": "scripts/cp7_identity_cases.py",
+      "provider_sha256": "f3e71a95c91169c8007cbbc1e1729f795573a9c6b260d1bea55f453f8932011c"
+    },
+    {
+      "key": "wip_kernel",
+      "kind": "native",
+      "module": "wip",
+      "factory": "cases",
+      "expected_count": 17,
+      "expected_ids": [
+        "P04_O15_CONSERVATION",
+        "P04_NEGATIVE_PREFIX",
+        "P04_INPUT_UNIQUENESS",
+        "P04_REWORK_DENOMINATOR",
+        "P04_REWASH_CYCLE",
+        "P04_REVERSAL_DEPENDENCIES",
+        "P04_LINEAGE_SIZE_DUPLICATE",
+        "P04_PARTIAL_MALFORMED",
+        "P04_OWNERSHIP_HOLD",
+        "P04_HARD_MATCHING",
+        "P04_SHARED_POOL",
+        "P04_X08_YIELD_INPUT_OUTPUT",
+        "P04_X06_DISTINCT_EDGES",
+        "P04_O04_SHARED60",
+        "P04_REMAINING_ETA",
+        "P04_EXACT_INTEGER",
+        "P04_PRIVATE_KERNEL_ACL"
+      ],
+      "provider_path": "scripts/cp7_wip_cases.py",
+      "provider_sha256": "a4044dd682fc65562f0d08529fc5bdc49bfb4e146757f90de69e22a3fd861bf1"
+    },
+    {
+      "key": "cutting_smoke",
+      "kind": "native",
+      "module": "cutting",
+      "factory": "smoke",
+      "expected_count": 1,
+      "expected_ids": [
+        "P04_SOURCE_FIXTURE_SMOKE"
+      ],
+      "provider_path": "scripts/cp7_wip_source_cases.py",
+      "provider_sha256": "4ba09e6aa0e30df94bff740dc1c5b08d2eb8ec0738a5cd70da0f43e172ff1b3a"
+    },
+    {
+      "key": "cutting_native",
+      "kind": "native",
+      "module": "cutting",
+      "factory": "cases",
+      "expected_count": 11,
+      "expected_ids": [
+        "P04_SOURCE_O15_ACTUAL_POSTING",
+        "P04_SOURCE_IMMUTABLE_QC_REPLAY",
+        "P04_SOURCE_AUTH_NO_MONEY",
+        "P04_SOURCE_MALFORMED_NO_PARTIAL",
+        "P04_SOURCE_CONFLICT_PROPAGATES",
+        "P04_SOURCE_MULTI_GROUP_ONE_CAPTURE",
+        "P04_SOURCE_REWORK_PARTIAL_COMPLETION",
+        "P04_SOURCE_REWASH_RETURN_REDISPATCH",
+        "P04_SOURCE_CLAIM_CUSTODY",
+        "P04_SOURCE_BS_HOLD_DISPOSITION",
+        "P04_SOURCE_SOURCE_REVIEW_FLAG"
+      ],
+      "provider_path": "scripts/cp7_wip_source_cases.py",
+      "provider_sha256": "4ba09e6aa0e30df94bff740dc1c5b08d2eb8ec0738a5cd70da0f43e172ff1b3a"
+    },
+    {
+      "key": "cutting_races",
+      "kind": "races",
+      "module": "cutting",
+      "factory": "races",
+      "expected_count": 2,
+      "expected_ids": [
+        "P04_RACE_DUPLICATE",
+        "P04_RACE_SOURCE_COHERENCE"
+      ],
+      "provider_path": "scripts/cp7_wip_source_cases.py",
+      "provider_sha256": "4ba09e6aa0e30df94bff740dc1c5b08d2eb8ec0738a5cd70da0f43e172ff1b3a"
+    },
+    {
+      "key": "cutting_http",
+      "kind": "http",
+      "module": "cutting",
+      "factory": "http_cases",
+      "expected_count": 1,
+      "expected_ids": [
+        "P04_HTTP_CUTTING_RUN_AUTH"
+      ],
+      "provider_path": "scripts/cp7_wip_source_cases.py",
+      "provider_sha256": "4ba09e6aa0e30df94bff740dc1c5b08d2eb8ec0738a5cd70da0f43e172ff1b3a"
+    },
+    {
+      "key": "production_native",
+      "kind": "native",
+      "module": "production",
+      "factory": "cases",
+      "expected_count": 6,
+      "expected_ids": [
+        "P04_PRODUCTION_OPENING_LIFECYCLE",
+        "P04_PRODUCTION_OPENING_CLAIMS",
+        "P04_PRODUCTION_MIXED_ONE_CAPTURE",
+        "P04_PRODUCTION_UNSOURCED_BS_GOOD",
+        "P04_PRODUCTION_CURRENT_AUTH",
+        "P04_PRODUCTION_NO_ORIGIN_ALIAS"
+      ],
+      "provider_path": "scripts/cp7_wip_production_cases.py",
+      "provider_sha256": "62da81d13cc084ded5ef69ed76c75da0c32f6184dafd4df7596ad656c275cfed"
+    },
+    {
+      "key": "production_races",
+      "kind": "races",
+      "module": "production",
+      "factory": "races",
+      "expected_count": 1,
+      "expected_ids": [
+        "P04_PRODUCTION_RACE_CROSS_ORIGIN"
+      ],
+      "provider_path": "scripts/cp7_wip_production_cases.py",
+      "provider_sha256": "62da81d13cc084ded5ef69ed76c75da0c32f6184dafd4df7596ad656c275cfed"
+    },
+    {
+      "key": "production_http",
+      "kind": "http",
+      "module": "production",
+      "factory": "http_cases",
+      "expected_count": 1,
+      "expected_ids": [
+        "P04_PRODUCTION_HTTP_AUTH"
+      ],
+      "provider_path": "scripts/cp7_wip_production_cases.py",
+      "provider_sha256": "62da81d13cc084ded5ef69ed76c75da0c32f6184dafd4df7596ad656c275cfed"
+    },
+    {
+      "key": "f02_audit_replay",
+      "kind": "native",
+      "module": "replay",
+      "factory": "cases",
+      "expected_count": 5,
+      "expected_ids": [
+        "F02_AUDITOR_REPLAY_REVERSE_QC_BS",
+        "F02_AUDITOR_REPLAY_REVERSE_QC_CONTROL",
+        "F02_AUDITOR_REPLAY_REVERSE_RECEIPT_BS",
+        "F02_AUDITOR_REPLAY_REVERSE_REWORK",
+        "F02_AUDITOR_REPLAY_SOURCE_LIMITS"
+      ],
+      "provider_path": "scripts/cp7_f02_audit_replay.py",
+      "provider_sha256": "161c7d92ae9d9f6f021ed180d433c0d2fc25a338f622e27aa875b9cec320ea3d"
+    },
+    {
+      "key": "f02_regressions",
+      "kind": "native",
+      "module": "fixes",
+      "factory": "cases",
+      "expected_count": 8,
+      "expected_ids": [
+        "F02_FIX_NEW_QC_AFTER_REVERSAL",
+        "F02_FIX_NEW_RECEIPT_MIXED_REPLAY",
+        "F02_FIX_HELD_BS_SOURCE_REVERSED",
+        "F02_FIX_ACTIVE_LINEAGE_NEGATIVE",
+        "F02_FIX_ACTIVE_CHILD_CANCELLED_PARENT",
+        "F02_FIX_X06_FORGED_MATCH",
+        "F02_FIX_X06_VERSION_SNAPSHOT",
+        "F02_FIX_X06_SHAPE_CONFIRMATION"
+      ],
+      "provider_path": "scripts/cp7_f02_regression_cases.py",
+      "provider_sha256": "b2ba988e2c38f8359a66ce3e2fb5a5ae3ebef279a8ffc517df07dfc8b2df2988"
+    },
+    {
+      "key": "f02_http",
+      "kind": "http",
+      "module": "fixes",
+      "factory": "http_cases",
+      "expected_count": 1,
+      "expected_ids": [
+        "F02_FIX_HTTP_REVERSED_BS_CURRENT_AUTH"
+      ],
+      "provider_path": "scripts/cp7_f02_regression_cases.py",
+      "provider_sha256": "b2ba988e2c38f8359a66ce3e2fb5a5ae3ebef279a8ffc517df07dfc8b2df2988"
+    }
+  ],
+  "foundations_case_count": 86,
+  "regression_original": {
+    "business": 230,
+    "imports": 31,
+    "values": 65,
+    "AS": 34,
+    "AO_trial": 12,
+    "approved_B_replacements": 5,
+    "C0_separate_replacements": 25
+  },
+  "AR": {
+    "sequential": 146,
+    "races": 28,
+    "BC_expected_change_replacement": 1
+  },
+  "temporal": {
+    "AT": 16,
+    "AT_races": 4,
+    "AU": 15,
+    "AU_races": 6
+  },
+  "changed_context": "preinstalled full final CP7; original AU/AV install entry points verify final stack instead; all original case bodies, quiet-seed and approved-payroll fixtures, oracles and races unchanged",
+  "automatic_rerun": false,
+  "scope": "Native synthetic, no hosted/real data",
+  "production_go": false
+}
