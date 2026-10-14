@@ -1,0 +1,80 @@
+{
+ "format": "CP1_CP2_EVIDENCE_COPY_V1",
+ "purpose": "FABLE-004: CP1/CP2 scripts and evidence in the candidate tree (hashes only, no key, no archive, no business rows)",
+ "copied_byte_for_byte": true,
+ "files": [
+  {
+   "file": "docs/evidence/cp1-cp2/cp1_cp1_fingerprint.sql",
+   "origin_commit": "11e7025d751876833c0325ca2f94a72d31b0246d",
+   "origin_ref": "codex/cp1-revalidation-evidence-20260901",
+   "origin_path": "scripts/cp1_fingerprint.sql",
+   "sha256": "943bf1180e39a898e38aea359a14f1a3459a1e7ad8dde7f35657ced672376509",
+   "bytes": 9721
+  },
+  {
+   "file": "docs/evidence/cp1-cp2/cp1_checkpoint_1_fingerprint.json",
+   "origin_commit": "11e7025d751876833c0325ca2f94a72d31b0246d",
+   "origin_ref": "codex/cp1-revalidation-evidence-20260901",
+   "origin_path": "docs/evidence/2026-09-01/checkpoint_1_fingerprint.json",
+   "sha256": "68f757df58deed4e6d8dcab904ac3e9b7be5822e364f082d56bc11762f119abc",
+   "bytes": 5696
+  },
+  {
+   "file": "docs/evidence/cp1-cp2/cp1_checkpoint_1_revalidation_20260901.json",
+   "origin_commit": "11e7025d751876833c0325ca2f94a72d31b0246d",
+   "origin_ref": "codex/cp1-revalidation-evidence-20260901",
+   "origin_path": "docs/evidence/2026-09-01/checkpoint_1_revalidation_20260901.json",
+   "sha256": "a7fdf4384a7707a950cff552b4b6d7641be817f4303c79fc26c131d113d4bdbf",
+   "bytes": 6875
+  },
+  {
+   "file": "docs/evidence/cp1-cp2/cp1_checkpoint_1_revalidation_20260901.md",
+   "origin_commit": "11e7025d751876833c0325ca2f94a72d31b0246d",
+   "origin_ref": "codex/cp1-revalidation-evidence-20260901",
+   "origin_path": "docs/evidence/2026-09-01/checkpoint_1_revalidation_20260901.md",
+   "sha256": "fe021a5812a9745c898557f006ecb8369f00157fe99c3a621bb0e4ace06f07d6",
+   "bytes": 6236
+  },
+  {
+   "file": "docs/evidence/cp1-cp2/cp2_cp2_generate_catalog_restore.py",
+   "origin_commit": "41bda0f748ebef57155013ea1e2f3dc86602a85a",
+   "origin_ref": "41bda0f7",
+   "origin_path": "scripts/cp2_generate_catalog_restore.py",
+   "sha256": "0766f2fa10225db0e9733f7fa9b59fb55e3bef7d03af1665f569fc7c48f319f1",
+   "bytes": 15198
+  },
+  {
+   "file": "docs/evidence/cp1-cp2/cp2_cp2_verify_local_restore.py",
+   "origin_commit": "41bda0f748ebef57155013ea1e2f3dc86602a85a",
+   "origin_ref": "41bda0f7",
+   "origin_path": "scripts/cp2_verify_local_restore.py",
+   "sha256": "795430b8e56dcffabff75fd2bc9237a8255ef10d24e6b812c468d9909e8c146d",
+   "bytes": 10018
+  },
+  {
+   "file": "docs/evidence/cp1-cp2/cp2_cp2-free-local-restore.yml",
+   "origin_commit": "41bda0f748ebef57155013ea1e2f3dc86602a85a",
+   "origin_ref": "41bda0f7",
+   "origin_path": ".github/workflows/cp2-free-local-restore.yml",
+   "sha256": "54ccce274f0b8358234938691fb50be24c580e38bf0742e45ae566ec37cfc243",
+   "bytes": 10219
+  }
+ ],
+ "cp1": {
+  "algorithm": "CP1_REVALIDATION_V1",
+  "script_sha256": "943bf1180e39a898e38aea359a14f1a3459a1e7ad8dde7f35657ced672376509"
+ },
+ "cp2": {
+  "encrypted_archive_sha256": "f4a7e060b3d9d60b9e04ed6bf2afd3f15e6b8af74f030fb4c11914d070ed75a1",
+  "decrypted_archive_sha256": "e176cac94d78915cb5fd73a065f58150184ee0b37801e6eb70fbc8fcfa29ef53",
+  "cipher": "AES-256-CBC, PBKDF2-HMAC-SHA256, 600000 iterations",
+  "key_values_in_repo": false,
+  "archive_in_repo": false,
+  "writer_record": "docs/cp7/evidence/writer-resume-20261005/CP2_ENCRYPTED_RECOVERY.json"
+ },
+ "independent": {
+  "fable_cp1": "origin/audit/fable-cp1-7-0b7049d9-20261014 @ 1224901f audit/fable_cp17/ADDENDUM_A1_CP1_CP2_20261014.md",
+  "fable_cp2": "origin/audit/fable-cp1-7-0b7049d9-20261014 @ f24c71b8 audit/fable_cp17/ADDENDUM_A2_CP2_RESTORE_20261014.md",
+  "astra": "origin/audit/astra-cp1-7-0b7049d9-20261014 @ be1a5993 audit/astra_cp17/CP1_CP2_EVIDENCE_REVIEW.md"
+ }
+}

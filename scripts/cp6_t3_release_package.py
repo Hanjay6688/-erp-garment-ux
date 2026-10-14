@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""T3 combined release package: the pending migrations AC..AV re-pinned for the hosted-faithful baseline.
+"""T3 combined release package: AC..BF re-pinned for the hosted-faithful baseline (AC..AV from supabase/migrations,
+AW..BF from supabase/release/cp6-t3-src; scripts/cp7_release_copy_check.py rebuilds it read-only and compares).
 
 Owner decision G-01 (23 Sep 2026), option (b): align the test chain with hosted Enteng (done by cp6_g01_align.py) and
 let the combined release package take its pins from the aligned chain; the old migration files stay unchanged and no
@@ -25,7 +26,8 @@ Modes (the chain modes run only on the local disposable clone cp6_rollback, asse
                      replacing exactly one guard pin of its file (LEDGER and AC_VIEW are derived again), and the pins blob
                      sha256 printed by the capture is recorded (and checked when given).
   install OUT.json   install the committed package on the aligned clone at AB, file by file, recording PASS or refusal.
-Label: T3_PREP (not release evidence). Rollback files of the package are NOT_TESTED.
+Label: T3_PREP (not release evidence). The manifest keeps the build-time value rollbacks=NOT_TESTED (its sha256 is pinned);
+the rollbacks were built and cycled afterwards by scripts/cp6_t3_rollback.py (workflow cp6-t3-rollback.yml).
 """
 from pathlib import Path
 import difflib,hashlib,json,os,re,sys,time,traceback
@@ -35,7 +37,7 @@ MIGRATIONS=ROOT/'supabase/migrations'
 RELEASE=ROOT/'supabase/release/cp6-t3'
 META=ROOT/'docs/evidence/cp6-g01/hosted_alignment_metadata.json'
 KEYS=['ac','ad','ae','af','ag','ah','ai','aj','ak','al','am','an','ao','ap','aq','ar','as','at','au','av','aw','ax','ay','az','ba','bb','bc','bd','be','bf']
-# AW, AX, AY, AZ and BA release candidates are built by scripts/cp6_t3_awx_release.py (T1 bodies wrapped with AO..AV guards).
+# AW..BF release candidates are built by scripts/cp6_t3_awx_release.py (T1 bodies wrapped with AO..AV guards).
 SOURCES=ROOT/'supabase/release/cp6-t3-src'
 CLONE='postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback'
 VIEW='erp.v_payroll_nota_browser'

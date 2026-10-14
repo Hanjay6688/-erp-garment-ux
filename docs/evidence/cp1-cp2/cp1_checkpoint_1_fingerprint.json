@@ -1,0 +1,164 @@
+{
+  "checkpoint": 1,
+  "captured_at_utc": "2026-08-31T18:56:13Z",
+  "writer_lock": {
+    "writer": "Chat Sol Pro",
+    "reviewer": "Work Sol Ultra/Max read-only unless TAKEOVER_READY is issued",
+    "concurrent_writer_detected": false,
+    "target_uat": "siimvrusnzxexizpyoib",
+    "legacy_denylist": "vlxdhpkjeevubjxexnfo"
+  },
+  "source": {
+    "repository": "Hanjay6688/-erp-garment-ux",
+    "branch": "main",
+    "commit_sha": "bf3ce8e2821f120d8abd8788daf07f6da7c15459",
+    "tree_sha": "e4377d85b612f5183b4831751de6a735d98a8b6f",
+    "package_version": "0.1.2",
+    "package_lock_blob_sha": "ce03f1fa977c91d14c1886906dcbc1c815b99ac3",
+    "open_pull_requests_at_capture": 0,
+    "main_protected": false
+  },
+  "live": {
+    "worker": "erp-garment-ux",
+    "cloudflare_version_id": "593b5d6f-748a-498b-bf58-a6c7d2263294",
+    "deployed_commit_sha": "bf3ce8e2821f120d8abd8788daf07f6da7c15459",
+    "github_ci": "PASS",
+    "cloudflare_build": "PASS",
+    "runtime_claim": "DEMO_SIMULATION",
+    "business_data_mode": "SIMULATION",
+    "business_rpc_enabled": false
+  },
+  "uat": {
+    "project_name": "ERP Enteng",
+    "project_ref": "siimvrusnzxexizpyoib",
+    "status": "ACTIVE_HEALTHY",
+    "postgres_version": "17.6.1.165",
+    "database_size": "102 MB",
+    "object_counts": {
+      "tables": 142,
+      "views_including_public_facades": 48,
+      "functions_including_public_rpcs": 436,
+      "triggers": 383,
+      "indexes": 419,
+      "constraints": 944,
+      "policies": 190,
+      "columns": 2870,
+      "grants": 3472
+    },
+    "hashes": {
+      "relation": "3ddf572ea3002bd4819c3df74340b72f",
+      "column": "45bf5c073de5648ecd7b5a0e2bb74718",
+      "view": "5151f87571a5c17babcade414f1a459d",
+      "function": "bc07152693e70648e7f1bc13efeb9ee5",
+      "trigger": "529630bfad9c5f164fd7f944adc9f18e",
+      "index": "e187671eb0e97bb33d2eb379a6fbe1c4",
+      "constraint": "761649b57afced46215384477d1c8b9a",
+      "policy": "1e991386cdd4ad37ffac7c456a178823",
+      "grant": "e6b07a07d1c5678412c1abfc387e68d4",
+      "schema_fingerprint": "a0c59b96b3879edd28f3d8c57d0894a3"
+    },
+    "migration": {
+      "platform_count": 55,
+      "platform_latest_version": "20260831032949",
+      "platform_latest_name": "erp_v2_6_13b_auth_profile_facade_tracking",
+      "application_count": 41,
+      "application_latest_version": "v2.6.11a",
+      "release_pointer": "2.6.11"
+    },
+    "runtime_state": {
+      "auth_users": 0,
+      "app_users": 0,
+      "rls_enabled_tables": 142,
+      "rls_disabled_tables": 0,
+      "storage_buckets": 1,
+      "storage_objects": 1,
+      "cron_jobs": 1,
+      "active_cron_jobs": 1,
+      "pending_cost_recalc": 0,
+      "other_nonidle_sessions": 0,
+      "edge_functions_active": 17
+    },
+    "advisor": {
+      "security_critical_or_error": 0,
+      "security_warn": 12,
+      "warning_class": "authenticated SECURITY DEFINER public facade requires intended-role verification",
+      "performance_note": {
+        "foreign_keys": 378,
+        "foreign_keys_without_covering_index_catalog_scan": 254,
+        "indexes": 419,
+        "zero_scan_indexes": 154,
+        "table_heap_size": "992 kB",
+        "index_size": "75 MB"
+      }
+    }
+  },
+  "legacy": {
+    "project_name": "ERP-Garment",
+    "project_ref": "vlxdhpkjeevubjxexnfo",
+    "status": "ACTIVE_HEALTHY",
+    "postgres_version": "17.6.1.155",
+    "database_size": "34 MB",
+    "object_counts": {
+      "tables": 136,
+      "views": 46,
+      "functions": 398,
+      "triggers": 363,
+      "indexes": 399,
+      "constraints": 864,
+      "policies": 184,
+      "columns": 2701,
+      "grants": 3300
+    },
+    "hashes": {
+      "relation": "44af3eca68c35db483dce727de8762a3",
+      "column": "8b3d609efff71e0893a44f3bf0a01458",
+      "view": "786a1629858a80e84d93a1e8cfe163ce",
+      "function": "cbd6a3d9b52f6bfe6ac1ff81669a27fc",
+      "trigger": "723da1604cc54bc4100184aa09914c02",
+      "index": "85feb192f670cfc3d69365d4c050aae4",
+      "constraint": "c65b72e563537f18386a4430b4fcdc70",
+      "policy": "61e7342375c07fd06fcc2db4fa575e06",
+      "grant": "cbb0578aca3a3948bd8b2cd56eaf150b",
+      "schema_fingerprint": "f6ccf0a0155664544273fc41ff7d69af"
+    },
+    "migration": {
+      "platform_count": 272,
+      "platform_latest_version": "20260829204756",
+      "platform_latest_name": "erp_v2_6_11_operational_reservations_and_completion_scope",
+      "application_count": 38,
+      "application_latest_version": "v2.6.9a",
+      "release_pointer": "2.6.1"
+    },
+    "runtime_state": {
+      "auth_users": 0,
+      "app_users": 0,
+      "rls_enabled_tables": 136,
+      "rls_disabled_tables": 0,
+      "storage_buckets": 1,
+      "storage_objects": 1,
+      "cron_jobs": 1,
+      "active_cron_jobs": 1,
+      "pending_cost_recalc": 0,
+      "other_nonidle_sessions": 0,
+      "edge_functions_active": 12
+    },
+    "security_advisor_findings": 0,
+    "mutation_policy": "READ_ONLY_LEGACY_BASELINE"
+  },
+  "known_drift": [
+    "ERP Enteng and ERP-Garment are no longer runtime-equivalent despite stale release notes.",
+    "ERP Enteng contains attendance-period, stock-explainability, manual-reminder and Auth-profile-facade additions.",
+    "Temporary export/install/self-test Edge Functions remain active but inspected examples return HTTP 410 retired_backend_install_artifact.",
+    "Auth platform dashboard settings were not exposed by the connector and were not reverified in Checkpoint 1."
+  ],
+  "status": {
+    "source": "PASS",
+    "uat": "PASS_WITH_KNOWN_DRIFT",
+    "live": "PASS_AS_DEMO",
+    "backend_connected": false,
+    "auth_e2e": "BLOCKED_NOT_YET_EXECUTED",
+    "takeover_ready": true,
+    "checkpoint_2_allowed": true,
+    "production_go": false
+  }
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""T3 rollback of the whole release package, AC..BD: pre-use only, exact restore, reverse order.
+"""T3 rollback of the whole release package, AC..BF: pre-use only, exact restore, reverse order.
 
-AW..BA exist only as files of the combined release package (supabase/release/cp6-t3); each keeps a private rollback
+AW..BF exist only as files of the combined release package (supabase/release/cp6-t3); each keeps a private rollback
 capsule of the functions it replaces and a before/after hash of every erp table and of both ledgers, but the package
 shipped no rollback file for them. This script adds them, the way AO..AV's rollbacks work: closed and drained admission,
 own ledger row with the exact statements sha256 and no successor, the installed catalog pinned, every historical and
@@ -11,19 +11,19 @@ predecessor's catalog, data and ledgers proved again before commit. AC..AV use t
 supabase/rollbacks re-pinned for the release chain by scripts/cp6_t3_rollback_acav.py (independent audit B3).
 
 Modes (database modes run only on the local disposable clone cp6_rollback, asserted by the release applier):
-  capture OUT.json   install the committed package on the aligned clone at AB; around AW..BA, run each file once in a
+  capture OUT.json   install the committed package on the aligned clone at AB; around AW..BF, run each file once in a
                      rolled-back transaction to learn its catalog delta (added, changed and removed objects of the
                      guard's own object query), describe every changed non-function object in the state before, then
                      install it. Prints the capture in the log (T3_ROLLBACK_CAPTURE_CHUNK lines and its sha256).
-  build CAPTURE.json [BLOB_SHA256]  write supabase/release/cp6-t3-rollbacks/*.rollback.sql and ROLLBACKS.json: AW..BA
+  build CAPTURE.json [BLOB_SHA256]  write supabase/release/cp6-t3-rollbacks/*.rollback.sql and ROLLBACKS.json: AW..BF
                      from the committed release files and the capture, AC..AV from the reviewed test-chain rollbacks and
                      the release pins (no database); every delta object must be dropped or restored by a reviewed kind,
                      every catalog pin must map, anything else stops the build.
   cycle OUT.json     install the package (states recorded before and after every file), then: refusals that change
-                     nothing (out of order AZ/AV/AC while BA is installed, open admission); cycle 1: BA..AC rolled back in
+                     nothing (out of order AZ/AV/AC while BF is installed, open admission); cycle 1: BF..AC rolled back in
                      reverse order, each state equal to the one before that file's install, and before each AC..AV
                      variant the original test-chain file refused on the release chain; reinstall (same catalog, ledgers
-                     and rows as the first install); cycle 2: BA..AC again, each state equal, every row included, to the
+                     and rows as the first install); cycle 2: BF..AC again, each state equal, every row included, to the
                      one recorded before that file's reinstall, ending at AB; post-use matrix: each file installed, one
                      committed business transaction (customer receivable opening posted), its rollback refused and
                      nothing changed.
@@ -44,7 +44,7 @@ RELEASE=ROOT/'supabase/release/cp6-t3'
 OUTDIR=ROOT/'supabase/release/cp6-t3-rollbacks'
 CAPTURE=ROOT/'docs/evidence/cp6-t3/rollback_capture.json'
 KEYS=['AW','AX','AY','AZ','BA','BB','BC','BD','BE','BF']
-# AC..AV: release variants of the reviewed test-chain rollbacks (scripts/cp6_t3_rollback_acav.py); AW..BA: built here from
+# AC..AV: release variants of the reviewed test-chain rollbacks (scripts/cp6_t3_rollback_acav.py); AW..BF: built here from
 # the capture. ALL is the whole package in install order.
 ALL=acav.KEYS+KEYS
 # The refusal each rollback gives when its file is not the last one installed (or its ledger row is not the one the
@@ -555,7 +555,7 @@ def business(url,key):
 
 
 def cycle(out):
-    """Refusals, two full rollback cycles BA..AC to AB with exact comparison, and the post-use matrix."""
+    """Refusals, two full rollback cycles BF..AC to AB with exact comparison, and the post-use matrix."""
     import psycopg
     applier=package.Applier(package.CLONE,os.environ['CP6_ADMISSION_CONTROL_PGURL'])
     files=json.loads((RELEASE/'MANIFEST.json').read_text())['files']

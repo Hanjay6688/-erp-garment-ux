@@ -167,7 +167,7 @@ def run(mode):
         assert report['hosted_capsules']['equal'],'T3_CLONE_CAPSULES_NOT_HOSTED'
         advisors_AB=advisors(boundary.PG)
         committed=AUDITOR/'supabase/release/cp6-t3/MANIFEST.json'
-        # AC..AV and the AW/AX/AY/AZ/BA release candidates are all files of the one package; AW..BA T1 verification follows.
+        # AC..AV and the AW..BF release candidates are all files of the one package; verify_awx then runs the AW..BF probes.
         stages=[('PACKAGE',lambda:(package.capture if mode=='capture' else package.install)(OUT/('T3_PACKAGE_FILES_%s.json'%mode.upper()))['status']),
                 ('AW_AX_AY_AZ_VERIFY',lambda:verify_awx())]
         for name,operation in stages:
