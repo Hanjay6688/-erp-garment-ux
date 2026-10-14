@@ -1,0 +1,36 @@
+{
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "reason": "Owner 14 Oct20:27 WIB requests all audit jobs completed; close distinct-period/policy Fable leads and exact CP5 legacy program gap. First executions, no retry of previous business cases.",
+  "oracle_origin": "ASTRA_AFTER_AUTHORIZED_FABLE_EXPOSURE for pool cases; inherited unchanged for CP5 programs",
+  "cases": [
+    {
+      "id": "CP17-ASTRA-POOL-02-DISTINCT-PERIOD-CONSERVATION",
+      "expected": "Two distinct1000 accruals allocate exactly2000 once each, even if destinations shared; no unsupported rule banning all period overlap."
+    },
+    {
+      "id": "CP17-ASTRA-POOL-03-POLICY-AFTER-ACTIVE",
+      "expected": "Relevant dependency refusal or ACTIVE pool still validates after excluded contractor policy insertion."
+    }
+  ],
+  "programs": [
+    "supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql",
+    "supabase/tests/cp5_bs_resolution_recovery_rollback.sql",
+    "supabase/tests/cp5_rework_accessory_lineage_rollback.sql",
+    "scripts/cp5_bs_resolution_concurrency.py"
+  ],
+  "program_business_case_credit": 0,
+  "source_hashes": {
+    "cases_pool_closure.py": "fa0eb15d28a86f5f682e92b389c8e81664a4b1556cfb049fd6afde3c752528e3",
+    "pool_closure.py": "4816ecbf41ff4bf316dbd779bfc6d9ef0b29d41825597616387e8f86e132b42d",
+    "cp5_exact.py": "3d1b6f0e6233c6653eec348c47e0dfce7aa7e0f473aef942972174e99de17ab4"
+  },
+  "production_go": false,
+  "hosted": false,
+  "retry": false,
+  "program_hashes": {
+    "supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql": "f1b5bb04874d86fff8b867780a1d1aa2997371152576ab82b9dfbbfacacedf77",
+    "supabase/tests/cp5_bs_resolution_recovery_rollback.sql": "01f08634191c8df006d372eeb02e6815f444cb5517ec13b9350c28705ef9d5cc",
+    "supabase/tests/cp5_rework_accessory_lineage_rollback.sql": "493776d96578526330db6c2f0aaf595424937ea2b980d19ccfe00efb06d3ed6e",
+    "scripts/cp5_bs_resolution_concurrency.py": "a9f117aa10abf23627fb5f6eacfe5e5d0675fc1461d21786d88994003663b33b"
+  }
+}
