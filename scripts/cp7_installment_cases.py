@@ -97,6 +97,9 @@ def cases(cur,today):
         assert cur.execute('select payroll_status from erp.contractor_material_issue_items where id=%s',(f['item'],)).fetchone()[0]=='SETTLED'
         payment=read(cur,f['payroll'])['payments']['rows'][0]['id'];act(cur,f,'REVERSE_PAYMENT',payment=payment);assert_balance(cur,f,'200','600');assert legacy.journal(cur,f['payroll'],'PAYROLL_MATERIAL_DEDUCTION')==(0,D(0),D(0))
         assert cur.execute('select payroll_status from erp.contractor_material_issue_items where id=%s',(f['item'],)).fetchone()[0]=='ALLOCATED'
+        # The reversed 600 came back to the bank today (reversal_accounting_date); the replacement is paid from it today.
+        # Dated on the original day the bank would be -600 there, which the D14-3 cash guard refuses (job 116038510344).
+        f['payment_date']=str(today)
         act(cur,f,amount='600.00');assert_balance(cur,f,'800','0','PAID');assert legacy.journal(cur,f['payroll'],'PAYROLL_MATERIAL_DEDUCTION')==(2,D(200),D(200))
         assert legacy.change(base,legacy.gl(cur,f['contractor']))=={legacy.acct(cur,'CONTRACTOR_PAYABLE'):D(1000),legacy.acct(cur,'CONTRACTOR_RECEIVABLE'):D(-200),f['cash']['account_id']:D(-800)}
         return dict(status='PASS',gross1000_reserved_material200_net800_cash600_remaining200=True,deduction_reserved_until_final_and_settled_once=True,paid_inverse_reopens_native_reservation_then_repayment_settles_once=True)

@@ -116,7 +116,7 @@ begin
  today:=(statement_timestamp()at time zone 'Asia/Jakarta')::date;
  if cp7_kasbon.access_now(false)is distinct from a then raise exception using errcode='42501',message='CP7_KASBON_ACCESS_CHANGED';end if;
  return jsonb_build_object('contract_version','cp7.kasbon-workspace.v1','contractor',jsonb_build_object('id',c.id,'code',c.contractor_code,
-   'name',c.contractor_name,'row_version',c.row_version::text),
+   'name',c.contractor_name),
   'advances',advances,'payroll_drafts',drafts,'cash_accounts',cash,'open_from',open_from,'today',today,
   'review_token',md5(jsonb_build_object('a',advances,'d',drafts)::text),
   'can_write',erp.has_permission('finance.payroll.pay')is true,'business_DML',false);

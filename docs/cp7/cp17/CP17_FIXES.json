@@ -1,8 +1,8 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 32,
+ "expected_case_count": 33,
  "required_case_counts": {
-  "native": 28,
+  "native": 29,
   "races": 1,
   "http": 3
  },
@@ -35,7 +35,8 @@
    "CP17_DETECTOR_LISTS_LEGACY_ROWS",
    "CP17_KASBON_GIVE_DEDUCT_PAY",
    "CP17_KASBON_LIMITS_REFUSED",
-   "CP17_KASBON_RELEASE_CANCEL_REPLAY"
+   "CP17_KASBON_RELEASE_CANCEL_REPLAY",
+   "CP17_SG03_REWASH_SAME_PRODUCT_NO_VENDOR_BILL"
   ],
   "races": [
    "CP17_RACE_TWO_PAYMENTS_ONE_BANK"
@@ -78,7 +79,8 @@
   "HPP01": "Astra ASTRA-CP17-HPP-01, Fable R1-02",
   "SG02": "Fable/Astra SG-02: no writer records leftover fabric returning to the warehouse",
   "DETECTOR": "Existing rows the dated guards would refuse (Sol SOL-001 hosted data question): cp7_guard.findings(), installer/auditor only",
-  "KASBON": "D14-2 lawful path: a cash kasbon to a contractor, recovered through a payroll deduction"
+  "KASBON": "D14-2 lawful path: a cash kasbon to a contractor, recovered through a payroll deduction",
+  "SG03": "Astra SG-03: rewash of the same product; owner D06 (Lampiran C6 rev4 LAU-06a) = no vendor bill"
  },
  "oracle_independence": "Dates from the Native accrual journals and source rows; balances from journal lines and stock movements; never from the guard functions.",
  "fixture_capital": "Banks that pay hold owner capital through the accepted Native journal (scripts/cp7_cash_funding.py) only where a case says so; empty-bank cases keep the bank empty.",

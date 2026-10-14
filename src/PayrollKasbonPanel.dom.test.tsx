@@ -14,7 +14,7 @@ const bank = '33333333-3333-4333-8333-333333333333', kas = '44444444-4444-4444-8
 const onChanged = vi.fn(async () => true)
 const advance = (extra: Record<string, unknown> = {}) => ({ id: kas, number: 'KB-20261014-ABC123', contractor_id: contractor, advance_date: '2026-10-13', amount: '2500.00',
   status: 'GIVEN', reason: 'Kasbon anak sakit', cash_account_id: bank, recovered: '0.00', reserved: '0.00', free: '2500.00', allocations: [], ...extra })
-const workspace = (advances: unknown[] = []) => ({ contract_version: 'cp7.kasbon-workspace.v1', contractor: { id: contractor, code: 'M01', name: 'Mandor Satu', row_version: '1' },
+const workspace = (advances: unknown[] = []) => ({ contract_version: 'cp7.kasbon-workspace.v1', contractor: { id: contractor, code: 'M01', name: 'Mandor Satu' },
   advances, payroll_drafts: [{ id: payroll, payroll_number: 'PR-1', status: 'CALCULATED', row_version: '3', period_start: '2026-10-01', period_end: '2026-10-15',
     earnings: '6000.00', deduction_total: '0.00', net_payable: '6000.00' }],
   cash_accounts: [{ id: bank, code: 'BC1', name: 'Bank satu', review_token: 'c'.repeat(32), eligible: true }], open_from: '2026-10-01', today: '2026-10-14',

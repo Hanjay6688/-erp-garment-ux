@@ -19,6 +19,8 @@ Locked reports (Fable, Astra, Sol on 0b7049d9) and owner decisions of 15 Oct 202
 - KASBON (D14-6): cash given to a contractor before wages exist (the lawful path D14-2 points to): Dr receivable /
   Cr bank on its date, the bank never negative (D14-3), recovered as a CASH_ADVANCE deduction on a payroll draft that
   the accepted Native payment posts; capped by the kasbon and by the payroll's earnings; cancel only while unused.
+- SG-03 (D06, Lampiran C6 LAU-06a): rewash of the same product at the laundry vendor is free: no vendor payable, no
+  vendor journal line, no rework wage; the pieces come back as goods.
 - SG-02 (D14-4): leftover fabric of a posted cutting goes back to the warehouse: the same roll returns to stock at its
   issue cost, the PO's WIP drops by exactly that value, at most the remainder recorded at cutting, once per cutting.
 Oracles do not come from the guards: dates are read from the Native accrual journals and source rows, balances
@@ -59,7 +61,8 @@ IDS=dict(
             'CP17_HPP01_EXCLUDED_CONTRACTOR_POLICY_REFUSED','CP17_HPP01_UNRELATED_POLICY_CONTROL','CP17_HPP01_CANCEL_POLICY_REPLACEMENT_POOL',
             'CP17_SG02_RETURN_STOCK_VALUE_PO_COST','CP17_SG02_OVER_REMAINDER_REFUSED','CP17_SG02_ONCE_AND_SAME_REQUEST_REPLAY','CP17_SG02_BEFORE_CUT_OR_FUTURE_REFUSED',
             'CP17_DETECTOR_LISTS_LEGACY_ROWS',
-            'CP17_KASBON_GIVE_DEDUCT_PAY','CP17_KASBON_LIMITS_REFUSED','CP17_KASBON_RELEASE_CANCEL_REPLAY'],
+            'CP17_KASBON_GIVE_DEDUCT_PAY','CP17_KASBON_LIMITS_REFUSED','CP17_KASBON_RELEASE_CANCEL_REPLAY',
+            'CP17_SG03_REWASH_SAME_PRODUCT_NO_VENDOR_BILL'],
     races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK'],
     http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED','CP17_HTTP_KASBON_GIVE'],
 )
@@ -517,10 +520,34 @@ def cases(cur,today):
         assert rev==1
         return dict(status='PASS',cancel_while_reserved_refused=used,release_frees_kasbon=True,cancel_reverses_journal=True,same_request_replay_identical=True,bank_back_to_start=True)
 
+    # ------------------------------------------------------------ SG-03 (D06 / LAU-06a): free rewash of the same product
+    def rewash_free():
+        combined,nb=nota.combined,nota.b
+        f=combined.fixture(cur,today);wash=combined.wash(cur,f,range(4),11);combined.finish(cur,f,[wash],range(4),13,bs={3:2});b.api.admin(cur)
+        bs=str(one(cur,"select id from erp.bs_cases where po_id=%s and product_id=%s and status='OPEN'",(f['po'],f['roots'][3])))
+        nb.chain.bs_action(cur,'CLASSIFY_BS',dict(bs_case_id=bs,cause_source='UNKNOWN',components=[dict(work_component_id=combined.prod.COMPONENT,completed_before_bs_qty=0)],
+            change_reason='CP17 cuci ulang produk sama'),nb.chain.version(cur,'bs_cases',bs))
+        b.api.admin(cur);bom=str(one(cur,'select erp.resolve_rework_accessory_bom_v1(%s,%s)',(bs,f['when'](15))))
+        vendor_lines=lambda:one(cur,'select count(*) from erp.journal_lines where vendor_id=%s',(f['vendor'],))
+        vendor_ap=lambda:D(one(cur,"select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where l.vendor_id=%s and l.account_id=erp.account_id('AP_VENDOR') and j.status in('POSTED','REVERSED')",(f['vendor'],)))
+        lines0,ap0=vendor_lines(),vendor_ap()
+        made=nb.chain.bs_action(cur,'SAVE_REWORK',dict(rework_number='CP17-RWASH-'+uuid.uuid4().hex[:10],bs_case_id=bs,destination_type='LAUNDRY',contractor_id=None,vendor_id=f['vendor'],
+            qty_sent=2,physical_sent_at=f['when'](15).isoformat(),status='IN_PROGRESS',return_fg_location_id=combined.base.LOCATION,accessory_bom_version_id=bom,
+            accessory_bom_item_ids=[],components=[],change_reason='CP17 cuci ulang garansi di vendor'))
+        rid=made['result']['rework_order_id']
+        done=nb.chain.bs_action(cur,'COMPLETE_REWORK',dict(rework_order_id=rid,qty_good=2,qty_bs=0,completed_at=f['when'](16).isoformat(),return_fg_location_id=combined.base.LOCATION,
+            change_reason='CP17 cuci ulang selesai'),nb.chain.version(cur,'rework_orders',rid));b.api.admin(cur)
+        assert vendor_lines()==lines0 and vendor_ap()==ap0,('CP17_SG03_VENDOR_MONEY',vendor_lines(),lines0,vendor_ap(),ap0)
+        assert one(cur,'select count(*) from erp.journal_entries where source_id=%s',(rid,))==0,'CP17_SG03_REWORK_JOURNAL'
+        assert one(cur,'select count(*) from erp.rework_component_lines where rework_order_id=%s',(rid,))==0
+        lot=done['result'].get('good_fg_lot_id');assert lot and one(cur,'select product_id::text from erp.fg_lots where id=%s',(lot,))==str(f['roots'][3])
+        return dict(status='PASS',rewash_same_product=True,vendor_payable_unchanged=str(ap0),vendor_journal_lines_unchanged=lines0,no_rework_wage=True,
+                    good_pieces_back_as_same_product=2,owner_decision='D06 / Lampiran C6 LAU-06a')
+
     named=[full_attendance,work_only,installment,direct_native,empty_bank,exact_zero,backdate,later_day,payroll_empty,laundry_empty,
            claim_control,claim_before_source,claim_ap_not_available,stock_card,rework_scrap,rework_good,rework_open,
            hpp_excluded,hpp_unrelated,hpp_replacement,fabric_return,fabric_over,fabric_once,fabric_dates,legacy_findings,
-           kasbon_cycle,kasbon_limits,kasbon_release]
+           kasbon_cycle,kasbon_limits,kasbon_release,rewash_free]
     assert len(named)==REQUIRED['native']
     return list(zip(IDS['native'],named))
 
