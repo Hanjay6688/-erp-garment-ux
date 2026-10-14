@@ -1,0 +1,30 @@
+name: AUDIT SOL CP1-7 CodeQL binding
+run-name: AUDIT/cp1-7-20261014/SOL/0b7049d9/codeql-binding-qualified
+on:
+  push:
+    branches: [audit/sol-cp1-7-0b7049d9-20261014]
+    paths: [.github/workflows/audit-sol-codeql-binding-qualified.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  qualify-original-sarif:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 0b7049d9203bac52b47a4c89f3e0d75646067a8f
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: sol
+      - name: Bind original four scan artifacts without rescanning
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python sol/audit/sol_cp1_7/codeql_bind.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cp1-7-20261014-SOL-0b7049d9-codeql-binding-qualified
+          path: cp6-codeql
+          retention-days: 30
