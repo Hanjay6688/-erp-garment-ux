@@ -1,5 +1,6 @@
 // CP17 browser cases on the Bagi Potongan page, real Auth and PostgREST on the committed copy:
-// SG-01 reverse a posted pickup before sewing (desktop), SG-02 fabric back to the warehouse (phone).
+// SG-01 reverse a posted pickup before sewing (desktop), SG-02 fabric back to the warehouse (phone); and the
+// D14-6 kasbon on the Payroll & Kasbon page (give from a funded bank, cut from the Mandor's payroll draft).
 import assert from'node:assert/strict'
 import{execFileSync}from'node:child_process'
 import{mkdirSync,writeFileSync}from'node:fs'
@@ -62,4 +63,40 @@ async function fabricReturn(ui,today){
  }catch(error){let actual;try{actual=state()}catch(e){actual={observation_error:String(e)}};await failure(page,name,error,actual,requests);throw error}
  finally{await user.context.close()}
 }
-export function cases(ui,today){return[['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP',()=>pickupReversal(ui,today)],['CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE',()=>fabricReturn(ui,today)]]}
+async function kasbon(ui,today){
+ const f=fixture('kasbon',{today}),user=await ui.login('OWNER',{label:'cp17-kasbon'}),page=user.page,requests=[],name='CP17_KASBON_GIVE_DEDUCT_DESKTOP'
+ const state=()=>fixture('kasbon_state',f)
+ page.on('request',r=>{if(r.url().endsWith('/rpc/erp_cp7_save_kasbon_v1'))requests.push(r.postDataJSON())})
+ try{
+  mkdirSync('cp6-proof/t3',{recursive:true});const before=state();assert.equal(before.advances.length,0);assert.deepEqual(before.payroll,['CALCULATED','0.00','6000.00'])
+  const open=page.getByRole('button',{name:'Buka menu',exact:true});if(await open.isVisible())await open.click()
+  const link=page.getByRole('button',{name:'• Payroll & Kasbon',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Keuangan'}).click();await link.click()
+  const list=page.locator('.cpay');await list.getByLabel('Cari payroll',{exact:true}).fill(f.label);await list.getByRole('button',{name:'Cari payroll',exact:true}).click()
+  await ui.expect(list.locator('.cproc-receipt')).toHaveCount(1);await list.locator('.cproc-receipt').click()
+  const panel=page.getByRole('region',{name:'Kasbon tunai',exact:true})
+  await panel.getByRole('button',{name:'Lihat kasbon mandor ini',exact:true}).click();await ui.expect(panel).toContainText('Mandor ini belum punya kasbon.')
+  // Give 2500 from the funded bank, dated today (WIB): money leaves the bank, the Mandor owes it.
+  await panel.getByRole('button',{name:'Beri kasbon',exact:true}).click()
+  const form=panel.getByRole('region',{name:'Periksa kasbon',exact:true})
+  await form.getByLabel('Nominal kasbon',{exact:true}).fill('2500');await form.getByLabel('Rekening kasbon',{exact:true}).selectOption(f.bank)
+  await form.getByLabel('Alasan kasbon',{exact:true}).fill('Kasbon tunai untuk kebutuhan mandor');await form.getByLabel('Kasbon sudah diperiksa',{exact:true}).check()
+  assert.deepEqual(state(),before);assert.equal(requests.length,0)
+  await page.screenshot({path:`cp6-proof/t3/${name}_GIVE_REVIEW.png`,fullPage:true})
+  await form.getByRole('button',{name:'Simpan kasbon',exact:true}).click()
+  await ui.expect(panel.getByRole('status').filter({hasText:/Kasbon KB-.* Rp2\.500,00 tercatat\./})).toBeVisible()
+  const given=state();assert.equal(given.advances.length,1);assert.deepEqual(given.advances[0].slice(1,3),['2500.00','GIVEN'])
+  assert.equal(Number(given.bank)-Number(before.bank),-2500);assert.equal(Number(given.receivable)-Number(before.receivable),2500);assert.equal(given.kasbon_journals,1)
+  assert.deepEqual(given.payroll,before.payroll);assert.equal(requests.length,1);assert.equal(requests[0].p_action,'GIVE');assert.equal(requests[0].p_payload.amount,'2500.00')
+  // Cut it from this Mandor's payroll draft: prefilled with what the kasbon and the payroll can take.
+  await panel.getByRole('button',{name:'Potong dari payroll '+f.payroll_number,exact:true}).click()
+  await ui.expect(form.getByLabel('Nominal kasbon',{exact:true})).toHaveValue('2500.00')
+  await form.getByLabel('Kasbon sudah diperiksa',{exact:true}).check();await form.getByRole('button',{name:'Simpan potongan kasbon',exact:true}).click()
+  await ui.expect(panel.getByRole('status').filter({hasText:/Sisa kasbon Rp0,00\./})).toBeVisible()
+  const cut=state();assert.deepEqual(cut.payroll.slice(1),['2500.00','3500.00']);assert.ok(['DRAFT','CALCULATED','REVIEW'].includes(cut.payroll[0]),cut.payroll[0]);assert.equal(cut.links,1);assert.equal(cut.bank,given.bank);assert.equal(cut.receivable,given.receivable)
+  assert.equal(requests.length,2);assert.equal(requests[1].p_action,'ALLOCATE');assert.equal(requests[1].p_payload.payroll_id,f.payroll)
+  await noSideScroll(ui,page);await page.screenshot({path:`cp6-proof/t3/${name}_COMMITTED.png`,fullPage:true})
+  return{status:'PASS',kasbon:'2500.00',bank_down_by:2500,mandor_owes:2500,one_journal:true,payroll_net_before:'6000.00',deducted:'2500.00',payroll_net_after:'3500.00',saved_message_kept_after_reload:true,requests:2,owner_decision:'D14-6'}
+ }catch(error){let actual;try{actual=state()}catch(e){actual={observation_error:String(e)}};await failure(page,name,error,actual,requests);throw error}
+ finally{await user.context.close()}
+}
+export function cases(ui,today){return[['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP',()=>pickupReversal(ui,today)],['CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE',()=>fabricReturn(ui,today)],['CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP',()=>kasbon(ui,today)]]}

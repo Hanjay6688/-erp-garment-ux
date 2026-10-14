@@ -1,11 +1,12 @@
-"""CP17 browser fixtures (SG-01 pickup reversal, SG-02 fabric return) in the disposable browser database only.
+"""CP17 browser fixtures (SG-01 pickup reversal, SG-02 fabric return, D14-6 kasbon) in the disposable browser database only.
 
-The same Native-writer fixtures as the native CP17 cases (cp7_cp17_fix_cases.pickup_fixture / fabric_fixture); the state
+The same Native-writer fixtures as the native CP17 cases (cp7_cp17_fix_cases.pickup_fixture / fabric_fixture, the
+settlement review payroll and a funded bank for kasbon); the state
 readback is direct SQL on the rows the screens change, never the CP7 command's own answer.
 """
 from datetime import date
 from urllib.parse import urlparse
-import json,os,sys
+import json,os,sys,uuid
 import psycopg
 import cp7_cp17_fix_cases as cases
 
@@ -41,6 +42,19 @@ def main():
                      returns=one("select count(*) from erp.material_stock_movements where source_type='CUTTING_GROUP_RETURN' and source_id=%s",(p['group'],))[0],
                      return_posted=one('select material_return_posted from erp.cutting_groups where id=%s',(p['group'],))[0],
                      history=one('select count(*) from cp7_cutting_correction.return_history where group_id=%s',(p['group'],))[0])
+        elif operation=='kasbon':
+            # A work-only payroll draft (6000.00, Native Nota) for a fresh Mandor and a bank holding owner capital.
+            f=cases.s.review.fixture(cur,date.fromisoformat(p['today']));bank=cases.s.cash(cur);cases.b.api.admin(cur)
+            label='Mandor Kasbon '+uuid.uuid4().hex[:8]
+            cur.execute('update erp.contractors set contractor_name=%s where id=%s',(label,f['contractor']))
+            out=dict(contractor=str(f['contractor']),payroll=str(f['payroll']),bank=str(bank),label=label,
+                     payroll_number=one('select payroll_number from erp.payroll_settlements where id=%s',(f['payroll'],))[0])
+        elif operation=='kasbon_state':
+            advances=cur.execute('select number,amount::text,status,advance_date::text from cp7_kasbon.advances where contractor_id=%s order by created_at',(p['contractor'],)).fetchall()
+            pay=one('select status,deduction_total::text,net_payable::text from erp.payroll_settlements where id=%s',(p['payroll'],))
+            out=dict(advances=[list(a) for a in advances],payroll=list(pay),bank=str(cases.balance(cur,p['bank'])),receivable=str(cases.receivable(cur,p['contractor'])),
+                     links=one('select count(*) from cp7_kasbon.deduction_links where payroll_id=%s',(p['payroll'],))[0],
+                     kasbon_journals=one("select count(*) from erp.journal_entries j join cp7_kasbon.advances a on a.journal_id=j.id where a.contractor_id=%s and j.status='POSTED'",(p['contractor'],))[0])
         else:raise ValueError('Unknown CP17 browser fixture operation')
         cases.b.api.admin(cur)
         if not had:cur.execute('revoke usage on schema erp from authenticated')

@@ -1,11 +1,11 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 38,
+ "expected_case_count": 39,
  "required_case_counts": {
   "native": 31,
   "races": 1,
   "http": 4,
-  "browser": 2
+  "browser": 3
  },
  "required_case_ids": {
   "native": [
@@ -52,7 +52,8 @@
   ],
   "browser": [
    "CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP",
-   "CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE"
+   "CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE",
+   "CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP"
   ]
  },
  "public_rpcs": [

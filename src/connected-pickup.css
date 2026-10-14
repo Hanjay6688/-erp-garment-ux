@@ -15,16 +15,18 @@
 .connected-pickup-page .record-tools .connected-pattern-filter>small[role="alert"]{color:#ffb4a8}
 .connected-pickup-page .record-tools .connected-pattern-filter>label{border-color:var(--line);background:var(--panel-2);color:var(--text)}
 .connected-pickup-page .record-tools .connected-pattern-filter input{padding:0;border:0;background:transparent}
-/* This correction surface stays readable after its light owning workspace
-   retires. It must not inherit that workspace's dark text on the dark panel. */
-.connected-pickup-page .cp7-cutting-correction{display:grid;gap:12px;min-width:0;background:var(--panel);color:var(--text);line-height:1.5}
-.cp7-cutting-correction>header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
-.cp7-cutting-correction h2,.cp7-cutting-correction p{margin:0}
-.cp7-cutting-correction>label{display:grid;gap:6px;color:var(--soft)}
-.cp7-cutting-correction input:not([type="checkbox"]){width:100%;min-width:0;border:1px solid var(--line);border-radius:8px;background:var(--panel-2);color:var(--text);padding:9px}
-.cp7-cutting-correction .cproc-check{display:flex;align-items:center;gap:10px}
-.cp7-cutting-correction input[type="checkbox"]{width:18px;height:18px;min-height:18px;flex:0 0 18px;margin:0;padding:0}
-.cp7-cutting-correction button{border:1px solid var(--line);border-radius:8px;background:var(--panel-2);color:var(--text);padding:9px 12px;cursor:pointer}
-.cp7-cutting-correction button:disabled{opacity:.5;cursor:not-allowed}
+/* These correction surfaces (cutting correction, fabric back to the warehouse, Bagi Potongan reversal) stay
+   readable after their light owning workspace retires: no dark workspace text on the dark panel. min-width:0 keeps
+   a wide roll table scrolling inside its own box, so the page never grows wider than a phone screen. */
+.connected-pickup-page :is(.cp7-cutting-correction,.cp7-cutting-return,.cp7-pickup-reversal){display:grid;gap:12px;min-width:0;background:var(--panel);color:var(--text);line-height:1.5}
+:is(.cp7-cutting-correction,.cp7-cutting-return,.cp7-pickup-reversal)>header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+:is(.cp7-cutting-correction,.cp7-cutting-return,.cp7-pickup-reversal) h2,:is(.cp7-cutting-correction,.cp7-cutting-return,.cp7-pickup-reversal) p{margin:0}
+:is(.cp7-cutting-correction,.cp7-cutting-return,.cp7-pickup-reversal)>label{display:grid;gap:6px;color:var(--soft)}
+:is(.cp7-cutting-correction,.cp7-cutting-return,.cp7-pickup-reversal) input:not([type="checkbox"]){width:100%;min-width:0;border:1px solid var(--line);border-radius:8px;background:var(--panel-2);color:var(--text);padding:9px}
+:is(.cp7-cutting-correction,.cp7-cutting-return,.cp7-pickup-reversal) .cproc-check{display:flex;align-items:center;gap:10px}
+:is(.cp7-cutting-correction,.cp7-cutting-return,.cp7-pickup-reversal) input[type="checkbox"]{width:18px;height:18px;min-height:18px;flex:0 0 18px;margin:0;padding:0}
+:is(.cp7-cutting-correction,.cp7-cutting-return,.cp7-pickup-reversal) button{border:1px solid var(--line);border-radius:8px;background:var(--panel-2);color:var(--text);padding:9px 12px;cursor:pointer}
+:is(.cp7-cutting-correction,.cp7-cutting-return,.cp7-pickup-reversal) button:disabled{opacity:.5;cursor:not-allowed}
+:is(.cp7-cutting-return,.cp7-pickup-reversal) .cpick-table-wrap{min-width:0;max-width:100%;padding:0}:is(.cp7-cutting-return,.cp7-pickup-reversal) .cpick-table-wrap tfoot th{background:var(--panel-2);color:var(--text)}:is(.cp7-cutting-return,.cp7-pickup-reversal) .cpick-table-wrap table{min-width:0}:is(.cp7-cutting-return,.cp7-pickup-reversal) .cpick-table-wrap tbody th{overflow-wrap:anywhere}:is(.cp7-cutting-return,.cp7-pickup-reversal) .cpick-table-wrap :is(td,tfoot th):last-child{white-space:nowrap}:is(.cp7-cutting-return,.cp7-pickup-reversal) .cpick-table-wrap td input{width:72px}
 @media(max-width:1050px){.cpick-layout{grid-template-columns:1fr}.cpick-queue{position:static;max-height:300px}.cpick-setup{grid-template-columns:1fr 1fr}.cpick-notes{grid-template-columns:1fr 1fr}.cpick-facts{grid-template-columns:1fr 1fr}}
 @media(max-width:650px){.cpick-hero{align-items:flex-start}.cpick-truth{flex-wrap:wrap}.cpick-truth span{width:100%;margin-left:22px}.cpick-tabs button{flex:1}.cpick-setup,.cpick-notes{grid-template-columns:1fr}.cpick-reconcile{grid-template-columns:repeat(3,1fr)}.cpick-reconcile p{grid-column:1/-1}.cpick-actions{align-items:stretch;flex-direction:column}.cpick-actions>div{display:grid}.cpick-actions button{justify-content:center}}
