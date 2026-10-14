@@ -10,9 +10,12 @@ Locked reports (Fable, Astra, Sol on 0b7049d9) and owner decisions of 15 Oct 202
 - STK01 (Astra): after REOPEN and re-POST of a cutting on its own day, the stock card never shows the old and the
   new issue as two active consumptions.
 - RWK01 (Astra/Fable): a rework wage accrued at completion stays payable when the BS case ends SCRAPPED, exactly
-  once; a case without a final outcome (PARTIAL) stays unpayable as before.
+  once; a case without a final outcome (OPEN after an all-BS return, PARTIAL after a partial disposal) stays
+  unpayable as before.
 - HPP01 (Astra/Fable): a contractor HPP policy write that would leave an ACTIVE attendance HPP pool on a stale basis
   is refused; an unrelated policy is not; cancel pool -> policy -> replacement pool is the lawful path.
+- Detector: cp7_guard.findings() lists rows already in the books that the guards would refuse today (data from
+  before the guards), and a lawful correction (owner capital on that day) clears the cash row.
 - SG-02 (D14-4): leftover fabric of a posted cutting goes back to the warehouse: the same roll returns to stock at its
   issue cost, the PO's WIP drops by exactly that value, at most the remainder recorded at cutting, once per cutting.
 Oracles do not come from the guards: dates are read from the Native accrual journals and source rows, balances
@@ -50,7 +53,8 @@ IDS=dict(
             'CP17_STK01_REOPEN_REPOST_CARD_NOT_NEGATIVE',
             'CP17_RWK01_ALL_SCRAP_REWORK_PAYABLE_ONCE','CP17_RWK01_GOOD_CONTROL','CP17_RWK01_UNFINISHED_CASE_STILL_HELD',
             'CP17_HPP01_EXCLUDED_CONTRACTOR_POLICY_REFUSED','CP17_HPP01_UNRELATED_POLICY_CONTROL','CP17_HPP01_CANCEL_POLICY_REPLACEMENT_POOL',
-            'CP17_SG02_RETURN_STOCK_VALUE_PO_COST','CP17_SG02_OVER_REMAINDER_REFUSED','CP17_SG02_ONCE_AND_SAME_REQUEST_REPLAY','CP17_SG02_BEFORE_CUT_OR_FUTURE_REFUSED'],
+            'CP17_SG02_RETURN_STOCK_VALUE_PO_COST','CP17_SG02_OVER_REMAINDER_REFUSED','CP17_SG02_ONCE_AND_SAME_REQUEST_REPLAY','CP17_SG02_BEFORE_CUT_OR_FUTURE_REFUSED',
+            'CP17_DETECTOR_LISTS_LEGACY_ROWS'],
     races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK'],
     http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED'],
 )
@@ -271,10 +275,16 @@ def cases(cur,today):
         posted,again=paid_once(r)
         return dict(status='PASS',bs_case='RESOLVED',accrued_rework_wage=60,on_one_Nota=posted['payroll_id'],second_Nota_refused=again)
     def rework_open():
-        r=rework('OPEN');assert r['status']=='PARTIAL',r['status']
-        assert r['cards']()==[];b.api.admin(cur)
-        assert one(cur,"select count(*) from erp.v_payroll_eligible_work_lines where source_type='REWORK' and bs_case_id=%s",(r['bs'],))==0
-        return dict(status='PASS',bs_case='PARTIAL',accrued=60,not_yet_on_a_Nota=True,rule='only final outcomes RESOLVED/SCRAPPED/WRITTEN_OFF are payable (owner decision pending for PARTIAL/ON_HOLD)')
+        # An all-BS return with nothing resolved is OPEN (canonical reducer erp.refresh_bs_case_status; the CP5 proof
+        # cp5_bs_resolution_recovery_rollback.sql requires OPEN, not the legacy PARTIAL). Disposing 1 of 2 makes it PARTIAL.
+        r=rework('OPEN');assert r['status']=='OPEN',r['status']
+        eligible=lambda:one(cur,"select count(*) from erp.v_payroll_eligible_work_lines where source_type='REWORK' and bs_case_id=%s",(r['bs'],))
+        assert r['cards']()==[];b.api.admin(cur);assert eligible()==0
+        nota.b.chain.bs_action(cur,'DISPOSE_BS',dict(bs_case_id=r['bs'],resolution_type='SCRAP',qty_pcs=1,compensation_amount=0,source_laundry_claim_id=None,
+            physical_at=r['f']['when'](17).isoformat(),change_reason='CP17 satu dari dua potong dibuang'),nota.b.chain.version(cur,'bs_cases',r['bs']))
+        b.api.admin(cur);assert one(cur,'select status from erp.bs_cases where id=%s',(r['bs'],))=='PARTIAL'
+        assert r['cards']()==[];b.api.admin(cur);assert eligible()==0
+        return dict(status='PASS',bs_case=['OPEN','PARTIAL'],accrued=60,not_yet_on_a_Nota=True,rule='only final outcomes RESOLVED/SCRAPPED/WRITTEN_OFF are payable (owner decision pending for PARTIAL/ON_HOLD)')
 
     # ------------------------------------------------------------ HPP01 (Astra/Fable); fixture after Astra's pool witness
     day=today-timedelta(days=1)
@@ -406,9 +416,35 @@ def cases(cur,today):
         assert datetime.fromisoformat(r['returned_at'])==cut_at and one(cur,"select (j.economic_date=(%s::timestamptz at time zone 'Asia/Jakarta')::date) from erp.journal_entries j where j.source_type='CUTTING_MATERIAL_RETURN_LINE' and j.source_id=%s",(cut_at.isoformat(),w['rolls'][0]['cutting_group_roll_id']))
         return dict(status='PASS',one_minute_before_cut_refused=early,tomorrow_refused=future,at_cut_time_returned_and_journal_on_WIB_day=True)
 
+    # ------------------------------------------------------------ Detector: rows in the books from before the guards
+    def legacy_findings():
+        def without(trigger,table,action):
+            b.api.admin(cur);cur.execute('alter table erp.'+table+' disable trigger '+trigger)
+            try:return action()
+            finally:b.api.admin(cur);cur.execute('alter table erp.'+table+' enable trigger '+trigger)
+        def found(kind,subject):
+            b.api.admin(cur)
+            return [r for r in cur.execute('select kind,subject_id::text,on_day,amount,floor_day from cp7_guard.findings()').fetchall() if r[0]==kind and r[1]==subject]
+        # A supplier payment of 7.00 out of an empty bank, as data posted before the guard would hold it.
+        f=pay.fixture(cur,today);p=pay.payload(cur,f,'7.00');without('cp7_guard_cash_not_negative','journal_lines',lambda:pay.command(cur,p))
+        pay_day=one(cur,"select max(j.economic_date) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id join erp.cash_accounts c on c.coa_account_id=l.account_id where c.id=%s",(f['cash'],))
+        cash=found('CASH_NEGATIVE',f['cash']);assert cash==[('CASH_NEGATIVE',f['cash'],pay_day,D('-7'),None)],cash
+        # A payroll paid one day before its accrual through the direct Native call.
+        g,pid,net=approved_payroll(cur,today);day=accrued_day(cur,g['contractor']);early=day-timedelta(days=1)
+        bank=s.cash(cur,None);funding.fund(cur,bank,net,early);b.api.admin(cur)
+        cur.execute('update erp.payroll_settlements set payment_date=%s,payment_cash_account_id=%s where id=%s',(early,bank,pid))
+        without('cp7_payroll_paid_date_guard','payroll_settlements',lambda:bc.internal(cur,'post_payroll_payment',pid))
+        paid=found('PAYROLL_PAID_BEFORE_ACCRUAL',pid);assert paid==[('PAYROLL_PAID_BEFORE_ACCRUAL',pid,early,None,day)],paid
+        # Owner capital dated on the payment day clears the cash row; the early payroll stays listed.
+        funding.fund(cur,f['cash'],'7.00',pay_day)
+        assert found('CASH_NEGATIVE',f['cash'])==[] and found('PAYROLL_PAID_BEFORE_ACCRUAL',pid)
+        assert not any(cur.execute("select has_function_privilege(r,'cp7_guard.findings()','EXECUTE') from unnest(array['anon','authenticated','service_role']) r").fetchall()[i][0] for i in range(3))
+        return dict(status='PASS',empty_bank_payment_listed=dict(day=str(pay_day),lowest='-7.00'),early_payroll_listed=dict(paid=str(early),accrued=str(day)),
+                    capital_on_that_day_clears_cash_row=True,detector_owner_only=True)
+
     named=[full_attendance,work_only,installment,direct_native,empty_bank,exact_zero,backdate,later_day,payroll_empty,laundry_empty,
            claim_control,claim_before_source,claim_ap_not_available,stock_card,rework_scrap,rework_good,rework_open,
-           hpp_excluded,hpp_unrelated,hpp_replacement,fabric_return,fabric_over,fabric_once,fabric_dates]
+           hpp_excluded,hpp_unrelated,hpp_replacement,fabric_return,fabric_over,fabric_once,fabric_dates,legacy_findings]
     assert len(named)==REQUIRED['native']
     return list(zip(IDS['native'],named))
 

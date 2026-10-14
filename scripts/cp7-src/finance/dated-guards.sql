@@ -56,16 +56,22 @@ end $$;
 create trigger cp7_guard_cash_not_negative after insert on erp.journal_lines
  for each row when(new.credit>0) execute function cp7_guard.guard_cash_line();
 
+-- Earliest lawful settlement day of a laundry claim: its own WIB opening day, its
+-- delivery's and its receipt's WIB physical days (the latest of those that exist).
+create function cp7_guard.laundry_claim_floor(p_opened timestamptz,p_delivery uuid,p_receipt_line uuid) returns date
+language sql stable security definer set search_path='' as $$
+ select max(d) from(
+  select (p_opened at time zone 'Asia/Jakarta')::date d
+  union all select (ld.physical_at at time zone 'Asia/Jakarta')::date from erp.laundry_deliveries ld where ld.id=p_delivery
+  union all select (lr.physical_at at time zone 'Asia/Jakarta')::date from erp.laundry_receipt_lines l
+   join erp.laundry_receipts lr on lr.id=l.receipt_id where l.id=p_receipt_line) x $$;
+
 create function cp7_guard.guard_laundry_claim_date() returns trigger
 language plpgsql volatile security definer set search_path='' as $$
 declare v_floor date;v_min numeric;
 begin
  if new.status<>'SETTLED' or old.status is not distinct from new.status then return new;end if;
- select max(d) into v_floor from(
-  select (new.opened_at at time zone 'Asia/Jakarta')::date d
-  union all select (ld.physical_at at time zone 'Asia/Jakarta')::date from erp.laundry_deliveries ld where ld.id=new.delivery_id
-  union all select (lr.physical_at at time zone 'Asia/Jakarta')::date from erp.laundry_receipt_lines l
-   join erp.laundry_receipts lr on lr.id=l.receipt_id where l.id=new.receipt_line_id) x;
+ v_floor:=cp7_guard.laundry_claim_floor(new.opened_at,new.delivery_id,new.receipt_line_id);
  if new.resolution_date is null or (v_floor is not null and new.resolution_date<v_floor) then
   raise exception 'CP7_LAUNDRY_CLAIM_BEFORE_SOURCE: klaim % diselesaikan tanggal %, sebelum klaim/sumbernya ada (%).',new.claim_number,new.resolution_date,v_floor;
  end if;
@@ -81,6 +87,43 @@ end $$;
 
 create trigger cp7_guard_laundry_claim_date before update of status on erp.laundry_claims
  for each row execute function cp7_guard.guard_laundry_claim_date();
+
+-- Detector (read only): rows already in the books that the guards above would refuse
+-- today, e.g. data posted before the guards were installed. Same rules as the guards:
+--  CASH_NEGATIVE: a cash/bank ledger account whose balance is below zero on some day
+--   (first such day, lowest balance);
+--  PAYROLL_PAID_BEFORE_ACCRUAL: a PAID payroll dated before its latest payable source
+--   (cp7_payroll.payment_floor, the rule of the payment-date guard);
+--  LAUNDRY_CLAIM_BEFORE_SOURCE / LAUNDRY_CLAIM_AP_NEGATIVE: a SETTLED claim dated before
+--   its claim/source, or whose compensation leaves the vendor's dated payable below zero.
+-- Owned by postgres and executable by nobody else: the installer/auditor runs it.
+create function cp7_guard.findings()
+returns table(kind text,subject_id uuid,label text,on_day date,amount numeric,floor_day date)
+language sql stable security definer set search_path='' as $$
+ with banks as(
+  select distinct on(c.coa_account_id) c.coa_account_id account_id,c.id,c.cash_account_code||' · '||c.cash_account_name label
+  from erp.cash_accounts c order by c.coa_account_id,c.id),
+ days as(
+  select b.id,b.label,d.on_day,sum(d.delta) over(partition by b.id order by d.on_day) running
+  from banks b join lateral(
+   select je.economic_date on_day,sum(jl.debit-jl.credit) delta
+   from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
+   where jl.account_id=b.account_id and je.status in('POSTED','REVERSED') group by je.economic_date) d on true)
+ select 'CASH_NEGATIVE'::text,id,label,min(on_day) filter(where running<0),min(running),null::date
+ from days group by id,label having min(running)<0
+ union all
+ select 'PAYROLL_PAID_BEFORE_ACCRUAL',p.id,p.payroll_number,p.payment_date,null::numeric,f.floor_day
+ from erp.payroll_settlements p cross join lateral(select cp7_payroll.payment_floor(p.id) floor_day) f
+ where p.status='PAID' and p.payment_date<f.floor_day
+ union all
+ select 'LAUNDRY_CLAIM_BEFORE_SOURCE',c.id,c.claim_number,c.resolution_date,c.compensation_amount,f.floor_day
+ from erp.laundry_claims c cross join lateral(select cp7_guard.laundry_claim_floor(c.opened_at,c.delivery_id,c.receipt_line_id) floor_day) f
+ where c.status='SETTLED' and (c.resolution_date is null or c.resolution_date<f.floor_day)
+ union all
+ select 'LAUNDRY_CLAIM_AP_NEGATIVE',c.id,c.claim_number,c.resolution_date,m.lowest,null::date
+ from erp.laundry_claims c cross join lateral(select cp7_guard.min_vendor_ap_from(c.vendor_id,c.resolution_date) lowest) m
+ where c.status='SETTLED' and c.compensation_amount>0 and c.resolution_date is not null and m.lowest<0
+ order by 1,4,3 $$;
 
 do $own$ declare r record;begin
  for r in select p.oid::regprocedure sig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_guard' loop

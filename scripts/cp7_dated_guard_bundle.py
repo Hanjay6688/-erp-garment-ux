@@ -1,5 +1,7 @@
 """CP1–CP7 audit fixes on dated balances: cash never negative (D14-3) and laundry
 claim settlement never before its source or the vendor's dated payable (FIN02).
+cp7_guard.findings() lists rows already in the books that these rules (and the payroll
+payment-date guard) would refuse today, for the installer/auditor; nobody else may run it.
 
 Installed last in the F03 composition. The accepted native writers keep their
 exact definitions; the guards are triggers on the native rows every writer touches.
@@ -9,7 +11,8 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 ROLE='cp7_guard'
 RULES={'min_debit_balance_from':('postgres',True,'s'),'min_vendor_ap_from':('postgres',True,'s'),
-       'guard_cash_line':('postgres',True,'v'),'guard_laundry_claim_date':('postgres',True,'v')}
+       'guard_cash_line':('postgres',True,'v'),'guard_laundry_claim_date':('postgres',True,'v'),
+       'laundry_claim_floor':('postgres',True,'s'),'findings':('postgres',True,'s')}
 TRIGGERS={('cp7_guard_cash_not_negative','journal_lines'),('cp7_guard_laundry_claim_date','laundry_claims')}
 
 def extension():return (ROOT/'scripts/cp7-src/finance/dated-guards.sql').read_text()
