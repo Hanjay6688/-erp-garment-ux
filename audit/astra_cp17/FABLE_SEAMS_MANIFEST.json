@@ -1,0 +1,22 @@
+{
+  "created_utc": "2026-10-14T12:57:11.705469+00:00",
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "lead_origin": "Fable draft R3-01 and R3-08 at 1826aec19595c0e78f7a26107d77e0c445c94408",
+  "blind_discovery": false,
+  "oracle_origin": "ASTRA_AFTER_AUTHORIZED_EXPOSURE",
+  "case_ids": [
+    "CP17-ASTRA-R3-01-REWORK-GOOD-CONTROL",
+    "CP17-ASTRA-R3-02-REWORK-ALL-BS-SCRAP",
+    "CP17-ASTRA-R3-03-CUTTING-REPOST-CHRONOLOGY"
+  ],
+  "expected_case_count": 3,
+  "expected": "Control: two performed components at 30 create selectable/payable 60. All-BS then SCRAP: accrued 60 must remain payable. Cutting: original ten issued, reopen and identical re-POST cannot double-issue dated stock or create a negative public material prefix. Relevant refusal recorded without claiming a complete correction route.",
+  "boundaries": "FULL disposable candidate only; real business writers, unchanged setup helpers, no hosted/Drive; strict rollback and public-catalog guard",
+  "first_attempt_only": true,
+  "production_go": false,
+  "source_sha256": {
+    "audit/astra_cp17/cases_fable_seams.py": "f9d324dab700f8a9c954e24cd4678a5c150fe326c6a76d08fb8e54a42042fdb6",
+    "audit/astra_cp17/fable_seams.py": "4f61768671d69a50ea8d671d4d0567b7ac66ac69817c5079c94e2958f2c6601b",
+    ".github/workflows/audit-astra-cp17-fable-seams.yml": "b2860b71993764c95d2f5ee5914750a9917f87eb87cf588834243eba53f55988"
+  }
+}
