@@ -1170,6 +1170,8 @@
   },
   "expected_private_roles": [
     "cp7_guard",
+    "cp7_kasbon_write",
+    "cp7_kasbon_read",
     "cp7_cutting_write",
     "cp7_cutting_read",
     "cp7_transaction_source_read",
