@@ -1,0 +1,16 @@
+{
+  "created_at": "2026-10-14T11:47:40.559420+00:00",
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "case_ids": [
+    "CP17-ASTRA-FIN-07-FULL-DETECTOR-OBSERVATION"
+  ],
+  "oracle": "Contractor payable must not be negative before first accrual; capture complete report including readiness/close and all detector rows, including zeros.",
+  "relationship": "New observation scope missing from PAY06, whose first COUNTEREXAMPLE remains immutable. No attempt to turn old case green.",
+  "expected": "Known defect may remain COUNTEREXAMPLE. All emitted detector rows and full report are evidence; no assertion all detectors silent before measurement.",
+  "production_go": false,
+  "retry": false,
+  "source_sha256": {
+    "audit/astra_cp17/cases_finance_observability.py": "451eee03ccf3298490a06149a1004106e2ae9205d3f6ce641af55191ce420717",
+    "audit/astra_cp17/finance_observability.py": "32426fddb70ac6188b2f78df5732d9656c0a7de15ded8b59d991e1ed26ae6c94"
+  }
+}
