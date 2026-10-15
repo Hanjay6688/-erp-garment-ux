@@ -1,0 +1,16 @@
+{
+  "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "ids": [
+    "ASTRA_G1_G2_TEN_PIECES_CONSERVED",
+    "ASTRA_G2_UNSEWN_SIX_MUST_NOT_FINISH",
+    "ASTRA_G2_SEWN_UNSENT_SIX_MUST_NOT_FINISH"
+  ],
+  "oracle_origin": "ASTRA",
+  "fixture_origin": "WRITER_CP17_BD_CONSTRUCTORS",
+  "expected": {
+    "complete": "10 cut -> 3+7 sewn; wages40; laundry20; FG10; HPP initial material+60; WIP0; journals balanced",
+    "partial": "10 cut -> 4 FG, six unsewn or sewn unsent must not be silently closed without disposition"
+  },
+  "runtime_sha256": "a26899e736cfdcc3981145cfb2c74860efb12c016b312d40f1bee7737a356a0b",
+  "no_product_changes": true
+}
