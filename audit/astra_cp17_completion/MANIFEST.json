@@ -85,5 +85,16 @@
     "retry_control": "adc91c0f47ffd8d0ec877767c3016953b5535076",
     "retry_run": 38792368517,
     "fix": "mkdir -p auditor/audit before copying; no case or product modification"
+  },
+  "tool_qualification": {
+    "reason": "YAML newline folding proven from logs; qualification under Pro Max 16.2",
+    "diff": "Only workflow parsed run commands; four explicit newlines",
+    "local_validation": "parse equality + bash -n + isolated dummy copy/probe execution",
+    "prior_attempts_preserved": [
+      38791612672,
+      38792368517,
+      38792810239
+    ],
+    "oracle_unchanged": true
   }
 }

@@ -1,5 +1,5 @@
 name: AUDIT/Astra/completion-integration
-run-name: AUDIT/combined-20261016/Astra/dfab13bf/completion-integration/1
+run-name: AUDIT/combined-20261016/Astra/dfab13bf/completion-integration/tool-qualification-2
 'on':
   push:
     branches:
@@ -173,9 +173,13 @@ jobs:
       working-directory: writer
       run: 'export ASTRA_CANDIDATE_ROOT="$(realpath ../auditor)"
 
-        mkdir -p ../auditor/audit cp -R ../control/audit/astra_cp17_completion ../auditor/audit/
+        mkdir -p ../auditor/audit
 
-        python ../auditor/audit/astra_cp17_completion/probe.py'
+        cp -R ../control/audit/astra_cp17_completion ../auditor/audit/
+
+        python ../auditor/audit/astra_cp17_completion/probe.py
+
+        '
     - name: Remove disposable database
       if: always()
       working-directory: base
