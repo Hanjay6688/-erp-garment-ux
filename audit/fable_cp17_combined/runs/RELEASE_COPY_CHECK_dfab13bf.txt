@@ -1,0 +1,69 @@
+{
+ "check": "CP7_RELEASE_COPY_CHECK",
+ "files": 30,
+ "only_in_package": [
+  "AW",
+  "AX",
+  "AY",
+  "AZ",
+  "BA",
+  "BB",
+  "BC",
+  "BD",
+  "BE",
+  "BF"
+ ],
+ "differing_copies": [
+  "AC",
+  "AD",
+  "AE",
+  "AF",
+  "AG",
+  "AH",
+  "AI",
+  "AJ",
+  "AK",
+  "AL",
+  "AM",
+  "AN",
+  "AO",
+  "AP",
+  "AQ",
+  "AR",
+  "AS",
+  "AT",
+  "AU",
+  "AV"
+ ],
+ "status": "PASS"
+}
+AC pins re-taken (AC_VIEW): 8 changed lines
+AD pins re-taken (LEDGER): 2 changed lines
+AE pins re-taken (LEDGER): 2 changed lines
+AF pins re-taken (LEDGER): 2 changed lines
+AG pins re-taken (LEDGER): 2 changed lines
+AH pins re-taken (LEDGER): 2 changed lines
+AI pins re-taken (LEDGER): 2 changed lines
+AJ pins re-taken (LEDGER): 2 changed lines
+AK pins re-taken (LEDGER): 2 changed lines
+AL pins re-taken (LEDGER): 2 changed lines
+AM pins re-taken (LEDGER): 2 changed lines
+AN pins re-taken (LEDGER): 2 changed lines
+AO pins re-taken (CAPSULE,CATALOG,LEDGER): 8 changed lines
+AP pins re-taken (CAPSULE,CATALOG,LEDGER): 8 changed lines
+AQ pins re-taken (CAPSULE,CATALOG,LEDGER): 10 changed lines
+AR pins re-taken (CAPSULE,CATALOG,LEDGER): 12 changed lines
+AS pins re-taken (CAPSULE,CATALOG,LEDGER): 14 changed lines
+AT pins re-taken (CAPSULE,CATALOG,LEDGER): 16 changed lines
+AU pins re-taken (CAPSULE,CATALOG,LEDGER): 18 changed lines
+AV pins re-taken (CAPSULE,CATALOG,LEDGER): 20 changed lines
+AW pins re-taken (CAPSULE,CATALOG,LEDGER): 8 changed lines
+AX pins re-taken (CAPSULE,CATALOG,LEDGER): 8 changed lines
+AY pins re-taken (CAPSULE,CATALOG,LEDGER): 8 changed lines
+AZ pins re-taken (CAPSULE,CATALOG,LEDGER): 8 changed lines
+BA pins re-taken (CAPSULE,CATALOG,LEDGER): 8 changed lines
+BB pins re-taken (CAPSULE,CATALOG,LEDGER): 8 changed lines
+BC pins re-taken (CAPSULE,CATALOG,LEDGER): 8 changed lines
+BD pins re-taken (CAPSULE,CATALOG,LEDGER): 8 changed lines
+BE pins re-taken (CAPSULE,CATALOG,LEDGER): 8 changed lines
+BF pins re-taken (CAPSULE,CATALOG,LEDGER): 8 changed lines
