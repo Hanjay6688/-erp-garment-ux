@@ -163,7 +163,9 @@ async function seriesDozens(ui,today,mobile){
   const dozens=form.getByLabel('Lusin seri '+f.series_sku,{exact:true}),pieces=form.getByLabel('Sisa potong seri '+f.series_sku,{exact:true})
   await pick(f.series_sku,3,1)
   await ui.expect(three).toContainText('3 ukuran (31/32/33)');await ui.expect(three.locator('article')).toHaveCount(3);for(const n of[1,2,3])await ui.expect(qty(n)).toHaveValue('4')
-  await ui.expect(three).toContainText('Total seri: 1 lusin (12 PCS)');await ui.expect(dozens).toHaveValue('1');await ui.expect(three).toContainText('Stok tersedia sekarang 10 PCS')
+  await ui.expect(three).toContainText('Total seri: 1 lusin (12 PCS)');await ui.expect(dozens).toHaveValue('1');await ui.expect(three).toContainText('stok 10 PCS')
+  // Compact like the UX demo (owner 15 Oct, "ya"): the three sizes of the series sit side by side, also on a phone.
+  const tops=await three.locator('article').evaluateAll(es=>es.map(e=>Math.round(e.getBoundingClientRect().top)));assert.equal(new Set(tops).size,1,'CP17_D14_5_SIZES_NOT_SIDE_BY_SIDE:'+tops)
   for(const [n,v] of [[1,'3'],[2,'5'],[3,'4']])await qty(n).fill(v);await ui.expect(three).toContainText('Total seri: 1 lusin (12 PCS)')
   await qty(1).fill('4');await ui.expect(three).toContainText('Total seri: 1 lusin 1 potong (13 PCS)')
   await dozens.fill('1');await pieces.fill('1');await split.click()
@@ -183,7 +185,7 @@ async function seriesDozens(ui,today,mobile){
   await detail.getByRole('button',{name:'Edit draft invoice',exact:true}).click();await ui.expect(form).toBeVisible()
   await ui.expect(form.getByRole('region',{name:'Seri '+f.series_sku,exact:true})).toContainText('Total seri: 1 lusin (12 PCS)');await ui.expect(form.getByRole('region',{name:'Seri '+f.single_sku,exact:true})).toContainText('Total seri: 1 lusin (12 PCS)')
   await noSideScroll(ui,page);await page.screenshot({path:`cp6-proof/t3/${name}_READBACK.png`,fullPage:true})
-  return{status:'PASS',phone:mobile,three_sizes_added_by_one_pick:['31','32','33'],picked_at_one_dozen:'4/4/4',manual_3_5_4:'1 lusin',manual_4_5_4:'1 lusin 1 potong',uneven_refused_kept:'4/5/4',two_dozen:'8/8/8',one_size_one_dozen:12,saved_qty:after.qty,reserved_stock:after.stock,gl_unchanged:true,one_request:true,reopened_reads_1_lusin_each:true}
+  return{status:'PASS',phone:mobile,three_sizes_added_by_one_pick:['31','32','33'],picked_at_one_dozen:'4/4/4',manual_3_5_4:'1 lusin',sizes_side_by_side:true,manual_4_5_4:'1 lusin 1 potong',uneven_refused_kept:'4/5/4',two_dozen:'8/8/8',one_size_one_dozen:12,saved_qty:after.qty,reserved_stock:after.stock,gl_unchanged:true,one_request:true,reopened_reads_1_lusin_each:true}
  }catch(error){let actual;try{actual=state()}catch(e){actual={observation_error:String(e)}};await failure(page,name,error,actual,requests);throw error}
  finally{await user.context.close()}
 }

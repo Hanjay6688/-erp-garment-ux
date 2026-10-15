@@ -58,3 +58,33 @@
 .cperiod-control textarea:focus-visible, .crecost-control textarea:focus-visible { outline: 2px solid #247c72; outline-offset: 3px; }
 
 .cproc.crecost-control fieldset { display: grid; }
+
+/* Sales draft series (owner D14-5, compact like the UX demo): sizes side by side, one short price row per size. */
+.cproc-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.cproc-size-cell { position: relative; }
+.cproc-series .cproc-series-total { margin: 0; color: #e0f1e9; font-weight: 600; }
+.cproc-size-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+.cproc-size-cell { display: grid; gap: 4px; padding: 10px; border: 1px solid #354159; border-radius: 10px; background: #101827; min-width: 0; }
+.cproc-size-cell label span { font-size: 12px; color: #adb7cc; }
+.cproc-size-cell input { text-align: center; font-size: 16px; font-weight: 700; }
+.cproc-size-cell small { font-size: 11px; line-height: 1.3; }
+.cproc-size-cell.over { border-color: #b4645c; }
+.cproc-size-cell.over small { color: #f0a29a; }
+.cproc-size-prices { display: grid; gap: 8px; }
+.cproc-size-prices-head, .cproc-size-price { display: grid; grid-template-columns: 3.2rem minmax(0, 1fr) minmax(0, 1fr); gap: 8px; align-items: center; }
+.cproc-size-prices-head { font-size: 11px; color: #adb7cc; }
+.cproc-size-prices-head .cproc-wide-only { display: none; }
+.cproc-size-price { padding-bottom: 8px; border-bottom: 1px solid #263248; }
+.cproc-size-price > strong { font-size: 13px; }
+.cproc-size-price .cproc-size-note { grid-column: 2 / -1; }
+.cproc-size-price .cproc-size-amount { grid-column: 1 / 3; font-size: 12px; color: #adb7cc; }
+.cproc-size-price button { justify-self: end; min-height: 34px; padding: 6px 10px; }
+.cproc-series details .cproc-inline { margin-top: 8px; }
+.cproc-series details .cproc-inline label { flex: 1; min-width: 90px; }
+@media (max-width: 640px) { .cproc-size-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; } .cproc-size-cell { padding: 8px; } .cproc-series-dozens label { flex: 1; min-width: 110px; } }
+@media (min-width: 900px) {
+  .cproc-size-prices-head, .cproc-size-price { grid-template-columns: 3.2rem minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.4fr) 9rem auto; }
+  .cproc-size-price .cproc-size-note { grid-column: auto; }
+  .cproc-size-price .cproc-size-amount { grid-column: auto; }
+  .cproc-size-prices-head .cproc-wide-only { display: block; }
+}

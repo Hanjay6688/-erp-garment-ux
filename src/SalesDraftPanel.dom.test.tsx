@@ -73,7 +73,7 @@ describe('P11 complete draft form',()=>{
   await pick('SKU-3');expect(container.querySelectorAll('[aria-label="Seri SKU-3"] article')).toHaveLength(3);expect(three.querySelector('[role="alert"]')!.textContent).toBe('Semua ukuran seri SKU-3 yang ada stoknya sudah ada di invoice.')
   expect(['1','2','3'].map(n=>input(`Jumlah invoice ${n}`).value)).toEqual(['8','8','8'])
   const series=client.rpc.mock.calls.map(c=>c[1].p_query).filter(q=>q.kind==='STOCK'&&q.limit===100);expect(series.map(q=>q.q)).toEqual(['SKU-3','SKU-1','SKU-5','SKU-3']);expect(series.every(q=>q.location_id===id&&q.offset===0)).toBe(true)
-  await fill('Jumlah invoice 1','11');expect(three.textContent).toContain('Stok tersedia sekarang 10 PCS · jumlah ini melebihi stok tersedia sekarang')
+  await fill('Jumlah invoice 1','11');expect(three.textContent).toContain('stok 10 PCS · melebihi stok')
  })
  it('adds nothing when the series cannot be read completely',async()=>{
   await mount();await fill('Cari barang draft','SKU-3');await click(button('Cari barang draft'))
