@@ -1,8 +1,9 @@
 """Compare every public catalog member while removing only physical row order.
 
-The frozen CP6 reader aggregates function pairs ORDER BY 1, a constant inside
-jsonb_agg. Keep the frozen reader/runner untouched and bind this adapter only
-around the CP7 qualification group. No field, member, hash, ACL or row is removed.
+The CP6 reader before owner decision D14-8 aggregated function pairs ORDER BY 1, a constant inside jsonb_agg. Since
+D14-8 the reader itself orders by collation "C" and each function entry is [signature, definition_md5, owner, acl]
+(relations [name, kind, owner, acl]); this adapter still sorts, which is harmless for an already ordered list, and is
+bound only around the CP7 qualification group. No field, member, hash, ACL or row is removed.
 """
 from contextlib import contextmanager
 from copy import deepcopy
@@ -70,7 +71,11 @@ def exact_public_catalog(runner,retain_raw=False,retain_locations=False):
               where n.nspname='public' and p.prokind in('f','p') order by p.oid""").fetchall()
             locations=[dict(oid=oid,signature=signature,tuple_slot=slot,definition_hash=digest,owner=owner)
                        for oid,signature,slot,digest,owner in rows]
-            assert sorted((r['signature'],r['definition_hash'])for r in locations)==sorted(map(tuple,raw['functions'])), 'CP7_CATALOG_LOCATION_MEMBERS_MUST_MATCH_EVERY_RAW_PAIR'
+            # Every raw member's signature and definition hash (the first two fields of each entry, before and after
+            # D14-8), and since D14-8 also its owner, must match the catalog rows read here exactly.
+            assert sorted((r['signature'],r['definition_hash'])for r in locations)==sorted((f[0],f[1])for f in raw['functions']), 'CP7_CATALOG_LOCATION_MEMBERS_MUST_MATCH_EVERY_RAW_PAIR'
+            if any(len(f)>2 for f in raw['functions']):
+                assert sorted((r['signature'],r['definition_hash'],r['owner'])for r in locations)==sorted((f[0],f[1],f[2])for f in raw['functions']), 'CP7_CATALOG_LOCATION_OWNER_MUST_MATCH_EVERY_RAW_MEMBER'
             audit['raw_snapshots'][-1]['public_function_locations']=locations
             current={r['signature']:r for r in locations}
             assert len(current)==len(locations), 'CP7_CATALOG_LOCATION_SIGNATURE_DUPLICATE'
