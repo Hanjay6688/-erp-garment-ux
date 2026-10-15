@@ -47,3 +47,22 @@ is not counted as candidate evidence either way. Historical T2 evidence on 0b704
 | 38784617586, 38784635065, 38784653182, 38784671018 | 99b43ba5 | chain2, chain4, rbac, smoke | same workflow defect; logs kept, not evidence |
 | 38785788908, (rbac2) | 7181d3c4 | cash_basis, rbac2 | same workflow defect; logs kept, not evidence |
 | 38786127478 … 38786227211 | 844017982 | chain, chain2, chain4, rbac, rbac2, smoke, cp17c_cash_basis | rerun after the one-line workflow fix (writer's D14-17 fallback line, verbatim); the only rerun allowed (job died before cases) |
+
+## Fable own runs on 844017982 (after the workflow fix) — read per case
+
+| Run | Scenario | Per case |
+|---|---|---|
+| 38786127478 | fable_cp17_chain | LEDGER_ORACLES PASS; CLOSE FAIL (AUDITOR_TOOL: closing through today is refused, fixed in chain2/4); OPEN_PAYABLES PASS — R1-05 FABLE-001 now **refused** `CP7_PAYROLL_PAID_BEFORE_ACCRUAL` (on 0b7049d9 accepted, payable −180); TIMEZONE INCOMPLETE (AUDITOR_TOOL psycopg `set local timezone=$1`) |
+| 38786142567 | fable_cp17_chain2 | R1-05 PASS (refused, accrual 10-14, payment 10-11, running payable never < 0); CLOSED_PERIOD INCOMPLETE (AUDITOR_TOOL, `created_at` column; fixed in chain4) |
+| 38786164960 | fable_cp17_chain4 | CLOSED_PERIOD_RECOGNITION PASS but **weak**: every backdated attempt refused (E01 fixture bank unfunded → `CP7_CASH_NEGATIVE`; receipt fix payload gap), no accepted posting after the close. R3-03 PASS not reached (fixture has no BS: "DAMAGE conservation failed"); FABLE-008 rests on writer FIN02 cases |
+| 38786182325 | fable_cp17_rbac | 3 PASS (0 erp tables without RLS, schema reach, facades definer + pinned path) |
+| 38786198297 | fable_cp17_rbac2 | 1 PASS (facade security) |
+| 38786212594 | fable_cp7_smoke | 5 PASS |
+| 38786227211 | fable_cp17c_cash_basis | **COUNTEREXAMPLE** — see below |
+
+### FABLE-013 evidence (run 38786227211, case FABLE_CP17C:CASH_BASIS_MISMATCH)
+closed_through 2026-10-13, bank CASH-MAIN funded 1000.00 on 10-14 (writer fixture). Through `erp_cp7_save_misc_finance_v1`:
+OTHER_INCOME 2000.00 physical 10-11 → journal economic 10-11, transaction 10-16 (`period_shifted` true); then OTHER_EXPENSE
+1500.00 physical 10-15 → accepted (guard basis economic: 10-15 balance 1500). Bank by transaction_date: 10-14 1000.00,
+**10-15 −500.00**, 10-16 1500.00. Owner cash reader `erp_cp7_get_finance_analysis_v1` for 10-15: opening 1000.00, closing
+**−500.00**, `reconciled` true. `cp7_guard.findings()` cash rows: none. Economic-date series never negative.
