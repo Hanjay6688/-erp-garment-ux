@@ -400,3 +400,19 @@ Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
 - D14-11: menggantikan penahanan RWK01 untuk kasus OPEN/PARTIAL, terbatas pada bagian yang selesai, diperiksa dan
   disetujui.
 - `production_go:false`.
+
+### D14-12 (owner ke penulis Claude, 15 Okt 2026, sesudah laporan kandidat f1a1ae69)
+
+| No | Pertanyaan penulis | Jawaban owner (verbatim) |
+|---|---|---|
+| D14-12 | "Saya perlu Bos memutuskan satu hal: tampilan layar penjualan di HP masih lebih panjang daripada demo. Mau saya buat ringkas seperti demo? Ya atau tidak." | "ya" |
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
+
+- Blok seri di draf penjualan tersambung (`src/SalesDraftPanel.tsx`, `src/procurement-connected.css`) disusun seperti
+  demo: ukuran satu seri berupa kotak kecil berdampingan (juga di HP), satu baris harga/potongan/catatan per ukuran,
+  bantuan "lusin + PCS" per seri dalam satu blok yang bisa dibuka. Label semua isian dan tombol tidak berubah; aturan
+  lusin (D14-5) tidak berubah.
+- Uji browser D14-5 (desktop dan HP) sekarang juga memeriksa bahwa ketiga ukuran seri berada di satu baris.
+- Karena `src/` berubah, kandidat baru dikualifikasi ulang pada satu commit dan handoff auditor menunjuk ke commit itu.
+- `production_go:false`.

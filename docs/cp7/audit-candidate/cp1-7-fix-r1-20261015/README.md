@@ -1,7 +1,7 @@
 # Kandidat perbaikan CP1–CP7 r1 — uji ulang Fable, Astra, Sol
 
 Ketiga audit penuh CP1–CP7 atas `0b7049d9` sudah dikunci (Fable, Astra: TAHAN; Sol: HOLD). Owner menjawab
-D14-2..D14-7 dan berkata "lanjut", lalu D14-5 (lusin) dan D14-8..D14-11 (empat pertanyaan penulis). Folder ini berisi perbaikan penulis dan kandidat yang diserahkan untuk **uji ulang**.
+D14-2..D14-7 dan berkata "lanjut", lalu D14-5 (lusin), D14-8..D14-11 (empat pertanyaan penulis) dan D14-12 (tampilan penjualan ringkas seperti demo). Folder ini berisi perbaikan penulis dan kandidat yang diserahkan untuk **uji ulang**.
 Ini bukan penerimaan; setiap auditor memutuskan sendiri. `production_go:false`.
 
 | Berkas | Isi |
@@ -21,9 +21,14 @@ Ini bukan penerimaan; setiap auditor memutuskan sendiri. `production_go:false`.
 
 ## Identitas kandidat
 
-- **Commit `f1a1ae6926ed563b960f476125c5e2273e750157`**, tree `982831d6e788b2a3a9404f25a4617230e0b98f0b`, cabang `claude/new-session-deapao`. Commit sesudahnya hanya dokumen
-  (`git diff --name-only f1a1ae69 <head cabang>` semuanya di bawah `docs/`). Kandidat sebelumnya `55d72775` (25/25);
-  yang berubah sesudahnya: D14-5, D14-8, D14-9, D14-10, D14-11 (`git diff 55d72775 f1a1ae69 -- src scripts .github`),
+- **Commit `66baa8e8ddf601625bc831c7256f38eec883b496`**, tree `3587d97afbef0350271cce51f2e77db5b8a3ff59`, cabang `claude/new-session-deapao`. Commit sesudahnya hanya dokumen
+  (`git diff --name-only 66baa8e8 <head cabang>` semuanya di bawah `docs/`).
+- Kandidat sebelumnya `f1a1ae69` (25/25). Yang berubah sesudahnya hanya tampilan ringkas seri di draf penjualan
+  (owner D14-12 "ya"): `src/SalesDraftPanel.tsx`, `src/procurement-connected.css`, satu teks yang diperiksa di
+  `src/SalesDraftPanel.dom.test.tsx` dan satu pemeriksaan tambahan di browser CP17 D14-5 (tiga ukuran satu baris)
+  (`git diff f1a1ae69 66baa8e8 -- src scripts .github tests supabase`). Label semua isian dan tombol tidak berubah.
+- Kandidat sebelum itu `55d72775` (25/25); yang berubah sesudahnya: D14-5, D14-8, D14-9, D14-10, D14-11
+  (`git diff 55d72775 f1a1ae69 -- src scripts .github`),
   ditambah tiga perbaikan alat uji yang muncul saat kualifikasi (`cp7_catalog_state.py` membaca entri D14-8;
   `cp6_av_runtime.py` mengulang penolakan "database belum kosong" seperti `change()`; uji pembanding
   `f05-timeline` diberi batas 180 detik hanya untuk proses pembanding), lihat `A2_COMPARATOR_D14_8.md` dan bagian Kualifikasi.
@@ -32,10 +37,10 @@ Ini bukan penerimaan; setiap auditor memutuskan sendiri. `production_go:false`.
 
 | Direktori | Tree |
 |---|---|
-| `src` | `e42e0b76daf58d0b027def2ce34acbfe7e2b48a1` |
+| `src` | `7b37a8103fe43c6893ac13dd938dbb2c3c8aa3ba` |
 | `supabase` | `5d040436db384b4e574785376367b360a084acb7` (sama dengan pada `0b7049d9`) |
 | `scripts/cp7-src` | `41432799fd3b2a47efc5586dfef16eeb3f5e17fe` |
-| `scripts` | `ba2a646d24f38fcdce54eaf16af429b418da28fa` |
+| `scripts` | `b0408ee05551d7aa9bb30cd0f5d152424aa36d75` |
 | `.github/workflows` | `7460072a804388b8514e7df2b3b677a51d747c9f` |
 | `tests` | `18a0543319657bfa078e74a7684031395d0812d2` |
 
@@ -65,7 +70,7 @@ browser 6).
 | FABLE-010, Astra SG-02 | D14-4: kain kembali ke gudang per roll, nilai masuk stok lagi, biaya PO turun. D14-10: batal/betulkan dalam satu transaksi, riwayat asli tetap, pemakaian sesudahnya disebut dan menghalangi | `CP17_SG02_*` (8), `CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE`, `CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP`, `SG02_FABRIC_RETURN.md` |
 | Astra SG-03 | Tanpa jalur tagihan baru (sudah diputus D06): cuci ulang produk sama tanpa tagihan vendor dibuktikan | `CP17_SG03_REWASH_SAME_PRODUCT_NO_VENDOR_BILL` |
 | D14-6 kasbon | Beri kasbon tunai, potong dari payroll draf, batal bila belum dipakai; tunduk D14-3 | `CP17_KASBON_*` (3), `CP17_HTTP_KASBON_GIVE`, `CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP`, `KASBON_D14_6.md` |
-| D14-5 lusin seri | Seperti UX demo: satu pilih menambah semua ukuran SKU yang ada stoknya, seri baru mulai 1 lusin; dua arah (3/5/4 → "1 lusin"); SKU satu ukuran: 1 lusin = 12 | Uji unit, uji panel, browser `CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP` dan `_MOBILE` |
+| D14-5 lusin seri | Seperti UX demo: satu pilih menambah semua ukuran SKU yang ada stoknya, seri baru mulai 1 lusin; dua arah (3/5/4 → "1 lusin"); SKU satu ukuran: 1 lusin = 12. D14-12: ukuran satu seri berdampingan (juga di HP), satu baris harga per ukuran | Uji unit, uji panel, browser `CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP` dan `_MOBILE` (termasuk tiga ukuran satu baris) |
 | FABLE-007 (dugaan absensi dobel) | Tidak ada perubahan produk. Penjaganya ada di skema dasar (bukan di migrasi pohon ini): `erp.guard_payroll_period_overlap` mengunci per mandor lalu menolak payroll aktif kedua yang periodenya bertumpuk (`supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz` baris 10325-10342). Ditemukan karena uji pertama penulis ditolak penjaga ini saat menyiapkan data (run 38631233950) | `CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS`: payroll kedua di atas hari absensi ditolak; dua payroll bertumpuk dikirim bersamaan, satu lolos; tidak ada absensi di dua payroll |
 | FABLE-012, Astra RBAC (R-ACC01) | Inventaris 160 fungsi `erp` yang bisa dijalankan `authenticated`; 82 penulis tanpa rujukan dari kode yang berjalan dengan hak pemanggil dibuktikan **tidak terjangkau dari Data API** (Auth nyata, 406 PGRST106, hanya skema `public` terbuka). D14-9: pencabutan EXECUTE ditunda ke CP7C sebagai pekerjaan keamanan terbuka; gerbang menolak membuka `erp` ke Data API sebelum pencabutan | `CP17_HTTP_ERP_WRITERS_NOT_REACHABLE`, `CP17_FABLE012_EXPOSURE_GATE_REVOKE_FIRST`, `FABLE012_D14_9_GATE.md` |
 | FABLE-002/003/004, Fable A1 (R-DOC01..05) | Pemeriksaan salinan paket rilis (30 berkas) dari sumber; komentar basi dibetulkan; bukti CP1/CP2 dibawa ke pohon dengan hash; 4 tabel tanpa RLS dijelaskan dari riwayat migrasi | `scripts/cp7_release_copy_check.py`, `docs/evidence/cp1-cp2/`, `DOC_FINDINGS_FABLE_002_003_004_RLS.md` |
@@ -93,6 +98,9 @@ Perbaikan lain yang ditemukan saat mengerjakan putaran ini:
 | CP7C (backup awal Enteng, uji Drive) | Ditahan (D13-9a) |
 
 ## Kualifikasi satu commit
+
+**Kualifikasi `66baa8e8` sedang berjalan** (25 workflow di-dispatch 15 Okt). Sampai `CI_RECEIPT.json` diperbarui, angka di
+bawah ini milik kandidat sebelumnya `f1a1ae69`.
 
 `CI_RECEIPT.json` (dibuat `scripts/cp7_ci_receipt.py f1a1ae69`): **25/25 workflow, 69/69 job sukses** pada
 `f1a1ae6926ed563b960f476125c5e2273e750157`. Tidak ada grup yang diulang karena pergantian hari WIB.
