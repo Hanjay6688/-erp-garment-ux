@@ -74,7 +74,8 @@ export default function SewingCompletionPanel({ groupId, groupNumber, groupVersi
   const locked = !allowed || !parentReady || recovery.writerLocked || busy || !current
   const physicalIso = cp6WibPhysicalTimeToIso(at)
   const qtyValid = current && /^[1-9][0-9]{0,6}$/.test(qty) && Number(qty) <= data.maxQty
-  const rateSum = current ? data.components.reduce((sum, c) => sum + c.rate, 0) : 0
+  const rates = current ? (data.ratesCommitted ? data.components : data.ratePreview) : []
+  const rateSum = rates.reduce((sum, c) => sum + c.rate, 0)
   const canRecord = current && data.eligible && qtyValid && physicalIso !== null && reason.trim().length >= 5 && reviewed && !locked
   const activeEvents = current ? data.events.filter(e => !e.reversed) : []
   const cancelTarget: SewingEvent | undefined = activeEvents.find(e => e.id === cancelId)
@@ -96,13 +97,13 @@ export default function SewingCompletionPanel({ groupId, groupNumber, groupVersi
       {current && data.blockers.length ? <div role="alert"><p>Belum bisa dicatat:</p><ul>{data.blockers.map((b, i) => <li key={`${b.kind}:${b.id ?? i}`}>{sewingBlockerText(b)}</li>)}</ul></div> : null}
       {current && data.eligible ? <>
         <p>{data.ratesCommitted
-          ? `Upah mandor per pcs: ${data.components.map(c => `${c.name} ${rupiah(c.rate)}`).join(' + ')} = ${rupiah(rateSum)}.`
-          : 'Tarif upah mandor akan dikunci dari BOM kerja model ini saat pertama kali disimpan.'}</p>
+          ? `Upah mandor per pcs: ${rates.map(c => `${c.name} ${rupiah(c.rate)}`).join(' + ')} = ${rupiah(rateSum)}.`
+          : `Perkiraan upah mandor per pcs (tarif yang berlaku sekarang; dikunci dari BOM kerja saat pertama kali disimpan): ${rates.map(c => `${c.name} ${rupiah(c.rate)}`).join(' + ')} = ${rupiah(rateSum)}.`}</p>
         <label className="cwip-sewing-qty"><span>SELESAI DIJAHIT</span><span><input aria-label={`Jumlah selesai dijahit ${groupNumber}`} inputMode="numeric" value={qty} disabled={locked}
           onFocus={e => e.currentTarget.select()} onChange={e => { setQty(e.target.value.replace(/[^0-9]/g, '')); setReviewed(false) }}/><b>/ {data.maxQty} pcs</b></span></label>
         <label>Waktu selesai jahit (WIB)<input type="datetime-local" aria-label={`Waktu selesai jahit ${groupNumber}`} value={at} disabled={locked} onChange={e => { setAt(e.target.value); setReviewed(false) }}/></label>
         <label>Catatan<input aria-label={`Catatan selesai jahit ${groupNumber}`} value={reason} maxLength={1000} disabled={locked} onChange={e => { setReason(e.target.value); setReviewed(false) }}/></label>
-        {qtyValid && data.ratesCommitted ? <p>Upah yang akan dicatat: {qty} pcs × {rupiah(rateSum)} = {rupiah(Number(qty) * rateSum)}.</p> : null}
+        {qtyValid ? <p>{data.ratesCommitted ? 'Upah yang akan dicatat' : 'Perkiraan upah yang akan dicatat'}: {qty} pcs × {rupiah(rateSum)} = {rupiah(Number(qty) * rateSum)}.</p> : null}
         <label className="cproc-check"><input type="checkbox" aria-label={`Selesai jahit ${groupNumber} sudah diperiksa`} checked={reviewed}
           disabled={locked || !qtyValid || physicalIso === null || reason.trim().length < 5} onChange={e => setReviewed(e.target.checked)}/>Jumlah, waktu, dan mandor sudah saya periksa.</label>
         <button type="button" disabled={!canRecord} onClick={() => { if (canRecord) void run('RECORD_SEWING', sewingRecordPayload(data, qty, physicalIso, reason), Number(data.groupVersion), handlers) }}>Simpan selesai jahit</button>

@@ -17,7 +17,7 @@ const recorded = (extra: Record<string, unknown> = {}) => ({ id: event, number: 
 const workspace = (extra: Record<string, unknown> = {}) => ({ contract_version: 'cp7.sewing-completion-workspace.v1', group_id: group, group_version: '7',
   number: 'CUT-SEW', po_id: po, po_number: 'PO-9', po_status: 'SEWING', contractor_id: mandor, contractor_name: 'Mandor Satu',
   picked_up_at: '2026-10-13T02:00:00+00:00', effective_pcs: 10, sewn_pcs: 0, max_qty: 10, ready_unsent_pcs: 0, laundry_draft_pcs: 0,
-  rates_committed: true, components: [{ code: 'JAHIT', name: 'Jahit', rate: 2, posted_qty: 0 }, { code: 'OBRAS', name: 'Obras', rate: 1, posted_qty: 0 }],
+  rates_committed: true, components: [{ code: 'JAHIT', name: 'Jahit', rate: 2, posted_qty: 0 }, { code: 'OBRAS', name: 'Obras', rate: 1, posted_qty: 0 }], rate_preview: [],
   events: [], can_cancel: true, review_token: 'e'.repeat(32), eligible: true, blockers: [], business_DML: false, ...extra })
 let root: Root, container: HTMLDivElement
 beforeEach(() => {
@@ -71,6 +71,19 @@ describe('selesai jahit di WIP & Sewing (D14-14)', () => {
       review_token: 'e'.repeat(32), change_reason: 'Setoran pagi' } })
     expect(container.textContent).toContain('CUT-SEW: 4 pcs tercatat selesai dijahit. Upah mandor Rp12 masuk hutang mandor; 4 pcs siap dikirim ke laundry.')
     expect(onCommitted).toHaveBeenCalled()
+  })
+  it('before the first record shows the estimated wage from the rates the record will lock', async () => {
+    client.rpc.mockResolvedValue({ data: workspace({ rates_committed: false, components: [],
+      rate_preview: [{ code: 'JAHIT', name: 'Jahit', rate: 3 }, { code: 'OBRAS', name: 'Obras', rate: 1 }] }), error: null })
+    await mount(); await click('Catat selesai jahit')
+    expect(container.textContent).toContain('Perkiraan upah mandor per pcs (tarif yang berlaku sekarang; dikunci dari BOM kerja saat pertama kali disimpan): Jahit Rp3 + Obras Rp1 = Rp4.')
+    await type('Jumlah selesai dijahit CUT-SEW', '4')
+    expect(container.textContent).toContain('Perkiraan upah yang akan dicatat: 4 pcs × Rp4 = Rp16.')
+  })
+  it('refuses a preview next to committed rates', async () => {
+    client.rpc.mockResolvedValue({ data: workspace({ rate_preview: [{ code: 'JAHIT', name: 'Jahit', rate: 3 }] }), error: null })
+    await mount(); await click('Catat selesai jahit')
+    expect(container.textContent).toContain('tidak cocok dengan potongan yang diperiksa')
   })
   it('names why nothing can be recorded and keeps the form closed', async () => {
     client.rpc.mockResolvedValue({ data: workspace({ eligible: false, max_qty: 0, rates_committed: false, components: [],
