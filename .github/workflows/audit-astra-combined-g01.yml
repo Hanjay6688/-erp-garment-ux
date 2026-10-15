@@ -77,9 +77,15 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       shell: bash
       run: "set -euo pipefail\nmkdir -p ../auditor/cp6-proof/g01\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\
-        \ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \\\n  > \"$CP6_AC_WRITER_ARTIFACT\"\n\
-        PYTHONPATH=scripts python ../auditor/scripts/cp6_g01_baseline.py ../auditor/cp6-proof/g01/BASELINE_BUILD.json\ncat\
-        \ ../auditor/cp6-proof/g01/BASELINE_BUILD.json\n"
+        \ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" ||\
+        \ { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo \"EXPIRED_10392910720_D14_17\"; }\nPYTHONPATH=../auditor/scripts python\
+        \ - <<'PYG01'\nimport sys,yaml,json\nfrom pathlib import Path\nimport cp6_g01_baseline as g, cp6_pre_u_inventory as\
+        \ u\n# G01 stops at v2.6.20, before U and X. The expired file is only\n# consumed by X; no assertion or table set\
+        \ is replaced in this prefix.\nsteps=yaml.safe_load(Path('.github/workflows/cp6-full-schema-validation.yml').read_text())['jobs']['validate-full-schema']['steps']\n\
+        names=[s.get('name','')for s in steps]\nassert names.index(g.STOP)<names.index(u.U_STEP)\nif not u.archive_available():\n\
+        \    def unused(proof):\n        return dict(status='EXPIRED_ARTIFACT_NOT_CONSUMED_IN_G01_PREFIX',artifact_id=10392910720,stops_before_U=True,production_go=False)\n\
+        \    g.ac.reuse_bootstrap_input=unused\nraise SystemExit(g.run('../auditor/cp6-proof/g01/BASELINE_BUILD.json'))\n\
+        PYG01\ncat ../auditor/cp6-proof/g01/BASELINE_BUILD.json\n"
     - name: Capture the read-only fingerprint and compare with hosted
       working-directory: auditor
       shell: bash
@@ -119,4 +125,4 @@ jobs:
         name: audit-astra-combined-cp6-g01-baseline
         path: auditor/cp6-proof/g01
         retention-days: 90
-run-name: AUDIT/combined-20261016/Astra/dfab13bf/g01/1
+run-name: AUDIT/combined-20261016/Astra/dfab13bf/g01/2

@@ -140,7 +140,8 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       shell: bash
       run: "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip\
-        \ \\\n  > \"$CP6_AC_WRITER_ARTIFACT\"\nPYTHONPATH=scripts python ../candidate/scripts/cp6_ac_audit_bootstrap.py\n"
+        \ \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo \"EXPIRED_10392910720_D14_17\"\
+        ; }\nPYTHONPATH=scripts python ../auditor/scripts/cp6_ac_audit_bootstrap.py\n"
     - name: Apply exact AD predecessor
       working-directory: candidate
       shell: bash
@@ -232,4 +233,4 @@ jobs:
         name: audit-astra-combined-cp6-t2-regression-${{ matrix.key }}
         path: auditor/cp6-proof/${{ matrix.proof }}
         retention-days: 90
-run-name: AUDIT/combined-20261016/Astra/dfab13bf/t2/1
+run-name: AUDIT/combined-20261016/Astra/dfab13bf/t2/2

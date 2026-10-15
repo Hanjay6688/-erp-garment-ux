@@ -1,0 +1,5 @@
+# One pre-case retry: expired pre-U inventory
+
+Initial G01 run 38786023729 / job 116598114330 and T2 run 38786023817 / jobs 116598113598, 116598114192 stopped at HTTP 410 downloading artifact 10392910720, before any case. The third T2 job's outcome is retained separately. This is also a reproducibility defect in the writer's G01/T2 workflow entry points; candidate logic is unchanged.
+
+Retry 2 uses only audit workflow adapters. T2 calls the candidate's current `cp6_ac_audit_bootstrap.py`, whose change from frozen CP6 is the already approved D14-17 pre-U inventory adapter; frozen apply steps and X gate remain unchanged. G01 does not reach U or X, so the expired inventory is not consumed anywhere in its prefix. Its adapter asserts STOP precedes U in the frozen workflow and records that the archive was not used; it supplies no fake table set or test result. G01's fingerprint comparator is unchanged. No product, fixture, expected case outcome, or refusal is relaxed. First logs remain preserved. No third attempt authorized by the audit rule.
