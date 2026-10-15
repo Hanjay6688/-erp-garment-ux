@@ -1,0 +1,4492 @@
+{
+  "candidate": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "candidate_tree": "886f83312958b53781a450a4ea2a8fb2147b3be3",
+  "recorded_at_utc": "2026-10-15T20:01:06.818623+00:00",
+  "runs": [
+    {
+      "run": 38791612672,
+      "jobs": [
+        {
+          "id": 116617322282,
+          "name": "matrix-uat real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 38791612672,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        },
+        {
+          "id": 116617322395,
+          "name": "matrix-demo real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 38791612672,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        },
+        {
+          "id": 116617322404,
+          "name": "matrix-disposable real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 38791612672,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        },
+        {
+          "id": 116617322447,
+          "name": "retained real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 38791612672,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": 38792368517,
+      "jobs": [
+        {
+          "id": 116619914497,
+          "name": "matrix-demo real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 38792368517,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        },
+        {
+          "id": 116619914812,
+          "name": "retained real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 38792368517,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        },
+        {
+          "id": 116619914882,
+          "name": "matrix-disposable real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 38792368517,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        },
+        {
+          "id": 116619915070,
+          "name": "matrix-uat real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 38792368517,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": 38792810239,
+      "jobs": [
+        {
+          "id": 116621447214,
+          "name": "integration real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 38792810239,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": 38793203625,
+      "jobs": [
+        {
+          "id": 116622792588,
+          "name": "matrix-demo real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 38793203625,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        },
+        {
+          "id": 116622792971,
+          "name": "matrix-disposable real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 38793203625,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        },
+        {
+          "id": 116622793078,
+          "name": "matrix-uat real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 38793203625,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        },
+        {
+          "id": 116622793225,
+          "name": "retained real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 38793203625,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": 38793203672,
+      "jobs": [
+        {
+          "id": 116622792645,
+          "name": "integration real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 38793203672,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": 38794405101,
+      "jobs": [
+        {
+          "id": 116626909835,
+          "name": "matrix-uat real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 38794405101,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        },
+        {
+          "id": 116626910134,
+          "name": "matrix-demo real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 38794405101,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        },
+        {
+          "id": 116626910336,
+          "name": "matrix-disposable real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 38794405101,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": 38794704824,
+      "jobs": [
+        {
+          "id": 116627916413,
+          "name": "production-qualified real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 38794704824,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": 38796017970,
+      "jobs": [
+        {
+          "id": 116632495027,
+          "name": "production-qualified real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 38796017970,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": 38797114166,
+      "jobs": [
+        {
+          "id": 116636308078,
+          "name": "production-qualified real Chromium on frozen dfab13bf",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 38797114166,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Run declared application completion audit",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 34
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "run": 38791612672,
+      "artifacts": [
+        {
+          "id": 12001245022,
+          "name": "audit-astra-completion-matrix-disposable",
+          "size_in_bytes": 1605895,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001245022",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001245022/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:16:59Z",
+          "expires_at": "2027-01-13T19:09:47Z",
+          "updated_at": "2026-10-15T19:16:59Z",
+          "digest": "sha256:3f53b43416bad208b78be9f9726f88fbbe01f1006e99db72da0f5b22d7038711",
+          "workflow_run": {
+            "id": 38791612672,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "c839a3c51a4511342d0ce46e8adc5202401a2b4b"
+          }
+        },
+        {
+          "id": 12000765242,
+          "name": "audit-astra-completion-matrix-demo",
+          "size_in_bytes": 1605720,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12000765242",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12000765242/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:14:09Z",
+          "expires_at": "2027-01-13T19:09:47Z",
+          "updated_at": "2026-10-15T19:14:09Z",
+          "digest": "sha256:2a3e5278971c0979e46a29692200285ac64c199c1b784fc8267c461ca9b05ec4",
+          "workflow_run": {
+            "id": 38791612672,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "c839a3c51a4511342d0ce46e8adc5202401a2b4b"
+          }
+        },
+        {
+          "id": 12000014620,
+          "name": "audit-astra-completion-matrix-uat",
+          "size_in_bytes": 1605928,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12000014620",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12000014620/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:14:27Z",
+          "expires_at": "2027-01-13T19:09:47Z",
+          "updated_at": "2026-10-15T19:14:27Z",
+          "digest": "sha256:ead4aae555bb79db7f95880ffed83328f0a8f7f8c0607b06fe1f3a4ad0a4fa95",
+          "workflow_run": {
+            "id": 38791612672,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "c839a3c51a4511342d0ce46e8adc5202401a2b4b"
+          }
+        },
+        {
+          "id": 11999819229,
+          "name": "audit-astra-completion-retained",
+          "size_in_bytes": 1605895,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11999819229",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11999819229/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:14:30Z",
+          "expires_at": "2027-01-13T19:09:47Z",
+          "updated_at": "2026-10-15T19:14:30Z",
+          "digest": "sha256:7cc90b536918568e84e9deba8460a3e0c8f73b5b3e767d09dbb54231fece0b33",
+          "workflow_run": {
+            "id": 38791612672,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "c839a3c51a4511342d0ce46e8adc5202401a2b4b"
+          }
+        }
+      ]
+    },
+    {
+      "run": 38792368517,
+      "artifacts": [
+        {
+          "id": 12001845056,
+          "name": "audit-astra-completion-retained",
+          "size_in_bytes": 1605570,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001845056",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001845056/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:20:26Z",
+          "expires_at": "2027-01-13T19:15:15Z",
+          "updated_at": "2026-10-15T19:20:26Z",
+          "digest": "sha256:20a18f5793432f7325b7c9ab4ef405ec8dcdaf0cb774e3815e648e29bd47b406",
+          "workflow_run": {
+            "id": 38792368517,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "adc91c0f47ffd8d0ec877767c3016953b5535076"
+          }
+        },
+        {
+          "id": 12001775135,
+          "name": "audit-astra-completion-matrix-disposable",
+          "size_in_bytes": 1605910,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001775135",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001775135/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:20:04Z",
+          "expires_at": "2027-01-13T19:15:15Z",
+          "updated_at": "2026-10-15T19:20:04Z",
+          "digest": "sha256:1e220fcf4e5e557a534669218fc7f23a94e47eed9d35271d1722ced058d8d787",
+          "workflow_run": {
+            "id": 38792368517,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "adc91c0f47ffd8d0ec877767c3016953b5535076"
+          }
+        },
+        {
+          "id": 12001425329,
+          "name": "audit-astra-completion-matrix-demo",
+          "size_in_bytes": 1605953,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001425329",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001425329/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:19:58Z",
+          "expires_at": "2027-01-13T19:15:15Z",
+          "updated_at": "2026-10-15T19:19:58Z",
+          "digest": "sha256:07e31de60a76e883e8ddd561d2a5916fde51692f04a390909498a9a4645c96e8",
+          "workflow_run": {
+            "id": 38792368517,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "adc91c0f47ffd8d0ec877767c3016953b5535076"
+          }
+        },
+        {
+          "id": 12000836242,
+          "name": "audit-astra-completion-matrix-uat",
+          "size_in_bytes": 1605655,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12000836242",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12000836242/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:19:42Z",
+          "expires_at": "2027-01-13T19:15:15Z",
+          "updated_at": "2026-10-15T19:19:42Z",
+          "digest": "sha256:a18ef650891ff16db705bd401b826181e348946997dadf9df0da7abb261a662a",
+          "workflow_run": {
+            "id": 38792368517,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "adc91c0f47ffd8d0ec877767c3016953b5535076"
+          }
+        }
+      ]
+    },
+    {
+      "run": 38792810239,
+      "artifacts": [
+        {
+          "id": 12000649218,
+          "name": "audit-astra-completion-integration",
+          "size_in_bytes": 1605929,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12000649218",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12000649218/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:22:56Z",
+          "expires_at": "2027-01-13T19:18:25Z",
+          "updated_at": "2026-10-15T19:22:56Z",
+          "digest": "sha256:91d0142c26f0b4a0a9efcd83713e04cb5f423a1eeb4ccff12517975eaba0c947",
+          "workflow_run": {
+            "id": 38792810239,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "aae283cfb9a492d68abcbbfcd6b251cec0514c69"
+          }
+        }
+      ]
+    },
+    {
+      "run": 38793203625,
+      "artifacts": [
+        {
+          "id": 12001346954,
+          "name": "audit-astra-completion-retained",
+          "size_in_bytes": 10297030,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001346954",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001346954/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:30:22Z",
+          "expires_at": "2027-01-13T19:21:17Z",
+          "updated_at": "2026-10-15T19:30:22Z",
+          "digest": "sha256:73ae9f5ae26a06b2893f2ce80a240fb15e7ae5712a5a62252eedd980a1cc36ca",
+          "workflow_run": {
+            "id": 38793203625,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "fca97be34ce8ed1d1d84d9e1876f31e315fa64f4"
+          }
+        },
+        {
+          "id": 12001321428,
+          "name": "audit-astra-completion-matrix-disposable",
+          "size_in_bytes": 20773441,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001321428",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001321428/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:26:52Z",
+          "expires_at": "2027-01-13T19:21:17Z",
+          "updated_at": "2026-10-15T19:26:52Z",
+          "digest": "sha256:94abdbe6828464e0747976ed73733025eccff49c2da7c2b9d98e97d126892b7c",
+          "workflow_run": {
+            "id": 38793203625,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "fca97be34ce8ed1d1d84d9e1876f31e315fa64f4"
+          }
+        },
+        {
+          "id": 12001157197,
+          "name": "audit-astra-completion-matrix-demo",
+          "size_in_bytes": 35707515,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001157197",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001157197/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:28:15Z",
+          "expires_at": "2027-01-13T19:21:17Z",
+          "updated_at": "2026-10-15T19:28:15Z",
+          "digest": "sha256:5689b8ddf15b95b6b0b87ce33f9349da7d895707b3d19d41d73b95a95102b6b8",
+          "workflow_run": {
+            "id": 38793203625,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "fca97be34ce8ed1d1d84d9e1876f31e315fa64f4"
+          }
+        },
+        {
+          "id": 12001122089,
+          "name": "audit-astra-completion-matrix-uat",
+          "size_in_bytes": 24488382,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001122089",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001122089/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:27:30Z",
+          "expires_at": "2027-01-13T19:21:17Z",
+          "updated_at": "2026-10-15T19:27:30Z",
+          "digest": "sha256:4aa4c87eca0c1417a16abeea927191015aa8e311afe51866dd500bbdd1f1dda4",
+          "workflow_run": {
+            "id": 38793203625,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "fca97be34ce8ed1d1d84d9e1876f31e315fa64f4"
+          }
+        }
+      ]
+    },
+    {
+      "run": 38793203672,
+      "artifacts": [
+        {
+          "id": 12001202054,
+          "name": "audit-astra-completion-integration",
+          "size_in_bytes": 2644828,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001202054",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001202054/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:30:24Z",
+          "expires_at": "2027-01-13T19:21:17Z",
+          "updated_at": "2026-10-15T19:30:24Z",
+          "digest": "sha256:10986ebd1126cd1861415f55c12e07905d358b3f55e4563632d2b0e2b140f84d",
+          "workflow_run": {
+            "id": 38793203672,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "fca97be34ce8ed1d1d84d9e1876f31e315fa64f4"
+          }
+        }
+      ]
+    },
+    {
+      "run": 38794405101,
+      "artifacts": [
+        {
+          "id": 12002450796,
+          "name": "audit-astra-completion-matrix-demo",
+          "size_in_bytes": 46068041,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12002450796",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12002450796/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:37:46Z",
+          "expires_at": "2027-01-13T19:30:06Z",
+          "updated_at": "2026-10-15T19:37:46Z",
+          "digest": "sha256:2995beab3549b284af7689b8b23c2bdb91b09d37b4222e165cd0bad19780b667",
+          "workflow_run": {
+            "id": 38794405101,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "8344fbc171b6a115ac9efa1730c5f6b4cf3a499d"
+          }
+        },
+        {
+          "id": 12001997210,
+          "name": "audit-astra-completion-matrix-disposable",
+          "size_in_bytes": 36561632,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001997210",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001997210/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:38:45Z",
+          "expires_at": "2027-01-13T19:30:06Z",
+          "updated_at": "2026-10-15T19:38:45Z",
+          "digest": "sha256:a3879c496613cb4979f30808b57a2917171730070dde30fbb0072c20f6516d4f",
+          "workflow_run": {
+            "id": 38794405101,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "8344fbc171b6a115ac9efa1730c5f6b4cf3a499d"
+          }
+        },
+        {
+          "id": 12000744391,
+          "name": "audit-astra-completion-matrix-uat",
+          "size_in_bytes": 33087819,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12000744391",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12000744391/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:37:59Z",
+          "expires_at": "2027-01-13T19:30:06Z",
+          "updated_at": "2026-10-15T19:37:59Z",
+          "digest": "sha256:7a248a5bbbe3b5249d19d036d377430faec9f8395540f625e3ac113f94f513df",
+          "workflow_run": {
+            "id": 38794405101,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "8344fbc171b6a115ac9efa1730c5f6b4cf3a499d"
+          }
+        }
+      ]
+    },
+    {
+      "run": 38794704824,
+      "artifacts": [
+        {
+          "id": 12001303019,
+          "name": "audit-astra-completion-production-qualified",
+          "size_in_bytes": 1968580,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001303019",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001303019/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:38:12Z",
+          "expires_at": "2027-01-13T19:32:13Z",
+          "updated_at": "2026-10-15T19:38:12Z",
+          "digest": "sha256:13a1f6cb90c9cbf40be084a2ba7b25783b1ba9ffeea18dc0b5ff0656800b0332",
+          "workflow_run": {
+            "id": 38794704824,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "e4a367f9fa35cc3d984cc919d97f3b1b5da771c5"
+          }
+        }
+      ]
+    },
+    {
+      "run": 38796017970,
+      "artifacts": [
+        {
+          "id": 12001749333,
+          "name": "audit-astra-completion-production-qualified",
+          "size_in_bytes": 1964194,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001749333",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12001749333/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:48:30Z",
+          "expires_at": "2027-01-13T19:42:00Z",
+          "updated_at": "2026-10-15T19:48:30Z",
+          "digest": "sha256:ba3604d95a142ede7d934de9d96879411836b255a88a24b54ac95b2426e95697",
+          "workflow_run": {
+            "id": 38796017970,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "9e7c8b25e86e70f7061b75c6dc8d56e6b1d46fe5"
+          }
+        }
+      ]
+    },
+    {
+      "run": 38797114166,
+      "artifacts": [
+        {
+          "id": 12003190967,
+          "name": "audit-astra-completion-production-qualified",
+          "size_in_bytes": 1850235,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12003190967",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12003190967/zip",
+          "expired": false,
+          "created_at": "2026-10-15T19:57:12Z",
+          "expires_at": "2027-01-13T19:50:20Z",
+          "updated_at": "2026-10-15T19:57:12Z",
+          "digest": "sha256:6897dd4a12e7f089d934fa825c09cc5f74adf75262ece4f5ea355e5a6c1e8e9c",
+          "workflow_run": {
+            "id": 38797114166,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-combined-dfab13bf-20261016",
+            "head_sha": "4fff5c63240280e12fcd998c46ec83b6b504d438"
+          }
+        }
+      ]
+    }
+  ],
+  "raw_record_counts": {
+    "PASS": 593,
+    "INCOMPLETE": 3
+  },
+  "raw_records": 596,
+  "canonical_case_count": 305,
+  "canonical_statuses": {
+    "PASS": 305
+  },
+  "canonical_case_ids": [
+    "ASTRA_CHAIN_ACCESSORY_NOTA_TO_CASH",
+    "ASTRA_CHAIN_CUT_TO_FG",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_01",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_02",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_03",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_04",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_05",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_06",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_07",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_08",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_09",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_10",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_11",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_12",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_13",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_14",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_15",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_16",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_17",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_18",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_19",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_20",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_21",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_22",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_23",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_24",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_25",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_26",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_27",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_28",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_29",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_30",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_31",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_32",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_33",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_34",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_35",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_36",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_37",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_38",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_39",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_40",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_41",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_42",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_43",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_44",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_45",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_46",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_47",
+    "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_48",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_01",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_02",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_03",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_04",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_05",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_06",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_07",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_08",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_09",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_10",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_11",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_12",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_13",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_14",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_15",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_16",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_17",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_18",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_19",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_20",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_21",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_22",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_23",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_24",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_25",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_26",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_27",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_28",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_29",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_30",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_31",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_32",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_33",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_34",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_35",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_36",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_37",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_38",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_39",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_40",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_41",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_42",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_43",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_44",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_45",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_46",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_47",
+    "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_48",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_01",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_02",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_03",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_04",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_05",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_06",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_07",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_08",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_09",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_10",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_11",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_12",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_13",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_14",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_15",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_16",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_17",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_18",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_19",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_20",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_21",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_22",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_23",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_24",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_25",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_26",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_27",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_28",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_29",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_30",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_31",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_32",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_33",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_34",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_35",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_36",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_37",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_38",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_39",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_40",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_41",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_42",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_43",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_44",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_45",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_46",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_47",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_48",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_01",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_02",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_03",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_04",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_05",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_06",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_07",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_08",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_09",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_10",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_11",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_12",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_13",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_14",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_15",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_16",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_17",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_18",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_19",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_20",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_21",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_22",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_23",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_24",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_25",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_26",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_27",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_28",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_29",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_30",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_31",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_32",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_33",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_34",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_35",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_36",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_37",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_38",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_39",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_40",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_41",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_42",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_43",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_44",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_45",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_46",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_47",
+    "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_48",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_01",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_02",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_03",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_04",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_05",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_06",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_07",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_08",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_09",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_10",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_11",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_12",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_13",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_14",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_15",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_16",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_17",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_18",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_19",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_20",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_21",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_22",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_23",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_24",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_25",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_26",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_27",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_28",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_29",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_30",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_31",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_32",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_33",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_34",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_35",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_36",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_37",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_38",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_39",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_40",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_41",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_42",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_43",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_44",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_45",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_46",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_47",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_48",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_01",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_02",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_03",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_04",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_05",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_06",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_07",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_08",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_09",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_10",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_11",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_12",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_13",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_14",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_15",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_16",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_17",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_18",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_19",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_20",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_21",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_22",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_23",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_24",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_25",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_26",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_27",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_28",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_29",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_30",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_31",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_32",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_33",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_34",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_35",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_36",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_37",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_38",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_39",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_40",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_41",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_42",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_43",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_44",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_45",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_46",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_47",
+    "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_48",
+    "BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE",
+    "BE_BROWSER:REWORK_SKU_PARTIAL_COMPLETE_REVERSE",
+    "F03_E24_NOTE_BROWSER_DESKTOP",
+    "F03_E24_NOTE_BROWSER_MOBILE_RECOVERY",
+    "P09_BROWSER_LOST_REPLY_MOBILE",
+    "P09_BROWSER_RECEIPT_DESKTOP",
+    "P09_BROWSER_RETURN_CREDIT_DESKTOP",
+    "P12_ATTENDANCE_BROWSER_DESKTOP_CYCLE",
+    "P12_ATTENDANCE_BROWSER_MOBILE_POST_RECOVERY",
+    "P12_NOTA_BROWSER_DESKTOP_DRAG",
+    "P12_NOTA_BROWSER_MOBILE_RECOVERY",
+    "P12_OPENING_BROWSER_DESKTOP_CYCLE",
+    "P12_OPENING_BROWSER_MOBILE_RECOVERY",
+    "P12_SETTLEMENT_BROWSER_DESKTOP",
+    "P12_SETTLEMENT_BROWSER_MOBILE_RECOVERY"
+  ],
+  "duplicate_canonical_ids": [],
+  "classification": {
+    "actual_browser_actions": 17,
+    "own_action_oracles": 2,
+    "independently_executed_writer_oracles": 15,
+    "ready_screen_inventory": 288,
+    "initial_screen_inventory_superseded": 288,
+    "initial_loading_snapshots_incomplete": 156,
+    "precase_tool_failure_jobs": 9,
+    "production_tool_incomplete_records": 3
+  },
+  "all_runs_terminal": true,
+  "product_unchanged": true,
+  "writer_head": "6562833695f76007b079316d1bef6b1aa8206223",
+  "prior_report_immutable_commit": "3a3da9ef2c1662da85c016920403bdb63a0de3a8",
+  "production_go": false,
+  "feature_complete": false
+}

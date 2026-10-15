@@ -149,5 +149,7 @@
     "cause": "exact label lookup failed on nested label/select/options; captured QC source and target option present",
     "fix": "select inside observed unique label + group value assertion",
     "business_expected_unchanged": true
-  }
+  },
+  "production_qc_qualification_run": 38797114166,
+  "production_qc_qualification_control": "4fff5c63240280e12fcd998c46ec83b6b504d438"
 }

@@ -1,0 +1,5344 @@
+[
+  {
+    "index": 1,
+    "menu": "Dashboard",
+    "source_verdict": {
+      "name": "Dashboard / dashboard",
+      "disposable": "TIDAK ADA LAYAR TERSAMBUNG",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "`OwnerDashboard`: angka contoh disembunyikan sesuai keputusan owner; hanya pemberitahuan. Rujukan ke menu lain belum menjamin angka asli."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_01",
+          "status": "PASS",
+          "controls": 9,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "50dd3dd27a6948f5f07133dff1925955e1a5d2a176c51e752573a33bead0b288",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_01.png",
+          "root_classes": [
+            "hero-copy",
+            "kpi-grid",
+            "dashboard-grid",
+            "flow-strip"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_01",
+          "status": "PASS",
+          "controls": 9,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "66bdcc9cc1fce2f2383aacb72ae3192172248daf58df3b9dcf728a774fe87e8f",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_01.png",
+          "root_classes": [
+            "hero-copy",
+            "kpi-grid",
+            "dashboard-grid",
+            "flow-strip"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_01",
+          "status": "PASS",
+          "controls": 0,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "2756566da397bc9a7fa48a60060f3b63492940eab3dbc97e1ae10bb761f64afd",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_01.png",
+          "root_classes": [
+            "hero-copy",
+            "panel dashboard-unlinked"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_01",
+          "status": "PASS",
+          "controls": 0,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "2756566da397bc9a7fa48a60060f3b63492940eab3dbc97e1ae10bb761f64afd",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_01.png",
+          "root_classes": [
+            "hero-copy",
+            "panel dashboard-unlinked"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_01",
+          "status": "PASS",
+          "controls": 0,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "2756566da397bc9a7fa48a60060f3b63492940eab3dbc97e1ae10bb761f64afd",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_01.png",
+          "root_classes": [
+            "hero-copy",
+            "panel dashboard-unlinked"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_01",
+          "status": "PASS",
+          "controls": 0,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "2756566da397bc9a7fa48a60060f3b63492940eab3dbc97e1ae10bb761f64afd",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_01.png",
+          "root_classes": [
+            "hero-copy",
+            "panel dashboard-unlinked"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 2,
+    "menu": "Buat Potongan",
+    "source_verdict": {
+      "name": "Buat Potongan / cutting-roll",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedCuttingPage`: ID PO/pola/roll, versi, draft→POST dan recovery server; demo memakai katalog lokal. Panel analisis CP7 tertentu hanya disposable."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_02",
+          "status": "PASS",
+          "controls": 129,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "4dea162ecdc11ef41fc6edfb44a135cd3b1b1d521e5fb0cb3ecbd47d452bec55",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_02.png",
+          "root_classes": [
+            "hero-copy compact cutting-hero",
+            "cutting-flow-rail panel",
+            "roll-first-layout",
+            "panel roll-issue-workbench",
+            "panel allocation-workbench"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_02",
+          "status": "PASS",
+          "controls": 129,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "fbb49b8ac5432099441a2392db55738eb427930e1a9ab90328d984ac8f0bfe53",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_02.png",
+          "root_classes": [
+            "hero-copy compact cutting-hero",
+            "cutting-flow-rail panel",
+            "roll-first-layout",
+            "panel roll-issue-workbench",
+            "panel allocation-workbench"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_02",
+          "status": "PASS",
+          "controls": 28,
+          "rpc_names": [
+            "erp_get_cutting_workspace_v2",
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "2b9b8587e529281435ef3035499f43d4f7f749f4fb6feedd59230c94abadc241",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_02.png",
+          "root_classes": [
+            "connected-cutting-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_02",
+          "status": "PASS",
+          "controls": 28,
+          "rpc_names": [
+            "erp_get_cutting_workspace_v2",
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "2b9b8587e529281435ef3035499f43d4f7f749f4fb6feedd59230c94abadc241",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_02.png",
+          "root_classes": [
+            "connected-cutting-page"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_02",
+          "status": "PASS",
+          "controls": 25,
+          "rpc_names": [
+            "erp_get_cutting_workspace_v2",
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "13d18e19f266cce2b504bba6885871b1a64c26aa45318e66819515201e1a6549",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_02.png",
+          "root_classes": [
+            "connected-cutting-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_02",
+          "status": "PASS",
+          "controls": 25,
+          "rpc_names": [
+            "erp_get_cutting_workspace_v2",
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "13d18e19f266cce2b504bba6885871b1a64c26aa45318e66819515201e1a6549",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_02.png",
+          "root_classes": [
+            "connected-cutting-page"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 3,
+    "menu": "Bagi Potongan",
+    "source_verdict": {
+      "name": "Bagi Potongan / mandor-wip",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedPickupPage`: antrian dan batch sumber, versi, POST; REOPEN/pickup reverse/kain kembali memakai review server. Demo menyimpan state lokal."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_03",
+          "status": "PASS",
+          "controls": 48,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "7ece3a9dace9ec352c0749f613228bc9944442422f1c86f271a46c4d32264a7b",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_03.png",
+          "root_classes": [
+            "hero-copy compact cutting-hero",
+            "wip-flow-rail panel",
+            "wip-pickup-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_03",
+          "status": "PASS",
+          "controls": 39,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "c6e16f314806c3c005addb6bc2ed426eaf884821440c544232304281cd05392a",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_03.png",
+          "root_classes": [
+            "hero-copy compact cutting-hero",
+            "wip-flow-rail panel",
+            "wip-pickup-layout"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_03",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [
+            "erp_get_cutting_pickup_queue_v1",
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "3de6f25c0f7fe5e237091a4284ade4f60ba90fc6411e997e28c53c3b8d20773a",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_03.png",
+          "root_classes": [
+            "connected-pickup-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_03",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [
+            "erp_get_cutting_pickup_queue_v1",
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "3de6f25c0f7fe5e237091a4284ade4f60ba90fc6411e997e28c53c3b8d20773a",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_03.png",
+          "root_classes": [
+            "connected-pickup-page"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_03",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [
+            "erp_get_cutting_pickup_queue_v1",
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "3de6f25c0f7fe5e237091a4284ade4f60ba90fc6411e997e28c53c3b8d20773a",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_03.png",
+          "root_classes": [
+            "connected-pickup-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_03",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [
+            "erp_get_cutting_pickup_queue_v1",
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "3de6f25c0f7fe5e237091a4284ade4f60ba90fc6411e997e28c53c3b8d20773a",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_03.png",
+          "root_classes": [
+            "connected-pickup-page"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 4,
+    "menu": "WIP & Sewing",
+    "source_verdict": {
+      "name": "WIP & Sewing / sewing-wip",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedWipStatusPage` + `SewingCompletionPanel`: jumlah selesai dan upah nyata; demo memilih laundry dari kartu. Pengiriman nyata dilanjutkan pada menu Laundry. Tarif wave SKU ditolak secara eksplisit."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_04",
+          "status": "PASS",
+          "controls": 31,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "be75195549fac00e17f4ffd730556d7e15ac54e623c7cb4283d92ccd1265efc8",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_04.png",
+          "root_classes": [
+            "hero-copy compact sewing-hero",
+            "sewing-simulation-strip",
+            "sewing-kpi-grid",
+            "panel sewing-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_04",
+          "status": "PASS",
+          "controls": 31,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "be75195549fac00e17f4ffd730556d7e15ac54e623c7cb4283d92ccd1265efc8",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_04.png",
+          "root_classes": [
+            "hero-copy compact sewing-hero",
+            "sewing-simulation-strip",
+            "sewing-kpi-grid",
+            "panel sewing-workspace"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_04",
+          "status": "PASS",
+          "controls": 21,
+          "rpc_names": [
+            "erp_get_wip_control_v1",
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "fe25df31e679406ddb06f9d00f154572ea9e4f88fb30a6e2ffcdc108e6414078",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_04.png",
+          "root_classes": [
+            "connected-wip-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_04",
+          "status": "PASS",
+          "controls": 21,
+          "rpc_names": [
+            "erp_get_wip_control_v1",
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "fe25df31e679406ddb06f9d00f154572ea9e4f88fb30a6e2ffcdc108e6414078",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_04.png",
+          "root_classes": [
+            "connected-wip-page"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_04",
+          "status": "PASS",
+          "controls": 21,
+          "rpc_names": [
+            "erp_get_wip_control_v1",
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "a9c4ea6dee2ec1fd2346831fb50ffe2e5c0a622a266900f304289a42af33148f",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_04.png",
+          "root_classes": [
+            "connected-wip-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_04",
+          "status": "PASS",
+          "controls": 21,
+          "rpc_names": [
+            "erp_get_wip_control_v1",
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "a9c4ea6dee2ec1fd2346831fb50ffe2e5c0a622a266900f304289a42af33148f",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_04.png",
+          "root_classes": [
+            "connected-wip-page"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 5,
+    "menu": "Laundry",
+    "source_verdict": {
+      "name": "Laundry / laundry",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedLaundryPage`: sumber batch/ukuran, harga dan invoice BD, kapasitas/versi/dependensi; demo lokal. Uji browser nyata penulis tersedia; bukan sertifikasi semua variasi."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_05",
+          "status": "PASS",
+          "controls": 19,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "2d90e9772c0ca301d055b92a23680328636d16eacf444cd0cd2ad150f0e0e162",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_05.png",
+          "root_classes": [
+            "hero-copy compact laundry-hero",
+            "laundry-kpi-grid",
+            "panel laundry-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_05",
+          "status": "PASS",
+          "controls": 19,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "2d90e9772c0ca301d055b92a23680328636d16eacf444cd0cd2ad150f0e0e162",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_05.png",
+          "root_classes": [
+            "hero-copy compact laundry-hero",
+            "laundry-kpi-grid",
+            "panel laundry-workspace"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_05",
+          "status": "PASS",
+          "controls": 16,
+          "rpc_names": [
+            "erp_get_laundry_qc_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "02fd17146f79b55c7b1313e6d5bfd8627e4ce8dde4a1c0a6da0cf4bdb600e86a",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_05.png",
+          "root_classes": [
+            "connected-laundry-qc-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_05",
+          "status": "PASS",
+          "controls": 16,
+          "rpc_names": [
+            "erp_get_laundry_qc_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "02fd17146f79b55c7b1313e6d5bfd8627e4ce8dde4a1c0a6da0cf4bdb600e86a",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_05.png",
+          "root_classes": [
+            "connected-laundry-qc-page"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_05",
+          "status": "PASS",
+          "controls": 16,
+          "rpc_names": [
+            "erp_get_laundry_qc_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "02fd17146f79b55c7b1313e6d5bfd8627e4ce8dde4a1c0a6da0cf4bdb600e86a",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_05.png",
+          "root_classes": [
+            "connected-laundry-qc-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_05",
+          "status": "PASS",
+          "controls": 16,
+          "rpc_names": [
+            "erp_get_laundry_qc_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "02fd17146f79b55c7b1313e6d5bfd8627e4ce8dde4a1c0a6da0cf4bdb600e86a",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_05.png",
+          "root_classes": [
+            "connected-laundry-qc-page"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 6,
+    "menu": "QC & Final SKU",
+    "source_verdict": {
+      "name": "QC & Final SKU / qc",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedQcFinalPage`: identitas receipt/batch-size dan Final SKU nyata; demo membuat kartu nota lokal. Server melindungi lineage/qty."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_06",
+          "status": "PASS",
+          "controls": 21,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "82fba7390152abe2ca89b227b7710b3976ecf7291c6bf9206327c49f2300a6da",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_06.png",
+          "root_classes": [
+            "hero-copy compact qc-flow-hero",
+            "final-flow-strip",
+            "qc-browser-shell"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_06",
+          "status": "PASS",
+          "controls": 21,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "21b94ad93f5710b7f0e5b37f9669f8eddce8dd04c86812e62ba9b1acbfcde689",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_06.png",
+          "root_classes": [
+            "hero-copy compact qc-flow-hero",
+            "final-flow-strip",
+            "qc-browser-shell"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_06",
+          "status": "PASS",
+          "controls": 10,
+          "rpc_names": [
+            "erp_get_laundry_qc_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "80a04d28c8b66a4cd371a8302c6f24b7ac1d3bfa4ca2492904d1fe83a9dc1f80",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_06.png",
+          "root_classes": [
+            "connected-laundry-qc-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_06",
+          "status": "PASS",
+          "controls": 10,
+          "rpc_names": [
+            "erp_get_laundry_qc_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "80a04d28c8b66a4cd371a8302c6f24b7ac1d3bfa4ca2492904d1fe83a9dc1f80",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_06.png",
+          "root_classes": [
+            "connected-laundry-qc-page"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_06",
+          "status": "PASS",
+          "controls": 10,
+          "rpc_names": [
+            "erp_get_laundry_qc_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "80a04d28c8b66a4cd371a8302c6f24b7ac1d3bfa4ca2492904d1fe83a9dc1f80",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_06.png",
+          "root_classes": [
+            "connected-laundry-qc-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_06",
+          "status": "PASS",
+          "controls": 10,
+          "rpc_names": [
+            "erp_get_laundry_qc_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "80a04d28c8b66a4cd371a8302c6f24b7ac1d3bfa4ca2492904d1fe83a9dc1f80",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_06.png",
+          "root_classes": [
+            "connected-laundry-qc-page"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 7,
+    "menu": "Susun Nota FG",
+    "source_verdict": {
+      "name": "Susun Nota FG / fg-handoff",
+      "disposable": "BEDA",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "`ConnectedFgHandoffBoundary`: disposable membuka `ConnectedNotaPage` berbasis hak kerja; Enteng hanya batas belum aktif."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_07",
+          "status": "PASS",
+          "controls": 6,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "72fc3e15cd8f8b9a9d76f4f2c744f5ae56ce6ae558c2425461c7a6ef9ad0f759",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_07.png",
+          "root_classes": [
+            "hero-copy compact fg-handoff-hero",
+            "handoff-flow-strip",
+            "handoff-queue-banner empty",
+            "handoff-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_07",
+          "status": "PASS",
+          "controls": 6,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "72fc3e15cd8f8b9a9d76f4f2c744f5ae56ce6ae558c2425461c7a6ef9ad0f759",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_07.png",
+          "root_classes": [
+            "hero-copy compact fg-handoff-hero",
+            "handoff-flow-strip",
+            "handoff-queue-banner empty",
+            "handoff-layout"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_07",
+          "status": "PASS",
+          "controls": 19,
+          "rpc_names": [
+            "erp_cp7_get_nota_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "d33d3f34e4d9036a4fb5ec85009c78b511aae67284c71a272da74b7e441af4ba",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_07.png",
+          "root_classes": [
+            "cproc cnota"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_07",
+          "status": "PASS",
+          "controls": 19,
+          "rpc_names": [
+            "erp_cp7_get_nota_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "d33d3f34e4d9036a4fb5ec85009c78b511aae67284c71a272da74b7e441af4ba",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_07.png",
+          "root_classes": [
+            "cproc cnota"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_07",
+          "status": "PASS",
+          "controls": 0,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "42a2399285441292752123edb64b270276dc46c36cb417da375d0d47b87fef66",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_07.png",
+          "root_classes": [
+            "connected-laundry-qc-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_07",
+          "status": "PASS",
+          "controls": 0,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "42a2399285441292752123edb64b270276dc46c36cb417da375d0d47b87fef66",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_07.png",
+          "root_classes": [
+            "connected-laundry-qc-page"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 8,
+    "menu": "Barang BS & Rework",
+    "source_verdict": {
+      "name": "Barang BS & Rework / bs-rework",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedBsResolutionPage`: kasus/lineage, rework/resolve/scrap dan guard biaya native; demo state lokal. Tautan ke sumber rework diperiksa browser penulis; seluruh kombinasi penyelesaian belum diuji Astra melalui browser."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_08",
+          "status": "PASS",
+          "controls": 23,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "a919273a1f58fbda4a2b62ba45a21350f3b26713cea2aeb9fe09d9d27de0c562",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_08.png",
+          "root_classes": [
+            "hero-copy compact bsr-hero",
+            "bsr-rule-banner",
+            "bsr-kpis",
+            "panel bsr-toolbar",
+            "bsr-master-detail",
+            "panel bsr-ready-nota"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_08",
+          "status": "PASS",
+          "controls": 23,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "a919273a1f58fbda4a2b62ba45a21350f3b26713cea2aeb9fe09d9d27de0c562",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_08.png",
+          "root_classes": [
+            "hero-copy compact bsr-hero",
+            "bsr-rule-banner",
+            "bsr-kpis",
+            "panel bsr-toolbar",
+            "bsr-master-detail",
+            "panel bsr-ready-nota"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_08",
+          "status": "PASS",
+          "controls": 17,
+          "rpc_names": [
+            "erp_get_bs_resolution_workspace_v1",
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "2339833c53d454a49e33974423846eaece3a86b839710a4f39a8ba161d75f8d3",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_08.png",
+          "root_classes": [
+            "connected-bs-resolution-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_08",
+          "status": "PASS",
+          "controls": 17,
+          "rpc_names": [
+            "erp_get_bs_resolution_workspace_v1",
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "2339833c53d454a49e33974423846eaece3a86b839710a4f39a8ba161d75f8d3",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_08.png",
+          "root_classes": [
+            "connected-bs-resolution-page"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_08",
+          "status": "PASS",
+          "controls": 17,
+          "rpc_names": [
+            "erp_get_bs_resolution_workspace_v1",
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "2339833c53d454a49e33974423846eaece3a86b839710a4f39a8ba161d75f8d3",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_08.png",
+          "root_classes": [
+            "connected-bs-resolution-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_08",
+          "status": "PASS",
+          "controls": 17,
+          "rpc_names": [
+            "erp_get_bs_resolution_workspace_v1",
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "2339833c53d454a49e33974423846eaece3a86b839710a4f39a8ba161d75f8d3",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_08.png",
+          "root_classes": [
+            "connected-bs-resolution-page"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 9,
+    "menu": "Ringkasan Gudang",
+    "source_verdict": {
+      "name": "Ringkasan Gudang / warehouse-dashboard",
+      "disposable": "TIDAK ADA LAYAR TERSAMBUNG",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "`WarehousePages` tetap data contoh dalam kedua mode."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_09",
+          "status": "PASS",
+          "controls": 6,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "86c9f6b34a88e17186608181ae91581a12c87a0866d35103fa70c65c3a04eb9b",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_09.png",
+          "root_classes": [
+            "hero-copy compact wh-hero",
+            "wh-metrics",
+            "wh-dashboard-grid",
+            "panel wh-movement-panel"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_09",
+          "status": "PASS",
+          "controls": 6,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "86c9f6b34a88e17186608181ae91581a12c87a0866d35103fa70c65c3a04eb9b",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_09.png",
+          "root_classes": [
+            "hero-copy compact wh-hero",
+            "wh-metrics",
+            "wh-dashboard-grid",
+            "panel wh-movement-panel"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_09",
+          "status": "PASS",
+          "controls": 6,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "86c9f6b34a88e17186608181ae91581a12c87a0866d35103fa70c65c3a04eb9b",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_09.png",
+          "root_classes": [
+            "hero-copy compact wh-hero",
+            "wh-metrics",
+            "wh-dashboard-grid",
+            "panel wh-movement-panel"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_09",
+          "status": "PASS",
+          "controls": 6,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "86c9f6b34a88e17186608181ae91581a12c87a0866d35103fa70c65c3a04eb9b",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_09.png",
+          "root_classes": [
+            "hero-copy compact wh-hero",
+            "wh-metrics",
+            "wh-dashboard-grid",
+            "panel wh-movement-panel"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_09",
+          "status": "PASS",
+          "controls": 6,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "86c9f6b34a88e17186608181ae91581a12c87a0866d35103fa70c65c3a04eb9b",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_09.png",
+          "root_classes": [
+            "hero-copy compact wh-hero",
+            "wh-metrics",
+            "wh-dashboard-grid",
+            "panel wh-movement-panel"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_09",
+          "status": "PASS",
+          "controls": 6,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "86c9f6b34a88e17186608181ae91581a12c87a0866d35103fa70c65c3a04eb9b",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_09.png",
+          "root_classes": [
+            "hero-copy compact wh-hero",
+            "wh-metrics",
+            "wh-dashboard-grid",
+            "panel wh-movement-panel"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 10,
+    "menu": "Pembelian & Penerimaan",
+    "source_verdict": {
+      "name": "Pembelian & Penerimaan / procurement",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedProcurementPage`: sumber supplier/material, penerimaan ESTIMATED/FINAL, draft/post, koreksi dan pembayaran; state contoh tidak digunakan."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_10",
+          "status": "PASS",
+          "controls": 22,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "35f8af61236193adefb3d13da764bf6e5543d3999145f5b2ecde345b2f20c49c",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_10.png",
+          "root_classes": [
+            "hero-copy compact procurement-hero",
+            "procurement-mode-bar panel",
+            "procurement-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_10",
+          "status": "PASS",
+          "controls": 22,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "35f8af61236193adefb3d13da764bf6e5543d3999145f5b2ecde345b2f20c49c",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_10.png",
+          "root_classes": [
+            "hero-copy compact procurement-hero",
+            "procurement-mode-bar panel",
+            "procurement-layout"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_10",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [
+            "erp_cp7_get_procurement_v1"
+          ],
+          "alerts": [
+            "Data belum dimuat ulang. Refetch wajib berhasil sebelum transaksi berikutnya."
+          ],
+          "body_sha256": "6855dd848f2d3920b73b575017e4bf8214bc7ef88a0c9bfc273a6853b095091c",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_10.png",
+          "root_classes": [
+            "cproc"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_10",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [
+            "erp_cp7_get_procurement_v1"
+          ],
+          "alerts": [
+            "Data belum dimuat ulang. Refetch wajib berhasil sebelum transaksi berikutnya."
+          ],
+          "body_sha256": "6855dd848f2d3920b73b575017e4bf8214bc7ef88a0c9bfc273a6853b095091c",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_10.png",
+          "root_classes": [
+            "cproc"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_10",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [
+            "erp_cp7_get_procurement_v1"
+          ],
+          "alerts": [
+            "Data belum dimuat ulang. Refetch wajib berhasil sebelum transaksi berikutnya."
+          ],
+          "body_sha256": "6855dd848f2d3920b73b575017e4bf8214bc7ef88a0c9bfc273a6853b095091c",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_10.png",
+          "root_classes": [
+            "cproc"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_10",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [
+            "erp_cp7_get_procurement_v1"
+          ],
+          "alerts": [
+            "Data belum dimuat ulang. Refetch wajib berhasil sebelum transaksi berikutnya."
+          ],
+          "body_sha256": "6855dd848f2d3920b73b575017e4bf8214bc7ef88a0c9bfc273a6853b095091c",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_10.png",
+          "root_classes": [
+            "cproc"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 11,
+    "menu": "Bahan & Roll",
+    "source_verdict": {
+      "name": "Bahan & Roll / materials-rolls",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedMaterialsPage`: buku/stock roll dan transfer berbasis server; tanggal dan pembalikan diperiksa server."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_11",
+          "status": "PASS",
+          "controls": 22,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "c63a4d0fe13b5fb62dd2e21856fd786edd1b5a7ef3765711efb40f7f9af792c6",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_11.png",
+          "root_classes": [
+            "hero-copy compact wh-hero",
+            "wh-context-control",
+            "wh-metrics",
+            "panel wh-workspace material-rolls-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_11",
+          "status": "PASS",
+          "controls": 22,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "bd6b5d2e563b3401298f732e23fbb232310eba2fd1a64ba304de622117cd5cd2",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_11.png",
+          "root_classes": [
+            "hero-copy compact wh-hero",
+            "wh-context-control",
+            "wh-metrics",
+            "panel wh-workspace material-rolls-workspace"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_11",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [
+            "erp_cp7_get_material_transfers_v1",
+            "erp_cp7_get_materials_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "a949a17b49cc838a1214e4a9bdf3ddefb7f2c9b652db605f8ce87a3433d43aba",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_11.png",
+          "root_classes": [
+            "cproc cmat"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_11",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [
+            "erp_cp7_get_material_transfers_v1",
+            "erp_cp7_get_materials_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "a949a17b49cc838a1214e4a9bdf3ddefb7f2c9b652db605f8ce87a3433d43aba",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_11.png",
+          "root_classes": [
+            "cproc cmat"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_11",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [
+            "erp_cp7_get_material_transfers_v1",
+            "erp_cp7_get_materials_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "a949a17b49cc838a1214e4a9bdf3ddefb7f2c9b652db605f8ce87a3433d43aba",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_11.png",
+          "root_classes": [
+            "cproc cmat"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_11",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [
+            "erp_cp7_get_material_transfers_v1",
+            "erp_cp7_get_materials_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "a949a17b49cc838a1214e4a9bdf3ddefb7f2c9b652db605f8ce87a3433d43aba",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_11.png",
+          "root_classes": [
+            "cproc cmat"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 12,
+    "menu": "Kain kantong",
+    "source_verdict": {
+      "name": "Kain kantong / pocket-fabric",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedPocketFabricPage`: alokasi/sumber CP6, sementara demo hanya pemberitahuan; perhitungan tidak berasal dari angka contoh."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_12",
+          "status": "PASS",
+          "controls": 0,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "657f4157319b5c22d39806850bdc94461c61b3d30aea6d99645d30f000502baf",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_12.png",
+          "root_classes": [
+            "panel"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_12",
+          "status": "PASS",
+          "controls": 0,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "657f4157319b5c22d39806850bdc94461c61b3d30aea6d99645d30f000502baf",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_12.png",
+          "root_classes": [
+            "panel"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_12",
+          "status": "PASS",
+          "controls": 15,
+          "rpc_names": [
+            "erp_get_pocket_fabric_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "3c227615986cfa0cf1a655c48b655e120350993e66641cc0e8852e085dca4588",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_12.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_12",
+          "status": "PASS",
+          "controls": 15,
+          "rpc_names": [
+            "erp_get_pocket_fabric_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "3c227615986cfa0cf1a655c48b655e120350993e66641cc0e8852e085dca4588",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_12.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_12",
+          "status": "PASS",
+          "controls": 15,
+          "rpc_names": [
+            "erp_get_pocket_fabric_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "3c227615986cfa0cf1a655c48b655e120350993e66641cc0e8852e085dca4588",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_12.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_12",
+          "status": "PASS",
+          "controls": 15,
+          "rpc_names": [
+            "erp_get_pocket_fabric_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "3c227615986cfa0cf1a655c48b655e120350993e66641cc0e8852e085dca4588",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_12.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 13,
+    "menu": "Aksesori",
+    "source_verdict": {
+      "name": "Aksesori / accessories",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedAccessoryServicePage`: sumber/layanan/retur/biaya server, berbeda dengan daftar simulasi gudang."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_13",
+          "status": "PASS",
+          "controls": 25,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "fdc2ac17e3cdbee05302ca829691ada984394d10652fc085cad181d01074e29a",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_13.png",
+          "root_classes": [
+            "hero-copy compact wh-hero",
+            "wh-context-control",
+            "wh-metrics",
+            "panel wh-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_13",
+          "status": "PASS",
+          "controls": 25,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "fdc2ac17e3cdbee05302ca829691ada984394d10652fc085cad181d01074e29a",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_13.png",
+          "root_classes": [
+            "hero-copy compact wh-hero",
+            "wh-context-control",
+            "wh-metrics",
+            "panel wh-workspace"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_13",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_get_accessory_service_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "571078f1b81922ee07703f44df785ad039d6f00b8e168aae4e889816ed632929",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_13.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_13",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_get_accessory_service_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "571078f1b81922ee07703f44df785ad039d6f00b8e168aae4e889816ed632929",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_13.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_13",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_get_accessory_service_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "571078f1b81922ee07703f44df785ad039d6f00b8e168aae4e889816ed632929",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_13.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_13",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_get_accessory_service_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "571078f1b81922ee07703f44df785ad039d6f00b8e168aae4e889816ed632929",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_13.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 14,
+    "menu": "Ringkasan Barang Jadi",
+    "source_verdict": {
+      "name": "Ringkasan Barang Jadi / fg-summary",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedFgStockPage`: stok dan lineage server; planner/analisis/tautan CP7 tertentu dibatasi disposable. UAT bukan semua panel yang diuji CI."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_14",
+          "status": "PASS",
+          "controls": 20,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "529fd44096a5144db826fac7299b4c78044813c9f3ed3fb14e9c03072f58a629",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_14.png",
+          "root_classes": [
+            "hero-copy compact wh-hero",
+            "wh-metrics",
+            "panel wh-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_14",
+          "status": "PASS",
+          "controls": 20,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "529fd44096a5144db826fac7299b4c78044813c9f3ed3fb14e9c03072f58a629",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_14.png",
+          "root_classes": [
+            "hero-copy compact wh-hero",
+            "wh-metrics",
+            "panel wh-workspace"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_14",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_cp7_get_fg_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "7e1c251353ce8746e885432f7a0879865692a82f51fd5a20c4d7d4abff1170d6",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_14.png",
+          "root_classes": [
+            "panel native-demand",
+            "cproc cfg"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_14",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_cp7_get_fg_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "a917f777cabc52b4ea4edb49b4bb73b572dab5559f73c8b852793ae4f403ea26",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_14.png",
+          "root_classes": [
+            "panel native-demand",
+            "cproc cfg"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_14",
+          "status": "PASS",
+          "controls": 10,
+          "rpc_names": [
+            "erp_cp7_get_fg_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "cc19cbd296597569c204900eff153f2b7d42b7daa7f7ba399d3a7a48c2eab402",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_14.png",
+          "root_classes": [
+            "cproc cfg"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_14",
+          "status": "PASS",
+          "controls": 10,
+          "rpc_names": [
+            "erp_cp7_get_fg_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "9c95975226eec0739f9d4a84f0235324036dbc5f82f50d6ac5bb955a91dbe2da",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_14.png",
+          "root_classes": [
+            "cproc cfg"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 15,
+    "menu": "Mutasi Barang Jadi · Vivo",
+    "source_verdict": {
+      "name": "Mutasi Barang Jadi · Vivo / movements-vivo",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedFgBookPage`: buku per merek dan tanggal dari sumber, bukan array mutasi yang bisa diedit lokal."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_15",
+          "status": "PASS",
+          "controls": 17,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "21e2bd397b8d14f9c4633cc05a1bfdded497a2368df3db4f8e66c48f38387f3f",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_15.png",
+          "root_classes": [
+            "hero-copy compact brand-book-hero",
+            "panel mutation-panel"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_15",
+          "status": "PASS",
+          "controls": 9,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "7ebcef521228473743d3067eeb7ea552ea234c22a2511c6823fb3b064404d757",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_15.png",
+          "root_classes": [
+            "hero-copy compact brand-book-hero",
+            "panel mutation-panel"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_15",
+          "status": "PASS",
+          "controls": 22,
+          "rpc_names": [
+            "erp_cp7_get_fg_book_options_v1",
+            "erp_cp7_get_fg_book_v2"
+          ],
+          "alerts": [],
+          "body_sha256": "49d9f27fe5685ead5326d93b2e0af4b1054db4b2096152f7888c8242eb2968d0",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_15.png",
+          "root_classes": [
+            "cproc cfgb"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_15",
+          "status": "PASS",
+          "controls": 22,
+          "rpc_names": [
+            "erp_cp7_get_fg_book_options_v1",
+            "erp_cp7_get_fg_book_v2"
+          ],
+          "alerts": [],
+          "body_sha256": "4a38c9447e144408e991317e62ddff2a26f2be0003b9161f0a19078786016af5",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_15.png",
+          "root_classes": [
+            "cproc cfgb"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_15",
+          "status": "PASS",
+          "controls": 22,
+          "rpc_names": [
+            "erp_cp7_get_fg_book_options_v1",
+            "erp_cp7_get_fg_book_v2"
+          ],
+          "alerts": [],
+          "body_sha256": "172a4808c9038faa67c10aff75710c9e3cbaf17923d617114397ab28fcfd3ab6",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_15.png",
+          "root_classes": [
+            "cproc cfgb"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_15",
+          "status": "PASS",
+          "controls": 22,
+          "rpc_names": [
+            "erp_cp7_get_fg_book_options_v1",
+            "erp_cp7_get_fg_book_v2"
+          ],
+          "alerts": [],
+          "body_sha256": "49d9f27fe5685ead5326d93b2e0af4b1054db4b2096152f7888c8242eb2968d0",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_15.png",
+          "root_classes": [
+            "cproc cfgb"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 16,
+    "menu": "Mutasi Barang Jadi · Widie",
+    "source_verdict": {
+      "name": "Mutasi Barang Jadi · Widie / movements-widie",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "Komponen buku sama dengan parameter Widie; identitas merek harus tetap terpisah."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_16",
+          "status": "PASS",
+          "controls": 17,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "ae38c6bb80e9a058d989f998ce26e11f8bf80706602079bb2e504745f4f0071f",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_16.png",
+          "root_classes": [
+            "hero-copy compact brand-book-hero",
+            "panel mutation-panel"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_16",
+          "status": "PASS",
+          "controls": 9,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "fe08f710058ba53fd7501b468b9875c9778708adab41ad4e51d052bc2745e7b3",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_16.png",
+          "root_classes": [
+            "hero-copy compact brand-book-hero",
+            "panel mutation-panel"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_16",
+          "status": "PASS",
+          "controls": 22,
+          "rpc_names": [
+            "erp_cp7_get_fg_book_options_v1",
+            "erp_cp7_get_fg_book_v2"
+          ],
+          "alerts": [],
+          "body_sha256": "d632257cf7a18cbc35d99d4eea2aa7c07d313e60d5c05038054e499fcf81ef04",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_16.png",
+          "root_classes": [
+            "cproc cfgb"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_16",
+          "status": "PASS",
+          "controls": 22,
+          "rpc_names": [
+            "erp_cp7_get_fg_book_options_v1",
+            "erp_cp7_get_fg_book_v2"
+          ],
+          "alerts": [],
+          "body_sha256": "30b9aee4e0ae8db559ed616876cc96d5feca9f0aaeaf5499970f52762f91d5da",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_16.png",
+          "root_classes": [
+            "cproc cfgb"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_16",
+          "status": "PASS",
+          "controls": 22,
+          "rpc_names": [
+            "erp_cp7_get_fg_book_options_v1",
+            "erp_cp7_get_fg_book_v2"
+          ],
+          "alerts": [],
+          "body_sha256": "59af5672738a097b3f509daae08a70dacc9df45a85dad96110eeb90618934776",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_16.png",
+          "root_classes": [
+            "cproc cfgb"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_16",
+          "status": "PASS",
+          "controls": 22,
+          "rpc_names": [
+            "erp_cp7_get_fg_book_options_v1",
+            "erp_cp7_get_fg_book_v2"
+          ],
+          "alerts": [],
+          "body_sha256": "d632257cf7a18cbc35d99d4eea2aa7c07d313e60d5c05038054e499fcf81ef04",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_16.png",
+          "root_classes": [
+            "cproc cfgb"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 17,
+    "menu": "Kartu Stok FG",
+    "source_verdict": {
+      "name": "Kartu Stok FG / stock-card",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedFgStockPage purpose=CARD`: lineage dan sejarah server; tautan transaksi asal hanya disposable."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_17",
+          "status": "PASS",
+          "controls": 13,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "b7afe5f75c708778d92a89afd9596a259c4c48d47ccf58063a0f35063e551948",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_17.png",
+          "root_classes": [
+            "hero-copy compact",
+            "panel sku-browser"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_17",
+          "status": "PASS",
+          "controls": 13,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "b7afe5f75c708778d92a89afd9596a259c4c48d47ccf58063a0f35063e551948",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_17.png",
+          "root_classes": [
+            "hero-copy compact",
+            "panel sku-browser"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_17",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_cp7_get_fg_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "1a4ad992b87e13366a38d01a53f05c44e1dbc4e083d461ee472e341ce14fefb8",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_17.png",
+          "root_classes": [
+            "panel native-demand",
+            "cproc cfg"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_17",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_cp7_get_fg_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "8bd8e0fe9f7de1c5b3a8ff92fc9f00d110fb10e83d907ae1d417f6e7ca96d5d3",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_17.png",
+          "root_classes": [
+            "panel native-demand",
+            "cproc cfg"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_17",
+          "status": "PASS",
+          "controls": 10,
+          "rpc_names": [
+            "erp_cp7_get_fg_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "55f62981de77fc8120f04ef4e7372d3112d32310eba50fed3a2b5bd5635976e1",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_17.png",
+          "root_classes": [
+            "cproc cfg"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_17",
+          "status": "PASS",
+          "controls": 10,
+          "rpc_names": [
+            "erp_cp7_get_fg_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "b3164176c4f29835166f9fa063d0deb99b82a9c2fe77de31fae78492d153c1c8",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_17.png",
+          "root_classes": [
+            "cproc cfg"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 18,
+    "menu": "Stock Adjustment",
+    "source_verdict": {
+      "name": "Stock Adjustment / stock-adjustment",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedStockAdjustmentPage`: hitung fisik, review, posting dan penolakan stale; berbeda dengan perubahan state contoh."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_18",
+          "status": "PASS",
+          "controls": 10,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "a02cdb8028b7f246ff4ef1a62463f5bb694db006e17e2a1225e2ae5c8eb84173",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_18.png",
+          "root_classes": [
+            "hero-copy compact ic-hero",
+            "ic-metrics",
+            "panel ic-shell"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_18",
+          "status": "PASS",
+          "controls": 10,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "b9b7f4edecddbe1a274c87a969575d3857f6db4ef25fcf9175d8027b9b7943b9",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_18.png",
+          "root_classes": [
+            "hero-copy compact ic-hero",
+            "ic-metrics",
+            "panel ic-shell"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_18",
+          "status": "PASS",
+          "controls": 20,
+          "rpc_names": [
+            "erp_cp7_get_material_counts_v1",
+            "erp_cp7_get_materials_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "73d440a923a7562eff383d5784e0db3581221bc58fff28028e822031d23d97e0",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_18.png",
+          "root_classes": [
+            "cproc"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_18",
+          "status": "PASS",
+          "controls": 20,
+          "rpc_names": [
+            "erp_cp7_get_material_counts_v1",
+            "erp_cp7_get_materials_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "73d440a923a7562eff383d5784e0db3581221bc58fff28028e822031d23d97e0",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_18.png",
+          "root_classes": [
+            "cproc"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_18",
+          "status": "PASS",
+          "controls": 20,
+          "rpc_names": [
+            "erp_cp7_get_material_counts_v1",
+            "erp_cp7_get_materials_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "73d440a923a7562eff383d5784e0db3581221bc58fff28028e822031d23d97e0",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_18.png",
+          "root_classes": [
+            "cproc"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_18",
+          "status": "PASS",
+          "controls": 20,
+          "rpc_names": [
+            "erp_cp7_get_material_counts_v1",
+            "erp_cp7_get_materials_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "73d440a923a7562eff383d5784e0db3581221bc58fff28028e822031d23d97e0",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_18.png",
+          "root_classes": [
+            "cproc"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 19,
+    "menu": "Ganti Merek",
+    "source_verdict": {
+      "name": "Ganti Merek / brand-conversion",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedProductConversionPage`: pilih lot, inverse dan nilai server; tidak sekadar ubah label produk. Bukti BE native/HTTP/browser lama dibedakan dari komposisi CP7."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_19",
+          "status": "PASS",
+          "controls": 16,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "3f0f1f2552262cdb0a989382a2d9f9e87ea6693dc4dd0a12e5c431cbdcb9636a",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_19.png",
+          "root_classes": [
+            "hero-copy compact ic-hero",
+            "ic-metrics brand",
+            "ic-conversion-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_19",
+          "status": "PASS",
+          "controls": 16,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "8e7053de609004135b5db3503078d0feef45a8379aec0ef5957bb5bb6cbdd14f",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_19.png",
+          "root_classes": [
+            "hero-copy compact ic-hero",
+            "ic-metrics brand",
+            "ic-conversion-layout"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_19",
+          "status": "PASS",
+          "controls": 22,
+          "rpc_names": [
+            "erp_get_accessory_service_workspace_v1",
+            "erp_get_product_conversion_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "e65368db4df9202c445c6cc28201ef973807f0c92fadc1c8ba9bd38ed94e66e5",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_19.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_19",
+          "status": "PASS",
+          "controls": 22,
+          "rpc_names": [
+            "erp_get_accessory_service_workspace_v1",
+            "erp_get_product_conversion_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "e65368db4df9202c445c6cc28201ef973807f0c92fadc1c8ba9bd38ed94e66e5",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_19.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_19",
+          "status": "PASS",
+          "controls": 22,
+          "rpc_names": [
+            "erp_get_accessory_service_workspace_v1",
+            "erp_get_product_conversion_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "e65368db4df9202c445c6cc28201ef973807f0c92fadc1c8ba9bd38ed94e66e5",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_19.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_19",
+          "status": "PASS",
+          "controls": 22,
+          "rpc_names": [
+            "erp_get_accessory_service_workspace_v1",
+            "erp_get_product_conversion_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "e65368db4df9202c445c6cc28201ef973807f0c92fadc1c8ba9bd38ed94e66e5",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_19.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 20,
+    "menu": "Penjualan & Invoice",
+    "source_verdict": {
+      "name": "Penjualan & Invoice / sales-invoice",
+      "disposable": "BEDA",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "`ConnectedSalesPage` hanya disposable; Enteng `SalesPages`. Lusin 3/5/4 dan satu ukuran berhasil, tetapi ditemukan pencampuran merek dan simpan saat seri masih dimuat."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_20",
+          "status": "PASS",
+          "controls": 30,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "60b807561ffeb6858cecc8626dbd109d78a458810ee60d85a4954d6a52985d36",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_20.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-invoice-lifecycle ",
+            "biz-meta panel",
+            "biz-sales-builder",
+            "panel biz-history-block"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_20",
+          "status": "PASS",
+          "controls": 30,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "60b807561ffeb6858cecc8626dbd109d78a458810ee60d85a4954d6a52985d36",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_20.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-invoice-lifecycle ",
+            "biz-meta panel",
+            "biz-sales-builder",
+            "panel biz-history-block"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_20",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_cp7_get_sales_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "5d7a3f2673c91e476a721e229ae9e91bf03c9aabb533597ede7f903d9aeec728",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_20.png",
+          "root_classes": [
+            "cproc csales"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_20",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_cp7_get_sales_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "5d7a3f2673c91e476a721e229ae9e91bf03c9aabb533597ede7f903d9aeec728",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_20.png",
+          "root_classes": [
+            "cproc csales"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_20",
+          "status": "PASS",
+          "controls": 30,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "60b807561ffeb6858cecc8626dbd109d78a458810ee60d85a4954d6a52985d36",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_20.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-invoice-lifecycle ",
+            "biz-meta panel",
+            "biz-sales-builder",
+            "panel biz-history-block"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_20",
+          "status": "PASS",
+          "controls": 30,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "60b807561ffeb6858cecc8626dbd109d78a458810ee60d85a4954d6a52985d36",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_20.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-invoice-lifecycle ",
+            "biz-meta panel",
+            "biz-sales-builder",
+            "panel biz-history-block"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 21,
+    "menu": "Semua Invoice",
+    "source_verdict": {
+      "name": "Semua Invoice / sales-allocation",
+      "disposable": "BEDA",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "Disposable memakai daftar/paging server `ConnectedSalesPage`; Enteng halaman contoh. Tidak ada bukti browser khusus seluruh alur view ini."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_21",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "70ab75fce73ebb3a992affbb82408d9b3edb1f1186c5dd4549d47f044d30f957",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_21.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-invoice-lifecycle compact",
+            "biz-metrics",
+            "panel biz-invoice-register",
+            "biz-store-sales-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_21",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "a82f40869defe285aa31c1f681b532b01b6e3fdf81966b1dadcbc84055480ade",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_21.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-invoice-lifecycle compact",
+            "biz-metrics",
+            "panel biz-invoice-register",
+            "biz-store-sales-layout"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_21",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_cp7_get_sales_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "5d7a3f2673c91e476a721e229ae9e91bf03c9aabb533597ede7f903d9aeec728",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_21.png",
+          "root_classes": [
+            "cproc csales"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_21",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_cp7_get_sales_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "5d7a3f2673c91e476a721e229ae9e91bf03c9aabb533597ede7f903d9aeec728",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_21.png",
+          "root_classes": [
+            "cproc csales"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_21",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "70ab75fce73ebb3a992affbb82408d9b3edb1f1186c5dd4549d47f044d30f957",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_21.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-invoice-lifecycle compact",
+            "biz-metrics",
+            "panel biz-invoice-register",
+            "biz-store-sales-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_21",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "a82f40869defe285aa31c1f681b532b01b6e3fdf81966b1dadcbc84055480ade",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_21.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-invoice-lifecycle compact",
+            "biz-metrics",
+            "panel biz-invoice-register",
+            "biz-store-sales-layout"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 22,
+    "menu": "Retur Penjualan",
+    "source_verdict": {
+      "name": "Retur Penjualan / sales-returns",
+      "disposable": "BEDA",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "Disposable kapasitas retur berasal dari allocation/lot server; Enteng simulasi. E01/return-correction dibaca per kasus."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_22",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "f6b1295434706034014c5f772375ab7a4996b59ca8254b66f11470c1a60af8ce",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_22.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-master-detail"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_22",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "f6b1295434706034014c5f772375ab7a4996b59ca8254b66f11470c1a60af8ce",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_22.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-master-detail"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_22",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_cp7_get_sales_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "2daa71dd5f5d6aa37032dbc4489666fa2965d3673caa3c079826c7cf3ea2dc3f",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_22.png",
+          "root_classes": [
+            "cproc csales"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_22",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_cp7_get_sales_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "2daa71dd5f5d6aa37032dbc4489666fa2965d3673caa3c079826c7cf3ea2dc3f",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_22.png",
+          "root_classes": [
+            "cproc csales"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_22",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "f6b1295434706034014c5f772375ab7a4996b59ca8254b66f11470c1a60af8ce",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_22.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-master-detail"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_22",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "f6b1295434706034014c5f772375ab7a4996b59ca8254b66f11470c1a60af8ce",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_22.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-master-detail"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 23,
+    "menu": "Pembayaran Pelanggan",
+    "source_verdict": {
+      "name": "Pembayaran Pelanggan / sales-payments",
+      "disposable": "BEDA",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "Disposable payment/reversal dengan ID, tanggal, bank dan versi; Enteng simulasi."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_23",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "3982a9f02a34dc32a6080a8be7c0724a0ed5085129f9c3353e1355cea174a502",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_23.png",
+          "root_classes": [
+            "biz-hero",
+            "biz-metrics",
+            "panel biz-master-detail"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_23",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "af891c3e9c9188a690d2cbfd5da07e6c00a8dc42d70ca120568e792498c5444e",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_23.png",
+          "root_classes": [
+            "biz-hero",
+            "biz-metrics",
+            "panel biz-master-detail"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_23",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_cp7_get_sales_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "ec7bc7f35d6b5c04e1067517488fde34484ac97c817607b47a0818ca66b0b19c",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_23.png",
+          "root_classes": [
+            "cproc csales"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_23",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_cp7_get_sales_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "ec7bc7f35d6b5c04e1067517488fde34484ac97c817607b47a0818ca66b0b19c",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_23.png",
+          "root_classes": [
+            "cproc csales"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_23",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "3982a9f02a34dc32a6080a8be7c0724a0ed5085129f9c3353e1355cea174a502",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_23.png",
+          "root_classes": [
+            "biz-hero",
+            "biz-metrics",
+            "panel biz-master-detail"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_23",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "af891c3e9c9188a690d2cbfd5da07e6c00a8dc42d70ca120568e792498c5444e",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_23.png",
+          "root_classes": [
+            "biz-hero",
+            "biz-metrics",
+            "panel biz-master-detail"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 24,
+    "menu": "Riwayat Pelanggan",
+    "source_verdict": {
+      "name": "Riwayat Pelanggan / sales-history",
+      "disposable": "TIDAK ADA LAYAR TERSAMBUNG",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "Selalu `SalesPages`, bukan riwayat pelanggan server."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_24",
+          "status": "PASS",
+          "controls": 6,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "f180d7d229a26720c67baa1982ab4f4c5be0a23b2353c8f572684435e650e88a",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_24.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-history-toolbar",
+            "biz-metrics",
+            "panel biz-timeline"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_24",
+          "status": "PASS",
+          "controls": 6,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "f180d7d229a26720c67baa1982ab4f4c5be0a23b2353c8f572684435e650e88a",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_24.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-history-toolbar",
+            "biz-metrics",
+            "panel biz-timeline"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_24",
+          "status": "PASS",
+          "controls": 6,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "f180d7d229a26720c67baa1982ab4f4c5be0a23b2353c8f572684435e650e88a",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_24.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-history-toolbar",
+            "biz-metrics",
+            "panel biz-timeline"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_24",
+          "status": "PASS",
+          "controls": 6,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "f180d7d229a26720c67baa1982ab4f4c5be0a23b2353c8f572684435e650e88a",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_24.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-history-toolbar",
+            "biz-metrics",
+            "panel biz-timeline"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_24",
+          "status": "PASS",
+          "controls": 6,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "f180d7d229a26720c67baa1982ab4f4c5be0a23b2353c8f572684435e650e88a",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_24.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-history-toolbar",
+            "biz-metrics",
+            "panel biz-timeline"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_24",
+          "status": "PASS",
+          "controls": 6,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "f180d7d229a26720c67baa1982ab4f4c5be0a23b2353c8f572684435e650e88a",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_24.png",
+          "root_classes": [
+            "biz-hero",
+            "panel biz-history-toolbar",
+            "biz-metrics",
+            "panel biz-timeline"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 25,
+    "menu": "Ringkasan Keuangan",
+    "source_verdict": {
+      "name": "Ringkasan Keuangan / finance-overview",
+      "disposable": "BEDA",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "Disposable `ConnectedFinanceOverviewPage`; Enteng `FinancePages`, angka contoh tanpa label simulasi pada hero (DOM terbukti)."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_25",
+          "status": "PASS",
+          "controls": 16,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "e9da2cdfee4da96b3aa78f10f0eaac29ec291ccc9a3bd505044a0dfecc01df75",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_25.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-metrics finance-five",
+            "biz-finance-overview",
+            "panel biz-action-grid"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_25",
+          "status": "PASS",
+          "controls": 16,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "e9da2cdfee4da96b3aa78f10f0eaac29ec291ccc9a3bd505044a0dfecc01df75",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_25.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-metrics finance-five",
+            "biz-finance-overview",
+            "panel biz-action-grid"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_25",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [
+            "erp_cp7_get_finance_report_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "c123aad58cd008b877be580d44fcc2cc38a8b4e8d59834f859f5dc48277b87e3",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_25.png",
+          "root_classes": [
+            "cproc cfinance-overview"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_25",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [
+            "erp_cp7_get_finance_report_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "b36f34f30dddb378a6b347e9bbdfa6df703d8c65a8640a7a9815430e5bcf3b70",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_25.png",
+          "root_classes": [
+            "cproc cfinance-overview"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_25",
+          "status": "PASS",
+          "controls": 16,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "e9da2cdfee4da96b3aa78f10f0eaac29ec291ccc9a3bd505044a0dfecc01df75",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_25.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-metrics finance-five",
+            "biz-finance-overview",
+            "panel biz-action-grid"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_25",
+          "status": "PASS",
+          "controls": 16,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "e9da2cdfee4da96b3aa78f10f0eaac29ec291ccc9a3bd505044a0dfecc01df75",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_25.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-metrics finance-five",
+            "biz-finance-overview",
+            "panel biz-action-grid"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 26,
+    "menu": "Kas & Bank",
+    "source_verdict": {
+      "name": "Kas & Bank / finance-cash",
+      "disposable": "BEDA",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "Disposable `ConnectedCashLedgerPage`: tanggal, akun, sumber dan running balance; Enteng contoh."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_26",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "2b995b78bfe154a247f93a2a5e5421058d9d3e52326dc9da92380fa08458bf40",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_26.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-cash-accounts",
+            "panel biz-ledger"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_26",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "2b995b78bfe154a247f93a2a5e5421058d9d3e52326dc9da92380fa08458bf40",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_26.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-cash-accounts",
+            "panel biz-ledger"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_26",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_cp7_get_finance_analysis_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "9127e1419a6bf2915743b7543284578d3f1c74d565f1edfa82f1a45dc4cecc2c",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_26.png",
+          "root_classes": [
+            "cproc ccash"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_26",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [
+            "erp_cp7_get_finance_analysis_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "c917e382e57653b8e2eb21297dacbd016e65ab5ec56be289c0e7ce3a1412e4da",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_26.png",
+          "root_classes": [
+            "cproc ccash"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_26",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "2b995b78bfe154a247f93a2a5e5421058d9d3e52326dc9da92380fa08458bf40",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_26.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-cash-accounts",
+            "panel biz-ledger"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_26",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "2b995b78bfe154a247f93a2a5e5421058d9d3e52326dc9da92380fa08458bf40",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_26.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-cash-accounts",
+            "panel biz-ledger"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 27,
+    "menu": "Hutang Supplier & Vendor",
+    "source_verdict": {
+      "name": "Hutang Supplier & Vendor / finance-ap",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedSupplierCreditPage`: saldo/kredit supplier; vendor diarahkan ke Laundry, berbeda dari gabungan daftar contoh."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_27",
+          "status": "PASS",
+          "controls": 8,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "58698b56915a3334562005c9d272e861224ff7a3a593a30ce0b98ee35fea69e6",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_27.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-metrics",
+            "panel biz-master-detail finance-detail"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_27",
+          "status": "PASS",
+          "controls": 8,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "f108832f71ef9f86579b652303dfad849ba526a1764c03f584eb6c63bace8a2c",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_27.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-metrics",
+            "panel biz-master-detail finance-detail"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_27",
+          "status": "PASS",
+          "controls": 5,
+          "rpc_names": [
+            "erp_get_supplier_credit_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "a2d2274e9d067bf1bc96878a8dfcfa4842842d93d15dba1a9d85e0e5f8043b65",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_27.png",
+          "root_classes": [
+            "initial-import supplier-credit"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_27",
+          "status": "PASS",
+          "controls": 5,
+          "rpc_names": [
+            "erp_get_supplier_credit_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "a2d2274e9d067bf1bc96878a8dfcfa4842842d93d15dba1a9d85e0e5f8043b65",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_27.png",
+          "root_classes": [
+            "initial-import supplier-credit"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_27",
+          "status": "PASS",
+          "controls": 5,
+          "rpc_names": [
+            "erp_get_supplier_credit_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "a2d2274e9d067bf1bc96878a8dfcfa4842842d93d15dba1a9d85e0e5f8043b65",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_27.png",
+          "root_classes": [
+            "initial-import supplier-credit"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_27",
+          "status": "PASS",
+          "controls": 5,
+          "rpc_names": [
+            "erp_get_supplier_credit_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "a2d2274e9d067bf1bc96878a8dfcfa4842842d93d15dba1a9d85e0e5f8043b65",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_27.png",
+          "root_classes": [
+            "initial-import supplier-credit"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 28,
+    "menu": "Piutang Pelanggan",
+    "source_verdict": {
+      "name": "Piutang Pelanggan / finance-ar",
+      "disposable": "BEDA",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "Disposable `ConnectedReceivablesPage` dengan tautan invoice; Enteng contoh."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_28",
+          "status": "PASS",
+          "controls": 8,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "a8210a28c9437874d85e0e6c0201e6305f7cb33aebcba6b2ae1ead08b460dbc0",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_28.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-metrics",
+            "panel biz-master-detail finance-detail"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_28",
+          "status": "PASS",
+          "controls": 8,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "b07c813a66eae8b589a0f6895dfd61735a3d162661da8827b23161d946715de5",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_28.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-metrics",
+            "panel biz-master-detail finance-detail"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_28",
+          "status": "PASS",
+          "controls": 10,
+          "rpc_names": [
+            "erp_cp7_get_sales_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "ea70aafde5af0c59c14a06164d4418fa3edff37626ae4eac70c824199dbbe55e",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_28.png",
+          "root_classes": [
+            "cproc creceivables"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_28",
+          "status": "PASS",
+          "controls": 10,
+          "rpc_names": [
+            "erp_cp7_get_sales_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "cb232dde15625e61d3ae63896ef82b714cc0922c3a920030c7493f84bc86f7c1",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_28.png",
+          "root_classes": [
+            "cproc creceivables"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_28",
+          "status": "PASS",
+          "controls": 8,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "a8210a28c9437874d85e0e6c0201e6305f7cb33aebcba6b2ae1ead08b460dbc0",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_28.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-metrics",
+            "panel biz-master-detail finance-detail"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_28",
+          "status": "PASS",
+          "controls": 8,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "b07c813a66eae8b589a0f6895dfd61735a3d162661da8827b23161d946715de5",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_28.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-metrics",
+            "panel biz-master-detail finance-detail"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 29,
+    "menu": "Payroll & Kasbon",
+    "source_verdict": {
+      "name": "Payroll & Kasbon / finance-payroll",
+      "disposable": "BEDA",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "Disposable `ConnectedPayrollPage`: sumber, review/approve/pay/cicilan/kasbon; Enteng angka contoh tanpa label simulasi hero (DOM terbukti)."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_29",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "db1ff2007411b31e27e3203819584a455c0abfb1ab34720218bea397933cdb84",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_29.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-metrics",
+            "panel biz-payroll-browser-toolbar",
+            "panel biz-master-detail finance-detail payroll-detail"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_29",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "db1ff2007411b31e27e3203819584a455c0abfb1ab34720218bea397933cdb84",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_29.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-metrics",
+            "panel biz-payroll-browser-toolbar",
+            "panel biz-master-detail finance-detail payroll-detail"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_29",
+          "status": "PASS",
+          "controls": 18,
+          "rpc_names": [
+            "erp_cp7_get_payroll_workspace_v1"
+          ],
+          "alerts": [
+            "Data belum dimuat ulang. Refetch wajib berhasil sebelum transaksi berikutnya."
+          ],
+          "body_sha256": "505749cce4cdaa35671c334bffc400c91744497b131a3b3d164616e5a9dc5d2a",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_29.png",
+          "root_classes": [
+            "cproc cpay"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_29",
+          "status": "PASS",
+          "controls": 18,
+          "rpc_names": [
+            "erp_cp7_get_payroll_workspace_v1"
+          ],
+          "alerts": [
+            "Data belum dimuat ulang. Refetch wajib berhasil sebelum transaksi berikutnya."
+          ],
+          "body_sha256": "505749cce4cdaa35671c334bffc400c91744497b131a3b3d164616e5a9dc5d2a",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_29.png",
+          "root_classes": [
+            "cproc cpay"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_29",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "db1ff2007411b31e27e3203819584a455c0abfb1ab34720218bea397933cdb84",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_29.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-metrics",
+            "panel biz-payroll-browser-toolbar",
+            "panel biz-master-detail finance-detail payroll-detail"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_29",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "db1ff2007411b31e27e3203819584a455c0abfb1ab34720218bea397933cdb84",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_29.png",
+          "root_classes": [
+            "biz-hero finance",
+            "biz-metrics",
+            "panel biz-payroll-browser-toolbar",
+            "panel biz-master-detail finance-detail payroll-detail"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 30,
+    "menu": "Absensi & Rate Harian",
+    "source_verdict": {
+      "name": "Absensi & Rate Harian / operations-attendance",
+      "disposable": "BEDA",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "Disposable `ConnectedAttendancePage` berbasis periode/roster server; Enteng `OperationsAdminPages`. Tidak berarti lifecycle pool HPP absensi lengkap melalui UI."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_30",
+          "status": "PASS",
+          "controls": 42,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "6f524ab44b12f9ff92710439f0a907bf06eebfb00ed9ff254b0c22ff5d6f08ff",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_30.png",
+          "root_classes": [
+            "attendance2-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_30",
+          "status": "PASS",
+          "controls": 42,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "6f524ab44b12f9ff92710439f0a907bf06eebfb00ed9ff254b0c22ff5d6f08ff",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_30.png",
+          "root_classes": [
+            "attendance2-page"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_30",
+          "status": "PASS",
+          "controls": 17,
+          "rpc_names": [
+            "erp_cp7_get_attendance_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "5e5b7cfbf4d73f979aebd675e302aa9f419fe08f8e5669174da1674efe2d8033",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_30.png",
+          "root_classes": [
+            "cproc catt"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_30",
+          "status": "PASS",
+          "controls": 17,
+          "rpc_names": [
+            "erp_cp7_get_attendance_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "5e5b7cfbf4d73f979aebd675e302aa9f419fe08f8e5669174da1674efe2d8033",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_30.png",
+          "root_classes": [
+            "cproc catt"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_30",
+          "status": "PASS",
+          "controls": 42,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "6f524ab44b12f9ff92710439f0a907bf06eebfb00ed9ff254b0c22ff5d6f08ff",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_30.png",
+          "root_classes": [
+            "attendance2-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_30",
+          "status": "PASS",
+          "controls": 42,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "6f524ab44b12f9ff92710439f0a907bf06eebfb00ed9ff254b0c22ff5d6f08ff",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_30.png",
+          "root_classes": [
+            "attendance2-page"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 31,
+    "menu": "Nota Ambil Aksesori",
+    "source_verdict": {
+      "name": "Nota Ambil Aksesori / contractor-issue",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedAccessoryIssuePage`: sumber gudang, qty/harga hak mandor, POST/inverse dan recovery; demo lokal. Sambungan sampai kas payroll belum dibuktikan satu perjalanan browser."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_31",
+          "status": "PASS",
+          "controls": 18,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "539b287f42cbc62adf0d8a8b5778205b43bb4b74984b7df1e268760b287c229d",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_31.png",
+          "root_classes": [
+            "hero-copy compact ci-hero",
+            "ci-metrics",
+            "panel ci-filter-bar",
+            "panel ci-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_31",
+          "status": "PASS",
+          "controls": 18,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "539b287f42cbc62adf0d8a8b5778205b43bb4b74984b7df1e268760b287c229d",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_31.png",
+          "root_classes": [
+            "hero-copy compact ci-hero",
+            "ci-metrics",
+            "panel ci-filter-bar",
+            "panel ci-layout"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_31",
+          "status": "PASS",
+          "controls": 21,
+          "rpc_names": [
+            "erp_get_accessory_issue_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "d2619506a91a5a8c9ce1b1e781b60b47e970624c86d4a8be6cbbfd459414cdac",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_31.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_31",
+          "status": "PASS",
+          "controls": 21,
+          "rpc_names": [
+            "erp_get_accessory_issue_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "d2619506a91a5a8c9ce1b1e781b60b47e970624c86d4a8be6cbbfd459414cdac",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_31.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_31",
+          "status": "PASS",
+          "controls": 21,
+          "rpc_names": [
+            "erp_get_accessory_issue_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "d2619506a91a5a8c9ce1b1e781b60b47e970624c86d4a8be6cbbfd459414cdac",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_31.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_31",
+          "status": "PASS",
+          "controls": 21,
+          "rpc_names": [
+            "erp_get_accessory_issue_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "d2619506a91a5a8c9ce1b1e781b60b47e970624c86d4a8be6cbbfd459414cdac",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_31.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 32,
+    "menu": "HPP & Rekalkulasi",
+    "source_verdict": {
+      "name": "HPP & Rekalkulasi / hpp",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedSkuHppPage`: nilai stok per SKU/lot, recost dan `PoFinishPanel`; demo checklist. Label “HPP final” terlalu tegas ketika hasil server BELUM_LENGKAP/ESTIMATED."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_32",
+          "status": "PASS",
+          "controls": 24,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "a33a6b3ed0c412922474000556a115734e6e3d0162acbc81f554aea04fc36331",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_32.png",
+          "root_classes": [
+            "hero-copy compact hpp-hero",
+            "hpp-kpis",
+            "hpp-master-detail"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_32",
+          "status": "PASS",
+          "controls": 24,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "44e4b93746ef33b0560639f3f08d6dd36f93e092e32c0edae0cd9543cae16a30",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_32.png",
+          "root_classes": [
+            "hero-copy compact hpp-hero",
+            "hpp-kpis",
+            "hpp-master-detail"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_32",
+          "status": "PASS",
+          "controls": 13,
+          "rpc_names": [
+            "erp_cp7_get_recost_queue_v1",
+            "erp_get_sku_hpp_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "2cb1dcb71a5861041da2a7eae26ddc26c6d35cf0174e58e15369e692fd01e33a",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_32.png",
+          "root_classes": [
+            "initial-import sku-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_32",
+          "status": "PASS",
+          "controls": 13,
+          "rpc_names": [
+            "erp_cp7_get_recost_queue_v1",
+            "erp_get_sku_hpp_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "612a01aab86311015b263a37b30932ae1fb1bb54b373af3739e1073b4400a9b9",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_32.png",
+          "root_classes": [
+            "initial-import sku-workspace"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_32",
+          "status": "PASS",
+          "controls": 13,
+          "rpc_names": [
+            "erp_cp7_get_recost_queue_v1",
+            "erp_get_sku_hpp_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "2cb1dcb71a5861041da2a7eae26ddc26c6d35cf0174e58e15369e692fd01e33a",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_32.png",
+          "root_classes": [
+            "initial-import sku-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_32",
+          "status": "PASS",
+          "controls": 13,
+          "rpc_names": [
+            "erp_cp7_get_recost_queue_v1",
+            "erp_get_sku_hpp_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "612a01aab86311015b263a37b30932ae1fb1bb54b373af3739e1073b4400a9b9",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_32.png",
+          "root_classes": [
+            "initial-import sku-workspace"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 33,
+    "menu": "Jurnal & Transaksi Lain",
+    "source_verdict": {
+      "name": "Jurnal & Transaksi Lain / finance-journal",
+      "disposable": "BEDA",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "Disposable `ConnectedJournalPage` dan writer misc; Enteng contoh. Tautan transaksi asal dibatasi disposable."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_33",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "fdcead412960db659e3bc8639d9c4a582ed34d240d4d83e6b78bc7c3c825bb3b",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_33.png",
+          "root_classes": [
+            "biz-hero finance",
+            "panel biz-workspace-tabs",
+            "biz-misc-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_33",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "fdcead412960db659e3bc8639d9c4a582ed34d240d4d83e6b78bc7c3c825bb3b",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_33.png",
+          "root_classes": [
+            "biz-hero finance",
+            "panel biz-workspace-tabs",
+            "biz-misc-layout"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_33",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [
+            "erp_cp7_get_journal_book_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "bf2e60dc46a01c9ed09b8f6566be446cd4165bc6a35643bf46cd9467fd55bc83",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_33.png",
+          "root_classes": [
+            "cproc cjournal"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_33",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [
+            "erp_cp7_get_journal_book_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "798b87d4cc6b5a88b0590451fa42a5d0b3443c4ded3c9874ea213531ee072642",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_33.png",
+          "root_classes": [
+            "cproc cjournal"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_33",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "fdcead412960db659e3bc8639d9c4a582ed34d240d4d83e6b78bc7c3c825bb3b",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_33.png",
+          "root_classes": [
+            "biz-hero finance",
+            "panel biz-workspace-tabs",
+            "biz-misc-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_33",
+          "status": "PASS",
+          "controls": 11,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "fdcead412960db659e3bc8639d9c4a582ed34d240d4d83e6b78bc7c3c825bb3b",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_33.png",
+          "root_classes": [
+            "biz-hero finance",
+            "panel biz-workspace-tabs",
+            "biz-misc-layout"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 34,
+    "menu": "Laporan & Tutup Buku",
+    "source_verdict": {
+      "name": "Laporan & Tutup Buku / finance-reports",
+      "disposable": "BEDA",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "Disposable `ConnectedFinanceReportPage`: laporan/tutup periode berdasarkan sumber; Enteng contoh. Menu admin Tutup Periode lain masih simulasi."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_34",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "8fcc27f8bc06150eabbe57ce995430d073ff3447d7c355c8f603258b49cf4cea",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_34.png",
+          "root_classes": [
+            "biz-hero finance",
+            "panel biz-report-controls",
+            "biz-report-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_34",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "8fcc27f8bc06150eabbe57ce995430d073ff3447d7c355c8f603258b49cf4cea",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_34.png",
+          "root_classes": [
+            "biz-hero finance",
+            "panel biz-report-controls",
+            "biz-report-layout"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_34",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [
+            "erp_cp7_get_finance_report_v1",
+            "erp_cp7_get_period_control_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "4be020082baf327ae221b115b1e21752bdafe2a7663ac3013aad31f35d57db79",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_34.png",
+          "root_classes": [
+            "cproc cfinance-report"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_34",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [
+            "erp_cp7_get_finance_report_v1",
+            "erp_cp7_get_period_control_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "e70c15449f0b7c59fded3aa67332eec909a40b3866bc29c116ecfa9c112ba34d",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_34.png",
+          "root_classes": [
+            "cproc cfinance-report"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_34",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "8fcc27f8bc06150eabbe57ce995430d073ff3447d7c355c8f603258b49cf4cea",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_34.png",
+          "root_classes": [
+            "biz-hero finance",
+            "panel biz-report-controls",
+            "biz-report-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_34",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "8fcc27f8bc06150eabbe57ce995430d073ff3447d7c355c8f603258b49cf4cea",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_34.png",
+          "root_classes": [
+            "biz-hero finance",
+            "panel biz-report-controls",
+            "biz-report-layout"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 35,
+    "menu": "Kain & Benchmark",
+    "source_verdict": {
+      "name": "Kain & Benchmark / master-fabric",
+      "disposable": "TIDAK ADA LAYAR TERSAMBUNG",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "`MaterialMasterPages` tetap state contoh; bukan CRUD material harian server."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_35",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "83542d3ac7026095bfed312f7a623f486a6e6d2f03c200afab6b7e96e744f1f9",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_35.png",
+          "root_classes": [
+            "hero-copy compact mm-hero",
+            "mm-metrics",
+            "panel mm-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_35",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "83542d3ac7026095bfed312f7a623f486a6e6d2f03c200afab6b7e96e744f1f9",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_35.png",
+          "root_classes": [
+            "hero-copy compact mm-hero",
+            "mm-metrics",
+            "panel mm-layout"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_35",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "83542d3ac7026095bfed312f7a623f486a6e6d2f03c200afab6b7e96e744f1f9",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_35.png",
+          "root_classes": [
+            "hero-copy compact mm-hero",
+            "mm-metrics",
+            "panel mm-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_35",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "83542d3ac7026095bfed312f7a623f486a6e6d2f03c200afab6b7e96e744f1f9",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_35.png",
+          "root_classes": [
+            "hero-copy compact mm-hero",
+            "mm-metrics",
+            "panel mm-layout"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_35",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "83542d3ac7026095bfed312f7a623f486a6e6d2f03c200afab6b7e96e744f1f9",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_35.png",
+          "root_classes": [
+            "hero-copy compact mm-hero",
+            "mm-metrics",
+            "panel mm-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_35",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "83542d3ac7026095bfed312f7a623f486a6e6d2f03c200afab6b7e96e744f1f9",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_35.png",
+          "root_classes": [
+            "hero-copy compact mm-hero",
+            "mm-metrics",
+            "panel mm-layout"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 36,
+    "menu": "Aksesori & Harga Mandor",
+    "source_verdict": {
+      "name": "Aksesori & Harga Mandor / master-accessory",
+      "disposable": "TIDAK ADA LAYAR TERSAMBUNG",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "`MaterialMasterPages` tetap contoh; tarif khusus yang ada di alur lain tidak menggantikan halaman master ini."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_36",
+          "status": "PASS",
+          "controls": 27,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "e6af2260bd4af1cafe4b74c1196ec62c614f1dde4d1770edd1f638a5e4931156",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_36.png",
+          "root_classes": [
+            "hero-copy compact mm-hero",
+            "mm-workspace-tabs",
+            "mm-category-strip",
+            "panel mm-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_36",
+          "status": "PASS",
+          "controls": 27,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "e6af2260bd4af1cafe4b74c1196ec62c614f1dde4d1770edd1f638a5e4931156",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_36.png",
+          "root_classes": [
+            "hero-copy compact mm-hero",
+            "mm-workspace-tabs",
+            "mm-category-strip",
+            "panel mm-layout"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_36",
+          "status": "PASS",
+          "controls": 27,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "e6af2260bd4af1cafe4b74c1196ec62c614f1dde4d1770edd1f638a5e4931156",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_36.png",
+          "root_classes": [
+            "hero-copy compact mm-hero",
+            "mm-workspace-tabs",
+            "mm-category-strip",
+            "panel mm-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_36",
+          "status": "PASS",
+          "controls": 27,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "e6af2260bd4af1cafe4b74c1196ec62c614f1dde4d1770edd1f638a5e4931156",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_36.png",
+          "root_classes": [
+            "hero-copy compact mm-hero",
+            "mm-workspace-tabs",
+            "mm-category-strip",
+            "panel mm-layout"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_36",
+          "status": "PASS",
+          "controls": 27,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "e6af2260bd4af1cafe4b74c1196ec62c614f1dde4d1770edd1f638a5e4931156",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_36.png",
+          "root_classes": [
+            "hero-copy compact mm-hero",
+            "mm-workspace-tabs",
+            "mm-category-strip",
+            "panel mm-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_36",
+          "status": "PASS",
+          "controls": 27,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "e6af2260bd4af1cafe4b74c1196ec62c614f1dde4d1770edd1f638a5e4931156",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_36.png",
+          "root_classes": [
+            "hero-copy compact mm-hero",
+            "mm-workspace-tabs",
+            "mm-category-strip",
+            "panel mm-layout"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 37,
+    "menu": "Produk & SKU",
+    "source_verdict": {
+      "name": "Produk & SKU / master-products",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedSkuMasterPage`: kelompok Merek/SKU, versi efektif, member ukuran dan legacy basis; demo edit lokal. DB mengizinkan nomor SKU sama pada merek berbeda."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_37",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "52fe9d124aca679bfac62d9cc7f0dabe73cd8bea6fd420bbcd82bb357b2791dc",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_37.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_37",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "52fe9d124aca679bfac62d9cc7f0dabe73cd8bea6fd420bbcd82bb357b2791dc",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_37.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_37",
+          "status": "PASS",
+          "controls": 5,
+          "rpc_names": [
+            "erp_get_sku_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "5a068afe11aff9f6c48d74f71e6a1f87db70239b156c15d6ec449f0dc01972c3",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_37.png",
+          "root_classes": [
+            "initial-import sku-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_37",
+          "status": "PASS",
+          "controls": 5,
+          "rpc_names": [
+            "erp_get_sku_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "5a068afe11aff9f6c48d74f71e6a1f87db70239b156c15d6ec449f0dc01972c3",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_37.png",
+          "root_classes": [
+            "initial-import sku-workspace"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_37",
+          "status": "PASS",
+          "controls": 5,
+          "rpc_names": [
+            "erp_get_sku_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "5a068afe11aff9f6c48d74f71e6a1f87db70239b156c15d6ec449f0dc01972c3",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_37.png",
+          "root_classes": [
+            "initial-import sku-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_37",
+          "status": "PASS",
+          "controls": 5,
+          "rpc_names": [
+            "erp_get_sku_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "5a068afe11aff9f6c48d74f71e6a1f87db70239b156c15d6ec449f0dc01972c3",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_37.png",
+          "root_classes": [
+            "initial-import sku-workspace"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 38,
+    "menu": "Pelanggan",
+    "source_verdict": {
+      "name": "Pelanggan / master-customers",
+      "disposable": "TIDAK ADA LAYAR TERSAMBUNG",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "`MasterDataPages` memakai state lokal; pelanggan baru harian tidak disimpan server dari menu ini."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_38",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "eb44499a052126c31fcef0a891d91d25636419750bf6b4c85c11965fb0bacc0d",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_38.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_38",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "eb44499a052126c31fcef0a891d91d25636419750bf6b4c85c11965fb0bacc0d",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_38.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_38",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "eb44499a052126c31fcef0a891d91d25636419750bf6b4c85c11965fb0bacc0d",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_38.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_38",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "eb44499a052126c31fcef0a891d91d25636419750bf6b4c85c11965fb0bacc0d",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_38.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_38",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "eb44499a052126c31fcef0a891d91d25636419750bf6b4c85c11965fb0bacc0d",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_38.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_38",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "eb44499a052126c31fcef0a891d91d25636419750bf6b4c85c11965fb0bacc0d",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_38.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 39,
+    "menu": "Supplier & Vendor",
+    "source_verdict": {
+      "name": "Supplier & Vendor / master-partners",
+      "disposable": "TIDAK ADA LAYAR TERSAMBUNG",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "`MasterDataPages` contoh; master khusus vendor laundry tidak menutup seluruh kebutuhan supplier."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_39",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "81dbafd3f6eec79ac094547d58e1628e6ff8984bb0bdcc0c410eb09fd199b639",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_39.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_39",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "81dbafd3f6eec79ac094547d58e1628e6ff8984bb0bdcc0c410eb09fd199b639",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_39.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_39",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "81dbafd3f6eec79ac094547d58e1628e6ff8984bb0bdcc0c410eb09fd199b639",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_39.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_39",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "81dbafd3f6eec79ac094547d58e1628e6ff8984bb0bdcc0c410eb09fd199b639",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_39.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_39",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "81dbafd3f6eec79ac094547d58e1628e6ff8984bb0bdcc0c410eb09fd199b639",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_39.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_39",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "81dbafd3f6eec79ac094547d58e1628e6ff8984bb0bdcc0c410eb09fd199b639",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_39.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 40,
+    "menu": "Mandor",
+    "source_verdict": {
+      "name": "Mandor / master-workforce",
+      "disposable": "TIDAK ADA LAYAR TERSAMBUNG",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "`MasterDataPages` contoh; bukan pembuatan kontraktor server harian."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_40",
+          "status": "PASS",
+          "controls": 8,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "a91c431642c34dd5675012f567d3353ecd4931799a1ea3ae99d70014b111d34b",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_40.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_40",
+          "status": "PASS",
+          "controls": 8,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "a91c431642c34dd5675012f567d3353ecd4931799a1ea3ae99d70014b111d34b",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_40.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_40",
+          "status": "PASS",
+          "controls": 8,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "a91c431642c34dd5675012f567d3353ecd4931799a1ea3ae99d70014b111d34b",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_40.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_40",
+          "status": "PASS",
+          "controls": 8,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "a91c431642c34dd5675012f567d3353ecd4931799a1ea3ae99d70014b111d34b",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_40.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_40",
+          "status": "PASS",
+          "controls": 8,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "a91c431642c34dd5675012f567d3353ecd4931799a1ea3ae99d70014b111d34b",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_40.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_40",
+          "status": "PASS",
+          "controls": 8,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "a91c431642c34dd5675012f567d3353ecd4931799a1ea3ae99d70014b111d34b",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_40.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 41,
+    "menu": "Gudang & Lokasi",
+    "source_verdict": {
+      "name": "Gudang & Lokasi / master-locations",
+      "disposable": "TIDAK ADA LAYAR TERSAMBUNG",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "`MasterDataPages` contoh; lokasi baru tidak tersimpan ke ERP dari sini."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_41",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "6c533777367404fde6259a2d228b1156741cc3eebb9a17fb0863ad9602dd80c8",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_41.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_41",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "6c533777367404fde6259a2d228b1156741cc3eebb9a17fb0863ad9602dd80c8",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_41.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_41",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "6c533777367404fde6259a2d228b1156741cc3eebb9a17fb0863ad9602dd80c8",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_41.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_41",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "6c533777367404fde6259a2d228b1156741cc3eebb9a17fb0863ad9602dd80c8",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_41.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_41",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "6c533777367404fde6259a2d228b1156741cc3eebb9a17fb0863ad9602dd80c8",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_41.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_41",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "6c533777367404fde6259a2d228b1156741cc3eebb9a17fb0863ad9602dd80c8",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_41.png",
+          "root_classes": [
+            "hero-copy compact md-hero",
+            "md-metrics",
+            "panel md-workspace"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 42,
+    "menu": "Pola",
+    "source_verdict": {
+      "name": "Pola / master-pattern",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`PatternPage` memakai runtime patternMode; connected list/save/deactivate RPC, kode+revisi stabil dan alasan audit. Uji browser nyata seluruh CRUD belum ditemukan."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_42",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "115f9ed114dc183301e4edc67f30120dabbab407d8df377079a4eb263a5db27b",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_42.png",
+          "root_classes": [
+            "pattern-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_42",
+          "status": "PASS",
+          "controls": 12,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "efc523e1cef0726b1454d89111a5a9e9e173acf3b862ec4bd26bfac77faeac31",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_42.png",
+          "root_classes": [
+            "pattern-page"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_42",
+          "status": "PASS",
+          "controls": 10,
+          "rpc_names": [
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "8ac3410e1c19bcdef2d16e942fab07734ee13b2e6786d4d1e981c510a617a158",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_42.png",
+          "root_classes": [
+            "pattern-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_42",
+          "status": "PASS",
+          "controls": 10,
+          "rpc_names": [
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "c1b2633aa9d121ce83003875cb5156603b263101a769f7415281a408534f6188",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_42.png",
+          "root_classes": [
+            "pattern-page"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_42",
+          "status": "PASS",
+          "controls": 10,
+          "rpc_names": [
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "84db9bdd75cd5fd0cf703ef05ca765d90d370daccaa9f425045ab3cbbdd21148",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_42.png",
+          "root_classes": [
+            "pattern-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_42",
+          "status": "PASS",
+          "controls": 10,
+          "rpc_names": [
+            "erp_list_patterns_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "8d0609aedc71431d5783ea32337aaa33617ade3cb3317a432bd8afe519409ec3",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_42.png",
+          "root_classes": [
+            "pattern-page"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 43,
+    "menu": "Reminder",
+    "source_verdict": {
+      "name": "Reminder / admin-reminders",
+      "disposable": "TIDAK ADA LAYAR TERSAMBUNG",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "`OperationsAdminPages` + state reminders; bukan sumber pengingat native meski planner mempunyai fitur lain."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_43",
+          "status": "PASS",
+          "controls": 19,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "4e20d852e758d34fd29bb977c1996caed4156255048381688d6d02e9eb825dc0",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_43.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "reminder-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_43",
+          "status": "PASS",
+          "controls": 19,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "4e20d852e758d34fd29bb977c1996caed4156255048381688d6d02e9eb825dc0",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_43.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "reminder-layout"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_43",
+          "status": "PASS",
+          "controls": 19,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "4e20d852e758d34fd29bb977c1996caed4156255048381688d6d02e9eb825dc0",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_43.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "reminder-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_43",
+          "status": "PASS",
+          "controls": 19,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "4e20d852e758d34fd29bb977c1996caed4156255048381688d6d02e9eb825dc0",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_43.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "reminder-layout"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_43",
+          "status": "PASS",
+          "controls": 19,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "4e20d852e758d34fd29bb977c1996caed4156255048381688d6d02e9eb825dc0",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_43.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "reminder-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_43",
+          "status": "PASS",
+          "controls": 19,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "4e20d852e758d34fd29bb977c1996caed4156255048381688d6d02e9eb825dc0",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_43.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "reminder-layout"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 44,
+    "menu": "Pengguna & Hak Akses",
+    "source_verdict": {
+      "name": "Pengguna & Hak Akses / admin-access",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`AccessControlPage`: permission bundle, role/user save RPC, protected role dan review risiko; demo lokal. Bukan sertifikasi seluruh kombinasi RBAC melalui browser."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_44",
+          "status": "PASS",
+          "controls": 8,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "9385d10390979e4a21d6347920ac1599d920ab2eaf039ed3dafe749f25138865",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_44.png",
+          "root_classes": [
+            "access-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_44",
+          "status": "PASS",
+          "controls": 8,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "9385d10390979e4a21d6347920ac1599d920ab2eaf039ed3dafe749f25138865",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_44.png",
+          "root_classes": [
+            "access-page"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_44",
+          "status": "PASS",
+          "controls": 24,
+          "rpc_names": [
+            "erp_get_access_admin_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "22579de85bd4fb98758f21516e52d4155dd266a88ee103298109a34fe431a979",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_44.png",
+          "root_classes": [
+            "access-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_44",
+          "status": "PASS",
+          "controls": 26,
+          "rpc_names": [
+            "erp_get_access_admin_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "6e9245f1058faeabc3fd91310b0e0b82bb96c24330de19e8f756e42cbc8a0193",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_44.png",
+          "root_classes": [
+            "access-page"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_44",
+          "status": "PASS",
+          "controls": 24,
+          "rpc_names": [
+            "erp_get_access_admin_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "22579de85bd4fb98758f21516e52d4155dd266a88ee103298109a34fe431a979",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_44.png",
+          "root_classes": [
+            "access-page"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_44",
+          "status": "PASS",
+          "controls": 26,
+          "rpc_names": [
+            "erp_get_access_admin_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "6e9245f1058faeabc3fd91310b0e0b82bb96c24330de19e8f756e42cbc8a0193",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_44.png",
+          "root_classes": [
+            "access-page"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 45,
+    "menu": "Pengaturan ERP",
+    "source_verdict": {
+      "name": "Pengaturan ERP / admin-settings",
+      "disposable": "TIDAK ADA LAYAR TERSAMBUNG",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "`OperationsAdminPages` contoh; tidak mengatur kebijakan server dari menu ini."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_45",
+          "status": "PASS",
+          "controls": 13,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "b08913bc07c3f2b3d4ff19f974328e15a8f4409d1c6973d29264aec3a193c835",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_45.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "settings-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_45",
+          "status": "PASS",
+          "controls": 13,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "b08913bc07c3f2b3d4ff19f974328e15a8f4409d1c6973d29264aec3a193c835",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_45.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "settings-layout"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_45",
+          "status": "PASS",
+          "controls": 13,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "b08913bc07c3f2b3d4ff19f974328e15a8f4409d1c6973d29264aec3a193c835",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_45.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "settings-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_45",
+          "status": "PASS",
+          "controls": 13,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "b08913bc07c3f2b3d4ff19f974328e15a8f4409d1c6973d29264aec3a193c835",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_45.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "settings-layout"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_45",
+          "status": "PASS",
+          "controls": 13,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "b08913bc07c3f2b3d4ff19f974328e15a8f4409d1c6973d29264aec3a193c835",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_45.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "settings-layout"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_45",
+          "status": "PASS",
+          "controls": 13,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "b08913bc07c3f2b3d4ff19f974328e15a8f4409d1c6973d29264aec3a193c835",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_45.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "settings-layout"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 46,
+    "menu": "Impor data awal",
+    "source_verdict": {
+      "name": "Impor data awal / admin-import",
+      "disposable": "BEDA",
+      "uat": "BEDA",
+      "reason": "`ConnectedInitialImportPage`: berkas/preview/review/apply/rollback native, bukan CRUD harian; demo pemberitahuan."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_46",
+          "status": "PASS",
+          "controls": 0,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "bb05301317cfdd4971820b1ff6d71a9c6ed4e260d78ee269acc248088d0db038",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_46.png",
+          "root_classes": [
+            "panel initial-import"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_46",
+          "status": "PASS",
+          "controls": 0,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "bb05301317cfdd4971820b1ff6d71a9c6ed4e260d78ee269acc248088d0db038",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_46.png",
+          "root_classes": [
+            "panel initial-import"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_46",
+          "status": "PASS",
+          "controls": 5,
+          "rpc_names": [
+            "erp_get_initial_import_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "f4b01dbbd25a27491ff0b15e6ca92d595dd6b0f8766f284bc35e96c286ca5e8c",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_46.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_46",
+          "status": "PASS",
+          "controls": 5,
+          "rpc_names": [
+            "erp_get_initial_import_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "f4b01dbbd25a27491ff0b15e6ca92d595dd6b0f8766f284bc35e96c286ca5e8c",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_46.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_46",
+          "status": "PASS",
+          "controls": 5,
+          "rpc_names": [
+            "erp_get_initial_import_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "f4b01dbbd25a27491ff0b15e6ca92d595dd6b0f8766f284bc35e96c286ca5e8c",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_46.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_46",
+          "status": "PASS",
+          "controls": 5,
+          "rpc_names": [
+            "erp_get_initial_import_workspace_v1"
+          ],
+          "alerts": [],
+          "body_sha256": "f4b01dbbd25a27491ff0b15e6ca92d595dd6b0f8766f284bc35e96c286ca5e8c",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_46.png",
+          "root_classes": [
+            "initial-import"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": false
+  },
+  {
+    "index": 47,
+    "menu": "Tutup Periode",
+    "source_verdict": {
+      "name": "Tutup Periode / admin-period-close",
+      "disposable": "TIDAK ADA LAYAR TERSAMBUNG",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "Menu admin tetap contoh; writer periode nyata hanya tersedia melalui Laporan di disposable."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_47",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "8c4ecd89cc88d0bcd4c0e398ca34a57c51a490c52bccda26a24cd37d635fa82d",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_47.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "close-overview"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_47",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "8c4ecd89cc88d0bcd4c0e398ca34a57c51a490c52bccda26a24cd37d635fa82d",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_47.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "close-overview"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_47",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "8c4ecd89cc88d0bcd4c0e398ca34a57c51a490c52bccda26a24cd37d635fa82d",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_47.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "close-overview"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_47",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "8c4ecd89cc88d0bcd4c0e398ca34a57c51a490c52bccda26a24cd37d635fa82d",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_47.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "close-overview"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_47",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "8c4ecd89cc88d0bcd4c0e398ca34a57c51a490c52bccda26a24cd37d635fa82d",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_47.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "close-overview"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_47",
+          "status": "PASS",
+          "controls": 7,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "8c4ecd89cc88d0bcd4c0e398ca34a57c51a490c52bccda26a24cd37d635fa82d",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_47.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "close-overview"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  },
+  {
+    "index": 48,
+    "menu": "Audit Trail",
+    "source_verdict": {
+      "name": "Audit Trail / admin-audit",
+      "disposable": "TIDAK ADA LAYAR TERSAMBUNG",
+      "uat": "TIDAK ADA LAYAR TERSAMBUNG",
+      "reason": "Menu contoh; adanya audit immutable di DB tidak membuat halaman ini tersambung."
+    },
+    "variants": {
+      "DEMO_SIMULATION": {
+        "desktop": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_48",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "abedae55a1330897c9bab78bf86d2aa7c56587e0666259c6ad6a9c93ada450ac",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_DESKTOP_48.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "ops-metrics audit-metrics",
+            "panel audit-browser"
+          ]
+        },
+        "mobile": {
+          "job": 116626910134,
+          "case": "ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_48",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "87d046c4a47af6274d7e3d6c28c645617f928d84b49a8e3c3d35aaba296a0d08",
+          "screenshot": "matrix/ASTRA_MATRIX_DEMO_SIMULATION_MOBILE_48.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "ops-metrics audit-metrics",
+            "panel audit-browser"
+          ]
+        }
+      },
+      "DISPOSABLE_TEST": {
+        "desktop": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_48",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "abedae55a1330897c9bab78bf86d2aa7c56587e0666259c6ad6a9c93ada450ac",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_DESKTOP_48.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "ops-metrics audit-metrics",
+            "panel audit-browser"
+          ]
+        },
+        "mobile": {
+          "job": 116626910336,
+          "case": "ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_48",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "87d046c4a47af6274d7e3d6c28c645617f928d84b49a8e3c3d35aaba296a0d08",
+          "screenshot": "matrix/ASTRA_MATRIX_DISPOSABLE_TEST_MOBILE_48.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "ops-metrics audit-metrics",
+            "panel audit-browser"
+          ]
+        }
+      },
+      "UAT_AUTH_SIMULATION": {
+        "desktop": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_48",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "abedae55a1330897c9bab78bf86d2aa7c56587e0666259c6ad6a9c93ada450ac",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_DESKTOP_48.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "ops-metrics audit-metrics",
+            "panel audit-browser"
+          ]
+        },
+        "mobile": {
+          "job": 116626909835,
+          "case": "ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_48",
+          "status": "PASS",
+          "controls": 14,
+          "rpc_names": [],
+          "alerts": [],
+          "body_sha256": "87d046c4a47af6274d7e3d6c28c645617f928d84b49a8e3c3d35aaba296a0d08",
+          "screenshot": "matrix/ASTRA_MATRIX_UAT_AUTH_SIMULATION_MOBILE_48.png",
+          "root_classes": [
+            "ops-hero",
+            "ops-admin-tabs panel",
+            "admin-fixture-disclosure",
+            "ops-metrics audit-metrics",
+            "panel audit-browser"
+          ]
+        }
+      }
+    },
+    "uat_demo_exact_initial_body_equal": true
+  }
+]

@@ -1,0 +1,37 @@
+{
+  "candidate": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "prior_findings": "../astra_cp17_combined/FINDINGS.json",
+  "verdict": "TAHAN",
+  "changes": [
+    {
+      "id": "ASTRA-C17-03",
+      "status": "OPEN",
+      "added_evidence": "Independent Chromium UAT build:23 demo-identical pages,23 RPC pages,2 boundaries; finance/payroll sample without hero simulation label"
+    },
+    {
+      "id": "ASTRA-C17-04",
+      "status": "OPEN",
+      "added_evidence": "Independent Chromium six daily-master pages remain explicit simulations in all modes"
+    },
+    {
+      "id": "ASTRA-C17-07",
+      "status": "PARTIALLY_CLOSED",
+      "closed_scopes": [
+        "B2/B3/B7 actual POST in same production journey",
+        "S4 accessory-to-payroll-cash",
+        "S3 roster/attendance-to-nota-cash subset",
+        "S5 rework/rewash physical lifecycle subset",
+        "S7 opening CSV-to-payroll-cash subset",
+        "48 menus x3 modes x2 viewports ready inventory"
+      ],
+      "remaining_scopes": [
+        "Complete application activation/master daily flows",
+        "Attendance HPP pool UI lifecycle",
+        "One complete imported-WIP-to-sale-cash journey",
+        "Every BS/rework variant through payroll cash",
+        "All role/calendar/close-mid-cycle permutations"
+      ]
+    }
+  ],
+  "other_findings": "Unchanged; all first-report product defects remain open"
+}
