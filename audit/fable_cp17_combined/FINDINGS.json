@@ -1,0 +1,177 @@
+{
+ "auditor": "Fable",
+ "round": "cp17c-20261015",
+ "candidate": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+ "tree": "886f83312958b53781a450a4ea2a8fb2147b3be3",
+ "production_go": false,
+ "retest": [
+  {
+   "id": "FABLE-001",
+   "severity": "S1",
+   "status": "DITUTUP",
+   "title": "Payroll payment dated before its accrual",
+   "evidence": "38786127478, 38786142567, 38784255332"
+  },
+  {
+   "id": "FABLE-002",
+   "severity": "S3",
+   "status": "DITUTUP",
+   "title": "Two AC migration copies",
+   "evidence": "local cp7_release_copy_check PASS 30 files"
+  },
+  {
+   "id": "FABLE-003",
+   "severity": "S3",
+   "status": "DITUTUP_DENGAN_CATATAN",
+   "title": "Manifest rollbacks NOT_TESTED",
+   "evidence": "MANIFEST.json:2789 unchanged; rollback 148/148 PASS 38784311913"
+  },
+  {
+   "id": "FABLE-004",
+   "severity": "S3",
+   "status": "DITUTUP",
+   "title": "CP1/CP2 evidence not in tree",
+   "evidence": "docs/evidence/cp1-cp2 (9 files, no secret values)"
+  },
+  {
+   "id": "FABLE-005",
+   "severity": "S3",
+   "status": "MASIH_TERBUKA",
+   "title": "75 C6 + 22 ALL execution mapping",
+   "evidence": "mapping only on another auditor's branch, not opened (§16.7)"
+  },
+  {
+   "id": "FABLE-006",
+   "severity": "DUGAAN",
+   "status": "DITUTUP",
+   "title": "Rework wage lost when all output scrapped",
+   "evidence": "CP17_RWK01_* PASS 38784255332"
+  },
+  {
+   "id": "FABLE-007",
+   "severity": "DUGAAN",
+   "status": "DITUTUP_DUGAAN_SALAH",
+   "title": "Attendance in overlapping payrolls",
+   "evidence": "erp.guard_payroll_period_overlap; CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS PASS"
+  },
+  {
+   "id": "FABLE-008",
+   "severity": "DUGAAN",
+   "status": "DITUTUP",
+   "title": "Laundry claim settled before source/AP",
+   "evidence": "cp7_guard_laundry_claim_date; CP17_FIN02_* PASS"
+  },
+  {
+   "id": "FABLE-009",
+   "severity": "DUGAAN",
+   "status": "DITUTUP",
+   "title": "Posted pickup cannot be corrected",
+   "evidence": "pickup.sql; CP17_SG01_* + browser PASS"
+  },
+  {
+   "id": "FABLE-010",
+   "severity": "DUGAAN",
+   "status": "DITUTUP",
+   "title": "Leftover fabric cannot return to stock",
+   "evidence": "return.sql + D14-10; CP17_SG02_* + browser PASS"
+  },
+  {
+   "id": "FABLE-011",
+   "severity": "DUGAAN",
+   "status": "MASIH_TERBUKA",
+   "title": "No global cutover date floor",
+   "evidence": "no product change; owner decision pending"
+  },
+  {
+   "id": "FABLE-012",
+   "severity": "DUGAAN_S2",
+   "status": "MASIH_TERBUKA_DITUNDA_D14_9",
+   "title": "authenticated EXECUTE on erp writers",
+   "evidence": "gate + not reachable PASS; revoke deferred to CP7C; hosted settings not re-read"
+  }
+ ],
+ "new": [
+  {
+   "id": "FABLE-013",
+   "severity": "S2",
+   "status": "BARU",
+   "proven": true,
+   "title": "D14-3 cash guard uses economic_date; owner cash report uses transaction_date; negative daily cash undetected",
+   "root_cause": "scripts/cp7-src/finance/dated-guards.sql min_debit_balance_from/findings sum economic_date; erp.post_journal books account_daily_balances on transaction_date (closed-period documents recognised today)",
+   "evidence": {
+    "run": 38786227211,
+    "case": "FABLE_CP17C:CASH_BASIS_MISMATCH",
+    "closed_through": "2026-10-13",
+    "income": "2000.00 physical 10-11 -> transaction 10-16",
+    "expense": "1500.00 physical 10-15 accepted",
+    "transaction_date_balance_10_15": "-500.00",
+    "owner_reader_closing_10_15": "-500.00",
+    "detector_rows": 0
+   }
+  },
+  {
+   "id": "FABLE-014",
+   "severity": "S3",
+   "status": "BARU",
+   "proven": false,
+   "title": "PO finish (G2) one-way from the app; source comment says no Native inverse while erp.reopen_production_order exists",
+   "root_cause": "scripts/cp7-src/cutting-correction/finish.sql line 8; no public wrapper or screen calls erp.reopen_production_order"
+  },
+  {
+   "id": "FABLE-015",
+   "severity": "S1_FOR_ENTENG_INSTALL",
+   "status": "BARU",
+   "proven": true,
+   "title": "Enteng mode shows sample figures on 11 money/attendance screens beside real data; Ringkasan Keuangan and Payroll & Kasbon without simulation label",
+   "root_cause": "src/App.tsx gates sales, finance (6) and attendance on runtime.mode==='DISPOSABLE_TEST'; FinanceHero hides the SIMULASI card when an action button is present; no global sample-data banner",
+   "evidence": {
+    "demo_census": "runs/SCREENS_DEMO_dfab13bf.json sample_label false on both screens",
+    "self_disclosed_by_writer": "SCREEN_MAP.md §2"
+   }
+  },
+  {
+   "id": "FABLE-016",
+   "severity": "S3",
+   "status": "BARU",
+   "proven": true,
+   "title": "Connected chain steps never exercised through the app on the candidate: pickup post, QC & Final SKU post, Ganti Merek post, BS & rework, accessory-issue deduction to payroll, rework wage",
+   "root_cause": "only SQL cases (cp7_*_cases.py) or frozen CP6 UI scripts; candidate QC browser only asserts the post button is disabled"
+  },
+  {
+   "id": "FABLE-017",
+   "severity": "S2",
+   "status": "BARU",
+   "proven": true,
+   "title": "Master data (customers, suppliers/vendors, mandor, locations, materials, mandor piece rates) cannot be created or changed from the connected app in any mode",
+   "root_cause": "master menus render the demo component in all modes; no src RPC creates them; erp.contractor_work_rates has no writer in the candidate; initial import has no rate entity; G1 refuses with NO_WORK_RATE"
+  }
+ ],
+ "summary": {
+  "retest_closed": 9,
+  "retest_open": 3,
+  "new": 5,
+  "chains_rows": 21,
+  "chains_app_tested": 15,
+  "screens_disposable": {
+   "SAMA": 2,
+   "BEDA": 33,
+   "TIDAK_ADA": 13
+  },
+  "screens_enteng": {
+   "SAMA": 2,
+   "BEDA": 21,
+   "TIDAK_ADA": 25
+  }
+ },
+ "not_checked": [
+  "hosted Enteng Data API settings and master data (connector denied 15 Oct)",
+  "Enteng-mode build in a browser",
+  "mobile per menu",
+  "detail panels behind list screens",
+  "64 of 80 receipt runs not rerun",
+  "37 old CP6 workflows (expired archive)",
+  "CP7C backup tools",
+  "red team beyond RBAC",
+  "other auditors' work"
+ ]
+}

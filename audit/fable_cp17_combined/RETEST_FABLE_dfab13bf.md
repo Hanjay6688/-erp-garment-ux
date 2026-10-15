@@ -9,7 +9,7 @@ Status per kasus dibaca dari baris JSON log (bukan warna job). Rincian run: `WOR
 
 12 temuan lama: **9 DITUTUP** (FABLE-003 dengan catatan), **3 MASIH TERBUKA** (FABLE-005 buktinya di luar pohon kandidat;
 FABLE-011 menunggu keputusan owner; FABLE-012 ditunda ke CP7C oleh keputusan D14-9). Temuan BARU putaran ini ada di
-`FINAL_FABLE.md` (FABLE-013 sampai FABLE-016). FABLE-013 menyentuh perbaikan r1 secara langsung: penjaga kas D14-3
+`FINAL_FABLE.md` (FABLE-013 sampai FABLE-017). FABLE-013 menyentuh perbaikan r1 secara langsung: penjaga kas D14-3
 lulus semua kasus penulis, tetapi dengan dasar tanggal yang berbeda dari laporan kas pemilik. Contoh-penyangkalnya terbukti
 di run 38786227211.
 

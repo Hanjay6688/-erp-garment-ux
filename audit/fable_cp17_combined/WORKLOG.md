@@ -10,7 +10,7 @@ Status read per case from JSON log lines (SP/wf/case_summary.py), never from job
 | 38784255332 | CP7 CP17 Fixes | 41 native + 4 races + 6 HTTP + 10 browser = 61 PASS, 0 other | INDEPENDENT_NATIVE_RERUN |
 | 38784311913 | CP6 T3 Rollback | 148 checks PASS, 0 FAIL | INDEPENDENT_NATIVE_RERUN |
 | 38784330868 | P18 Full Cycle | 2 PASS | INDEPENDENT_NATIVE_RERUN |
-| 38784350980 | P12 Payroll (3 jobs) | PASS lines: roster 103, attendance-write 121, review 80; no FAIL/COUNTEREXAMPLE/INCOMPLETE | INDEPENDENT_NATIVE_RERUN |
+| 38784350980 | P12 Payroll (3 jobs) | case lines: roster 64, attendance-write 81, review 43, all PASS; no FAIL/COUNTEREXAMPLE/INCOMPLETE | INDEPENDENT_NATIVE_RERUN |
 | 38784369800 | P12 Nota | opening payroll 5+2+1+2 PASS | INDEPENDENT_NATIVE_RERUN |
 | 38784388068 | F03 E05 installments | 20+3+1+2 PASS | INDEPENDENT_NATIVE_RERUN |
 | 38784446800 | Supplier payment correction | 14+4+3+2 PASS | INDEPENDENT_NATIVE_RERUN |
@@ -18,11 +18,11 @@ Status read per case from JSON log lines (SP/wf/case_summary.py), never from job
 | 38784483635 | P13 Period | report 8+1+1+2, period 8+2+1+2 PASS | INDEPENDENT_NATIVE_RERUN |
 | 38784501713 | Cutting correction | 10+4+3+2 PASS | INDEPENDENT_NATIVE_RERUN |
 | 38784274269 | CP6 T2 Combined Regression | all 3 jobs died before any case: `gh: Artifact has expired (HTTP 410)` | NOT_APPLICABLE (see below) |
-| 38784292945 | CP6 T3 Release Package (3 jobs) | PASS lines: pins 32, browser 64, writer runtime 173; 0 other | INDEPENDENT_NATIVE_RERUN |
-| 38784428651 | Owning receipt correction | 77 PASS, 0 other | INDEPENDENT_NATIVE_RERUN |
-| 38784519618 | Native payment correction | 57 PASS, 0 other | INDEPENDENT_NATIVE_RERUN |
-| 38784537309 | F03 connected cash reader | 56 PASS, 0 other | INDEPENDENT_NATIVE_RERUN |
-| 38784556107 | Pre-freeze UI regression | 64 PASS; 2 INCOMPLETE only in group `AUDITOR_BROWSER_CP7_PREFREEZE_LEGACY_RUNTIME_GAP` (finance readiness screen on the legacy runtime: `erp_cp7_get_recost_queue_v1` PGRST202 404); the same two cases PASS on the full stack | INDEPENDENT_NATIVE_RERUN; gap = LEGACY_RUNTIME_OBSERVATION_ONLY |
+| 38784292945 | CP6 T3 Release Package (3 jobs) | pins 32 check lines PASS; browser 31 cases PASS; writer runtime 139 cases PASS; 0 other | INDEPENDENT_NATIVE_RERUN |
+| 38784428651 | Owning receipt correction | 43 cases PASS, 0 other | INDEPENDENT_NATIVE_RERUN |
+| 38784519618 | Native payment correction | 23 cases PASS, 0 other | INDEPENDENT_NATIVE_RERUN |
+| 38784537309 | F03 connected cash reader | 21 cases PASS, 0 other | INDEPENDENT_NATIVE_RERUN |
+| 38784556107 | Pre-freeze UI regression | 31 cases PASS; 2 INCOMPLETE only in group `AUDITOR_BROWSER_CP7_PREFREEZE_LEGACY_RUNTIME_GAP` (finance readiness screen on the legacy runtime: `erp_cp7_get_recost_queue_v1` PGRST202 404); the same two cases PASS on the full stack | INDEPENDENT_NATIVE_RERUN; gap = LEGACY_RUNTIME_OBSERVATION_ONLY |
 | 38784408935 | Note correction | in progress at the time of this note | — |
 
 Install consequence of the legacy gap: the CP7 UI must not reach Enteng before the CP7 database layer it calls
@@ -66,3 +66,14 @@ OTHER_INCOME 2000.00 physical 10-11 → journal economic 10-11, transaction 10-1
 1500.00 physical 10-15 → accepted (guard basis economic: 10-15 balance 1500). Bank by transaction_date: 10-14 1000.00,
 **10-15 −500.00**, 10-16 1500.00. Owner cash reader `erp_cp7_get_finance_analysis_v1` for 10-15: opening 1000.00, closing
 **−500.00**, `reconciled` true. `cp7_guard.findings()` cash rows: none. Economic-date series never negative.
+
+
+Count convention (corrected 15 Oct): numbers above are lines carrying a `case` key; chain/setup step lines
+(ALIGNED_PER_OBJECT, PASS_ALIGNED_CHAIN_TO_AB, PRE_U_CAPTURED…, advisors, RUN_COMPLETE) are not counted. Note correction
+38784408935: 43 cases PASS. Cutting correction: 19. P13 period: 25. E05: 26. Supplier payment create 10, correction 23.
+
+## Screen census
+| Run | What | Result |
+|---|---|---|
+| local | DEMO_SIMULATION build (vite 5199, chromium 1194), `fable_cp17c_screens.mjs` census | 48/48 menus opened → `runs/SCREENS_DEMO_dfab13bf.json` |
+| 38791073836 (a463aab9) | DISPOSABLE_TEST build, real Auth, OWNER, groups=browser | 7/7 groups PASS, 48/48 menus opened → `runs/SCREENS_CONNECTED_dfab13bf.json` |
