@@ -64,5 +64,26 @@
   "uat_transport": "Existing local mock publishable-key opt-in; browser intercept to real loopback Auth/PostgREST, no request reaches hosted; product runtime/source unchanged",
   "runtime_stack": "Frozen CP6 + candidate F03 combined extension; absent optional family RPCs classified separately",
   "source_origin": "Retained: writer cases independently executed; matrix and extra integration: Astra oracles",
-  "no_case_retries": true
+  "no_case_retries": true,
+  "own_integration": {
+    "ids": [
+      "ASTRA_CHAIN_CUT_TO_FG",
+      "ASTRA_CHAIN_ACCESSORY_NOTA_TO_CASH"
+    ],
+    "expected": 2,
+    "oracles": [
+      "100 raw at10 ->60cut; raw40/value400; 60sewn/wage120 ->60laundry ->60FG on same PO/group",
+      "receipt30 at2, transfer10, issue7 at3.25; same contractor work6000; deduction22.75; bank5977.25; stock20/3 and no duplicated physical effects"
+    ],
+    "starting_fixture_only": true,
+    "run_cases_once": true
+  },
+  "precase_retry": {
+    "first_run": 38791612672,
+    "control": "c839a3c51a4511342d0ce46e8adc5202401a2b4b",
+    "cause": "Audit parent directory absent: cp renamed source into audit; Python could not open probe.py; zero cases",
+    "retry_control": "adc91c0f47ffd8d0ec877767c3016953b5535076",
+    "retry_run": 38792368517,
+    "fix": "mkdir -p auditor/audit before copying; no case or product modification"
+  }
 }
