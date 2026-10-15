@@ -15,6 +15,9 @@ name: CP7 CP17 Fixes
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp6_readiness_owner_install.py
     - scripts/cp6_readiness_owner_drain_test.py
+    - scripts/cp6_auditor_public_state_test.py
+    - scripts/cp6_auditor_runner.py
+    - scripts/cp6_auditor_difference.py
   workflow_dispatch: {}
 permissions:
   contents: read
@@ -212,6 +215,12 @@ jobs:
       env:
         CP6_DRAIN_TEST_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       run: python scripts/cp6_readiness_owner_drain_test.py
+    # Owner D14-8 (A2): before/after evidence for the stable public-schema comparator on its own throwaway database.
+    - name: Prove the stable public-schema comparator (before/after, same members, owner and access compared)
+      working-directory: auditor
+      env:
+        CP6_PUBLIC_STATE_TEST_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      run: python scripts/cp6_auditor_public_state_test.py
     - name: Remove disposable database
       if: always()
       working-directory: base

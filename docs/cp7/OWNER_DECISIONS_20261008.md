@@ -374,3 +374,29 @@ Akibat (ringkasan penulis, bukan kata-kata owner):
   semua ukuran SKU itu yang ada stoknya di gudang yang sama, dan seri baru langsung 1 lusin dibagi rata bila pas
   (seperti demo). Bila tidak pas (misalnya 5 ukuran), jumlah dikosongkan dengan pesan.
 - Bukti browser sungguhan (desktop dan HP): `CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP` / `_MOBILE`.
+
+### D14-8..D14-11 (owner ke penulis Claude, 15 Okt 2026 sekitar 08:08 WIB, jawaban empat pertanyaan laporan r1)
+
+Jawaban atas empat pertanyaan di akhir laporan penulis (pembanding A2, FABLE-012, batal retur kain, upah rework).
+Ditulis persis.
+
+| No | Pertanyaan penulis | Jawaban owner (verbatim) |
+|---|---|---|
+| D14-8 | "Alat pembanding lama kadang mengurutkan daftar fungsi secara acak karena cara mengurutkannya salah. Boleh saya betulkan?" | "Ya, betulkan pembanding lama. Gunakan urutan yang stabil, dengan seluruh anggota, duplikat, definisi, owner, dan hak akses tetap dibandingkan. Simpan bukti sebelum/sesudah. Penyebab dua kegagalan lama tetap OPEN sampai benar-benar terbukti." |
+| D14-9 | "Hak panggil langsung ke 82 fungsi penulis data belum dicabut ... Boleh ditunda sampai tahap CP7C?" | "Ya, pencabutan 82 fungsi boleh ditunda ke CP7C, berdasarkan bukti auditor bahwa jalur tersebut tidak dapat dijangkau dari internet. Catat sebagai pekerjaan keamanan yang belum selesai. Jika konfigurasi akses berubah sehingga fungsi itu bisa dijangkau, pencabutannya menjadi prasyarat sebelum jalur tersebut diaktifkan." |
+| D14-10 | "Retur kain yang salah jumlah belum bisa dibatalkan ... Perlu dibuatkan tombol batal?" | "Ya, buat tombol batal/koreksi retur kain. Pembalikan stok, hutang/kredit, jurnal, dan HPP yang terdampak harus selesai dalam satu transaksi, dengan riwayat asli tetap tersimpan. Kalau ada transaksi lanjutan yang menghalangi, tampilkan bagian mana yang harus dibetulkan terlebih dahulu." |
+| D14-11 | "Upah rework boleh dibayar saat kasus BS-nya belum selesai (masih terbuka atau baru sebagian)?" | "Ya, upah rework boleh dibayar untuk bagian pekerjaan yang sudah selesai, diperiksa, dan disetujui, walaupun keseluruhan kasus BS masih terbuka atau sebagian. Bagian yang belum selesai tetap ditahan. Qty dan upah harus tertaut ke pekerjaan yang jelas, tercatat sekali, dan tidak dibayar ulang saat kasus BS akhirnya ditutup." |
+
+Penutup owner (persis): "Catat sebagai keputusan owner, tambahkan uji untuk perubahan perilaku, dan minta auditor
+memverifikasi bagian yang berubah. Ini buat pertanyaan lu ya."
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
+
+- D14-8 menggantikan batas D13-11 untuk pembanding lama: pembanding lama sendiri yang diperbaiki (bukan pembanding
+  kedua). D13-10 tetap: akar penyebab dua kegagalan lama tetap OPEN dan bukti aslinya tetap disimpan.
+- D14-9: FABLE-012 tercatat sebagai pekerjaan keamanan terbuka di CP7C, dengan gerbang: bila Data API mulai
+  menjangkau skema `erp`, pencabutan EXECUTE wajib selesai lebih dulu.
+- D14-10: langkah batal/koreksi untuk "kain kembali ke gudang" (D14-4).
+- D14-11: menggantikan penahanan RWK01 untuk kasus OPEN/PARTIAL, terbatas pada bagian yang selesai, diperiksa dan
+  disetujui.
+- `production_go:false`.
