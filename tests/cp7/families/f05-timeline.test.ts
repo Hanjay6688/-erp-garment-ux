@@ -11,7 +11,11 @@ test('ordered timeline aggregation equals the predecessor including intraday row
   const source = readFileSync('scripts/cp7-src/planning/analysis.sql', 'utf8')
   expect(source.split(constants[1])).toHaveLength(2)
   const fact = source.slice(source.indexOf('create function cp7_analysis_native.fact('), source.indexOf('create function cp7_analysis_native.build('))
-  const db = await openRuntime()
+  // The predecessor body (the reference compared against) is quadratic: 2700 events take ~25 s locally, 48 s on a CI
+  // runner and over the default 60 s per-command bound on a slower one (Shell S0 run 38673762153, log kept); the
+  // product body takes ~0.3 s. As for the P19 comparator (ce455269), only this disposable comparison process gets
+  // 180 s; every equality assertion is unchanged.
+  const db = await openRuntime({ commandTimeoutMs: 180_000 })
   try {
     await db.execute(`create schema cp7_analysis_native;${fact}
       ${constants.map((body: string, i: number) => `create function public.timeline_control_${i}(r jsonb,n jsonb,row_aids jsonb)returns jsonb
@@ -37,4 +41,4 @@ test('ordered timeline aggregation equals the predecessor including intraday row
       }
     }
   } finally { await db.close() }
-}, 120000)
+}, 400_000)
