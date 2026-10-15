@@ -61,3 +61,11 @@ fungsi bila owner barunya punya hak CREATE di skema itu ("permission denied for 
 pakai itu peran uji sekarang diberi hak tersebut sebelum pengukuran; hak skema bukan bagian dari kedua pembanding.
 Diuji lokal sebagai superuser dan sebagai pengguna biasa (CREATEDB, CREATEROLE): keduanya PASS. Kasus CP17 sendiri di
 kedua run itu lulus 48/48.
+
+Pemakai lain bentuk entri lama (ditemukan saat kualifikasi `ad64c4c9`): `scripts/cp7_catalog_state.py` (dipakai F03
+Full, F03 E03/E05/E06 dan pembanding penjualan P19) mencocokkan baris katalog (tanda tangan, hash) dengan **seluruh**
+entri mentah, yang sejak D14-8 juga berisi owner dan ACL. Semua grup native F03 Full berhenti di
+`CP7_CATALOG_LOCATION_MEMBERS_MUST_MATCH_EVERY_RAW_PAIR` (run 38668243786, log disimpan; grup race, HTTP dan browser
+lulus). Dibetulkan di `b13394cc`: pasangan yang sama diambil dari dua kolom pertama tiap entri, dan owner di entri
+sekarang juga harus cocok dengan baris katalog (owner yang diubah ditolak, diuji lokal). Tidak ada pemeriksaan yang
+dilonggarkan.
