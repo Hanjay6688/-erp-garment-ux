@@ -26,3 +26,9 @@ Correction under §16.3: locate the single combobox within `.cpick-setup` with a
 Run 38794704824/job116627916413 keeps ASTRA_CHAIN_CUT_TO_FG INCOMPLETE. Browser CUT, PICKUP and SEWING succeeded; Native readback shows raw40/value400, WIP720, sewn60/wages120. Laundry POST returned200 and the ready batch disappeared into the outside-factory quantity. The audit readback queried laundry_deliveries.status='POSTED', which is not the committed delivery status. Frozen migration 20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql:4116 explicitly sets status='SENT'; existing accepted browser source also excludes REVERSED instead of requiring POSTED.
 
 Under §16.3, correct the reader to require the exact canonical SENT status and add a readback assertion that delivery batch-size quantities total exactly60. No business expected amount/quantity or fixture changes; no timeout increase; no product edit. This is a proven reader error, not a product failure or permission to repeat an unexplained failure. All prior output remains in the ledger.
+
+## QC label qualification
+
+Run 38796017970/job116632495027 preserves INCOMPLETE after CUT/PICKUP/SEWING/SEND/RECEIVE all succeeded through UI. Trace proves60 sent and one posted receipt; captured QC body shows60 GOOD ready, one batch-size row, the target group's option, and no product error. The exact getByLabel lookup for the group select timed out despite the visible wrapping label. Frozen ConnectedQcFinalPage.tsx:268 nests a span and select/options in that label.
+
+Correct only this selector: the single select inside the label containing the observed fixed heading, asserting uniqueness and selected group ID. No fixture, quantity, amount, seed, timeout or product change; keep same case ID and all failures. This is §16.3 tool qualification, not identical rerun to ignore a product failure. Remaining UI readback fields use observed explicit aria-labels.

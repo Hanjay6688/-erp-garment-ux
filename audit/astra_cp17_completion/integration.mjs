@@ -61,7 +61,7 @@ async function production(ui,today){return run(ui,today,'ASTRA_CHAIN_CUT_TO_FG',
  await p.getByRole('button',{name:'Post penerimaan atomic',exact:true}).click()
  await ui.expect.poll(()=>ui.sql(`select count(*) from erp.laundry_receipts where delivery_id='${sent}' and status='POSTED'`)).toBe('1');trace.push({stage:'LAUNDRY_RECEIVE',receipt_count:1})
  await nav(ui,p,'Produksi','QC & Final SKU');await ui.expect(p.getByRole('button',{name:'Muat ulang data',exact:true})).toBeEnabled()
- await p.getByLabel('POTONGAN DENGAN GOOD LAUNDRY SIAP QC',{exact:true}).selectOption(f.group)
+ const qcGroup=p.locator('label').filter({hasText:'POTONGAN DENGAN GOOD LAUNDRY SIAP QC'}).locator('select');await ui.expect(qcGroup).toHaveCount(1);await qcGroup.selectOption(f.group);await ui.expect(qcGroup).toHaveValue(f.group)
  await p.getByLabel('LOKASI FG TUJUAN',{exact:true}).selectOption(f.destination)
  await p.getByLabel('WAKTU FISIK QC',{exact:true}).fill(at(15));await p.getByLabel('ALASAN / BUKTI HASIL QC',{exact:true}).fill('Astra enam puluh barang sesuai ukuran dan SKU dari rantai browser')
  await p.getByRole('button',{name:'Isi semua sebagai Good',exact:true}).click()

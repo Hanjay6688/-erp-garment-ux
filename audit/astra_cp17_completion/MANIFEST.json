@@ -105,7 +105,7 @@
   "oracle_sha256": {
     "matrix.mjs": "ad1bcfdc7a56cf68bc1a885b4219649554f056f2cd72b638428f39160b77f522",
     "retained.mjs": "11a8686e4147cf3307c8822df4cece55cd7ea76a75402406b797662a6f98d8c2",
-    "integration.mjs": "c3a9f22531e09e1dd3ce19f55ea3f2083b8d820fd8386bae054e39c92789e03f",
+    "integration.mjs": "1ad795651f4be67a6f10c77363e946271c9200987c5839a8dd7e63a0d4414e5a",
     "integration_fixture.py": "4a320e129955f6fa28b4d3f2542518ceb0896b8f58e23e51971f65c0c62de981",
     "probe.py": "8ee778151b6edf6b2748e7137f08b7bf7ed88ed7d0d4cdc1ee45a24f7751f1ca",
     "browser_host.mjs": "78c9e250e1892e6f762075aa86c3df196dadff17a4e7a5fe9c42529786837de3"
@@ -135,5 +135,19 @@
     "fix": "require SENT and exact batch-size quantity60",
     "business_expected_unchanged": true,
     "payroll_not_rerun": true
+  },
+  "writer_head_after": "6562833695f76007b079316d1bef6b1aa8206223",
+  "matrix_ready_run": 38794405101,
+  "matrix_ready_control": "8344fbc171b6a115ac9efa1730c5f6b4cf3a499d",
+  "production_readback_run": 38796017970,
+  "production_readback_control": "9e7c8b25e86e70f7061b75c6dc8d56e6b1d46fe5",
+  "product_unchanged": true,
+  "qc_locator_qualification": {
+    "prior_run": 38796017970,
+    "prior_job": 116632495027,
+    "same_id": "ASTRA_CHAIN_CUT_TO_FG",
+    "cause": "exact label lookup failed on nested label/select/options; captured QC source and target option present",
+    "fix": "select inside observed unique label + group value assertion",
+    "business_expected_unchanged": true
   }
 }
