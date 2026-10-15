@@ -10,6 +10,7 @@ import psycopg
 import cp7_invoice_cases as invoice
 import cp7_misc_cases as misc
 import cp6_bc_probe as bc
+import cp7_cash_funding as funding
 auth,b=invoice.auth,invoice.b
 READ='erp_cp7_get_supplier_payments_v1'
 WRITE='erp_cp7_reverse_supplier_payment_v1'
@@ -39,7 +40,11 @@ def physical_state(cur):
 
 def fixture(cur,today,count=26):
  bank=bc.fixture(cur,today,zones=False,purchase=False)
- f=invoice.fixture(cur,today,'100','10',True);f['cash']=bank['cash'];f['cash_before']=str(misc.cash_balance(cur,f['cash']))
+ f=invoice.fixture(cur,today,'100','10',True);f['cash']=bank['cash']
+ # Owner D14-3 (cash/bank never negative): the fresh bank holds owner capital for exactly the payments below, on the receipt
+ # day before the first payment (re-run on 2e16fcb4: CP7_CASH_NEGATIVE, run 38716165562, log kept).
+ funding.fund(cur,f['cash'],D('10.00')*count,f['day']);b.api.admin(cur)
+ f['cash_before']=str(misc.cash_balance(cur,f['cash']))
  f['physical']=physical_state(cur)
  for _ in range(count):
   ident=bc.supplier_payment(cur,f['receipt']['purchase_id'],'10.00',f['cash'],f['day']+timedelta(days=2))

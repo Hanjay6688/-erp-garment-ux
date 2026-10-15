@@ -82,7 +82,9 @@ def cases(cur,today):
   assert misc.cash_balance(cur,f['cash']['id'])==D(f['cash_before'])and misc.cash_balance(cur,bank)-before==D('20.01')
   return dict(status='PASS',reviewed_actual_income_category_and_separate_cash_account=True,old_cash_neutral_new_cash20_01=True)
  def year30():
-  f=misc.fixture(cur,today);day=today-timedelta(days=365);misc.source.receipt.aa.prior.set_open_period(cur,day-timedelta(days=1));f['physical']=str(day)+'T09:00:59.123456+07:00';old=posted(cur,f);later=[]
+  f=misc.fixture(cur,today);day=today-timedelta(days=365);misc.source.receipt.aa.prior.set_open_period(cur,day-timedelta(days=1));f['physical']=str(day)+'T09:00:59.123456+07:00'
+  # Owner D14-3: the bank holds owner capital on the year-old day before its expenses (re-run on 2e16fcb4: CP7_CASH_NEGATIVE, run 38716103082, log kept).
+  misc.funding.fund(cur,f['cash']['id'],'1000.00',day);b.api.admin(cur);old=posted(cur,f);later=[]
   for n in range(1,31):
    source=dict(f,physical=str(day+timedelta(days=n))+'T10:00:00+07:00');later.append(posted(cur,source,amount='1.00'))
   before={r['transaction_id']:copy.deepcopy(r['document'])for r in later}
@@ -93,7 +95,8 @@ def cases(cur,today):
   assert all(misc.native_document(cur,i)==d for i,d in before.items())and r['document']['physical_at']==old['document']['physical_at']
   return dict(status='PASS',one_year_old_correction_all30_later_Native_cash_closings_shift_plus2_35=True,no_later_document_line_or_source_rewrite=True,original_timestamp_microseconds_preserved=True)
  def closed():
-  f=misc.fixture(cur,today);day=today-timedelta(days=365);misc.source.receipt.aa.prior.set_open_period(cur,day-timedelta(days=1));f['physical']=str(day)+'T09:00:00+07:00';old=posted(cur,f);closed_through=today-timedelta(days=1);misc.source.receipt.aa.prior.set_open_period(cur,closed_through)
+  f=misc.fixture(cur,today);day=today-timedelta(days=365);misc.source.receipt.aa.prior.set_open_period(cur,day-timedelta(days=1));f['physical']=str(day)+'T09:00:00+07:00'
+  misc.funding.fund(cur,f['cash']['id'],'1000.00',day);b.api.admin(cur);old=posted(cur,f);closed_through=today-timedelta(days=1);misc.source.receipt.aa.prior.set_open_period(cur,closed_through)
   source=old['document']['journals'][0];before=cur.execute('select account_id,debit_total,credit_total from erp.account_daily_balances where balance_date<=%s order by balance_date,account_id',(closed_through,)).fetchall()
   r=correct(cur,payload(f,old));check(cur,f,old,r)
   assert cur.execute('select closed_through from erp.accounting_period_control where singleton_id=1').fetchone()[0]==closed_through
@@ -102,7 +105,9 @@ def cases(cur,today):
   assert all(j['transaction_date']>str(closed_through)for j in r['document']['journals'])and r['link']['time_restatement']['effective_transaction_date']>str(closed_through)
   return dict(status='PASS',one_year_old_economic_date_kept_closed_daily_books_unchanged=True,Native_open_GL_date_control_retained_without_reopening=True)
  def precision():
-  f=misc.fixture(cur,today);f['physical']=f['physical'].replace('08:00:00','08:00:59.123456');old=posted(cur,f,amount='9007199254740993.01');r=correct(cur,payload(f,old,'9007199254740993.02'));check(cur,f,old,r)
+  f=misc.fixture(cur,today);f['physical']=f['physical'].replace('08:00:00','08:00:59.123456')
+  # Owner D14-3: capital covers the corrected amount, so the bank never goes below zero (re-run on 2e16fcb4: CP7_CASH_NEGATIVE, log kept).
+  misc.funding.fund(cur,f['cash']['id'],'9007199254740993.02',misc.funding.open_day(cur));b.api.admin(cur);old=posted(cur,f,amount='9007199254740993.01');r=correct(cur,payload(f,old,'9007199254740993.02'));check(cur,f,old,r)
   assert r['document']['amount']=='9007199254740993.02'and r['document']['physical_at']==old['document']['physical_at']and'123456'in r['document']['physical_at']
   return dict(status='PASS',Native_money_above_JS_safe_integer_plus1cent=True,raw_microseconds_preserved=True)
  def late_failure():
