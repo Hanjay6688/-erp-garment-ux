@@ -8,21 +8,25 @@ recalculation), the three return columns and material_return_posted back to thei
 optional corrected return through the same posting, all in one transaction with immutable history.
 pickup.sql (SG-01): a POSTED pickup is reversed before any sewing or other use, through the two declared Native deltas
 of cp7_pickup_reversal_bundle.py; the group, PO status/stage and Mandor return to their values before the POST.
+sewing.sql (D14-14 gap G1): SELESAI DIJAHIT from the connected WIP & Sewing screen through the accepted Native writers
+(work rate snapshot, work completion + WORK_COMPLETION wage journal, sewing terminal); cancel through the Native inverses
+only while the pieces are still at the Mandor, unpaid and outside an active attendance HPP pool.
 """
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 ROLES=('cp7_cutting_write','cp7_cutting_read')
 SCHEMA='cp7_cutting_correction'
-TABLES=('requests','history','return_requests','return_history','return_reversal_requests','return_reversal_history','pickup_requests','pickup_history','pickup_context')
+TABLES=('requests','history','return_requests','return_history','return_reversal_requests','return_reversal_history','pickup_requests','pickup_history','pickup_context','sewing_requests','sewing_history')
 RETURN_COLUMNS=('qty_physically_returned','return_destination','returned_at')
-def extension():return '\n'.join((ROOT/'scripts/cp7-src/cutting-correction'/name).read_text()for name in('reopen.sql','return.sql','pickup.sql'))
+def extension():return '\n'.join((ROOT/'scripts/cp7-src/cutting-correction'/name).read_text()for name in('reopen.sql','return.sql','pickup.sql','sewing.sql'))
 def verify(cur):
     expected={'access_now':(True,'v',False),'immutable':(False,'v',False),
         'snapshot':(True,'s',True),'workspace':(True,'v',False),'command':(True,'v',False),
         'return_workspace':(True,'v',True),'return_command':(True,'v',True),'post_return_rolls':(True,'v',True),
         'return_reversal_workspace':(True,'v',True),'return_reversal_command':(True,'v',True),
         'pickup_access_now':(True,'v',False),'pickup_reversal_admitted':(True,'s',False),'pickup_group_admitted':(True,'s',False),
-        'pickup_post_audit':(True,'s',True),'pickup_snapshot':(True,'s',True),'pickup_workspace':(True,'v',True),'pickup_command':(True,'v',True)}
+        'pickup_post_audit':(True,'s',True),'pickup_snapshot':(True,'s',True),'pickup_workspace':(True,'v',True),'pickup_command':(True,'v',True),
+        'sewing_access_now':(True,'v',False),'sewing_snapshot':(True,'s',True),'sewing_event_blocker':(True,'i',False),'sewing_workspace':(True,'v',True),'sewing_command':(True,'v',True)}
     rows=cur.execute("select p.oid::regprocedure::text,p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname=%s",(SCHEMA,)).fetchall()
     assert {r[1]for r in rows}==set(expected),rows
     for sig,name,owner,secdef,vol,config in rows:
@@ -30,7 +34,7 @@ def verify(cur):
         assert(owner,secdef,vol,config)==('postgres',security,volatility,['search_path=""']+(['TimeZone=UTC']if utc else[])),sig
         for who in('anon','authenticated','service_role','cp7_capture','cp7_transaction_source_read'):
             assert not cur.execute('select has_function_privilege(%s,%s,\'EXECUTE\')',(who,sig)).fetchone()[0],(who,sig)
-        for who,allowed in(('cp7_cutting_read',('workspace','return_workspace','return_reversal_workspace','pickup_workspace')),('cp7_cutting_write',('command','return_command','return_reversal_command','pickup_command'))):
+        for who,allowed in(('cp7_cutting_read',('workspace','return_workspace','return_reversal_workspace','pickup_workspace','sewing_workspace')),('cp7_cutting_write',('command','return_command','return_reversal_command','pickup_command','sewing_command'))):
             assert cur.execute('select has_function_privilege(%s,%s,\'EXECUTE\')',(who,sig)).fetchone()[0]==(name in allowed),(who,sig)
     for who in ROLES:
         assert cur.execute('select rolcanlogin,rolinherit,rolsuper,rolcreatedb,rolcreaterole,rolreplication,rolbypassrls from pg_roles where rolname=%s',(who,)).fetchone()==(False,False,False,False,False,False,False)
@@ -42,12 +46,13 @@ def verify(cur):
         assert cur.execute("select count(*)from pg_policy where polrelid=%s::regclass and pg_get_expr(polqual,polrelid)='false'and pg_get_expr(polwithcheck,polrelid)='false'",(relation,)).fetchone()[0]==1
         for who in('anon','authenticated','service_role','cp7_capture','cp7_transaction_source_read')+ROLES:
             assert not cur.execute('select has_table_privilege(%s,%s,\'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER\')',(who,relation)).fetchone()[0],(who,relation)
-    for history in('history','return_history','return_reversal_history','pickup_history'):
+    for history in('history','return_history','return_reversal_history','pickup_history','sewing_history'):
         assert cur.execute('select count(*)from pg_trigger where tgrelid=%s::regclass and tgfoid=%s::regprocedure and not tgisinternal',(SCHEMA+'.'+history,SCHEMA+'.immutable()')).fetchone()[0]==2
     for signature,owner in(('public.erp_cp7_get_cutting_correction_v1(uuid)','cp7_cutting_read'),('public.erp_cp7_reopen_cutting_v1(jsonb,uuid,text)','cp7_cutting_write'),
                            ('public.erp_cp7_get_cutting_return_v1(uuid)','cp7_cutting_read'),('public.erp_cp7_return_cutting_fabric_v1(jsonb,uuid,text)','cp7_cutting_write'),
                            ('public.erp_cp7_get_cutting_return_reversal_v1(uuid)','cp7_cutting_read'),('public.erp_cp7_reverse_cutting_return_v1(jsonb,uuid,text)','cp7_cutting_write'),
-                           ('public.erp_cp7_get_pickup_reversal_v1(uuid)','cp7_cutting_read'),('public.erp_cp7_reverse_pickup_v1(jsonb,uuid,text)','cp7_cutting_write')):
+                           ('public.erp_cp7_get_pickup_reversal_v1(uuid)','cp7_cutting_read'),('public.erp_cp7_reverse_pickup_v1(jsonb,uuid,text)','cp7_cutting_write'),
+                           ('public.erp_cp7_get_sewing_completion_v1(uuid)','cp7_cutting_read'),('public.erp_cp7_save_sewing_completion_v1(jsonb,uuid,text)','cp7_cutting_write')):
         assert cur.execute('select pg_get_userbyid(proowner),prosecdef,provolatile::text,proconfig from pg_proc where oid=%s::regprocedure',(signature,)).fetchone()==(owner,True,'v',['search_path=""'])
         assert cur.execute('select has_function_privilege(\'authenticated\',%s,\'EXECUTE\')',(signature,)).fetchone()[0]
         for who in('anon','service_role','cp7_capture','cp7_transaction_source_read'):
@@ -58,4 +63,7 @@ def verify(cur):
         fabric_return_Native_posting_unchanged='erp.post_cutting_material_returns(uuid,uuid)',
         fabric_return_cancel=dict(Native_journal_reversal='erp.reverse_journal(uuid,text)',movement_insert='erp.material_stock_movements REVERSAL (CUTTING_GROUP_RETURN_REVERSAL)',
             reset=dict(table='erp.cutting_group_rolls',columns=list(RETURN_COLUMNS)),flag='erp.cutting_groups.material_return_posted',cost='erp.recalculate_material_cost(uuid)'),
-        pickup_reversal=dict(table_DML=['erp.cutting_pickups','erp.cutting_groups','erp.production_orders'],declared_Native_deltas='cp7_pickup_reversal_bundle.py'))
+        pickup_reversal=dict(table_DML=['erp.cutting_pickups','erp.cutting_groups','erp.production_orders'],declared_Native_deltas='cp7_pickup_reversal_bundle.py'),
+        sewing_completion=dict(table_DML=['erp.work_completion_events (DRAFT insert)','erp.work_completion_lines'],
+            Native_writers=['erp.ensure_po_work_component_snapshots_v2(uuid,timestamp with time zone,uuid)','erp.post_work_completion(uuid)',
+                'erp.record_sewing_terminal_v1(jsonb,uuid)','erp.reverse_sewing_terminal_v1(uuid,text,uuid,bigint)','erp.reverse_work_completion(uuid,text)']))

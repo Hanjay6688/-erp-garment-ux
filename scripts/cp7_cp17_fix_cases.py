@@ -55,7 +55,7 @@ FUNCTIONS=('erp_set_contractor_hpp_policy_v1','erp_cp7_save_nota_v1','erp_cp7_ge
            'erp_save_laundry_bd_action_v1','erp_cp7_get_material_ledger_v1','erp_cp7_get_material_ledger_v2',
            'erp_cp7_get_cutting_return_v1','erp_cp7_return_cutting_fabric_v1','erp_cp7_get_cutting_correction_v1',
            'erp_cp7_get_kasbon_v1','erp_cp7_save_kasbon_v1','erp_cp7_get_pickup_reversal_v1','erp_cp7_reverse_pickup_v1',
-           'erp_cp7_get_cutting_return_reversal_v1','erp_cp7_reverse_cutting_return_v1')
+           'erp_cp7_get_cutting_return_reversal_v1','erp_cp7_reverse_cutting_return_v1','erp_cp7_get_sewing_completion_v1','erp_cp7_save_sewing_completion_v1')
 IDS=dict(
     native=['CP17_FIN01_FULL_PAY_BEFORE_ATTENDANCE_REFUSED','CP17_FIN01_WORK_ONLY_BEFORE_COMPLETION_REFUSED',
             'CP17_FIN01_INSTALLMENT_BEFORE_ACCRUAL_REFUSED','CP17_FIN01_DIRECT_NATIVE_PAYMENT_REFUSED',
@@ -71,11 +71,13 @@ IDS=dict(
             'CP17_KASBON_GIVE_DEDUCT_PAY','CP17_KASBON_LIMITS_REFUSED','CP17_KASBON_RELEASE_CANCEL_REPLAY',
             'CP17_SG03_REWASH_SAME_PRODUCT_NO_VENDOR_BILL',
             'CP17_SG01_PICKUP_REVERSE_BEFORE_SEWING','CP17_SG01_PICKUP_REVERSE_REFUSED',
-            'CP17_FABLE012_EXPOSURE_GATE_REVOKE_FIRST'],
-    races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK','CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS'],
-    http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED','CP17_HTTP_KASBON_GIVE','CP17_HTTP_ERP_WRITERS_NOT_REACHABLE'],
+            'CP17_FABLE012_EXPOSURE_GATE_REVOKE_FIRST',
+            'CP17_G1_SEWING_RECORD_WAGE_READY_FOR_LAUNDRY','CP17_G1_SEWING_REFUSALS_UNCHANGED','CP17_G1_SEWING_CANCEL_ONLY_AT_MANDOR'],
+    races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK','CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS','CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS'],
+    http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED','CP17_HTTP_KASBON_GIVE','CP17_HTTP_ERP_WRITERS_NOT_REACHABLE','CP17_HTTP_G1_SEWING_RECORD'],
     browser=['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP','CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE','CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP',
-             'CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP','CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE','CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP'],
+             'CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP','CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE','CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP',
+             'CP17_BROWSER_G1_SEWING_DESKTOP','CP17_BROWSER_G1_SEWING_MOBILE'],
 )
 REQUIRED={k:len(v)for k,v in IDS.items()}
 EXPECTED=sum(REQUIRED.values())
@@ -200,7 +202,42 @@ def pickup_fixture(cur,today):
     executor=one(cur,'select executor_name from erp.cutting_groups where id=%s',(g,))
     m=mandor_row(cur,'CP17-SG01-A-'+uuid.uuid4().hex[:8]);pk=native_pickup(cur,g,m,prod.at(day,9))
     assert one(cur,'select contractor_id::text from erp.production_orders where id=%s',(po,))==m
-    return dict(group=g,po=po,pickup=pk,mandor=m,at=lambda h:prod.at(day,h),po_before=po_before,executor=executor)
+    return dict(group=g,po=po,pickup=pk,mandor=m,at=lambda h,minute=0:prod.at(day,h,minute),day=day,po_before=po_before,executor=executor)
+
+# G1 (D14-14): the Work BOM, the CP7 sewing command and its oracles (Native rows and journals, not the command).
+def work_rates(cur,g):
+    """The PO model's Work BOM (two components, default rates 2 and 1) and a Mandor rate 3 for the first, from the fixture day."""
+    prod=cut.cutting.qc.physical.b.chain.production;b.api.admin(cur)
+    model=one(cur,'select model_id from erp.production_orders where id=%s',(g['po'],));since=g['at'](0)
+    bom=one(cur,'insert into erp.work_bom_versions(model_id,version_no,effective_from,notes)values(%s,(select coalesce(max(version_no),0)+1 from erp.work_bom_versions where model_id=%s),%s,%s)returning id',
+        (model,model,since,'CP17 G1 BOM kerja'))
+    obras=str(one(cur,'insert into erp.work_components(component_code,component_name)values(%s,%s)returning id',('CP17-OBRAS-'+uuid.uuid4().hex[:8],'CP17 Obras')))
+    cur.execute('insert into erp.work_bom_items(bom_version_id,work_component_id,sequence_no,default_rate)values(%s,%s,1,2),(%s,%s,2,1)',(bom,prod.COMPONENT,bom,obras))
+    cur.execute('insert into erp.contractor_work_rates(contractor_id,model_id,work_component_id,rate_per_pcs,effective_from)values(%s,%s,%s,3,%s)',(g['mandor'],model,prod.COMPONENT,since))
+    return dict(component=str(prod.COMPONENT),obras=obras)
+def sewing_workspace(cur,g):
+    auth.actor(cur);w=one(cur,'select public.erp_cp7_get_sewing_completion_v1(%s)',(g['group'],));b.api.admin(cur);return w
+def sewing_command(cur,w,qty=None,at=None,event=None,reason='CP17 setoran jahit mandor',key=None,token=None,expected=None):
+    p=dict(action='REVERSE' if event else 'RECORD',group_id=w['group_id'],review_token=token or w['review_token'],change_reason=reason)
+    if event:p['event_id']=event
+    else:p.update(qty_pcs=str(qty),physical_at=at.isoformat())
+    auth.actor(cur);r=one(cur,'select public.erp_cp7_save_sewing_completion_v1(%s,%s,%s)',(json.dumps(p),str(key or uuid.uuid4()),expected or w['group_version']));b.api.admin(cur)
+    return r
+def wage_journal(cur,completion):
+    return cur.execute("""select coalesce(sum(l.debit) filter(where l.account_id=erp.account_id('WIP')),0),
+        coalesce(sum(l.credit) filter(where l.account_id=erp.account_id('CONTRACTOR_PAYABLE')),0),count(distinct j.id)
+        from erp.journal_entries j join erp.journal_lines l on l.journal_entry_id=j.id
+        where j.source_type='WORK_COMPLETION' and j.source_id=%s and j.status='POSTED'""",(completion,)).fetchone()
+def sewn_ready(cur,g):
+    return cur.execute('select sewn_qty_pcs,unsent_ready_qty_pcs from erp.v_wip_control_status_v1 where cutting_group_id=%s',(g['group'],)).fetchone()
+def laundry_for(cur,g):
+    """A laundry vendor and wash process with a known rate on the group's distribution batch (the Native BD writers)."""
+    b.api.admin(cur);vendor,process,tag=str(uuid.uuid4()),str(uuid.uuid4()),uuid.uuid4().hex[:10]
+    cur.execute('insert into erp.laundry_vendors(id,vendor_code,vendor_name,is_active)values(%s,%s,%s,true)',(vendor,'CP17-G1-'+tag,'CP17 G1 laundry'))
+    cur.execute('insert into erp.wash_processes(id,process_code,process_name,is_active)values(%s,%s,%s,true)',(process,'CP17-G1P-'+tag,'CP17 G1 wash'))
+    batch=str(one(cur,"select d.id from erp.cutting_distribution_batches d join erp.cutting_pickups p on p.id=d.pickup_id where p.cutting_group_id=%s and p.status='POSTED'",(g['group'],)))
+    wash=dict(vendor=vendor,process=process,day=g['day'],start=g['at'](0),batch=batch,group=g['group'])
+    bd.process_rate(cur,wash,'2.00');b.api.admin(cur);return wash
 
 def cases(cur,today):
     def full_attendance():
@@ -804,10 +841,93 @@ def cases(cur,today):
         assert one(cur,'select status from erp.cutting_pickups where id=%s',(g['pickup'],))=='POSTED'
         return dict(status='PASS',native_guards_still_refuse=[direct,clear],stale_review_refused=stale,short_reason_refused=short,after_sewing_started_refused=blocked)
 
+    # ------------------------------------------------------------ G1 (D14-14): SELESAI DIJAHIT + piece-work wage from the connected WIP screen
+    def sewing_ready(g):return work_rates(cur,g)
+    def sewing_read(g):return sewing_workspace(cur,g)
+    def sewing_send(w,**kw):return sewing_command(cur,w,**kw)
+    def sewing_record():
+        g=picked();rates=sewing_ready(g);w=sewing_read(g)
+        assert w['eligible'] and w['blockers']==[] and w['business_DML'] is False,w
+        assert (w['effective_pcs'],w['sewn_pcs'],w['max_qty'],w['rates_committed'],w['contractor_id'])==(10,0,10,False,g['mandor']),w
+        assert sewn_ready(cur,g)==(0,0)
+        key=uuid.uuid4();r=sewing_send(w,qty=4,at=g['at'](10),key=key);again=sewing_send(w,qty=4,at=g['at'](10),key=key)
+        assert again==r and r['action']=='RECORD' and r['result']['qty_pcs']==4 and r['result']['components']==2,r
+        comp=r['result']['work_completion_id']
+        # Oracles from Native rows: the Mandor rate 3 wins over the BOM default 2, the second component keeps its default 1.
+        lines=cur.execute('select work_component_id::text,qty_completed,qty_payable,rate_snapshot,amount_payable from erp.work_completion_lines where completion_id=%s order by rate_snapshot desc',(comp,)).fetchall()
+        assert lines==[(rates['component'],4,4,D(3),D(12)),(rates['obras'],4,4,D(1),D(4))],lines
+        assert one(cur,'select status from erp.work_completion_events where id=%s',(comp,))=='POSTED'
+        assert wage_journal(cur,comp)==(D(16),D(16),1),wage_journal(cur,comp)
+        assert D(str(r['result']['wage_amount']))==16
+        assert one(cur,"select sum(qty_signed) from erp.sewing_terminal_events where cutting_group_id=%s and event_kind='SELESAI_DIJAHIT'",(g['group'],))==4
+        assert sewn_ready(cur,g)==(4,4),('CP17_G1_NOT_READY_FOR_LAUNDRY',sewn_ready(cur,g))
+        payroll=cur.execute('select count(*),sum(source_qty_payable) from erp.v_payroll_production_work_eligibility where source_id in(select id from erp.work_completion_lines where completion_id=%s)',(comp,)).fetchone()
+        assert payroll==(2,8),('CP17_G1_WAGE_NOT_IN_PAYROLL_PIPELINE',payroll)
+        w2=sewing_read(g)
+        assert w2['max_qty']==6 and w2['rates_committed'] and [(c['rate'],c['posted_qty'])for c in w2['components']]==[(3,4),(1,4)],w2
+        r2=sewing_send(w2,qty=6,at=g['at'](11));w3=sewing_read(g)
+        assert sewn_ready(cur,g)==(10,10) and wage_journal(cur,r2['result']['work_completion_id'])==(D(24),D(24),1)
+        assert not w3['eligible'] and w3['max_qty']==0 and [b['kind']for b in w3['blockers']]==['NOTHING_TO_SEW'],w3
+        assert one(cur,'select count(*) from cp7_cutting_correction.sewing_history where group_id=%s',(g['group'],))==2
+        return dict(status='PASS',recorded=[4,6],wage_per_pcs=dict(mandor_rate=3,bom_default=1,total=4),wage_journals=['WIP 16 / CONTRACTOR_PAYABLE 16','WIP 24 / CONTRACTOR_PAYABLE 24'],
+                    ready_for_laundry=10,payroll_pipeline_lines=2,same_request_replay_identical=True,nothing_left_blocker=True)
+    def sewing_refused():
+        g=picked();w0=sewing_read(g)
+        assert not w0['eligible'] and [b['kind']for b in w0['blockers']]==['NO_WORK_RATE'],w0['blockers']
+        before=b.boundary.snapshot(cur)
+        no_rate=refused(cur,lambda:sewing_send(w0,qty=1,at=g['at'](10)),'CP7_SEWING_BLOCKED');unchanged(cur,before,'no work BOM')
+        sewing_ready(g);w=sewing_read(g);before=b.boundary.snapshot(cur)
+        over=refused(cur,lambda:sewing_send(w,qty=11,at=g['at'](10)),'CP7_SEWING_QTY_ABOVE_REMAINING');unchanged(cur,before,'more than the Potongan')
+        early=refused(cur,lambda:sewing_send(w,qty=1,at=g['at'](8)),'CP7_SEWING_BEFORE_PICKUP');unchanged(cur,before,'before pickup')
+        future=refused(cur,lambda:sewing_send(w,qty=1,at=datetime.now(timezone.utc)+timedelta(days=2)),'CP7_SEWING_FUTURE');unchanged(cur,before,'future')
+        stale=refused(cur,lambda:sewing_send(w,qty=1,at=g['at'](10),token='0'*32),'CP7_SEWING_STALE_REVIEW');unchanged(cur,before,'stale review')
+        version=refused(cur,lambda:sewing_send(w,qty=1,at=g['at'](10),expected=str(int(w['group_version'])+1)),'CP7_SEWING_STALE_REVIEW');unchanged(cur,before,'stale version')
+        short=refused(cur,lambda:sewing_send(w,qty=1,at=g['at'](10),reason='x'),'CP7_SEWING_FIELDS');unchanged(cur,before,'short reason')
+        zero=refused(cur,lambda:sewing_send(w,qty=0,at=g['at'](10)),'CP7_SEWING_FIELDS');unchanged(cur,before,'zero pieces')
+        key=uuid.uuid4();sewing_send(w,qty=2,at=g['at'](10),key=key)
+        changed=refused(cur,lambda:sewing_send(w,qty=3,at=g['at'](10),key=key),'CP7_SEWING_REQUEST_CHANGED')
+        # The Native writers stay closed to the browser role.
+        auth.actor(cur)
+        direct=refused(cur,lambda:cur.execute('select erp.post_work_completion(%s)',(str(uuid.uuid4()),)),'permission denied')
+        b.api.admin(cur)
+        return dict(status='PASS',no_work_rate=no_rate,over_remaining=over,before_pickup=early,future=future,stale_review=stale,stale_version=version,
+                    short_reason=short,zero_pieces=zero,same_key_other_payload=changed,native_writer_not_callable=direct)
+    def sewing_cancel():
+        g=picked();sewing_ready(g);w=sewing_read(g)
+        first=sewing_send(w,qty=4,at=g['at'](10));second=sewing_send(sewing_read(g),qty=3,at=g['at'](10,30))
+        comp=first['result']['work_completion_id'];event=first['result']['sewing_event_id']
+        journal=one(cur,"select id from erp.journal_entries where source_type='WORK_COMPLETION' and source_id=%s",(comp,))
+        # Three of the seven are sent to the laundry: only the record whose pieces are all still at the Mandor can be cancelled.
+        wash=laundry_for(cur,g);delivery=bd.post_priced(cur,wash,{},qty=3,hour=12);b.api.admin(cur)
+        w2=sewing_read(g);by={e['id']:e for e in w2['events']}
+        assert (w2['ready_unsent_pcs'],w2['laundry_draft_pcs'])==(4,0),w2
+        assert by[event]['cancel_blocker'] is None and by[event]['qty_pcs']==4,by
+        blocked_event=second['result']['sewing_event_id']
+        assert by[blocked_event]['qty_pcs']==3 and by[blocked_event]['cancel_blocker'] is None,by  # 3 <= 4 still at the Mandor
+        before=b.boundary.snapshot(cur)
+        key=uuid.uuid4();r=sewing_send(w2,event=event,reason='CP17 salah hitung setoran',key=key);again=sewing_send(w2,event=event,reason='CP17 salah hitung setoran',key=key)
+        assert again==r and r['action']=='REVERSE' and r['result']['status']=='CANCELLED' and r['result']['qty_pcs']==4,r
+        assert one(cur,'select status from erp.work_completion_events where id=%s',(comp,))=='REVERSED'
+        assert one(cur,'select status from erp.journal_entries where id=%s',(journal,))=='REVERSED'
+        assert cur.execute("""select coalesce(sum(l.debit) filter(where l.account_id=erp.account_id('CONTRACTOR_PAYABLE')),0),coalesce(sum(l.credit) filter(where l.account_id=erp.account_id('WIP')),0)
+            from erp.journal_entries j join erp.journal_lines l on l.journal_entry_id=j.id where j.reversal_of_id=%s and j.status='POSTED'""",(journal,)).fetchone()==(D(16),D(16))
+        assert one(cur,'select count(*) from erp.sewing_terminal_events where reversal_of_id=%s and qty_signed=-4',(event,))==1
+        assert sewn_ready(cur,g)==(3,0),sewn_ready(cur,g)
+        # Now everything left at the Mandor is zero: the record whose pieces went to the laundry is refused and named.
+        w3=sewing_read(g);left={e['id']:e for e in w3['events']if not e['reversed']}
+        assert left[blocked_event]['cancel_blocker']=='SENT_OR_DRAFTED_TO_LAUNDRY',left
+        before=b.boundary.snapshot(cur)
+        sent=refused(cur,lambda:sewing_send(w3,event=blocked_event,reason='CP17 coba batal sesudah laundry'),'CP7_SEWING_CANCEL_BLOCKED');unchanged(cur,before,'cancel after laundry')
+        twice=refused(cur,lambda:sewing_send(w3,event=event,reason='CP17 batal kedua kali'),'CP7_SEWING_CANCEL_BLOCKED');unchanged(cur,before,'cancel twice')
+        return dict(status='PASS',cancelled=dict(pieces=4,work_completion='REVERSED',wage_journal='REVERSED with JOURNAL_REVERSAL 16',sewing='REVERSAL -4'),
+                    after_cancel_sewn_ready=[3,0],laundry_delivery=str(delivery.get('delivery_id')),cancel_after_laundry_refused=sent,cancel_twice_refused=twice,
+                    same_request_replay_identical=True)
+
     named=[full_attendance,work_only,installment,direct_native,empty_bank,exact_zero,backdate,later_day,payroll_empty,laundry_empty,
            claim_control,claim_before_source,claim_ap_not_available,stock_card,rework_scrap,rework_good,rework_open,
            hpp_excluded,hpp_unrelated,hpp_replacement,fabric_return,fabric_over,fabric_once,fabric_dates,fabric_cancel,fabric_correct,fabric_cancel_blocked,fabric_cancel_once,legacy_findings,
-           kasbon_cycle,kasbon_limits,kasbon_release,rewash_free,pickup_reverse,pickup_refused,exposure_gate]
+           kasbon_cycle,kasbon_limits,kasbon_release,rewash_free,pickup_reverse,pickup_refused,exposure_gate,
+           sewing_record,sewing_refused,sewing_cancel]
     assert len(named)==REQUIRED['native']
     return list(zip(IDS['native'],named))
 
@@ -859,7 +979,25 @@ def races(tools,today):
         assert active==1 and dup==0 and all(0 in r.values() for r in detector),(active,dup,detector)
         return dict(status='PASS',second_payroll_over_attended_day=sequential,concurrent_overlapping_payrolls=results,active_payrolls_left=active,
                     attendance_in_two_payrolls=0,integrity_detector=detector,guard='erp.guard_payroll_period_overlap (contractor advisory lock)',finding='FABLE-007')
-    return [('CP17_RACE_TWO_PAYMENTS_ONE_BANK',two_payments),('CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS',overlapping_payroll)]
+    def sewing_twice():
+        # G1: two tabs record 6 of the same 10 pieces at once from the same review: one is posted, the other is refused as stale.
+        with tools.connect()as conn,conn.cursor()as cur:
+            g=pickup_fixture(cur,today);work_rates(cur,g);w=sewing_workspace(cur,g);conn.commit()
+        barrier=threading.Barrier(2)
+        def send(n):
+            with tools.connect()as conn,conn.cursor()as cur:
+                barrier.wait(5)
+                try:r=sewing_command(cur,w,qty=6,at=g['at'](10,n));conn.commit();return('PASS',r['result']['work_completion_id'])
+                except psycopg.Error as e:conn.rollback();return('REFUSED',str(e).splitlines()[0])
+        with ThreadPoolExecutor(max_workers=2)as pool:results=[x.result(60)for x in[pool.submit(send,n)for n in(1,2)]]
+        assert sorted(x[0]for x in results)==['PASS','REFUSED'] and 'CP7_SEWING_STALE_REVIEW' in next(x[1]for x in results if x[0]=='REFUSED'),results
+        with tools.connect()as conn,conn.cursor()as cur:
+            b.api.admin(cur);state=sewn_ready(cur,g)
+            posted=one(cur,"select count(*) from erp.work_completion_events where cutting_group_id=%s and status='POSTED'",(g['group'],))
+        assert state==(6,6) and posted==1,(state,posted)
+        return dict(status='PASS',two_records_of_six_on_ten=results,sewn_after=6,posted_work_completions=1)
+    return [('CP17_RACE_TWO_PAYMENTS_ONE_BANK',two_payments),('CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS',overlapping_payroll),
+            ('CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS',sewing_twice)]
 
 
 def http_cases(http,today):
@@ -926,5 +1064,24 @@ def http_cases(http,today):
         with http.connect()as conn,conn.cursor()as cur:assert b.boundary.snapshot(cur)==before,'CP17_ERP_DIRECT_CHANGED_BOUNDARY'
         return dict(status='PASS',writers_without_invoker_reference=len(writers),refused_by_data_api=len(refused),
                     refusal='406 PGRST106 (schema not exposed)',exposed_schemas=['public'],hosted_setting='to be read by Fable (owner D14-7)')
+    def sewing_http():
+        # G1 over real Auth + PostgREST: the Admin records SELESAI DIJAHIT with its wage; a STAFF login is refused and changes nothing.
+        admin=http.login('ADMIN','cp17-sewing');staff=http.login('ADMIN','cp17-sewing-staff')
+        with http.connect()as conn,conn.cursor()as cur:
+            g=pickup_fixture(cur,today);work_rates(cur,g)
+            role=one(cur,'select role_id from erp.app_users where auth_user_id=%s',(admin.auth_user_id,))
+            for key in('production.wip.view','production.wip.post','production.wip.reverse'):
+                cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s)on conflict do nothing',(role,key))
+            _,staff_role=s.source.procurement.custom(cur,['production.wip.view','production.wip.post'])
+            cur.execute("update erp.app_users set role='STAFF',role_id=%s where auth_user_id=%s",(staff_role,staff.auth_user_id));conn.commit()
+        w=admin.rpc('erp_cp7_get_sewing_completion_v1',dict(p_group=g['group']));assert w['status']==200 and w['body']['eligible'] and w['body']['max_qty']==10,w
+        p=dict(action='RECORD',group_id=g['group'],qty_pcs='5',physical_at=g['at'](10).isoformat(),review_token=w['body']['review_token'],change_reason='CP17 setoran lewat login')
+        denied=staff.rpc('erp_cp7_save_sewing_completion_v1',dict(p_payload=p,p_request=str(uuid.uuid4()),p_expected=w['body']['group_version']))
+        assert denied['status'] in(400,401,403) and 'CP7_SEWING_DENIED' in str(denied['body']),denied
+        r=admin.rpc('erp_cp7_save_sewing_completion_v1',dict(p_payload=p,p_request=str(uuid.uuid4()),p_expected=w['body']['group_version']))
+        assert r['status']==200 and r['body']['result']['qty_pcs']==5,r
+        with http.connect()as conn,conn.cursor()as cur:
+            b.api.admin(cur);assert sewn_ready(cur,g)==(5,5) and wage_journal(cur,r['body']['result']['work_completion_id'])==(D(20),D(20),1)
+        return dict(status='PASS',real_Auth_recorded=5,wage='WIP 20 / CONTRACTOR_PAYABLE 20',staff_refused=str(denied['body'])[:200])
     return [('CP17_HTTP_CASH_EMPTY_BANK_REFUSED',cash_refused),('CP17_HTTP_PAYROLL_EARLY_REFUSED',payroll_early),('CP17_HTTP_KASBON_GIVE',kasbon_give_http),
-            ('CP17_HTTP_ERP_WRITERS_NOT_REACHABLE',erp_writers_closed)]
+            ('CP17_HTTP_ERP_WRITERS_NOT_REACHABLE',erp_writers_closed),('CP17_HTTP_G1_SEWING_RECORD',sewing_http)]

@@ -1,4 +1,5 @@
-"""CP17 browser fixtures (SG-01 pickup reversal, SG-02 fabric return, D14-6 kasbon, D14-5 dozens over a size series) in the
+"""CP17 browser fixtures (SG-01 pickup reversal, SG-02 fabric return, D14-6 kasbon, D14-5 dozens over a size series, D14-14 G1
+sewing completion on the WIP & Sewing page) in the
 disposable browser database only.
 
 The same Native-writer fixtures as the native CP17 cases (cp7_cp17_fix_cases.pickup_fixture / fabric_fixture, the
@@ -61,6 +62,15 @@ def main():
             out=dict(group=f['group'],po=f['po'],pickup=f['pickup'],mandor=f['mandor'],executor=f['executor'],
                      po_before=[None if x is None else str(x) for x in f['po_before']],
                      number=one('select group_number from erp.cutting_groups where id=%s',(f['group'],))[0])
+        elif operation=='sewing':
+            f=cases.pickup_fixture(cur,date.fromisoformat(p['today']));cases.work_rates(cur,f);cases.b.api.admin(cur)
+            out=dict(group=f['group'],po=f['po'],mandor=f['mandor'],number=one('select group_number from erp.cutting_groups where id=%s',(f['group'],))[0])
+        elif operation=='sewing_state':
+            ready=cases.sewn_ready(cur,dict(group=p['group']))
+            works=cur.execute("select id::text from erp.work_completion_events where cutting_group_id=%s and status='POSTED' order by created_at",(p['group'],)).fetchall()
+            wage=[[str(x) for x in cases.wage_journal(cur,w[0])] for w in works]
+            out=dict(sewn=ready[0],ready=ready[1],posted_work=len(works),wage=wage,
+                     history=one('select count(*) from cp7_cutting_correction.sewing_history where group_id=%s',(p['group'],))[0])
         elif operation=='pickup_state':
             pk=one('select status,reversal_reason from erp.cutting_pickups where id=%s',(p['pickup'],))
             g=one('select status,picked_up_at,executor_name,material_issue_posted from erp.cutting_groups where id=%s',(p['group'],))

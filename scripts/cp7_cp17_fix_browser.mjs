@@ -1,7 +1,8 @@
 // CP17 browser cases on the Bagi Potongan page, real Auth and PostgREST on the committed copy:
 // SG-01 reverse a posted pickup before sewing (desktop), SG-02 fabric back to the warehouse (phone); and the
 // D14-6 kasbon on the Payroll & Kasbon page (give from a funded bank, cut from the Mandor's payroll draft); and D14-5
-// dozens over one size series on the Penjualan & Invoice draft (desktop and phone).
+// dozens over one size series on the Penjualan & Invoice draft (desktop and phone); D14-14 G1 SELESAI DIJAHIT on the
+// WIP & Sewing page (desktop and phone).
 import assert from'node:assert/strict'
 import{execFileSync}from'node:child_process'
 import{mkdirSync,writeFileSync}from'node:fs'
@@ -189,6 +190,43 @@ async function seriesDozens(ui,today,mobile){
  }catch(error){let actual;try{actual=state()}catch(e){actual={observation_error:String(e)}};await failure(page,name,error,actual,requests);throw error}
  finally{await user.context.close()}
 }
+// D14-14 G1: SELESAI DIJAHIT on the connected WIP & Sewing page (like the demo card), desktop and phone.
+async function wipPage(ui,page){
+ const open=page.getByRole('button',{name:'Buka menu',exact:true});if(await open.isVisible())await open.click()
+ const link=page.getByRole('button',{name:'• WIP & Sewing',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Produksi'}).click();await link.click()
+ await ui.expect(page.getByRole('heading',{name:'WIP & Sewing',exact:true})).toBeVisible()
+}
+async function sewing(ui,today,mobile){
+ const f=fixture('sewing',{today}),name=`CP17_G1_SEWING_${mobile?'MOBILE':'DESKTOP'}`,user=await ui.login('OWNER',{label:'cp17-g1-'+(mobile?'mobile':'desktop'),mobile}),page=user.page,requests=[]
+ const state=()=>fixture('sewing_state',f)
+ page.on('request',r=>{if(r.url().endsWith('/rpc/erp_cp7_save_sewing_completion_v1'))requests.push(r.postDataJSON())})
+ try{
+  mkdirSync('cp6-proof/t3',{recursive:true});const before=state();assert.deepEqual([before.sewn,before.ready,before.posted_work],[0,0,0])
+  await wipPage(ui,page);await page.getByLabel('Cari WIP',{exact:true}).fill(f.number);await page.getByLabel('Cari WIP',{exact:true}).press('Enter')
+  const card=page.locator('.cwip-list>article').filter({hasText:f.number});await ui.expect(card).toHaveCount(1)
+  const panel=card.getByRole('region',{name:'Selesai jahit '+f.number,exact:true})
+  await panel.getByRole('button',{name:'Catat selesai jahit',exact:true}).click()
+  await ui.expect(panel).toContainText('0 / 10 pcs');await ui.expect(panel).toContainText('Rp4')
+  const save=panel.getByRole('button',{name:'Simpan selesai jahit',exact:true});await ui.expect(save).toBeDisabled()
+  await panel.getByLabel('Jumlah selesai dijahit '+f.number,{exact:true}).fill('11')
+  await ui.expect(panel.getByLabel('Selesai jahit '+f.number+' sudah diperiksa',{exact:true})).toBeDisabled()
+  await panel.getByLabel('Jumlah selesai dijahit '+f.number,{exact:true}).fill('4')
+  await panel.getByLabel('Catatan selesai jahit '+f.number,{exact:true}).fill('Setoran pagi mandor')
+  await ui.expect(panel).toContainText('4 pcs × Rp4 = Rp16')
+  await panel.getByLabel('Selesai jahit '+f.number+' sudah diperiksa',{exact:true}).check()
+  assert.deepEqual(state(),before);assert.equal(requests.length,0)
+  await page.screenshot({path:`cp6-proof/t3/${name}_REVIEW.png`,fullPage:true})
+  await save.click()
+  await ui.expect(page.getByText(f.number+': 4 pcs tercatat selesai dijahit. Upah mandor Rp16 masuk hutang mandor; 4 pcs siap dikirim ke laundry.')).toBeVisible()
+  const after=state()
+  assert.deepEqual([after.sewn,after.ready,after.posted_work,after.history],[4,4,1,1]);assert.deepEqual(after.wage,[['16.00','16.00','1']])
+  assert.equal(requests.length,1);assert.equal(requests[0].p_payload.action,'RECORD');assert.equal(requests[0].p_payload.qty_pcs,'4');assert.equal(requests[0].p_payload.group_id,f.group)
+  await noSideScroll(ui,page);await page.screenshot({path:`cp6-proof/t3/${name}_COMMITTED.png`,fullPage:true})
+  return{status:'PASS',phone:mobile,recorded:4,over_remaining_kept_off:true,wage:'16 (Mandor 3 + Obras 1 per pcs)',ready_for_laundry:4,one_request:true}
+ }catch(error){let actual;try{actual=state()}catch(e){actual={observation_error:String(e)}};await failure(page,name,error,actual,requests);throw error}
+ finally{await user.context.close()}
+}
 export function cases(ui,today){return[['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP',()=>pickupReversal(ui,today)],['CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE',()=>fabricReturn(ui,today)],['CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP',()=>kasbon(ui,today)],
  ['CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP',()=>seriesDozens(ui,today,false)],['CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE',()=>seriesDozens(ui,today,true)],
- ['CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP',()=>fabricReturnCorrect(ui,today)]]}
+ ['CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP',()=>fabricReturnCorrect(ui,today)],
+ ['CP17_BROWSER_G1_SEWING_DESKTOP',()=>sewing(ui,today,false)],['CP17_BROWSER_G1_SEWING_MOBILE',()=>sewing(ui,today,true)]]}

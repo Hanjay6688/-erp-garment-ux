@@ -9,6 +9,7 @@ import { normalizeClientError } from './lib/clientError'
 import ConnectedPatternFilter from './ConnectedPatternFilter'
 import { useProductionMutation } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
+import SewingCompletionPanel from './SewingCompletionPanel'
 import type { ProductionEnvelope } from './productionRecovery'
 import './connected-wip-status.css'
 
@@ -285,6 +286,8 @@ export default function ConnectedWipStatusPage() {
             <div>{row.distribution.batches.map((batch) => <article key={batch.id}><span>#{String(batch.batch_no).padStart(2, '0')}</span><div><strong>{batch.qty_pcs} pcs</strong><small>{batch.notes || 'Tanpa catatan jahitan'}</small></div><p>{batch.sizes.map((size) => <em key={size.size_code}>{size.size_code} · {size.qty_pcs}</em>)}</p></article>)}</div>
           </section>}
           <div className="cwip-blockers">{blockers.length ? blockers.map((label) => <span key={label}><AlertTriangle/>{label}</span>) : <span className="clear"><Check/> Tidak ada aksi WIP tersisa</span>}</div>
+          {row.distribution && row.control_status === 'ACTIVE' && <SewingCompletionPanel groupId={row.cutting_group_id} groupNumber={row.group_number} groupVersion={row.row_version}
+            parentReady={!loading && totalsKnown} onCommitted={handlers.reload}/>}
           {row.open_flags.length > 0 && <div className="cwip-flags">{row.open_flags.map((openFlag) => <span key={openFlag.id}><Flag/><strong>{openFlag.type.replaceAll('_', ' ')}</strong>{openFlag.note}</span>)}</div>}
           <footer><span><SlidersHorizontal/> Row version {row.row_version} · diperbarui {new Date(row.updated_at).toLocaleString('id-ID')}</span>{row.control_status === 'ACTIVE' && <button disabled={!canAdjust || flagging} onClick={() => void flag(row)}><Flag/> {flagging ? 'Menyimpan…' : 'Tandai tindak lanjut'}</button>}</footer>
         </article>

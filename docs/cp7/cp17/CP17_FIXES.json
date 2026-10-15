@@ -1,11 +1,11 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 48,
+ "expected_case_count": 55,
  "required_case_counts": {
-  "native": 36,
-  "races": 2,
-  "http": 4,
-  "browser": 6
+  "native": 39,
+  "races": 3,
+  "http": 5,
+  "browser": 8
  },
  "required_case_ids": {
   "native": [
@@ -44,17 +44,22 @@
    "CP17_SG03_REWASH_SAME_PRODUCT_NO_VENDOR_BILL",
    "CP17_SG01_PICKUP_REVERSE_BEFORE_SEWING",
    "CP17_SG01_PICKUP_REVERSE_REFUSED",
-   "CP17_FABLE012_EXPOSURE_GATE_REVOKE_FIRST"
+   "CP17_FABLE012_EXPOSURE_GATE_REVOKE_FIRST",
+   "CP17_G1_SEWING_RECORD_WAGE_READY_FOR_LAUNDRY",
+   "CP17_G1_SEWING_REFUSALS_UNCHANGED",
+   "CP17_G1_SEWING_CANCEL_ONLY_AT_MANDOR"
   ],
   "races": [
    "CP17_RACE_TWO_PAYMENTS_ONE_BANK",
-   "CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS"
+   "CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS",
+   "CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS"
   ],
   "http": [
    "CP17_HTTP_CASH_EMPTY_BANK_REFUSED",
    "CP17_HTTP_PAYROLL_EARLY_REFUSED",
    "CP17_HTTP_KASBON_GIVE",
-   "CP17_HTTP_ERP_WRITERS_NOT_REACHABLE"
+   "CP17_HTTP_ERP_WRITERS_NOT_REACHABLE",
+   "CP17_HTTP_G1_SEWING_RECORD"
   ],
   "browser": [
    "CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP",
@@ -62,7 +67,9 @@
    "CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP",
    "CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP",
    "CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE",
-   "CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP"
+   "CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP",
+   "CP17_BROWSER_G1_SEWING_DESKTOP",
+   "CP17_BROWSER_G1_SEWING_MOBILE"
   ]
  },
  "public_rpcs": [
@@ -84,7 +91,9 @@
   "erp_cp7_get_pickup_reversal_v1",
   "erp_cp7_reverse_pickup_v1",
   "erp_cp7_get_cutting_return_reversal_v1",
-  "erp_cp7_reverse_cutting_return_v1"
+  "erp_cp7_reverse_cutting_return_v1",
+  "erp_cp7_get_sewing_completion_v1",
+  "erp_cp7_save_sewing_completion_v1"
  ],
  "owner_decisions": {
   "D14_2": "Pembayaran upah sebelum utangnya ada: \"Tolak, kecuali kasbon (Disarankan)\" (15 Okt 2026)",
@@ -95,7 +104,8 @@
   "D14_8": "Pembanding lama: \"Ya, betulkan pembanding lama. Gunakan urutan yang stabil, dengan seluruh anggota, duplikat, definisi, owner, dan hak akses tetap dibandingkan. Simpan bukti sebelum/sesudah. Penyebab dua kegagalan lama tetap OPEN sampai benar-benar terbukti.\" (15 Okt 2026)",
   "D14_9": "FABLE-012: \"Ya, pencabutan 82 fungsi boleh ditunda ke CP7C, berdasarkan bukti auditor bahwa jalur tersebut tidak dapat dijangkau dari internet. Catat sebagai pekerjaan keamanan yang belum selesai. Jika konfigurasi akses berubah sehingga fungsi itu bisa dijangkau, pencabutannya menjadi prasyarat sebelum jalur tersebut diaktifkan.\" (15 Okt 2026)",
   "D14_10": "Batal/koreksi retur kain: \"Ya, buat tombol batal/koreksi retur kain. Pembalikan stok, hutang/kredit, jurnal, dan HPP yang terdampak harus selesai dalam satu transaksi, dengan riwayat asli tetap tersimpan. Kalau ada transaksi lanjutan yang menghalangi, tampilkan bagian mana yang harus dibetulkan terlebih dahulu.\" (15 Okt 2026)",
-  "D14_11": "Upah rework: \"Ya, upah rework boleh dibayar untuk bagian pekerjaan yang sudah selesai, diperiksa, dan disetujui, walaupun keseluruhan kasus BS masih terbuka atau sebagian. Bagian yang belum selesai tetap ditahan. Qty dan upah harus tertaut ke pekerjaan yang jelas, tercatat sekali, dan tidak dibayar ulang saat kasus BS akhirnya ditutup.\" (15 Okt 2026)"
+  "D14_11": "Upah rework: \"Ya, upah rework boleh dibayar untuk bagian pekerjaan yang sudah selesai, diperiksa, dan disetujui, walaupun keseluruhan kasus BS masih terbuka atau sebagian. Bagian yang belum selesai tetap ditahan. Qty dan upah harus tertaut ke pekerjaan yang jelas, tercatat sekali, dan tidak dibayar ulang saat kasus BS akhirnya ditutup.\" (15 Okt 2026)",
+  "D14_14": "Celah sebelum audit akhir: \"ya yg jelas lu beresin lah\" (15 Okt 2026) — layar jahit selesai, upah borongan dan HPP final dari aplikasi, uji lama dijalankan ulang"
  },
  "findings": {
   "FIN01": "Fable FABLE-001, Astra FIN01",
@@ -111,7 +121,8 @@
   "SG01": "Fable FABLE-009 / Astra SG-01: a POSTED pickup (Bagi Potongan) could not be corrected; reversed before sewing through two declared Native guard deltas, refused once sewing started",
   "FABLE012": "Fable FABLE-012: authenticated may execute 82 erp writers that nothing running with the caller rights refers to; proven unreachable over the Data API (public only); owner D14-9: the EXECUTE revoke is deferred to CP7C as open security work, and the exposure gate (scripts/cp7_access_inventory.py exposure_gate) refuses any Data API setting that would reach schema erp before that revoke",
   "LUSIN": "Sol SALES_MANUAL_13 / owner D14-5: on the connected sales draft one pick adds every in-stock size of the SKU at the warehouse (as the UX demo adds a product with all sizes), a new series starts at 1 lusin split evenly, per-size pieces read back as x lusin y potong; browser desktop and phone on a three-size and a one-size SKU",
-  "SG02_CANCEL": "Owner D14-10: a recorded fabric return is cancelled or corrected in one transaction (Native journal reversal, REVERSAL movements, material cost and PO recost queue, return facts back), history kept; later uses of the returned fabric are named and block until corrected"
+  "SG02_CANCEL": "Owner D14-10: a recorded fabric return is cancelled or corrected in one transaction (Native journal reversal, REVERSAL movements, material cost and PO recost queue, return facts back), history kept; later uses of the returned fabric are named and block until corrected",
+  "G1_SEWING": "Owner D14-14 gap G1: the connected WIP & Sewing screen records SELESAI DIJAHIT for a picked-up Potongan (as the UX demo card does) through one Native step: a POSTED work completion (piece-work wage to the Mandor payable) and the sewing terminal event that Laundry counts as ready to send; cancel only while the pieces are still at the Mandor and the wage is outside payroll and any active attendance pool; base-component rates only (SKU-wave rates refused as WAVE_SKU_RATES), a PO model without a Work BOM refused as NO_WORK_RATE"
  },
  "oracle_independence": "Dates from the Native accrual journals and source rows; balances from journal lines and stock movements; never from the guard functions.",
  "fixture_capital": "Banks that pay hold owner capital through the accepted Native journal (scripts/cp7_cash_funding.py) only where a case says so; empty-bank cases keep the bank empty.",
