@@ -1,5 +1,5 @@
 name: AUDIT/Astra/production-locator-qualification
-run-name: AUDIT/combined-20261016/Astra/dfab13bf/production-locator-qualification/1
+run-name: AUDIT/combined-20261016/Astra/dfab13bf/production-readback-qualification/1
 'on':
   push:
     branches:

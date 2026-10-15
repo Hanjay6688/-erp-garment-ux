@@ -20,3 +20,9 @@ Under Pro Max §16.3, fix the tool to wait for that exact lazy fallback to disap
 Run 38793203672/job116622792645: ASTRA_CHAIN_CUT_TO_FG is INCOMPLETE after a successful browser cutting POST (raw100/value1000 ->40/value400; WIP600). `getByLabel('Mandor',{exact:true})` timed out. Captured body and frozen ConnectedPickupPage.tsx prove the select exists; its wrapping label also includes the explanatory text `Mandor dikunci mengikuti penugasan Production Order.`, so the exact accessible label is longer. No backend pickup command was sent.
 
 Correction under §16.3: locate the single combobox within `.cpick-setup` with accessible name starting Mandor, then assert its selected value is the fixture contractor. No fixture/oracle/seed/timeout/product changes. Run only the same ASTRA_CHAIN_CUT_TO_FG ID; successful ASTRA_CHAIN_ACCESSORY_NOTA_TO_CASH is not rerun. Preserve old INCOMPLETE, screenshot, trace, requests and logs.
+
+## Production readback status qualification
+
+Run 38794704824/job116627916413 keeps ASTRA_CHAIN_CUT_TO_FG INCOMPLETE. Browser CUT, PICKUP and SEWING succeeded; Native readback shows raw40/value400, WIP720, sewn60/wages120. Laundry POST returned200 and the ready batch disappeared into the outside-factory quantity. The audit readback queried laundry_deliveries.status='POSTED', which is not the committed delivery status. Frozen migration 20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql:4116 explicitly sets status='SENT'; existing accepted browser source also excludes REVERSED instead of requiring POSTED.
+
+Under §16.3, correct the reader to require the exact canonical SENT status and add a readback assertion that delivery batch-size quantities total exactly60. No business expected amount/quantity or fixture changes; no timeout increase; no product edit. This is a proven reader error, not a product failure or permission to repeat an unexplained failure. All prior output remains in the ledger.
