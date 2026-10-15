@@ -18,7 +18,15 @@ Status read per case from JSON log lines (SP/wf/case_summary.py), never from job
 | 38784483635 | P13 Period | report 8+1+1+2, period 8+2+1+2 PASS | INDEPENDENT_NATIVE_RERUN |
 | 38784501713 | Cutting correction | 10+4+3+2 PASS | INDEPENDENT_NATIVE_RERUN |
 | 38784274269 | CP6 T2 Combined Regression | all 3 jobs died before any case: `gh: Artifact has expired (HTTP 410)` | NOT_APPLICABLE (see below) |
-| 38784292945, 38784408935, 38784428651, 38784519618, 38784537309, 38784556107 | T3 package, note corr., receipt corr., payment corr., F03 cash, prefreeze UI | in progress at the time of this note | — |
+| 38784292945 | CP6 T3 Release Package (3 jobs) | PASS lines: pins 32, browser 64, writer runtime 173; 0 other | INDEPENDENT_NATIVE_RERUN |
+| 38784428651 | Owning receipt correction | 77 PASS, 0 other | INDEPENDENT_NATIVE_RERUN |
+| 38784519618 | Native payment correction | 57 PASS, 0 other | INDEPENDENT_NATIVE_RERUN |
+| 38784537309 | F03 connected cash reader | 56 PASS, 0 other | INDEPENDENT_NATIVE_RERUN |
+| 38784556107 | Pre-freeze UI regression | 64 PASS; 2 INCOMPLETE only in group `AUDITOR_BROWSER_CP7_PREFREEZE_LEGACY_RUNTIME_GAP` (finance readiness screen on the legacy runtime: `erp_cp7_get_recost_queue_v1` PGRST202 404); the same two cases PASS on the full stack | INDEPENDENT_NATIVE_RERUN; gap = LEGACY_RUNTIME_OBSERVATION_ONLY |
+| 38784408935 | Note correction | in progress at the time of this note | — |
+
+Install consequence of the legacy gap: the CP7 UI must not reach Enteng before the CP7 database layer it calls
+(the finance readiness screen breaks with a 404 on a legacy database). Goes to the "before Enteng" list as an order rule.
 
 D14-17 pre-U inventory: every rebuilt chain read above logs `PRE_U_CAPTURED_IN_THIS_REBUILD` with names_sha256
 `eb7f121d…` = the pinned value (cp17fixes, t3-rollback, p18, p12-nota, cutting). No business-day retry in these logs.

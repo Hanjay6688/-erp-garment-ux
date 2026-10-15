@@ -15,3 +15,8 @@
 
 ## Paparan (§16.7)
 Dibaca dari paket: `HANDOFF_FABLE.md`, `README.md`, `CHAIN_MAP.md`, `SCREEN_MAP.md`, `GAPS_D14_14.md`, `CI_RECEIPT.json`, dan folder r1. `HANDOFF_ASTRA.md` / `HANDOFF_SOL.md` tidak dibuka. Cabang, run, artifact, dan laporan auditor lain di putaran ini tidak dibuka sampai laporan Fable dikunci. Laporan audit penuh auditor lain atas 0b7049d9 yang sudah terkunci boleh dibaca menurut paket, tetapi belum dibuka. Hosted Enteng: hanya baca daftar skema yang terbuka lewat Data API (D14-7); tidak ada tulis.
+
+Koreksi paparan (15 Okt, sebelum laporan dikunci): pencarian teks `grep "FABLE-012" docs/cp7/audit-candidate/cp1-7-fix-r1-20261015/*.md`
+ikut mencetak 2 baris dari `cp1-7-fix-r1-20261015/HANDOFF_ASTRA.md` (baris 27 dan 42, tulisan penulis untuk Astra, bukan laporan
+Astra). Isinya teks D14-9 FABLE-012 yang sama dengan `HANDOFF_FABLE.md` baris 26 dan 47. Tidak ada temuan, hasil, run atau
+pendapat Astra di dalamnya. Pencarian berikutnya mengecualikan `HANDOFF_ASTRA.md` dan `HANDOFF_SOL.md`.
