@@ -1,0 +1,50 @@
+# Pinned CI artifacts are kept 30 days (retention-days: 30). The AC writer artifact 10392910720 expired on
+# 15 Oct 2026 (HTTP 410 in runs 38721795013, 38721797914, 38721801271, 38721804060, 38721806508; logs kept).
+# This job copies every pinned artifact that is still alive, byte for byte, into one artifact kept 90 days, with
+# a manifest of sizes and SHA-256, so the exact bytes the scripts pin are not lost while the workflows are rewired.
+name: CP7 Pinned Artifact Rescue
+'on':
+  push:
+    branches:
+    - claude/final-gaps-20261015
+    paths:
+    - .github/workflows/cp7-pinned-artifact-rescue.yml
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  rescue:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+    - name: Download every live pinned artifact and record its exact bytes
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        mkdir -p rescued
+        manifest=rescued/MANIFEST.tsv
+        printf 'artifact_id\tstatus\tbytes\tsha256\tname\texpires_at\n' > "$manifest"
+        for id in 10418502157 10429202482 10431820947 10432153459 10434213550 10436024116 10438516795 \
+                  10444721050 10460209095 10467267798 10668124130 10669107236 11139828865 11141076740 \
+                  10392910720 10320611163 10327086710; do
+          meta=$(gh api "repos/${{ github.repository }}/actions/artifacts/$id" 2>/dev/null || true)
+          name=$(echo "$meta" | jq -r '.name // "-"'); expires=$(echo "$meta" | jq -r '.expires_at // "-"')
+          if gh api "repos/${{ github.repository }}/actions/artifacts/$id/zip" > "rescued/$id.zip" 2> "rescued/$id.err"; then
+            printf '%s\tRESCUED\t%s\t%s\t%s\t%s\n' "$id" "$(stat -c %s "rescued/$id.zip")" "$(sha256sum "rescued/$id.zip" | cut -c1-64)" "$name" "$expires" >> "$manifest"
+            rm -f "rescued/$id.err"
+          else
+            printf '%s\tUNAVAILABLE\t0\t-\t%s\t%s\n' "$id" "$name" "$expires" >> "$manifest"
+            cat "rescued/$id.err"; rm -f "rescued/$id.zip"
+          fi
+        done
+        column -t -s $'\t' "$manifest"
+    - name: Keep the exact bytes 90 days
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: cp7-pinned-artifacts-rescued-20261015
+        path: rescued
+        if-no-files-found: error
+        compression-level: 0
+        retention-days: 90
