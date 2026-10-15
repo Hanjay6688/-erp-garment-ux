@@ -98,12 +98,18 @@ pemberitahuan (Dashboard). Di **DISPOSABLE_TEST** 35 tersambung (termasuk Nota),
    `tests/browser/cp5-bs-resolution.spec.ts` dan `cp6-laundry-qc.spec.ts`, dengan HTTP tiruan. Belum ada uji browser
    build mode Enteng terhadap backend sungguhan (sesuai larangan menyentuh hosted).
 9. `README.md` di akar repo (baris 29) mendaftar layar tersambung mode Enteng lebih sedikit daripada kodenya.
+10. **Data induk harian.** Layar Pelanggan, Supplier & Vendor, Mandor, Gudang & Lokasi, Kain & Benchmark dan
+    Aksesori & Harga Mandor masih data contoh di semua mode. Sepanjang yang terlihat penulis, data induk itu di
+    database hanya masuk lewat Impor data awal (migrasi `v2_6_20ak`, `v2_6_20ap`) dan beberapa master khusus (mis.
+    master vendor laundry BD-1). Auditor memeriksa apakah pemakaian harian (pelanggan baru, mandor baru) punya jalan.
+11. **WIP & Sewing tersambung tidak bisa mencatat jahit selesai** (lihat `CHAIN_MAP.md` §3 butir 1). Di UX demo,
+    layar ini punya alur kirim ke laundry; di layar tersambung hanya baca dan tanda.
 
 ## 3. Yang diminta dari auditor untuk fokus 2
 
 - Untuk setiap menu: bandingkan perilaku UX demo dengan layar tersambungnya (alur, isian, hitungan, pesan tolak,
   tampilan HP). Contoh perilaku demo yang sempat tidak ikut: bagi lusin per seri (D14-5, `src/SalesPages.tsx`).
 - Tandai setiap menu: SAMA / BEDA (sebutkan perilaku) / TIDAK ADA LAYAR TERSAMBUNG.
-- Nilai butir 1–9 di atas: mana yang harus beres sebelum pemasangan ke Enteng (CP7C/CP8) dan mana yang boleh menyusul.
+- Nilai butir 1–11 di atas: mana yang harus beres sebelum pemasangan ke Enteng (CP7C/CP8) dan mana yang boleh menyusul.
 - Larangan tetap: tidak membuka atau mengubah Supabase hosted Enteng, legacy, production, main, atau deployment
   Cloudflare. Mode Enteng diuji dengan build lokal + backend sekali pakai atau HTTP tiruan.

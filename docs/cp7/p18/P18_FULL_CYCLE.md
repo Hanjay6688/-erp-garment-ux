@@ -144,3 +144,11 @@ Oracle-nya hanya diturunkan dari jumlah E01, tidak ada angka kebijakan yang dika
 - Kedua pembayaran supplier diputar ulang dengan tanggal dan jumlah aslinya.
 - Cek integritas tidak berubah.
 - Laba kotor akhir 135.
+
+## Koreksi 15 Okt 2026 sesudah D14-3 (penulis; teks di atas tidak diubah)
+
+Butir "Kas boleh minus" dan angka kas −1.100 di tabel berlaku untuk versi sebelum keputusan owner D14-3 ("kas/bank
+tidak boleh minus pada tanggal mana pun"). Sejak penjaga kas bertanggal dipasang, kasus P18 menyetor modal owner 1.200
+ke bank lewat jurnal Native sebelum titik awal (`scripts/cp7_p18_full_cycle_cases.py` baris 19–23; run pertama yang
+ditolak `CP7_CASH_NEGATIVE` di `597d6778` disimpan). Semua angka kas di tabel tetap dibaca sebagai **perubahan sejak
+titik awal**, bukan saldo; saldo bank sesudah B9 adalah nol, bukan −1.100.
