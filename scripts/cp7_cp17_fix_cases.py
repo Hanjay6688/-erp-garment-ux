@@ -52,7 +52,8 @@ CONTRACT='cp7.cp17-fixes.v1'
 FUNCTIONS=('erp_set_contractor_hpp_policy_v1','erp_cp7_save_nota_v1','erp_cp7_get_nota_workspace_v1','erp_save_bs_resolution_action_v1','erp_cp7_save_payroll_v1','erp_cp7_save_payroll_installment_v1','erp_cp7_create_supplier_payment_v1',
            'erp_save_laundry_bd_action_v1','erp_cp7_get_material_ledger_v1','erp_cp7_get_material_ledger_v2',
            'erp_cp7_get_cutting_return_v1','erp_cp7_return_cutting_fabric_v1','erp_cp7_get_cutting_correction_v1',
-           'erp_cp7_get_kasbon_v1','erp_cp7_save_kasbon_v1','erp_cp7_get_pickup_reversal_v1','erp_cp7_reverse_pickup_v1')
+           'erp_cp7_get_kasbon_v1','erp_cp7_save_kasbon_v1','erp_cp7_get_pickup_reversal_v1','erp_cp7_reverse_pickup_v1',
+           'erp_cp7_get_cutting_return_reversal_v1','erp_cp7_reverse_cutting_return_v1')
 IDS=dict(
     native=['CP17_FIN01_FULL_PAY_BEFORE_ATTENDANCE_REFUSED','CP17_FIN01_WORK_ONLY_BEFORE_COMPLETION_REFUSED',
             'CP17_FIN01_INSTALLMENT_BEFORE_ACCRUAL_REFUSED','CP17_FIN01_DIRECT_NATIVE_PAYMENT_REFUSED',
@@ -60,9 +61,10 @@ IDS=dict(
             'CP17_CASH_LATER_DAY_PROTECTED','CP17_CASH_PAYROLL_EMPTY_BANK_REFUSED','CP17_CASH_LAUNDRY_VENDOR_EMPTY_BANK_REFUSED',
             'CP17_FIN02_CLAIM_SAME_DAY_CONTROL','CP17_FIN02_CLAIM_BEFORE_SOURCE_REFUSED','CP17_FIN02_CLAIM_AP_NOT_AVAILABLE_REFUSED',
             'CP17_STK01_REOPEN_REPOST_CARD_NOT_NEGATIVE',
-            'CP17_RWK01_ALL_SCRAP_REWORK_PAYABLE_ONCE','CP17_RWK01_GOOD_CONTROL','CP17_RWK01_UNFINISHED_CASE_STILL_HELD',
+            'CP17_RWK01_ALL_SCRAP_REWORK_PAYABLE_ONCE','CP17_RWK01_GOOD_CONTROL','CP17_RWK01_OPEN_CASE_FINISHED_PART_PAID_ONCE',
             'CP17_HPP01_EXCLUDED_CONTRACTOR_POLICY_REFUSED','CP17_HPP01_UNRELATED_POLICY_CONTROL','CP17_HPP01_CANCEL_POLICY_REPLACEMENT_POOL',
             'CP17_SG02_RETURN_STOCK_VALUE_PO_COST','CP17_SG02_OVER_REMAINDER_REFUSED','CP17_SG02_ONCE_AND_SAME_REQUEST_REPLAY','CP17_SG02_BEFORE_CUT_OR_FUTURE_REFUSED',
+            'CP17_SG02_CANCEL_RETURN_RESTORES_STOCK_GL_COST','CP17_SG02_CORRECT_RETURN_ONE_TRANSACTION','CP17_SG02_CANCEL_BLOCKED_BY_LATER_USE','CP17_SG02_CANCEL_REPLAY_ONCE_STALE',
             'CP17_DETECTOR_LISTS_LEGACY_ROWS',
             'CP17_KASBON_GIVE_DEDUCT_PAY','CP17_KASBON_LIMITS_REFUSED','CP17_KASBON_RELEASE_CANCEL_REPLAY',
             'CP17_SG03_REWASH_SAME_PRODUCT_NO_VENDOR_BILL',
@@ -149,6 +151,20 @@ def fabric_fixture(cur,today):
     prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',dict(payload,id=saved['cutting_group_id'],action='POST'),expected_version=int(saved['row_version']))
     b.api.admin(cur)
     return dict(group=saved['cutting_group_id'],po=po,roll=str(f['roll']),location=str(f['location']))
+def later_cutting(cur,g,at):
+    """Another posted cutting (new PO, Native writers) that issues everything left on the same roll at the same warehouse."""
+    src=cut.cutting;prod=src.qc.physical.b.chain.production;base=src.qc.physical.base;b.api.admin(cur)
+    left=D(one(cur,'select coalesce(sum(qty_signed),0) from erp.material_stock_movements where roll_id=%s and location_id=%s',(g['roll'],g['location'])))
+    qty=int(left) if left==int(left) else float(left);po=str(uuid.uuid4())
+    cur.execute("insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes) values(%s,%s,%s,10,'CUTTING','CUTTING',%s,'CP17 SG-02 later use')",
+        (po,'CP17-LATER-'+po,prod.MODEL,at))
+    payload=dict(action='SAVE_DRAFT',po_id=po,pattern_id=prod.PATTERN,source_location_id=g['location'],cut_at=at,
+        change_reason='CP17 SG-02 kain kembali dipakai lagi',size_slots=[dict(slot_no=1,size_id=base.SIZE,drawing_no=1)],
+        rolls=[dict(roll_id=g['roll'],qty_issued=qty,qty_consumed=qty,qty_reported_remaining=0,yields=[dict(slot_no=1,qty_pcs=10)])])
+    saved=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',payload)
+    prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',dict(payload,id=saved['cutting_group_id'],action='POST'),expected_version=int(saved['row_version']))
+    b.api.admin(cur)
+    return dict(group=saved['cutting_group_id'],number=one(cur,'select group_number from erp.cutting_groups where id=%s',(saved['cutting_group_id'],)),issued=left)
 def mandor_row(cur,tag):
     b.api.admin(cur)
     return str(one(cur,"insert into erp.contractors(contractor_code,contractor_name,contractor_type,is_active,attendance_required)values(%s,%s,'MANDOR',true,false)returning id",(tag,tag)))
@@ -357,16 +373,51 @@ def cases(cur,today):
         posted,again=paid_once(r)
         return dict(status='PASS',bs_case='RESOLVED',accrued_rework_wage=60,on_one_Nota=posted['payroll_id'],second_Nota_refused=again)
     def rework_open():
-        # An all-BS return with nothing resolved is OPEN (canonical reducer erp.refresh_bs_case_status; the CP5 proof
-        # cp5_bs_resolution_recovery_rollback.sql requires OPEN, not the legacy PARTIAL). Disposing 1 of 2 makes it PARTIAL.
-        r=rework('OPEN');assert r['status']=='OPEN',r['status']
-        eligible=lambda:one(cur,"select count(*) from erp.v_payroll_eligible_work_lines where source_type='REWORK' and bs_case_id=%s",(r['bs'],))
-        assert r['cards']()==[];b.api.admin(cur);assert eligible()==0
-        nota.b.chain.bs_action(cur,'DISPOSE_BS',dict(bs_case_id=r['bs'],resolution_type='SCRAP',qty_pcs=1,compensation_amount=0,source_laundry_claim_id=None,
-            physical_at=r['f']['when'](17).isoformat(),change_reason='CP17 satu dari dua potong dibuang'),nota.b.chain.version(cur,'bs_cases',r['bs']))
-        b.api.admin(cur);assert one(cur,'select status from erp.bs_cases where id=%s',(r['bs'],))=='PARTIAL'
-        assert r['cards']()==[];b.api.admin(cur);assert eligible()==0
-        return dict(status='PASS',bs_case=['OPEN','PARTIAL'],accrued=60,not_yet_on_a_Nota=True,rule='only final outcomes RESOLVED/SCRAPPED/WRITTEN_OFF are payable (owner decision pending for PARTIAL/ON_HOLD)')
+        """Owner D14-11: a BS case of 2 pieces, two rework orders of 1 piece. Order A comes back all BS (finished, counted and
+        posted) while the case is still open: A's 30 is payable now. Order B is sent and not back yet: held. A is paid on
+        one Nota. B then comes back GOOD (case PARTIAL): B is payable, A is not again. The last BS piece is scrapped (case
+        closed): A still never returns to a Nota and B's 30 is the only rework wage left, so paid + left = accrued 60."""
+        combined,nb=nota.combined,nota.b
+        f=combined.fixture(cur,today);wash=combined.wash(cur,f,range(4),11);combined.finish(cur,f,[wash],range(4),13,bs={3:2})
+        bs=str(one(cur,"select id from erp.bs_cases where po_id=%s and product_id=%s and status='OPEN'",(f['po'],f['roots'][3])))
+        nb.chain.bs_action(cur,'CLASSIFY_BS',dict(bs_case_id=bs,cause_source='UNKNOWN',components=[dict(work_component_id=combined.prod.COMPONENT,completed_before_bs_qty=0)],change_reason='CP17 dua komponen belum dikerjakan'),nb.chain.version(cur,'bs_cases',bs))
+        b.api.admin(cur)
+        component=str(one(cur,'select id from erp.bs_case_components where bs_case_id=%s and work_component_id=%s',(bs,combined.prod.COMPONENT)))
+        bom=str(one(cur,'select erp.resolve_rework_accessory_bom_v1(%s,%s)',(bs,f['when'](15))))
+        def send(minute):
+            made=nb.chain.bs_action(cur,'SAVE_REWORK',dict(rework_number='CP17-RW-'+uuid.uuid4().hex[:10],bs_case_id=bs,destination_type='CONTRACTOR',contractor_id=combined.prod.CONTRACTOR,vendor_id=None,qty_sent=1,
+                physical_sent_at=f['when'](15,minute).isoformat(),status='IN_PROGRESS',return_fg_location_id=combined.base.LOCATION,accessory_bom_version_id=bom,accessory_bom_item_ids=[],change_reason='CP17 satu perbaikan dikerjakan',
+                components=[dict(bs_case_component_id=component,qty_performed=1)]))
+            b.api.admin(cur);return made['result']['rework_order_id']
+        def complete(rid,good,hour,minute):
+            nb.chain.bs_action(cur,'COMPLETE_REWORK',dict(rework_order_id=rid,qty_good=1 if good else 0,qty_bs=0 if good else 1,completed_at=f['when'](hour,minute).isoformat(),return_fg_location_id=combined.base.LOCATION,change_reason='CP17 perbaikan selesai dan diperiksa'),nb.chain.version(cur,'rework_orders',rid))
+            b.api.admin(cur)
+        status=lambda:one(cur,'select status from erp.bs_cases where id=%s',(bs,))
+        def cards(rid):
+            found=[c for c in nota.read(cur,'SOURCES',contractor_id=combined.prod.CONTRACTOR)['page']['rows']if c['origin_id']==rid];b.api.admin(cur);return found
+        eligible=lambda rid:[(str(r[0]),r[1]) for r in cur.execute("select e.source_id,e.remaining_amount from erp.v_payroll_eligible_work_lines e join erp.rework_component_lines l on l.id=e.source_id where e.source_type='REWORK' and l.rework_order_id=%s",(rid,)).fetchall()]
+        accrued=lambda rid:cur.execute("select coalesce(sum(l.credit-l.debit),0) from erp.journal_entries j join erp.journal_lines l on l.journal_entry_id=j.id where j.source_type='REWORK_COMPLETION' and j.source_id=%s and j.status='POSTED' and l.account_id=erp.account_id('CONTRACTOR_PAYABLE')",(rid,)).fetchone()[0]
+        a=send(0);complete(a,False,15,20);open_status=status()
+        assert open_status not in('RESOLVED','SCRAPPED','WRITTEN_OFF','CANCELLED'),open_status
+        b_order=send(40);held_status=status()
+        assert accrued(a)==30 and accrued(b_order)==0 and eligible(b_order)==[] and cards(b_order)==[],('CP17_RWK01_UNFINISHED_HELD',eligible(b_order))
+        found=cards(a);assert len(found)==1 and D(found[0]['remaining_amount'])==30 and found[0]['lines'][0]['remaining_qty']=='1',found
+        assert [D(x[1]) for x in eligible(a)]==[D(30)]
+        payload=dict(contractor_id=combined.prod.CONTRACTOR,note_date=str(today),period_start=str(today),period_end=str(today),cards=[dict(card_key=found[0]['card_key'],source_token=found[0]['source_token'])])
+        posted=nota.act(cur,'POST',nota.command(cur,'SAVE',payload));b.api.admin(cur)
+        assert one(cur,'select labor_total from erp.payroll_settlements where id=%s',(posted['payroll_id'],))==30 and cards(a)==[] and eligible(a)==[]
+        before=b.boundary.snapshot(cur);again=refused(cur,lambda:nota.command(cur,'SAVE',payload),'');unchanged(cur,before,'second Nota on the same finished rework part')
+        complete(b_order,True,16,0);partial_status=status()
+        assert partial_status not in('RESOLVED','SCRAPPED','WRITTEN_OFF','CANCELLED'),partial_status
+        assert accrued(b_order)==30 and cards(a)==[] and eligible(a)==[] and [D(x[1]) for x in eligible(b_order)]==[D(30)] and len(cards(b_order))==1
+        nb.chain.bs_action(cur,'DISPOSE_BS',dict(bs_case_id=bs,resolution_type='SCRAP',qty_pcs=1,compensation_amount=0,source_laundry_claim_id=None,physical_at=f['when'](16,30).isoformat(),change_reason='CP17 potong BS terakhir dibuang'),nb.chain.version(cur,'bs_cases',bs))
+        b.api.admin(cur);closed_status=status()
+        assert closed_status in('RESOLVED','SCRAPPED','WRITTEN_OFF'),closed_status
+        left=cards(b_order);assert cards(a)==[] and eligible(a)==[] and len(left)==1 and D(left[0]['remaining_amount'])==30
+        paid=one(cur,"select coalesce(sum(w.amount),0) from erp.payroll_work_items w join erp.payroll_settlements s on s.id=w.payroll_id join erp.rework_component_lines l on l.id=w.source_id where w.source_type='REWORK' and s.status<>'REVERSED' and l.rework_order_id in(%s,%s)",(a,b_order))
+        assert D(paid)+D(left[0]['remaining_amount'])==accrued(a)+accrued(b_order)==60,(paid,left)
+        return dict(status='PASS',owner_decision='D14-11',bs_case=[open_status,held_status,partial_status,closed_status],finished_part_paid_while_open=30,
+                    unfinished_part_held_until_back=True,one_Nota=posted['payroll_id'],second_Nota_refused=again,after_close_only_unpaid_part_left=30,paid_plus_left_equals_accrued=60)
 
     # ------------------------------------------------------------ HPP01 (Astra/Fable); fixture after Astra's pool witness
     day=today-timedelta(days=1)
@@ -484,6 +535,77 @@ def cases(cur,today):
         r=return_send(w,return_payload(w,'1',cut_at.isoformat()))
         assert datetime.fromisoformat(r['returned_at'])==cut_at and one(cur,"select (j.economic_date=(%s::timestamptz at time zone 'Asia/Jakarta')::date) from erp.journal_entries j where j.source_type='CUTTING_MATERIAL_RETURN_LINE' and j.source_id=%s",(cut_at.isoformat(),w['rolls'][0]['cutting_group_roll_id']))
         return dict(status='PASS',one_minute_before_cut_refused=early,tomorrow_refused=future,at_cut_time_returned_and_journal_on_WIB_day=True)
+
+    # ------------------------------------------------------------ SG-02 cancel / correct (owner D14-10)
+    def reversal_read(g):
+        auth.actor(cur);w=one(cur,'select public.erp_cp7_get_cutting_return_reversal_v1(%s)',(g['group'],));b.api.admin(cur);return w
+    def reversal_payload(w,replacement=(),reason='CP17 kain kembali salah catat'):
+        return dict(group_id=w['group_id'],po_id=w['po_id'],review_token=w['review_token'],change_reason=reason,
+            replacement_rolls=[dict(cutting_group_roll_id=w['returned'][0]['cutting_group_roll_id'],qty_returned=q) for q in replacement])
+    def reversal_send(w,p,key=None):
+        auth.actor(cur);r=one(cur,'select public.erp_cp7_reverse_cutting_return_v1(%s,%s,%s)',(json.dumps(p),str(key or uuid.uuid4()),w['row_version']));b.api.admin(cur);return r
+    def active_returns(g):
+        return cur.execute("select m.qty_signed from erp.material_stock_movements m where m.source_type='CUTTING_GROUP_RETURN' and m.source_id=%s and not exists(select 1 from erp.material_stock_movements v where v.reversal_of_id=m.id) order by m.system_created_at",(g['group'],)).fetchall()
+    def return_journals(g):
+        return cur.execute("select j.status,(select count(*) from erp.journal_entries x where x.reversal_of_id=j.id and x.source_type='JOURNAL_REVERSAL' and x.status='POSTED') from erp.journal_entries j join erp.cutting_group_rolls r on r.id=j.source_id where r.cutting_group_id=%s and j.source_type='CUTTING_MATERIAL_RETURN_LINE' order by j.posting_at,j.id",(g['group'],)).fetchall()
+    def material_avg(g):
+        return D(one(cur,'select m.moving_average_cost from erp.materials m join erp.material_rolls r on r.material_id=m.id where r.id=%s',(g['roll'],)))
+    def facts(g):
+        return cur.execute('select qty_physically_returned,return_destination,returned_at from erp.cutting_group_rolls where cutting_group_id=%s',(g['group'],)).fetchone()
+    def returned(g,qty,at=None):
+        w=return_read(g);return return_send(w,return_payload(w,qty,at))
+    def fabric_cancel():
+        g=fabric_posted();stock0,wip0,avg0=roll_stock(g),po_wip(g),material_avg(g)
+        r=returned(g,'2');value=D(r['value']);assert roll_stock(g)-stock0==2 and wip0-po_wip(g)==value
+        w=reversal_read(g)
+        assert w['eligible'] and w['blockers']==[] and len(w['returned'])==1 and D(w['returned'][0]['qty_returned'])==2 and w['returned'][0]['later_uses']==[] and w['business_DML'] is False,w
+        out=reversal_send(w,reversal_payload(w))
+        assert out['action']=='CANCEL_RETURN' and out['reversed_movements']==1 and out['reversed_journals']==1 and out['replacement'] is None,out
+        assert roll_stock(g)==stock0 and po_wip(g)==wip0 and material_avg(g).quantize(D('0.000001'))==avg0.quantize(D('0.000001')),(roll_stock(g),stock0,po_wip(g),wip0,material_avg(g),avg0)
+        assert return_journals(g)==[('REVERSED',1)] and active_returns(g)==[] and facts(g)==(D(0),None,None),(return_journals(g),facts(g))
+        kept=one(cur,"select count(*) from erp.material_stock_movements where source_type='CUTTING_GROUP_RETURN' and source_id=%s",(g['group'],))
+        assert kept==1 and one(cur,'select material_return_posted from erp.cutting_groups where id=%s',(g['group'],)) is False
+        assert one(cur,'select count(*) from cp7_cutting_correction.return_history where group_id=%s',(g['group'],))==1
+        assert one(cur,'select count(*) from cp7_cutting_correction.return_reversal_history where group_id=%s',(g['group'],))==1
+        again=return_read(g);assert again['eligible'],again
+        r2=returned(g,'1');assert roll_stock(g)-stock0==1 and active_returns(g)==[(D(1),)]
+        return dict(status='PASS',owner_decision='D14-10',stock_back=str(stock0),po_WIP_back=str(wip0),material_average_back=True,
+                    original_journal='REVERSED with one posted JOURNAL_REVERSAL',original_movement_kept_and_reversed=True,histories_kept=True,new_return_allowed_after_cancel=r2['rolls'][0]['qty_returned'])
+    def fabric_correct():
+        g=fabric_posted();stock0,wip0=roll_stock(g),po_wip(g)
+        returned(g,'2');w=reversal_read(g);before=b.boundary.snapshot(cur)
+        over=refused(cur,lambda:reversal_send(w,reversal_payload(w,('3.5',))),'CP7_CUTTING_RETURN_OVER_REMAINING');unchanged(cur,before,'correction above the recorded remainder (cancel part rolled back too)')
+        assert roll_stock(g)-stock0==2 and return_journals(g)==[('POSTED',0)]
+        out=reversal_send(w,reversal_payload(w,('3',)))
+        cost=D(w['returned'][0]['unit_cost']);value3=(3*cost).quantize(D('0.01'),rounding=ROUND_HALF_UP)
+        assert out['action']=='CORRECT_RETURN' and D(out['replacement']['value'])==value3 and out['replacement']['rolls'][0]['qty_returned']=='3',out
+        assert roll_stock(g)-stock0==3 and wip0-po_wip(g)==value3 and active_returns(g)==[(D(3),)] and return_journals(g)==[('REVERSED',1),('POSTED',0)],(roll_stock(g),return_journals(g))
+        row=cur.execute('select qty_physically_returned,return_destination,returned_at=%s::timestamptz from erp.cutting_group_rolls where cutting_group_id=%s',(out['at'],g['group'])).fetchone()
+        assert row==(D(3),'WAREHOUSE',True) and one(cur,'select material_return_posted from erp.cutting_groups where id=%s',(g['group'],))
+        return dict(status='PASS',owner_decision='D14-10',over_remainder_correction_refused_whole=over,two_corrected_to_three=True,stock_net=3,po_WIP_reduced_by=str(value3),one_transaction=True)
+    def fabric_cancel_blocked():
+        g=fabric_posted();now=datetime.now(timezone.utc).replace(microsecond=0)
+        returned(g,'2',(now-timedelta(minutes=10)).isoformat())
+        later=later_cutting(cur,g,(now-timedelta(minutes=5)).isoformat())
+        w=reversal_read(g);kinds=[x['kind'] for x in w['blockers']]
+        assert not w['eligible'] and kinds==['LATER_USE'] and w['blockers'][0]['uses'] and any(u['label']==later['number'] for u in w['blockers'][0]['uses']),w
+        before=b.boundary.snapshot(cur)
+        detail=refused(cur,lambda:reversal_send(w,reversal_payload(w)),'CP7_CUTTING_RETURN_REVERSAL_DEPENDENCIES');unchanged(cur,before,'cancel after the fabric was used again')
+        assert later['number'] in detail,detail
+        p,v=cut.payload(cur,dict(group=later['group']));cut.command(cur,p,v)
+        fixed=reversal_read(g);assert fixed['eligible'] and fixed['blockers']==[],fixed
+        stock=roll_stock(g);out=reversal_send(fixed,reversal_payload(fixed))
+        assert out['action']=='CANCEL_RETURN' and roll_stock(g)==stock-2 and active_returns(g)==[]
+        return dict(status='PASS',owner_decision='D14-10',later_use_named=later['number'],refused_whole=detail,after_reopening_that_cutting_cancel_succeeds=True)
+    def fabric_cancel_once():
+        g=fabric_posted();returned(g,'1');w=reversal_read(g);key=uuid.uuid4();p=reversal_payload(w)
+        first=reversal_send(w,p,key);stock=roll_stock(g);again=reversal_send(w,p,key)
+        assert again==first and roll_stock(g)==stock and active_returns(g)==[],('CP17_SG02_CANCEL_REPLAY_NOT_IDENTICAL',first,again)
+        fresh=reversal_read(g);assert not fresh['eligible'] and [x['kind'] for x in fresh['blockers']]==['NOT_RETURNED'],fresh
+        before=b.boundary.snapshot(cur)
+        nothing=refused(cur,lambda:reversal_send(fresh,reversal_payload(fresh)),'CP7_CUTTING_RETURN_REVERSAL_DEPENDENCIES');unchanged(cur,before,'cancel with nothing returned')
+        stale=refused(cur,lambda:reversal_send(w,reversal_payload(w)),'CP7_CUTTING_RETURN_REVERSAL_STALE_REVIEW');unchanged(cur,before,'cancel on a stale review')
+        return dict(status='PASS',same_request_replay_identical=True,second_cancel_refused=nothing,stale_review_refused=stale)
 
     # ------------------------------------------------------------ Detector: rows in the books from before the guards
     def legacy_findings():
@@ -644,7 +766,7 @@ def cases(cur,today):
 
     named=[full_attendance,work_only,installment,direct_native,empty_bank,exact_zero,backdate,later_day,payroll_empty,laundry_empty,
            claim_control,claim_before_source,claim_ap_not_available,stock_card,rework_scrap,rework_good,rework_open,
-           hpp_excluded,hpp_unrelated,hpp_replacement,fabric_return,fabric_over,fabric_once,fabric_dates,legacy_findings,
+           hpp_excluded,hpp_unrelated,hpp_replacement,fabric_return,fabric_over,fabric_once,fabric_dates,fabric_cancel,fabric_correct,fabric_cancel_blocked,fabric_cancel_once,legacy_findings,
            kasbon_cycle,kasbon_limits,kasbon_release,rewash_free,pickup_reverse,pickup_refused]
     assert len(named)==REQUIRED['native']
     return list(zip(IDS['native'],named))

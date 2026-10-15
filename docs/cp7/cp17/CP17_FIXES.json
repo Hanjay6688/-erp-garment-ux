@@ -1,8 +1,8 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 42,
+ "expected_case_count": 46,
  "required_case_counts": {
-  "native": 31,
+  "native": 35,
   "races": 2,
   "http": 4,
   "browser": 5
@@ -25,7 +25,7 @@
    "CP17_STK01_REOPEN_REPOST_CARD_NOT_NEGATIVE",
    "CP17_RWK01_ALL_SCRAP_REWORK_PAYABLE_ONCE",
    "CP17_RWK01_GOOD_CONTROL",
-   "CP17_RWK01_UNFINISHED_CASE_STILL_HELD",
+   "CP17_RWK01_OPEN_CASE_FINISHED_PART_PAID_ONCE",
    "CP17_HPP01_EXCLUDED_CONTRACTOR_POLICY_REFUSED",
    "CP17_HPP01_UNRELATED_POLICY_CONTROL",
    "CP17_HPP01_CANCEL_POLICY_REPLACEMENT_POOL",
@@ -33,6 +33,10 @@
    "CP17_SG02_OVER_REMAINDER_REFUSED",
    "CP17_SG02_ONCE_AND_SAME_REQUEST_REPLAY",
    "CP17_SG02_BEFORE_CUT_OR_FUTURE_REFUSED",
+   "CP17_SG02_CANCEL_RETURN_RESTORES_STOCK_GL_COST",
+   "CP17_SG02_CORRECT_RETURN_ONE_TRANSACTION",
+   "CP17_SG02_CANCEL_BLOCKED_BY_LATER_USE",
+   "CP17_SG02_CANCEL_REPLAY_ONCE_STALE",
    "CP17_DETECTOR_LISTS_LEGACY_ROWS",
    "CP17_KASBON_GIVE_DEDUCT_PAY",
    "CP17_KASBON_LIMITS_REFUSED",
@@ -76,21 +80,27 @@
   "erp_cp7_get_kasbon_v1",
   "erp_cp7_save_kasbon_v1",
   "erp_cp7_get_pickup_reversal_v1",
-  "erp_cp7_reverse_pickup_v1"
+  "erp_cp7_reverse_pickup_v1",
+  "erp_cp7_get_cutting_return_reversal_v1",
+  "erp_cp7_reverse_cutting_return_v1"
  ],
  "owner_decisions": {
   "D14_2": "Pembayaran upah sebelum utangnya ada: \"Tolak, kecuali kasbon (Disarankan)\" (15 Okt 2026)",
   "D14_3": "Kas/bank minus: \"Tidak boleh, tolak (Disarankan)\" (15 Okt 2026)",
   "D14_4": "Kain sisa potong: \"Ya, masuk stok lagi (Disarankan)\"; \"Ada langkah 'kain kembali ke gudang': roll yang sama masuk stok lagi beserta nilainya, biaya PO berkurang sebesar itu.\" (15 Okt 2026)",
   "D14_5": "Lusin di penjualan: \"justru biar gampang gitu dong auto bagi kalo lusin, apalagi sales, lu inget kan kalau gw jual itu biasa satu seri. berjalan 2 arah juga misal gw ketik 4/5/4 tulisannya jadi 1 lusin 1 potong kan gitu\" (15 Okt 2026); \"misal SKU nya cuma punya 1 ukuran kalo tulis selusin ya jadi 12 pt di satu ukuran. Misal gw ketik manual 3/5/4 ya bakal jadi tulisan 1 lusin auto\" (15 Okt 2026, menunjuk UX demo)",
-  "D14_6": "Kasbon tunai: \"Ya, buatkan (Disarankan)\" (15 Okt 2026)"
+  "D14_6": "Kasbon tunai: \"Ya, buatkan (Disarankan)\" (15 Okt 2026)",
+  "D14_8": "Pembanding lama: \"Ya, betulkan pembanding lama. Gunakan urutan yang stabil, dengan seluruh anggota, duplikat, definisi, owner, dan hak akses tetap dibandingkan. Simpan bukti sebelum/sesudah. Penyebab dua kegagalan lama tetap OPEN sampai benar-benar terbukti.\" (15 Okt 2026)",
+  "D14_9": "FABLE-012: \"Ya, pencabutan 82 fungsi boleh ditunda ke CP7C, berdasarkan bukti auditor bahwa jalur tersebut tidak dapat dijangkau dari internet. Catat sebagai pekerjaan keamanan yang belum selesai. Jika konfigurasi akses berubah sehingga fungsi itu bisa dijangkau, pencabutannya menjadi prasyarat sebelum jalur tersebut diaktifkan.\" (15 Okt 2026)",
+  "D14_10": "Batal/koreksi retur kain: \"Ya, buat tombol batal/koreksi retur kain. Pembalikan stok, hutang/kredit, jurnal, dan HPP yang terdampak harus selesai dalam satu transaksi, dengan riwayat asli tetap tersimpan. Kalau ada transaksi lanjutan yang menghalangi, tampilkan bagian mana yang harus dibetulkan terlebih dahulu.\" (15 Okt 2026)",
+  "D14_11": "Upah rework: \"Ya, upah rework boleh dibayar untuk bagian pekerjaan yang sudah selesai, diperiksa, dan disetujui, walaupun keseluruhan kasus BS masih terbuka atau sebagian. Bagian yang belum selesai tetap ditahan. Qty dan upah harus tertaut ke pekerjaan yang jelas, tercatat sekali, dan tidak dibayar ulang saat kasus BS akhirnya ditutup.\" (15 Okt 2026)"
  },
  "findings": {
   "FIN01": "Fable FABLE-001, Astra FIN01",
   "CASH": "Sol SOL-001",
   "FIN02": "Fable FABLE-008, Astra FIN02",
   "STK01": "Astra STK01",
-  "RWK01": "Astra ASTRA-CP17-RWK-01, Fable FABLE-006",
+  "RWK01": "Astra ASTRA-CP17-RWK-01, Fable FABLE-006; owner D14-11: a finished, counted and posted rework order line is payable while its BS case is OPEN/IN_REWORK/PARTIAL, unfinished orders stay held, paid once",
   "HPP01": "Astra ASTRA-CP17-HPP-01, Fable R1-02",
   "SG02": "Fable/Astra SG-02: no writer records leftover fabric returning to the warehouse",
   "DETECTOR": "Existing rows the dated guards would refuse (Sol SOL-001 hosted data question): cp7_guard.findings(), installer/auditor only",
@@ -98,7 +108,8 @@
   "SG03": "Astra SG-03: rewash of the same product; owner D06 (Lampiran C6 rev4 LAU-06a) = no vendor bill",
   "SG01": "Fable FABLE-009 / Astra SG-01: a POSTED pickup (Bagi Potongan) could not be corrected; reversed before sewing through two declared Native guard deltas, refused once sewing started",
   "FABLE012": "Fable FABLE-012: authenticated may execute 82 erp writers that nothing running with the caller rights refers to; proven unreachable over the Data API (public only); EXECUTE revoke itself pending",
-  "LUSIN": "Sol SALES_MANUAL_13 / owner D14-5: on the connected sales draft one pick adds every in-stock size of the SKU at the warehouse (as the UX demo adds a product with all sizes), a new series starts at 1 lusin split evenly, per-size pieces read back as x lusin y potong; browser desktop and phone on a three-size and a one-size SKU"
+  "LUSIN": "Sol SALES_MANUAL_13 / owner D14-5: on the connected sales draft one pick adds every in-stock size of the SKU at the warehouse (as the UX demo adds a product with all sizes), a new series starts at 1 lusin split evenly, per-size pieces read back as x lusin y potong; browser desktop and phone on a three-size and a one-size SKU",
+  "SG02_CANCEL": "Owner D14-10: a recorded fabric return is cancelled or corrected in one transaction (Native journal reversal, REVERSAL movements, material cost and PO recost queue, return facts back), history kept; later uses of the returned fabric are named and block until corrected"
  },
  "oracle_independence": "Dates from the Native accrual journals and source rows; balances from journal lines and stock movements; never from the guard functions.",
  "fixture_capital": "Banks that pay hold owner capital through the accepted Native journal (scripts/cp7_cash_funding.py) only where a case says so; empty-bank cases keep the bank empty.",
