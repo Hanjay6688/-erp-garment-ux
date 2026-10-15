@@ -18,6 +18,7 @@ name: CP7 CP17 Fixes
     - scripts/cp6_auditor_public_state_test.py
     - scripts/cp6_auditor_runner.py
     - scripts/cp6_auditor_difference.py
+    - scripts/cp7_access_inventory.py
   workflow_dispatch: {}
 permissions:
   contents: read

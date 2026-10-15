@@ -1,8 +1,8 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 47,
+ "expected_case_count": 48,
  "required_case_counts": {
-  "native": 35,
+  "native": 36,
   "races": 2,
   "http": 4,
   "browser": 6
@@ -43,7 +43,8 @@
    "CP17_KASBON_RELEASE_CANCEL_REPLAY",
    "CP17_SG03_REWASH_SAME_PRODUCT_NO_VENDOR_BILL",
    "CP17_SG01_PICKUP_REVERSE_BEFORE_SEWING",
-   "CP17_SG01_PICKUP_REVERSE_REFUSED"
+   "CP17_SG01_PICKUP_REVERSE_REFUSED",
+   "CP17_FABLE012_EXPOSURE_GATE_REVOKE_FIRST"
   ],
   "races": [
    "CP17_RACE_TWO_PAYMENTS_ONE_BANK",
@@ -108,7 +109,7 @@
   "KASBON": "D14-2 lawful path: a cash kasbon to a contractor, recovered through a payroll deduction",
   "SG03": "Astra SG-03: rewash of the same product; owner D06 (Lampiran C6 rev4 LAU-06a) = no vendor bill",
   "SG01": "Fable FABLE-009 / Astra SG-01: a POSTED pickup (Bagi Potongan) could not be corrected; reversed before sewing through two declared Native guard deltas, refused once sewing started",
-  "FABLE012": "Fable FABLE-012: authenticated may execute 82 erp writers that nothing running with the caller rights refers to; proven unreachable over the Data API (public only); EXECUTE revoke itself pending",
+  "FABLE012": "Fable FABLE-012: authenticated may execute 82 erp writers that nothing running with the caller rights refers to; proven unreachable over the Data API (public only); owner D14-9: the EXECUTE revoke is deferred to CP7C as open security work, and the exposure gate (scripts/cp7_access_inventory.py exposure_gate) refuses any Data API setting that would reach schema erp before that revoke",
   "LUSIN": "Sol SALES_MANUAL_13 / owner D14-5: on the connected sales draft one pick adds every in-stock size of the SKU at the warehouse (as the UX demo adds a product with all sizes), a new series starts at 1 lusin split evenly, per-size pieces read back as x lusin y potong; browser desktop and phone on a three-size and a one-size SKU",
   "SG02_CANCEL": "Owner D14-10: a recorded fabric return is cancelled or corrected in one transaction (Native journal reversal, REVERSAL movements, material cost and PO recost queue, return facts back), history kept; later uses of the returned fabric are named and block until corrected"
  },

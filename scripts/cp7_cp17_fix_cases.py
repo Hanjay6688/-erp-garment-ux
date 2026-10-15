@@ -24,6 +24,8 @@ Locked reports (Fable, Astra, Sol on 0b7049d9) and owner decisions of 15 Oct 202
 - SG-01 (FABLE-009 / Astra SG-01): a POSTED pickup (Bagi Potongan) is reversed before any sewing: pickup REVERSED with its
   batches kept, group back to CUT with its fabric posted, PO stage and Mandor back to their values before the POST; the
   Native guards still refuse every other write; once sewing has started the reversal names the document and refuses.
+- FABLE-012 (D14-9): the EXECUTE revoke of the erp writers waits for CP7C; the exposure gate refuses a Data API
+  setting that would reach schema erp while those writers are still executable by `authenticated`.
 - SG-02 (D14-4): leftover fabric of a posted cutting goes back to the warehouse: the same roll returns to stock at its
   issue cost, the PO's WIP drops by exactly that value, at most the remainder recorded at cutting, once per cutting.
 Oracles do not come from the guards: dates are read from the Native accrual journals and source rows, balances
@@ -68,7 +70,8 @@ IDS=dict(
             'CP17_DETECTOR_LISTS_LEGACY_ROWS',
             'CP17_KASBON_GIVE_DEDUCT_PAY','CP17_KASBON_LIMITS_REFUSED','CP17_KASBON_RELEASE_CANCEL_REPLAY',
             'CP17_SG03_REWASH_SAME_PRODUCT_NO_VENDOR_BILL',
-            'CP17_SG01_PICKUP_REVERSE_BEFORE_SEWING','CP17_SG01_PICKUP_REVERSE_REFUSED'],
+            'CP17_SG01_PICKUP_REVERSE_BEFORE_SEWING','CP17_SG01_PICKUP_REVERSE_REFUSED',
+            'CP17_FABLE012_EXPOSURE_GATE_REVOKE_FIRST'],
     races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK','CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS'],
     http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED','CP17_HTTP_KASBON_GIVE','CP17_HTTP_ERP_WRITERS_NOT_REACHABLE'],
     browser=['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP','CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE','CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP',
@@ -633,6 +636,35 @@ def cases(cur,today):
         return dict(status='PASS',empty_bank_payment_listed=dict(day=str(pay_day),lowest='-7.00'),early_payroll_listed=dict(paid=str(early),accrued=str(day)),
                     capital_on_that_day_clears_cash_row=True,detector_owner_only=True)
 
+    # ------------------------------------------------------------ FABLE-012 gate (owner D14-9)
+    def exposure_gate():
+        """D14-9: the EXECUTE revoke of the erp writers waits for CP7C; a Data API setting that would reach erp before
+        that revoke is refused by the gate. Read only here: the stored override and the revoke run in a savepoint that is
+        rolled back."""
+        import cp7_access_inventory as access
+        b.api.admin(cur)
+        runbook=access.exposure_gate(cur);count=runbook['writers_without_invoker_reference']
+        assert runbook['ok'] and not runbook['erp_exposed'] and runbook['stored_in_database']=={} and count>=60,runbook
+        dashboard=access.exposure_gate(cur,['public','graphql_public','erp'])
+        assert not dashboard['ok'] and dashboard['refusal']==access.GATE_REFUSAL and len(dashboard['revoke_first'])==count,dashboard
+        search=access.exposure_gate(cur,access.RUNBOOK_SCHEMAS,['public','extensions','erp'])
+        assert not search['ok'] and search['refusal']==access.GATE_REFUSAL and search['revoke_first']==dashboard['revoke_first'],search
+        cur.execute('savepoint fable012_gate')
+        try:
+            # An override stored in the database on the authenticator role (the runbook forbids it) counts without a declaration.
+            cur.execute("alter role authenticator set pgrst.db_schemas='public, graphql_public, erp'")
+            stored=access.exposure_gate(cur)
+            assert not stored['ok'] and stored['stored_in_database']=={'pgrst.db_schemas':['public','graphql_public','erp']} and stored['refusal']==access.GATE_REFUSAL,stored
+            # The CP7C work itself: EXECUTE revoked from authenticated and PUBLIC on exactly the named writers; then the gate passes.
+            for sig in dashboard['revoke_first']:cur.execute(f'revoke execute on function {sig} from authenticated, public')
+            after=access.exposure_gate(cur,['public','graphql_public','erp'])
+            assert after['ok'] and after['refusal'] is None and after['erp_exposed'] and after['writers_without_invoker_reference']==0,after
+        finally:cur.execute('rollback to savepoint fable012_gate');cur.execute('release savepoint fable012_gate')
+        assert access.exposure_gate(cur)==runbook,'CP17_FABLE012_GATE_LEFT_A_CHANGE'
+        return dict(status='PASS',owner_decision='D14-9',runbook_setting=dict(schemas=runbook['served_schemas'],extra_search_path=runbook['extra_search_path'],ok=True),
+                    writers_to_revoke_first=count,erp_in_exposed_schemas=dashboard['refusal'],erp_on_extra_search_path=search['refusal'],
+                    stored_override_on_authenticator=stored['refusal'],after_revoking_exactly_those_writers='ok',revoke_kept=False)
+
     # ------------------------------------------------------------ D14-6 kasbon tunai
     def kasbon_payroll():
         """A work-only payroll draft (6000.00 earned on its WIB work day) and a funded bank."""
@@ -767,7 +799,7 @@ def cases(cur,today):
     named=[full_attendance,work_only,installment,direct_native,empty_bank,exact_zero,backdate,later_day,payroll_empty,laundry_empty,
            claim_control,claim_before_source,claim_ap_not_available,stock_card,rework_scrap,rework_good,rework_open,
            hpp_excluded,hpp_unrelated,hpp_replacement,fabric_return,fabric_over,fabric_once,fabric_dates,fabric_cancel,fabric_correct,fabric_cancel_blocked,fabric_cancel_once,legacy_findings,
-           kasbon_cycle,kasbon_limits,kasbon_release,rewash_free,pickup_reverse,pickup_refused]
+           kasbon_cycle,kasbon_limits,kasbon_release,rewash_free,pickup_reverse,pickup_refused,exposure_gate]
     assert len(named)==REQUIRED['native']
     return list(zip(IDS['native'],named))
 

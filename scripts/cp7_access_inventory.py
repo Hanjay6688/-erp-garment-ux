@@ -50,3 +50,60 @@ def inventory(cur):
                 writers_without_invoker_reference=sorted(x['signature'] for x in out if x['writer_name'] and not x['invoker_reference']),
                 with_invoker_reference=sorted(x['signature'] for x in out if x['invoker_reference']),
                 authenticated_erp_relations=tables, functions=out, changed_anything=False)
+
+
+# Owner D14-9 (15 Oct 2026, verbatim): "Ya, pencabutan 82 fungsi boleh ditunda ke CP7C, berdasarkan bukti auditor bahwa
+# jalur tersebut tidak dapat dijangkau dari internet. Catat sebagai pekerjaan keamanan yang belum selesai. Jika
+# konfigurasi akses berubah sehingga fungsi itu bisa dijangkau, pencabutannya menjadi prasyarat sebelum jalur tersebut
+# diaktifkan."
+GATE_REFUSAL = 'CP7_FABLE012_REVOKE_BEFORE_EXPOSING_ERP'
+RUNBOOK_SCHEMAS = ('public', 'graphql_public')
+RUNBOOK_EXTRA_SEARCH_PATH = ('public', 'extensions')
+STORED = r"""
+select split_part(c,'=',1),substr(c,strpos(c,'=')+1)
+from pg_db_role_setting s join pg_roles r on r.oid=s.setrole cross join unnest(s.setconfig) c
+where r.rolname='authenticator' and s.setdatabase in(0,(select oid from pg_database where datname=current_database()))
+ and split_part(c,'=',1) in('pgrst.db_schemas','pgrst.db_extra_search_path')
+order by s.setdatabase,1
+"""
+
+
+def _names(value):
+    return [x.strip().strip('"') for x in value.split(',') if x.strip()]
+
+
+def exposure_gate(cur, declared_schemas=RUNBOOK_SCHEMAS, declared_extra_search_path=RUNBOOK_EXTRA_SEARCH_PATH):
+    """Gate to run before the Data API setting changes (read only). `declared_*` is the setting about to be applied
+    (Dashboard / PostgREST config, which the database cannot see); a PostgREST override stored in the database on the
+    `authenticator` role (`ALTER ROLE ... SET pgrst.db_schemas`, the runbook forbids it) is read and counted too. When
+    schema `erp` would be served or put on the search path while `authenticated` can still execute erp writers that
+    nothing running with the caller's rights refers to, the gate refuses with GATE_REFUSAL and names them."""
+    stored = {}
+    for key, value in cur.execute(STORED).fetchall():
+        stored.setdefault(key, []).extend(_names(value))
+    schemas = sorted(set(declared_schemas) | set(stored.get('pgrst.db_schemas', [])))
+    search = sorted(set(declared_extra_search_path) | set(stored.get('pgrst.db_extra_search_path', [])))
+    exposed = 'erp' in schemas or 'erp' in search
+    inv = inventory(cur)
+    blocking = inv['writers_without_invoker_reference'] if exposed else []
+    return dict(gate='FABLE-012 (owner D14-9)', declared_schemas=sorted(declared_schemas),
+                declared_extra_search_path=sorted(declared_extra_search_path), stored_in_database=stored,
+                served_schemas=schemas, extra_search_path=search, erp_exposed=exposed,
+                writers_without_invoker_reference=len(inv['writers_without_invoker_reference']),
+                ok=not blocking, refusal=GATE_REFUSAL if blocking else None, revoke_first=blocking, changed_anything=False)
+
+
+if __name__ == '__main__':
+    # Local use only: the database URL comes from the environment (local authentication), never from chat.
+    import argparse, json, os
+    import psycopg
+    parser = argparse.ArgumentParser(description='FABLE-012 exposure gate (owner D14-9), read only')
+    parser.add_argument('--schemas', default=','.join(RUNBOOK_SCHEMAS), help='Data API exposed schemas about to be applied')
+    parser.add_argument('--extra-search-path', default=','.join(RUNBOOK_EXTRA_SEARCH_PATH), help='Data API extra search path about to be applied')
+    args = parser.parse_args()
+    with psycopg.connect(os.environ['CP7_ACCESS_GATE_PGURL']) as conn, conn.cursor() as cur:
+        conn.read_only = True
+        result = exposure_gate(cur, _names(args.schemas), _names(args.extra_search_path))
+        conn.rollback()
+    print(json.dumps({k: v for k, v in result.items()}, indent=1, default=str))
+    raise SystemExit(0 if result['ok'] else 3)
