@@ -434,3 +434,22 @@ Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
   hutang, piutang, buku besar; (2) setiap layar UX demo dibandingkan dengan layar tersambungnya (data asli, perilaku
   sama).
 - `production_go:false`.
+
+### D14-14 dan D14-15 (owner ke penulis Claude, 15 Okt 2026, sebelum audit akhir)
+
+| No | Pertanyaan penulis | Jawaban owner (verbatim) |
+|---|---|---|
+| D14-14 | "Saya perlu Bos memutuskan: celah yang sudah pasti ini (layar jahit selesai, jalan upah borongan dan HPP final dari aplikasi, dan menjalankan ulang 60 uji lama) boleh saya kerjakan dulu sebelum audit akhir? Ya atau tidak. Saran saya ya." | "ya yg jelas lu beresin lah" |
+| D14-15 | "Boleh saya simpan pekerjaan baru di cabang terpisah (claude/final-gaps-20261015), lalu saya gabungkan setelah uji ulang mereka selesai?" (pilihan: "Ya, cabang terpisah" / "Tidak, cabang yang sama") | "Ya, cabang terpisah (Recommended)" |
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
+
+- Dikerjakan sebelum audit akhir, terbatas pada tiga celah yang sudah terbukti (`audit-candidate/cp1-7-final-integration-20261015/CHAIN_MAP.md` §3 butir 1–3):
+  layar jahit selesai di WIP & Sewing tersambung; jalan upah borongan dan HPP final dari aplikasi; menjalankan ulang
+  workflow `cp7-*` yang basi sejak 8 Okt dan membetulkan data uji yang ditolak penjaga baru tanpa melonggarkan apa pun.
+- Pekerjaan itu ada di cabang `claude/final-gaps-20261015`. Cabang `claude/new-session-deapao` tetap pada kandidat uji
+  ulang r1 `66baa8e8` (sesudahnya hanya dokumen) sampai uji ulang selesai; sesudah itu cabang baru digabung dan semua
+  workflow dikualifikasi ulang pada satu commit.
+- Layar mode Enteng (23 menu data contoh) dan layar data induk tidak termasuk "yang jelas": tetap tercatat untuk audit
+  akhir dan pemasangan.
+- `production_go:false`.
