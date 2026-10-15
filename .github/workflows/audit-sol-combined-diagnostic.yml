@@ -9,7 +9,7 @@ permissions:
 concurrency:
   group: sol-diagnostic-${{ github.run_id }}
   cancel-in-progress: false
-run-name: AUDIT/cp17-combined-20261016/SOL/dfab13bf/diagnostic-retention/initial
+run-name: AUDIT/cp17-combined-20261016/SOL/dfab13bf/diagnostic-retention/tool-qualified
 jobs:
   diagnostic:
     runs-on: ubuntu-24.04

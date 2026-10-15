@@ -5,11 +5,13 @@ from pathlib import Path
 import hashlib, json, os, stat, sys
 import psycopg
 
+WORK_ROOT = Path.cwd()
 ROOT = Path(__file__).resolve().parents[3] / 'auditor'
+os.chdir(ROOT)  # The unchanged installer imports its pinned metadata relative to the candidate root.
 sys.path.insert(0, str(ROOT / 'scripts'))
 import cp6_readiness_owner_install as installer
 
-OUT = Path('diagnostic-proof')
+OUT = WORK_ROOT / 'diagnostic-proof'
 OUT.mkdir(exist_ok=True)
 manifest = json.loads(Path(__file__).with_name('diagnostic_manifest.json').read_text())
 report = dict(candidate_sha=manifest['candidate_sha'], layer=manifest['layer'],

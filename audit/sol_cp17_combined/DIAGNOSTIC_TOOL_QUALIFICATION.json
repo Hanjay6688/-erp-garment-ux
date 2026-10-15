@@ -1,0 +1,14 @@
+{
+  "rule": "Pro Max 16.3",
+  "original_run": 38790146246,
+  "original_job": 116612291359,
+  "original_workflow_sha": "769d7e5e54fe7b0d28c0047cf3eac3fc904ff6d3",
+  "original_status": "FAILURE_BEFORE_ALL_CASES",
+  "classification": "AUDITOR_TOOL",
+  "original_error": "FileNotFoundError: docs/evidence/cp6-ac-runtime-pins.json at import",
+  "proven_cause": "The unchanged candidate installer imports metadata relative to the current directory. New tiny auditor probe was invoked from the checkout parent, rather than candidate root.",
+  "changed": "Run imports in the exact candidate root and keep output at the original absolute output path.",
+  "unchanged": ["candidate bytes", "case IDs", "fixture SQL", "expected diagnostic fields", "0600 and hash expectations", "timeouts"],
+  "old_failure_retained": true,
+  "product_fix": false
+}
