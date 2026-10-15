@@ -1,5 +1,7 @@
 # Handoff uji ulang perbaikan CP1–CP7 r1 — untuk Astra
 
+> **Tidak dikirim (D14-16).** Kotak ini untuk kandidat `66baa8e8` yang tidak pernah diberikan ke auditor. Yang dikirim owner: `../cp1-7-final-integration-20261015/HANDOFF_ASTRA.md` (paket gabungan, kandidat `dfab13bf`); bagian A di sana diambil dari kotak ini.
+
 Owner menyalin **seluruh isi kotak di bawah** ke sesi Astra. Kandidatnya sama untuk Fable, Astra dan Sol. Rincian:
 `README.md` dan `FINDINGS_TRACKER.md` di folder ini.
 

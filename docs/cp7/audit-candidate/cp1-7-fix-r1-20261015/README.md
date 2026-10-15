@@ -1,5 +1,7 @@
 # Kandidat perbaikan CP1–CP7 r1 — uji ulang Fable, Astra, Sol
 
+> **Diganti paket gabungan (D14-16, 15 Okt 2026).** Uji ulang r1 tidak dikirim terpisah. Kandidat yang dikirim: `dfab13bf62398a69a02bf6221c06d29075e5e40b`, paket `../cp1-7-final-integration-20261015/` (README dan kotak handoff di sana). Isi folder ini tetap berlaku sebagai klaim per temuan; `CI_RECEIPT.json` di sini milik `66baa8e8`.
+
 Ketiga audit penuh CP1–CP7 atas `0b7049d9` sudah dikunci (Fable, Astra: TAHAN; Sol: HOLD). Owner menjawab
 D14-2..D14-7 dan berkata "lanjut", lalu D14-5 (lusin), D14-8..D14-11 (empat pertanyaan penulis) dan D14-12 (tampilan penjualan ringkas seperti demo). Folder ini berisi perbaikan penulis dan kandidat yang diserahkan untuk **uji ulang**.
 Ini bukan penerimaan; setiap auditor memutuskan sendiri. `production_go:false`.

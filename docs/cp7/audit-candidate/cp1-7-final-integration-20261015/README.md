@@ -1,65 +1,63 @@
-# Paket audit akhir CP1–CP7: sambungan antar tahap dan layar (D14-13)
+# Paket gabungan CP1–CP7: uji ulang r1 + audit akhir (D14-13, D14-16)
 
-**Status: DRAF, belum untuk dikirim.** Owner mengirim paket ini ke auditor hanya sesudah penulis menulis
-"SIAP DIKIRIM" di baris ini, bersama commit kandidat final. Urutannya ada di bagian "Sebelum dikirim".
+**Status: SIAP DIKIRIM** pada kandidat `dfab13bf62398a69a02bf6221c06d29075e5e40b` (15 Okt 2026). Owner yang mengirim: salin kotak di `HANDOFF_FABLE.md`,
+`HANDOFF_ASTRA.md` dan `HANDOFF_SOL.md` ke sesi masing-masing auditor. Penulis tidak mengirim apa pun.
 
-Keputusan owner D14-13 (15 Okt 2026, `docs/cp7/OWNER_DECISIONS_20261008.md`): satu audit akhir CP1–7 sesudah uji ulang
-r1 selesai, dengan dua fokus:
+Keputusan owner D14-16 (15 Okt 2026, `docs/cp7/OWNER_DECISIONS_20261008.md`): uji ulang r1 tidak dikirim terpisah;
+sesudah celah D14-14 selesai, satu paket gabungan pada satu kandidat. Paket ini berisi dua bagian:
 
-1. **Sambungan antar tahap dari awal sampai akhir:** pembelian → stok → potong → jahit → laundry → QC → barang jadi →
-   jual → kas, hutang, piutang, buku besar.
-2. **Setiap layar UX demo dibandingkan dengan layar tersambungnya:** apakah datanya asli dan perilakunya sama.
-
-Audit penuh CP1–7 sebelumnya (`../cp1-7-full-20261014/`, kandidat `0b7049d9`) sudah memasukkan sambungan antar tahap
-(SKN-22) sebagai fokus. Yang baru di audit akhir ini: fokus 2 (layar demo vs tersambung, termasuk mode Enteng), dan
-pemeriksaan ulang sambungan sesudah semua perbaikan r1 (D14-2..D14-12).
+- **A. Uji ulang r1:** perbaikan penulis atas temuan audit penuh CP1–CP7 `0b7049d9` (Fable, Astra, Sol). Klaim per
+  temuan dan bukti: `../cp1-7-fix-r1-20261015/README.md` dan `FINDINGS_TRACKER.md`.
+- **B. Audit akhir (D14-13):** (1) sambungan antar tahap dari awal sampai akhir: pembelian → stok → potong → jahit →
+  laundry → QC → barang jadi → jual → kas, hutang, piutang, buku besar; (2) setiap layar UX demo dibandingkan dengan
+  layar tersambungnya: apakah datanya asli dan perilakunya sama.
 
 | Berkas | Isi |
 |---|---|
-| `README.md` | Status, cakupan, langkah sebelum dikirim, butir yang sudah diketahui |
+| `README.md` | Status, kandidat, cakupan, butir yang sudah diketahui |
+| `HANDOFF_FABLE.md`, `HANDOFF_ASTRA.md`, `HANDOFF_SOL.md` | Kotak yang disalin owner ke sesi masing-masing auditor (bagian A + B) |
+| `CI_RECEIPT.json` | Semua workflow dan job pada kandidat (dibuat `scripts/cp7_ci_receipt.py`) |
+| `GAPS_D14_14.md` | Tiga celah yang dikerjakan sebelum audit akhir (D14-14): G1 jahit selesai + upah, G2 selesai PO + HPP final, G3 workflow basi; arsip CI kedaluwarsa (D14-17) |
 | `CHAIN_MAP.md` | Fokus 1: 13 sambungan utama + 7 rantai samping, mekanisme, uji yang ada, celah |
 | `SCREEN_MAP.md` | Fokus 2: 48 menu × 3 mode aplikasi, uji browser per layar, celah |
-| `GAPS_D14_14.md` | Tiga celah yang dikerjakan sebelum audit akhir (D14-14): G1 jahit selesai + upah, G2 selesai PO + HPP final, G3 workflow basi |
-| `HANDOFF_FABLE.md`, `HANDOFF_ASTRA.md`, `HANDOFF_SOL.md` | Kotak yang disalin owner ke sesi masing-masing auditor |
+| `WRITER_HANDOFF.md` | Serah-terima untuk penulis cadangan (bukan untuk auditor) |
 
 ## Kandidat
 
-Sementara: `66baa8e8ddf601625bc831c7256f38eec883b496` (kandidat uji ulang r1, `../cp1-7-fix-r1-20261015/`, 25/25
-workflow dan 69/69 job pada percobaan pertama). Bila uji
-ulang r1 atau langkah di bawah mengubah kode, kandidat diganti dan kotak handoff diperbarui sebelum dikirim.
-
-## Sebelum dikirim (urutan)
-
-*Diubah 15 Okt 2026 oleh D14-16:* uji ulang r1 **tidak** dikirim terpisah. Sesudah celah D14-14 selesai dan
-dikualifikasi, penulis menyiapkan satu paket gabungan (uji ulang r1 + audit akhir) pada satu kandidat. Langkah 1 di
-bawah dibaca sebagai bagian dari paket gabungan itu; langkah 2 dan 3 sudah dikerjakan (`GAPS_D14_14.md`).
-
-1. Uji ulang r1 oleh Fable, Astra dan Sol selesai; temuannya ditutup atau diputuskan owner.
-2. **Workflow basi dijalankan ulang** pada kandidat (`CHAIN_MAP.md` §3 butir 3): sekitar 60 workflow `cp7-*` hanya
-   berjalan saat push ke `cp7/integration` dan terakhir berjalan 8 Okt, sebelum penjaga D14-2, D14-3 dan FIN02.
-   Penulis menambahkan tombol jalankan manual dan cabang penulis ke pemicunya, menjalankannya, dan membetulkan data uji
-   yang ditolak penjaga baru tanpa melonggarkan oracle atau penjaga; log gagal disimpan.
-3. Celah yang sudah terbukti dari kode (di bawah) dikerjakan atau diserahkan apa adanya, sesuai keputusan owner.
-4. Kualifikasi satu commit, `CI_RECEIPT.json` untuk kandidat final, lalu kotak handoff diperbarui.
+- **Commit `dfab13bf62398a69a02bf6221c06d29075e5e40b`**, tree `886f83312958b53781a450a4ea2a8fb2147b3be3`, cabang `claude/new-session-deapao`. Commit sesudahnya hanya dokumen
+  (`git diff --name-only dfab13bf <head cabang>` semuanya di bawah `docs/`).
+- Kualifikasi satu commit (`CI_RECEIPT.json`, 80 run workflow, 131 job): semua workflow kualifikasi r1 (25),
+  51 workflow `cp7-*` yang dijalankan ulang (G3), ditambah `cp7-group-end-diagnosis` dan
+  `cp7-supabase-restore-drill`. Semua workflow hijau pada commit ini, dengan tiga catatan yang tidak disembunyikan:
+  - `CP6 Candidate CodeQL (T3)`: run push 38738714861 dibatalkan oleh aturan antrean workflow itu
+    (`cancel-in-progress`) karena penulis juga menjalankannya manual; run manual 38738889358 hijau.
+  - `CP7 Offsite Backup` run 38739002359 hijau pada percobaan kedua. Percobaan pertama gagal menyalakan database uji
+    sebelum satu kasus pun berjalan: port 54324 sudah dipakai di mesin GitHub (4 kali dicoba). Kemungkinan besar
+    bentrok dengan port sementara mesin (rentang 32768–60999); belum dibuktikan. Log percobaan pertama tersimpan di
+    run yang sama. Workflow ini tidak berubah sejak `6cf2b7f9`, tempat ia hijau pada percobaan pertama.
+  - `CP6 T3 Release Package` berjalan dua kali pada commit ini (manual di cabang kerja dan push); keduanya hijau.
+- `supabase/` tidak berubah sejak `0b7049d9`. Yang berubah sejak kandidat r1 `66baa8e8` (yang tidak pernah dikirim):
+  G1, G2, G3 dan D14-17 (`GAPS_D14_14.md`; `git diff 66baa8e8 dfab13bf -- src scripts supabase tests .github`).
+- Kualifikasi sebelumnya pada `6cf2b7f9`: 77 dari 78 hijau; `CP6 T3 Release Package` bagian browser berhenti karena
+  arsip CI kedaluwarsa (run 38727609578, log disimpan). Perbaikannya hanya di workflow itu (`GAPS_D14_14.md` §3a).
 
 ## Butir yang sudah diketahui penulis (bukan temuan auditor; boleh diuji)
 
-Terbukti dari kode:
-
-- **Jahit selesai tidak bisa dicatat dari layar tersambung** (`CHAIN_MAP.md` §3 butir 1, `SCREEN_MAP.md` butir 11).
-  Akibatnya barang tidak bisa dikirim dari jahit ke laundry lewat aplikasi; semua uji rantai membuat catatan jahit
-  lewat SQL.
-- **Upah borongan dan HPP final** (`erp.post_work_completion`, `erp.finish_production_order`) tidak punya jalan dari
-  aplikasi (`CHAIN_MAP.md` §3 butir 2).
+- **Jahit selesai, upah borongan dan HPP final** sekarang punya jalan dari aplikasi (G1, G2). Batas: potongan dengan
+  tarif per SKU/ukuran (wave BF) ditolak `WAVE_SKU_RATES`; PO yang sudah selesai tidak bisa dibuka lagi (tidak ada
+  pembalik Native); tanggal selesai PO selalu hari ini WIB.
 - **Mode Enteng menampilkan data contoh di 23 dari 48 menu**, termasuk semua menu Penjualan, 6 menu Keuangan dan
   Absensi (`SCREEN_MAP.md` §1–2). Layar tersambungnya ada, tetapi hanya dibuka di mode uji sekali pakai; rencana
   menyalakannya di Enteng belum tertulis di mana pun.
 - **Data induk harian** (pelanggan, supplier, mandor, lokasi, master kain/aksesori) tidak punya layar tersambung
   (`SCREEN_MAP.md` butir 10).
-- Workflow basi sejak 8 Okt (di atas).
-- Dua dokumen penulis yang salah sudah diberi koreksi bertanggal: `docs/cp7/RETIRED_CP6_SALES_MANUAL_13.md` (layar
-  simulasi penjualan memang tampil di mode Enteng) dan `docs/cp7/p18/P18_FULL_CYCLE.md` (kas tidak lagi minus sejak
-  D14-3).
+- **FABLE-012:** 82 penulis `erp` masih bisa dieksekusi peran `authenticated` lewat SQL; tidak terjangkau lewat Data
+  API. Pencabutan ditunda ke CP7C (D14-9).
+- **Arsip CI:** daftar tabel "sebelum U" diambil ulang di setiap run (D14-17); tidak bisa lagi dibuktikan sama persis
+  dengan daftar 15 Sep. 37 workflow CP6 lama yang memanggil bootstrap dari checkout kandidat beku tidak bisa berjalan.
+  Dua arsip F05 (`11139828865`, `11141076740`) habis 31 Okt; salinannya ada di artifact `11967162735`.
+- Dua dokumen penulis yang salah sudah diberi koreksi bertanggal: `docs/cp7/RETIRED_CP6_SALES_MANUAL_13.md` dan
+  `docs/cp7/p18/P18_FULL_CYCLE.md`.
 
 Butir terbuka lama yang tetap berlaku: `CHAIN_MAP.md` §4.
 
@@ -71,8 +69,8 @@ atau HTTP tiruan, bukan ke hosted. Tidak meminta password, token atau kunci di c
 
 ## Hasil yang diminta dari tiap auditor
 
-Laporan format Pro Max §9 di cabang audit baru, dikunci dengan commit sebelum membaca laporan auditor lain di putaran
-ini. Isinya: vonis per sambungan B1–B13 dan S1–S7 (TERSAMBUNG DAN TERUJI / TERSAMBUNG TANPA UJI APLIKASI / TIDAK
-TERSAMBUNG), vonis per menu (SAMA / BEDA / TIDAK ADA LAYAR TERSAMBUNG) untuk mode `DISPOSABLE_TEST` dan mode Enteng,
-daftar yang harus beres sebelum pemasangan ke Enteng, daftar "belum saya periksa", dan ringkasan owner ≤ 10 kalimat
-dalam bahasa sehari-hari.
+Satu cabang audit baru per auditor, dua laporan yang dikunci dengan commit sebelum membaca laporan auditor lain di
+putaran ini: `RETEST_<NAMA>_dfab13bf.md` (bagian A, per temuan: DITUTUP / MASIH TERBUKA / BARU) dan `FINAL_<NAMA>.md` +
+`FINDINGS.json` (bagian B: vonis per sambungan B1–B13 dan S1–S7, vonis per menu untuk mode `DISPOSABLE_TEST` dan mode
+Enteng, daftar yang harus beres sebelum pemasangan ke Enteng, daftar "belum saya periksa"), ditambah ringkasan owner
+≤ 10 kalimat dalam bahasa sehari-hari.

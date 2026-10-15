@@ -110,5 +110,16 @@ bisa dibuat ulang persis: pembuatnya butuh arsip `10320611163` yang juga sudah t
 | 38726577264 CP7 CP17 Fixes | `6de0ce1d` | hijau: 61/61 (native 41, race 4, HTTP 6, browser 10), termasuk G1 dan G2 di komputer dan HP |
 | 38726581016 CP7 Native Posted Cutting Reopen | `6de0ce1d` | hijau |
 
-Ini bukti cabang kerja, bukan kualifikasi kandidat. Kualifikasi satu commit (semua workflow Q25 dan 51 workflow yang
-dijalankan ulang) dilakukan sesudah cabang ini digabung ke `claude/new-session-deapao`.
+| 38727609578 CP6 T3 Release Package (kualifikasi `6cf2b7f9`) | `6cf2b7f9` | merah: bagian browser memakai alat beku `e43e0ed4` yang masih mencari arsip kedaluwarsa (§3a); 77 workflow lain pada commit itu hijau; log disimpan |
+| 38736820801 CP6 T3 Release Package | `dfab13bf` | hijau: 3/3 bagian; browser 31/31 + AU T3; rantai sampai AB dengan pengambilan daftar tabel sebelum U |
+
+Di atas adalah bukti cabang kerja. **Kualifikasi satu commit kandidat `dfab13bf`** (sesudah cabang ini digabung ke
+`claude/new-session-deapao`): `CI_RECEIPT.json`, 80 run workflow dan 131 job. Semua workflow hijau; catatan:
+
+- `CP6 Candidate CodeQL (T3)` run push 38738714861 dibatalkan oleh aturan antrean workflow itu (`cancel-in-progress`)
+  karena penulis juga menjalankannya manual; run manual 38738889358 hijau. Empat job yang dibatalkan itu satu-satunya
+  baris bukan-hijau di `CI_RECEIPT.json`.
+- `CP7 Offsite Backup` run 38739002359 hijau pada percobaan kedua. Percobaan pertama gagal menyalakan database uji
+  sebelum satu kasus pun berjalan: port 54324 sudah dipakai di mesin GitHub (4 kali dicoba). Kemungkinan besar bentrok
+  dengan port sementara mesin (rentang 32768–60999); belum dibuktikan. Log percobaan pertama tersimpan di run itu.
+- Tidak ada pengulangan karena pergantian hari WIB (`business_day_reruns` kosong).
