@@ -105,9 +105,9 @@
   "oracle_sha256": {
     "matrix.mjs": "ad1bcfdc7a56cf68bc1a885b4219649554f056f2cd72b638428f39160b77f522",
     "retained.mjs": "11a8686e4147cf3307c8822df4cece55cd7ea76a75402406b797662a6f98d8c2",
-    "integration.mjs": "c77ce37fa32187878b972d3720e7a880d17dcd0508818511d048da8309183416",
+    "integration.mjs": "8f822a923eddf33c919613f964237289f57ffea78121c95666d8e938a4395e56",
     "integration_fixture.py": "4a320e129955f6fa28b4d3f2542518ceb0896b8f58e23e51971f65c0c62de981",
-    "probe.py": "91aca0d57c34c442d70fa8e21e9026ab2f64e4d473847ba6d773a9fc09aecfb1",
+    "probe.py": "8ee778151b6edf6b2748e7137f08b7bf7ed88ed7d0d4cdc1ee45a24f7751f1ca",
     "browser_host.mjs": "78c9e250e1892e6f762075aa86c3df196dadff17a4e7a5fe9c42529786837de3"
   },
   "matrix_readiness_qualification": {
@@ -117,5 +117,14 @@
     "fix": "Wait exact fallback absent and request quiescence800ms; assert no fallback",
     "case_ids_unchanged": true,
     "transactions_not_rerun": true
+  },
+  "production_locator_qualification": {
+    "prior_run": 38793203672,
+    "prior_job": 116622792645,
+    "same_id": "ASTRA_CHAIN_CUT_TO_FG",
+    "cause": "exact accessible label excludes explanatory small text",
+    "fix": "scoped unique combobox name starts Mandor + contractor value assertion",
+    "expected_unchanged": true,
+    "payroll_not_rerun": true
   }
 }

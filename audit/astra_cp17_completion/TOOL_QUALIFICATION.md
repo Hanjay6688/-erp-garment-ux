@@ -14,3 +14,9 @@ The first two attempts remain part of the final receipt; this qualification cann
 Run 38793203625 preserved raw PASS records even where lazy workspace content was not loaded: 70/96 disposable and 56/96 UAT snapshots explicitly contain `Memuat workspace dan guardrail transaksi.` Source App.tsx WorkspaceFallback proves these are loading states. They are protocol INCOMPLETE for finished-page inventory, not product success. Header text plus `waitForLoadState(networkidle)` was insufficient on SPA navigation.
 
 Under Pro Max §16.3, fix the tool to wait for that exact lazy fallback to disappear, then for all page requests to settle and remain idle for 800 ms. Assert the fallback is absent in the captured result. Same 288 stable IDs, candidate, mode/viewport, source and no-overflow/no-pageerror/no-5xx oracles; no transaction case is rerun. Prior results and artifacts remain retained. This strengthens observation readiness rather than changing product expectations.
+
+## Production locator qualification
+
+Run 38793203672/job116622792645: ASTRA_CHAIN_CUT_TO_FG is INCOMPLETE after a successful browser cutting POST (raw100/value1000 ->40/value400; WIP600). `getByLabel('Mandor',{exact:true})` timed out. Captured body and frozen ConnectedPickupPage.tsx prove the select exists; its wrapping label also includes the explanatory text `Mandor dikunci mengikuti penugasan Production Order.`, so the exact accessible label is longer. No backend pickup command was sent.
+
+Correction under §16.3: locate the single combobox within `.cpick-setup` with accessible name starting Mandor, then assert its selected value is the fixture contractor. No fixture/oracle/seed/timeout/product changes. Run only the same ASTRA_CHAIN_CUT_TO_FG ID; successful ASTRA_CHAIN_ACCESSORY_NOTA_TO_CASH is not rerun. Preserve old INCOMPLETE, screenshot, trace, requests and logs.

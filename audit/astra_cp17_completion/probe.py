@@ -9,8 +9,8 @@ import cp7_restore_state as restore_state
 import cp7_f03_bundle as bundle
 manifest=json.loads(Path(__file__).with_name('MANIFEST.json').read_text())
 suite=os.environ['ASTRA_COMPLETION_SUITE']
-cases=SimpleNamespace(EXPECTED=2 if suite=='integration' else manifest['retained_case_count'] if suite=='retained' else 96)
-script=Path(__file__).with_name('integration.mjs' if suite=='integration' else 'retained.mjs' if suite=='retained' else 'matrix.mjs')
+cases=SimpleNamespace(EXPECTED=1 if suite=='production-qualified' else 2 if suite=='integration' else manifest['retained_case_count'] if suite=='retained' else 96)
+script=Path(__file__).with_name('integration.mjs' if suite in ('integration','production-qualified') else 'retained.mjs' if suite=='retained' else 'matrix.mjs')
 import cp7_supplier_payment_create_bundle as create_bundle
 import cp7_p12_nota_probe as payroll
 import cp7_p13_finance_probe as finance
@@ -34,7 +34,7 @@ def verify(cur):
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run():
- report=dict(label='ASTRA_COMPLETION_'+suite,status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,full_P18_acceptance=False,scope='Astra two own browser chains' if suite=='integration' else manifest['matrix_scope'] if suite!='retained' else 'Retained actual browser action gaps; writer oracles preserved',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=cases.EXPECTED);installed=False
+ report=dict(label='ASTRA_COMPLETION_'+suite,status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,full_P18_acceptance=False,scope='Astra own browser chains' if suite in ('integration','production-qualified') else manifest['matrix_scope'] if suite!='retained' else 'Retained actual browser action gaps; writer oracles preserved',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=cases.EXPECTED);installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
    p09.wip.policy.bf.verified(cur);restore_before=restore_state.capture(cur,package.boundary.snapshot,native.public_state,p09.functions);before=restore_before['boundary'];public_before=restore_before['public'];conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)

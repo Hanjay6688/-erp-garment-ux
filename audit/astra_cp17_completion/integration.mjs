@@ -28,7 +28,7 @@ async function production(ui,today){return run(ui,today,'ASTRA_CHAIN_CUT_TO_FG',
  await nav(ui,p,'Produksi','Bagi Potongan')
  await p.getByLabel('Cari distribusi potongan',{exact:true}).fill(f.group_number);await p.getByRole('button',{name:'Cari Potongan',exact:true}).click()
  await p.locator('.cpick-queue button').filter({hasText:f.group_number}).click()
- const mandor=p.getByLabel('Mandor',{exact:true});if(await mandor.isEnabled())await mandor.selectOption(f.contractor)
+ const mandor=p.locator('.cpick-setup').getByRole('combobox',{name:/^Mandor/});await ui.expect(mandor).toHaveCount(1);if(await mandor.isEnabled())await mandor.selectOption(f.contractor);await ui.expect(mandor).toHaveValue(f.contractor)
  await p.getByLabel('Waktu fisik diambil (WIB)',{exact:true}).fill(at(9))
  await p.getByRole('button',{name:'Catat pickup & masuk Sewing',exact:true}).click()
  await ui.expect.poll(()=>state().batches.length).toBe(1);const batch=state().batches[0][0];trace.push({stage:'PICKUP_POST',state:state()})
@@ -104,4 +104,4 @@ async function payroll(ui,today){return run(ui,today,'ASTRA_CHAIN_ACCESSORY_NOTA
  assert.equal(Number(final.payment[0][1]),5977.25);assert.equal(Number(final.payment[0][2]),5977.25);assert.deepEqual(numeric(final.deduction_journal[0]),[2,22.75,22.75]);trace.push({stage:'CASH_PAID',actual:final})
  return{same_contractor:f.contractor,accessory:'7 x 3.25 = 22.75',labor:6000,deduction:22.75,cash:5977.25,stock_main:20,stock_other:3,balanced_payment:5977.25,source_setup:'Native receipt, transfer and repair work only; accessory save/post, Nota save/post, prepare, approve and pay actual Chromium',not_claimed:'The earlier BS/rework source creation is a fixture, not a UI action in this case'}
 })}
-export function cases(ui,today){return [['ASTRA_CHAIN_CUT_TO_FG',()=>production(ui,today)],['ASTRA_CHAIN_ACCESSORY_NOTA_TO_CASH',()=>payroll(ui,today)]]}
+export function cases(ui,today){const rows=[['ASTRA_CHAIN_CUT_TO_FG',()=>production(ui,today)],['ASTRA_CHAIN_ACCESSORY_NOTA_TO_CASH',()=>payroll(ui,today)]];return process.env.ASTRA_COMPLETION_SUITE==='production-qualified'?rows.slice(0,1):rows}
