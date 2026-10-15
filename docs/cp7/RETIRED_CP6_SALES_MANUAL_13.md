@@ -73,3 +73,13 @@ tidak diubah. Langkahnya:
    hilang.
 
 Status pensiun tetap menunggu pernyataan auditor LENGKAP / TIDAK LENGKAP (D13-9c, D13-12).
+
+## Koreksi 15 Okt 2026 (penulis; teks di atas tidak diubah)
+
+Kalimat "Di mode aplikasi tersambung, menu 'Penjualan & Invoice' membuka `ConnectedSalesPage`" dan "Layar simulasi
+tidak tampil di mode tersambung" **hanya benar untuk mode `DISPOSABLE_TEST`**. Syarat di `src/App.tsx` baris 637 adalah
+`runtime.mode==='DISPOSABLE_TEST'`. Di mode `UAT_AUTH_SIMULATION` (login dan data Enteng), yang juga dihitung
+tersambung oleh `isConnectedRuntime`, menu penjualan masih membuka layar simulasi `SalesPages` dengan data contoh,
+termasuk helper lusin 4/4/4 yang lama. Alasan pensiun kedua kasus tetap: keduanya menguji layar simulasi, bukan
+transaksi tersambung. Pengaktifan layar penjualan tersambung di Enteng belum direncanakan di dokumen mana pun; dicatat
+untuk audit akhir CP1–7 (`audit-candidate/cp1-7-final-integration-20261015/SCREEN_MAP.md` butir 1–2).
