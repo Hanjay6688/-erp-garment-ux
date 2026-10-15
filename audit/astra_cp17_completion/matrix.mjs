@@ -14,7 +14,9 @@ async function open(page,row){
 async function inspect(ui,row,index,mobile){
   const key=mobile?'MOBILE':'DESKTOP'
   if(!sessions.has(key))sessions.set(key,await ui.login('OWNER',{label:'astra-matrix-'+key,mobile}))
-  const {page}=sessions.get(key),responses=[],errors=[]
+  const {page}=sessions.get(key),responses=[],errors=[],pending=new Set();let lastNetworkEvent=Date.now()
+  const started=r=>{pending.add(r);lastNetworkEvent=Date.now()},finished=r=>{pending.delete(r);lastNetworkEvent=Date.now()}
+  page.on('request',started);page.on('requestfinished',finished);page.on('requestfailed',finished)
   const response=r=>{if(r.url().includes('/rest/v1/rpc/'))responses.push({rpc:new URL(r.url()).pathname.split('/').at(-1),status:r.status()})}
   const error=e=>errors.push(String(e.message))
   page.on('response',response);page.on('pageerror',error)
@@ -23,7 +25,9 @@ async function inspect(ui,row,index,mobile){
   try{
     await open(page,row)
     await ui.expect(page.locator('.top-title strong')).toHaveText(row.title)
-    await page.waitForLoadState('networkidle',{timeout:15000}).catch(()=>{})
+    // Qualification v2: header/navigation alone does not mean a lazy workspace loaded.
+    await ui.expect(page.locator('.page-wrap')).not.toContainText('Memuat workspace dan guardrail transaksi.',{timeout:30000})
+    await ui.expect.poll(()=>pending.size===0&&Date.now()-lastNetworkEvent>=800,{timeout:30000,intervals:[100,200,300]}).toBe(true)
     const state=await page.locator('.page-wrap').evaluate(el=>{
       const visible=x=>Boolean(x.getClientRects().length)&&getComputedStyle(x).visibility!=='hidden'
       return {
@@ -38,6 +42,7 @@ async function inspect(ui,row,index,mobile){
       }
     })
     assert.ok(state.text.trim().length>0,'EMPTY_RENDER')
+    assert.ok(!state.text.includes('Memuat workspace dan guardrail transaksi.'),'LAZY_WORKSPACE_NOT_READY')
     const counter=state.horizontal_overflow||errors.length>0||responses.some(r=>r.status>=500)
     const result={status:counter?'COUNTEREXAMPLE':'PASS',evidence_origin:'ASTRA_REAL_BROWSER_ENTRY_INVENTORY',scope:'Entry render, initial controls, network errors and layout only; not all form mutations',mode:ui.mode,mobile,menu:row.label,...state,rpc_responses:responses,page_errors:errors,screenshot:'matrix/'+name+'.png'}
     await page.screenshot({path:'cp6-proof/t3/'+result.screenshot,fullPage:true})
@@ -48,6 +53,6 @@ async function inspect(ui,row,index,mobile){
     writeFileSync('cp6-proof/t3/matrix/'+name+'_FAILURE.json',JSON.stringify(detail,null,2))
     await page.screenshot({path:'cp6-proof/t3/matrix/'+name+'_FAILURE.png',fullPage:true}).catch(()=>{})
     return detail
-  }finally{page.off('response',response);page.off('pageerror',error)}
+  }finally{page.off('response',response);page.off('pageerror',error);page.off('request',started);page.off('requestfinished',finished);page.off('requestfailed',finished)}
 }
 export function cases(ui){assert.equal(menus.length,48);return [false,true].flatMap(mobile=>menus.map((row,index)=>[`ASTRA_MATRIX_${ui.mode}_${mobile?'MOBILE':'DESKTOP'}_${String(index+1).padStart(2,'0')}`,()=>inspect(ui,row,index,mobile)]))}

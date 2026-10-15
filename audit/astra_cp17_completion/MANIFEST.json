@@ -87,7 +87,7 @@
     "fix": "mkdir -p auditor/audit before copying; no case or product modification"
   },
   "tool_qualification": {
-    "reason": "YAML newline folding proven from logs; qualification under Pro Max 16.2",
+    "reason": "YAML newline folding proven from logs; qualification under Pro Max 16.3",
     "diff": "Only workflow parsed run commands; four explicit newlines",
     "local_validation": "parse equality + bash -n + isolated dummy copy/probe execution",
     "prior_attempts_preserved": [
@@ -96,5 +96,26 @@
       38792810239
     ],
     "oracle_unchanged": true
+  },
+  "qualification_control": "fca97be34ce8ed1d1d84d9e1876f31e315fa64f4",
+  "qualification_runs": {
+    "matrix_retained": 38793203625,
+    "own_integration": 38793203672
+  },
+  "oracle_sha256": {
+    "matrix.mjs": "ad1bcfdc7a56cf68bc1a885b4219649554f056f2cd72b638428f39160b77f522",
+    "retained.mjs": "11a8686e4147cf3307c8822df4cece55cd7ea76a75402406b797662a6f98d8c2",
+    "integration.mjs": "c77ce37fa32187878b972d3720e7a880d17dcd0508818511d048da8309183416",
+    "integration_fixture.py": "4a320e129955f6fa28b4d3f2542518ceb0896b8f58e23e51971f65c0c62de981",
+    "probe.py": "91aca0d57c34c442d70fa8e21e9026ab2f64e4d473847ba6d773a9fc09aecfb1",
+    "browser_host.mjs": "78c9e250e1892e6f762075aa86c3df196dadff17a4e7a5fe9c42529786837de3"
+  },
+  "matrix_readiness_qualification": {
+    "supersedes_for_ready_inventory_only": 38793203625,
+    "reason": "Lazy fallback captured in 126/192 available snapshots",
+    "previous_raw_pass_is_not_ready_inventory": true,
+    "fix": "Wait exact fallback absent and request quiescence800ms; assert no fallback",
+    "case_ids_unchanged": true,
+    "transactions_not_rerun": true
   }
 }
