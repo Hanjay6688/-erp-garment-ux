@@ -1,6 +1,6 @@
 {
  "summary": {
-  "sha": "55d72775d8f0a1e6d623ed8e2ec40e2525f8702f",
+  "sha": "f1a1ae6926ed563b960f476125c5e2273e750157",
   "workflows": 25,
   "workflows_success": 25,
   "jobs": 69,
@@ -13,7 +13,7 @@
  "runs": [
   {
    "workflow": "Build UX",
-   "run_id": 38645574067,
+   "run_id": 38676772690,
    "attempt": 1,
    "event": "push",
    "status": "completed",
@@ -21,7 +21,7 @@
    "jobs": [
     {
      "name": "build",
-     "job_id": 116131453017,
+     "job_id": 116232058100,
      "conclusion": "success",
      "business_day": []
     }
@@ -29,39 +29,39 @@
   },
   {
    "workflow": "CP6 AV Rev2 Qualification",
-   "run_id": 38645664022,
-   "attempt": 1,
+   "run_id": 38676811934,
+   "attempt": 2,
    "event": "workflow_dispatch",
    "status": "completed",
    "conclusion": "success",
    "jobs": [
     {
-     "name": "AV rev2 probe on AU plus AV rev2 (after)",
-     "job_id": 116131761950,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
-     "name": "AR 174 original cases, AV package cycles and post-use refusal",
-     "job_id": 116131761971,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
-     "name": "Original 326 business, import and value cases plus AS 34 on AU plus AV rev2",
-     "job_id": 116131762016,
+     "name": "AT 16 and AU 15 cases with their real races on AU plus AV rev2",
+     "job_id": 116235433891,
      "conclusion": "success",
      "business_day": []
     },
     {
      "name": "AV rev2 probe on frozen AU (before)",
-     "job_id": 116131762120,
+     "job_id": 116235434560,
      "conclusion": "success",
      "business_day": []
     },
     {
-     "name": "AT 16 and AU 15 cases with their real races on AU plus AV rev2",
-     "job_id": 116131762210,
+     "name": "AR 174 original cases, AV package cycles and post-use refusal",
+     "job_id": 116235435173,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Original 326 business, import and value cases plus AS 34 on AU plus AV rev2",
+     "job_id": 116235435745,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "AV rev2 probe on AU plus AV rev2 (after)",
+     "job_id": 116235474985,
      "conclusion": "success",
      "business_day": []
     }
@@ -69,7 +69,7 @@
   },
   {
    "workflow": "CP6 BE T1 Family Probe",
-   "run_id": 38645661429,
+   "run_id": 38676818021,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
@@ -77,13 +77,13 @@
    "jobs": [
     {
      "name": "BE probe on AU plus AV plus AW..AZ plus BA plus BB plus BC plus BD plus BE T1 (after, T1_FAMILY)",
-     "job_id": 116131752777,
+     "job_id": 116232205975,
      "conclusion": "success",
      "business_day": []
     },
     {
      "name": "BE probe on AU plus AV plus AW..AZ plus BA plus BB plus BC plus BD (before, T1_FAMILY)",
-     "job_id": 116131753214,
+     "job_id": 116232206152,
      "conclusion": "success",
      "business_day": []
     }
@@ -91,33 +91,33 @@
   },
   {
    "workflow": "CP6 Candidate CodeQL (T3)",
-   "run_id": 38645574063,
+   "run_id": 38676823845,
    "attempt": 1,
-   "event": "push",
+   "event": "workflow_dispatch",
    "status": "completed",
    "conclusion": "success",
    "jobs": [
     {
-     "name": "CodeQL javascript-typescript",
-     "job_id": 116131453458,
+     "name": "CodeQL c-cpp",
+     "job_id": 116232224808,
      "conclusion": "success",
      "business_day": []
     },
     {
-     "name": "CodeQL python",
-     "job_id": 116131453653,
+     "name": "CodeQL javascript-typescript",
+     "job_id": 116232224974,
      "conclusion": "success",
      "business_day": []
     },
     {
      "name": "CodeQL actions",
-     "job_id": 116131453796,
+     "job_id": 116232224985,
      "conclusion": "success",
      "business_day": []
     },
     {
-     "name": "CodeQL c-cpp",
-     "job_id": 116131454020,
+     "name": "CodeQL python",
+     "job_id": 116232225016,
      "conclusion": "success",
      "business_day": []
     }
@@ -125,27 +125,27 @@
   },
   {
    "workflow": "CP6 T3 Release Package (hosted-faithful baseline)",
-   "run_id": 38645655849,
+   "run_id": 38676829886,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
    "conclusion": "success",
    "jobs": [
     {
-     "name": "Hosted-faithful baseline to AB, committed 30-file package, AU and BF browser flows (T3_PREP)",
-     "job_id": 116131734073,
+     "name": "Hosted-faithful baseline to AB, committed 30-file package AC..BF, writer runtime, advisors, restore drill (T3_PREP)",
+     "job_id": 116232244841,
      "conclusion": "success",
      "business_day": []
     },
     {
      "name": "Hosted-faithful baseline to AB, pins captured again and compared with the committed package (T3_PREP)",
-     "job_id": 116131734406,
+     "job_id": 116232245096,
      "conclusion": "success",
      "business_day": []
     },
     {
-     "name": "Hosted-faithful baseline to AB, committed 30-file package AC..BF, writer runtime, advisors, restore drill (T3_PREP)",
-     "job_id": 116131734698,
+     "name": "Hosted-faithful baseline to AB, committed 30-file package, AU and BF browser flows (T3_PREP)",
+     "job_id": 116232245250,
      "conclusion": "success",
      "business_day": []
     }
@@ -153,7 +153,7 @@
   },
   {
    "workflow": "CP6 T3 Rollback (AC..BF of the release package, hosted-faithful baseline)",
-   "run_id": 38645658612,
+   "run_id": 38676835908,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
@@ -161,7 +161,7 @@
    "jobs": [
     {
      "name": "Hosted-faithful baseline to AB, committed 30-file package, AC..BF rollback auto (T3_PREP)",
-     "job_id": 116131742105,
+     "job_id": 116232263874,
      "conclusion": "success",
      "business_day": []
     }
@@ -169,7 +169,7 @@
   },
   {
    "workflow": "CP7 Astra Timeline Reuse",
-   "run_id": 38645602002,
+   "run_id": 38676842263,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
@@ -177,7 +177,7 @@
    "jobs": [
     {
      "name": "isolated-kernel-parity",
-     "job_id": 116131578087,
+     "job_id": 116232283415,
      "conclusion": "success",
      "business_day": []
     }
@@ -185,7 +185,7 @@
   },
   {
    "workflow": "CP7 Backup Kit Check",
-   "run_id": 38645605111,
+   "run_id": 38676848387,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
@@ -193,7 +193,7 @@
    "jobs": [
     {
      "name": "kit",
-     "job_id": 116131565059,
+     "job_id": 116232303416,
      "conclusion": "success",
      "business_day": []
     }
@@ -201,7 +201,7 @@
   },
   {
    "workflow": "CP7 CP17 Fixes",
-   "run_id": 38645653322,
+   "run_id": 38676855103,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
@@ -209,7 +209,7 @@
    "jobs": [
     {
      "name": "Dated guards and stock card on the combined F03 stack, races and real Auth HTTP",
-     "job_id": 116131726237,
+     "job_id": 116232322416,
      "conclusion": "success",
      "business_day": []
     }
@@ -217,57 +217,57 @@
   },
   {
    "workflow": "CP7 F03 Full Retained Components",
-   "run_id": 38645607801,
+   "run_id": 38676862003,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
    "conclusion": "success",
    "jobs": [
     {
-     "name": "Full F03 stack / p10",
-     "job_id": 116131573885,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
      "name": "Full F03 stack / p09",
-     "job_id": 116131574155,
+     "job_id": 116232342881,
      "conclusion": "success",
      "business_day": []
     },
     {
      "name": "Full F03 stack / supplier_credit",
-     "job_id": 116131574218,
+     "job_id": 116232343039,
      "conclusion": "success",
      "business_day": []
     },
     {
      "name": "Full F03 stack / p12",
-     "job_id": 116131574337,
+     "job_id": 116232343079,
      "conclusion": "success",
      "business_day": []
     },
     {
-     "name": "Full F03 stack / cash_installments",
-     "job_id": 116131574375,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
-     "name": "Full F03 stack / p13",
-     "job_id": 116131574407,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
-     "name": "Full F03 stack / p11",
-     "job_id": 116131574412,
+     "name": "Full F03 stack / p10",
+     "job_id": 116232343101,
      "conclusion": "success",
      "business_day": []
     },
     {
      "name": "Full F03 stack / customer_refund",
-     "job_id": 116131574810,
+     "job_id": 116232343152,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Full F03 stack / p11",
+     "job_id": 116232343204,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Full F03 stack / cash_installments",
+     "job_id": 116232343206,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Full F03 stack / p13",
+     "job_id": 116232343342,
      "conclusion": "success",
      "business_day": []
     }
@@ -275,7 +275,7 @@
   },
   {
    "workflow": "CP7 Note Correction (Claude branch)",
-   "run_id": 38645610407,
+   "run_id": 38676868489,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
@@ -283,7 +283,7 @@
    "jobs": [
     {
      "name": "Nota correction / Native stock AR cash journal HPP",
-     "job_id": 116131583605,
+     "job_id": 116232362565,
      "conclusion": "success",
      "business_day": []
     }
@@ -291,7 +291,7 @@
   },
   {
    "workflow": "CP7 Offsite Backup",
-   "run_id": 38645613071,
+   "run_id": 38676875180,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
@@ -299,7 +299,7 @@
    "jobs": [
     {
      "name": "offsite-backup-11",
-     "job_id": 116131598414,
+     "job_id": 116232384350,
      "conclusion": "success",
      "business_day": []
     }
@@ -307,7 +307,7 @@
   },
   {
    "workflow": "CP7 Owning Receipt Correction",
-   "run_id": 38645615700,
+   "run_id": 38676881929,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
@@ -315,7 +315,7 @@
    "jobs": [
     {
      "name": "Receipt correction / Native stock cost HPP AP journal",
-     "job_id": 116131600076,
+     "job_id": 116232403400,
      "conclusion": "success",
      "business_day": []
     }
@@ -323,39 +323,39 @@
   },
   {
    "workflow": "CP7 P08 Physical Fabric",
-   "run_id": 38645618455,
+   "run_id": 38676888456,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
    "conclusion": "success",
    "jobs": [
     {
-     "name": "fabric13-successor",
-     "job_id": 116131608937,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
-     "name": "attention284",
-     "job_id": 116131609134,
+     "name": "plan39",
+     "job_id": 116232423334,
      "conclusion": "success",
      "business_day": []
     },
     {
      "name": "analysis152",
-     "job_id": 116131609282,
+     "job_id": 116232423494,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "fabric13-successor",
+     "job_id": 116232423497,
      "conclusion": "success",
      "business_day": []
     },
     {
      "name": "fabric-physical21",
-     "job_id": 116131609335,
+     "job_id": 116232423515,
      "conclusion": "success",
      "business_day": []
     },
     {
-     "name": "plan39",
-     "job_id": 116131609441,
+     "name": "attention284",
+     "job_id": 116232423524,
      "conclusion": "success",
      "business_day": []
     }
@@ -363,27 +363,27 @@
   },
   {
    "workflow": "CP7 P12 Payroll (Claude branch)",
-   "run_id": 38645621461,
+   "run_id": 38676895193,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
    "conclusion": "success",
    "jobs": [
     {
+     "name": "P12 payroll --payroll-review",
+     "job_id": 116232444968,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
      "name": "P12 payroll --attendance-write",
-     "job_id": 116131621956,
+     "job_id": 116232445182,
      "conclusion": "success",
      "business_day": []
     },
     {
      "name": "P12 payroll --roster",
-     "job_id": 116131622385,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
-     "name": "P12 payroll --payroll-review",
-     "job_id": 116131622593,
+     "job_id": 116232445186,
      "conclusion": "success",
      "business_day": []
     }
@@ -391,7 +391,7 @@
   },
   {
    "workflow": "CP7 P13 Finance (Claude branch)",
-   "run_id": 38645624183,
+   "run_id": 38676901718,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
@@ -399,7 +399,7 @@
    "jobs": [
     {
      "name": "P13 native dated report and immutable archive reader",
-     "job_id": 116131631303,
+     "job_id": 116232464209,
      "conclusion": "success",
      "business_day": []
     }
@@ -407,27 +407,27 @@
   },
   {
    "workflow": "CP7 P18 Fabric Rule",
-   "run_id": 38645626969,
+   "run_id": 38676908255,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
    "conclusion": "success",
    "jobs": [
     {
-     "name": "fabric-rule11",
-     "job_id": 116131640158,
+     "name": "p18-e01-9",
+     "job_id": 116232483518,
      "conclusion": "success",
      "business_day": []
     },
     {
-     "name": "p18-e01-9",
-     "job_id": 116131640337,
+     "name": "fabric-rule11",
+     "job_id": 116232483793,
      "conclusion": "success",
      "business_day": []
     },
     {
      "name": "rule-lifecycle16",
-     "job_id": 116131640446,
+     "job_id": 116232483855,
      "conclusion": "success",
      "business_day": []
     }
@@ -435,7 +435,7 @@
   },
   {
    "workflow": "CP7 P18 Full Cycle",
-   "run_id": 38645630109,
+   "run_id": 38676914945,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
@@ -443,7 +443,7 @@
    "jobs": [
     {
      "name": "E01 worksheet through supplier, vendor and payroll cash with GL-subledger reconciliation",
-     "job_id": 116131649769,
+     "job_id": 116232504290,
      "conclusion": "success",
      "business_day": []
     }
@@ -451,81 +451,81 @@
   },
   {
    "workflow": "CP7 P19 Analysis Job Transport",
-   "run_id": 38645632904,
+   "run_id": 38676921816,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
    "conclusion": "success",
    "jobs": [
     {
-     "name": "p19-reminder-v2-16",
-     "job_id": 116131659318,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
-     "name": "p19-scale5",
-     "job_id": 116131659514,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
-     "name": "k3-cleanup-25",
-     "job_id": 116131659531,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
-     "name": "k6-proof-runner-10",
-     "job_id": 116131659533,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
-     "name": "p19-ai-v2-9",
-     "job_id": 116131659534,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
      "name": "p19-transport11",
-     "job_id": 116131659582,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
-     "name": "p19-plan-v2-22",
-     "job_id": 116131659592,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
-     "name": "k4-runner-17",
-     "job_id": 116131659604,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
-     "name": "pl5-history-yield-20",
-     "job_id": 116131659662,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
-     "name": "k2-retention-10",
-     "job_id": 116131659680,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
-     "name": "p19-staged12",
-     "job_id": 116131659713,
+     "job_id": 116232524755,
      "conclusion": "success",
      "business_day": []
     },
     {
      "name": "p19-report-v2-20",
-     "job_id": 116131659861,
+     "job_id": 116232524845,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "p19-reminder-v2-16",
+     "job_id": 116232524853,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "k2-retention-10",
+     "job_id": 116232524859,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "k3-cleanup-25",
+     "job_id": 116232524881,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "k4-runner-17",
+     "job_id": 116232524904,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "p19-ai-v2-9",
+     "job_id": 116232524942,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "p19-staged12",
+     "job_id": 116232524943,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "pl5-history-yield-20",
+     "job_id": 116232524946,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "p19-scale5",
+     "job_id": 116232524951,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "k6-proof-runner-10",
+     "job_id": 116232524959,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "p19-plan-v2-22",
+     "job_id": 116232525079,
      "conclusion": "success",
      "business_day": []
     }
@@ -533,21 +533,21 @@
   },
   {
    "workflow": "CP7 P21 Rehearsal",
-   "run_id": 38645635708,
-   "attempt": 2,
+   "run_id": 38676928080,
+   "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
    "conclusion": "success",
    "jobs": [
     {
      "name": "Full composition with staged analysis, committed use, used backup restore and pre-install restore (disposable clone)",
-     "job_id": 116139323547,
+     "job_id": 116232544229,
      "conclusion": "success",
      "business_day": []
     },
     {
      "name": "Install, pre-use rollback, identical reinstall, use, post-use refusal and restore (disposable clone)",
-     "job_id": 116139325801,
+     "job_id": 116232544505,
      "conclusion": "success",
      "business_day": []
     }
@@ -555,33 +555,33 @@
   },
   {
    "workflow": "CP7 PL Native Planning (Claude branch)",
-   "run_id": 38645638564,
+   "run_id": 38676934546,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
    "conclusion": "success",
    "jobs": [
     {
-     "name": "supply",
-     "job_id": 116131685986,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
-     "name": "schedule",
-     "job_id": 116131686332,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
      "name": "netting",
-     "job_id": 116131686365,
+     "job_id": 116232565599,
      "conclusion": "success",
      "business_day": []
     },
     {
      "name": "model",
-     "job_id": 116131686378,
+     "job_id": 116232565696,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "supply",
+     "job_id": 116232565788,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "schedule",
+     "job_id": 116232565846,
      "conclusion": "success",
      "business_day": []
     }
@@ -589,7 +589,7 @@
   },
   {
    "workflow": "CP7 Pre-freeze UI Regression",
-   "run_id": 38645641031,
+   "run_id": 38676941023,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
@@ -597,7 +597,7 @@
    "jobs": [
     {
      "name": "Full F03 stack / prefreeze_ui",
-     "job_id": 116131698666,
+     "job_id": 116232586081,
      "conclusion": "success",
      "business_day": []
     }
@@ -605,39 +605,39 @@
   },
   {
    "workflow": "CP7 Shell S0 (Claude branch)",
-   "run_id": 38645643825,
+   "run_id": 38676772704,
    "attempt": 1,
-   "event": "workflow_dispatch",
+   "event": "push",
    "status": "completed",
    "conclusion": "success",
    "jobs": [
     {
-     "name": "p19-assembly",
-     "job_id": 116131699381,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
-     "name": "p19-staged",
-     "job_id": 116131699774,
-     "conclusion": "success",
-     "business_day": []
-    },
-    {
      "name": "shell",
-     "job_id": 116131699816,
+     "job_id": 116232058284,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "p19-assembly",
+     "job_id": 116232058500,
      "conclusion": "success",
      "business_day": []
     },
     {
      "name": "CP7 CodeQL javascript-typescript",
-     "job_id": 116131699876,
+     "job_id": 116232058512,
      "conclusion": "success",
      "business_day": []
     },
     {
      "name": "CP7 CodeQL actions",
-     "job_id": 116131700047,
+     "job_id": 116232058527,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "p19-staged",
+     "job_id": 116232058572,
      "conclusion": "success",
      "business_day": []
     }
@@ -645,7 +645,7 @@
   },
   {
    "workflow": "CP7 Supplier Payment Correction (Claude branch)",
-   "run_id": 38645647425,
+   "run_id": 38676947327,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
@@ -653,7 +653,7 @@
    "jobs": [
     {
      "name": "Native ordinary supplier payment cash/AP inverse, replacement, current Auth and browser correction",
-     "job_id": 116131705282,
+     "job_id": 116232604945,
      "conclusion": "success",
      "business_day": []
     }
@@ -661,7 +661,7 @@
   },
   {
    "workflow": "CP7 Supplier Payment Create",
-   "run_id": 38645650239,
+   "run_id": 38676953285,
    "attempt": 1,
    "event": "workflow_dispatch",
    "status": "completed",
@@ -669,7 +669,7 @@
    "jobs": [
     {
      "name": "New supplier payment through the owning command, races and real Auth HTTP",
-     "job_id": 116131717909,
+     "job_id": 116232623867,
      "conclusion": "success",
      "business_day": []
     }

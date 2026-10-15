@@ -105,4 +105,10 @@ G. Deklarasi CP17 sekarang 48 kasus (native 36, race 2, HTTP 4, browser 6), dibu
 | A2 (D14-8) | Pembanding diganti dengan urutan stabil + owner + hak akses; bukti sebelum/sesudah di langkah CP17 sendiri. **Akar dua kegagalan lama tetap OPEN** (D13-10). Versi pertama gagal karena salah tulis `COLLATE` (5 workflow di `a3cb1beb`, log disimpan), dibetulkan di `59fc7baf` | `A2_COMPARATOR_D14_8.md`, `cp6_auditor_public_state_test.py` |
 | R-ACC01 / FABLE-012 (D14-9) | **Pekerjaan keamanan terbuka di CP7C**: 82 penulis belum dicabut. Gerbang `exposure_gate` menolak membuka `erp` ke Data API sebelum pencabutan | `FABLE012_D14_9_GATE.md`, `CP17_FABLE012_EXPOSURE_GATE_REVOKE_FIRST` |
 | R-SG02 batal/betulkan (D14-10) | Dibangun: satu transaksi, riwayat asli tetap, pemakaian sesudahnya disebut dan menghalangi. Run pertama (38666407687, log disimpan) gagal 2 kasus karena alat uji membaca WIP PO hanya dari jurnal POSTED (jurnal asli yang dibalik ikut hilang, pembaliknya tetap terhitung: 120 bukan 100); dibetulkan ke aturan buku besar Native (POSTED + REVERSED), produk tidak diubah. Kasus batal kini juga membuktikan hutang supplier/vendor tidak tersentuh | `SG02_FABRIC_RETURN.md`, `return.sql`, `CuttingFabricReturnReversalPanel.tsx` |
-| R-RWK01 (D14-11) | Bagian rework yang selesai, dihitung dan terposting bisa dibayar walau kasus BS OPEN/PARTIAL; yang belum selesai ditahan; sekali saja. **PASS** (run 38666407687) | `RWK01_D14_11.md`, `CP17_RWK01_OPEN_CASE_FINISHED_PART_PAID_ONCE` |
+| R-RWK01 (D14-11) | Bagian rework yang selesai, dihitung dan terposting bisa dibayar walau kasus BS OPEN/PARTIAL; yang belum selesai ditahan; sekali saja. **PASS** | `RWK01_D14_11.md`, `CP17_RWK01_OPEN_CASE_FINISHED_PART_PAID_ONCE` |
+
+Kualifikasi kandidat `f1a1ae69` (sesudah D14-5 dan D14-8..D14-11): **25/25 workflow, 69/69 job** (`CI_RECEIPT.json`).
+CP17 di kandidat: 48/48 kasus PASS (native 36, race 2, HTTP 4, browser 6), termasuk `CP17_SG02_CANCEL_*`,
+`CP17_SG02_CORRECT_RETURN_ONE_TRANSACTION`, `CP17_RWK01_OPEN_CASE_FINISHED_PART_PAID_ONCE`,
+`CP17_FABLE012_EXPOSURE_GATE_REVOKE_FIRST`, browser D14-5 desktop/HP dan SG-02 betulkan desktop, serta langkah bukti
+pembanding D14-8. Tiga perbaikan alat uji yang muncul saat kualifikasi dicatat di `README.md` bagian Kualifikasi.

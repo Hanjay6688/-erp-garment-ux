@@ -94,16 +94,24 @@ Perbaikan lain yang ditemukan saat mengerjakan putaran ini:
 
 ## Kualifikasi satu commit
 
-`CI_RECEIPT.json` (dibuat `scripts/cp7_ci_receipt.py 55d72775`): **25/25 workflow, 69/69 job sukses** pada `55d72775`.
-Tidak ada grup yang diulang karena pergantian hari WIB.
+`CI_RECEIPT.json` (dibuat `scripts/cp7_ci_receipt.py f1a1ae69`): **25/25 workflow, 69/69 job sukses** pada
+`f1a1ae6926ed563b960f476125c5e2273e750157`. Tidak ada grup yang diulang karena pergantian hari WIB.
 
-- `CP7 P21 Rehearsal` (run 38645635708) lulus pada percobaan ke-2. Percobaan pertama mati di langkah "Start disposable
-  database" sebelum satu pun pengecekan berjalan: port 54322 sedang terpakai, lalu registry image Supabase menolak
-  unduhan (`toomanyrequests: Data limit exceeded`) karena 25 workflow jalan bersamaan. Hanya job yang gagal diulang,
-  satu kali.
-- Kandidat sebelumnya `203c7c45` (24/25): `CP7 P08 Physical Fabric` job `attention284` gagal pada 4 dari 286 kasus
-  (run 38633926468) karena data uji lama membayar dari rekening kosong (penjaga D14-3). Data uji dibetulkan di
-  `55d72775` (modal owner lewat jurnal Native); penjaga dan oracle tidak diubah. Run itu disimpan.
+- `CP6 AV Rev2 Qualification` (run 38676811934) lulus pada percobaan ke-2. Pada percobaan pertama job "AT 16 and AU 15"
+  mati di langkah "Start disposable database" (`supabase start`) sebelum satu pun pengecekan berjalan. Hanya job yang
+  gagal diulang, satu kali.
+- Jalan menuju kandidat ini (semua log gagal tersimpan di run masing-masing; tidak ada oracle atau pengaman yang
+  dilonggarkan):
+  - `a3cb1beb`/`f2f5835c`: pembanding D14-8 versi pertama salah tulis `COLLATE` → 5 workflow gagal di awal; dibetulkan
+    `59fc7baf`.
+  - `59fc7baf` CP17 run 38666407687: 2 kasus SG-02 batal/betulkan gagal karena alat uji membaca WIP PO hanya dari jurnal
+    POSTED; dibetulkan ke aturan buku besar Native di `4daee0e1` (produk tidak diubah).
+  - `4daee0e1`/`a0cd5782`: langkah bukti D14-8 gagal karena pengguna CI bukan superuser; dibetulkan `ad64c4c9`.
+  - `ad64c4c9` F03 Full run 38668243786: `cp7_catalog_state.py` masih membaca bentuk entri lama; dibetulkan `b13394cc`.
+  - `b13394cc` AV run 38670698254: penolakan "database belum kosong" saat uji post-use; diulang seperti `change()` di
+    `e8ce4b89`.
+  - `e8ce4b89` Shell S0 run 38673762153: uji pembanding `f05-timeline` melewati batas 60 detik karena fungsi pendahulu
+    yang dibandingkan kuadratik (produk 0,3 detik); hanya proses pembanding diberi 180 detik di `f1a1ae69`.
 - Workflow yang dijalankan: Build UX, CodeQL (T3), Astra Timeline Reuse, Backup Kit Check, F03 Full, Note Correction,
   Offsite Backup, Owning Receipt Correction, P08 Physical Fabric, P12 Payroll, P13 Finance, P18 Fabric Rule, P18 Full
   Cycle, P19 Analysis Job Transport, P21 Rehearsal, PL Native Planning, Pre-freeze UI Regression, Shell S0, Supplier
@@ -111,4 +119,4 @@ Tidak ada grup yang diulang karena pergantian hari WIB.
   Probe, CP6 AV Rev2 Qualification.
 - Tidak dijalankan penulis pada kandidat ini (bukti terakhirnya di commit lama; auditor menentukan sendiri):
   workflow era CP3–CP5, `cp6-*-t1-probe` selain BE, CP6 T2 Combined Regression, CP6 Release Readiness (terikat cabang
-  `cp6/release-readiness` dan menolak cabang ini di `cp6_readiness_source.py`), CP6 Auditor Scenario.
+  `cp6/release-readiness`), CP6 Auditor Scenario.
