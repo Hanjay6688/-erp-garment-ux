@@ -119,13 +119,23 @@ def refuse_post_use(pg,admin):
             while control.execute('select 1 from pg_stat_activity where datname=%s and pid<>%s',('cp6_rollback',pid)).fetchone():
                 assert time.monotonic()<deadline,'AV_POST_USE_DRAIN_TIMEOUT'
                 time.sleep(.05)
+            observations=[]
             with conn.transaction(),conn.cursor() as cur:
                 verified(cur);before=dict(data=data(cur),platform=platform(cur))
-                try:
-                    with conn.transaction():cur.execute(prior.sql_body(build.ROLLBACK.read_text()),prepare=False)
-                except psycopg.Error as exc:assert 'AV_POST_USE_ROLLBACK_REFUSED' in str(exc),str(exc)
-                else:raise AssertionError('AV_USED_ROLLBACK_ADMITTED')
+                while True:
+                    try:
+                        with conn.transaction():cur.execute(prior.sql_body(build.ROLLBACK.read_text()),prepare=False)
+                    except psycopg.Error as exc:
+                        # Same fail-closed retry as change() and AU: only the pre-mutation drain refusal. A backend (an
+                        # autovacuum worker, or a test connection still exiting) can enter between the wait above and the
+                        # rollback's first block; that refusal rolled back the savepoint. First seen in run 38670698254.
+                        if exc.sqlstate=='P0001' and 'PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE' in str(exc) and time.monotonic()<deadline+10:
+                            observations.append(dict(sql_guard_refused=True,sessions=control.execute('select pid,backend_type,application_name,state from pg_stat_activity where datname=%s and pid<>%s order by pid',('cp6_rollback',pid)).fetchall()))
+                            time.sleep(.05);continue
+                        assert 'AV_POST_USE_ROLLBACK_REFUSED' in str(exc),str(exc)
+                    else:raise AssertionError('AV_USED_ROLLBACK_ADMITTED')
+                    break
                 verified(cur);assert dict(data=data(cur),platform=platform(cur))==before
             control.execute(sql.SQL('alter database {} with allow_connections true').format(sql.Identifier('cp6_rollback')))
         finally:control.execute(maintenance.UNLOCK)
-    return dict(status='PASS',committed_use='erp.brands one row',rollback_refused='AV_POST_USE_ROLLBACK_REFUSED',all_erp_data_unchanged=True,platform_unchanged=True)
+    return dict(status='PASS',committed_use='erp.brands one row',rollback_refused='AV_POST_USE_ROLLBACK_REFUSED',all_erp_data_unchanged=True,platform_unchanged=True,drain_observations=observations)
