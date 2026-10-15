@@ -107,7 +107,8 @@ G. Deklarasi CP17 sekarang 48 kasus (native 36, race 2, HTTP 4, browser 6), dibu
 | R-SG02 batal/betulkan (D14-10) | Dibangun: satu transaksi, riwayat asli tetap, pemakaian sesudahnya disebut dan menghalangi. Run pertama (38666407687, log disimpan) gagal 2 kasus karena alat uji membaca WIP PO hanya dari jurnal POSTED (jurnal asli yang dibalik ikut hilang, pembaliknya tetap terhitung: 120 bukan 100); dibetulkan ke aturan buku besar Native (POSTED + REVERSED), produk tidak diubah. Kasus batal kini juga membuktikan hutang supplier/vendor tidak tersentuh | `SG02_FABRIC_RETURN.md`, `return.sql`, `CuttingFabricReturnReversalPanel.tsx` |
 | R-RWK01 (D14-11) | Bagian rework yang selesai, dihitung dan terposting bisa dibayar walau kasus BS OPEN/PARTIAL; yang belum selesai ditahan; sekali saja. **PASS** | `RWK01_D14_11.md`, `CP17_RWK01_OPEN_CASE_FINISHED_PART_PAID_ONCE` |
 
-Kualifikasi kandidat `f1a1ae69` (sesudah D14-5 dan D14-8..D14-11): **25/25 workflow, 69/69 job** (`CI_RECEIPT.json`).
+Kualifikasi kandidat `66baa8e8` (sesudah D14-5, D14-8..D14-11 dan tampilan ringkas D14-12): **25/25 workflow, 69/69 job**,
+semuanya percobaan pertama (`CI_RECEIPT.json`). Kandidat sebelumnya `f1a1ae69` juga 25/25.
 CP17 di kandidat: 48/48 kasus PASS (native 36, race 2, HTTP 4, browser 6), termasuk `CP17_SG02_CANCEL_*`,
 `CP17_SG02_CORRECT_RETURN_ONE_TRANSACTION`, `CP17_RWK01_OPEN_CASE_FINISHED_PART_PAID_ONCE`,
 `CP17_FABLE012_EXPOSURE_GATE_REVOKE_FIRST`, browser D14-5 desktop/HP dan SG-02 betulkan desktop, serta langkah bukti

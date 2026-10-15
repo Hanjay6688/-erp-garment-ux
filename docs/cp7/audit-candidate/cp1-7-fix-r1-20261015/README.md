@@ -99,16 +99,19 @@ Perbaikan lain yang ditemukan saat mengerjakan putaran ini:
 
 ## Kualifikasi satu commit
 
-**Kualifikasi `66baa8e8` sedang berjalan** (25 workflow di-dispatch 15 Okt). Sampai `CI_RECEIPT.json` diperbarui, angka di
-bawah ini milik kandidat sebelumnya `f1a1ae69`.
+`CI_RECEIPT.json` (dibuat `scripts/cp7_ci_receipt.py 66baa8e8`): **25/25 workflow, 69/69 job sukses** pada
+`66baa8e8ddf601625bc831c7256f38eec883b496`, semuanya percobaan pertama GitHub. Tidak ada grup yang diulang karena
+pergantian hari WIB. CP17 (run 38706561263): 48/48 kasus, termasuk `CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP` dan
+`_MOBILE` dengan `sizes_side_by_side:true` (D14-12). Sesudah `f1a1ae69` hanya satu commit
+produk (`66baa8e8`, tampilan ringkas); tidak ada run gagal di antaranya. Tanda terima `f1a1ae69` tetap ada di riwayat
+git berkas ini (commit `9bbf562a`).
 
-`CI_RECEIPT.json` (dibuat `scripts/cp7_ci_receipt.py f1a1ae69`): **25/25 workflow, 69/69 job sukses** pada
-`f1a1ae6926ed563b960f476125c5e2273e750157`. Tidak ada grup yang diulang karena pergantian hari WIB.
+Riwayat kandidat sebelumnya `f1a1ae69` (25/25 workflow, 69/69 job), tetap berlaku sebagai jalan menuju kandidat ini:
 
 - `CP6 AV Rev2 Qualification` (run 38676811934) lulus pada percobaan ke-2. Pada percobaan pertama job "AT 16 and AU 15"
   mati di langkah "Start disposable database" (`supabase start`) sebelum satu pun pengecekan berjalan. Hanya job yang
   gagal diulang, satu kali.
-- Jalan menuju kandidat ini (semua log gagal tersimpan di run masing-masing; tidak ada oracle atau pengaman yang
+- Jalan menuju `f1a1ae69` (semua log gagal tersimpan di run masing-masing; tidak ada oracle atau pengaman yang
   dilonggarkan):
   - `a3cb1beb`/`f2f5835c`: pembanding D14-8 versi pertama salah tulis `COLLATE` → 5 workflow gagal di awal; dibetulkan
     `59fc7baf`.

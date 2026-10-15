@@ -23,7 +23,8 @@ pemeriksaan ulang sambungan sesudah semua perbaikan r1 (D14-2..D14-12).
 
 ## Kandidat
 
-Sementara: `66baa8e8ddf601625bc831c7256f38eec883b496` (kandidat uji ulang r1, `../cp1-7-fix-r1-20261015/`). Bila uji
+Sementara: `66baa8e8ddf601625bc831c7256f38eec883b496` (kandidat uji ulang r1, `../cp1-7-fix-r1-20261015/`, 25/25
+workflow dan 69/69 job pada percobaan pertama). Bila uji
 ulang r1 atau langkah di bawah mengubah kode, kandidat diganti dan kotak handoff diperbarui sebelum dikirim.
 
 ## Sebelum dikirim (urutan)
