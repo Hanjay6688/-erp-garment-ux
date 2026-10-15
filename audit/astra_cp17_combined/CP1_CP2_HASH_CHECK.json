@@ -1,0 +1,44 @@
+[
+  {
+    "file": "docs/evidence/cp1-cp2/cp1_cp1_fingerprint.sql",
+    "sha256": "943bf1180e39a898e38aea359a14f1a3459a1e7ad8dde7f35657ced672376509",
+    "bytes": 9721,
+    "matches": true
+  },
+  {
+    "file": "docs/evidence/cp1-cp2/cp1_checkpoint_1_fingerprint.json",
+    "sha256": "68f757df58deed4e6d8dcab904ac3e9b7be5822e364f082d56bc11762f119abc",
+    "bytes": 5696,
+    "matches": true
+  },
+  {
+    "file": "docs/evidence/cp1-cp2/cp1_checkpoint_1_revalidation_20260901.json",
+    "sha256": "a7fdf4384a7707a950cff552b4b6d7641be817f4303c79fc26c131d113d4bdbf",
+    "bytes": 6875,
+    "matches": true
+  },
+  {
+    "file": "docs/evidence/cp1-cp2/cp1_checkpoint_1_revalidation_20260901.md",
+    "sha256": "fe021a5812a9745c898557f006ecb8369f00157fe99c3a621bb0e4ace06f07d6",
+    "bytes": 6236,
+    "matches": true
+  },
+  {
+    "file": "docs/evidence/cp1-cp2/cp2_cp2_generate_catalog_restore.py",
+    "sha256": "0766f2fa10225db0e9733f7fa9b59fb55e3bef7d03af1665f569fc7c48f319f1",
+    "bytes": 15198,
+    "matches": true
+  },
+  {
+    "file": "docs/evidence/cp1-cp2/cp2_cp2_verify_local_restore.py",
+    "sha256": "795430b8e56dcffabff75fd2bc9237a8255ef10d24e6b812c468d9909e8c146d",
+    "bytes": 10018,
+    "matches": true
+  },
+  {
+    "file": "docs/evidence/cp1-cp2/cp2_cp2-free-local-restore.yml",
+    "sha256": "54ccce274f0b8358234938691fb50be24c580e38bf0742e45ae566ec37cfc243",
+    "bytes": 10219,
+    "matches": true
+  }
+]

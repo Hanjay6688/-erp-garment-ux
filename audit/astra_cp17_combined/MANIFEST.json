@@ -17,12 +17,12 @@
     ".github": "f4c869b5be99bb943aefe4e658a2908d9641061a",
     "package-lock.json": "ca9159d26989e0263b6b757f5f824bd9333d8cf6"
   },
-  "stage": "IN_PROGRESS",
+  "stage": "LOCKED",
   "production_go": false,
   "runtime_planned": {
     "suite": "CP17_FIXES",
     "candidate_checkout": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
-    "oracle_origin": "WRITER_PREDECLARED_REVIEW_PENDING",
+    "oracle_origin": "WRITER_PREDECLARED_REVIEWED_INDEPENDENTLY_EXECUTED",
     "fixture_origin": "WRITER",
     "required": {
       "native": [
@@ -127,5 +127,22 @@
       "oracle_origin": "WRITER_UNCHANGED",
       "purpose": "Eight GL/subledger boundaries across production sale return and payments"
     }
-  ]
+  ],
+  "audit_complete": true,
+  "feature_complete": false,
+  "writer_head_at_end": "6562833695f76007b079316d1bef6b1aa8206223",
+  "product_identity_after": {
+    "src": "78915706a09428b7e85c1e04ffcfb82f3b2fce50",
+    "supabase": "5d040436db384b4e574785376367b360a084acb7",
+    "supabase/release": "be1e91c172ffb5c05b694a3a54c69562700c6d5e",
+    "supabase/migrations": "8f6053bbd0bda80da18065418ad43371cdfd9461",
+    "supabase/dev": "88759f4fc51864a1ec9e224fcb4f236204b5c853",
+    "scripts": "1306bf8ec4f2f256c97764a195c4cceaf222eb08",
+    "scripts/cp7-src": "52a931ef574b3f34933960ba962f11d049a4ef43",
+    "tests": "18a0543319657bfa078e74a7684031395d0812d2",
+    "package-lock.json": "ca9159d26989e0263b6b757f5f824bd9333d8cf6",
+    ".github": "8693023651a604462aaa3fafcfda79afd4325146"
+  },
+  "github_difference": "Only auditor workflow additions; original candidate workflow files unchanged",
+  "product_worktree_diff": ""
 }

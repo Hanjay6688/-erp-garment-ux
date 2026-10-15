@@ -1,10 +1,9 @@
-# Astra combined audit — IN PROGRESS
+# Astra combined audit — LOCKED
 
-Candidate dfab13bf; writer qualification is input, not independent acceptance.
+Audit kandidat dfab13bf selesai dalam lingkup dan batas yang dinyatakan. Vonis TAHAN; feature_complete=false, production_go=false.
 
-- Candidate-to-writer head difference: docs only.
-- supabase/ unchanged from 0b7049d9.
-- Rules SHA256 matches handoff.
-- Independent CP17 execution scheduled with all 61 writer case IDs preserved.
-- Source review, independent oracles, 20 chains, and 48 menu dispositions pending.
-- No other auditor current-round results read.
+- Semua 9 run / 13 job independen terminal, termasuk 4 job pertama yang gagal sebelum kasus akibat arsip kedaluwarsa. Tepat satu retry G01/T2 dicatat terpisah.
+- 61 kasus CP17, 2 siklus P18, 3 oracle Native Astra, 4 observasi DOM, baseline G01, dan regresi T2 dibaca per kasus.
+- Semua 20 sambungan dan 48 menu mempunyai disposisi; keterbatasan browser/Enteng tetap dinyatakan.
+- Laporan final, uji ulang temuan lama, receipt, kasus, hash dan arsip log tersedia di folder ini.
+- Tidak membaca hasil auditor lain putaran ini sebelum lock; kode produk dan cabang writer tidak diubah.

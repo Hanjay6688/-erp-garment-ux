@@ -1,0 +1,635 @@
+{
+  "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "auditor": "Astra",
+  "scope": "CP1-CP7 combined final integration",
+  "all_own_runs_terminal": true,
+  "run_count": 9,
+  "job_count": 13,
+  "runs": [
+    {
+      "id": 38787151612,
+      "name": "AUDIT/combined-20261016/Astra/dfab13bf/ui-identity/1",
+      "head_sha": "c3c311439a1c0591fd8337eb0eea6cabd347ebd9",
+      "path": ".github/workflows/audit-astra-combined-ui-identity.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-15T18:37:25Z",
+      "updated_at": "2026-10-15T18:38:29Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38787151612",
+      "artifacts": [
+        {
+          "id": 11997838917,
+          "name": "audit-astra-combined-ui-identity",
+          "size_in_bytes": 3466,
+          "digest": "sha256:28dcb12827b5cdd91f15bfd106f77a327cfeaceabdfc440723d7fd516d47ecf1",
+          "expires_at": "2027-01-13T18:37:25Z",
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38787151612/artifacts/11997838917"
+        }
+      ],
+      "product_checkout": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "jobs": [
+        {
+          "id": 116601978427,
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38787151612/job/116601978427",
+          "conclusion": "success",
+          "log_sha256": "e63c99a98cf7821edb1697ff689601c83e1eec1007ce0d91d47914e3022d203c",
+          "log_bytes": 35913,
+          "log_archive_path": "116601978427.log",
+          "unique_explicit_case_records": 1,
+          "case_status_counts": {
+            "COUNTEREXAMPLE": 1
+          },
+          "case_groups": {
+            "ASTRA_UI_IDENTITY": {
+              "COUNTEREXAMPLE": 1
+            }
+          },
+          "classification": "See per-case status; workflow success is not case acceptance"
+        }
+      ],
+      "evidence_origin": "INDEPENDENT_ORACLE_WITH_WRITER_FIXTURE_OR_TRANSPORT",
+      "runtime_scope": "See workflow and raw final summary"
+    },
+    {
+      "id": 38786981837,
+      "name": "AUDIT/combined-20261016/Astra/dfab13bf/ui/1",
+      "head_sha": "75389e6ac86670ada8553200a58c2d05ddf6ca0a",
+      "path": ".github/workflows/audit-astra-combined-ui.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-15T18:36:11Z",
+      "updated_at": "2026-10-15T18:37:03Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786981837",
+      "artifacts": [
+        {
+          "id": 11998412347,
+          "name": "audit-astra-combined-ui",
+          "size_in_bytes": 4281,
+          "digest": "sha256:f128ab41524be54ec084ab8bf3ab034739878fb3526eb9b87f37e3610d7f8ef1",
+          "expires_at": "2027-01-13T18:36:11Z",
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786981837/artifacts/11998412347"
+        }
+      ],
+      "product_checkout": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "jobs": [
+        {
+          "id": 116601389798,
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786981837/job/116601389798",
+          "conclusion": "success",
+          "log_sha256": "d7158f3651fa8e8fefc822cc3145cb1bdbbab6d30a491d1ab9e2218e32fe8ce4",
+          "log_bytes": 35522,
+          "log_archive_path": "116601389798.log",
+          "unique_explicit_case_records": 3,
+          "case_status_counts": {
+            "COUNTEREXAMPLE": 2,
+            "PASS": 1
+          },
+          "case_groups": {
+            "ASTRA_UI": {
+              "COUNTEREXAMPLE": 2,
+              "PASS": 1
+            }
+          },
+          "classification": "See per-case status; workflow success is not case acceptance"
+        }
+      ],
+      "evidence_origin": "INDEPENDENT_ORACLE_WITH_WRITER_FIXTURE_OR_TRANSPORT",
+      "runtime_scope": "See workflow and raw final summary"
+    },
+    {
+      "id": 38786819594,
+      "name": "AUDIT/combined-20261016/Astra/dfab13bf/g01/2",
+      "head_sha": "416865abff74817e2099d20d89dc7081960ccba0",
+      "path": ".github/workflows/audit-astra-combined-g01.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-15T18:35:02Z",
+      "updated_at": "2026-10-15T18:37:38Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786819594",
+      "artifacts": [
+        {
+          "id": 11997388838,
+          "name": "audit-astra-combined-cp6-g01-baseline",
+          "size_in_bytes": 285991,
+          "digest": "sha256:6dd0523a8d0df881ce6e8f972e3df2f8ac7a63022fcfb1327b920103e63a36f1",
+          "expires_at": "2027-01-13T18:35:02Z",
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786819594/artifacts/11997388838"
+        }
+      ],
+      "product_checkout": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "jobs": [
+        {
+          "id": 116600831191,
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786819594/job/116600831191",
+          "conclusion": "success",
+          "log_sha256": "9602080ca337082417fc160c60523cc366ead80eb19de39ad90fa15eae3b0e82",
+          "log_bytes": 668670,
+          "log_archive_path": "116600831191.log",
+          "unique_explicit_case_records": 0,
+          "case_status_counts": {},
+          "case_groups": {},
+          "classification": "See per-case status; workflow success is not case acceptance"
+        }
+      ],
+      "evidence_origin": "INDEPENDENT_EXECUTION_WRITER_ORACLE_REVIEWED",
+      "runtime_scope": "See workflow and raw final summary"
+    },
+    {
+      "id": 38786819624,
+      "name": "AUDIT/combined-20261016/Astra/dfab13bf/t2/2",
+      "head_sha": "416865abff74817e2099d20d89dc7081960ccba0",
+      "path": ".github/workflows/audit-astra-combined-t2.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-15T18:35:02Z",
+      "updated_at": "2026-10-15T18:52:11Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786819624",
+      "artifacts": [
+        {
+          "id": 11999925895,
+          "name": "audit-astra-combined-cp6-t2-regression-regression",
+          "size_in_bytes": 2517831,
+          "digest": "sha256:ac6d21788488641ed5831dc1a419b48a1d2fc09467fed76776f3eb51d609d158",
+          "expires_at": "2027-01-13T18:35:02Z",
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786819624/artifacts/11999925895"
+        },
+        {
+          "id": 11997994444,
+          "name": "audit-astra-combined-cp6-t2-regression-ar",
+          "size_in_bytes": 2414268,
+          "digest": "sha256:6b266f7b556954b2c80cda42e6c867b913c278b17164b5403c2c45bee54dd92f",
+          "expires_at": "2027-01-13T18:35:02Z",
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786819624/artifacts/11997994444"
+        },
+        {
+          "id": 11997804597,
+          "name": "audit-astra-combined-cp6-t2-regression-temporal",
+          "size_in_bytes": 2387370,
+          "digest": "sha256:69a2def17754f801f8a0e50a73dea6f4a7b5adfdc7afb253d46272617ad63f01",
+          "expires_at": "2027-01-13T18:35:02Z",
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786819624/artifacts/11997804597"
+        }
+      ],
+      "product_checkout": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "jobs": [
+        {
+          "id": 116600831961,
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786819624/job/116600831961",
+          "conclusion": "success",
+          "log_sha256": "345c7101ce14ee9a8172e708cf05b9657b896939332e7c1b0ce0fae3c888830a",
+          "log_bytes": 647221,
+          "log_archive_path": "116600831961.log",
+          "unique_explicit_case_records": 422,
+          "case_status_counts": {
+            "PASS": 338,
+            "CONTROL_PASS": 39,
+            "DATE_POLICY_REVIEW_REQUIRED": 12,
+            "MATCH": 8,
+            "COUNTEREXAMPLE": 20,
+            "INCOMPLETE": 5
+          },
+          "case_groups": {
+            "BUSINESS": {
+              "PASS": 179,
+              "CONTROL_PASS": 39,
+              "DATE_POLICY_REVIEW_REQUIRED": 12
+            },
+            "IMPORTS": {
+              "PASS": 31
+            },
+            "VALUES": {
+              "PASS": 65
+            },
+            "NEW_CASES": {
+              "PASS": 25,
+              "COUNTEREXAMPLE": 8,
+              "INCOMPLETE": 1
+            },
+            "T2_APPROVED_ORACLE": {
+              "MATCH": 8
+            },
+            "T2_CALENDAR_POLICY": {
+              "COUNTEREXAMPLE": 12
+            },
+            "AO_TRIAL": {
+              "PASS": 8,
+              "INCOMPLETE": 4
+            },
+            "APPROVED_ORACLE_B": {
+              "PASS": 5
+            },
+            "T2_C0_ORACLE": {
+              "PASS": 25
+            }
+          },
+          "classification": "See per-case status; workflow success is not case acceptance"
+        },
+        {
+          "id": 116600832472,
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786819624/job/116600832472",
+          "conclusion": "success",
+          "log_sha256": "9eceb8ca72b8751304fb4f709924ec6b14412996dd1d238453ab971966dde295",
+          "log_bytes": 350593,
+          "log_archive_path": "116600832472.log",
+          "unique_explicit_case_records": 175,
+          "case_status_counts": {
+            "PASS": 174,
+            "INCOMPLETE": 1
+          },
+          "case_groups": {
+            "AR_SEQUENTIAL": {
+              "PASS": 145,
+              "INCOMPLETE": 1
+            },
+            "AR_SUPERSEDING": {
+              "PASS": 1
+            },
+            "AR_CONCURRENCY": {
+              "PASS": 28
+            }
+          },
+          "classification": "See per-case status; workflow success is not case acceptance"
+        },
+        {
+          "id": 116600832667,
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786819624/job/116600832667",
+          "conclusion": "success",
+          "log_sha256": "02e16c0f926c3d541821631062b5c832fcce0ac6e8aafa123072cc1c75b1e384",
+          "log_bytes": 239053,
+          "log_archive_path": "116600832667.log",
+          "unique_explicit_case_records": 41,
+          "case_status_counts": {
+            "PASS": 41
+          },
+          "case_groups": {
+            "AT_CASES": {
+              "PASS": 16
+            },
+            "AT_CONCURRENCY": {
+              "PASS": 4
+            },
+            "AU_CASES": {
+              "PASS": 15
+            },
+            "AU_CONCURRENCY": {
+              "PASS": 6
+            }
+          },
+          "classification": "See per-case status; workflow success is not case acceptance"
+        }
+      ],
+      "evidence_origin": "INDEPENDENT_EXECUTION_WRITER_ORACLE_REVIEWED",
+      "runtime_scope": "CP6 accepted combined Native stack, not entire CP7 extension"
+    },
+    {
+      "id": 38786437050,
+      "name": "AUDIT/combined-20261016/Astra/dfab13bf/own-oracles/1",
+      "head_sha": "525c49e28bace10d6f284e85d5355080a56c1667",
+      "path": ".github/workflows/audit-astra-combined-own.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-15T18:32:13Z",
+      "updated_at": "2026-10-15T18:37:32Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786437050",
+      "artifacts": [
+        {
+          "id": 11996999497,
+          "name": "audit-astra-combined-own-oracles",
+          "size_in_bytes": 1686273,
+          "digest": "sha256:4e2b2e055e1fd5eda7960d5a56c990183404242573f63fb6b111cf69fa2b0160",
+          "expires_at": "2027-01-13T18:32:13Z",
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786437050/artifacts/11996999497"
+        }
+      ],
+      "product_checkout": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "jobs": [
+        {
+          "id": 116599507708,
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786437050/job/116599507708",
+          "conclusion": "success",
+          "log_sha256": "903f8c3db4fae7f9ff10373f5231d667beda85a60460c08dc01f56c8ade85c22",
+          "log_bytes": 269817,
+          "log_archive_path": "116599507708.log",
+          "unique_explicit_case_records": 3,
+          "case_status_counts": {
+            "PASS": 3
+          },
+          "case_groups": {
+            "CP7_P18_FULL_CYCLE": {
+              "PASS": 3
+            }
+          },
+          "classification": "See per-case status; workflow success is not case acceptance"
+        }
+      ],
+      "evidence_origin": "INDEPENDENT_ORACLE_WITH_WRITER_FIXTURE_OR_TRANSPORT",
+      "runtime_scope": "See workflow and raw final summary"
+    },
+    {
+      "id": 38786023713,
+      "name": "AUDIT/combined-20261016/Astra/dfab13bf/p18/1",
+      "head_sha": "48a597ee8859cd69ac19d9c422e0a14e109287c0",
+      "path": ".github/workflows/audit-astra-combined-p18.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-15T18:29:18Z",
+      "updated_at": "2026-10-15T18:34:32Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786023713",
+      "artifacts": [
+        {
+          "id": 11997618311,
+          "name": "audit-astra-combined-cp7-p18-full-cycle",
+          "size_in_bytes": 1674775,
+          "digest": "sha256:8e0a8369028acaf66b70991cc52d95aae14c64f20aaa803adb4650024acefd1a",
+          "expires_at": "2027-01-13T18:29:18Z",
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786023713/artifacts/11997618311"
+        }
+      ],
+      "product_checkout": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "jobs": [
+        {
+          "id": 116598113566,
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786023713/job/116598113566",
+          "conclusion": "success",
+          "log_sha256": "26d4ccfa4919eef467d9526a388281c4116eac529020df1179b4c740c866ab99",
+          "log_bytes": 276929,
+          "log_archive_path": "116598113566.log",
+          "unique_explicit_case_records": 2,
+          "case_status_counts": {
+            "PASS": 2
+          },
+          "case_groups": {
+            "CP7_P18_FULL_CYCLE": {
+              "PASS": 2
+            }
+          },
+          "classification": "See per-case status; workflow success is not case acceptance"
+        }
+      ],
+      "evidence_origin": "INDEPENDENT_EXECUTION_WRITER_ORACLE_REVIEWED",
+      "runtime_scope": "See workflow and raw final summary"
+    },
+    {
+      "id": 38786023729,
+      "name": "AUDIT/combined-20261016/Astra/dfab13bf/g01/1",
+      "head_sha": "48a597ee8859cd69ac19d9c422e0a14e109287c0",
+      "path": ".github/workflows/audit-astra-combined-g01.yml",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-15T18:29:18Z",
+      "updated_at": "2026-10-15T18:32:03Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786023729",
+      "artifacts": [],
+      "product_checkout": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "jobs": [
+        {
+          "id": 116598114330,
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786023729/job/116598114330",
+          "conclusion": "failure",
+          "log_sha256": "fb5e5e799bcba58cc2519dd8651c6944fd6574ab064aca262c77793d76fd3e30",
+          "log_bytes": 82226,
+          "log_archive_path": "116598114330.log",
+          "unique_explicit_case_records": 0,
+          "case_status_counts": {},
+          "case_groups": {},
+          "classification": "PRE_CASE_INFRA_FAILURE_HTTP410"
+        }
+      ],
+      "evidence_origin": "INDEPENDENT_EXECUTION_WRITER_ORACLE_REVIEWED",
+      "runtime_scope": "See workflow and raw final summary"
+    },
+    {
+      "id": 38786023817,
+      "name": "AUDIT/combined-20261016/Astra/dfab13bf/t2/1",
+      "head_sha": "48a597ee8859cd69ac19d9c422e0a14e109287c0",
+      "path": ".github/workflows/audit-astra-combined-t2.yml",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-15T18:29:18Z",
+      "updated_at": "2026-10-15T18:34:08Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786023817",
+      "artifacts": [],
+      "product_checkout": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "jobs": [
+        {
+          "id": 116598113598,
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786023817/job/116598113598",
+          "conclusion": "failure",
+          "log_sha256": "4915a1b8ab22c02bcc9735033218909753fe8fa747629100c456fdf22a528739",
+          "log_bytes": 176792,
+          "log_archive_path": "116598113598.log",
+          "unique_explicit_case_records": 0,
+          "case_status_counts": {},
+          "case_groups": {},
+          "classification": "PRE_CASE_INFRA_FAILURE_HTTP410"
+        },
+        {
+          "id": 116598114180,
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786023817/job/116598114180",
+          "conclusion": "failure",
+          "log_sha256": "9fee4f95b778e81301eef4c6c4074acd8bb74d269943a6caaccdda2edf250338",
+          "log_bytes": 175617,
+          "log_archive_path": "116598114180.log",
+          "unique_explicit_case_records": 0,
+          "case_status_counts": {},
+          "case_groups": {},
+          "classification": "PRE_CASE_INFRA_FAILURE_HTTP410"
+        },
+        {
+          "id": 116598114192,
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786023817/job/116598114192",
+          "conclusion": "failure",
+          "log_sha256": "02f5486a7e857ce116523feaa799d9b4b4afb2b79a039596135fc08b8b75fc30",
+          "log_bytes": 176244,
+          "log_archive_path": "116598114192.log",
+          "unique_explicit_case_records": 0,
+          "case_status_counts": {},
+          "case_groups": {},
+          "classification": "PRE_CASE_INFRA_FAILURE_HTTP410"
+        }
+      ],
+      "evidence_origin": "INDEPENDENT_EXECUTION_WRITER_ORACLE_REVIEWED",
+      "runtime_scope": "CP6 accepted combined Native stack, not entire CP7 extension"
+    },
+    {
+      "id": 38784698219,
+      "name": "AUDIT/combined-20261016/Astra/dfab13bf/cp17/1",
+      "head_sha": "1e8b3df248ed4d1fa06abf381b44c03f96a94117",
+      "path": ".github/workflows/audit-astra-combined-cp17.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-15T18:19:45Z",
+      "updated_at": "2026-10-15T18:28:48Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38784698219",
+      "artifacts": [
+        {
+          "id": 11998590585,
+          "name": "audit-combined-astra-dfab13bf-cp17",
+          "size_in_bytes": 10473093,
+          "digest": "sha256:c6b2480d0c419a2f5355965854bf57f7a76a87cafb4de10baee138da87f22261",
+          "expires_at": "2027-01-13T18:19:45Z",
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38784698219/artifacts/11998590585"
+        }
+      ],
+      "product_checkout": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "jobs": [
+        {
+          "id": 116593582678,
+          "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38784698219/job/116593582678",
+          "conclusion": "success",
+          "log_sha256": "618964e79862d46c9a579f2ef250f97226b230ed5f649a4388c1f9cb2d40934f",
+          "log_bytes": 312802,
+          "log_archive_path": "116593582678.log",
+          "unique_explicit_case_records": 62,
+          "case_status_counts": {
+            "PASS": 62
+          },
+          "case_groups": {
+            "CP7_CP17_FIXES": {
+              "PASS": 41
+            },
+            "AUDITOR_RACES_CP7_CP17_FIXES": {
+              "PASS": 4
+            },
+            "AUDITOR_HTTP_CP7_CP17_FIXES": {
+              "PASS": 6
+            },
+            "AUDITOR_BROWSER_CP7_CP17_FIXES_BROWSER": {
+              "PASS": 10
+            },
+            "": {
+              "PASS": 1
+            }
+          },
+          "classification": "See per-case status; workflow success is not case acceptance"
+        }
+      ],
+      "evidence_origin": "INDEPENDENT_EXECUTION_WRITER_ORACLE_REVIEWED",
+      "runtime_scope": "See workflow and raw final summary"
+    }
+  ],
+  "case_record_counting": "Unique (job_id, group, case) explicit JSON records, latest repeated record retained; not a universal assertion total. Raw logs preserved. MATCH and CONTROL_PASS are not PASS.",
+  "own_explicit_case_records": 709,
+  "own_explicit_status_counts": {
+    "PASS": 621,
+    "COUNTEREXAMPLE": 23,
+    "CONTROL_PASS": 39,
+    "DATE_POLICY_REVIEW_REQUIRED": 12,
+    "MATCH": 8,
+    "INCOMPLETE": 6
+  },
+  "cp17_required": {
+    "native": 41,
+    "race": 4,
+    "real_http": 6,
+    "real_chromium": 10,
+    "all_61_pass": true,
+    "stable_comparator_extra_pass": 1,
+    "drain_controls_separate": 6
+  },
+  "p18": {
+    "case_count": 2,
+    "pass": 2,
+    "gl_subledger_boundaries": "8 full-cycle + 2 late-price",
+    "starting_capital": 1200,
+    "cash_figures_are_deltas": true
+  },
+  "astra_native": {
+    "pass": 3,
+    "physical_conservation": true,
+    "hpp_160_for_10_units": true,
+    "remaining_six_prevents_finish_atomically": true,
+    "workspace_eligible_is_incomplete": true,
+    "finished_can_have_estimated_hpp": true
+  },
+  "astra_dom": {
+    "pass": 1,
+    "counterexample": 3,
+    "real_browser": false,
+    "counterexamples": [
+      "ASTRA_UI_PENDING_SERIES_SAVE",
+      "ASTRA_UI_FINANCE_SAMPLE_IDENTIFICATION",
+      "ASTRA_UI_SERIES_MUST_PRESERVE_BRAND"
+    ]
+  },
+  "g01": {
+    "disposition": "QUALIFIED",
+    "matching_categories": 15,
+    "platform_ledger_entries": 70,
+    "platform_ledger_hash_matches": false,
+    "reason": "Known platform bootstrap metadata difference; not fresh hosted access"
+  },
+  "t2_disposition": {
+    "original_326": {
+      "PASS": 275,
+      "CONTROL_PASS": 39,
+      "DATE_POLICY_REVIEW_REQUIRED": 12
+    },
+    "as_34": {
+      "PASS": 25,
+      "COUNTEREXAMPLE": 8,
+      "INCOMPLETE": 1
+    },
+    "ao_12": {
+      "PASS": 8,
+      "INCOMPLETE": 4
+    },
+    "original_ar_174": {
+      "PASS": 173,
+      "INCOMPLETE": 1
+    },
+    "ar_superseding_free_policy_refusal": {
+      "PASS": 1
+    },
+    "temporal_and_master": {
+      "PASS": 41
+    },
+    "approved_oracle_evidence": "8 MATCH for AS dates, 5 PASS for approved adjustment/AO, 25 separate C0 PASS. Twelve calendar diagnostic COUNTEREXAMPLE records are separate from twelve original HOLD records; approved calendar comparison MATCH. Original statuses not rewritten.",
+    "ar_incomplete_reason": "ACCESSORY_CONNECTED_ZERO meets BC_FREE_REQUIRES_POLICY (ERP-DEC02); explicit superseding refusal case passes. No rerun to erase original result.",
+    "primary_unchanged": true,
+    "clone_remaining": 0,
+    "scope": "Retained CP3-CP6 suites on accepted CP6 combined Native stack, not certification of every CP7 extension"
+  },
+  "reused_writer": {
+    "evidence_origin": "REUSED_WRITER_EVIDENCE",
+    "runs": 80,
+    "latest_attempt_jobs": 131,
+    "run_success": 79,
+    "run_cancelled": 1,
+    "job_success": 127,
+    "job_cancelled": 4,
+    "explicit_unique_records": 4730,
+    "status_counts": {
+      "PASS": 4613,
+      "CONTROL_PASS": 58,
+      "NOT_APPLICABLE": 18,
+      "NO_ROUTE": 16,
+      "DATE_POLICY_REVIEW_REQUIRED": 12,
+      "COUNTEREXAMPLE": 11,
+      "INCOMPLETE": 2
+    },
+    "first_offsite_failure_job": 116435556014,
+    "first_offsite_failure": "Port54324 already in use before cases; who held it not proved",
+    "cancelled_codeql_run": 38738714861,
+    "replacement_codeql_run": 38738889358
+  },
+  "first_failures_preserved": {
+    "G01": 38786023729,
+    "T2": 38786023817,
+    "retry_limit": "Exactly one pre-case retry per failed suite, documented in INFRA_RETRY.md; no product edits"
+  },
+  "other_current_round_auditor_exposure": [],
+  "report_links": [
+    "FINAL_ASTRA.md",
+    "RETEST_ASTRA_dfab13bf.md",
+    "CHAIN_REVIEW.md",
+    "SCREEN_REVIEW.md",
+    "FINDINGS.json"
+  ],
+  "case_details": "INDEPENDENT_CASE_DETAILS.json",
+  "runtime_summaries": "INDEPENDENT_RUNTIME_SUMMARIES.json",
+  "raw_log_archive": "EVIDENCE_LOGS.tar.xz",
+  "audit_complete": true,
+  "feature_complete": false,
+  "production_go": false
+}

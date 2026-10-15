@@ -1,0 +1,181 @@
+{
+  "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "verdict": "TAHAN",
+  "feature_complete": false,
+  "production_go": false,
+  "findings": [
+    {
+      "id": "ASTRA-C17-01",
+      "severity": "S1",
+      "status": "BARU",
+      "title": "Seri penjualan mencampur merek karena kunci hanya commercial_sku",
+      "evidence_origin": [
+        "INDEPENDENT_DOM_PROBE",
+        "INDEPENDENT_SOURCE_REVIEW"
+      ],
+      "run_ids": [
+        38787151612
+      ],
+      "case_ids": [
+        "ASTRA_UI_SERIES_MUST_PRESERVE_BRAND"
+      ],
+      "sources": [
+        "src/SalesDraftPanel.tsx",
+        "scripts/cp7-src/sales/form.sql"
+      ],
+      "required": "Wajib perbaikan sebelum penerimaan akhir"
+    },
+    {
+      "id": "ASTRA-C17-02",
+      "severity": "S2",
+      "status": "BARU",
+      "title": "Save tidak menunggu seri ukuran selesai dimuat",
+      "evidence_origin": [
+        "INDEPENDENT_DOM_PROBE",
+        "INDEPENDENT_SOURCE_REVIEW"
+      ],
+      "run_ids": [
+        38786981837
+      ],
+      "case_ids": [
+        "ASTRA_UI_PENDING_SERIES_SAVE"
+      ],
+      "sources": [
+        "src/SalesDraftPanel.tsx",
+        "src/ConnectedSalesPage.tsx"
+      ],
+      "required": "Wajib perbaikan sebelum penerimaan akhir"
+    },
+    {
+      "id": "ASTRA-C17-03",
+      "severity": "S1",
+      "status": "DIKONFIRMASI",
+      "title": "Mode Enteng membuka 23 menu contoh dan label simulasi tidak selalu ada",
+      "evidence_origin": [
+        "INDEPENDENT_SOURCE_REVIEW",
+        "INDEPENDENT_DOM_PROBE"
+      ],
+      "run_ids": [
+        38786981837
+      ],
+      "case_ids": [
+        "ASTRA_UI_FINANCE_SAMPLE_IDENTIFICATION"
+      ],
+      "sources": [
+        "src/App.tsx",
+        "src/FinancePages.tsx",
+        "src/ConnectedFgHandoffBoundary.tsx"
+      ],
+      "required": "Gerbang sebelum pemasangan dan penggunaan operasional Enteng"
+    },
+    {
+      "id": "ASTRA-C17-04",
+      "severity": "S1",
+      "status": "DIKONFIRMASI",
+      "title": "Master harian masih state lokal, bukan alur server lengkap",
+      "evidence_origin": [
+        "INDEPENDENT_SOURCE_REVIEW"
+      ],
+      "run_ids": [],
+      "case_ids": [],
+      "sources": [
+        "src/App.tsx",
+        "src/MasterDataPages.tsx",
+        "src/MaterialMasterPages.tsx"
+      ],
+      "required": "Tetapkan dan implementasikan cakupan operasi master sebelum penggunaan penuh"
+    },
+    {
+      "id": "ASTRA-C17-05",
+      "severity": "S2",
+      "status": "BARU",
+      "title": "Label final dan preflight selesai PO tidak mengikuti seluruh keadaan server",
+      "evidence_origin": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW"
+      ],
+      "run_ids": [
+        38786437050
+      ],
+      "case_ids": [
+        "ASTRA_G1_G2_TEN_PIECES_CONSERVED",
+        "ASTRA_G2_UNSEWN_SIX_MUST_NOT_FINISH",
+        "ASTRA_G2_SEWN_UNSENT_SIX_MUST_NOT_FINISH"
+      ],
+      "sources": [
+        "src/PoFinishPanel.tsx",
+        "scripts/cp7-src/cutting-correction/finish.sql"
+      ],
+      "required": "Perbaiki UI; Native conservation PASS, jangan melemahkan guard"
+    },
+    {
+      "id": "ASTRA-C17-06",
+      "severity": "S2",
+      "status": "BARU",
+      "title": "Workflow G01/T2 tetap bergantung arsip10392910720 kedaluwarsa",
+      "evidence_origin": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW"
+      ],
+      "run_ids": [
+        38786023729,
+        38786023817,
+        38786819594,
+        38786819624
+      ],
+      "case_ids": [],
+      "sources": [
+        ".github/workflows/cp6-g01-baseline.yml",
+        ".github/workflows/cp6-t2-regression.yml"
+      ],
+      "required": "Perbaiki entry point; first failure dipertahankan; satu retry sebelum kasus"
+    },
+    {
+      "id": "ASTRA-C17-07",
+      "severity": "S2",
+      "status": "CAKUPAN_TERBUKA",
+      "title": "Bukti seluruh rantai melalui aplikasi dan mode Enteng belum lengkap",
+      "evidence_origin": [
+        "INDEPENDENT_SOURCE_REVIEW",
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_WRITER_EVIDENCE"
+      ],
+      "run_ids": [
+        38784698219,
+        38786023713,
+        38786437050
+      ],
+      "case_ids": [],
+      "sources": [
+        "audit/astra_cp17_combined/CHAIN_REVIEW.md",
+        "audit/astra_cp17_combined/SCREEN_REVIEW.md"
+      ],
+      "required": "Lengkapi bukti aplikasi sebelum klaim penerimaan penuh"
+    }
+  ],
+  "deferred_owner_decisions": [
+    {
+      "item": "CP2 restore original engine + storage + definitions/owner/ACL",
+      "status": "OPEN_CP7C_HOLD"
+    },
+    {
+      "item": "FABLE-012 revoke82SQLwriters",
+      "status": "OPEN_CP7C_GATE_D14_9"
+    },
+    {
+      "item": "A2 two original failures root cause",
+      "status": "OPEN_NONBLOCKER_D13_10"
+    },
+    {
+      "item": "AZ first failure root cause",
+      "status": "OPEN_MITIGATION_VERIFIED"
+    }
+  ],
+  "refuted_hypotheses": [
+    {
+      "item": "G2 permits stock disappearance when six cut pieces remain",
+      "result": "REFUTED: native guard refuses atomically, two independent controls PASS"
+    }
+  ],
+  "current_round_other_auditor_exposure": []
+}
