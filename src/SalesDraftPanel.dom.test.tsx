@@ -10,7 +10,11 @@ vi.mock('./auth/AuthProvider',()=>({useAuth:()=>recoveryIdentity}))
 vi.mock('./lib/supabase',()=>({getUatSupabaseClient:()=>client}))
 const id='11111111-1111-4111-8111-111111111111',product='22222222-2222-4222-8222-222222222222',other='33333333-3333-4333-8333-333333333333',at='2026-09-29T03:00:03.123Z'
 const stock={product_id:product,product_sku:'PHYSICAL-1',product_name:'Celana',commercial_sku:'SKU-HIST',size_code:'32',brand_name:'Vivo',location_id:id,location_name:'Gudang FG',available_qty:'30'}
-const option=(q:Record<string,unknown>)=>({contract_version:'cp7.sales-form-options.v1',kind:q.kind,physical_at:q.physical_at,location_id:q.location_id??null,availability_basis:'CURRENT_AVAILABLE_NOT_HISTORICAL_STOCK',rows:q.kind==='CUSTOMER'?[{id,code:'C01',name:'Toko A'}]:[stock],total:'1',offset:0,limit:25,next_offset:null})
+// Owner D14-5 series fixtures: three sizes, one size, five sizes, plus a longer SKU that only contains SKU-3 as text.
+const sized=(series:string,sizes:string[],n:number)=>sizes.map((size,i)=>({...stock,product_id:`${n}${i}${n}${i}${n}${i}${n}${i}-1111-4111-8111-111111111111`,product_sku:`${series}-${size}`,commercial_sku:series,size_code:size,available_qty:String(10+i)}))
+const catalog=[stock,...sized('SKU-3',['31','32','33'],5),...sized('SKU-1',['27'],6),...sized('SKU-5',['30','31','32','33','34'],7),...sized('SKU-30',['40'],8)]
+const stockRows=(q:Record<string,unknown>)=>q.q?catalog.filter(r=>r.commercial_sku.toLowerCase().includes(String(q.q).toLowerCase())):[stock]
+const option=(q:Record<string,unknown>)=>{const rows=q.kind==='CUSTOMER'?[{id,code:'C01',name:'Toko A'}]:stockRows(q);return {contract_version:'cp7.sales-form-options.v1',kind:q.kind,physical_at:q.physical_at,location_id:q.location_id??null,availability_basis:'CURRENT_AVAILABLE_NOT_HISTORICAL_STOCK',rows,total:String(rows.length),offset:q.offset??0,limit:q.limit??25,next_offset:null}}
 function detail():NonNullable<SalesRead['detail']>{return {id,number:'INV-1',customer_id:id,customer_name:'Toko A',location_id:id,location_name:'Gudang FG',physical_at:at,due_date:'2026-10-29',status:'DRAFT',row_version:'9007199254740993',notes:'Jangan hilangkan catatan',payment_terms:'Transfer setelah review',line_count:'2',qty_pcs:'15',reserved_qty:'15',returned_qty:'0',review_token:'a'.repeat(32),items:[{id:product,product_id:product,product_sku:'PHYSICAL-1',commercial_sku:'SKU-HIST',product_name:'Celana',size_code:'32',brand_name:'Vivo',qty_pcs:'13',notes:'Baris pertama',financial:{unit_price:'20.00',discount:'0.00',line_total:'260.00'}},{id:other,product_id:other,product_sku:'PHYSICAL-2',commercial_sku:'SKU-HIST',product_name:'Celana',size_code:'33',brand_name:'Vivo',qty_pcs:'2',notes:'Baris kedua',financial:{unit_price:'10.01',discount:'0.02',line_total:'20.00'}}]}}
 let root:Root,container:HTMLDivElement;const saved=vi.fn()
 beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});client.rpc.mockReset();saved.mockReset();container=document.createElement('div');document.body.append(container);root=createRoot(container);client.rpc.mockImplementation(async(_n,a)=>({data:option(a.p_query),error:null}))})
@@ -52,6 +56,35 @@ describe('P11 complete draft form',()=>{
   await fill('Sisa potong seri SKU-HIST','1');await click(button('Bagi rata ke 3 ukuran seri SKU-HIST'))
   expect(series.querySelector('[role="alert"]')!.textContent).toBe('1 lusin 1 potong (13 PCS) tidak bisa dibagi rata ke 3 ukuran. Isi per ukuran, atau ubah jumlahnya.')
   expect(['1','2','3'].map(n=>input(`Jumlah invoice ${n}`).value)).toEqual(['4','4','4'])
+ })
+ it('picking one size adds the whole series at 1 lusin, a one-size SKU gets 12 PCS, and manual 3/5/4 reads 1 lusin (owner D14-5)',async()=>{
+  await mount();const pick=async(q:string,n=0)=>{await fill('Cari barang draft',q);await click(button('Cari barang draft'));await click(container.querySelectorAll<HTMLElement>('[aria-label="Pilih barang invoice"] .cproc-receipt')[n])}
+  await pick('SKU-3',1);const three=container.querySelector('[aria-label="Seri SKU-3"]')!
+  expect(three.textContent).toContain('3 ukuran (31/32/33)');expect(['1','2','3'].map(n=>input(`Jumlah invoice ${n}`).value)).toEqual(['4','4','4']);expect(three.textContent).toContain('Total seri: 1 lusin (12 PCS)');expect(input('Lusin seri SKU-3').value).toBe('1')
+  expect(three.querySelectorAll('article')).toHaveLength(3);expect(three.textContent).not.toContain('SKU-30')
+  await fill('Jumlah invoice 1','3');await fill('Jumlah invoice 2','5');await fill('Jumlah invoice 3','4');expect(three.textContent).toContain('Total seri: 1 lusin (12 PCS)')
+  await fill('Jumlah invoice 1','4');expect(three.textContent).toContain('Total seri: 1 lusin 1 potong (13 PCS)')
+  await fill('Lusin seri SKU-3','2');await click(button('Bagi rata ke 3 ukuran seri SKU-3'));expect(['1','2','3'].map(n=>input(`Jumlah invoice ${n}`).value)).toEqual(['8','8','8']);expect(three.textContent).toContain('Total seri: 2 lusin (24 PCS)')
+  await pick('SKU-1');const one=container.querySelector('[aria-label="Seri SKU-1"]')!
+  expect(one.textContent).toContain('1 ukuran (27)');expect(input('Jumlah invoice 4').value).toBe('12');expect(one.textContent).toContain('Total seri: 1 lusin (12 PCS)')
+  await fill('Lusin seri SKU-1','3');await fill('Sisa potong seri SKU-1','5');await click(button('Bagi rata ke 1 ukuran seri SKU-1'));expect(input('Jumlah invoice 4').value).toBe('41');expect(one.textContent).toContain('Total seri: 3 lusin 5 potong (41 PCS)')
+  await pick('SKU-5');const five=container.querySelector('[aria-label="Seri SKU-5"]')!
+  expect(['5','6','7','8','9'].map(n=>input(`Jumlah invoice ${n}`).value)).toEqual(['','','','','']);expect(five.querySelector('[role="alert"]')!.textContent).toBe('1 lusin (12 PCS) tidak bisa dibagi rata ke 5 ukuran. Isi per ukuran, atau ubah jumlahnya.')
+  await pick('SKU-3');expect(container.querySelectorAll('[aria-label="Seri SKU-3"] article')).toHaveLength(3);expect(three.querySelector('[role="alert"]')!.textContent).toBe('Semua ukuran seri SKU-3 yang ada stoknya sudah ada di invoice.')
+  expect(['1','2','3'].map(n=>input(`Jumlah invoice ${n}`).value)).toEqual(['8','8','8'])
+  const series=client.rpc.mock.calls.map(c=>c[1].p_query).filter(q=>q.kind==='STOCK'&&q.limit===100);expect(series.map(q=>q.q)).toEqual(['SKU-3','SKU-1','SKU-5','SKU-3']);expect(series.every(q=>q.location_id===id&&q.offset===0)).toBe(true)
+  await fill('Jumlah invoice 1','11');expect(three.textContent).toContain('Stok tersedia sekarang 10 PCS · jumlah ini melebihi stok tersedia sekarang')
+ })
+ it('adds nothing when the series cannot be read completely',async()=>{
+  await mount();await fill('Cari barang draft','SKU-3');await click(button('Cari barang draft'))
+  // Every page is a valid page of a longer list: after ten pages the series is still not complete.
+  client.rpc.mockImplementation(async(_n,a)=>{const o=option(a.p_query);return {data:{...o,total:'5000',next_offset:a.p_query.offset+o.rows.length},error:null}})
+  await click(container.querySelector<HTMLElement>('[aria-label="Pilih barang invoice"] .cproc-receipt')!)
+  expect(client.rpc.mock.calls.filter(c=>c[1].p_query.limit===100)).toHaveLength(10)
+  expect(container.querySelector('[aria-label="Seri SKU-3"]')).toBeNull();expect(container.textContent).toContain('Ukuran seri SKU-3 belum terbaca semua. Cari dengan SKU yang lebih tepat.')
+  client.rpc.mockImplementation(async(_n,a)=>({data:{...option(a.p_query),limit:25},error:null}))
+  await click(container.querySelector<HTMLElement>('[aria-label="Pilih barang invoice"] .cproc-receipt')!)
+  expect(container.querySelector('[aria-label="Seri SKU-3"]')).toBeNull();expect(container.textContent).toContain('Pilihan sumber berubah. Cari ulang sumber invoice.')
  })
  it('keeps immutable source IDs for duplicate SKU lines after quantity changes and deletion',async()=>{
   const d=detail();d.items[0].qty_pcs='5';d.items[1]={...d.items[1],product_id:d.items[0].product_id,qty_pcs:'10'}

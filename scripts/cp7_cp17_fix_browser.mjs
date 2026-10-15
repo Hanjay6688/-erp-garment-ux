@@ -1,6 +1,7 @@
 // CP17 browser cases on the Bagi Potongan page, real Auth and PostgREST on the committed copy:
 // SG-01 reverse a posted pickup before sewing (desktop), SG-02 fabric back to the warehouse (phone); and the
-// D14-6 kasbon on the Payroll & Kasbon page (give from a funded bank, cut from the Mandor's payroll draft).
+// D14-6 kasbon on the Payroll & Kasbon page (give from a funded bank, cut from the Mandor's payroll draft); and D14-5
+// dozens over one size series on the Penjualan & Invoice draft (desktop and phone).
 import assert from'node:assert/strict'
 import{execFileSync}from'node:child_process'
 import{mkdirSync,writeFileSync}from'node:fs'
@@ -99,4 +100,56 @@ async function kasbon(ui,today){
  }catch(error){let actual;try{actual=state()}catch(e){actual={observation_error:String(e)}};await failure(page,name,error,actual,requests);throw error}
  finally{await user.context.close()}
 }
-export function cases(ui,today){return[['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP',()=>pickupReversal(ui,today)],['CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE',()=>fabricReturn(ui,today)],['CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP',()=>kasbon(ui,today)]]}
+async function salesPage(ui,page){
+ await ui.expect(page.locator('.sidebar .nav-main').filter({hasText:'Penjualan'})).toBeAttached()
+ const open=page.getByRole('button',{name:'Buka menu',exact:true});if(await open.isVisible())await open.click()
+ const link=page.getByRole('button',{name:'• Penjualan & Invoice',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Penjualan'}).click();await link.click()
+ await ui.expect(page.locator('.csales').getByRole('heading',{name:'Penjualan & Invoice',exact:true})).toBeVisible()
+}
+// Owner D14-5, in the owner's own examples: picking one size of a three-size SKU brings the whole series already at
+// 1 lusin = 4/4/4; typed by hand 3/5/4 reads "1 lusin" and 4/5/4 "1 lusin 1 potong"; an uneven split is refused on
+// screen; a one-size SKU at 1 lusin is 12 PCS in that size. The draft saved from the screen holds 3/5/4 and 12, the
+// stock is reserved by exactly that, and the reopened draft reads both series back as 1 lusin.
+async function seriesDozens(ui,today,mobile){
+ const f=fixture('series',{today}),name=`CP17_D14_5_SERIES_DOZENS_${mobile?'MOBILE':'DESKTOP'}`,user=await ui.login('OWNER',{label:'cp17-d145-'+(mobile?'mobile':'desktop'),mobile}),page=user.page,requests=[]
+ const state=()=>fixture('series_state',f)
+ page.on('request',r=>{if(r.url().endsWith('/rpc/erp_cp7_save_sale_v1'))requests.push(r.postDataJSON())})
+ try{
+  mkdirSync('cp6-proof/t3',{recursive:true});const before=state();assert.equal(before.sale,null);assert.deepEqual(before.stock,{27:20,31:10,32:11,33:12})
+  await salesPage(ui,page);const ws=page.locator('.csales'),form=ws.getByRole('form',{name:'Draft invoice'}),detail=ws.getByRole('complementary',{name:'Rincian invoice'})
+  await ws.getByRole('button',{name:'Buat invoice',exact:true}).click()
+  await form.getByLabel('Nomor draft invoice',{exact:true}).fill(f.tag);await form.getByLabel('Waktu draft invoice WIB',{exact:true}).fill(new Date(new Date(f.sale_at).getTime()+7*60*60*1000).toISOString().slice(0,16))
+  await form.getByLabel('Cari pelanggan draft',{exact:true}).fill(f.tag);await form.getByRole('button',{name:'Cari pelanggan draft',exact:true}).click()
+  const customer=form.getByRole('region',{name:'Pilih pelanggan invoice'}).locator('.cproc-receipt');await ui.expect(customer).toHaveCount(1);await customer.click()
+  const pick=async(sku,count,nth)=>{await form.getByLabel('Cari barang draft',{exact:true}).fill(sku);await form.getByRole('button',{name:'Cari barang draft',exact:true}).click();const rows=form.getByRole('region',{name:'Pilih barang invoice'}).locator('.cproc-receipt');await ui.expect(rows).toHaveCount(count);await rows.nth(nth).click()}
+  const qty=n=>form.getByLabel(`Jumlah invoice ${n}`,{exact:true}),values=n=>Promise.all(n.map(i=>qty(i).inputValue()))
+  const three=form.getByRole('region',{name:'Seri '+f.series_sku,exact:true}),split=three.getByRole('button',{name:'Bagi rata ke 3 ukuran seri '+f.series_sku,exact:true})
+  const dozens=form.getByLabel('Lusin seri '+f.series_sku,{exact:true}),pieces=form.getByLabel('Sisa potong seri '+f.series_sku,{exact:true})
+  await pick(f.series_sku,3,1)
+  await ui.expect(three).toContainText('3 ukuran (31/32/33)');await ui.expect(three.locator('article')).toHaveCount(3);for(const n of[1,2,3])await ui.expect(qty(n)).toHaveValue('4')
+  await ui.expect(three).toContainText('Total seri: 1 lusin (12 PCS)');await ui.expect(dozens).toHaveValue('1');await ui.expect(three).toContainText('Stok tersedia sekarang 10 PCS')
+  for(const [n,v] of [[1,'3'],[2,'5'],[3,'4']])await qty(n).fill(v);await ui.expect(three).toContainText('Total seri: 1 lusin (12 PCS)')
+  await qty(1).fill('4');await ui.expect(three).toContainText('Total seri: 1 lusin 1 potong (13 PCS)')
+  await dozens.fill('1');await pieces.fill('1');await split.click()
+  await ui.expect(three.getByRole('alert')).toHaveText('1 lusin 1 potong (13 PCS) tidak bisa dibagi rata ke 3 ukuran. Isi per ukuran, atau ubah jumlahnya.');assert.deepEqual(await values([1,2,3]),['4','5','4'])
+  await pieces.fill('');await dozens.fill('2');await split.click();for(const n of[1,2,3])await ui.expect(qty(n)).toHaveValue('8');await ui.expect(three).toContainText('Total seri: 2 lusin (24 PCS)')
+  for(const [n,v] of [[1,'3'],[2,'5'],[3,'4']])await qty(n).fill(v);await ui.expect(three).toContainText('Total seri: 1 lusin (12 PCS)')
+  await pick(f.single_sku,1,0);const one=form.getByRole('region',{name:'Seri '+f.single_sku,exact:true})
+  await ui.expect(one).toContainText('1 ukuran (27)');await ui.expect(qty(4)).toHaveValue('12');await ui.expect(one).toContainText('Total seri: 1 lusin (12 PCS)')
+  for(const n of[1,2,3,4])await form.getByLabel(`Harga invoice ${n}`,{exact:true}).fill('10')
+  await form.getByLabel('Alasan simpan invoice',{exact:true}).fill('D14-5 satu seri 3/5/4 dan satu ukuran 1 lusin');await form.getByLabel('Draft invoice sudah diperiksa',{exact:true}).check()
+  assert.deepEqual(state(),before);assert.equal(requests.length,0)
+  await noSideScroll(ui,page);await three.scrollIntoViewIfNeeded();await page.screenshot({path:`cp6-proof/t3/${name}_FORM.png`,fullPage:true})
+  await form.getByRole('button',{name:'Simpan draft invoice',exact:true}).click();await ui.expect(form).toHaveCount(0);await ui.expect(detail).toContainText('24 PCS masih dipesan')
+  const after=state()
+  assert.equal(after.status,'DRAFT');assert.equal(after.lines,4);assert.deepEqual(after.qty,{27:12,31:3,32:5,33:4});assert.deepEqual(after.stock,{27:8,31:7,32:6,33:8});assert.deepEqual(after.gl,before.gl)
+  assert.equal(requests.length,1);assert.equal(requests[0].p_action,'CREATE');assert.equal(requests[0].p_payload.items.length,4)
+  await detail.getByRole('button',{name:'Edit draft invoice',exact:true}).click();await ui.expect(form).toBeVisible()
+  await ui.expect(form.getByRole('region',{name:'Seri '+f.series_sku,exact:true})).toContainText('Total seri: 1 lusin (12 PCS)');await ui.expect(form.getByRole('region',{name:'Seri '+f.single_sku,exact:true})).toContainText('Total seri: 1 lusin (12 PCS)')
+  await noSideScroll(ui,page);await page.screenshot({path:`cp6-proof/t3/${name}_READBACK.png`,fullPage:true})
+  return{status:'PASS',phone:mobile,three_sizes_added_by_one_pick:['31','32','33'],picked_at_one_dozen:'4/4/4',manual_3_5_4:'1 lusin',manual_4_5_4:'1 lusin 1 potong',uneven_refused_kept:'4/5/4',two_dozen:'8/8/8',one_size_one_dozen:12,saved_qty:after.qty,reserved_stock:after.stock,gl_unchanged:true,one_request:true,reopened_reads_1_lusin_each:true}
+ }catch(error){let actual;try{actual=state()}catch(e){actual={observation_error:String(e)}};await failure(page,name,error,actual,requests);throw error}
+ finally{await user.context.close()}
+}
+export function cases(ui,today){return[['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP',()=>pickupReversal(ui,today)],['CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE',()=>fabricReturn(ui,today)],['CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP',()=>kasbon(ui,today)],
+ ['CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP',()=>seriesDozens(ui,today,false)],['CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE',()=>seriesDozens(ui,today,true)]]}

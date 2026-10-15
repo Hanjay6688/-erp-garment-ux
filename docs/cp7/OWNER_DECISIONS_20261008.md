@@ -353,3 +353,24 @@ Akibat (ringkasan penulis):
   otomatis di payroll berikutnya dan tunduk pada D14-3.
 - D14-7 adalah izin untuk auditor Fable. Penulis tidak membaca hosted. Bagi Fable, keputusan ini berlabel
   `UNVERIFIED_OWNER_DECISION` sampai owner menyampaikannya langsung (Pro Max §2.9).
+
+### D14-5a (owner ke penulis Claude, 15 Okt 2026, penegasan D14-5)
+
+Owner membaca laporan penulis yang menyebut uji browser lusin "belum", lalu menulis (persis):
+
+> "Pembagian lusin ke ukuran sudah jadi di layar draf penjualan, tapi belum diuji lewat browser. Untuk itu perlu data
+> uji stok 3 ukuran untuk satu SKU. Masa sih ini belum beres padahal gw pernah bahas ini spesifik buat penjualan loh. Lu
+> bisa cek di UX demo udah begini loh. Bahkan gw pernah bilang jelas. Gw bahkan bilang misal SKU nya cuma punya 1 ukuran
+> kalo tulis selusin ya jadi 12 pt di satu ukuran. Misal gw ketik manual 3/5/4 ya bakal jadi tulisan 1 lusin auto coba
+> lu cek dl deh. Aneh gamungkin gw salah ingat coba. Yg lain gw jawab ntar lu fokus sini dl ya 1-1"
+
+Akibat (ringkasan penulis, bukan kata-kata owner):
+
+- Owner benar: aturannya sudah ada di UX demo (`src/SalesPages.tsx`: pilih produk → semua ukurannya masuk dan langsung
+  1 lusin dibagi rata; singleton 27 → 12; total baris "x lusin y potong") dan di handoff 28 Sep
+  (`docs/cp6-sku-range-audit-delta-writer-handoff-20260928.md`).
+- Celah di layar tersambung: ukuran dipilih satu per satu, jadi "seri" hanya berisi ukuran yang sudah ditambahkan. Bila
+  baru satu ukuran dari SKU 3 ukuran yang dipilih, 1 lusin masuk 12 ke ukuran itu. Sekarang satu pilihan menambahkan
+  semua ukuran SKU itu yang ada stoknya di gudang yang sama, dan seri baru langsung 1 lusin dibagi rata bila pas
+  (seperti demo). Bila tidak pas (misalnya 5 ukuran), jumlah dikosongkan dengan pesan.
+- Bukti browser sungguhan (desktop dan HP): `CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP` / `_MOBILE`.
