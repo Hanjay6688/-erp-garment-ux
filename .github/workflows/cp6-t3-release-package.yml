@@ -114,6 +114,13 @@ jobs:
         path: auditor
         fetch-depth: 0
         ref: ${{ matrix.key == 'browser' && 'e43e0ed4bab5ba9a803100e57ddfd7cd2647c631' || github.sha }}
+    # The database chain to AB runs from this commit in every leg; the browser leg keeps its frozen UI, tools and
+    # oracles at e43e0ed4. AC writer artifact 10392910720 expired on 15 Oct 2026 and only this commit carries the
+    # D14-17 pre-U capture (scripts/cp6_pre_u_inventory.py); the chain inputs are otherwise identical to e43e0ed4.
+    - uses: actions/checkout@v4
+      with:
+        path: chain
+        ref: ${{ github.sha }}
     - uses: actions/checkout@v4
       with:
         path: harness
@@ -219,7 +226,7 @@ jobs:
           > "$CP6_AC_WRITER_ARTIFACT" || { rm -f "$CP6_AC_WRITER_ARTIFACT"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }
         mkdir -p ../auditor/cp6-proof/t3
         status=0
-        PYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?
+        PYTHONPATH=scripts python ../chain/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?
         python - <<'PY'
         import json
         d=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))

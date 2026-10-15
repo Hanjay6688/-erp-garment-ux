@@ -87,9 +87,13 @@ bisa dibuat ulang persis: pembuatnya butuh arsip `10320611163` yang juga sudah t
   Tambahan sebelum U: jumlah wajib 208 tabel (207 `erp`, 1 `supabase_migrations`), dan SHA-256 daftar nama dikunci
   sesudah pengambilan pertama (`eb7f121d…9069`, sama di run 38724905951, 38724911818 dan 38724908863). Bila arsip ada,
   jalur lama yang dikunci SHA-256 dipakai tanpa perubahan.
-- 80 workflow tidak lagi berhenti bila unduhan arsip gagal (78 yang memakai `cp6_t3_aligned_chain.py`, ditambah
+- 81 workflow tidak lagi berhenti bila unduhan arsip gagal (78 yang memakai `cp6_t3_aligned_chain.py`, ditambah
   `cp6-av-qualification` dan `cp6-be-t1-probe` yang sekarang menjalankan `cp6_ac_audit_bootstrap.py` dari checkout
   auditor; isinya sama dengan salinan `25fa4736`, ditambah jalur pengganti ini).
+- `cp6-t3-release-package` bagian browser memakai UI dan alat CP6 beku `e43e0ed4`, termasuk skrip rantai lama tanpa
+  jalur pengganti, sehingga berhenti di run 38727609578 (kualifikasi `6cf2b7f9`; log disimpan). Rantai database sampai
+  AB sekarang dijalankan dari commit yang diuji di ketiga bagian (checkout `chain`); masukan rantai lainnya
+  (`cp6_g01_*`, `docs/evidence/cp6-g01`) sama persis dengan `e43e0ed4`. UI, alat, dan pemeriksaan browser tetap beku.
 - **Batas:** tidak bisa lagi dibuktikan bahwa daftar "sebelum U" hari ini sama persis dengan daftar 15 Sep; yang
   terbukti hanya jumlah, fungsi pembuat, titik pengambilan, dan kesamaan antar-run sesudah dikunci. 37 workflow CP6
   lama yang memanggil bootstrap dari checkout kandidat beku tetap tidak bisa berjalan (di luar Q25). Pin SHA-256
