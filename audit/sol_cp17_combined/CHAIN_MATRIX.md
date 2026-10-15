@@ -1,0 +1,28 @@
+# Matriks 20 sambungan — Sol
+
+TERSAMBUNG DAN TERUJI menyatakan koneksi dan saksi aplikasi ada dalam cakupan yang ditulis. **B11/B13 tetap FAIL**, dan varian/bagian yang tidak dilewati tetap disebut. Untuk rantai gabungan, status mengikuti subjalur yang belum mempunyai uji aplikasi. Tidak ada klaim semua 20 rantai dilalui dalam satu browser.
+
+| ID | Sambungan | Klasifikasi | Bukti dan batas |
+|---|---|---|---|
+| B1 | Pembelian → penerimaan → roll/stok/GRNI | TERSAMBUNG DAN TERUJI | F03 p09 135 observations incl. 3 smoke, real Auth HTTP/browser. Bahan masuk teruji; master material/supplier harian masih contoh. |
+| B2 | Bahan → potong → WIP | TERSAMBUNG TANPA UJI APLIKASI | CP17 STK01/SG02 Native, browser kain kembali; own source trace. PO yang sudah ada bisa dipakai; PO harian baru tidak punya rute biasa (SOL-R1-002). Belum fresh browser POST potong. |
+| B3 | Potongan → pickup mandor | TERSAMBUNG TANPA UJI APLIKASI | CP17 SG01 Native + real browser pembatalan. Browser POST pickup baru belum dibuktikan pada final stack; pembatalan bukan pengganti jalur positif itu. |
+| B4 | Pickup → selesai jahit + upah → siap laundry | TERSAMBUNG DAN TERUJI | CP17 G1 Native/race/real Auth HTTP/browser desktop + phone; own 4/6 PCS × 2 komponen. Lulus jalur dasar; BF wave SKU/size rates belum didukung (KNOWN-BF-WAVE), tidak terwakili fixture dasar. |
+| B5 | Jahit → kirim/terima laundry, klaim/cuci ulang | TERSAMBUNG TANPA UJI APLIKASI | CP17 FIN02/SG03 Native; retained old independent prefreeze browser; BE16 Native CP6. Belum fresh positive browser seluruh kirim/terima/rewash pada final stack; guard saldo baru menambah alasan menahan klaim penuh. |
+| B6 | Invoice/klaim laundry → AP vendor → kas | TERSAMBUNG TANPA UJI APLIKASI | CP17 FIN02 + vendor empty-bank Native; F03 cash readers real browser. FIN02 dan invoice/klaim→bayar vendor satu browser berantai belum dibuktikan; jangan meminjam saksi kredit supplier untuk vendor. |
+| B7 | Terima laundry → QC/final SKU → FG (+BS) | TERSAMBUNG TANPA UJI APLIKASI | Native fixture/core retained; current inventory refusal only. Belum fresh browser POST QC dengan efek stok/HPP dibaca setelah commit. Demo juga overflow (SOL-R1-004). |
+| B8 | FG → selesai PO → HPP final | TERSAMBUNG DAN TERUJI | CP17 G2 Native/race/real Auth HTTP/browser + F03 p13 recost. G2 dasar lulus; QC→selesai PO dalam satu browser penuh belum ada; demo overflow terpisah (SOL-R1-005). |
+| B9 | FG → buku Vivo/Widie, adjustment, konversi | TERSAMBUNG TANPA UJI APLIKASI | F03 p10 34 Native/race/HTTP/browser; BE16 Native CP6 T1. Buku/adjustment teruji aplikasi; konversi→jual→HPP final CP7 belum diuji aplikasi. Status gabungan mengikuti subjalur terlemah. |
+| B10 | FG → draft/invoice penjualan | TERSAMBUNG DAN TERUJI | F03 p11 + CP17 D14-5/12 browser nyata desktop/phone. Lusin sesuai range teruji. Menu Semua Invoice belum punya saksi khusus; UAT seluruh Penjualan masih contoh. |
+| B11 | Penjualan → AR → pembayaran pelanggan → kas | TERSAMBUNG DAN TERUJI | F03 p11 Native/HTTP/browser; own new Native + real Auth HTTP counterexamples. TERUJI dan GAGAL pada koreksi income yang sudah dipakai walau final positif, termasuk note-only (SOL-R1-001). Status koneksi T bukan vonis PASS. |
+| B12 | Retur → FG + kredit AR/refund | TERSAMBUNG DAN TERUJI | F03 p11 returns + customer_refund 10 observations including real browser. Subset retur/refund positif teruji; belum seluruh permutasi koreksi, pemakaian kredit dan tanggal. |
+| B13 | Semua uang → kas → GL → laporan/tutup periode | TERSAMBUNG DAN TERUJI | F03 p13 50 + cash_installments 61, CP17 D14-3; own correction CE. TERUJI dengan blocker SOL-R1-001; UAT sebagian besar Keuangan masih contoh. Tidak ada browser seluruh 13 tahap sekaligus. |
+| S1 | AP supplier → pembayaran → kas | TERSAMBUNG DAN TERUJI | F03 p09, supplier_credit, CP17 cash/race/HTTP; own empty/funded/backdate/later-prefix. SOL-001 lama ditutup dalam scope; koreksi income baru adalah akar regresi berbeda. |
+| S2 | Retur/kredit supplier | TERSAMBUNG DAN TERUJI | F03 p09 + supplier_credit 5 with real Auth HTTP/browser. Positif/refusal/replay pada fixture; tidak mengklaim seluruh rantai produksi hasil material retur. |
+| S3 | Absensi/Nota/upah/rework/kasbon → payroll → kas | TERSAMBUNG TANPA UJI APLIKASI | F03 p12 91 + cash_installments, CP17 FIN01/RWK01/kasbon; browser subsets. RWK01 OPEN-case upah teruji Native, belum browser rework→Nota→bayar; UAT payroll/absensi contoh dan Nota diblokir. |
+| S4 | Nota Ambil Aksesori → potongan payroll → kas | TERSAMBUNG TANPA UJI APLIKASI | Retained CP6 AV + current code path; fresh inventory only. Belum satu fresh browser final-stack yang meneruskan Nota Ambil hingga potongan dan pembayaran. Tidak disamarkan sebagai FAIL produk. |
+| S5 | BS → rework/cuci ulang → QC/upah | TERSAMBUNG TANPA UJI APLIKASI | CP17 RWK01 + SG03 Native, BE16 CP6 T1. Belum fresh browser BS/rework/claim/partial-QC lalu Nota/bayar. Kelayakan upah Native berbeda dari bukti alur UI lengkap. |
+| S6 | Hitung fisik/penyesuaian → stok/GL | TERSAMBUNG DAN TERUJI | F03 p09/p10 Native/race/real Auth HTTP/browser. Teruji sendiri; belum disisipkan di tengah seluruh rantai 13 tahap dan tutup periode. |
+| S7 | Impor saldo awal → tahap berikutnya | TERSAMBUNG TANPA UJI APLIKASI | F03 p12 opening_payroll + customer_refund; retained CP6 AV. Subset payroll/refund teruji aplikasi; seluruh impor WIP→produksi→jual→kas CP7 dan original CP2 functional restore tetap belum terbukti. |
+
+Belum tersedianya PO harian baru disebut terpisah dari API potong untuk PO yang sudah ada. Tidak memberi PASS runtime pada jalur yang tidak ada, dan tidak menghitung batas rencana CP7C sebagai bug baru.

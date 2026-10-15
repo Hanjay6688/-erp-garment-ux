@@ -1,0 +1,332 @@
+{
+  "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "candidate_tree": "886f83312958b53781a450a4ea2a8fb2147b3be3",
+  "new_findings": [
+    "SOL-R1-001",
+    "SOL-R1-002",
+    "SOL-R1-003",
+    "SOL-R1-004",
+    "SOL-R1-005"
+  ],
+  "known_roots_verified_not_new": [
+    "KNOWN-UI-MODE",
+    "KNOWN-DAILY-MASTER",
+    "KNOWN-BF-WAVE"
+  ],
+  "findings": [
+    {
+      "id": "SOL-R1-001",
+      "severity": "S1",
+      "title": "Koreksi pemasukan yang telah dipakai ditolak walau saldo akhir sah, termasuk koreksi catatan saja",
+      "origin": "NEW_SOL_INDEPENDENT",
+      "evidence_level": "NATIVE_QUALIFIED",
+      "status": "OPEN",
+      "first_seen_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "retested_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "locations": [
+        "scripts/cp7-src/finance/dated-guards.sql:39-57",
+        "scripts/cp7-src/sales/payment-correction.sql:177-201"
+      ],
+      "impact": "Koreksi pembayaran pelanggan macet; pembaruan AR/kas yang sah tidak bisa diselesaikan. Tidak ada bukti saldo rusak: seluruh efek ditolak atomik.",
+      "proof": {
+        "run_id": 38787925433,
+        "job_id": 116604642907,
+        "artifact_id": 11998368969,
+        "member": "SOL_CORRECTION_QUALIFIED.json",
+        "native_case": "SOL_R1_CUSTOMER_PAYMENT_CORRECTION_FINAL_POSITIVE",
+        "real_auth_http_cases": [
+          "SOL_HTTP_SPENT_INCOME_CORRECTION_FINAL_POSITIVE",
+          "SOL_HTTP_SPENT_INCOME_NOTE_ONLY_CORRECTION"
+        ],
+        "input": {
+          "income": "30.01",
+          "spent": "20.00",
+          "bank_before": "10.01",
+          "replacement": "25.01"
+        },
+        "expected": {
+          "bank_after": "5.01",
+          "outcome": "COMMITTED_OUTCOME"
+        },
+        "observed": {
+          "http_status": 400,
+          "sqlstate": "P0001",
+          "code": "CP7_CASH_NEGATIVE",
+          "temporary_minimum": "-20.00",
+          "bank_after": "10.01"
+        },
+        "controls": [
+          "Unspent 30.01→25.01 succeeds",
+          "Spent 20, replacement 15.01 genuinely negative is refused"
+        ],
+        "boundary_unchanged_on_failure": true,
+        "raw_status": "COUNTEREXAMPLE",
+        "protocol_status": "FAIL"
+      },
+      "suggested_fix": "Validasi saldo akhir keseluruhan command atomik, dengan penguncian rekening dan pemeriksaan semua tanggal tetap berlaku. Jangan melemahkan pengaman pengeluaran biasa. Pembalik dan pengganti harus dapat selesai sebelum penilaian akhir, lalu wajib gagal sebelum commit bila ada saldo kronologis negatif.",
+      "acceptance_tests": [
+        "Spent/unspent; amount naik/turun/tetap; note-only; bank sama/berbeda; backdate/later-day prefix; dua sesi; UUID replay/payload berubah; inverse tanpa replacement; seluruh stok/HPP/AR/GL dan batas privat tetap pulih."
+      ],
+      "production_go": false,
+      "category": "BUSINESS_COMMAND_DEFECT_OR_GAP"
+    },
+    {
+      "id": "SOL-R1-002",
+      "severity": "S1",
+      "title": "PO produksi harian baru tidak punya jalur biasa dari aplikasi",
+      "origin": "NEW_SOL_SOURCE_TRACE",
+      "evidence_level": "STATIC",
+      "status": "OPEN",
+      "first_seen_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "retested_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "locations": [
+        "src/ConnectedCuttingPage.tsx:193,355",
+        "supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql:715-717",
+        "src/NativePlanDraftPanel.tsx:55-74",
+        "scripts/cp7-src/plan-native/preflight.sql:71",
+        "supabase/migrations/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.sql:647"
+      ],
+      "impact": "Rantai B2 hanya berjalan bila PO aktif sudah tersedia. Operator tidak bisa memulai PO harian baru lewat jalur produksi biasa. Penjadwalan/analisis hanya menyimpan rencana, bukan PO Native. OPEN_PO memang ada melalui impor saldo awal dan menandainya sebagai legacy/migration; itu tidak disamarkan sebagai writer PO harian.",
+      "proof": {
+        "source_register": "SOURCE_REVIEW.json",
+        "browser_inventory": "DISPOSABLE_TEST/desktop/cutting-roll and UAT_AUTH_SIMULATION/phone/cutting-roll",
+        "scan": [
+          "all src TS/TSX",
+          "all scripts/cp7-src SQL",
+          "supabase migrations and bootstrap function bodies"
+        ],
+        "only_insert_writer_found": "erp.apply_migration_open_pos",
+        "native_runtime_absence_claim": false,
+        "fixtures_create_po_via_direct_sql": "scripts/cp7_cp17_fix_cases.py:152,166,194"
+      },
+      "suggested_fix": "Sediakan alur PO harian Native dari Buat Potongan/menu produksi: identitas PO, model/ukuran/target, izin dan UUID, validasi ulang serta pembaca hilir. Jangan menjadikan impor saldo awal/legacy sebagai jalan transaksi produksi harian.",
+      "acceptance_tests": [
+        "Mulai dari model/master sah tanpa PO; buat PO lewat UI→public facade→Native; lanjut potong/pickup/jahit/laundry/QC/selesai PO. Verifikasi nomor ganda, izin, versi, replay dan tidak ada jurnal/stok sebelum tahap yang memang memosting."
+      ],
+      "production_go": false,
+      "category": "FUNCTIONAL_GAP"
+    },
+    {
+      "id": "SOL-R1-003",
+      "severity": "S3",
+      "title": "Pengganti arsip pre-U menolak baseline helper yang sengaja berhenti sebelum U",
+      "origin": "NEW_SOL_TEST_TOOL_TRACE",
+      "evidence_level": "NATIVE_QUALIFIED_TEST_INFRA",
+      "status": "OPEN",
+      "first_seen_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "retested_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "locations": [
+        "scripts/cp6_t3_aligned_chain.py:88",
+        "scripts/cp6_pre_u_inventory.py:78-80"
+      ],
+      "impact": "Alat pembentukan baseline v2.6.20 untuk uji pemasang 58 berkas berhenti sebelum kasus Native pemasangan berjalan. Bukan bukti paket Native gagal dipasang.",
+      "proof": {
+        "original_run": 38785656090,
+        "original_job": 116596862914,
+        "error": "PRE_U_INVENTORY_NOT_CAPTURED",
+        "root": "unconditional finished(PENDING) despite stop=G01.STOP occurring before U",
+        "qualified_run": 38787131786,
+        "qualified_job": 116601912076,
+        "qualification": "OWNER_TOOL_QUALIFICATION.json",
+        "result": "Original 58 exact files and 10 owner cases PASS after auditor-only stop-aware adapter; original failure retained"
+      },
+      "suggested_fix": "Wajibkan capture selesai hanya bila langkah U memang termasuk jalur yang dieksekusi. Bila berhenti sebelumnya, catat NOT_APPLICABLE_BEFORE_U; setelah U tetap fail-closed pada pending/count/names mismatch. Simpan laporan baseline juga ketika assertion menolak.",
+      "acceptance_tests": [
+        "Stop G01/v2.6.20 before U tanpa capture sah; stop sesudah U dengan capture sah; pending setelah U ditolak; count/names/frozen-function mismatch ditolak. Tidak mengubah X admission atau SQL pemasang."
+      ],
+      "production_go": false,
+      "category": "EVIDENCE_TOOL_DEFECT"
+    },
+    {
+      "id": "SOL-R1-004",
+      "severity": "S2",
+      "title": "Layar demo QC melebar keluar viewport HP 390 px",
+      "origin": "NEW_SOL_BROWSER_OBSERVATION",
+      "evidence_level": "BROWSER_CHROMIUM_HTTP_MOCK",
+      "status": "OPEN",
+      "first_seen_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "retested_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "locations": [
+        "src/QcFinalPage.tsx",
+        "DEMO_SIMULATION/phone/qc"
+      ],
+      "impact": "Konten/angka di sisi kanan membutuhkan geser halaman; ini cacat tata letak demo. Tidak ada bukti kerusakan Native atau semua layar tersambung mengalami hal sama.",
+      "proof": {
+        "run_id": 38786177957,
+        "job_id": 116598629614,
+        "artifact_id": 11998406630,
+        "member": "DEMO_SIMULATION.json",
+        "case_id": "DEMO_SIMULATION/phone/qc",
+        "viewport_width": 390,
+        "document_width": 669,
+        "inventory_status": "PASS (visit-only)",
+        "feature_observation": "horizontal page overflow",
+        "connected_refusal_document_width": 390,
+        "connected_positive_layout_claim": false
+      },
+      "suggested_fix": "Perbaiki grid/min-content dan pembungkusan kartu/angka pada halaman terkait; gunakan scroll lokal hanya jika tabel memang memerlukannya, tanpa membuat body melebar.",
+      "acceptance_tests": [
+        "Viewport 390×844 dan tablet; angka/aksi kanan tetap terlihat atau berada di scroll lokal yang jelas; desktop tetap terbaca. Pisahkan uji data positif dari layar refusal kosong."
+      ],
+      "production_go": false,
+      "category": "UI_PRESENTATION_DEFECT"
+    },
+    {
+      "id": "SOL-R1-005",
+      "severity": "S2",
+      "title": "Layar demo HPP melebar keluar viewport HP 390 px",
+      "origin": "NEW_SOL_BROWSER_OBSERVATION",
+      "evidence_level": "BROWSER_CHROMIUM_HTTP_MOCK",
+      "status": "OPEN",
+      "first_seen_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "retested_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "locations": [
+        "src/HppPage.tsx:298-305",
+        "src/hpp.css:23",
+        "DEMO_SIMULATION/phone/hpp"
+      ],
+      "impact": "Konten/angka di sisi kanan membutuhkan geser halaman; ini cacat tata letak demo. Tidak ada bukti kerusakan Native atau semua layar tersambung mengalami hal sama.",
+      "proof": {
+        "run_id": 38786177957,
+        "job_id": 116598629614,
+        "artifact_id": 11998406630,
+        "member": "DEMO_SIMULATION.json",
+        "case_id": "DEMO_SIMULATION/phone/hpp",
+        "viewport_width": 390,
+        "document_width": 627,
+        "inventory_status": "PASS (visit-only)",
+        "feature_observation": "horizontal page overflow",
+        "connected_refusal_document_width": 390,
+        "connected_positive_layout_claim": false
+      },
+      "suggested_fix": "Perbaiki grid/min-content dan pembungkusan kartu/angka pada halaman terkait; gunakan scroll lokal hanya jika tabel memang memerlukannya, tanpa membuat body melebar.",
+      "acceptance_tests": [
+        "Viewport 390×844 dan tablet; angka/aksi kanan tetap terlihat atau berada di scroll lokal yang jelas; desktop tetap terbaca. Pisahkan uji data positif dari layar refusal kosong."
+      ],
+      "production_go": false,
+      "category": "UI_PRESENTATION_DEFECT"
+    },
+    {
+      "id": "KNOWN-UI-MODE",
+      "severity": "S0",
+      "title": "Mode Enteng menampilkan angka contoh, termasuk dua layar uang tanpa label simulasi lokal",
+      "origin": "KNOWN_WRITER_GAP_INDEPENDENTLY_VERIFIED",
+      "evidence_level": "BROWSER_CHROMIUM_HTTP_MOCK_PLUS_SOURCE",
+      "status": "OPEN",
+      "first_seen_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "retested_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "locations": [
+        "src/App.tsx:637-638,761",
+        "src/FinancePages.tsx:51,120,229",
+        "src/App.tsx:dashboard connected notice"
+      ],
+      "impact": "23/48 menu UAT masih data contoh. Ringkasan Keuangan menyebut Rp284,6 jt sebagai saldo buku dan Payroll memuat nota/uang contoh tanpa label simulasi lokal, walau tidak ada RPC bisnis yang berhasil. Owner bisa mengambil keputusan dari angka yang tidak berasal dari buku. Tidak mengklaim saldo database hosted benar-benar berubah.",
+      "proof": {
+        "run_id": 38786177957,
+        "uat_job_id": 116598630009,
+        "artifact_id": 11998077978,
+        "cases": [
+          "UAT_AUTH_SIMULATION/desktop/finance-overview",
+          "UAT_AUTH_SIMULATION/phone/finance-payroll"
+        ],
+        "mode_routes": {
+          "UAT_connected": 23,
+          "UAT_examples": 23,
+          "UAT_blocked": 1,
+          "UAT_notice": 1,
+          "disposable_connected": 35
+        },
+        "business_rpc_on_two_fake_finance_pages": 0,
+        "backend_in_inventory": "all business reads deliberately 403; no hosted request",
+        "global_context": "RuntimeBadge says UAT · MODUL TERPILIH LIVE and sidebar lists selected connected production modules; this is not a per-page simulation label for finance figures.",
+        "source": "writer SCREEN_MAP §2.1–4 disclosed this before this round; Sol verified independently; not claimed as a new discovery"
+      },
+      "suggested_fix": "Sebelum Enteng dipakai: rute layar bisnis yang disetujui ke backend tersambung dan fail-closed bila belum terpasang/403. Angka contoh wajib jelas terpisah dari angka buku; hilangkan klaim dashboard yang menunjuk angka asli ke menu yang masih contoh. Membetulkan label saja tidak menyelesaikan koneksi transaksi.",
+      "acceptance_tests": [
+        "Build UAT dengan backend disposable sah: 48 route, reader/command, peran/revoke/403, kosong/tidak tersedia, refresh dan HP. Dua layar uang tidak boleh menampilkan seed sebagai saldo buku."
+      ],
+      "production_go": false,
+      "category": "UI_PRESENTATION_DEFECT"
+    },
+    {
+      "id": "KNOWN-DAILY-MASTER",
+      "severity": "S1",
+      "title": "Enam kelompok data induk harian tetap simulasi dan belum menyediakan pengelolaan Native biasa",
+      "origin": "KNOWN_WRITER_GAP_INDEPENDENTLY_VERIFIED",
+      "evidence_level": "STATIC_PLUS_BROWSER_INVENTORY",
+      "status": "OPEN",
+      "first_seen_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "retested_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "locations": [
+        "src/App.tsx:755-756",
+        "src/MaterialMasterPages.tsx",
+        "src/MasterDataPages.tsx"
+      ],
+      "impact": "Pelanggan, supplier/vendor umum, mandor, gudang/lokasi, kain/benchmark serta aksesori/harga tidak dapat ditambahkan atau diubah melalui menu harian tersambung. Impor awal dan master khusus yang tersedia tidak otomatis menutup kebutuhan menu harian.",
+      "proof": {
+        "run_id": 38786177957,
+        "artifact_ids": [
+          11998247784,
+          11998077978
+        ],
+        "menu_ids": [
+          "master-fabric",
+          "master-accessory",
+          "master-customers",
+          "master-partners",
+          "master-workforce",
+          "master-locations"
+        ],
+        "writer_disclosed": "SCREEN_MAP §2.10"
+      },
+      "suggested_fix": "Sambungkan pengelolaan master harian dengan izin, identitas stabil, validasi referensi dan snapshot historis. Gunakan reader/Native writer sah; jangan mengubah identitas dokumen terposting saat master diperbarui.",
+      "acceptance_tests": [
+        "Tambah pelanggan/supplier/mandor/lokasi/material biasa lewat UI; gunakan pada transaksi berikutnya; uji larangan ubah/hapus saat sudah digunakan dan sejarah SKU/range/PO tetap benar."
+      ],
+      "production_go": false,
+      "category": "BUSINESS_COMMAND_DEFECT_OR_GAP"
+    },
+    {
+      "id": "KNOWN-BF-WAVE",
+      "severity": "S1",
+      "title": "Selesai jahit G1 masih menolak potongan dengan tarif wave BF per SKU/ukuran",
+      "origin": "KNOWN_WRITER_LIMIT_INDEPENDENTLY_SOURCE_VERIFIED",
+      "evidence_level": "STATIC",
+      "status": "OPEN",
+      "first_seen_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "retested_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "locations": [
+        "scripts/cp7-src/cutting-correction/sewing.sql:106-107,224",
+        "src/SewingCompletionPanel.tsx"
+      ],
+      "impact": "G1 baru menyambungkan jalur dasar, tetapi potongan yang memiliki bf_wave_skus_v1 diblokir WAVE_SKU_RATES. PASS G1 dasar tidak membuktikan operator dapat menuntaskan varian itu dan membentuk upah/siap laundry melalui aplikasi.",
+      "proof": {
+        "source_register": "SOURCE_REVIEW.json",
+        "condition": "exists erp.bf_wave_skus_v1 for cutting_group_id",
+        "refusal": "WAVE_SKU_RATES",
+        "new_runtime_counterexample_claim": false,
+        "writer_disclosed": "HANDOFF_SOL: known G1 limitation"
+      },
+      "suggested_fix": "Sediakan jalur Native penyelesaian per SKU/ukuran dengan tarif snapshot BF dan alokasi upah per komponen; pertahankan identitas historis, PCS dan HPP. Jangan meloloskan lewat penulis dasar yang tidak mengenal rate wave.",
+      "acceptance_tests": [
+        "Kasus dasar tetap lulus; wave BF dua SKU/ukuran bertarif beda, parsial, sisa, replay, koreksi, upah per mandor/komponen dan siap laundry; browser desktop/HP."
+      ],
+      "production_go": false,
+      "category": "FUNCTIONAL_GAP"
+    }
+  ],
+  "counts_new": {
+    "S1": 2,
+    "S3": 1,
+    "S2": 2
+  },
+  "counts_known": {
+    "S0": 1,
+    "S1": 2
+  },
+  "no_new_confirmed_undetected_native_data_corruption": true,
+  "feature_complete": false,
+  "audit_complete": false,
+  "audit_round_work_finished": true,
+  "production_go": false
+}

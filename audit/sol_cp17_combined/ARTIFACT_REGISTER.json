@@ -1,0 +1,1436 @@
+{
+  "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "artifacts": [
+    {
+      "run_id": 38785656146,
+      "id": 11998153161,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-combined-retest-cp7-cp17-fixes",
+      "size_in_bytes": 10455017,
+      "digest": "sha256:dc9625a828eeb7f458e683cb1e4078f6ad6969a0f5569fe0752a6e94b30ce36c",
+      "expired": false,
+      "created_at": "2026-10-15T18:36:49Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11998153161,
+        "run_id": 38785656146,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "dc9625a828eeb7f458e683cb1e4078f6ad6969a0f5569fe0752a6e94b30ce36c",
+        "bytes": 10455017,
+        "members": [
+          {
+            "path": "ALIGNED_CHAIN.json",
+            "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+            "bytes": 17536
+          },
+          {
+            "path": "CLONE_install.connection-fence.txt",
+            "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+            "bytes": 494
+          },
+          {
+            "path": "CLONE_install.database-identity.txt",
+            "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+            "bytes": 3074
+          },
+          {
+            "path": "CLONE_install.txt",
+            "sha256": "c707ba4da8df1d7498c5a08010dc4eb6087f4bc32edeb84a513e2b2dcfa6a2cc",
+            "bytes": 291
+          },
+          {
+            "path": "CP7_CP17_FIXES.json",
+            "sha256": "60bd7d18cad0a0ab330fd547e38c5134bf6461f7eccf6d5ee88c07943e016647",
+            "bytes": 404629
+          },
+          {
+            "path": "OWNER_DRAIN_TEST.json",
+            "sha256": "838f44c722fa7c6107d2ef6254cf3284892aa0cebd52309dbb9703c6b705cc2a",
+            "bytes": 414
+          },
+          {
+            "path": "SOL_INDEPENDENT.json",
+            "sha256": "ca00d779862d158a5658686a0da983aea7938baba9f388a9b00401d29713e873",
+            "bytes": 17501
+          },
+          {
+            "path": "T3_BACKUP_RESTORE_DRILL.json",
+            "sha256": "e8c56c053e39058fdfb978ea1c23dc846ce51db53591c2caab6b2b5be52be65d",
+            "bytes": 10524
+          },
+          {
+            "path": "T3_PACKAGE_FILES_INSTALL.json",
+            "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+            "bytes": 1806
+          },
+          {
+            "path": "T3_PACKAGE_INSTALL.json",
+            "sha256": "ac622bccf1f0ceabdb4ae90f6bc915739f5b7a00aae61d577b518442bbebf0ef",
+            "bytes": 360453
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656146,
+      "id": 11998003641,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-combined-retest-phase-0-identity",
+      "size_in_bytes": 659,
+      "digest": "sha256:2ff60355c94b1e583ecaefa1a70f626c5d249f394c0b06df0c3e85297846628c",
+      "expired": false,
+      "created_at": "2026-10-15T18:36:50Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11998003641,
+        "run_id": 38785656146,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "2ff60355c94b1e583ecaefa1a70f626c5d249f394c0b06df0c3e85297846628c",
+        "bytes": 659,
+        "members": [
+          {
+            "path": "SOL_SOURCE_IDENTITY.json",
+            "sha256": "0bbe5f6d79765457268227b9ab1450730ad8f229fcc9014a84d432a064937ecf",
+            "bytes": 823
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656260,
+      "id": 11998132042,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-BE-output-retest-phase-0-identity",
+      "size_in_bytes": 659,
+      "digest": "sha256:b04cdfd0326dd9e84188897d36049b21f8c4cda718614b7e5914e716b6051080",
+      "expired": false,
+      "created_at": "2026-10-15T18:32:15Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11998132042,
+        "run_id": 38785656260,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "b04cdfd0326dd9e84188897d36049b21f8c4cda718614b7e5914e716b6051080",
+        "bytes": 659,
+        "members": [
+          {
+            "path": "SOL_SOURCE_IDENTITY.json",
+            "sha256": "0bbe5f6d79765457268227b9ab1450730ad8f229fcc9014a84d432a064937ecf",
+            "bytes": 823
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656260,
+      "id": 11997303136,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-BE-output-retest-cp6-be-t1-probe-probe-after",
+      "size_in_bytes": 2414586,
+      "digest": "sha256:425df4be012d719a71554f367d8362a43aea5eeec3549fe0a6898eb651b6fe5d",
+      "expired": false,
+      "created_at": "2026-10-15T18:32:13Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11997303136,
+        "run_id": 38785656260,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "425df4be012d719a71554f367d8362a43aea5eeec3549fe0a6898eb651b6fe5d",
+        "bytes": 2414586,
+        "members": [
+          {
+            "path": "BE_CASES_AFTER.json",
+            "sha256": "b1faa4298b4a33d5086b511fa87317dc083a1ac3d8a188f4fc48baae36ad0bbe",
+            "bytes": 90922
+          },
+          {
+            "path": "CLONE_probe-after.connection-fence.txt",
+            "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+            "bytes": 494
+          },
+          {
+            "path": "CLONE_probe-after.database-identity.txt",
+            "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+            "bytes": 3074
+          },
+          {
+            "path": "CLONE_probe-after.txt",
+            "sha256": "c40189b06959995ab229f1979118c65c68880ee9db31adbc51cc2b6c4675c25c",
+            "bytes": 291
+          },
+          {
+            "path": "RESULT_AFTER.json",
+            "sha256": "2a88ffc4c08bbb5df8eec806f9e0869b5d59bb9a3c394d5a3c14cc396a7dbd2d",
+            "bytes": 93606
+          },
+          {
+            "path": "workspace_after/bd_21.json",
+            "sha256": "2a4c82f067d35dbd403db44a46e287eeeed6aef069241fae880a7dd6a8045ee3",
+            "bytes": 6902
+          },
+          {
+            "path": "workspace_after/be_10.json",
+            "sha256": "f69a74dcf23893f781b74338cc85370d8b2e8c03fd521a4abcc3cad40086edee",
+            "bytes": 2023
+          },
+          {
+            "path": "workspace_after/be_12.json",
+            "sha256": "3d11d83e7328112786da30c9292d6f0a0829ac30a3d932acbc694a58be3b156c",
+            "bytes": 1410
+          },
+          {
+            "path": "workspace_after/be_14.json",
+            "sha256": "050c9d87497ef391d3566de934cc7732b105da25a42a6e4fdd793514ba5fbb1f",
+            "bytes": 1972
+          },
+          {
+            "path": "workspace_after/be_16.json",
+            "sha256": "0113a591399d191f92be7507b125e6afa33fb67de571666b1a3cd238041a9c88",
+            "bytes": 1388
+          },
+          {
+            "path": "workspace_after/be_18.json",
+            "sha256": "2f7145e62eee1b2e2fe2577d250e0bbbb710db2772ad29e3620150ccc73b192f",
+            "bytes": 802
+          },
+          {
+            "path": "workspace_after/be_2.json",
+            "sha256": "81a338643686122f6bd3016f5ffea085647bea043fb0a70c6264e56ae8418e6d",
+            "bytes": 2019
+          },
+          {
+            "path": "workspace_after/be_20.json",
+            "sha256": "20ed1d15117194b66bd375041dfe4bdbf78c4fa15a7d8861bcc83baa3e7a170b",
+            "bytes": 802
+          },
+          {
+            "path": "workspace_after/be_23.json",
+            "sha256": "83711e079d6ad67847b437d0464389ece8eb9990fc9c18858fcfa9142f79bab7",
+            "bytes": 802
+          },
+          {
+            "path": "workspace_after/be_25.json",
+            "sha256": "31c2ebaaab7edcf285ca6d74bfe67b71837412e3b227d360e7db4f053afe1588",
+            "bytes": 2091
+          },
+          {
+            "path": "workspace_after/be_27.json",
+            "sha256": "31c2ebaaab7edcf285ca6d74bfe67b71837412e3b227d360e7db4f053afe1588",
+            "bytes": 2091
+          },
+          {
+            "path": "workspace_after/be_30.json",
+            "sha256": "c02527935bee31e5dad025c577988e9df57c9117468cc3aa2c4c16e016d30622",
+            "bytes": 2297
+          },
+          {
+            "path": "workspace_after/be_32.json",
+            "sha256": "6e423252238181244c41fc1421c66c8d33532bb38f88960f9efd252a9865e336",
+            "bytes": 2301
+          },
+          {
+            "path": "workspace_after/be_34.json",
+            "sha256": "39a464963026a01dbd5d1174ba07fa37baadb0e8c1706466ea2e6b5169863005",
+            "bytes": 3561
+          },
+          {
+            "path": "workspace_after/be_4.json",
+            "sha256": "81a338643686122f6bd3016f5ffea085647bea043fb0a70c6264e56ae8418e6d",
+            "bytes": 2019
+          },
+          {
+            "path": "workspace_after/be_6.json",
+            "sha256": "cbad41949e1c17551ff225e30f64526f6592e67e2ae8ad715c78c521790bce7d",
+            "bytes": 1407
+          },
+          {
+            "path": "workspace_after/be_8.json",
+            "sha256": "9b59f83413b0929961fdc91cd9bf6d666da7b1d4c701129147f1afb74f35e99d",
+            "bytes": 2019
+          },
+          {
+            "path": "workspace_after/pocket_28.json",
+            "sha256": "2559757d453535aa3daf25eeda5512847c7dd10ae5cd10ed8ced2f97748a9835",
+            "bytes": 2004
+          },
+          {
+            "path": "workspace_after/response_1.json",
+            "sha256": "8259c7501e4a9fdd2998e6880e93fe37801d00b56a3b5c31f039955a8588176d",
+            "bytes": 1132
+          },
+          {
+            "path": "workspace_after/response_11.json",
+            "sha256": "90cd980385021e5ee54858de3d4ff67ded2e59198e554c73b0456ac630d3487a",
+            "bytes": 346
+          },
+          {
+            "path": "workspace_after/response_13.json",
+            "sha256": "989ea81fb3abe3dae2dc70d2cda9780b82e70d433e5098cb5b68993268cef8a2",
+            "bytes": 1146
+          },
+          {
+            "path": "workspace_after/response_15.json",
+            "sha256": "d1262f3043d74b16514486add35fd577c7eeb9e63346d6ac62152489061b0dce",
+            "bytes": 351
+          },
+          {
+            "path": "workspace_after/response_17.json",
+            "sha256": "6a14e08f96dee75ea46db0094755ba2607e03dd5240a23b0edfd52843507c20f",
+            "bytes": 1526
+          },
+          {
+            "path": "workspace_after/response_19.json",
+            "sha256": "86f50df6785b6d2eddeda3ff036d7869422648192e381d0689ecc1a0f7e632ab",
+            "bytes": 1697
+          },
+          {
+            "path": "workspace_after/response_22.json",
+            "sha256": "6554c932cb2f34d419fb3553c95687e98c201bb37c23e010e0645045080e5e25",
+            "bytes": 1698
+          },
+          {
+            "path": "workspace_after/response_24.json",
+            "sha256": "4fa5d21995d1926147ff2af2b62f69e20f4c076dae8028fc57ca9b901da1f369",
+            "bytes": 396
+          },
+          {
+            "path": "workspace_after/response_26.json",
+            "sha256": "4fa5d21995d1926147ff2af2b62f69e20f4c076dae8028fc57ca9b901da1f369",
+            "bytes": 396
+          },
+          {
+            "path": "workspace_after/response_29.json",
+            "sha256": "e58b93f511de491424150023ec72374bd0c05c2ca0f7f856bb8eacb2e8ae8abd",
+            "bytes": 1258
+          },
+          {
+            "path": "workspace_after/response_3.json",
+            "sha256": "8259c7501e4a9fdd2998e6880e93fe37801d00b56a3b5c31f039955a8588176d",
+            "bytes": 1132
+          },
+          {
+            "path": "workspace_after/response_31.json",
+            "sha256": "b47d3e3422819493da641d7bff67b630c68ae2e440c6befd99f5d9afbc1e23dc",
+            "bytes": 978
+          },
+          {
+            "path": "workspace_after/response_33.json",
+            "sha256": "fb987ff4965e6fe64f0aa7f1603f1f89caa780023dc82a542be8688618528523",
+            "bytes": 1148
+          },
+          {
+            "path": "workspace_after/response_5.json",
+            "sha256": "28a1c2e645eb91226ea508e7dc8f0e5ee889c128e0c675d32288066b5a0b01e7",
+            "bytes": 349
+          },
+          {
+            "path": "workspace_after/response_7.json",
+            "sha256": "617130b78525b52244701b58df2b09c20e16a3252b0f8fbaac480cd33f6eb33b",
+            "bytes": 1132
+          },
+          {
+            "path": "workspace_after/response_9.json",
+            "sha256": "ce2844a961f02d88c5b598d390555ab2cee9cd1ff26147624a36ba1a4549876d",
+            "bytes": 974
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656150,
+      "id": 11998667044,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-full-F03-final-stack-cp7-f03-full-p09",
+      "size_in_bytes": 27803803,
+      "digest": "sha256:0b80640cd131946fd9a69734374aa029e15a6593b8e6af732a7e29d4aec2004a",
+      "expired": false,
+      "created_at": "2026-10-15T18:38:32Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11998667044,
+        "run_id": 38785656150,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "0b80640cd131946fd9a69734374aa029e15a6593b8e6af732a7e29d4aec2004a",
+        "bytes": 27803803,
+        "members": [
+          {
+            "path": "ALIGNED_CHAIN.json",
+            "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+            "bytes": 17536
+          },
+          {
+            "path": "CLONE_install.database-identity.txt",
+            "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+            "bytes": 3074
+          },
+          {
+            "path": "CLONE_install.connection-fence.txt",
+            "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+            "bytes": 494
+          },
+          {
+            "path": "CP7_F03_FULL_P09.json",
+            "sha256": "ca03e2e47d72bb0297cc60d7edfce8c14828519d46dd9f22c180ae65c631dbae",
+            "bytes": 21491632
+          },
+          {
+            "path": "CLONE_install.txt",
+            "sha256": "deed523639afe7fd896a5cf7597e11ecacd53156e815614ee165da2eeaa6974b",
+            "bytes": 291
+          },
+          {
+            "path": "T3_BACKUP_RESTORE_DRILL.json",
+            "sha256": "e6991471a3d19896b7b4e3e8799685dd1b3a03beff55eec7291e56f6db0e426a",
+            "bytes": 10524
+          },
+          {
+            "path": "T3_PACKAGE_FILES_INSTALL.json",
+            "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+            "bytes": 1806
+          },
+          {
+            "path": "T3_PACKAGE_INSTALL.json",
+            "sha256": "1cdf827f6642554ab32621a0d193038841f8b8d9aa25ebc6150d1ef9bb2a22d9",
+            "bytes": 360414
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656150,
+      "id": 11998611411,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-full-F03-final-stack-cp7-f03-full-supplier_credit",
+      "size_in_bytes": 3121822,
+      "digest": "sha256:0b341efba9bc19161363bb13849a030e958c0a496d0b56a7a44e90b80df03039",
+      "expired": false,
+      "created_at": "2026-10-15T18:34:06Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11998611411,
+        "run_id": 38785656150,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "0b341efba9bc19161363bb13849a030e958c0a496d0b56a7a44e90b80df03039",
+        "bytes": 3121822,
+        "members": [
+          {
+            "path": "ALIGNED_CHAIN.json",
+            "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+            "bytes": 17536
+          },
+          {
+            "path": "CLONE_install.connection-fence.txt",
+            "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+            "bytes": 494
+          },
+          {
+            "path": "CLONE_install.database-identity.txt",
+            "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+            "bytes": 3074
+          },
+          {
+            "path": "CLONE_install.txt",
+            "sha256": "55cc8cd344267209f23b30184c31e2d4c3141dbd8b1cd0defdabb398610f1080",
+            "bytes": 291
+          },
+          {
+            "path": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "sha256": "ab79286d27e3271969321ca490b18a94420c620372572998b062e07cd33dd669",
+            "bytes": 723253
+          },
+          {
+            "path": "T3_BACKUP_RESTORE_DRILL.json",
+            "sha256": "af50e01a04cf3687d0573c7c8387bb450ec6ffbab3a1fce2bbc307b4f0980552",
+            "bytes": 10524
+          },
+          {
+            "path": "T3_PACKAGE_FILES_INSTALL.json",
+            "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+            "bytes": 1806
+          },
+          {
+            "path": "T3_PACKAGE_INSTALL.json",
+            "sha256": "1cdf827f6642554ab32621a0d193038841f8b8d9aa25ebc6150d1ef9bb2a22d9",
+            "bytes": 360414
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656150,
+      "id": 11998602378,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-full-F03-final-stack-cp7-f03-full-p12",
+      "size_in_bytes": 10374889,
+      "digest": "sha256:1a84e4a65647036673fade8a9185d213c0914221c2e2c0385477c931aa2f3a2a",
+      "expired": false,
+      "created_at": "2026-10-15T18:39:32Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11998602378,
+        "run_id": 38785656150,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "1a84e4a65647036673fade8a9185d213c0914221c2e2c0385477c931aa2f3a2a",
+        "bytes": 10374889,
+        "members": [
+          {
+            "path": "ALIGNED_CHAIN.json",
+            "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+            "bytes": 17536
+          },
+          {
+            "path": "CLONE_install.connection-fence.txt",
+            "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+            "bytes": 494
+          },
+          {
+            "path": "CLONE_install.database-identity.txt",
+            "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+            "bytes": 3074
+          },
+          {
+            "path": "CLONE_install.txt",
+            "sha256": "7f29b69c6f053d93e4ae29a320bf73118c563189ab2eee7a0bf5abcfcb5b8aba",
+            "bytes": 291
+          },
+          {
+            "path": "CP7_F03_FULL_P12.json",
+            "sha256": "df041e0dd4c3de36beb24cc29d6ec7b96a26b5097ba41fd5c32d3f21974d0625",
+            "bytes": 13579767
+          },
+          {
+            "path": "T3_BACKUP_RESTORE_DRILL.json",
+            "sha256": "f7b5c6d8508b23f8bd26e4a349af021b250809fcf96c6e20320ac90f04c5adbb",
+            "bytes": 10524
+          },
+          {
+            "path": "T3_PACKAGE_FILES_INSTALL.json",
+            "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+            "bytes": 1806
+          },
+          {
+            "path": "T3_PACKAGE_INSTALL.json",
+            "sha256": "1cdf827f6642554ab32621a0d193038841f8b8d9aa25ebc6150d1ef9bb2a22d9",
+            "bytes": 360414
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656150,
+      "id": 11998202781,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-full-F03-final-stack-cp7-f03-full-p10",
+      "size_in_bytes": 6765618,
+      "digest": "sha256:eb57d2606207592767a4ba5a082a0874ba48df6f6fdb4c656ccdffcb8180a748",
+      "expired": false,
+      "created_at": "2026-10-15T18:35:00Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11998202781,
+        "run_id": 38785656150,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "eb57d2606207592767a4ba5a082a0874ba48df6f6fdb4c656ccdffcb8180a748",
+        "bytes": 6765618,
+        "members": [
+          {
+            "path": "ALIGNED_CHAIN.json",
+            "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+            "bytes": 17536
+          },
+          {
+            "path": "CLONE_install.connection-fence.txt",
+            "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+            "bytes": 494
+          },
+          {
+            "path": "CLONE_install.database-identity.txt",
+            "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+            "bytes": 3074
+          },
+          {
+            "path": "CLONE_install.txt",
+            "sha256": "62cc50b8fef84e537c5f4470936ff2dc479fd4aaa5516d5ce06c9778e0701ef9",
+            "bytes": 291
+          },
+          {
+            "path": "CP7_F03_FULL_P10.json",
+            "sha256": "438ef9b807574f025c98e280547357b24700fc7798cf1859711ccd259e1d15ec",
+            "bytes": 5663942
+          },
+          {
+            "path": "T3_BACKUP_RESTORE_DRILL.json",
+            "sha256": "44632fe861f63c036e8d1708fe4902c76f57caadb82160127121fbc61936b4e8",
+            "bytes": 10524
+          },
+          {
+            "path": "T3_PACKAGE_FILES_INSTALL.json",
+            "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+            "bytes": 1806
+          },
+          {
+            "path": "T3_PACKAGE_INSTALL.json",
+            "sha256": "1cdf827f6642554ab32621a0d193038841f8b8d9aa25ebc6150d1ef9bb2a22d9",
+            "bytes": 360414
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656150,
+      "id": 11998102067,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-full-F03-final-stack-cp7-f03-full-customer_refund",
+      "size_in_bytes": 3716271,
+      "digest": "sha256:9430a242ebda42f98adc16c2bc93a5c6092ee00df683f87b3dcc8faab29e4e26",
+      "expired": false,
+      "created_at": "2026-10-15T18:32:16Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11998102067,
+        "run_id": 38785656150,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "9430a242ebda42f98adc16c2bc93a5c6092ee00df683f87b3dcc8faab29e4e26",
+        "bytes": 3716271,
+        "members": [
+          {
+            "path": "ALIGNED_CHAIN.json",
+            "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+            "bytes": 17536
+          },
+          {
+            "path": "CLONE_install.connection-fence.txt",
+            "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+            "bytes": 494
+          },
+          {
+            "path": "CLONE_install.database-identity.txt",
+            "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+            "bytes": 3074
+          },
+          {
+            "path": "CP7_F03_FULL_CUSTOMER_REFUND.json",
+            "sha256": "1c293058f5a626c6a2bdd99252e7901b237441ba724a22203b388e9bc283181b",
+            "bytes": 1420173
+          },
+          {
+            "path": "CLONE_install.txt",
+            "sha256": "7819d7a5f9b1b80214ecb46f53c33c1af3942efea957e92c37ef3b5c2782fd33",
+            "bytes": 291
+          },
+          {
+            "path": "T3_BACKUP_RESTORE_DRILL.json",
+            "sha256": "ecf55ac8357991d2dc80fb1f6ad830f93a58e9d673b475f4f5e72de3d33b4a48",
+            "bytes": 10524
+          },
+          {
+            "path": "T3_PACKAGE_FILES_INSTALL.json",
+            "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+            "bytes": 1806
+          },
+          {
+            "path": "T3_PACKAGE_INSTALL.json",
+            "sha256": "1cdf827f6642554ab32621a0d193038841f8b8d9aa25ebc6150d1ef9bb2a22d9",
+            "bytes": 360414
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656150,
+      "id": 11998073518,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-full-F03-final-stack-phase-4-identity",
+      "size_in_bytes": 659,
+      "digest": "sha256:770de3115f4d48adb435bcc2b42885649b352ba17e7a72668d9f8a87345696fe",
+      "expired": false,
+      "created_at": "2026-10-15T18:37:21Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11998073518,
+        "run_id": 38785656150,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "770de3115f4d48adb435bcc2b42885649b352ba17e7a72668d9f8a87345696fe",
+        "bytes": 659,
+        "members": [
+          {
+            "path": "SOL_SOURCE_IDENTITY.json",
+            "sha256": "0bbe5f6d79765457268227b9ab1450730ad8f229fcc9014a84d432a064937ecf",
+            "bytes": 823
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656150,
+      "id": 11998023666,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-full-F03-final-stack-cp7-f03-full-p13",
+      "size_in_bytes": 12294775,
+      "digest": "sha256:c0de7613382748892b1739636f72633901434b976d786b308081b50c56a85c91",
+      "expired": false,
+      "created_at": "2026-10-15T18:37:20Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11998023666,
+        "run_id": 38785656150,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "c0de7613382748892b1739636f72633901434b976d786b308081b50c56a85c91",
+        "bytes": 12294775,
+        "members": [
+          {
+            "path": "ALIGNED_CHAIN.json",
+            "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+            "bytes": 17536
+          },
+          {
+            "path": "CLONE_install.connection-fence.txt",
+            "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+            "bytes": 494
+          },
+          {
+            "path": "CLONE_install.database-identity.txt",
+            "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+            "bytes": 3074
+          },
+          {
+            "path": "CLONE_install.txt",
+            "sha256": "e892d5f62e68d181ba662fa2521cc28915503c7461d678a331fe85b9b0f7d9cf",
+            "bytes": 291
+          },
+          {
+            "path": "CP7_F03_FULL_P13.json",
+            "sha256": "8e041d7519e39a36094b7dcfd0a1c397dd5a28121249297d8be61ba7d19b5fc3",
+            "bytes": 8368080
+          },
+          {
+            "path": "T3_BACKUP_RESTORE_DRILL.json",
+            "sha256": "aca08ff1916168781c1d2e3a533f973ae6533e2a86e1215f94d1fbf6865877da",
+            "bytes": 10524
+          },
+          {
+            "path": "T3_PACKAGE_FILES_INSTALL.json",
+            "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+            "bytes": 1806
+          },
+          {
+            "path": "T3_PACKAGE_INSTALL.json",
+            "sha256": "1cdf827f6642554ab32621a0d193038841f8b8d9aa25ebc6150d1ef9bb2a22d9",
+            "bytes": 360414
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656150,
+      "id": 11997758591,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-full-F03-final-stack-phase-1-identity",
+      "size_in_bytes": 659,
+      "digest": "sha256:087982dc86ff309ba3b21f539a84a814023f402c389851e76db693fa590487ec",
+      "expired": false,
+      "created_at": "2026-10-15T18:35:01Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11997758591,
+        "run_id": 38785656150,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "087982dc86ff309ba3b21f539a84a814023f402c389851e76db693fa590487ec",
+        "bytes": 659,
+        "members": [
+          {
+            "path": "SOL_SOURCE_IDENTITY.json",
+            "sha256": "0bbe5f6d79765457268227b9ab1450730ad8f229fcc9014a84d432a064937ecf",
+            "bytes": 823
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656150,
+      "id": 11997618855,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-full-F03-final-stack-cp7-f03-full-cash_installments",
+      "size_in_bytes": 31942170,
+      "digest": "sha256:a4e0f366195e2e48e55909bc4b78719c309469d94fbdc0117fd5805cbb033dcb",
+      "expired": false,
+      "created_at": "2026-10-15T18:37:59Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11997618855,
+        "run_id": 38785656150,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "a4e0f366195e2e48e55909bc4b78719c309469d94fbdc0117fd5805cbb033dcb",
+        "bytes": 31942170,
+        "members": [
+          {
+            "path": "ALIGNED_CHAIN.json",
+            "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+            "bytes": 17536
+          },
+          {
+            "path": "CLONE_install.connection-fence.txt",
+            "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+            "bytes": 494
+          },
+          {
+            "path": "CLONE_install.database-identity.txt",
+            "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+            "bytes": 3074
+          },
+          {
+            "path": "CP7_F03_FULL_CASH_INSTALLMENTS.json",
+            "sha256": "9812b4b4c6439124759705e420ba8d76f7d7adddfcfce97308874056e1b10794",
+            "bytes": 9710497
+          },
+          {
+            "path": "CLONE_install.txt",
+            "sha256": "d1994b06ff25ec04f36c80446fe78c2897459739db194333da9be66b8ed85b7f",
+            "bytes": 291
+          },
+          {
+            "path": "T3_BACKUP_RESTORE_DRILL.json",
+            "sha256": "778e8ef4532a804485c5bee016fc054ee82292a12d23891f5c0e0c77ec943ed7",
+            "bytes": 10524
+          },
+          {
+            "path": "T3_PACKAGE_FILES_INSTALL.json",
+            "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+            "bytes": 1806
+          },
+          {
+            "path": "T3_PACKAGE_INSTALL.json",
+            "sha256": "1cdf827f6642554ab32621a0d193038841f8b8d9aa25ebc6150d1ef9bb2a22d9",
+            "bytes": 360414
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656150,
+      "id": 11997593898,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-full-F03-final-stack-phase-3-identity",
+      "size_in_bytes": 659,
+      "digest": "sha256:c25e91799ea6133a91e1605bf78fbaa800147f79f40c78a6845fa27cd6a53d60",
+      "expired": false,
+      "created_at": "2026-10-15T18:39:33Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11997593898,
+        "run_id": 38785656150,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "c25e91799ea6133a91e1605bf78fbaa800147f79f40c78a6845fa27cd6a53d60",
+        "bytes": 659,
+        "members": [
+          {
+            "path": "SOL_SOURCE_IDENTITY.json",
+            "sha256": "0bbe5f6d79765457268227b9ab1450730ad8f229fcc9014a84d432a064937ecf",
+            "bytes": 823
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656150,
+      "id": 11997477955,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-full-F03-final-stack-phase-7-identity",
+      "size_in_bytes": 659,
+      "digest": "sha256:5bb0a8739e8d3bd912174a125c967b500ee12a7aa21cb40fc18589ce797bb660",
+      "expired": false,
+      "created_at": "2026-10-15T18:32:17Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11997477955,
+        "run_id": 38785656150,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "5bb0a8739e8d3bd912174a125c967b500ee12a7aa21cb40fc18589ce797bb660",
+        "bytes": 659,
+        "members": [
+          {
+            "path": "SOL_SOURCE_IDENTITY.json",
+            "sha256": "0bbe5f6d79765457268227b9ab1450730ad8f229fcc9014a84d432a064937ecf",
+            "bytes": 823
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656150,
+      "id": 11997463581,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-full-F03-final-stack-phase-2-identity",
+      "size_in_bytes": 659,
+      "digest": "sha256:9d8328e431fee27e75e17b75f888d24282a728caf21911f42814c1b85cf9bfa4",
+      "expired": false,
+      "created_at": "2026-10-15T18:36:14Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11997463581,
+        "run_id": 38785656150,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "9d8328e431fee27e75e17b75f888d24282a728caf21911f42814c1b85cf9bfa4",
+        "bytes": 659,
+        "members": [
+          {
+            "path": "SOL_SOURCE_IDENTITY.json",
+            "sha256": "0bbe5f6d79765457268227b9ab1450730ad8f229fcc9014a84d432a064937ecf",
+            "bytes": 823
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656150,
+      "id": 11997204080,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-full-F03-final-stack-phase-5-identity",
+      "size_in_bytes": 659,
+      "digest": "sha256:7390167a1acf32da7bcfd126d6a9e284d0725c89b4de79b6f827f74000ff5da4",
+      "expired": false,
+      "created_at": "2026-10-15T18:38:00Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11997204080,
+        "run_id": 38785656150,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "7390167a1acf32da7bcfd126d6a9e284d0725c89b4de79b6f827f74000ff5da4",
+        "bytes": 659,
+        "members": [
+          {
+            "path": "SOL_SOURCE_IDENTITY.json",
+            "sha256": "0bbe5f6d79765457268227b9ab1450730ad8f229fcc9014a84d432a064937ecf",
+            "bytes": 823
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656150,
+      "id": 11997199157,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-full-F03-final-stack-phase-0-identity",
+      "size_in_bytes": 659,
+      "digest": "sha256:e2105b6a510b4e8473cc9d99ae1a4354a6f58aa88e6e40f92c7b1893ed638a7f",
+      "expired": false,
+      "created_at": "2026-10-15T18:38:33Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11997199157,
+        "run_id": 38785656150,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "e2105b6a510b4e8473cc9d99ae1a4354a6f58aa88e6e40f92c7b1893ed638a7f",
+        "bytes": 659,
+        "members": [
+          {
+            "path": "SOL_SOURCE_IDENTITY.json",
+            "sha256": "0bbe5f6d79765457268227b9ab1450730ad8f229fcc9014a84d432a064937ecf",
+            "bytes": 823
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656150,
+      "id": 11997153840,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-full-F03-final-stack-cp7-f03-full-p11",
+      "size_in_bytes": 14611412,
+      "digest": "sha256:085bdc3cb48ce687b04b23ca2644954e0a16f3aa917d1e4b0bc30dbb8cf57340",
+      "expired": false,
+      "created_at": "2026-10-15T18:36:13Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11997153840,
+        "run_id": 38785656150,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "085bdc3cb48ce687b04b23ca2644954e0a16f3aa917d1e4b0bc30dbb8cf57340",
+        "bytes": 14611412,
+        "members": [
+          {
+            "path": "ALIGNED_CHAIN.json",
+            "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+            "bytes": 17536
+          },
+          {
+            "path": "CLONE_install.connection-fence.txt",
+            "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+            "bytes": 494
+          },
+          {
+            "path": "CLONE_install.database-identity.txt",
+            "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+            "bytes": 3074
+          },
+          {
+            "path": "CLONE_install.txt",
+            "sha256": "8e27de19e85f0379335f24a5392719e0efc3d43f18df810a65dff87548bc20bc",
+            "bytes": 291
+          },
+          {
+            "path": "CP7_F03_FULL_P11.json",
+            "sha256": "a53fdc820f46c92c7dffb35650a52d042f2f32c8995b9b67609b15675cf027c6",
+            "bytes": 10990909
+          },
+          {
+            "path": "T3_BACKUP_RESTORE_DRILL.json",
+            "sha256": "5ee5812b84d02588509fe881fc9c797c054a01bc440414a3d7f46baf16219a9d",
+            "bytes": 10524
+          },
+          {
+            "path": "T3_PACKAGE_FILES_INSTALL.json",
+            "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+            "bytes": 1806
+          },
+          {
+            "path": "T3_PACKAGE_INSTALL.json",
+            "sha256": "1cdf827f6642554ab32621a0d193038841f8b8d9aa25ebc6150d1ef9bb2a22d9",
+            "bytes": 360414
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656150,
+      "id": 11997128600,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-full-F03-final-stack-phase-6-identity",
+      "size_in_bytes": 659,
+      "digest": "sha256:0736edc46fb86cd639a78eaa298bf852bdef53482bf8ce7e854732c3b9d29452",
+      "expired": false,
+      "created_at": "2026-10-15T18:34:07Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11997128600,
+        "run_id": 38785656150,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "0736edc46fb86cd639a78eaa298bf852bdef53482bf8ce7e854732c3b9d29452",
+        "bytes": 659,
+        "members": [
+          {
+            "path": "SOL_SOURCE_IDENTITY.json",
+            "sha256": "0bbe5f6d79765457268227b9ab1450730ad8f229fcc9014a84d432a064937ecf",
+            "bytes": 823
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38785656090,
+      "id": 11998725681,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-owner-full-58-files-phase-0-identity",
+      "size_in_bytes": 659,
+      "digest": "sha256:80d0b1c7a8a5339c422fe5be628dfad18d159d5e6073d232726aaed180edd578",
+      "expired": false,
+      "created_at": "2026-10-15T18:30:42Z",
+      "expires_at": "2027-01-13T18:26:37Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11998725681,
+        "run_id": 38785656090,
+        "workflow_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "digest": "80d0b1c7a8a5339c422fe5be628dfad18d159d5e6073d232726aaed180edd578",
+        "bytes": 659,
+        "members": [
+          {
+            "path": "SOL_SOURCE_IDENTITY.json",
+            "sha256": "0bbe5f6d79765457268227b9ab1450730ad8f229fcc9014a84d432a064937ecf",
+            "bytes": 823
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38786177957,
+      "id": 11998406630,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-menus-DEMO_SIMULATION",
+      "size_in_bytes": 87849,
+      "digest": "sha256:6cf6f5fb2469706e3a0f29737d4d689156b3bb22c9a0fefa44b10c6d7bc3f8fa",
+      "expired": false,
+      "created_at": "2026-10-15T18:32:40Z",
+      "expires_at": "2027-01-13T18:30:23Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11998406630,
+        "run_id": 38786177957,
+        "workflow_sha": "dcffa6889f15c0666b960613294b2a26a1456b67",
+        "digest": "6cf6f5fb2469706e3a0f29737d4d689156b3bb22c9a0fefa44b10c6d7bc3f8fa",
+        "bytes": 87849,
+        "members": [
+          {
+            "path": "DEMO_SIMULATION.json",
+            "sha256": "7db1c0c487147c52c3226fb8beb7e641faba30e4263c3cbc42cb3525ce3f6c9c",
+            "bytes": 566757
+          },
+          {
+            "path": "source.txt",
+            "sha256": "651db8c136b7b9f6d183558005a38d9c5a407a67ca595a8968a2f825ad754c0d",
+            "bytes": 289
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38786177957,
+      "id": 11998247784,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-menus-DISPOSABLE_TEST",
+      "size_in_bytes": 45098,
+      "digest": "sha256:1d1a468d3d494f8ff451f7a782ea3f52e8cfb9c7e70f4a6a1e393ecb2d1ae19f",
+      "expired": false,
+      "created_at": "2026-10-15T18:34:25Z",
+      "expires_at": "2027-01-13T18:30:23Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11998247784,
+        "run_id": 38786177957,
+        "workflow_sha": "dcffa6889f15c0666b960613294b2a26a1456b67",
+        "digest": "1d1a468d3d494f8ff451f7a782ea3f52e8cfb9c7e70f4a6a1e393ecb2d1ae19f",
+        "bytes": 45098,
+        "members": [
+          {
+            "path": "DISPOSABLE_TEST.json",
+            "sha256": "3fbfa185f96d312970f11b5376c8aa7de969eb2bea48c393dc7a76f8d36b8855",
+            "bytes": 334239
+          },
+          {
+            "path": "source.txt",
+            "sha256": "651db8c136b7b9f6d183558005a38d9c5a407a67ca595a8968a2f825ad754c0d",
+            "bytes": 289
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38786177957,
+      "id": 11998077978,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-menus-UAT_AUTH_SIMULATION",
+      "size_in_bytes": 61056,
+      "digest": "sha256:04d73a51be32d573ba92d2294a1eba621b1091d821d295cd31fa64e2d7ea9d54",
+      "expired": false,
+      "created_at": "2026-10-15T18:34:36Z",
+      "expires_at": "2027-01-13T18:30:23Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11998077978,
+        "run_id": 38786177957,
+        "workflow_sha": "dcffa6889f15c0666b960613294b2a26a1456b67",
+        "digest": "04d73a51be32d573ba92d2294a1eba621b1091d821d295cd31fa64e2d7ea9d54",
+        "bytes": 61056,
+        "members": [
+          {
+            "path": "UAT_AUTH_SIMULATION.json",
+            "sha256": "0c341d48e370eef5b54e167d25e4fe2c718d79a60c64ecd7864329cc0fe8f7d4",
+            "bytes": 400403
+          },
+          {
+            "path": "source.txt",
+            "sha256": "651db8c136b7b9f6d183558005a38d9c5a407a67ca595a8968a2f825ad754c0d",
+            "bytes": 289
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38787131786,
+      "id": 11998537784,
+      "name": "qualified-cp17-combined-20261016-SOL-dfab13bf-owner-full-58-files-cp7-cp17-fixes",
+      "size_in_bytes": 881975,
+      "digest": "sha256:352b40daf42ee5e7b218b3cca5a044096641b9f7bca1e268be8e0a7ce51d0cb1",
+      "expired": false,
+      "created_at": "2026-10-15T18:42:12Z",
+      "expires_at": "2027-01-13T18:37:17Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11998537784,
+        "run_id": 38787131786,
+        "workflow_sha": "25d61b5b6b4db5372f54bc7790301acdb3608ad8",
+        "digest": "352b40daf42ee5e7b218b3cca5a044096641b9f7bca1e268be8e0a7ce51d0cb1",
+        "bytes": 881975,
+        "members": [
+          {
+            "path": "ALIGNED_CHAIN.json",
+            "sha256": "e6e2c89a328823efdb127d3e67c29ac9fd1d1124180b5c9680e5ae9111a1b5ca",
+            "bytes": 10211
+          },
+          {
+            "path": "CLONE_install.connection-fence.txt",
+            "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+            "bytes": 494
+          },
+          {
+            "path": "CLONE_install.database-identity.txt",
+            "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+            "bytes": 3074
+          },
+          {
+            "path": "CLONE_install.txt",
+            "sha256": "be5cab5e0626c6a4fc73681ed42963822b97e474885ed1d6fc594a8a4c4afa7d",
+            "bytes": 291
+          },
+          {
+            "path": "OWNER_ALREADY_INSTALLED.json",
+            "sha256": "40a630af58942f6fcbb296d5fcb26b76320d897d61dca3cd177dc75c63ce33da",
+            "bytes": 2007
+          },
+          {
+            "path": "OWNER_ALREADY_INSTALLED.private-diagnostic.json",
+            "sha256": "a1cab0f043798f19b1e5bd543792d39e8cb5909835f24f9efd0ab13ac7cfc086",
+            "bytes": 828
+          },
+          {
+            "path": "OWNER_BASELINE_DRIFT.json",
+            "sha256": "1dd0924d96cff0fa4243d43796d3b03df441f1b572a4c09d0ded1207488938a8",
+            "bytes": 1365
+          },
+          {
+            "path": "OWNER_BASELINE_DRIFT.private-diagnostic.json",
+            "sha256": "992608df1d976a7b478bb89f016300e6d2e007e72410b049ee0344d1518d8479",
+            "bytes": 1056
+          },
+          {
+            "path": "OWNER_BUSY.json",
+            "sha256": "250bcd8a5596a0a3debbd8d7f63e3e9ac90e4f6666f133024b0436b935417537",
+            "bytes": 1355
+          },
+          {
+            "path": "OWNER_BUSY.private-diagnostic.json",
+            "sha256": "1fcf5e45bf3a63c7404139c45868f53e0e927de6d4d520d5d3f95a561a8b433d",
+            "bytes": 801
+          },
+          {
+            "path": "OWNER_CONTROLLER_QUALIFICATION.json",
+            "sha256": "36155044d8a04fcefed57adc8d32c8fb8cd30db8a3311f353fff5ba043cf4138",
+            "bytes": 1308
+          },
+          {
+            "path": "OWNER_INSTALL.json",
+            "sha256": "fd9e67a4b1ac1204e9957931f6b2dfd8a27f2108c540916818cc681df6eea996",
+            "bytes": 9544
+          },
+          {
+            "path": "OWNER_LOCK_BUSY.json",
+            "sha256": "df671b02771ac8c0312d6e379f2563aa2a346bcc951bd7900bca6d69dcd7983f",
+            "bytes": 1363
+          },
+          {
+            "path": "OWNER_LOCK_BUSY.private-diagnostic.json",
+            "sha256": "113ac0ea24f21b099ff9f1d621025ba5a6aa02e5dfa47079cbcfec179ba6b7e5",
+            "bytes": 822
+          },
+          {
+            "path": "OWNER_MISSING_AB.json",
+            "sha256": "6b337399a237f8b8b8af9a6b433324040a3757aaf681e7dc9f63dbeef11b66f7",
+            "bytes": 1257
+          },
+          {
+            "path": "OWNER_MISSING_AB.private-diagnostic.json",
+            "sha256": "949c43fc22b1ba687a74844968b239547e38782f4a922917ddd43120fa662f5c",
+            "bytes": 820
+          },
+          {
+            "path": "OWNER_NOT_OWNER.json",
+            "sha256": "e47e118bd2ba3966ab2d9754b6f6b8cf565a026540dd2e94e33f1fb45da7b8f0",
+            "bytes": 923
+          },
+          {
+            "path": "OWNER_NOT_OWNER.private-diagnostic.json",
+            "sha256": "554239c5099128dea824ec751514729f3782cfe562fc6a7b5e42e18e08be8d07",
+            "bytes": 816
+          },
+          {
+            "path": "OWNER_READ_ONLY_PLAN.json",
+            "sha256": "386f445c31a2b99e50a26676dd943d4ef94f117bfdae899748bd91ccc1277c5a",
+            "bytes": 1065
+          },
+          {
+            "path": "OWNER_WRONG_ENDPOINT.json",
+            "sha256": "23df8c2974d994663d4e8687c10032f1b5c09f618be8dc0a7b73212f4d5cf7c4",
+            "bytes": 931
+          },
+          {
+            "path": "OWNER_WRONG_ENDPOINT.private-diagnostic.json",
+            "sha256": "fd645c93e73f80bc22fad3f3bb2d75b56b06a58ee871b12745cf83440dfa88ae",
+            "bytes": 273
+          },
+          {
+            "path": "SOL_OWNER_BASELINE_ADAPTER.json",
+            "sha256": "8da2b71ccda9e9dff50458180d9825ed37da022b9f855758285c49365f74271c",
+            "bytes": 1081
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38787131786,
+      "id": 11997349463,
+      "name": "qualified-cp17-combined-20261016-SOL-dfab13bf-owner-full-58-files-phase-0-identity",
+      "size_in_bytes": 658,
+      "digest": "sha256:b89dd5965b0ecd3f329eeceb9047d02398bd389d96e0778ecd5a5893884521ff",
+      "expired": false,
+      "created_at": "2026-10-15T18:42:13Z",
+      "expires_at": "2027-01-13T18:37:17Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11997349463,
+        "run_id": 38787131786,
+        "workflow_sha": "25d61b5b6b4db5372f54bc7790301acdb3608ad8",
+        "digest": "b89dd5965b0ecd3f329eeceb9047d02398bd389d96e0778ecd5a5893884521ff",
+        "bytes": 658,
+        "members": [
+          {
+            "path": "SOL_SOURCE_IDENTITY.json",
+            "sha256": "9b240902aecf5c0488257446fd3ba0ba7343de17fa8e6b4a614319d8f9d0766e",
+            "bytes": 823
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38787925433,
+      "id": 11999550361,
+      "name": "qualified-correction-cp17-combined-20261016-SOL-dfab13bf-combined-retest-phase-0-identity",
+      "size_in_bytes": 659,
+      "digest": "sha256:cae78ba5fd3eb80e22e80b74ec98b9132e7abcfbb0e6335a69d9db57853db734",
+      "expired": false,
+      "created_at": "2026-10-15T18:47:34Z",
+      "expires_at": "2027-01-13T18:43:02Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11999550361,
+        "run_id": 38787925433,
+        "workflow_sha": "f72edfdadc8e8b0e6d6e199f02250a03e840a21c",
+        "digest": "cae78ba5fd3eb80e22e80b74ec98b9132e7abcfbb0e6335a69d9db57853db734",
+        "bytes": 659,
+        "members": [
+          {
+            "path": "SOL_SOURCE_IDENTITY.json",
+            "sha256": "0021f43488bbab2dba4c1f210e477ab5a92e32f2beac1492c7df161017affb57",
+            "bytes": 823
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38787925433,
+      "id": 11998368969,
+      "name": "qualified-correction-cp17-combined-20261016-SOL-dfab13bf-combined-retest-cp7-cp17-fixes",
+      "size_in_bytes": 1629423,
+      "digest": "sha256:1693197ed664b5f9ab40641e582c0fa55c5359c838f8c1042006568f4c08e960",
+      "expired": false,
+      "created_at": "2026-10-15T18:47:33Z",
+      "expires_at": "2027-01-13T18:43:02Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11998368969,
+        "run_id": 38787925433,
+        "workflow_sha": "f72edfdadc8e8b0e6d6e199f02250a03e840a21c",
+        "digest": "1693197ed664b5f9ab40641e582c0fa55c5359c838f8c1042006568f4c08e960",
+        "bytes": 1629423,
+        "members": [
+          {
+            "path": "CLONE_install.connection-fence.txt",
+            "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+            "bytes": 494
+          },
+          {
+            "path": "ALIGNED_CHAIN.json",
+            "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+            "bytes": 17536
+          },
+          {
+            "path": "CLONE_install.database-identity.txt",
+            "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+            "bytes": 3074
+          },
+          {
+            "path": "CLONE_install.txt",
+            "sha256": "4536b0d8a4dba56e4622890327ae28a1aff33c4618a833242f19d55544eabb2e",
+            "bytes": 291
+          },
+          {
+            "path": "SOL_CORRECTION_QUALIFIED.json",
+            "sha256": "8c82101079182e62d5278cbc4bb41d93d5c97ee02484ae4f7cbfa50369f12c37",
+            "bytes": 50399
+          },
+          {
+            "path": "T3_BACKUP_RESTORE_DRILL.json",
+            "sha256": "0b2efae23583d157030676cee4896fd02bad0ff76fa723539a903e114c62af77",
+            "bytes": 10524
+          },
+          {
+            "path": "T3_PACKAGE_FILES_INSTALL.json",
+            "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+            "bytes": 1806
+          },
+          {
+            "path": "T3_PACKAGE_INSTALL.json",
+            "sha256": "24a2440ed52aca6c9789e12d18cd788c7766929fded92548645d522514cce897",
+            "bytes": 360356
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    },
+    {
+      "run_id": 38790510239,
+      "id": 11999157812,
+      "name": "cp17-combined-20261016-SOL-dfab13bf-diagnostic-retention",
+      "size_in_bytes": 1992,
+      "digest": "sha256:a1ed8d8b72100570417c90f7df775cad94874f52583ecf28261bc31ec029d685",
+      "expired": false,
+      "created_at": "2026-10-15T19:02:52Z",
+      "expires_at": "2027-01-13T19:01:47Z",
+      "retained_report_count": null,
+      "transfer_receipt": {
+        "artifact_id": 11999157812,
+        "run_id": 38790510239,
+        "workflow_sha": "99afa9358ab8331bd3d48a72fe5c34b56504de59",
+        "digest": "a1ed8d8b72100570417c90f7df775cad94874f52583ecf28261bc31ec029d685",
+        "bytes": 1992,
+        "members": [
+          {
+            "path": "SOL_DIAGNOSTIC_RETEST.json",
+            "sha256": "9475574b434d7431410ce1f15815904dcc30044faab6b2d67cf9651f1701ecdb",
+            "bytes": 1580
+          },
+          {
+            "path": "owner.private-diagnostic.json",
+            "sha256": "92d4e18316b58759481a258ee55b252f8aab075ebb9a0aaa0a704fb7663b124e",
+            "bytes": 1445
+          }
+        ],
+        "Native_execution_credit": 0
+      }
+    }
+  ],
+  "preservation": "Exact JSON/TXT outcomes, selected original log, source probes and member hashes in proof archive; SQL dumps and screenshots excluded. Original ZIP digests retained separately.",
+  "transfer_is_native_evidence": false
+}

@@ -1,0 +1,15 @@
+{
+  "filename": "SOL_CP17_dfab13bf_20261016_EVIDENCE.zip",
+  "local_path": "/workspace/scratch/5969cedfb83c/SOL_CP17_dfab13bf_20261016_EVIDENCE.zip",
+  "bytes": 7801001,
+  "sha256": "68cf6286251c4fd13500a426a45c8a60dd70ee716445fb8ceca109be0d1674f7",
+  "exact_report_members": 164,
+  "omitted_members": 173,
+  "contains_screenshots": false,
+  "contains_sql_dumps": false,
+  "contains_original_CP2": false,
+  "repository_sources": "immutable Git commits; not duplicated",
+  "status": "DURABLY_SAVED",
+  "owner_archive_name": "SOL_CP17_dfab13bf_20261016_EVIDENCE.zip",
+  "private_library_identifiers_in_public_repo": false
+}

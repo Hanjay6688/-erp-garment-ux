@@ -1,0 +1,54 @@
+{
+  "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "candidate_tree": "886f83312958b53781a450a4ea2a8fb2147b3be3",
+  "after_audit_code_head": "99afa9358ab8331bd3d48a72fe5c34b56504de59",
+  "actual_root_entries": [
+    {
+      "path": ".github",
+      "type": "tree",
+      "sha": "ae63910b64d3c6c5d54c3bb77bb1ee68130aa4da"
+    },
+    {
+      "path": "package-lock.json",
+      "type": "blob",
+      "sha": "ca9159d26989e0263b6b757f5f824bd9333d8cf6"
+    },
+    {
+      "path": "package.json",
+      "type": "blob",
+      "sha": "8707f6817acfc294caeab8aa54496df5b8dde04e"
+    },
+    {
+      "path": "scripts",
+      "type": "tree",
+      "sha": "1306bf8ec4f2f256c97764a195c4cceaf222eb08"
+    },
+    {
+      "path": "src",
+      "type": "tree",
+      "sha": "78915706a09428b7e85c1e04ffcfb82f3b2fce50"
+    },
+    {
+      "path": "supabase",
+      "type": "tree",
+      "sha": "5d040436db384b4e574785376367b360a084acb7"
+    },
+    {
+      "path": "tests",
+      "type": "tree",
+      "sha": "18a0543319657bfa078e74a7684031395d0812d2"
+    }
+  ],
+  "product_source_unchanged_by_auditor": true,
+  "local_product_diff_empty": true,
+  "remote_changes_only": [
+    "audit/sol_cp17_combined/**",
+    ".github/workflows/audit-sol-*"
+  ],
+  "hosted_sql_executed": false,
+  "main_or_writer_changed": false,
+  "production_go": false,
+  "guide_sha256": "5752e96df751de5ebe4b86d3f572cffa1bbe94eb42bf8e283fa6e04f9f593639",
+  "owner_register_sha256": "c8b5e5065d2fec088b26adb5c3b696afb409f3542ca3762d4097331c53afa3a8",
+  "lockfile_sha256": "3f52c1eb326b53129977e78e7c95b14e0d0bebd8c8229e0cab96e88c85d88195"
+}

@@ -1,0 +1,256 @@
+{
+  "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "reviewed": 20,
+  "denominator": 20,
+  "all_20_one_browser_chain_proven": false,
+  "rows": [
+    {
+      "id": "B1",
+      "chain": "Pembelian → penerimaan → roll/stok/GRNI",
+      "connection_status": "TERSAMBUNG DAN TERUJI",
+      "application_pages": "procurement; materials-rolls",
+      "public_to_native_path": "public procurement commands → Native receipt/invoice/material movements",
+      "independent_proof": "F03 p09 135 observations incl. 3 smoke, real Auth HTTP/browser",
+      "verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+      "boundary": "Bahan masuk teruji; master material/supplier harian masih contoh.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": []
+    },
+    {
+      "id": "B2",
+      "chain": "Bahan → potong → WIP",
+      "connection_status": "TERSAMBUNG TANPA UJI APLIKASI",
+      "application_pages": "cutting-roll",
+      "public_to_native_path": "erp_save_cutting_group_before_sewing_v2 → erp.post_cutting_material_issue",
+      "independent_proof": "CP17 STK01/SG02 Native, browser kain kembali; own source trace",
+      "verdict": "INCOMPLETE_FULL_LINK",
+      "boundary": "PO yang sudah ada bisa dipakai; PO harian baru tidak punya rute biasa (SOL-R1-002). Belum fresh browser POST potong.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": [
+        "SOL-R1-002"
+      ]
+    },
+    {
+      "id": "B3",
+      "chain": "Potongan → pickup mandor",
+      "connection_status": "TERSAMBUNG TANPA UJI APLIKASI",
+      "application_pages": "mandor-wip",
+      "public_to_native_path": "erp_save_cutting_pickup_v1; erp_cp7_reverse_pickup_v1",
+      "independent_proof": "CP17 SG01 Native + real browser pembatalan",
+      "verdict": "INCOMPLETE_FULL_LINK",
+      "boundary": "Browser POST pickup baru belum dibuktikan pada final stack; pembatalan bukan pengganti jalur positif itu.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": []
+    },
+    {
+      "id": "B4",
+      "chain": "Pickup → selesai jahit + upah → siap laundry",
+      "connection_status": "TERSAMBUNG DAN TERUJI",
+      "application_pages": "sewing-wip",
+      "public_to_native_path": "CP7 sewing command → Native work completion + terminal event",
+      "independent_proof": "CP17 G1 Native/race/real Auth HTTP/browser desktop + phone; own 4/6 PCS × 2 komponen",
+      "verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+      "boundary": "Lulus jalur dasar; BF wave SKU/size rates belum didukung (KNOWN-BF-WAVE), tidak terwakili fixture dasar.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": [
+        "KNOWN-BF-WAVE"
+      ]
+    },
+    {
+      "id": "B5",
+      "chain": "Jahit → kirim/terima laundry, klaim/cuci ulang",
+      "connection_status": "TERSAMBUNG TANPA UJI APLIKASI",
+      "application_pages": "laundry",
+      "public_to_native_path": "erp_save_laundry_qc_action_v1 / erp_save_laundry_bd_action_v1 → Native laundry writers",
+      "independent_proof": "CP17 FIN02/SG03 Native; retained old independent prefreeze browser; BE16 Native CP6",
+      "verdict": "INCOMPLETE_FULL_LINK",
+      "boundary": "Belum fresh positive browser seluruh kirim/terima/rewash pada final stack; guard saldo baru menambah alasan menahan klaim penuh.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": []
+    },
+    {
+      "id": "B6",
+      "chain": "Invoice/klaim laundry → AP vendor → kas",
+      "connection_status": "TERSAMBUNG TANPA UJI APLIKASI",
+      "application_pages": "laundry; finance-ap; finance-cash",
+      "public_to_native_path": "POST_INVOICE / PAY_VENDOR_DOCUMENT → Native vendor invoice/payment; dated guards",
+      "independent_proof": "CP17 FIN02 + vendor empty-bank Native; F03 cash readers real browser",
+      "verdict": "INCOMPLETE_FULL_LINK",
+      "boundary": "FIN02 dan invoice/klaim→bayar vendor satu browser berantai belum dibuktikan; jangan meminjam saksi kredit supplier untuk vendor.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": []
+    },
+    {
+      "id": "B7",
+      "chain": "Terima laundry → QC/final SKU → FG (+BS)",
+      "connection_status": "TERSAMBUNG TANPA UJI APLIKASI",
+      "application_pages": "qc",
+      "public_to_native_path": "erp_save_laundry_qc_action_v1 POST_FINAL_SKU → Native final allocation/QC",
+      "independent_proof": "Native fixture/core retained; current inventory refusal only",
+      "verdict": "INCOMPLETE_FULL_LINK",
+      "boundary": "Belum fresh browser POST QC dengan efek stok/HPP dibaca setelah commit. Demo juga overflow (SOL-R1-004).",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": []
+    },
+    {
+      "id": "B8",
+      "chain": "FG → selesai PO → HPP final",
+      "connection_status": "TERSAMBUNG DAN TERUJI",
+      "application_pages": "hpp",
+      "public_to_native_path": "CP7 finish command → erp.finish_production_order; recost Native",
+      "independent_proof": "CP17 G2 Native/race/real Auth HTTP/browser + F03 p13 recost",
+      "verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+      "boundary": "G2 dasar lulus; QC→selesai PO dalam satu browser penuh belum ada; demo overflow terpisah (SOL-R1-005).",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": []
+    },
+    {
+      "id": "B9",
+      "chain": "FG → buku Vivo/Widie, adjustment, konversi",
+      "connection_status": "TERSAMBUNG TANPA UJI APLIKASI",
+      "application_pages": "fg-summary; movements-vivo; movements-widie; brand-conversion",
+      "public_to_native_path": "erp_cp7_get_fg_* / erp_cp7_save_fg_adjustment_v1 / erp_save_product_conversion_action_v1",
+      "independent_proof": "F03 p10 34 Native/race/HTTP/browser; BE16 Native CP6 T1",
+      "verdict": "INCOMPLETE_FULL_LINK",
+      "boundary": "Buku/adjustment teruji aplikasi; konversi→jual→HPP final CP7 belum diuji aplikasi. Status gabungan mengikuti subjalur terlemah.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": []
+    },
+    {
+      "id": "B10",
+      "chain": "FG → draft/invoice penjualan",
+      "connection_status": "TERSAMBUNG DAN TERUJI",
+      "application_pages": "sales-invoice; sales-allocation",
+      "public_to_native_path": "erp_cp7_save_sale_v1 → erp.save_sale_draft_v2 / erp.post_sale_v2",
+      "independent_proof": "F03 p11 + CP17 D14-5/12 browser nyata desktop/phone",
+      "verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+      "boundary": "Lusin sesuai range teruji. Menu Semua Invoice belum punya saksi khusus; UAT seluruh Penjualan masih contoh.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": []
+    },
+    {
+      "id": "B11",
+      "chain": "Penjualan → AR → pembayaran pelanggan → kas",
+      "connection_status": "TERSAMBUNG DAN TERUJI",
+      "application_pages": "sales-payments; finance-ar; finance-cash",
+      "public_to_native_path": "Native sales payment; public.erp_cp7_correct_sales_payment_v1",
+      "independent_proof": "F03 p11 Native/HTTP/browser; own new Native + real Auth HTTP counterexamples",
+      "verdict": "FAIL",
+      "boundary": "TERUJI dan GAGAL pada koreksi income yang sudah dipakai walau final positif, termasuk note-only (SOL-R1-001). Status koneksi T bukan vonis PASS.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": [
+        "SOL-R1-001"
+      ]
+    },
+    {
+      "id": "B12",
+      "chain": "Retur → FG + kredit AR/refund",
+      "connection_status": "TERSAMBUNG DAN TERUJI",
+      "application_pages": "sales-returns; finance-ar",
+      "public_to_native_path": "erp.post_sales_return / correction facade / refund command",
+      "independent_proof": "F03 p11 returns + customer_refund 10 observations including real browser",
+      "verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+      "boundary": "Subset retur/refund positif teruji; belum seluruh permutasi koreksi, pemakaian kredit dan tanggal.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": []
+    },
+    {
+      "id": "B13",
+      "chain": "Semua uang → kas → GL → laporan/tutup periode",
+      "connection_status": "TERSAMBUNG DAN TERUJI",
+      "application_pages": "finance-cash; finance-journal; finance-reports",
+      "public_to_native_path": "erp.post_journal / reverse_journal + report/period facades",
+      "independent_proof": "F03 p13 50 + cash_installments 61, CP17 D14-3; own correction CE",
+      "verdict": "FAIL",
+      "boundary": "TERUJI dengan blocker SOL-R1-001; UAT sebagian besar Keuangan masih contoh. Tidak ada browser seluruh 13 tahap sekaligus.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": [
+        "SOL-R1-001"
+      ]
+    },
+    {
+      "id": "S1",
+      "chain": "AP supplier → pembayaran → kas",
+      "connection_status": "TERSAMBUNG DAN TERUJI",
+      "application_pages": "procurement; finance-ap; finance-cash",
+      "public_to_native_path": "public supplier payment → Native settlement → cash guard",
+      "independent_proof": "F03 p09, supplier_credit, CP17 cash/race/HTTP; own empty/funded/backdate/later-prefix",
+      "verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+      "boundary": "SOL-001 lama ditutup dalam scope; koreksi income baru adalah akar regresi berbeda.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": []
+    },
+    {
+      "id": "S2",
+      "chain": "Retur/kredit supplier",
+      "connection_status": "TERSAMBUNG DAN TERUJI",
+      "application_pages": "procurement; finance-ap",
+      "public_to_native_path": "supplier return/credit → Native stock and AP writers",
+      "independent_proof": "F03 p09 + supplier_credit 5 with real Auth HTTP/browser",
+      "verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+      "boundary": "Positif/refusal/replay pada fixture; tidak mengklaim seluruh rantai produksi hasil material retur.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": []
+    },
+    {
+      "id": "S3",
+      "chain": "Absensi/Nota/upah/rework/kasbon → payroll → kas",
+      "connection_status": "TERSAMBUNG TANPA UJI APLIKASI",
+      "application_pages": "fg-handoff; finance-payroll; operations-attendance",
+      "public_to_native_path": "payroll/attendance/kasbon facades → Native wage/settlement writers",
+      "independent_proof": "F03 p12 91 + cash_installments, CP17 FIN01/RWK01/kasbon; browser subsets",
+      "verdict": "INCOMPLETE_FULL_LINK",
+      "boundary": "RWK01 OPEN-case upah teruji Native, belum browser rework→Nota→bayar; UAT payroll/absensi contoh dan Nota diblokir.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": []
+    },
+    {
+      "id": "S4",
+      "chain": "Nota Ambil Aksesori → potongan payroll → kas",
+      "connection_status": "TERSAMBUNG TANPA UJI APLIKASI",
+      "application_pages": "contractor-issue; finance-payroll",
+      "public_to_native_path": "Native issue → contractor deduction → payroll settlement",
+      "independent_proof": "Retained CP6 AV + current code path; fresh inventory only",
+      "verdict": "INCOMPLETE_FULL_LINK",
+      "boundary": "Belum satu fresh browser final-stack yang meneruskan Nota Ambil hingga potongan dan pembayaran. Tidak disamarkan sebagai FAIL produk.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": []
+    },
+    {
+      "id": "S5",
+      "chain": "BS → rework/cuci ulang → QC/upah",
+      "connection_status": "TERSAMBUNG TANPA UJI APLIKASI",
+      "application_pages": "bs-rework; laundry; qc; finance-payroll",
+      "public_to_native_path": "Native BS/rework/rewash → eligible completion",
+      "independent_proof": "CP17 RWK01 + SG03 Native, BE16 CP6 T1",
+      "verdict": "INCOMPLETE_FULL_LINK",
+      "boundary": "Belum fresh browser BS/rework/claim/partial-QC lalu Nota/bayar. Kelayakan upah Native berbeda dari bukti alur UI lengkap.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": []
+    },
+    {
+      "id": "S6",
+      "chain": "Hitung fisik/penyesuaian → stok/GL",
+      "connection_status": "TERSAMBUNG DAN TERUJI",
+      "application_pages": "stock-adjustment; materials-rolls",
+      "public_to_native_path": "Native material count / FG adjustment",
+      "independent_proof": "F03 p09/p10 Native/race/real Auth HTTP/browser",
+      "verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+      "boundary": "Teruji sendiri; belum disisipkan di tengah seluruh rantai 13 tahap dan tutup periode.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": []
+    },
+    {
+      "id": "S7",
+      "chain": "Impor saldo awal → tahap berikutnya",
+      "connection_status": "TERSAMBUNG TANPA UJI APLIKASI",
+      "application_pages": "admin-import; finance-payroll; sales-returns",
+      "public_to_native_path": "Native migration/opening adapters → continuation writers",
+      "independent_proof": "F03 p12 opening_payroll + customer_refund; retained CP6 AV",
+      "verdict": "INCOMPLETE_FULL_LINK",
+      "boundary": "Subset payroll/refund teruji aplikasi; seluruh impor WIP→produksi→jual→kas CP7 dan original CP2 functional restore tetap belum terbukti.",
+      "uat_boundary": "23/48 menu masih contoh; CP7 belum dipasang hosted. Bukti real Native browser di sini memakai DISPOSABLE_TEST.",
+      "finding_refs": []
+    }
+  ]
+}

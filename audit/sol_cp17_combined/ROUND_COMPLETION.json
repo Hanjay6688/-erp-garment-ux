@@ -1,0 +1,24 @@
+{
+  "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "audit_round_work_finished": true,
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false,
+  "all_jobs_terminal": true,
+  "invariants": {
+    "PASS": 69,
+    "INCOMPLETE": 9,
+    "FAIL": 4
+  },
+  "reviewed_chains": 20,
+  "reviewed_menus": 48,
+  "independent_case_oracle_policy": "No total unique oracle claim; native, mock inventory and reused designs are separated.",
+  "no_new_owner_questions": true,
+  "disposition": "HOLD",
+  "current_reports": [
+    "FINAL_SOL.md",
+    "RETEST_SOL_dfab13bf.md",
+    "WRITER_HANDOFF.md"
+  ],
+  "all_artifact_digests_retained": true
+}

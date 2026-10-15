@@ -1,0 +1,52 @@
+{
+  "events": [
+    {
+      "run": 38785656146,
+      "case": "SOL_R1_CUSTOMER_PAYMENT_CORRECTION_FINAL_POSITIVE",
+      "classification": "AUDITOR_TOOL",
+      "raw": "INCOMPLETE",
+      "cause": "Generic token read in Asia/Jakarta vs UTC correction writer; original preserved, dedicated workspace qualification unchanged expected."
+    },
+    {
+      "run": 38785656090,
+      "classification": "WRITER_TEST_TOOL",
+      "case_count": 0,
+      "cause": "Pre-U pending asserted despite stop before U",
+      "finding": "SOL-R1-003",
+      "qualified_run": 38787131786
+    },
+    {
+      "run": 38790146246,
+      "classification": "AUDITOR_TOOL",
+      "case_count": 0,
+      "cause": "Installer imported relative metadata from wrong CWD",
+      "qualified_run": 38790510239,
+      "all_expected_unchanged": true
+    },
+    {
+      "run": 38787925433,
+      "classification": "AUDITOR_MEASUREMENT_METADATA",
+      "field": "original_posted_facts_immutable=false in spent HTTP cases",
+      "cause": "Caller fixture Asia/Jakarta vs fresh UTC JSON timestamps",
+      "disposition": "Do not infer fact mutation; UTC full business/private boundary unchanged on every failed command. Original false fields retained."
+    },
+    {
+      "run": 38786177957,
+      "classification": "AUDITOR_MEASUREMENT_METADATA",
+      "field": "Inventory raw evidence_origin is INDEPENDENT_NATIVE_RERUN; viewport overwritten by numeric innerWidth",
+      "cause": "Overbroad origin label and object spread order in inventory probe",
+      "disposition": "Normalized ledger labels all 288 BROWSER_HTTP_MOCK, zero Native transaction acceptance. Viewport labels recovered from declared case IDs; raw observations unchanged."
+    },
+    {
+      "classification": "LOCAL_INFRA_TOOL_LIMIT",
+      "cause": "Local Playwright browser download truncated; no local browser acceptance claimed",
+      "replacement": "Own CI real Chromium proofs and separate mock inventories succeeded"
+    },
+    {
+      "classification": "NO_PRODUCT_ORACLE_EFFECT",
+      "cause": "First local shell push auto-review rejected unverified destination; owner repo identity/permission verified and outgoing history reduced; GitHub app wrote only own audit branch",
+      "main_writer_or_hosted_changed": false
+    }
+  ],
+  "rerun_policy": "No identical product case rerun for green. Three documented tool qualifications, old outcomes retained; no expected weakening."
+}

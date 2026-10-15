@@ -1,0 +1,290 @@
+{
+  "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "candidate_tree": "886f83312958b53781a450a4ea2a8fb2147b3be3",
+  "auditor": "SOL",
+  "round_id": "cp17-combined-20261016",
+  "prior_audit_code_head": "99afa9358ab8331bd3d48a72fe5c34b56504de59",
+  "peer_results_read_before_seal": false,
+  "production_go": false,
+  "archive_sha256": "68cf6286251c4fd13500a426a45c8a60dd70ee716445fb8ceca109be0d1674f7",
+  "archive_bytes": 7801001,
+  "all_jobs_terminal": true,
+  "files": [
+    {
+      "path": ".github/workflows/audit-sol-combined-be.yml",
+      "bytes": 16843,
+      "sha256": "b17c723cec6f8d2c3b71fbdd464cedacb6a8e2cee267b4d63562a3bb3c58b3c9"
+    },
+    {
+      "path": ".github/workflows/audit-sol-combined-correction-qualified.yml",
+      "bytes": 11076,
+      "sha256": "91cc3db2c39c10bf8d5e07f791912b962359e4b6e24b5e1ff82a9fa7b6f62e98"
+    },
+    {
+      "path": ".github/workflows/audit-sol-combined-diagnostic.yml",
+      "bytes": 1888,
+      "sha256": "d93e3c9e4ad3a579bea67008c531f66d81142e4653497b0158bddce10903d5e0"
+    },
+    {
+      "path": ".github/workflows/audit-sol-combined-f03.yml",
+      "bytes": 11300,
+      "sha256": "06c067dd6e846b024f3f85604ca629baf961ce22264175f27d18b3cbf52c0730"
+    },
+    {
+      "path": ".github/workflows/audit-sol-combined-menus.yml",
+      "bytes": 3823,
+      "sha256": "6c0edcf3d74a51a6253399b93e965adc10344849eb603ce4431af909fb090bf5"
+    },
+    {
+      "path": ".github/workflows/audit-sol-combined-owner-qualified.yml",
+      "bytes": 10862,
+      "sha256": "1abc86956bbbdd3df2c59c119f72f35fce9a7125ef2d56f63d9473f1bc0bd41e"
+    },
+    {
+      "path": ".github/workflows/audit-sol-combined-owner.yml",
+      "bytes": 10806,
+      "sha256": "6661b0e2ee5952e52a9db15a070930c2e24c3dff5976f37a56c1810871e3a2c5"
+    },
+    {
+      "path": ".github/workflows/audit-sol-combined-retest.yml",
+      "bytes": 11663,
+      "sha256": "0958bd342d1f04f44bc65559b59a810b0646dd48dfc48a03f832bfd2beb2a48d"
+    },
+    {
+      "path": "audit/sol_cp17_combined/ARTIFACT_REGISTER.json",
+      "bytes": 54313,
+      "sha256": "badc4176eb1d882693cb5eb9cd78401e2dc93b80dfebb2867ef8b0d97a069435"
+    },
+    {
+      "path": "audit/sol_cp17_combined/AUDITOR_TOOL_EVENTS.json",
+      "bytes": 2419,
+      "sha256": "b24a970eb9400e36b841c002c7c3f2fbce492a1e86ec634d4ccd1f054a73b69b"
+    },
+    {
+      "path": "audit/sol_cp17_combined/CASE_LEDGER.json",
+      "bytes": 659720,
+      "sha256": "893bd78b9be3a112da68ccc20e7f4adc13c520d3fdce573afeaa5db56021b885"
+    },
+    {
+      "path": "audit/sol_cp17_combined/CHAIN_MATRIX.csv",
+      "bytes": 9747,
+      "sha256": "80c043815df80bf42dcf1d6387205295732d43bb43eacb04c1788ba10e277dec"
+    },
+    {
+      "path": "audit/sol_cp17_combined/CHAIN_MATRIX.json",
+      "bytes": 14963,
+      "sha256": "b2d5e9da6efd83b6bff03c06180c632fe557dcb8e4e7e9e5b5780b17b906cd31"
+    },
+    {
+      "path": "audit/sol_cp17_combined/CHAIN_MATRIX.md",
+      "bytes": 5743,
+      "sha256": "22123c3fd65406528288a9e5810a57765af14e1433153c5d57e0f0ed0a6b0a9e"
+    },
+    {
+      "path": "audit/sol_cp17_combined/CORRECTION_TOOL_QUALIFICATION.json",
+      "bytes": 1536,
+      "sha256": "fb71e4c67f8dad0f70f8d245436c1ab4e251c58ef1cc3a2f6c7569926eb0c154"
+    },
+    {
+      "path": "audit/sol_cp17_combined/DIAGNOSTIC_TOOL_QUALIFICATION.json",
+      "bytes": 836,
+      "sha256": "06aefc06a66b668bd82361f4522c15dbfc0a25f1b3ee075fff79a59192bc56ba"
+    },
+    {
+      "path": "audit/sol_cp17_combined/EXPOSURE_LOG.json",
+      "bytes": 1957,
+      "sha256": "d0e9a82e95bcf1b23f72463276409622204eb8f3d401eeac0276276190725683"
+    },
+    {
+      "path": "audit/sol_cp17_combined/FINAL_SOL.md",
+      "bytes": 15412,
+      "sha256": "81c01228a5d0332b09b455de753d9d6eaa282ae99b70441adee040fc78ce7941"
+    },
+    {
+      "path": "audit/sol_cp17_combined/FINDINGS.json",
+      "bytes": 16563,
+      "sha256": "43b42a86256115d5d380792f07202fd8ad15db32fe8f4cc5015a6248025759a6"
+    },
+    {
+      "path": "audit/sol_cp17_combined/IDENTITY_END.json",
+      "bytes": 1602,
+      "sha256": "ab3e53dee8d68f0c54395cef1cff584ead1925f2a4455f097c6da2dc44e093a9"
+    },
+    {
+      "path": "audit/sol_cp17_combined/IDENTITY_START.json",
+      "bytes": 1827,
+      "sha256": "f7fc7ce8b35f22a28a58f575e14616e74eebd314df67bdab651788b045385bbf"
+    },
+    {
+      "path": "audit/sol_cp17_combined/INVARIANT_MATRIX.csv",
+      "bytes": 60097,
+      "sha256": "2b2d860254b524b5a4d68afa9065b8362139f81140f1c6b73d8284f5476a87d1"
+    },
+    {
+      "path": "audit/sol_cp17_combined/INVARIANT_MATRIX.json",
+      "bytes": 81040,
+      "sha256": "f282b738b23b6fc2cb556a3091a1ca47197535dcfd9676b9c851fb13eebe28bd"
+    },
+    {
+      "path": "audit/sol_cp17_combined/MENUS.json",
+      "bytes": 11434,
+      "sha256": "1254ac5ef57402a311cb15ef05a59a952a78be4bef68930fbb9bb11c69fe3700"
+    },
+    {
+      "path": "audit/sol_cp17_combined/MENU_MANIFEST.json",
+      "bytes": 13504,
+      "sha256": "40dce42f7c28f8225faa932f2db16cc51b20d4d585bb519360a16e89b1f66deb"
+    },
+    {
+      "path": "audit/sol_cp17_combined/MENU_MATRIX.csv",
+      "bytes": 14116,
+      "sha256": "a5533e127bbefa26eedd4d6580d98d1c89bf6c4b3897d4b234c33adf7c062f88"
+    },
+    {
+      "path": "audit/sol_cp17_combined/MENU_MATRIX.json",
+      "bytes": 1348989,
+      "sha256": "0ae15dbc87c7408155491d0dfa59b30cac5606c48132c855c3d7efd12e11426f"
+    },
+    {
+      "path": "audit/sol_cp17_combined/MENU_MATRIX.md",
+      "bytes": 10822,
+      "sha256": "97c627384c5a829343a7954f2c89fc1364c2fe542a312087ad9a815e11de78ab"
+    },
+    {
+      "path": "audit/sol_cp17_combined/OPEN_BOUNDARIES.json",
+      "bytes": 4386,
+      "sha256": "8e3f7c151adfc11c65f86947662101aa777a3e171744eea44c0f1af6e4b4ea1a"
+    },
+    {
+      "path": "audit/sol_cp17_combined/OWNER_TOOL_QUALIFICATION.json",
+      "bytes": 646,
+      "sha256": "278bc2730a03f3a93c22bfbb3d9a578ae0bf8d491e2176a83d44c4631b14f90a"
+    },
+    {
+      "path": "audit/sol_cp17_combined/PROOF_ARCHIVE_POINTER.json",
+      "bytes": 622,
+      "sha256": "e9bb6fec793b413f65cbe58a860ece7a36bbeb93cb4d98f44f9b7e3c6cf67031"
+    },
+    {
+      "path": "audit/sol_cp17_combined/README.md",
+      "bytes": 1689,
+      "sha256": "59e347acd4157794022626aff258895cc885985ed6462e6716ff78a237f5396c"
+    },
+    {
+      "path": "audit/sol_cp17_combined/RETEST_SOL_dfab13bf.md",
+      "bytes": 5168,
+      "sha256": "7298f7c28340c42a9784baea3c841ad7406c78b3b5196e482c956c6b256018a5"
+    },
+    {
+      "path": "audit/sol_cp17_combined/ROUND_COMPLETION.json",
+      "bytes": 665,
+      "sha256": "be88e0988f1a079c953ea3f2e30789a94f1baba018843bfd51cc1f3b77c02cc3"
+    },
+    {
+      "path": "audit/sol_cp17_combined/ROUND_MANIFEST.json",
+      "bytes": 1948,
+      "sha256": "d2a1271a5af319cd5f5b0a7ed5e7b203306201cee6ff51bb954aeaf35cf15450"
+    },
+    {
+      "path": "audit/sol_cp17_combined/RUN_REGISTER.json",
+      "bytes": 9062,
+      "sha256": "83c4e48faeb13d38e316351937d4401bfab74da4828eacab2796c1aa932ddc10"
+    },
+    {
+      "path": "audit/sol_cp17_combined/SCENARIO_MATRIX.json",
+      "bytes": 9386,
+      "sha256": "68e9ebddae7bca18fffdd9fc3f38f2c6f942aaabb5aece04466a44ed6f4c1057"
+    },
+    {
+      "path": "audit/sol_cp17_combined/SOURCE_REVIEW.json",
+      "bytes": 70886,
+      "sha256": "c21eaf0910d702d054ea5f4d41db0518d0bfbee44f564c118adc6b4847680c01"
+    },
+    {
+      "path": "audit/sol_cp17_combined/SUITE_RESULTS.json",
+      "bytes": 4047,
+      "sha256": "2a8dcddb5d7ea9b0e9c998ad1f674605fd95167c7f742b00f20c28812029da00"
+    },
+    {
+      "path": "audit/sol_cp17_combined/WRITER_HANDOFF.md",
+      "bytes": 13235,
+      "sha256": "98a8da518c73d63272f5e122da6da3de27bc6e46e944b93301a753dac774d01d"
+    },
+    {
+      "path": "audit/sol_cp17_combined/WRITER_RECEIPT_REVIEW.json",
+      "bytes": 42973,
+      "sha256": "642c4b99f24fbf65b9b3342306601a74b896d597dbb9bd9d1a9f0a88a733dfb9"
+    },
+    {
+      "path": "audit/sol_cp17_combined/build_evidence.py",
+      "bytes": 11248,
+      "sha256": "671eb472e964ec8c714e00417e69961cf6d5631d600ade852aafbe2af31d2cab"
+    },
+    {
+      "path": "audit/sol_cp17_combined/build_matrices.py",
+      "bytes": 26118,
+      "sha256": "b1a670da946164d8bb33cf30a8542dc782c17ea3dbd53a60134000b5a367d527"
+    },
+    {
+      "path": "audit/sol_cp17_combined/build_review_registers.py",
+      "bytes": 21689,
+      "sha256": "dfbf53e804de5ef4e5bbaf032b522891e69d34a0e54f64ff7d8077859d85313c"
+    },
+    {
+      "path": "audit/sol_cp17_combined/collect_artifacts.py",
+      "bytes": 1972,
+      "sha256": "93012d6d03067e2eb56d08c2e9e90f3682299e5fd531e142e5d835763bbc3d4f"
+    },
+    {
+      "path": "audit/sol_cp17_combined/correction_http.py",
+      "bytes": 3557,
+      "sha256": "dc5188ed4a2bfcd15f4c009dca8c38bd4b5b423502fd2e5ea71bb08db032fbe8"
+    },
+    {
+      "path": "audit/sol_cp17_combined/correction_qualification_probe.py",
+      "bytes": 5125,
+      "sha256": "43e41e6b47f9c6df4341305f339d10dd8bc922407e909584873d6a2039c4a031"
+    },
+    {
+      "path": "audit/sol_cp17_combined/diagnostic_manifest.json",
+      "bytes": 1040,
+      "sha256": "d96b65450416b543e0f07202ce41cea1893087da58c0be73c4f98a7e6b1f373d"
+    },
+    {
+      "path": "audit/sol_cp17_combined/diagnostic_probe.py",
+      "bytes": 5024,
+      "sha256": "1710de751ac47f87016b62d0b10028d7531e76f317d0d75b32f3d52a716729de"
+    },
+    {
+      "path": "audit/sol_cp17_combined/independent_cases.py",
+      "bytes": 7563,
+      "sha256": "60a9defa1938b6cc62af07ec7a1896b9a030061be2386c36ae78a843b4ea1095"
+    },
+    {
+      "path": "audit/sol_cp17_combined/menu_inventory.mjs",
+      "bytes": 8350,
+      "sha256": "0c1eeef80fd188d379aa1b098bf8e30c212dd51d339dd21473a5a6e80eee0da6"
+    },
+    {
+      "path": "audit/sol_cp17_combined/owner_baseline_qualification.py",
+      "bytes": 2292,
+      "sha256": "7d2274c362f4e4d18dc73ad52373fde678410659dadd4eaf8eb22e639651bcd6"
+    },
+    {
+      "path": "audit/sol_cp17_combined/package_proof.py",
+      "bytes": 5009,
+      "sha256": "a4aece006ed7d000c85f39e3ed85a35c3f08173e95a6469e795238dbcf2ad008"
+    },
+    {
+      "path": "audit/sol_cp17_combined/prepare_workflows.py",
+      "bytes": 7203,
+      "sha256": "b8b84f23e73f6fe555e31b462c7df5d24cb17f0c9c5d0fc8589fff3881147053"
+    },
+    {
+      "path": "audit/sol_cp17_combined/retest_probe.py",
+      "bytes": 1500,
+      "sha256": "19ad2d723850fa837a9c7e98034d28d41af2237ec04c78761b707d4a75d2612a"
+    }
+  ],
+  "self_hash_omitted": true
+}

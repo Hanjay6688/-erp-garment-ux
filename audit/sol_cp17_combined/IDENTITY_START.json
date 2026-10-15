@@ -1,0 +1,34 @@
+{
+  "round_id": "cp17-combined-20261016",
+  "auditor": "SOL",
+  "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "candidate_tree": "886f83312958b53781a450a4ea2a8fb2147b3be3",
+  "input_writer_head": "6562833695f76007b079316d1bef6b1aa8206223",
+  "previous_seal": "10bfe3972bd310dbd8600cd18638a02f47d007f0",
+  "trees": {
+    "src": "78915706a09428b7e85c1e04ffcfb82f3b2fce50",
+    "supabase": "5d040436db384b4e574785376367b360a084acb7",
+    "supabase/release": "be1e91c172ffb5c05b694a3a54c69562700c6d5e",
+    "supabase/migrations": "8f6053bbd0bda80da18065418ad43371cdfd9461",
+    "scripts": "1306bf8ec4f2f256c97764a195c4cceaf222eb08",
+    "scripts/cp7-src": "52a931ef574b3f34933960ba962f11d049a4ef43",
+    "supabase/dev": "88759f4fc51864a1ec9e224fcb4f236204b5c853",
+    ".github/workflows": "47da8945dd362ac31abd2d9447aabc3663125e5e"
+  },
+  "supabase_unchanged_since_previous": true,
+  "post_candidate_paths": [
+    "docs/cp7/audit-candidate/cp1-7-final-integration-20261015/CI_RECEIPT.json",
+    "docs/cp7/audit-candidate/cp1-7-final-integration-20261015/GAPS_D14_14.md",
+    "docs/cp7/audit-candidate/cp1-7-final-integration-20261015/HANDOFF_ASTRA.md",
+    "docs/cp7/audit-candidate/cp1-7-final-integration-20261015/HANDOFF_FABLE.md",
+    "docs/cp7/audit-candidate/cp1-7-final-integration-20261015/HANDOFF_SOL.md",
+    "docs/cp7/audit-candidate/cp1-7-final-integration-20261015/README.md",
+    "docs/cp7/audit-candidate/cp1-7-final-integration-20261015/WRITER_HANDOFF.md",
+    "docs/cp7/audit-candidate/cp1-7-fix-r1-20261015/HANDOFF_ASTRA.md",
+    "docs/cp7/audit-candidate/cp1-7-fix-r1-20261015/HANDOFF_FABLE.md",
+    "docs/cp7/audit-candidate/cp1-7-fix-r1-20261015/HANDOFF_SOL.md",
+    "docs/cp7/audit-candidate/cp1-7-fix-r1-20261015/README.md"
+  ],
+  "production_go": false,
+  "peer_round_reports_read": false
+}

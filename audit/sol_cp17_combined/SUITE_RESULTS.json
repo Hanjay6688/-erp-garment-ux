@@ -1,0 +1,160 @@
+{
+  "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "f03": [
+    {
+      "bucket": "p11",
+      "artifact_id": 11997153840,
+      "counts": {
+        "PASS": 64
+      },
+      "declared_cases": 64,
+      "declared_smoke": 0,
+      "group_count": 15,
+      "source_commit": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "source_tree": "886f83312958b53781a450a4ea2a8fb2147b3be3",
+      "cp6_restored": true
+    },
+    {
+      "bucket": "cash_installments",
+      "artifact_id": 11997618855,
+      "counts": {
+        "PASS": 61
+      },
+      "declared_cases": 61,
+      "declared_smoke": 0,
+      "group_count": 13,
+      "source_commit": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "source_tree": "886f83312958b53781a450a4ea2a8fb2147b3be3",
+      "cp6_restored": true
+    },
+    {
+      "bucket": "p13",
+      "artifact_id": 11998023666,
+      "counts": {
+        "PASS": 50
+      },
+      "declared_cases": 50,
+      "declared_smoke": 0,
+      "group_count": 16,
+      "source_commit": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "source_tree": "886f83312958b53781a450a4ea2a8fb2147b3be3",
+      "cp6_restored": true
+    },
+    {
+      "bucket": "customer_refund",
+      "artifact_id": 11998102067,
+      "counts": {
+        "PASS": 10
+      },
+      "declared_cases": 10,
+      "declared_smoke": 0,
+      "group_count": 7,
+      "source_commit": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "source_tree": "886f83312958b53781a450a4ea2a8fb2147b3be3",
+      "cp6_restored": true
+    },
+    {
+      "bucket": "p10",
+      "artifact_id": 11998202781,
+      "counts": {
+        "PASS": 34
+      },
+      "declared_cases": 34,
+      "declared_smoke": 0,
+      "group_count": 9,
+      "source_commit": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "source_tree": "886f83312958b53781a450a4ea2a8fb2147b3be3",
+      "cp6_restored": true
+    },
+    {
+      "bucket": "p12",
+      "artifact_id": 11998602378,
+      "counts": {
+        "PASS": 91
+      },
+      "declared_cases": 91,
+      "declared_smoke": 0,
+      "group_count": 29,
+      "source_commit": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "source_tree": "886f83312958b53781a450a4ea2a8fb2147b3be3",
+      "cp6_restored": true
+    },
+    {
+      "bucket": "supplier_credit",
+      "artifact_id": 11998611411,
+      "counts": {
+        "PASS": 5
+      },
+      "declared_cases": 5,
+      "declared_smoke": 0,
+      "group_count": 4,
+      "source_commit": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "source_tree": "886f83312958b53781a450a4ea2a8fb2147b3be3",
+      "cp6_restored": true
+    },
+    {
+      "bucket": "p09",
+      "artifact_id": 11998667044,
+      "counts": {
+        "PASS": 135
+      },
+      "declared_cases": 132,
+      "declared_smoke": 3,
+      "group_count": 29,
+      "source_commit": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "source_tree": "886f83312958b53781a450a4ea2a8fb2147b3be3",
+      "cp6_restored": true
+    }
+  ],
+  "cp17": {
+    "expected": 61,
+    "observed": 61,
+    "id_set_equal": true,
+    "counts": {
+      "native": 41,
+      "races": 4,
+      "http": 6,
+      "browser": 10
+    },
+    "status": "PASS",
+    "cp6_restored": true
+  },
+  "own_literal": {
+    "initial": {
+      "PASS": 6,
+      "INCOMPLETE": 1
+    },
+    "qualified": {
+      "COUNTEREXAMPLE": 1
+    },
+    "http": {
+      "PASS": 2,
+      "COUNTEREXAMPLE": 2
+    }
+  },
+  "BE": {
+    "PASS": 16
+  },
+  "owner": {
+    "PASS": 10,
+    "installed_files": 58
+  },
+  "menu_inventory": {
+    "PASS": 288,
+    "scope": "mock Auth/access, business RPC always 403; no Native feature PASS credit"
+  },
+  "diagnostic": {
+    "PASS": 3,
+    "scope": "PostgreSQL engine diagnostic retention only"
+  },
+  "comparator": {
+    "status": "PASS",
+    "source": "PUBLIC_STATE_COMPARATOR_LOG.json",
+    "a2_original_failure_roots": "OPEN"
+  },
+  "drain": {
+    "status": "PASS",
+    "controls": 6,
+    "scope": "Natural wait, exact drained-refusal retry, different-error refusal, persistent timeout and reopened admission; not original AZ cause"
+  }
+}

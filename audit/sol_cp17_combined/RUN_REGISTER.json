@@ -1,0 +1,276 @@
+{
+  "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "ownership": "SOL_ONLY",
+  "runs": [
+    {
+      "id": 38785656146,
+      "run": {
+        "id": 38785656146,
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38785656146",
+        "head_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "head_branch": "audit/sol-cp1-7-combined-dfab13bf-20261016",
+        "name": "AUDIT/cp17-combined-20261016/SOL/dfab13bf/combined-retest/initial",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-10-15T18:26:37Z",
+        "updated_at": "2026-10-15T18:36:56Z"
+      },
+      "jobs": [
+        {
+          "id": 116596863442,
+          "name": "Dated guards and stock card on the combined F03 stack, races and real Auth HTTP",
+          "status": "completed",
+          "conclusion": "failure"
+        }
+      ]
+    },
+    {
+      "id": 38785656260,
+      "run": {
+        "id": 38785656260,
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38785656260",
+        "head_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "head_branch": "audit/sol-cp1-7-combined-dfab13bf-20261016",
+        "name": "AUDIT/cp17-combined-20261016/SOL/dfab13bf/BE-output-retest/initial",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T18:26:37Z",
+        "updated_at": "2026-10-15T18:32:46Z"
+      },
+      "jobs": [
+        {
+          "id": 116596863064,
+          "name": "BE probe on AU plus AV plus AW..AZ plus BA plus BB plus BC plus BD plus BE T1 (after, T1_FAMILY)",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38785656150,
+      "run": {
+        "id": 38785656150,
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38785656150",
+        "head_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "head_branch": "audit/sol-cp1-7-combined-dfab13bf-20261016",
+        "name": "AUDIT/cp17-combined-20261016/SOL/dfab13bf/full-F03-final-stack/initial",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T18:26:37Z",
+        "updated_at": "2026-10-15T18:39:40Z"
+      },
+      "jobs": [
+        {
+          "id": 116596863798,
+          "name": "Full F03 stack / p12",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 116596864046,
+          "name": "Full F03 stack / customer_refund",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 116596864204,
+          "name": "Full F03 stack / p10",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 116596864284,
+          "name": "Full F03 stack / p11",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 116596864293,
+          "name": "Full F03 stack / p09",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 116596864303,
+          "name": "Full F03 stack / cash_installments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 116596864382,
+          "name": "Full F03 stack / p13",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 116596864659,
+          "name": "Full F03 stack / supplier_credit",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38785656090,
+      "run": {
+        "id": 38785656090,
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38785656090",
+        "head_sha": "6095b891d55946e790e88a4895b5046a1221eae2",
+        "head_branch": "audit/sol-cp1-7-combined-dfab13bf-20261016",
+        "name": "AUDIT/cp17-combined-20261016/SOL/dfab13bf/owner-full-58-files/initial",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-10-15T18:26:37Z",
+        "updated_at": "2026-10-15T18:30:47Z"
+      },
+      "jobs": [
+        {
+          "id": 116596862914,
+          "name": "Non-superuser owner install: full 58 files from declared v2.6.20 baseline",
+          "status": "completed",
+          "conclusion": "failure"
+        }
+      ]
+    },
+    {
+      "id": 38786177957,
+      "run": {
+        "id": 38786177957,
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38786177957",
+        "head_sha": "dcffa6889f15c0666b960613294b2a26a1456b67",
+        "head_branch": "audit/sol-cp1-7-combined-dfab13bf-20261016",
+        "name": "AUDIT/cp17-combined-20261016/SOL/dfab13bf/48-menu-mode-parity/initial",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T18:30:23Z",
+        "updated_at": "2026-10-15T18:34:40Z"
+      },
+      "jobs": [
+        {
+          "id": 116598629376,
+          "name": "48 menus / DISPOSABLE_TEST / desktop + phone / HTTP mock",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 116598629614,
+          "name": "48 menus / DEMO_SIMULATION / desktop + phone / HTTP mock",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 116598630009,
+          "name": "48 menus / UAT_AUTH_SIMULATION / desktop + phone / HTTP mock",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38787131786,
+      "run": {
+        "id": 38787131786,
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38787131786",
+        "head_sha": "25d61b5b6b4db5372f54bc7790301acdb3608ad8",
+        "head_branch": "audit/sol-cp1-7-combined-dfab13bf-20261016",
+        "name": "AUDIT/cp17-combined-20261016/SOL/dfab13bf/owner-full-58-files/tool-qualified",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T18:37:17Z",
+        "updated_at": "2026-10-15T18:42:20Z"
+      },
+      "jobs": [
+        {
+          "id": 116601912076,
+          "name": "Non-superuser owner install: full 58 files from declared v2.6.20 baseline",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38787925433,
+      "run": {
+        "id": 38787925433,
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38787925433",
+        "head_sha": "f72edfdadc8e8b0e6d6e199f02250a03e840a21c",
+        "head_branch": "audit/sol-cp1-7-combined-dfab13bf-20261016",
+        "name": "AUDIT/cp17-combined-20261016/SOL/dfab13bf/correction-contract/tool-qualified",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-10-15T18:43:02Z",
+        "updated_at": "2026-10-15T18:47:39Z"
+      },
+      "jobs": [
+        {
+          "id": 116604642907,
+          "name": "Dated guards and stock card on the combined F03 stack, races and real Auth HTTP",
+          "status": "completed",
+          "conclusion": "failure"
+        }
+      ]
+    },
+    {
+      "id": 38790146246,
+      "run": {
+        "id": 38790146246,
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38790146246",
+        "head_sha": "769d7e5e54fe7b0d28c0047cf3eac3fc904ff6d3",
+        "head_branch": "audit/sol-cp1-7-combined-dfab13bf-20261016",
+        "name": "AUDIT/cp17-combined-20261016/SOL/dfab13bf/diagnostic-retention/initial",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-10-15T18:59:12Z",
+        "updated_at": "2026-10-15T19:00:20Z"
+      },
+      "jobs": [
+        {
+          "id": 116612291359,
+          "name": "diagnostic",
+          "status": "completed",
+          "conclusion": "failure"
+        }
+      ]
+    },
+    {
+      "id": 38790510239,
+      "run": {
+        "id": 38790510239,
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38790510239",
+        "head_sha": "99afa9358ab8331bd3d48a72fe5c34b56504de59",
+        "head_branch": "audit/sol-cp1-7-combined-dfab13bf-20261016",
+        "name": "AUDIT/cp17-combined-20261016/SOL/dfab13bf/diagnostic-retention/tool-qualified",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T19:01:46Z",
+        "updated_at": "2026-10-15T19:02:57Z"
+      },
+      "jobs": [
+        {
+          "id": 116613533124,
+          "name": "diagnostic",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "runs": 9,
+    "jobs": 18,
+    "job_conclusions": {
+      "failure": 4,
+      "success": 14
+    }
+  },
+  "all_terminal": true
+}

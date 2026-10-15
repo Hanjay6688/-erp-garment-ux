@@ -1,0 +1,120 @@
+{
+  "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "owner_questions_reopened": [],
+  "items": [
+    {
+      "id": "BOUNDARY-CP2",
+      "status": "OWNER_DEFERRED_NOT_RUNTIME_PASS",
+      "scope": "Original CP2 functional restore; credentials/key and real backup work at CP7C",
+      "decision": [
+        "D13-9a",
+        "D13-8b"
+      ],
+      "proof": "Prior archive verified; current T3 disposable restore is a different claim."
+    },
+    {
+      "id": "BOUNDARY-HOSTED",
+      "status": "NOT_EXECUTED_BY_DESIGN",
+      "scope": "Enteng/legacy/production SQL, installation, current cutover facts and cp7_guard.findings on hosted",
+      "decision": [
+        "D13-7a",
+        "D13-8f",
+        "D14-7"
+      ],
+      "proof": "No hosted queries or mutations by Sol; no request for permission/password reopened."
+    },
+    {
+      "id": "BOUNDARY-AZ-FIRST",
+      "status": "ROOT_CAUSE_UNKNOWN",
+      "scope": "First historical AZ install failure",
+      "decision": [
+        "D14-8"
+      ],
+      "proof": "New exact 58-file install PASS + diagnostic repair do not identify the old absent PostgreSQL diagnostic."
+    },
+    {
+      "id": "BOUNDARY-A2",
+      "status": "ROOT_CAUSES_OPEN",
+      "scope": "Two old A2 failures (D13-10)",
+      "decision": [
+        "D13-10",
+        "D14-8"
+      ],
+      "proof": "Comparator now stable and sensitive to definition/member/owner/ACL in original run stdout; historical root failures remain unproved."
+    },
+    {
+      "id": "BOUNDARY-EXECUTE82",
+      "status": "ACCEPTED_DEFERRAL_CP7C",
+      "scope": "Revoke 82 erp writers before erp exposure via Data API",
+      "decision": [
+        "D14-9"
+      ],
+      "proof": "Current exposure gate and actual HTTP refusal PASS; direct SQL EXECUTE not revoked."
+    },
+    {
+      "id": "BOUNDARY-BROWSER-CHAIN",
+      "status": "INCOMPLETE",
+      "scope": "No all-13-stage browser run plus all seven side chains; missing positive app paths listed per link",
+      "decision": [
+        "D14-13"
+      ],
+      "proof": "20/20 reviewed dispositions, not 20/20 full application PASS."
+    },
+    {
+      "id": "BOUNDARY-DEVICE",
+      "status": "INCOMPLETE",
+      "scope": "Physical phones/iPad and loaded positive state of every connected page",
+      "decision": [],
+      "proof": "Chromium viewports only; 288 mocked visits do not substitute real Native screen flows."
+    },
+    {
+      "id": "BOUNDARY-DETECTORS",
+      "status": "INCOMPLETE",
+      "scope": "All detector 0→+1→0 controls and every-case detector set",
+      "decision": [],
+      "proof": "Prior subset positive controls retained, no blanket sensitivity acceptance."
+    },
+    {
+      "id": "BOUNDARY-P19",
+      "status": "RETAINED_PRIOR_SCOPE",
+      "scope": "Large staged analysis/K2–K6/model/AI/WA families",
+      "decision": [],
+      "proof": "Prior independent scoped evidence + unchanged source; not rerun or promoted to live WA/hosted proof this round."
+    },
+    {
+      "id": "BOUNDARY-SG",
+      "status": "ACCEPTED_BY_OWNER_RULE",
+      "scope": "SG01 higher-tier reversal blocked; SG02 inverse effective when saved; SG03 same-product paid rewash has no bill",
+      "decision": [
+        "D14-10",
+        "D06"
+      ],
+      "proof": "Do not reopen owner-set policy; current CP17 Native checks retain declared behavior."
+    },
+    {
+      "id": "BOUNDARY-CUTOVER-FLOOR",
+      "status": "EXISTING_OWNER_ITEM",
+      "scope": "FABLE-011 cutover date floor",
+      "decision": [],
+      "proof": "Existing writer register item, not a new question from Sol; no invented date or hosted acceptance."
+    },
+    {
+      "id": "BOUNDARY-POLICY",
+      "status": "PENDING_VALUES_NOT_TEST_PASS",
+      "scope": "K8 exposes 8/13 CP6 policies and relevant CP7 reminder/capacity thresholds; required values chosen in application at use",
+      "decision": [
+        "D11"
+      ],
+      "proof": "Pending guards and existing owner stage retained; auditor does not invent business values."
+    },
+    {
+      "id": "BOUNDARY-LEGACY-OTHER",
+      "status": "RETAINED_SCOPE_LIMITS",
+      "scope": "FABLE-007 regression-only, R-DOC03/CP2 key work at CP7C, historical original A2/AZ gaps",
+      "decision": [
+        "D13-9a"
+      ],
+      "proof": "Items disclosed in writer CHAIN_MAP §4; not independently converted to PASS or recounted as new Sol discoveries."
+    }
+  ]
+}
