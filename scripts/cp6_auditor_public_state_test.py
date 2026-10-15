@@ -4,7 +4,8 @@ On a throwaway database, public functions are created in reverse name order so a
 index scan return them in different orders. The comparator before D14-8 (`order by 1` inside jsonb_agg, a constant)
 is read under both plans, then the current comparator. Recorded: the plans, whether each list order changed, that both
 comparators list the same members (signature and definition hash, duplicates counted), and that the current one also
-sees an owner change and an access (ACL) change the earlier one did not. The cause of the two original A2 failures is
+sees an owner change and an access (ACL) change whose content the earlier one did not compare (it may still report an
+ORDER_ONLY difference after such a change, because the rewritten catalog row moves in a sequential scan). The cause of the two original A2 failures is
 not claimed here; it stays OPEN (D13-10)."""
 from pathlib import Path
 import json,os,sys
@@ -56,7 +57,10 @@ def main():
             assert out['members']['before']==out['members']['after']==members==242 and out['members']['same_signature_and_definition_pairs'] and out['members']['overloaded_name_members']==2,out
             assert out['before_d14_8']['same_members'],out
             # Sensitivity: owner and ACL changes are seen by the current comparator; definition and member changes by both.
+            # An ALTER rewrites the catalog row, so the earlier comparator may also report a change of list ORDER only;
+            # its content (members as a multiset) is compared separately, so order noise is not counted as seeing a change.
             base_old=cur.execute(runner.PUBLIC_STATE_BEFORE_D14_8).fetchone()[0];base_new=cur.execute(runner.PUBLIC_STATE).fetchone()[0]
+            content=lambda state:{k:sorted(json.dumps(x) for x in v) for k,v in state.items()}
             checks={}
             for name,change,undo in [('acl_grant',f'grant execute on function public.f_007() to {ROLE}',f'revoke execute on function public.f_007() from {ROLE}'),
                                      ('owner_change',f'alter function public.f_008() owner to {ROLE}','alter function public.f_008() owner to postgres'),
@@ -64,7 +68,10 @@ def main():
                                      ('definition_change','create or replace function public.f_009() returns int language sql as $$select -9$$','create or replace function public.f_009() returns int language sql as $$select 9$$'),
                                      ('member_removed','drop function public.f_010()','create function public.f_010() returns int language sql as $$select 10$$')]:
                 cur.execute(change)
-                checks[name]=dict(before_d14_8_sees=cur.execute(runner.PUBLIC_STATE_BEFORE_D14_8).fetchone()[0]!=base_old,after_d14_8_sees=cur.execute(runner.PUBLIC_STATE).fetchone()[0]!=base_new)
+                old_now=cur.execute(runner.PUBLIC_STATE_BEFORE_D14_8).fetchone()[0]
+                checks[name]=dict(before_d14_8_sees_content=content(old_now)!=content(base_old),
+                                  before_d14_8_reports={k:v.get('kind') for k,v in state_difference({},{},base_old,old_now).items()},
+                                  after_d14_8_sees=cur.execute(runner.PUBLIC_STATE).fetchone()[0]!=base_new)
                 cur.execute(undo)
             # A grant then revoke leaves an explicit access list where the default was NULL: same rights, different stored
             # ACL. The comparator compares the stored ACL exactly, so it reports this too (recorded, not hidden).
@@ -72,6 +79,9 @@ def main():
             checks['after_undo']=dict(identical=after_undo==base_new,differences=state_difference({},{},base_new,after_undo))
             out['sensitivity']=checks
             assert all(v['after_d14_8_sees'] for k,v in checks.items() if k!='after_undo'),out
+            # Owner and access were not part of the earlier comparator; definition and members were.
+            assert not any(checks[k]['before_d14_8_sees_content'] for k in('acl_grant','owner_change','table_acl_grant')),out
+            assert all(checks[k]['before_d14_8_sees_content'] for k in('definition_change','member_removed')),out
             out['status']='PASS'
     finally:
         with psycopg.connect(URL,autocommit=True) as admin:
