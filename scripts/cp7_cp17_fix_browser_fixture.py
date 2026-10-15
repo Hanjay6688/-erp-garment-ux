@@ -71,6 +71,14 @@ def main():
             wage=[[str(x) for x in cases.wage_journal(cur,w[0])] for w in works]
             out=dict(sewn=ready[0],ready=ready[1],posted_work=len(works),wage=wage,
                      history=one('select count(*) from cp7_cutting_correction.sewing_history where group_id=%s',(p['group'],))[0])
+        elif operation=='finish':
+            f=cases.finish_fixture(cur,date.fromisoformat(p['today']));cases.b.api.admin(cur)
+            out=dict(po=f['po'],number=f['number'])
+        elif operation=='finish_state':
+            st=cases.po_state(cur,p['po']);total,qty=cases.po_hpp(cur,p['po'])
+            per=(total/qty).quantize(cases.D('0.01'),rounding=cases.ROUND_HALF_UP) if qty else None
+            text=None if per is None else (lambda w,c:'{:,}'.format(int(w)).replace(',','.')+('' if c=='00' else ','+c))(*str(per).split('.'))
+            out=dict(status=st['status'],wip=str(cases.D(st['wip']).quantize(cases.D('0.01'))),history=st['history'],per_pcs=None if per is None else str(per),per_pcs_text=text)
         elif operation=='pickup_state':
             pk=one('select status,reversal_reason from erp.cutting_pickups where id=%s',(p['pickup'],))
             g=one('select status,picked_up_at,executor_name,material_issue_posted from erp.cutting_groups where id=%s',(p['group'],))

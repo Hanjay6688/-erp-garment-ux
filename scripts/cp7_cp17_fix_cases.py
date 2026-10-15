@@ -55,7 +55,8 @@ FUNCTIONS=('erp_set_contractor_hpp_policy_v1','erp_cp7_save_nota_v1','erp_cp7_ge
            'erp_save_laundry_bd_action_v1','erp_cp7_get_material_ledger_v1','erp_cp7_get_material_ledger_v2',
            'erp_cp7_get_cutting_return_v1','erp_cp7_return_cutting_fabric_v1','erp_cp7_get_cutting_correction_v1',
            'erp_cp7_get_kasbon_v1','erp_cp7_save_kasbon_v1','erp_cp7_get_pickup_reversal_v1','erp_cp7_reverse_pickup_v1',
-           'erp_cp7_get_cutting_return_reversal_v1','erp_cp7_reverse_cutting_return_v1','erp_cp7_get_sewing_completion_v1','erp_cp7_save_sewing_completion_v1')
+           'erp_cp7_get_cutting_return_reversal_v1','erp_cp7_reverse_cutting_return_v1','erp_cp7_get_sewing_completion_v1','erp_cp7_save_sewing_completion_v1',
+           'erp_cp7_list_po_finish_v1','erp_cp7_get_po_finish_v1','erp_cp7_finish_po_v1')
 IDS=dict(
     native=['CP17_FIN01_FULL_PAY_BEFORE_ATTENDANCE_REFUSED','CP17_FIN01_WORK_ONLY_BEFORE_COMPLETION_REFUSED',
             'CP17_FIN01_INSTALLMENT_BEFORE_ACCRUAL_REFUSED','CP17_FIN01_DIRECT_NATIVE_PAYMENT_REFUSED',
@@ -72,12 +73,13 @@ IDS=dict(
             'CP17_SG03_REWASH_SAME_PRODUCT_NO_VENDOR_BILL',
             'CP17_SG01_PICKUP_REVERSE_BEFORE_SEWING','CP17_SG01_PICKUP_REVERSE_REFUSED',
             'CP17_FABLE012_EXPOSURE_GATE_REVOKE_FIRST',
-            'CP17_G1_SEWING_RECORD_WAGE_READY_FOR_LAUNDRY','CP17_G1_SEWING_REFUSALS_UNCHANGED','CP17_G1_SEWING_CANCEL_ONLY_AT_MANDOR'],
-    races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK','CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS','CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS'],
-    http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED','CP17_HTTP_KASBON_GIVE','CP17_HTTP_ERP_WRITERS_NOT_REACHABLE','CP17_HTTP_G1_SEWING_RECORD'],
+            'CP17_G1_SEWING_RECORD_WAGE_READY_FOR_LAUNDRY','CP17_G1_SEWING_REFUSALS_UNCHANGED','CP17_G1_SEWING_CANCEL_ONLY_AT_MANDOR',
+            'CP17_G2_FINISH_PO_FINAL_HPP_WIP_CLOSED','CP17_G2_FINISH_REFUSALS_UNCHANGED'],
+    races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK','CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS','CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS','CP17_RACE_G2_FINISH_TWO_TABS_ONE_WINS'],
+    http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED','CP17_HTTP_KASBON_GIVE','CP17_HTTP_ERP_WRITERS_NOT_REACHABLE','CP17_HTTP_G1_SEWING_RECORD','CP17_HTTP_G2_FINISH_PO'],
     browser=['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP','CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE','CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP',
              'CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP','CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE','CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP',
-             'CP17_BROWSER_G1_SEWING_DESKTOP','CP17_BROWSER_G1_SEWING_MOBILE'],
+             'CP17_BROWSER_G1_SEWING_DESKTOP','CP17_BROWSER_G1_SEWING_MOBILE','CP17_BROWSER_G2_FINISH_DESKTOP','CP17_BROWSER_G2_FINISH_MOBILE'],
 )
 REQUIRED={k:len(v)for k,v in IDS.items()}
 EXPECTED=sum(REQUIRED.values())
@@ -206,13 +208,23 @@ def pickup_fixture(cur,today):
 
 # G1 (D14-14): the Work BOM, the CP7 sewing command and its oracles (Native rows and journals, not the command).
 def work_rates(cur,g):
-    """The PO model's Work BOM (two components, default rates 2 and 1) and a Mandor rate 3 for the first, from the fixture day."""
+    """The PO model's Work BOM (two components, default rates 2 and 1) and a Mandor rate 3 for the first, from the fixture day.
+    Native cases roll back, so each builds its own BOM. The browser fixtures commit: the second one (phone after desktop)
+    finds the first one's BOM active on the same model and day (a second would overlap, Native guard_work_bom_overlap, first
+    CI run on d53c4e92 kept) and reuses it after checking it is exactly that BOM."""
     prod=cut.cutting.qc.physical.b.chain.production;b.api.admin(cur)
     model=one(cur,'select model_id from erp.production_orders where id=%s',(g['po'],));since=g['at'](0)
-    bom=one(cur,'insert into erp.work_bom_versions(model_id,version_no,effective_from,notes)values(%s,(select coalesce(max(version_no),0)+1 from erp.work_bom_versions where model_id=%s),%s,%s)returning id',
-        (model,model,since,'CP17 G1 BOM kerja'))
-    obras=str(one(cur,'insert into erp.work_components(component_code,component_name)values(%s,%s)returning id',('CP17-OBRAS-'+uuid.uuid4().hex[:8],'CP17 Obras')))
-    cur.execute('insert into erp.work_bom_items(bom_version_id,work_component_id,sequence_no,default_rate)values(%s,%s,1,2),(%s,%s,2,1)',(bom,prod.COMPONENT,bom,obras))
+    active=cur.execute("""select v.id from erp.work_bom_versions v where v.model_id=%s and v.is_active and v.effective_from<=%s
+        and(v.effective_to is null or v.effective_to>%s)and v.notes='CP17 G1 BOM kerja' order by v.effective_from desc,v.version_no desc limit 1""",(model,since,since)).fetchone()
+    if active:
+        bom=active[0];items=cur.execute('select work_component_id::text,sequence_no,default_rate from erp.work_bom_items where bom_version_id=%s order by sequence_no',(bom,)).fetchall()
+        assert [(c,n,r)for c,n,r in items if n==1]==[(str(prod.COMPONENT),1,D(2))] and len(items)==2 and items[1][1:]==(2,D(1)),('CP17_G1_REUSED_BOM_CHANGED',items)
+        obras=items[1][0]
+    else:
+        bom=one(cur,'insert into erp.work_bom_versions(model_id,version_no,effective_from,notes)values(%s,(select coalesce(max(version_no),0)+1 from erp.work_bom_versions where model_id=%s),%s,%s)returning id',
+            (model,model,since,'CP17 G1 BOM kerja'))
+        obras=str(one(cur,'insert into erp.work_components(component_code,component_name)values(%s,%s)returning id',('CP17-OBRAS-'+uuid.uuid4().hex[:8],'CP17 Obras')))
+        cur.execute('insert into erp.work_bom_items(bom_version_id,work_component_id,sequence_no,default_rate)values(%s,%s,1,2),(%s,%s,2,1)',(bom,prod.COMPONENT,bom,obras))
     cur.execute('insert into erp.contractor_work_rates(contractor_id,model_id,work_component_id,rate_per_pcs,effective_from)values(%s,%s,%s,3,%s)',(g['mandor'],model,prod.COMPONENT,since))
     return dict(component=str(prod.COMPONENT),obras=obras)
 def sewing_workspace(cur,g):
@@ -238,6 +250,32 @@ def laundry_for(cur,g):
     batch=str(one(cur,"select d.id from erp.cutting_distribution_batches d join erp.cutting_pickups p on p.id=d.pickup_id where p.cutting_group_id=%s and p.status='POSTED'",(g['group'],)))
     wash=dict(vendor=vendor,process=process,day=g['day'],start=g['at'](0),batch=batch,group=g['group'])
     bd.process_rate(cur,wash,'2.00');b.api.admin(cur);return wash
+
+# G2 (D14-14): finish a PO from the HPP screen; oracles from Native rows and journals, not the command.
+def finish_fixture(cur,today,received=10,label='CP17-G2'):
+    """Ten pieces of one PO through the chain's own writers: sewing, laundry out, `received` back GOOD and through QC into FG."""
+    f=bd.fixture(cur,today-timedelta(days=3),label+'-'+uuid.uuid4().hex[:8]);bd.process_rate(cur,f,'2.00');b.api.admin(cur)
+    delivery=bd.plain_delivery(cur,f,10,11);receipt=bd.receive(cur,delivery,f,received,13)['receipt_id'];b.api.admin(cur)
+    product,lot=bd.finish_goods(cur,f,receipt,received,14);b.api.admin(cur)
+    return dict(f,delivery=str(delivery),receipt=str(receipt),product=str(product),lot=str(lot),
+                number=one(cur,'select po_number from erp.production_orders where id=%s',(f['po'],)))
+def finish_workspace(cur,po):
+    auth.actor(cur);w=one(cur,'select public.erp_cp7_get_po_finish_v1(%s)',(po,));b.api.admin(cur);return w
+def finish_list(cur,query,offset=0):
+    auth.actor(cur);w=one(cur,'select public.erp_cp7_list_po_finish_v1(%s,%s)',(query,offset));b.api.admin(cur);return w
+def finish_command(cur,w,reason='CP17 PO selesai, HPP final',key=None,token=None,po=None):
+    p=dict(action='FINISH',po_id=po or w['po_id'],review_token=token or w['review_token'],change_reason=reason)
+    auth.actor(cur);r=one(cur,'select public.erp_cp7_finish_po_v1(%s,%s)',(json.dumps(p),str(key or uuid.uuid4())));b.api.admin(cur);return r
+def po_wip(cur,po):
+    return one(cur,"""select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id
+        where j.status in('POSTED','REVERSED') and l.po_id=%s and l.account_id=erp.account_id('WIP')""",(po,))
+def po_hpp(cur,po):
+    return cur.execute("""select coalesce(sum(h.total_cost),0),coalesce(sum(h.qty_basis_pcs),0) from erp.fg_lots l join erp.v_current_hpp h on h.lot_id=l.id
+        where l.po_id=%s and l.lot_origin='PRODUCTION'""",(po,)).fetchone()
+def po_state(cur,po):
+    return dict(status=one(cur,'select status from erp.production_orders where id=%s',(po,)),wip=po_wip(cur,po),
+                closed=one(cur,'select coalesce(sum(residual_amount),0) from erp.po_wip_close_events where po_id=%s',(po,)),
+                history=one(cur,'select count(*) from cp7_cutting_correction.finish_history where po_id=%s',(po,)))
 
 def cases(cur,today):
     def full_attendance():
@@ -849,6 +887,8 @@ def cases(cur,today):
         g=picked();rates=sewing_ready(g);w=sewing_read(g)
         assert w['eligible'] and w['blockers']==[] and w['business_DML'] is False,w
         assert (w['effective_pcs'],w['sewn_pcs'],w['max_qty'],w['rates_committed'],w['contractor_id'])==(10,0,10,False,g['mandor']),w
+        # Before the first record the screen previews the rates the Native snapshot will take (Mandor 3 over BOM default 2, Obras 1).
+        assert [D(str(x['rate']))for x in w['rate_preview']]==[3,1] and w['components']==[],w['rate_preview']
         assert sewn_ready(cur,g)==(0,0)
         key=uuid.uuid4();r=sewing_send(w,qty=4,at=g['at'](10),key=key);again=sewing_send(w,qty=4,at=g['at'](10),key=key)
         assert again==r and r['action']=='RECORD' and r['result']['qty_pcs']==4 and r['result']['components']==2,r
@@ -864,7 +904,7 @@ def cases(cur,today):
         payroll=cur.execute('select count(*),sum(source_qty_payable) from erp.v_payroll_production_work_eligibility where source_id in(select id from erp.work_completion_lines where completion_id=%s)',(comp,)).fetchone()
         assert payroll==(2,8),('CP17_G1_WAGE_NOT_IN_PAYROLL_PIPELINE',payroll)
         w2=sewing_read(g)
-        assert w2['max_qty']==6 and w2['rates_committed'] and [(c['rate'],c['posted_qty'])for c in w2['components']]==[(3,4),(1,4)],w2
+        assert w2['max_qty']==6 and w2['rates_committed'] and w2['rate_preview']==[] and [(c['rate'],c['posted_qty'])for c in w2['components']]==[(3,4),(1,4)],w2
         r2=sewing_send(w2,qty=6,at=g['at'](11));w3=sewing_read(g)
         assert sewn_ready(cur,g)==(10,10) and wage_journal(cur,r2['result']['work_completion_id'])==(D(24),D(24),1)
         assert not w3['eligible'] and w3['max_qty']==0 and [b['kind']for b in w3['blockers']]==['NOTHING_TO_SEW'],w3
@@ -886,12 +926,12 @@ def cases(cur,today):
         zero=refused(cur,lambda:sewing_send(w,qty=0,at=g['at'](10)),'CP7_SEWING_FIELDS');unchanged(cur,before,'zero pieces')
         key=uuid.uuid4();sewing_send(w,qty=2,at=g['at'](10),key=key)
         changed=refused(cur,lambda:sewing_send(w,qty=3,at=g['at'](10),key=key),'CP7_SEWING_REQUEST_CHANGED')
-        # The Native writers stay closed to the browser role.
-        auth.actor(cur)
-        direct=refused(cur,lambda:cur.execute('select erp.post_work_completion(%s)',(str(uuid.uuid4()),)),'permission denied')
-        b.api.admin(cur)
+        # Not asserted here: authenticated still holds EXECUTE on erp.post_work_completion (FABLE-012; owner D14-9 defers that
+        # revoke to CP7C). First CI run on d53c4e92 wrongly expected 'permission denied' and got the Native DRAFT refusal (log
+        # kept). The writer is unreachable from the browser because the Data API serves only public:
+        # CP17_HTTP_ERP_WRITERS_NOT_REACHABLE.
         return dict(status='PASS',no_work_rate=no_rate,over_remaining=over,before_pickup=early,future=future,stale_review=stale,stale_version=version,
-                    short_reason=short,zero_pieces=zero,same_key_other_payload=changed,native_writer_not_callable=direct)
+                    short_reason=short,zero_pieces=zero,same_key_other_payload=changed,native_writer_reachability='CP17_HTTP_ERP_WRITERS_NOT_REACHABLE (D14-9)')
     def sewing_cancel():
         g=picked();sewing_ready(g);w=sewing_read(g)
         first=sewing_send(w,qty=4,at=g['at'](10));second=sewing_send(sewing_read(g),qty=3,at=g['at'](10,30))
@@ -923,11 +963,54 @@ def cases(cur,today):
                     after_cancel_sewn_ready=[3,0],laundry_delivery=str(delivery.get('delivery_id')),cancel_after_laundry_refused=sent,cancel_twice_refused=twice,
                     same_request_replay_identical=True)
 
+    # ------------------------------------------------------------ G2 (D14-14): finish the PO from the HPP screen, HPP final
+    def finish_po():
+        f=finish_fixture(cur,today);po=f['po'];w=finish_workspace(cur,po)
+        assert w['eligible'] and w['blockers']==[] and w['business_DML'] is False and w['po_status']!='FINISHED',w
+        assert (w['fg_pcs'],w['laundry_sent_pcs'],w['laundry_returned_pcs'],w['laundry_good_pcs'],w['qc_accounted_pcs'],w['open_bs_cases'])==(10,10,10,10,10,0),w
+        assert w['hpp']['display_status']=='SEMENTARA' and 'PRODUKSI_BELUM_FINISHED' in w['hpp']['pending_reasons'],w['hpp']
+        assert D(w['wip_balance'])==round(po_wip(cur,po),2),(w['wip_balance'],po_wip(cur,po))
+        listed=finish_list(cur,f['number']);assert [r['id'] for r in listed['rows']]==[po] and listed['rows'][0]['fg_pcs']==10,listed
+        wip_before=po_wip(cur,po);key=uuid.uuid4();r=finish_command(cur,w,key=key);again=finish_command(cur,w,key=key)
+        assert again==r and r['action']=='FINISH' and r['result']['status']=='FINISHED' and r['result']['wip_after']=='0.00',r
+        # Oracles: the PO row, its WIP journal lines, the FG lots' current HPP and the residual close event.
+        state=po_state(cur,po);total,qty=po_hpp(cur,po)
+        assert state['status']=='FINISHED' and state['wip']==0 and state['history']==1,state
+        assert D(r['result']['hpp']['total'])==round(total,2) and r['result']['hpp']['qty_basis_pcs']==qty==10,(r['result']['hpp'],total,qty)
+        assert D(r['result']['residual_closed'])==round(state['closed'],2),(r['result'],state)
+        assert 'PRODUKSI_BELUM_FINISHED' not in r['result']['hpp']['pending_reasons'] and r['result']['hpp']['display_status']!='SEMENTARA',r['result']['hpp']
+        sync=one(cur,"select count(*) from erp.journal_entries where source_type='PO_HPP_GL_SYNC' and source_id=%s and status='POSTED'",(po,))
+        after=finish_workspace(cur,po);assert not after['eligible'] and [x['kind'] for x in after['blockers']]==['ALREADY_FINISHED'],after['blockers']
+        before=b.boundary.snapshot(cur)
+        twice=refused(cur,lambda:finish_command(cur,after,reason='CP17 selesai kedua kali'),'CP7_PO_FINISH_BLOCKED');unchanged(cur,before,'finish twice')
+        return dict(status='PASS',po=f['number'],status_after='FINISHED',wip_before=str(wip_before),wip_after='0.00',residual_closed=r['result']['residual_closed'],
+                    final_hpp=r['result']['hpp'],hpp_gl_sync_journals=sync,same_request_replay_identical=True,second_finish_refused=twice)
+    def finish_refused():
+        f=finish_fixture(cur,today,received=8);po=f['po'];w=finish_workspace(cur,po)
+        assert not w['eligible'] and w['blockers']==[dict(kind='LAUNDRY_OUTSTANDING',qty=2)],w['blockers']
+        before=b.boundary.snapshot(cur)
+        out=refused(cur,lambda:finish_command(cur,w),'CP7_PO_FINISH_BLOCKED');unchanged(cur,before,'laundry still out')
+        # Native agrees on the same fact (its own refusal, called as the Owner): the facade does not invent the rule.
+        native=refused(cur,lambda:bd.internal(cur,'finish_production_order',po),'unresolved laundry outstanding qty 2');unchanged(cur,before,'Native finish with laundry out')
+        missing=refused(cur,lambda:finish_command(cur,w,po=str(uuid.uuid4())),'CP7_PO_FINISH_NOT_FOUND');unchanged(cur,before,'unknown PO')
+        # Lawful path: the last two come back and go through QC; the old review is now stale, the fresh one finishes.
+        back=bd.receive(cur,f['delivery'],f,2,15)['receipt_id'];b.api.admin(cur);bd.finish_goods(cur,f,back,2,16);b.api.admin(cur)
+        stale=refused(cur,lambda:finish_command(cur,w),'CP7_PO_FINISH_STALE_REVIEW')
+        w2=finish_workspace(cur,po);assert w2['eligible'] and w2['fg_pcs']==10,w2
+        before=b.boundary.snapshot(cur)
+        short=refused(cur,lambda:finish_command(cur,w2,reason='x'),'CP7_PO_FINISH_FIELDS');unchanged(cur,before,'short reason')
+        forged=refused(cur,lambda:finish_command(cur,w2,token='0'*32),'CP7_PO_FINISH_STALE_REVIEW');unchanged(cur,before,'forged review')
+        key=uuid.uuid4();finish_command(cur,w2,key=key)
+        changed=refused(cur,lambda:finish_command(cur,w2,key=key,reason='CP17 alasan lain untuk kunci sama'),'CP7_PO_FINISH_REQUEST_CHANGED')
+        assert po_state(cur,po)['status']=='FINISHED' and po_state(cur,po)['wip']==0
+        return dict(status='PASS',laundry_out_refused=out,native_same_refusal=native,unknown_po=missing,stale_after_change=stale,short_reason=short,
+                    forged_review=forged,same_key_other_payload=changed,finished_after_all_back=True)
+
     named=[full_attendance,work_only,installment,direct_native,empty_bank,exact_zero,backdate,later_day,payroll_empty,laundry_empty,
            claim_control,claim_before_source,claim_ap_not_available,stock_card,rework_scrap,rework_good,rework_open,
            hpp_excluded,hpp_unrelated,hpp_replacement,fabric_return,fabric_over,fabric_once,fabric_dates,fabric_cancel,fabric_correct,fabric_cancel_blocked,fabric_cancel_once,legacy_findings,
            kasbon_cycle,kasbon_limits,kasbon_release,rewash_free,pickup_reverse,pickup_refused,exposure_gate,
-           sewing_record,sewing_refused,sewing_cancel]
+           sewing_record,sewing_refused,sewing_cancel,finish_po,finish_refused]
     assert len(named)==REQUIRED['native']
     return list(zip(IDS['native'],named))
 
@@ -996,8 +1079,25 @@ def races(tools,today):
             posted=one(cur,"select count(*) from erp.work_completion_events where cutting_group_id=%s and status='POSTED'",(g['group'],))
         assert state==(6,6) and posted==1,(state,posted)
         return dict(status='PASS',two_records_of_six_on_ten=results,sewn_after=6,posted_work_completions=1)
+    def finish_twice():
+        # G2: two tabs finish the same PO from the same review: one finishes it, the other is refused as stale; one close.
+        with tools.connect()as conn,conn.cursor()as cur:
+            f=finish_fixture(cur,today);w=finish_workspace(cur,f['po']);conn.commit()
+        barrier=threading.Barrier(2)
+        def send(n):
+            with tools.connect()as conn,conn.cursor()as cur:
+                barrier.wait(5)
+                try:r=finish_command(cur,w,reason=f'CP17 tab {n} menyelesaikan PO');conn.commit();return('PASS',r['result']['status'])
+                except psycopg.Error as e:conn.rollback();return('REFUSED',str(e).splitlines()[0])
+        with ThreadPoolExecutor(max_workers=2)as pool:results=[x.result(60)for x in[pool.submit(send,n)for n in(1,2)]]
+        assert sorted(x[0]for x in results)==['PASS','REFUSED'] and 'CP7_PO_FINISH_STALE_REVIEW' in next(x[1]for x in results if x[0]=='REFUSED'),results
+        with tools.connect()as conn,conn.cursor()as cur:
+            b.api.admin(cur);state=po_state(cur,f['po'])
+            closes=one(cur,'select count(*) from erp.po_wip_close_events where po_id=%s',(f['po'],))
+        assert state['status']=='FINISHED' and state['wip']==0 and state['history']==1 and closes<=1,(state,closes)
+        return dict(status='PASS',two_finishes_same_review=results,finished_once=True,wip_close_events=closes)
     return [('CP17_RACE_TWO_PAYMENTS_ONE_BANK',two_payments),('CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS',overlapping_payroll),
-            ('CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS',sewing_twice)]
+            ('CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS',sewing_twice),('CP17_RACE_G2_FINISH_TWO_TABS_ONE_WINS',finish_twice)]
 
 
 def http_cases(http,today):
@@ -1083,5 +1183,27 @@ def http_cases(http,today):
         with http.connect()as conn,conn.cursor()as cur:
             b.api.admin(cur);assert sewn_ready(cur,g)==(5,5) and wage_journal(cur,r['body']['result']['work_completion_id'])==(D(20),D(20),1)
         return dict(status='PASS',real_Auth_recorded=5,wage='WIP 20 / CONTRACTOR_PAYABLE 20',staff_refused=str(denied['body'])[:200])
+    def finish_http():
+        # G2 over real Auth + PostgREST: the Admin finishes the PO from the HPP screen path; a STAFF login is refused and changes nothing.
+        admin=http.login('ADMIN','cp17-finish');staff=http.login('ADMIN','cp17-finish-staff')
+        with http.connect()as conn,conn.cursor()as cur:
+            f=finish_fixture(cur,today)
+            role=one(cur,'select role_id from erp.app_users where auth_user_id=%s',(admin.auth_user_id,))
+            for key in('finance.hpp.view','finance.hpp.manage'):
+                cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s)on conflict do nothing',(role,key))
+            _,staff_role=s.source.procurement.custom(cur,['finance.hpp.view','finance.hpp.manage'])
+            cur.execute("update erp.app_users set role='STAFF',role_id=%s where auth_user_id=%s",(staff_role,staff.auth_user_id));conn.commit()
+        found=admin.rpc('erp_cp7_list_po_finish_v1',dict(p_query=f['number'],p_offset=0));assert found['status']==200 and [r['id'] for r in found['body']['rows']]==[f['po']],found
+        w=admin.rpc('erp_cp7_get_po_finish_v1',dict(p_po=f['po']));assert w['status']==200 and w['body']['eligible'],w
+        p=dict(action='FINISH',po_id=f['po'],review_token=w['body']['review_token'],change_reason='CP17 PO selesai lewat login')
+        denied=staff.rpc('erp_cp7_finish_po_v1',dict(p_payload=p,p_request=str(uuid.uuid4())))
+        assert denied['status'] in(400,401,403) and 'CP7_PO_FINISH_DENIED' in str(denied['body']),denied
+        with http.connect()as conn,conn.cursor()as cur:
+            b.api.admin(cur);assert po_state(cur,f['po'])['status']!='FINISHED'
+        r=admin.rpc('erp_cp7_finish_po_v1',dict(p_payload=p,p_request=str(uuid.uuid4())))
+        assert r['status']==200 and r['body']['result']['status']=='FINISHED',r
+        with http.connect()as conn,conn.cursor()as cur:
+            b.api.admin(cur);state=po_state(cur,f['po']);assert state['status']=='FINISHED' and state['wip']==0,state
+        return dict(status='PASS',real_Auth_finished=f['number'],final_hpp=r['body']['result']['hpp'],staff_refused=str(denied['body'])[:200])
     return [('CP17_HTTP_CASH_EMPTY_BANK_REFUSED',cash_refused),('CP17_HTTP_PAYROLL_EARLY_REFUSED',payroll_early),('CP17_HTTP_KASBON_GIVE',kasbon_give_http),
-            ('CP17_HTTP_ERP_WRITERS_NOT_REACHABLE',erp_writers_closed),('CP17_HTTP_G1_SEWING_RECORD',sewing_http)]
+            ('CP17_HTTP_ERP_WRITERS_NOT_REACHABLE',erp_writers_closed),('CP17_HTTP_G1_SEWING_RECORD',sewing_http),('CP17_HTTP_G2_FINISH_PO',finish_http)]

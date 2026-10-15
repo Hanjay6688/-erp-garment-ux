@@ -226,7 +226,42 @@ async function sewing(ui,today,mobile){
  }catch(error){let actual;try{actual=state()}catch(e){actual={observation_error:String(e)}};await failure(page,name,error,actual,requests);throw error}
  finally{await user.context.close()}
 }
+// D14-14 G2: finish a PO and lock its HPP on the connected HPP & Rekalkulasi page, desktop and phone.
+async function hppPage(ui,page){
+ await ui.expect(page.locator('.sidebar .nav-main').filter({hasText:'Keuangan'})).toBeAttached();const open=page.getByRole('button',{name:'Buka menu',exact:true});if(await open.isVisible())await open.click()
+ const link=page.getByRole('button',{name:'• HPP & Rekalkulasi',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Keuangan'}).click();await link.click()
+ await ui.expect(page.getByRole('heading',{name:'HPP per SKU',exact:true})).toBeVisible()
+}
+async function finishPo(ui,today,mobile){
+ const f=fixture('finish',{today}),name=`CP17_G2_FINISH_${mobile?'MOBILE':'DESKTOP'}`,user=await ui.login('OWNER',{label:'cp17-g2-'+(mobile?'mobile':'desktop'),mobile}),page=user.page,requests=[]
+ const state=()=>fixture('finish_state',f)
+ page.on('request',r=>{if(r.url().endsWith('/rpc/erp_cp7_finish_po_v1'))requests.push(r.postDataJSON())})
+ try{
+  mkdirSync('cp6-proof/t3',{recursive:true});const before=state();assert.notEqual(before.status,'FINISHED');assert.equal(before.history,0)
+  await hppPage(ui,page);const panel=page.getByRole('region',{name:'Selesaikan PO',exact:true})
+  await panel.getByLabel('Cari nomor PO',{exact:true}).fill(f.number);await panel.getByRole('button',{name:'Cari PO',exact:true}).click()
+  await panel.getByRole('button',{name:'Pilih PO '+f.number,exact:true}).click()
+  const detail=panel.getByRole('region',{name:'Selesai PO '+f.number,exact:true})
+  await ui.expect(detail).toContainText('dikirim 10 · kembali 10');await ui.expect(detail).toContainText('10 dari 10 pcs GOOD laundry');await ui.expect(detail).toContainText('Sementara (PO belum selesai)')
+  const save=detail.getByRole('button',{name:'Selesaikan PO dan kunci HPP final',exact:true});await ui.expect(save).toBeDisabled()
+  await ui.expect(detail.getByLabel('PO '+f.number+' sudah diperiksa',{exact:true})).toBeDisabled()
+  await detail.getByLabel('Catatan selesai PO '+f.number,{exact:true}).fill('Semua barang sudah QC')
+  await detail.getByLabel('PO '+f.number+' sudah diperiksa',{exact:true}).check()
+  assert.deepEqual(state(),before);assert.equal(requests.length,0)
+  await page.screenshot({path:`cp6-proof/t3/${name}_REVIEW.png`,fullPage:true})
+  await save.click()
+  await ui.expect(panel.getByText(new RegExp('^'+f.number.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+': PO selesai pada '))).toBeVisible()
+  const after=state()
+  assert.equal(after.status,'FINISHED');assert.equal(after.wip,'0.00');assert.equal(after.history,1)
+  assert.equal(requests.length,1);assert.equal(requests[0].p_payload.action,'FINISH');assert.equal(requests[0].p_payload.po_id,f.po)
+  await ui.expect(panel.getByText(new RegExp('HPP final Rp'+after.per_pcs_text+'/pcs untuk 10 pcs'))).toBeVisible()
+  await noSideScroll(ui,page);await page.screenshot({path:`cp6-proof/t3/${name}_COMMITTED.png`,fullPage:true})
+  return{status:'PASS',phone:mobile,po:f.number,finished:true,wip_after:after.wip,hpp_per_pcs:after.per_pcs,one_request:true}
+ }catch(error){let actual;try{actual=state()}catch(e){actual={observation_error:String(e)}};await failure(page,name,error,actual,requests);throw error}
+ finally{await user.context.close()}
+}
 export function cases(ui,today){return[['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP',()=>pickupReversal(ui,today)],['CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE',()=>fabricReturn(ui,today)],['CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP',()=>kasbon(ui,today)],
  ['CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP',()=>seriesDozens(ui,today,false)],['CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE',()=>seriesDozens(ui,today,true)],
  ['CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP',()=>fabricReturnCorrect(ui,today)],
- ['CP17_BROWSER_G1_SEWING_DESKTOP',()=>sewing(ui,today,false)],['CP17_BROWSER_G1_SEWING_MOBILE',()=>sewing(ui,today,true)]]}
+ ['CP17_BROWSER_G1_SEWING_DESKTOP',()=>sewing(ui,today,false)],['CP17_BROWSER_G1_SEWING_MOBILE',()=>sewing(ui,today,true)],
+ ['CP17_BROWSER_G2_FINISH_DESKTOP',()=>finishPo(ui,today,false)],['CP17_BROWSER_G2_FINISH_MOBILE',()=>finishPo(ui,today,true)]]}

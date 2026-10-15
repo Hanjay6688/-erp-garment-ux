@@ -8,6 +8,7 @@ import { useProductionMutation } from './useProductionMutation'
 import { cp6WibPhysicalTimeToIso, formatCp6WibDateTime } from './cp6BusinessTime'
 import { parseSkuHpp, skuMoney, type SkuHppWorkspace } from './skuHpp'
 import RecostQueuePanel from './RecostQueuePanel'
+import PoFinishPanel from './PoFinishPanel'
 import './procurement-connected.css'
 import './initial-import.css'
 import './sku.css'
@@ -52,6 +53,7 @@ function Workspace() {
     {(error || blockReason) && <p role="alert">{error || blockReason}</p>}
     {busy && <p role="status">Memuat stok dan biaya…</p>}
     <RecostQueuePanel client={client} canManage={identity.status==='AUTHORIZED'&&identity.permissions.includes(SENSITIVE_ACTION_PERMISSION.recalculateHpp)&&['OWNER','ADMIN','STAFF'].includes(identity.profile.role)} onChanged={load}/>
+    <PoFinishPanel onCommitted={load}/>
     {data && <><p>Posisi {formatCp6WibDateTime(data.at)}. Biaya memakai versi yang sudah tercatat pada waktu itu; status kelengkapan diperiksa saat ini.</p>
       <div className="panel"><table><thead><tr><th>SKU</th><th>Stok PCS</th><th>Nilai stok</th><th>HPP / PCS</th><th>Status biaya</th></tr></thead><tbody>{data.groups.map(g => <tr key={g.group_key}><td><button onClick={() => setSelected(g.group_key)}>{g.brand_name} · {g.sku}</button></td><td>{g.qty}</td><td>{skuMoney(g.value)}</td><td>{skuMoney(g.hpp_per_pcs)}</td><td>{g.provisional ? 'Belum lengkap' : 'Tercatat'}</td></tr>)}</tbody></table>
       {data.groups.length === 0 && <p>Tidak ada stok SKU yang cocok.</p>}
