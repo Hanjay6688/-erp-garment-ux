@@ -1,0 +1,50 @@
+name: AUDIT/Astra/combined-ui-identity
+run-name: AUDIT/combined-20261016/Astra/dfab13bf/ui-identity/1
+permissions:
+  contents: read
+jobs:
+  ui:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: scope
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: auditor
+        ref: dfab13bf62398a69a02bf6221c06d29075e5e40b
+        persist-credentials: false
+    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      with:
+        node-version: '22'
+    - name: Install exact candidate dependencies
+      working-directory: auditor
+      run: npm ci
+    - name: Run Astra DOM observations against untouched candidate
+      working-directory: auditor
+      run: 'set -euo pipefail
+
+        mkdir -p audit/astra_cp17_combined
+
+        cp ../scope/audit/astra_cp17_combined/ui_identity.dom.test.tsx audit/astra_cp17_combined/
+
+        npx vitest run audit/astra_cp17_combined/ui_identity.dom.test.tsx --reporter=verbose 2>&1 | tee audit/astra_cp17_combined/UI.log
+
+        git diff --exit-code -- src scripts supabase tests package-lock.json
+
+        '
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: audit-astra-combined-ui-identity
+        path: auditor/audit/astra_cp17_combined
+        retention-days: 90
+'on':
+  push:
+    branches:
+    - audit/astra-cp1-7-combined-dfab13bf-20261016
+    paths:
+    - .github/workflows/audit-astra-combined-ui-identity.yml
+  workflow_dispatch: {}
