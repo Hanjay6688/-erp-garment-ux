@@ -1,0 +1,13 @@
+{
+  "original_run": 38785656090,
+  "original_job": 116596862914,
+  "original_status": "INCOMPLETE_BEFORE_OWNER_CASES",
+  "cause": "PRE_U_INVENTORY_NOT_CAPTURED incorrectly applied after explicit stop before U",
+  "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "new_workflow": "audit-sol-combined-owner-qualified.yml",
+  "Native_case_count_unchanged": 10,
+  "Native_SQL_changed": false,
+  "Native_oracle_changed": false,
+  "adapter_scope": "N/A of unexecuted post-baseline fixture requirement only; original G01 last-step/full fingerprint still decides",
+  "rule": "Pro Max 16.3 tool qualification; original failed run retained"
+}
