@@ -71,6 +71,29 @@ kesalahan produk; penjaga dan pemeriksaan tidak dilonggarkan, log gagal disimpan
 | CP7 Native Transaction Source Navigation | 38716165562 | 11 kasus pembayaran supplier dari bank kosong (`CP7_CASH_NEGATIVE`) | bank uji diberi modal sebesar total pembayarannya pada hari penerimaan; `cash_before` dibaca sesudahnya |
 | CP7 F03 Supplier Current Authority | 38716162817 | manifest pengganti masih 34 peran; tumpukan peran sekarang 37 (`cp7_guard`, `cp7_kasbon_*`) | daftar peran disamakan dengan `cp7_f03_full_manifest.json` beserta catatan tinjauan |
 
+## 3a. Arsip CI yang kedaluwarsa (D14-17)
+
+Arsip `10392910720` (run 34956212157, 15 Sep 2026) adalah sumber daftar tabel "sebelum U" yang dibaca langkah beku X
+(`Apply v2.6.20x ...` di workflow beku `1bdca376`) saat rantai uji dibangun ulang. Workflow pembuatnya menyimpan
+arsip 30 hari (`retention-days: 30`), jadi arsip itu terhapus otomatis 15 Okt 2026; lima run pada `191ee9ff` berhenti
+di langkah pertama dengan HTTP 410 (38721795013, 38721797914, 38721801271, 38721804060, 38721806508). Arsip itu tidak
+bisa dibuat ulang persis: pembuatnya butuh arsip `10320611163` yang juga sudah terhapus.
+
+- 14 arsip lain yang dikunci workflow dan masih hidup disalin utuh ke artifact `11967162735` (run 38723163085,
+  sampai 13 Jan 2027, daftar ukuran dan SHA-256 di dalamnya). Belum ada workflow yang dipindah ke salinan itu.
+- Owner D14-17 ("ya"): bila arsip tidak ada, `scripts/cp6_pre_u_inventory.py` menjalankan fungsi beku yang sama yang
+  dulu membuat file itu (`scripts/cp6_v2620u_install_diagnostic.snapshot` dari checkout `1bdca376`) tepat sebelum
+  langkah beku U, dan menulis file dengan bentuk yang dibaca langkah X. Langkah X tidak diubah dan tetap memutuskan.
+  Tambahan sebelum U: jumlah wajib 208 tabel (207 `erp`, 1 `supabase_migrations`), dan SHA-256 daftar nama dikunci
+  sesudah pengambilan pertama. Bila arsip ada, jalur lama yang dikunci SHA-256 dipakai tanpa perubahan.
+- 80 workflow tidak lagi berhenti bila unduhan arsip gagal (78 yang memakai `cp6_t3_aligned_chain.py`, ditambah
+  `cp6-av-qualification` dan `cp6-be-t1-probe` yang sekarang menjalankan `cp6_ac_audit_bootstrap.py` dari checkout
+  auditor; isinya sama dengan salinan `25fa4736`, ditambah jalur pengganti ini).
+- **Batas:** tidak bisa lagi dibuktikan bahwa daftar "sebelum U" hari ini sama persis dengan daftar 15 Sep; yang
+  terbukti hanya jumlah, fungsi pembuat, titik pengambilan, dan kesamaan antar-run sesudah dikunci. 37 workflow CP6
+  lama yang memanggil bootstrap dari checkout kandidat beku tetap tidak bisa berjalan (di luar Q25). Pin SHA-256
+  `scripts/cp6_ac_audit_bootstrap.py` di `scripts/cp6_ai_audit_router.py` (workflow CP6 AI lama) tidak lagi cocok.
+
 ## 4. Bukti CI
 
 Diisi sesudah run selesai (lihat bagian berikut yang ditambahkan dengan tanggal).

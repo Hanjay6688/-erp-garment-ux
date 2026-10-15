@@ -72,13 +72,17 @@ def run():
         'Capture exact v2.6.19c predecessor before CP6',
     }
     proof=Path('cp6-proof');proof.mkdir(exist_ok=True)
-    reused=reuse_bootstrap_input(proof)
+    # The archive expired on 15 Oct 2026 (30-day retention); cp6_pre_u_inventory keeps the original pinned reuse when it
+    # exists and otherwise captures the same frozen snapshot right before U for the unchanged X admission step.
+    import cp6_pre_u_inventory as pre_u
+    reused=pre_u.bootstrap_input(sys.modules[__name__],proof)
     report={'status':'INCOMPLETE','candidate_head':HEAD,'candidate_tree':TREE,'audit_harness_head':os.environ['CP6_AUDIT_HARNESS_HEAD'],'frozen_workflow_sha256':hashlib.sha256(workflow).hexdigest(),'production_go':False,'steps':[]}
     report['reused_bootstrap_input']=reused
     env=os.environ.copy();env.update(w['env']);env['GITHUB_SHA']=HEAD;env['PYTHONPATH']='scripts'
     for step in steps:
         name=step.get('name','')
         if name not in names and not name.startswith('Apply '):continue
+        reused=report['reused_bootstrap_input']=pre_u.capture_before(name,proof,reused)
         code=step['run'].split('\nset +e\n',1)[0]
         # Replay refusal and historic test commands are not needed to construct
         # the runtime. Preserve the exact apply/ledger/installation commands.
@@ -92,6 +96,7 @@ def run():
             print(log.read_text()[-6000:]);return completed.returncode
         if name=='Apply exact AC temporal surface closure and verify 272 runtime objects':break
     assert report['steps'][-1]['name']=='Apply exact AC temporal surface closure and verify 272 runtime objects'
+    pre_u.finished(reused)
     report['status']='PASS_EXACT_AC_RUNTIME_RESTORED'
     (proof/'AC_AUDIT_RUNTIME_BOOTSTRAP.json').write_text(json.dumps(report,indent=2)+'\n')
     return 0

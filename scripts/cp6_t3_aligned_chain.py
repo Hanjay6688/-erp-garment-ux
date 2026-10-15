@@ -14,6 +14,7 @@ import yaml
 AUDITOR=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(AUDITOR/'scripts'))
 import cp6_ac_audit_bootstrap as ac
+import cp6_pre_u_inventory as pre_u
 import cp6_g01_baseline as g01
 
 AC_STEP='Apply exact AC temporal surface closure and verify 272 runtime objects'
@@ -49,13 +50,14 @@ def run(out,stop=AC_STEP):
            'Capture exact v2.6.19c predecessor before CP6'}
     proof=Path('cp6-proof');proof.mkdir(exist_ok=True)
     report={'label':'T3_PREP','status':'INCOMPLETE','frozen_head':ac.HEAD,'frozen_workflow_sha256':hashlib.sha256(workflow).hexdigest(),
-            'reused_bootstrap_input':ac.reuse_bootstrap_input(proof),'aligned_after':g01.STOP,'stop_after':stop,'steps':[],
+            'reused_bootstrap_input':pre_u.bootstrap_input(ac,proof),'aligned_after':g01.STOP,'stop_after':stop,'steps':[],
             'production_go':False,'release_evidence':False}
     env=os.environ.copy();env.update(w['env']);env['GITHUB_SHA']=ac.HEAD;env['PYTHONPATH']='scripts'
     aligned=False
     for step in steps:
         name=step.get('name','')
         if name not in names and not name.startswith('Apply '):continue
+        report['reused_bootstrap_input']=pre_u.capture_before(name,proof,report['reused_bootstrap_input'])
         code=step['run'].split('\nset +e\n',1)[0]
         script=proof/('t3-chain-'+str(len(report['steps']))+'.sh');script.write_text(code+'\n')
         log=script.with_suffix('.log')
@@ -83,6 +85,7 @@ def run(out,stop=AC_STEP):
             aligned=True
         if name==stop:break
     assert report['steps'][-1]['name']==stop and aligned
+    pre_u.finished(report['reused_bootstrap_input'])
     report['status']='PASS_ALIGNED_CHAIN_TO_'+('AC' if stop==AC_STEP else 'AB')
     Path(out).write_text(json.dumps(report,indent=2)+'\n')
     return 0

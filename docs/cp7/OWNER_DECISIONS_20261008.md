@@ -461,3 +461,21 @@ Owner (persis): "gw sih gamau suruh dia kerja dulu ya biar ga 2 kali. jadi abis 
 Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): paket uji ulang r1 **belum** dikirim ke auditor.
 Sesudah tiga celah D14-14 selesai dan dikualifikasi, penulis menyiapkan **satu paket gabungan** (uji ulang r1 + audit
 akhir CP1–7 D14-13) pada satu kandidat, supaya auditor bekerja sekali. `production_go:false`.
+
+### D14-17 (owner ke penulis Claude, 15 Okt 2026, arsip uji yang kedaluwarsa)
+
+Konteks (penulis): arsip CI 10392910720 (run 34956212157, 15 Sep 2026) disimpan 30 hari (`retention-days: 30` di
+workflow pembuatnya) dan terhapus otomatis 15 Okt 2026; semua workflow CP7 berhenti di langkah pertama (HTTP 410, run
+38721795013, 38721797914, 38721801271, 38721804060, 38721806508). Arsip itu tidak bisa dibuat ulang persis karena
+pembuatnya bergantung pada arsip 10320611163 yang juga sudah terhapus. 14 arsip lain yang masih hidup disalin utuh ke
+artifact 11967162735 (run 38723163085, disimpan sampai 13 Jan 2027).
+
+Penulis bertanya: "boleh saya ganti dengan cara ini? Ya atau tidak." — yaitu mengganti arsip yang hilang dengan daftar
+tabel yang diambil ulang di setiap uji oleh fungsi beku yang sama, tepat sebelum langkah U, dengan pemeriksaan X yang
+tidak diubah, jumlah 208 tabel wajib, dan nama-nama tabel dikunci sesudah pengambilan pertama; batasnya ditulis untuk
+auditor (tidak bisa lagi dibuktikan sama persis dengan daftar 15 Sep).
+
+Owner (persis): "kok bisa hilang?" lalu "kalo ganti bakal bisa aman gak?" lalu "ya"
+
+Akibat untuk penulis: `scripts/cp6_pre_u_inventory.py` dipakai bila arsip tidak ada; jalur lama yang dikunci SHA-256
+tetap dipakai bila arsip ada. Batas dicatat di paket audit akhir. `production_go:false`.
