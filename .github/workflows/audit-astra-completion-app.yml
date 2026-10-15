@@ -1,5 +1,5 @@
 name: AUDIT/Astra/completion-app
-run-name: AUDIT/combined-20261016/Astra/dfab13bf/completion-app/1
+run-name: AUDIT/combined-20261016/Astra/dfab13bf/completion-app/2-precase-path-fix
 'on':
   push:
     branches:
@@ -156,6 +156,7 @@ jobs:
       working-directory: writer
       run: 'export ASTRA_CANDIDATE_ROOT="$(realpath ../auditor)"
 
+        mkdir -p ../auditor/audit
         cp -R ../control/audit/astra_cp17_completion ../auditor/audit/
 
         python ../auditor/audit/astra_cp17_completion/probe.py'
