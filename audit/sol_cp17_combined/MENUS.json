@@ -1,0 +1,386 @@
+[
+  {
+    "label": "Dashboard",
+    "page": "dashboard",
+    "group": null,
+    "disposable_route": "NOTICE",
+    "uat_route": "NOTICE",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Buat Potongan",
+    "page": "cutting-roll",
+    "group": "Produksi",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Bagi Potongan",
+    "page": "mandor-wip",
+    "group": "Produksi",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "WIP & Sewing",
+    "page": "sewing-wip",
+    "group": "Produksi",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Laundry",
+    "page": "laundry",
+    "group": "Produksi",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "QC & Final SKU",
+    "page": "qc",
+    "group": "Produksi",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Susun Nota FG",
+    "page": "fg-handoff",
+    "group": "Produksi",
+    "disposable_route": "CONNECTED",
+    "uat_route": "BLOCKED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Barang BS & Rework",
+    "page": "bs-rework",
+    "group": "Produksi",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Ringkasan Gudang",
+    "page": "warehouse-dashboard",
+    "group": "Gudang",
+    "disposable_route": "SIMULATION",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Pembelian & Penerimaan",
+    "page": "procurement",
+    "group": "Gudang",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Bahan & Roll",
+    "page": "materials-rolls",
+    "group": "Gudang",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Kain kantong",
+    "page": "pocket-fabric",
+    "group": "Gudang",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Aksesori",
+    "page": "accessories",
+    "group": "Gudang",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Ringkasan Barang Jadi",
+    "page": "fg-summary",
+    "group": "Gudang",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Mutasi Barang Jadi · Vivo",
+    "page": "movements-vivo",
+    "group": "Gudang",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Mutasi Barang Jadi · Widie",
+    "page": "movements-widie",
+    "group": "Gudang",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Kartu Stok FG",
+    "page": "stock-card",
+    "group": "Gudang",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Stock Adjustment",
+    "page": "stock-adjustment",
+    "group": "Gudang",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Ganti Merek",
+    "page": "brand-conversion",
+    "group": "Gudang",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Penjualan & Invoice",
+    "page": "sales-invoice",
+    "group": "Penjualan",
+    "disposable_route": "CONNECTED",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Semua Invoice",
+    "page": "sales-allocation",
+    "group": "Penjualan",
+    "disposable_route": "CONNECTED",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Retur Penjualan",
+    "page": "sales-returns",
+    "group": "Penjualan",
+    "disposable_route": "CONNECTED",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Pembayaran Pelanggan",
+    "page": "sales-payments",
+    "group": "Penjualan",
+    "disposable_route": "CONNECTED",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Riwayat Pelanggan",
+    "page": "sales-history",
+    "group": "Penjualan",
+    "disposable_route": "SIMULATION",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Ringkasan Keuangan",
+    "page": "finance-overview",
+    "group": "Keuangan",
+    "disposable_route": "CONNECTED",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Kas & Bank",
+    "page": "finance-cash",
+    "group": "Keuangan",
+    "disposable_route": "CONNECTED",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Hutang Supplier & Vendor",
+    "page": "finance-ap",
+    "group": "Keuangan",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Piutang Pelanggan",
+    "page": "finance-ar",
+    "group": "Keuangan",
+    "disposable_route": "CONNECTED",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Payroll & Kasbon",
+    "page": "finance-payroll",
+    "group": "Keuangan",
+    "disposable_route": "CONNECTED",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Absensi & Rate Harian",
+    "page": "operations-attendance",
+    "group": "Keuangan",
+    "disposable_route": "CONNECTED",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Nota Ambil Aksesori",
+    "page": "contractor-issue",
+    "group": "Keuangan",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "HPP & Rekalkulasi",
+    "page": "hpp",
+    "group": "Keuangan",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Jurnal & Transaksi Lain",
+    "page": "finance-journal",
+    "group": "Keuangan",
+    "disposable_route": "CONNECTED",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Laporan & Tutup Buku",
+    "page": "finance-reports",
+    "group": "Keuangan",
+    "disposable_route": "CONNECTED",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Kain & Benchmark",
+    "page": "master-fabric",
+    "group": "Master Data",
+    "disposable_route": "SIMULATION",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Aksesori & Harga Mandor",
+    "page": "master-accessory",
+    "group": "Master Data",
+    "disposable_route": "SIMULATION",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Produk & SKU",
+    "page": "master-products",
+    "group": "Master Data",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Pelanggan",
+    "page": "master-customers",
+    "group": "Master Data",
+    "disposable_route": "SIMULATION",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Supplier & Vendor",
+    "page": "master-partners",
+    "group": "Master Data",
+    "disposable_route": "SIMULATION",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Mandor",
+    "page": "master-workforce",
+    "group": "Master Data",
+    "disposable_route": "SIMULATION",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Gudang & Lokasi",
+    "page": "master-locations",
+    "group": "Master Data",
+    "disposable_route": "SIMULATION",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Pola",
+    "page": "master-pattern",
+    "group": "Master Data",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Reminder",
+    "page": "admin-reminders",
+    "group": "Pengaturan & Audit",
+    "disposable_route": "SIMULATION",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Pengguna & Hak Akses",
+    "page": "admin-access",
+    "group": "Pengaturan & Audit",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Pengaturan ERP",
+    "page": "admin-settings",
+    "group": "Pengaturan & Audit",
+    "disposable_route": "SIMULATION",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Impor data awal",
+    "page": "admin-import",
+    "group": "Pengaturan & Audit",
+    "disposable_route": "CONNECTED",
+    "uat_route": "CONNECTED",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Tutup Periode",
+    "page": "admin-period-close",
+    "group": "Pengaturan & Audit",
+    "disposable_route": "SIMULATION",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  },
+  {
+    "label": "Audit Trail",
+    "page": "admin-audit",
+    "group": "Pengaturan & Audit",
+    "disposable_route": "SIMULATION",
+    "uat_route": "SIMULATION",
+    "oracle_origin": "SOL_SOURCE_REVIEW_APP_ROUTE_AND_COMPONENT_SWITCHES"
+  }
+]

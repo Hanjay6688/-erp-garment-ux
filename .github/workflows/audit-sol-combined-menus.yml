@@ -1,0 +1,70 @@
+name: AUDIT/SOL/48-menu-mode-parity
+run-name: AUDIT/cp17-combined-20261016/SOL/dfab13bf/48-menu-mode-parity/initial
+'on':
+  push:
+    branches:
+    - audit/sol-cp1-7-combined-dfab13bf-20261016
+    paths:
+    - .github/workflows/audit-sol-combined-menus.yml
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: sol-combined-menus-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  menu:
+    name: 48 menus / ${{ matrix.mode }} / desktop + phone / HTTP mock
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        mode:
+        - DEMO_SIMULATION
+        - UAT_AUTH_SIMULATION
+        - DISPOSABLE_TEST
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: sol
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: auditor
+        ref: dfab13bf62398a69a02bf6221c06d29075e5e40b
+        persist-credentials: false
+    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      with:
+        node-version: '22'
+    - name: Pinned source and dependency identity
+      working-directory: auditor
+      run: "set -euo pipefail\n test \"$(git rev-parse HEAD)\" = dfab13bf62398a69a02bf6221c06d29075e5e40b\n test \"$(git rev-parse\
+        \ HEAD^{tree})\" = 886f83312958b53781a450a4ea2a8fb2147b3be3\n mkdir -p cp6-proof/sol-menu\n git rev-parse HEAD HEAD^{tree}\
+        \ HEAD:src HEAD:scripts/cp7-src > cp6-proof/sol-menu/source.txt\n sha256sum package-lock.json >> cp6-proof/sol-menu/source.txt\n\
+        \ printf '%s\\n' \"$GITHUB_SHA\" >> cp6-proof/sol-menu/source.txt\n npm ci --no-audit --no-fund\n npx playwright install\
+        \ --with-deps chromium\n "
+    - name: Build actual mode; visit every menu on both viewports, intercept every external request
+      working-directory: auditor
+      env:
+        SOL_MODE: ${{ matrix.mode }}
+        SOL_CANDIDATE_DIR: ${{ github.workspace }}/auditor
+        SOL_OUTPUT: ${{ github.workspace }}/auditor/cp6-proof/sol-menu
+      run: "set -euo pipefail\n export VITE_ERP_RUNTIME_MODE=\"$SOL_MODE\"\n if [ \"$SOL_MODE\" = DEMO_SIMULATION ]; then\n\
+        \   output=dist\n   npm run build\n elif [ \"$SOL_MODE\" = UAT_AUTH_SIMULATION ]; then\n   output=dist\n   export\
+        \ VITE_SUPABASE_URL='https://siimvrusnzxexizpyoib.supabase.co'\n   export VITE_SUPABASE_PUBLISHABLE_KEY='sb_publishable_mock_cp6_browser_contract_20260904'\n\
+        \   export ERP_UAT_AUTH_ALLOW_MOCK_KEY=1\n   npm run build:uat-auth\n else\n   output=cp6-ui-build\n   export VITE_DISPOSABLE_API_PORT=54330\n\
+        \   export VITE_SUPABASE_URL='http://127.0.0.1:54330'\n   export VITE_SUPABASE_ANON_KEY=\"$(node -e \"process.stdout.write([Buffer.from(JSON.stringify({alg:'HS256',typ:'JWT'})).toString('base64url'),Buffer.from(JSON.stringify({role:'anon',ref:'local'})).toString('base64url'),'synthetic-signature'].join('.'))\"\
+        )\"\n   npm run build:cp6-disposable\n fi\n npm run preview -- --host 127.0.0.1 --port 4176 --strictPort --outDir\
+        \ \"$output\" > \"$RUNNER_TEMP/sol-menu-preview.log\" 2>&1 &\n preview_pid=$!\n trap 'kill \"$preview_pid\" 2>/dev/null\
+        \ || true' EXIT\n node --input-type=module -e 'for(let i=0;i<60;i++){try{if((await fetch(\"http://127.0.0.1:4176\"\
+        )).ok)process.exit(0)}catch{}await new Promise(r=>setTimeout(r,500))}process.exit(1)'\n node ../sol/audit/sol_cp17_combined/menu_inventory.mjs\n\
+        \ "
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp17-combined-20261016-SOL-dfab13bf-menus-${{ matrix.mode }}
+        path: auditor/cp6-proof/sol-menu
+        retention-days: 90
+        if-no-files-found: error
