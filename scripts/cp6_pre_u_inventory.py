@@ -24,8 +24,9 @@ NAME = 'CP6_V2620U_FAILED150_PREDICATES.json'
 ARTIFACT_ID = 10392910720
 PENDING = 'ARCHIVE_EXPIRED_PRE_U_CAPTURE_PENDING'
 # SHA-256 of json.dumps(sorted([schema, name] for every baseline table)) captured before U on the frozen chain.
-# None until the first capture after the expiry is read from its run; then pinned here with that run id.
-NAMES_SHA256 = None
+# First captures after the expiry, identical in three runs on 677a7b05 (CP7 CP17 Fixes 38724905951, CP7 Native Atomic Misc
+# Correction 38724911818, CP7 Native Posted Cutting Reopen 38724908863), each followed by the unchanged X step passing.
+NAMES_SHA256 = 'eb7f121d3b5fe5a6fc3c920fb88ddbcd64242580f0689f0459a1cb29cc169069'
 
 
 def archive_available():

@@ -10,7 +10,7 @@ vi.mock('./auth/AuthProvider', () => ({ useAuth: () => auth.current }))
 vi.mock('./lib/supabase', () => ({ getUatSupabaseClient: () => client }))
 const group = '11111111-1111-4111-8111-111111111111', po = '22222222-2222-4222-8222-222222222222'
 const mandor = '44444444-4444-4444-8444-444444444444', event = '55555555-5555-4555-8555-555555555555', work = '66666666-6666-4666-8666-666666666666'
-const onCommitted = vi.fn(async () => {})
+const onCommitted = vi.fn(async (_message: string) => {})
 const recorded = (extra: Record<string, unknown> = {}) => ({ id: event, number: 'SEW-1', qty_pcs: 4, physical_at: '2026-10-14T03:00:00+00:00', row_version: 1,
   reason: 'Setoran pagi', work_completion_id: work, work_status: 'POSTED', reversed: false, wage_amount: 12, in_payroll: false, in_active_pool: false,
   cancel_blocker: null, ...extra })
@@ -70,7 +70,7 @@ describe('selesai jahit di WIP & Sewing (D14-14)', () => {
     expect(sent[0]).toMatchObject({ p_expected: '7', p_payload: { action: 'RECORD', group_id: group, qty_pcs: '4', physical_at: '2026-10-14T03:00:00.000Z',
       review_token: 'e'.repeat(32), change_reason: 'Setoran pagi' } })
     expect(container.textContent).toContain('CUT-SEW: 4 pcs tercatat selesai dijahit. Upah mandor Rp12 masuk hutang mandor; 4 pcs siap dikirim ke laundry.')
-    expect(onCommitted).toHaveBeenCalled()
+    expect(onCommitted).toHaveBeenCalledWith('CUT-SEW: 4 pcs tercatat selesai dijahit. Upah mandor Rp12 masuk hutang mandor; 4 pcs siap dikirim ke laundry.')
   })
   it('before the first record shows the estimated wage from the rates the record will lock', async () => {
     client.rpc.mockResolvedValue({ data: workspace({ rates_committed: false, components: [],

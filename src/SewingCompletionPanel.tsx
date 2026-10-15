@@ -19,7 +19,7 @@ const rupiah = (value: number) => `Rp${value.toLocaleString('id-ID', { minimumFr
 // finished sewing. The server posts the piece-work wage (WORK_COMPLETION) and the SELESAI_DIJAHIT that Laundry counts as
 // ready to send, in one step. A record can be cancelled while its pieces are still at the Mandor and its wage is unpaid.
 export default function SewingCompletionPanel({ groupId, groupNumber, groupVersion, parentReady, onCommitted }: {
-  groupId: string; groupNumber: string; groupVersion: number; parentReady: boolean; onCommitted: () => Promise<unknown>
+  groupId: string; groupNumber: string; groupVersion: number; parentReady: boolean; onCommitted: (message: string) => Promise<unknown>
 }) {
   const { runtime, identity } = useAuth()
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') throw new Error('Sesi selesai jahit belum siap.')
@@ -30,7 +30,7 @@ export default function SewingCompletionPanel({ groupId, groupNumber, groupVersi
     && ['production.wip.view', 'production.wip.post'].every(p => hasPermission(identity, p))
   const bound = `${groupId}:${groupVersion}:${recovery.scope}`
   const live = useRef(bound); live.current = bound
-  const serial = useRef(0), committed = useRef(false)
+  const serial = useRef(0), committed = useRef(false), outcome = useRef('')
   const [open, setOpen] = useState(false), [data, setData] = useState<SewingWorkspace | null>(null)
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [done, setDone] = useState('')
   const [qty, setQty] = useState(''), [at, setAt] = useState(() => cp6WibDateTimeInput()), [reason, setReason] = useState('')
@@ -61,12 +61,14 @@ export default function SewingCompletionPanel({ groupId, groupNumber, groupVersi
     retire: (value: unknown, e: ProductionEnvelope) => {
       const result = validateSewingOutcome(value, e); committed.current = true
       reset()
-      setDone(result.action === 'RECORD'
+      outcome.current = result.action === 'RECORD'
         ? `${result.number}: ${result.qtyPcs} pcs tercatat selesai dijahit. Upah mandor ${rupiah(result.wageAmount ?? 0)} masuk hutang mandor; ${result.readyUnsentPcs} pcs siap dikirim ke laundry.`
-        : `${result.number}: catatan ${result.qtyPcs} pcs selesai jahit dibatalkan beserta upahnya.`)
+        : `${result.number}: catatan ${result.qtyPcs} pcs selesai jahit dibatalkan beserta upahnya.`
+      setDone(outcome.current)
     },
     reload: async () => {
-      if (committed.current) { setOpen(false); await onCommitted(); return true }
+      // The page keeps the outcome: its reload replaces this card.
+      if (committed.current) { setOpen(false); await onCommitted(outcome.current); return true }
       return load()
     },
   }

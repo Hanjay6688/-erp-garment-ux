@@ -266,14 +266,14 @@ def finish_list(cur,query,offset=0):
 def finish_command(cur,w,reason='CP17 PO selesai, HPP final',key=None,token=None,po=None):
     p=dict(action='FINISH',po_id=po or w['po_id'],review_token=token or w['review_token'],change_reason=reason)
     auth.actor(cur);r=one(cur,'select public.erp_cp7_finish_po_v1(%s,%s)',(json.dumps(p),str(key or uuid.uuid4())));b.api.admin(cur);return r
-def po_wip(cur,po):
+def po_wip_balance(cur,po):
     return one(cur,"""select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id
         where j.status in('POSTED','REVERSED') and l.po_id=%s and l.account_id=erp.account_id('WIP')""",(po,))
 def po_hpp(cur,po):
     return cur.execute("""select coalesce(sum(h.total_cost),0),coalesce(sum(h.qty_basis_pcs),0) from erp.fg_lots l join erp.v_current_hpp h on h.lot_id=l.id
         where l.po_id=%s and l.lot_origin='PRODUCTION'""",(po,)).fetchone()
 def po_state(cur,po):
-    return dict(status=one(cur,'select status from erp.production_orders where id=%s',(po,)),wip=po_wip(cur,po),
+    return dict(status=one(cur,'select status from erp.production_orders where id=%s',(po,)),wip=po_wip_balance(cur,po),
                 closed=one(cur,'select coalesce(sum(residual_amount),0) from erp.po_wip_close_events where po_id=%s',(po,)),
                 history=one(cur,'select count(*) from cp7_cutting_correction.finish_history where po_id=%s',(po,)))
 
@@ -969,9 +969,9 @@ def cases(cur,today):
         assert w['eligible'] and w['blockers']==[] and w['business_DML'] is False and w['po_status']!='FINISHED',w
         assert (w['fg_pcs'],w['laundry_sent_pcs'],w['laundry_returned_pcs'],w['laundry_good_pcs'],w['qc_accounted_pcs'],w['open_bs_cases'])==(10,10,10,10,10,0),w
         assert w['hpp']['display_status']=='SEMENTARA' and 'PRODUKSI_BELUM_FINISHED' in w['hpp']['pending_reasons'],w['hpp']
-        assert D(w['wip_balance'])==round(po_wip(cur,po),2),(w['wip_balance'],po_wip(cur,po))
+        assert D(w['wip_balance'])==round(po_wip_balance(cur,po),2),(w['wip_balance'],po_wip_balance(cur,po))
         listed=finish_list(cur,f['number']);assert [r['id'] for r in listed['rows']]==[po] and listed['rows'][0]['fg_pcs']==10,listed
-        wip_before=po_wip(cur,po);key=uuid.uuid4();r=finish_command(cur,w,key=key);again=finish_command(cur,w,key=key)
+        wip_before=po_wip_balance(cur,po);key=uuid.uuid4();r=finish_command(cur,w,key=key);again=finish_command(cur,w,key=key)
         assert again==r and r['action']=='FINISH' and r['result']['status']=='FINISHED' and r['result']['wip_after']=='0.00',r
         # Oracles: the PO row, its WIP journal lines, the FG lots' current HPP and the residual close event.
         state=po_state(cur,po);total,qty=po_hpp(cur,po)
