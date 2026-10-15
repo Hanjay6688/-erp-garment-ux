@@ -34,13 +34,13 @@ VOCABULARY=('PASS','FAIL','COUNTEREXAMPLE','INCOMPLETE')
 # list (ACL entries sorted as text, as cp6_ao_ap_inventory.function_pins does); relations carry owner and ACL too. The
 # cause of the two original A2 failures stays OPEN (D13-10); the earlier query is kept below for the before/after test.
 PUBLIC_STATE="""select jsonb_build_object(
-  'relations',(select coalesce(jsonb_agg(x order by x->>0 collate "C",x->>1 collate "C",x::text collate "C"),'[]'::jsonb) from(
+  'relations',(select coalesce(jsonb_agg(x order by (x->>0) collate "C",(x->>1) collate "C",(x::text) collate "C"),'[]'::jsonb) from(
     select jsonb_build_array(c.relname,c.relkind,pg_get_userbyid(c.relowner),
-      case when c.relacl is null then null else to_jsonb(array(select a::text from unnest(c.relacl)a order by a::text collate "C")) end) x
+      case when c.relacl is null then null else to_jsonb(array(select a::text from unnest(c.relacl)a order by (a::text) collate "C")) end) x
     from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind in('r','p','v','m','S','f'))r),
-  'functions',(select coalesce(jsonb_agg(x order by x->>0 collate "C",x->>1 collate "C",x::text collate "C"),'[]'::jsonb) from(
+  'functions',(select coalesce(jsonb_agg(x order by (x->>0) collate "C",(x->>1) collate "C",(x::text) collate "C"),'[]'::jsonb) from(
     select jsonb_build_array(p.oid::regprocedure::text,md5(pg_get_functiondef(p.oid)),pg_get_userbyid(p.proowner),
-      case when p.proacl is null then null else to_jsonb(array(select a::text from unnest(p.proacl)a order by a::text collate "C")) end) x
+      case when p.proacl is null then null else to_jsonb(array(select a::text from unnest(p.proacl)a order by (a::text) collate "C")) end) x
     from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.prokind in('f','p'))f))"""
 # The comparator before D14-8, unchanged, for the before/after evidence only (scripts/cp6_auditor_public_state_test.py).
 PUBLIC_STATE_BEFORE_D14_8="""select jsonb_build_object(
