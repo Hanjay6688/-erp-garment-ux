@@ -492,7 +492,10 @@ def cases(cur,today):
     def roll_stock(g):
         return D(one(cur,'select coalesce(sum(qty_signed),0) from erp.material_stock_movements where roll_id=%s and location_id=%s',(g['roll'],g['location'])))
     def po_wip(g):
-        return D(one(cur,"select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.status='POSTED' and l.account_id=erp.account_id('WIP') and l.po_id=%s",(g['po'],)))
+        # Native ledger rule: a reversed journal stays in the ledger (status REVERSED) and its JOURNAL_REVERSAL offsets it,
+        # as erp.account_daily_balances and the Native WIP health check count them. Counting only POSTED drops the original
+        # but keeps its reversal (first D14-10 run 38666407687: WIP 120 instead of 100; log kept).
+        return D(one(cur,"select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.status in('POSTED','REVERSED') and l.account_id=erp.account_id('WIP') and l.po_id=%s",(g['po'],)))
     def returns(g):
         return cur.execute("select qty_signed,input_unit_cost,roll_id::text,location_id::text from erp.material_stock_movements where source_type='CUTTING_GROUP_RETURN' and source_id=%s and movement_type='CUTTING_RETURN'",(g['group'],)).fetchall()
     def fabric_return():
@@ -562,10 +565,15 @@ def cases(cur,today):
         r=returned(g,'2');value=D(r['value']);assert roll_stock(g)-stock0==2 and wip0-po_wip(g)==value
         w=reversal_read(g)
         assert w['eligible'] and w['blockers']==[] and len(w['returned'])==1 and D(w['returned'][0]['qty_returned'])==2 and w['returned'][0]['later_uses']==[] and w['business_DML'] is False,w
+        # D14-10 "hutang/kredit": a fabric return never touched supplier AP, so its cancel may not either.
+        ap="select count(*),coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l join erp.accounting_account_mappings a on a.account_id=l.account_id where a.mapping_key in('AP_SUPPLIER','AP_VENDOR')"
+        ap0=cur.execute(ap).fetchone()
         out=reversal_send(w,reversal_payload(w))
         assert out['action']=='CANCEL_RETURN' and out['reversed_movements']==1 and out['reversed_journals']==1 and out['replacement'] is None,out
         assert roll_stock(g)==stock0 and po_wip(g)==wip0 and material_avg(g).quantize(D('0.000001'))==avg0.quantize(D('0.000001')),(roll_stock(g),stock0,po_wip(g),wip0,material_avg(g),avg0)
         assert return_journals(g)==[('REVERSED',1)] and active_returns(g)==[] and facts(g)==(D(0),None,None),(return_journals(g),facts(g))
+        touched=sorted(r[0] for r in cur.execute("select distinct a.mapping_key from erp.journal_entries j join erp.cutting_group_rolls r on r.id=j.source_id join erp.journal_entries x on x.reversal_of_id=j.id join erp.journal_lines l on l.journal_entry_id=x.id join erp.accounting_account_mappings a on a.account_id=l.account_id and a.mapping_key in('MATERIAL_INVENTORY','WIP','AP_SUPPLIER','AP_VENDOR') where r.cutting_group_id=%s and j.source_type='CUTTING_MATERIAL_RETURN_LINE' and x.source_type='JOURNAL_REVERSAL'",(g['group'],)).fetchall())
+        assert touched==['MATERIAL_INVENTORY','WIP'] and cur.execute(ap).fetchone()==ap0,('CP17_SG02_CANCEL_TOUCHED_AP',touched,ap0)
         kept=one(cur,"select count(*) from erp.material_stock_movements where source_type='CUTTING_GROUP_RETURN' and source_id=%s",(g['group'],))
         assert kept==1 and one(cur,'select material_return_posted from erp.cutting_groups where id=%s',(g['group'],)) is False
         assert one(cur,'select count(*) from cp7_cutting_correction.return_history where group_id=%s',(g['group'],))==1
@@ -573,7 +581,7 @@ def cases(cur,today):
         again=return_read(g);assert again['eligible'],again
         r2=returned(g,'1');assert roll_stock(g)-stock0==1 and active_returns(g)==[(D(1),)]
         return dict(status='PASS',owner_decision='D14-10',stock_back=str(stock0),po_WIP_back=str(wip0),material_average_back=True,
-                    original_journal='REVERSED with one posted JOURNAL_REVERSAL',original_movement_kept_and_reversed=True,histories_kept=True,new_return_allowed_after_cancel=r2['rolls'][0]['qty_returned'])
+                    original_journal='REVERSED with one posted JOURNAL_REVERSAL',reversal_accounts=touched,supplier_AP_unchanged=True,original_movement_kept_and_reversed=True,histories_kept=True,new_return_allowed_after_cancel=r2['rolls'][0]['qty_returned'])
     def fabric_correct():
         g=fabric_posted();stock0,wip0=roll_stock(g),po_wip(g)
         returned(g,'2');w=reversal_read(g);before=b.boundary.snapshot(cur)
