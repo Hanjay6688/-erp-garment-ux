@@ -10,6 +10,7 @@ name: CP7 F03 E01 Source Journey
     - scripts/cp7_*bundle.py
     - src/**
     - .github/workflows/cp7-f03-e01.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

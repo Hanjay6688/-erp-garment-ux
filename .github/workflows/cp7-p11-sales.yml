@@ -23,6 +23,7 @@ name: CP7 P11 Sales
     - src/salesCashContract.ts
     - src/salesReadContract.ts
     - .github/workflows/cp7-p11-sales.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

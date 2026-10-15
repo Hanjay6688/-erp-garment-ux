@@ -13,6 +13,7 @@ name: CP7 P03 production policy
     - scripts/cp7_identity_bundle.py
     - scripts/cp7_identity_cases.py
     - .github/workflows/cp7-p03-identity.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

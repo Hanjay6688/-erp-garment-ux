@@ -453,3 +453,11 @@ Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
 - Layar mode Enteng (23 menu data contoh) dan layar data induk tidak termasuk "yang jelas": tetap tercatat untuk audit
   akhir dan pemasangan.
 - `production_go:false`.
+
+### D14-16 (owner ke penulis Claude, 15 Okt 2026, urutan kirim ke auditor)
+
+Owner (persis): "gw sih gamau suruh dia kerja dulu ya biar ga 2 kali. jadi abis lu beres baru gw suruh"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): paket uji ulang r1 **belum** dikirim ke auditor.
+Sesudah tiga celah D14-14 selesai dan dikualifikasi, penulis menyiapkan **satu paket gabungan** (uji ulang r1 + audit
+akhir CP1–7 D14-13) pada satu kandidat, supaya auditor bekerja sekali. `production_go:false`.

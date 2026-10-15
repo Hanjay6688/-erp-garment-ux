@@ -18,6 +18,7 @@ name: CP7 Native Atomic Misc Correction
     - scripts/cp7_*bundle.py
     - src/**
     - .github/workflows/cp7-misc-correction.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

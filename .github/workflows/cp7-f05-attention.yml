@@ -91,6 +91,7 @@ name: CP7 F05 Native Durable Attention
     - src/native-demand-history.css
     - src/ConnectedFgStockPage*
     - .github/workflows/cp7-f05-attention.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

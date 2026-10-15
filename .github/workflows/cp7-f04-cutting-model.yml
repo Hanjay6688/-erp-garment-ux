@@ -29,6 +29,7 @@ name: CP7 F04 Prospective Native Cutting Model and Consumer
     - scripts/cp7_cutting_yield_browser.mjs
     - scripts/cp7_cutting_input_browser.mjs
     - src/NativeCuttingYieldPanel.tsx
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

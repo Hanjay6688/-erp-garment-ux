@@ -26,6 +26,7 @@ name: CP7 F03 Native Reservation and Size Planner Seams
     - src/native-demand-history.css
     - src/ConnectedFgStockPage*
     - .github/workflows/cp7-f03-planner-seam.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

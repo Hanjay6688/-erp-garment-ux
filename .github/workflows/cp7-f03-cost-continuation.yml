@@ -10,6 +10,7 @@ name: CP7 F03 Required Cost Continuations
     - scripts/cp7_*bundle.py
     - src/**
     - .github/workflows/cp7-f03-cost-continuation.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

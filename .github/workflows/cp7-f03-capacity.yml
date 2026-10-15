@@ -10,6 +10,7 @@ name: CP7 F03 E20 E14 Complete Stock Capacity
     - scripts/cp7_*bundle.py
     - src/**
     - .github/workflows/cp7-f03-capacity.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

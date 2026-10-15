@@ -18,6 +18,7 @@ name: CP7 P13 Finance Analysis
     - tests/fixtures/financeAnalysis.ts
     - tests/fixtures/financeReport.ts
     - .github/workflows/cp7-p13-analysis.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

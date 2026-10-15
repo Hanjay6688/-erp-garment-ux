@@ -11,6 +11,7 @@ name: CP7 F03 X04 Source Versions
     - scripts/cp7_*bundle.py
     - src/**
     - .github/workflows/cp7-f03-x04.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

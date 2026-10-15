@@ -19,6 +19,7 @@ name: CP7 P13 HPP recost
     - tests/fixtures/financeAnalysis.ts
     - tests/fixtures/financeReport.ts
     - .github/workflows/cp7-p13-recost.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

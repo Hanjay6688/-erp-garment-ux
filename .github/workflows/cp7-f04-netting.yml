@@ -29,6 +29,7 @@ name: CP7 F04 Native Product Bound Netting
     - src/native-demand-history.css
     - src/ConnectedFgStockPage*
     - .github/workflows/cp7-f04-netting.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

@@ -10,6 +10,7 @@ name: CP7 P02 source capture probe
     - tests/cp7/sourceProbeContract.ts
     - tests/cp7/sourceProbe.test.ts
     - .github/workflows/cp7-p02.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

@@ -27,6 +27,7 @@ name: CP7 P10 Finished goods
     - scripts/cp7_procurement_bundle.py
     - scripts/cp7-src/wip/**
     - .github/workflows/cp7-p10-fg.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

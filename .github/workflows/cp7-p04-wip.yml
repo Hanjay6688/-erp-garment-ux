@@ -20,6 +20,7 @@ name: CP7 P04 WIP kernels
     - scripts/cp7_identity_bundle.py
     - scripts/cp7_identity_cases.py
     - .github/workflows/cp7-p04-wip.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

@@ -12,6 +12,7 @@ name: CP7 P19 Bounded Native Load
     - scripts/cp7_*bundle.py
     - docs/cp7/p19/P19_NATIVE_LOAD.json
     - .github/workflows/cp7-p19-native-load.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

@@ -25,6 +25,7 @@ name: CP7 Native Atomic Sales Chain Reversal
     - scripts/cp7_*bundle.py
     - src/**
     - .github/workflows/cp7-sales-chain.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

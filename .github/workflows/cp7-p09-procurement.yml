@@ -46,6 +46,7 @@ name: CP7 P09 Procurement
     - scripts/cp7_identity_bundle.py
     - scripts/cp7_identity_cases.py
     - .github/workflows/cp7-p09-procurement.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

@@ -47,6 +47,7 @@ name: CP7 F04 Native Fabric Recipe
     - tests/fixtures/nativeFabricRecipe*
     - tests/cp7/families/fabric-recipe.test.ts
     - tests/cp7/families/f04/fabric-recipe.mjs
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

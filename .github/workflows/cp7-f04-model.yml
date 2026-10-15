@@ -21,6 +21,7 @@ name: CP7 F04 Native Model Evaluation
     - src/native-demand-history.css
     - src/ConnectedFgStockPage*
     - .github/workflows/cp7-f04-model.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

@@ -13,6 +13,7 @@ name: CP7 F03 Supplier Current Authority
     - scripts/cp7_f03_full_manifest.json
     - scripts/cp7_f03_full_probe.py
     - .github/workflows/cp7-supplier-credit-authority.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

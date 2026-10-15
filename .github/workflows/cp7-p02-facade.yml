@@ -12,6 +12,7 @@ name: CP7 P02 actor facade
     - tests/cp7/sourceProbeContract.ts
     - tests/cp7/sourceProbe.test.ts
     - .github/workflows/cp7-p02-facade.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

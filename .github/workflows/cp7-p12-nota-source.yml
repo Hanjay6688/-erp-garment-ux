@@ -9,6 +9,7 @@ name: CP7 P12 Nota source
     - scripts/cp7_nota_source_cases.py
     - scripts/cp7_p12_nota_source_probe.py
     - .github/workflows/cp7-p12-nota-source.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

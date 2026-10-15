@@ -17,6 +17,7 @@ name: CP7 P13 Period control
     - src/financeReportContract.ts
     - tests/fixtures/financeReport.ts
     - .github/workflows/cp7-p13-period.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

@@ -25,6 +25,7 @@ name: CP7 F04 Native Selected Production Schedule
     - src/native-demand-history.css
     - src/ConnectedFgStockPage*
     - .github/workflows/cp7-f04-schedule.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

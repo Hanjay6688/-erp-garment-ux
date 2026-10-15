@@ -17,6 +17,7 @@ name: CP7 Native Inactive Rule Lifecycle
     - scripts/cp7_*bundle.py
     - src/**
     - .github/workflows/cp7-rule-lifecycle.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

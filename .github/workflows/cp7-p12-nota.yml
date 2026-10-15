@@ -43,6 +43,7 @@ name: CP7 P12 Nota and payroll lifecycle
     - scripts/cp7_nota_source_cases.py
     - scripts/cp7_p12_nota_probe.py
     - .github/workflows/cp7-p12-nota.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

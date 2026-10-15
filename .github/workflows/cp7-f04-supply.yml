@@ -24,6 +24,7 @@ name: CP7 F04 Global Native Production Supply
     - src/native-demand-history.css
     - src/ConnectedFgStockPage*
     - .github/workflows/cp7-f04-supply.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read

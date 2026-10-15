@@ -17,6 +17,7 @@ name: CP7 P18 E01 Consumer Bridge
     - scripts/cp7_*bundle.py
     - src/**
     - .github/workflows/cp7-p18-e01-bridge.yml
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read
