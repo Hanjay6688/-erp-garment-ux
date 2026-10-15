@@ -1,0 +1,14 @@
+{
+  "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "reason": "SOL-003 retest: prior refusal diagnostics and successful installation did not exercise a real PostgreSQL exception's diag fields.",
+  "layer": "NATIVE_POSTGRES_ENGINE_ONLY",
+  "oracle_origin": "SOL_LITERAL_EXPECTED_DIAGNOSTIC_FIELDS_AND_FILESYSTEM_PERMISSIONS",
+  "fixture_origin": "SOL_SYNTHETIC_SERVER_EXCEPTION_NO_ERP_DATA",
+  "cases": [
+    {"id": "SOL_DIAG_PG_FIELDS_AND_CONTEXT", "expected": "P0001, exact synthetic primary/detail/hint, actual PL/pgSQL context, session identity and observer backend metadata retained; no query text in other_backends"},
+    {"id": "SOL_DIAG_PRIVATE_FILE_HASH_MODE", "expected": "0600 file, exact SHA-256 pointer, no server message in pointer; diagnostic omission does not swallow caller exception"},
+    {"id": "SOL_DIAG_FAILURE_FAILS_EXPLICITLY", "expected": "Unwritable output destination returns unavailable and leaves original exception unchanged"}
+  ],
+  "production_go": false,
+  "historical_AZ_root_claim": false
+}
