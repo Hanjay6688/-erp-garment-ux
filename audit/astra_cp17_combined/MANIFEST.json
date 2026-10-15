@@ -107,5 +107,25 @@
     "No Cloudflare deployment mutation",
     "No writer/product edits",
     "No current-round other auditor results before lock"
+  ],
+  "additional_runtime_planned": [
+    {
+      "workflow": "t2",
+      "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "oracle_origin": "WRITER_UNCHANGED",
+      "purpose": "CP3-CP6 retained regression on combined accepted native package; historical dispositions preserved"
+    },
+    {
+      "workflow": "g01",
+      "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "oracle_origin": "WRITER_UNCHANGED",
+      "purpose": "CP1 baseline fingerprint versus frozen hosted-equivalent evidence"
+    },
+    {
+      "workflow": "p18",
+      "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+      "oracle_origin": "WRITER_UNCHANGED",
+      "purpose": "Eight GL/subledger boundaries across production sale return and payments"
+    }
   ]
 }
