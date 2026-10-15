@@ -80,7 +80,13 @@ def factory(cur, today):
   # the receipt to 25.01 leaves 5.01, on the SAME economic day. No overdraft.
   f=edit.fixture(cur,today,amount='30.01');out=pay.fixture(cur,today);out['cash']=f['bank']
   pay.command(cur,pay.payload(cur,out,'20.00'));assert c.balance(cur,f['bank'])==D('10.01')
-  p,v=edit.payload(cur,f,'25.01');before=pay.b.boundary.snapshot(cur)
+  p,v=edit.payload(cur,f,'25.01')
+  # Tool qualification: the P09 fixture above leaves the caller in Jakarta.
+  # The actual correction screen uses its own UTC-pinned public workspace,
+  # rather than the generic sales reader's caller-zone-dependent token.
+  workspace=edit.workspace(cur,f)
+  p['review_token'],v=workspace['review_token'],workspace['row_version']
+  before=pay.b.boundary.snapshot(cur)
   cur.execute('savepoint sol_positive_correction')
   result=None;error=None
   try:result=edit.correct(cur,p,v)

@@ -1,0 +1,30 @@
+{
+  "original_run": 38785656146,
+  "original_job": 116596863442,
+  "original_native_report_artifact": 11998153161,
+  "original_case": "SOL_R1_CUSTOMER_PAYMENT_CORRECTION_FINAL_POSITIVE",
+  "original_status": "INCOMPLETE",
+  "original_refusal": "CP7_SALES_REVIEW_CHANGED",
+  "cause": "Reused P09 fixture deliberately leaves caller TimeZone Asia/Jakarta; generic sales reader has caller-zone token, but correction apply fixes UTC. Actual correction UI uses the dedicated UTC-pinned public correction workspace.",
+  "change": "Read review_token and row_version from public erp_cp7_get_sales_payment_correction_v1 for the same source, as actual UI does; no source data, SQL definition, date, amount or expected value changed.",
+  "old_own_probe_sha256": "e5b2fb3bed75aa118d0f4be734ee65baf282304ae31ab9bc25175d5765c8f570",
+  "new_own_probe_sha256": "60a9defa1938b6cc62af07ec7a1896b9a030061be2386c36ae78a843b4ea1095",
+  "reused_pass_cases_not_reexecuted": 6,
+  "qualified_native_ids": [
+    "SOL_R1_CUSTOMER_PAYMENT_CORRECTION_FINAL_POSITIVE"
+  ],
+  "new_HTTP_ids": [
+    "SOL_HTTP_UNSPENT_INCOME_CORRECTION_CONTROL",
+    "SOL_HTTP_SPENT_INCOME_CORRECTION_FINAL_POSITIVE",
+    "SOL_HTTP_SPENT_INCOME_NOTE_ONLY_CORRECTION",
+    "SOL_HTTP_SPENT_INCOME_GENUINE_NEGATIVE_REFUSAL"
+  ],
+  "literal_expected_unchanged": {
+    "receipt": "30.01",
+    "supplier_payment": "20.00",
+    "corrected_receipt": "25.01",
+    "expected_bank": "5.01"
+  },
+  "rule": "Pro Max 16.3 new tool qualification, original nonpass retained",
+  "production_go": false
+}
