@@ -1,0 +1,39 @@
+{
+  "round_id": "cp17-combined-20261016",
+  "candidate_sha": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "candidate_tree": "886f83312958b53781a450a4ea2a8fb2147b3be3",
+  "workflows": [
+    "audit-sol-combined-retest.yml",
+    "audit-sol-combined-be.yml",
+    "audit-sol-combined-f03.yml",
+    "audit-sol-combined-owner.yml"
+  ],
+  "provider_cases": "Original candidate declarations unchanged: CP17 61, BE after 16, F03 8 retained buckets; owner10 and drain6 controls",
+  "own_case_ids": [
+    "SOL_R1_EMPTY_BANK_ATOMIC_REFUSAL",
+    "SOL_R1_FUNDED_PUBLIC_INCOME_PAYMENT_CONTROL",
+    "SOL_R1_BACKDATE_BEFORE_FUNDING",
+    "SOL_R1_LATER_DAY_CASH_PREFIX",
+    "SOL_R1_USED_FUNDING_REVERSAL",
+    "SOL_R1_CUSTOMER_PAYMENT_CORRECTION_FINAL_POSITIVE",
+    "SOL_R1_SEWING_PARTIAL_REVERSE_DIMENSIONS"
+  ],
+  "own_oracles": {
+    "empty_bank": "refuse CP7_CASH_NEGATIVE atomically, balance0 AP1000",
+    "funded_public_payment": "sales income34.50 supplier paid1 => bank33.50 AP999",
+    "backdate": "capital10 today cannot pay1 before capital day",
+    "later_day": "income10 payment10 leaves0; extra earlier1 refuses final later deficit",
+    "funding_reversal": "capital10 paid8 => bank2; reversing capital refuses -8",
+    "payment_correction_final_positive": "receipt30.01 supplier paid20; correcting receipt to25.01 succeeds atomically, bank5.01. Same unspent correction is positive control.",
+    "sewing": "4pcs*4=16;6pcs*4=24; original total40 split Mandor30 Obras10. Reverse first restores remaining4/ready6/wage24."
+  },
+  "known_limits": [
+    "No hosted SQL, deployment, main or writer branch mutation",
+    "Fixture origins and test-layer labels must stay explicit",
+    "Original AZ cause not proven by a later passing install",
+    "FABLE012 owner-deferred to CP7C; no reopening already approved policy",
+    "An inventory visit is not positive business-flow acceptance"
+  ],
+  "production_go": false,
+  "peer_round_reports_read": false
+}
