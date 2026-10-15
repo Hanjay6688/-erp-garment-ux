@@ -1,0 +1,242 @@
+[
+  {
+    "section": null,
+    "label": "Dashboard",
+    "title": "Ringkasan bisnis"
+  },
+  {
+    "section": "Produksi",
+    "label": "Buat Potongan",
+    "title": "Buat Potongan"
+  },
+  {
+    "section": "Produksi",
+    "label": "Bagi Potongan",
+    "title": "Bagi Potongan"
+  },
+  {
+    "section": "Produksi",
+    "label": "WIP & Sewing",
+    "title": "WIP & Sewing"
+  },
+  {
+    "section": "Produksi",
+    "label": "Laundry",
+    "title": "Laundry"
+  },
+  {
+    "section": "Produksi",
+    "label": "QC & Final SKU",
+    "title": "QC & Final SKU"
+  },
+  {
+    "section": "Produksi",
+    "label": "Susun Nota FG",
+    "title": "Susun Nota FG"
+  },
+  {
+    "section": "Produksi",
+    "label": "Barang BS & Rework",
+    "title": "Barang BS & Rework"
+  },
+  {
+    "section": "Gudang",
+    "label": "Ringkasan Gudang",
+    "title": "Ringkasan Gudang"
+  },
+  {
+    "section": "Gudang",
+    "label": "Pembelian & Penerimaan",
+    "title": "Pembelian & Penerimaan"
+  },
+  {
+    "section": "Gudang",
+    "label": "Bahan & Roll",
+    "title": "Bahan & Roll"
+  },
+  {
+    "section": "Gudang",
+    "label": "Kain kantong",
+    "title": "Kain kantong"
+  },
+  {
+    "section": "Gudang",
+    "label": "Aksesori",
+    "title": "Aksesori"
+  },
+  {
+    "section": "Gudang",
+    "label": "Ringkasan Barang Jadi",
+    "title": "Ringkasan Barang Jadi"
+  },
+  {
+    "section": "Gudang",
+    "label": "Mutasi Barang Jadi · Vivo",
+    "title": "Mutasi Barang Jadi · Vivo"
+  },
+  {
+    "section": "Gudang",
+    "label": "Mutasi Barang Jadi · Widie",
+    "title": "Mutasi Barang Jadi · Widie"
+  },
+  {
+    "section": "Gudang",
+    "label": "Kartu Stok FG",
+    "title": "Kartu Stok FG"
+  },
+  {
+    "section": "Gudang",
+    "label": "Stock Adjustment",
+    "title": "Stock Adjustment"
+  },
+  {
+    "section": "Gudang",
+    "label": "Ganti Merek",
+    "title": "Ganti Merek"
+  },
+  {
+    "section": "Penjualan",
+    "label": "Penjualan & Invoice",
+    "title": "Penjualan & Invoice"
+  },
+  {
+    "section": "Penjualan",
+    "label": "Semua Invoice",
+    "title": "Semua Invoice"
+  },
+  {
+    "section": "Penjualan",
+    "label": "Retur Penjualan",
+    "title": "Retur Penjualan"
+  },
+  {
+    "section": "Penjualan",
+    "label": "Pembayaran Pelanggan",
+    "title": "Pembayaran Pelanggan"
+  },
+  {
+    "section": "Penjualan",
+    "label": "Riwayat Pelanggan",
+    "title": "Riwayat Pelanggan"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Ringkasan Keuangan",
+    "title": "Ringkasan Keuangan"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Kas & Bank",
+    "title": "Kas & Bank"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Hutang Supplier & Vendor",
+    "title": "Hutang Supplier & Vendor"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Piutang Pelanggan",
+    "title": "Piutang Pelanggan"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Payroll & Kasbon",
+    "title": "Payroll & Kasbon"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Absensi & Rate Harian",
+    "title": "Absensi & Rate Harian"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Nota Ambil Aksesori",
+    "title": "Nota Ambil Aksesori"
+  },
+  {
+    "section": "Keuangan",
+    "label": "HPP & Rekalkulasi",
+    "title": "HPP & Rekalkulasi"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Jurnal & Transaksi Lain",
+    "title": "Jurnal & Transaksi Lain"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Laporan & Tutup Buku",
+    "title": "Laporan & Tutup Buku"
+  },
+  {
+    "section": "Master Data",
+    "label": "Kain & Benchmark",
+    "title": "Kain & Benchmark"
+  },
+  {
+    "section": "Master Data",
+    "label": "Aksesori & Harga Mandor",
+    "title": "Aksesori & Harga Mandor"
+  },
+  {
+    "section": "Master Data",
+    "label": "Produk & SKU",
+    "title": "Produk & SKU"
+  },
+  {
+    "section": "Master Data",
+    "label": "Pelanggan",
+    "title": "Pelanggan"
+  },
+  {
+    "section": "Master Data",
+    "label": "Supplier & Vendor",
+    "title": "Supplier & Vendor"
+  },
+  {
+    "section": "Master Data",
+    "label": "Mandor",
+    "title": "Mandor"
+  },
+  {
+    "section": "Master Data",
+    "label": "Gudang & Lokasi",
+    "title": "Gudang & Lokasi"
+  },
+  {
+    "section": "Master Data",
+    "label": "Pola",
+    "title": "Pola"
+  },
+  {
+    "section": "Pengaturan & Audit",
+    "label": "Reminder",
+    "title": "Reminder"
+  },
+  {
+    "section": "Pengaturan & Audit",
+    "label": "Pengguna & Hak Akses",
+    "title": "Pengguna & Hak Akses"
+  },
+  {
+    "section": "Pengaturan & Audit",
+    "label": "Pengaturan ERP",
+    "title": "Pengaturan ERP"
+  },
+  {
+    "section": "Pengaturan & Audit",
+    "label": "Impor data awal",
+    "title": "Impor data awal"
+  },
+  {
+    "section": "Pengaturan & Audit",
+    "label": "Tutup Periode",
+    "title": "Tutup Periode"
+  },
+  {
+    "section": "Pengaturan & Audit",
+    "label": "Audit Trail",
+    "title": "Audit Trail"
+  }
+]

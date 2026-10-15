@@ -1,0 +1,68 @@
+{
+  "candidate": "dfab13bf62398a69a02bf6221c06d29075e5e40b",
+  "prior_locked_report": "3a3da9ef2c1662da85c016920403bdb63a0de3a8",
+  "retained_browser_modules": {
+    "cp7_p09_browser.mjs": {
+      "ids": [
+        "P09_BROWSER_RECEIPT_DESKTOP",
+        "P09_BROWSER_LOST_REPLY_MOBILE",
+        "P09_BROWSER_RETURN_CREDIT_DESKTOP"
+      ],
+      "sha256": "399314455d5953b21aef8ba10a6890af018875d0db58505045d4b1f303e82385"
+    },
+    "cp7_p12_browser.mjs": {
+      "ids": [
+        "P12_NOTA_BROWSER_DESKTOP_DRAG",
+        "P12_NOTA_BROWSER_MOBILE_RECOVERY"
+      ],
+      "sha256": "c0d2c2ffa082f7c61149d3501e035c0f3316c439c488e15d4c374e36ce3ec8bc"
+    },
+    "cp7_p12_settlement_browser.mjs": {
+      "ids": [
+        "P12_SETTLEMENT_BROWSER_DESKTOP",
+        "P12_SETTLEMENT_BROWSER_MOBILE_RECOVERY"
+      ],
+      "sha256": "c19c455e8557aa2238e680056e99bfd9d98c5ea1eeac785b06fbea2a5fb0113a"
+    },
+    "cp7_p12_attendance_write_browser.mjs": {
+      "ids": [
+        "P12_ATTENDANCE_BROWSER_DESKTOP_CYCLE",
+        "P12_ATTENDANCE_BROWSER_MOBILE_POST_RECOVERY"
+      ],
+      "sha256": "4de62e915d987ba040bcecaea9d592b8b1a584e1f8a1687d190f1d07a054ffc3"
+    },
+    "cp7_p12_opening_browser.mjs": {
+      "ids": [
+        "P12_OPENING_BROWSER_DESKTOP_CYCLE",
+        "P12_OPENING_BROWSER_MOBILE_RECOVERY"
+      ],
+      "sha256": "89ef95648d4635cd82342a521196bee7946e7205e1322470d6bf8f5bd6aca0f9"
+    },
+    "cp6_be_browser.mjs": {
+      "ids": [
+        "BE_BROWSER:REWORK_SKU_PARTIAL_COMPLETE_REVERSE",
+        "BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE"
+      ],
+      "sha256": "8404393b08fb53ef3b82b9d30104cc62d31911843ee6f946a9c2515369597c60"
+    },
+    "cp7_f03_e24_issue_browser.mjs": {
+      "ids": [
+        "F03_E24_NOTE_BROWSER_DESKTOP",
+        "F03_E24_NOTE_BROWSER_MOBILE_RECOVERY"
+      ],
+      "sha256": "4401071efcc250c4c6e9fad929ce8beee5d1692d314dbb13b14b9be8d5a0b916"
+    }
+  },
+  "retained_case_count": 15,
+  "matrix_modes": [
+    "DISPOSABLE_TEST",
+    "UAT_AUTH_SIMULATION",
+    "DEMO_SIMULATION"
+  ],
+  "matrix_per_mode": 96,
+  "matrix_scope": "48 menu entry renders, field/button inventory, errors and mobile overflow; not exhaustive per-field mutations",
+  "uat_transport": "Existing local mock publishable-key opt-in; browser intercept to real loopback Auth/PostgREST, no request reaches hosted; product runtime/source unchanged",
+  "runtime_stack": "Frozen CP6 + candidate F03 combined extension; absent optional family RPCs classified separately",
+  "source_origin": "Retained: writer cases independently executed; matrix and extra integration: Astra oracles",
+  "no_case_retries": true
+}
