@@ -21,9 +21,11 @@ Ini bukan penerimaan; setiap auditor memutuskan sendiri. `production_go:false`.
 
 ## Identitas kandidat
 
-- **Commit `ad64c4c9a348ec6b5121d0e167a21abfc74b6d01`**, tree `d609437fc35afef993184aeef9d9e17b28864fcb`, cabang `claude/new-session-deapao`. Commit sesudahnya hanya dokumen
-  (`git diff --name-only ad64c4c9 <head cabang>` semuanya di bawah `docs/`). Kandidat sebelumnya `55d72775` (25/25);
-  yang berubah sesudahnya: D14-5, D14-8, D14-9, D14-10, D14-11 (`git diff 55d72775 ad64c4c9 -- src scripts .github`).
+- **Commit `e8ce4b89318b8320058855f420e5c8dc1495a55e`**, tree `7e3348be91a17cac6f7120c550b1b5d50f203bc4`, cabang `claude/new-session-deapao`. Commit sesudahnya hanya dokumen
+  (`git diff --name-only e8ce4b89 <head cabang>` semuanya di bawah `docs/`). Kandidat sebelumnya `55d72775` (25/25);
+  yang berubah sesudahnya: D14-5, D14-8, D14-9, D14-10, D14-11 (`git diff 55d72775 e8ce4b89 -- src scripts .github`),
+  ditambah dua perbaikan alat uji yang muncul saat kualifikasi (`cp7_catalog_state.py` membaca entri D14-8;
+  `cp6_av_runtime.py` mengulang penolakan "database belum kosong" seperti `change()`), lihat `A2_COMPARATOR_D14_8.md`.
 - Tree per direktori pada kandidat:
 
 | Direktori | Tree |
@@ -31,7 +33,7 @@ Ini bukan penerimaan; setiap auditor memutuskan sendiri. `production_go:false`.
 | `src` | `e42e0b76daf58d0b027def2ce34acbfe7e2b48a1` |
 | `supabase` | `5d040436db384b4e574785376367b360a084acb7` (sama dengan pada `0b7049d9`) |
 | `scripts/cp7-src` | `41432799fd3b2a47efc5586dfef16eeb3f5e17fe` |
-| `scripts` | `8614e84d754fee7b625b169e377ec9533447a479` |
+| `scripts` | `ba2a646d24f38fcdce54eaf16af429b418da28fa` |
 | `.github/workflows` | `7460072a804388b8514e7df2b3b677a51d747c9f` |
 
 - Basis audit: `0b7049d9203bac52b47a4c89f3e0d75646067a8f` (tree `ce6aed0a0af920e8aa80248f3cabcd293688df18`).
