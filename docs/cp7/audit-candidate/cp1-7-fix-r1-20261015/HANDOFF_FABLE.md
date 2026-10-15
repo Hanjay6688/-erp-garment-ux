@@ -9,8 +9,8 @@ Kamu Fable, auditor independen. Ini UJI ULANG perbaikan penulis atas temuanmu di
 Repo Hanjay6688/-erp-garment-ux. Astra dan Sol menguji ulang kandidat yang sama secara terpisah.
 
 KANDIDAT
-- Commit e8ce4b89318b8320058855f420e5c8dc1495a55e, tree 7e3348be91a17cac6f7120c550b1b5d50f203bc4, cabang writer claude/new-session-deapao. Basis auditmu: 0b7049d9 (tree ce6aed0a).
-- supabase/ tidak berubah sejak 0b7049d9 (buktikan: git diff --name-only 0b7049d9 e8ce4b89318b8320058855f420e5c8dc1495a55e -- supabase kosong).
+- Commit f1a1ae6926ed563b960f476125c5e2273e750157, tree 982831d6e788b2a3a9404f25a4617230e0b98f0b, cabang writer claude/new-session-deapao. Basis auditmu: 0b7049d9 (tree ce6aed0a).
+- supabase/ tidak berubah sejak 0b7049d9 (buktikan: git diff --name-only 0b7049d9 f1a1ae6926ed563b960f476125c5e2273e750157 -- supabase kosong).
   Perubahan produk ada di scripts/cp7-src/ (lapisan CP7 + delta Native yang dideklarasikan) dan src/.
 - Bukti penulis: docs/cp7/audit-candidate/cp1-7-fix-r1-20261015/README.md (per temuan), FINDINGS_TRACKER.md
   (bagian G dan H), CI_RECEIPT.json (semua workflow dan job pada kandidat), docs/cp7/cp17/CP17_FIXES.json (48 kasus yang
@@ -18,10 +18,10 @@ KANDIDAT
 
 BAGIAN YANG BERUBAH SESUDAH KANDIDAT 55d72775 (owner 15 Okt: "minta auditor memverifikasi bagian yang berubah")
 Keputusan owner D14-5 dan D14-8..D14-11 tercatat persis di docs/cp7/OWNER_DECISIONS_20261008.md. Bila kamu sudah
-mulai menguji 55d72775, hasil itu tetap berlaku untuk bagian yang tidak berubah (git diff 55d72775 e8ce4b89 -- src scripts
+mulai menguji 55d72775, hasil itu tetap berlaku untuk bagian yang tidak berubah (git diff 55d72775 f1a1ae69 -- src scripts
 menunjukkan seluruh perubahan). Uji bagian di bawah dengan oracle-mu sendiri:
 Utama (dari temuanmu atau yang menyentuh temuanmu):
-- Dua perbaikan alat uji saat kualifikasi (bukan produk): scripts/cp7_catalog_state.py membaca entri D14-8 (pasangan sama + owner harus cocok; run F03 38668243786 gagal sebelum itu) dan scripts/cp6_av_runtime.py refuse_post_use mengulang hanya penolakan PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE seperti change() (run AV 38670698254 gagal sebelum itu). Periksa bahwa tidak ada yang dilonggarkan.
+- Dua perbaikan alat uji saat kualifikasi (bukan produk): scripts/cp7_catalog_state.py membaca entri D14-8 (pasangan sama + owner harus cocok; run F03 38668243786 gagal sebelum itu) dan scripts/cp6_av_runtime.py refuse_post_use mengulang hanya penolakan PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE seperti change() (run AV 38670698254 gagal sebelum itu). Ketiga: tests/cp7/families/f05-timeline.test.ts memberi batas 180 detik hanya untuk proses pembanding sekali pakai (fungsi pendahulu yang dibandingkan bersifat kuadratik; fungsi produk 0,3 detik; run Shell S0 38673762153 gagal sebelum itu), seperti P19 di ce455269. Periksa bahwa tidak ada yang dilonggarkan.
 - D14-8 pembanding skema public (A2): urutan stabil (kolasi "C"), semua anggota dan duplikat, definisi, owner dan hak akses dibandingkan; query lama disimpan untuk bukti. A2_COMPARATOR_D14_8.md, scripts/cp6_auditor_runner.py (PUBLIC_STATE), bukti sebelum/sesudah scripts/cp6_auditor_public_state_test.py (langkah sendiri di workflow CP17). Akar dua kegagalan A2 lama tetap OPEN (D13-10).
 - D14-9 FABLE-012: pencabutan EXECUTE 82 penulis erp ditunda ke CP7C sebagai pekerjaan keamanan terbuka; gerbang exposure_gate (scripts/cp7_access_inventory.py) menolak CP7_FABLE012_REVOKE_BEFORE_EXPOSING_ERP bila erp akan terjangkau Data API (dinyatakan, extra search path, atau penimpaan tersimpan di peran authenticator) sebelum pencabutan. FABLE012_D14_9_GATE.md; kasus CP17_FABLE012_EXPOSURE_GATE_REVOKE_FIRST.
 - D14-10 batal/betulkan kain kembali (SG-02): satu transaksi — jurnal kain kembali dibalik lewat erp.reverse_journal Native, gerakan REVERSAL per gerakan kembali, hitung ulang biaya bahan (+ antrean HPP bila ada barang jadi), fakta kembali dikosongkan, pembetulan langsung diposting lagi; riwayat asli tetap; pemakaian sesudahnya disebut dan menghalangi. SG02_FABRIC_RETURN.md bagian D14-10, scripts/cp7-src/cutting-correction/return.sql, src/CuttingFabricReturnReversalPanel.tsx; kasus CP17_SG02_CANCEL_*, CP17_SG02_CORRECT_RETURN_ONE_TRANSACTION, browser CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP. Batas: dicatat pada saat disimpan (seperti pembalik Native), hari-hari di antaranya tetap menunjukkan angka lama.
@@ -68,7 +68,7 @@ ATURAN PUTARAN
   sama dengan saat audit penuh). Bila ada beda, berkas di repo yang berlaku.
 
 LAPORAN
-- Cabang audit baru, usul: audit/fable-cp1-7-retest-e8ce4b89-20261015, berkas
-  audit/fable_cp17_retest/RETEST_FABLE_e8ce4b89.md. Per temuan: DITUTUP / MASIH TERBUKA / BARU, dengan bukti.
+- Cabang audit baru, usul: audit/fable-cp1-7-retest-f1a1ae69-20261015, berkas
+  audit/fable_cp17_retest/RETEST_FABLE_f1a1ae69.md. Per temuan: DITUTUP / MASIH TERBUKA / BARU, dengan bukti.
 - Ringkasan untuk owner dalam bahasa sehari-hari, pendek. Owner bukan programmer.
 ````

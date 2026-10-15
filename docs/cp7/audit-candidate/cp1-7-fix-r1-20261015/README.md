@@ -21,11 +21,13 @@ Ini bukan penerimaan; setiap auditor memutuskan sendiri. `production_go:false`.
 
 ## Identitas kandidat
 
-- **Commit `e8ce4b89318b8320058855f420e5c8dc1495a55e`**, tree `7e3348be91a17cac6f7120c550b1b5d50f203bc4`, cabang `claude/new-session-deapao`. Commit sesudahnya hanya dokumen
-  (`git diff --name-only e8ce4b89 <head cabang>` semuanya di bawah `docs/`). Kandidat sebelumnya `55d72775` (25/25);
-  yang berubah sesudahnya: D14-5, D14-8, D14-9, D14-10, D14-11 (`git diff 55d72775 e8ce4b89 -- src scripts .github`),
-  ditambah dua perbaikan alat uji yang muncul saat kualifikasi (`cp7_catalog_state.py` membaca entri D14-8;
-  `cp6_av_runtime.py` mengulang penolakan "database belum kosong" seperti `change()`), lihat `A2_COMPARATOR_D14_8.md`.
+- **Commit `f1a1ae6926ed563b960f476125c5e2273e750157`**, tree `982831d6e788b2a3a9404f25a4617230e0b98f0b`, cabang `claude/new-session-deapao`. Commit sesudahnya hanya dokumen
+  (`git diff --name-only f1a1ae69 <head cabang>` semuanya di bawah `docs/`). Kandidat sebelumnya `55d72775` (25/25);
+  yang berubah sesudahnya: D14-5, D14-8, D14-9, D14-10, D14-11 (`git diff 55d72775 f1a1ae69 -- src scripts .github`),
+  ditambah tiga perbaikan alat uji yang muncul saat kualifikasi (`cp7_catalog_state.py` membaca entri D14-8;
+  `cp6_av_runtime.py` mengulang penolakan "database belum kosong" seperti `change()`; uji pembanding
+  `f05-timeline` diberi batas 180 detik hanya untuk proses pembanding), lihat `A2_COMPARATOR_D14_8.md` dan bagian Kualifikasi.
+  Tidak ada oracle atau pengaman yang dilonggarkan.
 - Tree per direktori pada kandidat:
 
 | Direktori | Tree |
@@ -35,6 +37,7 @@ Ini bukan penerimaan; setiap auditor memutuskan sendiri. `production_go:false`.
 | `scripts/cp7-src` | `41432799fd3b2a47efc5586dfef16eeb3f5e17fe` |
 | `scripts` | `ba2a646d24f38fcdce54eaf16af429b418da28fa` |
 | `.github/workflows` | `7460072a804388b8514e7df2b3b677a51d747c9f` |
+| `tests` | `18a0543319657bfa078e74a7684031395d0812d2` |
 
 - Basis audit: `0b7049d9203bac52b47a4c89f3e0d75646067a8f` (tree `ce6aed0a0af920e8aa80248f3cabcd293688df18`).
 - `supabase/` **tidak berubah** sejak basis (`git diff --name-only 0b7049d9 <kandidat> -- supabase` kosong): paket rilis
