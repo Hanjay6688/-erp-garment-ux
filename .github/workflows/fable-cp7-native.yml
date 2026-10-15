@@ -3,7 +3,7 @@
 # .github/workflows/claude-p19-transport.yml at d0b9e9c2; the product checkout is pinned to d0b9e9c2, never a moving head).
 # Nothing here touches a hosted database. Evidence only; production_go:false.
 name: AUDIT/fable/cp7-native
-run-name: AUDIT/cp17-20261014/fable/${{ inputs.product_ref || '0b7049d9' }}/${{ inputs.scenario || 'fable_cp7_smoke' }}/1
+run-name: AUDIT/cp17c-20261015/fable/${{ inputs.product_ref || 'dfab13bf' }}/${{ inputs.scenario || 'fable_cp7_smoke' }}/1
 'on':
   push:
     branches:
@@ -25,13 +25,13 @@ run-name: AUDIT/cp17-20261014/fable/${{ inputs.product_ref || '0b7049d9' }}/${{ 
         required: false
         default: native,races,http
       product_ref:
-        description: product commit to install and test (pinned checkout; default = CP7 frozen candidate 0b7049d9)
+        description: product commit to install and test (pinned checkout; default = combined candidate dfab13bf (D14-16))
         required: false
-        default: 0b7049d9203bac52b47a4c89f3e0d75646067a8f
+        default: dfab13bf62398a69a02bf6221c06d29075e5e40b
       product_tree:
         description: expected tree of product_ref (asserted before anything runs)
         required: false
-        default: ce6aed0a0af920e8aa80248f3cabcd293688df18
+        default: 886f83312958b53781a450a4ea2a8fb2147b3be3
 permissions:
   contents: read
   actions: read
@@ -40,7 +40,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   phase:
-    name: fable-${{ inputs.scenario || 'fable_cp7_smoke' }}-${{ inputs.product_ref || '0b7049d9' }}
+    name: fable-${{ inputs.scenario || 'fable_cp7_smoke' }}-${{ inputs.product_ref || 'dfab13bf' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 180
     env:
@@ -71,7 +71,7 @@ jobs:
       with:
         path: auditor
         fetch-depth: 0
-        ref: ${{ inputs.product_ref || '0b7049d9203bac52b47a4c89f3e0d75646067a8f' }}
+        ref: ${{ inputs.product_ref || 'dfab13bf62398a69a02bf6221c06d29075e5e40b' }}
         persist-credentials: false
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
@@ -98,8 +98,8 @@ jobs:
         persist-credentials: false
     - name: Assert the audited product identity (commit and tree from the dispatch inputs)
       env:
-        PRODUCT_REF: ${{ inputs.product_ref || '0b7049d9203bac52b47a4c89f3e0d75646067a8f' }}
-        PRODUCT_TREE: ${{ inputs.product_tree || 'ce6aed0a0af920e8aa80248f3cabcd293688df18' }}
+        PRODUCT_REF: ${{ inputs.product_ref || 'dfab13bf62398a69a02bf6221c06d29075e5e40b' }}
+        PRODUCT_TREE: ${{ inputs.product_tree || '886f83312958b53781a450a4ea2a8fb2147b3be3' }}
       run: |
         set -euo pipefail
         test "$(git -C auditor rev-parse HEAD)" = "$PRODUCT_REF"
