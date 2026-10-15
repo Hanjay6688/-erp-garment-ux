@@ -416,3 +416,21 @@ Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
 - Uji browser D14-5 (desktop dan HP) sekarang juga memeriksa bahwa ketiga ukuran seri berada di satu baris.
 - Karena `src/` berubah, kandidat baru dikualifikasi ulang pada satu commit dan handoff auditor menunjuk ke commit itu.
 - `production_go:false`.
+
+### D14-13 (owner ke penulis Claude, 15 Okt 2026, audit akhir CP1–7)
+
+Pertanyaan owner (persis): "btw kalo udah beres semua di akhir perlu audit cp1-7 lagi gak interkonkesi hubungan
+dengan ux semuanya??"
+
+| No | Pertanyaan penulis | Jawaban owner (verbatim) |
+|---|---|---|
+| D14-13 | "Saya perlu Bos memutuskan: setelah uji ulang auditor selesai, mau saya siapkan paket audit akhir dengan dua fokus di atas? Ya atau tidak." (dua fokus: sambungan antar tahap dari awal sampai akhir; tiap layar UX demo dibandingkan dengan layar tersambungnya) | "ya siapin, sekarang apa tapi?" |
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
+
+- Paket audit akhir CP1–7 disiapkan sekarang di `docs/cp7/audit-candidate/cp1-7-final-integration-20261015/`, dikirim
+  owner ke auditor **sesudah** uji ulang r1 (Fable, Astra, Sol) selesai dan temuannya ditutup.
+- Fokus: (1) sambungan antar tahap pembelian → stok → potong → jahit → laundry → QC → barang jadi → jual → kas,
+  hutang, piutang, buku besar; (2) setiap layar UX demo dibandingkan dengan layar tersambungnya (data asli, perilaku
+  sama).
+- `production_go:false`.
