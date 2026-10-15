@@ -42,6 +42,10 @@ def main():
             cur.execute('create function public.same_name(int) returns int language sql as $$select 1$$')
             cur.execute('create function public.same_name(text) returns int language sql as $$select 2$$')
             cur.execute('create table public.t_rows(x int)');cur.execute('analyze')
+            # An owner change needs the new owner to hold CREATE on the schema. Run as a non-superuser (as in CI,
+            # first run 38667277783: "permission denied for schema public", log kept) this must be granted here, in the
+            # throwaway database only. Schema privileges are not part of either comparator.
+            cur.execute(f'grant usage,create on schema public to {ROLE}')
             members=cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.prokind in('f','p')").fetchone()[0]
             before={p:read(cur,runner.PUBLIC_STATE_BEFORE_D14_8,p) for p in PLANS}
             after={p:read(cur,runner.PUBLIC_STATE,p) for p in PLANS}
@@ -63,7 +67,7 @@ def main():
             content=lambda state:{k:sorted(json.dumps(x) for x in v) for k,v in state.items()}
             checks={}
             for name,change,undo in [('acl_grant',f'grant execute on function public.f_007() to {ROLE}',f'revoke execute on function public.f_007() from {ROLE}'),
-                                     ('owner_change',f'alter function public.f_008() owner to {ROLE}','alter function public.f_008() owner to postgres'),
+                                     ('owner_change',f'alter function public.f_008() owner to {ROLE}','alter function public.f_008() owner to current_user'),
                                      ('table_acl_grant',f'grant select on public.t_rows to {ROLE}',f'revoke select on public.t_rows from {ROLE}'),
                                      ('definition_change','create or replace function public.f_009() returns int language sql as $$select -9$$','create or replace function public.f_009() returns int language sql as $$select 9$$'),
                                      ('member_removed','drop function public.f_010()','create function public.f_010() returns int language sql as $$select 10$$')]:

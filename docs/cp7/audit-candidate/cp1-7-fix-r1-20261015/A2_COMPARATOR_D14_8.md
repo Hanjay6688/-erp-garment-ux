@@ -54,3 +54,10 @@ PostgreSQL menempelkannya ke angka `0` dan menolak: "collations are not supporte
 memakai pembanding ini gagal di awal (CP17 run 38665623424; Owning Receipt Correction, Supplier Payment Create, P18 Full
 Cycle, P21 Rehearsal pada `a3cb1beb`). Dibetulkan di `59fc7baf` dengan tanda kurung `(x->>0) collate "C"`. Log gagal
 tersimpan di run-run itu.
+
+Run CI pertama alat bukti ini (CP17 run 38667277783 di `4daee0e1` dan 38667389165 di `a0cd5782`, log disimpan) gagal
+sebelum membandingkan apa pun: di CI pengguna database bukan superuser, dan PostgreSQL hanya mengizinkan ganti owner
+fungsi bila owner barunya punya hak CREATE di skema itu ("permission denied for schema public"). Di database sekali
+pakai itu peran uji sekarang diberi hak tersebut sebelum pengukuran; hak skema bukan bagian dari kedua pembanding.
+Diuji lokal sebagai superuser dan sebagai pengguna biasa (CREATEDB, CREATEROLE): keduanya PASS. Kasus CP17 sendiri di
+kedua run itu lulus 48/48.
