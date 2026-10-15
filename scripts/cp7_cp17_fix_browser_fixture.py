@@ -78,7 +78,10 @@ def main():
             out=dict(stock=str(one('select coalesce(sum(qty_signed),0) from erp.material_stock_movements where roll_id=%s and location_id=%s',(p['roll'],p['location']))[0]),
                      returns=one("select count(*) from erp.material_stock_movements where source_type='CUTTING_GROUP_RETURN' and source_id=%s",(p['group'],))[0],
                      return_posted=one('select material_return_posted from erp.cutting_groups where id=%s',(p['group'],))[0],
-                     history=one('select count(*) from cp7_cutting_correction.return_history where group_id=%s',(p['group'],))[0])
+                     history=one('select count(*) from cp7_cutting_correction.return_history where group_id=%s',(p['group'],))[0],
+                     active=one("select count(*) from erp.material_stock_movements m where m.source_type='CUTTING_GROUP_RETURN' and m.source_id=%s and not exists(select 1 from erp.material_stock_movements v where v.reversal_of_id=m.id)",(p['group'],))[0],
+                     active_qty=str(one("select coalesce(sum(m.qty_signed),0) from erp.material_stock_movements m where m.source_type='CUTTING_GROUP_RETURN' and m.source_id=%s and not exists(select 1 from erp.material_stock_movements v where v.reversal_of_id=m.id)",(p['group'],))[0]),
+                     reversal_history=one('select count(*) from cp7_cutting_correction.return_reversal_history where group_id=%s',(p['group'],))[0])
         elif operation=='kasbon':
             # A work-only payroll draft (6000.00, Native Nota) for a fresh Mandor and a bank holding owner capital.
             f=cases.s.review.fixture(cur,date.fromisoformat(p['today']));bank=cases.s.cash(cur);cases.b.api.admin(cur)

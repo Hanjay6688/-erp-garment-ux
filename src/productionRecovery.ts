@@ -1,6 +1,6 @@
 import type { Json } from './types/database.preconnect'
 
-export const productionDomains = ['CUTTING_CORRECTION', 'CUTTING_RETURN', 'PICKUP_REVERSAL', 'PLAN_APPLY', 'PLAN_APPLY_STAGED', 'PAYROLL_INSTALLMENT', 'PAYROLL_KASBON', 'FINANCE_MISC', 'HPP_RECOST', 'FINANCE_PERIOD', 'SALES', 'ROSTER', 'PAYROLL', 'FG_NOTA', 'FG_BOOK', 'FG_ADJUSTMENT', 'MATERIAL_COUNT', 'SUPPLIER_RETURN', 'PURCHASE_INVOICE', 'SUPPLIER_PAYMENT', 'MATERIALS', 'PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION', 'RECEIPT_CORRECTION', 'MATERIAL_NAME'] as const
+export const productionDomains = ['CUTTING_CORRECTION', 'CUTTING_RETURN', 'CUTTING_RETURN_REVERSAL', 'PICKUP_REVERSAL', 'PLAN_APPLY', 'PLAN_APPLY_STAGED', 'PAYROLL_INSTALLMENT', 'PAYROLL_KASBON', 'FINANCE_MISC', 'HPP_RECOST', 'FINANCE_PERIOD', 'SALES', 'ROSTER', 'PAYROLL', 'FG_NOTA', 'FG_BOOK', 'FG_ADJUSTMENT', 'MATERIAL_COUNT', 'SUPPLIER_RETURN', 'PURCHASE_INVOICE', 'SUPPLIER_PAYMENT', 'MATERIALS', 'PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION', 'RECEIPT_CORRECTION', 'MATERIAL_NAME'] as const
 export type ProductionDomain = typeof productionDomains[number]
 export type ProductionEnvelope = {
   action: string; payload: Json; expectedVersion: number | null
@@ -9,6 +9,7 @@ export type ProductionEnvelope = {
 export const domainLabels: Record<ProductionDomain, string> = {
   CUTTING_CORRECTION: 'Koreksi potongan di Bagi Potongan',
   CUTTING_RETURN: 'Kain kembali ke gudang di Bagi Potongan',
+  CUTTING_RETURN_REVERSAL: 'Batal/betulkan kain kembali di Bagi Potongan',
   PICKUP_REVERSAL: 'Batal Bagi Potongan',
   PLAN_APPLY: 'Rencana Potongan',
   PLAN_APPLY_STAGED: 'Rencana Potongan dari analisis bertahap',
@@ -40,6 +41,7 @@ export const domainLabels: Record<ProductionDomain, string> = {
 const actions: Record<ProductionDomain, readonly string[]> = {
   CUTTING_CORRECTION: ['REOPEN_POSTED'],
   CUTTING_RETURN: ['RETURN_FABRIC'],
+  CUTTING_RETURN_REVERSAL: ['REVERSE_RETURN'],
   PICKUP_REVERSAL: ['REVERSE_PICKUP'],
   PLAN_APPLY: ['SAVE_DRAFT', 'APPLY'],
   PLAN_APPLY_STAGED: ['SAVE_DRAFT', 'APPLY'],

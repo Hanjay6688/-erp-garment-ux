@@ -96,6 +96,8 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/CuttingCorrectionPanel.tsx:erp_cp7_reopen_cutting_v1',
   'src/CuttingFabricReturnPanel.tsx:erp_cp7_get_cutting_return_v1',
   'src/CuttingFabricReturnPanel.tsx:erp_cp7_return_cutting_fabric_v1',
+  'src/CuttingFabricReturnReversalPanel.tsx:erp_cp7_get_cutting_return_reversal_v1',
+  'src/CuttingFabricReturnReversalPanel.tsx:erp_cp7_reverse_cutting_return_v1',
   'src/PickupReversalPanel.tsx:erp_cp7_get_pickup_reversal_v1',
   'src/PickupReversalPanel.tsx:erp_cp7_reverse_pickup_v1',
   'src/PayrollKasbonPanel.tsx:erp_cp7_get_kasbon_v1',

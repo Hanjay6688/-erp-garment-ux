@@ -64,6 +64,42 @@ async function fabricReturn(ui,today){
  }catch(error){let actual;try{actual=state()}catch(e){actual={observation_error:String(e)}};await failure(page,name,error,actual,requests);throw error}
  finally{await user.context.close()}
 }
+// D14-10: a recorded return (2) corrected to the right quantity (3) from the screen, in one save; the first return and
+// its reversal stay in the books; more than the remainder is refused on screen first.
+async function fabricReturnCorrect(ui,today){
+ const f=fixture('fabric',{today}),user=await ui.login('OWNER',{label:'cp17-fabric-correct'}),page=user.page,requests=[],name='CP17_SG02_FABRIC_RETURN_CORRECT_DESKTOP'
+ const state=()=>fixture('fabric_state',f)
+ page.on('request',r=>{if(r.url().endsWith('/rpc/erp_cp7_reverse_cutting_return_v1'))requests.push(r.postDataJSON())})
+ try{
+  mkdirSync('cp6-proof/t3',{recursive:true});const before=state();assert.equal(before.returns,0)
+  await openGroup(ui,page,f.number,f.group)
+  const panel=page.getByRole('region',{name:'Kain kembali ke gudang',exact:true})
+  await panel.getByRole('button',{name:'Catat kain kembali ke gudang',exact:true}).click()
+  await panel.getByLabel('Kain kembali roll '+f.roll_number,{exact:true}).fill('2');await panel.getByLabel('Alasan kain kembali',{exact:true}).fill('Sisa kain dikembalikan ke gudang bahan')
+  await panel.getByLabel('Jumlah kain kembali sudah diperiksa',{exact:true}).check();await panel.getByRole('button',{name:'Simpan kain kembali ke gudang',exact:true}).click()
+  await ui.expect(page.getByText(/kain kembali ke gudang sudah tercatat/)).toBeVisible()
+  const recorded=state();assert.equal(Number(recorded.stock)-Number(before.stock),2);assert.equal(recorded.active,1)
+  await openGroup(ui,page,f.number,f.group)
+  const rev=page.getByRole('region',{name:'Batal atau betulkan kain kembali',exact:true})
+  await rev.getByRole('button',{name:'Batal / betulkan kain kembali',exact:true}).click();await ui.expect(rev).toContainText(f.roll_number)
+  await rev.getByLabel('Betulkan jumlahnya').check()
+  const right=rev.getByLabel('Jumlah benar roll '+f.roll_number,{exact:true})
+  await right.fill('3.5');await ui.expect(rev).toContainText('melebihi sisa yang dicatat saat potong')
+  await right.fill('3');await rev.getByLabel('Alasan batal kain kembali',{exact:true}).fill('Jumlah sebenarnya tiga, bukan dua')
+  await rev.getByLabel('Batal kain kembali sudah diperiksa',{exact:true}).check()
+  assert.deepEqual(state(),recorded);assert.equal(requests.length,0)
+  await page.screenshot({path:`cp6-proof/t3/${name}_REVIEW.png`,fullPage:true})
+  await rev.getByRole('button',{name:'Simpan pembetulan kain kembali',exact:true}).click()
+  await ui.expect(page.getByText(/kain kembali dibetulkan/)).toBeVisible()
+  const after=state()
+  assert.equal(Number(after.stock)-Number(before.stock),3);assert.equal(after.active,1);assert.equal(Number(after.active_qty),3)
+  assert.equal(after.returns,2);assert.equal(after.history,1);assert.equal(after.reversal_history,1);assert.equal(after.return_posted,true)
+  assert.equal(requests.length,1);assert.deepEqual(requests[0].p_payload.replacement_rolls.map(r=>r.qty_returned),['3'])
+  await noSideScroll(ui,page);await page.screenshot({path:`cp6-proof/t3/${name}_COMMITTED.png`,fullPage:true})
+  return{status:'PASS',owner_decision:'D14-10',recorded:2,corrected_to:3,stock_net_up_by:3,first_return_kept_and_reversed:true,one_request:true,over_remainder_refused_on_screen:true}
+ }catch(error){let actual;try{actual=state()}catch(e){actual={observation_error:String(e)}};await failure(page,name,error,actual,requests);throw error}
+ finally{await user.context.close()}
+}
 async function kasbon(ui,today){
  const f=fixture('kasbon',{today}),user=await ui.login('OWNER',{label:'cp17-kasbon'}),page=user.page,requests=[],name='CP17_KASBON_GIVE_DEDUCT_DESKTOP'
  const state=()=>fixture('kasbon_state',f)
@@ -152,4 +188,5 @@ async function seriesDozens(ui,today,mobile){
  finally{await user.context.close()}
 }
 export function cases(ui,today){return[['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP',()=>pickupReversal(ui,today)],['CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE',()=>fabricReturn(ui,today)],['CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP',()=>kasbon(ui,today)],
- ['CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP',()=>seriesDozens(ui,today,false)],['CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE',()=>seriesDozens(ui,today,true)]]}
+ ['CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP',()=>seriesDozens(ui,today,false)],['CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE',()=>seriesDozens(ui,today,true)],
+ ['CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP',()=>fabricReturnCorrect(ui,today)]]}

@@ -2,6 +2,7 @@ import { isConnectedRuntime } from './config/runtime'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import CuttingCorrectionPanel from './CuttingCorrectionPanel'
 import CuttingFabricReturnPanel from './CuttingFabricReturnPanel'
+import CuttingFabricReturnReversalPanel from './CuttingFabricReturnReversalPanel'
 import PickupReversalPanel from './PickupReversalPanel'
 import { AlertTriangle, Check, Database, LoaderCircle, RefreshCw, Trash2, UserRound } from 'lucide-react'
 import { useAuth } from './auth/AuthProvider'
@@ -309,6 +310,7 @@ export default function ConnectedPickupPage() {
     </div>
     <CuttingCorrectionPanel source={queueCurrent ? selected ?? null : null} parentReady={queueCurrent && !loading} onCommitted={async () => { setQueue(null); setSelectedId(''); await refresh() }}/>
     <CuttingFabricReturnPanel source={queueCurrent ? selected ?? null : null} parentReady={queueCurrent && !loading} onCommitted={async () => { setQueue(null); setSelectedId(''); await refresh() }}/>
+    <CuttingFabricReturnReversalPanel source={queueCurrent ? selected ?? null : null} parentReady={queueCurrent && !loading} onCommitted={async () => { setQueue(null); setSelectedId(''); await refresh() }}/>
     <PickupReversalPanel source={queueCurrent ? selected ?? null : null} parentReady={queueCurrent && !loading} onCommitted={async () => { setQueue(null); setSelectedId(''); await refresh() }}/>
   </section>
 }
