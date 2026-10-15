@@ -85,7 +85,8 @@ bisa dibuat ulang persis: pembuatnya butuh arsip `10320611163` yang juga sudah t
   dulu membuat file itu (`scripts/cp6_v2620u_install_diagnostic.snapshot` dari checkout `1bdca376`) tepat sebelum
   langkah beku U, dan menulis file dengan bentuk yang dibaca langkah X. Langkah X tidak diubah dan tetap memutuskan.
   Tambahan sebelum U: jumlah wajib 208 tabel (207 `erp`, 1 `supabase_migrations`), dan SHA-256 daftar nama dikunci
-  sesudah pengambilan pertama. Bila arsip ada, jalur lama yang dikunci SHA-256 dipakai tanpa perubahan.
+  sesudah pengambilan pertama (`eb7f121d…9069`, sama di run 38724905951, 38724911818 dan 38724908863). Bila arsip ada,
+  jalur lama yang dikunci SHA-256 dipakai tanpa perubahan.
 - 80 workflow tidak lagi berhenti bila unduhan arsip gagal (78 yang memakai `cp6_t3_aligned_chain.py`, ditambah
   `cp6-av-qualification` dan `cp6-be-t1-probe` yang sekarang menjalankan `cp6_ac_audit_bootstrap.py` dari checkout
   auditor; isinya sama dengan salinan `25fa4736`, ditambah jalur pengganti ini).
@@ -94,6 +95,16 @@ bisa dibuat ulang persis: pembuatnya butuh arsip `10320611163` yang juga sudah t
   lama yang memanggil bootstrap dari checkout kandidat beku tetap tidak bisa berjalan (di luar Q25). Pin SHA-256
   `scripts/cp6_ac_audit_bootstrap.py` di `scripts/cp6_ai_audit_router.py` (workflow CP6 AI lama) tidak lagi cocok.
 
-## 4. Bukti CI
+## 4. Bukti CI (15 Okt 2026, cabang `claude/final-gaps-20261015`)
 
-Diisi sesudah run selesai (lihat bagian berikut yang ditambahkan dengan tanggal).
+| Run | Commit | Hasil |
+|---|---|---|
+| 38719276133 CP7 CP17 Fixes | `d53c4e92` | merah: 52/55 (G1 browser tanpa perkiraan upah, BOM ganda di fixture HP, satu klaim salah soal hak eksekusi); log disimpan |
+| 38721795013, 38721797914, 38721801271, 38721804060, 38721806508 | `191ee9ff` | berhenti di langkah pertama: arsip 10392910720 kedaluwarsa (HTTP 410); log disimpan |
+| 38724905951 CP7 CP17 Fixes | `677a7b05` | merah: 58/61 (pesan hasil jahit hilang saat halaman memuat ulang; salah nama fungsi di kasus G2); log disimpan |
+| 38724911818 Atomic Misc Correction, 38724914449 Supplier Current Authority, 38724917451 Transaction Source Navigation, 38724908863 Posted Cutting Reopen | `677a7b05` | hijau; daftar tabel sebelum U ditangkap ulang (D14-17), SHA-256 nama sama di setiap run |
+| 38726577264 CP7 CP17 Fixes | `6de0ce1d` | hijau: 61/61 (native 41, race 4, HTTP 6, browser 10), termasuk G1 dan G2 di komputer dan HP |
+| 38726581016 CP7 Native Posted Cutting Reopen | `6de0ce1d` | hijau |
+
+Ini bukti cabang kerja, bukan kualifikasi kandidat. Kualifikasi satu commit (semua workflow Q25 dan 51 workflow yang
+dijalankan ulang) dilakukan sesudah cabang ini digabung ke `claude/new-session-deapao`.
