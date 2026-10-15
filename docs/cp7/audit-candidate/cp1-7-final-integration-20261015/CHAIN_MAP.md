@@ -76,6 +76,13 @@ dengan data simulasi atau HTTP tiruan; **Basi** = workflow di luar Q25 yang tera
    refund tunai, koreksi/pembalikan penjualan, transaksi lain-lain, tutup periode, recost dari layar, batal bagi
    potongan, kain kembali (`full_P18_acceptance=false`).
 
+**Status butir 1–3 (ditambahkan 15 Okt 2026, D14-14):** butir 1 dan upah borongan di butir 2 dikerjakan sebagai G1
+(layar WIP & Sewing mencatat "selesai dijahit" + upah mandor; B4 sekarang punya jalan aplikasi dan uji DB, race, HTTP,
+browser HP dan komputer). HPP final di butir 2 dikerjakan sebagai G2 (layar HPP & Rekalkulasi menyelesaikan PO lewat
+`erp.finish_production_order`; B8). Butir 3 dikerjakan sebagai G3: 51 workflow dijalankan ulang, 3 merah karena data uji
+lama, dibetulkan tanpa melonggarkan penjaga. Rincian, batas yang diketahui, dan nomor run: `GAPS_D14_14.md`. Teks butir di
+atas dibiarkan sebagai catatan keadaan sebelum perbaikan.
+
 ## 4. Butir terbuka yang harus diperhitungkan audit akhir
 
 A2 akar dua kegagalan lama (D13-10); FABLE-012 pencabutan 82 penulis ditunda ke CP7C dengan gerbang (D14-9);

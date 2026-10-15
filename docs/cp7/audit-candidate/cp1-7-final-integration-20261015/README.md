@@ -19,6 +19,7 @@ pemeriksaan ulang sambungan sesudah semua perbaikan r1 (D14-2..D14-12).
 | `README.md` | Status, cakupan, langkah sebelum dikirim, butir yang sudah diketahui |
 | `CHAIN_MAP.md` | Fokus 1: 13 sambungan utama + 7 rantai samping, mekanisme, uji yang ada, celah |
 | `SCREEN_MAP.md` | Fokus 2: 48 menu × 3 mode aplikasi, uji browser per layar, celah |
+| `GAPS_D14_14.md` | Tiga celah yang dikerjakan sebelum audit akhir (D14-14): G1 jahit selesai + upah, G2 selesai PO + HPP final, G3 workflow basi |
 | `HANDOFF_FABLE.md`, `HANDOFF_ASTRA.md`, `HANDOFF_SOL.md` | Kotak yang disalin owner ke sesi masing-masing auditor |
 
 ## Kandidat
@@ -28,6 +29,10 @@ workflow dan 69/69 job pada percobaan pertama). Bila uji
 ulang r1 atau langkah di bawah mengubah kode, kandidat diganti dan kotak handoff diperbarui sebelum dikirim.
 
 ## Sebelum dikirim (urutan)
+
+*Diubah 15 Okt 2026 oleh D14-16:* uji ulang r1 **tidak** dikirim terpisah. Sesudah celah D14-14 selesai dan
+dikualifikasi, penulis menyiapkan satu paket gabungan (uji ulang r1 + audit akhir) pada satu kandidat. Langkah 1 di
+bawah dibaca sebagai bagian dari paket gabungan itu; langkah 2 dan 3 sudah dikerjakan (`GAPS_D14_14.md`).
 
 1. Uji ulang r1 oleh Fable, Astra dan Sol selesai; temuannya ditutup atau diputuskan owner.
 2. **Workflow basi dijalankan ulang** pada kandidat (`CHAIN_MAP.md` §3 butir 3): sekitar 60 workflow `cp7-*` hanya

@@ -104,6 +104,9 @@ pemberitahuan (Dashboard). Di **DISPOSABLE_TEST** 35 tersambung (termasuk Nota),
     master vendor laundry BD-1). Auditor memeriksa apakah pemakaian harian (pelanggan baru, mandor baru) punya jalan.
 11. **WIP & Sewing tersambung tidak bisa mencatat jahit selesai** (lihat `CHAIN_MAP.md` §3 butir 1). Di UX demo,
     layar ini punya alur kirim ke laundry; di layar tersambung hanya baca dan tanda.
+    *Status 15 Okt 2026 (D14-14 G1):* kartu potongan di layar tersambung sekarang punya bagian "Selesai jahit"
+    (jumlah / sisa pcs, perkiraan upah mandor, simpan dan batal). Pemilihan laundry tetap di layar Laundry. Rincian:
+    `GAPS_D14_14.md`. HPP & Rekalkulasi tersambung juga mendapat "Selesaikan PO · HPP final" (G2).
 
 ## 3. Yang diminta dari auditor untuk fokus 2
 
