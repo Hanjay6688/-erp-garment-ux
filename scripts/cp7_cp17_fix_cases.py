@@ -1055,15 +1055,15 @@ def cases(cur,today):
                     expense_over_book_balance_refused=detail,expense_equal_to_book_balance_posted=str(book_yday),detector_clean=True,
                     witness='Fable FABLE_CP17C:CASH_BASIS_MISMATCH (run 38786227211)')
     def spent_income_correction():
-        f=spent_receipt();p,v=edit.payload(cur,f,'25.01');r=edit.correct(cur,p,v);edit.check(cur,f,p,r)
+        f=spent_receipt();p,v=spent_payload(cur,f,'25.01');r=edit.correct(cur,p,v);edit.check(cur,f,p,r)
         assert balance(cur,f['bank'])==D('5.01') and cash_rows(f['bank'])==[] and scope_empty()
         return dict(status='PASS',receipt='30.01',spent='20.00',corrected_to='25.01',bank_after='5.01',witness='Sol SOL_R1_CUSTOMER_PAYMENT_CORRECTION_FINAL_POSITIVE')
     def spent_income_note_only():
-        f=spent_receipt();p,v=edit.payload(cur,f,'30.01',notes='CP17 catatan dibetulkan sesudah uangnya terpakai');r=edit.correct(cur,p,v);edit.check(cur,f,p,r)
+        f=spent_receipt();p,v=spent_payload(cur,f,'30.01',notes='CP17 catatan dibetulkan sesudah uangnya terpakai');r=edit.correct(cur,p,v);edit.check(cur,f,p,r)
         assert balance(cur,f['bank'])==D('10.01') and scope_empty()
         return dict(status='PASS',note_only_correction_committed=True,bank_after='10.01',witness='Sol SOL_HTTP_SPENT_INCOME_NOTE_ONLY_CORRECTION')
     def spent_income_negative():
-        f=spent_receipt();p,v=edit.payload(cur,f,'15.01');before=b.boundary.snapshot(cur);private=edit.private_state(cur)
+        f=spent_receipt();p,v=spent_payload(cur,f,'15.01');before=b.boundary.snapshot(cur);private=edit.private_state(cur)
         detail=refused(cur,lambda:edit.correct(cur,p,v),'CP7_CASH_NEGATIVE');unchanged(cur,before,'correction leaving the bank at -4.99')
         assert edit.private_state(cur)==private and balance(cur,f['bank'])==D('10.01') and scope_empty()
         # A lone inverse that makes the bank negative stays refused: the guard judges the end of every command.
@@ -1102,7 +1102,8 @@ def cases(cur,today):
         finally:b.api.admin(cur);cur.execute('alter table erp.journal_lines enable trigger cp7_guard_cash_not_negative')
         rows=cash_rows(bank);kinds=sorted(r[0] for r in rows)
         assert kinds==['CASH_NEGATIVE','CASH_NEGATIVE_BOOK_DATE'] and all(r[3]==D('-7') for r in rows),rows
-        funding.fund(cur,bank,'7.00',today);b.api.admin(cur);assert cash_rows(bank)==[]
+        # Capital on the expense's own economic day (the fixture's physical day, not today) clears both bases.
+        day=next(r[2] for r in rows if r[0]=='CASH_NEGATIVE');funding.fund(cur,bank,'7.00',day);b.api.admin(cur);assert cash_rows(bank)==[],cash_rows(bank)
         return dict(status='PASS',both_bases_listed=[[r[0],str(r[2]),str(r[3])] for r in rows],capital_clears_both=True)
 
     named=[full_attendance,work_only,installment,direct_native,empty_bank,exact_zero,backdate,later_day,payroll_empty,laundry_empty,
@@ -1115,6 +1116,12 @@ def cases(cur,today):
     assert len(named)==REQUIRED['native']
     return list(zip(IDS['native'],named))
 
+
+def spent_payload(cur,f,amount,**changes):
+    """The correction screen's own UTC-pinned workspace token (Sol's tool qualification in independent_cases.py): the
+    supplier-payment fixture leaves the session in Jakarta, and the generic sales reader's token follows the session zone."""
+    p,v=edit.payload(cur,f,amount,**changes);w=edit.workspace(cur,f)
+    p['review_token'],v=w['review_token'],w['row_version'];return p,v
 
 def races(tools,today):
     def two_payments():
@@ -1202,7 +1209,7 @@ def races(tools,today):
         # together the bank would end at -2.99. The account lock orders them; exactly one is refused CP7_CASH_NEGATIVE.
         with tools.connect()as conn,conn.cursor()as cur:
             f=edit.fixture(cur,today,amount='30.01');out=pay.fixture(cur,today);out['cash']=f['bank'];pay.command(cur,pay.payload(cur,out,'20.00'))
-            p,v=edit.payload(cur,f,'25.01');other=pay.fixture(cur,today);other['cash']=f['bank'];pp=pay.payload(cur,other,'8.00');conn.commit()
+            p,v=spent_payload(cur,f,'25.01');other=pay.fixture(cur,today);other['cash']=f['bank'];pp=pay.payload(cur,other,'8.00');conn.commit()
         barrier=threading.Barrier(2)
         def send(kind):
             with tools.connect()as conn,conn.cursor()as cur:
