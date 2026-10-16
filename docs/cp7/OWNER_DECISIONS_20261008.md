@@ -506,3 +506,30 @@ Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
 - D15-4: tombol buka ulang PO memanggil `erp.reopen_production_order` lewat fasad CP7 dengan penghalang yang disebut di
   layar.
 - `production_go:false`.
+
+### D15-5 dan D15-6 (owner ke penulis Claude, 16 Okt 2026, jawaban dua pertanyaan penulis)
+
+Pertanyaan penulis: (1) "Transaksi baru (pembelian, penyesuaian stok, penjualan) tidak boleh bertanggal sebelum tanggal
+mulai pakai aplikasi di Enteng: ya atau tidak?" (FABLE-011). (2) "Cara membuat PO harian. Pilihan A: PO dibuat otomatis
+waktu Buat Potongan, seperti demo. Pilihan B: PO dibuat dulu di layar sendiri." (SOL-R1-002)
+
+Owner (persis):
+
+"1. Ya, untuk transaksi operasional baru. Gunakan tanggal cutover resmi yang saya sahkan dalam WIB, bukan tanggal pertama login atau uji coba. Pengamannya wajib di server.
+Data sebelum cutover masuk melalui saldo awal/migrasi. Invoice terlambat yang merujuk penerimaan saldo awal, pelunasan sesudah cutover, serta koreksi dokumen lama tetap memakai jalur resminya. Tanggal asli tetap tersimpan dan efeknya tidak boleh dihitung dua kali.
+2. Pilih A — PO otomatis dari Buat Potongan, seperti alur demo. Pengguna cukup mengisi pekerjaan potong; sistem membuat PO terkait dan menampilkan nomornya untuk pelacakan.
+Saat disahkan, pembuatan PO dan posting potongan harus atomik. Pengiriman ulang memakai UUID yang sama harus mendapatkan hasil yang sama, tanpa PO atau stok ganda. Draf tetap belum memengaruhi stok maupun keuangan.
+
+Catat kedua keputusan dan uji batas tanggal, jalur saldo awal, kegagalan di tengah proses, serta pengiriman ulang. langsung kerjain yg lu bilang juga ye"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
+- D15-5 (lantai tanggal cutover, FABLE-011): tanggal cutover resmi disahkan owner di aplikasi (tanggal WIB), disimpan di
+  server dengan riwayat. Server menolak transaksi operasional baru yang bertanggal sebelum tanggal itu. Jalur saldo awal/
+  migrasi, invoice terlambat atas penerimaan saldo awal, pelunasan sesudah cutover, dan koreksi dokumen lama tetap lewat
+  jalur resminya; tanggal asli disimpan, efek tidak dihitung dua kali. Uji: tepat di batas tanggal, sehari sebelum,
+  jalur saldo awal, gagal di tengah proses, dan pengiriman ulang.
+- D15-6 (PO harian, SOL-R1-002): Buat Potongan membuat PO terkait secara otomatis saat potongan disahkan, dalam satu
+  transaksi dengan posting potongan, dan menampilkan nomornya. Pengiriman ulang dengan UUID yang sama memberi hasil yang
+  sama tanpa PO atau stok ganda. Draf tidak memengaruhi stok atau keuangan. Uji: gagal di tengah proses (tidak ada PO
+  yatim, tidak ada stok bergerak) dan pengiriman ulang.
+- `production_go:false`.
