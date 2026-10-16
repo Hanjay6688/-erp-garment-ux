@@ -1,0 +1,82 @@
+{
+  "label": "SOL_CP1_7_R2_PREDECLARATION",
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "candidate_tree": "5e50d224f8e74fa3bca83b599fb606739435b598",
+  "writer_input_sha": "b388a4b7d4b0291de81b68d1e624a062eda5edd1",
+  "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+  "audit_branch": "audit/sol-cp1-7-r2-2e9d6a46-20261016",
+  "production_go": false,
+  "product_files_modified": false,
+  "peer_current_round_consulted": false,
+  "groups": {
+    "CP17_PROVIDER": {
+      "expected_declared_cases": 145,
+      "required_counts": {
+        "native": 80,
+        "races": 18,
+        "http": 14,
+        "browser": 33
+      }
+    },
+    "SOL_R2_LITERAL": {
+      "expected": 7,
+      "ids": [
+        "SOL_R1_EMPTY_BANK_ATOMIC_REFUSAL",
+        "SOL_R1_FUNDED_PUBLIC_INCOME_PAYMENT_CONTROL",
+        "SOL_R1_BACKDATE_BEFORE_FUNDING",
+        "SOL_R1_LATER_DAY_CASH_PREFIX",
+        "SOL_R1_USED_FUNDING_REVERSAL",
+        "SOL_R1_CUSTOMER_PAYMENT_CORRECTION_FINAL_POSITIVE",
+        "SOL_R1_SEWING_PARTIAL_REVERSE_DIMENSIONS"
+      ]
+    },
+    "SOL_R2_CORRECTION_HTTP": {
+      "expected": 4,
+      "ids": [
+        "SOL_HTTP_UNSPENT_INCOME_CORRECTION_CONTROL",
+        "SOL_HTTP_SPENT_INCOME_CORRECTION_FINAL_POSITIVE",
+        "SOL_HTTP_SPENT_INCOME_NOTE_ONLY_CORRECTION",
+        "SOL_HTTP_SPENT_INCOME_GENUINE_NEGATIVE_REFUSAL"
+      ]
+    },
+    "F03_FULL": {
+      "expected_native": 447,
+      "additional_smokes": 3,
+      "buckets": [
+        "p09",
+        "p10",
+        "p11",
+        "p12",
+        "p13",
+        "cash_installments",
+        "supplier_credit",
+        "customer_refund"
+      ]
+    },
+    "OWNER_INSTALL": {
+      "expected_guards": 10,
+      "expected_pinned_files": 58,
+      "qualification": "NONE; candidate cp6_pre_u_inventory.finished runs unmodified"
+    },
+    "PUBLIC_STATE_COMPARATOR": {
+      "separate_control": true
+    },
+    "OWNER_DRAIN": {
+      "separate_control": true
+    }
+  },
+  "measurement_qualification": {
+    "file": "correction_http.py",
+    "change": "set timezone='UTC' before reading the pre-correction payment_fact",
+    "reason": "Canonical timestamp representation for exact before/after equality; amounts, API requests, required money/bank/AR results and case IDs unchanged",
+    "prior_source_sha": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6"
+  },
+  "rerun_policy": "Keep every first result. No retry until classified; no weakening assertions or product edits. Infrastructure before any case may be retried separately.",
+  "later_groups": "Additional r2 UI/new-dimension probes will be predeclared before their own execution; this manifest is not a full coverage claim.",
+  "source_sha256": {
+    "audit/sol_cp17_r2/correction_http.py": "b6143d8f8061b9dd733129321fb328a117cc2f7a72d61af960870a6ddf05abb0",
+    "audit/sol_cp17_r2/independent_cases.py": "60a9defa1938b6cc62af07ec7a1896b9a030061be2386c36ae78a843b4ea1095",
+    "audit/sol_cp17_r2/owner_baseline.py": "864f632374a7fcaac6d6ac90abc08aad92b5d2daa02240dbab6e6e93454c4822",
+    "audit/sol_cp17_r2/retest_probe.py": "c14d8b9f5058e9d641accc7f81d7237bae7154bf3e61614024579cb485c408c0"
+  }
+}
