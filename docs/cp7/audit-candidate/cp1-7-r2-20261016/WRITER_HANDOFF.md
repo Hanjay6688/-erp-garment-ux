@@ -14,7 +14,13 @@ Ditulis penulis Claude agar penulis cadangan bisa meneruskan tanpa mengulang. Bu
 - Pelajaran umum dari audit ada di `docs/ERP_BEST_PRACTICES.md` (dipakai saat menulis kode ERP; daftar periksa di akhir).
 - Kotak `HANDOFF_FABLE.md`, `HANDOFF_ASTRA.md`, `HANDOFF_SOL.md` dikirim owner; penulis tidak mengirim apa pun.
 
-## Langkah berikutnya
+## Sesudah audit r2 (17 Okt 2026)
+
+Ketiga laporan r2 sudah dikunci dan dibaca (Fable `80f01cee`, Astra `bfa007f6`, Sol `841fce45`). Audit silang dan
+rencana r3: `../cp1-7-r3-20261017/CROSS_AUDIT.md`. Keputusan owner baru D16-1 ("selesain biar gausa sembunyiin")
+tercatat di `docs/cp7/OWNER_DECISIONS_20261008.md`. Pekerjaan r3 di cabang `claude/r3-fixes-20261017`.
+
+## Langkah berikutnya (ditulis sebelum audit r2)
 
 1. Tunggu laporan auditor yang dibawa owner. Jangan mengubah kode di `claude/new-session-deapao` selama audit berjalan;
    commit dokumen saja boleh.

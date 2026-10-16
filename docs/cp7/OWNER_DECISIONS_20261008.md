@@ -533,3 +533,26 @@ Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
   sama tanpa PO atau stok ganda. Draf tidak memengaruhi stok atau keuangan. Uji: gagal di tengah proses (tidak ada PO
   yatim, tidak ada stok bergerak) dan pengiriman ulang.
 - `production_go:false`.
+
+## Keputusan owner 16 Okt 2026 sesudah audit r2 (D16-1)
+
+### D16-1 (owner ke auditor Fable, sesudah laporan r2 Fable dikunci; dicatat Fable di
+`audit/fable_cp17_r2/OWNER_DECISION_TO_AUDITOR_20261016_UNHIDE.md`, commit `f2758f39`, cabang
+`audit/fable-cp1-7-r2-2e9d6a46-20261016`)
+
+Owner (persis): "selesain biar gausa sembunyiin"
+
+Tafsiran Fable (ditulis Fable sebagai tafsiran, "dikembalikan ke owner bila keliru"): menggantikan D15-2 untuk mode
+Enteng. Layar yang sekarang disembunyikan di Enteng diselesaikan dan disambungkan, bukan disembunyikan: 11 menu yang
+sudah tersambung di mode uji dinyalakan untuk Enteng (Penjualan & Invoice, Semua Invoice, Retur Penjualan, Pembayaran
+Pelanggan, Ringkasan Keuangan, Kas & Bank, Piutang Pelanggan, Payroll & Kasbon, Absensi & Rate Harian, Jurnal & Transaksi
+Lain, Laporan & Tutup Buku; juga Susun Nota FG yang di Enteng berupa layar batas), dan 6 menu yang belum punya layar
+tersambung dibuatkan (Ringkasan Gudang, Riwayat Pelanggan, Reminder, Pengaturan ERP, Tutup Periode, Audit Trail),
+ditambah layar pool HPP absensi. Menu yang isinya sama dengan menu lain boleh digabung dengan persetujuan owner. Oracle
+uji ulang Fable ditetapkan di berkas itu sebelum pekerjaan dibuat.
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): tabel aktivasi mode Enteng tidak lagi memakai HIDDEN
+untuk menu yang selesai; layar tersambung yang sama dengan mode uji dipakai di Enteng; enam layar yang belum ada dan
+layar pool HPP absensi dibuat dengan kasus Native, race, HTTP dan browser desktop + HP; uji browser juga memakai build
+mode Enteng terhadap database sekali pakai. Layar ini baru berfungsi di Enteng sesudah lapisan CP7 terpasang (CP7C
+tetap ditahan, D13-9a). `production_go:false`.

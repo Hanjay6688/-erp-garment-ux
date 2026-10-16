@@ -45,6 +45,9 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     menurut potongan di ukurannya), layar meminta jumlah per SKU dan menghitung sisa per SKU dengan rumus yang sama
     (selesai dan hak bayar per komponen); satu jumlah untuk seluruh potongan tidak boleh dibayar dengan tarif dasar.
     (Sol R2-10 KNOWN-BF-WAVE)
+8d. **Nomor urut berformat memakai lebar minimum, bukan panjang tetap.** `lpad(n,3)` memotong 1000 menjadi `100`.
+    Uji perubahan jumlah digit (999 → 1000, 9999 → 10000) dan ruang nomor yang sudah penuh, termasuk dua sesi di batas
+    itu. (ASTRA-R2-02, SOL-R2-001)
 
 ## C. Alur aplikasi lengkap
 
@@ -62,6 +65,10 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     Penolakan di tengah tidak meninggalkan induk yatim, stok bergerak, atau nomor terpakai; draf tidak menyentuh tabel
     bisnis; kirim ulang dengan UUID sama memberi jawaban sama. Uji juga dari layar dengan jawaban yang hilang di jalan.
     (SOL-R1-002, D15-6)
+12b. **Penghalang "sudah dipakai" menghitung pemakaian yang masih aktif.** Pembatalan dan pembalik meniadakan
+    pemakaian yang dibatalkannya; menjumlahkan semua mutasi keluar dalam sejarah membuat koreksi macet selamanya. Uji
+    setiap aksi koreksi dengan urutan pakai → batalkan → koreksi harus bisa lagi, dan kontrol pemakaian yang masih aktif
+    tetap menolak. (ASTRA-R2-01)
 
 ## D. Layar
 
@@ -75,6 +82,8 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 16. **Angka contoh tidak pernah tampil tanpa label**, dan label tidak bergantung pada tata letak (misalnya ada atau
     tidaknya tombol). Satu tabel aktivasi menentukan menu mana tersambung di tiap mode; yang belum tersambung di mode
     data nyata disembunyikan atau berupa layar batas tanpa angka. (FABLE-015, ASTRA-C17-03, KNOWN-UI-MODE, D15-2)
+    Owner D16-1 (16 Okt): "selesain biar gausa sembunyiin" — tujuan akhirnya layar tersambung di mode data nyata, bukan
+    menu tersembunyi; uji browser juga memakai build mode data nyata.
 17. **Lebar HP diuji dengan rumus tertulis:** `document.documentElement.scrollWidth <= window.innerWidth` pada 390 px
     untuk setiap menu di setiap mode, dengan data terisi. Jangan menutup luapan dengan `overflow:hidden`.
     (SOL-R1-004/005; Astra melaporkan nol luapan dengan cara ukur lain)
@@ -110,6 +119,9 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 25a. **Kasus browser yang gagal mencetak alert dan status di layar ke log**, karena artifact CI tidak selalu bisa
     diunduh dari tempat log dibaca. Tombol dipilih lewat nama aksesibelnya; tombol di dalam `<label>` memakai nama
     label itu. (CI 38861916560: lokasi dan rantai Bagi Potongan)
+25b. **Helper uji membaca teks elemen yang bisa hilang sendiri (alert sesaat) tanpa menunggu**, dan menyimpan teksnya.
+    Menghitung lalu meminta teks bisa menunggu elemen yang sudah hilang sampai batas waktu, sehingga kasus yang oraclenya
+    tercapai tercatat INCOMPLETE. (FABLE-018)
 
 ## F. Proses audit
 
@@ -121,6 +133,11 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     bisa digeser. (Fable `OWNER_DECISIONS_TO_AUDITOR_20261016.md`)
 29. **Hal yang sudah diungkap penulis tetap temuan** dengan tingkat penuh; pengungkapan tidak menurunkan tingkat.
     (FABLE-015)
+29a. **Batas yang diungkap penulis bukan keputusan owner.** Fungsi yang punya penulis Native tetapi tanpa layar adalah
+    fungsi yang belum tersedia, sampai owner menuliskan penundaannya; menyembunyikan menu bukan penerimaan. (Sol
+    KNOWN-R2-POOL-UI, ASTRA-C17-07, owner D16-1)
+29b. **Bila auditor memberi tingkat berbeda untuk akar yang sama, dipakai tingkat yang lebih tinggi.** (R3-01: Astra S1,
+    Sol S2; R3-04: Sol S1, Astra S2)
 
 ## Daftar periksa sebelum penulis menyerahkan kandidat
 
@@ -128,12 +145,15 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Penjaga uang: keadaan akhir, semua dasar tanggal, detektor dengan kontrol 0→+1→0 (A1–A3).
 - [ ] Kunci identitas lengkap dari server; uji lintas merek/gudang/tanggal (B6, E25).
 - [ ] Versi bertanggal: pembetulan hari yang sama vs versi baru; penyeragaman nilai hanya saat membuat (B8a, B8b).
-- [ ] Dokumen induk otomatis: satu transaksi, gagal di tengah tidak meninggalkan apa pun, kirim ulang sama (C12a).
+- [ ] Dokumen induk otomatis: satu transaksi, gagal di tengah tidak meninggalkan apa pun, kirim ulang sama (C12a);
+  nomor urut lewat batas digit (B8d).
+- [ ] Setiap aksi koreksi: pakai → batalkan → koreksi bisa lagi; pemakaian aktif tetap menolak (C12b).
 - [ ] Batas tanggal resmi: trigger tabel, jalur sah dikecualikan per nama sumber, uji 00:00 vs 23:59:59 WIB (A5a).
 - [ ] Batas Native per SKU/lingkup: layar meminta dan menghitung per lingkup yang sama (B8c).
 - [ ] Layar: pemeriksaan sama dengan Native, teks status dari server, simpan diblokir saat memuat (D13–D15);
   layar dengan dua penulis aktif kembali sesudah simpan di tiap mode (D18b).
-- [ ] Mode data nyata: tidak ada angka contoh tanpa label; tabel aktivasi diperbarui (D16).
+- [ ] Mode data nyata: tidak ada angka contoh tanpa label; tidak ada fungsi Native tanpa layar kecuali owner menunda
+  tertulis; tabel aktivasi diperbarui; uji browser build mode data nyata (D16, F29a).
 - [ ] 48 menu × 3 mode × HP 390 px: `scrollWidth <= innerWidth` (D17).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
