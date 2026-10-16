@@ -1,0 +1,20 @@
+{
+  "stage": "PREDECLARATION_BEFORE_EXECUTION",
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "bucket": "prefreeze_ui",
+  "expected_product_cases": 31,
+  "provider": "scripts/cp7_prefreeze_legacy_browser.mjs",
+  "native_stack": "FULL_CP7_F03_CURRENT_41_ROLES",
+  "reason": "Cash guards and sewing/PO changes affect older connected BD/BE/BF and readiness screens; rerun applicable retained UI cases on the pinned final composition.",
+  "legacy_CP6_diagnostic_expected": "Two readiness cases may be INCOMPLETE because their CP7 RPCs are absent; original diagnostic kept, zero acceptance credit.",
+  "retired_legacy_cases": [
+    "BF_BROWSER:SALES_MANUAL_13_DESKTOP",
+    "BF_BROWSER:SALES_MANUAL_13_MOBILE"
+  ],
+  "replacements": [
+    "P11_DRAFT_BROWSER_DESKTOP",
+    "P11_DRAFT_BROWSER_MOBILE_RECOVERY"
+  ],
+  "product_source_or_oracles_modified": false,
+  "production_go": false
+}
