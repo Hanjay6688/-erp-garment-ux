@@ -1041,9 +1041,13 @@ def cases(cur,today):
     def scope_empty():
         b.api.admin(cur);return one(cur,'select count(*) from cp7_guard.compound_scope')==0 and one(cur,'select count(*) from cp7_guard.compound_touch')==0
     def spent_receipt():
-        """Sol's fixture: a customer receipt of 30.01 into a fresh bank, then 20.00 of it pays a supplier (bank 10.01)."""
+        """Sol's fixture: a customer receipt of 30.01 into a fresh bank, then 20.00 of it pays a supplier (bank 10.01).
+        The supplier-payment fixture leaves the session in Jakarta; the zone found before it is restored, so the payment
+        correction suite's own fingerprints (taken in that zone at edit.fixture) compare like with like."""
+        zone=one(cur,'show timezone')
         f=edit.fixture(cur,today,amount='30.01');out=pay.fixture(cur,today);out['cash']=f['bank']
         pay.command(cur,pay.payload(cur,out,'20.00'));assert balance(cur,f['bank'])==D('10.01')
+        cur.execute("select set_config('TimeZone',%s,false)",(zone,))
         return f
     def cash_book_date():
         """Fable cp17c FABLE_CP17C:CASH_BASIS_MISMATCH with its own amounts: income dated inside the closed period is
