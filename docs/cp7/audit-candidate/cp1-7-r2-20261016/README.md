@@ -1,6 +1,6 @@
 # Paket uji ulang r2 CP1–CP7 (perbaikan atas audit gabungan `dfab13bf`)
 
-**Status: DRAF — kualifikasi satu commit belum selesai. Jangan dikirim.**
+**Status: SIAP DIKIRIM — kandidat `2e9d6a46` lulus kualifikasi satu commit (rincian di bagian Kandidat).**
 
 Fable, Astra dan Sol mengaudit kandidat gabungan `dfab13bf` (paket D14-16). Penulis menyatukan ketiga laporan per akar
 masalah di `CROSS_AUDIT.md` (R2-01 sampai R2-10), lalu memperbaiki semuanya di cabang `claude/r2-fixes-20261016`
@@ -19,7 +19,32 @@ masing-masing auditor. Penulis tidak mengirim apa pun.
 
 ## Kandidat
 
-(diisi sesudah kualifikasi)
+- **Commit `2e9d6a468c110684c278d585418eb404250d1150`**, tree `5e50d224f8e74fa3bca83b599fb606739435b598`, di cabang
+  `claude/new-session-deapao` (di-fast-forward dari `claude/r2-fixes-20261016`). Commit sesudahnya di cabang itu hanya
+  mengubah `docs/`: `git diff --name-only 2e9d6a46 origin/claude/new-session-deapao`.
+- Perubahan kode terakhir sebelum kandidat: `3b7cf370`, Buat Potongan tidak lagi terkunci sesudah simpan di mode
+  "PO yang sudah ada" (temuan penulis saat kualifikasi, `CROSS_AUDIT.md` §7).
+- **`CI_RECEIPT.json`:** 116 run dari 115 workflow pada commit itu, semuanya percobaan pertama; 94 run lulus; 179 job,
+  157 lulus. CP6 Auditor Scenario dijalankan dua kali (lihat di bawah). Receipt dibuat dengan salinan
+  `scripts/cp7_ci_receipt.py` yang membaca semua halaman daftar run; alat di repo hanya membaca 100 run pertama
+  (pelajaran E19a, diperbaiki di putaran kode berikutnya).
+- **Kasus CP17:** run 38894811516, job 116952641872: 146 baris kasus PASS (145 kasus yang dideklarasikan ditambah
+  `CP6_AUDITOR_PUBLIC_STATE_STABLE_ORDER`), 0 gagal.
+
+**Daftar utama, wajib lulus: 81 workflow, semuanya lulus.** Isinya 78 workflow dari receipt r1, "UI phone width
+census", CP6 G-01 dan CP6 T2 (keduanya disebut R2-08).
+
+**Workflow CP6 lama lainnya: 35 workflow** (informasi; tidak ada pemeriksaan yang dilonggarkan):
+
+| Hasil | Jumlah | Workflow dan sebab |
+|---|---|---|
+| Lulus | 12 | AU Proposal Catalog Capture, AU Frozen Identity Authority Review, AV Rev2 Catalog Capture, T1 Family Probe AW, AX, AY, AZ, BA, BB, BC, BD, S06 Close Preflight Probe |
+| Merah: pemeriksaan cakupan historis | 20 | Skrip cakupan memastikan checkout masih usulan lamanya: 11 membandingkan daftar berkas yang berubah (`AT_SCOPE`, `AS_SCOPE`, `AUDITOR_SCOPE`, `AS_PROBE_SOURCE_SCOPE`, dll.), 9 menolak merge commit sesudah commit yang dipatok. Workflow ini hanya lulus pada commit historisnya sendiri. Galat tiap workflow sama persis dengan kualifikasi pertama pada `2baebc0b` |
+| Merah: artifact kedaluwarsa | 1 | CP6 AF Posted Child Family: artifact 10418502157 sudah habis masa simpan (HTTP 410) |
+| CP6 Auditor Scenario | 1 | (a) Contoh bawaan, run 38894900810: lulus, 5 kasus. (b) Skenario penulis lengkap `scripts/cp6_bf_combined_modes.py` + `scripts/cp6_bf_vendor_browser.mjs` (sama dengan run push pada `2baebc0b`), run 38906744394: native 104/104, race 26/26, HTTP 9/9, browser 27 PASS dan 4 INCOMPLETE yang sama dengan sebelumnya: `READINESS_BROWSER:{DESKTOP,MOBILE}_NATIVE_POLICY_STATES_FINANCE_NOTE` (layar keuangan memanggil `erp_cp7_get_recost_queue_v1`, yang tidak ada di tumpukan CP6 skenario ini) dan `BF_BROWSER:SALES_MANUAL_13_{DESKTOP,MOBILE}` (dipensiunkan, `docs/cp7/RETIRED_CP6_SALES_MANUAL_13.md`) |
+| Tidak dijalankan | 1 | CP6 AC Independent Audit tidak punya pemicu manual |
+
+Kualifikasi pertama pada `2baebc0b` dan perbaikannya ada di `CROSS_AUDIT.md` §7.
 
 ## Perbaikan per akar
 
@@ -36,7 +61,7 @@ diharapkan auditor sendiri; penjaga lama tidak dilonggarkan.
 | R2-05 selesai PO + buka ulang | FABLE-014, ASTRA-C17-05 | D15-4 | Ruang kerja memakai predikat penjaga Native; teks HPP dari status server; tombol buka ulang PO dengan penghalang. `finish.sql`, `po-reopen.sql`, `src/PoFinishPanel.tsx` | Tiga perjalanan Astra (`CP17_R2_ASTRA_G1_G2_*`, `CP17_R2_ASTRA_G2_*`) dengan hitungannya sendiri, `CP17_R2_PO_REOPEN_*`, race, HTTP, browser desktop + HP |
 | R2-06 seri lusin penjualan | ASTRA-C17-01, ASTRA-C17-02 | — | Seri = merek + SKU dari server; simpan diblokir dan centang tinjauan dihapus selama ukuran dimuat. `src/SalesDraftPanel.tsx` | Kasus DOM ASTRA-C17-01 dan -02 (`src/SalesDraftPanel.dom.test.tsx`); browser D14-5 dengan merek kedua yang SKU-nya sama |
 | R2-07 bukti alur lewat aplikasi | FABLE-016, ASTRA-C17-07, Sol BROWSER-CHAIN | — | Dua rantai browser yang hanya memakai layar, mulai dari Impor data awal: (1) WIP → barang jadi merek A → Ganti Merek ke B → tutup buku di tengah rantai → jual → pembayaran ke bank → buka buku; buku yang ditutup tetap sama; (2) komponen kerja dan tarif mandor di Master Data → WIP dipisah sebagai BS → resep aksesori produk impor ditetapkan (tanpa aksesori) di Produk & SKU → BS diklasifikasi dengan komponen itu → order rework ke mandor → hasil → upah rework masuk Nota → payroll dihitung, disetujui, dibayar dari bank | `CP17_BROWSER_R2_07_IMPORT_WIP_BRAND_SALE_CASH_CLOSE`, `CP17_BROWSER_R2_07_BS_REWORK_NOTA_PAYROLL_PAY` |
-| R2-08 alat uji arsip CI | ASTRA-C17-06, SOL-R1-003, catatan Fable T2 | — | Daftar "sebelum U" sadar titik berhenti; G01, T2 dan 37 workflow CP6 lama memanggil bootstrap dari checkout cabang sekarang dan tetap jalan walau arsip AC sudah terhapus. Langkah X dan oracle tidak diubah | 36 dari 37 workflow CP6 lama dijalankan di kandidat (satu tidak punya pemicu manual); hasil per workflow di bagian Kandidat dan `CI_RECEIPT.json` |
+| R2-08 alat uji arsip CI | ASTRA-C17-06, SOL-R1-003, catatan Fable T2 | — | Daftar "sebelum U" sadar titik berhenti; G01, T2 dan 37 workflow CP6 lama memanggil bootstrap dari checkout cabang sekarang dan tetap jalan walau arsip AC sudah terhapus (hasilnya lalu ditentukan pemeriksaan masing-masing, lihat Kandidat). Langkah X dan oracle tidak diubah | 36 dari 37 workflow CP6 lama dijalankan di kandidat (satu tidak punya pemicu manual); hasil per workflow di bagian Kandidat dan `CI_RECEIPT.json` |
 | R2-09 layar demo melebar di HP | SOL-R1-004, SOL-R1-005 | — | Tata letak QC & Final SKU dan HPP & Rekalkulasi di HP 390 px (tanpa menyembunyikan isi yang keluar) | Workflow "UI phone width census": 48 menu build demo pada 390 px, `scrollWidth <= innerWidth` |
 | R2-10 jahit selesai wave BF | Sol KNOWN-BF-WAVE | — | Selesai jahit per SKU untuk potongan wave dengan tarif snapshot per SKU; jalur dasar menolak potongan wave. `sewing.sql`, `src/SewingCompletionPanel.tsx` | `CP17_R2_10_*`, race, HTTP, browser desktop + HP |
 | D15-5 lantai tanggal cutover | FABLE-011 | D15-5 | Tanggal cutover resmi (WIB) disahkan di aplikasi pada layar Impor data awal; server menolak jurnal dan gerakan stok operasional baru bertanggal sebelumnya; jalur saldo awal/migrasi dan pembalik tetap lewat jalurnya. `scripts/cp7-src/cutover/cutover.sql` | `CP17_R2_D15_5_*` (batas 00:00 vs 23:59:59 WIB, jalur saldo awal, gagal di tengah, kirim ulang), dua race, HTTP, browser desktop + HP |
@@ -61,6 +86,9 @@ FABLE-005 (pemetaan 75 C6 + 22 ALL) ditutup dengan menyalin berkas Astra byte de
   yang dilewati uji itu.
 - **FABLE-012:** 82 penulis `erp` masih bisa dieksekusi peran `authenticated` lewat SQL; tidak terjangkau lewat Data API.
   Pencabutan ditunda ke CP7C (D14-9).
+- **Alat receipt** `scripts/cp7_ci_receipt.py` di kandidat hanya membaca 100 run pertama per commit. `CI_RECEIPT.json`
+  dibuat dengan salinan yang membaca semua halaman (perubahan satu perulangan); perbaikan alat ikut putaran kode
+  berikutnya supaya kandidat tidak berubah.
 
 ## Larangan (sama dengan putaran sebelumnya)
 

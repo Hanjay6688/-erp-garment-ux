@@ -1,10 +1,10 @@
 {
  "summary": {
   "sha": "2e9d6a468c110684c278d585418eb404250d1150",
-  "workflows": 115,
+  "workflows": 116,
   "workflows_success": 94,
-  "jobs": 177,
-  "jobs_success": 156,
+  "jobs": 179,
+  "jobs_success": 157,
   "not_success": [
    [
     "CP6 AF Independent Review",
@@ -94,6 +94,11 @@
    [
     "CP6 AU Qualification",
     "trial",
+    "failure"
+   ],
+   [
+    "CP6 Auditor Scenario",
+    "Auditor scenario on the final CP6 candidate (AUDITOR_SCENARIO)",
     "failure"
    ],
    [
@@ -622,6 +627,28 @@
     {
      "name": "AZ probe on AU plus AV plus AW plus AX plus AY (before, T1_FAMILY)",
      "job_id": 116952984666,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 Auditor Scenario",
+   "run_id": 38906744394,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "Auditor scenario on the final CP6 candidate (AUDITOR_SCENARIO)",
+     "job_id": 116992106053,
+     "conclusion": "failure",
+     "business_day": []
+    },
+    {
+     "name": "Auditor runtime self-test (B1 strict group; tool check, not product evidence)",
+     "job_id": 116992106279,
      "conclusion": "success",
      "business_day": []
     }

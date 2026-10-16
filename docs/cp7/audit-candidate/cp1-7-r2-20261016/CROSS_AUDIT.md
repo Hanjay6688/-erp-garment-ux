@@ -241,3 +241,11 @@ diperbaiki sebelum kandidat akhir (yang keempat cacat aplikasi, ditemukan saat u
 | 38878804184, 38878810285, 38878798547, 38878801310 (empat workflow F04) | Alat uji: sejak D15-6 Buat Potongan dibuka dalam mode "PO baru otomatis"; uji lama memotong untuk PO yang sudah ada dan tidak memilih mode itu | `cp7_cutting_yield_browser.mjs` `openCutting` memilih "PO yang sudah ada"; pemeriksaan lain tidak diubah |
 | 38890676716 (F04 Model and Consumer pada `96142ea8`; dua kasus `CUTTING_SOURCE_BROWSER_DESKTOP/_MOBILE`, juga gagal di 38878801310) | **Cacat aplikasi dari D15-6:** sesudah posting dalam mode "PO yang sudah ada", Buat Potongan hanya memuat ulang data potongan biasa, bukan data PO otomatis. Penanda transaksi tertunda dipakai bersama kedua penulis, jadi penulis PO otomatis tetap "belum dimuat" dan seluruh layar terkunci (tombol "Muat hasil potong tersimpan", Baru, draft, pilihan mode) sampai halaman dibuka ulang; Refetch pun tidak membukanya | `src/ConnectedCuttingPage.tsx`: sesudah simpan dan pada Refetch kedua data dimuat ulang; layar hanya aktif bila keduanya berhasil. Dua uji DOM baru di `src/ConnectedProductionRecovery.dom.test.tsx` gagal pada kode lama dan lulus pada kode baru. Pelajaran D18b di `docs/ERP_BEST_PRACTICES.md` |
 | 38878900081 (F03 Supplier Current Authority) | Gerbang `FULL_F03_ROLE_STACK_CHANGED_REQUIRES_EXPLICIT_REVIEW`: manifest supplier-authority masih 37 peran, belum memuat empat peran r2 (master, cutover) yang sudah ditinjau di manifest F03 utama | Daftar peran disamakan (41, urutan sama) dengan catatan tinjauan; gerbang tidak diubah |
+
+Kualifikasi akhir pada kandidat `2e9d6a46` (tree `5e50d224`): 116 run dari 115 workflow, semuanya percobaan pertama.
+Daftar utama 81/81 lulus, termasuk kedelapan workflow yang merah pada `2baebc0b` (CodeQL T3, Shell S0, empat F04, F03
+Supplier Current Authority, dan CP6 Auditor Scenario contoh). Ke-21 workflow CP6 lama yang merah gagal di skrip, baris
+dan galat yang sama dengan `2baebc0b` (20 pemeriksaan cakupan historis, 1 artifact kedaluwarsa); daftar berkas yang
+dicetak pemeriksaan cakupan juga sama. Skenario penulis lengkap di CP6 Auditor Scenario memberi hasil yang sama dengan
+`2baebc0b` (native 104/104, race 26/26, HTTP 9/9, browser 27 PASS dan 4 INCOMPLETE yang sudah diketahui). Rincian:
+`README.md` bagian Kandidat.
