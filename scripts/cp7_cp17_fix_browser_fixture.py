@@ -202,6 +202,42 @@ def r207_state(cur,p):
         conversions=conv,sale=None if not sale else dict(id=sale[0],status=sale[1],qty=int(sale[2])),bank_debit=paid,
         books_through=books,fg_through=fg_through,closed_through=closed,filings=filings)
 
+def r207b_prepare(cur,today):
+    """The second R2-07 chain (BS -> rework -> Nota -> payroll -> paid) in its own earlier month, the same harness state as
+    r207_prepare, and owner capital for exactly the rework wage (3 pcs x 1000) into its bank on the payment day (D14-3: an
+    empty bank stays empty; the capital is the only money the chain receives)."""
+    import cp7_period_cases as period,cp7_cash_funding as funding
+    code='R207B'+uuid.uuid4().hex[:7].upper();day=today-timedelta(days=20)
+    prev=cur.execute('select closed_through from erp.accounting_period_control where singleton_id=1').fetchone()[0]
+    cur.execute("""update erp.accounting_period_control set closed_through=%s,updated_at=clock_timestamp(),updated_by=null,
+        change_reason='CP17 R2-07 rework chain month' where singleton_id=1""",(day-timedelta(days=1),))
+    quiet=period.aw.quiet_seed(cur,day-timedelta(days=1),day+timedelta(days=2));cases.b.api.admin(cur)
+    bank=str(cases.bc.bank_account(cur,code));cases.b.api.admin(cur);funding.fund(cur,bank,'3000',today);cases.b.api.admin(cur)
+    return dict(code=code,day=str(day),output_day=str(day+timedelta(days=1)),rework_day=str(day+timedelta(days=2)),opened_closed=str(day-timedelta(days=1)),
+                previous_closed=None if prev is None else str(prev),bank=bank,
+                bank_code=cur.execute('select cash_account_code from erp.cash_accounts where id=%s',(bank,)).fetchone()[0],
+                quiet=dict(attendance=len(quiet['attendance']),approved=len(quiet['approved']),work_payrolls=len(quiet['work_payrolls']),refused=quiet['refused']))
+
+def r207b_state(cur,p):
+    c=p['code'];one=lambda sql,args=():cur.execute(sql,args).fetchone()
+    batch=one('select id::text,status from erp.migration_batches where batch_code=%s',(c,))
+    loc=one('select id::text from erp.locations where location_code=%s',(c+'F',))
+    mandor=one('select id::text from erp.contractors where contractor_code=%s',(c,))
+    po=one('select id::text from erp.production_orders where po_number=%s',(c,))
+    wip=one("""select s.opening_item_id::text from erp.initial_import_production_sources s join erp.opening_balance_items i on i.id=s.opening_item_id
+        where s.batch_id=%s and i.balance_type='WIP'""",(batch[0],)) if batch else None
+    bs=one('select id::text,bs_number,qty_pcs from erp.bs_cases where po_id=%s order by created_at desc limit 1',(po[0],)) if po else None
+    rw=one('select status,qty_good_returned,qty_bs_returned from erp.rework_orders where rework_number=%s',(c+'-RW',))
+    note=one('select status,posted_payroll_id::text from cp7_payroll.notes where contractor_id=%s order by created_at desc limit 1',(mandor[0],)) if mandor else None
+    payroll=one('select id::text,status,labor_total::text,net_payable::text from erp.payroll_settlements where contractor_id=%s order by created_at desc limit 1',(mandor[0],)) if mandor else None
+    bank=one("""select coalesce(sum(jl.debit-jl.credit),0)::text from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
+        where je.status='POSTED' and jl.account_id=(select a.coa_account_id from erp.cash_accounts a where a.id=%s)""",(p['bank'],))[0]
+    return dict(batch=None if not batch else dict(id=batch[0],status=batch[1]),location=None if not loc else loc[0],mandor=None if not mandor else mandor[0],
+        wip_item=None if not wip else wip[0],bs=None if not bs else dict(id=bs[0],number=bs[1],qty=int(bs[2])),
+        rework=None if not rw else dict(status=rw[0],good=int(rw[1] or 0),bs=int(rw[2] or 0)),
+        note=None if not note else dict(status=note[0],payroll=note[1]),
+        payroll=None if not payroll else dict(id=payroll[0],status=payroll[1],labor=payroll[2],net=payroll[3]),bank_balance=bank)
+
 def r207_restore(cur,p):
     cur.execute("""update erp.accounting_period_control set closed_through=%s,updated_at=clock_timestamp(),updated_by=null,
         change_reason='CP17 R2-07 harness state restored' where singleton_id=1""",(p['previous_closed'],))
@@ -317,6 +353,8 @@ def main():
         elif operation=='r207_prepare':out=r207_prepare(cur,date.fromisoformat(p['today']))
         elif operation=='r207_state':out=r207_state(cur,p)
         elif operation=='r207_restore':out=r207_restore(cur,p)
+        elif operation=='r207b_prepare':out=r207b_prepare(cur,date.fromisoformat(p['today']))
+        elif operation=='r207b_state':out=r207b_state(cur,p)
         elif operation=='auto_po_state':out=auto_po_state(cur,p)
         elif operation=='chain_state':out=chain_state(cur,p)
         elif operation=='series':out=series(cur,date.fromisoformat(p['today']))

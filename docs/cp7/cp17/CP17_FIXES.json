@@ -1,11 +1,11 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 144,
+ "expected_case_count": 145,
  "required_case_counts": {
   "native": 80,
   "races": 18,
   "http": 14,
-  "browser": 32
+  "browser": 33
  },
  "required_case_ids": {
   "native": [
@@ -158,7 +158,8 @@
    "CP17_BROWSER_R2_D15_5_CUTOVER_MOBILE",
    "CP17_BROWSER_R2_10_WAVE_SEWING_DESKTOP",
    "CP17_BROWSER_R2_10_WAVE_SEWING_MOBILE",
-   "CP17_BROWSER_R2_07_IMPORT_WIP_BRAND_SALE_CASH_CLOSE"
+   "CP17_BROWSER_R2_07_IMPORT_WIP_BRAND_SALE_CASH_CLOSE",
+   "CP17_BROWSER_R2_07_BS_REWORK_NOTA_PAYROLL_PAY"
   ]
  },
  "public_rpcs": [
@@ -243,7 +244,7 @@
   "R2_04_AUTO_PO": "Round r2: Sol SOL-R1-002, owner D15-6. Buat Potongan had no way to make the PO the cutting belongs to; a new model needed a PO made elsewhere first. auto-po.sql (schema cp7_cutting_correction) adds one closed facade: a draft lives only in the facade (no PO, stock or journal); POST takes the next free PO number of the cutting day (WIB) under an advisory lock, inserts the PO as the Native lifecycle requires (DRAFT at CUTTING), posts the cutting through the Native writer erp_save_cutting_group_before_sewing_v2 in the same transaction and returns the PO number; any Native refusal (roll not available, cutting time in the future, size outside the model) leaves no PO, no stock movement and the number unused; the same UUID returns the stored answer and a changed payload under it is refused. Tests: one transaction, same UUID same answer (Native, two tabs, real-Auth HTTP, and on screen after a lost answer), failure midway, draft without effect, access rights, then Bagi Potongan and Catat selesai jahit on the new PO.",
   "R2_11_CUTOVER": "Fable FABLE-011, owner D15-5: there was no global cutover floor for writers that bring in goods or value. cutover.sql (schema cp7_cutover): the owner sets the official date (WIB) in the app on the Impor data awal page, with an immutable history, idempotent per actor and request; the date may not lie after the first operational day already in the books nor after any import batch cutover. Until set nothing changes. Once set, BEFORE INSERT triggers refuse journal entries (economic date) and material/FG stock movements (WIB date of physical_at) dated before it, whichever writer inserts them, except the opening/migration postings and inverses of existing rows; an import batch may not take an earlier cutover date. Postings and the owner change serialise on one control row. Tests: the date boundary (00:00 on the day posts, 23:59:59 the day before is refused, for a journal and for stock), the opening path (import at the official date, original receipt date kept, late invoice after cutover, settlement after cutover, GRNI/AP once, reversal on its path), failure in the middle of a correction (nothing stays), resending (same answer; a refused request stays refused), two tabs, setting against a posting of the day before, real-Auth HTTP, and the screen on desktop and phone.",
   "R2_10_WAVE": "Sol KNOWN-BF-WAVE (S1): a Potongan bound to SKU waves (BF commercial ranges) could not record SELESAI DIJAHIT (WAVE_SKU_RATES). Now RECORD_WAVE records pieces per SKU of the wave (each SKU covering its bound sizes) in one transaction: per SKU one work completion on that SKU's Native snapshot (erp.bf_ensure_work_v1 through the same ensure; SKU rate per component, else the base rate) and its SELESAI_DIJAHIT; per-SKU remaining = pieces cut in its sizes minus what is already completed/payable per component (the Native per-SKU guard). Before the first record the screen shows per SKU the rates the Native snapshot takes at the sewing time entered (sewing_wave_at, compared with the Native writer at four instants). The single-quantity base path refuses a wave Potongan (CP7_SEWING_WAVE_PER_SKU); a Native base-rate line on it stays refused (BF_WORK_SCOPE_REQUIRED).",
-  "R2_07_SCREEN_CHAIN": "FABLE-016 (S3), ASTRA-C17-07 (S2), Sol BROWSER-CHAIN: one browser chain on the screens only, from masters and opening WIP created on 'Impor data awal' (CSV files, check, post) to 'Rincian produksi awal' (WIP to brand-A goods), 'Ganti Merek' (to brand B), 'Laporan & Tutup Buku' (books closed through that day in the middle of the chain), 'Penjualan & Invoice' and its payment into a bank, and the books reopened; the closed days' books stay exactly as closed. Fixture only for a bank account (no screen) and harness state (chain month opened, seed open items cleared, restored). Attendance HPP pool has no screen: owner D15-2 keeps attendance screens hidden in Enteng (\"gabakal dipakai juga\"), so it stays a recorded boundary."
+  "R2_07_SCREEN_CHAIN": "FABLE-016 (S3), ASTRA-C17-07 (S2), Sol BROWSER-CHAIN: one browser chain on the screens only, from masters and opening WIP created on 'Impor data awal' (CSV files, check, post) to 'Rincian produksi awal' (WIP to brand-A goods), 'Ganti Merek' (to brand B), 'Laporan & Tutup Buku' (books closed through that day in the middle of the chain), 'Penjualan & Invoice' and its payment into a bank, and the books reopened; the closed days' books stay exactly as closed. Fixture only for a bank account (no screen) and harness state (chain month opened, seed open items cleared, restored). Second chain, same start: the imported Mandor's work component and rate on 'Master Data → Mandor', 3 WIP pieces split off as BS ('Pisahkan sebagai BS'), a rework order to that Mandor with the component as wage basis and its result on 'Barang BS & Rework', the rework wage in a Nota posted to payroll ('Susun Nota FG'), the payroll counted, approved and paid ('Payroll & Kasbon'); fixture adds owner capital for exactly that wage. Attendance HPP pool: no screen runs that cycle and r2 adds none; it stays a recorded open boundary, not an owner decision. Context only, owner D15-2 on the attendance screens in Enteng, verbatim: \"sembunyikan begitu terhubung langsung muncul, doesnt matter juga kalau mau langsung muncul karena gabakal dipakai juga jadi ga kerja 2 kali sih klo mau munculin\"."
  },
  "oracle_independence": "Dates from the Native accrual journals and source rows; balances from journal lines and stock movements; never from the guard functions.",
  "fixture_capital": "Banks that pay hold owner capital through the accepted Native journal (scripts/cp7_cash_funding.py) only where a case says so; empty-bank cases keep the bank empty.",
