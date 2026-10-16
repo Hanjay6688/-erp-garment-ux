@@ -1,0 +1,15 @@
+{
+  "stage": "PREDECLARATION_BEFORE_EXECUTION",
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "reason": "Last r2 product patch 3b7cf370 fixed existing-PO screen lock; qualify its real cutting POST consumer, not only mocked DOM assertions.",
+  "provider": "scripts/cp7_cutting_model_probe.py",
+  "case_contract": "scripts/cp7_cutting_model_history_cases.py",
+  "case_contract_sha256": "816ea832ec9e9e82d680c695a0e9677c637a5b6978d03edde058fa5aaa8e9bd5",
+  "consumer_cases": [
+    "CUTTING_SOURCE_BROWSER_DESKTOP",
+    "CUTTING_SOURCE_BROWSER_MOBILE"
+  ],
+  "oracles_modified": false,
+  "product_changes": false,
+  "production_go": false
+}
