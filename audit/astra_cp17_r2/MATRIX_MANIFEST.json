@@ -1,0 +1,26 @@
+{
+  "candidate": "2e9d6a468c110684c278d585418eb404250d1150",
+  "created_at_utc": "2026-10-16T16:18:49.943976+00:00",
+  "matrix_scope": "48 menu contracts x desktop1440/phone390 x DEMO, DISPOSABLE and Enteng mode on disposable real Auth/REST. Entry render/layout/initial-read only. Hidden Enteng entries assert absence, not nonexistent page success. No hosted requests; no full-form claim.",
+  "modes": [
+    "DEMO_SIMULATION",
+    "DISPOSABLE_TEST",
+    "UAT_AUTH_SIMULATION"
+  ],
+  "expected_per_mode": 96,
+  "expected_total": 288,
+  "strict_width": "document.documentElement.scrollWidth <= innerWidth; no 1px tolerance",
+  "hidden_enteng_per_device": 17,
+  "test_rules": [
+    "lazy workspace ready and network quiescent800ms",
+    "nonempty body; no browser exception or initialRPC>=400",
+    "strict document width; record overflowing descendants separately",
+    "48menu list from prior independent inventory; activation expectations reviewed against D15-2/D15-3 and candidate contract before execution"
+  ],
+  "source_sha256": {
+    "matrix_probe.py": "d7ffb52aa266fa587ca9bb7c3273856bf621ec054532de70db5c93362377d910",
+    "matrix.mjs": "86b72521bbc1eba1d1019647828bc96d6de595651302fda1e65aacdfc8e27ea9",
+    "browser_host.mjs": "78c9e250e1892e6f762075aa86c3df196dadff17a4e7a5fe9c42529786837de3",
+    "MENUS.json": "609c1e00676e3e3e945c6a6e223b99e37c88f6705624c395fa9c0eac435f328b"
+  }
+}
