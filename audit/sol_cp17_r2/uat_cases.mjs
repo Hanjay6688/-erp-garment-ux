@@ -22,7 +22,7 @@ async function hiddenPhone(ui){
   for(const section of ['Produksi','Gudang','Penjualan','Keuangan','Master Data','Pengaturan & Audit']){
    const branch=p.locator('.sidebar .nav-main').filter({hasText:section})
    if(await branch.count()){
-    if(!(await branch.getAttribute('class'))?.split(' ').includes('active'))await branch.click()
+    await branch.click()
     for(const text of await p.locator('.sidebar .submenu button').allInnerTexts())seen.add(text.replace(/^•\s*/,''))
     for(const label of hidden)assert.equal(await p.getByRole('button',{name:'• '+label,exact:true}).count(),0,label)
    }

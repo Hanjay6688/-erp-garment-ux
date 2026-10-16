@@ -1,0 +1,45 @@
+{
+  "label": "AUDITOR_TOOL_QUALIFICATION_BEFORE_REEXECUTION",
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "first_run": 38934111778,
+  "retained_first_outcomes": {
+    "uat_mock": {
+      "PASS": 69,
+      "INCOMPLETE": 27
+    },
+    "demo_mock": {
+      "PASS": 96
+    },
+    "unit": {
+      "passed": 1766,
+      "failed": 19,
+      "skipped": 9,
+      "failed_test_files": 15
+    }
+  },
+  "fixes": [
+    {
+      "id": "SOL-TOOL-R2-01",
+      "file": "menu_inventory_qualified.mjs",
+      "reason": "Hidden menu observations leave the phone sidebar open; the next attempt clicks the covered opener and times out. Only click opener if sidebar not open; expand relevant existing section before negative hidden check.",
+      "oracles_unchanged": [
+        "48 menu IDs",
+        "viewport sizes",
+        "exact scrollWidth <= innerWidth",
+        "UAT no sample balances",
+        "hidden labels"
+      ],
+      "strengthening": "Hidden absence checked after expansion of its section. Genuine UAT/Native hidden test separately passed 17-label census."
+    },
+    {
+      "id": "SOL-TOOL-R2-02",
+      "file": ".github/workflows/audit-sol-r2-tool-qualified.yml",
+      "reason": "Original ordinary-unit checkout was shallow; 19 predecessor-equivalence assertions and two collection suites require unavailable historical git objects.",
+      "change": "fetch-depth:0, same candidate npm test, no tests skipped or expected changed"
+    }
+  ],
+  "no_github_job_rerun": true,
+  "new_qualified_workflow": true,
+  "product_changes": false,
+  "production_go": false
+}
