@@ -34,7 +34,10 @@ async function journey(ui,today,mobile,h){
   await qtyB.fill('4');await panel.getByLabel('Catatan selesai jahit '+f.number,{exact:true}).fill('Setoran mandor per SKU')
   await ui.expect(check).toBeDisabled()
   await qtyA.fill('5');await qtyB.fill('2')
-  await ui.expect(panel).toContainText(`Upah yang akan dicatat: SKU ${f.A.sku} 5 pcs × Rp11 + SKU ${f.B.sku} 2 pcs × Rp31 = Rp117.`)
+  // The wage line names the SKUs in the list's order (the server's sort of the SKU codes, which the fixture draws at random).
+  const order=(await rows.locator('li').allInnerTexts()).map(t=>t.includes('SKU '+f.A.sku)?'A':t.includes('SKU '+f.B.sku)?'B':null).filter(Boolean)
+  assert.deepEqual([...order].sort(),['A','B']);const part={A:`SKU ${f.A.sku} 5 pcs × Rp11`,B:`SKU ${f.B.sku} 2 pcs × Rp31`}
+  await ui.expect(panel).toContainText(`Upah yang akan dicatat: ${order.map(k=>part[k]).join(' + ')} = Rp117.`)
   await check.check()
   assert.deepEqual(state(),before);assert.equal(requests.length,0)
   await page.screenshot({path:`cp6-proof/t3/${name}_REVIEW.png`,fullPage:true})

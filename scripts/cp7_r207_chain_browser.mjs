@@ -7,8 +7,8 @@
 // are reopened on the same screen. The fixture gives only a bank account (no screen creates one) and the test harness
 // state (the chain's own month opened, the seed's open items for those days cleared, restored at the end).
 // The second chain starts the same way, then: the Mandor's work component and rate for the imported model on "Master Data
-// → Mandor", 3 opening WIP pieces split off as BS ("Pisahkan sebagai BS"), a rework order to that Mandor with the
-// component as wage basis on "Barang BS & Rework" and its result, the rework wage taken into a Nota on "Susun Nota FG" and
+// → Mandor", 3 opening WIP pieces split off as BS ("Pisahkan sebagai BS"), the BS case classified with that component on
+// "Barang BS & Rework", a rework order to that Mandor with the component as wage basis and its result, the rework wage taken into a Nota on "Susun Nota FG" and
 // posted to payroll, and the payroll counted, approved and paid from a bank on "Payroll & Kasbon". Its fixture adds the
 // owner capital for exactly that wage (no capital screen is part of this chain; D14-3 keeps an empty bank empty).
 import assert from'node:assert/strict'
@@ -189,6 +189,17 @@ async function rework(ui,today,h){
   const search=page.getByRole('form',{name:'Cari, browse, urutkan dan filter BS dan claim',exact:true})
   await search.getByLabel('Cari BS atau claim',{exact:true}).fill(s.bs.number);await search.getByRole('button',{name:'Cari kasus',exact:true}).click()
   await page.locator('.cbsr-list button').filter({hasText:s.bs.number}).click()
+  // A piece split off from opening WIP carries no work component, so the case is first classified with the component
+  // that will be redone (none of it done before the BS): that is the rework order's wage basis (Native
+  // prepare_rework_component_line prices it from the Mandor's rate for the model and component).
+  seen.step='classify';const cls=page.locator('details.cbsr-fold').filter({hasText:'Klasifikasi & tanggung jawab'})
+  await cls.locator('summary').click()
+  await cls.locator('fieldset.component-quantities label').filter({hasText:comp}).getByRole('checkbox').check()
+  await ui.expect(cls.getByLabel('Qty Jahit ulang sudah selesai sebelum BS',{exact:true})).toHaveValue('0')
+  await cls.getByLabel('ALASAN PERUBAHAN · WAJIB',{exact:true}).fill('R2-07 jahit ulang belum pernah dikerjakan sebelum BS')
+  await cls.getByRole('button',{name:'Simpan klasifikasi',exact:true}).click()
+  await ui.expect.poll(()=>state().bs?.components,{timeout:20000}).toEqual([[comp,0]])
+  seen.step='rework'
   await page.locator('.cbsr-route-tabs').getByRole('button',{name:'Rework',exact:true}).click()
   const form=page.locator('.cbsr-route-form'),order=c+'-RW'
   await form.getByLabel('NOMOR ORDER · WAJIB',{exact:true}).fill(order);await form.getByLabel(/^MANDOR REWORK/).selectOption(s.mandor)
@@ -233,7 +244,7 @@ async function rework(ui,today,h){
   await ui.expect.poll(()=>state().payroll?.status,{timeout:20000}).toBe('PAID')
   s=seen.paid=state();assert.deepEqual([Number(s.payroll.labor),Number(s.payroll.net),Number(s.bank_balance)],[3000,3000,0])
   await page.screenshot({path:`cp6-proof/t3/${name}_PAID.png`,fullPage:true})
-  return{status:'PASS',finding:'R2-07',screens:['Impor data awal (masters, PO, WIP)','Master Data → Mandor (komponen kerja + tarif)','Pisahkan sebagai BS','Barang BS & Rework (order + hasil)','Susun Nota FG','Payroll & Kasbon (hitung, setujui, lunasi)'],
+  return{status:'PASS',finding:'R2-07',screens:['Impor data awal (masters, PO, WIP)','Master Data → Mandor (komponen kerja + tarif)','Pisahkan sebagai BS','Barang BS & Rework (klasifikasi komponen, order, hasil)','Susun Nota FG','Payroll & Kasbon (hitung, setujui, lunasi)'],
    fixture_only:['bank account (no screen)','owner capital 3000 for exactly the wage (D14-3)','harness state (chain month opened, seed open items cleared, restored)'],
    bs:3,rework_good:3,rework_wage:'3000',payroll_paid:'3000',requests:requests.length}
  }catch(error){try{seen.actual=state()}catch(e){seen.observation_error=String(e)};await h.failure(page,name,error,seen,requests);throw error}

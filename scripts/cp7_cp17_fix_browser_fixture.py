@@ -227,13 +227,15 @@ def r207b_state(cur,p):
     wip=one("""select s.opening_item_id::text from erp.initial_import_production_sources s join erp.opening_balance_items i on i.id=s.opening_item_id
         where s.batch_id=%s and i.balance_type='WIP'""",(batch[0],)) if batch else None
     bs=one('select id::text,bs_number,qty_pcs from erp.bs_cases where po_id=%s order by created_at desc limit 1',(po[0],)) if po else None
+    comps=cur.execute('''select wc.component_code,bcc.completed_before_bs_qty from erp.bs_case_components bcc
+        join erp.work_components wc on wc.id=bcc.work_component_id where bcc.bs_case_id=%s order by 1''',(bs[0],)).fetchall() if bs else []
     rw=one('select status,qty_good_returned,qty_bs_returned from erp.rework_orders where rework_number=%s',(c+'-RW',))
     note=one('select status,posted_payroll_id::text from cp7_payroll.notes where contractor_id=%s order by created_at desc limit 1',(mandor[0],)) if mandor else None
     payroll=one('select id::text,status,labor_total::text,net_payable::text from erp.payroll_settlements where contractor_id=%s order by created_at desc limit 1',(mandor[0],)) if mandor else None
     bank=one("""select coalesce(sum(jl.debit-jl.credit),0)::text from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
         where je.status='POSTED' and jl.account_id=(select a.coa_account_id from erp.cash_accounts a where a.id=%s)""",(p['bank'],))[0]
     return dict(batch=None if not batch else dict(id=batch[0],status=batch[1]),location=None if not loc else loc[0],mandor=None if not mandor else mandor[0],
-        wip_item=None if not wip else wip[0],bs=None if not bs else dict(id=bs[0],number=bs[1],qty=int(bs[2])),
+        wip_item=None if not wip else wip[0],bs=None if not bs else dict(id=bs[0],number=bs[1],qty=int(bs[2]),components=[[k,int(q)] for k,q in comps]),
         rework=None if not rw else dict(status=rw[0],good=int(rw[1] or 0),bs=int(rw[2] or 0)),
         note=None if not note else dict(status=note[0],payroll=note[1]),
         payroll=None if not payroll else dict(id=payroll[0],status=payroll[1],labor=payroll[2],net=payroll[3]),bank_balance=bank)
