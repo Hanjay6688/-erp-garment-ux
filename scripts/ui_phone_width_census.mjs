@@ -3,15 +3,23 @@
 // Serves the build itself (no backend: demo build), walks the sidebar the way a user does, and exits 1 on any overflow.
 import { chromium } from 'playwright'
 import { createServer } from 'node:http'
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, extname, join } from 'node:path'
 const [root, report = 'ui-phone-width.json'] = process.argv.slice(2)
 if (!root) throw new Error('usage: ui_phone_width_census.mjs <build-dir> [report.json]')
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2', '.json': 'application/json' }
-const server = createServer(async (req, res) => {
-  let path = decodeURIComponent(req.url.split('?')[0]); if (path === '/') path = '/index.html'
-  try { const body = await readFile(join(root, path)); res.writeHead(200, { 'content-type': types[extname(path)] || 'application/octet-stream' }); res.end(body) }
-  catch { res.writeHead(200, { 'content-type': 'text/html' }); res.end(await readFile(join(root, 'index.html'))) }
+// The build is read into memory first and served by exact path only, so a request path never reaches the file system.
+const files = new Map()
+const walk = async (dir, prefix) => { for (const e of await readdir(dir, { withFileTypes: true })) { const key = `${prefix}/${e.name}`; if (e.isDirectory()) await walk(join(dir, e.name), key); else if (e.isFile()) files.set(key, await readFile(join(dir, e.name))) } }
+await walk(root, '')
+const index = files.get('/index.html')
+if (!index) throw new Error(`no index.html in ${root}`)
+const server = createServer((req, res) => {
+  let key = ''
+  try { key = decodeURIComponent(new URL(req.url, 'http://census.local').pathname) } catch { key = '' }
+  const body = files.get(key)
+  if (body) { res.writeHead(200, { 'content-type': types[extname(key)] || 'application/octet-stream' }); res.end(body) }
+  else { res.writeHead(200, { 'content-type': 'text/html' }); res.end(index) }
 })
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve))
 const url = `http://127.0.0.1:${server.address().port}/`
