@@ -42,8 +42,9 @@ def run():
   private_role_count=len(bundle.ROLES),groups={});installed=False
  # 37 after the reviewed D14-6 kasbon roles cp7_kasbon_write/cp7_kasbon_read (nologin, no erp table grants, one public
  # facade each; asserted by cp7_kasbon_bundle.verify); 39 after the D15-3 master roles cp7_master_write/cp7_master_read
- # (nologin, no erp table grants, two public facades each; asserted by cp7_master_bundle.verify).
- assert len(manifest['expected_private_roles'])==39 and len(set(manifest['expected_private_roles']))==39 and tuple(bundle.ROLES)==tuple(manifest['expected_private_roles']),'FULL_F03_ROLE_STACK_CHANGED_REQUIRES_EXPLICIT_REVIEW'
+ # (nologin, no erp table grants, two public facades each; asserted by cp7_master_bundle.verify); 41 after the D15-5 cutover
+ # roles cp7_cutover_write/cp7_cutover_read (nologin, no erp table grants, one public facade each; asserted by cp7_cutover_bundle.verify).
+ assert len(manifest['expected_private_roles'])==41 and len(set(manifest['expected_private_roles']))==41 and tuple(bundle.ROLES)==tuple(manifest['expected_private_roles']),'FULL_F03_ROLE_STACK_CHANGED_REQUIRES_EXPLICIT_REVIEW'
  try:
   if BUCKET=='prefreeze_ui':
    # Preserve the observed CP6-only runtime failure before installing CP7.

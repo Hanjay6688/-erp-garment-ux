@@ -239,6 +239,12 @@ def main():
             out=dict(location=str(f['location']),code=one('select location_code from erp.locations where id=%s',(f['location'],))[0])
         elif operation=='chain':out=chain(cur,date.fromisoformat(p['today']))
         elif operation=='auto_po':out=auto_po(cur,date.fromisoformat(p['today']))
+        elif operation=='cutover_state':
+            import cp7_cutover_cases as cutover
+            v,d=cutover.control(cur);out=dict(version=v,cutover_date=None if d is None else str(d),latest_allowed=str(cutover.latest(cur)[0]))
+        elif operation=='cutover_reset':
+            import cp7_cutover_cases as cutover
+            cutover.reset(cur,cutover.owner(cur));v,d=cutover.control(cur);out=dict(version=v,cutover_date=str(d))
         elif operation=='auto_po_state':out=auto_po_state(cur,p)
         elif operation=='chain_state':out=chain_state(cur,p)
         elif operation=='series':out=series(cur,date.fromisoformat(p['today']))

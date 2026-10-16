@@ -82,6 +82,10 @@ def cases(cur,today):
         return dict(status='PASS',same_uuid_same_answer=r['po_number'],one_po=True,stock_moved_once=True,changed_payload_refused=True)
     def failure_midway():
         f=receipt(cur,today);body=post_body(f);pre=prefix(cur,body['cutting']['cut_at']);expected=next_number(cur,pre)
+        # An active size that is not a size of the model (its own isolation fixture, made before the boundary is taken;
+        # CI run 38865063871 found no such size in the seed).
+        b.api.admin(cur);other=str(one(cur,'insert into erp.sizes(size_code,sort_order,is_active)values(%s,99,true)returning id',('CP17-D156-'+uuid.uuid4().hex[:8],)))
+        assert not one(cur,'select count(*) from erp.product_model_sizes where model_id=%s and size_id=%s',(prod().MODEL,other))
         before=b.boundary.snapshot(cur);pos=po_count(cur);reqs=one(cur,'select count(*) from cp7_cutting_correction.auto_po_requests')
         # The facade creates the PO, then the Native writer refuses the cutting (more fabric than the roll holds): nothing stays.
         refused(cur,lambda:command(cur,post_body(f,qty=11)),'SELECTED_ROLL_IS_NOT_AVAILABLE_AT_SOURCE_LOCATION')
@@ -89,9 +93,7 @@ def cases(cur,today):
         future=prod().at(today+timedelta(days=2),8)
         refused(cur,lambda:command(cur,post_body(f,at=future)),'cannot be in the future')
         # Refused before the PO: a size outside the model.
-        bad=post_body(f);b.api.admin(cur)
-        other=str(one(cur,"select s.id from erp.sizes s where s.is_active and not exists(select 1 from erp.product_model_sizes m where m.model_id=%s and m.size_id=s.id) limit 1",(prod().MODEL,)) or uuid.uuid4())
-        bad['cutting']['size_slots'][0]['size_id']=other
+        bad=post_body(f);bad['cutting']['size_slots'][0]['size_id']=other
         refused(cur,lambda:command(cur,bad),'CP7_AUTO_PO_SIZE')
         cp17.unchanged(cur,before,'auto PO refusals');assert po_count(cur)==pos and po_state(cur,expected) is None and roll_stock(cur,f)==10
         b.api.admin(cur);assert one(cur,'select count(*) from cp7_cutting_correction.auto_po_requests')==reqs

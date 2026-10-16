@@ -1,11 +1,11 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 124,
+ "expected_case_count": 134,
  "required_case_counts": {
-  "native": 70,
-  "races": 15,
-  "http": 12,
-  "browser": 27
+  "native": 75,
+  "races": 17,
+  "http": 13,
+  "browser": 29
  },
  "required_case_ids": {
   "native": [
@@ -78,7 +78,12 @@
    "CP17_R2_D15_6_AUTO_PO_FAILURE_MIDWAY_LEAVES_NOTHING",
    "CP17_R2_D15_6_AUTO_PO_DRAFT_NO_STOCK_NO_FINANCE",
    "CP17_R2_D15_6_AUTO_PO_ACCESS_RIGHTS",
-   "CP17_R2_D15_6_AUTO_PO_THEN_BAGI_POTONGAN_AND_SEWING"
+   "CP17_R2_D15_6_AUTO_PO_THEN_BAGI_POTONGAN_AND_SEWING",
+   "CP17_R2_D15_5_CUTOVER_SET_BOUNDARY_AND_HISTORY",
+   "CP17_R2_D15_5_CUTOVER_DAY_BOUNDARY_JOURNAL_AND_STOCK",
+   "CP17_R2_D15_5_CUTOVER_OPENING_PATH_LATE_INVOICE_SETTLEMENT",
+   "CP17_R2_D15_5_CUTOVER_FAILURE_MIDWAY_LEAVES_NOTHING",
+   "CP17_R2_D15_5_CUTOVER_RESEND_SAME_UUID"
   ],
   "races": [
    "CP17_RACE_TWO_PAYMENTS_ONE_BANK",
@@ -95,7 +100,9 @@
    "CP17_RACE_R2_MASTER_FABRIC_BENCHMARK_TWO_TABS",
    "CP17_RACE_R2_MASTER_ACCESSORY_SAME_CODE_TWO_TABS",
    "CP17_RACE_R2_D15_6_AUTO_PO_SAME_ROLL_TWO_TABS",
-   "CP17_RACE_R2_D15_6_AUTO_PO_SAME_UUID_TWO_TABS"
+   "CP17_RACE_R2_D15_6_AUTO_PO_SAME_UUID_TWO_TABS",
+   "CP17_RACE_R2_D15_5_CUTOVER_TWO_TABS_SAME_VERSION",
+   "CP17_RACE_R2_D15_5_CUTOVER_SET_VS_POST_DAY_BEFORE"
   ],
   "http": [
    "CP17_HTTP_CASH_EMPTY_BANK_REFUSED",
@@ -109,7 +116,8 @@
    "CP17_HTTP_R2_PO_REOPEN",
    "CP17_HTTP_R2_MASTER",
    "CP17_HTTP_R2_WORK_RATE",
-   "CP17_HTTP_R2_D15_6_AUTO_PO"
+   "CP17_HTTP_R2_D15_6_AUTO_PO",
+   "CP17_HTTP_R2_D15_5_CUTOVER"
   ],
   "browser": [
    "CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP",
@@ -138,7 +146,9 @@
    "CP17_BROWSER_R2_MASTER_ACCESSORY_MOBILE",
    "CP17_BROWSER_R2_FABLE_D15_3_SCREEN_CHAIN_DESKTOP",
    "CP17_BROWSER_R2_D15_6_AUTO_PO_DESKTOP",
-   "CP17_BROWSER_R2_D15_6_AUTO_PO_MOBILE"
+   "CP17_BROWSER_R2_D15_6_AUTO_PO_MOBILE",
+   "CP17_BROWSER_R2_D15_5_CUTOVER_DESKTOP",
+   "CP17_BROWSER_R2_D15_5_CUTOVER_MOBILE"
   ]
  },
  "public_rpcs": [
@@ -178,7 +188,9 @@
   "erp_cp7_get_work_rates_v1",
   "erp_cp7_save_work_rate_v1",
   "erp_cp7_get_cutting_auto_po_v1",
-  "erp_cp7_save_cutting_auto_po_v1"
+  "erp_cp7_save_cutting_auto_po_v1",
+  "erp_cp7_get_cutover_v1",
+  "erp_cp7_set_cutover_v1"
  ],
  "owner_decisions": {
   "D14_2": "Pembayaran upah sebelum utangnya ada: \"Tolak, kecuali kasbon (Disarankan)\" (15 Okt 2026)",
@@ -194,7 +206,8 @@
   "D15_1": "Kas tidak boleh minus menurut tanggal ekonomi dan tanggal buku/pengakuan; berlaku juga untuk detektor dan koreksi/pembalikan, tanpa mengubah tanggal asli atau membuka periode tertutup (16 Okt 2026)",
   "D15_4": "Tombol buka ulang PO dibuat, dengan penghalang seperti fitur koreksi lain (16 Okt 2026)",
   "D15_3": "Data master dan tarif mandor (FABLE-017): \"dibuatkan layar tapi jangan simple banget juga, sedeng lah muat info dan fitur yg dibutuhkan\" (16 Okt 2026)",
-  "D15_6": "PO harian (SOL-R1-002): \"2. Pilih A — PO otomatis dari Buat Potongan, seperti alur demo. Pengguna cukup mengisi pekerjaan potong; sistem membuat PO terkait dan menampilkan nomornya untuk pelacakan. Saat disahkan, pembuatan PO dan posting potongan harus atomik. Pengiriman ulang memakai UUID yang sama harus mendapatkan hasil yang sama, tanpa PO atau stok ganda. Draf tetap belum memengaruhi stok maupun keuangan.\" (16 Okt 2026)"
+  "D15_6": "PO harian (SOL-R1-002): \"2. Pilih A — PO otomatis dari Buat Potongan, seperti alur demo. Pengguna cukup mengisi pekerjaan potong; sistem membuat PO terkait dan menampilkan nomornya untuk pelacakan. Saat disahkan, pembuatan PO dan posting potongan harus atomik. Pengiriman ulang memakai UUID yang sama harus mendapatkan hasil yang sama, tanpa PO atau stok ganda. Draf tetap belum memengaruhi stok maupun keuangan.\" (16 Okt 2026)",
+  "D15_5": "Lantai tanggal cutover (FABLE-011): \"1. Ya, untuk transaksi operasional baru. Gunakan tanggal cutover resmi yang saya sahkan dalam WIB, bukan tanggal pertama login atau uji coba. Pengamannya wajib di server. Data sebelum cutover masuk melalui saldo awal/migrasi. Invoice terlambat yang merujuk penerimaan saldo awal, pelunasan sesudah cutover, serta koreksi dokumen lama tetap memakai jalur resminya. Tanggal asli tetap tersimpan dan efeknya tidak boleh dihitung dua kali.\" (16 Okt 2026)"
  },
  "findings": {
   "FIN01": "Fable FABLE-001, Astra FIN01",
@@ -217,7 +230,8 @@
   "R2_06_SERIES": "Round dfab13bf: Astra ASTRA-C17-01 (a series was keyed by the commercial SKU text alone, so the same SKU number of a second brand joined the first brand's series) and ASTRA-C17-02 (the invoice could be saved while the other sizes of a picked series were still loading). The connected sales screen keys a series by brand name plus commercial SKU from the server row, cancels the review the moment a pick starts and blocks saving until the sizes are in. The D14-5 browser fixture adds a second brand with the same series SKU (size 32, stock 5) that must stay out of the invoice with its stock unchanged.",
   "R2_05_PO": "Round dfab13bf: Astra ASTRA-C17-05 (the PO finish panel called the HPP final while the server said BELUM_LENGKAP/ESTIMATED, and its workspace said eligible while Native refused: six cut pieces neither sewn-and-sent nor through direct QC) and Fable FABLE-014 (no way to reopen a finished PO from the app; the source comment wrongly said no Native inverse exists). The finish workspace now carries the exact predicate of Native erp.guard_finished_po_source_accounting (SOURCE_UNACCOUNTED), the panel words the HPP from display_status only, and po-reopen.sql reopens through Native erp.reopen_production_order with a review token, reason, idempotency, immutable history and three blockers (NOT_FINISHED, FG_USED, PERIOD_CLOSED). Astra's three journeys run with her own arithmetic; Fable's D15-4 oracle (reopen, ledger-consistent WIP, same HPP on finishing again, two tabs one winner, HTTP, browser) is covered.",
   "R2_03_MASTER": "Round r2: Fable FABLE-017, Astra ASTRA-C17-04 and the known daily-master gap: customers, suppliers/laundry vendors, Mandor (dated attendance/Special policy), warehouses/locations, fabric (profile, benchmark price versions) and accessories (category, variant, Mandor price) had no connected screen, and a new Mandor or model had no rate for \"Catat selesai jahit\". master.sql and rates.sql add one closed facade per screen over the Native writers and guards (review token, reason, idempotency, immutable history, used records cannot change code/type/unit or be deactivated while open or stocked, nothing is ever deleted), Mandor work rates per model x work component from a date, and the model's Work BOM. The sewing workspace now previews the rates valid at the sewing time entered (rate_timeline, Native snapshot rule) instead of today's. Fable's D15-3 oracle: every master screen on desktop and phone, HTTP, two tabs per screen, and the screen-only chain new Mandor + new rate -> Bagi Potongan -> Catat selesai jahit paying the rate valid on the sewing date, a later rate change leaving the recorded wage unchanged. CI run 38861916560 (109/113): a stocked warehouse from older data whose code is stored in lower case could not be edited at all, because the facade upper-cases codes and then read the stored code in another case as a code change of a used record; the stored code in another case is now no code change and is kept exactly as stored (Native case and the stocked-warehouse browser step).",
-  "R2_04_AUTO_PO": "Round r2: Sol SOL-R1-002, owner D15-6. Buat Potongan had no way to make the PO the cutting belongs to; a new model needed a PO made elsewhere first. auto-po.sql (schema cp7_cutting_correction) adds one closed facade: a draft lives only in the facade (no PO, stock or journal); POST takes the next free PO number of the cutting day (WIB) under an advisory lock, inserts the PO as the Native lifecycle requires (DRAFT at CUTTING), posts the cutting through the Native writer erp_save_cutting_group_before_sewing_v2 in the same transaction and returns the PO number; any Native refusal (roll not available, cutting time in the future, size outside the model) leaves no PO, no stock movement and the number unused; the same UUID returns the stored answer and a changed payload under it is refused. Tests: one transaction, same UUID same answer (Native, two tabs, real-Auth HTTP, and on screen after a lost answer), failure midway, draft without effect, access rights, then Bagi Potongan and Catat selesai jahit on the new PO."
+  "R2_04_AUTO_PO": "Round r2: Sol SOL-R1-002, owner D15-6. Buat Potongan had no way to make the PO the cutting belongs to; a new model needed a PO made elsewhere first. auto-po.sql (schema cp7_cutting_correction) adds one closed facade: a draft lives only in the facade (no PO, stock or journal); POST takes the next free PO number of the cutting day (WIB) under an advisory lock, inserts the PO as the Native lifecycle requires (DRAFT at CUTTING), posts the cutting through the Native writer erp_save_cutting_group_before_sewing_v2 in the same transaction and returns the PO number; any Native refusal (roll not available, cutting time in the future, size outside the model) leaves no PO, no stock movement and the number unused; the same UUID returns the stored answer and a changed payload under it is refused. Tests: one transaction, same UUID same answer (Native, two tabs, real-Auth HTTP, and on screen after a lost answer), failure midway, draft without effect, access rights, then Bagi Potongan and Catat selesai jahit on the new PO.",
+  "R2_11_CUTOVER": "Fable FABLE-011, owner D15-5: there was no global cutover floor for writers that bring in goods or value. cutover.sql (schema cp7_cutover): the owner sets the official date (WIB) in the app on the Impor data awal page, with an immutable history, idempotent per actor and request; the date may not lie after the first operational day already in the books nor after any import batch cutover. Until set nothing changes. Once set, BEFORE INSERT triggers refuse journal entries (economic date) and material/FG stock movements (WIB date of physical_at) dated before it, whichever writer inserts them, except the opening/migration postings and inverses of existing rows; an import batch may not take an earlier cutover date. Postings and the owner change serialise on one control row. Tests: the date boundary (00:00 on the day posts, 23:59:59 the day before is refused, for a journal and for stock), the opening path (import at the official date, original receipt date kept, late invoice after cutover, settlement after cutover, GRNI/AP once, reversal on its path), failure in the middle of a correction (nothing stays), resending (same answer; a refused request stays refused), two tabs, setting against a posting of the day before, real-Auth HTTP, and the screen on desktop and phone."
  },
  "oracle_independence": "Dates from the Native accrual journals and source rows; balances from journal lines and stock movements; never from the guard functions.",
  "fixture_capital": "Banks that pay hold owner capital through the accepted Native journal (scripts/cp7_cash_funding.py) only where a case says so; empty-bank cases keep the bank empty.",

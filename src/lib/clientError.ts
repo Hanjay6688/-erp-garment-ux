@@ -159,10 +159,10 @@ export function normalizeClientError(error: unknown): ClientAppError {
     if (rawMessage.includes(key)) return new ClientAppError('REJECTED',message)
   }
 
-  // CP1–CP7 audit fix r1 (owner D14-2, D14-3; Astra FIN02, HPP01): the server sentence already names the account,
-  // date, amount or pool in plain words; only the code in front of it is dropped.
+  // CP1–CP7 audit fix r1 (owner D14-2, D14-3; Astra FIN02, HPP01) and the cutover floor (owner D15-5): the server sentence
+  // already names the account, date, amount, pool or cutover date in plain words; only the code in front of it is dropped.
   const datedGuard = typeof candidate.message === 'string'
-    ? /^(?:CP7_CASH_NEGATIVE|CP7_PAYROLL_PAID_BEFORE_ACCRUAL|CP7_LAUNDRY_CLAIM_BEFORE_SOURCE|CP7_LAUNDRY_CLAIM_AP_NOT_AVAILABLE|CP7_HPP_POLICY_CHANGES_ACTIVE_POOL):\s*(\S[\s\S]*)$/.exec(candidate.message.trim())
+    ? /^(?:CP7_CASH_NEGATIVE|CP7_PAYROLL_PAID_BEFORE_ACCRUAL|CP7_LAUNDRY_CLAIM_BEFORE_SOURCE|CP7_LAUNDRY_CLAIM_AP_NOT_AVAILABLE|CP7_HPP_POLICY_CHANGES_ACTIVE_POOL|CP7_CUTOVER_BEFORE|CP7_CUTOVER_IMPORT_DATE|CP7_CUTOVER_OPERATIONAL_BEFORE|CP7_CUTOVER_IMPORT_BEFORE):\s*(\S[\s\S]*)$/.exec(candidate.message.trim())
     : null
   if (datedGuard) {
     const sentence = datedGuard[1].trim()

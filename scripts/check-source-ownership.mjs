@@ -109,6 +109,8 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/PoFinishPanel.tsx:erp_cp7_reopen_po_v1',
   'src/ConnectedMasterPage.tsx:erp_cp7_get_master_v1',
   'src/ConnectedMasterPage.tsx:erp_cp7_save_master_v1',
+  'src/CutoverPanel.tsx:erp_cp7_get_cutover_v1',
+  'src/CutoverPanel.tsx:erp_cp7_set_cutover_v1',
   'src/ConnectedCuttingPage.tsx:erp_cp7_get_cutting_auto_po_v1',
   'src/ConnectedCuttingPage.tsx:erp_cp7_save_cutting_auto_po_v1',
   'src/WorkRatePanel.tsx:erp_cp7_get_work_rates_v1',

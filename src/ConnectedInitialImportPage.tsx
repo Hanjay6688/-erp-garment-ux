@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Download, FileUp, RefreshCw } from 'lucide-react'
 import { useAuth } from './auth/AuthProvider'
+import CutoverPanel from './CutoverPanel'
 import { isConnectedRuntime } from './config/runtime'
 import { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
@@ -342,6 +343,7 @@ function ImportWorkspace() {
   const continuationBb: InitialImportBB = posted && batch?.bb ? batch.bb : {opening_balances:[],opening_payable_payrolls:[],legacy_documents:0,customer_credits:[],sale_return_rights:[],fg_locations:[],purchase_commitments:[],payroll_entitlements:[],entitlement_payrolls:[],opening_reworks:[],open_sales_drafts:[]}
   return <section className="initial-import">
     <header className="panel initial-import-heading"><div><div className="eyebrow">PENGATURAN ERP</div><h1>Impor data awal</h1><p>Unggah tabel dari Excel, periksa isinya, lalu sahkan setelah semuanya cocok.</p></div><button type="button" disabled={mutation.busy || reading || Boolean(editor)} onClick={() => void load()}><RefreshCw size={16}/> Muat ulang</button></header>
+    <CutoverPanel/>
     <ProductionRecoveryNotice recovery={mutation} onReconcile={() => reconcile(handlers)} className="initial-import-message"/>
     {error && <p role="alert" className="initial-import-message">{error}</p>}
     <div className="panel initial-import-toolbar">

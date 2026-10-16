@@ -1,4 +1,5 @@
-// Indonesian text for the named refusals of the master-data and work-rate screens (schema cp7_master, owner D15-3).
+// Indonesian text for the named refusals of the master-data and work-rate screens (schema cp7_master, owner D15-3) and of
+// the cutover date (schema cp7_cutover, owner D15-5).
 // The only caller is normalizeClientError, so every page shows one translation; 42501 keeps the generic access text.
 const changed = 'Data ini baru saja diubah di layar lain. Muat ulang lalu periksa lagi.'
 const messages: Record<string, string> = {
@@ -42,6 +43,12 @@ const messages: Record<string, string> = {
   CP7_WORK_RATE_BOM_DATE: 'Komponen kerja model sudah dipakai upah; perubahan harus mulai sesudah pemakaian terakhir dan sebelum versi itu berakhir.',
   CP7_WORK_RATE_BOM_INACTIVE: 'Daftar komponen kerja model ini sudah dinonaktifkan dan tidak diubah dari sini.',
   CP7_WORK_RATE_QUERY: 'Pencarian tidak valid.',
+  // Owner D15-5: the official cutover date (the refusals that carry their own sentence are passed through by clientError).
+  CP7_CUTOVER_STALE: 'Tanggal mulai pakai aplikasi baru saja diubah di layar lain. Muat ulang lalu periksa lagi.',
+  CP7_CUTOVER_NO_CHANGE: 'Tanggal itu sudah berlaku.',
+  CP7_CUTOVER_DATE: 'Tanggal mulai pakai aplikasi harus antara 1 Januari 2000 dan satu tahun dari hari ini.',
+  CP7_CUTOVER_REQUEST_CHANGED: 'Permintaan berubah. Periksa hasil permintaan sebelumnya sebelum mengirim lagi.',
+  CP7_CUTOVER_FIELDS: 'Isian tanggal mulai pakai aplikasi belum lengkap atau formatnya belum sesuai.',
 }
 export function masterMessage(message: unknown): string | null {
   if (typeof message !== 'string') return null
