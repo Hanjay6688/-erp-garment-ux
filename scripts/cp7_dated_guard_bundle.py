@@ -35,6 +35,8 @@ def verify(cur):
             sig=cur.execute("select p.oid::regprocedure::text from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_guard' and p.proname=%s",(name,)).fetchone()[0]
             assert not cur.execute("select has_function_privilege(%s,%s,'EXECUTE')",(who,sig)).fetchone()[0],('CP7_GUARD_EXECUTE',who,name)
     for table in TABLES:
+        owner=cur.execute("select pg_get_userbyid(c.relowner) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='cp7_guard' and c.relname=%s",(table,)).fetchone()
+        assert owner==('postgres',),('CP7_GUARD_TABLE_OWNER',table,owner)
         for who in ('anon','authenticated','service_role','cp7_capture'):
             assert not cur.execute("select has_table_privilege(%s,%s,'SELECT') or has_table_privilege(%s,%s,'INSERT') or has_table_privilege(%s,%s,'DELETE')",
                                    (who,'cp7_guard.'+table)*3).fetchone()[0],('CP7_GUARD_TABLE',who,table)

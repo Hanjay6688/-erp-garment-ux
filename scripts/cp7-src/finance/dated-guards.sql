@@ -82,6 +82,10 @@ end $$;
 create table cp7_guard.compound_scope(txid bigint primary key,label text not null,depth integer not null default 1 check(depth>=0),
  started_at timestamptz not null default clock_timestamp());
 create table cp7_guard.compound_touch(txid bigint not null,account_id uuid not null,economic_date date not null,book_date date not null);
+-- Owned by postgres like every cp7_guard function (an installer connected as supabase_admin
+-- would otherwise own them and the postgres-owned functions could not write them).
+alter table cp7_guard.compound_scope owner to postgres;
+alter table cp7_guard.compound_touch owner to postgres;
 revoke all on cp7_guard.compound_scope,cp7_guard.compound_touch from public,anon,authenticated,service_role,cp7_capture;
 
 create function cp7_guard.begin_compound(p_label text) returns void
