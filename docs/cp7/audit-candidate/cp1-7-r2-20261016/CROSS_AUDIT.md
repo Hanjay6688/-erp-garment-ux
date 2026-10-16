@@ -212,7 +212,7 @@ bukan vonis.
 | R2-05 selesai PO + buka ulang | `992cdd9a` | Diperbaiki (D15-4) |
 | R2-06 seri lusin | `d37c04d6` | Diperbaiki |
 | R2-07 bukti alur aplikasi | `6daab236`, `e1558983` | Dua rantai browser ditambahkan; pool HPP absensi tetap tanpa layar (batas penulis, bukan keputusan owner) |
-| R2-08 alat uji arsip CI | `e3e12ea7` | Diperbaiki; ke-37 workflow CP6 lama dijalankan pada kandidat |
+| R2-08 alat uji arsip CI | `e3e12ea7` | Diperbaiki; 36 dari 37 workflow CP6 lama dijalankan pada kandidat (satu tanpa pemicu manual); hasil per workflow di README bagian Kandidat |
 | R2-09 layar demo di HP | `c159f54a` | Diperbaiki; sensus 48 menu build demo |
 | R2-10 jahit selesai wave BF | `dcf33b96` | Diperbaiki |
 | FABLE-011 lantai cutover | `0b41599f` (keputusan), `54abad80` | Diputuskan owner (D15-5) dan diperbaiki |
