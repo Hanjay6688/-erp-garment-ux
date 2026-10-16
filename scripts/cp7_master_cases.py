@@ -162,8 +162,23 @@ def cases(cur,today):
         cp17.unchanged(cur,before,'stocked master refusals')
         # The screen's predicate is the Native guard's: the same deactivation written directly is refused by Native too.
         refused(cur,lambda:cur.execute('update erp.locations set is_active=false where id=%s',(loc['id'],)),'Lokasi masih memiliki stok')
+        # A stocked warehouse from older data with a lower-case code (the receipt fixture's): the edit form sends the stored code
+        # back, which is no code change (codes are matched without case), so the type refusal is the reason given, the name can
+        # still be corrected, and the stored code is kept exactly as it was.
+        old=cut.cutting.qc.physical.b.chain.production.estimated_receipt(cur,today);b.api.admin(cur);lid=str(old['location'])
+        code0,name0=cur.execute('select location_code,location_name from erp.locations where id=%s',(lid,)).fetchone()
+        assert code0!=code0.upper(),code0
+        before=b.boundary.snapshot(cur)
+        refused(cur,lambda:act(cur,'LOCATION',lid,'UPDATE',dict(code=code0,name=name0,location_type='OTHER')),'CP7_MASTER_TYPE_IN_USE')
+        refused(cur,lambda:act(cur,'LOCATION',lid,'UPDATE',dict(code=code0+'X',name=name0,location_type='RAW_MATERIAL_WAREHOUSE')),'CP7_MASTER_CODE_IN_USE')
+        cp17.unchanged(cur,before,'older stocked location refusals')
+        r=act(cur,'LOCATION',lid,'UPDATE',dict(code=code0,name='Gudang lama CP17',location_type='RAW_MATERIAL_WAREHOUSE'),'Nama gudang lama dibetulkan')
+        assert(r['entity']['code'],r['entity']['name'])==(code0,'Gudang lama CP17'),r['entity']
+        r=act(cur,'LOCATION',lid,'UPDATE',dict(code=code0.upper(),name='Gudang lama CP17 B',location_type='RAW_MATERIAL_WAREHOUSE'),'Nama gudang lama dibetulkan lagi')
+        assert(r['entity']['code'],one(cur,'select location_code from erp.locations where id=%s',(lid,)))==(code0,code0),r['entity']
         return dict(status='PASS',new_supplier_location_fabric_in_receipt_pickers=True,receipt_posted=posted.get('purchase_id',d.get('purchase_id')),stock_at_new_location=str(moved),
-                    deactivate_location_and_fabric_with_stock_refused=True,type_unit_code_after_use_refused=True,native_guard_agrees=True)
+                    deactivate_location_and_fabric_with_stock_refused=True,type_unit_code_after_use_refused=True,native_guard_agrees=True,
+                    older_lower_case_code_kept_on_edit=code0)
     def vendor_and_location_rules():
         t=tag();v=create(cur,'LAUNDRY_VENDOR',dict(code='LDY-'+t,name='Laundry CP17',phone='021',notes='cuci batu'))
         assert act(cur,'LAUNDRY_VENDOR',v['id'],'DEACTIVATE',reason='Vendor berhenti')['entity']['active'] is False

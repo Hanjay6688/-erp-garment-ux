@@ -22,6 +22,7 @@ import type { ProductionEnvelope } from './productionRecovery'
 import { parseQuantityInput, requireQuantityInput } from './quantityInput'
 import { cp6WibDateTimeInput, cp6WibPhysicalTimeToIso } from './cp6BusinessTime'
 import { parseCuttingSelectorWorkspace, cuttingOrder, cuttingSelectionIssue, type CuttingSelectorWorkspace, type CuttingSelectorDraft } from './cuttingSelectors'
+import { autoPoPayload, parseAutoPoWorkspace, validateAutoPoOutcome, type AutoPoAction, type AutoPoCutting, type AutoPoModel, type AutoPoWorkspace } from './cuttingAutoPoContract'
 import './connected-cutting.css'
 
 type SelectedRoll = {
@@ -96,7 +97,20 @@ export default function ConnectedCuttingPage() {
   const [loading, setLoading] = useState(true)
   const mutation = useProductionMutation('CUTTING')
   const { beginRead, finishRead, isReadCurrent, run, reconcile } = mutation
-  const saving = mutation.busy
+  // Owner D15-6: by default the PO is made automatically when the cutting is posted (one transaction); an existing PO
+  // (e.g. an imported open PO) can still be chosen.
+  const autoMutation = useProductionMutation('CUTTING_AUTO_PO')
+  // A pending existing-PO cutting (recovery after a lost reply) opens in that mode so its form and reconcile stay together.
+  const [poMode, setPoMode] = useState<'AUTO' | 'EXISTING'>(() => mutation.pending ? 'EXISTING' : 'AUTO')
+  const [autoWorkspace, setAutoWorkspace] = useState<AutoPoWorkspace | null>(null)
+  const [autoError, setAutoError] = useState('')
+  const [modelId, setModelId] = useState('')
+  const [modelQuery, setModelQuery] = useState('')
+  const [autoModelPinned, setAutoModelPinned] = useState<AutoPoModel | null>(null)
+  const [autoDraft, setAutoDraft] = useState<{ id: string; version: number } | null>(null)
+  const autoRequestRef = useRef(0)
+  const saving = mutation.busy || autoMutation.busy
+  const writerLocked = mutation.writerLocked || autoMutation.writerLocked
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const loadRequestRef = useRef(0)
@@ -159,6 +173,21 @@ export default function ConnectedCuttingPage() {
   }, [beginRead, finishRead, isReadCurrent, client, authorityKey])
 
   useEffect(() => { void load(viewRef.current.locationId || null); return () => { loadRequestRef.current += 1 } }, [mutation.scope, authorityKey]) // eslint-disable-line react-hooks/exhaustive-deps
+  const loadAuto = useCallback(async (q: { q: string; draftId: string | null }) => {
+    const ticket = autoMutation.beginRead(), n = ++autoRequestRef.current
+    setAutoError('')
+    try {
+      const { data, error: readError } = await client.rpc('erp_cp7_get_cutting_auto_po_v1', { p_query: { q: q.q.trim(), offset: 0, draft_id: q.draftId } })
+      if (n !== autoRequestRef.current || !autoMutation.isReadCurrent(ticket)) return null
+      if (readError) throw readError
+      const parsed = parseAutoPoWorkspace(data)
+      setAutoWorkspace(parsed); autoMutation.finishRead(ticket); return parsed
+    } catch (failure) {
+      if (n === autoRequestRef.current) { setAutoWorkspace(null); setAutoError(normalizeClientError(failure).message) }
+      return null
+    }
+  }, [autoMutation.beginRead, autoMutation.finishRead, autoMutation.isReadCurrent, client]) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { void loadAuto({ q: '', draftId: null }); return () => { autoRequestRef.current += 1 } }, [autoMutation.scope, authorityKey]) // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { if (locationId) { setRollOffset(0); void load(locationId, rollQuery, 0) } }, [locationId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const onAuthorityLost = useCallback(() => {
@@ -171,7 +200,7 @@ export default function ConnectedCuttingPage() {
   }, [mutation.invalidate])
   const formFactsReady = workspace !== null && !loading
 
-  const selectionIssue = cuttingSelectionIssue(workspace, orderId, draftId, draftVersion)
+  const selectionIssue = poMode === 'EXISTING' ? cuttingSelectionIssue(workspace, orderId, draftId, draftVersion) : null
   const selectedOrder = cuttingOrder(workspace, orderId)
   const orderOptions = workspace ? [...(selectedOrder && !workspace.orders.some(row => row.id === selectedOrder.id) ? [selectedOrder] : []), ...workspace.orders] : []
   const openDraft = workspace?.selected_draft?.cutting_group_id === draftId ? workspace.selected_draft : workspace?.drafts.find(row => row.cutting_group_id === draftId)
@@ -182,7 +211,9 @@ export default function ConnectedCuttingPage() {
 
   const selected = Object.values(selectedRolls)
   const selectedIds = new Set(Object.keys(selectedRolls))
-  const availableSizes = sizesForOrder(workspace, orderId)
+  const autoModel = poMode !== 'AUTO' || !modelId ? null : autoWorkspace?.models.rows.find(m => m.id === modelId) ?? (autoModelPinned?.id === modelId ? autoModelPinned : null)
+  const autoModels = autoWorkspace ? [...(autoModel && !autoWorkspace.models.rows.some(m => m.id === autoModel.id) ? [autoModel] : []), ...autoWorkspace.models.rows] : []
+  const availableSizes = poMode === 'AUTO' ? autoModel?.sizes ?? [] : sizesForOrder(workspace, orderId)
   const totalIssued = selected.reduce((sum, item) => sum + item.issued, 0)
   const totalConsumed = selected.reduce((sum, item) => sum + numeric(item.consumed), 0)
   const totalRemaining = selected.reduce((sum, item) => sum + item.issued - numeric(item.consumed), 0)
@@ -190,7 +221,8 @@ export default function ConnectedCuttingPage() {
     rollSum + count(yields[item.roll.id]?.[slot.key] ?? '0'), 0), 0)
   const cutAtIso = cp6WibPhysicalTimeToIso(cutAt)
   const cutAtValid = cutAtIso !== null
-  const formValid = Boolean(orderId && locationId && pattern && cutAtValid && slots.length > 0 && selected.length > 0)
+  const identityValid = poMode === 'AUTO' ? Boolean(autoModel && autoWorkspace) : Boolean(orderId)
+  const formValid = Boolean(identityValid && locationId && pattern && cutAtValid && slots.length > 0 && selected.length > 0)
     && selected.every((item) => numeric(item.consumed) > 0 && numeric(item.consumed) <= item.issued)
     && selected.every((item) => slots.every((slot) => parseQuantityInput(yields[item.roll.id]?.[slot.key] ?? '0') !== null)
       && slots.some((slot) => count(yields[item.roll.id]?.[slot.key] ?? '0') > 0))
@@ -200,6 +232,7 @@ export default function ConnectedCuttingPage() {
     selectionReadyRef.current = Boolean(cuttingOrder(workspace, selectionRef.current.orderId))
     setDraftId(null)
     setDraftVersion(null)
+    setAutoDraft(null)
     setPattern(null)
     setNotes('')
     setCutAt(cp6WibDateTimeInput())
@@ -265,6 +298,8 @@ export default function ConnectedCuttingPage() {
         String(draftRoll.yields.find((candidate) => candidate.slot_no === draft.size_slots[index].slot_no)?.qty_pcs ?? 0),
       ]))
     })
+    setPoMode('EXISTING')
+    setAutoDraft(null)
     setDraftId(draft.cutting_group_id)
     setDraftVersion(draft.row_version)
     setOrderId(draft.po_id)
@@ -282,15 +317,11 @@ export default function ConnectedCuttingPage() {
     void load(draft.source_location_id ?? workspace?.locations[0]?.id ?? null, rollQuery, 0)
   }
 
-  const payload = (action: 'SAVE_DRAFT' | 'POST') => ({
-    ...(draftId ? { id: draftId } : {}),
-    action,
-    po_id: orderId,
-    pattern_id: pattern?.id,
+  const cuttingPart = () => ({
+    pattern_id: pattern?.id ?? '',
     source_location_id: locationId,
-    cut_at: cutAtIso,
+    cut_at: cutAtIso ?? '',
     notes: notes.trim() || null,
-    change_reason: action === 'POST' ? 'Posting Potongan dari workspace connected' : 'Simpan draft Potongan dari workspace connected',
     size_slots: slots.map((slot, index) => ({ slot_no: index + 1, size_id: slot.sizeId, drawing_no: 1 })),
     rolls: selected.map((item) => ({
       roll_id: item.roll.id,
@@ -302,6 +333,13 @@ export default function ConnectedCuttingPage() {
         qty_pcs: requireQuantityInput(yields[item.roll.id]?.[slot.key] ?? '0'),
       })),
     })),
+  })
+  const payload = (action: 'SAVE_DRAFT' | 'POST') => ({
+    ...(draftId ? { id: draftId } : {}),
+    action,
+    po_id: orderId,
+    change_reason: action === 'POST' ? 'Posting Potongan dari workspace connected' : 'Simpan draft Potongan dari workspace connected',
+    ...cuttingPart(),
   })
 
   const sendExact = (envelope: ProductionEnvelope) => client.rpc('erp_save_cutting_group_before_sewing_v2', {
@@ -322,12 +360,72 @@ export default function ConnectedCuttingPage() {
   }
   const handlers = { send: sendExact, validate: validateCuttingCommit, retire, reload }
   const save = async (action: 'SAVE_DRAFT' | 'POST') => {
-    if (!selectionReadyRef.current || !formValid || mutation.writerLocked || (draftId ? !canEdit : !canCreate) || (action === 'POST' && !canPost)) return
+    if (!selectionReadyRef.current || !formValid || writerLocked || (draftId ? !canEdit : !canCreate) || (action === 'POST' && !canPost)) return
     setError(''); setNotice('')
     await run(action, payload(action), draftVersion, handlers)
   }
+  const autoHandlers = {
+    send: (envelope: ProductionEnvelope) => client.rpc('erp_cp7_save_cutting_auto_po_v1', { p_payload: envelope.payload, p_request: envelope.id }),
+    validate: (data: unknown, envelope: ProductionEnvelope) => { validateAutoPoOutcome(data, envelope) },
+    retire: (data: unknown, envelope: ProductionEnvelope) => {
+      const result = validateAutoPoOutcome(data, envelope)
+      resetForm()
+      if (result.action === 'POST') {
+        setLastCommittedGroupId(result.groupId)
+        setNotice(`${result.poNumber} dibuat otomatis; ${result.groupNumber} terposting (${result.totalPieces} pcs). Nomor PO ini dipakai untuk pelacakan di Bagi Potongan dan WIP.`)
+      } else setNotice(result.action === 'DELETE' ? 'Draf PO otomatis dihapus.' : 'Draf PO otomatis tersimpan. Belum ada PO, stok, atau jurnal yang berubah.')
+    },
+    reload: async () => {
+      const view = viewRef.current
+      const [native, autoRead] = await Promise.all([load(view.locationId || null, view.rollQuery, 0), loadAuto({ q: modelQuery, draftId: null })])
+      return native && autoRead !== null
+    },
+  }
+  const saveAuto = async (action: AutoPoAction) => {
+    if (!autoWorkspace || writerLocked || (action !== 'DELETE' && (!formValid || !autoModel)) || !canCreate || (action === 'POST' && !canPost)) return
+    setError(''); setNotice('')
+    const body = autoPoPayload(action, autoDraft, autoModel?.id ?? null, action === 'DELETE' ? null : cuttingPart() as AutoPoCutting,
+      'Posting Potongan dengan PO otomatis dari workspace connected')
+    await autoMutation.run(action, body, null, autoHandlers)
+  }
+  const changeMode = (next: 'AUTO' | 'EXISTING') => {
+    if (next === poMode) return
+    resetForm()
+    setPoMode(next)
+    if (next === 'AUTO') setSlots((autoModel?.sizes ?? []).map(size => ({ key: globalThis.crypto.randomUUID(), sizeId: size.id, sizeCode: size.code })))
+    else setSlots(sizesForOrder(workspace, orderId).map(size => ({ key: globalThis.crypto.randomUUID(), sizeId: size.id, sizeCode: size.code })))
+  }
+  const changeModel = (nextId: string) => {
+    const next = autoModels.find(m => m.id === nextId) ?? null
+    setModelId(nextId); setAutoModelPinned(next)
+    setSlots((next?.sizes ?? []).map(size => ({ key: globalThis.crypto.randomUUID(), sizeId: size.id, sizeCode: size.code })))
+    setSelectedRolls({}); setYields({})
+    if (selected.length > 0) setNotice('Pilihan roll dikosongkan karena model berubah.')
+  }
+  const resumeAutoDraft = async (id: string) => {
+    const read = await loadAuto({ q: modelQuery, draftId: id })
+    const d = read?.selected
+    if (!d || d.id !== id) { setError('Draf PO otomatis tidak ditemukan lagi. Muat ulang.'); return }
+    const c = d.cutting
+    const nextSlots = c.size_slots.map(slot => ({ key: `auto-${slot.slot_no}-${slot.size_id}`, sizeId: slot.size_id,
+      sizeCode: d.model.sizes.find(size => size.id === slot.size_id)?.code ?? '?' }))
+    const nextRolls: Record<string, SelectedRoll> = {}, nextYields: Record<string, Record<string, string>> = {}
+    c.rolls.forEach(r => {
+      const info = d.rolls.find(x => x.rollId === r.roll_id)
+      if (!info) return
+      nextRolls[r.roll_id] = { roll: { id: info.rollId, roll_number: info.rollNumber, material_id: info.materialId, material_sku: info.materialSku,
+        material_name: info.materialName, unit_code: info.unitCode, supplier_id: null, supplier_code: null, supplier_name: info.supplierName,
+        original_qty: info.originalQty, available_qty: info.availableQty, status: 'DRAFT_SELECTED', received_at: null }, issued: r.qty_issued, consumed: String(r.qty_consumed) }
+      nextYields[r.roll_id] = Object.fromEntries(nextSlots.map((slot, index) => [slot.key, String(r.yields.find(y => y.slot_no === c.size_slots[index].slot_no)?.qty_pcs ?? 0)]))
+    })
+    resetForm()
+    setPoMode('AUTO'); setModelId(d.model.id); setAutoModelPinned(d.model); setAutoDraft({ id: d.id, version: d.rowVersion })
+    setPattern(d.pattern); setLocationId(c.source_location_id); setCutAt(cp6WibDateTimeInput(c.cut_at)); setNotes(c.notes ?? '')
+    setSlots(nextSlots); setSelectedRolls(nextRolls); setYields(nextYields)
+    setNotice(`Draf PO otomatis ${d.model.code} dimuat. PO baru dibuat saat potongan disahkan.`)
+  }
   const removeDraft = async () => {
-    if (!selectionReadyRef.current || !draftId || draftVersion === null || !canEdit || mutation.writerLocked) return
+    if (!selectionReadyRef.current || !draftId || draftVersion === null || !canEdit || writerLocked) return
     if (!globalThis.confirm('Hapus draft Potongan ini? Hanya draft yang belum diposting yang dapat dihapus.')) return
     setError(''); setNotice('')
     await run('DELETE', { id: draftId, action: 'DELETE', change_reason: 'Hapus draft Potongan dari workspace connected' }, draftVersion, handlers)
@@ -338,34 +436,40 @@ export default function ConnectedCuttingPage() {
     <div className="ccut-truth"><Database/><strong>ERP ENTENG UAT · RPC CONNECTED</strong><span>Tidak ada fixture atau direct-table write pada mode ini.</span></div>
     {error && <div className="ccut-message error" role="alert"><AlertTriangle/><span>{error}</span><button onClick={() => setError('')}>Tutup</button></div>}
     <ProductionRecoveryNotice recovery={mutation} onReconcile={() => reconcile(handlers)} className="ccut-message error"/>
-    {selectionIssue && <div className="ccut-message error" role="status"><AlertTriangle/><span>{selectionIssue}</span>{openDraft && <button disabled={mutation.writerLocked} onClick={() => resumeDraft(openDraft)}>Muat draft terbaru</button>}</div>}
+    <ProductionRecoveryNotice recovery={autoMutation} onReconcile={() => autoMutation.reconcile(autoHandlers)} className="ccut-message error" reconcileLabel="Periksa hasil Potongan dengan PO otomatis"/>
+    {autoError && <div className="ccut-message error" role="alert"><AlertTriangle/><span>{autoError}</span><button onClick={() => setAutoError('')}>Tutup</button></div>}
+    {selectionIssue && <div className="ccut-message error" role="status"><AlertTriangle/><span>{selectionIssue}</span>{openDraft && <button disabled={writerLocked} onClick={() => resumeDraft(openDraft)}>Muat draft terbaru</button>}</div>}
     {notice && <div className="ccut-message success" role="status"><Check/><span>{notice}</span></div>}
 
     <div className="ccut-layout">
       <aside className="ccut-drafts">
-        <header><div><span>DRAFT BACKEND</span><strong>{workspace ? `${workspace.draft_page.total} Potongan` : 'Belum dimuat'}</strong></div><button disabled={mutation.writerLocked} onClick={resetForm}>Baru</button></header>
+        <header><div><span>DRAFT BACKEND</span><strong>{workspace ? `${workspace.draft_page.total} Potongan` : 'Belum dimuat'}</strong></div><button disabled={writerLocked} onClick={resetForm}>Baru</button></header>
         <div className="ccut-search"><input aria-label="Cari draft Potongan" maxLength={200} value={draftQuery} onChange={event => setDraftQuery(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') searchDrafts() }} placeholder="Nomor Potongan, PO, model, pola…"/><button disabled={loading || saving} onClick={searchDrafts}>Cari draft</button></div>
-        {openDraft && !workspace?.drafts.some(row => row.cutting_group_id === openDraft.cutting_group_id) && <button className="active" disabled={mutation.writerLocked} onClick={() => resumeDraft(openDraft)}><FilePenLine/><span><strong>{openDraft.group_number}</strong><small>Draft terbuka · di luar hasil pencarian</small></span></button>}
-        {workspace?.drafts.map(draft => <button key={draft.cutting_group_id} className={draftId === draft.cutting_group_id ? 'active' : ''} disabled={mutation.writerLocked} onClick={() => resumeDraft(draft)}><FilePenLine/><span><strong>{draft.group_number}</strong><small>{draft.po_number} · {draft.pattern_code ? `${draft.pattern_code} ${draft.pattern_revision}` : 'Pola belum diikat'}</small></span><em>v{draft.row_version}</em></button>)}
+        {openDraft && !workspace?.drafts.some(row => row.cutting_group_id === openDraft.cutting_group_id) && <button className="active" disabled={writerLocked} onClick={() => resumeDraft(openDraft)}><FilePenLine/><span><strong>{openDraft.group_number}</strong><small>Draft terbuka · di luar hasil pencarian</small></span></button>}
+        {workspace?.drafts.map(draft => <button key={draft.cutting_group_id} className={draftId === draft.cutting_group_id ? 'active' : ''} disabled={writerLocked} onClick={() => resumeDraft(draft)}><FilePenLine/><span><strong>{draft.group_number}</strong><small>{draft.po_number} · {draft.pattern_code ? `${draft.pattern_code} ${draft.pattern_revision}` : 'Pola belum diikat'}</small></span><em>v{draft.row_version}</em></button>)}
         {!loading && workspace?.drafts.length === 0 && <p>Tidak ada draft yang cocok.</p>}
         <footer className="ccut-pagination"><span>{pageLabel(workspace?.draft_page.offset, workspace?.drafts.length, workspace?.draft_page.total)}</span><div><button aria-label="Draft sebelumnya" disabled={loading || !workspace || workspace.draft_page.offset === 0} onClick={() => void load(locationId || null, rollQuery, rollOffset, { draftOffset: Math.max(0, selectorsRef.current.draftOffset - 25) })}>Sebelumnya</button><button aria-label="Draft berikutnya" disabled={loading || !workspace || workspace.draft_page.offset + workspace.drafts.length >= workspace.draft_page.total} onClick={() => void load(locationId || null, rollQuery, rollOffset, { draftOffset: selectorsRef.current.draftOffset + 25 })}>Berikutnya</button></div></footer>
+        <section className="ccut-auto-drafts" aria-label="Draf PO otomatis"><header><div><span>DRAF PO OTOMATIS</span><strong>{autoWorkspace ? `${autoWorkspace.drafts.length} draf` : 'Belum dimuat'}</strong></div></header>
+          {autoWorkspace?.drafts.map(d => <button key={d.id} className={autoDraft?.id === d.id ? 'active' : ''} disabled={writerLocked} aria-label={`Muat draf PO otomatis ${d.modelCode} ${d.id.slice(0, 8)}`} onClick={() => void resumeAutoDraft(d.id)}><FilePenLine/><span><strong>{d.modelCode} · {d.modelName}</strong><small>{d.pieces} pcs · PO dibuat saat disahkan</small></span><em>v{d.rowVersion}</em></button>)}
+          {autoWorkspace && autoWorkspace.drafts.length === 0 ? <p>Belum ada draf PO otomatis.</p> : null}
+        </section>
       </aside>
 
       <main className="ccut-form">
-        <section className="ccut-card"><header><span>01 · IDENTITAS KANONIK</span><strong>PO, Pola, waktu, dan gudang sumber</strong></header><div className="ccut-search"><Search/><input aria-label="Cari PO" maxLength={200} value={orderQuery} onChange={event => setOrderQuery(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') searchOrders() }} placeholder="Nomor PO, model, mandor…"/><button disabled={loading || saving} onClick={searchOrders}>Cari PO</button></div><div className="ccut-pagination"><span>{pageLabel(workspace?.order_page.offset, workspace?.orders.length, workspace?.order_page.total)}</span><div><button aria-label="PO sebelumnya" disabled={loading || !workspace || workspace.order_page.offset === 0} onClick={() => void load(locationId || null, rollQuery, rollOffset, { orderOffset: Math.max(0, selectorsRef.current.orderOffset - 50) })}>Sebelumnya</button><button aria-label="PO berikutnya" disabled={loading || !workspace || workspace.order_page.offset + workspace.orders.length >= workspace.order_page.total} onClick={() => void load(locationId || null, rollQuery, rollOffset, { orderOffset: selectorsRef.current.orderOffset + 50 })}>Berikutnya</button></div></div><div className="ccut-fields"><label>Production Order<select value={orderId} disabled={draftId !== null} onChange={(event) => changeOrder(event.target.value)}><option value="">Pilih PO…</option>{orderId && !selectedOrder && <option value={orderId} disabled>PO terpilih tidak tersedia</option>}{orderOptions.map((order) => <option value={order.id} key={order.id}>{order.po_number} · {order.model_code} · {order.model_name}</option>)}</select></label><label>Waktu potong (WIB)<input type="datetime-local" value={cutAt} max={cp6WibDateTimeInput()} onChange={(event) => setCutAt(event.target.value)}/></label><label>Gudang bahan<select value={locationId} onChange={(event) => { setLocationId(event.target.value); setRollOffset(0); setSelectedRolls({}); setYields({}); if (selected.length > 0) setNotice('Pilihan roll dikosongkan karena gudang bahan berubah.') }}><option value="">Pilih gudang…</option>{workspace?.locations.map((location) => <option value={location.id} key={location.id}>{location.code} · {location.name}</option>)}</select></label><label>Catatan<input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Opsional"/></label></div><CuttingPatternPicker value={pattern} onChange={setPattern} suspended={!formFactsReady} onAuthorityLost={onAuthorityLost}/></section>
+        <section className="ccut-card"><header><span>01 · IDENTITAS KANONIK</span><strong>PO, Pola, waktu, dan gudang sumber</strong></header><fieldset className="ccut-po-mode" disabled={writerLocked || draftId !== null || autoDraft !== null}><legend>Production Order</legend><label><input type="radio" name="ccut-po-mode" checked={poMode === 'AUTO'} onChange={() => changeMode('AUTO')}/>PO baru otomatis</label><label><input type="radio" name="ccut-po-mode" checked={poMode === 'EXISTING'} onChange={() => changeMode('EXISTING')}/>PO yang sudah ada</label></fieldset>{poMode === 'AUTO' ? <><div className="ccut-search"><Search/><input aria-label="Cari model" maxLength={80} value={modelQuery} onChange={event => setModelQuery(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') void loadAuto({ q: modelQuery, draftId: null }) }} placeholder="Kode atau nama model…"/><button disabled={saving} onClick={() => void loadAuto({ q: modelQuery, draftId: null })}>Cari model</button></div><p className="ccut-auto-note">Nomor PO dibuat otomatis saat potongan disahkan, dalam satu simpan dengan posting potongan. Draf belum membuat PO dan belum mengubah stok maupun keuangan.</p></> : <><div className="ccut-search"><Search/><input aria-label="Cari PO" maxLength={200} value={orderQuery} onChange={event => setOrderQuery(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') searchOrders() }} placeholder="Nomor PO, model, mandor…"/><button disabled={loading || saving} onClick={searchOrders}>Cari PO</button></div><div className="ccut-pagination"><span>{pageLabel(workspace?.order_page.offset, workspace?.orders.length, workspace?.order_page.total)}</span><div><button aria-label="PO sebelumnya" disabled={loading || !workspace || workspace.order_page.offset === 0} onClick={() => void load(locationId || null, rollQuery, rollOffset, { orderOffset: Math.max(0, selectorsRef.current.orderOffset - 50) })}>Sebelumnya</button><button aria-label="PO berikutnya" disabled={loading || !workspace || workspace.order_page.offset + workspace.orders.length >= workspace.order_page.total} onClick={() => void load(locationId || null, rollQuery, rollOffset, { orderOffset: selectorsRef.current.orderOffset + 50 })}>Berikutnya</button></div></div></>}<div className="ccut-fields">{poMode === 'AUTO' ? <label>Model<select aria-label="Model potongan" value={modelId} disabled={autoDraft !== null && writerLocked} onChange={(event) => changeModel(event.target.value)}><option value="">Pilih model…</option>{autoModels.map((m) => <option value={m.id} key={m.id}>{m.code} · {m.name}</option>)}</select></label> : <label>Production Order<select value={orderId} disabled={draftId !== null} onChange={(event) => changeOrder(event.target.value)}><option value="">Pilih PO…</option>{orderId && !selectedOrder && <option value={orderId} disabled>PO terpilih tidak tersedia</option>}{orderOptions.map((order) => <option value={order.id} key={order.id}>{order.po_number} · {order.model_code} · {order.model_name}</option>)}</select></label>}<label>Waktu potong (WIB)<input type="datetime-local" value={cutAt} max={cp6WibDateTimeInput()} onChange={(event) => setCutAt(event.target.value)}/></label><label>Gudang bahan<select value={locationId} onChange={(event) => { setLocationId(event.target.value); setRollOffset(0); setSelectedRolls({}); setYields({}); if (selected.length > 0) setNotice('Pilihan roll dikosongkan karena gudang bahan berubah.') }}><option value="">Pilih gudang…</option>{workspace?.locations.map((location) => <option value={location.id} key={location.id}>{location.code} · {location.name}</option>)}</select></label><label>Catatan<input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Opsional"/></label></div><CuttingPatternPicker value={pattern} onChange={setPattern} suspended={!formFactsReady} onAuthorityLost={onAuthorityLost}/></section>
 
-        <section className="ccut-card"><header><span>02 · UKURAN AKTIF</span><strong>Kolom hasil potong sesuai model PO</strong></header><div className="ccut-size-list">{availableSizes.map((size) => <button className={slots.some((slot) => slot.sizeId === size.id) ? 'active' : ''} onClick={() => toggleSize(size.id, size.code)} key={size.id}>{size.code}</button>)}{orderId && availableSizes.length === 0 ? <span>Model PO ini belum memiliki ukuran aktif.</span> : null}</div></section>
+        <section className="ccut-card"><header><span>02 · UKURAN AKTIF</span><strong>{poMode === 'AUTO' ? 'Kolom hasil potong sesuai model' : 'Kolom hasil potong sesuai model PO'}</strong></header><div className="ccut-size-list">{availableSizes.map((size) => <button className={slots.some((slot) => slot.sizeId === size.id) ? 'active' : ''} onClick={() => toggleSize(size.id, size.code)} key={size.id}>{size.code}</button>)}{(poMode === 'AUTO' ? autoModel !== null : Boolean(orderId)) && availableSizes.length === 0 ? <span>Model ini belum memiliki ukuran aktif.</span> : null}</div></section>
 
         <section className="ccut-card"><header><span>03 · ROLL FISIK</span><strong>{workspace?.roll_total ?? '—'} tersedia di lokasi</strong></header><div className="ccut-search"><Search/><input value={rollQuery} onChange={(event) => setRollQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { setRollOffset(0); void load(locationId || null, rollQuery, 0) } }} placeholder="Nomor roll, bahan, supplier…"/><button onClick={() => { setRollOffset(0); void load(locationId || null, rollQuery, 0) }}>Cari</button></div><div className="ccut-roll-catalog">{loading ? <span><LoaderCircle className="spin"/> Memuat roll…</span> : workspace?.rolls.map((roll) => <button className={selectedIds.has(roll.id) ? 'active' : ''} onClick={() => toggleRoll(roll)} key={roll.id}><span><strong>{roll.roll_number}</strong><small>{roll.material_sku} · {roll.material_name}</small></span><em>{roll.available_qty} {roll.unit_code}</em></button>)}</div><footer className="ccut-pagination"><span>{workspace?.roll_total ? `${rollOffset + 1}–${rollOffset + workspace.rolls.length} dari ${workspace.roll_total}` : '0 roll'}</span><div><button disabled={loading || rollOffset === 0} onClick={() => void load(locationId || null, rollQuery, Math.max(0, rollOffset - 100))}>Sebelumnya</button><button disabled={loading || !workspace || rollOffset + workspace.rolls.length >= workspace.roll_total} onClick={() => void load(locationId || null, rollQuery, rollOffset + 100)}>Berikutnya</button></div></footer></section>
 
         {draftId && selectedOrder && <SkuWaveReferences waveId={draftId} modelId={selectedOrder.model_id}/>}
         <section className="ccut-card wide"><header><span>04 · HASIL PER ROLL & SIZE</span><strong>Angka sumber direkonsiliasi backend</strong></header>{!formFactsReady ? <p data-cutting-form-retired>Muat ulang sumber sebelum memeriksa jumlah roll dan hasil rencana. Isian operator tetap disimpan.</p> : selected.length === 0 ? <div className="ccut-empty">Pilih minimal satu roll dari gudang bahan.</div> : <div className="ccut-table-wrap"><table><thead><tr><th>Roll</th><th>Keluar</th><th>Terpakai</th><th>Sisa</th>{slots.map((slot) => <th key={slot.key}>Size {slot.sizeCode}</th>)}<th>Total pcs</th></tr></thead><tbody>{selected.map((item) => { const consumed = numeric(item.consumed); const rowPieces = slots.reduce((sum, slot) => sum + count(yields[item.roll.id]?.[slot.key] ?? '0'), 0); return <tr key={item.roll.id}><th><strong>{item.roll.roll_number}</strong><small>{item.roll.material_name}</small></th><td>{item.issued} {item.roll.unit_code}</td><td><input aria-label={`${item.roll.roll_number} terpakai`} aria-invalid={parseQuantityInput(item.consumed, 'MEASURE', item.issued) === null} inputMode="decimal" value={item.consumed} onChange={(event) => setSelectedRolls((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], consumed: event.target.value } }))}/></td><td className={consumed > item.issued ? 'bad' : ''}>{display(item.issued - consumed, 2)}</td>{slots.map((slot) => <td key={slot.key}><input aria-label={`${item.roll.roll_number} Size ${slot.sizeCode}`} aria-invalid={parseQuantityInput(yields[item.roll.id]?.[slot.key] ?? '0') === null} inputMode="numeric" value={yields[item.roll.id]?.[slot.key] ?? '0'} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setYields((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], [slot.key]: event.target.value } }))}/></td>)}<td><strong>{display(rowPieces)}</strong></td></tr>})}</tbody></table></div>}</section>
 
-        <NativeCuttingYieldPanel groupId={draftId ?? lastCommittedGroupId} sourceKey={JSON.stringify([authorityKey,sourceEpoch,draftId,draftVersion,orderId,pattern,selectedRolls,slots,yields,cutAt])} parentBusy={mutation.writerLocked} onAuthorityLost={onAuthorityLost}/>
-        <NativeCuttingInputsPanel groupId={draftId ?? lastCommittedGroupId} sourceKey={JSON.stringify([authorityKey,sourceEpoch,draftId,draftVersion,orderId,pattern,selectedRolls,slots,yields,cutAt])} parentBusy={mutation.writerLocked} onAuthorityLost={onAuthorityLost}/>
-        <NativeCuttingLearningPanel groupId={draftId ?? lastCommittedGroupId} sourceKey={JSON.stringify([authorityKey,sourceEpoch,draftId,draftVersion,orderId,pattern,selectedRolls,slots,yields,cutAt])} parentBusy={mutation.writerLocked} onAuthorityLost={onAuthorityLost}/>
+        <NativeCuttingYieldPanel groupId={draftId ?? lastCommittedGroupId} sourceKey={JSON.stringify([authorityKey,sourceEpoch,draftId,draftVersion,orderId,pattern,selectedRolls,slots,yields,cutAt])} parentBusy={writerLocked} onAuthorityLost={onAuthorityLost}/>
+        <NativeCuttingInputsPanel groupId={draftId ?? lastCommittedGroupId} sourceKey={JSON.stringify([authorityKey,sourceEpoch,draftId,draftVersion,orderId,pattern,selectedRolls,slots,yields,cutAt])} parentBusy={writerLocked} onAuthorityLost={onAuthorityLost}/>
+        <NativeCuttingLearningPanel groupId={draftId ?? lastCommittedGroupId} sourceKey={JSON.stringify([authorityKey,sourceEpoch,draftId,draftVersion,orderId,pattern,selectedRolls,slots,yields,cutAt])} parentBusy={writerLocked} onAuthorityLost={onAuthorityLost}/>
         <section className="ccut-review"><div><span>ROLL</span><strong>{formFactsReady ? selected.length : "—"}</strong></div><div><span>KELUAR</span><strong>{formFactsReady ? totalIssued.toFixed(2) : "—"}</strong></div><div><span>TERPAKAI</span><strong>{formFactsReady ? display(totalConsumed, 2) : "—"}</strong></div><div><span>SISA</span><strong>{formFactsReady ? display(totalRemaining, 2) : "—"}</strong></div><div><span>HASIL</span><strong>{formFactsReady ? display(totalPieces) + " pcs" : "—"}</strong></div></section>
-        <footer className="ccut-actions"><span>{draftId ? `Draft ${draftId.slice(0, 8)} · row version ${draftVersion}` : 'Transaksi baru · ID dibuat backend'}</span><div>{draftId && <button className="danger" disabled={Boolean(selectionIssue) || !canEdit || mutation.writerLocked} onClick={() => void removeDraft()}><Trash2/> Hapus draft</button>}<button disabled={Boolean(selectionIssue) || !formValid || mutation.writerLocked || (draftId ? !canEdit : !canCreate)} onClick={() => void save('SAVE_DRAFT')}>Simpan draft</button><button className="primary" disabled={Boolean(selectionIssue) || !formValid || mutation.writerLocked || (draftId ? !canEdit : !canCreate) || !canPost} onClick={() => void save('POST')}>{saving ? <LoaderCircle className="spin"/> : <Check/>} Post ke WIP Potongan</button></div></footer>
+        {poMode === 'AUTO' ? <footer className="ccut-actions"><span>{autoDraft ? `Draf PO otomatis · versi ${autoDraft.version}` : 'PO baru · nomor dibuat saat disahkan'}</span><div>{autoDraft && <button className="danger" disabled={!canCreate || writerLocked} onClick={() => void saveAuto('DELETE')}><Trash2/> Hapus draf</button>}<button disabled={!formValid || writerLocked || !canCreate || !autoWorkspace?.canDraft} onClick={() => void saveAuto('SAVE_DRAFT')}>Simpan draft</button><button className="primary" disabled={!formValid || writerLocked || !canCreate || !canPost || !autoWorkspace?.canPost} onClick={() => void saveAuto('POST')}>{saving ? <LoaderCircle className="spin"/> : <Check/>} Sahkan & buat PO</button></div></footer> : <footer className="ccut-actions"><span>{draftId ? `Draft ${draftId.slice(0, 8)} · row version ${draftVersion}` : 'Transaksi baru · ID dibuat backend'}</span><div>{draftId && <button className="danger" disabled={Boolean(selectionIssue) || !canEdit || writerLocked} onClick={() => void removeDraft()}><Trash2/> Hapus draft</button>}<button disabled={Boolean(selectionIssue) || !formValid || writerLocked || (draftId ? !canEdit : !canCreate)} onClick={() => void save('SAVE_DRAFT')}>Simpan draft</button><button className="primary" disabled={Boolean(selectionIssue) || !formValid || writerLocked || (draftId ? !canEdit : !canCreate) || !canPost} onClick={() => void save('POST')}>{saving ? <LoaderCircle className="spin"/> : <Check/>} Post ke WIP Potongan</button></div></footer>}
       </main>
     </div>
   </section>

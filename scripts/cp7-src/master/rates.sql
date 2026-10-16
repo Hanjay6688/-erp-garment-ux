@@ -186,11 +186,12 @@ begin
   perform pg_advisory_xact_lock(hashtextextended('WRATE:'||c.id::text||':'||m.id::text||':'||k.id::text,0));
   v_versions:=cp7_master.rate_versions(c.id,m.id,k.id);
   if md5(v_versions::text)is distinct from p->>'review_token'then raise exception 'CP7_WORK_RATE_REVIEW_CHANGED';end if;
-  if exists(select 1 from erp.contractor_work_rates where contractor_id=c.id and model_id=m.id and work_component_id=k.id and effective_from>v_at)then
-   raise exception 'CP7_WORK_RATE_LATER_VERSION';end if;
   if p_action='SET_RATE'then
    v_rate:=(p->>'rate')::numeric;
    select*into cur from erp.contractor_work_rates where contractor_id=c.id and model_id=m.id and work_component_id=k.id and effective_from=v_at for update;
+   -- A new version or a stop goes after the latest version only; correcting the version of that very day changes no date.
+   if cur.id is null and exists(select 1 from erp.contractor_work_rates where contractor_id=c.id and model_id=m.id and work_component_id=k.id and effective_from>v_at)then
+    raise exception 'CP7_WORK_RATE_LATER_VERSION';end if;
    if cur.id is not null then
     -- A version starting that day: corrected in place only while no wage (and no rework line) used it.
     select max(committed_at)into v_last from erp.po_work_component_snapshots where source_contractor_rate_id=cur.id;
@@ -212,6 +213,8 @@ begin
     values(c.id,m.id,k.id,v_rate,v_at,null,v_reason)returning id into v_entity;
    end if;
   else
+   if exists(select 1 from erp.contractor_work_rates where contractor_id=c.id and model_id=m.id and work_component_id=k.id and effective_from>v_at)then
+    raise exception 'CP7_WORK_RATE_LATER_VERSION';end if;
    select*into cur from erp.contractor_work_rates where contractor_id=c.id and model_id=m.id and work_component_id=k.id and effective_from<v_at
     and(effective_to is null or effective_to>v_at)order by effective_from desc,id desc limit 1 for update;
    if cur.id is null then raise exception 'CP7_WORK_RATE_NOTHING_TO_STOP';end if;

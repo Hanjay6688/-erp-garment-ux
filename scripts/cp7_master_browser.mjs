@@ -288,7 +288,8 @@ async function chain(ui,today,h){
   const setup=page.locator('.cpick-setup')
   await setup.locator('select').first().selectOption({label:`${code} · Mandor Rantai CP17`})
   await setup.locator('input[type="datetime-local"]').fill(`${f.day}T09:00`)
-  const fewer=setup.getByRole('button',{name:'−',exact:true});while(await fewer.isEnabled())await fewer.click()
+  // A new pickup starts with one batch (the batch buttons sit inside the "Jumlah batch" label, so they carry its name).
+  await ui.expect(setup.locator('label').filter({hasText:'Jumlah batch'}).locator('strong')).toHaveText('1')
   await page.getByLabel(`${f.roll_number} ${f.size_code} Batch 1`,{exact:true}).fill('10')
   await page.getByRole('button',{name:'Catat pickup & masuk Sewing',exact:true}).click()
   await ui.expect(page.getByText('Pickup terposting · 1 batch / 10 pcs masuk Sewing.')).toBeVisible()

@@ -165,6 +165,8 @@ export type PreconnectDatabase = {
       erp_cp7_finish_po_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_po_reopen_v1: { Args: { p_po: string }; Returns: Json }
       erp_cp7_get_master_v1: { Args: { p_kind: string; p_query: Json }; Returns: Json }
+      erp_cp7_get_cutting_auto_po_v1: { Args: { p_query: Json }; Returns: Json }
+      erp_cp7_save_cutting_auto_po_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_save_master_v1: { Args: { p_kind: string; p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_work_rates_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_save_work_rate_v1: { Args: { p_action: string; p_payload: Json; p_request: string }; Returns: Json }

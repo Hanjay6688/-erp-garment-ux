@@ -491,6 +491,9 @@ begin
   if md5(e0::text)is distinct from p->>'review_token'then raise exception 'CP7_MASTER_REVIEW_CHANGED';end if;
 
   if v_action='UPDATE'then
+   -- Codes are matched without case (code_taken) and this screen stores them upper case, but older or imported records may
+   -- carry lower case: the stored code in another case is the same code, kept exactly as stored, not a code change.
+   if upper(f->>'code')=upper(e0->>'code')then f:=jsonb_set(f,'{code}',e0->'code');end if;
    v_code_changed:=(f->>'code')is distinct from(e0->>'code');
    if p_kind in('FABRIC','ACCESSORY')and(v_code_changed or(f->>'name')is distinct from(e0->>'name'))then
     -- A material's name and code are corrected only through the audited rename (material-name.sql).

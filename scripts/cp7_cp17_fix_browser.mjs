@@ -2,11 +2,13 @@
 // SG-01 reverse a posted pickup before sewing (desktop), SG-02 fabric back to the warehouse (phone); and the
 // D14-6 kasbon on the Payroll & Kasbon page (give from a funded bank, cut from the Mandor's payroll draft); and D14-5
 // dozens over one size series on the Penjualan & Invoice draft (desktop and phone); D14-14 G1 SELESAI DIJAHIT on the
-// WIP & Sewing page (desktop and phone); owner D15-3 master screens and the Mandor + rate -> Bagi Potongan -> sewing chain.
+// WIP & Sewing page (desktop and phone); owner D15-3 master screens and the Mandor + rate -> Bagi Potongan -> sewing chain;
+// owner D15-6 Buat Potongan with the PO made automatically.
 import assert from'node:assert/strict'
 import{execFileSync}from'node:child_process'
 import{mkdirSync,writeFileSync}from'node:fs'
 import*as master from'./cp7_master_browser.mjs'
+import*as autoPo from'./cp7_auto_po_browser.mjs'
 const fixture=(operation,payload)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_cp17_fix_browser_fixture.py',operation],{input:JSON.stringify(payload),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 async function menu(page){const open=page.getByRole('button',{name:'Buka menu',exact:true});if(await open.isVisible())await open.click();const link=page.getByRole('button',{name:'• Bagi Potongan',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Produksi'}).click();await link.click()}
 async function openGroup(ui,page,number,group){
@@ -15,7 +17,11 @@ async function openGroup(ui,page,number,group){
  await page.locator('.cpick-queue button').filter({hasText:number}).click();await ui.expect(page.locator('[data-cutting-group-id]')).toHaveAttribute('data-cutting-group-id',group)
 }
 async function noSideScroll(ui,page){await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true)}
-async function failure(page,name,error,state,requests){writeFileSync(`cp6-proof/t3/${name}_FAILURE.json`,JSON.stringify({error:String(error),stack:error.stack,text:await page.locator('main').innerText().catch(()=>''),state,requests},null,2));await page.screenshot({path:`cp6-proof/t3/${name}_FAILURE.png`,fullPage:true}).catch(()=>{})}
+async function failure(page,name,error,state,requests){writeFileSync(`cp6-proof/t3/${name}_FAILURE.json`,JSON.stringify({error:String(error),stack:error.stack,text:await page.locator('main').innerText().catch(()=>''),state,requests},null,2))
+ // The artifact is not always reachable from where the log is read: the alerts and status lines on screen go to the log too.
+ const shown=await page.locator('[role="alert"],[role="status"]').allInnerTexts().catch(()=>[])
+ console.error(JSON.stringify({failed_case:name,failure_screen:shown.map(t=>t.slice(0,300)).slice(0,12),requests:(requests??[]).length}))
+await page.screenshot({path:`cp6-proof/t3/${name}_FAILURE.png`,fullPage:true}).catch(()=>{})}
 async function pickupReversal(ui,today){
  const f=fixture('pickup',{today}),user=await ui.login('OWNER',{label:'cp17-pickup-reversal'}),page=user.page,requests=[],name='CP17_SG01_PICKUP_REVERSAL_DESKTOP'
  const state=()=>fixture('pickup_state',f)
@@ -306,4 +312,6 @@ export function cases(ui,today){return[['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKT
  ['CP17_BROWSER_G2_FINISH_DESKTOP',()=>finishPo(ui,today,false)],['CP17_BROWSER_G2_FINISH_MOBILE',()=>finishPo(ui,today,true)],
  ['CP17_BROWSER_R2_PO_REOPEN_DESKTOP',()=>reopenPo(ui,today,false)],['CP17_BROWSER_R2_PO_REOPEN_MOBILE',()=>reopenPo(ui,today,true)],
  // Owner D15-3: master screens and the screen-only chain (cp7_master_browser.mjs), with this harness's fixture and page helpers.
- ...master.cases(ui,today,{fixture,openGroup,wipPage,noSideScroll,failure})]}
+ ...master.cases(ui,today,{fixture,openGroup,wipPage,noSideScroll,failure}),
+ // Owner D15-6: Buat Potongan with the PO made automatically (cp7_auto_po_browser.mjs).
+ ...autoPo.cases(ui,today,{fixture,noSideScroll,failure})]}

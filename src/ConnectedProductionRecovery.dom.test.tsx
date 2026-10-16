@@ -65,6 +65,9 @@ function server() {
       }
       if (name === 'erp_get_cutting_pickup_queue_v1') return { data: pickupFixture(), error: null }
     }
+    // Owner D15-6: the page also reads the auto-PO workspace (no write); these cases use an existing PO.
+    if (name === 'erp_cp7_get_cutting_auto_po_v1') return { data: { contract_version: 'cp7.cutting-auto-po-workspace.v1', today: '2026-10-16', can_draft: true, can_post: true,
+      models: { total: 0, offset: 0, query: '', rows: [] }, drafts: [], selected_draft: null, business_DML: false }, error: null }
     const payload = args.p_payload as Record<string, unknown>
     const id = String(args.p_client_request_id)
     if (!saved.has(id)) {
@@ -267,7 +270,12 @@ describe('real Cutting/Pickup forms keep pending, committed and stale distinct',
     await act(async () => root.render(kind === 'CUTTING' ? <ConnectedCuttingPage/> : <ConnectedPickupPage/>)); await settle()
     expect(container.textContent).toContain('Web Locks')
     expect(writes()).toHaveLength(0)
-    expect(button(kind === 'CUTTING' ? 'Post ke WIP' : 'Catat pickup').disabled).toBe(true)
+    if (kind === 'CUTTING') {
+      // Owner D15-6: the page opens on the automatic-PO mode; its post, its draft save and the mode switch are all locked.
+      expect(button('Sahkan & buat PO').disabled).toBe(true)
+      expect(button('Simpan draft').disabled).toBe(true)
+      expect(container.querySelector<HTMLFieldSetElement>('fieldset.ccut-po-mode')!.disabled).toBe(true)
+    } else expect(button('Catat pickup').disabled).toBe(true)
   })
   it('rejects a missed cross-tab generation change before dispatching a stale request', async () => {
     server(); await mount('PICKUP')

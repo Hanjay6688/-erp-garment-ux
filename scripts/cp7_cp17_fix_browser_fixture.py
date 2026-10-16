@@ -121,6 +121,37 @@ def chain_state(cur,p):
     return dict(po_mandor=po[0],posted_pickups=pick[0],sewn=cases.sewn_ready(cur,dict(group=p['group']))[0],posted_work=len(works),
                 wage=[[str(x) for x in cases.wage_journal(cur,w[0])] for w in works],snapshots=snaps)
 
+def auto_po(cur,today):
+    """Owner D15-6: a posted estimated receipt of one roll (10) at its own raw warehouse, what the Buat Potongan screen needs
+    to find it, and the next free PO number of the cutting day (the oracle's own count, as in the Native cases)."""
+    import cp7_auto_po_cases as autopo
+    f=autopo.receipt(cur,today);p=autopo.prod();cases.b.api.admin(cur);one=lambda sql,args:cur.execute(sql,args).fetchone()
+    day=f['purchase_day']+timedelta(days=1);pre=autopo.prefix(cur,p.at(day,8).isoformat())
+    model_code,model_name=one('select model_code,model_name from erp.product_models where id=%s',(p.MODEL,))
+    pattern_code,revision=one('select pattern_code,revision from erp.production_patterns where id=%s',(p.PATTERN,))
+    sizes=[r[0] for r in cur.execute("""select s.size_code from erp.product_model_sizes pms join erp.sizes s on s.id=pms.size_id
+        where pms.model_id=%s and s.is_active order by pms.sort_order,s.sort_order,s.size_code""",(p.MODEL,)).fetchall()]
+    return dict(model=str(p.MODEL),model_code=model_code,model_name=model_name,pattern_code=pattern_code,pattern_revision=revision,
+        location=str(f['location']),roll=str(f['roll']),roll_number=one('select roll_number from erp.material_rolls where id=%s',(f['roll'],))[0],
+        size_code=one('select size_code from erp.sizes where id=%s',(autopo.base().SIZE,))[0],sizes=sizes,cut_local=f'{day:%Y-%m-%d}T08:00',
+        prefix=pre,expected=autopo.next_number(cur,pre))
+
+def auto_po_state(cur,p):
+    """Read directly from the Native rows: the POs whose cutting took this roll, the roll's stock at its warehouse, the
+    facade's drafts and requests for this roll, and whether the expected PO number is taken."""
+    one=lambda sql,args:cur.execute(sql,args).fetchone()
+    pos=[list(r) for r in cur.execute("""select o.po_number,o.status,o.current_stage,o.model_id::text,o.target_qty_pcs,
+        (select count(*) from erp.cutting_groups g where g.po_id=o.id),(select count(*) from erp.cutting_groups g where g.po_id=o.id and g.material_issue_posted),
+        (select string_agg(g.group_number,',' order by g.group_number) from erp.cutting_groups g where g.po_id=o.id)
+        from erp.production_orders o where exists(select 1 from erp.cutting_groups g join erp.cutting_group_rolls r on r.cutting_group_id=g.id
+        where g.po_id=o.id and r.roll_id=%s) order by o.po_number""",(p['roll'],)).fetchall()]
+    drafts=[list(r) for r in cur.execute("""select d.id::text,d.status,d.row_version,(select o.po_number from erp.production_orders o where o.id=d.posted_po_id)
+        from cp7_cutting_correction.auto_po_drafts d where d.cutting->'rolls'->0->>'roll_id'=%s order by d.created_at,d.id""",(p['roll'],)).fetchall()]
+    return dict(pos=pos,drafts=drafts,
+        requests=one("select count(*) from cp7_cutting_correction.auto_po_requests where payload->'cutting'->'rolls'->0->>'roll_id'=%s",(p['roll'],))[0],
+        stock=str(one('select coalesce(sum(qty_signed),0) from erp.material_stock_movements where roll_id=%s and location_id=%s',(p['roll'],p['location']))[0]),
+        taken=one('select count(*) from erp.production_orders where po_number=%s',(p['expected'],))[0])
+
 def main():
     target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
     assert url.hostname in('localhost','127.0.0.1')and url.path=='/cp6_auditor_browser','DISPOSABLE_BROWSER_ONLY'
@@ -207,6 +238,8 @@ def main():
             f=cases.cut.cutting.qc.physical.b.chain.production.estimated_receipt(cur,date.fromisoformat(p['today']));cases.b.api.admin(cur)
             out=dict(location=str(f['location']),code=one('select location_code from erp.locations where id=%s',(f['location'],))[0])
         elif operation=='chain':out=chain(cur,date.fromisoformat(p['today']))
+        elif operation=='auto_po':out=auto_po(cur,date.fromisoformat(p['today']))
+        elif operation=='auto_po_state':out=auto_po_state(cur,p)
         elif operation=='chain_state':out=chain_state(cur,p)
         elif operation=='series':out=series(cur,date.fromisoformat(p['today']))
         elif operation=='series_state':out=series_state(cur,p)
