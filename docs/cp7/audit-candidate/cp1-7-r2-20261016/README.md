@@ -51,6 +51,10 @@ FABLE-005 (pemetaan 75 C6 + 22 ALL) ditutup dengan menyalin berkas Astra byte de
 - **Lapisan CP7 belum terpasang di Enteng** (CP7C ditahan, D13-9a). Layar yang tercatat CONNECTED untuk Enteng di
   `src/screenActivation.ts`, termasuk layar master baru, memanggil RPC `erp_cp7_*` yang baru ada sesudah pemasangan itu.
   Semua uji browser memakai build `DISPOSABLE_TEST` di database sekali pakai.
+- **Produk dari impor belum punya resep aksesori.** Native menolak QC → barang jadi dan order rework untuk produk itu
+  sampai resepnya ditetapkan di layar Produk & SKU (boleh "tanpa aksesori"). Resep dari layar itu berlaku mulai saat
+  disimpan (BF_HISTORY menolak awal yang lampau), jadi kejadian yang lebih awal tidak bisa memakainya. Rantai R2-07 kedua
+  menjalankan urutan ini (temuan penulis saat menulis rantai itu, run 38875002986).
 - **Tanggal cutover resmi** belum berlaku di mana pun sampai disahkan lewat aplikasi; sebelum itu penjaga D15-5 tidak
   menolak apa pun.
 - **Sensus lebar HP** memeriksa build demo. Layar tersambung diperiksa per uji browser (`noSideScroll`) hanya pada layar
