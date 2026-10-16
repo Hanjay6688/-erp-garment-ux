@@ -1,0 +1,95 @@
+name: AUDIT/SOL/r2/CodeQL
+run-name: AUDIT/CP1-7-r2/SOL/2e9d6a46/CodeQL/initial
+'on':
+  push:
+    branches:
+    - audit/sol-cp1-7-r2-2e9d6a46-20261016
+    paths:
+    - .github/workflows/audit-sol-r2-codeql.yml
+  workflow_dispatch: {}
+permissions:
+  contents: read
+concurrency:
+  group: sol-r2-codeql-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  codeql:
+    name: Sol independent CodeQL / ${{ matrix.language }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        language:
+        - javascript-typescript
+        - actions
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        ref: 2e9d6a468c110684c278d585418eb404250d1150
+        persist-credentials: false
+    - name: Sol verifies immutable candidate and runtime source
+      working-directory: .
+      run: 'set -euo pipefail
+
+        python - <<''PY''
+
+        import hashlib,json,os,subprocess
+
+        from pathlib import Path
+
+        c=''2e9d6a468c110684c278d585418eb404250d1150''
+
+        g=lambda *a:subprocess.check_output([''git'',*a],text=True).strip()
+
+        assert g(''rev-parse'',''HEAD'')==c
+
+        assert g(''rev-parse'',''HEAD^{tree}'')==''5e50d224f8e74fa3bca83b599fb606739435b598''
+
+        assert not g(''diff'',''HEAD'',''--name-only'')
+
+        paths=[''src'',''supabase/release'',''supabase/migrations'',''scripts/cp7-src'',''supabase/dev'',''scripts'',''.github/workflows'']
+
+        d=dict(candidate_sha=c,candidate_tree=g(''rev-parse'',''HEAD^{tree}''),workflow_sha=os.environ[''GITHUB_SHA''],trees={p:g(''rev-parse'',c+'':''+p)for
+        p in paths},guide_sha256=hashlib.sha256(Path(''docs/AUDIT_PANDUAN_PRO_MAX.md'').read_bytes()).hexdigest(),evidence_origin=''INDEPENDENT_NATIVE_RERUN'',production_go=False)
+
+        assert d[''guide_sha256'']==''5752e96df751de5ebe4b86d3f572cffa1bbe94eb42bf8e283fa6e04f9f593639''
+
+        Path(os.environ[''RUNNER_TEMP''],''SOL_SOURCE_IDENTITY.json'').write_text(json.dumps(d,indent=2)+''\n'')
+
+        print(json.dumps(d))
+
+        PY
+
+        '
+    - uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+      with:
+        languages: ${{ matrix.language }}
+        build-mode: none
+        queries: security-extended
+    - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+      with:
+        output: cp7-codeql
+        upload: never
+        upload-database: false
+    - name: Reject CodeQL findings or incomplete runs
+      run: "python3 - <<'PY'\nimport json, pathlib\nfiles = list(pathlib.Path('cp7-codeql').glob('*.sarif'))\nassert files,\
+        \ 'No SARIF produced'\nfor f in files:\n    report = json.loads(f.read_text())\n    assert report.get('runs'), 'No\
+        \ analysis runs'\n    for run in report['runs']:\n        assert not run.get('results'), 'CodeQL findings need review'\n\
+        \        assert run.get('invocations'), 'No invocation evidence'\n        for invocation in run['invocations']:\n\
+        \            assert invocation.get('executionSuccessful') is True, 'Incomplete CodeQL'\nprint('CodeQL completed with\
+        \ zero findings')\nPY\n"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp17-r2-20261016-SOL-2e9d6a46-codeql-${{ matrix.language }}
+        path: cp7-codeql
+        if-no-files-found: error
+        retention-days: 90
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp17-r2-20261016-SOL-2e9d6a46-codeql-${{ matrix.language }}-identity
+        path: ${{ runner.temp }}/SOL_SOURCE_IDENTITY.json
+        retention-days: 90
+        if-no-files-found: warn

@@ -1,0 +1,14 @@
+{
+  "stage": "PREDECLARATION_BEFORE_EXECUTION",
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "provider": "Existing pinned cp7-shell CodeQL steps, unchanged query and zero-findings gate",
+  "languages": [
+    "javascript-typescript",
+    "actions"
+  ],
+  "queries": "security-extended",
+  "required": "Every SARIF run has results=[] and invocation.executionSuccessful=true",
+  "reason": "R2 introduced an HTTP census server; writer found and repaired path injection during qualification. Independently check final changed source and workflow surfaces.",
+  "product_source_modified": false,
+  "production_go": false
+}
