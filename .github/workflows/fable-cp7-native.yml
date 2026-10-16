@@ -3,7 +3,7 @@
 # .github/workflows/claude-p19-transport.yml at d0b9e9c2; the product checkout is pinned to d0b9e9c2, never a moving head).
 # Nothing here touches a hosted database. Evidence only; production_go:false.
 name: AUDIT/fable/cp7-native
-run-name: AUDIT/cp17c-20261015/fable/${{ inputs.product_ref || 'dfab13bf' }}/${{ inputs.scenario || 'fable_cp7_smoke' }}/1
+run-name: AUDIT/r2-20261016/fable/${{ inputs.product_ref || '2e9d6a46' }}/${{ inputs.scenario || 'fable_cp7_smoke' }}/1
 'on':
   push:
     branches:
@@ -27,11 +27,11 @@ run-name: AUDIT/cp17c-20261015/fable/${{ inputs.product_ref || 'dfab13bf' }}/${{
       product_ref:
         description: product commit to install and test (pinned checkout; default = combined candidate dfab13bf (D14-16))
         required: false
-        default: dfab13bf62398a69a02bf6221c06d29075e5e40b
+        default: 2e9d6a468c110684c278d585418eb404250d1150
       product_tree:
         description: expected tree of product_ref (asserted before anything runs)
         required: false
-        default: 886f83312958b53781a450a4ea2a8fb2147b3be3
+        default: 5e50d224f8e74fa3bca83b599fb606739435b598
 permissions:
   contents: read
   actions: read
@@ -71,7 +71,7 @@ jobs:
       with:
         path: auditor
         fetch-depth: 0
-        ref: ${{ inputs.product_ref || 'dfab13bf62398a69a02bf6221c06d29075e5e40b' }}
+        ref: ${{ inputs.product_ref || '2e9d6a468c110684c278d585418eb404250d1150' }}
         persist-credentials: false
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
@@ -98,8 +98,8 @@ jobs:
         persist-credentials: false
     - name: Assert the audited product identity (commit and tree from the dispatch inputs)
       env:
-        PRODUCT_REF: ${{ inputs.product_ref || 'dfab13bf62398a69a02bf6221c06d29075e5e40b' }}
-        PRODUCT_TREE: ${{ inputs.product_tree || '886f83312958b53781a450a4ea2a8fb2147b3be3' }}
+        PRODUCT_REF: ${{ inputs.product_ref || '2e9d6a468c110684c278d585418eb404250d1150' }}
+        PRODUCT_TREE: ${{ inputs.product_tree || '5e50d224f8e74fa3bca83b599fb606739435b598' }}
       run: |
         set -euo pipefail
         test "$(git -C auditor rev-parse HEAD)" = "$PRODUCT_REF"
