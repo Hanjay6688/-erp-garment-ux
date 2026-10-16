@@ -1,0 +1,165 @@
+name: AUDIT/Astra/r2-g01
+'on':
+  push:
+    branches:
+    - audit/astra-cp1-7-r2-2e9d6a46-20261016
+    paths:
+    - .github/workflows/audit-astra-r2-g01.yml
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: astra-r2-g01-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  baseline:
+    name: Rebuild test chain to v2.6.20 and fingerprint its catalog
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP6_AC_INDEPENDENT_CONFIRM: postgres
+      CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: auditor
+        fetch-depth: 0
+        persist-credentials: false
+        ref: 2e9d6a468c110684c278d585418eb404250d1150
+    - name: Assert frozen candidate identity
+      working-directory: auditor
+      shell: bash
+      run: |
+        set -euo pipefail
+        test "$(git rev-parse HEAD)" = 2e9d6a468c110684c278d585418eb404250d1150
+        test "$(git rev-parse HEAD^{tree})" = 5e50d224f8e74fa3bca83b599fb606739435b598
+        test -z "$(git status --porcelain)"
+        printf "ASTRA_CANDIDATE_SHA=%s\nASTRA_CANDIDATE_TREE=%s\n" "$(git rev-parse HEAD)" "$(git rev-parse HEAD^{tree})"
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: base
+        fetch-depth: 0
+        ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        persist-credentials: false
+    - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      with:
+        python-version: '3.12'
+    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      with:
+        node-version: '22'
+    - name: Install pinned disposable runtime
+      shell: bash
+      run: |
+        set -euo pipefail
+        python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq ca-certificates curl gnupg
+        sudo install -d /usr/share/postgresql-common/pgdg
+        sudo curl --fail --silent --show-error \
+          -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        key_fingerprint="$(gpg --show-keys --with-colons \
+          /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          | awk -F: '$1 == "fpr" { print $10; exit }')"
+        test "$key_fingerprint" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'
+        . /etc/os-release
+        architecture="$(dpkg --print-architecture)"
+        sudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF
+        Types: deb
+        URIs: https://apt.postgresql.org/pub/repos/apt
+        Suites: ${VERSION_CODENAME}-pgdg
+        Architectures: ${architecture}
+        Components: main
+        Signed-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc
+        EOF
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq postgresql-client-17
+        test -x /usr/lib/postgresql/17/bin/psql
+        echo '/usr/lib/postgresql/17/bin' >> "$GITHUB_PATH"
+    - name: Install pinned Supabase CLI
+      uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+      with:
+        version: 2.116.0
+    - name: Start disposable database
+      working-directory: base
+      shell: bash
+      run: |
+        set -euo pipefail
+        test "$(git rev-parse HEAD)" = 1bdca3766f7c9800d68295ff5122798060b8a05d
+        test "$(git rev-parse HEAD^{tree})" = 334629c626257b8b713826f491cdf62385d5299b
+        test -z "$(git status --porcelain)"
+        mkdir cp5-local
+        supabase init --force --workdir cp5-local
+        mkdir -p cp5-local/supabase/.temp
+        echo '17.6.1.165' > cp5-local/supabase/.temp/postgres-version
+        sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml
+        # Image pulls from ghcr.io can hit its rate limit before anything runs;
+        # retry the start itself (infrastructure only, no test has run yet).
+        # ghcr.io can rate-limit image pulls before anything runs. Retry the start
+        # only (no test has run), falling back to the same image tags on public.ecr.aws.
+        for attempt in 1 2 3 4; do
+          if [ "$attempt" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi
+          if supabase start --workdir cp5-local \
+            -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \
+            > "$RUNNER_TEMP/cp6-local-start.log" 2>&1; then
+            echo "supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}"
+            break
+          fi
+          tail -n 20 "$RUNNER_TEMP/cp6-local-start.log"
+          supabase stop --workdir cp5-local --no-backup || true
+          if [ "$attempt" = 4 ]; then exit 1; fi
+          sleep $((attempt * 60))
+        done
+    - name: Rebuild the frozen test chain and stop after v2.6.20
+      working-directory: base
+      env:
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: |
+        set -euo pipefail
+        mkdir -p ../auditor/cp6-proof/g01
+        export CP6_AC_WRITER_ARTIFACT="$RUNNER_TEMP/ac-native200.zip"
+        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \
+          > "$CP6_AC_WRITER_ARTIFACT" || { rm -f "$CP6_AC_WRITER_ARTIFACT"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }
+        PYTHONPATH=scripts python ../auditor/scripts/cp6_g01_baseline.py ../auditor/cp6-proof/g01/BASELINE_BUILD.json
+        cat ../auditor/cp6-proof/g01/BASELINE_BUILD.json
+    - name: Capture the read-only fingerprint and compare with hosted
+      working-directory: auditor
+      shell: bash
+      run: |
+        set -euo pipefail
+        python scripts/cp6_g01_fingerprint.py capture cp6-proof/g01/BASELINE_V2620.json
+        python scripts/cp6_g01_fingerprint.py compare docs/evidence/cp6-g01/hosted_summary.json cp6-proof/g01/BASELINE_V2620.json \
+          | tee cp6-proof/g01/COMPARE_HOSTED_BASELINE.json
+    - name: Align the test baseline with hosted (G-01 option 1) and verify every changed object
+      working-directory: auditor
+      shell: bash
+      run: |
+        set -euo pipefail
+        # Test side only: the script asserts the local disposable endpoint and never connects to hosted.
+        python scripts/cp6_g01_align.py sql > cp6-proof/g01/ALIGN.sql
+        status=0
+        python scripts/cp6_g01_align.py apply cp6-proof/g01/ALIGN_PER_OBJECT.json || status=$?
+        cat cp6-proof/g01/ALIGN_PER_OBJECT.json
+        exit "$status"
+    - name: Capture the aligned fingerprint and compare with hosted
+      working-directory: auditor
+      shell: bash
+      run: |
+        set -euo pipefail
+        python scripts/cp6_g01_fingerprint.py capture cp6-proof/g01/ALIGNED_V2620.json > cp6-proof/g01/ALIGNED_CAPTURE.log
+        python scripts/cp6_g01_fingerprint.py compare docs/evidence/cp6-g01/hosted_summary.json cp6-proof/g01/ALIGNED_V2620.json \
+          | tee cp6-proof/g01/COMPARE_HOSTED_ALIGNED.json
+    - name: Remove disposable database
+      if: always()
+      working-directory: base
+      run: supabase stop --workdir cp5-local --no-backup
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: audit-r2-Astra-2e9d6a46-g01
+        path: auditor/cp6-proof/g01
+        retention-days: 90
+run-name: AUDIT/r2-20261016/Astra/2e9d6a46/g01/1

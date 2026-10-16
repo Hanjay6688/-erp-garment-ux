@@ -1,0 +1,47 @@
+{
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "candidate_tree": "5e50d224f8e74fa3bca83b599fb606739435b598",
+  "writer_head": "b388a4b7d4b0291de81b68d1e624a062eda5edd1",
+  "audit_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+  "prior_report_commit": "5a5beeb23d7f57f157e02bca877fcfd19e5c6f86",
+  "recorded_at_utc": "2026-10-16T16:02:41.108985+00:00",
+  "product_trees": {
+    "src": "5fd3d2b8616bcdfd92c145ba6dfcfb6e22a11663",
+    "supabase/release": "be1e91c172ffb5c05b694a3a54c69562700c6d5e",
+    "supabase/migrations": "8f6053bbd0bda80da18065418ad43371cdfd9461",
+    "scripts/cp7-src": "32edbc0bc8e97007c2800b1eb697191bde197426",
+    "supabase/dev": "88759f4fc51864a1ec9e224fcb4f236204b5c853",
+    "scripts": "6c5f4e4243760e338470246492885d08018a8cda",
+    ".github": "8ee9c34a0d0393588cb1057473f48528a87cf42b",
+    "package.json": "8707f6817acfc294caeab8aa54496df5b8dde04e",
+    "package-lock.json": "ca9159d26989e0263b6b757f5f824bd9333d8cf6",
+    "vite.config.ts": "4d782219003da02d024ed397e11abb686694c1cb"
+  },
+  "writer_trees": {
+    "src": "5fd3d2b8616bcdfd92c145ba6dfcfb6e22a11663",
+    "supabase/release": "be1e91c172ffb5c05b694a3a54c69562700c6d5e",
+    "supabase/migrations": "8f6053bbd0bda80da18065418ad43371cdfd9461",
+    "scripts/cp7-src": "32edbc0bc8e97007c2800b1eb697191bde197426",
+    "supabase/dev": "88759f4fc51864a1ec9e224fcb4f236204b5c853",
+    "scripts": "6c5f4e4243760e338470246492885d08018a8cda",
+    ".github": "8ee9c34a0d0393588cb1057473f48528a87cf42b",
+    "package.json": "8707f6817acfc294caeab8aa54496df5b8dde04e",
+    "package-lock.json": "ca9159d26989e0263b6b757f5f824bd9333d8cf6",
+    "vite.config.ts": "4d782219003da02d024ed397e11abb686694c1cb"
+  },
+  "after_candidate_changes": [
+    "docs/ERP_BEST_PRACTICES.md",
+    "docs/cp7/audit-candidate/cp1-7-r2-20261016/CI_RECEIPT.json",
+    "docs/cp7/audit-candidate/cp1-7-r2-20261016/CROSS_AUDIT.md",
+    "docs/cp7/audit-candidate/cp1-7-r2-20261016/HANDOFF_ASTRA.md",
+    "docs/cp7/audit-candidate/cp1-7-r2-20261016/HANDOFF_FABLE.md",
+    "docs/cp7/audit-candidate/cp1-7-r2-20261016/HANDOFF_SOL.md",
+    "docs/cp7/audit-candidate/cp1-7-r2-20261016/README.md",
+    "docs/cp7/audit-candidate/cp1-7-r2-20261016/WRITER_HANDOFF.md"
+  ],
+  "supabase_changes_since_prior": [],
+  "guide_sha256": "5752e96df751de5ebe4b86d3f572cffa1bbe94eb42bf8e283fa6e04f9f593639",
+  "owner_register_sha256": "aef66a6e7a2bdb62bb17d816f2be13c42c24724b17cc6d7d299631d5a73fb014",
+  "current_round_other_auditor_exposure": [],
+  "production_go": false
+}
