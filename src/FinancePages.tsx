@@ -47,8 +47,10 @@ function Pill({children,tone}:{children:string;tone?:Tone}) {
   return <span className={`biz-pill ${tone??financeTone(children)}`}>{children.replaceAll('_',' ')}</span>
 }
 
+// These pages are the UX sample. Owner D15-2 / Fable FABLE-015: the sample label belongs to the page, not to the absence of
+// a header button (Ringkasan Keuangan and Payroll & Kasbon have one), so every figure here is visibly a sample.
 function FinanceHero({eyebrow,title,description,icon:Glyph,action}:{eyebrow:string;title:string;description:string;icon:typeof WalletCards;action?:React.ReactNode}) {
-  return <section className="biz-hero finance"><div><span>{eyebrow}</span><h1>{title}</h1><p>{description}</p></div>{action??<div className="biz-hero-rule"><Glyph/><div><small>SIMULASI UX</small><strong>Source transaction first</strong><em>Posted dikoreksi lewat reversal, bukan edit.</em></div></div>}</section>
+  return <section className="biz-hero finance"><div><span>{eyebrow}</span><h1>{title}</h1><p>{description}</p>{action?<small role="note">SIMULASI UX · semua angka di halaman ini contoh</small>:null}</div>{action??<div className="biz-hero-rule"><Glyph/><div><small role="note">SIMULASI UX · semua angka di halaman ini contoh</small><strong>Source transaction first</strong><em>Posted dikoreksi lewat reversal, bukan edit.</em></div></div>}</section>
 }
 
 function FinanceModal({title,description,onClose,children,action,actionLabel='Simpan simulasi',disabled=false,danger=false}:{title:string;description:string;onClose:()=>void;children:React.ReactNode;action:()=>void;actionLabel?:string;disabled?:boolean;danger?:boolean}) {

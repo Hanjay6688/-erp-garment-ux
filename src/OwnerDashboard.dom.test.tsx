@@ -23,6 +23,12 @@ describe('OwnerDashboard',()=>{
   expect(container.querySelector('[role="status"][aria-label="Ringkasan dashboard belum tersambung"]')?.textContent).toContain('belum tersambung ke data ERP')
   expect(container.querySelectorAll('.kpi-card').length).toBe(0)
  })
+ it('points only to menus that are connected in this build (owner D15-2)',async()=>{
+  await act(async()=>root.render(<OwnerDashboard connected connectedMenus={['Produksi','Gudang','Keuangan','Master Data']} reminders={[]} onOpenSales={noop} onOpenReminders={noop} onToggleReminder={noop}/>))
+  const notice=container.querySelector('[role="status"][aria-label="Ringkasan dashboard belum tersambung"]')?.textContent??''
+  expect(notice).toContain('menu yang sudah tersambung: Produksi, Gudang, Keuangan, Master Data.')
+  expect(notice).not.toContain('Penjualan')
+ })
  it('keeps the sample dashboard in the demo build',async()=>{
   await mount(false)
   const text=container.textContent??''

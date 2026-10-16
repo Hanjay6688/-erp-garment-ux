@@ -1,12 +1,12 @@
 import { ArrowRight, CalendarDays, Check } from 'lucide-react'
 import { reminderDueLabel, reminderPriorityLabel, type ReminderItem } from './reminders'
 
-export function OwnerDashboard({connected,reminders,onOpenSales,onOpenReminders,onToggleReminder}:{connected:boolean;reminders:ReminderItem[];onOpenSales:()=>void;onOpenReminders:()=>void;onToggleReminder:(id:string)=>void}) {
+export function OwnerDashboard({connected,connectedMenus=[],reminders,onOpenSales,onOpenReminders,onToggleReminder}:{connected:boolean;connectedMenus?:string[];reminders:ReminderItem[];onOpenSales:()=>void;onOpenReminders:()=>void;onToggleReminder:(id:string)=>void}) {
   // Owner 12 Oct 2026 (independent audit Fable F-UI-01): the figures below are a design sample, not ERP numbers. In a
   // connected build they are not shown until the dashboard reads the ERP's own figures; the demo build keeps them.
   if (connected) return <>
     <section className="hero-copy"><div className="eyebrow">DASHBOARD</div><h1>Veni. Vidi. Vici. ERP</h1><p>Pantau uang, stok, HPP, dan aliran produksi tanpa membuka sepuluh laporan.</p></section>
-    <section className="panel dashboard-unlinked" role="status" aria-label="Ringkasan dashboard belum tersambung"><h2>Ringkasan angka belum tersambung ke data ERP</h2><p>Kartu kas, stok, piutang, HPP, grafik, daftar perhatian dan aliran pabrik di halaman ini belum membaca data ERP, jadi tidak ditampilkan. Angka yang sebenarnya ada di menu Keuangan, Gudang, Produksi dan Penjualan.</p></section>
+    <section className="panel dashboard-unlinked" role="status" aria-label="Ringkasan dashboard belum tersambung"><h2>Ringkasan angka belum tersambung ke data ERP</h2><p>Kartu kas, stok, piutang, HPP, grafik, daftar perhatian dan aliran pabrik di halaman ini belum membaca data ERP, jadi tidak ditampilkan. {connectedMenus.length?` Angka yang sebenarnya ada di menu yang sudah tersambung: ${connectedMenus.join(', ')}.`:''}</p></section>
   </>
   const priorityOrder={URGENT:0,NORMAL:1,LOW:2}
   const dashboardReminders=[...reminders].sort((left,right)=>left.status===right.status?priorityOrder[left.priority]-priorityOrder[right.priority]:left.status==='OPEN'?-1:1).slice(0,3)

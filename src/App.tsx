@@ -29,6 +29,7 @@ import { PAGE_PERMISSION_BY_ID, SENSITIVE_ACTION_PERMISSION, firstAllowedPageId,
 import type { ReminderItem } from './reminders'
 import { initialReminders } from './reminders'
 import { OwnerDashboard } from './OwnerDashboard'
+import { connectedSections, isNavLabelHidden, isScreenHidden, SCREEN_ACTIVATION } from './screenActivation'
 import { deriveWipControlStatus } from './wipControlPolicy'
 import CuttingPatternPicker, { hasCanonicalPattern } from './CuttingPatternPicker'
 import type { CuttingPatternChoice } from './CuttingPatternPicker'
@@ -447,10 +448,11 @@ function ErpApp() {
   const { runtime, identity } = useAuth()
   const accessBundle = identity.status === 'AUTHORIZED' ? identity : null
   const demoAccess = identity.status === 'DEMO'
-  const canSeeNavLabel = (label: string) => demoAccess || isNavLabelAllowed(accessBundle, label)
+  // Owner D15-2: in the Enteng build a menu without a connected screen is hidden (src/screenActivation.ts).
+  const canSeeNavLabel = (label: string) => (demoAccess || isNavLabelAllowed(accessBundle, label)) && !isNavLabelHidden(runtime.mode, label)
   const [page, setPageState] = useState<Page>(() => demoAccess
     ? 'dashboard'
-    : (firstAllowedPageId(accessBundle) as Page | null) ?? 'dashboard')
+    : (firstAllowedPageId(accessBundle, Object.keys(PAGE_PERMISSION_BY_ID).filter(id => !isScreenHidden(runtime.mode, id))) as Page | null) ?? 'dashboard')
   const [sourceEpoch,setSourceEpoch]=useState(0)
   const setPage=(next:Page)=>{if(next!==page)setInvoiceSource(null);setSourceEpoch(value=>value+1);setPageState(next)}
   const [invoiceSource,setInvoiceSource] = useState<{saleId:string;scope:string}|null>(null)
@@ -626,9 +628,10 @@ function ErpApp() {
     <main className="main-panel">
       <header className="topbar"><button className="mobile-menu" aria-label="Buka menu" onClick={() => setMobileNav(true)}><Icon name="menu" /></button><div className="top-title"><div className="top-icon"><Icon name="dashboard" /></div><div><strong>{title}</strong><span>{page === 'dashboard' ? 'Satu layar untuk keputusan hari ini' : 'Cepat, jelas, dan aman buat operasional'}</span></div></div><div className="top-actions"><RuntimeBadge/><button className="round-btn" aria-label="Cari"><Icon name="search" /></button><RuntimeIdentity/></div></header>
       <div className="page-wrap" data-keyboard-scope onKeyDown={handleErgonomicKeyboard}>
-        {!(demoAccess || isPageAllowed(accessBundle, page)) ? <AccessDenied permission={PAGE_PERMISSION_BY_ID[page] ?? 'route.unowned'} roleName={identity.status === 'AUTHORIZED' ? identity.profile.roleName : 'Tidak diketahui'} /> : <>
+        {!(demoAccess || isPageAllowed(accessBundle, page)) ? <AccessDenied permission={PAGE_PERMISSION_BY_ID[page] ?? 'route.unowned'} roleName={identity.status === 'AUTHORIZED' ? identity.profile.roleName : 'Tidak diketahui'} /> : isScreenHidden(runtime.mode, page) ? <ScreenNotConnected label={SCREEN_ACTIVATION[page]?.label ?? title}/> : <>
         {page === 'dashboard' && <OwnerDashboard
           connected={runtime.mode !== 'DEMO_SIMULATION'}
+          connectedMenus={connectedSections(runtime.mode).filter(section => section !== 'Dashboard' && section !== 'Pengaturan & Audit')}
           reminders={reminders}
           onOpenSales={() => setPage('sales-invoice')}
           onOpenReminders={() => setPage('admin-reminders')}
@@ -768,6 +771,11 @@ function ErpApp() {
 
 function WorkspaceFallback({ label }: { label: string }) {
   return <div className="panel placeholder"><div className="placeholder-icon">◇</div><h2>Menyiapkan {label}…</h2><p>Memuat workspace dan guardrail transaksi.</p></div>
+}
+
+// Owner D15-2: a menu whose screen is not connected in this build shows no figure at all, sample or otherwise.
+export function ScreenNotConnected({ label }: { label: string }) {
+  return <section className="panel placeholder" role="status" aria-label={`${label} belum tersambung`}><div className="placeholder-icon"><ShieldCheck/></div><h2>{label} belum tersambung</h2><p>Layar ini belum membaca data ERP di aplikasi ini, jadi tidak ditampilkan. Menu ini muncul begitu layarnya tersambung.</p></section>
 }
 
 export function AccessDenied({ permission, roleName }: { permission: string; roleName: string }) {
