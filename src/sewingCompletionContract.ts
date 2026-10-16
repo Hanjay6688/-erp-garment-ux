@@ -7,6 +7,9 @@ export type SewingBlocker = { kind: string; id: string | null; label: string | n
 export type SewingComponent = { code: string; name: string; rate: number; postedQty: number }
 // Before the first record: the rates the Native snapshot would take now (estimate; the record commits them at the sewing time).
 export type SewingRate = { code: string; name: string; rate: number }
+// Owner D15-3: rates are dated. Each segment [from, to) holds the rates the Native snapshot takes at a sewing time inside it
+// (from the pickup up to now), so the screen shows the rates of the time it sends.
+export type SewingRateSegment = { from: string; to: string | null; complete: boolean; rates: SewingRate[] }
 export type SewingEvent = {
   id: string; number: string; qtyPcs: number; physicalAt: string; rowVersion: number; reason: string
   workCompletionId: string; workStatus: string | null; reversed: boolean; wageAmount: number; inPayroll: boolean
@@ -16,7 +19,7 @@ export type SewingWorkspace = {
   groupId: string; groupVersion: string; number: string; poId: string; poNumber: string; poStatus: string
   contractorId: string | null; contractorName: string | null; pickedUpAt: string | null
   effectivePcs: number; sewnPcs: number; maxQty: number; readyUnsentPcs: number; laundryDraftPcs: number
-  ratesCommitted: boolean; components: SewingComponent[]; ratePreview: SewingRate[]; events: SewingEvent[]; canCancel: boolean
+  ratesCommitted: boolean; components: SewingComponent[]; ratePreview: SewingRate[]; rateTimeline: SewingRateSegment[]; events: SewingEvent[]; canCancel: boolean
   reviewToken: string; eligible: boolean; blockers: SewingBlocker[]
 }
 export type SewingOutcome = {
@@ -45,11 +48,11 @@ export function parseSewingWorkspace(value: unknown, groupId: string): SewingWor
   const r = record(value)
   keys(r, ['contract_version', 'group_id', 'group_version', 'number', 'po_id', 'po_number', 'po_status', 'contractor_id', 'contractor_name',
     'picked_up_at', 'effective_pcs', 'sewn_pcs', 'max_qty', 'ready_unsent_pcs', 'laundry_draft_pcs', 'rates_committed', 'components',
-    'rate_preview', 'events', 'can_cancel', 'review_token', 'eligible', 'blockers', 'business_DML'])
+    'rate_preview', 'rate_timeline', 'events', 'can_cancel', 'review_token', 'eligible', 'blockers', 'business_DML'])
   if (r.contract_version !== 'cp7.sewing-completion-workspace.v1' || r.business_DML !== false || r.group_id !== groupId
     || typeof r.group_version !== 'string' || !/^[1-9][0-9]{0,18}$/.test(r.group_version)
     || typeof r.review_token !== 'string' || !/^[a-f0-9]{32}$/.test(r.review_token)
-    || !Array.isArray(r.components) || !Array.isArray(r.rate_preview) || !Array.isArray(r.events) || !Array.isArray(r.blockers)) fail()
+    || !Array.isArray(r.components) || !Array.isArray(r.rate_preview) || !Array.isArray(r.rate_timeline) || !Array.isArray(r.events) || !Array.isArray(r.blockers)) fail()
   const components = r.components.map(v => {
     const c = record(v); keys(c, ['code', 'name', 'rate', 'posted_qty'])
     return { code: text(c.code), name: text(c.name), rate: money(c.rate), postedQty: count(c.posted_qty) }
@@ -58,6 +61,15 @@ export function parseSewingWorkspace(value: unknown, groupId: string): SewingWor
     const c = record(v); keys(c, ['code', 'name', 'rate'])
     return { code: text(c.code), name: text(c.name), rate: money(c.rate) }
   })
+  const rateTimeline = r.rate_timeline.map(v => {
+    const t = record(v); keys(t, ['from', 'to', 'complete', 'rates'])
+    if (!Array.isArray(t.rates)) fail()
+    const rates = t.rates.map(x => { const c = record(x); keys(c, ['code', 'name', 'rate']); return { code: text(c.code), name: text(c.name), rate: money(c.rate) } })
+    const complete = bool(t.complete)
+    if (complete && rates.length === 0) fail()
+    return { from: instant(t.from), to: t.to === null ? null : instant(t.to), complete, rates }
+  })
+  for (let i = 1; i < rateTimeline.length; i++) if (rateTimeline[i - 1].to !== rateTimeline[i].from) fail()
   const events = r.events.map(v => {
     const e = record(v)
     keys(e, ['id', 'number', 'qty_pcs', 'physical_at', 'row_version', 'reason', 'work_completion_id', 'work_status', 'reversed', 'wage_amount',
@@ -74,15 +86,24 @@ export function parseSewingWorkspace(value: unknown, groupId: string): SewingWor
   })
   const eligible = bool(r.eligible), maxQty = count(r.max_qty)
   if (eligible !== (blockers.length === 0) || (eligible && maxQty === 0) || bool(r.rates_committed) !== (components.length > 0)
-    || (components.length > 0 && ratePreview.length > 0) || (eligible && components.length === 0 && ratePreview.length === 0)) fail()
+    || (components.length > 0 && (ratePreview.length > 0 || rateTimeline.length > 0))
+    || (eligible && components.length === 0 && !rateTimeline.some(t => t.complete))) fail()
   const pickedUpAt = r.picked_up_at === null ? null : instant(r.picked_up_at)
   return {
     groupId, groupVersion: r.group_version, number: text(r.number), poId: id(r.po_id), poNumber: text(r.po_number), poStatus: text(r.po_status),
     contractorId: r.contractor_id === null ? null : id(r.contractor_id), contractorName: nullableText(r.contractor_name), pickedUpAt,
     effectivePcs: count(r.effective_pcs), sewnPcs: count(r.sewn_pcs), maxQty, readyUnsentPcs: count(r.ready_unsent_pcs),
-    laundryDraftPcs: count(r.laundry_draft_pcs), ratesCommitted: bool(r.rates_committed), components, ratePreview, events, canCancel: bool(r.can_cancel),
+    laundryDraftPcs: count(r.laundry_draft_pcs), ratesCommitted: bool(r.rates_committed), components, ratePreview, rateTimeline, events, canCancel: bool(r.can_cancel),
     reviewToken: r.review_token, eligible, blockers,
   }
+}
+
+// The rates the first record will lock for a sewing time: the segment holding it, or null when no complete set applies then.
+export function ratesAt(w: SewingWorkspace, iso: string | null): SewingRate[] | null {
+  if (iso === null) return null
+  const t = new Date(iso).getTime()
+  const seg = w.rateTimeline.find(s => new Date(s.from).getTime() <= t && (s.to === null || t < new Date(s.to).getTime()))
+  return seg && seg.complete ? seg.rates : null
 }
 
 export function sewingRecordPayload(w: SewingWorkspace, qty: string, physicalAtIso: string | null, reason: string): Json {

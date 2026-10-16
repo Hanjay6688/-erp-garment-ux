@@ -1,11 +1,11 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 81,
+ "expected_case_count": 113,
  "required_case_counts": {
-  "native": 54,
-  "races": 6,
-  "http": 9,
-  "browser": 12
+  "native": 64,
+  "races": 13,
+  "http": 11,
+  "browser": 25
  },
  "required_case_ids": {
   "native": [
@@ -62,7 +62,17 @@
    "CP17_R2_ASTRA_G2_UNSEWN_SIX_MUST_NOT_FINISH",
    "CP17_R2_ASTRA_G2_SEWN_UNSENT_SIX_MUST_NOT_FINISH",
    "CP17_R2_PO_REOPEN_THEN_FINISH_SAME_HPP",
-   "CP17_R2_PO_REOPEN_BLOCKERS_UNCHANGED"
+   "CP17_R2_PO_REOPEN_BLOCKERS_UNCHANGED",
+   "CP17_R2_MASTER_CUSTOMER_LIFECYCLE",
+   "CP17_R2_MASTER_CUSTOMER_USED_IN_SALES",
+   "CP17_R2_MASTER_SUPPLIER_LOCATION_FABRIC_IN_RECEIPT",
+   "CP17_R2_MASTER_VENDOR_AND_LOCATION_RULES",
+   "CP17_R2_MASTER_MANDOR_POLICY_AND_PICKUP_LIST",
+   "CP17_R2_MASTER_FABRIC_PROFILE_BENCHMARK",
+   "CP17_R2_MASTER_ACCESSORY_CATEGORY_VARIANT_PRICE",
+   "CP17_R2_MASTER_ACCESS_RIGHTS",
+   "CP17_R2_MASTER_RATE_VERSIONS_AND_BOM",
+   "CP17_R2_FABLE_D15_3_SCREEN_CHAIN_WAGE_AT_SEWING_DATE"
   ],
   "races": [
    "CP17_RACE_TWO_PAYMENTS_ONE_BANK",
@@ -70,7 +80,14 @@
    "CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS",
    "CP17_RACE_G2_FINISH_TWO_TABS_ONE_WINS",
    "CP17_RACE_R2_CORRECTION_AND_PAYMENT_ONE_BANK",
-   "CP17_RACE_R2_PO_REOPEN_TWO_TABS_ONE_WINS"
+   "CP17_RACE_R2_PO_REOPEN_TWO_TABS_ONE_WINS",
+   "CP17_RACE_R2_MASTER_CUSTOMER_SAME_RECORD_TWO_TABS",
+   "CP17_RACE_R2_MASTER_PARTNER_SAME_CODE_TWO_TABS",
+   "CP17_RACE_R2_MASTER_MANDOR_POLICY_TWO_TABS",
+   "CP17_RACE_R2_WORK_RATE_TWO_TABS",
+   "CP17_RACE_R2_MASTER_LOCATION_DEACTIVATE_AND_UPDATE_TWO_TABS",
+   "CP17_RACE_R2_MASTER_FABRIC_BENCHMARK_TWO_TABS",
+   "CP17_RACE_R2_MASTER_ACCESSORY_SAME_CODE_TWO_TABS"
   ],
   "http": [
    "CP17_HTTP_CASH_EMPTY_BANK_REFUSED",
@@ -81,7 +98,9 @@
    "CP17_HTTP_G2_FINISH_PO",
    "CP17_HTTP_R2_SPENT_INCOME_CORRECTION_COMMITS",
    "CP17_HTTP_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED",
-   "CP17_HTTP_R2_PO_REOPEN"
+   "CP17_HTTP_R2_PO_REOPEN",
+   "CP17_HTTP_R2_MASTER",
+   "CP17_HTTP_R2_WORK_RATE"
   ],
   "browser": [
    "CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP",
@@ -95,7 +114,20 @@
    "CP17_BROWSER_G2_FINISH_DESKTOP",
    "CP17_BROWSER_G2_FINISH_MOBILE",
    "CP17_BROWSER_R2_PO_REOPEN_DESKTOP",
-   "CP17_BROWSER_R2_PO_REOPEN_MOBILE"
+   "CP17_BROWSER_R2_PO_REOPEN_MOBILE",
+   "CP17_BROWSER_R2_MASTER_CUSTOMERS_DESKTOP",
+   "CP17_BROWSER_R2_MASTER_CUSTOMERS_MOBILE",
+   "CP17_BROWSER_R2_MASTER_PARTNERS_DESKTOP",
+   "CP17_BROWSER_R2_MASTER_PARTNERS_MOBILE",
+   "CP17_BROWSER_R2_MASTER_WORKFORCE_RATES_DESKTOP",
+   "CP17_BROWSER_R2_MASTER_WORKFORCE_RATES_MOBILE",
+   "CP17_BROWSER_R2_MASTER_LOCATIONS_DESKTOP",
+   "CP17_BROWSER_R2_MASTER_LOCATIONS_MOBILE",
+   "CP17_BROWSER_R2_MASTER_FABRIC_DESKTOP",
+   "CP17_BROWSER_R2_MASTER_FABRIC_MOBILE",
+   "CP17_BROWSER_R2_MASTER_ACCESSORY_DESKTOP",
+   "CP17_BROWSER_R2_MASTER_ACCESSORY_MOBILE",
+   "CP17_BROWSER_R2_FABLE_D15_3_SCREEN_CHAIN_DESKTOP"
   ]
  },
  "public_rpcs": [
@@ -129,7 +161,11 @@
   "erp_cp7_correct_misc_finance_v1",
   "erp_cp7_correct_sales_payment_v1",
   "erp_cp7_get_sales_payment_correction_v1",
-  "erp_cp7_correct_note_v1"
+  "erp_cp7_correct_note_v1",
+  "erp_cp7_get_master_v1",
+  "erp_cp7_save_master_v1",
+  "erp_cp7_get_work_rates_v1",
+  "erp_cp7_save_work_rate_v1"
  ],
  "owner_decisions": {
   "D14_2": "Pembayaran upah sebelum utangnya ada: \"Tolak, kecuali kasbon (Disarankan)\" (15 Okt 2026)",
@@ -143,7 +179,8 @@
   "D14_11": "Upah rework: \"Ya, upah rework boleh dibayar untuk bagian pekerjaan yang sudah selesai, diperiksa, dan disetujui, walaupun keseluruhan kasus BS masih terbuka atau sebagian. Bagian yang belum selesai tetap ditahan. Qty dan upah harus tertaut ke pekerjaan yang jelas, tercatat sekali, dan tidak dibayar ulang saat kasus BS akhirnya ditutup.\" (15 Okt 2026)",
   "D14_14": "Celah sebelum audit akhir: \"ya yg jelas lu beresin lah\" (15 Okt 2026) — layar jahit selesai, upah borongan dan HPP final dari aplikasi, uji lama dijalankan ulang",
   "D15_1": "Kas tidak boleh minus menurut tanggal ekonomi dan tanggal buku/pengakuan; berlaku juga untuk detektor dan koreksi/pembalikan, tanpa mengubah tanggal asli atau membuka periode tertutup (16 Okt 2026)",
-  "D15_4": "Tombol buka ulang PO dibuat, dengan penghalang seperti fitur koreksi lain (16 Okt 2026)"
+  "D15_4": "Tombol buka ulang PO dibuat, dengan penghalang seperti fitur koreksi lain (16 Okt 2026)",
+  "D15_3": "Data master dan tarif mandor (FABLE-017): \"dibuatkan layar tapi jangan simple banget juga, sedeng lah muat info dan fitur yg dibutuhkan\" (16 Okt 2026)"
  },
  "findings": {
   "FIN01": "Fable FABLE-001, Astra FIN01",
@@ -164,7 +201,8 @@
   "G2_PO_FINISH": "Owner D14-14 gap G2: the connected HPP & Rekalkulasi screen finishes a Production Order (UX demo HPP checklist line \"Produksi sudah selesai\") through the accepted Native erp.finish_production_order only: it shows the Native preconditions (laundry back or claim settled, laundry GOOD through QC, no open BS case, finished goods exist), the PO WIP balance and the Native completeness list before the click; the command refuses a stale review, ends with the PO FINISHED and its WIP balance zero, and cannot be undone from the app",
   "R2_01_CASH": "Round dfab13bf, owner D15-1: Fable FABLE-013 (the D14-3 guard judged only the economic date while the owner cash report uses the book date; a closed-period income booked today let an expense leave yesterday at -500) and Sol SOL-R1-001 (a correction of an income already spent was refused on its half-way balance, before its replacement). The guard now judges both dates, and the customer payment correction, misc correction and sales note correction open a compound scope so the guard judges their end state; a scope left open refuses the whole transaction at commit; the detector lists both dates. Fable's and Sol's scenarios run with their own amounts.",
   "R2_06_SERIES": "Round dfab13bf: Astra ASTRA-C17-01 (a series was keyed by the commercial SKU text alone, so the same SKU number of a second brand joined the first brand's series) and ASTRA-C17-02 (the invoice could be saved while the other sizes of a picked series were still loading). The connected sales screen keys a series by brand name plus commercial SKU from the server row, cancels the review the moment a pick starts and blocks saving until the sizes are in. The D14-5 browser fixture adds a second brand with the same series SKU (size 32, stock 5) that must stay out of the invoice with its stock unchanged.",
-  "R2_05_PO": "Round dfab13bf: Astra ASTRA-C17-05 (the PO finish panel called the HPP final while the server said BELUM_LENGKAP/ESTIMATED, and its workspace said eligible while Native refused: six cut pieces neither sewn-and-sent nor through direct QC) and Fable FABLE-014 (no way to reopen a finished PO from the app; the source comment wrongly said no Native inverse exists). The finish workspace now carries the exact predicate of Native erp.guard_finished_po_source_accounting (SOURCE_UNACCOUNTED), the panel words the HPP from display_status only, and po-reopen.sql reopens through Native erp.reopen_production_order with a review token, reason, idempotency, immutable history and three blockers (NOT_FINISHED, FG_USED, PERIOD_CLOSED). Astra's three journeys run with her own arithmetic; Fable's D15-4 oracle (reopen, ledger-consistent WIP, same HPP on finishing again, two tabs one winner, HTTP, browser) is covered."
+  "R2_05_PO": "Round dfab13bf: Astra ASTRA-C17-05 (the PO finish panel called the HPP final while the server said BELUM_LENGKAP/ESTIMATED, and its workspace said eligible while Native refused: six cut pieces neither sewn-and-sent nor through direct QC) and Fable FABLE-014 (no way to reopen a finished PO from the app; the source comment wrongly said no Native inverse exists). The finish workspace now carries the exact predicate of Native erp.guard_finished_po_source_accounting (SOURCE_UNACCOUNTED), the panel words the HPP from display_status only, and po-reopen.sql reopens through Native erp.reopen_production_order with a review token, reason, idempotency, immutable history and three blockers (NOT_FINISHED, FG_USED, PERIOD_CLOSED). Astra's three journeys run with her own arithmetic; Fable's D15-4 oracle (reopen, ledger-consistent WIP, same HPP on finishing again, two tabs one winner, HTTP, browser) is covered.",
+  "R2_03_MASTER": "Round r2: Fable FABLE-017, Astra ASTRA-C17-04 and the known daily-master gap: customers, suppliers/laundry vendors, Mandor (dated attendance/Special policy), warehouses/locations, fabric (profile, benchmark price versions) and accessories (category, variant, Mandor price) had no connected screen, and a new Mandor or model had no rate for \"Catat selesai jahit\". master.sql and rates.sql add one closed facade per screen over the Native writers and guards (review token, reason, idempotency, immutable history, used records cannot change code/type/unit or be deactivated while open or stocked, nothing is ever deleted), Mandor work rates per model x work component from a date, and the model's Work BOM. The sewing workspace now previews the rates valid at the sewing time entered (rate_timeline, Native snapshot rule) instead of today's. Fable's D15-3 oracle: every master screen on desktop and phone, HTTP, two tabs per screen, and the screen-only chain new Mandor + new rate -> Bagi Potongan -> Catat selesai jahit paying the rate valid on the sewing date, a later rate change leaving the recorded wage unchanged."
  },
  "oracle_independence": "Dates from the Native accrual journals and source rows; balances from journal lines and stock movements; never from the guard functions.",
  "fixture_capital": "Banks that pay hold owner capital through the accepted Native journal (scripts/cp7_cash_funding.py) only where a case says so; empty-bank cases keep the bank empty.",

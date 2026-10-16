@@ -58,7 +58,7 @@ create function cp7_cutting_correction.sewing_snapshot(p_group uuid)returns json
 language plpgsql stable security definer set search_path=''set TimeZone='UTC'as $$
 declare g erp.cutting_groups;po erp.production_orders;p erp.cutting_pickups;c erp.contractors;
  effective bigint;sewn bigint;ready bigint;drafted bigint;comps jsonb;events jsonb;b jsonb:='[]';max_qty bigint;cap bigint;
- preview jsonb:='[]';
+ preview jsonb:='[]';timeline jsonb:='[]';
 begin
  select *into g from erp.cutting_groups where id=p_group;
  if g.id is null then return null;end if;
@@ -119,11 +119,32 @@ begin
     and v.effective_from<=clock_timestamp()and(v.effective_to is null or v.effective_to>clock_timestamp())
     and exists(select 1 from erp.work_bom_items x where x.bom_version_id=v.id)
     order by v.effective_from desc,v.version_no desc,v.id desc limit 1)),'[]');
+  -- Owner D15-3: rates are dated, and the snapshot is taken at the sewing time the user enters, not now. Between two
+  -- consecutive start/end instants of the model's Work BOM versions and of this Mandor's rates for the model the Native rule
+  -- has one answer; each segment [from, to) carries it, from the pickup up to now, so the screen shows the rates of the
+  -- time it will send (the review token covers them, so a rate saved meanwhile refuses the record instead of changing it).
+  timeline:=coalesce((with t as(
+     select v.effective_from x from erp.work_bom_versions v where v.model_id=po.model_id
+     union select v.effective_to from erp.work_bom_versions v where v.model_id=po.model_id and v.effective_to is not null
+     union select r.effective_from from erp.contractor_work_rates r where r.contractor_id=po.contractor_id and r.model_id=po.model_id
+     union select r.effective_to from erp.contractor_work_rates r where r.contractor_id=po.contractor_id and r.model_id=po.model_id and r.effective_to is not null),
+    seg as(select x f,lead(x)over(order by x)u from t)
+   select jsonb_agg(jsonb_build_object('from',seg.f,'to',seg.u,'rates',coalesce((select jsonb_agg(jsonb_build_object('code',wc.component_code,
+       'name',wc.component_name,'sequence_no',i.sequence_no,
+       'rate',coalesce((select cwr.rate_per_pcs from erp.contractor_work_rates cwr where cwr.contractor_id=po.contractor_id and cwr.model_id=po.model_id
+         and cwr.work_component_id=i.work_component_id and cwr.effective_from<=seg.f and(cwr.effective_to is null or cwr.effective_to>seg.f)
+         order by cwr.effective_from desc,cwr.id desc limit 1),i.default_rate))order by i.sequence_no,i.id)
+      from erp.work_bom_items i join erp.work_components wc on wc.id=i.work_component_id
+      where i.bom_version_id=(select v.id from erp.work_bom_versions v where v.model_id=po.model_id and v.is_active
+       and v.effective_from<=seg.f and(v.effective_to is null or v.effective_to>seg.f)
+       and exists(select 1 from erp.work_bom_items x where x.bom_version_id=v.id)
+       order by v.effective_from desc,v.version_no desc,v.id desc limit 1)),'[]'))order by seg.f)
+   from seg where(seg.u is null or seg.u>coalesce(p.picked_up_at,'-infinity'::timestamptz))and seg.f<=clock_timestamp()),'[]');
  end if;
- -- The wage needs the model's Work BOM with a rate for every component (Mandor rate or BOM default); otherwise the Native
- -- snapshot refuses.
- if jsonb_array_length(comps)=0 and(jsonb_array_length(preview)=0 or exists(select 1 from jsonb_array_elements(preview)x
-   where x->'rate'='null'::jsonb or(x->>'rate')::numeric<0))then
+ -- The wage needs the model's Work BOM with a rate for every component (Mandor rate or BOM default) at the sewing time;
+ -- otherwise the Native snapshot refuses. Blocked when no moment between the pickup and now has a complete set.
+ if jsonb_array_length(comps)=0 and not exists(select 1 from jsonb_array_elements(timeline)x where jsonb_array_length(x->'rates')>0
+   and not exists(select 1 from jsonb_array_elements(x->'rates')y where y->'rate'='null'::jsonb or(y->>'rate')::numeric<0))then
   b:=b||jsonb_build_array(jsonb_build_object('kind','NO_WORK_RATE','id',po.model_id,'label',po.po_number));end if;
  return jsonb_build_object('group',jsonb_build_object('id',g.id,'number',g.group_number,'po_id',g.po_id,'status',g.status,
    'row_version',g.row_version,'picked_up_at',g.picked_up_at),
@@ -132,7 +153,8 @@ begin
    'row_version',p.row_version)end,
   'contractor',case when c.id is null then null else jsonb_build_object('id',c.id,'name',c.contractor_name,'type',c.contractor_type)end,
   'effective_pcs',effective,'sewn_pcs',sewn,'ready_unsent_pcs',ready,'laundry_draft_pcs',drafted,
-  'reversible_pcs',greatest(ready-drafted,0),'max_qty',max_qty,'components',comps,'rate_preview',preview,'rates_committed',jsonb_array_length(comps)>0,
+  'reversible_pcs',greatest(ready-drafted,0),'max_qty',max_qty,'components',comps,'rate_preview',preview,'rate_timeline',timeline,
+  'rates_committed',jsonb_array_length(comps)>0,
   'events',events,'blockers',b);
 end $$;
 
@@ -160,6 +182,11 @@ begin
   'rates_committed',(s->>'rates_committed')::boolean,
   'rate_preview',(select coalesce(jsonb_agg(jsonb_build_object('code',x->>'code','name',x->>'name','rate',(x->>'rate')::numeric)
     order by(x->>'sequence_no')::integer,x->>'code'),'[]')from jsonb_array_elements(s->'rate_preview')x where x->'rate'<>'null'::jsonb),
+  'rate_timeline',(select coalesce(jsonb_agg(jsonb_build_object('from',x->'from','to',x->'to',
+    'complete',jsonb_array_length(x->'rates')>0 and not exists(select 1 from jsonb_array_elements(x->'rates')y where y->'rate'='null'::jsonb or(y->>'rate')::numeric<0),
+    'rates',(select coalesce(jsonb_agg(jsonb_build_object('code',y->>'code','name',y->>'name','rate',(y->>'rate')::numeric)
+      order by(y->>'sequence_no')::integer,y->>'code'),'[]')from jsonb_array_elements(x->'rates')y where y->'rate'<>'null'::jsonb))
+    order by(x->>'from')::timestamptz),'[]')from jsonb_array_elements(s->'rate_timeline')x),
   'components',(select coalesce(jsonb_agg(jsonb_build_object('code',x->>'code','name',x->>'name','rate',(x->>'rate')::numeric,
     'posted_qty',(x->>'posted_qty')::bigint)order by(x->>'sequence_no')::integer,x->>'snapshot_id'),'[]')from jsonb_array_elements(s->'components')x),
   'events',(select coalesce(jsonb_agg(x||jsonb_build_object('cancel_blocker',cp7_cutting_correction.sewing_event_blocker(s,x))order by x->>'physical_at',x->>'id'),'[]')

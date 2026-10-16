@@ -55,6 +55,72 @@ def series_state(cur,p):
     items=cur.execute('select product_id::text,qty_pcs from erp.sales_items where sale_id=%s',(found[0],)).fetchall()
     return dict(sale=found[0],status=found[1],qty={by_product.get(pid,'OTHER_BRAND'):int(q) for pid,q in items},lines=len(items),stock=stock,other_brand_stock=other,gl=[[str(x) for x in r] for r in sales.gl(cur)])
 
+# Owner D15-3 (FABLE-017): the master screens. Fixtures give each case its own records (a fresh model, a customer with an
+# open sales draft, a stocked warehouse, a posted cutting without a Mandor); the state readback is direct SQL on the Native
+# tables the screens change, never the facade's own reader (cp7_master.entity).
+def master_state(cur,p):
+    kind,code=p['kind'],p['code'];one=lambda sql,args:cur.execute(sql,args).fetchone()
+    sql={'CUSTOMER':"select id::text,customer_name,is_active,phone,address from erp.customers where lower(customer_code)=lower(%s)",
+         'SUPPLIER':"select id::text,supplier_name,is_active,supplier_type,phone from erp.suppliers where lower(supplier_code)=lower(%s)",
+         'LAUNDRY_VENDOR':"select id::text,vendor_name,is_active,phone,notes from erp.laundry_vendors where lower(vendor_code)=lower(%s)",
+         'MANDOR':"select id::text,contractor_name,is_active,attendance_required,contractor_type from erp.contractors where lower(contractor_code)=lower(%s)",
+         'LOCATION':"select id::text,location_name,is_active,location_type,null from erp.locations where lower(location_code)=lower(%s)",
+         'FABRIC':"select id::text,material_name,is_active,upper(unit_code),material_type from erp.materials where lower(material_sku)=lower(%s) and material_type='FABRIC'",
+         'ACCESSORY_CATEGORY':"select id::text,category_name,is_active,base_uom_code,notes from erp.accessory_categories where lower(category_code)=lower(%s)",
+         'ACCESSORY':"select id::text,material_name,is_active,accessory_category_id::text,material_type from erp.materials where lower(material_sku)=lower(%s) and material_type='ACCESSORY'"}[kind]
+    rows=cur.execute(sql,(code,)).fetchall()
+    if not rows:return dict(found=False,count=0)
+    id,name,active,a,b=rows[0]
+    out=dict(found=True,count=len(rows),id=id,name=name,active=active,a=a,b=b,
+             history=one('select count(*) from cp7_master.history where entity_id=%s',(id,))[0],
+             history_actions=[r[0] for r in cur.execute('select action from cp7_master.history where entity_id=%s order by id',(id,)).fetchall()])
+    if kind=='MANDOR':
+        out['policies']=[[x,str(f),None if t is None else str(t)] for x,f,t in cur.execute(
+            'select is_special,effective_from,effective_to from erp.contractor_hpp_policy_versions where contractor_id=%s order by effective_from',(id,)).fetchall()]
+    if kind=='FABRIC':
+        prof=one('select width_cm::text,color_name,fabric_category,composition from erp.fabric_master_profiles where material_id=%s',(id,))
+        out['profile']=None if prof is None else list(prof)
+        out['benchmarks']=[[str(x),str(f)] for x,f in cur.execute("select benchmark_price_per_base_uom::text,(effective_from at time zone 'Asia/Jakarta')::date from erp.fabric_benchmark_price_versions where material_id=%s order by effective_from",(id,)).fetchall()]
+    if kind=='ACCESSORY_CATEGORY':
+        out['prices']=[[c,str(x),u] for c,x,u in cur.execute('select contractor_id::text,selling_price::text,selling_uom_code from erp.contractor_accessory_price_versions where category_id=%s order by effective_from',(id,)).fetchall()]
+        out['active_variants']=one("select count(*) from erp.materials where accessory_category_id=%s and is_active and material_type='ACCESSORY'",(id,))[0]
+    return out
+
+def rate_state(cur,p):
+    m=cur.execute('select id from erp.contractors where lower(contractor_code)=lower(%s)',(p['mandor_code'],)).fetchone()
+    rates=[] if m is None else [[c,str(r),str(f),None if t is None else str(t)] for c,r,f,t in cur.execute("""select k.component_code,w.rate_per_pcs::text,
+        (w.effective_from at time zone 'Asia/Jakarta')::date,(w.effective_to at time zone 'Asia/Jakarta')::date from erp.contractor_work_rates w
+        join erp.work_components k on k.id=w.work_component_id where w.contractor_id=%s and w.model_id=%s order by k.component_code,w.effective_from""",(m[0],p['model'])).fetchall()]
+    bom=[[v,str(f),c,str(r)] for v,f,c,r in cur.execute("""select v.version_no,(v.effective_from at time zone 'Asia/Jakarta')::date,k.component_code,i.default_rate::text
+        from erp.work_bom_versions v join erp.work_bom_items i on i.bom_version_id=v.id join erp.work_components k on k.id=i.work_component_id
+        where v.model_id=%s and v.is_active order by v.version_no,i.sequence_no""",(p['model'],)).fetchall()]
+    return dict(rates=rates,bom=bom)
+
+def chain(cur,today):
+    import cp7_master_cases as master
+    g=master.cutting_only(cur,today);cases.b.api.admin(cur);one=lambda sql,args:cur.execute(sql,args).fetchone()
+    roll,size=one("""select mr.roll_number,s.size_code from erp.cutting_roll_yields y join erp.cutting_group_rolls r on r.id=y.cutting_group_roll_id
+        join erp.material_rolls mr on mr.id=r.roll_id join erp.cutting_group_size_slots z on z.id=y.size_slot_id join erp.sizes s on s.id=z.size_id
+        where r.cutting_group_id=%s""",(g['group'],))
+    model=one('select model_code from erp.product_models where id=%s',(g['model'],))[0]
+    def bom_at(at):
+        return [r[0] for r in cur.execute("""select k.component_code from erp.work_bom_items i join erp.work_components k on k.id=i.work_component_id
+            where i.bom_version_id=(select v.id from erp.work_bom_versions v where v.model_id=%s and v.is_active and v.effective_from<=%s
+              and(v.effective_to is null or v.effective_to>%s)and exists(select 1 from erp.work_bom_items x where x.bom_version_id=v.id)
+              order by v.effective_from desc,v.version_no desc,v.id desc limit 1) order by i.sequence_no,i.id""",(g['model'],at,at)).fetchall()]
+    return dict(group=g['group'],po=g['po'],number=g['number'],model=g['model'],model_code=model,day=str(g['day']),roll_number=roll,size_code=size,
+                bom_at_sewing=bom_at(g['at'](10)),bom_now=bom_at(cur.execute('select clock_timestamp()').fetchone()[0]))
+
+def chain_state(cur,p):
+    one=lambda sql,args:cur.execute(sql,args).fetchone()
+    po=one('select c.contractor_code from erp.production_orders o left join erp.contractors c on c.id=o.contractor_id where o.id=%s',(p['po'],))
+    pick=one("select count(*) filter(where status='POSTED') from erp.cutting_pickups where cutting_group_id=%s",(p['group'],))
+    works=cur.execute("select id::text from erp.work_completion_events where cutting_group_id=%s and status='POSTED' order by created_at",(p['group'],)).fetchall()
+    snaps=[[c,str(r),str(d)] for c,r,d in cur.execute("""select k.component_code,s.rate_per_pcs_snapshot::text,(s.committed_at at time zone 'Asia/Jakarta')::date
+        from erp.po_work_component_snapshots s join erp.work_components k on k.id=s.work_component_id where s.po_id=%s and s.bf_sku_version_id is null order by s.sequence_no""",(p['po'],)).fetchall()]
+    return dict(po_mandor=po[0],posted_pickups=pick[0],sewn=cases.sewn_ready(cur,dict(group=p['group']))[0],posted_work=len(works),
+                wage=[[str(x) for x in cases.wage_journal(cur,w[0])] for w in works],snapshots=snaps)
+
 def main():
     target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
     assert url.hostname in('localhost','127.0.0.1')and url.path=='/cp6_auditor_browser','DISPOSABLE_BROWSER_ONLY'
@@ -128,6 +194,20 @@ def main():
             out=dict(advances=[list(a) for a in advances],payroll=list(pay),bank=str(cases.balance(cur,p['bank'])),receivable=str(cases.receivable(cur,p['contractor'])),
                      links=one('select count(*) from cp7_kasbon.deduction_links where payroll_id=%s',(p['payroll'],))[0],
                      kasbon_journals=one("select count(*) from erp.journal_entries j join cp7_kasbon.advances a on a.journal_id=j.id where a.contractor_id=%s and j.status='POSTED'",(p['contractor'],))[0])
+        elif operation=='master_state':out=master_state(cur,p)
+        elif operation=='rate_state':out=rate_state(cur,p)
+        elif operation=='master_model':
+            code='MDL-'+uuid.uuid4().hex[:8].upper()
+            out=dict(code=code,model=str(cur.execute('insert into erp.product_models(model_code,model_name)values(%s,%s)returning id',(code,'Model layar '+code)).fetchone()[0]))
+        elif operation=='master_used_customer':
+            import cp7_sales_draft_cases as draft
+            f=draft.fixture(cur,date.fromisoformat(p['today']));d=draft.create(cur,f);cases.b.api.admin(cur)
+            out=dict(customer=f['customer'],sale=d['sale_id'],code=one('select customer_code from erp.customers where id=%s',(f['customer'],))[0])
+        elif operation=='master_stocked_location':
+            f=cases.cut.cutting.qc.physical.b.chain.production.estimated_receipt(cur,date.fromisoformat(p['today']));cases.b.api.admin(cur)
+            out=dict(location=str(f['location']),code=one('select location_code from erp.locations where id=%s',(f['location'],))[0])
+        elif operation=='chain':out=chain(cur,date.fromisoformat(p['today']))
+        elif operation=='chain_state':out=chain_state(cur,p)
         elif operation=='series':out=series(cur,date.fromisoformat(p['today']))
         elif operation=='series_state':out=series_state(cur,p)
         else:raise ValueError('Unknown CP17 browser fixture operation')

@@ -2,10 +2,11 @@
 // SG-01 reverse a posted pickup before sewing (desktop), SG-02 fabric back to the warehouse (phone); and the
 // D14-6 kasbon on the Payroll & Kasbon page (give from a funded bank, cut from the Mandor's payroll draft); and D14-5
 // dozens over one size series on the Penjualan & Invoice draft (desktop and phone); D14-14 G1 SELESAI DIJAHIT on the
-// WIP & Sewing page (desktop and phone).
+// WIP & Sewing page (desktop and phone); owner D15-3 master screens and the Mandor + rate -> Bagi Potongan -> sewing chain.
 import assert from'node:assert/strict'
 import{execFileSync}from'node:child_process'
 import{mkdirSync,writeFileSync}from'node:fs'
+import*as master from'./cp7_master_browser.mjs'
 const fixture=(operation,payload)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_cp17_fix_browser_fixture.py',operation],{input:JSON.stringify(payload),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 async function menu(page){const open=page.getByRole('button',{name:'Buka menu',exact:true});if(await open.isVisible())await open.click();const link=page.getByRole('button',{name:'• Bagi Potongan',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Produksi'}).click();await link.click()}
 async function openGroup(ui,page,number,group){
@@ -303,4 +304,6 @@ export function cases(ui,today){return[['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKT
  ['CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP',()=>fabricReturnCorrect(ui,today)],
  ['CP17_BROWSER_G1_SEWING_DESKTOP',()=>sewing(ui,today,false)],['CP17_BROWSER_G1_SEWING_MOBILE',()=>sewing(ui,today,true)],
  ['CP17_BROWSER_G2_FINISH_DESKTOP',()=>finishPo(ui,today,false)],['CP17_BROWSER_G2_FINISH_MOBILE',()=>finishPo(ui,today,true)],
- ['CP17_BROWSER_R2_PO_REOPEN_DESKTOP',()=>reopenPo(ui,today,false)],['CP17_BROWSER_R2_PO_REOPEN_MOBILE',()=>reopenPo(ui,today,true)]]}
+ ['CP17_BROWSER_R2_PO_REOPEN_DESKTOP',()=>reopenPo(ui,today,false)],['CP17_BROWSER_R2_PO_REOPEN_MOBILE',()=>reopenPo(ui,today,true)],
+ // Owner D15-3: master screens and the screen-only chain (cp7_master_browser.mjs), with this harness's fixture and page helpers.
+ ...master.cases(ui,today,{fixture,openGroup,wipPage,noSideScroll,failure})]}

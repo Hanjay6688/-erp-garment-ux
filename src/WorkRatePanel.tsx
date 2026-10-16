@@ -14,7 +14,7 @@ import type { ProductionEnvelope } from './productionRecovery'
 type BomRow = { componentId: string; sequenceNo: string; defaultRate: string }
 const money = /^[0-9]{1,12}(\.[0-9]{1,2})?$/
 
-export default function WorkRatePanel({ contractorId }: { contractorId: string | null }) {
+export default function WorkRatePanel({ contractorId, contractorVersion = null }: { contractorId: string | null; contractorVersion?: string | null }) {
   const { runtime, identity } = useAuth()
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') throw new Error('Sesi tarif upah belum siap.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime])
@@ -40,7 +40,8 @@ export default function WorkRatePanel({ contractorId }: { contractorId: string |
       return false
     } finally { if (n === serial.current) setBusy(false) }
   }, [beginRead, client, contractorId, finishRead, isReadCurrent])
-  useEffect(() => { void load({ query, offset, model: modelId }) }, [load, recovery.scope]) // eslint-disable-line react-hooks/exhaustive-deps
+  // Reload when the Mandor changes, or is saved again (contractorVersion is its review token).
+  useEffect(() => { void load({ query, offset, model: modelId }) }, [load, recovery.scope, contractorVersion]) // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => () => { ++serial.current }, [])
 
   const handlers: ProductionMutationHandlers = {

@@ -17,7 +17,7 @@ const recorded = (extra: Record<string, unknown> = {}) => ({ id: event, number: 
 const workspace = (extra: Record<string, unknown> = {}) => ({ contract_version: 'cp7.sewing-completion-workspace.v1', group_id: group, group_version: '7',
   number: 'CUT-SEW', po_id: po, po_number: 'PO-9', po_status: 'SEWING', contractor_id: mandor, contractor_name: 'Mandor Satu',
   picked_up_at: '2026-10-13T02:00:00+00:00', effective_pcs: 10, sewn_pcs: 0, max_qty: 10, ready_unsent_pcs: 0, laundry_draft_pcs: 0,
-  rates_committed: true, components: [{ code: 'JAHIT', name: 'Jahit', rate: 2, posted_qty: 0 }, { code: 'OBRAS', name: 'Obras', rate: 1, posted_qty: 0 }], rate_preview: [],
+  rates_committed: true, components: [{ code: 'JAHIT', name: 'Jahit', rate: 2, posted_qty: 0 }, { code: 'OBRAS', name: 'Obras', rate: 1, posted_qty: 0 }], rate_preview: [], rate_timeline: [],
   events: [], can_cancel: true, review_token: 'e'.repeat(32), eligible: true, blockers: [], business_DML: false, ...extra })
 let root: Root, container: HTMLDivElement
 beforeEach(() => {
@@ -72,13 +72,39 @@ describe('selesai jahit di WIP & Sewing (D14-14)', () => {
     expect(container.textContent).toContain('CUT-SEW: 4 pcs tercatat selesai dijahit. Upah mandor Rp12 masuk hutang mandor; 4 pcs siap dikirim ke laundry.')
     expect(onCommitted).toHaveBeenCalledWith('CUT-SEW: 4 pcs tercatat selesai dijahit. Upah mandor Rp12 masuk hutang mandor; 4 pcs siap dikirim ke laundry.')
   })
-  it('before the first record shows the estimated wage from the rates the record will lock', async () => {
-    client.rpc.mockResolvedValue({ data: workspace({ rates_committed: false, components: [],
-      rate_preview: [{ code: 'JAHIT', name: 'Jahit', rate: 3 }, { code: 'OBRAS', name: 'Obras', rate: 1 }] }), error: null })
+  it('before the first record shows the wage from the rates valid at the sewing time entered (owner D15-3)', async () => {
+    // Jahit 1500 from 13 Oct, 1700 from 15 Oct (WIB); Obras keeps its BOM default 500. Today's rate must not be shown for the 14th.
+    const sent: Array<Record<string, unknown>> = []
+    client.rpc.mockImplementation(async (name: string, args: Record<string, unknown>) => {
+      if (name === 'erp_cp7_get_sewing_completion_v1') return { data: workspace({ rates_committed: false, components: [],
+        rate_preview: [{ code: 'JAHIT', name: 'Jahit', rate: 1700 }, { code: 'OBRAS', name: 'Obras', rate: 500 }],
+        rate_timeline: [
+          { from: '2026-10-12T17:00:00+00:00', to: '2026-10-14T17:00:00+00:00', complete: true, rates: [{ code: 'JAHIT', name: 'Jahit', rate: 1500 }, { code: 'OBRAS', name: 'Obras', rate: 500 }] },
+          { from: '2026-10-14T17:00:00+00:00', to: null, complete: true, rates: [{ code: 'JAHIT', name: 'Jahit', rate: 1700 }, { code: 'OBRAS', name: 'Obras', rate: 500 }] }] }), error: null }
+      sent.push(args); return { data: null, error: { message: 'stop here' } }
+    })
     await mount(); await click('Catat selesai jahit')
-    expect(container.textContent).toContain('Perkiraan upah mandor per pcs (tarif yang berlaku sekarang; dikunci dari BOM kerja saat pertama kali disimpan): Jahit Rp3 + Obras Rp1 = Rp4.')
-    await type('Jumlah selesai dijahit CUT-SEW', '4')
-    expect(container.textContent).toContain('Perkiraan upah yang akan dicatat: 4 pcs × Rp4 = Rp16.')
+    await type('Waktu selesai jahit CUT-SEW', '2026-10-14T10:00')
+    expect(container.textContent).toContain('Upah mandor per pcs pada waktu jahit yang diisi (tarif yang berlaku saat itu; dikunci untuk PO ini saat pertama kali disimpan): Jahit Rp1.500 + Obras Rp500 = Rp2.000.')
+    await type('Jumlah selesai dijahit CUT-SEW', '10')
+    expect(container.textContent).toContain('Upah yang akan dicatat: 10 pcs × Rp2.000 = Rp20.000.')
+    await type('Waktu selesai jahit CUT-SEW', '2026-10-15T08:00')
+    expect(container.textContent).toContain('Upah yang akan dicatat: 10 pcs × Rp2.200 = Rp22.000.')
+    // Before the first rate applies: no wage shown and nothing can be saved.
+    await type('Waktu selesai jahit CUT-SEW', '2026-10-12T08:00')
+    expect(container.textContent).toContain('Belum ada tarif lengkap untuk mandor ini pada waktu jahit itu.')
+    expect(container.textContent).not.toContain('Upah yang akan dicatat')
+    await type('Catatan selesai jahit CUT-SEW', 'Setoran pagi')
+    expect(input('Selesai jahit CUT-SEW sudah diperiksa').disabled).toBe(true)
+    expect(button('Simpan selesai jahit').disabled).toBe(true)
+    expect(sent).toEqual([])
+  })
+  it('refuses a rate timeline with a gap or an empty complete segment', async () => {
+    const seg = (from: string, to: string | null, rates = [{ code: 'JAHIT', name: 'Jahit', rate: 3 }]) => ({ from, to, complete: rates.length > 0, rates })
+    client.rpc.mockResolvedValue({ data: workspace({ rates_committed: false, components: [], rate_timeline: [
+      seg('2026-10-12T17:00:00+00:00', '2026-10-13T17:00:00+00:00'), seg('2026-10-13T18:00:00+00:00', null)] }), error: null })
+    await mount(); await click('Catat selesai jahit')
+    expect(container.textContent).toContain('tidak cocok dengan potongan yang diperiksa')
   })
   it('refuses a preview next to committed rates', async () => {
     client.rpc.mockResolvedValue({ data: workspace({ rate_preview: [{ code: 'JAHIT', name: 'Jahit', rate: 3 }] }), error: null })

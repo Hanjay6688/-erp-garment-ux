@@ -55,6 +55,7 @@ import cp7_misc_cases as misc
 import cp7_misc_correction_cases as misc_fix
 import cp7_note_correction_cases as note_fix
 import cp7_fg_adjustment_cases as fgadj
+import cp7_master_cases as master
 
 auth,b,bc=s.auth,s.b,s.bc
 refused=auth.refused
@@ -65,7 +66,7 @@ FUNCTIONS=('erp_set_contractor_hpp_policy_v1','erp_cp7_save_nota_v1','erp_cp7_ge
            'erp_cp7_get_kasbon_v1','erp_cp7_save_kasbon_v1','erp_cp7_get_pickup_reversal_v1','erp_cp7_reverse_pickup_v1',
            'erp_cp7_get_cutting_return_reversal_v1','erp_cp7_reverse_cutting_return_v1','erp_cp7_get_sewing_completion_v1','erp_cp7_save_sewing_completion_v1',
            'erp_cp7_list_po_finish_v1','erp_cp7_get_po_finish_v1','erp_cp7_finish_po_v1','erp_cp7_get_po_reopen_v1','erp_cp7_reopen_po_v1',
-           'erp_cp7_save_misc_finance_v1','erp_cp7_correct_misc_finance_v1','erp_cp7_correct_sales_payment_v1','erp_cp7_get_sales_payment_correction_v1','erp_cp7_correct_note_v1')
+           'erp_cp7_save_misc_finance_v1','erp_cp7_correct_misc_finance_v1','erp_cp7_correct_sales_payment_v1','erp_cp7_get_sales_payment_correction_v1','erp_cp7_correct_note_v1')+master.FUNCTIONS
 IDS=dict(
     native=['CP17_FIN01_FULL_PAY_BEFORE_ATTENDANCE_REFUSED','CP17_FIN01_WORK_ONLY_BEFORE_COMPLETION_REFUSED',
             'CP17_FIN01_INSTALLMENT_BEFORE_ACCRUAL_REFUSED','CP17_FIN01_DIRECT_NATIVE_PAYMENT_REFUSED',
@@ -88,15 +89,15 @@ IDS=dict(
             'CP17_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED','CP17_R2_MISC_SPENT_INCOME_CORRECTION_COMMITS','CP17_R2_NOTE_CORRECTION_SPENT_PAYMENT_COMMITS',
             'CP17_R2_COMPOUND_SCOPE_PRIVATE_AND_CLOSED','CP17_R2_DETECTOR_BOOK_DATE_LISTED',
             'CP17_R2_ASTRA_G1_G2_TEN_PIECES_CONSERVED','CP17_R2_ASTRA_G2_UNSEWN_SIX_MUST_NOT_FINISH','CP17_R2_ASTRA_G2_SEWN_UNSENT_SIX_MUST_NOT_FINISH',
-            'CP17_R2_PO_REOPEN_THEN_FINISH_SAME_HPP','CP17_R2_PO_REOPEN_BLOCKERS_UNCHANGED'],
+            'CP17_R2_PO_REOPEN_THEN_FINISH_SAME_HPP','CP17_R2_PO_REOPEN_BLOCKERS_UNCHANGED']+master.NATIVE,
     races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK','CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS','CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS','CP17_RACE_G2_FINISH_TWO_TABS_ONE_WINS',
-           'CP17_RACE_R2_CORRECTION_AND_PAYMENT_ONE_BANK','CP17_RACE_R2_PO_REOPEN_TWO_TABS_ONE_WINS'],
+           'CP17_RACE_R2_CORRECTION_AND_PAYMENT_ONE_BANK','CP17_RACE_R2_PO_REOPEN_TWO_TABS_ONE_WINS']+master.RACES,
     http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED','CP17_HTTP_KASBON_GIVE','CP17_HTTP_ERP_WRITERS_NOT_REACHABLE','CP17_HTTP_G1_SEWING_RECORD','CP17_HTTP_G2_FINISH_PO',
-          'CP17_HTTP_R2_SPENT_INCOME_CORRECTION_COMMITS','CP17_HTTP_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED','CP17_HTTP_R2_PO_REOPEN'],
+          'CP17_HTTP_R2_SPENT_INCOME_CORRECTION_COMMITS','CP17_HTTP_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED','CP17_HTTP_R2_PO_REOPEN']+master.HTTP,
     browser=['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP','CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE','CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP',
              'CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP','CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE','CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP',
              'CP17_BROWSER_G1_SEWING_DESKTOP','CP17_BROWSER_G1_SEWING_MOBILE','CP17_BROWSER_G2_FINISH_DESKTOP','CP17_BROWSER_G2_FINISH_MOBILE',
-             'CP17_BROWSER_R2_PO_REOPEN_DESKTOP','CP17_BROWSER_R2_PO_REOPEN_MOBILE'],
+             'CP17_BROWSER_R2_PO_REOPEN_DESKTOP','CP17_BROWSER_R2_PO_REOPEN_MOBILE']+master.BROWSER,
 )
 REQUIRED={k:len(v)for k,v in IDS.items()}
 EXPECTED=sum(REQUIRED.values())
@@ -1224,8 +1225,8 @@ def cases(cur,today):
            cash_book_date,spent_income_correction,spent_income_note_only,spent_income_negative,misc_spent_income,note_spent_payment,
            compound_private,detector_book_date,
            lambda:astra_journey(10,10),lambda:astra_journey(4,4),lambda:astra_journey(10,4),reopen_same_hpp,reopen_blockers]
-    assert len(named)==REQUIRED['native']
-    return list(zip(IDS['native'],named))
+    assert len(named)+len(master.NATIVE)==REQUIRED['native']
+    return list(zip(IDS['native'],named))+master.cases(cur,today)
 
 
 def spent_payload(cur,f,amount,**changes):
@@ -1355,7 +1356,7 @@ def races(tools,today):
         return dict(status='PASS',two_reopens_same_review=results,reopened_once=True,close_reversals=reversals)
     return [('CP17_RACE_TWO_PAYMENTS_ONE_BANK',two_payments),('CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS',overlapping_payroll),
             ('CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS',sewing_twice),('CP17_RACE_G2_FINISH_TWO_TABS_ONE_WINS',finish_twice),
-            ('CP17_RACE_R2_CORRECTION_AND_PAYMENT_ONE_BANK',correction_and_payment),('CP17_RACE_R2_PO_REOPEN_TWO_TABS_ONE_WINS',reopen_twice)]
+            ('CP17_RACE_R2_CORRECTION_AND_PAYMENT_ONE_BANK',correction_and_payment),('CP17_RACE_R2_PO_REOPEN_TWO_TABS_ONE_WINS',reopen_twice)]+master.races(tools,today)
 
 
 def http_cases(http,today):
@@ -1507,4 +1508,4 @@ def http_cases(http,today):
     return [('CP17_HTTP_CASH_EMPTY_BANK_REFUSED',cash_refused),('CP17_HTTP_PAYROLL_EARLY_REFUSED',payroll_early),('CP17_HTTP_KASBON_GIVE',kasbon_give_http),
             ('CP17_HTTP_ERP_WRITERS_NOT_REACHABLE',erp_writers_closed),('CP17_HTTP_G1_SEWING_RECORD',sewing_http),('CP17_HTTP_G2_FINISH_PO',finish_http),
             ('CP17_HTTP_R2_SPENT_INCOME_CORRECTION_COMMITS',http_spent_positive),('CP17_HTTP_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED',http_spent_negative),
-            ('CP17_HTTP_R2_PO_REOPEN',reopen_http)]
+            ('CP17_HTTP_R2_PO_REOPEN',reopen_http)]+master.http_cases(http,today)

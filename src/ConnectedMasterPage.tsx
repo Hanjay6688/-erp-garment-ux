@@ -36,21 +36,24 @@ const views: Record<ConnectedMasterView, { kinds: MasterKind[]; eyebrow: string;
 export default function ConnectedMasterPage({ view }: { view: ConnectedMasterView }) {
   const config = views[view]
   const [kind, setKind] = useState<MasterKind>(config.kinds[0])
-  const [mandor, setMandor] = useState<string | null>(null)
+  // The selected Mandor and its review token: the rate panel reloads when the Mandor changes (e.g. becomes Special).
+  const [mandor, setMandor] = useState<{ id: string; token: string } | null>(null)
+  const pickMandor = useCallback((id: string | null, token: string | null) =>
+    setMandor(old => old?.id === id && old?.token === token ? old : id && token ? { id, token } : null), [])
   useEffect(() => { setKind(config.kinds[0]); setMandor(null) }, [view]) // eslint-disable-line react-hooks/exhaustive-deps
   return <section className="cmd-page" aria-label={config.title}>
     <header className="cmd-hero"><span>{config.eyebrow}</span><h1>{config.title}</h1><p>{config.description}</p></header>
     {config.kinds.length > 1 ? <div className="cmd-tabs" role="tablist">{config.kinds.map(k =>
       <button type="button" role="tab" key={k} aria-selected={kind === k} onClick={() => setKind(k)}>{kindLabels[k].plural}</button>)}</div> : null}
-    <MasterPanel key={`${view}:${kind}`} kind={kind} onSelected={kind === 'MANDOR' ? setMandor : undefined}/>
-    {view === 'master-workforce' ? <WorkRatePanel contractorId={mandor}/> : null}
+    <MasterPanel key={`${view}:${kind}`} kind={kind} onSelected={kind === 'MANDOR' ? pickMandor : undefined}/>
+    {view === 'master-workforce' ? <WorkRatePanel contractorId={mandor?.id ?? null} contractorVersion={mandor?.token ?? null}/> : null}
   </section>
 }
 
 type Mode = 'VIEW' | 'CREATE' | 'EDIT' | 'DEACTIVATE' | 'REACTIVATE' | 'SET_BENCHMARK' | 'SET_MANDOR_PRICE'
 type PriceForm = { price: string; effective_date: string; contractor_id: string; uom: string; notes: string }
 
-function MasterPanel({ kind, onSelected }: { kind: MasterKind; onSelected?: (id: string | null) => void }) {
+function MasterPanel({ kind, onSelected }: { kind: MasterKind; onSelected?: (id: string | null, token: string | null) => void }) {
   const { runtime, identity } = useAuth()
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') throw new Error('Sesi data master belum siap.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime])
@@ -84,7 +87,7 @@ function MasterPanel({ kind, onSelected }: { kind: MasterKind; onSelected?: (id:
   useEffect(() => { void load({ query: '', status: 'ACTIVE', offset: 0, id: null }) }, [load, recovery.scope])
   useEffect(() => () => { ++serial.current }, [])
   const selected = data?.selected && data.selected.entity.id === selectedId ? data.selected : null
-  useEffect(() => { onSelected?.(selected ? String(selected.entity.id) : null) }, [selected, onSelected])
+  useEffect(() => { onSelected?.(selected ? String(selected.entity.id) : null, selected?.reviewToken ?? null) }, [selected, onSelected])
 
   const select = (id: string | null) => { setSelectedId(id); setMode('VIEW'); resetForm(); setDone(''); void load({ query, status, offset, id }) }
   const startEdit = () => { if (!selected || !data) return; setForm(formFromEntity(kind, selected.entity, data.today)); resetForm(); setMode('EDIT') }
