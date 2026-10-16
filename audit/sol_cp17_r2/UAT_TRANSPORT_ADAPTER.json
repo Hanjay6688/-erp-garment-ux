@@ -1,0 +1,16 @@
+{
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "original_host_sha256": "de8a523c6a6a8cdc36de98c831f9a89f2fa229038cdadead6c78fd722d14f22c",
+  "adapter_sha256": "110eff4850025f81aa110d0171d177ec90ea71d30a7fccbd9f2074467e2ede8a",
+  "changes": [
+    "Compile genuine UAT_AUTH_SIMULATION instead of DISPOSABLE_TEST",
+    "Expected-host requests rewritten to disposable loopback before fetch, zero redirects, all unexpected hosts aborted",
+    "Use disposable real Auth and actual public RPCs, rewrite only synthetic anon transport key",
+    "No business response mock, no permission override, no product source edits"
+  ],
+  "limits": [
+    "Not a hosted deployment test",
+    "Not CP7C acceptance"
+  ],
+  "production_go": false
+}

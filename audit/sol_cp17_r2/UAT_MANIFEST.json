@@ -1,0 +1,19 @@
+{
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "stage": "PREDECLARATION_BEFORE_EXECUTION",
+  "ids": [
+    "SOL_R2_UAT_REAL_AUTH_HIDDEN_MENUS_PHONE",
+    "SOL_R2_UAT_CUSTOMER_LIFECYCLE_DESKTOP",
+    "SOL_R2_UAT_AUTO_PO_NATIVE_PHONE"
+  ],
+  "expected_counts": {
+    "PASS": 3
+  },
+  "backend": "Real disposable Auth + Native CP7 composition",
+  "frontend": "Unchanged source compiled as actual UAT_AUTH_SIMULATION",
+  "transport": "All expected hosted requests intercepted; explicit URL to disposable loopback before fetch; unexpected hosts and redirects refused",
+  "product_responses_mocked": false,
+  "hosted_tested": false,
+  "production_go": false,
+  "prior_provider_cases": false
+}
