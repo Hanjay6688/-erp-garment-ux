@@ -19,6 +19,10 @@
     }
   },
   "expected_private_roles": [
+    "cp7_cutover_write",
+    "cp7_cutover_read",
+    "cp7_master_write",
+    "cp7_master_read",
     "cp7_guard",
     "cp7_kasbon_write",
     "cp7_kasbon_read",
@@ -57,5 +61,5 @@
     "cp7_policy",
     "cp7_capture"
   ],
-  "private_role_review": "All original31 roles and the prior qualified readonly transaction source role retained. Two new cutting facade owners cp7_cutting_write/read are NOLOGIN/NOINHERIT, with no ERP table access or direct Native inverse EXEC. Only their closed private command/workspace entrypoints are admitted; exact current authority and original source history required. New role qualification remains pending on the exact current source; all prior business case budgets unchanged. CP1–CP7 audit fix r1 (15 Oct 2026): role cp7_guard added first. NOLOGIN/NOINHERIT, owns only schema cp7_guard; its postgres-owned functions back two triggers on native rows (cash never negative per owner D14-3, laundry claim settlement not before its source or the vendor's dated payable per Astra FIN02). No grants to any client role; uninstall drops the schema with both triggers. D14-6 kasbon roles cp7_kasbon_write/cp7_kasbon_read (nologin, no erp table grants, one public facade each; asserted by cp7_kasbon_bundle.verify) follow it, as in cp7_f03_full_manifest.json (37 roles, same order). The supplier-authority bucket swaps in this manifest, so its role list is reviewed with the same stack (first re-run on 2e16fcb4 stopped at FULL_F03_ROLE_STACK_CHANGED_REQUIRES_EXPLICIT_REVIEW, run 38716162817, log kept)."
+  "private_role_review": "All original31 roles and the prior qualified readonly transaction source role retained. Two new cutting facade owners cp7_cutting_write/read are NOLOGIN/NOINHERIT, with no ERP table access or direct Native inverse EXEC. Only their closed private command/workspace entrypoints are admitted; exact current authority and original source history required. New role qualification remains pending on the exact current source; all prior business case budgets unchanged. CP1–CP7 audit fix r1 (15 Oct 2026): role cp7_guard added first. NOLOGIN/NOINHERIT, owns only schema cp7_guard; its postgres-owned functions back two triggers on native rows (cash never negative per owner D14-3, laundry claim settlement not before its source or the vendor's dated payable per Astra FIN02). No grants to any client role; uninstall drops the schema with both triggers. D14-6 kasbon roles cp7_kasbon_write/cp7_kasbon_read (nologin, no erp table grants, one public facade each; asserted by cp7_kasbon_bundle.verify) follow it, as in cp7_f03_full_manifest.json (37 roles, same order). The supplier-authority bucket swaps in this manifest, so its role list is reviewed with the same stack (first re-run on 2e16fcb4 stopped at FULL_F03_ROLE_STACK_CHANGED_REQUIRES_EXPLICIT_REVIEW, run 38716162817, log kept). CP1–CP7 r2 (16 Oct 2026): D15-3 master roles cp7_master_write/cp7_master_read and D15-5 cutover roles cp7_cutover_write/cp7_cutover_read (nologin, no erp table grants; asserted by cp7_master_bundle.verify and cp7_cutover_bundle.verify) take the same places as in cp7_f03_full_manifest.json (41 roles, same order); the other 37 keep their order. First run on 2baebc0b stopped at FULL_F03_ROLE_STACK_CHANGED_REQUIRES_EXPLICIT_REVIEW, run 38878900081, log kept."
 }

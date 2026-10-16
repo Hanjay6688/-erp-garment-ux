@@ -231,3 +231,12 @@ Run CI yang gagal selama r2 (log tersimpan di run aslinya, tidak diulang untuk m
 | 38865063871 (123/124) | `b780650b` | Alat uji: seed tidak punya ukuran di luar model untuk kasus gagal-di-tengah D15-6 | `54abad80` |
 | 38873532397 (142/145) | `e1558983` | Alat uji: (1) rantai R2-07 kedua tidak mengklasifikasi BS dengan komponen kerja, padahal BS dari WIP saldo awal tidak membawa komponen, jadi order rework tidak punya dasar upah; (2) dua uji browser R2-10 mengharapkan SKU A sebelum SKU B di baris upah, padahal layar mengurutkan kode SKU yang diundi fixture (sebelumnya lulus kebetulan) | `140e0432` |
 | 38875002986 (144/145) | `140e0432` | Alat uji: rantai R2-07 kedua tidak menetapkan resep aksesori produk impor; Native mewajibkan BOM aksesori yang berlaku saat order rework dikirim, jadi tombol "Buat order rework" tetap terkunci. Resep ditetapkan di layar Produk & SKU (yang hanya bisa berlaku mulai sekarang), jadi rework dicatat pada jam sekarang | `b788aff8` |
+
+Kualifikasi pertama pada `2baebc0b` (115 run; log tersimpan di run aslinya) menemukan tiga hal di daftar utama, semuanya
+diperbaiki sebelum kandidat akhir:
+
+| Run | Penyebab | Perbaikan |
+|---|---|---|
+| 38878506549 (CodeQL T3), 38878506553 (Shell S0, langkah CodeQL) | Alat uji sensus lebar HP (dibuat di R2-09) membaca berkas sesuai alamat permintaan (`js/path-injection`) | `3a7633b2`: build dibaca ke memori dan dilayani menurut alamat persis |
+| 38878804184, 38878810285, 38878798547, 38878801310 (empat workflow F04) | Alat uji: sejak D15-6 Buat Potongan dibuka dalam mode "PO baru otomatis"; uji lama memotong untuk PO yang sudah ada dan tidak memilih mode itu | `cp7_cutting_yield_browser.mjs` `openCutting` memilih "PO yang sudah ada"; pemeriksaan lain tidak diubah |
+| 38878900081 (F03 Supplier Current Authority) | Gerbang `FULL_F03_ROLE_STACK_CHANGED_REQUIRES_EXPLICIT_REVIEW`: manifest supplier-authority masih 37 peran, belum memuat empat peran r2 (master, cutover) yang sudah ditinjau di manifest F03 utama | Daftar peran disamakan (41, urutan sama) dengan catatan tinjauan; gerbang tidak diubah |

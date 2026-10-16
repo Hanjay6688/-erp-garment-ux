@@ -26,6 +26,10 @@ export async function openCutting(ui,page,mobile){
  const link=page.getByRole('button',{name:'• Buat Potongan',exact:true})
  if(!await link.isVisible()){const branch=page.locator('.sidebar .nav-main').filter({hasText:'Produksi'});await ui.expect(branch).toBeVisible();await branch.click()}
  await ui.expect(link).toBeVisible();await link.click()
+ // Owner D15-6 made "PO baru otomatis" the default of Buat Potongan; these journeys cut against an existing PO, so they
+ // choose that mode (a pending request or an open draft already starts in it).
+ const existing=page.getByRole('radio',{name:'PO yang sudah ada',exact:true})
+ await ui.expect(existing).toBeVisible();if(!await existing.isChecked())await existing.check()
 }
 export async function retiredPage(ui,page,notes) {
  await ui.expect(page.locator('.ccut-roll-catalog button')).toHaveCount(0)
