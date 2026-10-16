@@ -9,6 +9,8 @@ readback is direct SQL on the rows the screens change, never the CP7 command's o
 D14-5: one SKU in three sizes (31/32/33, stock 10/11/12) and one SKU in one size (27, stock 20), each size a product of
 its own with the SKU shared (commercial SKU = product SKU without a BF group), stock found at opname through the accepted
 AX command (owner value only where no HPP reference exists yet, as the command requires).
+R2-06 (Astra ASTRA-C17-01): a second brand carries the same series SKU in size 32 (stock 5), so picking the first
+brand's series must add its three sizes only; the other brand's row stays out of the invoice and its stock unchanged.
 """
 from datetime import date
 from urllib.parse import urlparse
@@ -20,7 +22,7 @@ import cp7_cp17_fix_cases as cases
 def series(cur,today):
     import cp7_fg_cases as fg
     ax=fg.ax;base=fg.base;tag='D145-'+uuid.uuid4().hex[:8].upper();at=ax.r1.now(cur)-timedelta(minutes=50);ax.api.admin(cur)
-    def sku(name,sizes):
+    def sku(name,sizes,brand=None):
         model=uuid.uuid4();out={}
         cur.execute('insert into erp.product_models(id,model_code,model_name,is_active) values(%s,%s,%s,true)',(model,'D145-'+model.hex[:10],'D14-5 '+name))
         for order,(code,qty) in enumerate(sizes):
@@ -28,7 +30,7 @@ def series(cur,today):
             size=cur.execute('select id from erp.sizes where size_code=%s',(code,)).fetchone()[0];product=uuid.uuid4()
             cur.execute('insert into erp.product_model_sizes(model_id,size_id,sort_order) values(%s,%s,%s) on conflict(model_id,size_id) do nothing',(model,size,order))
             cur.execute("""insert into erp.products(id,sku,model_id,brand_id,color_name,size_id,product_name,identity_root_id,effective_from,is_active,is_portal_visible)
-                select %s,%s,%s,brand_id,'D145',%s,%s,%s,effective_from,true,true from erp.products where id=%s""",(product,name,model,size,'Celana '+name,product,ax.chain.base.BASE_PRODUCT))
+                select %s,%s,%s,coalesce(%s,brand_id),'D145',%s,%s,%s,effective_from,true,true from erp.products where id=%s""",(product,name,model,brand,size,'Celana '+name,product,ax.chain.base.BASE_PRODUCT))
             cur.execute("insert into erp.accessory_bom_versions(product_id,version_label,effective_from,is_active,notes) values(%s,'D145-EMPTY','2026-01-01',true,'Explicit empty BOM')",(product,))
             tier=cur.execute('select erp.fg_unsourced_valuation_v1(%s,%s)',(product,at)).fetchone()[0]['tier']
             value=dict(owner_unit_value='10',owner_value_reason='D14-5 explicit independently supplied value') if tier=='OWNER_INPUT_REQUIRED' else {}
@@ -36,17 +38,22 @@ def series(cur,today):
             out[code]=dict(product=str(product),lot=cur.execute('select lot_id::text from erp.fg_unsourced_receipts_v1 where id=%s',(posted['receipt_id'],)).fetchone()[0],stock=qty)
         return out
     three=sku(tag+'-SERI',[('31',10),('32',11),('33',12)]);one=sku(tag+'-TUNGGAL',[('27',20)])
+    brand=cur.execute('select b.brand_name from erp.products p join erp.brands b on b.id=p.brand_id where p.id=%s',(ax.chain.base.BASE_PRODUCT,)).fetchone()[0]
+    other_brand=cur.execute('insert into erp.brands(brand_code,brand_name) values(%s,%s) returning id,brand_name',(tag+'-B',tag+' Merek Lain')).fetchone()
+    other=sku(tag+'-SERI',[('32',5)],other_brand[0])['32']
     customer=str(base.create_customer(cur,tag));ax.api.admin(cur)
-    return dict(tag=tag,customer=customer,sale_at=(ax.r1.now(cur)-timedelta(minutes=7)).isoformat(),series_sku=tag+'-SERI',single_sku=tag+'-TUNGGAL',sizes=dict(three,**one),location=str(base.LOCATION))
+    return dict(tag=tag,customer=customer,sale_at=(ax.r1.now(cur)-timedelta(minutes=7)).isoformat(),series_sku=tag+'-SERI',single_sku=tag+'-TUNGGAL',brand=brand,
+                other_brand=other_brand[1],other=other,sizes=dict(three,**one),location=str(base.LOCATION))
 
 def series_state(cur,p):
     import cp7_sales_cases as sales
     stock={code:int(cur.execute('select coalesce(sum(qty_signed),0) from erp.fg_stock_movements where lot_id=%s',(x['lot'],)).fetchone()[0]) for code,x in p['sizes'].items()}
+    other=int(cur.execute('select coalesce(sum(qty_signed),0) from erp.fg_stock_movements where lot_id=%s',(p['other']['lot'],)).fetchone()[0])
     found=cur.execute('select id::text,status from erp.sales_headers where sale_number=%s',(p['tag'],)).fetchone()
-    if not found:return dict(sale=None,stock=stock,gl=[[str(x) for x in r] for r in sales.gl(cur)])
+    if not found:return dict(sale=None,stock=stock,other_brand_stock=other,gl=[[str(x) for x in r] for r in sales.gl(cur)])
     by_product={x['product']:code for code,x in p['sizes'].items()}
     items=cur.execute('select product_id::text,qty_pcs from erp.sales_items where sale_id=%s',(found[0],)).fetchall()
-    return dict(sale=found[0],status=found[1],qty={by_product[pid]:int(q) for pid,q in items},lines=len(items),stock=stock,gl=[[str(x) for x in r] for r in sales.gl(cur)])
+    return dict(sale=found[0],status=found[1],qty={by_product.get(pid,'OTHER_BRAND'):int(q) for pid,q in items},lines=len(items),stock=stock,other_brand_stock=other,gl=[[str(x) for x in r] for r in sales.gl(cur)])
 
 def main():
     target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)

@@ -14,13 +14,16 @@ type SeriesInput={dozens:string;pieces:string;message:string}
 // Owner D14-5: one series is every size line of one commercial SKU, in the order it was first added. Picking any size
 // adds every size of that SKU in stock at the warehouse (as the UX demo adds a product with all its sizes), and a new
 // series starts at 1 lusin split evenly when it divides (one size: 12 PCS; three sizes: 4/4/4).
+// A series is one brand's commercial SKU: the same SKU number is lawful for Vivo and Widie (bf_skus_v1 UNIQUE(brand_id,
+// sku)), so the key carries the server's brand name too (erp.brands.brand_name is UNIQUE) (Astra ASTRA-C17-01).
+const seriesKey=(brand:string,sku:string)=>`${sku} · ${brand}`
 const seriesGroups=(lines:Line[])=>{const groups=new Map<string,{line:Line;index:number}[]>();lines.forEach((line,index)=>groups.set(line.series,[...(groups.get(line.series)??[]),{line,index}]));return [...groups.entries()]}
 type Form={customer:SalesCustomerOption|null;location:{id:string;name:string}|null;number:string;at:string;originalAt:string|null;due:string;terms:string;notes:string;reason:string;lines:Line[]}
 type Kind='CUSTOMER'|'STOCK'
 export default function SalesDraftPanel({initial,locked,stale,onSave,onClose,correction=false}:{initial:Detail|null;locked:boolean;stale:boolean;correction?:boolean;onSave:(action:'CREATE'|'EDIT',document:Json,version:string|null)=>void;onClose:()=>void}){
  const {runtime}=useAuth();if(!isConnectedRuntime(runtime))throw Error('Sesi penjualan belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime])
- const [form,setForm]=useState<Form>(()=>({customer:initial?{id:initial.customer_id,code:'',name:initial.customer_name}:null,location:initial?.location_id?{id:initial.location_id,name:initial.location_name??''}:null,number:initial?.number??'',at:cp6WibDateTimeInput(initial?.physical_at),originalAt:initial?.physical_at??null,due:initial?.due_date??'',terms:initial?.payment_terms??'',notes:initial?.notes??'',reason:'',lines:initial?.items.map(i=>({key:i.id,product_id:i.product_id,sku:i.product_sku,series:i.commercial_sku,size:i.size_code,qty:i.qty_pcs,price:i.financial?.unit_price??'',discount:i.financial?.discount??'',notes:i.notes,dozens:'',pieces:'',available:null}))??[]}))
+ const [form,setForm]=useState<Form>(()=>({customer:initial?{id:initial.customer_id,code:'',name:initial.customer_name}:null,location:initial?.location_id?{id:initial.location_id,name:initial.location_name??''}:null,number:initial?.number??'',at:cp6WibDateTimeInput(initial?.physical_at),originalAt:initial?.physical_at??null,due:initial?.due_date??'',terms:initial?.payment_terms??'',notes:initial?.notes??'',reason:'',lines:initial?.items.map(i=>({key:i.id,product_id:i.product_id,sku:i.product_sku,series:seriesKey(i.brand_name,i.commercial_sku),size:i.size_code,qty:i.qty_pcs,price:i.financial?.unit_price??'',discount:i.financial?.discount??'',notes:i.notes,dozens:'',pieces:'',available:null}))??[]}))
  const [seriesInput,setSeriesInput]=useState<Record<string,SeriesInput>>({})
  const [reviewed,setReviewed]=useState(false),[options,setOptions]=useState<Partial<Record<Kind,SalesFormOptions>>>({}),[query,setQuery]=useState({CUSTOMER:'',STOCK:''}),[loading,setLoading]=useState({CUSTOMER:false,STOCK:false}),[error,setError]=useState('')
  const sequences=useRef({CUSTOMER:0,STOCK:0}),queryUsed=useRef({CUSTOMER:'',STOCK:''}),seriesSeq=useRef(0),formRef=useRef(form);formRef.current=form
@@ -34,10 +37,11 @@ export default function SalesDraftPanel({initial,locked,stale,onSave,onClose,cor
   if(!r.ok){editSeries(series,{message:r.message});return}
   setForm(f=>({...f,lines:f.lines.map(l=>l.series===series?{...l,qty:r.perSize}:l)}));setReviewed(false);editSeries(series,{message:''})}
  async function addSeries(p:SalesStockOption){
-  if(!at)return;const s=++seriesSeq.current,series=p.commercial_sku,loc=p.location_id,found:SalesStockOption[]=[];setSeriesBusy(series);setError('')
+  // While the sizes load the review is void and nothing can be saved (Astra ASTRA-C17-02).
+  if(!at)return;const s=++seriesSeq.current,series=seriesKey(p.brand_name,p.commercial_sku),loc=p.location_id,found:SalesStockOption[]=[];setSeriesBusy(series);setReviewed(false);setError('')
   try{
    let offset:number|null=0
-   for(let page=0;offset!==null&&page<10;page++){const r=await client.rpc('erp_cp7_get_sales_form_v1',{p_query:{kind:'STOCK',q:series,physical_at:at,location_id:loc,offset,limit:100}});if(s!==seriesSeq.current)return;if(r.error)throw r.error;const o=parseSalesFormOptions(r.data,'STOCK',at,loc);if(o.offset!==offset||o.limit!==100)throw Error('Pilihan sumber berubah. Cari ulang sumber invoice.');found.push(...(o.rows as SalesStockOption[]).filter(x=>x.commercial_sku===series));offset=o.next_offset}
+   for(let page=0;offset!==null&&page<10;page++){const r=await client.rpc('erp_cp7_get_sales_form_v1',{p_query:{kind:'STOCK',q:p.commercial_sku,physical_at:at,location_id:loc,offset,limit:100}});if(s!==seriesSeq.current)return;if(r.error)throw r.error;const o=parseSalesFormOptions(r.data,'STOCK',at,loc);if(o.offset!==offset||o.limit!==100)throw Error('Pilihan sumber berubah. Cari ulang sumber invoice.');found.push(...(o.rows as SalesStockOption[]).filter(x=>x.commercial_sku===p.commercial_sku&&x.brand_name===p.brand_name));offset=o.next_offset}
    if(offset!==null)throw Error(`Ukuran seri ${series} belum terbaca semua. Cari dengan SKU yang lebih tepat.`)
    if(!found.some(x=>x.product_id===p.product_id))found.push(p)
    const current=formRef.current,have=new Set(current.lines.map(l=>l.product_id)),fresh=found.filter(x=>!have.has(x.product_id)),started=current.lines.some(l=>l.series===series)
@@ -53,7 +57,7 @@ export default function SalesDraftPanel({initial,locked,stale,onSave,onClose,cor
   setLoading(v=>({...v,[kind]:true}));setOptions(v=>({...v,[kind]:undefined}));setError('')
   try{const r=await client.rpc('erp_cp7_get_sales_form_v1',{p_query:{kind,q,physical_at:at,location_id:loc,offset,limit:25}});if(s!==sequences.current[kind])return;if(r.error)throw r.error;const o=parseSalesFormOptions(r.data,kind,at,loc);if(o.offset!==offset||o.limit!==25)throw Error('Pilihan sumber berubah. Cari ulang sumber invoice.');setOptions(v=>({...v,[kind]:o}))}catch(e){if(s===sequences.current[kind])setError(normalizeClientError(e).message)}finally{if(s===sequences.current[kind])setLoading(v=>({...v,[kind]:false}))}
  }
- const amounts=form.lines.map(l=>salesLineTotal(l.qty,l.price,l.discount)),valid=!!at&&!!form.customer&&!!form.location&&form.number.trim().length>0&&form.reason.trim().length>=5&&form.lines.length>0&&form.lines.length<=100&&amounts.every(a=>a!==null)
+ const amounts=form.lines.map(l=>salesLineTotal(l.qty,l.price,l.discount)),valid=!!at&&!!form.customer&&!!form.location&&form.number.trim().length>0&&form.reason.trim().length>=5&&form.lines.length>0&&form.lines.length<=100&&amounts.every(a=>a!==null)&&!seriesBusy
  const total=form.lines.length>0&&amounts.every(a=>a!==null)?amounts.reduce((n,a)=>n+BigInt(a!.replace('.','')),0n):null
  const blocked=locked||stale
  function save(){
@@ -94,7 +98,7 @@ export default function SalesDraftPanel({initial,locked,stale,onSave,onClose,cor
    </section>})}
    <label>Catatan invoice<input aria-label="Catatan draft invoice" maxLength={4000} value={form.notes} onChange={e=>update({notes:e.target.value})}/></label><label>Alasan penyimpanan<input aria-label="Alasan simpan invoice" required minLength={5} maxLength={1000} value={form.reason} onChange={e=>update({reason:e.target.value})}/></label>
    <div className="cproc-total"><span>{correction?'Nilai nota setelah dibetulkan':'Nilai draft'}</span><strong>{total===null?'Belum lengkap':`Rp${numberText(`${total/100n}.${String(total%100n).padStart(2,'0')}`)}`}</strong><p>{correction?'Pembetulan memperbarui nota, stok, piutang dan HPP bersama. Periode keuangan yang ditutup tetap dilindungi.':'Menyimpan draft memesan stok siap jual. Piutang belum dibukukan sampai invoice disahkan.'}</p></div>
-   <label className="cproc-check"><input type="checkbox" aria-label={correction?'Pembetulan nota sudah diperiksa':'Draft invoice sudah diperiksa'} checked={reviewed} onChange={e=>setReviewed(e.target.checked)}/>Pelanggan, tanggal, jumlah, harga, dan potongan sudah saya periksa.</label><button className="primary-btn" disabled={!valid||!reviewed}>{correction?'Simpan pembetulan nota':'Simpan draft invoice'}</button>
+   <label className="cproc-check"><input type="checkbox" aria-label={correction?'Pembetulan nota sudah diperiksa':'Draft invoice sudah diperiksa'} checked={reviewed} disabled={!!seriesBusy} onChange={e=>setReviewed(e.target.checked)}/>Pelanggan, tanggal, jumlah, harga, dan potongan sudah saya periksa.</label><button className="primary-btn" disabled={!valid||!reviewed}>{correction?'Simpan pembetulan nota':'Simpan draft invoice'}</button>
   </fieldset>
  </form>
 }

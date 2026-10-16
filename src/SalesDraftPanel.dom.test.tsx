@@ -48,29 +48,29 @@ describe('P11 complete draft form',()=>{
  })
  it('splits dozens over one size series and reads 4/5/4 back as 1 lusin 1 potong (owner D14-5)',async()=>{
   const d=detail(),third='44444444-4444-4444-8444-444444444444';d.items.push({...d.items[1],id:third,product_id:third,product_sku:'PHYSICAL-3',size_code:'34',qty_pcs:'4'})
-  await mount(d);const series=container.querySelector('[aria-label="Seri SKU-HIST"]')!
+  await mount(d);const series=container.querySelector('[aria-label="Seri SKU-HIST · Vivo"]')!
   expect(series.textContent).toContain('3 ukuran (32/33/34)');expect(series.textContent).toContain('Total seri: 1 lusin 7 potong (19 PCS)')
   await fill('Jumlah invoice 1','4');await fill('Jumlah invoice 2','5');await fill('Jumlah invoice 3','4');expect(series.textContent).toContain('Total seri: 1 lusin 1 potong (13 PCS)')
-  await fill('Lusin seri SKU-HIST','1');await click(button('Bagi rata ke 3 ukuran seri SKU-HIST'))
+  await fill('Lusin seri SKU-HIST · Vivo','1');await click(button('Bagi rata ke 3 ukuran seri SKU-HIST · Vivo'))
   expect(['1','2','3'].map(n=>input(`Jumlah invoice ${n}`).value)).toEqual(['4','4','4']);expect(series.textContent).toContain('Total seri: 1 lusin (12 PCS)');expect(input('Draft invoice sudah diperiksa').checked).toBe(false)
-  await fill('Sisa potong seri SKU-HIST','1');await click(button('Bagi rata ke 3 ukuran seri SKU-HIST'))
+  await fill('Sisa potong seri SKU-HIST · Vivo','1');await click(button('Bagi rata ke 3 ukuran seri SKU-HIST · Vivo'))
   expect(series.querySelector('[role="alert"]')!.textContent).toBe('1 lusin 1 potong (13 PCS) tidak bisa dibagi rata ke 3 ukuran. Isi per ukuran, atau ubah jumlahnya.')
   expect(['1','2','3'].map(n=>input(`Jumlah invoice ${n}`).value)).toEqual(['4','4','4'])
  })
  it('picking one size adds the whole series at 1 lusin, a one-size SKU gets 12 PCS, and manual 3/5/4 reads 1 lusin (owner D14-5)',async()=>{
   await mount();const pick=async(q:string,n=0)=>{await fill('Cari barang draft',q);await click(button('Cari barang draft'));await click(container.querySelectorAll<HTMLElement>('[aria-label="Pilih barang invoice"] .cproc-receipt')[n])}
-  await pick('SKU-3',1);const three=container.querySelector('[aria-label="Seri SKU-3"]')!
-  expect(three.textContent).toContain('3 ukuran (31/32/33)');expect(['1','2','3'].map(n=>input(`Jumlah invoice ${n}`).value)).toEqual(['4','4','4']);expect(three.textContent).toContain('Total seri: 1 lusin (12 PCS)');expect(input('Lusin seri SKU-3').value).toBe('1')
+  await pick('SKU-3',1);const three=container.querySelector('[aria-label="Seri SKU-3 · Vivo"]')!
+  expect(three.textContent).toContain('3 ukuran (31/32/33)');expect(['1','2','3'].map(n=>input(`Jumlah invoice ${n}`).value)).toEqual(['4','4','4']);expect(three.textContent).toContain('Total seri: 1 lusin (12 PCS)');expect(input('Lusin seri SKU-3 · Vivo').value).toBe('1')
   expect(three.querySelectorAll('article')).toHaveLength(3);expect(three.textContent).not.toContain('SKU-30')
   await fill('Jumlah invoice 1','3');await fill('Jumlah invoice 2','5');await fill('Jumlah invoice 3','4');expect(three.textContent).toContain('Total seri: 1 lusin (12 PCS)')
   await fill('Jumlah invoice 1','4');expect(three.textContent).toContain('Total seri: 1 lusin 1 potong (13 PCS)')
-  await fill('Lusin seri SKU-3','2');await click(button('Bagi rata ke 3 ukuran seri SKU-3'));expect(['1','2','3'].map(n=>input(`Jumlah invoice ${n}`).value)).toEqual(['8','8','8']);expect(three.textContent).toContain('Total seri: 2 lusin (24 PCS)')
-  await pick('SKU-1');const one=container.querySelector('[aria-label="Seri SKU-1"]')!
+  await fill('Lusin seri SKU-3 · Vivo','2');await click(button('Bagi rata ke 3 ukuran seri SKU-3 · Vivo'));expect(['1','2','3'].map(n=>input(`Jumlah invoice ${n}`).value)).toEqual(['8','8','8']);expect(three.textContent).toContain('Total seri: 2 lusin (24 PCS)')
+  await pick('SKU-1');const one=container.querySelector('[aria-label="Seri SKU-1 · Vivo"]')!
   expect(one.textContent).toContain('1 ukuran (27)');expect(input('Jumlah invoice 4').value).toBe('12');expect(one.textContent).toContain('Total seri: 1 lusin (12 PCS)')
-  await fill('Lusin seri SKU-1','3');await fill('Sisa potong seri SKU-1','5');await click(button('Bagi rata ke 1 ukuran seri SKU-1'));expect(input('Jumlah invoice 4').value).toBe('41');expect(one.textContent).toContain('Total seri: 3 lusin 5 potong (41 PCS)')
-  await pick('SKU-5');const five=container.querySelector('[aria-label="Seri SKU-5"]')!
+  await fill('Lusin seri SKU-1 · Vivo','3');await fill('Sisa potong seri SKU-1 · Vivo','5');await click(button('Bagi rata ke 1 ukuran seri SKU-1 · Vivo'));expect(input('Jumlah invoice 4').value).toBe('41');expect(one.textContent).toContain('Total seri: 3 lusin 5 potong (41 PCS)')
+  await pick('SKU-5');const five=container.querySelector('[aria-label="Seri SKU-5 · Vivo"]')!
   expect(['5','6','7','8','9'].map(n=>input(`Jumlah invoice ${n}`).value)).toEqual(['','','','','']);expect(five.querySelector('[role="alert"]')!.textContent).toBe('1 lusin (12 PCS) tidak bisa dibagi rata ke 5 ukuran. Isi per ukuran, atau ubah jumlahnya.')
-  await pick('SKU-3');expect(container.querySelectorAll('[aria-label="Seri SKU-3"] article')).toHaveLength(3);expect(three.querySelector('[role="alert"]')!.textContent).toBe('Semua ukuran seri SKU-3 yang ada stoknya sudah ada di invoice.')
+  await pick('SKU-3');expect(container.querySelectorAll('[aria-label="Seri SKU-3 · Vivo"] article')).toHaveLength(3);expect(three.querySelector('[role="alert"]')!.textContent).toBe('Semua ukuran seri SKU-3 · Vivo yang ada stoknya sudah ada di invoice.')
   expect(['1','2','3'].map(n=>input(`Jumlah invoice ${n}`).value)).toEqual(['8','8','8'])
   const series=client.rpc.mock.calls.map(c=>c[1].p_query).filter(q=>q.kind==='STOCK'&&q.limit===100);expect(series.map(q=>q.q)).toEqual(['SKU-3','SKU-1','SKU-5','SKU-3']);expect(series.every(q=>q.location_id===id&&q.offset===0)).toBe(true)
   await fill('Jumlah invoice 1','11');expect(three.textContent).toContain('stok 10 PCS · melebihi stok')
@@ -81,10 +81,10 @@ describe('P11 complete draft form',()=>{
   client.rpc.mockImplementation(async(_n,a)=>{const o=option(a.p_query);return {data:{...o,total:'5000',next_offset:a.p_query.offset+o.rows.length},error:null}})
   await click(container.querySelector<HTMLElement>('[aria-label="Pilih barang invoice"] .cproc-receipt')!)
   expect(client.rpc.mock.calls.filter(c=>c[1].p_query.limit===100)).toHaveLength(10)
-  expect(container.querySelector('[aria-label="Seri SKU-3"]')).toBeNull();expect(container.textContent).toContain('Ukuran seri SKU-3 belum terbaca semua. Cari dengan SKU yang lebih tepat.')
+  expect(container.querySelector('[aria-label="Seri SKU-3 · Vivo"]')).toBeNull();expect(container.textContent).toContain('Ukuran seri SKU-3 · Vivo belum terbaca semua. Cari dengan SKU yang lebih tepat.')
   client.rpc.mockImplementation(async(_n,a)=>({data:{...option(a.p_query),limit:25},error:null}))
   await click(container.querySelector<HTMLElement>('[aria-label="Pilih barang invoice"] .cproc-receipt')!)
-  expect(container.querySelector('[aria-label="Seri SKU-3"]')).toBeNull();expect(container.textContent).toContain('Pilihan sumber berubah. Cari ulang sumber invoice.')
+  expect(container.querySelector('[aria-label="Seri SKU-3 · Vivo"]')).toBeNull();expect(container.textContent).toContain('Pilihan sumber berubah. Cari ulang sumber invoice.')
  })
  it('keeps immutable source IDs for duplicate SKU lines after quantity changes and deletion',async()=>{
   const d=detail();d.items[0].qty_pcs='5';d.items[1]={...d.items[1],product_id:d.items[0].product_id,qty_pcs:'10'}
@@ -93,5 +93,37 @@ describe('P11 complete draft form',()=>{
   expect(saved.mock.calls[0][1].item_lineage).toEqual([d.items[0].id,d.items[1].id]);expect(saved.mock.calls[0][1].items.map((x:{qty_pcs:string})=>x.qty_pcs)).toEqual(['5','6'])
   await click(button('Hapus barang 1'));await click(input('Pembetulan nota sudah diperiksa'));await click(button('Simpan pembetulan nota'))
   expect(saved.mock.calls[1][1].item_lineage).toEqual([d.items[1].id]);expect(saved.mock.calls[1][1].items[0].qty_pcs).toBe('6')
+ })
+ it('keeps two brands with the same SKU number apart: picking Vivo adds only Vivo sizes (Astra ASTRA-C17-01)',async()=>{
+  // ASTRA_UI_SERIES_MUST_PRESERVE_BRAND: Vivo/73001/32 and Widie/73001/32, 30 each; pick Vivo only.
+  const vivo={...stock,product_id:'aaaaaaaa-1111-4111-8111-111111111111',product_sku:'V-73001-32',commercial_sku:'73001',size_code:'32',brand_name:'Vivo',available_qty:'30'}
+  const widie={...vivo,product_id:'bbbbbbbb-1111-4111-8111-111111111111',product_sku:'W-73001-32',brand_name:'Widie'}
+  client.rpc.mockImplementation(async(_n,a)=>{const q=a.p_query;const rows=q.kind==='CUSTOMER'?[{id,code:'C01',name:'Toko A'}]:[vivo,widie];return {data:{...option(q),rows,total:String(rows.length)},error:null}})
+  await mount();await fill('Cari barang draft','73001');await click(button('Cari barang draft'))
+  await click(container.querySelectorAll<HTMLElement>('[aria-label="Pilih barang invoice"] .cproc-receipt')[0])
+  const v=container.querySelector('[aria-label="Seri 73001 · Vivo"]')!
+  expect(v.textContent).toContain('1 ukuran (32)');expect(input('Jumlah invoice 1').value).toBe('12');expect(container.querySelector('[aria-label="Jumlah invoice 2"]')).toBeNull()
+  expect(container.querySelector('[aria-label="Seri 73001 · Widie"]')).toBeNull()
+  await click(button('Cari barang draft'));await click(container.querySelectorAll<HTMLElement>('[aria-label="Pilih barang invoice"] .cproc-receipt')[1])
+  const w=container.querySelector('[aria-label="Seri 73001 · Widie"]')!
+  expect(w.textContent).toContain('1 ukuran (32)');expect(input('Jumlah invoice 2').value).toBe('12');expect(v.textContent).toContain('1 ukuran (32)')
+  await fill('Nomor draft invoice','INV-BRAND');await click(button('Cari pelanggan draft'));await click(container.querySelector<HTMLElement>('[aria-label="Pilih pelanggan invoice"] .cproc-receipt')!)
+  await fill('Harga invoice 1','10');await fill('Harga invoice 2','10');await fill('Alasan simpan invoice','Dua merek dengan nomor SKU sama');await reviewed();await click(button('Simpan draft invoice'))
+  expect(saved.mock.calls[0][1].items.map((x:{product_id:string;qty_pcs:string})=>[x.product_id,x.qty_pcs])).toEqual([[vivo.product_id,'12'],[widie.product_id,'12']])
+ })
+ it('cannot save while the sizes of a picked series are still loading, and the review is void (Astra ASTRA-C17-02)',async()=>{
+  // ASTRA_UI_PENDING_SERIES_SAVE: a reviewed draft with two lines; picking a new three-size series holds the reader.
+  const d=detail();await mount(d);await fill('Alasan simpan invoice','Draft lama sudah diperiksa');await reviewed()
+  expect(button('Simpan draft invoice').disabled).toBe(false)
+  let finish!:(r:unknown)=>void,held:Record<string,unknown>|null=null
+  client.rpc.mockImplementation((_n,a)=>a.p_query.limit===100?new Promise(resolve=>{held=a.p_query;finish=resolve}):Promise.resolve({data:option(a.p_query),error:null}))
+  await fill('Cari barang draft','SKU-3');await click(button('Cari barang draft'));await click(container.querySelectorAll<HTMLElement>('[aria-label="Pilih barang invoice"] .cproc-receipt')[0])
+  expect(container.textContent).toContain('Memuat semua ukuran seri SKU-3 · Vivo');expect(button('Simpan draft invoice').disabled).toBe(true)
+  expect(input('Draft invoice sudah diperiksa').checked).toBe(false);expect(input('Draft invoice sudah diperiksa').disabled).toBe(true)
+  await click(button('Simpan draft invoice'));expect(saved).not.toHaveBeenCalled()
+  await act(async()=>finish({data:option(held!),error:null}));await flush()
+  expect(container.querySelectorAll('[aria-label="Seri SKU-3 · Vivo"] article')).toHaveLength(3);expect(input('Draft invoice sudah diperiksa').checked).toBe(false)
+  for(const n of['3','4','5'])await fill(`Harga invoice ${n}`,'10')
+  await reviewed();await click(button('Simpan draft invoice'));expect(saved.mock.calls[0][1].items).toHaveLength(5)
  })
 })
