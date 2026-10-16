@@ -178,6 +178,8 @@ begin
  -- The original review is checked again by the inverse; the replacement gets
  -- the real post-inverse revision/token. No client guesses the next version.
  intent:=p-'replacement';
+ -- D15-1 / Sol SOL-R1-001: the cash guard judges the end state of inverse + replacement, not the half-way balance.
+ if pg_catalog.to_regprocedure('cp7_guard.begin_compound(text)')is not null then perform cp7_guard.begin_compound('SALES_PAYMENT_CORRECTION');end if;
  insert into cp7_sales.command_context values(pg_backend_pid(),txid_current(),auth.uid(),h.id,'PAYMENT_REVERSE');
  perform cp7_sales.apply_command('PAYMENT_REVERSE',intent,p_request,p_expected);
  select *into strict original_journal from erp.journal_entries where source_type='SALES_PAYMENT'and source_id=original.id and reversal_of_id is null;
@@ -199,6 +201,7 @@ begin
   'review_token',cp7_sales.review_token(h.id),'payment_number',left(original.payment_number,20)||' · K-'||replace(p_request::text,'-',''));
  insert into cp7_sales.command_context values(pg_backend_pid(),txid_current(),auth.uid(),h.id,'PAYMENT');
  posted:=cp7_sales.apply_command('PAYMENT',intent,p_request,h.row_version::text);
+ if pg_catalog.to_regprocedure('cp7_guard.end_compound()')is not null then perform cp7_guard.end_compound();end if;
  delete from cp7_sales.command_context where backend_pid=pg_backend_pid()and transaction_id=txid_current();
  if cp7_payment_correction.access_now()is distinct from a then raise exception using errcode='42501',message='CP7_SALES_ACCESS_CHANGED';end if;
  insert into cp7_payment_correction.links(original_id,replacement_id,sale_id,actor,request_id,reason,time_neutral_id,effective_inverse_id)

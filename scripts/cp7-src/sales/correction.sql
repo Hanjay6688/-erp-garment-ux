@@ -258,6 +258,8 @@ begin
  insert into cp7_note.context values(pg_backend_pid(),txid_current(),auth.uid(),leaf);
  insert into cp7_sales.command_context values(pg_backend_pid(),txid_current(),auth.uid(),leaf,'SALE_REVERSE');
  perform set_config('app.change_reason',p_payload->>'change_reason',true);
+ -- D15-1 / Sol SOL-R1-001: the cash guard judges the end state of inverse + replacement, not the half-way balance.
+ if pg_catalog.to_regprocedure('cp7_guard.begin_compound(text)')is not null then perform cp7_guard.begin_compound('SALES_NOTE_CORRECTION');end if;
  -- Remove active children before reversing the invoice, then restore their
  -- immutable original physical inputs onto its replacement in one command.
  for payment in select *from jsonb_to_recordset(paid)as p(id uuid)loop
@@ -324,6 +326,7 @@ begin
   insert into cp7_note.payment_replays(previous_payment_id,replacement_payment_id,correction_id)
   values((payment.value->>'id')::uuid,new_payment,correction_id);
  end loop;
+ if pg_catalog.to_regprocedure('cp7_guard.end_compound()')is not null then perform cp7_guard.end_compound();end if;
  -- Collapse compensating movements under their original source card. A newly
  -- added SKU gets its own Native card inserted beside this note's source,
  -- using the accepted move writer. Unrelated manual order is never reset.

@@ -112,6 +112,8 @@ begin
  -- rolls back the inverse, replacement, journals, link and UUID receipt.
  delete from cp7_misc.command_context where backend_pid=pg_backend_pid()and transaction_id=txid_current();
  intent:=p-'replacement';
+ -- D15-1 / Sol SOL-R1-001: the cash guard judges the end state of inverse + replacement, not the half-way balance.
+ if pg_catalog.to_regprocedure('cp7_guard.begin_compound(text)')is not null then perform cp7_guard.begin_compound('MISC_CORRECTION');end if;
  insert into cp7_misc.command_context values(pg_backend_pid(),txid_current(),auth.uid(),p_request,'REVERSE',intent);
  reversed:=cp7_misc.apply_command('REVERSE',intent,p_request);
  -- A plain Native inverse has today's economic date. Correcting an old
@@ -139,6 +141,7 @@ begin
  intent:=jsonb_build_object('transaction_id',saved->>'transaction_id','review_token',saved->'document'->>'review_token','change_reason',p->>'change_reason');
  insert into cp7_misc.command_context values(pg_backend_pid(),txid_current(),auth.uid(),p_request,'POST',intent);
  posted:=cp7_misc.apply_command('POST',intent,p_request);
+ if pg_catalog.to_regprocedure('cp7_guard.end_compound()')is not null then perform cp7_guard.end_compound();end if;
  delete from cp7_misc.command_context where backend_pid=pg_backend_pid()and transaction_id=txid_current();
  if cp7_misc.access_now()is distinct from a then raise exception using errcode='42501',message='CP7_MISC_ACCESS_CHANGED';end if;
  insert into cp7_misc.command_context values(pg_backend_pid(),txid_current(),auth.uid(),p_request,'CORRECT',p);

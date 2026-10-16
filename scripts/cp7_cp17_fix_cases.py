@@ -28,6 +28,9 @@ Locked reports (Fable, Astra, Sol on 0b7049d9) and owner decisions of 15 Oct 202
   setting that would reach schema erp while those writers are still executable by `authenticated`.
 - SG-02 (D14-4): leftover fabric of a posted cutting goes back to the warehouse: the same roll returns to stock at its
   issue cost, the PO's WIP drops by exactly that value, at most the remainder recorded at cutting, once per cutting.
+- R2-01 (owner D15-1; Fable FABLE-013, Sol SOL-R1-001, round dfab13bf): the cash guard also judges the book
+  (transaction) date that the owner's daily cash report uses, and judges a compound correction (inverse, then
+  replacement) on its end state. Fable's and Sol's scenarios run with their own amounts.
 Oracles do not come from the guards: dates are read from the Native accrual journals and source rows, balances
 from journal lines and movements. Every refusal leaves the whole business boundary unchanged and has a lawful
 control. Fixture banks receive owner capital through the accepted Native journal (cp7_cash_funding) only where the
@@ -47,6 +50,10 @@ import cp7_material_cases as material
 import cp7_nota_cases as nota
 import cp6_bd_probe as bd
 import cp7_cash_funding as funding
+import cp7_payment_correction_cases as edit
+import cp7_misc_cases as misc
+import cp7_misc_correction_cases as misc_fix
+import cp7_note_correction_cases as note_fix
 
 auth,b,bc=s.auth,s.b,s.bc
 refused=auth.refused
@@ -56,7 +63,8 @@ FUNCTIONS=('erp_set_contractor_hpp_policy_v1','erp_cp7_save_nota_v1','erp_cp7_ge
            'erp_cp7_get_cutting_return_v1','erp_cp7_return_cutting_fabric_v1','erp_cp7_get_cutting_correction_v1',
            'erp_cp7_get_kasbon_v1','erp_cp7_save_kasbon_v1','erp_cp7_get_pickup_reversal_v1','erp_cp7_reverse_pickup_v1',
            'erp_cp7_get_cutting_return_reversal_v1','erp_cp7_reverse_cutting_return_v1','erp_cp7_get_sewing_completion_v1','erp_cp7_save_sewing_completion_v1',
-           'erp_cp7_list_po_finish_v1','erp_cp7_get_po_finish_v1','erp_cp7_finish_po_v1')
+           'erp_cp7_list_po_finish_v1','erp_cp7_get_po_finish_v1','erp_cp7_finish_po_v1',
+           'erp_cp7_save_misc_finance_v1','erp_cp7_correct_misc_finance_v1','erp_cp7_correct_sales_payment_v1','erp_cp7_get_sales_payment_correction_v1','erp_cp7_correct_note_v1')
 IDS=dict(
     native=['CP17_FIN01_FULL_PAY_BEFORE_ATTENDANCE_REFUSED','CP17_FIN01_WORK_ONLY_BEFORE_COMPLETION_REFUSED',
             'CP17_FIN01_INSTALLMENT_BEFORE_ACCRUAL_REFUSED','CP17_FIN01_DIRECT_NATIVE_PAYMENT_REFUSED',
@@ -74,9 +82,14 @@ IDS=dict(
             'CP17_SG01_PICKUP_REVERSE_BEFORE_SEWING','CP17_SG01_PICKUP_REVERSE_REFUSED',
             'CP17_FABLE012_EXPOSURE_GATE_REVOKE_FIRST',
             'CP17_G1_SEWING_RECORD_WAGE_READY_FOR_LAUNDRY','CP17_G1_SEWING_REFUSALS_UNCHANGED','CP17_G1_SEWING_CANCEL_ONLY_AT_MANDOR',
-            'CP17_G2_FINISH_PO_FINAL_HPP_WIP_CLOSED','CP17_G2_FINISH_REFUSALS_UNCHANGED'],
-    races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK','CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS','CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS','CP17_RACE_G2_FINISH_TWO_TABS_ONE_WINS'],
-    http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED','CP17_HTTP_KASBON_GIVE','CP17_HTTP_ERP_WRITERS_NOT_REACHABLE','CP17_HTTP_G1_SEWING_RECORD','CP17_HTTP_G2_FINISH_PO'],
+            'CP17_G2_FINISH_PO_FINAL_HPP_WIP_CLOSED','CP17_G2_FINISH_REFUSALS_UNCHANGED',
+            'CP17_R2_CASH_BOOK_DATE_REFUSED','CP17_R2_SPENT_INCOME_CORRECTION_COMMITS','CP17_R2_SPENT_INCOME_NOTE_ONLY_COMMITS',
+            'CP17_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED','CP17_R2_MISC_SPENT_INCOME_CORRECTION_COMMITS','CP17_R2_NOTE_CORRECTION_SPENT_PAYMENT_COMMITS',
+            'CP17_R2_COMPOUND_SCOPE_PRIVATE_AND_CLOSED','CP17_R2_DETECTOR_BOOK_DATE_LISTED'],
+    races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK','CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS','CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS','CP17_RACE_G2_FINISH_TWO_TABS_ONE_WINS',
+           'CP17_RACE_R2_CORRECTION_AND_PAYMENT_ONE_BANK'],
+    http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED','CP17_HTTP_KASBON_GIVE','CP17_HTTP_ERP_WRITERS_NOT_REACHABLE','CP17_HTTP_G1_SEWING_RECORD','CP17_HTTP_G2_FINISH_PO',
+          'CP17_HTTP_R2_SPENT_INCOME_CORRECTION_COMMITS','CP17_HTTP_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED'],
     browser=['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP','CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE','CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP',
              'CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP','CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE','CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP',
              'CP17_BROWSER_G1_SEWING_DESKTOP','CP17_BROWSER_G1_SEWING_MOBILE','CP17_BROWSER_G2_FINISH_DESKTOP','CP17_BROWSER_G2_FINISH_MOBILE'],
@@ -1006,11 +1019,99 @@ def cases(cur,today):
         return dict(status='PASS',laundry_out_refused=out,native_same_refusal=native,unknown_po=missing,stale_after_change=stale,short_reason=short,
                     forged_review=forged,same_key_other_payload=changed,finished_after_all_back=True)
 
+    # ------------------------------------------------------------ R2-01 (owner D15-1; FABLE-013, SOL-R1-001)
+    def cash_rows(bank):
+        b.api.admin(cur)
+        return [r for r in cur.execute('select kind,subject_id::text,on_day,amount from cp7_guard.findings()').fetchall() if r[0].startswith('CASH') and r[1]==bank]
+    def scope_empty():
+        b.api.admin(cur);return one(cur,'select count(*) from cp7_guard.compound_scope')==0 and one(cur,'select count(*) from cp7_guard.compound_touch')==0
+    def spent_receipt():
+        """Sol's fixture: a customer receipt of 30.01 into a fresh bank, then 20.00 of it pays a supplier (bank 10.01)."""
+        f=edit.fixture(cur,today,amount='30.01');out=pay.fixture(cur,today);out['cash']=f['bank']
+        pay.command(cur,pay.payload(cur,out,'20.00'));assert balance(cur,f['bank'])==D('10.01')
+        return f
+    def cash_book_date():
+        """Fable cp17c FABLE_CP17C:CASH_BASIS_MISMATCH with its own amounts: income dated inside the closed period is
+        recognised on the first open day; an expense dated yesterday that the economic-date balance allows but that leaves
+        yesterday's book-date balance (the owner's daily cash report) below zero is refused; up to that balance it posts."""
+        f=misc.fixture(cur,today);b.api.admin(cur);yday=today-timedelta(days=1)
+        closed=one(cur,'select closed_through from erp.accounting_period_control where singleton_id=1');closed_day=closed-timedelta(days=2)
+        bank=f['cash']['id'];coa=str(f['cash']['account_id'])
+        def book_until(day):
+            b.api.admin(cur);return D(one(cur,"select coalesce(sum(debit_total-credit_total),0)::text from erp.account_daily_balances where account_id=%s and balance_date<=%s",(coa,day)))
+        income=D(str(misc.cash_balance(cur,bank)))+D('1000.00');book_yday=book_until(yday);assert book_yday>0,book_yday
+        p=misc.save_payload(f,'OTHER_INCOME',str(income));p['physical_at']=str(closed_day)+'T08:00:00+07:00'
+        misc.command(cur,'POST',misc.intent(misc.command(cur,'SAVE',p)));b.api.admin(cur)
+        shifted=cur.execute("select economic_date,transaction_date from erp.journal_entries where source_type='MISC_FINANCE' and economic_date=%s order by posting_at desc limit 1",(closed_day,)).fetchone()
+        assert shifted[0]==closed_day and shifted[1]>closed,shifted
+        pe=misc.save_payload(f,'OTHER_EXPENSE',str(book_yday+D('500.00')));pe['physical_at']=str(yday)+'T09:00:00+07:00'
+        before=b.boundary.snapshot(cur)
+        detail=refused(cur,lambda:misc.command(cur,'POST',misc.intent(misc.command(cur,'SAVE',pe))),'CP7_CASH_NEGATIVE');unchanged(cur,before,'expense breaking the book-date balance')
+        assert 'tanggal buku' in json.dumps(detail,default=str),detail
+        pe=misc.save_payload(f,'OTHER_EXPENSE',str(book_yday));pe['physical_at']=str(yday)+'T09:00:00+07:00'
+        misc.command(cur,'POST',misc.intent(misc.command(cur,'SAVE',pe)))
+        assert book_until(yday)==0 and cash_rows(bank)==[]
+        return dict(status='PASS',closed_through=str(closed),income_economic_and_book_date=[str(shifted[0]),str(shifted[1])],
+                    expense_over_book_balance_refused=detail,expense_equal_to_book_balance_posted=str(book_yday),detector_clean=True,
+                    witness='Fable FABLE_CP17C:CASH_BASIS_MISMATCH (run 38786227211)')
+    def spent_income_correction():
+        f=spent_receipt();p,v=edit.payload(cur,f,'25.01');r=edit.correct(cur,p,v);edit.check(cur,f,p,r)
+        assert balance(cur,f['bank'])==D('5.01') and cash_rows(f['bank'])==[] and scope_empty()
+        return dict(status='PASS',receipt='30.01',spent='20.00',corrected_to='25.01',bank_after='5.01',witness='Sol SOL_R1_CUSTOMER_PAYMENT_CORRECTION_FINAL_POSITIVE')
+    def spent_income_note_only():
+        f=spent_receipt();p,v=edit.payload(cur,f,'30.01',notes='CP17 catatan dibetulkan sesudah uangnya terpakai');r=edit.correct(cur,p,v);edit.check(cur,f,p,r)
+        assert balance(cur,f['bank'])==D('10.01') and scope_empty()
+        return dict(status='PASS',note_only_correction_committed=True,bank_after='10.01',witness='Sol SOL_HTTP_SPENT_INCOME_NOTE_ONLY_CORRECTION')
+    def spent_income_negative():
+        f=spent_receipt();p,v=edit.payload(cur,f,'15.01');before=b.boundary.snapshot(cur);private=edit.private_state(cur)
+        detail=refused(cur,lambda:edit.correct(cur,p,v),'CP7_CASH_NEGATIVE');unchanged(cur,before,'correction leaving the bank at -4.99')
+        assert edit.private_state(cur)==private and balance(cur,f['bank'])==D('10.01') and scope_empty()
+        # A lone inverse that makes the bank negative stays refused: the guard judges the end of every command.
+        return dict(status='PASS',replacement_15_01_after_spending_20_refused=detail,bank_unchanged='10.01',witness='Sol SOL_HTTP_SPENT_INCOME_GENUINE_NEGATIVE_REFUSAL')
+    def misc_spent_income():
+        f=misc.fixture(cur,today);b.api.admin(cur);bank=f['cash']['id'];start=D(str(misc.cash_balance(cur,bank)))
+        old=misc_fix.posted(cur,f,'OTHER_INCOME','30.01');misc_fix.posted(cur,f,'OTHER_EXPENSE',str(start+D('20.00')));b.api.admin(cur)
+        assert D(str(misc.cash_balance(cur,bank)))==D('10.01')
+        before=b.boundary.snapshot(cur)
+        detail=refused(cur,lambda:misc_fix.correct(cur,misc_fix.payload(f,old,'5.00')),'CP7_CASH_NEGATIVE');unchanged(cur,before,'misc correction leaving the bank at -15.00')
+        p=misc_fix.payload(f,old,'25.01');r=misc_fix.correct(cur,p);misc_fix.check(cur,f,old,r);b.api.admin(cur)
+        assert D(str(misc.cash_balance(cur,bank)))==D('5.01') and scope_empty()
+        return dict(status='PASS',correction_to_5_00_refused_first=detail,misc_income_30_01_spent_corrected_to_25_01_bank='5.01')
+    def note_spent_payment():
+        f=spent_receipt();p,v=note_fix.edit(cur,f,price='21');out=note_fix.correct(cur,p,v)
+        assert out['kind']=='COMMITTED_OUTCOME' and out['previous_sale_id']==f['sale'],out
+        assert balance(cur,f['bank'])==D('10.01') and scope_empty()
+        replay=one(cur,'select count(*) from cp7_note.payment_replays where correction_id=%s',(out['revision_id'],));assert replay==1,replay
+        return dict(status='PASS',paid_note_corrected_after_receipt_spent=True,payment_replayed=1,bank_after='10.01')
+    def compound_private():
+        for who in('anon','authenticated','service_role'):
+            for sig in('cp7_guard.begin_compound(text)','cp7_guard.end_compound()'):
+                assert not one(cur,"select has_function_privilege(%s,%s,'EXECUTE')",(who,sig)),(who,sig)
+        before=b.boundary.snapshot(cur)
+        def left_open():
+            b.api.admin(cur);cur.execute("select cp7_guard.begin_compound('CP17 terbuka')");cur.execute('set constraints all immediate')
+        open_refused=refused(cur,left_open,'CP7_GUARD_COMPOUND_OPEN');unchanged(cur,before,'scope left open')
+        not_open=refused(cur,lambda:(b.api.admin(cur),cur.execute('select cp7_guard.end_compound()')),'CP7_GUARD_COMPOUND_NOT_OPEN')
+        assert scope_empty()
+        return dict(status='PASS',begin_end_owner_only=True,scope_left_open_refused_at_commit=open_refused,end_without_begin_refused=not_open)
+    def detector_book_date():
+        f=misc.fixture(cur,today);b.api.admin(cur);bank=f['cash']['id'];start=D(str(misc.cash_balance(cur,bank)))
+        pe=misc.save_payload(f,'OTHER_EXPENSE',str(start+D('7.00')))
+        b.api.admin(cur);cur.execute('alter table erp.journal_lines disable trigger cp7_guard_cash_not_negative')
+        try:misc.command(cur,'POST',misc.intent(misc.command(cur,'SAVE',pe)))
+        finally:b.api.admin(cur);cur.execute('alter table erp.journal_lines enable trigger cp7_guard_cash_not_negative')
+        rows=cash_rows(bank);kinds=sorted(r[0] for r in rows)
+        assert kinds==['CASH_NEGATIVE','CASH_NEGATIVE_BOOK_DATE'] and all(r[3]==D('-7') for r in rows),rows
+        funding.fund(cur,bank,'7.00',today);b.api.admin(cur);assert cash_rows(bank)==[]
+        return dict(status='PASS',both_bases_listed=[[r[0],str(r[2]),str(r[3])] for r in rows],capital_clears_both=True)
+
     named=[full_attendance,work_only,installment,direct_native,empty_bank,exact_zero,backdate,later_day,payroll_empty,laundry_empty,
            claim_control,claim_before_source,claim_ap_not_available,stock_card,rework_scrap,rework_good,rework_open,
            hpp_excluded,hpp_unrelated,hpp_replacement,fabric_return,fabric_over,fabric_once,fabric_dates,fabric_cancel,fabric_correct,fabric_cancel_blocked,fabric_cancel_once,legacy_findings,
            kasbon_cycle,kasbon_limits,kasbon_release,rewash_free,pickup_reverse,pickup_refused,exposure_gate,
-           sewing_record,sewing_refused,sewing_cancel,finish_po,finish_refused]
+           sewing_record,sewing_refused,sewing_cancel,finish_po,finish_refused,
+           cash_book_date,spent_income_correction,spent_income_note_only,spent_income_negative,misc_spent_income,note_spent_payment,
+           compound_private,detector_book_date]
     assert len(named)==REQUIRED['native']
     return list(zip(IDS['native'],named))
 
@@ -1096,8 +1197,29 @@ def races(tools,today):
             closes=one(cur,'select count(*) from erp.po_wip_close_events where po_id=%s',(f['po'],))
         assert state['status']=='FINISHED' and state['wip']==0 and state['history']==1 and closes<=1,(state,closes)
         return dict(status='PASS',two_finishes_same_review=results,finished_once=True,wip_close_events=closes)
+    def correction_and_payment():
+        # R2-01: the compound correction and an ordinary payment on one bank, at once. Alone each fits (5.01 and 2.01);
+        # together the bank would end at -2.99. The account lock orders them; exactly one is refused CP7_CASH_NEGATIVE.
+        with tools.connect()as conn,conn.cursor()as cur:
+            f=edit.fixture(cur,today,amount='30.01');out=pay.fixture(cur,today);out['cash']=f['bank'];pay.command(cur,pay.payload(cur,out,'20.00'))
+            p,v=edit.payload(cur,f,'25.01');other=pay.fixture(cur,today);other['cash']=f['bank'];pp=pay.payload(cur,other,'8.00');conn.commit()
+        barrier=threading.Barrier(2)
+        def send(kind):
+            with tools.connect()as conn,conn.cursor()as cur:
+                barrier.wait(5)
+                try:
+                    r=edit.correct(cur,p,v) if kind=='CORRECTION' else pay.command(cur,pp);conn.commit();return(kind,'PASS','')
+                except psycopg.Error as e:conn.rollback();return(kind,'REFUSED',str(e).splitlines()[0])
+        with ThreadPoolExecutor(max_workers=2)as pool:results=[x.result(60)for x in[pool.submit(send,k)for k in('CORRECTION','PAYMENT')]]
+        assert sorted(x[1]for x in results)==['PASS','REFUSED']and 'CP7_CASH_NEGATIVE'in next(x[2]for x in results if x[1]=='REFUSED'),results
+        winner=next(x[0]for x in results if x[1]=='PASS')
+        with tools.connect()as conn,conn.cursor()as cur:
+            assert balance(cur,f['bank'])==(D('5.01')if winner=='CORRECTION'else D('2.01'))
+            b.api.admin(cur);assert one(cur,'select count(*) from cp7_guard.compound_scope')==0
+        return dict(status='PASS',results=results,winner=winner)
     return [('CP17_RACE_TWO_PAYMENTS_ONE_BANK',two_payments),('CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS',overlapping_payroll),
-            ('CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS',sewing_twice),('CP17_RACE_G2_FINISH_TWO_TABS_ONE_WINS',finish_twice)]
+            ('CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS',sewing_twice),('CP17_RACE_G2_FINISH_TWO_TABS_ONE_WINS',finish_twice),
+            ('CP17_RACE_R2_CORRECTION_AND_PAYMENT_ONE_BANK',correction_and_payment)]
 
 
 def http_cases(http,today):
@@ -1205,5 +1327,26 @@ def http_cases(http,today):
         with http.connect()as conn,conn.cursor()as cur:
             b.api.admin(cur);state=po_state(cur,f['po']);assert state['status']=='FINISHED' and state['wip']==0,state
         return dict(status='PASS',real_Auth_finished=f['number'],final_hpp=r['body']['result']['hpp'],staff_refused=str(denied['body'])[:200])
+    def spent_correction_http(replacement):
+        # Sol correction_http.py, real Auth and PostgREST, source-bound public workspace token, own amounts.
+        owner=http.login('OWNER','cp17-r2-'+replacement.replace('.','-'))
+        with http.connect()as conn,conn.cursor()as cur:
+            f=edit.fixture(cur,today,amount='30.01');out=pay.fixture(cur,today);out['cash']=f['bank'];pay.command(cur,pay.payload(cur,out,'20.00'))
+            assert balance(cur,f['bank'])==D('10.01');conn.commit()
+        w=owner.rpc(edit.READ,dict(p_query=dict(sale_id=f['sale'],payment_id=f['payment'])));assert w['status']==200 and w['body']['eligible'],w
+        d=w['body']['document']
+        p=dict(sale_id=f['sale'],payment_id=f['payment'],review_token=w['body']['review_token'],change_reason='CP17 koreksi penerimaan sesudah uangnya terpakai',
+               replacement=dict(payment_number=d['number'],payment_date=d['physical_at'],amount=replacement,cash_account_id=d['cash_account_id'],
+                                payment_method=d['method'],reference_number=d['reference'],notes=d['notes']))
+        r=owner.rpc(edit.RPC,dict(p_payload=p,p_request=str(uuid.uuid4()),p_expected=w['body']['row_version']))
+        with http.connect()as conn,conn.cursor()as cur:after=balance(cur,f['bank']);conn.rollback()
+        return r,after
+    def http_spent_positive():
+        r,after=spent_correction_http('25.01');assert r['status']==200 and after==D('5.01'),(r,after)
+        return dict(status='PASS',real_Auth_correction_committed=True,bank_after='5.01')
+    def http_spent_negative():
+        r,after=spent_correction_http('15.01');assert r['status']==400 and 'CP7_CASH_NEGATIVE' in str(r['body']) and after==D('10.01'),(r,after)
+        return dict(status='PASS',real_Auth_refused=r['body'].get('message'),bank_unchanged='10.01')
     return [('CP17_HTTP_CASH_EMPTY_BANK_REFUSED',cash_refused),('CP17_HTTP_PAYROLL_EARLY_REFUSED',payroll_early),('CP17_HTTP_KASBON_GIVE',kasbon_give_http),
-            ('CP17_HTTP_ERP_WRITERS_NOT_REACHABLE',erp_writers_closed),('CP17_HTTP_G1_SEWING_RECORD',sewing_http),('CP17_HTTP_G2_FINISH_PO',finish_http)]
+            ('CP17_HTTP_ERP_WRITERS_NOT_REACHABLE',erp_writers_closed),('CP17_HTTP_G1_SEWING_RECORD',sewing_http),('CP17_HTTP_G2_FINISH_PO',finish_http),
+            ('CP17_HTTP_R2_SPENT_INCOME_CORRECTION_COMMITS',http_spent_positive),('CP17_HTTP_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED',http_spent_negative)]
