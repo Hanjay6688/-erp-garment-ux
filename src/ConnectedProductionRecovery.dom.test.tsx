@@ -49,7 +49,7 @@ async function fill(input: HTMLInputElement, raw: string) {
   })
 }
 function server() {
-  const state = { failRead: false, loseReply: false, wrongReceipt: false, replayRejection: false, committed: false, effects: 0, selectorVersion: 1, hideSelectors: false, missingDraft: false }
+  const state = { failRead: false, failAutoRead: false, loseReply: false, wrongReceipt: false, replayRejection: false, committed: false, effects: 0, selectorVersion: 1, hideSelectors: false, missingDraft: false }
   const saved = new Map<string, unknown>()
   client.rpc.mockImplementation(async (name: string, args: Record<string, unknown>) => {
     if (name === 'erp_list_patterns_v1') return { data: recoveryPatterns, error: null }
@@ -66,6 +66,7 @@ function server() {
       if (name === 'erp_get_cutting_pickup_queue_v1') return { data: pickupFixture(), error: null }
     }
     // Owner D15-6: the page also reads the auto-PO workspace (no write); these cases use an existing PO.
+    if (name === 'erp_cp7_get_cutting_auto_po_v1' && state.failAutoRead && state.committed) return { data: null, error: { message: 'Auto-PO refetch failed' } }
     if (name === 'erp_cp7_get_cutting_auto_po_v1') return { data: { contract_version: 'cp7.cutting-auto-po-workspace.v1', today: '2026-10-16', can_draft: true, can_post: true,
       models: { total: 0, offset: 0, query: '', rows: [] }, drafts: [], selected_draft: null, business_DML: false }, error: null }
     const payload = args.p_payload as Record<string, unknown>
@@ -258,6 +259,33 @@ describe('real Cutting/Pickup forms keep pending, committed and stale distinct',
     expect(writes()[1][1]).toEqual(original)
     expect(state.effects).toBe(1)
     expect(readProductionRecovery(scope).pending).toEqual({})
+  })
+  // Run 38890676716 (F04 cutting source, desktop and phone): after an existing-PO post the auto-PO writer of the same page
+  // was never read again, so the whole page stayed locked and the posted cutting could not be read.
+  const pageLocked = () => [container.querySelector<HTMLFieldSetElement>('fieldset.ccut-po-mode')!.disabled,
+    button('Baru', container.querySelector('.ccut-drafts > header')!).disabled, button('CUT-1', container.querySelector('.ccut-drafts')!).disabled,
+    container.textContent!.includes('Data belum dimuat ulang. Refetch wajib berhasil')]
+  it('unlocks the page after an existing-PO post because both of its workspaces are read again', async () => {
+    const state = server()
+    await mount('CUTTING')
+    const reads = () => client.rpc.mock.calls.filter(([name]) => name === 'erp_cp7_get_cutting_auto_po_v1').length
+    const before = reads()
+    await click('Post ke WIP')
+    expect(state.effects).toBe(1)
+    expect(reads()).toBe(before + 1)
+    expect(container.textContent).toContain('CUT-1 terposting.')
+    expect(pageLocked()).toEqual([false, false, false, false])
+  })
+  it('keeps the page locked while the auto-PO read fails after an existing-PO post, and Refetch reads both again', async () => {
+    const state = server(); state.failAutoRead = true
+    await mount('CUTTING')
+    await click('Post ke WIP')
+    expect(state.effects).toBe(1)
+    expect(pageLocked()).toEqual([true, true, true, true])
+    state.failAutoRead = false
+    await click('Refetch')
+    expect(pageLocked()).toEqual([false, false, false, false])
+    expect(writes()).toHaveLength(1)
   })
   it.each(['CUTTING', 'PICKUP'] as const)('%s blocks a same-frame write when refetch starts', async (kind) => {
     server(); await mount(kind)

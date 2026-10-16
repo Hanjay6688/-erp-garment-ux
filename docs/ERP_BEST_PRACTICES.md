@@ -82,6 +82,11 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 18a. **Pratinjau memakai aturan tanggal yang sama dengan pencatatan.** Upah yang ditampilkan sebelum simpan dihitung
     dengan tarif yang berlaku pada waktu jahit yang diisi, persis aturan snapshot Native, bukan tarif hari ini.
     (Fable D15-3, rate_timeline)
+18b. **Satu layar dengan dua penulis memuat ulang keduanya sesudah setiap simpan dan pada tombol Refetch.** Penanda
+    transaksi tertunda disimpan bersama, jadi simpan di satu penulis membuat penulis lain ikut "belum dimuat"; bila hanya
+    satu yang dimuat ulang, seluruh layar terkunci. Uji DOM: sesudah simpan di tiap mode, kontrol layar aktif kembali.
+    (Temuan penulis saat kualifikasi r2: Buat Potongan mode "PO yang sudah ada" sesudah D15-6, run 38878801310 dan
+    38890676716)
 
 ## E. Bukti dan alat uji
 
@@ -123,7 +128,8 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Dokumen induk otomatis: satu transaksi, gagal di tengah tidak meninggalkan apa pun, kirim ulang sama (C12a).
 - [ ] Batas tanggal resmi: trigger tabel, jalur sah dikecualikan per nama sumber, uji 00:00 vs 23:59:59 WIB (A5a).
 - [ ] Batas Native per SKU/lingkup: layar meminta dan menghitung per lingkup yang sama (B8c).
-- [ ] Layar: pemeriksaan sama dengan Native, teks status dari server, simpan diblokir saat memuat (D13–D15).
+- [ ] Layar: pemeriksaan sama dengan Native, teks status dari server, simpan diblokir saat memuat (D13–D15);
+  layar dengan dua penulis aktif kembali sesudah simpan di tiap mode (D18b).
 - [ ] Mode data nyata: tidak ada angka contoh tanpa label; tabel aktivasi diperbarui (D16).
 - [ ] 48 menu × 3 mode × HP 390 px: `scrollWidth <= innerWidth` (D17).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).

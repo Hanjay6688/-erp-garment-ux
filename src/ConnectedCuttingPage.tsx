@@ -345,10 +345,12 @@ export default function ConnectedCuttingPage() {
   const sendExact = (envelope: ProductionEnvelope) => client.rpc('erp_save_cutting_group_before_sewing_v2', {
     p_payload: envelope.payload, p_client_request_id: envelope.id, p_expected_version: envelope.expectedVersion,
   })
-  const reload = () => {
-    const view = viewRef.current
-    return load(view.locationId || null, view.rollQuery, 0)
-  }
+  // A commit writes and clears its envelope in the recovery store both writers of this page share, so both stop being
+  // ready; both reads must be current again, or every writer on the page stays locked (the auto-PO one came with D15-6).
+  const refetchAll = (view: { locationId: string; rollQuery: string }, offset?: number) =>
+    Promise.all([load(view.locationId || null, view.rollQuery, offset), loadAuto({ q: modelQuery, draftId: null })])
+      .then(([native, autoRead]) => native && autoRead !== null)
+  const reload = () => refetchAll(viewRef.current, 0)
   const retire = (data: unknown, envelope: ProductionEnvelope) => {
     resetForm()
     if (envelope.action === 'DELETE') { setLastCommittedGroupId(null); setNotice('Draft Potongan sudah dihapus.') }
@@ -375,11 +377,7 @@ export default function ConnectedCuttingPage() {
         setNotice(`${result.poNumber} dibuat otomatis; ${result.groupNumber} terposting (${result.totalPieces} pcs). Nomor PO ini dipakai untuk pelacakan di Bagi Potongan dan WIP.`)
       } else setNotice(result.action === 'DELETE' ? 'Draf PO otomatis dihapus.' : 'Draf PO otomatis tersimpan. Belum ada PO, stok, atau jurnal yang berubah.')
     },
-    reload: async () => {
-      const view = viewRef.current
-      const [native, autoRead] = await Promise.all([load(view.locationId || null, view.rollQuery, 0), loadAuto({ q: modelQuery, draftId: null })])
-      return native && autoRead !== null
-    },
+    reload,
   }
   const saveAuto = async (action: AutoPoAction) => {
     if (!autoWorkspace || writerLocked || (action !== 'DELETE' && (!formValid || !autoModel)) || !canCreate || (action === 'POST' && !canPost)) return
@@ -432,7 +430,7 @@ export default function ConnectedCuttingPage() {
   }
 
   return <section className="connected-cutting-page">
-    <header className="ccut-hero"><div><span>PRODUKSI · CUTTING CONNECTED</span><h1>Buat Potongan</h1><p>Satu transaksi atomik mengikat Pola, roll fisik, yard keluar/terpakai/sisa, hasil per size, stok, HPP, dan jurnal.</p></div><button type="button" onClick={() => void load(locationId || null, rollQuery)}><RefreshCw/> Refetch</button></header>
+    <header className="ccut-hero"><div><span>PRODUKSI · CUTTING CONNECTED</span><h1>Buat Potongan</h1><p>Satu transaksi atomik mengikat Pola, roll fisik, yard keluar/terpakai/sisa, hasil per size, stok, HPP, dan jurnal.</p></div><button type="button" onClick={() => void refetchAll({ locationId, rollQuery })}><RefreshCw/> Refetch</button></header>
     <div className="ccut-truth"><Database/><strong>ERP ENTENG UAT · RPC CONNECTED</strong><span>Tidak ada fixture atau direct-table write pada mode ini.</span></div>
     {error && <div className="ccut-message error" role="alert"><AlertTriangle/><span>{error}</span><button onClick={() => setError('')}>Tutup</button></div>}
     <ProductionRecoveryNotice recovery={mutation} onReconcile={() => reconcile(handlers)} className="ccut-message error"/>
