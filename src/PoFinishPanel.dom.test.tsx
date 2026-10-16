@@ -40,15 +40,22 @@ async function type(label: string, value: string) {
   const el = input(label)
   await act(async () => { Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(el, value); el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })) })
 }
-async function pick(ws: Record<string, unknown>, finish?: (args: Record<string, unknown>) => unknown) {
+const reopenWs = (extra: Record<string, unknown> = {}) => ({ contract_version: 'cp7.po-reopen-workspace.v1', po_id: po, po_number: 'PO-9', po_status: 'FINISHED',
+  stage: 'QC', contractor_name: 'Mandor Satu', fg_pcs: 10, fg_lots: 1, fg_used_pcs: 0, wip_balance: '0.00', returning_to_wip: '35.50', close_journals: 1,
+  closed_through: '2026-10-12', hpp: hpp({ display_status: 'LENGKAP_BERDASARKAN_DATA_SAAT_INI', pending_reasons: [] }), reopen_date: '2026-10-15',
+  review_token: 'e'.repeat(32), eligible: true, blockers: [], business_DML: false, ...extra })
+const finished = (extra: Record<string, unknown> = {}) => workspace({ po_status: 'FINISHED', eligible: false, blockers: [{ kind: 'ALREADY_FINISHED', qty: null }],
+  hpp: hpp({ display_status: 'LENGKAP_BERDASARKAN_DATA_SAAT_INI', pending_reasons: [] }), ...extra })
+async function pick(ws: Record<string, unknown>, finish?: (args: Record<string, unknown>) => unknown, again?: Record<string, unknown>) {
   client.rpc.mockImplementation(async (name: string, args: Record<string, unknown>) => {
     if (name === 'erp_cp7_list_po_finish_v1') return { data: list(), error: null }
     if (name === 'erp_cp7_get_po_finish_v1') return { data: ws, error: null }
+    if (name === 'erp_cp7_get_po_reopen_v1') return { data: again ?? reopenWs(), error: null }
     return { data: finish?.(args), error: null }
   })
   await mount(); await type('Cari nomor PO', 'PO-9'); await click('Cari PO'); await click('Pilih PO PO-9')
 }
-describe('selesai PO dan HPP final di HPP & Rekalkulasi (D14-14)', () => {
+describe('selesai dan buka ulang PO di HPP & Rekalkulasi (D14-14, D15-4)', () => {
   it('reads nothing until asked, then lists the POs and shows what the Native finish checks', async () => {
     client.rpc.mockResolvedValue({ data: list(), error: null })
     await mount(); expect(client.rpc).not.toHaveBeenCalled()
@@ -59,7 +66,8 @@ describe('selesai PO dan HPP final di HPP & Rekalkulasi (D14-14)', () => {
     expect(container.textContent).toContain('Rp35,50')
     expect(container.textContent).toContain('Rp120/pcs · Sementara (PO belum selesai)')
     expect(container.textContent).toContain('Tanggal selesai: 2026-10-15 (hari ini, WIB)')
-    expect(button('Selesaikan PO dan kunci HPP final').disabled).toBe(true)
+    expect(button('Selesaikan PO').disabled).toBe(true)
+    expect(client.rpc).not.toHaveBeenCalledWith('erp_cp7_get_po_reopen_v1', expect.anything())
   })
   it('finishes exactly the reviewed PO and says the final HPP and the WIP closed', async () => {
     const sent: Array<Record<string, unknown>> = []
@@ -71,10 +79,12 @@ describe('selesai PO dan HPP final di HPP & Rekalkulasi (D14-14)', () => {
     })
     await type('Catatan selesai PO PO-9', 'Semua barang sudah QC')
     await act(async () => input('PO PO-9 sudah diperiksa').click())
-    await click('Selesaikan PO dan kunci HPP final')
+    await click('Selesaikan PO')
     expect(sent).toHaveLength(1)
     expect(sent[0]).toMatchObject({ p_payload: { action: 'FINISH', po_id: po, review_token: 'f'.repeat(32), change_reason: 'Semua barang sudah QC' } })
-    expect(container.textContent).toContain('PO-9: PO selesai pada 2026-10-15. HPP final Rp123,55/pcs untuk 10 pcs (total Rp1.235,50). Sisa WIP Rp0 dibebankan ke biaya lain-lain. Masih perlu: hitung ulang HPP PO ini masih antre atau gagal')
+    // Astra ASTRA-C17-05: the server said BELUM_LENGKAP, so the screen must not call this HPP final.
+    expect(container.textContent).toContain('PO-9: PO selesai pada 2026-10-15. HPP Rp123,55/pcs untuk 10 pcs (total Rp1.235,50) · Belum lengkap, masih bisa berubah. Sisa WIP Rp0 dibebankan ke biaya lain-lain. Masih perlu: hitung ulang HPP PO ini masih antre atau gagal')
+    expect(container.textContent).not.toMatch(/HPP final|Final/)
     expect(onCommitted).toHaveBeenCalled()
   })
   it('names why the PO cannot be finished and keeps the form closed', async () => {
@@ -88,6 +98,48 @@ describe('selesai PO dan HPP final di HPP & Rekalkulasi (D14-14)', () => {
     expect(container.textContent).toContain('tidak cocok dengan PO yang diperiksa')
     await act(async () => root.unmount()); root = createRoot(container)
     await pick(workspace({ po_status: 'FINISHED' }))
+    expect(container.textContent).toContain('tidak cocok dengan PO yang diperiksa')
+  })
+  it('shows the Native source-accounting refusal before the click (Astra ASTRA_G2_UNSEWN_SIX_MUST_NOT_FINISH)', async () => {
+    await pick(workspace({ eligible: false, fg_pcs: 4, blockers: [{ kind: 'SOURCE_UNACCOUNTED', qty: 6 }] }))
+    expect(container.textContent).toContain('6 pcs hasil potong belum dijahit dan dikirim ke laundry atau lewat QC langsung.')
+    expect(container.querySelector('[aria-label="Catatan selesai PO PO-9"]')).toBeNull()
+    expect([...container.querySelectorAll('button')].some(b => b.textContent === 'Selesaikan PO')).toBe(false)
+  })
+  it('reopens exactly the reviewed finished PO and says what went back to WIP (owner D15-4)', async () => {
+    const sent: Array<Record<string, unknown>> = []
+    await pick(finished(), args => {
+      sent.push(args)
+      return { contract_version: 'cp7.po-reopen-outcome.v1', kind: 'COMMITTED_OUTCOME', action: 'REOPEN', request_id: args.p_request, po_id: po, po_number: 'PO-9',
+        result: { status: 'QC', stage: 'QC', reversed_journals: 1, returned_to_wip: '35.50', wip_after: '35.50', hpp: hpp(), reopened_on: '2026-10-15' } }
+    })
+    expect(client.rpc).toHaveBeenCalledWith('erp_cp7_get_po_reopen_v1', { p_po: po })
+    expect(container.textContent).toContain('Final, lengkap menurut data saat ini')
+    expect(container.textContent).toContain('0 dari 10 pcs')
+    expect(container.textContent).toContain('Rp35,50 (1 jurnal penutupan sisa WIP dibalik)')
+    expect(button('Buka ulang PO PO-9').disabled).toBe(true)
+    await type('Alasan buka ulang PO PO-9', 'Biaya laundry ternyata belum masuk')
+    expect(button('Buka ulang PO PO-9').disabled).toBe(true)
+    await act(async () => input('Buka ulang PO PO-9 sudah diperiksa').click())
+    await click('Buka ulang PO PO-9')
+    expect(sent).toHaveLength(1)
+    expect(sent[0]).toMatchObject({ p_payload: { action: 'REOPEN', po_id: po, review_token: 'e'.repeat(32), change_reason: 'Biaya laundry ternyata belum masuk' } })
+    expect(client.rpc).toHaveBeenCalledWith('erp_cp7_reopen_po_v1', expect.objectContaining({ p_payload: expect.objectContaining({ action: 'REOPEN' }) }))
+    expect(container.textContent).toContain('PO-9: PO dibuka ulang pada 2026-10-15 dan kembali ke tahap QC. 1 jurnal penutupan sisa WIP dibalik; Rp35,50 kembali ke WIP (saldo WIP PO sekarang Rp35,50). HPP sekarang: Sementara (PO belum selesai).')
+    expect(onCommitted).toHaveBeenCalled()
+  })
+  it('names why a finished PO cannot be reopened and offers no button', async () => {
+    await pick(finished(), undefined, reopenWs({ eligible: false, fg_used_pcs: 3, blockers: [{ kind: 'FG_USED', qty: 3 }, { kind: 'PERIOD_CLOSED', qty: null }] }))
+    expect(container.textContent).toContain('3 pcs barang jadi PO ini sudah terjual, dipesan di draft penjualan, disesuaikan, atau dipindah.')
+    expect(container.textContent).toContain('periode yang sudah ditutup')
+    expect(container.querySelector('[aria-label="Alasan buka ulang PO PO-9"]')).toBeNull()
+    expect([...container.querySelectorAll('button')].some(b => b.textContent === 'Buka ulang PO PO-9')).toBe(false)
+  })
+  it('refuses a reopen workspace for another PO or an eligible unfinished one', async () => {
+    await pick(finished(), undefined, reopenWs({ po_id: other }))
+    expect(container.textContent).toContain('tidak cocok dengan PO yang diperiksa')
+    await act(async () => root.unmount()); root = createRoot(container)
+    await pick(finished(), undefined, reopenWs({ po_status: 'QC' }))
     expect(container.textContent).toContain('tidak cocok dengan PO yang diperiksa')
   })
   it('shows exact Rupiah from the server strings', () => {

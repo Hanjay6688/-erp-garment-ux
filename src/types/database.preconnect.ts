@@ -163,6 +163,8 @@ export type PreconnectDatabase = {
       erp_cp7_list_po_finish_v1: { Args: { p_query: string; p_offset: number }; Returns: Json }
       erp_cp7_get_po_finish_v1: { Args: { p_po: string }; Returns: Json }
       erp_cp7_finish_po_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_get_po_reopen_v1: { Args: { p_po: string }; Returns: Json }
+      erp_cp7_reopen_po_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_kasbon_v1: { Args: { p_contractor: string }; Returns: Json }
       erp_cp7_save_kasbon_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string }; Returns: Json }
       erp_cp7_return_cutting_fabric_v1: { Args: { p_payload: Json; p_request: string; p_expected: string }; Returns: Json }

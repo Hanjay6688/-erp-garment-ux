@@ -4,8 +4,10 @@
 -- refuses a PO with laundry still out, laundry GOOD pieces not yet through QC, an open BS case, or no finished goods; then
 -- rebuilds the PO HPP, propagates conversion HPP, syncs the HPP to the GL and closes the residual WIP of the PO to
 -- OTHER_EXPENSE on today's WIB date. The facade shows those same Native preconditions before the click (same sums as the
--- Native function), the current WIP balance of the PO and the Native completeness list (erp.get_hpp_completeness), and
--- asks for a reviewed token and a reason. Finishing cannot be undone from the app (no Native inverse exists).
+-- Native function), plus the predicate of the Native trigger erp.guard_finished_po_source_accounting (every cut piece of
+-- each Potongan sent to laundry or through direct QC, Astra ASTRA-C17-05), the current WIP balance of the PO and the
+-- Native completeness list (erp.get_hpp_completeness), and asks for a reviewed token and a reason. A finished PO can be
+-- reopened from the app through po-reopen.sql (owner D15-4; Native erp.reopen_production_order, Fable FABLE-014).
 -- Post-conditions: the PO is FINISHED and its WIP balance is zero.
 create table cp7_cutting_correction.finish_requests(
  actor uuid not null,request_id uuid not null,payload jsonb not null,response jsonb,primary key(actor,request_id)
@@ -49,7 +51,7 @@ end $$;
 create function cp7_cutting_correction.finish_snapshot(p_po uuid)returns jsonb
 language plpgsql stable security definer set search_path=''set TimeZone='UTC'as $$
 declare po erp.production_orders;c erp.contractors;sent bigint;returned bigint;claimed bigint;good bigint;qc bigint;open_bs bigint;
- fg bigint;lots bigint;recost bigint;wip numeric;closed numeric;h jsonb;b jsonb:='[]';
+ fg bigint;lots bigint;recost bigint;wip numeric;closed numeric;h jsonb;b jsonb:='[]';unaccounted bigint;unaccounted_groups bigint;
 begin
  select *into po from erp.production_orders where id=p_po;
  if po.id is null then return null;end if;
@@ -67,6 +69,10 @@ begin
  select coalesce(sum(qii.qty_good_pcs+qii.qty_bs_pcs),0)into qc from erp.qc_inspection_items qii join erp.qc_inspections qi on qi.id=qii.inspection_id
   where qi.po_id=po.id and qi.status='POSTED'and qii.source_laundry_receipt_line_id is not null;
  select count(*)into open_bs from erp.bs_cases where po_id=po.id and status in('OPEN','IN_REWORK','PARTIAL');
+ -- The exact predicate of the Native trigger erp.guard_finished_po_source_accounting (same view, same comparison).
+ select coalesce(sum(abs(p.effective_qty_pcs-coalesce(p.source_accounted_qty_pcs,0))),0),count(*)into unaccounted,unaccounted_groups
+  from erp.v_fg_partial_completion_progress p
+  where p.po_id=po.id and p.effective_qty_pcs>0 and p.source_accounted_qty_pcs is distinct from p.effective_qty_pcs;
  select coalesce(sum(initial_qty_pcs),0),count(*)into fg,lots from erp.fg_lots where po_id=po.id and lot_origin='PRODUCTION';
  select count(*)into recost from erp.cost_recalc_queue q where q.entity_type='PO'and q.entity_id=po.id and q.status in('PENDING','RUNNING','FAILED');
  select coalesce(sum(jl.debit-jl.credit),0)into wip from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
@@ -78,6 +84,7 @@ begin
  if returned+claimed<sent then b:=b||jsonb_build_object('kind','LAUNDRY_OUTSTANDING','qty',sent-returned-claimed);end if;
  if sent>0 and qc<good then b:=b||jsonb_build_object('kind','QC_UNACCOUNTED','qty',good-qc);end if;
  if open_bs>0 then b:=b||jsonb_build_object('kind','OPEN_BS','qty',open_bs);end if;
+ if unaccounted_groups>0 then b:=b||jsonb_build_object('kind','SOURCE_UNACCOUNTED','qty',unaccounted);end if;
  if fg<=0 then b:=b||jsonb_build_object('kind','NO_FG_OUTPUT','qty',null);end if;
  return jsonb_build_object('po',jsonb_build_object('id',po.id,'number',po.po_number,'status',po.status,'stage',po.current_stage,
    'contractor_id',po.contractor_id,'contractor_name',c.contractor_name,'updated_at',po.updated_at),

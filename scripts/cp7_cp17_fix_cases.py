@@ -54,6 +54,7 @@ import cp7_payment_correction_cases as edit
 import cp7_misc_cases as misc
 import cp7_misc_correction_cases as misc_fix
 import cp7_note_correction_cases as note_fix
+import cp7_fg_adjustment_cases as fgadj
 
 auth,b,bc=s.auth,s.b,s.bc
 refused=auth.refused
@@ -63,7 +64,7 @@ FUNCTIONS=('erp_set_contractor_hpp_policy_v1','erp_cp7_save_nota_v1','erp_cp7_ge
            'erp_cp7_get_cutting_return_v1','erp_cp7_return_cutting_fabric_v1','erp_cp7_get_cutting_correction_v1',
            'erp_cp7_get_kasbon_v1','erp_cp7_save_kasbon_v1','erp_cp7_get_pickup_reversal_v1','erp_cp7_reverse_pickup_v1',
            'erp_cp7_get_cutting_return_reversal_v1','erp_cp7_reverse_cutting_return_v1','erp_cp7_get_sewing_completion_v1','erp_cp7_save_sewing_completion_v1',
-           'erp_cp7_list_po_finish_v1','erp_cp7_get_po_finish_v1','erp_cp7_finish_po_v1',
+           'erp_cp7_list_po_finish_v1','erp_cp7_get_po_finish_v1','erp_cp7_finish_po_v1','erp_cp7_get_po_reopen_v1','erp_cp7_reopen_po_v1',
            'erp_cp7_save_misc_finance_v1','erp_cp7_correct_misc_finance_v1','erp_cp7_correct_sales_payment_v1','erp_cp7_get_sales_payment_correction_v1','erp_cp7_correct_note_v1')
 IDS=dict(
     native=['CP17_FIN01_FULL_PAY_BEFORE_ATTENDANCE_REFUSED','CP17_FIN01_WORK_ONLY_BEFORE_COMPLETION_REFUSED',
@@ -85,14 +86,17 @@ IDS=dict(
             'CP17_G2_FINISH_PO_FINAL_HPP_WIP_CLOSED','CP17_G2_FINISH_REFUSALS_UNCHANGED',
             'CP17_R2_CASH_BOOK_DATE_REFUSED','CP17_R2_SPENT_INCOME_CORRECTION_COMMITS','CP17_R2_SPENT_INCOME_NOTE_ONLY_COMMITS',
             'CP17_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED','CP17_R2_MISC_SPENT_INCOME_CORRECTION_COMMITS','CP17_R2_NOTE_CORRECTION_SPENT_PAYMENT_COMMITS',
-            'CP17_R2_COMPOUND_SCOPE_PRIVATE_AND_CLOSED','CP17_R2_DETECTOR_BOOK_DATE_LISTED'],
+            'CP17_R2_COMPOUND_SCOPE_PRIVATE_AND_CLOSED','CP17_R2_DETECTOR_BOOK_DATE_LISTED',
+            'CP17_R2_ASTRA_G1_G2_TEN_PIECES_CONSERVED','CP17_R2_ASTRA_G2_UNSEWN_SIX_MUST_NOT_FINISH','CP17_R2_ASTRA_G2_SEWN_UNSENT_SIX_MUST_NOT_FINISH',
+            'CP17_R2_PO_REOPEN_THEN_FINISH_SAME_HPP','CP17_R2_PO_REOPEN_BLOCKERS_UNCHANGED'],
     races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK','CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS','CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS','CP17_RACE_G2_FINISH_TWO_TABS_ONE_WINS',
-           'CP17_RACE_R2_CORRECTION_AND_PAYMENT_ONE_BANK'],
+           'CP17_RACE_R2_CORRECTION_AND_PAYMENT_ONE_BANK','CP17_RACE_R2_PO_REOPEN_TWO_TABS_ONE_WINS'],
     http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED','CP17_HTTP_KASBON_GIVE','CP17_HTTP_ERP_WRITERS_NOT_REACHABLE','CP17_HTTP_G1_SEWING_RECORD','CP17_HTTP_G2_FINISH_PO',
-          'CP17_HTTP_R2_SPENT_INCOME_CORRECTION_COMMITS','CP17_HTTP_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED'],
+          'CP17_HTTP_R2_SPENT_INCOME_CORRECTION_COMMITS','CP17_HTTP_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED','CP17_HTTP_R2_PO_REOPEN'],
     browser=['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP','CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE','CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP',
              'CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP','CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE','CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP',
-             'CP17_BROWSER_G1_SEWING_DESKTOP','CP17_BROWSER_G1_SEWING_MOBILE','CP17_BROWSER_G2_FINISH_DESKTOP','CP17_BROWSER_G2_FINISH_MOBILE'],
+             'CP17_BROWSER_G1_SEWING_DESKTOP','CP17_BROWSER_G1_SEWING_MOBILE','CP17_BROWSER_G2_FINISH_DESKTOP','CP17_BROWSER_G2_FINISH_MOBILE',
+             'CP17_BROWSER_R2_PO_REOPEN_DESKTOP','CP17_BROWSER_R2_PO_REOPEN_MOBILE'],
 )
 REQUIRED={k:len(v)for k,v in IDS.items()}
 EXPECTED=sum(REQUIRED.values())
@@ -289,6 +293,17 @@ def po_state(cur,po):
     return dict(status=one(cur,'select status from erp.production_orders where id=%s',(po,)),wip=po_wip_balance(cur,po),
                 closed=one(cur,'select coalesce(sum(residual_amount),0) from erp.po_wip_close_events where po_id=%s',(po,)),
                 history=one(cur,'select count(*) from cp7_cutting_correction.finish_history where po_id=%s',(po,)))
+# R2-05 (owner D15-4, Fable FABLE-014): reopen a finished PO through the facade over Native erp.reopen_production_order.
+def reopen_workspace(cur,po):
+    auth.actor(cur);w=one(cur,'select public.erp_cp7_get_po_reopen_v1(%s)',(po,));b.api.admin(cur);return w
+def reopen_command(cur,w,reason='CP17 PO dibuka ulang',key=None,token=None):
+    p=dict(action='REOPEN',po_id=w['po_id'],review_token=token or w['review_token'],change_reason=reason)
+    auth.actor(cur);r=one(cur,'select public.erp_cp7_reopen_po_v1(%s,%s)',(json.dumps(p),str(key or uuid.uuid4())));b.api.admin(cur);return r
+def posted_closes(cur,po):
+    return one(cur,"""select count(*) from erp.po_wip_close_events e join erp.journal_entries j on j.id=e.journal_entry_id
+        where e.po_id=%s and j.source_type='PO_WIP_RESIDUAL_CLOSE' and j.status='POSTED'""",(po,))
+def unbalanced_po_journals(cur,po):
+    return cur.execute('select j.id from erp.journal_entries j join erp.journal_lines l on l.journal_entry_id=j.id where l.po_id=%s group by j.id having sum(l.debit)<>sum(l.credit)',(po,)).fetchall()
 
 def cases(cur,today):
     def full_attendance():
@@ -1106,13 +1121,105 @@ def cases(cur,today):
         day=next(r[2] for r in rows if r[0]=='CASH_NEGATIVE');funding.fund(cur,bank,'7.00',day);b.api.admin(cur);assert cash_rows(bank)==[],cash_rows(bank)
         return dict(status='PASS',both_bases_listed=[[r[0],str(r[2]),str(r[3])] for r in rows],capital_clears_both=True)
 
+    # ------------------------------------------------------------ R2-05 (ASTRA-C17-05, owner D15-4 / FABLE-014)
+    def astra_journey(sewn,delivered):
+        """Astra's own oracle (audit/astra_cp17_combined/native_probe.py, branch audit/astra-cp1-7-combined-dfab13bf-20261016),
+        ported unchanged in arithmetic: 10 cut, `sewn` sewn at 4 per pcs, `delivered` washed at 2 per pcs. Added after the fix:
+        the workspace itself must already name the unaccounted pieces before the click (the screen used to say eligible)."""
+        g=pickup_fixture(cur,today)
+        work_rates(cur,g)
+        initial_wip=D(po_wip_balance(cur,g['po']))
+        initial_gl=cur.execute("select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.status in('POSTED','REVERSED') and l.po_id=%s and l.account_id=erp.account_id('FG_INVENTORY')",(g['po'],)).fetchone()[0]
+        assert initial_gl==0 and initial_wip>0, ('FIXTURE_NOT_PRISTINE',initial_gl,initial_wip)
+        completions=[]
+        for qty,hour in ((3,10),(sewn-3,11)):
+            r=sewing_command(cur,sewing_workspace(cur,g),qty=qty,at=g['at'](hour))
+            completions.append(r['result']['work_completion_id'])
+        wages=cur.execute("select coalesce(sum(l.amount_payable),0) from erp.work_completion_lines l where completion_id=any(%s::uuid[])",(completions,)).fetchone()[0]
+        assert wages==D(sewn)*4, ('WAGE_ARITHMETIC',wages,sewn*4)
+        assert po_wip_balance(cur,g['po'])==initial_wip+sewn*4
+        wash=dict(laundry_for(cur,g),po=g['po'])
+        delivery=bd.post_priced(cur,wash,{},qty=delivered,hour=12)['delivery_id']
+        receipt=bd.receive(cur,delivery,wash,delivered,13)['receipt_id']
+        b.api.admin(cur)
+        product,lot=bd.finish_goods(cur,wash,receipt,delivered,14)
+        b.api.admin(cur)
+        ready=sewn_ready(cur,g)
+        assert ready==(sewn,sewn-delivered), ('PHYSICAL_READY',ready)
+        workspace=finish_workspace(cur,g['po'])
+        before=po_state(cur,g['po'])
+        evidence=dict(cut=10,sewn=sewn,laundry_sent=delivered,fg=delivered,unsewn=10-sewn,sewn_unsent=sewn-delivered,
+                      initial_material_wip=str(initial_wip),wages=str(wages),finish_eligible=workspace['eligible'],blockers=workspace['blockers'],hpp_before=workspace['hpp'],
+                      witness='Astra '+('ASTRA_G1_G2_TEN_PIECES_CONSERVED' if delivered==10 else 'ASTRA_G2_UNSEWN_SIX_MUST_NOT_FINISH' if sewn<10 else 'ASTRA_G2_SEWN_UNSENT_SIX_MUST_NOT_FINISH'))
+        if delivered<10:
+            assert workspace['eligible'] is False and dict(kind='SOURCE_UNACCOUNTED',qty=10-delivered) in workspace['blockers'],workspace['blockers']
+            snap=b.boundary.snapshot(cur)
+            refusal=refused(cur,lambda:finish_command(cur,workspace,reason='Astra verify incomplete production cannot close'),'CP7_PO_FINISH_BLOCKED');unchanged(cur,snap,'six pieces without a disposition')
+            native=refused(cur,lambda:bd.internal(cur,'finish_production_order',g['po']),'PO belum boleh FINISHED');unchanged(cur,snap,'Native finish with six pieces open')
+            assert po_state(cur,g['po'])==before
+            return dict(status='PASS',refusal=refusal,native_same_refusal=native,**evidence)
+        result=finish_command(cur,workspace,reason='Astra ten cut pieces all finished')
+        state=po_state(cur,g['po']);hpp,qty=po_hpp(cur,g['po'])
+        expected=initial_wip+D(10)*D(4)+D(10)*D(2)
+        assert (state['status'],state['wip'],qty,hpp)==('FINISHED',D(0),10,expected), ('COMPLETE_CHAIN_CONSERVATION',state,qty,hpp,expected)
+        assert sewn_ready(cur,g)==(10,0)
+        assert not unbalanced_po_journals(cur,g['po'])
+        return dict(status='PASS',hpp_total=str(hpp),expected_hpp_total=str(expected),qty=qty,state=state,result=result,**evidence)
+    def reopen_same_hpp():
+        """Fable D15-4 oracle: reopen through the facade (review token, reason, idempotency, immutable history), WIP and HPP
+        consistent with the ledger afterwards, and finishing again with nothing new gives the same final HPP."""
+        f=finish_fixture(cur,today);po=f['po'];first=finish_command(cur,finish_workspace(cur,po),reason='CP17 PO selesai pertama')
+        hpp1=po_hpp(cur,po);s1=po_state(cur,po);residual=D(first['result']['residual_closed']);closes=posted_closes(cur,po)
+        assert s1['status']=='FINISHED' and s1['wip']==0 and closes>=(1 if residual else 0),(s1,closes,residual)
+        r=reopen_workspace(cur,po)
+        assert r['eligible'] and r['blockers']==[] and r['fg_used_pcs']==0 and D(r['returning_to_wip'])==residual and r['close_journals']==closes,r
+        before=b.boundary.snapshot(cur)
+        short=refused(cur,lambda:reopen_command(cur,r,reason='x'),'CP7_PO_REOPEN_FIELDS');unchanged(cur,before,'short reopen reason')
+        forged=refused(cur,lambda:reopen_command(cur,r,token='0'*32),'CP7_PO_REOPEN_STALE_REVIEW');unchanged(cur,before,'forged reopen review')
+        key=uuid.uuid4();out=reopen_command(cur,r,key=key,reason='CP17 biaya laundry belum masuk');assert reopen_command(cur,r,key=key,reason='CP17 biaya laundry belum masuk')==out
+        changed=refused(cur,lambda:reopen_command(cur,r,key=key,reason='CP17 alasan lain untuk kunci sama'),'CP7_PO_REOPEN_REQUEST_CHANGED')
+        s2=po_state(cur,po);assert s2['status']!='FINISHED' and s2['wip']==residual and out['result']['status']==s2['status'],(s2,residual,out)
+        assert posted_closes(cur,po)==0 and not unbalanced_po_journals(cur,po)
+        audit=one(cur,"select count(*) from erp.audit_logs where entity_type='production_orders' and entity_id=%s and new_data->>'correction_type'='PO_REOPEN'",(po,))
+        history=one(cur,'select count(*) from cp7_cutting_correction.po_reopen_history where po_id=%s',(po,))
+        assert audit==1 and history==1,(audit,history)
+        immutable=refused(cur,lambda:cur.execute('delete from cp7_cutting_correction.po_reopen_history where po_id=%s',(po,)),'CP7_CUTTING_CORRECTION_HISTORY_IMMUTABLE')
+        again=finish_workspace(cur,po);assert again['eligible'],again
+        second=finish_command(cur,again,reason='CP17 PO selesai lagi tanpa transaksi baru');hpp2=po_hpp(cur,po);s3=po_state(cur,po)
+        assert s3['status']=='FINISHED' and s3['wip']==0 and hpp2==hpp1 and D(second['result']['residual_closed'])==residual,(hpp1,hpp2,s3,second)
+        stale=refused(cur,lambda:reopen_command(cur,r),'CP7_PO_REOPEN_STALE_REVIEW')
+        return dict(status='PASS',residual_returned_to_wip=str(residual),restored_status=s2['status'],same_request_replay_identical=True,short_reason=short,
+                    forged_review=forged,same_key_other_payload=changed,native_audit_rows=audit,history_immutable=immutable,
+                    hpp_first=[str(x) for x in hpp1],hpp_after_refinish=[str(x) for x in hpp2],old_review_after_refinish=stale)
+    def reopen_blockers():
+        f=finish_fixture(cur,today);po=f['po']
+        r0=reopen_workspace(cur,po);assert not r0['eligible'] and r0['blockers']==[dict(kind='NOT_FINISHED',qty=None)],r0
+        before=b.boundary.snapshot(cur)
+        open_po=refused(cur,lambda:reopen_command(cur,r0),'CP7_PO_REOPEN_BLOCKED');unchanged(cur,before,'reopen of an unfinished PO')
+        finish_command(cur,finish_workspace(cur,po))
+        # One finished piece leaves the lot through the accepted P10 FG adjustment: the PO's output is now used.
+        location=one(cur,'select location_id::text from erp.fg_stock_movements where lot_id=%s order by physical_at,id limit 1',(f['lot'],))
+        d,_=fgadj.draft(cur,dict(location=location,lot=f['lot'],product=f['product']),'-1');fgadj.action(cur,'POST',d)
+        r1=reopen_workspace(cur,po);assert not r1['eligible'] and r1['blockers']==[dict(kind='FG_USED',qty=1)],r1
+        before=b.boundary.snapshot(cur)
+        used=refused(cur,lambda:reopen_command(cur,r1),'CP7_PO_REOPEN_BLOCKED');unchanged(cur,before,'reopen after its finished goods were used')
+        assert po_state(cur,po)['status']=='FINISHED'
+        g=finish_fixture(cur,today,label='CP17-R2-CLOSED');finish_command(cur,finish_workspace(cur,g['po']))
+        edit.source.fg.ax.boundary.historical.prior.set_open_period(cur,today)
+        r2=reopen_workspace(cur,g['po']);assert not r2['eligible'] and r2['blockers']==[dict(kind='PERIOD_CLOSED',qty=None)] and r2['closed_through']==str(today),r2
+        before=b.boundary.snapshot(cur)
+        closed=refused(cur,lambda:reopen_command(cur,r2),'CP7_PO_REOPEN_BLOCKED');unchanged(cur,before,'reopen into a closed period')
+        assert po_state(cur,g['po'])['status']=='FINISHED'
+        return dict(status='PASS',not_finished=open_po,fg_used_one_piece=used,period_closed_through_today=closed)
+
     named=[full_attendance,work_only,installment,direct_native,empty_bank,exact_zero,backdate,later_day,payroll_empty,laundry_empty,
            claim_control,claim_before_source,claim_ap_not_available,stock_card,rework_scrap,rework_good,rework_open,
            hpp_excluded,hpp_unrelated,hpp_replacement,fabric_return,fabric_over,fabric_once,fabric_dates,fabric_cancel,fabric_correct,fabric_cancel_blocked,fabric_cancel_once,legacy_findings,
            kasbon_cycle,kasbon_limits,kasbon_release,rewash_free,pickup_reverse,pickup_refused,exposure_gate,
            sewing_record,sewing_refused,sewing_cancel,finish_po,finish_refused,
            cash_book_date,spent_income_correction,spent_income_note_only,spent_income_negative,misc_spent_income,note_spent_payment,
-           compound_private,detector_book_date]
+           compound_private,detector_book_date,
+           lambda:astra_journey(10,10),lambda:astra_journey(4,4),lambda:astra_journey(10,4),reopen_same_hpp,reopen_blockers]
     assert len(named)==REQUIRED['native']
     return list(zip(IDS['native'],named))
 
@@ -1224,9 +1331,27 @@ def races(tools,today):
             assert balance(cur,f['bank'])==(D('5.01')if winner=='CORRECTION'else D('2.01'))
             b.api.admin(cur);assert one(cur,'select count(*) from cp7_guard.compound_scope')==0
         return dict(status='PASS',results=results,winner=winner)
+    def reopen_twice():
+        # R2-05 (D15-4): two tabs reopen the same finished PO from the same review: one reopens it, the other is refused stale.
+        with tools.connect()as conn,conn.cursor()as cur:
+            f=finish_fixture(cur,today);finish_command(cur,finish_workspace(cur,f['po']));w=reopen_workspace(cur,f['po']);conn.commit()
+        barrier=threading.Barrier(2)
+        def send(n):
+            with tools.connect()as conn,conn.cursor()as cur:
+                barrier.wait(5)
+                try:r=reopen_command(cur,w,reason=f'CP17 tab {n} membuka ulang PO');conn.commit();return('PASS',r['result']['status'])
+                except psycopg.Error as e:conn.rollback();return('REFUSED',str(e).splitlines()[0])
+        with ThreadPoolExecutor(max_workers=2)as pool:results=[x.result(60)for x in[pool.submit(send,n)for n in(1,2)]]
+        assert sorted(x[0]for x in results)==['PASS','REFUSED'] and 'CP7_PO_REOPEN_STALE_REVIEW' in next(x[1]for x in results if x[0]=='REFUSED'),results
+        with tools.connect()as conn,conn.cursor()as cur:
+            b.api.admin(cur);state=po_state(cur,f['po']);left=posted_closes(cur,f['po'])
+            history=one(cur,'select count(*) from cp7_cutting_correction.po_reopen_history where po_id=%s',(f['po'],))
+            reversals=one(cur,"""select count(*) from erp.journal_entries r join erp.po_wip_close_events e on e.journal_entry_id=r.reversal_of_id where e.po_id=%s""",(f['po'],))
+        assert state['status']!='FINISHED' and left==0 and history==1 and reversals<=1,(state,left,history,reversals)
+        return dict(status='PASS',two_reopens_same_review=results,reopened_once=True,close_reversals=reversals)
     return [('CP17_RACE_TWO_PAYMENTS_ONE_BANK',two_payments),('CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS',overlapping_payroll),
             ('CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS',sewing_twice),('CP17_RACE_G2_FINISH_TWO_TABS_ONE_WINS',finish_twice),
-            ('CP17_RACE_R2_CORRECTION_AND_PAYMENT_ONE_BANK',correction_and_payment)]
+            ('CP17_RACE_R2_CORRECTION_AND_PAYMENT_ONE_BANK',correction_and_payment),('CP17_RACE_R2_PO_REOPEN_TWO_TABS_ONE_WINS',reopen_twice)]
 
 
 def http_cases(http,today):
@@ -1334,6 +1459,27 @@ def http_cases(http,today):
         with http.connect()as conn,conn.cursor()as cur:
             b.api.admin(cur);state=po_state(cur,f['po']);assert state['status']=='FINISHED' and state['wip']==0,state
         return dict(status='PASS',real_Auth_finished=f['number'],final_hpp=r['body']['result']['hpp'],staff_refused=str(denied['body'])[:200])
+    def reopen_http():
+        # R2-05 (D15-4): real Auth and PostgREST; an Admin with the HPP rights reopens, a STAFF user with the same rights is refused.
+        admin=http.login('ADMIN','cp17-reopen');staff=http.login('ADMIN','cp17-reopen-staff')
+        with http.connect()as conn,conn.cursor()as cur:
+            f=finish_fixture(cur,today);finish_command(cur,finish_workspace(cur,f['po']))
+            role=one(cur,'select role_id from erp.app_users where auth_user_id=%s',(admin.auth_user_id,))
+            for key in('finance.hpp.view','finance.hpp.manage'):
+                cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s)on conflict do nothing',(role,key))
+            _,staff_role=s.source.procurement.custom(cur,['finance.hpp.view','finance.hpp.manage'])
+            cur.execute("update erp.app_users set role='STAFF',role_id=%s where auth_user_id=%s",(staff_role,staff.auth_user_id));conn.commit()
+        w=admin.rpc('erp_cp7_get_po_reopen_v1',dict(p_po=f['po']));assert w['status']==200 and w['body']['eligible'],w
+        p=dict(action='REOPEN',po_id=f['po'],review_token=w['body']['review_token'],change_reason='CP17 PO dibuka ulang lewat login')
+        denied=staff.rpc('erp_cp7_reopen_po_v1',dict(p_payload=p,p_request=str(uuid.uuid4())))
+        assert denied['status'] in(400,401,403) and 'CP7_PO_FINISH_DENIED' in str(denied['body']),denied
+        with http.connect()as conn,conn.cursor()as cur:
+            b.api.admin(cur);assert po_state(cur,f['po'])['status']=='FINISHED'
+        r=admin.rpc('erp_cp7_reopen_po_v1',dict(p_payload=p,p_request=str(uuid.uuid4())))
+        assert r['status']==200 and r['body']['result']['status']!='FINISHED',r
+        with http.connect()as conn,conn.cursor()as cur:
+            b.api.admin(cur);state=po_state(cur,f['po']);assert state['status']!='FINISHED' and posted_closes(cur,f['po'])==0,state
+        return dict(status='PASS',real_Auth_reopened=f['number'],restored_status=state['status'],staff_refused=str(denied['body'])[:200])
     def spent_correction_http(replacement):
         # Sol correction_http.py, real Auth and PostgREST, source-bound public workspace token, own amounts.
         owner=http.login('OWNER','cp17-r2-'+replacement.replace('.','-'))
@@ -1356,4 +1502,5 @@ def http_cases(http,today):
         return dict(status='PASS',real_Auth_refused=r['body'].get('message'),bank_unchanged='10.01')
     return [('CP17_HTTP_CASH_EMPTY_BANK_REFUSED',cash_refused),('CP17_HTTP_PAYROLL_EARLY_REFUSED',payroll_early),('CP17_HTTP_KASBON_GIVE',kasbon_give_http),
             ('CP17_HTTP_ERP_WRITERS_NOT_REACHABLE',erp_writers_closed),('CP17_HTTP_G1_SEWING_RECORD',sewing_http),('CP17_HTTP_G2_FINISH_PO',finish_http),
-            ('CP17_HTTP_R2_SPENT_INCOME_CORRECTION_COMMITS',http_spent_positive),('CP17_HTTP_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED',http_spent_negative)]
+            ('CP17_HTTP_R2_SPENT_INCOME_CORRECTION_COMMITS',http_spent_positive),('CP17_HTTP_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED',http_spent_negative),
+            ('CP17_HTTP_R2_PO_REOPEN',reopen_http)]

@@ -234,6 +234,8 @@ async function hppPage(ui,page){
  const link=page.getByRole('button',{name:'• HPP & Rekalkulasi',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Keuangan'}).click();await link.click()
  await ui.expect(page.getByRole('heading',{name:'HPP per SKU',exact:true})).toBeVisible()
 }
+const hppStatusText={SEMENTARA:'Sementara \\(PO belum selesai\\)',BELUM_LENGKAP:'Belum lengkap, masih bisa berubah',LENGKAP_BERDASARKAN_DATA_SAAT_INI:'Final, lengkap menurut data saat ini'}
+const esc=t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')
 async function finishPo(ui,today,mobile){
  const f=fixture('finish',{today}),name=`CP17_G2_FINISH_${mobile?'MOBILE':'DESKTOP'}`,user=await ui.login('OWNER',{label:'cp17-g2-'+(mobile?'mobile':'desktop'),mobile}),page=user.page,requests=[]
  const state=()=>fixture('finish_state',f)
@@ -245,7 +247,7 @@ async function finishPo(ui,today,mobile){
   await panel.getByRole('button',{name:'Pilih PO '+f.number,exact:true}).click()
   const detail=panel.getByRole('region',{name:'Selesai PO '+f.number,exact:true})
   await ui.expect(detail).toContainText('dikirim 10 · kembali 10');await ui.expect(detail).toContainText('10 dari 10 pcs GOOD laundry');await ui.expect(detail).toContainText('Sementara (PO belum selesai)')
-  const save=detail.getByRole('button',{name:'Selesaikan PO dan kunci HPP final',exact:true});await ui.expect(save).toBeDisabled()
+  const save=detail.getByRole('button',{name:'Selesaikan PO',exact:true});await ui.expect(save).toBeDisabled()
   await ui.expect(detail.getByLabel('PO '+f.number+' sudah diperiksa',{exact:true})).toBeDisabled()
   await detail.getByLabel('Catatan selesai PO '+f.number,{exact:true}).fill('Semua barang sudah QC')
   await detail.getByLabel('PO '+f.number+' sudah diperiksa',{exact:true}).check()
@@ -256,9 +258,43 @@ async function finishPo(ui,today,mobile){
   const after=state()
   assert.equal(after.status,'FINISHED');assert.equal(after.wip,'0.00');assert.equal(after.history,1)
   assert.equal(requests.length,1);assert.equal(requests[0].p_payload.action,'FINISH');assert.equal(requests[0].p_payload.po_id,f.po)
-  await ui.expect(panel.getByText(new RegExp('HPP final Rp'+after.per_pcs_text+'/pcs untuk 10 pcs'))).toBeVisible()
+  // Astra ASTRA-C17-05: how final the HPP is follows the server's display_status, never the PO status alone.
+  await ui.expect(panel.getByText(new RegExp('HPP Rp'+after.per_pcs_text+'/pcs untuk 10 pcs'))).toBeVisible()
+  await ui.expect(panel.getByText(new RegExp(hppStatusText[after.display_status]))).toBeVisible()
+  if(after.display_status!=='LENGKAP_BERDASARKAN_DATA_SAAT_INI')await ui.expect(panel.getByText(/Final/)).toHaveCount(0)
   await noSideScroll(ui,page);await page.screenshot({path:`cp6-proof/t3/${name}_COMMITTED.png`,fullPage:true})
-  return{status:'PASS',phone:mobile,po:f.number,finished:true,wip_after:after.wip,hpp_per_pcs:after.per_pcs,one_request:true}
+  return{status:'PASS',phone:mobile,po:f.number,finished:true,wip_after:after.wip,hpp_per_pcs:after.per_pcs,hpp_display_status:after.display_status,one_request:true}
+ }catch(error){let actual;try{actual=state()}catch(e){actual={observation_error:String(e)}};await failure(page,name,error,actual,requests);throw error}
+ finally{await user.context.close()}
+}
+// R2-05 (owner D15-4, Fable FABLE-014): finish a PO, reopen it on the same page, then finish it again: same HPP.
+async function reopenPo(ui,today,mobile){
+ const f=fixture('finish',{today}),name=`CP17_R2_PO_REOPEN_${mobile?'MOBILE':'DESKTOP'}`,user=await ui.login('OWNER',{label:'cp17-r2-reopen-'+(mobile?'mobile':'desktop'),mobile}),page=user.page,requests=[]
+ const state=()=>fixture('finish_state',f)
+ page.on('request',r=>{const m=r.url().match(/\/rpc\/(erp_cp7_(?:finish|reopen)_po_v1)$/);if(m)requests.push([m[1],r.postDataJSON()])})
+ try{
+  mkdirSync('cp6-proof/t3',{recursive:true});await hppPage(ui,page);const panel=page.getByRole('region',{name:'Selesaikan PO',exact:true})
+  const open=async()=>{await panel.getByLabel('Cari nomor PO',{exact:true}).fill(f.number);await panel.getByRole('button',{name:'Cari PO',exact:true}).click();await panel.getByRole('button',{name:'Pilih PO '+f.number,exact:true}).click()}
+  const finish=async note=>{
+   await open();const detail=panel.getByRole('region',{name:'Selesai PO '+f.number,exact:true})
+   await detail.getByLabel('Catatan selesai PO '+f.number,{exact:true}).fill(note);await detail.getByLabel('PO '+f.number+' sudah diperiksa',{exact:true}).check()
+   await detail.getByRole('button',{name:'Selesaikan PO',exact:true}).click();await ui.expect(panel.getByText(new RegExp('^'+esc(f.number)+': PO selesai pada '))).toBeVisible()}
+  await finish('Semua barang sudah QC');const first=state();assert.equal(first.status,'FINISHED');assert.equal(first.wip,'0.00')
+  await open();const reopen=panel.getByRole('region',{name:'Buka ulang PO '+f.number,exact:true});await ui.expect(reopen).toContainText('0 dari 10 pcs')
+  const go=reopen.getByRole('button',{name:'Buka ulang PO '+f.number,exact:true});await ui.expect(go).toBeDisabled()
+  await reopen.getByLabel('Alasan buka ulang PO '+f.number,{exact:true}).fill('Biaya laundry ternyata belum masuk')
+  await ui.expect(go).toBeDisabled();await reopen.getByLabel('Buka ulang PO '+f.number+' sudah diperiksa',{exact:true}).check()
+  assert.deepEqual(state(),first);assert.equal(requests.length,1)
+  await noSideScroll(ui,page);await reopen.scrollIntoViewIfNeeded();await page.screenshot({path:`cp6-proof/t3/${name}_REVIEW.png`,fullPage:true})
+  await go.click();await ui.expect(panel.getByText(new RegExp('^'+esc(f.number)+': PO dibuka ulang pada '))).toBeVisible()
+  const reopened=state()
+  assert.notEqual(reopened.status,'FINISHED');assert.equal(reopened.reopen_history,1);assert.equal(reopened.posted_closes,0);assert.equal(reopened.wip,reopened.reversed_residual)
+  await page.screenshot({path:`cp6-proof/t3/${name}_REOPENED.png`,fullPage:true})
+  await finish('Selesai lagi tanpa transaksi baru');const again=state()
+  assert.equal(again.status,'FINISHED');assert.equal(again.wip,'0.00');assert.equal(again.per_pcs,first.per_pcs);assert.equal(again.history,2)
+  assert.deepEqual(requests.map(r=>[r[0],r[1].p_payload.action,r[1].p_payload.po_id]),[['erp_cp7_finish_po_v1','FINISH',f.po],['erp_cp7_reopen_po_v1','REOPEN',f.po],['erp_cp7_finish_po_v1','FINISH',f.po]])
+  await noSideScroll(ui,page);await page.screenshot({path:`cp6-proof/t3/${name}_FINISHED_AGAIN.png`,fullPage:true})
+  return{status:'PASS',phone:mobile,po:f.number,first_hpp_per_pcs:first.per_pcs,reopened_status:reopened.status,returned_to_wip:reopened.wip,hpp_after_refinish:again.per_pcs,requests:3}
  }catch(error){let actual;try{actual=state()}catch(e){actual={observation_error:String(e)}};await failure(page,name,error,actual,requests);throw error}
  finally{await user.context.close()}
 }
@@ -266,4 +302,5 @@ export function cases(ui,today){return[['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKT
  ['CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP',()=>seriesDozens(ui,today,false)],['CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE',()=>seriesDozens(ui,today,true)],
  ['CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP',()=>fabricReturnCorrect(ui,today)],
  ['CP17_BROWSER_G1_SEWING_DESKTOP',()=>sewing(ui,today,false)],['CP17_BROWSER_G1_SEWING_MOBILE',()=>sewing(ui,today,true)],
- ['CP17_BROWSER_G2_FINISH_DESKTOP',()=>finishPo(ui,today,false)],['CP17_BROWSER_G2_FINISH_MOBILE',()=>finishPo(ui,today,true)]]}
+ ['CP17_BROWSER_G2_FINISH_DESKTOP',()=>finishPo(ui,today,false)],['CP17_BROWSER_G2_FINISH_MOBILE',()=>finishPo(ui,today,true)],
+ ['CP17_BROWSER_R2_PO_REOPEN_DESKTOP',()=>reopenPo(ui,today,false)],['CP17_BROWSER_R2_PO_REOPEN_MOBILE',()=>reopenPo(ui,today,true)]]}

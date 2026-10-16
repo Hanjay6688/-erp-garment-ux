@@ -105,6 +105,8 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/PoFinishPanel.tsx:erp_cp7_list_po_finish_v1',
   'src/PoFinishPanel.tsx:erp_cp7_get_po_finish_v1',
   'src/PoFinishPanel.tsx:erp_cp7_finish_po_v1',
+  'src/PoFinishPanel.tsx:erp_cp7_get_po_reopen_v1',
+  'src/PoFinishPanel.tsx:erp_cp7_reopen_po_v1',
   'src/PayrollKasbonPanel.tsx:erp_cp7_get_kasbon_v1',
   'src/PayrollKasbonPanel.tsx:erp_cp7_save_kasbon_v1',
   'src/SalesInvoiceDependencies.tsx:erp_cp7_get_sales_cash_v1',

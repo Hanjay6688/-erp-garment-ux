@@ -1,8 +1,10 @@
 import type { Json } from './types/database.preconnect'
 import type { ProductionEnvelope } from './productionRecovery'
 
-// D14-14 gap G2: finish a Production Order from the connected HPP screen so its HPP becomes final (UX demo HPP checklist:
-// "Produksi sudah selesai · PO berstatus FINISHED"). Closed parsers for scripts/cp7-src/cutting-correction/finish.sql.
+// D14-14 gap G2: finish a Production Order from the connected HPP screen (UX demo HPP checklist: "Produksi sudah selesai ·
+// PO berstatus FINISHED"), and reopen a finished one (owner D15-4). Closed parsers for
+// scripts/cp7-src/cutting-correction/finish.sql and po-reopen.sql. How final the HPP is comes from the server's
+// display_status only (Astra ASTRA-C17-05), never from the PO status.
 export type PoFinishRow = { id: string; number: string; status: string; contractorName: string | null; fgPcs: number }
 export type PoFinishList = { query: string; rows: PoFinishRow[]; total: number; offset: number; nextOffset: number | null }
 export type PoFinishBlocker = { kind: string; qty: number | null }
@@ -19,6 +21,15 @@ export type PoFinishWorkspace = {
 export type PoFinishOutcome = {
   poId: string; poNumber: string; fgPcs: number; hpp: PoFinishHpp; residualClosed: string; wipAfter: string
   finishedOn: string; recostOpen: number
+}
+export type PoReopenWorkspace = {
+  poId: string; poNumber: string; poStatus: string; stage: string | null; contractorName: string | null; fgPcs: number; fgLots: number
+  fgUsedPcs: number; wipBalance: string; returningToWip: string; closeJournals: number; closedThrough: string | null; hpp: PoFinishHpp
+  reopenDate: string; reviewToken: string; eligible: boolean; blockers: PoFinishBlocker[]
+}
+export type PoReopenOutcome = {
+  poId: string; poNumber: string; status: string; stage: string | null; reversedJournals: number; returnedToWip: string; wipAfter: string
+  hpp: PoFinishHpp; reopenedOn: string
 }
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
@@ -71,12 +82,8 @@ export function parsePoFinishWorkspace(value: unknown, poId: string): PoFinishWo
     'laundry_returned_pcs', 'laundry_claimed_pcs', 'laundry_good_pcs', 'qc_accounted_pcs', 'open_bs_cases', 'recost_open', 'wip_balance',
     'hpp', 'finish_date', 'review_token', 'eligible', 'blockers', 'business_DML'])
   if (r.contract_version !== 'cp7.po-finish-workspace.v1' || r.business_DML !== false || r.po_id !== poId
-    || typeof r.review_token !== 'string' || !/^[a-f0-9]{32}$/.test(r.review_token) || !Array.isArray(r.blockers)) fail()
-  const blockers = r.blockers.map(v => {
-    const b = record(v); keys(b, ['kind', 'qty'])
-    return { kind: text(b.kind), qty: b.qty === null ? null : count(b.qty) }
-  })
-  const eligible = bool(r.eligible)
+    || typeof r.review_token !== 'string' || !/^[a-f0-9]{32}$/.test(r.review_token)) fail()
+  const blockers = blockerList(r.blockers), eligible = bool(r.eligible)
   if (eligible !== (blockers.length === 0) || (eligible && (r.po_status === 'FINISHED' || r.po_status === 'CANCELLED'))) fail()
   return {
     poId, poNumber: text(r.po_number), poStatus: text(r.po_status), stage: nullableText(r.stage), contractorName: nullableText(r.contractor_name),
@@ -84,6 +91,48 @@ export function parsePoFinishWorkspace(value: unknown, poId: string): PoFinishWo
     laundryClaimedPcs: count(r.laundry_claimed_pcs), laundryGoodPcs: count(r.laundry_good_pcs), qcAccountedPcs: count(r.qc_accounted_pcs),
     openBsCases: count(r.open_bs_cases), recostOpen: count(r.recost_open), wipBalance: money(r.wip_balance), hpp: hpp(r.hpp),
     finishDate: date(r.finish_date), reviewToken: r.review_token, eligible, blockers,
+  }
+}
+
+function blockerList(value: unknown) {
+  if (!Array.isArray(value)) fail()
+  return value.map(v => { const b = record(v); keys(b, ['kind', 'qty']); return { kind: text(b.kind), qty: b.qty === null ? null : count(b.qty) } })
+}
+
+export function parsePoReopenWorkspace(value: unknown, poId: string): PoReopenWorkspace {
+  const r = record(value)
+  keys(r, ['contract_version', 'po_id', 'po_number', 'po_status', 'stage', 'contractor_name', 'fg_pcs', 'fg_lots', 'fg_used_pcs', 'wip_balance',
+    'returning_to_wip', 'close_journals', 'closed_through', 'hpp', 'reopen_date', 'review_token', 'eligible', 'blockers', 'business_DML'])
+  if (r.contract_version !== 'cp7.po-reopen-workspace.v1' || r.business_DML !== false || r.po_id !== poId
+    || typeof r.review_token !== 'string' || !/^[a-f0-9]{32}$/.test(r.review_token)) fail()
+  const blockers = blockerList(r.blockers), eligible = bool(r.eligible)
+  if (eligible !== (blockers.length === 0) || (eligible && r.po_status !== 'FINISHED')) fail()
+  return {
+    poId, poNumber: text(r.po_number), poStatus: text(r.po_status), stage: nullableText(r.stage), contractorName: nullableText(r.contractor_name),
+    fgPcs: count(r.fg_pcs), fgLots: count(r.fg_lots), fgUsedPcs: count(r.fg_used_pcs), wipBalance: money(r.wip_balance),
+    returningToWip: money(r.returning_to_wip), closeJournals: count(r.close_journals),
+    closedThrough: r.closed_through === null ? null : date(r.closed_through), hpp: hpp(r.hpp), reopenDate: date(r.reopen_date),
+    reviewToken: r.review_token, eligible, blockers,
+  }
+}
+
+export function poReopenPayload(w: PoReopenWorkspace, reason: string): Json {
+  const why = reason.trim()
+  if (!w.eligible || why.length < 5 || why.length > 1000) fail()
+  return { action: 'REOPEN', po_id: w.poId, review_token: w.reviewToken, change_reason: why }
+}
+
+export function validatePoReopenOutcome(value: unknown, envelope: ProductionEnvelope): PoReopenOutcome {
+  const r = record(value), p = record(envelope.payload)
+  keys(r, ['contract_version', 'kind', 'action', 'request_id', 'po_id', 'po_number', 'result'])
+  if (envelope.action !== 'REOPEN_PO' || p.action !== 'REOPEN' || r.contract_version !== 'cp7.po-reopen-outcome.v1' || r.kind !== 'COMMITTED_OUTCOME'
+    || r.action !== 'REOPEN' || r.request_id !== envelope.id || r.po_id !== p.po_id) fail()
+  const x = record(r.result)
+  keys(x, ['status', 'stage', 'reversed_journals', 'returned_to_wip', 'wip_after', 'hpp', 'reopened_on'])
+  if (x.status === 'FINISHED' || x.status === 'CANCELLED') fail()
+  return {
+    poId: id(r.po_id), poNumber: text(r.po_number), status: text(x.status), stage: nullableText(x.stage), reversedJournals: count(x.reversed_journals),
+    returnedToWip: money(x.returned_to_wip), wipAfter: money(x.wip_after), hpp: hpp(x.hpp), reopenedOn: date(x.reopened_on),
   }
 }
 
@@ -111,9 +160,13 @@ const blockerKinds: Record<string, (qty: number | null) => string> = {
   PO_CANCELLED: () => 'PO ini sudah dibatalkan.',
   ALREADY_FINISHED: () => 'PO ini sudah selesai; HPP-nya sudah final.',
   LAUNDRY_OUTSTANDING: qty => `${qty ?? '?'} pcs masih di laundry (belum kembali atau belum diselesaikan klaimnya).`,
+  SOURCE_UNACCOUNTED: qty => `${qty ?? '?'} pcs hasil potong belum dijahit dan dikirim ke laundry atau lewat QC langsung.`,
   QC_UNACCOUNTED: qty => `${qty ?? '?'} pcs GOOD dari laundry belum melewati QC.`,
   OPEN_BS: qty => `${qty ?? '?'} kasus BS/rework masih terbuka.`,
   NO_FG_OUTPUT: () => 'Belum ada barang jadi dari PO ini.',
+  NOT_FINISHED: () => 'PO ini belum selesai, jadi tidak perlu dibuka ulang.',
+  FG_USED: qty => `${qty ?? '?'} pcs barang jadi PO ini sudah terjual, dipesan di draft penjualan, disesuaikan, atau dipindah. Batalkan dulu transaksinya.`,
+  PERIOD_CLOSED: () => 'Pembukuan PO ini (atau hari ini) ada di periode yang sudah ditutup. Periode tutup tidak dibuka otomatis.',
 }
 export function poFinishBlockerText(b: PoFinishBlocker) {
   return blockerKinds[b.kind]?.(b.qty) ?? `Ada catatan lain yang menahan (${b.kind}).`
@@ -134,7 +187,7 @@ export function poFinishReasonText(code: string) { return reasonTexts[code] ?? c
 const statusTexts: Record<string, string> = {
   BELUM_ADA_HPP: 'Belum ada HPP',
   SEMENTARA: 'Sementara (PO belum selesai)',
-  BELUM_LENGKAP: 'Final, tetapi belum lengkap',
-  LENGKAP_BERDASARKAN_DATA_SAAT_INI: 'Final dan lengkap menurut data saat ini',
+  BELUM_LENGKAP: 'Belum lengkap, masih bisa berubah',
+  LENGKAP_BERDASARKAN_DATA_SAAT_INI: 'Final, lengkap menurut data saat ini',
 }
 export function poFinishStatusText(code: string) { return statusTexts[code] ?? code }
