@@ -1,0 +1,190 @@
+{
+  "candidate": "2e9d6a468c110684c278d585418eb404250d1150",
+  "candidate_tree": "5e50d224f8e74fa3bca83b599fb606739435b598",
+  "audit_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+  "status": "LOCKED_FOR_PUBLICATION",
+  "verdict": "TAHAN",
+  "created_at_utc": "2026-10-16T17:31:21.693841+00:00",
+  "last_execution_head": "f5bd2b4c50e07de86ec0765414114c5631c8fe8f",
+  "all_own_runs_completed": true,
+  "other_current_round_auditor_exposure": [],
+  "files": [
+    {
+      "path": "C6_ALL_INDEX_REVIEW.json",
+      "bytes": 537,
+      "sha256": "3536cfa6cdc61d3ea13aab06b154745b30828b5f516d348d3778ceb02107caf8"
+    },
+    {
+      "path": "CASE_ATTEMPTS.json.gz",
+      "bytes": 230891,
+      "sha256": "c01c88f6b06cdb5e267946f0398fb635f7f82892e0b0150451140dd7ffeb5df9"
+    },
+    {
+      "path": "CASE_COUNTS.json",
+      "bytes": 3891,
+      "sha256": "5fa6e3e13ce3f11399dfcd63a308be53f3a7d172c3e9c4915dfa98b4afc0c4dc"
+    },
+    {
+      "path": "CP1_CP2_HASH_RECHECK.json",
+      "bytes": 2443,
+      "sha256": "62806d69896ff5fe930ec0cc5dadba7e92ef125f5a22f4057a6f4a26bfdd80ca"
+    },
+    {
+      "path": "EXECUTION_MANIFEST.json",
+      "bytes": 8274,
+      "sha256": "783de5fd51fff0706aecfdd4d1777a181137e6a3311c703222d222e3f9b4f63b"
+    },
+    {
+      "path": "FINAL_IDENTITY_CHECK.json",
+      "bytes": 2652,
+      "sha256": "ddfa840c05a698b301fad95604df20d3f9832903184bb84264170bc0afe94b93"
+    },
+    {
+      "path": "FINDINGS.json",
+      "bytes": 6931,
+      "sha256": "ddedec0c7d504de383c337c0fcaacbf4baf1cd78c3a361ebd0e4438218955025"
+    },
+    {
+      "path": "HANDOFF_OWNER.md",
+      "bytes": 1222,
+      "sha256": "c9161c04bace1d403acabf029f5d480de74ce914a0fbda8c6140ffe02613e728"
+    },
+    {
+      "path": "IDENTITY.json",
+      "bytes": 2528,
+      "sha256": "9635b0635cf7ede7eda5518dd7481c773616e54c1bcfac5e1cc4fc6271643c3f"
+    },
+    {
+      "path": "INDEPENDENT_CASES.json.gz",
+      "bytes": 186211,
+      "sha256": "94446c6fb5aacc333a23d9175a05ea797f98dc0da3fa138fd3bad5d989d9c643"
+    },
+    {
+      "path": "MATRIX_MANIFEST.json",
+      "bytes": 1395,
+      "sha256": "3c66ed2a11fa5c2691cc0659b7d77f6d2babba4d128b002f98f6c919f0db523b"
+    },
+    {
+      "path": "MENUS.json",
+      "bytes": 8665,
+      "sha256": "609c1e00676e3e3e945c6a6e223b99e37c88f6705624c395fa9c0eac435f328b"
+    },
+    {
+      "path": "OWN_ORACLES.json",
+      "bytes": 3266,
+      "sha256": "413ff36bea33ef1f00852b5d75cc6ad0e885f3b1313b09fe949e7337921ea997"
+    },
+    {
+      "path": "PREDECLARED_SOURCE_HASH_CHECK.json",
+      "bytes": 1505,
+      "sha256": "a46fb056a2b1fd2a7bac7f7623fbebb03698f5763a1ab62ddb3addc4a7f0ac82"
+    },
+    {
+      "path": "QUALIFIED_ORACLES_V2.json",
+      "bytes": 1307,
+      "sha256": "3cbfdf9e7a3759ed2354551a15f6bea405494f850cd61c999f11cd1b85fbf8cd"
+    },
+    {
+      "path": "RAW_LOGS.tar.xz",
+      "bytes": 713896,
+      "sha256": "00b125fad41a8cc2b28a77de8425d0eb92208e3b7f95e500eb62dbfc9fe5a272"
+    },
+    {
+      "path": "RAW_LOG_INDEX.json",
+      "bytes": 6281,
+      "sha256": "5e4d9972513ac4e9f293c89d57b0a52069242afc49cb01264949f6835073f029"
+    },
+    {
+      "path": "RETEST_ASTRA_2e9d6a46.md",
+      "bytes": 19346,
+      "sha256": "ff7abbb88fcc7eccf242634ca65f5f7204ae56a36421e1f132217ef425d68769"
+    },
+    {
+      "path": "RUNTIME_SUMMARIES.json.gz",
+      "bytes": 71714,
+      "sha256": "14e2940f2d48ac944dd7ea4d47eb7b41d2ae9bb077b573c324652c2b086300e6"
+    },
+    {
+      "path": "RUN_REGISTER.json",
+      "bytes": 83374,
+      "sha256": "fe67817c263a3d9819978337913eda2a14bc81bae7748e8f947eb46afe17a25a"
+    },
+    {
+      "path": "T2_DISPOSITION.json",
+      "bytes": 78141,
+      "sha256": "37f39f77b1c115cd18db97636ef9c4fa018f520b5c7dd9f9ab2af6f04fb01ab2"
+    },
+    {
+      "path": "TOOL_QUALIFICATION.md",
+      "bytes": 2424,
+      "sha256": "5d6856dbb45809e1171325af650f3a86527850a0324fd0ef47548ff649a79ed4"
+    },
+    {
+      "path": "WRITER_FAILURE_REVIEW.json.gz",
+      "bytes": 665910,
+      "sha256": "cbed9f2badb988c3d7e8dc891d2797eeaaf1d10173dbf9150d572c3fb470ebca"
+    },
+    {
+      "path": "WRITER_RUN_RECEIPT.json",
+      "bytes": 68090,
+      "sha256": "aa4d5fb520e8a7093e1a4d46b2f2435e2775cb0663a4adb24e2cb74de9e137f7"
+    },
+    {
+      "path": "assemble_evidence.py",
+      "bytes": 9284,
+      "sha256": "8bbd6573ad2ed32deb6fb3ce8a2ae535153a6d8c93b6edf1fc017658bb367d7c"
+    },
+    {
+      "path": "browser_host.mjs",
+      "bytes": 18458,
+      "sha256": "78c9e250e1892e6f762075aa86c3df196dadff17a4e7a5fe9c42529786837de3"
+    },
+    {
+      "path": "matrix.mjs",
+      "bytes": 6234,
+      "sha256": "86b72521bbc1eba1d1019647828bc96d6de595651302fda1e65aacdfc8e27ea9"
+    },
+    {
+      "path": "matrix_probe.py",
+      "bytes": 6959,
+      "sha256": "d7ffb52aa266fa587ca9bb7c3273856bf621ec054532de70db5c93362377d910"
+    },
+    {
+      "path": "native_probe.py",
+      "bytes": 13853,
+      "sha256": "39de0f3d30bf882fdc1d4bc9f2585f29b5c6f6a53008a8bffd7983daa5f6cc55"
+    },
+    {
+      "path": "native_probe_v2.py",
+      "bytes": 14974,
+      "sha256": "f687d0599f1e60df5302f7ff1227dc701a79676321cdd793a62449a5a3f79d75"
+    },
+    {
+      "path": "retained_physical.py",
+      "bytes": 5383,
+      "sha256": "a26899e736cfdcc3981145cfb2c74860efb12c016b312d40f1bee7737a356a0b"
+    },
+    {
+      "path": "screenshots/ASTRA_R2_MATRIX_DEMO_SIMULATION_MOBILE_06.png",
+      "bytes": 538927,
+      "sha256": "8674247bf6803b7e1f93c982216b107c878e7004110b3d6976d6ce2c74c23c7d"
+    },
+    {
+      "path": "screenshots/ASTRA_R2_MATRIX_DEMO_SIMULATION_MOBILE_32.png",
+      "bytes": 702612,
+      "sha256": "463fb24146d748d8680b18fa8890c1c0b339c07d393a7c6d6ecc766df97d68b5"
+    },
+    {
+      "path": "ui.dom.test.tsx",
+      "bytes": 7017,
+      "sha256": "42fcf731d5ea8be76b33823489c16ffc17e621fde7efd9ad1f0a9ba6e9ca3e13"
+    },
+    {
+      "path": "ui_identity.dom.test.tsx",
+      "bytes": 5836,
+      "sha256": "c8de1ff9bfa96799bd49a40bf3df2f40505c838e296896ea943e548f5a448ad8"
+    }
+  ],
+  "manifest_sha256": "2d5afa9e87e648c9ada4be7ae1cae1454ca9a167e928b270ec931da403ce80b7",
+  "note": "The containing Git commit is the report lock; no self-referential commit SHA. Raw results and original failed attempts preserved."
+}

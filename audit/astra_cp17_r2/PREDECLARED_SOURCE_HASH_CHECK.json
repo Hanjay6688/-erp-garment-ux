@@ -1,0 +1,47 @@
+[
+  {
+    "source": "ui.dom.test.tsx",
+    "sha256": "42fcf731d5ea8be76b33823489c16ffc17e621fde7efd9ad1f0a9ba6e9ca3e13",
+    "matches_preexecution_manifest": true
+  },
+  {
+    "source": "ui_identity.dom.test.tsx",
+    "sha256": "c8de1ff9bfa96799bd49a40bf3df2f40505c838e296896ea943e548f5a448ad8",
+    "matches_preexecution_manifest": true
+  },
+  {
+    "source": "retained_physical.py",
+    "sha256": "a26899e736cfdcc3981145cfb2c74860efb12c016b312d40f1bee7737a356a0b",
+    "matches_preexecution_manifest": true
+  },
+  {
+    "source": "native_probe.py",
+    "sha256": "39de0f3d30bf882fdc1d4bc9f2585f29b5c6f6a53008a8bffd7983daa5f6cc55",
+    "matches_preexecution_manifest": true
+  },
+  {
+    "source": "matrix_probe.py",
+    "sha256": "d7ffb52aa266fa587ca9bb7c3273856bf621ec054532de70db5c93362377d910",
+    "matches_preexecution_manifest": true
+  },
+  {
+    "source": "matrix.mjs",
+    "sha256": "86b72521bbc1eba1d1019647828bc96d6de595651302fda1e65aacdfc8e27ea9",
+    "matches_preexecution_manifest": true
+  },
+  {
+    "source": "browser_host.mjs",
+    "sha256": "78c9e250e1892e6f762075aa86c3df196dadff17a4e7a5fe9c42529786837de3",
+    "matches_preexecution_manifest": true
+  },
+  {
+    "source": "MENUS.json",
+    "sha256": "609c1e00676e3e3e945c6a6e223b99e37c88f6705624c395fa9c0eac435f328b",
+    "matches_preexecution_manifest": true
+  },
+  {
+    "source": "native_probe_v2.py",
+    "sha256": "f687d0599f1e60df5302f7ff1227dc701a79676321cdd793a62449a5a3f79d75",
+    "matches_preexecution_manifest": true
+  }
+]

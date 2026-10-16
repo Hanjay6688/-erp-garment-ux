@@ -1,0 +1,206 @@
+[
+  {
+    "log": "own-38928849640-117067323115.log",
+    "group": "CP7_CP17_FIXES",
+    "counts": {
+      "PASS": 80
+    }
+  },
+  {
+    "log": "own-38928849640-117067323115.log",
+    "group": "AUDITOR_RACES_CP7_CP17_FIXES",
+    "counts": {
+      "PASS": 18
+    }
+  },
+  {
+    "log": "own-38928849640-117067323115.log",
+    "group": "AUDITOR_HTTP_CP7_CP17_FIXES",
+    "counts": {
+      "PASS": 14
+    }
+  },
+  {
+    "log": "own-38928849640-117067323115.log",
+    "group": "AUDITOR_BROWSER_CP7_CP17_FIXES_BROWSER",
+    "counts": {
+      "PASS": 33
+    }
+  },
+  {
+    "log": "own-38928849640-117067323115.log",
+    "group": null,
+    "counts": {
+      "PASS": 1
+    }
+  },
+  {
+    "log": "own-38928849710-117067321932.log",
+    "group": "BUSINESS",
+    "counts": {
+      "PASS": 179,
+      "CONTROL_PASS": 39,
+      "DATE_POLICY_REVIEW_REQUIRED": 12
+    }
+  },
+  {
+    "log": "own-38928849710-117067321932.log",
+    "group": "IMPORTS",
+    "counts": {
+      "PASS": 31
+    }
+  },
+  {
+    "log": "own-38928849710-117067321932.log",
+    "group": "VALUES",
+    "counts": {
+      "PASS": 65
+    }
+  },
+  {
+    "log": "own-38928849710-117067321932.log",
+    "group": "NEW_CASES",
+    "counts": {
+      "PASS": 25,
+      "COUNTEREXAMPLE": 8,
+      "INCOMPLETE": 1
+    }
+  },
+  {
+    "log": "own-38928849710-117067321932.log",
+    "group": "T2_APPROVED_ORACLE",
+    "counts": {
+      "MATCH": 8
+    }
+  },
+  {
+    "log": "own-38928849710-117067321932.log",
+    "group": "T2_CALENDAR_POLICY",
+    "counts": {
+      "COUNTEREXAMPLE": 12
+    }
+  },
+  {
+    "log": "own-38928849710-117067321932.log",
+    "group": "AO_TRIAL",
+    "counts": {
+      "PASS": 8,
+      "INCOMPLETE": 4
+    }
+  },
+  {
+    "log": "own-38928849710-117067321932.log",
+    "group": "APPROVED_ORACLE_B",
+    "counts": {
+      "PASS": 5
+    }
+  },
+  {
+    "log": "own-38928849710-117067321932.log",
+    "group": "T2_C0_ORACLE",
+    "counts": {
+      "PASS": 25
+    }
+  },
+  {
+    "log": "own-38928849710-117067322248.log",
+    "group": "AT_CASES",
+    "counts": {
+      "PASS": 16
+    }
+  },
+  {
+    "log": "own-38928849710-117067322248.log",
+    "group": "AT_CONCURRENCY",
+    "counts": {
+      "PASS": 4
+    }
+  },
+  {
+    "log": "own-38928849710-117067322248.log",
+    "group": "AU_CASES",
+    "counts": {
+      "PASS": 15
+    }
+  },
+  {
+    "log": "own-38928849710-117067322248.log",
+    "group": "AU_CONCURRENCY",
+    "counts": {
+      "PASS": 6
+    }
+  },
+  {
+    "log": "own-38928849710-117067322344.log",
+    "group": "AR_SEQUENTIAL",
+    "counts": {
+      "PASS": 145,
+      "INCOMPLETE": 1
+    }
+  },
+  {
+    "log": "own-38928849710-117067322344.log",
+    "group": "AR_SUPERSEDING",
+    "counts": {
+      "PASS": 1
+    }
+  },
+  {
+    "log": "own-38928849710-117067322344.log",
+    "group": "AR_CONCURRENCY",
+    "counts": {
+      "PASS": 28
+    }
+  },
+  {
+    "log": "own-38930682418-117073574249.log",
+    "group": "ASTRA_UI_IDENTITY",
+    "counts": {
+      "PASS": 1
+    }
+  },
+  {
+    "log": "own-38930682418-117073574249.log",
+    "group": "ASTRA_UI",
+    "counts": {
+      "PASS": 3
+    }
+  },
+  {
+    "log": "own-38930682447-117073574552.log",
+    "group": "CP7_P18_FULL_CYCLE",
+    "counts": {
+      "PASS": 8,
+      "INCOMPLETE": 1,
+      "COUNTEREXAMPLE": 2
+    }
+  },
+  {
+    "log": "own-38931015958-117074707859.log",
+    "group": "AUDITOR_BROWSER_ASTRA_COMPLETION_MATRIX-DEMO_SIMULATION",
+    "counts": {
+      "PASS": 96
+    }
+  },
+  {
+    "log": "own-38931015958-117074708323.log",
+    "group": "AUDITOR_BROWSER_ASTRA_COMPLETION_MATRIX-UAT_AUTH_SIMULATION",
+    "counts": {
+      "PASS": 96
+    }
+  },
+  {
+    "log": "own-38931015958-117074708356.log",
+    "group": "AUDITOR_BROWSER_ASTRA_COMPLETION_MATRIX-DISPOSABLE_TEST",
+    "counts": {
+      "PASS": 96
+    }
+  },
+  {
+    "log": "own-38938202330-117098919279.log",
+    "group": "CP7_P18_FULL_CYCLE",
+    "counts": {
+      "COUNTEREXAMPLE": 1
+    }
+  }
+]

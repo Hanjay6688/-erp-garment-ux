@@ -1,0 +1,16 @@
+{
+  "path": "docs/evidence/c6-all-crosswalk/C6_75_ALL22_CROSSWALK.json",
+  "sha256": "b654e67409f4c2fbc9c28b6bcc706c57a3061c84cdd2037d76fa7ecd35f2b206",
+  "indexed_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "counts": {
+    "ACC": 39,
+    "LAU": 36,
+    "C6": 75,
+    "ALL": 22,
+    "total": 97,
+    "direct_named_case_links": 40
+  },
+  "rows_unique": 97,
+  "status": "REUSED_HISTORICAL_INDEX_NOT_97_NEW_ACCEPTANCES",
+  "current_scope": "Index/disposition availability confirmed; not a fresh case for every requirement."
+}

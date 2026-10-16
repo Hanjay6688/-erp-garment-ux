@@ -1,0 +1,83 @@
+{
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "candidate_tree": "5e50d224f8e74fa3bca83b599fb606739435b598",
+  "audit_scope": "CP1-CP7 r2 retest and changed-integration review, with explicit historical evidence and deferred gates",
+  "verdict": "TAHAN",
+  "audit_round_complete": true,
+  "feature_complete": false,
+  "production_go": false,
+  "severity_rule": "Pro Max: important correction/posting flow blocked by a defect is S1, even where rollback protects balances.",
+  "new_findings": [
+    {
+      "id": "ASTRA-R2-01",
+      "severity": "S1",
+      "status": "OPEN_PROVEN",
+      "title": "Reopen PO counts reversed FG outflows as active downstream use",
+      "evidence_level": "NATIVE_QUALIFIED",
+      "evidence_origin": ["INDEPENDENT_NATIVE_RERUN", "INDEPENDENT_SOURCE_REVIEW"],
+      "source": "scripts/cp7-src/cutting-correction/po-reopen.sql",
+      "source_lines": [46, 47, 61, 114],
+      "function": "cp7_cutting_correction.reopen_po_snapshot",
+      "root_cause": "sum(-qty_signed) over every historical negative movement omits cancellation/reversal pairing.",
+      "cases": [
+        {"id": "ASTRA_R2_REOPEN_AFTER_CANCELLED_SALES_DRAFT", "run": 38930682447, "job": 117073574552, "status": "COUNTEREXAMPLE", "stock": [10,8,10], "draft_status": "CANCELLED", "all_accounts_restored": true, "observed": "FG_USED qty2; CP7_PO_REOPEN_BLOCKED"},
+        {"id": "ASTRA_R2_REOPEN_AFTER_REVERSED_FG_ADJUSTMENT", "run": 38930682447, "job": 117073574552, "status": "INCOMPLETE", "disposition": "Original auditor production-lot account oracle error retained; see qualified v2"},
+        {"id": "ASTRA_R2_REOPEN_AFTER_REVERSED_FG_ADJUSTMENT", "run": 38938202330, "job": 117098919279, "status": "COUNTEREXAMPLE", "stock": [10,8,10], "hpp_total": "120.000000", "hpp_basis": 10, "account_delta": {"OTHER_EXPENSE": "24.00", "OTHER_INCOME": "-24.00"}, "observed": "FG_USED qty2; CP7_PO_REOPEN_BLOCKED", "unique_case_increment": 0}
+      ],
+      "proved_impact": "Legitimate correction remains blocked after cancelled sales reservation or reversed adjustment; no balance corruption claimed.",
+      "required": "Count active downstream use using correct reversal/source semantics; retain real-use and closed-period guards. Original two cases must pass; add partial cancellation and concurrency controls.",
+      "blocking_final_acceptance": true
+    },
+    {
+      "id": "ASTRA-R2-02",
+      "severity": "S1",
+      "status": "OPEN_PROVEN",
+      "title": "Auto-PO numbering cannot carry from 999 to 1000",
+      "evidence_level": "NATIVE_QUALIFIED",
+      "evidence_origin": ["INDEPENDENT_NATIVE_RERUN", "INDEPENDENT_SOURCE_REVIEW"],
+      "source": "scripts/cp7-src/cutting-correction/auto-po.sql",
+      "source_lines": [216,217],
+      "function": "cp7_cutting_correction.auto_po_command",
+      "root_cause": "lpad(v_n::text,3,'0') truncates four-digit numbers into occupied three-digit prefixes inside the while loop.",
+      "cases": [{"id": "ASTRA_R2_AUTO_PO_NUMBER_999_TO_1000", "run": 38930682447, "job": 117073574552, "status": "COUNTEREXAMPLE", "control": "PO-261014-999", "expected": "PO-261014-1000", "sqlstate": "57014", "declared_timeout_seconds": 10, "refusal_boundary_unchanged": true}],
+      "proved_impact": "Posting stalls when daily numbering must exceed999; daily lock retained until cancellation. Savepoint rollback leaves stock8 and no partial request/history.",
+      "frequency_boundary": "Requires001..999 occupied for a single date; not an assertion about ordinary daily volume.",
+      "required": "Do not truncate digits; retain serial numbering/idempotency/atomic posting. Retest998,999,1000,1001 plus collisions, concurrent posts and same-UUID replay.",
+      "blocking_final_acceptance": true
+    }
+  ],
+  "prior_findings": [
+    {"id":"ASTRA-C17-01","status":"CLOSED","evidence":"Retained Astra brand DOM + CP17 desktop/phone browser and server reread"},
+    {"id":"ASTRA-C17-02","status":"CLOSED","evidence":"Retained pending-series DOM disables save with zero requests"},
+    {"id":"ASTRA-C17-03","status":"CLOSED_FOR_CANDIDATE_ACTIVATION_CONTRACT","evidence":"Independent matrix/DOM and source; no claim of hosted CP7 installation"},
+    {"id":"ASTRA-C17-04","status":"CLOSED_FOR_D15_3_SCOPE","evidence":"CP17 six screen families, Native/race/HTTP/browser plus Astra blocker/revocation case"},
+    {"id":"ASTRA-C17-05","status":"CLOSED","evidence":"Three retained Astra physical/HPP/preflight cases PASS; reopen defect separate"},
+    {"id":"ASTRA-C17-06","status":"CLOSED_FOR_ORIGINAL_G01_T2_ROOT","evidence":"Own G01 and three T2 jobs execute.21 legacy workflow failures remain a separately disclosed coverage limit, not PASS"},
+    {"id":"ASTRA-C17-07","severity":"S2","status":"PARTIALLY_CLOSED_STILL_OPEN","evidence":"Two new UI chains PASS; attendance HPP pool lifecycle UI still absent","required":"Implement and test full pool UI lifecycle or obtain an explicit owner scope decision; writer boundary is not owner acceptance"}
+  ],
+  "before_hosted_installation": [
+    "Resolve ASTRA-R2-01 and ASTRA-R2-02 with retained independent counterexamples passing on the new pinned candidate",
+    "Resolve or explicitly disposition ASTRA-C17-07 remaining pool UI scope",
+    "Provide successor case mapping/qualification before claiming all historical workflow regression complete",
+    "CP7C must first be opened by owner; fulfill existing backup/restore, key handling, revoke/exposure and UAT cleanup gates"
+  ],
+  "deferred_owner_decisions": [
+    {"item":"CP7C backup/Drive/hosted deployment","status":"HOLD_UNCHANGED"},
+    {"item":"CP2 original engine, full definitions/owners/ACL and Storage restore","status":"OPEN_NOT_FULLY_VERIFIED","available_evidence":"Reused historical PG16/stub restore report and seven current hash-matching source/evidence copies"},
+    {"item":"FABLE-01282SQLwriters","status":"OPEN_CP7C_GATE_D14_9","warning":"Data API unreachable is not SQL EXECUTE revoked"},
+    {"item":"A2 two original failures root cause","status":"OPEN_ACCEPTED_NONBLOCKER_D13_10","mitigation":"Stable comparator PASS; root cause not guessed"},
+    {"item":"SOL-003/AZ original failure root cause","status":"OPEN_MITIGATION_VERIFIED","mitigation":"Drain controls; no root-cause attribution"}
+  ],
+  "unexamined_or_not_recertified": [
+    "Hosted, legacy, Drive, deployment and operational CP7 installation",
+    "Original CP2 engine/image and Storage round-trip",
+    "Every form state, role, device, business date, catalog size and transaction branch in one uninterrupted UI chain",
+    "Actual revocation of82writers deferred toCP7C",
+    "Original A2/AZ failure causes",
+    "Fresh full rerun of unchanged backup packages",
+    "Reapproval of inherited gross OTHER_EXPENSE/OTHER_INCOME presentation on production-lot FG inverse"
+  ],
+  "current_round_other_auditor_exposure": [],
+  "report": "RETEST_ASTRA_2e9d6a46.md",
+  "original_statuses_preserved": true
+}

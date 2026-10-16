@@ -1,0 +1,2463 @@
+[
+  {
+    "run": {
+      "id": 38928849615,
+      "name": "AUDIT/r2-20261016/Astra/2e9d6a46/g01/1",
+      "head_sha": "1e3b743e3bbbd937af04484c015b1ccaaca84b28",
+      "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+      "event": "push",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-16T16:03:05Z",
+      "updated_at": "2026-10-16T16:05:30Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38928849615"
+    },
+    "jobs": [
+      {
+        "id": 117067321066,
+        "name": "Rebuild test chain to v2.6.20 and fingerprint its catalog",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38928849615,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Assert frozen candidate identity",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Install pinned disposable runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Install pinned Supabase CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Rebuild the frozen test chain and stop after v2.6.20",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Capture the read-only fingerprint and compare with hosted",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Align the test baseline with hosted (G-01 option 1) and verify every changed object",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Capture the aligned fingerprint and compare with hosted",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Remove disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 27
+          },
+          {
+            "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 28
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 29
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 30
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 31
+          }
+        ]
+      }
+    ],
+    "artifacts": {
+      "artifacts": [
+        {
+          "id": 12057244050,
+          "name": "audit-r2-Astra-2e9d6a46-g01",
+          "size_in_bytes": 286117,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12057244050",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12057244050/zip",
+          "expired": false,
+          "created_at": "2026-10-16T16:05:26Z",
+          "expires_at": "2027-01-14T16:03:05Z",
+          "updated_at": "2026-10-16T16:05:26Z",
+          "digest": "sha256:e65ef5f100b63db8f944085a21c4b7ffd4090eef21e9b8fe2b04e056cdbd25e8",
+          "workflow_run": {
+            "id": 38928849615,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+            "head_sha": "1e3b743e3bbbd937af04484c015b1ccaaca84b28"
+          }
+        }
+      ]
+    },
+    "product_checkout": "2e9d6a468c110684c278d585418eb404250d1150",
+    "origin": "INDEPENDENT_NATIVE_RERUN",
+    "oracle_origin": "WRITER_PREDECLARED"
+  },
+  {
+    "run": {
+      "id": 38928849640,
+      "name": "AUDIT/r2-20261016/Astra/2e9d6a46/cp17/1",
+      "head_sha": "1e3b743e3bbbd937af04484c015b1ccaaca84b28",
+      "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+      "event": "push",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-16T16:03:05Z",
+      "updated_at": "2026-10-16T16:20:16Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38928849640"
+    },
+    "jobs": [
+      {
+        "id": 117067323115,
+        "name": "Dated guards and stock card on the combined F03 stack, races and real Auth HTTP",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38928849640,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Assert frozen candidate identity",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Install pinned disposable runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Install candidate browser dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Install pinned Supabase CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Record proposed source and prepare isolated proof paths",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Provision isolated rollback authority",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Clone the aligned AB state for install",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Install accepted package and qualify the CP1-CP7 audit fixes",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Qualify the owner installer's per-file drain wait and exact drained-refusal retry",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Prove the stable public-schema comparator (before/after, same members, owner and access compared)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Remove disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 38
+          },
+          {
+            "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 39
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 40
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 41
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 42
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 43
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 44
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 45
+          }
+        ]
+      }
+    ],
+    "artifacts": {
+      "artifacts": [
+        {
+          "id": 12058592584,
+          "name": "audit-r2-Astra-2e9d6a46-cp17",
+          "size_in_bytes": 26234106,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12058592584",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12058592584/zip",
+          "expired": false,
+          "created_at": "2026-10-16T16:20:11Z",
+          "expires_at": "2027-01-14T16:03:05Z",
+          "updated_at": "2026-10-16T16:20:11Z",
+          "digest": "sha256:6881769224622748ca448e2ccd9b8d27ac790ba71d28e214411eee74093aee88",
+          "workflow_run": {
+            "id": 38928849640,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+            "head_sha": "1e3b743e3bbbd937af04484c015b1ccaaca84b28"
+          }
+        }
+      ]
+    },
+    "product_checkout": "2e9d6a468c110684c278d585418eb404250d1150",
+    "origin": "INDEPENDENT_NATIVE_RERUN",
+    "oracle_origin": "WRITER_PREDECLARED"
+  },
+  {
+    "run": {
+      "id": 38928849710,
+      "name": "AUDIT/r2-20261016/Astra/2e9d6a46/t2/1",
+      "head_sha": "1e3b743e3bbbd937af04484c015b1ccaaca84b28",
+      "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+      "event": "push",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-16T16:03:05Z",
+      "updated_at": "2026-10-16T16:20:36Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38928849710"
+    },
+    "jobs": [
+      {
+        "id": 117067321932,
+        "name": "Original 326 plus AS 34 with per-case identity, approved AS date oracle, calendar policy printed (T2)",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38928849710,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Assert frozen candidate identity",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Install pinned disposable runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Install pinned Supabase CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Record proposed source and prepare isolated proof paths",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Restore exact AC runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Apply exact AD predecessor",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Apply exact AE comparison runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Install AF and bind exact 278-object runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Install unchanged AG predecessor and verify 690 objects",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Install AH and verify all 533 functions and 157 relation objects",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Install AI and bind the full original catalog",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Install AJ successor with all 690 runtime objects pinned",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          },
+          {
+            "name": "Install AK successor with all 690 runtime objects pinned",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Install AL successor with all 690 runtime objects pinned",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23
+          },
+          {
+            "name": "Install AM transfer family with all 690 runtime objects pinned",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24
+          },
+          {
+            "name": "Install AN versioned selectors with complete inherited catalog pinned",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25
+          },
+          {
+            "name": "Provision isolated rollback authority",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 26
+          },
+          {
+            "name": "Clone untouched AN for regression",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 27
+          },
+          {
+            "name": "Original 326 plus AS 34 with per-case identity, approved AS date oracle, calendar policy printed (T2)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 28
+          },
+          {
+            "name": "Remove disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 29
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 30
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 54
+          },
+          {
+            "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 55
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 56
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 57
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 58
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 59
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 60
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 61
+          }
+        ]
+      },
+      {
+        "id": 117067322248,
+        "name": "AT 16 and AU 15 cases with their real races on the combined candidate (T2)",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38928849710,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Assert frozen candidate identity",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Install pinned disposable runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Install pinned Supabase CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Record proposed source and prepare isolated proof paths",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Restore exact AC runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Apply exact AD predecessor",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Apply exact AE comparison runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Install AF and bind exact 278-object runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Install unchanged AG predecessor and verify 690 objects",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Install AH and verify all 533 functions and 157 relation objects",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Install AI and bind the full original catalog",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Install AJ successor with all 690 runtime objects pinned",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          },
+          {
+            "name": "Install AK successor with all 690 runtime objects pinned",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Install AL successor with all 690 runtime objects pinned",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23
+          },
+          {
+            "name": "Install AM transfer family with all 690 runtime objects pinned",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24
+          },
+          {
+            "name": "Install AN versioned selectors with complete inherited catalog pinned",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25
+          },
+          {
+            "name": "Provision isolated rollback authority",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 26
+          },
+          {
+            "name": "Clone untouched AN for temporal",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 27
+          },
+          {
+            "name": "AT 16 and AU 15 cases with their real races on the combined candidate (T2)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 28
+          },
+          {
+            "name": "Remove disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 29
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 30
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 54
+          },
+          {
+            "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 55
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 56
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 57
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 58
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 59
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 60
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 61
+          }
+        ]
+      },
+      {
+        "id": 117067322344,
+        "name": "AR 174 original cases and races on the combined candidate, seed quieted, own fixture completed (T2)",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38928849710,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Assert frozen candidate identity",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Install pinned disposable runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Install pinned Supabase CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Record proposed source and prepare isolated proof paths",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Restore exact AC runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Apply exact AD predecessor",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Apply exact AE comparison runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Install AF and bind exact 278-object runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Install unchanged AG predecessor and verify 690 objects",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Install AH and verify all 533 functions and 157 relation objects",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Install AI and bind the full original catalog",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Install AJ successor with all 690 runtime objects pinned",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          },
+          {
+            "name": "Install AK successor with all 690 runtime objects pinned",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Install AL successor with all 690 runtime objects pinned",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23
+          },
+          {
+            "name": "Install AM transfer family with all 690 runtime objects pinned",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24
+          },
+          {
+            "name": "Install AN versioned selectors with complete inherited catalog pinned",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25
+          },
+          {
+            "name": "Provision isolated rollback authority",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 26
+          },
+          {
+            "name": "Clone untouched AN for ar",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 27
+          },
+          {
+            "name": "AR 174 original cases and races on the combined candidate, seed quieted, own fixture completed (T2)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 28
+          },
+          {
+            "name": "Remove disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 29
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 30
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 54
+          },
+          {
+            "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 55
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 56
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 57
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 58
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 59
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 60
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 61
+          }
+        ]
+      }
+    ],
+    "artifacts": {
+      "artifacts": [
+        {
+          "id": 12058622259,
+          "name": "audit-r2-Astra-2e9d6a46-t2-regression",
+          "size_in_bytes": 2518214,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12058622259",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12058622259/zip",
+          "expired": false,
+          "created_at": "2026-10-16T16:20:30Z",
+          "expires_at": "2027-01-14T16:03:05Z",
+          "updated_at": "2026-10-16T16:20:30Z",
+          "digest": "sha256:402dcb4a6ff4a8d31f088ac6249a21838c4d48fefc21817df1de77c1159c577c",
+          "workflow_run": {
+            "id": 38928849710,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+            "head_sha": "1e3b743e3bbbd937af04484c015b1ccaaca84b28"
+          }
+        },
+        {
+          "id": 12058621889,
+          "name": "audit-r2-Astra-2e9d6a46-t2-ar",
+          "size_in_bytes": 2413742,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12058621889",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12058621889/zip",
+          "expired": false,
+          "created_at": "2026-10-16T16:18:08Z",
+          "expires_at": "2027-01-14T16:03:05Z",
+          "updated_at": "2026-10-16T16:18:08Z",
+          "digest": "sha256:4fc8f89db1c6135b1106b722f9770ad6577b561e54520e6f0c34d141e742a723",
+          "workflow_run": {
+            "id": 38928849710,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+            "head_sha": "1e3b743e3bbbd937af04484c015b1ccaaca84b28"
+          }
+        },
+        {
+          "id": 12058153231,
+          "name": "audit-r2-Astra-2e9d6a46-t2-temporal",
+          "size_in_bytes": 2387360,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12058153231",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12058153231/zip",
+          "expired": false,
+          "created_at": "2026-10-16T16:10:11Z",
+          "expires_at": "2027-01-14T16:03:05Z",
+          "updated_at": "2026-10-16T16:10:11Z",
+          "digest": "sha256:95bf06877720a1fc9ee38adf8f154cfd64c8b5ca7816643a751e7b26b1a256b9",
+          "workflow_run": {
+            "id": 38928849710,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+            "head_sha": "1e3b743e3bbbd937af04484c015b1ccaaca84b28"
+          }
+        }
+      ]
+    },
+    "product_checkout": "2e9d6a468c110684c278d585418eb404250d1150",
+    "origin": "INDEPENDENT_NATIVE_RERUN",
+    "oracle_origin": "WRITER_PREDECLARED"
+  },
+  {
+    "run": {
+      "id": 38930682418,
+      "name": "AUDIT/r2-20261016/Astra/2e9d6a46/ui/1",
+      "head_sha": "ba20f2f35160e9cb6264a5c4c3f3db7310ec1559",
+      "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+      "event": "push",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-16T16:16:47Z",
+      "updated_at": "2026-10-16T16:17:51Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38930682418"
+    },
+    "jobs": [
+      {
+        "id": 117073574249,
+        "name": "ui",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38930682418,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Assert frozen candidate identity",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Install exact candidate dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Run Astra DOM observations against untouched candidate",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          }
+        ]
+      }
+    ],
+    "artifacts": {
+      "artifacts": [
+        {
+          "id": 12059430517,
+          "name": "audit-r2-Astra-2e9d6a46-ui",
+          "size_in_bytes": 7228,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12059430517",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12059430517/zip",
+          "expired": false,
+          "created_at": "2026-10-16T16:17:47Z",
+          "expires_at": "2027-01-14T16:16:47Z",
+          "updated_at": "2026-10-16T16:17:47Z",
+          "digest": "sha256:221044b9c69e2ca240aab85e0ab63bd2aa7a80d63e3be5ee1475d3e5d60ab2c6",
+          "workflow_run": {
+            "id": 38930682418,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+            "head_sha": "ba20f2f35160e9cb6264a5c4c3f3db7310ec1559"
+          }
+        }
+      ]
+    },
+    "product_checkout": "2e9d6a468c110684c278d585418eb404250d1150",
+    "origin": "INDEPENDENT_NATIVE_RERUN",
+    "oracle_origin": "ASTRA_PREDECLARED"
+  },
+  {
+    "run": {
+      "id": 38930682447,
+      "name": "AUDIT/r2-20261016/Astra/2e9d6a46/own/1",
+      "head_sha": "ba20f2f35160e9cb6264a5c4c3f3db7310ec1559",
+      "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+      "event": "push",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-16T16:16:47Z",
+      "updated_at": "2026-10-16T16:21:55Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38930682447"
+    },
+    "jobs": [
+      {
+        "id": 117073574552,
+        "name": "Astra 11 independent Native oracles",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_id": 38930682447,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Assert frozen candidate identity",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Install pinned disposable runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Install pinned Supabase CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Record proposed source and prepare isolated proof paths",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Provision isolated rollback authority",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Clone the aligned AB state for install",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Execute Astra predeclared independent cases",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 18
+          },
+          {
+            "name": "Verify candidate product remains untouched",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Remove disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 35
+          },
+          {
+            "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 36
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 37
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 38
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 39
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 40
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 41
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 42
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 43
+          }
+        ]
+      }
+    ],
+    "artifacts": {
+      "artifacts": [
+        {
+          "id": 12059355850,
+          "name": "audit-r2-Astra-2e9d6a46-own",
+          "size_in_bytes": 1795936,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12059355850",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12059355850/zip",
+          "expired": false,
+          "created_at": "2026-10-16T16:21:52Z",
+          "expires_at": "2027-01-14T16:16:47Z",
+          "updated_at": "2026-10-16T16:21:52Z",
+          "digest": "sha256:cb9e9a96abccd4f8eed373f95ca6bd2df68a671da5e753c7291e4a89f5e200bc",
+          "workflow_run": {
+            "id": 38930682447,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+            "head_sha": "ba20f2f35160e9cb6264a5c4c3f3db7310ec1559"
+          }
+        }
+      ]
+    },
+    "product_checkout": "2e9d6a468c110684c278d585418eb404250d1150",
+    "origin": "INDEPENDENT_NATIVE_RERUN",
+    "oracle_origin": "ASTRA_PREDECLARED"
+  },
+  {
+    "run": {
+      "id": 38931015958,
+      "name": "AUDIT/r2-20261016/Astra/2e9d6a46/matrix/1",
+      "head_sha": "efec570cb30712df97114164e6ba30ee8a0c5ee0",
+      "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+      "event": "push",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-16T16:19:20Z",
+      "updated_at": "2026-10-16T16:27:41Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38931015958"
+    },
+    "jobs": [
+      {
+        "id": 117074707859,
+        "name": "Astra 96 menu/device assertions - DEMO_SIMULATION",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38931015958,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Assert frozen candidate identity",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Install pinned disposable runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Install candidate browser dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Install pinned Supabase CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Record proposed source and prepare isolated proof paths",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Provision isolated rollback authority",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Clone the aligned AB state for install",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Execute predeclared three-mode menu inventory",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Verify candidate product remains untouched",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Remove disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 37
+          },
+          {
+            "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 38
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 39
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 40
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 41
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 42
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 43
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 44
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 45
+          }
+        ]
+      },
+      {
+        "id": 117074708323,
+        "name": "Astra 96 menu/device assertions - UAT_AUTH_SIMULATION",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38931015958,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Assert frozen candidate identity",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Install pinned disposable runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Install candidate browser dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Install pinned Supabase CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Record proposed source and prepare isolated proof paths",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Provision isolated rollback authority",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Clone the aligned AB state for install",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Execute predeclared three-mode menu inventory",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Verify candidate product remains untouched",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Remove disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 37
+          },
+          {
+            "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 38
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 39
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 40
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 41
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 42
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 43
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 44
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 45
+          }
+        ]
+      },
+      {
+        "id": 117074708356,
+        "name": "Astra 96 menu/device assertions - DISPOSABLE_TEST",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38931015958,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Assert frozen candidate identity",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Install pinned disposable runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Install candidate browser dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Install pinned Supabase CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Record proposed source and prepare isolated proof paths",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Provision isolated rollback authority",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Clone the aligned AB state for install",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Execute predeclared three-mode menu inventory",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Verify candidate product remains untouched",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Remove disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 37
+          },
+          {
+            "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 38
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 39
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 40
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 41
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 42
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 43
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 44
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 45
+          }
+        ]
+      }
+    ],
+    "artifacts": {
+      "artifacts": [
+        {
+          "id": 12059730951,
+          "name": "audit-r2-Astra-2e9d6a46-matrix-UAT_AUTH_SIMULATION",
+          "size_in_bytes": 21869708,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12059730951",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12059730951/zip",
+          "expired": false,
+          "created_at": "2026-10-16T16:26:37Z",
+          "expires_at": "2027-01-14T16:19:20Z",
+          "updated_at": "2026-10-16T16:26:37Z",
+          "digest": "sha256:c665b0f454691eb610c59321621fa0ceeb902313b24fcb08d4a1e3d9cded0142",
+          "workflow_run": {
+            "id": 38931015958,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+            "head_sha": "efec570cb30712df97114164e6ba30ee8a0c5ee0"
+          }
+        },
+        {
+          "id": 12059512256,
+          "name": "audit-r2-Astra-2e9d6a46-matrix-DISPOSABLE_TEST",
+          "size_in_bytes": 34825942,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12059512256",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12059512256/zip",
+          "expired": false,
+          "created_at": "2026-10-16T16:27:37Z",
+          "expires_at": "2027-01-14T16:19:20Z",
+          "updated_at": "2026-10-16T16:27:37Z",
+          "digest": "sha256:36d0cabe1646ce36fecd94f1c65554b717daccb9b58a3a73a4438ec8f81d577a",
+          "workflow_run": {
+            "id": 38931015958,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+            "head_sha": "efec570cb30712df97114164e6ba30ee8a0c5ee0"
+          }
+        },
+        {
+          "id": 12058773060,
+          "name": "audit-r2-Astra-2e9d6a46-matrix-DEMO_SIMULATION",
+          "size_in_bytes": 46123462,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12058773060",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12058773060/zip",
+          "expired": false,
+          "created_at": "2026-10-16T16:26:22Z",
+          "expires_at": "2027-01-14T16:19:20Z",
+          "updated_at": "2026-10-16T16:26:22Z",
+          "digest": "sha256:574929f8fcd0a7c02a1c8159c7d6adf6ea4293d134e73229f0790a65d3438e6f",
+          "workflow_run": {
+            "id": 38931015958,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+            "head_sha": "efec570cb30712df97114164e6ba30ee8a0c5ee0"
+          }
+        }
+      ]
+    },
+    "product_checkout": "2e9d6a468c110684c278d585418eb404250d1150",
+    "origin": "INDEPENDENT_NATIVE_RERUN",
+    "oracle_origin": "ASTRA_PREDECLARED"
+  },
+  {
+    "run": {
+      "id": 38938202330,
+      "name": "AUDIT/r2-20261016/Astra/2e9d6a46/fg/tool-qualification-2",
+      "head_sha": "f5bd2b4c50e07de86ec0765414114c5631c8fe8f",
+      "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+      "event": "push",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-16T17:14:50Z",
+      "updated_at": "2026-10-16T17:20:24Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38938202330"
+    },
+    "jobs": [
+      {
+        "id": 117098919279,
+        "name": "One retained FG inverse case, qualified production-lot oracle",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_id": 38938202330,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Assert frozen candidate identity",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Install pinned disposable runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Install pinned Supabase CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Record proposed source and prepare isolated proof paths",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Provision isolated rollback authority",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Clone the aligned AB state for install",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Execute Astra predeclared independent cases",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 18
+          },
+          {
+            "name": "Verify candidate product remains untouched",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Remove disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 35
+          },
+          {
+            "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 36
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 37
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 38
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 39
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 40
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 41
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 42
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 43
+          }
+        ]
+      }
+    ],
+    "artifacts": {
+      "artifacts": [
+        {
+          "id": 12061134623,
+          "name": "audit-r2-Astra-2e9d6a46-fg-qualification-2",
+          "size_in_bytes": 1662462,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12061134623",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12061134623/zip",
+          "expired": false,
+          "created_at": "2026-10-16T17:20:18Z",
+          "expires_at": "2027-01-14T17:14:50Z",
+          "updated_at": "2026-10-16T17:20:18Z",
+          "digest": "sha256:6d26c58f1b0e8d3ece9518f646147d6167e6956ff330a9bffeca22a21e00db0a",
+          "workflow_run": {
+            "id": 38938202330,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "audit/astra-cp1-7-r2-2e9d6a46-20261016",
+            "head_sha": "f5bd2b4c50e07de86ec0765414114c5631c8fe8f"
+          }
+        }
+      ]
+    },
+    "product_checkout": "2e9d6a468c110684c278d585418eb404250d1150",
+    "origin": "INDEPENDENT_NATIVE_RERUN",
+    "oracle_origin": "ASTRA_PREDECLARED"
+  }
+]
