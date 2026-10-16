@@ -1,0 +1,1495 @@
+{
+ "Dashboard": {
+  "opened": true,
+  "heading": "Veni. Vidi. Vici. ERP",
+  "headings": [
+   "Veni. Vidi. Vici. ERP",
+   "Ringkasan angka belum tersambung ke data ERP"
+  ],
+  "buttons": [],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 0,
+  "sample_label": false,
+  "notice_only": true,
+  "rupiah_figures": 0,
+  "text_chars": 400,
+  "overflow": false,
+  "topbar": "Ringkasan bisnis\nSatu layar untuk keputusan hari ini\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-dash\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Buat Potongan": {
+  "opened": true,
+  "heading": "Buat Potongan",
+  "headings": [
+   "Buat Potongan"
+  ],
+  "buttons": [
+   "Refetch",
+   "Baru",
+   "Cari draft",
+   "Sebelumnya",
+   "Berikutnya",
+   "Cari model",
+   "CP6-RACE \u00b7 R1\nCP6 Race Pattern",
+   "Tambah Pola Baru",
+   "Cari",
+   "Sebelumnya",
+   "Berikutnya",
+   "Muat hasil potong tersimpan",
+   "Muat rencana potong",
+   "Muat penilaian potong",
+   "Simpan draft",
+   "Sahkan & buat PO"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 10,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 2237,
+  "overflow": false,
+  "topbar": "Buat Potongan\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-produksi\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Bagi Potongan": {
+  "opened": true,
+  "heading": "Bagi Potongan",
+  "headings": [
+   "Bagi Potongan",
+   "Telusuri distribusi potongan"
+  ],
+  "buttons": [
+   "Refetch",
+   "Cari",
+   "Browse semua",
+   "Filter",
+   "Menunggu",
+   "Sudah diambil",
+   "Semua",
+   "Cari Potongan",
+   "Sebelumnya",
+   "Berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 4,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 689,
+  "overflow": false,
+  "topbar": "Bagi Potongan\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-produksi\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "WIP & Sewing": {
+  "opened": true,
+  "heading": "WIP & Sewing",
+  "headings": [
+   "WIP & Sewing",
+   "CP3R3-MODEL \u00b7 CP3 R3 Model",
+   "CP3R3-MODEL \u00b7 CP3 R3 Model",
+   "CP3R3-MODEL \u00b7 CP3 R3 Model",
+   "CP3R3-MODEL \u00b7 CP3 R3 Model",
+   "CP3R3-MODEL \u00b7 CP3 R3 Model",
+   "CP3R3-MODEL \u00b7 CP3 R3 Model",
+   "CP3R3-MODEL \u00b7 CP3 R3 Model",
+   "CP3R3-MODEL \u00b7 CP3 R3 Model"
+  ],
+  "buttons": [
+   "Refetch",
+   "Aktif",
+   "Selesai",
+   "Semua",
+   "Browse semua",
+   "Terapkan",
+   "Catat selesai jahit",
+   "Tandai tindak lanjut",
+   "Catat selesai jahit",
+   "Tandai tindak lanjut",
+   "Catat selesai jahit",
+   "Tandai tindak lanjut",
+   "Tandai tindak lanjut",
+   "Tandai tindak lanjut",
+   "Tandai tindak lanjut",
+   "Tandai tindak lanjut",
+   "Tandai tindak lanjut"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 4,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 3738,
+  "overflow": false,
+  "topbar": "WIP & Sewing\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-produksi\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Laundry": {
+  "opened": true,
+  "heading": "Laundry",
+  "headings": [
+   "Laundry",
+   "Catat barang yang benar-benar keluar"
+  ],
+  "buttons": [
+   "Muat ulang data",
+   "Kirim ke Laundry",
+   "Terima kembali",
+   "Cuci gagal berbayar",
+   "Riwayat & koreksi",
+   "Harga & tagihan",
+   "Catat pengiriman"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 9,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 2106,
+  "overflow": false,
+  "topbar": "Laundry\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-produksi\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "QC & Final SKU": {
+  "opened": true,
+  "heading": "QC & Final SKU",
+  "headings": [
+   "QC & Final SKU",
+   "Tentukan hasil fisik dan SKU per ukuran"
+  ],
+  "buttons": [
+   "Muat ulang data",
+   "Antrean finalisasi",
+   "Riwayat & koreksi",
+   "Simpan hasil QC & Final SKU"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 6,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 1930,
+  "overflow": false,
+  "topbar": "QC & Final SKU\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-produksi\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Susun Nota FG": {
+  "opened": true,
+  "heading": "Susun Nota FG",
+  "headings": [
+   "Susun Nota FG",
+   "Kartu pekerjaan",
+   "CP3 R3 Exempt",
+   "CP3 R4 Terminal Only D",
+   "CP3 R3 Normal A",
+   "CP3 R3 Normal A",
+   "Pilih kartu pekerjaan",
+   "Nota tersimpan",
+   "Telusuri nota mandor"
+  ],
+  "buttons": [
+   "Muat ulang nota",
+   "Cari kartu",
+   "Tambahkan ke nota",
+   "Tambahkan ke nota",
+   "Tambahkan ke nota",
+   "Tambahkan ke nota",
+   "kartu sebelumnya",
+   "kartu berikutnya",
+   "Nota baru",
+   "Cari",
+   "Browse semua",
+   "Filter",
+   "Cari nota",
+   "nota sebelumnya",
+   "nota berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 4,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 12,
+  "text_chars": 1646,
+  "overflow": false,
+  "topbar": "Susun Nota FG\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-produksi\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Barang BS & Rework": {
+  "opened": true,
+  "heading": "Barang BS & Rework",
+  "headings": [
+   "Barang BS & Rework",
+   "Telusuri BS dan claim"
+  ],
+  "buttons": [
+   "Claim Laundry",
+   "BS legacy",
+   "Refetch",
+   "Cari",
+   "Browse semua",
+   "Filter",
+   "Aktif",
+   "Selesai",
+   "Semua",
+   "Cari kasus",
+   "Sebelumnya",
+   "Berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 5,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 1063,
+  "overflow": false,
+  "topbar": "Barang BS & Rework\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-produksi\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Ringkasan Gudang": {
+  "opened": true,
+  "heading": "Barang kebaca sebelum dicari.",
+  "headings": [
+   "Barang kebaca sebelum dicari.",
+   "Buka dari pekerjaan fisiknya",
+   "Jangan kelewat hari ini",
+   "Gerak barang lintas gudang"
+  ],
+  "buttons": [
+   "KAIN\nBahan & Roll\n83 roll \u00b7 lifetime movement\n8.775,5 yd \u00b7 fixture",
+   "KOMPONEN\nAksesori\n6 item aktif \u00b7 per unit\n31.960 unit \u00b7 fixture",
+   "BARANG JADI\nRingkasan FG\nPer merek, SKU, size, grade\n1.194 pcs Good \u00b7 fixture",
+   "PHYSICAL CONTROL\nStock Adjustment\nHilang, rusak, bencana, surplus\n3 open cases",
+   "FG CONVERSION\nGanti Merek\nSource out = target in\n36 pcs hari ini",
+   "Lihat ledger lengkap"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 0,
+  "sample_label": true,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 1645,
+  "overflow": false,
+  "topbar": "Ringkasan Gudang\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-gudang\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Pembelian & Penerimaan": {
+  "opened": true,
+  "heading": "Pembelian & penerimaan",
+  "headings": [
+   "Pembelian & penerimaan",
+   "Telusuri penerimaan",
+   "Daftar penerimaan",
+   "Periksa dokumen",
+   "Invoice supplier",
+   "Retur supplier",
+   "Pembayaran supplier"
+  ],
+  "buttons": [
+   "Muat ulang",
+   "Penerimaan baru",
+   "Cari",
+   "Browse semua",
+   "Filter",
+   "Cari penerimaan",
+   "Sebelumnya",
+   "Berikutnya",
+   "Muat ulang pembayaran supplier"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 3,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 1058,
+  "overflow": false,
+  "topbar": "Pembelian & Penerimaan\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-gudang\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Bahan & Roll": {
+  "opened": true,
+  "heading": "Bahan & roll",
+  "headings": [
+   "Bahan & roll",
+   "Telusuri stok bahan",
+   "Bahan di gudang",
+   "Mutasi bahan"
+  ],
+  "buttons": [
+   "Muat ulang",
+   "Stok per gudang",
+   "Transfer gudang",
+   "Cari",
+   "Browse semua",
+   "Filter",
+   "Cari stok",
+   "Stok sebelumnya",
+   "Stok berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 3,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 690,
+  "overflow": false,
+  "topbar": "Bahan & Roll\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-gudang\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Kain kantong": {
+  "opened": true,
+  "heading": "Kain kantong",
+  "headings": [
+   "Kain kantong",
+   "Kurangi stok gudang",
+   "Bagi ke HPP per periode",
+   "Kain kantong sebelum saldo awal",
+   "Riwayat pembagian periode",
+   "Riwayat pengurangan"
+  ],
+  "buttons": [
+   "Muat ulang",
+   "Cari",
+   "Sahkan pengurangan stok",
+   "",
+   "Lihat pembagian"
+  ],
+  "tabs": [],
+  "table_headers": [
+   "Dokumen / baris",
+   "Tanggal",
+   "Bahan",
+   "Jumlah",
+   "Nilai terkini",
+   "Pembagian",
+   "Tindakan",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "Periode",
+   "Hasil jahit",
+   "Nilai terkini",
+   "Status",
+   "Tindakan",
+   "Tanggal",
+   "Roll",
+   "Keluar",
+   "Nilai keluar",
+   "Catatan",
+   "Status",
+   "Tindakan"
+  ],
+  "inputs": 10,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 1683,
+  "overflow": false,
+  "topbar": "Kain kantong\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-gudang\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Aksesori": {
+  "opened": true,
+  "heading": "Pemakaian & Pengembalian Aksesori",
+  "headings": [
+   "Pemakaian & Pengembalian Aksesori"
+  ],
+  "buttons": [
+   "Muat ulang",
+   "Stok aksesori",
+   "Catat transaksi",
+   "Barang kembali",
+   "Dokumen",
+   "Kebijakan & area",
+   "Cari stok",
+   "Sebelumnya",
+   "Berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [
+   "Aksesori",
+   "Lokasi",
+   "Keadaan",
+   "Jumlah",
+   "Nilai",
+   "Terakhir",
+   ""
+  ],
+  "inputs": 2,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 673,
+  "overflow": false,
+  "topbar": "Aksesori\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-gudang\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Ringkasan Barang Jadi": {
+  "opened": true,
+  "heading": "Barang jadi",
+  "headings": [
+   "Barang jadi",
+   "Telusuri barang jadi",
+   "Posisi stok",
+   "Asal dan mutasi stok"
+  ],
+  "buttons": [
+   "Data permintaan & stok",
+   "Muat ulang stok",
+   "Cari",
+   "Browse semua",
+   "Filter",
+   "Cari stok",
+   "Stok sebelumnya",
+   "Stok berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 3,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 786,
+  "overflow": false,
+  "topbar": "Ringkasan Barang Jadi\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-gudang\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Mutasi Barang Jadi \u00b7 Vivo": {
+  "opened": true,
+  "heading": "Mutasi Barang Jadi \u00b7 Vivo",
+  "headings": [
+   "Mutasi Barang Jadi \u00b7 Vivo",
+   "Telusuri buku mutasi Vivo",
+   "Kartu mutasi",
+   "Urutan seluruh buku"
+  ],
+  "buttons": [
+   "Muat ulang buku",
+   "Cari",
+   "Browse buku Vivo",
+   "Filter",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "Terapkan filter buku",
+   "Buku sebelumnya",
+   "Buku berikutnya",
+   "Kembalikan seluruh urutan buku"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 8,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 1096,
+  "overflow": false,
+  "topbar": "Mutasi Barang Jadi \u00b7 Vivo\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-gudang\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Mutasi Barang Jadi \u00b7 Widie": {
+  "opened": true,
+  "heading": "Mutasi Barang Jadi \u00b7 Widie",
+  "headings": [
+   "Mutasi Barang Jadi \u00b7 Widie",
+   "Telusuri buku mutasi Widie",
+   "Kartu mutasi",
+   "Urutan seluruh buku"
+  ],
+  "buttons": [
+   "Muat ulang buku",
+   "Cari",
+   "Browse buku Widie",
+   "Filter",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "",
+   "Terapkan filter buku",
+   "Buku sebelumnya",
+   "Buku berikutnya",
+   "Kembalikan seluruh urutan buku"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 8,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 1099,
+  "overflow": false,
+  "topbar": "Mutasi Barang Jadi \u00b7 Widie\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-gudang\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Kartu Stok FG": {
+  "opened": true,
+  "heading": "Kartu stok barang jadi",
+  "headings": [
+   "Kartu stok barang jadi",
+   "Telusuri barang jadi",
+   "Posisi stok",
+   "Asal dan mutasi stok"
+  ],
+  "buttons": [
+   "Data permintaan & stok",
+   "Muat ulang stok",
+   "Cari",
+   "Browse semua",
+   "Filter",
+   "Cari stok",
+   "Stok sebelumnya",
+   "Stok berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 3,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 797,
+  "overflow": false,
+  "topbar": "Kartu Stok FG\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-gudang\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Stock Adjustment": {
+  "opened": true,
+  "heading": "Penyesuaian bahan",
+  "headings": [
+   "Penyesuaian bahan",
+   "Telusuri sumber hitung fisik",
+   "Pilih barang yang dihitung",
+   "Telusuri dokumen hitung fisik",
+   "Riwayat penyesuaian",
+   "Periksa penyesuaian"
+  ],
+  "buttons": [
+   "Bahan dan aksesori",
+   "Barang jadi",
+   "Muat ulang",
+   "Cari",
+   "Browse semua",
+   "Cari bahan",
+   "Bahan sebelumnya",
+   "Bahan berikutnya",
+   "Pilih bahan di luar daftar saldo",
+   "Cari",
+   "Browse semua",
+   "Filter",
+   "Cari pemeriksaan",
+   "Pemeriksaan sebelumnya",
+   "Pemeriksaan berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 5,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 1111,
+  "overflow": false,
+  "topbar": "Stock Adjustment\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-gudang\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Ganti Merek": {
+  "opened": true,
+  "heading": "Ganti Merek / SKU",
+  "headings": [
+   "Ganti Merek / SKU",
+   "1. Lot sumber",
+   "2. Tujuan dan waktu fisik",
+   "Riwayat konversi"
+  ],
+  "buttons": [
+   "Muat ulang",
+   "Cari lot",
+   "Lot sebelumnya",
+   "Lot berikutnya",
+   "Cari tujuan",
+   "Tujuan sebelumnya",
+   "Tujuan berikutnya",
+   "",
+   "Lihat pratinjau",
+   "Dokumen sebelumnya",
+   "Dokumen berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [
+   "Dokumen",
+   "Sumber \u2192 tujuan",
+   "Jumlah",
+   "Nilai tujuan kini",
+   "Status",
+   ""
+  ],
+  "inputs": 11,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 658,
+  "overflow": false,
+  "topbar": "Ganti Merek\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-gudang\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Penjualan & Invoice": {
+  "opened": true,
+  "heading": "Penjualan & Invoice",
+  "headings": [
+   "Penjualan & Invoice",
+   "Telusuri invoice",
+   "Daftar invoice",
+   "Rincian invoice"
+  ],
+  "buttons": [
+   "Muat ulang invoice",
+   "Buat invoice",
+   "Cari",
+   "Browse semua",
+   "Filter",
+   "Cari invoice",
+   "Invoice sebelumnya",
+   "Invoice berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 3,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 694,
+  "overflow": false,
+  "topbar": "Penjualan & Invoice\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-penjualan\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Semua Invoice": {
+  "opened": true,
+  "heading": "Penjualan & Invoice",
+  "headings": [
+   "Penjualan & Invoice",
+   "Telusuri invoice",
+   "Daftar invoice",
+   "Rincian invoice"
+  ],
+  "buttons": [
+   "Muat ulang invoice",
+   "Buat invoice",
+   "Cari",
+   "Browse semua",
+   "Filter",
+   "Cari invoice",
+   "Invoice sebelumnya",
+   "Invoice berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 3,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 694,
+  "overflow": false,
+  "topbar": "Semua Invoice\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-penjualan\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Retur Penjualan": {
+  "opened": true,
+  "heading": "Retur Penjualan",
+  "headings": [
+   "Retur Penjualan",
+   "Telusuri invoice",
+   "Daftar invoice",
+   "Rincian invoice"
+  ],
+  "buttons": [
+   "Muat ulang invoice",
+   "Buat invoice",
+   "Cari",
+   "Browse semua",
+   "Filter",
+   "Cari invoice",
+   "Invoice sebelumnya",
+   "Invoice berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 3,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 690,
+  "overflow": false,
+  "topbar": "Retur Penjualan\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-penjualan\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Pembayaran Pelanggan": {
+  "opened": true,
+  "heading": "Pembayaran Pelanggan",
+  "headings": [
+   "Pembayaran Pelanggan",
+   "Telusuri invoice",
+   "Daftar invoice",
+   "Rincian invoice"
+  ],
+  "buttons": [
+   "Muat ulang invoice",
+   "Buat invoice",
+   "Cari",
+   "Browse semua",
+   "Filter",
+   "Cari invoice",
+   "Invoice sebelumnya",
+   "Invoice berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 3,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 695,
+  "overflow": false,
+  "topbar": "Pembayaran Pelanggan\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-penjualan\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Riwayat Pelanggan": {
+  "opened": true,
+  "heading": "Riwayat Pelanggan",
+  "headings": [
+   "Riwayat Pelanggan"
+  ],
+  "buttons": [
+   "7D",
+   "30D",
+   "90D"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 3,
+  "sample_label": true,
+  "notice_only": false,
+  "rupiah_figures": 10,
+  "text_chars": 1261,
+  "overflow": false,
+  "topbar": "Riwayat Pelanggan\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-penjualan\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Ringkasan Keuangan": {
+  "opened": true,
+  "heading": "Ringkasan Keuangan",
+  "headings": [
+   "Ringkasan Keuangan",
+   "Ada penghalang",
+   "Posisi saldo buku",
+   "Kinerja menurut jurnal",
+   "Tagihan supplier saat ini"
+  ],
+  "buttons": [
+   "Buka laporan",
+   "Tampilkan ringkasan",
+   "Periksa kas dan bank",
+   "Periksa piutang pelanggan menurut buku",
+   "Periksa utang supplier final menurut buku",
+   "Periksa estimasi barang belum ditagih",
+   "Periksa total aset",
+   "Periksa total kewajiban",
+   "Periksa tagihan supplier"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 3,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 14,
+  "text_chars": 3095,
+  "overflow": false,
+  "topbar": "Ringkasan Keuangan\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-keuangan\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Kas & Bank": {
+  "opened": true,
+  "heading": "Kas & Bank",
+  "headings": [
+   "Kas & Bank",
+   "Telusuri jurnal kas",
+   "Sumber jurnal kas"
+  ],
+  "buttons": [
+   "Cari",
+   "Browse halaman ini",
+   "Filter",
+   "Tampilkan kas",
+   "Jurnal sebelumnya",
+   "Jurnal berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 5,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 6,
+  "text_chars": 1276,
+  "overflow": false,
+  "topbar": "Kas & Bank\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-keuangan\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Hutang Supplier & Vendor": {
+  "opened": true,
+  "heading": "Utang & kredit retur supplier",
+  "headings": [
+   "Utang & kredit retur supplier",
+   "Utang pembelian",
+   "Kredit retur"
+  ],
+  "buttons": [
+   "Buka tagihan & kredit klaim laundry",
+   "Muat ulang kredit supplier",
+   "Sebelumnya",
+   "Berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [
+   "Pembelian",
+   "Utang setelah kredit",
+   "Sudah dibayar",
+   "Sisa utang"
+  ],
+  "inputs": 1,
+  "sample_label": false,
+  "notice_only": true,
+  "rupiah_figures": 0,
+  "text_chars": 430,
+  "overflow": false,
+  "topbar": "Hutang Supplier & Vendor\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-keuangan\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Piutang Pelanggan": {
+  "opened": true,
+  "heading": "Piutang Pelanggan",
+  "headings": [
+   "Piutang Pelanggan",
+   "Telusuri piutang pelanggan",
+   "Invoice pelanggan",
+   "Rincian sumber piutang"
+  ],
+  "buttons": [
+   "Muat ulang piutang",
+   "Cari",
+   "Browse semua",
+   "Filter",
+   "Cari piutang",
+   "Piutang sebelumnya",
+   "Piutang berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 3,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 1130,
+  "overflow": false,
+  "topbar": "Piutang Pelanggan\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-keuangan\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Payroll & Kasbon": {
+  "opened": true,
+  "heading": "Payroll & Kasbon",
+  "headings": [
+   "Payroll & Kasbon",
+   "Telusuri payroll",
+   "Daftar payroll",
+   "Pilih payroll",
+   "Pembayaran gaji"
+  ],
+  "buttons": [
+   "Muat ulang payroll",
+   "Cari",
+   "Browse semua",
+   "Filter",
+   "Cari payroll",
+   "CP3 R3 Normal A\n2026-04-01 sampai 2026-04-01\nCP3R4-PAY-A-APR\nDisetujui\nRp100",
+   "CP3 R3 Normal A\n2026-03-01 sampai 2026-03-01\nCP3R4-PAY-A-MAR\nDisetujui\nRp105",
+   "CP3 R3 Normal A\n2026-02-01 sampai 2026-02-01\nCP3R4-PAY-A-FEB\nDisetujui\nRp105",
+   "CP3 R4 Pending Approval C\n2026-02-01 sampai 2026-02-01\nCP3R4-PAY-C-FEB-PENDING\nSudah dihitung\nRp70",
+   "CP3 R3 Normal A\n2026-01-01 sampai 2026-01-01\nCP3R3-PAY-A\nDisetujui\nRp160",
+   "CP3 R3 Normal B\n2026-01-01 sampai 2026-01-01\nCP3R3-PAY-B\nDisetujui\nRp90",
+   "CP3 R3 Special\n2026-01-01 sampai 2026-01-01\nCP3R3-PAY-S\nDisetujui\nRp1.099",
+   "Payroll sebelumnya",
+   "Payroll berikutnya",
+   "Muat ulang pembayaran"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 3,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 7,
+  "text_chars": 1348,
+  "overflow": false,
+  "topbar": "Payroll & Kasbon\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-keuangan\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Absensi & Rate Harian": {
+  "opened": true,
+  "heading": "Absensi & Rate Harian",
+  "headings": [
+   "Absensi & Rate Harian",
+   "Telusuri absensi",
+   "Daftar mandor",
+   "Pilih sumber absensi"
+  ],
+  "buttons": [
+   "Muat ulang absensi",
+   "Cari",
+   "Browse mandor pada tanggal terpilih",
+   "Filter",
+   "Tampilkan absensi",
+   "CP3 R3 Exempt\nAktif\nTidak wajib",
+   "CP3 R3 Normal A\nAktif\nAbsensi wajib",
+   "CP3 R3 Normal B\nAktif\nAbsensi wajib",
+   "CP3 R3 Special\nAktif\nAbsensi wajib",
+   "CP3 R4 Pending Approval C\nAktif\nAbsensi wajib",
+   "CP3 R4 Terminal Only D\nAktif\nAbsensi wajib",
+   "Sumber sebelumnya",
+   "Sumber berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 4,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 846,
+  "overflow": false,
+  "topbar": "Absensi & Rate Harian\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-keuangan\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Nota Ambil Aksesori": {
+  "opened": true,
+  "heading": "Nota Ambil Aksesori",
+  "headings": [
+   "Nota Ambil Aksesori",
+   "Telusuri nota aksesori",
+   "Nota baru \u00b7 Draft"
+  ],
+  "buttons": [
+   "Nota baru",
+   "Muat ulang",
+   "Cari",
+   "Browse semua",
+   "Filter",
+   "Cari nota",
+   "Perbarui harga dan stok",
+   "Simpan draft",
+   "Periksa pengesahan"
+  ],
+  "tabs": [],
+  "table_headers": [
+   "Nota",
+   "Mandor",
+   "Tanggal",
+   "Status",
+   "Tagihan",
+   "",
+   "Aksesori / stok gudang",
+   "Jumlah fisik",
+   "Dasar harga",
+   "Harga eceran / pcs",
+   "Tagihan",
+   ""
+  ],
+  "inputs": 12,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 1,
+  "text_chars": 1446,
+  "overflow": false,
+  "topbar": "Nota Ambil Aksesori\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-keuangan\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "HPP & Rekalkulasi": {
+  "opened": true,
+  "heading": "HPP per SKU",
+  "headings": [
+   "HPP per SKU",
+   "Hitung ulang HPP",
+   "Selesaikan atau buka ulang PO"
+  ],
+  "buttons": [
+   "Tampilkan",
+   "Muat ulang antrean HPP",
+   "Antrean sebelumnya",
+   "Antrean berikutnya",
+   "Proses maksimal 20 pekerjaan",
+   "Cari PO",
+   "Sebelumnya",
+   "Berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [
+   "SKU",
+   "Stok PCS",
+   "Nilai stok",
+   "HPP / PCS",
+   "Status biaya"
+  ],
+  "inputs": 5,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 2041,
+  "overflow": false,
+  "topbar": "HPP & Rekalkulasi\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-keuangan\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Jurnal & Transaksi Lain": {
+  "opened": true,
+  "heading": "Jurnal Keuangan",
+  "headings": [
+   "Jurnal Keuangan",
+   "Telusuri jurnal",
+   "Jurnal transaksi",
+   "Rincian akun jurnal"
+  ],
+  "buttons": [
+   "Muat ulang jurnal",
+   "Buka pendapatan dan biaya lain",
+   "Cari",
+   "Browse jurnal pada periode terpilih",
+   "Filter",
+   "Tampilkan jurnal",
+   "Jurnal sebelumnya",
+   "Jurnal berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 4,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 2,
+  "text_chars": 1147,
+  "overflow": false,
+  "topbar": "Jurnal & Transaksi Lain\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-keuangan\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Laporan & Tutup Buku": {
+  "opened": true,
+  "heading": "Laporan & Tutup Buku",
+  "headings": [
+   "Laporan & Tutup Buku",
+   "Kelola tutup buku",
+   "Ada penghalang",
+   "Kinerja menurut jurnal",
+   "Posisi saldo buku",
+   "Perbandingan periode & arus kas",
+   "Tagihan supplier saat ini",
+   "Pemeriksaan tutup buku 2026-10-16",
+   "Arsip penutupan"
+  ],
+  "buttons": [
+   "Muat ulang laporan",
+   "Tampilkan laporan",
+   "Periksa ulang periode",
+   "Tutup buku dan simpan arsip",
+   "Buka perbandingan & arus kas",
+   "Arsip sebelumnya",
+   "Arsip berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 7,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 25,
+  "text_chars": 5336,
+  "overflow": false,
+  "topbar": "Laporan & Tutup Buku\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-keuangan\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Kain & Benchmark": {
+  "opened": true,
+  "heading": "Kain & harga acuan",
+  "headings": [
+   "Kain & harga acuan"
+  ],
+  "buttons": [
+   "Cari",
+   "Tambah kain",
+   "CP6-RACE-FAB \u00b7 CP6 Race Fabric\nAktif \u00b7 stok 0 yd",
+   "Sebelumnya",
+   "Berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 2,
+  "sample_label": false,
+  "notice_only": true,
+  "rupiah_figures": 0,
+  "text_chars": 369,
+  "overflow": false,
+  "topbar": "Kain & Benchmark\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-masterdata\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Aksesori & Harga Mandor": {
+  "opened": true,
+  "heading": "Aksesori & harga mandor",
+  "headings": [
+   "Aksesori & harga mandor"
+  ],
+  "buttons": [
+   "Kategori aksesori",
+   "Varian aksesori",
+   "Cari",
+   "Tambah kategori aksesori",
+   "Sebelumnya",
+   "Berikutnya"
+  ],
+  "tabs": [
+   "Kategori aksesori",
+   "Varian aksesori"
+  ],
+  "table_headers": [],
+  "inputs": 2,
+  "sample_label": false,
+  "notice_only": true,
+  "rupiah_figures": 0,
+  "text_chars": 447,
+  "overflow": false,
+  "topbar": "Aksesori & Harga Mandor\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-masterdata\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Produk & SKU": {
+  "opened": true,
+  "heading": "Produk & SKU",
+  "headings": [
+   "Produk & SKU",
+   "SKU bersama",
+   "Anggota fisik tersedia"
+  ],
+  "buttons": [
+   "Cari / muat ulang",
+   "Buat SKU dari ukuran CP6-RACE-S",
+   "Sebelumnya",
+   "Berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [
+   "SKU",
+   "Model \u00b7 warna",
+   "Ukuran anggota",
+   "Harga / PCS",
+   "Mulai berlaku",
+   "Pengaturan",
+   "Produk",
+   "Model \u00b7 warna",
+   "Ukuran",
+   "Pilih"
+  ],
+  "inputs": 1,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 616,
+  "overflow": false,
+  "topbar": "Produk & SKU\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-masterdata\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Pelanggan": {
+  "opened": true,
+  "heading": "Pelanggan",
+  "headings": [
+   "Pelanggan"
+  ],
+  "buttons": [
+   "Cari",
+   "Tambah pelanggan",
+   "Sebelumnya",
+   "Berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 2,
+  "sample_label": false,
+  "notice_only": true,
+  "rupiah_figures": 0,
+  "text_chars": 390,
+  "overflow": false,
+  "topbar": "Pelanggan\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-masterdata\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Supplier & Vendor": {
+  "opened": true,
+  "heading": "Supplier & Vendor",
+  "headings": [
+   "Supplier & Vendor"
+  ],
+  "buttons": [
+   "Supplier",
+   "Vendor laundry",
+   "Cari",
+   "Tambah supplier",
+   "CP6-RACE-SUP \u00b7 CP6 Race Supplier\nAktif \u00b7 Kain / bahan",
+   "Sebelumnya",
+   "Berikutnya"
+  ],
+  "tabs": [
+   "Supplier",
+   "Vendor laundry"
+  ],
+  "table_headers": [],
+  "inputs": 2,
+  "sample_label": false,
+  "notice_only": true,
+  "rupiah_figures": 0,
+  "text_chars": 453,
+  "overflow": false,
+  "topbar": "Supplier & Vendor\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-masterdata\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Mandor": {
+  "opened": true,
+  "heading": "Mandor & tarif upah",
+  "headings": [
+   "Mandor & tarif upah",
+   "Tarif upah mandor",
+   "Komponen kerja baru"
+  ],
+  "buttons": [
+   "Cari",
+   "Tambah mandor",
+   "CP3R3-EXEMPT \u00b7 CP3 R3 Exempt\nAktif",
+   "CP3R3-NORMAL-A \u00b7 CP3 R3 Normal A\nAktif \u00b7 wajib absensi",
+   "CP3R3-NORMAL-B \u00b7 CP3 R3 Normal B\nAktif \u00b7 wajib absensi",
+   "CP3R3-SPECIAL \u00b7 CP3 R3 Special\nAktif \u00b7 Special \u00b7 wajib absensi",
+   "CP3R4-PENDING-C \u00b7 CP3 R4 Pending Approval C\nAktif \u00b7 wajib absensi",
+   "CP3R4-TERMINAL-D \u00b7 CP3 R4 Terminal Only D\nAktif \u00b7 wajib absensi",
+   "Sebelumnya",
+   "Berikutnya",
+   "Cari model",
+   "CP3R3-MODEL \u00b7 CP3 R3 Model\nBelum ada komponen kerja",
+   "Sebelumnya",
+   "Berikutnya",
+   "Tambah komponen kerja"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 7,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 1393,
+  "overflow": false,
+  "topbar": "Mandor\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-masterdata\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Gudang & Lokasi": {
+  "opened": true,
+  "heading": "Gudang & Lokasi",
+  "headings": [
+   "Gudang & Lokasi"
+  ],
+  "buttons": [
+   "Cari",
+   "Tambah gudang/lokasi",
+   "CP6-RACE-FG \u00b7 CP6 Race FG\nAktif \u00b7 Gudang barang jadi",
+   "Sebelumnya",
+   "Berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 2,
+  "sample_label": false,
+  "notice_only": true,
+  "rupiah_figures": 0,
+  "text_chars": 419,
+  "overflow": false,
+  "topbar": "Gudang & Lokasi\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-masterdata\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Pola": {
+  "opened": true,
+  "heading": "Pola",
+  "headings": [
+   "Pola"
+  ],
+  "buttons": [
+   "Pola baru",
+   "Aktif",
+   "Nonaktif",
+   "Semua",
+   "Refresh",
+   "Edit",
+   "Nonaktifkan",
+   "Sebelumnya",
+   "Berikutnya"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 1,
+  "sample_label": false,
+  "notice_only": true,
+  "rupiah_figures": 0,
+  "text_chars": 499,
+  "overflow": false,
+  "topbar": "Pola\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-masterdata\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Reminder": {
+  "opened": true,
+  "heading": "Pengingat kerja yang ikut muncul di Dashboard",
+  "headings": [
+   "Pengingat kerja yang ikut muncul di Dashboard"
+  ],
+  "buttons": [
+   "Reminder",
+   "Pengaturan ERP",
+   "Tutup Periode",
+   "Audit Trail",
+   "Belum selesai",
+   "Sudah selesai",
+   "Semua",
+   "Edit",
+   "Hapus",
+   "Edit",
+   "Hapus",
+   "Tambah reminder"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 7,
+  "sample_label": true,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 1201,
+  "overflow": false,
+  "topbar": "Reminder\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-pengaturanaudit\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Pengguna & Hak Akses": {
+  "opened": true,
+  "heading": "Pengguna & Hak Akses",
+  "headings": [
+   "Pengguna & Hak Akses"
+  ],
+  "buttons": [
+   "Muat ulang",
+   "Duplikat",
+   "Template tetap",
+   "Duplikat",
+   "Template tetap",
+   "Duplikat",
+   "Template tetap",
+   "Duplikat",
+   "Template tetap",
+   "Duplikat",
+   "Template tetap",
+   "Duplikat",
+   "Template tetap",
+   "Duplikat",
+   "Template tetap",
+   "Duplikat",
+   "Template tetap",
+   "Duplikat",
+   "Template tetap",
+   "Nonaktifkan",
+   "Nonaktifkan",
+   "Nonaktifkan",
+   "Nonaktifkan",
+   "Nonaktifkan",
+   "Nonaktifkan",
+   "Nonaktifkan",
+   "Nonaktifkan"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 9,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 3372,
+  "overflow": false,
+  "topbar": "Pengguna & Hak Akses\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-pengaturanaudit\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Pengaturan ERP": {
+  "opened": true,
+  "heading": "Pengaturan ERP yang bisa dipertanggungjawabkan",
+  "headings": [
+   "Pengaturan ERP yang bisa dipertanggungjawabkan"
+  ],
+  "buttons": [
+   "Reminder",
+   "Pengaturan ERP",
+   "Tutup Periode",
+   "Audit Trail",
+   "Edit contoh",
+   "Review contoh akses"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 7,
+  "sample_label": true,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 2153,
+  "overflow": false,
+  "topbar": "Pengaturan ERP\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-pengaturanaudit\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Impor data awal": {
+  "opened": true,
+  "heading": "Impor data awal",
+  "headings": [
+   "Impor data awal",
+   "Tanggal mulai pakai aplikasi (cutover)",
+   "Hak upah sebelum saldo awal"
+  ],
+  "buttons": [
+   "Muat ulang",
+   "Sahkan tanggal mulai pakai",
+   "Buat draft"
+  ],
+  "tabs": [],
+  "table_headers": [
+   "Jenis",
+   "Mandor",
+   "Dokumen",
+   "Nominal",
+   "Tarif",
+   "Carry",
+   "Sisa carry"
+  ],
+  "inputs": 6,
+  "sample_label": false,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 988,
+  "overflow": false,
+  "topbar": "Impor data awal\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-pengaturanaudit\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Tutup Periode": {
+  "opened": true,
+  "heading": "Tutup Periode \u00b7 contoh Agustus 2026",
+  "headings": [
+   "Tutup Periode \u00b7 contoh Agustus 2026"
+  ],
+  "buttons": [
+   "Reminder",
+   "Pengaturan ERP",
+   "Tutup Periode",
+   "Audit Trail",
+   "Jalankan ulang contoh",
+   "Tutup contoh Agustus 2026",
+   "Lihat contoh aturan reopen"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 0,
+  "sample_label": true,
+  "notice_only": false,
+  "rupiah_figures": 0,
+  "text_chars": 2092,
+  "overflow": false,
+  "topbar": "Tutup Periode\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-pengaturanaudit\nOwner \u00b7 Uji lokal\n\u2304"
+ },
+ "Audit Trail": {
+  "opened": true,
+  "heading": "Audit Trail untuk uang, stok, dan HPP",
+  "headings": [
+   "Audit Trail untuk uang, stok, dan HPP"
+  ],
+  "buttons": [
+   "Reminder",
+   "Pengaturan ERP",
+   "Tutup Periode",
+   "Audit Trail",
+   "Export contoh",
+   "P1\n29 Agu 2026 \u00b7 07:42\nAUD-26882\nEVENT CONTOH \u00b7 Payroll\nRate harian diubah\nABS-260829-AFAT\nOwner\nAdministrator\nBERHASIL",
+   "P1\n28 Agu 2026 \u00b7 18:16\nAUD-26879\nEVENT CONTOH \u00b7 Master Data\nKewajiban absensi Mandor diubah\nMDR-AFUI\nOwner\nAdministrator\nBERHASIL",
+   "P1\n28 Agu 2026 \u00b7 16:05\nAUD-26874\nEVENT CONTOH \u00b7 Penjualan\nInvoice draft mereservasi stok\nINV-260828-031\nNina\nToko\nBERHASIL",
+   "P0\n28 Agu 2026 \u00b7 15:51\nAUD-26870\nEVENT CONTOH \u00b7 Gudang\nStock adjustment ditolak\nADJ-260828-009\nSistem\nConcurrency guard\nDIBLOKIR",
+   "P0\n28 Agu 2026 \u00b7 13:20\nAUD-26861\nEVENT CONTOH \u00b7 Payroll\nPembayaran dibalik\nPAY-260828-004\nOwner\nAdministrator\nDIBALIKKAN",
+   "P2\n28 Agu 2026 \u00b7 10:08\nAUD-26844\nEVENT CONTOH \u00b7 Tutup Periode\nPreview close dijalankan\nCLOSE-2026-08\nRina\nKeuangan\nDIBLOKIR"
+  ],
+  "tabs": [],
+  "table_headers": [],
+  "inputs": 3,
+  "sample_label": true,
+  "notice_only": false,
+  "rupiah_figures": 3,
+  "text_chars": 2092,
+  "overflow": false,
+  "topbar": "Audit Trail\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser fable-screens-pengaturanaudit\nOwner \u00b7 Uji lokal\n\u2304"
+ }
+}

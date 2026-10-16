@@ -19,3 +19,21 @@ sensus layar DISPOSABLE. Penulis (ref claude/new-session-deapao): 38928586290 CP
 38928614932 misc correction, 38928628808 payment correction, 38928642717 note correction, 38928656059 cutting correction,
 38928670120 P13 period, 38928683194 prefreeze UI, 38928696198 F04 cutting inputs, 38928710724 supplier payment create,
 38928723680 P12 payroll, 38928737621 sales chain, 38928751306 UI phone width census.
+
+## CP3 — hasil per kasus (semua run 16 Okt; status dari baris JSON log)
+
+| Run | Isi | Hasil per kasus | Label |
+|---|---|---|---|
+| 38928539078 | `fable_cp17c_cash_basis.py` **tanpa perubahan** (run 38786227211 dulu COUNTEREXAMPLE) | PASS: pengeluaran 1.500,00 tgl 15 Okt ditolak `CP7_CASH_NEGATIVE ... minus -500.00 pada tanggal buku 2026-10-15 (laporan kas harian)` | FABLE |
+| 38928553056 | `fable_r2_cash_both.py` | 2/2 PASS. Invariant: a diterima; b ditolak (tanggal buku); c diterima; d pembalikan pemasukan ditolak (tanggal ekonomi 16 Okt −500); e koreksi ke 0,01 ditolak (ekonomi 11 Okt −499,99); f koreksi −100 diterima; tidak ada hari minus di kedua dasar sesudah langkah yang diterima; `closed_through` tetap. Detektor: `CASH_NEGATIVE_BOOK_DATE 2026-10-15 −500.00`, tanpa `CASH_NEGATIVE`; trigger kembali aktif | FABLE |
+| 38928569907 | sensus layar DISPOSABLE (`fable_cp17c_screens.mjs`) | 7/7 kelompok PASS, 48/48 menu terbuka, 0 luapan. Sama dengan demo: Ringkasan Gudang, Riwayat Pelanggan, Reminder, Pengaturan ERP, Tutup Periode, Audit Trail (berlabel), Pola dan Pengguna (komponen sama, tersambung). Berubah sejak dfab13bf: Buat Potongan, 6 layar master, Impor data awal | FABLE |
+| 38928586290 | CP7 CP17 Fixes | 146/146 PASS (145 dideklarasikan + CP6_AUDITOR_PUBLIC_STATE_STABLE_ORDER); 44 kasus terkait oracle Fable semua PASS | INDEPENDENT_NATIVE_RERUN |
+| 38928600597 / 614932 / 628808 / 642717 | F03 cash / misc correction / payment correction / note correction | 21 / 20 / 23 / 43 PASS | INDEPENDENT_NATIVE_RERUN |
+| 38928656059 / 670120 / 696198 / 710724 | cutting correction / P13 period / F04 cutting inputs / supplier payment create | 19 / 25 / 34 / 10 PASS | INDEPENDENT_NATIVE_RERUN |
+| 38928723680 | P12 payroll (3 job) | 64 / 81 / 43 PASS | INDEPENDENT_NATIVE_RERUN |
+| 38928737621 | sales chain reversal | 25 PASS | INDEPENDENT_NATIVE_RERUN |
+| 38928751306 | UI phone width census (build demo) | `{"menus":48,"failed":[]}` | INDEPENDENT_NATIVE_RERUN |
+| 38928683194 | Pre-freeze UI | **merah**: 30 PASS, 3 INCOMPLETE. 2 = `LEGACY_RUNTIME_GAP` yang sama dengan dfab13bf (UI CP7 di atas DB lama, 404 `erp_cp7_get_recost_queue_v1`). 1 baru: `BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR` — kebijakan SET lalu PENDING sudah lulus; helper `laundryRead` (cp6_bd_browser.mjs:62-65) menghitung `.clq-alert.error` lalu meminta teksnya tanpa menunggu, alert sudah hilang → timeout 20 s. Berkas tidak berubah sejak dfab13bf; lulus di run kualifikasi penulis dan di rerun dfab13bf saya. Tidak di-rerun (job tidak mati sebelum kasus) | INDEPENDENT_NATIVE_RERUN |
+
+Semua rantai pre-U: `PRE_U_CAPTURED_IN_THIS_REBUILD`, sidik `eb7f121d…` sama. Jumlah kasus job yang juga saya ulang di dfab13bf
+sama persis (F03 cash 21, payment corr 23, note corr 43, cutting 19, P13 25, supplier payment create 10, P12 64/81/43).
