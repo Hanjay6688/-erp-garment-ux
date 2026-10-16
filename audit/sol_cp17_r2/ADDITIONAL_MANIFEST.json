@@ -1,0 +1,58 @@
+{
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "stage": "ADDITIONAL_PREDECLARATION_BEFORE_EXECUTION",
+  "new_cases": [
+    "SOL_R2_AUTO_PO_NUMBER_999_CONTROL",
+    "SOL_R2_AUTO_PO_NUMBER_1000_BOUNDED",
+    "SOL_R2_WAVE_5_2_9_PARTIAL_REVERSE_REPOST"
+  ],
+  "expected_new_counts": {
+    "PASS": 3
+  },
+  "ui_mock_contexts": 288,
+  "hidden_uat_contexts": 34,
+  "expected_rendered_contexts": 254,
+  "phone_width_oracle": "document.documentElement.scrollWidth <= window.innerWidth, exact; no tolerance",
+  "hidden_oracle": [
+    "warehouse-dashboard",
+    "sales-invoice",
+    "sales-allocation",
+    "sales-returns",
+    "sales-payments",
+    "sales-history",
+    "finance-overview",
+    "finance-cash",
+    "finance-ar",
+    "finance-payroll",
+    "operations-attendance",
+    "finance-journal",
+    "finance-reports",
+    "admin-reminders",
+    "admin-settings",
+    "admin-period-close",
+    "admin-audit"
+  ],
+  "positive_native_ui_proof": false,
+  "unit_suite": "candidate npm test, first output preserved",
+  "numbering_deadline_seconds": 3,
+  "numbering_control": 999,
+  "numbering_boundary": 1000,
+  "wave_literal": {
+    "sizes": [
+      5,
+      2,
+      9
+    ],
+    "sku_A": 7,
+    "sku_B": 9,
+    "rate_A": 11,
+    "rate_B": 31,
+    "first_wage": 188,
+    "cancelled_wage": 155,
+    "replacement_wage": 323,
+    "final_net_WIP": 356
+  },
+  "product_source_modified": false,
+  "production_go": false,
+  "sample_label_oracle": "Page-level sample label required for the six DISPOSABLE sample screens. DEMO mode has global demo label; local labels captured, not required for every demo screen."
+}

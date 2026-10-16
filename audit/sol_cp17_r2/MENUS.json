@@ -1,0 +1,338 @@
+[
+  {
+    "page": "dashboard",
+    "label": "Dashboard",
+    "group": null,
+    "uat": "NOTICE",
+    "test": "NOTICE"
+  },
+  {
+    "page": "cutting-roll",
+    "label": "Buat Potongan",
+    "group": "Produksi",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "mandor-wip",
+    "label": "Bagi Potongan",
+    "group": "Produksi",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "sewing-wip",
+    "label": "WIP & Sewing",
+    "group": "Produksi",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "laundry",
+    "label": "Laundry",
+    "group": "Produksi",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "qc",
+    "label": "QC & Final SKU",
+    "group": "Produksi",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "fg-handoff",
+    "label": "Susun Nota FG",
+    "group": "Produksi",
+    "uat": "BOUNDARY",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "bs-rework",
+    "label": "Barang BS & Rework",
+    "group": "Produksi",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "warehouse-dashboard",
+    "label": "Ringkasan Gudang",
+    "group": "Gudang",
+    "uat": "HIDDEN",
+    "test": "SAMPLE"
+  },
+  {
+    "page": "procurement",
+    "label": "Pembelian & Penerimaan",
+    "group": "Gudang",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "materials-rolls",
+    "label": "Bahan & Roll",
+    "group": "Gudang",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "pocket-fabric",
+    "label": "Kain kantong",
+    "group": "Gudang",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "accessories",
+    "label": "Aksesori",
+    "group": "Gudang",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "fg-summary",
+    "label": "Ringkasan Barang Jadi",
+    "group": "Gudang",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "movements-vivo",
+    "label": "Mutasi Barang Jadi \u00b7 Vivo",
+    "group": "Gudang",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "movements-widie",
+    "label": "Mutasi Barang Jadi \u00b7 Widie",
+    "group": "Gudang",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "stock-card",
+    "label": "Kartu Stok FG",
+    "group": "Gudang",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "stock-adjustment",
+    "label": "Stock Adjustment",
+    "group": "Gudang",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "brand-conversion",
+    "label": "Ganti Merek",
+    "group": "Gudang",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "sales-invoice",
+    "label": "Penjualan & Invoice",
+    "group": "Penjualan",
+    "uat": "HIDDEN",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "sales-allocation",
+    "label": "Semua Invoice",
+    "group": "Penjualan",
+    "uat": "HIDDEN",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "sales-returns",
+    "label": "Retur Penjualan",
+    "group": "Penjualan",
+    "uat": "HIDDEN",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "sales-payments",
+    "label": "Pembayaran Pelanggan",
+    "group": "Penjualan",
+    "uat": "HIDDEN",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "sales-history",
+    "label": "Riwayat Pelanggan",
+    "group": "Penjualan",
+    "uat": "HIDDEN",
+    "test": "SAMPLE"
+  },
+  {
+    "page": "finance-overview",
+    "label": "Ringkasan Keuangan",
+    "group": "Keuangan",
+    "uat": "HIDDEN",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "finance-cash",
+    "label": "Kas & Bank",
+    "group": "Keuangan",
+    "uat": "HIDDEN",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "finance-ap",
+    "label": "Hutang Supplier & Vendor",
+    "group": "Keuangan",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "finance-ar",
+    "label": "Piutang Pelanggan",
+    "group": "Keuangan",
+    "uat": "HIDDEN",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "finance-payroll",
+    "label": "Payroll & Kasbon",
+    "group": "Keuangan",
+    "uat": "HIDDEN",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "operations-attendance",
+    "label": "Absensi & Rate Harian",
+    "group": "Keuangan",
+    "uat": "HIDDEN",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "contractor-issue",
+    "label": "Nota Ambil Aksesori",
+    "group": "Keuangan",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "hpp",
+    "label": "HPP & Rekalkulasi",
+    "group": "Keuangan",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "finance-journal",
+    "label": "Jurnal & Transaksi Lain",
+    "group": "Keuangan",
+    "uat": "HIDDEN",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "finance-reports",
+    "label": "Laporan & Tutup Buku",
+    "group": "Keuangan",
+    "uat": "HIDDEN",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "master-fabric",
+    "label": "Kain & Benchmark",
+    "group": "Master Data",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "master-accessory",
+    "label": "Aksesori & Harga Mandor",
+    "group": "Master Data",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "master-products",
+    "label": "Produk & SKU",
+    "group": "Master Data",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "master-customers",
+    "label": "Pelanggan",
+    "group": "Master Data",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "master-partners",
+    "label": "Supplier & Vendor",
+    "group": "Master Data",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "master-workforce",
+    "label": "Mandor",
+    "group": "Master Data",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "master-locations",
+    "label": "Gudang & Lokasi",
+    "group": "Master Data",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "master-pattern",
+    "label": "Pola",
+    "group": "Master Data",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "admin-reminders",
+    "label": "Reminder",
+    "group": "Pengaturan & Audit",
+    "uat": "HIDDEN",
+    "test": "SAMPLE"
+  },
+  {
+    "page": "admin-access",
+    "label": "Pengguna & Hak Akses",
+    "group": "Pengaturan & Audit",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "admin-settings",
+    "label": "Pengaturan ERP",
+    "group": "Pengaturan & Audit",
+    "uat": "HIDDEN",
+    "test": "SAMPLE"
+  },
+  {
+    "page": "admin-import",
+    "label": "Impor data awal",
+    "group": "Pengaturan & Audit",
+    "uat": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "page": "admin-period-close",
+    "label": "Tutup Periode",
+    "group": "Pengaturan & Audit",
+    "uat": "HIDDEN",
+    "test": "SAMPLE"
+  },
+  {
+    "page": "admin-audit",
+    "label": "Audit Trail",
+    "group": "Pengaturan & Audit",
+    "uat": "HIDDEN",
+    "test": "SAMPLE"
+  }
+]
