@@ -152,6 +152,61 @@ def auto_po_state(cur,p):
         stock=str(one('select coalesce(sum(qty_signed),0) from erp.material_stock_movements where roll_id=%s and location_id=%s',(p['roll'],p['location']))[0]),
         taken=one('select count(*) from erp.production_orders where po_number=%s',(p['expected'],))[0])
 
+# R2-07 (FABLE-016, ASTRA-C17-07, Sol BROWSER-CHAIN): one chain on the screens only, from masters and opening WIP
+# imported through "Impor data awal" to the customer's payment, with the books closed in the middle. The fixture gives only
+# what no screen creates (a bank account) and the test harness state the chain needs: the books opened back to the chain's
+# own month (closed_through moved to the day before it, as every fixture's set_open_period does; the previous value is
+# returned and put back at the end) and the seed's open items for those days cleared the way the owner would
+# (cp6_aw_probe.quiet_seed, as the P13 period case does). Readback is direct SQL on the Native rows.
+def r207_prepare(cur,today):
+    import cp7_period_cases as period
+    code='R207'+uuid.uuid4().hex[:8].upper();day=today-timedelta(days=30);out_day=day+timedelta(days=1)
+    prev=cur.execute('select closed_through from erp.accounting_period_control where singleton_id=1').fetchone()[0]
+    cur.execute("""update erp.accounting_period_control set closed_through=%s,updated_at=clock_timestamp(),updated_by=null,
+        change_reason='CP17 R2-07 chain month' where singleton_id=1""",(day-timedelta(days=1),))
+    quiet=period.aw.quiet_seed(cur,day-timedelta(days=1),out_day);cases.b.api.admin(cur)
+    bank=str(cases.bc.bank_account(cur,code));cases.b.api.admin(cur)
+    return dict(code=code,day=str(day),output_day=str(out_day),opened_closed=str(day-timedelta(days=1)),previous_closed=None if prev is None else str(prev),
+                bank=bank,bank_code=cur.execute('select cash_account_code from erp.cash_accounts where id=%s',(bank,)).fetchone()[0],
+                quiet=dict(attendance=len(quiet['attendance']),approved=len(quiet['approved']),work_payrolls=len(quiet['work_payrolls']),refused=quiet['refused']))
+
+def r207_state(cur,p):
+    import cp7_period_cases as period
+    c=p['code'];one=lambda sql,args=():cur.execute(sql,args).fetchone()
+    batch=one('select id::text,status from erp.migration_batches where batch_code=%s',(c,))
+    prods=dict(cur.execute('select sku,id::text from erp.products where sku in(%s,%s)',(c+'A',c+'B')).fetchall())
+    loc=one('select id::text from erp.locations where location_code=%s',(c+'F',))
+    customer=one('select id::text from erp.customers where customer_code=%s',(c,))
+    wip=one("""select s.opening_item_id::text from erp.initial_import_production_sources s join erp.opening_balance_items i on i.id=s.opening_item_id
+        where s.batch_id=%s and i.balance_type='WIP'""",(batch[0],)) if batch else None
+    def stock(sku):
+        if sku not in prods:return None
+        return int(one('select coalesce(sum(m.qty_signed),0) from erp.fg_stock_movements m join erp.fg_lots l on l.id=m.lot_id where l.product_id=%s',(prods[sku],))[0])
+    lots=[r[0] for r in cur.execute('select l.id::text from erp.fg_lots l where l.product_id=%s order by l.produced_at,l.id',(prods.get(c+'A'),)).fetchall()] if c+'A' in prods else []
+    conv=[list(r) for r in cur.execute("""select status,(physical_at at time zone 'Asia/Jakarta')::text from erp.product_conversions
+        where from_product_id=%s and to_product_id=%s order by physical_at""",(prods.get(c+'A'),prods.get(c+'B'))).fetchall()] if len(prods)==2 else []
+    sale=one("""select h.id::text,h.status,(select coalesce(sum(i.qty_pcs),0) from erp.sales_items i where i.sale_id=h.id)
+        from erp.sales_headers h where h.sale_number=%s""",(c,))
+    paid=one("""select coalesce(sum(jl.debit),0)::text from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
+        where je.status='POSTED' and jl.account_id=(select a.coa_account_id from erp.cash_accounts a where a.id=%s)""",(p['bank'],))[0] if p.get('bank') else None
+    # The books on or before the closed day, by economic date: what the archive closed must not move later in the chain.
+    through=p.get('output_day')
+    books=dict((str(a),str(v)) for a,v in cur.execute("""select jl.account_id,sum(jl.debit-jl.credit) from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
+        where je.status in('POSTED','REVERSED') and je.economic_date<=%s group by jl.account_id having sum(jl.debit-jl.credit)<>0""",(through,)).fetchall()) if through else {}
+    fg_through=cur.execute("""select md5(coalesce(jsonb_agg(jsonb_build_array(m.id,m.qty_signed) order by m.id)::text,'[]')) from erp.fg_stock_movements m
+        where (m.physical_at at time zone 'Asia/Jakarta')::date<=%s""",(through,)).fetchone()[0] if through else None
+    closed=one('select closed_through::text from erp.accounting_period_control where singleton_id=1')[0]
+    filings=len(period.filings(cur))
+    return dict(batch=None if not batch else dict(id=batch[0],status=batch[1]),products=prods,location=None if not loc else loc[0],
+        customer=None if not customer else customer[0],wip_item=None if not wip else wip[0],stock_a=stock(c+'A'),stock_b=stock(c+'B'),lots_a=lots,
+        conversions=conv,sale=None if not sale else dict(id=sale[0],status=sale[1],qty=int(sale[2])),bank_debit=paid,
+        books_through=books,fg_through=fg_through,closed_through=closed,filings=filings)
+
+def r207_restore(cur,p):
+    cur.execute("""update erp.accounting_period_control set closed_through=%s,updated_at=clock_timestamp(),updated_by=null,
+        change_reason='CP17 R2-07 harness state restored' where singleton_id=1""",(p['previous_closed'],))
+    return dict(closed_through=p['previous_closed'])
+
 def main():
     target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
     assert url.hostname in('localhost','127.0.0.1')and url.path=='/cp6_auditor_browser','DISPOSABLE_BROWSER_ONLY'
@@ -259,6 +314,9 @@ def main():
                 from erp.work_completion_events e where e.cutting_group_id=%s and e.status='POSTED' order by 2""",(p['group'],)).fetchall()
             out=dict(sewn=ready[0],ready=ready[1],posted=[[sku,int(q),[str(x) for x in cases.wage_journal(cur,w)]] for w,sku,q in works],
                      history=one('select count(*) from cp7_cutting_correction.sewing_wave_history where group_id=%s',(p['group'],))[0])
+        elif operation=='r207_prepare':out=r207_prepare(cur,date.fromisoformat(p['today']))
+        elif operation=='r207_state':out=r207_state(cur,p)
+        elif operation=='r207_restore':out=r207_restore(cur,p)
         elif operation=='auto_po_state':out=auto_po_state(cur,p)
         elif operation=='chain_state':out=chain_state(cur,p)
         elif operation=='series':out=series(cur,date.fromisoformat(p['today']))
