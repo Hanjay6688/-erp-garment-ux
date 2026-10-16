@@ -92,6 +92,9 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 
 19. **Hitung run, job dan kasus secara terpisah**; warna job bukan hasil kasus. Laporan tidak menyebut "80 uji" bila
     yang dimaksud 80 run. (catatan Astra dan Sol atas receipt `dfab13bf`)
+19a. **Alat yang membaca daftar dari API membaca semua halamannya**, dan jumlah run di receipt dicocokkan dengan jumlah
+    workflow yang dipicu sebelum receipt dipakai. (Temuan penulis di kualifikasi r2: `scripts/cp7_ci_receipt.py` hanya
+    membaca 100 run pertama dari 115; receipt r2 dibuat dengan salinan yang membaca semua halaman)
 20. **Run yang dibatalkan, diulang, atau gagal sebelum kasus ditulis terbuka** di receipt dan dokumen, beserta
     penyebab yang terbukti atau ditandai dugaan. (CodeQL dibatalkan antrean, Offsite Backup percobaan kedua)
 21. **Bukti yang dipakai lebih dari 30 hari tidak boleh hanya berupa artifact CI.** Simpan di pohon (dengan SHA-256)
@@ -133,5 +136,6 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Mode data nyata: tidak ada angka contoh tanpa label; tabel aktivasi diperbarui (D16).
 - [ ] 48 menu × 3 mode × HP 390 px: `scrollWidth <= innerWidth` (D17).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
-- [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis (E19–E20).
+- [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
+  dipicu (E19–E20, E19a).
 - [ ] Bukti jangka panjang tidak bergantung artifact 30 hari (E21).
