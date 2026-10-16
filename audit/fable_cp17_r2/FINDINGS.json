@@ -1,0 +1,118 @@
+{
+ "auditor": "Fable",
+ "round": "r2-20261016",
+ "candidate": "2e9d6a468c110684c278d585418eb404250d1150",
+ "tree": "5e50d224f8e74fa3bca83b599fb606739435b598",
+ "writer_head_at_runs": "b388a4b7d4b0291de81b68d1e624a062eda5edd1",
+ "production_go": false,
+ "retest": [
+  {
+   "id": "FABLE-013",
+   "severity": "S2",
+   "status": "DITUTUP",
+   "evidence": "unchanged scenario refused (run 38928539078); D15-1 invariant + detector PASS (run 38928553056); CP17_R2_CASH_* PASS"
+  },
+  {
+   "id": "FABLE-014",
+   "severity": "S3",
+   "status": "DITUTUP",
+   "evidence": "po-reopen.sql via erp.reopen_production_order; CP17_R2_PO_REOPEN_* + race + HTTP + browser PASS"
+  },
+  {
+   "id": "FABLE-015",
+   "severity": "S1_FOR_ENTENG_INSTALL",
+   "status": "DITUTUP",
+   "evidence": "screenActivation.ts Enteng 29/17/1/1; hidden route renders boundary; label fixed; unit tests 8/8 local"
+  },
+  {
+   "id": "FABLE-016",
+   "severity": "S3",
+   "status": "MASIH_TERBUKA_SEBAGIAN",
+   "evidence": "pickup post, Ganti Merek post, BS/rework, rework wage to payroll, sale/payment/close now browser-tested; QC & Final SKU post and accessory-issue deduction to payroll still SQL-only"
+  },
+  {
+   "id": "FABLE-017",
+   "severity": "S2",
+   "status": "DITUTUP",
+   "evidence": "master.sql/rates.sql + six connected master screens; D15-3 screen chain wage at sewing date PASS; per-screen browser desktop/mobile + race + HTTP PASS"
+  },
+  {
+   "id": "FABLE-011",
+   "severity": "DUGAAN",
+   "status": "DITUTUP",
+   "evidence": "D15-5 cutover.sql; CP17_R2_D15_5_* PASS; inactive until the owner sets the official date"
+  },
+  {
+   "id": "FABLE-005",
+   "severity": "S3",
+   "status": "DITUTUP",
+   "evidence": "crosswalk byte-identical to Astra d4a83b42 (pre-round)"
+  },
+  {
+   "id": "FABLE-012",
+   "severity": "DUGAAN_S2",
+   "status": "MASIH_TERBUKA_DITUNDA_D14_9",
+   "evidence": "unchanged; gate and not-reachable cases PASS; revoke in CP7C"
+  }
+ ],
+ "new": [
+  {
+   "id": "FABLE-018",
+   "severity": "S3",
+   "kind": "writer test tool",
+   "title": "Browser helper laundryRead reads text of a transient alert without waiting; a passing case becomes INCOMPLETE",
+   "root_cause": "scripts/cp6_bd_browser.mjs lines 62-65: count() then first().innerText() on .clq-alert.error",
+   "evidence": {
+    "run": 38928683194,
+    "case": "BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR",
+    "oracle_reached": true,
+    "file_changed_since_dfab13bf": false
+   },
+   "unknown": "text of the transient error alert on Laundry pricing after the policy clear"
+  }
+ ],
+ "owner_notes": [
+  "piece rates are fixed per PO from its first wage (Native snapshot)",
+  "D15-2: wages accrue but cannot be paid or closed in the Enteng app until money screens are connected; attendance HPP pool has no screen",
+  "D15-6 auto-PO is the first CP7 facade inserting erp.production_orders itself"
+ ],
+ "before_enteng": [
+  "install CP7 database layer before the CP7 UI",
+  "revoke authenticated EXECUTE on 82 erp writers before exposing erp (D14-9, CP7C)",
+  "set the official cutover date in the app before the first operational transaction",
+  "enter master data, mandor rates, and accessory recipes of imported products",
+  "operational plan for wages, sales and cash while money screens stay hidden (D15-2)",
+  "do not reuse the exposed CP2 key"
+ ],
+ "not_checked": [
+  "hosted Enteng data and Data API settings (no access)",
+  "Enteng-mode build in a browser",
+  "QC & Final SKU post and accessory deduction through screens",
+  "text of the transient Laundry alert",
+  "phone layout of connected screens beyond writer phone cases",
+  "writer receipt runs not rerun; 35 old CP6 workflows",
+  "CP7C backup tools, red team beyond RBAC, other auditors' work"
+ ],
+ "runs": {
+  "fable": [
+   38928539078,
+   38928553056,
+   38928569907
+  ],
+  "writer": [
+   38928586290,
+   38928600597,
+   38928614932,
+   38928628808,
+   38928642717,
+   38928656059,
+   38928670120,
+   38928683194,
+   38928696198,
+   38928710724,
+   38928723680,
+   38928737621,
+   38928751306
+  ]
+ }
+}
