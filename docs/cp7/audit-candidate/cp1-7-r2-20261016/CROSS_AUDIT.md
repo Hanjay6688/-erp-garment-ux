@@ -197,3 +197,36 @@ cara kerja menemukan cacat yang berbeda; satu auditor saja tidak cukup.
 Setiap akar: kasus gagal auditor dipakai apa adanya (nominal dan expected tidak diganti), kontrol negatif tetap,
 penjaga lama tidak dilonggarkan, log gagal disimpan, lalu kualifikasi satu commit dan satu paket uji ulang ke ketiga
 auditor.
+
+## 7. Status sesudah r2 (ditambahkan 16 Okt 2026, sesudah perbaikan)
+
+Bagian 1–6 ditulis sebelum perbaikan dan tidak diubah. Status di bawah adalah klaim penulis untuk diuji ulang auditor,
+bukan vonis.
+
+| Akar | Commit | Status penulis |
+|---|---|---|
+| R2-01 penjaga kas | `5b1ba5b3`, `b432997c` | Diperbaiki (D15-1); skenario Fable dan contoh Sol berjalan dengan angka mereka |
+| R2-02 mode Enteng | `d01e60b3` | Diperbaiki (D15-2); Enteng 0 menu data contoh (`SCREEN_MAP.md`) |
+| R2-03 data master + tarif | `a610436f`, `f6bc06de`, `b780650b` | Diperbaiki (D15-3) |
+| R2-04 PO harian | `b780650b` | Diperbaiki (D15-6 pilihan A: PO otomatis dari Buat Potongan) |
+| R2-05 selesai PO + buka ulang | `992cdd9a` | Diperbaiki (D15-4) |
+| R2-06 seri lusin | `d37c04d6` | Diperbaiki |
+| R2-07 bukti alur aplikasi | `6daab236`, `e1558983` | Dua rantai browser ditambahkan; pool HPP absensi tetap tanpa layar (batas penulis, bukan keputusan owner) |
+| R2-08 alat uji arsip CI | `e3e12ea7` | Diperbaiki; ke-37 workflow CP6 lama dijalankan pada kandidat |
+| R2-09 layar demo di HP | `c159f54a` | Diperbaiki; sensus 48 menu build demo |
+| R2-10 jahit selesai wave BF | `dcf33b96` | Diperbaiki |
+| FABLE-011 lantai cutover | `0b41599f` (keputusan), `54abad80` | Diputuskan owner (D15-5) dan diperbaiki |
+| FABLE-005 pemetaan C6/ALL | `87144b27` | Disalin ke `docs/evidence/c6-all-crosswalk/` |
+| FABLE-012 | — | Tetap ditunda ke CP7C (D14-9) |
+
+Run CI yang gagal selama r2 (log tersimpan di run aslinya, tidak diulang untuk menutupinya):
+
+| Run | Commit | Penyebab | Perbaikan |
+|---|---|---|---|
+| 38851945055 (CP17), 38851946931 (Misc), 38851948899 (Payment), 38851967934 (Note) | `5b1ba5b3` | Tabel lingkup majemuk penjaga kas tidak dimiliki `postgres` seperti fungsi `cp7_guard` (produk) | `b432997c` |
+| 38853647583 | `0b54e792` | Alat uji: zona waktu sesi tidak dipulihkan sesudah fixture pembayaran supplier | `3a3f50bf` |
+| 38854859784 | `3a3f50bf` | Alat uji: keadaan browser G2 membaca status HPP dengan peran yang salah | `465be877` |
+| 38856024702 | `465be877` | Alat uji: sama, peran pemilik produksi | `8b67051f` |
+| 38861916560 (109/113) | `f6bc06de` | Gudang lama dengan kode huruf kecil tidak bisa diubah sama sekali (produk) | `b780650b` |
+| 38865063871 (123/124) | `b780650b` | Alat uji: seed tidak punya ukuran di luar model untuk kasus gagal-di-tengah D15-6 | `54abad80` |
+| 38873532397 (142/145) | `e1558983` | Alat uji: (1) rantai R2-07 kedua tidak mengklasifikasi BS dengan komponen kerja, padahal BS dari WIP saldo awal tidak membawa komponen, jadi order rework tidak punya dasar upah; (2) dua uji browser R2-10 mengharapkan SKU A sebelum SKU B di baris upah, padahal layar mengurutkan kode SKU yang diundi fixture (sebelumnya lulus kebetulan) | `140e0432` |

@@ -230,13 +230,16 @@ def r207b_state(cur,p):
     comps=cur.execute('''select wc.component_code,bcc.completed_before_bs_qty from erp.bs_case_components bcc
         join erp.work_components wc on wc.id=bcc.work_component_id where bcc.bs_case_id=%s order by 1''',(bs[0],)).fetchall() if bs else []
     rw=one('select status,qty_good_returned,qty_bs_returned from erp.rework_orders where rework_number=%s',(c+'-RW',))
+    recipe=[r[0] for r in cur.execute('''select(select count(*)from erp.accessory_bom_items i where i.bom_version_id=v.id)::int
+        from erp.accessory_bom_versions v join erp.products p on p.id=v.product_id where p.sku=%s and p.identity_root_id=p.id
+        order by v.effective_from,v.id''',(c+'A',)).fetchall()]
     note=one('select status,posted_payroll_id::text from cp7_payroll.notes where contractor_id=%s order by created_at desc limit 1',(mandor[0],)) if mandor else None
     payroll=one('select id::text,status,labor_total::text,net_payable::text from erp.payroll_settlements where contractor_id=%s order by created_at desc limit 1',(mandor[0],)) if mandor else None
     bank=one("""select coalesce(sum(jl.debit-jl.credit),0)::text from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
         where je.status='POSTED' and jl.account_id=(select a.coa_account_id from erp.cash_accounts a where a.id=%s)""",(p['bank'],))[0]
     return dict(batch=None if not batch else dict(id=batch[0],status=batch[1]),location=None if not loc else loc[0],mandor=None if not mandor else mandor[0],
         wip_item=None if not wip else wip[0],bs=None if not bs else dict(id=bs[0],number=bs[1],qty=int(bs[2]),components=[[k,int(q)] for k,q in comps]),
-        rework=None if not rw else dict(status=rw[0],good=int(rw[1] or 0),bs=int(rw[2] or 0)),
+        recipe=recipe,rework=None if not rw else dict(status=rw[0],good=int(rw[1] or 0),bs=int(rw[2] or 0)),
         note=None if not note else dict(status=note[0],payroll=note[1]),
         payroll=None if not payroll else dict(id=payroll[0],status=payroll[1],labor=payroll[2],net=payroll[3]),bank_balance=bank)
 

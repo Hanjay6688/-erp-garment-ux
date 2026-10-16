@@ -7,8 +7,9 @@
 // are reopened on the same screen. The fixture gives only a bank account (no screen creates one) and the test harness
 // state (the chain's own month opened, the seed's open items for those days cleared, restored at the end).
 // The second chain starts the same way, then: the Mandor's work component and rate for the imported model on "Master Data
-// → Mandor", 3 opening WIP pieces split off as BS ("Pisahkan sebagai BS"), the BS case classified with that component on
-// "Barang BS & Rework", a rework order to that Mandor with the component as wage basis and its result, the rework wage taken into a Nota on "Susun Nota FG" and
+// → Mandor", 3 opening WIP pieces split off as BS ("Pisahkan sebagai BS"), the product's accessory recipe on "Produk & SKU",
+// the BS case classified with that component on "Barang BS & Rework", a rework order to that Mandor with the component as
+// wage basis and its result, the rework wage taken into a Nota on "Susun Nota FG" and
 // posted to payroll, and the payroll counted, approved and paid from a bank on "Payroll & Kasbon". Its fixture adds the
 // owner capital for exactly that wage (no capital screen is part of this chain; D14-3 keeps an empty bank empty).
 import assert from'node:assert/strict'
@@ -183,7 +184,22 @@ async function rework(ui,today,h){
   await wipPanel(ui,page,s,[['Hasil WIP baik','3'],['Produk hasil WIP',c+'A'],['Merek hasil WIP',c+'A'],['Tanggal hasil WIP',f.output_day],['Catatan hasil WIP','R2-07 tiga potong BS dari WIP awal']],'SPLIT_BS')
   await importAction(ui,page,'Pisahkan sebagai BS','WIP_OUTPUT')
   s=seen.split=state();assert.ok(s.bs&&s.bs.qty===3,JSON.stringify(s.bs))
-  // 4. Rework of the 3 BS pieces by the Mandor, the component as wage basis, all 3 back good.
+  // 4. The imported product's accessory recipe (Produk & SKU): a rework order needs the product's accessory BOM valid
+  // when it is sent (Native resolve_rework_accessory_bom_v1), and an imported product has none. The SKU master writes it
+  // from now on (BF_HISTORY refuses an earlier start), here declared without accessories, so the rework is sent now.
+  seen.step='recipe';await nav(ui,page,'Produk & SKU','Master Data');await ui.expect(page.getByRole('heading',{name:'Produk & SKU',exact:true})).toBeVisible()
+  const skuPage=page.locator('section.sku-workspace')
+  await skuPage.getByLabel('Cari SKU atau merek',{exact:true}).fill(c+'A');await skuPage.getByRole('button',{name:'Cari / muat ulang',exact:true}).click()
+  const member=skuPage.locator('tr').filter({hasText:c+'A'}).filter({has:page.getByRole('button',{name:/^Buat SKU dari ukuran /})})
+  await ui.expect(member).toHaveCount(1,{timeout:20000});await member.getByRole('button',{name:/^Buat SKU dari ukuran /}).click()
+  const editor=skuPage.locator('section.panel').filter({has:page.getByRole('heading',{name:'Buat SKU',exact:true})})
+  await editor.getByLabel('Alasan perubahan',{exact:true}).fill('R2-07 resep aksesori produk impor: tanpa aksesori')
+  await editor.getByLabel('Status resep',{exact:true}).selectOption('SET');await ui.expect(editor).toContainText('Tanpa aksesori: resep sudah ditentukan dengan 0 komponen.')
+  await editor.getByRole('button',{name:'Periksa seluruh dampak perubahan',exact:true}).click()
+  await editor.getByLabel('Saya sudah memeriksa anggota dan pengaturan seluruh kelompok yang berubah.',{exact:true}).check()
+  await editor.getByRole('button',{name:'Simpan seluruh perubahan SKU',exact:true}).click()
+  await ui.expect.poll(()=>state().recipe,{timeout:20000}).toEqual([0])
+  // 5. Rework of the 3 BS pieces by the Mandor, sent and finished now, the component as wage basis, all 3 back good.
   seen.step='rework';await nav(ui,page,'Barang BS & Rework','Produksi');await ui.expect(page.getByRole('button',{name:'Refetch',exact:true})).toBeEnabled({timeout:20000})
   await page.locator('.cbsr-tabs').getByRole('button',{name:'Semua',exact:true}).click()
   const search=page.getByRole('form',{name:'Cari, browse, urutkan dan filter BS dan claim',exact:true})
@@ -203,18 +219,18 @@ async function rework(ui,today,h){
   await page.locator('.cbsr-route-tabs').getByRole('button',{name:'Rework',exact:true}).click()
   const form=page.locator('.cbsr-route-form'),order=c+'-RW'
   await form.getByLabel('NOMOR ORDER · WAJIB',{exact:true}).fill(order);await form.getByLabel(/^MANDOR REWORK/).selectOption(s.mandor)
-  await form.getByLabel('QTY DIKIRIM',{exact:true}).fill('3');await form.getByLabel('WAKTU FISIK · WIB',{exact:true}).fill(f.rework_day+'T09:00')
+  await form.getByLabel('QTY DIKIRIM',{exact:true}).fill('3');await form.getByLabel('WAKTU FISIK · WIB',{exact:true}).fill(wibNow(0))
   await form.getByLabel(/^GUDANG FG BILA GOOD/).selectOption(s.location);await form.getByLabel('CATATAN / ALASAN',{exact:true}).fill('R2-07 rework tiga potong ke mandor')
   await form.locator('fieldset.cbsr-checks').filter({has:page.getByText('KOMPONEN KERJA YANG DIULANG · DASAR UPAH REWORK',{exact:true})}).getByRole('checkbox').first().check()
   for(const box of await form.locator('.cbsr-accessories input[type=checkbox]').all())await box.uncheck()
   await form.getByRole('button',{name:'Buat order rework',exact:true}).click()
   const completion=page.locator('.cbsr-completion-form').filter({hasText:order});await ui.expect(completion).toBeVisible({timeout:20000})
   await completion.getByLabel('GOOD KUMULATIF',{exact:true}).fill('3');await completion.getByLabel('BS KUMULATIF',{exact:true}).fill('0')
-  await completion.getByLabel('WAKTU SELESAI · WIB',{exact:true}).fill(f.rework_day+'T15:00');await completion.getByLabel('ALASAN HASIL FISIK',{exact:true}).fill('R2-07 tiga potong kembali bagus')
+  await completion.getByLabel('WAKTU SELESAI · WIB',{exact:true}).fill(wibNow(0));await completion.getByLabel('ALASAN HASIL FISIK',{exact:true}).fill('R2-07 tiga potong kembali bagus')
   await completion.getByRole('button',{name:'Post hasil & recovery',exact:true}).click()
   await ui.expect.poll(()=>state().rework?.status,{timeout:20000}).toBe('COMPLETED')
   s=seen.reworked=state();assert.deepEqual([s.rework.good,s.rework.bs],[3,0])
-  // 5. The rework wage into a Nota, posted to payroll (Susun Nota FG).
+  // 6. The rework wage into a Nota, posted to payroll (Susun Nota FG).
   seen.step='nota';await nav(ui,page,'Susun Nota FG','Produksi');const nota=page.locator('.cnota');await ui.expect(nota.getByRole('heading',{name:'Susun Nota FG',exact:true})).toBeVisible()
   await page.getByLabel('Cari kartu nota',{exact:true}).fill(mandor);await page.getByRole('button',{name:'Cari kartu',exact:true}).click()
   await ui.expect(nota.locator('.cnota-source')).toHaveCount(1);await ui.expect(nota.locator('.cnota-source')).toContainText('Bikin Bagus · rework')
@@ -223,7 +239,7 @@ async function rework(ui,today,h){
   await page.getByLabel('Nota sudah diperiksa',{exact:true}).check();await page.getByRole('button',{name:'Posting ke payroll',exact:true}).click()
   await ui.expect.poll(()=>state().note?.status,{timeout:20000}).toBe('POSTED')
   s=seen.noted=state();assert.ok(s.payroll,JSON.stringify(s))
-  // 6. The payroll counted, approved and paid from the bank (Payroll & Kasbon).
+  // 7. The payroll counted, approved and paid from the bank (Payroll & Kasbon).
   seen.step='payroll';await nav(ui,page,'Payroll & Kasbon','Keuangan');const pay=page.locator('.cpay');await ui.expect(pay.getByRole('heading',{name:'Payroll & Kasbon',exact:true})).toBeVisible()
   const detail=pay.getByRole('region',{name:'Rincian payroll'})
   await pay.getByLabel('Cari payroll',{exact:true}).fill(mandor);await pay.getByRole('button',{name:'Cari payroll',exact:true}).click()
@@ -244,7 +260,7 @@ async function rework(ui,today,h){
   await ui.expect.poll(()=>state().payroll?.status,{timeout:20000}).toBe('PAID')
   s=seen.paid=state();assert.deepEqual([Number(s.payroll.labor),Number(s.payroll.net),Number(s.bank_balance)],[3000,3000,0])
   await page.screenshot({path:`cp6-proof/t3/${name}_PAID.png`,fullPage:true})
-  return{status:'PASS',finding:'R2-07',screens:['Impor data awal (masters, PO, WIP)','Master Data → Mandor (komponen kerja + tarif)','Pisahkan sebagai BS','Barang BS & Rework (klasifikasi komponen, order, hasil)','Susun Nota FG','Payroll & Kasbon (hitung, setujui, lunasi)'],
+  return{status:'PASS',finding:'R2-07',screens:['Impor data awal (masters, PO, WIP)','Master Data → Mandor (komponen kerja + tarif)','Pisahkan sebagai BS','Produk & SKU (resep aksesori)','Barang BS & Rework (klasifikasi komponen, order, hasil)','Susun Nota FG','Payroll & Kasbon (hitung, setujui, lunasi)'],
    fixture_only:['bank account (no screen)','owner capital 3000 for exactly the wage (D14-3)','harness state (chain month opened, seed open items cleared, restored)'],
    bs:3,rework_good:3,rework_wage:'3000',payroll_paid:'3000',requests:requests.length}
  }catch(error){try{seen.actual=state()}catch(e){seen.observation_error=String(e)};await h.failure(page,name,error,seen,requests);throw error}
