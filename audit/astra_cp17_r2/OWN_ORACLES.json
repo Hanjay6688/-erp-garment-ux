@@ -1,0 +1,45 @@
+{
+  "candidate": "2e9d6a468c110684c278d585418eb404250d1150",
+  "created_at_utc": "2026-10-16T16:16:17.270403+00:00",
+  "native_ids": [
+    "ASTRA_G1_G2_TEN_PIECES_CONSERVED",
+    "ASTRA_G2_UNSEWN_SIX_MUST_NOT_FINISH",
+    "ASTRA_G2_SEWN_UNSENT_SIX_MUST_NOT_FINISH",
+    "ASTRA_R2_REOPEN_AFTER_REVERSED_FG_ADJUSTMENT",
+    "ASTRA_R2_REOPEN_AFTER_CANCELLED_SALES_DRAFT",
+    "ASTRA_R2_AUTO_PO_NUMBER_999_TO_1000",
+    "ASTRA_R2_CASH_COMPOUND_EXACT_CENTS",
+    "ASTRA_R2_CUTOVER_UTC_WIB_AND_OWNER_AUTHORITY",
+    "ASTRA_R2_MASTER_BLOCKER_RELEASE_AND_REVOKED_REPLAY",
+    "ASTRA_R2_DETECTOR_TWO_BASES_CONTROL_AND_RESTORE",
+    "ASTRA_R2_WAVE_REVERSED_INPUT_ORDER_EXACT_WAGES"
+  ],
+  "dom_ids": [
+    "ASTRA_UI_PENDING_SERIES_SAVE",
+    "ASTRA_UI_MANUAL_DOZEN_DISPLAY",
+    "ASTRA_UI_FINANCE_SAMPLE_IDENTIFICATION",
+    "ASTRA_UI_SERIES_MUST_PRESERVE_BRAND"
+  ],
+  "oracle_origin": "ASTRA_INDEPENDENT; first three Native + four DOM retained from locked r1",
+  "fixture_origin": "FROZEN_WRITER_HELPERS_AND_ORIGINAL_ASTRA_SYNTHETIC_FIXTURES",
+  "native_expected": {
+    "ASTRA_G1_G2_TEN_PIECES_CONSERVED": "10 cut = 10 sewn = 10 washed = 10 FG; HPP = initial material + 10*4 + 10*2; WIP zero",
+    "ASTRA_G2_UNSEWN_SIX_MUST_NOT_FINISH": "six unsewn pieces block FINISH; refusal leaves state unchanged",
+    "ASTRA_G2_SEWN_UNSENT_SIX_MUST_NOT_FINISH": "six sewn but unsent pieces block FINISH; refusal leaves state unchanged",
+    "ASTRA_R2_REOPEN_AFTER_REVERSED_FG_ADJUSTMENT": "FG adjustment -2 followed by inverse restores 10 stock, accounts/HPP and reopen eligibility",
+    "ASTRA_R2_REOPEN_AFTER_CANCELLED_SALES_DRAFT": "cancelled sales draft restores stock 10, no GL and reopen eligibility",
+    "ASTRA_R2_AUTO_PO_NUMBER_999_TO_1000": "998 lawful unused daily PO names then real post999; next real post1000 completes within declared10s; 10->8->6stock",
+    "ASTRA_R2_CASH_COMPOUND_EXACT_CENTS": "37.13 in -20.11 out=17.02; correction20.10 refused(-.01), correction31.15=11.04; compound tables empty",
+    "ASTRA_R2_CUTOVER_UTC_WIB_AND_OWNER_AUTHORITY": "owner-only cutover; previous UTC day16:59:59 refuses,17:00:00 equals WIB00:00 and posts",
+    "ASTRA_R2_MASTER_BLOCKER_RELEASE_AND_REVOKED_REPLAY": "active sales draft blocks customer deactivation; cancellation releases; revoked creator cannot replay original UUID",
+    "ASTRA_R2_DETECTOR_TWO_BASES_CONTROL_AND_RESTORE": "controlled negative9.37 yields exactly economic+book-date findings; rollback restores all boundary and guard state; not security acceptance",
+    "ASTRA_R2_WAVE_REVERSED_INPUT_ORDER_EXACT_WAGES": "reversed input order B1,A2 binds respective SKU rates31 and11; native wage31+22=53,physical3,UUIDreplay no duplicate"
+  },
+  "policy": "No product edits. No after-case rerun for green. COUNTEREXAMPLE retained regardless job conclusion. Detector-only fault injection is not security pass.",
+  "source_sha256": {
+    "ui.dom.test.tsx": "42fcf731d5ea8be76b33823489c16ffc17e621fde7efd9ad1f0a9ba6e9ca3e13",
+    "ui_identity.dom.test.tsx": "c8de1ff9bfa96799bd49a40bf3df2f40505c838e296896ea943e548f5a448ad8",
+    "retained_physical.py": "a26899e736cfdcc3981145cfb2c74860efb12c016b312d40f1bee7737a356a0b",
+    "native_probe.py": "39de0f3d30bf882fdc1d4bc9f2585f29b5c6f6a53008a8bffd7983daa5f6cc55"
+  }
+}

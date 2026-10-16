@@ -1,0 +1,54 @@
+name: AUDIT/Astra/r2-ui
+run-name: AUDIT/r2-20261016/Astra/2e9d6a46/ui/1
+permissions:
+  contents: read
+jobs:
+  ui:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: scope
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: auditor
+        ref: 2e9d6a468c110684c278d585418eb404250d1150
+        persist-credentials: false
+    - name: Assert frozen candidate identity
+      working-directory: auditor
+      shell: bash
+      run: |
+        set -euo pipefail
+        test "$(git rev-parse HEAD)" = 2e9d6a468c110684c278d585418eb404250d1150
+        test "$(git rev-parse HEAD^{tree})" = 5e50d224f8e74fa3bca83b599fb606739435b598
+        test -z "$(git status --porcelain)"
+        printf "ASTRA_CANDIDATE_SHA=%s\nASTRA_CANDIDATE_TREE=%s\n" "$(git rev-parse HEAD)" "$(git rev-parse HEAD^{tree})"
+    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      with:
+        node-version: '22'
+    - name: Install exact candidate dependencies
+      working-directory: auditor
+      run: npm ci
+    - name: Run Astra DOM observations against untouched candidate
+      working-directory: auditor
+      run: |
+        set -euo pipefail
+        mkdir -p audit/astra_cp17_r2
+        cp ../scope/audit/astra_cp17_r2/*.dom.test.tsx audit/astra_cp17_r2/
+        npx vitest run audit/astra_cp17_r2/ui.dom.test.tsx audit/astra_cp17_r2/ui_identity.dom.test.tsx --reporter=verbose 2>&1 | tee audit/astra_cp17_r2/UI.log
+        git diff --exit-code -- src scripts supabase tests package-lock.json
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: audit-r2-Astra-2e9d6a46-ui
+        path: auditor/audit/astra_cp17_r2
+        retention-days: 90
+'on':
+  push:
+    branches:
+    - audit/astra-cp1-7-r2-2e9d6a46-20261016
+    paths:
+    - .github/workflows/audit-astra-r2-ui.yml
+  workflow_dispatch: {}
