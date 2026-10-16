@@ -1,0 +1,17 @@
+{
+  "candidate": "2e9d6a468c110684c278d585418eb404250d1150",
+  "native_ids": [
+    "ASTRA_R2_REOPEN_AFTER_REVERSED_FG_ADJUSTMENT"
+  ],
+  "version": 2,
+  "predeclared_at": "2026-10-16T17:14:29.422423+00:00",
+  "previous_run": 38930682447,
+  "previous_job": 117073574552,
+  "previous_status": "INCOMPLETE",
+  "classification": "AUDITOR_TOOL_WRONG_PRODUCTION_LOT_ACCOUNT_ORACLE",
+  "reason": "r1 fg_adjustment fixture uses opening lot; its all-account restoration expectation was copied onto a production lot. Native post/reverse_fg_adjustment route production lots through sync_po_hpp_to_gl. Accepted AY source 1015-1022 assigns negative total-other change to OTHER_INCOME, positive to OTHER_EXPENSE; therefore equal debit expense and credit income persist after stock inverse. Inherited source, not an r2 change.",
+  "changed_oracle": "Keep stock10,HPP unchanged,original -2 input and reopen-eligibility expectation. Replace impossible all-accounts-identical assertion with complete per-account delta equal expense+2*savedHPPperpiece and income-2*savedHPPperpiece; print original equality and all deltas. No reset/removal of first failure.",
+  "unchanged_product": true,
+  "not_counted_as_additional_unique_case": true,
+  "source_sha256": "f687d0599f1e60df5302f7ff1227dc701a79676321cdd793a62449a5a3f79d75"
+}
