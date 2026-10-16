@@ -1,0 +1,23 @@
+{
+  "run_id": 38940337919,
+  "source_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "evidence_origin": "INDEPENDENT_NATIVE_RERUN_STATIC_SECURITY_SCAN",
+  "results": [
+    {
+      "artifact_id": 12063311328,
+      "member": "javascript.sarif",
+      "results": 0,
+      "invocations_successful": true
+    },
+    {
+      "artifact_id": 12062362943,
+      "member": "actions.sarif",
+      "results": 0,
+      "invocations_successful": true
+    }
+  ],
+  "production_go": false,
+  "status": "PASS",
+  "protocol_evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+  "origin_qualification": "Runtime subject and layer are explicit. For browser_mock this is only real CI Chromium rendering with mocked Auth and business403, never Native business transaction acceptance. CodeQL is a static CI scanner."
+}

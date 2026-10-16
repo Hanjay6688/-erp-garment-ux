@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "checks": {
+    "run_and_job_counts": true,
+    "all_jobs_terminal": true,
+    "first_attempt_only": true,
+    "case_context_ids_unique": true,
+    "one_new_counterexample": true,
+    "only_two_expected_legacy_diagnostics_incomplete": true,
+    "82_invariants_20_links": true,
+    "json_parses_and_python_compiles": true,
+    "archive_crc_and_all146_member_sha256": true,
+    "no_screenshots_or_sql_dumps_in_archive": true,
+    "provenance_subjects_explicit": true,
+    "all702_recorded_business_days_stable": true
+  },
+  "production_go": false
+}

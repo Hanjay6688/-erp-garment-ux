@@ -1,0 +1,443 @@
+{
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "candidate_tree": "5e50d224f8e74fa3bca83b599fb606739435b598",
+  "evidence_origin": "INDEPENDENT_SOURCE_REVIEW",
+  "files": [
+    {
+      "path": "scripts/cp7-src/cutover/cutover.sql",
+      "bytes": 18329,
+      "sha256": "53c08afdc5f7e350682015a7989e8c49d6a91024feb4f301604d5e86f538dd74",
+      "lines": 256,
+      "functions": [
+        "create function cp7_cutover.immutable()returns trigger",
+        "create function cp7_cutover.exempt(p_source_type text)returns boolean",
+        "create function cp7_cutover.floor()returns date",
+        "create function cp7_cutover.refuse(p_kind text,p_date date,p_floor date,p_source_type text)returns void",
+        "create function cp7_cutover.guard_journal()returns trigger",
+        "create function cp7_cutover.guard_movement()returns trigger",
+        "create function cp7_cutover.guard_batch()returns trigger",
+        "create function cp7_cutover.limits()returns jsonb",
+        "create function cp7_cutover.access_now(p_set boolean)returns jsonb",
+        "create function cp7_cutover.workspace()returns jsonb",
+        "create function cp7_cutover.command(p jsonb,p_request uuid)returns jsonb",
+        "create function public.erp_cp7_get_cutover_v1()returns jsonb",
+        "create function public.erp_cp7_set_cutover_v1(p_payload jsonb,p_request uuid)returns jsonb"
+      ]
+    },
+    {
+      "path": "scripts/cp7-src/cutting-correction/auto-po.sql",
+      "bytes": 22352,
+      "sha256": "585b90aa4382391c6d4e40db743034887b148322bf600721ba2062fa830f8d42",
+      "lines": 260,
+      "functions": [
+        "create function cp7_cutting_correction.auto_po_access_now(p_level text)returns jsonb",
+        "create function cp7_cutting_correction.auto_po_cutting(p jsonb)returns jsonb",
+        "create function cp7_cutting_correction.auto_po_workspace(p_query jsonb)returns jsonb",
+        "create function cp7_cutting_correction.auto_po_command(p jsonb,p_request uuid)returns jsonb",
+        "create function public.erp_cp7_get_cutting_auto_po_v1(p_query jsonb)returns jsonb",
+        "create function public.erp_cp7_save_cutting_auto_po_v1(p_payload jsonb,p_request uuid)returns jsonb"
+      ]
+    },
+    {
+      "path": "scripts/cp7-src/cutting-correction/finish.sql",
+      "bytes": 19070,
+      "sha256": "d3acc999a36a89f1db25755a693f69fcde43e18931d5626f81a61f2306738d51",
+      "lines": 217,
+      "functions": [
+        "create function cp7_cutting_correction.finish_access_now()returns jsonb",
+        "create function cp7_cutting_correction.finish_snapshot(p_po uuid)returns jsonb",
+        "create function cp7_cutting_correction.finish_hpp(h jsonb)returns jsonb",
+        "create function cp7_cutting_correction.finish_list(p_query text,p_offset integer)returns jsonb",
+        "create function cp7_cutting_correction.finish_workspace(p_po uuid)returns jsonb",
+        "create function cp7_cutting_correction.finish_command(p jsonb,p_request uuid)returns jsonb",
+        "create function public.erp_cp7_list_po_finish_v1(p_query text default '',p_offset integer default 0)returns jsonb",
+        "create function public.erp_cp7_get_po_finish_v1(p_po uuid)returns jsonb",
+        "create function public.erp_cp7_finish_po_v1(p_payload jsonb,p_request uuid)returns jsonb"
+      ]
+    },
+    {
+      "path": "scripts/cp7-src/cutting-correction/po-reopen.sql",
+      "bytes": 13245,
+      "sha256": "6ecfa8b8327cabe3de53b924082b11582bdf12940aee949f71074e2c4f3a92e8",
+      "lines": 154,
+      "functions": [
+        "create function cp7_cutting_correction.reopen_po_snapshot(p_po uuid)returns jsonb",
+        "create function cp7_cutting_correction.reopen_po_workspace(p_po uuid)returns jsonb",
+        "create function cp7_cutting_correction.reopen_po_command(p jsonb,p_request uuid)returns jsonb",
+        "create function public.erp_cp7_get_po_reopen_v1(p_po uuid)returns jsonb",
+        "create function public.erp_cp7_reopen_po_v1(p_payload jsonb,p_request uuid)returns jsonb"
+      ]
+    },
+    {
+      "path": "scripts/cp7-src/cutting-correction/sewing.sql",
+      "bytes": 52053,
+      "sha256": "fd84aee8f989d079eb43311ce2977b6c889ee6686fa8ba3fc42cf3df55c9a00a",
+      "lines": 569,
+      "functions": [
+        "create function cp7_cutting_correction.sewing_access_now(p_reverse boolean)returns jsonb",
+        "create function cp7_cutting_correction.sewing_wave_at(p_group uuid,p_at timestamptz)returns jsonb",
+        "create function cp7_cutting_correction.sewing_snapshot(p_group uuid)returns jsonb",
+        "create function cp7_cutting_correction.sewing_event_blocker(s jsonb,e jsonb)returns text",
+        "create function cp7_cutting_correction.sewing_workspace(p_group uuid)returns jsonb",
+        "create function cp7_cutting_correction.sewing_command(p jsonb,p_request uuid,p_expected text)returns jsonb",
+        "create function public.erp_cp7_get_sewing_completion_v1(p_group uuid)returns jsonb",
+        "create function public.erp_cp7_save_sewing_completion_v1(p_payload jsonb,p_request uuid,p_expected text)returns jsonb"
+      ]
+    },
+    {
+      "path": "scripts/cp7-src/finance/dated-guards.sql",
+      "bytes": 14773,
+      "sha256": "898ee62e5b973acdc56a3378a59c306314f30b1505601f01d038d32c239ae26b",
+      "lines": 229,
+      "functions": [
+        "create function cp7_guard.min_debit_balance_from(p_account uuid,p_from date) returns numeric",
+        "create function cp7_guard.min_debit_balance_by_book_from(p_account uuid,p_from date) returns numeric",
+        "create function cp7_guard.min_vendor_ap_from(p_vendor uuid,p_from date) returns numeric",
+        "create function cp7_guard.check_cash(p_account uuid,p_economic date,p_book date) returns void",
+        "create function cp7_guard.begin_compound(p_label text) returns void",
+        "create function cp7_guard.end_compound() returns void",
+        "create function cp7_guard.compound_closed() returns trigger",
+        "create function cp7_guard.guard_cash_line() returns trigger",
+        "create function cp7_guard.laundry_claim_floor(p_opened timestamptz,p_delivery uuid,p_receipt_line uuid) returns date",
+        "create function cp7_guard.guard_laundry_claim_date() returns trigger",
+        "create function cp7_guard.findings()"
+      ]
+    },
+    {
+      "path": "scripts/cp7-src/finance/misc-correction.sql",
+      "bytes": 17596,
+      "sha256": "413abdaf11b108d631d12e8a440bc973f7dcd1e9a96f49ba6c0c0fd558608819",
+      "lines": 200,
+      "functions": [
+        "create function cp7_misc_correction.validate(p jsonb)returns void",
+        "create function cp7_misc_correction.link_value(p cp7_misc_correction.links)returns jsonb",
+        "create function cp7_misc_correction.history(p_id uuid)returns jsonb",
+        "create function cp7_misc_correction.protect_link()returns trigger",
+        "create function cp7_misc_correction.apply(p jsonb,p_request uuid)returns jsonb",
+        "create function cp7_misc_correction.command(p jsonb,p_request uuid)returns jsonb",
+        "create function public.erp_cp7_correct_misc_finance_v1(p_payload jsonb,p_request uuid)returns jsonb",
+        "create function public.erp_cp7_get_misc_correction_history_v1(p_transaction_id uuid)returns jsonb"
+      ]
+    },
+    {
+      "path": "scripts/cp7-src/master/master.sql",
+      "bytes": 51507,
+      "sha256": "a815de044e92d44aa415eb19aae8ee2f565d8192561694fcccf080bf8a980b7e",
+      "lines": 635,
+      "functions": [
+        "create function cp7_master.immutable()returns trigger",
+        "create function cp7_master.permission(p_kind text,p_level text)returns text",
+        "create function cp7_master.access_now(p_kind text,p_level text)returns jsonb",
+        "create function cp7_master.entity(p_kind text,p_id uuid)returns jsonb",
+        "create function cp7_master.usage(p_kind text,p_id uuid)returns jsonb",
+        "create function cp7_master.used(p_kind text,p_id uuid)returns boolean",
+        "create function cp7_master.deactivate_blockers(p_kind text,p_id uuid)returns jsonb",
+        "create function cp7_master.audit(p_kind text,p_id uuid)returns jsonb",
+        "create function cp7_master.rows(p_kind text,p_q text,p_status text,p_offset integer,p_limit integer)returns jsonb",
+        "create function cp7_master.options(p_kind text)returns jsonb",
+        "create function cp7_master.workspace(p_kind text,p_query jsonb)returns jsonb",
+        "create function cp7_master.fields(p_kind text,p_action text,f jsonb)returns jsonb",
+        "create function cp7_master.code_taken(p_kind text,p_code text,p_except uuid)returns boolean",
+        "create function cp7_master.content(e jsonb)returns jsonb",
+        "create function cp7_master.policy_at(p_contractor uuid,p_day date)returns erp.contractor_hpp_policy_versions",
+        "create function cp7_master.save(p_kind text,p jsonb,p_request uuid)returns jsonb",
+        "create function public.erp_cp7_get_master_v1(p_kind text,p_query jsonb)returns jsonb",
+        "create function public.erp_cp7_save_master_v1(p_kind text,p_payload jsonb,p_request uuid)returns jsonb"
+      ]
+    },
+    {
+      "path": "scripts/cp7-src/master/rates.sql",
+      "bytes": 23835,
+      "sha256": "0b04a112964159920a53a68d1083d9083b22074cf9bf3cbb847ed36a58dd18ce",
+      "lines": 265,
+      "functions": [
+        "create function cp7_master.rate_versions(p_contractor uuid,p_model uuid,p_component uuid)returns jsonb",
+        "create function cp7_master.bom(p_model uuid)returns jsonb",
+        "create function cp7_master.bom_at(p_model uuid,p_at timestamptz)returns uuid",
+        "create function cp7_master.rate_workspace(p_query jsonb)returns jsonb",
+        "create function cp7_master.save_rate(p_action text,p jsonb,p_request uuid)returns jsonb",
+        "create function public.erp_cp7_get_work_rates_v1(p_query jsonb)returns jsonb",
+        "create function public.erp_cp7_save_work_rate_v1(p_action text,p_payload jsonb,p_request uuid)returns jsonb"
+      ]
+    },
+    {
+      "path": "scripts/cp7-src/sales/correction.sql",
+      "bytes": 31724,
+      "sha256": "e76810c17c1f6e7f03539dcf6d6897965672d1f666bfcc2207f2ebe8739268a4",
+      "lines": 405,
+      "functions": [
+        "create function cp7_note.immutable_revision()returns trigger",
+        "create function cp7_note.access_now()returns jsonb",
+        "create function cp7_note.require_context()returns void",
+        "create function cp7_note.restate_reversal(p_source uuid,p_inverse uuid,p_reason text)returns void",
+        "create function cp7_note.workspace(p_sale uuid)returns jsonb",
+        "create function cp7_note.command(p_payload jsonb,p_request uuid,p_expected text)returns jsonb",
+        "create function public.erp_cp7_get_note_correction_v1(p_sale uuid)returns jsonb",
+        "create function public.erp_cp7_correct_note_v1(p_payload jsonb,p_request uuid,p_expected text)returns jsonb"
+      ]
+    },
+    {
+      "path": "scripts/cp7-src/sales/payment-correction.sql",
+      "bytes": 22661,
+      "sha256": "9efb88f28c08ada81f968f390c73044b781283f06a2a04e313c761dc1a0c28ac",
+      "lines": 260,
+      "functions": [
+        "create function cp7_payment_correction.access_now()returns jsonb",
+        "create function cp7_payment_correction.validate(p jsonb)returns void",
+        "create function cp7_payment_correction.document(p erp.sales_payments)returns jsonb",
+        "create function cp7_payment_correction.link_value(p cp7_payment_correction.links)returns jsonb",
+        "create function cp7_payment_correction.workspace(p_query jsonb)returns jsonb",
+        "create function cp7_payment_correction.protect_link()returns trigger",
+        "create function cp7_payment_correction.apply(p jsonb,p_request uuid,p_expected text)returns jsonb",
+        "create function cp7_payment_correction.command(p jsonb,p_request uuid,p_expected text)returns jsonb",
+        "create function public.erp_cp7_correct_sales_payment_v1(p_payload jsonb,p_request uuid,p_expected text)returns jsonb",
+        "create function public.erp_cp7_get_sales_payment_correction_v1(p_query jsonb)returns jsonb"
+      ]
+    },
+    {
+      "path": "src/App.tsx",
+      "bytes": 219321,
+      "sha256": "e958670c36e2399e16bc48a8b740bfd7525407d56e355c43d52ae98904196cc0",
+      "lines": 2307,
+      "functions": []
+    },
+    {
+      "path": "src/ConnectedCuttingAutoPo.dom.test.tsx",
+      "bytes": 8871,
+      "sha256": "4e1cffc39fb4f970d4740339145c2e1dc7def56a8f6005eb4d7de45571f11d6b",
+      "lines": 115,
+      "functions": []
+    },
+    {
+      "path": "src/ConnectedCuttingPage.tsx",
+      "bytes": 42154,
+      "sha256": "d67914f42e1c5940acc4b72852d1377043f6f697c0630adb54daac10280f4868",
+      "lines": 474,
+      "functions": []
+    },
+    {
+      "path": "src/ConnectedInitialImportPage.tsx",
+      "bytes": 49791,
+      "sha256": "f059f535b15b6ac956fb82de5050ad9ab30f1ac419c31e2ae5f6090fcbaba061",
+      "lines": 388,
+      "functions": []
+    },
+    {
+      "path": "src/ConnectedMasterPage.dom.test.tsx",
+      "bytes": 13309,
+      "sha256": "b5514c69e78e72fccb07d1f305f18e65d3652c571caf0fd9e0bb7c6f7de1940c",
+      "lines": 147,
+      "functions": []
+    },
+    {
+      "path": "src/ConnectedMasterPage.tsx",
+      "bytes": 27136,
+      "sha256": "1b453e4cdf58b7a6c0cb2a55130c0f68085bcb0ec272266d20c84161560c9db9",
+      "lines": 294,
+      "functions": []
+    },
+    {
+      "path": "src/ConnectedProductionRecovery.dom.test.tsx",
+      "bytes": 28619,
+      "sha256": "3d0f872cac35776c2a02fe902a64549d5e69f7cacd1e8fac356829b96a106811",
+      "lines": 465,
+      "functions": []
+    },
+    {
+      "path": "src/CutoverPanel.dom.test.tsx",
+      "bytes": 6812,
+      "sha256": "cc11c4fb55e24c354a6fdd5e89d19cf136b6637ef81322cde31676b5bded9b31",
+      "lines": 76,
+      "functions": []
+    },
+    {
+      "path": "src/CutoverPanel.tsx",
+      "bytes": 7151,
+      "sha256": "cc31103f46e5d507a1db5936ac11265c5f3d0593044f4868a94b9cf177ffcf1a",
+      "lines": 92,
+      "functions": []
+    },
+    {
+      "path": "src/FinancePages.tsx",
+      "bytes": 66395,
+      "sha256": "44c6017891c74c725c791ff3f13ad8a02980e4182a4004bf74bfd5b211d75f0d",
+      "lines": 307,
+      "functions": []
+    },
+    {
+      "path": "src/OwnerDashboard.dom.test.tsx",
+      "bytes": 2505,
+      "sha256": "1b5077504ec655c5d98ace8262080007649686601f48817275f6a21719af5ee6",
+      "lines": 38,
+      "functions": []
+    },
+    {
+      "path": "src/OwnerDashboard.tsx",
+      "bytes": 5902,
+      "sha256": "7c60163c27f97db2435e90abe576927164d7feeeb2f9cfb6dfbeffb2151ad299",
+      "lines": 24,
+      "functions": []
+    },
+    {
+      "path": "src/PoFinishPanel.dom.test.tsx",
+      "bytes": 12608,
+      "sha256": "e6a747bd177a4c3ce0b304c34dea0b6dfedea4dd7526cb1375779aca6234861b",
+      "lines": 150,
+      "functions": []
+    },
+    {
+      "path": "src/PoFinishPanel.tsx",
+      "bytes": 14098,
+      "sha256": "5ec1c6e356b0cbf3fdfc72362dba39c57c0df131cd0264a7f13e091d97754d91",
+      "lines": 174,
+      "functions": []
+    },
+    {
+      "path": "src/SalesDraftPanel.dom.test.tsx",
+      "bytes": 18851,
+      "sha256": "3ff60dcbce6fe9863b69f02d874cf0a52f8c3dba1a62766ec70354ed9b1c5c50",
+      "lines": 129,
+      "functions": []
+    },
+    {
+      "path": "src/SalesDraftPanel.tsx",
+      "bytes": 18649,
+      "sha256": "26101d87ed1907ab6103bafe572f513171dd3da14aa2e76e78b5c173b6226bd2",
+      "lines": 104,
+      "functions": []
+    },
+    {
+      "path": "src/SewingCompletionPanel.dom.test.tsx",
+      "bytes": 18704,
+      "sha256": "c5193e196b20889837660a5d1820f76091919bf7767379a50fbf4f8e47ead22e",
+      "lines": 209,
+      "functions": []
+    },
+    {
+      "path": "src/SewingCompletionPanel.tsx",
+      "bytes": 14149,
+      "sha256": "a4ad4220b30e550b7c56a18baeefb18e98c7c96b1ebc5d89e2b7a3d53814e04d",
+      "lines": 160,
+      "functions": []
+    },
+    {
+      "path": "src/WorkRatePanel.tsx",
+      "bytes": 17512,
+      "sha256": "5000ba51f1f318d6dbb8d06c671b4065615b6d9a1e8adc5df605e4898ce77c84",
+      "lines": 177,
+      "functions": []
+    },
+    {
+      "path": "src/cutoverContract.ts",
+      "bytes": 5063,
+      "sha256": "c5837ce38ee494314bdfc42c7d28786cde13a8c44cd015191e65ba106ec7ef47",
+      "lines": 70,
+      "functions": []
+    },
+    {
+      "path": "src/cuttingAutoPoContract.ts",
+      "bytes": 8504,
+      "sha256": "974555595a2bb5f04d1d9d1bc88144688866db3dc002de09f7f0feaf377b2984",
+      "lines": 112,
+      "functions": []
+    },
+    {
+      "path": "src/finalization-flow.css",
+      "bytes": 28949,
+      "sha256": "58ed602893808452a9ef4c8d5ba39a3f9573cf8aa625dcae0a7081b79b55bdad",
+      "lines": 59,
+      "functions": []
+    },
+    {
+      "path": "src/hpp.css",
+      "bytes": 32022,
+      "sha256": "8263035e2a22ed56e68212f67bd1c661aced52d3b89ec2c655499e829482e729",
+      "lines": 27,
+      "functions": []
+    },
+    {
+      "path": "src/lib/clientError.ts",
+      "bytes": 13212,
+      "sha256": "6e06fd01d2771b0f472198a9e4aec30e5755dad1739d35fd874f3aa9c9163840",
+      "lines": 211,
+      "functions": []
+    },
+    {
+      "path": "src/lib/masterMessages.ts",
+      "bytes": 5270,
+      "sha256": "4815b8952d60da3f34fa451a29a1c1cf86ca0163da3bf817f9dfcfa0ae9ab25f",
+      "lines": 60,
+      "functions": []
+    },
+    {
+      "path": "src/master-connected.css",
+      "bytes": 4084,
+      "sha256": "fe40e273ff578109e64fe03fe6be46305a27fc1df8b93b5b9a307d0333042536",
+      "lines": 24,
+      "functions": []
+    },
+    {
+      "path": "src/masterContract.ts",
+      "bytes": 23406,
+      "sha256": "4c0d31be7b997afb07e0f19183e58314a5e4a3615e95babbbd81f3f755951e05",
+      "lines": 303,
+      "functions": []
+    },
+    {
+      "path": "src/poFinishContract.ts",
+      "bytes": 13188,
+      "sha256": "d4149173970816382f92e41e68168d3abc92f4af7c3c1a21488c7f221e24ec01",
+      "lines": 193,
+      "functions": []
+    },
+    {
+      "path": "src/productionRecovery.ts",
+      "bytes": 12632,
+      "sha256": "996ea2f56efcc7803376254a1568349513ec81392388e3773f20a22dda863df9",
+      "lines": 201,
+      "functions": []
+    },
+    {
+      "path": "src/screenActivation.test.ts",
+      "bytes": 3486,
+      "sha256": "d046f6548a03b44a4d7a539f7a884780ee4304a13c9a5dbb61b6a7ec8f7bd087",
+      "lines": 49,
+      "functions": []
+    },
+    {
+      "path": "src/screenActivation.ts",
+      "bytes": 7278,
+      "sha256": "ab04589f205c65368071420d7e1c96eccbe9f7847d632094c9db2274deb76142",
+      "lines": 79,
+      "functions": []
+    },
+    {
+      "path": "src/sewingCompletionContract.ts",
+      "bytes": 17985,
+      "sha256": "62aacab9b6baeb17c434074cb375d994d20ad9fab693f8bab40a6a8021f04105",
+      "lines": 245,
+      "functions": []
+    },
+    {
+      "path": "src/types/database.preconnect.ts",
+      "bytes": 28409,
+      "sha256": "2ab85ccce99868798b8c1e86cc3738c1391a37e2db7373cfebf3a61d630efb81",
+      "lines": 386,
+      "functions": []
+    }
+  ],
+  "impact_trace": "IMPACT_MATRIX.json",
+  "review_methods": [
+    "Full pinned writer handoff, ownerD15 and unchanged ProMax guide identity",
+    "Diff from previous candidate and source/body/hash/ownership guard checks",
+    "Trace writes/reads through public facades, Native tables, stock/GL/AR/AP/payroll/HPP/report/UI",
+    "Ordinary and refusal/replay/concurrency cases on the combined Native stack",
+    "Source-only claims kept separate from runtime proof"
+  ],
+  "known_absent_ui": [
+    "attendance HPPpool lifecycle"
+  ],
+  "new_counterexample": "SOL-R2-001",
+  "supabase_unchanged": true,
+  "current_round_peer_reports_read": false
+}

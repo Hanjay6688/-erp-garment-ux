@@ -1,0 +1,292 @@
+[
+  {
+    "id": "SKN-01",
+    "status": "PASS",
+    "basis": "NOTE_YEAR_364, RF_YEAR_HISTORY_364, supplier-payment YEAR_364; sintetis 364 hari, bukan aktivitas nyata setahun.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-02",
+    "status": "PASS",
+    "basis": "F03 transfer/late invoice, P18 E13, AY/AZ/BE; saldo bahan/FG/COGS dan inverse.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-03",
+    "status": "PASS",
+    "basis": "Closed/reopen controls, C0 D01 dan correction economic/recognition dates.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-04",
+    "status": "PASS",
+    "basis": "Partial/paid/refund/advance/supplier-credit paths; overpay to approved credit, no disappearing amount.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-05",
+    "status": "PASS",
+    "basis": "P11 returns, paid refund, note/return correction and capacity races.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-06",
+    "status": "PASS",
+    "basis": "Literal Sol identical 3@17.25 lines; second line corrected to 2 with distinct lineage.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-07",
+    "status": "INCOMPLETE",
+    "basis": "Exact cents, partial rounding and amount beyond JS-safe integer tested. Not every extreme and 1/3 path exhaustively tested.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-08",
+    "status": "PASS",
+    "basis": "Native malformed/null/unknown/zero/negative and absent-source controls; free/waived exceptions distinguished.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-09",
+    "status": "PASS",
+    "basis": "WIB boundaries/timezones and microsecond timestamp paths; no new wall-clock-midnight endurance claim. All new financial controls stayed on planned WIB 2026-10-16; original token timezone error retained as AUDITOR_TOOL.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-10",
+    "status": "PASS",
+    "basis": "Original AR/AT/AU and F03 races; UUID exact replay/changed payload/later refusal.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-11",
+    "status": "PASS",
+    "basis": "Real Auth/browser lost reply, revoke during wait/unit and inactive actors.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-12",
+    "status": "PASS",
+    "basis": "Draft/post/inverse/repeated correction; no direct posted edit acceptance.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-13",
+    "status": "PASS",
+    "basis": "Native chronological prefix refusals and revised receipt/note/cutting timelines. Current own dated cash-prefix/refusal and used-funding inverse controls PASS.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-14",
+    "status": "PASS",
+    "basis": "Multi-scope native providers and dimensional vendor/contractor/customer P18 checks; tested fixtures only.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-15",
+    "status": "PASS",
+    "basis": "Receipt/note identity, stock-source and material name/SKU correction cases.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-16",
+    "status": "N/A_OWNER_DEFERRED",
+    "basis": "Real cutover outside current owner stage; synthetic import not substituted for real data.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-17",
+    "status": "PASS",
+    "basis": "F04/F05/P19 unknown price/yield/date/supply fences and qualified model controls.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-18",
+    "status": "PASS",
+    "basis": "Repeat public financial reads, immutable archives, race coherence and no business DML.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-19",
+    "status": "INCOMPLETE",
+    "basis": "Two own exact 0→1→0 controls, full 29 outputs; remaining sensitivity not all poisoned.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-20",
+    "status": "PASS",
+    "basis": "Temporal membership, regrouping/no physical effects and archive identities in scoped Native families.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-21",
+    "status": "N/A_OWNER_DEFERRED",
+    "basis": "Hosted real clone/installation expressly outside this Native round; constructed owner install is separate.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-22",
+    "status": "FAIL",
+    "basis": "D14-5/12 actual browser gap closed; current correction cash path FAIL (SOL-R1-001), PO daily path absent, full combined application chain remains INCOMPLETE.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-23",
+    "status": "PASS_WITH_ORIGINAL_DISPOSITIONS",
+    "basis": "326 + AS34 + AR174 + AT16/AU15 with races on final stack. Raw 12 HOLD, AS/AO reds and AR zero-price retained; C0 25 and BC replacement separate.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-24",
+    "status": "INCOMPLETE",
+    "basis": "Matcher/allocator forging and actual Native plans tested. No blanket proof every matcher→allocator→command variant follows the same route.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-25",
+    "status": "PASS",
+    "basis": "BC Special FREE and vendor FREE_WAIVED, ordinary zero/pending/normal controls; not just zero refusal.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-26",
+    "status": "INCOMPLETE",
+    "basis": "Native exact-large, real source paging/caps and 5,000-target pages tested. Not every writer numeric/page boundary traced; no global 32-bit N/A.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-27",
+    "status": "FAIL",
+    "basis": "A legitimate spent-income amount/note correction is blocked. Range-dozens closed on disposable desktop/phone; broad edit/delete coverage remains bounded by CHAIN_MATRIX.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-28",
+    "status": "PASS",
+    "basis": "AT/AU temporal identity and Native BF/range snapshots/reversed docs in tested paths.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  },
+  {
+    "id": "SKN-29",
+    "status": "INCOMPLETE",
+    "basis": "RPC/browser/report/AI projected permissions covered in selected flows; GraphQL/alternative API and physical devices not covered; WA test transport only.",
+    "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+    "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+    "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+  }
+]

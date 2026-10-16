@@ -1,0 +1,20 @@
+{
+  "writer_input_sha": "b388a4b7d4b0291de81b68d1e624a062eda5edd1",
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "evidence_origin": "REUSED_WRITER_EVIDENCE_WITH_INDEPENDENT_METADATA_AND_LOG_READ",
+  "metadata_pages": 2,
+  "metadata_runs_verified": 116,
+  "unique_workflows": 115,
+  "run_success": 94,
+  "run_failure": 22,
+  "job_counts_from_writer_receipt": {
+    "total": 179,
+    "success": 157,
+    "failure": 22
+  },
+  "failed_job_logs_read": 22,
+  "all_success_jobs_individually_refetched": false,
+  "independent_candidate_acceptance": false,
+  "source": "CI_RECEIPT.json at input SHA, each final failed job log, paginated run metadata",
+  "source_receipt_sha256": "d8bd23a412304a074d0ebbff1a39bcd3db44c64d3c78258804d2526073b9bf3f"
+}

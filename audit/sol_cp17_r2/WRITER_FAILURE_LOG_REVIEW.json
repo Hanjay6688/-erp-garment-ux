@@ -1,0 +1,663 @@
+[
+  {
+    "workflow": "CP6 AF Independent Review",
+    "run_id": 38894849298,
+    "job_id": 116952755834,
+    "log_bytes": 104050,
+    "error_excerpts": [
+      "2026-10-16T11:48:04.5291546Z ##[group]Run python scripts/cp6_af_review_scope.py",
+      "2026-10-16T11:48:04.5291965Z python scripts/cp6_af_review_scope.py",
+      "2026-10-16T11:48:04.6092386Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/harness/scripts/cp6_af_review_scope.py\", line 44, in <module>",
+      "2026-10-16T11:48:04.6095953Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/harness/scripts/cp6_af_review_scope.py\", line 22, in verify",
+      "2026-10-16T11:48:04.6098776Z AssertionError",
+      "2026-10-16T11:48:04.6155110Z ##[error]Process completed with exit code 1."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 AF Posted Child Family",
+    "run_id": 38894846530,
+    "job_id": 116957150812,
+    "log_bytes": 115661,
+    "error_excerpts": [
+      "2026-10-16T12:17:49.6670190Z gh: Artifact has expired (HTTP 410)",
+      "2026-10-16T12:17:49.6703381Z ##[error]Process completed with exit code 1.",
+      "2026-10-16T12:17:57.3822010Z print('AF WRITER PASS within recorded scope; independent review pending; production_go:false')",
+      "2026-10-16T12:17:57.4377928Z ##[error]Process completed with exit code 1."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 AG Additional Writer Review",
+    "run_id": 38894851987,
+    "job_id": 116952769423,
+    "log_bytes": 108871,
+    "error_excerpts": [
+      "2026-10-16T12:07:05.6274377Z ##[group]Run python scripts/cp6_ag_residual_scope.py",
+      "2026-10-16T12:07:05.6274833Z python scripts/cp6_ag_residual_scope.py",
+      "2026-10-16T12:07:05.6999960Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/harness/scripts/cp6_ag_residual_scope.py\", line 34, in <module>",
+      "2026-10-16T12:07:05.7004091Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/harness/scripts/cp6_ag_residual_scope.py\", line 19, in verify",
+      "2026-10-16T12:07:05.7006790Z AssertionError",
+      "2026-10-16T12:07:05.7052008Z ##[error]Process completed with exit code 1."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 AG Sale Reservation Family",
+    "run_id": 38894854683,
+    "job_id": 116955932727,
+    "log_bytes": 81256,
+    "error_excerpts": [
+      "2026-10-16T12:06:13.3403118Z ##[group]Run python scripts/cp6_ag_gate_scope.py",
+      "2026-10-16T12:06:13.3403511Z python scripts/cp6_ag_gate_scope.py",
+      "2026-10-16T12:06:13.4152556Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/candidate/scripts/cp6_ag_gate_scope.py\", line 32, in <module>",
+      "2026-10-16T12:06:13.4155313Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/candidate/scripts/cp6_ag_gate_scope.py\", line 16, in verify",
+      "2026-10-16T12:06:13.4158092Z AssertionError",
+      "2026-10-16T12:06:13.4211162Z ##[error]Process completed with exit code 1."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 AH Independent Business Review",
+    "run_id": 38894857288,
+    "job_id": 116953499268,
+    "log_bytes": 107186,
+    "error_excerpts": [
+      "2026-10-16T12:27:36.0644344Z ##[group]Run python scripts/cp6_ah_review_scope.py",
+      "2026-10-16T12:27:36.0644592Z python scripts/cp6_ah_review_scope.py",
+      "2026-10-16T12:27:36.1228036Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/harness/scripts/cp6_ah_review_scope.py\", line 25, in <module>",
+      "2026-10-16T12:27:36.1229418Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/harness/scripts/cp6_ah_review_scope.py\", line 13, in verify",
+      "2026-10-16T12:27:36.1230365Z AssertionError",
+      "2026-10-16T12:27:36.1287531Z ##[error]Process completed with exit code 1."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 AH Return Allocation Family",
+    "run_id": 38894860217,
+    "job_id": 116955340867,
+    "log_bytes": 81258,
+    "error_excerpts": [
+      "2026-10-16T12:18:48.4985216Z ##[group]Run python scripts/cp6_ah_gate_scope.py",
+      "2026-10-16T12:18:48.4985615Z python scripts/cp6_ah_gate_scope.py",
+      "2026-10-16T12:18:48.5752965Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/candidate/scripts/cp6_ah_gate_scope.py\", line 52, in <module>",
+      "2026-10-16T12:18:48.5765731Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/candidate/scripts/cp6_ah_gate_scope.py\", line 21, in verify",
+      "2026-10-16T12:18:48.5768129Z AssertionError",
+      "2026-10-16T12:18:48.5817128Z ##[error]Process completed with exit code 1."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 AI Work Source Family",
+    "run_id": 38894865676,
+    "job_id": 116957175478,
+    "log_bytes": 108618,
+    "error_excerpts": [
+      "2026-10-16T12:32:40.7883771Z ##[group]Run python scripts/cp6_ai_gate_scope.py",
+      "2026-10-16T12:32:40.7884211Z python scripts/cp6_ai_gate_scope.py",
+      "2026-10-16T12:32:40.8639022Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/candidate/scripts/cp6_ai_gate_scope.py\", line 24, in <module>",
+      "2026-10-16T12:32:40.8640731Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/candidate/scripts/cp6_ai_gate_scope.py\", line 11, in verify",
+      "2026-10-16T12:32:40.8642267Z AssertionError",
+      "2026-10-16T12:32:40.8693075Z ##[error]Process completed with exit code 1."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 AI-R2 Independent Business Review",
+    "run_id": 38894862576,
+    "job_id": 116952800641,
+    "log_bytes": 109372,
+    "error_excerpts": [
+      "2026-10-16T11:57:08.2229318Z (cd harness && python scripts/cp6_ai_review_scope.py)",
+      "2026-10-16T11:57:08.2229911Z (cd candidate && python scripts/cp6_ai_gate_scope.py)",
+      "2026-10-16T11:57:08.3004797Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/harness/scripts/cp6_ai_review_scope.py\", line 47, in <module>",
+      "2026-10-16T11:57:08.3034422Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/harness/scripts/cp6_ai_review_scope.py\", line 15, in verify",
+      "2026-10-16T11:57:08.3035798Z AssertionError",
+      "2026-10-16T11:57:08.3066924Z ##[error]Process completed with exit code 1."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 AO AP Permanent Package",
+    "run_id": 38894868681,
+    "job_id": 116952820993,
+    "log_bytes": 670483,
+    "error_excerpts": [
+      "2026-10-16T11:44:26.9052350Z python scripts/cp6_ao_ap_scope.py",
+      "2026-10-16T11:44:27.3611021Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_ao_ap_scope.py\", line 17, in <module>",
+      "2026-10-16T11:44:27.4974089Z AssertionError: ['.github/workflows/astra-cp7-timeline-reuse.yml', '.github/workflows/ci.yml', '.github/workflows/claude-cp17-fixes.yml', '.github/workflows/claude-note-correction.yml', '.github/workflows/claude-p08-physical.yml', '.github/workflows/claude-p08-shell.yml', '.github/workflows/claude-p12-payroll.yml', '.github/workflows/claude-p13-finance.yml', '.github/workflows/claude-p18-fabric-rule.yml', '.github/workflows/claude-p18-full-cycle.yml', '.github/workflows/claude-p19-transport.yml', '.github/workflows/claude-p21-rehearsal.yml', '.github/workflows/claude-pl-native.yml', '.github/workflows/claude-supplier-payment-correction.yml', '.github/workflows/claude-supplier-payment-create.yml', '.github/workflows/cp3-r4-full-schema-validation.yml', '.github/workflows/cp5-full-schema-validation.yml', '.github/workflows/cp6-ac-independent-audit.yml', '.github/workflows/cp6-ad-roll-opening-check.yml', '.github/workflows/cp6-af-independent-review.yml', '.github/workflows/cp6-ag-residual-review.yml', '.github/workflows/cp6-ag-sale-reservation.yml', '.github/workflows/cp6-ah-independent-review.yml', '.github/workflows/cp6-ah-return-allocation.yml', '.github",
+      "2026-10-16T11:44:27.5971261Z ##[error]Process completed with exit code 1.",
+      "2026-10-16T11:44:27.6179661Z ##[error]Process completed with exit code 127."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 AP Real Auth Browser Flow",
+    "run_id": 38894871775,
+    "job_id": 116952830346,
+    "log_bytes": 671415,
+    "error_excerpts": [
+      "2026-10-16T11:44:55.9511520Z python scripts/cp6_ap_flow_scope.py",
+      "2026-10-16T11:44:56.4263824Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_ap_flow_scope.py\", line 15, in <module>",
+      "2026-10-16T11:44:56.6596787Z AssertionError: ['.github/workflows/astra-cp7-timeline-reuse.yml', '.github/workflows/ci.yml', '.github/workflows/claude-cp17-fixes.yml', '.github/workflows/claude-note-correction.yml', '.github/workflows/claude-p08-physical.yml', '.github/workflows/claude-p08-shell.yml', '.github/workflows/claude-p12-payroll.yml', '.github/workflows/claude-p13-finance.yml', '.github/workflows/claude-p18-fabric-rule.yml', '.github/workflows/claude-p18-full-cycle.yml', '.github/workflows/claude-p19-transport.yml', '.github/workflows/claude-p21-rehearsal.yml', '.github/workflows/claude-pl-native.yml', '.github/workflows/claude-supplier-payment-correction.yml', '.github/workflows/claude-supplier-payment-create.yml', '.github/workflows/cp3-r4-full-schema-validation.yml', '.github/workflows/cp5-full-schema-validation.yml', '.github/workflows/cp6-ac-independent-audit.yml', '.github/workflows/cp6-ad-roll-opening-check.yml', '.github/workflows/cp6-af-independent-review.yml', '.github/workflows/cp6-ag-residual-review.yml', '.github/workflows/cp6-ag-sale-reservation.yml', '.github/workflows/cp6-ah-independent-review.yml', '.github/workflows/cp6-ah-return-allocation.yml', '.github",
+      "2026-10-16T11:44:56.8284585Z ##[error]Process completed with exit code 1.",
+      "2026-10-16T11:44:56.8507744Z ##[error]Process completed with exit code 127."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 AR Combined Successor Qualification",
+    "run_id": 38894950186,
+    "job_id": 116953086011,
+    "log_bytes": 150076,
+    "error_excerpts": [
+      "2026-10-16T11:44:55.2468226Z (cd ../qualified && python scripts/cp6_ar_scope.py)",
+      "2026-10-16T11:44:55.4417684Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_successor_scope.py\", line 59, in <module>",
+      "2026-10-16T11:44:55.4419456Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_successor_scope.py\", line 35, in verify",
+      "2026-10-16T11:44:55.4420778Z AssertionError",
+      "2026-10-16T11:44:55.4492230Z ##[error]Process completed with exit code 1.",
+      "2026-10-16T11:44:55.4720108Z ##[error]Process completed with exit code 127."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 AR Opening Overlap Repair",
+    "run_id": 38894874885,
+    "job_id": 116952838367,
+    "log_bytes": 670787,
+    "error_excerpts": [
+      "2026-10-16T11:55:15.0087160Z python scripts/cp6_ar_scope.py",
+      "2026-10-16T11:55:15.7061154Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_ar_scope.py\", line 17, in <module>",
+      "2026-10-16T11:55:15.9573011Z AssertionError: ['.github/workflows/astra-cp7-timeline-reuse.yml', '.github/workflows/ci.yml', '.github/workflows/claude-cp17-fixes.yml', '.github/workflows/claude-note-correction.yml', '.github/workflows/claude-p08-physical.yml', '.github/workflows/claude-p08-shell.yml', '.github/workflows/claude-p12-payroll.yml', '.github/workflows/claude-p13-finance.yml', '.github/workflows/claude-p18-fabric-rule.yml', '.github/workflows/claude-p18-full-cycle.yml', '.github/workflows/claude-p19-transport.yml', '.github/workflows/claude-p21-rehearsal.yml', '.github/workflows/claude-pl-native.yml', '.github/workflows/claude-supplier-payment-correction.yml', '.github/workflows/claude-supplier-payment-create.yml', '.github/workflows/cp3-r4-full-schema-validation.yml', '.github/workflows/cp5-full-schema-validation.yml', '.github/workflows/cp6-ac-independent-audit.yml', '.github/workflows/cp6-ad-roll-opening-check.yml', '.github/workflows/cp6-af-independent-review.yml', '.github/workflows/cp6-ag-residual-review.yml', '.github/workflows/cp6-ag-sale-reservation.yml', '.github/workflows/cp6-ah-independent-review.yml', '.github/workflows/cp6-ah-return-allocation.yml', '.github",
+      "2026-10-16T11:55:16.1503860Z ##[error]Process completed with exit code 1.",
+      "2026-10-16T11:55:16.1780663Z ##[error]Process completed with exit code 127."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 AS Independent AR Audit",
+    "run_id": 38894877443,
+    "job_id": 116952846876,
+    "log_bytes": 732371,
+    "error_excerpts": [
+      "2026-10-16T12:04:28.1567719Z gh: Artifact has expired (HTTP 410)",
+      "2026-10-16T12:04:28.1610785Z AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U",
+      "2026-10-16T12:04:38.3304999Z RESTORE Apply v2.6.20p supplier return match state and report scope before every final-runtime proof",
+      "2026-10-16T12:05:01.8692924Z     assert changed == ALLOWED, ('AS_PROBE_SOURCE_SCOPE', changed)",
+      "2026-10-16T12:05:02.1273835Z AssertionError: ('AS_PROBE_SOURCE_SCOPE', {'scripts/cp7-src/reminders/payable-source.sql', 'docs/cp7/evidence/gpt-staged-5000-20261008/cb98b0f8-scale5-first-failure-retained/RECEIPT.json', 'docs/cp7/evidence/retained-original-verifier/qualified-d84/analysis152/ORIGINAL_REPORTS.json.gz', 'scripts/cp7_installment_bundle.py', 'docs/cp7/evidence/f03-full/qualified8-complete-catalog-6a/p12/T3_PACKAGE_INSTALL.json.gz', 'docs/cp7/evidence/plan-native/qualified35-readable-40ec442/original-reports.json.gz', 'docs/cp7/evidence/p09-procurement/P09_UOM_MOBILE.png', 'scripts/cp6_s06_close_probe.py', 'scripts/cp7-src/fg/adjustments.sql', 'docs/cp7/audit-candidate/crosscheck-r2-20261014/CI_RECEIPT.json', 'docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-claude-note-correction-retained/ORIGINAL_REPORTS.json.gz', 'docs/cp7/evidence/integration-ab4/11392142496/T3_PACKAGE_FILES_INSTALL.json.gz', 'docs/cp7/evidence/note-correction/qualified40-e7/T3_PACKAGE_FILES_INSTALL.json.gz', 'docs/cp7/evidence/p13-finance/ANALYSIS_RECOST_REGRESSION_RECEIPT.json', 'docs/cp7/evidence/integration-ab4/11391919338/T3_PACKAGE_FILES_INSTALL.json.gz', 'scripts/cp7_f04_plan_browser_fixture.",
+      "2026-10-16T12:05:02.3252213Z ##[error]Process completed with exit code 1."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 AS Writer Qualification",
+    "run_id": 38894879960,
+    "job_id": 116952856554,
+    "log_bytes": 732002,
+    "error_excerpts": [
+      "2026-10-16T11:51:01.4003507Z gh: Artifact has expired (HTTP 410)",
+      "2026-10-16T11:51:01.4035071Z AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U",
+      "2026-10-16T11:51:07.7806572Z RESTORE Apply v2.6.20p supplier return match state and report scope before every final-runtime proof",
+      "2026-10-16T11:51:22.6721172Z     assert set(changed)<=allowed and set(changed)>=allowed-{'docs/cp6-as-qualification.md'},('AS_SCOPE',changed)",
+      "2026-10-16T11:51:22.7966886Z AssertionError: ('AS_SCOPE', ['.github/workflows/astra-cp7-timeline-reuse.yml', '.github/workflows/ci.yml', '.github/workflows/claude-cp17-fixes.yml', '.github/workflows/claude-note-correction.yml', '.github/workflows/claude-p08-physical.yml', '.github/workflows/claude-p08-shell.yml', '.github/workflows/claude-p12-payroll.yml', '.github/workflows/claude-p13-finance.yml', '.github/workflows/claude-p18-fabric-rule.yml', '.github/workflows/claude-p18-full-cycle.yml', '.github/workflows/claude-p19-transport.yml', '.github/workflows/claude-p21-rehearsal.yml', '.github/workflows/claude-pl-native.yml', '.github/workflows/claude-supplier-payment-correction.yml', '.github/workflows/claude-supplier-payment-create.yml', '.github/workflows/cp3-r4-full-schema-validation.yml', '.github/workflows/cp5-full-schema-validation.yml', '.github/workflows/cp6-ac-independent-audit.yml', '.github/workflows/cp6-ad-roll-opening-check.yml', '.github/workflows/cp6-af-independent-review.yml', '.github/workflows/cp6-ag-residual-review.yml', '.github/workflows/cp6-ag-sale-reservation.yml', '.github/workflows/cp6-ah-independent-review.yml', '.github/workflows/cp6-ah-return-allocation.y",
+      "2026-10-16T11:51:22.8908094Z ##[error]Process completed with exit code 1."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 AT Independent AS Audit",
+    "run_id": 38894883219,
+    "job_id": 116952866896,
+    "log_bytes": 895931,
+    "error_excerpts": [
+      "2026-10-16T12:10:53.4423620Z gh: Artifact has expired (HTTP 410)",
+      "2026-10-16T12:10:53.4440920Z AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U",
+      "2026-10-16T12:11:03.3829345Z RESTORE Apply v2.6.20p supplier return match state and report scope before every final-runtime proof",
+      "2026-10-16T12:22:25.4427329Z     assert set(changed)==allowed,('AUDITOR_SCOPE',changed)",
+      "2026-10-16T12:22:25.6960265Z AssertionError: ('AUDITOR_SCOPE', ['.github/workflows/astra-cp7-timeline-reuse.yml', '.github/workflows/ci.yml', '.github/workflows/claude-cp17-fixes.yml', '.github/workflows/claude-note-correction.yml', '.github/workflows/claude-p08-physical.yml', '.github/workflows/claude-p08-shell.yml', '.github/workflows/claude-p12-payroll.yml', '.github/workflows/claude-p13-finance.yml', '.github/workflows/claude-p18-fabric-rule.yml', '.github/workflows/claude-p18-full-cycle.yml', '.github/workflows/claude-p19-transport.yml', '.github/workflows/claude-p21-rehearsal.yml', '.github/workflows/claude-pl-native.yml', '.github/workflows/claude-supplier-payment-correction.yml', '.github/workflows/claude-supplier-payment-create.yml', '.github/workflows/cp3-r4-full-schema-validation.yml', '.github/workflows/cp5-full-schema-validation.yml', '.github/workflows/cp6-ac-independent-audit.yml', '.github/workflows/cp6-ad-roll-opening-check.yml', '.github/workflows/cp6-af-independent-review.yml', '.github/workflows/cp6-ag-residual-review.yml', '.github/workflows/cp6-ag-sale-reservation.yml', '.github/workflows/cp6-ah-independent-review.yml', '.github/workflows/cp6-ah-return-allocat",
+      "2026-10-16T12:22:25.8890533Z ##[error]Process completed with exit code 1."
+    ],
+    "nonpass_cases": [
+      {
+        "group": "AR_EXTRA_PROBES",
+        "id": "STAGED_BS_BRAND_MODEL",
+        "status": "COUNTEREXAMPLE"
+      },
+      {
+        "group": "AR_EXTRA_PROBES",
+        "id": "WIP_BRAND_SECOND",
+        "status": "COUNTEREXAMPLE"
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:WORK_CENTS",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:WORK_ZERO_RATE",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:WORK_UNPAID",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:WORK_PARTIAL_PAY",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:WORK_TIMEZONE",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:DIRECT_POST",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:PO_CONTRACTOR",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:SNAPSHOT_DELETE",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:PAYABLE_EXCEEDS_COMPLETED",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:NEGATIVE_PAYABLE",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:EMPTY_POST",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:BEFORE_PICKUP",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:FUTURE",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:DOUBLE_POST",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:POSTED_EDIT",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:POSTED_DELETE",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:POSTED_HEADER",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:REVERSE_REUSE",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:ROLE_UNREGISTERED",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:ROLE_INACTIVE_OWNER",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:ROLE_EMPTY_CLAIMS",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:HPP_THROUGH_SALE_0",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "WORK:HPP_THROUGH_SALE_1.27",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "INVOICE:UTC:4:False",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "INVOICE:UTC:4:True",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "INVOICE:UTC:7:False",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "INVOICE:UTC:7:True",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "INVOICE:Asia/Jakarta:4:False",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "INVOICE:Asia/Jakarta:4:True",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "INVOICE:Asia/Jakarta:7:False",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "INVOICE:Asia/Jakarta:7:True",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "INVOICE:Pacific/Kiritimati:4:False",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "INVOICE:Pacific/Kiritimati:4:True",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "INVOICE:Pacific/Kiritimati:7:False",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "INVOICE:Pacific/Kiritimati:7:True",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "INVOICE:America/Los_Angeles:4:False",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "INVOICE:America/Los_Angeles:4:True",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "INVOICE:America/Los_Angeles:7:False",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "INVOICE:America/Los_Angeles:7:True",
+        "status": "CONTROL_PASS",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "CALENDAR:1_MONTHS:UTC:False",
+        "status": "DATE_POLICY_REVIEW_REQUIRED",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+        "status": "DATE_POLICY_REVIEW_REQUIRED",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "CALENDAR:2_MONTHS:UTC:False",
+        "status": "DATE_POLICY_REVIEW_REQUIRED",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+        "status": "DATE_POLICY_REVIEW_REQUIRED",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "CALENDAR:3_MONTHS:UTC:False",
+        "status": "DATE_POLICY_REVIEW_REQUIRED",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+        "status": "DATE_POLICY_REVIEW_REQUIRED",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "CALENDAR:JAN31:UTC:False",
+        "status": "DATE_POLICY_REVIEW_REQUIRED",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "CALENDAR:JAN31:Pacific/Kiritimati:False",
+        "status": "DATE_POLICY_REVIEW_REQUIRED",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "CALENDAR:FEB28:UTC:False",
+        "status": "DATE_POLICY_REVIEW_REQUIRED",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "CALENDAR:FEB28:Pacific/Kiritimati:False",
+        "status": "DATE_POLICY_REVIEW_REQUIRED",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "CALENDAR:MAY31:UTC:False",
+        "status": "DATE_POLICY_REVIEW_REQUIRED",
+        "error": null
+      },
+      {
+        "group": "BUSINESS",
+        "id": "CALENDAR:MAY31:Pacific/Kiritimati:False",
+        "status": "DATE_POLICY_REVIEW_REQUIRED",
+        "error": null
+      }
+    ]
+  },
+  {
+    "workflow": "CP6 AT Qualification",
+    "run_id": 38894886372,
+    "job_id": 116952878705,
+    "log_bytes": 683070,
+    "error_excerpts": [
+      "2026-10-16T11:52:49.7558669Z     assert set(changed)==allowed,('AT_SCOPE',changed)",
+      "2026-10-16T11:52:50.0189102Z AssertionError: ('AT_SCOPE', ['.github/workflows/astra-cp7-timeline-reuse.yml', '.github/workflows/ci.yml', '.github/workflows/claude-cp17-fixes.yml', '.github/workflows/claude-note-correction.yml', '.github/workflows/claude-p08-physical.yml', '.github/workflows/claude-p08-shell.yml', '.github/workflows/claude-p12-payroll.yml', '.github/workflows/claude-p13-finance.yml', '.github/workflows/claude-p18-fabric-rule.yml', '.github/workflows/claude-p18-full-cycle.yml', '.github/workflows/claude-p19-transport.yml', '.github/workflows/claude-p21-rehearsal.yml', '.github/workflows/claude-pl-native.yml', '.github/workflows/claude-supplier-payment-correction.yml', '.github/workflows/claude-supplier-payment-create.yml', '.github/workflows/cp3-r4-full-schema-validation.yml', '.github/workflows/cp5-full-schema-validation.yml', '.github/workflows/cp6-ac-independent-audit.yml', '.github/workflows/cp6-ad-roll-opening-check.yml', '.github/workflows/cp6-af-independent-review.yml', '.github/workflows/cp6-ag-residual-review.yml', '.github/workflows/cp6-ag-sale-reservation.yml', '.github/workflows/cp6-ah-independent-review.yml', '.github/workflows/cp6-ah-return-allocation.y",
+      "2026-10-16T11:52:50.2112365Z ##[error]Process completed with exit code 1.",
+      "2026-10-16T11:52:51.1065883Z ##[error]Process completed with exit code 1."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 AU Independent AT Review",
+    "run_id": 38894897981,
+    "job_id": 116952916144,
+    "log_bytes": 210128,
+    "error_excerpts": [
+      "2026-10-16T11:52:47.2799375Z   > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }",
+      "2026-10-16T11:52:47.7345544Z gh: Artifact has expired (HTTP 410)",
+      "2026-10-16T11:52:47.7379471Z AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U",
+      "2026-10-16T11:52:54.1690153Z RESTORE Apply v2.6.20p supplier return match state and report scope before every final-runtime proof",
+      "2026-10-16T11:53:09.1160569Z AssertionError",
+      "2026-10-16T11:53:09.1416113Z ##[error]Process completed with exit code 1."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 AU Qualification",
+    "run_id": 38894895108,
+    "job_id": 116952905571,
+    "log_bytes": 682574,
+    "error_excerpts": [
+      "2026-10-16T12:19:41.0922530Z     assert set(changed)==allowed,('AU_SCOPE',changed)",
+      "2026-10-16T12:19:41.2840687Z AssertionError: ('AU_SCOPE', ['.github/workflows/astra-cp7-timeline-reuse.yml', '.github/workflows/ci.yml', '.github/workflows/claude-cp17-fixes.yml', '.github/workflows/claude-note-correction.yml', '.github/workflows/claude-p08-physical.yml', '.github/workflows/claude-p08-shell.yml', '.github/workflows/claude-p12-payroll.yml', '.github/workflows/claude-p13-finance.yml', '.github/workflows/claude-p18-fabric-rule.yml', '.github/workflows/claude-p18-full-cycle.yml', '.github/workflows/claude-p19-transport.yml', '.github/workflows/claude-p21-rehearsal.yml', '.github/workflows/claude-pl-native.yml', '.github/workflows/claude-supplier-payment-correction.yml', '.github/workflows/claude-supplier-payment-create.yml', '.github/workflows/cp3-r4-full-schema-validation.yml', '.github/workflows/cp5-full-schema-validation.yml', '.github/workflows/cp6-ac-independent-audit.yml', '.github/workflows/cp6-ad-roll-opening-check.yml', '.github/workflows/cp6-af-independent-review.yml', '.github/workflows/cp6-ag-residual-review.yml', '.github/workflows/cp6-ag-sale-reservation.yml', '.github/workflows/cp6-ah-independent-review.yml', '.github/workflows/cp6-ah-return-allocation.y",
+      "2026-10-16T12:19:41.4236165Z ##[error]Process completed with exit code 1.",
+      "2026-10-16T12:19:42.2893072Z ##[error]Process completed with exit code 1."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 Auditor Scenario",
+    "run_id": 38906744394,
+    "job_id": 116992106053,
+    "log_bytes": 1188734,
+    "error_excerpts": [
+      "2026-10-16T13:29:58.2125204Z {\"group\": \"AUDITOR_RACES_AFTER\", \"case\": \"BE_RACE:REDYE_INVOICE_FIRST_ABORTS\", \"contention\": {\"kind\": \"BLOCKED\", \"holder_blocks_worker\": true}, \"second\": {\"ok\": true, \"result\": {\"paid\": \"0.00\", \"lines\": [{\"id\": \"8386bce8-f7f5-4576-b8aa-3dae247c15f1\", \"qty\": 4, \"note\": null, \"po_id\": \"c592ab22-24e3-403e-ae59-ff9203cf7e91\", \"amount\": \"240.00\", \"line_no\": 1, \"category\": \"GOOD\", \"variance\": \"40.00\", \"line_kind\": \"BILL\", \"net_amount\": \"240.00\", \"discount_share\": \"0.00\", \"rounding_share\": \"0.00\", \"receipt_line_id\": null, \"completes_source\": true, \"product_variance\": \"40.00\", \"released_estimate\": \"200.00\", \"rework_service_id\": \"bc766adb-cd4e-4d8f-aa58-5d663e918f5a\", \"opening_uninvoiced_id\": null}], \"action\": \"POST_INVOICE\", \"status\": \"POSTED\", \"due_date\": null, \"vendor_id\": \"c8c20000-0000-4000-8000-000000000002\", \"invoice_id\": \"df94cfae-dd5f-4329-83fc-2f96d89a061a\", \"journal_id\": \"7eb4c44e-ddf7-498e-9dc3-74f203860f47\", \"request_id\": \"97c18ed2-e2a6-4daf-beb1-e2478ce6efe1\", \"tax_amount\": \"0.00\", \"row_version\": \"2\", \"header_total\": \"240.00\", \"invoice_date\": \"2026-10-13\", \"document_kind\": \"INVOICE\", \"variance_mode\": \"PRODUCT_COST\", \"invoice_number\": \"BE-RB-1c5297d",
+      "2026-10-16T13:30:01.8036680Z {\"group\": \"AUDITOR_RACES_AFTER\", \"case\": \"BE_RACE:POCKET_PERIOD_FIRST_COMMITS\", \"first_committed\": true, \"busy\": {\"code\": \"POCKET_PERIOD_BUSY\", \"refusal\": {\"sqlstate\": \"P0001\", \"message\": \"POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru\"}, \"result\": null, \"ok\": true}, \"retry_result\": {\"needle\": \"Periode memerlukan biaya dan hasil jahit positif serta tidak boleh tumpang tindih\", \"refusal\": {\"sqlstate\": \"P0001\", \"message\": \"Periode memerlukan biaya dan hasil jahit positif serta tidak boleh tumpang tindih\"}, \"result\": null, \"ok\": true}, \"source_allocations\": 1, \"checks\": {\"two_connections\": true, \"held_busy\": true, \"retry\": true, \"once\": true}, \"failed\": [], \"status\": \"PASS\", \"copy_runtime\": {\"stage\": \"BE_PLUS_BF_T1\", \"label\": \"T1_FAMILY\", \"functions\": 9, \"sql_sha256\": \"db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32\", \"replaced_by_later_family\": [\"erp.close_accounting_through(date,text)\", \"erp.get_owner_financial_snapshot_v2(date,date,date)\", \"erp.period_blockers_v1(date,date)\", \"erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)\"], \"ax_sql_sha256\": \"2427b901ce6991c1e36bf1b51e3e756d4d000ae3",
+      "2026-10-16T13:30:05.0726169Z {\"group\": \"AUDITOR_RACES_AFTER\", \"case\": \"BE_RACE:POCKET_PERIOD_FIRST_ABORTS\", \"first_committed\": false, \"busy\": {\"code\": \"POCKET_PERIOD_BUSY\", \"refusal\": {\"sqlstate\": \"P0001\", \"message\": \"POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru\"}, \"result\": null, \"ok\": true}, \"retry_result\": {\"id\": \"5e3fad9b-c7cf-4a8a-ad71-16c73a07b48b\", \"action\": \"POST_PERIOD\", \"status\": \"ACTIVE\", \"request_id\": \"753f1389-d1d3-4193-8817-098aeec8a6f5\"}, \"source_allocations\": 1, \"checks\": {\"two_connections\": true, \"held_busy\": true, \"retry\": true, \"once\": true}, \"failed\": [], \"status\": \"PASS\", \"copy_runtime\": {\"stage\": \"BE_PLUS_BF_T1\", \"label\": \"T1_FAMILY\", \"functions\": 9, \"sql_sha256\": \"db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32\", \"replaced_by_later_family\": [\"erp.close_accounting_through(date,text)\", \"erp.get_owner_financial_snapshot_v2(date,date,date)\", \"erp.period_blockers_v1(date,date)\", \"erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)\"], \"ax_sql_sha256\": \"2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503\", \"av_coverage\": {\"registry\": {\"erp.fg_lots.product_id\": {\"class\": \"NEW_STOCK_FACT\"",
+      "2026-10-16T13:33:00.6146883Z {\"auditor_phase\": \"after\", \"status\": \"INCOMPLETE\", \"label\": \"AUDITOR_SCENARIO\", \"phase\": \"after\", \"scenario_sha256\": \"95602b19903fed7865e3724bf1e76f56eedbf9abd04dfbbe13be6e01037ef3f9\", \"production_go\": false, \"independent_acceptance\": false, \"release_evidence\": false, \"run_identity\": {\"label\": \"AUDITOR_SCENARIO\", \"tool_head\": \"2e9d6a468c110684c278d585418eb404250d1150\", \"product_ref\": \"3b7cf370a52535a8fd6dd80d59573f40cd9a3ba0\", \"product_paths\": [\"supabase/migrations\", \"supabase/dev\", \"supabase/release\", \"supabase/rollbacks\", \"src\"], \"run_id\": \"38906744394\", \"run_attempt\": \"1\", \"workflow\": \"CP6 Auditor Scenario\", \"job\": \"phase\", \"event\": \"workflow_dispatch\", \"github_sha\": \"2e9d6a468c110684c278d585418eb404250d1150\", \"release_evidence\": false, \"production_go\": false, \"phase\": \"after\", \"scenario_sha256\": \"95602b19903fed7865e3724bf1e76f56eedbf9abd04dfbbe13be6e01037ef3f9\"}, \"au_install\": \"PASS\", \"av_install\": \"PASS\", \"aw_install\": {\"stage\": \"AV_PLUS_AW_T1\", \"label\": \"T1_FAMILY\", \"functions\": 13, \"sql_sha256\": \"db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32\"}, \"ax_install\": {\"stage\": \"AV_PLUS_AW_PLUS_AX_T1\", \"label\": \"T1_FAMILY\", \"functions\": ",
+      "2026-10-16T13:33:00.6397186Z AssertionError: INCOMPLETE",
+      "2026-10-16T13:33:00.6413973Z ##[error]Process completed with exit code 1."
+    ],
+    "nonpass_cases": [
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "id": "READINESS_BROWSER:DESKTOP_NATIVE_POLICY_STATES_FINANCE_NOTE",
+        "status": "INCOMPLETE",
+        "error": "Error: READINESS_FINANCE_OBSERVATION {\"mobile\":false,\"alerts\":[\"Data belum dimuat ulang. Refetch wajib berhasil sebelum transaksi berikutnya.\",\"Could not find the function public.erp_cp7_get_recost_queue_v1(p_offset) in the schema cache\"],\"rpc_errors\":[{\"rpc\":\"erp_cp7_get_recost_queue_v1\",\"status\":404,\"code\":\"PGRST202\",\"message\":\"Could not find the function public.erp_cp7_get_recost_queue_v1(p_offset) in the schema cache\"}]}\n    at readiness (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_readiness_browser.mjs:95:13)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:188:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:204:3"
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "id": "READINESS_BROWSER:MOBILE_NATIVE_POLICY_STATES_FINANCE_NOTE",
+        "status": "INCOMPLETE",
+        "error": "Error: READINESS_FINANCE_OBSERVATION {\"mobile\":true,\"alerts\":[\"Data belum dimuat ulang. Refetch wajib berhasil sebelum transaksi berikutnya.\",\"Could not find the function public.erp_cp7_get_recost_queue_v1(p_offset) in the schema cache\"],\"rpc_errors\":[{\"rpc\":\"erp_cp7_get_recost_queue_v1\",\"status\":404,\"code\":\"PGRST202\",\"message\":\"Could not find the function public.erp_cp7_get_recost_queue_v1(p_offset) in the schema cache\"}]}\n    at readiness (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_readiness_browser.mjs:95:13)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:188:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:204:3"
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "id": "BF_BROWSER:SALES_MANUAL_13_DESKTOP",
+        "status": "INCOMPLETE",
+        "error": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  locator('.biz-invoice-lines > article').first().locator('.biz-size-entry input')\nExpected: 3\nReceived: 0\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.count\" with timeout 5000ms\n  - waiting for locator('.biz-invoice-lines > article').first().locator('.biz-size-entry input')\n    14 × locator resolved to 0 elements\n       - unexpected value \"0\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toHaveCount (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at salesManual (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_browser.mjs:42:31)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:188:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:204:3"
+      },
+      {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "id": "BF_BROWSER:SALES_MANUAL_13_MOBILE",
+        "status": "INCOMPLETE",
+        "error": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  locator('.biz-invoice-lines > article').first().locator('.biz-size-entry input')\nExpected: 3\nReceived: 0\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.count\" with timeout 5000ms\n  - waiting for locator('.biz-invoice-lines > article').first().locator('.biz-size-entry input')\n    14 × locator resolved to 0 elements\n       - unexpected value \"0\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toHaveCount (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at salesManual (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_browser.mjs:42:31)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:188:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:204:3"
+      }
+    ]
+  },
+  {
+    "workflow": "CP6 Final Boundary Audit",
+    "run_id": 38894936507,
+    "job_id": 116953041576,
+    "log_bytes": 302574,
+    "error_excerpts": [
+      "2026-10-16T12:07:56.2421033Z (cd harness && python scripts/cp6_disposable_ui_scope.py)",
+      "2026-10-16T12:07:56.2421505Z (cd candidate && python scripts/cp6_ai_gate_scope.py)",
+      "2026-10-16T12:07:56.3208409Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/harness/scripts/cp6_disposable_ui_scope.py\", line 257, in <module>",
+      "2026-10-16T12:07:56.3211011Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/harness/scripts/cp6_disposable_ui_scope.py\", line 172, in verify",
+      "2026-10-16T12:07:56.3213287Z AssertionError",
+      "2026-10-16T12:07:56.3274353Z ##[error]Process completed with exit code 1."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 Initial Import Native Trial",
+    "run_id": 38894941618,
+    "job_id": 116953059186,
+    "log_bytes": 670171,
+    "error_excerpts": [
+      "2026-10-16T12:12:11.3301524Z python scripts/cp6_initial_import_scope.py",
+      "2026-10-16T12:12:11.4865352Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_initial_import_scope.py\", line 34, in <module>",
+      "2026-10-16T12:12:11.7453939Z AssertionError: ['.github/workflows/astra-cp7-timeline-reuse.yml', '.github/workflows/ci.yml', '.github/workflows/claude-cp17-fixes.yml', '.github/workflows/claude-note-correction.yml', '.github/workflows/claude-p08-physical.yml', '.github/workflows/claude-p08-shell.yml', '.github/workflows/claude-p12-payroll.yml', '.github/workflows/claude-p13-finance.yml', '.github/workflows/claude-p18-fabric-rule.yml', '.github/workflows/claude-p18-full-cycle.yml', '.github/workflows/claude-p19-transport.yml', '.github/workflows/claude-p21-rehearsal.yml', '.github/workflows/claude-pl-native.yml', '.github/workflows/claude-supplier-payment-correction.yml', '.github/workflows/claude-supplier-payment-create.yml', '.github/workflows/cp3-r4-full-schema-validation.yml', '.github/workflows/cp5-full-schema-validation.yml', '.github/workflows/cp6-ac-independent-audit.yml', '.github/workflows/cp6-ad-roll-opening-check.yml', '.github/workflows/cp6-af-independent-review.yml', '.github/workflows/cp6-ag-residual-review.yml', '.github/workflows/cp6-ag-sale-reservation.yml', '.github/workflows/cp6-ah-independent-review.yml', '.github/workflows/cp6-ah-return-allocation.yml', '.github",
+      "2026-10-16T12:12:11.9332882Z ##[error]Process completed with exit code 1.",
+      "2026-10-16T12:12:11.9618269Z ##[error]Process completed with exit code 127."
+    ],
+    "nonpass_cases": []
+  },
+  {
+    "workflow": "CP6 Opening Overlap Probe",
+    "run_id": 38894944586,
+    "job_id": 116953067151,
+    "log_bytes": 671423,
+    "error_excerpts": [
+      "2026-10-16T12:10:51.9517166Z python scripts/cp6_opening_overlap_scope.py",
+      "2026-10-16T12:10:52.7514437Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_opening_overlap_scope.py\", line 13, in <module>",
+      "2026-10-16T12:10:52.9981172Z AssertionError: ['.github/workflows/astra-cp7-timeline-reuse.yml', '.github/workflows/ci.yml', '.github/workflows/claude-cp17-fixes.yml', '.github/workflows/claude-note-correction.yml', '.github/workflows/claude-p08-physical.yml', '.github/workflows/claude-p08-shell.yml', '.github/workflows/claude-p12-payroll.yml', '.github/workflows/claude-p13-finance.yml', '.github/workflows/claude-p18-fabric-rule.yml', '.github/workflows/claude-p18-full-cycle.yml', '.github/workflows/claude-p19-transport.yml', '.github/workflows/claude-p21-rehearsal.yml', '.github/workflows/claude-pl-native.yml', '.github/workflows/claude-supplier-payment-correction.yml', '.github/workflows/claude-supplier-payment-create.yml', '.github/workflows/cp3-r4-full-schema-validation.yml', '.github/workflows/cp5-full-schema-validation.yml', '.github/workflows/cp6-ac-independent-audit.yml', '.github/workflows/cp6-ad-roll-opening-check.yml', '.github/workflows/cp6-af-independent-review.yml', '.github/workflows/cp6-ag-residual-review.yml', '.github/workflows/cp6-ag-sale-reservation.yml', '.github/workflows/cp6-ah-independent-review.yml', '.github/workflows/cp6-ah-return-allocation.yml', '.github",
+      "2026-10-16T12:10:53.1846914Z ##[error]Process completed with exit code 1.",
+      "2026-10-16T12:10:53.2138879Z ##[error]Process completed with exit code 127."
+    ],
+    "nonpass_cases": []
+  }
+]

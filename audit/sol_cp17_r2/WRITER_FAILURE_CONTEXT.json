@@ -1,0 +1,12 @@
+{
+  "input_head": "b388a4b7d4b0291de81b68d1e624a062eda5edd1",
+  "read_final_failure_logs": 22,
+  "reason": "Writer-dispatched legacy baselines and strict scope checks; not an independent candidate rerun.",
+  "source_proof": "cp6_as_trial.qualify explicitly calls AR_EXTRA_PROBES at stage='AR' before runtime.qualify; its two counterexamples are predecessor observations.",
+  "normalized_nonpass_classification": {
+    "CONTROL_PASS": "positive control, retained raw label; not a failure",
+    "DATE_POLICY_REVIEW_REQUIRED": "historical date policy review, not current PASS",
+    "COUNTEREXAMPLE": "retained as counterexample on explicitly predecessor AR stack; not promoted to final-r2 regression without current reproduction"
+  },
+  "all_failures_retained": true
+}

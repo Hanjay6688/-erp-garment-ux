@@ -1,0 +1,118 @@
+{
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "product_fixes_made": false,
+  "new_findings": [
+    {
+      "id": "SOL-R2-001",
+      "severity": "S2",
+      "status": "OPEN",
+      "title": "Nomor PO otomatis ke-1.000 pada tanggal yang sama tidak selesai dibuat",
+      "novelty": "NEW_SOL_INDEPENDENT",
+      "evidence_level": "NATIVE_QUALIFIED",
+      "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+      "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+      "locations": [
+        "scripts/cp7-src/cutting-correction/auto-po.sql:211-217"
+      ],
+      "requirements_violated": [
+        "D15-6",
+        "Owner performance: save <=2 seconds"
+      ],
+      "protected_invariants_observed": [
+        "INV-C04",
+        "INV-C06"
+      ],
+      "raw_status": "COUNTEREXAMPLE",
+      "protocol_status": "FAIL",
+      "proof": {
+        "run_id": 38934111700,
+        "job_id": 117085146759,
+        "artifact_id": 12059209949,
+        "member": "SOL_R2_NEW_RESULT.json",
+        "control": {
+          "status": "PASS",
+          "expected_number": "PO-261014-999",
+          "actual_number": "PO-261014-999",
+          "existing_daily_numbers": 998,
+          "elapsed_seconds": 0.04,
+          "one_posted_cutting": true,
+          "stock_after": "0",
+          "session_role": "OWNER",
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-16",
+            "before": "2026-10-16",
+            "after": "2026-10-16"
+          }
+        },
+        "counterexample": {
+          "status": "COUNTEREXAMPLE",
+          "expected_number": "PO-261014-1000",
+          "existing_daily_numbers": 999,
+          "deadline_seconds": 3,
+          "elapsed_seconds": 3.003,
+          "error": {
+            "sqlstate": "57014",
+            "message": "canceling statement due to statement timeout",
+            "context": "SQL expression \"exists(select 1 from erp.production_orders where po_number=v_prefix||lpad(v_n::text,3,'0'))\"\nPL/pgSQL function cp7_cutting_correction.auto_po_command(jsonb,uuid) line 66 at WHILE\nSQL function \"erp_cp7_save_cutting_auto_po_v1\" statement 1"
+          },
+          "whole_business_boundary_unchanged": true,
+          "stock_after": "10",
+          "session_role": "OWNER",
+          "scope": "Native public auto-PO command; synthetic unused Native PO headers only",
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-16",
+            "before": "2026-10-16",
+            "after": "2026-10-16"
+          }
+        }
+      },
+      "impact": "Buat Potongan tidak dapat menambah PO setelah nomor harian 001–999 terpakai. Command memegang kunci nomor tanggal itu selama menunggu; permintaan tanggal sama dapat ikut tertahan (dampak kunci dari tinjauan sumber). Uji tidak meninggalkan PO, stok atau jurnal setengah jadi.",
+      "cause": "lpad(v_n::text,3,'0') memotong teks 1000 menjadi 100; pencarian kembali menguji nomor 100–999 yang sudah ada. Kontrol 999 selesai 0,040 detik; batas 1000 mencapai timeout 3,003 detik tepat pada WHILE itu.",
+      "suggested_fix": "Jadikan tiga digit sebagai lebar minimum, bukan panjang maksimum. Pertahankan penguncian per tanggal, keunikan dan UUID idempoten. Alternatif batas kapasitas harus menolak secara jelas dan cepat; jangan menaikkan timeout sebagai penyelesaian.",
+      "acceptance_tests": [
+        "998→999→1000→1001 dan 9999→10000 menghasilkan nomor unik yang tidak terpotong.",
+        "Dua sesi pada batas 999/1000 serta UUID sama menghasilkan tepat satu PO dan satu efek stok per permintaan sah.",
+        "Kegagalan setelah PO dibuat tetap membatalkan PO, stok, jurnal dan nomor; simpan draf tidak membuat PO.",
+        "Tanggal potong WIB menentukan nomor; batas tanggal berganti tidak saling mengunci."
+      ],
+      "production_go": false
+    }
+  ],
+  "known_open_items": [
+    {
+      "id": "KNOWN-R2-POOL-UI",
+      "severity": "S1",
+      "status": "OPEN_MISSING_UI_LIFECYCLE",
+      "novelty": "WRITER_DISCLOSED_NOT_NEW_SOL",
+      "scope": "Pool HPP absensi: preview/buat/aktifkan/batalkan lewat aplikasi belum tersedia.",
+      "evidence_origin": "INDEPENDENT_SOURCE_REVIEW",
+      "proof": "Tidak ada pemanggil create/activate/cancel_attendance_hpp_pool di src atau scripts/cp7-src; Native erp writers ada, dan CP17_HPP01 membuktikan aturan cancel→policy→replacement di SQL. D15-2 menyembunyikan absensi, bukan menerima penghilangan siklus pool.",
+      "impact": "Pengguna yang perlu membatalkan pool aktif untuk memperbaiki sumber/upah/kebijakan diarahkan membatalkan pool, tetapi langkah itu belum mempunyai jalur layar.",
+      "suggested_fix": "Sediakan layar siklus pool yang memakai writer Native, review/version, izin saat ini, riwayat dan penghalang periode; uji create→activate→blocked correction→cancel→correct→replacement dari layar."
+    },
+    {
+      "id": "KNOWN-RECEIPT-FIRST100",
+      "severity": "S3",
+      "status": "OPEN_WRITER_DISCLOSED",
+      "novelty": "NOT_NEW_SOL",
+      "scope": "scripts/cp7_ci_receipt.py hanya membaca halaman pertama daftar run dan job.",
+      "evidence_origin": "INDEPENDENT_SOURCE_REVIEW",
+      "proof": "Baris 28/31 memakai per_page=100 tanpa page; receipt r2 dihasilkan writer dengan salinan yang sudah dipaginasi. Verifikasi auditor memakai kedua halaman, bukan skrip itu.",
+      "suggested_fix": "Paginasi seluruh run/job dan anotasi sebelum menyatakan receipt lengkap; uji 101+ baris dan workflow dengan >100 job."
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "origin": "INDEPENDENT_* except explicitly retained older original",
+  "items": [
+    {
+      "id": "SOL-R1-001",
+      "status": "CLOSED_TESTED_SCOPE",
+      "proof": "7/7 literal Native + 4/4 real Auth HTTP; spent30.01−20 corrected25.01→bank5.01; note-only→10.01; negative15.01 refused unchanged."
+    },
+    {
+      "id": "SOL-R1-002",
+      "status": "CLOSED_ORDINARY_NEW_PO_PATH",
+      "proof": "CP17 autoPO Native/race/HTTP/browser; real UAT-build autoPO phone; PO+cutting atomic and UUID replay. New numbering boundary is separate SOL-R2-001."
+    },
+    {
+      "id": "SOL-R1-003",
+      "status": "CLOSED_UNMODIFIED_CANDIDATE_HELPER",
+      "proof": "Stop-before-U records NOT_APPLICABLE_STOPPED_BEFORE_U; native owner10/10, 58/58 pinned files; no prior Sol monkeypatch."
+    },
+    {
+      "id": "SOL-R1-004",
+      "status": "CLOSED_DEMO_QC_WIDTH",
+      "proof": "DEMO phone390: document.scrollWidth390; desktop1440:1440. Original failing669 at390 retained in seal278a95ce."
+    },
+    {
+      "id": "SOL-R1-005",
+      "status": "CLOSED_DEMO_HPP_WIDTH",
+      "proof": "DEMO phone390: document.scrollWidth390; desktop1440:1440. Original failing627 at390 retained in seal278a95ce."
+    },
+    {
+      "id": "KNOWN-UI-MODE",
+      "status": "CLOSED_PER_D15_2",
+      "proof": "17 hidden UAT menus; zero UAT sample routes; actual UAT Native census plus all288 mode/refusal/width contexts. Not hosted CP7C acceptance."
+    },
+    {
+      "id": "KNOWN-DAILY-MASTER",
+      "status": "CLOSED_TESTED_SIX_SCREENS_AND_RATES",
+      "proof": "CP17 master10 Native +7race +2HTTP +13browser; actual UAT customer create/update/deactivate and usage blockers."
+    },
+    {
+      "id": "KNOWN-BF-WAVE",
+      "status": "CLOSED_TESTED_PER_SKU_FLOW",
+      "proof": "CP17 wave5Native+1race+1HTTP+2browser; Sol independent5/2/9 sizes, cancel B, repost:16pcs, net WIP356 exact."
+    },
+    {
+      "id": "SOL-001",
+      "status": "RETAINED_CLOSED_FRESH_CASH_CONTROL",
+      "proof": "Original emptybank pay1 refused; F03/current cash guards and own literal unchanged."
+    },
+    {
+      "id": "SOL-002",
+      "status": "RETAINED_CLOSED_PRIOR_BE16_SCOPE",
+      "proof": "Prior independent BE16 complete original retained; supabase tree unchanged. Current connected prefreeze regression separately recorded, not relabelled as Native BE16 rerun."
+    },
+    {
+      "id": "SOL-003",
+      "status": "RETAINED_CLOSED_DIAGNOSTIC_SCOPE",
+      "proof": "Prior diagnostic3/3 original; current58-file owner install pass. Historical first AZ reason remains unknown."
+    }
+  ]
+}

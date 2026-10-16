@@ -1,0 +1,123 @@
+{
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "scope": "Whole r2 delta, CP1–7 retained source identities + all new roots",
+  "rows": [
+    {
+      "id": "R2-01",
+      "title": "Kas dua dasar tanggal dan koreksi majemuk",
+      "sql_files": [
+        "scripts/cp7-src/finance/dated-guards.sql",
+        "scripts/cp7-src/finance/misc-correction.sql",
+        "scripts/cp7-src/sales/correction.sql",
+        "scripts/cp7-src/sales/payment-correction.sql"
+      ],
+      "impact": "Bayar supplier/mandor/laundry, kasbon, miscellaneous, koreksi nota dan pembayaran → inverse/replacement → kas harian ekonomi+buku → GL/laporan. Lingkup majemuk privat menunda penilaian sampai hasil akhir; kunci rekening dan penolakan minus tetap.",
+      "evidence": "CP17 dated cash/misc/note + own7Native/4HTTP + F03P09–P13/cash. Dashboard sampel ditangani terpisah.",
+      "status": "TERDAMPAK_DAN_DITELUSURI"
+    },
+    {
+      "id": "R2-02",
+      "title": "Aktivasi layar dan kejujuran angka",
+      "sql_files": [],
+      "impact": "screenActivation→sidebar/direct-page guard→OwnerDashboard/FinancePages. UAT:29connected,17hidden,1boundary,1notice. Disposable:41connected,6sample,1notice. Demo:48sample. Hidden route harus berhenti sebelum layar angka contoh.",
+      "evidence": "288 mock contexts; actual UAT realAuth census+positive customer+autoPO. No positive Native claim from403 mock.",
+      "status": "TERDAMPAK_DAN_DITELUSURI"
+    },
+    {
+      "id": "R2-03",
+      "title": "Master harian dan tarif upah",
+      "sql_files": [
+        "scripts/cp7-src/master/master.sql",
+        "scripts/cp7-src/master/rates.sql"
+      ],
+      "impact": "Pelanggan→draft/AR; supplier/vendor→penerimaan/AP/laundry; lokasi/bahan/aksesori→stok/BOM/upah; mandor/kebijakan/tarif→pickup→snapshot per tanggal→upah/Nota/payroll→HPP. Riwayat privat immutable, token tinjau dan hak owner/admin; kode yang sudah dipakai tetap.",
+      "evidence": "CP17 Native10/race7/HTTP2/browser13; actual UAT customer lifecycle; source role41 manifests and Native grant/owner checks.",
+      "status": "TERDAMPAK_DAN_DITELUSURI"
+    },
+    {
+      "id": "R2-04",
+      "title": "PO otomatis dan kunci pemulihan",
+      "sql_files": [
+        "scripts/cp7-src/cutting-correction/auto-po.sql"
+      ],
+      "impact": "POST BuatPotongan→PO header baru→accepted Native cutting writer→material issue/stok/GL/WIP→pickup. Draft privat belum membuat PO. Request(actor,UUID) sama memulihkan satu jawaban. UI memakai envelope bersama untuk mode PO baru/lama.",
+      "evidence": "AutoPO all4layers; own999control1000counterexample; final existingPO fix additionally qualified by F04consumer. SOL-R2-001 remains open.",
+      "status": "TERDAMPAK_DAN_DITELUSURI"
+    },
+    {
+      "id": "R2-05",
+      "title": "Selesai dan buka ulang PO",
+      "sql_files": [
+        "scripts/cp7-src/cutting-correction/finish.sql",
+        "scripts/cp7-src/cutting-correction/po-reopen.sql"
+      ],
+      "impact": "Jahit/FG/beban PO→G2 Native eligibility/HPP→finish residual close→period guards→reopen inverse. Blocker FG sudah terpakai/periode dan status HPP berasal snapshot Native; tidak membuka periode otomatis.",
+      "evidence": "CP17 G1/G2 ten-piece conservation, unsewn/unsent6, finish/reopen/refinish, permission/race/browser desktop+phone.",
+      "status": "TERDAMPAK_DAN_DITELUSURI"
+    },
+    {
+      "id": "R2-06",
+      "title": "Seri SKU penjualan lintas merek",
+      "sql_files": [],
+      "impact": "SalesDraftPanel: brand+SKU identity→sizes request→disable save whileloading→reset review→lusin split→Native sale draft/recovery→FG reservation/invoice/AR/cash. Brand yang sama wajib pada setiap ukuran.",
+      "evidence": "Current DOM+1794 unit; CP17 dozen browser desktop/phone+F03P11 Native/readback. The financial UAT routes remain hidden perD15-2.",
+      "status": "TERDAMPAK_DAN_DITELUSURI"
+    },
+    {
+      "id": "R2-07",
+      "title": "Dua rantai aplikasi tambahan",
+      "sql_files": [],
+      "impact": "ImporWIP→FG→ganti merek→tutup buku tengah rantai→jual→bayar→kas→reopen; mastercomponent/rate→openingBS→recipe→classify components→rework→Nota→payroll→kas. Setup bank/period/seed isolation dibedakan dari klik bisnis.",
+      "evidence": "Both CP17 realAuth browser journeys independently PASS. No attendance HPPpool lifecycle UI: known open, no owner waiver.",
+      "status": "TERDAMPAK_DAN_DITELUSURI"
+    },
+    {
+      "id": "R2-08",
+      "title": "Bootstrap dan bukti lama",
+      "sql_files": [],
+      "impact": "Expired AC artifact→capture exact208 preU table set→frozenX guard; stop beforeU→not applicable. G01/T2/oldentrypoints receive candidate helper. Historical allowlist/scope gates remain strict.",
+      "evidence": "Unmodified candidate beforeU + full58 non-superuser install; final writer116metadata paginated, 22 non-success retained. Not all old workflow acceptance green.",
+      "status": "TERDAMPAK_DAN_DITELUSURI"
+    },
+    {
+      "id": "R2-09",
+      "title": "Lebar QC/HPP dan server sensus",
+      "sql_files": [],
+      "impact": "CSS result/size-summary→phone intrinsic width; file server reads build into Map then serves exact paths. Request paths do not reach filesystem. Mock census measures document root, not merely clipped container.",
+      "evidence": "48demo desktop/phone including QC390/HPP390; all288 mode contexts. Independent CodeQL JS/TS+Actions and zero-result gate separately recorded.",
+      "status": "TERDAMPAK_DAN_DITELUSURI"
+    },
+    {
+      "id": "R2-10",
+      "title": "Jahit per SKU wave",
+      "sql_files": [
+        "scripts/cp7-src/cutting-correction/sewing.sql"
+      ],
+      "impact": "Cutting size yields→wave SKU binding→dated SKU/base rate preview→Native component snapshots→perSKU completion+terminalevent+wage→laundry availability/Nota/payroll/HPP. Reverse oneSKU preserves others, maxQty dimension perSKU.",
+      "evidence": "CP17 wave all4layers; independent sizes5/2/9, first wage188, cancel155, repost323, netWIP356 and16pieces.",
+      "status": "TERDAMPAK_DAN_DITELUSURI"
+    },
+    {
+      "id": "D15-5",
+      "title": "Tanggal mulai pakai resmi",
+      "sql_files": [
+        "scripts/cp7-src/cutover/cutover.sql"
+      ],
+      "impact": "Official owner date/control FORUPDATE vs posting FORSHARE→journal economic date / material+FG movement physicalWIB→atomic refusal beforefloor; opening/migration and inverse officialpaths exempt; importbatchfloor and earliestop constrain setting.",
+      "evidence": "CP17 boundary/opening-lateinvoice/settlement/replay/race/HTTP/browser. No date invented and no hosted setting made.",
+      "status": "TERDAMPAK_DAN_DITELUSURI"
+    }
+  ],
+  "unchanged_scopes": [
+    {
+      "path": "supabase/",
+      "status": "TIDAK_BERUBAH_BYTE_TREE",
+      "reason": "git diff dfab..2e9d -- supabase empty; old CP1–6 release bodies unchanged; callers/CP7 guards are still retested."
+    },
+    {
+      "path": "P19/K2–K6/AI/WA engine source",
+      "status": "RETAINED_PRIOR_QUALIFIED_SCOPE",
+      "reason": "No changed engine SQL in r2 delta; F03 analysis/report and full unit gates rerun. Large-scale Native/realWA/hosted acceptance not newly claimed."
+    }
+  ]
+}

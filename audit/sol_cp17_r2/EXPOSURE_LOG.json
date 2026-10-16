@@ -1,0 +1,16 @@
+{
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "current_round_peer_reports_read": false,
+  "current_round_peer_branches_or_comments_inspected": false,
+  "allowed_inputs": [
+    "Pinned writer r2 handoff/receipt/source",
+    "Owner decisions D15 and preceding accepted register",
+    "Own sealed dfab report at278a95ce and own older proof pointers",
+    "Writer-dispatched final CI metadata and failed job logs, identified by frozen receipt",
+    "Own r2 branch, CI jobs, artifacts and reports"
+  ],
+  "messages_to_people_sent": false,
+  "product_fixes": false,
+  "hosted_access": false,
+  "production_go": false
+}

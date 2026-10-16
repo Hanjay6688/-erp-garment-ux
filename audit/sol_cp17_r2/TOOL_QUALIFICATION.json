@@ -41,5 +41,13 @@
   "no_github_job_rerun": true,
   "new_qualified_workflow": true,
   "product_changes": false,
-  "production_go": false
+  "production_go": false,
+  "reporting_correction": {
+    "field": "ROUND_MANIFEST.groups.F03_FULL.expected_native",
+    "original_value": 447,
+    "correct_meaning": "447 declared case executions across Native/race/HTTP/browser, plus 3 separately declared smoke executions; not 447 Native-only cases.",
+    "expected_budget_unchanged": true,
+    "source": "scripts/cp7_f03_full_manifest.json, pinned candidate",
+    "execution_oracle_changed": false
+  }
 }

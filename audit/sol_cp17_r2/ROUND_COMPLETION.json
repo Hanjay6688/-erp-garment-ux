@@ -1,0 +1,22 @@
+{
+  "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+  "candidate_tree": "5e50d224f8e74fa3bca83b599fb606739435b598",
+  "auditor": "SOL",
+  "audit_work_complete": true,
+  "all_jobs_terminal": true,
+  "product_acceptance": "HOLD",
+  "audit_complete": false,
+  "production_go": false,
+  "new_product_findings": 1,
+  "prior_sol_r1_findings_closed_in_tested_scope": 5,
+  "unresolved_items": [
+    "SOL-R2-001",
+    "KNOWN-R2-POOL-UI",
+    "KNOWN-RECEIPT-FIRST100"
+  ],
+  "release_proof_boundaries": "OPEN_BOUNDARIES.json",
+  "owner_questions_reopened": [],
+  "product_fixes_made": false,
+  "peer_current_round_results_read": false,
+  "archive_sha256": "aee8e8002b6c090701ec384c79cdc3208bd9d889ce8e73949ae8f92c45e65864"
+}
