@@ -16,6 +16,7 @@ import yaml
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import cp6_ac_audit_bootstrap as ac
+import cp6_pre_u_inventory as pre_u
 import cp6_g01_fingerprint as fp
 
 STOP='Apply v2.6.20 authoritative Laundry-QC-FG bridge once and reject replay'
@@ -35,7 +36,9 @@ def run(out):
         'Capture exact v2.6.19c predecessor before CP6',
     }
     proof=Path('cp6-proof');proof.mkdir(exist_ok=True)
-    reused=ac.reuse_bootstrap_input(proof)
+    # The pinned archive expired on 15 Oct 2026 (owner D14-17); without it the pre-U inventory is captured live, and a chain
+    # that stops before U (this one) records it as not applicable (Astra ASTRA-C17-06, Sol SOL-R1-003).
+    reused=pre_u.bootstrap_input(ac,proof)
     report={'label':'G01_BASELINE','status':'INCOMPLETE','frozen_head':ac.HEAD,
         'frozen_workflow_sha256':hashlib.sha256(workflow).hexdigest(),'stop_after':STOP,
         'reused_bootstrap_input':reused,'production_go':False,'steps':[]}
@@ -43,6 +46,7 @@ def run(out):
     for step in steps:
         name=step.get('name','')
         if name not in names and not name.startswith('Apply '):continue
+        reused=report['reused_bootstrap_input']=pre_u.capture_before(name,proof,reused)
         code=step['run'].split('\nset +e\n',1)[0]
         script=proof/('g01-bootstrap-'+str(len(report['steps']))+'.sh');script.write_text(code+'\n')
         log=script.with_suffix('.log')
@@ -53,6 +57,7 @@ def run(out):
             print(log.read_text()[-6000:]);Path(out).write_text(json.dumps(report,indent=2)+'\n');return completed.returncode
         if name==STOP:break
     assert report['steps'][-1]['name']==STOP
+    reused=report['reused_bootstrap_input']=pre_u.finished(reused,report['steps'])
     report['status']='PASS_HOSTED_EQUIVALENT_POINT_RESTORED'
     Path(out).write_text(json.dumps(report,indent=2)+'\n')
     return 0

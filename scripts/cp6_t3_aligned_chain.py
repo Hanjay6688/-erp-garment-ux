@@ -85,7 +85,7 @@ def run(out,stop=AC_STEP):
             aligned=True
         if name==stop:break
     assert report['steps'][-1]['name']==stop and aligned
-    pre_u.finished(report['reused_bootstrap_input'])
+    report['reused_bootstrap_input']=pre_u.finished(report['reused_bootstrap_input'],report['steps'])
     report['status']='PASS_ALIGNED_CHAIN_TO_'+('AC' if stop==AC_STEP else 'AB')
     Path(out).write_text(json.dumps(report,indent=2)+'\n')
     return 0

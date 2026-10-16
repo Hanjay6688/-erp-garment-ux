@@ -75,6 +75,10 @@ def capture_before(step_name, proof, reused):
     return result
 
 
-def finished(reused):
-    """The pending marker must have been resolved by the time the chain passes U."""
+def finished(reused, steps):
+    """Stop-aware (Astra ASTRA-C17-06, Sol SOL-R1-003): a chain that passed U must have resolved the pending marker; a
+    chain that stopped before U never needed the inventory, so it is recorded as not applicable instead of demanded."""
+    if not any(step.get('name') == U_STEP for step in steps):
+        return dict(reused, status='NOT_APPLICABLE_STOPPED_BEFORE_U') if reused.get('status') == PENDING else reused
     assert reused.get('status') != PENDING, 'PRE_U_INVENTORY_NOT_CAPTURED'
+    return reused

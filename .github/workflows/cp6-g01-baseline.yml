@@ -119,7 +119,7 @@ jobs:
         mkdir -p ../auditor/cp6-proof/g01
         export CP6_AC_WRITER_ARTIFACT="$RUNNER_TEMP/ac-native200.zip"
         gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \
-          > "$CP6_AC_WRITER_ARTIFACT"
+          > "$CP6_AC_WRITER_ARTIFACT" || { rm -f "$CP6_AC_WRITER_ARTIFACT"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }
         PYTHONPATH=scripts python ../auditor/scripts/cp6_g01_baseline.py ../auditor/cp6-proof/g01/BASELINE_BUILD.json
         cat ../auditor/cp6-proof/g01/BASELINE_BUILD.json
     - name: Capture the read-only fingerprint and compare with hosted

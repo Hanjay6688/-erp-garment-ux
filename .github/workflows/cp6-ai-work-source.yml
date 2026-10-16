@@ -127,7 +127,7 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       shell: bash
       run: "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip\
-        \ \\\n  > \"$CP6_AC_WRITER_ARTIFACT\"\nPYTHONPATH=scripts python ../candidate/scripts/cp6_ac_audit_bootstrap.py\n"
+        \ \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }\nPYTHONPATH=scripts python ../candidate/scripts/cp6_ac_audit_bootstrap.py\n"
     - name: Apply exact AD predecessor
       working-directory: candidate
       shell: bash

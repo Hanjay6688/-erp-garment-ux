@@ -96,7 +96,7 @@ def run():
             print(log.read_text()[-6000:]);return completed.returncode
         if name=='Apply exact AC temporal surface closure and verify 272 runtime objects':break
     assert report['steps'][-1]['name']=='Apply exact AC temporal surface closure and verify 272 runtime objects'
-    pre_u.finished(reused)
+    reused=report['reused_bootstrap_input']=pre_u.finished(reused,report['steps'])
     report['status']='PASS_EXACT_AC_RUNTIME_RESTORED'
     (proof/'AC_AUDIT_RUNTIME_BOOTSTRAP.json').write_text(json.dumps(report,indent=2)+'\n')
     return 0

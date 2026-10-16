@@ -131,8 +131,8 @@ jobs:
         set -euo pipefail
         export CP6_AC_WRITER_ARTIFACT="$RUNNER_TEMP/ac-native200.zip"
         gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \
-          > "$CP6_AC_WRITER_ARTIFACT"
-        PYTHONPATH=scripts python ../candidate/scripts/cp6_ac_audit_bootstrap.py
+          > "$CP6_AC_WRITER_ARTIFACT" || { rm -f "$CP6_AC_WRITER_ARTIFACT"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }
+        PYTHONPATH=scripts python ../auditor/scripts/cp6_ac_audit_bootstrap.py
     - name: Apply exact AD predecessor
       working-directory: candidate
       shell: bash
