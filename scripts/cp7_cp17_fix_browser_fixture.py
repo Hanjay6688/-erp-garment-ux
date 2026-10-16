@@ -1,5 +1,5 @@
 """CP17 browser fixtures (SG-01 pickup reversal, SG-02 fabric return, D14-6 kasbon, D14-5 dozens over a size series, D14-14 G1
-sewing completion on the WIP & Sewing page) in the
+sewing completion on the WIP & Sewing page; Sol R2-10 the same per SKU of a wave Potongan) in the
 disposable browser database only.
 
 The same Native-writer fixtures as the native CP17 cases (cp7_cp17_fix_cases.pickup_fixture / fabric_fixture, the
@@ -245,6 +245,20 @@ def main():
         elif operation=='cutover_reset':
             import cp7_cutover_cases as cutover
             cutover.reset(cur,cutover.owner(cur));v,d=cutover.control(cur);out=dict(version=v,cutover_date=str(d))
+        elif operation=='wave_sewing':
+            # Sol R2-10: the native cases' wave fixture (three sizes, SKU A on S+M, SKU B on L), committed.
+            import cp7_wave_sewing_cases as wave
+            g=wave.fixture(cur,date.fromisoformat(p['today']));cases.b.api.admin(cur)
+            out=dict(group=g['group'],po=g['po'],number=g['number'],A=dict(id=g['A']['id'],sku=g['A']['sku']),B=dict(id=g['B']['id'],sku=g['B']['sku']))
+        elif operation=='wave_sewing_state':
+            # Native rows only: per POSTED completion its SKU (from the line snapshots), pieces and wage journal.
+            ready=cases.sewn_ready(cur,dict(group=p['group']))
+            works=cur.execute("""select e.id::text,(select string_agg(distinct k.sku,',') from erp.work_completion_lines l join erp.po_work_component_snapshots x on x.id=l.po_component_snapshot_id
+                join erp.bf_sku_versions_v1 v on v.id=x.bf_sku_version_id join erp.bf_skus_v1 k on k.id=v.sku_id where l.completion_id=e.id),
+                (select max(l.qty_completed) from erp.work_completion_lines l where l.completion_id=e.id)
+                from erp.work_completion_events e where e.cutting_group_id=%s and e.status='POSTED' order by 2""",(p['group'],)).fetchall()
+            out=dict(sewn=ready[0],ready=ready[1],posted=[[sku,int(q),[str(x) for x in cases.wage_journal(cur,w)]] for w,sku,q in works],
+                     history=one('select count(*) from cp7_cutting_correction.sewing_wave_history where group_id=%s',(p['group'],))[0])
         elif operation=='auto_po_state':out=auto_po_state(cur,p)
         elif operation=='chain_state':out=chain_state(cur,p)
         elif operation=='series':out=series(cur,date.fromisoformat(p['today']))

@@ -21,6 +21,11 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
    pada tanggal buku yang sah dan diberi tanda. (D15-1)
 5. **Jangan meloloskan uji dengan uang buatan.** Modal fixture hanya sebesar yang dibutuhkan kasus positif; kasus
    bank kosong tetap kosong. (SOL-001, G3)
+5a. **Batas tanggal resmi dijaga di tabel, bukan di layar atau satu penulis saja.** Tanggal mulai pakai aplikasi
+   (cutover) ditolak lewat trigger pada jurnal dan gerakan stok, sehingga penulis mana pun kena. Jalur yang sah lewat
+   tanggal itu (impor saldo awal, invoice terlambat atas penerimaan saldo awal, pelunasan sesudahnya, pembalikan dokumen
+   lama) dikecualikan dengan nama sumbernya yang jelas, tidak dengan bendera umum. Uji batas 00:00 WIB dan 23:59:59 hari
+   sebelumnya, untuk jurnal dan stok. (FABLE-011, D15-5)
 
 ## B. Identitas data
 
@@ -36,6 +41,10 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 8b. **Penyeragaman nilai (misalnya kode huruf besar) hanya saat membuat.** Saat mengubah, nilai tersimpan dibandingkan
     dengan aturan kesamaan yang sama dengan keunikannya (tanpa beda huruf) dan disimpan apa adanya; kalau tidak, data
     lama berkode huruf kecil yang sudah dipakai tidak bisa diubah sama sekali. (R2-03 gudang berisi stok, CI 38861916560)
+8c. **Satu angka "sisa" per lingkup yang dijaga Native.** Bila Native membatasi per SKU (upah wave BF dibayar per SKU
+    menurut potongan di ukurannya), layar meminta jumlah per SKU dan menghitung sisa per SKU dengan rumus yang sama
+    (selesai dan hak bayar per komponen); satu jumlah untuk seluruh potongan tidak boleh dibayar dengan tarif dasar.
+    (Sol R2-10 KNOWN-BF-WAVE)
 
 ## C. Alur aplikasi lengkap
 
@@ -112,6 +121,8 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Kunci identitas lengkap dari server; uji lintas merek/gudang/tanggal (B6, E25).
 - [ ] Versi bertanggal: pembetulan hari yang sama vs versi baru; penyeragaman nilai hanya saat membuat (B8a, B8b).
 - [ ] Dokumen induk otomatis: satu transaksi, gagal di tengah tidak meninggalkan apa pun, kirim ulang sama (C12a).
+- [ ] Batas tanggal resmi: trigger tabel, jalur sah dikecualikan per nama sumber, uji 00:00 vs 23:59:59 WIB (A5a).
+- [ ] Batas Native per SKU/lingkup: layar meminta dan menghitung per lingkup yang sama (B8c).
 - [ ] Layar: pemeriksaan sama dengan Native, teks status dari server, simpan diblokir saat memuat (D13–D15).
 - [ ] Mode data nyata: tidak ada angka contoh tanpa label; tabel aktivasi diperbarui (D16).
 - [ ] 48 menu × 3 mode × HP 390 px: `scrollWidth <= innerWidth` (D17).
