@@ -479,3 +479,30 @@ Owner (persis): "kok bisa hilang?" lalu "kalo ganti bakal bisa aman gak?" lalu "
 
 Akibat untuk penulis: `scripts/cp6_pre_u_inventory.py` dipakai bila arsip tidak ada; jalur lama yang dikunci SHA-256
 tetap dipakai bila arsip ada. Batas dicatat di paket audit akhir. `production_go:false`.
+
+### D15-1 .. D15-4 (owner atas pertanyaan Fable, 16 Okt 2026; dicatat Fable, diteruskan owner ke penulis)
+
+Sumber: `audit/fable_cp17_combined/OWNER_DECISIONS_TO_AUDITOR_20261016.md` di cabang
+`audit/fable-cp1-7-combined-dfab13bf-20261015` (commit 8677a399), dicatat Fable sesudah laporannya dikunci. Owner
+meneruskan teks siap-tempel Fable ke penulis pada 16 Okt 2026. Teks owner di bawah disalin persis dari berkas itu;
+oracle uji ulang Fable ada di berkas yang sama dan tidak diubah penulis.
+
+| No | Pertanyaan (temuan) | Jawaban owner (persis) |
+|---|---|---|
+| D15-1 | D14-3, saldo kas "tanggal mana pun" menurut tanggal apa? (FABLE-013) | "Ya, untuk aturan kas minus, ikuti rekomendasi Fable: periksa saldo harian per rekening menurut tanggal ekonomi dan tanggal buku/pengakuan. Tolak transaksi jika salah satunya menjadi minus. Terapkan juga pada detektor dan koreksi/pembalikan, tanpa mengubah tanggal asli atau membuka ulang periode tertutup secara otomatis." |
+| D15-2 | Layar uang dan absensi di mode Enteng (FABLE-015) | "sembunyikan begitu terhubung langsung muncul, doesnt matter juga kalau mau langsung muncul karena gabakal dipakai juga jadi ga kerja 2 kali sih klo mau munculin" |
+| D15-3 | Data master dan tarif mandor: layar atau prosedur admin? (FABLE-017) | "dibuatkan layar tapi jangan simple banget juga, sedeng lah muat info dan fitur yg dibutuhkan" |
+| D15-4 | Buka ulang PO yang terlanjur selesai (FABLE-014) | "Tombol buka ulang PO dibuat, dengan penghalang seperti fitur koreksi lain" |
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
+- D15-1: penjaga kas menilai keadaan **akhir** satu perintah (bukan keadaan setengah jalan) dan memeriksa dua dasar tanggal:
+  tanggal ekonomi dan tanggal buku. Ini juga menyelesaikan SOL-R1-001 (koreksi sah yang ditolak di tengah jalan) tanpa
+  melonggarkan penolakan saldo minus sungguhan. Detektor memeriksa kedua dasar tanggal.
+- D15-2: di mode Enteng, layar uang dan absensi yang belum tersambung disembunyikan. Menyambungkannya ke Enteng
+  membutuhkan pemasangan lapisan CP7 di Enteng (CP7C, masih ditahan D13-9a), jadi sampai saat itu layar tetap
+  tersembunyi. Tidak boleh ada angka contoh tanpa label di mode Enteng.
+- D15-3: layar data master tingkat menengah untuk pelanggan, supplier/vendor, mandor, gudang/lokasi, kain, aksesori,
+  dan tarif upah mandor (model × komponen kerja × mandor, dengan tanggal berlaku), dengan riwayat dan hak akses.
+- D15-4: tombol buka ulang PO memanggil `erp.reopen_production_order` lewat fasad CP7 dengan penghalang yang disebut di
+  layar.
+- `production_go:false`.

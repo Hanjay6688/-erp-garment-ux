@@ -1,0 +1,102 @@
+# Best practice ERP Garment (dari audit CP1–CP7 Fable, Astra, Sol)
+
+Berlaku untuk penulis (Claude dan penulis cadangan) dan menjadi daftar periksa auditor. Setiap aturan diambil dari
+temuan nyata; ID temuan disebut supaya alasannya bisa dilacak. Rincian per temuan: `docs/cp7/audit-candidate/
+cp1-7-r2-20261016/CROSS_AUDIT.md`. Keputusan owner tetap di `docs/cp7/OWNER_DECISIONS_20261008.md` dan tidak
+dibuka ulang oleh dokumen ini.
+
+Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temuan sumbernya.
+
+## A. Uang dan buku besar
+
+1. **Nilai keadaan akhir perintah, bukan keadaan setengah jalan.** Perintah majemuk (balik dulu, lalu pengganti) tidak
+   boleh ditolak karena saldo sementara. Penjaga saldo dinilai di akhir transaksi; kunci tetap diambil saat baris
+   ditulis supaya urutannya stabil. (SOL-R1-001)
+2. **Periksa setiap dasar tanggal yang dilihat owner.** Bila buku punya tanggal ekonomi dan tanggal buku/pengakuan,
+   penjaga dan detektor memeriksa keduanya; laporan tidak boleh menunjukkan angka yang penjaga anggap mustahil.
+   (FABLE-013, D15-1)
+3. **Penjaga tanpa detektor tidak cukup.** Setiap aturan "tidak boleh" punya detektor baca-saja untuk data lama, dengan
+   kontrol 0 → +1 → 0 di uji. (FABLE-001, FABLE-013)
+4. **Tanggal asli tidak diubah oleh koreksi; periode tertutup tidak dibuka otomatis.** Pengakuan terlambat dicatat
+   pada tanggal buku yang sah dan diberi tanda. (D15-1)
+5. **Jangan meloloskan uji dengan uang buatan.** Modal fixture hanya sebesar yang dibutuhkan kasus positif; kasus
+   bank kosong tetap kosong. (SOL-001, G3)
+
+## B. Identitas data
+
+6. **Kunci pengelompokan memakai semua dimensi keunikan, dari server, bukan teks tampilan.** Contoh: seri penjualan =
+   merek + SKU, karena nomor SKU yang sama sah untuk Vivo dan Widie (`bf_skus_v1 UNIQUE(brand_id,sku)`). Pencarian
+   berbasis teks tidak boleh menentukan barang mana yang masuk. (ASTRA-C17-01)
+7. **Data master yang sudah dipakai transaksi tidak dihapus**; dinonaktifkan, dengan riwayat yang tidak bisa diubah.
+   Mengubah master tidak mengubah identitas dokumen yang sudah diposting. (FABLE-017, D15-3)
+8. **Tarif dan harga berversi dengan tanggal berlaku**; transaksi menyimpan snapshot tarif yang dipakai. (G1, D15-3)
+
+## C. Alur aplikasi lengkap
+
+9. **Setiap entitas harian punya jalan dari aplikasi untuk dibuat, diubah, ditutup dan dibuka ulang** (atau keputusan
+   owner tertulis bila tidak). Buat matriks per tabel Native: siapa penulisnya, layar mana yang memanggilnya.
+   (SOL-R1-002 PO harian, FABLE-017 master, FABLE-014 buka ulang PO)
+10. **Komentar dan dokumen yang menyatakan "tidak ada X" dicek ke katalog dulu.** (FABLE-014: komentar "no Native
+    inverse" padahal `erp.reopen_production_order` ada)
+11. **Uji rantai dimulai dari data yang dibuat lewat layar**, bukan PO/master/tarif yang disisipkan SQL. Fixture SQL
+    hanya untuk isolasi, dan uji yang memakainya tidak boleh diklaim membuktikan operator bisa melakukannya.
+    (SOL-R1-002, FABLE-016, FABLE-017)
+12. **Ada saksi browser untuk setiap langkah posting**, bukan hanya tombol yang terlihat atau nonaktif. (FABLE-016;
+    ditutup sebagian oleh perjalanan Astra CUT_TO_FG)
+
+## D. Layar
+
+13. **Pemeriksaan di layar memakai predikat yang sama dengan penjaga Native.** "Boleh diselesaikan" di layar harus
+    sama dengan yang diterima database; jangan menebak ulang aturan di frontend. (ASTRA-C17-05)
+14. **Teks status diambil dari status server.** Jangan menulis "final", "lunas", "selesai" bila server berkata
+    sementara/belum lengkap. (ASTRA-C17-05)
+15. **Selama data pendukung dimuat, simpan diblokir dan tinjauan dibatalkan sejak perubahan dimulai**, bukan sesudah
+    respons datang. Respons terlambat atau gagal tidak boleh diam-diam mengubah dokumen yang sudah disimpan.
+    (ASTRA-C17-02)
+16. **Angka contoh tidak pernah tampil tanpa label**, dan label tidak bergantung pada tata letak (misalnya ada atau
+    tidaknya tombol). Satu tabel aktivasi menentukan menu mana tersambung di tiap mode; yang belum tersambung di mode
+    data nyata disembunyikan atau berupa layar batas tanpa angka. (FABLE-015, ASTRA-C17-03, KNOWN-UI-MODE, D15-2)
+17. **Lebar HP diuji dengan rumus tertulis:** `document.documentElement.scrollWidth <= window.innerWidth` pada 390 px
+    untuk setiap menu di setiap mode, dengan data terisi. Jangan menutup luapan dengan `overflow:hidden`.
+    (SOL-R1-004/005; Astra melaporkan nol luapan dengan cara ukur lain)
+18. **Pesan penolakan menyebut jalan keluarnya** (layar mana yang harus diisi). (FABLE-017 `NO_WORK_RATE`)
+
+## E. Bukti dan alat uji
+
+19. **Hitung run, job dan kasus secara terpisah**; warna job bukan hasil kasus. Laporan tidak menyebut "80 uji" bila
+    yang dimaksud 80 run. (catatan Astra dan Sol atas receipt `dfab13bf`)
+20. **Run yang dibatalkan, diulang, atau gagal sebelum kasus ditulis terbuka** di receipt dan dokumen, beserta
+    penyebab yang terbukti atau ditandai dugaan. (CodeQL dibatalkan antrean, Offsite Backup percobaan kedua)
+21. **Bukti yang dipakai lebih dari 30 hari tidak boleh hanya berupa artifact CI.** Simpan di pohon (dengan SHA-256)
+    atau salinan bertenggat panjang; catat tanggal kedaluwarsa. (arsip 10392910720, D14-17)
+22. **Perubahan alat uji diterapkan ke semua titik masuk**, dan alat tahu titik berhentinya (langkah yang tidak dijalankan
+    dicatat "tidak berlaku", bukan dituntut). (ASTRA-C17-06, SOL-R1-003)
+23. **Potret sebelum perbaikan diberi nama kelompok `*_BEFORE`** supaya COUNTEREXAMPLE yang disengaja tidak dibaca
+    sebagai regresi. (catatan Astra atas AV/BE)
+24. **Kasus gagal dari auditor dipakai apa adanya** saat menguji perbaikan: nominal, tanggal dan hasil yang diharapkan
+    tidak diganti; penjaga tidak dilonggarkan; log gagal disimpan. (aturan owner, Pro Max)
+25. **Fixture yang mencakup satu dimensi menyembunyikan cacat dimensi lain.** Untuk setiap fitur, tambahkan kontrol
+    lintas merek, lintas gudang, lintas tanggal tutup buku, dan dua sesi bersamaan. (ASTRA-C17-01, FABLE-013)
+
+## F. Proses audit
+
+26. **Minimal tiga auditor independen, tanpa saling intip sampai laporan dikunci.** Putaran `dfab13bf`: delapan akar
+    hanya ditemukan oleh satu auditor; tiga ditemukan oleh semuanya.
+27. **Penulis memeriksa ulang setiap klaim auditor ke kode atau dengan reproduksi sendiri** sebelum memperbaiki, dan
+    mencatat bila klaim auditor keliru atau saling bertentangan (`CROSS_AUDIT.md` §4).
+28. **Oracle uji ulang ditetapkan sebelum perbaikan dibuat** dan disimpan di cabang auditor, supaya ukurannya tidak
+    bisa digeser. (Fable `OWNER_DECISIONS_TO_AUDITOR_20261016.md`)
+29. **Hal yang sudah diungkap penulis tetap temuan** dengan tingkat penuh; pengungkapan tidak menurunkan tingkat.
+    (FABLE-015)
+
+## Daftar periksa sebelum penulis menyerahkan kandidat
+
+- [ ] Setiap entitas baru/berubah: buat, ubah, tutup, buka ulang dari aplikasi, atau keputusan owner tertulis (C9).
+- [ ] Penjaga uang: keadaan akhir, semua dasar tanggal, detektor dengan kontrol 0→+1→0 (A1–A3).
+- [ ] Kunci identitas lengkap dari server; uji lintas merek/gudang/tanggal (B6, E25).
+- [ ] Layar: pemeriksaan sama dengan Native, teks status dari server, simpan diblokir saat memuat (D13–D15).
+- [ ] Mode data nyata: tidak ada angka contoh tanpa label; tabel aktivasi diperbarui (D16).
+- [ ] 48 menu × 3 mode × HP 390 px: `scrollWidth <= innerWidth` (D17).
+- [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
+- [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis (E19–E20).
+- [ ] Bukti jangka panjang tidak bergantung artifact 30 hari (E21).
