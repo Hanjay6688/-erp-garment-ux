@@ -3,6 +3,7 @@ import { planV2Message } from './planV2Messages'
 import { reportV2Message } from './reportV2Messages'
 import { reminderV2Message } from './reminderV2Messages'
 import { analysisRetentionMessage } from './analysisRetentionMessages'
+import { masterMessage } from './masterMessages'
 
 export type ClientErrorCode =
   | 'AUTH_FAILED'
@@ -77,6 +78,8 @@ export function normalizeClientError(error: unknown): ClientAppError {
   if (reminderV2) return new ClientAppError('REJECTED', reminderV2)
   const retention = analysisRetentionMessage(candidate.message)
   if (retention) return new ClientAppError('REJECTED', retention)
+  const master = masterMessage(candidate.message)
+  if (master) return new ClientAppError('REJECTED', master)
   if (code === '40001' || code === '40P01') {
     return new ClientAppError('RETRYABLE_CONFLICT', 'Terjadi benturan sementara. Muat ulang sebelum mencoba lagi.', true)
   }

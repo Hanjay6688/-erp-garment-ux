@@ -124,7 +124,7 @@ const blockerKinds: Record<string, string> = {
   CONTRACTOR_MISMATCH: 'Mandor di PO berbeda dengan mandor yang menerima potongan ini.',
   PO_STATE: 'Production Order sedang ditahan, sudah selesai, atau dibatalkan.',
   NOTHING_TO_SEW: 'Semua potongan sudah tercatat selesai dijahit.',
-  NO_WORK_RATE: 'Tarif kerja (BOM kerja) untuk model PO ini belum ada, jadi upah mandor belum bisa dihitung.',
+  NO_WORK_RATE: 'Tarif kerja (BOM kerja) untuk model PO ini belum ada, jadi upah mandor belum bisa dihitung. Isi komponen kerja model dan tarif mandornya di Master Data → Mandor → Tarif upah mandor.',
   WAVE_SKU_RATES: 'Potongan ini memakai tarif mandor per SKU (wave). Catat selesai jahit per ukuran belum tersedia di layar ini.',
 }
 export function sewingBlockerText(b: SewingBlocker) {

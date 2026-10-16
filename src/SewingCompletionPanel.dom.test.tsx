@@ -90,6 +90,7 @@ describe('selesai jahit di WIP & Sewing (D14-14)', () => {
       blockers: [{ kind: 'NO_WORK_RATE', id: po, label: 'PO-9' }] }), error: null })
     await mount(); await click('Catat selesai jahit')
     expect(container.textContent).toContain('Tarif kerja (BOM kerja) untuk model PO ini belum ada')
+    expect(container.textContent).toContain('Isi komponen kerja model dan tarif mandornya di Master Data → Mandor → Tarif upah mandor.')
     expect(container.querySelector('[aria-label="Jumlah selesai dijahit CUT-SEW"]')).toBeNull()
   })
   it('cancels only a record still at the Mandor and says why another cannot be cancelled', async () => {

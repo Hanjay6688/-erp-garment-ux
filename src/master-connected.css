@@ -1,0 +1,24 @@
+.cmd-page{display:grid;gap:12px;min-width:0;overflow-wrap:anywhere}.cmd-hero{display:grid;gap:4px}.cmd-hero span{font-size:11px;font-weight:900;letter-spacing:.08em;color:#88786e}.cmd-hero h1{margin:0;font-size:22px}.cmd-hero p{margin:0;color:#5d4d44;font-size:13px}
+.cmd-tabs{display:flex;gap:6px;flex-wrap:wrap}.cmd-tabs button{border:1px solid #d9ccc4;border-radius:999px;padding:6px 12px;background:#fff;font-weight:800;font-size:12px}.cmd-tabs button[aria-selected=true]{background:#2f2621;color:#fff;border-color:#2f2621}
+.cmd-panel{display:grid;gap:10px;min-width:0}.cmd-panel h2,.cmd-panel h3{margin:0}.cmd-panel p{margin:0}.cmd-note{color:#5d4d44;font-size:12px}.cmd-done{padding:8px 10px;border-radius:9px;background:#eef8ef;color:#1f5a2a;font-size:13px}
+.cmd-search{display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap}.cmd-search label{display:grid;gap:4px;font-size:12px;font-weight:800;min-width:0;flex:1 1 200px}
+.cmd-search input,.cmd-search select,.cmd-form input:not([type=checkbox]),.cmd-form select,.cmd-form textarea,.cmd-rate-form input:not([type=checkbox]){border:1px solid #d9ccc4;border-radius:9px;padding:8px;font-size:13px;min-width:0;width:100%;box-sizing:border-box;font:inherit}
+.cmd-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:12px;align-items:start}
+.cmd-list{display:grid;gap:6px;min-width:0}.cmd-list>button{display:grid;gap:2px;justify-items:start;text-align:left;padding:8px 10px;border:1px solid #eee6e1;border-radius:9px;background:#fff;min-width:0}
+.cmd-list>button[aria-pressed=true]{border-color:#826855;background:#faf8f6}.cmd-list>button span{font-size:12px;color:#5d4d44;overflow-wrap:anywhere}.cmd-list>button strong{overflow-wrap:anywhere}
+.cmd-pages{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px}
+.cmd-detail{display:grid;gap:10px;min-width:0}.cmd-view{display:grid;gap:8px;min-width:0}.cmd-view h2 em{font-style:normal;font-size:10px;font-weight:900;padding:2px 7px;border-radius:999px;vertical-align:middle}
+.cmd-on{background:#e6f4e8;color:#1f5a2a}.cmd-off{background:#f3e9e4;color:#7a4b36}
+.cmd-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:0}.cmd-facts div{display:grid;gap:2px;padding:7px 9px;background:#faf8f6;border:1px solid #eee6e1;border-radius:9px;min-width:0}
+.cmd-facts dt{font-size:9px;font-weight:900;letter-spacing:.08em;color:#88786e;text-transform:uppercase}.cmd-facts dd{margin:0;font-size:12px;font-weight:700;overflow-wrap:anywhere}
+.cmd-usage{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px}.cmd-usage span{padding:3px 8px;border-radius:999px;background:#f4efeb}
+.cmd-form{display:grid;gap:8px;padding:10px;border:1px solid #eee6e1;border-radius:12px;background:#fffdfb;min-width:0}.cmd-form label,.cmd-rate-form label{display:grid;gap:4px;font-size:12px;font-weight:800;min-width:0}
+.cmd-form small,.cmd-rate small{font-weight:600;color:#6d5d53}.cmd-form textarea{min-height:60px}
+.cmd-check{display:flex!important;align-items:center;gap:8px;font-weight:700!important}.cmd-actions{display:flex;gap:8px;flex-wrap:wrap}
+.cmd-problems{margin:0;padding:6px 10px 6px 24px;border-radius:9px;background:#fff6e8;color:#6b4a14;font-size:12px}p.cmd-problems{padding-left:10px}
+.cmd-audit ol,.cmd-rate ol{margin:4px 0 0;padding-left:18px;font-size:12px;display:grid;gap:3px}
+.cmd-rate-list{display:grid;gap:8px}.cmd-rate{display:grid;gap:6px;padding:10px;border:1px solid #eee6e1;border-radius:12px;min-width:0}.cmd-rate>span{font-size:12px}
+.cmd-rate-form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.cmd-rate-form .cmd-check,.cmd-rate-form .cmd-actions{grid-column:1/-1}
+.cmd-bom-row{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,.7fr) minmax(0,1fr) auto;gap:6px;align-items:end}
+@media(max-width:760px){.cmd-layout{grid-template-columns:minmax(0,1fr)}.cmd-facts{grid-template-columns:minmax(0,1fr)}.cmd-rate-form{grid-template-columns:minmax(0,1fr)}
+ .cmd-bom-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.cmd-search button,.cmd-actions button{flex:1 1 auto}}

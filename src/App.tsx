@@ -60,6 +60,7 @@ const ConnectedAccessoryServicePage = lazy(() => import('./ConnectedAccessorySer
 const MaterialMasterPages = lazy(() => import('./MaterialMasterPages'))
 const ConnectedSkuMasterPage = lazy(() => import('./ConnectedSkuMasterPage'))
 const MasterDataPages = lazy(() => import('./MasterDataPages'))
+const ConnectedMasterPage = lazy(() => import('./ConnectedMasterPage'))
 const OperationsAdminPages = lazy(() => import('./OperationsAdminPages'))
 const FgNotaPage = lazy(() => import('./FgNotaPage'))
 const AccessControlPage = lazy(() => import('./AccessControlPage'))
@@ -755,8 +756,8 @@ function ErpApp() {
           onOpenQc={(parentId,batchId)=>{setQcSeedId(`${parentId}::${batchId}`);setQcResult(null);setPage('qc')}}
         />}
         {page === 'hpp' && <Suspense fallback={<WorkspaceFallback label="HPP & Rekalkulasi"/>}>{runtime.mode === 'DEMO_SIMULATION' ? <HppPage /> : <ConnectedSkuHppPage/>}</Suspense>}
-        {(page === 'master-fabric' || page === 'master-accessory') && <Suspense fallback={<WorkspaceFallback label="Master Material"/>}><MaterialMasterPages view={page}/></Suspense>}
-        {(page === 'master-products' || page === 'master-customers' || page === 'master-partners' || page === 'master-workforce' || page === 'master-locations') && <Suspense fallback={<WorkspaceFallback label="Master Data"/>}>{page === 'master-products' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSkuMasterPage/> : <MasterDataPages view={page}/>}</Suspense>}
+        {(page === 'master-fabric' || page === 'master-accessory') && <Suspense fallback={<WorkspaceFallback label="Master Material"/>}>{runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedMasterPage view={page}/> : <MaterialMasterPages view={page}/>}</Suspense>}
+        {(page === 'master-products' || page === 'master-customers' || page === 'master-partners' || page === 'master-workforce' || page === 'master-locations') && <Suspense fallback={<WorkspaceFallback label="Master Data"/>}>{page === 'master-products' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSkuMasterPage/> : page !== 'master-products' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedMasterPage view={page}/> : <MasterDataPages view={page}/>}</Suspense>}
         {page === 'master-pattern' && <Suspense fallback={<WorkspaceFallback label="Master Pola"/>}><PatternPage/></Suspense>}
         {page === 'admin-access' && <Suspense fallback={<WorkspaceFallback label="Pengguna & Hak Akses"/>}><AccessControlPage/></Suspense>}
         {page === 'pocket-fabric' && <Suspense fallback={<WorkspaceFallback label="Kain kantong"/>}><ConnectedPocketFabricPage/></Suspense>}
