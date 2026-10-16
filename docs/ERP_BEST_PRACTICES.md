@@ -30,6 +30,12 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 7. **Data master yang sudah dipakai transaksi tidak dihapus**; dinonaktifkan, dengan riwayat yang tidak bisa diubah.
    Mengubah master tidak mengubah identitas dokumen yang sudah diposting. (FABLE-017, D15-3)
 8. **Tarif dan harga berversi dengan tanggal berlaku**; transaksi menyimpan snapshot tarif yang dipakai. (G1, D15-3)
+8a. **Membetulkan versi pada tanggal yang sama bukan membuat versi baru.** Penjaga "sudah dipakai" diperiksa untuk
+    versi tanggal itu sendiri; "sudah ada versi yang lebih baru" hanya untuk versi baru atau penghentian. Urutan yang
+    salah memberi alasan penolakan yang salah. (CP17_R2_FABLE_D15_3, CI 38861916560)
+8b. **Penyeragaman nilai (misalnya kode huruf besar) hanya saat membuat.** Saat mengubah, nilai tersimpan dibandingkan
+    dengan aturan kesamaan yang sama dengan keunikannya (tanpa beda huruf) dan disimpan apa adanya; kalau tidak, data
+    lama berkode huruf kecil yang sudah dipakai tidak bisa diubah sama sekali. (R2-03 gudang berisi stok, CI 38861916560)
 
 ## C. Alur aplikasi lengkap
 
@@ -43,6 +49,10 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     (SOL-R1-002, FABLE-016, FABLE-017)
 12. **Ada saksi browser untuk setiap langkah posting**, bukan hanya tombol yang terlihat atau nonaktif. (FABLE-016;
     ditutup sebagian oleh perjalanan Astra CUT_TO_FG)
+12a. **Dokumen induk yang dibuat otomatis lahir dalam transaksi yang sama dengan posting yang membutuhkannya.**
+    Penolakan di tengah tidak meninggalkan induk yatim, stok bergerak, atau nomor terpakai; draf tidak menyentuh tabel
+    bisnis; kirim ulang dengan UUID sama memberi jawaban sama. Uji juga dari layar dengan jawaban yang hilang di jalan.
+    (SOL-R1-002, D15-6)
 
 ## D. Layar
 
@@ -60,6 +70,9 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     untuk setiap menu di setiap mode, dengan data terisi. Jangan menutup luapan dengan `overflow:hidden`.
     (SOL-R1-004/005; Astra melaporkan nol luapan dengan cara ukur lain)
 18. **Pesan penolakan menyebut jalan keluarnya** (layar mana yang harus diisi). (FABLE-017 `NO_WORK_RATE`)
+18a. **Pratinjau memakai aturan tanggal yang sama dengan pencatatan.** Upah yang ditampilkan sebelum simpan dihitung
+    dengan tarif yang berlaku pada waktu jahit yang diisi, persis aturan snapshot Native, bukan tarif hari ini.
+    (Fable D15-3, rate_timeline)
 
 ## E. Bukti dan alat uji
 
@@ -77,6 +90,9 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     tidak diganti; penjaga tidak dilonggarkan; log gagal disimpan. (aturan owner, Pro Max)
 25. **Fixture yang mencakup satu dimensi menyembunyikan cacat dimensi lain.** Untuk setiap fitur, tambahkan kontrol
     lintas merek, lintas gudang, lintas tanggal tutup buku, dan dua sesi bersamaan. (ASTRA-C17-01, FABLE-013)
+25a. **Kasus browser yang gagal mencetak alert dan status di layar ke log**, karena artifact CI tidak selalu bisa
+    diunduh dari tempat log dibaca. Tombol dipilih lewat nama aksesibelnya; tombol di dalam `<label>` memakai nama
+    label itu. (CI 38861916560: lokasi dan rantai Bagi Potongan)
 
 ## F. Proses audit
 
@@ -94,6 +110,8 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Setiap entitas baru/berubah: buat, ubah, tutup, buka ulang dari aplikasi, atau keputusan owner tertulis (C9).
 - [ ] Penjaga uang: keadaan akhir, semua dasar tanggal, detektor dengan kontrol 0→+1→0 (A1–A3).
 - [ ] Kunci identitas lengkap dari server; uji lintas merek/gudang/tanggal (B6, E25).
+- [ ] Versi bertanggal: pembetulan hari yang sama vs versi baru; penyeragaman nilai hanya saat membuat (B8a, B8b).
+- [ ] Dokumen induk otomatis: satu transaksi, gagal di tengah tidak meninggalkan apa pun, kirim ulang sama (C12a).
 - [ ] Layar: pemeriksaan sama dengan Native, teks status dari server, simpan diblokir saat memuat (D13–D15).
 - [ ] Mode data nyata: tidak ada angka contoh tanpa label; tabel aktivasi diperbarui (D16).
 - [ ] 48 menu × 3 mode × HP 390 px: `scrollWidth <= innerWidth` (D17).
