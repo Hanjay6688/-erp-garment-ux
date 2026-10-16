@@ -88,7 +88,7 @@ def main():
             closes=one("""select count(*) filter(where j.status='POSTED'),coalesce(sum(e.residual_amount) filter(where j.status='REVERSED'),0)
                 from erp.po_wip_close_events e join erp.journal_entries j on j.id=e.journal_entry_id where e.po_id=%s and j.source_type='PO_WIP_RESIDUAL_CLOSE'""",(p['po'],))
             out=dict(status=st['status'],wip=str(cases.D(st['wip']).quantize(cases.D('0.01'))),history=st['history'],per_pcs=None if per is None else str(per),per_pcs_text=text,
-                     display_status=one('select x.display_status from erp.get_hpp_completeness(%s) x',(p['po'],))[0],posted_closes=closes[0],
+                     display_status=(cases.b.api.admin(cur),one('select x.display_status from erp.get_hpp_completeness(%s) x',(p['po'],))[0])[1],posted_closes=closes[0],
                      reversed_residual=str(cases.D(closes[1]).quantize(cases.D('0.01'))),
                      reopen_history=one('select count(*) from cp7_cutting_correction.po_reopen_history where po_id=%s',(p['po'],))[0])
         elif operation=='pickup_state':
