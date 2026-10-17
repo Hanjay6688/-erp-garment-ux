@@ -1,12 +1,12 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 278,
+ "expected_case_count": 290,
  "required_case_counts": {
-  "native": 137,
-  "races": 30,
-  "http": 21,
-  "browser": 45,
-  "browser_enteng": 45
+  "native": 143,
+  "races": 31,
+  "http": 22,
+  "browser": 47,
+  "browser_enteng": 47
  },
  "required_case_ids": {
   "native": [
@@ -146,7 +146,13 @@
    "CP17_R3_03_HISTORY_TIMELINE_PAGING",
    "CP17_R3_03_HISTORY_LIST_SEARCH_PAGING",
    "CP17_R3_03_HISTORY_QUERY_REFUSALS",
-   "CP17_R3_03_HISTORY_FACADE_PRIVATE_READ_ONLY"
+   "CP17_R3_03_HISTORY_FACADE_PRIVATE_READ_ONLY",
+   "CP17_R3_03_WAREHOUSE_RECEIPT_CUTTING_EQUALS_NATIVE_AND_READS",
+   "CP17_R3_03_WAREHOUSE_VALUES_ONLY_WITH_HPP_VIEW",
+   "CP17_R3_03_WAREHOUSE_SECTIONS_FOLLOW_KEYS",
+   "CP17_R3_03_WAREHOUSE_DENIED_WITHOUT_DASHBOARD_KEY",
+   "CP17_R3_03_WAREHOUSE_ATTENTION_FROM_NATIVE_ROWS",
+   "CP17_R3_03_WAREHOUSE_READ_ONLY_AND_PRIVATE"
   ],
   "races": [
    "CP17_RACE_TWO_PAYMENTS_ONE_BANK",
@@ -178,7 +184,8 @@
    "CP17_RACE_R3_03_ERP_SETTINGS_TWO_TABS_LAUNDRY_POLICY",
    "CP17_RACE_R3_03_AUDIT_WRITE_BETWEEN_PAGES",
    "CP17_RACE_R3_03_AUDIT_PAGING_WHILE_WRITER_RUNS",
-   "CP17_RACE_R3_03_HISTORY_PAYMENT_DURING_READ_ONE_SNAPSHOT"
+   "CP17_RACE_R3_03_HISTORY_PAYMENT_DURING_READ_ONE_SNAPSHOT",
+   "CP17_RACE_R3_03_WAREHOUSE_TRANSFER_DURING_READ_NEVER_HALF"
   ],
   "http": [
    "CP17_HTTP_CASH_EMPTY_BANK_REFUSED",
@@ -201,7 +208,8 @@
    "CP17_HTTP_R3_03_REMINDERS_ADMIN_AND_LIMITED_ROLES",
    "CP17_HTTP_R3_03_ERP_SETTINGS_OWNER_ADMIN_AUDITOR",
    "CP17_HTTP_R3_03_AUDIT_OWNER_READS_LIMITED_REFUSED",
-   "CP17_HTTP_R3_03_HISTORY_OWNER_AND_SALES_KASIR"
+   "CP17_HTTP_R3_03_HISTORY_OWNER_AND_SALES_KASIR",
+   "CP17_HTTP_R3_03_WAREHOUSE_OWNER_GUDANG_AND_DENIED"
   ],
   "browser": [
    "CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP",
@@ -247,6 +255,8 @@
    "CP17_BROWSER_R3_03_AUDIT_MOBILE",
    "CP17_BROWSER_R3_03_HISTORY_DESKTOP",
    "CP17_BROWSER_R3_03_HISTORY_MOBILE",
+   "CP17_BROWSER_R3_03_WAREHOUSE_SUMMARY_DESKTOP",
+   "CP17_BROWSER_R3_03_WAREHOUSE_SUMMARY_MOBILE",
    "CP17_BROWSER_R2_07_IMPORT_WIP_BRAND_SALE_CASH_CLOSE",
    "CP17_BROWSER_R2_07_BS_REWORK_NOTA_PAYROLL_PAY"
   ],
@@ -294,6 +304,8 @@
    "CP17_BROWSER_R3_03_AUDIT_MOBILE_ENTENG",
    "CP17_BROWSER_R3_03_HISTORY_DESKTOP_ENTENG",
    "CP17_BROWSER_R3_03_HISTORY_MOBILE_ENTENG",
+   "CP17_BROWSER_R3_03_WAREHOUSE_SUMMARY_DESKTOP_ENTENG",
+   "CP17_BROWSER_R3_03_WAREHOUSE_SUMMARY_MOBILE_ENTENG",
    "CP17_BROWSER_R2_07_IMPORT_WIP_BRAND_SALE_CASH_CLOSE_ENTENG",
    "CP17_BROWSER_R2_07_BS_REWORK_NOTA_PAYROLL_PAY_ENTENG"
   ]
@@ -342,7 +354,8 @@
   "erp_cp7_save_reminder_v1",
   "erp_cp7_get_erp_settings_v1",
   "erp_cp7_get_audit_trail_v1",
-  "erp_cp7_get_customer_history_v1"
+  "erp_cp7_get_customer_history_v1",
+  "erp_cp7_get_warehouse_summary_v1"
  ],
  "owner_decisions": {
   "D14_2": "Pembayaran upah sebelum utangnya ada: \"Tolak, kecuali kasbon (Disarankan)\" (15 Okt 2026)",
@@ -360,6 +373,7 @@
   "D15_3": "Data master dan tarif mandor (FABLE-017): \"dibuatkan layar tapi jangan simple banget juga, sedeng lah muat info dan fitur yg dibutuhkan\" (16 Okt 2026)",
   "D15_6": "PO harian (SOL-R1-002): \"2. Pilih A — PO otomatis dari Buat Potongan, seperti alur demo. Pengguna cukup mengisi pekerjaan potong; sistem membuat PO terkait dan menampilkan nomornya untuk pelacakan. Saat disahkan, pembuatan PO dan posting potongan harus atomik. Pengiriman ulang memakai UUID yang sama harus mendapatkan hasil yang sama, tanpa PO atau stok ganda. Draf tetap belum memengaruhi stok maupun keuangan.\" (16 Okt 2026)",
   "D15_5": "Lantai tanggal cutover (FABLE-011): \"1. Ya, untuk transaksi operasional baru. Gunakan tanggal cutover resmi yang saya sahkan dalam WIB, bukan tanggal pertama login atau uji coba. Pengamannya wajib di server. Data sebelum cutover masuk melalui saldo awal/migrasi. Invoice terlambat yang merujuk penerimaan saldo awal, pelunasan sesudah cutover, serta koreksi dokumen lama tetap memakai jalur resminya. Tanggal asli tetap tersimpan dan efeknya tidak boleh dihitung dua kali.\" (16 Okt 2026)",
+  "D16-1": "Owner 16 Okt (persis): \"selesain biar gausa sembunyiin\" (layar yang disembunyikan di build Enteng diselesaikan dan disambungkan, tidak disembunyikan; docs/cp7/OWNER_DECISIONS_20261008.md D16-1).",
   "D16-2/D16-3/D16-4": "Owner 16 Okt: \"bisa gak dikasih pilihan harga lama apa baru, kadang bisa random soalnya\"; \"mungkin setelah beberapa waktu kasih tombol biar nanti bisa yaudah pake yg baru terus kali ya.\"; \"B pokoknya kalo belom dipencet bakal ada 2 pilihan lalu klo dah dipencet udah baru terus pas peralihan biar ga kagok\" (docs/cp7/OWNER_DECISIONS_20261008.md D16-2..D16-4).",
   "D16-5": "Owner 17 Okt: \"Pilih A — gabungkan menjadi satu menu “Laporan & Tutup Buku” di Keuangan. Penutupan periode menjadi bagian/tab di dalamnya. Hak melihat laporan dan hak menutup buku tetap terpisah. Arsip, riwayat, dan pengaman penutupan tetap lengkap; tautan lama diarahkan ke halaman gabungan.\" (docs/cp7/OWNER_DECISIONS_20261008.md D16-5)."
  },
@@ -394,7 +408,8 @@
   "R3_03_PERIOD_TAB": "Owner D16-5 (not an audit finding): \"Tutup Periode\" is no longer a menu; closing the books is the \"Tutup Buku\" tab of \"Laporan & Tutup Buku\", the old route opens that tab. The period workspace adds the close/reopen history from the Native audit rows the accepted writers record for erp.accounting_period_control (column grants only); the oracle reads erp.audit_logs and erp.app_users directly and derives CLOSE/REOPEN itself. Rights stay separate: the report needs finance.reports.view, the tab and the facade also need finance.period_close.manage; seeded ADMIN (report right, no close right) is refused the period workspace natively and over real Auth, reads the report without the close check, and sees no tab in the browser.",
   "R3_03_ENTENG_BUILD": "Owner D16-1 (Fable oracle 2, 3, 5): every CP17 browser case runs a second time on the Enteng build (UAT_AUTH_SIMULATION, the same build as the Enteng deployment except a placeholder publishable key), against a fresh disposable copy; the browser answers the Enteng project origin from the loopback API of that copy and blocks every other origin, and the runner resolves the Enteng host to loopback, so nothing reaches a hosted project. Ids carry the suffix _ENTENG.",
   "R3_03_AUDIT_TRAIL": "Owner D16-1: the Audit Trail menu (admin-audit) reads erp.audit_logs through the read facade erp_cp7_get_audit_trail_v1 (settings.audit.view; CSV of the shown rows only with settings.audit.export): closed query, newest first, a fixed as_of cutoff and keyset paging so writes after page 1 never move, repeat or hide a row; old/new data only in the detail of one row, withheld above 512 KB. Oracles read erp.audit_logs and erp.app_users directly.",
-  "R3_03_CUSTOMER_HISTORY": "Owner D16-1: the Riwayat Pelanggan menu (sales-history) reads through the read facade erp_cp7_get_customer_history_v1 (sales.history.view; amounts only with finance.ar.view, CSV only with sales.history.export): customer list and per-customer timeline of invoices, payments, returns and cancellations (WIB), one snapshot per answer; invoice figures defined as the receivables reader; a cancelled document without its audit row is refused in words. Oracles sum the Native sales tables directly."
+  "R3_03_CUSTOMER_HISTORY": "Owner D16-1: the Riwayat Pelanggan menu (sales-history) reads through the read facade erp_cp7_get_customer_history_v1 (sales.history.view; amounts only with finance.ar.view, CSV only with sales.history.export): customer list and per-customer timeline of invoices, payments, returns and cancellations (WIB), one snapshot per answer; invoice figures defined as the receivables reader; a cancelled document without its audit row is refused in words. Oracles sum the Native sales tables directly.",
+  "R3_03_WAREHOUSE_SUMMARY": "Owner D16-1 (not an audit finding): Ringkasan Gudang showed sample figures and was hidden in Enteng. It now reads public.erp_cp7_get_warehouse_summary_v1: per location and kind the rows of Bahan & Roll without accessories, Aksesori and Ringkasan Barang Jadi with their own tables, filters and rounding, each section only with its screen key, values only with finance.hpp.view, and an attention list of Native facts behind the key of the screen that shows each (fabric below minimum needs master.fabric.view as well, which can be granted to Gudang in Pengguna & Hak Akses). One STABLE statement, one snapshot per answer. Cases: receipt and cutting equal raw rows and the three detail reads; values only with finance.hpp.view; sections per role key; refusals without warehouse.dashboard.view; attention equals Native tables after Native drafts; read-only and private; transfers committed during reads never give a half-applied answer; real Auth OWNER, GUDANG, a role without the key; browser desktop and phone as OWNER and GUDANG, on the test build and the Enteng build."
  },
  "oracle_independence": "Dates from the Native accrual journals and source rows; balances from journal lines and stock movements; never from the guard functions.",
  "fixture_capital": "Banks that pay hold owner capital through the accepted Native journal (scripts/cp7_cash_funding.py) only where a case says so; empty-bank cases keep the bank empty.",

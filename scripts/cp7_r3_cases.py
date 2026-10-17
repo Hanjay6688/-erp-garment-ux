@@ -28,6 +28,7 @@ import cp7_r3_reminders_cases as reminders
 import cp7_r3_settings_cases as settings
 import cp7_r3_audit_cases as audit
 import cp7_r3_history_cases as history
+import cp7_r3_warehouse_cases as warehouse
 b=po.b
 
 NATIVE=['CP17_R3_01_AUTO_PO_NUMBER_999_CONTROL','CP17_R3_01_AUTO_PO_NUMBER_1000_BOUNDED','CP17_R3_01_AUTO_PO_NUMBER_999_TO_1000_ASTRA',
@@ -72,6 +73,12 @@ RACES=RACES+history.RACES
 HTTP=HTTP+history.HTTP
 BROWSER=BROWSER+history.BROWSER
 FUNCTIONS=FUNCTIONS+tuple(history.FUNCTIONS)
+# R3-03 (owner D16-1): Ringkasan Gudang from real stock (cp7_r3_warehouse_cases.py).
+NATIVE=NATIVE+warehouse.NATIVE
+RACES=RACES+warehouse.RACES
+HTTP=HTTP+warehouse.HTTP
+BROWSER=BROWSER+warehouse.BROWSER
+FUNCTIONS=FUNCTIONS+tuple(warehouse.FUNCTIONS)
 
 def one(cur,sql,args=()):return cur.execute(sql,args).fetchone()[0]
 def fill(cur,prefix,body,last,note):
@@ -242,8 +249,8 @@ def cases(cur,today):
 
     named=[lambda:sol_number(998),lambda:sol_number(999),astra_carry,past_1000,same_uuid_past_1000,
            astra_sales_cancel,astra_adjustment_reverse,active_use_blocks,unrelated_inflow,one_of_two,reopen_then_finish]
-    assert len(named)+len(rate.NATIVE)+len(period.NATIVE)+len(reminders.NATIVE)+len(settings.NATIVE)+len(audit.NATIVE)+len(history.NATIVE)==len(NATIVE)
-    return list(zip(NATIVE[:len(named)],named))+rate.cases(cur,today)+period.cases(cur,today)+reminders.cases(cur,today)+settings.cases(cur,today)+audit.cases(cur,today)+history.cases(cur,today)
+    assert len(named)+len(rate.NATIVE)+len(period.NATIVE)+len(reminders.NATIVE)+len(settings.NATIVE)+len(audit.NATIVE)+len(history.NATIVE)+len(warehouse.NATIVE)==len(NATIVE)
+    return list(zip(NATIVE[:len(named)],named))+rate.cases(cur,today)+period.cases(cur,today)+reminders.cases(cur,today)+settings.cases(cur,today)+audit.cases(cur,today)+history.cases(cur,today)+warehouse.cases(cur,today)
 
 
 def races(tools,today):
@@ -290,7 +297,7 @@ def races(tools,today):
             history=one(cur,'select count(*) from cp7_cutting_correction.po_reopen_history where po_id=%s',(g['po'],))
         assert status!='FINISHED' and history==1,(status,history)
         return dict(status='PASS',two_tabs=results,reopened_once=True)
-    return list(zip(RACES[:2],[boundary_two_sessions,reopen_after_cancel]))+rate.races(tools,today)+period.races(tools,today)+reminders.races(tools,today)+settings.races(tools,today)+audit.races(tools,today)+history.races(tools,today)
+    return list(zip(RACES[:2],[boundary_two_sessions,reopen_after_cancel]))+rate.races(tools,today)+period.races(tools,today)+reminders.races(tools,today)+settings.races(tools,today)+audit.races(tools,today)+history.races(tools,today)+warehouse.races(tools,today)
 
 
-def http_cases(http,today):return rate.http_cases(http,today)+period.http_cases(http,today)+reminders.http_cases(http,today)+settings.http_cases(http,today)+audit.http_cases(http,today)+history.http_cases(http,today)
+def http_cases(http,today):return rate.http_cases(http,today)+period.http_cases(http,today)+reminders.http_cases(http,today)+settings.http_cases(http,today)+audit.http_cases(http,today)+history.http_cases(http,today)+warehouse.http_cases(http,today)

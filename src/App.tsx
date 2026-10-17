@@ -81,6 +81,7 @@ const ConnectedLaundryPage = lazy(() => import('./ConnectedLaundryPage'))
 const ConnectedQcFinalPage = lazy(() => import('./ConnectedQcFinalPage'))
 const ConnectedFgBookPage = lazy(() => import('./ConnectedFgBookPage'))
 const ConnectedFgStockPage = lazy(() => import('./ConnectedFgStockPage'))
+const ConnectedWarehouseSummaryPage = lazy(() => import('./ConnectedWarehouseSummaryPage'))
 const ConnectedFgHandoffBoundary = lazy(() => import('./ConnectedFgHandoffBoundary'))
 const Cp7Shell = lazy(() => import('./cp7/Cp7Shell'))
 
@@ -660,7 +661,8 @@ function ErpApp() {
         {page === 'accessories' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Aksesori"/>}><ConnectedAccessoryServicePage/></Suspense>}
         {page === 'stock-adjustment' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Hitung fisik"/>}><ConnectedStockAdjustmentPage/></Suspense>}
         {page === 'materials-rolls' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Bahan & Roll"/>}><ConnectedMaterialsPage/></Suspense>}
-        {(page === 'warehouse-dashboard' || (page === 'materials-rolls' && runtime.mode === 'DEMO_SIMULATION') || (page === 'accessories' && runtime.mode === 'DEMO_SIMULATION') || (page === 'fg-summary' && runtime.mode === 'DEMO_SIMULATION') || (page === 'stock-adjustment' && runtime.mode === 'DEMO_SIMULATION') || (page === 'brand-conversion' && runtime.mode === 'DEMO_SIMULATION')) && <Suspense fallback={<WorkspaceFallback label="Gudang"/>}><WarehousePages view={page} onNavigate={(next)=>setPage(next)} /></Suspense>}
+        {page === 'warehouse-dashboard' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Ringkasan Gudang"/>}><ConnectedWarehouseSummaryPage onNavigate={(next)=>setPage(next)}/></Suspense>}
+        {((page === 'warehouse-dashboard' && runtime.mode === 'DEMO_SIMULATION') || (page === 'materials-rolls' && runtime.mode === 'DEMO_SIMULATION') || (page === 'accessories' && runtime.mode === 'DEMO_SIMULATION') || (page === 'fg-summary' && runtime.mode === 'DEMO_SIMULATION') || (page === 'stock-adjustment' && runtime.mode === 'DEMO_SIMULATION') || (page === 'brand-conversion' && runtime.mode === 'DEMO_SIMULATION')) && <Suspense fallback={<WorkspaceFallback label="Gudang"/>}><WarehousePages view={page} onNavigate={(next)=>setPage(next)} /></Suspense>}
         {page === 'cutting-roll' && runtime.cuttingMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="Buat Potongan connected"/>}><ConnectedCuttingPage/></Suspense>}
         {page === 'cutting-roll' && runtime.cuttingMode === 'SIMULATION' && <CuttingRollPage />}
         {page === 'mandor-wip' && runtime.distributionMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="Bagi Potongan connected"/>}><ConnectedPickupPage/></Suspense>}

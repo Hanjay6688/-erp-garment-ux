@@ -21,7 +21,7 @@ export const SCREEN_ACTIVATION: Readonly<Record<string, Row>> = Object.freeze({
   qc: { label: 'QC & Final SKU', section: 'Produksi', enteng: 'CONNECTED', test: 'CONNECTED' },
   'fg-handoff': { label: 'Susun Nota FG', section: 'Produksi', enteng: 'CONNECTED', test: 'CONNECTED' },
   'bs-rework': { label: 'Barang BS & Rework', section: 'Produksi', enteng: 'CONNECTED', test: 'CONNECTED' },
-  'warehouse-dashboard': { label: 'Ringkasan Gudang', section: 'Gudang', enteng: 'HIDDEN', test: 'SAMPLE' },
+  'warehouse-dashboard': { label: 'Ringkasan Gudang', section: 'Gudang', enteng: 'CONNECTED', test: 'CONNECTED' },
   procurement: { label: 'Pembelian & Penerimaan', section: 'Gudang', enteng: 'CONNECTED', test: 'CONNECTED' },
   'materials-rolls': { label: 'Bahan & Roll', section: 'Gudang', enteng: 'CONNECTED', test: 'CONNECTED' },
   'pocket-fabric': { label: 'Kain kantong', section: 'Gudang', enteng: 'CONNECTED', test: 'CONNECTED' },

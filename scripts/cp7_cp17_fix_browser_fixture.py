@@ -397,6 +397,15 @@ def main():
         elif operation=='r303_history_state':
             import cp7_r3_history_cases as history
             out=history.browser_state(cur,p)
+        elif operation=='r303_warehouse':
+            # R3-03 (owner D16-1): the native case's fixture, committed: a roll of 10 received at its own warehouse, 4 cut through
+            # Buat Potongan.
+            import cp7_r3_warehouse_cases as warehouse
+            out=warehouse.browser_fixture(cur,date.fromisoformat(p['today']))
+        elif operation=='r303_warehouse_state':
+            # Native rows of that warehouse only: quantity, rolls and value as the screen writes them.
+            import cp7_r3_warehouse_cases as warehouse
+            out=warehouse.browser_state(cur,p)
         elif operation=='r303_period_history':
             # R3-03 / owner D16-5: what the Tutup Buku tab must list, from the Native audit rows only.
             import cp7_r3_period_cases as r303
