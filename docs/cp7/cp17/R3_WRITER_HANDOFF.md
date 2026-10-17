@@ -41,18 +41,17 @@ private role stack 49 (`cp7_f03_full_probe.py`, both manifests).
 
 ## Not done yet (in this order)
 
-1. CP17 run 39024246702 on `2bb9e774` (all code fixes so far): if a case fails, root-cause it, fix without loosening an
-   oracle, keep the log, re-dispatch `claude-cp17-fixes.yml` on `claude/r3-fixes-20261017`. The other CP7 workflows
-   (F03 full, F03-P13 regression, P13 finance, P13 period) were green at `26a107d3`/`9cc56e1b`.
-2. Qualify on one commit: fast-forward `claude/new-session-deapao` to the `claude/r3-fixes-20261017` head (it is a
-   descendant of the r2 package head `b388a4b7`), then dispatch every qualification workflow on ref
-   `claude/new-session-deapao` that has no run on that SHA yet (the r2 set: the 78 workflows of the r1 receipt, "UI phone
-   width census", the `cp6-*` workflows and every workflow file changed since `dfab13bf`; see the r2 README "Kandidat").
-   Build the receipt with `python3 scripts/cp7_ci_receipt.py <SHA> docs/cp7/audit-candidate/cp1-7-r3-20261017/CI_RECEIPT.json`.
-3. Package: fill `<KANDIDAT>`, `<TREE>`, `<RECEIPT>`, `<kandidat8>`, `<PANDUAN_SHA>` (sha256 of
-   `docs/AUDIT_PANDUAN_PRO_MAX.md`) in the three `HANDOFF_*.md` boxes and the README "Kandidat" section (drafts are in
-   `docs/cp7/audit-candidate/cp1-7-r3-20261017/`); docs-only commits after the candidate.
-4. Owner report: short, plain Indonesian (CLAUDE.md): what is ready, that the owner copies the three boxes, no decision needed
+1. Candidate is `82450d8adb15dbd6907f4edfbfa187a6a606ff16` (tree `68d26e5ead459fe9037be42dacf27f5341f55b79`): CP17 run
+   39025697040 on it is PASS 321/321 (native 153, races 34, http 24, browser 55, browser_enteng 55). `claude/new-session-deapao`
+   was fast-forwarded to it; the 116 qualification workflows (105 dispatched + push runs; `cp6-ac-independent-audit` has no
+   manual trigger) and a second CP6 Auditor Scenario with `scripts/cp6_bf_combined_modes.py` + `scripts/cp6_bf_vendor_browser.mjs`
+   were started on ref `claude/new-session-deapao`. Wait for all of them; read failures per case from the logs; old CP6
+   workflows red only for their historic scope checks or expired artifacts are expected (r2 README "Kandidat";
+   `R3_08_CP6_WORKFLOW_SUCCESSORS.md`).
+2. Receipt: `python3 scripts/cp7_ci_receipt.py 82450d8adb15dbd6907f4edfbfa187a6a606ff16 docs/cp7/audit-candidate/cp1-7-r3-20261017/CI_RECEIPT.json`;
+   fill `<RECEIPT>` in the three boxes and the README "Kandidat" section (same layout as the r2 README). Docs-only commits
+   after the candidate; push them to `claude/r3-fixes-20261017` and fast-forward `claude/new-session-deapao`.
+3. Owner report: short, plain Indonesian (CLAUDE.md): what is ready, that the owner copies the three boxes, no decision needed
    unless one came up.
 
 Held, not part of r3: CP7C and FABLE-012. Add to the CP7C revoke batch: the CP4 public pool wrappers
@@ -82,3 +81,4 @@ new facade's closed-books refusal, review token and request table; `cp7_hpp_pool
 | fix(r3): kasbon refusal no longer reports a false refresh failure; chain fixture fills seed attendance gaps | CP17 39020856920 at 9cc56e1b: 260 PASS, 6 INCOMPLETE. All 17 HPP pool cases and the FG -> AR chain passed. New: chain (a) close met 4 seed-worker attendance gaps 2026-09-19..30 (the close checks attendance from the engine's start date, P-01; fixture now records OFF there the owner way); the guards case's kasbon refusal showed an extra "Refetch authoritative gagal" because the payroll page's reload superseded the panel's refresh read (real screen fault in `src/PayrollKasbonPanel.tsx`, fixed with a DOM test that fails before and passes after). Log: `cand-logs/r3f/cp17_9cc56e1b.json` in the writer's scratchpad |
 | test(r3): QC desktop waits for the intercepted answer | CP17 39022821912 at 26ef53fd: 265 PASS, 1 INCOMPLETE (QC desktop). Its record showed the interception had not answered yet: the screen shows "Cek status transaksi" while the post is in flight, so the case asserted too early. Every other case green, including both chains, guards, warehouse, HPP pool |
 | fix(test-tools): Enteng route redirect survives a page closed mid-flight | CP17 39024246702 at 2bb9e774: every case line PASS (266), but the Enteng browser host died with "route.fulfill: Fetch response has been disposed" after a case closed its context while a redirected request was in flight, so 55 Enteng cases never ran and the probe reported INCOMPLETE. Reproduced locally (old code: unhandled rejection; new code: recorded in `enteng_route_errors`, page gets a network failure) |
+| test(r3)/docs: candidate 82450d8a | CP17 39025697040: 321/321 PASS, 1218 Enteng requests answered by loopback, 0 route errors. Qualification started on `claude/new-session-deapao` |
