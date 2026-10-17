@@ -24,8 +24,8 @@ export default function PayrollKasbonPanel({ contractorId, payrollId, parentRead
   const [data, setData] = useState<KasbonWorkspace | null>(null), [busy, setBusy] = useState(false), [error, setError] = useState(''), [done, setDone] = useState('')
   const [form, setForm] = useState<Form | null>(null), [amount, setAmount] = useState(''), [date, setDate] = useState(''), [bank, setBank] = useState('')
   const [reason, setReason] = useState(''), [reviewed, setReviewed] = useState(false), [open, setOpen] = useState(false)
-  const seq = useRef(0)
-  const load = useCallback(async () => {
+  const seq = useRef(0), latestRead = useRef<Promise<boolean>>(Promise.resolve(false))
+  const read = useCallback(async () => {
     const ticket = beginRead(), n = ++seq.current
     setData(null); setForm(null); setError('')
     if (!allowed || !contractorId) return false
@@ -40,6 +40,7 @@ export default function PayrollKasbonPanel({ contractorId, payrollId, parentRead
       return false
     } finally { if (n === seq.current) setBusy(false) }
   }, [allowed, beginRead, client, contractorId, finishRead, isReadCurrent])
+  const load = useCallback(() => { const p = read(); latestRead.current = p; return p }, [read])
   // Read only on request: opening the payroll page reads nothing else. The payroll page empties its detail while it
   // reloads (also right after a kasbon is saved), so the contractor is briefly null: only a different contractor
   // closes the panel and clears the saved-kasbon message.
@@ -85,7 +86,15 @@ export default function PayrollKasbonPanel({ contractorId, payrollId, parentRead
         : e.action === 'CANCEL' ? `Kasbon ${k.number} dibatalkan. Uangnya kembali ke rekening asal.`
           : `Potongan kasbon ${k.number} pada payroll diperbarui. Sisa kasbon ${rupiah(k.free)}. Hitung dan setujui ulang payroll sebelum dibayar.`)
     },
-    reload: async () => { await onChanged(); return load() },
+    // The parent's reload re-renders this panel, and its own effect may start a newer read while this one is in flight.
+    // A read superseded that way is not a failed refresh: the result is the newest read's (CI 39020856920, R3 guards
+    // case: a refused kasbon showed "Refetch authoritative gagal" although the newer read succeeded).
+    reload: async () => {
+      await onChanged()
+      let current = load(), ok = await current
+      while (!ok && latestRead.current !== current) { current = latestRead.current; ok = await current }
+      return ok
+    },
   }
   const submit = () => {
     if (!form || !data || problems.length || !reviewed) return

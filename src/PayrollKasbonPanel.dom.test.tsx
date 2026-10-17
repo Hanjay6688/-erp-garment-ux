@@ -77,6 +77,28 @@ describe('kasbon tunai (owner D14-6)', () => {
     await render(other); await settle()
     expect(container.textContent).not.toContain('tercatat'); button('Lihat kasbon mandor ini')
   })
+  it('shows a refused kasbon as the server said when the payroll page re-reads during the refresh (no false refresh failure)', async () => {
+    // CI 39020856920 (R3 guards case): the payroll page's reload made this panel start a newer read while the refresh read
+    // was in flight; the superseded read was reported as "Refetch authoritative gagal; writer tetap terkunci".
+    const refusal = 'Saldo BC1 menjadi minus -2500.00 pada tanggal buku 2026-10-13 atau sesudahnya (laporan kas harian).'
+    let reads = 0
+    client.rpc.mockImplementation(async (name: string) => {
+      if (name === 'erp_cp7_get_kasbon_v1') { reads++; await new Promise(r => setTimeout(r, 5)); return { data: workspace(), error: null } }
+      return { data: null, error: { code: 'P0001', message: refusal } }
+    })
+    const render = (ready: boolean) => root.render(<PayrollKasbonPanel contractorId={contractor} payrollId={payroll} parentReady={ready} onChanged={onChanged}/>)
+    // What the payroll page does on onChanged: not ready while it reloads, ready again right after its read resolves.
+    onChanged.mockImplementation(async () => { render(false); setTimeout(() => render(true), 0); return true })
+    const wait = (ms: number) => act(async () => { await new Promise(r => setTimeout(r, ms)) })
+    await mount(); await wait(20); await click('Beri kasbon')
+    await type('Nominal kasbon', '2500'); await type('Rekening kasbon', bank, 'select'); await type('Alasan kasbon', 'Kasbon anak sakit')
+    await act(async () => container.querySelector<HTMLInputElement>('[aria-label="Kasbon sudah diperiksa"]')!.click())
+    await click('Simpan kasbon'); await wait(40)
+    expect(onChanged).toHaveBeenCalled(); expect(reads).toBeGreaterThanOrEqual(3)
+    const alert = [...container.querySelectorAll('[role="alert"]')].map(a => a.textContent).find(x => x?.includes('laporan kas harian'))
+    expect(alert).toContain(refusal); expect(alert).not.toContain('Refetch authoritative gagal')
+    expect(container.textContent).toContain('Beri kasbon')
+  })
   it('prefills the deduction with what the kasbon and the payroll can take, and hides cancel once used', async () => {
     client.rpc.mockResolvedValue({ data: workspace([advance(), advance({ id: '55555555-5555-4555-8555-555555555555', number: 'KB-2', reserved: '100.00', free: '2400.00',
       allocations: [{ deduction_id: '66666666-6666-4666-8666-666666666666', payroll_id: payroll, payroll_number: 'PR-1', payroll_status: 'CALCULATED', amount: '100.00' }] })]), error: null })

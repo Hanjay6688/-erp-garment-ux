@@ -104,6 +104,22 @@ def browser_sewing_prepare(cur,today):
     cur.execute('update erp.contractors set contractor_name=%s where id=%s',(label,g['mandor']))
     sewn_at=g['at'](14);rates=chain_rates(cur,g,sewn_at);c.b.api.admin(cur)
     quiet=period.aw.quiet_seed(cur,opened,day+timedelta(days=1));c.b.api.admin(cur)
+    # The close checks attendance from erp.period_completeness_from_v1(), not from the closed date (P-01), so seed workers'
+    # days left empty before `opened` by earlier fixtures also block it (CI 39020856920: 4 workers, 2026-09-19..30). They
+    # are filled the same owner way (OFF through quiet_seed) with the books opened from the first such day, then the
+    # closed date goes back to `opened`; nothing else is written there.
+    gap=row(cur,"""select min(impact_date) from erp.period_blockers_v1(%s,erp.period_completeness_from_v1())
+        where code='ATTENDANCE_CELL_MISSING'""",(day,))[0]
+    backfill=None
+    if gap is not None and gap<=opened:
+        cur.execute("""update erp.accounting_period_control set closed_through=%s,updated_at=clock_timestamp(),updated_by=null,
+            change_reason='CP17 R3-03 chain: seed attendance gap filled' where singleton_id=1""",(gap-timedelta(days=1),))
+        back=period.aw.quiet_seed(cur,gap,opened);c.b.api.admin(cur)
+        cur.execute("""update erp.accounting_period_control set closed_through=%s,updated_at=clock_timestamp(),updated_by=null,
+            change_reason='CP17 R3-03 chain: closed date back after the gap' where singleton_id=1""",(opened,))
+        backfill=dict(from_day=str(gap),to_day=str(opened),attendance=len(back['attendance']),refused=back['refused'])
+    left=row(cur,"""select count(*) from erp.period_blockers_v1(%s,erp.period_completeness_from_v1()) where code='ATTENDANCE_CELL_MISSING'""",(day,))[0]
+    assert left==0,('CP17_R3_03_CHAIN_SEED_ATTENDANCE_GAP_LEFT',left,backfill)
     qty=10;per=sum(rates['rates'],D('0.00'));wage=(per*qty).quantize(D('0.01'))
     code='R3C'+uuid.uuid4().hex[:8].upper();bank=str(c.bc.bank_account(cur,code));c.b.api.admin(cur)
     capital=funding.fund(cur,bank,str(wage),day);c.b.api.admin(cur)
@@ -111,7 +127,8 @@ def browser_sewing_prepare(cur,today):
         number=row(cur,'select group_number from erp.cutting_groups where id=%s',(g['group'],))[0],day=str(day),sewn_local=f'{day:%Y-%m-%d}T14:00',
         qty=qty,rates=[str(x) for x in rates['rates']],per_pcs=str(per),wage=str(wage),bom=rates['bom'],bom_created=rates['bom_created'],
         bank=bank,bank_code=bank_code(cur,bank),capital=str(capital),opened_closed=str(opened),previous_closed=text(prev),
-        quiet=dict(attendance=len(quiet['attendance']),approved=len(quiet['approved']),work_payrolls=len(quiet['work_payrolls']),refused=quiet['refused']))
+        quiet=dict(attendance=len(quiet['attendance']),approved=len(quiet['approved']),work_payrolls=len(quiet['work_payrolls']),refused=quiet['refused']),
+        seed_attendance_backfill=backfill)
 
 def browser_sewing_state(cur,p):
     c=cp17();c.b.api.admin(cur);day=p['day']
