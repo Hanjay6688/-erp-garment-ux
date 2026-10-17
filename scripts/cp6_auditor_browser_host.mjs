@@ -161,21 +161,39 @@ async function start() {
   catch(e){report.disposable_entry_text=safe(await initial.page.locator('body').innerText().catch(()=>'' )).slice(0,1000);throw e}
   finally{await initial.ctx.close()}
 }
+// Cases install their own routes and send the request on with route.fetch()/route.continue() (lost replies, delays);
+// a page route runs before the context route below. In the Enteng build those calls are redirected here to the loopback
+// API too (the first routed request of the bootstrap page installs this before any case runs), so no case can send a
+// request to the Enteng project host: it would be refused anyway, the runner resolves that host to loopback.
+let entengRoutesPatched = false
+function patchEntengRoutes(route) {
+  if (uiMode !== 'ENTENG' || entengRoutesPatched) return
+  const proto = Object.getPrototypeOf(route), fetchOriginal = proto.fetch, continueOriginal = proto.continue
+  const target = (r, options) => new URL(options?.url || r.request().url())
+  proto.fetch = function (options = {}) {
+    const url = target(this, options)
+    if (url.origin !== entengOrigin) return fetchOriginal.call(this, options)
+    report.enteng_requests_answered_by_loopback++
+    const headers = { ...(options.headers || this.request().headers()), origin }
+    for (const name of ['apikey', 'authorization']) if (headers[name]) headers[name] = headers[name].replaceAll(entengPlaceholderKey, anon)
+    return fetchOriginal.call(this, { ...options, url: api + url.pathname + url.search, headers, maxRedirects: 0 })
+  }
+  proto.continue = async function (options = {}) {
+    if (target(this, options).origin !== entengOrigin) return continueOriginal.call(this, options)
+    return this.fulfill({ response: await this.fetch(options) })
+  }
+  entengRoutesPatched = true
+}
 async function context({ mobile = false, timezoneId = 'Asia/Jakarta' } = {}) {
   const ctx = await browser.newContext({ viewport: mobile ? { width: 390, height: 844 } : { width: 1440, height: 1000 }, timezoneId,
     isMobile: mobile, hasTouch: mobile })
   // Only the served UI and the loopback API; nothing else leaves the browser. In the Enteng build its project origin is
   // answered here by the loopback API, never by the network.
   await ctx.route('**/*', async route => {
-    const request = route.request(), url = new URL(request.url())
+    patchEntengRoutes(route)
+    const url = new URL(route.request().url())
     if ([origin, api].includes(url.origin)) return route.continue()
-    if (uiMode === 'ENTENG' && url.origin === entengOrigin) {
-      report.enteng_requests_answered_by_loopback++
-      const headers = { ...request.headers(), origin }
-      for (const name of ['apikey', 'authorization']) if (headers[name]) headers[name] = headers[name].replaceAll(entengPlaceholderKey, anon)
-      const response = await route.fetch({ url: api + url.pathname + url.search, headers, maxRedirects: 0 })
-      return route.fulfill({ response })
-    }
+    if (uiMode === 'ENTENG' && url.origin === entengOrigin) return route.continue()  // answered by the loopback API
     report.blocked_requests++
     return route.abort('blockedbyclient')
   })

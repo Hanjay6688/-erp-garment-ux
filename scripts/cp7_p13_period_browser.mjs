@@ -31,9 +31,12 @@ async function period(ui,f,mobile){
   await ui.expect(panel).toContainText('Periode tertutup sampai '+f.day)
   const after=fixture('read',f);assert.equal(after.filings.length,before.filings.length+1);assert.deepEqual(after.business,before.business);assert.deepEqual(after.filings.slice(0,-1),before.filings)
   const filed=after.filings.at(-1);assert.equal(filed.reason,reason);assert.equal(filed.closed_through,f.day);assert.equal(filed.readiness.status,'READY')
-  await tab(p,'Laporan');const archives=p.getByRole('region',{name:'Arsip penutupan keuangan',exact:true});const original=archives.locator('.cproc-receipt').filter({hasText:reason});await ui.expect(original).toHaveCount(1);await original.click();await ui.expect(p.getByRole('region',{name:'Saldo asli saat penutupan',exact:true})).toContainText(reason)
   await ui.expect.poll(()=>panel.evaluate(el=>{const b=el.getBoundingClientRect();return b.left>=0&&b.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
   mkdirSync('cp6-proof/t3',{recursive:true});await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:`cp6-proof/t3/P13_PERIOD_${suffix}.png`,fullPage:true})
+  // The archive is on the "Laporan" tab (owner D16-5): the same width rule there.
+  await tab(p,'Laporan');const archives=p.getByRole('region',{name:'Arsip penutupan keuangan',exact:true});const original=archives.locator('.cproc-receipt').filter({hasText:reason});await ui.expect(original).toHaveCount(1);await original.click();await ui.expect(p.getByRole('region',{name:'Saldo asli saat penutupan',exact:true})).toContainText(reason)
+  await ui.expect.poll(()=>archives.evaluate(el=>{const b=el.getBoundingClientRect();return b.left>=0&&b.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
+  await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:`cp6-proof/t3/P13_PERIOD_${suffix}_ARCHIVE.png`,fullPage:true})
   await tab(p,'Tutup Buku');await panel.getByLabel('Tanggal pemeriksaan tutup buku',{exact:true}).fill(f.day);await ui.expect(panel.getByLabel('Tindakan periode',{exact:true})).toBeEnabled()
   await panel.getByLabel('Tindakan periode',{exact:true}).selectOption('REOPEN')
   if(f.previous_closed===null)await panel.getByLabel('Buka seluruh periode tertutup',{exact:true}).check()
