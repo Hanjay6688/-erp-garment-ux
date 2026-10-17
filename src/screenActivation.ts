@@ -36,7 +36,7 @@ export const SCREEN_ACTIVATION: Readonly<Record<string, Row>> = Object.freeze({
   'sales-allocation': { label: 'Semua Invoice', section: 'Penjualan', enteng: 'CONNECTED', test: 'CONNECTED' },
   'sales-returns': { label: 'Retur Penjualan', section: 'Penjualan', enteng: 'CONNECTED', test: 'CONNECTED' },
   'sales-payments': { label: 'Pembayaran Pelanggan', section: 'Penjualan', enteng: 'CONNECTED', test: 'CONNECTED' },
-  'sales-history': { label: 'Riwayat Pelanggan', section: 'Penjualan', enteng: 'HIDDEN', test: 'SAMPLE' },
+  'sales-history': { label: 'Riwayat Pelanggan', section: 'Penjualan', enteng: 'CONNECTED', test: 'CONNECTED' },
   'finance-overview': { label: 'Ringkasan Keuangan', section: 'Keuangan', enteng: 'CONNECTED', test: 'CONNECTED' },
   'finance-cash': { label: 'Kas & Bank', section: 'Keuangan', enteng: 'CONNECTED', test: 'CONNECTED' },
   'finance-ap': { label: 'Hutang Supplier & Vendor', section: 'Keuangan', enteng: 'CONNECTED', test: 'CONNECTED' },

@@ -1,0 +1,18 @@
+/* R3-03 Riwayat Pelanggan (src/ConnectedCustomerHistoryPage.tsx). */
+.chistory h2, .chistory p, .chistory small { overflow-wrap: anywhere; }
+.chistory-layout > * { min-width: 0; }
+.chistory-note { color: #9fb0c9; line-height: 1.6; }
+.chistory-totals { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 12px 0; }
+.chistory-totals .cproc-total { padding: 14px; }
+.chistory-totals .cproc-total strong { font-size: 19px; overflow-wrap: anywhere; }
+.chistory-timeline { list-style: none; margin: 14px 0 0; padding: 0; }
+.chistory-timeline > li { display: grid; grid-template-columns: minmax(110px, 150px) minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 14px 0; border-top: 1px solid #354159; }
+.chistory-timeline time { color: #9fb0c9; font-size: 12px; }
+.chistory-timeline > li > div { display: grid; gap: 4px; min-width: 0; }
+.chistory-timeline > li > div > small { color: #b7c4d8; line-height: 1.5; }
+.chistory-timeline > li > b { white-space: nowrap; }
+@media (max-width: 640px) {
+  .chistory-timeline > li { grid-template-columns: minmax(0, 1fr) auto; }
+  .chistory-timeline time { grid-column: 1 / -1; }
+  .chistory-timeline > li > b { white-space: normal; overflow-wrap: anywhere; }
+}
