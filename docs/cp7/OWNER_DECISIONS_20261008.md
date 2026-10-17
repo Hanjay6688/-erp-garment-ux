@@ -581,3 +581,24 @@ pencatatan (D16-2), ada tombol per PO "pakai tarif baru seterusnya". Sesudah dit
 untuk PO itu memakai tarif baru tanpa ditanya lagi. Upah yang sudah tercatat tidak berubah. Tombol mencatat siapa,
 kapan, dan alasannya di riwayat. Siapa yang boleh menekannya ditanyakan ke owner bersama pertanyaan D16-2.
 `production_go:false`.
+
+### D16-4 dan D16-5 (owner ke penulis Claude, 17 Okt 2026, jawaban dua pertanyaan penulis)
+
+Pertanyaan penulis: (1) "Siapa yang boleh memilih tarif baru dan menekan tombol itu? (A) semua orang yang boleh mencatat
+jahit selesai; (B) hanya Owner/Admin." (2) "Menu 'Tutup Periode' dan 'Laporan & Tutup Buku' sama-sama untuk tutup buku:
+(A) digabung jadi satu menu; (B) tetap dua menu."
+
+Owner (persis): "B pokoknya kalo belom dipencet bakal ada 2 pilihan lalu klo dah dipencet udah baru terus pas peralihan
+biar ga kagok, kedua Pilih A — gabungkan menjadi satu menu “Laporan & Tutup Buku” di Keuangan. Penutupan periode menjadi
+bagian/tab di dalamnya. Hak melihat laporan dan hak menutup buku tetap terpisah. Arsip, riwayat, dan pengaman penutupan
+tetap lengkap; tautan lama diarahkan ke halaman gabungan."
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
+- D16-4 (tarif, lanjutan D16-2/D16-3): hanya Owner/Admin yang boleh memilih tarif baru dan menekan tombol "pakai tarif
+  baru seterusnya". Sebelum tombol ditekan, Owner/Admin melihat dua pilihan saat mencatat jahit selesai; peran lain
+  mencatat dengan tarif lama PO (sesuai pilihan B yang ditanyakan). Sesudah ditekan, semua pencatatan berikutnya untuk PO
+  itu memakai tarif baru.
+- D16-5 (menu): "Tutup Periode" digabung ke "Laporan & Tutup Buku" di Keuangan; penutupan periode menjadi tab di
+  dalamnya. Hak melihat laporan dan hak menutup buku tetap terpisah. Arsip, riwayat dan pengaman penutupan tetap
+  lengkap. Rute lama "Tutup Periode" diarahkan ke halaman gabungan.
+- `production_go:false`.
