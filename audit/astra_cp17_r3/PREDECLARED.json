@@ -1,0 +1,9 @@
+{
+  "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "tree": "32f54240a60e01ab8b1ffad7267d285a669be520",
+  "branch": "audit/astra-cp1-7-r3-b53b5acd-20261018",
+  "scope": "CP1\u2013CP7 r3, independent retest; hosted and CP7C HOLD",
+  "writer_suite": "321 declared cases: 153 native + 34 race + 24 HTTP + 55 browser + 55 Enteng browser; inherited oracle, rerun independently; comparator and drain controls separately reported",
+  "case_policy": "Preserve raw failures and incomplete observations; no after-case retry to turn red green",
+  "expected": "All writer case IDs and expected assertions at frozen candidate remain unchanged. Enteng requests restricted to disposable backend."
+}
