@@ -135,6 +135,9 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 25d. **Uji build mode data nyata memakai build rilis yang sama**, bukan build uji: hanya alamat proyek dan kunci browser
     yang diganti (kunci pengganti, bukan kunci proyek mana pun), alamat proyek dijawab oleh database sekali pakai di
     loopback, semua alamat lain diblokir, dan host proyek diarahkan ke loopback di runner. (owner D16-1, oracle Fable 2)
+    Pengalih permintaan di alat uji harus tahan halaman yang ditutup saat jawaban masih di jalan: kegagalannya dicatat dan
+    diberikan ke halaman sebagai gangguan jaringan, bukan mematikan seluruh grup uji. (CI 39024246702: grup Enteng berhenti
+    di 266 dari 321 kasus)
 25e. **Fixture yang menutup buku memenuhi seluruh jendela pemeriksaan penutupan, bukan hanya hari kasusnya.** Kelengkapan
     absensi diperiksa sejak tanggal mulai mesin (`erp.period_completeness_from_v1()`), jadi hari kosong pekerja seed yang
     ditinggal fixture lain ikut menghalangi. Fixture mengisinya dengan cara owner (OFF) lalu memastikan tidak ada yang

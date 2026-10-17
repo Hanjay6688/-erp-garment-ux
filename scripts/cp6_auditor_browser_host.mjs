@@ -57,7 +57,7 @@ let api
 const VOCABULARY = ['PASS', 'FAIL', 'COUNTEREXAMPLE', 'INCOMPLETE']
 const secrets = [anon, service], users = []
 const report = { status: 'INCOMPLETE', label: 'AUDITOR_SCENARIO', mode: 'BROWSER', ui_mode: uiMode, phase, planned: [], cases: {}, console_errors: [],
-  enteng_requests_answered_by_loopback: 0, blocked_requests: 0,
+  enteng_requests_answered_by_loopback: 0, enteng_route_errors: [], blocked_requests: 0,
   auth_cleanup_failures: [], real_auth: true, product_responses_mocked: false, production_go: false, release_evidence: false }
 const save = () => { mkdirSync(dirname(out), { recursive: true }); writeFileSync(out, JSON.stringify(report, null, 2) + '\n') }
 const redact = value => { if (value) secrets.push(value) }
@@ -180,7 +180,15 @@ function patchEntengRoutes(route) {
   }
   proto.continue = async function (options = {}) {
     if (target(this, options).origin !== entengOrigin) return continueOriginal.call(this, options)
-    return this.fulfill({ response: await this.fetch(options) })
+    // A page or context closed while the loopback answer is on its way disposes that answer; there is nobody left to
+    // deliver it to (Playwright's own continue ignores a closed target the same way). Any failure is kept in the report and
+    // given to the page as a network failure, so a case sees it and the host does not die (CI 39024246702: "Fetch response
+    // has been disposed" after a case closed its context, which stopped the Enteng group at 266 of 321 cases).
+    try { return await this.fulfill({ response: await this.fetch(options) }) }
+    catch (error) {
+      report.enteng_route_errors.push(safe(String(error?.message || error)).slice(0, 300))
+      await this.abort('failed').catch(() => {})
+    }
   }
   entengRoutesPatched = true
 }
@@ -272,6 +280,7 @@ try {
   save()
   console.log(JSON.stringify({ group: 'AUDITOR_BROWSER_' + phase, planned: report.planned, final: Object.fromEntries(Object.entries(report.cases).map(([k, v]) => [k, v.status])),
     status: report.status, failed_stage: report.failed_stage, error: report.error, console_errors: report.console_errors.length, users_created: users.length,
-    auth_cleanup_failures: report.auth_cleanup_failures }))
+    auth_cleanup_failures: report.auth_cleanup_failures, enteng_requests_answered_by_loopback: report.enteng_requests_answered_by_loopback,
+    enteng_route_errors: report.enteng_route_errors.slice(0, 20) }))
 }
 process.exit(report.status === 'RUN_COMPLETE' ? 0 : 1)
