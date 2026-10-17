@@ -1,0 +1,11 @@
+{
+  "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "case": "ASTRA_R3_AUDIT_LOWER_ID_LATE_COMMIT",
+  "expected": 1,
+  "reason": "Source uses max visible sequence id as snapshot cutoff; lower allocated ids may commit after a higher one. Writer existing held-transaction case has no later committed id before first read.",
+  "oracle": "7 committed seed rows; hold Native customer write A; commit write B with higher audit id; first page3 contains8 visible rows, cutoff includes invisible A; commit A; traverse exact returned cursors. The9committed rows must be visited or newer must signal reload; record page totals, IDs and observed idle-in-transaction holder. No arbitrary audit rows inserted.",
+  "files": {
+    "audit_paging_case.py": "9fe08722c2ce4a37413fe038f9f408d2d58f007047442b5b3b42dfedc2e9ed3d",
+    "audit_paging_runner.py": "637c9abd5e8fc3bdabe9a20fa34ba53e9855a71f13bd3e5a5efadbd4e1b31228"
+  }
+}
