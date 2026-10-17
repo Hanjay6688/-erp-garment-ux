@@ -41,14 +41,14 @@ private role stack 49 (`cp7_f03_full_probe.py`, both manifests).
 
 ## Not done yet (in this order)
 
-1. Candidate is `82450d8adb15dbd6907f4edfbfa187a6a606ff16` (tree `68d26e5ead459fe9037be42dacf27f5341f55b79`): CP17 run
-   39025697040 on it is PASS 321/321 (native 153, races 34, http 24, browser 55, browser_enteng 55). `claude/new-session-deapao`
-   was fast-forwarded to it; the 116 qualification workflows (105 dispatched + push runs; `cp6-ac-independent-audit` has no
-   manual trigger) and a second CP6 Auditor Scenario with `scripts/cp6_bf_combined_modes.py` + `scripts/cp6_bf_vendor_browser.mjs`
-   were started on ref `claude/new-session-deapao`. Wait for all of them; read failures per case from the logs; old CP6
-   workflows red only for their historic scope checks or expired artifacts are expected (r2 README "Kandidat";
-   `R3_08_CP6_WORKFLOW_SUCCESSORS.md`).
-2. Receipt: `python3 scripts/cp7_ci_receipt.py 82450d8adb15dbd6907f4edfbfa187a6a606ff16 docs/cp7/audit-candidate/cp1-7-r3-20261017/CI_RECEIPT.json`;
+1. Candidate is now `b53b5acdf260b03ebac3474e9ae837fcef6f6eb1` (tree `32f54240a60e01ab8b1ffad7267d285a669be520`): the
+   first candidate `82450d8a` plus the Build UX test that follows D16-1 and docs (`git diff --name-only 82450d8a b53b5acd`).
+   CP17 on `82450d8a` was 321/321 (run 39025697040); the CP7 code is identical in `b53b5acd`. `claude/new-session-deapao`
+   was fast-forwarded to it and the qualification workflows plus the CP6 Auditor Scenario sample were started on ref
+   `claude/new-session-deapao`. Wait for all of them; read failures per case; compare with
+   `CI_RECEIPT_FIRST_82450d8a.json` and the r2 receipt (expected red: historic scope checks, expired artifact, the CP6
+   Auditor Scenario's 4 known INCOMPLETE).
+2. Receipt: `python3 scripts/cp7_ci_receipt.py b53b5acdf260b03ebac3474e9ae837fcef6f6eb1 docs/cp7/audit-candidate/cp1-7-r3-20261017/CI_RECEIPT.json`;
    fill `<RECEIPT>` in the three boxes and the README "Kandidat" section (same layout as the r2 README). Docs-only commits
    after the candidate; push them to `claude/r3-fixes-20261017` and fast-forward `claude/new-session-deapao`.
 3. Owner report: short, plain Indonesian (CLAUDE.md): what is ready, that the owner copies the three boxes, no decision needed
