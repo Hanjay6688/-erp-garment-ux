@@ -1,0 +1,55 @@
+{
+  "auditor": "Fable",
+  "round": "r3",
+  "date": "2026-10-17",
+  "candidate": {"commit": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1", "tree": "32f54240", "writer_head_at_runs": "64339905cc19e497f9fdb3599ff4a21cbf7da8ff", "head_vs_candidate": "6 files under docs/ only; product tree equal"},
+  "basis": {"previous_lock": "audit/fable_cp17_r2/LOCK.md (80f01cee)", "owner_decision_and_oracles": "audit/fable_cp17_r2/OWNER_DECISION_TO_AUDITOR_20261016_UNHIDE.md (f2758f39)"},
+  "production_go": false,
+  "retest": {
+    "oracles_D16_1": [
+      {"oracle": 1, "text": "no hidden menu and no sample numbers in the Enteng build; same components as the test build; Dashboard real numbers or a notice without numbers", "status": "DITUTUP", "evidence": ["src/screenActivation.ts: 46 CONNECTED + Dashboard NOTICE in both modes (INDEPENDENT_SOURCE_REVIEW)", "Fable census ENTENG run 39053069356 and DISPOSABLE run 39052826601: 46 menus without sample label or boundary screen; Dashboard notice without numbers (FABLE)"], "note": "census module flagged Dashboard for its 'belum tersambung' text; the written oracle allows that notice; AUDITOR_TOOL, oracle unchanged"},
+      {"oracle": 2, "text": "browser tests on the Enteng build; OWNER + restricted role; 1440 and 390 px without overflow", "status": "DITUTUP", "evidence": ["Fable census ENTENG: OWNER 1440 and 390, 0 overflow over 47 menus; GUDANG opens all its menus, no Keuangan section (FABLE)", "Enteng host mapped to 127.0.0.1; census 159 and CP17 1217 requests answered by loopback, 0 errors", "CP17 run 39052840551: 55 browser cases on the Enteng build, all PASS (INDEPENDENT_NATIVE_RERUN)"]},
+      {"oracle": 3, "text": "chain through screens on the Enteng build; guards D14-2, D14-3/D15-1, D15-5 still refuse", "status": "DITUTUP", "evidence": ["CP17_BROWSER_R3_03_CHAIN_SEWING_TO_CLOSE, _CHAIN_FG_TO_AR_ZERO, _GUARDS_REFUSE PASS on both builds (run 39052840551)", "Fable cash scenarios unchanged PASS (runs 39052813501, 39052820257)"]},
+      {"oracle": 4, "text": "six new screens read real data; native, race, HTTP, browser desktop + phone; access per catalog; no write bypassing Native", "status": "DITUTUP", "evidence": ["source: audit, settings, customer history, warehouse summary are read-only facades; reminders sit on the Native reminder tables; HPP pool calls the Native writer under the period lock; no direct insert/update/delete into erp (INDEPENDENT_SOURCE_REVIEW)", "CP17_R3_03_{REMINDERS,ERP_SETTINGS,AUDIT,HISTORY,WAREHOUSE}_* and CP17_R3_04_HPP_POOL_* PASS (run 39052840551)"]},
+      {"oracle": 5, "text": "old Fable scenarios still pass, also on the Enteng build", "status": "DITUTUP", "evidence": ["fable_cp17c_cash_basis.py PASS (39052813501)", "fable_r2_cash_both.py 2/2 PASS (39052820257)", "screen census ran on the Enteng build (Dashboard note above)"]}
+    ],
+    "findings": [
+      {"id": "FABLE-016", "scope": "remaining steps: QC & Final SKU; accessory pick-up note deduction to payroll", "status": "DITUTUP", "evidence": ["CP17_BROWSER_R3_05_QC_FINAL_SKU_DESKTOP/_MOBILE PASS on both builds", "CP17_BROWSER_R3_05_ACCESSORY_NOTE_TO_PAYROLL_DESKTOP PASS on both builds (run 39052840551)"]},
+      {"id": "FABLE-018", "scope": "Laundry alert helper", "status": "DITUTUP", "evidence": ["scripts/cp6_bd_browser.mjs uses allInnerTexts() without waiting; case oracle unchanged", "BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR PASS (run 39052847979)"]},
+      {"id": "FABLE-012", "scope": "EXECUTE for authenticated on erp writers", "status": "MASIH_TERBUKA_DITUNDA_D14_9", "evidence": ["unchanged in the candidate", "writer added to the CP7C revoke batch: the CP4 HPP pool public wrapper is still callable by a logged-in user without the closed-period refusal of the new facade; same family as FABLE-012"]}
+    ]
+  },
+  "new_findings": [],
+  "auditor_tool_notes": [
+    {"id": "FABLE-R3-TOOL-01", "label": "AUDITOR_TOOL", "summary": "fable_r3_screens.mjs did not exempt Dashboard from the 'belum tersambung' check although oracle 1 (written before the work) allows a Dashboard notice without numbers. Three census cases per build read COUNTEREXAMPLE only for Dashboard. Oracle not changed; Dashboard verdict read against the written oracle: pass. Not a product defect.", "runs": [39052826601, 39053069356]}
+  ],
+  "also_checked": [
+    "R3-09 rate choice (D16-2..4): revision rows in erp.po_work_component_snapshots, unique index bf_work_snapshot_scope extended with committed_at; every reader of that table in the CP6 release package uses id, exists, count>0 as presence, or the latest row with explicit order; none sums per PO x component (INDEPENDENT_SOURCE_REVIEW)",
+    "R3-02 PO reopen: only active usage blocks; goods-receipt reversals counted as usage (stricter, not looser)",
+    "R3-01 PO number past 999 does not jam; D16-5 Tutup Buku tab present (census PASS), history of 50 changes",
+    "comparable regression counts identical to r2 (F03 cash 21, misc 20, payment 23, P12 64/81/43, cutting 19, P13 25, sales chain 25); pre-U fingerprint eb7f121d unchanged"
+  ],
+  "owner_notes": [
+    "Dashboard still shows no numbers (F-UI-01); D16-1 covered only the formerly hidden menus; real Dashboard numbers would be a new request",
+    "Wage rates: old or new rate can be chosen at sewing completion, or a PO moved to the new rate going forward (Owner/Admin only)"
+  ],
+  "before_enteng": [
+    "Install the CP7 database layer (CP7C) before the CP7 UI; all 46 screens call erp_cp7_* functions; on the legacy database the readiness screen still fails 404 (LEGACY_RUNTIME_GAP, run 39052847979). Run docs/cp7/cp17/R3_INSTALL_TIME_CHECKS.md, which can only run on Enteng",
+    "FABLE-012 / D14-9 and the HPP pool public wrapper: revoke direct EXECUTE for authenticated before erp is exposed to the Data API",
+    "Confirm the official cutover date in the app before the first operational transaction (D15-5)",
+    "Fill master data, foreman rates and accessory recipes of imported products before QC or rework",
+    "The exposed CP2 key is not used again"
+  ],
+  "not_checked": [
+    "Supabase Enteng data and settings: no hosted access this round (connector denied)",
+    "base-schema functions outside the tree that read the rate snapshot table; covered at runtime by the writer's payroll/detector cases",
+    "detail panels behind list screens: census records only the first view of each menu",
+    "writer qualification workflows not rerun (receipt lists 117 runs; I reran 10 workflows + 4 Fable runs); 21 old CP6 workflows not rerun",
+    "CP7C backup tool (D13-9a), red team beyond RBAC, other auditors' work this round (Pro Max 16.7)"
+  ],
+  "runs": {
+    "fable": {"39052813501": "cash_basis PASS", "39052820257": "r2_cash_both 2/2 PASS", "39052826601": "census DISPOSABLE (Dashboard tool note)", "39053069356": "census ENTENG (Dashboard tool note)", "39052833191": "cancelled before cases (missing host mapping)"},
+    "writer_rerun_head_64339905": {"39052840551": "CP17 321/321 PASS + 1", "39052847979": "prefreeze 31 PASS + 2 legacy INCOMPLETE", "39052855510": "F03 cash 21 PASS", "39052862945": "misc correction 20 PASS", "39052869705": "payment correction 23 PASS", "39052876107": "P12 64/81/43 PASS", "39052882475": "cutting correction 19 PASS", "39052888914": "P13 25 PASS", "39052895515": "sales chain 25 PASS", "39052901934": "phone width 47 menus, 0 failed"}
+  },
+  "exposure": "see MANIFEST.md; no report, branch, run, artifact or comment of another auditor from round r3 opened; hosted Enteng not accessed"
+}

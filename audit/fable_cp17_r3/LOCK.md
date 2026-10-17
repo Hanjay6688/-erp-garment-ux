@@ -1,0 +1,19 @@
+# LOCK — Fable r3, kandidat b53b5acd, 2026-10-17
+
+Dikunci sebelum membaca laporan, cabang, run, artifact atau komentar auditor lain putaran r3 (Pro Max §2.2, §16.7).
+Perubahan setelah commit ini tidak mengubah vonis di atas; tambahan apa pun ditulis di berkas terpisah bertanggal.
+
+```
+60fbdde88db23ca90a995247a544f84797c58cab0c080bf47b2b131db92110f8  audit/fable_cp17_r3/RETEST_FABLE_b53b5acd.md
+858af3e18e53155cadc2028fe721d08093d92697e0969dffefa32d85edc3a31f  audit/fable_cp17_r3/FINDINGS.json
+cd37ea94418c248c67ecb4813cffa1c786590df2248e3ce816477fc48d86a007  audit/fable_cp17_r3/WORKLOG.md
+657dddbd2209f5b5145184efac0cd08a1657bf5c3ca9d47ed5f3719aa526c803  audit/fable_cp17_r3/MANIFEST.md
+f59c825727fc587ea2a17eb77db8a9c29f8d491d8c8fcfd0d14e0068b8d163ef  audit/fable_cp17_r3/runs/SCREENS_R3_DISPOSABLE_b53b5acd.json
+f6b956c47cabbc044c7605e323ab945d6d9bb581811a912bfc0f555ac8247d7f  audit/fable_cp17_r3/runs/SCREENS_R3_ENTENG_b53b5acd.json
+55c28679d5a08c8194d2ff5f4ef6f4d32c98e96998592ff9b31536b38b52a818  audit/fable_cp17_r3/runs/dispatch_ledger_r3.jsonl
+12954e42f21debfd7c198e1095e3545573d3decf54fabe563d9c0c161fa87ad5  audit/fable_cp7/scenarios/fable_r3_screens.mjs
+f8e8950ec9f0389936fba7ecdba90d98417353ef2c28df6a6fd9058f4823367c  audit/fable_cp7/scenarios/fable_cp17c_screens.mjs
+513680336ac83bd2bf37b21ab650bb2214fffa8e9a292a41c3ddd36d0deaf030  audit/fable_cp7/scenarios/fable_r2_cash_both.py
+3548b88d0c361e879841a9a1235b94a6f17bfe6db39ba5e191b79340fcb25521  audit/fable_cp7/scenarios/fable_cp17c_cash_basis.py
+0a531508a8b6a1140a4a51ea2f34386e3b71a1e82286284641c04993aab918ea  .github/workflows/fable-cp7-native.yml
+```

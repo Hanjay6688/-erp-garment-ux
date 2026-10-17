@@ -39,3 +39,7 @@ correction, P12 payroll, cutting correction, P13 period, sales chain, UI phone w
 ERP … tidak ditampilkan. Angka yang sebenarnya ada di menu yang sudah tersambung: …" (`src/OwnerDashboard.tsx` baris 9),
 tanpa angka. Modul `fable_r3_screens.mjs` tidak mengecualikan Dashboard dari pemeriksaan "belum tersambung". Oracle tidak
 diubah; vonis Dashboard dibaca terhadap oracle tertulis: lulus (pemberitahuan tanpa angka).
+
+## CP4 — kunci
+`RETEST_FABLE_b53b5acd.md`, `FINDINGS.json`, entri ledger r3 (`runs/dispatch_ledger_r3.jsonl`, 15 baris) dan `LOCK.md`
+dikunci dengan commit sebelum membaca pekerjaan auditor lain putaran r3.
