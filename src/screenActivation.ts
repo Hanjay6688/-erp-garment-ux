@@ -59,7 +59,7 @@ export const SCREEN_ACTIVATION: Readonly<Record<string, Row>> = Object.freeze({
   'admin-access': { label: 'Pengguna & Hak Akses', section: 'Pengaturan & Audit', enteng: 'CONNECTED', test: 'CONNECTED' },
   'admin-settings': { label: 'Pengaturan ERP', section: 'Pengaturan & Audit', enteng: 'CONNECTED', test: 'CONNECTED' },
   'admin-import': { label: 'Impor data awal', section: 'Pengaturan & Audit', enteng: 'CONNECTED', test: 'CONNECTED' },
-  'admin-audit': { label: 'Audit Trail', section: 'Pengaturan & Audit', enteng: 'HIDDEN', test: 'SAMPLE' },
+  'admin-audit': { label: 'Audit Trail', section: 'Pengaturan & Audit', enteng: 'CONNECTED', test: 'CONNECTED' },
 })
 
 const PAGE_BY_LABEL: Readonly<Record<string, string>> = Object.freeze(Object.fromEntries(Object.entries(SCREEN_ACTIVATION).map(([page, row]) => [row.label, page])))

@@ -381,6 +381,15 @@ def main():
             import cp7_r3_settings_cases as settings;out=settings.browser_state(cur,p)
         elif operation=='r303_settings_restore':
             import cp7_r3_settings_cases as settings;out=settings.browser_restore(cur,p)
+        elif operation=='r303_audit':
+            # R3-03 (owner D16-1): 25 customers through the master facade by a fresh OWNER-role user, the first renamed;
+            # every audit reason carries the tag (cp7_r3_audit_cases.browser_fixture), committed.
+            import cp7_r3_audit_cases as audit
+            out=audit.browser_fixture(cur,date.fromisoformat(p['today']))
+        elif operation=='r303_audit_state':
+            # Native rows only: erp.audit_logs of the fixture tag, newest first, with the actor names from erp.app_users.
+            import cp7_r3_audit_cases as audit
+            out=audit.browser_state(cur,p)
         elif operation=='r303_period_history':
             # R3-03 / owner D16-5: what the Tutup Buku tab must list, from the Native audit rows only.
             import cp7_r3_period_cases as r303

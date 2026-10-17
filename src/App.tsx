@@ -64,6 +64,7 @@ const ConnectedSkuMasterPage = lazy(() => import('./ConnectedSkuMasterPage'))
 const MasterDataPages = lazy(() => import('./MasterDataPages'))
 const ConnectedMasterPage = lazy(() => import('./ConnectedMasterPage'))
 const OperationsAdminPages = lazy(() => import('./OperationsAdminPages'))
+const ConnectedAuditTrailPage = lazy(() => import('./ConnectedAuditTrailPage'))
 const FgNotaPage = lazy(() => import('./FgNotaPage'))
 const AccessControlPage = lazy(() => import('./AccessControlPage'))
 const ConnectedInitialImportPage = lazy(() => import('./ConnectedInitialImportPage'))
@@ -771,7 +772,7 @@ function ErpApp() {
         {page === 'admin-access' && <Suspense fallback={<WorkspaceFallback label="Pengguna & Hak Akses"/>}><AccessControlPage/></Suspense>}
         {page === 'pocket-fabric' && <Suspense fallback={<WorkspaceFallback label="Kain kantong"/>}><ConnectedPocketFabricPage/></Suspense>}
         {page === 'admin-import' && <Suspense fallback={<WorkspaceFallback label="Impor data awal"/>}><ConnectedInitialImportPage/></Suspense>}
-        {isOperationsView(page) && <Suspense fallback={<WorkspaceFallback label="Pengaturan operasional"/>}>{page === 'operations-attendance' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedAttendancePage/> : page === 'admin-reminders' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedRemindersPage/> : page === 'admin-settings' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedErpSettingsPage onOpenImport={()=>setPage('admin-import')}/> : <OperationsAdminPages view={page} onNavigate={(next)=>setPage(next)} reminders={reminders} onChangeReminders={setReminders}/>}</Suspense>}
+        {isOperationsView(page) && <Suspense fallback={<WorkspaceFallback label="Pengaturan operasional"/>}>{page === 'operations-attendance' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedAttendancePage/> : page === 'admin-reminders' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedRemindersPage/> : page === 'admin-settings' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedErpSettingsPage onOpenImport={()=>setPage('admin-import')}/> : page === 'admin-audit' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedAuditTrailPage/> : <OperationsAdminPages view={page} onNavigate={(next)=>setPage(next)} reminders={reminders} onChangeReminders={setReminders}/>}</Suspense>}
         {page === 'placeholder' && <Placeholder />}
         </>}
       </div>

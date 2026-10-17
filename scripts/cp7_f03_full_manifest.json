@@ -1169,6 +1169,7 @@
     }
   },
   "expected_private_roles": [
+    "cp7_audit_read",
     "cp7_erp_settings_read",
     "cp7_reminders_write",
     "cp7_reminders_read",
