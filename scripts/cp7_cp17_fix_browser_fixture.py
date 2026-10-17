@@ -14,7 +14,7 @@ brand's series must add its three sizes only; the other brand's row stays out of
 """
 from datetime import date
 from urllib.parse import urlparse
-from datetime import timedelta
+from datetime import timedelta,timezone
 import json,os,sys,uuid
 import psycopg
 import cp7_cp17_fix_cases as cases
@@ -355,6 +355,25 @@ def main():
                 from erp.work_completion_events e where e.cutting_group_id=%s and e.status='POSTED' order by 2""",(p['group'],)).fetchall()
             out=dict(sewn=ready[0],ready=ready[1],posted=[[sku,int(q),[str(x) for x in cases.wage_journal(cur,w)]] for w,sku,q in works],
                      history=one('select count(*) from cp7_cutting_correction.sewing_wave_history where group_id=%s',(p['group'],))[0])
+        elif operation=='r309_rate':
+            # R3-09 (owner D16-2/3/4): the native cases' fixture, committed: first record locks Jahit 3 + Obras 1, then the
+            # Mandor's Jahit rate is 5 from the next WIB day (Mandor rate screen facade).
+            import cp7_r3_rate_cases as rate
+            g,first=rate.locked_then_raised(cur,date.fromisoformat(p['today']));cases.b.api.admin(cur)
+            out=dict(group=g['group'],po=g['po'],number=one('select group_number from erp.cutting_groups where id=%s',(g['group'],))[0],
+                     po_number=one('select po_number from erp.production_orders where id=%s',(g['po'],))[0],
+                     later=g['later'](10).astimezone(timezone(timedelta(hours=7))).strftime('%Y-%m-%dT%H:%M'),
+                     later2=g['later'](11).astimezone(timezone(timedelta(hours=7))).strftime('%Y-%m-%dT%H:%M'))
+        elif operation=='r309_rate_state':
+            # Native rows only: per POSTED completion (oldest first) its line rates and whether each names a rate revision.
+            works=cur.execute("select id::text from erp.work_completion_events where cutting_group_id=%s and status='POSTED' order by created_at,id",(p['group'],)).fetchall()
+            per=[]
+            for (w,) in works:
+                rows=cur.execute("""select l.rate_snapshot,exists(select 1 from cp7_cutting_correction.rate_revisions r where r.snapshot_id=l.po_component_snapshot_id),l.qty_completed
+                    from erp.work_completion_lines l join erp.po_work_component_snapshots s on s.id=l.po_component_snapshot_id where l.completion_id=%s order by s.sequence_no,s.id""",(w,)).fetchall()
+                per.append(dict(rates=[str(r[0]) for r in rows],revised=[bool(r[1]) for r in rows],qty=int(rows[0][2]),wage=[str(x) for x in cases.wage_journal(cur,w)]))
+            out=dict(records=per,revisions=one('select count(*) from cp7_cutting_correction.rate_revisions where po_id=%s',(p['po'],))[0],
+                     switched=one('select count(*) from cp7_cutting_correction.po_rate_modes where po_id=%s',(p['po'],))[0])
         elif operation=='r207_prepare':out=r207_prepare(cur,date.fromisoformat(p['today']))
         elif operation=='r207_state':out=r207_state(cur,p)
         elif operation=='r207_restore':out=r207_restore(cur,p)

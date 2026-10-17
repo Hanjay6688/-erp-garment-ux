@@ -5,6 +5,8 @@ cases are used as written (Sol: 998 and 999 unused DRAFT headers on the cutting 
 998 headers, then 999 and 1000 with the roll going 10 -> 8 -> 6 under a 10 s limit), plus 1001, 9999 -> 10000, two
 sessions at the 999/1000 boundary and a resend with the same UUID.
 
+R3-09 (owner D16-2, D16-3, D16-4): cp7_r3_rate_cases.py, the old or new Mandor rate when sewing is finished.
+
 R3-02 (Astra ASTRA-R2-01): reopening a finished PO is no longer blocked by a use of its finished goods that was cancelled
 or reversed. Astra's two cases are used as written (a cancelled sales draft; a reversed finished-goods adjustment, with
 the account deltas of Native sync_po_hpp_to_gl that Astra qualified), plus controls: an active use still blocks, an
@@ -17,6 +19,7 @@ from decimal import Decimal as D
 import json,threading,time,uuid
 import psycopg
 import cp7_auto_po_cases as po
+import cp7_r3_rate_cases as rate
 b=po.b
 
 NATIVE=['CP17_R3_01_AUTO_PO_NUMBER_999_CONTROL','CP17_R3_01_AUTO_PO_NUMBER_1000_BOUNDED','CP17_R3_01_AUTO_PO_NUMBER_999_TO_1000_ASTRA',
@@ -27,6 +30,11 @@ NATIVE=['CP17_R3_01_AUTO_PO_NUMBER_999_CONTROL','CP17_R3_01_AUTO_PO_NUMBER_1000_
 RACES=['CP17_RACE_R3_01_AUTO_PO_NUMBER_BOUNDARY_TWO_SESSIONS','CP17_RACE_R3_02_REOPEN_AFTER_CANCEL_TWO_TABS']
 HTTP=[]
 BROWSER=[]
+# R3-09 (owner D16-2, D16-3, D16-4): the rate choice when sewing is finished (cp7_r3_rate_cases.py).
+NATIVE=NATIVE+rate.NATIVE
+RACES=RACES+rate.RACES
+HTTP=HTTP+rate.HTTP
+BROWSER=BROWSER+rate.BROWSER
 
 def one(cur,sql,args=()):return cur.execute(sql,args).fetchone()[0]
 def fill(cur,prefix,body,last,note):
@@ -197,8 +205,8 @@ def cases(cur,today):
 
     named=[lambda:sol_number(998),lambda:sol_number(999),astra_carry,past_1000,same_uuid_past_1000,
            astra_sales_cancel,astra_adjustment_reverse,active_use_blocks,unrelated_inflow,one_of_two,reopen_then_finish]
-    assert len(named)==len(NATIVE)
-    return list(zip(NATIVE,named))
+    assert len(named)+len(rate.NATIVE)==len(NATIVE)
+    return list(zip(NATIVE[:len(named)],named))+rate.cases(cur,today)
 
 
 def races(tools,today):
@@ -245,7 +253,7 @@ def races(tools,today):
             history=one(cur,'select count(*) from cp7_cutting_correction.po_reopen_history where po_id=%s',(g['po'],))
         assert status!='FINISHED' and history==1,(status,history)
         return dict(status='PASS',two_tabs=results,reopened_once=True)
-    return list(zip(RACES,[boundary_two_sessions,reopen_after_cancel]))
+    return list(zip(RACES[:2],[boundary_two_sessions,reopen_after_cancel]))+rate.races(tools,today)
 
 
-def http_cases(http,today):return []
+def http_cases(http,today):return rate.http_cases(http,today)

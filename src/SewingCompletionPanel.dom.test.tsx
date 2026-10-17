@@ -18,7 +18,9 @@ const workspace = (extra: Record<string, unknown> = {}) => ({ contract_version: 
   number: 'CUT-SEW', po_id: po, po_number: 'PO-9', po_status: 'SEWING', contractor_id: mandor, contractor_name: 'Mandor Satu',
   picked_up_at: '2026-10-13T02:00:00+00:00', effective_pcs: 10, sewn_pcs: 0, max_qty: 10, ready_unsent_pcs: 0, laundry_draft_pcs: 0,
   rates_committed: true, components: [{ code: 'JAHIT', name: 'Jahit', rate: 2, posted_qty: 0 }, { code: 'OBRAS', name: 'Obras', rate: 1, posted_qty: 0 }], rate_preview: [], rate_timeline: [],
-  events: [], can_cancel: true, review_token: 'e'.repeat(32), eligible: true, blockers: [], business_DML: false, wave: null, ...extra })
+  events: [], can_cancel: true, review_token: 'e'.repeat(32), eligible: true, blockers: [], business_DML: false, wave: null,
+  new_rate_timeline: [], rate_mode: null, rate_mode_at: null, can_use_new_rates: false, ...extra })
+const outcome = (extra: Record<string, unknown> = {}) => ({ rate_choice: null, rate_mode: null, rate_used: 'LOCKED', revised_components: 0, ...extra })
 // Sol R2-10: a wave Potongan, sizes S and M on SKU A (10 cut) and L on SKU B (4 cut); Jahit is paid 10 on A and 30 on B from the
 // SKU version starting 13 Oct 17:00 UTC, Obras keeps the base 1; before that nothing is complete.
 const skuA = '99999999-9999-4999-8999-999999999991', skuB = '99999999-9999-4999-8999-999999999992'
@@ -28,7 +30,7 @@ const waveWorkspace = (extra: Record<string, unknown> = {}) => workspace({ rates
     skus: [{ sku_id: skuA, sku: 'A-01', color: 'Biru', sizes: ['S', 'M'], capacity: 10, max_qty: 10, posted_qty: 0, rates: [] },
       { sku_id: skuB, sku: 'B-01', color: 'Biru', sizes: ['L'], capacity: 4, max_qty: 4, posted_qty: 0, rates: [] }],
     timeline: [{ from: '2026-10-12T17:00:00+00:00', to: '2026-10-13T17:00:00+00:00', complete: false, skus: [{ sku_id: skuA, rates: [] }, { sku_id: skuB, rates: [] }] },
-      { from: '2026-10-13T17:00:00+00:00', to: null, complete: true, skus: [{ sku_id: skuA, rates: r(10) }, { sku_id: skuB, rates: r(30) }] }] }, ...extra })
+      { from: '2026-10-13T17:00:00+00:00', to: null, complete: true, skus: [{ sku_id: skuA, rates: r(10) }, { sku_id: skuB, rates: r(30) }] }], new_timeline: [] }, ...extra })
 let root: Root, container: HTMLDivElement
 beforeEach(() => {
   ;(globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true
@@ -64,7 +66,7 @@ describe('selesai jahit di WIP & Sewing (D14-14)', () => {
       sent.push(args)
       return { data: { contract_version: 'cp7.sewing-completion-outcome.v1', kind: 'COMMITTED_OUTCOME', action: 'RECORD', request_id: args.p_request,
         group_id: group, po_id: po, number: 'CUT-SEW', result: { work_completion_id: work, sewing_event_id: event, qty_pcs: 4, wage_amount: 12,
-          components: 2, sewn_pcs: 4, ready_unsent_pcs: 4, max_qty: 6 } }, error: null }
+          components: 2, sewn_pcs: 4, ready_unsent_pcs: 4, max_qty: 6, ...outcome() } }, error: null }
     })
     await mount(); await click('Catat selesai jahit')
     expect(button('Simpan selesai jahit').disabled).toBe(true)
@@ -155,7 +157,7 @@ describe('selesai jahit di WIP & Sewing (D14-14)', () => {
       sent.push(args)
       const lines = (args.p_payload as { lines: { sku_id: string; qty_pcs: string }[] }).lines
       return { data: { contract_version: 'cp7.sewing-completion-outcome.v1', kind: 'COMMITTED_OUTCOME', action: 'RECORD_WAVE', request_id: args.p_request,
-        group_id: group, po_id: po, number: 'CUT-SEW', result: { qty_pcs: 7, wage_amount: 117, sewn_pcs: 7, ready_unsent_pcs: 7, max_qty: 7,
+        group_id: group, po_id: po, number: 'CUT-SEW', result: { qty_pcs: 7, wage_amount: 117, sewn_pcs: 7, ready_unsent_pcs: 7, max_qty: 7, ...outcome(),
           lines: lines.map((l, i) => ({ sku_id: l.sku_id, sku: i ? 'B-01' : 'A-01', work_completion_id: work, sewing_event_id: event, qty_pcs: Number(l.qty_pcs),
             wage_amount: i ? 62 : 55, components: 2 })) } }, error: null }
     })
@@ -185,7 +187,7 @@ describe('selesai jahit di WIP & Sewing (D14-14)', () => {
     client.rpc.mockImplementation(async (name: string, args: Record<string, unknown>) => {
       if (name === 'erp_cp7_get_sewing_completion_v1') return { data: waveWorkspace(), error: null }
       return { data: { contract_version: 'cp7.sewing-completion-outcome.v1', kind: 'COMMITTED_OUTCOME', action: 'RECORD_WAVE', request_id: args.p_request,
-        group_id: group, po_id: po, number: 'CUT-SEW', result: { qty_pcs: 5, wage_amount: 56, sewn_pcs: 5, ready_unsent_pcs: 5, max_qty: 9,
+        group_id: group, po_id: po, number: 'CUT-SEW', result: { qty_pcs: 5, wage_amount: 56, sewn_pcs: 5, ready_unsent_pcs: 5, max_qty: 9, ...outcome(),
           lines: [{ sku_id: skuA, sku: 'A-01', work_completion_id: work, sewing_event_id: event, qty_pcs: 5, wage_amount: 55, components: 2 }] } }, error: null }
     })
     await mount(); await click('Catat selesai jahit')
@@ -200,6 +202,135 @@ describe('selesai jahit di WIP & Sewing (D14-14)', () => {
     client.rpc.mockResolvedValue({ data: waveWorkspace({ components: [{ code: 'JAHIT', name: 'Jahit', rate: 2, posted_qty: 0 }] }), error: null })
     await mount(); await click('Catat selesai jahit')
     expect(container.textContent).toContain('tidak cocok dengan potongan yang diperiksa')
+  })
+  // R3-09 (owner D16-2, D16-3, D16-4): the PO locked Jahit 2 + Obras 1; the Mandor's Jahit rate is 5 from 14 Oct 12:00 WIB.
+  const changed = (extra: Record<string, unknown> = {}) => workspace({ new_rate_timeline: [
+    { from: '2026-10-13T02:00:00+00:00', to: '2026-10-14T05:00:00+00:00', complete: true, rates: r(2) },
+    { from: '2026-10-14T05:00:00+00:00', to: null, complete: true, rates: r(5) }], can_use_new_rates: true, ...extra })
+  const recordReply = (args: Record<string, unknown>, extra: Record<string, unknown>) => ({ data: { contract_version: 'cp7.sewing-completion-outcome.v1',
+    kind: 'COMMITTED_OUTCOME', action: 'RECORD', request_id: args.p_request, group_id: group, po_id: po, number: 'CUT-SEW',
+    result: { work_completion_id: work, sewing_event_id: event, qty_pcs: 4, wage_amount: 24, components: 2, sewn_pcs: 4, ready_unsent_pcs: 4, max_qty: 6, ...outcome(extra) } }, error: null })
+  it('asks for the old or the new rate only where they differ, and sends the choice made (D16-2)', async () => {
+    const sent: Array<Record<string, unknown>> = []
+    client.rpc.mockImplementation(async (name: string, args: Record<string, unknown>) => {
+      if (name === 'erp_cp7_get_sewing_completion_v1') return { data: changed(), error: null }
+      sent.push(args); return recordReply(args, { rate_choice: 'NEW', rate_used: 'NEW', revised_components: 1 })
+    })
+    await mount(); await click('Catat selesai jahit')
+    await type('Jumlah selesai dijahit CUT-SEW', '4'); await type('Catatan selesai jahit CUT-SEW', 'Setoran sore')
+    // Before the rate change the rates are the same: no choice.
+    await type('Waktu selesai jahit CUT-SEW', '2026-10-14T10:00')
+    expect(container.querySelector('[aria-label="Pilih tarif CUT-SEW"]')).toBeNull()
+    expect(container.textContent).toContain('4 pcs × Rp3 = Rp12')
+    // After it both are shown with their wage, and nothing can be saved until one is chosen.
+    await type('Waktu selesai jahit CUT-SEW', '2026-10-14T13:00')
+    expect(container.textContent).toContain('Tarif lama PO: Jahit Rp2 + Obras Rp1 = Rp3 · upah 4 pcs = Rp12')
+    expect(container.textContent).toContain('Tarif baru (berlaku pada waktu jahit): Jahit Rp5 + Obras Rp1 = Rp6 · upah 4 pcs = Rp24')
+    expect(input('Selesai jahit CUT-SEW sudah diperiksa').disabled).toBe(true)
+    await act(async () => input('Tarif baru (berlaku pada waktu jahit) CUT-SEW').click())
+    expect(container.textContent).toContain('Upah yang akan dicatat: 4 pcs × Rp6 = Rp24.')
+    await act(async () => input('Selesai jahit CUT-SEW sudah diperiksa').click())
+    await click('Simpan selesai jahit')
+    expect(sent).toHaveLength(1)
+    expect(sent[0]).toMatchObject({ p_payload: { action: 'RECORD', qty_pcs: '4', physical_at: '2026-10-14T06:00:00.000Z', rate_choice: 'NEW' } })
+    expect(onCommitted).toHaveBeenCalledWith('CUT-SEW: 4 pcs tercatat selesai dijahit. Upah mandor Rp24 dengan tarif baru masuk hutang mandor; 4 pcs siap dikirim ke laundry.')
+  })
+  it('the old rate is a choice too; changing the sewing time asks again', async () => {
+    const sent: Array<Record<string, unknown>> = []
+    client.rpc.mockImplementation(async (name: string, args: Record<string, unknown>) => {
+      if (name === 'erp_cp7_get_sewing_completion_v1') return { data: changed(), error: null }
+      sent.push(args); return recordReply(args, { rate_choice: 'OLD', wage_amount: 12 })
+    })
+    await mount(); await click('Catat selesai jahit')
+    await type('Jumlah selesai dijahit CUT-SEW', '4'); await type('Catatan selesai jahit CUT-SEW', 'Setoran sore')
+    await type('Waktu selesai jahit CUT-SEW', '2026-10-14T13:00')
+    await act(async () => input('Tarif lama PO CUT-SEW').click())
+    await type('Waktu selesai jahit CUT-SEW', '2026-10-14T14:00')
+    expect(input('Tarif lama PO CUT-SEW').checked).toBe(false)
+    await act(async () => input('Tarif lama PO CUT-SEW').click())
+    expect(container.textContent).toContain('Upah yang akan dicatat: 4 pcs × Rp3 = Rp12.')
+    await act(async () => input('Selesai jahit CUT-SEW sudah diperiksa').click())
+    await click('Simpan selesai jahit')
+    expect(sent[0]).toMatchObject({ p_payload: { rate_choice: 'OLD' } })
+  })
+  it('switches the PO to the new rate for good, once, with a reason (D16-3)', async () => {
+    const sent: Array<Record<string, unknown>> = []
+    client.rpc.mockImplementation(async (name: string, args: Record<string, unknown>) => {
+      if (name === 'erp_cp7_get_sewing_completion_v1') return { data: changed(), error: null }
+      sent.push(args)
+      return { data: { contract_version: 'cp7.sewing-completion-outcome.v1', kind: 'COMMITTED_OUTCOME', action: 'USE_NEW_RATES', request_id: args.p_request,
+        group_id: group, po_id: po, number: 'CUT-SEW', result: { po_id: po, rate_mode: 'ALWAYS_NEW', recorded_at: '2026-10-14T07:00:00+00:00' } }, error: null }
+    })
+    await mount(); await click('Catat selesai jahit')
+    await click('Pakai tarif baru seterusnya')
+    expect(button('Simpan: pakai tarif baru seterusnya').disabled).toBe(true)
+    await type('Alasan tarif baru seterusnya CUT-SEW', 'Tarif mandor naik mulai minggu ini')
+    await act(async () => input('Tarif baru seterusnya CUT-SEW sudah diperiksa').click())
+    await click('Simpan: pakai tarif baru seterusnya')
+    expect(sent).toHaveLength(1)
+    expect(sent[0]).toMatchObject({ p_expected: '7', p_payload: { action: 'USE_NEW_RATES', group_id: group, review_token: 'e'.repeat(32),
+      change_reason: 'Tarif mandor naik mulai minggu ini' } })
+    expect(Object.keys(sent[0].p_payload as object).sort()).toEqual(['action', 'change_reason', 'group_id', 'review_token'])
+    expect(onCommitted).toHaveBeenCalledWith('CUT-SEW: PO ini sekarang memakai tarif mandor yang berlaku pada waktu jahit untuk setiap catatan selesai jahit berikutnya. Upah yang sudah tercatat tidak berubah.')
+  })
+  it('a switched PO pays the new rate without asking and sends no choice', async () => {
+    const sent: Array<Record<string, unknown>> = []
+    client.rpc.mockImplementation(async (name: string, args: Record<string, unknown>) => {
+      if (name === 'erp_cp7_get_sewing_completion_v1') return { data: changed({ rate_mode: 'ALWAYS_NEW', rate_mode_at: '2026-10-14T07:00:00+00:00', can_use_new_rates: false }), error: null }
+      sent.push(args); return recordReply(args, { rate_mode: 'ALWAYS_NEW', rate_used: 'NEW', revised_components: 1 })
+    })
+    await mount(); await click('Catat selesai jahit')
+    expect(container.textContent).toContain('PO PO-9 memakai tarif mandor yang berlaku pada waktu jahit untuk setiap catatan')
+    expect([...container.querySelectorAll('button')].some(b => b.textContent === 'Pakai tarif baru seterusnya')).toBe(false)
+    await type('Jumlah selesai dijahit CUT-SEW', '4'); await type('Catatan selesai jahit CUT-SEW', 'Setoran sore')
+    await type('Waktu selesai jahit CUT-SEW', '2026-10-14T13:00')
+    expect(container.querySelector('[aria-label="Pilih tarif CUT-SEW"]')).toBeNull()
+    expect(container.textContent).toContain('Upah yang akan dicatat: 4 pcs × Rp6 = Rp24.')
+    await act(async () => input('Selesai jahit CUT-SEW sudah diperiksa').click())
+    await click('Simpan selesai jahit')
+    expect((sent[0].p_payload as Record<string, unknown>).rate_choice).toBeUndefined()
+  })
+  it('refuses an answer that says the old rate was chosen but the new one was paid', async () => {
+    client.rpc.mockImplementation(async (name: string, args: Record<string, unknown>) => {
+      if (name === 'erp_cp7_get_sewing_completion_v1') return { data: changed(), error: null }
+      return recordReply(args, { rate_choice: 'OLD', rate_used: 'NEW', revised_components: 1 })
+    })
+    await mount(); await click('Catat selesai jahit')
+    await type('Jumlah selesai dijahit CUT-SEW', '4'); await type('Catatan selesai jahit CUT-SEW', 'Setoran sore')
+    await type('Waktu selesai jahit CUT-SEW', '2026-10-14T13:00')
+    await act(async () => input('Tarif lama PO CUT-SEW').click())
+    await act(async () => input('Selesai jahit CUT-SEW sudah diperiksa').click())
+    await click('Simpan selesai jahit')
+    expect(onCommitted).not.toHaveBeenCalled()
+  })
+  it('refuses a switch offered on a PO already switched', async () => {
+    client.rpc.mockResolvedValue({ data: changed({ rate_mode: 'ALWAYS_NEW', rate_mode_at: '2026-10-14T07:00:00+00:00' }), error: null })
+    await mount(); await click('Catat selesai jahit')
+    expect(container.textContent).toContain('tidak cocok dengan potongan yang diperiksa')
+  })
+  it('a wave Potongan shows both SKU rates where one changed and sends the choice (D16-2)', async () => {
+    const sent: Array<Record<string, unknown>> = []
+    const pinned = waveWorkspace({ rates_committed: true, wave: { rates_committed: true,
+      skus: [{ sku_id: skuA, sku: 'A-01', color: 'Biru', sizes: ['S', 'M'], capacity: 10, max_qty: 10, posted_qty: 0, rates: r(10) },
+        { sku_id: skuB, sku: 'B-01', color: 'Biru', sizes: ['L'], capacity: 4, max_qty: 4, posted_qty: 0, rates: r(30) }], timeline: [],
+      new_timeline: [{ from: '2026-10-13T02:00:00+00:00', to: null, skus: [{ sku_id: skuA, complete: true, rates: r(12) }, { sku_id: skuB, complete: true, rates: r(30) }] }] } })
+    client.rpc.mockImplementation(async (name: string, args: Record<string, unknown>) => {
+      if (name === 'erp_cp7_get_sewing_completion_v1') return { data: pinned, error: null }
+      sent.push(args); return { data: null, error: { message: 'stop here' } }
+    })
+    await mount(); await click('Catat selesai jahit')
+    await type('Waktu selesai jahit CUT-SEW', '2026-10-14T10:00')
+    expect(container.textContent).toContain('Tarif lama PO: Jahit Rp10 + Obras Rp1 = Rp11 · Tarif baru: Jahit Rp12 + Obras Rp1 = Rp13')
+    // Only SKU B in the request: its rate did not change, so nothing to choose.
+    await type('Jumlah selesai dijahit CUT-SEW SKU B-01', '2'); await type('Catatan selesai jahit CUT-SEW', 'Setoran pagi')
+    expect(container.querySelector('[aria-label="Pilih tarif CUT-SEW"]')).toBeNull()
+    await type('Jumlah selesai dijahit CUT-SEW SKU A-01', '5')
+    expect(input('Selesai jahit CUT-SEW sudah diperiksa').disabled).toBe(true)
+    await act(async () => input('Tarif baru (berlaku pada waktu jahit) CUT-SEW').click())
+    expect(container.textContent).toContain('Upah yang akan dicatat: SKU A-01 5 pcs × Rp13 + SKU B-01 2 pcs × Rp31 = Rp127.')
+    await act(async () => input('Selesai jahit CUT-SEW sudah diperiksa').click())
+    await click('Simpan selesai jahit')
+    expect(sent[0]).toMatchObject({ p_payload: { action: 'RECORD_WAVE', rate_choice: 'NEW' } })
   })
   it('refuses a workspace for another Potongan', async () => {
     client.rpc.mockResolvedValue({ data: workspace({ group_id: '88888888-8888-4888-8888-888888888888' }), error: null })

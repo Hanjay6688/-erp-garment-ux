@@ -8,17 +8,21 @@ import { useProductionMutation } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import { cp6WibDateTimeInput, cp6WibPhysicalTimeToIso, formatCp6WibDateTime } from './cp6BusinessTime'
 import {
-  parseSewingWorkspace, ratesAt, sewingBlockerText, sewingCancelPayload, sewingCancelText, sewingRecordPayload, sewingWavePayload, validateSewingOutcome,
-  waveLines, waveRatesAt, type SewingEvent, type SewingWorkspace,
+  newRatesAt, parseSewingWorkspace, rateDecision, ratesAt, ratesDiffer, sewingBlockerText, sewingCancelPayload, sewingCancelText, sewingRecordPayload,
+  sewingUseNewRatesPayload, sewingWavePayload, validateSewingOutcome, waveLines, waveNewRatesAt, waveRatesAt,
+  type RateChoice, type SewingEvent, type SewingRate, type SewingWorkspace,
 } from './sewingCompletionContract'
 import type { ProductionEnvelope } from './productionRecovery'
 
 const rupiah = (value: number) => `Rp${value.toLocaleString('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`
+const perPcsText = (r: SewingRate[]) => `${r.map(c => `${c.name} ${rupiah(c.rate)}`).join(' + ')} = ${rupiah(r.reduce((s, c) => s + c.rate, 0))}`
 
 // D14-14 gap G1: like the UX demo card ("SELESAI DIJAHIT __ / N pcs"), a picked-up Potongan records the pieces its Mandor
 // finished sewing. The server posts the piece-work wage (WORK_COMPLETION) and the SELESAI_DIJAHIT that Laundry counts as
 // ready to send, in one step. A record can be cancelled while its pieces are still at the Mandor and its wage is unpaid.
 // Sol R2-10: a Potongan bound to SKU waves takes the pieces per SKU (each SKU covers some of its sizes) at that SKU's rates.
+// R3-09 (owner D16-2, D16-3, D16-4): once the PO has locked its rates, a Mandor rate that changed since shows next to the
+// locked one and the record pays the one chosen; "Pakai tarif baru seterusnya" switches the PO to the new rate for good.
 export default function SewingCompletionPanel({ groupId, groupNumber, groupVersion, parentReady, onCommitted }: {
   groupId: string; groupNumber: string; groupVersion: number; parentReady: boolean; onCommitted: (message: string) => Promise<unknown>
 }) {
@@ -37,7 +41,12 @@ export default function SewingCompletionPanel({ groupId, groupNumber, groupVersi
   const [qty, setQty] = useState(''), [at, setAt] = useState(() => cp6WibDateTimeInput()), [reason, setReason] = useState('')
   const [reviewed, setReviewed] = useState(false), [cancelId, setCancelId] = useState(''), [cancelReason, setCancelReason] = useState('')
   const [waveQty, setWaveQty] = useState<Record<string, string>>({})
-  const reset = () => { setData(null); setQty(''); setWaveQty({}); setReason(''); setReviewed(false); setCancelId(''); setCancelReason('') }
+  const [choice, setChoice] = useState<RateChoice | null>(null), [modeOpen, setModeOpen] = useState(false), [modeReason, setModeReason] = useState('')
+  const [modeReviewed, setModeReviewed] = useState(false)
+  const reset = () => {
+    setData(null); setQty(''); setWaveQty({}); setReason(''); setReviewed(false); setCancelId(''); setCancelReason('')
+    setChoice(null); setModeOpen(false); setModeReason(''); setModeReviewed(false)
+  }
   useEffect(() => { ++serial.current; committed.current = false; reset(); setOpen(false); setError(''); setBusy(false) }, [bound, allowed])
   useEffect(() => { setDone('') }, [recovery.scope, identity.profile.rowVersion, identity.profile.roleRowVersion, identity.permissions.join('|')])
   useEffect(() => () => { ++serial.current }, [])
@@ -65,7 +74,9 @@ export default function SewingCompletionPanel({ groupId, groupNumber, groupVersi
       reset()
       outcome.current = result.action === 'REVERSE'
         ? `${result.number}: catatan ${result.qtyPcs} pcs selesai jahit dibatalkan beserta upahnya.`
-        : `${result.number}: ${result.qtyPcs} pcs tercatat selesai dijahit${result.lines.length ? ` (${result.lines.map(l => `SKU ${l.sku} ${l.qtyPcs} pcs`).join(', ')})` : ''}. Upah mandor ${rupiah(result.wageAmount ?? 0)} masuk hutang mandor; ${result.readyUnsentPcs} pcs siap dikirim ke laundry.`
+        : result.action === 'USE_NEW_RATES'
+          ? `${result.number}: PO ini sekarang memakai tarif mandor yang berlaku pada waktu jahit untuk setiap catatan selesai jahit berikutnya. Upah yang sudah tercatat tidak berubah.`
+          : `${result.number}: ${result.qtyPcs} pcs tercatat selesai dijahit${result.lines.length ? ` (${result.lines.map(l => `SKU ${l.sku} ${l.qtyPcs} pcs`).join(', ')})` : ''}. Upah mandor ${rupiah(result.wageAmount ?? 0)}${result.rateUsed === 'NEW' ? ' dengan tarif baru' : ''} masuk hutang mandor; ${result.readyUnsentPcs} pcs siap dikirim ke laundry.`
       setDone(outcome.current)
     },
     reload: async () => {
@@ -80,17 +91,28 @@ export default function SewingCompletionPanel({ groupId, groupNumber, groupVersi
   const qtyValid = current && /^[1-9][0-9]{0,6}$/.test(qty) && Number(qty) <= data.maxQty
   // Owner D15-3: before the first record the wage locks the rates valid at the sewing time entered, not today's.
   const dated = current && !data.ratesCommitted ? ratesAt(data, physicalIso) : null
-  const rates = current ? (data.ratesCommitted ? data.components : dated ?? []) : []
-  const rateSum = rates.reduce((sum, c) => sum + c.rate, 0)
+  const lockedRates = current ? (data.ratesCommitted ? data.components : dated ?? []) : []
   const ratesKnown = current && (data.ratesCommitted || dated !== null)
   // A wave Potongan: per SKU the rates of the sewing time entered (its own once pinned), the lines entered, and the wage.
   const wave = current ? data.wave : null
   const skuRates = current && wave ? waveRatesAt(data, physicalIso) : null
   const lines = current && wave ? waveLines(data, waveQty) : null
-  const perPcs = (skuId: string) => (skuRates?.get(skuId) ?? []).reduce((sum, c) => sum + c.rate, 0)
+  // R3-09: today's Mandor rates at the sewing time, whether they differ from the locked ones, and the rates this record pays.
+  const decision = current ? rateDecision(data, physicalIso, lines?.map(l => l.skuId) ?? []) : null
+  const newRates = current && !wave ? newRatesAt(data, physicalIso) : null
+  const skuNewRates = current && wave ? waveNewRatesAt(data, physicalIso) : null
+  const payNew = decision?.kind === 'ALWAYS_NEW' || (decision?.kind === 'ASK' && choice === 'NEW')
+  const rates = payNew && newRates ? newRates : lockedRates
+  const rateSum = rates.reduce((sum, c) => sum + c.rate, 0)
+  const skuPays = (skuId: string) => (payNew && (decision?.kind === 'ASK' || decision?.kind === 'ALWAYS_NEW') && decision.differs.includes(skuId)
+    ? skuNewRates?.get(skuId) : skuRates?.get(skuId)) ?? []
+  const perPcs = (skuId: string) => skuPays(skuId).reduce((sum, c) => sum + c.rate, 0)
   const waveWage = lines && skuRates ? lines.reduce((sum, l) => sum + Number(l.qty) * perPcs(l.skuId), 0) : null
-  const entryReady = wave ? lines !== null && skuRates !== null : qtyValid && ratesKnown
+  const choiceReady = decision !== null && decision.kind !== 'NEW_UNKNOWN' && (decision.kind !== 'ASK' || choice !== null)
+  const entryReady = (wave ? lines !== null && skuRates !== null : qtyValid && ratesKnown) && choiceReady
   const canRecord = current && data.eligible && entryReady && physicalIso !== null && reason.trim().length >= 5 && reviewed && !locked
+  const sentChoice = decision?.kind === 'ASK' ? choice : null
+  const canSwitch = current && data.canUseNewRates && modeReason.trim().length >= 5 && modeReviewed && !locked
   const activeEvents = current ? data.events.filter(e => !e.reversed) : []
   const cancelTarget: SewingEvent | undefined = activeEvents.find(e => e.id === cancelId)
   if (!allowed && !recovery.pending && !done) return null
@@ -108,17 +130,21 @@ export default function SewingCompletionPanel({ groupId, groupNumber, groupVersi
         <div><dt>Selesai dijahit</dt><dd>{data.sewnPcs} / {data.effectivePcs} pcs</dd></div>
         <div><dt>Bisa dicatat</dt><dd>{data.maxQty} pcs</dd></div>
       </dl> : null}
+      {current && data.rateMode ? <p role="note">PO {data.poNumber} memakai tarif mandor yang berlaku pada waktu jahit untuk setiap catatan{data.rateModeAt ? ` (sejak ${formatCp6WibDateTime(data.rateModeAt)})` : ''}. Upah yang sudah tercatat tidak berubah.</p> : null}
       {current && data.blockers.length ? <div role="alert"><p>Belum bisa dicatat:</p><ul>{data.blockers.map((b, i) => <li key={`${b.kind}:${b.id ?? i}`}>{sewingBlockerText(b)}</li>)}</ul></div> : null}
       {current && data.eligible && wave ? <>
         <p>Potongan ini memakai tarif mandor per SKU (wave). Isi jumlah selesai dijahit per SKU; upahnya dihitung dengan tarif SKU itu
           {wave.ratesCommitted ? '.' : ' yang berlaku pada waktu jahit yang diisi (dikunci untuk PO ini saat pertama kali disimpan).'}</p>
         {physicalIso !== null && skuRates === null ? <p role="alert">Belum ada tarif lengkap untuk setiap SKU pada waktu jahit itu. Periksa waktunya, atau tarif mandor dan versi SKU di Master Data.</p> : null}
         <ul className="cwip-sewing-wave" aria-label={`Selesai jahit per SKU ${groupNumber}`}>{wave.skus.map(k => {
-          const r = skuRates?.get(k.skuId)
+          const r = skuRates?.get(k.skuId), n = skuNewRates?.get(k.skuId)
+          const changed = r !== undefined && n !== undefined && ratesDiffer(r, n)
           return <li key={k.skuId}>
             <span><b>SKU {k.sku}</b> · {k.color} · ukuran {k.sizes.join(', ')}</span>
             <span>Sudah dijahit {k.postedQty} dari {k.capacity} pcs · bisa dicatat {k.maxQty} pcs</span>
-            <span>{r ? `Upah per pcs: ${r.map(c => `${c.name} ${rupiah(c.rate)}`).join(' + ')} = ${rupiah(perPcs(k.skuId))}` : 'Tarif per pcs: belum diketahui untuk waktu itu.'}</span>
+            {changed && r && n
+              ? <span>Tarif lama PO: {perPcsText(r)} · Tarif baru: {perPcsText(n)}</span>
+              : <span>{r ? `Upah per pcs: ${perPcsText(r)}` : 'Tarif per pcs: belum diketahui untuk waktu itu.'}</span>}
             <label className="cwip-sewing-qty"><span>SELESAI DIJAHIT</span><span><input aria-label={`Jumlah selesai dijahit ${groupNumber} SKU ${k.sku}`} inputMode="numeric"
               value={waveQty[k.skuId] ?? ''} disabled={locked || k.maxQty === 0} onFocus={e => e.currentTarget.select()}
               onChange={e => { const v = e.target.value.replace(/[^0-9]/g, ''); setWaveQty(q => ({ ...q, [k.skuId]: v })); setReviewed(false) }}/><b>/ {k.maxQty} pcs</b></span></label>
@@ -127,22 +153,49 @@ export default function SewingCompletionPanel({ groupId, groupNumber, groupVersi
       </> : null}
       {current && data.eligible ? <>
         {wave ? null : <><p>{data.ratesCommitted
-          ? `Upah mandor per pcs: ${rates.map(c => `${c.name} ${rupiah(c.rate)}`).join(' + ')} = ${rupiah(rateSum)}.`
-          : dated ? `Upah mandor per pcs pada waktu jahit yang diisi (tarif yang berlaku saat itu; dikunci untuk PO ini saat pertama kali disimpan): ${rates.map(c => `${c.name} ${rupiah(c.rate)}`).join(' + ')} = ${rupiah(rateSum)}.`
+          ? decision?.kind === 'ASK' ? 'Tarif mandor pada waktu jahit itu berbeda dari tarif yang dikunci PO ini. Pilih tarif untuk catatan ini.'
+            : decision?.kind === 'ALWAYS_NEW' ? `Upah mandor per pcs (tarif yang berlaku pada waktu jahit): ${perPcsText(rates)}.`
+            : decision?.kind === 'NEW_UNKNOWN' ? 'PO ini memakai tarif baru seterusnya, tetapi tarif mandor pada waktu jahit itu belum lengkap. Periksa waktunya atau tarif mandor di Master Data → Mandor → Tarif upah mandor.'
+            : `Upah mandor per pcs: ${perPcsText(rates)}.`
+          : dated ? `Upah mandor per pcs pada waktu jahit yang diisi (tarif yang berlaku saat itu; dikunci untuk PO ini saat pertama kali disimpan): ${perPcsText(rates)}.`
           : physicalIso === null ? 'Isi waktu selesai jahit untuk melihat tarif yang berlaku saat itu.'
           : 'Belum ada tarif lengkap untuk mandor ini pada waktu jahit itu. Isi komponen kerja model dan tarifnya di Master Data → Mandor → Tarif upah mandor, atau periksa waktunya.'}</p>
         <label className="cwip-sewing-qty"><span>SELESAI DIJAHIT</span><span><input aria-label={`Jumlah selesai dijahit ${groupNumber}`} inputMode="numeric" value={qty} disabled={locked}
           onFocus={e => e.currentTarget.select()} onChange={e => { setQty(e.target.value.replace(/[^0-9]/g, '')); setReviewed(false) }}/><b>/ {data.maxQty} pcs</b></span></label></>}
-        <label>Waktu selesai jahit (WIB)<input type="datetime-local" aria-label={`Waktu selesai jahit ${groupNumber}`} value={at} disabled={locked} onChange={e => { setAt(e.target.value); setReviewed(false) }}/></label>
+        <label>Waktu selesai jahit (WIB)<input type="datetime-local" aria-label={`Waktu selesai jahit ${groupNumber}`} value={at} disabled={locked} onChange={e => { setAt(e.target.value); setChoice(null); setReviewed(false) }}/></label>
+        {decision?.kind === 'ASK' ? <fieldset className="cwip-sewing-rate-choice" aria-label={`Pilih tarif ${groupNumber}`}>
+          <legend>Tarif untuk catatan ini (wajib dipilih)</legend>
+          {(['OLD', 'NEW'] as const).map(c => {
+            const label = c === 'OLD' ? 'Tarif lama PO' : 'Tarif baru (berlaku pada waktu jahit)'
+            const detail = wave
+              ? (lines ?? []).filter(l => decision.differs.includes(l.skuId)).map(l => {
+                const k = wave.skus.find(s => s.skuId === l.skuId), r = c === 'OLD' ? skuRates?.get(l.skuId) : skuNewRates?.get(l.skuId)
+                return r ? `SKU ${k?.sku}: ${perPcsText(r)}` : ''
+              }).join('; ')
+              : (() => { const r = c === 'OLD' ? data.components : newRates ?? []; return `${perPcsText(r)}${qtyValid ? ` · upah ${qty} pcs = ${rupiah(Number(qty) * r.reduce((s, x) => s + x.rate, 0))}` : ''}` })()
+            return <label key={c} className="cproc-check"><input type="radio" name={`rate-choice-${groupId}`} aria-label={`${label} ${groupNumber}`} checked={choice === c}
+              disabled={locked} onChange={() => { setChoice(c); setReviewed(false) }}/>{label}: {detail}</label>
+          })}
+        </fieldset> : null}
         <label>Catatan<input aria-label={`Catatan selesai jahit ${groupNumber}`} value={reason} maxLength={1000} disabled={locked} onChange={e => { setReason(e.target.value); setReviewed(false) }}/></label>
         {!wave && qtyValid && ratesKnown ? <p>Upah yang akan dicatat: {qty} pcs × {rupiah(rateSum)} = {rupiah(Number(qty) * rateSum)}.</p> : null}
         {wave && lines && waveWage !== null ? <p>Upah yang akan dicatat: {lines.map(l => `SKU ${wave.skus.find(k => k.skuId === l.skuId)?.sku} ${l.qty} pcs × ${rupiah(perPcs(l.skuId))}`).join(' + ')} = {rupiah(waveWage)}.</p> : null}
         <label className="cproc-check"><input type="checkbox" aria-label={`Selesai jahit ${groupNumber} sudah diperiksa`} checked={reviewed}
           disabled={locked || !entryReady || physicalIso === null || reason.trim().length < 5} onChange={e => setReviewed(e.target.checked)}/>Jumlah, waktu, dan mandor sudah saya periksa.</label>
         <button type="button" disabled={!canRecord} onClick={() => {
-          if (canRecord) void run('RECORD_SEWING', wave ? sewingWavePayload(data, waveQty, physicalIso, reason) : sewingRecordPayload(data, qty, physicalIso, reason), Number(data.groupVersion), handlers)
+          if (canRecord) void run('RECORD_SEWING', wave ? sewingWavePayload(data, waveQty, physicalIso, reason, sentChoice) : sewingRecordPayload(data, qty, physicalIso, reason, sentChoice), Number(data.groupVersion), handlers)
         }}>Simpan selesai jahit</button>
       </> : null}
+      {current && data.canUseNewRates ? <section className="cwip-sewing-rate-mode" aria-label={`Tarif baru seterusnya PO ${data.poNumber}`}>
+        {modeOpen ? <>
+          <p>Mulai sekarang setiap catatan selesai jahit PO {data.poNumber} memakai tarif mandor yang berlaku pada waktu jahit, tanpa ditanya lagi. Upah yang sudah tercatat tidak berubah. Ini tidak bisa dibatalkan.</p>
+          <label>Alasan<input aria-label={`Alasan tarif baru seterusnya ${groupNumber}`} value={modeReason} maxLength={1000} disabled={locked} onChange={e => { setModeReason(e.target.value); setModeReviewed(false) }}/></label>
+          <label className="cproc-check"><input type="checkbox" aria-label={`Tarif baru seterusnya ${groupNumber} sudah diperiksa`} checked={modeReviewed}
+            disabled={locked || modeReason.trim().length < 5} onChange={e => setModeReviewed(e.target.checked)}/>Saya sudah memeriksa PO dan tarif mandornya.</label>
+          <button type="button" disabled={!canSwitch} onClick={() => { if (canSwitch) void run('USE_NEW_RATES', sewingUseNewRatesPayload(data, modeReason), Number(data.groupVersion), handlers) }}>Simpan: pakai tarif baru seterusnya</button>
+          <button type="button" disabled={recovery.busy} onClick={() => { setModeOpen(false); setModeReason(''); setModeReviewed(false) }}>Batal</button>
+        </> : <button type="button" disabled={locked} onClick={() => setModeOpen(true)}>Pakai tarif baru seterusnya</button>}
+      </section> : null}
       {current && activeEvents.length ? <section aria-label={`Riwayat selesai jahit ${groupNumber}`}>
         <h4>Sudah tercatat</h4>
         <ul>{activeEvents.map(e => <li key={e.id}>

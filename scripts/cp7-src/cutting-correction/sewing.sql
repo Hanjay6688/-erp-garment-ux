@@ -514,7 +514,7 @@ declare a jsonb;old cp7_cutting_correction.sewing_requests;g erp.cutting_groups;
  v_completion uuid;v_lines integer;v_amount numeric;v_journal numeric;ev erp.sewing_terminal_events;x jsonb;v_block text;
  y jsonb;v_n bigint;v_sku uuid;v_line_qty integer;v_base integer;v_sku_snaps integer;v_out jsonb:='[]';v_total numeric:=0;
  v_choice text;v_mode boolean;v_rule jsonb;v_known boolean;v_differs boolean;v_use_new boolean;v_snap uuid;v_revised integer:=0;
- v_want jsonb:='{}';c jsonb;o record;
+ v_want jsonb:='{}';v_c jsonb;v_o record;
  uuid_re constant text:='^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$';
 begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
@@ -601,8 +601,8 @@ begin
   -- (OLD) or the new one (NEW) as chosen; a PO switched to the new rate takes it without a choice. A first record locks the
   -- rates at its own sewing time, so it never differs.
   v_rule:=cp7_cutting_correction.sewing_rule_rates(po.id,v_at);
-  v_known:=jsonb_array_length(v_rule)>0 and not exists(select 1 from jsonb_array_elements(v_rule)x where x->'rate'='null'::jsonb or(x->>'rate')::numeric<0);
-  v_differs:=v_known and exists(select 1 from jsonb_array_elements(v_rule)x where(x->>'rate')::numeric<>(x->>'old')::numeric);
+  v_known:=jsonb_array_length(v_rule)>0 and not exists(select 1 from jsonb_array_elements(v_rule)rl where rl->'rate'='null'::jsonb or(rl->>'rate')::numeric<0);
+  v_differs:=v_known and exists(select 1 from jsonb_array_elements(v_rule)rl where(rl->>'rate')::numeric<>(rl->>'old')::numeric);
   if v_mode then
    if v_choice is not null then raise exception 'CP7_SEWING_RATE_CHOICE_UNEXPECTED';end if;
    if not v_known then raise exception 'CP7_SEWING_NEW_RATE_UNKNOWN';end if;
@@ -619,12 +619,12 @@ begin
    values(v_completion,'CP7-SEW-'||to_char(v_at at time zone 'Asia/Jakarta','YYYYMMDD')||'-'||substr(replace(v_completion::text,'-',''),1,10),
     po.id,pk.contractor_id,g.id,v_at,'DRAFT',v_reason,v_actor);
   v_lines:=0;
-  for c in select value from jsonb_array_elements(v_rule)loop
-   if v_use_new and(c->>'rate')::numeric<>(c->>'old')::numeric then
-    v_snap:=cp7_cutting_correction.sewing_revision((c->>'snapshot_id')::uuid,null,(c->>'rate')::numeric,(c->>'rate_id')::uuid,v_at,p_request);
-    v_revised:=v_revised+1;v_want:=v_want||jsonb_build_object(c->>'work_component_id',c->'rate');
+  for v_c in select value from jsonb_array_elements(v_rule)loop
+   if v_use_new and(v_c->>'rate')::numeric<>(v_c->>'old')::numeric then
+    v_snap:=cp7_cutting_correction.sewing_revision((v_c->>'snapshot_id')::uuid,null,(v_c->>'rate')::numeric,(v_c->>'rate_id')::uuid,v_at,p_request);
+    v_revised:=v_revised+1;v_want:=v_want||jsonb_build_object(v_c->>'work_component_id',v_c->'rate');
    else
-    v_snap:=(c->>'snapshot_id')::uuid;v_want:=v_want||jsonb_build_object(c->>'work_component_id',c->'old');
+    v_snap:=(v_c->>'snapshot_id')::uuid;v_want:=v_want||jsonb_build_object(v_c->>'work_component_id',v_c->'old');
    end if;
    insert into erp.work_completion_lines(completion_id,po_component_snapshot_id,work_component_id,qty_completed,qty_payable,rate_snapshot)
     select v_completion,sn.id,sn.work_component_id,v_qty,v_qty,sn.rate_per_pcs_snapshot from erp.po_work_component_snapshots sn where sn.id=v_snap;
@@ -679,9 +679,9 @@ begin
    y:=null;select k into y from jsonb_array_elements(v_rule->'skus')k where k->>'sku_id'=x->>'sku_id';
    if y is null or not(y->>'complete')::boolean then v_known:=false;
    elsif exists(select 1 from erp.po_work_component_snapshots sn join erp.bf_sku_versions_v1 v on v.id=sn.bf_sku_version_id
-     cross join lateral(select r from jsonb_array_elements(y->'rates')r where r->>'work_component_id'=sn.work_component_id::text)nr
+     cross join lateral(select nrr from jsonb_array_elements(y->'rates')nrr where nrr->>'work_component_id'=sn.work_component_id::text)nr
      where sn.po_id=po.id and v.sku_id=(x->>'sku_id')::uuid and not exists(select 1 from cp7_cutting_correction.rate_revisions rr where rr.snapshot_id=sn.id)
-      and(nr.r->>'rate')::numeric<>sn.rate_per_pcs_snapshot)then v_differs:=true;end if;
+      and(nr.nrr->>'rate')::numeric<>sn.rate_per_pcs_snapshot)then v_differs:=true;end if;
   end loop;
   v_differs:=v_differs and v_known;
   if v_mode then
@@ -709,16 +709,16 @@ begin
      po.id,pk.contractor_id,g.id,v_at,'DRAFT',v_reason,v_actor);
    y:=null;select k into y from jsonb_array_elements(v_rule->'skus')k where k->>'sku_id'=v_sku::text;
    v_lines:=0;v_want:='{}';
-   for o in select sn.id,sn.work_component_id,sn.rate_per_pcs_snapshot rate,nr.r new_rate
+   for v_o in select sn.id,sn.work_component_id,sn.rate_per_pcs_snapshot rate,nr.nrr new_rate
      from erp.po_work_component_snapshots sn join erp.bf_sku_versions_v1 v on v.id=sn.bf_sku_version_id
-     left join lateral(select r from jsonb_array_elements(coalesce(y->'rates','[]'))r where r->>'work_component_id'=sn.work_component_id::text)nr on true
+     left join lateral(select nrr from jsonb_array_elements(coalesce(y->'rates','[]'))nrr where nrr->>'work_component_id'=sn.work_component_id::text)nr on true
      where sn.po_id=po.id and v.sku_id=v_sku and not exists(select 1 from cp7_cutting_correction.rate_revisions rr where rr.snapshot_id=sn.id)
      order by sn.sequence_no,sn.id loop
-    if v_use_new and o.new_rate is not null and(o.new_rate->>'rate')::numeric<>o.rate then
-     v_snap:=cp7_cutting_correction.sewing_revision(o.id,(y->>'version_id')::uuid,(o.new_rate->>'rate')::numeric,(o.new_rate->>'rate_id')::uuid,v_at,p_request);
-     v_revised:=v_revised+1;v_want:=v_want||jsonb_build_object(o.work_component_id::text,o.new_rate->'rate');
+    if v_use_new and v_o.new_rate is not null and(v_o.new_rate->>'rate')::numeric<>v_o.rate then
+     v_snap:=cp7_cutting_correction.sewing_revision(v_o.id,(y->>'version_id')::uuid,(v_o.new_rate->>'rate')::numeric,(v_o.new_rate->>'rate_id')::uuid,v_at,p_request);
+     v_revised:=v_revised+1;v_want:=v_want||jsonb_build_object(v_o.work_component_id::text,v_o.new_rate->'rate');
     else
-     v_snap:=o.id;v_want:=v_want||jsonb_build_object(o.work_component_id::text,o.rate);
+     v_snap:=v_o.id;v_want:=v_want||jsonb_build_object(v_o.work_component_id::text,v_o.rate);
     end if;
     insert into erp.work_completion_lines(completion_id,po_component_snapshot_id,work_component_id,qty_completed,qty_payable,rate_snapshot)
      select v_completion,sn.id,sn.work_component_id,v_line_qty,v_line_qty,sn.rate_per_pcs_snapshot from erp.po_work_component_snapshots sn where sn.id=v_snap;
