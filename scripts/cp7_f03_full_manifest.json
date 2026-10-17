@@ -1169,6 +1169,8 @@
     }
   },
   "expected_private_roles": [
+    "cp7_hpp_pool_write",
+    "cp7_hpp_pool_read",
     "cp7_warehouse_summary_read",
     "cp7_customer_history_read",
     "cp7_audit_read",

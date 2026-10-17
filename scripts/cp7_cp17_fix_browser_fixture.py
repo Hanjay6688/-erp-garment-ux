@@ -406,6 +406,14 @@ def main():
             # Native rows of that warehouse only: quantity, rolls and value as the screen writes them.
             import cp7_r3_warehouse_cases as warehouse
             out=warehouse.browser_state(cur,p)
+        elif operation=='r304_hpp_pool':
+            # R3-04 (owner D16-1): the native cases' HPP01-style fixture for the journey's own period (offset days back).
+            import cp7_r3_hpp_pool_cases as r304
+            out=r304.browser_fixture(cur,p)
+        elif operation=='r304_hpp_pool_state':
+            # Native rows only: the period's pools, journal states, cost per PO, Mandor C's policies, the oracle figures.
+            import cp7_r3_hpp_pool_cases as r304
+            out=r304.browser_state(cur,p)
         elif operation=='r303_period_history':
             # R3-03 / owner D16-5: what the Tutup Buku tab must list, from the Native audit rows only.
             import cp7_r3_period_cases as r303

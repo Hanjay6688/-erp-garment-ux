@@ -21,6 +21,7 @@ import*as settings from'./cp7_r3_settings_browser.mjs'
 import*as audit from'./cp7_r3_audit_browser.mjs'
 import*as history from'./cp7_r3_history_browser.mjs'
 import*as warehouse from'./cp7_r3_warehouse_browser.mjs'
+import*as hppPool from'./cp7_r3_hpp_pool_browser.mjs'
 import*as r305 from'./cp7_r3_qc_note_browser.mjs'
 import*as r207 from'./cp7_r207_chain_browser.mjs'
 import*as r3chain from'./cp7_r3_chain_browser.mjs'
@@ -357,6 +358,9 @@ export function cases(ui,today){return[
  ...history.cases(ui,today,{fixture,noSideScroll,failure}),
  // R3-03 (owner D16-1): Ringkasan Gudang from real stock, as OWNER and GUDANG (cp7_r3_warehouse_browser.mjs).
  ...warehouse.cases(ui,today,{fixture,noSideScroll,failure}),
+ // R3-04 (owner D16-1): the attendance HPP pool on HPP & Rekalkulasi (cp7_r3_hpp_pool_browser.mjs); its fixture sets the
+ // books' closed date itself, one day before its own period.
+ ...hppPool.cases(ui,today,{fixture,noSideScroll,failure}),
  // R3-05 (Fable FABLE-016 remainder): QC & Final SKU, and a Nota Ambil Aksesori deducted from payroll, on the connected
  // screens (cp7_r3_qc_note_browser.mjs). Kept last: their fixtures set closed_through themselves.
  ...r305.cases(ui,today,{fixture,noSideScroll,failure})]}

@@ -149,6 +149,8 @@ export type PreconnectDatabase = {
       erp_cp7_process_recost_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_period_control_v1: { Args: { p_through: string }; Returns: Json }
       erp_cp7_save_period_control_v1: { Args: { p_action: string; p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_get_hpp_pools_v1: { Args: { p_offset: number; p_limit: number; p_period_start: string | null; p_period_end: string | null }; Returns: Json }
+      erp_cp7_save_hpp_pool_v1: { Args: { p_action: string; p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_sales_cash_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_sales_form_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_save_sale_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string | null }; Returns: Json }

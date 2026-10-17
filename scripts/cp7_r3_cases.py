@@ -7,6 +7,9 @@ sessions at the 999/1000 boundary and a resend with the same UUID.
 
 R3-09 (owner D16-2, D16-3, D16-4): cp7_r3_rate_cases.py, the old or new Mandor rate when sewing is finished.
 
+R3-04 (Sol KNOWN-R2-POOL-UI, Astra ASTRA-C17-07; owner D16-1): cp7_r3_hpp_pool_cases.py, the attendance HPP pool lifecycle
+screen on HPP & Rekalkulasi.
+
 R3-05 (Fable FABLE-016 remainder): cp7_r3_qc_note_cases.py, QC & Final SKU and the accessory note deducted from payroll, on
 the connected screens (browser cases).
 
@@ -32,6 +35,7 @@ import cp7_r3_settings_cases as settings
 import cp7_r3_audit_cases as audit
 import cp7_r3_history_cases as history
 import cp7_r3_warehouse_cases as warehouse
+import cp7_r3_hpp_pool_cases as hpp_pool
 import cp7_r3_qc_note_cases as qcnote
 import cp7_r3_chain_cases as chain
 b=po.b
@@ -84,6 +88,12 @@ RACES=RACES+warehouse.RACES
 HTTP=HTTP+warehouse.HTTP
 BROWSER=BROWSER+warehouse.BROWSER
 FUNCTIONS=FUNCTIONS+tuple(warehouse.FUNCTIONS)
+# R3-04 (Sol KNOWN-R2-POOL-UI, Astra ASTRA-C17-07; owner D16-1): the attendance HPP pool screen (cp7_r3_hpp_pool_cases.py).
+NATIVE=NATIVE+hpp_pool.NATIVE
+RACES=RACES+hpp_pool.RACES
+HTTP=HTTP+hpp_pool.HTTP
+BROWSER=BROWSER+hpp_pool.BROWSER
+FUNCTIONS=FUNCTIONS+tuple(hpp_pool.FUNCTIONS)
 # R3-05 (Fable FABLE-016 remainder): QC & Final SKU and Nota Ambil Aksesori -> payroll on the connected screens
 # (cp7_r3_qc_note_cases.py; browser cases only, its NATIVE/RACES/HTTP lists are empty, so cases()/races()/http_cases()
 # and the length assert in cases() stay as they are).
@@ -260,8 +270,8 @@ def cases(cur,today):
 
     named=[lambda:sol_number(998),lambda:sol_number(999),astra_carry,past_1000,same_uuid_past_1000,
            astra_sales_cancel,astra_adjustment_reverse,active_use_blocks,unrelated_inflow,one_of_two,reopen_then_finish]
-    assert len(named)+len(rate.NATIVE)+len(period.NATIVE)+len(reminders.NATIVE)+len(settings.NATIVE)+len(audit.NATIVE)+len(history.NATIVE)+len(warehouse.NATIVE)==len(NATIVE)
-    return list(zip(NATIVE[:len(named)],named))+rate.cases(cur,today)+period.cases(cur,today)+reminders.cases(cur,today)+settings.cases(cur,today)+audit.cases(cur,today)+history.cases(cur,today)+warehouse.cases(cur,today)
+    assert len(named)+len(rate.NATIVE)+len(period.NATIVE)+len(reminders.NATIVE)+len(settings.NATIVE)+len(audit.NATIVE)+len(history.NATIVE)+len(warehouse.NATIVE)+len(hpp_pool.NATIVE)==len(NATIVE)
+    return list(zip(NATIVE[:len(named)],named))+rate.cases(cur,today)+period.cases(cur,today)+reminders.cases(cur,today)+settings.cases(cur,today)+audit.cases(cur,today)+history.cases(cur,today)+warehouse.cases(cur,today)+hpp_pool.cases(cur,today)
 
 
 def races(tools,today):
@@ -308,7 +318,7 @@ def races(tools,today):
             history=one(cur,'select count(*) from cp7_cutting_correction.po_reopen_history where po_id=%s',(g['po'],))
         assert status!='FINISHED' and history==1,(status,history)
         return dict(status='PASS',two_tabs=results,reopened_once=True)
-    return list(zip(RACES[:2],[boundary_two_sessions,reopen_after_cancel]))+rate.races(tools,today)+period.races(tools,today)+reminders.races(tools,today)+settings.races(tools,today)+audit.races(tools,today)+history.races(tools,today)+warehouse.races(tools,today)
+    return list(zip(RACES[:2],[boundary_two_sessions,reopen_after_cancel]))+rate.races(tools,today)+period.races(tools,today)+reminders.races(tools,today)+settings.races(tools,today)+audit.races(tools,today)+history.races(tools,today)+warehouse.races(tools,today)+hpp_pool.races(tools,today)
 
 
-def http_cases(http,today):return rate.http_cases(http,today)+period.http_cases(http,today)+reminders.http_cases(http,today)+settings.http_cases(http,today)+audit.http_cases(http,today)+history.http_cases(http,today)+warehouse.http_cases(http,today)
+def http_cases(http,today):return rate.http_cases(http,today)+period.http_cases(http,today)+reminders.http_cases(http,today)+settings.http_cases(http,today)+audit.http_cases(http,today)+history.http_cases(http,today)+warehouse.http_cases(http,today)+hpp_pool.http_cases(http,today)

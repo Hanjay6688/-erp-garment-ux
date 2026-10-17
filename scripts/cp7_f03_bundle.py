@@ -29,6 +29,7 @@ import cp7_erp_settings_bundle as erp_settings
 import cp7_audit_bundle as audit
 import cp7_customer_history_bundle as customer_history
 import cp7_warehouse_summary_bundle as warehouse_summary
+import cp7_hpp_pool_bundle as hpp_pool
 ROOT=finance.ROOT
 
 def attendance_internal_body():
@@ -50,7 +51,7 @@ def sales_after_attendance():
 
 def extension():
  prefix=procurement.bundle();full=attendance.bundle();assert full.startswith(prefix+'\n')
- return full[len(prefix)+1:]+'\n'+sales_after_attendance()+'\n'+finance.extension()+'\n'+period.extension()+'\n'+recost.extension()+'\n'+journal.extension()+'\n'+misc.extension()+'\n'+installment.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-lines.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/return-correction.sql').read_text()+'\n'+note_report.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-actors.sql').read_text()+'\n'+transaction_source.extension()+'\n'+misc_correction.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/chain-reversal.sql').read_text()+'\n'+cutting_correction.extension()+'\n'+pickup.extension()+'\n'+rate_revision.extension()+'\n'+kasbon.extension()+'\n'+dated_guard.extension()+'\n'+rework.extension()+'\n'+hpp_policy.extension()+'\n'+master.extension()+'\n'+cutover.extension()+'\n'+reminders.extension()+'\n'+erp_settings.extension()+'\n'+audit.extension()+'\n'+customer_history.extension()+'\n'+warehouse_summary.extension()
+ return full[len(prefix)+1:]+'\n'+sales_after_attendance()+'\n'+finance.extension()+'\n'+period.extension()+'\n'+recost.extension()+'\n'+journal.extension()+'\n'+misc.extension()+'\n'+installment.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-lines.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/return-correction.sql').read_text()+'\n'+note_report.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-actors.sql').read_text()+'\n'+transaction_source.extension()+'\n'+misc_correction.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/chain-reversal.sql').read_text()+'\n'+cutting_correction.extension()+'\n'+pickup.extension()+'\n'+rate_revision.extension()+'\n'+kasbon.extension()+'\n'+dated_guard.extension()+'\n'+rework.extension()+'\n'+hpp_policy.extension()+'\n'+master.extension()+'\n'+cutover.extension()+'\n'+reminders.extension()+'\n'+erp_settings.extension()+'\n'+audit.extension()+'\n'+customer_history.extension()+'\n'+warehouse_summary.extension()+'\n'+hpp_pool.extension()
 def bundle():return procurement.bundle()+'\n'+extension()
 def patched_internal(definition):return sales.patched_internal(attendance.patched_internal(settlement.patched_internal(nota.patched_internal(definition))))
 
@@ -66,6 +67,7 @@ ROLES=erp_settings.ROLES+ROLES
 ROLES=audit.ROLES+ROLES
 ROLES=customer_history.ROLES+ROLES
 ROLES=warehouse_summary.ROLES+ROLES
+ROLES=hpp_pool.ROLES+ROLES
 BASE_GRANTS=('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)')
 GRANTS={role:BASE_GRANTS for role in ('cp7_fg_read','cp7_fg_write','cp7_payroll_read','cp7_nota_write','cp7_payroll_header','cp7_payroll_write','cp7_attendance_read','cp7_roster_write','cp7_attendance_write')}
 GRANTS['cp7_fg_read']+=('erp.bf_commercial_sku_at_v1(uuid,timestamptz)','erp.bd_lot_laundry_unknown_v1(uuid)','erp.get_hpp_completeness(uuid)')

@@ -1,0 +1,29 @@
+.hpool{display:grid;gap:10px;min-width:0;overflow-wrap:anywhere}
+.hpool h2,.hpool h3,.hpool p{margin:0}
+.hpool h3{font-size:15px}
+.hpool-period{display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap}
+.hpool-period label{display:grid;gap:4px;font-size:12px;font-weight:800;min-width:0;flex:1 1 160px}
+.hpool-period input{min-width:0;border:1px solid #d9ccc4;border-radius:9px;padding:8px;font-size:13px}
+.hpool-periods>div{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.hpool-periods button{display:grid;gap:2px;justify-items:start;text-align:left;padding:8px 10px;border:1px solid #eee6e1;border-radius:9px;background:#fff;min-width:0;max-width:100%}
+.hpool-periods button span{font-size:12px;color:#5d4d44}
+.hpool-preview,.hpool-list{display:grid;gap:8px;padding-top:10px;border-top:1px solid #eee6e1;min-width:0}
+.hpool-facts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:0}
+.hpool-facts div{display:grid;gap:2px;padding:7px 9px;background:#faf8f6;border:1px solid #eee6e1;border-radius:9px;min-width:0}
+.hpool-facts dt{font-size:9px;font-weight:900;letter-spacing:.08em;color:#88786e}
+.hpool-facts dd{margin:0;font-size:13px;font-weight:800}
+.hpool-lines,.hpool-history{margin:0;padding-left:18px;font-size:12px}
+.hpool-item{display:grid;gap:6px;padding:10px;border:1px solid #eee6e1;border-radius:9px;min-width:0}
+.hpool-item header{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.hpool-status{font-size:11px;font-weight:900;padding:2px 8px;border-radius:999px;background:#f1ece8;color:#5d4d44}
+.hpool-draft{background:#fff6e8;color:#6b4a14}
+.hpool-active{background:#e7f4ea;color:#1f5b2c}
+.hpool-cancelled{background:#fbeaea;color:#7a2424}
+.hpool-voided{background:#f1ece8;color:#6b625c}
+.hpool-form{display:grid;gap:8px;padding:10px;border-radius:9px;background:#faf8f6;min-width:0}
+.hpool-form label{display:grid;gap:4px;font-size:12px;font-weight:800}
+.hpool-form textarea{min-width:0;min-height:56px;border:1px solid #d9ccc4;border-radius:9px;padding:8px;font-size:13px}
+.hpool-buttons{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hpool-warning{padding:8px 10px;border-radius:9px;background:#fff6e8;color:#6b4a14;font-size:12px}
+.hpool-blocker{padding:8px 10px;border-radius:9px;background:#fbeaea;color:#7a2424;font-size:12px}
+@media(max-width:650px){.hpool-facts{grid-template-columns:1fr 1fr}.hpool-period button,.hpool-buttons>button{flex:1 1 140px;justify-content:center}}

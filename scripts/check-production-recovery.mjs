@@ -96,6 +96,11 @@ for (const token of ["useProductionMutation('FINANCE_PERIOD')", 'beginRead()', '
 }
 assert.doesNotMatch(period, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)
 
+const hppPool = read('src/AttendanceHppPoolPanel.tsx')
+for (const token of ["useProductionMutation('HPP_POOL')", 'beginRead()', 'finishRead(ticket)', 'p_request: e.id', 'p_payload: e.payload', 'parseHppPoolOutcome']) {
+  assert.ok(hppPool.includes(token), `HPP pool recovery omits ${token}`)
+}
+assert.doesNotMatch(hppPool, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)
 const recost = read('src/RecostQueuePanel.tsx')
 assert.match(recost, /useProductionMutation\('HPP_RECOST'\)/)
 assert.match(recost, /parseRecostOutcome/)

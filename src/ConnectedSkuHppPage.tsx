@@ -9,6 +9,7 @@ import { cp6WibPhysicalTimeToIso, formatCp6WibDateTime } from './cp6BusinessTime
 import { parseSkuHpp, skuMoney, type SkuHppWorkspace } from './skuHpp'
 import RecostQueuePanel from './RecostQueuePanel'
 import PoFinishPanel from './PoFinishPanel'
+import AttendanceHppPoolPanel from './AttendanceHppPoolPanel'
 import './procurement-connected.css'
 import './initial-import.css'
 import './sku.css'
@@ -26,6 +27,8 @@ function Workspace() {
   const [data, setData] = useState<SkuHppWorkspace | null>(null), [error, setError] = useState('')
   const [query, setQuery] = useState(''), [date, setDate] = useState(''), [busy, setBusy] = useState(false)
   const [selected, setSelected] = useState(''), filters = useRef({ query: '', at: '', page: 1 }), sequence = useRef(0)
+  // R3-04 / owner rule D18b: a pool commit remounts the other two writers (fresh read); their commits refresh the pool list.
+  const [poolCommits, setPoolCommits] = useState(0), [otherCommits, setOtherCommits] = useState(0)
   const load = useCallback(async () => {
     const s = ++sequence.current, ticket = beginRead(), f = { ...filters.current }
     setBusy(true); setData(null); setError('')
@@ -52,8 +55,9 @@ function Workspace() {
     </form>
     {(error || blockReason) && <p role="alert">{error || blockReason}</p>}
     {busy && <p role="status">Memuat stok dan biaya…</p>}
-    <RecostQueuePanel client={client} canManage={identity.status==='AUTHORIZED'&&identity.permissions.includes(SENSITIVE_ACTION_PERMISSION.recalculateHpp)&&['OWNER','ADMIN','STAFF'].includes(identity.profile.role)} onChanged={load}/>
-    <PoFinishPanel onCommitted={load}/>
+    <RecostQueuePanel key={`recost-${poolCommits}`} client={client} canManage={identity.status==='AUTHORIZED'&&identity.permissions.includes(SENSITIVE_ACTION_PERMISSION.recalculateHpp)&&['OWNER','ADMIN','STAFF'].includes(identity.profile.role)} onChanged={async () => { setOtherCommits(n => n + 1); return load() }}/>
+    <PoFinishPanel key={`pofinish-${poolCommits}`} onCommitted={async () => { setOtherCommits(n => n + 1); return load() }}/>
+    <AttendanceHppPoolPanel refresh={otherCommits} onCommitted={async () => { setPoolCommits(n => n + 1); return load() }}/>
     {data && <><p>Posisi {formatCp6WibDateTime(data.at)}. Biaya memakai versi yang sudah tercatat pada waktu itu; status kelengkapan diperiksa saat ini.</p>
       <div className="panel"><table><thead><tr><th>SKU</th><th>Stok PCS</th><th>Nilai stok</th><th>HPP / PCS</th><th>Status biaya</th></tr></thead><tbody>{data.groups.map(g => <tr key={g.group_key}><td><button onClick={() => setSelected(g.group_key)}>{g.brand_name} · {g.sku}</button></td><td>{g.qty}</td><td>{skuMoney(g.value)}</td><td>{skuMoney(g.hpp_per_pcs)}</td><td>{g.provisional ? 'Belum lengkap' : 'Tercatat'}</td></tr>)}</tbody></table>
       {data.groups.length === 0 && <p>Tidak ada stok SKU yang cocok.</p>}

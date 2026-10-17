@@ -53,7 +53,7 @@ Kode: **C** = tersambung, **S** = data contoh, **N** = pemberitahuan tanpa angka
 | Keuangan | Payroll & Kasbon | S | C | C | `KASBON_GIVE_DEDUCT_DESKTOP`, rantai R2-07 kedua, `R3_05_ACCESSORY_NOTE_TO_PAYROLL_DESKTOP`, `R3_03_CHAIN_SEWING_TO_CLOSE`, `R3_03_GUARDS_REFUSE` |
 | Keuangan | Absensi & Rate Harian | S | C | C | — |
 | Keuangan | Nota Ambil Aksesori | S | C | C | `R3_05_ACCESSORY_NOTE_TO_PAYROLL_DESKTOP` |
-| Keuangan | HPP & Rekalkulasi | S | C | C | `G2_FINISH_*`, `R2_PO_REOPEN_*` |
+| Keuangan | HPP & Rekalkulasi | S | C | C | `G2_FINISH_*`, `R2_PO_REOPEN_*`, `R3_04_HPP_POOL_DESKTOP/_MOBILE` (pool HPP absensi: pratinjau, draf, aktifkan, batal, koreksi sumber, pengganti; KEUANGAN tanpa bagian pool) |
 | Keuangan | Jurnal & Transaksi Lain | S | C | C | `R3_03_GUARDS_REFUSE` (D15-5) |
 | Keuangan | Laporan & Tutup Buku | S | C | C | `R3_03_PERIOD_TAB_DESKTOP/_MOBILE` (dua tab, riwayat, ADMIN tanpa tab), rantai R2-07 pertama, `R3_03_CHAIN_SEWING_TO_CLOSE` |
 | Master Data | Kain & Benchmark | S | C | C | `R2_MASTER_FABRIC_*` |
@@ -81,8 +81,9 @@ Sebelum r3 (kandidat r2): Enteng 29 tersambung, 17 disembunyikan, 1 layar batas,
    `../../cp17/R3_INSTALL_TIME_CHECKS.md`.
 2. **Build Enteng diuji terhadap salinan sekali pakai**, bukan terhadap hosted. Kunci publik di build itu adalah kunci
    pengganti; host proyek Enteng dipetakan ke API lokal di mesin CI.
-3. **Pool HPP absensi** (R3-04) dipasang di halaman HPP & Rekalkulasi, tidak sebagai menu baru; status dan kasusnya
-   ditulis di `CROSS_AUDIT.md` dan `docs/cp7/cp17/CP17_FIXES.json`.
+3. **Pool HPP absensi** (R3-04) dipasang di halaman HPP & Rekalkulasi, tidak sebagai menu baru (temuan
+   `R3_04_HPP_POOL` di `docs/cp7/cp17/CP17_FIXES.json`). Pembungkus publik CP4 yang lama untuk pool masih bisa dipanggil
+   pengguna login sampai pencabutan CP7C (FABLE-012, D14-9); `cp7_hpp_pool_bundle.verify` melaporkannya.
 4. Menu bertanda "—" tidak punya uji browser baru di r3; uji lama per layar ada di peta-peta sebelumnya. Sensus lebar
    HP 390 px untuk semua menu berjalan di build demo; layar tersambung diperiksa lebar HP-nya hanya pada layar yang
    dilewati uji browser HP.

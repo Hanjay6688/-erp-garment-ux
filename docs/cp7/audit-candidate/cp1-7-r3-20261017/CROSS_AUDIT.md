@@ -57,7 +57,8 @@ tinggi.
 
 ## 4. Batas yang tetap (tidak dikerjakan di r3 kecuali owner membuka)
 
-CP7C (backup awal, Drive, pemasangan hosted; D13-9a), pencabutan EXECUTE 82 penulis `erp` (FABLE-012, D14-9), restore
+CP7C (backup awal, Drive, pemasangan hosted; D13-9a), pencabutan EXECUTE 82 penulis `erp` (FABLE-012, D14-9; ditambah
+empat pembungkus publik CP4 pool HPP absensi yang dilaporkan `cp7_hpp_pool_bundle.verify`), restore
 fungsional CP2 asli, penyebab dua kegagalan A2 dan AZ pertama, perangkat fisik/iPad, data cutover nyata (INV-M01/M03),
 preflight hosted baru (INV-M04). Batas bukti yang bisa dikerjakan penulis tanpa hosted dan dicatat untuk r3 bila waktu
 cukup: kontrol 0 → +1 → 0 untuk setiap detektor dan catatan detektor sebelum/sesudah setiap skenario (Sol INV-D01/D04).
