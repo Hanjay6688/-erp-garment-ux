@@ -107,15 +107,20 @@ async function qcFinal(ui,today,mobile,h){
   let answer=null,lostState=null
   if(!mobile){
    // The answer is lost on the way back: the server has committed, the screen does not know it yet.
+   // What the interception saw is kept (CI 39019699925: the answer stayed null on desktop while the phone path passed).
+   const intercept=seen.intercept=[]
    await page.route('**/rest/v1/rpc/erp_save_laundry_qc_action_v1',async route=>{
     if(answer)return route.continue()
-    const reply=await route.fetch();if(reply.status()!==200){await route.fulfill({response:reply});return}
-    answer=await reply.json();await route.abort('failed')
+    let reply
+    try{reply=await route.fetch()}catch(error){intercept.push({fetch_error:String(error).slice(0,500)});throw error}
+    const text=await reply.text();intercept.push({status:reply.status(),body:text.slice(0,800)})
+    if(reply.status()!==200){await route.fulfill({response:reply});return}
+    answer=JSON.parse(text);await route.abort('failed')
    })
    await post.click()
    const check=page.getByRole('button',{name:'Reconcile UUID lama',exact:true});await ui.expect(check).toBeVisible({timeout:20000})
    await ui.expect(page.locator(`button[aria-label="${POST_QC}"]:enabled`)).toHaveCount(0)
-   assert.ok(answer&&answer.committed===true,JSON.stringify(answer))
+   assert.ok(answer&&answer.committed===true,JSON.stringify({answer,intercept,alert:await page.locator('.clq-alert').allInnerTexts()}))
    lostState=seen.lost_state=state();seen.lost=qcPosted(lostState,before,f,requests[0].p_client_request_id)
    await check.click()
    await ui.expect(page.locator('.clq-alert.notice')).toContainText('Transaksi sudah direconcile dengan UUID lama; workspace authoritative dimuat ulang.')

@@ -43,7 +43,8 @@ async function journey(ui,today,mobile,h){
   await openSummary(ui,page);card=await search(ui,page,f)
   await ui.expect(card).toContainText(before.qty_text);await ui.expect(card).toContainText('1 roll berisi')
   await ui.expect(page.getByText('Nilai stok tidak ditampilkan karena hak melihat HPP belum diberikan.',{exact:true})).toBeVisible()
-  assert.ok(!(await page.locator('main').innerText()).includes('Rp'))
+  // The whole page area (the app's main panel holds the summary's own named main landmark): no amount anywhere.
+  assert.ok(!(await page.locator('main.main-panel').innerText()).includes('Rp'))
   await ui.expect(page.getByRole('button',{name:'Buka Stock Adjustment',exact:true})).toHaveCount(0)
   await ui.expect(page.locator('[data-attention="MATERIAL_COUNT_DRAFT"],[data-attention="FG_ADJUSTMENT_DRAFT"],[data-attention="FABRIC_BELOW_MINIMUM"]')).toHaveCount(0)
   await h.noSideScroll(ui,page);await page.screenshot({path:`cp6-proof/t3/${name}_GUDANG.png`,fullPage:true})

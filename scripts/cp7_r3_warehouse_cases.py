@@ -459,7 +459,8 @@ def races(tools,today):
 def http_cases(http,today):
     def owner_gudang_denied():
         owner=http.login('OWNER','cp17-r3-03-owner');gudang=http.login('GUDANG','cp17-r3-03-gudang')
-        code='CP17_R303_NODASH_'+uuid.uuid4().hex[:8].upper()
+        # erp.app_users.role is varchar(20) (CI 39019699925: a 26-character code failed the login insert, a fixture fault).
+        code='R303ND_'+uuid.uuid4().hex[:8].upper()
         with http.connect()as conn,conn.cursor()as cur:
             g=cut_roll(cur,today);a=unrolled.fixture(cur,today,'ACCESSORY');b.api.admin(cur)
             role=cur.execute("insert into erp.app_roles(role_code,role_name,is_system,is_protected,is_active)values(%s,'CP17 R3-03 tanpa ringkasan gudang',false,false,true)returning id",(code,)).fetchone()[0]
