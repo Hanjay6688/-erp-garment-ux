@@ -5,7 +5,8 @@
 // WIP & Sewing page (desktop and phone); owner D15-3 master screens and the Mandor + rate -> Bagi Potongan -> sewing chain;
 // owner D15-6 Buat Potongan with the PO made automatically; owner D15-5 the official cutover date; Sol R2-10 sewing per SKU of a
 // wave Potongan; R2-07 the screen-only
-// chain from the import screen to the customer's payment with the books closed in the middle.
+// chain from the import screen to the customer's payment with the books closed in the middle; R3-03 Fable oracle 3, the
+// screen-only chains and guards.
 import assert from'node:assert/strict'
 import{execFileSync}from'node:child_process'
 import{mkdirSync,writeFileSync}from'node:fs'
@@ -22,6 +23,7 @@ import*as history from'./cp7_r3_history_browser.mjs'
 import*as warehouse from'./cp7_r3_warehouse_browser.mjs'
 import*as r305 from'./cp7_r3_qc_note_browser.mjs'
 import*as r207 from'./cp7_r207_chain_browser.mjs'
+import*as r3chain from'./cp7_r3_chain_browser.mjs'
 const fixture=(operation,payload)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_cp17_fix_browser_fixture.py',operation],{input:JSON.stringify(payload),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 async function menu(page){const open=page.getByRole('button',{name:'Buka menu',exact:true});if(await open.isVisible())await open.click();const link=page.getByRole('button',{name:'• Bagi Potongan',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Produksi'}).click();await link.click()}
 async function openGroup(ui,page,number,group){
@@ -322,6 +324,11 @@ export function cases(ui,today){return[
  // R2-07: the screen-only chain from the import screen to the customer's payment with the books closed in the middle
  // (cp7_r207_chain_browser.mjs). First, so its close step meets the fewest open items left by other cases.
  ...r207.cases(ui,today,{fixture,noSideScroll,failure}),
+ // R3-03 / Fable oracle 3 (owner D16-1): screen-only chains (a) sewing -> Nota -> payroll -> pay -> Kas & Bank -> report ->
+ // close, (b) FG -> invoice -> customer payment -> cash -> AR zero (phone), (c) the D14-2, D14-3/D15-1 and D15-5 guards
+ // refuse on the screens (cp7_r3_chain_browser.mjs). Right after R2-07: chain (a) closes the books, so it meets the fewest
+ // open items left by other cases, and the Work BOM it may add on its own day is the one G1/wave/R3-09 later reuse.
+ ...r3chain.cases(ui,today,{fixture,noSideScroll,failure}),
  ['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP',()=>pickupReversal(ui,today)],['CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE',()=>fabricReturn(ui,today)],['CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP',()=>kasbon(ui,today)],
  ['CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP',()=>seriesDozens(ui,today,false)],['CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE',()=>seriesDozens(ui,today,true)],
  ['CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP',()=>fabricReturnCorrect(ui,today)],

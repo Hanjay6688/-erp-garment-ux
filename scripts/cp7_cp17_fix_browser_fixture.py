@@ -420,6 +420,23 @@ def main():
                 per.append(dict(rates=[str(r[0]) for r in rows],revised=[bool(r[1]) for r in rows],qty=int(rows[0][2]),wage=[str(x) for x in cases.wage_journal(cur,w)]))
             out=dict(records=per,revisions=one('select count(*) from cp7_cutting_correction.rate_revisions where po_id=%s',(p['po'],))[0],
                      switched=one('select count(*) from cp7_cutting_correction.po_rate_modes where po_id=%s',(p['po'],))[0])
+        # R3-03 / Fable oracle 3 (owner D16-1): screen-only chains and guards (cp7_r3_chain_cases.py); readback is direct SQL.
+        elif operation=='r3c_sewing_prepare':
+            import cp7_r3_chain_cases as r3c;out=r3c.browser_sewing_prepare(cur,date.fromisoformat(p['today']))
+        elif operation=='r3c_sewing_state':
+            import cp7_r3_chain_cases as r3c;out=r3c.browser_sewing_state(cur,p)
+        elif operation=='r3c_sale_prepare':
+            import cp7_r3_chain_cases as r3c;out=r3c.browser_sale_prepare(cur,date.fromisoformat(p['today']))
+        elif operation=='r3c_sale_state':
+            import cp7_r3_chain_cases as r3c;out=r3c.browser_sale_state(cur,p)
+        elif operation=='r3c_guard_prepare':
+            import cp7_r3_chain_cases as r3c;out=r3c.browser_guard_prepare(cur,date.fromisoformat(p['today']))
+        elif operation=='r3c_guard_state':
+            import cp7_r3_chain_cases as r3c;out=r3c.browser_guard_state(cur,p)
+        elif operation=='r3c_guard_cutover':
+            import cp7_r3_chain_cases as r3c;out=r3c.browser_guard_cutover(cur,p)
+        elif operation=='r3c_restore':
+            import cp7_r3_chain_cases as r3c;out=r3c.browser_restore(cur,p)
         elif operation=='r305_qc':
             # R3-05 (FABLE-016 remainder): the G2 chain stopped before its Final SKU (ten pieces back GOOD from laundry), a
             # fresh Final SKU, and a seeded role that may view QC & Final SKU but not post it (cp7_r3_qc_note_cases.py).

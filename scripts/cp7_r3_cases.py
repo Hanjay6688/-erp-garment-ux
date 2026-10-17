@@ -33,6 +33,7 @@ import cp7_r3_audit_cases as audit
 import cp7_r3_history_cases as history
 import cp7_r3_warehouse_cases as warehouse
 import cp7_r3_qc_note_cases as qcnote
+import cp7_r3_chain_cases as chain
 b=po.b
 
 NATIVE=['CP17_R3_01_AUTO_PO_NUMBER_999_CONTROL','CP17_R3_01_AUTO_PO_NUMBER_1000_BOUNDED','CP17_R3_01_AUTO_PO_NUMBER_999_TO_1000_ASTRA',
@@ -87,6 +88,8 @@ FUNCTIONS=FUNCTIONS+tuple(warehouse.FUNCTIONS)
 # (cp7_r3_qc_note_cases.py; browser cases only, its NATIVE/RACES/HTTP lists are empty, so cases()/races()/http_cases()
 # and the length assert in cases() stay as they are).
 BROWSER=BROWSER+qcnote.BROWSER
+# R3-03 / Fable oracle 3 (owner D16-1): screen-only chains and guards, browser only (cp7_r3_chain_cases.py).
+BROWSER=BROWSER+chain.BROWSER
 
 def one(cur,sql,args=()):return cur.execute(sql,args).fetchone()[0]
 def fill(cur,prefix,body,last,note):

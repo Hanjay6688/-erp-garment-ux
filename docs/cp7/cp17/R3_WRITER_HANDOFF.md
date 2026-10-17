@@ -30,25 +30,24 @@ D16-1 (1-5) is in `audit/fable_cp17_r2/OWNER_DECISION_TO_AUDITOR_20261016_UNHIDE
 | D16-1 Enteng build test: the CP17 browser cases run a second time on the Enteng-mode build (`_ENTENG` ids) | `scripts/cp6_auditor_browser_host.mjs` (`AUDITOR_UI_MODE=ENTENG`), workflow pins the Enteng host to loopback |
 | D16-1 new screens on real data: Reminder, Pengaturan ERP, Audit Trail, Riwayat Pelanggan, Ringkasan Gudang | `cp7_r3_{reminders,settings,audit,history,warehouse}_cases.py` + browser + `src/Connected*Page.tsx` |
 | `screenActivation`: no hidden menu in Enteng (47 menus; dashboard is NOTICE) | `src/screenActivation.test.ts` passes |
+| Fable oracle 3 chains (sewing -> close; FG -> AR zero on a phone; D14-2, D14-3/D15-1, D15-5 guards) | `cp7_r3_chain_cases.py`, `cp7_r3_chain_browser.mjs` (registered right after R2-07) |
 | R3-05 (FABLE-016 remainder): QC & Final SKU and accessory note -> payroll browser cases | `cp7_r3_qc_note_cases.py`, `cp7_r3_qc_note_browser.mjs` |
 
-Declaration `docs/cp7/cp17/CP17_FIXES.json`: 296 cases (native 143, races 31, http 22, browser 50, browser_enteng 50);
+Declaration `docs/cp7/cp17/CP17_FIXES.json`: 302 cases (native 143, races 31, http 22, browser 53, browser_enteng 53);
 private role stack 47 (`cp7_f03_full_probe.py`, both manifests).
 
 ## Not done yet (in this order)
 
 1. CI on the current head: dispatch `claude-cp17-fixes.yml`, `cp7-p13-period.yml`, `cp7-f03-p13-regression.yml`,
    `claude-p13-finance.yml` and the F03 full workflow on `claude/r3-fixes-20261017`; fix real failures (the 5 new screens'
-   CP17 cases and the 3 R3-05 browser cases have never run on the full stack yet; see each module's docstring and the
+   CP17 cases, the 3 R3-05 and the 3 chain browser cases have never run on the full stack yet; see each module's docstring and the
    risky selectors named there: QC search box `nav.clq-tabs input`, `.clq-impact`, `.cpay-net`).
 2. D16-1 remaining screen: attendance HPP pool (R3-04), mounted on the HPP & Rekalkulasi page, with native/race/HTTP/browser
    cases.
-3. Fable oracle 3 chains as browser cases: sewing -> Nota -> payroll -> pay -> Kas & Bank -> report -> close;
-   FG -> invoice -> customer payment -> cash -> AR zero; D14-2, D14-3/D15-1 and D15-5 guards still refuse.
-4. R3-06/07/08 smaller items (laundryRead helper, receipt pagination, CP6 mapping).
-5. Docs: r3 notes for D16-5, the D16-1 screens and the Enteng build; replace "Tutup Periode" in CROSS_AUDIT / SCREEN_MAP;
+3. R3-06/07/08 smaller items (laundryRead helper, receipt pagination, CP6 mapping).
+4. Docs: r3 notes for D16-5, the D16-1 screens and the Enteng build; replace "Tutup Periode" in CROSS_AUDIT / SCREEN_MAP;
    install-time checks recorded as "run at install", not on hosted now.
-6. Qualify r3 on one commit (fast-forward `claude/new-session-deapao`, qualify, CI receipt, package + handoffs for
+5. Qualify r3 on one commit (fast-forward `claude/new-session-deapao`, qualify, CI receipt, package + handoffs for
    Fable/Astra/Sol), then the owner report.
 
 Held, not part of r3: #196 CP7C and #208 FABLE-012.
@@ -69,4 +68,5 @@ Held, not part of r3: #196 CP7C and #208 FABLE-012.
 | Commit subject | State after it |
 |---|---|
 | feat(r3): Ringkasan Gudang on real data (D16-1) | 5 of 6 D16-1 screens in; no hidden Enteng menu; CI not yet run on these 5 |
-| test(r3): R3-05 QC and accessory-note browser cases | 296 declared cases; CI not yet run on the new cases |
+| test(r3): R3-05 QC and accessory-note browser cases | 296 declared cases; CI dispatched at 26a107d3 (CP17 39019699925, F03 full 39019701257, F03-P13 39019702513, P13 finance 39019703895, P13 period 39019705128) |
+| test(r3): Fable oracle 3 screen chains | 302 declared cases; the chain cases are not in the 26a107d3 runs |

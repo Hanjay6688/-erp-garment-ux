@@ -1,12 +1,12 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 296,
+ "expected_case_count": 302,
  "required_case_counts": {
   "native": 143,
   "races": 31,
   "http": 22,
-  "browser": 50,
-  "browser_enteng": 50
+  "browser": 53,
+  "browser_enteng": 53
  },
  "required_case_ids": {
   "native": [
@@ -260,6 +260,9 @@
    "CP17_BROWSER_R3_05_QC_FINAL_SKU_DESKTOP",
    "CP17_BROWSER_R3_05_QC_FINAL_SKU_MOBILE",
    "CP17_BROWSER_R3_05_ACCESSORY_NOTE_TO_PAYROLL_DESKTOP",
+   "CP17_BROWSER_R3_03_CHAIN_SEWING_TO_CLOSE",
+   "CP17_BROWSER_R3_03_CHAIN_FG_TO_AR_ZERO",
+   "CP17_BROWSER_R3_03_GUARDS_REFUSE",
    "CP17_BROWSER_R2_07_IMPORT_WIP_BRAND_SALE_CASH_CLOSE",
    "CP17_BROWSER_R2_07_BS_REWORK_NOTA_PAYROLL_PAY"
   ],
@@ -312,6 +315,9 @@
    "CP17_BROWSER_R3_05_QC_FINAL_SKU_DESKTOP_ENTENG",
    "CP17_BROWSER_R3_05_QC_FINAL_SKU_MOBILE_ENTENG",
    "CP17_BROWSER_R3_05_ACCESSORY_NOTE_TO_PAYROLL_DESKTOP_ENTENG",
+   "CP17_BROWSER_R3_03_CHAIN_SEWING_TO_CLOSE_ENTENG",
+   "CP17_BROWSER_R3_03_CHAIN_FG_TO_AR_ZERO_ENTENG",
+   "CP17_BROWSER_R3_03_GUARDS_REFUSE_ENTENG",
    "CP17_BROWSER_R2_07_IMPORT_WIP_BRAND_SALE_CASH_CLOSE_ENTENG",
    "CP17_BROWSER_R2_07_BS_REWORK_NOTA_PAYROLL_PAY_ENTENG"
   ]
@@ -416,7 +422,8 @@
   "R3_03_AUDIT_TRAIL": "Owner D16-1: the Audit Trail menu (admin-audit) reads erp.audit_logs through the read facade erp_cp7_get_audit_trail_v1 (settings.audit.view; CSV of the shown rows only with settings.audit.export): closed query, newest first, a fixed as_of cutoff and keyset paging so writes after page 1 never move, repeat or hide a row; old/new data only in the detail of one row, withheld above 512 KB. Oracles read erp.audit_logs and erp.app_users directly.",
   "R3_03_CUSTOMER_HISTORY": "Owner D16-1: the Riwayat Pelanggan menu (sales-history) reads through the read facade erp_cp7_get_customer_history_v1 (sales.history.view; amounts only with finance.ar.view, CSV only with sales.history.export): customer list and per-customer timeline of invoices, payments, returns and cancellations (WIB), one snapshot per answer; invoice figures defined as the receivables reader; a cancelled document without its audit row is refused in words. Oracles sum the Native sales tables directly.",
   "R3_03_WAREHOUSE_SUMMARY": "Owner D16-1 (not an audit finding): Ringkasan Gudang showed sample figures and was hidden in Enteng. It now reads public.erp_cp7_get_warehouse_summary_v1: per location and kind the rows of Bahan & Roll without accessories, Aksesori and Ringkasan Barang Jadi with their own tables, filters and rounding, each section only with its screen key, values only with finance.hpp.view, and an attention list of Native facts behind the key of the screen that shows each (fabric below minimum needs master.fabric.view as well, which can be granted to Gudang in Pengguna & Hak Akses). One STABLE statement, one snapshot per answer. Cases: receipt and cutting equal raw rows and the three detail reads; values only with finance.hpp.view; sections per role key; refusals without warehouse.dashboard.view; attention equals Native tables after Native drafts; read-only and private; transfers committed during reads never give a half-applied answer; real Auth OWNER, GUDANG, a role without the key; browser desktop and phone as OWNER and GUDANG, on the test build and the Enteng build.",
-  "R3_05_QC_AND_ACCESSORY_NOTE_BROWSER": "Fable FABLE-016 remainder: QC & Final SKU and Nota Ambil Aksesori had no browser case on the connected screens. Three browser cases now drive them on real Auth and PostgREST (and again on the Enteng build): QC desktop and phone, where a role with production.final_sku.view but not .post sees the queue read-only and its own forced write is refused 403 with no effect, OWNER posts 10 GOOD and the Native rows show exactly one posted inspection, one lot, one +10 QC_GOOD movement, no BS case, balanced journals, and a resent request (dropped answer on desktop, direct on phone) gives the same answer with no second effect; and the accessory note deducted from payroll on desktop: a cancelled note is not deducted, the posted one is deducted exactly once, the note cannot be cancelled while the payroll is active, and paying from a bank funded with exactly the net leaves bank, receivable and payable at zero. Oracles read Native tables only."
+  "R3_05_QC_AND_ACCESSORY_NOTE_BROWSER": "Fable FABLE-016 remainder: QC & Final SKU and Nota Ambil Aksesori had no browser case on the connected screens. Three browser cases now drive them on real Auth and PostgREST (and again on the Enteng build): QC desktop and phone, where a role with production.final_sku.view but not .post sees the queue read-only and its own forced write is refused 403 with no effect, OWNER posts 10 GOOD and the Native rows show exactly one posted inspection, one lot, one +10 QC_GOOD movement, no BS case, balanced journals, and a resent request (dropped answer on desktop, direct on phone) gives the same answer with no second effect; and the accessory note deducted from payroll on desktop: a cancelled note is not deducted, the posted one is deducted exactly once, the note cannot be cancelled while the payroll is active, and paying from a bank funded with exactly the net leaves bank, receivable and payable at zero. Oracles read Native tables only.",
+  "R3_03_SCREEN_CHAINS": "Fable oracle 3 for owner D16-1: the business chains run on the screens alone, on real Auth and PostgREST (and again on the Enteng build), with every amount checked against Native rows: (a) sewing on WIP & Sewing -> Nota on Susun Nota FG -> count, approve and pay on Payroll & Kasbon -> Kas & Bank day totals -> Laporan cash and WIP -> close through the chain day on the Tutup Buku tab with 0 blockers, then reopen; seeded ADMIN sees the approved payroll without a pay button or the Tutup Buku tab; (b) on a phone, FG -> invoice -> full customer payment into a bank -> receipt on Kas & Bank -> Piutang Pelanggan Lunas, remaining Rp0; (c) the D14-2 (pay before accrual), D14-3/D15-1 (bank short by economic or by book date) and D15-5 (before the official cutover, on Jurnal & Transaksi Lain) guards refuse with their exact sentence and no Native change, and the lawful payment then goes through."
  },
  "oracle_independence": "Dates from the Native accrual journals and source rows; balances from journal lines and stock movements; never from the guard functions.",
  "fixture_capital": "Banks that pay hold owner capital through the accepted Native journal (scripts/cp7_cash_funding.py) only where a case says so; empty-bank cases keep the bank empty.",
