@@ -33,6 +33,7 @@ D16-1 (1-5) is in `audit/fable_cp17_r2/OWNER_DECISION_TO_AUDITOR_20261016_UNHIDE
 | `screenActivation`: no hidden menu in Enteng (47 menus; dashboard is NOTICE) | `src/screenActivation.test.ts` passes |
 | Fable oracle 3 chains (sewing -> close; FG -> AR zero on a phone; D14-2, D14-3/D15-1, D15-5 guards) | `cp7_r3_chain_cases.py`, `cp7_r3_chain_browser.mjs` (registered right after R2-07) |
 | R3-06/07 test tools (Laundry alert read without waiting; CI receipt reads every page), R3-08 CP6 workflow successor map | commit 0e9e6fbc; `docs/cp7/audit-candidate/cp1-7-r3-20261017/R3_08_CP6_WORKFLOW_SUCCESSORS.md` |
+| r3 package drafts: README, three retest boxes, SCREEN_MAP, install-time checks | `docs/cp7/audit-candidate/cp1-7-r3-20261017/`, `docs/cp7/cp17/R3_INSTALL_TIME_CHECKS.md` |
 | R3-05 (FABLE-016 remainder): QC & Final SKU and accessory note -> payroll browser cases | `cp7_r3_qc_note_cases.py`, `cp7_r3_qc_note_browser.mjs` |
 
 Declaration `docs/cp7/cp17/CP17_FIXES.json`: 321 cases (native 153, races 34, http 24, browser 55, browser_enteng 55);
@@ -40,15 +41,19 @@ private role stack 49 (`cp7_f03_full_probe.py`, both manifests).
 
 ## Not done yet (in this order)
 
-1. CI on the current head: dispatch `claude-cp17-fixes.yml`, `cp7-p13-period.yml`, `cp7-f03-p13-regression.yml`,
-   `claude-p13-finance.yml` and the F03 full workflow on `claude/r3-fixes-20261017`; fix real failures (the 5 new screens'
-   CP17 cases, the 17 HPP pool cases, the 3 R3-05 and the 3 chain browser cases have never run on the full stack yet; see each module's docstring and the
-   risky selectors named there: QC search box `nav.clq-tabs input`, `.clq-impact`, `.cpay-net`).
-2. Docs: r3 notes for D16-5, the D16-1 screens and the Enteng build go into the r3 package (its SCREEN_MAP lists
-   "Laporan & Tutup Buku" with the Tutup Buku tab; older packages' SCREEN_MAP stay as they were). Install-time checks are
-   in `docs/cp7/cp17/R3_INSTALL_TIME_CHECKS.md` (run at install, never on hosted now).
-3. Qualify r3 on one commit (fast-forward `claude/new-session-deapao`, qualify, CI receipt, package + handoffs for
-   Fable/Astra/Sol), then the owner report.
+1. CP17 run 39024246702 on `2bb9e774` (all code fixes so far): if a case fails, root-cause it, fix without loosening an
+   oracle, keep the log, re-dispatch `claude-cp17-fixes.yml` on `claude/r3-fixes-20261017`. The other CP7 workflows
+   (F03 full, F03-P13 regression, P13 finance, P13 period) were green at `26a107d3`/`9cc56e1b`.
+2. Qualify on one commit: fast-forward `claude/new-session-deapao` to the `claude/r3-fixes-20261017` head (it is a
+   descendant of the r2 package head `b388a4b7`), then dispatch every qualification workflow on ref
+   `claude/new-session-deapao` that has no run on that SHA yet (the r2 set: the 78 workflows of the r1 receipt, "UI phone
+   width census", the `cp6-*` workflows and every workflow file changed since `dfab13bf`; see the r2 README "Kandidat").
+   Build the receipt with `python3 scripts/cp7_ci_receipt.py <SHA> docs/cp7/audit-candidate/cp1-7-r3-20261017/CI_RECEIPT.json`.
+3. Package: fill `<KANDIDAT>`, `<TREE>`, `<RECEIPT>`, `<kandidat8>`, `<PANDUAN_SHA>` (sha256 of
+   `docs/AUDIT_PANDUAN_PRO_MAX.md`) in the three `HANDOFF_*.md` boxes and the README "Kandidat" section (drafts are in
+   `docs/cp7/audit-candidate/cp1-7-r3-20261017/`); docs-only commits after the candidate.
+4. Owner report: short, plain Indonesian (CLAUDE.md): what is ready, that the owner copies the three boxes, no decision needed
+   unless one came up.
 
 Held, not part of r3: CP7C and FABLE-012. Add to the CP7C revoke batch: the CP4 public pool wrappers
 `public.erp_{preview,create,activate,cancel}_attendance_hpp_pool_v1` (still executable by authenticated; they skip the
