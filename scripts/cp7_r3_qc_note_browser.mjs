@@ -108,16 +108,19 @@ async function qcFinal(ui,today,mobile,h){
   if(!mobile){
    // The answer is lost on the way back: the server has committed, the screen does not know it yet.
    // What the interception saw is kept (CI 39019699925: the answer stayed null on desktop while the phone path passed).
-   const intercept=seen.intercept=[]
+   // CI 39022821912: the screen shows "Cek status transaksi" while the post is still in flight (the pending envelope is
+   // already stored), so the case first waits until the interception has the server's answer, then checks the screen.
+   const intercept=seen.intercept=[];let intercepted;const interceptedOnce=new Promise(resolve=>{intercepted=resolve})
    await page.route('**/rest/v1/rpc/erp_save_laundry_qc_action_v1',async route=>{
     if(answer)return route.continue()
     let reply
-    try{reply=await route.fetch()}catch(error){intercept.push({fetch_error:String(error).slice(0,500)});throw error}
+    try{reply=await route.fetch()}catch(error){intercept.push({fetch_error:String(error).slice(0,500)});intercepted();throw error}
     const text=await reply.text();intercept.push({status:reply.status(),body:text.slice(0,800)})
-    if(reply.status()!==200){await route.fulfill({response:reply});return}
-    answer=JSON.parse(text);await route.abort('failed')
+    if(reply.status()!==200){await route.fulfill({response:reply});intercepted();return}
+    answer=JSON.parse(text);await route.abort('failed');intercepted()
    })
    await post.click()
+   await Promise.race([interceptedOnce,new Promise((_,reject)=>setTimeout(()=>reject(new Error('CP17_R3_05_QC_POST_NOT_ANSWERED_IN_90S')),90000))])
    const check=page.getByRole('button',{name:'Reconcile UUID lama',exact:true});await ui.expect(check).toBeVisible({timeout:20000})
    await ui.expect(page.locator(`button[aria-label="${POST_QC}"]:enabled`)).toHaveCount(0)
    assert.ok(answer&&answer.committed===true,JSON.stringify({answer,intercept,alert:await page.locator('.clq-alert').allInnerTexts()}))
