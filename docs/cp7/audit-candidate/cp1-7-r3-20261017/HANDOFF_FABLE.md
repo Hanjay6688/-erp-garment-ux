@@ -13,11 +13,11 @@ temuan ketiga auditor di putaran r3 dan menerapkan keputusan owner D16-1 sampai 
 kandidat yang sama secara terpisah.
 
 KANDIDAT
-- Commit 82450d8adb15dbd6907f4edfbfa187a6a606ff16, tree 68d26e5ead459fe9037be42dacf27f5341f55b79. Basis r2: 2e9d6a468c110684c278d585418eb404250d1150
+- Commit b53b5acdf260b03ebac3474e9ae837fcef6f6eb1, tree 32f54240a60e01ab8b1ffad7267d285a669be520. Basis r2: 2e9d6a468c110684c278d585418eb404250d1150
   (tree 5e50d224f8e74fa3bca83b599fb606739435b598). Commit sesudah kandidat di cabang writer hanya dokumen; buktikan:
-  git diff --name-only 82450d8adb15dbd6907f4edfbfa187a6a606ff16 origin/claude/new-session-deapao. Catat tree produk sebelum dan sesudah auditmu (Pro Max §2.8).
-- supabase/ tidak berubah sejak 2e9d6a46 (git diff --name-only 2e9d6a46 82450d8adb15dbd6907f4edfbfa187a6a606ff16 -- supabase kosong). Perubahan produk ada
-  di scripts/cp7-src/ (lapisan CP7) dan src/; daftar lengkap: git diff --stat 2e9d6a46 82450d8adb15dbd6907f4edfbfa187a6a606ff16 -- src scripts tests .github.
+  git diff --name-only b53b5acdf260b03ebac3474e9ae837fcef6f6eb1 origin/claude/new-session-deapao. Catat tree produk sebelum dan sesudah auditmu (Pro Max §2.8).
+- supabase/ tidak berubah sejak 2e9d6a46 (git diff --name-only 2e9d6a46 b53b5acdf260b03ebac3474e9ae837fcef6f6eb1 -- supabase kosong). Perubahan produk ada
+  di scripts/cp7-src/ (lapisan CP7) dan src/; daftar lengkap: git diff --stat 2e9d6a46 b53b5acdf260b03ebac3474e9ae837fcef6f6eb1 -- src scripts tests .github.
 - Bukti penulis: docs/cp7/audit-candidate/cp1-7-r3-20261017/CI_RECEIPT.json (<RECEIPT>); docs/cp7/cp17/CP17_FIXES.json
   (321 kasus CP17 dideklarasikan sebelum dijalankan: 153 Native, 34 race, 24 HTTP Auth nyata, 55 browser, dan 55 kasus
   browser yang sama di build mode Enteng; workflow "CP7 CP17 Fixes"). Run, job dan kasus disebut terpisah.
@@ -85,9 +85,9 @@ ATURAN
   sama dengan putaran sebelumnya). Bila ada beda, berkas di repo yang berlaku.
 
 LAPORAN
-- Satu cabang audit baru, usul: audit/fable-cp1-7-r3-82450d8a-<tanggal>, dikunci dengan commit sebelum membaca laporan
+- Satu cabang audit baru, usul: audit/fable-cp1-7-r3-b53b5acd-<tanggal>, dikunci dengan commit sebelum membaca laporan
   auditor lain di putaran ini:
-  1. audit/fable_cp17_r3/RETEST_FABLE_82450d8a.md — per temuan dan per oracle D16-1: DITUTUP / MASIH TERBUKA / BARU,
+  1. audit/fable_cp17_r3/RETEST_FABLE_b53b5acd.md — per temuan dan per oracle D16-1: DITUTUP / MASIH TERBUKA / BARU,
      dengan bukti;
   2. audit/fable_cp17_r3/FINDINGS.json — temuan baru per akar masalah, tingkat, bukti; daftar yang harus beres sebelum
      pemasangan ke Enteng; daftar "belum saya periksa".
