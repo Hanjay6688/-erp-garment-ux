@@ -1,0 +1,378 @@
+[
+  {
+    "section": null,
+    "label": "Dashboard",
+    "title": "Ringkasan bisnis",
+    "page": "dashboard",
+    "enteng": "NOTICE",
+    "test": "NOTICE"
+  },
+  {
+    "section": "Produksi",
+    "label": "Buat Potongan",
+    "title": "Buat Potongan",
+    "page": "cutting-roll",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Produksi",
+    "label": "Bagi Potongan",
+    "title": "Bagi Potongan",
+    "page": "mandor-wip",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Produksi",
+    "label": "WIP & Sewing",
+    "title": "WIP & Sewing",
+    "page": "sewing-wip",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Produksi",
+    "label": "Laundry",
+    "title": "Laundry",
+    "page": "laundry",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Produksi",
+    "label": "QC & Final SKU",
+    "title": "QC & Final SKU",
+    "page": "qc",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Produksi",
+    "label": "Susun Nota FG",
+    "title": "Susun Nota FG",
+    "page": "fg-handoff",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Produksi",
+    "label": "Barang BS & Rework",
+    "title": "Barang BS & Rework",
+    "page": "bs-rework",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Gudang",
+    "label": "Ringkasan Gudang",
+    "title": "Ringkasan Gudang",
+    "page": "warehouse-dashboard",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Gudang",
+    "label": "Pembelian & Penerimaan",
+    "title": "Pembelian & Penerimaan",
+    "page": "procurement",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Gudang",
+    "label": "Bahan & Roll",
+    "title": "Bahan & Roll",
+    "page": "materials-rolls",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Gudang",
+    "label": "Kain kantong",
+    "title": "Kain kantong",
+    "page": "pocket-fabric",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Gudang",
+    "label": "Aksesori",
+    "title": "Aksesori",
+    "page": "accessories",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Gudang",
+    "label": "Ringkasan Barang Jadi",
+    "title": "Ringkasan Barang Jadi",
+    "page": "fg-summary",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Gudang",
+    "label": "Mutasi Barang Jadi · Vivo",
+    "title": "Mutasi Barang Jadi · Vivo",
+    "page": "movements-vivo",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Gudang",
+    "label": "Mutasi Barang Jadi · Widie",
+    "title": "Mutasi Barang Jadi · Widie",
+    "page": "movements-widie",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Gudang",
+    "label": "Kartu Stok FG",
+    "title": "Kartu Stok FG",
+    "page": "stock-card",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Gudang",
+    "label": "Stock Adjustment",
+    "title": "Stock Adjustment",
+    "page": "stock-adjustment",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Gudang",
+    "label": "Ganti Merek",
+    "title": "Ganti Merek",
+    "page": "brand-conversion",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Penjualan",
+    "label": "Penjualan & Invoice",
+    "title": "Penjualan & Invoice",
+    "page": "sales-invoice",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Penjualan",
+    "label": "Semua Invoice",
+    "title": "Semua Invoice",
+    "page": "sales-allocation",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Penjualan",
+    "label": "Retur Penjualan",
+    "title": "Retur Penjualan",
+    "page": "sales-returns",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Penjualan",
+    "label": "Pembayaran Pelanggan",
+    "title": "Pembayaran Pelanggan",
+    "page": "sales-payments",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Penjualan",
+    "label": "Riwayat Pelanggan",
+    "title": "Riwayat Pelanggan",
+    "page": "sales-history",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Ringkasan Keuangan",
+    "title": "Ringkasan Keuangan",
+    "page": "finance-overview",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Kas & Bank",
+    "title": "Kas & Bank",
+    "page": "finance-cash",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Hutang Supplier & Vendor",
+    "title": "Hutang Supplier & Vendor",
+    "page": "finance-ap",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Piutang Pelanggan",
+    "title": "Piutang Pelanggan",
+    "page": "finance-ar",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Payroll & Kasbon",
+    "title": "Payroll & Kasbon",
+    "page": "finance-payroll",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Absensi & Rate Harian",
+    "title": "Absensi & Rate Harian",
+    "page": "operations-attendance",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Nota Ambil Aksesori",
+    "title": "Nota Ambil Aksesori",
+    "page": "contractor-issue",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Keuangan",
+    "label": "HPP & Rekalkulasi",
+    "title": "HPP & Rekalkulasi",
+    "page": "hpp",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Jurnal & Transaksi Lain",
+    "title": "Jurnal & Transaksi Lain",
+    "page": "finance-journal",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Keuangan",
+    "label": "Laporan & Tutup Buku",
+    "title": "Laporan & Tutup Buku",
+    "page": "finance-reports",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Master Data",
+    "label": "Kain & Benchmark",
+    "title": "Kain & Benchmark",
+    "page": "master-fabric",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Master Data",
+    "label": "Aksesori & Harga Mandor",
+    "title": "Aksesori & Harga Mandor",
+    "page": "master-accessory",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Master Data",
+    "label": "Produk & SKU",
+    "title": "Produk & SKU",
+    "page": "master-products",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Master Data",
+    "label": "Pelanggan",
+    "title": "Pelanggan",
+    "page": "master-customers",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Master Data",
+    "label": "Supplier & Vendor",
+    "title": "Supplier & Vendor",
+    "page": "master-partners",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Master Data",
+    "label": "Mandor",
+    "title": "Mandor",
+    "page": "master-workforce",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Master Data",
+    "label": "Gudang & Lokasi",
+    "title": "Gudang & Lokasi",
+    "page": "master-locations",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Master Data",
+    "label": "Pola",
+    "title": "Pola",
+    "page": "master-pattern",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Pengaturan & Audit",
+    "label": "Reminder",
+    "title": "Reminder",
+    "page": "admin-reminders",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Pengaturan & Audit",
+    "label": "Pengguna & Hak Akses",
+    "title": "Pengguna & Hak Akses",
+    "page": "admin-access",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Pengaturan & Audit",
+    "label": "Pengaturan ERP",
+    "title": "Pengaturan ERP",
+    "page": "admin-settings",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Pengaturan & Audit",
+    "label": "Impor data awal",
+    "title": "Impor data awal",
+    "page": "admin-import",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  },
+  {
+    "section": "Pengaturan & Audit",
+    "label": "Audit Trail",
+    "title": "Audit Trail",
+    "page": "admin-audit",
+    "enteng": "CONNECTED",
+    "test": "CONNECTED"
+  }
+]

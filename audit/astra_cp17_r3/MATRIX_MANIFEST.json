@@ -1,0 +1,26 @@
+{
+  "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "created_at_utc": "2026-10-17T17:18:16.607842+00:00",
+  "matrix_scope": "47 menus x desktop1440/phone390 x DEMO, DISPOSABLE and Enteng mode redirected to disposable real Auth/REST. All entries must render under D16-1; D16-5 merges Tutup Periode into finance-reports. Initial render/layout/read only, no full-form claim.",
+  "modes": [
+    "DEMO_SIMULATION",
+    "DISPOSABLE_TEST",
+    "UAT_AUTH_SIMULATION"
+  ],
+  "expected_per_mode": 94,
+  "expected_total": 282,
+  "strict_width": "document.documentElement.scrollWidth <= innerWidth; no 1px tolerance",
+  "hidden_enteng_per_device": 0,
+  "test_rules": [
+    "lazy workspace ready and network quiescent800ms",
+    "nonempty body; no browser exception or initialRPC>=400",
+    "strict document width; record overflowing descendants separately",
+    "Original independent inventory retained; remove only admin-period-close per D16-5; all remaining formerly hidden/boundary/sample connected entries now CONNECTED per D16-1."
+  ],
+  "source_sha256": {
+    "matrix_probe.py": "d2e7f6f6912e608dcda88554444c49fa4bcf3c9b8c8bfbeb116494982373a306",
+    "matrix.mjs": "47aa44026a86a260c3a5dc9c4812452a03a61360904dbb22d0eccad48c039d0b",
+    "browser_host.mjs": "78c9e250e1892e6f762075aa86c3df196dadff17a4e7a5fe9c42529786837de3",
+    "MENUS.json": "3075256861ce37cb6f314f2813ba8074103f06ec5d76668f2aae00f250cf0d05"
+  }
+}
