@@ -41,20 +41,14 @@ private role stack 49 (`cp7_f03_full_probe.py`, both manifests).
 
 ## Not done yet (in this order)
 
-1. Candidate `b53b5acdf260b03ebac3474e9ae837fcef6f6eb1` (tree `32f54240a60e01ab8b1ffad7267d285a669be520`) is qualified:
-   116 runs on 115 workflows, 95 runs green; the main list (81 workflows, same as r2) is all green; the 21 red workflows
-   are the r2 set exactly (20 historic scope checks + CP6 AF Posted Child Family expired artifact; each fails at the same
-   step as on r2). CP17 run 39035959038: 321/321 PASS (153/34/24/55/55), 1217 Enteng requests answered by loopback, 0
-   route errors. F05 attempt 1 died at "Start disposable database" (image pull `toomanyrequests`), attempt 2 green. Interim
-   `CI_RECEIPT.json` committed. Still open: the full writer CP6 Auditor Scenario on the candidate (parity with r2), run
-   39044984302 (dispatch on ref `claude/new-session-deapao` with `inputs[scenario_path]=scripts/cp6_bf_combined_modes.py`,
-   `inputs[browser_path]=scripts/cp6_bf_vendor_browser.mjs`). Expected: native 104, race 26, HTTP 9, browser 27 PASS + the
-   4 known INCOMPLETE (as on 82450d8a runs 39027273406 / 39027496786). When it ends, regenerate the receipt.
-2. Fill `<RECEIPT>` in the three boxes (then drop the "do not send while `<...>`" note; `<tanggal>` in the branch name is
-   for the auditor) and the README "Kandidat" section (same layout as the r2 README; draft numbers above). Docs-only
-   commits after the candidate; push them to `claude/r3-fixes-20261017` and fast-forward `claude/new-session-deapao`.
-3. Owner report: short, plain Indonesian (CLAUDE.md): what is ready, that the owner copies the three boxes, no decision needed
-   unless one came up.
+1. Owner report: short, plain Indonesian (CLAUDE.md): the r3 package is ready, the owner copies the three boxes
+   (`HANDOFF_FABLE.md`, `HANDOFF_ASTRA.md`, `HANDOFF_SOL.md`), no decision needed.
+
+Done at the end of r3: candidate `b53b5acdf260b03ebac3474e9ae837fcef6f6eb1` (tree
+`32f54240a60e01ab8b1ffad7267d285a669be520`) qualified; `CI_RECEIPT.json` has 117 runs on 115 workflows (95 green; the
+main list of 81 all green; 21 old CP6 workflows red exactly as on r2, same failing step and script line; the full writer
+CP6 scenario run 39044984302 red only for the 4 known INCOMPLETE). README "Kandidat" and the three boxes are filled;
+docs-only commits after the candidate are on `claude/r3-fixes-20261017` and `claude/new-session-deapao`.
 
 Held, not part of r3: CP7C and FABLE-012. Add to the CP7C revoke batch: the CP4 public pool wrappers
 `public.erp_{preview,create,activate,cancel}_attendance_hpp_pool_v1` (still executable by authenticated; they skip the
@@ -86,3 +80,4 @@ new facade's closed-books refusal, review token and request table; `cp7_hpp_pool
 | test(r3)/docs: candidate 82450d8a | CP17 39025697040: 321/321 PASS, 1218 Enteng requests answered by loopback, 0 route errors. Qualification started on `claude/new-session-deapao` |
 | test(build-ux): Susun Nota FG oracle follows D16-1 | Qualification of 82450d8a: 117 runs, 93 success. New vs r2 only Build UX: `tests/browser/cp6-laundry-qc.spec.ts` still expected the D15-2 "WRITER DIBLOKIR" boundary in connected UAT. Updated to D16-1 keeping its intent (the legacy browser Nota writer never opens, no CP6 writer call; the connected Nota screen reads only through the CP7 facade); the 26 CP6 browser tests pass locally. The other failures equal r2 (historic scope checks, expired artifact, CP6 Auditor Scenario's 4 known INCOMPLETE). A new candidate is qualified because a test file changed |
 | docs(r3): interim receipt at candidate b53b5acd | Qualification of b53b5acd complete: 116 runs, 95 green, red set equal to r2 (21 old CP6 workflows, same failing steps). CP17 39035959038 321/321. Full writer CP6 scenario dispatched for parity: run 39044984302 |
+| docs(r3): package ready at candidate b53b5acd | Full writer CP6 scenario 39044984302: native 104/104, race 26/26, HTTP 9/9, browser 27 PASS + the 4 known INCOMPLETE (finance screen now also calls `erp_cp7_get_hpp_pools_v1`, absent from the CP6 stack). Receipt 117 runs / 95 green. The 21 red old CP6 workflows were compared log by log with r2: same step and script line; 10 identical messages, 10 the same file list plus the 78 files changed since 2e9d6a46. README Kandidat and the three boxes filled |

@@ -1,8 +1,7 @@
 # Uji ulang r3 CP1–CP7 — untuk Fable
 
 Owner menyalin **seluruh isi kotak di bawah** ke sesi Fable. Kandidatnya sama untuk Fable, Astra dan Sol.
-Rincian: `README.md` di folder ini. Kotak belum boleh dikirim selama masih ada tanda `<...>` (angka receipt diisi penulis sesudah semua run kandidat
-selesai).
+Rincian: `README.md` di folder ini.
 
 ````text
 Kamu Fable, auditor independen. Ini UJI ULANG PUTARAN r3 untuk ERP Garment, repo Hanjay6688/-erp-garment-ux, cabang
@@ -18,7 +17,9 @@ KANDIDAT
   git diff --name-only b53b5acdf260b03ebac3474e9ae837fcef6f6eb1 origin/claude/new-session-deapao. Catat tree produk sebelum dan sesudah auditmu (Pro Max §2.8).
 - supabase/ tidak berubah sejak 2e9d6a46 (git diff --name-only 2e9d6a46 b53b5acdf260b03ebac3474e9ae837fcef6f6eb1 -- supabase kosong). Perubahan produk ada
   di scripts/cp7-src/ (lapisan CP7) dan src/; daftar lengkap: git diff --stat 2e9d6a46 b53b5acdf260b03ebac3474e9ae837fcef6f6eb1 -- src scripts tests .github.
-- Bukti penulis: docs/cp7/audit-candidate/cp1-7-r3-20261017/CI_RECEIPT.json (<RECEIPT>); docs/cp7/cp17/CP17_FIXES.json
+- Bukti penulis: docs/cp7/audit-candidate/cp1-7-r3-20261017/CI_RECEIPT.json (117 run dari 115 workflow pada kandidat;
+  81 workflow daftar utama semuanya lulus; 21 workflow CP6 lama merah, sama dengan r2; rincian di README.md bagian
+  Kandidat); docs/cp7/cp17/CP17_FIXES.json
   (321 kasus CP17 dideklarasikan sebelum dijalankan: 153 Native, 34 race, 24 HTTP Auth nyata, 55 browser, dan 55 kasus
   browser yang sama di build mode Enteng; workflow "CP7 CP17 Fixes"). Run, job dan kasus disebut terpisah.
 - Paket: docs/cp7/audit-candidate/cp1-7-r3-20261017/ (README.md per akar R3-01..R3-09 + D16-5, CROSS_AUDIT.md audit silang

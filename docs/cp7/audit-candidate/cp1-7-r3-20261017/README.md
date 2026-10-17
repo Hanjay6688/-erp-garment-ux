@@ -1,7 +1,6 @@
 # Paket uji ulang r3 CP1–CP7 (perbaikan atas audit r2 `2e9d6a46`)
 
-**Status: SEDANG DIKUALIFIKASI — kandidat belum dipatok. Bagian Kandidat diisi sesudah semua workflow berjalan pada satu
-commit.**
+**Status: SIAP DIKIRIM — kandidat `b53b5acd` lulus kualifikasi satu commit (rincian di bagian Kandidat).**
 
 Fable, Astra dan Sol menguji ulang kandidat r2 `2e9d6a46`. Penulis menyatukan ketiga laporan per akar masalah di
 `CROSS_AUDIT.md` (R3-01 sampai R3-09), lalu memperbaiki semuanya di cabang `claude/r3-fixes-20261017` bersama keputusan
@@ -18,12 +17,45 @@ Penulis tidak mengirim apa pun.
 | `R3_09_RATE_CHOICE_DESIGN.md` | Rancangan pilihan tarif lama/baru (D16-2..D16-4) |
 | `HANDOFF_FABLE.md`, `HANDOFF_ASTRA.md`, `HANDOFF_SOL.md` | Kotak yang disalin owner ke sesi masing-masing auditor |
 | `CI_RECEIPT.json` | Semua run workflow dan job pada kandidat (dibuat sesudah kualifikasi) |
+| `CI_RECEIPT_FIRST_82450d8a.json` | Receipt kualifikasi pertama pada `82450d8a` (sebelum perbaikan uji Build UX) |
 | `../../cp17/R3_WRITER_HANDOFF.md` | Serah-terima untuk penulis cadangan, termasuk log titik simpan (bukan untuk auditor) |
 | `../../cp17/R3_INSTALL_TIME_CHECKS.md` | Pemeriksaan yang hanya bisa dilakukan di database Enteng saat pemasangan (CP7C), bukan sekarang |
 
 ## Kandidat
 
-(Diisi sesudah kualifikasi: commit, tree, receipt, hasil CP17 per grup.)
+- **Commit `b53b5acdf260b03ebac3474e9ae837fcef6f6eb1`**, tree `32f54240a60e01ab8b1ffad7267d285a669be520`, di cabang
+  `claude/new-session-deapao` (di-fast-forward dari `claude/r3-fixes-20261017`). Commit sesudahnya di cabang itu hanya
+  mengubah `docs/`: `git diff --name-only b53b5acd origin/claude/new-session-deapao`.
+- Perubahan terakhir sebelum kandidat: `89f76d9a`, uji Build UX untuk Susun Nota FG mengikuti D16-1 (temuan kualifikasi
+  pertama, di bawah). Perubahan layar terakhir: `26ef53fd` (layar kasbon). `supabase/` tidak berubah sejak `2e9d6a46`.
+- **`CI_RECEIPT.json`:** 117 run dari 115 workflow pada commit itu; 95 run lulus; 181 job, 159 lulus.
+  Semua percobaan pertama kecuali CP7 F05 Native Frozen Analysis (run 39036085365): percobaan pertama mati di langkah
+  "Start disposable database" sebelum kasus apa pun berjalan (runner gagal mengunduh image database: `toomanyrequests:
+  Data limit exceeded`), dijalankan ulang sekali, percobaan kedua lulus. CP6 Auditor Scenario dijalankan tiga kali (lihat
+  di bawah). Receipt dibuat dengan `scripts/cp7_ci_receipt.py` di repo (membaca semua halaman, R3-07).
+- **Kasus CP17:** run 39035959038, job 117405653747: 321 kasus yang dideklarasikan PASS, 0 gagal (Native 153, race 34,
+  HTTP 24, browser 55, browser build Enteng 55), ditambah `CP6_AUDITOR_PUBLIC_STATE_STABLE_ORDER`. Di grup build Enteng
+  1.217 permintaan ke alamat proyek Enteng dijawab API lokal runner, 0 galat rute.
+
+**Daftar utama, wajib lulus: 81 workflow, semuanya lulus** (daftar yang sama dengan r2).
+
+**Workflow CP6 lama lainnya: 35 workflow** (informasi; tidak ada pemeriksaan yang dilonggarkan):
+
+| Hasil | Jumlah | Workflow dan sebab |
+|---|---|---|
+| Lulus | 12 | AU Proposal Catalog Capture, AU Frozen Identity Authority Review, AV Rev2 Catalog Capture, T1 Family Probe AW, AX, AY, AZ, BA, BB, BC, BD, S06 Close Preflight Probe |
+| Merah: pemeriksaan cakupan historis | 20 | Skrip cakupan memastikan checkout masih usulan lamanya: 11 membandingkan daftar berkas yang berubah (`AT_SCOPE`, `AS_SCOPE`, `AUDITOR_SCOPE`, `AS_PROBE_SOURCE_SCOPE`, dll.), 9 menolak merge commit sesudah commit yang dipatok. Workflow ini hanya lulus pada commit historisnya sendiri. Tiap workflow gagal di langkah dan baris skrip yang sama dengan r2: 10 dengan pesan identik (9 penolak merge commit dan AU Independent AT Review, yang tidak mencetak daftarnya), 10 dengan daftar berkas r2 ditambah 78 berkas yang berubah sejak `2e9d6a46` dan tanpa berkas yang hilang |
+| Merah: artifact kedaluwarsa | 1 | CP6 AF Posted Child Family: artifact 10418502157 sudah habis masa simpan (HTTP 410), sama dengan r2 |
+| CP6 Auditor Scenario | 1 | (a) Contoh bawaan, run 39036007140 (5 kasus PASS) dan run 39036138199: keduanya lulus. (b) Skenario penulis lengkap `scripts/cp6_bf_combined_modes.py` + `scripts/cp6_bf_vendor_browser.mjs`, run 39044984302: native 104/104, race 26/26, HTTP 9/9, browser 27 PASS dan 4 INCOMPLETE yang sama dengan r2 (karena itu run ini merah): `READINESS_BROWSER:{DESKTOP,MOBILE}_NATIVE_POLICY_STATES_FINANCE_NOTE` (layar keuangan memanggil `erp_cp7_get_recost_queue_v1` dan kini juga `erp_cp7_get_hpp_pools_v1`, yang tidak ada di tumpukan CP6 skenario ini) dan `BF_BROWSER:SALES_MANUAL_13_{DESKTOP,MOBILE}` (dipensiunkan, `docs/cp7/RETIRED_CP6_SALES_MANUAL_13.md`) |
+| Tidak dijalankan | 1 | CP6 AC Independent Audit tidak punya pemicu manual |
+
+**Kualifikasi pertama pada `82450d8a`** (`CI_RECEIPT_FIRST_82450d8a.json`, 117 run, 93 lulus): dibanding r2 hanya Build UX
+yang baru merah. `tests/browser/cp6-laundry-qc.spec.ts` masih mengharapkan batas D15-2 ("WRITER DIBLOKIR") untuk Susun
+Nota FG, padahal D16-1 menyambungkan layar itu. Uji diubah mengikuti D16-1 dengan maksud yang sama (penulis Nota browser
+lama tidak pernah terbuka, tidak ada panggilan penulis CP6; layar Nota tersambung hanya membaca lewat fasad CP7);
+best practice 16a. Karena ada berkas uji yang berubah, kandidat baru `b53b5acd` dikualifikasi ulang penuh. Skenario
+penulis lengkap di `82450d8a` (run push 39027273406 dan run 39027496786): native 104/104, race 26/26, HTTP 9/9, browser
+27 PASS dan 4 INCOMPLETE yang sama dengan r2.
 
 ## Perbaikan per akar
 
