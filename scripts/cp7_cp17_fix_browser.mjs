@@ -20,6 +20,7 @@ import*as settings from'./cp7_r3_settings_browser.mjs'
 import*as audit from'./cp7_r3_audit_browser.mjs'
 import*as history from'./cp7_r3_history_browser.mjs'
 import*as warehouse from'./cp7_r3_warehouse_browser.mjs'
+import*as r305 from'./cp7_r3_qc_note_browser.mjs'
 import*as r207 from'./cp7_r207_chain_browser.mjs'
 const fixture=(operation,payload)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_cp17_fix_browser_fixture.py',operation],{input:JSON.stringify(payload),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 async function menu(page){const open=page.getByRole('button',{name:'Buka menu',exact:true});if(await open.isVisible())await open.click();const link=page.getByRole('button',{name:'• Bagi Potongan',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Produksi'}).click();await link.click()}
@@ -348,4 +349,7 @@ export function cases(ui,today){return[
  // R3-03 (owner D16-1): Riwayat Pelanggan on real data (cp7_r3_history_browser.mjs).
  ...history.cases(ui,today,{fixture,noSideScroll,failure}),
  // R3-03 (owner D16-1): Ringkasan Gudang from real stock, as OWNER and GUDANG (cp7_r3_warehouse_browser.mjs).
- ...warehouse.cases(ui,today,{fixture,noSideScroll,failure})]}
+ ...warehouse.cases(ui,today,{fixture,noSideScroll,failure}),
+ // R3-05 (Fable FABLE-016 remainder): QC & Final SKU, and a Nota Ambil Aksesori deducted from payroll, on the connected
+ // screens (cp7_r3_qc_note_browser.mjs). Kept last: their fixtures set closed_through themselves.
+ ...r305.cases(ui,today,{fixture,noSideScroll,failure})]}

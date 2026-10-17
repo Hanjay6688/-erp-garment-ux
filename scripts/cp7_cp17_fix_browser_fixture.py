@@ -420,6 +420,23 @@ def main():
                 per.append(dict(rates=[str(r[0]) for r in rows],revised=[bool(r[1]) for r in rows],qty=int(rows[0][2]),wage=[str(x) for x in cases.wage_journal(cur,w)]))
             out=dict(records=per,revisions=one('select count(*) from cp7_cutting_correction.rate_revisions where po_id=%s',(p['po'],))[0],
                      switched=one('select count(*) from cp7_cutting_correction.po_rate_modes where po_id=%s',(p['po'],))[0])
+        elif operation=='r305_qc':
+            # R3-05 (FABLE-016 remainder): the G2 chain stopped before its Final SKU (ten pieces back GOOD from laundry), a
+            # fresh Final SKU, and a seeded role that may view QC & Final SKU but not post it (cp7_r3_qc_note_cases.py).
+            import cp7_r3_qc_note_cases as r305
+            out=r305.qc_fixture(cur,date.fromisoformat(p['today']))
+        elif operation=='r305_qc_state':
+            # Native rows only: QC inspections/items, FG lots and movements, BS cases, WIP stage events, PO stage, HPP, journals.
+            import cp7_r3_qc_note_cases as r305
+            out=r305.qc_state(cur,p)
+        elif operation=='r305_note':
+            # The P12 work-only payroll draft (6000.00), an accessory with 1000 PCS, a bank with owner capital of exactly the net.
+            import cp7_r3_qc_note_cases as r305
+            out=r305.note_fixture(cur,date.fromisoformat(p['today']))
+        elif operation=='r305_note_state':
+            # Native rows only: accessory issues/items, stock, payroll settlement and deductions, contractor and bank journal lines.
+            import cp7_r3_qc_note_cases as r305
+            out=r305.note_state(cur,p)
         elif operation=='r207_prepare':out=r207_prepare(cur,date.fromisoformat(p['today']))
         elif operation=='r207_state':out=r207_state(cur,p)
         elif operation=='r207_restore':out=r207_restore(cur,p)

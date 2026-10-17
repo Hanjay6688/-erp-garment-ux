@@ -7,6 +7,9 @@ sessions at the 999/1000 boundary and a resend with the same UUID.
 
 R3-09 (owner D16-2, D16-3, D16-4): cp7_r3_rate_cases.py, the old or new Mandor rate when sewing is finished.
 
+R3-05 (Fable FABLE-016 remainder): cp7_r3_qc_note_cases.py, QC & Final SKU and the accessory note deducted from payroll, on
+the connected screens (browser cases).
+
 R3-03 / owner D16-5: cp7_r3_period_cases.py, "Tutup Periode" as the "Tutup Buku" tab of "Laporan & Tutup Buku" (history
 from the Native audit rows, report right and close right kept separate).
 
@@ -29,6 +32,7 @@ import cp7_r3_settings_cases as settings
 import cp7_r3_audit_cases as audit
 import cp7_r3_history_cases as history
 import cp7_r3_warehouse_cases as warehouse
+import cp7_r3_qc_note_cases as qcnote
 b=po.b
 
 NATIVE=['CP17_R3_01_AUTO_PO_NUMBER_999_CONTROL','CP17_R3_01_AUTO_PO_NUMBER_1000_BOUNDED','CP17_R3_01_AUTO_PO_NUMBER_999_TO_1000_ASTRA',
@@ -79,6 +83,10 @@ RACES=RACES+warehouse.RACES
 HTTP=HTTP+warehouse.HTTP
 BROWSER=BROWSER+warehouse.BROWSER
 FUNCTIONS=FUNCTIONS+tuple(warehouse.FUNCTIONS)
+# R3-05 (Fable FABLE-016 remainder): QC & Final SKU and Nota Ambil Aksesori -> payroll on the connected screens
+# (cp7_r3_qc_note_cases.py; browser cases only, its NATIVE/RACES/HTTP lists are empty, so cases()/races()/http_cases()
+# and the length assert in cases() stay as they are).
+BROWSER=BROWSER+qcnote.BROWSER
 
 def one(cur,sql,args=()):return cur.execute(sql,args).fetchone()[0]
 def fill(cur,prefix,body,last,note):
