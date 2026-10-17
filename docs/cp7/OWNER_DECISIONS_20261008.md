@@ -571,3 +571,13 @@ upah yang sudah tercatat tidak berubah; Nota, payroll dan HPP mengikuti tarif ya
 selalu memakai tarif terkunci PO (`erp.po_work_component_snapshots`, satu baris per PO × komponen × SKU), jadi ini butuh
 perubahan Native yang dideklarasikan dan diuji. Siapa yang boleh memilih tarif baru ditanyakan ke owner.
 `production_go:false`.
+
+### D16-3 (owner ke penulis Claude, 17 Okt 2026, lanjutan D16-2)
+
+Owner (persis): "mungkin setelah beberapa waktu kasih tombol biar nanti bisa yaudah pake yg baru terus kali ya."
+
+Akibat untuk penulis (tafsiran penulis, bukan kata-kata owner; dikoreksi bila keliru): selain memilih tarif per
+pencatatan (D16-2), ada tombol per PO "pakai tarif baru seterusnya". Sesudah ditekan, pencatatan jahit selesai berikutnya
+untuk PO itu memakai tarif baru tanpa ditanya lagi. Upah yang sudah tercatat tidak berubah. Tombol mencatat siapa,
+kapan, dan alasannya di riwayat. Siapa yang boleh menekannya ditanyakan ke owner bersama pertanyaan D16-2.
+`production_go:false`.
