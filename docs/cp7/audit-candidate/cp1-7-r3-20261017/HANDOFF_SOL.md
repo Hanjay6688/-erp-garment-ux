@@ -1,8 +1,8 @@
 # Uji ulang r3 CP1–CP7 — untuk Sol
 
 Owner menyalin **seluruh isi kotak di bawah** ke sesi Sol. Kandidatnya sama untuk Fable, Astra dan Sol.
-Rincian: `README.md` di folder ini. Nilai `<KANDIDAT>`, `<TREE>` dan angka receipt diisi penulis sesudah kualifikasi;
-kotak belum boleh dikirim selama masih ada tanda `<...>`.
+Rincian: `README.md` di folder ini. Kotak belum boleh dikirim selama masih ada tanda `<...>` (angka receipt diisi penulis sesudah semua run kandidat
+selesai).
 
 ````text
 Kamu Sol, auditor independen. Ini UJI ULANG PUTARAN r3 untuk ERP Garment, repo Hanjay6688/-erp-garment-ux, cabang
@@ -11,11 +11,11 @@ FINDINGS.json, WRITER_HANDOFF.md, OPEN_BOUNDARIES.json, INVARIANT_MATRIX.md, cab
 kunci 841fce45; vonis HOLD). Penulis memperbaiki temuan ketiga auditor di putaran r3 dan menerapkan keputusan owner D16-1
 sampai D16-5. Fable, Astra dan Sol menguji ulang kandidat yang sama secara terpisah.
 KANDIDAT
-- Commit <KANDIDAT>, tree <TREE>. Basis r2: 2e9d6a468c110684c278d585418eb404250d1150
+- Commit 82450d8adb15dbd6907f4edfbfa187a6a606ff16, tree 68d26e5ead459fe9037be42dacf27f5341f55b79. Basis r2: 2e9d6a468c110684c278d585418eb404250d1150
   (tree 5e50d224f8e74fa3bca83b599fb606739435b598). Commit sesudah kandidat di cabang writer hanya dokumen; buktikan:
-  git diff --name-only <KANDIDAT> origin/claude/new-session-deapao. Catat tree produk sebelum dan sesudah auditmu (Pro Max §2.8).
-- supabase/ tidak berubah sejak 2e9d6a46 (git diff --name-only 2e9d6a46 <KANDIDAT> -- supabase kosong). Perubahan produk ada
-  di scripts/cp7-src/ (lapisan CP7) dan src/; daftar lengkap: git diff --stat 2e9d6a46 <KANDIDAT> -- src scripts tests .github.
+  git diff --name-only 82450d8adb15dbd6907f4edfbfa187a6a606ff16 origin/claude/new-session-deapao. Catat tree produk sebelum dan sesudah auditmu (Pro Max §2.8).
+- supabase/ tidak berubah sejak 2e9d6a46 (git diff --name-only 2e9d6a46 82450d8adb15dbd6907f4edfbfa187a6a606ff16 -- supabase kosong). Perubahan produk ada
+  di scripts/cp7-src/ (lapisan CP7) dan src/; daftar lengkap: git diff --stat 2e9d6a46 82450d8adb15dbd6907f4edfbfa187a6a606ff16 -- src scripts tests .github.
 - Bukti penulis: docs/cp7/audit-candidate/cp1-7-r3-20261017/CI_RECEIPT.json (<RECEIPT>); docs/cp7/cp17/CP17_FIXES.json
   (321 kasus CP17 dideklarasikan sebelum dijalankan: 153 Native, 34 race, 24 HTTP Auth nyata, 55 browser, dan 55 kasus
   browser yang sama di build mode Enteng; workflow "CP7 CP17 Fixes"). Run, job dan kasus disebut terpisah.
@@ -75,12 +75,13 @@ ATURAN
   Pertanyaan yang sudah dijawab owner tidak ditulis ulang sebagai terbuka (§2.12).
 - Tidak boleh dimutasi: main, deployment Cloudflare, Supabase hosted Enteng (siimvrusnzxexizpyoib), legacy ERP-Garment
   (vlxdhpkjeevubjxexnfo, read-only), production. Jangan meminta password, token atau kunci di chat.
-- Panduan: docs/AUDIT_PANDUAN_PRO_MAX.md (<PANDUAN_SHA>). Bila ada beda, berkas di repo yang berlaku.
+- Panduan: docs/AUDIT_PANDUAN_PRO_MAX.md (SHA-256 5752e96df751de5ebe4b86d3f572cffa1bbe94eb42bf8e283fa6e04f9f593639,
+  sama dengan putaran sebelumnya). Bila ada beda, berkas di repo yang berlaku.
 
 LAPORAN
-- Satu cabang audit baru, usul: audit/sol-cp1-7-r3-<kandidat8>-<tanggal>, dikunci dengan commit sebelum membaca laporan
+- Satu cabang audit baru, usul: audit/sol-cp1-7-r3-82450d8a-<tanggal>, dikunci dengan commit sebelum membaca laporan
   auditor lain di putaran ini:
-  1. audit/sol_cp17_r3/RETEST_SOL_<kandidat8>.md — per temuan dan per oracle D16-1: DITUTUP / MASIH TERBUKA / BARU,
+  1. audit/sol_cp17_r3/RETEST_SOL_82450d8a.md — per temuan dan per oracle D16-1: DITUTUP / MASIH TERBUKA / BARU,
      dengan bukti;
   2. audit/sol_cp17_r3/FINDINGS.json — temuan baru per akar masalah, tingkat, bukti; daftar yang harus beres sebelum
      pemasangan ke Enteng; daftar "belum saya periksa".
