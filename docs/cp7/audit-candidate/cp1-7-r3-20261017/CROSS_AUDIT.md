@@ -34,6 +34,7 @@ tinggi.
 | R3-05 Langkah rantai tanpa uji lewat layar | FABLE-016 sisa (S3) | S3 | Benar: posting QC & Final SKU dan potongan Nota Ambil Aksesori ke payroll hanya diuji lewat SQL atau UI CP6 beku | Uji browser posting QC & Final SKU dan potongan nota aksesori sampai payroll |
 | R3-06 Helper uji membaca alert yang sudah hilang | FABLE-018 (S3) | S3 | Benar: `scripts/cp6_bd_browser.mjs` baris 62–65 memanggil `innerText` sesudah `count` tanpa menunggu | Ambil teks alert tanpa menunggu elemen yang sudah hilang dan simpan teksnya; kasus `BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR` tidak diubah oraclenya |
 | R3-07 Alat receipt hanya halaman pertama | Diungkap penulis (E19a); Sol KNOWN-RECEIPT-FIRST100 (S3) | S3 | Benar, juga daftar job per run | Paginasi run, job dan anotasi; uji lebih dari 100 baris |
+| R3-09 Pilihan tarif lama atau baru saat jahit selesai | Keputusan owner **D16-2** | — | Native mengunci tarif per PO sejak upah pertama (`erp.po_work_component_snapshots`, unik per PO × komponen × SKU; trigger menyalin tarifnya ke baris upah) | Perubahan Native yang dideklarasikan: pencatatan jahit selesai boleh memakai tarif mandor yang berlaku pada tanggal jahit bila dipilih; layar menampilkan kedua tarif dan nilai upahnya, wajib pilih dan alasan; pilihan disimpan; upah tercatat tidak berubah; Nota/payroll/HPP ikut. Uji: tarif sama (tanpa pilihan), tarif beda pilih lama, pilih baru, wave per SKU, batal, dua tab, UUID sama, hak akses |
 | R3-08 Klaim regresi 37 workflow CP6 lama | Astra §5 (batas klaim, bukan cacat) | — | 21 workflow lama merah karena pemeriksa cakupan historis atau artifact kedaluwarsa | Penulis tidak mengklaim regresi arsip lengkap; susun pemetaan kasus pengganti per workflow, atau tetap tulis sebagai batas |
 
 ## 3. Ketidakcocokan dan catatan antar laporan
@@ -64,7 +65,8 @@ cukup: kontrol 0 → +1 → 0 untuk setiap detektor dan catatan detektor sebelum
 ## 5. Pertanyaan untuk owner
 
 1. Tarif mandor naik di tengah PO: (A) sisa PO itu tetap tarif lama, tarif baru untuk PO berikutnya (aturan sekarang);
-   (B) sisa PO ikut tarif baru mulai tanggal berlakunya.
+   (B) sisa PO ikut tarif baru mulai tanggal berlakunya. **Dijawab owner 17 Okt (D16-2):** "bisa gak dikasih pilihan
+   harga lama apa baru, kadang bisa random soalnya" → R3-09. Pertanyaan lanjutan: siapa yang boleh memilih tarif baru.
 2. Menu "Tutup Periode" (Pengaturan & Audit) dan "Laporan & Tutup Buku" (Keuangan) sama-sama untuk menutup buku: (A)
    digabung jadi satu menu; (B) dua menu terpisah.
 

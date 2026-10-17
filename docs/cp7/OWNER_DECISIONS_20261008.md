@@ -556,3 +556,18 @@ untuk menu yang selesai; layar tersambung yang sama dengan mode uji dipakai di E
 layar pool HPP absensi dibuat dengan kasus Native, race, HTTP dan browser desktop + HP; uji browser juga memakai build
 mode Enteng terhadap database sekali pakai. Layar ini baru berfungsi di Enteng sesudah lapisan CP7 terpasang (CP7C
 tetap ditahan, D13-9a). `production_go:false`.
+
+### D16-2 (owner ke penulis Claude, 17 Okt 2026, jawaban pertanyaan penulis soal tarif mandor yang naik di tengah PO)
+
+Pertanyaan penulis: "Tarif mandor naik di tengah PO: (A) sisa PO itu tetap tarif lama, tarif baru untuk PO berikutnya
+(aturan sekarang); (B) sisa PO ikut tarif baru mulai tanggal berlakunya."
+
+Owner (persis): "bisa gak dikasih pilihan harga lama apa baru, kadang bisa random soalnya"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): saat mencatat jahit selesai, bila tarif mandor yang
+berlaku pada tanggal jahit berbeda dari tarif yang terkunci untuk PO itu, layar menampilkan keduanya dengan nilai
+upahnya dan pengguna memilih salah satu per pencatatan, dengan alasan. Pilihan disimpan di catatan upah dan riwayat;
+upah yang sudah tercatat tidak berubah; Nota, payroll dan HPP mengikuti tarif yang dipilih. Aturan Native sekarang
+selalu memakai tarif terkunci PO (`erp.po_work_component_snapshots`, satu baris per PO × komponen × SKU), jadi ini butuh
+perubahan Native yang dideklarasikan dan diuji. Siapa yang boleh memilih tarif baru ditanyakan ke owner.
+`production_go:false`.
