@@ -706,15 +706,28 @@ test('CP6 reversal buttons obey authoritative downstream blockers', async ({ pag
   expect(calls.actions).toEqual([])
 })
 
-test('CP6 blocks the legacy browser Nota writer in connected UAT', async ({ page }, testInfo) => {
+test('CP6 never opens the legacy browser Nota writer in connected UAT (owner D16-1: the connected Nota screen instead)', async ({ page }, testInfo) => {
+  // What this test guards since CP6: the legacy browser Nota writer, which computes the Nota in the page (FgNotaPage), never
+  // opens in a connected runtime, and no CP6 writer is called. Owner D16-1 ("selesain biar gausa sembunyiin") replaced the
+  // former "WRITER DIBLOKIR" boundary in the Enteng build by the same connected Nota screen as the disposable test build,
+  // which only reads and saves through the CP7 facades (erp_cp7_get_nota_workspace_v1 / erp_cp7_save_nota_v1).
   const assertNoErrors = watchErrors(page)
   const calls = await installContract(page)
+  const notaReads: string[] = []
+  await page.route('**/rest/v1/rpc/erp_cp7_get_nota_workspace_v1', async (route) => {
+    const body = route.request().postDataJSON() as { p_section: string }
+    notaReads.push(body.p_section)
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ contract_version: 'cp7.nota-workspace.v1', section: body.p_section,
+      read_at: '2026-10-17T03:00:00.000000Z', financial_captured: false, can_post: false, page: { rows: [], total: '0', offset: 0, limit: 25, next_offset: null } }) })
+  })
   await signIn(page)
   await openPage(page, testInfo.project.name, 'Susun Nota FG', 'Susun Nota FG')
-  await expect(page.getByText('WRITER DIBLOKIR', { exact: true })).toBeVisible()
-  await expect(page.getByText(/Nota FG belum aman untuk disimpan/)).toBeVisible()
-  await expect(page.getByText(/Tidak ada data yang dihapus atau diposting/)).toBeVisible()
-  await expect(page.getByRole('button', { name: /Post|Simpan|Bayar/ })).toHaveCount(0)
+  await expect(page.getByText('PRODUKSI · NOTA MANDOR', { exact: true })).toBeVisible()
+  await expect(page.getByText('PRODUKSI · HALAMAN ANTREAN NOTA FG', { exact: true })).toHaveCount(0)
+  await expect(page.getByText('WRITER DIBLOKIR', { exact: true })).toHaveCount(0)
+  await expect.poll(() => notaReads.length).toBeGreaterThan(0)
+  expect(new Set(notaReads)).toEqual(new Set(['SOURCES', 'NOTES']))
   expect(calls.actions).toEqual([])
+  expect(calls.unexpected).toEqual([])
   assertNoErrors()
 })

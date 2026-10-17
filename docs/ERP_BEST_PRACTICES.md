@@ -84,6 +84,10 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     data nyata disembunyikan atau berupa layar batas tanpa angka. (FABLE-015, ASTRA-C17-03, KNOWN-UI-MODE, D15-2)
     Owner D16-1 (16 Okt): "selesain biar gausa sembunyiin" — tujuan akhirnya layar tersambung di mode data nyata, bukan
     menu tersembunyi; uji browser juga memakai build mode data nyata.
+16a. **Keputusan owner yang mengubah keadaan layar diikuti pencarian semua oracle lama atas keadaan itu**, termasuk uji
+    browser CP4.5–CP6 di workflow Build UX. Oracle lama diperbarui ke keputusan baru dengan tetap menjaga maksud aslinya
+    (misalnya: penulis Nota lama di browser tidak pernah terbuka), bukan dihapus. (CI 39027273503: uji "WRITER DIBLOKIR"
+    Susun Nota FG masih mengharapkan layar batas D15-2 sesudah D16-1)
 17. **Lebar HP diuji dengan rumus tertulis:** `document.documentElement.scrollWidth <= window.innerWidth` pada 390 px
     untuk setiap menu di setiap mode, dengan data terisi. Jangan menutup luapan dengan `overflow:hidden`.
     (SOL-R1-004/005; Astra melaporkan nol luapan dengan cara ukur lain)
