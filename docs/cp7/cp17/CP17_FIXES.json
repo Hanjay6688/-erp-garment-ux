@@ -1,11 +1,12 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 179,
+ "expected_case_count": 216,
  "required_case_counts": {
   "native": 104,
   "races": 22,
   "http": 16,
-  "browser": 37
+  "browser": 37,
+  "browser_enteng": 37
  },
  "required_case_ids": {
   "native": [
@@ -194,6 +195,45 @@
    "CP17_BROWSER_R3_03_PERIOD_TAB_MOBILE",
    "CP17_BROWSER_R2_07_IMPORT_WIP_BRAND_SALE_CASH_CLOSE",
    "CP17_BROWSER_R2_07_BS_REWORK_NOTA_PAYROLL_PAY"
+  ],
+  "browser_enteng": [
+   "CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP_ENTENG",
+   "CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE_ENTENG",
+   "CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP_ENTENG",
+   "CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP_ENTENG",
+   "CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE_ENTENG",
+   "CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP_ENTENG",
+   "CP17_BROWSER_G1_SEWING_DESKTOP_ENTENG",
+   "CP17_BROWSER_G1_SEWING_MOBILE_ENTENG",
+   "CP17_BROWSER_G2_FINISH_DESKTOP_ENTENG",
+   "CP17_BROWSER_G2_FINISH_MOBILE_ENTENG",
+   "CP17_BROWSER_R2_PO_REOPEN_DESKTOP_ENTENG",
+   "CP17_BROWSER_R2_PO_REOPEN_MOBILE_ENTENG",
+   "CP17_BROWSER_R2_MASTER_CUSTOMERS_DESKTOP_ENTENG",
+   "CP17_BROWSER_R2_MASTER_CUSTOMERS_MOBILE_ENTENG",
+   "CP17_BROWSER_R2_MASTER_PARTNERS_DESKTOP_ENTENG",
+   "CP17_BROWSER_R2_MASTER_PARTNERS_MOBILE_ENTENG",
+   "CP17_BROWSER_R2_MASTER_WORKFORCE_RATES_DESKTOP_ENTENG",
+   "CP17_BROWSER_R2_MASTER_WORKFORCE_RATES_MOBILE_ENTENG",
+   "CP17_BROWSER_R2_MASTER_LOCATIONS_DESKTOP_ENTENG",
+   "CP17_BROWSER_R2_MASTER_LOCATIONS_MOBILE_ENTENG",
+   "CP17_BROWSER_R2_MASTER_FABRIC_DESKTOP_ENTENG",
+   "CP17_BROWSER_R2_MASTER_FABRIC_MOBILE_ENTENG",
+   "CP17_BROWSER_R2_MASTER_ACCESSORY_DESKTOP_ENTENG",
+   "CP17_BROWSER_R2_MASTER_ACCESSORY_MOBILE_ENTENG",
+   "CP17_BROWSER_R2_FABLE_D15_3_SCREEN_CHAIN_DESKTOP_ENTENG",
+   "CP17_BROWSER_R2_D15_6_AUTO_PO_DESKTOP_ENTENG",
+   "CP17_BROWSER_R2_D15_6_AUTO_PO_MOBILE_ENTENG",
+   "CP17_BROWSER_R2_D15_5_CUTOVER_DESKTOP_ENTENG",
+   "CP17_BROWSER_R2_D15_5_CUTOVER_MOBILE_ENTENG",
+   "CP17_BROWSER_R2_10_WAVE_SEWING_DESKTOP_ENTENG",
+   "CP17_BROWSER_R2_10_WAVE_SEWING_MOBILE_ENTENG",
+   "CP17_BROWSER_R3_09_RATE_CHOICE_DESKTOP_ENTENG",
+   "CP17_BROWSER_R3_09_RATE_CHOICE_MOBILE_ENTENG",
+   "CP17_BROWSER_R3_03_PERIOD_TAB_DESKTOP_ENTENG",
+   "CP17_BROWSER_R3_03_PERIOD_TAB_MOBILE_ENTENG",
+   "CP17_BROWSER_R2_07_IMPORT_WIP_BRAND_SALE_CASH_CLOSE_ENTENG",
+   "CP17_BROWSER_R2_07_BS_REWORK_NOTA_PAYROLL_PAY_ENTENG"
   ]
  },
  "public_rpcs": [
@@ -284,7 +324,8 @@
   "R3_01_AUTO_PO_NUMBER": "Astra ASTRA-R2-02 (S1), Sol SOL-R2-001 (S2), candidate 2e9d6a46: the automatic PO number of Buat Potongan could not pass 999 on one cutting day, because auto-po.sql formatted it with lpad(n,3), which cuts 1000 to 100, so the search for a free number never ended (statement timeout; nothing was left behind). Three digits is now the minimum width. The auditors' own failing cases are used as written: Sol's 998 and 999 unused DRAFT headers with a 3 s limit (999 and 1000 must be made), Astra's empty day with 998 headers then 999 and 1000 (roll 10 -> 8 -> 6) under a 10 s limit; plus 1001 and 9999 -> 10000, a refused post that uses no number and a resend with the same UUID past 1000, and two sessions posting at the 999/1000 boundary (two distinct numbers, both posted).",
   "R3_02_PO_REOPEN_ACTIVE_USE": "Astra ASTRA-R2-01 (S1), candidate 2e9d6a46: the FG_USED blocker of the PO reopen (owner D15-4) summed every historical outflow of the PO's production lots, so a cancelled sales draft or a reversed finished-goods adjustment kept the PO blocked forever. It now counts only use that is still active: an outflow minus what its own reversals (reversal_of_id) put back; an unrelated inflow never offsets an active use. Astra's two cases are used as written (cancelled draft: stock 10 -> 8 -> 10, accounts as before; reversed -2 adjustment: stock and HPP as before, account delta of Native sync_po_hpp_to_gl that Astra qualified), plus controls: an active draft still blocks, a +2 adjustment does not offset an active 2-piece draft, cancelling one of two drafts leaves the other blocking (5 then 3), reopen after the cancel then finish again gives the same stock and HPP, and two tabs reopen once.",
   "R3_09_RATE_CHOICE": "Owner D16-2, D16-3, D16-4 (not an audit finding): when the Mandor rate in force at a later sewing time differs from the rate the PO locked at its first wage, the record pays the locked rate or the new one by explicit choice (refused without one, and refused with one where the rates are equal or the PO is switched); 'Pakai tarif baru seterusnya' switches the PO once, with a reason, never undone, after which records take the new rate without asking. Only Owner/Admin record or switch. A new rate is paid through a rate revision row of the PO snapshot written only by the CP7 command (declared Native deltas cp7_rate_revision_bundle.py: snapshot index gains committed_at, bf_ensure_work_v1 pins new SKUs from original base rows, prepare_rework_component_line SKU branch and seed_bs_case_component_baseline take the latest row; the index restore refuses while revisions exist). Cases: same rate no choice, changed rate needs a choice, OLD and NEW wages from Native lines and journals, revision reuse per sewing time, switch and its refusals, D16-4 role refusal, cancel of a new-rate record, payroll pipeline and unchanged Native detectors, wave per SKU, declared deltas and restore refusal, immutable private tables; two tabs choosing NEW, switch against record; real Auth HTTP; browser desktop and phone.",
-  "R3_03_PERIOD_TAB": "Owner D16-5 (not an audit finding): \"Tutup Periode\" is no longer a menu; closing the books is the \"Tutup Buku\" tab of \"Laporan & Tutup Buku\", the old route opens that tab. The period workspace adds the close/reopen history from the Native audit rows the accepted writers record for erp.accounting_period_control (column grants only); the oracle reads erp.audit_logs and erp.app_users directly and derives CLOSE/REOPEN itself. Rights stay separate: the report needs finance.reports.view, the tab and the facade also need finance.period_close.manage; seeded ADMIN (report right, no close right) is refused the period workspace natively and over real Auth, reads the report without the close check, and sees no tab in the browser."
+  "R3_03_PERIOD_TAB": "Owner D16-5 (not an audit finding): \"Tutup Periode\" is no longer a menu; closing the books is the \"Tutup Buku\" tab of \"Laporan & Tutup Buku\", the old route opens that tab. The period workspace adds the close/reopen history from the Native audit rows the accepted writers record for erp.accounting_period_control (column grants only); the oracle reads erp.audit_logs and erp.app_users directly and derives CLOSE/REOPEN itself. Rights stay separate: the report needs finance.reports.view, the tab and the facade also need finance.period_close.manage; seeded ADMIN (report right, no close right) is refused the period workspace natively and over real Auth, reads the report without the close check, and sees no tab in the browser.",
+  "R3_03_ENTENG_BUILD": "Owner D16-1 (Fable oracle 2, 3, 5): every CP17 browser case runs a second time on the Enteng build (UAT_AUTH_SIMULATION, the same build as the Enteng deployment except a placeholder publishable key), against a fresh disposable copy; the browser answers the Enteng project origin from the loopback API of that copy and blocks every other origin, and the runner resolves the Enteng host to loopback, so nothing reaches a hosted project. Ids carry the suffix _ENTENG."
  },
  "oracle_independence": "Dates from the Native accrual journals and source rows; balances from journal lines and stock movements; never from the guard functions.",
  "fixture_capital": "Banks that pay hold owner capital through the accepted Native journal (scripts/cp7_cash_funding.py) only where a case says so; empty-bank cases keep the bank empty.",

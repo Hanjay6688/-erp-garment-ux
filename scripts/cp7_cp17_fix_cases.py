@@ -103,6 +103,9 @@ IDS=dict(
              'CP17_BROWSER_G1_SEWING_DESKTOP','CP17_BROWSER_G1_SEWING_MOBILE','CP17_BROWSER_G2_FINISH_DESKTOP','CP17_BROWSER_G2_FINISH_MOBILE',
              'CP17_BROWSER_R2_PO_REOPEN_DESKTOP','CP17_BROWSER_R2_PO_REOPEN_MOBILE']+master.BROWSER+autopo.BROWSER+cutover.BROWSER+wave.BROWSER+r3.BROWSER+['CP17_BROWSER_R2_07_IMPORT_WIP_BRAND_SALE_CASH_CLOSE','CP17_BROWSER_R2_07_BS_REWORK_NOTA_PAYROLL_PAY'],
 )
+# Owner D16-1 / Fable oracle 2, 3 and 5: every browser case runs again on the Enteng (UAT_AUTH_SIMULATION) build against the
+# same kind of disposable copy (scripts/cp6_auditor_browser_host.mjs AUDITOR_UI_MODE=ENTENG; nothing reaches a hosted project).
+IDS['browser_enteng']=[i+'_ENTENG' for i in IDS['browser']]
 REQUIRED={k:len(v)for k,v in IDS.items()}
 EXPECTED=sum(REQUIRED.values())
 

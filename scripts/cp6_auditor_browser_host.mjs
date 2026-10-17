@@ -43,12 +43,21 @@ const anon = process.env.SUPABASE_ANON_KEY, service = process.env.SUPABASE_SERVI
 assert.ok(script && db && out && anon && service && /^\d{4}-\d{2}-\d{2}$/.test(today || ''), 'AUDITOR_BROWSER_ENVIRONMENT')
 assert.match(db, /\/cp6_auditor_browser$/, 'AUDITOR_BROWSER_ONLY_ON_ITS_COPY')
 const origin = 'http://127.0.0.1:4176', restPort = 54329, authPort = 54321
+// Owner D16-1 / Fable oracle 2: AUDITOR_UI_MODE=ENTENG serves the Enteng (UAT_AUTH_SIMULATION) build instead of the
+// disposable-test build. That build is compiled for the Enteng project origin with a placeholder publishable key (not a
+// key of any project); in the browser every request to that origin is answered by the loopback API of this copy (the
+// placeholder replaced by the local anon key), and every other origin stays blocked, so nothing reaches a hosted project.
+const uiMode = (process.env.AUDITOR_UI_MODE || 'DISPOSABLE').toUpperCase()
+assert.ok(['DISPOSABLE', 'ENTENG'].includes(uiMode), 'AUDITOR_UI_MODE')
+const entengOrigin = 'https://siimvrusnzxexizpyoib.supabase.co', entengPlaceholderKey = 'sb_publishable_cp7-enteng-build-loopback-placeholder'
+const uiBuild = uiMode === 'ENTENG' ? 'enteng-ui-build' : 'cp6-ui-build'
 const caseTimeoutMs = Number(process.env.AUDITOR_BROWSER_CASE_TIMEOUT_MS || 45 * 60 * 1000)
 assert.ok(Number.isInteger(caseTimeoutMs) && caseTimeoutMs > 0, 'AUDITOR_BROWSER_CASE_TIMEOUT_MS')
 let api
 const VOCABULARY = ['PASS', 'FAIL', 'COUNTEREXAMPLE', 'INCOMPLETE']
 const secrets = [anon, service], users = []
-const report = { status: 'INCOMPLETE', label: 'AUDITOR_SCENARIO', mode: 'BROWSER', phase, planned: [], cases: {}, console_errors: [],
+const report = { status: 'INCOMPLETE', label: 'AUDITOR_SCENARIO', mode: 'BROWSER', ui_mode: uiMode, phase, planned: [], cases: {}, console_errors: [],
+  enteng_requests_answered_by_loopback: 0, blocked_requests: 0,
   auth_cleanup_failures: [], real_auth: true, product_responses_mocked: false, production_go: false, release_evidence: false }
 const save = () => { mkdirSync(dirname(out), { recursive: true }); writeFileSync(out, JSON.stringify(report, null, 2) + '\n') }
 const redact = value => { if (value) secrets.push(value) }
@@ -132,9 +141,16 @@ async function start() {
   report.loopback_api_origin=api
   await expect.poll(async () => { try { return (await fetch(`http://127.0.0.1:${restPort}/`)).status } catch { return 0 } }, { timeout: 30000 }).toBe(200)
   const safeEnv = Object.fromEntries(['PATH', 'HOME', 'CI', 'TMPDIR', 'RUNNER_TEMP', 'PLAYWRIGHT_BROWSERS_PATH'].filter(k => process.env[k]).map(k => [k, process.env[k]]))
-  execFileSync('npm', ['run', 'build:cp6-disposable'], { env: { ...safeEnv, VITE_ERP_RUNTIME_MODE: 'DISPOSABLE_TEST', VITE_SUPABASE_URL: api,VITE_DISPOSABLE_API_PORT:String(address.port),
+  if (uiMode === 'ENTENG') {
+    const entengEnv = { ...safeEnv, VITE_ERP_RUNTIME_MODE: 'UAT_AUTH_SIMULATION', VITE_SUPABASE_URL: entengOrigin, VITE_SUPABASE_PUBLISHABLE_KEY: entengPlaceholderKey }
+    execFileSync('node', ['scripts/build-preflight.mjs'], { env: entengEnv, stdio: ['ignore', 'pipe', 'pipe'] })
+    execFileSync(resolve('node_modules/.bin/tsc'), ['-b'], { env: entengEnv, stdio: ['ignore', 'pipe', 'pipe'] })
+    execFileSync(resolve('node_modules/.bin/vite'), ['build', '--outDir', uiBuild, '--emptyOutDir'], { env: entengEnv, stdio: ['ignore', 'pipe', 'pipe'] })
+    execFileSync('node', ['scripts/scan-client-artifacts.mjs', uiBuild], { env: entengEnv, stdio: ['ignore', 'pipe', 'pipe'] })
+    report.enteng_build = { runtime_mode: 'UAT_AUTH_SIMULATION', supabase_origin: entengOrigin, browser_key: 'placeholder, not a project key' }
+  } else execFileSync('npm', ['run', 'build:cp6-disposable'], { env: { ...safeEnv, VITE_ERP_RUNTIME_MODE: 'DISPOSABLE_TEST', VITE_SUPABASE_URL: api,VITE_DISPOSABLE_API_PORT:String(address.port),
     VITE_SUPABASE_ANON_KEY: anon }, stdio: ['ignore', 'pipe', 'pipe'] })
-  preview = spawn(resolve('node_modules/.bin/vite'), ['preview', '--outDir', 'cp6-ui-build', '--host', '127.0.0.1', '--port', '4176', '--strictPort'],
+  preview = spawn(resolve('node_modules/.bin/vite'), ['preview', '--outDir', uiBuild, '--host', '127.0.0.1', '--port', '4176', '--strictPort'],
     { env: safeEnv, stdio: 'ignore' })
   await expect.poll(async () => { try { return (await fetch(origin)).status } catch { return 0 } }, { timeout: 30000 }).toBe(200)
   browser = await chromium.launch()
@@ -148,8 +164,21 @@ async function start() {
 async function context({ mobile = false, timezoneId = 'Asia/Jakarta' } = {}) {
   const ctx = await browser.newContext({ viewport: mobile ? { width: 390, height: 844 } : { width: 1440, height: 1000 }, timezoneId,
     isMobile: mobile, hasTouch: mobile })
-  // Only the served UI and the loopback API; nothing else leaves the browser.
-  await ctx.route('**/*', route => [origin, api].includes(new URL(route.request().url()).origin) ? route.continue() : route.abort('blockedbyclient'))
+  // Only the served UI and the loopback API; nothing else leaves the browser. In the Enteng build its project origin is
+  // answered here by the loopback API, never by the network.
+  await ctx.route('**/*', async route => {
+    const request = route.request(), url = new URL(request.url())
+    if ([origin, api].includes(url.origin)) return route.continue()
+    if (uiMode === 'ENTENG' && url.origin === entengOrigin) {
+      report.enteng_requests_answered_by_loopback++
+      const headers = { ...request.headers(), origin }
+      for (const name of ['apikey', 'authorization']) if (headers[name]) headers[name] = headers[name].replaceAll(entengPlaceholderKey, anon)
+      const response = await route.fetch({ url: api + url.pathname + url.search, headers, maxRedirects: 0 })
+      return route.fulfill({ response })
+    }
+    report.blocked_requests++
+    return route.abort('blockedbyclient')
+  })
   const page = await ctx.newPage(); page.setDefaultTimeout(20000)
   page.on('pageerror', e => report.console_errors.push(safe(e.message).slice(0, 500)))
   return { ctx, page }
