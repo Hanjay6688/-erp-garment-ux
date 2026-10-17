@@ -5,8 +5,9 @@
 -- already moved to finished goods stay; finishing again (finish.sql) rebuilds the same HPP when nothing new was posted.
 -- Blockers, shown before the click and enforced again under the PO lock:
 --  * NOT_FINISHED: only a FINISHED PO can be reopened (the Native rule).
---  * FG_USED: pieces of the PO's production lots already left them (sold, reserved by a sales draft, adjusted or moved);
---    like the other corrections, a document whose output is already used downstream is not reopened.
+--  * FG_USED: pieces of the PO's production lots that left them (sold, reserved by a sales draft, adjusted or moved) and
+--    were not put back by their own reversal; like the other corrections, a document whose output is still used
+--    downstream is not reopened, while a cancelled or reversed use no longer counts.
 --  * PERIOD_CLOSED: today (WIB) is inside the closed period, or a close journal to reverse has its economic or book date
 --    there; the reversal would reach into closed books (owner D15-1: closed periods are never reopened automatically).
 -- One transaction, a reviewed token, a reason, idempotent per (actor, request) and immutable history, like finish.sql.
@@ -43,7 +44,11 @@ begin
  if po.id is null then return null;end if;
  select *into c from erp.contractors where id=po.contractor_id;
  select coalesce(sum(initial_qty_pcs),0),count(*)into fg,lots from erp.fg_lots where po_id=po.id and lot_origin='PRODUCTION';
- select coalesce(sum(-m.qty_signed),0)into used from erp.fg_stock_movements m join erp.fg_lots l on l.id=m.lot_id
+ -- Only use that is still active: an outflow minus what its own reversals (reversal_of_id) put back. A cancelled sales
+ -- draft or a reversed adjustment no longer blocks; an unrelated inflow (another adjustment) never offsets an active use
+ -- (Astra ASTRA-R2-01).
+ select coalesce(sum(greatest(-m.qty_signed-coalesce((select sum(rv.qty_signed)from erp.fg_stock_movements rv where rv.reversal_of_id=m.id),0),0)),0)
+  into used from erp.fg_stock_movements m join erp.fg_lots l on l.id=m.lot_id
   where l.po_id=po.id and l.lot_origin='PRODUCTION'and m.qty_signed<0;
  select coalesce(sum(jl.debit-jl.credit),0)into wip from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
   where je.status in('POSTED','REVERSED')and jl.po_id=po.id and jl.account_id=erp.account_id('WIP');

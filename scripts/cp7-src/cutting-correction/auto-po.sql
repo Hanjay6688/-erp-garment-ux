@@ -210,11 +210,15 @@ begin
   select coalesce(sum((y->>'qty_pcs')::bigint),0)into v_pieces from jsonb_array_elements(c->'rolls')x,jsonb_array_elements(x->'yields')y;
   if v_pieces<=0 or v_pieces>2147483647 then raise exception 'CP7_AUTO_PO_FIELDS: pieces';end if;
   -- The day's next free number, one lock per day (two tabs wait for each other; a refused post releases its number).
+  -- Three digits is the minimum width, never a maximum: lpad(1000,3) would cut 1000 to 100 and the search would never end
+  -- once 001-999 are taken (Astra ASTRA-R2-02, Sol SOL-R2-001).
   v_prefix:='PO-'||to_char((c->>'cut_at')::timestamptz at time zone'Asia/Jakarta','YYMMDD')||'-';
   perform pg_advisory_xact_lock(hashtextextended('CP7AUTOPO:'||v_prefix,0));
   select count(*)+1 into v_n from erp.production_orders where po_number like v_prefix||'%';
-  while exists(select 1 from erp.production_orders where po_number=v_prefix||lpad(v_n::text,3,'0'))loop v_n:=v_n+1;end loop;
-  v_number:=v_prefix||lpad(v_n::text,3,'0');
+  while exists(select 1 from erp.production_orders where po_number=v_prefix||lpad(v_n::text,greatest(3,length(v_n::text)),'0'))loop
+   v_n:=v_n+1;
+  end loop;
+  v_number:=v_prefix||lpad(v_n::text,greatest(3,length(v_n::text)),'0');
   insert into erp.production_orders(po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes,created_by)
   values(v_number,m.id,v_pieces::integer,'DRAFT','CUTTING',(c->>'cut_at')::timestamptz,'Dibuat otomatis dari Buat Potongan',v_actor)returning id into v_po;
   -- The accepted Native writer posts the cutting on the new PO (one Native request per facade request and actor).
