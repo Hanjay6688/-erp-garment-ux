@@ -72,7 +72,9 @@ def run():
    report['native_public_catalog_comparison']=catalog_audit
   if 'races' in GROUPS and hasattr(scenario,'races'):report['races']=modes.run_races(scenario,checker,'fable_'+SCENARIO)
   if 'http' in GROUPS and hasattr(scenario,'http_cases'):report['http']=modes.run_http(scenario,checker,'fable_'+SCENARIO)
-  if 'browser' in GROUPS and BROWSER:report['browser']=modes.run_browser(HERE/BROWSER,checker,'fable_'+SCENARIO+'_browser')
+  if 'browser' in GROUPS and BROWSER:
+   os.environ['AUDITOR_UI_MODE']=os.environ.get('FABLE_UI_MODE','DISPOSABLE');report['ui_mode']=os.environ['AUDITOR_UI_MODE']
+   report['browser']=modes.run_browser(HERE/BROWSER,checker,'fable_'+SCENARIO+'_browser')
  except Exception as e:report.update(error=str(e)[:4000],traceback=traceback.format_exc()[-6000:])
  finally:
   if installed:
