@@ -123,6 +123,14 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 25b. **Helper uji membaca teks elemen yang bisa hilang sendiri (alert sesaat) tanpa menunggu**, dan menyimpan teksnya.
     Menghitung lalu meminta teks bisa menunggu elemen yang sudah hilang sampai batas waktu, sehingga kasus yang oraclenya
     tercapai tercatat INCOMPLETE. (FABLE-018)
+25c. **Fungsi PL/pgSQL dikompilasi lokal dan diperiksa bentrok nama sebelum CI.** Variabel yang bernama sama dengan alias
+    tabel di fungsi yang sama baru gagal saat dijalankan ("column reference ... is ambiguous"); kompilasi tidak
+    menangkapnya. `CASE ... THEN` di dalam syarat `IF` harus diberi kurung. Jalankan
+    `scripts/cp7_plpgsql_compile_check.py` lalu `scripts/cp7_plpgsql_clash_check.py` pada setiap berkas SQL yang diubah,
+    di database cek milik sendiri. (CI 39002828381: 21 kasus jahit INCOMPLETE karena variabel `x`, `r`, `c`; R3-09)
+25d. **Uji build mode data nyata memakai build rilis yang sama**, bukan build uji: hanya alamat proyek dan kunci browser
+    yang diganti (kunci pengganti, bukan kunci proyek mana pun), alamat proyek dijawab oleh database sekali pakai di
+    loopback, semua alamat lain diblokir, dan host proyek diarahkan ke loopback di runner. (owner D16-1, oracle Fable 2)
 
 ## F. Proses audit
 
@@ -155,7 +163,8 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
   layar dengan dua penulis aktif kembali sesudah simpan di tiap mode (D18b).
 - [ ] Mode data nyata: tidak ada angka contoh tanpa label; tidak ada fungsi Native tanpa layar kecuali owner menunda
   tertulis; tabel aktivasi diperbarui; uji browser build mode data nyata (D16, F29a).
-- [ ] 48 menu × 3 mode × HP 390 px: `scrollWidth <= innerWidth` (D17).
+- [ ] 47 menu × 3 mode × HP 390 px: `scrollWidth <= innerWidth` (D17; 48 sebelum D16-5 menggabungkan Tutup Periode).
+- [ ] SQL yang diubah: kompilasi lokal + pemeriksaan bentrok nama variabel/alias (E25c).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
   dipicu (E19–E20, E19a).
