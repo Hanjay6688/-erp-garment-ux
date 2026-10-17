@@ -5,6 +5,9 @@ import type { RuntimeConfig } from './config/runtime'
 // its direct route shows a boundary screen without any figure. It appears as soon as its screen is connected (the row
 // here becomes CONNECTED), so nothing has to be switched on twice. The demo build keeps its sample screens, and the
 // disposable test build keeps today's routing (connected where wired, sample otherwise).
+// Owner D16-1 ("selesain biar gausa sembunyiin", Fable oracle 1): a hidden menu is finished, not kept hidden; the Enteng
+// build renders the same connected component as the disposable test build. Owner D16-5: "Tutup Periode" is no longer a
+// menu of its own; it is the "Tutup Buku" tab of "Laporan & Tutup Buku" (src/App.tsx redirects the old route).
 export type ScreenActivation = 'CONNECTED' | 'SAMPLE' | 'BOUNDARY' | 'NOTICE' | 'HIDDEN'
 type Mode = RuntimeConfig['mode']
 type Row = { label: string; section: string; enteng: ScreenActivation; test: ScreenActivation }
@@ -16,7 +19,7 @@ export const SCREEN_ACTIVATION: Readonly<Record<string, Row>> = Object.freeze({
   'sewing-wip': { label: 'WIP & Sewing', section: 'Produksi', enteng: 'CONNECTED', test: 'CONNECTED' },
   laundry: { label: 'Laundry', section: 'Produksi', enteng: 'CONNECTED', test: 'CONNECTED' },
   qc: { label: 'QC & Final SKU', section: 'Produksi', enteng: 'CONNECTED', test: 'CONNECTED' },
-  'fg-handoff': { label: 'Susun Nota FG', section: 'Produksi', enteng: 'BOUNDARY', test: 'CONNECTED' },
+  'fg-handoff': { label: 'Susun Nota FG', section: 'Produksi', enteng: 'CONNECTED', test: 'CONNECTED' },
   'bs-rework': { label: 'Barang BS & Rework', section: 'Produksi', enteng: 'CONNECTED', test: 'CONNECTED' },
   'warehouse-dashboard': { label: 'Ringkasan Gudang', section: 'Gudang', enteng: 'HIDDEN', test: 'SAMPLE' },
   procurement: { label: 'Pembelian & Penerimaan', section: 'Gudang', enteng: 'CONNECTED', test: 'CONNECTED' },
@@ -29,21 +32,21 @@ export const SCREEN_ACTIVATION: Readonly<Record<string, Row>> = Object.freeze({
   'stock-card': { label: 'Kartu Stok FG', section: 'Gudang', enteng: 'CONNECTED', test: 'CONNECTED' },
   'stock-adjustment': { label: 'Stock Adjustment', section: 'Gudang', enteng: 'CONNECTED', test: 'CONNECTED' },
   'brand-conversion': { label: 'Ganti Merek', section: 'Gudang', enteng: 'CONNECTED', test: 'CONNECTED' },
-  'sales-invoice': { label: 'Penjualan & Invoice', section: 'Penjualan', enteng: 'HIDDEN', test: 'CONNECTED' },
-  'sales-allocation': { label: 'Semua Invoice', section: 'Penjualan', enteng: 'HIDDEN', test: 'CONNECTED' },
-  'sales-returns': { label: 'Retur Penjualan', section: 'Penjualan', enteng: 'HIDDEN', test: 'CONNECTED' },
-  'sales-payments': { label: 'Pembayaran Pelanggan', section: 'Penjualan', enteng: 'HIDDEN', test: 'CONNECTED' },
+  'sales-invoice': { label: 'Penjualan & Invoice', section: 'Penjualan', enteng: 'CONNECTED', test: 'CONNECTED' },
+  'sales-allocation': { label: 'Semua Invoice', section: 'Penjualan', enteng: 'CONNECTED', test: 'CONNECTED' },
+  'sales-returns': { label: 'Retur Penjualan', section: 'Penjualan', enteng: 'CONNECTED', test: 'CONNECTED' },
+  'sales-payments': { label: 'Pembayaran Pelanggan', section: 'Penjualan', enteng: 'CONNECTED', test: 'CONNECTED' },
   'sales-history': { label: 'Riwayat Pelanggan', section: 'Penjualan', enteng: 'HIDDEN', test: 'SAMPLE' },
-  'finance-overview': { label: 'Ringkasan Keuangan', section: 'Keuangan', enteng: 'HIDDEN', test: 'CONNECTED' },
-  'finance-cash': { label: 'Kas & Bank', section: 'Keuangan', enteng: 'HIDDEN', test: 'CONNECTED' },
+  'finance-overview': { label: 'Ringkasan Keuangan', section: 'Keuangan', enteng: 'CONNECTED', test: 'CONNECTED' },
+  'finance-cash': { label: 'Kas & Bank', section: 'Keuangan', enteng: 'CONNECTED', test: 'CONNECTED' },
   'finance-ap': { label: 'Hutang Supplier & Vendor', section: 'Keuangan', enteng: 'CONNECTED', test: 'CONNECTED' },
-  'finance-ar': { label: 'Piutang Pelanggan', section: 'Keuangan', enteng: 'HIDDEN', test: 'CONNECTED' },
-  'finance-payroll': { label: 'Payroll & Kasbon', section: 'Keuangan', enteng: 'HIDDEN', test: 'CONNECTED' },
-  'operations-attendance': { label: 'Absensi & Rate Harian', section: 'Keuangan', enteng: 'HIDDEN', test: 'CONNECTED' },
+  'finance-ar': { label: 'Piutang Pelanggan', section: 'Keuangan', enteng: 'CONNECTED', test: 'CONNECTED' },
+  'finance-payroll': { label: 'Payroll & Kasbon', section: 'Keuangan', enteng: 'CONNECTED', test: 'CONNECTED' },
+  'operations-attendance': { label: 'Absensi & Rate Harian', section: 'Keuangan', enteng: 'CONNECTED', test: 'CONNECTED' },
   'contractor-issue': { label: 'Nota Ambil Aksesori', section: 'Keuangan', enteng: 'CONNECTED', test: 'CONNECTED' },
   hpp: { label: 'HPP & Rekalkulasi', section: 'Keuangan', enteng: 'CONNECTED', test: 'CONNECTED' },
-  'finance-journal': { label: 'Jurnal & Transaksi Lain', section: 'Keuangan', enteng: 'HIDDEN', test: 'CONNECTED' },
-  'finance-reports': { label: 'Laporan & Tutup Buku', section: 'Keuangan', enteng: 'HIDDEN', test: 'CONNECTED' },
+  'finance-journal': { label: 'Jurnal & Transaksi Lain', section: 'Keuangan', enteng: 'CONNECTED', test: 'CONNECTED' },
+  'finance-reports': { label: 'Laporan & Tutup Buku', section: 'Keuangan', enteng: 'CONNECTED', test: 'CONNECTED' },
   'master-fabric': { label: 'Kain & Benchmark', section: 'Master Data', enteng: 'CONNECTED', test: 'CONNECTED' },
   'master-accessory': { label: 'Aksesori & Harga Mandor', section: 'Master Data', enteng: 'CONNECTED', test: 'CONNECTED' },
   'master-products': { label: 'Produk & SKU', section: 'Master Data', enteng: 'CONNECTED', test: 'CONNECTED' },
@@ -56,7 +59,6 @@ export const SCREEN_ACTIVATION: Readonly<Record<string, Row>> = Object.freeze({
   'admin-access': { label: 'Pengguna & Hak Akses', section: 'Pengaturan & Audit', enteng: 'CONNECTED', test: 'CONNECTED' },
   'admin-settings': { label: 'Pengaturan ERP', section: 'Pengaturan & Audit', enteng: 'HIDDEN', test: 'SAMPLE' },
   'admin-import': { label: 'Impor data awal', section: 'Pengaturan & Audit', enteng: 'CONNECTED', test: 'CONNECTED' },
-  'admin-period-close': { label: 'Tutup Periode', section: 'Pengaturan & Audit', enteng: 'HIDDEN', test: 'SAMPLE' },
   'admin-audit': { label: 'Audit Trail', section: 'Pengaturan & Audit', enteng: 'HIDDEN', test: 'SAMPLE' },
 })
 

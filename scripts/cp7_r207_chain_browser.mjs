@@ -95,6 +95,7 @@ async function chain(ui,today,h){
   s=seen.converted=state();assert.equal(s.stock_a,2);assert.deepEqual(s.conversions.map(x=>x[0]),['POSTED'])
   // 4. The owner closes the books through that day, in the middle of the chain.
   seen.step='close';await nav(ui,page,'Laporan & Tutup Buku','Keuangan');await ui.expect(page.getByRole('heading',{name:'Laporan & Tutup Buku',exact:true})).toBeVisible()
+  await page.getByRole('tab',{name:'Tutup Buku',exact:true}).click()  // owner D16-5: closing the books is a tab of this page
   const panel=page.getByRole('region',{name:'Kelola periode pembukuan',exact:true})
   await panel.getByLabel('Tanggal pemeriksaan tutup buku',{exact:true}).fill(f.output_day)
   try{await ui.expect(panel).toContainText('Penghalang: 0.',{timeout:20000})}catch(e){seen.period_panel=await panel.innerText().catch(()=>'');throw e}
@@ -132,7 +133,7 @@ async function chain(ui,today,h){
   assert.deepEqual(s.books_through,closed.books_through);assert.equal(s.fg_through,closed.fg_through);assert.equal(s.closed_through,f.output_day)
   await page.screenshot({path:`cp6-proof/t3/${name}_PAID.png`,fullPage:true})
   // 6. Reopen to where the chain's month began, on the same screen.
-  seen.step='reopen';await nav(ui,page,'Laporan & Tutup Buku','Keuangan')
+  seen.step='reopen';await nav(ui,page,'Laporan & Tutup Buku','Keuangan');await page.getByRole('tab',{name:'Tutup Buku',exact:true}).click()
   await panel.getByLabel('Tanggal pemeriksaan tutup buku',{exact:true}).fill(f.output_day);await ui.expect(panel.getByLabel('Tindakan periode',{exact:true})).toBeEnabled()
   await panel.getByLabel('Tindakan periode',{exact:true}).selectOption('REOPEN')
   await panel.getByLabel('Periode tetap tertutup sampai',{exact:true}).fill(f.opened_closed)

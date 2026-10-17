@@ -88,3 +88,5 @@
   .cproc-size-price .cproc-size-amount { grid-column: auto; }
   .cproc-size-prices-head .cproc-wide-only { display: block; }
 }
+/* Owner D16-5: "Laporan" and "Tutup Buku" tabs on the merged finance page. */
+.cfinance-tabs{display:flex;gap:6px;flex-wrap:wrap}.cfinance-tabs button{border:1px solid #d9ccc4;border-radius:999px;padding:6px 12px;background:#fff;font-weight:800;font-size:12px}.cfinance-tabs button[aria-selected=true]{background:#2f2621;color:#fff;border-color:#2f2621}

@@ -1,11 +1,11 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 174,
+ "expected_case_count": 179,
  "required_case_counts": {
-  "native": 102,
+  "native": 104,
   "races": 22,
-  "http": 15,
-  "browser": 35
+  "http": 16,
+  "browser": 37
  },
  "required_case_ids": {
   "native": [
@@ -110,7 +110,9 @@
    "CP17_R3_09_NEW_RATE_WAGE_TO_PAYROLL_AND_DETECTORS",
    "CP17_R3_09_WAVE_CHOICE_PER_SKU",
    "CP17_R3_09_DECLARED_NATIVE_DELTAS_AND_RESTORE_REFUSAL",
-   "CP17_R3_09_REVISIONS_IMMUTABLE_AND_PRIVATE"
+   "CP17_R3_09_REVISIONS_IMMUTABLE_AND_PRIVATE",
+   "CP17_R3_03_PERIOD_HISTORY_FROM_NATIVE_AUDIT",
+   "CP17_R3_03_PERIOD_TAB_RIGHTS_ADMIN_REFUSED"
   ],
   "races": [
    "CP17_RACE_TWO_PAYMENTS_ONE_BANK",
@@ -151,7 +153,8 @@
    "CP17_HTTP_R2_D15_6_AUTO_PO",
    "CP17_HTTP_R2_D15_5_CUTOVER",
    "CP17_HTTP_R2_10_WAVE_SEWING",
-   "CP17_HTTP_R3_09_CHOICE_AND_SWITCH"
+   "CP17_HTTP_R3_09_CHOICE_AND_SWITCH",
+   "CP17_HTTP_R3_03_PERIOD_HISTORY_AND_RIGHTS"
   ],
   "browser": [
    "CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP",
@@ -187,6 +190,8 @@
    "CP17_BROWSER_R2_10_WAVE_SEWING_MOBILE",
    "CP17_BROWSER_R3_09_RATE_CHOICE_DESKTOP",
    "CP17_BROWSER_R3_09_RATE_CHOICE_MOBILE",
+   "CP17_BROWSER_R3_03_PERIOD_TAB_DESKTOP",
+   "CP17_BROWSER_R3_03_PERIOD_TAB_MOBILE",
    "CP17_BROWSER_R2_07_IMPORT_WIP_BRAND_SALE_CASH_CLOSE",
    "CP17_BROWSER_R2_07_BS_REWORK_NOTA_PAYROLL_PAY"
   ]
@@ -248,7 +253,8 @@
   "D15_3": "Data master dan tarif mandor (FABLE-017): \"dibuatkan layar tapi jangan simple banget juga, sedeng lah muat info dan fitur yg dibutuhkan\" (16 Okt 2026)",
   "D15_6": "PO harian (SOL-R1-002): \"2. Pilih A — PO otomatis dari Buat Potongan, seperti alur demo. Pengguna cukup mengisi pekerjaan potong; sistem membuat PO terkait dan menampilkan nomornya untuk pelacakan. Saat disahkan, pembuatan PO dan posting potongan harus atomik. Pengiriman ulang memakai UUID yang sama harus mendapatkan hasil yang sama, tanpa PO atau stok ganda. Draf tetap belum memengaruhi stok maupun keuangan.\" (16 Okt 2026)",
   "D15_5": "Lantai tanggal cutover (FABLE-011): \"1. Ya, untuk transaksi operasional baru. Gunakan tanggal cutover resmi yang saya sahkan dalam WIB, bukan tanggal pertama login atau uji coba. Pengamannya wajib di server. Data sebelum cutover masuk melalui saldo awal/migrasi. Invoice terlambat yang merujuk penerimaan saldo awal, pelunasan sesudah cutover, serta koreksi dokumen lama tetap memakai jalur resminya. Tanggal asli tetap tersimpan dan efeknya tidak boleh dihitung dua kali.\" (16 Okt 2026)",
-  "D16-2/D16-3/D16-4": "Owner 16 Okt: \"bisa gak dikasih pilihan harga lama apa baru, kadang bisa random soalnya\"; \"mungkin setelah beberapa waktu kasih tombol biar nanti bisa yaudah pake yg baru terus kali ya.\"; \"B pokoknya kalo belom dipencet bakal ada 2 pilihan lalu klo dah dipencet udah baru terus pas peralihan biar ga kagok\" (docs/cp7/OWNER_DECISIONS_20261008.md D16-2..D16-4)."
+  "D16-2/D16-3/D16-4": "Owner 16 Okt: \"bisa gak dikasih pilihan harga lama apa baru, kadang bisa random soalnya\"; \"mungkin setelah beberapa waktu kasih tombol biar nanti bisa yaudah pake yg baru terus kali ya.\"; \"B pokoknya kalo belom dipencet bakal ada 2 pilihan lalu klo dah dipencet udah baru terus pas peralihan biar ga kagok\" (docs/cp7/OWNER_DECISIONS_20261008.md D16-2..D16-4).",
+  "D16-5": "Owner 17 Okt: \"Pilih A — gabungkan menjadi satu menu “Laporan & Tutup Buku” di Keuangan. Penutupan periode menjadi bagian/tab di dalamnya. Hak melihat laporan dan hak menutup buku tetap terpisah. Arsip, riwayat, dan pengaman penutupan tetap lengkap; tautan lama diarahkan ke halaman gabungan.\" (docs/cp7/OWNER_DECISIONS_20261008.md D16-5)."
  },
  "findings": {
   "FIN01": "Fable FABLE-001, Astra FIN01",
@@ -277,7 +283,8 @@
   "R2_07_SCREEN_CHAIN": "FABLE-016 (S3), ASTRA-C17-07 (S2), Sol BROWSER-CHAIN: one browser chain on the screens only, from masters and opening WIP created on 'Impor data awal' (CSV files, check, post) to 'Rincian produksi awal' (WIP to brand-A goods), 'Ganti Merek' (to brand B), 'Laporan & Tutup Buku' (books closed through that day in the middle of the chain), 'Penjualan & Invoice' and its payment into a bank, and the books reopened; the closed days' books stay exactly as closed. Fixture only for a bank account (no screen) and harness state (chain month opened, seed open items cleared, restored). Second chain, same start: the imported Mandor's work component and rate on 'Master Data → Mandor', 3 WIP pieces split off as BS ('Pisahkan sebagai BS'), the imported product's accessory recipe declared without accessories on 'Produk & SKU' (a rework needs the product's accessory BOM valid when it is sent; the SKU master writes it from now on, so the rework is sent now), the BS case classified with that component (none done before the BS; a piece split off from opening WIP carries no work component), a rework order to that Mandor with the component as wage basis and its result on 'Barang BS & Rework', the rework wage in a Nota posted to payroll ('Susun Nota FG'), the payroll counted, approved and paid ('Payroll & Kasbon'); fixture adds owner capital for exactly that wage. Attendance HPP pool: no screen runs that cycle and r2 adds none; it stays a recorded open boundary, not an owner decision. Context only, owner D15-2 on the attendance screens in Enteng, verbatim: \"sembunyikan begitu terhubung langsung muncul, doesnt matter juga kalau mau langsung muncul karena gabakal dipakai juga jadi ga kerja 2 kali sih klo mau munculin\".",
   "R3_01_AUTO_PO_NUMBER": "Astra ASTRA-R2-02 (S1), Sol SOL-R2-001 (S2), candidate 2e9d6a46: the automatic PO number of Buat Potongan could not pass 999 on one cutting day, because auto-po.sql formatted it with lpad(n,3), which cuts 1000 to 100, so the search for a free number never ended (statement timeout; nothing was left behind). Three digits is now the minimum width. The auditors' own failing cases are used as written: Sol's 998 and 999 unused DRAFT headers with a 3 s limit (999 and 1000 must be made), Astra's empty day with 998 headers then 999 and 1000 (roll 10 -> 8 -> 6) under a 10 s limit; plus 1001 and 9999 -> 10000, a refused post that uses no number and a resend with the same UUID past 1000, and two sessions posting at the 999/1000 boundary (two distinct numbers, both posted).",
   "R3_02_PO_REOPEN_ACTIVE_USE": "Astra ASTRA-R2-01 (S1), candidate 2e9d6a46: the FG_USED blocker of the PO reopen (owner D15-4) summed every historical outflow of the PO's production lots, so a cancelled sales draft or a reversed finished-goods adjustment kept the PO blocked forever. It now counts only use that is still active: an outflow minus what its own reversals (reversal_of_id) put back; an unrelated inflow never offsets an active use. Astra's two cases are used as written (cancelled draft: stock 10 -> 8 -> 10, accounts as before; reversed -2 adjustment: stock and HPP as before, account delta of Native sync_po_hpp_to_gl that Astra qualified), plus controls: an active draft still blocks, a +2 adjustment does not offset an active 2-piece draft, cancelling one of two drafts leaves the other blocking (5 then 3), reopen after the cancel then finish again gives the same stock and HPP, and two tabs reopen once.",
-  "R3_09_RATE_CHOICE": "Owner D16-2, D16-3, D16-4 (not an audit finding): when the Mandor rate in force at a later sewing time differs from the rate the PO locked at its first wage, the record pays the locked rate or the new one by explicit choice (refused without one, and refused with one where the rates are equal or the PO is switched); 'Pakai tarif baru seterusnya' switches the PO once, with a reason, never undone, after which records take the new rate without asking. Only Owner/Admin record or switch. A new rate is paid through a rate revision row of the PO snapshot written only by the CP7 command (declared Native deltas cp7_rate_revision_bundle.py: snapshot index gains committed_at, bf_ensure_work_v1 pins new SKUs from original base rows, prepare_rework_component_line SKU branch and seed_bs_case_component_baseline take the latest row; the index restore refuses while revisions exist). Cases: same rate no choice, changed rate needs a choice, OLD and NEW wages from Native lines and journals, revision reuse per sewing time, switch and its refusals, D16-4 role refusal, cancel of a new-rate record, payroll pipeline and unchanged Native detectors, wave per SKU, declared deltas and restore refusal, immutable private tables; two tabs choosing NEW, switch against record; real Auth HTTP; browser desktop and phone."
+  "R3_09_RATE_CHOICE": "Owner D16-2, D16-3, D16-4 (not an audit finding): when the Mandor rate in force at a later sewing time differs from the rate the PO locked at its first wage, the record pays the locked rate or the new one by explicit choice (refused without one, and refused with one where the rates are equal or the PO is switched); 'Pakai tarif baru seterusnya' switches the PO once, with a reason, never undone, after which records take the new rate without asking. Only Owner/Admin record or switch. A new rate is paid through a rate revision row of the PO snapshot written only by the CP7 command (declared Native deltas cp7_rate_revision_bundle.py: snapshot index gains committed_at, bf_ensure_work_v1 pins new SKUs from original base rows, prepare_rework_component_line SKU branch and seed_bs_case_component_baseline take the latest row; the index restore refuses while revisions exist). Cases: same rate no choice, changed rate needs a choice, OLD and NEW wages from Native lines and journals, revision reuse per sewing time, switch and its refusals, D16-4 role refusal, cancel of a new-rate record, payroll pipeline and unchanged Native detectors, wave per SKU, declared deltas and restore refusal, immutable private tables; two tabs choosing NEW, switch against record; real Auth HTTP; browser desktop and phone.",
+  "R3_03_PERIOD_TAB": "Owner D16-5 (not an audit finding): \"Tutup Periode\" is no longer a menu; closing the books is the \"Tutup Buku\" tab of \"Laporan & Tutup Buku\", the old route opens that tab. The period workspace adds the close/reopen history from the Native audit rows the accepted writers record for erp.accounting_period_control (column grants only); the oracle reads erp.audit_logs and erp.app_users directly and derives CLOSE/REOPEN itself. Rights stay separate: the report needs finance.reports.view, the tab and the facade also need finance.period_close.manage; seeded ADMIN (report right, no close right) is refused the period workspace natively and over real Auth, reads the report without the close check, and sees no tab in the browser."
  },
  "oracle_independence": "Dates from the Native accrual journals and source rows; balances from journal lines and stock movements; never from the guard functions.",
  "fixture_capital": "Banks that pay hold owner capital through the accepted Native journal (scripts/cp7_cash_funding.py) only where a case says so; empty-bank cases keep the bank empty.",

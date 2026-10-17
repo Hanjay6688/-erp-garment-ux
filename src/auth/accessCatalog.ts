@@ -51,7 +51,6 @@ export const NAV_PERMISSION_BY_LABEL: Readonly<Record<string, PermissionKey>> = 
   'Pengguna & Hak Akses': 'settings.access.view',
   'Pengaturan ERP': 'settings.erp.view',
   'Impor data awal': 'settings.erp.view',
-  'Tutup Periode': 'finance.period_close.manage',
   'Audit Trail': 'settings.audit.view',
 })
 

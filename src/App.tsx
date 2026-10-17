@@ -33,6 +33,7 @@ import { connectedSections, isNavLabelHidden, isScreenHidden, SCREEN_ACTIVATION 
 import { deriveWipControlStatus } from './wipControlPolicy'
 import CuttingPatternPicker, { hasCanonicalPattern } from './CuttingPatternPicker'
 import type { CuttingPatternChoice } from './CuttingPatternPicker'
+import type { FinanceReportTab } from './ConnectedFinanceReportPage'
 
 const SalesPages = lazy(() => import('./SalesPages'))
 const ConnectedSalesPage = lazy(() => import('./ConnectedSalesPage'))
@@ -310,16 +311,17 @@ const operationsPageByLabel: Record<string, OperationsAdminView> = {
   'Absensi & Rate Harian':'operations-attendance',
   'Reminder':'admin-reminders',
   'Pengaturan ERP':'admin-settings',
-  'Tutup Periode':'admin-period-close',
   'Audit Trail':'admin-audit',
 }
-const adminNav = ['Reminder','Pengguna & Hak Akses','Pengaturan ERP','Impor data awal','Tutup Periode','Audit Trail']
+const adminNav = ['Reminder','Pengguna & Hak Akses','Pengaturan ERP','Impor data awal','Audit Trail']
 const salesViews: SalesView[] = ['sales-invoice','sales-allocation','sales-returns','sales-payments','sales-history']
 const financeViews: FinanceView[] = ['finance-overview','finance-cash','finance-ap','finance-ar','finance-payroll','finance-journal','finance-reports']
 const isSalesView = (page: Page): page is SalesView => salesViews.includes(page as SalesView)
 const isFinanceView = (page: Page): page is FinanceView => financeViews.includes(page as FinanceView)
-const operationsViews: OperationsAdminView[] = ['operations-attendance','admin-reminders','admin-settings','admin-period-close','admin-audit']
+const operationsViews: OperationsAdminView[] = ['operations-attendance','admin-reminders','admin-settings','admin-audit']
 const isOperationsView = (page: Page): page is OperationsAdminView => operationsViews.includes(page as OperationsAdminView)
+// Owner D16-5: "Tutup Periode" is now the "Tutup Buku" tab of "Laporan & Tutup Buku"; an old link to it opens that tab.
+const redirectedPages: Partial<Record<Page, { page: Page; reportTab: FinanceReportTab }>> = { 'admin-period-close': { page: 'finance-reports', reportTab: 'PERIOD' } }
 
 const initialMovements: Movement[] = [
   { id: 'MV-1052', sku: '73001', brand: 'Vivo', customer: 'Nusantara Fashion', date: '27 Agu 2026 · 13:44', ref: 'INV-260827-019', type: 'Penjualan', note: 'Nusantara Fashion', delta: [-8,-8,-8], balance: [96,84,108] },
@@ -451,13 +453,19 @@ function ErpApp() {
   const demoAccess = identity.status === 'DEMO'
   // Owner D15-2: in the Enteng build a menu without a connected screen is hidden (src/screenActivation.ts).
   const canSeeNavLabel = (label: string) => (demoAccess || isNavLabelAllowed(accessBundle, label)) && !isNavLabelHidden(runtime.mode, label)
-  const [page, setPageState] = useState<Page>(() => demoAccess
+  const [page, setRoutedPage] = useState<Page>(() => demoAccess
     ? 'dashboard'
-    : (firstAllowedPageId(accessBundle, Object.keys(PAGE_PERMISSION_BY_ID).filter(id => !isScreenHidden(runtime.mode, id))) as Page | null) ?? 'dashboard')
+    : (firstAllowedPageId(accessBundle, Object.keys(PAGE_PERMISSION_BY_ID).filter(id => !isScreenHidden(runtime.mode, id) && !(id in redirectedPages))) as Page | null) ?? 'dashboard')
+  const [reportTab, setReportTab] = useState<FinanceReportTab>('REPORT')
+  const setPageState = (requested: Page) => {
+    const redirect = redirectedPages[requested]
+    setReportTab(redirect?.reportTab ?? 'REPORT')
+    setRoutedPage(redirect?.page ?? requested)
+  }
   const [sourceEpoch,setSourceEpoch]=useState(0)
   const setPage=(next:Page)=>{if(next!==page)setInvoiceSource(null);setSourceEpoch(value=>value+1);setPageState(next)}
   const [invoiceSource,setInvoiceSource] = useState<{saleId:string;scope:string}|null>(null)
-  const invoiceSourceScope=runtime.mode==='DISPOSABLE_TEST'&&identity.status==='AUTHORIZED'?`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`:null
+  const invoiceSourceScope=runtime.mode!=='DEMO_SIMULATION'&&identity.status==='AUTHORIZED'?`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`:null
   const [expanded, setExpanded] = useState<NavSection | null>(null)
   const [adminExpanded,setAdminExpanded] = useState(false)
   const [mobileNav, setMobileNav] = useState(false)
@@ -557,7 +565,6 @@ function ErpApp() {
     : page === 'admin-access' ? 'Pengguna & Hak Akses'
     : page === 'admin-import' ? 'Impor data awal'
     : page === 'admin-settings' ? 'Pengaturan ERP'
-    : page === 'admin-period-close' ? 'Tutup Periode'
     : page === 'admin-audit' ? 'Audit Trail'
     : 'Modul ERP'
 
@@ -638,8 +645,8 @@ function ErpApp() {
           onOpenReminders={() => setPage('admin-reminders')}
           onToggleReminder={(id)=>setReminders((current)=>current.map((item)=>item.id===id?{...item,status:item.status==='OPEN'?'DONE':'OPEN',completedAt:item.status==='OPEN'?'Sesi ini':undefined}:item))}
         />}
-        {isSalesView(page) && <Suspense fallback={<WorkspaceFallback label="Penjualan"/>}>{runtime.mode==='DISPOSABLE_TEST'&&(page==='sales-invoice'||page==='sales-allocation'||page==='sales-payments'||page==='sales-returns')?<ConnectedSalesPage view={page} initialSaleId={page==='sales-invoice'&&invoiceSourceScope!==null&&invoiceSource?.scope===invoiceSourceScope?invoiceSource.saleId:null}/>:<SalesPages view={page} onNavigate={(next)=>setPage(next)} />}</Suspense>}
-        {isFinanceView(page) && <Suspense fallback={<WorkspaceFallback label="Keuangan"/>}>{page === 'finance-overview' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedFinanceOverviewPage onNavigate={(next)=>setPage(next)}/> : page === 'finance-reports' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedFinanceReportPage/> : page === 'finance-cash' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedCashLedgerPage/> : page === 'finance-journal' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedJournalPage/> : page === 'finance-ar' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedReceivablesPage onOpenInvoice={(saleId)=>{if(invoiceSourceScope!==null){setSourceEpoch(value=>value+1);setInvoiceSource({saleId,scope:invoiceSourceScope});setPageState('sales-invoice')}}}/> : page === 'finance-ap' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSupplierCreditPage onLaundry={()=>setPage('laundry')}/> : page === 'finance-payroll' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedPayrollPage/> : <FinancePages view={page} onNavigate={(next)=>setPage(next)} onSalesPayment={()=>setPage('sales-payments')} onAttendance={()=>setPage('operations-attendance')} />}</Suspense>}
+        {isSalesView(page) && <Suspense fallback={<WorkspaceFallback label="Penjualan"/>}>{runtime.mode!=='DEMO_SIMULATION'&&(page==='sales-invoice'||page==='sales-allocation'||page==='sales-payments'||page==='sales-returns')?<ConnectedSalesPage view={page} initialSaleId={page==='sales-invoice'&&invoiceSourceScope!==null&&invoiceSource?.scope===invoiceSourceScope?invoiceSource.saleId:null}/>:<SalesPages view={page} onNavigate={(next)=>setPage(next)} />}</Suspense>}
+        {isFinanceView(page) && <Suspense fallback={<WorkspaceFallback label="Keuangan"/>}>{page === 'finance-overview' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedFinanceOverviewPage onNavigate={(next)=>setPage(next)}/> : page === 'finance-reports' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedFinanceReportPage tab={reportTab} onTab={setReportTab}/> : page === 'finance-cash' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedCashLedgerPage/> : page === 'finance-journal' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedJournalPage/> : page === 'finance-ar' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedReceivablesPage onOpenInvoice={(saleId)=>{if(invoiceSourceScope!==null){setSourceEpoch(value=>value+1);setInvoiceSource({saleId,scope:invoiceSourceScope});setPageState('sales-invoice')}}}/> : page === 'finance-ap' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSupplierCreditPage onLaundry={()=>setPage('laundry')}/> : page === 'finance-payroll' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedPayrollPage/> : <FinancePages view={page} onNavigate={(next)=>setPage(next)} onSalesPayment={()=>setPage('sales-payments')} onAttendance={()=>setPage('operations-attendance')} />}</Suspense>}
         {page === 'stock-card' && (runtime.mode === 'DEMO_SIMULATION' ? <StockCard /> : <Suspense fallback={<WorkspaceFallback label="Kartu stok FG"/>}><ConnectedFgStockPage purpose="CARD"/></Suspense>)}
         {page === 'fg-summary' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Barang jadi"/>}><ConnectedFgStockPage/></Suspense>}
         {page === 'movements-vivo' && (runtime.mode === 'DEMO_SIMULATION' ? <Movements bookName="Vivo" bookBrands={vivoBookBrands} setBookBrands={setVivoBookBrands} movements={movements} setMovements={setMovements} /> : <Suspense fallback={<WorkspaceFallback label="Buku mutasi Vivo"/>}><ConnectedFgBookPage bookName="Vivo"/></Suspense>)}
@@ -762,7 +769,7 @@ function ErpApp() {
         {page === 'admin-access' && <Suspense fallback={<WorkspaceFallback label="Pengguna & Hak Akses"/>}><AccessControlPage/></Suspense>}
         {page === 'pocket-fabric' && <Suspense fallback={<WorkspaceFallback label="Kain kantong"/>}><ConnectedPocketFabricPage/></Suspense>}
         {page === 'admin-import' && <Suspense fallback={<WorkspaceFallback label="Impor data awal"/>}><ConnectedInitialImportPage/></Suspense>}
-        {isOperationsView(page) && <Suspense fallback={<WorkspaceFallback label="Pengaturan operasional"/>}>{page === 'operations-attendance' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedAttendancePage/> : <OperationsAdminPages view={page} onNavigate={(next)=>setPage(next)} reminders={reminders} onChangeReminders={setReminders}/>}</Suspense>}
+        {isOperationsView(page) && <Suspense fallback={<WorkspaceFallback label="Pengaturan operasional"/>}>{page === 'operations-attendance' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedAttendancePage/> : <OperationsAdminPages view={page} onNavigate={(next)=>setPage(next)} reminders={reminders} onChangeReminders={setReminders}/>}</Suspense>}
         {page === 'placeholder' && <Placeholder />}
         </>}
       </div>

@@ -10,6 +10,10 @@ grant execute on function cp7_finance.exact_numbers(jsonb) to cp7_period_read;
 grant execute on function auth.uid(),auth.jwt(),erp.get_my_access_v1(),erp.has_permission(text) to cp7_period_read,cp7_period_write;
 grant execute on function erp.accounting_close_preflight_v1(date) to cp7_period_read;
 grant select on erp.accounting_period_control,erp.accounting_close_filings_v1,erp.account_daily_balances to cp7_period_read;
+-- Owner D16-5: the merged "Laporan & Tutup Buku" keeps the full history of close and reopen; the accepted Native writers record
+-- each change of the control row in erp.audit_logs (entity accounting_period_control), read here by column only.
+grant select(id,entity_type,old_data,new_data,changed_by,change_reason,changed_at) on erp.audit_logs to cp7_period_read;
+grant select(id,full_name) on erp.app_users to cp7_period_read;
 grant execute on function erp.close_accounting_through(date,text),erp.reopen_accounting_through(date,text) to cp7_period_write;
 create table cp7_period.requests(actor uuid not null,request_id uuid not null,action text not null,payload jsonb not null,response jsonb,primary key(actor,request_id));
 alter table cp7_period.requests owner to cp7_period_write;
@@ -28,7 +32,7 @@ end $$;
 
 create function cp7_period.workspace(p_through date) returns jsonb
 language plpgsql stable security definer set search_path='' set TimeZone='UTC' as $$
-declare control jsonb;preflight jsonb;balances jsonb;filing jsonb;token text;
+declare control jsonb;preflight jsonb;balances jsonb;filing jsonb;token text;history jsonb;
 begin
  perform cp7_period.access_now();
  if p_through is null or p_through>(statement_timestamp() at time zone 'Asia/Jakarta')::date then raise exception 'CP7_PERIOD_REVIEW_DATE';end if;
@@ -40,8 +44,16 @@ begin
  from(select a.account_id,sum(a.debit_total-a.credit_total) balance from erp.account_daily_balances a where a.balance_date<=p_through group by a.account_id)b;
  select jsonb_build_object('id',f.id,'closed_through',f.closed_through,'filed_at',f.filed_at) into filing from erp.accounting_close_filings_v1 f where f.closed_through=(control->>'closed_through')::date order by f.filed_at desc,f.id desc limit 1;
  token:=md5(jsonb_build_array(p_through,control,preflight,balances)::text);
+ -- The 50 latest changes of the closed-through date, newest first: CLOSE when the date moved later, REOPEN otherwise.
+ select coalesce(jsonb_agg(jsonb_build_object('at',h.changed_at,'action',h.kind,'from',h.old_through,'to',h.new_through,'by',h.by_name,'reason',h.change_reason)
+   order by h.changed_at desc,h.id desc),'[]') into history
+ from(select l.id,l.changed_at,l.change_reason,u.full_name by_name,(l.old_data->>'closed_through')::date old_through,(l.new_data->>'closed_through')::date new_through,
+   case when(l.new_data->>'closed_through') is not null and((l.old_data->>'closed_through') is null or(l.new_data->>'closed_through')::date>(l.old_data->>'closed_through')::date)
+    then 'CLOSE' else 'REOPEN' end kind
+  from erp.audit_logs l left join erp.app_users u on u.id=l.changed_by
+  where l.entity_type='accounting_period_control' order by l.changed_at desc,l.id desc limit 50)h;
  return jsonb_build_object('contract_version','cp7.period-control.v1','captured_at',statement_timestamp(),'through',p_through,'control',control,
-  'review_token',token,'preflight',cp7_finance.exact_numbers(preflight),'current_filing',filing);
+  'review_token',token,'preflight',cp7_finance.exact_numbers(preflight),'current_filing',filing,'history',history);
 end $$;
 
 -- Only this helper obtains the same native control-row lock. It grants no ERP

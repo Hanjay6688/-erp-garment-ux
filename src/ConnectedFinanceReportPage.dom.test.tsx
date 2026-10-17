@@ -17,6 +17,7 @@ afterEach(async()=>{await act(async()=>root.unmount());container.remove()})
 const flush=async()=>act(async()=>{await new Promise(r=>setTimeout(r,0))})
 async function mount(){await act(async()=>root.render(<ConnectedFinanceReportPage/>));await flush()}
 const button=(label:string)=>[...container.querySelectorAll('button')].find(b=>b.textContent===label)!
+const tab=(label:string)=>[...container.querySelectorAll<HTMLElement>('[role="tab"]')].find(b=>b.textContent===label)!
 async function click(e:HTMLElement){await act(async()=>e.click());await flush()}
 async function fill(label:string,value:string){await act(async()=>{const e=container.querySelector<HTMLInputElement>(`[aria-label="${label}"]`)!;Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(e,value);e.dispatchEvent(new Event('input',{bubbles:true}))});await flush()}
 describe('P13 exact dated financial source and immutable filing',()=>{
@@ -84,12 +85,25 @@ describe('P13 exact dated financial source and immutable filing',()=>{
  it('a period post-commit callback captured before date edits refreshes the latest entered range',async()=>{
   const auth=mock.auth as typeof recoveryIdentity;auth.identity.permissions.push('finance.period_close.manage')
   mock.rpc.mockImplementation((_rpc,{p_query})=>Promise.resolve({data:financeReportFixture(p_query,p_query.filing_id,true),error:null}))
-  await mount();const captured=mock.periodRefresh!
-  await fill('Periode laporan dari','2026-08-31')
+  await mount();expect(mock.periodRefresh).toBeNull();await click(tab('Tutup Buku'));const captured=mock.periodRefresh!
+  await click(tab('Laporan'));await fill('Periode laporan dari','2026-08-31')
   await act(async()=>{expect(await captured()).toBe(true)})
   expect(mock.rpc.mock.calls.at(-1)?.[1].p_query.from).toBe('2026-08-31')
   expect(container.textContent).toContain('Periode 2026-08-31–')
  })
  it('retires an old actor response when identity changes during a read',async()=>{let resolveOld:((v:unknown)=>void)|null=null,oldDates:FinanceDates|null=null;mock.rpc.mockImplementationOnce((_rpc,{p_query})=>{oldDates=p_query;return new Promise(r=>{resolveOld=r})});await mount();const auth=structuredClone(mock.auth) as typeof recoveryIdentity;auth.identity.profile.id='actor-2';mock.auth=auth;mock.rpc.mockImplementation((_rpc,{p_query})=>{const r=financeReportFixture(p_query);r.snapshot.financial_position.assets='123.45';return Promise.resolve({data:r,error:null})});await mount();expect(container.querySelector('[aria-label="Posisi keuangan tercatat"]')?.textContent).toContain('Rp123,45');await act(async()=>resolveOld!({data:financeReportFixture(oldDates!),error:null}));await flush();expect(container.querySelector('[aria-label="Posisi keuangan tercatat"]')?.textContent).toContain('Rp123,45');expect(container.textContent).not.toContain('9.007.199.254.740.993')})
+ it('keeps closing the books as a separate tab that needs the close right (owner D16-5)',async()=>{
+  await mount();expect(container.querySelector('[role="tablist"]')).toBeNull();expect(mock.periodRefresh).toBeNull();expect(container.querySelector('[aria-label="Posisi keuangan tercatat"]')).not.toBeNull()
+  const auth=mock.auth as typeof recoveryIdentity;auth.identity.permissions.push('finance.period_close.manage')
+  mock.rpc.mockImplementation((_rpc,{p_query})=>Promise.resolve({data:financeReportFixture(p_query,p_query.filing_id,true),error:null}))
+  await act(async()=>root.unmount());root=createRoot(container);await mount()
+  expect([...container.querySelectorAll('[role="tab"]')].map(t=>[t.textContent,t.getAttribute('aria-selected')])).toEqual([['Laporan','true'],['Tutup Buku','false']])
+  expect(mock.periodRefresh).toBeNull();expect(container.querySelector('[aria-label="Arsip penutupan keuangan"]')).not.toBeNull()
+  await click(tab('Tutup Buku'));expect(mock.periodRefresh).not.toBeNull();expect(container.querySelector('[aria-label="Posisi keuangan tercatat"]')).toBeNull();expect(tab('Tutup Buku').getAttribute('aria-selected')).toBe('true')
+  // The old "Tutup Periode" route opens the merged page on this tab.
+  await act(async()=>root.unmount());root=createRoot(container);mock.periodRefresh=null;const onTab=vi.fn()
+  await act(async()=>root.render(<ConnectedFinanceReportPage tab="PERIOD" onTab={onTab}/>));await flush()
+  expect(mock.periodRefresh).not.toBeNull();await click(tab('Laporan'));expect(onTab).toHaveBeenLastCalledWith('REPORT');expect(container.querySelector('[aria-label="Posisi keuangan tercatat"]')).not.toBeNull()
+ })
  it('requires current report access and preserves the native owner report role restriction',async()=>{const auth=mock.auth as typeof recoveryIdentity;auth.identity.permissions=[];await mount();expect(container.textContent).toContain('Hak melihat laporan');expect(mock.rpc).not.toHaveBeenCalled();auth.identity.permissions=['finance.reports.view'];auth.identity.profile.role='STAFF';await mount();expect(container.textContent).toContain('Owner atau Admin');expect(mock.rpc).not.toHaveBeenCalled()})
 })

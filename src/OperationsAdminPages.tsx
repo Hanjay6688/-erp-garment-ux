@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import {
   AlertTriangle, ArrowRight, Bell, CalendarClock, Check, CheckCircle2, ChevronDown,
   ChevronRight, ClipboardCheck, Clock3, FileClock, FileSearch, Filter,
-  History, KeyRound, LockKeyhole, Plus, RefreshCcw, Save, Search, Settings2,
+  History, KeyRound, Plus, Save, Search, Settings2,
   ShieldAlert, ShieldCheck, SlidersHorizontal, UserRoundCog, UsersRound,
   Trash2, WalletCards, XCircle,
 } from 'lucide-react'
@@ -55,7 +55,6 @@ export default function OperationsAdminPages({view,onNavigate,reminders=[],onCha
   if (view === 'operations-attendance') return <AttendancePage onNavigate={onNavigate}/>
   if (view === 'admin-reminders') return <ReminderPage onNavigate={onNavigate} reminders={reminders} onChangeReminders={onChangeReminders}/>
   if (view === 'admin-settings') return <SettingsPage onNavigate={onNavigate}/>
-  if (view === 'admin-period-close') return <PeriodClosePage onNavigate={onNavigate}/>
   return <AuditTrailPage onNavigate={onNavigate}/>
 }
 
@@ -77,7 +76,6 @@ function AdminTabs({active,onNavigate}:{active:Exclude<OperationsAdminView,'oper
   return <section className="ops-admin-tabs panel">
     <button className={active==='admin-reminders'?'active':''} onClick={()=>onNavigate('admin-reminders')}><Bell/> Reminder</button>
     <button className={active==='admin-settings'?'active':''} onClick={()=>onNavigate('admin-settings')}><Settings2/> Pengaturan ERP</button>
-    <button className={active==='admin-period-close'?'active':''} onClick={()=>onNavigate('admin-period-close')}><LockKeyhole/> Tutup Periode</button>
     <button className={active==='admin-audit'?'active':''} onClick={()=>onNavigate('admin-audit')}><History/> Audit Trail</button>
   </section>
 }
@@ -196,33 +194,6 @@ function ReminderPage({onNavigate,reminders,onChangeReminders}:{onNavigate:Opera
         <label><span>MODUL / KONTEKS</span><input value={draft.module} onChange={(event)=>setDraft((current)=>({...current,module:event.target.value}))} placeholder="Laundry, Hutang, Bagi Potongan..."/></label>
         <div className="reminder-editor-actions">{editingId?<button className="soft-btn" onClick={resetDraft}>Batal edit</button>:null}<button className="primary-btn" disabled={!draft.title.trim()||!draft.dueAt} onClick={saveReminder}>{editingId?<Save/>:<Plus/>} {editingId?'Simpan perubahan':'Tambah reminder'}</button></div>
         {notice?<div className="ops-notice inline"><CheckCircle2/><span>{notice}</span></div>:null}
-      </aside>
-    </section>
-  </>
-}
-
-function PeriodClosePage({onNavigate}:{onNavigate:OperationsAdminProps['onNavigate']}) {
-  const [notice,setNotice]=useState('')
-  const fixtureChecks=[
-    {tone:'block',title:'Absensi belum lengkap',detail:'2 tanggal Draft belum diposting · Epi / Selo / Afat',owner:'Payroll'},
-    {tone:'block',title:'Antrean HPP recalc aktif',detail:'1 invoice supplier terlambat memengaruhi RM → WIP → FG → COGS',owner:'Keuangan'},
-    {tone:'warn',title:'Stock adjustment masih Draft',detail:'3 dokumen belum diposting atau dibatalkan',owner:'Gudang'},
-    {tone:'warn',title:'GRNI belum menjadi invoice',detail:'3 receipt memakai harga estimate / benchmark',owner:'AP'},
-    {tone:'clear',title:'Invoice penjualan sudah sinkron',detail:'Reserved, posted sale, retur, dan AR cocok',owner:'Toko'},
-    {tone:'clear',title:'Payroll paid sudah rekonsiliasi',detail:'Reversal dan carry-forward tidak menggantung',owner:'Payroll'},
-  ]
-  return <>
-    <AdminHero eyebrow="PENGATURAN & AUDIT · PERIOD CONTROL" title="Tutup Periode · contoh Agustus 2026" description="Prototype close bulanan setelah absensi, stok, HPP, AP/AR, dan payroll lolos validasi. Status dan pemeriksaan di layar ini belum berasal dari period-close backend." icon={LockKeyhole}>
-      <aside className="close-status"><ShieldAlert/><div><small>STATUS CONTOH</small><strong>FIXTURE · OPEN · 2 BLOCKER</strong><em>Bukan status periode live.</em></div></aside>
-    </AdminHero>
-    <AdminTabs active="admin-period-close" onNavigate={onNavigate}/>
-    <FixtureDisclosure>Periode Agustus 2026, enam pemeriksaan, dua blocker, nama dokumen, dan close sebelumnya adalah skenario contoh. Tombol hanya mendemokan UX; tidak ada query close-gate, posting, atau reopen ke backend.</FixtureDisclosure>
-    <section className="close-overview">
-      <main className="panel close-checks"><header><div><span>CLOSE GATE · CONTOH</span><strong>6 pemeriksaan fixture lintas modul</strong><small>UX target: blocker wajib nol; warning perlu alasan dan approval Owner.</small></div><button className="soft-btn" onClick={()=>setNotice('Preview contoh dijalankan ulang secara lokal. Tidak ada query atau transaksi backend.')}><RefreshCcw/> Jalankan ulang contoh</button></header><div>{fixtureChecks.map((item)=><article className={item.tone} key={item.title}><i>{item.tone==='clear'?<Check/>:item.tone==='block'?<XCircle/>:<AlertTriangle/>}</i><span><strong>{item.title}</strong><small>{item.detail}</small></span><b>CONTOH · {item.owner}</b></article>)}</div><footer><div><ShieldAlert/><span><strong>Contoh periode belum bisa ditutup</strong><small>Skenario fixture masih mempunyai 2 blocker.</small></span></div><button className="primary-btn" disabled><LockKeyhole/> Tutup contoh Agustus 2026</button></footer>{notice&&<div className="ops-notice inline"><CheckCircle2/><span>{notice}</span></div>}</main>
-      <aside className="close-side">
-        <section className="panel close-allocation"><header><div><span>CATATAN AUDIT · ATTENDANCE → HPP</span><strong>Bukan hasil close live</strong></div><WalletCards/></header><div><p><span>Attendance → payroll</span><b>Ditemukan pada audit skema</b></p><p><span>Alokasi biaya ke PO / SKU</span><b>Belum terverifikasi</b></p><p><span>Angka preview</span><b>Tidak dihitung</b></p></div><footer><span>STATUS HPP ABSENSI</span><strong>BELUM TERSEDIA</strong><small>Jangan close berdasarkan formula atau angka simulasi.</small></footer></section>
-        <section className="panel late-document"><header><div><span>ATURAN TARGET · TAGIHAN TERLAMBAT</span><strong>Sesudah periode ditutup</strong></div><FileSearch/></header><p>Target flow: tanggal ekonomi asli tetap disimpan. Jurnal masuk ke hari pertama yang masih open; revisi angka closed hanya melalui explicit reopen dengan alasan.</p><div><Check/> Target: histori tidak berubah diam-diam</div><div><Check/> Target: recalc RM → WIP → FG → COGS terlacak</div></section>
-        <section className="panel previous-close"><header><div><span>CONTOH PERIODE SEBELUMNYA</span><strong>Fixture · Juli 2026 · CLOSED</strong></div><LockKeyhole/></header><p>Contoh: ditutup 2 Agu 2026 · 21:14 oleh Owner</p><button className="soft-btn" onClick={()=>setNotice('Simulasi aturan reopen: alasan, impact preview, expected row_version, dan approval Owner kedua. Backend belum dipanggil.')}>Lihat contoh aturan reopen</button></section>
       </aside>
     </section>
   </>

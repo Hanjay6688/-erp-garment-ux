@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
-import { cp6WibDateTimeInput } from './cp6BusinessTime'
+import { cp6WibDateTimeInput, formatCp6WibDateTime } from './cp6BusinessTime'
 import { financeDate } from './financeReportContract'
 import { parsePeriodControl, parsePeriodOutcome, type PeriodControl } from './periodControlContract'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
@@ -57,6 +57,11 @@ export default function FinancePeriodPanel({ client, onChanged }: { client:Retur
     <label className="cproc-check"><input type="checkbox" checked={reviewed} onChange={e=>setReviewed(e.target.checked)}/>Saya sudah memeriksa tanggal, penghalang, dan alasan perubahan periode.</label>
     <button className="primary-btn" disabled={!payload} onClick={()=>{if(payload&&!locked)void run(action,payload,null,handlers)}}>{action==='CLOSE'?'Tutup buku dan simpan arsip':'Buka kembali periode'}</button>
    </fieldset>
+   <section aria-label="Riwayat tutup dan buka buku"><h3>Riwayat tutup/buka buku</h3>
+    {current.history.length===0?<p>Belum ada penutupan atau pembukaan kembali yang tercatat.</p>:null}
+    {current.history.map((h,i)=><article className="cproc-item" key={`${h.at}:${i}`}><strong>{h.action==='CLOSE'?`Ditutup sampai ${h.to}`:h.to===null?'Seluruh periode dibuka kembali':`Dibuka kembali; tetap tertutup sampai ${h.to}`}</strong><small>{formatCp6WibDateTime(h.at)} · {h.by??'Pengguna tidak tercatat'} · sebelumnya {h.from===null?'belum ada yang tertutup':`tertutup sampai ${h.from}`}</small><p>{h.reason??'Tanpa alasan tercatat'}</p></article>)}
+    {current.history.length===50?<p>Menampilkan 50 perubahan terbaru.</p>:null}
+   </section>
   </>:null}
  </section>
 }

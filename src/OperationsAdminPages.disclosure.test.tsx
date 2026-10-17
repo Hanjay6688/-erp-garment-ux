@@ -36,16 +36,11 @@ describe('Operations admin fixture disclosure', () => {
     expect([...container.querySelectorAll('.policy-switch span')].every((item) => item.textContent?.startsWith('CONTOH ·'))).toBe(true)
   })
 
-  it('marks period status, checks, dates, and previous close as a fixture', () => {
-    renderView('admin-period-close')
+  it('has no separate period-close sample any more: closing the books is a tab of Laporan & Tutup Buku (owner D16-5)', () => {
+    renderView('admin-settings')
 
-    expect(container.querySelector('[role="note"]')?.textContent).toContain('tidak ada query close-gate')
-    expect(container.textContent).toContain('FIXTURE · OPEN · 2 BLOCKER')
-    expect(container.textContent).toContain('6 pemeriksaan fixture lintas modul')
-    expect([...container.querySelectorAll('.close-checks article > b')]).toHaveLength(6)
-    expect([...container.querySelectorAll('.close-checks article > b')].every((item) => item.textContent?.startsWith('CONTOH ·'))).toBe(true)
-    expect(container.textContent).toContain('Bukan hasil close live')
-    expect(container.textContent).not.toContain('Terverifikasi sebagai input')
+    expect([...container.querySelectorAll('.ops-admin-tabs button')].map((item) => item.textContent?.trim())).toEqual(['Reminder', 'Pengaturan ERP', 'Audit Trail'])
+    expect(container.textContent).not.toContain('Tutup Periode')
   })
 
   it('marks audit metrics and every event as examples without claiming a live backend guard', () => {

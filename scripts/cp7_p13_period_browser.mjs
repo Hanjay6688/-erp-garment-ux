@@ -7,7 +7,10 @@ async function open(ui,p){
  const menu=p.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
  const link=p.getByRole('button',{name:'• Laporan & Tutup Buku',exact:true});if(!await link.isVisible())await p.locator('.sidebar .nav-main').filter({hasText:'Keuangan'}).click();await link.click()
  await ui.expect(p.getByRole('heading',{name:'Laporan & Tutup Buku',exact:true})).toBeVisible()
+ await tab(p,'Tutup Buku')
 }
+// Owner D16-5: closing the books is the "Tutup Buku" tab of the page; the archive stays on the "Laporan" tab.
+async function tab(p,name){const t=p.getByRole('tab',{name,exact:true});await t.click();await p.getByRole('tab',{name,exact:true,selected:true}).waitFor()}
 async function period(ui,f,mobile){
  const user=await ui.login('OWNER',{label:'p13-period-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),p=user.page,suffix=mobile?'MOBILE':'DESKTOP'
  try{
@@ -28,10 +31,10 @@ async function period(ui,f,mobile){
   await ui.expect(panel).toContainText('Periode tertutup sampai '+f.day)
   const after=fixture('read',f);assert.equal(after.filings.length,before.filings.length+1);assert.deepEqual(after.business,before.business);assert.deepEqual(after.filings.slice(0,-1),before.filings)
   const filed=after.filings.at(-1);assert.equal(filed.reason,reason);assert.equal(filed.closed_through,f.day);assert.equal(filed.readiness.status,'READY')
-  const archives=p.getByRole('region',{name:'Arsip penutupan keuangan',exact:true});const original=archives.locator('.cproc-receipt').filter({hasText:reason});await ui.expect(original).toHaveCount(1);await original.click();await ui.expect(p.getByRole('region',{name:'Saldo asli saat penutupan',exact:true})).toContainText(reason)
+  await tab(p,'Laporan');const archives=p.getByRole('region',{name:'Arsip penutupan keuangan',exact:true});const original=archives.locator('.cproc-receipt').filter({hasText:reason});await ui.expect(original).toHaveCount(1);await original.click();await ui.expect(p.getByRole('region',{name:'Saldo asli saat penutupan',exact:true})).toContainText(reason)
   await ui.expect.poll(()=>panel.evaluate(el=>{const b=el.getBoundingClientRect();return b.left>=0&&b.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
   mkdirSync('cp6-proof/t3',{recursive:true});await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:`cp6-proof/t3/P13_PERIOD_${suffix}.png`,fullPage:true})
-  await panel.getByLabel('Tanggal pemeriksaan tutup buku',{exact:true}).fill(f.day);await ui.expect(panel.getByLabel('Tindakan periode',{exact:true})).toBeEnabled()
+  await tab(p,'Tutup Buku');await panel.getByLabel('Tanggal pemeriksaan tutup buku',{exact:true}).fill(f.day);await ui.expect(panel.getByLabel('Tindakan periode',{exact:true})).toBeEnabled()
   await panel.getByLabel('Tindakan periode',{exact:true}).selectOption('REOPEN')
   if(f.previous_closed===null)await panel.getByLabel('Buka seluruh periode tertutup',{exact:true}).check()
   else await panel.getByLabel('Periode tetap tertutup sampai',{exact:true}).fill(f.previous_closed)

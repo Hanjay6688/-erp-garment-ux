@@ -11,7 +11,7 @@ const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
 vi.mock('./auth/AuthProvider',()=>({useAuth:()=>state.auth}))
 const day='2020-01-02',hash='a'.repeat(32),nextHash='b'.repeat(32),filing='11111111-1111-4111-8111-111111111111'
-function record(through=day,closed:string|null=null){return {contract_version:'cp7.period-control.v1',captured_at:'2026-09-29T10:00:00Z',through,review_token:closed?nextHash:hash,control:{closed_through:closed,version_token:closed?nextHash:hash},preflight:{...financeReportFixture({from:through,to:through,as_of:through},null,true).close_preflight!,through,closed_through:closed,date_allowed:true},current_filing:closed?{id:filing,closed_through:closed,filed_at:'2026-09-29T10:00:00Z'}:null}}
+function record(through=day,closed:string|null=null){return {contract_version:'cp7.period-control.v1',captured_at:'2026-09-29T10:00:00Z',through,review_token:closed?nextHash:hash,control:{closed_through:closed,version_token:closed?nextHash:hash},preflight:{...financeReportFixture({from:through,to:through,as_of:through},null,true).close_preflight!,through,closed_through:closed,date_allowed:true},current_filing:closed?{id:filing,closed_through:closed,filed_at:'2026-09-29T10:00:00Z'}:null,history:closed?[{at:'2026-09-29T10:00:00Z',action:'CLOSE',from:null,to:closed,by:'Owner Uji',reason:'Semua sumber diperiksa'}]:[] as unknown[]}}
 let root:Root,container:HTMLDivElement
 const onChanged=vi.fn(async()=>true)
 beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});localStorage.clear();client.rpc.mockReset();onChanged.mockClear();state.auth=structuredClone(recoveryIdentity);Object.defineProperty(navigator,'locks',{configurable:true,value:{request:async(_n:string,_o:unknown,fn:(l:unknown)=>Promise<unknown>)=>fn({})}});container=document.createElement('div');document.body.append(container);root=createRoot(container)})
@@ -56,4 +56,16 @@ it('opens all periods only from an explicit reopen selection and confirmation',a
  const select=container.querySelector('select')!;await act(async()=>{Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype,'value')!.set!.call(select,'REOPEN');select.dispatchEvent(new Event('change',{bubbles:true}))});await flush()
  await act(async()=>field('Buka seluruh periode tertutup').click());await fill('Alasan perubahan periode','Koreksi sumber tertinggal');await check();await click('Buka kembali periode')
  expect(writes()[0][1].p_action).toBe('REOPEN');expect(writes()[0][1].p_payload.through).toBeNull();expect(s.closed).toBeNull()
+})
+it('shows the close and reopen history and refuses a history that does not match its own dates (owner D16-5)',async()=>{
+ const r=record(day,day),reopen={at:'2026-09-30T10:00:00Z',action:'REOPEN',from:day,to:null,by:null,reason:'Koreksi sumber tertinggal'}
+ r.history=[reopen,...r.history];expect(parsePeriodControl(r,day).history).toHaveLength(2)
+ expect(()=>parsePeriodControl({...r,history:[{...reopen,action:'CLOSE'}]},day)).toThrow()
+ expect(()=>parsePeriodControl({...r,history:[...r.history].reverse()},day)).toThrow()
+ expect(()=>parsePeriodControl({...r,history:[{...reopen,extra:1}]},day)).toThrow()
+ expect(()=>parsePeriodControl({...r,history:Array.from({length:51},()=>reopen)},day)).toThrow()
+ const{history:_,...missing}=r;expect(()=>parsePeriodControl(missing,day)).toThrow()
+ const s=server();s.closed=day;await mount();await fill('Tanggal pemeriksaan tutup buku',day)
+ const section=container.querySelector('[aria-label="Riwayat tutup dan buka buku"]')!
+ expect(section.textContent).toContain('Ditutup sampai '+day);expect(section.textContent).toContain('Owner Uji');expect(section.textContent).toContain('sebelumnya belum ada yang tertutup');expect(section.textContent).toContain('Semua sumber diperiksa')
 })

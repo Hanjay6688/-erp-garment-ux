@@ -100,7 +100,11 @@ assert.equal(evidence.format, 'CP5_ACCESS_ROUTE_ACTION_OWNERSHIP_V1')
 assert.equal(evidence.closure_status, 'READY_FOR_INDEPENDENT_REAUDIT_NO_GO')
 assert.equal(evidence.production_go, false)
 assert.equal(evidence.counts.backend_permissions, permissionRows.length)
-assert.equal(evidence.counts.navigation_labels + 2, navMap.size)
+// +2 since CP5 (Kain kantong, Impor data awal), -1 by owner D16-5: "Tutup Periode" is a tab of "Laporan & Tutup Buku",
+// no longer a sidebar label; its route stays owned by finance.period_close.manage and redirects to the merged page.
+assert.equal(evidence.counts.navigation_labels + 1, navMap.size)
+assert.equal(navMap.has('Tutup Periode'), false)
+assert.equal(pageMap.get('admin-period-close'), 'finance.period_close.manage')
 assert.equal(evidence.counts.protected_routes + 2, pageMap.size)
 assert.equal(navMap.get('Kain kantong'), 'warehouse.stock.adjust')
 assert.equal(pageMap.get('pocket-fabric'), 'warehouse.stock.adjust')
