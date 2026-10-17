@@ -41,16 +41,18 @@ private role stack 49 (`cp7_f03_full_probe.py`, both manifests).
 
 ## Not done yet (in this order)
 
-1. Candidate is now `b53b5acdf260b03ebac3474e9ae837fcef6f6eb1` (tree `32f54240a60e01ab8b1ffad7267d285a669be520`): the
-   first candidate `82450d8a` plus the Build UX test that follows D16-1 and docs (`git diff --name-only 82450d8a b53b5acd`).
-   CP17 on `82450d8a` was 321/321 (run 39025697040); the CP7 code is identical in `b53b5acd`. `claude/new-session-deapao`
-   was fast-forwarded to it and the qualification workflows plus the CP6 Auditor Scenario sample were started on ref
-   `claude/new-session-deapao`. Wait for all of them; read failures per case; compare with
-   `CI_RECEIPT_FIRST_82450d8a.json` and the r2 receipt (expected red: historic scope checks, expired artifact, the CP6
-   Auditor Scenario's 4 known INCOMPLETE).
-2. Receipt: `python3 scripts/cp7_ci_receipt.py b53b5acdf260b03ebac3474e9ae837fcef6f6eb1 docs/cp7/audit-candidate/cp1-7-r3-20261017/CI_RECEIPT.json`;
-   fill `<RECEIPT>` in the three boxes and the README "Kandidat" section (same layout as the r2 README). Docs-only commits
-   after the candidate; push them to `claude/r3-fixes-20261017` and fast-forward `claude/new-session-deapao`.
+1. Candidate `b53b5acdf260b03ebac3474e9ae837fcef6f6eb1` (tree `32f54240a60e01ab8b1ffad7267d285a669be520`) is qualified:
+   116 runs on 115 workflows, 95 runs green; the main list (81 workflows, same as r2) is all green; the 21 red workflows
+   are the r2 set exactly (20 historic scope checks + CP6 AF Posted Child Family expired artifact; each fails at the same
+   step as on r2). CP17 run 39035959038: 321/321 PASS (153/34/24/55/55), 1217 Enteng requests answered by loopback, 0
+   route errors. F05 attempt 1 died at "Start disposable database" (image pull `toomanyrequests`), attempt 2 green. Interim
+   `CI_RECEIPT.json` committed. Still open: the full writer CP6 Auditor Scenario on the candidate (parity with r2), run
+   39044984302 (dispatch on ref `claude/new-session-deapao` with `inputs[scenario_path]=scripts/cp6_bf_combined_modes.py`,
+   `inputs[browser_path]=scripts/cp6_bf_vendor_browser.mjs`). Expected: native 104, race 26, HTTP 9, browser 27 PASS + the
+   4 known INCOMPLETE (as on 82450d8a runs 39027273406 / 39027496786). When it ends, regenerate the receipt.
+2. Fill `<RECEIPT>` in the three boxes (then drop the "do not send while `<...>`" note; `<tanggal>` in the branch name is
+   for the auditor) and the README "Kandidat" section (same layout as the r2 README; draft numbers above). Docs-only
+   commits after the candidate; push them to `claude/r3-fixes-20261017` and fast-forward `claude/new-session-deapao`.
 3. Owner report: short, plain Indonesian (CLAUDE.md): what is ready, that the owner copies the three boxes, no decision needed
    unless one came up.
 
@@ -83,3 +85,4 @@ new facade's closed-books refusal, review token and request table; `cp7_hpp_pool
 | fix(test-tools): Enteng route redirect survives a page closed mid-flight | CP17 39024246702 at 2bb9e774: every case line PASS (266), but the Enteng browser host died with "route.fulfill: Fetch response has been disposed" after a case closed its context while a redirected request was in flight, so 55 Enteng cases never ran and the probe reported INCOMPLETE. Reproduced locally (old code: unhandled rejection; new code: recorded in `enteng_route_errors`, page gets a network failure) |
 | test(r3)/docs: candidate 82450d8a | CP17 39025697040: 321/321 PASS, 1218 Enteng requests answered by loopback, 0 route errors. Qualification started on `claude/new-session-deapao` |
 | test(build-ux): Susun Nota FG oracle follows D16-1 | Qualification of 82450d8a: 117 runs, 93 success. New vs r2 only Build UX: `tests/browser/cp6-laundry-qc.spec.ts` still expected the D15-2 "WRITER DIBLOKIR" boundary in connected UAT. Updated to D16-1 keeping its intent (the legacy browser Nota writer never opens, no CP6 writer call; the connected Nota screen reads only through the CP7 facade); the 26 CP6 browser tests pass locally. The other failures equal r2 (historic scope checks, expired artifact, CP6 Auditor Scenario's 4 known INCOMPLETE). A new candidate is qualified because a test file changed |
+| docs(r3): interim receipt at candidate b53b5acd | Qualification of b53b5acd complete: 116 runs, 95 green, red set equal to r2 (21 old CP6 workflows, same failing steps). CP17 39035959038 321/321. Full writer CP6 scenario dispatched for parity: run 39044984302 |
