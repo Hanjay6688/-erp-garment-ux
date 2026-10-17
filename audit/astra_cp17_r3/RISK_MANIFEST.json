@@ -1,0 +1,24 @@
+{
+  "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "native_ids": [
+    "ASTRA_R3_REOPEN_POSITIVE_ADJUSTMENT_INVERSE",
+    "ASTRA_R3_MIXED_RATES_NOTA_PAYROLL_HPP"
+  ],
+  "http_ids": [
+    "ASTRA_R3_POOL_PUBLIC_CLOSED_PERIOD",
+    "ASTRA_R3_POOL_PUBLIC_REVOKED_MANAGE"
+  ],
+  "expected": 4,
+  "oracle_origin": "Astra independently declared scenarios/arithmetic; writer fixture and transport reused; no current-round other-auditor evidence",
+  "oracles": {
+    "positive_inverse": "10 -> 12 -> 10 PCS, HPP unchanged, inverse of its own positive adjustment leaves no active use; reopening must be possible",
+    "mixed_rates": "2*(3+1)+3*(5+1)+1*(3+1)+4*(5+1)=54; Nota/payroll54, payment54 once, bank0, contractor payable0; 10 physicalPCS vs20 componentPCS; finalHPP material+54+20, WIP0; retained work rates unchanged",
+    "public_pool_closed": "new CP7 and every reachable legacy public writer must refuse after period_end<=closed_through; record concrete old-route journal/business changes if accepted",
+    "public_pool_manage": "Admin with revoked finance.hpp.manage must not create through alternate public route; no test-only schema grant in real Auth/PostgREST mode"
+  },
+  "D14_9": "82 erp SQL writers deferral conditioned on internet-unreachable; public wrappers explicitly examined separately",
+  "files": {
+    "risk_cases.py": "25579d605d832bbab84db2693695b58b641c52f38d3ecee28391e5a34e78c88e",
+    "risk_runner.py": "bec0debc23ea60186d16bf1b1d847c1aa327910c0c4642ebaa2a44326ee509c4"
+  }
+}
