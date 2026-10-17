@@ -1,0 +1,17 @@
+{
+  "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "candidate_tree": "32f54240a60e01ab8b1ffad7267d285a669be520",
+  "product_trees": {
+    "src": "b4041b3b21b6e63a36419f9beae4de24f3a96244",
+    "supabase/release": "be1e91c172ffb5c05b694a3a54c69562700c6d5e",
+    "supabase/migrations": "8f6053bbd0bda80da18065418ad43371cdfd9461",
+    "scripts/cp7-src": "633ef684ec2ec2c3f54c48a6ba971f8c6d70843b",
+    "supabase/dev": "88759f4fc51864a1ec9e224fcb4f236204b5c853"
+  },
+  "tracked_source_diff": "",
+  "supabase_changed_since_r2": [],
+  "last_execution_head": "42f9243bfc220e9633c865355063e874f7f2facb",
+  "unrelated_untracked_file_excluded": true,
+  "writer_branch_final_head": "64339905cc19e497f9fdb3599ff4a21cbf7da8ff",
+  "writer_branch_unchanged_since_audit_start": true
+}

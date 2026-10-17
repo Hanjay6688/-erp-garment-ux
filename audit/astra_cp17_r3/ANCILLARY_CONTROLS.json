@@ -1,0 +1,234 @@
+[
+  {
+    "wait_then_install": {
+      "seconds": 0.42,
+      "table": true,
+      "seen": {
+        "other_backends_seen": {
+          "client backend": 1
+        },
+        "refused_and_retried": 0
+      }
+    },
+    "refused_then_retried": {
+      "attempts": 2,
+      "retried": 1,
+      "ledger": 1
+    },
+    "other_refusal_not_retried": "AZ_PRIOR_PLATFORM_DRIFT: x",
+    "persistent_drained_refusal_stops": 6,
+    "backend_stays": "DRAIN_TIMEOUT_BEFORE_FILE",
+    "reopened": "ADMISSION_REOPENED_BEFORE_FILE",
+    "status": "PASS"
+  },
+  {
+    "case": "CP6_AUDITOR_PUBLIC_STATE_STABLE_ORDER",
+    "owner_decision": "D14-8",
+    "a2_root_cause": "OPEN (D13-10)",
+    "plans": {
+      "before": {
+        "sequential_scan": [
+          "Result",
+          "Aggregate",
+          "Sort",
+          "Hash Join",
+          "Seq Scan:pg_class",
+          "Hash",
+          "Seq Scan:pg_namespace",
+          "Aggregate",
+          "Hash Join",
+          "Seq Scan:pg_proc",
+          "Hash",
+          "Seq Scan:pg_namespace"
+        ],
+        "index_scan": [
+          "Result",
+          "Aggregate",
+          "Sort",
+          "Nested Loop",
+          "Index Scan:pg_namespace:pg_namespace_nspname_index",
+          "Index Scan:pg_class:pg_class_relname_nsp_index",
+          "Aggregate",
+          "Nested Loop",
+          "Index Scan:pg_namespace:pg_namespace_nspname_index",
+          "Index Scan:pg_proc:pg_proc_proname_args_nsp_index"
+        ]
+      },
+      "after": {
+        "sequential_scan": [
+          "Result",
+          "Aggregate",
+          "Sort",
+          "Hash Join",
+          "Seq Scan:pg_class",
+          "Hash",
+          "Seq Scan:pg_namespace",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Aggregate",
+          "Sort",
+          "Hash Join",
+          "Seq Scan:pg_proc",
+          "Hash",
+          "Seq Scan:pg_namespace",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan"
+        ],
+        "index_scan": [
+          "Result",
+          "Aggregate",
+          "Sort",
+          "Nested Loop",
+          "Index Scan:pg_namespace:pg_namespace_nspname_index",
+          "Index Scan:pg_class:pg_class_relname_nsp_index",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Aggregate",
+          "Sort",
+          "Nested Loop",
+          "Index Scan:pg_namespace:pg_namespace_nspname_index",
+          "Index Scan:pg_proc:pg_proc_proname_args_nsp_index",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan"
+        ]
+      }
+    },
+    "before_d14_8": {
+      "same_order_under_both_plans": false,
+      "same_members": true,
+      "difference": {
+        "public.functions": {
+          "kind": "ORDER_ONLY",
+          "entries": 242,
+          "first_difference_at": 0,
+          "before": [
+            "f_239()",
+            "288c82fbed02e9d0e35a8375243d00e0"
+          ],
+          "after": [
+            "f_000()",
+            "b72a2407cd79ada57082fe3e75344d08"
+          ]
+        }
+      },
+      "first_three": {
+        "sequential_scan": [
+          "f_239()",
+          "f_238()",
+          "f_237()"
+        ],
+        "index_scan": [
+          "f_000()",
+          "f_001()",
+          "f_002()"
+        ]
+      }
+    },
+    "after_d14_8": {
+      "identical_under_both_plans": true,
+      "first_three": [
+        "f_000()",
+        "f_001()",
+        "f_002()"
+      ],
+      "entry_fields": [
+        "signature",
+        "definition_md5",
+        "owner",
+        "acl"
+      ]
+    },
+    "members": {
+      "catalog": 242,
+      "before": 242,
+      "after": 242,
+      "same_signature_and_definition_pairs": true,
+      "overloaded_name_members": 2
+    },
+    "sensitivity": {
+      "acl_grant": {
+        "before_d14_8_sees_content": false,
+        "before_d14_8_reports": {
+          "public.functions": "ORDER_ONLY"
+        },
+        "after_d14_8_sees": true
+      },
+      "owner_change": {
+        "before_d14_8_sees_content": false,
+        "before_d14_8_reports": {
+          "public.functions": "ORDER_ONLY"
+        },
+        "after_d14_8_sees": true
+      },
+      "table_acl_grant": {
+        "before_d14_8_sees_content": false,
+        "before_d14_8_reports": {
+          "public.functions": "ORDER_ONLY"
+        },
+        "after_d14_8_sees": true
+      },
+      "definition_change": {
+        "before_d14_8_sees_content": true,
+        "before_d14_8_reports": {
+          "public.functions": "CONTENT"
+        },
+        "after_d14_8_sees": true
+      },
+      "member_removed": {
+        "before_d14_8_sees_content": true,
+        "before_d14_8_reports": {
+          "public.functions": "CONTENT"
+        },
+        "after_d14_8_sees": true
+      },
+      "after_undo": {
+        "identical": false,
+        "differences": {
+          "public.functions": {
+            "kind": "CONTENT",
+            "removed": [
+              "[\"f_007()\", \"6ef8cba7723b1d3ab617f4c436d24d1a\", \"postgres\", null]"
+            ],
+            "added": [
+              "[\"f_007()\", \"6ef8cba7723b1d3ab617f4c436d24d1a\", \"postgres\", [\"=X/postgres\", \"postgres=X/postgres\"]]"
+            ]
+          },
+          "public.relations": {
+            "kind": "CONTENT",
+            "removed": [
+              "[\"t_rows\", \"r\", \"postgres\", null]"
+            ],
+            "added": [
+              "[\"t_rows\", \"r\", \"postgres\", [\"postgres=arwdDxtm/postgres\"]]"
+            ]
+          }
+        }
+      }
+    },
+    "status": "PASS"
+  }
+]

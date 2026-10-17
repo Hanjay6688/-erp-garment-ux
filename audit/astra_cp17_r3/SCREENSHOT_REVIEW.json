@@ -1,0 +1,46 @@
+{
+  "run_id": 39053177754,
+  "job_id": 117455736534,
+  "artifact_id": 12108926151,
+  "artifact_sha256": "821914d5a2b3dcb72c09c127d6a6e8d3bf915250035fb985161bf3614332bf2f",
+  "source": "Original full-page PNGs in matrix directory of CI artifact",
+  "visually_read_mobile_menu_ids": [
+    9,
+    24,
+    32,
+    34,
+    43,
+    45,
+    47
+  ],
+  "retained_crops": [
+    {
+      "menu": 32,
+      "from_y": 2050
+    },
+    {
+      "menu": 34,
+      "from_y": 0
+    },
+    {
+      "menu": 45,
+      "from_y": 0
+    },
+    {
+      "menu": 47,
+      "from_y": 0
+    }
+  ],
+  "claim": "Readable initial controls at390px and no document horizontal overflow in measured states; not all form states or internal horizontal scroll proved.",
+  "cp17_visual_review": {
+    "run": 39053018929,
+    "artifact": 12109092575,
+    "images": [
+      "CP17_BROWSER_R3_09_RATE_CHOICE_MOBILE_CHOICE.png",
+      "CP17_BROWSER_R3_04_HPP_POOL_MOBILE_REPLACEMENT.png",
+      "CP17_D14_5_SERIES_DOZENS_MOBILE_READBACK.png"
+    ],
+    "new_finding": "ASTRA-R3-03",
+    "note": "First rate screenshot examined at top and at y1100..2150; original and crop retained. Other bottom-page crops are context only, not blanket approval of all screenshot content."
+  }
+}

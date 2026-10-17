@@ -1,0 +1,680 @@
+{
+  "mapping_source_commit": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "mapping_uses_r2_candidate": {
+    "sha": "2e9d6a468c110684c278d585418eb404250d1150",
+    "receipt": "docs/cp7/audit-candidate/cp1-7-r2-20261016/CI_RECEIPT.json",
+    "receipt_summary": {
+      "runs": 116,
+      "workflows": 115,
+      "runs_success": 94,
+      "runs_failure": 22
+    }
+  },
+  "mapping_counts": {
+    "entries": 37,
+    "by_status": {
+      "BOUNDARY_NO_SUCCESSOR": 12,
+      "SUCCESSOR_MAPPED": 11,
+      "PASSES_ON_CANDIDATE": 14
+    },
+    "by_failure_kind": {
+      "OTHER": 1,
+      "EXPIRED_ARTIFACT": 1,
+      "SOURCE_SCOPE_GUARD": 20,
+      "PASS": 14,
+      "INCOMPLETE_CASES": 1
+    },
+    "by_failure_kind_and_status": {
+      "EXPIRED_ARTIFACT": {
+        "BOUNDARY_NO_SUCCESSOR": 1
+      },
+      "INCOMPLETE_CASES": {
+        "SUCCESSOR_MAPPED": 1
+      },
+      "OTHER": {
+        "BOUNDARY_NO_SUCCESSOR": 1
+      },
+      "PASS": {
+        "PASSES_ON_CANDIDATE": 14
+      },
+      "SOURCE_SCOPE_GUARD": {
+        "BOUNDARY_NO_SUCCESSOR": 10,
+        "SUCCESSOR_MAPPED": 10
+      }
+    },
+    "scope_guard_types": {
+      "NO_MERGE_AFTER_PIN": 9,
+      "CHANGED_FILE_LIST": 11
+    },
+    "bootstrap_step_r2": {
+      "NOT_RUN": 1,
+      "NOT_REACHED": 17,
+      "SUCCESS": 19
+    },
+    "receipt_red_runs_covered": 22
+  },
+  "note": "These are source-review dispositions; SUCCESSOR_MAPPED is not by itself an independent r3 pass. Original failed statuses retained.",
+  "uncovered": [
+    {
+      "workflow_path": ".github/workflows/cp6-ac-independent-audit.yml",
+      "workflow_name": "CP6 AD Whole Family Qualification",
+      "r2_run_id": null,
+      "r2_conclusion": "NOT_RUN",
+      "failure_kind": "OTHER",
+      "guard_type": null,
+      "first_error_excerpt": "No run on the candidate: the workflow has only a push trigger on competition/cp6-j-closure-20260911 and no workflow_dispatch, so it could not be dispatched (README r2: \"Tidak dijalankan\").",
+      "excerpt_source": "workflow file trigger block",
+      "bootstrap_step_r2": "NOT_RUN",
+      "what_it_tested": "AD whole-family qualification on the restored AC runtime: 55 predecessor cases and admission controls before AD, AD install with 274 pinned objects, family cases and detector controls (scripts/cp6_v2620ad_family_proof.py), reuse check of 20 Native5 AD maintenance schedules (scripts/cp6_v2620ad_reuse_matrix.py), closed admission and exact AC restore (scripts/cp6_v2620ad_rollback_guards.py).",
+      "successor": null,
+      "partial_successor": [
+        {
+          "workflow_path": ".github/workflows/cp6-t3-release-package.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_package_run.py install: committed 30-file package AC..BF (supabase/release/cp6-t3, guard pins re-captured for the hosted-faithful baseline, G-01 option b) on a clone at AB; security advisors gate; writer BF runtime; backup/restore drill",
+          "evidence_run_id_if_known": 38894956452,
+          "evidence_job_id": 116953107133,
+          "observed": "ALL_STAGES_INSTALLED; T3_PACKAGE_INSTALL 30/30 PASS (AC..BF); WRITER_PACKAGE_RUNTIME PASS (native 104, races 26, HTTP 9)",
+          "scope_note": "AD file installs on the hosted-faithful clone (re-pinned guards)"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-rollback.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_rollback.py cycle: per file AC..BF CYCLE_1/CYCLE_2 rollback restores predecessor, REINSTALL same as first install, POST_USE rollback refused; ORIGINAL rollback refused on the release chain (AC..AV); out-of-order and open-admission refusals",
+          "evidence_run_id_if_known": 38894959114,
+          "evidence_job_id": 116953114818,
+          "observed": "t3_rollback PASS; T3_ROLLBACK_CYCLE 147/147 PASS",
+          "scope_note": "AD rollback/reinstall/post-use refusal; original AD rollback refused"
+        }
+      ],
+      "uncovered": [
+        "55 predecessor cases and admission controls",
+        "AD family cases and detector controls",
+        "20 Native5 AD maintenance schedules",
+        "AD rollback guards on the original (not re-pinned) file before the release chain"
+      ],
+      "boundary_reason": "The AD family cases and maintenance schedules have no current runner; only install/rollback of the AD file is re-exercised.",
+      "status": "BOUNDARY_NO_SUCCESSOR",
+      "note": "File name says ac, workflow name says AD. Not counted in the 22 red runs of the receipt."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-ad-roll-opening-check.yml",
+      "workflow_name": "CP6 AF Posted Child Family",
+      "r2_run_id": 38894846530,
+      "r2_conclusion": "failure",
+      "failure_kind": "EXPIRED_ARTIFACT",
+      "guard_type": null,
+      "failing_job_id": 116957150812,
+      "failing_step": "Verify incoming AE artifact bytes and phase results",
+      "first_error_excerpt": "gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10418502157/zip -> \"gh: Artifact has expired (HTTP 410)\"; later step \"Require complete AF writer evidence\" -> FileNotFoundError: cp6-proof/writer-af/admission.json",
+      "excerpt_source": "CI log job 116957150812",
+      "bootstrap_step_r2": "NOT_REACHED",
+      "what_it_tested": "AF posted-child integrity family: 7 AF admission checks on AE, AE two-session comparison (original bug), AF install (278 objects), focused shared guard and opening cases, owner report controls, Combined134 stock/cost/payment/return/date oracles, 4 AF two-session schedules, 20 maintenance schedules, 8 rollback refusals and exact AE restore (scripts/cp6_v2620af_family.py, cp6_v2620af_concurrency.py, cp6_v2620af_maintenance_schedules.py, cp6_v2620af_rollback_guards.py).",
+      "successor": null,
+      "partial_successor": [
+        {
+          "workflow_path": ".github/workflows/cp6-av-qualification.yml",
+          "case_ids_or_scripts": "scripts/cp6_av_trial.py --phase regression: BUSINESS 230 (CROSS 142, WORK 23, INVOICE 16, CALENDAR 24, IMPORT 13, REWORK 12; declarations pinned in docs/evidence/cp6-successor-oracles.json; CROSS import-replay cases expect the AL batch refusal, cp6_v2620al_review.crossflow_case), IMPORTS 31, VALUES 65, NEW_CASES 34 (scripts/cp6_as_cases.py new_cases)",
+          "evidence_run_id_if_known": 38894906555,
+          "evidence_job_id": 116952942990,
+          "observed": "WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD; business PASS 179, CONTROL_PASS 39, DATE_POLICY_REVIEW_REQUIRED 12 (historical HOLD kept), imports 31/31, values 65/65, each group matches the recorded AU outcome; NEW_CASES 34/34 PASS",
+          "scope_note": "BUSINESS CROSS:142 contains the AF Combined134 declarations (af.phase_cases(crossflow))"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t2-regression.yml",
+          "case_ids_or_scripts": "scripts/cp6_t2_regression.py --phase regression (original 326 + AS 34 per case id, AO trial cases from scripts/cp6_initial_import_ao_trial.py, owner-approved date oracles of 24 Sep)",
+          "evidence_run_id_if_known": 38894953291,
+          "evidence_job_id": 116953096046,
+          "observed": "raw status DISPOSITION_REQUIRED (job green by design): 230/31/65 identical per case to the AU outcome; NEW_CASES 25 PASS, 8 COUNTEREXAMPLE (owner-approved date oracle 8/8 MATCH), 1 INCOMPLETE ADJUSTMENT_DATE:False (approved oracle B MATCH); AO_TRIAL 8 PASS + 4 INCOMPLETE (approved oracle B 4/4 MATCH)",
+          "scope_note": "same CROSS:142 on the combined candidate"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-release-package.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_package_run.py install: committed 30-file package AC..BF (supabase/release/cp6-t3, guard pins re-captured for the hosted-faithful baseline, G-01 option b) on a clone at AB; security advisors gate; writer BF runtime; backup/restore drill",
+          "evidence_run_id_if_known": 38894956452,
+          "evidence_job_id": 116953107133,
+          "observed": "ALL_STAGES_INSTALLED; T3_PACKAGE_INSTALL 30/30 PASS (AC..BF); WRITER_PACKAGE_RUNTIME PASS (native 104, races 26, HTTP 9)",
+          "scope_note": "AF file install"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-rollback.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_rollback.py cycle: per file AC..BF CYCLE_1/CYCLE_2 rollback restores predecessor, REINSTALL same as first install, POST_USE rollback refused; ORIGINAL rollback refused on the release chain (AC..AV); out-of-order and open-admission refusals",
+          "evidence_run_id_if_known": 38894959114,
+          "evidence_job_id": 116953114818,
+          "observed": "t3_rollback PASS; T3_ROLLBACK_CYCLE 147/147 PASS",
+          "scope_note": "AF rollback lifecycle"
+        }
+      ],
+      "uncovered": [
+        "7 admission checks on AE",
+        "AE two-session original-bug comparison",
+        "focused 30 and owner report 11 controls",
+        "4 AF two-session schedules",
+        "20 AF maintenance schedules",
+        "8 rollback refusals on the original AF file"
+      ],
+      "boundary_reason": "Combined134 business oracles are re-run, but the AF focused/detector/concurrency/maintenance sets have no current runner.",
+      "status": "BOUNDARY_NO_SUCCESSOR",
+      "note": "Behind the expired artifact the next guard \"Verify AF exact source and one writer head\" requires origin competition/cp6-j-closure-20260911 == GITHUB_SHA; that branch head is ca7f0955 (git ls-remote, 17 Oct), so the run would stop there too."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-af-independent-review.yml",
+      "workflow_name": "CP6 AF Independent Review",
+      "r2_run_id": 38894849298,
+      "r2_conclusion": "failure",
+      "failure_kind": "SOURCE_SCOPE_GUARD",
+      "guard_type": "NO_MERGE_AFTER_PIN",
+      "failing_job_id": 116952755834,
+      "failing_step": "Verify source-only review scope",
+      "first_error_excerpt": "scripts/cp6_af_review_scope.py line 22: assert not git('rev-list','--merges',HEAD+'..HEAD') -> AssertionError",
+      "excerpt_source": "CI log job 116952755834",
+      "bootstrap_step_r2": "NOT_REACHED",
+      "what_it_tested": "Independent original AF transactions on the frozen AF candidate f4669986 (scripts/cp6_af_independent_review.py), after re-using the AF writer artifact 10429202482 and rebuilding AC..AF.",
+      "successor": null,
+      "partial_successor": [
+        {
+          "workflow_path": ".github/workflows/cp6-t3-release-package.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_package_run.py install: committed 30-file package AC..BF (supabase/release/cp6-t3, guard pins re-captured for the hosted-faithful baseline, G-01 option b) on a clone at AB; security advisors gate; writer BF runtime; backup/restore drill",
+          "evidence_run_id_if_known": 38894956452,
+          "evidence_job_id": 116953107133,
+          "observed": "ALL_STAGES_INSTALLED; T3_PACKAGE_INSTALL 30/30 PASS (AC..BF); WRITER_PACKAGE_RUNTIME PASS (native 104, races 26, HTTP 9)",
+          "scope_note": "AF file install"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-rollback.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_rollback.py cycle: per file AC..BF CYCLE_1/CYCLE_2 rollback restores predecessor, REINSTALL same as first install, POST_USE rollback refused; ORIGINAL rollback refused on the release chain (AC..AV); out-of-order and open-admission refusals",
+          "evidence_run_id_if_known": 38894959114,
+          "evidence_job_id": 116953114818,
+          "observed": "t3_rollback PASS; T3_ROLLBACK_CYCLE 147/147 PASS",
+          "scope_note": "AF rollback lifecycle"
+        }
+      ],
+      "uncovered": [
+        "independent AF transaction checks (cp6_af_independent_review.py)"
+      ],
+      "boundary_reason": "No current workflow runs the independent AF checks.",
+      "status": "BOUNDARY_NO_SUCCESSOR",
+      "note": "The pinned base is an ancestor of the candidate; 6 merge commits follow it (e43e0ed4 .. b3b15254), so the no-merge half fails. It also downloads AF writer artifact 10429202482 (not reached; expiry not observed)."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-ag-residual-review.yml",
+      "workflow_name": "CP6 AG Additional Writer Review",
+      "r2_run_id": 38894851987,
+      "r2_conclusion": "failure",
+      "failure_kind": "SOURCE_SCOPE_GUARD",
+      "guard_type": "NO_MERGE_AFTER_PIN",
+      "failing_job_id": 116952769423,
+      "failing_step": "Verify unchanged AG sources and confined harness",
+      "first_error_excerpt": "scripts/cp6_ag_residual_scope.py line 19: assert not git('rev-list','--merges',HEAD+'..HEAD') -> AssertionError",
+      "excerpt_source": "CI log job 116952769423",
+      "bootstrap_step_r2": "NOT_REACHED",
+      "what_it_tested": "Twenty-one additional writer checks on frozen AG 119f8f13 (scripts/cp6_ag_residual_review.py) after AC..AG install and verification of the incoming AF writer and AG native artifacts.",
+      "successor": null,
+      "partial_successor": [
+        {
+          "workflow_path": ".github/workflows/cp6-t3-release-package.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_package_run.py install: committed 30-file package AC..BF (supabase/release/cp6-t3, guard pins re-captured for the hosted-faithful baseline, G-01 option b) on a clone at AB; security advisors gate; writer BF runtime; backup/restore drill",
+          "evidence_run_id_if_known": 38894956452,
+          "evidence_job_id": 116953107133,
+          "observed": "ALL_STAGES_INSTALLED; T3_PACKAGE_INSTALL 30/30 PASS (AC..BF); WRITER_PACKAGE_RUNTIME PASS (native 104, races 26, HTTP 9)",
+          "scope_note": "AG file install"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-rollback.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_rollback.py cycle: per file AC..BF CYCLE_1/CYCLE_2 rollback restores predecessor, REINSTALL same as first install, POST_USE rollback refused; ORIGINAL rollback refused on the release chain (AC..AV); out-of-order and open-admission refusals",
+          "evidence_run_id_if_known": 38894959114,
+          "evidence_job_id": 116953114818,
+          "observed": "t3_rollback PASS; T3_ROLLBACK_CYCLE 147/147 PASS",
+          "scope_note": "AG rollback lifecycle"
+        }
+      ],
+      "uncovered": [
+        "21 additional AG writer checks (cp6_ag_residual_review.py)"
+      ],
+      "boundary_reason": "The 21 residual checks have no current runner.",
+      "status": "BOUNDARY_NO_SUCCESSOR",
+      "note": "The pinned base is an ancestor of the candidate; 6 merge commits follow it (e43e0ed4 .. b3b15254), so the no-merge half fails. Also depends on two historical artifacts (not reached)."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-ag-sale-reservation.yml",
+      "workflow_name": "CP6 AG Sale Reservation Family",
+      "r2_run_id": 38894854683,
+      "r2_conclusion": "failure",
+      "failure_kind": "SOURCE_SCOPE_GUARD",
+      "guard_type": "NO_MERGE_AFTER_PIN",
+      "failing_job_id": 116955932727,
+      "failing_step": "Verify pinned whole-family scope",
+      "first_error_excerpt": "scripts/cp6_ag_gate_scope.py line 16: assert git('merge-base',BASE,'HEAD')==BASE and not git('rev-list','--merges',BASE+'..HEAD') -> AssertionError",
+      "excerpt_source": "CI log job 116955932727",
+      "bootstrap_step_r2": "NOT_REACHED",
+      "what_it_tested": "AG sale-reservation family: AG admission against the exact AF boundary, AG install (533 functions, 157 relations), focused and report checks, relevant combined business oracles, 8 concurrent transactions, 20 maintenance schedules, 8 rollback refusals and exact AF restore (scripts/cp6_v2620ag_family.py and siblings).",
+      "successor": null,
+      "partial_successor": [
+        {
+          "workflow_path": ".github/workflows/cp6-av-qualification.yml",
+          "case_ids_or_scripts": "scripts/cp6_av_trial.py --phase regression: BUSINESS 230 (CROSS 142, WORK 23, INVOICE 16, CALENDAR 24, IMPORT 13, REWORK 12; declarations pinned in docs/evidence/cp6-successor-oracles.json; CROSS import-replay cases expect the AL batch refusal, cp6_v2620al_review.crossflow_case), IMPORTS 31, VALUES 65, NEW_CASES 34 (scripts/cp6_as_cases.py new_cases)",
+          "evidence_run_id_if_known": 38894906555,
+          "evidence_job_id": 116952942990,
+          "observed": "WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD; business PASS 179, CONTROL_PASS 39, DATE_POLICY_REVIEW_REQUIRED 12 (historical HOLD kept), imports 31/31, values 65/65, each group matches the recorded AU outcome; NEW_CASES 34/34 PASS",
+          "scope_note": "CROSS:142 = AG crossflow (AF 134 + F_A01..F_A03, H_R02, H_R03_*, ORIGINAL_DRAFT case)"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t2-regression.yml",
+          "case_ids_or_scripts": "scripts/cp6_t2_regression.py --phase regression (original 326 + AS 34 per case id, AO trial cases from scripts/cp6_initial_import_ao_trial.py, owner-approved date oracles of 24 Sep)",
+          "evidence_run_id_if_known": 38894953291,
+          "evidence_job_id": 116953096046,
+          "observed": "raw status DISPOSITION_REQUIRED (job green by design): 230/31/65 identical per case to the AU outcome; NEW_CASES 25 PASS, 8 COUNTEREXAMPLE (owner-approved date oracle 8/8 MATCH), 1 INCOMPLETE ADJUSTMENT_DATE:False (approved oracle B MATCH); AO_TRIAL 8 PASS + 4 INCOMPLETE (approved oracle B 4/4 MATCH)",
+          "scope_note": "same CROSS:142"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-release-package.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_package_run.py install: committed 30-file package AC..BF (supabase/release/cp6-t3, guard pins re-captured for the hosted-faithful baseline, G-01 option b) on a clone at AB; security advisors gate; writer BF runtime; backup/restore drill",
+          "evidence_run_id_if_known": 38894956452,
+          "evidence_job_id": 116953107133,
+          "observed": "ALL_STAGES_INSTALLED; T3_PACKAGE_INSTALL 30/30 PASS (AC..BF); WRITER_PACKAGE_RUNTIME PASS (native 104, races 26, HTTP 9)",
+          "scope_note": "AG file install"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-rollback.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_rollback.py cycle: per file AC..BF CYCLE_1/CYCLE_2 rollback restores predecessor, REINSTALL same as first install, POST_USE rollback refused; ORIGINAL rollback refused on the release chain (AC..AV); out-of-order and open-admission refusals",
+          "evidence_run_id_if_known": 38894959114,
+          "evidence_job_id": 116953114818,
+          "observed": "t3_rollback PASS; T3_ROLLBACK_CYCLE 147/147 PASS",
+          "scope_note": "AG rollback lifecycle"
+        }
+      ],
+      "uncovered": [
+        "AG admission checks",
+        "AG focused and report checks",
+        "8 AG concurrent transactions",
+        "20 AG maintenance schedules",
+        "AF counterexample artifact verification"
+      ],
+      "boundary_reason": "Combined business oracles are re-run; the AG focused/detector/concurrency/maintenance sets have no current runner.",
+      "status": "BOUNDARY_NO_SUCCESSOR",
+      "note": "The pinned base is an ancestor of the candidate; 6 merge commits follow it (e43e0ed4 .. b3b15254), so the no-merge half fails."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-ah-independent-review.yml",
+      "workflow_name": "CP6 AH Independent Business Review",
+      "r2_run_id": 38894857288,
+      "r2_conclusion": "failure",
+      "failure_kind": "SOURCE_SCOPE_GUARD",
+      "guard_type": "NO_MERGE_AFTER_PIN",
+      "failing_job_id": 116953499268,
+      "failing_step": "Verify unchanged AH sources and independent scope",
+      "first_error_excerpt": "scripts/cp6_ah_review_scope.py line 13: assert not git('rev-list','--merges',HEAD+'..HEAD') -> AssertionError",
+      "excerpt_source": "CI log job 116953499268",
+      "bootstrap_step_r2": "NOT_REACHED",
+      "what_it_tested": "Independent original AH business cases on frozen AH 965ceac4 (scripts/cp6_ah_independent_review.py) after AC..AH install and incoming AH artifact verification.",
+      "successor": null,
+      "partial_successor": [
+        {
+          "workflow_path": ".github/workflows/cp6-t3-release-package.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_package_run.py install: committed 30-file package AC..BF (supabase/release/cp6-t3, guard pins re-captured for the hosted-faithful baseline, G-01 option b) on a clone at AB; security advisors gate; writer BF runtime; backup/restore drill",
+          "evidence_run_id_if_known": 38894956452,
+          "evidence_job_id": 116953107133,
+          "observed": "ALL_STAGES_INSTALLED; T3_PACKAGE_INSTALL 30/30 PASS (AC..BF); WRITER_PACKAGE_RUNTIME PASS (native 104, races 26, HTTP 9)",
+          "scope_note": "AH file install"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-rollback.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_rollback.py cycle: per file AC..BF CYCLE_1/CYCLE_2 rollback restores predecessor, REINSTALL same as first install, POST_USE rollback refused; ORIGINAL rollback refused on the release chain (AC..AV); out-of-order and open-admission refusals",
+          "evidence_run_id_if_known": 38894959114,
+          "evidence_job_id": 116953114818,
+          "observed": "t3_rollback PASS; T3_ROLLBACK_CYCLE 147/147 PASS",
+          "scope_note": "AH rollback lifecycle"
+        }
+      ],
+      "uncovered": [
+        "independent AH business cases (later folded into the AI focused set, which itself has no current runner)"
+      ],
+      "boundary_reason": "No current workflow runs the independent AH cases.",
+      "status": "BOUNDARY_NO_SUCCESSOR",
+      "note": "The pinned base is an ancestor of the candidate; 6 merge commits follow it (e43e0ed4 .. b3b15254), so the no-merge half fails."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-ah-return-allocation.yml",
+      "workflow_name": "CP6 AH Return Allocation Family",
+      "r2_run_id": 38894860217,
+      "r2_conclusion": "failure",
+      "failure_kind": "SOURCE_SCOPE_GUARD",
+      "guard_type": "NO_MERGE_AFTER_PIN",
+      "failing_job_id": 116955340867,
+      "failing_step": "Verify pinned whole-family scope",
+      "first_error_excerpt": "scripts/cp6_ah_gate_scope.py line 21: assert git('merge-base',BASE,'HEAD')==BASE and not git('rev-list','--merges',BASE+'..HEAD') -> AssertionError",
+      "excerpt_source": "CI log job 116955340867",
+      "bootstrap_step_r2": "NOT_REACHED",
+      "what_it_tested": "AH return-allocation family: original AG reference validation paths, AH admission, AH install, focused and report checks, relevant combined business oracles, 8 concurrent transactions, 20 maintenance schedules, 8 rollback refusals and exact AG restore (scripts/cp6_v2620ah_family.py and siblings).",
+      "successor": null,
+      "partial_successor": [
+        {
+          "workflow_path": ".github/workflows/cp6-av-qualification.yml",
+          "case_ids_or_scripts": "scripts/cp6_av_trial.py --phase regression: BUSINESS 230 (CROSS 142, WORK 23, INVOICE 16, CALENDAR 24, IMPORT 13, REWORK 12; declarations pinned in docs/evidence/cp6-successor-oracles.json; CROSS import-replay cases expect the AL batch refusal, cp6_v2620al_review.crossflow_case), IMPORTS 31, VALUES 65, NEW_CASES 34 (scripts/cp6_as_cases.py new_cases)",
+          "evidence_run_id_if_known": 38894906555,
+          "evidence_job_id": 116952942990,
+          "observed": "WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD; business PASS 179, CONTROL_PASS 39, DATE_POLICY_REVIEW_REQUIRED 12 (historical HOLD kept), imports 31/31, values 65/65, each group matches the recorded AU outcome; NEW_CASES 34/34 PASS",
+          "scope_note": "CROSS:142 = AH crossflow (identical to AG crossflow)"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t2-regression.yml",
+          "case_ids_or_scripts": "scripts/cp6_t2_regression.py --phase regression (original 326 + AS 34 per case id, AO trial cases from scripts/cp6_initial_import_ao_trial.py, owner-approved date oracles of 24 Sep)",
+          "evidence_run_id_if_known": 38894953291,
+          "evidence_job_id": 116953096046,
+          "observed": "raw status DISPOSITION_REQUIRED (job green by design): 230/31/65 identical per case to the AU outcome; NEW_CASES 25 PASS, 8 COUNTEREXAMPLE (owner-approved date oracle 8/8 MATCH), 1 INCOMPLETE ADJUSTMENT_DATE:False (approved oracle B MATCH); AO_TRIAL 8 PASS + 4 INCOMPLETE (approved oracle B 4/4 MATCH)",
+          "scope_note": "same CROSS:142"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-release-package.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_package_run.py install: committed 30-file package AC..BF (supabase/release/cp6-t3, guard pins re-captured for the hosted-faithful baseline, G-01 option b) on a clone at AB; security advisors gate; writer BF runtime; backup/restore drill",
+          "evidence_run_id_if_known": 38894956452,
+          "evidence_job_id": 116953107133,
+          "observed": "ALL_STAGES_INSTALLED; T3_PACKAGE_INSTALL 30/30 PASS (AC..BF); WRITER_PACKAGE_RUNTIME PASS (native 104, races 26, HTTP 9)",
+          "scope_note": "AH file install"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-rollback.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_rollback.py cycle: per file AC..BF CYCLE_1/CYCLE_2 rollback restores predecessor, REINSTALL same as first install, POST_USE rollback refused; ORIGINAL rollback refused on the release chain (AC..AV); out-of-order and open-admission refusals",
+          "evidence_run_id_if_known": 38894959114,
+          "evidence_job_id": 116953114818,
+          "observed": "t3_rollback PASS; T3_ROLLBACK_CYCLE 147/147 PASS",
+          "scope_note": "AH rollback lifecycle"
+        }
+      ],
+      "uncovered": [
+        "original AG reference validation paths",
+        "AH admission, focused and report checks",
+        "8 AH concurrent transactions",
+        "20 AH maintenance schedules"
+      ],
+      "boundary_reason": "Combined business oracles are re-run; the AH focused/detector/concurrency/maintenance sets have no current runner.",
+      "status": "BOUNDARY_NO_SUCCESSOR",
+      "note": "The pinned base is an ancestor of the candidate; 6 merge commits follow it (e43e0ed4 .. b3b15254), so the no-merge half fails."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-ai-independent-review.yml",
+      "workflow_name": "CP6 AI-R2 Independent Business Review",
+      "r2_run_id": 38894862576,
+      "r2_conclusion": "failure",
+      "failure_kind": "SOURCE_SCOPE_GUARD",
+      "guard_type": "NO_MERGE_AFTER_PIN",
+      "failing_job_id": 116952800641,
+      "failing_step": "Verify unchanged AI-R2 and bounded independent scope",
+      "first_error_excerpt": "scripts/cp6_ai_review_scope.py line 15: assert not git('rev-list','--merges',HEAD+'..HEAD') -> AssertionError",
+      "excerpt_source": "CI log job 116952800641",
+      "bootstrap_step_r2": "NOT_REACHED",
+      "what_it_tested": "Independent AI-R2 review (scripts/cp6_ai_independent_review.py): capture of the exact AH boundary, business phase (work, accounting and role cases), 12 new two-session business schedules, restore and compare with the captured AH.",
+      "successor": null,
+      "partial_successor": [
+        {
+          "workflow_path": ".github/workflows/cp6-av-qualification.yml",
+          "case_ids_or_scripts": "scripts/cp6_av_trial.py --phase regression: BUSINESS 230 (CROSS 142, WORK 23, INVOICE 16, CALENDAR 24, IMPORT 13, REWORK 12; declarations pinned in docs/evidence/cp6-successor-oracles.json; CROSS import-replay cases expect the AL batch refusal, cp6_v2620al_review.crossflow_case), IMPORTS 31, VALUES 65, NEW_CASES 34 (scripts/cp6_as_cases.py new_cases)",
+          "evidence_run_id_if_known": 38894906555,
+          "evidence_job_id": 116952942990,
+          "observed": "WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD; business PASS 179, CONTROL_PASS 39, DATE_POLICY_REVIEW_REQUIRED 12 (historical HOLD kept), imports 31/31, values 65/65, each group matches the recorded AU outcome; NEW_CASES 34/34 PASS",
+          "scope_note": "BUSINESS WORK:23 = cp6_ai_independent_review.cases()"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t2-regression.yml",
+          "case_ids_or_scripts": "scripts/cp6_t2_regression.py --phase regression (original 326 + AS 34 per case id, AO trial cases from scripts/cp6_initial_import_ao_trial.py, owner-approved date oracles of 24 Sep)",
+          "evidence_run_id_if_known": 38894953291,
+          "evidence_job_id": 116953096046,
+          "observed": "raw status DISPOSITION_REQUIRED (job green by design): 230/31/65 identical per case to the AU outcome; NEW_CASES 25 PASS, 8 COUNTEREXAMPLE (owner-approved date oracle 8/8 MATCH), 1 INCOMPLETE ADJUSTMENT_DATE:False (approved oracle B MATCH); AO_TRIAL 8 PASS + 4 INCOMPLETE (approved oracle B 4/4 MATCH)",
+          "scope_note": "same WORK:23"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-release-package.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_package_run.py install: committed 30-file package AC..BF (supabase/release/cp6-t3, guard pins re-captured for the hosted-faithful baseline, G-01 option b) on a clone at AB; security advisors gate; writer BF runtime; backup/restore drill",
+          "evidence_run_id_if_known": 38894956452,
+          "evidence_job_id": 116953107133,
+          "observed": "ALL_STAGES_INSTALLED; T3_PACKAGE_INSTALL 30/30 PASS (AC..BF); WRITER_PACKAGE_RUNTIME PASS (native 104, races 26, HTTP 9)",
+          "scope_note": "AI file install"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-rollback.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_rollback.py cycle: per file AC..BF CYCLE_1/CYCLE_2 rollback restores predecessor, REINSTALL same as first install, POST_USE rollback refused; ORIGINAL rollback refused on the release chain (AC..AV); out-of-order and open-admission refusals",
+          "evidence_run_id_if_known": 38894959114,
+          "evidence_job_id": 116953114818,
+          "observed": "t3_rollback PASS; T3_ROLLBACK_CYCLE 147/147 PASS",
+          "scope_note": "AI rollback lifecycle"
+        }
+      ],
+      "uncovered": [
+        "12 two-session business schedules (concurrency phase)",
+        "independent AH capture and restore comparison"
+      ],
+      "boundary_reason": "The work/accounting/role cases are re-run, but the 12 two-session schedules have no current runner.",
+      "status": "BOUNDARY_NO_SUCCESSOR",
+      "note": "The pinned base is an ancestor of the candidate; 6 merge commits follow it (e43e0ed4 .. b3b15254), so the no-merge half fails."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-ai-work-source.yml",
+      "workflow_name": "CP6 AI Work Source Family",
+      "r2_run_id": 38894865676,
+      "r2_conclusion": "failure",
+      "failure_kind": "SOURCE_SCOPE_GUARD",
+      "guard_type": "NO_MERGE_AFTER_PIN",
+      "failing_job_id": 116957175478,
+      "failing_step": "Verify pinned whole-family scope",
+      "first_error_excerpt": "scripts/cp6_ai_gate_scope.py line 11: assert git('merge-base',BASE,'HEAD')==BASE and not git('rev-list','--merges',BASE+'..HEAD') -> AssertionError",
+      "excerpt_source": "CI log job 116957175478",
+      "bootstrap_step_r2": "NOT_REACHED",
+      "what_it_tested": "AI work-source family: original AH checks with valid two-allocation fixtures, AI admission, AI install, 99 focused and 36 report controls, 142 unchanged combined business expectations, 16 work/return two-session schedules, 20 maintenance schedules, 8 rollback refusals and exact AH restore (scripts/cp6_v2620ai_family.py and siblings).",
+      "successor": null,
+      "partial_successor": [
+        {
+          "workflow_path": ".github/workflows/cp6-av-qualification.yml",
+          "case_ids_or_scripts": "scripts/cp6_av_trial.py --phase regression: BUSINESS 230 (CROSS 142, WORK 23, INVOICE 16, CALENDAR 24, IMPORT 13, REWORK 12; declarations pinned in docs/evidence/cp6-successor-oracles.json; CROSS import-replay cases expect the AL batch refusal, cp6_v2620al_review.crossflow_case), IMPORTS 31, VALUES 65, NEW_CASES 34 (scripts/cp6_as_cases.py new_cases)",
+          "evidence_run_id_if_known": 38894906555,
+          "evidence_job_id": 116952942990,
+          "observed": "WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD; business PASS 179, CONTROL_PASS 39, DATE_POLICY_REVIEW_REQUIRED 12 (historical HOLD kept), imports 31/31, values 65/65, each group matches the recorded AU outcome; NEW_CASES 34/34 PASS",
+          "scope_note": "CROSS:142 = cp6_v2620ai_family.phase_cases(crossflow), the same 142 declarations"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t2-regression.yml",
+          "case_ids_or_scripts": "scripts/cp6_t2_regression.py --phase regression (original 326 + AS 34 per case id, AO trial cases from scripts/cp6_initial_import_ao_trial.py, owner-approved date oracles of 24 Sep)",
+          "evidence_run_id_if_known": 38894953291,
+          "evidence_job_id": 116953096046,
+          "observed": "raw status DISPOSITION_REQUIRED (job green by design): 230/31/65 identical per case to the AU outcome; NEW_CASES 25 PASS, 8 COUNTEREXAMPLE (owner-approved date oracle 8/8 MATCH), 1 INCOMPLETE ADJUSTMENT_DATE:False (approved oracle B MATCH); AO_TRIAL 8 PASS + 4 INCOMPLETE (approved oracle B 4/4 MATCH)",
+          "scope_note": "same CROSS:142"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-release-package.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_package_run.py install: committed 30-file package AC..BF (supabase/release/cp6-t3, guard pins re-captured for the hosted-faithful baseline, G-01 option b) on a clone at AB; security advisors gate; writer BF runtime; backup/restore drill",
+          "evidence_run_id_if_known": 38894956452,
+          "evidence_job_id": 116953107133,
+          "observed": "ALL_STAGES_INSTALLED; T3_PACKAGE_INSTALL 30/30 PASS (AC..BF); WRITER_PACKAGE_RUNTIME PASS (native 104, races 26, HTTP 9)",
+          "scope_note": "AI file install"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-rollback.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_rollback.py cycle: per file AC..BF CYCLE_1/CYCLE_2 rollback restores predecessor, REINSTALL same as first install, POST_USE rollback refused; ORIGINAL rollback refused on the release chain (AC..AV); out-of-order and open-admission refusals",
+          "evidence_run_id_if_known": 38894959114,
+          "evidence_job_id": 116953114818,
+          "observed": "t3_rollback PASS; T3_ROLLBACK_CYCLE 147/147 PASS",
+          "scope_note": "AI rollback lifecycle"
+        }
+      ],
+      "uncovered": [
+        "AI admission checks",
+        "99 focused + 36 report controls",
+        "16 work/return two-session schedules",
+        "20 AI maintenance schedules",
+        "original AH checks with two-allocation fixtures"
+      ],
+      "boundary_reason": "The 142 combined expectations are re-run; focused/report/concurrency/maintenance sets have no current runner.",
+      "status": "BOUNDARY_NO_SUCCESSOR",
+      "note": "The pinned base is an ancestor of the candidate; 6 merge commits follow it (e43e0ed4 .. b3b15254), so the no-merge half fails."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-ap-flow.yml",
+      "workflow_name": "CP6 AP Real Auth Browser Flow",
+      "r2_run_id": 38894871775,
+      "r2_conclusion": "failure",
+      "failure_kind": "SOURCE_SCOPE_GUARD",
+      "guard_type": "CHANGED_FILE_LIST",
+      "failing_job_id": 116952830346,
+      "failing_step": "Record proposed source and prepare isolated proof paths",
+      "first_error_excerpt": "scripts/cp6_ap_flow_scope.py line 15: assert all(allowed(p) for p in changed),[p for p in changed if not allowed(p)] -> AssertionError: ['.github/workflows/astra-cp7-timeline-reuse.yml', ...] (7716 paths listed)",
+      "excerpt_source": "CI log job 116952830346",
+      "bootstrap_step_r2": "NOT_REACHED",
+      "what_it_tested": "AP real-Auth HTTP and browser flow with business races on an AN clone (scripts/cp6_ap_flow_runtime.py, cp6_ap_flow_ui.mjs, cp6_ap_flow_races.py): accessory edit and linked inverse, import edit/finalize races, pocket period busy/stale retry, cancel/post period.",
+      "successor": null,
+      "partial_successor": [
+        {
+          "workflow_path": ".github/workflows/cp6-t3-release-package.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_package_run.py install: committed 30-file package AC..BF (supabase/release/cp6-t3, guard pins re-captured for the hosted-faithful baseline, G-01 option b) on a clone at AB; security advisors gate; writer BF runtime; backup/restore drill",
+          "evidence_run_id_if_known": 38894956452,
+          "evidence_job_id": 116953107133,
+          "observed": "ALL_STAGES_INSTALLED; T3_PACKAGE_INSTALL 30/30 PASS (AC..BF); WRITER_PACKAGE_RUNTIME PASS (native 104, races 26, HTTP 9)",
+          "scope_note": "AP file install"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-rollback.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_rollback.py cycle: per file AC..BF CYCLE_1/CYCLE_2 rollback restores predecessor, REINSTALL same as first install, POST_USE rollback refused; ORIGINAL rollback refused on the release chain (AC..AV); out-of-order and open-admission refusals",
+          "evidence_run_id_if_known": 38894959114,
+          "evidence_job_id": 116953114818,
+          "observed": "t3_rollback PASS; T3_ROLLBACK_CYCLE 147/147 PASS",
+          "scope_note": "AP rollback lifecycle"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-release-package.yml",
+          "case_ids_or_scripts": "browser leg (frozen CP6 UI and tools at e43e0ed4): AU real-Auth browser flow 10 cases (scripts/cp6_au_browser_ui.mjs) + BF browser 31 cases (scripts/cp6_bf_vendor_browser.mjs)",
+          "evidence_run_id_if_known": 38894956452,
+          "evidence_job_id": 116953107230,
+          "observed": "BROWSER_PASS; AU flow 10/10 PASS; BF browser 31/31 PASS incl. READINESS_BROWSER:{DESKTOP,MOBILE}_NATIVE_POLICY_STATES_FINANCE_NOTE and BF_BROWSER:SALES_MANUAL_13_{DESKTOP,MOBILE}",
+          "scope_note": "real-Auth login/anonymous refusal cases of the AU flow only"
+        }
+      ],
+      "uncovered": [
+        "AP browser business cases (accessory edit 5->7 manual price, linked inverse, import edit/finalize)",
+        "AP HTTP races (pocket period busy/stale retry, same-UUID finalize)"
+      ],
+      "boundary_reason": "No current workflow runs the AP flow cases or races.",
+      "status": "BOUNDARY_NO_SUCCESSOR",
+      "note": "A later \"Remove disposable database\" step also fails only because the run stopped early."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-final-boundary-audit.yml",
+      "workflow_name": "CP6 Final Boundary Audit",
+      "r2_run_id": 38894936507,
+      "r2_conclusion": "failure",
+      "failure_kind": "SOURCE_SCOPE_GUARD",
+      "guard_type": "NO_MERGE_AFTER_PIN",
+      "failing_job_id": 116953041576,
+      "failing_step": "Verify unchanged AI-R2 backend and bounded writer UI scope",
+      "first_error_excerpt": "scripts/cp6_disposable_ui_scope.py line 172: assert not git('rev-list', '--merges', BASE+'..HEAD') -> AssertionError",
+      "excerpt_source": "CI log job 116953041576",
+      "bootstrap_step_r2": "NOT_REACHED",
+      "what_it_tested": "Final CP6 boundary audit on AI-R2..AN: AJ..AN installs with read-only security advisors, AM SQL trial, AN late-PO draft selectors, 142 combined business oracles, staged late invoices, AI independent cases, all 230 business cases on AM, value/import oracles, 16+12+12+4 schedules, 20 maintenance schedules, midnight transaction, transfer crossflow, HTTP role/lifecycle oracle (cp6_auth_permission_e2e.mjs), restores AN..AH.",
+      "successor": null,
+      "partial_successor": [
+        {
+          "workflow_path": ".github/workflows/cp6-av-qualification.yml",
+          "case_ids_or_scripts": "scripts/cp6_av_trial.py --phase regression: BUSINESS 230 (CROSS 142, WORK 23, INVOICE 16, CALENDAR 24, IMPORT 13, REWORK 12; declarations pinned in docs/evidence/cp6-successor-oracles.json; CROSS import-replay cases expect the AL batch refusal, cp6_v2620al_review.crossflow_case), IMPORTS 31, VALUES 65, NEW_CASES 34 (scripts/cp6_as_cases.py new_cases)",
+          "evidence_run_id_if_known": 38894906555,
+          "evidence_job_id": 116952942990,
+          "observed": "WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD; business PASS 179, CONTROL_PASS 39, DATE_POLICY_REVIEW_REQUIRED 12 (historical HOLD kept), imports 31/31, values 65/65, each group matches the recorded AU outcome; NEW_CASES 34/34 PASS",
+          "scope_note": "BUSINESS 230 (CROSS 142, INVOICE 16 from cp6_final_crossflow_review, WORK 23), IMPORTS 31, VALUES 65"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t2-regression.yml",
+          "case_ids_or_scripts": "scripts/cp6_t2_regression.py --phase regression (original 326 + AS 34 per case id, AO trial cases from scripts/cp6_initial_import_ao_trial.py, owner-approved date oracles of 24 Sep)",
+          "evidence_run_id_if_known": 38894953291,
+          "evidence_job_id": 116953096046,
+          "observed": "raw status DISPOSITION_REQUIRED (job green by design): 230/31/65 identical per case to the AU outcome; NEW_CASES 25 PASS, 8 COUNTEREXAMPLE (owner-approved date oracle 8/8 MATCH), 1 INCOMPLETE ADJUSTMENT_DATE:False (approved oracle B MATCH); AO_TRIAL 8 PASS + 4 INCOMPLETE (approved oracle B 4/4 MATCH)",
+          "scope_note": "same groups on the combined candidate"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-release-package.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_package_run.py install: committed 30-file package AC..BF (supabase/release/cp6-t3, guard pins re-captured for the hosted-faithful baseline, G-01 option b) on a clone at AB; security advisors gate; writer BF runtime; backup/restore drill",
+          "evidence_run_id_if_known": 38894956452,
+          "evidence_job_id": 116953107133,
+          "observed": "ALL_STAGES_INSTALLED; T3_PACKAGE_INSTALL 30/30 PASS (AC..BF); WRITER_PACKAGE_RUNTIME PASS (native 104, races 26, HTTP 9)",
+          "scope_note": "AJ..AN files install; security advisors gate"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-rollback.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_rollback.py cycle: per file AC..BF CYCLE_1/CYCLE_2 rollback restores predecessor, REINSTALL same as first install, POST_USE rollback refused; ORIGINAL rollback refused on the release chain (AC..AV); out-of-order and open-admission refusals",
+          "evidence_run_id_if_known": 38894959114,
+          "evidence_job_id": 116953114818,
+          "observed": "t3_rollback PASS; T3_ROLLBACK_CYCLE 147/147 PASS",
+          "scope_note": "AJ..AN rollback lifecycle"
+        }
+      ],
+      "uncovered": [
+        "AM SQL trial and AN late-PO-draft selector qualification",
+        "two-session schedules (16 original, 12 work, 12 transfer, 4 import draft, 12 DRAFT BS/WIP)",
+        "20 AM/AN maintenance schedules",
+        "controlled midnight transaction",
+        "warehouse transfer crossflow",
+        "HTTP role/lifecycle oracle and disposable frontend qualification"
+      ],
+      "boundary_reason": "The business/import/value groups are re-run; the schedules, AM/AN trials and HTTP oracle have no current runner.",
+      "status": "BOUNDARY_NO_SUCCESSOR",
+      "note": "The pinned base is an ancestor of the candidate; 6 merge commits follow it (e43e0ed4 .. b3b15254), so the no-merge half fails. Its committed env also has CP6_AM_TRIAL=false and CP6_AM_FULL=false, so the same step would refuse at `test \"$CP6_AM_TRIAL\" = true || test \"$CP6_AM_FULL\" = true` even without the guard."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-initial-import-review.yml",
+      "workflow_name": "CP6 Initial Import Native Trial",
+      "r2_run_id": 38894941618,
+      "r2_conclusion": "failure",
+      "failure_kind": "SOURCE_SCOPE_GUARD",
+      "guard_type": "CHANGED_FILE_LIST",
+      "failing_job_id": 116953059186,
+      "failing_step": "Record proposed source and prepare isolated proof paths",
+      "first_error_excerpt": "scripts/cp6_initial_import_scope.py line 34: assert changed<=ALLOWED,sorted(changed-ALLOWED) -> AssertionError: ['.github/workflows/astra-cp7-timeline-reuse.yml', ...] (7725 paths listed)",
+      "excerpt_source": "CI log job 116953059186",
+      "bootstrap_step_r2": "NOT_REACHED",
+      "what_it_tested": "Initial import native trial on AN: proposed AP import RPCs in one rolled-back transaction (scripts/cp6_initial_import_trial.py), invoice-date and manual retail AO family (scripts/cp6_initial_import_ao_trial.py), connected form and file parser (8 vitest files, check-source/access/css, check-production-recovery).",
+      "successor": null,
+      "partial_successor": [
+        {
+          "workflow_path": ".github/workflows/cp6-t2-regression.yml",
+          "case_ids_or_scripts": "scripts/cp6_t2_regression.py --phase regression (original 326 + AS 34 per case id, AO trial cases from scripts/cp6_initial_import_ao_trial.py, owner-approved date oracles of 24 Sep)",
+          "evidence_run_id_if_known": 38894953291,
+          "evidence_job_id": 116953096046,
+          "observed": "raw status DISPOSITION_REQUIRED (job green by design): 230/31/65 identical per case to the AU outcome; NEW_CASES 25 PASS, 8 COUNTEREXAMPLE (owner-approved date oracle 8/8 MATCH), 1 INCOMPLETE ADJUSTMENT_DATE:False (approved oracle B MATCH); AO_TRIAL 8 PASS + 4 INCOMPLETE (approved oracle B 4/4 MATCH)",
+          "scope_note": "AO_TRIAL group = the cases of cp6_initial_import_ao_trial.py"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-av-qualification.yml",
+          "case_ids_or_scripts": "scripts/cp6_av_trial.py --phase regression: BUSINESS 230 (CROSS 142, WORK 23, INVOICE 16, CALENDAR 24, IMPORT 13, REWORK 12; declarations pinned in docs/evidence/cp6-successor-oracles.json; CROSS import-replay cases expect the AL batch refusal, cp6_v2620al_review.crossflow_case), IMPORTS 31, VALUES 65, NEW_CASES 34 (scripts/cp6_as_cases.py new_cases)",
+          "evidence_run_id_if_known": 38894906555,
+          "evidence_job_id": 116952942990,
+          "observed": "WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD; business PASS 179, CONTROL_PASS 39, DATE_POLICY_REVIEW_REQUIRED 12 (historical HOLD kept), imports 31/31, values 65/65, each group matches the recorded AU outcome; NEW_CASES 34/34 PASS",
+          "scope_note": "IMPORTS 31"
+        },
+        {
+          "workflow_path": ".github/workflows/ci.yml",
+          "case_ids_or_scripts": "Build UX: npm test (incl. src/initialImport.test.ts, src/initialProduction.test.ts, src/ConnectedWipStatusPage.test.ts, src/ConnectedInitialImportPage.dom.test.tsx, src/ConnectedPocketFabricPage.dom.test.tsx, src/productionRecovery.test.ts, src/accessoryIssue.test.ts, src/ConnectedAccessoryIssuePage.dom.test.tsx) and npm run test:security (check-source/access/css)",
+          "evidence_run_id_if_known": 38894648562,
+          "evidence_job_id": 116952099934,
+          "observed": "215 test files passed; each of the 8 files above passed; check-source-ownership, check-access-catalog, check-css-ownership ran",
+          "scope_note": "the same 8 vitest files and 3 of the 4 check scripts"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-release-package.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_package_run.py install: committed 30-file package AC..BF (supabase/release/cp6-t3, guard pins re-captured for the hosted-faithful baseline, G-01 option b) on a clone at AB; security advisors gate; writer BF runtime; backup/restore drill",
+          "evidence_run_id_if_known": 38894956452,
+          "evidence_job_id": 116953107133,
+          "observed": "ALL_STAGES_INSTALLED; T3_PACKAGE_INSTALL 30/30 PASS (AC..BF); WRITER_PACKAGE_RUNTIME PASS (native 104, races 26, HTTP 9)",
+          "scope_note": "AP file install"
+        },
+        {
+          "workflow_path": ".github/workflows/cp6-t3-rollback.yml",
+          "case_ids_or_scripts": "scripts/cp6_t3_rollback.py cycle: per file AC..BF CYCLE_1/CYCLE_2 rollback restores predecessor, REINSTALL same as first install, POST_USE rollback refused; ORIGINAL rollback refused on the release chain (AC..AV); out-of-order and open-admission refusals",
+          "evidence_run_id_if_known": 38894959114,
+          "evidence_job_id": 116953114818,
+          "observed": "t3_rollback PASS; T3_ROLLBACK_CYCLE 147/147 PASS",
+          "scope_note": "AP rollback lifecycle"
+        }
+      ],
+      "uncovered": [
+        "proposed AP import RPC trial (cp6_initial_import_trial.py)",
+        "scripts/check-production-recovery.mjs"
+      ],
+      "boundary_reason": "The AP import proposal trial and check-production-recovery.mjs have no current runner.",
+      "status": "BOUNDARY_NO_SUCCESSOR",
+      "note": "A later \"Remove disposable database\" step also fails only because the run stopped early."
+    }
+  ]
+}

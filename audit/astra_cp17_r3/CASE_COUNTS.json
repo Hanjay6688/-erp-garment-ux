@@ -1,0 +1,33 @@
+{
+  "astra_unique_cases": 302,
+  "astra_observations": 302,
+  "counts": {
+    "PASS": 298,
+    "COUNTEREXAMPLE": 4
+  },
+  "by_family": {
+    "ASTRA_DOM": {
+      "PASS": 4
+    },
+    "ASTRA_MATRIX_DEMO": {
+      "PASS": 94
+    },
+    "ASTRA_MATRIX_TEST": {
+      "PASS": 94
+    },
+    "ASTRA_MATRIX_UAT": {
+      "PASS": 94
+    },
+    "ASTRA_PAGING": {
+      "COUNTEREXAMPLE": 1
+    },
+    "ASTRA_RETAINED_NATIVE": {
+      "PASS": 11
+    },
+    "ASTRA_RISK": {
+      "COUNTEREXAMPLE": 3,
+      "PASS": 1
+    }
+  },
+  "note": "282 entry render/menu/layout assertions; not 282 full transaction journeys. CP17 writer-oracle rerun counted separately. No after-case retry."
+}

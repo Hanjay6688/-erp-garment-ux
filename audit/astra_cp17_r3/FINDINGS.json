@@ -1,0 +1,217 @@
+{
+  "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "verdict": "HOLD",
+  "production_go": false,
+  "feature_complete": false,
+  "counts": {
+    "S0": 0,
+    "S1": 2,
+    "S2": 2,
+    "S3": 0
+  },
+  "open_roots": [
+    {
+      "id": "ASTRA-R3-01",
+      "severity": "S1",
+      "status": "OPEN",
+      "title": "Public CP4 HPP pool writers bypass the CP7 closed-period and manage-permission boundaries",
+      "related": [
+        "FABLE-012",
+        "ASTRA-C17-07",
+        "R3-04"
+      ],
+      "evidence_level": "NATIVE_QUALIFIED",
+      "origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW"
+      ],
+      "run_id": 39053360685,
+      "job_id": 117456272451,
+      "cases": [
+        "ASTRA_R3_POOL_PUBLIC_CLOSED_PERIOD",
+        "ASTRA_R3_POOL_PUBLIC_REVOKED_MANAGE"
+      ],
+      "invariants": [
+        "INV-T02",
+        "INV-A01",
+        "INV-POL03"
+      ],
+      "observed": {
+        "closed_through": "2026-10-15",
+        "new_cp7_status": 400,
+        "legacy_create_status": 200,
+        "legacy_activate_status": 200,
+        "pool": "ACTIVE",
+        "po_cost": "1000.00",
+        "journal": [
+          "POSTED",
+          "ATTENDANCE_HPP_POOL",
+          "2026-10-15",
+          "2026-10-18"
+        ],
+        "revoked_manage_cp7_status": 403,
+        "revoked_manage_legacy_create_status": 200
+      },
+      "owner_decision": "D14-9 deferral is conditional on internet-unreachable writers. Real Auth public API reachability is demonstrated without a test-only schema grant.",
+      "limits": [
+        "No hosted access or damage demonstrated",
+        "Revoked manage probe demonstrated DRAFT creation, not activation",
+        "No claim all historical reports or all detectors were measured",
+        "Economic date is closed but book date is open; Native journal dating is not asserted broken."
+      ],
+      "next": "Guard or revoke every alternate public write path; retain valid CP7 lifecycle and rollback; rerun the unchanged probes.",
+      "severity_reason": "Important financial write/access boundary is bypassed; journal book date is correctly moved to the open day by Native. No wrong amount or changed closed filing was demonstrated, so no S0 claim."
+    },
+    {
+      "id": "ASTRA-R2-01",
+      "severity": "S1",
+      "status": "PARTIALLY_FIXED_STILL_OPEN",
+      "title": "Reopening still counts an inverse of a positive FG adjustment as active use",
+      "related": [
+        "R3-02",
+        "D15-4"
+      ],
+      "evidence_level": "NATIVE_QUALIFIED",
+      "origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW"
+      ],
+      "run_id": 39053360685,
+      "job_id": 117456272451,
+      "cases": [
+        "ASTRA_R3_REOPEN_POSITIVE_ADJUSTMENT_INVERSE"
+      ],
+      "invariants": [
+        "INV-K06",
+        "SKN-12",
+        "SKN-27"
+      ],
+      "observed": {
+        "stock": [
+          10,
+          12,
+          10
+        ],
+        "hpp": "120.000000",
+        "basis": 10,
+        "blocked": "FG_USED qty2",
+        "error": "CP7_PO_REOPEN_BLOCKED"
+      },
+      "original_cases": "Both unchanged r2 original cases PASS in run39053104594",
+      "next": "Reconcile provenance and inverse pairs in both directions; unrelated inflow must never offset active outflow."
+    },
+    {
+      "id": "ASTRA-R3-02",
+      "severity": "S2",
+      "status": "OPEN",
+      "title": "An audit row allocated before the listing cutoff but committed later is skipped without newer indication",
+      "related": [
+        "R3-03",
+        "D16-1"
+      ],
+      "evidence_level": "NATIVE_QUALIFIED",
+      "origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW"
+      ],
+      "run_id": 39053620397,
+      "job_id": 117457024810,
+      "cases": [
+        "ASTRA_R3_AUDIT_LOWER_ID_LATE_COMMIT"
+      ],
+      "invariants": [
+        "SKN-18",
+        "SKN-26"
+      ],
+      "observed": {
+        "held_id": 231,
+        "higher_committed_id": 232,
+        "cutoff": "232",
+        "first_count": 8,
+        "final_count": 9,
+        "page_ids": [
+          [
+            "232",
+            "230",
+            "229"
+          ],
+          [
+            "228",
+            "227",
+            "226"
+          ],
+          [
+            "225",
+            "224"
+          ]
+        ],
+        "missing": [
+          "231"
+        ],
+        "newer": false
+      },
+      "limits": [
+        "Native log remains intact",
+        "Browser not independently raced; public reader schedule and UI source establish affected path",
+        "No claim all audit exports are wrong"
+      ],
+      "next": "Freeze the actual row set or detect snapshot changes and require reload; preserve filtering, read-only and access controls."
+    },
+    {
+      "id": "ASTRA-R3-03",
+      "severity": "S2",
+      "status": "OPEN",
+      "title": "Connected WIP quantities and sewing progress have very pale text on white cards",
+      "evidence_level": "NATIVE_BROWSER_VISUAL_REVIEW",
+      "origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW"
+      ],
+      "run_id": 39053018929,
+      "job_id": 117455268044,
+      "artifact_id": 12109092575,
+      "screenshot": "CP17_BROWSER_R3_09_RATE_CHOICE_MOBILE_CHOICE.png",
+      "screenshot_sha256": "d5b731981d2de3882f44efbd401dca5ba5d6c3da490a922dd214fec964e82e79",
+      "automated_case": "CP17_BROWSER_R3_09_RATE_CHOICE_MOBILE_ENTENG remains PASS; automated assertions do not test contrast",
+      "observed": "10 pcs KPI, effective10/sewn4/remaining10, model/mandor details and sewing legend are very pale on white cards in the actual390px screenshot",
+      "source": [
+        "src/ConnectedWipStatusPage.tsx:277,285-289",
+        "src/connected-wip-status.css: cwip-kpis article, cwip-list>article, cwip-kpis strong, cwip-facts strong",
+        "src/styles.css: root foreground #f4f6fb"
+      ],
+      "limits": [
+        "No wrong data amount demonstrated",
+        "Visual observation, not a fifth automated counterexample",
+        "No WCAG conformance claim or contrast ratio measured",
+        "No claim this regression was newly introduced by r3"
+      ],
+      "next": "Use explicit coherent foreground/background tokens for connected WIP; verify KPI, facts, names and sewing panel on desktop and phone with the same real data."
+    }
+  ],
+  "closed": [
+    {
+      "id": "ASTRA-R2-02",
+      "evidence": "ASTRA_R2_AUTO_PO_NUMBER_999_TO_1000 PASS, run39053104594, unchanged oracle"
+    },
+    {
+      "id": "ASTRA-C17-07",
+      "scope": "Remaining attendance HPP pool UI lifecycle; other integration defects remain separate",
+      "evidence": "CP17_BROWSER_R3_04_HPP_POOL_DESKTOP/MOBILE and _ENTENG PASS, run39053018929"
+    }
+  ],
+  "execution": {
+    "writer_oracle_rerun": {
+      "expected": 321,
+      "pass": 321
+    },
+    "astra_oracle": {
+      "cases": 302,
+      "pass": 298,
+      "counterexample": 4
+    },
+    "own_runs": 6,
+    "own_jobs": 8,
+    "all_completed": true,
+    "manual_visual_findings": 1
+  }
+}

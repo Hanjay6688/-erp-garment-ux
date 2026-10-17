@@ -1,0 +1,1968 @@
+{
+  "result": "DISPOSITION_REQUIRED_RAW_RETAINED",
+  "rows": [
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2466,
+        "raw": {
+          "group": "BUSINESS",
+          "case": "CALENDAR:1_MONTHS:UTC:False",
+          "status": "DATE_POLICY_REVIEW_REQUIRED"
+        }
+      },
+      "disposition": "HISTORICAL_DATE_POLICY_MARKER",
+      "reason": "Frozen date-policy marker retained. C0 D01.1-5 ratified e83d56e6 supplies the separate date oracles; T2_C0_ORACLE 25/25 PASS. Not relabelled as frozen PASS."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2470,
+        "raw": {
+          "group": "BUSINESS",
+          "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+          "status": "DATE_POLICY_REVIEW_REQUIRED"
+        }
+      },
+      "disposition": "HISTORICAL_DATE_POLICY_MARKER",
+      "reason": "Frozen date-policy marker retained. C0 D01.1-5 ratified e83d56e6 supplies the separate date oracles; T2_C0_ORACLE 25/25 PASS. Not relabelled as frozen PASS."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2474,
+        "raw": {
+          "group": "BUSINESS",
+          "case": "CALENDAR:2_MONTHS:UTC:False",
+          "status": "DATE_POLICY_REVIEW_REQUIRED"
+        }
+      },
+      "disposition": "HISTORICAL_DATE_POLICY_MARKER",
+      "reason": "Frozen date-policy marker retained. C0 D01.1-5 ratified e83d56e6 supplies the separate date oracles; T2_C0_ORACLE 25/25 PASS. Not relabelled as frozen PASS."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2478,
+        "raw": {
+          "group": "BUSINESS",
+          "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+          "status": "DATE_POLICY_REVIEW_REQUIRED"
+        }
+      },
+      "disposition": "HISTORICAL_DATE_POLICY_MARKER",
+      "reason": "Frozen date-policy marker retained. C0 D01.1-5 ratified e83d56e6 supplies the separate date oracles; T2_C0_ORACLE 25/25 PASS. Not relabelled as frozen PASS."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2482,
+        "raw": {
+          "group": "BUSINESS",
+          "case": "CALENDAR:3_MONTHS:UTC:False",
+          "status": "DATE_POLICY_REVIEW_REQUIRED"
+        }
+      },
+      "disposition": "HISTORICAL_DATE_POLICY_MARKER",
+      "reason": "Frozen date-policy marker retained. C0 D01.1-5 ratified e83d56e6 supplies the separate date oracles; T2_C0_ORACLE 25/25 PASS. Not relabelled as frozen PASS."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2486,
+        "raw": {
+          "group": "BUSINESS",
+          "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+          "status": "DATE_POLICY_REVIEW_REQUIRED"
+        }
+      },
+      "disposition": "HISTORICAL_DATE_POLICY_MARKER",
+      "reason": "Frozen date-policy marker retained. C0 D01.1-5 ratified e83d56e6 supplies the separate date oracles; T2_C0_ORACLE 25/25 PASS. Not relabelled as frozen PASS."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2490,
+        "raw": {
+          "group": "BUSINESS",
+          "case": "CALENDAR:JAN31:UTC:False",
+          "status": "DATE_POLICY_REVIEW_REQUIRED"
+        }
+      },
+      "disposition": "HISTORICAL_DATE_POLICY_MARKER",
+      "reason": "Frozen date-policy marker retained. C0 D01.1-5 ratified e83d56e6 supplies the separate date oracles; T2_C0_ORACLE 25/25 PASS. Not relabelled as frozen PASS."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2494,
+        "raw": {
+          "group": "BUSINESS",
+          "case": "CALENDAR:JAN31:Pacific/Kiritimati:False",
+          "status": "DATE_POLICY_REVIEW_REQUIRED"
+        }
+      },
+      "disposition": "HISTORICAL_DATE_POLICY_MARKER",
+      "reason": "Frozen date-policy marker retained. C0 D01.1-5 ratified e83d56e6 supplies the separate date oracles; T2_C0_ORACLE 25/25 PASS. Not relabelled as frozen PASS."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2498,
+        "raw": {
+          "group": "BUSINESS",
+          "case": "CALENDAR:FEB28:UTC:False",
+          "status": "DATE_POLICY_REVIEW_REQUIRED"
+        }
+      },
+      "disposition": "HISTORICAL_DATE_POLICY_MARKER",
+      "reason": "Frozen date-policy marker retained. C0 D01.1-5 ratified e83d56e6 supplies the separate date oracles; T2_C0_ORACLE 25/25 PASS. Not relabelled as frozen PASS."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2502,
+        "raw": {
+          "group": "BUSINESS",
+          "case": "CALENDAR:FEB28:Pacific/Kiritimati:False",
+          "status": "DATE_POLICY_REVIEW_REQUIRED"
+        }
+      },
+      "disposition": "HISTORICAL_DATE_POLICY_MARKER",
+      "reason": "Frozen date-policy marker retained. C0 D01.1-5 ratified e83d56e6 supplies the separate date oracles; T2_C0_ORACLE 25/25 PASS. Not relabelled as frozen PASS."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2506,
+        "raw": {
+          "group": "BUSINESS",
+          "case": "CALENDAR:MAY31:UTC:False",
+          "status": "DATE_POLICY_REVIEW_REQUIRED"
+        }
+      },
+      "disposition": "HISTORICAL_DATE_POLICY_MARKER",
+      "reason": "Frozen date-policy marker retained. C0 D01.1-5 ratified e83d56e6 supplies the separate date oracles; T2_C0_ORACLE 25/25 PASS. Not relabelled as frozen PASS."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2510,
+        "raw": {
+          "group": "BUSINESS",
+          "case": "CALENDAR:MAY31:Pacific/Kiritimati:False",
+          "status": "DATE_POLICY_REVIEW_REQUIRED"
+        }
+      },
+      "disposition": "HISTORICAL_DATE_POLICY_MARKER",
+      "reason": "Frozen date-policy marker retained. C0 D01.1-5 ratified e83d56e6 supplies the separate date oracles; T2_C0_ORACLE 25/25 PASS. Not relabelled as frozen PASS."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2656,
+        "raw": {
+          "group": "NEW_CASES",
+          "case": "DATE:False:Asia/Jakarta:True:20",
+          "status": "COUNTEREXAMPLE",
+          "closed": false,
+          "partial": true,
+          "cost": "20",
+          "caller_zone": "Asia/Jakarta",
+          "invoice_date": "2026-10-13",
+          "recognition_date": "2026-10-13",
+          "observations": {
+            "revaluation_events": [
+              [
+                "5355c882-1307-485f-bb33-ebe18e8558d3",
+                "2026-10-14",
+                "-100.00",
+                "WIP"
+              ]
+            ],
+            "hpp_events": [
+              [
+                "b0159c99-fec3-462a-a2b0-668f133c296b",
+                "2026-10-14",
+                "30.000000",
+                "20.000000",
+                "0.000000"
+              ]
+            ],
+            "journals": [
+              [
+                "045a6f27-702a-4282-83ba-ca965a55183d",
+                "MATERIAL_COST_REVALUATION",
+                "2026-10-14",
+                "2026-10-14",
+                "POSTED"
+              ],
+              [
+                "7e852e47-5530-42cd-92ad-d7da8262946d",
+                "PO_HPP_GL_SYNC",
+                "2026-10-14",
+                "2026-10-14",
+                "POSTED"
+              ],
+              [
+                "fbb2a7b4-948d-41cf-b544-a52b14f76602",
+                "MATERIAL_SUPPLIER_INVOICE",
+                "2026-10-13",
+                "2026-10-13",
+                "POSTED"
+              ]
+            ]
+          },
+          "mismatches": {
+            "revaluation_events": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "5355c882-1307-485f-bb33-ebe18e8558d3",
+                  "2026-10-14",
+                  "-100.00",
+                  "WIP"
+                ]
+              ]
+            },
+            "hpp_events": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "b0159c99-fec3-462a-a2b0-668f133c296b",
+                  "2026-10-14",
+                  "30.000000",
+                  "20.000000",
+                  "0.000000"
+                ]
+              ]
+            },
+            "journal_posting_date": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "045a6f27-702a-4282-83ba-ca965a55183d",
+                  "MATERIAL_COST_REVALUATION",
+                  "2026-10-14",
+                  "2026-10-14",
+                  "POSTED"
+                ],
+                [
+                  "7e852e47-5530-42cd-92ad-d7da8262946d",
+                  "PO_HPP_GL_SYNC",
+                  "2026-10-14",
+                  "2026-10-14",
+                  "POSTED"
+                ],
+                [
+                  "fbb2a7b4-948d-41cf-b544-a52b14f76602",
+                  "MATERIAL_SUPPLIER_INVOICE",
+                  "2026-10-13",
+                  "2026-10-13",
+                  "POSTED"
+                ]
+              ]
+            }
+          },
+          "replay_exact": true,
+          "context_cleared": true,
+          "approved_oracle_20260924": {
+            "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+            "status": "MATCH",
+            "invoice_date": "2026-10-13",
+            "cut_goods_and_sale_day": "2026-10-14",
+            "checks": {
+              "scope": true,
+              "replay_exact": true,
+              "context_cleared": true,
+              "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+              "revaluation_events_on_cutting_day": true,
+              "revaluation_journals_on_cutting_day": true,
+              "hpp_events_on_goods_and_sale_day": true,
+              "hpp_journals_on_goods_and_sale_day": true,
+              "other_journals_are_the_supplier_invoice_on_E": true,
+              "old_oracle_failed_only_on_dates": true
+            },
+            "fixture": {
+              "po": [
+                "d6b12e21-6e75-4f5a-a7bb-b148db648a8f"
+              ],
+              "lot_days": [
+                "2026-10-14"
+              ],
+              "sale_days": [
+                "2026-10-14"
+              ],
+              "returns": 0,
+              "cut_days": [
+                "2026-10-14"
+              ],
+              "revaluation_journals": [
+                "045a6f27-702a-4282-83ba-ca965a55183d"
+              ],
+              "event_journals": [
+                "7e852e47-5530-42cd-92ad-d7da8262946d"
+              ],
+              "other_journals": [
+                [
+                  "MATERIAL_SUPPLIER_INVOICE",
+                  "2026-10-13",
+                  "2026-10-13"
+                ]
+              ]
+            },
+            "old_oracle_status": "COUNTEREXAMPLE",
+            "old_oracle_mismatch_keys": [
+              "hpp_events",
+              "journal_posting_date",
+              "revaluation_events"
+            ]
+          },
+          "full_boundary_restored": true
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2659,
+        "raw": {
+          "group": "NEW_CASES",
+          "case": "DATE:False:Asia/Jakarta:True:20.003",
+          "status": "COUNTEREXAMPLE",
+          "closed": false,
+          "partial": true,
+          "cost": "20.003",
+          "caller_zone": "Asia/Jakarta",
+          "invoice_date": "2026-10-13",
+          "recognition_date": "2026-10-13",
+          "observations": {
+            "revaluation_events": [
+              [
+                "5c236950-699c-4a59-9930-cf9bdec93972",
+                "2026-10-14",
+                "-100.03",
+                "WIP"
+              ]
+            ],
+            "hpp_events": [
+              [
+                "640e96f3-e26a-4ac5-b143-fc66fe7e3ad4",
+                "2026-10-14",
+                "30.010000",
+                "20.010000",
+                "0.000000"
+              ]
+            ],
+            "journals": [
+              [
+                "66e4a1bd-b3a7-44bf-a1d2-bed3ea97b5be",
+                "MATERIAL_SUPPLIER_INVOICE",
+                "2026-10-13",
+                "2026-10-13",
+                "POSTED"
+              ],
+              [
+                "e46ecaa1-a3d4-4130-9669-f0ee50fd291f",
+                "PO_HPP_GL_SYNC",
+                "2026-10-14",
+                "2026-10-14",
+                "POSTED"
+              ],
+              [
+                "f74cddd2-3781-4f74-b028-0c58609c357e",
+                "MATERIAL_COST_REVALUATION",
+                "2026-10-14",
+                "2026-10-14",
+                "POSTED"
+              ]
+            ]
+          },
+          "mismatches": {
+            "revaluation_events": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "5c236950-699c-4a59-9930-cf9bdec93972",
+                  "2026-10-14",
+                  "-100.03",
+                  "WIP"
+                ]
+              ]
+            },
+            "hpp_events": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "640e96f3-e26a-4ac5-b143-fc66fe7e3ad4",
+                  "2026-10-14",
+                  "30.010000",
+                  "20.010000",
+                  "0.000000"
+                ]
+              ]
+            },
+            "journal_posting_date": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "66e4a1bd-b3a7-44bf-a1d2-bed3ea97b5be",
+                  "MATERIAL_SUPPLIER_INVOICE",
+                  "2026-10-13",
+                  "2026-10-13",
+                  "POSTED"
+                ],
+                [
+                  "e46ecaa1-a3d4-4130-9669-f0ee50fd291f",
+                  "PO_HPP_GL_SYNC",
+                  "2026-10-14",
+                  "2026-10-14",
+                  "POSTED"
+                ],
+                [
+                  "f74cddd2-3781-4f74-b028-0c58609c357e",
+                  "MATERIAL_COST_REVALUATION",
+                  "2026-10-14",
+                  "2026-10-14",
+                  "POSTED"
+                ]
+              ]
+            }
+          },
+          "replay_exact": true,
+          "context_cleared": true,
+          "approved_oracle_20260924": {
+            "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+            "status": "MATCH",
+            "invoice_date": "2026-10-13",
+            "cut_goods_and_sale_day": "2026-10-14",
+            "checks": {
+              "scope": true,
+              "replay_exact": true,
+              "context_cleared": true,
+              "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+              "revaluation_events_on_cutting_day": true,
+              "revaluation_journals_on_cutting_day": true,
+              "hpp_events_on_goods_and_sale_day": true,
+              "hpp_journals_on_goods_and_sale_day": true,
+              "other_journals_are_the_supplier_invoice_on_E": true,
+              "old_oracle_failed_only_on_dates": true
+            },
+            "fixture": {
+              "po": [
+                "238dc1cc-6709-4bae-9858-7232d9583dfc"
+              ],
+              "lot_days": [
+                "2026-10-14"
+              ],
+              "sale_days": [
+                "2026-10-14"
+              ],
+              "returns": 0,
+              "cut_days": [
+                "2026-10-14"
+              ],
+              "revaluation_journals": [
+                "f74cddd2-3781-4f74-b028-0c58609c357e"
+              ],
+              "event_journals": [
+                "e46ecaa1-a3d4-4130-9669-f0ee50fd291f"
+              ],
+              "other_journals": [
+                [
+                  "MATERIAL_SUPPLIER_INVOICE",
+                  "2026-10-13",
+                  "2026-10-13"
+                ]
+              ]
+            },
+            "old_oracle_status": "COUNTEREXAMPLE",
+            "old_oracle_mismatch_keys": [
+              "hpp_events",
+              "journal_posting_date",
+              "revaluation_events"
+            ]
+          },
+          "full_boundary_restored": true
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2663,
+        "raw": {
+          "group": "NEW_CASES",
+          "case": "DATE:False:UTC:True:20",
+          "status": "COUNTEREXAMPLE",
+          "closed": false,
+          "partial": true,
+          "cost": "20",
+          "caller_zone": "UTC",
+          "invoice_date": "2026-10-13",
+          "recognition_date": "2026-10-13",
+          "observations": {
+            "revaluation_events": [
+              [
+                "228acdde-f9ac-49cf-b949-0d277ee6cb45",
+                "2026-10-14",
+                "-100.00",
+                "WIP"
+              ]
+            ],
+            "hpp_events": [
+              [
+                "1908e1de-0a1c-4bd0-a823-3793bb670747",
+                "2026-10-14",
+                "30.000000",
+                "20.000000",
+                "0.000000"
+              ]
+            ],
+            "journals": [
+              [
+                "6b55ac62-302f-49c3-afb2-4192a400c25b",
+                "MATERIAL_SUPPLIER_INVOICE",
+                "2026-10-13",
+                "2026-10-13",
+                "POSTED"
+              ],
+              [
+                "e09ee832-e50d-46c4-8034-effa687098cb",
+                "MATERIAL_COST_REVALUATION",
+                "2026-10-14",
+                "2026-10-14",
+                "POSTED"
+              ],
+              [
+                "ec35b78b-939a-414c-b6a7-28c2af0e1da2",
+                "PO_HPP_GL_SYNC",
+                "2026-10-14",
+                "2026-10-14",
+                "POSTED"
+              ]
+            ]
+          },
+          "mismatches": {
+            "revaluation_events": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "228acdde-f9ac-49cf-b949-0d277ee6cb45",
+                  "2026-10-14",
+                  "-100.00",
+                  "WIP"
+                ]
+              ]
+            },
+            "hpp_events": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "1908e1de-0a1c-4bd0-a823-3793bb670747",
+                  "2026-10-14",
+                  "30.000000",
+                  "20.000000",
+                  "0.000000"
+                ]
+              ]
+            },
+            "journal_posting_date": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "6b55ac62-302f-49c3-afb2-4192a400c25b",
+                  "MATERIAL_SUPPLIER_INVOICE",
+                  "2026-10-13",
+                  "2026-10-13",
+                  "POSTED"
+                ],
+                [
+                  "e09ee832-e50d-46c4-8034-effa687098cb",
+                  "MATERIAL_COST_REVALUATION",
+                  "2026-10-14",
+                  "2026-10-14",
+                  "POSTED"
+                ],
+                [
+                  "ec35b78b-939a-414c-b6a7-28c2af0e1da2",
+                  "PO_HPP_GL_SYNC",
+                  "2026-10-14",
+                  "2026-10-14",
+                  "POSTED"
+                ]
+              ]
+            }
+          },
+          "replay_exact": true,
+          "context_cleared": true,
+          "approved_oracle_20260924": {
+            "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+            "status": "MATCH",
+            "invoice_date": "2026-10-13",
+            "cut_goods_and_sale_day": "2026-10-14",
+            "checks": {
+              "scope": true,
+              "replay_exact": true,
+              "context_cleared": true,
+              "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+              "revaluation_events_on_cutting_day": true,
+              "revaluation_journals_on_cutting_day": true,
+              "hpp_events_on_goods_and_sale_day": true,
+              "hpp_journals_on_goods_and_sale_day": true,
+              "other_journals_are_the_supplier_invoice_on_E": true,
+              "old_oracle_failed_only_on_dates": true
+            },
+            "fixture": {
+              "po": [
+                "c2daaec8-ff6b-45a8-b710-f6626269bc01"
+              ],
+              "lot_days": [
+                "2026-10-14"
+              ],
+              "sale_days": [
+                "2026-10-14"
+              ],
+              "returns": 0,
+              "cut_days": [
+                "2026-10-14"
+              ],
+              "revaluation_journals": [
+                "e09ee832-e50d-46c4-8034-effa687098cb"
+              ],
+              "event_journals": [
+                "ec35b78b-939a-414c-b6a7-28c2af0e1da2"
+              ],
+              "other_journals": [
+                [
+                  "MATERIAL_SUPPLIER_INVOICE",
+                  "2026-10-13",
+                  "2026-10-13"
+                ]
+              ]
+            },
+            "old_oracle_status": "COUNTEREXAMPLE",
+            "old_oracle_mismatch_keys": [
+              "hpp_events",
+              "journal_posting_date",
+              "revaluation_events"
+            ]
+          },
+          "full_boundary_restored": true
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2666,
+        "raw": {
+          "group": "NEW_CASES",
+          "case": "DATE:False:UTC:True:20.003",
+          "status": "COUNTEREXAMPLE",
+          "closed": false,
+          "partial": true,
+          "cost": "20.003",
+          "caller_zone": "UTC",
+          "invoice_date": "2026-10-13",
+          "recognition_date": "2026-10-13",
+          "observations": {
+            "revaluation_events": [
+              [
+                "b590652c-0a03-471b-b434-8b8f1dd74581",
+                "2026-10-14",
+                "-100.03",
+                "WIP"
+              ]
+            ],
+            "hpp_events": [
+              [
+                "b1cf906f-0d55-47ab-bc9d-655c34a3ad3b",
+                "2026-10-14",
+                "30.010000",
+                "20.010000",
+                "0.000000"
+              ]
+            ],
+            "journals": [
+              [
+                "2a141823-4a12-4048-807c-e4ee9619cf64",
+                "MATERIAL_SUPPLIER_INVOICE",
+                "2026-10-13",
+                "2026-10-13",
+                "POSTED"
+              ],
+              [
+                "420352f1-cb99-45f5-9a62-e25a29075824",
+                "PO_HPP_GL_SYNC",
+                "2026-10-14",
+                "2026-10-14",
+                "POSTED"
+              ],
+              [
+                "a6ef94e4-0d64-45af-97a0-756c4ad4a6cc",
+                "MATERIAL_COST_REVALUATION",
+                "2026-10-14",
+                "2026-10-14",
+                "POSTED"
+              ]
+            ]
+          },
+          "mismatches": {
+            "revaluation_events": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "b590652c-0a03-471b-b434-8b8f1dd74581",
+                  "2026-10-14",
+                  "-100.03",
+                  "WIP"
+                ]
+              ]
+            },
+            "hpp_events": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "b1cf906f-0d55-47ab-bc9d-655c34a3ad3b",
+                  "2026-10-14",
+                  "30.010000",
+                  "20.010000",
+                  "0.000000"
+                ]
+              ]
+            },
+            "journal_posting_date": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "2a141823-4a12-4048-807c-e4ee9619cf64",
+                  "MATERIAL_SUPPLIER_INVOICE",
+                  "2026-10-13",
+                  "2026-10-13",
+                  "POSTED"
+                ],
+                [
+                  "420352f1-cb99-45f5-9a62-e25a29075824",
+                  "PO_HPP_GL_SYNC",
+                  "2026-10-14",
+                  "2026-10-14",
+                  "POSTED"
+                ],
+                [
+                  "a6ef94e4-0d64-45af-97a0-756c4ad4a6cc",
+                  "MATERIAL_COST_REVALUATION",
+                  "2026-10-14",
+                  "2026-10-14",
+                  "POSTED"
+                ]
+              ]
+            }
+          },
+          "replay_exact": true,
+          "context_cleared": true,
+          "approved_oracle_20260924": {
+            "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+            "status": "MATCH",
+            "invoice_date": "2026-10-13",
+            "cut_goods_and_sale_day": "2026-10-14",
+            "checks": {
+              "scope": true,
+              "replay_exact": true,
+              "context_cleared": true,
+              "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+              "revaluation_events_on_cutting_day": true,
+              "revaluation_journals_on_cutting_day": true,
+              "hpp_events_on_goods_and_sale_day": true,
+              "hpp_journals_on_goods_and_sale_day": true,
+              "other_journals_are_the_supplier_invoice_on_E": true,
+              "old_oracle_failed_only_on_dates": true
+            },
+            "fixture": {
+              "po": [
+                "93d76cb0-50c2-48b6-9eb6-6a24cd89c0e1"
+              ],
+              "lot_days": [
+                "2026-10-14"
+              ],
+              "sale_days": [
+                "2026-10-14"
+              ],
+              "returns": 0,
+              "cut_days": [
+                "2026-10-14"
+              ],
+              "revaluation_journals": [
+                "a6ef94e4-0d64-45af-97a0-756c4ad4a6cc"
+              ],
+              "event_journals": [
+                "420352f1-cb99-45f5-9a62-e25a29075824"
+              ],
+              "other_journals": [
+                [
+                  "MATERIAL_SUPPLIER_INVOICE",
+                  "2026-10-13",
+                  "2026-10-13"
+                ]
+              ]
+            },
+            "old_oracle_status": "COUNTEREXAMPLE",
+            "old_oracle_mismatch_keys": [
+              "hpp_events",
+              "journal_posting_date",
+              "revaluation_events"
+            ]
+          },
+          "full_boundary_restored": true
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2670,
+        "raw": {
+          "group": "NEW_CASES",
+          "case": "DATE:False:Etc/GMT+12:True:20",
+          "status": "COUNTEREXAMPLE",
+          "closed": false,
+          "partial": true,
+          "cost": "20",
+          "caller_zone": "Etc/GMT+12",
+          "invoice_date": "2026-10-13",
+          "recognition_date": "2026-10-13",
+          "observations": {
+            "revaluation_events": [
+              [
+                "e91caa2b-6b8e-40ed-b4bb-f5c427526996",
+                "2026-10-14",
+                "-100.00",
+                "WIP"
+              ]
+            ],
+            "hpp_events": [
+              [
+                "9e7d1b0a-7857-43f3-b4b9-04e8e31ccff1",
+                "2026-10-14",
+                "30.000000",
+                "20.000000",
+                "0.000000"
+              ]
+            ],
+            "journals": [
+              [
+                "2fe9f485-5733-41c7-9d05-36ec74f5c8be",
+                "MATERIAL_COST_REVALUATION",
+                "2026-10-14",
+                "2026-10-14",
+                "POSTED"
+              ],
+              [
+                "6763bb52-57cc-45e4-bbe5-48b2fbcaefb0",
+                "MATERIAL_SUPPLIER_INVOICE",
+                "2026-10-13",
+                "2026-10-13",
+                "POSTED"
+              ],
+              [
+                "88ea5815-f321-4902-ba7f-ebe0005a18e6",
+                "PO_HPP_GL_SYNC",
+                "2026-10-14",
+                "2026-10-14",
+                "POSTED"
+              ]
+            ]
+          },
+          "mismatches": {
+            "revaluation_events": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "e91caa2b-6b8e-40ed-b4bb-f5c427526996",
+                  "2026-10-14",
+                  "-100.00",
+                  "WIP"
+                ]
+              ]
+            },
+            "hpp_events": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "9e7d1b0a-7857-43f3-b4b9-04e8e31ccff1",
+                  "2026-10-14",
+                  "30.000000",
+                  "20.000000",
+                  "0.000000"
+                ]
+              ]
+            },
+            "journal_posting_date": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "2fe9f485-5733-41c7-9d05-36ec74f5c8be",
+                  "MATERIAL_COST_REVALUATION",
+                  "2026-10-14",
+                  "2026-10-14",
+                  "POSTED"
+                ],
+                [
+                  "6763bb52-57cc-45e4-bbe5-48b2fbcaefb0",
+                  "MATERIAL_SUPPLIER_INVOICE",
+                  "2026-10-13",
+                  "2026-10-13",
+                  "POSTED"
+                ],
+                [
+                  "88ea5815-f321-4902-ba7f-ebe0005a18e6",
+                  "PO_HPP_GL_SYNC",
+                  "2026-10-14",
+                  "2026-10-14",
+                  "POSTED"
+                ]
+              ]
+            }
+          },
+          "replay_exact": true,
+          "context_cleared": true,
+          "approved_oracle_20260924": {
+            "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+            "status": "MATCH",
+            "invoice_date": "2026-10-13",
+            "cut_goods_and_sale_day": "2026-10-14",
+            "checks": {
+              "scope": true,
+              "replay_exact": true,
+              "context_cleared": true,
+              "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+              "revaluation_events_on_cutting_day": true,
+              "revaluation_journals_on_cutting_day": true,
+              "hpp_events_on_goods_and_sale_day": true,
+              "hpp_journals_on_goods_and_sale_day": true,
+              "other_journals_are_the_supplier_invoice_on_E": true,
+              "old_oracle_failed_only_on_dates": true
+            },
+            "fixture": {
+              "po": [
+                "a088dc21-0ecd-4391-b642-039e4963f79a"
+              ],
+              "lot_days": [
+                "2026-10-14"
+              ],
+              "sale_days": [
+                "2026-10-14"
+              ],
+              "returns": 0,
+              "cut_days": [
+                "2026-10-14"
+              ],
+              "revaluation_journals": [
+                "2fe9f485-5733-41c7-9d05-36ec74f5c8be"
+              ],
+              "event_journals": [
+                "88ea5815-f321-4902-ba7f-ebe0005a18e6"
+              ],
+              "other_journals": [
+                [
+                  "MATERIAL_SUPPLIER_INVOICE",
+                  "2026-10-13",
+                  "2026-10-13"
+                ]
+              ]
+            },
+            "old_oracle_status": "COUNTEREXAMPLE",
+            "old_oracle_mismatch_keys": [
+              "hpp_events",
+              "journal_posting_date",
+              "revaluation_events"
+            ]
+          },
+          "full_boundary_restored": true
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2673,
+        "raw": {
+          "group": "NEW_CASES",
+          "case": "DATE:False:Etc/GMT+12:True:20.003",
+          "status": "COUNTEREXAMPLE",
+          "closed": false,
+          "partial": true,
+          "cost": "20.003",
+          "caller_zone": "Etc/GMT+12",
+          "invoice_date": "2026-10-13",
+          "recognition_date": "2026-10-13",
+          "observations": {
+            "revaluation_events": [
+              [
+                "b2dd9d03-a58a-48cd-8950-dcfa3f7dc37e",
+                "2026-10-14",
+                "-100.03",
+                "WIP"
+              ]
+            ],
+            "hpp_events": [
+              [
+                "e84c2c8b-22cb-43e4-be9b-ba785136c159",
+                "2026-10-14",
+                "30.010000",
+                "20.010000",
+                "0.000000"
+              ]
+            ],
+            "journals": [
+              [
+                "01de1162-0bdd-47dc-bbff-0da573305038",
+                "MATERIAL_SUPPLIER_INVOICE",
+                "2026-10-13",
+                "2026-10-13",
+                "POSTED"
+              ],
+              [
+                "a852b5f9-9d88-418e-b18f-43da22242900",
+                "MATERIAL_COST_REVALUATION",
+                "2026-10-14",
+                "2026-10-14",
+                "POSTED"
+              ],
+              [
+                "b6df5786-1373-405d-8a3b-b2d4224f8fe6",
+                "PO_HPP_GL_SYNC",
+                "2026-10-14",
+                "2026-10-14",
+                "POSTED"
+              ]
+            ]
+          },
+          "mismatches": {
+            "revaluation_events": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "b2dd9d03-a58a-48cd-8950-dcfa3f7dc37e",
+                  "2026-10-14",
+                  "-100.03",
+                  "WIP"
+                ]
+              ]
+            },
+            "hpp_events": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "e84c2c8b-22cb-43e4-be9b-ba785136c159",
+                  "2026-10-14",
+                  "30.010000",
+                  "20.010000",
+                  "0.000000"
+                ]
+              ]
+            },
+            "journal_posting_date": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "01de1162-0bdd-47dc-bbff-0da573305038",
+                  "MATERIAL_SUPPLIER_INVOICE",
+                  "2026-10-13",
+                  "2026-10-13",
+                  "POSTED"
+                ],
+                [
+                  "a852b5f9-9d88-418e-b18f-43da22242900",
+                  "MATERIAL_COST_REVALUATION",
+                  "2026-10-14",
+                  "2026-10-14",
+                  "POSTED"
+                ],
+                [
+                  "b6df5786-1373-405d-8a3b-b2d4224f8fe6",
+                  "PO_HPP_GL_SYNC",
+                  "2026-10-14",
+                  "2026-10-14",
+                  "POSTED"
+                ]
+              ]
+            }
+          },
+          "replay_exact": true,
+          "context_cleared": true,
+          "approved_oracle_20260924": {
+            "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+            "status": "MATCH",
+            "invoice_date": "2026-10-13",
+            "cut_goods_and_sale_day": "2026-10-14",
+            "checks": {
+              "scope": true,
+              "replay_exact": true,
+              "context_cleared": true,
+              "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+              "revaluation_events_on_cutting_day": true,
+              "revaluation_journals_on_cutting_day": true,
+              "hpp_events_on_goods_and_sale_day": true,
+              "hpp_journals_on_goods_and_sale_day": true,
+              "other_journals_are_the_supplier_invoice_on_E": true,
+              "old_oracle_failed_only_on_dates": true
+            },
+            "fixture": {
+              "po": [
+                "25ab5bdb-ea96-4906-9d22-f58b9db54bb5"
+              ],
+              "lot_days": [
+                "2026-10-14"
+              ],
+              "sale_days": [
+                "2026-10-14"
+              ],
+              "returns": 0,
+              "cut_days": [
+                "2026-10-14"
+              ],
+              "revaluation_journals": [
+                "a852b5f9-9d88-418e-b18f-43da22242900"
+              ],
+              "event_journals": [
+                "b6df5786-1373-405d-8a3b-b2d4224f8fe6"
+              ],
+              "other_journals": [
+                [
+                  "MATERIAL_SUPPLIER_INVOICE",
+                  "2026-10-13",
+                  "2026-10-13"
+                ]
+              ]
+            },
+            "old_oracle_status": "COUNTEREXAMPLE",
+            "old_oracle_mismatch_keys": [
+              "hpp_events",
+              "journal_posting_date",
+              "revaluation_events"
+            ]
+          },
+          "full_boundary_restored": true
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2677,
+        "raw": {
+          "group": "NEW_CASES",
+          "case": "DATE:False:Pacific/Kiritimati:True:20",
+          "status": "COUNTEREXAMPLE",
+          "closed": false,
+          "partial": true,
+          "cost": "20",
+          "caller_zone": "Pacific/Kiritimati",
+          "invoice_date": "2026-10-13",
+          "recognition_date": "2026-10-13",
+          "observations": {
+            "revaluation_events": [
+              [
+                "5e2b82b8-2c43-4467-98aa-60ec56e863ca",
+                "2026-10-14",
+                "-100.00",
+                "WIP"
+              ]
+            ],
+            "hpp_events": [
+              [
+                "cfc5864f-72fd-4fe6-979d-72c40294d15f",
+                "2026-10-14",
+                "30.000000",
+                "20.000000",
+                "0.000000"
+              ]
+            ],
+            "journals": [
+              [
+                "61dbbb96-9035-43ee-b9e2-24c809593744",
+                "MATERIAL_SUPPLIER_INVOICE",
+                "2026-10-13",
+                "2026-10-13",
+                "POSTED"
+              ],
+              [
+                "be9847e6-ca41-44ed-819c-5eca2e514ace",
+                "PO_HPP_GL_SYNC",
+                "2026-10-14",
+                "2026-10-14",
+                "POSTED"
+              ],
+              [
+                "de92c475-fe7d-4812-9c11-abbb4200be1e",
+                "MATERIAL_COST_REVALUATION",
+                "2026-10-14",
+                "2026-10-14",
+                "POSTED"
+              ]
+            ]
+          },
+          "mismatches": {
+            "revaluation_events": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "5e2b82b8-2c43-4467-98aa-60ec56e863ca",
+                  "2026-10-14",
+                  "-100.00",
+                  "WIP"
+                ]
+              ]
+            },
+            "hpp_events": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "cfc5864f-72fd-4fe6-979d-72c40294d15f",
+                  "2026-10-14",
+                  "30.000000",
+                  "20.000000",
+                  "0.000000"
+                ]
+              ]
+            },
+            "journal_posting_date": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "61dbbb96-9035-43ee-b9e2-24c809593744",
+                  "MATERIAL_SUPPLIER_INVOICE",
+                  "2026-10-13",
+                  "2026-10-13",
+                  "POSTED"
+                ],
+                [
+                  "be9847e6-ca41-44ed-819c-5eca2e514ace",
+                  "PO_HPP_GL_SYNC",
+                  "2026-10-14",
+                  "2026-10-14",
+                  "POSTED"
+                ],
+                [
+                  "de92c475-fe7d-4812-9c11-abbb4200be1e",
+                  "MATERIAL_COST_REVALUATION",
+                  "2026-10-14",
+                  "2026-10-14",
+                  "POSTED"
+                ]
+              ]
+            }
+          },
+          "replay_exact": true,
+          "context_cleared": true,
+          "approved_oracle_20260924": {
+            "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+            "status": "MATCH",
+            "invoice_date": "2026-10-13",
+            "cut_goods_and_sale_day": "2026-10-14",
+            "checks": {
+              "scope": true,
+              "replay_exact": true,
+              "context_cleared": true,
+              "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+              "revaluation_events_on_cutting_day": true,
+              "revaluation_journals_on_cutting_day": true,
+              "hpp_events_on_goods_and_sale_day": true,
+              "hpp_journals_on_goods_and_sale_day": true,
+              "other_journals_are_the_supplier_invoice_on_E": true,
+              "old_oracle_failed_only_on_dates": true
+            },
+            "fixture": {
+              "po": [
+                "e424c194-a5e2-4ada-9137-00a14fe15f83"
+              ],
+              "lot_days": [
+                "2026-10-14"
+              ],
+              "sale_days": [
+                "2026-10-14"
+              ],
+              "returns": 0,
+              "cut_days": [
+                "2026-10-14"
+              ],
+              "revaluation_journals": [
+                "de92c475-fe7d-4812-9c11-abbb4200be1e"
+              ],
+              "event_journals": [
+                "be9847e6-ca41-44ed-819c-5eca2e514ace"
+              ],
+              "other_journals": [
+                [
+                  "MATERIAL_SUPPLIER_INVOICE",
+                  "2026-10-13",
+                  "2026-10-13"
+                ]
+              ]
+            },
+            "old_oracle_status": "COUNTEREXAMPLE",
+            "old_oracle_mismatch_keys": [
+              "hpp_events",
+              "journal_posting_date",
+              "revaluation_events"
+            ]
+          },
+          "full_boundary_restored": true
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2680,
+        "raw": {
+          "group": "NEW_CASES",
+          "case": "DATE:False:Pacific/Kiritimati:True:20.003",
+          "status": "COUNTEREXAMPLE",
+          "closed": false,
+          "partial": true,
+          "cost": "20.003",
+          "caller_zone": "Pacific/Kiritimati",
+          "invoice_date": "2026-10-13",
+          "recognition_date": "2026-10-13",
+          "observations": {
+            "revaluation_events": [
+              [
+                "53e000fb-bad6-4bf1-ae1c-ac03b825be53",
+                "2026-10-14",
+                "-100.03",
+                "WIP"
+              ]
+            ],
+            "hpp_events": [
+              [
+                "0d8e41f5-2dc9-45b1-99e9-165d2c3ded5c",
+                "2026-10-14",
+                "30.010000",
+                "20.010000",
+                "0.000000"
+              ]
+            ],
+            "journals": [
+              [
+                "24436474-6973-4ae6-90ac-fbb4b39ae9ff",
+                "PO_HPP_GL_SYNC",
+                "2026-10-14",
+                "2026-10-14",
+                "POSTED"
+              ],
+              [
+                "86e78583-53de-4ff7-8122-f9f9c4a40a9d",
+                "MATERIAL_COST_REVALUATION",
+                "2026-10-14",
+                "2026-10-14",
+                "POSTED"
+              ],
+              [
+                "acbc08b4-03e5-42e2-a103-3a304d0b61d7",
+                "MATERIAL_SUPPLIER_INVOICE",
+                "2026-10-13",
+                "2026-10-13",
+                "POSTED"
+              ]
+            ]
+          },
+          "mismatches": {
+            "revaluation_events": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "53e000fb-bad6-4bf1-ae1c-ac03b825be53",
+                  "2026-10-14",
+                  "-100.03",
+                  "WIP"
+                ]
+              ]
+            },
+            "hpp_events": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "0d8e41f5-2dc9-45b1-99e9-165d2c3ded5c",
+                  "2026-10-14",
+                  "30.010000",
+                  "20.010000",
+                  "0.000000"
+                ]
+              ]
+            },
+            "journal_posting_date": {
+              "expected": "2026-10-13",
+              "actual": [
+                [
+                  "24436474-6973-4ae6-90ac-fbb4b39ae9ff",
+                  "PO_HPP_GL_SYNC",
+                  "2026-10-14",
+                  "2026-10-14",
+                  "POSTED"
+                ],
+                [
+                  "86e78583-53de-4ff7-8122-f9f9c4a40a9d",
+                  "MATERIAL_COST_REVALUATION",
+                  "2026-10-14",
+                  "2026-10-14",
+                  "POSTED"
+                ],
+                [
+                  "acbc08b4-03e5-42e2-a103-3a304d0b61d7",
+                  "MATERIAL_SUPPLIER_INVOICE",
+                  "2026-10-13",
+                  "2026-10-13",
+                  "POSTED"
+                ]
+              ]
+            }
+          },
+          "replay_exact": true,
+          "context_cleared": true,
+          "approved_oracle_20260924": {
+            "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+            "status": "MATCH",
+            "invoice_date": "2026-10-13",
+            "cut_goods_and_sale_day": "2026-10-14",
+            "checks": {
+              "scope": true,
+              "replay_exact": true,
+              "context_cleared": true,
+              "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+              "revaluation_events_on_cutting_day": true,
+              "revaluation_journals_on_cutting_day": true,
+              "hpp_events_on_goods_and_sale_day": true,
+              "hpp_journals_on_goods_and_sale_day": true,
+              "other_journals_are_the_supplier_invoice_on_E": true,
+              "old_oracle_failed_only_on_dates": true
+            },
+            "fixture": {
+              "po": [
+                "f9afd522-bbba-4072-881d-7ab088d75fa9"
+              ],
+              "lot_days": [
+                "2026-10-14"
+              ],
+              "sale_days": [
+                "2026-10-14"
+              ],
+              "returns": 0,
+              "cut_days": [
+                "2026-10-14"
+              ],
+              "revaluation_journals": [
+                "86e78583-53de-4ff7-8122-f9f9c4a40a9d"
+              ],
+              "event_journals": [
+                "24436474-6973-4ae6-90ac-fbb4b39ae9ff"
+              ],
+              "other_journals": [
+                [
+                  "MATERIAL_SUPPLIER_INVOICE",
+                  "2026-10-13",
+                  "2026-10-13"
+                ]
+              ]
+            },
+            "old_oracle_status": "COUNTEREXAMPLE",
+            "old_oracle_mismatch_keys": [
+              "hpp_events",
+              "journal_posting_date",
+              "revaluation_events"
+            ]
+          },
+          "full_boundary_restored": true
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2709,
+        "raw": {
+          "group": "NEW_CASES",
+          "case": "ADJUSTMENT_DATE:False",
+          "status": "INCOMPLETE",
+          "error": "[(datetime.date(2026, 10, 14), datetime.date(2026, 10, 14), datetime.date(2026, 10, 14), {'1487cd75-3cf9-424b-84ca-f7545b70b023': 20.01, 'f9912b87-fe33-4bd8-8a65-0b1fb69316a6': -20.01})]",
+          "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_av_trial.py\", line 71, in group\n    try:row=operation()\n            ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 328, in run\n    return op()\n           ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_as_cases.py\", line 161, in <lambda>\n    cases.append(('ADJUSTMENT_DATE:'+str(closed),lambda c=closed:adjustment_date(cur,today,c)))\n                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_as_cases.py\", line 107, in adjustment_date\n    assert rows and all(r[1]==f['purchase_day'] for r in rows), rows\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: [(datetime.date(2026, 10, 14), datetime.date(2026, 10, 14), datetime.date(2026, 10, 14), {'1487cd75-3cf9-424b-84ca-f7545b70b023': 20.01, 'f9912b87-fe33-4bd8-8a65-0b1fb69316a6': -20.01})]\n",
+          "full_boundary_restored": true
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2711,
+        "raw": {
+          "group": "T2_CALENDAR_POLICY",
+          "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+          "status": "COUNTEREXAMPLE",
+          "mismatches": [
+            {
+              "material_event_date": [
+                "b04191ad-29a7-4cc0-8bd3-133dab2113f5",
+                "2026-09-16",
+                "5.25",
+                "WIP"
+              ]
+            },
+            {
+              "material_event_date": [
+                "b04191ad-29a7-4cc0-8bd3-133dab2113f5",
+                "2026-09-16",
+                "5.25",
+                "WIP"
+              ]
+            }
+          ]
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2712,
+        "raw": {
+          "group": "T2_CALENDAR_POLICY",
+          "case": "CALENDAR:1_MONTHS:UTC:False",
+          "status": "COUNTEREXAMPLE",
+          "mismatches": [
+            {
+              "material_event_date": [
+                "a2ef2081-cc6a-4398-8d5c-a751d158ed14",
+                "2026-09-16",
+                "5.25",
+                "WIP"
+              ]
+            },
+            {
+              "material_event_date": [
+                "a2ef2081-cc6a-4398-8d5c-a751d158ed14",
+                "2026-09-16",
+                "5.25",
+                "WIP"
+              ]
+            }
+          ]
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2713,
+        "raw": {
+          "group": "T2_CALENDAR_POLICY",
+          "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+          "status": "COUNTEREXAMPLE",
+          "mismatches": [
+            {
+              "material_event_date": [
+                "b807efc2-c911-403d-9fc1-44e2c76499d9",
+                "2026-08-16",
+                "5.25",
+                "WIP"
+              ]
+            },
+            {
+              "material_event_date": [
+                "b807efc2-c911-403d-9fc1-44e2c76499d9",
+                "2026-08-16",
+                "5.25",
+                "WIP"
+              ]
+            }
+          ]
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2714,
+        "raw": {
+          "group": "T2_CALENDAR_POLICY",
+          "case": "CALENDAR:2_MONTHS:UTC:False",
+          "status": "COUNTEREXAMPLE",
+          "mismatches": [
+            {
+              "material_event_date": [
+                "a756cdfe-fb29-44b7-9329-eabbf6ddfdc2",
+                "2026-08-16",
+                "5.25",
+                "WIP"
+              ]
+            },
+            {
+              "material_event_date": [
+                "a756cdfe-fb29-44b7-9329-eabbf6ddfdc2",
+                "2026-08-16",
+                "5.25",
+                "WIP"
+              ]
+            }
+          ]
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2715,
+        "raw": {
+          "group": "T2_CALENDAR_POLICY",
+          "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+          "status": "COUNTEREXAMPLE",
+          "mismatches": [
+            {
+              "material_event_date": [
+                "449ef720-c069-43b8-ba91-f42f64875da1",
+                "2026-07-16",
+                "5.25",
+                "WIP"
+              ]
+            },
+            {
+              "material_event_date": [
+                "449ef720-c069-43b8-ba91-f42f64875da1",
+                "2026-07-16",
+                "5.25",
+                "WIP"
+              ]
+            }
+          ]
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2716,
+        "raw": {
+          "group": "T2_CALENDAR_POLICY",
+          "case": "CALENDAR:3_MONTHS:UTC:False",
+          "status": "COUNTEREXAMPLE",
+          "mismatches": [
+            {
+              "material_event_date": [
+                "3155ec9c-86a8-4482-b2c8-c41819bc0702",
+                "2026-07-16",
+                "5.25",
+                "WIP"
+              ]
+            },
+            {
+              "material_event_date": [
+                "3155ec9c-86a8-4482-b2c8-c41819bc0702",
+                "2026-07-16",
+                "5.25",
+                "WIP"
+              ]
+            }
+          ]
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2717,
+        "raw": {
+          "group": "T2_CALENDAR_POLICY",
+          "case": "CALENDAR:FEB28:Pacific/Kiritimati:False",
+          "status": "COUNTEREXAMPLE",
+          "mismatches": [
+            {
+              "material_event_date": [
+                "bfc99655-e8e4-4308-a323-4a0bc1b5c88e",
+                "2026-03-01",
+                "5.25",
+                "WIP"
+              ]
+            },
+            {
+              "material_event_date": [
+                "bfc99655-e8e4-4308-a323-4a0bc1b5c88e",
+                "2026-03-01",
+                "5.25",
+                "WIP"
+              ]
+            }
+          ]
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2718,
+        "raw": {
+          "group": "T2_CALENDAR_POLICY",
+          "case": "CALENDAR:FEB28:UTC:False",
+          "status": "COUNTEREXAMPLE",
+          "mismatches": [
+            {
+              "material_event_date": [
+                "def16f8f-2d89-4ff6-9bbf-ec51cb2f9a99",
+                "2026-03-01",
+                "5.25",
+                "WIP"
+              ]
+            },
+            {
+              "material_event_date": [
+                "def16f8f-2d89-4ff6-9bbf-ec51cb2f9a99",
+                "2026-03-01",
+                "5.25",
+                "WIP"
+              ]
+            }
+          ]
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2719,
+        "raw": {
+          "group": "T2_CALENDAR_POLICY",
+          "case": "CALENDAR:JAN31:Pacific/Kiritimati:False",
+          "status": "COUNTEREXAMPLE",
+          "mismatches": [
+            {
+              "material_event_date": [
+                "da1ed888-0588-4c48-9f35-73d5672ca66f",
+                "2026-02-01",
+                "5.25",
+                "WIP"
+              ]
+            },
+            {
+              "material_event_date": [
+                "da1ed888-0588-4c48-9f35-73d5672ca66f",
+                "2026-02-01",
+                "5.25",
+                "WIP"
+              ]
+            }
+          ]
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2720,
+        "raw": {
+          "group": "T2_CALENDAR_POLICY",
+          "case": "CALENDAR:JAN31:UTC:False",
+          "status": "COUNTEREXAMPLE",
+          "mismatches": [
+            {
+              "material_event_date": [
+                "161a9e87-899e-4237-a167-64dc687dc899",
+                "2026-02-01",
+                "5.25",
+                "WIP"
+              ]
+            },
+            {
+              "material_event_date": [
+                "161a9e87-899e-4237-a167-64dc687dc899",
+                "2026-02-01",
+                "5.25",
+                "WIP"
+              ]
+            }
+          ]
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2721,
+        "raw": {
+          "group": "T2_CALENDAR_POLICY",
+          "case": "CALENDAR:MAY31:Pacific/Kiritimati:False",
+          "status": "COUNTEREXAMPLE",
+          "mismatches": [
+            {
+              "material_event_date": [
+                "75c87b08-675f-4291-afaf-6ccc3d48352e",
+                "2026-06-01",
+                "5.25",
+                "WIP"
+              ]
+            },
+            {
+              "material_event_date": [
+                "75c87b08-675f-4291-afaf-6ccc3d48352e",
+                "2026-06-01",
+                "5.25",
+                "WIP"
+              ]
+            }
+          ]
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2722,
+        "raw": {
+          "group": "T2_CALENDAR_POLICY",
+          "case": "CALENDAR:MAY31:UTC:False",
+          "status": "COUNTEREXAMPLE",
+          "mismatches": [
+            {
+              "material_event_date": [
+                "77578c6b-1b7e-4e52-942e-6526fdabf134",
+                "2026-06-01",
+                "5.25",
+                "WIP"
+              ]
+            },
+            {
+              "material_event_date": [
+                "77578c6b-1b7e-4e52-942e-6526fdabf134",
+                "2026-06-01",
+                "5.25",
+                "WIP"
+              ]
+            }
+          ]
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2732,
+        "raw": {
+          "group": "AO_TRIAL",
+          "case": "INVOICE:UTC:False",
+          "status": "INCOMPLETE",
+          "error": "[(UUID('e46d63de-930b-4c02-8f29-f0147aa7fc1e'), 'MATERIAL_COST_REVALUATION', datetime.date(2026, 8, 16), datetime.date(2026, 8, 16)), (UUID('69306ada-018b-4e00-8d60-c960789706b3'), 'MATERIAL_SUPPLIER_INVOICE', datetime.date(2026, 8, 15), datetime.date(2026, 8, 15)), (UUID('84c62496-c10f-4fef-8155-4f5bfa129cf1'), 'PO_HPP_GL_SYNC', datetime.date(2026, 8, 16), datetime.date(2026, 8, 16))]",
+          "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_av_trial.py\", line 71, in group\n    try:row=operation()\n            ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 328, in run\n    return op()\n           ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 497, in <lambda>\n    cases+=[('INVOICE:'+z+':'+str(c),lambda z=z,c=c:invoice_date(cur,today,z,c)) for z in ('UTC','Pacific/Kiritimati') for c in (False,True)]\n                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"cp6_initial_import_ao_trial.py\", line 60, in invoice_date\n    try:result=calendar.calendar_case(cur,today,invoice,received,zone,closed)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_final_gap_native.py\", line 87, in calendar_case\n    return calendar_case_body(cur, today, purchased, received, zone, closed)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_final_gap_native.py\", line 130, in calendar_case_body\n    response = production.rpc(cur, 'erp.finalize_material_purchase_invoice_v2', payload, request, int(version))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"cp6_initial_import_ao_trial.py\", line 54, in traced_rpc\n    assert all(r[2]==invoice and r[3]==(today if closed else invoice) for r in fresh),fresh\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: [(UUID('e46d63de-930b-4c02-8f29-f0147aa7fc1e'), 'MATERIAL_COST_REVALUATION', datetime.date(2026, 8, 16), datetime.date(2026, 8, 16)), (UUID('69306ada-018b-4e00-8d60-c960789706b3'), 'MATERIAL_SUPPLIER_INVOICE', datetime.date(2026, 8, 15), datetime.date(2026, 8, 15)), (UUID('84c62496-c10f-4fef-8155-4f5bfa129cf1'), 'PO_HPP_GL_SYNC', datetime.date(2026, 8, 16), datetime.date(2026, 8, 16))]\n",
+          "full_boundary_restored": true
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2734,
+        "raw": {
+          "group": "AO_TRIAL",
+          "case": "INVOICE:UTC:True",
+          "status": "INCOMPLETE",
+          "error": "[(UUID('ba26da83-e416-4d90-a2ab-1ce6dfee47ac'), datetime.date(2026, 10, 16), Decimal('5.25'), 'WIP')]",
+          "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_av_trial.py\", line 71, in group\n    try:row=operation()\n            ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 328, in run\n    return op()\n           ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 497, in <lambda>\n    cases+=[('INVOICE:'+z+':'+str(c),lambda z=z,c=c:invoice_date(cur,today,z,c)) for z in ('UTC','Pacific/Kiritimati') for c in (False,True)]\n                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"cp6_initial_import_ao_trial.py\", line 67, in invoice_date\n    assert o['state']['revaluation_events'] and all(r[1]==invoice for r in o['state']['revaluation_events']),o['state']['revaluation_events']\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: [(UUID('ba26da83-e416-4d90-a2ab-1ce6dfee47ac'), datetime.date(2026, 10, 16), Decimal('5.25'), 'WIP')]\n",
+          "full_boundary_restored": true
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2736,
+        "raw": {
+          "group": "AO_TRIAL",
+          "case": "INVOICE:Pacific/Kiritimati:False",
+          "status": "INCOMPLETE",
+          "error": "[(UUID('24eec61c-4927-46cc-bcf1-029f74b56af6'), 'MATERIAL_COST_REVALUATION', datetime.date(2026, 8, 16), datetime.date(2026, 8, 16)), (UUID('f1305e2d-3f8a-4ead-94ee-cc66e63061f8'), 'MATERIAL_SUPPLIER_INVOICE', datetime.date(2026, 8, 15), datetime.date(2026, 8, 15)), (UUID('d76f9ee3-4b98-4156-a515-ceea26ea1006'), 'PO_HPP_GL_SYNC', datetime.date(2026, 8, 16), datetime.date(2026, 8, 16))]",
+          "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_av_trial.py\", line 71, in group\n    try:row=operation()\n            ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 328, in run\n    return op()\n           ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 497, in <lambda>\n    cases+=[('INVOICE:'+z+':'+str(c),lambda z=z,c=c:invoice_date(cur,today,z,c)) for z in ('UTC','Pacific/Kiritimati') for c in (False,True)]\n                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"cp6_initial_import_ao_trial.py\", line 60, in invoice_date\n    try:result=calendar.calendar_case(cur,today,invoice,received,zone,closed)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_final_gap_native.py\", line 87, in calendar_case\n    return calendar_case_body(cur, today, purchased, received, zone, closed)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_final_gap_native.py\", line 130, in calendar_case_body\n    response = production.rpc(cur, 'erp.finalize_material_purchase_invoice_v2', payload, request, int(version))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"cp6_initial_import_ao_trial.py\", line 54, in traced_rpc\n    assert all(r[2]==invoice and r[3]==(today if closed else invoice) for r in fresh),fresh\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: [(UUID('24eec61c-4927-46cc-bcf1-029f74b56af6'), 'MATERIAL_COST_REVALUATION', datetime.date(2026, 8, 16), datetime.date(2026, 8, 16)), (UUID('f1305e2d-3f8a-4ead-94ee-cc66e63061f8'), 'MATERIAL_SUPPLIER_INVOICE', datetime.date(2026, 8, 15), datetime.date(2026, 8, 15)), (UUID('d76f9ee3-4b98-4156-a515-ceea26ea1006'), 'PO_HPP_GL_SYNC', datetime.date(2026, 8, 16), datetime.date(2026, 8, 16))]\n",
+          "full_boundary_restored": true
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067321932.log",
+        "line": 2738,
+        "raw": {
+          "group": "AO_TRIAL",
+          "case": "INVOICE:Pacific/Kiritimati:True",
+          "status": "INCOMPLETE",
+          "error": "[(UUID('43b95614-0c09-474d-9e8d-885ce04d577e'), datetime.date(2026, 10, 16), Decimal('5.25'), 'WIP')]",
+          "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_av_trial.py\", line 71, in group\n    try:row=operation()\n            ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 328, in run\n    return op()\n           ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 497, in <lambda>\n    cases+=[('INVOICE:'+z+':'+str(c),lambda z=z,c=c:invoice_date(cur,today,z,c)) for z in ('UTC','Pacific/Kiritimati') for c in (False,True)]\n                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"cp6_initial_import_ao_trial.py\", line 67, in invoice_date\n    assert o['state']['revaluation_events'] and all(r[1]==invoice for r in o['state']['revaluation_events']),o['state']['revaluation_events']\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: [(UUID('43b95614-0c09-474d-9e8d-885ce04d577e'), datetime.date(2026, 10, 16), Decimal('5.25'), 'WIP')]\n",
+          "full_boundary_restored": true
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Original date oracle retained. Separate C0 group contains 8 AS +12 calendar +4 AO +1 adjustment, all PASS under ratified e83d56e6. Amount/identity assertions and original results preserved."
+    },
+    {
+      "observation": {
+        "log": "own-38928849710-117067322344.log",
+        "line": 2280,
+        "raw": {
+          "group": "AR_SEQUENTIAL",
+          "case": "ACCESSORY_CONNECTED_ZERO",
+          "status": "INCOMPLETE",
+          "error": "BC_FREE_REQUIRES_POLICY: harga eceran 0 hanya lewat gratis Special yang ditetapkan owner (ERP-DEC02)\nCONTEXT:  PL/pgSQL function erp.save_accessory_issue_action_v1(text,jsonb,uuid) line 51 at RAISE\nSQL function \"erp_save_accessory_issue_action_v1\" statement 1",
+          "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_av_trial.py\", line 71, in group\n    try:row=operation()\n            ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 328, in run\n    return op()\n           ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_accessory_issue_trial.py\", line 126, in <lambda>\n    ('ACCESSORY_CONNECTED_ZERO',lambda:lifecycle(a,cur,today,12,'0.00')),\n                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_accessory_issue_trial.py\", line 38, in lifecycle\n    p['items'][0]['qty']='5';saved=call(a,cur,'SAVE_DRAFT',p)\n                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_accessory_issue_trial.py\", line 9, in call\n    result=cur.execute('select public.erp_save_accessory_issue_action_v1(%s,%s::jsonb,%s)',(action,json.dumps(payload,default=str),key or uuid.uuid4())).fetchone()[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp6_t2_regression.py\", line 310, in execute\n    return EXECUTE(self,query,params,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: BC_FREE_REQUIRES_POLICY: harga eceran 0 hanya lewat gratis Special yang ditetapkan owner (ERP-DEC02)\nCONTEXT:  PL/pgSQL function erp.save_accessory_issue_action_v1(text,jsonb,uuid) line 51 at RAISE\nSQL function \"erp_save_accessory_issue_action_v1\" statement 1\n",
+          "full_boundary_restored": true
+        }
+      },
+      "disposition": "SUPERSEDED_BY_OWNER_RULE",
+      "reason": "Superseded by ERP-DEC02/M:5023 B: BC_FREE_REQUIRES_POLICY is correct; AR_SUPERSEDING:ACCESSORY_CONNECTED_ZERO_REFUSED_BC_FREE_POLICY PASS. Original INCOMPLETE retained."
+    }
+  ],
+  "c0_source": "scripts/cp6_c0_oracles_auditor.py",
+  "c0_sha256": "7c2c19b6e722d325ba902cfd9eb1ae2f98d4e2ec27245070ab485df0af9e66a7",
+  "warning": "Independent execution of previously qualified oracles, not newly authored Astra cases."
+}
