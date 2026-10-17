@@ -31,6 +31,7 @@ D16-1 (1-5) is in `audit/fable_cp17_r2/OWNER_DECISION_TO_AUDITOR_20261016_UNHIDE
 | D16-1 new screens on real data: Reminder, Pengaturan ERP, Audit Trail, Riwayat Pelanggan, Ringkasan Gudang | `cp7_r3_{reminders,settings,audit,history,warehouse}_cases.py` + browser + `src/Connected*Page.tsx` |
 | `screenActivation`: no hidden menu in Enteng (47 menus; dashboard is NOTICE) | `src/screenActivation.test.ts` passes |
 | Fable oracle 3 chains (sewing -> close; FG -> AR zero on a phone; D14-2, D14-3/D15-1, D15-5 guards) | `cp7_r3_chain_cases.py`, `cp7_r3_chain_browser.mjs` (registered right after R2-07) |
+| R3-06/07 test tools (Laundry alert read without waiting; CI receipt reads every page), R3-08 CP6 workflow successor map | commit 0e9e6fbc; `docs/cp7/audit-candidate/cp1-7-r3-20261017/R3_08_CP6_WORKFLOW_SUCCESSORS.md` |
 | R3-05 (FABLE-016 remainder): QC & Final SKU and accessory note -> payroll browser cases | `cp7_r3_qc_note_cases.py`, `cp7_r3_qc_note_browser.mjs` |
 
 Declaration `docs/cp7/cp17/CP17_FIXES.json`: 302 cases (native 143, races 31, http 22, browser 53, browser_enteng 53);
@@ -44,10 +45,10 @@ private role stack 47 (`cp7_f03_full_probe.py`, both manifests).
    risky selectors named there: QC search box `nav.clq-tabs input`, `.clq-impact`, `.cpay-net`).
 2. D16-1 remaining screen: attendance HPP pool (R3-04), mounted on the HPP & Rekalkulasi page, with native/race/HTTP/browser
    cases.
-3. R3-06/07/08 smaller items (laundryRead helper, receipt pagination, CP6 mapping).
-4. Docs: r3 notes for D16-5, the D16-1 screens and the Enteng build; replace "Tutup Periode" in CROSS_AUDIT / SCREEN_MAP;
-   install-time checks recorded as "run at install", not on hosted now.
-5. Qualify r3 on one commit (fast-forward `claude/new-session-deapao`, qualify, CI receipt, package + handoffs for
+3. Docs: r3 notes for D16-5, the D16-1 screens and the Enteng build go into the r3 package (its SCREEN_MAP lists
+   "Laporan & Tutup Buku" with the Tutup Buku tab; older packages' SCREEN_MAP stay as they were). Install-time checks are
+   in `docs/cp7/cp17/R3_INSTALL_TIME_CHECKS.md` (run at install, never on hosted now).
+4. Qualify r3 on one commit (fast-forward `claude/new-session-deapao`, qualify, CI receipt, package + handoffs for
    Fable/Astra/Sol), then the owner report.
 
 Held, not part of r3: #196 CP7C and #208 FABLE-012.
@@ -69,4 +70,4 @@ Held, not part of r3: #196 CP7C and #208 FABLE-012.
 |---|---|
 | feat(r3): Ringkasan Gudang on real data (D16-1) | 5 of 6 D16-1 screens in; no hidden Enteng menu; CI not yet run on these 5 |
 | test(r3): R3-05 QC and accessory-note browser cases | 296 declared cases; CI dispatched at 26a107d3 (CP17 39019699925, F03 full 39019701257, F03-P13 39019702513, P13 finance 39019703895, P13 period 39019705128) |
-| test(r3): Fable oracle 3 screen chains | 302 declared cases; the chain cases are not in the 26a107d3 runs |
+| test(r3): Fable oracle 3 screen chains | 302 declared cases; the chain cases are not in the 26a107d3 runs. CP17 39018740764 and P13 period 39018742406 at 1dace64e both green (Enteng-build browser group included) |
