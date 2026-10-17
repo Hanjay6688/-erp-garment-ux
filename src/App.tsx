@@ -45,6 +45,7 @@ const ConnectedCashLedgerPage = lazy(() => import('./ConnectedCashLedgerPage'))
 const FinancePages = lazy(() => import('./FinancePages'))
 const ConnectedPayrollPage = lazy(() => import('./ConnectedPayrollPage'))
 const ConnectedAttendancePage = lazy(() => import('./ConnectedAttendancePage'))
+const ConnectedRemindersPage = lazy(() => import('./ConnectedRemindersPage'))
 const ConnectedSupplierCreditPage = lazy(() => import('./ConnectedSupplierCreditPage'))
 const ConnectedSkuHppPage = lazy(() => import('./ConnectedSkuHppPage'))
 const HppPage = lazy(() => import('./HppPage'))
@@ -66,6 +67,7 @@ const OperationsAdminPages = lazy(() => import('./OperationsAdminPages'))
 const FgNotaPage = lazy(() => import('./FgNotaPage'))
 const AccessControlPage = lazy(() => import('./AccessControlPage'))
 const ConnectedInitialImportPage = lazy(() => import('./ConnectedInitialImportPage'))
+const ConnectedErpSettingsPage = lazy(() => import('./ConnectedErpSettingsPage'))
 const ConnectedPocketFabricPage = lazy(() => import('./ConnectedPocketFabricPage'))
 const ConnectedProcurementPage = lazy(() => import('./ConnectedProcurementPage'))
 const PatternPage = lazy(() => import('./PatternPage'))
@@ -769,7 +771,7 @@ function ErpApp() {
         {page === 'admin-access' && <Suspense fallback={<WorkspaceFallback label="Pengguna & Hak Akses"/>}><AccessControlPage/></Suspense>}
         {page === 'pocket-fabric' && <Suspense fallback={<WorkspaceFallback label="Kain kantong"/>}><ConnectedPocketFabricPage/></Suspense>}
         {page === 'admin-import' && <Suspense fallback={<WorkspaceFallback label="Impor data awal"/>}><ConnectedInitialImportPage/></Suspense>}
-        {isOperationsView(page) && <Suspense fallback={<WorkspaceFallback label="Pengaturan operasional"/>}>{page === 'operations-attendance' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedAttendancePage/> : <OperationsAdminPages view={page} onNavigate={(next)=>setPage(next)} reminders={reminders} onChangeReminders={setReminders}/>}</Suspense>}
+        {isOperationsView(page) && <Suspense fallback={<WorkspaceFallback label="Pengaturan operasional"/>}>{page === 'operations-attendance' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedAttendancePage/> : page === 'admin-reminders' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedRemindersPage/> : page === 'admin-settings' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedErpSettingsPage onOpenImport={()=>setPage('admin-import')}/> : <OperationsAdminPages view={page} onNavigate={(next)=>setPage(next)} reminders={reminders} onChangeReminders={setReminders}/>}</Suspense>}
         {page === 'placeholder' && <Placeholder />}
         </>}
       </div>

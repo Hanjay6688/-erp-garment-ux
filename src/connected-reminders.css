@@ -1,0 +1,48 @@
+/* R3-03: the connected Reminder page. Reuses the reminder list/editor styles of cutting-reminders.css and adds what the
+   connected screen needs; nothing here hides overflow, the layout wraps instead (best practice D17). */
+.creminders { display: grid; gap: 12px; min-width: 0; }
+.creminders-head { padding: 14px 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.creminders-head > div { min-width: 0; flex: 1 1 280px; }
+.creminders-head h1 { margin: 4px 0 6px; font-size: 22px; }
+.creminders-head p { margin: 0; color: #8a96aa; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.creminders-head > button, .creminders-pages button, .creminders-cancel button { min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 9px;
+  background: rgba(255, 255, 255, .03); color: #c5cde0; font-size: 12px; cursor: pointer; }
+.creminders-head > button:disabled, .creminders-pages button:disabled, .creminders-cancel button:disabled { opacity: .5; cursor: not-allowed; }
+.creminders-done, .creminders-alert, .creminders-loading, .creminders-denied { margin: 0; padding: 12px 14px; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.creminders-done { color: #8fd8b9; }
+.creminders-alert { color: #f0b2b2; display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.creminders-alert button { min-height: 34px; padding: 0 10px; border-radius: 8px; border: 1px solid var(--line); background: rgba(255, 255, 255, .04); color: inherit; cursor: pointer; }
+.creminders-summary { padding: 12px 14px; display: grid; gap: 4px; font-size: 12px; color: #aab4c4; }
+.creminders-summary p { margin: 0; overflow-wrap: anywhere; }
+.creminders-summary small { color: #6f7b90; font-size: 11px; }
+.creminders .reminder-layout { min-width: 0; }
+.creminders .reminder-browser, .creminders .reminder-editor { min-width: 0; }
+.creminders .reminder-filters { flex-wrap: wrap; max-width: 100%; }
+.creminders .reminder-filters button { font-size: 11px; }
+.creminders .reminder-list > article { grid-template-columns: minmax(0, 1fr) auto; }
+.creminders .reminder-copy { min-width: 0; }
+.creminders .reminder-copy > span, .creminders .reminder-editor label > span, .creminders .reminder-browser > header span { font-size: 10px; }
+.creminders .reminder-copy p { font-size: 11.5px; }
+.creminders .reminder-editor input, .creminders .reminder-editor select, .creminders .reminder-editor textarea { font-size: 12px; }
+.creminders .reminder-copy strong, .creminders .reminder-copy p { overflow-wrap: anywhere; }
+.creminders .reminder-copy small { flex-wrap: wrap; font-size: 11px; }
+.creminders .reminder-actions { flex-wrap: wrap; justify-content: flex-end; }
+.creminders .reminder-actions button { font-size: 11px; }
+.creminders-status { color: #8a96aa; }
+.creminders-due { padding: 1px 6px; border-radius: 6px; font-size: 10.5px; font-weight: 700; background: rgba(124, 141, 255, .12); color: #ccd3ff; }
+.creminders-due.overdue { background: rgba(239, 124, 124, .14); color: #f0b2b2; }
+.creminders-window { margin: 0; padding: 10px 14px; border-bottom: 1px solid var(--line); color: #e6c98a; font-size: 11.5px; line-height: 1.5; }
+.creminders-pages { padding: 10px 14px; border-top: 1px solid var(--line); display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+.creminders-cancel { grid-column: 1 / -1; padding: 10px 0 0; display: grid; gap: 6px; font-size: 11.5px; color: #aab4c4; }
+.creminders-cancel label { display: grid; gap: 5px; }
+.creminders-cancel input { width: 100%; min-width: 0; height: 38px; padding: 0 9px; border: 1px solid #354052; border-radius: 9px; background: #121a26; color: #dbe1eb; }
+.creminders-cancel > div { display: flex; gap: 8px; flex-wrap: wrap; }
+.creminders-problem { margin: 10px 13px 0; color: #e6c98a; font-size: 11.5px; line-height: 1.45; }
+.creminders-cancel .creminders-problem { margin: 0; }
+.creminders-readonly p { margin: 0; padding: 14px; color: #8a96aa; font-size: 12px; line-height: 1.5; }
+@media (max-width: 620px) {
+  .creminders .reminder-list > article { grid-template-columns: minmax(0, 1fr); }
+  .creminders .reminder-actions { grid-column: 1; justify-content: stretch; }
+  .creminders .reminder-actions button { flex: 1 1 auto; }
+  .creminders-head > button { width: 100%; }
+}

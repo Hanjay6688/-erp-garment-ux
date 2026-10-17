@@ -1,12 +1,13 @@
 import type { Json } from './types/database.preconnect'
 
-export const productionDomains = ['CUTOVER', 'MASTER_DATA', 'WORK_RATE', 'CUTTING_AUTO_PO', 'CUTTING_CORRECTION', 'CUTTING_RETURN', 'CUTTING_RETURN_REVERSAL', 'PICKUP_REVERSAL', 'SEWING_COMPLETION', 'PO_FINISH', 'PLAN_APPLY', 'PLAN_APPLY_STAGED', 'PAYROLL_INSTALLMENT', 'PAYROLL_KASBON', 'FINANCE_MISC', 'HPP_RECOST', 'FINANCE_PERIOD', 'SALES', 'ROSTER', 'PAYROLL', 'FG_NOTA', 'FG_BOOK', 'FG_ADJUSTMENT', 'MATERIAL_COUNT', 'SUPPLIER_RETURN', 'PURCHASE_INVOICE', 'SUPPLIER_PAYMENT', 'MATERIALS', 'PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION', 'RECEIPT_CORRECTION', 'MATERIAL_NAME'] as const
+export const productionDomains = ['REMINDER', 'CUTOVER', 'MASTER_DATA', 'WORK_RATE', 'CUTTING_AUTO_PO', 'CUTTING_CORRECTION', 'CUTTING_RETURN', 'CUTTING_RETURN_REVERSAL', 'PICKUP_REVERSAL', 'SEWING_COMPLETION', 'PO_FINISH', 'PLAN_APPLY', 'PLAN_APPLY_STAGED', 'PAYROLL_INSTALLMENT', 'PAYROLL_KASBON', 'FINANCE_MISC', 'HPP_RECOST', 'FINANCE_PERIOD', 'SALES', 'ROSTER', 'PAYROLL', 'FG_NOTA', 'FG_BOOK', 'FG_ADJUSTMENT', 'MATERIAL_COUNT', 'SUPPLIER_RETURN', 'PURCHASE_INVOICE', 'SUPPLIER_PAYMENT', 'MATERIALS', 'PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION', 'RECEIPT_CORRECTION', 'MATERIAL_NAME'] as const
 export type ProductionDomain = typeof productionDomains[number]
 export type ProductionEnvelope = {
   action: string; payload: Json; expectedVersion: number | null
   fingerprint: string; id: string; createdAt: string
 }
 export const domainLabels: Record<ProductionDomain, string> = {
+  REMINDER: 'Pengingat di Reminder',
   CUTOVER: 'Tanggal mulai pakai aplikasi',
   MASTER_DATA: 'Data master',
   WORK_RATE: 'Tarif upah mandor dan komponen kerja model',
@@ -45,6 +46,7 @@ export const domainLabels: Record<ProductionDomain, string> = {
   PICKUP: 'Bagi Potongan', WIP: 'Status WIP', INITIAL_IMPORT: 'Impor data awal',
 }
 const actions: Record<ProductionDomain, readonly string[]> = {
+  REMINDER: ['SAVE', 'DONE', 'UNDONE', 'CANCEL'],
   CUTOVER: ['SET'],
   MASTER_DATA: ['CREATE', 'UPDATE', 'DEACTIVATE', 'REACTIVATE', 'SET_BENCHMARK', 'SET_MANDOR_PRICE'],
   WORK_RATE: ['SET_RATE', 'STOP_RATE', 'SAVE_BOM', 'CREATE_COMPONENT'],

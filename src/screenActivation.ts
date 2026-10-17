@@ -55,9 +55,9 @@ export const SCREEN_ACTIVATION: Readonly<Record<string, Row>> = Object.freeze({
   'master-workforce': { label: 'Mandor', section: 'Master Data', enteng: 'CONNECTED', test: 'CONNECTED' },
   'master-locations': { label: 'Gudang & Lokasi', section: 'Master Data', enteng: 'CONNECTED', test: 'CONNECTED' },
   'master-pattern': { label: 'Pola', section: 'Master Data', enteng: 'CONNECTED', test: 'CONNECTED' },
-  'admin-reminders': { label: 'Reminder', section: 'Pengaturan & Audit', enteng: 'HIDDEN', test: 'SAMPLE' },
+  'admin-reminders': { label: 'Reminder', section: 'Pengaturan & Audit', enteng: 'CONNECTED', test: 'CONNECTED' },
   'admin-access': { label: 'Pengguna & Hak Akses', section: 'Pengaturan & Audit', enteng: 'CONNECTED', test: 'CONNECTED' },
-  'admin-settings': { label: 'Pengaturan ERP', section: 'Pengaturan & Audit', enteng: 'HIDDEN', test: 'SAMPLE' },
+  'admin-settings': { label: 'Pengaturan ERP', section: 'Pengaturan & Audit', enteng: 'CONNECTED', test: 'CONNECTED' },
   'admin-import': { label: 'Impor data awal', section: 'Pengaturan & Audit', enteng: 'CONNECTED', test: 'CONNECTED' },
   'admin-audit': { label: 'Audit Trail', section: 'Pengaturan & Audit', enteng: 'HIDDEN', test: 'SAMPLE' },
 })

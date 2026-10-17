@@ -43,8 +43,11 @@ def run():
  # 37 after the reviewed D14-6 kasbon roles cp7_kasbon_write/cp7_kasbon_read (nologin, no erp table grants, one public
  # facade each; asserted by cp7_kasbon_bundle.verify); 39 after the D15-3 master roles cp7_master_write/cp7_master_read
  # (nologin, no erp table grants, two public facades each; asserted by cp7_master_bundle.verify); 41 after the D15-5 cutover
- # roles cp7_cutover_write/cp7_cutover_read (nologin, no erp table grants, one public facade each; asserted by cp7_cutover_bundle.verify).
- assert len(manifest['expected_private_roles'])==41 and len(set(manifest['expected_private_roles']))==41 and tuple(bundle.ROLES)==tuple(manifest['expected_private_roles']),'FULL_F03_ROLE_STACK_CHANGED_REQUIRES_EXPLICIT_REVIEW'
+ # roles cp7_cutover_write/cp7_cutover_read (nologin, no erp table grants, one public facade each; asserted by cp7_cutover_bundle.verify);
+ # 43 after the R3-03 reminder roles cp7_reminders_write/cp7_reminders_read (nologin, no erp table grants, one public facade each,
+ # no own table; asserted by cp7_reminders_bundle.verify); 44 after the R3-03 Pengaturan ERP role cp7_erp_settings_read (nologin,
+ # no erp table grants, one read facade, no own table; asserted by cp7_erp_settings_bundle.verify).
+ assert len(manifest['expected_private_roles'])==44 and len(set(manifest['expected_private_roles']))==44 and tuple(bundle.ROLES)==tuple(manifest['expected_private_roles']),'FULL_F03_ROLE_STACK_CHANGED_REQUIRES_EXPLICIT_REVIEW'
  try:
   if BUCKET=='prefreeze_ui':
    # Preserve the observed CP6-only runtime failure before installing CP7.
@@ -76,7 +79,7 @@ def run():
     assert {tuple(x)for x in new['acl']or[]}=={tuple(x)for x in old['acl']or[]}|grants.get(sig,set()),('F03_UNDECLARED_ACL_DELTA',sig)
    for signature,definition in expected_definitions.items():assert cur.execute('select pg_get_functiondef(%s::regprocedure)',(signature,)).fetchone()[0]==definition,('F03_EXACT_ADMISSION_DELTA',signature)
    assert cur.execute("select pg_get_functiondef('cp7_payroll.rebuild_nonwork(uuid)'::regprocedure)").fetchone()[0]==bundle.settlement.derive_nonwork(bundle.settlement.accepted('populate_payroll_draft'))
-   report['dated_guard']=bundle.dated_guard.verify(cur);report['rework_eligibility']=bundle.rework.verify(cur);report['hpp_policy_guard']=bundle.hpp_policy.verify(cur);report['kasbon']=bundle.kasbon.verify(cur);report['pickup_reversal']=bundle.pickup.verify(cur);report['rate_revision']=bundle.rate_revision.verify(cur);report['master']=bundle.master.verify(cur)
+   report['dated_guard']=bundle.dated_guard.verify(cur);report['rework_eligibility']=bundle.rework.verify(cur);report['hpp_policy_guard']=bundle.hpp_policy.verify(cur);report['kasbon']=bundle.kasbon.verify(cur);report['pickup_reversal']=bundle.pickup.verify(cur);report['rate_revision']=bundle.rate_revision.verify(cur);report['master']=bundle.master.verify(cur);report['reminders']=bundle.reminders.verify(cur);report['erp_settings']=bundle.erp_settings.verify(cur)
    p09.INSTALLED_FUNCTIONS=after;report['combined_declared_execute_grants']={k:sorted(v)for k,v in grants.items()};report['exact_guard_sha256']={k:hashlib.sha256(v.encode()).hexdigest()for k,v in expected_definitions.items()};report['all_other_predecessor_definitions_and_owners_unchanged']=True
    conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)

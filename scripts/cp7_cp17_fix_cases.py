@@ -70,7 +70,7 @@ FUNCTIONS=('erp_set_contractor_hpp_policy_v1','erp_cp7_save_nota_v1','erp_cp7_ge
            'erp_cp7_get_kasbon_v1','erp_cp7_save_kasbon_v1','erp_cp7_get_pickup_reversal_v1','erp_cp7_reverse_pickup_v1',
            'erp_cp7_get_cutting_return_reversal_v1','erp_cp7_reverse_cutting_return_v1','erp_cp7_get_sewing_completion_v1','erp_cp7_save_sewing_completion_v1',
            'erp_cp7_list_po_finish_v1','erp_cp7_get_po_finish_v1','erp_cp7_finish_po_v1','erp_cp7_get_po_reopen_v1','erp_cp7_reopen_po_v1',
-           'erp_cp7_save_misc_finance_v1','erp_cp7_correct_misc_finance_v1','erp_cp7_correct_sales_payment_v1','erp_cp7_get_sales_payment_correction_v1','erp_cp7_correct_note_v1')+master.FUNCTIONS+autopo.FUNCTIONS+cutover.FUNCTIONS
+           'erp_cp7_save_misc_finance_v1','erp_cp7_correct_misc_finance_v1','erp_cp7_correct_sales_payment_v1','erp_cp7_get_sales_payment_correction_v1','erp_cp7_correct_note_v1')+master.FUNCTIONS+autopo.FUNCTIONS+cutover.FUNCTIONS+r3.FUNCTIONS
 IDS=dict(
     native=['CP17_FIN01_FULL_PAY_BEFORE_ATTENDANCE_REFUSED','CP17_FIN01_WORK_ONLY_BEFORE_COMPLETION_REFUSED',
             'CP17_FIN01_INSTALLMENT_BEFORE_ACCRUAL_REFUSED','CP17_FIN01_DIRECT_NATIVE_PAYMENT_REFUSED',

@@ -1,0 +1,45 @@
+.cset { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; min-width: 0; color: var(--text, #e9eff8); overflow-wrap: anywhere; }
+.cset > *, .cset label { min-width: 0; }
+.cset .panel { padding: 20px; background: var(--surface, #142138); border: 1px solid #2c3e58; }
+.cset h1 { margin: 5px 0 8px; font-size: 25px; }
+.cset h2 { margin: 0 0 8px; font-size: 19px; }
+.cset h3 { margin: 0; font-size: 15px; }
+.cset h4 { margin: 0; font-size: 14px; }
+.cset p { margin: 4px 0; line-height: 1.55; }
+.cset button { display: inline-flex; align-items: center; justify-content: center; padding: 9px 14px; min-height: 42px; color: #e9eff8; background: #20334f;
+  border: 1px solid #456080; border-radius: 8px; cursor: pointer; font: inherit; font-size: 13px; }
+.cset button.primary { background: #17614d; border-color: #378875; }
+.cset button:disabled { opacity: .5; cursor: not-allowed; }
+.cset input:not([type=checkbox]), .cset select { width: 100%; min-width: 0; max-width: 100%; padding: 9px 10px; min-height: 42px; background: #0e1a2c; color: #e9eff8;
+  border: 1px solid #455974; border-radius: 6px; font: inherit; box-sizing: border-box; }
+.cset select[multiple] { min-height: 110px; }
+.cset input:focus-visible, .cset select:focus-visible, .cset button:focus-visible { outline: 2px solid #a2c9ff; outline-offset: 2px; }
+.cset-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+.cset-heading > div { flex: 1 1 320px; min-width: 0; }
+.cset-help { color: #b6c4d8; font-size: 13px; }
+.cset-alert { padding: 14px; border: 1px solid #a97d32; background: #352a1b; border-radius: 9px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.cset-done { padding: 12px 14px; border: 1px solid #378875; background: #12322b; border-radius: 9px; }
+.cset-cutover strong { color: #8be0ba; }
+.cset-family { display: grid; gap: 10px; }
+.cset-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 12px; }
+.cset-policy { display: grid; gap: 6px; align-content: start; padding: 14px; border: 1px solid #33496a; border-radius: 12px; background: #101c30; min-width: 0; }
+.cset-policy-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.cset-policy-head h3 { flex: 1 1 180px; }
+.cset-status { display: inline-flex; border-radius: 999px; padding: 4px 10px; font-size: 11.5px; font-weight: 700; }
+.cset-status.is-set { color: #c9f2df; background: #1d4a3c; }
+.cset-status.is-pending { color: #f6e2b6; background: #4a3a1c; }
+.cset-effect { color: #f1dcae; font-size: 13px; }
+.cset-meta { color: #9fb0c8; font-size: 12px; }
+.cset-events { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 4px; font-size: 12px; color: #c7d3e4; }
+.cset-editor { display: grid; gap: 10px; margin-top: 6px; padding: 12px; border: 1px solid #456080; border-radius: 10px; background: #0d1828; }
+.cset-editor label { display: grid; gap: 6px; font-size: 13px; }
+.cset-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 10px; }
+.cset .cset-check { display: flex; align-items: center; gap: 8px; }
+.cset-preview { padding: 8px 10px; border-radius: 8px; background: #16263d; font-size: 13px; }
+.cset-problem { padding: 6px 10px; border-radius: 8px; background: #3a2c17; color: #f6e2b6; font-size: 12px; }
+.cset-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+@media (max-width: 640px) {
+  .cset .panel { padding: 14px; }
+  .cset-policy { padding: 12px; }
+  .cset-actions button, .cset-heading > button { flex: 1 1 auto; }
+}

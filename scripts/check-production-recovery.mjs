@@ -41,6 +41,12 @@ for (const token of ["useProductionMutation('PROCUREMENT')", 'beginRead()', 'fin
 }
 assert.doesNotMatch(procurement, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)
 console.log('Production recovery ownership passed: shared envelope, lock and stale-read generation including procurement exact version transport.')
+// R3-03 (owner D16-1): the connected Reminder page keeps one request UUID per attempt and the version it read.
+const reminders = read('src/ConnectedRemindersPage.tsx')
+for (const token of ["useProductionMutation('REMINDER')", 'beginRead()', 'finishRead(ticket)', 'p_request: e.id', 'p_expected: e.expectedVersion', 'validateReminderOutcome', 'reload: load']) {
+  assert.ok(reminders.includes(token), `Reminder recovery omits ${token}`)
+}
+assert.doesNotMatch(reminders, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)
 
 const materials = read('src/ConnectedMaterialsPage.tsx')
 for (const token of ["useProductionMutation('MATERIALS')", 'beginRead()', 'finishRead(ticket)', 'p_request:envelope.id', 'p_expected:p.expected_version', 'parseMaterialOutcome', 'reload:load']) {

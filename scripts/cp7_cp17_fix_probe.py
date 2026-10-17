@@ -16,7 +16,7 @@ OUT=bundle.ROOT/'cp6-proof/t3/CP7_CP17_FIXES.json'
 DECLARATION=bundle.ROOT/'docs/cp7/cp17/CP17_FIXES.json'
 
 def verify(cur):
- payroll.verify(cur,True,True,True,True,True);finance.verify(cur);create_bundle.verify(cur);bundle.dated_guard.verify(cur);bundle.rework.verify(cur);bundle.kasbon.verify(cur);bundle.pickup.verify(cur);bundle.rate_revision.verify(cur);bundle.hpp_policy.verify(cur);bundle.master.verify(cur);bundle.cutover.verify(cur)
+ payroll.verify(cur,True,True,True,True,True);finance.verify(cur);create_bundle.verify(cur);bundle.dated_guard.verify(cur);bundle.rework.verify(cur);bundle.kasbon.verify(cur);bundle.pickup.verify(cur);bundle.rate_revision.verify(cur);bundle.hpp_policy.verify(cur);bundle.master.verify(cur);bundle.cutover.verify(cur);bundle.reminders.verify(cur);bundle.erp_settings.verify(cur)
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run():

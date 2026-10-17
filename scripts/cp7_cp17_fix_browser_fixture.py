@@ -366,6 +366,21 @@ def main():
                      later2=g['later'](11).astimezone(timezone(timedelta(hours=7))).strftime('%Y-%m-%dT%H:%M'),
                      jahit=one('select component_name from erp.work_components where id=%s',(g['rates']['component'],))[0],
                      obras=one('select component_name from erp.work_components where id=%s',(g['rates']['obras'],))[0])
+        elif operation=='r303_reminders_state':
+            # R3-03: the Native reminder rows of one browser user (erp.manual_reminders + audit rows), never the facade's answer.
+            import cp7_r3_reminders_cases as reminders
+            out=reminders.browser_state(cur,p)
+        elif operation=='r303_reminders_roles':
+            # R3-03: AUDITOR_VIEW_ONLY holds the view key (seeded; made sure) and not manage; PRODUKSI_QC holds no reminder key.
+            import cp7_r3_reminders_cases as reminders
+            out=reminders.browser_roles(cur,p)
+        elif operation=='r303_settings':
+            # R3-03 (owner D16-1): the Native policy rows before the Pengaturan ERP journey (to put back afterwards).
+            import cp7_r3_settings_cases as settings;out=settings.browser_fixture(cur,p)
+        elif operation=='r303_settings_state':
+            import cp7_r3_settings_cases as settings;out=settings.browser_state(cur,p)
+        elif operation=='r303_settings_restore':
+            import cp7_r3_settings_cases as settings;out=settings.browser_restore(cur,p)
         elif operation=='r303_period_history':
             # R3-03 / owner D16-5: what the Tutup Buku tab must list, from the Native audit rows only.
             import cp7_r3_period_cases as r303
