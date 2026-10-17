@@ -194,6 +194,9 @@ def cases(cur,today):
         role=one(cur,'select role_id from erp.app_users where auth_user_id=%s',(subject,))
         for key in('production.wip.view','production.wip.post','production.wip.reverse'):
             cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s)on conflict do nothing',(role,key))
+        # The boundary is taken again after this actor exists (first CI run 39003879442 compared it with the one before the
+        # actor's own fixture rows; log kept).
+        before=b.boundary.snapshot(cur)
         denied_read=refused(cur,lambda:read(cur,g,subject),'CP7_SEWING_DENIED')
         denied_switch=refused(cur,lambda:send(cur,w,switch_body(w),subject=subject),'CP7_SEWING_DENIED');c.unchanged(cur,before,'non Owner/Admin switch')
         raise_rate(cur,g,5,g['day']+timedelta(days=1));w=read(cur,g);before=b.boundary.snapshot(cur)
@@ -349,9 +352,14 @@ def http_cases(http,today):
         assert w3['rate_mode']=='ALWAYS_NEW' and w3['can_use_new_rates'] is False,w3
         r3=admin.rpc('erp_cp7_save_sewing_completion_v1',dict(p_payload=dict(p,qty_pcs='1',review_token=w3['review_token']),p_request=str(uuid.uuid4()),p_expected=w3['group_version']))
         assert r3['status']==200 and r3['body']['result']['rate_used']=='NEW' and r3['body']['result']['rate_choice'] is None,r3
+        # The record after the switch has the same sewing time as the NEW record, so it reuses that revision (design 2.2); the
+        # first CI run (39003879442, log kept) expected a second revision, which the design does not make.
         with http.connect()as conn,conn.cursor()as cur:
             b.api.admin(cur);n=one(cur,'select count(*) from cp7_cutting_correction.rate_revisions where po_id=%s',(g['po'],))
-        assert n==2,n
+            reused=one(cur,"""select count(distinct l.po_component_snapshot_id) from erp.work_completion_lines l
+                join cp7_cutting_correction.rate_revisions r on r.snapshot_id=l.po_component_snapshot_id
+                where l.completion_id=any(%s::uuid[])""",([r['body']['result']['work_completion_id'],r3['body']['result']['work_completion_id']],))
+        assert (n,reused)==(1,1),(n,reused)
         return dict(status='PASS',real_Auth=True,missing_choice_refused=True,new_rate_wage=12,same_uuid_same_answer=True,switched=True,
                     after_switch_without_choice=True,revisions=n)
     return list(zip(HTTP,[choice_and_switch]))

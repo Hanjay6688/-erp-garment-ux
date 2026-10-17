@@ -27,15 +27,16 @@ async function journey(ui,today,mobile,h){
   mkdirSync('cp6-proof/t3',{recursive:true});const before=seen.before=state()
   assert.deepEqual([before.records.length,before.records[0].rates,before.revisions,before.switched],[1,['3.00','1.00'],0,0])
   let panel=await openPanel(ui,page,f)
-  await ui.expect(panel).toContainText('Upah mandor per pcs: Jahit')
+  // The first record of the fixture: 4 pcs at the locked Jahit 3 + Obras 1.
+  await ui.expect(panel).toContainText('4 pcs · upah Rp16')
   const qty=()=>panel.getByLabel('Jumlah selesai dijahit '+f.number,{exact:true}),when=()=>panel.getByLabel('Waktu selesai jahit '+f.number,{exact:true})
   const note=()=>panel.getByLabel('Catatan selesai jahit '+f.number,{exact:true}),check=()=>panel.getByLabel('Selesai jahit '+f.number+' sudah diperiksa',{exact:true})
   const save=()=>panel.getByRole('button',{name:'Simpan selesai jahit',exact:true})
   await qty().fill('2');await note().fill('Setoran sesudah tarif naik');await when().fill(f.later)
   // Both rates with their wage; nothing can be reviewed or saved before a choice.
   const choice=panel.getByRole('group',{name:'Pilih tarif '+f.number,exact:true})
-  await ui.expect(choice).toContainText('Tarif lama PO: Jahit Rp3 + Obras Rp1 = Rp4 · upah 2 pcs = Rp8')
-  await ui.expect(choice).toContainText('Tarif baru (berlaku pada waktu jahit): Jahit Rp5 + Obras Rp1 = Rp6 · upah 2 pcs = Rp12')
+  await ui.expect(choice).toContainText(`Tarif lama PO: ${f.jahit} Rp3 + ${f.obras} Rp1 = Rp4 · upah 2 pcs = Rp8`)
+  await ui.expect(choice).toContainText(`Tarif baru (berlaku pada waktu jahit): ${f.jahit} Rp5 + ${f.obras} Rp1 = Rp6 · upah 2 pcs = Rp12`)
   await ui.expect(check()).toBeDisabled();await ui.expect(save()).toBeDisabled()
   await panel.getByLabel('Tarif baru (berlaku pada waktu jahit) '+f.number,{exact:true}).check()
   await ui.expect(panel).toContainText('Upah yang akan dicatat: 2 pcs × Rp6 = Rp12.')
@@ -69,10 +70,10 @@ async function journey(ui,today,mobile,h){
   await ui.expect(page.getByText(f.number+': 1 pcs tercatat selesai dijahit. Upah mandor Rp6 dengan tarif baru masuk hutang mandor; 7 pcs siap dikirim ke laundry.')).toBeVisible()
   const after=seen.after=state()
   assert.equal(after.records.length,3);assert.deepEqual(after.records[2].rates,['5.00','1.00']);assert.deepEqual(after.records[2].wage,['6.00','6.00','1'])
-  assert.equal(after.revisions,2);assert.equal(after.switched,1)
+  assert.equal(after.revisions,2);assert.equal(after.switched,1)  // later2 is another sewing time: its own revision
   assert.equal(requests.length,3);assert.equal(requests[2].p_payload.rate_choice,undefined)
   await h.noSideScroll(ui,page);await page.screenshot({path:`cp6-proof/t3/${name}_AFTER_SWITCH.png`,fullPage:true})
-  return{status:'PASS',finding:'R3-09',phone:mobile,shown:{locked:'Jahit 3 + Obras 1',new:'Jahit 5 + Obras 1'},choice_required_before_save:true,
+  return{status:'PASS',finding:'R3-09',phone:mobile,shown:{locked:`${f.jahit} 3 + ${f.obras} 1`,new:`${f.jahit} 5 + ${f.obras} 1`},choice_required_before_save:true,
    new_rate_record:{pcs:2,wage:'12'},switched_once:true,after_switch_without_choice:{pcs:1,wage:'6'},requests:3}
  }catch(error){try{seen.actual=state()}catch(e){seen.observation_error=String(e)};await h.failure(page,name,error,seen,requests);throw error}
  finally{await user.context.close()}

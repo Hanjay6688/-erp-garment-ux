@@ -363,7 +363,9 @@ def main():
             out=dict(group=g['group'],po=g['po'],number=one('select group_number from erp.cutting_groups where id=%s',(g['group'],))[0],
                      po_number=one('select po_number from erp.production_orders where id=%s',(g['po'],))[0],
                      later=g['later'](10).astimezone(timezone(timedelta(hours=7))).strftime('%Y-%m-%dT%H:%M'),
-                     later2=g['later'](11).astimezone(timezone(timedelta(hours=7))).strftime('%Y-%m-%dT%H:%M'))
+                     later2=g['later'](11).astimezone(timezone(timedelta(hours=7))).strftime('%Y-%m-%dT%H:%M'),
+                     jahit=one('select component_name from erp.work_components where id=%s',(g['rates']['component'],))[0],
+                     obras=one('select component_name from erp.work_components where id=%s',(g['rates']['obras'],))[0])
         elif operation=='r309_rate_state':
             # Native rows only: per POSTED completion (oldest first) its line rates and whether each names a rate revision.
             works=cur.execute("select id::text from erp.work_completion_events where cutting_group_id=%s and status='POSTED' order by created_at,id",(p['group'],)).fetchall()
