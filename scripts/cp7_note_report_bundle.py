@@ -4,6 +4,7 @@ import cp7_rework_eligibility_bundle as rework
 import cp7_hpp_policy_guard_bundle as hpp_policy
 import cp7_kasbon_bundle as kasbon
 import cp7_pickup_reversal_bundle as pickup
+import cp7_rate_revision_bundle as rate_revision
 ROOT=Path(__file__).resolve().parents[1]
 SIGNATURE='erp.get_owner_financial_snapshot_v2(date,date,date)'
 
@@ -29,13 +30,15 @@ def capture(cur,originals):
  assert SIGNATURE not in originals,'NOTE_NATIVE_REPORT_ALREADY_CAPTURED'
  originals[SIGNATURE]=cur.execute('select pg_get_functiondef(%s::regprocedure)',(SIGNATURE,)).fetchone()[0]
  patched_report(originals[SIGNATURE])
- # Every F03 stack installs the RWK01, HPP01, kasbon and SG-01 pickup Native deltas after this one; their originals are captured here too.
+ # Every F03 stack installs the RWK01, HPP01, kasbon, SG-01 pickup and R3-09 rate revision Native deltas after this one; their
+ # originals are captured here too.
  rework.capture(cur,originals);hpp_policy.capture(cur,originals);kasbon.capture(cur,originals);pickup.capture(cur,originals)
+ rate_revision.capture(cur,originals)
 
 def expected_definitions(internal_before,originals,internal_patch,owner_patch):
  return {'erp.require_internal()':internal_patch(internal_before),
   'erp.require_owner_admin()':owner_patch(originals['erp.require_owner_admin()']),
-  SIGNATURE:patched_report(originals[SIGNATURE]),**rework.expected_definitions(originals),**hpp_policy.expected_definitions(originals),**kasbon.expected_definitions(originals),**pickup.expected_definitions(originals)}
+  SIGNATURE:patched_report(originals[SIGNATURE]),**rework.expected_definitions(originals),**hpp_policy.expected_definitions(originals),**kasbon.expected_definitions(originals),**pickup.expected_definitions(originals),**rate_revision.expected_definitions(originals)}
 
 def extension():
  sql=(ROOT/'scripts/cp7-src/sales/report.sql').read_text()
