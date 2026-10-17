@@ -103,7 +103,8 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     yang dimaksud 80 run. (catatan Astra dan Sol atas receipt `dfab13bf`)
 19a. **Alat yang membaca daftar dari API membaca semua halamannya**, dan jumlah run di receipt dicocokkan dengan jumlah
     workflow yang dipicu sebelum receipt dipakai. (Temuan penulis di kualifikasi r2: `scripts/cp7_ci_receipt.py` hanya
-    membaca 100 run pertama dari 115; receipt r2 dibuat dengan salinan yang membaca semua halaman)
+    membaca 100 run pertama dari 115; receipt r2 dibuat dengan salinan yang membaca semua halaman; alat diperbaiki di r3 untuk
+    run, job dan anotasi)
 20. **Run yang dibatalkan, diulang, atau gagal sebelum kasus ditulis terbuka** di receipt dan dokumen, beserta
     penyebab yang terbukti atau ditandai dugaan. (CodeQL dibatalkan antrean, Offsite Backup percobaan kedua)
 21. **Bukti yang dipakai lebih dari 30 hari tidak boleh hanya berupa artifact CI.** Simpan di pohon (dengan SHA-256)

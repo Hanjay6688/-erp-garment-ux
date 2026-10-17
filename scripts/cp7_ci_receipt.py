@@ -19,16 +19,27 @@ def api(path):
     return json.loads(subprocess.check_output(['gh', 'api', path]))
 
 
+def pages(path, key=None):
+    """Every page of a GitHub list (r3, Sol KNOWN-RECEIPT-FIRST100: the first page alone held 100 of 115 runs)."""
+    rows, page = [], 1
+    while True:
+        batch = api(f'{path}{"&" if "?" in path else "?"}per_page=100&page={page}')
+        batch = batch[key] if key else batch
+        rows += batch
+        if len(batch) < 100: return rows
+        page += 1
+
+
 def markers(job_id):
-    notes = api(f'{REPO}/check-runs/{job_id}/annotations?per_page=100')
+    notes = pages(f'{REPO}/check-runs/{job_id}/annotations')
     return [dict(kind=n['title'][len(PREFIX):], message=n['message']) for n in notes if (n.get('title') or '').startswith(PREFIX)]
 
 
 def main(sha, out):
-    runs = api(f'{REPO}/actions/runs?head_sha={sha}&per_page=100')['workflow_runs']
+    runs = pages(f'{REPO}/actions/runs?head_sha={sha}', 'workflow_runs')
     rows = []
     for r in sorted(runs, key=lambda r: r['name']):
-        jobs = api(f"{REPO}/actions/runs/{r['id']}/jobs?per_page=100")['jobs']
+        jobs = pages(f"{REPO}/actions/runs/{r['id']}/jobs", 'jobs')
         rows.append(dict(workflow=r['name'], run_id=r['id'], attempt=r['run_attempt'], event=r['event'], status=r['status'],
                          conclusion=r['conclusion'],
                          jobs=[dict(name=j['name'], job_id=j['id'], conclusion=j['conclusion'], business_day=markers(j['id']))

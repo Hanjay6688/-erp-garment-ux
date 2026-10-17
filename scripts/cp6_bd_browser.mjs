@@ -60,8 +60,10 @@ async function openPage(ui, user, group, item, heading) {
 // Recorded, not a pass condition: the Laundry/QC read of the page (run 36190024230 found the pricing tab gated on it; the tab
 // now reads its own workspace, and a failed Laundry/QC read only locks the priced-send section).
 async function laundryRead(p) {
-  const alert = p.locator('.clq-alert.error')
-  return await alert.count() ? (await alert.first().innerText()).slice(0, 300) : 'OK'
+  // Fable FABLE-018: a transient alert can disappear between count() and innerText(), and innerText() then waits for an
+  // element that is gone until the timeout. allInnerTexts() reads what is on the page now without waiting, and keeps it.
+  const texts = await p.locator('.clq-alert.error').allInnerTexts()
+  return texts.length ? texts[0].slice(0, 300) : 'OK'
 }
 
 async function openPricing(ui, user) {
