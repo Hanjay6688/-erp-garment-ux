@@ -96,6 +96,10 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     satu yang dimuat ulang, seluruh layar terkunci. Uji DOM: sesudah simpan di tiap mode, kontrol layar aktif kembali.
     (Temuan penulis saat kualifikasi r2: Buat Potongan mode "PO yang sudah ada" sesudah D15-6, run 38878801310 dan
     38890676716)
+18c. **Pembacaan ulang yang kalah oleh pembacaan lebih baru bukan "muat ulang gagal".** Bila layar induk memuat ulang dan
+    panel anak ikut memulai pembacaan baru, hasil muat ulang adalah hasil pembacaan terbaru, sesudah simpan maupun
+    sesudah ditolak server. Pesan penolakan harus persis kalimat server, tanpa tambahan "Refetch gagal" yang tidak benar.
+    Uji DOM meniru induk yang memuat ulang di tengah jalan. (CI 39020856920, kasbon ditolak di kasus pengaman R3)
 
 ## E. Bukti dan alat uji
 
@@ -131,6 +135,11 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 25d. **Uji build mode data nyata memakai build rilis yang sama**, bukan build uji: hanya alamat proyek dan kunci browser
     yang diganti (kunci pengganti, bukan kunci proyek mana pun), alamat proyek dijawab oleh database sekali pakai di
     loopback, semua alamat lain diblokir, dan host proyek diarahkan ke loopback di runner. (owner D16-1, oracle Fable 2)
+25e. **Fixture yang menutup buku memenuhi seluruh jendela pemeriksaan penutupan, bukan hanya hari kasusnya.** Kelengkapan
+    absensi diperiksa sejak tanggal mulai mesin (`erp.period_completeness_from_v1()`), jadi hari kosong pekerja seed yang
+    ditinggal fixture lain ikut menghalangi. Fixture mengisinya dengan cara owner (OFF) lalu memastikan tidak ada yang
+    tersisa; oracle "Penghalang: 0." tidak dilonggarkan. Data uji juga mengikuti batas kolom Native (misalnya
+    `erp.app_users.role` varchar 20). (CI 39020856920 rantai R3 sewing → close; CI 39019699925 Ringkasan Gudang HTTP)
 
 ## F. Proses audit
 
