@@ -1120,6 +1120,67 @@ def capture_5000(cur, size):
     return out
 
 
+# Diagnostic only, never application latency: where one direct capture spends its
+# server time, per finance mode, from this transaction's own function counters
+# (track_functions=all for the call alone; deltas, since the counters are not
+# transactional). The same full capture also runs once with JIT off. Rolled back.
+DIAGNOSIS_LABEL = 'CAPTURE_FUNCTION_TIME_DIAGNOSTIC_NOT_APP_LATENCY'
+DIAGNOSIS_SIZES = (100, 300)
+DIAGNOSIS_CALLS = (('DEFERRED', 'erp_cp7_capture_operational_analysis_v1', None),
+                   ('INCLUDED', 'erp_cp7_capture_analysis_v1', None),
+                   ('INCLUDED', 'erp_cp7_capture_analysis_v1', 'off'))
+DIAGNOSIS_SETTINGS = ('jit', 'jit_above_cost', 'jit_inline_above_cost', 'jit_optimize_above_cost', 'track_functions',
+                      'work_mem', 'shared_buffers', 'max_parallel_workers_per_gather', 'server_version')
+FUNCTION_TIMES = 'select funcid::regprocedure::text,calls,total_time,self_time from pg_stat_xact_user_functions'
+
+
+def function_times(cur):
+    return {name: (calls, total, own) for name, calls, total, own in cur.execute(FUNCTION_TIMES).fetchall()}
+
+
+def capture_diagnosis(cur, today, size):
+    b.api.admin(cur)
+    out = dict(size=size, label=DIAGNOSIS_LABEL, application_latency=False, rolled_back=True, history_days=1,
+               settings=dict(cur.execute('select name,setting from pg_settings where name=any(%s)', (list(DIAGNOSIS_SETTINGS),)).fetchall()),
+               book_rows=dict(zip(('journal_entries', 'journal_lines', 'account_daily_balances', 'cash_accounts'), cur.execute(
+                   """select(select count(*)from erp.journal_entries),(select count(*)from erp.journal_lines),
+                      (select count(*)from erp.account_daily_balances),(select count(*)from erp.cash_accounts)""").fetchone())),
+               calls=[])
+    q = history.query(today, 1)
+    for mode, rpc, jit in DIAGNOSIS_CALLS:
+        b.api.admin(cur)
+        cur.execute('savepoint p19s_diagnosis')
+        try:
+            cur.execute("set local track_functions='all'")
+            if jit:
+                cur.execute('set local jit=' + jit)
+            before = function_times(cur)
+            call = public(cur, lambda: analysis.schedule.rpc(cur, rpc, (json.dumps(q), uuid.uuid4())))
+            after = function_times(cur)
+            spent = []
+            for name, (calls, total, own) in after.items():
+                c0, t0, o0 = before.get(name, (0, 0.0, 0.0))
+                if calls > c0:
+                    spent.append(dict(function=name, calls=calls - c0, total_ms=round(total - t0, 3), own_ms=round(own - o0, 3)))
+            spent.sort(key=lambda row: -row['own_ms'])
+            value = call.pop('value', None)
+            row = dict(finance=mode, rpc=rpc, jit=jit or out['settings'].get('jit'), outcome=call['outcome'], client_ms=call['ms'],
+                       functions_tracked=len(spent), own_ms_tracked=round(sum(r['own_ms'] for r in spent), 3),
+                       top_own=spent[:30], top_total=sorted(spent, key=lambda row: -row['total_ms'])[:12])
+            row.update({k: call[k] for k in ('sqlstate', 'code', 'message') if k in call})
+            if isinstance(value, dict):
+                row['analysis_json_utf8_bytes'] = len(json.dumps(value.get('analysis'), separators=(',', ':')).encode('UTF8'))
+                row['source_state'] = value.get('source_state')
+            out['calls'].append(row)
+        except psycopg.Error as failure:  # a diagnostic failure is missing evidence, never a measured result
+            out['calls'].append(dict(finance=mode, jit=jit, harness_error=str(failure)[:2000]))
+        finally:
+            cur.execute('rollback to savepoint p19s_diagnosis')
+            cur.execute('release savepoint p19s_diagnosis')
+            b.api.admin(cur)
+    return out
+
+
 def scaling(rows):
     """Own cost per layer across sizes: ms per target and the growth exponent between sizes (1 linear, 2 quadratic)."""
     out = {}
@@ -1203,13 +1264,14 @@ def measure(cur, today, size):
                               analysis_keys_top=(full.get('original_breakdown') or {}).get('analysis_keys', [])[:6],
                               original_bytes_per_target=(full.get('original_breakdown') or {}).get('original_bytes_per_target'))
     lifted = capture_5000(cur, size) if size > CAPS['HISTORY_SOURCE_PRODUCTS_1000']['value'] else None
+    diagnosis = capture_diagnosis(cur, today, size) if size in DIAGNOSIS_SIZES else None
     unchanged = b.boundary.snapshot(cur) == before
     consistent = source_consistent(cap, size)
     profiled = all(not p['harness_error'] for p in profiles.values())
     row = dict(size=size, total_targets=len(expected), where='COMMITTED_BROWSER_COPY_ROLLED_BACK_TRANSACTION',
                history_source=cap, source_model_consistent=consistent, step_attribution=attribution, phase_profile=profiles,
                phase_profile_complete=profiled, Native_business_unchanged_by_measurement=unchanged,
-               capture_5000=lifted, points=[compact(p) for p in measured])
+               capture_5000=lifted, capture_diagnosis=diagnosis, points=[compact(p) for p in measured])
     row['status'] = ladder_status(measured, consistent and unchanged, profiled)
     row['verdict_counts'] = {k: sum(p['verdict']['kind'] == k for p in measured) for k in sorted({p['verdict']['kind'] for p in measured})}
     row['witness'] = witness('SIZE_%d' % size, row)

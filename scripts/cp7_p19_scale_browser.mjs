@@ -292,6 +292,8 @@ async function sizeCase(ui,today,size,state){
     original_breakdown_top:v.original_breakdown_top??null,analysis_keys_top:v.analysis_keys_top??null}])),
    // 5,000 targets phase C: one operational capture statement through the installed bounded sources (5000/10000).
    capture_5000:sql.capture_5000??null,
+   // Diagnostic only (CAPTURE_FUNCTION_TIME_DIAGNOSTIC_NOT_APP_LATENCY): function own time of one direct capture per finance mode.
+   capture_diagnosis:sql.capture_diagnosis??null,
    step_attribution:Object.fromEntries(Object.entries(sql.step_attribution||{}).map(([d,v])=>[d,v.attribution])),witness:sql.witness}:null,
   sql_ladder_error:sqlError,
   seed:{total_targets:seed.total_targets,preexisting_targets:seed.preexisting_targets,seeded_targets:seed.seeded_targets,seed_ms_not_app_latency:seed.seed_ms,
@@ -306,4 +308,6 @@ async function sizeCase(ui,today,size,state){
   limits_raised:false,data_sampled_or_truncated:false,owner_latency_acceptance:false,full_P19_acceptance:false,production_go:false}
 }
 
-export function cases(ui,today){const state={wip_done:false};return sizes.map((size,i)=>[ids[i],()=>sizeCase(ui,today,size,state)])}
+// P19S_ONLY_SIZES (diagnostic runs only; unset in every qualification run) limits the run to the listed sizes.
+const only=process.env.P19S_ONLY_SIZES?process.env.P19S_ONLY_SIZES.split(',').map(Number):null
+export function cases(ui,today){const state={wip_done:false};return sizes.map((size,i)=>[ids[i],()=>sizeCase(ui,today,size,state)]).filter((_,i)=>!only||only.includes(sizes[i]))}
