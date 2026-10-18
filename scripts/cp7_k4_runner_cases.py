@@ -576,10 +576,13 @@ def races(tools, today):
                     if s['state'] != 'RUNNING':
                         break
                     time.sleep(2)
-                runs = schedule.runs(cc, ids[RUNNER['name']], since)
             finally:
                 removed = schedule.uninstall(cc, database)
                 quiet(cc, database)
+                # The run that finishes the work commits it before pg_cron writes the run's status: read the runs once
+                # every end is written (or the wait runs out), and judge them as before.
+                schedule.wait_recorded(cc, ids.values())
+                runs = schedule.runs(cc, ids[RUNNER['name']], since)
                 cc.execute('delete from cron.job_run_details where jobid=any(%s)', (list(ids.values()),))
             assert removed == [schedule.job_name(RUNNER['name'], database)] and schedule.installed(cc, database) == []
         assert s and s['state'] == 'DONE', ('K4R_PG_CRON_DID_NOT_FINISH', s)

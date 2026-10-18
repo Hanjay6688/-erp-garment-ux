@@ -174,6 +174,12 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     mengizinkan, hanya lewat baris transaksi itu sendiri, satu CASE dengan filter identitas lebih dulu; uji lama-lawan-baru
     berdampingan, dan pemeriksaan bentuk yang gagal bila cabang baru ditambah tanpa ikut diperiksa jalan pintasnya.
     (R4-05, Sol KNOWN-P19-DIRECT-LATENCY, CI 39157467151)
+25g. **Hasil yang sudah terlihat bukan berarti catatan penjadwal sudah ditulis.** pg_cron menyimpan pekerjaan sebuah run
+    lebih dulu, lalu menulis status run itu sesudahnya. Uji yang membaca `cron.job_run_details` begitu pekerjaannya
+    terlihat bisa mendapati status "running" untuk run yang sebenarnya berhasil. Baca catatan run sesudah jadwal dicabut,
+    sesudah sesi pg_cron pergi, dan sesudah setiap run punya akhir yang tertulis (dengan batas waktu). Syarat lulus tetap
+    sama. Celah ini sudah ada sejak r3; r3 lulus karena kebetulan membaca lebih lambat (cron_runs 1). (R4-Q1,
+    kualifikasi `769f2cc3`, CI 39161868253 `K6P_RACE_PG_CRON_FINISHES_PASS`)
 
 ## F. Proses audit
 
@@ -215,6 +221,7 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] SQL yang diubah: kompilasi lokal + pemeriksaan bentrok nama variabel/alias (E25c).
 - [ ] Layar berat lebih dari 3 detik: penyebab diukur per fungsi sebelum diubah; jalan pintas penjaga terbukti sama
   hasilnya dan cabang konteks baru ikut diperiksa (E25f).
+- [ ] Uji penjadwal: catatan run dibaca sesudah setiap akhir run tertulis, bukan begitu hasilnya terlihat (E25g).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
   dipicu (E19–E20, E19a).

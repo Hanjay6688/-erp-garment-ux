@@ -64,6 +64,7 @@ def main():
                     time.sleep(0.5)
                 else:
                     raise AssertionError('K4R_PG_CRON_SESSION_LEFT')
+                schedule.wait_recorded(cc, ids)
                 runs = cc.execute("select count(*),count(*)filter(where status='succeeded') from cron.job_run_details where jobid=any(%s)", (ids,)).fetchone()
                 cc.execute('delete from cron.job_run_details where jobid=any(%s)', (ids,))
                 assert schedule.installed(cc, database) == []

@@ -18,6 +18,7 @@ change.
 """
 import argparse
 import json
+import time
 
 import psycopg
 
@@ -91,6 +92,21 @@ def runs(cron_cur, jobid, since):
     rows = cron_cur.execute("""select runid,status,return_message,start_time,end_time from cron.job_run_details
         where jobid=%s and start_time>=%s order by start_time""", (jobid, since)).fetchall()
     return [dict(runid=r[0], status=r[1], message=r[2], start=r[3], end=r[4]) for r in rows]
+
+
+def wait_recorded(cron_cur, jobids, seconds=60):
+    """Wait until pg_cron has written how every run of these jobs ended. A run commits its own command before pg_cron
+    writes the run's status, so a run read as soon as its work is visible can still say 'running' (qualification
+    769f2cc3, K6P_RACE_PG_CRON_FINISHES_PASS). Returns False when a run is still open after `seconds`; the caller
+    judges the runs as they are."""
+    deadline = time.monotonic() + seconds
+    while True:
+        if not cron_cur.execute("select count(*) from cron.job_run_details where jobid=any(%s) and status not in ('succeeded','failed')",
+                                (list(jobids),)).fetchone()[0]:
+            return True
+        if time.monotonic() >= deadline:
+            return False
+        time.sleep(0.5)
 
 
 def main():
