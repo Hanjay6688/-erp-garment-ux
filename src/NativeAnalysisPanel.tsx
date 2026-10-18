@@ -205,8 +205,9 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
   requireNoAttentionRequest()
   const held=readNativeDemandRequest(scope);if(held.error)throw Error(held.error);if(retry&&!held.pending)throw Error('Permintaan analisis tersimpan tidak tersedia.');if(!retry&&held.pending)throw Error('Pastikan permintaan analisis yang sama terlebih dahulu.')
   r=retry?held.pending!:{id:crypto.randomUUID(),q:query,finance:financeMode(include)};if(!retry)persistNativeDemandRequest(scope,r);setRecovery(readNativeDemandRequest(scope))
-  const since=new Date().toISOString(),slow=setTimeout(()=>{if(n===sequence.current)setComputingSince(since)},3000)
-  const response=await captureAnalysis(r).then(v=>{clearTimeout(slow);return v},(e:unknown)=>{clearTimeout(slow);throw e});if(n!==sequence.current)return;if(response.error)throw response.error
+  // The WIB start clock is shown at once (R4-05): the operator sees what runs and since when, never a bare wait.
+  setComputingSince(new Date().toISOString())
+  const response=await captureAnalysis(r);if(n!==sequence.current)return;if(response.error)throw response.error
   const parsed=analysisOversized(response.data)?await largeCapture(r,n):sameFinance(r,parseNativeAnalysis(response.data,r.q,actor,financeAccess));if(!parsed)return;if(parsed.requestId!==r.id)throw Error('Permintaan analisis server berubah.');rememberAnalysis(scope,parsed);setArchive(readAnalysisArchive(scope));clearNativeDemandRequest(scope,r.id);setRecovery(readNativeDemandRequest(scope));setData(parsed)
  }catch(e){if(n===sequence.current){setError(normalizeClientError(e).message)
   // A refusal for the single path's target bound is a definite answer (the

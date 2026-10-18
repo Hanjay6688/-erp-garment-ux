@@ -98,12 +98,12 @@ it('after a reload states a calculation that no worker holds and offers only the
  expect(container.querySelector('.native-analysis-result')).toBeNull()
 })
 
-it('states the WIB start clock while an ordinary capture is still computing after three seconds',async()=>{
+it('states the WIB start clock at once while an ordinary capture computes, and still after three seconds',async()=>{
  vi.useFakeTimers({toFake:['setTimeout','Date']});vi.setSystemTime(new Date('2026-10-06T12:00:00.000Z'))
  let id='',finish:(v:unknown)=>void=()=>{}
  client.rpc.mockImplementation(async(name:string,args:Args)=>{if(name!=='erp_cp7_capture_operational_analysis_v1')throw Error('unexpected '+name);id=args.p_request!;return new Promise(r=>{finish=r})})
  await render();await click('Ambil analisis ERP terbaru')
- expect(statusText()).toContain('Memeriksa sumber ERP');await act(async()=>{await vi.advanceTimersByTimeAsync(3000)})
+ expect(statusText()).toMatch(/Sedang dihitung sejak jam 19[.:]00[.:]00 WIB/);await act(async()=>{await vi.advanceTimersByTimeAsync(3000)})
  expect(statusText()).toMatch(/Sedang dihitung sejak jam 19[.:]00[.:]00 WIB/)
  await act(async()=>{finish({data:{...structuredClone(fixture),request_id:id},error:null})});await until(result)
  expect(container.querySelector('.native-analysis-result')).toBeTruthy();expect(statusText()).not.toContain('Sedang dihitung')
