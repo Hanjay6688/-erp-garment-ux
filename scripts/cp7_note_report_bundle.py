@@ -2,6 +2,7 @@
 from pathlib import Path
 import cp7_rework_eligibility_bundle as rework
 import cp7_hpp_policy_guard_bundle as hpp_policy
+import cp7_public_routes_bundle as public_routes
 import cp7_kasbon_bundle as kasbon
 import cp7_pickup_reversal_bundle as pickup
 import cp7_rate_revision_bundle as rate_revision
@@ -34,11 +35,13 @@ def capture(cur,originals):
  # originals are captured here too.
  rework.capture(cur,originals);hpp_policy.capture(cur,originals);kasbon.capture(cur,originals);pickup.capture(cur,originals)
  rate_revision.capture(cur,originals)
+ # R4-01: the older public routes closed to the Data API (cp7_public_routes_bundle.py).
+ public_routes.capture(cur,originals)
 
 def expected_definitions(internal_before,originals,internal_patch,owner_patch):
  return {'erp.require_internal()':internal_patch(internal_before),
   'erp.require_owner_admin()':owner_patch(originals['erp.require_owner_admin()']),
-  SIGNATURE:patched_report(originals[SIGNATURE]),**rework.expected_definitions(originals),**hpp_policy.expected_definitions(originals),**kasbon.expected_definitions(originals),**pickup.expected_definitions(originals),**rate_revision.expected_definitions(originals)}
+  SIGNATURE:patched_report(originals[SIGNATURE]),**rework.expected_definitions(originals),**hpp_policy.expected_definitions(originals),**kasbon.expected_definitions(originals),**pickup.expected_definitions(originals),**rate_revision.expected_definitions(originals),**public_routes.expected_definitions(originals)}
 
 def extension():
  sql=(ROOT/'scripts/cp7-src/sales/report.sql').read_text()

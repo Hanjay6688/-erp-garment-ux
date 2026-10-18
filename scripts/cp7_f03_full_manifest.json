@@ -1169,6 +1169,7 @@
     }
   },
   "expected_private_roles": [
+    "cp7_public_routes",
     "cp7_hpp_pool_write",
     "cp7_hpp_pool_read",
     "cp7_warehouse_summary_read",

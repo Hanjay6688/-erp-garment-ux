@@ -28,9 +28,10 @@ OUTSIDERS = ('anon', 'authenticated', 'service_role', 'cp7_capture')
 NATIVE = ('erp.preview_attendance_hpp_pool_v1(date,date)', 'erp.create_attendance_hpp_pool_v1(jsonb,uuid)',
           'erp.activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)', 'erp.cancel_attendance_hpp_pool_v1(uuid,text,uuid,bigint)',
           'erp.validate_attendance_hpp_pool_v1(uuid)')
-# The CP4 (v2.6.16) owner/admin wrappers of the same writers. They are not changed here (the probe forbids undeclared ACL
-# deltas); verify() reports whether `authenticated` can still execute them, since they skip this facade's closed-books
-# refusal, review token and request table (open point for the CP7C revoke batch, FABLE-012 / owner D14-9).
+# The CP4 (v2.6.16) owner/admin wrappers of the same writers. They skip this facade's closed-books refusal, review token
+# and request table; Astra (ASTRA-R3-01) proved them reachable through the Data API, so R4-01 closes them to it
+# (cp7_public_routes_bundle.py: first statement refuses a Data API session; grants unchanged). verify() still reports
+# whether `authenticated` can execute them (a database session can; the revoke batch stays CP7C, FABLE-012 / D14-9).
 CP4_WRAPPERS = ('public.erp_preview_attendance_hpp_pool_v1(date,date)', 'public.erp_create_attendance_hpp_pool_v1(jsonb,uuid)',
                 'public.erp_activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)', 'public.erp_cancel_attendance_hpp_pool_v1(uuid,text,uuid,bigint)')
 PERMISSIONS = ('finance.hpp.view', 'finance.hpp.manage')

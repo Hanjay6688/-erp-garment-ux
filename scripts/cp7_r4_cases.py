@@ -14,21 +14,31 @@ audit_paging_case.py), plus controls: ordinary commit order keeps the mark and w
 the filter leaves the listing unchanged; the next listing (Muat ulang) shows all rows once; a mark without a cutoff, a
 cursor mark that differs from the one sent and a malformed cursor are refused.
 
+R4-01 (Astra ASTRA-R3-01): the CP4 public wrappers erp_create/activate_attendance_hpp_pool_v1 created and activated a pool
+in a closed period and after the manage right was revoked, through the real Data API, while the CP7 facade refused both.
+The 25 older public routes the app does not call (cp7_public_routes_bundle.py) now refuse a Data API session first.
+Astra's two HTTP cases are used as written (audit/astra_cp17_r3/risk_cases.py; they return COUNTEREXAMPLE while the old
+route writes), plus controls: every closed route refused through real Auth with its own name, nothing written, the app's
+routes still answer; a database session still reaches the Native writer while the same call as a Data API session is
+refused; and a new public route, an anon-only route or a closed route that lost its refusal fails the review.
+
 R4-04 (Astra ASTRA-R3-03): the connected WIP figures were nearly white on white cards. Browser cases
 (cp7_r4_readable_browser.mjs) walk every menu as OWNER, desktop and phone, and refuse any text below 2:1 contrast with
 its background; the WIP figures Astra named must reach 4.5:1.
 """
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
-import threading,uuid
+import json,threading,uuid
 import psycopg
 
 NATIVE=['CP17_R4_02_REOPEN_POSITIVE_ADJUSTMENT_INVERSE_ASTRA','CP17_R4_02_POSITIVE_INVERSE_DOES_NOT_HIDE_ACTIVE_USE',
-        'CP17_R4_02_POSITIVE_INVERSE_REOPEN_THEN_FINISH_SAME','CP17_R4_03_AUDIT_LISTING_MARK_REFUSALS']
+        'CP17_R4_02_POSITIVE_INVERSE_REOPEN_THEN_FINISH_SAME','CP17_R4_03_AUDIT_LISTING_MARK_REFUSALS',
+        'CP17_R4_01_DATA_API_REFUSED_DATABASE_SESSION_UNCHANGED','CP17_R4_01_EVERY_PUBLIC_ROUTE_REVIEWED']
 RACES=['CP17_RACE_R4_02_POSITIVE_INVERSE_REOPEN_TWO_TABS','CP17_RACE_R4_03_AUDIT_LOWER_ID_LATE_COMMIT_ASTRA',
        'CP17_RACE_R4_03_AUDIT_ORDINARY_ORDER_KEEPS_MARK','CP17_RACE_R4_03_AUDIT_LATE_ROW_OUTSIDE_FILTER',
        'CP17_RACE_R4_03_AUDIT_NEXT_LISTING_SHOWS_ALL_ONCE']
-HTTP=[]
+HTTP=['CP17_HTTP_R4_01_EVERY_CLOSED_ROUTE_REFUSED_APP_ROUTES_OPEN','CP17_HTTP_R4_01_POOL_PUBLIC_CLOSED_PERIOD_ASTRA',
+      'CP17_HTTP_R4_01_POOL_PUBLIC_REVOKED_MANAGE_ASTRA']
 BROWSER=['CP17_BROWSER_R4_04_CONNECTED_TEXT_READABLE_DESKTOP','CP17_BROWSER_R4_04_CONNECTED_TEXT_READABLE_MOBILE']
 FUNCTIONS=()
 
@@ -122,7 +132,73 @@ def cases(cur,today):
             refusals[name]=f.refused(cur,lambda q=q:a.read(cur,q,subject),'CP7_AUDIT_QUERY')
         return dict(status='PASS',first_mark=mark,refused=refusals)
 
-    named=[astra_positive_inverse,active_use_not_hidden,reopen_then_finish,audit_mark_refusals]
+    # ---- R4-01: the same call as a database session (fixtures, operators) and as a Data API session (PostgREST).
+    import cp7_public_routes_bundle as routes
+    import cp7_r3_hpp_pool_cases as pool
+    def data_api(sql,args):
+        """What a PostgREST request runs: session user authenticator, role authenticated, the Owner's claims."""
+        f.b.api.admin(cur);cur.execute('savepoint r4_01_data_api')
+        try:
+            cur.execute("select set_config('request.jwt.claims',%s,true)",(json.dumps({'sub':f.b.chain.production.base.OPERATOR_AUTH,'role':'authenticated'}),))
+            cur.execute('set session authorization authenticator');cur.execute('set role authenticated')
+            assert cur.execute('select session_user,current_user').fetchone()==('authenticator','authenticated')
+            cur.execute(sql,args);return dict(passed=True)
+        except psycopg.Error as e:return dict(sqlstate=e.sqlstate,message=e.diag.message_primary,detail=e.diag.message_detail)
+        finally:cur.execute('rollback to savepoint r4_01_data_api');cur.execute('release savepoint r4_01_data_api');cur.execute('reset role');f.b.api.admin(cur)
+    def database_session_unchanged():
+        g=pool.fixture(cur,today,offset=2);day=g['day'];f.b.api.admin(cur);before=f.b.boundary.snapshot(cur)
+        calls=dict(erp_preview_attendance_hpp_pool_v1=('select public.erp_preview_attendance_hpp_pool_v1(%s,%s)',(day,day)),
+                   erp_create_attendance_hpp_pool_v1=('select public.erp_create_attendance_hpp_pool_v1(%s::jsonb,%s)',
+                       (json.dumps(dict(period_start=str(day),period_end=str(day),reason='CP17 R4-01 jalur lama')),uuid.uuid4())),
+                   erp_save_worker_roster_v1=('select public.erp_save_worker_roster_v1(%s::jsonb,%s,null)',('{}',uuid.uuid4())))
+        refused={}
+        for name,(sql,args) in calls.items():
+            r=data_api(sql,args)
+            assert r==dict(sqlstate='42501',message=routes.REFUSAL,detail=name),(name,r)
+            refused[name]=r
+        f.unchanged(cur,before,'Data API session on the closed routes')
+        languages={name:one(cur,'select l.lanname from pg_proc p join pg_language l on l.oid=p.prolang where p.oid=%s::regprocedure',(sig,))
+                   for sig in routes.CLOSED for name in [routes.route(sig)] if name in calls}
+        assert set(languages.values())=={'plpgsql','sql'},languages
+        # The same pool calls as a database session reach the Native writer (the direct-SQL boundary is CP7C, D14-9).
+        preview=f.s.native(cur,*calls['erp_preview_attendance_hpp_pool_v1'])
+        made=f.s.native(cur,*calls['erp_create_attendance_hpp_pool_v1'])
+        rows=pool.native_pools(cur,day);assert len(rows)==1 and rows[0]['status']=='DRAFT',(made,rows)
+        return dict(status='PASS',data_api_refused=refused,languages=languages,nothing_written_while_refused=True,
+                    database_session_preview=preview.get('status') if isinstance(preview,dict) else str(preview)[:80],database_session_created='DRAFT')
+    def every_route_reviewed():
+        f.b.api.admin(cur);clean=routes.verify(cur)
+        assert clean['closed_to_data_api']==len(routes.CLOSED)==25 and clean['kept_reminder_routes']==4,clean
+        # The app names exactly the kept routes (a new one needs review here first) and none of the closed ones.
+        app=routes.app_routes()
+        assert app==sorted(routes.route(x)for x in routes.KEEP) and not set(app)&{routes.route(x)for x in routes.CLOSED},app
+        failures={}
+        def attempt(label,statements):
+            cur.execute('savepoint r4_01_review')
+            try:
+                for statement in statements:cur.execute(statement,prepare=False)
+                try:routes.verify(cur);failures[label]=None
+                except AssertionError as e:
+                    code,what=e.args[0];failures[label]=(code,[x.removeprefix('public.')for x in what]if isinstance(what,list)else what)
+            finally:cur.execute('rollback to savepoint r4_01_review');cur.execute('release savepoint r4_01_review')
+        attempt('new_public_route',["create function public.erp_cp17_r4_unreviewed_v1()returns integer language sql as 'select 1'",
+                                    'revoke all on function public.erp_cp17_r4_unreviewed_v1()from public,anon',
+                                    'grant execute on function public.erp_cp17_r4_unreviewed_v1()to authenticated'])
+        attempt('anon_only_route',["create function public.erp_cp17_r4_anon_only_v1()returns integer language sql as 'select 1'",
+                                   'revoke all on function public.erp_cp17_r4_anon_only_v1()from public,authenticated',
+                                   'grant execute on function public.erp_cp17_r4_anon_only_v1()to anon'])
+        sig='public.erp_create_attendance_hpp_pool_v1(jsonb,uuid)'
+        definition=one(cur,'select pg_get_functiondef(%s::regprocedure)',(sig,))
+        line="\n perform cp7_public_routes.refuse_data_api('erp_create_attendance_hpp_pool_v1'); "+routes.MARK+"\n"
+        assert definition.count(line)==1,definition[:400]
+        attempt('closed_route_recreated_without_refusal',[definition.replace(line,'')])
+        assert failures==dict(new_public_route=('R4_01_UNREVIEWED_PUBLIC_ROUTE',['erp_cp17_r4_unreviewed_v1()']),
+                              anon_only_route=('R4_01_UNREVIEWED_PUBLIC_ROUTE',['erp_cp17_r4_anon_only_v1()']),
+                              closed_route_recreated_without_refusal=('R4_01_ROUTE_NOT_CLOSED',sig)),failures
+        assert routes.verify(cur)==clean
+        return dict(status='PASS',reviewed=clean,app_routes=len(app),refused_until_reviewed=failures)
+
+    named=[astra_positive_inverse,active_use_not_hidden,reopen_then_finish,audit_mark_refusals,database_session_unchanged,every_route_reviewed]
     assert len(named)==len(NATIVE)
     return list(zip(NATIVE,named))
 
@@ -270,4 +346,84 @@ def races(tools,today):
     return list(zip(RACES,[positive_inverse_two_tabs,astra_late_commit,ordinary_order,late_outside_filter,next_listing]))
 
 
-def http_cases(http,today):return []
+def http_cases(http,today):
+    import cp7_cp17_fix_cases as f
+    import cp7_public_routes_bundle as routes
+    import cp7_r3_hpp_pool_cases as pool
+    def one(cur,sql,args=()):return cur.execute(sql,args).fetchone()[0]
+
+    # ---- R4-01 control: every closed route through real Auth and PostgREST, with arguments of the right types.
+    def every_closed_route():
+        owner=http.login('OWNER','cp17-r4-01-owner')
+        dummy={'jsonb':{},'uuid':lambda:str(uuid.uuid4()),'text':'CP17 R4-01 jalur lama','date':str(today),'numeric':1,'integer':1,
+               'bigint':1,'boolean':False,'timestamp with time zone':lambda:f'{today}T10:00:00+07:00'}
+        with http.connect()as conn,conn.cursor()as cur:
+            shapes={sig:cur.execute("select p.proargnames,array(select format_type(t,null) from unnest(p.proargtypes::oid[]) t) from pg_proc p "
+                                    "where p.oid=%s::regprocedure",(sig,)).fetchone() for sig in routes.CLOSED}
+            granted={sig:one(cur,"select has_function_privilege('authenticated',%s,'EXECUTE')",(sig,))for sig in routes.CLOSED}
+            before=f.b.boundary.snapshot(cur);conn.commit()
+        assert all(granted.values()),granted
+        answers={}
+        for sig,(names,types) in shapes.items():
+            assert names and len(names)==len(types),(sig,names,types)
+            args={n:(dummy[t]()if callable(dummy[t])else dummy[t])for n,t in zip(names,types)}
+            r=owner.rpc(routes.route(sig),args);body=r['body']if isinstance(r['body'],dict)else{}
+            assert (r['status'],body.get('code'),body.get('message'),body.get('details'))==(403,'42501',routes.REFUSAL,routes.route(sig)),(sig,r)
+            answers[sig]=r['status']
+        anon=http.anon_rpc('erp_create_attendance_hpp_pool_v1',dict(p_payload={},p_client_request_id=str(uuid.uuid4())))
+        assert anon['status']>=400,anon
+        with http.connect()as conn,conn.cursor()as cur:assert f.b.boundary.snapshot(cur)==before,'CP17_R4_01_CLOSED_ROUTE_WROTE'
+        # The routes the app calls still answer through the same Data API (the guard sits only in the closed ones).
+        access=owner.rpc('erp_get_my_access_v1',{});pools=owner.rpc('erp_cp7_get_hpp_pools_v1',dict(p_offset=0,p_limit=20,p_period_start=None,p_period_end=None))
+        assert access['status']==200 and pools['status']==200,(access,pools)
+        return dict(status='PASS',real_Auth=True,closed_routes_refused=len(answers),answer=sorted(set(answers.values())),grants_unchanged=True,
+                    anon_refused=anon['status'],nothing_written=True,app_routes_answer=dict(erp_get_my_access_v1=200,erp_cp7_get_hpp_pools_v1=200))
+
+    # ---- R4-01: Astra's two cases, as written in audit/astra_cp17_r3/risk_cases.py (legacy_closed, legacy_permission).
+    def legacy_closed():
+        user=http.login('OWNER','astra-r3-pool-closed')
+        with http.connect()as conn,conn.cursor()as cur:
+            g=pool.fixture(cur,today,offset=3);day=g['day'];pool.set_closed(cur,day)
+            pv=pool.read(cur,user.auth_user_id,day,day)['preview'];before=f.b.boundary.snapshot(cur);conn.commit()
+        current=user.rpc('erp_cp7_save_hpp_pool_v1',dict(p_action='CREATE',p_payload=pool.create_body(pv),p_request=str(uuid.uuid4())))
+        assert current['status']>=400 and 'CP7_HPP_POOL_PERIOD_CLOSED' in json.dumps(current['body']),current
+        with http.connect()as conn,conn.cursor()as cur:assert f.b.boundary.snapshot(cur)==before
+        cr=user.rpc('erp_create_attendance_hpp_pool_v1',dict(p_payload=dict(period_start=str(day),period_end=str(day),reason='Astra closed period old public route'),p_client_request_id=str(uuid.uuid4())))
+        if cr['status']>=400:
+            with http.connect()as conn,conn.cursor()as cur:assert f.b.boundary.snapshot(cur)==before
+            return dict(status='PASS',new_route=current,old_route=cr,closed_boundary_unchanged=True)
+        with http.connect()as conn,conn.cursor()as cur:
+            rows=pool.native_pools(cur,day);assert len(rows)==1 and rows[0]['status']=='DRAFT',rows
+            pid=rows[0]['id'];version=rows[0]['row_version']
+        ac=user.rpc('erp_activate_attendance_hpp_pool_v1',dict(p_pool_id=pid,p_reason='Astra old public activation closed books',p_client_request_id=str(uuid.uuid4()),p_expected_version=version))
+        with http.connect()as conn,conn.cursor()as cur:
+            rows=pool.native_pools(cur,day);cost=pool.active_view(cur,g['po_a'])
+            journals=[list(x)for x in cur.execute("select status,source_type,economic_date,transaction_date from erp.journal_entries where source_id=%s order by economic_date,id",(pid,)).fetchall()]
+            grants={n:one(cur,"select has_function_privilege('authenticated',%s,'EXECUTE')",(n,))for n in ('public.erp_create_attendance_hpp_pool_v1(jsonb,uuid)','public.erp_activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)')}
+        return dict(status='COUNTEREXAMPLE',expected='closed-period pool actions refused through every reachable public route',
+                    real_Auth=True,public_Data_API=True,test_only_schema_grant=False,cp7_refused=current,legacy_create=cr,legacy_activate=ac,
+                    native_rows=rows,po_active_cost=str(cost),journals=journals,grants=grants,
+                    owner_boundary='D14-9 deferral explicitly conditioned on functions being unreachable from internet; these are public facades')
+
+    def legacy_permission():
+        user=http.login('ADMIN','astra-r3-pool-permission')
+        with http.connect()as conn,conn.cursor()as cur:
+            g=pool.fixture(cur,today,offset=1);day=g['day']
+            role=one(cur,'select role_id from erp.app_users where auth_user_id=%s',(user.auth_user_id,))
+            cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.hpp.view')on conflict do nothing",(role,))
+            pv=pool.read(cur,user.auth_user_id,day,day)['preview']
+            cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.hpp.manage'",(role,))
+            before=f.b.boundary.snapshot(cur);conn.commit()
+        new=user.rpc('erp_cp7_save_hpp_pool_v1',dict(p_action='CREATE',p_payload=pool.create_body(pv),p_request=str(uuid.uuid4())))
+        assert new['status']>=400 and 'CP7_HPP_POOL_DENIED' in json.dumps(new['body']),new
+        with http.connect()as conn,conn.cursor()as cur:assert f.b.boundary.snapshot(cur)==before
+        old=user.rpc('erp_create_attendance_hpp_pool_v1',dict(p_payload=dict(period_start=str(day),period_end=str(day),reason='Astra public route after manage revoked'),p_client_request_id=str(uuid.uuid4())))
+        with http.connect()as conn,conn.cursor()as cur:
+            rows=pool.native_pools(cur,day)
+            if old['status']>=400:assert f.b.boundary.snapshot(cur)==before
+            else:assert len(rows)==1 and rows[0]['status']=='DRAFT'
+        return dict(status='COUNTEREXAMPLE' if old['status']==200 else 'PASS',expected='revoked HPP manage right respected by every public pool writer',
+                    real_Auth=True,public_Data_API=True,test_only_schema_grant=False,cp7_refused=new,legacy=old,native_rows=rows)
+    # Astra's closed-period case leaves the books closed through its day and the permission case leaves ADMIN without
+    # finance.hpp.manage (as written), so they run last.
+    return list(zip(HTTP,[every_closed_route,legacy_closed,legacy_permission]))

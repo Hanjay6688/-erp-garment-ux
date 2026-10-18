@@ -52,8 +52,9 @@ def run():
  # cp7_customer_history_bundle.verify); 47 after the R3-03 Ringkasan Gudang role cp7_warehouse_summary_read (nologin, no erp table
  # grants, one public facade; asserted by cp7_warehouse_summary_bundle.verify); 49 after the R3-04 attendance HPP pool roles
  # cp7_hpp_pool_write/cp7_hpp_pool_read (nologin, no erp table or function grants, one public facade each; asserted by
- # cp7_hpp_pool_bundle.verify).
- assert len(manifest['expected_private_roles'])==49 and len(set(manifest['expected_private_roles']))==49 and tuple(bundle.ROLES)==tuple(manifest['expected_private_roles']),'FULL_F03_ROLE_STACK_CHANGED_REQUIRES_EXPLICIT_REVIEW'
+ # cp7_hpp_pool_bundle.verify); 50 after the R4-01 role cp7_public_routes (nologin, owns only the schema of the Data API refusal
+ # helper; asserted by cp7_public_routes_bundle.verify).
+ assert len(manifest['expected_private_roles'])==50 and len(set(manifest['expected_private_roles']))==50 and tuple(bundle.ROLES)==tuple(manifest['expected_private_roles']),'FULL_F03_ROLE_STACK_CHANGED_REQUIRES_EXPLICIT_REVIEW'
  try:
   if BUCKET=='prefreeze_ui':
    # Preserve the observed CP6-only runtime failure before installing CP7.
@@ -85,7 +86,7 @@ def run():
     assert {tuple(x)for x in new['acl']or[]}=={tuple(x)for x in old['acl']or[]}|grants.get(sig,set()),('F03_UNDECLARED_ACL_DELTA',sig)
    for signature,definition in expected_definitions.items():assert cur.execute('select pg_get_functiondef(%s::regprocedure)',(signature,)).fetchone()[0]==definition,('F03_EXACT_ADMISSION_DELTA',signature)
    assert cur.execute("select pg_get_functiondef('cp7_payroll.rebuild_nonwork(uuid)'::regprocedure)").fetchone()[0]==bundle.settlement.derive_nonwork(bundle.settlement.accepted('populate_payroll_draft'))
-   report['dated_guard']=bundle.dated_guard.verify(cur);report['rework_eligibility']=bundle.rework.verify(cur);report['hpp_policy_guard']=bundle.hpp_policy.verify(cur);report['kasbon']=bundle.kasbon.verify(cur);report['pickup_reversal']=bundle.pickup.verify(cur);report['rate_revision']=bundle.rate_revision.verify(cur);report['master']=bundle.master.verify(cur);report['reminders']=bundle.reminders.verify(cur);report['erp_settings']=bundle.erp_settings.verify(cur);report['audit']=bundle.audit.verify(cur);report['customer_history']=bundle.customer_history.verify(cur);report['warehouse_summary']=bundle.warehouse_summary.verify(cur);report['hpp_pool']=bundle.hpp_pool.verify(cur)
+   report['dated_guard']=bundle.dated_guard.verify(cur);report['rework_eligibility']=bundle.rework.verify(cur);report['hpp_policy_guard']=bundle.hpp_policy.verify(cur);report['kasbon']=bundle.kasbon.verify(cur);report['pickup_reversal']=bundle.pickup.verify(cur);report['rate_revision']=bundle.rate_revision.verify(cur);report['master']=bundle.master.verify(cur);report['reminders']=bundle.reminders.verify(cur);report['erp_settings']=bundle.erp_settings.verify(cur);report['audit']=bundle.audit.verify(cur);report['customer_history']=bundle.customer_history.verify(cur);report['warehouse_summary']=bundle.warehouse_summary.verify(cur);report['hpp_pool']=bundle.hpp_pool.verify(cur);report['public_routes']=bundle.public_routes.verify(cur)
    p09.INSTALLED_FUNCTIONS=after;report['combined_declared_execute_grants']={k:sorted(v)for k,v in grants.items()};report['exact_guard_sha256']={k:hashlib.sha256(v.encode()).hexdigest()for k,v in expected_definitions.items()};report['all_other_predecessor_definitions_and_owners_unchanged']=True
    conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
