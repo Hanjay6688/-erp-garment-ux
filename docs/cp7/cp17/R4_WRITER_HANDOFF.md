@@ -40,10 +40,10 @@ Basis: candidate r3 `b53b5acdf260b03ebac3474e9ae837fcef6f6eb1`; r4 branches from
 
 ## Not done yet (in this order)
 
-1. R4-01..R4-04: validate each finding (source + local reproduction where possible), fix, CP17 cases with the auditor's
-   own oracle and numbers, declaration, local checks, one commit each.
-2. Sol's report: validity check per finding, fold valid ones in.
-3. Qualify one commit, receipt, package `docs/cp7/audit-candidate/cp1-7-r4-<date>/`, boxes, owner report.
+1. Done: R4-01..R4-04 (+R4-04b), Sol validity (`docs/cp7/cp17/r4-sol/`), R4-05 (owner D17-1).
+2. Qualify one commit on `claude/new-session-deapao` (fast-forward from `claude/r4-fixes-20261018`; workflow list = the
+   115 of the r3 receipt, `scratchpad/qual_r4_files.json`), receipt with `scripts/cp7_ci_receipt.py`, package
+   `docs/cp7/audit-candidate/cp1-7-r4-20261019/`, boxes, owner report.
 
 ## How to check locally
 
@@ -65,3 +65,4 @@ As in `R3_WRITER_HANDOFF.md` ("How to check locally").
 | diag(r4): function-time diagnostic of one direct analysis capture per finance mode | `capture_diagnosis` in the scale SQL ladder (100/300 targets, rolled back, labelled not app latency) + dispatch-only `claude-p19-capture-diagnosis.yml` (`P19S_ONLY_SIZES=100,300`; registered by its own push). Run 39157467151: with figures 100 targets 6.3 s server, `erp.require_internal()` 32,150 calls = 3.9 s; owner report read twice (2.6 s each); JIT irrelevant; 300 without figures 3.1 s (compiler), browser 26.5 MB (result sent twice). Details: `docs/cp7/p19/P19_R4_05_DIRECT_LATENCY.md`. Log kept: `scratchpad/p19diag/run1.json` (writer) |
 | fix(r4): analysis panel states its WIB start clock at once (R4-05) | `src/NativeAnalysisPanel.tsx`: "Sedang dihitung sejak jam ... WIB" when the request is sent (was after a 3 s timer). Local: tsc, 110 panel/transport tests |
 | perf(r4): internal access guard answers the no-context case with one probe (R4-05) | `scripts/cp7_internal_guard_bundle.py` (last F03 delta, hash-checked; f03 `patched_internal` composes it; verify in CP17 and F03 full probes); CP17 Native `CP17_R4_05_INTERNAL_GUARD_SAME_ANSWER` (old/new side by side, 8 callers) and `..._DISPATCH_REVIEWED`; declaration 341 (161/39/27/57/57). Writer-local PG16 stubs: 27 callers equal, both cases PASS; 89-103 -> 29-45 us per call. CI dispatched at 27f04d72: CP17 39159623640, F03 full 39159630980, capture diagnosis 39159625311 |
+| test(r4): sales dispatch equivalence knows the declared R4-05 probe; R4-05 results | CP17 39159623640 at 27f04d72: PASS 341 (both R4-05 cases; owner with a sales context row ALLOW/ALLOW). F03 full 39159630980 at 27f04d72: 7 groups success, p11 `P11_COMMAND_PRIVATE_FIELDS` INCOMPLETE (`cp7_p19_sales_dispatch_equivalence.py` rebuilt the predecessor guard from the installed text and found the probe; now the probe is checked and left out of the predecessor; decisions and oracle unchanged); rerun 39160732659 at 188c8966: success 8/8. Capture diagnosis 39159625311: 100 targets with figures 2.30-2.60 s in the browser (before 5.58-7.53 s), guard 121 -> 22 us per call; 300 targets still over 3 s (`docs/cp7/p19/P19_R4_05_DIRECT_LATENCY.md`). Local: vitest 174 files / 1663 tests, source/CSS/access ownership. Failed log kept: `scratchpad/cand-logs/r4/f03full_p11_27f04d72.json` (writer) |
