@@ -602,3 +602,19 @@ Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
   dalamnya. Hak melihat laporan dan hak menutup buku tetap terpisah. Arsip, riwayat dan pengaman penutupan tetap
   lengkap. Rute lama "Tutup Periode" diarahkan ke halaman gabungan.
 - `production_go:false`.
+
+## Keputusan owner 19 Okt 2026 sesudah audit r3 (D17-1)
+
+### D17-1 (owner ke penulis Claude, 19 Okt 2026 WIB, jawaban pertanyaan penulis soal kecepatan layar analisis)
+
+Pertanyaan penulis: "Saya perlu Bos memutuskan soal layar analisis yang lambat (Sol KNOWN-P19-DIRECT-LATENCY: 'Ambil
+analisis ERP terbaru' 6–8 detik untuk 300 produk, dengan angka keuangan 7–8 detik untuk 100 produk, target 3 detik):
+A. dikerjakan sekarang di putaran ini (paket uji ulang mundur sekitar 1–2 hari); B. paket uji ulang dikirim dulu,
+kecepatan dikerjakan putaran berikutnya."
+
+Owner (persis): "A beresin aja, mau gw tinggal tidur soalnya"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): kecepatan analisis langsung dan analisis dengan angka
+keuangan dikerjakan di r4 sebelum paket uji ulang. Batas 8 detik, pemeriksaan sumber/otoritas/hash/kelengkapan dan
+keputusan 7 Okt (pekerjaan berat boleh di latar belakang sebagai pengecualian yang dicatat; target 3 detik tidak ditandai
+tercapai kalau belum) tetap berlaku. `production_go:false`.
