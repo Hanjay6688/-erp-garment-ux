@@ -25,6 +25,12 @@ refused; and a new public route, an anon-only route or a closed route that lost 
 R4-04 (Astra ASTRA-R3-03): the connected WIP figures were nearly white on white cards. Browser cases
 (cp7_r4_readable_browser.mjs) walk every menu as OWNER, desktop and phone, and refuse any text below 2:1 contrast with
 its background; the WIP figures Astra named must reach 4.5:1.
+
+R4-05 (owner D17-1, Sol KNOWN-P19-DIRECT-LATENCY): the owner report calls erp.require_internal() about 32,000 times per
+analysis with financial figures; the guard now answers the case without any private command context row with one probe
+(cp7_internal_guard_bundle.py). Native cases: the installed guard and the same guard without its probe give the same
+answer for eight callers (owner, unknown user, service role, a context row of this transaction with its fine refusal,
+rows of another backend or transaction), and a guard whose dispatch the probe no longer stands for fails the review.
 """
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
@@ -33,7 +39,8 @@ import psycopg
 
 NATIVE=['CP17_R4_02_REOPEN_POSITIVE_ADJUSTMENT_INVERSE_ASTRA','CP17_R4_02_POSITIVE_INVERSE_DOES_NOT_HIDE_ACTIVE_USE',
         'CP17_R4_02_POSITIVE_INVERSE_REOPEN_THEN_FINISH_SAME','CP17_R4_03_AUDIT_LISTING_MARK_REFUSALS',
-        'CP17_R4_01_DATA_API_REFUSED_DATABASE_SESSION_UNCHANGED','CP17_R4_01_EVERY_PUBLIC_ROUTE_REVIEWED']
+        'CP17_R4_01_DATA_API_REFUSED_DATABASE_SESSION_UNCHANGED','CP17_R4_01_EVERY_PUBLIC_ROUTE_REVIEWED',
+        'CP17_R4_05_INTERNAL_GUARD_SAME_ANSWER','CP17_R4_05_INTERNAL_GUARD_DISPATCH_REVIEWED']
 RACES=['CP17_RACE_R4_02_POSITIVE_INVERSE_REOPEN_TWO_TABS','CP17_RACE_R4_03_AUDIT_LOWER_ID_LATE_COMMIT_ASTRA',
        'CP17_RACE_R4_03_AUDIT_ORDINARY_ORDER_KEEPS_MARK','CP17_RACE_R4_03_AUDIT_LATE_ROW_OUTSIDE_FILTER',
        'CP17_RACE_R4_03_AUDIT_NEXT_LISTING_SHOWS_ALL_ONCE']
@@ -198,7 +205,78 @@ def cases(cur,today):
         assert routes.verify(cur)==clean
         return dict(status='PASS',reviewed=clean,app_routes=len(app),refused_until_reviewed=failures)
 
-    named=[astra_positive_inverse,active_use_not_hidden,reopen_then_finish,audit_mark_refusals,database_session_unchanged,every_route_reviewed]
+    # ---- R4-05 (owner D17-1): erp.require_internal() answers the common case with one context probe.
+    import cp7_internal_guard_bundle as guard
+    import cp7_sales_bundle as sales_bundle
+    def guard_body():return one(cur,"select prosrc from pg_proc where oid='erp.require_internal()'::regprocedure")
+    def guard_same_answer():
+        """The installed guard and the same guard without its probe, called side by side as a Data API session."""
+        f.b.api.admin(cur);clean=guard.verify(cur);before,_=guard.unpatched(guard_body())
+        cur.execute("create schema cp17_r4_05;create function cp17_r4_05.guard_before()returns void language plpgsql security definer set search_path='' as $function$"
+                    +before+"$function$",prepare=False)
+        cur.execute("""create function cp17_r4_05.answer(p_before boolean)returns text language plpgsql security definer set search_path='' as $f$
+begin
+ if p_before then perform cp17_r4_05.guard_before();else perform erp.require_internal();end if;
+ return 'ALLOW';
+exception when others then return sqlstate||':'||sqlerrm;
+end $f$;
+grant usage on schema cp17_r4_05 to authenticated;grant execute on function cp17_r4_05.answer(boolean) to authenticated""",prepare=False)
+        owner,stranger=f.b.chain.production.base.OPERATOR_AUTH,str(uuid.uuid4())
+        def answers(sub,role='authenticated',setup=()):
+            f.b.api.admin(cur);cur.execute('savepoint r4_05_guard')
+            try:
+                for statement in setup:cur.execute(statement,(sub,))
+                cur.execute("select set_config('request.jwt.claims',%s,true)",(json.dumps({'sub':sub,'role':role}),))
+                cur.execute('set session authorization authenticator');cur.execute('set role authenticated')
+                return tuple(one(cur,'select cp17_r4_05.answer(%s)',(old,)) for old in (True,False))
+            finally:cur.execute('rollback to savepoint r4_05_guard');cur.execute('release savepoint r4_05_guard');cur.execute('reset role');f.b.api.admin(cur)
+        here="insert into cp7_sales.command_context(backend_pid,transaction_id,actor,sale_id,action)values(pg_backend_pid(),txid_current(),%s,null,'POST')"
+        other_backend=here.replace('pg_backend_pid(),txid_current()','pg_backend_pid()+100000,txid_current()')
+        other_transaction=here.replace('pg_backend_pid(),txid_current()','pg_backend_pid(),txid_current()-1')
+        procurement=("insert into cp7_procurement.execution_context(backend_pid,transaction_id,actor,action,permission_key)"
+                     "values(pg_backend_pid(),txid_current(),%s,'POST','warehouse.procurement.post')")
+        internal='P0001:Internal ERP access required'
+        expected=dict(owner_no_context=((owner,),'ALLOW'),stranger_no_context=((stranger,),internal),
+                      service_role_no_app_user=((stranger,'service_role'),'ALLOW'),
+                      # A context row of this backend and transaction: the unchanged dispatch, its fine refusal first.
+                      stranger_sales_context_here=((stranger,'authenticated',(here,)),'42501:CP7_SALES_ACCESS_DENIED'),
+                      # (its answer depends on the Native owner grant; only before == after is required)
+                      owner_sales_context_here=((owner,'authenticated',(here,)),None),
+                      stranger_procurement_context_without_right=((stranger,'authenticated',(procurement,)),internal),
+                      # Rows of another backend or another transaction admit nothing.
+                      owner_sales_context_other_backend=((owner,'authenticated',(other_backend,)),'ALLOW'),
+                      stranger_sales_context_other_transaction=((stranger,'authenticated',(other_transaction,)),internal))
+        observed={k:answers(*args) for k,(args,_) in expected.items()}
+        assert all(a==b and want in(None,a) for (a,b),(_,want) in zip(observed.values(),expected.values())),observed
+        return dict(status='PASS',reviewed=clean,before_and_after=observed,transaction_id_assigned=one(cur,'select txid_current_if_assigned() is not null'))
+    def guard_dispatch_reviewed():
+        """A guard whose dispatch the probe no longer stands for fails the review (verify), so CI stops."""
+        f.b.api.admin(cur);clean=guard.verify(cur)
+        definition=one(cur,"select pg_get_functiondef('erp.require_internal()'::regprocedure)")
+        _,fast=guard.unpatched(guard_body())
+        failures={}
+        def attempt(label,changed):
+            assert changed!=definition,label
+            cur.execute('savepoint r4_05_review')
+            try:
+                cur.execute(changed,prepare=False)
+                try:guard.verify(cur);failures[label]=None
+                except AssertionError as e:failures[label]=e.args[0] if isinstance(e.args[0],str) else e.args[0][0]
+            finally:cur.execute('rollback to savepoint r4_05_review');cur.execute('release savepoint r4_05_review')
+        branch=(" if exists(select 1 from cp7_misc.command_context c where c.backend_pid=pg_backend_pid()\n"
+                "  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n"
+                "   and c.transaction_id=txid_current() and c.actor=auth.uid() then true else false end) then return;end if;\n")
+        attempt('context_branch_added_after_the_probe',definition.replace(sales_bundle.ANCHOR,branch+sales_bundle.ANCHOR,1))
+        attempt('other_statement_in_the_dispatch',definition.replace(sales_bundle.ANCHOR," perform erp.has_permission('x');\n"+sales_bundle.ANCHOR,1))
+        attempt('probe_removed',definition.replace(guard.ANCHOR+'\n'+fast,guard.ANCHOR,1))
+        assert failures==dict(context_branch_added_after_the_probe='CP7_INTERNAL_GUARD_PROBE_DIFFERS',
+                              other_statement_in_the_dispatch='CP7_INTERNAL_GUARD_DISPATCH_CHANGED',
+                              probe_removed='CP7_INTERNAL_GUARD_PROBE_MISSING'),failures
+        assert guard.verify(cur)==clean
+        return dict(status='PASS',reviewed=clean,refused_until_reviewed=failures)
+
+    named=[astra_positive_inverse,active_use_not_hidden,reopen_then_finish,audit_mark_refusals,database_session_unchanged,every_route_reviewed,
+           guard_same_answer,guard_dispatch_reviewed]
     assert len(named)==len(NATIVE)
     return list(zip(NATIVE,named))
 
