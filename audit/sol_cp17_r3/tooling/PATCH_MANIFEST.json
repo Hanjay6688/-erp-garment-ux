@@ -1,0 +1,169 @@
+{
+  "scope": "LOCAL_METADATA_COLLECTION_REPAIR_ONLY_NOT_PUBLISHED",
+  "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "candidate_tree": "32f54240a60e01ab8b1ffad7267d285a669be520",
+  "original_workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+  "patch_sha256": "6bedf405167ec7899d4d32d5fe61ae2fd60e95d28b8c2980d149bef0532b4502",
+  "changes": [
+    {
+      "path": ".github/workflows/audit-sol-r3-cp6-t3-release-package.yml",
+      "original_sha256": "7845d2726cd1575bb7c97ae4c0ca8f02e7722d86ff4f610827c67093111c5ad5",
+      "proposed_sha256": "31752dc27170e60d5ea6b9d4d744bec61aad0a26aca87df1d035ed511778c82d",
+      "helper": "identity_metadata.py",
+      "helper_sha256": "47e42fa8e1fbe8fb18352c6bd27020cf60c062750222cf6e6b3241e0daae3e2c",
+      "changed_step": "Sol record exact candidate and product trees",
+      "workflow_name": {
+        "before": "AUDIT/Sol/cp6-t3-release-package",
+        "after": "AUDIT/Sol/T3 browser metadata qualification"
+      },
+      "run_name": {
+        "before": "AUDIT/cp17-r3/Sol/b53b5acd/cp6-t3-release-package/1",
+        "after": "AUDIT/cp17-r3/Sol/b53b5acd/t3-browser-metadata-q1/1"
+      },
+      "artifact_names": [
+        {
+          "before": "cp17-r3-Sol-b53b5acd-cp6-t3-release-package-${{ matrix.key }}",
+          "after": "cp17-r3-Sol-b53b5acd-metadata-q1-cp6-t3-release-package-${{ matrix.key }}"
+        },
+        {
+          "before": "cp17-r3-Sol-b53b5acd-cp6-t3-release-package-${{ github.job }}-${{ strategy.job-index }}-identity",
+          "after": "cp17-r3-Sol-b53b5acd-metadata-q1-cp6-t3-release-package-${{ github.job }}-${{ strategy.job-index }}-identity"
+        }
+      ],
+      "matrix_before": {
+        "include": [
+          {
+            "key": "install",
+            "label": "Hosted-faithful baseline to AB, committed 30-file package AC..BF, writer runtime, advisors, restore drill (T3_PREP)",
+            "proof": "t3"
+          },
+          {
+            "key": "capture",
+            "label": "Hosted-faithful baseline to AB, pins captured again and compared with the committed package (T3_PREP)",
+            "proof": "t3"
+          },
+          {
+            "key": "browser",
+            "label": "Hosted-faithful baseline to AB, committed 30-file package, AU and BF browser flows (T3_PREP)",
+            "proof": "t3"
+          }
+        ]
+      },
+      "matrix_after": {
+        "include": [
+          {
+            "key": "browser",
+            "label": "Hosted-faithful baseline to AB, committed 30-file package, AU and BF browser flows (T3_PREP)",
+            "proof": "t3"
+          }
+        ]
+      },
+      "all_other_parsed_workflow_fields_unchanged": true
+    },
+    {
+      "path": ".github/workflows/audit-sol-r3-cp6-candidate-codeql.yml",
+      "original_sha256": "4034eaf9b27a9afd1fb4c3c8258e176eeb0ee62bf45d474353978196680c7c3c",
+      "proposed_sha256": "487c2f1f3df354d3b2aefac0b66335c3bdd17b3d4a2dc5f00efd61480e90ec6b",
+      "helper": "codeql_metadata_gate.py",
+      "helper_sha256": "dccdd771542198e86b365b48ba4111a84e2ea4305a9c4a57b43e0f270f8e4bab",
+      "changed_step": "Verify analysis and bind SARIF to candidate",
+      "workflow_name": {
+        "before": "AUDIT/Sol/cp6-candidate-codeql",
+        "after": "AUDIT/Sol/CodeQL metadata qualification"
+      },
+      "run_name": {
+        "before": "AUDIT/cp17-r3/Sol/b53b5acd/cp6-candidate-codeql/1",
+        "after": "AUDIT/cp17-r3/Sol/b53b5acd/codeql-metadata-q1/1"
+      },
+      "artifact_names": [
+        {
+          "before": "cp17-r3-Sol-b53b5acd-cp6-candidate-codeql-${{ matrix.language }}",
+          "after": "cp17-r3-Sol-b53b5acd-metadata-q1-cp6-candidate-codeql-${{ matrix.language }}"
+        },
+        {
+          "before": "cp17-r3-Sol-b53b5acd-cp6-candidate-codeql-${{ github.job }}-${{ strategy.job-index }}-identity",
+          "after": "cp17-r3-Sol-b53b5acd-metadata-q1-cp6-candidate-codeql-${{ github.job }}-${{ strategy.job-index }}-identity"
+        }
+      ],
+      "matrix_before": {
+        "include": [
+          {
+            "language": "actions",
+            "build_mode": "none"
+          },
+          {
+            "language": "javascript-typescript",
+            "build_mode": "none"
+          },
+          {
+            "language": "python",
+            "build_mode": "none"
+          },
+          {
+            "language": "c-cpp",
+            "build_mode": "manual"
+          }
+        ]
+      },
+      "matrix_after": {
+        "include": [
+          {
+            "language": "actions",
+            "build_mode": "none"
+          },
+          {
+            "language": "javascript-typescript",
+            "build_mode": "none"
+          },
+          {
+            "language": "python",
+            "build_mode": "none"
+          },
+          {
+            "language": "c-cpp",
+            "build_mode": "manual"
+          }
+        ]
+      },
+      "all_other_parsed_workflow_fields_unchanged": true
+    }
+  ],
+  "declared_harness_changes": [
+    "T3 identity hook distinguishes the exact historical UI checkout from the exact candidate chain checkout.",
+    "T3 matrix restricted to browser; completed install/capture retain their original evidence.",
+    "CodeQL product HEAD/tree are pinned independently from workflow SHA; original SARIF query/loop/pass predicate unchanged.",
+    "Workflow/run/artifact names mark metadata-q1; initial failures remain untouched."
+  ],
+  "initial_evidence": {
+    "t3": {
+      "run_id": 39146762759,
+      "retained_install_job": 117732074327,
+      "retained_capture_job": 117732074500,
+      "precase_browser_failure_job": 117732074565
+    },
+    "codeql": {
+      "run_id": 39146762479,
+      "jobs": [
+        117732073334,
+        117732073546,
+        117732073565,
+        117732073589
+      ]
+    }
+  },
+  "prospective_jobs": {
+    "t3_browser": 1,
+    "codeql_languages": 4,
+    "t3_install_repeated": false,
+    "t3_capture_repeated": false
+  },
+  "application_changes": false,
+  "sql_changes": false,
+  "business_case_changes": false,
+  "codeql_query_changes": false,
+  "permissions_changes": false,
+  "checkout_ref_changes": false,
+  "workflow_triggered": false,
+  "published": false,
+  "verification": "Synthetic metadata identity positive/negative checks; public Git object constants; SARIF loop/status AST equivalence. No scan, SQL, HTTP or business probe executed."
+}

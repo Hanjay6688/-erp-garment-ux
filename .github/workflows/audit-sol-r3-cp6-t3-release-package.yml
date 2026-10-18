@@ -1,4 +1,4 @@
-name: AUDIT/Sol/cp6-t3-release-package
+name: AUDIT/Sol/T3 browser metadata qualification
 permissions:
   contents: read
   actions: read
@@ -14,12 +14,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - key: install
-          label: Hosted-faithful baseline to AB, committed 30-file package AC..BF, writer runtime, advisors, restore drill (T3_PREP)
-          proof: t3
-        - key: capture
-          label: Hosted-faithful baseline to AB, pins captured again and compared with the committed package (T3_PREP)
-          proof: t3
         - key: browser
           label: Hosted-faithful baseline to AB, committed 30-file package, AU and BF browser flows (T3_PREP)
           proof: t3
@@ -75,8 +69,9 @@ jobs:
         ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
         persist-credentials: false
     - name: Sol record exact candidate and product trees
-      run: "python3 - <<'SOL_IDENTITY'\nimport json,os,pathlib,subprocess,hashlib\nsha='b53b5acdf260b03ebac3474e9ae837fcef6f6eb1'\npaths=['auditor', 'chain']\nitems=[]\nfor p in paths:\n r=pathlib.Path(p)\n g=lambda *a:subprocess.check_output(['git','-C',str(r),*a],text=True).strip()\n head=g('rev-parse','HEAD')\n # T3 intentionally keeps an inherited frozen UI checkout in its browser phase; actual identity remains visible.\n items.append(dict(path=p,head=head,tree=g('rev-parse','HEAD^{tree}'),candidate_exact=head==sha,product_trees={q:g('rev-parse','HEAD:'+q)for q in ['src','supabase/release','supabase/migrations','scripts/cp7-src','supabase/dev']},tracked_product_diff=g('diff','--name-only','--','src','scripts/cp7-src','supabase/release','supabase/migrations','supabase/dev'),lock_sha256=hashlib.sha256((r/'package-lock.json').read_bytes()).hexdigest()))\nout=dict(candidate_sha=sha,workflow_sha=os.environ['GITHUB_SHA'],run_id=os.environ['GITHUB_RUN_ID'],attempt=os.environ['GITHUB_RUN_ATTEMPT'],suite='cp6-t3-release-package',checkouts=items,evidence_origin='INDEPENDENT_NATIVE_RERUN',oracle_origin='WRITER_OR_INHERITED_DECLARED',fixture_origin='PUBLIC_REPO_SYNTHETIC')\n\
-        p=pathlib.Path(os.environ['RUNNER_TEMP'])/'sol-proof';p.mkdir(exist_ok=True);(p/'IDENTITY.json').write_text(json.dumps(out,indent=2)+'\\n');print(json.dumps(out))\nassert any(x['candidate_exact']for x in items) or 'cp6-t3-release-package'=='cp6-t3-release-package'\nSOL_IDENTITY"
+      run: "python3 - <<'SOL_IDENTITY_METADATA'\n\"\"\"Audit metadata only: no database, HTTP client, product import or test execution.\"\"\"\nimport hashlib\nimport json\nimport os\nfrom pathlib import Path\nimport re\nimport subprocess\n\nCANDIDATE = \"b53b5acdf260b03ebac3474e9ae837fcef6f6eb1\"\nCANDIDATE_TREE = \"32f54240a60e01ab8b1ffad7267d285a669be520\"\nHISTORICAL_UI = \"e43e0ed4bab5ba9a803100e57ddfd7cd2647c631\"\nHISTORICAL_UI_TREE = \"05fc26cf00a6e5253192f4bd2ec7d7f4bdf06bc1\"\nPRODUCT_TREES = {\n    \"src\": \"b4041b3b21b6e63a36419f9beae4de24f3a96244\",\n    \"supabase/release\": \"be1e91c172ffb5c05b694a3a54c69562700c6d5e\",\n    \"supabase/migrations\": \"8f6053bbd0bda80da18065418ad43371cdfd9461\",\n    \"scripts/cp7-src\": \"633ef684ec2ec2c3f54c48a6ba971f8c6d70843b\",\n    \"supabase/dev\": \"88759f4fc51864a1ec9e224fcb4f236204b5c853\",\n}\n\n\ndef validate_record(record, role):\n    if role not in (\"candidate\", \"historical_ui\"):\n        raise ValueError(\"AUDIT_METADATA_UNKNOWN_CHECKOUT_ROLE\")\n    expected_head, expected_tree = (CANDIDATE, CANDIDATE_TREE) if role == \"candidate\" else (HISTORICAL_UI, HISTORICAL_UI_TREE)\n    if record[\"head\"] != expected_head:\n        raise ValueError(\"AUDIT_METADATA_CHECKOUT_HEAD_MISMATCH\")\n    if record[\"tree\"] != expected_tree:\n        raise ValueError(\"AUDIT_METADATA_CHECKOUT_TREE_MISMATCH\")\n    if record[\"tracked_product_diff\"]:\n        raise ValueError(\"AUDIT_METADATA_PRODUCT_WORKTREE_CHANGED\")\n    if role == \"candidate\":\n        if record[\"product_trees\"] != PRODUCT_TREES:\n            raise ValueError(\"AUDIT_METADATA_CANDIDATE_PRODUCT_PATH_MISMATCH\")\n        if record[\"absent_product_paths\"]:\n            raise ValueError(\"AUDIT_METADATA_CANDIDATE_PRODUCT_PATH_ABSENT\")\n    else:\n        # An absent path is valid only at the explicitly pinned historical commit.\n        for path in PRODUCT_TREES:\n            present = path in record[\"product_trees\"]\n            absent = path in record[\"absent_product_paths\"]\n            if present == absent:\n                raise ValueError(\"AUDIT_METADATA_HISTORICAL_PATH_NOT_EXPLICIT\")\n    return dict(record, checkout_role=role, expected_head=expected_head, expected_tree=expected_tree,\n        candidate_exact=role == \"candidate\", identity_verified=True)\n\n\ndef validate_t3_records(records, phase, workflow_sha):\n    if phase not in (\"install\", \"capture\", \"browser\"):\n        raise ValueError(\"AUDIT_METADATA_UNKNOWN_T3_PHASE\")\n    if not re.fullmatch(r\"[0-9a-f]{40}\", workflow_sha):\n        raise ValueError(\"AUDIT_METADATA_WORKFLOW_SHA_INVALID\")\n    if set(records) != {\"auditor\", \"chain\"}:\n        raise ValueError(\"AUDIT_METADATA_T3_CHECKOUT_SET_MISMATCH\")\n    roles = {\"auditor\": \"historical_ui\" if phase == \"browser\" else \"candidate\", \"chain\": \"candidate\"}\n    items = [validate_record(records[path], roles[path]) for path in (\"auditor\", \"chain\")]\n    if not any(item[\"candidate_exact\"] for item in items):\n        raise ValueError(\"AUDIT_METADATA_NO_CANDIDATE_CHECKOUT\")\n    return dict(candidate_sha=CANDIDATE, candidate_tree=CANDIDATE_TREE, workflow_sha=workflow_sha,\n        phase=phase, checkouts=items)\n\n\ndef read_record(path):\n    root = Path(path)\n    def git(*args):\n        return subprocess.check_output([\"git\", \"-C\", str(root), *args], text=True).strip()\n    trees, absent = {}, []\n    for product_path in PRODUCT_TREES:\n        present = subprocess.run([\"git\", \"-C\", str(root), \"cat-file\", \"-e\", \"HEAD:\" + product_path],\n            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0\n        if present:\n            trees[product_path] = git(\"rev-parse\", \"HEAD:\" + product_path)\n        else:\n            absent.append(product_path)\n    return dict(path=path, head=git(\"rev-parse\", \"HEAD\"), tree=git(\"rev-parse\", \"HEAD^{tree}\"),\n        product_trees=trees, absent_product_paths=absent,\n        tracked_product_diff=git(\"diff\", \"--name-only\", \"--\", *PRODUCT_TREES),\n        lock_sha256=hashlib.sha256((root / \"package-lock.json\").read_bytes()).hexdigest())\n\n\ndef main():\n    records = {path: read_record(path) for path in (\"auditor\", \"chain\")}\n    out = validate_t3_records(records, os.environ[\"SOL_T3_PHASE\"], os.environ[\"GITHUB_SHA\"])\n    out.update(run_id=os.environ[\"GITHUB_RUN_ID\"], attempt=os.environ[\"GITHUB_RUN_ATTEMPT\"],\n        suite=\"cp6-t3-release-package\", metadata_qualification=\"SOL_METADATA_Q1\",\n        original_run_id=39146762759, original_browser_job_id=117732074565,\n        evidence_origin=\"INDEPENDENT_SOL_EXECUTION_IDENTITY_METADATA\",\n        oracle_origin=\"WRITER_OR_INHERITED_DECLARED\", fixture_origin=\"PUBLIC_REPO_SYNTHETIC\")\n    target = Path(os.environ[\"RUNNER_TEMP\"]) / \"sol-proof\"\n    target.mkdir(exist_ok=True)\n    (target / \"IDENTITY.json\").write_text(json.dumps(out, indent=2) + \"\\n\")\n    print(json.dumps(out))\n\n\nif __name__ == \"__main__\":\n    main()\n\nSOL_IDENTITY_METADATA"
+      env:
+        SOL_T3_PHASE: ${{ matrix.key }}
     - uses: actions/setup-python@v5
       with:
         python-version: '3.12'
@@ -85,8 +80,7 @@ jobs:
         node-version: '22'
     - name: Install pinned disposable runtime
       shell: bash
-      run: "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'\nsudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\nsudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\narchitecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\nsudo apt-get update\
-        \ -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\necho '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
+      run: "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'\nsudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\nsudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\narchitecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\nsudo apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\necho '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
     - name: Install pinned Supabase CLI
       uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
       with:
@@ -104,8 +98,7 @@ jobs:
     - name: Start disposable database
       working-directory: base
       shell: bash
-      run: "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\ntest \"$(git rev-parse HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\nsupabase --help >/dev/null\nsupabase init --help >/dev/null\nsupabase start --help >/dev/null\nmkdir cp5-local\nsupabase init --force --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\nsed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml\n# ghcr.io can rate-limit image pulls before anything runs. Retry the start\n# only (no test has run), falling back to the same image tags on public.ecr.aws.\nfor attempt in 1 2 3 4; do\n  if [ \"$attempt\" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi\n  if supabase start --workdir cp5-local \\\n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\"\
-        \ 2>&1; then\n    echo \"supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\n    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  supabase stop --workdir cp5-local --no-backup || true\n  if [ \"$attempt\" = 4 ]; then exit 1; fi\n  sleep $((attempt * 60))\ndone\n"
+      run: "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\ntest \"$(git rev-parse HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\nsupabase --help >/dev/null\nsupabase init --help >/dev/null\nsupabase start --help >/dev/null\nmkdir cp5-local\nsupabase init --force --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\nsed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml\n# ghcr.io can rate-limit image pulls before anything runs. Retry the start\n# only (no test has run), falling back to the same image tags on public.ecr.aws.\nfor attempt in 1 2 3 4; do\n  if [ \"$attempt\" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi\n  if supabase start --workdir cp5-local \\\n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\" 2>&1; then\n    echo \"supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\n    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  supabase stop --workdir cp5-local --no-backup || true\n  if [ \"$attempt\" = 4 ]; then exit 1; fi\n  sleep $((attempt * 60))\ndone\n"
     - name: Rebuild to v2.6.20, align with hosted, continue the frozen path to AB
       working-directory: base
       env:
@@ -140,18 +133,18 @@ jobs:
     - uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: cp17-r3-Sol-b53b5acd-cp6-t3-release-package-${{ matrix.key }}
+        name: cp17-r3-Sol-b53b5acd-metadata-q1-cp6-t3-release-package-${{ matrix.key }}
         path: auditor/cp6-proof/${{ matrix.proof }}
         retention-days: 30
     - name: Sol preserve audit identity
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
-        name: cp17-r3-Sol-b53b5acd-cp6-t3-release-package-${{ github.job }}-${{ strategy.job-index }}-identity
+        name: cp17-r3-Sol-b53b5acd-metadata-q1-cp6-t3-release-package-${{ github.job }}-${{ strategy.job-index }}-identity
         path: ${{ runner.temp }}/sol-proof
         retention-days: 30
         if-no-files-found: warn
-run-name: AUDIT/cp17-r3/Sol/b53b5acd/cp6-t3-release-package/1
+run-name: AUDIT/cp17-r3/Sol/b53b5acd/t3-browser-metadata-q1/1
 'on':
   push:
     branches:

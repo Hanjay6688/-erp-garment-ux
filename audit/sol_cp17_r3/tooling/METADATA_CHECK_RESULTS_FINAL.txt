@@ -1,0 +1,22 @@
+test_existing_sarif_loop_and_result_predicate_unchanged (__main__.CodeqlMetadataChecks.test_existing_sarif_loop_and_result_predicate_unchanged) ... ok
+test_product_and_workflow_sha_remain_separate (__main__.CodeqlMetadataChecks.test_product_and_workflow_sha_remain_separate) ... ok
+test_workflow_sha_cannot_masquerade_as_product (__main__.CodeqlMetadataChecks.test_workflow_sha_cannot_masquerade_as_product) ... ok
+test_workflow_sha_is_required (__main__.CodeqlMetadataChecks.test_workflow_sha_is_required) ... ok
+test_wrong_tree_refused (__main__.CodeqlMetadataChecks.test_wrong_tree_refused) ... ok
+test_changed_candidate_product_tree_refused (__main__.IdentityChecks.test_changed_candidate_product_tree_refused) ... ok
+test_current_install_requires_two_exact_candidate_checkouts (__main__.IdentityChecks.test_current_install_requires_two_exact_candidate_checkouts) ... ok
+test_dirty_product_worktree_refused (__main__.IdentityChecks.test_dirty_product_worktree_refused) ... ok
+test_historical_missing_path_must_be_explicit (__main__.IdentityChecks.test_historical_missing_path_must_be_explicit) ... ok
+test_missing_candidate_path_refused (__main__.IdentityChecks.test_missing_candidate_path_refused) ... ok
+test_no_candidate_chain_refused (__main__.IdentityChecks.test_no_candidate_chain_refused) ... ok
+test_pinned_historical_ui_can_record_missing_cp7_path (__main__.IdentityChecks.test_pinned_historical_ui_can_record_missing_cp7_path) ... ok
+test_public_git_candidate_constants_match_actual_object (__main__.IdentityChecks.test_public_git_candidate_constants_match_actual_object) ... ok
+test_unpinned_historical_head_refused (__main__.IdentityChecks.test_unpinned_historical_head_refused) ... ok
+test_wrong_candidate_head_refused (__main__.IdentityChecks.test_wrong_candidate_head_refused) ... ok
+test_wrong_candidate_tree_refused (__main__.IdentityChecks.test_wrong_candidate_tree_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.014s
+
+OK
+

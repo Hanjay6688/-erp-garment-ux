@@ -1,4 +1,4 @@
-name: AUDIT/Sol/cp6-candidate-codeql
+name: AUDIT/Sol/CodeQL metadata qualification
 permissions:
   contents: read
 concurrency:
@@ -28,8 +28,7 @@ jobs:
         fetch-depth: 0
         ref: b53b5acdf260b03ebac3474e9ae837fcef6f6eb1
     - name: Sol record exact candidate and product trees
-      run: "python3 - <<'SOL_IDENTITY'\nimport json,os,pathlib,subprocess,hashlib\nsha='b53b5acdf260b03ebac3474e9ae837fcef6f6eb1'\npaths=['.']\nitems=[]\nfor p in paths:\n r=pathlib.Path(p)\n g=lambda *a:subprocess.check_output(['git','-C',str(r),*a],text=True).strip()\n head=g('rev-parse','HEAD')\n # T3 intentionally keeps an inherited frozen UI checkout in its browser phase; actual identity remains visible.\n items.append(dict(path=p,head=head,tree=g('rev-parse','HEAD^{tree}'),candidate_exact=head==sha,product_trees={q:g('rev-parse','HEAD:'+q)for q in ['src','supabase/release','supabase/migrations','scripts/cp7-src','supabase/dev']},tracked_product_diff=g('diff','--name-only','--','src','scripts/cp7-src','supabase/release','supabase/migrations','supabase/dev'),lock_sha256=hashlib.sha256((r/'package-lock.json').read_bytes()).hexdigest()))\nout=dict(candidate_sha=sha,workflow_sha=os.environ['GITHUB_SHA'],run_id=os.environ['GITHUB_RUN_ID'],attempt=os.environ['GITHUB_RUN_ATTEMPT'],suite='cp6-candidate-codeql',checkouts=items,evidence_origin='INDEPENDENT_NATIVE_RERUN',oracle_origin='WRITER_OR_INHERITED_DECLARED',fixture_origin='PUBLIC_REPO_SYNTHETIC')\n\
-        p=pathlib.Path(os.environ['RUNNER_TEMP'])/'sol-proof';p.mkdir(exist_ok=True);(p/'IDENTITY.json').write_text(json.dumps(out,indent=2)+'\\n');print(json.dumps(out))\nassert any(x['candidate_exact']for x in items) or 'cp6-candidate-codeql'=='cp6-t3-release-package'\nSOL_IDENTITY"
+      run: "python3 - <<'SOL_IDENTITY'\nimport json,os,pathlib,subprocess,hashlib\nsha='b53b5acdf260b03ebac3474e9ae837fcef6f6eb1'\npaths=['.']\nitems=[]\nfor p in paths:\n r=pathlib.Path(p)\n g=lambda *a:subprocess.check_output(['git','-C',str(r),*a],text=True).strip()\n head=g('rev-parse','HEAD')\n # T3 intentionally keeps an inherited frozen UI checkout in its browser phase; actual identity remains visible.\n items.append(dict(path=p,head=head,tree=g('rev-parse','HEAD^{tree}'),candidate_exact=head==sha,product_trees={q:g('rev-parse','HEAD:'+q)for q in ['src','supabase/release','supabase/migrations','scripts/cp7-src','supabase/dev']},tracked_product_diff=g('diff','--name-only','--','src','scripts/cp7-src','supabase/release','supabase/migrations','supabase/dev'),lock_sha256=hashlib.sha256((r/'package-lock.json').read_bytes()).hexdigest()))\nout=dict(candidate_sha=sha,workflow_sha=os.environ['GITHUB_SHA'],run_id=os.environ['GITHUB_RUN_ID'],attempt=os.environ['GITHUB_RUN_ATTEMPT'],suite='cp6-candidate-codeql',checkouts=items,evidence_origin='INDEPENDENT_NATIVE_RERUN',oracle_origin='WRITER_OR_INHERITED_DECLARED',fixture_origin='PUBLIC_REPO_SYNTHETIC')\np=pathlib.Path(os.environ['RUNNER_TEMP'])/'sol-proof';p.mkdir(exist_ok=True);(p/'IDENTITY.json').write_text(json.dumps(out,indent=2)+'\\n');print(json.dumps(out))\nassert any(x['candidate_exact']for x in items) or 'cp6-candidate-codeql'=='cp6-t3-release-package'\nSOL_IDENTITY"
     - uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63
       with:
         languages: ${{ matrix.language }}
@@ -47,11 +46,11 @@ jobs:
     - name: Verify analysis and bind SARIF to candidate
       env:
         CP6_CODEQL_LANGUAGE: ${{ matrix.language }}
-      run: python scripts/cp6_codeql_artifact_gate.py
+      run: "python3 - <<'SOL_CODEQL_METADATA'\n\"\"\"Existing SARIF gate with product identity separated from workflow identity.\n\nOnly identity binding is changed from scripts/cp6_codeql_artifact_gate.py.\nNo CodeQL query, scan invocation, application code or business oracle is run here.\n\"\"\"\nimport hashlib\nimport json\nimport os\nfrom pathlib import Path\nimport re\nimport subprocess\n\nEXPECTED_PRODUCT_SHA = \"b53b5acdf260b03ebac3474e9ae837fcef6f6eb1\"\nEXPECTED_PRODUCT_TREE = \"32f54240a60e01ab8b1ffad7267d285a669be520\"\n\n\ndef bind_identity(head, tree, workflow_sha):\n    if head != EXPECTED_PRODUCT_SHA:\n        raise ValueError(\"CODEQL_PRODUCT_HEAD_MISMATCH\")\n    if tree != EXPECTED_PRODUCT_TREE:\n        raise ValueError(\"CODEQL_PRODUCT_TREE_MISMATCH\")\n    if not re.fullmatch(r\"[0-9a-f]{40}\", workflow_sha):\n        raise ValueError(\"CODEQL_WORKFLOW_SHA_INVALID\")\n    return dict(head=head, tree=tree, workflow_sha=workflow_sha,\n        expected_product_sha=EXPECTED_PRODUCT_SHA, expected_product_tree=EXPECTED_PRODUCT_TREE)\n\n\ndef main():\n    root=Path('cp6-codeql')\n    files=sorted((root/'sarif').glob('*.sarif'))\n    if not files:raise SystemExit('CODEQL_SARIF_MISSING')\n    head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()\n    tree=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip()\n    identity=bind_identity(head,tree,os.environ['GITHUB_SHA'])\n    observations=[]\n    for path in files:\n        data=path.read_bytes();document=json.loads(data)\n        runs=document.get('runs',[])\n        if not runs:raise SystemExit('CODEQL_RUNS_MISSING')\n        for run in runs:\n            invocations=run.get('invocations',[])\n            if not invocations or any(i.get('executionSuccessful') is not True for i in invocations):\n                raise SystemExit('CODEQL_EXECUTION_INCOMPLETE')\n            findings=run.get('results',[])\n            for finding in findings:\n                location=(finding.get('locations') or [{}])[0].get('physicalLocation',{})\n                print('CODEQL_FINDING '+json.dumps({'rule':finding.get('ruleId'),'file':location.get('artifactLocation',{}).get('uri'),\n                    'line':location.get('region',{}).get('startLine'),'message':(finding.get('message') or {}).get('text','')[:300]}),flush=True)\n            observations.append({'file':str(path.relative_to(root)),\n                'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data),\n                'tool':run['tool']['driver']['name'],'version':run['tool']['driver'].get('semanticVersion',run['tool']['driver'].get('version')),\n                'rule_count':sum(len(component.get('rules',[])) for component in\n                    [run['tool']['driver'],*run['tool'].get('extensions',[])]),\n                'query_packs':[{'name':x['name'],'version':x.get('semanticVersion'),\n                    'rule_count':len(x.get('rules',[]))} for x in run['tool'].get('extensions',[])],\n                'result_count':len(findings),'execution_successful':True})\n    result={**identity,'metadata_qualification':'SOL_METADATA_Q1','original_run_id':39146762479,\n        'run_id':int(os.environ['GITHUB_RUN_ID']),'attempt':int(os.environ['GITHUB_RUN_ATTEMPT']),\n        'language':os.environ['CP6_CODEQL_LANGUAGE'],'queries':'security-extended',\n        'classification':'NATIVE_CODEQL_SARIF_ARTIFACT_NOT_CODE_SCANNING_UPLOAD',\n        'observations':observations,'production_go':False,\n        'status':'PASS' if all(x['result_count']==0 and x['rule_count']>0 for x in observations) else 'FAIL'}\n    (root/'manifest.json').write_text(json.dumps(result,indent=2)+'\\n')\n    print(json.dumps({'status':result['status'],'language':result['language'],\n        'result_count':sum(x['result_count'] for x in observations),'production_go':False}))\n    if result['status']!='PASS':raise SystemExit(1)\n\n\nif __name__ == \"__main__\":\n    main()\n\nSOL_CODEQL_METADATA"
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
-        name: cp17-r3-Sol-b53b5acd-cp6-candidate-codeql-${{ matrix.language }}
+        name: cp17-r3-Sol-b53b5acd-metadata-q1-cp6-candidate-codeql-${{ matrix.language }}
         path: cp6-codeql
         if-no-files-found: error
         retention-days: 30
@@ -59,11 +58,11 @@ jobs:
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
-        name: cp17-r3-Sol-b53b5acd-cp6-candidate-codeql-${{ github.job }}-${{ strategy.job-index }}-identity
+        name: cp17-r3-Sol-b53b5acd-metadata-q1-cp6-candidate-codeql-${{ github.job }}-${{ strategy.job-index }}-identity
         path: ${{ runner.temp }}/sol-proof
         retention-days: 30
         if-no-files-found: warn
-run-name: AUDIT/cp17-r3/Sol/b53b5acd/cp6-candidate-codeql/1
+run-name: AUDIT/cp17-r3/Sol/b53b5acd/codeql-metadata-q1/1
 'on':
   push:
     branches:
