@@ -2,6 +2,11 @@
 
 The predecessor retains every installed guard byte except the declared early
 branch and uses the unchanged full access document for its late sales branch.
+On the F03 stack the guard also carries the declared R4-05 context probe
+(cp7_internal_guard_bundle.py): it is checked against the dispatch it stands
+for and left out of the predecessor, so the installed guard is compared with
+a predecessor that has neither delta. Every state below holds a sales context
+row of this transaction, so the probe never answers alone here.
 Temporary comparison functions, contexts and profiles are all rolled back.
 No Native business writer or case budget is replaced or extended.
 """
@@ -11,6 +16,7 @@ import re
 import uuid
 import cp6_auditor_runner as native
 import cp7_sales_bundle as sales
+import cp7_internal_guard_bundle as internal_guard
 from cp7_catalog_state import exact_public_catalog
 
 CONTEXTS = (
@@ -37,6 +43,9 @@ def _compare(cur, auth, api, boundary, audit):
     before = boundary.snapshot(cur)
     public_before = native.public_state(cur)
     definition = cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]
+    if internal_guard.MARK in definition:
+        definition, fast = internal_guard.unpatched(definition)
+        assert fast == internal_guard.probe(internal_guard.contexts(definition)), 'P19_R4_05_PROBE_DIFFERS'
     blocks = re.findall(r' if exists\(select 1 from cp7_sales.command_context.*?then return;end if;\n', definition, re.S)
     assert len(blocks) == 2 and 'not exists(' in blocks[0] and blocks[1] == sales.ADMISSION
     predecessor = definition.replace(blocks[0], '', 1)

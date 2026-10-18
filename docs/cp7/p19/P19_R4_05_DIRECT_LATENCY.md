@@ -60,12 +60,41 @@ segments. With figures 100 targets 5.6-7.5 s; 300 targets refused by the 8 s lim
 
 ## Result after the change
 
-To be filled from the CI rerun of the capture diagnosis on the writer branch (see the handoff checkpoint log).
+Same harness and seeding, CI run 39159625311 at `27f04d72` against run 39157467151 at `e482ccdd` (before). The second
+runner was faster: the capture without figures, which makes no guard calls, took 0.66 s server time against 1.03 s. The
+like-for-like measure is the guard's own time per call at an equal call count: **121 us before, 22 us after (32,150
+calls at 100 targets in both)**.
+
+| Click to result rendered (browser, 3 history windows) | Before | After |
+|---|---|---|
+| 100 targets, without figures | 1.55-2.01 s | 1.03-1.35 s |
+| 100 targets, with figures | 5.58-7.53 s | **2.30-2.60 s** |
+| 300 targets, without figures | 5.57-7.43 s | 3.83-5.04 s |
+| 300 targets, with figures | 3 of 3 stopped at 8 s | 2 of 3 complete (10.6-11.5 s, result over 8 MB so read as segments), 1 stopped at 8 s (100 days) |
+
+| One direct capture, server (diagnostic) | Before | After |
+|---|---|---|
+| 100 targets, without figures | 1.03 s | 0.66 s |
+| 100 targets, with figures | 6.32 s (guard 3.9 s own) | 2.17 s (guard 0.71 s own) |
+| 300 targets, without figures | 3.08 s | 2.01 s |
+| 300 targets, with figures | stopped at 8 s | 6.64 s (guard 98,200 calls, 2.19 s own) |
+
+SQL ladder (same run, every point an accepted verdict): the direct capture with figures at 100 targets 2.05-2.61 s
+(before 6.14-6.63 s); at 300 targets it now completes in 6.36-7.60 s (before refused at 8 s in all three windows); the
+background job with figures at 300 targets completes in 4.37-5.64 s plus 2.13-2.24 s for manifest and segments (before
+refused at 8 s). Log kept: `scratchpad/p19diag/run2.json` (writer).
+
+With figures, the work grows with the books, not with the targets alone: the owner report checks every journal line (at
+300 targets 1,530 lines and about 49,000 guard calls per report read, against 521 lines and 16,000 at 100) and is read
+twice per direct capture.
 
 ## Still open
 
-- 300 targets without figures stays above 3 s (compiler about 3 s server time, 12.5 MB result); the background job and
-  the staged analysis remain the owner-named exceptions for heavy scopes (`P19_PLANNING_ANALYSIS_BACKGROUND_20261007`,
-  `P19_PLANNING_ANALYSIS_STAGED_20261007`).
-- The owner report itself (Native) is read twice per capture with figures; its own cost grows with the books.
+- 3 s is met at 100 targets with and without figures in this run; it is not met at 300 targets (without figures
+  3.8-5.0 s: compiler about 2-3 s server time and a 12.5 MB result; with figures 10.6-11.5 s or the 8 s stop). The
+  background job and the staged analysis remain the owner-named exceptions for heavy scopes
+  (`P19_PLANNING_ANALYSIS_BACKGROUND_20261007`, `P19_PLANNING_ANALYSIS_STAGED_20261007`); with figures the background
+  job completes at 300 targets where the direct capture can still stop at 8 s.
+- The owner report itself (Native, CP6) checks every journal line and is read twice per direct capture with figures;
+  its cost grows with the books, so the direct capture with figures will slow down as the books grow.
 - `owner_latency_acceptance: false`, `production_go: false`.
