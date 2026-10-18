@@ -15,17 +15,20 @@ const log=Array.from({length:30},(_,i)=>{const n=130-i;return{id:String(n),at:ne
  entity_type:n%2?'products':'customers',entity_id:entity(n),action:n%2?'UPDATE':'INSERT',actor_id:n%2?B:A,actor_name:n%2?'Budi Admin':'Ani Owner',
  reason:n===128?'=HYPERLINK("x")':`Alasan ${n}`,changed_keys:n%2?['customer_name']:['code','name'],changed_key_count:n%2?1:2,has_before:n%2===1,has_after:true}})
 const wib=(at:string)=>new Date(Date.parse(at)+7*3600e3).toISOString().slice(0,10)
-let extra:Partial<{can_export:boolean;newer:boolean;total:string;detail:Q}>={}
+let extra:Partial<{can_export:boolean;newer:boolean;changed:boolean;total:string;detail:Q}>={}
 function serve(q:Q){
  const asOf=(q.as_of as string|null)??'130'
  const hit=log.filter(r=>Number(r.id)<=Number(asOf)&&(!q.entity_type||r.entity_type===q.entity_type)&&(!q.action||r.action===q.action)&&(!q.actor_id||r.actor_id===q.actor_id)
   &&(!q.from||wib(r.at)>=String(q.from))&&(!q.to||wib(r.at)<=String(q.to))&&(!q.q||r.reason.toLowerCase().includes(String(q.q).toLowerCase())||r.entity_id.includes(String(q.q))))
- const start=q.after?hit.findIndex(r=>r.id===q.after)+1:0,limit=Number(q.limit),offset=Number(q.offset),rest=hit.slice(start+offset),rows=rest.slice(0,limit),more=rest.length>limit
+ // The listing's mark (count-sum of its ids inside the cutoff); the keyset cursor is '<id>:<mark>'.
+ const mark=`${hit.length}-${hit.reduce((n,r)=>n+Number(r.id),0)}`,[after,cursorMark]=q.after?String(q.after).split(':'):[null,null]
+ const listed=(q.listed as string|null|undefined)??cursorMark??mark,changed=extra.changed??listed!==mark
+ const start=after?hit.findIndex(r=>r.id===after)+1:0,limit=Number(q.limit),offset=Number(q.offset),rest=hit.slice(start+offset),rows=rest.slice(0,limit),more=rest.length>limit
  const row=log.find(r=>r.id===q.id)
  return{contract_version:'cp7.audit-trail.v1',read_at:'2026-10-17T04:00:00.123456+00:00',business_DML:false,can_export:extra.can_export??true,
   query:{from:q.from??null,to:q.to??null,entity_type:q.entity_type??null,action:q.action??null,actor_id:q.actor_id??null,q:q.q??null},
-  snapshot:{as_of:asOf,newer:extra.newer??false},
-  page:{rows,total:extra.total??String(hit.length),before:String(start),offset,limit,after:q.after??null,next_after:more?rows[rows.length-1].id:null,next_offset:more?offset+limit:null},
+  snapshot:{as_of:asOf,newer:(extra.newer??false)||changed,listed,changed},
+  page:{rows,total:extra.total??String(hit.length),before:String(start),offset,limit,after:q.after??null,next_after:more?`${rows[rows.length-1].id}:${listed}`:null,next_offset:more?offset+limit:null},
   options:{entity_types:['customers','products'],actions:['INSERT','UPDATE'],actors:[{id:A,name:'Ani Owner'},{id:B,name:'Budi Admin'}]},
   detail:q.id?extra.detail??{...row,data_bytes:120,too_large:false,fields_total:3,raw_before:null,raw_after:null,
    fields:row!.changed_key_count===1?[{key:'customer_name',before:'Toko A',after:'Toko B',changed:true},{key:'phone',before:'0812',after:'0812',changed:false},{key:'row_version',before:null,after:null,changed:false}]
@@ -56,7 +59,7 @@ describe('Audit Trail connected (R3-03)',()=>{
  it('reads the newest page through the one facade with a closed query, and shows actor, data, reason and changed keys',async()=>{
   await mount()
   expect(mock.rpc).toHaveBeenCalledTimes(1)
-  expect(mock.rpc.mock.calls[0]).toEqual(['erp_cp7_get_audit_trail_v1',{p_query:{from:null,to:null,entity_type:null,action:null,actor_id:null,q:null,as_of:null,after:null,id:null,offset:0,limit:25}}])
+  expect(mock.rpc.mock.calls[0]).toEqual(['erp_cp7_get_audit_trail_v1',{p_query:{from:null,to:null,entity_type:null,action:null,actor_id:null,q:null,as_of:null,after:null,listed:null,id:null,offset:0,limit:25}}])
   expect(shown()).toEqual(ids(130,106))
   expect(container.textContent).toContain('Baris 1–25 dari 30 catatan')
   const first=container.querySelector('[data-audit-id="130"]')!.textContent!
@@ -66,14 +69,26 @@ describe('Audit Trail connected (R3-03)',()=>{
  it('pages inside the listing fixed by the first page (as_of + keyset) and back',async()=>{
   await mount()
   await click(button('Halaman berikutnya'))
-  expect(lastQuery()).toMatchObject({as_of:'130',after:'106',offset:0,limit:25,id:null})
+  expect(lastQuery()).toMatchObject({as_of:'130',after:'106:30-3465',listed:'30-3465',offset:0,limit:25,id:null})
   expect(shown()).toEqual(ids(105,101));expect(container.textContent).toContain('Baris 26–30 dari 30 catatan')
   expect(button('Halaman berikutnya').disabled).toBe(true)
   await click(button('Halaman sebelumnya'))
-  expect(lastQuery()).toMatchObject({as_of:'130',after:null});expect(shown()).toEqual(ids(130,106))
+  expect(lastQuery()).toMatchObject({as_of:'130',after:null,listed:'30-3465'});expect(shown()).toEqual(ids(130,106))
   expect(button('Halaman sebelumnya').disabled).toBe(true)
   // Muat ulang starts a new listing: a new cutoff from the server.
-  await click(button('Muat ulang'));expect(lastQuery()).toMatchObject({as_of:null,after:null})
+  await click(button('Muat ulang'));expect(lastQuery()).toMatchObject({as_of:null,after:null,listed:null})
+ })
+ it('stops paging and asks for Muat ulang when a lower id committed late inside the listing (ASTRA-R3-02)',async()=>{
+  await mount();expect(container.textContent).not.toContain('Daftar ini berubah')
+  extra.changed=true
+  await click(button('Halaman berikutnya'))
+  expect(lastQuery()).toMatchObject({as_of:'130',after:'106:30-3465',listed:'30-3465'})
+  expect(container.querySelector('[role="alert"]')!.textContent).toContain('Daftar ini berubah sejak dibuka')
+  expect(container.textContent).not.toContain('Ada catatan baru sesudah daftar ini dibuka')
+  expect(button('Halaman berikutnya').disabled).toBe(true);expect(button('Halaman sebelumnya').disabled).toBe(true)
+  extra.changed=undefined
+  await click(button('Muat ulang'));expect(lastQuery()).toMatchObject({as_of:null,after:null,listed:null})
+  expect(container.textContent).not.toContain('Daftar ini berubah');expect(button('Halaman berikutnya').disabled).toBe(false)
  })
  it('applies the filters only on Tampilkan, retiring the shown rows while they are edited',async()=>{
   await mount();const calls=mock.rpc.mock.calls.length
@@ -82,7 +97,7 @@ describe('Audit Trail connected (R3-03)',()=>{
   await choose('Jenis data audit','customers');await choose('Aksi audit','INSERT');await choose('Pengguna audit',A)
   await fill('Audit dari tanggal','2026-10-17');await fill('Audit sampai tanggal','2026-10-17')
   await click(button('Tampilkan'))
-  expect(lastQuery()).toEqual({from:'2026-10-17',to:'2026-10-17',entity_type:'customers',action:'INSERT',actor_id:A,q:'alasan 1',as_of:null,after:null,id:null,offset:0,limit:25})
+  expect(lastQuery()).toEqual({from:'2026-10-17',to:'2026-10-17',entity_type:'customers',action:'INSERT',actor_id:A,q:'alasan 1',as_of:null,after:null,listed:null,id:null,offset:0,limit:25})
   expect(shown()).toEqual(['130','126','124','122','120','118','116','114','112','110','108','106','104','102'])
   expect(container.textContent).toContain('Baris 1–14 dari 14 catatan')
   await fill('Audit dari tanggal','2026-10-18');await click(button('Tampilkan'))

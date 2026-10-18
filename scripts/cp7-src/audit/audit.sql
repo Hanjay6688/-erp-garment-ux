@@ -5,8 +5,13 @@
 -- Paging holds while writes commit. The first page fixes a cutoff, as_of = the highest log id visible then; every later
 -- page reads only rows with id <= as_of, after a keyset cursor (the last row shown, newest first by changed_at, then id).
 -- Log ids come from the Native sequence (erp.audit_logs_id_seq), so a write that starts after the first page always takes
--- a higher id and stays out of that listing; a row never moves between pages, so none is shown twice or skipped. The
--- answer says when newer rows exist (snapshot.newer); "Muat ulang" starts a new listing that includes them.
+-- a higher id and stays out of that listing; a row never moves between pages, so none is shown twice. A sequence id is not
+-- a commit order, though: a write that took a lower id before the first page and commits after it (Astra ASTRA-R3-02, id
+-- 231 held while 232 commits) lands inside the cutoff behind pages already read. So every listing carries a mark of its
+-- row set inside the cutoff (snapshot.listed = count and sum of the ids that match the filters, taken by the first page);
+-- the keyset cursor carries it too (next_after = '<id>:<mark>'), and a page whose own mark differs says so
+-- (snapshot.changed, and snapshot.newer) instead of passing the late row silently. The answer says when newer rows exist
+-- (snapshot.newer); "Muat ulang" starts a new listing that includes them.
 -- Rows carry only the names of the changed keys; the old and new data are read only in the detail of one id, bounded.
 create role cp7_audit_read nologin noinherit nosuperuser nocreatedb nocreaterole noreplication;
 create schema cp7_audit authorization cp7_audit_read;
@@ -74,6 +79,7 @@ language plpgsql stable security definer set search_path=''set TimeZone='UTC'as 
 declare
  v_export boolean;v_from date;v_to date;v_lo timestamptz;v_hi timestamptz;v_type text;v_action text;v_actor uuid;v_q text;
  v_id bigint;v_after bigint;v_after_at timestamptz;v_as_of bigint;v_offset integer;v_limit integer;
+ v_listed text;v_after_mark text;v_mark text;v_sum numeric;v_changed boolean:=false;
  v_total bigint;v_before bigint:=0;v_rows jsonb;v_shown integer;v_more boolean;v_next_after text:=null;v_next_offset integer:=null;
  v_newer boolean;v_types jsonb;v_actions jsonb;v_actors jsonb;v_detail jsonb:=null;v_log erp.audit_logs;v_name text;v_bytes bigint;
  v_large boolean;v_fields jsonb;
@@ -82,12 +88,14 @@ begin
  -- A closed query: known keys only; text keys string or null; offset and limit plain whole numbers.
  if jsonb_typeof(p_query)is distinct from'object'
   or exists(select 1 from jsonb_object_keys(p_query)x(k)
-   where x.k not in('from','to','entity_type','action','actor_id','q','id','after','as_of','offset','limit'))
+   where x.k not in('from','to','entity_type','action','actor_id','q','id','after','as_of','listed','offset','limit'))
   or exists(select 1 from jsonb_each(p_query)e where e.key not in('offset','limit')and jsonb_typeof(e.value)not in('string','null'))
   or exists(select 1 from jsonb_each(p_query)e where e.key in('offset','limit')and(jsonb_typeof(e.value)<>'number'or e.value::text!~'^[0-9]{1,7}$'))
   or exists(select 1 from jsonb_each_text(p_query)e where e.value is not null and e.key not in('offset','limit')and(
     (e.key in('from','to')and e.value!~'^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
-    or(e.key in('id','after','as_of')and e.value!~'^[0-9]{1,18}$')
+    or(e.key in('id','as_of')and e.value!~'^[0-9]{1,18}$')
+    or(e.key='after'and e.value!~'^[0-9]{1,18}(:[0-9]{1,18}-[0-9]{1,40})?$')
+    or(e.key='listed'and e.value!~'^[0-9]{1,18}-[0-9]{1,40}$')
     or(e.key='actor_id'and e.value!~'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')
     or(e.key='q'and length(btrim(e.value))>120)
     or(e.key in('entity_type','action')and length(e.value)>100)))then
@@ -101,7 +109,12 @@ begin
  v_lo:=v_from::timestamp at time zone'Asia/Jakarta';v_hi:=(v_to+1)::timestamp at time zone'Asia/Jakarta';
  v_type:=nullif(p_query->>'entity_type','');v_action:=nullif(p_query->>'action','');v_actor:=(p_query->>'actor_id')::uuid;
  v_q:=nullif(btrim(coalesce(p_query->>'q','')),'');
- v_id:=(p_query->>'id')::bigint;v_after:=(p_query->>'after')::bigint;
+ v_id:=(p_query->>'id')::bigint;v_after:=split_part(p_query->>'after',':',1)::bigint;
+ v_after_mark:=nullif(split_part(coalesce(p_query->>'after',''),':',2),'');v_listed:=p_query->>'listed';
+ -- A listing mark belongs to a cutoff, and the cursor's mark and the one sent must be the same listing.
+ if(v_listed is not null or v_after_mark is not null)and p_query->>'as_of'is null or v_listed<>v_after_mark then
+  raise exception 'CP7_AUDIT_QUERY';end if;
+ v_listed:=coalesce(v_listed,v_after_mark);
  v_offset:=coalesce((p_query->>'offset')::integer,0);v_limit:=coalesce((p_query->>'limit')::integer,25);
  if v_offset>1000000 or v_limit not between 1 and 100 then raise exception 'CP7_AUDIT_QUERY';end if;
  -- The cutoff of this listing: given by the first page's answer, or the highest id visible now.
@@ -112,10 +125,13 @@ begin
   if not found then raise exception 'CP7_AUDIT_CURSOR_GONE';end if;
  end if;
 
- select count(*)into v_total from erp.audit_logs l
+ select count(*),coalesce(sum(l.id),0)into v_total,v_sum from erp.audit_logs l
   where l.id<=v_as_of and(v_lo is null or l.changed_at>=v_lo)and(v_hi is null or l.changed_at<v_hi)
    and(v_type is null or l.entity_type=v_type)and(v_action is null or l.action=v_action)and(v_actor is null or l.changed_by=v_actor)
    and(v_q is null or strpos(lower(coalesce(l.entity_id::text,'')),lower(v_q))>0 or strpos(lower(coalesce(l.change_reason,'')),lower(v_q))>0);
+ -- The mark of this listing's row set now; the first page fixes it, a later page compares (a late commit inside the cutoff).
+ v_mark:=v_total::text||'-'||v_sum::text;
+ if v_listed is null then v_listed:=v_mark;elsif v_listed<>v_mark then v_changed:=true;end if;
  -- Rows of the earlier pages (newest first, up to and including the cursor row).
  if v_after is not null then
   select count(*)into v_before from erp.audit_logs l
@@ -135,7 +151,7 @@ begin
   join erp.audit_logs a on a.id=p.id left join erp.app_users u on u.id=a.changed_by;
  v_more:=v_shown>v_limit;
  if v_more then
-  v_rows:=v_rows-v_limit;v_next_after:=v_rows->(v_limit-1)->>'id';v_next_offset:=v_offset+v_limit;
+  v_rows:=v_rows-v_limit;v_next_after:=(v_rows->(v_limit-1)->>'id')||':'||v_listed;v_next_offset:=v_offset+v_limit;
  end if;
  select exists(select 1 from erp.audit_logs l
   where l.id>v_as_of and(v_lo is null or l.changed_at>=v_lo)and(v_hi is null or l.changed_at<v_hi)
@@ -173,9 +189,9 @@ begin
  end if;
  return jsonb_build_object('contract_version','cp7.audit-trail.v1','read_at',statement_timestamp(),'business_DML',false,'can_export',v_export,
   'query',jsonb_build_object('from',v_from,'to',v_to,'entity_type',v_type,'action',v_action,'actor_id',v_actor,'q',v_q),
-  'snapshot',jsonb_build_object('as_of',v_as_of::text,'newer',v_newer),
+  'snapshot',jsonb_build_object('as_of',v_as_of::text,'newer',v_newer or v_changed,'listed',v_listed,'changed',v_changed),
   'page',jsonb_build_object('rows',v_rows,'total',v_total::text,'before',v_before::text,'offset',v_offset,'limit',v_limit,
-   'after',v_after::text,'next_after',v_next_after,'next_offset',v_next_offset),
+   'after',p_query->>'after','next_after',v_next_after,'next_offset',v_next_offset),
   'options',jsonb_build_object('entity_types',v_types,'actions',v_actions,'actors',v_actors),
   'detail',v_detail);
 end $$;

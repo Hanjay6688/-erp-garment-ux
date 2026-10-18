@@ -35,7 +35,7 @@ Basis: candidate r3 `b53b5acdf260b03ebac3474e9ae837fcef6f6eb1`; r4 branches from
 |---|---|---|---|
 | ASTRA-R3-01 public CP4 pool wrappers skip the CP7 closed-period and manage-permission refusal | S1 | Valid by source: `supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql:470-544` only calls `erp.require_owner_admin()` then the Native writer, granted to `authenticated`; the CP7 app does not call them (`src/` uses `erp_cp7_save_hpp_pool_v1`). Family sweep of other public writers running | R4-01 |
 | ASTRA-R2-01 remainder: reopen still blocked after a positive FG adjustment and its inverse | S1 | Valid by source: `po-reopen.sql` counted every negative movement as use minus its own reversals, so the -2 REVERSAL of a +2 inflow was a use. Fixed (committed), CP17 cases added | R4-02 |
-| ASTRA-R3-02 Audit Trail paging skips a lower id committed after the first page, no "newer" flag | S2 | (pending) | R4-03 |
+| ASTRA-R3-02 Audit Trail paging skips a lower id committed after the first page, no "newer" flag | S2 | Valid: reproduced locally with Astra's schedule on the old `audit.sql` (COUNTEREXAMPLE; harness `scratchpad/r4audit/run.py` of the writer, throwaway PG16); new `audit.sql` PASS. Fixed (committed) | R4-03 |
 | ASTRA-R3-03 connected WIP numbers pale on white cards | S2 | (pending) | R4-04 |
 
 ## Not done yet (in this order)
@@ -54,3 +54,4 @@ As in `R3_WRITER_HANDOFF.md` ("How to check locally").
 | Commit subject | State after it |
 |---|---|
 | fix(r4): PO reopen ignores the inverse of an inflow (R4-02) | `po-reopen.sql` skips a negative movement that reverses a positive one; `scripts/cp7_r4_cases.py` (Astra's case as written + 2 controls + 1 race) wired into `cp7_cp17_fix_cases.py`; declaration 325 (156/35/24/55/55); workflow paths include `scripts/cp7_r4_*`. Local: compile + clash check of po-reopen.sql, py_compile, declaration equal. Not yet run in CI |
+| fix(r4): Audit Trail says when a late commit changes the listing (R4-03) | `audit.sql`: listing mark (count-sum inside the cutoff) in `snapshot.listed` and in the keyset cursor `<id>:<mark>`; a differing mark answers `changed`/`newer`; refusals for a stray mark. Screen stops paging and asks for Muat ulang (`src/ConnectedAuditTrailPage.tsx`, `src/auditTrailContract.ts`, DOM test). r3 browser case checks the new cursor. CP17: Astra's schedule as written + 3 control races + 1 Native refusal case; declaration 330 (157/39/24/55/55). Local: compile + clash, DOM 21/21, tsc, old-vs-new harness. CI run 39147330072 (R4-02) still queued |

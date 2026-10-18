@@ -43,12 +43,13 @@ async function desktop(ui,today,h){
  try{
   mkdirSync('cp6-proof/t3',{recursive:true});const s=seen.before=state();assert.ok(s.total>25,s.total)
   await openAudit(ui,page);await search(ui,page,f,s)
-  const q1=requests.at(-1).p_query;assert.deepEqual([q1.q,q1.as_of,q1.after,q1.offset,q1.limit],[f.tag,null,null,0,25])
+  const q1=requests.at(-1).p_query;assert.deepEqual([q1.q,q1.as_of,q1.after,q1.listed,q1.offset,q1.limit],[f.tag,null,null,null,0,25])
   const first=page.locator(`[data-audit-id="${s.ids[0]}"]`);await ui.expect(first).toContainText(s.names[0]);await ui.expect(first).toContainText('Alasan: '+s.reasons[0])
   // The next page stays inside the listing the first page fixed (as_of) and follows the last row shown (keyset).
   await page.getByRole('button',{name:'Halaman berikutnya',exact:true}).click()
   await position(ui,page,26,Math.min(50,s.total),s.total);assert.deepEqual(await shownIds(page),s.ids.slice(25,50))
-  const q2=requests.at(-1).p_query;assert.equal(q2.after,s.ids[24]);assert.match(q2.as_of,/^[0-9]+$/)
+  // The keyset cursor is '<last row shown>:<listing mark>' and the mark is the first page's (r4, ASTRA-R3-02).
+  const q2=requests.at(-1).p_query;assert.equal(q2.after,`${s.ids[24]}:${q2.listed}`);assert.match(q2.listed,/^[0-9]+-[0-9]+$/);assert.match(q2.as_of,/^[0-9]+$/)
   await page.getByRole('button',{name:'Halaman sebelumnya',exact:true}).click()
   await position(ui,page,1,25,s.total);assert.deepEqual([requests.at(-1).p_query.as_of,requests.at(-1).p_query.after],[q2.as_of,null])
   await detail(ui,page,s);assert.equal(requests.at(-1).p_query.id,s.first.id)

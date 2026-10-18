@@ -1,7 +1,9 @@
 // R3-03 (owner D16-1): the connected Audit Trail screen. A closed parser for the answer of
 // public.erp_cp7_get_audit_trail_v1 (scripts/cp7-src/audit/audit.sql) and the CSV of the rows shown.
 export type AuditQuery = { from: string | null; to: string | null; entity_type: string | null; action: string | null; actor_id: string | null; q: string | null }
-export type AuditRequest = AuditQuery & { as_of: string | null; after: string | null; id: string | null; offset: number; limit: number }
+// as_of fixes the listing's cutoff; listed is the mark of its rows inside the cutoff (the first page's), and the keyset cursor
+// (after / next_after) is '<last row id>:<listed>' (ASTRA-R3-02: a lower id committed late inside the cutoff is told, not skipped).
+export type AuditRequest = AuditQuery & { as_of: string | null; after: string | null; listed: string | null; id: string | null; offset: number; limit: number }
 export type AuditRow = {
   id: string; at: string | null; entityType: string | null; entityId: string | null; action: string | null
   actorId: string | null; actorName: string | null; reason: string | null; changedKeys: string[]; changedKeyCount: number
@@ -11,7 +13,7 @@ export type AuditField = { key: string; before: string | null; after: string | n
 export type AuditDetail = AuditRow & { dataBytes: number; tooLarge: boolean; fields: AuditField[]; fieldsTotal: number; rawBefore: string | null; rawAfter: string | null }
 export type AuditActor = { id: string; name: string | null }
 export type AuditTrail = {
-  readAt: string; canExport: boolean; query: AuditQuery; asOf: string; newer: boolean
+  readAt: string; canExport: boolean; query: AuditQuery; asOf: string; newer: boolean; listed: string; changed: boolean
   page: { rows: AuditRow[]; total: bigint; before: bigint; offset: number; limit: number; after: string | null; nextAfter: string | null; nextOffset: number | null }
   options: { entityTypes: string[]; actions: string[]; actors: AuditActor[] }
   detail: AuditDetail | null
@@ -21,6 +23,8 @@ const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 const logId = /^[1-9][0-9]{0,17}$/
 const whole = /^(0|[1-9][0-9]{0,18})$/
 const day = /^\d{4}-\d{2}-\d{2}$/
+const mark = /^\d{1,18}-\d{1,40}$/
+const cursor = /^([1-9][0-9]{0,17}):(\d{1,18}-\d{1,40})$/
 function fail(): never { throw new Error('Jawaban jejak audit tidak cocok dengan permintaan. Tekan Muat ulang.') }
 function record(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) fail()
@@ -87,9 +91,13 @@ export function parseAuditTrail(value: unknown, request: AuditRequest): AuditTra
   const q = closed(r.query, ['from', 'to', 'entity_type', 'action', 'actor_id', 'q'])
   for (const key of Object.keys(expected) as (keyof AuditQuery)[]) if (q[key] !== expected[key]) fail()
   if ((expected.from !== null && !day.test(expected.from)) || (expected.to !== null && !day.test(expected.to))) fail()
-  const s = closed(r.snapshot, ['as_of', 'newer'])
+  const s = closed(r.snapshot, ['as_of', 'newer', 'listed', 'changed'])
   const asOf = typeof s.as_of === 'string' && whole.test(s.as_of) ? s.as_of : fail()
   if (request.as_of !== null && asOf !== request.as_of) fail()
+  const listed = typeof s.listed === 'string' && mark.test(s.listed) ? s.listed : fail()
+  if (typeof s.newer !== 'boolean' || typeof s.changed !== 'boolean' || (s.changed && !s.newer)) fail()
+  if (request.listed !== null && listed !== request.listed) fail()
+  if (request.after !== null && cursor.exec(request.after)?.[2] !== listed) fail()
   const p = closed(r.page, ['rows', 'total', 'before', 'offset', 'limit', 'after', 'next_after', 'next_offset'])
   if (!Array.isArray(p.rows) || p.limit !== request.limit || p.offset !== request.offset || p.after !== request.after) fail()
   const total = big(p.total), before = big(p.before), rows = p.rows.map(v => row(v))
@@ -111,11 +119,13 @@ export function parseAuditTrail(value: unknown, request: AuditRequest): AuditTra
       || (expected.to !== null && auditWibDay(x.at) > expected.to))) fail()
   })
   const shown = before + BigInt(request.offset) + BigInt(rows.length)
-  const nextAfter = p.next_after === null ? null : id(p.next_after)
+  const next = p.next_after === null ? null : cursor.exec(text(p.next_after)) ?? fail()
+  if (next !== null && next[2] !== listed) fail()
+  const nextAfter = next === null ? null : next[0]
   const nextOffset = p.next_offset === null ? null : count(p.next_offset)
   if (nextAfter === null) {
     if (nextOffset !== null || (rows.length > 0 || request.offset === 0) && shown !== total) fail()
-  } else if (rows.length !== request.limit || nextAfter !== rows[rows.length - 1].id || nextOffset !== request.offset + request.limit || shown >= total) fail()
+  } else if (rows.length !== request.limit || next![1] !== rows[rows.length - 1].id || nextOffset !== request.offset + request.limit || shown >= total) fail()
   const o = closed(r.options, ['entity_types', 'actions', 'actors'])
   if (!Array.isArray(o.actors) || o.actors.length > 200) fail()
   const actors = o.actors.map(v => { const a = closed(v, ['id', 'name']); return { id: nullableUuid(a.id) ?? fail(), name: nullableText(a.name) } })
@@ -137,7 +147,7 @@ export function parseAuditTrail(value: unknown, request: AuditRequest): AuditTra
     detail = { ...strip(d), dataBytes: count(d.raw.data_bytes), tooLarge, fields, fieldsTotal, rawBefore, rawAfter }
   }
   return {
-    readAt, canExport: bool(r.can_export), query: expected, asOf, newer: bool(s.newer),
+    readAt, canExport: bool(r.can_export), query: expected, asOf, newer: bool(s.newer), listed, changed: bool(s.changed),
     page: { rows: rows.map(strip), total, before, offset: request.offset, limit: request.limit, after: request.after, nextAfter, nextOffset },
     options: { entityTypes: strings(o.entity_types, 200), actions: strings(o.actions, 200), actors },
     detail,

@@ -9,10 +9,12 @@ import './procurement-connected.css'
 
 // R3-03 (owner D16-1): Audit Trail, connected. It reads the Native audit log through erp_cp7_get_audit_trail_v1 and
 // writes nothing. The first page fixes the listing (snapshot.as_of); the next and previous pages keep it, so a change saved
-// while paging never moves a row between pages. Download CSV is offered only with settings.audit.export.
+// while paging never moves a row between pages. A row with a lower id that commits after the first page (ASTRA-R3-02) changes
+// the listing's mark (snapshot.listed): the answer says so (snapshot.changed) and paging stops until Muat ulang.
+// Download CSV is offered only with settings.audit.export.
 const PAGE=25
 type Filters={from:string;to:string;entity_type:string;action:string;actor_id:string;q:string}
-type Listing={query:AuditQuery;asOf:string|null;cursors:(string|null)[];id:string|null}
+type Listing={query:AuditQuery;asOf:string|null;listed:string|null;cursors:(string|null)[];id:string|null}
 const blank:Filters={from:'',to:'',entity_type:'',action:'',actor_id:'',q:''}
 const toQuery=(f:Filters):AuditQuery=>({from:f.from||null,to:f.to||null,entity_type:f.entity_type||null,action:f.action||null,actor_id:f.actor_id||null,q:f.q.trim()||null})
 const numbers=new Intl.NumberFormat('id-ID')
@@ -53,19 +55,19 @@ export default function ConnectedAuditTrailPage(){
 function Workspace(){
  const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi audit belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),seq=useRef(0),mayExport=hasPermission(identity,SENSITIVE_ACTION_PERMISSION.exportAudit)
- const listing=useRef<Listing>({query:toQuery(blank),asOf:null,cursors:[null],id:null})
+ const listing=useRef<Listing>({query:toQuery(blank),asOf:null,listed:null,cursors:[null],id:null})
  const [entered,setEntered]=useState<Filters>(blank),[data,setData]=useState<AuditTrail|null>(null),[options,setOptions]=useState<AuditTrail['options']|null>(null)
  const [busy,setBusy]=useState(false),[error,setError]=useState(''),[pending,setPending]=useState(false)
  const load=useCallback(async()=>{
   const ticket=++seq.current,l=listing.current
-  const request:AuditRequest={...l.query,as_of:l.asOf,after:l.cursors[l.cursors.length-1]??null,id:l.id,offset:0,limit:PAGE}
+  const request:AuditRequest={...l.query,as_of:l.asOf,after:l.cursors[l.cursors.length-1]??null,listed:l.listed,id:l.id,offset:0,limit:PAGE}
   setData(null);setBusy(true);setError('')
   try{
    const r=await client.rpc('erp_cp7_get_audit_trail_v1',{p_query:request})
    if(ticket!==seq.current)return
    if(r.error)throw r.error
    const read=parseAuditTrail(r.data,request)
-   if(l.asOf===null)listing.current={...l,asOf:read.asOf}
+   if(l.asOf===null)listing.current={...l,asOf:read.asOf,listed:read.listed}
    setData(read);setOptions(read.options)
   }catch(e){if(ticket===seq.current)setError(readable(e))}finally{if(ticket===seq.current)setBusy(false)}
  },[client])
@@ -73,7 +75,7 @@ function Workspace(){
  const edit=(key:keyof Filters,value:string)=>{++seq.current;setBusy(false);setData(null);setError('');setPending(true);setEntered(f=>({...f,[key]:value}))}
  const apply=(f:Filters)=>{
   if(f.from&&f.to&&f.from>f.to){++seq.current;setData(null);setError('Tanggal mulai harus sama atau sebelum tanggal akhir.');return}
-  setPending(false);listing.current={query:toQuery(f),asOf:null,cursors:[null],id:null};void load()
+  setPending(false);listing.current={query:toQuery(f),asOf:null,listed:null,cursors:[null],id:null};void load()
  }
  const page=(cursors:(string|null)[])=>{listing.current={...listing.current,cursors,id:null};void load()}
  const choose=(id:string)=>{listing.current={...listing.current,id};void load()}
@@ -104,11 +106,12 @@ function Workspace(){
   {pending&&!busy&&!error?<p className="panel" role="note">Filter belum diterapkan. Tekan Tampilkan untuk membaca jejak audit dengan filter ini.</p>:null}
   {data?<>
    <section className="panel" aria-label="Dasar daftar audit"><p>Daftar dibaca {auditTime(data.readAt)}. Catatan yang masuk sesudah daftar ini dibuka tampil sesudah Muat ulang, supaya halaman berikutnya tidak bergeser.</p>
-    {data.newer?<p role="status">Ada catatan baru sesudah daftar ini dibuka. Tekan Muat ulang untuk melihatnya.</p>:null}</section>
+    {data.changed?<p role="alert">Daftar ini berubah sejak dibuka: ada catatan yang baru tersimpan di antara halaman yang sudah dibaca. Tekan Muat ulang supaya tidak ada catatan yang terlewat.</p>
+     :data.newer?<p role="status">Ada catatan baru sesudah daftar ini dibuka. Tekan Muat ulang untuk melihatnya.</p>:null}</section>
    <div className="cproc-layout"><section className="panel" aria-label="Daftar jejak audit"><h2>Catatan perubahan</h2>
     {rows.length===0?<p>Tidak ada catatan audit untuk filter ini.</p>:<p>Baris {amount(first)}–{amount(last)} dari {amount(data.page.total)} catatan</p>}
     {rows.map(r=><article key={r.id}><button className="cproc-receipt" data-audit-id={r.id} aria-pressed={detail?.id===r.id} disabled={busy} onClick={()=>choose(r.id)}><span><strong>{auditActionLabel(r.action)} · {auditEntityLabel(r.entityType)}</strong><small>{auditTime(r.at)} · {auditActor(r)}</small><small>Nomor data: {r.entityId??'tidak tercatat'}</small><small>Alasan: {r.reason??'tidak dicatat'}</small><small>{changedText(r)}</small></span><small>#{r.id}</small></button></article>)}
-    <div className="cproc-pagination"><button disabled={busy||cursors.length<2} onClick={()=>page(cursors.slice(0,-1))}>Halaman sebelumnya</button><button disabled={busy||data.page.nextAfter===null} onClick={()=>page([...cursors,data.page.nextAfter])}>Halaman berikutnya</button>
+    <div className="cproc-pagination"><button disabled={busy||data.changed||cursors.length<2} onClick={()=>page(cursors.slice(0,-1))}>Halaman sebelumnya</button><button disabled={busy||data.changed||data.page.nextAfter===null} onClick={()=>page([...cursors,data.page.nextAfter])}>Halaman berikutnya</button>
      {mayExport&&data.canExport?<button disabled={busy||rows.length===0} onClick={()=>download(data)}>Unduh CSV halaman ini</button>:<small>Unduh CSV hanya untuk pengguna dengan hak ekspor audit.</small>}</div>
    </section>
    <aside className="panel" aria-label="Rincian catatan audit">{detail?<>
