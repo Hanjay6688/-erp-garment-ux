@@ -48,6 +48,11 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 8d. **Nomor urut berformat memakai lebar minimum, bukan panjang tetap.** `lpad(n,3)` memotong 1000 menjadi `100`.
     Uji perubahan jumlah digit (999 → 1000, 9999 → 10000) dan ruang nomor yang sudah penuh, termasuk dua sesi di batas
     itu. (ASTRA-R2-02, SOL-R2-001)
+8e. **Nomor id berurutan bukan urutan commit.** Transaksi yang mendapat id lebih kecil bisa selesai sesudah id yang
+    lebih besar terlihat. Daftar berhalaman dengan batas "id tertinggi yang terlihat" diam-diam melewatkan baris itu.
+    Setiap daftar membawa tanda isinya (jumlah dan total id di dalam batas) di kursor; halaman berikut yang tandanya
+    berbeda berkata "daftar berubah" dan layar meminta Muat ulang. Uji tiga sesi: id rendah ditahan, id tinggi commit,
+    halaman pertama dibaca, id rendah commit. (ASTRA-R3-02)
 
 ## C. Alur aplikasi lengkap
 
@@ -69,6 +74,15 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     pemakaian yang dibatalkannya; menjumlahkan semua mutasi keluar dalam sejarah membuat koreksi macet selamanya. Uji
     setiap aksi koreksi dengan urutan pakai → batalkan → koreksi harus bisa lagi, dan kontrol pemakaian yang masih aktif
     tetap menolak. (ASTRA-R2-01)
+12c. **Pasangan pembalik berlaku dua arah.** Gerakan keluar yang membalik gerakan masuk (misalnya -2 yang membatalkan
+    penyesuaian +2) bukan pemakaian; gerakan masuk yang tidak berhubungan tetap tidak boleh menutupi pemakaian aktif. Uji
+    kedua arah: keluar lalu dibalik, dan masuk lalu dibalik. (ASTRA-R2-01 sisa r3)
+12d. **Fasad baru menutup semua jalur lama ke penulis yang sama.** Bila fasad CP7 menambah penjaga (periode tertutup,
+    hak kelola, token tinjauan), pembungkus publik lama ke penulis Native yang sama ikut ditutup untuk Data API, bukan
+    hanya tidak dipakai layar. Sensus semua fungsi publik yang bisa dijalankan peran browser (authenticated dan anon):
+    setiap fungsi masuk daftar yang dipakai aplikasi, daftar yang sengaja dibiarkan, atau daftar yang ditutup; fungsi
+    baru yang belum ditinjau membuat pemeriksaan gagal. Uji lewat Auth dan PostgREST sungguhan, bukan sesi database.
+    (ASTRA-R3-01, owner D14-9)
 
 ## D. Layar
 
@@ -91,6 +105,10 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 17. **Lebar HP diuji dengan rumus tertulis:** `document.documentElement.scrollWidth <= window.innerWidth` pada 390 px
     untuk setiap menu di setiap mode, dengan data terisi. Jangan menutup luapan dengan `overflow:hidden`.
     (SOL-R1-004/005; Astra melaporkan nol luapan dengan cara ukur lain)
+17a. **Kartu berlatar terang mengatur warna teksnya sendiri.** Warna teks bawaan aplikasi terang (untuk latar gelap);
+    kartu putih yang tidak mengatur warna membuat angka hampir tak terlihat. Sensus keterbacaan di setiap menu, desktop
+    dan HP: kontras teks terhadap latar (rumus luminans WCAG, gradien dihitung per titik warna) tidak boleh di bawah 2:1,
+    dan angka utama minimal 4,5:1. (ASTRA-R3-03; keluarga yang sama ditemukan di Data Master > Pola)
 18. **Pesan penolakan menyebut jalan keluarnya** (layar mana yang harus diisi). (FABLE-017 `NO_WORK_RATE`)
 18a. **Pratinjau memakai aturan tanggal yang sama dengan pencatatan.** Upah yang ditampilkan sebelum simpan dihitung
     dengan tarif yang berlaku pada waktu jahit yang diisi, persis aturan snapshot Native, bukan tarif hari ini.
@@ -173,6 +191,10 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Dokumen induk otomatis: satu transaksi, gagal di tengah tidak meninggalkan apa pun, kirim ulang sama (C12a);
   nomor urut lewat batas digit (B8d).
 - [ ] Setiap aksi koreksi: pakai → batalkan → koreksi bisa lagi; pemakaian aktif tetap menolak (C12b).
+- [ ] Pembalik dua arah: keluar-dibalik dan masuk-dibalik sama-sama bukan pemakaian (C12c).
+- [ ] Fasad baru: semua jalur publik lama ke penulis yang sama ditutup untuk Data API; sensus fungsi publik peran browser
+  lulus tanpa fungsi yang belum ditinjau (C12d).
+- [ ] Daftar berhalaman: tanda isi di kursor, uji commit terlambat dengan id lebih kecil (B8e).
 - [ ] Batas tanggal resmi: trigger tabel, jalur sah dikecualikan per nama sumber, uji 00:00 vs 23:59:59 WIB (A5a).
 - [ ] Batas Native per SKU/lingkup: layar meminta dan menghitung per lingkup yang sama (B8c).
 - [ ] Layar: pemeriksaan sama dengan Native, teks status dari server, simpan diblokir saat memuat (D13–D15);
@@ -180,6 +202,7 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Mode data nyata: tidak ada angka contoh tanpa label; tidak ada fungsi Native tanpa layar kecuali owner menunda
   tertulis; tabel aktivasi diperbarui; uji browser build mode data nyata (D16, F29a).
 - [ ] 47 menu × 3 mode × HP 390 px: `scrollWidth <= innerWidth` (D17; 48 sebelum D16-5 menggabungkan Tutup Periode).
+- [ ] Sensus keterbacaan: tidak ada teks di bawah 2:1 di menu mana pun; angka utama minimal 4,5:1 (D17a).
 - [ ] SQL yang diubah: kompilasi lokal + pemeriksaan bentrok nama variabel/alias (E25c).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
