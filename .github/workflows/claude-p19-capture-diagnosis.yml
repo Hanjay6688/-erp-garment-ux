@@ -2,6 +2,12 @@
 # per finance mode, on the scale copy at 100 and 300 targets. Not a qualification run.
 name: CP7 P19 Capture Diagnosis
 'on':
+  # A workflow first seen on a non-default branch is registered by its first push run.
+  push:
+    branches:
+    - claude/r4-fixes-20261018
+    paths:
+    - .github/workflows/claude-p19-capture-diagnosis.yml
   workflow_dispatch: {}
 permissions:
   contents: read
