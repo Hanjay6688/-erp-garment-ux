@@ -1,11 +1,11 @@
 # R2-09 (Sol SOL-R1-004/005; best practice D17): every menu of the demo build on a 390 px phone keeps
-# document.documentElement.scrollWidth <= window.innerWidth.
+# document.documentElement.scrollWidth <= window.innerWidth, and (R4-04, ASTRA-R3-03) every text keeps 2:1 contrast.
 name: UI phone width census
 on:
   workflow_dispatch: {}
   push:
     branches: ['claude/r2-fixes-20261016']
-    paths: ['src/**', 'scripts/ui_phone_width_census.mjs', '.github/workflows/ui-phone-width.yml']
+    paths: ['src/**', 'scripts/ui_phone_width_census.mjs', 'scripts/cp7_r4_readable_browser.mjs', '.github/workflows/ui-phone-width.yml']
 permissions:
   contents: read
 concurrency:

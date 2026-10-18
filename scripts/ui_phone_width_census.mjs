@@ -1,10 +1,13 @@
 // R2-09 (Sol SOL-R1-004/005; best practice D17): every menu of a static build, opened on a 390 px phone, must satisfy
 // document.documentElement.scrollWidth <= window.innerWidth. Usage: node scripts/ui_phone_width_census.mjs <build-dir> [report.json]
 // Serves the build itself (no backend: demo build), walks the sidebar the way a user does, and exits 1 on any overflow.
+// R4-04 (Astra ASTRA-R3-03): on the same walk every visible text must keep at least 2:1 contrast with the background it is
+// painted on (the measure of scripts/cp7_r4_readable_browser.mjs); a text below that also exits 1.
 import { chromium } from 'playwright'
 import { createServer } from 'node:http'
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, extname, join } from 'node:path'
+import { measure as readable } from './cp7_r4_readable_browser.mjs'
 const [root, report = 'ui-phone-width.json'] = process.argv.slice(2)
 if (!root) throw new Error('usage: ui_phone_width_census.mjs <build-dir> [report.json]')
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2', '.json': 'application/json' }
@@ -26,7 +29,8 @@ const url = `http://127.0.0.1:${server.address().port}/`
 const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {})
 const page = await browser.newPage({ viewport: { width: 390, height: 844 } })
 const openMenu = async () => { if (await page.locator('.sidebar.sidebar-open').count()) return; const open = page.getByRole('button', { name: 'Buka menu', exact: true }); if (await open.isVisible()) await open.click() }
-const measure = () => page.evaluate(() => ({ scrollWidth: document.documentElement.scrollWidth, innerWidth: window.innerWidth,
+const measure = async () => ({ ...(await width()), unreadable: (await page.evaluate(readable, { selector: '.main-panel *' })).rows.filter(r => r.ratio < 2) })
+const width = () => page.evaluate(() => ({ scrollWidth: document.documentElement.scrollWidth, innerWidth: window.innerWidth,
   widest: [...document.querySelectorAll('body *')].filter(e => { const r = e.getBoundingClientRect(), p = e.parentElement.getBoundingClientRect(); return r.right > innerWidth + 1 && p.right <= innerWidth + 1 })
     .slice(0, 3).map(e => `${e.tagName.toLowerCase()}.${String(e.className).trim().split(/\s+/)[0]} right=${Math.round(e.getBoundingClientRect().right)}`) }))
 await page.goto(url); await page.waitForLoadState('networkidle')
@@ -45,9 +49,9 @@ for (const raw of sections) {
     rows.push({ menu: `${section} › ${item.replace(/^•\s*/, '').trim()}`, ...(await measure()) })
   }
 }
-const failed = rows.filter(r => r.scrollWidth > r.innerWidth)
+const failed = rows.filter(r => r.scrollWidth > r.innerWidth), unreadable = rows.filter(r => r.unreadable.length)
 await mkdir(dirname(report), { recursive: true })
-await writeFile(report, JSON.stringify({ viewport: '390x844', rule: 'scrollWidth <= innerWidth', menus: rows.length, failed: failed.length, rows }, null, 1) + '\n')
-console.log(JSON.stringify({ menus: rows.length, failed: failed.map(r => [r.menu, r.scrollWidth, r.widest]) }))
+await writeFile(report, JSON.stringify({ viewport: '390x844', rule: 'scrollWidth <= innerWidth; every text at least 2:1 contrast', menus: rows.length, failed: failed.length, unreadable: unreadable.length, rows }, null, 1) + '\n')
+console.log(JSON.stringify({ menus: rows.length, failed: failed.map(r => [r.menu, r.scrollWidth, r.widest]), unreadable: unreadable.map(r => [r.menu, r.unreadable.slice(0, 3)]) }))
 await browser.close(); server.close()
-process.exit(failed.length ? 1 : 0)
+process.exit(failed.length || unreadable.length ? 1 : 0)

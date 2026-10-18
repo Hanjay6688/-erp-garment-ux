@@ -13,6 +13,10 @@ Astra's three-session schedule ASTRA_R3_AUDIT_LOWER_ID_LATE_COMMIT is used as wr
 audit_paging_case.py), plus controls: ordinary commit order keeps the mark and walks every row once; a late row outside
 the filter leaves the listing unchanged; the next listing (Muat ulang) shows all rows once; a mark without a cutoff, a
 cursor mark that differs from the one sent and a malformed cursor are refused.
+
+R4-04 (Astra ASTRA-R3-03): the connected WIP figures were nearly white on white cards. Browser cases
+(cp7_r4_readable_browser.mjs) walk every menu as OWNER, desktop and phone, and refuse any text below 2:1 contrast with
+its background; the WIP figures Astra named must reach 4.5:1.
 """
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
@@ -25,7 +29,7 @@ RACES=['CP17_RACE_R4_02_POSITIVE_INVERSE_REOPEN_TWO_TABS','CP17_RACE_R4_03_AUDIT
        'CP17_RACE_R4_03_AUDIT_ORDINARY_ORDER_KEEPS_MARK','CP17_RACE_R4_03_AUDIT_LATE_ROW_OUTSIDE_FILTER',
        'CP17_RACE_R4_03_AUDIT_NEXT_LISTING_SHOWS_ALL_ONCE']
 HTTP=[]
-BROWSER=[]
+BROWSER=['CP17_BROWSER_R4_04_CONNECTED_TEXT_READABLE_DESKTOP','CP17_BROWSER_R4_04_CONNECTED_TEXT_READABLE_MOBILE']
 FUNCTIONS=()
 
 

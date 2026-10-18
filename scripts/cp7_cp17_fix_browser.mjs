@@ -23,6 +23,7 @@ import*as history from'./cp7_r3_history_browser.mjs'
 import*as warehouse from'./cp7_r3_warehouse_browser.mjs'
 import*as hppPool from'./cp7_r3_hpp_pool_browser.mjs'
 import*as r305 from'./cp7_r3_qc_note_browser.mjs'
+import*as readable from'./cp7_r4_readable_browser.mjs'
 import*as r207 from'./cp7_r207_chain_browser.mjs'
 import*as r3chain from'./cp7_r3_chain_browser.mjs'
 const fixture=(operation,payload)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_cp17_fix_browser_fixture.py',operation],{input:JSON.stringify(payload),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
@@ -363,4 +364,7 @@ export function cases(ui,today){return[
  ...hppPool.cases(ui,today,{fixture,noSideScroll,failure}),
  // R3-05 (Fable FABLE-016 remainder): QC & Final SKU, and a Nota Ambil Aksesori deducted from payroll, on the connected
  // screens (cp7_r3_qc_note_browser.mjs). Kept last: their fixtures set closed_through themselves.
- ...r305.cases(ui,today,{fixture,noSideScroll,failure})]}
+ ...r305.cases(ui,today,{fixture,noSideScroll,failure}),
+ // R4-04 (Astra ASTRA-R3-03): every connected menu's text readable on its background, after the other cases left rows
+ // (cp7_r4_readable_browser.mjs); it only reads.
+ ...readable.cases(ui,today,{fixture,noSideScroll,failure})]}
