@@ -8,6 +8,7 @@ name: CP7 CP17 Fixes
     paths:
     - scripts/cp7_cp17_fix_*
     - scripts/cp7_r3_*
+    - scripts/cp7_r4_*
     - scripts/cp7_cash_funding.py
     - docs/cp7/cp17/CP17_FIXES.json
     - scripts/cp7-src/**

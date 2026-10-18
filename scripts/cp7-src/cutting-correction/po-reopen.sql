@@ -46,10 +46,12 @@ begin
  select coalesce(sum(initial_qty_pcs),0),count(*)into fg,lots from erp.fg_lots where po_id=po.id and lot_origin='PRODUCTION';
  -- Only use that is still active: an outflow minus what its own reversals (reversal_of_id) put back. A cancelled sales
  -- draft or a reversed adjustment no longer blocks; an unrelated inflow (another adjustment) never offsets an active use
- -- (Astra ASTRA-R2-01).
+ -- (Astra ASTRA-R2-01). The pairing holds in both directions: an outflow that is itself the reversal of an inflow (the
+ -- inverse of a +2 adjustment) only takes back that inflow and is no use of the PO's pieces (Astra r3, ASTRA-R2-01).
  select coalesce(sum(greatest(-m.qty_signed-coalesce((select sum(rv.qty_signed)from erp.fg_stock_movements rv where rv.reversal_of_id=m.id),0),0)),0)
   into used from erp.fg_stock_movements m join erp.fg_lots l on l.id=m.lot_id
-  where l.po_id=po.id and l.lot_origin='PRODUCTION'and m.qty_signed<0;
+  where l.po_id=po.id and l.lot_origin='PRODUCTION'and m.qty_signed<0
+   and not exists(select 1 from erp.fg_stock_movements inflow where inflow.id=m.reversal_of_id and inflow.qty_signed>0);
  select coalesce(sum(jl.debit-jl.credit),0)into wip from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
   where je.status in('POSTED','REVERSED')and jl.po_id=po.id and jl.account_id=erp.account_id('WIP');
  -- The journals Native reopen reverses: the PO's POSTED PO_WIP_RESIDUAL_CLOSE entries of its close events.

@@ -1,9 +1,9 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 321,
+ "expected_case_count": 325,
  "required_case_counts": {
-  "native": 153,
-  "races": 34,
+  "native": 156,
+  "races": 35,
   "http": 24,
   "browser": 55,
   "browser_enteng": 55
@@ -162,7 +162,10 @@
    "CP17_R3_04_HPP_POOL_SAME_UUID_REPLAYS_ONCE",
    "CP17_R3_04_HPP_POOL_CHANGED_REVIEW_TOKEN_REFUSED",
    "CP17_R3_04_HPP_POOL_OWNER_ADMIN_ONLY_AND_FIELDS",
-   "CP17_R3_04_HPP_POOL_FACADE_PRIVATE_AND_IMMUTABLE"
+   "CP17_R3_04_HPP_POOL_FACADE_PRIVATE_AND_IMMUTABLE",
+   "CP17_R4_02_REOPEN_POSITIVE_ADJUSTMENT_INVERSE_ASTRA",
+   "CP17_R4_02_POSITIVE_INVERSE_DOES_NOT_HIDE_ACTIVE_USE",
+   "CP17_R4_02_POSITIVE_INVERSE_REOPEN_THEN_FINISH_SAME"
   ],
   "races": [
    "CP17_RACE_TWO_PAYMENTS_ONE_BANK",
@@ -198,7 +201,8 @@
    "CP17_RACE_R3_03_WAREHOUSE_TRANSFER_DURING_READ_NEVER_HALF",
    "CP17_RACE_R3_04_HPP_POOL_TWO_TABS_ACTIVATE_ONE_WINS",
    "CP17_RACE_R3_04_HPP_POOL_TWO_TABS_CREATE_ONE_WINS",
-   "CP17_RACE_R3_04_HPP_POOL_SAME_UUID_TWO_SESSIONS_ONE_EFFECT"
+   "CP17_RACE_R3_04_HPP_POOL_SAME_UUID_TWO_SESSIONS_ONE_EFFECT",
+   "CP17_RACE_R4_02_POSITIVE_INVERSE_REOPEN_TWO_TABS"
   ],
   "http": [
    "CP17_HTTP_CASH_EMPTY_BANK_REFUSED",
@@ -447,7 +451,8 @@
   "R3_03_WAREHOUSE_SUMMARY": "Owner D16-1 (not an audit finding): Ringkasan Gudang showed sample figures and was hidden in Enteng. It now reads public.erp_cp7_get_warehouse_summary_v1: per location and kind the rows of Bahan & Roll without accessories, Aksesori and Ringkasan Barang Jadi with their own tables, filters and rounding, each section only with its screen key, values only with finance.hpp.view, and an attention list of Native facts behind the key of the screen that shows each (fabric below minimum needs master.fabric.view as well, which can be granted to Gudang in Pengguna & Hak Akses). One STABLE statement, one snapshot per answer. Cases: receipt and cutting equal raw rows and the three detail reads; values only with finance.hpp.view; sections per role key; refusals without warehouse.dashboard.view; attention equals Native tables after Native drafts; read-only and private; transfers committed during reads never give a half-applied answer; real Auth OWNER, GUDANG, a role without the key; browser desktop and phone as OWNER and GUDANG, on the test build and the Enteng build.",
   "R3_05_QC_AND_ACCESSORY_NOTE_BROWSER": "Fable FABLE-016 remainder: QC & Final SKU and Nota Ambil Aksesori had no browser case on the connected screens. Three browser cases now drive them on real Auth and PostgREST (and again on the Enteng build): QC desktop and phone, where a role with production.final_sku.view but not .post sees the queue read-only and its own forced write is refused 403 with no effect, OWNER posts 10 GOOD and the Native rows show exactly one posted inspection, one lot, one +10 QC_GOOD movement, no BS case, balanced journals, and a resent request (dropped answer on desktop, direct on phone) gives the same answer with no second effect; and the accessory note deducted from payroll on desktop: a cancelled note is not deducted, the posted one is deducted exactly once, the note cannot be cancelled while the payroll is active, and paying from a bank funded with exactly the net leaves bank, receivable and payable at zero. Oracles read Native tables only.",
   "R3_03_SCREEN_CHAINS": "Fable oracle 3 for owner D16-1: the business chains run on the screens alone, on real Auth and PostgREST (and again on the Enteng build), with every amount checked against Native rows: (a) sewing on WIP & Sewing -> Nota on Susun Nota FG -> count, approve and pay on Payroll & Kasbon -> Kas & Bank day totals -> Laporan cash and WIP -> close through the chain day on the Tutup Buku tab with 0 blockers, then reopen; seeded ADMIN sees the approved payroll without a pay button or the Tutup Buku tab; (b) on a phone, FG -> invoice -> full customer payment into a bank -> receipt on Kas & Bank -> Piutang Pelanggan Lunas, remaining Rp0; (c) the D14-2 (pay before accrual), D14-3/D15-1 (bank short by economic or by book date) and D15-5 (before the official cutover, on Jurnal & Transaksi Lain) guards refuse with their exact sentence and no Native change, and the lawful payment then goes through.",
-  "R3_04_HPP_POOL": "Sol KNOWN-R2-POOL-UI (S1), Astra ASTRA-C17-07 remainder (S2; S1 used): the Native pool writers had no screen or CP7 facade while the payroll guard told the user to cancel the pool first. 'Pool HPP absensi' on HPP & Rekalkulasi: Native preview or its refusal without figures, draft, activate, cancel (DRAFT -> VOIDED, ACTIVE -> CANCELLED with reversal), replacement pool (correction_of_pool_id) only through erp.create/activate/cancel_attendance_hpp_pool_v1; review token, reason, one answer per (actor, request) in an insert-only table, Owner/Admin with finance.hpp.view (+ finance.hpp.manage to write) checked before and after the locks, a period ending on or before closed_through refused for every action. Cases: preview READY = oracle figures and BLOCKED without figures, lifecycle = Native rows/journals/view/validator, draft void without journal, cancel -> source correction (Mandor C policy) -> replacement 1000/20 = 500 + 500, closed books refused atomically, right removed between read and save, same UUID once, changed review token, KEUANGAN/PRODUKSI_QC refused, private/immutable facade; two tabs activate and create, same UUID in two sessions; real Auth HTTP; browser desktop and phone (and on the Enteng build) with the source correction on Master Data -> Mandor and KEUANGAN seeing no pool section. Boundary kept: the older CP4 public pool wrappers stay executable by authenticated until the CP7C revoke batch (FABLE-012, D14-9); cp7_hpp_pool_bundle.verify reports them."
+  "R3_04_HPP_POOL": "Sol KNOWN-R2-POOL-UI (S1), Astra ASTRA-C17-07 remainder (S2; S1 used): the Native pool writers had no screen or CP7 facade while the payroll guard told the user to cancel the pool first. 'Pool HPP absensi' on HPP & Rekalkulasi: Native preview or its refusal without figures, draft, activate, cancel (DRAFT -> VOIDED, ACTIVE -> CANCELLED with reversal), replacement pool (correction_of_pool_id) only through erp.create/activate/cancel_attendance_hpp_pool_v1; review token, reason, one answer per (actor, request) in an insert-only table, Owner/Admin with finance.hpp.view (+ finance.hpp.manage to write) checked before and after the locks, a period ending on or before closed_through refused for every action. Cases: preview READY = oracle figures and BLOCKED without figures, lifecycle = Native rows/journals/view/validator, draft void without journal, cancel -> source correction (Mandor C policy) -> replacement 1000/20 = 500 + 500, closed books refused atomically, right removed between read and save, same UUID once, changed review token, KEUANGAN/PRODUKSI_QC refused, private/immutable facade; two tabs activate and create, same UUID in two sessions; real Auth HTTP; browser desktop and phone (and on the Enteng build) with the source correction on Master Data -> Mandor and KEUANGAN seeing no pool section. Boundary kept: the older CP4 public pool wrappers stay executable by authenticated until the CP7C revoke batch (FABLE-012, D14-9); cp7_hpp_pool_bundle.verify reports them.",
+  "R4_02_REOPEN_POSITIVE_INVERSE": "Astra ASTRA-R2-01 remainder (r3 report, S1): a finished PO stayed blocked (FG_USED 2) after a +2 finished-goods adjustment and its own REVERSE, because reopen_po_snapshot counted every negative movement as a use minus its own reversals, so the -2 inverse of an inflow was a 'use'. The pairing now holds in both directions: a negative movement that is the reversal of a positive movement only takes back that inflow and is not counted; an unrelated inflow still never offsets an active use. Cases: Astra's ASTRA_R3_REOPEN_POSITIVE_ADJUSTMENT_INVERSE as written (COUNTEREXAMPLE while refused), an active sales draft after a reversed +2 still blocks with qty 2 (stock 10->12->10->8->10), reopen after +2/-2 then finish again gives the same stock, HPP and WIP balance, two tabs reopen once."
  },
  "oracle_independence": "Dates from the Native accrual journals and source rows; balances from journal lines and stock movements; never from the guard functions.",
  "fixture_capital": "Banks that pay hold owner capital through the accepted Native journal (scripts/cp7_cash_funding.py) only where a case says so; empty-bank cases keep the bank empty.",
