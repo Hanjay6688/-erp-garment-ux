@@ -166,6 +166,15 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     tersisa; oracle "Penghalang: 0." tidak dilonggarkan. Data uji juga mengikuti batas kolom Native (misalnya
     `erp.app_users.role` varchar 20). (CI 39020856920 rantai R3 sewing → close; CI 39019699925 Ringkasan Gudang HTTP)
 
+25f. **Cari penyebab lambat dengan hitungan waktu per fungsi pada satu panggilan nyata, bukan dengan menebak.**
+    `track_functions=all` di dalam transaksi yang dibatalkan, selisih `pg_stat_xact_user_functions` sebelum dan sesudah,
+    per mode (misalnya dengan dan tanpa angka keuangan), plus satu kali dengan JIT mati. Profil per lapisan saja meleset
+    4 detik dari waktu nyata. Penjaga yang dipanggil ribuan kali per panggilan (di sini `erp.require_internal()` 32.000 kali,
+    3,9 dari 6,3 detik) dipercepat hanya dengan jalan pintas yang terbukti sama hasilnya: cabang yang dilewati hanya bisa
+    mengizinkan, hanya lewat baris transaksi itu sendiri, satu CASE dengan filter identitas lebih dulu; uji lama-lawan-baru
+    berdampingan, dan pemeriksaan bentuk yang gagal bila cabang baru ditambah tanpa ikut diperiksa jalan pintasnya.
+    (R4-05, Sol KNOWN-P19-DIRECT-LATENCY, CI 39157467151)
+
 ## F. Proses audit
 
 26. **Minimal tiga auditor independen, tanpa saling intip sampai laporan dikunci.** Putaran `dfab13bf`: delapan akar
@@ -204,6 +213,8 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] 47 menu × 3 mode × HP 390 px: `scrollWidth <= innerWidth` (D17; 48 sebelum D16-5 menggabungkan Tutup Periode).
 - [ ] Sensus keterbacaan: tidak ada teks di bawah 2:1 di menu mana pun; angka utama minimal 4,5:1 (D17a).
 - [ ] SQL yang diubah: kompilasi lokal + pemeriksaan bentrok nama variabel/alias (E25c).
+- [ ] Layar berat lebih dari 3 detik: penyebab diukur per fungsi sebelum diubah; jalan pintas penjaga terbukti sama
+  hasilnya dan cabang konteks baru ikut diperiksa (E25f).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
   dipicu (E19–E20, E19a).
