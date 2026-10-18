@@ -1,6 +1,6 @@
 # Paket uji ulang r4 CP1–CP7 (perbaikan atas audit r3 `b53b5acd`)
 
-**Status: KUALIFIKASI BERJALAN — kandidat `769f2cc3`; bagian Kandidat diisi sesudah semua run selesai.**
+**Status: KUALIFIKASI BERJALAN — SHA kandidat dan hasilnya diisi di bagian Kandidat sesudah semua run selesai.**
 
 Fable, Astra dan Sol menguji ulang kandidat r3 `b53b5acd`. Penulis menyatukan ketiga laporan per akar masalah di
 `CROSS_AUDIT.md`, memperbaiki temuan Astra (R4-01 sampai R4-04), memeriksa keabsahan tiga butir Sol, dan mengerjakan
@@ -20,10 +20,12 @@ satu kandidat untuk ketiga auditor. Owner yang mengirim: salin kotak di `HANDOFF
 
 ## Kandidat
 
-- **Commit `769f2cc3e37225ddefaac3e6b4cf6afc1040037d`**, tree `d88081dcb611b0c6369cb2d775df24494df0284d`, di cabang
-  `claude/new-session-deapao` (di-fast-forward dari `claude/r4-fixes-20261018`). Basis r3: `b53b5acd` (tree
-  `32f54240a60e01ab8b1ffad7267d285a669be520`). `supabase/` tidak berubah sejak `b53b5acd`.
-- Kualifikasi: 115 workflow yang sama dengan receipt r3. Hasil diisi di sini sesudah semua run selesai.
+- Diisi sesudah kualifikasi. Basis r3: `b53b5acd` (tree `32f54240a60e01ab8b1ffad7267d285a669be520`). `supabase/` tidak
+  berubah sejak `b53b5acd`.
+- Kualifikasi: 115 workflow yang sama dengan receipt r3.
+- Kandidat pertama `769f2cc3` ditarik: satu kasus uji pg_cron INCOMPLETE karena alat uji membaca catatan run terlalu cepat
+  (R4-Q1, di bawah). Sesudah `769f2cc3` hanya alat uji, alat jadwal (fungsi baca baru, tidak dipakai pemasangan) dan
+  dokumen yang berubah; `src/`, `supabase/` dan lapisan CP7 sama.
 
 ## Perbaikan per akar
 
@@ -48,6 +50,13 @@ dilonggarkan.
 - F03 full di `27f04d72`: alat kesetaraan dispatch penjualan (`cp7_p19_sales_dispatch_equivalence.py`) membangun ulang
   penjaga pendahulu dari teks terpasang dan menemukan pemeriksaan R4-05. Pemeriksaan itu kini dicek terhadap dispatch yang
   diwakilinya lalu dikeluarkan dari pendahulu; keputusan dan oracle tidak berubah. Rerun lulus 8/8.
+- R4-Q1, kualifikasi `769f2cc3` (run 39161868253, job k6-proof-runner-10): `K6P_RACE_PG_CRON_FINISHES_PASS` INCOMPLETE.
+  Run pg_cron yang menyelesaikan putaran bukti menyimpan pekerjaannya lebih dulu, lalu pg_cron menulis statusnya; kasus
+  membaca catatan run begitu putaran terlihat dan mendapati satu-satunya run masih "running". Celah yang sama ada di r3
+  (lulus dengan satu run karena pembacaannya kebetulan lebih lambat). Kasus pg_cron K6 dan K4 dan fixture browser K4 kini
+  membaca catatan sesudah jadwal dicabut, sesi pg_cron pergi, dan setiap run punya akhir tertulis (paling lama 60 detik;
+  `scripts/cp7_schedule.py` `wait_recorded`). Syarat lulus tetap: minimal satu run selesai dan semua run selesai berhasil
+  (browser: semua run berhasil). Log gagal disimpan penulis. Best practice E25g.
 
 ## Yang sudah diketahui penulis
 
