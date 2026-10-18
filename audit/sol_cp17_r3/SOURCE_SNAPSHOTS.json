@@ -1,0 +1,32 @@
+[
+  {
+    "path": "docs/AUDIT_PANDUAN_PRO_MAX.md",
+    "sha256": "5752e96df751de5ebe4b86d3f572cffa1bbe94eb42bf8e283fa6e04f9f593639",
+    "source_commit": "64339905cc19e497f9fdb3599ff4a21cbf7da8ff",
+    "origin": "PUBLIC_TARGET_REPOSITORY_TRACKED_FILE"
+  },
+  {
+    "path": "docs/cp7/OWNER_DECISIONS_20261008.md",
+    "sha256": "d44cac8b6599bcd902d95e18f368777d18bd77317fcc539e73335f6b9e3444b8",
+    "source_commit": "64339905cc19e497f9fdb3599ff4a21cbf7da8ff",
+    "origin": "PUBLIC_TARGET_REPOSITORY_TRACKED_FILE"
+  },
+  {
+    "path": "docs/cp7/audit-candidate/cp1-7-r3-20261017/HANDOFF_SOL.md",
+    "sha256": "6e3a6d66d1a98b317e03fad6081a1b569bd87ccea7a703dfaccd0272d0745e31",
+    "source_commit": "64339905cc19e497f9fdb3599ff4a21cbf7da8ff",
+    "origin": "PUBLIC_TARGET_REPOSITORY_TRACKED_FILE"
+  },
+  {
+    "path": "docs/cp7/audit-candidate/cp1-7-r3-20261017/README.md",
+    "sha256": "00a7d61a076ac61d11b1f3cb85b946e808f0a5f8a871e23e509a8a97863cf564",
+    "source_commit": "64339905cc19e497f9fdb3599ff4a21cbf7da8ff",
+    "origin": "PUBLIC_TARGET_REPOSITORY_TRACKED_FILE"
+  },
+  {
+    "path": "docs/cp7/audit-candidate/cp1-7-r3-20261017/CI_RECEIPT.json",
+    "sha256": "86ce4df3944d3a58ced9f9a67d6894187698d10e4611f3ab658e3453e3fb80c8",
+    "source_commit": "64339905cc19e497f9fdb3599ff4a21cbf7da8ff",
+    "origin": "PUBLIC_TARGET_REPOSITORY_TRACKED_FILE"
+  }
+]
