@@ -5,7 +5,8 @@
 // (WCAG relative luminance). Refused: any text below 2:1 on any menu (practically unreadable; Astra's case was about
 // 1.07:1). On WIP & Sewing the figures Astra named (KPI numbers, PO names, cut/sew facts, the sewing panel) must reach
 // 4.5:1. A gradient counts as each of its stops (the worst is taken). Text inside a disabled control, a faded element
-// (opacity below 1) or on an image is not measured and is counted.
+// (opacity below 1) or on an image is not measured and is counted. On HPP & Rekalkulasi a period preview and the draft
+// pool form are opened too (their light boxes appear only then; nothing is written).
 import assert from'node:assert/strict'
 import{mkdirSync,writeFileSync}from'node:fs'
 const FLOOR=2,WIP_FLOOR=4.5
@@ -52,6 +53,24 @@ async function walk(ui,page,mobile,name){
    const w=await page.evaluate(measure,{selector:WIP_TEXT.join(',')});wip.push(...w.rows.map(x=>({menu,...x})))
    await page.screenshot({path:`cp6-proof/t3/${name}_WIP.png`,fullPage:true})
   }
+  if(menu.endsWith('HPP & Rekalkulasi'))await hppStates(menu)
+ }
+ // The pool panel's light boxes (preview facts, blockers, the draft form) appear only after a period is chosen; the
+ // first CP17 run of this case found the panel's period buttons and blockers unreadable, and the boxes were the same
+ // family. Opening a preview and the draft form reads nothing new and writes nothing.
+ const opened=[]
+ const hppStates=async menu=>{
+  const periods=page.getByRole('region',{name:'Periode gaji absensi',exact:true}).getByRole('button')
+  const count=await periods.count();assert.ok(count>0,'CP17_R4_04_HPP_POOL_PERIODS_NOT_FOUND')
+  let pick=periods.filter({hasText:'belum ada pool'}).first();if(!await pick.count())pick=periods.first()
+  await pick.click();const preview=page.getByRole('region',{name:'Pratinjau pool',exact:true})
+  await preview.waitFor({state:'visible',timeout:15000});await settle();await check(`${menu} › pratinjau pool`);opened.push('preview')
+  const create=preview.getByRole('button',{name:'Buat draf pool',exact:true})
+  if(await create.count()&&await create.isEnabled()){
+   await create.click();await page.getByRole('region',{name:'Buat draf pool',exact:true}).waitFor({state:'visible',timeout:15000})
+   await check(`${menu} › form draf pool`);opened.push('form')
+   await page.getByRole('region',{name:'Buat draf pool',exact:true}).getByRole('button',{name:'Tutup',exact:true}).click()
+  }
  }
  await settle();await check('Dashboard')
  await openMenu()
@@ -68,7 +87,7 @@ async function walk(ui,page,mobile,name){
    await check(`${section} › ${item.replace(/^•\s*/,'').trim()}`)
   }
  }
- return{menus,low,wip,measured,skipped}
+ return{menus,low,wip,measured,skipped,hpp_states_opened:opened}
 }
 async function journey(ui,mobile,h){
  const name=`CP17_BROWSER_R4_04_CONNECTED_TEXT_READABLE_${mobile?'MOBILE':'DESKTOP'}`,seen={}
@@ -78,12 +97,15 @@ async function journey(ui,mobile,h){
   const r=await walk(ui,page,mobile,name);Object.assign(seen,{menus:r.menus.length,low:r.low,wip:r.wip})
   writeFileSync(`cp6-proof/t3/${name}.json`,JSON.stringify(r,null,1)+'\n')
   assert.ok(r.menus.length>=40,r.menus.length)
-  assert.deepEqual(r.low,[],'CP17_R4_04_TEXT_BELOW_2_TO_1')
+  // One line per distinct text family (the full rows are in the JSON above), so a long list is not cut off in the log.
+  const compact=rows=>[...new Set(rows.map(x=>`${x.menu} | ${x.parent} > ${x.element} | ${x.color} on ${x.background} | ${x.ratio}`))]
+  assert.deepEqual(compact(r.low),[],'CP17_R4_04_TEXT_BELOW_2_TO_1')
+  assert.ok(r.hpp_states_opened.includes('preview'),'CP17_R4_04_HPP_POOL_PREVIEW_NOT_MEASURED')
   const wipKpi=r.wip.filter(x=>x.parent.includes('cwip-kpis')||x.element.startsWith('strong'))
   assert.ok(wipKpi.length>0,'CP17_R4_04_WIP_FIGURES_NOT_FOUND')
   assert.deepEqual(r.wip.filter(x=>x.ratio<WIP_FLOOR),[],'CP17_R4_04_WIP_TEXT_BELOW_4_5_TO_1')
   return{status:'PASS',finding:'ASTRA-R3-03',phone:mobile,menus:r.menus.length,texts_measured:r.measured,texts_not_measured:r.skipped,
-   floor_all_menus:FLOOR,floor_wip_figures:WIP_FLOOR,wip_texts:r.wip.length,lowest_wip_ratio:Math.min(...r.wip.map(x=>x.ratio))}
+   floor_all_menus:FLOOR,floor_wip_figures:WIP_FLOOR,wip_texts:r.wip.length,lowest_wip_ratio:Math.min(...r.wip.map(x=>x.ratio)),hpp_pool_states:r.hpp_states_opened}
  }catch(error){await h.failure(page,name,error,seen,[]);throw error}
  finally{await owner.context.close().catch(()=>{})}
 }

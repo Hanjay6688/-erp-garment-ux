@@ -9,3 +9,6 @@
 .cbsr-history article[data-source-focus="true"]{border-left:3px solid #5cddbb;padding-left:10px}.cbsr-history article[data-source-focus="true"] [role="status"]{color:#88e6cc;font-weight:700}
 .cbsr-rework-review{flex-basis:100%;border:1px solid #796344;border-radius:8px;background:#211e16;padding:10px}.cbsr-rework-review p{white-space:normal;margin:8px 0}.cbsr-rework-review button{margin:3px}
 .cbsr-rework-complete{flex-wrap:wrap}.cbsr-rework-complete>input{max-width:100%;min-width:0}
+/* R4-04 (readability census): the RecordTools buttons in the dark aside had no theme (browser grey with light text). */
+.cbsr-workspace .record-tools-buttons button{min-height:34px;padding:0 11px;border:1px solid #313b4d;border-radius:9px;background:#151c27;color:#cbd5e5;font:inherit;font-size:12px;cursor:pointer}
+.cbsr-workspace .record-tools-buttons button:disabled{opacity:.6;cursor:not-allowed}
