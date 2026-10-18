@@ -1,0 +1,170 @@
+{
+  "scope": "METADATA_Q1_EXISTING_SUITE_QUALIFICATION_DOCUMENT_REVIEW",
+  "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "candidate_tree": "32f54240a60e01ab8b1ffad7267d285a669be520",
+  "workflow_sha": "131ad26b211fc44d1fdb2f8e99aebb2bf91e2773",
+  "original_failures_preserved": true,
+  "original_t3_run": 39146762759,
+  "original_codeql_run": 39146762479,
+  "codeql": {
+    "run_id": 39150692634,
+    "status": "PASS",
+    "observations": [
+      {
+        "artifact_id": 12145615194,
+        "language": "python",
+        "manifest_path": "ci_receipts/sol_artifacts/12145615194/files/manifest.json",
+        "manifest_sha256": "27a2cfb0728e7c93f3d90d7f879cb5990f10c1c69a2fef8f5428bd86fb152ca0",
+        "sarif_path": "ci_receipts/sol_artifacts/12145615194/files/sarif/python.sarif",
+        "sarif_sha256": "42a47a0f2f1cd9da113dfea6869e37122307b7288ff7d9a1954ad71b5cc47327",
+        "rule_count": 50,
+        "result_count": 0,
+        "execution_successful": true,
+        "binding_gate": "PASS",
+        "product_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "product_tree": "32f54240a60e01ab8b1ffad7267d285a669be520",
+        "workflow_sha": "131ad26b211fc44d1fdb2f8e99aebb2bf91e2773"
+      },
+      {
+        "artifact_id": 12145366343,
+        "language": "actions",
+        "manifest_path": "ci_receipts/sol_artifacts/12145366343/files/manifest.json",
+        "manifest_sha256": "09868c477b06601ee791d0cd8a2badac394d249fa47855d350f791ae4cb5525d",
+        "sarif_path": "ci_receipts/sol_artifacts/12145366343/files/sarif/actions.sarif",
+        "sarif_sha256": "e5dd2d15d21508794c64cb675288f032527836b5d8482701dbaccaf36a56ab51",
+        "rule_count": 23,
+        "result_count": 0,
+        "execution_successful": true,
+        "binding_gate": "PASS",
+        "product_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "product_tree": "32f54240a60e01ab8b1ffad7267d285a669be520",
+        "workflow_sha": "131ad26b211fc44d1fdb2f8e99aebb2bf91e2773"
+      },
+      {
+        "artifact_id": 12145261905,
+        "language": "c-cpp",
+        "manifest_path": "ci_receipts/sol_artifacts/12145261905/files/manifest.json",
+        "manifest_sha256": "99af597a1094d0cda1ec8288f113c307fee5b9abb3dfffb8e7ece649bde2b427",
+        "sarif_path": "ci_receipts/sol_artifacts/12145261905/files/sarif/cpp.sarif",
+        "sarif_sha256": "66744c46f697ca38d4d544cf32bf91a99266e6a576a3d400ead87c4f15dd484a",
+        "rule_count": 95,
+        "result_count": 0,
+        "execution_successful": true,
+        "binding_gate": "PASS",
+        "product_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "product_tree": "32f54240a60e01ab8b1ffad7267d285a669be520",
+        "workflow_sha": "131ad26b211fc44d1fdb2f8e99aebb2bf91e2773"
+      },
+      {
+        "artifact_id": 12144579904,
+        "language": "javascript-typescript",
+        "manifest_path": "ci_receipts/sol_artifacts/12144579904/files/manifest.json",
+        "manifest_sha256": "1caf64b4c641c76613c26dfba5d66f1fe4b581d3b7b25cfdbfc2381076d1b686",
+        "sarif_path": "ci_receipts/sol_artifacts/12144579904/files/sarif/javascript.sarif",
+        "sarif_sha256": "28a88058df84434c36f83e17fec5a5b5306d7097337f0cdf10a5e52f38b1b7ed",
+        "rule_count": 103,
+        "result_count": 0,
+        "execution_successful": true,
+        "binding_gate": "PASS",
+        "product_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "product_tree": "32f54240a60e01ab8b1ffad7267d285a669be520",
+        "workflow_sha": "131ad26b211fc44d1fdb2f8e99aebb2bf91e2773"
+      }
+    ]
+  },
+  "t3_browser": {
+    "run_id": 39150692618,
+    "job_id": 117743541510,
+    "artifact_id": 12145755130,
+    "status": "PASS",
+    "cases": [
+      {
+        "id": "REAL_LOGIN_PAGE",
+        "status": "PASS"
+      },
+      {
+        "id": "ANONYMOUS_REFUSED",
+        "status": "PASS",
+        "http_status": 401,
+        "code": "42501",
+        "all_erp_data_unchanged": true
+      },
+      {
+        "id": "REAL_PASSWORD_BROWSER_LOGIN",
+        "status": "PASS",
+        "timezone": "Pacific/Honolulu"
+      },
+      {
+        "id": "AMBIGUOUS_REFUSED_0",
+        "status": "PASS",
+        "http_status": 400,
+        "all_erp_data_unchanged": true
+      },
+      {
+        "id": "LOST_REPLY_RELOAD_EXACT_REPLAY",
+        "status": "PASS",
+        "brand": "Ra0f6abecc8B",
+        "uuid_payload_preserved": true,
+        "all_erp_data_unchanged_on_retry": true
+      },
+      {
+        "id": "EXACT_BRAND_STOCK_HPP_0",
+        "status": "PASS",
+        "product_id": "9eb50f56-9046-4787-9d13-692aedcfc617",
+        "quantity": 4,
+        "cost": "20.00",
+        "versioned": false
+      },
+      {
+        "id": "LINKED_INVERSE_0",
+        "status": "PASS",
+        "wip_restored": 8,
+        "full_net_ledger_restored": true,
+        "stocks_restored": true
+      },
+      {
+        "id": "AMBIGUOUS_REFUSED_1",
+        "status": "PASS",
+        "http_status": 400,
+        "all_erp_data_unchanged": true
+      },
+      {
+        "id": "EXACT_BRAND_STOCK_HPP_1",
+        "status": "PASS",
+        "product_id": "bc12bbfe-7b47-43b6-aaf9-8b0ea612032a",
+        "quantity": 4,
+        "cost": "20.00",
+        "versioned": true
+      },
+      {
+        "id": "LINKED_INVERSE_1",
+        "status": "PASS",
+        "wip_restored": 8,
+        "full_net_ledger_restored": true,
+        "stocks_restored": true
+      }
+    ],
+    "counts": {
+      "PASS": 10
+    },
+    "frontend_sha": "e43e0ed4bab5ba9a803100e57ddfd7cd2647c631",
+    "frontend_tree": "05fc26cf00a6e5253192f4bd2ec7d7f4bdf06bc1",
+    "frontend_scope": "INHERITED_FROZEN_T3_UI_NOT_CURRENT_R3_FRONTEND",
+    "candidate_chain_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+    "identity_path": "ci_receipts/sol_artifacts/12144969041/files/IDENTITY.json",
+    "flow_path": "ci_receipts/sol_artifacts/12145755130/files/T3_BROWSER_FLOW.json",
+    "flow_sha256": "1b005e251f3c05e4b9ec8fd44918aa485112b33be14398d993eebff338f2be34",
+    "primary_unchanged": true,
+    "auth_before_after": [
+      0,
+      0
+    ],
+    "rest_remaining": false,
+    "install_capture_repeated": false
+  },
+  "tool_gap_dispositions": {
+    "SOL_AUDITOR_CODEQL_BINDING": "CLOSED_METADATA_Q1",
+    "SOL_AUDITOR_T3_HISTORICAL_IDENTITY_HOOK": "CLOSED_METADATA_Q1"
+  },
+  "qualification": "Initial run failures are not relabelled. These two declared metadata qualifications do not run the held new business/access probes and do not close full CP1-7 audit or production gates. Generic frontend label in T3_BROWSER is qualified by exact historical checkout identity."
+}

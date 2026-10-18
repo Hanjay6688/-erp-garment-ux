@@ -1,0 +1,13 @@
+{
+  "archive": "/workspace/scratch/5969cedfb83c/outputs/Sol-r3-bukti-20261019.zip",
+  "archive_bytes": 59254729,
+  "archive_sha256": "87c2b1ed87e9ac5e57dc16a7e0d6bb78ebaa9efb004bf082135b2c22895c41d3",
+  "whitelist_sha256": "255f0e09387b98dd3a2aca36891a3b3b66b52c5abaae8be562953aa2cba0f392",
+  "evidence_files": 2050,
+  "uncompressed_evidence_bytes": 708030526,
+  "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "zip_crc_verified": true,
+  "durable_save_succeeded": true,
+  "local_metadata_applied": true,
+  "archive_name": "Sol-r3-bukti-20261019.zip"
+}

@@ -1,0 +1,471 @@
+{
+  "scope": "READ_ONLY_DOCUMENT_REVIEW_OF_ALREADY_EXECUTED_OWN_CI",
+  "reviewed_at_utc": "2026-10-18T17:13:35.659671+00:00",
+  "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "run_id": 39146521757,
+  "job_id": 117731362035,
+  "artifact_id": 12143844276,
+  "raw_report": "audit/sol_cp17_r3/ci_receipts/sol_artifacts/12143844276/files/CP7_CP17_FIXES.json",
+  "raw_sha256": "8cedfa712b48d28cec32d22d9d50f958a024718d4380a68be2e10baae9eeca5b",
+  "workflow_sha": "c754a5735f9751a22b0e654e183d62b7560a2267",
+  "oracle_origin": "WRITER_DECLARED",
+  "fixture_origin": "WRITER_SYNTHETIC",
+  "execution_origin": "INDEPENDENT_SOL",
+  "expected": 321,
+  "observed": 321,
+  "counts": {
+    "PASS": 300,
+    "INCOMPLETE": 21
+  },
+  "groups": [
+    {
+      "group": "native",
+      "declared": 153,
+      "actual": 153,
+      "status_counts": {
+        "PASS": 153
+      },
+      "required_ids_equal": true,
+      "database_remaining": null,
+      "auth_counts": null,
+      "session_leaks": null,
+      "cleanup": null
+    },
+    {
+      "group": "races",
+      "declared": 34,
+      "actual": 34,
+      "status_counts": {
+        "PASS": 34
+      },
+      "required_ids_equal": true,
+      "database_remaining": 0,
+      "auth_counts": null,
+      "session_leaks": null,
+      "cleanup": null
+    },
+    {
+      "group": "http",
+      "declared": 24,
+      "actual": 24,
+      "status_counts": {
+        "PASS": 24
+      },
+      "required_ids_equal": true,
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "session_leaks": null,
+      "cleanup": {
+        "users_created": 44,
+        "cleanup_failures": [],
+        "rest_remaining": false
+      }
+    },
+    {
+      "group": "browser",
+      "declared": 55,
+      "actual": 55,
+      "status_counts": {
+        "PASS": 34,
+        "INCOMPLETE": 21
+      },
+      "required_ids_equal": true,
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "session_leaks": [],
+      "cleanup": {
+        "users_created": 0,
+        "cleanup_failures": [],
+        "rest_remaining": false
+      }
+    },
+    {
+      "group": "browser_enteng",
+      "declared": 55,
+      "actual": 55,
+      "status_counts": {
+        "PASS": 55
+      },
+      "required_ids_equal": true,
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "session_leaks": [],
+      "cleanup": {
+        "users_created": 0,
+        "cleanup_failures": [],
+        "rest_remaining": false
+      }
+    }
+  ],
+  "nonpass": [
+    {
+      "id": "CP17_BROWSER_R2_10_WAVE_SEWING_DESKTOP",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-18",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R2_10_WAVE_SEWING_MOBILE",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_09_RATE_CHOICE_DESKTOP",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_09_RATE_CHOICE_MOBILE",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_03_PERIOD_TAB_DESKTOP",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_03_PERIOD_TAB_MOBILE",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_03_REMINDERS_DESKTOP",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": null,
+      "error": "Error: expect(locator).toContainText(expected) failed\n\nLocator: getByRole('region', { name: 'Daftar pengingat', exact: true }).getByRole('article', { name: 'Pengingat Telepon Laundry Intan', exact: true })\nExpected substring: \"Besok\"\nReceived string:    \"Laundry · PentingTelepon Laundry IntanTanyakan kiriman susulan POT-041Jatuh tempo 19 Okt 2026, 09.00 WIBHari iniBelum selesaiTandai selesaiUbahBatalkan\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Daftar pengingat', exact: true }).getByRole('article', { name: 'Pengingat Telepon Laundry Intan', exact: true })\n    14 × locator resolved to <article class=\"open urgent\" aria-label=\"Pengingat Telepon Laundry Intan\">…</article>\n       - unexpected value \"Laundry · PentingTelepon Laundry IntanTanyakan kiriman susulan POT-041Jatuh tempo 19 Okt 2026, 09.00 WIBHari iniBelum selesaiTandai selesaiUbahBatalkan\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toContainText (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_r3_reminders_browser.mjs:49:32)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_03_REMINDERS_MOBILE",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": null,
+      "error": "Error: expect(locator).toContainText(expected) failed\n\nLocator: getByRole('region', { name: 'Daftar pengingat', exact: true }).getByRole('article', { name: 'Pengingat Telepon Laundry Intan', exact: true })\nExpected substring: \"Besok\"\nReceived string:    \"Laundry · PentingTelepon Laundry IntanTanyakan kiriman susulan POT-041Jatuh tempo 19 Okt 2026, 09.00 WIBHari iniBelum selesaiTandai selesaiUbahBatalkan\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Daftar pengingat', exact: true }).getByRole('article', { name: 'Pengingat Telepon Laundry Intan', exact: true })\n    14 × locator resolved to <article class=\"open urgent\" aria-label=\"Pengingat Telepon Laundry Intan\">…</article>\n       - unexpected value \"Laundry · PentingTelepon Laundry IntanTanyakan kiriman susulan POT-041Jatuh tempo 19 Okt 2026, 09.00 WIBHari iniBelum selesaiTandai selesaiUbahBatalkan\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toContainText (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_r3_reminders_browser.mjs:49:32)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_03_ERP_SETTINGS_DESKTOP",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_03_ERP_SETTINGS_MOBILE",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_03_AUDIT_DESKTOP",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_03_AUDIT_MOBILE",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_03_HISTORY_DESKTOP",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_03_HISTORY_MOBILE",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_03_WAREHOUSE_SUMMARY_DESKTOP",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_03_WAREHOUSE_SUMMARY_MOBILE",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_04_HPP_POOL_DESKTOP",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_04_HPP_POOL_MOBILE",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_05_QC_FINAL_SKU_DESKTOP",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_05_QC_FINAL_SKU_MOBILE",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": "PASS",
+      "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    },
+    {
+      "id": "CP17_BROWSER_R3_05_ACCESSORY_NOTE_TO_PAYROLL_DESKTOP",
+      "status": "INCOMPLETE",
+      "business_day": {
+        "planned": "2026-10-18",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      },
+      "status_before_rollover": null,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    '6000.00',\n    '2100.00',\n    '3900.00',\n+   '2026-10-19',\n-   '2026-10-18',\n    '88d8727f-147f-4520-aded-fe7cfac56703'\n  ]\n\n    at noteToPayroll (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_r3_qc_note_browser.mjs:252:10)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "classification": "AUDITOR_TOOL_WIB_GROUP_DATE_CHANGED",
+      "product_failure_proven": false,
+      "acceptance_credit": false
+    }
+  ],
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "restore_raw_public_equal": true,
+  "advisor_gate": true,
+  "rerun": false,
+  "log_marker": "KEPT_FIRST_RESULT",
+  "production_go": false,
+  "full_audit_pass": false,
+  "qualification": "No CP17 probe, repair or rerun was performed after the first result. Existing ordinary browser results after WIB rollover remain INCOMPLETE; Enteng is a separately predeclared 55-case build, not a replacement. Metadata Q1 for T3/CodeQL is separately documented.",
+  "enteng_transport_log": {
+    "route_errors_count": 2,
+    "route_errors_kind": "route.fetch: Request context disposed while page context closed",
+    "failed_routes": [
+      "erp_cp7_get_materials_v1",
+      "erp_cp7_get_material_transfers_v1"
+    ],
+    "case_status_counts": {
+      "PASS": 55
+    },
+    "qualification": "Counter increments before fetch: 1215 redirect attempts are not proof of 1215 successful responses. Two caught route errors remain visible. All 55 separately declared cases PASS; no hosted acceptance claim.",
+    "redirect_attempt_counter_before_fetch": 1215
+  },
+  "predeclared_candidate_contract_check": {
+    "path": "docs/cp7/cp17/CP17_FIXES.json",
+    "sha256": "113bcef3748b9ede6070388520de071e1d1cc4419771f789edce35968aab0060",
+    "body_equals_pre_execution_manifest": true,
+    "raw_result_hash_matches_candidate_declaration": true,
+    "required_id_sets_equal": true
+  }
+}

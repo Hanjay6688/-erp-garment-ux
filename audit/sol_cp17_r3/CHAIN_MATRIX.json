@@ -1,0 +1,3058 @@
+{
+  "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "report_state": "FINAL_LIMITED_SCOPE_ASSESSMENT",
+  "audit_complete": false,
+  "prior_seal": "841fce45c58b7c004d1dea2f293f57e4b1fa5ba0",
+  "evidence_ledger": "CASE_LEDGER_PARTIAL.json",
+  "evidence_ledger_sha256": "8355d0c6d8776109407e8407bfd08f5af27b663291e288f5fa973b988c0dfe83",
+  "evidence_origins": [
+    "RETAINED_SOL_R2_SEAL",
+    "INDEPENDENT_SOL_EXECUTION_OF_WRITER_OR_INHERITED_ORACLES_DOCUMENT_REVIEW"
+  ],
+  "qualification": "PASS hanya untuk lingkup yang disaksikan/retained pada tiap baris, bukan penerimaan ERP penuh. Probe tambahan baru belum dieksekusi. Pencocokan ID adalah indeks tinjauan, bukan bukti otomatis.",
+  "denominator": 20,
+  "reviewed": 20,
+  "all_20_one_browser_chain_proven": false,
+  "status_counts": {
+    "PASS": 18,
+    "INCOMPLETE": 2
+  },
+  "rows": [
+    {
+      "id": "B1",
+      "chain": "Pembelian → penerimaan → roll/stok/GRNI",
+      "status": "PASS",
+      "scope": "P09 Native/HTTP/browser pada kandidat current; master supplier/bahan harian juga dilalui CP17 Enteng.",
+      "application_pages": "procurement; materials-rolls",
+      "retained_prior_record": {
+        "id": "B1",
+        "chain": "Pembelian → penerimaan → roll/stok/GRNI",
+        "connection_status": "TERSAMBUNG DAN TERUJI",
+        "application_pages": "procurement; materials-rolls",
+        "public_to_native_path": "public procurement commands → Native receipt/invoice/material movements",
+        "independent_proof": "F03 p09 135 observations incl. 3 smoke, real Auth HTTP/browser",
+        "verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+        "boundary": "Bahan masuk teruji; master material/supplier harian masih contoh.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "P09_|MASTER_SUPPLIER|MASTER_FABRIC",
+        "matching_occurrences": 177,
+        "status_counts": {
+          "PASS": 174,
+          "INCOMPLETE": 3
+        },
+        "examples": [
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/native",
+            "id": "P09_DRAFT_ESTIMATED_GRNI",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/native",
+            "id": "P09_FINAL_EXACT_VALUE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/native",
+            "id": "P09_REPLAY_STALE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/native",
+            "id": "P09_OPS_FINANCE_REDACTION",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/native",
+            "id": "P09_OPS_BENCHMARK",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/native",
+            "id": "P09_PERMISSION_PRINCIPALS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/native",
+            "id": "P09_COMPLETE_PAGES_OPTIONS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/native",
+            "id": "P09_INVALID_ATOMIC",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/native",
+            "id": "P09_ZONE_GUARD_REGRESSION",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/races",
+            "id": "P09_RACE_SAME_REQUEST",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/races",
+            "id": "P09_RACE_COMPETING_POST",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/races",
+            "id": "P09_RACE_REVOKE_WAIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "B2",
+      "chain": "Bahan → potong → WIP",
+      "status": "PASS",
+      "scope": "Nomor PO 1000/1001/10000 dan atomisitas auto-PO menutup SOL-R2-001 dalam lingkup uji; bukan klaim semua ukuran integer.",
+      "application_pages": "cutting-roll",
+      "retained_prior_record": {
+        "id": "B2",
+        "chain": "Bahan → potong → WIP",
+        "connection_status": "TERSAMBUNG DAN TERUJI",
+        "application_pages": "cutting-roll",
+        "public_to_native_path": "erp_save_cutting_group_before_sewing_v2 → erp.post_cutting_material_issue",
+        "independent_proof": "CP17 autoPO Native/race/HTTP/browser and actual UAT Native phone; additional999/1000 test.",
+        "verdict": "PASS_TESTED_ORDINARY_PATH_WITH_OPEN_BOUNDARY",
+        "boundary": "Daily PO route now exists. Number1000 bug SOL-R2-001 remains open.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [
+          "SOL-R2-001"
+        ],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "INCOMPLETE_FULL_LINK",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "AUTO_PO|CUTTING|E01",
+        "matching_occurrences": 224,
+        "status_counts": {
+          "PASS": 224
+        },
+        "examples": [
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/native",
+            "id": "P18_E01_NATIVE_SOURCE_TO_ALL_CONSUMERS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/native",
+            "id": "P18_E01_CASH_INVERSE_IMMUTABLE_ARCHIVE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/native",
+            "id": "P18_E01_CURRENT_AUTHORITY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/native",
+            "id": "P18_E01_OWNING_NOTE_CORRECTION_ALL_CONSUMERS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/native",
+            "id": "P18_E01_CORRECTED_DEMAND_PROSPECTIVE_MODEL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/races",
+            "id": "P18_E01_CASH_INVERSE_DURING_SAVED_REPORT_WAIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/http",
+            "id": "P18_E01_EXACT_AUTH_NATIVE_SOURCE_TO_REPORT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/browser",
+            "id": "P18_E01_BRIDGE_BROWSER_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/browser",
+            "id": "P18_E01_BRIDGE_BROWSER_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_FABLE012_EXPOSURE_GATE_REVOKE_FIRST",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_D15_6_AUTO_PO_POST_ONE_TRANSACTION",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_D15_6_AUTO_PO_SAME_UUID_SAME_ANSWER",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "B3",
+      "chain": "Potongan → pickup mandor",
+      "status": "PASS",
+      "scope": "Master baru/Mandor/tarif → pickup → sewing serta pickup inverse; bukan seluruh 13 tahap browser sekaligus.",
+      "application_pages": "mandor-wip",
+      "retained_prior_record": {
+        "id": "B3",
+        "chain": "Potongan → pickup mandor",
+        "connection_status": "TERSAMBUNG DAN TERUJI",
+        "application_pages": "mandor-wip",
+        "public_to_native_path": "erp_save_cutting_pickup_v1; erp_cp7_reverse_pickup_v1",
+        "independent_proof": "CP17 master screen chain creates Mandor+rates→BagiPotongan POST→sewing wage; autoPO Native continuation; SG01 reverse.",
+        "verdict": "PASS_TESTED_PATH",
+        "boundary": "Fresh positive pickup path demonstrated; no single all13-stage scenario claim.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "INCOMPLETE_FULL_LINK",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "MASTER_WORKFORCE|D15_3|PICKUP|SG01",
+        "matching_occurrences": 13,
+        "status_counts": {
+          "PASS": 13
+        },
+        "examples": [
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_SG01_PICKUP_REVERSE_BEFORE_SEWING",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_SG01_PICKUP_REVERSE_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_MASTER_MANDOR_POLICY_AND_PICKUP_LIST",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_FABLE_D15_3_SCREEN_CHAIN_WAGE_AT_SEWING_DATE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser",
+            "id": "CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser",
+            "id": "CP17_BROWSER_R2_MASTER_WORKFORCE_RATES_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser",
+            "id": "CP17_BROWSER_R2_MASTER_WORKFORCE_RATES_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser",
+            "id": "CP17_BROWSER_R2_FABLE_D15_3_SCREEN_CHAIN_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser_enteng",
+            "id": "CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP_ENTENG",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser_enteng",
+            "id": "CP17_BROWSER_R2_MASTER_WORKFORCE_RATES_DESKTOP_ENTENG",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser_enteng",
+            "id": "CP17_BROWSER_R2_MASTER_WORKFORCE_RATES_MOBILE_ENTENG",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser_enteng",
+            "id": "CP17_BROWSER_R2_FABLE_D15_3_SCREEN_CHAIN_DESKTOP_ENTENG",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "B4",
+      "chain": "Pickup → selesai jahit + upah → siap laundry",
+      "status": "PASS",
+      "scope": "Sewing dasar dan per-SKU/pilihan tarif Native serta Enteng PASS; dua kasus ordinary pilihan tarif tetap INCOMPLETE karena rollover.",
+      "application_pages": "sewing-wip",
+      "retained_prior_record": {
+        "id": "B4",
+        "chain": "Pickup → selesai jahit + upah → siap laundry",
+        "connection_status": "TERSAMBUNG DAN TERUJI",
+        "application_pages": "sewing-wip",
+        "public_to_native_path": "CP7 sewing command → Native work completion + terminal event",
+        "independent_proof": "CP17 G1 Native/race/real Auth HTTP/browser desktop + phone; own 4/6 PCS × 2 komponen",
+        "verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+        "boundary": "Lulus jalur dasar; BF wave SKU/size rates belum didukung (KNOWN-BF-WAVE), tidak terwakili fixture dasar.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [
+          "KNOWN-BF-WAVE"
+        ],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "SEWING|R3_09|WAVE",
+        "matching_occurrences": 43,
+        "status_counts": {
+          "PASS": 39,
+          "INCOMPLETE": 4
+        },
+        "examples": [
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_SG01_PICKUP_REVERSE_BEFORE_SEWING",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_G1_SEWING_RECORD_WAGE_READY_FOR_LAUNDRY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_G1_SEWING_REFUSALS_UNCHANGED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_G1_SEWING_CANCEL_ONLY_AT_MANDOR",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_FABLE_D15_3_SCREEN_CHAIN_WAGE_AT_SEWING_DATE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_D15_6_AUTO_PO_THEN_BAGI_POTONGAN_AND_SEWING",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_10_WAVE_SEWING_PER_SKU_WAGE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_10_WAVE_SEWING_PREVIEW_EQUALS_NATIVE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_10_WAVE_SEWING_REFUSALS_UNCHANGED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_10_WAVE_SEWING_FAILURE_MIDWAY_LEAVES_NOTHING",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_10_WAVE_SEWING_CANCEL_ONE_SKU",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R3_09_SAME_RATE_NO_CHOICE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "B5",
+      "chain": "Jahit → kirim/terima laundry, klaim/cuci ulang",
+      "status": "INCOMPLETE",
+      "scope": "Regresi komponen Laundry dipisahkan dari satu perjalanan pengguna sewing → kirim → terima → QC tanpa putus.",
+      "application_pages": "laundry",
+      "retained_prior_record": {
+        "id": "B5",
+        "chain": "Jahit → kirim/terima laundry, klaim/cuci ulang",
+        "connection_status": "TERSAMBUNG TANPA UJI APLIKASI",
+        "application_pages": "laundry",
+        "public_to_native_path": "erp_save_laundry_qc_action_v1 / erp_save_laundry_bd_action_v1 → Native laundry writers",
+        "independent_proof": "Current prefreeze31: LAU_T36 mixed sources, FREE/WAIVED physical, correction/partial ranges, claim recover/reverse; CP17 SG03/FIN02 Native.",
+        "verdict": "PASS_TESTED_COMPONENTS_NOT_SINGLE_END_TO_END",
+        "boundary": "Fresh positive legacy UI components pass on final CP7 stack. A single sewing→send→receive→QC full user journey is not claimed.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "INCOMPLETE_FULL_LINK",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "LAU_|LAUNDRY|SG03|FIN02",
+        "matching_occurrences": 32,
+        "status_counts": {
+          "PASS": 32
+        },
+        "examples": [
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/native",
+            "id": "P12_NOTA_SOURCE_REGULAR_LAUNDRY_OUTSTANDING",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_CASH_LAUNDRY_VENDOR_EMPTY_BANK_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_FIN02_CLAIM_SAME_DAY_CONTROL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_FIN02_CLAIM_BEFORE_SOURCE_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_FIN02_CLAIM_AP_NOT_AVAILABLE_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_SG03_REWASH_SAME_PRODUCT_NO_VENDOR_BILL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_G1_SEWING_RECORD_WAGE_READY_FOR_LAUNDRY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/races",
+            "id": "CP17_RACE_R3_03_ERP_SETTINGS_TWO_TABS_LAUNDRY_POLICY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763477,
+            "artifact_id": 12144159805,
+            "report": "CP7_F03_FULL_PREFREEZE_UI.json",
+            "group": "/groups/browser",
+            "id": "BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763477,
+            "artifact_id": 12144159805,
+            "report": "CP7_F03_FULL_PREFREEZE_UI.json",
+            "group": "/groups/browser",
+            "id": "BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12144327293,
+            "report": "CP7_F03_FULL_P12.json",
+            "group": "/groups/native",
+            "id": "P12_NOTA_SOURCE_REGULAR_LAUNDRY_OUTSTANDING",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762607,
+            "artifact_id": 12144561275,
+            "report": "CP7_P12_NOTA_SOURCE.json",
+            "group": "/native",
+            "id": "P12_NOTA_SOURCE_REGULAR_LAUNDRY_OUTSTANDING",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "B6",
+      "chain": "Invoice/klaim laundry → AP vendor → kas",
+      "status": "INCOMPLETE",
+      "scope": "Komponen vendor/AP/kas serta jalur sah/refusal belum membuktikan seluruh sambungan browser invoice Laundry → AP → pembayaran sebagai satu perjalanan.",
+      "application_pages": "laundry; finance-ap; finance-cash",
+      "retained_prior_record": {
+        "id": "B6",
+        "chain": "Invoice/klaim laundry → AP vendor → kas",
+        "connection_status": "TERSAMBUNG TANPA UJI APLIKASI",
+        "application_pages": "laundry; finance-ap; finance-cash",
+        "public_to_native_path": "POST_INVOICE / PAY_VENDOR_DOCUMENT → Native vendor invoice/payment; dated guards",
+        "independent_proof": "Current prefreeze31 D12 daily/opening claim payment screens + F03 vendor/AP/cash; CP17 emptybank vendor refusal.",
+        "verdict": "PASS_TESTED_COMPONENTS_NOT_SINGLE_END_TO_END",
+        "boundary": "Payment-screen and Native AP/cash cases pass; not every vendor document lineage in one browser journey.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "INCOMPLETE_FULL_LINK",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "VENDOR|LAUNDRY|FIN02|CASH",
+        "matching_occurrences": 155,
+        "status_counts": {
+          "PASS": 155
+        },
+        "examples": [
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_MISC_CORRECTION_CHANGED_TYPE_CASH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762584,
+            "artifact_id": 12143449265,
+            "report": "CP7_P13_FINANCE_READ.json",
+            "group": "/races",
+            "id": "P13_REPORT_CONCURRENT_CASH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/native",
+            "id": "P12_NOTA_SOURCE_REGULAR_LAUNDRY_OUTSTANDING",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/native",
+            "id": "P18_E01_CASH_INVERSE_IMMUTABLE_ARCHIVE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/races",
+            "id": "P18_E01_CASH_INVERSE_DURING_SAVED_REPORT_WAIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762518,
+            "artifact_id": 12143743308,
+            "report": "CP7_P13_PERIOD_CONTROL.json",
+            "group": "/races",
+            "id": "P13_REPORT_CONCURRENT_CASH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762467,
+            "artifact_id": 12143817890,
+            "report": "CP7_F03_X04.json",
+            "group": "/native",
+            "id": "F03_X04_VENDOR_FREE_WAIVED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_CASH_EMPTY_BANK_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_CASH_EXACT_ZERO_ALLOWED_THEN_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_CASH_BACKDATE_BEFORE_FUNDS_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_CASH_LATER_DAY_PROTECTED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_CASH_PAYROLL_EMPTY_BANK_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "B7",
+      "chain": "Terima laundry → QC/final SKU → FG (+BS)",
+      "status": "PASS",
+      "scope": "QC final SKU Enteng desktop/HP mem-post 10 GOOD, nilai 120, satu jurnal, tanpa WIP event tambahan. Sumber Laundry adalah fixture sah, bukan demonstrasi penerimaan lewat layar.",
+      "application_pages": "qc",
+      "retained_prior_record": {
+        "id": "B7",
+        "chain": "Terima laundry → QC/final SKU → FG (+BS)",
+        "connection_status": "TERSAMBUNG TANPA UJI APLIKASI",
+        "application_pages": "qc",
+        "public_to_native_path": "erp_save_laundry_qc_action_v1 POST_FINAL_SKU → Native final allocation/QC",
+        "independent_proof": "Native fixture/core retained; current inventory refusal only",
+        "verdict": "INCOMPLETE_FULL_LINK",
+        "boundary": "Current legacy QC/API and size-range controls are recorded separately. A complete fresh QC→FG POST browser journey is not claimed; mock routing does not close it.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "INCOMPLETE_FULL_LINK",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "QC_FINAL|P10_|FG_",
+        "matching_occurrences": 80,
+        "status_counts": {
+          "PASS": 78,
+          "INCOMPLETE": 2
+        },
+        "examples": [
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/native",
+            "id": "F03_P10_ADJUST_NEGATIVE_VALUE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762467,
+            "artifact_id": 12143817890,
+            "report": "CP7_F03_X04.json",
+            "group": "/http",
+            "id": "F03_X04_HTTP_PINNED_PO_FG_REPORT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R3_02_REOPEN_AFTER_REVERSED_FG_ADJUSTMENT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser",
+            "id": "CP17_BROWSER_R3_03_CHAIN_FG_TO_AR_ZERO",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser",
+            "id": "CP17_BROWSER_R3_05_QC_FINAL_SKU_DESKTOP",
+            "status": "INCOMPLETE",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser",
+            "id": "CP17_BROWSER_R3_05_QC_FINAL_SKU_MOBILE",
+            "status": "INCOMPLETE",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser_enteng",
+            "id": "CP17_BROWSER_R3_03_CHAIN_FG_TO_AR_ZERO_ENTENG",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser_enteng",
+            "id": "CP17_BROWSER_R3_05_QC_FINAL_SKU_DESKTOP_ENTENG",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser_enteng",
+            "id": "CP17_BROWSER_R3_05_QC_FINAL_SKU_MOBILE_ENTENG",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762480,
+            "artifact_id": 12144160706,
+            "report": "CP7_P10_FG.json",
+            "group": "/native",
+            "id": "P10_FG_NATIVE_SOURCE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762480,
+            "artifact_id": 12144160706,
+            "report": "CP7_P10_FG.json",
+            "group": "/native",
+            "id": "P10_FG_RESERVE_CANCEL_POST",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762480,
+            "artifact_id": 12144160706,
+            "report": "CP7_P10_FG.json",
+            "group": "/native",
+            "id": "P10_FG_INVERSE_ZERO",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "B8",
+      "chain": "FG → selesai PO → HPP final",
+      "status": "PASS",
+      "scope": "Finish/reopen dengan active-use blockers dan HPP tetap; biaya sumber/status ready terjaga dalam fixture.",
+      "application_pages": "hpp",
+      "retained_prior_record": {
+        "id": "B8",
+        "chain": "FG → selesai PO → HPP final",
+        "connection_status": "TERSAMBUNG DAN TERUJI",
+        "application_pages": "hpp",
+        "public_to_native_path": "CP7 finish command → erp.finish_production_order; recost Native",
+        "independent_proof": "CP17 G2 Native/race/real Auth HTTP/browser + F03 p13 recost",
+        "verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+        "boundary": "G2 dasar lulus; QC→selesai PO dalam satu browser penuh belum ada; demo overflow terpisah (SOL-R1-005).",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "FINISH|REOPEN|HPP",
+        "matching_occurrences": 87,
+        "status_counts": {
+          "PASS": 85,
+          "INCOMPLETE": 2
+        },
+        "examples": [
+          {
+            "run_id": 39146762518,
+            "artifact_id": 12143743308,
+            "report": "CP7_P13_PERIOD_CONTROL.json",
+            "group": "/period_native",
+            "id": "P13_PERIOD_CLOSE_REOPEN",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_STK01_REOPEN_REPOST_CARD_NOT_NEGATIVE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_RWK01_OPEN_CASE_FINISHED_PART_PAID_ONCE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_HPP01_EXCLUDED_CONTRACTOR_POLICY_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_HPP01_UNRELATED_POLICY_CONTROL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_HPP01_CANCEL_POLICY_REPLACEMENT_POOL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_G2_FINISH_PO_FINAL_HPP_WIP_CLOSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_G2_FINISH_REFUSALS_UNCHANGED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_ASTRA_G2_UNSEWN_SIX_MUST_NOT_FINISH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_ASTRA_G2_SEWN_UNSENT_SIX_MUST_NOT_FINISH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_PO_REOPEN_THEN_FINISH_SAME_HPP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_PO_REOPEN_BLOCKERS_UNCHANGED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "B9",
+      "chain": "FG → buku Vivo/Widie, adjustment, konversi",
+      "status": "PASS",
+      "scope": "Buku FG, adjustment dan konversi merek pada stack akhir; bukan semua permutasi atau satu rantai penuh 13 tahap.",
+      "application_pages": "fg-summary; movements-vivo; movements-widie; brand-conversion",
+      "retained_prior_record": {
+        "id": "B9",
+        "chain": "FG → buku Vivo/Widie, adjustment, konversi",
+        "connection_status": "TERSAMBUNG DAN TERUJI",
+        "application_pages": "fg-summary; movements-vivo; movements-widie; brand-conversion",
+        "public_to_native_path": "erp_cp7_get_fg_* / erp_cp7_save_fg_adjustment_v1 / erp_save_product_conversion_action_v1",
+        "independent_proof": "CP17 R2_07 screen chain importWIP→FGbrandA→convertB→sale→cash; F03P10 adjustments Native/browser.",
+        "verdict": "PASS_TESTED_BRAND_CONVERSION_PATH",
+        "boundary": "Brand conversion chain demonstrated. Not every ledger filter/physical device combination.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "INCOMPLETE_FULL_LINK",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "P10_|BOOK|BRAND|CONVERSION",
+        "matching_occurrences": 82,
+        "status_counts": {
+          "PASS": 82
+        },
+        "examples": [
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/native",
+            "id": "F03_P10_ADJUST_NEGATIVE_VALUE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_CASH_BOOK_DATE_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_DETECTOR_BOOK_DATE_LISTED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser",
+            "id": "CP17_BROWSER_R2_07_IMPORT_WIP_BRAND_SALE_CASH_CLOSE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser_enteng",
+            "id": "CP17_BROWSER_R2_07_IMPORT_WIP_BRAND_SALE_CASH_CLOSE_ENTENG",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762621,
+            "artifact_id": 12143847540,
+            "report": "CP7_F03_COST_CONTINUATION.json",
+            "group": "/native",
+            "id": "F03_E07_POCKET_SALE_RETURN_CONVERSION",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762621,
+            "artifact_id": 12143847540,
+            "report": "CP7_F03_COST_CONTINUATION.json",
+            "group": "/native",
+            "id": "F03_E04_CONVERSION_SOLD_CHILD_COST",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762590,
+            "artifact_id": 12143908509,
+            "report": "CP7_SUPPLIER_PAYMENT_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_SUPPLIER_PAYMENT_CORRECTION_CLOSED_BOOKS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762496,
+            "artifact_id": 12144076174,
+            "report": "CP7_NOTE_CORRECTION.json",
+            "group": "/native",
+            "id": "NOTE_ADDED_SKU_MAIN_BOOK",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762496,
+            "artifact_id": 12144076174,
+            "report": "CP7_NOTE_CORRECTION.json",
+            "group": "/http",
+            "id": "NOTE_HTTP_CORRECTED_BOOK",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762696,
+            "artifact_id": 12144104223,
+            "report": "CP7_P19_TRANSPORT.json",
+            "group": "/native",
+            "id": "P19T_FINANCE_DEFERRED_NO_BOOK_READ",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762580,
+            "artifact_id": 12144132868,
+            "report": "CP7_SALES_CHAIN.json",
+            "group": "/native",
+            "id": "CP7_SALES_CHAIN_CLOSED_BOOKS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "B10",
+      "chain": "FG → draft/invoice penjualan",
+      "status": "PASS",
+      "scope": "P11 sales/draft/reservasi/series-lusin serta rantai Enteng FG → penjualan → AR nol.",
+      "application_pages": "sales-invoice; sales-allocation",
+      "retained_prior_record": {
+        "id": "B10",
+        "chain": "FG → draft/invoice penjualan",
+        "connection_status": "TERSAMBUNG DAN TERUJI",
+        "application_pages": "sales-invoice; sales-allocation",
+        "public_to_native_path": "erp_cp7_save_sale_v1 → erp.save_sale_draft_v2 / erp.post_sale_v2",
+        "independent_proof": "F03 p11 + CP17 D14-5/12 browser nyata desktop/phone",
+        "verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+        "boundary": "Lusin sesuai range teruji. Menu Semua Invoice belum punya saksi khusus; UAT seluruh Penjualan masih contoh.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "P11_|SERIES_DOZENS|CHAIN_FG",
+        "matching_occurrences": 142,
+        "status_counts": {
+          "PASS": 142
+        },
+        "examples": [
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/native",
+            "id": "F03_P11_RETURN_PERMISSIONS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/races",
+            "id": "F03_P11_RETURN_RACE_REVOKE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/http",
+            "id": "F03_P11_RETURN_HTTP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/sales_browser",
+            "id": "P11_RETURN_BROWSER_R10_DESKTOP_A",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/sales_browser",
+            "id": "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser",
+            "id": "CP17_BROWSER_R3_03_CHAIN_FG_TO_AR_ZERO",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser",
+            "id": "CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser",
+            "id": "CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser_enteng",
+            "id": "CP17_BROWSER_R3_03_CHAIN_FG_TO_AR_ZERO_ENTENG",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser_enteng",
+            "id": "CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP_ENTENG",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser_enteng",
+            "id": "CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE_ENTENG",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762616,
+            "artifact_id": 12144091650,
+            "report": "CP7_P11_SALES_READ.json",
+            "group": "/native",
+            "id": "P11_READ_DRAFT_CANCEL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "B11",
+      "chain": "Penjualan → AR → pembayaran pelanggan → kas",
+      "status": "PASS",
+      "scope": "Teks cash FAIL r2 yang basi dikoreksi. Kontrol spent-income P11/CP17 current serta invoice 30000 / pembayaran 30000 / AR 0 pada rantai Enteng berhasil.",
+      "application_pages": "sales-payments; finance-ar; finance-cash",
+      "retained_prior_record": {
+        "id": "B11",
+        "chain": "Penjualan → AR → pembayaran pelanggan → kas",
+        "connection_status": "TERSAMBUNG DAN TERUJI",
+        "application_pages": "sales-payments; finance-ar; finance-cash",
+        "public_to_native_path": "Native sales payment; public.erp_cp7_correct_sales_payment_v1",
+        "independent_proof": "F03 p11 Native/HTTP/browser; own new Native + real Auth HTTP counterexamples",
+        "verdict": "FAIL",
+        "boundary": "TERUJI dan GAGAL pada koreksi income yang sudah dipakai walau final positif, termasuk note-only (SOL-R1-001). Status koneksi T bukan vonis PASS.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [
+          "SOL-R1-001"
+        ],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "FAIL",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "PAYMENT|CHAIN_FG_TO_AR|SPENT_INCOME|P11_",
+        "matching_occurrences": 241,
+        "status_counts": {
+          "PASS": 241
+        },
+        "examples": [
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/receipt_reversal",
+            "id": "P09_RECEIPT_REVERSE_PAYMENT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/native",
+            "id": "F03_P11_RETURN_PERMISSIONS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/races",
+            "id": "F03_P11_RETURN_RACE_REVOKE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/http",
+            "id": "F03_P11_RETURN_HTTP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/sales_browser",
+            "id": "P11_RETURN_BROWSER_R10_DESKTOP_A",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/sales_browser",
+            "id": "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/settlement",
+            "id": "P12_SETTLEMENT_WIB_PAYMENT_DATE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/native",
+            "id": "P16_LIFECYCLE_PAID_AND_PAYMENT_INVERSE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_FIN01_DIRECT_NATIVE_PAYMENT_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_SPENT_INCOME_CORRECTION_COMMITS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_SPENT_INCOME_NOTE_ONLY_COMMITS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "B12",
+      "chain": "Retur → FG + kredit AR/refund",
+      "status": "PASS",
+      "scope": "Retur/koreksi/refund current mempunyai bukti; hasil HTTP rollover pertama disimpan terpisah dari eksekusi kedua.",
+      "application_pages": "sales-returns; finance-ar",
+      "retained_prior_record": {
+        "id": "B12",
+        "chain": "Retur → FG + kredit AR/refund",
+        "connection_status": "TERSAMBUNG DAN TERUJI",
+        "application_pages": "sales-returns; finance-ar",
+        "public_to_native_path": "erp.post_sales_return / correction facade / refund command",
+        "independent_proof": "F03 p11 returns + customer_refund 10 observations including real browser",
+        "verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+        "boundary": "Subset retur/refund positif teruji; belum seluruh permutasi koreksi, pemakaian kredit dan tanggal.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "RETURN|REFUND",
+        "matching_occurrences": 151,
+        "status_counts": {
+          "PASS": 149,
+          "INCOMPLETE": 2
+        },
+        "examples": [
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_RETURN_SEPARATE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/browser",
+            "id": "P09_BROWSER_RETURN_CREDIT_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/browser",
+            "id": "P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_TRANSFERRED_GRNI",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_FABRIC_PORTABLE_CREDIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_ACCESSORY_PORTABLE_CREDIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_PARTIAL_AP_GRNI",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_EXACT_CENTS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_REPLAY_STALE_SOURCE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_ATOMIC_LINEAGE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_HISTORICAL_PREFIX",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_ACCESS_PRINCIPALS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "B13",
+      "chain": "Semua uang → kas → GL → laporan/tutup periode",
+      "status": "PASS",
+      "scope": "Rantai konkret sewing → nota → payroll → kas → laporan/tutup/buka serta rekonsiliasi P13. Bukan satu rantai seluruh 13 tahap; cash FAIL lama yang basi dihapus dari putusan current.",
+      "application_pages": "finance-cash; finance-journal; finance-reports",
+      "retained_prior_record": {
+        "id": "B13",
+        "chain": "Semua uang → kas → GL → laporan/tutup periode",
+        "connection_status": "TERSAMBUNG DAN TERUJI",
+        "application_pages": "finance-cash; finance-journal; finance-reports",
+        "public_to_native_path": "erp.post_journal / reverse_journal + report/period facades",
+        "independent_proof": "F03 p13 50 + cash_installments 61, CP17 D14-3; own correction CE",
+        "verdict": "FAIL",
+        "boundary": "TERUJI dengan blocker SOL-R1-001; UAT sebagian besar Keuangan masih contoh. Tidak ada browser seluruh 13 tahap sekaligus.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [
+          "SOL-R1-001"
+        ],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "FAIL",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "CHAIN_SEWING|P13_|FULL_CYCLE|CASH|JOURNAL",
+        "matching_occurrences": 312,
+        "status_counts": {
+          "PASS": 312
+        },
+        "examples": [
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_MISC_CORRECTION_CHANGED_TYPE_CASH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/native",
+            "id": "F03_P13_REPORT_READ_ONLY_PRIVATE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/native",
+            "id": "F03_P13_REPORT_FILED_LATE_CORRECTION",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/http",
+            "id": "F03_P13_REPORT_HTTP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/finance_browser",
+            "id": "P13_REPORT_BROWSER_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/finance_browser",
+            "id": "P13_REPORT_BROWSER_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762584,
+            "artifact_id": 12143449265,
+            "report": "CP7_P13_FINANCE_READ.json",
+            "group": "/native",
+            "id": "P13_REPORT_LEDGER_LIFECYCLE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762584,
+            "artifact_id": 12143449265,
+            "report": "CP7_P13_FINANCE_READ.json",
+            "group": "/native",
+            "id": "P13_REPORT_EXACT_LARGE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762584,
+            "artifact_id": 12143449265,
+            "report": "CP7_P13_FINANCE_READ.json",
+            "group": "/native",
+            "id": "P13_REPORT_QUERY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762584,
+            "artifact_id": 12143449265,
+            "report": "CP7_P13_FINANCE_READ.json",
+            "group": "/native",
+            "id": "P13_REPORT_ACCESS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762584,
+            "artifact_id": 12143449265,
+            "report": "CP7_P13_FINANCE_READ.json",
+            "group": "/native",
+            "id": "P13_REPORT_FILED_LATE_CORRECTION",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762584,
+            "artifact_id": 12143449265,
+            "report": "CP7_P13_FINANCE_READ.json",
+            "group": "/native",
+            "id": "P13_REPORT_FILED_UNCHANGED_CONTROL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "S1",
+      "chain": "AP supplier → pembayaran → kas",
+      "status": "PASS",
+      "scope": "Settlement/koreksi/AP/kas supplier dan guard tanggal kas current; cash lama yang sudah CLOSED tidak dibuka ulang.",
+      "application_pages": "procurement; finance-ap; finance-cash",
+      "retained_prior_record": {
+        "id": "S1",
+        "chain": "AP supplier → pembayaran → kas",
+        "connection_status": "TERSAMBUNG DAN TERUJI",
+        "application_pages": "procurement; finance-ap; finance-cash",
+        "public_to_native_path": "public supplier payment → Native settlement → cash guard",
+        "independent_proof": "F03 p09, supplier_credit, CP17 cash/race/HTTP; own empty/funded/backdate/later-prefix",
+        "verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+        "boundary": "SOL-001 lama ditutup dalam scope; koreksi income baru adalah akar regresi berbeda.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "SUPPLIER_PAYMENT|SUPPLIER_CREDIT|CASH",
+        "matching_occurrences": 166,
+        "status_counts": {
+          "PASS": 166
+        },
+        "examples": [
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_MISC_CORRECTION_CHANGED_TYPE_CASH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762584,
+            "artifact_id": 12143449265,
+            "report": "CP7_P13_FINANCE_READ.json",
+            "group": "/races",
+            "id": "P13_REPORT_CONCURRENT_CASH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/native",
+            "id": "P18_E01_CASH_INVERSE_IMMUTABLE_ARCHIVE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/races",
+            "id": "P18_E01_CASH_INVERSE_DURING_SAVED_REPORT_WAIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12143658822,
+            "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "group": "/groups/native",
+            "id": "F03_P09_NATIVE_PAID_SUPPLIER_CREDIT_CARRY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12143658822,
+            "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "group": "/groups/races",
+            "id": "F03_P09_REAL_SUPPLIER_CREDIT_SOURCE_RACE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12143658822,
+            "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "group": "/groups/http",
+            "id": "F03_P09_REAL_HTTP_SUPPLIER_CREDIT_CURRENT_AUTHORITY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12143658822,
+            "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "group": "/groups/browser",
+            "id": "F03_P09_PAID_SUPPLIER_CREDIT_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12143658822,
+            "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "group": "/groups/browser",
+            "id": "F03_P09_PAID_SUPPLIER_CREDIT_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762518,
+            "artifact_id": 12143743308,
+            "report": "CP7_P13_PERIOD_CONTROL.json",
+            "group": "/races",
+            "id": "P13_REPORT_CONCURRENT_CASH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_CASH_EMPTY_BANK_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_CASH_EXACT_ZERO_ALLOWED_THEN_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "S2",
+      "chain": "Retur/kredit supplier",
+      "status": "PASS",
+      "scope": "Komponen retur/kredit supplier dengan lineage, tanggal dan nilai yang tetap dapat ditelusuri; bukan semua permutasi produksi.",
+      "application_pages": "procurement; finance-ap",
+      "retained_prior_record": {
+        "id": "S2",
+        "chain": "Retur/kredit supplier",
+        "connection_status": "TERSAMBUNG DAN TERUJI",
+        "application_pages": "procurement; finance-ap",
+        "public_to_native_path": "supplier return/credit → Native stock and AP writers",
+        "independent_proof": "F03 p09 + supplier_credit 5 with real Auth HTTP/browser",
+        "verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+        "boundary": "Positif/refusal/replay pada fixture; tidak mengklaim seluruh rantai produksi hasil material retur.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "P09_RETURN|CREDIT|SUPPLIER",
+        "matching_occurrences": 79,
+        "status_counts": {
+          "PASS": 79
+        },
+        "examples": [
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/browser",
+            "id": "P09_BROWSER_RETURN_CREDIT_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/browser",
+            "id": "P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_TRANSFERRED_GRNI",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_FABRIC_PORTABLE_CREDIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_ACCESSORY_PORTABLE_CREDIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_PARTIAL_AP_GRNI",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_EXACT_CENTS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_REPLAY_STALE_SOURCE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_ATOMIC_LINEAGE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_HISTORICAL_PREFIX",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_ACCESS_PRINCIPALS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_COMPLETE_DOCUMENT_PAGES",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "S3",
+      "chain": "Absensi/Nota/upah/rework/kasbon → payroll → kas",
+      "status": "PASS",
+      "scope": "Lifecycle/replacement pool HPP Enteng serta work/rework/nota/payroll menutup gap UI. Ordinary pool browser INCOMPLETE dan batas wrapper publik lama tetap eksplisit.",
+      "application_pages": "fg-handoff; finance-payroll; operations-attendance",
+      "retained_prior_record": {
+        "id": "S3",
+        "chain": "Absensi/Nota/upah/rework/kasbon → payroll → kas",
+        "connection_status": "TERSAMBUNG DAN TERUJI SEBAGIAN",
+        "application_pages": "fg-handoff; finance-payroll; operations-attendance",
+        "public_to_native_path": "payroll/attendance/kasbon facades → Native wage/settlement writers",
+        "independent_proof": "CP17 R2_07 BS→rework→Nota→payroll→pay, kasbon screen; F03P12/cash.",
+        "verdict": "INCOMPLETE_POOL_UI",
+        "boundary": "Rework→Nota→pay now demonstrated. Attendance HPPpool create/activate/cancel UI is missing; UATpayroll/attendance hidden perD15-2.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "INCOMPLETE_FULL_LINK",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "HPP_POOL|PAYROLL|KASBON|BS_REWORK",
+        "matching_occurrences": 78,
+        "status_counts": {
+          "PASS": 75,
+          "INCOMPLETE": 3
+        },
+        "examples": [
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/payroll_review",
+            "id": "P12_PAYROLL_READ_EXACT_PAGES",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/payroll_review",
+            "id": "P12_PAYROLL_READ_TOKEN_TIMEZONE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/payroll_review",
+            "id": "P12_PAYROLL_READ_ACCESS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/payroll_review",
+            "id": "P12_PAYROLL_READ_REVERSED_HISTORY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/payroll_review_http",
+            "id": "P12_PAYROLL_READ_HTTP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/payroll_review_browser",
+            "id": "P12_PAYROLL_REVIEW_BROWSER_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/payroll_review_browser",
+            "id": "P12_PAYROLL_REVIEW_BROWSER_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/settlement",
+            "id": "P12_SETTLEMENT_KASBON_CARRY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_CASH_PAYROLL_EMPTY_BANK_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_KASBON_GIVE_DEDUCT_PAY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_KASBON_LIMITS_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_KASBON_RELEASE_CANCEL_REPLAY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "S4",
+      "chain": "Nota Ambil Aksesori → potongan payroll → kas",
+      "status": "PASS",
+      "scope": "Enteng nota POST → REVERSE → POST → payroll PREPARE → APPROVE → PAY: 6000 − 2100 = 3900; nota dibatalkan 1500 tidak dipotong. Assertion tanggal ordinary browser INCOMPLETE.",
+      "application_pages": "contractor-issue; finance-payroll",
+      "retained_prior_record": {
+        "id": "S4",
+        "chain": "Nota Ambil Aksesori → potongan payroll → kas",
+        "connection_status": "TERSAMBUNG TANPA UJI APLIKASI",
+        "application_pages": "contractor-issue; finance-payroll",
+        "public_to_native_path": "Native issue → contractor deduction → payroll settlement",
+        "independent_proof": "Retained CP6 AV + current code path; fresh inventory only",
+        "verdict": "INCOMPLETE_FULL_LINK",
+        "boundary": "Belum satu fresh browser final-stack yang meneruskan Nota Ambil hingga potongan dan pembayaran. Tidak disamarkan sebagai FAIL produk.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "INCOMPLETE_FULL_LINK",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "ACCESSORY_NOTE_TO_PAYROLL|E24_|NOTE_",
+        "matching_occurrences": 51,
+        "status_counts": {
+          "PASS": 50,
+          "INCOMPLETE": 1
+        },
+        "examples": [
+          {
+            "run_id": 39146762249,
+            "artifact_id": 12143553710,
+            "report": "CP7_F03_E24_ISSUE.json",
+            "group": "/native",
+            "id": "F03_E24_TRANSFER_NOTE_INVERSE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762249,
+            "artifact_id": 12143553710,
+            "report": "CP7_F03_E24_ISSUE.json",
+            "group": "/native",
+            "id": "F03_E24_SERVICE_NOTE_RETURN_LATE_INVOICE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762249,
+            "artifact_id": 12143553710,
+            "report": "CP7_F03_E24_ISSUE.json",
+            "group": "/browser",
+            "id": "F03_E24_NOTE_BROWSER_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762249,
+            "artifact_id": 12143553710,
+            "report": "CP7_F03_E24_ISSUE.json",
+            "group": "/browser",
+            "id": "F03_E24_NOTE_BROWSER_MOBILE_RECOVERY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/native",
+            "id": "P18_E01_OWNING_NOTE_CORRECTION_ALL_CONSUMERS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_SPENT_INCOME_NOTE_ONLY_COMMITS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_NOTE_CORRECTION_SPENT_PAYMENT_COMMITS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser",
+            "id": "CP17_BROWSER_R3_05_ACCESSORY_NOTE_TO_PAYROLL_DESKTOP",
+            "status": "INCOMPLETE",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser_enteng",
+            "id": "CP17_BROWSER_R3_05_ACCESSORY_NOTE_TO_PAYROLL_DESKTOP_ENTENG",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762771,
+            "artifact_id": 12144052962,
+            "report": "CP7_P18_E01_BRIDGE.json",
+            "group": "/native",
+            "id": "P18_E01_OWNING_NOTE_CORRECTION_ALL_CONSUMERS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762496,
+            "artifact_id": 12144076174,
+            "report": "CP7_NOTE_CORRECTION.json",
+            "group": "/native",
+            "id": "NOTE_YEAR_30",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762496,
+            "artifact_id": 12144076174,
+            "report": "CP7_NOTE_CORRECTION.json",
+            "group": "/native",
+            "id": "NOTE_YEAR_364",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "S5",
+      "chain": "BS → rework/cuci ulang → QC/upah",
+      "status": "PASS",
+      "scope": "Rantai positif BS/rework/nota/payroll dan aturan rewash produk sama; bukan setiap permutasi partial/QC dalam satu perjalanan layar.",
+      "application_pages": "bs-rework; laundry; qc; finance-payroll",
+      "retained_prior_record": {
+        "id": "S5",
+        "chain": "BS → rework/cuci ulang → QC/upah",
+        "connection_status": "TERSAMBUNG DAN TERUJI",
+        "application_pages": "bs-rework; laundry; qc; finance-payroll",
+        "public_to_native_path": "Native BS/rework/rewash → eligible completion",
+        "independent_proof": "CP17 R2_07 source-only screen chain with BS component classification, BOM recipe, Mandor rework, Nota and payment.",
+        "verdict": "PASS_TESTED_REWORK_NOTA_PAYROLL_PATH",
+        "boundary": "Same-product rewash Native retains free rule; not every partial return/QC/permutation in one app chain.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "INCOMPLETE_FULL_LINK",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "BS_REWORK|REWORK|REDYE|SG03",
+        "matching_occurrences": 23,
+        "status_counts": {
+          "PASS": 23
+        },
+        "examples": [
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/notes",
+            "id": "P12_NOTA_ORDINARY_REWORK",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762369,
+            "artifact_id": 12143663281,
+            "report": "CP7_F03_REDYE.json",
+            "group": "/native",
+            "id": "F03_X04_REDYE_UNKNOWN_GROUP_FIRST_PRICE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762369,
+            "artifact_id": 12143663281,
+            "report": "CP7_F03_REDYE.json",
+            "group": "/native",
+            "id": "F03_X04_REDYE_GROUP_INVOICE_SOLD_INVERSE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762369,
+            "artifact_id": 12143663281,
+            "report": "CP7_F03_REDYE.json",
+            "group": "/http",
+            "id": "F03_X04_REDYE_HTTP_AUTH_SOURCE_PRICE_AND_CP7",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762369,
+            "artifact_id": 12143663281,
+            "report": "CP7_F03_REDYE.json",
+            "group": "/browser",
+            "id": "F03_X04_REDYE_BROWSER_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762369,
+            "artifact_id": 12143663281,
+            "report": "CP7_F03_REDYE.json",
+            "group": "/browser",
+            "id": "F03_X04_REDYE_BROWSER_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762467,
+            "artifact_id": 12143817890,
+            "report": "CP7_F03_X04.json",
+            "group": "/native",
+            "id": "F03_X04_REWORK_OLD_CONTRACTOR",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762467,
+            "artifact_id": 12143817890,
+            "report": "CP7_F03_X04.json",
+            "group": "/native",
+            "id": "F03_X04_REWORK_NEW_CONTRACTOR",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_RWK01_ALL_SCRAP_REWORK_PAYABLE_ONCE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_SG03_REWASH_SAME_PRODUCT_NO_VENDOR_BILL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser",
+            "id": "CP17_BROWSER_R2_07_BS_REWORK_NOTA_PAYROLL_PAY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser_enteng",
+            "id": "CP17_BROWSER_R2_07_BS_REWORK_NOTA_PAYROLL_PAY_ENTENG",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "S6",
+      "chain": "Hitung fisik/penyesuaian → stok/GL",
+      "status": "PASS",
+      "scope": "Komponen opname FG/bahan dan inverse GL. Material count pertama 14 PASS + 3 INCOMPLETE dipisahkan dari kedua 17 PASS; tidak otomatis dihijaukan.",
+      "application_pages": "stock-adjustment; materials-rolls",
+      "retained_prior_record": {
+        "id": "S6",
+        "chain": "Hitung fisik/penyesuaian → stok/GL",
+        "connection_status": "TERSAMBUNG DAN TERUJI",
+        "application_pages": "stock-adjustment; materials-rolls",
+        "public_to_native_path": "Native material count / FG adjustment",
+        "independent_proof": "F03 p09/p10 Native/race/real Auth HTTP/browser",
+        "verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+        "boundary": "Teruji sendiri; belum disisipkan di tengah seluruh rantai 13 tahap dan tutup periode.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "PASS_WITHIN_WITNESSED_SCOPE",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "COUNT_|ADJUST|P10_",
+        "matching_occurrences": 116,
+        "status_counts": {
+          "PASS": 113,
+          "INCOMPLETE": 3
+        },
+        "examples": [
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count",
+            "id": "P09_COUNT_FABRIC",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": true
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count",
+            "id": "P09_COUNT_ACCESSORY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": true
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count",
+            "id": "P09_COUNT_POSITIVE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": true
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count",
+            "id": "P09_COUNT_STALE_BASIS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": true
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count",
+            "id": "P09_COUNT_FORGED_ATOMIC",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": true
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count",
+            "id": "P09_COUNT_NATIVE_EDIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": true
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count",
+            "id": "P09_COUNT_REPLAY_DELETE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": true
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count",
+            "id": "P09_COUNT_ACCESS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": true
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count",
+            "id": "P09_COUNT_SCOPE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": true
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count",
+            "id": "P09_COUNT_HISTORICAL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": true
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count",
+            "id": "P09_COUNT_COMPLETE_PAGES",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": true
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count",
+            "id": "P09_COUNT_MULTI_EDIT_INVERSE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "S7",
+      "chain": "Impor saldo awal → tahap berikutnya",
+      "status": "PASS",
+      "scope": "Opening/impor sintetis → WIP/merek/penjualan/pembayaran serta kelanjutan BS/rework. Cutover/hosted/shadow nyata tetap ditunda.",
+      "application_pages": "admin-import; finance-payroll; sales-returns",
+      "retained_prior_record": {
+        "id": "S7",
+        "chain": "Impor saldo awal → tahap berikutnya",
+        "connection_status": "TERSAMBUNG DAN TERUJI",
+        "application_pages": "admin-import; finance-payroll; sales-returns",
+        "public_to_native_path": "Native migration/opening adapters → continuation writers",
+        "independent_proof": "CP17 R2_07 browser import→WIPoutput→FG→convert→close→sale→customerpayment→cash; openingBS→rework side chain.",
+        "verdict": "PASS_TESTED_OPENING_WIP_CONTINUATION",
+        "boundary": "Synthetic opening data only; original CP2 functional restore and realcutover shadow remain deferred.",
+        "uat_boundary": "UAT29connected/17hidden/1boundary/1notice per D15-2; current Native browser mostly disposable; actual UAT3 via explicit isolated transport; no hosted CP7 installation.",
+        "finding_refs": [],
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "previous_verdict": "INCOMPLETE_FULL_LINK",
+        "evidence_origin": "INDEPENDENT_NATIVE_RERUN_PLUS_EXPLICIT_RETAINED_SOURCE_SCOPE"
+      },
+      "r3_document_witnesses": {
+        "pattern": "IMPORT_WIP|CUTOVER|OPENING|E01_BRIDGE",
+        "matching_occurrences": 77,
+        "status_counts": {
+          "PASS": 77
+        },
+        "examples": [
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/opening_payroll_browser",
+            "id": "P12_OPENING_BROWSER_DESKTOP_CYCLE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/opening_payroll_browser",
+            "id": "P12_OPENING_BROWSER_MOBILE_RECOVERY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/browser",
+            "id": "P18_E01_BRIDGE_BROWSER_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/browser",
+            "id": "P18_E01_BRIDGE_BROWSER_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_D15_5_CUTOVER_SET_BOUNDARY_AND_HISTORY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_D15_5_CUTOVER_DAY_BOUNDARY_JOURNAL_AND_STOCK",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_D15_5_CUTOVER_OPENING_PATH_LATE_INVOICE_SETTLEMENT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_D15_5_CUTOVER_FAILURE_MIDWAY_LEAVES_NOTHING",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_D15_5_CUTOVER_RESEND_SAME_UUID",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/races",
+            "id": "CP17_RACE_R2_D15_5_CUTOVER_TWO_TABS_SAME_VERSION",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/races",
+            "id": "CP17_RACE_R2_D15_5_CUTOVER_SET_VS_POST_DAY_BEFORE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/http",
+            "id": "CP17_HTTP_R2_D15_5_CUTOVER",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    }
+  ]
+}

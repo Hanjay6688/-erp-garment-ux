@@ -1,0 +1,428 @@
+{
+  "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "source_ledger_sha256": "8355d0c6d8776109407e8407bfd08f5af27b663291e288f5fa973b988c0dfe83",
+  "raw_canonical_document_occurrences": 3710,
+  "raw_canonical_status_counts": {
+    "PASS": 3689,
+    "INCOMPLETE": 21
+  },
+  "raw_canonical_distinct_id_strings": 1892,
+  "original_first_result_cohort_occurrences": 3710,
+  "original_first_result_status_counts": {
+    "PASS": 3650,
+    "INCOMPLETE": 60
+  },
+  "original_first_result_by_layer": {
+    "native": {
+      "PASS": 1779,
+      "INCOMPLETE": 15
+    },
+    "races": {
+      "PASS": 370,
+      "INCOMPLETE": 19
+    },
+    "http": {
+      "PASS": 251,
+      "INCOMPLETE": 2
+    },
+    "browser": {
+      "PASS": 370,
+      "INCOMPLETE": 21
+    },
+    "material": {
+      "PASS": 13
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 3
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "material_count_races": {
+      "PASS": 2
+    },
+    "material_count_http": {
+      "PASS": 2
+    },
+    "invoice": {
+      "PASS": 9
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "combined_invoice": {
+      "PASS": 6
+    },
+    "combined_invoice_races": {
+      "PASS": 3
+    },
+    "combined_invoice_http": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 21
+    },
+    "return_races": {
+      "PASS": 6
+    },
+    "return_http": {
+      "PASS": 2
+    },
+    "receipt_reversal": {
+      "PASS": 7
+    },
+    "receipt_reversal_races": {
+      "PASS": 3
+    },
+    "receipt_reversal_http": {
+      "PASS": 1
+    },
+    "uom": {
+      "PASS": 6
+    },
+    "uom_races": {
+      "PASS": 2
+    },
+    "uom_http": {
+      "PASS": 1
+    },
+    "sales_browser": {
+      "PASS": 2
+    },
+    "opening_payroll_browser": {
+      "PASS": 4
+    },
+    "finance_browser": {
+      "PASS": 2
+    },
+    "notes": {
+      "PASS": 21
+    },
+    "note_races": {
+      "PASS": 9
+    },
+    "note_http": {
+      "PASS": 3
+    },
+    "admission_regression": {
+      "PASS": 3
+    },
+    "payroll_review": {
+      "PASS": 12
+    },
+    "payroll_review_http": {
+      "PASS": 3
+    },
+    "payroll_review_browser": {
+      "PASS": 6
+    },
+    "settlement": {
+      "PASS": 24
+    },
+    "settlement_races": {
+      "PASS": 12
+    },
+    "settlement_http": {
+      "PASS": 3
+    },
+    "settlement_browser": {
+      "PASS": 9
+    },
+    "attendance_read": {
+      "PASS": 12
+    },
+    "attendance_read_http": {
+      "PASS": 2
+    },
+    "attendance_read_browser": {
+      "PASS": 4
+    },
+    "roster": {
+      "PASS": 12
+    },
+    "roster_races": {
+      "PASS": 6
+    },
+    "roster_http": {
+      "PASS": 2
+    },
+    "roster_browser": {
+      "PASS": 4
+    },
+    "attendance_write": {
+      "PASS": 10
+    },
+    "attendance_write_races": {
+      "PASS": 4
+    },
+    "attendance_write_http": {
+      "PASS": 1
+    },
+    "attendance_write_browser": {
+      "PASS": 2
+    },
+    "groups": {
+      "PASS": 402
+    },
+    "period_native": {
+      "PASS": 8
+    },
+    "period_races": {
+      "PASS": 2
+    },
+    "period_http": {
+      "PASS": 1
+    },
+    "period_browser": {
+      "PASS": 2
+    },
+    "browser_enteng": {
+      "PASS": 55
+    },
+    "commands": {
+      "PASS": 6
+    },
+    "command_races": {
+      "PASS": 2
+    },
+    "command_http": {
+      "PASS": 1
+    },
+    "drafts": {
+      "PASS": 7
+    },
+    "draft_races": {
+      "PASS": 1
+    },
+    "draft_http": {
+      "PASS": 1
+    },
+    "payments": {
+      "PASS": 8
+    },
+    "payment_races": {
+      "PASS": 3
+    },
+    "payment_http": {
+      "PASS": 1
+    },
+    "adjustments": {
+      "PASS": 8
+    },
+    "adjustment_races": {
+      "PASS": 2
+    },
+    "adjustment_http": {
+      "PASS": 1
+    },
+    "book": {
+      "PASS": 6
+    },
+    "book_races": {
+      "PASS": 2
+    },
+    "book_http": {
+      "PASS": 1
+    },
+    "analysis_native": {
+      "PASS": 8
+    },
+    "analysis_races": {
+      "PASS": 1
+    },
+    "analysis_http": {
+      "PASS": 1
+    },
+    "analysis_browser": {
+      "PASS": 2
+    },
+    "source": {
+      "PASS": 11
+    },
+    "production": {
+      "PASS": 6
+    },
+    "production_races": {
+      "PASS": 1
+    },
+    "production_http": {
+      "PASS": 1
+    },
+    "audit_replay": {
+      "PASS": 5
+    },
+    "regressions": {
+      "PASS": 8
+    },
+    "regression_http": {
+      "PASS": 1
+    },
+    "opening_payroll": {
+      "PASS": 5
+    },
+    "opening_payroll_races": {
+      "PASS": 2
+    },
+    "opening_payroll_http": {
+      "PASS": 1
+    },
+    "journal_native": {
+      "PASS": 6
+    },
+    "journal_http": {
+      "PASS": 1
+    },
+    "refund_native": {
+      "PASS": 2
+    },
+    "refund_races": {
+      "PASS": 1
+    },
+    "refund_http": {
+      "PASS": 1
+    },
+    "refund_browser": {
+      "PASS": 2
+    },
+    "recost_native": {
+      "PASS": 8
+    },
+    "recost_races": {
+      "PASS": 2
+    },
+    "recost_http": {
+      "PASS": 1
+    },
+    "recost_browser": {
+      "PASS": 2
+    },
+    "material_count": {
+      "PASS": 14,
+      "INCOMPLETE": 3
+    }
+  },
+  "internal_second_attempt_occurrences": 120,
+  "internal_second_attempt_counts": {
+    "PASS": 120
+  },
+  "internal_second_attempt_groups": [
+    {
+      "run_id": 39146762312,
+      "group": "/http",
+      "first": {
+        "PASS": 1,
+        "INCOMPLETE": 2
+      },
+      "second": {
+        "PASS": 3
+      },
+      "ids_equal": true,
+      "second_attempt_acceptance": "OBSERVATION_ONLY_NOT_SUBSTITUTE_FOR_FIRST_RESULT"
+    },
+    {
+      "run_id": 39146762454,
+      "group": "/races",
+      "first": {
+        "PASS": 11,
+        "INCOMPLETE": 9
+      },
+      "second": {
+        "PASS": 20
+      },
+      "ids_equal": true,
+      "second_attempt_acceptance": "OBSERVATION_ONLY_NOT_SUBSTITUTE_FOR_FIRST_RESULT"
+    },
+    {
+      "run_id": 39146762526,
+      "group": "/material_count",
+      "first": {
+        "PASS": 14,
+        "INCOMPLETE": 3
+      },
+      "second": {
+        "PASS": 17
+      },
+      "ids_equal": true,
+      "second_attempt_acceptance": "OBSERVATION_ONLY_NOT_SUBSTITUTE_FOR_FIRST_RESULT"
+    },
+    {
+      "run_id": 39146762556,
+      "group": "/races",
+      "first": {
+        "PASS": 10,
+        "INCOMPLETE": 10
+      },
+      "second": {
+        "PASS": 20
+      },
+      "ids_equal": true,
+      "second_attempt_acceptance": "OBSERVATION_ONLY_NOT_SUBSTITUTE_FOR_FIRST_RESULT"
+    },
+    {
+      "run_id": 39146763571,
+      "group": "/native",
+      "first": {
+        "PASS": 45,
+        "INCOMPLETE": 15
+      },
+      "second": {
+        "PASS": 60
+      },
+      "ids_equal": true,
+      "second_attempt_acceptance": "OBSERVATION_ONLY_NOT_SUBSTITUTE_FOR_FIRST_RESULT"
+    }
+  ],
+  "measurement_only_scale_rows": {
+    "run_id": 39146762696,
+    "report": "CP7_P19_SCALE.json",
+    "raw_counts": {
+      "PASS": 5
+    },
+    "qualification": "Included as raw execution occurrences, not latency/factory acceptance. Read P19_SCALE_RESULT_REVIEW.json for all 48 measurements, refusals and direct/finance target misses."
+  },
+  "no_product_credit_categories": {
+    "AUXILIARY_SMOKE": {
+      "PASS": 8
+    },
+    "SOURCE_ADMISSION_NO_PRODUCT_CREDIT": {
+      "PASS": 6
+    },
+    "DIAGNOSTIC_LEGACY": {
+      "INCOMPLETE": 2
+    },
+    "DIAGNOSTIC_ONLY_RUN": {
+      "PASS": 12
+    }
+  },
+  "metadata_qualifications": {
+    "separate_runs": [
+      39150692618,
+      39150692634
+    ],
+    "t3_browser_case_count": 10,
+    "sarif_result_counts": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "original_run_failures_preserved": true,
+    "reference": "METADATA_Q1_RESULT_REVIEW.json",
+    "added_to_cp7_case_count": false
+  },
+  "legacy_origin_separate": {
+    "reference": "LEGACY_DOCUMENT_REVIEW.json",
+    "normalization": "NONPASS_DISPOSITIONS.json"
+  },
+  "full_audit_pass": false,
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false,
+  "qualification": "Counts describe execution occurrences, not unique independent oracles, risk weights or an ERP percentage. PASS raw rows have only their declared writer/inherited-oracle scope. Internal second attempts are not used to overwrite original acceptance. No held additional probe receives credit."
+}

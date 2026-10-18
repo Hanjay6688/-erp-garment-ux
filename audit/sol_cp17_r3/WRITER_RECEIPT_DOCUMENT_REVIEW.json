@@ -1,0 +1,43 @@
+{
+  "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "scope": "Independent arithmetic and ID-set review of read-only GitHub metadata collected mechanically by root; no writer runtime acceptance is granted",
+  "evidence_origin": "INDEPENDENT_SOURCE_REVIEW",
+  "writer_runtime_origin": "REUSED_WRITER_EVIDENCE",
+  "runs_pages": 2,
+  "runs": 117,
+  "unique_runs": 117,
+  "unique_workflows": 115,
+  "runs_success": 95,
+  "runs_failure": 22,
+  "all_runs_exact_candidate": true,
+  "all_run_ids_equal_writer_receipt": true,
+  "jobs_all_attempts": 182,
+  "jobs_latest_attempt": 181,
+  "latest_jobs_success": 159,
+  "latest_jobs_failure": 22,
+  "all_latest_job_ids_equal_writer_receipt": true,
+  "attempt_1_runs": 116,
+  "attempt_2_runs": 1,
+  "f05_attempt_1": {
+    "run_id": 39036085365,
+    "job_id": 117406019874,
+    "status": "FAIL_BEFORE_PRODUCT_CASES",
+    "failure_step": "Start disposable database",
+    "log_message": "Error response from daemon: toomanyrequests: Data limit exceeded",
+    "failed_image_log_context": "public.ecr.aws/supabase/gotrue:v2.196.0",
+    "planned_case_lines_in_log": 0,
+    "case_result_lines_in_log": 0,
+    "product_case_step_metadata": "skipped",
+    "first_failure_preserved": true,
+    "log_path": "ci_receipts/writer_b53b5acd/F05_ATTEMPT1_JOB117406019874.log"
+  },
+  "f05_attempt_2": {
+    "job_id": 117414908660,
+    "conclusion_metadata": "success",
+    "product_results_reviewed_for_acceptance": false
+  },
+  "annotation_boundary": "Connector rejects check-run annotations endpoint as HTTP400 INVALID_ARGUMENT. No claim that annotations were enumerated independently.",
+  "pagination_disposition": "The prior missing-second-run-page issue is closed for this real117-run population: every run ID matches. Latest job IDs also match. More-than100jobs-in-one-run and annotation pagination are not exercised by these observations.",
+  "overall_audit_complete": false,
+  "production_go": false
+}

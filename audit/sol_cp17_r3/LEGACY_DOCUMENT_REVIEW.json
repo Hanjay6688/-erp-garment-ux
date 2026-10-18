@@ -1,0 +1,781 @@
+{
+  "scope": "DOCUMENT_REVIEW_OF_ALREADY_EXECUTED_LEGACY_NATIVE_STAGES",
+  "full_audit_pass": false,
+  "oracle_origin": "WRITER_OR_FROZEN_INHERITED; EXECUTION_INDEPENDENT_SOL",
+  "documents": [
+    {
+      "run_id": 39146762487,
+      "artifact_id": 12143893398,
+      "path": "ci_receipts/sol_artifacts/12143893398/files/AT_CASES.json",
+      "sha256": "16d5236b2b26f5c3b39918ac6f75d827e49eac29796654db37c4ddf2d2ae0323",
+      "status": "WRITER_PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": "AV",
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 16,
+          "counts": {
+            "PASS": 16
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762487,
+      "artifact_id": 12143893398,
+      "path": "ci_receipts/sol_artifacts/12143893398/files/AU_CASES.json",
+      "sha256": "3aeafb6d819aa477d4b2a812f6cb168a86896d929574e8b270567fba0fbd673f",
+      "status": "WRITER_PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": "AV",
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 15,
+          "counts": {
+            "PASS": 15
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762487,
+      "artifact_id": 12143893398,
+      "path": "ci_receipts/sol_artifacts/12143893398/files/TEMPORAL.json",
+      "sha256": "1b9a2e7a355e882b39ea6bc1fd7d08fc15749a08c03d28be98a8757108db2200",
+      "status": "WRITER_PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": null,
+      "complete_boundary_restored": null,
+      "groups": [
+        {
+          "path": "/temporal_races",
+          "rows": 4,
+          "counts": {
+            "PASS": 4
+          },
+          "errors": [],
+          "planned_ids_available": false
+        },
+        {
+          "path": "/master_races",
+          "rows": 6,
+          "counts": {
+            "PASS": 6
+          },
+          "errors": [],
+          "planned_ids_available": false
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12143983095,
+      "path": "ci_receipts/sol_artifacts/12143983095/files/AT_TEMPORAL_AFTER.json",
+      "sha256": "0e3b7ebc56bad0f2192596a46ef04d520a99e118516009eacd67ba3c6248278c",
+      "status": "PASS",
+      "phase": "AFTER_DECLARED_REPAIR",
+      "stage": null,
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 16,
+          "counts": {
+            "PASS": 16
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12143983095,
+      "path": "ci_receipts/sol_artifacts/12143983095/files/AU_MASTER_AFTER.json",
+      "sha256": "6a8c494105c8a618642e089b6eeabcd1f427f1ea538780be3db5b389c4205e42",
+      "status": "PASS",
+      "phase": "AFTER_DECLARED_REPAIR",
+      "stage": null,
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 15,
+          "counts": {
+            "PASS": 15
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12143983095,
+      "path": "ci_receipts/sol_artifacts/12143983095/files/AV_CASES_AFTER.json",
+      "sha256": "8163be1e008d8c44902b66243e035a435d9edf138415dfbd5799e20aa9969b67",
+      "status": "PASS",
+      "phase": "AFTER_DECLARED_REPAIR",
+      "stage": null,
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 34,
+          "counts": {
+            "PASS": 23,
+            "CONTROL_PASS": 11
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12143983095,
+      "path": "ci_receipts/sol_artifacts/12143983095/files/FOUND_RACES_AFTER.json",
+      "sha256": "72789be919aa203cc9618f29c1e3ed6765374790d7d92621ef7915a8c06e8b41",
+      "status": "PASS",
+      "phase": "AFTER_DECLARED_REPAIR",
+      "stage": null,
+      "complete_boundary_restored": null,
+      "groups": [
+        {
+          "path": "/schedules",
+          "rows": 4,
+          "counts": {
+            "PASS": 4
+          },
+          "errors": [],
+          "planned_ids_available": false
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12143983095,
+      "path": "ci_receipts/sol_artifacts/12143983095/files/RACES_AFTER.json",
+      "sha256": "0badd831ee35664c1965d5e4c7a00db045d3f76436746c8674722f9f2294e87d",
+      "status": "PASS",
+      "phase": "AFTER_DECLARED_REPAIR",
+      "stage": null,
+      "complete_boundary_restored": null,
+      "groups": [
+        {
+          "path": "/schedules",
+          "rows": 4,
+          "counts": {
+            "PASS": 4
+          },
+          "errors": [],
+          "planned_ids_available": false
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12144079042,
+      "path": "ci_receipts/sol_artifacts/12144079042/files/AT_CASES.json",
+      "sha256": "b53839efb21f268de832fb2f0159e30e66e6a4dd338b60e46472833f32677d86",
+      "status": "WRITER_PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": "AV",
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 16,
+          "counts": {
+            "PASS": 16
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12144079042,
+      "path": "ci_receipts/sol_artifacts/12144079042/files/AU_CASES.json",
+      "sha256": "a009d4e15628c2e34438ca731f676e169c0478d97c735c1b399ee18e1383c9af",
+      "status": "WRITER_PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": "AV",
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 15,
+          "counts": {
+            "PASS": 15
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12144079042,
+      "path": "ci_receipts/sol_artifacts/12144079042/files/TEMPORAL.json",
+      "sha256": "99aedae7c4d5db81ffa165845f5500a04b96b2cd3a8dd8c1f6dc9045e9854850",
+      "status": "WRITER_PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": null,
+      "complete_boundary_restored": null,
+      "groups": [
+        {
+          "path": "/temporal_races",
+          "rows": 4,
+          "counts": {
+            "PASS": 4
+          },
+          "errors": [],
+          "planned_ids_available": false
+        },
+        {
+          "path": "/master_races",
+          "rows": 6,
+          "counts": {
+            "PASS": 6
+          },
+          "errors": [],
+          "planned_ids_available": false
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12144094190,
+      "path": "ci_receipts/sol_artifacts/12144094190/files/BUSINESS.json",
+      "sha256": "d7c380676a11ebfb2a5901afba8bfa2a9d4039dc90e78116b6185cf022c5f482",
+      "status": "WRITER_PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": "AV",
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 230,
+          "counts": {
+            "PASS": 179,
+            "CONTROL_PASS": 39,
+            "DATE_POLICY_REVIEW_REQUIRED": 12
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12144094190,
+      "path": "ci_receipts/sol_artifacts/12144094190/files/IMPORTS.json",
+      "sha256": "6bdb28d18caa30290b3cc2f8f74e38a26afc06ff053a558f784ef9c8c29e12d5",
+      "status": "WRITER_PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": "AV",
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 31,
+          "counts": {
+            "PASS": 31
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12144094190,
+      "path": "ci_receipts/sol_artifacts/12144094190/files/NEW_CASES.json",
+      "sha256": "48f0dec554dd18924b622a19591cdaba63d3b64e4710e53b71ce73a107ea97c2",
+      "status": "WRITER_PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": "AV",
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 34,
+          "counts": {
+            "PASS": 34
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12144094190,
+      "path": "ci_receipts/sol_artifacts/12144094190/files/VALUES.json",
+      "sha256": "e643d213c27c9f4a451c67e9a1e14ce0730196d3469bb29c954319d008fd2450",
+      "status": "WRITER_PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": "AV",
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 65,
+          "counts": {
+            "PASS": 65
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762579,
+      "artifact_id": 12144358561,
+      "path": "ci_receipts/sol_artifacts/12144358561/files/BE_CASES_BEFORE.json",
+      "sha256": "2ed54b52f923c44387fd3eb142f8886e2c3c1528123bd6e3da5dfca0c6f6ce9d",
+      "status": "PASS",
+      "phase": "HISTORICAL_BEFORE_DECLARED_REPAIR",
+      "stage": null,
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 16,
+          "counts": {
+            "NO_ROUTE": 16
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12144497800,
+      "path": "ci_receipts/sol_artifacts/12144497800/files/AR_SEQUENTIAL.json",
+      "sha256": "b4fc0e4503d6f25ac1c13df6f8488e5c66302f4b827a4155ad1b0a07e01810d6",
+      "status": "WRITER_PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": "AV",
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 146,
+          "counts": {
+            "PASS": 146
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12144497800,
+      "path": "ci_receipts/sol_artifacts/12144497800/files/QUALIFY.json",
+      "sha256": "63cf9c8d422900fd0aab617660251515f86ead3fc7b2f453bbed0f732177033b",
+      "status": "WRITER_PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": null,
+      "complete_boundary_restored": null,
+      "groups": [
+        {
+          "path": "/races",
+          "rows": 28,
+          "counts": {
+            "PASS": 28
+          },
+          "errors": [],
+          "planned_ids_available": false
+        }
+      ]
+    },
+    {
+      "run_id": 39146762487,
+      "artifact_id": 12144851466,
+      "path": "ci_receipts/sol_artifacts/12144851466/files/AR.json",
+      "sha256": "c6203fbab31dec1f74ec6933f6b46e37569951c0e844f5b7f5f3c9a81da081c2",
+      "status": "INCOMPLETE",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": null,
+      "complete_boundary_restored": null,
+      "groups": [
+        {
+          "path": "/races",
+          "rows": 28,
+          "counts": {
+            "PASS": 28
+          },
+          "errors": [],
+          "planned_ids_available": false
+        }
+      ]
+    },
+    {
+      "run_id": 39146762487,
+      "artifact_id": 12144851466,
+      "path": "ci_receipts/sol_artifacts/12144851466/files/AR_SEQUENTIAL.json",
+      "sha256": "006243cf66dfc0cecca8bbf148579748ecc02b2a726b1e1e954710bb1611f4a7",
+      "status": "INCOMPLETE",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": "AV",
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 146,
+          "counts": {
+            "PASS": 145,
+            "INCOMPLETE": 1
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762487,
+      "artifact_id": 12144851466,
+      "path": "ci_receipts/sol_artifacts/12144851466/files/AR_SUPERSEDING.json",
+      "sha256": "27b8464a164e9b4819ddc632813c2c5e36bf324364dcf0e24386cf11d536036e",
+      "status": "WRITER_PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": "AV",
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 1,
+          "counts": {
+            "PASS": 1
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762487,
+      "artifact_id": 12144851466,
+      "path": "ci_receipts/sol_artifacts/12144851466/files/QUALIFY.json",
+      "sha256": "3bb6094bba0724067a05593c9f81392a0b713f645a97812bf481d8c3b69984f5",
+      "status": "DISPOSITION_REQUIRED",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": null,
+      "complete_boundary_restored": null,
+      "groups": []
+    },
+    {
+      "run_id": 39146762579,
+      "artifact_id": 12144945849,
+      "path": "ci_receipts/sol_artifacts/12144945849/files/BE_CASES_AFTER.json",
+      "sha256": "28b29576bcfcd4bd0e92fa1d8c11c346f04526e620b83e7b296045bc653ceff5",
+      "status": "PASS",
+      "phase": "AFTER_DECLARED_REPAIR",
+      "stage": null,
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 16,
+          "counts": {
+            "PASS": 16
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762487,
+      "artifact_id": 12144967174,
+      "path": "ci_receipts/sol_artifacts/12144967174/files/AO_TRIAL.json",
+      "sha256": "b442032c7c6f6a4d2d8226cf8035fb89b9107a0b24adbcecb5d526970a3b0681",
+      "status": "INCOMPLETE",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": "AV",
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 12,
+          "counts": {
+            "PASS": 8,
+            "INCOMPLETE": 4
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762487,
+      "artifact_id": 12144967174,
+      "path": "ci_receipts/sol_artifacts/12144967174/files/APPROVED_ORACLE_B.json",
+      "sha256": "a993b7af1dfb671543b23d8bf0c96dbb342fd71c79718d77108406446ca3eb81",
+      "status": "WRITER_PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": "AV",
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 5,
+          "counts": {
+            "PASS": 5
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762487,
+      "artifact_id": 12144967174,
+      "path": "ci_receipts/sol_artifacts/12144967174/files/BUSINESS.json",
+      "sha256": "9124c37f4fc950f855483884f7ba2f2289413348f1794b3e347b2901fc407258",
+      "status": "WRITER_PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": "AV",
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 230,
+          "counts": {
+            "PASS": 179,
+            "CONTROL_PASS": 39,
+            "DATE_POLICY_REVIEW_REQUIRED": 12
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762487,
+      "artifact_id": 12144967174,
+      "path": "ci_receipts/sol_artifacts/12144967174/files/IMPORTS.json",
+      "sha256": "50fda6407c47c295c79d29cbd71db2837c92e06c1ba17351fca6e1c197fee4db",
+      "status": "WRITER_PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": "AV",
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 31,
+          "counts": {
+            "PASS": 31
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762487,
+      "artifact_id": 12144967174,
+      "path": "ci_receipts/sol_artifacts/12144967174/files/NEW_CASES.json",
+      "sha256": "1b0575fa8bccf76ebc99f3c54e849312c481e59af5cf4caead3af17f89838965",
+      "status": "INCOMPLETE",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": "AV",
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 34,
+          "counts": {
+            "PASS": 25,
+            "COUNTEREXAMPLE": 8,
+            "INCOMPLETE": 1
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762487,
+      "artifact_id": 12144967174,
+      "path": "ci_receipts/sol_artifacts/12144967174/files/T2_C0_ORACLE.json",
+      "sha256": "14f9ece6dcf62035c74863ae73be6cbd4ac23c245ada8a1c31c2b3c8c588cb55",
+      "status": "PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": null,
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 25,
+          "counts": {
+            "PASS": 25
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762487,
+      "artifact_id": 12144967174,
+      "path": "ci_receipts/sol_artifacts/12144967174/files/VALUES.json",
+      "sha256": "e86ceac15f25f6d8bd973555067947feaaf697ad837f997ff35a64479e0961f5",
+      "status": "WRITER_PASS",
+      "phase": "NATIVE_STAGE_DECLARED_BY_ORIGINAL",
+      "stage": "AV",
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 65,
+          "counts": {
+            "PASS": 65
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12145295724,
+      "path": "ci_receipts/sol_artifacts/12145295724/files/AT_TEMPORAL_BEFORE.json",
+      "sha256": "d36daea99698a0559cc2468b30979886592c2e5320d88a5c46435e9b638974ba",
+      "status": "PASS",
+      "phase": "HISTORICAL_BEFORE_DECLARED_REPAIR",
+      "stage": null,
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 16,
+          "counts": {
+            "PASS": 16
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12145295724,
+      "path": "ci_receipts/sol_artifacts/12145295724/files/AU_MASTER_BEFORE.json",
+      "sha256": "099f6dc9394107c8a9b1620a308ebe4158a3a4aa2804366c37cc2cfe5b935b5b",
+      "status": "PASS",
+      "phase": "HISTORICAL_BEFORE_DECLARED_REPAIR",
+      "stage": null,
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 15,
+          "counts": {
+            "PASS": 15
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12145295724,
+      "path": "ci_receipts/sol_artifacts/12145295724/files/AV_CASES_BEFORE.json",
+      "sha256": "34cd69bebb43e234dd1f5b732531e4ab3686954f551e009066dd8b816bfceec4",
+      "status": "COUNTEREXAMPLE",
+      "phase": "HISTORICAL_BEFORE_DECLARED_REPAIR",
+      "stage": null,
+      "complete_boundary_restored": true,
+      "groups": [
+        {
+          "path": "/cases",
+          "rows": 34,
+          "counts": {
+            "COUNTEREXAMPLE": 8,
+            "CONTROL_PASS": 8,
+            "NOT_APPLICABLE": 18
+          },
+          "errors": [],
+          "planned_ids_available": true
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12145295724,
+      "path": "ci_receipts/sol_artifacts/12145295724/files/FOUND_RACES_BEFORE.json",
+      "sha256": "a09f740d7837a65e3369e4c54d1b34efc9dc63c84598c41df473816c59aec06c",
+      "status": "COUNTEREXAMPLE",
+      "phase": "HISTORICAL_BEFORE_DECLARED_REPAIR",
+      "stage": null,
+      "complete_boundary_restored": null,
+      "groups": [
+        {
+          "path": "/schedules",
+          "rows": 4,
+          "counts": {
+            "PASS": 2,
+            "COUNTEREXAMPLE": 2
+          },
+          "errors": [],
+          "planned_ids_available": false
+        }
+      ]
+    },
+    {
+      "run_id": 39146762459,
+      "artifact_id": 12145295724,
+      "path": "ci_receipts/sol_artifacts/12145295724/files/RACES_BEFORE.json",
+      "sha256": "37dd65c2d40183d0e68855ed9c2c72ba2856843ff31935b9ddfc465c0b0b0bd1",
+      "status": "COUNTEREXAMPLE",
+      "phase": "HISTORICAL_BEFORE_DECLARED_REPAIR",
+      "stage": null,
+      "complete_boundary_restored": null,
+      "groups": [
+        {
+          "path": "/schedules",
+          "rows": 4,
+          "counts": {
+            "PASS": 3,
+            "COUNTEREXAMPLE": 1
+          },
+          "errors": [],
+          "planned_ids_available": false
+        }
+      ]
+    }
+  ],
+  "duplicate_group_documents": [
+    {
+      "path": "ci_receipts/sol_artifacts/12144851466/files/QUALIFY.json",
+      "group": "/races",
+      "alias_of": {
+        "path": "ci_receipts/sol_artifacts/12144851466/files/AR.json",
+        "group": "/races"
+      },
+      "counted_again": false
+    }
+  ],
+  "boundary_issues": [],
+  "qualifications": [
+    "Historical BEFORE documents intentionally precede a declared repair and are not current product acceptance.",
+    "CONTROL_PASS and DATE_POLICY_REVIEW_REQUIRED remain their raw vocabulary; no green-job relabel.",
+    "Native CP6 stage regression does not by itself apply the CP7 rate-revision bundle; full-F03 witnesses are separate.",
+    "Group tables are not summed into an ERP completeness percentage. Same case IDs across phases/oracles are not new unique tests."
+  ]
+}

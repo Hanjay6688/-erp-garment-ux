@@ -1,0 +1,187 @@
+[
+  {
+    "run_id": 39035977233,
+    "job_id": 117407251055,
+    "name": "check",
+    "failed_steps": [
+      "Verify incoming AE artifact bytes and phase results",
+      "Require complete AF writer evidence"
+    ]
+  },
+  {
+    "run_id": 39035978659,
+    "job_id": 117405718324,
+    "name": "review",
+    "failed_steps": [
+      "Verify source-only review scope"
+    ]
+  },
+  {
+    "run_id": 39035979955,
+    "job_id": 117405713598,
+    "name": "review",
+    "failed_steps": [
+      "Verify unchanged AG sources and confined harness"
+    ]
+  },
+  {
+    "run_id": 39035981387,
+    "job_id": 117406071396,
+    "name": "review",
+    "failed_steps": [
+      "Verify pinned whole-family scope"
+    ]
+  },
+  {
+    "run_id": 39035982919,
+    "job_id": 117412073455,
+    "name": "review",
+    "failed_steps": [
+      "Verify unchanged AH sources and independent scope"
+    ]
+  },
+  {
+    "run_id": 39035984328,
+    "job_id": 117408327526,
+    "name": "review",
+    "failed_steps": [
+      "Verify pinned whole-family scope"
+    ]
+  },
+  {
+    "run_id": 39035985815,
+    "job_id": 117405731702,
+    "name": "review",
+    "failed_steps": [
+      "Verify unchanged AI-R2 and bounded independent scope"
+    ]
+  },
+  {
+    "run_id": 39035987379,
+    "job_id": 117406252844,
+    "name": "review",
+    "failed_steps": [
+      "Verify pinned whole-family scope"
+    ]
+  },
+  {
+    "run_id": 39035989025,
+    "job_id": 117405741035,
+    "name": "trial",
+    "failed_steps": [
+      "Record proposed source and prepare isolated proof paths",
+      "Remove disposable database"
+    ]
+  },
+  {
+    "run_id": 39035990677,
+    "job_id": 117405745182,
+    "name": "trial",
+    "failed_steps": [
+      "Record proposed source and prepare isolated proof paths",
+      "Remove disposable database"
+    ]
+  },
+  {
+    "run_id": 39035992355,
+    "job_id": 117405750155,
+    "name": "trial",
+    "failed_steps": [
+      "Record proposed source and prepare isolated proof paths",
+      "Remove disposable database"
+    ]
+  },
+  {
+    "run_id": 39035994054,
+    "job_id": 117405754864,
+    "name": "trial",
+    "failed_steps": [
+      "Audit exact AR date and cross-brand WIP boundaries"
+    ]
+  },
+  {
+    "run_id": 39035995749,
+    "job_id": 117405759273,
+    "name": "trial",
+    "failed_steps": [
+      "Qualify exact AS install rollback and 174 original cases"
+    ]
+  },
+  {
+    "run_id": 39035997489,
+    "job_id": 117405763978,
+    "name": "trial",
+    "failed_steps": [
+      "Attack exact AR and AS with independent temporal identity cases"
+    ]
+  },
+  {
+    "run_id": 39035999044,
+    "job_id": 117405769566,
+    "name": "trial",
+    "failed_steps": [
+      "Record proposed source and prepare isolated proof paths",
+      "Remove disposable database"
+    ]
+  },
+  {
+    "run_id": 39036003773,
+    "job_id": 117405782756,
+    "name": "trial",
+    "failed_steps": [
+      "Record proposed source and prepare isolated proof paths",
+      "Remove disposable database"
+    ]
+  },
+  {
+    "run_id": 39036005641,
+    "job_id": 117405787909,
+    "name": "trial",
+    "failed_steps": [
+      "Review frozen AS AT and ordinary master identity controls"
+    ]
+  },
+  {
+    "run_id": 39036027610,
+    "job_id": 117405852734,
+    "name": "review",
+    "failed_steps": [
+      "Verify unchanged AI-R2 backend and bounded writer UI scope"
+    ]
+  },
+  {
+    "run_id": 39036030571,
+    "job_id": 117405861426,
+    "name": "trial",
+    "failed_steps": [
+      "Record proposed source and prepare isolated proof paths",
+      "Remove disposable database"
+    ]
+  },
+  {
+    "run_id": 39036032101,
+    "job_id": 117405865300,
+    "name": "trial",
+    "failed_steps": [
+      "Record proposed source and prepare isolated proof paths",
+      "Remove disposable database"
+    ]
+  },
+  {
+    "run_id": 39036034871,
+    "job_id": 117405873443,
+    "name": "trial",
+    "failed_steps": [
+      "Record proposed source and prepare isolated proof paths",
+      "Remove disposable database"
+    ]
+  },
+  {
+    "run_id": 39044984302,
+    "job_id": 117431817166,
+    "name": "Auditor scenario on the final CP6 candidate (AUDITOR_SCENARIO)",
+    "failed_steps": [
+      "Auditor scenario on the final CP6 candidate (AUDITOR_SCENARIO)"
+    ]
+  }
+]

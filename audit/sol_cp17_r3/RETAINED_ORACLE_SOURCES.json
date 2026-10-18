@@ -1,0 +1,26 @@
+[
+  {
+    "path": "audit/sol_cp17_r3/probes/independent_cases.py",
+    "source_commit": "841fce45c58b7c004d1dea2f293f57e4b1fa5ba0",
+    "source_path": "audit/sol_cp17_r2/independent_cases.py",
+    "sha256": "60a9defa1938b6cc62af07ec7a1896b9a030061be2386c36ae78a843b4ea1095",
+    "oracle": "SOL_PRIOR_INDEPENDENT_LITERAL_UNCHANGED",
+    "fixture": "PUBLIC_SYNTHETIC_NATIVE_BUILDERS"
+  },
+  {
+    "path": "audit/sol_cp17_r3/probes/new_cases.py",
+    "source_commit": "841fce45c58b7c004d1dea2f293f57e4b1fa5ba0",
+    "source_path": "audit/sol_cp17_r2/new_cases.py",
+    "sha256": "bfa8239acb558e75ce036433a7150a84b27fcefc79e3f3007bed4daf868e7b50",
+    "oracle": "SOL_PRIOR_INDEPENDENT_LITERAL_UNCHANGED",
+    "fixture": "PUBLIC_SYNTHETIC_NATIVE_BUILDERS"
+  },
+  {
+    "path": "audit/sol_cp17_r3/probes/correction_http.py",
+    "source_commit": "841fce45c58b7c004d1dea2f293f57e4b1fa5ba0",
+    "source_path": "audit/sol_cp17_r2/correction_http.py",
+    "sha256": "b6143d8f8061b9dd733129321fb328a117cc2f7a72d61af960870a6ddf05abb0",
+    "oracle": "SOL_PRIOR_INDEPENDENT_LITERAL_UNCHANGED",
+    "fixture": "PUBLIC_SYNTHETIC_NATIVE_BUILDERS"
+  }
+]

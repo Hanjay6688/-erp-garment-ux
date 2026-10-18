@@ -1,0 +1,86 @@
+{
+  "report_state": "FINAL_LIMITED_SCOPE_ASSESSMENT",
+  "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "product_fixes_made": false,
+  "peer_r3_read": false,
+  "new_product_findings": [],
+  "known_open_product_or_operating_gaps": [
+    {
+      "id": "KNOWN-P19-DIRECT-LATENCY",
+      "severity": "S2",
+      "status": "OPEN_MEASURED_PERFORMANCE_GAP",
+      "novelty": "EXISTING_DECLARED_GAP_NOT_NEW_BLIND_DISCOVERY",
+      "evidence_origin": "INDEPENDENT_SOL_EXECUTION_OF_WRITER_MEASUREMENT_CONTRACT",
+      "evidence_file": "P19_SCALE_RESULT_REVIEW.json",
+      "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "run_id": 39146762696,
+      "job_id": 117732074520,
+      "artifact_id": 12146221035,
+      "cases": [
+        "P19S_BROWSER_DESKTOP_100",
+        "P19S_BROWSER_DESKTOP_300",
+        "P19S_BROWSER_DESKTOP_1000",
+        "P19S_BROWSER_DESKTOP_5000"
+      ],
+      "threshold": "Direct heavy complete/refusal <=3000ms with progress; first acknowledgement <1000ms. Named BACKGROUND/STAGED exception is separate.",
+      "proof": "18 direct/finance samples with no named exception miss 3000ms. CAPTURE 300 targets is 6278.4/6627.2/8045.5ms; finance 100 targets is 8041.9/8042.4ms refused and 7412.9ms complete. All 48 acknowledgements fit <1000ms.",
+      "raw_status": "Five measurement cases PASS; 48 measurements are 25 COMPLETE_RESULT and 23 HONEST_CAP_REFUSAL.",
+      "protocol_status": "MEASUREMENT_PASS_NOT_LATENCY_ACCEPTANCE",
+      "background_disposition": "Named BACKGROUND/STAGED can exceed 3s under owner conditions. 5000 staged 86706.9/91262.5/105953.1ms are measured, not three-second PASS. Two of those samples report progress-by-3000ms false; full condition acceptance not awarded.",
+      "remedy": "Writer must profile the slow direct/finance phases and optimize repeated work/complete per-screen projections, or use a justified explicitly named background/staged flow with real progress and recovery. Preserve 8s statement limit, exact Native/source/authority/hash/completeness checks; no sampling/truncation or timeout increase as a fix. Qualify every sample against its predeclared journey class before latency acceptance.",
+      "owner": "WRITER_PERFORMANCE_THEN_AUDITOR",
+      "required_before_latency_acceptance": true,
+      "factory_SLA_claim": false
+    },
+    {
+      "id": "KNOWN-POOL-PUBLIC-ENTRYPOINTS",
+      "severity": "UNASSIGNED_MUTATING_IMPACT_NOT_TESTED",
+      "status": "OPEN_BEFORE_CP7C_ENTRYPOINT_REVIEW",
+      "novelty": "KNOWN_SOURCE_BOUNDARY_EFFECTIVE_GRANT_CONFIRMED_IN_OWN_EXISTING_RUN",
+      "evidence_file": "BOUNDARY_REVIEW.json",
+      "confirmed": "Four old public SECURITY DEFINER wrappers retain authenticated EXECUTE; source delegates Owner/Admin directly to Native outside the new facade.",
+      "not_proven": "No mutating closed-period execution, exact journal/HPP effect or end-to-end old Data API reproduction.",
+      "owner_decision": "D14-9 private 82 writers does not explicitly accept this public route difference.",
+      "remedy": "Revoke obsolete public wrappers before install or apply and qualify the same effective date/review/UUID/authority contract on every retained pool route.",
+      "owner": "WRITER_CP7C_THEN_AUDITOR"
+    },
+    {
+      "id": "KNOWN-BACKUP-REPLACEMENT-WRITE",
+      "severity": "UNASSIGNED_KNOWN_OPERATING_BOUNDARY",
+      "status": "OPEN_OPERATIONAL_RISK_NOT_EXPLICITLY_ACCEPTED",
+      "novelty": "EXISTING_DECLARED_BOUNDARY_NOT_NEW_R3_DISCOVERY",
+      "evidence_file": "BOUNDARY_REVIEW.json",
+      "proof": "Existing K3 ownership-by-OID case B records restore writing to replacement before mismatch detection. Replacement is not dropped; backup unverified.",
+      "owner_decision": "Source explicitly states not assumed approved. No acceptance found in current D13-8/9 register; backup operation deferred CP7C.",
+      "remedy": "Define fully disposable runner-owned restore server without unrelated DBs or concurrent administrative changes, or strengthen/qualify target-ownership guarantees before operational use.",
+      "owner": "WRITER_OPERATIONS_CP7C_THEN_AUDITOR"
+    }
+  ],
+  "closed_findings_reference": "RETEST_DISPOSITIONS.json",
+  "audit_evidence_gaps": [
+    {
+      "id": "ORDINARY_CP17_ROLLOVER",
+      "status": "INCOMPLETE",
+      "owner": "AUDITOR_HARNESS",
+      "evidence": "CP17_RESULT_REVIEW.json",
+      "next_action": "Declared fixture/date harness qualification per guide 16.3, retaining all first results; no product clock change."
+    },
+    {
+      "id": "FIVE_INTERNAL_DATE_RETRIES",
+      "status": "ORIGINALS_RETAINED_SECOND_OBSERVATION_NOT_SUBSTITUTE",
+      "owner": "AUDITOR",
+      "evidence": "RESULT_ACCEPTANCE_SUMMARY.json",
+      "next_action": "Retain 81 PASS +39 INCOMPLETE first cohort and 120 second rows separately; no identical rerun fishing."
+    },
+    {
+      "id": "ADDITIONAL_INDEPENDENT_ORACLES",
+      "status": "NOT_EXECUTED_SESSION_SCOPE_RESTRICTED",
+      "owner": "AUDITOR",
+      "next_action": "Three synthetic business designs and late-commit pagination remain unexecuted; no PASS or new bug claim."
+    }
+  ],
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false,
+  "owner_questions_reopened": false
+}

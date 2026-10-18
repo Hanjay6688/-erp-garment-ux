@@ -1,0 +1,91 @@
+{
+  "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "scope": "SOURCE_CONTRACT_AND_EXISTING_OWN_RESULT_REVIEW_ONLY",
+  "new_sql_or_access_probe_executed": false,
+  "new_product_bug_claim": false,
+  "pool_public_entrypoints": {
+    "status": "CONFIRMED_ENTRYPOINT_AND_EFFECTIVE_GRANT_WITH_MUTATING_IMPACT_UNTESTED",
+    "sources": [
+      {
+        "path": "supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql",
+        "sha256": "fcba665519b289fd8d0cca2a07d4207d6e959e4bd1c2c1b700e35c0334f0c9e2",
+        "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1"
+      },
+      {
+        "path": "scripts/cp7_hpp_pool_bundle.py",
+        "sha256": "c90fcc6e66a3c4fc611d0494c7030b41ae1757c6cdad0061a1b27cd71f4f9964",
+        "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1"
+      },
+      {
+        "path": "scripts/cp7-src/hpp-pool/pool.sql",
+        "sha256": "3d8cb15a19d7eb07f803517730f65e8d475d6168075db9fdf2de68f5d307bb61",
+        "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1"
+      },
+      {
+        "path": "docs/cp7/OWNER_DECISIONS_20261008.md",
+        "sha256": "d44cac8b6599bcd902d95e18f368777d18bd77317fcc539e73335f6b9e3444b8",
+        "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1"
+      }
+    ],
+    "existing_result": {
+      "run_id": 39146521757,
+      "artifact_id": 12143844276,
+      "path": "ci_receipts/sol_artifacts/12143844276/files/CP7_CP17_FIXES.json",
+      "sha256": "8cedfa712b48d28cec32d22d9d50f958a024718d4380a68be2e10baae9eeca5b",
+      "case_id": "CP17_R3_04_HPP_POOL_FACADE_PRIVATE_AND_IMMUTABLE",
+      "raw_status": "PASS",
+      "authenticated_execute_confirmed": [
+        "public.erp_preview_attendance_hpp_pool_v1(date,date)",
+        "public.erp_create_attendance_hpp_pool_v1(jsonb,uuid)",
+        "public.erp_activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+        "public.erp_cancel_attendance_hpp_pool_v1(uuid,text,uuid,bigint)"
+      ],
+      "native_direct_refused": "permission denied for function create_attendance_hpp_pool_v1"
+    },
+    "confirmed": [
+      "Four public SECURITY DEFINER wrappers exist with authenticated EXECUTE in reviewed migration and effective-grant observation in own existing run.",
+      "Their source checks Owner/Admin then calls Native; it does not pass through the new CP7 facade's closed-period/review/request-table checks.",
+      "New facade period refusal and UUID/review lifecycle have separate positive/refusal results."
+    ],
+    "untested": [
+      "Mutating closed-period execution through old wrapper and exact journal/HPP/period effect.",
+      "Old-wrapper end-to-end Data API execution and every current permission combination."
+    ],
+    "owner_disposition": "D14-9 accepts deferred revoke for 82 private erp writers conditional on no internet reachability. It does not explicitly accept this public route difference.",
+    "next_action": "Inventory all pool routes before CP7C; revoke obsolete public wrappers or apply the qualified effective date/review/UUID/authority contract on every retained route.",
+    "owner": "WRITER_CP7C_IMPLEMENTER_THEN_AUDITOR",
+    "production_gate_closed": false
+  },
+  "backup_replacement_boundary": {
+    "status": "KNOWN_OPERATIONAL_RISK_NOT_EXPLICITLY_OWNER_ACCEPTED",
+    "sources": [
+      {
+        "path": "scripts/cp7_nightly_backup.py",
+        "sha256": "efe6c6b4b1a17bcc7a5973a94e5bc3216fb6c26b8fa74d71ff4e8b7b89909679",
+        "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1"
+      },
+      {
+        "path": "docs/cp7/OWNER_DECISIONS_20261008.md",
+        "sha256": "d44cac8b6599bcd902d95e18f368777d18bd77317fcc539e73335f6b9e3444b8",
+        "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1"
+      }
+    ],
+    "existing_result": {
+      "run_id": 39146762696,
+      "artifact_id": 12144484681,
+      "path": "ci_receipts/sol_artifacts/12144484681/files/CP7_K3_CLEANUP.json",
+      "sha256": "3e3bda8f0e4c1e7f9af882b65cc73066a372c21b4591109cb09de4782242500c",
+      "case_id": "K3C_RACE_BACKUP_SCRATCH_OWNERSHIP_BY_OID",
+      "raw_status": "PASS",
+      "observed_boundary": "the restore wrote into the replacement; the replacement was not dropped",
+      "replacement_kept": true,
+      "verification_refused": true
+    },
+    "confirmed": "Original records a restore write to a replacement followed by mismatch detection; replacement not dropped. Source docstring declares the operating boundary, not assumed approved.",
+    "protection_proven_scope": "Drop ownership, rejection of verification/pruning, and source unchanged are distinct from preventing every restore write to an unintended replacement.",
+    "owner_disposition": "D13-8a..f and D13-9a govern encrypted Drive/restore/private-repo preparation and defer CP7C. No explicit acceptance of this replacement-write boundary was found in the current register.",
+    "next_action": "Before operational use, writer/operations must define a fully disposable runner-owned restore server with no unrelated databases or concurrent administrative changes, or strengthen and qualify target-ownership guarantees. Retain this boundary until resolved or explicitly accepted in the proper operating scope.",
+    "owner": "WRITER_OPERATIONS_CP7C_THEN_AUDITOR",
+    "production_gate_closed": false
+  }
+}

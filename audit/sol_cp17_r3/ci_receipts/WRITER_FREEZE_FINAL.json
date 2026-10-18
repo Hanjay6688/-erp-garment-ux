@@ -1,0 +1,34 @@
+{
+  "checked_at": "2026-10-18T18:24:54.402992+00:00",
+  "mechanical_check": true,
+  "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "candidate_tree": "32f54240a60e01ab8b1ffad7267d285a669be520",
+  "refs": [
+    {
+      "branch": "claude/new-session-deapao",
+      "sha": "64339905cc19e497f9fdb3599ff4a21cbf7da8ff",
+      "tree": "1e0729e31b6e0125e4ea18615300001a41f6dca7"
+    },
+    {
+      "branch": "claude/r3-fixes-20261017",
+      "sha": "64339905cc19e497f9fdb3599ff4a21cbf7da8ff",
+      "tree": "1e0729e31b6e0125e4ea18615300001a41f6dca7"
+    },
+    {
+      "branch": "audit/sol-cp1-7-r3-b53b5acd-20261017",
+      "sha": "131ad26b211fc44d1fdb2f8e99aebb2bf91e2773",
+      "tree": "9de21ee8f2f51fd9c26ec388a8ceaf0dcb813993"
+    }
+  ],
+  "writer_candidate_diff": [
+    "A\tdocs/cp7/audit-candidate/cp1-7-r3-20261017/CI_RECEIPT.json",
+    "M\tdocs/cp7/audit-candidate/cp1-7-r3-20261017/HANDOFF_ASTRA.md",
+    "M\tdocs/cp7/audit-candidate/cp1-7-r3-20261017/HANDOFF_FABLE.md",
+    "M\tdocs/cp7/audit-candidate/cp1-7-r3-20261017/HANDOFF_SOL.md",
+    "M\tdocs/cp7/audit-candidate/cp1-7-r3-20261017/README.md",
+    "M\tdocs/cp7/cp17/R3_WRITER_HANDOFF.md"
+  ],
+  "product_worktree_diff": [],
+  "peer_r3_reports_read": false,
+  "note": "Official connector branch heads; local git object diff against exact returned writer head. No product changes by auditor."
+}

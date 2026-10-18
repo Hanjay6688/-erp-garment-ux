@@ -1,0 +1,4153 @@
+{
+  "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "report_state": "FINAL_LIMITED_SCOPE_ASSESSMENT",
+  "audit_complete": false,
+  "prior_seal": "841fce45c58b7c004d1dea2f293f57e4b1fa5ba0",
+  "evidence_ledger": "CASE_LEDGER_PARTIAL.json",
+  "evidence_ledger_sha256": "8355d0c6d8776109407e8407bfd08f5af27b663291e288f5fa973b988c0dfe83",
+  "evidence_origins": [
+    "RETAINED_SOL_R2_SEAL",
+    "INDEPENDENT_SOL_EXECUTION_OF_WRITER_OR_INHERITED_ORACLES_DOCUMENT_REVIEW"
+  ],
+  "qualification": "PASS hanya untuk lingkup yang disaksikan/retained pada tiap baris, bukan penerimaan ERP penuh. Probe tambahan baru belum dieksekusi. Pencocokan ID adalah indeks tinjauan, bukan bukti otomatis.",
+  "denominator": 29,
+  "status_counts": {
+    "PASS": 19,
+    "INCOMPLETE": 10
+  },
+  "rows": [
+    {
+      "id": "SKN-01",
+      "requirement": "Data setahun penuh (≥ 364 hari aktivitas), lalu koreksi di awal tahun.",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-01",
+        "status": "PASS",
+        "basis": "NOTE_YEAR_364, RF_YEAR_HISTORY_364, supplier-payment YEAR_364; sintetis 364 hari, bukan aktivitas nyata setahun.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "YEAR_364|YEAR_HISTORY|YEAR_FINAL|364",
+        "matching_occurrences": 10,
+        "status_counts": {
+          "PASS": 9,
+          "INCOMPLETE": 1
+        },
+        "examples": [
+          {
+            "run_id": 39146762590,
+            "artifact_id": 12143908509,
+            "report": "CP7_SUPPLIER_PAYMENT_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_SUPPLIER_PAYMENT_CORRECTION_YEAR_364",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762590,
+            "artifact_id": 12143908509,
+            "report": "CP7_SUPPLIER_PAYMENT_CORRECTION.json",
+            "group": "/http",
+            "id": "CP7_SUPPLIER_PAYMENT_CORRECTION_HTTP_YEAR_364",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762496,
+            "artifact_id": 12144076174,
+            "report": "CP7_NOTE_CORRECTION.json",
+            "group": "/native",
+            "id": "NOTE_YEAR_364",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762595,
+            "artifact_id": 12144153717,
+            "report": "CP7_PAYMENT_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_PAYMENT_CORRECTION_YEAR_364",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762595,
+            "artifact_id": 12144153717,
+            "report": "CP7_PAYMENT_CORRECTION.json",
+            "group": "/http",
+            "id": "CP7_PAYMENT_CORRECTION_HTTP_YEAR_364",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762312,
+            "artifact_id": 12144390640,
+            "report": "CP7_RETURN_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_RETURN_CORRECTION_YEAR_364",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762312,
+            "artifact_id": 12144390640,
+            "report": "CP7_RETURN_CORRECTION.json",
+            "group": "/http",
+            "id": "CP7_RETURN_CORRECTION_HTTP_YEAR_364",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": true
+          },
+          {
+            "run_id": 39146762312,
+            "artifact_id": 12144390640,
+            "report": "CP7_RETURN_CORRECTION.json",
+            "group": "/http/business_day_first_attempt",
+            "id": "CP7_RETURN_CORRECTION_HTTP_YEAR_364",
+            "status": "INCOMPLETE",
+            "category": "FIRST_ATTEMPT",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763467,
+            "artifact_id": 12144505934,
+            "report": "CP7_RECEIPT_CORRECTION.json",
+            "group": "/native",
+            "id": "RF_YEAR_HISTORY_364",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763467,
+            "artifact_id": 12144505934,
+            "report": "CP7_RECEIPT_CORRECTION.json",
+            "group": "/native",
+            "id": "RF_YEAR_FINAL_INVOICE_PRICE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-02",
+      "requirement": "Invoice terlambat atau final mengubah harga sesudah barang dipotong, dijual, dan diretur.",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-02",
+        "status": "PASS",
+        "basis": "F03 transfer/late invoice, P18 E13, AY/AZ/BE; saldo bahan/FG/COGS dan inverse.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "LATE|INVOICE|COST|RECEIPT_CORRECTION|E06",
+        "matching_occurrences": 189,
+        "status_counts": {
+          "PASS": 188,
+          "INCOMPLETE": 1
+        },
+        "examples": [
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_INCOMING_LATE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P07_NATIVE_LATE_SOURCE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_MISC_CORRECTION_LATE_FAILURE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_crossflow",
+            "id": "P09_TRANSFER_PRODUCTION_LATE_INVOICE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_crossflow",
+            "id": "P09_TRANSFER_CLOSED_DAY_LATE_INVOICE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/invoice",
+            "id": "P09_INVOICE_STAGED_AND_REVERSE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/invoice",
+            "id": "P09_INVOICE_EXACT_DECIMAL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/invoice",
+            "id": "P09_INVOICE_DISCOUNT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/invoice",
+            "id": "P09_INVOICE_REPLAY_STALE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/invoice",
+            "id": "P09_INVOICE_ATOMIC_REFUSALS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/invoice",
+            "id": "P09_INVOICE_ACCESS_PRINCIPALS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/invoice",
+            "id": "P09_INVOICE_COMPLETE_MULTI_RECEIPT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-03",
+      "requirement": "Periode tertutup, lalu koreksi ke tanggal di dalamnya, lalu periode dibuka kembali.",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-03",
+        "status": "PASS",
+        "basis": "Closed/reopen controls, C0 D01 dan correction economic/recognition dates.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "CLOSED|PERIOD|REOPEN",
+        "matching_occurrences": 178,
+        "status_counts": {
+          "PASS": 175,
+          "INCOMPLETE": 3
+        },
+        "examples": [
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_CLOSED_QUERY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P07_NATIVE_CLOSED_QUERY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_MISC_CORRECTION_CLOSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_crossflow",
+            "id": "P09_TRANSFER_CLOSED_DAY_LATE_INVOICE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762366,
+            "artifact_id": 12143384251,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_CLOSED_QUERY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762366,
+            "artifact_id": 12143384251,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P07_NATIVE_CLOSED_QUERY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/attendance_read",
+            "id": "P12_ATTENDANCE_READ_PERIODS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/attendance_write",
+            "id": "P12_ATTENDANCE_WRITE_MATRIX_PERIOD",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/attendance_write_races",
+            "id": "P12_ATTENDANCE_RACE_TWO_PERIODS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762518,
+            "artifact_id": 12143743308,
+            "report": "CP7_P13_PERIOD_CONTROL.json",
+            "group": "/native",
+            "id": "P13_REPORT_LEDGER_LIFECYCLE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762518,
+            "artifact_id": 12143743308,
+            "report": "CP7_P13_PERIOD_CONTROL.json",
+            "group": "/native",
+            "id": "P13_REPORT_EXACT_LARGE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762518,
+            "artifact_id": 12143743308,
+            "report": "CP7_P13_PERIOD_CONTROL.json",
+            "group": "/native",
+            "id": "P13_REPORT_QUERY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-04",
+      "requirement": "Bayar sebagian, bayar lebih, bayar dari uang muka, refund.",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-04",
+        "status": "PASS",
+        "basis": "Partial/paid/refund/advance/supplier-credit paths; overpay to approved credit, no disappearing amount.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "PAYMENT|REFUND|ADVANCE|CREDIT",
+        "matching_occurrences": 164,
+        "status_counts": {
+          "PASS": 164
+        },
+        "examples": [
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/browser",
+            "id": "P09_BROWSER_RETURN_CREDIT_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/browser",
+            "id": "P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_FABRIC_PORTABLE_CREDIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_ACCESSORY_PORTABLE_CREDIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/receipt_reversal",
+            "id": "P09_RECEIPT_REVERSE_PAYMENT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/settlement",
+            "id": "P12_SETTLEMENT_WIB_PAYMENT_DATE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/native",
+            "id": "P16_LIFECYCLE_PAID_AND_PAYMENT_INVERSE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12143658822,
+            "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "group": "/groups/native",
+            "id": "F03_P09_NATIVE_PAID_SUPPLIER_CREDIT_CARRY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12143658822,
+            "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "group": "/groups/races",
+            "id": "F03_P09_REAL_SUPPLIER_CREDIT_SOURCE_RACE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12143658822,
+            "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "group": "/groups/http",
+            "id": "F03_P09_REAL_HTTP_SUPPLIER_CREDIT_CURRENT_AUTHORITY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12143658822,
+            "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "group": "/groups/browser",
+            "id": "F03_P09_PAID_SUPPLIER_CREDIT_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12143658822,
+            "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "group": "/groups/browser",
+            "id": "F03_P09_PAID_SUPPLIER_CREDIT_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-05",
+      "requirement": "Retur sebagian, retur sesudah pembayaran, retur sesudah koreksi.",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-05",
+        "status": "PASS",
+        "basis": "P11 returns, paid refund, note/return correction and capacity races.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "RETURN|REFUND",
+        "matching_occurrences": 151,
+        "status_counts": {
+          "PASS": 149,
+          "INCOMPLETE": 2
+        },
+        "examples": [
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_RETURN_SEPARATE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/browser",
+            "id": "P09_BROWSER_RETURN_CREDIT_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/browser",
+            "id": "P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_TRANSFERRED_GRNI",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_FABRIC_PORTABLE_CREDIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_ACCESSORY_PORTABLE_CREDIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_PARTIAL_AP_GRNI",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_EXACT_CENTS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_REPLAY_STALE_SOURCE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_ATOMIC_LINEAGE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_HISTORICAL_PREFIX",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_ACCESS_PRINCIPALS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-06",
+      "requirement": "Dua baris identik (SKU, jumlah, dan harga sama) dalam satu dokumen.",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-06",
+        "status": "PASS",
+        "basis": "Literal Sol identical 3@17.25 lines; second line corrected to 2 with distinct lineage.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "DUPLICATE|IDENTICAL|LINEAGE",
+        "matching_occurrences": 14,
+        "status_counts": {
+          "PASS": 14
+        },
+        "examples": [
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material",
+            "id": "P09_TRANSFER_LOCATIONS_LINEAGE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_ATOMIC_LINEAGE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762301,
+            "artifact_id": 12143503635,
+            "report": "CP7_P03_FACADE.json",
+            "group": "/races",
+            "id": "P03_DUPLICATE_REQUEST_RACE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R3_03_REMINDERS_SAME_REQUEST_REPLAYS_IDENTICALLY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762496,
+            "artifact_id": 12144076174,
+            "report": "CP7_NOTE_CORRECTION.json",
+            "group": "/native",
+            "id": "NOTE_DUPLICATE_SKU_LINES",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762496,
+            "artifact_id": 12144076174,
+            "report": "CP7_NOTE_CORRECTION.json",
+            "group": "/native",
+            "id": "NOTE_DUPLICATE_SKU_DELETE_REORDER",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762496,
+            "artifact_id": 12144076174,
+            "report": "CP7_NOTE_CORRECTION.json",
+            "group": "/native",
+            "id": "NOTE_DUPLICATE_SKU_RETURN_ATOMIC",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762496,
+            "artifact_id": 12144076174,
+            "report": "CP7_NOTE_CORRECTION.json",
+            "group": "/browser",
+            "id": "NOTE_BROWSER_DUPLICATE_SKU_LINES",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763488,
+            "artifact_id": 12144311964,
+            "report": "CP7_P04_KERNEL.json",
+            "group": "/native",
+            "id": "P04_LINEAGE_SIZE_DUPLICATE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763488,
+            "artifact_id": 12144311964,
+            "report": "CP7_P04_KERNEL.json",
+            "group": "/races",
+            "id": "P04_RACE_DUPLICATE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763488,
+            "artifact_id": 12144311964,
+            "report": "CP7_P04_KERNEL.json",
+            "group": "/regressions",
+            "id": "F02_FIX_ACTIVE_LINEAGE_NEGATIVE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763467,
+            "artifact_id": 12144505934,
+            "report": "CP7_RECEIPT_CORRECTION.json",
+            "group": "/native",
+            "id": "RF_DUPLICATE_LINES_KEEP_LOT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-07",
+      "requirement": "Sen ganjil: 1/3, 0,005, alokasi ke banyak baris; angka sangat besar (≥ 9.007.199.254.740.993) dan sangat kecil.",
+      "status": "INCOMPLETE",
+      "qualification": "Bukti sen ganjil/angka besar retained dan current tersedia, tetapi semua jalur 1/3 dan ekstrem belum ditelusuri. Oracle AR 22,65 mandiri tambahan belum dieksekusi.",
+      "retained_prior_record": {
+        "id": "SKN-07",
+        "status": "INCOMPLETE",
+        "basis": "Exact cents, partial rounding and amount beyond JS-safe integer tested. Not every extreme and 1/3 path exhaustively tested.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "EXACT|CENT|LARGE|ROUND",
+        "matching_occurrences": 65,
+        "status_counts": {
+          "PASS": 65
+        },
+        "examples": [
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/native",
+            "id": "P09_FINAL_EXACT_VALUE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/invoice",
+            "id": "P09_INVOICE_EXACT_DECIMAL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_EXACT_CENTS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/receipt_reversal",
+            "id": "P09_RECEIPT_REVERSE_EXACT_FINAL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/native",
+            "id": "F03_P09_FINAL_EXACT_VALUE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/native",
+            "id": "F03_P12_NOTA_EXACT_ACCESS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762584,
+            "artifact_id": 12143449265,
+            "report": "CP7_P13_FINANCE_READ.json",
+            "group": "/native",
+            "id": "P13_REPORT_EXACT_LARGE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762517,
+            "artifact_id": 12143589890,
+            "report": "CP7_P18_FABRIC_RULE.json",
+            "group": "/native",
+            "id": "P18_FABRIC_RULE_POLICY_UNIT_EXACT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/notes",
+            "id": "P12_NOTA_EXACT_ACCESS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/payroll_review",
+            "id": "P12_PAYROLL_READ_EXACT_PAGES",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/http",
+            "id": "P18_E01_EXACT_AUTH_NATIVE_SOURCE_TO_REPORT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762518,
+            "artifact_id": 12143743308,
+            "report": "CP7_P13_PERIOD_CONTROL.json",
+            "group": "/native",
+            "id": "P13_REPORT_EXACT_LARGE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-08",
+      "requirement": "Nol, negatif, `null`, string kosong, unknown.",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-08",
+        "status": "PASS",
+        "basis": "Native malformed/null/unknown/zero/negative and absent-source controls; free/waived exceptions distinguished.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "NULL|UNKNOWN|ZERO|NEGATIVE|INVALID|REFUS",
+        "matching_occurrences": 187,
+        "status_counts": {
+          "PASS": 185,
+          "INCOMPLETE": 2
+        },
+        "examples": [
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_UNKNOWN_HISTORY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/native",
+            "id": "P09_INVALID_ATOMIC",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/invoice",
+            "id": "P09_INVOICE_ATOMIC_REFUSALS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/uom",
+            "id": "P09_UOM_ATOMIC_INVALID",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/native",
+            "id": "F03_P10_ADJUST_NEGATIVE_VALUE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762366,
+            "artifact_id": 12143384251,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_UNKNOWN_HISTORY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762517,
+            "artifact_id": 12143589890,
+            "report": "CP7_P18_FABRIC_RULE.json",
+            "group": "/native",
+            "id": "P18_FABRIC_RULE_ASSUMED_ZERO_NOT_RESOLVED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762517,
+            "artifact_id": 12143589890,
+            "report": "CP7_P18_FABRIC_RULE.json",
+            "group": "/native",
+            "id": "P18_FABRIC_RULE_IDENTITY_UNKNOWN_NO_EPISODE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/settlement",
+            "id": "P12_SETTLEMENT_INVALID_PAY_CANCEL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/native",
+            "id": "P16_LIFECYCLE_MISSING_SOURCE_UNKNOWN",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762369,
+            "artifact_id": 12143663281,
+            "report": "CP7_F03_REDYE.json",
+            "group": "/native",
+            "id": "F03_X04_REDYE_UNKNOWN_GROUP_FIRST_PRICE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762518,
+            "artifact_id": 12143743308,
+            "report": "CP7_P13_PERIOD_CONTROL.json",
+            "group": "/period_native",
+            "id": "P13_PERIOD_INVALID",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-09",
+      "requirement": "Tengah malam WIB (23:59:59 vs 00:00:00), transaksi yang melewati tengah malam.",
+      "status": "INCOMPLETE",
+      "qualification": "Bukti WIB/timezone tersedia, tetapi 60 hasil pertama tetap INCOMPLETE: 21 ordinary CP17 serta 39 dalam lima kelompok internal. Belum ada penerimaan endurance tengah malam penuh yang bersih.",
+      "retained_prior_record": {
+        "id": "SKN-09",
+        "status": "PASS",
+        "basis": "WIB boundaries/timezones and microsecond timestamp paths; no new wall-clock-midnight endurance claim. All new financial controls stayed on planned WIB 2026-10-16; original token timezone error retained as AUDITOR_TOOL.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "DATE|E06|YEAR|ROLLOVER|CASH",
+        "matching_occurrences": 165,
+        "status_counts": {
+          "PASS": 164,
+          "INCOMPLETE": 1
+        },
+        "examples": [
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_INCOMING_NO_DATE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_MISC_CORRECTION_CHANGED_TYPE_CASH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_MISC_CORRECTION_YEAR30",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/uom",
+            "id": "P09_UOM_DATED_MASTER",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762584,
+            "artifact_id": 12143449265,
+            "report": "CP7_P13_FINANCE_READ.json",
+            "group": "/races",
+            "id": "P13_REPORT_CONCURRENT_CASH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/settlement",
+            "id": "P12_SETTLEMENT_WIB_PAYMENT_DATE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/attendance_write",
+            "id": "P12_ATTENDANCE_WRITE_DATED_RATES",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/native",
+            "id": "P18_E01_CASH_INVERSE_IMMUTABLE_ARCHIVE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/races",
+            "id": "P18_E01_CASH_INVERSE_DURING_SAVED_REPORT_WAIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762518,
+            "artifact_id": 12143743308,
+            "report": "CP7_P13_PERIOD_CONTROL.json",
+            "group": "/races",
+            "id": "P13_REPORT_CONCURRENT_CASH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_CASH_EMPTY_BANK_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_CASH_EXACT_ZERO_ALLOWED_THEN_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-10",
+      "requirement": "Dua orang menyimpan bersamaan; UUID sama dikirim dua kali; payload berbeda dengan UUID sama.",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-10",
+        "status": "PASS",
+        "basis": "Original AR/AT/AU and F03 races; UUID exact replay/changed payload/later refusal.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "RACE|UUID|REPLAY",
+        "matching_occurrences": 596,
+        "status_counts": {
+          "PASS": 579,
+          "INCOMPLETE": 17
+        },
+        "examples": [
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/races",
+            "id": "P05_RACE_SAME_UUID",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/races",
+            "id": "P05_RACE_CURRENT_REVOKE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/races",
+            "id": "P07_RACE_UUID",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/races",
+            "id": "P07_RACE_CURRENT_AUTH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_MISC_CORRECTION_REPLAY_CHAIN",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/races",
+            "id": "CP7_MISC_CORRECTION_RACE_ONE_WINNER",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/races",
+            "id": "CP7_MISC_CORRECTION_RACE_CURRENT_REVOKE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/http",
+            "id": "CP7_MISC_CORRECTION_HTTP_ATOMIC_REPLAY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/native",
+            "id": "P09_REPLAY_STALE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/races",
+            "id": "P09_RACE_SAME_REQUEST",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/races",
+            "id": "P09_RACE_COMPETING_POST",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-11",
+      "requirement": "Balasan hilang lalu muat ulang; izin dicabut di tengah proses; peran nonaktif.",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-11",
+        "status": "PASS",
+        "basis": "Real Auth/browser lost reply, revoke during wait/unit and inactive actors.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "CURRENT|AUTH|RECOVERY|LOST|REVOK|INACTIVE",
+        "matching_occurrences": 567,
+        "status_counts": {
+          "PASS": 556,
+          "INCOMPLETE": 11
+        },
+        "examples": [
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/http",
+            "id": "P08_PHYSICAL_REAL_AUTH_HTTP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_CURRENT_REVOKE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P07_NATIVE_CURRENT_AUTH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/races",
+            "id": "P05_RACE_CURRENT_REVOKE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/races",
+            "id": "P07_RACE_CURRENT_AUTH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/http",
+            "id": "P05_ACTUAL_AUTH_HTTP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/http",
+            "id": "P07_HTTP_CURRENT_AUTH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/browser",
+            "id": "P05_BROWSER_MOBILE_CURRENT_AUTH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_MISC_CORRECTION_CURRENT_AUTH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/races",
+            "id": "CP7_MISC_CORRECTION_RACE_CURRENT_REVOKE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/http",
+            "id": "CP7_MISC_CORRECTION_HTTP_CURRENT_REVOKE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/races",
+            "id": "P09_RACE_REVOKE_WAIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-12",
+      "requirement": "Draft vs posted; pembalikan dari pembalikan; koreksi berulang R1, R2, R3.",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-12",
+        "status": "PASS",
+        "basis": "Draft/post/inverse/repeated correction; no direct posted edit acceptance.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "DRAFT|POST|REVERSE|REVISION|REPEATED",
+        "matching_occurrences": 205,
+        "status_counts": {
+          "PASS": 203,
+          "INCOMPLETE": 2
+        },
+        "examples": [
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_LINKED_DRAFT_KNOWN",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_LINKED_DRAFT_PLUS_FREE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_WRONG_MATERIAL_DRAFT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_OVERCOMMITTED_DRAFT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_UNLINKED_NATIVE_DRAFT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_SHARED_SPLIT_THEN_DRAFTS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_POSTED_ISSUE_ONCE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/races",
+            "id": "P08_PHYSICAL_REAL_MVCC_NATIVE_POST",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_DRAFT_ONCE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_POSTED_ONCE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/native",
+            "id": "P09_DRAFT_ESTIMATED_GRNI",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/races",
+            "id": "P09_RACE_COMPETING_POST",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-13",
+      "requirement": "Tanggal mundur (backdate) yang membuat stok negatif pada urutan kronologis.",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-13",
+        "status": "PASS",
+        "basis": "Native chronological prefix refusals and revised receipt/note/cutting timelines. Current own dated cash-prefix/refusal and used-funding inverse controls PASS.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "BACKDATE|PREFIX|CHRONO|STOCK",
+        "matching_occurrences": 41,
+        "status_counts": {
+          "PASS": 41
+        },
+        "examples": [
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_SINGLE_FREE_STOCK",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_SUFFICIENT_FREE_STOCK",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material",
+            "id": "P09_MATERIAL_DRAFT_NOT_STOCK",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material",
+            "id": "P09_TRANSFER_HISTORICAL_PREFIX",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count_races",
+            "id": "P09_COUNT_RACE_PREFIX",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_HISTORICAL_PREFIX",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_CASH_BACKDATE_BEFORE_FUNDS_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_SG02_RETURN_STOCK_VALUE_PO_COST",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_SG02_CANCEL_RETURN_RESTORES_STOCK_GL_COST",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_D15_6_AUTO_PO_DRAFT_NO_STOCK_NO_FINANCE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_D15_5_CUTOVER_DAY_BOUNDARY_JOURNAL_AND_STOCK",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762556,
+            "artifact_id": 12143949124,
+            "report": "CP7_F05_NATIVE_ANALYSIS.json",
+            "group": "/native",
+            "id": "P06_NATIVE_STOP_NATIVE_STOCK",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-14",
+      "requirement": "Multi-gudang, multi-supplier, multi-mandor, multi-vendor laundry.",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-14",
+        "status": "PASS",
+        "basis": "Multi-scope native providers and dimensional vendor/contractor/customer P18 checks; tested fixtures only.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "SCOPE|SUPPLIER|VENDOR|MANDOR|WAREHOUSE",
+        "matching_occurrences": 116,
+        "status_counts": {
+          "PASS": 113,
+          "INCOMPLETE": 3
+        },
+        "examples": [
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count",
+            "id": "P09_COUNT_SCOPE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": true
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count",
+            "id": "P09_COUNT_OPTIONS_SCOPE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": true
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count/business_day_first_attempt",
+            "id": "P09_COUNT_SCOPE",
+            "status": "PASS",
+            "category": "FIRST_ATTEMPT",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count/business_day_first_attempt",
+            "id": "P09_COUNT_OPTIONS_SCOPE",
+            "status": "INCOMPLETE",
+            "category": "FIRST_ATTEMPT",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12143658822,
+            "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "group": "/groups/native",
+            "id": "F03_P09_NATIVE_PAID_SUPPLIER_CREDIT_CARRY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12143658822,
+            "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "group": "/groups/races",
+            "id": "F03_P09_REAL_SUPPLIER_CREDIT_SOURCE_RACE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12143658822,
+            "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "group": "/groups/http",
+            "id": "F03_P09_REAL_HTTP_SUPPLIER_CREDIT_CURRENT_AUTHORITY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12143658822,
+            "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "group": "/groups/browser",
+            "id": "F03_P09_PAID_SUPPLIER_CREDIT_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12143658822,
+            "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "group": "/groups/browser",
+            "id": "F03_P09_PAID_SUPPLIER_CREDIT_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762467,
+            "artifact_id": 12143817890,
+            "report": "CP7_F03_X04.json",
+            "group": "/native",
+            "id": "F03_X04_VENDOR_FREE_WAIVED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_CASH_LAUNDRY_VENDOR_EMPTY_BANK_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_SG03_REWASH_SAME_PRODUCT_NO_VENDOR_BILL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-15",
+      "requirement": "Salah bahan, salah gudang, salah supplier, salah tanggal, salah nomor (koreksi identitas).",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-15",
+        "status": "PASS",
+        "basis": "Receipt/note identity, stock-source and material name/SKU correction cases.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "TYPO|MATERIAL|WAREHOUSE|SUPPLIER|DATE",
+        "matching_occurrences": 172,
+        "status_counts": {
+          "PASS": 168,
+          "INCOMPLETE": 4
+        },
+        "examples": [
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_WRONG_MATERIAL_DRAFT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_INCOMING_NO_DATE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material",
+            "id": "P09_MATERIAL_DRAFT_NOT_STOCK",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material",
+            "id": "P09_MATERIAL_REDACTION_ACCESS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material",
+            "id": "P09_MATERIAL_COMPLETE_PAGES_UNITS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material",
+            "id": "P09_MATERIAL_PRINCIPALS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_http",
+            "id": "P09_MATERIAL_HTTP_TRANSFER_AUTH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/uom",
+            "id": "P09_UOM_DATED_MASTER",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/settlement",
+            "id": "P12_SETTLEMENT_WIB_PAYMENT_DATE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/attendance_write",
+            "id": "P12_ATTENDANCE_WRITE_DATED_RATES",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12143658822,
+            "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "group": "/groups/native",
+            "id": "F03_P09_NATIVE_PAID_SUPPLIER_CREDIT_CARRY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12143658822,
+            "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+            "group": "/groups/races",
+            "id": "F03_P09_REAL_SUPPLIER_CREDIT_SOURCE_RACE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-16",
+      "requirement": "Data cutover nyata (saldo awal) diproses sampai satu periode penuh.",
+      "status": "INCOMPLETE",
+      "qualification": "OWNER_DEFERRED: cutover dan satu periode shadow nyata di luar pelaksanaan putaran ini; impor sintetis dipisahkan.",
+      "retained_prior_record": {
+        "id": "SKN-16",
+        "status": "N/A_OWNER_DEFERRED",
+        "basis": "Real cutover outside current owner stage; synthetic import not substituted for real data.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "CUTOVER|IMPORT|OPENING",
+        "matching_occurrences": 59,
+        "status_counts": {
+          "PASS": 59
+        },
+        "examples": [
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/opening_payroll_browser",
+            "id": "P12_OPENING_BROWSER_DESKTOP_CYCLE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/opening_payroll_browser",
+            "id": "P12_OPENING_BROWSER_MOBILE_RECOVERY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_D15_5_CUTOVER_SET_BOUNDARY_AND_HISTORY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_D15_5_CUTOVER_DAY_BOUNDARY_JOURNAL_AND_STOCK",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_D15_5_CUTOVER_OPENING_PATH_LATE_INVOICE_SETTLEMENT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_D15_5_CUTOVER_FAILURE_MIDWAY_LEAVES_NOTHING",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_D15_5_CUTOVER_RESEND_SAME_UUID",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/races",
+            "id": "CP17_RACE_R2_D15_5_CUTOVER_TWO_TABS_SAME_VERSION",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/races",
+            "id": "CP17_RACE_R2_D15_5_CUTOVER_SET_VS_POST_DAY_BEFORE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/http",
+            "id": "CP17_HTTP_R2_D15_5_CUTOVER",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser",
+            "id": "CP17_BROWSER_R2_07_IMPORT_WIP_BRAND_SALE_CASH_CLOSE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser",
+            "id": "CP17_BROWSER_R2_D15_5_CUTOVER_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-17",
+      "requirement": "Rekomendasi dengan data tidak lengkap: harga belum final, yield belum terkualifikasi, deadline tidak diketahui, pasokan mundur.",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-17",
+        "status": "PASS",
+        "basis": "F04/F05/P19 unknown price/yield/date/supply fences and qualified model controls.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "UNKNOWN|PENDING|YIELD|SUPPLY|F04|F05",
+        "matching_occurrences": 1477,
+        "status_counts": {
+          "PASS": 1443,
+          "INCOMPLETE": 34
+        },
+        "examples": [
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_DRAFT_ONCE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_POSTED_ONCE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_RETURN_SEPARATE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_NATIVE_INVERSES",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_OPERATIONAL_REDACTION",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_CURRENT_REVOKE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_CLOSED_QUERY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_PRIVATE_CAPS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_TIMEZONES",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_UNKNOWN_HISTORY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_GLOBAL_30_ROOTS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-18",
+      "requirement": "Laporan dibaca berulang-ulang dan dari dua sesi: hasilnya identik, dan tidak ada efek samping.",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-18",
+        "status": "PASS",
+        "basis": "Repeat public financial reads, immutable archives, race coherence and no business DML.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "REPORT|READ|RACE|IMMUTABLE",
+        "matching_occurrences": 813,
+        "status_counts": {
+          "PASS": 795,
+          "INCOMPLETE": 18
+        },
+        "examples": [
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/races",
+            "id": "P05_RACE_SAME_UUID",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/races",
+            "id": "P05_RACE_CURRENT_REVOKE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/races",
+            "id": "P07_RACE_UUID",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/races",
+            "id": "P07_RACE_CURRENT_AUTH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_MISC_CORRECTION_IMMUTABLE_HISTORY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/races",
+            "id": "CP7_MISC_CORRECTION_RACE_ONE_WINNER",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/races",
+            "id": "CP7_MISC_CORRECTION_RACE_CURRENT_REVOKE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/races",
+            "id": "P09_RACE_SAME_REQUEST",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/races",
+            "id": "P09_RACE_COMPETING_POST",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/races",
+            "id": "P09_RACE_REVOKE_WAIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_races",
+            "id": "P09_TRANSFER_RACE_SHARED_ROLL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-19",
+      "requirement": "**Perusakan terkendali:** satu angka di tabel state/fakta/jurnal diubah di dalam savepoint; semua detektor terkait harus naik; rollback mengembalikan nol. Bila tabelnya append-only, penolakannya dicatat sebagai bukti INV-K07.",
+      "status": "INCOMPLETE",
+      "qualification": "Sensitivitas tepat +1 belum dibuktikan pada setiap detektor; probe terkendali tambahan tidak dijalankan.",
+      "retained_prior_record": {
+        "id": "SKN-19",
+        "status": "INCOMPLETE",
+        "basis": "Two own exact 0→1→0 controls, full 29 outputs; remaining sensitivity not all poisoned.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "DETECTOR|APPEND|INTEGRITY",
+        "matching_occurrences": 5,
+        "status_counts": {
+          "PASS": 5
+        },
+        "examples": [
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/notes",
+            "id": "P12_NOTA_TARGET_APPEND",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_DETECTOR_LISTS_LEGACY_ROWS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_DETECTOR_BOOK_DATE_LISTED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R3_09_NEW_RATE_WAGE_TO_PAYROLL_AND_DETECTORS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762600,
+            "artifact_id": 12144327293,
+            "report": "CP7_F03_FULL_P12.json",
+            "group": "/groups/notes",
+            "id": "P12_NOTA_TARGET_APPEND",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-20",
+      "requirement": "**Regrouping tanpa jejak fisik:** mengubah pengelompokan komersial (SKU/range/kategori) tidak menulis mutasi stok, lot, produk, jurnal, dan tidak mengubah buku; riwayat \"siapa pada jam berapa\" kontinu tanpa celah (`effective_to` = `effective_from` berikutnya) dan dapat dibaca untuk waktu lampau.",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-20",
+        "status": "PASS",
+        "basis": "Temporal membership, regrouping/no physical effects and archive identities in scoped Native families.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "RANGE|SKU|MEMBER|IDENTITY",
+        "matching_occurrences": 30,
+        "status_counts": {
+          "PASS": 28,
+          "INCOMPLETE": 2
+        },
+        "examples": [
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_WIP_IDENTITY_UPPER_BOUND",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762301,
+            "artifact_id": 12143503635,
+            "report": "CP7_P03_FACADE.json",
+            "group": "/native",
+            "id": "P03_MEMBERSHIP_REVIEW",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762301,
+            "artifact_id": 12143503635,
+            "report": "CP7_P03_FACADE.json",
+            "group": "/native",
+            "id": "P03_FUTURE_MEMBERSHIP_REVIEW",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762301,
+            "artifact_id": 12143503635,
+            "report": "CP7_P03_FACADE.json",
+            "group": "/native",
+            "id": "P03_HISTORICAL_IDENTITY_CONSERVATION",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762301,
+            "artifact_id": 12143503635,
+            "report": "CP7_P03_FACADE.json",
+            "group": "/races",
+            "id": "P03_MEMBERSHIP_WHILE_WAITING",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762517,
+            "artifact_id": 12143589890,
+            "report": "CP7_P18_FABRIC_RULE.json",
+            "group": "/native",
+            "id": "P18_FABRIC_RULE_IDENTITY_UNKNOWN_NO_EPISODE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762467,
+            "artifact_id": 12143817890,
+            "report": "CP7_F03_X04.json",
+            "group": "/native",
+            "id": "F03_X04_MOVED_RANGE_PENDING_INVOICE_RETURN",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_10_WAVE_SEWING_PER_SKU_WAGE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_10_WAVE_SEWING_CANCEL_ONE_SKU",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R3_09_WAVE_CHOICE_PER_SKU",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser",
+            "id": "CP17_BROWSER_R3_05_QC_FINAL_SKU_DESKTOP",
+            "status": "INCOMPLETE",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/browser",
+            "id": "CP17_BROWSER_R3_05_QC_FINAL_SKU_MOBILE",
+            "status": "INCOMPLETE",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-21",
+      "requirement": "**Pemasangan dari hosted nyata:** salinan sekali pakai pada versi ledger hosted yang sebenarnya, dipasang penuh dengan akun non-superuser seperti hosted, lalu dicopot (rollback) tanpa sisa; semua penolakan pra-admission INV-M05 dicoba satu per satu.",
+      "status": "INCOMPLETE",
+      "qualification": "OWNER_DEFERRED: pemasangan dari fresh baseline hosted sebenarnya tidak dilakukan. Restore/rehearsal disposable konstruksi dicatat terpisah.",
+      "retained_prior_record": {
+        "id": "SKN-21",
+        "status": "N/A_OWNER_DEFERRED",
+        "basis": "Hosted real clone/installation expressly outside this Native round; constructed owner install is separate.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "REHEARSAL|INSTALL|ROLLBACK",
+        "matching_occurrences": 93,
+        "status_counts": {
+          "PASS": 93
+        },
+        "examples": [
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_FIN01_INSTALLMENT_BEFORE_ACCRUAL_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762556,
+            "artifact_id": 12143949124,
+            "report": "CP7_F05_NATIVE_ANALYSIS.json",
+            "group": "/native",
+            "id": "P06_MATERIAL_NATIVE_ISSUE_NOT_INSTALLED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12144142385,
+            "report": "CP7_F05_NATIVE_ANALYSIS.json",
+            "group": "/native",
+            "id": "P06_MATERIAL_NATIVE_ISSUE_NOT_INSTALLED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762721,
+            "artifact_id": 12144336820,
+            "report": "CP7_F03_E05_INSTALLMENTS.json",
+            "group": "/native",
+            "id": "E05_FIXED_1000_600_400_INVERSE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762721,
+            "artifact_id": 12144336820,
+            "report": "CP7_F03_E05_INSTALLMENTS.json",
+            "group": "/native",
+            "id": "E05_DEDUCTION_RESERVATION",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762721,
+            "artifact_id": 12144336820,
+            "report": "CP7_F03_E05_INSTALLMENTS.json",
+            "group": "/native",
+            "id": "E05_WHOLE_PARTIAL_INVERSE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762721,
+            "artifact_id": 12144336820,
+            "report": "CP7_F03_E05_INSTALLMENTS.json",
+            "group": "/native",
+            "id": "E05_WHOLE_PAID_INVERSE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762721,
+            "artifact_id": 12144336820,
+            "report": "CP7_F03_E05_INSTALLMENTS.json",
+            "group": "/native",
+            "id": "E05_EXACT_LARGE_CENTS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762721,
+            "artifact_id": 12144336820,
+            "report": "CP7_F03_E05_INSTALLMENTS.json",
+            "group": "/native",
+            "id": "E05_AMOUNT_CAP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762721,
+            "artifact_id": 12144336820,
+            "report": "CP7_F03_E05_INSTALLMENTS.json",
+            "group": "/native",
+            "id": "E05_CLOSED_FIELDS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762721,
+            "artifact_id": 12144336820,
+            "report": "CP7_F03_E05_INSTALLMENTS.json",
+            "group": "/native",
+            "id": "E05_REPLAY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762721,
+            "artifact_id": 12144336820,
+            "report": "CP7_F03_E05_INSTALLMENTS.json",
+            "group": "/native",
+            "id": "E05_STALE_REVIEW",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-22",
+      "requirement": "**Lintas checkpoint CP1–7:** saldo awal cutover (CP6 AC..) → pembelian dan potong (CP3–5) → aksesori/laundry/konversi (BC..BF) → penjualan, retur, pembayaran (CP7 P11–P13) → laporan BR dan reminder → koreksi R1 di awal rantai → semua cek integritas nol, laporan per tanggal direproduksi, rekomendasi berubah hanya bila faktanya berubah.",
+      "status": "INCOMPLETE",
+      "qualification": "Teks cash FAIL lama sudah basi: disposisi r2 CLOSED dan kontrol koreksi current PASS. Beberapa rantai layar konkret PASS, tetapi seluruh rantai CP1–7 beserta koreksi/laporan/rekomendasi dan setiap oracle integritas belum dibuktikan sebagai satu inventaris.",
+      "retained_prior_record": {
+        "id": "SKN-22",
+        "status": "FAIL",
+        "basis": "D14-5/12 actual browser gap closed; current correction cash path FAIL (SOL-R1-001), PO daily path absent, full combined application chain remains INCOMPLETE.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "FULL_CYCLE|CHAIN|OPENING|E01",
+        "matching_occurrences": 112,
+        "status_counts": {
+          "PASS": 112
+        },
+        "examples": [
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_MISC_CORRECTION_REPLAY_CHAIN",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/opening_payroll_browser",
+            "id": "P12_OPENING_BROWSER_DESKTOP_CYCLE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/opening_payroll_browser",
+            "id": "P12_OPENING_BROWSER_MOBILE_RECOVERY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/native",
+            "id": "P18_E01_NATIVE_SOURCE_TO_ALL_CONSUMERS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/native",
+            "id": "P18_E01_CASH_INVERSE_IMMUTABLE_ARCHIVE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/native",
+            "id": "P18_E01_CURRENT_AUTHORITY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/native",
+            "id": "P18_E01_OWNING_NOTE_CORRECTION_ALL_CONSUMERS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/native",
+            "id": "P18_E01_CORRECTED_DEMAND_PROSPECTIVE_MODEL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/races",
+            "id": "P18_E01_CASH_INVERSE_DURING_SAVED_REPORT_WAIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/http",
+            "id": "P18_E01_EXACT_AUTH_NATIVE_SOURCE_TO_REPORT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/browser",
+            "id": "P18_E01_BRIDGE_BROWSER_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/browser",
+            "id": "P18_E01_BRIDGE_BROWSER_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-23",
+      "requirement": "**Regresi baseline:** seluruh paket regresi CP3–5 (326 + AS 34 + AR 174 + AT 16 + AU 15 kasus dan balapannya) dijalankan pada kandidat akhir; setiap kasus yang berubah status wajib punya disposisi tertulis (`EXPECTED_CHANGE` dengan kasus pengganti penulis, atau temuan).",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-23",
+        "status": "PASS_WITH_ORIGINAL_DISPOSITIONS",
+        "basis": "326 + AS34 + AR174 + AT16/AU15 with races on final stack. Raw 12 HOLD, AS/AO reds and AR zero-price retained; C0 25 and BC replacement separate.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "REGRESSION|BASELINE|BRIDGE",
+        "matching_occurrences": 62,
+        "status_counts": {
+          "PASS": 62
+        },
+        "examples": [
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/native",
+            "id": "P09_ZONE_GUARD_REGRESSION",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/browser",
+            "id": "P18_E01_BRIDGE_BROWSER_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762334,
+            "artifact_id": 12143638757,
+            "report": "CP7_RULE_LIFECYCLE.json",
+            "group": "/browser",
+            "id": "P18_E01_BRIDGE_BROWSER_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762475,
+            "artifact_id": 12143967846,
+            "report": "CP7_F04_NATIVE_CUTTING_MODEL.json",
+            "group": "/native",
+            "id": "CUT_MODEL_NATIVE_WIDTH_BASELINE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762771,
+            "artifact_id": 12144052962,
+            "report": "CP7_P18_E01_BRIDGE.json",
+            "group": "/native",
+            "id": "P18_E01_NATIVE_SOURCE_TO_ALL_CONSUMERS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762771,
+            "artifact_id": 12144052962,
+            "report": "CP7_P18_E01_BRIDGE.json",
+            "group": "/native",
+            "id": "P18_E01_CASH_INVERSE_IMMUTABLE_ARCHIVE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762771,
+            "artifact_id": 12144052962,
+            "report": "CP7_P18_E01_BRIDGE.json",
+            "group": "/native",
+            "id": "P18_E01_CURRENT_AUTHORITY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762771,
+            "artifact_id": 12144052962,
+            "report": "CP7_P18_E01_BRIDGE.json",
+            "group": "/native",
+            "id": "P18_E01_OWNING_NOTE_CORRECTION_ALL_CONSUMERS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762771,
+            "artifact_id": 12144052962,
+            "report": "CP7_P18_E01_BRIDGE.json",
+            "group": "/native",
+            "id": "P18_E01_CORRECTED_DEMAND_PROSPECTIVE_MODEL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762771,
+            "artifact_id": 12144052962,
+            "report": "CP7_P18_E01_BRIDGE.json",
+            "group": "/races",
+            "id": "P18_E01_CASH_INVERSE_DURING_SAVED_REPORT_WAIT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762771,
+            "artifact_id": 12144052962,
+            "report": "CP7_P18_E01_BRIDGE.json",
+            "group": "/http",
+            "id": "P18_E01_EXACT_AUTH_NATIVE_SOURCE_TO_REPORT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762771,
+            "artifact_id": 12144052962,
+            "report": "CP7_P18_E01_BRIDGE.json",
+            "group": "/browser",
+            "id": "P18_E01_BRIDGE_BROWSER_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-24",
+      "requirement": "**Sambungan antarmesin:** sumber yang ditolak matcher karena warna/SKU/range tidak cocok tidak boleh menjadi alokasi sah hanya dengan mengganti label menjadi `CANDIDATE_MATCH`. Uji pasangan cocok sebagai kontrol, lalu telusuri keluaran matcher → allocator → rencana → command publik; kelulusan kernel privat hanya menutup kernel itu.",
+      "status": "INCOMPLETE",
+      "qualification": "Kernel/matcher/netting dan jalur apply publik tertentu diuji; tidak ada klaim seluruh varian matcher → allocator → command sudah tertutup.",
+      "retained_prior_record": {
+        "id": "SKN-24",
+        "status": "INCOMPLETE",
+        "basis": "Matcher/allocator forging and actual Native plans tested. No blanket proof every matcher→allocator→command variant follows the same route.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "PLANNER|MATCH|ALLOC|NETTING|MATERIAL_APPLY",
+        "matching_occurrences": 279,
+        "status_counts": {
+          "PASS": 263,
+          "INCOMPLETE": 16
+        },
+        "examples": [
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/native",
+            "id": "P12_NOTA_SOURCE_NATIVE_ALLOCATION_RELEASE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762467,
+            "artifact_id": 12143817890,
+            "report": "CP7_F03_X04.json",
+            "group": "/native",
+            "id": "F03_X04_PO_PIN_MISMATCH_REFUSED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762556,
+            "artifact_id": 12143949124,
+            "report": "CP7_F05_NATIVE_ANALYSIS.json",
+            "group": "/native",
+            "id": "P06_NETTING_NATIVE_BOUND_GAP93",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762556,
+            "artifact_id": 12143949124,
+            "report": "CP7_F05_NATIVE_ANALYSIS.json",
+            "group": "/native",
+            "id": "P06_NETTING_NATIVE_BOUND_UNKNOWN_YIELD",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762556,
+            "artifact_id": 12143949124,
+            "report": "CP7_F05_NATIVE_ANALYSIS.json",
+            "group": "/native",
+            "id": "P06_NETTING_NATIVE_GLOBAL_ONE_EDGE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762556,
+            "artifact_id": 12143949124,
+            "report": "CP7_F05_NATIVE_ANALYSIS.json",
+            "group": "/native",
+            "id": "P06_NETTING_NATIVE_EXISTING_WORK_DISTINCT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762556,
+            "artifact_id": 12143949124,
+            "report": "CP7_F05_NATIVE_ANALYSIS.json",
+            "group": "/native",
+            "id": "P06_NETTING_NATIVE_LATE_NOT_NETTED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762556,
+            "artifact_id": 12143949124,
+            "report": "CP7_F05_NATIVE_ANALYSIS.json",
+            "group": "/native",
+            "id": "P06_NETTING_NATIVE_UNBOUND_NEEDS_CHECK",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762556,
+            "artifact_id": 12143949124,
+            "report": "CP7_F05_NATIVE_ANALYSIS.json",
+            "group": "/native",
+            "id": "P06_NETTING_NATIVE_IMMUTABLE_AFTER_NATIVE_OUTPUT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762556,
+            "artifact_id": 12143949124,
+            "report": "CP7_F05_NATIVE_ANALYSIS.json",
+            "group": "/native",
+            "id": "P06_NETTING_NATIVE_CURRENT_AUTH_CLOSED_QUERY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762556,
+            "artifact_id": 12143949124,
+            "report": "CP7_F05_NATIVE_ANALYSIS.json",
+            "group": "/races",
+            "id": "P06_NETTING_RACE_UUID",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": true
+          },
+          {
+            "run_id": 39146762556,
+            "artifact_id": 12143949124,
+            "report": "CP7_F05_NATIVE_ANALYSIS.json",
+            "group": "/races/business_day_first_attempt",
+            "id": "P06_NETTING_RACE_UUID",
+            "status": "INCOMPLETE",
+            "category": "FIRST_ATTEMPT",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-25",
+      "requirement": "**Gratis sah, bukan nol sembarang:** bentuk konfigurasi FREE/WAIVED yang sah menurut keputusan owner dan jalankan sampai laporan; bandingkan dengan tarif nol tanpa izin, tarif belum diketahui, serta tarif normal. Penolakan nol saja tidak membuktikan jalur gratis bekerja; konfigurasi tidak terbentuk = `INCOMPLETE`, bukan otomatis bug produk.",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-25",
+        "status": "PASS",
+        "basis": "BC Special FREE and vendor FREE_WAIVED, ordinary zero/pending/normal controls; not just zero refusal.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "WAIVED|FREE",
+        "matching_occurrences": 36,
+        "status_counts": {
+          "PASS": 36
+        },
+        "examples": [
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_SINGLE_FREE_STOCK",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_SUFFICIENT_FREE_STOCK",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_LINKED_DRAFT_PLUS_FREE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762467,
+            "artifact_id": 12143817890,
+            "report": "CP7_F03_X04.json",
+            "group": "/native",
+            "id": "F03_X04_VENDOR_FREE_WAIVED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763477,
+            "artifact_id": 12144159805,
+            "report": "CP7_F03_FULL_PREFREEZE_UI.json",
+            "group": "/groups/browser",
+            "id": "READINESS_BROWSER:DESKTOP_NATIVE_POLICY_STATES_FINANCE_NOTE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763477,
+            "artifact_id": 12144159805,
+            "report": "CP7_F03_FULL_PREFREEZE_UI.json",
+            "group": "/groups/browser",
+            "id": "READINESS_BROWSER:MOBILE_NATIVE_POLICY_STATES_FINANCE_NOTE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763477,
+            "artifact_id": 12144159805,
+            "report": "CP7_F03_FULL_PREFREEZE_UI.json",
+            "group": "/groups/browser",
+            "id": "VENDOR_FREE_BROWSER:DESKTOP_SAVE_RELOAD",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763477,
+            "artifact_id": 12144159805,
+            "report": "CP7_F03_FULL_PREFREEZE_UI.json",
+            "group": "/groups/browser",
+            "id": "VENDOR_FREE_BROWSER:MOBILE_SAVE_RELOAD",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763477,
+            "artifact_id": 12144159805,
+            "report": "CP7_F03_FULL_PREFREEZE_UI.json",
+            "group": "/groups/browser",
+            "id": "VENDOR_BROWSER:EMPTY_DETAILS_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763477,
+            "artifact_id": 12144159805,
+            "report": "CP7_F03_FULL_PREFREEZE_UI.json",
+            "group": "/groups/browser",
+            "id": "VENDOR_BROWSER:EMPTY_DETAILS_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763477,
+            "artifact_id": 12144159805,
+            "report": "CP7_F03_FULL_PREFREEZE_UI.json",
+            "group": "/groups/browser",
+            "id": "SUPPLIER_BROWSER:FABRIC_SPLIT_INVERSE_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763477,
+            "artifact_id": 12144159805,
+            "report": "CP7_F03_FULL_PREFREEZE_UI.json",
+            "group": "/groups/browser",
+            "id": "SUPPLIER_BROWSER:ACCESSORY_SPLIT_INVERSE_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-26",
+      "requirement": "**Batas angka dan daftar:** uji tepat di bawah, pada, dan di atas batas tipe/skala nominal serta batas halaman yang sebenarnya. Sertakan sekitar Rp21.474.836,48 bila jalur memakai sen 32-bit, dokumen satu dan banyak baris, diskon nol, serta sumber lama setelah batas 50/200 bila batas tersebut masih dipakai. Pencarian, pilihan, total, dan ekspor harus sesuai cakupan kontraknya; halaman pertama tidak mewakili seluruh data.",
+      "status": "INCOMPLETE",
+      "qualification": "PO 1000/1001/10000 serta kontrol source/pages/uang besar diuji. P19 lima kasus adalah pengukuran 48 sampel dengan cap/refusal; 18 sampel direct/finance tanpa pengecualian melewati sasaran berat 3 detik, sehingga bukan penerimaan kinerja. Semua cast, skala, writer, pagination dan export belum ditelusuri; tidak ada N/A 32-bit secara global.",
+      "retained_prior_record": {
+        "id": "SKN-26",
+        "status": "INCOMPLETE",
+        "basis": "Native exact-large, real source paging/caps and 5,000-target pages tested. Not every writer numeric/page boundary traced; no global 32-bit N/A.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "LARGE|PAGE|PAGING|LIMIT|1000|10000|EXACT",
+        "matching_occurrences": 150,
+        "status_counts": {
+          "PASS": 150
+        },
+        "examples": [
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/native",
+            "id": "P09_FINAL_EXACT_VALUE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/native",
+            "id": "P09_COMPLETE_PAGES_OPTIONS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material",
+            "id": "P09_MATERIAL_COMPLETE_PAGES_UNITS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material",
+            "id": "P09_UNROLLED_COMPLETE_PAGES",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count",
+            "id": "P09_COUNT_COMPLETE_PAGES",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": true
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/material_count/business_day_first_attempt",
+            "id": "P09_COUNT_COMPLETE_PAGES",
+            "status": "PASS",
+            "category": "FIRST_ATTEMPT",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/invoice",
+            "id": "P09_INVOICE_EXACT_DECIMAL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/invoice",
+            "id": "P09_INVOICE_COMPLETE_PAGES",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_EXACT_CENTS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/returns",
+            "id": "P09_RETURN_COMPLETE_DOCUMENT_PAGES",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762526,
+            "artifact_id": 12143234063,
+            "report": "CP7_P09_PROCUREMENT.json",
+            "group": "/receipt_reversal",
+            "id": "P09_RECEIPT_REVERSE_EXACT_FINAL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762570,
+            "artifact_id": 12143268881,
+            "report": "CP7_F03_COMBINED_STACK.json",
+            "group": "/native",
+            "id": "F03_P09_FINAL_EXACT_VALUE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-27",
+      "requirement": "**Koreksi yang benar-benar selesai:** untuk setiap jenis transaksi dalam inventaris, jalankan jalur buat → edit draft → post → koreksi/pembalikan sah → baca ulang seluruh dampak. Uji juga larangan hapus/edit dokumen posted. Penolakan yang aman tidak menggantikan bukti jalur koreksi sah yang bisa dipakai pengguna; jika tidak tersedia, catat fungsi belum lengkap.",
+      "status": "INCOMPLETE",
+      "qualification": "Koreksi spent-income lama sudah CLOSED; receipt/nota/retur/pembayaran current berhasil. Inventaris setiap transaksi melalui create → edit draft → post → koreksi sah → seluruh pembaca hilir masih terbatas.",
+      "retained_prior_record": {
+        "id": "SKN-27",
+        "status": "FAIL",
+        "basis": "A legitimate spent-income amount/note correction is blocked. Range-dozens closed on disposable desktop/phone; broad edit/delete coverage remains bounded by CHAIN_MATRIX.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "CORRECTION|REVERSE|REPLAY|DRAFT",
+        "matching_occurrences": 395,
+        "status_counts": {
+          "PASS": 393,
+          "INCOMPLETE": 2
+        },
+        "examples": [
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_LINKED_DRAFT_KNOWN",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_LINKED_DRAFT_PLUS_FREE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_WRONG_MATERIAL_DRAFT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_OVERCOMMITTED_DRAFT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_UNLINKED_NATIVE_DRAFT",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_SHARED_SPLIT_THEN_DRAFTS",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_DRAFT_ONCE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_MISC_CORRECTION_EXPENSE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_MISC_CORRECTION_INCOME",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_MISC_CORRECTION_CHANGED_TYPE_CASH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_MISC_CORRECTION_YEAR30",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-28",
+      "requirement": "**Batas identitas dan waktu:** ganti anggota SKU/range sebelum, tepat pada, dan sesudah komitmen transaksi, termasuk sisi asal/hasil konversi dan dokumen REVERSED. Cocokkan identitas historis, PCS, biaya, jurnal, laporan per tanggal, serta snapshot rekomendasi terhadap aturan owner; membuktikan PCS tetap tidak cukup untuk menyatakan HPP/label tetap.",
+      "status": "PASS",
+      "qualification": "Eksekusi current atas oracle writer/warisan ditambah cakupan lama yang dipertahankan secara eksplisit. Tidak menjadi persentase ERP keseluruhan.",
+      "retained_prior_record": {
+        "id": "SKN-28",
+        "status": "PASS",
+        "basis": "AT/AU temporal identity and Native BF/range snapshots/reversed docs in tested paths.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "IDENTITY|SKU|MEMBER|REVERSED|WAVE|SNAPSHOT",
+        "matching_occurrences": 48,
+        "status_counts": {
+          "PASS": 44,
+          "INCOMPLETE": 4
+        },
+        "examples": [
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/native",
+            "id": "P08_PHYSICAL_WIP_IDENTITY_UPPER_BOUND",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762301,
+            "artifact_id": 12143503635,
+            "report": "CP7_P03_FACADE.json",
+            "group": "/native",
+            "id": "P03_MEMBERSHIP_REVIEW",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762301,
+            "artifact_id": 12143503635,
+            "report": "CP7_P03_FACADE.json",
+            "group": "/native",
+            "id": "P03_FUTURE_MEMBERSHIP_REVIEW",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762301,
+            "artifact_id": 12143503635,
+            "report": "CP7_P03_FACADE.json",
+            "group": "/native",
+            "id": "P03_HISTORICAL_IDENTITY_CONSERVATION",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762301,
+            "artifact_id": 12143503635,
+            "report": "CP7_P03_FACADE.json",
+            "group": "/races",
+            "id": "P03_MEMBERSHIP_WHILE_WAITING",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762517,
+            "artifact_id": 12143589890,
+            "report": "CP7_P18_FABRIC_RULE.json",
+            "group": "/native",
+            "id": "P18_FABRIC_RULE_IDENTITY_UNKNOWN_NO_EPISODE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762636,
+            "artifact_id": 12143613604,
+            "report": "CP7_P12_ATTENDANCE_WRITE.json",
+            "group": "/payroll_review",
+            "id": "P12_PAYROLL_READ_REVERSED_HISTORY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_10_WAVE_SEWING_PER_SKU_WAGE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_10_WAVE_SEWING_PREVIEW_EQUALS_NATIVE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_10_WAVE_SEWING_REFUSALS_UNCHANGED",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_10_WAVE_SEWING_FAILURE_MIDWAY_LEAVES_NOTHING",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146521757,
+            "artifact_id": 12143844276,
+            "report": "CP7_CP17_FIXES.json",
+            "group": "/native",
+            "id": "CP17_R2_10_WAVE_SEWING_CANCEL_ONE_SKU",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "SKN-29",
+      "requirement": "**Keluaran yang benar-benar dipakai:** cocokkan angka dan izin antara RPC, layar, file laporan yang diunduh, serta proyeksi Tanya AI. Dengan peran operasional, coba filter/ID sumber yang tidak berhak, cache setelah pencabutan izin, dan instruksi yang disisipkan dalam catatan sumber. Periksa kebocoran pada isi respons, alasan, total, file, dan prompt; UI yang menyembunyikan angka saja tidak cukup. Reminder diuji sampai perubahan episode/ACK/snooze; arsip bukan bukti utang lunas. Pengiriman WA memakai transport uji tanpa penerima nyata dan tidak diklaim sebagai bukti pengiriman live.",
+      "status": "INCOMPLETE",
+      "qualification": "Jalur real Auth RPC/browser/report/AI/rule terpilih diuji. Kelengkapan alternatif API/cache/prompt, perangkat fisik dan pengiriman nyata belum terbukti; probe akses tambahan ditahan.",
+      "retained_prior_record": {
+        "id": "SKN-29",
+        "status": "INCOMPLETE",
+        "basis": "RPC/browser/report/AI projected permissions covered in selected flows; GraphQL/alternative API and physical devices not covered; WA test transport only.",
+        "prior_candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+        "evidence_origin": "EXPLICIT_RETAINED_PRIOR_SOL_SCOPE_WITH_RELEVANT_R2_REGRESSION",
+        "previous_seal": "278a95cea5655c23f6bc94d1eb97959cdaaca5d6",
+        "candidate_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "r2_evidence": "SUITE_RESULTS.json / CASE_LEDGER.json; inherited scenario PASS is not a fresh all-family execution."
+      },
+      "r3_document_witnesses": {
+        "pattern": "BROWSER|AI|PROMPT|RULE|REMINDER|AUTH",
+        "matching_occurrences": 1054,
+        "status_counts": {
+          "PASS": 1023,
+          "INCOMPLETE": 31
+        },
+        "examples": [
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/http",
+            "id": "P08_PHYSICAL_REAL_AUTH_HTTP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/browser",
+            "id": "P08_PHYSICAL_BROWSER_DESKTOP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762454,
+            "artifact_id": 12142904418,
+            "report": "CP7_FABRIC_PHYSICAL.json",
+            "group": "/browser",
+            "id": "P08_PHYSICAL_BROWSER_MOBILE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/native",
+            "id": "P07_NATIVE_CURRENT_AUTH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/races",
+            "id": "P07_RACE_CURRENT_AUTH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/http",
+            "id": "P05_ACTUAL_AUTH_HTTP",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/http",
+            "id": "P07_HTTP_CURRENT_AUTH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/browser",
+            "id": "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/browser",
+            "id": "P05_BROWSER_MOBILE_CURRENT_AUTH",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/browser",
+            "id": "P07_BROWSER_DESKTOP_NATIVE_MODEL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146763571,
+            "artifact_id": 12142904939,
+            "report": "CP7_F04_NATIVE_MODELS.json",
+            "group": "/browser",
+            "id": "P07_BROWSER_MOBILE_NATIVE_MODEL",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          },
+          {
+            "run_id": 39146762575,
+            "artifact_id": 12143158529,
+            "report": "CP7_MISC_CORRECTION.json",
+            "group": "/native",
+            "id": "CP7_MISC_CORRECTION_LATE_FAILURE",
+            "status": "PASS",
+            "category": "CANONICAL_DOCUMENT_ROW",
+            "internal_second_attempt": false
+          }
+        ]
+      }
+    }
+  ]
+}

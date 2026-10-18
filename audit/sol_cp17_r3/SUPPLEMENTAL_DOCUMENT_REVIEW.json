@@ -1,0 +1,957 @@
+{
+  "scope": "READ_ONLY_EXISTING_RESULT_DOCUMENTS",
+  "full_audit_pass": false,
+  "reports": [
+    {
+      "run_id": 39146762452,
+      "artifact_id": 12142949357,
+      "path": "ci_receipts/sol_artifacts/12142949357/files/UI_PHONE_WIDTH.json",
+      "sha256": "7a1d5b28d14feaed47cbbc5fd77d63da3de1b2c3cdae159bb4b857e9e90f5fde",
+      "exact_duplicate_of": null,
+      "kind": "DEMO_MENU_WIDTH_CENSUS",
+      "menus": 47,
+      "failed": 0,
+      "viewport": "390x844",
+      "qualification": "Document width only, demo build. Does not prove all connected data flows, physical devices or every control reachable."
+    },
+    {
+      "run_id": 39146762599,
+      "artifact_id": 12144450333,
+      "path": "ci_receipts/sol_artifacts/12144450333/files/cp45-browser-original/results.json",
+      "sha256": "17ed019cbbd68f1dacfa8ca465c5ebc77deebf52cd8e3cf7cf0886dd4e8f9cf6",
+      "exact_duplicate_of": null,
+      "kind": "PLAYWRIGHT_REPORT",
+      "stats": {
+        "startTime": "2026-10-18T17:05:55.170Z",
+        "duration": 13267.101999999999,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cases": 2,
+      "counts": {
+        "expected": 2
+      },
+      "errors": 0,
+      "case_ids": [
+        {
+          "id": "70d35e1a1c37abd331a7-0f8130a550f2af210e8c",
+          "title": "CP4.5 Master Pola grows from operational need with fail-closed Potongan selection",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "70d35e1a1c37abd331a7-e28d63a6a6e66902b174",
+          "title": "CP4.5 Master Pola grows from operational need with fail-closed Potongan selection",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        }
+      ],
+      "qualification": "Browser contract/demo tests. Exact copied report files are aliases, not additional executed cases."
+    },
+    {
+      "run_id": 39146762599,
+      "artifact_id": 12144450333,
+      "path": "ci_receipts/sol_artifacts/12144450333/files/cp45-browser-proof/results.json",
+      "sha256": "8de850c228a8461eba0c38d5b4a9387e8014f78645ae23d2eca3bf962629ba4a",
+      "exact_duplicate_of": null,
+      "kind": "PLAYWRIGHT_REPORT",
+      "stats": {
+        "startTime": "2026-10-18T17:06:09.023Z",
+        "duration": 6216.028,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cases": 2,
+      "counts": {
+        "expected": 2
+      },
+      "errors": 0,
+      "case_ids": [
+        {
+          "id": "26dbb53c86463c08969a-6a6f3058f40ca94d9ae1",
+          "title": "pre-CP5 Pola filters preserve one identity through pickup, WIP, Laundry, and QC",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "26dbb53c86463c08969a-d144c761e80d9b4e57c5",
+          "title": "pre-CP5 Pola filters preserve one identity through pickup, WIP, Laundry, and QC",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        }
+      ],
+      "qualification": "Browser contract/demo tests. Exact copied report files are aliases, not additional executed cases."
+    },
+    {
+      "run_id": 39146762599,
+      "artifact_id": 12144450333,
+      "path": "ci_receipts/sol_artifacts/12144450333/files/cp5-browser-contract-proof/results.json",
+      "sha256": "42dfc68683571af2103ed41ab469414845064912b18836d62239ec77589a83bd",
+      "exact_duplicate_of": null,
+      "kind": "PLAYWRIGHT_REPORT",
+      "stats": {
+        "startTime": "2026-10-18T17:06:15.781Z",
+        "duration": 34093.594000000005,
+        "expected": 16,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cases": 16,
+      "counts": {
+        "expected": 16
+      },
+      "errors": 0,
+      "case_ids": [
+        {
+          "id": "e876641790a8a17ba04c-7b6147635c9e940bef48",
+          "title": "CP5 local mocked-UAT contract keeps server-side Pattern truth and one mutation",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e876641790a8a17ba04c-f5caf7071aebfdf9d978",
+          "title": "CP5 lost commit response survives reload and reconciles the exact persisted request",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e876641790a8a17ba04c-453cc6b64e48c421e60e",
+          "title": "CP5 BS dialog keeps exact recovery reachable after an uncertain save",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e876641790a8a17ba04c-500606cb17c6d5633ee2",
+          "title": "CP5 CLAIM dialog keeps exact recovery reachable after an uncertain save",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e876641790a8a17ba04c-2d13f9302109917c1ec8",
+          "title": "CP5 committed claim cannot be submitted again after failed then successful refetch",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e876641790a8a17ba04c-3053ce3815c9eda51417",
+          "title": "CP5 committed manual BS cannot be submitted again after failed then successful refetch",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e876641790a8a17ba04c-b1d8b934324eafcb0825",
+          "title": "CP5 local mocked-UAT contract saves cumulative partial return without posting completion",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e876641790a8a17ba04c-6d2d0d8194107c8fd811",
+          "title": "CP5 local mocked-UAT contract keeps view-only identity non-executable",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e876641790a8a17ba04c-cec9f8c8f7634d476dff",
+          "title": "CP5 local mocked-UAT contract keeps server-side Pattern truth and one mutation",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e876641790a8a17ba04c-9b3cdefb3b02a14cb4ae",
+          "title": "CP5 lost commit response survives reload and reconciles the exact persisted request",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e876641790a8a17ba04c-90f1ed2d3e3f995a2f33",
+          "title": "CP5 BS dialog keeps exact recovery reachable after an uncertain save",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e876641790a8a17ba04c-a940152e51eda18c0a4c",
+          "title": "CP5 CLAIM dialog keeps exact recovery reachable after an uncertain save",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e876641790a8a17ba04c-9f9699780ca5482234ca",
+          "title": "CP5 committed claim cannot be submitted again after failed then successful refetch",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e876641790a8a17ba04c-3420af093bddb575cdb6",
+          "title": "CP5 committed manual BS cannot be submitted again after failed then successful refetch",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e876641790a8a17ba04c-d2f0c4dfdc9f537f341d",
+          "title": "CP5 local mocked-UAT contract saves cumulative partial return without posting completion",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e876641790a8a17ba04c-11e9109d4fa4390dce6d",
+          "title": "CP5 local mocked-UAT contract keeps view-only identity non-executable",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        }
+      ],
+      "qualification": "Browser contract/demo tests. Exact copied report files are aliases, not additional executed cases."
+    },
+    {
+      "run_id": 39146762599,
+      "artifact_id": 12144450333,
+      "path": "ci_receipts/sol_artifacts/12144450333/files/cp6-browser-contract-proof/results.json",
+      "sha256": "857f8f554c6b7e158af8fb96a3127673eb7247122854fbdb9e372bf3f7492584",
+      "exact_duplicate_of": null,
+      "kind": "PLAYWRIGHT_REPORT",
+      "stats": {
+        "startTime": "2026-10-18T17:06:50.388Z",
+        "duration": 46661.941999999995,
+        "expected": 26,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cases": 26,
+      "counts": {
+        "expected": 26
+      },
+      "errors": 0,
+      "case_ids": [
+        {
+          "id": "e35728408699831840db-a6e507d05703190c6116",
+          "title": "CP6 Laundry send starts at zero and posts one exact batch-size mutation",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-c9c0f70b8ccdf6dd2dcd",
+          "title": "CP6 Laundry view-only role sees server facts but every mutation control starts locked",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-de6aa70ad5f85b5b1e24",
+          "title": "CP6 two live tabs serialize one global envelope and send at most one operator intent",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-53ef2378e25a3ebb9c26",
+          "title": "CP6 authoritative refetch expires an earlier physical acknowledgement",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-bb0c676e901370d2d210",
+          "title": "CP6 Laundry receipt records only Good and BS while Stuck stays derived",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-0782e7607e83c7691592",
+          "title": "CP6 paid failed-wash retry posts cost without inventing a physical receipt",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-110d739ba7a2b23edb19",
+          "title": "CP6 paid full return is exact, all-or-nothing, and retires the committed form",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-a9f98cd77bc473048212",
+          "title": "CP6 committed send form stays retired after failed then successful refetch",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-c373afec0f3b7664f31d",
+          "title": "CP6 lost response reconciles the exact persisted UUID and payload",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-df3b2898cb39df776d4f",
+          "title": "CP6 QC binds exact receipt batch-size and lets server own stock and HPP",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-e21c14c386ed0d3e6463",
+          "title": "CP6 QC finds an SKU beyond the initial catalog without hiding its source queue",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-26c8df4412d1f8decc13",
+          "title": "CP6 reversal buttons obey authoritative downstream blockers",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-499cdc75f86ca718d8ce",
+          "title": "CP6 never opens the legacy browser Nota writer in connected UAT (owner D16-1: the connected Nota screen instead)",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-7b526c79e2ada2be5f5f",
+          "title": "CP6 Laundry send starts at zero and posts one exact batch-size mutation",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-24deec1b756becf87056",
+          "title": "CP6 Laundry view-only role sees server facts but every mutation control starts locked",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-c4c8928a5c23bf3ee301",
+          "title": "CP6 two live tabs serialize one global envelope and send at most one operator intent",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-0833d62f058ab12c0717",
+          "title": "CP6 authoritative refetch expires an earlier physical acknowledgement",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-b94dc5a6945aeafc266c",
+          "title": "CP6 Laundry receipt records only Good and BS while Stuck stays derived",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-6725541233cb37ce7ad6",
+          "title": "CP6 paid failed-wash retry posts cost without inventing a physical receipt",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-66ef79a8d54a62544f8f",
+          "title": "CP6 paid full return is exact, all-or-nothing, and retires the committed form",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-78c52c0010c3fc41130d",
+          "title": "CP6 committed send form stays retired after failed then successful refetch",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-a97fd3325baa63e7097a",
+          "title": "CP6 lost response reconciles the exact persisted UUID and payload",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-55fc0bf3972dd65f1931",
+          "title": "CP6 QC binds exact receipt batch-size and lets server own stock and HPP",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-3108803fcda7a11b526e",
+          "title": "CP6 QC finds an SKU beyond the initial catalog without hiding its source queue",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-415e81a2830fe6fea9ba",
+          "title": "CP6 reversal buttons obey authoritative downstream blockers",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "e35728408699831840db-a33b6d434a7ba21d32a4",
+          "title": "CP6 never opens the legacy browser Nota writer in connected UAT (owner D16-1: the connected Nota screen instead)",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        }
+      ],
+      "qualification": "Browser contract/demo tests. Exact copied report files are aliases, not additional executed cases."
+    },
+    {
+      "run_id": 39146762599,
+      "artifact_id": 12144450333,
+      "path": "ci_receipts/sol_artifacts/12144450333/files/precp5-browser-original/results.json",
+      "sha256": "8de850c228a8461eba0c38d5b4a9387e8014f78645ae23d2eca3bf962629ba4a",
+      "exact_duplicate_of": "ci_receipts/sol_artifacts/12144450333/files/cp45-browser-proof/results.json",
+      "kind": "PLAYWRIGHT_REPORT",
+      "stats": {
+        "startTime": "2026-10-18T17:06:09.023Z",
+        "duration": 6216.028,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cases": 2,
+      "counts": {
+        "expected": 2
+      },
+      "errors": 0,
+      "case_ids": [
+        {
+          "id": "26dbb53c86463c08969a-6a6f3058f40ca94d9ae1",
+          "title": "pre-CP5 Pola filters preserve one identity through pickup, WIP, Laundry, and QC",
+          "project": "desktop-chromium",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "26dbb53c86463c08969a-d144c761e80d9b4e57c5",
+          "title": "pre-CP5 Pola filters preserve one identity through pickup, WIP, Laundry, and QC",
+          "project": "mobile-chromium",
+          "status": "expected",
+          "attempts": 1
+        }
+      ],
+      "qualification": "Browser contract/demo tests. Exact copied report files are aliases, not additional executed cases."
+    },
+    {
+      "run_id": 39146762626,
+      "artifact_id": 12144735086,
+      "path": "ci_receipts/sol_artifacts/12144735086/files/NATIVE_REPORT.json",
+      "sha256": "b587792fe8540f71114b8c42363f4324db0a00c46948dd192143340f7e9d5743",
+      "exact_duplicate_of": null,
+      "kind": "OWN_EXECUTION_RETAINED_TIMELINE_COMPARATOR",
+      "counts": {
+        "declared": 595,
+        "executed": 595,
+        "successes": 312,
+        "refusals": 283,
+        "distinct_refusals": 16,
+        "supply_events": 448
+      },
+      "cases": 595,
+      "nonidentical": [],
+      "successes": 312,
+      "refusals": 283,
+      "original_error_differences": [],
+      "mutation_controls": [
+        {
+          "name": "ignores_supply",
+          "caught": true
+        },
+        {
+          "name": "wrong_target",
+          "caught": true
+        }
+      ],
+      "oracle_origin": "EXACT_PINNED_PREDECESSOR_BYTE_AND_SQLSTATE_MESSAGE_COMPARISON",
+      "fixture_origin": "WRITER_GENERATOR_PLUS_ASTRA_EMPTY_AND_MIXED_TARGET_CONTROLS",
+      "qualification": "Exact predecessor equivalence, not 595 new independent business oracles; full_application=false."
+    },
+    {
+      "run_id": 39146762603,
+      "artifact_id": 12144852391,
+      "path": "ci_receipts/sol_artifacts/12144852391/files/results.json",
+      "sha256": "b2f1ed87a7efed7e52f374a05d779f1192e88167991065a5fa71803b26e75fa4",
+      "exact_duplicate_of": null,
+      "kind": "PLAYWRIGHT_REPORT",
+      "stats": {
+        "startTime": "2026-10-18T17:30:26.880Z",
+        "duration": 9800.743,
+        "expected": 6,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cases": 6,
+      "counts": {
+        "expected": 6
+      },
+      "errors": 0,
+      "case_ids": [
+        {
+          "id": "71613b3d86babf35790b-5684d6b1ce0b1a74ab0f",
+          "title": "six consumers share the fixture, remain isolated, and retain caveats",
+          "project": "desktop",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "71613b3d86babf35790b-5616de703655b35bd3b0",
+          "title": "partial/error/stale and access changes cannot masquerade as ready output",
+          "project": "desktop",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "71613b3d86babf35790b-ed7750945c384b810ab3",
+          "title": "clipboard rejection keeps selectable text, benchmark links and old app remain reachable",
+          "project": "desktop",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "71613b3d86babf35790b-91dd2004de870dcdc157",
+          "title": "six consumers share the fixture, remain isolated, and retain caveats",
+          "project": "mobile",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "71613b3d86babf35790b-a36b306365bbb2c6c650",
+          "title": "partial/error/stale and access changes cannot masquerade as ready output",
+          "project": "mobile",
+          "status": "expected",
+          "attempts": 1
+        },
+        {
+          "id": "71613b3d86babf35790b-5547628154f85bbf1890",
+          "title": "clipboard rejection keeps selectable text, benchmark links and old app remain reachable",
+          "project": "mobile",
+          "status": "expected",
+          "attempts": 1
+        }
+      ],
+      "qualification": "Browser contract/demo tests. Exact copied report files are aliases, not additional executed cases."
+    }
+  ],
+  "backup_logs": [
+    {
+      "run_id": 39146762489,
+      "path": "ci_receipts/sol_job_logs/117732073486_offsite_backup.log",
+      "sha256": "d4bd6aa9c72d68148e8c6a41839872ceba30d09e7d189405fa852c617679d61b",
+      "groups": [
+        {
+          "line": 1970,
+          "planned": [
+            "OFB_VERIFIED_FROM_FETCHED_COPY",
+            "OFB_NO_CONTENT_OUTSIDE_THE_REMOTE",
+            "OFB_TAMPERED_REMOTE_COPY_UNVERIFIED",
+            "OFB_DATA_DIFFERENCE_DETECTED",
+            "OFB_STRUCTURE_DIFFERENCE_DETECTED",
+            "OFB_SEQUENCE_DIFFERENCE_DETECTED",
+            "OFB_VERIFIED_UNDER_WRITES",
+            "OFB_REMOTE_RETENTION_14_VERIFIED",
+            "OFB_NAME_COLLISION_REFUSED",
+            "OFB_SCRATCH_SERVER_GUARDS",
+            "OFB_FOREIGN_SCRATCH_NAME_REFUSED"
+          ],
+          "final": {
+            "OFB_VERIFIED_FROM_FETCHED_COPY": "PASS",
+            "OFB_NO_CONTENT_OUTSIDE_THE_REMOTE": "PASS",
+            "OFB_TAMPERED_REMOTE_COPY_UNVERIFIED": "PASS",
+            "OFB_DATA_DIFFERENCE_DETECTED": "PASS",
+            "OFB_STRUCTURE_DIFFERENCE_DETECTED": "PASS",
+            "OFB_SEQUENCE_DIFFERENCE_DETECTED": "PASS",
+            "OFB_VERIFIED_UNDER_WRITES": "PASS",
+            "OFB_REMOTE_RETENTION_14_VERIFIED": "PASS",
+            "OFB_NAME_COLLISION_REFUSED": "PASS",
+            "OFB_SCRATCH_SERVER_GUARDS": "PASS",
+            "OFB_FOREIGN_SCRATCH_NAME_REFUSED": "PASS"
+          },
+          "source_unchanged": true,
+          "status": "PASS"
+        },
+        {
+          "line": 2011,
+          "planned": [
+            "OFB_VERIFIED_FROM_FETCHED_COPY",
+            "OFB_NO_CONTENT_OUTSIDE_THE_REMOTE",
+            "OFB_TAMPERED_REMOTE_COPY_UNVERIFIED",
+            "OFB_DATA_DIFFERENCE_DETECTED",
+            "OFB_STRUCTURE_DIFFERENCE_DETECTED",
+            "OFB_SEQUENCE_DIFFERENCE_DETECTED",
+            "OFB_VERIFIED_UNDER_WRITES",
+            "OFB_REMOTE_RETENTION_14_VERIFIED",
+            "OFB_NAME_COLLISION_REFUSED",
+            "OFB_SCRATCH_SERVER_GUARDS",
+            "OFB_FOREIGN_SCRATCH_NAME_REFUSED"
+          ],
+          "final": {
+            "OFB_VERIFIED_FROM_FETCHED_COPY": "PASS",
+            "OFB_NO_CONTENT_OUTSIDE_THE_REMOTE": "PASS",
+            "OFB_TAMPERED_REMOTE_COPY_UNVERIFIED": "PASS",
+            "OFB_DATA_DIFFERENCE_DETECTED": "PASS",
+            "OFB_STRUCTURE_DIFFERENCE_DETECTED": "PASS",
+            "OFB_SEQUENCE_DIFFERENCE_DETECTED": "PASS",
+            "OFB_VERIFIED_UNDER_WRITES": "PASS",
+            "OFB_REMOTE_RETENTION_14_VERIFIED": "PASS",
+            "OFB_NAME_COLLISION_REFUSED": "PASS",
+            "OFB_SCRATCH_SERVER_GUARDS": "PASS",
+            "OFB_FOREIGN_SCRATCH_NAME_REFUSED": "PASS"
+          },
+          "source_unchanged": true,
+          "status": "PASS"
+        }
+      ],
+      "cases": [
+        {
+          "line": 1959,
+          "id": "OFB_VERIFIED_FROM_FETCHED_COPY",
+          "status": "PASS"
+        },
+        {
+          "line": 1960,
+          "id": "OFB_NO_CONTENT_OUTSIDE_THE_REMOTE",
+          "status": "PASS"
+        },
+        {
+          "line": 1961,
+          "id": "OFB_TAMPERED_REMOTE_COPY_UNVERIFIED",
+          "status": "PASS"
+        },
+        {
+          "line": 1962,
+          "id": "OFB_DATA_DIFFERENCE_DETECTED",
+          "status": "PASS"
+        },
+        {
+          "line": 1963,
+          "id": "OFB_STRUCTURE_DIFFERENCE_DETECTED",
+          "status": "PASS"
+        },
+        {
+          "line": 1964,
+          "id": "OFB_SEQUENCE_DIFFERENCE_DETECTED",
+          "status": "PASS"
+        },
+        {
+          "line": 1965,
+          "id": "OFB_VERIFIED_UNDER_WRITES",
+          "status": "PASS"
+        },
+        {
+          "line": 1966,
+          "id": "OFB_REMOTE_RETENTION_14_VERIFIED",
+          "status": "PASS"
+        },
+        {
+          "line": 1967,
+          "id": "OFB_NAME_COLLISION_REFUSED",
+          "status": "PASS"
+        },
+        {
+          "line": 1968,
+          "id": "OFB_SCRATCH_SERVER_GUARDS",
+          "status": "PASS"
+        },
+        {
+          "line": 1969,
+          "id": "OFB_FOREIGN_SCRATCH_NAME_REFUSED",
+          "status": "PASS"
+        },
+        {
+          "line": 2000,
+          "id": "OFB_VERIFIED_FROM_FETCHED_COPY",
+          "status": "PASS"
+        },
+        {
+          "line": 2001,
+          "id": "OFB_NO_CONTENT_OUTSIDE_THE_REMOTE",
+          "status": "PASS"
+        },
+        {
+          "line": 2002,
+          "id": "OFB_TAMPERED_REMOTE_COPY_UNVERIFIED",
+          "status": "PASS"
+        },
+        {
+          "line": 2003,
+          "id": "OFB_DATA_DIFFERENCE_DETECTED",
+          "status": "PASS"
+        },
+        {
+          "line": 2004,
+          "id": "OFB_STRUCTURE_DIFFERENCE_DETECTED",
+          "status": "PASS"
+        },
+        {
+          "line": 2005,
+          "id": "OFB_SEQUENCE_DIFFERENCE_DETECTED",
+          "status": "PASS"
+        },
+        {
+          "line": 2006,
+          "id": "OFB_VERIFIED_UNDER_WRITES",
+          "status": "PASS"
+        },
+        {
+          "line": 2007,
+          "id": "OFB_REMOTE_RETENTION_14_VERIFIED",
+          "status": "PASS"
+        },
+        {
+          "line": 2008,
+          "id": "OFB_NAME_COLLISION_REFUSED",
+          "status": "PASS"
+        },
+        {
+          "line": 2009,
+          "id": "OFB_SCRATCH_SERVER_GUARDS",
+          "status": "PASS"
+        },
+        {
+          "line": 2010,
+          "id": "OFB_FOREIGN_SCRATCH_NAME_REFUSED",
+          "status": "PASS"
+        }
+      ],
+      "counts": {
+        "PASS": 22
+      },
+      "unique_ids": 11,
+      "qualification": "Two disposable targets (emulator/local); no claim about real offsite or hosted installation."
+    },
+    {
+      "run_id": 39146762679,
+      "path": "ci_receipts/sol_job_logs/117732073837.log",
+      "sha256": "bb2af5e740afafb519052de444c01f2ff46025d47211425dfc9492a0ae5b1da2",
+      "groups": [
+        {
+          "line": 529,
+          "planned": [
+            "OFB_VERIFIED_FROM_FETCHED_COPY",
+            "OFB_NO_CONTENT_OUTSIDE_THE_REMOTE",
+            "OFB_TAMPERED_REMOTE_COPY_UNVERIFIED",
+            "OFB_DATA_DIFFERENCE_DETECTED",
+            "OFB_STRUCTURE_DIFFERENCE_DETECTED",
+            "OFB_SEQUENCE_DIFFERENCE_DETECTED",
+            "OFB_VERIFIED_UNDER_WRITES",
+            "OFB_REMOTE_RETENTION_14_VERIFIED",
+            "OFB_NAME_COLLISION_REFUSED",
+            "OFB_SCRATCH_SERVER_GUARDS",
+            "OFB_FOREIGN_SCRATCH_NAME_REFUSED"
+          ],
+          "final": {
+            "OFB_VERIFIED_FROM_FETCHED_COPY": "PASS",
+            "OFB_NO_CONTENT_OUTSIDE_THE_REMOTE": "PASS",
+            "OFB_TAMPERED_REMOTE_COPY_UNVERIFIED": "PASS",
+            "OFB_DATA_DIFFERENCE_DETECTED": "PASS",
+            "OFB_STRUCTURE_DIFFERENCE_DETECTED": "PASS",
+            "OFB_SEQUENCE_DIFFERENCE_DETECTED": "PASS",
+            "OFB_VERIFIED_UNDER_WRITES": "PASS",
+            "OFB_REMOTE_RETENTION_14_VERIFIED": "PASS",
+            "OFB_NAME_COLLISION_REFUSED": "PASS",
+            "OFB_SCRATCH_SERVER_GUARDS": "PASS",
+            "OFB_FOREIGN_SCRATCH_NAME_REFUSED": "PASS"
+          },
+          "source_unchanged": true,
+          "status": "PASS"
+        },
+        {
+          "line": 558,
+          "planned": [
+            "OFB_VERIFIED_FROM_FETCHED_COPY",
+            "OFB_NO_CONTENT_OUTSIDE_THE_REMOTE",
+            "OFB_TAMPERED_REMOTE_COPY_UNVERIFIED",
+            "OFB_DATA_DIFFERENCE_DETECTED",
+            "OFB_STRUCTURE_DIFFERENCE_DETECTED",
+            "OFB_SEQUENCE_DIFFERENCE_DETECTED",
+            "OFB_VERIFIED_UNDER_WRITES",
+            "OFB_REMOTE_RETENTION_14_VERIFIED",
+            "OFB_NAME_COLLISION_REFUSED",
+            "OFB_SCRATCH_SERVER_GUARDS",
+            "OFB_FOREIGN_SCRATCH_NAME_REFUSED"
+          ],
+          "final": {
+            "OFB_VERIFIED_FROM_FETCHED_COPY": "PASS",
+            "OFB_NO_CONTENT_OUTSIDE_THE_REMOTE": "PASS",
+            "OFB_TAMPERED_REMOTE_COPY_UNVERIFIED": "PASS",
+            "OFB_DATA_DIFFERENCE_DETECTED": "PASS",
+            "OFB_STRUCTURE_DIFFERENCE_DETECTED": "PASS",
+            "OFB_SEQUENCE_DIFFERENCE_DETECTED": "PASS",
+            "OFB_VERIFIED_UNDER_WRITES": "PASS",
+            "OFB_REMOTE_RETENTION_14_VERIFIED": "PASS",
+            "OFB_NAME_COLLISION_REFUSED": "PASS",
+            "OFB_SCRATCH_SERVER_GUARDS": "PASS",
+            "OFB_FOREIGN_SCRATCH_NAME_REFUSED": "PASS"
+          },
+          "source_unchanged": true,
+          "status": "PASS"
+        }
+      ],
+      "cases": [
+        {
+          "line": 518,
+          "id": "OFB_VERIFIED_FROM_FETCHED_COPY",
+          "status": "PASS"
+        },
+        {
+          "line": 519,
+          "id": "OFB_NO_CONTENT_OUTSIDE_THE_REMOTE",
+          "status": "PASS"
+        },
+        {
+          "line": 520,
+          "id": "OFB_TAMPERED_REMOTE_COPY_UNVERIFIED",
+          "status": "PASS"
+        },
+        {
+          "line": 521,
+          "id": "OFB_DATA_DIFFERENCE_DETECTED",
+          "status": "PASS"
+        },
+        {
+          "line": 522,
+          "id": "OFB_STRUCTURE_DIFFERENCE_DETECTED",
+          "status": "PASS"
+        },
+        {
+          "line": 523,
+          "id": "OFB_SEQUENCE_DIFFERENCE_DETECTED",
+          "status": "PASS"
+        },
+        {
+          "line": 524,
+          "id": "OFB_VERIFIED_UNDER_WRITES",
+          "status": "PASS"
+        },
+        {
+          "line": 525,
+          "id": "OFB_REMOTE_RETENTION_14_VERIFIED",
+          "status": "PASS"
+        },
+        {
+          "line": 526,
+          "id": "OFB_NAME_COLLISION_REFUSED",
+          "status": "PASS"
+        },
+        {
+          "line": 527,
+          "id": "OFB_SCRATCH_SERVER_GUARDS",
+          "status": "PASS"
+        },
+        {
+          "line": 528,
+          "id": "OFB_FOREIGN_SCRATCH_NAME_REFUSED",
+          "status": "PASS"
+        },
+        {
+          "line": 547,
+          "id": "OFB_VERIFIED_FROM_FETCHED_COPY",
+          "status": "PASS"
+        },
+        {
+          "line": 548,
+          "id": "OFB_NO_CONTENT_OUTSIDE_THE_REMOTE",
+          "status": "PASS"
+        },
+        {
+          "line": 549,
+          "id": "OFB_TAMPERED_REMOTE_COPY_UNVERIFIED",
+          "status": "PASS"
+        },
+        {
+          "line": 550,
+          "id": "OFB_DATA_DIFFERENCE_DETECTED",
+          "status": "PASS"
+        },
+        {
+          "line": 551,
+          "id": "OFB_STRUCTURE_DIFFERENCE_DETECTED",
+          "status": "PASS"
+        },
+        {
+          "line": 552,
+          "id": "OFB_SEQUENCE_DIFFERENCE_DETECTED",
+          "status": "PASS"
+        },
+        {
+          "line": 553,
+          "id": "OFB_VERIFIED_UNDER_WRITES",
+          "status": "PASS"
+        },
+        {
+          "line": 554,
+          "id": "OFB_REMOTE_RETENTION_14_VERIFIED",
+          "status": "PASS"
+        },
+        {
+          "line": 555,
+          "id": "OFB_NAME_COLLISION_REFUSED",
+          "status": "PASS"
+        },
+        {
+          "line": 556,
+          "id": "OFB_SCRATCH_SERVER_GUARDS",
+          "status": "PASS"
+        },
+        {
+          "line": 557,
+          "id": "OFB_FOREIGN_SCRATCH_NAME_REFUSED",
+          "status": "PASS"
+        }
+      ],
+      "counts": {
+        "PASS": 22
+      },
+      "unique_ids": 11,
+      "qualification": "Two disposable targets (emulator/local); no claim about real offsite or hosted installation."
+    }
+  ],
+  "build_log": {
+    "run_id": 39146762599,
+    "job_id": 117732073479,
+    "path": "ci_receipts/sol_job_logs/117732073479.log",
+    "vitest_files": 221,
+    "vitest_checks": 1860,
+    "screen_activation_checks": 6,
+    "qualification": "Framework aggregate count from log; not 1860 individually inventoried business-case IDs. Source-contract checks and build are separate from Native runtime acceptance."
+  }
+}

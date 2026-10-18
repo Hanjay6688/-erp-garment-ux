@@ -1,0 +1,643 @@
+{
+  "scope": "READ_ONLY_DOCUMENT_REVIEW_OF_WRITER_LOGS_DECLARED_IN_B53_RECEIPT",
+  "peer_r3_read": false,
+  "total": 22,
+  "counts": {
+    "HISTORICAL_SOURCE_SCOPE_GUARD": 20,
+    "EXPIRED_INCOMING_ARTIFACT_BEFORE_AF_CASES": 1,
+    "FROZEN_CP6_SCENARIO_FOUR_KNOWN_INCOMPLETE_RETAINED": 1
+  },
+  "reviews": [
+    {
+      "run_id": 39035979955,
+      "job_id": 117405713598,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117405713598.log",
+      "bytes": 109584,
+      "sha256": "a3469f6cfbec0c3fd19a28760c62f19447dc56a68db0a4569e4c6edcaf4e496e",
+      "failed_steps": [
+        "Verify unchanged AG sources and confined harness"
+      ],
+      "traces": [
+        {
+          "line": 1000,
+          "assertions": [
+            "assert not git('rev-list','--merges',HEAD+'..HEAD')"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "8ee8e763f2492a91e80c2fb6c747a35ac8b8527fb7ca0fafa3663cf9729a8c0c"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39035978659,
+      "job_id": 117405718324,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117405718324.log",
+      "bytes": 105575,
+      "sha256": "37d60a5caefb439bfa4d912d5435483499c5da424ac32850ee6b7f0f85100d0e",
+      "failed_steps": [
+        "Verify source-only review scope"
+      ],
+      "traces": [
+        {
+          "line": 965,
+          "assertions": [
+            "assert not git('rev-list','--merges',HEAD+'..HEAD')"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "23938d606810bea47e916fe85eb6ae78e1b1fb0845aa21d977943f8d52fb3a20"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39035977233,
+      "job_id": 117407251055,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117407251055.log",
+      "bytes": 118721,
+      "sha256": "37884562e86ccacd396680caf03457917944dbff6e84abea2ec4140d909cc241",
+      "failed_steps": [
+        "Verify incoming AE artifact bytes and phase results",
+        "Require complete AF writer evidence"
+      ],
+      "traces": [
+        {
+          "line": 1363,
+          "assertions": [],
+          "exception_kinds": [
+            "FileNotFoundError"
+          ],
+          "original_excerpt_sha256": "8b677e90dec6c5b18e87945accb48b99010da898d1d67a22783b24cbd158b855"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "EXPIRED_INCOMING_ARTIFACT_BEFORE_AF_CASES",
+      "artifact_id": 10418502157,
+      "expired_lines": [
+        [
+          1242,
+          "gh: Artifact has expired (HTTP 410)"
+        ]
+      ],
+      "qualification": "Admission file missing after incoming AE archive download failed. No AF case credit."
+    },
+    {
+      "run_id": 39035981387,
+      "job_id": 117406071396,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117406071396.log",
+      "bytes": 82314,
+      "sha256": "917a09a2f643ecac6b41de98fe2282f740247edc37c7083fe29c9e4921ae91bb",
+      "failed_steps": [
+        "Verify pinned whole-family scope"
+      ],
+      "traces": [
+        {
+          "line": 768,
+          "assertions": [
+            "assert git('merge-base',BASE,'HEAD')==BASE and not git('rev-list','--merges',BASE+'..HEAD')"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "67cfdeedaa910adc34c02ef0e91d2ca5d850844c4af13f387ea32e939c5cc391"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39035984328,
+      "job_id": 117408327526,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117408327526.log",
+      "bytes": 81698,
+      "sha256": "8dbd14314f4e1f86f6cd01b5102eb22b21cba8f4328a13d40fa4e5477c56f40d",
+      "failed_steps": [
+        "Verify pinned whole-family scope"
+      ],
+      "traces": [
+        {
+          "line": 758,
+          "assertions": [
+            "assert git('merge-base',BASE,'HEAD')==BASE and not git('rev-list','--merges',BASE+'..HEAD')"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "aac1a7a1f923de54cacde1df1c27bcc8acccc8ebdc87fdb4da780da28a1edb61"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39035985815,
+      "job_id": 117405731702,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117405731702.log",
+      "bytes": 111021,
+      "sha256": "3fc8cdee171ae7cb8809281f6cd620d85d2e456394ce28f002c64dd69622a1fc",
+      "failed_steps": [
+        "Verify unchanged AI-R2 and bounded independent scope"
+      ],
+      "traces": [
+        {
+          "line": 1024,
+          "assertions": [
+            "assert not git('rev-list','--merges',HEAD+'..HEAD')"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "8fcda9d6f0df939b7c1674bc4ae3e3bb7b1bd74649826dd10ea108e255626c89"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39035982919,
+      "job_id": 117412073455,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117412073455.log",
+      "bytes": 109765,
+      "sha256": "f2fe786c313939034aa73f294a1fa86dccfeb67cf849beeabf74eddacc488b2b",
+      "failed_steps": [
+        "Verify unchanged AH sources and independent scope"
+      ],
+      "traces": [
+        {
+          "line": 1009,
+          "assertions": [
+            "assert not git('rev-list','--merges',HEAD+'..HEAD')"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "8037fb280a132c44892236ed91b1cf260f7082bd6c5c92491ad38d7f66a97ec9"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39035987379,
+      "job_id": 117406252844,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117406252844.log",
+      "bytes": 110337,
+      "sha256": "e59877a5e0954257239de349b9a01f1bdbd4e18daeae79756a676d6ffcd7e6e2",
+      "failed_steps": [
+        "Verify pinned whole-family scope"
+      ],
+      "traces": [
+        {
+          "line": 1015,
+          "assertions": [
+            "assert git('merge-base',BASE,'HEAD')==BASE and not git('rev-list','--merges',BASE+'..HEAD')"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "fb843c0e4fc4bec44f09b891accf3f9c9bce52e4d9fe1e13e3f77b2b2874250c"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39035989025,
+      "job_id": 117405741035,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117405741035.log",
+      "bytes": 676799,
+      "sha256": "1fcceea767172fa0cd8922b5fcd21ad29f553655d26d02efdc00bb6530a6cfcc",
+      "failed_steps": [
+        "Record proposed source and prepare isolated proof paths",
+        "Remove disposable database"
+      ],
+      "traces": [
+        {
+          "line": 1109,
+          "assertions": [
+            "assert all(allowed(p) for p in changed),[p for p in changed if not allowed(p)]"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "7a1bafc13465d1aaca1ec6d8b7af756d92764069fe802891eb1fb53f9d9d7910"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39035990677,
+      "job_id": 117405745182,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117405745182.log",
+      "bytes": 675999,
+      "sha256": "0a4dd1e66ea59fa26935cc2c8d8878f5459660f32325039cf8c39dee7f5d8320",
+      "failed_steps": [
+        "Record proposed source and prepare isolated proof paths",
+        "Remove disposable database"
+      ],
+      "traces": [
+        {
+          "line": 1102,
+          "assertions": [
+            "assert all(allowed(p) for p in changed),[p for p in changed if not allowed(p)]"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "30c46aff38b2d70dea058a39eb6872a38e6f132d317d978e27b3c66ad5fb1ee4"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39035992355,
+      "job_id": 117405750155,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117405750155.log",
+      "bytes": 676237,
+      "sha256": "f611fd161c084a2a2639bedd3796c2cfbac4204b1f1adc6e47967ac319979d7b",
+      "failed_steps": [
+        "Record proposed source and prepare isolated proof paths",
+        "Remove disposable database"
+      ],
+      "traces": [
+        {
+          "line": 1116,
+          "assertions": [
+            "assert changed<=ALLOWED,sorted(changed-ALLOWED)"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "79f7bbc5fed6e50ab0c12a57183abcac7107414fedef21e915d3390907054ccf"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39035994054,
+      "job_id": 117405754864,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117405754864.log",
+      "bytes": 736892,
+      "sha256": "daf7d1194c0ba1003249a7ec9a54fd12dccfa26b97acdeb3eb1c4045fd3f2e90",
+      "failed_steps": [
+        "Audit exact AR date and cross-brand WIP boundaries"
+      ],
+      "traces": [
+        {
+          "line": 1845,
+          "assertions": [
+            "assert changed == ALLOWED, ('AS_PROBE_SOURCE_SCOPE', changed)"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "5a6a19ebec7a95c37ebc4ce8707c6a13e57d04218acf14961907865cf064cf7f"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39035997489,
+      "job_id": 117405763978,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117405763978.log",
+      "bytes": 902289,
+      "sha256": "fbd39d7d8b6475becddc8b0d6913b0c82dd3957a45bd4ab9b7c0664f0b97c5ad",
+      "failed_steps": [
+        "Attack exact AR and AS with independent temporal identity cases"
+      ],
+      "traces": [
+        {
+          "line": 2821,
+          "assertions": [
+            "assert set(changed)==allowed,('AUDITOR_SCOPE',changed)"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "21adaa92b0c434a891a417fada7c0431314bc353cbc9bed5b2caecfdf1ad6736"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39036003773,
+      "job_id": 117405782756,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117405782756.log",
+      "bytes": 687217,
+      "sha256": "11d82db23c020b91cb6d90ee9452c3d8c7bea789433b5f46d3c82aeb4b716cae",
+      "failed_steps": [
+        "Record proposed source and prepare isolated proof paths",
+        "Remove disposable database"
+      ],
+      "traces": [
+        {
+          "line": 1276,
+          "assertions": [
+            "assert set(changed)==allowed,('AU_SCOPE',changed)"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "46bf291499e9aa59c319bd1d8e3e3aa5aadf21e58ecf6e7594faa5957d239965"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39035999044,
+      "job_id": 117405769566,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117405769566.log",
+      "bytes": 688151,
+      "sha256": "10f655313c6870a7f12c6e51c2318dc9765ce47d87c236f88ff69c7ef74cd25e",
+      "failed_steps": [
+        "Record proposed source and prepare isolated proof paths",
+        "Remove disposable database"
+      ],
+      "traces": [
+        {
+          "line": 1282,
+          "assertions": [
+            "assert set(changed)==allowed,('AT_SCOPE',changed)"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "a6948c46aca0d572a17e2a8d5d404dd28315c245e270cd050308596e4a1f15a0"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39035995749,
+      "job_id": 117405759273,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117405759273.log",
+      "bytes": 737582,
+      "sha256": "add5395bdc9702d39c541161b6d432d3777099365d07daf7324bfd0950d6be89",
+      "failed_steps": [
+        "Qualify exact AS install rollback and 174 original cases"
+      ],
+      "traces": [
+        {
+          "line": 1848,
+          "assertions": [
+            "assert set(changed)<=allowed and set(changed)>=allowed-{'docs/cp6-as-qualification.md'},('AS_SCOPE',changed)"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "fc730932114afefe0092577020208d45c76f75e172a33f5fff2ce4832a7653eb"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39036005641,
+      "job_id": 117405787909,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117405787909.log",
+      "bytes": 212773,
+      "sha256": "29d05de8296b598d902a51ecb27515b52d6a9d3cfd7d842a87b311e75b293c65",
+      "failed_steps": [
+        "Review frozen AS AT and ordinary master identity controls"
+      ],
+      "traces": [
+        {
+          "line": 2078,
+          "assertions": [
+            "assert set(subprocess.check_output(['git','-C',str(ROOT),'diff','--name-only',FROZEN,head],text=True).splitlines())==allowed"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "75b1ad1c6bccec912ba2a1e0ef8167f5dc1eaf1a82d92dbb517e6343eb88873c"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39036027610,
+      "job_id": 117405852734,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117405852734.log",
+      "bytes": 311731,
+      "sha256": "214f82bd58f378c54ae458f2c1747b163ead5005d6f6df124fb6dd68223d56f7",
+      "failed_steps": [
+        "Verify unchanged AI-R2 backend and bounded writer UI scope"
+      ],
+      "traces": [
+        {
+          "line": 2502,
+          "assertions": [
+            "assert not git('rev-list', '--merges', BASE+'..HEAD')"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "eafea54ad6c65afdf3b763e3d902229331b0b3c6d5a9aa799f16d1dbfaad65ff"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39036030571,
+      "job_id": 117405861426,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117405861426.log",
+      "bytes": 674871,
+      "sha256": "030aec5f9573f72c89598aefcb4c13569cd71b3b93dc534955caf75f1ed307a8",
+      "failed_steps": [
+        "Record proposed source and prepare isolated proof paths",
+        "Remove disposable database"
+      ],
+      "traces": [
+        {
+          "line": 1084,
+          "assertions": [
+            "assert changed<=ALLOWED,sorted(changed-ALLOWED)"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "3b11f629a1a46a586b45e545973d5ea11e231d1d516780a92aff96ba957ea1e9"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39036032101,
+      "job_id": 117405865300,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117405865300.log",
+      "bytes": 676812,
+      "sha256": "31b49d2056c997dc54527361bd6bc6588f8503b318cfcc1f7a53e2854a4574ab",
+      "failed_steps": [
+        "Record proposed source and prepare isolated proof paths",
+        "Remove disposable database"
+      ],
+      "traces": [
+        {
+          "line": 1116,
+          "assertions": [
+            "assert changed<=ALLOWED,sorted(changed-ALLOWED)"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "446dccdc20e117d709b7da2087d3d92685f8e21101e9e92c73681064d9989a09"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39036034871,
+      "job_id": 117405873443,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117405873443.log",
+      "bytes": 152277,
+      "sha256": "941350e784f3ac4226db4af2aca2e1df3f53ff463dddda457c7a04496611fcd1",
+      "failed_steps": [
+        "Record proposed source and prepare isolated proof paths",
+        "Remove disposable database"
+      ],
+      "traces": [
+        {
+          "line": 1351,
+          "assertions": [
+            "assert not git('rev-list', '--merges', BASE+'..HEAD')"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "501045381d06d798317ac6ed0bd816d1c0718750ba6758319c70ee4178f5faf9"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "HISTORICAL_SOURCE_SCOPE_GUARD",
+      "qualification": "Scope/merge/source-path assertion on later combined candidate; no new product failure established. Preserve any predecessor qualification separately."
+    },
+    {
+      "run_id": 39044984302,
+      "job_id": 117431817166,
+      "path": "ci_receipts/writer_b53b5acd/failed_job_logs/117431817166.log",
+      "bytes": 1194762,
+      "sha256": "221525de18978239fd4e4bd372caf3b4dd9a48e8a91959db365edcba16cd79dd",
+      "failed_steps": [
+        "Auditor scenario on the final CP6 candidate (AUDITOR_SCENARIO)"
+      ],
+      "traces": [
+        {
+          "line": 2657,
+          "assertions": [
+            "assert report['status']==('SELFTEST_PASS' if selftest else 'RUN_COMPLETE'),report.get('error',report['status'])"
+          ],
+          "exception_kinds": [
+            "AssertionError"
+          ],
+          "original_excerpt_sha256": "fb713da9fa74cd5b75f0f1f2394918ff9bb1afe6859bf16c4af4a81a2dfee65a"
+        }
+      ],
+      "origin": "WRITER_EXECUTION_REUSED_NOT_SOL_RUNTIME",
+      "classification": "FROZEN_CP6_SCENARIO_FOUR_KNOWN_INCOMPLETE_RETAINED",
+      "group_counts": {
+        "AUDITOR_BROWSER_AFTER": {
+          "INCOMPLETE": 4,
+          "PASS": 27
+        },
+        "AUDITOR_CASES_AFTER": {
+          "PASS": 104
+        },
+        "AUDITOR_HTTP_AFTER": {
+          "PASS": 9
+        },
+        "AUDITOR_RACES_AFTER": {
+          "PASS": 26
+        }
+      },
+      "original_nonpass": [
+        {
+          "line": 2625,
+          "id": "READINESS_BROWSER:DESKTOP_NATIVE_POLICY_STATES_FINANCE_NOTE",
+          "status": "INCOMPLETE",
+          "error": "Error: READINESS_FINANCE_OBSERVATION {\"mobile\":false,\"alerts\":[\"Data belum dimuat ulang. Refetch wajib berhasil sebelum transaksi berikutnya.\",\"Could not find the function public.erp_cp7_get_recost_queue_v1(p_offset) in the schema cache\",\"Data belum dimuat ulang. Refetch wajib berhasil sebelum transaksi berikutnya.\",\"Could not find the function public.erp_cp7_get_hpp_pools_v1(p_limit, p_offset, p_period_end, p_period_start) in the schema cache\"],\"rpc_errors\":[{\"rpc\":\"erp_cp7_get_recost_queue_v1\",\"status\":404,\"code\":\"PGRST202\",\"message\":\"Could not find the function public.erp_cp7_get_recost_queue_v1(p_offset) in the schema cache\"},{\"rpc\":\"erp_cp7_get_hpp_pools_v1\",\"status\":404,\"code\":\"PGRST202\",\"message\":\"Could not find the function public.erp_cp7_get_hpp_pools_v1(p_limit, p_offset, p_period_end, p_period_start) in the schema cache\"}]}\n    at readiness (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_readiness_browser.mjs:95:13)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+        },
+        {
+          "line": 2626,
+          "id": "READINESS_BROWSER:MOBILE_NATIVE_POLICY_STATES_FINANCE_NOTE",
+          "status": "INCOMPLETE",
+          "error": "Error: READINESS_FINANCE_OBSERVATION {\"mobile\":true,\"alerts\":[\"Data belum dimuat ulang. Refetch wajib berhasil sebelum transaksi berikutnya.\",\"Could not find the function public.erp_cp7_get_recost_queue_v1(p_offset) in the schema cache\",\"Data belum dimuat ulang. Refetch wajib berhasil sebelum transaksi berikutnya.\",\"Could not find the function public.erp_cp7_get_hpp_pools_v1(p_limit, p_offset, p_period_end, p_period_start) in the schema cache\"],\"rpc_errors\":[{\"rpc\":\"erp_cp7_get_recost_queue_v1\",\"status\":404,\"code\":\"PGRST202\",\"message\":\"Could not find the function public.erp_cp7_get_recost_queue_v1(p_offset) in the schema cache\"},{\"rpc\":\"erp_cp7_get_hpp_pools_v1\",\"status\":404,\"code\":\"PGRST202\",\"message\":\"Could not find the function public.erp_cp7_get_hpp_pools_v1(p_limit, p_offset, p_period_end, p_period_start) in the schema cache\"}]}\n    at readiness (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_readiness_browser.mjs:95:13)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+        },
+        {
+          "line": 2654,
+          "id": "BF_BROWSER:SALES_MANUAL_13_DESKTOP",
+          "status": "INCOMPLETE",
+          "error": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  locator('.biz-invoice-lines > article').first().locator('.biz-size-entry input')\nExpected: 3\nReceived: 0\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.count\" with timeout 5000ms\n  - waiting for locator('.biz-invoice-lines > article').first().locator('.biz-size-entry input')\n    14 × locator resolved to 0 elements\n       - unexpected value \"0\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toHaveCount (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at salesManual (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_browser.mjs:42:31)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+        },
+        {
+          "line": 2655,
+          "id": "BF_BROWSER:SALES_MANUAL_13_MOBILE",
+          "status": "INCOMPLETE",
+          "error": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  locator('.biz-invoice-lines > article').first().locator('.biz-size-entry input')\nExpected: 3\nReceived: 0\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.count\" with timeout 5000ms\n  - waiting for locator('.biz-invoice-lines > article').first().locator('.biz-size-entry input')\n    14 × locator resolved to 0 elements\n       - unexpected value \"0\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toHaveCount (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at salesManual (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_browser.mjs:42:31)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+        }
+      ],
+      "run_identity": {
+        "label": "AUDITOR_SCENARIO",
+        "tool_head": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "product_ref": "26ef53fd40f416af0d88c729a1e9eec9d2492d67",
+        "product_paths": [
+          "supabase/migrations",
+          "supabase/dev",
+          "supabase/release",
+          "supabase/rollbacks",
+          "src"
+        ],
+        "run_id": "39044984302",
+        "run_attempt": "1",
+        "workflow": "CP6 Auditor Scenario",
+        "job": "phase",
+        "event": "workflow_dispatch",
+        "github_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "release_evidence": false,
+        "production_go": false,
+        "phase": "after",
+        "scenario_sha256": "95602b19903fed7865e3724bf1e76f56eedbf9abd04dfbbe13be6e01037ef3f9"
+      },
+      "primary_unchanged": true,
+      "clone_remaining": 0,
+      "qualification": "Two pre-CP7 readiness readers absent; two retired SALES_MANUAL_13 selectors. Old product_ref retained; not current r3 browser proof."
+    }
+  ],
+  "annotations_endpoint": "UNAVAILABLE_HTTP400_NOT_ALLOWED_ENDPOINT_NO_ENUMERATION_CLAIM",
+  "all_job_failures_preserved": true
+}

@@ -1,0 +1,79 @@
+{
+  "report_state": "FINAL_LIMITED_SCOPE_ASSESSMENT",
+  "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "owner_questions_reopened": false,
+  "items": [
+    {
+      "id": "CP17_ORDINARY_BROWSER",
+      "status": "INCOMPLETE_EVIDENCE",
+      "owner": "AUDITOR_HARNESS",
+      "reference": "CP17_RESULT_REVIEW.json"
+    },
+    {
+      "id": "INDEPENDENT_ORACLE_GAP",
+      "status": "NOT_EXECUTED",
+      "owner": "AUDITOR",
+      "detail": "New two-component wage 58→42, AR 22.65 and pool 123.40 designs not run; old Sol probe copies retained-only."
+    },
+    {
+      "id": "POOL_PUBLIC_WRAPPERS",
+      "status": "SOURCE_AND_GRANT_CONFIRMED_MUTATION_UNTESTED",
+      "owner": "WRITER_CP7C",
+      "reference": "BOUNDARY_REVIEW.json"
+    },
+    {
+      "id": "P19_LATENCY",
+      "status": "OPEN_MEASURED_KNOWN_PERFORMANCE_GAP",
+      "owner": "WRITER_PERFORMANCE_THEN_AUDITOR",
+      "reference": "P19_SCALE_RESULT_REVIEW.json"
+    },
+    {
+      "id": "BACKUP_REPLACEMENT_WRITE",
+      "status": "KNOWN_OPERATIONAL_RISK_NOT_EXPLICITLY_ACCEPTED",
+      "owner": "WRITER_OPERATIONS_CP7C",
+      "reference": "BOUNDARY_REVIEW.json"
+    },
+    {
+      "id": "HOSTED_CP7C_BASELINE",
+      "status": "NOT_RUN_OWNER_STAGE",
+      "owner": "CP7C_OPERATOR_THEN_AUDITOR",
+      "detail": "No hosted SQL, fresh hosted baseline, actual install/upgrade or restore acceptance."
+    },
+    {
+      "id": "DRIVE_AND_PRODUCTION_SCHEDULES",
+      "status": "NOT_RUN_OWNER_DEFERRED_D13_9",
+      "owner": "CP7C_OPERATOR",
+      "detail": "Local/S3 emulation and disposable cron tests do not prove actual Drive or installed production schedules."
+    },
+    {
+      "id": "REAL_CUTOVER_SHADOW",
+      "status": "NOT_RUN_OWNER_STAGE",
+      "owner": "OPERATIONS_CP7C_CP8",
+      "detail": "Synthetic opening/364-day fixtures do not equal a real source-document cutover/full shadow period."
+    },
+    {
+      "id": "EVERY_DETECTOR_SENSITIVITY",
+      "status": "INCOMPLETE_INV_D01_D04",
+      "owner": "AUDITOR",
+      "detail": "No exact 0 → +1 → 0 for every detector nor full before/after output inventory across all 29 scenarios."
+    },
+    {
+      "id": "PHYSICAL_DEVICES_AND_ALL_OUTPUT_PATHS",
+      "status": "INCOMPLETE",
+      "owner": "AUDITOR",
+      "detail": "Desktop/phone Chromium and selected API/cache/prompt/download paths are bounded; physical iPad/devices and exhaustive alternatives unproved."
+    },
+    {
+      "id": "HISTORICAL_UNKNOWN_CAUSES",
+      "status": "RETAINED_OPEN_NOT_RELABELED",
+      "owner": "WRITER_DIAGNOSIS",
+      "detail": "Historical first-AZ cause and accepted nonblocking A2 causes retain their prior disposition; later green observations do not prove causes."
+    }
+  ],
+  "gate": {
+    "feature_complete": false,
+    "audit_complete": false,
+    "production_go": false
+  },
+  "scope": "No untested boundary is a claimed runtime PASS; no answered owner decision reopened."
+}

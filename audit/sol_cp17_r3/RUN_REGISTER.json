@@ -1,0 +1,2693 @@
+{
+  "candidate_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "runs": [
+    {
+      "run_id": 39146521757,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/CP17/1",
+      "workflow_sha": "c754a5735f9751a22b0e654e183d62b7560a2267",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146521757",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_07.json",
+      "terminal_metadata_sha256": "b6d1c6444b659e6c795729ba74b69ad79656028d3111b7d63baa395d6e4f979b",
+      "artifacts_collected": [
+        12143844276
+      ],
+      "jobs_collected": [
+        {
+          "id": 117731362035,
+          "name": "Dated guards and stock card on the combined F03 stack, races and real Auth HTTP",
+          "status": "completed",
+          "conclusion": "failure",
+          "failed_steps": [
+            "Install accepted package and qualify the CP1-CP7 audit fixes"
+          ]
+        }
+      ],
+      "registered_initial_status": "in_progress",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146763496,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f04-supply/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146763496",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_19.json",
+      "terminal_metadata_sha256": "a86ffdc6af1296fda93513d85592644514916ff579c331fa263e4fc646654e3f",
+      "artifacts_collected": [
+        12144648975,
+        12144903091
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732075904,
+          "name": "Global production origins, one conserved WIP graph, targets and current authority",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146763472,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/claude-p18-full-cycle/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146763472",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_04.json",
+      "terminal_metadata_sha256": "a231504fa60daa81d17c043661dbb52022d8cd62127e9ca4c25bcc1d86bc11ef",
+      "artifacts_collected": [
+        12143933000,
+        12144385000
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732076122,
+          "name": "E01 worksheet through supplier, vendor and payroll cash with GL-subledger reconciliation",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146763477,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-prefreeze-ui/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146763477",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_17.json",
+      "terminal_metadata_sha256": "6a50e3b2f84c1144866f5d377d801b8100158bc0853f5aaf2fffba79c50762f7",
+      "artifacts_collected": [
+        12144159805,
+        12144842074
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732076117,
+          "name": "Full F03 stack / prefreeze_ui",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146763466,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f04-cutting-observations/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146763466",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_10.json",
+      "terminal_metadata_sha256": "99a0de790affe0e4f523b0534994108f341b0584c55a1d535e3511942fdc910c",
+      "artifacts_collected": [
+        12144112878,
+        12144426471
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732075935,
+          "name": "Native prospective cutting input, current source and immutable recovery",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146763455,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-supabase-restore-drill/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146763455",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_08.json",
+      "terminal_metadata_sha256": "760d5ff71ae7f5f080e7a2a5ae54818c4a3876cefdf4a0a8ab3b8db4783958b8",
+      "artifacts_collected": [
+        12144680038
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732076236,
+          "name": "supabase-restore-drill",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146763470,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-transaction-source/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146763470",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_21.json",
+      "terminal_metadata_sha256": "4b411ffc8bc63ae4db7a18996a9f210e11eff61ab9e863d9e17dd5c691fe718d",
+      "artifacts_collected": [
+        12145178051,
+        12145526574
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732076065,
+          "name": "Exact transaction, payroll and accessory sources, owning inverse, recovery, current Auth and reta...",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146763571,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/claude-pl-native/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146763571",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_18.json",
+      "terminal_metadata_sha256": "017584a905430d04218c536fb03107579ec03937117050306395a9ff0ff52591",
+      "artifacts_collected": [
+        12142904939,
+        12143129244,
+        12143233966,
+        12144221535,
+        12144246508,
+        12144313054,
+        12144313060,
+        12144402847,
+        12144405644,
+        12144653553,
+        12144733307,
+        12145116317
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732076220,
+          "name": "model",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732076349,
+          "name": "supply",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732076372,
+          "name": "netting",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732076395,
+          "name": "schedule",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146763486,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f03-p13-regression/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146763486",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_18.json",
+      "terminal_metadata_sha256": "017584a905430d04218c536fb03107579ec03937117050306395a9ff0ff52591",
+      "artifacts_collected": [
+        12144439562,
+        12145360616
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732076216,
+          "name": "Full F03 stack / P13 retained50",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146763605,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-p13-recost/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146763605",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_18.json",
+      "terminal_metadata_sha256": "017584a905430d04218c536fb03107579ec03937117050306395a9ff0ff52591",
+      "artifacts_collected": [
+        12144638768,
+        12145236069
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732076364,
+          "name": "P13 native HPP recost and dated report regression",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146763310,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f03-e03/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146763310",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_11.json",
+      "terminal_metadata_sha256": "9af4942e5f485670b532c66d2fc026b833e9db4baa57f4b4b2e812cc450878b5",
+      "artifacts_collected": [
+        12143974645,
+        12144650951
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732075724,
+          "name": "E03 customer custody, accessory cost and ownership separation",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146763467,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-receipt-correction/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146763467",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_12.json",
+      "terminal_metadata_sha256": "c568c60286f0b559cea9a6bf906db6c9fb3129daba143650d66c0cce9377f592",
+      "artifacts_collected": [
+        12144505934,
+        12144570653
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732075936,
+          "name": "Receipt correction / Native stock cost HPP AP journal",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146763458,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp6-g01-baseline/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146763458",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_10.json",
+      "terminal_metadata_sha256": "99a0de790affe0e4f523b0534994108f341b0584c55a1d535e3511942fdc910c",
+      "artifacts_collected": [
+        12144133029,
+        12144311871
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732076136,
+          "name": "Rebuild test chain to v2.6.20 and fingerprint its catalog",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146763492,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f05-attention/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146763492",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_23.json",
+      "terminal_metadata_sha256": "d69430727089e8c033be9cfca2d35ac1f3210fc499245b86674e851b3d4cf25d",
+      "artifacts_collected": [
+        12145703660,
+        12145763209,
+        12146270982
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732076114,
+          "name": "Original analysis, own-user Native reminders and current Auth",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146763529,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f04-cutting-inputs/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146763529",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_15.json",
+      "terminal_metadata_sha256": "f2a79073a10514f2f663fbcf384f1d918c20da6642e1e247b934ed3afec61ffc",
+      "artifacts_collected": [
+        12143804466,
+        12143899444
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732075911,
+          "name": "Native prospective cutting input, current source and immutable recovery",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146763488,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-p04-wip/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146763488",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_11.json",
+      "terminal_metadata_sha256": "9af4942e5f485670b532c66d2fc026b833e9db4baa57f4b4b2e812cc450878b5",
+      "artifacts_collected": [
+        12144232465,
+        12144311964
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732076185,
+          "name": "P04 native conservation, matching and remaining timeline",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146763541,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-p00/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146763541",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_13.json",
+      "terminal_metadata_sha256": "93ce9c7e9e2d5ce400c27081e48bce0fcfae110c654cea0ec9fcf4da34f9efbe",
+      "artifacts_collected": [
+        12144183411,
+        12144213366
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732076197,
+          "name": "P00 catalogue on accepted 30-file CP6 package",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762249,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f03-e24-issue/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762249",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_02.json",
+      "terminal_metadata_sha256": "eb34e5e3d34b7846882e0b8efb3310cd9e6a808f34d592dfa87f6e41747cc515",
+      "artifacts_collected": [
+        12143553710,
+        12143937595
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732072705,
+          "name": "E24 receipt, transferred accessory notes and late invoice",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "in_progress",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762334,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-rule-lifecycle/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762334",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_03.json",
+      "terminal_metadata_sha256": "449cc06a43ad8e3fdbf8375ff5c926c3f1d0076fcabfc6e489110c9df2e33ad4",
+      "artifacts_collected": [
+        12143638757,
+        12143947779
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732072831,
+          "name": "Native inactive AP episodes, source correction, recovery, current Auth and retained E01 bridge",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "in_progress",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762579,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp6-be-t1-probe/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762579",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_17.json",
+      "terminal_metadata_sha256": "6a50e3b2f84c1144866f5d377d801b8100158bc0853f5aaf2fffba79c50762f7",
+      "artifacts_collected": [
+        12144358561,
+        12144388288,
+        12144776323,
+        12144945849
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073267,
+          "name": "BE probe on AU plus AV plus AW..AZ plus BA plus BB plus BC plus BD (before, T1_FAMILY)",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073412,
+          "name": "BE probe on AU plus AV plus AW..AZ plus BA plus BB plus BC plus BD plus BE T1 (after, T1_FAMILY)",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762479,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp6-candidate-codeql/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762479",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_11.json",
+      "terminal_metadata_sha256": "9af4942e5f485670b532c66d2fc026b833e9db4baa57f4b4b2e812cc450878b5",
+      "artifacts_collected": [
+        12143153626,
+        12143289426,
+        12143509075,
+        12143608866,
+        12143712069,
+        12144335761,
+        12144365983,
+        12144675253
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073334,
+          "name": "CodeQL c-cpp",
+          "status": "completed",
+          "conclusion": "failure",
+          "failed_steps": [
+            "Verify analysis and bind SARIF to candidate"
+          ]
+        },
+        {
+          "id": 117732073546,
+          "name": "CodeQL python",
+          "status": "completed",
+          "conclusion": "failure",
+          "failed_steps": [
+            "Verify analysis and bind SARIF to candidate"
+          ]
+        },
+        {
+          "id": 117732073565,
+          "name": "CodeQL javascript-typescript",
+          "status": "completed",
+          "conclusion": "failure",
+          "failed_steps": [
+            "Verify analysis and bind SARIF to candidate"
+          ]
+        },
+        {
+          "id": 117732073589,
+          "name": "CodeQL actions",
+          "status": "completed",
+          "conclusion": "failure",
+          "failed_steps": [
+            "Verify analysis and bind SARIF to candidate"
+          ]
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762312,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-sales-return-correction/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762312",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_06.json",
+      "terminal_metadata_sha256": "3a74569219e12bb7600ed206c55170168419d0cb06e210379930c85dc1594230",
+      "artifacts_collected": [
+        12143564850,
+        12144390640
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732072726,
+          "name": "Native customer return stock/HPP inverse, replacement, current Auth and browser correction",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "in_progress",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762467,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f03-x04/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762467",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_02.json",
+      "terminal_metadata_sha256": "eb34e5e3d34b7846882e0b8efb3310cd9e6a808f34d592dfa87f6e41747cc515",
+      "artifacts_collected": [
+        12143474121,
+        12143817890
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073075,
+          "name": "X04 source versions through FG cards and financial reports",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "in_progress",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762518,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-p13-period/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762518",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_02.json",
+      "terminal_metadata_sha256": "eb34e5e3d34b7846882e0b8efb3310cd9e6a808f34d592dfa87f6e41747cc515",
+      "artifacts_collected": [
+        12143743308,
+        12144160614
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073211,
+          "name": "P13 reviewed period control and dated report regression",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "in_progress",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762596,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f04-baseline/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762596",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_09.json",
+      "terminal_metadata_sha256": "6153f43fadd606d3d38213feaeea4d37232b73de27de238d688be02a6b242816",
+      "artifacts_collected": [
+        12143939537,
+        12144286840
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073435,
+          "name": "Native history, selected profiles, immutable targets and current authority",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762489,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-offsite-backup/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762489",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_06.json",
+      "terminal_metadata_sha256": "3a74569219e12bb7600ed206c55170168419d0cb06e210379930c85dc1594230",
+      "artifacts_collected": [
+        12143762656
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073486,
+          "name": "offsite-backup-11",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762506,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-p02-facade/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762506",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_10.json",
+      "terminal_metadata_sha256": "99a0de790affe0e4f523b0534994108f341b0584c55a1d535e3511942fdc910c",
+      "artifacts_collected": [
+        12144122927,
+        12144546084
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073257,
+          "name": "P02 actor, immutable run, race and real Auth family",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762568,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f04-fabric/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762568",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_09.json",
+      "terminal_metadata_sha256": "6153f43fadd606d3d38213feaeea4d37232b73de27de238d688be02a6b242816",
+      "artifacts_collected": [
+        12143483943,
+        12144610184
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073445,
+          "name": "Exact-target fabric input, shared Original and current Native Auth",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762603,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/claude-p08-shell/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762603",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_17.json",
+      "terminal_metadata_sha256": "6a50e3b2f84c1144866f5d377d801b8100158bc0853f5aaf2fffba79c50762f7",
+      "artifacts_collected": [
+        12144014392,
+        12144361956,
+        12144397064,
+        12144476102,
+        12144493570,
+        12144535743,
+        12144641948,
+        12144852391,
+        12144977034,
+        12145051517
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073639,
+          "name": "p19-staged",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073683,
+          "name": "CP7 CodeQL javascript-typescript",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073730,
+          "name": "p19-assembly",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073882,
+          "name": "CP7 CodeQL actions",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073921,
+          "name": "shell",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762599,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/ci/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762599",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_08.json",
+      "terminal_metadata_sha256": "760d5ff71ae7f5f080e7a2a5ae54818c4a3876cefdf4a0a8ab3b8db4783958b8",
+      "artifacts_collected": [
+        12144022329,
+        12144450333
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073479,
+          "name": "build",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762487,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp6-t2-regression/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762487",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_17.json",
+      "terminal_metadata_sha256": "6a50e3b2f84c1144866f5d377d801b8100158bc0853f5aaf2fffba79c50762f7",
+      "artifacts_collected": [
+        12143504485,
+        12143893398,
+        12144751827,
+        12144851466,
+        12144897583,
+        12144967174
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073753,
+          "name": "AT 16 and AU 15 cases with their real races on the combined candidate (T2)",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073870,
+          "name": "AR 174 original cases and races on the combined candidate, seed quieted, own fixture completed (T2)",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073924,
+          "name": "Original 326 plus AS 34 with per-case identity, approved AS date oracle, calendar policy printed (T2)",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762526,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-p09-procurement/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762526",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_06.json",
+      "terminal_metadata_sha256": "3a74569219e12bb7600ed206c55170168419d0cb06e210379930c85dc1594230",
+      "artifacts_collected": [
+        12143234063,
+        12144011968
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073900,
+          "name": "P09 native receipt, value, replay and current access",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762580,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-sales-chain/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762580",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_10.json",
+      "terminal_metadata_sha256": "99a0de790affe0e4f523b0534994108f341b0584c55a1d535e3511942fdc910c",
+      "artifacts_collected": [
+        12144004322,
+        12144132868
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073731,
+          "name": "Native all payments, returns and invoice atomic reversal, current Auth and browser recovery",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762600,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f03-full/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762600",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_20.json",
+      "terminal_metadata_sha256": "7eac71e0d4c74a3fba0dc9bf0b16ca4aee1dbdd86e337976ec324abe4eea54ba",
+      "artifacts_collected": [
+        12143658822,
+        12143773704,
+        12144327293,
+        12144328492,
+        12144591598,
+        12144592208,
+        12144688168,
+        12144951910,
+        12144967070,
+        12144986589,
+        12145075701,
+        12145087717,
+        12145185764,
+        12145286224,
+        12145481110,
+        12145545042
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073500,
+          "name": "Full F03 stack / supplier_credit",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073694,
+          "name": "Full F03 stack / p13",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073701,
+          "name": "Full F03 stack / p11",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073722,
+          "name": "Full F03 stack / p12",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073733,
+          "name": "Full F03 stack / p09",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073752,
+          "name": "Full F03 stack / cash_installments",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073769,
+          "name": "Full F03 stack / p10",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073840,
+          "name": "Full F03 stack / customer_refund",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762631,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-supplier-credit-authority/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762631",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_08.json",
+      "terminal_metadata_sha256": "760d5ff71ae7f5f080e7a2a5ae54818c4a3876cefdf4a0a8ab3b8db4783958b8",
+      "artifacts_collected": [
+        12144330586,
+        12144415414
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073842,
+          "name": "Native supplier authority / supplier_authority",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762615,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f04-plan/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762615",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_17.json",
+      "terminal_metadata_sha256": "6a50e3b2f84c1144866f5d377d801b8100158bc0853f5aaf2fffba79c50762f7",
+      "artifacts_collected": [
+        12144468783,
+        12144658248
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073708,
+          "name": "Native draft, atomic intent, cross-actor target locks and recovery",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762595,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-payment-correction/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762595",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_13.json",
+      "terminal_metadata_sha256": "93ce9c7e9e2d5ce400c27081e48bce0fcfae110c654cea0ec9fcf4da34f9efbe",
+      "artifacts_collected": [
+        12144153717,
+        12144243394
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073794,
+          "name": "Native ordinary payment inverse, replacement, dates, current Auth and browser correction",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762645,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f03-planner-seam/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762645",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_05.json",
+      "terminal_metadata_sha256": "694cee706583297c893fe2170dd06db8ee771727096c1ba1f8e54359665ecefd",
+      "artifacts_collected": [
+        12143978113,
+        12144146379
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073651,
+          "name": "O06 reservation once and O07 same-SKU size arithmetic",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762566,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp6-t3-rollback/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762566",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_17.json",
+      "terminal_metadata_sha256": "6a50e3b2f84c1144866f5d377d801b8100158bc0853f5aaf2fffba79c50762f7",
+      "artifacts_collected": [
+        12144433622,
+        12145090921
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073613,
+          "name": "Hosted-faithful baseline to AB, committed 30-file package, AC..BF rollback auto (T3_PREP)",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762626,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/astra-cp7-timeline-reuse/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762626",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_08.json",
+      "terminal_metadata_sha256": "760d5ff71ae7f5f080e7a2a5ae54818c4a3876cefdf4a0a8ab3b8db4783958b8",
+      "artifacts_collected": [
+        12144191995,
+        12144735086
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073768,
+          "name": "isolated-kernel-parity",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762633,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f03-e01/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762633",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_06.json",
+      "terminal_metadata_sha256": "3a74569219e12bb7600ed206c55170168419d0cb06e210379930c85dc1594230",
+      "artifacts_collected": [
+        12144430412,
+        12144475294
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073766,
+          "name": "E01 sixty GOOD from raw receipt through cash and return",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762632,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-p19-native-load/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762632",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_12.json",
+      "terminal_metadata_sha256": "c568c60286f0b559cea9a6bf906db6c9fb3129daba143650d66c0cce9377f592",
+      "artifacts_collected": [
+        12144108833,
+        12144252947
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073824,
+          "name": "Complete Native captures, four users, cash writer, recovery and real Auth",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762570,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f03-combined/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762570",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_05.json",
+      "terminal_metadata_sha256": "694cee706583297c893fe2170dd06db8ee771727096c1ba1f8e54359665ecefd",
+      "artifacts_collected": [
+        12143268881,
+        12143722658
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073933,
+          "name": "F03 combined installation, ledger and selected connected regression",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762590,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/claude-supplier-payment-correction/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762590",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_05.json",
+      "terminal_metadata_sha256": "694cee706583297c893fe2170dd06db8ee771727096c1ba1f8e54359665ecefd",
+      "artifacts_collected": [
+        12143644215,
+        12143908509
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073389,
+          "name": "Native ordinary supplier payment cash/AP inverse, replacement, current Auth and browser correction",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762643,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f03-return-documents/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762643",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_14.json",
+      "terminal_metadata_sha256": "6d1ad16d278264fa344a5bd39321f235aebf8e10d6cb56ee777c6ca8143a9900",
+      "artifacts_collected": [
+        12143624518,
+        12144551240
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732074062,
+          "name": "Complete supplier return native, races and real Auth",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762539,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-p02/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762539",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_17.json",
+      "terminal_metadata_sha256": "6a50e3b2f84c1144866f5d377d801b8100158bc0853f5aaf2fffba79c50762f7",
+      "artifacts_collected": [
+        12144657819,
+        12144687752
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073888,
+          "name": "P02 diagnostic read on accepted 30-file CP6 package",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762616,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-p11-sales/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762616",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_08.json",
+      "terminal_metadata_sha256": "760d5ff71ae7f5f080e7a2a5ae54818c4a3876cefdf4a0a8ab3b8db4783958b8",
+      "artifacts_collected": [
+        12143084935,
+        12144091650
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073844,
+          "name": "P11 native invoice reader and draft transitions",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762452,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/ui-phone-width/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762452",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_03.json",
+      "terminal_metadata_sha256": "449cc06a43ad8e3fdbf8375ff5c926c3f1d0076fcabfc6e489110c9df2e33ad4",
+      "artifacts_collected": [
+        12142949357,
+        12143622344
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073831,
+          "name": "census",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762721,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f03-e05/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762721",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_14.json",
+      "terminal_metadata_sha256": "6d1ad16d278264fa344a5bd39321f235aebf8e10d6cb56ee777c6ca8143a9900",
+      "artifacts_collected": [
+        12143968883,
+        12144336820
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073993,
+          "name": "Native immutable approved payroll installments, races and recovery",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762771,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-p18-e01-bridge/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762771",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_13.json",
+      "terminal_metadata_sha256": "93ce9c7e9e2d5ce400c27081e48bce0fcfae110c654cea0ec9fcf4da34f9efbe",
+      "artifacts_collected": [
+        12143574382,
+        12144052962
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732074312,
+          "name": "Native E01 source through original analysis, report, obligations and current Auth",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762788,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f03-misc/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762788",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_17.json",
+      "terminal_metadata_sha256": "6a50e3b2f84c1144866f5d377d801b8100158bc0853f5aaf2fffba79c50762f7",
+      "artifacts_collected": [
+        12144393967,
+        12144727972
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732074492,
+          "name": "Native misc finance lifecycle, races and lost reply recovery",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762475,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f04-cutting-model/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762475",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_09.json",
+      "terminal_metadata_sha256": "6153f43fadd606d3d38213feaeea4d37232b73de27de238d688be02a6b242816",
+      "artifacts_collected": [
+        12143144864,
+        12143967846
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073326,
+          "name": "Native prospective policy, independent cutting batches and immutable model",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762508,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/claude-supplier-payment-create/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762508",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_05.json",
+      "terminal_metadata_sha256": "694cee706583297c893fe2170dd06db8ee771727096c1ba1f8e54359665ecefd",
+      "artifacts_collected": [
+        12143873419,
+        12144265891
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073183,
+          "name": "New supplier payment through the owning command, races and real Auth HTTP",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762431,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-group-end-diagnosis/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762431",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_17.json",
+      "terminal_metadata_sha256": "6a50e3b2f84c1144866f5d377d801b8100158bc0853f5aaf2fffba79c50762f7",
+      "artifacts_collected": [
+        12143634733,
+        12143654731,
+        12143739438,
+        12143899452,
+        12144527993,
+        12144537987
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073215,
+          "name": "Native group repeated, shard 2",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073406,
+          "name": "Native group repeated, shard 3",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073431,
+          "name": "Native group repeated, shard 1",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762607,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-p12-nota-source/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762607",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_14.json",
+      "terminal_metadata_sha256": "6d1ad16d278264fa344a5bd39321f235aebf8e10d6cb56ee777c6ca8143a9900",
+      "artifacts_collected": [
+        12143849068,
+        12144561275
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073935,
+          "name": "P12 native Nota source",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762543,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f04-schedule/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762543",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_11.json",
+      "terminal_metadata_sha256": "9af4942e5f485670b532c66d2fc026b833e9db4baa57f4b4b2e812cc450878b5",
+      "artifacts_collected": [
+        12143954567,
+        12143964519
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073872,
+          "name": "Native selected calendar, yield, remaining work and shared capacity",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762679,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-backup-kit-check/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762679",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_07.json",
+      "terminal_metadata_sha256": "b6d1c6444b659e6c795729ba74b69ad79656028d3111b7d63baa395d6e4f979b",
+      "artifacts_collected": [
+        12143609751
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073837,
+          "name": "kit",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762696,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/claude-p19-transport/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762696",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_24.json",
+      "terminal_metadata_sha256": "9b078b104135b2a1fe6924fa10cd5e8c1bf8806f51603d9c3d66b68e0173c465",
+      "artifacts_collected": [
+        12144104223,
+        12144298192,
+        12144429023,
+        12144484681,
+        12144502898,
+        12144533515,
+        12144554903,
+        12144574832,
+        12144592726,
+        12144743094,
+        12144797951,
+        12144822895,
+        12144847282,
+        12144920806,
+        12144942643,
+        12144954000,
+        12144957020,
+        12144982056,
+        12145091343,
+        12145136720,
+        12145155973,
+        12145156831,
+        12145202361,
+        12145294365,
+        12145431745,
+        12145453764,
+        12145483521,
+        12145491476,
+        12145500438,
+        12145580061,
+        12145666239,
+        12145750747,
+        12145790621,
+        12146125445,
+        12146221035,
+        12146515036
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732074343,
+          "name": "pl5-history-yield-20",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732074520,
+          "name": "p19-scale5",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732074529,
+          "name": "k2-retention-10",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732074546,
+          "name": "k6-proof-runner-10",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732074550,
+          "name": "p19-transport11",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732074567,
+          "name": "p19-plan-v2-22",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732074578,
+          "name": "p19-reminder-v2-16",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732074583,
+          "name": "p19-report-v2-20",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732074603,
+          "name": "k3-cleanup-25",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732074623,
+          "name": "k4-runner-17",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732074627,
+          "name": "p19-ai-v2-9",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732074647,
+          "name": "p19-staged12",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762759,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp6-t3-release-package/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762759",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_16.json",
+      "terminal_metadata_sha256": "3f5b64355cc94a7408521af95a16c76ddc55f2999bd513249e82953c49fa2ff7",
+      "artifacts_collected": [
+        12143859508,
+        12144249196,
+        12144323714,
+        12144666380
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732074327,
+          "name": "Hosted-faithful baseline to AB, committed 30-file package AC..BF, writer runtime, advisors, restore drill (T3_PREP)",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732074500,
+          "name": "Hosted-faithful baseline to AB, pins captured again and compared with the committed package (T3_PREP)",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732074565,
+          "name": "Hosted-faithful baseline to AB, committed 30-file package, AU and BF browser flows (T3_PREP)",
+          "status": "completed",
+          "conclusion": "failure",
+          "failed_steps": [
+            "Sol record exact candidate and product trees",
+            "Remove disposable database"
+          ]
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762366,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f04-model/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762366",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_02.json",
+      "terminal_metadata_sha256": "eb34e5e3d34b7846882e0b8efb3310cd9e6a808f34d592dfa87f6e41747cc515",
+      "artifacts_collected": [
+        12143384251,
+        12144130719
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073027,
+          "name": "Native own snapshots, registry knowledge, rolling models and current Auth",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "in_progress",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762636,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/claude-p12-payroll/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762636",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_16.json",
+      "terminal_metadata_sha256": "3f5b64355cc94a7408521af95a16c76ddc55f2999bd513249e82953c49fa2ff7",
+      "artifacts_collected": [
+        12143613604,
+        12144012563,
+        12144527632,
+        12144820772,
+        12144825789,
+        12144976051
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073513,
+          "name": "P12 payroll --payroll-review",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073591,
+          "name": "P12 payroll --attendance-write",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073686,
+          "name": "P12 payroll --roster",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762349,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f03-e06/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762349",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_01.json",
+      "terminal_metadata_sha256": "1368069e5a478f1dae134f4d43300a06f0ef98b768d0b83ec7c101f9f2b45053",
+      "artifacts_collected": [
+        12144135653,
+        12144205178
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732072909,
+          "name": "E06 year-end invoice, immutable filing and close race",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "in_progress",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762584,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/claude-p13-finance/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762584",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_02.json",
+      "terminal_metadata_sha256": "eb34e5e3d34b7846882e0b8efb3310cd9e6a808f34d592dfa87f6e41747cc515",
+      "artifacts_collected": [
+        12143449265,
+        12143523677
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073452,
+          "name": "P13 native dated report and immutable archive reader",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "in_progress",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762339,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f04-history/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762339",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_02.json",
+      "terminal_metadata_sha256": "eb34e5e3d34b7846882e0b8efb3310cd9e6a808f34d592dfa87f6e41747cc515",
+      "artifacts_collected": [
+        12144120847,
+        12144235204
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732072969,
+          "name": "Native global sales history, draft stock once and immutable captures",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "in_progress",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762480,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-p10-fg/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762480",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_02.json",
+      "terminal_metadata_sha256": "eb34e5e3d34b7846882e0b8efb3310cd9e6a808f34d592dfa87f6e41747cc515",
+      "artifacts_collected": [
+        12144160706,
+        12144230275
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073349,
+          "name": "P10 native FG source and connected ledger",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "in_progress",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762377,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-cutting-correction/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762377",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_13.json",
+      "terminal_metadata_sha256": "93ce9c7e9e2d5ce400c27081e48bce0fcfae110c654cea0ec9fcf4da34f9efbe",
+      "artifacts_collected": [
+        12144886043,
+        12144915718
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073060,
+          "name": "Native unpicked cutting inverse, exact source history, current Auth and browser recovery",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762381,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/claude-p21-rehearsal/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762381",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_04.json",
+      "terminal_metadata_sha256": "a231504fa60daa81d17c043661dbb52022d8cd62127e9ca4c25bcc1d86bc11ef",
+      "artifacts_collected": [
+        12143462705,
+        12143771860,
+        12144260549,
+        12144370060
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073052,
+          "name": "Full composition with staged analysis, committed use, used backup restore and pre-install restore (disposable clone)",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073299,
+          "name": "Install, pre-use rollback, identical reinstall, use, post-use refusal and restore (disposable clone)",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762299,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f03-capacity/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762299",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_04.json",
+      "terminal_metadata_sha256": "a231504fa60daa81d17c043661dbb52022d8cd62127e9ca4c25bcc1d86bc11ef",
+      "artifacts_collected": [
+        12144235687,
+        12144295441
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073149,
+          "name": "E20 E14 complete FG pages through public sale and current access",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762459,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp6-av-qualification/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762459",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_18.json",
+      "terminal_metadata_sha256": "017584a905430d04218c536fb03107579ec03937117050306395a9ff0ff52591",
+      "artifacts_collected": [
+        12143983095,
+        12144079042,
+        12144094190,
+        12144497800,
+        12144550645,
+        12144828203,
+        12144946234,
+        12145100791,
+        12145145663,
+        12145295724
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073081,
+          "name": "AV rev2 probe on AU plus AV rev2 (after)",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073201,
+          "name": "Original 326 business, import and value cases plus AS 34 on AU plus AV rev2",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073235,
+          "name": "AT 16 and AU 15 cases with their real races on AU plus AV rev2",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073259,
+          "name": "AR 174 original cases, AV package cycles and post-use refusal",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073330,
+          "name": "AV rev2 probe on frozen AU (before)",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762454,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/claude-p08-physical/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762454",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_22.json",
+      "terminal_metadata_sha256": "92e0bbfb33f0509a6b3c5f28e5c00b3549be49a12affb2d9551ce32c87e36e74",
+      "artifacts_collected": [
+        12142904418,
+        12142998880,
+        12143398011,
+        12143517596,
+        12143831766,
+        12143886766,
+        12144142385,
+        12144202845,
+        12144246953,
+        12144401931,
+        12144600412,
+        12144850403,
+        12145373074,
+        12145492655,
+        12145686624
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073011,
+          "name": "fabric-physical21",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073076,
+          "name": "attention284",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073162,
+          "name": "plan39",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073178,
+          "name": "analysis152",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073185,
+          "name": "fabric13-successor",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762517,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/claude-p18-fabric-rule/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762517",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_12.json",
+      "terminal_metadata_sha256": "c568c60286f0b559cea9a6bf906db6c9fb3129daba143650d66c0cce9377f592",
+      "artifacts_collected": [
+        12143589890,
+        12143894148,
+        12144252708,
+        12144422125,
+        12144425827,
+        12144606459,
+        12144696069,
+        12144735980,
+        12144830778
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073205,
+          "name": "fabric-rule11",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073398,
+          "name": "p18-e01-9",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 117732073460,
+          "name": "rule-lifecycle16",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762606,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f04-netting/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762606",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_09.json",
+      "terminal_metadata_sha256": "6153f43fadd606d3d38213feaeea4d37232b73de27de238d688be02a6b242816",
+      "artifacts_collected": [
+        12143149691,
+        12144067078
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073619,
+          "name": "Native binding, dated netting and one global existing-supply allocation",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762369,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f03-redye/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762369",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_02.json",
+      "terminal_metadata_sha256": "eb34e5e3d34b7846882e0b8efb3310cd9e6a808f34d592dfa87f6e41747cc515",
+      "artifacts_collected": [
+        12143663281,
+        12144086389
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073037,
+          "name": "X04 original redye price and grouping through CP7 stock and finance",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "in_progress",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762649,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-p13-analysis/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762649",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_15.json",
+      "terminal_metadata_sha256": "f2a79073a10514f2f663fbcf384f1d918c20da6642e1e247b934ed3afec61ffc",
+      "artifacts_collected": [
+        12144203870,
+        12144761624
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732074478,
+          "name": "P13 native period comparison and cash ledger",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762594,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f03-cash/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762594",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_07.json",
+      "terminal_metadata_sha256": "b6d1c6444b659e6c795729ba74b69ad79656028d3111b7d63baa395d6e4f979b",
+      "artifacts_collected": [
+        12143599962,
+        12144530283
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073449,
+          "name": "Native financial readers and complete journal sources",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762496,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/claude-note-correction/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762496",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_04.json",
+      "terminal_metadata_sha256": "a231504fa60daa81d17c043661dbb52022d8cd62127e9ca4c25bcc1d86bc11ef",
+      "artifacts_collected": [
+        12142944453,
+        12144076174
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073443,
+          "name": "Nota correction / Native stock AR cash journal HPP",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "in_progress",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762301,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-p03-identity/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762301",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_01.json",
+      "terminal_metadata_sha256": "1368069e5a478f1dae134f4d43300a06f0ef98b768d0b83ec7c101f9f2b45053",
+      "artifacts_collected": [
+        12143503635,
+        12143618273
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732072906,
+          "name": "P03 production policy, atomic bulk and real Auth family",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "in_progress",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762587,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-p12-nota/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762587",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_10.json",
+      "terminal_metadata_sha256": "99a0de790affe0e4f523b0534994108f341b0584c55a1d535e3511942fdc910c",
+      "artifacts_collected": [
+        12143864722,
+        12144461250
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073405,
+          "name": "P12 selected Nota and native payroll lifecycle",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762575,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-misc-correction/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762575",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_02.json",
+      "terminal_metadata_sha256": "eb34e5e3d34b7846882e0b8efb3310cd9e6a808f34d592dfa87f6e41747cc515",
+      "artifacts_collected": [
+        12142884461,
+        12143158529
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073416,
+          "name": "Native atomic posted misc, economic dates, current Auth, recovery and browser correction",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "in_progress",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762621,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f03-cost-continuation/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762621",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_06.json",
+      "terminal_metadata_sha256": "3a74569219e12bb7600ed206c55170168419d0cb06e210379930c85dc1594230",
+      "artifacts_collected": [
+        12143089485,
+        12143847540
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073665,
+          "name": "O18 pocket report, E07 and selected E04 cost continuations",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "queued",
+      "registered_initial_conclusion": null
+    },
+    {
+      "run_id": 39146762556,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/cp7-f05-analysis/1",
+      "workflow_sha": "d850ca7aeebdc3dfec15f2cc3190297e334a3273",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39146762556",
+      "owner": "Sol",
+      "terminal_metadata_path": "ci_receipts/sol_terminal_batch_09.json",
+      "terminal_metadata_sha256": "6153f43fadd606d3d38213feaeea4d37232b73de27de238d688be02a6b242816",
+      "artifacts_collected": [
+        12143949124,
+        12143964026
+      ],
+      "jobs_collected": [
+        {
+          "id": 117732073276,
+          "name": "Frozen analysis.v2 compiler, original archives and current Native Auth",
+          "status": "completed",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "registered_initial_status": "in_progress",
+      "registered_initial_conclusion": null
+    }
+  ],
+  "report_state": "FINAL_81_ORIGINAL_RUNS_WITH_TWO_SEPARATE_Q1",
+  "metadata_qualifications": [
+    {
+      "run_id": 39150692618,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/t3-browser-metadata-q1/1",
+      "workflow_sha": "131ad26b211fc44d1fdb2f8e99aebb2bf91e2773",
+      "status": "completed",
+      "conclusion": "success",
+      "metadata_path": "ci_receipts/sol_terminal_batch_21.json",
+      "artifacts_collected": [
+        12144969041,
+        12145755130
+      ],
+      "original_runs_preserved": true,
+      "result_review": "METADATA_Q1_RESULT_REVIEW.json"
+    },
+    {
+      "run_id": 39150692634,
+      "run_name": "AUDIT/cp17-r3/Sol/b53b5acd/codeql-metadata-q1/1",
+      "workflow_sha": "131ad26b211fc44d1fdb2f8e99aebb2bf91e2773",
+      "status": "completed",
+      "conclusion": "success",
+      "metadata_path": "ci_receipts/sol_terminal_batch_21.json",
+      "artifacts_collected": [
+        12144579727,
+        12144579904,
+        12144633395,
+        12145087711,
+        12145261905,
+        12145366343,
+        12145525834,
+        12145615194
+      ],
+      "original_runs_preserved": true,
+      "result_review": "METADATA_Q1_RESULT_REVIEW.json"
+    }
+  ]
+}

@@ -1,0 +1,1460 @@
+{
+  "scope": "READ_ONLY_REVIEW_OF_EXISTING_LATE_PHASE_RESULTS",
+  "new_probes_executed": false,
+  "reports": [
+    {
+      "run_id": 39146762696,
+      "artifact_id": 12144484681,
+      "path": "ci_receipts/sol_artifacts/12144484681/files/CP7_K3_CLEANUP.json",
+      "sha256": "3e3bda8f0e4c1e7f9af882b65cc73066a372c21b4591109cb09de4782242500c",
+      "source_sha256": "254912f4d367dbb4fbffe88155140dc32f491276c2e46facff8fa4f407062ef9",
+      "status": "PASS",
+      "expected_case_count": 25,
+      "groups": {
+        "native": {
+          "rows": 9,
+          "counts": {
+            "PASS": 9
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "K3C_CLEANED_ONLY_TEMPORARY",
+            "K3C_REOPEN_AFTER_CLEANUP",
+            "K3C_PLAN_V2_AFTER_CLEANUP",
+            "K3C_REPORT_V2_AFTER_CLEANUP",
+            "K3C_AI_AND_REMINDERS_AFTER_CLEANUP",
+            "K3C_FAILED_CLEANUP_KEEPS_RESULT_RETRIED",
+            "K3C_ONLY_DONE_KEPT_RUNS",
+            "K3C_DOCUMENTS_AND_RETENTION_AFTER_CLEANUP",
+            "K3C_SCHEDULE_DEFINED_PRIVATE"
+          ],
+          "product_credit": 9,
+          "boundary": {
+            "complete_boundary_restored": true
+          }
+        },
+        "races": {
+          "rows": 12,
+          "counts": {
+            "PASS": 12
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "K3C_RACE_TWO_TICKS_ONE_LOG",
+            "K3C_RACE_BUSY_TABLE_RETRIED",
+            "K3C_RACE_PG_CRON_FIRES",
+            "K3C_RACE_NIGHTLY_BACKUP_VERIFIED",
+            "K3C_RACE_CRON_TWO_DATABASES",
+            "K3C_RACE_BACKUP_RETRY_SAME_SECOND",
+            "K3C_RACE_CLEANUP_BESIDE_RUNNING_STEP",
+            "K3C_RACE_BACKUP_SCRATCH_NEVER_DROPS_ANOTHER_DATABASE",
+            "K3C_RACE_BACKUP_VERIFIED_UNDER_WRITES",
+            "K3C_RACE_SCHEDULE_INSTALLER_REHEARSAL",
+            "K3C_RACE_BACKUP_SCRATCH_OWNERSHIP_BY_OID",
+            "K3C_RACE_BACKUP_PLAIN_MARK_COPIED_ONTO_FOREIGN_KEPT"
+          ],
+          "product_credit": 12,
+          "boundary": {
+            "database_remaining": 0
+          }
+        },
+        "http": {
+          "rows": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "K3C_HTTP_REOPEN_AFTER_CLEANUP",
+            "K3C_HTTP_TICK_NOT_REACHABLE"
+          ],
+          "product_credit": 2,
+          "boundary": {
+            "database_remaining": 0,
+            "cleanup": {
+              "users_created": 2,
+              "cleanup_failures": [],
+              "rest_remaining": false
+            },
+            "cleanup_failures": false,
+            "auth_counts": {
+              "before": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "after": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "restored": true
+            }
+          }
+        },
+        "browser": {
+          "rows": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "K3C_BROWSER_DESKTOP_REOPEN_AFTER_CLEANUP",
+            "K3C_BROWSER_MOBILE_REOPEN_AFTER_CLEANUP"
+          ],
+          "product_credit": 2,
+          "boundary": {
+            "database_remaining": 0,
+            "cleanup": {
+              "users_created": 0,
+              "cleanup_failures": [],
+              "rest_remaining": false
+            },
+            "cleanup_failures": false,
+            "auth_counts": {
+              "before": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "after": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "restored": true
+            },
+            "console_errors": 0,
+            "session_leaks": []
+          }
+        }
+      },
+      "restore": {
+        "erp_platform_auth_schema_acl": true,
+        "public_catalog_and_rows": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "explicit_scope_limits": {
+        "full_family_acceptance": false,
+        "full_K3_acceptance": false,
+        "schedule_installed": false
+      }
+    },
+    {
+      "run_id": 39146762696,
+      "artifact_id": 12144554903,
+      "path": "ci_receipts/sol_artifacts/12144554903/files/CP7_K4_RUNNER.json",
+      "sha256": "b22386f8264a79cad047844de6947884715e17df38cbe1abb11a40070ece7f48",
+      "source_sha256": "254912f4d367dbb4fbffe88155140dc32f491276c2e46facff8fa4f407062ef9",
+      "status": "PASS",
+      "expected_case_count": 17,
+      "groups": {
+        "native": {
+          "rows": 7,
+          "counts": {
+            "PASS": 7
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "K4R_SERVER_FINISHES_WITHOUT_PAGE",
+            "K4R_PAGE_AND_SERVER_ONE_JOB",
+            "K4R_ACCESS_RECHECKED_EACH_UNIT",
+            "K4R_DENIED_JOB_DOES_NOT_HOLD_OTHERS",
+            "K4R_LIMIT_REQUIRED",
+            "K4R_SCHEDULE_DEFINED_PRIVATE",
+            "K4R_STATUS_REPORTS_RUNNER"
+          ],
+          "product_credit": 7,
+          "boundary": {
+            "complete_boundary_restored": true
+          }
+        },
+        "races": {
+          "rows": 6,
+          "counts": {
+            "PASS": 6
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "K4R_RACE_PAGE_AND_SERVER_ONE_UNIT",
+            "K4R_RACE_TWO_TICKS_ONE_UNIT",
+            "K4R_RACE_COLD_START_TWO_TICKS",
+            "K4R_RACE_LIMIT_STOPS_THEN_CONTINUES",
+            "K4R_RACE_ACCESS_CHANGED_DURING_UNIT",
+            "K4R_RACE_PG_CRON_FINISHES_JOB"
+          ],
+          "product_credit": 6,
+          "boundary": {
+            "database_remaining": 0
+          }
+        },
+        "http": {
+          "rows": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "K4R_HTTP_CLOSED_PAGE_FINISHES",
+            "K4R_HTTP_TICK_NOT_REACHABLE"
+          ],
+          "product_credit": 2,
+          "boundary": {
+            "database_remaining": 0,
+            "cleanup": {
+              "users_created": 2,
+              "cleanup_failures": [],
+              "rest_remaining": false
+            },
+            "cleanup_failures": false,
+            "auth_counts": {
+              "before": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "after": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "restored": true
+            }
+          }
+        },
+        "browser": {
+          "rows": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES",
+            "K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES"
+          ],
+          "product_credit": 2,
+          "boundary": {
+            "database_remaining": 0,
+            "cleanup": {
+              "users_created": 0,
+              "cleanup_failures": [],
+              "rest_remaining": false
+            },
+            "cleanup_failures": false,
+            "auth_counts": {
+              "before": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "after": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "restored": true
+            },
+            "console_errors": 0,
+            "session_leaks": []
+          }
+        }
+      },
+      "restore": {
+        "erp_platform_auth_schema_acl": true,
+        "public_catalog_and_rows": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "explicit_scope_limits": {
+        "full_family_acceptance": false,
+        "full_K4_acceptance": false,
+        "schedule_installed": false
+      }
+    },
+    {
+      "run_id": 39146762696,
+      "artifact_id": 12145483521,
+      "path": "ci_receipts/sol_artifacts/12145483521/files/CP7_K6_PROOF_RUNNER.json",
+      "sha256": "ea566fce9419bdd047448b10f27b4170a1e0a619802df13335fb779d65b15e20",
+      "source_sha256": "254912f4d367dbb4fbffe88155140dc32f491276c2e46facff8fa4f407062ef9",
+      "status": "PASS",
+      "expected_case_count": 10,
+      "groups": {
+        "native": {
+          "rows": 4,
+          "counts": {
+            "PASS": 4
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "K6P_PASS_PROVES_FINISHED_HISTORY",
+            "K6P_CANCEL_CORRECT_BACKDATE_REPROVEN_BY_SERVER",
+            "K6P_LIMIT_REQUIRED",
+            "K6P_SCHEDULE_DEFINED_PRIVATE"
+          ],
+          "product_credit": 4,
+          "boundary": {
+            "complete_boundary_restored": true
+          }
+        },
+        "races": {
+          "rows": 4,
+          "counts": {
+            "PASS": 4
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "K6P_RACE_SECOND_TICK_NEVER_WAITS",
+            "K6P_RACE_WINDOW_STOPPED_THEN_SKIPPED",
+            "K6P_RACE_CAPTURE_DURING_WINDOW",
+            "K6P_RACE_PG_CRON_FINISHES_PASS"
+          ],
+          "product_credit": 4,
+          "boundary": {
+            "database_remaining": 0
+          }
+        },
+        "http": {
+          "rows": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "K6P_HTTP_TICK_NOT_REACHABLE",
+            "K6P_HTTP_CAPTURE_USES_SERVER_PROOFS"
+          ],
+          "product_credit": 2,
+          "boundary": {
+            "database_remaining": 0,
+            "cleanup": {
+              "users_created": 2,
+              "cleanup_failures": [],
+              "rest_remaining": false
+            },
+            "cleanup_failures": false,
+            "auth_counts": {
+              "before": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "after": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "restored": true
+            }
+          }
+        }
+      },
+      "restore": {
+        "erp_platform_auth_schema_acl": true,
+        "public_catalog_and_rows": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "explicit_scope_limits": {
+        "full_family_acceptance": false,
+        "full_K6_acceptance": false,
+        "schedule_installed": false
+      }
+    },
+    {
+      "run_id": 39146762454,
+      "artifact_id": 12145686624,
+      "path": "ci_receipts/sol_artifacts/12145686624/files/CP7_F05_NATIVE_ATTENTION.json",
+      "sha256": "937626cafa977fb369727c8772c9a4663a14e7d8e58d6e441a38df035d3d07e4",
+      "source_sha256": "500445d3eed876a85b70bd0af3ca0658a896fb5f623d37f329915d253c959570",
+      "status": "PASS",
+      "expected_case_count": 286,
+      "groups": {
+        "source_admission": {
+          "rows": 3,
+          "counts": {
+            "PASS": 3
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "P14_NATIVE_ANALYSIS_FROZEN_NATIVE",
+            "P16_RULE_SOURCE_EXACT_CURRENT_SOURCE",
+            "P15_OBLIGATION_REPORT_NATIVE_EXACT_DATED_NATIVE"
+          ],
+          "product_credit": 0,
+          "boundary": {
+            "complete_boundary_restored": true
+          }
+        },
+        "native": {
+          "rows": 181,
+          "counts": {
+            "PASS": 181
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "P05_NATIVE_DRAFT_ONCE",
+            "P05_NATIVE_POSTED_ONCE",
+            "P05_NATIVE_RETURN_SEPARATE",
+            "P05_NATIVE_NATIVE_INVERSES",
+            "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+            "P05_NATIVE_OPERATIONAL_REDACTION",
+            "P05_NATIVE_CURRENT_REVOKE",
+            "P05_NATIVE_CLOSED_QUERY",
+            "P05_NATIVE_PRIVATE_CAPS",
+            "P05_NATIVE_TIMEZONES",
+            "P05_NATIVE_UNKNOWN_HISTORY",
+            "P05_NATIVE_GLOBAL_30_ROOTS",
+            "P06_NATIVE_PROFILE_METADATA",
+            "P06_NATIVE_PROFILE_UUID",
+            "P06_NATIVE_STALE_REVISION",
+            "P06_NATIVE_NATIVE_VERSION",
+            "P06_NATIVE_STRICT_CONFIG",
+            "P06_NATIVE_UNREVIEWED_UNKNOWN",
+            "P06_NATIVE_SELECTED_TARGET100",
+            "P06_NATIVE_OWN_HISTORY_UNKNOWN",
+            "P06_NATIVE_LEAD_UNKNOWN",
+            "P06_NATIVE_IMMUTABLE_ARCHIVE200",
+            "P06_NATIVE_CURRENT_AUTHORITY",
+            "P06_NATIVE_PRIVATE_CAPS",
+            "P06_NATIVE_TIMEZONES",
+            "P06_NATIVE_STOP_NATIVE_STOCK",
+            "P06_SUPPLY_NATIVE_MIXED",
+            "P06_SUPPLY_NATIVE_OPENING_LIFECYCLE",
+            "P06_SUPPLY_NATIVE_CLAIMS",
+            "P06_SUPPLY_NATIVE_UNSOURCED_BS",
+            "P06_SUPPLY_NATIVE_GLOBAL56",
+            "P06_SUPPLY_NATIVE_NO_ALIAS",
+            "P06_SUPPLY_NATIVE_IMMUTABLE_UUID",
+            "P06_SUPPLY_NATIVE_CURRENT_AUTH",
+            "P06_SUPPLY_NATIVE_PRIVATE_CAPS",
+            "P06_SUPPLY_NATIVE_CLOSED_QUERY",
+            "P06_SUPPLY_NATIVE_TIMEZONES",
+            "P06_SUPPLY_NATIVE_ONE_CLOCK",
+            "P06_SCHEDULE_NATIVE_UNREVIEWED",
+            "P06_SCHEDULE_NATIVE_UUID_METADATA",
+            "P06_SCHEDULE_NATIVE_STRICT_SOURCE_ROUTE",
+            "P06_SCHEDULE_NATIVE_SOURCE_STALE",
+            "P06_SCHEDULE_NATIVE_REVISION_STALE",
+            "P06_SCHEDULE_NATIVE_YIELD7",
+            "P06_SCHEDULE_NATIVE_REMAINING45_CAPACITY37",
+            "P06_SCHEDULE_NATIVE_NULL_LOAD",
+            "P06_SCHEDULE_NATIVE_OTHER_LOAD_PLACEMENT",
+            "P06_SCHEDULE_NATIVE_PL4_OVERFLOW_CARRIED",
+            "P06_SCHEDULE_NATIVE_SHARED_QUEUE",
+            "P06_SCHEDULE_NATIVE_PRIVATE_CAPABILITIES",
+            "P06_SCHEDULE_NATIVE_CURRENT_AUTH",
+            "P06_SCHEDULE_NATIVE_CUSTOMER_WORK_ONLY",
+            "P06_NETTING_NATIVE_BOUND_GAP93",
+            "P06_NETTING_NATIVE_BOUND_UNKNOWN_YIELD",
+            "P06_NETTING_NATIVE_GLOBAL_ONE_EDGE",
+            "P06_NETTING_NATIVE_EXISTING_WORK_DISTINCT",
+            "P06_NETTING_NATIVE_LATE_NOT_NETTED",
+            "P06_NETTING_NATIVE_UNBOUND_NEEDS_CHECK",
+            "P06_NETTING_NATIVE_IMMUTABLE_AFTER_NATIVE_OUTPUT",
+            "P06_NETTING_NATIVE_CURRENT_AUTH_CLOSED_QUERY",
+            "P14_NATIVE_ANALYSIS_FROZEN_NATIVE",
+            "P14_NATIVE_ANALYSIS_UNKNOWN_WORK",
+            "P14_NATIVE_ANALYSIS_MISSING_POLICY",
+            "P14_NATIVE_ANALYSIS_REPLAY",
+            "P14_NATIVE_ANALYSIS_CHANGED_QUERY",
+            "P14_NATIVE_ANALYSIS_SOURCE_CHANGE",
+            "P14_NATIVE_ANALYSIS_ACTOR_SCOPE",
+            "P14_NATIVE_ANALYSIS_CURRENT_REVOKE",
+            "P14_NATIVE_ANALYSIS_IMMUTABLE",
+            "P14_NATIVE_ANALYSIS_LATE_SUPPLY",
+            "P14_NATIVE_ANALYSIS_SIGNED_AVAILABLE",
+            "P14_NATIVE_ANALYSIS_PAUSED",
+            "P14_NATIVE_ANALYSIS_ENGINE_CHANGE",
+            "P14_NATIVE_ANALYSIS_UNKNOWN_CAPACITY",
+            "P15_NATIVE_ANALYSIS_FINANCE_SAME_SOURCE",
+            "P15_NATIVE_ANALYSIS_FINANCE_OWNER_BOUNDARY",
+            "P15_NATIVE_ANALYSIS_FINANCE_CURRENT_REPORT_AUTH",
+            "P15_NATIVE_ANALYSIS_FINANCE_CURRENT_PREFLIGHT_AUTH",
+            "P15_NATIVE_ANALYSIS_FINANCE_JOURNAL_STALE",
+            "P15_NATIVE_ARCHIVE_DURABLE_PAGES",
+            "P15_NATIVE_ARCHIVE_ACTOR_QUERY_BOUNDARY",
+            "P15_NATIVE_ARCHIVE_CURRENT_REPORT_AUTH",
+            "P15_NATIVE_ARCHIVE_CURRENT_PREFLIGHT_AUTH",
+            "P15_NATIVE_ARCHIVE_CURRENT_OPS_AUTH",
+            "P15_NATIVE_ARCHIVE_ORIGINAL_SOURCE_CHANGED",
+            "P15_REPORT_NATIVE_TEMPLATES",
+            "P15_REPORT_NATIVE_UUID_REPLAY",
+            "P15_REPORT_NATIVE_ABSENT_FENCE",
+            "P15_REPORT_NATIVE_REVISION",
+            "P15_REPORT_NATIVE_ACTUAL_COMPARISON",
+            "P15_REPORT_NATIVE_UNKNOWN_NOT_ZERO",
+            "P15_REPORT_NATIVE_PERIOD_SCOPE",
+            "P15_REPORT_NATIVE_ENGINE_VERSION",
+            "P15_REPORT_NATIVE_CLOSED_PAYLOAD",
+            "P15_REPORT_NATIVE_CURRENT_OPS_AUTH",
+            "P15_REPORT_NATIVE_ACTOR_SCOPE",
+            "P15_REPORT_NATIVE_CURRENT_FINANCE_AUTH",
+            "P15_REPORT_NATIVE_IMMUTABLE",
+            "P15_REPORT_NATIVE_DURABLE_PAGES",
+            "P06_MATERIAL_NATIVE_MISSING_UNKNOWN",
+            "P06_MATERIAL_NATIVE_EMPTY_EXPLICIT",
+            "P06_MATERIAL_NATIVE_GROSS_ASSUMED",
+            "P06_MATERIAL_NATIVE_BOM_SUCCESSOR",
+            "P06_MATERIAL_NATIVE_ISSUE_NOT_INSTALLED",
+            "P06_MATERIAL_O09_TRUSTED_KERNEL_CONTRACT",
+            "P06_MATERIAL_O10_TRUSTED_KERNEL_CONTRACT",
+            "P06_MATERIAL_NATIVE_CLOCK_PRIVATE",
+            "P16_NATIVE_ATTENTION_REVIEW_METADATA",
+            "P16_NATIVE_ATTENTION_NATIVE_TASK_LIFECYCLE",
+            "P16_NATIVE_ATTENTION_IMMUTABLE_UUID_CAS",
+            "P16_NATIVE_ATTENTION_SEALED_ABSENT",
+            "P16_NATIVE_ATTENTION_CURRENT_ACTOR_AUTH",
+            "P16_NATIVE_ATTENTION_NATIVE_TASK_CAS",
+            "P16_NATIVE_ATTENTION_FULL_BOUND_SOURCE201",
+            "P16_NATIVE_ATTENTION_ARCHIVE_CONDITION",
+            "P16_NATIVE_AR_CONDITION_ACTUAL_BALANCE_DUE_SETTLE_INVERSE",
+            "P16_NATIVE_AR_CONDITION_CURRENT_ACTOR_AR_AUTH",
+            "P16_NATIVE_AR_CONDITION_COMPLETE_SOURCE26",
+            "P16_NATIVE_AP_CONDITION_GRNI_FINAL_PAYMENT_INVERSE",
+            "P16_NATIVE_AP_CONDITION_SIGNED_RETURN_CREDIT",
+            "P16_NATIVE_AP_CONDITION_CURRENT_ACTOR_AP_AUTH",
+            "P16_NATIVE_AP_CONDITION_COMPLETE_SOURCE26",
+            "P16_NATIVE_AP_CONDITION_AP5_OLDEST_DUE_FIRST",
+            "P16_EPISODE_NATIVE_AR_RECURRENCE",
+            "P16_EPISODE_NATIVE_AP_RECURRENCE",
+            "P16_EPISODE_NATIVE_PARTIAL_ABSENT_FENCE",
+            "P16_EPISODE_NATIVE_SHARED_CURRENT_AUTH",
+            "P16_HISTORY_NATIVE_COMPLETE26_READONLY",
+            "P16_HISTORY_NATIVE_CURRENT_SCOPE_AUTH",
+            "P16_POLICY_EMPTY_CURRENT",
+            "P16_POLICY_NULL_ZERO_DISABLED_HISTORY",
+            "P16_POLICY_FOUR_RULE_UNITS",
+            "P16_POLICY_SCOPE_WHOLE_VERSION",
+            "P16_POLICY_WIB_OVERNIGHT",
+            "P16_POLICY_COOLDOWN_CLOCK",
+            "P16_POLICY_OLD_UUID_CURRENT_SUCCESSOR",
+            "P16_POLICY_UUID_CAS_CONFLICT",
+            "P16_POLICY_SEALED_ABSENT",
+            "P16_POLICY_CURRENT_AUTH",
+            "P16_POLICY_SOURCE_CHANGED",
+            "P16_POLICY_PRIVATE_INVALID_INPUT",
+            "P16_RULE_SOURCE_POLICY_HISTORY_PAGES",
+            "P16_RULE_SOURCE_POLICY_HISTORY_AUTH",
+            "P16_RULE_SOURCE_EXACT_CURRENT_SOURCE",
+            "P16_RULE_SOURCE_MISSING_DUE_ZERO",
+            "P16_RULE_SOURCE_NATIVE_MATERIAL_AP",
+            "P16_RULE_SOURCE_CURRENT_DOMAIN_SCOPE",
+            "P16_RULE_SOURCE_EPISODE_RECURRENCE",
+            "P16_RULE_SOURCE_REVIEW_NOT_RESOLUTION",
+            "P16_RULE_SOURCE_UNKNOWN_AGE_RETAINED",
+            "P16_RULE_SOURCE_EPISODE_UUID_RECOVERY",
+            "P16_RULE_SOURCE_LOCAL_BINDING_VERSIONS",
+            "P16_RULE_SOURCE_LOCAL_UTF8_CAPTURE",
+            "P16_RULE_SOURCE_LOCAL_AMBIGUITY",
+            "P16_RULE_SOURCE_LOCAL_MANUAL_RESOLUTION",
+            "P16_RULE_SOURCE_LOCAL_DISABLED_SUPPRESSION",
+            "P16_RULE_SOURCE_LOCAL_NATIVE_HEAL",
+            "P16_RULE_SOURCE_LOCAL_FENCE_ABSENCE_ACL",
+            "P16_RULE_SOURCE_LOCAL_ACTUAL_COOLDOWN",
+            "P16_OTHER_NATIVE_PRIVATE_READER_ACL",
+            "P16_OTHER_NATIVE_OPENING_CANONICAL",
+            "P16_OTHER_NATIVE_OPENING_ALLOCATION_PAYMENT_INVERSE",
+            "P16_OTHER_NATIVE_PAYROLL_PARTIAL_FINAL_INVERSE",
+            "P16_OTHER_NATIVE_PAYROLL_EXACT_CENTS",
+            "P16_OTHER_NATIVE_PAYROLL_INACTIVE",
+            "P16_OTHER_NATIVE_UNKNOWN_DUE_EPISODE_AGE",
+            "P16_OTHER_NATIVE_ACCESSORY_ALLOCATION_NOT_PAID",
+            "P16_OTHER_NATIVE_ACCESSORY_PAID_INVERSE",
+            "P16_OTHER_NATIVE_LAUNDRY_PENDING_UNKNOWN",
+            "P16_OTHER_NATIVE_LAUNDRY_INVOICE_PAYMENT_INVERSE",
+            "P16_OTHER_NATIVE_LAUNDRY_OPENING_PENDING",
+            "P16_OTHER_NATIVE_CURRENT_NARROWER_RIGHTS",
+            "P16_OTHER_NATIVE_SOURCE_CONSERVATION",
+            "P15_OBLIGATION_REPORT_NATIVE_EXACT_DATED_NATIVE",
+            "P15_OBLIGATION_REPORT_NATIVE_REPLAY_AND_CLOSED_FENCE",
+            "P15_OBLIGATION_REPORT_NATIVE_NATIVE_PAYMENT_ARCHIVE",
+            "P15_OBLIGATION_REPORT_NATIVE_LINKED_REVISION",
+            "P15_OBLIGATION_REPORT_NATIVE_CURRENT_FINE_RIGHTS",
+            "P15_OBLIGATION_REPORT_NATIVE_ACTOR_SCOPE",
+            "P15_OBLIGATION_REPORT_NATIVE_IMMUTABLE_AND_CLOSED_PAYLOAD",
+            "P15_OBLIGATION_REPORT_NATIVE_PAGED_COMPLETE_INDEX"
+          ],
+          "product_credit": 181,
+          "boundary": {
+            "complete_boundary_restored": true
+          }
+        },
+        "races": {
+          "rows": 40,
+          "counts": {
+            "PASS": 40
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "P05_RACE_SAME_UUID",
+            "P05_RACE_CURRENT_REVOKE",
+            "P06_RACE_SAME_PROFILE_UUID",
+            "P06_RACE_COMPETING_REVISION",
+            "P06_RACE_CURRENT_PROFILE_REVOKE",
+            "P06_SUPPLY_RACE_UUID",
+            "P06_SUPPLY_RACE_REVOKE",
+            "P06_SUPPLY_RACE_ONE_MVCC",
+            "P06_SCHEDULE_RACE_REVISION",
+            "P06_SCHEDULE_RACE_CACHED_AUTH",
+            "P06_NETTING_RACE_UUID",
+            "P14_ANALYSIS_RACE_UUID",
+            "P14_ANALYSIS_RACE_QUERY",
+            "P14_ANALYSIS_RACE_CURRENT_AUTH",
+            "P15_ANALYSIS_FINANCE_LOCK_CURRENT_AUTH",
+            "P15_REPORT_RACE_UUID",
+            "P15_REPORT_RACE_ABSENT_FENCE",
+            "P15_REPORT_RACE_REVISION",
+            "P15_REPORT_RACE_CURRENT_AUTH",
+            "P06_MATERIAL_RACE_CURRENT_SOURCE_AUTH",
+            "P16_ATTENTION_RACE_UUID",
+            "P16_ATTENTION_RACE_CURRENT_AUTH",
+            "P16_EPISODE_RACE_UUID",
+            "P16_EPISODE_RACE_CURRENT_AR",
+            "P16_HISTORY_RACE_CURRENT_AR_WAIT",
+            "P16_RECHECK_RACE_CURRENT_FINANCE_REQUEST_WAIT",
+            "P16_POLICY_RACE_DUPLICATE_UUID",
+            "P16_POLICY_RACE_CROSS_ACTOR_CAS",
+            "P16_POLICY_RACE_CURRENT_MANAGE",
+            "P16_RULE_RACE_OCCURRENCE_DEDUP",
+            "P16_RULE_RACE_CURRENT_MANAGE",
+            "P16_RULE_RACE_CURRENT_DOMAIN",
+            "P16_RULE_RACE_CALLBACK_NATIVE_HEAL",
+            "P16_RULE_RACE_SHARED_EPISODE",
+            "P16_OTHER_RACE_PAYROLL_PERMISSION_WAIT",
+            "P16_OTHER_RACE_LAUNDRY_PAYMENT_SNAPSHOT",
+            "P16_OTHER_RACE_SHARED_UNKNOWN_EPISODE",
+            "P15_OBLIGATION_REPORT_RACE_SAME_UUID",
+            "P15_OBLIGATION_REPORT_RACE_SERIES_CAS",
+            "P15_OBLIGATION_REPORT_RACE_CURRENT_PAYROLL_RIGHT"
+          ],
+          "product_credit": 40,
+          "boundary": {
+            "database_remaining": 0
+          }
+        },
+        "http": {
+          "rows": 29,
+          "counts": {
+            "PASS": 29
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "P05_ACTUAL_AUTH_HTTP",
+            "P06_ACTUAL_AUTH_HTTP",
+            "P06_SUPPLY_HTTP_AUTH",
+            "P06_SCHEDULE_HTTP_FLOW",
+            "P06_SCHEDULE_HTTP_UNREVIEWED",
+            "P06_NETTING_HTTP_AUTH",
+            "P14_ANALYSIS_HTTP_AUTH",
+            "P15_ANALYSIS_FINANCE_HTTP_CURRENT_AUTH",
+            "P15_ARCHIVE_HTTP_CURRENT_AUTH",
+            "P15_REPORT_HTTP_CURRENT_AUTH",
+            "P15_REPORT_HTTP_ABSENT_FENCE",
+            "P06_MATERIAL_HTTP_CURRENT_AUTH",
+            "P16_ATTENTION_HTTP_NATIVE_CURRENT_AUTH",
+            "P16_AR_SOURCE_HTTP_CURRENT_AUTH",
+            "P16_AP_SOURCE_HTTP_CURRENT_AUTH",
+            "P16_EPISODE_HTTP_CURRENT_AUTH",
+            "P16_HISTORY_HTTP_CURRENT_AUTH",
+            "P16_POLICY_HTTP_LIFECYCLE",
+            "P16_POLICY_HTTP_CURRENT_AUTH",
+            "P16_POLICY_HTTP_SEALED_ABSENT",
+            "P16_RULE_HTTP_LOCAL_LIFECYCLE",
+            "P16_RULE_HTTP_CURRENT_AUTH",
+            "P16_RULE_HTTP_UNKNOWN_MANUAL_RESOLUTION",
+            "P16_RULE_HTTP_SEALED_ABSENT",
+            "P16_OTHER_HTTP_PAYROLL_CURRENT_AUTH",
+            "P16_OTHER_HTTP_EXACT_CURRENT_SOURCE",
+            "P16_OTHER_HTTP_LOCAL_NATIVE_INVOICE",
+            "P15_OBLIGATION_REPORT_HTTP_EXACT_AUTH_LIFECYCLE",
+            "P15_OBLIGATION_REPORT_HTTP_CLOSED_FENCE"
+          ],
+          "product_credit": 29,
+          "boundary": {
+            "database_remaining": 0,
+            "cleanup": {
+              "users_created": 44,
+              "cleanup_failures": [],
+              "rest_remaining": false
+            },
+            "cleanup_failures": false,
+            "auth_counts": {
+              "before": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "after": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "restored": true
+            }
+          }
+        },
+        "browser": {
+          "rows": 36,
+          "counts": {
+            "PASS": 36
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "P17_BROWSER_DESKTOP_NATIVE_AUTOMATIC_HANDOFF",
+            "P17_BROWSER_MOBILE_NATIVE_AUTOMATIC_HANDOFF",
+            "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+            "P05_BROWSER_MOBILE_CURRENT_AUTH",
+            "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+            "P06_BROWSER_MOBILE_NATIVE_PROFILE",
+            "P06_BROWSER_DESKTOP_NATIVE_NETTING",
+            "P06_BROWSER_MOBILE_NATIVE_NETTING",
+            "P14_BROWSER_DESKTOP_SHARED_ANALYSIS",
+            "P14_BROWSER_MOBILE_SHARED_ANALYSIS",
+            "P15_BROWSER_DESKTOP_DURABLE_SERVER_ARCHIVE",
+            "P15_BROWSER_MOBILE_DURABLE_SERVER_ARCHIVE",
+            "P15_BROWSER_DESKTOP_NATIVE_PUBLICATION",
+            "P15_BROWSER_MOBILE_NATIVE_PUBLICATION",
+            "P06_MATERIAL_BROWSER_DESKTOP",
+            "P06_MATERIAL_BROWSER_MOBILE",
+            "P16_BROWSER_DESKTOP_NATIVE_ATTENTION",
+            "P16_BROWSER_MOBILE_NATIVE_ATTENTION",
+            "P16_BROWSER_DESKTOP_CURRENT_NATIVE_AR",
+            "P16_BROWSER_MOBILE_CURRENT_NATIVE_AR",
+            "P16_BROWSER_DESKTOP_CURRENT_NATIVE_MATERIAL_AP",
+            "P16_BROWSER_MOBILE_CURRENT_NATIVE_MATERIAL_AP",
+            "P16_BROWSER_DESKTOP_NATIVE_OBLIGATION_EPISODES",
+            "P16_BROWSER_MOBILE_NATIVE_OBLIGATION_EPISODES",
+            "P17_BROWSER_DESKTOP_NATIVE_HANDOFF",
+            "P17_BROWSER_MOBILE_NATIVE_HANDOFF",
+            "P16_BROWSER_DESKTOP_NATIVE_SAVED_EPISODE_HISTORY",
+            "P16_BROWSER_MOBILE_NATIVE_SAVED_EPISODE_HISTORY",
+            "P16_POLICY_BROWSER_DESKTOP",
+            "P16_POLICY_BROWSER_MOBILE",
+            "P16_RULE_LOCAL_BROWSER_DESKTOP",
+            "P16_RULE_LOCAL_BROWSER_MOBILE",
+            "P16_OTHER_BROWSER_DESKTOP",
+            "P16_OTHER_BROWSER_MOBILE",
+            "P15_OBLIGATION_REPORT_BROWSER_DESKTOP",
+            "P15_OBLIGATION_REPORT_BROWSER_MOBILE"
+          ],
+          "product_credit": 36,
+          "boundary": {
+            "database_remaining": 0,
+            "cleanup": {
+              "users_created": 0,
+              "cleanup_failures": [],
+              "rest_remaining": false
+            },
+            "cleanup_failures": false,
+            "auth_counts": {
+              "before": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "after": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "restored": true
+            },
+            "console_errors": 0,
+            "session_leaks": []
+          }
+        }
+      },
+      "restore": {
+        "erp_platform_auth_schema_acl": true,
+        "public_catalog_and_rows": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "explicit_scope_limits": {
+        "full_family_acceptance": false
+      }
+    },
+    {
+      "run_id": 39146763492,
+      "artifact_id": 12145703660,
+      "path": "ci_receipts/sol_artifacts/12145703660/files/CP7_F05_NATIVE_ATTENTION.json",
+      "sha256": "18557373fcdd4e7f4541d2fec05f3fae16510defc0a55ce430670732ef913a67",
+      "source_sha256": "500445d3eed876a85b70bd0af3ca0658a896fb5f623d37f329915d253c959570",
+      "status": "PASS",
+      "expected_case_count": 286,
+      "groups": {
+        "source_admission": {
+          "rows": 3,
+          "counts": {
+            "PASS": 3
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "P14_NATIVE_ANALYSIS_FROZEN_NATIVE",
+            "P16_RULE_SOURCE_EXACT_CURRENT_SOURCE",
+            "P15_OBLIGATION_REPORT_NATIVE_EXACT_DATED_NATIVE"
+          ],
+          "product_credit": 0,
+          "boundary": {
+            "complete_boundary_restored": true
+          }
+        },
+        "native": {
+          "rows": 181,
+          "counts": {
+            "PASS": 181
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "P05_NATIVE_DRAFT_ONCE",
+            "P05_NATIVE_POSTED_ONCE",
+            "P05_NATIVE_RETURN_SEPARATE",
+            "P05_NATIVE_NATIVE_INVERSES",
+            "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+            "P05_NATIVE_OPERATIONAL_REDACTION",
+            "P05_NATIVE_CURRENT_REVOKE",
+            "P05_NATIVE_CLOSED_QUERY",
+            "P05_NATIVE_PRIVATE_CAPS",
+            "P05_NATIVE_TIMEZONES",
+            "P05_NATIVE_UNKNOWN_HISTORY",
+            "P05_NATIVE_GLOBAL_30_ROOTS",
+            "P06_NATIVE_PROFILE_METADATA",
+            "P06_NATIVE_PROFILE_UUID",
+            "P06_NATIVE_STALE_REVISION",
+            "P06_NATIVE_NATIVE_VERSION",
+            "P06_NATIVE_STRICT_CONFIG",
+            "P06_NATIVE_UNREVIEWED_UNKNOWN",
+            "P06_NATIVE_SELECTED_TARGET100",
+            "P06_NATIVE_OWN_HISTORY_UNKNOWN",
+            "P06_NATIVE_LEAD_UNKNOWN",
+            "P06_NATIVE_IMMUTABLE_ARCHIVE200",
+            "P06_NATIVE_CURRENT_AUTHORITY",
+            "P06_NATIVE_PRIVATE_CAPS",
+            "P06_NATIVE_TIMEZONES",
+            "P06_NATIVE_STOP_NATIVE_STOCK",
+            "P06_SUPPLY_NATIVE_MIXED",
+            "P06_SUPPLY_NATIVE_OPENING_LIFECYCLE",
+            "P06_SUPPLY_NATIVE_CLAIMS",
+            "P06_SUPPLY_NATIVE_UNSOURCED_BS",
+            "P06_SUPPLY_NATIVE_GLOBAL56",
+            "P06_SUPPLY_NATIVE_NO_ALIAS",
+            "P06_SUPPLY_NATIVE_IMMUTABLE_UUID",
+            "P06_SUPPLY_NATIVE_CURRENT_AUTH",
+            "P06_SUPPLY_NATIVE_PRIVATE_CAPS",
+            "P06_SUPPLY_NATIVE_CLOSED_QUERY",
+            "P06_SUPPLY_NATIVE_TIMEZONES",
+            "P06_SUPPLY_NATIVE_ONE_CLOCK",
+            "P06_SCHEDULE_NATIVE_UNREVIEWED",
+            "P06_SCHEDULE_NATIVE_UUID_METADATA",
+            "P06_SCHEDULE_NATIVE_STRICT_SOURCE_ROUTE",
+            "P06_SCHEDULE_NATIVE_SOURCE_STALE",
+            "P06_SCHEDULE_NATIVE_REVISION_STALE",
+            "P06_SCHEDULE_NATIVE_YIELD7",
+            "P06_SCHEDULE_NATIVE_REMAINING45_CAPACITY37",
+            "P06_SCHEDULE_NATIVE_NULL_LOAD",
+            "P06_SCHEDULE_NATIVE_OTHER_LOAD_PLACEMENT",
+            "P06_SCHEDULE_NATIVE_PL4_OVERFLOW_CARRIED",
+            "P06_SCHEDULE_NATIVE_SHARED_QUEUE",
+            "P06_SCHEDULE_NATIVE_PRIVATE_CAPABILITIES",
+            "P06_SCHEDULE_NATIVE_CURRENT_AUTH",
+            "P06_SCHEDULE_NATIVE_CUSTOMER_WORK_ONLY",
+            "P06_NETTING_NATIVE_BOUND_GAP93",
+            "P06_NETTING_NATIVE_BOUND_UNKNOWN_YIELD",
+            "P06_NETTING_NATIVE_GLOBAL_ONE_EDGE",
+            "P06_NETTING_NATIVE_EXISTING_WORK_DISTINCT",
+            "P06_NETTING_NATIVE_LATE_NOT_NETTED",
+            "P06_NETTING_NATIVE_UNBOUND_NEEDS_CHECK",
+            "P06_NETTING_NATIVE_IMMUTABLE_AFTER_NATIVE_OUTPUT",
+            "P06_NETTING_NATIVE_CURRENT_AUTH_CLOSED_QUERY",
+            "P14_NATIVE_ANALYSIS_FROZEN_NATIVE",
+            "P14_NATIVE_ANALYSIS_UNKNOWN_WORK",
+            "P14_NATIVE_ANALYSIS_MISSING_POLICY",
+            "P14_NATIVE_ANALYSIS_REPLAY",
+            "P14_NATIVE_ANALYSIS_CHANGED_QUERY",
+            "P14_NATIVE_ANALYSIS_SOURCE_CHANGE",
+            "P14_NATIVE_ANALYSIS_ACTOR_SCOPE",
+            "P14_NATIVE_ANALYSIS_CURRENT_REVOKE",
+            "P14_NATIVE_ANALYSIS_IMMUTABLE",
+            "P14_NATIVE_ANALYSIS_LATE_SUPPLY",
+            "P14_NATIVE_ANALYSIS_SIGNED_AVAILABLE",
+            "P14_NATIVE_ANALYSIS_PAUSED",
+            "P14_NATIVE_ANALYSIS_ENGINE_CHANGE",
+            "P14_NATIVE_ANALYSIS_UNKNOWN_CAPACITY",
+            "P15_NATIVE_ANALYSIS_FINANCE_SAME_SOURCE",
+            "P15_NATIVE_ANALYSIS_FINANCE_OWNER_BOUNDARY",
+            "P15_NATIVE_ANALYSIS_FINANCE_CURRENT_REPORT_AUTH",
+            "P15_NATIVE_ANALYSIS_FINANCE_CURRENT_PREFLIGHT_AUTH",
+            "P15_NATIVE_ANALYSIS_FINANCE_JOURNAL_STALE",
+            "P15_NATIVE_ARCHIVE_DURABLE_PAGES",
+            "P15_NATIVE_ARCHIVE_ACTOR_QUERY_BOUNDARY",
+            "P15_NATIVE_ARCHIVE_CURRENT_REPORT_AUTH",
+            "P15_NATIVE_ARCHIVE_CURRENT_PREFLIGHT_AUTH",
+            "P15_NATIVE_ARCHIVE_CURRENT_OPS_AUTH",
+            "P15_NATIVE_ARCHIVE_ORIGINAL_SOURCE_CHANGED",
+            "P15_REPORT_NATIVE_TEMPLATES",
+            "P15_REPORT_NATIVE_UUID_REPLAY",
+            "P15_REPORT_NATIVE_ABSENT_FENCE",
+            "P15_REPORT_NATIVE_REVISION",
+            "P15_REPORT_NATIVE_ACTUAL_COMPARISON",
+            "P15_REPORT_NATIVE_UNKNOWN_NOT_ZERO",
+            "P15_REPORT_NATIVE_PERIOD_SCOPE",
+            "P15_REPORT_NATIVE_ENGINE_VERSION",
+            "P15_REPORT_NATIVE_CLOSED_PAYLOAD",
+            "P15_REPORT_NATIVE_CURRENT_OPS_AUTH",
+            "P15_REPORT_NATIVE_ACTOR_SCOPE",
+            "P15_REPORT_NATIVE_CURRENT_FINANCE_AUTH",
+            "P15_REPORT_NATIVE_IMMUTABLE",
+            "P15_REPORT_NATIVE_DURABLE_PAGES",
+            "P06_MATERIAL_NATIVE_MISSING_UNKNOWN",
+            "P06_MATERIAL_NATIVE_EMPTY_EXPLICIT",
+            "P06_MATERIAL_NATIVE_GROSS_ASSUMED",
+            "P06_MATERIAL_NATIVE_BOM_SUCCESSOR",
+            "P06_MATERIAL_NATIVE_ISSUE_NOT_INSTALLED",
+            "P06_MATERIAL_O09_TRUSTED_KERNEL_CONTRACT",
+            "P06_MATERIAL_O10_TRUSTED_KERNEL_CONTRACT",
+            "P06_MATERIAL_NATIVE_CLOCK_PRIVATE",
+            "P16_NATIVE_ATTENTION_REVIEW_METADATA",
+            "P16_NATIVE_ATTENTION_NATIVE_TASK_LIFECYCLE",
+            "P16_NATIVE_ATTENTION_IMMUTABLE_UUID_CAS",
+            "P16_NATIVE_ATTENTION_SEALED_ABSENT",
+            "P16_NATIVE_ATTENTION_CURRENT_ACTOR_AUTH",
+            "P16_NATIVE_ATTENTION_NATIVE_TASK_CAS",
+            "P16_NATIVE_ATTENTION_FULL_BOUND_SOURCE201",
+            "P16_NATIVE_ATTENTION_ARCHIVE_CONDITION",
+            "P16_NATIVE_AR_CONDITION_ACTUAL_BALANCE_DUE_SETTLE_INVERSE",
+            "P16_NATIVE_AR_CONDITION_CURRENT_ACTOR_AR_AUTH",
+            "P16_NATIVE_AR_CONDITION_COMPLETE_SOURCE26",
+            "P16_NATIVE_AP_CONDITION_GRNI_FINAL_PAYMENT_INVERSE",
+            "P16_NATIVE_AP_CONDITION_SIGNED_RETURN_CREDIT",
+            "P16_NATIVE_AP_CONDITION_CURRENT_ACTOR_AP_AUTH",
+            "P16_NATIVE_AP_CONDITION_COMPLETE_SOURCE26",
+            "P16_NATIVE_AP_CONDITION_AP5_OLDEST_DUE_FIRST",
+            "P16_EPISODE_NATIVE_AR_RECURRENCE",
+            "P16_EPISODE_NATIVE_AP_RECURRENCE",
+            "P16_EPISODE_NATIVE_PARTIAL_ABSENT_FENCE",
+            "P16_EPISODE_NATIVE_SHARED_CURRENT_AUTH",
+            "P16_HISTORY_NATIVE_COMPLETE26_READONLY",
+            "P16_HISTORY_NATIVE_CURRENT_SCOPE_AUTH",
+            "P16_POLICY_EMPTY_CURRENT",
+            "P16_POLICY_NULL_ZERO_DISABLED_HISTORY",
+            "P16_POLICY_FOUR_RULE_UNITS",
+            "P16_POLICY_SCOPE_WHOLE_VERSION",
+            "P16_POLICY_WIB_OVERNIGHT",
+            "P16_POLICY_COOLDOWN_CLOCK",
+            "P16_POLICY_OLD_UUID_CURRENT_SUCCESSOR",
+            "P16_POLICY_UUID_CAS_CONFLICT",
+            "P16_POLICY_SEALED_ABSENT",
+            "P16_POLICY_CURRENT_AUTH",
+            "P16_POLICY_SOURCE_CHANGED",
+            "P16_POLICY_PRIVATE_INVALID_INPUT",
+            "P16_RULE_SOURCE_POLICY_HISTORY_PAGES",
+            "P16_RULE_SOURCE_POLICY_HISTORY_AUTH",
+            "P16_RULE_SOURCE_EXACT_CURRENT_SOURCE",
+            "P16_RULE_SOURCE_MISSING_DUE_ZERO",
+            "P16_RULE_SOURCE_NATIVE_MATERIAL_AP",
+            "P16_RULE_SOURCE_CURRENT_DOMAIN_SCOPE",
+            "P16_RULE_SOURCE_EPISODE_RECURRENCE",
+            "P16_RULE_SOURCE_REVIEW_NOT_RESOLUTION",
+            "P16_RULE_SOURCE_UNKNOWN_AGE_RETAINED",
+            "P16_RULE_SOURCE_EPISODE_UUID_RECOVERY",
+            "P16_RULE_SOURCE_LOCAL_BINDING_VERSIONS",
+            "P16_RULE_SOURCE_LOCAL_UTF8_CAPTURE",
+            "P16_RULE_SOURCE_LOCAL_AMBIGUITY",
+            "P16_RULE_SOURCE_LOCAL_MANUAL_RESOLUTION",
+            "P16_RULE_SOURCE_LOCAL_DISABLED_SUPPRESSION",
+            "P16_RULE_SOURCE_LOCAL_NATIVE_HEAL",
+            "P16_RULE_SOURCE_LOCAL_FENCE_ABSENCE_ACL",
+            "P16_RULE_SOURCE_LOCAL_ACTUAL_COOLDOWN",
+            "P16_OTHER_NATIVE_PRIVATE_READER_ACL",
+            "P16_OTHER_NATIVE_OPENING_CANONICAL",
+            "P16_OTHER_NATIVE_OPENING_ALLOCATION_PAYMENT_INVERSE",
+            "P16_OTHER_NATIVE_PAYROLL_PARTIAL_FINAL_INVERSE",
+            "P16_OTHER_NATIVE_PAYROLL_EXACT_CENTS",
+            "P16_OTHER_NATIVE_PAYROLL_INACTIVE",
+            "P16_OTHER_NATIVE_UNKNOWN_DUE_EPISODE_AGE",
+            "P16_OTHER_NATIVE_ACCESSORY_ALLOCATION_NOT_PAID",
+            "P16_OTHER_NATIVE_ACCESSORY_PAID_INVERSE",
+            "P16_OTHER_NATIVE_LAUNDRY_PENDING_UNKNOWN",
+            "P16_OTHER_NATIVE_LAUNDRY_INVOICE_PAYMENT_INVERSE",
+            "P16_OTHER_NATIVE_LAUNDRY_OPENING_PENDING",
+            "P16_OTHER_NATIVE_CURRENT_NARROWER_RIGHTS",
+            "P16_OTHER_NATIVE_SOURCE_CONSERVATION",
+            "P15_OBLIGATION_REPORT_NATIVE_EXACT_DATED_NATIVE",
+            "P15_OBLIGATION_REPORT_NATIVE_REPLAY_AND_CLOSED_FENCE",
+            "P15_OBLIGATION_REPORT_NATIVE_NATIVE_PAYMENT_ARCHIVE",
+            "P15_OBLIGATION_REPORT_NATIVE_LINKED_REVISION",
+            "P15_OBLIGATION_REPORT_NATIVE_CURRENT_FINE_RIGHTS",
+            "P15_OBLIGATION_REPORT_NATIVE_ACTOR_SCOPE",
+            "P15_OBLIGATION_REPORT_NATIVE_IMMUTABLE_AND_CLOSED_PAYLOAD",
+            "P15_OBLIGATION_REPORT_NATIVE_PAGED_COMPLETE_INDEX"
+          ],
+          "product_credit": 181,
+          "boundary": {
+            "complete_boundary_restored": true
+          }
+        },
+        "races": {
+          "rows": 40,
+          "counts": {
+            "PASS": 40
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "P05_RACE_SAME_UUID",
+            "P05_RACE_CURRENT_REVOKE",
+            "P06_RACE_SAME_PROFILE_UUID",
+            "P06_RACE_COMPETING_REVISION",
+            "P06_RACE_CURRENT_PROFILE_REVOKE",
+            "P06_SUPPLY_RACE_UUID",
+            "P06_SUPPLY_RACE_REVOKE",
+            "P06_SUPPLY_RACE_ONE_MVCC",
+            "P06_SCHEDULE_RACE_REVISION",
+            "P06_SCHEDULE_RACE_CACHED_AUTH",
+            "P06_NETTING_RACE_UUID",
+            "P14_ANALYSIS_RACE_UUID",
+            "P14_ANALYSIS_RACE_QUERY",
+            "P14_ANALYSIS_RACE_CURRENT_AUTH",
+            "P15_ANALYSIS_FINANCE_LOCK_CURRENT_AUTH",
+            "P15_REPORT_RACE_UUID",
+            "P15_REPORT_RACE_ABSENT_FENCE",
+            "P15_REPORT_RACE_REVISION",
+            "P15_REPORT_RACE_CURRENT_AUTH",
+            "P06_MATERIAL_RACE_CURRENT_SOURCE_AUTH",
+            "P16_ATTENTION_RACE_UUID",
+            "P16_ATTENTION_RACE_CURRENT_AUTH",
+            "P16_EPISODE_RACE_UUID",
+            "P16_EPISODE_RACE_CURRENT_AR",
+            "P16_HISTORY_RACE_CURRENT_AR_WAIT",
+            "P16_RECHECK_RACE_CURRENT_FINANCE_REQUEST_WAIT",
+            "P16_POLICY_RACE_DUPLICATE_UUID",
+            "P16_POLICY_RACE_CROSS_ACTOR_CAS",
+            "P16_POLICY_RACE_CURRENT_MANAGE",
+            "P16_RULE_RACE_OCCURRENCE_DEDUP",
+            "P16_RULE_RACE_CURRENT_MANAGE",
+            "P16_RULE_RACE_CURRENT_DOMAIN",
+            "P16_RULE_RACE_CALLBACK_NATIVE_HEAL",
+            "P16_RULE_RACE_SHARED_EPISODE",
+            "P16_OTHER_RACE_PAYROLL_PERMISSION_WAIT",
+            "P16_OTHER_RACE_LAUNDRY_PAYMENT_SNAPSHOT",
+            "P16_OTHER_RACE_SHARED_UNKNOWN_EPISODE",
+            "P15_OBLIGATION_REPORT_RACE_SAME_UUID",
+            "P15_OBLIGATION_REPORT_RACE_SERIES_CAS",
+            "P15_OBLIGATION_REPORT_RACE_CURRENT_PAYROLL_RIGHT"
+          ],
+          "product_credit": 40,
+          "boundary": {
+            "database_remaining": 0
+          }
+        },
+        "http": {
+          "rows": 29,
+          "counts": {
+            "PASS": 29
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "P05_ACTUAL_AUTH_HTTP",
+            "P06_ACTUAL_AUTH_HTTP",
+            "P06_SUPPLY_HTTP_AUTH",
+            "P06_SCHEDULE_HTTP_FLOW",
+            "P06_SCHEDULE_HTTP_UNREVIEWED",
+            "P06_NETTING_HTTP_AUTH",
+            "P14_ANALYSIS_HTTP_AUTH",
+            "P15_ANALYSIS_FINANCE_HTTP_CURRENT_AUTH",
+            "P15_ARCHIVE_HTTP_CURRENT_AUTH",
+            "P15_REPORT_HTTP_CURRENT_AUTH",
+            "P15_REPORT_HTTP_ABSENT_FENCE",
+            "P06_MATERIAL_HTTP_CURRENT_AUTH",
+            "P16_ATTENTION_HTTP_NATIVE_CURRENT_AUTH",
+            "P16_AR_SOURCE_HTTP_CURRENT_AUTH",
+            "P16_AP_SOURCE_HTTP_CURRENT_AUTH",
+            "P16_EPISODE_HTTP_CURRENT_AUTH",
+            "P16_HISTORY_HTTP_CURRENT_AUTH",
+            "P16_POLICY_HTTP_LIFECYCLE",
+            "P16_POLICY_HTTP_CURRENT_AUTH",
+            "P16_POLICY_HTTP_SEALED_ABSENT",
+            "P16_RULE_HTTP_LOCAL_LIFECYCLE",
+            "P16_RULE_HTTP_CURRENT_AUTH",
+            "P16_RULE_HTTP_UNKNOWN_MANUAL_RESOLUTION",
+            "P16_RULE_HTTP_SEALED_ABSENT",
+            "P16_OTHER_HTTP_PAYROLL_CURRENT_AUTH",
+            "P16_OTHER_HTTP_EXACT_CURRENT_SOURCE",
+            "P16_OTHER_HTTP_LOCAL_NATIVE_INVOICE",
+            "P15_OBLIGATION_REPORT_HTTP_EXACT_AUTH_LIFECYCLE",
+            "P15_OBLIGATION_REPORT_HTTP_CLOSED_FENCE"
+          ],
+          "product_credit": 29,
+          "boundary": {
+            "database_remaining": 0,
+            "cleanup": {
+              "users_created": 44,
+              "cleanup_failures": [],
+              "rest_remaining": false
+            },
+            "cleanup_failures": false,
+            "auth_counts": {
+              "before": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "after": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "restored": true
+            }
+          }
+        },
+        "browser": {
+          "rows": 36,
+          "counts": {
+            "PASS": 36
+          },
+          "required_ids_equal": true,
+          "case_ids": [
+            "P17_BROWSER_DESKTOP_NATIVE_AUTOMATIC_HANDOFF",
+            "P17_BROWSER_MOBILE_NATIVE_AUTOMATIC_HANDOFF",
+            "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+            "P05_BROWSER_MOBILE_CURRENT_AUTH",
+            "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+            "P06_BROWSER_MOBILE_NATIVE_PROFILE",
+            "P06_BROWSER_DESKTOP_NATIVE_NETTING",
+            "P06_BROWSER_MOBILE_NATIVE_NETTING",
+            "P14_BROWSER_DESKTOP_SHARED_ANALYSIS",
+            "P14_BROWSER_MOBILE_SHARED_ANALYSIS",
+            "P15_BROWSER_DESKTOP_DURABLE_SERVER_ARCHIVE",
+            "P15_BROWSER_MOBILE_DURABLE_SERVER_ARCHIVE",
+            "P15_BROWSER_DESKTOP_NATIVE_PUBLICATION",
+            "P15_BROWSER_MOBILE_NATIVE_PUBLICATION",
+            "P06_MATERIAL_BROWSER_DESKTOP",
+            "P06_MATERIAL_BROWSER_MOBILE",
+            "P16_BROWSER_DESKTOP_NATIVE_ATTENTION",
+            "P16_BROWSER_MOBILE_NATIVE_ATTENTION",
+            "P16_BROWSER_DESKTOP_CURRENT_NATIVE_AR",
+            "P16_BROWSER_MOBILE_CURRENT_NATIVE_AR",
+            "P16_BROWSER_DESKTOP_CURRENT_NATIVE_MATERIAL_AP",
+            "P16_BROWSER_MOBILE_CURRENT_NATIVE_MATERIAL_AP",
+            "P16_BROWSER_DESKTOP_NATIVE_OBLIGATION_EPISODES",
+            "P16_BROWSER_MOBILE_NATIVE_OBLIGATION_EPISODES",
+            "P17_BROWSER_DESKTOP_NATIVE_HANDOFF",
+            "P17_BROWSER_MOBILE_NATIVE_HANDOFF",
+            "P16_BROWSER_DESKTOP_NATIVE_SAVED_EPISODE_HISTORY",
+            "P16_BROWSER_MOBILE_NATIVE_SAVED_EPISODE_HISTORY",
+            "P16_POLICY_BROWSER_DESKTOP",
+            "P16_POLICY_BROWSER_MOBILE",
+            "P16_RULE_LOCAL_BROWSER_DESKTOP",
+            "P16_RULE_LOCAL_BROWSER_MOBILE",
+            "P16_OTHER_BROWSER_DESKTOP",
+            "P16_OTHER_BROWSER_MOBILE",
+            "P15_OBLIGATION_REPORT_BROWSER_DESKTOP",
+            "P15_OBLIGATION_REPORT_BROWSER_MOBILE"
+          ],
+          "product_credit": 36,
+          "boundary": {
+            "database_remaining": 0,
+            "cleanup": {
+              "users_created": 0,
+              "cleanup_failures": [],
+              "rest_remaining": false
+            },
+            "cleanup_failures": false,
+            "auth_counts": {
+              "before": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "after": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "restored": true
+            },
+            "console_errors": 0,
+            "session_leaks": []
+          }
+        }
+      },
+      "restore": {
+        "erp_platform_auth_schema_acl": true,
+        "public_catalog_and_rows": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "explicit_scope_limits": {
+        "full_family_acceptance": false
+      }
+    }
+  ],
+  "k4_observations": {
+    "page_closed": {
+      "status": "PASS",
+      "page_calls_after_request": 0,
+      "ticks": 21,
+      "units": 21,
+      "server_job_ms": 213.963,
+      "pages": {
+        "page_count": 1,
+        "targets_total": 3,
+        "header_utf8_bytes": 9704,
+        "page_utf8_bytes_max": 128299,
+        "page_utf8_bytes_total": 128299,
+        "uneven_ranges": false
+      },
+      "identity_hash": "d5908592c81dc218011c0db291f8719d912c64678d5b67e3df54f3bbf35953c4",
+      "result_equals_single_on_same_reference": true,
+      "reopened_same_job_and_run": true,
+      "every_unit_stored_once": true,
+      "request_reference": {
+        "captured_at": "2026-10-18T17:58:28.564655+00:00",
+        "source_hash": "11c7730bb92a951588f41d2ba8888334074444496b3a93f00e81d29c0c44355e"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-19",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      }
+    },
+    "combined_page_server": {
+      "status": "PASS",
+      "units": 21,
+      "units_by_page": 7,
+      "units_by_server": 14,
+      "one_job_one_run": true,
+      "every_unit_stored_once": true,
+      "result_equals_single_on_same_reference": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-19",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      }
+    },
+    "cold_start": {
+      "status": "PASS",
+      "runner_row_before": 0,
+      "synthetic_row_removed": false,
+      "both_ticks_in_their_units_at_once": true,
+      "no_tick_waited_on_another": true,
+      "heartbeat_rows_after": 1,
+      "every_unit_stored_once": true,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-19",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      }
+    },
+    "authority": {
+      "status": "PASS",
+      "unit_ran_as_stored_actor": true,
+      "request_identity_restored_after_tick": true,
+      "role_change_fails_job": {
+        "code": "CP7_ANALYSIS_ACCESS_CHANGED",
+        "unit": 1,
+        "sqlstate": "42501"
+      },
+      "deactivated_actor_fails_job": "CP7_ANALYSIS_ACCESS_CHANGED",
+      "no_pages_after_failure": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-19",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      }
+    },
+    "limit": {
+      "status": "PASS",
+      "refused_without_limit": {
+        "0": {
+          "required": "statement_timeout 1..8000 ms",
+          "statement_timeout_ms": 0
+        },
+        "9s": {
+          "required": "statement_timeout 1..8000 ms",
+          "statement_timeout_ms": 9000
+        },
+        "1h": {
+          "required": "statement_timeout 1..8000 ms",
+          "statement_timeout_ms": 3600000
+        }
+      },
+      "ran_at_8s": true,
+      "stricter_limit_allowed": true,
+      "statement_limit_never_raised": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-19",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      }
+    },
+    "desktop": {
+      "status": "PASS",
+      "pg_cron": true,
+      "test_schedule_override": "5 seconds",
+      "closed": "TAB_CLOSED",
+      "page_units": 0,
+      "server_units": 16,
+      "same_request_and_run": true,
+      "identity_hash": "f096638a3ed2360b4259e61abb324cb4129974fe261103b8f42b9a87f43faca8",
+      "no_request_or_step_on_reopen": true,
+      "every_unit_stored_once": true,
+      "cron_runs": 2,
+      "no_horizontal_scroll": true,
+      "screenshots": [
+        "K4R_DESKTOP_SERVER_RUNS.png",
+        "K4R_DESKTOP_REOPENED_DONE_BY_SERVER.png"
+      ],
+      "business_day": {
+        "planned": "2026-10-19",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      }
+    },
+    "mobile": {
+      "status": "PASS",
+      "pg_cron": true,
+      "test_schedule_override": "5 seconds",
+      "closed": "STOPPED_WATCHING",
+      "page_units": 0,
+      "server_units": 16,
+      "same_request_and_run": true,
+      "identity_hash": "d8f813c9c779a4dbc9bf8cd67fcb1d5da82e53ae5bd04bbf596af09d1e2de466",
+      "no_request_or_step_on_reopen": true,
+      "every_unit_stored_once": true,
+      "cron_runs": 1,
+      "no_horizontal_scroll": true,
+      "screenshots": [
+        "K4R_MOBILE_SERVER_RUNS.png",
+        "K4R_MOBILE_STOPPED_WATCHING.png",
+        "K4R_MOBILE_REOPENED_DONE_BY_SERVER.png"
+      ],
+      "business_day": {
+        "planned": "2026-10-19",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      }
+    }
+  },
+  "k6_observations": {
+    "first_pass": {
+      "status": "PASS",
+      "ticks": 1,
+      "finished_groups_proven": 5,
+      "open_group_unproven": true,
+      "capture_reuses_server_proofs": true,
+      "capture_added_proofs": 0,
+      "history_yield_counts_server_proofs": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-19",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      }
+    },
+    "correction": {
+      "status": "PASS",
+      "reversed_scrap_drops_group_before_any_pass": true,
+      "pass_after_cancel_proves_nothing": true,
+      "backdated_rescrap_out_until_next_pass": true,
+      "reproven_by_server_with_new_hash": true,
+      "old_proof_row_kept": true,
+      "other_groups_unchanged": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-19",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      }
+    },
+    "stopped_windows": {
+      "status": "PASS",
+      "stops_shrink_window": [
+        200,
+        100,
+        50
+      ],
+      "three_stops_at_50_skip": true,
+      "nothing_partial_stored": true,
+      "skipped_recorded_in_pass": true,
+      "pass_went_on": 2,
+      "next_pass_proves_skipped": 50,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-19",
+        "before": "2026-10-19",
+        "after": "2026-10-19"
+      }
+    }
+  },
+  "qualification": "Phase cases are evidence only for their declared synthetic/disposable scope. Parent P19 workflow is now terminal; scale5 measurement result is separately reviewed in P19_SCALE_RESULT_REVIEW.json. pg_cron schedules were tested then removed, not installed for production. K3 replacement-write boundary is separately retained in BOUNDARY_REVIEW.json.",
+  "parent_run_final_status": "COMPLETED_SUCCESS_ALL_PHASES_COLLECTED"
+}
