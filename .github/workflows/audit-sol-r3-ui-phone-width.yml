@@ -1,0 +1,51 @@
+name: AUDIT/Sol/ui-phone-width
+permissions:
+  contents: read
+concurrency:
+  group: audit-sol-r3-ui-phone-width-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  census:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+        ref: b53b5acdf260b03ebac3474e9ae837fcef6f6eb1
+    - name: Sol record exact candidate and product trees
+      run: "python3 - <<'SOL_IDENTITY'\nimport json,os,pathlib,subprocess,hashlib\nsha='b53b5acdf260b03ebac3474e9ae837fcef6f6eb1'\npaths=['.']\nitems=[]\nfor p in paths:\n r=pathlib.Path(p)\n g=lambda *a:subprocess.check_output(['git','-C',str(r),*a],text=True).strip()\n head=g('rev-parse','HEAD')\n # T3 intentionally keeps an inherited frozen UI checkout in its browser phase; actual identity remains visible.\n items.append(dict(path=p,head=head,tree=g('rev-parse','HEAD^{tree}'),candidate_exact=head==sha,product_trees={q:g('rev-parse','HEAD:'+q)for q in ['src','supabase/release','supabase/migrations','scripts/cp7-src','supabase/dev']},tracked_product_diff=g('diff','--name-only','--','src','scripts/cp7-src','supabase/release','supabase/migrations','supabase/dev'),lock_sha256=hashlib.sha256((r/'package-lock.json').read_bytes()).hexdigest()))\nout=dict(candidate_sha=sha,workflow_sha=os.environ['GITHUB_SHA'],run_id=os.environ['GITHUB_RUN_ID'],attempt=os.environ['GITHUB_RUN_ATTEMPT'],suite='ui-phone-width',checkouts=items,evidence_origin='INDEPENDENT_NATIVE_RERUN',oracle_origin='WRITER_OR_INHERITED_DECLARED',fixture_origin='PUBLIC_REPO_SYNTHETIC')\n\
+        p=pathlib.Path(os.environ['RUNNER_TEMP'])/'sol-proof';p.mkdir(exist_ok=True);(p/'IDENTITY.json').write_text(json.dumps(out,indent=2)+'\\n');print(json.dumps(out))\nassert any(x['candidate_exact']for x in items) or 'ui-phone-width'=='cp6-t3-release-package'\nSOL_IDENTITY"
+    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      with:
+        node-version: 22
+        cache: npm
+    - run: npm ci
+    - run: npm run build
+    - run: npx --no-install playwright install --with-deps chromium
+    - name: 48 menus at 390 px
+      run: node scripts/ui_phone_width_census.mjs dist test-results/ui-phone-width/UI_PHONE_WIDTH.json
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp17-r3-Sol-b53b5acd-ui-phone-width
+        path: test-results/ui-phone-width
+        if-no-files-found: warn
+        retention-days: 30
+    - name: Sol preserve audit identity
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp17-r3-Sol-b53b5acd-ui-phone-width-${{ github.job }}-${{ strategy.job-index }}-identity
+        path: ${{ runner.temp }}/sol-proof
+        retention-days: 30
+        if-no-files-found: warn
+run-name: AUDIT/cp17-r3/Sol/b53b5acd/ui-phone-width/1
+'on':
+  push:
+    branches:
+    - audit/sol-cp1-7-r3-b53b5acd-20261017
+    paths:
+    - .github/workflows/audit-sol-r3-ui-phone-width.yml
+  workflow_dispatch: {}

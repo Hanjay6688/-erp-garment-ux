@@ -1,0 +1,105 @@
+{
+  "status": "LOW_RISK_TARGET_AND_CONTENT_VERIFIED",
+  "repository_id": 1348063690,
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "visibility": "public",
+  "verified_clone_url": "https://github.com/Hanjay6688/-erp-garment-ux.git",
+  "remote_head_before_push": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "target_ref": "refs/heads/audit/sol-cp1-7-r3-b53b5acd-20261017",
+  "ref_update": "FAST_FORWARD_ONLY_NO_FORCE",
+  "files": [
+    {
+      "path": ".github/workflows/audit-sol-r3-cp17.yml",
+      "sha256": "c2def1e10d0e24ac89bc48badcde7e5580b66d7751d818f94e5190ba71fede69",
+      "bytes": 10888,
+      "origin": "MECHANICAL_DERIVATION_OF_PUBLIC_CANDIDATE_WORKFLOW"
+    },
+    {
+      "path": "audit/sol_cp17_r3/ROUND_MANIFEST.json",
+      "sha256": "37752517f310745306bf8d576585a2ae60960859c616cc5e00ff1ca1b7e3dce6",
+      "bytes": 49594,
+      "origin": "AUDIT_METADATA_FROM_PUBLIC_REPO_AND_SYNTHETIC_DECLARATION"
+    },
+    {
+      "path": "audit/sol_cp17_r3/SOURCE_SNAPSHOTS.json",
+      "sha256": "5dfc4b435dc7d18b0383fd06516ef0b161b625fdf7e2964d2513887184ea021f",
+      "bytes": 1365,
+      "origin": "AUDIT_METADATA_FROM_PUBLIC_REPO_AND_SYNTHETIC_DECLARATION"
+    },
+    {
+      "path": "audit/sol_cp17_r3/preaudit_sources/AUDIT_PANDUAN_PRO_MAX.md",
+      "sha256": "5752e96df751de5ebe4b86d3f572cffa1bbe94eb42bf8e283fa6e04f9f593639",
+      "bytes": 63005,
+      "origin": "PUBLIC_REPO_SOURCE_SNAPSHOT"
+    },
+    {
+      "path": "audit/sol_cp17_r3/preaudit_sources/CI_RECEIPT.json",
+      "sha256": "86ce4df3944d3a58ced9f9a67d6894187698d10e4611f3ab658e3453e3fb80c8",
+      "bytes": 54012,
+      "origin": "PUBLIC_REPO_SOURCE_SNAPSHOT"
+    },
+    {
+      "path": "audit/sol_cp17_r3/preaudit_sources/HANDOFF_SOL.md",
+      "sha256": "6e3a6d66d1a98b317e03fad6081a1b569bd87ccea7a703dfaccd0272d0745e31",
+      "bytes": 8077,
+      "origin": "PUBLIC_REPO_SOURCE_SNAPSHOT"
+    },
+    {
+      "path": "audit/sol_cp17_r3/preaudit_sources/OWNER_DECISIONS_20261008.md",
+      "sha256": "d44cac8b6599bcd902d95e18f368777d18bd77317fcc539e73335f6b9e3444b8",
+      "bytes": 52714,
+      "origin": "PUBLIC_REPO_SOURCE_SNAPSHOT"
+    },
+    {
+      "path": "audit/sol_cp17_r3/preaudit_sources/README.md",
+      "sha256": "00a7d61a076ac61d11b1f3cb85b946e808f0a5f8a871e23e509a8a97863cf564",
+      "bytes": 13202,
+      "origin": "PUBLIC_REPO_SOURCE_SNAPSHOT"
+    }
+  ],
+  "jobs": 1,
+  "job_timeout_minutes": 60,
+  "workflow_permissions": {
+    "contents": "read",
+    "actions": "read"
+  },
+  "all_checkouts_pinned": [
+    {
+      "path": "writer",
+      "fetch-depth": 0,
+      "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+      "persist-credentials": false
+    },
+    {
+      "path": "auditor",
+      "fetch-depth": 0,
+      "persist-credentials": false,
+      "ref": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1"
+    },
+    {
+      "path": "harness",
+      "fetch-depth": 0,
+      "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+      "persist-credentials": false
+    },
+    {
+      "path": "candidate",
+      "fetch-depth": 0,
+      "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+      "persist-credentials": false
+    },
+    {
+      "path": "base",
+      "fetch-depth": 0,
+      "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+      "persist-credentials": false
+    }
+  ],
+  "private_data_or_unrelated_local_files": false,
+  "secrets_scanned": "No private-key or GitHub-token patterns; every content source classified and whitelisted",
+  "production_actions": false,
+  "hosted_sql": false,
+  "enteng_host_loopback": true,
+  "prior_rejection_preserved": "Previous git push blocked by auto-review: unverified repository destination and not-explicitly-authorized repository egress/CI; no bypass attempted",
+  "new_evidence": "Fresh get_repo confirms exact target repository ID1348063690 public with push permission; exact named audit ref verified at candidate by ls-remote; all staged file provenance and bounded disposable CI reviewed"
+}

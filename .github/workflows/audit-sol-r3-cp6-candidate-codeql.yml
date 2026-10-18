@@ -1,0 +1,73 @@
+name: AUDIT/Sol/cp6-candidate-codeql
+permissions:
+  contents: read
+concurrency:
+  group: audit-sol-r3-cp6-candidate-codeql-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  analyze:
+    name: CodeQL ${{ matrix.language }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - language: actions
+          build_mode: none
+        - language: javascript-typescript
+          build_mode: none
+        - language: python
+          build_mode: none
+        - language: c-cpp
+          build_mode: manual
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+        ref: b53b5acdf260b03ebac3474e9ae837fcef6f6eb1
+    - name: Sol record exact candidate and product trees
+      run: "python3 - <<'SOL_IDENTITY'\nimport json,os,pathlib,subprocess,hashlib\nsha='b53b5acdf260b03ebac3474e9ae837fcef6f6eb1'\npaths=['.']\nitems=[]\nfor p in paths:\n r=pathlib.Path(p)\n g=lambda *a:subprocess.check_output(['git','-C',str(r),*a],text=True).strip()\n head=g('rev-parse','HEAD')\n # T3 intentionally keeps an inherited frozen UI checkout in its browser phase; actual identity remains visible.\n items.append(dict(path=p,head=head,tree=g('rev-parse','HEAD^{tree}'),candidate_exact=head==sha,product_trees={q:g('rev-parse','HEAD:'+q)for q in ['src','supabase/release','supabase/migrations','scripts/cp7-src','supabase/dev']},tracked_product_diff=g('diff','--name-only','--','src','scripts/cp7-src','supabase/release','supabase/migrations','supabase/dev'),lock_sha256=hashlib.sha256((r/'package-lock.json').read_bytes()).hexdigest()))\nout=dict(candidate_sha=sha,workflow_sha=os.environ['GITHUB_SHA'],run_id=os.environ['GITHUB_RUN_ID'],attempt=os.environ['GITHUB_RUN_ATTEMPT'],suite='cp6-candidate-codeql',checkouts=items,evidence_origin='INDEPENDENT_NATIVE_RERUN',oracle_origin='WRITER_OR_INHERITED_DECLARED',fixture_origin='PUBLIC_REPO_SYNTHETIC')\n\
+        p=pathlib.Path(os.environ['RUNNER_TEMP'])/'sol-proof';p.mkdir(exist_ok=True);(p/'IDENTITY.json').write_text(json.dumps(out,indent=2)+'\\n');print(json.dumps(out))\nassert any(x['candidate_exact']for x in items) or 'cp6-candidate-codeql'=='cp6-t3-release-package'\nSOL_IDENTITY"
+    - uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+      with:
+        languages: ${{ matrix.language }}
+        build-mode: ${{ matrix.build_mode }}
+        queries: security-extended
+    - name: Compile isolated PostgreSQL clock fixture for analysis
+      if: matrix.language == 'c-cpp'
+      run: cc -std=c11 -shared -fPIC -O2 -Wall -Wextra -Werror supabase/tests/support/cp6_clock_offset.c -o /tmp/cp6-aa-clock-codeql.so
+    - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+      with:
+        output: cp6-codeql/sarif
+        upload: never
+        upload-database: false
+        category: candidate/${{ matrix.language }}
+    - name: Verify analysis and bind SARIF to candidate
+      env:
+        CP6_CODEQL_LANGUAGE: ${{ matrix.language }}
+      run: python scripts/cp6_codeql_artifact_gate.py
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp17-r3-Sol-b53b5acd-cp6-candidate-codeql-${{ matrix.language }}
+        path: cp6-codeql
+        if-no-files-found: error
+        retention-days: 30
+    - name: Sol preserve audit identity
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp17-r3-Sol-b53b5acd-cp6-candidate-codeql-${{ github.job }}-${{ strategy.job-index }}-identity
+        path: ${{ runner.temp }}/sol-proof
+        retention-days: 30
+        if-no-files-found: warn
+run-name: AUDIT/cp17-r3/Sol/b53b5acd/cp6-candidate-codeql/1
+'on':
+  push:
+    branches:
+    - audit/sol-cp1-7-r3-b53b5acd-20261017
+    paths:
+    - .github/workflows/audit-sol-r3-cp6-candidate-codeql.yml
+  workflow_dispatch: {}

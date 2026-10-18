@@ -1,0 +1,32 @@
+{
+  "previous_preparation_commit": "c7a5842d80683172ea1578b96a1188b85a5cd47d (lost scratch checkout, never published)",
+  "restored_local_commit": "1e0adf96fa0f137c251e7bd6c940ae6e521b9354",
+  "published_commit": "c754a5735f9751a22b0e654e183d62b7560a2267",
+  "tree_match": "ee9b7aadfb3efc91182be73581c17e71b237d1b7",
+  "actions": [
+    {
+      "action": "initial git push",
+      "status": "AUTO_REVIEW_REJECTED",
+      "reason": "unverified repository destination and not-explicitly-authorized repository egress/CI"
+    },
+    {
+      "action": "fresh metadata plus whitelisted provenance review",
+      "status": "VERIFIED",
+      "repository_id": 1348063690,
+      "visibility": "public"
+    },
+    {
+      "action": "one ordinary git push retry",
+      "status": "REVIEW_PASSED_AUTHENTICATION_FAILED",
+      "exit_code": 128,
+      "message": "fatal: could not read Username for 'https://github.com': terminal prompts disabled"
+    },
+    {
+      "action": "authenticated official GitHub connector",
+      "status": "PUBLISHED_AFTER_TREE_MATCH",
+      "payload": "same eight files, no credential extraction",
+      "target_ref": "refs/heads/audit/sol-cp1-7-r3-b53b5acd-20261017",
+      "force": false
+    }
+  ]
+}
