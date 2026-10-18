@@ -1,0 +1,128 @@
+diff --git a/scripts/cp7_offsite_backup.py b/scripts/cp7_offsite_backup.py
+index 7131e141..fed08fef 100644
+--- a/scripts/cp7_offsite_backup.py
++++ b/scripts/cp7_offsite_backup.py
+@@ -29,6 +29,16 @@ One night, in this order:
+   8. Remote retention (D13-5): the newest `keep` verified nights stay (14). Older nights are removed only after
+      tonight verified; the newest verified night is never removed; a failed night removes nothing.
+ 
++Sol r3 (KNOWN-BACKUP-REPLACEMENT-WRITE): the restore check could still write into a database an administrator put in
++place of the attempt's own between its OID check and pg_restore connecting (scripts/cp7_nightly_backup.py, stated
++boundary). The scratch server must therefore be a disposable server of this run alone: before the dump it may hold only
++template0, template1, its maintenance database and this tool's own marked leftovers, and no other client session
++(BACKUP_SCRATCH_SERVER_NOT_DISPOSABLE / BACKUP_SCRATCH_SERVER_IN_USE: refused, nothing written); right before and right
++after the restore it must hold exactly those system databases and the attempt's own OID, still with no other session
++(BACKUP_SCRATCH_SERVER_CHANGED: unverified, nothing pruned). The scheduler starts that server for the night (CI: a
++container of the runner bound to 127.0.0.1) and it disappears with the runner, so a replacement could only be made by
++the night's own job and never outlives it.
++
+ Nothing of the database's content reaches the console, a log or an artifact: the tool prints one JSON line of codes
+ and counts, pg_dump/pg_restore output goes into the encrypted detail only, and the local work directory is removed at
+ the end. The restore check proves the dump on a PostgreSQL of the same version; it does not prove that a hosted
+@@ -246,6 +256,33 @@ def is_local(url):
+     return (u.hostname or '') in LOCAL_HOSTS
+ 
+ 
++SYSTEM_DATABASES = ('template0', 'template1')
++
++
++def scratch_server(admin_url):
++    """Every database of the scratch server as (oid, name), and the number of other client sessions on it."""
++    with psycopg.connect(admin_url) as conn, conn.cursor() as cur:
++        dbs = [tuple(r) for r in cur.execute('select oid,datname from pg_database order by oid').fetchall()]
++        others = cur.execute("select count(*) from pg_stat_activity where backend_type='client backend' and pid<>pg_backend_pid()").fetchone()[0]
++    return dbs, others
++
++
++def assert_server_only(admin_url, allowed_oids, code):
++    """The scratch server holds only its system databases and `allowed_oids`, and nobody else is connected."""
++    maintenance = urlparse(admin_url).path.lstrip('/') or 'postgres'
++    dbs, others = scratch_server(admin_url)
++    # A session this tool (or pg_restore) has just closed can still be listed for a moment while its backend exits.
++    for _ in range(50):
++        if not others:
++            break
++        time.sleep(0.1)
++        dbs, others = scratch_server(admin_url)
++    unrelated = sorted(n for o, n in dbs if n not in SYSTEM_DATABASES + (maintenance,) and o not in allowed_oids)
++    assert not unrelated, (code, unrelated)
++    assert others == 0, ('BACKUP_SCRATCH_SERVER_IN_USE', others)
++    return len(dbs)
++
++
+ def server_identity(url):
+     """(major version, system identifier or None) of the server at url."""
+     with psycopg.connect(url) as conn, conn.cursor() as cur:
+@@ -458,6 +495,8 @@ def backup(source_url, scratch_admin_url, remote, passphrase_file, scratch='cp7_
+         state = v1.scratch_state(scratch_admin_url, scratch)
+         assert state != 'FOREIGN', ('BACKUP_SCRATCH_EXISTS_NOT_OURS', scratch)
+         old = v1.leftovers(scratch_admin_url, scratch)
++        receipt['scratch_server'] = dict(databases_at_start=assert_server_only(scratch_admin_url, {r['oid'] for r in old},
++                                                                               'BACKUP_SCRATCH_SERVER_NOT_DISPOSABLE'))
+         dump = tmp / (night + '.dump')
+         receipt['dump_args'] = list(dump_args)
+         src = read_source(source_url, dump, pg_dump, dump_args)
+@@ -505,12 +544,14 @@ def backup(source_url, scratch_admin_url, remote, passphrase_file, scratch='cp7_
+         v1.mark_scratch(scratch_admin_url, attempt_db, token, attempt_oid)
+         made = v1.identity(scratch_admin_url, attempt_db)
+         assert made and made[0] == attempt_oid and v1.is_mark(made[1], attempt_oid, token), ('BACKUP_SCRATCH_REPLACED', 'attempt')
++        assert_server_only(scratch_admin_url, {attempt_oid}, 'BACKUP_SCRATCH_SERVER_CHANGED')
+         t1 = time.monotonic()
+         attempt_url = v1.db_url(scratch_admin_url, attempt_db)
+         r = subprocess.run([pg_restore, '--dbname=' + attempt_url, '--no-password', str(plain)], capture_output=True, text=True)
+         plain.unlink()
+         after = v1.identity(scratch_admin_url, attempt_db)
+         assert after and after[0] == attempt_oid, ('BACKUP_SCRATCH_REPLACED', 'after restore')
++        receipt['scratch_server']['databases_after_restore'] = assert_server_only(scratch_admin_url, {attempt_oid}, 'BACKUP_SCRATCH_SERVER_CHANGED')
+         if 'after_restore' in hooks:
+             hooks['after_restore'](attempt_url)
+         errors = [line for line in r.stderr.splitlines() if line.startswith('pg_restore: error:')]
+diff --git a/scripts/cp7_offsite_backup_cases.py b/scripts/cp7_offsite_backup_cases.py
+index 5aef2b3d..6f793792 100644
+--- a/scripts/cp7_offsite_backup_cases.py
++++ b/scripts/cp7_offsite_backup_cases.py
+@@ -32,7 +32,7 @@ CANARY_ROLE = 'cp7_offsite_reader'
+ IDS = ['OFB_VERIFIED_FROM_FETCHED_COPY', 'OFB_NO_CONTENT_OUTSIDE_THE_REMOTE', 'OFB_TAMPERED_REMOTE_COPY_UNVERIFIED',
+        'OFB_DATA_DIFFERENCE_DETECTED', 'OFB_STRUCTURE_DIFFERENCE_DETECTED', 'OFB_SEQUENCE_DIFFERENCE_DETECTED',
+        'OFB_VERIFIED_UNDER_WRITES', 'OFB_REMOTE_RETENTION_14_VERIFIED', 'OFB_NAME_COLLISION_REFUSED',
+-       'OFB_SCRATCH_SERVER_GUARDS', 'OFB_FOREIGN_SCRATCH_NAME_REFUSED']
++       'OFB_SCRATCH_SERVER_GUARDS', 'OFB_FOREIGN_SCRATCH_NAME_REFUSED', 'OFB_SCRATCH_SERVER_NOT_DISPOSABLE_REFUSED']
+ 
+ 
+ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
+@@ -306,6 +306,35 @@ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
+             assert r['codes'] == ['BACKUP_SCRATCH_EXISTS_NOT_OURS'] and kept and remote_files() == [], why(r)
+             return dict(code='BACKUP_SCRATCH_EXISTS_NOT_OURS', foreign_database_kept=True, nothing_written=True)
+         run(IDS[10], foreign_scratch)
++
++        def not_disposable():
++            # Sol r3 KNOWN-BACKUP-REPLACEMENT-WRITE: the restore check runs only on a scratch server of this run alone.
++            with psycopg.connect(v1.db_url(scratch_url, 'postgres'), autocommit=True) as c:
++                c.execute('drop database if exists cp7_offsite_unrelated')
++                c.execute('create database cp7_offsite_unrelated template template0')
++            try:
++                unrelated = night()
++                with psycopg.connect(v1.db_url(scratch_url, 'postgres')) as c:
++                    kept = c.execute("select 1 from pg_database where datname='cp7_offsite_unrelated'").fetchone() is not None
++            finally:
++                with psycopg.connect(v1.db_url(scratch_url, 'postgres'), autocommit=True) as c:
++                    c.execute('drop database if exists cp7_offsite_unrelated')
++            assert unrelated['codes'] == ['BACKUP_SCRATCH_SERVER_NOT_DISPOSABLE'] and kept and remote_files() == [] and scratch_attempts() == [], why(unrelated)
++            assert unrelated['_detail']['error'][1] == str(['cp7_offsite_unrelated']), unrelated['_detail']['error']
++            # Another session on the scratch server (an open transaction of someone else) refuses the night too.
++            with psycopg.connect(v1.db_url(scratch_url, 'postgres')) as held:
++                held.execute('select 1')
++                busy = night()
++            assert busy['codes'] == ['BACKUP_SCRATCH_SERVER_IN_USE'] and remote_files() == [] and scratch_attempts() == [], why(busy)
++            # Control: the same server, free again, verifies; the receipt names the databases seen around the restore.
++            free = night()
++            assert free['restore_verified'] is True and free['codes'] == [], why(free)
++            assert free['scratch_server']['databases_after_restore'] == free['scratch_server']['databases_at_start'] + 1, free['scratch_server']
++            clean_remote()
++            return dict(unrelated_database='BACKUP_SCRATCH_SERVER_NOT_DISPOSABLE', unrelated_database_kept=True,
++                        other_session='BACKUP_SCRATCH_SERVER_IN_USE', nothing_written=True, free_server_verified=True,
++                        scratch_server=free['scratch_server'])
++        run(IDS[11], not_disposable)
+         after = source_state()
+     finally:
+         clean_remote()
