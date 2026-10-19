@@ -1,0 +1,2338 @@
+{
+ "summary": {
+  "sha": "769f2cc3e37225ddefaac3e6b4cf6afc1040037d",
+  "workflows": 115,
+  "workflows_success": 93,
+  "jobs": 177,
+  "jobs_success": 155,
+  "not_success": [
+   [
+    "CP6 AF Independent Review",
+    "review",
+    "failure"
+   ],
+   [
+    "CP6 AF Posted Child Family",
+    "check",
+    "failure"
+   ],
+   [
+    "CP6 AG Additional Writer Review",
+    "review",
+    "failure"
+   ],
+   [
+    "CP6 AG Sale Reservation Family",
+    "review",
+    "failure"
+   ],
+   [
+    "CP6 AH Independent Business Review",
+    "review",
+    "failure"
+   ],
+   [
+    "CP6 AH Return Allocation Family",
+    "review",
+    "failure"
+   ],
+   [
+    "CP6 AI Work Source Family",
+    "review",
+    "failure"
+   ],
+   [
+    "CP6 AI-R2 Independent Business Review",
+    "review",
+    "failure"
+   ],
+   [
+    "CP6 AO AP Permanent Package",
+    "trial",
+    "failure"
+   ],
+   [
+    "CP6 AP Real Auth Browser Flow",
+    "trial",
+    "failure"
+   ],
+   [
+    "CP6 AR Combined Successor Qualification",
+    "trial",
+    "failure"
+   ],
+   [
+    "CP6 AR Opening Overlap Repair",
+    "trial",
+    "failure"
+   ],
+   [
+    "CP6 AS Independent AR Audit",
+    "trial",
+    "failure"
+   ],
+   [
+    "CP6 AS Writer Qualification",
+    "trial",
+    "failure"
+   ],
+   [
+    "CP6 AT Independent AS Audit",
+    "trial",
+    "failure"
+   ],
+   [
+    "CP6 AT Qualification",
+    "trial",
+    "failure"
+   ],
+   [
+    "CP6 AU Independent AT Review",
+    "trial",
+    "failure"
+   ],
+   [
+    "CP6 AU Qualification",
+    "trial",
+    "failure"
+   ],
+   [
+    "CP6 Final Boundary Audit",
+    "review",
+    "failure"
+   ],
+   [
+    "CP6 Initial Import Native Trial",
+    "trial",
+    "failure"
+   ],
+   [
+    "CP6 Opening Overlap Probe",
+    "trial",
+    "failure"
+   ],
+   [
+    "CP7 P19 Analysis Job Transport",
+    "k6-proof-runner-10",
+    "failure"
+   ]
+  ],
+  "first_attempt_only": true,
+  "business_day_reruns": [],
+  "business_day_kept_first": []
+ },
+ "runs": [
+  {
+   "workflow": "Build UX",
+   "run_id": 39161868177,
+   "attempt": 1,
+   "event": "push",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "build",
+     "job_id": 117776664398,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AF Independent Review",
+   "run_id": 39161977797,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "review",
+     "job_id": 117776995875,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AF Posted Child Family",
+   "run_id": 39161976220,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "review-scope",
+     "job_id": 117776991638,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "check",
+     "job_id": 117779488294,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AG Additional Writer Review",
+   "run_id": 39161979193,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "review",
+     "job_id": 117777000270,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AG Sale Reservation Family",
+   "run_id": 39161980663,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "review-scope",
+     "job_id": 117777005397,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "review",
+     "job_id": 117778596292,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AH Independent Business Review",
+   "run_id": 39161982089,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "review-scope",
+     "job_id": 117777009867,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "review",
+     "job_id": 117784913727,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AH Return Allocation Family",
+   "run_id": 39161983322,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "review-scope",
+     "job_id": 117777014043,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "review",
+     "job_id": 117777806815,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AI Work Source Family",
+   "run_id": 39161985655,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "review-scope",
+     "job_id": 117777021184,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "review",
+     "job_id": 117781566105,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AI-R2 Independent Business Review",
+   "run_id": 39161984499,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "review",
+     "job_id": 117777017901,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AO AP Permanent Package",
+   "run_id": 39161986979,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "trial",
+     "job_id": 117777026805,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AP Real Auth Browser Flow",
+   "run_id": 39161988197,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "trial",
+     "job_id": 117777029796,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AR Combined Successor Qualification",
+   "run_id": 39162029801,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "trial",
+     "job_id": 117777157412,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AR Opening Overlap Repair",
+   "run_id": 39161989535,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "trial",
+     "job_id": 117777033433,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AS Independent AR Audit",
+   "run_id": 39161991180,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "trial",
+     "job_id": 117777038745,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AS Writer Qualification",
+   "run_id": 39161992707,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "trial",
+     "job_id": 117777044273,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AT Independent AS Audit",
+   "run_id": 39161994332,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "trial",
+     "job_id": 117777049364,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AT Qualification",
+   "run_id": 39161995954,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "trial",
+     "job_id": 117777055326,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AU Frozen Identity Authority Review",
+   "run_id": 39161999172,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "trial",
+     "job_id": 117777063734,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AU Independent AT Review",
+   "run_id": 39162001966,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "trial",
+     "job_id": 117777072946,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AU Proposal Catalog Capture",
+   "run_id": 39161997616,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "trial",
+     "job_id": 117777060204,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AU Qualification",
+   "run_id": 39162000659,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "trial",
+     "job_id": 117777068008,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AV Rev2 Catalog Capture",
+   "run_id": 39162004506,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "trial",
+     "job_id": 117777080014,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AV Rev2 Qualification",
+   "run_id": 39162005831,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "AR 174 original cases, AV package cycles and post-use refusal",
+     "job_id": 117777085113,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Original 326 business, import and value cases plus AS 34 on AU plus AV rev2",
+     "job_id": 117777085338,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "AV rev2 probe on frozen AU (before)",
+     "job_id": 117777085378,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "AV rev2 probe on AU plus AV rev2 (after)",
+     "job_id": 117777085396,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "AT 16 and AU 15 cases with their real races on AU plus AV rev2",
+     "job_id": 117777085448,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AW T1 Family Probe",
+   "run_id": 39162007152,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "AW probe on AU plus AV (before, T1_FAMILY)",
+     "job_id": 117777089277,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "AW probe on AU plus AV plus AW T1 (after, T1_FAMILY)",
+     "job_id": 117777089393,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AX T1 Family Probe",
+   "run_id": 39162008710,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "AX probe on AU plus AV plus AW plus AX T1 (after, T1_FAMILY)",
+     "job_id": 117777093164,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "AX probe on AU plus AV plus AW (before, T1_FAMILY)",
+     "job_id": 117777093455,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AY T1 Family Probe",
+   "run_id": 39162010249,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "AY probe on AU plus AV plus AW plus AX (before, T1_FAMILY)",
+     "job_id": 117777097804,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "AY probe on AU plus AV plus AW plus AX plus AY T1 (after, T1_FAMILY)",
+     "job_id": 117777098021,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 AZ T1 Family Probe",
+   "run_id": 39162011813,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "AZ probe on AU plus AV plus AW plus AX plus AY plus AZ T1 (after, T1_FAMILY)",
+     "job_id": 117777102636,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "AZ probe on AU plus AV plus AW plus AX plus AY (before, T1_FAMILY)",
+     "job_id": 117777102959,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 Auditor Scenario",
+   "run_id": 39162003302,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Auditor runtime self-test (B1 strict group; tool check, not product evidence)",
+     "job_id": 117777077211,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Auditor scenario on the final CP6 candidate (AUDITOR_SCENARIO)",
+     "job_id": 117777077349,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 BA T1 Family Probe",
+   "run_id": 39162013500,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "BA probe on AU plus AV plus AW plus AX plus AY plus AZ plus BA T1 (after, T1_FAMILY)",
+     "job_id": 117777107670,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "BA probe on AU plus AV plus AW plus AX plus AY plus AZ (before, T1_FAMILY)",
+     "job_id": 117777107923,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 BB T1 Family Probe",
+   "run_id": 39162015069,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "BB probe on AU plus AV plus AW..AZ plus BA plus BB T1 (after, T1_FAMILY)",
+     "job_id": 117777113331,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "BB probe on AU plus AV plus AW..AZ plus BA (before, T1_FAMILY)",
+     "job_id": 117777113524,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 BC T1 Family Probe",
+   "run_id": 39162016746,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "BC probe on AU plus AV plus AW..AZ plus BA plus BB plus BC T1 (after, T1_FAMILY)",
+     "job_id": 117777118246,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "BC probe on AU plus AV plus AW..AZ plus BA plus BB (before, T1_FAMILY)",
+     "job_id": 117777118433,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 BD T1 Family Probe",
+   "run_id": 39162018396,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "BD probe on AU plus AV plus AW..AZ plus BA plus BB plus BC (before, T1_FAMILY)",
+     "job_id": 117777123023,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "BD probe on AU plus AV plus AW..AZ plus BA plus BB plus BC plus BD T1 (after, T1_FAMILY)",
+     "job_id": 117777123318,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 BE T1 Family Probe",
+   "run_id": 39162019923,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "BE probe on AU plus AV plus AW..AZ plus BA plus BB plus BC plus BD plus BE T1 (after, T1_FAMILY)",
+     "job_id": 117777126190,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "BE probe on AU plus AV plus AW..AZ plus BA plus BB plus BC plus BD (before, T1_FAMILY)",
+     "job_id": 117777126348,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 Candidate CodeQL (T3)",
+   "run_id": 39161868198,
+   "attempt": 1,
+   "event": "push",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "CodeQL c-cpp",
+     "job_id": 117776664634,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "CodeQL python",
+     "job_id": 117776664858,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "CodeQL actions",
+     "job_id": 117776664892,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "CodeQL javascript-typescript",
+     "job_id": 117776664922,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 Final Boundary Audit",
+   "run_id": 39162021646,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "review",
+     "job_id": 117777132009,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 G-01 Hosted-Equivalent Baseline Fingerprint",
+   "run_id": 39162023346,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Rebuild test chain to v2.6.20 and fingerprint its catalog",
+     "job_id": 117777137871,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 Initial Import Native Trial",
+   "run_id": 39162024995,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "trial",
+     "job_id": 117777142723,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 Opening Overlap Probe",
+   "run_id": 39162026582,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "trial",
+     "job_id": 117777146914,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 S06 Close Preflight Probe",
+   "run_id": 39162028224,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "trial",
+     "job_id": 117777155307,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 T2 Combined Regression",
+   "run_id": 39162031573,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "AT 16 and AU 15 cases with their real races on the combined candidate (T2)",
+     "job_id": 117777162564,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Original 326 plus AS 34 with per-case identity, approved AS date oracle, calendar policy printed (T2)",
+     "job_id": 117777162567,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "AR 174 original cases and races on the combined candidate, seed quieted, own fixture completed (T2)",
+     "job_id": 117777162609,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 T3 Release Package (hosted-faithful baseline)",
+   "run_id": 39162033374,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Hosted-faithful baseline to AB, committed 30-file package, AU and BF browser flows (T3_PREP)",
+     "job_id": 117777167907,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Hosted-faithful baseline to AB, pins captured again and compared with the committed package (T3_PREP)",
+     "job_id": 117777168178,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Hosted-faithful baseline to AB, committed 30-file package AC..BF, writer runtime, advisors, restore drill (T3_PREP)",
+     "job_id": 117777168219,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 T3 Rollback (AC..BF of the release package, hosted-faithful baseline)",
+   "run_id": 39162034945,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Hosted-faithful baseline to AB, committed 30-file package, AC..BF rollback auto (T3_PREP)",
+     "job_id": 117777172470,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Astra Timeline Reuse",
+   "run_id": 39161966732,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "isolated-kernel-parity",
+     "job_id": 117776960975,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Backup Kit Check",
+   "run_id": 39162036875,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "kit",
+     "job_id": 117777177287,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 CP17 Fixes",
+   "run_id": 39161868260,
+   "attempt": 1,
+   "event": "push",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Dated guards and stock card on the combined F03 stack, races and real Auth HTTP",
+     "job_id": 117776665033,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F03 Cash and Native Finance Readers",
+   "run_id": 39162042246,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native financial readers and complete journal sources",
+     "job_id": 117777193297,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F03 Combined Stack",
+   "run_id": 39162043875,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "F03 combined installation, ledger and selected connected regression",
+     "job_id": 117777197385,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F03 Combined Supplier Returns",
+   "run_id": 39162065647,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Complete supplier return native, races and real Auth",
+     "job_id": 117777258711,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F03 E01 Source Journey",
+   "run_id": 39162047268,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "E01 sixty GOOD from raw receipt through cash and return",
+     "job_id": 117777206490,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F03 E03 Customer Service",
+   "run_id": 39162049173,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "E03 customer custody, accessory cost and ownership separation",
+     "job_id": 117777212364,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F03 E05 Payroll Installments",
+   "run_id": 39162050816,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native immutable approved payroll installments, races and recovery",
+     "job_id": 117777217227,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F03 E06 Year-end Late Invoice",
+   "run_id": 39162052439,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "E06 year-end invoice, immutable filing and close race",
+     "job_id": 117777221931,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F03 E20 E14 Complete Stock Capacity",
+   "run_id": 39162040574,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "E20 E14 complete FG pages through public sale and current access",
+     "job_id": 117777187991,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F03 E24 Material Issue",
+   "run_id": 39162054287,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "E24 receipt, transferred accessory notes and late invoice",
+     "job_id": 117777228678,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F03 Full Retained Components",
+   "run_id": 39162056037,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Full F03 stack / p10",
+     "job_id": 117777232262,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Full F03 stack / customer_refund",
+     "job_id": 117777232278,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Full F03 stack / p13",
+     "job_id": 117777232331,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Full F03 stack / p11",
+     "job_id": 117777232357,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Full F03 stack / p09",
+     "job_id": 117777232373,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Full F03 stack / p12",
+     "job_id": 117777232391,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Full F03 stack / cash_installments",
+     "job_id": 117777232401,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Full F03 stack / supplier_credit",
+     "job_id": 117777232427,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F03 Native Misc Finance",
+   "run_id": 39162057793,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native misc finance lifecycle, races and lost reply recovery",
+     "job_id": 117777238914,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F03 Native Reservation and Size Planner Seams",
+   "run_id": 39162061503,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "O06 reservation once and O07 same-SKU size arithmetic",
+     "job_id": 117777247709,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F03 P13 Retained Regression",
+   "run_id": 39162059576,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Full F03 stack / P13 retained50",
+     "job_id": 117777246642,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F03 Required Cost Continuations",
+   "run_id": 39162045421,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "O18 pocket report, E07 and selected E04 cost continuations",
+     "job_id": 117777202351,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F03 Supplier Current Authority",
+   "run_id": 39162122625,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native supplier authority / supplier_authority",
+     "job_id": 117777426759,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F03 X04 Paid Redye Continuation",
+   "run_id": 39162063807,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "X04 original redye price and grouping through CP7 stock and finance",
+     "job_id": 117777253503,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F03 X04 Source Versions",
+   "run_id": 39162067627,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "X04 source versions through FG cards and financial reports",
+     "job_id": 117777263731,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F04 Global Native Production Supply",
+   "run_id": 39162084552,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Global production origins, one conserved WIP graph, targets and current authority",
+     "job_id": 117777313402,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F04 Native Cutting Observations",
+   "run_id": 39162074309,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native prospective cutting input, current source and immutable recovery",
+     "job_id": 117777281430,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F04 Native Demand History",
+   "run_id": 39162077869,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native global sales history, draft stock once and immutable captures",
+     "job_id": 117777293764,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F04 Native Fabric Recipe",
+   "run_id": 39162075974,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Exact-target fabric input, shared Original and current Native Auth",
+     "job_id": 117777293865,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F04 Native Model Evaluation",
+   "run_id": 39162079327,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native own snapshots, registry knowledge, rolling models and current Auth",
+     "job_id": 117777297878,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F04 Native Planning Draft Bridge",
+   "run_id": 39162082000,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native draft, atomic intent, cross-actor target locks and recovery",
+     "job_id": 117777305581,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F04 Native Product Bound Netting",
+   "run_id": 39162080712,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native binding, dated netting and one global existing-supply allocation",
+     "job_id": 117777301402,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F04 Native Profile and Baseline Targets",
+   "run_id": 39162069281,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native history, selected profiles, immutable targets and current authority",
+     "job_id": 117777267705,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F04 Native Selected Production Schedule",
+   "run_id": 39162083317,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native selected calendar, yield, remaining work and shared capacity",
+     "job_id": 117777308973,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F04 Prospective Cutting Inputs",
+   "run_id": 39162071082,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native prospective cutting input, current source and immutable recovery",
+     "job_id": 117777273203,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F04 Prospective Native Cutting Model and Consumer",
+   "run_id": 39162072596,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native prospective policy, independent cutting batches and immutable model",
+     "job_id": 117777278172,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F05 Native Durable Attention",
+   "run_id": 39162087344,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Original analysis, own-user Native reminders and current Auth",
+     "job_id": 117777322088,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 F05 Native Frozen Analysis",
+   "run_id": 39162085854,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Frozen analysis.v2 compiler, original archives and current Native Auth",
+     "job_id": 117777317056,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Native Atomic Customer Return Correction",
+   "run_id": 39162119738,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native customer return stock/HPP inverse, replacement, current Auth and browser correction",
+     "job_id": 117777420310,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Native Atomic Misc Correction",
+   "run_id": 39162090287,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native atomic posted misc, economic dates, current Auth, recovery and browser correction",
+     "job_id": 117777329962,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Native Atomic Payment Correction",
+   "run_id": 39162113921,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native ordinary payment inverse, replacement, dates, current Auth and browser correction",
+     "job_id": 117777401537,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Native Atomic Sales Chain Reversal",
+   "run_id": 39162118395,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native all payments, returns and invoice atomic reversal, current Auth and browser recovery",
+     "job_id": 117777415118,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Native Inactive Rule Lifecycle",
+   "run_id": 39162117065,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native inactive AP episodes, source correction, recovery, current Auth and retained E01 bridge",
+     "job_id": 117777411333,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Native Posted Cutting Reopen",
+   "run_id": 39162038780,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native unpicked cutting inverse, exact source history, current Auth and browser recovery",
+     "job_id": 117777183837,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Native Transaction Source Navigation",
+   "run_id": 39162124238,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Exact transaction, payroll and accessory sources, owning inverse, recovery, current Auth and reta...",
+     "job_id": 117777436218,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Note Correction (Claude branch)",
+   "run_id": 39161968606,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Nota correction / Native stock AR cash journal HPP",
+     "job_id": 117776967272,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Offsite Backup",
+   "run_id": 39162091935,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "offsite-backup-11",
+     "job_id": 117777336044,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Owning Receipt Correction",
+   "run_id": 39161868215,
+   "attempt": 1,
+   "event": "push",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Receipt correction / Native stock cost HPP AP journal",
+     "job_id": 117776664674,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P00 accepted-base catalogue",
+   "run_id": 39162093600,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "P00 catalogue on accepted 30-file CP6 package",
+     "job_id": 117777339964,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P02 actor facade",
+   "run_id": 39162094780,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "P02 actor, immutable run, race and real Auth family",
+     "job_id": 117777344396,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P02 source capture probe",
+   "run_id": 39162096069,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "P02 diagnostic read on accepted 30-file CP6 package",
+     "job_id": 117777347270,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P03 production policy",
+   "run_id": 39162097443,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "P03 production policy, atomic bulk and real Auth family",
+     "job_id": 117777351333,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P04 WIP kernels",
+   "run_id": 39162098770,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "P04 native conservation, matching and remaining timeline",
+     "job_id": 117777355699,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P08 Physical Fabric",
+   "run_id": 39161868219,
+   "attempt": 1,
+   "event": "push",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "plan39",
+     "job_id": 117776665092,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "fabric13-successor",
+     "job_id": 117776665200,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "attention284",
+     "job_id": 117776665306,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "fabric-physical21",
+     "job_id": 117776665312,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "analysis152",
+     "job_id": 117776665527,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P09 Procurement",
+   "run_id": 39162100091,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "P09 native receipt, value, replay and current access",
+     "job_id": 117777359414,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P10 Finished goods",
+   "run_id": 39162101375,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "P10 native FG source and connected ledger",
+     "job_id": 117777363763,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P11 Sales",
+   "run_id": 39162102664,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "P11 native invoice reader and draft transitions",
+     "job_id": 117777367194,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P12 Nota and payroll lifecycle",
+   "run_id": 39162105257,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "P12 selected Nota and native payroll lifecycle",
+     "job_id": 117777375788,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P12 Nota source",
+   "run_id": 39162103805,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "P12 native Nota source",
+     "job_id": 117777371544,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P12 Payroll (Claude branch)",
+   "run_id": 39161970132,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "P12 payroll --attendance-write",
+     "job_id": 117776971836,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "P12 payroll --roster",
+     "job_id": 117776971982,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "P12 payroll --payroll-review",
+     "job_id": 117776972066,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P13 Finance (Claude branch)",
+   "run_id": 39161971729,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "P13 native dated report and immutable archive reader",
+     "job_id": 117776976238,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P13 Finance Analysis",
+   "run_id": 39162106789,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "P13 native period comparison and cash ledger",
+     "job_id": 117777379130,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P13 HPP recost",
+   "run_id": 39162109604,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "P13 native HPP recost and dated report regression",
+     "job_id": 117777389014,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P13 Period control",
+   "run_id": 39162108163,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "P13 reviewed period control and dated report regression",
+     "job_id": 117777383945,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P18 E01 Consumer Bridge",
+   "run_id": 39162111037,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native E01 source through original analysis, report, obligations and current Auth",
+     "job_id": 117777392780,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P18 Fabric Rule",
+   "run_id": 39161868361,
+   "attempt": 1,
+   "event": "push",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "rule-lifecycle16",
+     "job_id": 117776665464,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "fabric-rule11",
+     "job_id": 117776665636,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "p18-e01-9",
+     "job_id": 117776665793,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P18 Full Cycle",
+   "run_id": 39161868197,
+   "attempt": 1,
+   "event": "push",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "E01 worksheet through supplier, vendor and payroll cash with GL-subledger reconciliation",
+     "job_id": 117776664605,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P19 Analysis Job Transport",
+   "run_id": 39161868253,
+   "attempt": 1,
+   "event": "push",
+   "status": "completed",
+   "conclusion": "failure",
+   "jobs": [
+    {
+     "name": "k4-runner-17",
+     "job_id": 117776664955,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "pl5-history-yield-20",
+     "job_id": 117776665182,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "p19-report-v2-20",
+     "job_id": 117776665212,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "k2-retention-10",
+     "job_id": 117776665226,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "p19-transport11",
+     "job_id": 117776665269,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "p19-ai-v2-9",
+     "job_id": 117776665298,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "p19-scale5",
+     "job_id": 117776665300,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "p19-reminder-v2-16",
+     "job_id": 117776665302,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "p19-plan-v2-22",
+     "job_id": 117776665317,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "p19-staged12",
+     "job_id": 117776665322,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "k3-cleanup-25",
+     "job_id": 117776665323,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "k6-proof-runner-10",
+     "job_id": 117776665395,
+     "conclusion": "failure",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P19 Bounded Native Load",
+   "run_id": 39162112435,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Complete Native captures, four users, cash writer, recovery and real Auth",
+     "job_id": 117777398246,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P21 Rehearsal",
+   "run_id": 39161868205,
+   "attempt": 1,
+   "event": "push",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Full composition with staged analysis, committed use, used backup restore and pre-install restore (disposable clone)",
+     "job_id": 117776664614,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Install, pre-use rollback, identical reinstall, use, post-use refusal and restore (disposable clone)",
+     "job_id": 117776664853,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 PL Native Planning (Claude branch)",
+   "run_id": 39161973316,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "supply",
+     "job_id": 117776982229,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "schedule",
+     "job_id": 117776982401,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "model",
+     "job_id": 117776982403,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "netting",
+     "job_id": 117776982476,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Pre-freeze UI Regression",
+   "run_id": 39162115606,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Full F03 stack / prefreeze_ui",
+     "job_id": 117777416284,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Shell S0 (Claude branch)",
+   "run_id": 39161868218,
+   "attempt": 1,
+   "event": "push",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "p19-assembly",
+     "job_id": 117776664716,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "CP7 CodeQL javascript-typescript",
+     "job_id": 117776664849,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "shell",
+     "job_id": 117776664871,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "CP7 CodeQL actions",
+     "job_id": 117776664909,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "p19-staged",
+     "job_id": 117776664914,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Supabase Restore Drill",
+   "run_id": 39162121163,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "supabase-restore-drill",
+     "job_id": 117777423326,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Supplier Payment Correction (Claude branch)",
+   "run_id": 39161974693,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native ordinary supplier payment cash/AP inverse, replacement, current Auth and browser correction",
+     "job_id": 117776986762,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Supplier Payment Create",
+   "run_id": 39161868217,
+   "attempt": 1,
+   "event": "push",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "New supplier payment through the owning command, races and real Auth HTTP",
+     "job_id": 117776664823,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Supplier Payment Group-End Diagnosis",
+   "run_id": 39162088697,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native group repeated, shard 3",
+     "job_id": 117777325513,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Native group repeated, shard 1",
+     "job_id": 117777325677,
+     "conclusion": "success",
+     "business_day": []
+    },
+    {
+     "name": "Native group repeated, shard 2",
+     "job_id": 117777325802,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  },
+  {
+   "workflow": "UI phone width census",
+   "run_id": 39162125767,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "census",
+     "job_id": 117777436314,
+     "conclusion": "success",
+     "business_day": []
+    }
+   ]
+  }
+ ]
+}

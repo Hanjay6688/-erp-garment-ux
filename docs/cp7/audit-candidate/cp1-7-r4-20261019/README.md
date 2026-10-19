@@ -1,6 +1,6 @@
 # Paket uji ulang r4 CP1–CP7 (perbaikan atas audit r3 `b53b5acd`)
 
-**Status: KUALIFIKASI BERJALAN — SHA kandidat dan hasilnya diisi di bagian Kandidat sesudah semua run selesai.**
+**Status: SIAP DIKIRIM — kandidat `663f6fae`, kualifikasi selesai (bagian Kandidat).**
 
 Fable, Astra dan Sol menguji ulang kandidat r3 `b53b5acd`. Penulis menyatukan ketiga laporan per akar masalah di
 `CROSS_AUDIT.md`, memperbaiki temuan Astra (R4-01 sampai R4-04), memeriksa keabsahan tiga butir Sol, dan mengerjakan
@@ -13,19 +13,44 @@ satu kandidat untuk ketiga auditor. Owner yang mengirim: salin kotak di `HANDOFF
 | `README.md` | Status, kandidat, perbaikan per akar, butir yang sudah diketahui |
 | `CROSS_AUDIT.md` | Audit silang ketiga laporan r3 dan rencana r4 |
 | `HANDOFF_FABLE.md`, `HANDOFF_ASTRA.md`, `HANDOFF_SOL.md` | Kotak yang disalin owner ke sesi masing-masing auditor |
-| `CI_RECEIPT.json` | Semua run workflow dan job pada kandidat (dibuat sesudah kualifikasi) |
+| `CI_RECEIPT.json` | Semua run workflow dan job pada kandidat `663f6fae` |
+| `CI_RECEIPT_FIRST_769f2cc3.json` | Kualifikasi pertama pada `769f2cc3` (ditarik, R4-Q1) |
 | `../../cp17/r4-sol/` | Pemeriksaan keabsahan butir Sol dan patch backup yang disiapkan untuk CP7C (tidak dipasang) |
 | `../../p19/P19_R4_05_DIRECT_LATENCY.md` | Diagnosis, perubahan dan hasil kecepatan analisis langsung (R4-05) |
 | `../../cp17/R4_WRITER_HANDOFF.md` | Serah-terima untuk penulis cadangan, termasuk log titik simpan (bukan untuk auditor) |
 
 ## Kandidat
 
-- Diisi sesudah kualifikasi. Basis r3: `b53b5acd` (tree `32f54240a60e01ab8b1ffad7267d285a669be520`). `supabase/` tidak
-  berubah sejak `b53b5acd`.
-- Kualifikasi: 115 workflow yang sama dengan receipt r3.
-- Kandidat pertama `769f2cc3` ditarik: satu kasus uji pg_cron INCOMPLETE karena alat uji membaca catatan run terlalu cepat
-  (R4-Q1, di bawah). Sesudah `769f2cc3` hanya alat uji, alat jadwal (fungsi baca baru, tidak dipakai pemasangan) dan
-  dokumen yang berubah; `src/`, `supabase/` dan lapisan CP7 sama.
+- **Commit `663f6faefcbb9c70f0f99bbc7e78164e03521329`**, tree `023f3554432f80f994439f5d0b8cc164846a2041`, di cabang
+  `claude/new-session-deapao` (di-fast-forward dari `claude/r4-fixes-20261018`). Commit sesudahnya di cabang itu hanya
+  mengubah `docs/`: `git diff --name-only 663f6fae origin/claude/new-session-deapao`. Basis r3: `b53b5acd` (tree
+  `32f54240a60e01ab8b1ffad7267d285a669be520`). `supabase/` tidak berubah sejak `b53b5acd`.
+- **`CI_RECEIPT.json`:** 116 run dari 115 workflow pada commit itu (115 workflow yang sama dengan receipt r3; CP6 Auditor
+  Scenario dua kali: contoh bawaan dan skenario penulis lengkap); 94 run lulus; 179 job, 157 lulus; semua percobaan
+  pertama. Receipt dibuat dengan `scripts/cp7_ci_receipt.py` di repo.
+- **22 run merah, semuanya sudah merah di r3 dengan sebab yang sama** (tidak ada pemeriksaan yang dilonggarkan):
+  - 21 workflow CP6 lama: 20 pemeriksaan cakupan historis (skrip cakupan memastikan checkout masih usulan lamanya) dan
+    CP6 AF Posted Child Family (artifact 10418502157 kedaluwarsa). Job dan langkah yang gagal sama persis dengan run r3
+    masing-masing (dibandingkan per run, 21 dari 21).
+  - Skenario penulis CP6 lengkap (`scripts/cp6_bf_combined_modes.py` + `scripts/cp6_bf_vendor_browser.mjs`, run
+    39180053859): native 104/104, race 26/26, HTTP 9/9, browser 27 PASS dan 4 INCOMPLETE yang sama dengan r3:
+    `READINESS_BROWSER:{DESKTOP,MOBILE}_NATIVE_POLICY_STATES_FINANCE_NOTE` (layar keuangan memanggil
+    `erp_cp7_get_recost_queue_v1`, yang tidak ada di tumpukan CP6 skenario ini) dan `BF_BROWSER:SALES_MANUAL_13_{DESKTOP,MOBILE}`
+    (dipensiunkan, `docs/cp7/RETIRED_CP6_SALES_MANUAL_13.md`). Contoh bawaan (run 39173288385) lulus.
+  - CP6 AC Independent Audit tidak punya pemicu manual (tidak dijalankan), sama dengan r3.
+- **Kasus CP17:** run 39173236062, job 117810508835: 341 kasus yang dideklarasikan PASS, 0 gagal (Native 161, race 39,
+  HTTP 27, browser 57, browser build Enteng 57), ditambah `CP6_AUDITOR_PUBLIC_STATE_STABLE_ORDER`. Di grup build Enteng
+  1.361 permintaan ke alamat proyek Enteng dijawab API lokal runner; 2 jawaban tidak sampai karena halamannya sudah
+  ditutup (`route.fetch: Request context disposed`, bacaan daftar bahan dan transfer bahan), dicatat oleh alat uji
+  (best practice E25d); r3: 0.
+- **P19 skala:** run 39173212515, job p19-scale5: semua kasus PASS. Runner kualifikasi ini lebih lambat; angkanya
+  (100 target dengan angka keuangan 4,57–5,92 detik) ada di `../../p19/P19_R4_05_DIRECT_LATENCY.md` bagian
+  "Qualification run".
+- **Kualifikasi pertama pada `769f2cc3`** (`CI_RECEIPT_FIRST_769f2cc3.json`, 115 run, 93 lulus): dibanding r3 hanya CP7
+  P19 Analysis Job Transport yang baru merah (R4-Q1, di bawah). Karena alat uji berubah, kandidat baru `663f6fae`
+  dikualifikasi ulang penuh. Sesudah `769f2cc3` hanya alat uji, alat jadwal (fungsi baca baru, tidak dipakai
+  pemasangan) dan dokumen yang berubah. Uji pembuktian perbaikan di cabang r4 sebelum kualifikasi: run 39168052459,
+  12/12 job lulus.
 
 ## Perbaikan per akar
 
@@ -66,7 +91,7 @@ dilonggarkan.
 - Analisis langsung: 300 target belum 3 detik; 100 target dengan angka keuangan belum stabil di bawah 3 detik (2,30–2,60
   detik pada satu runner, 4,57–5,92 detik pada runner kualifikasi). Dengan angka keuangan biaya laporan pemilik (Native)
   tumbuh dengan buku besar dan dibaca dua kali per analisis langsung; pemeriksaan ulang saat kirim sengaja dipertahankan.
-- Workflow CP6 lama yang merah karena pemeriksaan cakupan historis dan artifact kedaluwarsa (lihat r3) diharapkan sama;
-  dikonfirmasi di bagian Kandidat.
+- Workflow CP6 lama yang merah karena pemeriksaan cakupan historis dan artifact kedaluwarsa tetap merah dengan langkah
+  yang sama seperti r3 (bagian Kandidat).
 
 `production_go: false`.
