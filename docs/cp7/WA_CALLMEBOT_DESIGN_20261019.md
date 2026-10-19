@@ -96,6 +96,10 @@ atau dimatikan).
 | Jatuh tempo AR/AP yang tiba karena tanggal | tanggal WIB berganti / jam tertentu | Tick menit menjalankan pembaca langsung yang sudah ada; episode baru lalu masuk lewat trigger di atas |
 | Stok: `FABRIC_BELOW_MINIMUM`, `STOCK_AT_REORDER_POINT` (rule baru, di bawah) | kondisi baru terbuka | Tick menit; episode baru lalu masuk lewat trigger di atas |
 
+`attention` ditulis ulang per run analisis dan per pengguna (`actor`, `run_id`, `action_key`). Pengirim mengenali hal yang sama
+lewat `semantic_hash`: hal yang sama dari run analisis berikutnya (atau dari analisis staf) tidak dikirim lagi selama masih
+dalam jeda ulang; hanya `semantic_hash` yang belum pernah diteruskan atau yang muncul lagi sesudah beres yang dihitung baru.
+
 Trigger hanya menyisipkan satu baris kecil ke `wa_self_outbox` (`source`, `source_id`, `condition_key`, `seen_at`) dan tidak
 pernah gagal karena isi (tanpa validasi rumit, tanpa panggilan luar). Kalau settings mati, trigger tidak menulis apa pun.
 
@@ -175,6 +179,7 @@ pg_net diarahkan ke alamat palsu lewat setting uji; alamat asli hanya di pemasan
 |---|---|
 | Native: tiap sumber (attention baru, episode aturan baru, episode kewajiban baru, pengingat pribadi owner jatuh waktu, jatuh tempo karena tanggal, kain di bawah minimum, titik pesan ulang) | Masuk outbox dan terkirim; waktu dari muncul sampai permintaan tercatat (target: trigger < 1 tick, waktu/stok ≤ 2 tick) |
 | Native: transaksi yang membuat episode lalu batal (rollback) | Tidak ada outbox, tidak ada permintaan |
+| Native: analisis dijalankan dua kali (owner, lalu staf) dengan hal Perlu perhatian yang sama | Satu kiriman; analisis kedua tidak mengirim ulang |
 | Native: kondisi beres sebelum tick | Tidak dikirim; `RESOLVED_BEFORE_SEND` dengan alasan |
 | Native: masih terbuka, ulang belum lewat / sudah lewat | Tidak dobel / dikirim ulang sekali |
 | Native: 10 hal muncul di menit yang sama | Satu pesan |
