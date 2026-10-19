@@ -227,6 +227,10 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     "pengingat orang lain", padahal modul pengingat hanya menerima OWNER, ADMIN dan STAFF; kasus berhenti sebelum
     pemeriksaannya. Pilih peran dari aturan modul itu sendiri (lihat kasus modul aslinya), bukan peran yang kebetulan dipakai
     kasus lain. (WA-3b, CI 39279865016)
+25o. **Pemantau CI mencari run dengan SHA penuh, dan diam terlalu lama berarti pemantaunya yang diperiksa dulu.** API run
+    GitHub hanya mencocokkan `head_sha` yang lengkap; pemantau penulis memakai SHA pendek, tidak pernah menemukan run, dan
+    hasil WA Forward 39285796156 (selesai 16.39 UTC) baru terbaca 85 menit kemudian. Pemantau mengubah SHA ke bentuk penuh
+    sebelum bertanya, dan mencetak jumlah run yang ia temukan pada setiap putaran. (WA-4b, 19 Okt)
 
 ## F. Proses audit
 
@@ -281,6 +285,7 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Tidak ada kunci, token atau kata sandi (termasuk yang palsu) yang dicetak oleh server uji atau probe (E25k).
 - [ ] Batas jam hanya menahan pekerjaan baru; kasus yang menyentuh jendela jam lulus pada jam berapa pun CI berjalan (E25m).
 - [ ] Pelaku data uji dipilih dari aturan pelaku modul yang dipanggil (E25n).
+- [ ] Pemantau CI memakai SHA penuh dan mencetak berapa run yang ia lihat (E25o).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
   dipicu (E19–E20, E19a).
