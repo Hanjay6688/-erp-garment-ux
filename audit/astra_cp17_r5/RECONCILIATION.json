@@ -18,8 +18,18 @@
     },
     {
       "suite": "p19-scale",
-      "status": "PENDING",
-      "expected": 5
+      "run_id": 39238034877,
+      "job_id": 118011792249,
+      "status": "RECONCILED",
+      "expected": 5,
+      "observed": 5,
+      "counts": {
+        "PASS": 5
+      },
+      "missing": [],
+      "duplicates": [],
+      "manifest_sha256": "7789cf255792d7df94618b6e71947f951037c0773e3de4b2186538ff5a0cbc54",
+      "log_sha256": "25d419e2a3985241db5a7498775a8526af5d32a39588f8ab663c4e88ffecae0b"
     },
     {
       "suite": "p19-transport",
@@ -83,9 +93,9 @@
       "log_sha256": "8a7ec4cd07afd6c22e6ffa75f7b16aa38323be70d837ca9ada4edf5709e22fa1"
     }
   ],
-  "execution_count": 393,
+  "execution_count": 398,
   "counts": {
-    "PASS": 391,
+    "PASS": 396,
     "INCOMPLETE": 2
   },
   "unique_coverage_key": "suite family + layer + id; own-q2 is qualification of same own-first IDs, not extra product coverage",

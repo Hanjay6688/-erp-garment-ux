@@ -208,5 +208,47 @@
     "backup_scope": "T3 CP6 after CP7 test layer restored; not a live CP7 production backup/restore proof",
     "wrapper_stage_count": 2,
     "installed_file_inventory": "T3_PACKAGE_FILES_INSTALL.json in corresponding original JSON archive"
+  },
+  {
+    "suite_folder": "p19-scale-original",
+    "package_status": "ALL_STAGES_INSTALLED",
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "wrapper_stage_count": 2,
+    "installed_file_inventory": "T3_PACKAGE_FILES_INSTALL.json in corresponding original JSON archive",
+    "primary_unchanged": true,
+    "auth_users_before": 0,
+    "auth_users_after": 0,
+    "backup_status": "RESTORED_SAME_MEANING",
+    "backup_checks": {
+      "restore_errors_only_pg_cron": true,
+      "catalog_explained": true,
+      "data_identical": true,
+      "engine_answer_present": true,
+      "engine_equal": true
+    },
+    "backup_data": {
+      "tables": 407,
+      "rows": 1860,
+      "schemas": [
+        "_realtime",
+        "auth",
+        "erp",
+        "realtime",
+        "storage",
+        "supabase_functions",
+        "supabase_migrations",
+        "vault"
+      ],
+      "differ": {}
+    },
+    "restore_error_count": 19,
+    "restore_unexplained": [],
+    "backup_scope": "T3 CP6 after CP7 test layer restored; not a live CP7 production backup/restore proof"
   }
 ]

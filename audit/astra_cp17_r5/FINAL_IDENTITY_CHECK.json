@@ -1,0 +1,30 @@
+{
+  "candidate_sha": "17fa25075ba77f0853c3c16f504288ace03eec35",
+  "candidate_tree": "65f778479093d869a3354c0b9f19b4d9a541d98a",
+  "writer_head": "2766a9092f51f240267b9cbe1201d49a836fb490",
+  "writer_unchanged": true,
+  "origin": "INDEPENDENT_SOURCE_REVIEW",
+  "candidate_directory_objects": "IDENTITY.json",
+  "workflow_heads": [
+    {
+      "run_id": 39237954632,
+      "workflow_sha": "f63c5c8e45fa6b6f17997f991423b06a6c24223d",
+      "attempt": 1
+    },
+    {
+      "run_id": 39238034877,
+      "workflow_sha": "a28b7056771837d494d58026ad93b7d8f8b4a4ba",
+      "attempt": 1
+    },
+    {
+      "run_id": 39238457513,
+      "workflow_sha": "c24c7dc7a1eab89dc5ce9ee5d3907714a6ac410b",
+      "attempt": 1
+    },
+    {
+      "run_id": 39239850748,
+      "workflow_sha": "2731eb5b53d7bb4b4be6572cacdc3214b914bbd3",
+      "attempt": 1
+    }
+  ]
+}

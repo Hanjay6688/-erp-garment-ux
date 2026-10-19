@@ -57,5 +57,14 @@
       "origin": "REUSED_WRITER_EVIDENCE",
       "run_id": 39216681775
     }
-  ]
+  ],
+  "all_runs_completed": true,
+  "canonical_unique_cases": 396,
+  "raw_executions": 398,
+  "raw_counts": {
+    "PASS": 396,
+    "INCOMPLETE": 2
+  },
+  "qualification_disposition": "Q2 PASS2; original INCOMPLETE retained",
+  "report_status": "FINAL_LOCKED_BY_CONTAINING_COMMIT"
 }

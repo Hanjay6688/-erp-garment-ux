@@ -1,0 +1,128 @@
+{
+  "auditor": "Astra",
+  "round": "r5-20261019",
+  "candidate_sha": "17fa25075ba77f0853c3c16f504288ace03eec35",
+  "candidate_tree": "65f778479093d869a3354c0b9f19b4d9a541d98a",
+  "verdict": "FUNCTIONAL_RETEST_PASS_WITH_EVIDENCE_LIMITS_LATENCY_OPEN",
+  "retest_r5_complete": true,
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false,
+  "owner_latency_acceptance": false,
+  "new_product_findings": [],
+  "new_product_severity_counts": {
+    "S0": 0,
+    "S1": 0,
+    "S2": 0,
+    "S3": 0
+  },
+  "open_known_findings": [
+    {
+      "id": "KNOWN-P19-DIRECT-LATENCY",
+      "severity": "S2",
+      "status": "OPEN",
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "evidence_level": "NATIVE_QUALIFIED",
+      "decision": "D17-2 and P19_LOADING_BUDGET_20261006",
+      "scope": "Direct analysis with financial figures and full scope; not a claim that100targets missed3seconds on this runner",
+      "observed_100_target_ms": [
+        1883.3,
+        1951.9,
+        2192.1
+      ],
+      "observed_300_target_ms": [
+        6566.9,
+        6765.7,
+        7748.4
+      ],
+      "larger_direct_scope": "1000/5000target finance requests refused by statement8s; no partial result passed as complete",
+      "run_id": 39238034877,
+      "job_id": 118011792249,
+      "evidence": [
+        "LATENCY.json",
+        "evidence/p19-scale-original.zip",
+        "evidence/p19-scale.log.gz"
+      ],
+      "recommendation": "Continue D17-2 speed work without sampling, raised limits or weaker source/permission/delivery checks; remeasure complete results. Preserve successful100target measurements."
+    }
+  ],
+  "closed_in_this_retest": [
+    {
+      "id": "SOL-R4-001",
+      "r5_item": "R5-01",
+      "status": "CLOSED_WITH_INDEPENDENT_RETEST",
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "new_Astra_cases": [
+        "ASTRA_R5_FG_HEALTHY_8000",
+        "ASTRA_R5_FG_DETECTOR_0_1_0",
+        "ASTRA_R5_FG_REVERSED_REUSE"
+      ],
+      "run_id": 39238457513,
+      "qualifier": "167detectors0 on healthy fixture; wrong/missing target+1/rollback0; immutable guard; one active8000payable"
+    }
+  ],
+  "r5_02": {
+    "functional_status": "PASS_SCOPED",
+    "speed_status": "PARTIALLY_MEETS_MEASURED_BUDGET_OVERALL_OPEN",
+    "readers": 11,
+    "literal_lookups": 69,
+    "core_keys": 17,
+    "qualification_run": 39239850748
+  },
+  "auditor_tool_history": [
+    {
+      "case": "ASTRA_R5_INSTALL_ROUNDTRIP_REFUSALS",
+      "first_run": 39238457513,
+      "original_status": "INCOMPLETE",
+      "classification": "AUDITOR_TOOL",
+      "cause": "Empty parameter tuple incorrectly parses percent tokens in unparameterized SQL",
+      "qualification_run": 39239850748,
+      "qualification_status": "PASS"
+    },
+    {
+      "case": "ASTRA_R5_MAPPING_COMMIT_SNAPSHOT",
+      "first_run": 39238457513,
+      "original_status": "INCOMPLETE",
+      "classification": "AUDITOR_TOOL",
+      "cause": "Decimal(float97.03) differs from Decimal97.03; fixed string conversion only",
+      "qualification_run": 39239850748,
+      "qualification_status": "PASS",
+      "scope_note": "Baseline already BLOCKED8, afterBLOCKED10; notREADY-to-BLOCKED"
+    }
+  ],
+  "counts": {
+    "observed_unique_coverage_slots": 396,
+    "unique_counts": {
+      "PASS": 396
+    },
+    "observed_executions": 398,
+    "raw_status_counts": {
+      "PASS": 396,
+      "INCOMPLETE": 2
+    },
+    "job_reruns": 0,
+    "tool_qualifications": 1,
+    "oracle_origin_counts": {
+      "new_Astra_contract_cases": 11,
+      "writer_or_inherited_oracle_coverage_slots": 385
+    }
+  },
+  "retained_not_reopened": [
+    "Prior Astra r4 closures at40238e36",
+    "A2historical supplier failures root unknown; owner nonblocking freeze",
+    "FABLE-012/82private EXECUTE conditional CP7C deferral",
+    "CP2partial PG16/stub restore; full original engine/ACL/Storage not freshly verified",
+    "12legacy full-successor boundaries"
+  ],
+  "unverified": [
+    "All115writer workflows independently rerun",
+    "All82invariants exhaustive inputs/roles",
+    "Every167detector new negative control",
+    "Current hosted preflight and full non-superuser hosted-faithful install",
+    "Real cutover shadow run complete closing period",
+    "Full production CP7 backup/restore and post-use rollback",
+    "Physical iPad and live WA",
+    "Combined r5 peers not yet read or merged"
+  ],
+  "peer_r5_sources_opened": []
+}
