@@ -1,0 +1,232 @@
+{
+  "contract": "audit.sol.r4.finite-functional-boundaries.v1",
+  "state": "PREEXECUTION_NOT_RUN",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "cases": [
+    {
+      "id": "SOL_R4_SKN24_NATIVE_MATCH_ALLOCATE_PLAN_COMMAND",
+      "layer": "NATIVE_PUBLIC_COMMANDS_AND_PRIVATE_PURE_READBACK",
+      "role": "OWNER",
+      "expected": {
+        "native_input8_projected7": true,
+        "target100_gap93": true,
+        "compatible_match": "CONFIRMED_TARGET",
+        "compatible_allocator": "FEASIBLE",
+        "color_mismatch": "INCOMPATIBLE:COLOR_MISMATCH",
+        "relabel_candidate_allocator": "CP7_WIP_INELIGIBLE_ALLOCATION",
+        "public_save_and_apply_extra_matching": "CP7_PLAN_FIELDS",
+        "legal_draft_pcs": 2,
+        "physical_stock_money_HPP_change": false,
+        "original_immutable": true
+      },
+      "oracle_origin": "SOL_MATCHER_REFUSAL_AND_IMMUTABLE_NATIVE_SOURCE_BINDING",
+      "fixture_origin": "ACCEPTED_NATIVE_OPENING8_AND_RECEIPT10_BEFORE_SOL_PUBLIC_ORIGINAL"
+    },
+    {
+      "id": "SOL_R4_SKN26_PROCUREMENT_12_6_BOUNDARY",
+      "description": "Actual facade price12integer/6decimal, Native save/post/read/AP; above13integer refused",
+      "role": "OWNER",
+      "expected": {
+        "inputs": [
+          "999999999999.999998",
+          "999999999999.999999",
+          "1000000000000.000000"
+        ],
+        "outcomes": [
+          "POSTED_EXACT_PRICE_AP1000000000000.00",
+          "POSTED_EXACT_PRICE_AP1000000000000.00",
+          "CP7_PROCUREMENT_EXACT_DECIMAL"
+        ]
+      },
+      "oracle_origin": "SOL_MAX12_INTEGER6_DECIMAL_AND_HALF_UP_DOCUMENT_CENTS",
+      "fixture_origin": "ACCEPTED_PUBLIC_PROCUREMENT_FIXTURE_WITH_SOL_NEW_BOUNDARY_AMOUNTS"
+    },
+    {
+      "id": "SOL_R4_SKN26_PROCUREMENT_SIX_DECIMAL_SCALE",
+      "description": "Actual save/read preserves allowed fifth/sixth decimal; seventh refuses, no posting claimed",
+      "role": "OWNER",
+      "expected": {
+        "inputs": [
+          "0.00001",
+          "0.000001",
+          "0.0000001"
+        ],
+        "outcomes": [
+          "DRAFT_EXACT",
+          "DRAFT_EXACT",
+          "CP7_PROCUREMENT_EXACT_DECIMAL"
+        ]
+      },
+      "oracle_origin": "SOL_SIX_DECIMAL_TEXT_BOUNDARY_NO_ROUNDING_OR_STOCK",
+      "fixture_origin": "ACCEPTED_PUBLIC_PROCUREMENT_FIXTURE_WITH_SOL_NEW_SCALE_INPUTS"
+    },
+    {
+      "id": "SOL_R4_SKN26_PROCUREMENT_32BIT_CENT_AROUND",
+      "description": "Actual one-line receipt post/AP around32bit signedcent threshold",
+      "role": "OWNER",
+      "expected": {
+        "inputs": [
+          "21474836.47",
+          "21474836.48",
+          "21474836.49"
+        ],
+        "posted_ap_same_as_price": true,
+        "qty_each": 1
+      },
+      "oracle_origin": "SOL_LITERAL2147483647_2147483648_2147483649_CENTS_EXACT",
+      "fixture_origin": "ACCEPTED_PUBLIC_PROCUREMENT_FIXTURE_WITH_SOL_32BIT_CENT_AROUND_INPUTS"
+    },
+    {
+      "id": "SOL_R4_SKN26_LAUNDRY_NUMERIC18_2_AND_TWO_LINES",
+      "description": "Actual public BD draft header/line numeric18,2 boundary and two lines/zero discount",
+      "role": "OWNER",
+      "expected": {
+        "inputs": [
+          "9999999999999999.98",
+          "9999999999999999.99",
+          "10000000000000000.00"
+        ],
+        "outcomes": [
+          "DRAFT_EXACT",
+          "DRAFT_EXACT",
+          "BD_AMOUNT_INVALID"
+        ],
+        "two_line_amounts": [
+          "10737418.24",
+          "10737418.25"
+        ],
+        "two_line_total": "21474836.49",
+        "discount": "0.00",
+        "core_payable_count": 0
+      },
+      "oracle_origin": "SOL_NUMERIC18_2_EXACT_MAXIMUM_AND_TWO_LINE_ZERO_DISCOUNT",
+      "fixture_origin": "ACCEPTED_NATIVE_LAUNDRY_RECEIPT10_THEN_SOL_PUBLIC_DRAFT_AMOUNTS"
+    },
+    {
+      "id": "SOL_R4_SKN26_ACTUAL_CLIENT_BOUNDARY_HELPERS",
+      "description": "In-memory execution actual TS helpers, explicit derivative export private pure pool parsers",
+      "role": "OWNER",
+      "expected": {
+        "controls": 27,
+        "actual_browser": false,
+        "UI_money_limit": "15integer/2decimal",
+        "Native_BD_limit": "16integer/2decimal",
+        "pool_money": "18integer/2decimal",
+        "pool_unit": "16integer/12decimal",
+        "wholePCS": [
+          "999999998",
+          "999999999",
+          "1000000000"
+        ],
+        "procurement": "12integer/6decimal"
+      },
+      "oracle_origin": "SOL_LITERAL_ACTUAL_HELPER_INPUT_RANGES",
+      "fixture_origin": "ACTUAL_CANDIDATE_SOURCE_PURE_HELPERS_NO_BUSINESS_FIXTURE"
+    },
+    {
+      "id": "SOL_R4_D01_FG_MUTABLE_CACHE_ONE_KEY",
+      "description": "Own accepted Native FG10, one cache key10\u219211\u219210",
+      "role": "OWNER",
+      "expected": {
+        "count_deltas": {
+          "run_integrity_checks:FG_CACHE_MISMATCH": 1
+        },
+        "all_other_checks_unchanged": true,
+        "all_nine_functions_167rows_each_phase": true,
+        "cache_row_exact_restore": true
+      },
+      "oracle_origin": "SOL_ONE_MUTABLE_FG_CACHE_KEY_EXPECT_ONE_MISMATCH_UNIT",
+      "fixture_origin": "WRITER_ACCEPTED_NATIVE_SEWING_LAUNDRY_QC10_TO_OWN_PRODUCT"
+    },
+    {
+      "id": "SOL_R4_D01_DAILY_EQUITY_CACHE_ONE_KEY",
+      "description": "Own owner-capital8 fixture; derived equity daily debit+1 then rollback",
+      "role": "OWNER",
+      "expected": {
+        "count_deltas": {
+          "run_v268_financial_report_checks:V268_DAILY_BALANCE_LEDGER_MISMATCH": 1,
+          "run_v268_financial_report_checks:V268_BALANCE_SHEET_EQUATION": 1
+        },
+        "all_other_checks_unchanged": true,
+        "all_nine_functions_167rows_each_phase": true,
+        "cache_row_exact_restore": true
+      },
+      "oracle_origin": "SOL_ONE_MUTABLE_EQUITY_CACHE_KEY_EXPECT_DAILY_AND_EQUATION_ONE_UNIT_EACH",
+      "fixture_origin": "WRITER_ACCEPTED_OWNER_CAPITAL8_OWN_BANK"
+    }
+  ],
+  "fixture_origin": "Accepted Native synthetic starts for5business and2cache controls; candidate source only for1purehelper. Every case origin recorded below.",
+  "oracle_origin": "SOL_PREDECLARED_FINITE_CASE_LEVEL_ORACLES",
+  "negative_scope": "Color differs only in explicit copied target DTO; Native source is never rewritten. The copied rejected DTO cannot be passed through public plan save/apply; both refuse the extra matching key before effect, while legal payload from same Original creates one domain draft. Not an access probe, privilege change, or physical POST.",
+  "pinned_product_sources": {
+    "scripts/cp6_bc_probe.py": "147de7092ba2284312ba376f8cae82bf05c0fbb77e28956f45966cdfa6c8adb1",
+    "scripts/cp6_bd_probe.py": "c3add21e66d4d5544bf4e4d046a9fa8d64dbcb0cb285551a92c2d7405156b31b",
+    "scripts/cp6_bd_objects_d07.sql": "f929f6c1f0dfed06a5a1ff8d83c606fef78cbb7b5d34f27cddd0c3c142f5616f",
+    "scripts/cp6_auditor_runner.py": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7",
+    "scripts/cp7_p21_full_rehearsal_probe.py": "a6da56d3c3177c2f6083b19e996d1f7a31b7e934607d7f97232336405fd529f7",
+    "scripts/cp7_cp17_fix_probe.py": "0b95603327920d9e7724bfb0970b3ff6ed4498d0d206e35ed64daa9bbde57e9c",
+    "scripts/cp7_analysis_cases.py": "2df0e458f8108ce80d6d16c90cd6f7a33c9bb59794c3e92e9012b7ad077c0262",
+    "scripts/cp7_planning_netting_cases.py": "acc215b7fed17b1e577ad12546b7d20358809002d5f38acdae293e8fce20579d",
+    "scripts/cp7_planning_schedule_cases.py": "b79a0681ca16f987193354f39c8a72117a16bc1447bb4dedae50ff554e626f69",
+    "scripts/cp7_plan_native_cases.py": "25d066c8468e914f5f0d8b0f9b7f75c296d7079930372bf59d98929914f5a080",
+    "scripts/cp7_wip_cases.py": "a4044dd682fc65562f0d08529fc5bdc49bfb4e146757f90de69e22a3fd861bf1",
+    "scripts/cp7-src/wip/matching.sql": "24c6b8ccbe79a1a6ce5cc4ffc3afa411275819f3d92238c1a6d63b339aa20af2",
+    "scripts/cp7-src/baseline/allocation.sql": "b290b6b68877696ac8bc330cf1a460830c7e0eb7453ef211f5e8e29c8e7ff10d",
+    "scripts/cp7-src/planning/netting.sql": "cf044584c3e5f47993804c7759f74b0a0249551a86cf9de4d916efd7f17df5f7",
+    "scripts/cp7-src/plan-native/preflight.sql": "9fcbbafbc2353380f2e940b7b4ca15ddd25e5171a761e60596c1dd46527d11e8",
+    "scripts/cp7-src/plan-native/source.sql": "5c7eb918a7c3b8e3bd28d1cf7fb9654ec6edf3be63b12cf2ae93090852f1bb64",
+    "scripts/cp7-src/plan-native/commands.sql": "c0865398cc10a0c9b1298847972336b27a21bcb0e612dda1eb58e0b45eb4f1bc",
+    "scripts/cp7-src/plan-native/bootstrap.sql": "8f68fb552d4fa2dc46167d7c1d44d7035927020ab98f2c8260460da34eae4ab4",
+    "scripts/cp7_procurement_cases.py": "460b4541154ba2950425c5fbaa1c0872f941cfc4646a9810841802ce72e9f3d1",
+    "scripts/cp7-src/procurement/bootstrap.sql": "595aee83f4c692fdbe19ba1664b03b85c74f67f5d73bdd3079380a57b2574ad6",
+    "scripts/cp7-src/procurement/command.sql": "4842cb68a901dec90f57752dc5783fe70796f26e655c4228e3a2a959461c9833",
+    "scripts/cp7-src/procurement/accepted-deltas.sql": "f2f39d1cafc25d160bf0917cf898770d2c998c65c837a578bde2a1e6fa2163cf",
+    "src/procurementContract.ts": "9e2d22fafd6c4f93d975deb6c04e848af5e42608bacd9ca6da67ac5678669c2a",
+    "src/ConnectedProcurementPage.tsx": "94ab49f35de9046ed8517705872549dc3aa8b9656babd76b463fe43b21f10e2c",
+    "src/laundryBd.ts": "2d715e0b7833612a96ddcb0911643290d7b93a0b16f3aee413b171e39d1c57a3",
+    "src/LaundryBdPanel.tsx": "0f75a213d9435e1a47cc1b6406a7b0e5e5fbc36c4b4c12c00ad8f8146ef61cc8",
+    "src/hppPoolContract.ts": "c92ea89df06b97bce3491efe6464331351dea615ef9b3ec2cb44c0949403c3a4",
+    "scripts/cp6_bd_objects_policy.sql": "705638fda10c939e6a813958d87316c6b122b41902aa5acd54db1c5fee5898c3",
+    "scripts/cp6_bd_objects_invoice.sql": "f57565e6ee23f3dd6eeba01f911b49f3c59f0fd2017e6d67dfb24486b5988583",
+    "scripts/cp6_bd_objects_claimcredit.sql": "f0ebe32baef55e30025766b87ea4d4723018b2af58cc6fdf6789f9fce45464db",
+    "scripts/cp7-src/hpp-pool/pool.sql": "3d8cb15a19d7eb07f803517730f65e8d475d6168075db9fdf2de68f5d307bb61",
+    "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql": "c5404de584a4734fb235f5253f10fb10a1d13f01f3f993b99150a422008e2268",
+    "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql": "7b5690a2eddf618833d352dc75eb95aa1ef4dbcfb25d39b30374b733d33dadbc",
+    "scripts/cp7_cp17_fix_cases.py": "510f48c61fc7919c5761abe2cf8fa75d952939f924b7681943ac4af8b6f80b1e"
+  },
+  "audit_tools": {
+    "matching_pipeline_case.py": "1e2e631fc4e70a64df9423f5c3d482e2d9fc9b14db1a08619a008ca648d1f1eb",
+    "numeric_boundary_cases.py": "fbba6e94ff490c90af468c37433350f53e45b83e12c27396805f7c4e1d6d0529",
+    "numeric_boundary_client.mjs": "73c4b02fd27b1d7399245aebd95ce152ed7ebf00284ac943e4fd6cc1aabb6fe0",
+    "cache_detector_cases.py": "1a5ae1f8d5f94e86a1ff1ca4e0f9c4d1ae2e7ac92d748edb2df4c3723520d8a3",
+    "detector_case.py": "8a6a5c3eea366a10383cf3ab7531089bcef80972abd31c8995f1564aa02d9e1d",
+    "functional_boundaries_qualification.py": "cda722daa5c5d3780b780c148898337bab1ec5f1858bf86a4237a485e0dbefa0"
+  },
+  "new_business_case_ids": 5,
+  "new_race_credit": 0,
+  "no_business_retry": true,
+  "max_pre_case_prerequisite_retry": 1,
+  "bootstrap_attempts_max": 2,
+  "permissions_and_budgets_unchanged": true,
+  "held_r3_probes_resumed": false,
+  "hosted_or_production": false,
+  "cleanup": "Same strict Native per-case rollback, complete_boundary_restored and all primary ERP/public/Auth/schema ACL component restoration.",
+  "limitations": [
+    "One finite matching pair and public boundary; not all colors/models/SKU Cartesian combinations.",
+    "The negative matching facts are a copied DTO, not forged persisted Native facts.",
+    "Public plan commands create an unposted domain draft; no material reservation, stock issue, wage or physical production is inferred."
+  ],
+  "metadata_only_collection": "After install record pg_get_functiondef of nine exact existing detector functions to JSON, no writes or business credit.",
+  "guards_triggers_privileges_never_modified": true,
+  "client_numeric_scope": "Actual helpers, not a browser or transaction substitute; Number conversions limited/count/sign are traced without global N/A. Laundry maximum Native draft is separate from15integer UI input and does not claim huge POST/cash.",
+  "detector_cache_scope": "Only mutable FG and daily-balance caches. Equity chosen to avoid account-specific AR/AP/material valuation alarms. No journal_lines/entries/movements/facts modified. Three named checks expected each0\u21921\u21920; every other row unchanged.",
+  "no_global32bit_NA": true,
+  "new_case_ids": 8,
+  "case_kind_breakdown": {
+    "native_business": 5,
+    "actual_client_pure_helper": 1,
+    "mutable_cache_detector_control": 2
+  }
+}

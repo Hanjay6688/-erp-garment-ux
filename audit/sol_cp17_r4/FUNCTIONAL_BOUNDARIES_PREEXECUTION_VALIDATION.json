@@ -1,0 +1,18 @@
+{
+  "state": "STATIC_AND_PURE_CONTROLS_ONLY_NO_PRODUCT_CASES_RUN",
+  "case_ids_exact": 8,
+  "python_ast": true,
+  "node_check": true,
+  "source_and_tool_hashes_match": true,
+  "actual_pass_gate_positive": 1,
+  "actual_pass_gate_negative": 8,
+  "literal_arithmetic": true,
+  "parsed_workflow_changes_only_names_entrypoint_artifact": true,
+  "setup_permissions_budgets_unchanged": true,
+  "strict_once_entrypoint": true,
+  "bootstrap_max_attempts": 2,
+  "product_diff_empty": true,
+  "held_r3_probes_excluded": true,
+  "guard_trigger_or_fact_mutation": false,
+  "extra_mutations_only_two_declared_derived_caches": true
+}

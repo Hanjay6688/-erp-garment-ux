@@ -1,0 +1,66 @@
+{
+  "state": "AUDIT_ONLY_FINITE_FUNCTIONAL_QUALIFICATION_READY_FOR_NORMAL_REVIEW",
+  "parent_expected": "15dfad2008bac748470231045fe9decbc67b8034",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "sensitive_private_or_unrelated_data": false,
+  "product_diff_empty": true,
+  "held_probes_excluded": true,
+  "no_force_or_other_branch_action": true,
+  "case_count": 8,
+  "new_race_credit": 0,
+  "scope": "matcher1,numeric5,derived-cache2; no product/guard/trigger/fact modification; only disposable synthetic Native commands and declared cache savepoints",
+  "files": [
+    {
+      "path": ".github/workflows/audit-sol-r4-functional-boundaries.yml",
+      "bytes": 9991,
+      "sha256": "d78b923116ecc0c122cd7dad888f4d61e3573142f9b9d6dd976a583122cdd141"
+    },
+    {
+      "path": "audit/sol_cp17_r4/matching_pipeline_case.py",
+      "bytes": 8167,
+      "sha256": "1e2e631fc4e70a64df9423f5c3d482e2d9fc9b14db1a08619a008ca648d1f1eb"
+    },
+    {
+      "path": "audit/sol_cp17_r4/numeric_boundary_cases.py",
+      "bytes": 9764,
+      "sha256": "fbba6e94ff490c90af468c37433350f53e45b83e12c27396805f7c4e1d6d0529"
+    },
+    {
+      "path": "audit/sol_cp17_r4/numeric_boundary_client.mjs",
+      "bytes": 3416,
+      "sha256": "73c4b02fd27b1d7399245aebd95ce152ed7ebf00284ac943e4fd6cc1aabb6fe0"
+    },
+    {
+      "path": "audit/sol_cp17_r4/cache_detector_cases.py",
+      "bytes": 4763,
+      "sha256": "1a5ae1f8d5f94e86a1ff1ca4e0f9c4d1ae2e7ac92d748edb2df4c3723520d8a3"
+    },
+    {
+      "path": "audit/sol_cp17_r4/functional_boundaries_qualification.py",
+      "bytes": 5136,
+      "sha256": "cda722daa5c5d3780b780c148898337bab1ec5f1858bf86a4237a485e0dbefa0"
+    },
+    {
+      "path": "audit/sol_cp17_r4/functional_boundaries_validate.py",
+      "bytes": 4796,
+      "sha256": "4cf5aa3c39b958e871ad17c1db0d27ae6c66c42bcf20034cf46fe03b444f15e8"
+    },
+    {
+      "path": "audit/sol_cp17_r4/FUNCTIONAL_BOUNDARIES_PREEXECUTION_MANIFEST.json",
+      "bytes": 12686,
+      "sha256": "d46b9402d06579ec5b8e53e99455182222f9eea59b1d2d52a220dd2c997f3faf"
+    },
+    {
+      "path": "audit/sol_cp17_r4/FUNCTIONAL_BOUNDARIES_PREEXECUTION_VALIDATION.json",
+      "bytes": 619,
+      "sha256": "8e72ab1d6b530191e4f0e04351138b6b0fc8fe7c832c36abd8705224edee2299"
+    }
+  ],
+  "case_kind_breakdown": {
+    "native_business": 5,
+    "actual_client_pure_helper": 1,
+    "mutable_cache_detector_control": 2
+  }
+}
