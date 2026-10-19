@@ -40,6 +40,14 @@
 .creminders-problem { margin: 10px 13px 0; color: #e6c98a; font-size: 11.5px; line-height: 1.45; }
 .creminders-cancel .creminders-problem { margin: 0; }
 .creminders-readonly p { margin: 0; padding: 14px; color: #8a96aa; font-size: 12px; line-height: 1.5; }
+/* WA-4: the three tabs of the Reminder menu. A hidden tab panel keeps its state; [hidden] must win over the grid. */
+.creminders-tabs { padding: 6px; display: flex; gap: 6px; flex-wrap: wrap; }
+.creminders-tabs button { flex: 1 1 140px; min-height: 40px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; background: rgba(255, 255, 255, .025);
+  color: #aab4c4; font-size: 12.5px; font-weight: 650; cursor: pointer; overflow-wrap: anywhere; }
+.creminders-tabs button.active { background: rgba(124, 141, 255, .16); border-color: rgba(124, 141, 255, .45); color: #e3e7ff; }
+.creminders-tabs button:focus-visible { outline: 2px solid #91a0ff; outline-offset: 2px; }
+.creminders-tabpanel { display: grid; gap: 12px; min-width: 0; }
+.creminders-tabpanel[hidden] { display: none; }
 @media (max-width: 620px) {
   .creminders .reminder-list > article { grid-template-columns: minmax(0, 1fr); }
   .creminders .reminder-actions { grid-column: 1; justify-content: stretch; }

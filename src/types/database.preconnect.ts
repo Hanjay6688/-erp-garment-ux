@@ -173,6 +173,12 @@ export type PreconnectDatabase = {
       erp_cp7_get_erp_settings_v1: { Args: Record<PropertyKey, never>; Returns: Json }
       erp_cp7_get_audit_trail_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_save_reminder_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string | null }; Returns: Json }
+      erp_cp7_get_alerts_v1: { Args: { p: Json }; Returns: Json }
+      erp_cp7_get_wa_settings_v1: { Args: Record<PropertyKey, never>; Returns: Json }
+      erp_cp7_save_wa_settings_v1: { Args: { p: Json; p_request: string }; Returns: Json }
+      erp_cp7_set_wa_key_v1: { Args: { p_key: string; p_request: string }; Returns: Json }
+      erp_cp7_send_wa_test_v1: { Args: { p_request: string }; Returns: Json }
+      erp_cp7_resolve_wa_dispatch_v1: { Args: { p: Json; p_request: string }; Returns: Json }
       erp_cp7_get_cutting_auto_po_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_save_cutting_auto_po_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_save_master_v1: { Args: { p_kind: string; p_payload: Json; p_request: string }; Returns: Json }

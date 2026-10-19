@@ -104,3 +104,20 @@ assert.doesNotMatch(hppPool, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)
 const recost = read('src/RecostQueuePanel.tsx')
 assert.match(recost, /useProductionMutation\('HPP_RECOST'\)/)
 assert.match(recost, /parseRecostOutcome/)
+
+// WA-4 (owner D17-3..D17-6): the Sambungan WhatsApp writes keep their request ids in memory only (no recovery envelope,
+// no browser storage: the settings carry the owner's phone number), and the CallMeBot key is read from an uncontrolled
+// password input when it is sent, with a fresh request id, and the input is emptied right after.
+const wa = read('src/WaConnectionPanel.tsx')
+const waContract = read('src/waContract.ts')
+const waSystem = read('src/SystemRemindersPanel.tsx')
+for (const [path, source] of [['src/WaConnectionPanel.tsx', wa], ['src/waContract.ts', waContract], ['src/SystemRemindersPanel.tsx', waSystem]]) {
+  assert.doesNotMatch(source, /useProductionMutation|productionRecovery|localStorage|sessionStorage|indexedDB|console\./, `${path} persists or logs WhatsApp data`)
+}
+for (const token of ["client.rpc('erp_cp7_set_wa_key_v1', { p_key: input.value, p_request: crypto.randomUUID() })", "input.value = ''",
+  'ref={keyInput} type="password"', "client.rpc('erp_cp7_save_wa_settings_v1', { p: payload, p_request: request })", 'parseWaSaveResult', 'waKeyErrorText']) {
+  assert.ok(wa.includes(token), `WhatsApp connection omits ${token}`)
+}
+assert.equal((wa.match(/p_key/g) ?? []).length, 1, 'The CallMeBot key may travel in one request only')
+assert.doesNotMatch(wa.split('\n').find((line) => line.includes('ref={keyInput}')) ?? '', /\bvalue=|defaultValue=/, 'The key input must stay uncontrolled')
+console.log('WhatsApp connection passed: in-memory request ids, write-only key from an uncontrolled input, nothing stored or logged.')

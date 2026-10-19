@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { hasPermission } from './auth/accessCatalog'
 import { isConnectedRuntime } from './config/runtime'
@@ -8,6 +8,8 @@ import { cp6WibDateTimeInput, formatCp6WibDateTime } from './cp6BusinessTime'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import type { ProductionEnvelope } from './productionRecovery'
+import SystemRemindersPanel from './SystemRemindersPanel'
+import WaConnectionPanel from './WaConnectionPanel'
 import {
   parseRemindersWorkspace, reminderCancelPayload, reminderCancelProblem, reminderDraftProblem, reminderFilterLabel, reminderFilters,
   reminderIdPayload, reminderPriorityLabel, reminderPriorities, reminderQuery, reminderRefusal, reminderSavePayload, validateReminderOutcome,
@@ -23,6 +25,11 @@ const number = new Intl.NumberFormat('id-ID')
 const empty: ReminderDraft = { title: '', note: '', dueWib: '', priority: 'NORMAL', module: 'Operasional' }
 const dueLabel: Record<string, string> = { OVERDUE: 'Lewat jatuh tempo', TODAY: 'Hari ini', TOMORROW: 'Besok' }
 type Editing = { id: string; rowVersion: number; original: ReminderDraft } | null
+// WA-4 (owner D17-5): three tabs. "Pengingat saya" is the page as it was; "Pengingat sistem" is for every account that may
+// open Reminder; "Sambungan WhatsApp" exists only for the OWNER role. A tab is mounted when first opened (no read before
+// that) and then kept, hidden, so switching back never loses what was being typed.
+type Tab = 'MINE' | 'SYSTEM' | 'WA'
+const tabLabel: Record<Tab, string> = { MINE: 'Pengingat saya', SYSTEM: 'Pengingat sistem', WA: 'Sambungan WhatsApp' }
 
 export default function ConnectedRemindersPage() {
   const { runtime, identity } = useAuth()
@@ -38,6 +45,17 @@ function Workspace() {
   const recovery = useProductionMutation('REMINDER')
   const { beginRead, finishRead, isReadCurrent, run, reconcile } = recovery
   const mayManage = hasPermission(identity, 'settings.reminder.manage')
+  const owner = identity.profile.role === 'OWNER'
+  const tabs: Tab[] = owner ? ['MINE', 'SYSTEM', 'WA'] : ['MINE', 'SYSTEM']
+  const [tab, setTab] = useState<Tab>('MINE'), [opened, setOpened] = useState<readonly Tab[]>(['MINE'])
+  const openTab = (next: Tab) => { setTab(next); setOpened(current => current.includes(next) ? current : [...current, next]) }
+  const tabKey = (e: ReactKeyboardEvent<HTMLDivElement>) => {
+    const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0
+    if (!step) return
+    e.preventDefault()
+    const next = tabs[(tabs.indexOf(tab) + step + tabs.length) % tabs.length]
+    openTab(next); document.getElementById(`creminders-tab-${next}`)?.focus()
+  }
   const serial = useRef(0), selected = useRef<ReminderQuery>(reminderQuery('ACTIVE')), titles = useRef(new Map<string, string>())
   const [data, setData] = useState<RemindersWorkspace | null>(null), [busy, setBusy] = useState(false), [error, setError] = useState(''), [done, setDone] = useState('')
   const [filter, setFilter] = useState<ReminderFilter>('ACTIVE')
@@ -105,9 +123,15 @@ function Workspace() {
   return <main className="creminders" aria-label="Pengingat">
     <header className="panel creminders-head">
       <div><div className="eyebrow">PENGATURAN & AUDIT</div><h1>Pengingat</h1>
-        <p>Pengingat kerja pribadi akun ini. Hanya akun ini yang melihatnya; tidak dikirim lewat WhatsApp, email, atau notifikasi.</p></div>
-      <button type="button" disabled={busy} onClick={() => { setDone(''); void load() }}>Muat ulang pengingat</button>
+        <p>{owner
+          ? 'Pengingat kerja pribadi akun ini; hanya akun ini yang melihatnya. Bila Sambungan WhatsApp menyala, pengingat Bos yang waktunya sudah tiba juga diteruskan ke WhatsApp Bos sendiri.'
+          : 'Pengingat kerja pribadi akun ini; hanya akun ini yang melihatnya. Pengingat ini tidak dikirim ke mana pun: tidak lewat WhatsApp, email, atau notifikasi.'}</p></div>
+      {tab === 'MINE' ? <button type="button" disabled={busy} onClick={() => { setDone(''); void load() }}>Muat ulang pengingat</button> : null}
     </header>
+    <div className="panel creminders-tabs" role="tablist" aria-label="Bagian pengingat" onKeyDown={tabKey}>{tabs.map(t =>
+      <button type="button" role="tab" key={t} id={`creminders-tab-${t}`} aria-controls={`creminders-panel-${t}`} aria-selected={tab === t}
+        tabIndex={tab === t ? 0 : -1} className={tab === t ? 'active' : ''} onClick={() => openTab(t)}>{tabLabel[t]}</button>)}</div>
+    <div className="creminders-tabpanel" role="tabpanel" id="creminders-panel-MINE" aria-labelledby="creminders-tab-MINE" hidden={tab !== 'MINE'}>
     {recovery.pending || recovery.error ? <ProductionRecoveryNotice recovery={recovery} onReconcile={() => reconcile(handlers)} className="panel creminders-alert" reconcileLabel="Periksa hasil simpan pengingat"/> : null}
     {done ? <p className="panel creminders-done" role="status">{done}</p> : null}
     {error ? <p className="panel creminders-alert" role="alert">{error}</p> : null}
@@ -159,6 +183,11 @@ function Workspace() {
         </aside> : <aside className="panel reminder-editor creminders-readonly" aria-label="Isian pengingat"><p>Akun ini hanya bisa melihat pengingat. Menambah dan mengubah butuh hak Kelola Reminder.</p></aside>}
       </section>
     </> : null}
+    </div>
+    {opened.includes('SYSTEM') ? <div className="creminders-tabpanel" role="tabpanel" id="creminders-panel-SYSTEM" aria-labelledby="creminders-tab-SYSTEM" hidden={tab !== 'SYSTEM'}>
+      <SystemRemindersPanel owner={owner} onOpenWa={owner ? () => openTab('WA') : undefined}/></div> : null}
+    {owner && opened.includes('WA') ? <div className="creminders-tabpanel" role="tabpanel" id="creminders-panel-WA" aria-labelledby="creminders-tab-WA" hidden={tab !== 'WA'}>
+      <WaConnectionPanel/></div> : null}
   </main>
 }
 

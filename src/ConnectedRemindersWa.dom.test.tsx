@@ -1,0 +1,480 @@
+// @vitest-environment jsdom
+import { act } from 'react'
+import { createRoot, type Root } from 'react-dom/client'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import ConnectedRemindersPage from './ConnectedRemindersPage'
+import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
+import { formatCp6WibDateTime } from './cp6BusinessTime'
+import {
+  parseSystemAlerts, parseWaSaveResult, parseWaWorkspace, waDraftFromSettings, waRefusal, waSettingsPayload, type WaDraft,
+} from './waContract'
+
+// WA-4 (owner D17-3..D17-6): the Pengingat sistem and Sambungan WhatsApp tabs against a fake of the six public RPCs of
+// scripts/cp7-src/alerts/alerts.sql that keeps their rules (owner only, revision check, digest outside quiet hours, enable
+// needs number and key, three tests an hour, one answer per request id, only UNKNOWN can be marked). Test data only:
+// phone +620000000000 and keys FAKEKEY-*.
+const auth = vi.hoisted(() => ({ current: null as unknown }))
+const client = vi.hoisted(() => ({ rpc: vi.fn() }))
+vi.mock('./auth/AuthProvider', () => ({ useAuth: () => auth.current }))
+vi.mock('./lib/supabase', () => ({ getUatSupabaseClient: () => client }))
+
+const as = (role: string, permissions: string[]) => ({ ...recoveryIdentity, identity: { ...recoveryIdentity.identity, profile: { ...recoveryIdentity.identity.profile, role }, permissions } })
+const owner = as('OWNER', ['settings.reminder.view', 'settings.reminder.manage'])
+const staff = as('STAFF', ['settings.reminder.view', 'settings.reminder.manage', 'finance.ar.view'])
+const PHONE = '+620000000000'
+const NOW = '2026-10-19T03:00:00+00:00', LATER = '2026-10-19T03:05:00+00:00'
+const id = (n: number) => `0f6c1d8e-0000-4000-8000-${String(n).padStart(12, '0')}`
+const RUN = id(900)
+const wib = formatCp6WibDateTime
+
+// ------------------------------------------------------------ Pengingat sistem --
+const analysisDetail = (extra: Record<string, unknown>) => ({ run_id: RUN, data_as_of: '2026-10-19T01:00:00+00:00', checked_at: '2026-10-19T02:30:00+00:00',
+  label: null, target_key: null, need_snapshot_pcs: null, need_now_pcs: null, increase_pcs: null, material_id: null, material_name: null, value: null, unit: null,
+  threshold: null, reason: 'NEED_STILL_OPEN_NOW', ...extra })
+const waState = (state: string, extra: Record<string, unknown> = {}) => ({ state, round: 0, reason: null, dispatch_id: null, dispatch_status: null, settled_at: null, ...extra })
+const row = (n: number, kind: string, title: string, detail: Record<string, unknown>, extra: Record<string, unknown> = {}) => ({
+  id: id(n), kind, subject_key: `${kind}:${n}`, episode: 1, title, detail, party_names: [] as string[], state: 'OPEN', opened_at: '2026-10-19T02:00:00+00:00',
+  refreshed_at: '2026-10-19T02:40:00+00:00', resolved_at: null as string | null, resolution: null as string | null, wa: null as unknown, ...extra })
+const fabric = (sku: string, name: string, qty: string) => ({ material_id: id(100 + qty.length), material_sku: sku, material_name: name, unit_code: 'kg', qty, minimum_qty: '60' })
+const resolved = (resolution: string) => ({ state: 'RESOLVED', resolved_at: '2026-10-18T05:00:00+00:00', resolution })
+function alertRows(withWa: boolean) {
+  const w = (state: string, extra: Record<string, unknown> = {}) => withWa ? waState(state, extra) : null
+  return [
+    row(1, 'FABRIC_BELOW_MINIMUM', 'Stok kain di bawah minimum: Katun Combed 30s Hitam', fabric('KC30-HTM', 'Katun Combed 30s Hitam', '42.50'),
+      { wa: w('ACCEPTED', { dispatch_id: 7, dispatch_status: 'PROVIDER_ACCEPTED', settled_at: '2026-10-19T02:01:00+00:00' }) }),
+    row(2, 'AR_DUE', 'Piutang jatuh tempo: S-0012', { sale_id: id(102), number: 'S-0012', open_balance: '1250000.00', due_date: '2026-10-18', state: 'OVERDUE', as_of: '2026-10-19' },
+      { party_names: ['Toko Contoh'], wa: w('HELD_QUIET') }),
+    row(3, 'AP_DUE', 'Tagihan supplier jatuh tempo: PO-0007', { purchase_id: id(103), purchase_number: 'PO-0007', invoice_numbers: '["INV-9"]', remaining: '3000000',
+      due_date: '2026-10-19', state: 'DUE_TODAY', as_of: '2026-10-19' }, { party_names: ['Supplier Contoh'], wa: w('PENDING') }),
+    row(4, 'PRODUCTION_GAP', 'Kekurangan produksi: Kemeja A M', analysisDetail({ label: 'Kemeja A M', target_key: 'P1:M', need_snapshot_pcs: 150, need_now_pcs: '120',
+      increase_pcs: '30', threshold: 50 }), { wa: w('UNKNOWN', { dispatch_id: 12, dispatch_status: 'UNKNOWN', settled_at: '2026-10-19T02:50:00+00:00' }) }),
+    row(5, 'FABRIC_NEED', 'Kain perlu dibeli: Drill Navy untuk Celana B', analysisDetail({ label: 'Celana B', material_id: id(105), material_name: 'Drill Navy', value: '35.5',
+      unit: 'm', threshold: '10', reason: 'FABRIC_NEED_UNCHANGED_SINCE_SNAPSHOT' }), { wa: w('KIND_OFF', { reason: 'KIND_OFF', settled_at: '2026-10-19T02:01:00+00:00' }) }),
+    row(6, 'FABRIC_BELOW_MINIMUM', 'Stok kain di bawah minimum: Rayon Merah', fabric('RY-MRH', 'Rayon Merah', '61'),
+      { ...resolved('AT_OR_ABOVE_MINIMUM'), wa: w('RESOLVED_BEFORE_SEND', { reason: 'AT_OR_ABOVE_MINIMUM', settled_at: '2026-10-18T05:00:00+00:00' }) }),
+    row(7, 'PRODUCTION_GAP', 'Kekurangan produksi: Kaos C S', analysisDetail({ label: 'Kaos C S', need_now_pcs: '5' }),
+      { ...resolved('RECHECK_SOMETHING_NEW'), episode: 2, wa: w('ACCEPTED', { round: 1, dispatch_id: 6, dispatch_status: 'PROVIDER_ACCEPTED', settled_at: '2026-10-18T01:00:00+00:00' }) }),
+    row(8, 'AR_DUE', 'Piutang jatuh tempo: S-0009', { sale_id: id(108), number: 'S-0009', open_balance: '0', due_date: '2026-10-10', state: 'OVERDUE', as_of: '2026-10-17' },
+      { ...resolved('SOMETHING_UNMAPPED'), party_names: ['Toko Lain'], wa: w('ACCEPTED') }),
+  ]
+}
+const kindsOwner = [
+  { kind: 'AP_DUE', last_try_at: '2026-10-19T02:59:00+00:00', last_ok_at: '2026-10-19T02:59:00+00:00', last_error: null, open_count: 1 },
+  { kind: 'AR_DUE', last_try_at: '2026-10-19T02:59:00+00:00', last_ok_at: '2026-10-19T02:00:00+00:00', last_error: '42501 CP7_ALERT_AR_SOURCE_DENIED', open_count: 1 },
+  { kind: 'FABRIC_BELOW_MINIMUM', last_try_at: '2026-10-19T02:59:00+00:00', last_ok_at: '2026-10-19T02:59:00+00:00', last_error: null, open_count: 1 },
+  { kind: 'FABRIC_NEED', last_try_at: null, last_ok_at: null, last_error: null, open_count: null },
+  { kind: 'PRODUCTION_GAP', last_try_at: null, last_ok_at: null, last_error: null, open_count: null },
+]
+const analysisStatus = {
+  run: { run_id: RUN, data_as_of: '2026-10-19T01:00:00+00:00', phase: 'DONE', rule: 'FABRIC_NEED', next_offset: 4, checked: 9, still_open: 2, closed: 6, rule_off: 1,
+    error: null, started_at: '2026-10-19T02:20:00+00:00', updated_at: '2026-10-19T02:31:00+00:00', finished_at: '2026-10-19T02:31:00+00:00' },
+  request: { request_id: id(950), state: 'SKIPPED_NO_CHANGE', query: null, freshness: 'NO_RECORDED_CHANGE', created_at: '2026-10-19T02:45:00+00:00', requested_at: null, error: null },
+  tick: { at: '2026-10-19T02:59:00+00:00', outcome: 'NOT_DUE' },
+}
+function alertsReply(who: 'OWNER' | 'STAFF', configured = true) {
+  const rows = alertRows(who === 'OWNER')
+  return { contract_version: 'cp7.system-alerts.v1', read_at: NOW, configured, collector: configured ? { at: '2026-10-19T02:59:00+00:00', outcome: 'COLLECTED' } : null,
+    analysis: who === 'OWNER' ? analysisStatus : null, kinds: who === 'OWNER' ? kindsOwner : kindsOwner.filter(k => k.kind === 'AR_DUE'),
+    rows: who === 'OWNER' ? rows : rows.filter(r => r.kind === 'AR_DUE') }
+}
+
+// ---------------------------------------------------------- Sambungan WhatsApp --
+const defaults = { revision: 0, enabled: false, phone_e164: null as string | null, detail: 'SUMMARY', digest_times: ['08:00', '15:00'],
+  kinds: ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'AR_DUE', 'AP_DUE', 'PRODUCTION_GAP', 'FABRIC_NEED'], repeat_minutes: 1440, burst_after_per_day: 30,
+  burst_merge_minutes: 30, max_items: 10, quiet_enabled: true, quiet_start: '21:00', quiet_end: '06:00', analysis_every_minutes: 60, analysis_start: '07:00', analysis_end: '20:00' }
+type Settings = typeof defaults & { saved_at?: string }
+type Dispatch = { id: number; kind: string; status: string; queued_at: string; answered_at: string | null; http_status: number | null; provider_text: string | null
+  body: string | null; digest_slot: string | null; resolved_outcome: string | null; resolved_at: string | null; items: number }
+const dispatch = (n: number, extra: Partial<Dispatch>): Dispatch => ({ id: n, kind: 'INSTANT', status: 'PROVIDER_ACCEPTED', queued_at: '2026-10-19T01:00:00+00:00',
+  answered_at: '2026-10-19T01:00:05+00:00', http_status: 200, provider_text: 'Message queued', body: `⚠ ERP Enteng · 19 Okt 08.00\nPesan ${n}\nBuka ERP > Reminder`,
+  digest_slot: null, resolved_outcome: null, resolved_at: null, items: 2, ...extra })
+type WaFake = { settings: Settings; keyPresent: boolean; keySetAt: string | null; transport: boolean; quietNow: boolean; dispatches: Dispatch[]; tests: number
+  lose: Set<string>; calls: [string, Record<string, unknown>][] }
+const refuse = (code: string, message: string) => ({ data: null, error: { code, message, details: null, hint: null } })
+const inQuiet = (s: { quiet_start: string; quiet_end: string }, t: string) => s.quiet_start < s.quiet_end ? t >= s.quiet_start && t < s.quiet_end : t >= s.quiet_start || t < s.quiet_end
+function server(options: { alerts?: 'OWNER' | 'STAFF'; configured?: boolean; wa?: Partial<WaFake> } = {}) {
+  const fake: WaFake = { settings: { ...defaults }, keyPresent: false, keySetAt: null, transport: true, quietNow: false, dispatches: [], tests: 0, lose: new Set(), calls: [], ...options.wa }
+  const answers = new Map<string, { args: string; data: unknown }>()
+  const once = (key: string, args: unknown, run: () => { data: unknown; error: unknown }) => {
+    const prior = answers.get(key)
+    if (prior) return prior.args === JSON.stringify(args) ? { data: { ...(prior.data as object), replay: true }, error: null } : refuse('22023', 'CP7_WA_REQUEST_REUSED')
+    const out = run()
+    if (!out.error) answers.set(key, { args: JSON.stringify(args), data: out.data })
+    return out
+  }
+  client.rpc.mockImplementation(async (name: string, args: Record<string, unknown> = {}) => {
+    fake.calls.push([name, structuredClone(args)])
+    const isOwner = (auth.current as typeof owner).identity.profile.role === 'OWNER'
+    if (name === 'erp_cp7_get_reminders_v1') {
+      const q = args.p_query as { filter: string; limit: number; offset: number }
+      return { data: { contract_version: 'cp7.reminders-workspace.v1', filter: q.filter,
+        page: { limit: q.limit, offset: q.offset, total: 0, shown: 0, window: 0, window_limit: 200, next_offset: null, beyond_window: 0 }, items: [],
+        counts: { open: 0, done: 0, cancelled: 0 }, due: { overdue: 0, today: 0, tomorrow: 0, complete: true }, today: '2026-10-19', read_at: NOW, can_manage: true,
+        business_DML: false }, error: null }
+    }
+    if (name === 'erp_cp7_get_alerts_v1') return { data: alertsReply(options.alerts ?? (isOwner ? 'OWNER' : 'STAFF'), options.configured ?? true), error: null }
+    if (!isOwner) return refuse('42501', 'CP7_WA_OWNER_ONLY')
+    const key = String(args.p_request ?? '')
+    const lost = fake.lose.has(name)
+    const answer = (() => {
+      if (name === 'erp_cp7_get_wa_settings_v1') return { data: { contract_version: 'cp7.wa-settings.v1', read_at: NOW, settings: fake.settings, defaults,
+        key_present: fake.keyPresent, key_set_at: fake.keySetAt, transport_is_callmebot: fake.transport, quiet_now: fake.quietNow, analysis: analysisStatus,
+        ticks: { COLLECT: { at: '2026-10-19T02:59:00+00:00', outcome: 'COLLECTED' }, SEND: { at: '2026-10-19T02:59:30+00:00', outcome: 'WA_OFF' } },
+        outbox: { ACCEPTED: 4, PENDING: 2 }, dispatches: [...fake.dispatches].sort((a, b) => b.id - a.id) }, error: null }
+      if (name === 'erp_cp7_save_wa_settings_v1') return once(key, args.p, () => {
+        const p = args.p as Record<string, unknown> & typeof defaults & { expected_revision: number }
+        if (p.quiet_enabled && p.digest_times.some(t => inQuiet(p, t))) return refuse('22023', 'CP7_WA_DIGEST_IN_QUIET_HOURS')
+        if (p.expected_revision !== fake.settings.revision) return refuse('40001', 'CP7_WA_SETTINGS_STALE')
+        if (p.enabled && (!p.phone_e164 || !fake.keyPresent)) return refuse('22023', 'CP7_WA_ENABLE_NEEDS_PHONE_AND_KEY')
+        const { expected_revision, ...rest } = p
+        fake.settings = { ...rest, revision: expected_revision + 1, digest_times: [...rest.digest_times].sort(), kinds: [...rest.kinds].sort(), saved_at: LATER }
+        return { data: { replay: false, settings: fake.settings }, error: null }
+      })
+      if (name === 'erp_cp7_set_wa_key_v1') return once(key, {}, () => {
+        if (!/^[A-Za-z0-9_-]{4,64}$/.test(String(args.p_key))) return refuse('22023', 'CP7_WA_KEY_FORMAT')
+        fake.keyPresent = true; fake.keySetAt = LATER
+        return { data: { replay: false, key_present: true, key_set_at: LATER }, error: null }
+      })
+      if (name === 'erp_cp7_send_wa_test_v1') return once(key, {}, () => {
+        if (!fake.settings.phone_e164) return refuse('22023', 'CP7_WA_PHONE_MISSING')
+        if (!fake.keyPresent) return refuse('22023', 'CP7_WA_KEY_MISSING')
+        if (fake.tests >= 3) return refuse('22023', 'CP7_WA_TEST_LIMIT')
+        fake.tests += 1
+        const d = dispatch(Math.max(0, ...fake.dispatches.map(x => x.id)) + 1, { kind: 'TEST', status: 'QUEUED', queued_at: LATER, answered_at: null, http_status: null,
+          provider_text: null, body: '✅ Pesan uji ERP Enteng · 19 Okt 10.05. Kalau pesan ini masuk, sambungan WhatsApp sudah benar.', items: 0 })
+        fake.dispatches.push(d)
+        return { data: { replay: false, dispatch_id: d.id, status: 'QUEUED' }, error: null }
+      })
+      if (name === 'erp_cp7_resolve_wa_dispatch_v1') return once(key, args.p, () => {
+        const p = args.p as { dispatch_id: number; outcome: string }
+        const d = fake.dispatches.find(x => x.id === p.dispatch_id)
+        if (!d || d.status !== 'UNKNOWN' || d.resolved_outcome) return refuse('22023', 'CP7_WA_RESOLVE_NOT_UNKNOWN')
+        d.resolved_outcome = p.outcome; d.resolved_at = LATER
+        return { data: { replay: false, dispatch_id: d.id, resolved_outcome: p.outcome }, error: null }
+      })
+      throw new Error(`unexpected ${name}`)
+    })()
+    if (lost) { fake.lose.delete(name); throw new TypeError('Failed to fetch') }
+    return answer
+  })
+  return fake
+}
+
+let root: Root, container: HTMLDivElement
+beforeEach(() => {
+  ;(globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  localStorage.clear(); sessionStorage.clear(); client.rpc.mockReset(); auth.current = owner
+  Object.defineProperty(navigator, 'locks', { configurable: true, value: { request: async (n: string, _o: LockOptions, cb: (l: Lock | null) => Promise<unknown>) => cb({ name: n, mode: 'exclusive' } as Lock) } })
+  container = document.createElement('div'); document.body.append(container); root = createRoot(container)
+})
+afterEach(async () => { await act(async () => root.unmount()); container.remove(); localStorage.clear(); sessionStorage.clear(); Reflect.deleteProperty(navigator, 'locks'); vi.restoreAllMocks() })
+async function settle() { for (let i = 0; i < 3; i++) await act(async () => { await new Promise(r => setTimeout(r, 0)) }) }
+async function mount() { await act(async () => root.render(<ConnectedRemindersPage/>)); await settle() }
+function field<T extends HTMLElement = HTMLInputElement>(selector: string) { const el = container.querySelector<T>(selector); if (!el) throw new Error(`Missing ${selector}: ${container.textContent}`); return el }
+const input = (label: string) => field<HTMLInputElement>(`input[aria-label="${label}"], select[aria-label="${label}"]`)
+function button(name: string) {
+  const b = [...container.querySelectorAll<HTMLButtonElement>('button')].find(x => x.textContent === name || x.getAttribute('aria-label') === name || x.getAttribute('aria-label')?.startsWith(`${name} (`))
+  if (!b) throw new Error(`Missing ${name}: ${container.textContent}`); return b
+}
+async function click(name: string) { await act(async () => button(name).click()); await settle() }
+async function tab(name: string) { const t = [...container.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(x => x.textContent === name); if (!t) throw new Error(`No tab ${name}`); await act(async () => t.click()); await settle() }
+async function type(label: string, value: string) {
+  const el = input(label)
+  const proto = el instanceof HTMLSelectElement ? HTMLSelectElement.prototype : HTMLInputElement.prototype
+  await act(async () => { Object.getOwnPropertyDescriptor(proto, 'value')!.set!.call(el, value); el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })) })
+}
+async function check(label: string) { await act(async () => input(label).click()) }
+const panel = (label: string) => field<HTMLElement>(`[aria-label="${label}"]`)
+const tabs = () => [...container.querySelectorAll('[role="tab"]')].map(t => t.textContent)
+const calls = (fake: WaFake, name: string) => fake.calls.filter(c => c[0] === name).map(c => c[1])
+
+describe('Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4)', () => {
+  it('parses the documented shapes and refuses unknown or missing keys', () => {
+    const good = alertsReply('OWNER')
+    const parsed = parseSystemAlerts(good, { owner: true })
+    expect(parsed.rows).toHaveLength(8); expect(parsed.kinds.map(k => k.kind)).toEqual(['AP_DUE', 'AR_DUE', 'FABRIC_BELOW_MINIMUM', 'FABRIC_NEED', 'PRODUCTION_GAP'])
+    expect(parsed.rows[3].detail).toMatchObject({ kind: 'PRODUCTION_GAP', needSnapshotPcs: '150', needNowPcs: '120', threshold: '50' })
+    // The analysis detail as the brief lists it (only the keys of its kind) is the same contract.
+    const lean = structuredClone(good); const gap = lean.rows[3].detail as Record<string, unknown>
+    for (const k of ['material_id', 'material_name', 'value', 'unit']) delete gap[k]
+    expect(parseSystemAlerts(lean, { owner: true }).rows[3].detail.kind).toBe('PRODUCTION_GAP')
+    expect(() => parseSystemAlerts({ ...good, extra: 1 }, { owner: true })).toThrow('Respons pengingat sistem tidak cocok (pengingat sistem)')
+    const noRows: Record<string, unknown> = structuredClone(good); delete noRows.rows
+    expect(() => parseSystemAlerts(noRows, { owner: true })).toThrow('(pengingat sistem)')
+    expect(() => parseSystemAlerts({ ...good, rows: [{ ...good.rows[0], surprise: true }] }, { owner: true })).toThrow('(pengingat)')
+    expect(() => parseSystemAlerts({ ...good, rows: [{ ...good.rows[0], detail: { ...good.rows[0].detail, extra: 1 } }] }, { owner: true })).toThrow('rincian stok')
+    expect(() => parseSystemAlerts({ ...good, rows: [{ ...good.rows[3], detail: { ...good.rows[3].detail, mystery: 1 } }] }, { owner: true })).toThrow('rincian analisis')
+    expect(() => parseSystemAlerts(good, { owner: false })).toThrow('status WA')
+    expect(() => parseSystemAlerts({ ...good, rows: [{ ...good.rows[0], state: 'RESOLVED' }] }, { owner: true })).toThrow('status')
+    expect(() => parseSystemAlerts({ ...good, analysis: null }, { owner: true })).toThrow('analisis')
+    expect(() => parseSystemAlerts(alertsReply('STAFF'), { owner: false })).not.toThrow()
+    expect(() => parseSystemAlerts({ ...alertsReply('STAFF'), rows: alertRows(false) }, { owner: false })).toThrow('jenis pengingat')
+
+    const ws = { contract_version: 'cp7.wa-settings.v1', read_at: NOW, settings: defaults, defaults, key_present: false, key_set_at: null, transport_is_callmebot: true,
+      quiet_now: false, analysis: analysisStatus, ticks: {}, outbox: {}, dispatches: [dispatch(2, {}), dispatch(1, { kind: 'DIGEST', digest_slot: NOW, status: 'NOTHING_DUE', body: null, http_status: null })] }
+    expect(parseWaWorkspace(ws).dispatches.map(d => d.id)).toEqual([2, 1])
+    expect(() => parseWaWorkspace({ ...ws, api_key: 'x' })).toThrow('sambungan')
+    const missing: Record<string, unknown> = { ...defaults }; delete missing.quiet_end
+    expect(() => parseWaWorkspace({ ...ws, settings: missing })).toThrow('Respons sambungan WhatsApp tidak cocok (pengaturan)')
+    expect(() => parseWaWorkspace({ ...ws, settings: { ...defaults, revision: 2 } })).toThrow('pengaturan')
+    expect(() => parseWaWorkspace({ ...ws, dispatches: [dispatch(1, { status: 'NOTHING_DUE' })] })).toThrow('riwayat')
+    expect(() => parseWaWorkspace({ ...ws, ticks: { SLEEP: { at: NOW, outcome: null } } })).toThrow('jadwal')
+
+    const draft: WaDraft = { ...waDraftFromSettings(parseWaWorkspace(ws).settings), phone: PHONE, digestTimes: ['15:00', '', '08:00', ''] }
+    const payload = waSettingsPayload(draft, 0)
+    expect(Object.keys(payload as object).sort()).toEqual(['analysis_end', 'analysis_every_minutes', 'analysis_start', 'burst_after_per_day', 'burst_merge_minutes', 'detail',
+      'digest_times', 'enabled', 'expected_revision', 'kinds', 'max_items', 'phone_e164', 'quiet_enabled', 'quiet_end', 'quiet_start', 'repeat_minutes'])
+    expect(payload).toMatchObject({ expected_revision: 0, phone_e164: PHONE, digest_times: ['08:00', '15:00'], repeat_minutes: 1440 })
+    const saved = { ...defaults, phone_e164: PHONE, revision: 1, saved_at: LATER, kinds: [...defaults.kinds].sort() }
+    expect(parseWaSaveResult({ replay: false, settings: saved }, payload).settings.revision).toBe(1)
+    expect(() => parseWaSaveResult({ replay: false, settings: { ...saved, revision: 3 } }, payload)).toThrow('hasil simpan')
+    expect(() => parseWaSaveResult({ replay: false, settings: { ...saved, max_items: 9 } }, payload)).toThrow('hasil simpan')
+    expect(waRefusal('CP7_WA_TEST_LIMIT')).toContain('3 kali dalam satu jam')
+  })
+
+  it('shows the WhatsApp tab to the owner only, and tells each who receives their own reminders', async () => {
+    let fake = server(); auth.current = staff; await mount()
+    expect(tabs()).toEqual(['Pengingat saya', 'Pengingat sistem'])
+    expect(container.querySelector('[role="tablist"]')?.getAttribute('aria-label')).toBe('Bagian pengingat')
+    expect(container.textContent).toContain('Pengingat ini tidak dikirim ke mana pun: tidak lewat WhatsApp, email, atau notifikasi.')
+    expect(container.textContent).not.toContain('Sambungan WhatsApp')
+    // Opening a tab is what reads it: before that only the own reminders are read.
+    expect(fake.calls.map(c => c[0])).toEqual(['erp_cp7_get_reminders_v1'])
+    await act(async () => root.unmount()); root = createRoot(container)
+    client.rpc.mockReset(); fake = server(); auth.current = owner; await mount()
+    expect(tabs()).toEqual(['Pengingat saya', 'Pengingat sistem', 'Sambungan WhatsApp'])
+    expect(container.textContent).toContain('Bila Sambungan WhatsApp menyala, pengingat Bos yang waktunya sudah tiba juga diteruskan ke WhatsApp Bos sendiri.')
+    expect(container.textContent).not.toContain('tidak dikirim lewat WhatsApp')
+    await tab('Sambungan WhatsApp')
+    expect(calls(fake, 'erp_cp7_get_wa_settings_v1')).toEqual([{}])
+    expect(panel('Sambungan WhatsApp').closest('[role="tabpanel"]')?.hasAttribute('hidden')).toBe(false)
+    expect(field<HTMLElement>('#creminders-panel-MINE').hidden).toBe(true)
+    await tab('Pengingat saya')
+    expect(field<HTMLElement>('#creminders-panel-WA').hidden).toBe(true)
+    expect(button('Muat ulang pengingat').disabled).toBe(false)
+  })
+
+  it('lists the system reminders by kind with their numbers, analysis time, WhatsApp state and resolution', async () => {
+    const fake = server(); await mount(); await tab('Pengingat sistem')
+    expect(calls(fake, 'erp_cp7_get_alerts_v1')).toEqual([{ p: { resolved_days: 7 } }])
+    const groups = [...panel('Pengingat sistem').querySelectorAll('.csys-group')].map(g => g.getAttribute('aria-label'))
+    expect(groups).toEqual(['Stok kain di bawah minimum', 'Kain perlu dibeli (dari analisis)', 'Kekurangan produksi (dari analisis)', 'Tagihan supplier jatuh tempo',
+      'Piutang pelanggan jatuh tempo'])
+    const text = (title: string) => field<HTMLElement>(`[aria-label="Pengingat sistem ${title}"]`).textContent ?? ''
+    expect(text('Stok kain di bawah minimum: Katun Combed 30s Hitam')).toContain('Sisa 42,5 kg, minimum 60 kg · SKU KC30-HTM')
+    expect(text('Stok kain di bawah minimum: Katun Combed 30s Hitam')).toContain(`Muncul ${wib('2026-10-19T02:00:00+00:00')} · diperbarui ${wib('2026-10-19T02:40:00+00:00')}`)
+    expect(text('Stok kain di bawah minimum: Katun Combed 30s Hitam')).toContain('WA: terkirim')
+    expect(text('Piutang jatuh tempo: S-0012')).toContain('Nota S-0012 · sisa Rp1.250.000 · jatuh tempo 18 Okt 2026 (lewat jatuh tempo) · Pelanggan Toko Contoh')
+    expect(text('Piutang jatuh tempo: S-0012')).toContain('WA: jam tenang')
+    expect(text('Tagihan supplier jatuh tempo: PO-0007')).toContain('Pembelian PO-0007 · sisa Rp3.000.000 · jatuh tempo 19 Okt 2026 (jatuh tempo hari ini) · faktur INV-9 · Supplier Supplier Contoh')
+    expect(text('Tagihan supplier jatuh tempo: PO-0007')).toContain('WA: menunggu')
+    const analysisLine = `Data analisis per ${wib('2026-10-19T01:00:00+00:00')}, dicek ulang ${wib('2026-10-19T02:30:00+00:00')}`
+    expect(text('Kekurangan produksi: Kemeja A M')).toContain('Kemeja A M: kurang 120 pcs sekarang (di analisis 150 pcs, sudah bertambah 30 pcs) · ambang pengingat 50 pcs')
+    expect(text('Kekurangan produksi: Kemeja A M')).toContain(analysisLine)
+    expect(text('Kekurangan produksi: Kemeja A M')).toContain('WA: belum pasti')
+    expect(text('Kain perlu dibeli: Drill Navy untuk Celana B')).toContain('Drill Navy untuk Celana B: perlu 35,5 m · ambang pengingat 10 m')
+    expect(text('Kain perlu dibeli: Drill Navy untuk Celana B')).toContain(analysisLine)
+    expect(text('Kain perlu dibeli: Drill Navy untuk Celana B')).toContain('WA: jenis dimatikan')
+    expect(panel('Piutang pelanggan jatuh tempo').textContent).toContain(`Sumber belum bisa dibaca (dicoba ${wib('2026-10-19T02:59:00+00:00')}): 42501 CP7_ALERT_AR_SOURCE_DENIED.`)
+    expect(panel('Stok kain di bawah minimum').textContent).toContain(`Sumber terakhir dibaca ${wib('2026-10-19T02:59:00+00:00')}.`)
+    const status = panel('Status analisis').textContent
+    expect(status).toContain(`Analisis terbaru: data per ${wib('2026-10-19T01:00:00+00:00')}, selesai dicek ulang ${wib('2026-10-19T02:31:00+00:00')}. 2 masih terbuka, 6 sudah beres, 1 tidak diteruskan`)
+    expect(status).toContain(`Analisis otomatis terakhir dilewati ${wib('2026-10-19T02:45:00+00:00')}: data ERP tidak berubah sejak analisis sebelumnya.`)
+    expect(status).toContain('belum waktunya analisis baru')
+    expect(container.textContent).toContain(`Pengumpul pengingat terakhir jalan ${wib('2026-10-19T02:59:00+00:00')}: sumber sudah dibaca.`)
+    expect(container.textContent).not.toContain('Rayon Merah')
+    await click('Tampilkan pengingat sistem yang sudah beres 7 hari terakhir')
+    expect(text('Stok kain di bawah minimum: Rayon Merah')).toContain(`Beres ${wib('2026-10-18T05:00:00+00:00')} · Stok sudah mencapai minimum`)
+    expect(text('Stok kain di bawah minimum: Rayon Merah')).toContain('WA: beres sebelum dikirim')
+    expect(text('Kekurangan produksi: Kaos C S')).toContain('Dicek ulang: sudah tidak terbuka')
+    expect(text('Kekurangan produksi: Kaos C S')).toContain('(muncul lagi, ke-2)')
+    expect(text('Kekurangan produksi: Kaos C S')).toContain('WA: terkirim (ulangan ke-1)')
+    expect(text('Piutang jatuh tempo: S-0009')).toContain('Sudah beres menurut data terbaru')
+    expect(container.textContent).not.toContain('Katun Combed')
+
+    // Staff reading receivables only: no WhatsApp state, no analysis, only its own kind.
+    await act(async () => root.unmount()); root = createRoot(container); client.rpc.mockReset(); server(); auth.current = staff
+    await mount(); await tab('Pengingat sistem')
+    expect([...panel('Pengingat sistem').querySelectorAll('.csys-group')].map(g => g.getAttribute('aria-label'))).toEqual(['Piutang pelanggan jatuh tempo'])
+    expect(panel('Pengingat sistem').textContent).not.toContain('WA:')
+    expect(container.querySelector('[aria-label="Status analisis"]')).toBeNull()
+    expect(text('Piutang jatuh tempo: S-0012')).toContain('Rp1.250.000')
+  })
+
+  it('explains that system reminders start after the owner saves the WhatsApp settings once', async () => {
+    server({ configured: false }); await mount(); await tab('Pengingat sistem')
+    expect(container.textContent).toContain('Pengingat sistem mulai dikumpulkan sesudah Owner menyimpan pengaturan di tab Sambungan WhatsApp satu kali. WhatsApp boleh tetap mati')
+    expect(container.textContent).toContain('Pengumpul pengingat belum pernah jalan.')
+    await click('Buka tab Sambungan WhatsApp')
+    expect(field<HTMLElement>('#creminders-panel-WA').hidden).toBe(false)
+    expect(container.textContent).toContain('Pengaturan belum pernah disimpan. Simpan sekali supaya Pengingat sistem mulai berjalan')
+    // Saving the defaults once is allowed (WhatsApp stays off).
+    expect(button('Simpan pengaturan').disabled).toBe(false)
+  })
+
+  it('sends the key once, in its own request only, then empties the input; the key is never shown or stored', async () => {
+    const KEY = 'FAKEKEY-a1B2_c3', fake = server({ wa: { settings: { ...defaults, revision: 1, phone_e164: PHONE, saved_at: NOW } } })
+    await mount(); await tab('Sambungan WhatsApp')
+    expect(panel('Status sambungan').textContent).toContain('Belum ada kunci')
+    expect(input('Kunci CallMeBot').type).toBe('password')
+    await type('Kunci CallMeBot', 'ab cd')
+    expect(container.textContent).toContain('Kunci berisi 4 sampai 64 huruf'); expect(button('Simpan kunci').disabled).toBe(true)
+    await type('Kunci CallMeBot', KEY)
+    expect(button('Simpan kunci').disabled).toBe(false)
+    expect(container.innerHTML).not.toContain(KEY)
+    await click('Simpan kunci')
+    const keyCalls = calls(fake, 'erp_cp7_set_wa_key_v1')
+    expect(keyCalls).toHaveLength(1)
+    expect(Object.keys(keyCalls[0]).sort()).toEqual(['p_key', 'p_request'])
+    expect(keyCalls[0].p_key).toBe(KEY); expect(String(keyCalls[0].p_request)).toMatch(/^[0-9a-f-]{36}$/)
+    expect(input('Kunci CallMeBot').value).toBe('')
+    expect(container.textContent).toContain(`Kunci tersimpan (${wib(LATER)}).`)
+    expect(panel('Status sambungan').textContent).toContain(`Kunci tersimpan sejak ${wib(LATER)}`)
+    // A second key is another request with a fresh id.
+    await type('Kunci CallMeBot', 'FAKEKEY-second'); await click('Simpan kunci')
+    const again = calls(fake, 'erp_cp7_set_wa_key_v1')
+    expect(again).toHaveLength(2); expect(again[1].p_request).not.toBe(again[0].p_request)
+    // Do something else on the screen so other requests exist, then look for the key everywhere.
+    await check('Nyalakan WhatsApp'); await click('Simpan pengaturan'); await click('Kirim pesan uji')
+    for (const secret of [KEY, 'FAKEKEY-second']) {
+      expect(container.textContent).not.toContain(secret); expect(container.innerHTML).not.toContain(secret)
+      expect(JSON.stringify({ ...localStorage })).not.toContain(secret); expect(JSON.stringify({ ...sessionStorage })).not.toContain(secret)
+      expect(fake.calls.filter(c => c[0] !== 'erp_cp7_set_wa_key_v1').map(c => JSON.stringify(c))).not.toContainEqual(expect.stringContaining(secret))
+    }
+    expect(localStorage.length).toBe(0); expect(sessionStorage.length).toBe(0)
+    expect(fake.calls.filter(c => 'p_key' in c[1]).every(c => c[0] === 'erp_cp7_set_wa_key_v1')).toBe(true)
+  })
+
+  it('a refused or lost key reply shows codes only and still empties the input', async () => {
+    const fake = server({ wa: { lose: new Set(['erp_cp7_set_wa_key_v1']) } })
+    await mount(); await tab('Sambungan WhatsApp')
+    await type('Kunci CallMeBot', 'FAKEKEY-lost'); await click('Simpan kunci')
+    expect(input('Kunci CallMeBot').value).toBe('')
+    expect(container.textContent).toContain('Jawaban server tidak sampai, jadi belum pasti kunci tersimpan.')
+    expect(container.textContent).not.toContain('FAKEKEY-lost'); expect(container.textContent).not.toContain('Failed to fetch')
+    expect(calls(fake, 'erp_cp7_set_wa_key_v1')).toHaveLength(1)
+  })
+
+  it('checks the settings like the server, shows the digest/quiet refusal in words and asks to reload when stale', async () => {
+    const fake = server({ wa: { settings: { ...defaults, revision: 1, saved_at: NOW } } })
+    await mount(); await tab('Sambungan WhatsApp')
+    expect(button('Simpan pengaturan').disabled).toBe(true); expect(container.textContent).toContain('Belum ada yang diubah.')
+    await type('Nomor WA Bos', '0812-000')
+    expect(container.textContent).toContain('Nomor WA ditulis dengan kode negara, tanpa spasi atau tanda hubung: 0812… ditulis +62812….')
+    expect(button('Simpan pengaturan').disabled).toBe(true)
+    await type('Nomor WA Bos', PHONE)
+    await check('Nyalakan WhatsApp')
+    expect(container.textContent).toContain('Simpan kunci CallMeBot dulu sebelum menyalakan WhatsApp.'); expect(button('Simpan pengaturan').disabled).toBe(true)
+    await check('Nyalakan WhatsApp')
+    await type('Ulangi pesan tiap (menit)', '30')
+    expect(container.textContent).toContain('Ulangan pesan: isi 0 (tidak diulang) atau 60 sampai 10.080 menit.')
+    await type('Ulangi pesan tiap (menit)', '0')
+    await type('Jam analisis selesai', '06:00')
+    expect(container.textContent).toContain('Jam analisis: jam mulai harus lebih awal dari jam selesai')
+    await type('Jam analisis selesai', '20:00')
+    await type('Jam ringkasan 2', '22:00')
+    expect(button('Simpan pengaturan').disabled).toBe(false)
+    await click('Simpan pengaturan')
+    expect(container.textContent).toContain('Jam ringkasan jatuh di jam tenang, jadi ringkasan itu tidak akan pernah terkirim. Geser jam ringkasan ke luar jam tenang')
+    expect(container.textContent).not.toContain('CP7_WA_DIGEST_IN_QUIET_HOURS')
+    await click('Kosongkan jam ringkasan 2')
+    // Meanwhile another device saves revision 2.
+    fake.settings = { ...fake.settings, revision: 2, max_items: 5, saved_at: LATER }
+    await click('Simpan pengaturan')
+    expect(container.textContent).toContain('Pengaturan ini baru saja diubah di tab atau perangkat lain. Tekan "Muat ulang sambungan", periksa isinya, lalu simpan lagi.')
+    const saves = calls(fake, 'erp_cp7_save_wa_settings_v1')
+    expect(saves).toHaveLength(2)
+    expect((saves[1].p as Record<string, unknown>)).toMatchObject({ expected_revision: 1, phone_e164: PHONE, digest_times: ['08:00'], repeat_minutes: 0, enabled: false })
+    expect(saves[1].p_request).not.toBe(saves[0].p_request)
+    await click('Muat ulang sambungan sekarang')
+    expect(input('Baris per jenis dalam satu pesan').value).toBe('5'); expect(input('Nomor WA Bos').value).toBe('')
+    await type('Nomor WA Bos', PHONE); await click('Simpan pengaturan')
+    expect((calls(fake, 'erp_cp7_save_wa_settings_v1')[2].p as Record<string, unknown>)).toMatchObject({ expected_revision: 2, max_items: 5, phone_e164: PHONE })
+    expect(container.textContent).toContain('Tersimpan (revisi 3).')
+    expect(panel('Status sambungan').textContent).toContain(`Revisi 3, disimpan ${wib(LATER)}`)
+    expect(localStorage.length).toBe(0); expect(sessionStorage.length).toBe(0)
+  })
+
+  it('resends a settings save whose reply was lost with the same request id, and the server answers it once', async () => {
+    const fake = server({ wa: { lose: new Set(['erp_cp7_save_wa_settings_v1']) } })
+    await mount(); await tab('Sambungan WhatsApp')
+    await type('Nomor WA Bos', PHONE); await click('Simpan pengaturan')
+    expect(container.textContent).toContain('Jawaban server tidak sampai, jadi belum pasti pengaturan tersimpan.')
+    await click('Simpan pengaturan')
+    const saves = calls(fake, 'erp_cp7_save_wa_settings_v1')
+    expect(saves).toHaveLength(2); expect(saves[1]).toEqual(saves[0])
+    expect(fake.settings.revision).toBe(1)
+    expect(container.textContent).toContain('Tersimpan (revisi 1). Permintaan ini ternyata sudah tersimpan sebelumnya.')
+  })
+
+  it('sends a test message, keeps the id of a lost reply, and says plainly when the hourly limit is reached', async () => {
+    const fake = server({ wa: { settings: { ...defaults, revision: 1, phone_e164: PHONE, saved_at: NOW }, keyPresent: true, keySetAt: NOW, tests: 1,
+      lose: new Set(['erp_cp7_send_wa_test_v1']) } })
+    await mount(); await tab('Sambungan WhatsApp')
+    await click('Kirim pesan uji')
+    expect(container.textContent).toContain('Jawaban server tidak sampai, jadi belum pasti pesan uji terkirim.')
+    await click('Kirim pesan uji')
+    const sent = calls(fake, 'erp_cp7_send_wa_test_v1')
+    expect(sent).toHaveLength(2); expect(sent[1]).toEqual(sent[0]); expect(Object.keys(sent[0])).toEqual(['p_request'])
+    expect(fake.dispatches).toHaveLength(1)
+    expect(container.textContent).toContain('Pesan uji masuk antrean kirim (pesan nomor 1).')
+    expect(panel('Pesan 1').textContent).toContain('Pesan uji · nomor 1'); expect(panel('Pesan 1').textContent).toContain('Sedang dikirim')
+    await click('Kirim pesan uji')
+    expect(calls(fake, 'erp_cp7_send_wa_test_v1')[2].p_request).not.toBe(sent[0].p_request)
+    await click('Kirim pesan uji')
+    expect(container.textContent).toContain('Pesan uji paling banyak 3 kali dalam satu jam. Tunggu sebentar lalu coba lagi.')
+    expect(container.textContent).not.toContain('CP7_WA_TEST_LIMIT')
+  })
+
+  it('shows the status and history in plain words and marks an UNKNOWN message delivered or not', async () => {
+    const fake = server({ wa: { settings: { ...defaults, revision: 4, enabled: true, phone_e164: PHONE, saved_at: NOW }, keyPresent: true, keySetAt: NOW, transport: false,
+      quietNow: true, dispatches: [
+        dispatch(9, {}),
+        dispatch(10, { status: 'PROVIDER_REFUSED', http_status: 500, provider_text: 'Error: limit' }),
+        dispatch(11, { kind: 'DIGEST', digest_slot: '2026-10-19T01:00:00+00:00', status: 'NOTHING_DUE', body: null, http_status: null, provider_text: null, items: 0 }),
+        dispatch(12, { status: 'UNKNOWN', http_status: null, provider_text: null, body: `⚠ ERP Enteng · 19 Okt 09.50\n${'Baris panjang sekali '.repeat(30)}` }),
+        dispatch(13, { status: 'TRANSPORT_FAILED', http_status: null, provider_text: 'Could not resolve host' }),
+      ] } })
+    await mount(); await tab('Sambungan WhatsApp')
+    const status = panel('Status sambungan').textContent
+    for (const words of ['Menyala', PHONE, `Kunci tersimpan sejak ${wib(NOW)}`, 'Ringkas', 'sekarang jam tenang', 'Pengumpul pengingat: terakhir jalan', 'sumber sudah dibaca',
+      'Pengirim WhatsApp: terakhir jalan', 'WhatsApp mati, tidak ada yang dikirim', 'Pemeriksa analisis: belum pernah jalan',
+      'Antrean pesan: 2 menunggu dikirim · 4 terkirim.']) expect(status).toContain(words)
+    expect(container.textContent).toContain('Alamat uji (bukan CallMeBot)')
+    expect([...container.querySelectorAll('.cwa-history > li')].map(li => li.getAttribute('aria-label'))).toEqual(['Pesan 13', 'Pesan 12', 'Pesan 11', 'Pesan 10', 'Pesan 9'])
+    expect(panel('Pesan 9').textContent).toContain('Diterima CallMeBot'); expect(panel('Pesan 9').textContent).toContain('Jawaban CallMeBot: Message queued')
+    expect(panel('Pesan 9').textContent).toContain('2 pengingat')
+    expect(panel('Pesan 10').textContent).toContain('Ditolak CallMeBot (HTTP 500)')
+    expect(panel('Pesan 11').textContent).toContain('Ringkasan kosong, tidak dikirim')
+    expect(panel('Pesan 13').textContent).toContain('Gagal tersambung')
+    expect(panel('Pesan 12').textContent).toContain('Belum pasti')
+    expect(field<HTMLElement>('pre[aria-label="Isi pesan 12"]').textContent).toContain('Baris panjang sekali')
+    expect(container.querySelector('[aria-label="Tandai pesan 9 masuk"]')).toBeNull()
+    await click('Tandai pesan 12 tidak masuk')
+    expect(calls(fake, 'erp_cp7_resolve_wa_dispatch_v1')).toEqual([{ p: { dispatch_id: 12, outcome: 'NOT_DELIVERED' }, p_request: expect.stringMatching(/^[0-9a-f-]{36}$/) }])
+    expect(container.textContent).toContain('Pesan nomor 12 ditandai tidak masuk; pengingat di dalamnya akan dikirim lagi.')
+    expect(container.querySelector('[aria-label="Tandai pesan 12 masuk"]')).toBeNull()
+    expect(panel('Pesan 12').textContent).toContain(`Bos menandai pesan ini tidak masuk (isinya dikirim lagi) ${wib(LATER)}.`)
+  })
+
+  it('marks an UNKNOWN message delivered with its own payload; a second mark is refused in words', async () => {
+    const fake = server({ wa: { dispatches: [dispatch(5, { status: 'UNKNOWN', http_status: null, provider_text: null }), dispatch(6, { status: 'UNKNOWN', http_status: null, provider_text: null })] } })
+    await mount(); await tab('Sambungan WhatsApp')
+    await click('Tandai pesan 6 masuk')
+    expect(calls(fake, 'erp_cp7_resolve_wa_dispatch_v1')[0].p).toEqual({ dispatch_id: 6, outcome: 'DELIVERED' })
+    expect(container.textContent).toContain('Pesan nomor 6 ditandai masuk.')
+    fake.dispatches[0].resolved_outcome = 'DELIVERED'; fake.dispatches[0].resolved_at = LATER
+    await click('Tandai pesan 5 tidak masuk')
+    expect(container.textContent).toContain('Pesan ini sudah tidak berstatus "belum pasti"')
+  })
+
+  it('shows the server refusal in words when the connection read is refused', async () => {
+    // An owner account that the server no longer counts as an active owner (CP7_WA_OWNER_ONLY, 42501).
+    server(); const rpc = client.rpc.getMockImplementation()!
+    client.rpc.mockImplementation(async (name: string, args?: Record<string, unknown>) => name === 'erp_cp7_get_wa_settings_v1'
+      ? refuse('42501', 'CP7_WA_OWNER_ONLY') : rpc(name, args))
+    await mount(); await tab('Sambungan WhatsApp')
+    expect(container.querySelector('#creminders-panel-WA [role="alert"]')?.textContent).toBe('Sambungan WhatsApp hanya bisa dibuka dan diubah oleh akun Owner yang aktif.')
+    expect(container.querySelector('input[aria-label="Kunci CallMeBot"]')).toBeNull()
+  })
+})

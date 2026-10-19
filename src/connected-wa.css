@@ -1,0 +1,98 @@
+/* WA-4: the Pengingat sistem and Sambungan WhatsApp tabs of the Reminder menu. Dark panels like the rest of the connected
+   pages; every row wraps or stacks at phone width (390 px) and nothing hides overflow (best practice D17). The message body
+   scrolls vertically inside its own box and wraps its lines, so it never widens the page. */
+.csys, .cwa { padding: 14px 16px; display: grid; gap: 12px; min-width: 0; color: #c9d1de; font-size: 12.5px; line-height: 1.5; }
+.csys p, .cwa p { margin: 0; overflow-wrap: anywhere; }
+.csys h2, .cwa h2 { margin: 4px 0 6px; font-size: 18px; color: #e6eaf2; }
+.cwa h3 { margin: 0 0 8px; font-size: 14px; color: #e6eaf2; }
+.csys small, .cwa small { color: #8f9ab0; font-size: 11.5px; overflow-wrap: anywhere; }
+.csys-head, .cwa-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.csys-head > div, .cwa-head > div { min-width: 0; flex: 1 1 280px; display: grid; gap: 4px; }
+.csys-head p, .cwa-head p { color: #aab4c4; }
+.csys button, .cwa button:not(.primary-btn):not(.soft-btn) { min-height: 38px; padding: 0 12px; border: 1px solid var(--line); border-radius: 9px;
+  background: rgba(255, 255, 255, .03); color: #d0d7e4; font-size: 12px; cursor: pointer; }
+.csys button:disabled, .cwa button:disabled { opacity: .5; cursor: not-allowed; }
+.cwa .primary-btn, .cwa .soft-btn { min-height: 40px; font-size: 12px; }
+.csys-alert, .csys-loading { padding: 10px 12px; border-radius: 10px; background: rgba(255, 255, 255, .03); }
+.csys-alert { color: #f0b2b2; background: rgba(239, 124, 124, .08); }
+.csys-note { padding: 12px; border: 1px solid rgba(230, 201, 138, .3); border-radius: 10px; background: rgba(230, 201, 138, .07); display: grid; gap: 6px; }
+.csys-note strong { color: #f1dcab; }
+.csys-note button { justify-self: start; }
+.csys-meta, .cwa-meta { color: #aab4c4; }
+.csys-analysis { padding: 12px; border: 1px solid rgba(124, 141, 255, .25); border-radius: 10px; background: rgba(124, 141, 255, .06); display: grid; gap: 4px; }
+.csys-analysis strong { color: #dfe4ff; }
+.csys-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+.csys-filters button { flex: 1 1 150px; }
+.csys-filters button.active { background: rgba(124, 141, 255, .16); border-color: rgba(124, 141, 255, .45); color: #e3e7ff; }
+.csys-none { color: #8f9ab0; }
+.csys-group { border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 8px; min-width: 0; }
+.csys-group > header { display: flex; gap: 8px; justify-content: space-between; align-items: baseline; flex-wrap: wrap; }
+.csys-group > header strong { color: #e6eaf2; font-size: 13.5px; }
+.csys-group > header span { color: #aab4c4; font-size: 12px; }
+.csys-group ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.csys-source { color: #8f9ab0; font-size: 11.5px; }
+.csys-source.bad { color: #f0b2b2; }
+.csys-row { padding: 10px 12px; border-radius: 10px; background: rgba(255, 255, 255, .025); border: 1px solid rgba(255, 255, 255, .06);
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; align-items: start; }
+.csys-row.resolved { background: rgba(255, 255, 255, .015); }
+.csys-row-main { display: grid; gap: 3px; min-width: 0; }
+.csys-row-main strong { color: #e6eaf2; overflow-wrap: anywhere; }
+.csys-row-main p { color: #c9d1de; }
+.csys-analysis-line { color: #b9c2ff !important; }
+.csys-resolved { color: #8fd8b9 !important; }
+.csys-wa, .cwa-chip { padding: 3px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 650; white-space: normal; overflow-wrap: anywhere; max-width: 100%;
+  background: rgba(255, 255, 255, .06); color: #c9d1de; }
+.csys-wa.ok, .cwa-chip.ok { background: rgba(82, 180, 143, .16); color: #9fe3c6; }
+.csys-wa.wait, .cwa-chip.wait { background: rgba(124, 141, 255, .16); color: #ccd3ff; }
+.csys-wa.bad, .cwa-chip.bad { background: rgba(239, 124, 124, .16); color: #f4bcbc; }
+.csys-wa.off { background: rgba(255, 255, 255, .06); color: #aab4c4; }
+.cwa-loading { color: #aab4c4; }
+.cwa-note { padding: 10px 12px; border-radius: 10px; display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.cwa-note.ok { color: #9fe3c6; background: rgba(82, 180, 143, .1); }
+.cwa-note.bad { color: #f4bcbc; background: rgba(239, 124, 124, .1); }
+.cwa-block { border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 10px; min-width: 0; }
+.cwa-status { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 8px; }
+.cwa-status > div { padding: 8px 10px; border-radius: 9px; background: rgba(255, 255, 255, .03); min-width: 0; }
+.cwa-status dt { color: #8f9ab0; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.cwa-status dd { margin: 2px 0 0; color: #e6eaf2; overflow-wrap: anywhere; }
+.cwa-status dd.on { color: #9fe3c6; font-weight: 700; }
+.cwa-status dd.off { color: #f1dcab; font-weight: 700; }
+.cwa-warn { padding: 10px 12px; border-radius: 10px; color: #f1dcab; background: rgba(230, 201, 138, .1); border: 1px solid rgba(230, 201, 138, .3); }
+.cwa-ticks { margin: 0; padding-left: 18px; display: grid; gap: 3px; color: #c9d1de; }
+.cwa-ticks strong { color: #e6eaf2; }
+.cwa-steps { margin: 0; padding-left: 20px; display: grid; gap: 6px; color: #c9d1de; }
+.cwa-steps b { color: #e6eaf2; }
+.cwa-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 10px; }
+.cwa-field { display: grid; gap: 5px; min-width: 0; }
+.cwa-field > span { color: #9aa5ba; font-size: 10.5px; font-weight: 750; letter-spacing: .06em; }
+.cwa input:not([type="checkbox"]), .cwa select { width: 100%; min-width: 0; height: 40px; padding: 0 10px; box-sizing: border-box; border: 1px solid #354052;
+  border-radius: 9px; background: #121a26; color: #e6eaf2; font-size: 13px; }
+.cwa input:disabled, .cwa select:disabled { opacity: .6; }
+.cwa input[type="checkbox"] { width: 18px; height: 18px; margin: 2px 0 0; flex: 0 0 auto; accent-color: #7d8fff; }
+.cwa-check { display: flex; gap: 8px; align-items: flex-start; color: #d6dce7; cursor: pointer; }
+.cwa-check span { min-width: 0; overflow-wrap: anywhere; }
+.cwa-fieldset { margin: 0; padding: 10px 12px 12px; border: 1px solid rgba(255, 255, 255, .07); border-radius: 10px; display: grid; gap: 8px; min-width: 0; }
+.cwa-fieldset legend { padding: 0 6px; color: #e6eaf2; font-weight: 700; font-size: 12.5px; }
+.cwa-hint { color: #8f9ab0; }
+.cwa-problem { color: #f1dcab; }
+.cwa-times { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 8px; }
+.cwa-time { display: flex; gap: 6px; min-width: 0; }
+.cwa-time input { flex: 1 1 auto; }
+.cwa-time button { flex: 0 0 auto; }
+.cwa-kinds { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 8px; }
+.cwa-actions { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+.cwa-history { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.cwa-dispatch { padding: 10px 12px; border-radius: 10px; background: rgba(255, 255, 255, .025); border: 1px solid rgba(255, 255, 255, .06); display: grid; gap: 6px; min-width: 0; }
+.cwa-dispatch-head { display: flex; gap: 8px; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+.cwa-dispatch-head strong { color: #e6eaf2; }
+.cwa-body { margin: 0; max-height: 220px; overflow: auto; padding: 8px 10px; border-radius: 8px; background: #0f1520; border: 1px solid #2a3344; color: #dbe1eb;
+  font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+.cwa-resolve { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding: 8px 10px; border-radius: 9px; background: rgba(239, 124, 124, .07); }
+.cwa-resolve p { flex: 1 1 100%; color: #f4bcbc; }
+@media (max-width: 620px) {
+  .csys, .cwa { padding: 12px; }
+  .csys-row { grid-template-columns: minmax(0, 1fr); }
+  .csys-wa { justify-self: start; }
+  .csys-head > button, .cwa-head > button { width: 100%; }
+  .cwa-actions > button, .cwa-resolve button { flex: 1 1 auto; }
+}
