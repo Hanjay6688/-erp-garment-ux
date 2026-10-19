@@ -1,0 +1,23 @@
+# LOCK — Fable r4, kandidat 663f6fae, 2026-10-19
+
+Dikunci sebelum membaca laporan, cabang, run, artifact atau komentar auditor lain putaran r4 (Pro Max §2.2, §16.7).
+Perubahan sesudah commit ini tidak mengubah vonis di atas; tambahan apa pun ditulis di berkas terpisah bertanggal.
+
+```
+520fce7bbc7b592f5e78e050e0cb6767e37de7fe3c98f44759a12df2ae5e4aa7  audit/fable_cp17_r4/RETEST_FABLE_663f6fae.md
+ecf4cca9155ff8bdd595767c48fe6cfef2d22a6cbdf4da5a3e678e57169e6eca  audit/fable_cp17_r4/FINDINGS.json
+5e4ad8406aebbac9bbfae1a34d070f2e22c84e0b7e0fbc2c07bb3c0d8a5411c6  audit/fable_cp17_r4/WORKLOG.md
+1cd7f63b824d1d362d284955e4be032091e8892952e634fdc14348c3303e6175  audit/fable_cp17_r4/MANIFEST.md
+d6bf1ff8dbcf48888b21581c3fed5b259c02599b34a393da2b5f4c3d3383e381  audit/fable_cp17_r4/runs/P19_SCALE5_rerun_39184494131.json
+930d625f8638f89c684727a7bef5f193fd9670f281d507259db3dc1d4c498abf  audit/fable_cp17_r4/runs/PROBES_R4_v1_39185025017.json
+1437ca4e550a6c84fa33b5af4bfb57fb74d659d9dcfd5bd86e4de164d3535a10  audit/fable_cp17_r4/runs/PROBES_R4_v2_39187095072.json
+dcef22fc5410efbc04122ad58fd20e216abe254d5601dd84cd837376b07922bb  audit/fable_cp17_r4/runs/SCREENS_R4_DISPOSABLE_663f6fae.json
+490ea3408bbcc6f2f09f6a4994ee5c324466c7fad7cf9caa05262f4dd6eb0e19  audit/fable_cp17_r4/runs/SCREENS_R4_ENTENG_663f6fae.json
+1d311bad071a2fe36bded76b8416457fb2c818e095ed317add296397d5bc78b4  audit/fable_cp17_r4/runs/dispatch_ledger_r4.jsonl
+08a7937d1c96b39f3089b4b1117fe7622abaecbf85859f05b73b4ae67e02ac56  audit/fable_cp7/scenarios/fable_r4_probes.py
+12954e42f21debfd7c198e1095e3545573d3decf54fabe563d9c0c161fa87ad5  audit/fable_cp7/scenarios/fable_r3_screens.mjs
+f8e8950ec9f0389936fba7ecdba90d98417353ef2c28df6a6fd9058f4823367c  audit/fable_cp7/scenarios/fable_cp17c_screens.mjs
+513680336ac83bd2bf37b21ab650bb2214fffa8e9a292a41c3ddd36d0deaf030  audit/fable_cp7/scenarios/fable_r2_cash_both.py
+3548b88d0c361e879841a9a1235b94a6f17bfe6db39ba5e191b79340fcb25521  audit/fable_cp7/scenarios/fable_cp17c_cash_basis.py
+fbb4005533e7da5746184e45c5c5f9004c175fac72b7aad521215ad34fd46034  .github/workflows/fable-cp7-native.yml
+```

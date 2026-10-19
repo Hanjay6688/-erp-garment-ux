@@ -117,3 +117,7 @@ Status dibaca per kasus dari baris JSON log (INDEPENDENT_NATIVE_RERUN):
   - "Sedang dihitung sejak" tampil 8–49 ms sesudah klik (klaim R4-05 UI benar).
   Semua sesuai pengungkapan penulis (`P19_R4_05_DIRECT_LATENCY.md` bagian Qualification run). Target 3 detik tidak
   tercapai dan tidak diklaim tercapai (D17-1, D17-2).
+
+## CP4 — kunci
+`RETEST_FABLE_663f6fae.md`, `FINDINGS.json`, entri ledger r4 (`runs/dispatch_ledger_r4.jsonl`) dan `LOCK.md` dikunci
+dengan commit sebelum membaca pekerjaan auditor lain putaran r4.

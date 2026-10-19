@@ -1,0 +1,62 @@
+{
+  "auditor": "Fable",
+  "round": "r4",
+  "date": "2026-10-19",
+  "candidate": {"commit": "663f6faefcbb9c70f0f99bbc7e78164e03521329", "tree": "023f3554432f80f994439f5d0b8cc164846a2041", "writer_head_at_runs": "5eda90e10b2e87485ab710e9fd9ffa68d81a3565", "head_vs_candidate": "9 files under docs/ only; src, scripts, supabase trees equal"},
+  "basis": {"previous_lock": "audit/fable_cp17_r3/LOCK.md (2033fdfc)", "oracles_D16_1": "audit/fable_cp17_r2/OWNER_DECISION_TO_AUDITOR_20261016_UNHIDE.md (f2758f39)", "owner_decisions": "D14-2..D17-2"},
+  "production_go": false,
+  "retest": {
+    "oracles_D16_1": [
+      {"oracle": 1, "status": "DITUTUP", "evidence": ["Fable census unchanged module (sha 12954e42) ENTENG run 39184472280 and DISPOSABLE run 39184465655: 47/47 menus open, 46 without sample label or boundary screen, Dashboard notice without numbers (FABLE; Dashboard flag = AUDITOR_TOOL as in r3)"]},
+      {"oracle": 2, "status": "DITUTUP", "evidence": ["ENTENG census OWNER 1440 and 390 zero overflow; GUDANG 7/7 menus, no Keuangan; 159 Enteng-origin requests answered by loopback, 0 route errors (FABLE)", "CP17 run 39184479044: 57 Enteng-build browser cases PASS, 1361 loopback answers, 0 route errors (INDEPENDENT_NATIVE_RERUN)", "phone width run 39184567627: 47 menus, failed [], unreadable []"]},
+      {"oracle": 3, "status": "DITUTUP", "evidence": ["CP17_BROWSER_R3_03_CHAIN_SEWING_TO_CLOSE, _CHAIN_FG_TO_AR_ZERO, _GUARDS_REFUSE PASS on both builds (run 39184479044)", "Fable cash scenarios unchanged PASS (runs 39184451023, 39184458478)"]},
+      {"oracle": 4, "status": "DITUTUP", "evidence": ["CP17 R3_03/R3_04 cases PASS (run 39184479044)", "facade sources unchanged since r3 except audit.sql (R4-03, read-only) (INDEPENDENT_SOURCE_REVIEW)"]},
+      {"oracle": 5, "status": "DITUTUP", "evidence": ["fable_cp17c_cash_basis.py 1/1 PASS, fable_r2_cash_both.py 2/2 PASS", "census ran on the Enteng build"]}
+    ],
+    "findings": [
+      {"id": "FABLE-016", "status": "TETAP_DITUTUP", "evidence": ["CP17_BROWSER_R3_05_* PASS on both builds (run 39184479044)"]},
+      {"id": "FABLE-018", "status": "TETAP_DITUTUP", "evidence": ["prefreeze 31 PASS incl. BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR (run 39184486140)"]},
+      {"id": "FABLE-012", "status": "MASIH_TERBUKA_DITUNDA_D14_9", "evidence": ["unchanged; R4-01 refuses Data API sessions on 25 older public routes (incl. the four CP4 HPP pool wrappers) but does not revoke direct erp EXECUTE"]}
+    ]
+  },
+  "new_findings": [],
+  "auditor_tool_notes": [
+    {"id": "FABLE-R4-TOOL-01", "summary": "fable_r3_screens.mjs (unchanged from r3) does not exempt the Dashboard notice that oracle 1 allows; three census cases per build read COUNTEREXAMPLE only for Dashboard. Oracle unchanged; verdict read against the written oracle.", "runs": [39184465655, 39184472280]},
+    {"id": "FABLE-R4-TOOL-02", "summary": "Probe v1 vacuous: invoker wrapper stopped at 'permission denied' (authenticated has no EXECUTE on erp.require_internal) and no committed app user existed; v1 meaningfulness test accepted privilege errors as refusals. Fixed in v2 with a stricter meaningfulness test; oracle unchanged; v1 log kept (runs/PROBES_R4_v1_39185025017.json).", "runs": [39185025017]},
+    {"id": "FABLE-R4-TOOL-03", "summary": "Probe v2 fixture left committed test users in the disposable database (last OWNER protected by LAST_ACTIVE_OWNER_PROTECTED); harness marked the run INCOMPLETE and cp6_restored false (boundary diff auth 1 row, erp app_users/audit_logs). The oracle verdict is read from the 70 cells.", "runs": [39187095072]}
+  ],
+  "also_checked": [
+    {"item": "R4-05 require_internal same answer", "verdict": "holds", "evidence": ["source review: probe answers only when no context row of this backend and transaction exists; with any row the unchanged dispatch runs (INDEPENDENT_SOURCE_REVIEW)", "Fable matrix v2 run 39187095072: 14 identities x 5 states = 70 cells, 0 differences, fresh no-xid path covered, fine refusals CP7_SALES_WRITE_DENIED/CP7_SALES_ACCESS_DENIED identical (FABLE)", "CP17_R4_05_INTERNAL_GUARD_SAME_ANSWER and _DISPATCH_REVIEWED PASS (run 39184479044)"]},
+    {"item": "R4-02 PO reopen exclusion", "verdict": "cannot hide an active use", "evidence": ["runtime catalog (run 39187095072): the three installed FG movement reversers refuse 'Cannot reverse a reversal' and 'already reversed'; draft release reverses only SALE_RESERVE; erp.post_fg_movement never sets reversal_of_id, so SALE_RETURN never points to SALE", "CP17_R4_02_* and race PASS"]},
+    {"item": "R4-01 public routes", "verdict": "holds for its scope", "evidence": ["refusal on session_user='authenticator' as first statement; plpgsql DECLARE initialisers still run before it; all 25 routes refused through real Auth (CP17_HTTP_R4_01_EVERY_CLOSED_ROUTE_REFUSED_APP_ROUTES_OPEN PASS); census covers public.erp_% only"]},
+    {"item": "R4-03 audit listing mark", "verdict": "holds", "evidence": ["mark = count and sum of ids within cutoff; append-only log so a late row always changes it; Astra schedule and three controls PASS"]},
+    {"item": "R4-04 readable text", "verdict": "writer cases PASS", "evidence": ["CP17_BROWSER_R4_04_* PASS on both builds; phone width unreadable []; Fable census does not measure contrast"]},
+    {"item": "R4-Q1 pg_cron wait", "verdict": "pass conditions unchanged", "evidence": ["wait_recorded only waits, return value ignored (source)", "K6 10/10, K4 17/17 PASS (run 39184494131)"]},
+    {"item": "D17-1 direct analysis latency", "verdict": "as disclosed; 3 s target not met and not claimed", "evidence": ["SQL ladder 100 targets with figures 4.57-4.62 s; 300 with figures stopped at 8.0 s (57014) in both windows", "browser 100 with figures 5.63-5.67 s; 300 with figures direct refused at 8.05-8.06 s; start clock shown 8-49 ms after click", "matches docs/cp7/p19/P19_R4_05_DIRECT_LATENCY.md Qualification run"]},
+    {"item": "old guards not loosened", "verdict": "holds", "evidence": ["cash both bases: Fable cases PASS", "payroll before accrual: CP17 FIN01, P12 64/81/43 PASS", "cutover floor trigger cp7_cutover_fg installed, CP17 cases PASS", "declared Native deltas: F03 Full 8 jobs PASS incl. exact definition checks", "comparable regression counts identical to r2-r3"]}
+  ],
+  "owner_notes": [
+    "Direct analysis is not yet under 3 s; with financial figures at 300 products it still stops at the 8 s limit with a message (writer's next task, D17-2)",
+    "Dashboard still shows no numbers (F-UI-01)"
+  ],
+  "before_enteng": [
+    "Install the CP7 database layer (CP7C) before the CP7 UI and run docs/cp7/cp17/R3_INSTALL_TIME_CHECKS.md on Enteng; on the legacy database the readiness screen still fails 404 (LEGACY_RUNTIME_GAP, run 39184486140)",
+    "FABLE-012 / D14-9: revoke direct EXECUTE for authenticated on erp writers before erp is exposed to the Data API; the R4-01 refusal does not replace it",
+    "Confirm the official cutover date in the app before the first operational transaction (D15-5)",
+    "Fill master data, foreman rates and accessory recipes of imported products before QC or rework",
+    "The exposed CP2 key is not used again",
+    "Retest direct analysis latency after the D17-2 work, on the same runner, before daily use of the analysis screen with financial figures"
+  ],
+  "not_checked": [
+    "Supabase Enteng data and settings: no hosted access this round",
+    "text contrast: only through the writer's readability cases",
+    "detail panels behind list screens: census records only the first view of each menu",
+    "writer qualification workflows not rerun (receipt lists 116 runs; I reran 12 workflows + 6 Fable runs); 21 old CP6 workflows not rerun",
+    "Sol backup patch for CP7C (not installed), CP7C backup tool (D13-9a), red team beyond RBAC, other auditors' work this round (Pro Max 16.7)"
+  ],
+  "runs": {
+    "fable": {"39184451023": "cash_basis 1/1 PASS", "39184458478": "r2_cash_both 2/2 PASS", "39184465655": "census DISPOSABLE (Dashboard tool note)", "39184472280": "census ENTENG (Dashboard tool note)", "39185025017": "probes v1 vacuous (tool)", "39187095072": "probes v2: guard matrix 70 cells 0 differences; FG reversers INFO; harness INCOMPLETE from fixture leftovers"},
+    "writer_rerun_head_5eda90e1": {"39184479044": "CP17 341/341 PASS + 1", "39184486140": "prefreeze 31 PASS + 2 legacy INCOMPLETE", "39184494131": "P19 transport 12 jobs PASS per case", "39184502576": "F03 Full 8 jobs PASS", "39184511169": "F03 cash 21 PASS", "39184519333": "misc 20 PASS", "39184528182": "payment 23 PASS", "39184536564": "P12 64/81/43 PASS", "39184544615": "cutting 19 PASS", "39184552527": "P13 25 PASS", "39184560474": "sales chain 25 PASS", "39184567627": "phone width 47 menus, failed [], unreadable []"}
+  },
+  "exposure": "see MANIFEST.md; no report, branch, run, artifact or comment of another auditor from round r4 opened; HANDOFF_ASTRA.md and HANDOFF_SOL.md not opened; hosted Enteng not accessed"
+}
