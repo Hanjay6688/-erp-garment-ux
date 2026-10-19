@@ -9,14 +9,25 @@ same expected detector delta (none) and the same COUNTEREXAMPLE while the false 
 before R5-01 runs beside the installed one on the same books and must still count the two lines. Control: the checker
 still counts a repair line whose wage belongs to another contractor and one whose wage is missing (the immutable-wage
 guard is switched off only inside a rolled-back savepoint, labelled DETECTOR_CONTROL, like the CP17 legacy findings case).
+
+R5-02 (owner D17-2, KNOWN-P19-DIRECT-LATENCY): in eleven STABLE report and check readers every literal
+`erp.account_id('<KEY>')` became `(select erp.account_id('<KEY>'))`, evaluated once per query instead of once per journal
+line (cp7_report_accounts_bundle.py). Native cases: each installed reader and the same reader without the change run side
+by side on the CP17 books (every product, PO, pocket period, opening settlement and sale journal/PO pair the database
+holds, and three report windows) and must give the same rows or the same refusal; the review fails for a reader whose
+literal calls changed or that uses a key outside the listed core mappings; a core mapping cannot be deleted.
 """
+from datetime import timedelta
 from decimal import Decimal
+import psycopg
 import cp6_bd_probe as bd
 import cp7_nota_cases as nota
 import cp7_nota_source_cases as sources
 import cp7_payroll_checks_bundle as payroll_checks
+import cp7_report_accounts_bundle as report_accounts
 
-NATIVE=['CP17_R5_01_VALID_FG_REPAIR_NOTA_ZERO_ALARM_SOL','CP17_R5_01_PAYROLL_CHECK_STILL_FINDS_WRONG_OR_MISSING_REPAIR']
+NATIVE=['CP17_R5_01_VALID_FG_REPAIR_NOTA_ZERO_ALARM_SOL','CP17_R5_01_PAYROLL_CHECK_STILL_FINDS_WRONG_OR_MISSING_REPAIR',
+        'CP17_R5_02_REPORT_READERS_SAME_ANSWER','CP17_R5_02_REPORT_READERS_REVIEWED']
 RACES=[]
 HTTP=[]
 BROWSER=[]
@@ -155,7 +166,79 @@ def cases(cur,today):
         return dict(status='PASS',wage_of_another_contractor_counted=moved,restored_wage_counts_nothing=True,
                     missing_wage_counted=missing,guard_switched_off_only_inside_rolled_back_savepoint=True)
 
-    named=[sol_valid_repair_nota,wrong_or_missing_still_found]
+    # ---- R5-02: every changed reader against itself without the change, on the same books.
+    def reader_inputs():
+        bd.api.admin(cur)
+        ids=lambda sql:[(r[0],) for r in cur.execute(sql).fetchall()]
+        windows=[(today-timedelta(days=d),today,today) for d in (0,30,400)]
+        return {
+            'erp.bb_opening_credit_account_v1(uuid)':ids('select id from erp.opening_subledger_settlements order by id limit 300'),
+            'erp.compute_non_po_product_hpp_book_v2620f(uuid)':ids('select id from erp.products order by id limit 300'),
+            'erp.compute_po_hpp_gl_book_v2620e(uuid)':ids('select id from erp.production_orders order by id limit 300'),
+            'erp.get_owner_financial_snapshot_v2(date,date,date)':windows,
+            'erp.pocket_period_book_v1(uuid)':ids('select id from erp.pocket_periods order by id limit 300'),
+            'erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)':[tuple(r) for r in cur.execute(
+                "select distinct e.id,l.po_id from erp.journal_entries e join erp.journal_lines l on l.journal_entry_id=e.id"
+                " where e.source_type in('SALE','SALES_RETURN','JOURNAL_REVERSAL') and l.po_id is not null order by 1,2 limit 300").fetchall()]}
+    def readers_same_answer():
+        inputs=reader_inputs();report=report_accounts.verify(cur);compared={}
+        cur.execute('savepoint cp17_r5_02_same')
+        try:
+            bd.api.admin(cur);cur.execute('create schema cp17_r5_02')
+            for signature in report_accounts.READERS:
+                name=signature.split('(')[0]
+                installed=cur.execute('select pg_get_functiondef(%s::regprocedure)',(signature,)).fetchone()[0]
+                head='FUNCTION '+name+'('
+                old=report_accounts.unwrap(signature,installed)
+                assert old.count(head)==1,('CP17_R5_02_READER_HEAD_CHANGED',signature)
+                cur.execute(old.replace(head,'FUNCTION cp17_r5_02.'+name.split('.')[1]+'(',1))
+                args=inputs.get(signature,[()])
+                def answer(fn,a):
+                    bd.api.admin(cur);bd.chain.production.owner(cur);cur.execute('savepoint cp17_r5_02_call')
+                    try:
+                        rows=cur.execute('select to_jsonb(x)::text from '+fn+'('+','.join(['%s']*len(a))+') x',a).fetchall()
+                        return ('ROWS',sorted(r[0] for r in rows))
+                    except psycopg.Error as e:
+                        cur.execute('rollback to savepoint cp17_r5_02_call');return ('ERR',e.sqlstate,str(e).split('\n')[0])
+                    finally:
+                        cur.execute('release savepoint cp17_r5_02_call');bd.api.admin(cur)
+                differences=[a for a in args if answer(name,a)!=answer('cp17_r5_02.'+name.split('.')[1],a)]
+                assert not differences,('CP17_R5_02_READER_ANSWER_CHANGED',signature,[str(x) for x in differences[:3]])
+                compared[signature]=len(args)
+        finally:
+            cur.execute('rollback to savepoint cp17_r5_02_same');cur.execute('release savepoint cp17_r5_02_same');bd.api.admin(cur)
+        return dict(status='PASS',reviewed=report,inputs_compared=compared,same_rows_or_same_refusal=True)
+    def readers_reviewed():
+        bd.api.admin(cur);clean=report_accounts.verify(cur)
+        signature='erp.run_v268_financial_report_checks()'
+        installed=cur.execute('select pg_get_functiondef(%s::regprocedure)',(signature,)).fetchone()[0]
+        old=report_accounts.unwrap(signature,installed)
+        refusals={}
+        def refused(label,fn):
+            try:fn()
+            except AssertionError as e:refusals[label]=str(e.args[0][0] if isinstance(e.args[0],tuple) else e.args[0]);return
+            raise AssertionError(('CP17_R5_02_REVIEW_ACCEPTED',label))
+        # A reader that gained one more literal call, a key outside the core list, or text already wrapped is refused.
+        refused('one_more_call',lambda:report_accounts.wrap(signature,old.replace("begin","begin perform erp.account_id('WIP');",1)))
+        refused('unlisted_key',lambda:report_accounts.wrap(signature,old.replace("erp.account_id('WIP')","erp.account_id('LABOR_COST')",1)))
+        refused('already_wrapped',lambda:report_accounts.wrap(signature,installed))
+        # The install refuses a predecessor whose literal calls changed.
+        cur.execute('savepoint cp17_r5_02_review')
+        try:
+            cur.execute(old.replace("begin","begin perform erp.account_id('WIP');",1))
+            try:cur.execute(report_accounts.block(signature));raise AssertionError('CP17_R5_02_INSTALL_ACCEPTED_CHANGED_READER')
+            except psycopg.errors.RaiseException as e:refusals['install_changed_reader']=str(e).split('\n')[0]
+        finally:cur.execute('rollback to savepoint cp17_r5_02_review');cur.execute('release savepoint cp17_r5_02_review');bd.api.admin(cur)
+        # Every key is a core mapping: deleting one is refused by the Native guard.
+        cur.execute('savepoint cp17_r5_02_mapping')
+        try:
+            try:cur.execute("delete from erp.accounting_account_mappings where mapping_key='WIP'");raise AssertionError('CP17_R5_02_CORE_MAPPING_DELETED')
+            except psycopg.errors.RaiseException as e:refusals['core_mapping_delete']=str(e).split('\n')[0]
+        finally:cur.execute('rollback to savepoint cp17_r5_02_mapping');cur.execute('release savepoint cp17_r5_02_mapping');bd.api.admin(cur)
+        assert len(refusals)==5,refusals
+        return dict(status='PASS',reviewed=clean,refusals=refusals)
+
+    named=[sol_valid_repair_nota,wrong_or_missing_still_found,readers_same_answer,readers_reviewed]
     assert len(named)==len(NATIVE)
     return list(zip(NATIVE,named))
 

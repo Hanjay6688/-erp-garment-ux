@@ -4,6 +4,7 @@ import cp7_rework_eligibility_bundle as rework
 import cp7_hpp_policy_guard_bundle as hpp_policy
 import cp7_public_routes_bundle as public_routes
 import cp7_payroll_checks_bundle as payroll_checks
+import cp7_report_accounts_bundle as report_accounts
 import cp7_kasbon_bundle as kasbon
 import cp7_pickup_reversal_bundle as pickup
 import cp7_rate_revision_bundle as rate_revision
@@ -40,11 +41,17 @@ def capture(cur,originals):
  public_routes.capture(cur,originals)
  # R5-01: the payroll wrong-contractor checker knows FG_REPAIR (cp7_payroll_checks_bundle.py).
  payroll_checks.capture(cur,originals)
+ # R5-02: account lookups once per query in the report readers (cp7_report_accounts_bundle.py); the owner report and
+ # run_v267 are already captured above.
+ report_accounts.capture(cur,originals)
 
 def expected_definitions(internal_before,originals,internal_patch,owner_patch):
- return {'erp.require_internal()':internal_patch(internal_before),
+ d={'erp.require_internal()':internal_patch(internal_before),
   'erp.require_owner_admin()':owner_patch(originals['erp.require_owner_admin()']),
   SIGNATURE:patched_report(originals[SIGNATURE]),**rework.expected_definitions(originals),**hpp_policy.expected_definitions(originals),**kasbon.expected_definitions(originals),**pickup.expected_definitions(originals),**rate_revision.expected_definitions(originals),**public_routes.expected_definitions(originals),**payroll_checks.expected_definitions(originals)}
+ # R5-02 rewrites the readers after the deltas above (the owner report and run_v267 included).
+ d.update(report_accounts.expected_definitions(d,originals))
+ return d
 
 def extension():
  sql=(ROOT/'scripts/cp7-src/sales/report.sql').read_text()
