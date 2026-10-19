@@ -631,3 +631,16 @@ auditor tanpa menunggu. Kecepatan analisis langsung dengan angka keuangan (100 t
 kualifikasi, target 3 detik; `docs/cp7/p19/P19_R4_05_DIRECT_LATENCY.md`) adalah tugas penulis berikutnya, di cabang
 baru dari `claude/new-session-deapao`; kandidat yang sedang diaudit tidak diubah. Batas 8 detik, pemeriksaan
 sumber/otoritas/hash/kelengkapan dan keputusan 7 Okt tetap berlaku. `production_go:false`.
+
+### D17-3 (owner ke penulis Claude, 19 Okt 2026 WIB, cara kirim pengingat)
+
+Owner sebelumnya: "pikirin ya aplikasi buat kirim ke wanya ya", lalu "ada app lain yg ngirim ke diri sendiri". Pertanyaan
+penulis: "Saya perlu Bos memutuskan: pengingat ke HP Bos sendiri lewat Telegram (saran saya) atau lewat CallMeBot di
+WhatsApp?"
+
+Owner (persis): "yaudah desain callmebot buat gw"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): pengingat dikirim ke WhatsApp owner sendiri lewat
+CallMeBot (gratis; pihak ketiga; situsnya menulis "hanya untuk pemakaian pribadi"). Yang diminta sekarang desain:
+`docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md`. Pengiriman nyata butuh pengirim terjadwal di server, jadi pemasangannya ikut
+CP7C (ditahan, D13-9a). Kunci CallMeBot tidak pernah diminta atau dikirim lewat chat. `production_go:false`.
