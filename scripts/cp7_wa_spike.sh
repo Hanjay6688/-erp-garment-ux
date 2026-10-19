@@ -31,8 +31,9 @@ sleep 5
 say fake_server "$(docker ps --filter name=fake-callmebot --format '{{.Status}}')"
 
 # Vault round trip in postgres (the hosted shape) before any clone.
-say vault_postgres "$(q postgres "select coalesce((select decrypted_secret from vault.decrypted_secrets where id=vault.create_secret('FAKEKEY-WA0','cp7_wa0_probe'))='FAKEKEY-WA0','null-secret')" 2>&1 | tail -2 | tr '\n' ' ')"
-say vault_rows "$(q postgres "select count(*)||' '||coalesce(bool_and(decrypted_secret is null)::text,'-') from vault.decrypted_secrets where name='cp7_wa0_probe'" 2>&1 | tail -1)"
+say vault_create "$(q postgres "select vault.create_secret('FAKEKEY-WA0','cp7_wa0_probe') is not null" 2>&1 | tail -1)"
+say vault_read "$(q postgres "select coalesce((select decrypted_secret from vault.decrypted_secrets where name='cp7_wa0_probe'),'NULL')" 2>&1 | tail -1)"
+say vault_secret_table_select_by_authenticated "$(q postgres "select has_table_privilege('authenticated','vault.secrets','SELECT')||' '||has_table_privilege('authenticated','vault.decrypted_secrets','SELECT')" 2>&1 | tail -1)"
 q postgres "delete from vault.secrets where name='cp7_wa0_probe'" >/dev/null 2>&1
 
 # A second database standing in for the harness clone (the harness copies postgres with every session fenced; here an
@@ -49,8 +50,10 @@ wait_resp() { # db id
 
 # pg_net in the clone, worker pointed at the clone.
 say pg_net_create_clone "$(q wa0_clone "create extension if not exists pg_net" 2>&1 | tail -1)"
-say set_database_name "$(q postgres "alter system set pg_net.database_name='wa0_clone'" 2>&1 | tail -1)"
-q postgres "select pg_reload_conf()" >/dev/null
+say set_database_name_postgres_role "$(q postgres "alter system set pg_net.database_name='wa0_clone'" 2>&1 | tail -1)"
+# The stack's superuser is supabase_admin (inside the database container); the harness already uses it for clones.
+DB="$(docker ps --format '{{.Names}}' | grep -m1 '^supabase_db_')"; say db_container "$DB"
+say set_database_name_admin "$(docker exec "$DB" psql -U supabase_admin -d postgres -X -At -c "alter system set pg_net.database_name='wa0_clone'" -c "select pg_reload_conf()" 2>&1 | tr '\n' ' ')"
 say worker_restart "$(q wa0_clone "select net.worker_restart()" 2>&1 | tail -1)"
 sleep 3
 id="$(send wa0_clone 'WA0 hello' 2>&1 | tail -1)"; say clone_send_id "$id"
@@ -66,7 +69,7 @@ say queue_row_shape "$(q wa0_clone "select string_agg(column_name,',' order by o
 say response_retention "$(q postgres "select coalesce(current_setting('pg_net.ttl',true),'(unset)')")"
 say pg_cron_in_clone "$(q wa0_clone "select count(*) from pg_extension where extname='pg_cron'")"
 # Hosted shape: worker back on postgres, pg_net created there.
-q postgres "alter system reset pg_net.database_name" >/dev/null 2>&1; q postgres "select pg_reload_conf()" >/dev/null
+say reset_database_name_admin "$(docker exec "$DB" psql -U supabase_admin -d postgres -X -At -c "alter system reset pg_net.database_name" -c "select pg_reload_conf()" 2>&1 | tr '\n' ' ')"
 say pg_net_create_postgres "$(q postgres "create extension if not exists pg_net" 2>&1 | tail -1)"
 say worker_restart_postgres "$(q postgres "select net.worker_restart()" 2>&1 | tail -1)"
 sleep 3
