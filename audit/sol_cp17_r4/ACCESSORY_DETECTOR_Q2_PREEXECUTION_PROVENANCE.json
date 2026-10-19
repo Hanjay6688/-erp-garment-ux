@@ -1,0 +1,44 @@
+{
+  "state": "AUDIT_ONLY_SINGLE_ACCESSORY_FIXTURE_LABEL_QUALIFICATION_READY_FOR_NORMAL_REVIEW",
+  "parent_expected": "06c91b1c00281320de00dff5c4791ce724d4960b",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "sensitive_private_or_unrelated_data": false,
+  "product_diff_empty": true,
+  "initial_failure_retained": true,
+  "three_PASS_excluded": true,
+  "scope": "One same stable accessory ID; generated Native SKU64 violates varchar60 before fixture/counter control. Shorten only nonbusiness prefix to SKU48; all fields, UUID constructor, two expected+1 and all167gates unchanged.",
+  "files": [
+    {
+      "path": ".github/workflows/audit-sol-r4-accessory-detector-q2.yml",
+      "bytes": 9618,
+      "sha256": "a8c9f3d7e0bbab92fa443a4fa0bccee8ec1ae51be8dd35a1aa45e1ea2b222273"
+    },
+    {
+      "path": "audit/sol_cp17_r4/detector_accessory_q2_control.py",
+      "bytes": 5605,
+      "sha256": "20147396a9267ff81efd9d52d39235fdd19751e11adff40e6f0d9892c56f755f"
+    },
+    {
+      "path": "audit/sol_cp17_r4/detector_accessory_q2_qualification.py",
+      "bytes": 5818,
+      "sha256": "787b04f96682e772d4203469352180dc55e3ee5091098c8337114047d04f7ed6"
+    },
+    {
+      "path": "audit/sol_cp17_r4/detector_accessory_q2_validate.py",
+      "bytes": 4832,
+      "sha256": "85102902c3c1ee03835c6f568d6dc4de5e0d6d2c721bbd5fbdb7365c95bda46a"
+    },
+    {
+      "path": "audit/sol_cp17_r4/ACCESSORY_DETECTOR_Q2_PREEXECUTION_MANIFEST.json",
+      "bytes": 15468,
+      "sha256": "047f7c29aa598964a5143032c0eccbd1a65f1fdde58f2d1ad66d27b608b7a183"
+    },
+    {
+      "path": "audit/sol_cp17_r4/ACCESSORY_DETECTOR_Q2_PREEXECUTION_VALIDATION.json",
+      "bytes": 618,
+      "sha256": "231edcd4dcc78c4982dbe36cfe9c20f7be78fca5fd086d7026fb148004cd0564"
+    }
+  ]
+}

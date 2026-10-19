@@ -1,0 +1,16 @@
+{
+  "state": "STATIC_AND_PURE_METADATA_ONLY_NO_PRODUCT_CASES_RUN",
+  "exact_same_accessory_ID_only": true,
+  "three_PASS_excluded": true,
+  "exact_tool_diff_prefix_only_plus_case_subset": true,
+  "original_SKU_bytes64_exceeds60": true,
+  "qualified_SKU_bytes48_fits60": true,
+  "Native_UUID_generation_unchanged": true,
+  "all_business_fields_predicates_expected_unchanged": true,
+  "actual_outer_gate_positive": 1,
+  "actual_outer_gate_negative": 8,
+  "all167_phase_gate_unchanged": true,
+  "parsed_workflow_diff_only_names_entrypoint_artifact": true,
+  "source_hashes_verified": true,
+  "product_diff_empty": true
+}

@@ -1,0 +1,230 @@
+{
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "pinned_product_sources": {
+    "scripts/cp6_bc_probe.py": "147de7092ba2284312ba376f8cae82bf05c0fbb77e28956f45966cdfa6c8adb1",
+    "scripts/cp6_bd_probe.py": "c3add21e66d4d5544bf4e4d046a9fa8d64dbcb0cb285551a92c2d7405156b31b",
+    "scripts/cp6_bd_objects_d07.sql": "f929f6c1f0dfed06a5a1ff8d83c606fef78cbb7b5d34f27cddd0c3c142f5616f",
+    "scripts/cp6_auditor_runner.py": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7",
+    "scripts/cp7_p21_full_rehearsal_probe.py": "a6da56d3c3177c2f6083b19e996d1f7a31b7e934607d7f97232336405fd529f7",
+    "scripts/cp7_cp17_fix_probe.py": "0b95603327920d9e7724bfb0970b3ff6ed4498d0d206e35ed64daa9bbde57e9c",
+    "scripts/cp7_analysis_cases.py": "2df0e458f8108ce80d6d16c90cd6f7a33c9bb59794c3e92e9012b7ad077c0262",
+    "scripts/cp7_planning_netting_cases.py": "acc215b7fed17b1e577ad12546b7d20358809002d5f38acdae293e8fce20579d",
+    "scripts/cp7_planning_schedule_cases.py": "b79a0681ca16f987193354f39c8a72117a16bc1447bb4dedae50ff554e626f69",
+    "scripts/cp7_plan_native_cases.py": "25d066c8468e914f5f0d8b0f9b7f75c296d7079930372bf59d98929914f5a080",
+    "scripts/cp7_wip_cases.py": "a4044dd682fc65562f0d08529fc5bdc49bfb4e146757f90de69e22a3fd861bf1",
+    "scripts/cp7-src/wip/matching.sql": "24c6b8ccbe79a1a6ce5cc4ffc3afa411275819f3d92238c1a6d63b339aa20af2",
+    "scripts/cp7-src/baseline/allocation.sql": "b290b6b68877696ac8bc330cf1a460830c7e0eb7453ef211f5e8e29c8e7ff10d",
+    "scripts/cp7-src/planning/netting.sql": "cf044584c3e5f47993804c7759f74b0a0249551a86cf9de4d916efd7f17df5f7",
+    "scripts/cp7-src/plan-native/preflight.sql": "9fcbbafbc2353380f2e940b7b4ca15ddd25e5171a761e60596c1dd46527d11e8",
+    "scripts/cp7-src/plan-native/source.sql": "5c7eb918a7c3b8e3bd28d1cf7fb9654ec6edf3be63b12cf2ae93090852f1bb64",
+    "scripts/cp7-src/plan-native/commands.sql": "c0865398cc10a0c9b1298847972336b27a21bcb0e612dda1eb58e0b45eb4f1bc",
+    "scripts/cp7-src/plan-native/bootstrap.sql": "8f68fb552d4fa2dc46167d7c1d44d7035927020ab98f2c8260460da34eae4ab4",
+    "scripts/cp7_procurement_cases.py": "460b4541154ba2950425c5fbaa1c0872f941cfc4646a9810841802ce72e9f3d1",
+    "scripts/cp7-src/procurement/bootstrap.sql": "595aee83f4c692fdbe19ba1664b03b85c74f67f5d73bdd3079380a57b2574ad6",
+    "scripts/cp7-src/procurement/command.sql": "4842cb68a901dec90f57752dc5783fe70796f26e655c4228e3a2a959461c9833",
+    "scripts/cp7-src/procurement/accepted-deltas.sql": "f2f39d1cafc25d160bf0917cf898770d2c998c65c837a578bde2a1e6fa2163cf",
+    "src/procurementContract.ts": "9e2d22fafd6c4f93d975deb6c04e848af5e42608bacd9ca6da67ac5678669c2a",
+    "src/ConnectedProcurementPage.tsx": "94ab49f35de9046ed8517705872549dc3aa8b9656babd76b463fe43b21f10e2c",
+    "src/laundryBd.ts": "2d715e0b7833612a96ddcb0911643290d7b93a0b16f3aee413b171e39d1c57a3",
+    "src/LaundryBdPanel.tsx": "0f75a213d9435e1a47cc1b6406a7b0e5e5fbc36c4b4c12c00ad8f8146ef61cc8",
+    "src/hppPoolContract.ts": "c92ea89df06b97bce3491efe6464331351dea615ef9b3ec2cb44c0949403c3a4",
+    "scripts/cp6_bd_objects_policy.sql": "705638fda10c939e6a813958d87316c6b122b41902aa5acd54db1c5fee5898c3",
+    "scripts/cp6_bd_objects_invoice.sql": "f57565e6ee23f3dd6eeba01f911b49f3c59f0fd2017e6d67dfb24486b5988583",
+    "scripts/cp6_bd_objects_claimcredit.sql": "f0ebe32baef55e30025766b87ea4d4723018b2af58cc6fdf6789f9fce45464db",
+    "scripts/cp7-src/hpp-pool/pool.sql": "3d8cb15a19d7eb07f803517730f65e8d475d6168075db9fdf2de68f5d307bb61",
+    "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql": "c5404de584a4734fb235f5253f10fb10a1d13f01f3f993b99150a422008e2268",
+    "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql": "7b5690a2eddf618833d352dc75eb95aa1ef4dbcfb25d39b30374b733d33dadbc",
+    "scripts/cp7_cp17_fix_cases.py": "510f48c61fc7919c5761abe2cf8fa75d952939f924b7681943ac4af8b6f80b1e",
+    "scripts/cp7_recost_cases.py": "376929543a52204e7553019293539c52ce464fa5c250cd60f971a1a803b7fe2a",
+    "scripts/cp6_z_expanded_integrity_audit.py": "c4f977bfd6dd9da1b1eaf068bddf6fce37296d016d4ff9832aa987640682042b",
+    "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz": "7aa808a3060bb878fab6b311ba031b9d91d2f12f7268bcc67ea0b88e0974b7ae",
+    "supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql": "b90cd6c4aa535eb97226d001fdfb5a5bfed783be28ef38dc7c121a7020368aba",
+    "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql": "eab866385d3a462aea5815dc5069d5d7a774f7aa88c43d983c665469f4469465",
+    "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql": "48f0431ca57abc99906d3f578b53ef59f9072fef3fc3e11c0b50a5c3a581279c"
+  },
+  "contract": "audit.sol.r4.accessory-detector.genuine-label-qualification.q2",
+  "state": "PREEXECUTION_NOT_RUN",
+  "qualification_rule": "ProMax16.3 genuine auditor fixture label-length repair. First error before creating master/control kept. One same stable ID only; no three initial PASS repeated.",
+  "oracle_origin": "SOL_EXACT_ACTIVE_DETECTOR_PREDICATES_AND_LITERAL_ONE_UNIT_PERTURBATIONS",
+  "fixture_origin": "EXISTING_ACCEPTED_NATIVE_RECEIPT_QC_AND_ADMINISTRATIVE_FAULT_STARTS",
+  "new_case_ids": 0,
+  "new_business_case_ids": 0,
+  "new_race_credit": 0,
+  "case_kind_breakdown": {
+    "unused_master_counterfixture": 1
+  },
+  "guards_triggers_privileges_unchanged": true,
+  "facts_or_journals_modified": false,
+  "held_r3_probes_resumed": false,
+  "hosted_or_production": false,
+  "no_business_retry": true,
+  "max_pre_case_prerequisite_retry": 1,
+  "bootstrap_attempts_max": 2,
+  "all167_each_phase": true,
+  "permissions_and_budgets_unchanged": true,
+  "cases": [
+    {
+      "id": "SOL_R4_D01_NEW_ACCESSORY_NULL_CATEGORY",
+      "layer": "NATIVE_MASTER_COUNTERFIXTURE_NOT_ORDINARY_CRUD",
+      "role": "OWNER_READ_ADMIN_FIXTURE",
+      "oracle_origin": "SOL_ONE_NEW_ACTIVE_ACCESSORY_NULL_CATEGORY_MATCHES_TWO_EXPLICIT_PREDICATES",
+      "fixture_origin": "EXISTING_ISOLATED_MASTER_CLONE_NO_STOCK_OR_FINANCIAL_FACTS",
+      "expected_phases": {
+        "OWN_NEW_ACCESSORY_WITH_NULL_CATEGORY": {
+          "run_v24_accessory_integrity_checks:ACCESSORY_WITHOUT_CATEGORY": 1,
+          "run_v266_gudang_accessory_fg_checks:v266_accessory_material_category_mismatch": 1
+        }
+      },
+      "mutation": "Clone unused active non-accessory material with NULL category and no stock. Change only own material_type to ACCESSORY, then rollback. Validator NULL branch permits this administrative counterfixture; no user-CRUD claim."
+    }
+  ],
+  "active_detector_function_sha256": {
+    "run_integrity_checks": "c2681bfbebd66ffb4700268ccf650a32def5d2ec6f7282b32531b103f3333459",
+    "run_v24_accessory_integrity_checks": "040d343cc47316868280ee9bab161631f4deef0f7bc82df083549a2fcf27e795",
+    "run_v255_material_cost_integrity_checks": "65ef40a0a896b977c97bc571ad3f3bf462d7496444eb689afae17e460de73ff2",
+    "run_v264_material_transfer_integrity_checks": "307a5e52eb36a172615dd6985201089ea6d5b03c083ec9887d67974029d7cb09",
+    "run_v265_gudang_write_integrity_checks": "6babce69b0b14908912a0234ed82f773895feed533be605115f424f4146f1016",
+    "run_v266_gudang_accessory_fg_checks": "af89e651bdc505e3c31ef0f8c6d5404054b5e6877f1bf4945164a970bf9d2923",
+    "run_v267_financial_truth_checks": "4618ab826e1eeb3806feb88a36c812cb3bfab37ce3baf4d574f889a9f06d9f48",
+    "run_v268_financial_report_checks": "075c3f91630997d393861a1f72090d37b029e02d80c6e3f0e3f686a81566f3de",
+    "run_v263a_payroll_integrity_checks": "2ac8d584635e30d5d5fcadd2bf0bef9de8710ce127f73a092bbb57db9ce4abcd"
+  },
+  "active_definition_origin": {
+    "run_id": 39195943779,
+    "artifact_id": 12161878541,
+    "path": "SOL_R4_CURRENT_DETECTOR_DEFINITIONS.json",
+    "sha256": "34250562866c4810525c0a0709c080d897e0f9f1dcc63ca639847106d0e39305",
+    "read_before_this_manifest": true,
+    "runtime_function_hashes_rechecked_before_new_cases": true
+  },
+  "additional_active_expression_pins": {
+    "_v268_financial_report_checks_pre_scope()": [
+      "q.status='FAILED' and q.attempt_count>=3",
+      "q.status in('PENDING','RUNNING') or(q.status='FAILED' and q.attempt_count<3)"
+    ],
+    "guard_system_managed_table()": [
+      "current_user IN ('postgres','service_role','supabase_admin')"
+    ],
+    "guard_material_cached_fields()": [
+      "current_user in ('postgres','service_role','supabase_admin')"
+    ],
+    "validate_material_accessory_category()": [
+      "IF NEW.accessory_category_id IS NULL THEN RETURN NEW;"
+    ]
+  },
+  "table_field_source_pins": {
+    "materials": {
+      "path": "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz",
+      "line_basis": "DECOMPRESSED_UTF8_SQL",
+      "line": 1489,
+      "ddl": "create table \"erp\".\"materials\" (\n  \"id\" uuid default gen_random_uuid() not null,\n  \"material_sku\" character varying(60) not null,\n  \"material_name\" character varying(150) not null,\n  \"material_type\" character varying(20) not null,\n  \"unit_code\" character varying(20) not null,\n  \"moving_average_cost\" numeric(18,6) default 0 not null,\n  \"cached_stock_qty\" numeric(18,6) default 0 not null,\n  \"is_active\" boolean default true not null,\n  \"created_at\" timestamp with time zone default now() not null,\n  \"updated_at\" timestamp with time zone default now() not null,\n  \"accessory_category_id\" uuid,\n  \"row_version\" bigint default 1 not null\n);",
+      "ddl_sha256": "a6f00cc672c39bf4e3252f3ea9d10f208380da8861fbda1a96a679c7e14db3a7"
+    },
+    "po_hpp_gl_state": {
+      "path": "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz",
+      "line_basis": "DECOMPRESSED_UTF8_SQL",
+      "line": 1813,
+      "ddl": "create table \"erp\".\"po_hpp_gl_state\" (\n  \"po_id\" uuid not null,\n  \"base_output_qty\" integer default 0 not null,\n  \"hpp_total_cost\" numeric(24,6) default 0 not null,\n  \"fg_value\" numeric(24,6) default 0 not null,\n  \"cogs_value\" numeric(24,6) default 0 not null,\n  \"other_out_value\" numeric(24,6) default 0 not null,\n  \"updated_at\" timestamp with time zone default now() not null\n);",
+      "ddl_sha256": "81db18997441b67acfafe3fc82a19b930aa2b595abd7a64fb159f514383307a6"
+    },
+    "cost_recalc_queue": {
+      "path": "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz",
+      "line_basis": "DECOMPRESSED_UTF8_SQL",
+      "line": 585,
+      "ddl": "create table \"erp\".\"cost_recalc_queue\" (\n  \"id\" bigint default nextval('erp.cost_recalc_queue_id_seq'::regclass) not null,\n  \"entity_type\" character varying(30) not null,\n  \"entity_id\" uuid not null,\n  \"recalc_from\" timestamp with time zone,\n  \"reason\" text not null,\n  \"status\" character varying(20) default 'PENDING'::character varying not null,\n  \"queued_at\" timestamp with time zone default now() not null,\n  \"started_at\" timestamp with time zone,\n  \"completed_at\" timestamp with time zone,\n  \"error_message\" text,\n  \"attempt_count\" integer default 0 not null,\n  \"last_attempt_at\" timestamp with time zone,\n  \"next_attempt_at\" timestamp with time zone\n);",
+      "ddl_sha256": "29f500f582055ab68e2543a02430324c94e714a213200475f3f9c16c2873fb0b"
+    }
+  },
+  "expected_expression_sources": [
+    {
+      "checks": [
+        "STALE_RECOST_QUEUE",
+        "FAILED_RECOST_QUEUE"
+      ],
+      "active_function": "run_integrity_checks",
+      "predicate": "status IN ('PENDING','RUNNING') AND queued_at<statement_timestamp()-interval '10 minutes'; status='FAILED'"
+    },
+    {
+      "checks": [
+        "V268_COST_RECALC_EXHAUSTED",
+        "V268_COST_RECALC_PENDING"
+      ],
+      "active_function": "run_v268_financial_report_checks delegates to _v268_financial_report_checks_pre_scope",
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "lines": "315\u2013324",
+      "predicate": "FAILED and attempt_count>=3; PENDING/RUNNING or FAILED attempt_count<3"
+    },
+    {
+      "checks": [
+        "MATERIAL_GL_VALUATION_MISMATCH"
+      ],
+      "active_function": "run_v255_material_cost_integrity_checks",
+      "path": "scripts/cp6_bd_objects_d07.sql",
+      "lines": "72\u201380",
+      "predicate": "abs(sum(cached_stock_qty*moving_average_cost)-Material Inventory daily balance)>.05 => one global unit"
+    },
+    {
+      "checks": [
+        "V2620C_PO_HPP_TARGET_STATE_MISMATCH"
+      ],
+      "active_function": "run_v268_financial_report_checks",
+      "predicate": "s.base_output_qty is distinct from coalesce(t.base_output_qty,0); target comes from immutable FG lots/HPP, not saved base_output_qty."
+    },
+    {
+      "checks": [
+        "ACCESSORY_WITHOUT_CATEGORY",
+        "v266_accessory_material_category_mismatch"
+      ],
+      "active_functions": [
+        "run_v24_accessory_integrity_checks",
+        "run_v266_gudang_accessory_fg_checks"
+      ],
+      "predicate": "material_type=ACCESSORY and is_active=true and category NULL; accessory left join category has ac.id NULL => each one own master unit"
+    }
+  ],
+  "audit_tools": {
+    "detector_accessory_q2_control.py": "20147396a9267ff81efd9d52d39235fdd19751e11adff40e6f0d9892c56f755f",
+    "detector_case.py": "8a6a5c3eea366a10383cf3ab7531089bcef80972abd31c8995f1564aa02d9e1d",
+    "detector_accessory_q2_qualification.py": "787b04f96682e772d4203469352180dc55e3ee5091098c8337114047d04f7ed6"
+  },
+  "cleanup": "All167 identical function/check keys and counts0 before/after inner rollback. Every during phase exact declared delta map; immutable journal/movement/HPP fact hashes and guard definitions unchanged. Full Native per-case and ERP/public/Auth/schema component restoration required.",
+  "limitations": [
+    "One administrative unused-master counterfixture only, not ordinary user CRUD.",
+    "Initial accessory INCOMPLETE retained and no retroactive PASS.",
+    "Three initial passed mutable controls are not repeated."
+  ],
+  "same_stable_case_id": true,
+  "original": {
+    "run_id": 39197469845,
+    "job_id": 117883233496,
+    "artifact_id": 12162647072,
+    "report_path": "ci_receipts/sol_artifacts/12162647072/files/SOL_R4_MUTABLE_DETECTOR_CONTROLS.json",
+    "report_sha256": "f9b57961a0ad6eb67577a88da764a7513c41664d0bb8907a4c05005c4c6a290c",
+    "counts": {
+      "PASS": 3,
+      "INCOMPLETE": 1
+    },
+    "cause": "StringDataRightTruncation varchar60 from clone_material generated SKU; before UPDATE/any detector phase for accessory. Full boundary and primary restore true."
+  },
+  "excluded_PASS_ids": [
+    "SOL_R4_D01_QUEUE_STATUS_AND_AGE_ONE_ROW",
+    "SOL_R4_D01_MATERIAL_MAC_CACHE_ONE_KEY",
+    "SOL_R4_D01_PO_OUTPUT_CACHE_ONE_KEY"
+  ],
+  "declared_change": {
+    "audit_source": "detector_mutable_controls.py -> detector_accessory_q2_control.py",
+    "before_label": "SOLR4-DETECTOR-MASTER",
+    "before_SKU_bytes": 64,
+    "after_label": "SR4DC",
+    "after_SKU_bytes": 48,
+    "Native_SKU_max_bytes": 60,
+    "source_format": "Z-AUD-{label}-{uuid.UUID string36}",
+    "source_helper": "scripts/cp6_z_expanded_integrity_audit.py:95\u2013115",
+    "UUID_generation_unchanged": true,
+    "business_source_fields_inputs_predicates_expected_budgets_unchanged": true,
+    "changes_only_nonbusiness_master_label_and_excludes_three_PASS_closures": true
+  },
+  "original_tool_sha256": "66d7fa6fc2731a38f925cf9ecdba6c0b03d224695682626539218e879616d590"
+}
