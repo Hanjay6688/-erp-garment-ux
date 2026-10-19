@@ -1,0 +1,75 @@
+{
+  "candidate_sha": "17fa25075ba77f0853c3c16f504288ace03eec35",
+  "candidate_tree": "65f778479093d869a3354c0b9f19b4d9a541d98a",
+  "r4_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "writer_sha": "2766a9092f51f240267b9cbe1201d49a836fb490",
+  "objects": {
+    "src": {
+      "r4": "c3008b5bc5662a3ed2d5ab8bc064233ba65a0a1e",
+      "r5": "c3008b5bc5662a3ed2d5ab8bc064233ba65a0a1e"
+    },
+    "supabase/release": {
+      "r4": "be1e91c172ffb5c05b694a3a54c69562700c6d5e",
+      "r5": "be1e91c172ffb5c05b694a3a54c69562700c6d5e"
+    },
+    "supabase/migrations": {
+      "r4": "8f6053bbd0bda80da18065418ad43371cdfd9461",
+      "r5": "8f6053bbd0bda80da18065418ad43371cdfd9461"
+    },
+    "scripts/cp7-src": {
+      "r4": "d71b0bc41acdf2b56b68c1867edde17f58c2c2dc",
+      "r5": "d71b0bc41acdf2b56b68c1867edde17f58c2c2dc"
+    },
+    "supabase/dev": {
+      "r4": "88759f4fc51864a1ec9e224fcb4f236204b5c853",
+      "r5": "88759f4fc51864a1ec9e224fcb4f236204b5c853"
+    },
+    "scripts": {
+      "r4": "793d6ea67f482254a5baff04cfa6e83d306ca091",
+      "r5": "5acd25588b32fcaff661ea07376042e88b72479b"
+    },
+    "tests": {
+      "r4": "1f564ada10c46be3618eda2cb7cef8d1b6c7f876",
+      "r5": "1f564ada10c46be3618eda2cb7cef8d1b6c7f876"
+    },
+    ".github": {
+      "r4": "bd344c207316db169eecfea07b047662822b330f",
+      "r5": "8b6cb79026fc45ba699aebacd2cb5a4188cd4f8b"
+    },
+    "package-lock.json": {
+      "r4": "ca9159d26989e0263b6b757f5f824bd9333d8cf6",
+      "r5": "ca9159d26989e0263b6b757f5f824bd9333d8cf6"
+    },
+    "package.json": {
+      "r4": "8707f6817acfc294caeab8aa54496df5b8dde04e",
+      "r5": "8707f6817acfc294caeab8aa54496df5b8dde04e"
+    }
+  },
+  "promax_sha256": "5752e96df751de5ebe4b86d3f572cffa1bbe94eb42bf8e283fa6e04f9f593639",
+  "changed": [
+    ".github/workflows/claude-cp17-fixes.yml",
+    "docs/ERP_BEST_PRACTICES.md",
+    "docs/cp7/OWNER_DECISIONS_20261008.md",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/CI_RECEIPT.json",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/CI_RECEIPT_FIRST_769f2cc3.json",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/HANDOFF_ASTRA.md",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/HANDOFF_FABLE.md",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/HANDOFF_SOL.md",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/README.md",
+    "docs/cp7/cp17/CP17_FIXES.json",
+    "docs/cp7/cp17/R4_WRITER_HANDOFF.md",
+    "docs/cp7/cp17/R5_WRITER_HANDOFF.md",
+    "docs/cp7/p19/P19_R4_05_DIRECT_LATENCY.md",
+    "docs/cp7/p19/P19_R5_02_REPORT_READERS.md",
+    "scripts/cp7_cp17_fix_cases.py",
+    "scripts/cp7_cp17_fix_probe.py",
+    "scripts/cp7_f03_bundle.py",
+    "scripts/cp7_f03_full_probe.py",
+    "scripts/cp7_note_correction_verify.py",
+    "scripts/cp7_note_report_bundle.py",
+    "scripts/cp7_payroll_checks_bundle.py",
+    "scripts/cp7_r5_cases.py",
+    "scripts/cp7_report_accounts_bundle.py"
+  ],
+  "writer_delta_docs_only": true
+}

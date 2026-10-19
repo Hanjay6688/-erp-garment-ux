@@ -1,0 +1,179 @@
+{
+  "erp._v268_financial_report_checks_pre_scope()": {
+    "status": "PASS",
+    "scope": "STATIC_REWRITE_ONLY_NOT_RUNTIME",
+    "count": 2,
+    "declared": 2,
+    "keys": [
+      "AP_VENDOR",
+      "AR_CUSTOMER"
+    ],
+    "stable": true,
+    "unchanged_outside_literal_wrapping": true,
+    "source_sha256": "519c807290cecac34ef75ff1d369ef9e5f458e52baa88ac0305424a4091e3e32"
+  },
+  "erp.bb_opening_credit_account_v1(uuid)": {
+    "status": "PASS",
+    "scope": "STATIC_REWRITE_ONLY_NOT_RUNTIME",
+    "count": 6,
+    "declared": 6,
+    "keys": [
+      "AP_VENDOR",
+      "MATERIAL_PURCHASE_VARIANCE",
+      "MATERIAL_RECOVERY",
+      "OTHER_INCOME",
+      "SALES_REVENUE"
+    ],
+    "stable": true,
+    "unchanged_outside_literal_wrapping": true,
+    "source_sha256": "7b142dbd8f0f04520c7c4a7aa3f19649fa80fbca29ff5271637de89a8a4a70cc"
+  },
+  "erp.compute_non_po_product_hpp_book_v2620f(uuid)": {
+    "status": "PASS",
+    "scope": "STATIC_REWRITE_ONLY_NOT_RUNTIME",
+    "count": 4,
+    "declared": 4,
+    "keys": [
+      "COGS",
+      "FG_INVENTORY",
+      "OTHER_EXPENSE",
+      "OTHER_INCOME"
+    ],
+    "stable": true,
+    "unchanged_outside_literal_wrapping": true,
+    "source_sha256": "bb6e97dd6cad7400b6483b40b930e50b7677f1cf5ded115d839aed51ea942221"
+  },
+  "erp.compute_po_hpp_gl_book_v2620e(uuid)": {
+    "status": "PASS",
+    "scope": "STATIC_REWRITE_ONLY_NOT_RUNTIME",
+    "count": 8,
+    "declared": 8,
+    "keys": [
+      "COGS",
+      "FG_INVENTORY",
+      "OTHER_EXPENSE",
+      "OTHER_INCOME"
+    ],
+    "stable": true,
+    "unchanged_outside_literal_wrapping": true,
+    "source_sha256": "fb6572df52d1ba70ee7e9ee6bb9a7f01d9139beb6979dbd7c6aabdf4751cf7d9"
+  },
+  "erp.get_owner_financial_snapshot_v2(date,date,date)": {
+    "status": "PASS",
+    "scope": "STATIC_REWRITE_ONLY_NOT_RUNTIME",
+    "count": 11,
+    "declared": 11,
+    "keys": [
+      "AP_SUPPLIER",
+      "AR_CUSTOMER",
+      "CASH",
+      "COGS",
+      "FG_INVENTORY",
+      "GRNI_MATERIAL",
+      "MATERIAL_INVENTORY",
+      "SALES_REVENUE",
+      "WIP"
+    ],
+    "stable": true,
+    "unchanged_outside_literal_wrapping": true,
+    "source_sha256": "7fac51f99120a4ec0260af64575eb78b7fc4798a02583d3bf3c6ce04bf5ee0f7"
+  },
+  "erp.initial_prepayment_checks_v1()": {
+    "status": "PASS",
+    "scope": "STATIC_REWRITE_ONLY_NOT_RUNTIME",
+    "count": 5,
+    "declared": 5,
+    "keys": [
+      "AP_SUPPLIER",
+      "AP_VENDOR",
+      "AR_CUSTOMER",
+      "OPENING_EQUITY"
+    ],
+    "stable": true,
+    "unchanged_outside_literal_wrapping": true,
+    "source_sha256": "43905cc73a0e6273ffb990c4a1e309974f74d5e14a9eeb5dcc4db658d4161402"
+  },
+  "erp.pocket_fabric_checks_v1()": {
+    "status": "PASS",
+    "scope": "STATIC_REWRITE_ONLY_NOT_RUNTIME",
+    "count": 2,
+    "declared": 2,
+    "keys": [
+      "MATERIAL_INVENTORY",
+      "OTHER_EXPENSE"
+    ],
+    "stable": true,
+    "unchanged_outside_literal_wrapping": true,
+    "source_sha256": "40535355290a0dd46bb774964040b66e7fa283464420073c6dd9b0c5ef1eda10"
+  },
+  "erp.pocket_period_book_v1(uuid)": {
+    "status": "PASS",
+    "scope": "STATIC_REWRITE_ONLY_NOT_RUNTIME",
+    "count": 4,
+    "declared": 4,
+    "keys": [
+      "COGS",
+      "OPENING_EQUITY",
+      "OTHER_EXPENSE",
+      "WIP"
+    ],
+    "stable": true,
+    "unchanged_outside_literal_wrapping": true,
+    "source_sha256": "3a10c8d4c2102061d53eb974cd56ff4876d013b34dc0b6a9d767cde0a8f3cad5"
+  },
+  "erp.run_v267_financial_truth_checks()": {
+    "status": "PASS",
+    "scope": "STATIC_REWRITE_ONLY_NOT_RUNTIME",
+    "count": 7,
+    "declared": 7,
+    "keys": [
+      "AP_SUPPLIER",
+      "CONTRACTOR_PAYABLE",
+      "CONTRACTOR_RECEIVABLE",
+      "GRNI_MATERIAL",
+      "OPENING_EQUITY"
+    ],
+    "stable": true,
+    "unchanged_outside_literal_wrapping": true,
+    "source_sha256": "c20302a166c8b02146f459514eba602be960a4203f5613072500d85d649dfa5c"
+  },
+  "erp.run_v268_financial_report_checks()": {
+    "status": "PASS",
+    "scope": "STATIC_REWRITE_ONLY_NOT_RUNTIME",
+    "count": 14,
+    "declared": 14,
+    "keys": [
+      "AR_CUSTOMER",
+      "COGS",
+      "FG_INVENTORY",
+      "OTHER_EXPENSE",
+      "OTHER_INCOME",
+      "SALES_REVENUE",
+      "WIP"
+    ],
+    "stable": true,
+    "unchanged_outside_literal_wrapping": true,
+    "source_sha256": "0750518d15a0200d86be135f389dfda75e1e6ba120c23e506450e528c334de15"
+  },
+  "erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)": {
+    "status": "PASS",
+    "scope": "STATIC_REWRITE_ONLY_NOT_RUNTIME",
+    "count": 6,
+    "declared": 6,
+    "keys": [
+      "COGS",
+      "FG_INVENTORY"
+    ],
+    "stable": true,
+    "unchanged_outside_literal_wrapping": true,
+    "source_sha256": "fd15e5434a4927b839a467d0067a0a8a6fe04727bc6ce1b20e08453c05ae5607"
+  },
+  "payroll": {
+    "status": "PASS",
+    "scope": "STATIC_REWRITE_ONLY_NOT_RUNTIME",
+    "anchor_once": true,
+    "byte_exact_unpatch": true,
+    "source_type_join_explicit": true,
+    "reversed_filter_kept": true
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "scope": "Explicit CREATE-body extraction for source review only; not an installed-body or complete chronological-overlay proof. Runtime definitions remain authoritative.",
+  "functions": {
+    "_v268_financial_report_checks_pre_scope": {
+      "source": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 168,
+      "sha256": "519c807290cecac34ef75ff1d369ef9e5f458e52baa88ac0305424a4091e3e32",
+      "bytes": 8906,
+      "account_calls": 2
+    },
+    "get_owner_financial_snapshot_v2": {
+      "source": "supabase/release/cp6-t3-src/20260925010000_erp_v2_6_20ba_cp6_audit_closure.sql",
+      "line": 1054,
+      "sha256": "7fac51f99120a4ec0260af64575eb78b7fc4798a02583d3bf3c6ce04bf5ee0f7",
+      "bytes": 14313,
+      "account_calls": 11
+    },
+    "run_v267_financial_truth_checks": {
+      "source": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 5752,
+      "sha256": "c20302a166c8b02146f459514eba602be960a4203f5613072500d85d649dfa5c",
+      "bytes": 31075,
+      "account_calls": 7
+    },
+    "run_v268_financial_report_checks": {
+      "source": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 2067,
+      "sha256": "0750518d15a0200d86be135f389dfda75e1e6ba120c23e506450e528c334de15",
+      "bytes": 58270,
+      "account_calls": 14
+    },
+    "sale_lifecycle_po_hpp_amount_v2620d": {
+      "source": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 617,
+      "sha256": "fd15e5434a4927b839a467d0067a0a8a6fe04727bc6ce1b20e08453c05ae5607",
+      "bytes": 3927,
+      "account_calls": 6
+    },
+    "compute_po_hpp_gl_book_v2620e": {
+      "source": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 6175,
+      "sha256": "fb6572df52d1ba70ee7e9ee6bb9a7f01d9139beb6979dbd7c6aabdf4751cf7d9",
+      "bytes": 2798,
+      "account_calls": 8
+    },
+    "compute_non_po_product_hpp_book_v2620f": {
+      "source": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 3286,
+      "sha256": "bb6e97dd6cad7400b6483b40b930e50b7677f1cf5ded115d839aed51ea942221",
+      "bytes": 1234,
+      "account_calls": 4
+    },
+    "initial_prepayment_checks_v1": {
+      "source": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 1385,
+      "sha256": "43905cc73a0e6273ffb990c4a1e309974f74d5e14a9eeb5dcc4db658d4161402",
+      "bytes": 6550,
+      "account_calls": 5
+    },
+    "pocket_fabric_checks_v1": {
+      "source": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 1007,
+      "sha256": "40535355290a0dd46bb774964040b66e7fa283464420073c6dd9b0c5ef1eda10",
+      "bytes": 2380,
+      "account_calls": 2
+    },
+    "pocket_period_book_v1": {
+      "source": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 6939,
+      "sha256": "3a10c8d4c2102061d53eb974cd56ff4876d013b34dc0b6a9d767cde0a8f3cad5",
+      "bytes": 929,
+      "account_calls": 4
+    },
+    "bb_opening_credit_account_v1": {
+      "source": "supabase/release/cp6-t3-src/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql",
+      "line": 6952,
+      "sha256": "7b142dbd8f0f04520c7c4a7aa3f19649fa80fbca29ff5271637de89a8a4a70cc",
+      "bytes": 782,
+      "account_calls": 6
+    }
+  }
+}
