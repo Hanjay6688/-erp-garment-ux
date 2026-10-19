@@ -29,9 +29,14 @@ same rows; the SQL rewrite equals the Python rewrite and the unwrap restores the
 
 Proof in CI: `CP17_R5_02_REPORT_READERS_SAME_ANSWER` runs each installed reader and the same reader without the change
 side by side on the CP17 books (every product, PO, pocket period, opening settlement, sale journal/PO pair, three report
-windows) and requires the same rows or the same refusal; `CP17_R5_02_REPORT_READERS_REVIEWED` refuses a reader with one
-more call, an unlisted key or already rewritten text, the install refuses a changed reader, and a core mapping cannot be
-deleted. Install and uninstall go through the F03 originals like every other declared Native delta.
+windows) and requires the same rows or the same refusal. Its first run (3b9817ae, CI 39209921715) passed with three
+readers compared on no input, because the CP17 books hold no opening credit, pocket period or sale journal; the case now
+builds those rows inside its rolled-back savepoint through the BB/BE probe paths (an opening import with three allowances
+and a customer credit applied, a production import with its historical pocket period posted, a sale of an opening finished
+good and its return) and fails when any reader never answers or one of those three never returns a value (best practice
+E25i). `CP17_R5_02_REPORT_READERS_REVIEWED` refuses a reader with one more call, an unlisted key or already rewritten
+text, the install refuses a changed reader, and a core mapping cannot be deleted. Install and uninstall go through the F03
+originals like every other declared Native delta.
 
 ## Result (capture diagnosis run 39207392615 at 7ca9554e)
 
