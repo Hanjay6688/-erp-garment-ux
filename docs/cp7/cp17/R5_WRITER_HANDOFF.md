@@ -37,10 +37,13 @@ Basis: candidate r4 `663f6faefcbb9c70f0f99bbc7e78164e03521329` (tree `023f3554`)
 
 ## Not done yet (in this order)
 
-1. R5-01: F03 delta that teaches the checker FG_REPAIR (capture/restore through `originals`), Sol's case as written
-   (2 before, 0 after), negative controls (real wrong contractor, missing wage still counted), F03/CP17 wiring.
-2. R5-02: D17-2 speed work (start from `docs/cp7/p19/P19_R4_05_DIRECT_LATENCY.md` "Still open").
-3. Qualify one commit (115 workflows as r4 + full writer CP6 scenario), receipt, package `cp1-7-r5-*`, boxes, owner report.
+1. ~~R5-01~~ done (`cp7_payroll_checks_bundle.py`, CP17 R5-01 cases).
+2. ~~R5-02~~ done (`cp7_report_accounts_bundle.py`, `docs/cp7/p19/P19_R5_02_REPORT_READERS.md`); 3 s with figures at 100
+   targets not marked met.
+3. ~~Qualify, receipt, package, boxes~~ done: candidate `17fa2507`, package `docs/cp7/audit-candidate/cp1-7-r5-20261019/`.
+   Remaining: the owner sends the three boxes; then intake the r5 reports (same method as r4: validity check per finding,
+   cross-audit, fix, qualify).
+4. Held: CP7C (D13-9a), FABLE-012 (D14-9).
 
 ## Checkpoint log
 
@@ -54,3 +57,4 @@ Basis: candidate r4 `663f6faefcbb9c70f0f99bbc7e78164e03521329` (tree `023f3554`)
 | test(r5): reader comparison builds the rows the CP17 books lack and fails on a reader compared on nothing | CI at 3b9817ae: CP17 39209921715 success, `CP17_R5_02_REPORT_READERS_SAME_ANSWER` PASS but vacuous for three readers: inputs compared 0 for `bb_opening_credit_account_v1`, `pocket_period_book_v1`, `sale_lifecycle_po_hpp_amount_v2620d` (the CP17 books hold no opening credit, pocket period or sale journal). The case now builds those rows inside its rolled-back savepoint through the BB/BE probe paths (opening import with three allowances and a customer credit applied; production import with its historical pocket period posted; sale of an opening finished good and its return), records per reader inputs/answered/with value, and fails (`CP17_R5_02_READER_NOT_EXERCISED`) when a reader never answers or one of those three never returns a value. Declaration text updated; best practice E25i. Log: `scratchpad/cand-logs/r5/cp17_3b98.log` (writer, last 400 lines) |
 | docs(r5): CP17 at b9dad7bd, every reader compared; candidate next | CI at b9dad7bd: CP17 39213380701 job 117931576806 success; cases read from the log (last 3,000 lines): Native 165, race 39, HTTP 27, browser Enteng 57, all PASS. `CP17_R5_02_REPORT_READERS_SAME_ANSWER` PASS with every reader answered and with a value (inputs: opening credit account 4, pocket period book 1, sale lifecycle 4, non-PO HPP 2, PO HPP 9, owner report 3, the five checks 1 each); fixture opening batch, pocket period, sale and return built and rolled back (full boundary restored). Next: fast-forward `claude/new-session-deapao` to this commit and qualify (115 workflows + full writer CP6 scenario). Log: `scratchpad/cand-logs/r5/cp17_b9da.log` (writer) |
 | docs(r5): qualification of candidate 17fa2507 dispatched | Candidate `17fa25075ba77f0853c3c16f504288ace03eec35` (tree `65f778479093d869a3354c0b9f19b4d9a541d98a`); `claude/new-session-deapao` fast-forwarded from `5eda90e1`. 7 workflows started on push, 108 dispatched (`scratchpad/qualify_r4.py`, log `scratchpad/dispatch_r5.log`), plus the full writer CP6 scenario (`scenario_path=scripts/cp6_bf_combined_modes.py`, `browser_path=scripts/cp6_bf_vendor_browser.mjs`). Waiting: `scratchpad/wait_qual_r4b.py` (stops on a red run not in the r3 known-red list). Package drafts: `scratchpad/r5pkg/` (README, CROSS_AUDIT, boxes.py, redcmp.py) |
+| docs(r5): retest package cp1-7-r5-20261019 for candidate 17fa2507 | Qualification complete: `CI_RECEIPT.json` 116 runs from 115 workflows, 94 success, 179 jobs, 157 success, all first attempts; 22 red runs all red in r3/r4 with the same jobs and failing steps (`RED_RUNS_VS_R4.json`, 22 of 22). CP17 39216595138: 345/345 PASS + public-state order PASS, Enteng build 1,361 loopback answers, 0 route errors. Full writer CP6 scenario 39216963720: 104/104, 26/26, 9/9, browser 27 PASS + the same 4 INCOMPLETE; sample 39216743258 success. P19 scale 39216681775: all PASS, 100 targets with figures 2.89/3.00/3.33 s browser, 2.25 s server (r4 qualification 4.57-5.92 s, 4.56 s). Package: README (SIAP DIKIRIM), CROSS_AUDIT, boxes for Fable/Astra/Sol (`scratchpad/r5pkg/boxes.py`), receipt, red-run comparison. Logs: `scratchpad/cand-logs/r5q/` (writer) |

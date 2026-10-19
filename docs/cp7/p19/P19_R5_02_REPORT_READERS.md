@@ -58,9 +58,27 @@ calls): each call is its own query, so each evaluates its four init plans once.
 before, stopped at 8 s in all three windows) and is still stopped at 8 s for 100 days; the background job with figures
 completes in all three windows (5.1-7.9 s plus manifest and segments).
 
+## Qualification run (candidate 17fa2507)
+
+CI run 39216681775, job p19-scale5 (job 117942069254), same harness and seeding as the r4 qualification (run 39173212515,
+job 117810437470). The capture without figures, which R5-02 does not touch, took 1.19 s server time against 1.16 s in r4,
+so the two runners are comparable.
+
+| Measure | r4 qualification `663f6fae` | r5 qualification `17fa2507` |
+|---|---|---|
+| 100 targets with figures, one direct capture, server | 4.56 s | 2.25 s (2.19 s with JIT off) |
+| 100 targets with figures, click to result rendered (1/30/100 days) | 4.57-5.92 s | 2.89 / 3.00 / 3.33 s |
+| 100 targets without figures, click to result rendered | 1.78-2.19 s | 1.75 / 1.84 / 2.16 s |
+| 300 targets with figures, click to result | 3 of 3 stopped at 8 s | 10.32 / 10.76 s complete, 100 days stopped at 8.1 s (57014) |
+| 300 targets without figures, click to result | 6.23-8.14 s | 6.23 / 6.66 / 8.04 s |
+
+`erp.require_internal()` 3,652 calls in the capture with figures (r4 qualification 32,150). Every scale case PASS (an
+honest stop at 8 s is an accepted verdict). Log kept: `scratchpad/cand-logs/r5q/p19scale5_117942069254.log` (writer).
+
 ## Still open
 
-- 3 s with figures at 100 targets is close but not reliably met on this runner (2.87-3.32 s in the browser); not marked met.
+- 3 s with figures at 100 targets is close but not reliably met (2.87-3.32 s in run 39207392615, 2.89-3.33 s on the
+  qualification runner); not marked met.
 - 300 targets stays above 3 s with and without figures; the background job and the staged analysis remain the owner-named
   exceptions for heavy scopes (`P19_PLANNING_ANALYSIS_BACKGROUND_20261007`, `P19_PLANNING_ANALYSIS_STAGED_20261007`).
 - Considered and not done: caching the check readers between the three runs per report read (the readers would answer
