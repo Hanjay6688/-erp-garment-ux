@@ -83,6 +83,12 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     setiap fungsi masuk daftar yang dipakai aplikasi, daftar yang sengaja dibiarkan, atau daftar yang ditutup; fungsi
     baru yang belum ditinjau membuat pemeriksaan gagal. Uji lewat Auth dan PostgREST sungguhan, bukan sesi database.
     (ASTRA-R3-01, owner D14-9)
+12e. **Jenis sumber baru diajarkan ke semua pembaca, termasuk detektor integritas.** Saat sebuah kolom jenis (misalnya
+    `payroll_work_items.source_type`) mendapat nilai baru, daftar setiap fungsi dan view yang bercabang pada kolom itu:
+    penulis, pembaca, layar, dan detektor. Setiap fungsi harus menangani nilai baru, atau terbukti hanya untuk satu jenis
+    saja. Uji buku sehat dengan nilai baru: semua detektor harus tetap 0. Detektor yang tidak mengenal sumbernya akan
+    mengira baris sah sebagai pelanggaran. (SOL-R4-001: Nota FG_REPAIR sah dihitung "salah mandor" CRITICAL, karena AX
+    mengajari view, CHECK, validator dan merge, tetapi tidak pemeriksa integritas)
 
 ## D. Layar
 
@@ -174,6 +180,13 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     mengizinkan, hanya lewat baris transaksi itu sendiri, satu CASE dengan filter identitas lebih dulu; uji lama-lawan-baru
     berdampingan, dan pemeriksaan bentuk yang gagal bila cabang baru ditambah tanpa ikut diperiksa jalan pintasnya.
     (R4-05, Sol KNOWN-P19-DIRECT-LATENCY, CI 39157467151)
+25h. **Fungsi STABLE dengan argumen tetap di dalam filter per baris dijalankan sekali per baris.** Hitungan waktu per
+    fungsi menunjukkan `erp.account_id('<KEY>')` dipanggil 31.000 kali dalam satu analisis, masing-masing dengan
+    penjaganya. Tulis `(select erp.account_id('<KEY>'))`: PostgreSQL menghitungnya sekali per query (init plan) dan
+    angkanya sama. Satu beda yang harus ditutup: perencana query juga memanggil fungsi STABLE inline saat menaksir,
+    sehingga teks lama menolak kunci yang tidak ada walau tidak ada baris; init plan baru menolak saat ada baris yang
+    membutuhkannya. Tutup dengan prasyarat (semua kunci adalah mapping inti yang dijaga dari hapus/ganti nama) dan
+    uji lama-lawan-baru berdampingan pada data yang sama. (R5-02, owner D17-2)
 25g. **Hasil yang sudah terlihat bukan berarti catatan penjadwal sudah ditulis.** pg_cron menyimpan pekerjaan sebuah run
     lebih dulu, lalu menulis status run itu sesudahnya. Uji yang membaca `cron.job_run_details` begitu pekerjaannya
     terlihat bisa mendapati status "running" untuk run yang sebenarnya berhasil. Baca catatan run sesudah jadwal dicabut,
@@ -222,6 +235,10 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Layar berat lebih dari 3 detik: penyebab diukur per fungsi sebelum diubah; jalan pintas penjaga terbukti sama
   hasilnya dan cabang konteks baru ikut diperiksa (E25f).
 - [ ] Uji penjadwal: catatan run dibaca sesudah setiap akhir run tertulis, bukan begitu hasilnya terlihat (E25g).
+- [ ] Nilai jenis baru (source_type dan sejenisnya): semua fungsi yang bercabang pada kolom itu ditinjau, termasuk
+  detektor; buku sehat dengan nilai baru membuat semua detektor 0 (C12e).
+- [ ] Panggilan fungsi STABLE di filter per baris: dibungkus scalar subquery bila panas, dengan prasyarat untuk jalur
+  error dan uji lama-lawan-baru (E25h).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
   dipicu (E19–E20, E19a).
