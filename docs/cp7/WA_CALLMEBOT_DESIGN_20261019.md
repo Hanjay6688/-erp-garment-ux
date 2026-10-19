@@ -1,6 +1,6 @@
 # Desain: semua pengingat ERP diteruskan ke WhatsApp owner lewat CallMeBot (D17-3..D17-5)
 
-Status: **desain**. Belum dibuat, belum dipasang.
+Status: **sedang dibuat** (WA-2a: bagian database selesai dan diuji lokal; uji CI, layar dan jenis analisis menyusul). Belum dipasang.
 
 Keputusan owner (19 Okt 2026), dikutip persis:
 - D17-3: "yaudah desain callmebot buat gw"
@@ -87,14 +87,14 @@ pengingat yang sudah ada (`scripts/cp7-src/reminders/`) tidak diubah. Alasannya:
 | Bagian | Isi |
 |---|---|
 | Skema `cp7_alert_native`, peran `cp7_alert` (nologin, noinherit) | Pemilik semua tabel dan fungsi baru. Hak baca hanya yang dipakai pengumpul (dicek bundle seperti `cp7_reminder`) |
-| `alerts` | Satu baris per kejadian Pengingat sistem: `id`, `kind` (`FABRIC_BELOW_MINIMUM`, `STOCK_AT_REORDER_POINT`, `AR_DUE`, `AP_DUE`, `FABRIC_NEED`, `ACCESSORY_NEED`, `PRODUCTION_GAP`), `subject_key`, `episode` (naik bila muncul lagi sesudah beres), `title`, `detail` jsonb (angka dari sumber, tanpa hitungan baru), `party_names` jsonb (dipisah agar Ringkas bisa menyembunyikan), `source_hash`, `opened_at`, `resolved_at`, `state` (`OPEN`/`RESOLVED`). Satu `OPEN` per `kind+subject_key` (unique index parsial). Append-only kecuali penutupan |
+| `alerts` | Satu baris per kejadian Pengingat sistem: `id`, `kind` (`FABRIC_BELOW_MINIMUM`, `STOCK_AT_REORDER_POINT`, `AR_DUE`, `AP_DUE`, `FABRIC_NEED`, `ACCESSORY_NEED`, `PRODUCTION_GAP`), `subject_key`, `episode` (naik bila muncul lagi sesudah beres), `title`, `detail` jsonb (angka dari sumber, tanpa hitungan baru), `party_names` jsonb (dipisah agar Ringkas bisa menyembunyikan), `source_hash`, `opened_at`, `resolved_at`, `state` (`OPEN`/`RESOLVED`). Satu `OPEN` per `kind+subject_key` (unique index parsial). Identitas tetap; selama `OPEN` angka di `detail` ikut diperbarui dari sumbernya (`refreshed_at`), lalu ditutup sekali |
 | `alert_settings` | Revisi append-only: `enabled`, `phone_e164`, `detail` (`SUMMARY` bawaan / `DETAILED`), `digest_times`, `kinds`, `repeat_minutes` (1.440), `burst_after_per_day` (30), `burst_merge_minutes` (30), `max_items` (10), `quiet` (21:00–06:00), `analysis_every_minutes` (60, minimal 15, `0` = mati), `analysis_hours` (07:00–20:00), `actor` (owner yang mengaktifkan) |
 | Vault secret `cp7_callmebot_apikey` | Ditulis lewat `erp_cp7_set_wa_key_v1` (khusus owner). Tidak ada RPC yang membacanya kembali |
 | `wa_outbox` | Diisi trigger `AFTER INSERT` pada `alerts` (kejadian baru) dan oleh tick untuk pengingat pribadi owner yang jatuh waktu dan untuk ulangan. Kolom: `source` (`ALERT`, `MANUAL_REMINDER`, `REPEAT`), `source_id`, `seen_at`, `dispatch_id`, `outcome` |
 | `wa_dispatches` | Satu baris per pesan (`INSTANT`, `DIGEST`, `TEST`), `body`, `body_sha256`, `net_request_id`, `status`, `http_status`, `provider_text`, waktu |
 | `cp7_alert_native.collect()` | Pengumpul. Sumber dibaca sebagai owner lewat pembaca yang sudah ada (pola K4: `request.jwt.claims` owner, akses dicek ulang tiap langkah, klaim dipulihkan sesudahnya). Membuka `alerts` baru dan menutup yang sudah beres |
 | `cp7_alert_native.wa_send()` / `wa_reconcile()` | Menggabung outbox, cek ulang, kirim lewat pg_net sesudah commit; membaca jawaban |
-| Jadwal (`cp7_ops.schedules()`, dipasang `scripts/cp7_schedule.py` bersama jadwal CP7 lain) | `cp7-alert-collect` tiap menit, `cp7-wa-send` tiap menit, `cp7-alert-analysis` sesuai `analysis_every_minutes`. Daftar jadwal di kasus K3/K4/K6 ditambah secara terdeklarasi |
+| Jadwal (`cp7_alert_native.schedules()`, terpisah dari `cp7_ops.schedules()`) | `erp-wa-collect` dan `erp-wa-send` tiap menit, masing-masing dengan batas 8 detik; `erp-wa-analysis` menyusul (WA-2b). Nama `erp-wa-*` dipilih supaya daftar jadwal `cp7-*` yang dikunci kasus K3/K4/K6 tidak berubah |
 | RPC publik (`erp_cp7_*`, owner `cp7_alert`, `authenticated` saja) | `erp_cp7_get_alerts_v1` (daftar Pengingat sistem; izin baca per jenis), `erp_cp7_get_wa_settings_v1`, `erp_cp7_save_wa_settings_v1`, `erp_cp7_set_wa_key_v1`, `erp_cp7_send_wa_test_v1`, `erp_cp7_resolve_wa_dispatch_v1` (tandai "masuk"/"tidak masuk" untuk `UNKNOWN`) |
 | Layar | Menu Reminder: bagian Pengingat sistem (semua peran yang berhak melihat) dan tab "Sambungan WhatsApp" (khusus owner) |
 
@@ -102,7 +102,7 @@ pengingat yang sudah ada (`scripts/cp7-src/reminders/`) tidak diubah. Alasannya:
 
 | Jenis | Pembaca yang sudah ada |
 |---|---|
-| `FABRIC_BELOW_MINIMUM` | `low`/`low_hit` di `scripts/cp7-src/warehouse-summary/summary.sql` dipindah ke satu fungsi baca bersama (`cp7_warehouse_summary.fabric_below_minimum()`); Ringkasan Gudang dan pengumpul memakai fungsi yang sama. Uji gudang lama tetap harus lulus tanpa diubah |
+| `FABRIC_BELOW_MINIMUM` | Aturan `low`/`low_hit` Ringkasan Gudang (`scripts/cp7-src/warehouse-summary/summary.sql`) ditulis ulang apa adanya di `cp7_alert_native.fabric_source()` (tabel, filter dan kunci yang sama). Ringkasan Gudang tidak diubah. Uji CI membandingkan jumlah dan baris keduanya pada data yang sama |
 | `STOCK_AT_REORDER_POINT` | `erp.stock_policy_versions` yang berlaku (basis `MANUAL`) dibanding saldo stok Native per lokasi lewat pembaca kartu stok CP7 yang sudah ada. Diperiksa saat pembuatan: kalau tidak ada pembaca tanpa hitungan baru, jenis ini ditunda dan ditulis di "belum" |
 | `AR_DUE`, `AP_DUE` | `cp7_reminder_native.receivable_source()` / `payable_source()` (tidak butuh run analisis; izin `finance.ar.view` / `finance.ap.view`), aturan jatuh tempo yang sama dengan pengingat aturan |
 | `FABRIC_NEED`, `ACCESSORY_NEED`, `PRODUCTION_GAP` | Set kondisi staged `DONE` terbaru (milik siapa pun yang berhak; label "data analisis per <waktu>"), dicek ulang langsung lewat `staged_recheck` sebelum dibuka sebagai alert |
@@ -174,6 +174,18 @@ Forward") memastikan dulu bahwa pg_net dan Vault tersedia dan pg_net bisa melaya
 
 Ikut CP7C (ditahan, D13-9a): pg_cron, pg_net dan Vault aktif di Enteng (dicek saat preflight); pemasangan sesudah backup awal
 terverifikasi. Pesan sungguhan pertama hanya **pesan uji** yang ditekan owner sendiri. Penulis tidak mengirim pesan apa pun.
+
+### Catatan pembuatan WA-2a (19 Okt 2026)
+
+- Berkas: `scripts/cp7-src/alerts/alerts.sql`, bundle `scripts/cp7_alert_bundle.py` (di atas pengingat v2).
+- Pengumpul mulai bekerja sesudah owner menyimpan pengaturan WhatsApp sekali (boleh dengan WA mati): identitas owner itulah
+  yang dipakai membaca sumber. Kunci CallMeBot dan pengiriman lewat pg_net hanya ada di empat fungsi kecil milik `postgres`
+  yang hanya bisa dipanggil `cp7_alert`. Alamat kirim hanya boleh CallMeBot atau server palsu CI (dibatasi di tabel).
+- Ringkasan yang jamnya lewat sebelum WA dinyalakan, atau lebih dari 60 menit lalu, tidak dikirim. Jam ringkasan tidak
+  boleh jatuh di jam tenang.
+- `STOCK_AT_REORDER_POINT` belum dibuat (belum ada pembaca saldo per lokasi tanpa hitungan baru).
+- Dicek di preflight CP7C: pg_net harus diaktifkan di Enteng (di stack CI tersedia tetapi belum aktif); log server tidak boleh
+  mencatat isi argumen RPC (kunci lewat `erp_cp7_set_wa_key_v1`); pencopotan juga menghapus secret Vault.
 
 ### Belum pasti (dicek saat pembuatan atau pemasangan)
 

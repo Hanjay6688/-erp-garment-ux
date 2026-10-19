@@ -19,8 +19,8 @@ checkpoint.
 |---|---|---|
 | WA-0 | CI stack facts: pg_net, Vault, pg_cron, fake CallMeBot on the stack network, pg_net serving a second database, rollback sends nothing | done (run 39266618659) |
 | WA-1 | Map install/test path (done: see below) | done |
-| WA-2a | `scripts/cp7-src/alerts/alerts.sql`: schema `cp7_alert_native` (role `cp7_alert`), `alerts`, `alert_settings`, Vault key, `wa_outbox`, `wa_dispatches`, trigger on `alerts`, sender + reconcile (pg_net), public RPCs; sources: owner's manual reminders, fabric below minimum, AR/AP due | todo |
-| WA-2b | Analysis-based kinds (FABRIC_NEED, ACCESSORY_NEED, PRODUCTION_GAP) from the latest DONE staged set + scheduled owner analysis; schedules in `cp7_ops.schedules()` with K3/K4/K6 schedule lists updated by declaration | todo |
+| WA-2a | `scripts/cp7-src/alerts/alerts.sql` + `scripts/cp7_alert_bundle.py`: schema `cp7_alert_native` (role `cp7_alert`), settings, alerts, outbox, dispatches, Vault key, ticks, public RPCs; sources: owner's manual reminders, fabric below minimum, AR/AP due | done (local PG16 smoke, see below); CI in WA-3 |
+| WA-2b | Analysis-based kinds (FABRIC_NEED, ACCESSORY_NEED, PRODUCTION_GAP) from the latest DONE staged set + scheduled owner analysis; job `erp-wa-analysis` in `cp7_alert_native.schedules()` (cp7-* lists of K3/K4/K6 untouched) | todo |
 | WA-3 | Bundle `scripts/cp7_alert_bundle.py` (previous = reminder v2), reachability, cases (Native/race/HTTP), declaration JSON, suite in the probe, fake server in CI | todo |
 | WA-4 | Reminder menu: Pengingat sistem + tab Sambungan WhatsApp (owner); browser cases desktop + phone | todo |
 | WA-5 | Docs, best practices, owner report; then the r6 candidate for Fable/Astra/Sol (with Sol's five test-hardening points) | todo |
@@ -55,8 +55,33 @@ checkpoint.
   - `vault_clone` printed nothing: probe bug (volatile `create_secret` in the WHERE of the read; the subquery returned
     NULL). Not a fact either way; WA-3 cases check Vault in the harness clone itself.
 
+## WA-2a build notes (19 Oct)
+
+- Tables: `settings` (append-only revisions, `request_hash` for replay), `key_events` (never the key), `transport`
+  (postgres-owned single row; CHECK allows only CallMeBot or `http://fake-callmebot:8080/whatsapp.php`), `alerts`,
+  `outbox`, `dispatches`, `dispatch_items`, `source_state`, `ticks`. RLS on with a false policy; no client grants.
+- Key path: `vault_key_present/vault_key_write/wa_post/wa_response` owned by postgres, EXECUTE only for `cp7_alert`;
+  `wa_response` masks the key in provider text. No ACL delta on vault/net objects.
+- Declared ACL delta on pre-existing functions: `cp7_alert` EXECUTE on `auth.uid()`, `auth.jwt()`,
+  `erp.get_my_access_v1()`, `erp.has_permission(text)` (GRANTS). SELECT on five erp tables (TABLE_GRANTS). EXECUTE on
+  `receivable_source()`, `payable_source()`, `public.erp_cp7_get_sales_v1(jsonb)` (created in the same install).
+- `scripts/cp7_bundle_reachability.py` now composes `cp7_alert_bundle` as the top (PASS 183/184 + 1 diagnostic).
+- Local PG16 smoke with stubs (scratchpad `wa2/`): WA off -> DISABLED; enable needs phone+key; SENT with
+  `apikey/phone/text`; 1 message/min; 200 -> ACCEPTED with key masked; resolved before send (stock back, reminder DONE);
+  500 -> PENDING + 5 min rest; 10 min silence -> UNKNOWN, owner NOT_DELIVERED -> PENDING; staff denied on owner RPCs and
+  sees only kinds of its permissions; 3 tests/hour; rollback leaves no outbox row; no key text in any table; same
+  request id with other content refused; digest (slot after enabling) covers pending items, once per slot; DETAILED shows
+  party names, SUMMARY aggregates AR/AP; 40+40 items cut to 862 chars with "dan 35 lainnya"; KIND_OFF; quiet -> HELD_QUIET
+  then sent; repeat after 24 h ("Masih terbuka"); owner inactive -> both ticks hold; tick without 8 s limit refused.
+  `verify_alert` passed and caught 7/7 injected mistakes.
+- For WA-3: the CI stack has pg_net available but NOT created (`pg_net=-/0.20.4`); the WA suite must create it in the
+  stack database before the baseline snapshot (and point the worker at the clone as supabase_admin, as WA-0 did).
+  Uninstall must also delete the Vault secret `cp7_callmebot_apikey` if a committed mode wrote one.
+
 ## Checkpoint log
 
 | Commit subject | State after it |
 |---|---|
 | test(wa): WA-0 stack facts ... / passes the local password ... / prints values without command tags | WA-0 probe in `.github/workflows/claude-wa-forward.yml` + `scripts/cp7_wa_spike.sh`; rerun pending |
+| docs(wa): WA-0 facts from the third probe run | WA-0 done |
+| feat(wa): WA-2a system reminders and WhatsApp forwarding (database part) | WA-2a done locally; next WA-3 (CI cases + workflow) |
