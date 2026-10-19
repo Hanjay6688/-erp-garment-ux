@@ -61,3 +61,31 @@ Status dibaca per kasus dari baris JSON log (INDEPENDENT_NATIVE_RERUN):
 | 39184544615 / 39184552527 / 39184560474 | cutting corr / P13 / sales chain | 19 / 25 / 25 PASS (sama) |
 | 39184567627 | UI phone width (build demo) | `{"menus":47,"failed":[],"unreadable":[]}` |
 | 39184494131 | P19 Analysis Job Transport (12 job) | masih berjalan saat dicatat |
+
+## CP2b — tinjauan sumber (INDEPENDENT_SOURCE_REVIEW)
+- **R4-05 penjaga `erp.require_internal()`** (`scripts/cp7_internal_guard_bundle.py`). Probe disisipkan tepat sesudah
+  anchor. `contexts()` memastikan semua isi antara anchor dan uji peran akhir hanya cabang
+  `if exists(select 1 from <ctx> c where c.backend_pid=pg_backend_pid() and c.transaction_id=txid_current() and case when
+  <filter identitas yang sama> … else false end) then return;end if;` plus komentar. Cabang semacam itu hanya bisa *mengizinkan*,
+  dan hanya lewat baris backend+transaksi ini, karena filter identitas diulang di WHEN dan AND di dalam ekspresi dievaluasi
+  berurutan dengan short-circuit. Jadi tanpa baris seperti itu jawabannya = uji peran akhir, dan probe menjawab persis kasus
+  itu. Dengan baris apa pun, dispatch lama berjalan utuh. `verify()` membangun ulang probe dari dispatch terpasang, sehingga
+  cabang konteks baru yang ditambahkan delta lain akan gagal. Satu beda samping: versi lama memanggil `txid_current()` dan
+  karena itu memberi id transaksi pada transaksi baca; versi baru tidak. Tidak mengubah jawaban.
+- **R4-01 jalur publik** (`scripts/cp7_public_routes_bundle.py`). Penolakan `session_user='authenticator'` disisipkan sebagai
+  pernyataan pertama: untuk SQL sebagai `select` pertama, untuk plpgsql sesudah `begin` pertama. `session_user` tidak
+  berubah oleh SECURITY DEFINER atau SET ROLE. Catatan: inisialisasi di bagian DECLARE tetap berjalan sebelum penolakan, dan
+  `begin` yang ada di dalam string DECLARE akan salah tempat. Itu tertangkap kasus HTTP penulis yang memanggil ke-25 rute
+  lewat Auth nyata (PASS). Sensus hanya mencakup `public.erp_%` non-CP7; fungsi `public` tanpa awalan `erp_` di luar
+  cakupannya (bukan temuan; pemeriksaan RBAC saya di cp17 mencakup `public.erp_*`). Batas SQL langsung tetap FABLE-012/D14-9.
+- **R4-03 Audit Trail** (`audit.sql`). Tanda = jumlah dan total id baris di dalam cutoff yang cocok filter. Log audit hanya
+  bertambah, jadi baris terlambat selalu mengubah tanda. Kursor tanpa cutoff, atau tanda kursor ≠ tanda kiriman, ditolak.
+  Baris terlambat yang commit sesudah halaman terakhir dibaca tidak terdeteksi sampai Muat ulang; semantiknya sama dengan
+  baris baru biasa. Bukan temuan.
+- **R4-02 buka ulang PO** (`po-reopen.sql`). Gerakan keluar yang membalik pemasukan positif tidak dihitung pemakaian.
+  Risikonya: pembalik dari pembalik suatu pemakaian, atau retur yang menunjuk ke gerakan SALE, akan menyembunyikan
+  pemakaian. Di pohon hanya `erp._release_sale_draft_reservations` yang mengisi `reversal_of_id` (target SALE_RESERVE).
+  Pembalik lain ada di skema dasar di luar pohon, jadi diperiksa runtime lewat katalog (probe v2).
+- **R4-Q1**: syarat lulus K4/K6 dan fixture K4 tidak berubah (lihat CP2a).
+- **R4-04**: hanya CSS warna teks. Sensus saya (luapan/label) dan sensus keterbacaan penulis (CP17 R4_04 desktop/HP, kedua
+  build; phone width `unreadable: []`) PASS.
