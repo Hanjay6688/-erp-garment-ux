@@ -1,0 +1,41 @@
+{
+  "state": "AUDIT_ONLY_READY_FOR_NORMAL_REVIEW",
+  "parent": "47ed1c28cac718959973893446727e8fd8cee3d8",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "contains_sensitive_private_or_unrelated_data": false,
+  "product_diff_empty": true,
+  "files": [
+    {
+      "path": ".github/workflows/audit-sol-r4-b5-b6-journey.yml",
+      "bytes": 9873,
+      "sha256": "cc89a7f0b4aa561bed3c84c922fb7174a9de7b45b241ffb441f1e9306f1ad12c"
+    },
+    {
+      "path": "audit/sol_cp17_r4/journey_qualification.py",
+      "bytes": 4886,
+      "sha256": "0090ed4e294126884ba37679a379bcdf93c4373851fcc4b802dfc18f63e1ced8"
+    },
+    {
+      "path": "audit/sol_cp17_r4/journey_fixture.py",
+      "bytes": 5686,
+      "sha256": "577ded73befc1d981b6dc466327c9da95455f72e13e3f4397a11635811d00d21"
+    },
+    {
+      "path": "audit/sol_cp17_r4/journey_browser.mjs",
+      "bytes": 14361,
+      "sha256": "679330b177d22e349f4f00a383f1e65e45e51a5ca09ada30556fcd5f9bae90bb"
+    },
+    {
+      "path": "audit/sol_cp17_r4/JOURNEY_PREEXECUTION_MANIFEST.json",
+      "bytes": 7023,
+      "sha256": "558db9dceaba213dd607f2f1f30a8cfda7a9e96128ccb1499ecd21eaae43b4d0"
+    },
+    {
+      "path": "audit/sol_cp17_r4/JOURNEY_PREEXECUTION_VALIDATION.json",
+      "bytes": 1144,
+      "sha256": "9264d43a1b002ac70901455e45a5765bda3c408541583f2dc364f90b84674df3"
+    }
+  ]
+}

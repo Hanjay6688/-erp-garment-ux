@@ -1,0 +1,37 @@
+{
+  "state": "STATIC_VALIDATION_ONLY_NO_PRODUCT_CASES_RUN",
+  "python_ast": 2,
+  "node_check": true,
+  "candidate_checkout_pinned": true,
+  "all_checkout_credentials_disabled": true,
+  "only_audit_files": true,
+  "one_business_execution_each": true,
+  "held_probes_excluded": true,
+  "product_diff_empty": true,
+  "literal_arithmetic": {
+    "material": 100,
+    "work": 16,
+    "laundry": 8,
+    "total": 124,
+    "cash_cents": [
+      800,
+      475,
+      0,
+      475,
+      800
+    ]
+  },
+  "source_derived_selectors_reviewed": true,
+  "notes": [
+    "Pricing region label taken from src/LaundryBdPanel.tsx, not its heading.",
+    "Native fixture USAGE lease exact same schema-ACL restoration rule as existing CP17 fixture. No new EXECUTE grant.",
+    "No local DB/docker exists; no synthetic PASS or local runtime claim."
+  ],
+  "sewing_time_explicit_before_delivery": true,
+  "exact_int_zero_cleanup": true,
+  "exact_write_action_sequence": true,
+  "bootstrap_maximum_attempts": 2,
+  "second_prerequisite_failure_stops": true,
+  "strict_browser_host_exit_console_and_session_gates": true,
+  "observed_invoice_header_amount_gate": true
+}

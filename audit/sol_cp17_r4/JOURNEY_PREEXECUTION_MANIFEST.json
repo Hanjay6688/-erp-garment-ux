@@ -1,0 +1,165 @@
+{
+  "contract": "audit.sol.r4.b5-b6.ordinary.ui.v1",
+  "state": "PREEXECUTION_NOT_RUN",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "author": "Sol",
+  "origin": "INDEPENDENT_AUDIT",
+  "oracle_origin": "SOL_CONTRACT_LITERAL_ARITHMETIC_AND_LINEAGE",
+  "fixture_origin": "ACCEPTED_WRITER_NATIVE_RECEIPT_CUT_PICKUP_BEFORE_ANY_CONTINUATION",
+  "cases": [
+    {
+      "id": "SOL_R4_B5_B6_ORDINARY_DESKTOP",
+      "requirements": [
+        "B5 ordinary sewing->send->GOOD receipt->QC",
+        "B6 same receipt->draft/edit/post invoice->two cash installments->cash inverses->invoice inverse",
+        "INV-UI04 same literal signature across viewports",
+        "SKN-27 lawful invoice and payment correction"
+      ],
+      "layer": "REAL_AUTH_UI_AND_NATIVE_SQL_READBACK",
+      "role": "OWNER",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "expected_signature": {
+        "sewn": 4,
+        "wage": "16.00",
+        "received": 4,
+        "fg": 4,
+        "total_fg_wip": "124.00",
+        "invoice": "8.00",
+        "partial_ap": "4.75",
+        "partial_cash": "4.75",
+        "paid_ap": "0.00",
+        "paid_cash": "0.00",
+        "final_ap": "0.00",
+        "final_cash": "8.00"
+      }
+    },
+    {
+      "id": "SOL_R4_B5_B6_ORDINARY_MOBILE",
+      "requirements": [
+        "B5 ordinary sewing->send->GOOD receipt->QC",
+        "B6 same receipt->draft/edit/post invoice->two cash installments->cash inverses->invoice inverse",
+        "INV-UI04 same literal signature across viewports",
+        "SKN-27 lawful invoice and payment correction"
+      ],
+      "layer": "REAL_AUTH_UI_AND_NATIVE_SQL_READBACK",
+      "role": "OWNER",
+      "viewport": [
+        390,
+        844
+      ],
+      "expected_signature": {
+        "sewn": 4,
+        "wage": "16.00",
+        "received": 4,
+        "fg": 4,
+        "total_fg_wip": "124.00",
+        "invoice": "8.00",
+        "partial_ap": "4.75",
+        "partial_cash": "4.75",
+        "paid_ap": "0.00",
+        "paid_cash": "0.00",
+        "final_ap": "0.00",
+        "final_cash": "8.00"
+      }
+    },
+    {
+      "id": "SOL_R4_B5_B6_ORDINARY_IPAD_VIEWPORT",
+      "requirements": [
+        "B5 ordinary sewing->send->GOOD receipt->QC",
+        "B6 same receipt->draft/edit/post invoice->two cash installments->cash inverses->invoice inverse",
+        "INV-UI04 same literal signature across viewports",
+        "SKN-27 lawful invoice and payment correction"
+      ],
+      "layer": "REAL_AUTH_UI_AND_NATIVE_SQL_READBACK",
+      "role": "OWNER",
+      "viewport": [
+        820,
+        1180
+      ],
+      "expected_signature": {
+        "sewn": 4,
+        "wage": "16.00",
+        "received": 4,
+        "fg": 4,
+        "total_fg_wip": "124.00",
+        "invoice": "8.00",
+        "partial_ap": "4.75",
+        "partial_cash": "4.75",
+        "paid_ap": "0.00",
+        "paid_cash": "0.00",
+        "final_ap": "0.00",
+        "final_cash": "8.00"
+      }
+    }
+  ],
+  "expected_signature": {
+    "sewn": 4,
+    "wage": "16.00",
+    "received": 4,
+    "fg": 4,
+    "total_fg_wip": "124.00",
+    "invoice": "8.00",
+    "partial_ap": "4.75",
+    "partial_cash": "4.75",
+    "paid_ap": "0.00",
+    "paid_cash": "0.00",
+    "final_ap": "0.00",
+    "final_cash": "8.00"
+  },
+  "expected_write_requests_each": 12,
+  "expected_source": "Owner D14-14 sewing entitlement and source rate3+1; vendor rate2 per PCS; native receipt10yd*10=100; four sewn ->16 wages and four returned ->8 Laundry; GL FG+WIP100+16+8=124; invoice8 replaces same accrued8; 8-3.25=4.75 then4.75=0, inverse both returns8 cash and invoice inverse clears AP. Identity never selected by unrelated first row.",
+  "unexercised_branches": [
+    "Claims/rewash branch is not executed by this ordinary UI case and must retain separate Native proof/source-based UI disposition.",
+    "iPad means Chromium viewport820x1180, not a physical Apple device.",
+    "No sewing inverse/delivery inverse/QC inverse is claimed by the vendor invoice correction path."
+  ],
+  "case_execution": "Each case once through modes._run_browser_once; no business-day fallback wrapper, no green-fishing rerun after cases.",
+  "max_pre_case_prerequisite_retry": 1,
+  "budgets_unchanged": true,
+  "transport": "Existing strict loopback UI/API allowlist; no provider/hosted request; no route success substitution.",
+  "cleanup": "Existing Auth users and sessions closed, browser copy dropped and primary full catalog/schema ACL restored; no production changes.",
+  "held_r3_probe_resumed": false,
+  "new_access_denial_probe": false,
+  "new_race_credit": 0,
+  "new_business_case_ids": 3,
+  "pinned_product_sources": {
+    "scripts/cp7_cp17_fix_cases.py": "510f48c61fc7919c5761abe2cf8fa75d952939f924b7681943ac4af8b6f80b1e",
+    "scripts/cp7_r3_qc_note_cases.py": "c5da8c0c650cfc02c183b63b91a6780f51bb5de0aa4743eb93eb2c44cfaf253f",
+    "scripts/cp7_p21_full_rehearsal_probe.py": "a6da56d3c3177c2f6083b19e996d1f7a31b7e934607d7f97232336405fd529f7",
+    "scripts/cp6_bd_probe.py": "c3add21e66d4d5544bf4e4d046a9fa8d64dbcb0cb285551a92c2d7405156b31b",
+    "scripts/cp6_auditor_modes.py": "d927c7491c72fe1eecfd1b4b8b4faf7e1710d6943fda601ede6a599fbc99209f",
+    "scripts/cp6_auditor_browser_host.mjs": "09fa7d7a5fb7d7cb00eb73e1d4354842730c6ae3dd77dbf9b299539ca7de9557",
+    "src/ConnectedLaundryPage.tsx": "40a4f50bdc7495b240264987be1cb3773a2b31caf594352f11cb0ac20f4a1a32",
+    "src/ConnectedQcFinalPage.tsx": "1e2356bd75af3cfdda27339b539e5dc140a3954227aa81a32a0211492cf55490",
+    "src/LaundryBdPanel.tsx": "0f75a213d9435e1a47cc1b6406a7b0e5e5fbc36c4b4c12c00ad8f8146ef61cc8",
+    "src/ConnectedWipStatusPage.tsx": "f1cb6f9498963f2f045a41e5817b6fd7db6b48ea66e27623a85659111003f1ad",
+    "src/SewingCompletionPanel.tsx": "82cd0e8302da95f67f6f8d0bb1113b1bb5e41136ab426ac0af5d9d78a8c6ce14"
+  },
+  "audit_tools": {
+    "journey_qualification.py": "0090ed4e294126884ba37679a379bcdf93c4373851fcc4b802dfc18f63e1ced8",
+    "journey_fixture.py": "577ded73befc1d981b6dc466327c9da95455f72e13e3f4397a11635811d00d21",
+    "journey_browser.mjs": "679330b177d22e349f4f00a383f1e65e45e51a5ca09ada30556fcd5f9bae90bb"
+  },
+  "sewing_physical_time": "Explicit f.sewing_local = fixture day10:00 WIB, before send11:00, receive12:00 and QC13:00; no wall-clock default.",
+  "expected_write_action_sequence": [
+    "RECORD",
+    "POST_DELIVERY",
+    "POST_RECEIPT",
+    "POST_FINAL_SKU",
+    "SAVE_INVOICE_DRAFT",
+    "SAVE_INVOICE_DRAFT",
+    "POST_INVOICE",
+    "PAY_VENDOR_DOCUMENT",
+    "PAY_VENDOR_DOCUMENT",
+    "REVERSE_VENDOR_SETTLEMENT",
+    "REVERSE_VENDOR_SETTLEMENT",
+    "REVERSE_INVOICE"
+  ],
+  "browser_gate": "RUN_COMPLETE for group/host, exact int host_exit0/console_errors0, session_leaks[], exact int database_remaining0, Auth restored and no cleanup failure.",
+  "document_amount_gate": "Observed Native vendor_invoices.total_amount must equal8.00; signature invoice value is that observed field."
+}
