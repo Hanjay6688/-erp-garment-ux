@@ -48,3 +48,16 @@ terhadap oracle 1 tertulis (pemberitahuan tanpa angka diizinkan), sama dengan r3
   postgres seperti fasad CP7; satu pengguna aplikasi per kode peran dan satu OWNER nonaktif di-commit untuk matriks;
   FRESH wajib ALLOW untuk peran internal dan wajib memunculkan penolakan penjaga sendiri. FG: daftar semua badan fungsi
   terpasang yang mengisi `reversal_of_id`.
+
+## CP3c — workflow penulis dijalankan ulang (ref `claude/new-session-deapao`, head 5eda90e1, tree produk = kandidat)
+Status dibaca per kasus dari baris JSON log (INDEPENDENT_NATIVE_RERUN):
+| Run | Workflow | Hasil |
+|---|---|---|
+| 39184479044 | CP7 CP17 Fixes | 341/341 PASS + `CP6_AUDITOR_PUBLIC_STATE_STABLE_ORDER` (Native 161, race 39, HTTP 27, browser 57, browser build Enteng 57). 20 kasus R4 semua PASS. Grup Enteng: 1.361 permintaan dijawab loopback, 0 error rute |
+| 39184486140 | Pre-freeze UI | 31 PASS + 2 INCOMPLETE `LEGACY_RUNTIME_GAP` lama (sama dengan r3) |
+| 39184502576 | F03 Full Retained (8 job) | p09 135, p10 34, p11 64, p12 91, p13 50, cash_installments 61, customer_refund 10, supplier_credit 5: semua PASS |
+| 39184511169 / 39184519333 / 39184528182 | F03 cash / misc corr / payment corr | 21 / 20 / 23 PASS (sama dengan r2–r3) |
+| 39184536564 | P12 payroll (3 job) | roster 64, attendance-write 81, payroll-review 43 PASS (sama) |
+| 39184544615 / 39184552527 / 39184560474 | cutting corr / P13 / sales chain | 19 / 25 / 25 PASS (sama) |
+| 39184567627 | UI phone width (build demo) | `{"menus":47,"failed":[],"unreadable":[]}` |
+| 39184494131 | P19 Analysis Job Transport (12 job) | masih berjalan saat dicatat |
