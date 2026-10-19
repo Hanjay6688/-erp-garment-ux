@@ -137,6 +137,7 @@ def main():
     check('install_as_postgres_and_verify', True, stage=verified['stage'])
     with conn() as c:
         c.execute('create extension if not exists pg_net')
+        c.execute('create extension if not exists pg_cron')
         c.execute("insert into erp.test_users values(%s,'OWNER',true,%s),(%s,'GUDANG',true,%s)", (OWNER, PERMS, STAFF, PERMS[:3]))
         c.execute("insert into erp.locations(location_code,location_name,location_type)values('WA-SMOKE','Gudang Smoke','RAW_MATERIAL_WAREHOUSE')")
     check('not_configured', tick('collect_tick')['outcome'] == 'NOT_CONFIGURED')
