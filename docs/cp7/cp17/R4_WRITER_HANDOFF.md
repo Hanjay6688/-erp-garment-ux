@@ -41,7 +41,12 @@ Basis: candidate r3 `b53b5acdf260b03ebac3474e9ae837fcef6f6eb1`; r4 branches from
 ## Not done yet (in this order)
 
 1. Done: R4-01..R4-04 (+R4-04b), Sol validity (`docs/cp7/cp17/r4-sol/`), R4-05 (owner D17-1), R4-Q1.
-2. Done (candidate `663f6fae`, package ready; the owner sends the boxes). Was: qualify one commit on `claude/new-session-deapao` (fast-forward from `claude/r4-fixes-20261018`; workflow list = the
+2. Done (candidate `663f6fae`, package ready; the owner sends the boxes).
+3. NEXT (owner D17-2, 19 Oct 2026: "Auditor dl ya, inget lu punya tugas ini di next turn ya"): the auditors go first;
+   then the writer works on the direct analysis with financial figures (100 targets 4.57-5.92 s on the qualification
+   runner, target 3 s). On a new branch from `claude/new-session-deapao`; candidate `663f6fae` under audit stays as is.
+   Start from `docs/cp7/p19/P19_R4_05_DIRECT_LATENCY.md` ("Still open"): the owner report (Native, CP6) is read twice per
+   direct capture and checks every journal line; guard, `erp.current_app_role()` and `erp.account_id()` calls per line. Was: qualify one commit on `claude/new-session-deapao` (fast-forward from `claude/r4-fixes-20261018`; workflow list = the
    115 of the r3 receipt, `scratchpad/qual_r4_files.json`), receipt with `scripts/cp7_ci_receipt.py`, package
    `docs/cp7/audit-candidate/cp1-7-r4-20261019/`, boxes (`scratchpad/r4pkg/boxes.py`, set SHA/TREE), owner report.
    First candidate `769f2cc3` withdrawn (R4-Q1, see the log); the next candidate is the commit that carries this line.

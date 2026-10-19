@@ -618,3 +618,16 @@ Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): kecepatan anali
 keuangan dikerjakan di r4 sebelum paket uji ulang. Batas 8 detik, pemeriksaan sumber/otoritas/hash/kelengkapan dan
 keputusan 7 Okt (pekerjaan berat boleh di latar belakang sebagai pengecualian yang dicatat; target 3 detik tidak ditandai
 tercapai kalau belum) tetap berlaku. `production_go:false`.
+
+### D17-2 (owner ke penulis Claude, 19 Okt 2026 WIB, jawaban pertanyaan penulis sesudah kualifikasi r4)
+
+Pertanyaan penulis: "Saya perlu Bos memutuskan: kirim paket ke auditor sekarang, lalu kecepatan dengan angka keuangan
+dikejar sesudahnya (saran saya)? Atau kecepatannya dikejar dulu, dan pengiriman paket ditunda?"
+
+Owner (persis): "Auditor dl ya, inget lu punya tugas ini di next turn ya"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): paket uji ulang r4 pada kandidat `663f6fae` dikirim ke
+auditor tanpa menunggu. Kecepatan analisis langsung dengan angka keuangan (100 target 4,57–5,92 detik pada runner
+kualifikasi, target 3 detik; `docs/cp7/p19/P19_R4_05_DIRECT_LATENCY.md`) adalah tugas penulis berikutnya, di cabang
+baru dari `claude/new-session-deapao`; kandidat yang sedang diaudit tidak diubah. Batas 8 detik, pemeriksaan
+sumber/otoritas/hash/kelengkapan dan keputusan 7 Okt tetap berlaku. `production_go:false`.
