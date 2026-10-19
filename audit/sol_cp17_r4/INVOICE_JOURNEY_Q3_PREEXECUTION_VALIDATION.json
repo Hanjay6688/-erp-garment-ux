@@ -1,0 +1,20 @@
+{
+  "state": "STATIC_AND_PURE_METADATA_ONLY_NO_PRODUCT_CASES_RUN",
+  "source_hashes_verified": true,
+  "exact_declared_browser_diff": true,
+  "row_binding_positive": 6,
+  "row_binding_negative": 12,
+  "actual_gate_positive": 1,
+  "actual_gate_negative": 18,
+  "parsed_workflow_diff_only_names_entrypoint_artifact": true,
+  "permissions_timeouts_prerequisites_unchanged": true,
+  "candidate_pinned": true,
+  "product_diff_empty": true,
+  "original_tools_unchanged": true,
+  "free_rewash_not_repeated": true,
+  "ordinary_expected_unchanged": true,
+  "q2_expected_signatures_and_action_sequences_unchanged": true,
+  "claim_render_cause_still_unresolved": true,
+  "diagnostics_read_only_reviewed": true,
+  "required_reason_refilled_before_each_inverse_and_after_claim_accept": true
+}

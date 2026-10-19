@@ -1,0 +1,61 @@
+{
+  "state": "AUDIT_ONLY_GENUINE_FORM_STATE_REPAIR_AND_READ_ONLY_DIAGNOSTICS_READY_FOR_NORMAL_REVIEW",
+  "parent_expected": "3291da3caab4b965aa80d381c22ebcc3b1799378",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "sensitive_private_or_unrelated_data": false,
+  "product_diff_empty": true,
+  "first_failures_retained": true,
+  "free_rewash_not_repeated": true,
+  "q2_expected_and_actions_unchanged": true,
+  "claim_render_cause_unresolved": true,
+  "scope": "Four stable IDs; required reason refills before each cash/credit inverse and claim form transitions. Additional loopback DOM/console/workspace observations; no stubbing, product edits, credentials or hosted execution.",
+  "files": [
+    {
+      "path": ".github/workflows/audit-sol-r4-invoice-journey-q3.yml",
+      "bytes": 9639,
+      "sha256": "e2ef8f548b2325060079422d91abd46d9a29bba4af5069137213b680f5f22b6d"
+    },
+    {
+      "path": "audit/sol_cp17_r4/journey_q3_dom.mjs",
+      "bytes": 2314,
+      "sha256": "8684146674218bfe51b5af54d1cc611aff8dab4b8860c1c26f1346f274775dc8"
+    },
+    {
+      "path": "audit/sol_cp17_r4/journey_form_q3_browser.mjs",
+      "bytes": 14755,
+      "sha256": "5658f57020d1c7917c6e1823442f815698885ddc62c77d48e92944b9ed01b371"
+    },
+    {
+      "path": "audit/sol_cp17_r4/claim_form_q3_browser.mjs",
+      "bytes": 19454,
+      "sha256": "f75945adf37440ddf073ec86ddd9f6fe4443d7e67a158562763b017b0e506bdc"
+    },
+    {
+      "path": "audit/sol_cp17_r4/invoice_journey_q3_browser.mjs",
+      "bytes": 298,
+      "sha256": "a0fcc4ccd81c92a71a9870cf23b1d696d018a1eec061d7a937de99d9d9afed49"
+    },
+    {
+      "path": "audit/sol_cp17_r4/invoice_journey_q3_qualification.py",
+      "bytes": 5214,
+      "sha256": "e0fb74cd5bccac418e45dc66d0dd1f2bdc748c8ff8eedff736563c381079e13d"
+    },
+    {
+      "path": "audit/sol_cp17_r4/invoice_journey_q3_validate.py",
+      "bytes": 10199,
+      "sha256": "3269490862962d495b75b55bc1464897b46c9a8ad97f8ac93f7cb36820387f9d"
+    },
+    {
+      "path": "audit/sol_cp17_r4/INVOICE_JOURNEY_Q3_PREEXECUTION_MANIFEST.json",
+      "bytes": 15219,
+      "sha256": "d2576855759b72a1d6db915b11d67af2bebe4b0067027e50c5273bba54f87bd8"
+    },
+    {
+      "path": "audit/sol_cp17_r4/INVOICE_JOURNEY_Q3_PREEXECUTION_VALIDATION.json",
+      "bytes": 780,
+      "sha256": "6924217fa050f92b766182b0df4cbf2d8bbe4af452324a77384549b78ad1f499"
+    }
+  ]
+}

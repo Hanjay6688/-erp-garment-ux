@@ -1,0 +1,361 @@
+{
+  "contract": "audit.sol.r4.invoice-journey.form-state-and-diagnostics.q3",
+  "state": "PREEXECUTION_NOT_RUN",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "qualification_rule": "ProMax16.3: separate qualification of proven auditor reason-state assumption; preserve all original results. Claim render cause remains unresolved until read-only diagnostics; no business retry or expected relaxation.",
+  "cases": [
+    {
+      "id": "SOL_R4_B5_B6_ORDINARY_DESKTOP",
+      "requirements": [
+        "B5 ordinary sewing->send->GOOD receipt->QC",
+        "B6 same receipt->draft/edit/post invoice->two cash installments->cash inverses->invoice inverse",
+        "INV-UI04 same literal signature across viewports",
+        "SKN-27 lawful invoice and payment correction"
+      ],
+      "layer": "REAL_AUTH_UI_AND_NATIVE_SQL_READBACK",
+      "role": "OWNER",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "expected_signature": {
+        "sewn": 4,
+        "wage": "16.00",
+        "received": 4,
+        "fg": 4,
+        "total_fg_wip": "124.00",
+        "invoice": "8.00",
+        "partial_ap": "4.75",
+        "partial_cash": "4.75",
+        "paid_ap": "0.00",
+        "paid_cash": "0.00",
+        "final_ap": "0.00",
+        "final_cash": "8.00"
+      }
+    },
+    {
+      "id": "SOL_R4_B5_B6_ORDINARY_MOBILE",
+      "requirements": [
+        "B5 ordinary sewing->send->GOOD receipt->QC",
+        "B6 same receipt->draft/edit/post invoice->two cash installments->cash inverses->invoice inverse",
+        "INV-UI04 same literal signature across viewports",
+        "SKN-27 lawful invoice and payment correction"
+      ],
+      "layer": "REAL_AUTH_UI_AND_NATIVE_SQL_READBACK",
+      "role": "OWNER",
+      "viewport": [
+        390,
+        844
+      ],
+      "expected_signature": {
+        "sewn": 4,
+        "wage": "16.00",
+        "received": 4,
+        "fg": 4,
+        "total_fg_wip": "124.00",
+        "invoice": "8.00",
+        "partial_ap": "4.75",
+        "partial_cash": "4.75",
+        "paid_ap": "0.00",
+        "paid_cash": "0.00",
+        "final_ap": "0.00",
+        "final_cash": "8.00"
+      }
+    },
+    {
+      "id": "SOL_R4_B5_B6_ORDINARY_IPAD_VIEWPORT",
+      "requirements": [
+        "B5 ordinary sewing->send->GOOD receipt->QC",
+        "B6 same receipt->draft/edit/post invoice->two cash installments->cash inverses->invoice inverse",
+        "INV-UI04 same literal signature across viewports",
+        "SKN-27 lawful invoice and payment correction"
+      ],
+      "layer": "REAL_AUTH_UI_AND_NATIVE_SQL_READBACK",
+      "role": "OWNER",
+      "viewport": [
+        820,
+        1180
+      ],
+      "expected_signature": {
+        "sewn": 4,
+        "wage": "16.00",
+        "received": 4,
+        "fg": 4,
+        "total_fg_wip": "124.00",
+        "invoice": "8.00",
+        "partial_ap": "4.75",
+        "partial_cash": "4.75",
+        "paid_ap": "0.00",
+        "paid_cash": "0.00",
+        "final_ap": "0.00",
+        "final_cash": "8.00"
+      }
+    },
+    {
+      "id": "SOL_R4_B5_B6_CLAIM_MOBILE",
+      "role": "OWNER",
+      "layer": "REAL_AUTH_UI_AND_NATIVE_READBACK",
+      "expected_signature": {
+        "sewn": 5,
+        "wage": "20.00",
+        "received": 4,
+        "fg": 4,
+        "total_fg_wip": "130.00",
+        "invoice": "8.00",
+        "partial_ap": "3.75",
+        "partial_cash": "5.75",
+        "paid_ap": "0.00",
+        "paid_cash": "2.00",
+        "final_ap": "0.00",
+        "final_cash": "8.00"
+      }
+    }
+  ],
+  "expected_signatures": {
+    "SOL_R4_B5_B6_ORDINARY_DESKTOP": {
+      "sewn": 4,
+      "wage": "16.00",
+      "received": 4,
+      "fg": 4,
+      "total_fg_wip": "124.00",
+      "invoice": "8.00",
+      "partial_ap": "4.75",
+      "partial_cash": "4.75",
+      "paid_ap": "0.00",
+      "paid_cash": "0.00",
+      "final_ap": "0.00",
+      "final_cash": "8.00"
+    },
+    "SOL_R4_B5_B6_ORDINARY_MOBILE": {
+      "sewn": 4,
+      "wage": "16.00",
+      "received": 4,
+      "fg": 4,
+      "total_fg_wip": "124.00",
+      "invoice": "8.00",
+      "partial_ap": "4.75",
+      "partial_cash": "4.75",
+      "paid_ap": "0.00",
+      "paid_cash": "0.00",
+      "final_ap": "0.00",
+      "final_cash": "8.00"
+    },
+    "SOL_R4_B5_B6_ORDINARY_IPAD_VIEWPORT": {
+      "sewn": 4,
+      "wage": "16.00",
+      "received": 4,
+      "fg": 4,
+      "total_fg_wip": "124.00",
+      "invoice": "8.00",
+      "partial_ap": "4.75",
+      "partial_cash": "4.75",
+      "paid_ap": "0.00",
+      "paid_cash": "0.00",
+      "final_ap": "0.00",
+      "final_cash": "8.00"
+    },
+    "SOL_R4_B5_B6_CLAIM_MOBILE": {
+      "sewn": 5,
+      "wage": "20.00",
+      "received": 4,
+      "fg": 4,
+      "total_fg_wip": "130.00",
+      "invoice": "8.00",
+      "partial_ap": "3.75",
+      "partial_cash": "5.75",
+      "paid_ap": "0.00",
+      "paid_cash": "2.00",
+      "final_ap": "0.00",
+      "final_cash": "8.00"
+    }
+  },
+  "expected_write_action_sequences": {
+    "SOL_R4_B5_B6_ORDINARY_DESKTOP": [
+      "RECORD",
+      "POST_DELIVERY",
+      "POST_RECEIPT",
+      "POST_FINAL_SKU",
+      "SAVE_INVOICE_DRAFT",
+      "SAVE_INVOICE_DRAFT",
+      "POST_INVOICE",
+      "PAY_VENDOR_DOCUMENT",
+      "PAY_VENDOR_DOCUMENT",
+      "REVERSE_VENDOR_SETTLEMENT",
+      "REVERSE_VENDOR_SETTLEMENT",
+      "REVERSE_INVOICE"
+    ],
+    "SOL_R4_B5_B6_ORDINARY_MOBILE": [
+      "RECORD",
+      "POST_DELIVERY",
+      "POST_RECEIPT",
+      "POST_FINAL_SKU",
+      "SAVE_INVOICE_DRAFT",
+      "SAVE_INVOICE_DRAFT",
+      "POST_INVOICE",
+      "PAY_VENDOR_DOCUMENT",
+      "PAY_VENDOR_DOCUMENT",
+      "REVERSE_VENDOR_SETTLEMENT",
+      "REVERSE_VENDOR_SETTLEMENT",
+      "REVERSE_INVOICE"
+    ],
+    "SOL_R4_B5_B6_ORDINARY_IPAD_VIEWPORT": [
+      "RECORD",
+      "POST_DELIVERY",
+      "POST_RECEIPT",
+      "POST_FINAL_SKU",
+      "SAVE_INVOICE_DRAFT",
+      "SAVE_INVOICE_DRAFT",
+      "POST_INVOICE",
+      "PAY_VENDOR_DOCUMENT",
+      "PAY_VENDOR_DOCUMENT",
+      "REVERSE_VENDOR_SETTLEMENT",
+      "REVERSE_VENDOR_SETTLEMENT",
+      "REVERSE_INVOICE"
+    ],
+    "SOL_R4_B5_B6_CLAIM_MOBILE": [
+      "RECORD",
+      "POST_DELIVERY",
+      "POST_RECEIPT",
+      "POST_FINAL_SKU",
+      "SAVE_INVOICE_DRAFT",
+      "SAVE_INVOICE_DRAFT",
+      "POST_INVOICE",
+      "SAVE_CLAIM",
+      "SAVE_CLAIM",
+      "RESOLVE_CLAIM",
+      "APPLY_CLAIM_CREDIT",
+      "PAY_VENDOR_DOCUMENT",
+      "PAY_VENDOR_DOCUMENT",
+      "REVERSE_VENDOR_SETTLEMENT",
+      "REVERSE_VENDOR_SETTLEMENT",
+      "REVERSE_VENDOR_SETTLEMENT",
+      "REVERSE_CLAIM_RESOLUTION",
+      "REVERSE_INVOICE"
+    ]
+  },
+  "originals": [
+    {
+      "run_id": 39193178808,
+      "report_path": "ci_receipts/sol_artifacts/12161116886/files/SOL_R4_B5_B6_JOURNEY.json",
+      "report_sha256": "e6356ec5a178a101ebbf68c78762abbf9f6df4ee81310d644e51514678130a5d",
+      "raw_counts": {
+        "INCOMPLETE": 3
+      },
+      "classification": "AUDITOR_OBSERVER_ERROR",
+      "cause": "Premature query of core vendor_invoices, which exists only after POST. Screen showed DRAFT8, successful SAVE, Native FG64/WIP60, no error alert."
+    },
+    {
+      "run_id": 39193738642,
+      "report_path": "ci_receipts/sol_artifacts/12160684624/files/SOL_R4_B5_B6_EXCEPTIONS.json",
+      "report_sha256": "a2cdc28efde2eeeb92dfac25f89d8a0f32591924085670cb691e50646f2be8b2",
+      "raw_counts": {
+        "INCOMPLETE": 1,
+        "PASS": 1
+      },
+      "classification": "AUDITOR_ORACLE_ERROR",
+      "cause": "Claim total128 omitted outstanding fifth sent piece known-rate estimate2. Native FG64/WIP66 follows contract. Free rewash PASS is excluded."
+    },
+    {
+      "run_id": 39195171465,
+      "report_path": "ci_receipts/sol_artifacts/12161841489/files/SOL_R4_INVOICE_JOURNEY_Q2.json",
+      "report_sha256": "e73ad62e31826e2ebfdc352e7196fa3826d8f843438a6d89f19dd81ca4d531db",
+      "raw_counts": {
+        "INCOMPLETE": 4
+      },
+      "ordinary_classification": "AUDITOR_FORM_STATE_ASSUMPTION",
+      "ordinary_cause": "Payables unmounts during refetch and reinitializes undoReason. First inverse4.75 succeeded; second3.25 correctly disabled with empty reason; no second command sent.",
+      "claim_classification": "UNRESOLVED_DIALOG_RENDER_OR_LABEL_BINDING",
+      "claim_observed": "No SAVE_CLAIM; main text0; JENIS wait timed out. Source has valid dialog. Existing host pageerror-only count does not rule out console.error."
+    }
+  ],
+  "declared_changes": [
+    {
+      "scope": "Ordinary3",
+      "before": "One undoReason filled before two inverses; remount resets it.",
+      "after": "Fill required reason before each inverse, retaining the same two business commands, amounts and literal signatures."
+    },
+    {
+      "scope": "Claim1",
+      "before": "Same one-fill assumption for cash/credit inverses; claim action form also remounts after ACCEPT; initial JENIS wait has empty main text and unknown cause.",
+      "after": "Fill required reason before each cash/credit inverse and reselect/refill claim form after ACCEPT and before reverse. Capture read-only console.error/pageerror/URL/body/root DOM and workspace response around click/failure; bind each select by actual visible source label. Any render crash/error still fails."
+    },
+    {
+      "scope": "All4",
+      "before": "Host records pageerror only, no exact dialog DOM evidence.",
+      "after": "Additional observer captures unchanged live page; clone-only script/style text omission. Assert no pageerror/console.error before PASS. No storage/header/token reading, no route stubbing, no DOM modification, no force click, no product change."
+    }
+  ],
+  "contract_trace": [
+    {
+      "source": "src/LaundryBdPanel.tsx",
+      "lines": "77,98,107\u2013112,350,390",
+      "meaning": "retire sets data null; Payables unmounts then undoReason restarts empty; lawful inverse requires reason>=4."
+    },
+    {
+      "source": "src/ConnectedBsResolutionPage.tsx",
+      "lines": "139\u2013154,346\u2013347,368",
+      "meaning": "CreateClaim is real dialog with label spans and selects; ClaimActionPanel keyed by row/version remounts after ACCEPT, resolution and reversal require fresh reason. Source alone does not prove Q2 render cause."
+    }
+  ],
+  "pinned_product_sources": {
+    "scripts/cp7_cp17_fix_cases.py": "510f48c61fc7919c5761abe2cf8fa75d952939f924b7681943ac4af8b6f80b1e",
+    "scripts/cp7_r3_qc_note_cases.py": "c5da8c0c650cfc02c183b63b91a6780f51bb5de0aa4743eb93eb2c44cfaf253f",
+    "scripts/cp7_p21_full_rehearsal_probe.py": "a6da56d3c3177c2f6083b19e996d1f7a31b7e934607d7f97232336405fd529f7",
+    "scripts/cp6_bd_probe.py": "c3add21e66d4d5544bf4e4d046a9fa8d64dbcb0cb285551a92c2d7405156b31b",
+    "scripts/cp6_auditor_modes.py": "d927c7491c72fe1eecfd1b4b8b4faf7e1710d6943fda601ede6a599fbc99209f",
+    "scripts/cp6_auditor_browser_host.mjs": "09fa7d7a5fb7d7cb00eb73e1d4354842730c6ae3dd77dbf9b299539ca7de9557",
+    "src/ConnectedLaundryPage.tsx": "40a4f50bdc7495b240264987be1cb3773a2b31caf594352f11cb0ac20f4a1a32",
+    "src/ConnectedQcFinalPage.tsx": "1e2356bd75af3cfdda27339b539e5dc140a3954227aa81a32a0211492cf55490",
+    "src/LaundryBdPanel.tsx": "0f75a213d9435e1a47cc1b6406a7b0e5e5fbc36c4b4c12c00ad8f8146ef61cc8",
+    "src/ConnectedWipStatusPage.tsx": "f1cb6f9498963f2f045a41e5817b6fd7db6b48ea66e27623a85659111003f1ad",
+    "src/SewingCompletionPanel.tsx": "82cd0e8302da95f67f6f8d0bb1113b1bb5e41136ab426ac0af5d9d78a8c6ce14",
+    "src/ConnectedBsResolutionPage.tsx": "fe987b6822effeb60290f0964787c6f879ad500d00194057f128fcea594df0f6",
+    "scripts/cp6_bd_objects_claimcredit.sql": "f0ebe32baef55e30025766b87ea4d4723018b2af58cc6fdf6789f9fce45464db",
+    "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql": "7b5690a2eddf618833d352dc75eb95aa1ef4dbcfb25d39b30374b733d33dadbc",
+    "scripts/cp6_bf_combined_probe.py": "62a352b56313eb13948b093486f2e1af05b73b417ecbdb2cd25cab7691f6019b",
+    "supabase/migrations/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql": "204b9246f3c8c6464476da1a7f1574f5e0ae4c46f024c082704795b3eef5210f",
+    "scripts/cp6_bd_objects_invoice.sql": "f57565e6ee23f3dd6eeba01f911b49f3c59f0fd2017e6d67dfb24486b5988583",
+    "scripts/cp6_bd_build.py": "e08330f8e9e5eba18ca6f4d949a33ec43d923e6ca8ea23e60e600fb875e28e93",
+    "scripts/cp6_bd_objects_pricing.sql": "9378f8e565e4ebbeba7ee2a6dffec701696d72e92032e80300cb1e458cdf2667",
+    "docs/cp6-d11-kebijakan-dan-gbd03.md": "4d351c4fc727b73a29c181fb8c0c6aaaebb6aa4b7f17fbd7e9fd3db4407af8f0",
+    "docs/cp6-readiness/README.md": "0bdc8f4d54da5a7d5f3949937ed75d38a548b8f2bf3740d531ae9fbef712d780"
+  },
+  "audit_tools": {
+    "journey_fixture.py": "577ded73befc1d981b6dc466327c9da95455f72e13e3f4397a11635811d00d21",
+    "invoice_observer_q2_fixture.py": "d49b64aa28dcbce5251d4ef07f381c49f492f7cd75647a8b6ec90825e3b5b51f",
+    "journey_q3_dom.mjs": "8684146674218bfe51b5af54d1cc611aff8dab4b8860c1c26f1346f274775dc8",
+    "journey_form_q3_browser.mjs": "5658f57020d1c7917c6e1823442f815698885ddc62c77d48e92944b9ed01b371",
+    "claim_form_q3_browser.mjs": "f75945adf37440ddf073ec86ddd9f6fe4443d7e67a158562763b017b0e506bdc",
+    "invoice_journey_q3_browser.mjs": "a0fcc4ccd81c92a71a9870cf23b1d696d018a1eec061d7a937de99d9d9afed49",
+    "invoice_journey_q3_qualification.py": "e0fb74cd5bccac418e45dc66d0dd1f2bdc748c8ff8eedff736563c381079e13d"
+  },
+  "excluded_pass_case": "SOL_R4_B5_FREE_REWASH_SAME_PRODUCT_DESKTOP",
+  "same_stable_case_ids": true,
+  "new_business_case_ids": 0,
+  "new_race_credit": 0,
+  "no_business_retry": true,
+  "maximum_pre_case_prerequisite_retry": 1,
+  "bootstrap_attempts_max": 2,
+  "expected_oracle_changed_only_for_proven_claim_omission": false,
+  "budgets_permissions_product_unchanged": true,
+  "held_r3_probes_resumed": false,
+  "hosted_or_production": false,
+  "cleanup": "Retain Q2 strict host, exact-int copy0, Auth/sessions and all primary state restoration. Add pageerror/console.error observer gate. Artifacts and report paths are new; no rewash repetition.",
+  "literal_arithmetic": {
+    "ordinary": "100+4*(3+1)+4*2=124; invoice8; cash3.25+4.75=8; inverses return AP0/cash8",
+    "claim": "100+5*(3+1)+5*2=130; FG64+WIP66; invoice4GOOD*2=8; claim1*2=2; AP8-2=6; cash2.25+3.75=6; bank8-6=2; lawful inverse sequence returns AP0/cash8"
+  },
+  "core_status_mapping_source": "scripts/cp6_bd_objects_claimcredit.sql:180; settlement changes payable status while BD invoice header stays POSTED.",
+  "original_tool_hashes": {
+    "journey_observer_q2_browser.mjs": "f1d99859b52d2c36dc29c3689a581457f2aa4bb9002b194ec6018b274e7d09fd",
+    "claim_observer_q2_browser.mjs": "974db300a45499d3917b719f7a947eef876708a4de12c2b74af87d3279af355f",
+    "invoice_journey_q2_qualification.py": "eec85344d28832531e4beaa6044e5bb6626442b7fcade2918200a56d3b09ff1a",
+    "invoice_observer_q2_fixture.py": "d49b64aa28dcbce5251d4ef07f381c49f492f7cd75647a8b6ec90825e3b5b51f",
+    "journey_fixture.py": "577ded73befc1d981b6dc466327c9da95455f72e13e3f4397a11635811d00d21"
+  },
+  "q2_expected_and_actions_unchanged": true,
+  "claim_render_root_cause_before_execution": "UNRESOLVED; do not infer product bug or selector bug without Q3 diagnostic evidence",
+  "case_count": 4
+}
