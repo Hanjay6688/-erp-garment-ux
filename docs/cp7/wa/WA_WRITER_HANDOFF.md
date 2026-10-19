@@ -22,7 +22,7 @@ checkpoint.
 | WA-2a | `scripts/cp7-src/alerts/alerts.sql` + `scripts/cp7_alert_bundle.py`: schema `cp7_alert_native` (role `cp7_alert`), settings, alerts, outbox, dispatches, Vault key, ticks, public RPCs; sources: owner's manual reminders, fabric below minimum, AR/AP due | done (local PG16 smoke, see below); CI in WA-3 |
 | WA-2b | Analysis-based kinds (PRODUCTION_GAP, FABRIC_NEED; ACCESSORY_NEED not forwarded: no live recheck exists) from the owner's latest DONE staged run + automatic owner analysis; job `erp-wa-analysis` | built; local PG16 smoke with stubs PASS; CI with WA-3b |
 | WA-3 | Bundle `scripts/cp7_alert_bundle.py` (previous = reminder v2), reachability, cases (Native/race/HTTP), declaration JSON, suite in the probe, fake server in CI | WA-3a PASS; WA-3b 21 cases, CI running |
-| WA-4 | Reminder menu: Pengingat sistem + tab Sambungan WhatsApp (owner); browser cases desktop + phone | todo |
+| WA-4 | Reminder menu: Pengingat sistem + tab Sambungan WhatsApp (owner); browser cases desktop + phone | screens + 12 DOM tests done (`src/waContract.ts`, `SystemRemindersPanel.tsx`, `WaConnectionPanel.tsx`); browser cases (WA-4b) todo |
 | WA-5 | Docs, best practices, owner report; then the r6 candidate for Fable/Astra/Sol (with Sol's five test-hardening points) | todo |
 
 ## Facts found (WA-1 mapping, 19 Oct)
@@ -134,3 +134,5 @@ installer; identity read without schema auth; pg_cron created by the check. CP7C
 | docs(wa): WA-0 facts from the third probe run | WA-0 done |
 | feat(wa): WA-2a system reminders and WhatsApp forwarding (database part) | WA-2a done locally; next WA-3 (CI cases + workflow) |
 | test(wa)/fix(wa): WA-3a stack check + SET ROLE + auth-free identity + pg_cron | WA-3a PASS (run 39273065727); next WA-3b full Native suite |
+| fix(wa): owner analysis state reported before the hours gate; reminder fixture uses an allowed role | Fixes run 39279865016 (3 INCOMPLETE); WA Forward rerun pending |
+| feat(wa): WA-4 Reminder tabs Pengingat sistem and Sambungan WhatsApp (screens + DOM tests) | tsc, check:source/access/css, production-recovery (new WhatsApp line), src vitest 175/175 files pass; key is read from an uncontrolled password input and cleared on send; next WA-4b browser cases |
