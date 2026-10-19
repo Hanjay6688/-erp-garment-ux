@@ -6,7 +6,7 @@ set -uo pipefail
 PG="postgresql://postgres:postgres@127.0.0.1:54322"
 export PGPASSWORD=postgres PGCONNECT_TIMEOUT=10
 # Every statement is bounded so a stuck call is reported instead of hanging the job.
-q() { timeout 60 psql "$PG/$1" -X -v ON_ERROR_STOP=1 -At -c "set statement_timeout='30s'" -c "$2"; }
+q() { timeout 60 psql "$PG/$1" -X -q -v ON_ERROR_STOP=1 -At -c "set statement_timeout='30s'" -c "$2"; }
 say() { echo "WA0 $1 $2"; }
 
 say extensions "$(q postgres "select string_agg(name||'='||coalesce(installed_version,'-')||'/'||default_version,' ' order by name) from pg_available_extensions where name in('pg_net','supabase_vault','pg_cron','http')")"
