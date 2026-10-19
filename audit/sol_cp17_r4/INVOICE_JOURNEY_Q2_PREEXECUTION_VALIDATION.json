@@ -1,0 +1,17 @@
+{
+  "state": "STATIC_AND_PURE_METADATA_ONLY_NO_PRODUCT_CASES_RUN",
+  "source_hashes_verified": true,
+  "exact_declared_browser_diff": true,
+  "row_binding_positive": 6,
+  "row_binding_negative": 12,
+  "actual_gate_positive": 1,
+  "actual_gate_negative": 18,
+  "parsed_workflow_diff_only_names_entrypoint_artifact": true,
+  "permissions_timeouts_prerequisites_unchanged": true,
+  "candidate_pinned": true,
+  "product_diff_empty": true,
+  "original_tools_unchanged": true,
+  "free_rewash_not_repeated": true,
+  "ordinary_expected_unchanged": true,
+  "claim_oracle_only_total128_to130_with_source_trace": true
+}

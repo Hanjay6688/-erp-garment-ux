@@ -1,0 +1,58 @@
+{
+  "state": "AUDIT_ONLY_GENUINE_TOOL_REPAIR_READY_FOR_NORMAL_REVIEW",
+  "parent_expected": "a948922561e6d92faa882f21cc34d379840ce61c",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "sensitive_private_or_unrelated_data": false,
+  "product_diff_empty": true,
+  "first_failures_retained": true,
+  "free_rewash_not_repeated": true,
+  "files": [
+    {
+      "path": ".github/workflows/audit-sol-r4-invoice-journey-q2.yml",
+      "bytes": 10024,
+      "sha256": "d90bafd3e607ebe737855008a25205ad95c96ed2c41f0d3099fd591cc6b62872"
+    },
+    {
+      "path": "audit/sol_cp17_r4/invoice_observer_q2_fixture.py",
+      "bytes": 4321,
+      "sha256": "d49b64aa28dcbce5251d4ef07f381c49f492f7cd75647a8b6ec90825e3b5b51f"
+    },
+    {
+      "path": "audit/sol_cp17_r4/journey_observer_q2_browser.mjs",
+      "bytes": 14373,
+      "sha256": "f1d99859b52d2c36dc29c3689a581457f2aa4bb9002b194ec6018b274e7d09fd"
+    },
+    {
+      "path": "audit/sol_cp17_r4/claim_observer_q2_browser.mjs",
+      "bytes": 18575,
+      "sha256": "974db300a45499d3917b719f7a947eef876708a4de12c2b74af87d3279af355f"
+    },
+    {
+      "path": "audit/sol_cp17_r4/invoice_journey_q2_browser.mjs",
+      "bytes": 316,
+      "sha256": "5ea36dbc701b24a162160282f7680354b5d2453c38129c8e93b290fdfa2339a9"
+    },
+    {
+      "path": "audit/sol_cp17_r4/invoice_journey_q2_qualification.py",
+      "bytes": 5130,
+      "sha256": "eec85344d28832531e4beaa6044e5bb6626442b7fcade2918200a56d3b09ff1a"
+    },
+    {
+      "path": "audit/sol_cp17_r4/invoice_journey_q2_validate.py",
+      "bytes": 7484,
+      "sha256": "749a63f02b05398fdcae463215b1e908705fde8de9844df43fb7128a35734eb7"
+    },
+    {
+      "path": "audit/sol_cp17_r4/INVOICE_JOURNEY_Q2_PREEXECUTION_MANIFEST.json",
+      "bytes": 13630,
+      "sha256": "819b4e87ee991e6d52961967744b8a855a3151b79c7e6c0b6a8b148db8be4920"
+    },
+    {
+      "path": "audit/sol_cp17_r4/INVOICE_JOURNEY_Q2_PREEXECUTION_VALIDATION.json",
+      "bytes": 609,
+      "sha256": "d5489523a531a9aab8e8e250598d0d24c98bd0c6c0464ffdc063fe977ee82216"
+    }
+  ]
+}
