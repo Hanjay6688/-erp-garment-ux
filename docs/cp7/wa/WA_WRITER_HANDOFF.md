@@ -78,6 +78,21 @@ checkpoint.
   stack database before the baseline snapshot (and point the worker at the clone as supabase_admin, as WA-0 did).
   Uninstall must also delete the Vault secret `cp7_callmebot_apikey` if a committed mode wrote one.
 
+## WA-3a stack check (19 Oct)
+
+`scripts/cp7_wa_stack_smoke.py` (job `wa3a-stack-smoke` in `.github/workflows/claude-wa-forward.yml`) installs
+`alerts.sql` as `postgres` (not a superuser) over `scripts/cp7_wa_smoke_stubs.sql` on a bare stack with the fake
+CallMeBot (`scripts/cp7_wa_fake_callmebot.py`). Run 39273065727 (job 118130172052, `65789737`): PASS, all steps:
+install + verifier; NOT_CONFIGURED before settings; owner settings and key, staff 42501 x3; enable; alert sent and
+delivered to the fake server (phone, text, `apikey=FAKEKEY-SMOKE`), stored answer `Message queued apikey=***`; test
+message delivered; pg_cron ran both ticks from `schedules()` (22 runs succeeded) and delivered the owner's reminder,
+never the staff one; a FAIL text got 500 -> PROVIDER_REFUSED, item PENDING; rollback sent nothing; key in none of 17
+tables nor the settings answer; uninstall left nothing (schema, RPCs, role, Vault secret, cron jobs).
+Earlier runs, logs kept in CI: 39271239303 (`must be able to SET ROLE "cp7_alert"`), 39271994388 (`permission denied
+for schema auth`), 39272579014 (`schema "cron" does not exist`; pg_cron not created). Fixes: role granted to the
+installer; identity read without schema auth; pg_cron created by the check. CP7C install facts from these runs:
+`docs/cp7/wa/CP7C_INSTALL_FINDINGS_20261019.md` (best practice E25j).
+
 ## Checkpoint log
 
 | Commit subject | State after it |
@@ -85,3 +100,4 @@ checkpoint.
 | test(wa): WA-0 stack facts ... / passes the local password ... / prints values without command tags | WA-0 probe in `.github/workflows/claude-wa-forward.yml` + `scripts/cp7_wa_spike.sh`; rerun pending |
 | docs(wa): WA-0 facts from the third probe run | WA-0 done |
 | feat(wa): WA-2a system reminders and WhatsApp forwarding (database part) | WA-2a done locally; next WA-3 (CI cases + workflow) |
+| test(wa)/fix(wa): WA-3a stack check + SET ROLE + auth-free identity + pg_cron | WA-3a PASS (run 39273065727); next WA-3b full Native suite |

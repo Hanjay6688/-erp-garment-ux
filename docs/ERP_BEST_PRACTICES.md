@@ -198,6 +198,14 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     jurnal penjualan. Catat per fungsi berapa masukan, berapa yang dijawab tanpa penolakan dan berapa yang berisi nilai;
     gagalkan uji bila ada fungsi yang tidak pernah menjawab; bangun baris yang tidak ada di buku uji di dalam savepoint
     yang dibatalkan, lewat jalur yang sama dengan probe. (R5-02, CI 39209921715 di `3b9817ae`)
+25j. **Pasang dan uji sebagai `postgres` biasa, bukan hanya sebagai superuser.** Di Supabase `postgres` bukan superuser.
+    Alat uji Native memasang semua bundle sebagai `supabase_admin`, jadi dua hal tidak pernah terlihat: (1) menyerahkan
+    skema/tabel/fungsi ke peran baru ditolak ("must be able to SET ROLE") kecuali sesi memakai
+    `createrole_self_grant = 'set, inherit'` atau peran itu di-grant ke pemasang; (2) `grant usage on schema auth` oleh
+    `postgres` dilewati diam-diam (hanya peringatan), lalu fungsi milik peran itu gagal saat dipanggil. Setiap modul baru
+    punya uji pasang-pakai-copot sebagai `postgres` di stack bersih; jangan bergantung pada hak di skema milik Supabase
+    yang tidak bisa diteruskan `postgres`. (WA-3a, CI 39271239303 dan 39271994388; lihat
+    `docs/cp7/wa/CP7C_INSTALL_FINDINGS_20261019.md`)
 
 ## F. Proses audit
 
@@ -245,6 +253,8 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Panggilan fungsi STABLE di filter per baris: dibungkus scalar subquery bila panas, dengan prasyarat untuk jalur
   error dan uji lama-lawan-baru (E25h).
 - [ ] Uji perbandingan mencatat jumlah masukan per fungsi dan gagal bila ada fungsi yang tidak pernah menjawab (E25i).
+- [ ] Modul baru dipasang, dipakai dan dicopot sebagai `postgres` (bukan superuser) di stack bersih; tidak ada grant ke
+  skema `auth` (E25j).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
   dipicu (E19–E20, E19a).
