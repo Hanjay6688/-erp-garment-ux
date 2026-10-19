@@ -10,11 +10,11 @@ ff6374ad; tidak ada temuan produk baru dari pengujian buta; tiga butir terbuka y
 KNOWN-POOL-PUBLIC-ENTRYPOINTS, KNOWN-BACKUP-REPLACEMENT-WRITE, KNOWN-P19-DIRECT-LATENCY). Penulis memperbaiki temuan putaran r3 di r4 dan mengerjakan kecepatan analisis
 langsung atas keputusan owner D17-1. Fable, Astra dan Sol menguji ulang kandidat yang sama secara terpisah.
 KANDIDAT
-- Commit 769f2cc3e37225ddefaac3e6b4cf6afc1040037d, tree d88081dcb611b0c6369cb2d775df24494df0284d. Basis r3: b53b5acdf260b03ebac3474e9ae837fcef6f6eb1
+- Commit 663f6faefcbb9c70f0f99bbc7e78164e03521329, tree 023f3554432f80f994439f5d0b8cc164846a2041. Basis r3: b53b5acdf260b03ebac3474e9ae837fcef6f6eb1
   (tree 32f54240a60e01ab8b1ffad7267d285a669be520). Commit sesudah kandidat di cabang writer hanya dokumen; buktikan:
-  git diff --name-only 769f2cc3e37225ddefaac3e6b4cf6afc1040037d origin/claude/new-session-deapao. Catat tree produk sebelum dan sesudah auditmu (Pro Max §2.8).
-- supabase/ tidak berubah sejak b53b5acd (git diff --name-only b53b5acdf260b03ebac3474e9ae837fcef6f6eb1 769f2cc3e37225ddefaac3e6b4cf6afc1040037d -- supabase kosong). Perubahan produk ada
-  di scripts/ (lapisan CP7, alat uji) dan src/; daftar lengkap: git diff --stat b53b5acdf260b03ebac3474e9ae837fcef6f6eb1 769f2cc3e37225ddefaac3e6b4cf6afc1040037d -- src scripts tests .github.
+  git diff --name-only 663f6faefcbb9c70f0f99bbc7e78164e03521329 origin/claude/new-session-deapao. Catat tree produk sebelum dan sesudah auditmu (Pro Max §2.8).
+- supabase/ tidak berubah sejak b53b5acd (git diff --name-only b53b5acdf260b03ebac3474e9ae837fcef6f6eb1 663f6faefcbb9c70f0f99bbc7e78164e03521329 -- supabase kosong). Perubahan produk ada
+  di scripts/ (lapisan CP7, alat uji) dan src/; daftar lengkap: git diff --stat b53b5acdf260b03ebac3474e9ae837fcef6f6eb1 663f6faefcbb9c70f0f99bbc7e78164e03521329 -- src scripts tests .github.
 - Bukti penulis: docs/cp7/audit-candidate/cp1-7-r4-20261019/CI_RECEIPT.json (semua run dan job pada kandidat; ringkasan di
   README.md bagian Kandidat); docs/cp7/cp17/CP17_FIXES.json (341 kasus CP17 dideklarasikan sebelum dijalankan: 161 Native,
   39 race, 27 HTTP Auth nyata, 57 browser, dan 57 kasus browser yang sama di build mode Enteng; workflow "CP7 CP17 Fixes").
@@ -40,7 +40,8 @@ YANG DIUJI ULANG (temuanmu → klaim penulis; uji dengan kasusmu sendiri, angka 
   menjawab kasus tanpa baris konteks perintah dengan satu pemeriksaan; dengan baris apa pun urutan lama berjalan utuh
   (scripts/cp7_internal_guard_bundle.py; CP17_R4_05_INTERNAL_GUARD_SAME_ANSWER, ..._DISPATCH_REVIEWED). Layar menulis
   "Sedang dihitung sejak jam …" seketika. Hasil dan yang belum tercapai: docs/cp7/p19/P19_R4_05_DIRECT_LATENCY.md
-  (100 target dengan angka keuangan 2,30–2,60 detik; 300 target tetap di atas 3 detik). Ulangi pengukuranmu sendiri.
+  (100 target dengan angka keuangan 2,30–2,60 detik pada satu runner, 4,57–5,92 detik pada runner kualifikasi yang lebih
+  lambat; 300 target tetap di atas 3 detik). Ulangi pengukuranmu sendiri.
 
 JUGA PERIKSA (bukan temuanmu, dan regresi di sekitarnya)
 - R4-02..R4-04 (temuan Astra) seperti di README.md.
@@ -48,14 +49,18 @@ JUGA PERIKSA (bukan temuanmu, dan regresi di sekitarnya)
   sama": baris konteks perintah dari transaksi ini, transaksi lain, backend lain, aktor lain; pemanggil OWNER, STAFF,
   peran bukan internal, tanpa pengguna, service role; penolakan halus di dalam pemeriksaan konteks (misalnya
   CP7_SALES_WRITE_DENIED). verify() di scripts/cp7_internal_guard_bundle.py dan kasus CP17_R4_05_*.
+- R4-Q1 (ditemukan penulis saat kualifikasi): uji pg_cron K4/K6 dan fixture browser K4 membaca catatan run pg_cron
+  sesudah setiap akhir run tertulis, bukan begitu hasilnya terlihat (scripts/cp7_schedule.py wait_recorded). Periksa
+  bahwa syarat lulusnya tidak berubah.
 - Bahwa penjaga lama tidak dilonggarkan: kas per tanggal ekonomi dan buku (D14-3, D15-1), bayar upah tidak mendahului akrual
   (D14-2), lantai cutover (D15-5), kebijakan HPP, delta Native yang dideklarasikan hanya berlaku di dalam perintahnya.
 
 YANG SUDAH DIKETAHUI PENULIS (uji sendiri; jangan dianggap benar atau salah tanpa bukti)
 - Lapisan CP7 belum terpasang di Enteng (CP7C ditahan, D13-9a); build Enteng diuji terhadap salinan sekali pakai.
 - FABLE-012 tetap ditunda ke CP7C (D14-9). Patch backup Sol disiapkan untuk CP7C, tidak dipasang.
-- Analisis langsung: 300 target belum 3 detik; dengan angka keuangan biaya laporan pemilik Native tumbuh dengan buku besar
-  dan dibaca dua kali per analisis langsung; pemeriksaan ulang saat kirim sengaja dipertahankan.
+- Analisis langsung: 300 target belum 3 detik; 100 target dengan angka keuangan belum stabil di bawah 3 detik (tergantung
+  runner). Dengan angka keuangan biaya laporan pemilik Native tumbuh dengan buku besar dan dibaca dua kali per analisis
+  langsung; pemeriksaan ulang saat kirim sengaja dipertahankan.
 
 ATURAN
 - Tanpa saling intip (Pro Max §2.2, §16.7): jangan membaca laporan, cabang, run, artifact atau komentar auditor lain dari
@@ -73,9 +78,9 @@ ATURAN
   sama dengan putaran sebelumnya). Bila ada beda, berkas di repo yang berlaku.
 
 LAPORAN
-- Satu cabang audit baru, usul: audit/sol-cp1-7-r4-769f2cc3-<tanggal>, dikunci dengan commit sebelum membaca laporan
+- Satu cabang audit baru, usul: audit/sol-cp1-7-r4-663f6fae-<tanggal>, dikunci dengan commit sebelum membaca laporan
   auditor lain di putaran ini:
-  1. audit/sol_cp17_r4/RETEST_SOL_769f2cc3.md — per temuan dan per butir: DITUTUP / MASIH TERBUKA / BARU, dengan bukti;
+  1. audit/sol_cp17_r4/RETEST_SOL_663f6fae.md — per temuan dan per butir: DITUTUP / MASIH TERBUKA / BARU, dengan bukti;
   2. audit/sol_cp17_r4/FINDINGS.json — temuan baru per akar masalah, tingkat, bukti; daftar yang harus beres sebelum
      pemasangan ke Enteng; daftar "belum saya periksa".
 - Ringkasan untuk owner ≤ 10 kalimat, bahasa sehari-hari. Owner bukan programmer.

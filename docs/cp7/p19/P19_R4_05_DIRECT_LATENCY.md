@@ -88,13 +88,39 @@ With figures, the work grows with the books, not with the targets alone: the own
 300 targets 1,530 lines and about 49,000 guard calls per report read, against 521 lines and 16,000 at 100) and is read
 twice per direct capture.
 
+## Qualification run (candidate 663f6fae)
+
+CI run 39173212515, job p19-scale5 (job 117810437470), against the r3 qualification at `b53b5acd` (run 39035969434, job
+117405683384, before R4-05). Same harness and seeding; each run gets whatever runner GitHub assigns. The r4 qualification
+runner was slower: the paths the guard change barely touches took longer than in r3 (capture without figures, which
+makes no guard calls, and the staged pages at 100 targets: 1.61-1.93 s against 0.94-1.13 s).
+
+| Click to result rendered (browser, 3 history windows) | r3 qualification `b53b5acd` | r4 qualification `663f6fae` |
+|---|---|---|
+| 100 targets, without figures | 0.98-1.37 s | 1.78-2.19 s |
+| 100 targets, with figures | 4.16-4.62 s | 4.57-5.92 s |
+| 300 targets, without figures | 3.70-4.50 s | 6.23-8.14 s |
+| 300 targets, with figures | 3 of 3 stopped at 8 s | 3 of 3 stopped at 8 s |
+
+With figures over without figures at 100 targets: r3 4.2-4.6 times, r4 2.5-2.7 times. Diagnostic in the same run: with
+figures at 100 targets 4.56 s server; `erp.require_internal()` 32,150 calls, 1.64 s own (51 us per call), while
+`erp.current_app_role()` took 16 us per call on this runner (12 us in run 39157467151, 7 us in run 39159625311). Guard
+time per call over `current_app_role()` time per call: 9.9 before, 3.3 and 3.1 after. SQL ladder at 300 targets with
+figures: the direct capture stopped at 8 s in all three windows; the background job completed for 1 and 30 days
+(7.3 s and 7.9 s plus 3.7 s for manifest and segments) and stopped at 8 s for 100 days (it completed in all three in
+r3 on the faster runner). Every scale case PASS (an honest stop at 8 s is an accepted verdict). Log kept:
+`scratchpad/p19diag/run_q663.json` (writer).
+
 ## Still open
 
-- 3 s is met at 100 targets with and without figures in this run; it is not met at 300 targets (without figures
-  3.8-5.0 s: compiler about 2-3 s server time and a 12.5 MB result; with figures 10.6-11.5 s or the 8 s stop). The
-  background job and the staged analysis remain the owner-named exceptions for heavy scopes
-  (`P19_PLANNING_ANALYSIS_BACKGROUND_20261007`, `P19_PLANNING_ANALYSIS_STAGED_20261007`); with figures the background
-  job completes at 300 targets where the direct capture can still stop at 8 s.
+- 3 s is not reliably met with figures at 100 targets: 2.30-2.60 s in run 39159625311, 4.57-5.92 s on the slower
+  qualification runner. Without figures 100 targets stays under 3 s on both runners (1.03-1.35 s, 1.78-2.19 s). It is
+  not met at 300 targets (without figures 3.8-8.1 s: compiler about 2-3 s server time and a 12.5 MB result; with
+  figures 10.6-11.5 s or the 8 s stop). The background job and the staged analysis remain the owner-named exceptions
+  for heavy scopes (`P19_PLANNING_ANALYSIS_BACKGROUND_20261007`, `P19_PLANNING_ANALYSIS_STAGED_20261007`); with figures
+  at 300 targets the background job completed in all three windows in run 39159625311 and for 1 and 30 days on the
+  slower qualification runner, where the direct capture stopped at 8 s in all three. The staged analysis completed
+  everywhere.
 - The owner report itself (Native, CP6) checks every journal line and is read twice per direct capture with figures;
   its cost grows with the books, so the direct capture with figures will slow down as the books grow.
 - `owner_latency_acceptance: false`, `production_go: false`.
