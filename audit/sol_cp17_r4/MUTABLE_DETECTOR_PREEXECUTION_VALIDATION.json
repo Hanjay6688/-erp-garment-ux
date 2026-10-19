@@ -1,0 +1,18 @@
+{
+  "state": "STATIC_AND_PURE_METADATA_ONLY_NO_PRODUCT_CASES_RUN",
+  "exact_case_ids": 4,
+  "eight_target_detector_identities": true,
+  "source_and_tool_hashes_verified": true,
+  "DDL_fields_and_lines_verified": true,
+  "actual_phase_gate_positive": 1,
+  "actual_phase_and_restore_gate_negative": 9,
+  "actual_outer_gate_positive": 1,
+  "actual_outer_gate_negative": 8,
+  "all167identities_and_counters_enforced": true,
+  "immutable_fact_and_guard_hashes_enforced": true,
+  "parsed_workflow_changes_only_names_entrypoint_artifact": true,
+  "permissions_setup_budget_unchanged": true,
+  "source_arithmetic": true,
+  "product_diff_empty": true,
+  "no_earlier_PASS_repeated": true
+}

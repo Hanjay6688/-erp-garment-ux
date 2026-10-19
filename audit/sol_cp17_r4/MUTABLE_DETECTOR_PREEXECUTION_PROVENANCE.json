@@ -1,0 +1,43 @@
+{
+  "state": "AUDIT_ONLY_PREDECLARED_FOUR_MUTABLE_DETECTOR_CONTROLS_READY_FOR_NORMAL_REVIEW",
+  "parent_expected": "cf75881ce1b57b382e7d233d93dc6fcb0527e03e",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "sensitive_private_or_unrelated_data": false,
+  "product_diff_empty": true,
+  "no_earlier_PASS_repeated": true,
+  "scope": "Four controls, eight named detector identities, all167eachphase. Own queue status/age, material moving-average cache, PO output cache and unused master type. Existing guards active, immutable facts and guard hashes checked. No access-catalog or posted-fact edits.",
+  "files": [
+    {
+      "path": ".github/workflows/audit-sol-r4-mutable-detectors.yml",
+      "bytes": 9556,
+      "sha256": "e2dd6ec66aab768d9bfd1c8b56309b265dd8c9aadff712cb63041165edf6a34b"
+    },
+    {
+      "path": "audit/sol_cp17_r4/detector_mutable_controls.py",
+      "bytes": 11084,
+      "sha256": "66d7fa6fc2731a38f925cf9ecdba6c0b03d224695682626539218e879616d590"
+    },
+    {
+      "path": "audit/sol_cp17_r4/detector_mutable_qualification.py",
+      "bytes": 5805,
+      "sha256": "6821250c98795c610492aa80ec9d759d769614aef5846aa75750875d1e652b97"
+    },
+    {
+      "path": "audit/sol_cp17_r4/detector_mutable_validate.py",
+      "bytes": 6999,
+      "sha256": "e7ebdfe78cc8e1e0f7f43bbdeb1d2bc65c86aad99eee09d586e3572367d49d5f"
+    },
+    {
+      "path": "audit/sol_cp17_r4/MUTABLE_DETECTOR_PREEXECUTION_MANIFEST.json",
+      "bytes": 16489,
+      "sha256": "3ffe6d09aa7efdcb37f2bde33706833f598371ff14beba5454b9dac1ba5b1865"
+    },
+    {
+      "path": "audit/sol_cp17_r4/MUTABLE_DETECTOR_PREEXECUTION_VALIDATION.json",
+      "bytes": 680,
+      "sha256": "5c4b6997480f2079b02162051c6ea4cc254d4e8d5a004fc7b52ae8712635de43"
+    }
+  ]
+}
