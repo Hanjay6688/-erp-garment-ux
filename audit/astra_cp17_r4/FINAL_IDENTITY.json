@@ -1,0 +1,79 @@
+{
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "writer_head_initial": "5eda90e10b2e87485ab710e9fd9ffa68d81a3565",
+  "writer_head_final": "5eda90e10b2e87485ab710e9fd9ffa68d81a3565",
+  "writer_only_docs_diff": [
+    "docs/cp7/OWNER_DECISIONS_20261008.md",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/CI_RECEIPT.json",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/CI_RECEIPT_FIRST_769f2cc3.json",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/HANDOFF_ASTRA.md",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/HANDOFF_FABLE.md",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/HANDOFF_SOL.md",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/README.md",
+    "docs/cp7/cp17/R4_WRITER_HANDOFF.md",
+    "docs/cp7/p19/P19_R4_05_DIRECT_LATENCY.md"
+  ],
+  "auditor_parent_before_report": "8a33c135da386d4c159234a9a262bd92c2831a94",
+  "auditor_product_trees": [
+    {
+      "path": "src",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c3008b5bc5662a3ed2d5ab8bc064233ba65a0a1e",
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/trees/c3008b5bc5662a3ed2d5ab8bc064233ba65a0a1e"
+    },
+    {
+      "path": "scripts",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "793d6ea67f482254a5baff04cfa6e83d306ca091",
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/trees/793d6ea67f482254a5baff04cfa6e83d306ca091"
+    },
+    {
+      "path": "scripts/cp7-src",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d71b0bc41acdf2b56b68c1867edde17f58c2c2dc",
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/trees/d71b0bc41acdf2b56b68c1867edde17f58c2c2dc"
+    },
+    {
+      "path": "supabase",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5d040436db384b4e574785376367b360a084acb7",
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/trees/5d040436db384b4e574785376367b360a084acb7"
+    },
+    {
+      "path": "supabase/release",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "be1e91c172ffb5c05b694a3a54c69562700c6d5e",
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/trees/be1e91c172ffb5c05b694a3a54c69562700c6d5e"
+    },
+    {
+      "path": "supabase/migrations",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8f6053bbd0bda80da18065418ad43371cdfd9461",
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/trees/8f6053bbd0bda80da18065418ad43371cdfd9461"
+    },
+    {
+      "path": "supabase/dev",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "88759f4fc51864a1ec9e224fcb4f236204b5c853",
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/trees/88759f4fc51864a1ec9e224fcb4f236204b5c853"
+    },
+    {
+      "path": "package-lock.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ca9159d26989e0263b6b757f5f824bd9333d8cf6",
+      "size": 125971,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/blobs/ca9159d26989e0263b6b757f5f824bd9333d8cf6"
+    }
+  ],
+  "candidate_to_r4_product_files": 37,
+  "supabase_changed": false,
+  "product_mutations_by_auditor": false
+}

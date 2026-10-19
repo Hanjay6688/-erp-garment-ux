@@ -1,0 +1,69 @@
+{
+  "candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "evidence_kind": "RETAINED_PRIOR_EVIDENCE_REHASHED_NOT_NEW_RESTORE",
+  "files": [
+    {
+      "file": "docs/evidence/cp1-cp2/cp1_cp1_fingerprint.sql",
+      "bytes": 9721,
+      "sha256": "943bf1180e39a898e38aea359a14f1a3459a1e7ad8dde7f35657ced672376509",
+      "prior_sha256": "943bf1180e39a898e38aea359a14f1a3459a1e7ad8dde7f35657ced672376509",
+      "matches_locked_prior": true,
+      "r4_sha256": "943bf1180e39a898e38aea359a14f1a3459a1e7ad8dde7f35657ced672376509",
+      "r4_matches_locked_prior": true
+    },
+    {
+      "file": "docs/evidence/cp1-cp2/cp1_checkpoint_1_fingerprint.json",
+      "bytes": 5696,
+      "sha256": "68f757df58deed4e6d8dcab904ac3e9b7be5822e364f082d56bc11762f119abc",
+      "prior_sha256": "68f757df58deed4e6d8dcab904ac3e9b7be5822e364f082d56bc11762f119abc",
+      "matches_locked_prior": true,
+      "r4_sha256": "68f757df58deed4e6d8dcab904ac3e9b7be5822e364f082d56bc11762f119abc",
+      "r4_matches_locked_prior": true
+    },
+    {
+      "file": "docs/evidence/cp1-cp2/cp1_checkpoint_1_revalidation_20260901.json",
+      "bytes": 6875,
+      "sha256": "a7fdf4384a7707a950cff552b4b6d7641be817f4303c79fc26c131d113d4bdbf",
+      "prior_sha256": "a7fdf4384a7707a950cff552b4b6d7641be817f4303c79fc26c131d113d4bdbf",
+      "matches_locked_prior": true,
+      "r4_sha256": "a7fdf4384a7707a950cff552b4b6d7641be817f4303c79fc26c131d113d4bdbf",
+      "r4_matches_locked_prior": true
+    },
+    {
+      "file": "docs/evidence/cp1-cp2/cp1_checkpoint_1_revalidation_20260901.md",
+      "bytes": 6236,
+      "sha256": "fe021a5812a9745c898557f006ecb8369f00157fe99c3a621bb0e4ace06f07d6",
+      "prior_sha256": "fe021a5812a9745c898557f006ecb8369f00157fe99c3a621bb0e4ace06f07d6",
+      "matches_locked_prior": true,
+      "r4_sha256": "fe021a5812a9745c898557f006ecb8369f00157fe99c3a621bb0e4ace06f07d6",
+      "r4_matches_locked_prior": true
+    },
+    {
+      "file": "docs/evidence/cp1-cp2/cp2_cp2_generate_catalog_restore.py",
+      "bytes": 15198,
+      "sha256": "0766f2fa10225db0e9733f7fa9b59fb55e3bef7d03af1665f569fc7c48f319f1",
+      "prior_sha256": "0766f2fa10225db0e9733f7fa9b59fb55e3bef7d03af1665f569fc7c48f319f1",
+      "matches_locked_prior": true,
+      "r4_sha256": "0766f2fa10225db0e9733f7fa9b59fb55e3bef7d03af1665f569fc7c48f319f1",
+      "r4_matches_locked_prior": true
+    },
+    {
+      "file": "docs/evidence/cp1-cp2/cp2_cp2_verify_local_restore.py",
+      "bytes": 10018,
+      "sha256": "795430b8e56dcffabff75fd2bc9237a8255ef10d24e6b812c468d9909e8c146d",
+      "prior_sha256": "795430b8e56dcffabff75fd2bc9237a8255ef10d24e6b812c468d9909e8c146d",
+      "matches_locked_prior": true,
+      "r4_sha256": "795430b8e56dcffabff75fd2bc9237a8255ef10d24e6b812c468d9909e8c146d",
+      "r4_matches_locked_prior": true
+    },
+    {
+      "file": "docs/evidence/cp1-cp2/cp2_cp2-free-local-restore.yml",
+      "bytes": 10219,
+      "sha256": "54ccce274f0b8358234938691fb50be24c580e38bf0742e45ae566ec37cfc243",
+      "prior_sha256": "54ccce274f0b8358234938691fb50be24c580e38bf0742e45ae566ec37cfc243",
+      "matches_locked_prior": true,
+      "r4_sha256": "54ccce274f0b8358234938691fb50be24c580e38bf0742e45ae566ec37cfc243",
+      "r4_matches_locked_prior": true
+    }
+  ]
+}

@@ -1,0 +1,912 @@
+{
+  "total_case_observations": 565,
+  "unique_ids": 565,
+  "by_oracle": {
+    "ASTRA": {
+      "count": 23,
+      "unique_ids": 23,
+      "statuses": {
+        "PASS": 23
+      }
+    },
+    "WRITER": {
+      "count": 542,
+      "unique_ids": 542,
+      "statuses": {
+        "PASS": 542
+      }
+    }
+  },
+  "status_counts": {
+    "PASS": 565
+  },
+  "run_count": 7,
+  "job_count": 18,
+  "checks": [
+    {
+      "suite": "cp17",
+      "artifact_id": 12158561747,
+      "file": "CP7_CP17_FIXES.json",
+      "sha256": "68c179228f1fc2e18839446c2c6f840ccf951d6597f017a83b9df303dc5375f8",
+      "run_id": 39184582331,
+      "job_id": 117844186935,
+      "job_conclusion": "success",
+      "cases": 341,
+      "groups": [
+        {
+          "group": "native",
+          "count": 161,
+          "counts": {
+            "PASS": 161
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "races",
+          "count": 39,
+          "counts": {
+            "PASS": 39
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "http",
+          "count": 27,
+          "counts": {
+            "PASS": 27
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "browser",
+          "count": 57,
+          "counts": {
+            "PASS": 57
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "browser_enteng",
+          "count": 57,
+          "counts": {
+            "PASS": 57
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        }
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "source_sha256": "f883ec3fbe1c4cdde4a9249b1ed83afd2e62cfedceec2e6277a25ec0f2609318"
+    },
+    {
+      "suite": "risk",
+      "artifact_id": 12157688210,
+      "file": "ASTRA_R3_RISK.json",
+      "sha256": "187d530c8e238285468519057f6d3ce08c95b4e6be1caf1e3b59118a7ecb0d38",
+      "run_id": 39184678978,
+      "job_id": 117844478259,
+      "job_conclusion": "success",
+      "cases": 4,
+      "groups": [
+        {
+          "group": "native",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "http",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        }
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "source_sha256": "f883ec3fbe1c4cdde4a9249b1ed83afd2e62cfedceec2e6277a25ec0f2609318"
+    },
+    {
+      "suite": "paging",
+      "artifact_id": 12157976302,
+      "file": "ASTRA_R3_AUDIT_PAGING.json",
+      "sha256": "ea8064fae0cf45dc5de4fd40bdbcb6fffe7a199f976e65b5b4916112ecc108f9",
+      "run_id": 39184679037,
+      "job_id": 117844478495,
+      "job_conclusion": "success",
+      "cases": 1,
+      "groups": [
+        {
+          "group": "races",
+          "count": 1,
+          "counts": {
+            "PASS": 1
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        }
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "source_sha256": "f883ec3fbe1c4cdde4a9249b1ed83afd2e62cfedceec2e6277a25ec0f2609318"
+    },
+    {
+      "suite": "p19",
+      "artifact_id": 12159996067,
+      "file": "CP7_K4_RUNNER.json",
+      "sha256": "9c0a0e74b406617c52f73629f8fd7ad8fd83c5dee10d3cebf5633b2d9401a587",
+      "run_id": 39184679009,
+      "job_id": 117844478564,
+      "job_conclusion": "failure",
+      "cases": 17,
+      "groups": [
+        {
+          "group": "native",
+          "count": 7,
+          "counts": {
+            "PASS": 7
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "races",
+          "count": 6,
+          "counts": {
+            "PASS": 6
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "http",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "browser",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        }
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "source_sha256": "2a588e72cefb8a27b35b0d8490202f90900b6bbd9fb4f3ccacbed2b1b6e31554"
+    },
+    {
+      "suite": "p19",
+      "artifact_id": 12159986500,
+      "file": "CP7_K6_PROOF_RUNNER.json",
+      "sha256": "4e4d37bf7c10fbf37fb1875fc012d8b20d6f886b68de3db7ff486c83e65e9638",
+      "run_id": 39184679009,
+      "job_id": 117844478530,
+      "job_conclusion": "failure",
+      "cases": 10,
+      "groups": [
+        {
+          "group": "native",
+          "count": 4,
+          "counts": {
+            "PASS": 4
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "races",
+          "count": 4,
+          "counts": {
+            "PASS": 4
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "http",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        }
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "source_sha256": "2a588e72cefb8a27b35b0d8490202f90900b6bbd9fb4f3ccacbed2b1b6e31554"
+    },
+    {
+      "suite": "p19",
+      "artifact_id": 12159426197,
+      "file": "CP7_P19_REMINDER_V2.json",
+      "sha256": "883df34e442018be17965132396a7731dbc0ab58367d97daac8f70c2a4a7c651",
+      "run_id": 39184679009,
+      "job_id": 117844478580,
+      "job_conclusion": "failure",
+      "cases": 16,
+      "groups": [
+        {
+          "group": "native",
+          "count": 9,
+          "counts": {
+            "PASS": 9
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "races",
+          "count": 3,
+          "counts": {
+            "PASS": 3
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "http",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "browser",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        }
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "source_sha256": "2a588e72cefb8a27b35b0d8490202f90900b6bbd9fb4f3ccacbed2b1b6e31554"
+    },
+    {
+      "suite": "p19",
+      "artifact_id": 12159307442,
+      "file": "CP7_K2_RETENTION.json",
+      "sha256": "d21e26746008c218099de3fc870a1ddb8a2bb4a580d98ca605119ce09bfc3f4d",
+      "run_id": 39184679009,
+      "job_id": 117844479470,
+      "job_conclusion": "failure",
+      "cases": 10,
+      "groups": [
+        {
+          "group": "native",
+          "count": 6,
+          "counts": {
+            "PASS": 6
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "races",
+          "count": 1,
+          "counts": {
+            "PASS": 1
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "http",
+          "count": 1,
+          "counts": {
+            "PASS": 1
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "browser",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        }
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "source_sha256": "2a588e72cefb8a27b35b0d8490202f90900b6bbd9fb4f3ccacbed2b1b6e31554"
+    },
+    {
+      "suite": "p19",
+      "artifact_id": 12159243279,
+      "file": "CP7_K3_CLEANUP.json",
+      "sha256": "1c4640e149b2d0dcc637ef129bb83dfa21978121d6027e265ae544b79eb7f372",
+      "run_id": 39184679009,
+      "job_id": 117844478589,
+      "job_conclusion": "failure",
+      "cases": 25,
+      "groups": [
+        {
+          "group": "native",
+          "count": 9,
+          "counts": {
+            "PASS": 9
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "races",
+          "count": 12,
+          "counts": {
+            "PASS": 12
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "http",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "browser",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        }
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "source_sha256": "2a588e72cefb8a27b35b0d8490202f90900b6bbd9fb4f3ccacbed2b1b6e31554"
+    },
+    {
+      "suite": "p19",
+      "artifact_id": 12159234733,
+      "file": "CP7_P19_SCALE.json",
+      "sha256": "3ea86043a590cd58b746af25b8e535b4ca1a0f1d145c90fe70090ef90976ae8a",
+      "run_id": 39184679009,
+      "job_id": 117844479056,
+      "job_conclusion": "failure",
+      "cases": 5,
+      "groups": [
+        {
+          "group": "native",
+          "count": 1,
+          "counts": {
+            "PASS": 1
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "browser",
+          "count": 4,
+          "counts": {
+            "PASS": 4
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        }
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "source_sha256": "c441c4b5534061700864f09e23b0888deafa1c5365ea49c0313c90d5833e7024"
+    },
+    {
+      "suite": "p19",
+      "artifact_id": 12159221756,
+      "file": "CP7_PL5_HISTORY_YIELD.json",
+      "sha256": "38564b5d14fd88c68bedff94774f6b0825ab4acff84579f74213e83b651e7aac",
+      "run_id": 39184679009,
+      "job_id": 117844478517,
+      "job_conclusion": "failure",
+      "cases": 20,
+      "groups": [
+        {
+          "group": "native",
+          "count": 14,
+          "counts": {
+            "PASS": 14
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "races",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "http",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "browser",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        }
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "source_sha256": "c441c4b5534061700864f09e23b0888deafa1c5365ea49c0313c90d5833e7024"
+    },
+    {
+      "suite": "p19",
+      "artifact_id": 12158785897,
+      "file": "CP7_P19_PLAN_V2.json",
+      "sha256": "2312faf1c9ed6fe06851d4090eb62ad9278a22b52a3c748e234ddc083fbc7cd7",
+      "run_id": 39184679009,
+      "job_id": 117844478524,
+      "job_conclusion": "failure",
+      "cases": 22,
+      "groups": [
+        {
+          "group": "native",
+          "count": 11,
+          "counts": {
+            "PASS": 11
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "races",
+          "count": 7,
+          "counts": {
+            "PASS": 7
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "http",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "browser",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        }
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "source_sha256": "c441c4b5534061700864f09e23b0888deafa1c5365ea49c0313c90d5833e7024"
+    },
+    {
+      "suite": "p19",
+      "artifact_id": 12158574330,
+      "file": "CP7_P19_AI_V2.json",
+      "sha256": "8c095d2e94f2fbc42a6879ef8fa2728b1d425a87dbf58a705487e14223c8396f",
+      "run_id": 39184679009,
+      "job_id": 117844478602,
+      "job_conclusion": "failure",
+      "cases": 9,
+      "groups": [
+        {
+          "group": "native",
+          "count": 4,
+          "counts": {
+            "PASS": 4
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "races",
+          "count": 1,
+          "counts": {
+            "PASS": 1
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "http",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "browser",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        }
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "source_sha256": "c441c4b5534061700864f09e23b0888deafa1c5365ea49c0313c90d5833e7024"
+    },
+    {
+      "suite": "p19",
+      "artifact_id": 12158219012,
+      "file": "CP7_P19_REPORT_V2.json",
+      "sha256": "5ebeca87fa4bc9f8f97ae07fc4fb8ca07826cdb3bfd1c69efe30da1741ee70aa",
+      "run_id": 39184679009,
+      "job_id": 117844478425,
+      "job_conclusion": "failure",
+      "cases": 20,
+      "groups": [
+        {
+          "group": "native",
+          "count": 10,
+          "counts": {
+            "PASS": 10
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "races",
+          "count": 6,
+          "counts": {
+            "PASS": 6
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "http",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "browser",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        }
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "source_sha256": "c441c4b5534061700864f09e23b0888deafa1c5365ea49c0313c90d5833e7024"
+    },
+    {
+      "suite": "p19",
+      "artifact_id": 12157922634,
+      "file": "CP7_P19_STAGED.json",
+      "sha256": "b8130fc5673ca134b94cd6accc1f2130fc86b93541b31cb2ccb15b80f8e15af3",
+      "run_id": 39184679009,
+      "job_id": 117844478539,
+      "job_conclusion": "failure",
+      "cases": 14,
+      "groups": [
+        {
+          "group": "native",
+          "count": 6,
+          "counts": {
+            "PASS": 6
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "races",
+          "count": 4,
+          "counts": {
+            "PASS": 4
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "http",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "browser",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        }
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "source_sha256": "c441c4b5534061700864f09e23b0888deafa1c5365ea49c0313c90d5833e7024"
+    },
+    {
+      "suite": "p19",
+      "artifact_id": 12157887246,
+      "file": "CP7_P19_TRANSPORT.json",
+      "sha256": "1f1bc0d4395017ef59adcc40bb40ef91dadc7f894f7ff757b10fd6359a54036a",
+      "run_id": 39184679009,
+      "job_id": 117844478491,
+      "job_conclusion": "failure",
+      "cases": 15,
+      "groups": [
+        {
+          "group": "native",
+          "count": 6,
+          "counts": {
+            "PASS": 6
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "races",
+          "count": 3,
+          "counts": {
+            "PASS": 3
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "http",
+          "count": 3,
+          "counts": {
+            "PASS": 3
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "browser",
+          "count": 3,
+          "counts": {
+            "PASS": 3
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        }
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "source_sha256": "c441c4b5534061700864f09e23b0888deafa1c5365ea49c0313c90d5833e7024"
+    },
+    {
+      "suite": "own",
+      "artifact_id": 12158212287,
+      "file": "ASTRA_R3_RETAINED_NATIVE.json",
+      "sha256": "367d39d9c00ff4ab9a761e0c8d050c59cfc9a2b1e457af40c3e6b6cb0ba8cf83",
+      "run_id": 39184830778,
+      "job_id": 117844937943,
+      "job_conclusion": "success",
+      "cases": 11,
+      "groups": [
+        {
+          "group": "native",
+          "count": 11,
+          "counts": {
+            "PASS": 11
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        }
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "source_sha256": "f883ec3fbe1c4cdde4a9249b1ed83afd2e62cfedceec2e6277a25ec0f2609318"
+    },
+    {
+      "suite": "guard",
+      "artifact_id": 12157158669,
+      "file": "ASTRA_R3_RISK.json",
+      "sha256": "6d3c0d0dd050ba5aab93f14c18ccc1048ca5a1a1ca8296a71a03ad69c9e6ff0a",
+      "run_id": 39184830743,
+      "job_id": 117844937751,
+      "job_conclusion": "success",
+      "cases": 3,
+      "groups": [
+        {
+          "group": "native",
+          "count": 2,
+          "counts": {
+            "PASS": 2
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        },
+        {
+          "group": "races",
+          "count": 1,
+          "counts": {
+            "PASS": 1
+          },
+          "missing": [],
+          "extra": [],
+          "duplicates": [],
+          "plan_exact": true
+        }
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "source_sha256": "f883ec3fbe1c4cdde4a9249b1ed83afd2e62cfedceec2e6277a25ec0f2609318"
+    },
+    {
+      "suite": "dom",
+      "artifact_id": 12157672948,
+      "file": "ASTRA_R4_DOM.json",
+      "sha256": "b2b47cf82800991b3362540161d2ceb0ea58a2635a52bbeaf0131b61cba8534b",
+      "run_id": 39184830745,
+      "job_id": 117844937444,
+      "job_conclusion": "success",
+      "cases": 22,
+      "groups": [],
+      "cp6_restored": null,
+      "advisor_gate": null,
+      "source_sha256": null
+    }
+  ]
+}

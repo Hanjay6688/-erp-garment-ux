@@ -1,0 +1,341 @@
+{
+  "evidence_kind": "REUSED_WRITER_EVIDENCE_INDEPENDENTLY_READ",
+  "counts": {
+    "NO_MERGE_AFTER_PIN": 9,
+    "EXPIRED_ARTIFACT": 1,
+    "CHANGED_FILE_LIST": 11,
+    "SUPERSEDED_CP6_UI_PATH": 1
+  },
+  "jobs": [
+    {
+      "workflow": "CP6 AF Independent Review",
+      "run_id": 39173260745,
+      "job_id": 117810580671,
+      "raw_conclusion": "failure",
+      "classification": "NO_MERGE_AFTER_PIN",
+      "disposition": "Historical source-scope guard",
+      "excerpt": [
+        "2026-10-18T22:45:16.3216819Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/harness/scripts/cp6_af_review_scope.py\", line 22, in verify",
+        "2026-10-18T22:45:16.3217767Z     assert not git('rev-list','--merges',HEAD+'..HEAD')",
+        "2026-10-18T22:45:16.3218111Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "2026-10-18T22:45:16.3218398Z AssertionError"
+      ],
+      "log_sha256": "368298d9bf5cbd6f4dd43e27dec1a682bd230428c6b68eaa055265e90878ade0"
+    },
+    {
+      "workflow": "CP6 AF Posted Child Family",
+      "run_id": 39173258904,
+      "job_id": 117811088125,
+      "raw_conclusion": "failure",
+      "classification": "EXPIRED_ARTIFACT",
+      "disposition": "AE archive HTTP 410 before AF family qualification",
+      "excerpt": [
+        "2026-10-18T23:07:51.9895182Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io",
+        "2026-10-18T23:07:51.9899096Z   GH_TOKEN: ***",
+        "2026-10-18T23:07:51.9899352Z ##[endgroup]",
+        "2026-10-18T23:07:54.2086788Z gh: Artifact has expired (HTTP 410)"
+      ],
+      "log_sha256": "1355c83b7fcbe66e48101256860490ec4915a795b8534a4275af92a24c8646ea"
+    },
+    {
+      "workflow": "CP6 AG Additional Writer Review",
+      "run_id": 39173262528,
+      "job_id": 117810588175,
+      "raw_conclusion": "failure",
+      "classification": "NO_MERGE_AFTER_PIN",
+      "disposition": "Historical source-scope guard",
+      "excerpt": [
+        "2026-10-18T23:04:16.2418219Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/harness/scripts/cp6_ag_residual_scope.py\", line 19, in verify",
+        "2026-10-18T23:04:16.2418845Z     assert not git('rev-list','--merges',HEAD+'..HEAD')",
+        "2026-10-18T23:04:16.2419173Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "2026-10-18T23:04:16.2419450Z AssertionError"
+      ],
+      "log_sha256": "8f9166e35219593569afdc251deb78738c93553943656ec977877d2f0d9d53d0"
+    },
+    {
+      "workflow": "CP6 AG Sale Reservation Family",
+      "run_id": 39173264170,
+      "job_id": 117811335426,
+      "raw_conclusion": "failure",
+      "classification": "NO_MERGE_AFTER_PIN",
+      "disposition": "Historical source-scope guard",
+      "excerpt": [
+        "2026-10-18T23:02:04.2967342Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/candidate/scripts/cp6_ag_gate_scope.py\", line 16, in verify",
+        "2026-10-18T23:02:04.2968087Z     assert git('merge-base',BASE,'HEAD')==BASE and not git('rev-list','--merges',BASE+'..HEAD')",
+        "2026-10-18T23:02:04.2968580Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "2026-10-18T23:02:04.2968905Z AssertionError"
+      ],
+      "log_sha256": "40396ecc17664b17e1addff196e826b20d68af40fc733ce4a02fb5bd59d7db77"
+    },
+    {
+      "workflow": "CP6 AH Independent Business Review",
+      "run_id": 39173265827,
+      "job_id": 117813625885,
+      "raw_conclusion": "failure",
+      "classification": "NO_MERGE_AFTER_PIN",
+      "disposition": "Historical source-scope guard",
+      "excerpt": [
+        "2026-10-18T23:12:09.9112402Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/harness/scripts/cp6_ah_review_scope.py\", line 13, in verify",
+        "2026-10-18T23:12:09.9113769Z     assert not git('rev-list','--merges',HEAD+'..HEAD')",
+        "2026-10-18T23:12:09.9114276Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "2026-10-18T23:12:09.9114690Z AssertionError"
+      ],
+      "log_sha256": "057636592af858c937128e9524c849f526303d05cd73ff83e8b6b7703a9ad992"
+    },
+    {
+      "workflow": "CP6 AH Return Allocation Family",
+      "run_id": 39173267536,
+      "job_id": 117812215335,
+      "raw_conclusion": "failure",
+      "classification": "NO_MERGE_AFTER_PIN",
+      "disposition": "Historical source-scope guard",
+      "excerpt": [
+        "2026-10-18T23:29:57.2627387Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/candidate/scripts/cp6_ah_gate_scope.py\", line 21, in verify",
+        "2026-10-18T23:29:57.2628331Z     assert git('merge-base',BASE,'HEAD')==BASE and not git('rev-list','--merges',BASE+'..HEAD')",
+        "2026-10-18T23:29:57.2628940Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "2026-10-18T23:29:57.2629346Z AssertionError"
+      ],
+      "log_sha256": "8b79062f24215549dfbc68e7359c495f0133073ebd530959441ddda588e7416f"
+    },
+    {
+      "workflow": "CP6 AI Work Source Family",
+      "run_id": 39173270768,
+      "job_id": 117812137625,
+      "raw_conclusion": "failure",
+      "classification": "NO_MERGE_AFTER_PIN",
+      "disposition": "Historical source-scope guard",
+      "excerpt": [
+        "2026-10-18T23:25:20.7287442Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/candidate/scripts/cp6_ai_gate_scope.py\", line 11, in verify",
+        "2026-10-18T23:25:20.7288160Z     assert git('merge-base',BASE,'HEAD')==BASE and not git('rev-list','--merges',BASE+'..HEAD')",
+        "2026-10-18T23:25:20.7288653Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "2026-10-18T23:25:20.7288977Z AssertionError"
+      ],
+      "log_sha256": "0f844b7c0ff7f06dd2a1147e0bf960e80bcb3cbaf855430fbaf0a4b4cf15d94f"
+    },
+    {
+      "workflow": "CP6 AI-R2 Independent Business Review",
+      "run_id": 39173269227,
+      "job_id": 117810604902,
+      "raw_conclusion": "failure",
+      "classification": "NO_MERGE_AFTER_PIN",
+      "disposition": "Historical source-scope guard",
+      "excerpt": [
+        "2026-10-18T22:44:19.9357671Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/harness/scripts/cp6_ai_review_scope.py\", line 15, in verify",
+        "2026-10-18T22:44:19.9358524Z     assert not git('rev-list','--merges',HEAD+'..HEAD')",
+        "2026-10-18T22:44:19.9358999Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "2026-10-18T22:44:19.9359409Z AssertionError"
+      ],
+      "log_sha256": "c5c5a4fa243de88800be437792cc64e8d682d8f68180dc80ccf7d260c282ec38"
+    },
+    {
+      "workflow": "CP6 AO AP Permanent Package",
+      "run_id": 39173272251,
+      "job_id": 117810613230,
+      "raw_conclusion": "failure",
+      "classification": "CHANGED_FILE_LIST",
+      "disposition": "Historical path-scope guard",
+      "excerpt": [
+        "2026-10-18T23:07:43.7844462Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_ao_ap_scope.py\", line 17, in <module>",
+        "2026-10-18T23:07:43.7845525Z     assert all(allowed(p) for p in changed),[p for p in changed if not allowed(p)]",
+        "2026-10-18T23:07:43.7846528Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "2026-10-18T23:07:44.0145271Z AssertionError: ['.github/workflows/astra-cp7-timeline-reuse.yml', '.github/workflows/ci.yml', '.github/workflows/claude-cp17-fixes.yml', '.github/workflows/claude-note-correction.yml', '.github/workflows/claude-p08-physical.yml', '.github/workflows/claude-p08-shell.yml', '.github/workflows/claude-p12-payroll.yml', '.github/workflows/claude-p13-finance.yml', '.github/workflows/claude-p18-fabric-rule.yml', '.github/workflows/claude-p18-full-cycle.yml', '.github/workflows/claude-p19-capture-diagnosis.yml', '.github/workflows/claude-p19-transport.yml', '.github/workflows/claude-p21-rehearsal.yml', '.github/workflows/claude-pl-native.yml', '.github/workflows/claude-supplier-payment-correction.yml', '.github/workflows/claude-supplier-payment-create.yml', '.github/workflows/cp3-r4-full-schema-validation.yml', '.github/workflows/cp5-full-schema-validation.yml', '.github/workflows/cp6-ac-independent-audit.yml', '.github/workflows/cp6-ad-roll-opening-check.yml', '.g"
+      ],
+      "log_sha256": "23b3cb922b4fd5da5f02797e6b7947384a13511d49ef7f501a11f54ec1d6e1dc"
+    },
+    {
+      "workflow": "CP6 AP Real Auth Browser Flow",
+      "run_id": 39173273700,
+      "job_id": 117810618440,
+      "raw_conclusion": "failure",
+      "classification": "CHANGED_FILE_LIST",
+      "disposition": "Historical path-scope guard",
+      "excerpt": [
+        "2026-10-18T22:52:06.0262520Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_ap_flow_scope.py\", line 15, in <module>",
+        "2026-10-18T22:52:06.0263726Z     assert all(allowed(p) for p in changed),[p for p in changed if not allowed(p)]",
+        "2026-10-18T22:52:06.0264244Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "2026-10-18T22:52:06.2865474Z AssertionError: ['.github/workflows/astra-cp7-timeline-reuse.yml', '.github/workflows/ci.yml', '.github/workflows/claude-cp17-fixes.yml', '.github/workflows/claude-note-correction.yml', '.github/workflows/claude-p08-physical.yml', '.github/workflows/claude-p08-shell.yml', '.github/workflows/claude-p12-payroll.yml', '.github/workflows/claude-p13-finance.yml', '.github/workflows/claude-p18-fabric-rule.yml', '.github/workflows/claude-p18-full-cycle.yml', '.github/workflows/claude-p19-capture-diagnosis.yml', '.github/workflows/claude-p19-transport.yml', '.github/workflows/claude-p21-rehearsal.yml', '.github/workflows/claude-pl-native.yml', '.github/workflows/claude-supplier-payment-correction.yml', '.github/workflows/claude-supplier-payment-create.yml', '.github/workflows/cp3-r4-full-schema-validation.yml', '.github/workflows/cp5-full-schema-validation.yml', '.github/workflows/cp6-ac-independent-audit.yml', '.github/workflows/cp6-ad-roll-opening-check.yml', '.g"
+      ],
+      "log_sha256": "58bb16b33fd9dfd876ea0501f32d9c7c5f71cf1c2b27bf03edd002bfc67ec4be"
+    },
+    {
+      "workflow": "CP6 AR Combined Successor Qualification",
+      "run_id": 39173311862,
+      "job_id": 117810740773,
+      "raw_conclusion": "failure",
+      "classification": "NO_MERGE_AFTER_PIN",
+      "disposition": "Historical source-scope guard",
+      "excerpt": [
+        "2026-10-18T23:27:38.9438938Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_successor_scope.py\", line 35, in verify",
+        "2026-10-18T23:27:38.9440323Z     assert not git('rev-list', '--merges', BASE+'..HEAD')",
+        "2026-10-18T23:27:38.9440966Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "2026-10-18T23:27:38.9441403Z AssertionError"
+      ],
+      "log_sha256": "0adbfbbd80a4deb4286e2cd540b2ae90f1082828b405eafa8a295e0702c64620"
+    },
+    {
+      "workflow": "CP6 AR Opening Overlap Repair",
+      "run_id": 39173275043,
+      "job_id": 117810622692,
+      "raw_conclusion": "failure",
+      "classification": "CHANGED_FILE_LIST",
+      "disposition": "Historical path-scope guard",
+      "excerpt": [
+        "2026-10-18T23:03:17.0899401Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_ar_scope.py\", line 17, in <module>",
+        "2026-10-18T23:03:17.0900634Z     assert changed<=ALLOWED,sorted(changed-ALLOWED)",
+        "2026-10-18T23:03:17.0901012Z            ^^^^^^^^^^^^^^^^",
+        "2026-10-18T23:03:17.3477822Z AssertionError: ['.github/workflows/astra-cp7-timeline-reuse.yml', '.github/workflows/ci.yml', '.github/workflows/claude-cp17-fixes.yml', '.github/workflows/claude-note-correction.yml', '.github/workflows/claude-p08-physical.yml', '.github/workflows/claude-p08-shell.yml', '.github/workflows/claude-p12-payroll.yml', '.github/workflows/claude-p13-finance.yml', '.github/workflows/claude-p18-fabric-rule.yml', '.github/workflows/claude-p18-full-cycle.yml', '.github/workflows/claude-p19-capture-diagnosis.yml', '.github/workflows/claude-p19-transport.yml', '.github/workflows/claude-p21-rehearsal.yml', '.github/workflows/claude-pl-native.yml', '.github/workflows/claude-supplier-payment-correction.yml', '.github/workflows/claude-supplier-payment-create.yml', '.github/workflows/cp3-r4-full-schema-validation.yml', '.github/workflows/cp5-full-schema-validation.yml', '.github/workflows/cp6-ac-independent-audit.yml', '.github/workflows/cp6-ad-roll-opening-check.yml', '.g"
+      ],
+      "log_sha256": "f4c5be61a3b3c59c4f3d54b5945e19dfd1d916c3d5e5c731ff8f359eba8e5b2f"
+    },
+    {
+      "workflow": "CP6 AS Independent AR Audit",
+      "run_id": 39173276489,
+      "job_id": 117810627341,
+      "raw_conclusion": "failure",
+      "classification": "CHANGED_FILE_LIST",
+      "disposition": "Historical path-scope guard",
+      "excerpt": [
+        "2026-10-18T22:49:40.1515309Z   GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d",
+        "2026-10-18T22:49:40.1518242Z   GH_TOKEN: ***",
+        "2026-10-18T22:49:40.1518460Z ##[endgroup]",
+        "2026-10-18T22:49:40.6132932Z gh: Artifact has expired (HTTP 410)"
+      ],
+      "log_sha256": "6d50a8f338db70f62a899b899ec6059061e593877496d42dbd65c0a4aa4f8988"
+    },
+    {
+      "workflow": "CP6 AS Writer Qualification",
+      "run_id": 39173278118,
+      "job_id": 117810632103,
+      "raw_conclusion": "failure",
+      "classification": "CHANGED_FILE_LIST",
+      "disposition": "Historical path-scope guard",
+      "excerpt": [
+        "2026-10-18T23:12:07.6877738Z   GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d",
+        "2026-10-18T23:12:07.6880041Z   GH_TOKEN: ***",
+        "2026-10-18T23:12:07.6880224Z ##[endgroup]",
+        "2026-10-18T23:12:07.9757804Z gh: Artifact has expired (HTTP 410)"
+      ],
+      "log_sha256": "a967e0bcf9f9f4f218dacd630acebd833b3b1eda9cee04bcf04ce184dc54bb98"
+    },
+    {
+      "workflow": "CP6 AT Independent AS Audit",
+      "run_id": 39173279660,
+      "job_id": 117810636360,
+      "raw_conclusion": "failure",
+      "classification": "CHANGED_FILE_LIST",
+      "disposition": "Historical path-scope guard",
+      "excerpt": [
+        "2026-10-18T22:45:59.9530074Z   GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d",
+        "2026-10-18T22:45:59.9532609Z   GH_TOKEN: ***",
+        "2026-10-18T22:45:59.9532822Z ##[endgroup]",
+        "2026-10-18T22:46:00.3988380Z gh: Artifact has expired (HTTP 410)"
+      ],
+      "log_sha256": "27c2705cadbbf5cc3c1be08c0cbe57607c25b84dabf59798be2818766c0fb569"
+    },
+    {
+      "workflow": "CP6 AT Qualification",
+      "run_id": 39173281154,
+      "job_id": 117810641018,
+      "raw_conclusion": "failure",
+      "classification": "CHANGED_FILE_LIST",
+      "disposition": "Historical path-scope guard",
+      "excerpt": [
+        "2026-10-18T22:59:37.0688660Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_at_trial.py\", line 45, in source",
+        "2026-10-18T22:59:37.0689694Z     assert set(changed)==allowed,('AT_SCOPE',changed)",
+        "2026-10-18T22:59:37.0690100Z            ^^^^^^^^^^^^^^^^^^^^^",
+        "2026-10-18T22:59:37.3326910Z AssertionError: ('AT_SCOPE', ['.github/workflows/astra-cp7-timeline-reuse.yml', '.github/workflows/ci.yml', '.github/workflows/claude-cp17-fixes.yml', '.github/workflows/claude-note-correction.yml', '.github/workflows/claude-p08-physical.yml', '.github/workflows/claude-p08-shell.yml', '.github/workflows/claude-p12-payroll.yml', '.github/workflows/claude-p13-finance.yml', '.github/workflows/claude-p18-fabric-rule.yml', '.github/workflows/claude-p18-full-cycle.yml', '.github/workflows/claude-p19-capture-diagnosis.yml', '.github/workflows/claude-p19-transport.yml', '.github/workflows/claude-p21-rehearsal.yml', '.github/workflows/claude-pl-native.yml', '.github/workflows/claude-supplier-payment-correction.yml', '.github/workflows/claude-supplier-payment-create.yml', '.github/workflows/cp3-r4-full-schema-validation.yml', '.github/workflows/cp5-full-schema-validation.yml', '.github/workflows/cp6-ac-independent-audit.yml', '.github/workflows/cp6-ad-roll-opening-ch"
+      ],
+      "log_sha256": "e5a2454a8b9e284e98a44030e1e9a46502db36f183493afa4c286a7681703b18"
+    },
+    {
+      "workflow": "CP6 AU Independent AT Review",
+      "run_id": 39173286820,
+      "job_id": 117810660349,
+      "raw_conclusion": "failure",
+      "classification": "CHANGED_FILE_LIST",
+      "disposition": "Historical path-scope guard",
+      "excerpt": [
+        "2026-10-18T23:04:28.1085972Z   GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d",
+        "2026-10-18T23:04:28.1089541Z   GH_TOKEN: ***",
+        "2026-10-18T23:04:28.1089750Z ##[endgroup]",
+        "2026-10-18T23:04:28.5388024Z gh: Artifact has expired (HTTP 410)"
+      ],
+      "log_sha256": "9a5988b3e013d158cc7a640920c5085d157dca5991dc7c064d992c2b53dea1ed"
+    },
+    {
+      "workflow": "CP6 AU Qualification",
+      "run_id": 39173285501,
+      "job_id": 117810654752,
+      "raw_conclusion": "failure",
+      "classification": "CHANGED_FILE_LIST",
+      "disposition": "Historical path-scope guard",
+      "excerpt": [
+        "2026-10-18T23:18:31.9916038Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_au_trial.py\", line 49, in source",
+        "2026-10-18T23:18:31.9916532Z     assert set(changed)==allowed,('AU_SCOPE',changed)",
+        "2026-10-18T23:18:31.9916800Z            ^^^^^^^^^^^^^^^^^^^^^",
+        "2026-10-18T23:18:32.1848308Z AssertionError: ('AU_SCOPE', ['.github/workflows/astra-cp7-timeline-reuse.yml', '.github/workflows/ci.yml', '.github/workflows/claude-cp17-fixes.yml', '.github/workflows/claude-note-correction.yml', '.github/workflows/claude-p08-physical.yml', '.github/workflows/claude-p08-shell.yml', '.github/workflows/claude-p12-payroll.yml', '.github/workflows/claude-p13-finance.yml', '.github/workflows/claude-p18-fabric-rule.yml', '.github/workflows/claude-p18-full-cycle.yml', '.github/workflows/claude-p19-capture-diagnosis.yml', '.github/workflows/claude-p19-transport.yml', '.github/workflows/claude-p21-rehearsal.yml', '.github/workflows/claude-pl-native.yml', '.github/workflows/claude-supplier-payment-correction.yml', '.github/workflows/claude-supplier-payment-create.yml', '.github/workflows/cp3-r4-full-schema-validation.yml', '.github/workflows/cp5-full-schema-validation.yml', '.github/workflows/cp6-ac-independent-audit.yml', '.github/workflows/cp6-ad-roll-opening-ch"
+      ],
+      "log_sha256": "8958152160d407f8e94bc25dfed579dea4de1769b73562784a9758971b6f268d"
+    },
+    {
+      "workflow": "CP6 Auditor Scenario",
+      "run_id": 39180053859,
+      "job_id": 117830699716,
+      "raw_conclusion": "failure",
+      "classification": "SUPERSEDED_CP6_UI_PATH",
+      "disposition": "166 PASS and four INCOMPLETE retained, not changed to PASS",
+      "excerpt": [
+        "2026-10-19T00:20:09.9318421Z   GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d",
+        "2026-10-19T00:20:09.9321775Z   GH_TOKEN: ***",
+        "2026-10-19T00:20:09.9322016Z ##[endgroup]",
+        "2026-10-19T00:20:10.2903206Z gh: Artifact has expired (HTTP 410)"
+      ],
+      "log_sha256": "5f49f6d197e78d15e13b23776e4597405d84dccafcb96bdb67fa082191110bfd"
+    },
+    {
+      "workflow": "CP6 Final Boundary Audit",
+      "run_id": 39173304647,
+      "job_id": 117810720842,
+      "raw_conclusion": "failure",
+      "classification": "NO_MERGE_AFTER_PIN",
+      "disposition": "Historical source-scope guard",
+      "excerpt": [
+        "2026-10-18T23:15:58.0468706Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/harness/scripts/cp6_disposable_ui_scope.py\", line 172, in verify",
+        "2026-10-18T23:15:58.0470127Z     assert not git('rev-list', '--merges', BASE+'..HEAD')",
+        "2026-10-18T23:15:58.0471146Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "2026-10-18T23:15:58.0471890Z AssertionError"
+      ],
+      "log_sha256": "472765abebe168a803d56347a21f7bf7aa224c13da7a04ae4c3ba8fb44d5c0d7"
+    },
+    {
+      "workflow": "CP6 Initial Import Native Trial",
+      "run_id": 39173307575,
+      "job_id": 117810725020,
+      "raw_conclusion": "failure",
+      "classification": "CHANGED_FILE_LIST",
+      "disposition": "Historical path-scope guard",
+      "excerpt": [
+        "2026-10-18T23:05:36.6679293Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_initial_import_scope.py\", line 34, in <module>",
+        "2026-10-18T23:05:36.6679843Z     assert changed<=ALLOWED,sorted(changed-ALLOWED)",
+        "2026-10-18T23:05:36.6680646Z            ^^^^^^^^^^^^^^^^",
+        "2026-10-18T23:05:36.8525819Z AssertionError: ['.github/workflows/astra-cp7-timeline-reuse.yml', '.github/workflows/ci.yml', '.github/workflows/claude-cp17-fixes.yml', '.github/workflows/claude-note-correction.yml', '.github/workflows/claude-p08-physical.yml', '.github/workflows/claude-p08-shell.yml', '.github/workflows/claude-p12-payroll.yml', '.github/workflows/claude-p13-finance.yml', '.github/workflows/claude-p18-fabric-rule.yml', '.github/workflows/claude-p18-full-cycle.yml', '.github/workflows/claude-p19-capture-diagnosis.yml', '.github/workflows/claude-p19-transport.yml', '.github/workflows/claude-p21-rehearsal.yml', '.github/workflows/claude-pl-native.yml', '.github/workflows/claude-supplier-payment-correction.yml', '.github/workflows/claude-supplier-payment-create.yml', '.github/workflows/cp3-r4-full-schema-validation.yml', '.github/workflows/cp5-full-schema-validation.yml', '.github/workflows/cp6-ac-independent-audit.yml', '.github/workflows/cp6-ad-roll-opening-check.yml', '.g"
+      ],
+      "log_sha256": "84c8e264716770af957ba7a052e75a1b663b9e237d85ba0edfa9c246fd659e47"
+    },
+    {
+      "workflow": "CP6 Opening Overlap Probe",
+      "run_id": 39173309060,
+      "job_id": 117810729050,
+      "raw_conclusion": "failure",
+      "classification": "CHANGED_FILE_LIST",
+      "disposition": "Historical path-scope guard",
+      "excerpt": [
+        "2026-10-18T23:24:54.0670104Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_opening_overlap_scope.py\", line 13, in <module>",
+        "2026-10-18T23:24:54.0671351Z     assert changed<=ALLOWED,sorted(changed-ALLOWED)",
+        "2026-10-18T23:24:54.0671922Z            ^^^^^^^^^^^^^^^^",
+        "2026-10-18T23:24:54.3206225Z AssertionError: ['.github/workflows/astra-cp7-timeline-reuse.yml', '.github/workflows/ci.yml', '.github/workflows/claude-cp17-fixes.yml', '.github/workflows/claude-note-correction.yml', '.github/workflows/claude-p08-physical.yml', '.github/workflows/claude-p08-shell.yml', '.github/workflows/claude-p12-payroll.yml', '.github/workflows/claude-p13-finance.yml', '.github/workflows/claude-p18-fabric-rule.yml', '.github/workflows/claude-p18-full-cycle.yml', '.github/workflows/claude-p19-capture-diagnosis.yml', '.github/workflows/claude-p19-transport.yml', '.github/workflows/claude-p21-rehearsal.yml', '.github/workflows/claude-pl-native.yml', '.github/workflows/claude-supplier-payment-correction.yml', '.github/workflows/claude-supplier-payment-create.yml', '.github/workflows/cp3-r4-full-schema-validation.yml', '.github/workflows/cp5-full-schema-validation.yml', '.github/workflows/cp6-ac-independent-audit.yml', '.github/workflows/cp6-ad-roll-opening-check.yml', '.g"
+      ],
+      "log_sha256": "bc568bca06b41a4b35652cd462d309b76bdd16446db397bcfea9c0094ce59cb4"
+    }
+  ]
+}

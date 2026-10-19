@@ -1,0 +1,202 @@
+{
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "round": "r4",
+  "verdict": "LULUS_UJI_ULANG_DENGAN_BATAS_BUKTI",
+  "round_r4_audit_complete": true,
+  "audit_complete": false,
+  "feature_complete": false,
+  "production_go": false,
+  "new_product_findings": [],
+  "new_product_findings_by_severity": {
+    "S0": 0,
+    "S1": 0,
+    "S2": 0,
+    "S3": 0
+  },
+  "closed_findings": [
+    {
+      "id": "ASTRA-R3-01",
+      "severity": "S1",
+      "status": "CLOSED_ON_CANDIDATE",
+      "first_seen_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "retested_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "root": "Legacy public pool routes bypass period and manage permission",
+      "cases": [
+        "ASTRA_R3_POOL_PUBLIC_CLOSED_PERIOD",
+        "ASTRA_R3_POOL_PUBLIC_REVOKED_MANAGE",
+        "CP17_HTTP_R4_01_EVERY_CLOSED_ROUTE_REFUSED_APP_ROUTES_OPEN"
+      ],
+      "runs": [
+        39184678978,
+        39184582331
+      ],
+      "limit": "Data API session closure; not private SQL EXECUTE revocation",
+      "evidence": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW"
+      ]
+    },
+    {
+      "id": "ASTRA-R2-01",
+      "severity": "S1",
+      "status": "CLOSED_ON_CANDIDATE",
+      "first_seen_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+      "remainder_seen_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "retested_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "root": "Reopen counted inverse of positive FG inflow as consumption",
+      "cases": [
+        "ASTRA_R3_REOPEN_POSITIVE_ADJUSTMENT_INVERSE",
+        "ASTRA_R2_REOPEN_AFTER_REVERSED_FG_ADJUSTMENT",
+        "ASTRA_R2_REOPEN_AFTER_CANCELLED_SALES_DRAFT",
+        "CP17_R4_02_POSITIVE_INVERSE_DOES_NOT_HIDE_ACTIVE_USE",
+        "CP17_R4_02_POSITIVE_INVERSE_REOPEN_THEN_FINISH_SAME",
+        "CP17_RACE_R4_02_POSITIVE_INVERSE_REOPEN_TWO_TABS"
+      ],
+      "runs": [
+        39184678978,
+        39184830778,
+        39184582331
+      ],
+      "evidence": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW"
+      ]
+    },
+    {
+      "id": "ASTRA-R3-02",
+      "severity": "S2",
+      "status": "CLOSED_ON_CANDIDATE",
+      "first_seen_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "retested_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "root": "Late lower ID commit missed without notification",
+      "cases": [
+        "ASTRA_R3_AUDIT_LOWER_ID_LATE_COMMIT",
+        "CP17_RACE_R4_03_AUDIT_NEXT_LISTING_SHOWS_ALL_ONCE"
+      ],
+      "runs": [
+        39184679037,
+        39184582331,
+        39184830745
+      ],
+      "limit": "Change notification and reload, not MVCC snapshot isolation",
+      "evidence": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW"
+      ]
+    },
+    {
+      "id": "ASTRA-R3-03",
+      "severity": "S2",
+      "status": "CLOSED_ON_CANDIDATE",
+      "first_seen_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "retested_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "root": "WIP figures inherited pale foreground on white panels",
+      "cases": [
+        "CP17_BROWSER_R4_04_CONNECTED_TEXT_READABLE_DESKTOP",
+        "CP17_BROWSER_R4_04_CONNECTED_TEXT_READABLE_MOBILE",
+        "CP17_BROWSER_R4_04_CONNECTED_TEXT_READABLE_DESKTOP_ENTENG",
+        "CP17_BROWSER_R4_04_CONNECTED_TEXT_READABLE_MOBILE_ENTENG"
+      ],
+      "runs": [
+        39184582331
+      ],
+      "manual_screenshot_review": true,
+      "limit": "WIP figures and sampled visible states; not whole-app WCAG conformance",
+      "evidence": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW"
+      ]
+    }
+  ],
+  "retained_open_items": [
+    {
+      "id": "KNOWN-P19-DIRECT-LATENCY",
+      "status": "OPEN_NEXT_WRITER_TASK",
+      "decision": "D17-2",
+      "target_ms": 3000,
+      "target_accepted_as_achieved": false,
+      "observation": "100-target full direct SQL ~4.65s and 300-target operational browser ~6.18s; honest cap refusals remain distinct from completion"
+    },
+    {
+      "id": "FABLE-012",
+      "status": "DEFERRED_CP7C_CONDITIONAL",
+      "decision": "D14-9",
+      "condition": "Private erp functions remain unreachable through internet; access configuration change requires gate before enabling."
+    },
+    {
+      "id": "A2",
+      "status": "ROOT_CAUSE_OPEN_ACCEPTED_NONBLOCKING_FREEZE",
+      "decision": "D13-10",
+      "original_failures_preserved_in_prior_locked_evidence": true
+    },
+    {
+      "id": "CP2_FULL_ORIGINAL_RESTORE",
+      "status": "NOT_FULLY_VERIFIED",
+      "missing": [
+        "original engine/image",
+        "full owner and ACL round-trip",
+        "Storage round-trip"
+      ]
+    },
+    {
+      "id": "LEGACY_12_BOUNDARIES",
+      "status": "NO_FULL_SUCCESSOR_VERIFIED",
+      "file": "retained/LEGACY_COVERAGE_BOUNDARIES.json"
+    }
+  ],
+  "before_enteng_install": [
+    "Owner resolves CP7C HOLD and authorizes installation window.",
+    "Complete applicable CP7C backup/restore, direct EXECUTE security work and rollback proof.",
+    "Current authorized hosted preflight <7 days and full non-superuser installation from actual hosted-faithful baseline (Pro Max 12.10).",
+    "Shadow run actual cutover data for one closed accounting period with all differences reconciled.",
+    "Dispose remaining legacy coverage, detector, CP2 and device limits explicitly under Pro Max; no silent PASS.",
+    "Preserve source/authority/hash/completeness and 8s limits during separate performance work, then audit its candidate.",
+    "Production monitoring and owner sign-off per Pro Max 12; production_go stays false."
+  ],
+  "not_examined": [
+    "Hosted Enteng, legacy, deployment, Drive, CP7C installation or offsite backup.",
+    "Original CP2 full-engine/ACL/Storage restore.",
+    "Actual-data shadow accounting period and complete hosted preflight.",
+    "All twelve legacy entrypoints without a verified full successor.",
+    "Every detector variation, every role/input/volume/device, including iPad.",
+    "All model/holdout/AI behaviour outside frozen suites; actual WA delivery.",
+    "Root cause of historical A2/AZ failures."
+  ],
+  "owner_questions": [],
+  "run_summary": {
+    "runs": 7,
+    "jobs": 18,
+    "job_success": 6,
+    "job_failure": 12,
+    "cases_unique": 565,
+    "cases_pass": 565,
+    "astra_oracle": 23,
+    "writer_package_oracle": 542
+  },
+  "non_product_failures": [
+    {
+      "class": "AUDITOR_TOOL",
+      "kind": "ARTIFACT_NAME_COLLISION",
+      "jobs": 12,
+      "cases_available": 183,
+      "rerun": false
+    },
+    {
+      "class": "GUARD_BY_DESIGN",
+      "owner": "WRITER",
+      "no_merge": 9,
+      "path_scope": 11
+    },
+    {
+      "class": "BLOCKED_BY_TOOLING",
+      "owner": "WRITER",
+      "expired_archive_jobs": 1
+    },
+    {
+      "class": "SUPERSEDED_UI_PATH",
+      "owner": "WRITER",
+      "cases_incomplete": 4,
+      "raw_statuses_retained": true
+    }
+  ]
+}
