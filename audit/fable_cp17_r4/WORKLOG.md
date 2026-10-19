@@ -89,3 +89,31 @@ Status dibaca per kasus dari baris JSON log (INDEPENDENT_NATIVE_RERUN):
 - **R4-Q1**: syarat lulus K4/K6 dan fixture K4 tidak berubah (lihat CP2a).
 - **R4-04**: hanya CSS warna teks. Sensus saya (luapan/label) dan sensus keterbacaan penulis (CP17 R4_04 desktop/HP, kedua
   build; phone width `unreadable: []`) PASS.
+
+## CP3d — probe v2 (run 39187095072) dan P19 (run 39184494131)
+- `GUARD_SAME_ANSWER_MATRIX` v2: **70 sel, 0 beda**. Identitas: OWNER, ADMIN, STAFF, AUDITOR_VIEW_ONLY, CUSTOMER, GUDANG,
+  KEUANGAN, PRODUKSI_QC, SALES_KASIR, OWNER nonaktif, pengguna tak dikenal, JWT tanpa sub, anon, service_role × FRESH,
+  XID, baris konteks penjualan sendiri, baris konteks pengadaan sendiri, baris konteks yang di-commit transaksi sebelumnya.
+  FRESH tanpa id transaksi di semua sel; OWNER/ADMIN/service_role ALLOW, lainnya penolakan penjaga sendiri. Dengan baris
+  konteks penjualan sendiri, penolakan halus (`CP7_SALES_WRITE_DENIED`, `CP7_SALES_ACCESS_DENIED`) sama persis di kedua
+  versi; GUDANG dengan baris pengadaan ALLOW di keduanya. Vonis oracle: **PASS (FABLE)**. Harness menandai kasus
+  INCOMPLETE dan `cp6_restored:false` karena fixture saya (pengguna yang di-commit) tidak bisa dihapus semua: OWNER saya
+  dilindungi `LAST_ACTIVE_OWNER_PROTECTED`, sehingga tersisa 1 baris auth, baris `app_users` dan `audit_logs`. Itu efek
+  samping alat saya di database sekali pakai, bukan perilaku produk. Tidak ada rerun (§1.9).
+- `FG_REVERSAL_PATHS` v2 (INFO, dibaca saya): ada 7 fungsi terpasang yang mengisi `reversal_of_id`. Tiga pembalik gerakan
+  FG (`erp.reverse_fg_movement` dan salinan di `cp7_note`, `cp7_sales_return_correction`) menolak "Cannot reverse a
+  reversal" dan "already reversed". `erp._release_sale_draft_reservations` hanya membalik SALE_RESERVE. Tiga lainnya untuk
+  jurnal. `erp.post_fg_movement` tidak pernah mengisi `reversal_of_id`, jadi SALE_RETURN tidak menunjuk ke SALE. Artinya
+  gerakan keluar yang membalik pemasukan positif selalu pembalik pemasukan asli, tidak pernah memulihkan pemakaian. Aturan
+  R4-02 tidak bisa menyembunyikan pemakaian aktif lewat rantai pembalik (INDEPENDENT_SOURCE_REVIEW, katalog runtime).
+- P19 (12 job, semua PASS per kasus): scale5 5/5, k6-proof-runner 10/10 (termasuk `K6P_RACE_PG_CRON_FINISHES_PASS`),
+  k4-runner 17/17 (termasuk `K4R_RACE_PG_CRON_FINISHES_JOB`), staged 14/14. Angka di runner saya:
+  - Tangga SQL, 100 target: tanpa angka keuangan 1,23 s; dengan angka keuangan 4,57–4,62 s.
+  - Tangga SQL, 300 target: tanpa angka keuangan 3,42 s; dengan angka keuangan **dihentikan di 8,0 s** (57014,
+    statement timeout) di kedua jendela.
+  - Browser, 100 target: hasil 1,77–2,61 s; dengan angka keuangan 5,63–5,67 s.
+  - Browser, 300 target: hasil 5,2–6,7 s; dengan angka keuangan langsung ditolak di 8,05–8,06 s (pesan penolakan
+    tampil).
+  - "Sedang dihitung sejak" tampil 8–49 ms sesudah klik (klaim R4-05 UI benar).
+  Semua sesuai pengungkapan penulis (`P19_R4_05_DIRECT_LATENCY.md` bagian Qualification run). Target 3 detik tidak
+  tercapai dan tidak diklaim tercapai (D17-1, D17-2).

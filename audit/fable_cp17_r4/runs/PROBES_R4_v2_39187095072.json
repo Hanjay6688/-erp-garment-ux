@@ -1,0 +1,3205 @@
+[
+{
+"status": "ALIGNED_PER_OBJECT",
+"constraints_equal": true,
+"views_equal": true,
+"sequences_equal": true,
+"schema_equal": true,
+"capsules_equal": true,
+"capsules": [
+{
+"view": "erp.v_fg_partial_completion_progress",
+"status": "ALIGNED",
+"replay_sha256": "efb2d15345589645f2184c3a749da42acc11bad1d4585988c3e02c5c762464e6",
+"hosted_sha256": "7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037",
+"hosted_md5_equal": true
+},
+{
+"view": "erp.v_wip_control_status_v1",
+"status": "ALIGNED",
+"replay_sha256": "a823510e0e5e5f57dc124001db93ec9636e8120970281473e10fedc54089420a",
+"hosted_sha256": "2aa2bab69b86be921b022eaca8142a1523124c05bd639b8a641ccf572ac8ded4",
+"hosted_md5_equal": true
+}
+]
+},
+{
+"group": "T3_HOSTED_FINGERPRINT",
+"equal": true,
+"kinds": 16,
+"differ": {},
+"explained": {
+"platform_ledger": "fixture ledger keeps empty statements and repository stamps (G-01 round 1, ledger_content_order.json)"
+}
+},
+{
+"group": "CP6_PRE_U_INVENTORY",
+"status": "PRE_U_CAPTURED_IN_THIS_REBUILD",
+"artifact_id": 10392910720,
+"artifact_state": "EXPIRED_2026_10_15",
+"path": "CP6_V2620U_FAILED150_PREDICATES.json",
+"capture_before_step": "Apply v2.6.20u canonical material, reversal and owner-report business dates before every final-runtime proof",
+"historical_test_reexecuted": false,
+"production_go": false,
+"tables": 208,
+"erp_tables": 207,
+"platform_tables": 1,
+"names_sha256": "eb7f121d3b5fe5a6fc3c920fb88ddbcd64242580f0689f0459a1cb29cc169069",
+"names_sha256_pinned": "eb7f121d3b5fe5a6fc3c920fb88ddbcd64242580f0689f0459a1cb29cc169069",
+"frozen_function_sha256": "b326a3a8c49b87980ed6e6c192ac573832d924dcc618b8ee1473831241029ca0"
+},
+{
+"status": "PASS_ALIGNED_CHAIN_TO_AB",
+"refused_step": null,
+"alignment": {
+"label": "G01_ALIGNMENT",
+"sql_sha256": "4e59a131ecec997fbb7b8bbcb9a9fd02c4913be59172d0182ee8e9736863deb2",
+"constraints": {
+"attendance_hpp_journal_line_links.attendance_hpp_journal_line_links_link_type_check": {
+"hosted": "72f8ce2c1e",
+"aligned": "72f8ce2c1e"
+},
+"attendance_hpp_pools.attendance_hpp_pools_status_check": {
+"hosted": "e05afeb3b8",
+"aligned": "e05afeb3b8"
+},
+"attendance_periods.attendance_periods_status_check": {
+"hosted": "e69cd6fdeb",
+"aligned": "e69cd6fdeb"
+},
+"attendance_records.attendance_records_lifecycle_check": {
+"hosted": "452991f694",
+"aligned": "452991f694"
+},
+"fg_stock_movements.fg_stock_movements_movement_type_check": {
+"hosted": "9fbfff8cd0",
+"aligned": "9fbfff8cd0"
+},
+"idempotency_requests.idempotency_requests_status_check": {
+"hosted": "0d9b2286cf",
+"aligned": "0d9b2286cf"
+},
+"manual_reminders.manual_reminders_priority_check": {
+"hosted": "a6e0cfdb2b",
+"aligned": "a6e0cfdb2b"
+},
+"manual_reminders.manual_reminders_status_check": {
+"hosted": "78723b79b2",
+"aligned": "78723b79b2"
+},
+"material_purchase_cost_corrections.material_purchase_cost_corrections_post_seq_state": {
+"hosted": "caefcf97c1",
+"aligned": "caefcf97c1"
+},
+"material_purchase_items.material_purchase_items_invoice_match_state_check": {
+"hosted": "c7c0506ea2",
+"aligned": "c7c0506ea2"
+},
+"material_purchase_items.material_purchase_items_price_source_check": {
+"hosted": "ac30b11606",
+"aligned": "ac30b11606"
+},
+"material_purchase_items.material_purchase_items_price_state_check": {
+"hosted": "dfa5f56214",
+"aligned": "dfa5f56214"
+},
+"material_stock_movements.material_stock_movements_movement_type_check": {
+"hosted": "a218ef6894",
+"aligned": "a218ef6894"
+},
+"material_supplier_invoices.material_supplier_invoices_status_check": {
+"hosted": "12080adf85",
+"aligned": "12080adf85"
+},
+"material_transfers.material_transfers_status_check": {
+"hosted": "12080adf85",
+"aligned": "12080adf85"
+},
+"qc_inspections.qc_inspections_completion_mode_check": {
+"hosted": "b1a922fa1a",
+"aligned": "b1a922fa1a"
+},
+"rework_component_lines.rework_component_lines_rate_basis_check": {
+"hosted": "8ec02e222b",
+"aligned": "8ec02e222b"
+},
+"sewing_terminal_events.sewing_terminal_events_event_kind_check": {
+"hosted": "bbd293f60d",
+"aligned": "bbd293f60d"
+},
+"stock_explainability_snapshots.stock_explainability_snapshots_basis_source_check": {
+"hosted": "d94c5cd613",
+"aligned": "d94c5cd613"
+},
+"stock_explainability_snapshots.stock_explainability_snapshots_health_status_check": {
+"hosted": "2ec01ea1f0",
+"aligned": "2ec01ea1f0"
+},
+"stock_explainability_snapshots.stock_explainability_snapshots_subject_type_check": {
+"hosted": "360d893e1b",
+"aligned": "360d893e1b"
+},
+"stock_policy_versions.stock_policy_versions_basis_source_check": {
+"hosted": "d94c5cd613",
+"aligned": "d94c5cd613"
+},
+"stock_policy_versions.stock_policy_versions_subject_type_check": {
+"hosted": "360d893e1b",
+"aligned": "360d893e1b"
+}
+},
+"views": {
+"erp.v_case_browser": {
+"hosted": "7056975536aee94c6d8d1783904206a7",
+"aligned": "7056975536aee94c6d8d1783904206a7"
+},
+"erp.v_customer_receivables": {
+"hosted": "dd5b423149289667606424e199601660",
+"aligned": "dd5b423149289667606424e199601660"
+},
+"erp.v_laundry_po_operational_progress": {
+"hosted": "e4b0fe144c51d3f7413a94b631d80c30",
+"aligned": "e4b0fe144c51d3f7413a94b631d80c30"
+},
+"erp.v_payroll_nota_browser": {
+"hosted": "947eb0f63e95b62bda77e77c87134b1d",
+"aligned": "947eb0f63e95b62bda77e77c87134b1d"
+},
+"erp.v_payroll_production_work_eligibility": {
+"hosted": "004d37be4306832a21a275bd5b7d2b0f",
+"aligned": "004d37be4306832a21a275bd5b7d2b0f"
+}
+},
+"sequences": {
+"aligned": {
+"erp.app_access_audit_id_seq": "i:erp.app_access_audit.id",
+"erp.audit_logs_id_seq": "a:erp.audit_logs.id",
+"erp.cost_recalc_queue_id_seq": "a:erp.cost_recalc_queue.id",
+"erp.cutting_qty_correction_seq": null,
+"erp.fg_stock_book_order_seq": null,
+"erp.production_pattern_audit_id_seq": "i:erp.production_pattern_audit.id"
+},
+"hosted_owned": {
+"erp.app_access_audit_id_seq": "i:erp.app_access_audit.id",
+"erp.production_pattern_audit_id_seq": "i:erp.production_pattern_audit.id",
+"erp.audit_logs_id_seq": "a:erp.audit_logs.id",
+"erp.cost_recalc_queue_id_seq": "a:erp.cost_recalc_queue.id"
+},
+"hosted_count": 6
+},
+"schema_erp": {
+"hosted": "authenticated:USAGE:false,postgres:CREATE:false,postgres:USAGE:false,service_role:USAGE:false",
+"aligned": "authenticated:USAGE:false,postgres:CREATE:false,postgres:USAGE:false,service_role:USAGE:false"
+},
+"constraints_equal": true,
+"views_equal": true,
+"sequences_equal": true,
+"schema_equal": true,
+"capsules": [
+{
+"view": "erp.v_fg_partial_completion_progress",
+"status": "ALIGNED",
+"replay_sha256": "efb2d15345589645f2184c3a749da42acc11bad1d4585988c3e02c5c762464e6",
+"hosted_sha256": "7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037",
+"hosted_md5_equal": true
+},
+{
+"view": "erp.v_wip_control_status_v1",
+"status": "ALIGNED",
+"replay_sha256": "a823510e0e5e5f57dc124001db93ec9636e8120970281473e10fedc54089420a",
+"hosted_sha256": "2aa2bab69b86be921b022eaca8142a1523124c05bd639b8a641ccf572ac8ded4",
+"hosted_md5_equal": true
+}
+],
+"capsules_equal": true,
+"status": "ALIGNED_PER_OBJECT"
+}
+},
+{
+"run_identity": {
+"label": "T3_PREP",
+"tool_head": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+"product_ref": "d0018ab1099a2c5ffbbe29a4688a0e74c005c3ac",
+"product_paths": [
+"supabase/migrations",
+"supabase/dev",
+"supabase/release",
+"supabase/rollbacks",
+"src"
+],
+"run_id": "39187095072",
+"run_attempt": "1",
+"workflow": "AUDIT/fable/cp7-native",
+"job": "phase",
+"event": "workflow_dispatch",
+"github_sha": "8fbb9083c9305202384aed18a0f72a87d2673b99",
+"release_evidence": false,
+"production_go": false,
+"mode": "install"
+}
+},
+{
+"group": "T3_HOSTED_CAPSULES",
+"equal": true,
+"capsules": {
+"bs_resolution_v2619_rollback_capsule": {
+"hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+"clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+"equal": true
+},
+"bs_resolution_v2619a_rollback_capsule": {
+"hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+"clone": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+"equal": true
+},
+"bs_resolution_v2619b_rollback_capsule": {
+"hosted": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+"clone": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+"equal": true
+},
+"bs_resolution_v2619c_rollback_capsule": {
+"hosted": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+"clone": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+"equal": true
+},
+"cp3_r4_rollback_capsule": {
+"hosted": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+"clone": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+"equal": true
+},
+"cp45_v2617_rollback_capsule": {
+"hosted": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+"clone": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+"equal": true
+},
+"cp45_v2617a_rollback_capsule": {
+"hosted": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+"clone": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+"equal": true
+},
+"cp4_v2616_rollback_capsule": {
+"hosted": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+"clone": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+"equal": true
+},
+"cp6_v2620_rollback_capsule": {
+"hosted": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+"clone": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+"equal": true
+},
+"cutting_bridge_v2618_rollback_capsule": {
+"hosted": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+"clone": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+"equal": true
+},
+"cutting_bridge_v2618a_rollback_capsule": {
+"hosted": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+"clone": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+"equal": true
+}
+},
+"cp6_v2620_rows_differing": []
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AC",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AD",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AE",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AF",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AG",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AH",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AI",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AJ",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AK",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AL",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AM",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AN",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AO",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AP",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AQ",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AR",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AS",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AT",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AU",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AV",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AW",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AX",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AY",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "AZ",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "BA",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "BB",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "BC",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "BD",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "BE",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_INSTALL",
+"key": "BF",
+"status": "PASS"
+},
+{
+"group": "T3_PACKAGE_RUN",
+"stage": "PACKAGE",
+"status": "PASS",
+"result": "ALL_FILES_INSTALLED"
+},
+{
+"group": "T3_PACKAGE_RUN",
+"stage": "AW_AX_AY_AZ_VERIFY",
+"status": "PASS",
+"result": {
+"stage": "BE_PLUS_BF_T1",
+"functions": 9,
+"sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+"ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+"ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+"az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9",
+"ba_sql_sha256": "3359a42fe93c35da481d164e5e6d70e79da41559621a65736418bfc8f32d93a7",
+"bb_sql_sha256": "a423268697f9290d7278bd98a364f9207562769c277d036ccf1c31902bbdf142",
+"bc_sql_sha256": "f72f72d38ed8d44cd24002e94733f55473760244686296a3970961d7aa4a9ec7",
+"bd_sql_sha256": "f480f8dd7dc2620e19994e328b971ef159ba81dca1b8272ae42b59e0d370f947",
+"be_sql_sha256": "695475db3719617bd2c10d82c4dee2eaa567f4c10f322697a1714b17b60d29f6",
+"bf_sql_sha256": "d5e66d221878db1ba34b0c159e05c13f6b12bac3acc2b3066fcff514ef876ffd"
+}
+},
+{
+"group": "T3_SECURITY_ADVISORS",
+"status": "REVIEW_REQUIRED",
+"before": 73,
+"after": 216,
+"added": [
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"accounting_close_filings_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_customer_credit_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_customer_credits_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_legacy_documents_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_open_sales_draft_lines_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_open_sales_drafts_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_opening_credits_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_opening_reworks_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_opening_sale_return_receipts_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_opening_sale_return_rights_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_payroll_entitlements_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_purchase_commitment_cancellations_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_purchase_commitment_drafts_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_purchase_commitment_lines_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_purchase_commitments_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_receipt_invoiced_parts_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_wip_bs_splits_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_wip_pickups_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bb_wip_split_value_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_accessory_zones_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_adjustment_purposes_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_count_variances_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_customer_custody_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_document_links_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_documents_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_execution_context_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_free_issue_lines_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_internal_use_lines_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_lot_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_note_roundings_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_opening_note_lines_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_outstanding_returns_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_policy_setting_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_policy_settings_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bc_return_lots_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_claim_credit_applications_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_custody_sources_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_execution_context_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_charge_lines_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_charge_shares_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_component_rates_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_components_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_invoice_lines_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_invoices_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_package_components_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_package_rates_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_packages_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_priced_lines_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_receipt_allocations_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_scoped_rates_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_size_estimates_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_laundry_vendor_terms_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_opening_laundry_claim_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_opening_laundry_claims_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_opening_laundry_uninvoiced_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_pending_price_sales_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_policy_setting_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_policy_settings_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bd_requests_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_conversion_cost_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_conversion_cost_sources_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_conversion_returns_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_conversion_sources_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_execution_context_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_nonpo_transfer_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_pocket_receipt_origins_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_pocket_sewing_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_pocket_source_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_pocket_target_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_pocket_usage_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_redye_price_events_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_redye_services_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"be_rework_targets_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_context_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_laundry_delivery_sources_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_po_boms_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_requests_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_rollback_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_sku_members_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_sku_versions_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_skus_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_supplier_credit_moves_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bf_wave_skus_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"bs_case_manual_origins_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ac_relation_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ac_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ad_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ae_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620af_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ag_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ah_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ai_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620aj_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ak_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620al_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620am_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620an_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ao_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ap_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620aq_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ar_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620as_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620at_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620au_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620av_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620aw_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ax_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ay_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620az_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620ba_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620bb_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620bc_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620bd_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620be_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"cp6_v2620bf_rollback_capsule",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"fg_unsourced_receipts_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"fg_unsourced_repair_wages_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_bs_value_events",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_cost_origins",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_financial_sources",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_opening_stock_sources",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_origin_cost_events",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_prepayment_events",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_prepayment_payments",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_prepayments",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_production_sources",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_receipt_headers",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_receipt_lines",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_wip_output_identity_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_wip_output_reversals",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"initial_import_wip_outputs",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"invoice_recost_execution_context",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"laundry_rate_owner_estimates_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"po_hpp_gl_lot_state_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"po_hpp_gl_material_state_v1",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"pocket_fabric_execution_context",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"pocket_fabric_materials",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"pocket_fabric_usage",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"pocket_period_destinations",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"pocket_period_events",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"pocket_period_sources",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"pocket_periods",
+"table"
+],
+[
+"rls_enabled_no_policy",
+"INFO",
+"erp",
+"product_identity_mutation_context_v1",
+"table"
+]
+],
+"removed": []
+},
+{
+"group": "FABLE_FABLE_R4_PROBES_NATIVE",
+"case": "FABLE_R4:GUARD_SAME_ANSWER_MATRIX",
+"cells": {
+"APP_ADMIN/FRESH": {
+"before": "ALLOW",
+"after": "ALLOW",
+"xid_before_call": [
+false,
+false
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_AUDITOR_VIEW_ONLY/FRESH": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+false,
+false
+],
+"xid_after_call": [
+true,
+false
+]
+},
+"APP_CUSTOMER/FRESH": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+false,
+false
+],
+"xid_after_call": [
+true,
+false
+]
+},
+"APP_GUDANG/FRESH": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+false,
+false
+],
+"xid_after_call": [
+true,
+false
+]
+},
+"APP_KEUANGAN/FRESH": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+false,
+false
+],
+"xid_after_call": [
+true,
+false
+]
+},
+"APP_OWNER/FRESH": {
+"before": "ALLOW",
+"after": "ALLOW",
+"xid_before_call": [
+false,
+false
+],
+"xid_after_call": [
+true,
+false
+]
+},
+"APP_PRODUKSI_QC/FRESH": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+false,
+false
+],
+"xid_after_call": [
+true,
+false
+]
+},
+"APP_SALES_KASIR/FRESH": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+false,
+false
+],
+"xid_after_call": [
+true,
+false
+]
+},
+"APP_STAFF/FRESH": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+false,
+false
+],
+"xid_after_call": [
+true,
+false
+]
+},
+"APP_OWNER_INACTIVE/FRESH": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+false,
+false
+],
+"xid_after_call": [
+true,
+false
+]
+},
+"UNKNOWN_USER/FRESH": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+false,
+false
+],
+"xid_after_call": [
+true,
+false
+]
+},
+"JWT_WITHOUT_SUB/FRESH": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+false,
+false
+],
+"xid_after_call": [
+true,
+false
+]
+},
+"ANON/FRESH": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+false,
+false
+],
+"xid_after_call": [
+true,
+false
+]
+},
+"SERVICE_ROLE/FRESH": {
+"before": "ALLOW",
+"after": "ALLOW",
+"xid_before_call": [
+false,
+false
+],
+"xid_after_call": [
+false,
+false
+]
+},
+"APP_ADMIN/XID": {
+"before": "ALLOW",
+"after": "ALLOW",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_AUDITOR_VIEW_ONLY/XID": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_CUSTOMER/XID": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_GUDANG/XID": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_KEUANGAN/XID": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_OWNER/XID": {
+"before": "ALLOW",
+"after": "ALLOW",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_PRODUKSI_QC/XID": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_SALES_KASIR/XID": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_STAFF/XID": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_OWNER_INACTIVE/XID": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"UNKNOWN_USER/XID": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"JWT_WITHOUT_SUB/XID": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"ANON/XID": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"SERVICE_ROLE/XID": {
+"before": "ALLOW",
+"after": "ALLOW",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_ADMIN/SALES_ROW_HERE": {
+"before": "ALLOW",
+"after": "ALLOW",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_AUDITOR_VIEW_ONLY/SALES_ROW_HERE": {
+"before": "42501:CP7_SALES_WRITE_DENIED",
+"after": "42501:CP7_SALES_WRITE_DENIED",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_CUSTOMER/SALES_ROW_HERE": {
+"before": "42501:CP7_SALES_ACCESS_DENIED",
+"after": "42501:CP7_SALES_ACCESS_DENIED",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_GUDANG/SALES_ROW_HERE": {
+"before": "42501:CP7_SALES_ACCESS_DENIED",
+"after": "42501:CP7_SALES_ACCESS_DENIED",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_KEUANGAN/SALES_ROW_HERE": {
+"before": "42501:CP7_SALES_ACCESS_DENIED",
+"after": "42501:CP7_SALES_ACCESS_DENIED",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_OWNER/SALES_ROW_HERE": {
+"before": "ALLOW",
+"after": "ALLOW",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_PRODUKSI_QC/SALES_ROW_HERE": {
+"before": "42501:CP7_SALES_ACCESS_DENIED",
+"after": "42501:CP7_SALES_ACCESS_DENIED",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_SALES_KASIR/SALES_ROW_HERE": {
+"before": "42501:CP7_SALES_WRITE_DENIED",
+"after": "42501:CP7_SALES_WRITE_DENIED",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_STAFF/SALES_ROW_HERE": {
+"before": "42501:CP7_SALES_ACCESS_DENIED",
+"after": "42501:CP7_SALES_ACCESS_DENIED",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_OWNER_INACTIVE/SALES_ROW_HERE": {
+"before": "42501:CP7_SALES_ACCESS_DENIED",
+"after": "42501:CP7_SALES_ACCESS_DENIED",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"UNKNOWN_USER/SALES_ROW_HERE": {
+"before": "42501:CP7_SALES_ACCESS_DENIED",
+"after": "42501:CP7_SALES_ACCESS_DENIED",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"JWT_WITHOUT_SUB/SALES_ROW_HERE": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"ANON/SALES_ROW_HERE": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"SERVICE_ROLE/SALES_ROW_HERE": {
+"before": "ALLOW",
+"after": "ALLOW",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_ADMIN/PROCUREMENT_ROW_HERE": {
+"before": "ALLOW",
+"after": "ALLOW",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_AUDITOR_VIEW_ONLY/PROCUREMENT_ROW_HERE": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_CUSTOMER/PROCUREMENT_ROW_HERE": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_GUDANG/PROCUREMENT_ROW_HERE": {
+"before": "ALLOW",
+"after": "ALLOW",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_KEUANGAN/PROCUREMENT_ROW_HERE": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_OWNER/PROCUREMENT_ROW_HERE": {
+"before": "ALLOW",
+"after": "ALLOW",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_PRODUKSI_QC/PROCUREMENT_ROW_HERE": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_SALES_KASIR/PROCUREMENT_ROW_HERE": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_STAFF/PROCUREMENT_ROW_HERE": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_OWNER_INACTIVE/PROCUREMENT_ROW_HERE": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"UNKNOWN_USER/PROCUREMENT_ROW_HERE": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"JWT_WITHOUT_SUB/PROCUREMENT_ROW_HERE": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"ANON/PROCUREMENT_ROW_HERE": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"SERVICE_ROLE/PROCUREMENT_ROW_HERE": {
+"before": "ALLOW",
+"after": "ALLOW",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_ADMIN/COMMITTED_ROW_EARLIER": {
+"before": "ALLOW",
+"after": "ALLOW",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_AUDITOR_VIEW_ONLY/COMMITTED_ROW_EARLIER": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_CUSTOMER/COMMITTED_ROW_EARLIER": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_GUDANG/COMMITTED_ROW_EARLIER": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_KEUANGAN/COMMITTED_ROW_EARLIER": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_OWNER/COMMITTED_ROW_EARLIER": {
+"before": "ALLOW",
+"after": "ALLOW",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_PRODUKSI_QC/COMMITTED_ROW_EARLIER": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_SALES_KASIR/COMMITTED_ROW_EARLIER": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_STAFF/COMMITTED_ROW_EARLIER": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"APP_OWNER_INACTIVE/COMMITTED_ROW_EARLIER": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"UNKNOWN_USER/COMMITTED_ROW_EARLIER": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"JWT_WITHOUT_SUB/COMMITTED_ROW_EARLIER": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"ANON/COMMITTED_ROW_EARLIER": {
+"before": "P0001:Internal ERP access required",
+"after": "P0001:Internal ERP access required",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+},
+"SERVICE_ROLE/COMMITTED_ROW_EARLIER": {
+"before": "ALLOW",
+"after": "ALLOW",
+"xid_before_call": [
+true,
+true
+],
+"xid_after_call": [
+true,
+true
+]
+}
+},
+"identities": {
+"APP_ADMIN": "authenticated",
+"APP_AUDITOR_VIEW_ONLY": "authenticated",
+"APP_CUSTOMER": "authenticated",
+"APP_GUDANG": "authenticated",
+"APP_KEUANGAN": "authenticated",
+"APP_OWNER": "authenticated",
+"APP_PRODUKSI_QC": "authenticated",
+"APP_SALES_KASIR": "authenticated",
+"APP_STAFF": "authenticated",
+"APP_OWNER_INACTIVE": "authenticated",
+"UNKNOWN_USER": "authenticated",
+"JWT_WITHOUT_SUB": "authenticated",
+"ANON": "anon",
+"SERVICE_ROLE": "service_role"
+},
+"installed_sha": "35396480c31180cb342ec9f995149fa68917d84d0f158a96fa2af7146de064c7",
+"secdef": true,
+"config": [
+"search_path=\"\""
+],
+"owner": "postgres",
+"removed_lines": 16,
+"users_made": [
+"ADMIN",
+"AUDITOR_VIEW_ONLY",
+"CUSTOMER",
+"GUDANG",
+"KEUANGAN",
+"OWNER",
+"PRODUKSI_QC",
+"SALES_KASIR",
+"STAFF",
+"OWNER#INACTIVE"
+],
+"execute_on_guard": {
+"anon": false,
+"authenticated": false,
+"service_role": true
+},
+"internal_allow_at_fresh": [
+"APP_ADMIN",
+"APP_OWNER"
+],
+"guard_refusal_at_fresh": [
+"APP_AUDITOR_VIEW_ONLY/FRESH",
+"APP_CUSTOMER/FRESH",
+"APP_GUDANG/FRESH",
+"APP_KEUANGAN/FRESH",
+"APP_PRODUKSI_QC/FRESH",
+"APP_SALES_KASIR/FRESH",
+"APP_STAFF/FRESH",
+"APP_OWNER_INACTIVE/FRESH",
+"UNKNOWN_USER/FRESH",
+"JWT_WITHOUT_SUB/FRESH",
+"ANON/FRESH"
+],
+"differences": [],
+"fresh_allow": [
+"APP_ADMIN",
+"APP_OWNER",
+"SERVICE_ROLE"
+],
+"fresh_refuse": [
+"APP_AUDITOR_VIEW_ONLY",
+"APP_CUSTOMER",
+"APP_GUDANG",
+"APP_KEUANGAN",
+"APP_PRODUKSI_QC",
+"APP_SALES_KASIR",
+"APP_STAFF",
+"APP_OWNER_INACTIVE",
+"UNKNOWN_USER",
+"JWT_WITHOUT_SUB",
+"ANON"
+],
+"fresh_had_xid": [],
+"status": "INCOMPLETE",
+"oracle": "R4-05: installed guard and the same guard without its probe answer alike in every cell",
+"cleanup_left": [
+[
+"OWNER",
+"LAST_ACTIVE_OWNER_PROTECTED\nCONTEXT:  PL/pgSQL function erp.guard_last_active_owner() line 27 at RAISE"
+]
+],
+"full_boundary_restored": false,
+"public_schema_unchanged": true,
+"boundary_difference": {
+"boundary.auth": {
+"before_count": 0,
+"after_count": 1
+},
+"boundary.erp": [
+"app_users",
+"audit_logs"
+]
+},
+"session_leaks": {
+"advisory_locks": 0,
+"advisory_lock_keys": [],
+"other_sessions": []
+},
+"harness_check_failed": true,
+"business_day": {
+"planned": "2026-10-19",
+"before": "2026-10-19",
+"after": "2026-10-19"
+}
+},
+{
+"group": "FABLE_FABLE_R4_PROBES_NATIVE",
+"case": "FABLE_R4:FG_REVERSAL_PATHS",
+"status": "INCOMPLETE",
+"shapes": [],
+"constraints": [
+[
+"fg_stock_movements_created_by_fkey",
+"FOREIGN KEY (created_by) REFERENCES erp.app_users(id)"
+],
+[
+"fg_stock_movements_customer_id_fkey",
+"FOREIGN KEY (customer_id) REFERENCES erp.customers(id)"
+],
+[
+"fg_stock_movements_location_id_fkey",
+"FOREIGN KEY (location_id) REFERENCES erp.locations(id)"
+],
+[
+"fg_stock_movements_lot_id_fkey",
+"FOREIGN KEY (lot_id) REFERENCES erp.fg_lots(id)"
+],
+[
+"fg_stock_movements_movement_type_check",
+"CHECK (((movement_type)::text = ANY ((ARRAY['OPENING'::character varying, 'QC_GOOD'::character varying, 'SALE_RESERVE'::character varying, 'SALE'::character varying, 'SALE_RETURN'::character varying, 'REBRAND_OUT'::character varying, 'REBRAND_IN'::character varying, 'BS_OUT'::character varying, 'REWORK_IN'::character varying, 'ADJUSTMENT'::character varying, 'REVERSAL'::character varying])::text[])))"
+],
+[
+"fg_stock_movements_pkey",
+"PRIMARY KEY (id)"
+],
+[
+"fg_stock_movements_product_id_fkey",
+"FOREIGN KEY (product_id) REFERENCES erp.products(id)"
+],
+[
+"fg_stock_movements_qty_signed_check",
+"CHECK ((qty_signed <> 0))"
+],
+[
+"fg_stock_movements_reversal_of_id_fkey",
+"FOREIGN KEY (reversal_of_id) REFERENCES erp.fg_stock_movements(id)"
+],
+[
+"fg_stock_movements_unit_hpp_snapshot_check",
+"CHECK ((unit_hpp_snapshot >= (0)::numeric))"
+]
+],
+"triggers": [
+[
+"cp7_cutover_fg",
+"cp7_cutover.guard_movement()",
+"O",
+"\ndeclare v date;d date;\nbegin\n v:=cp7_cutover.floor();\n if v is null or new.physical_at is null then return new;end if;\n d:=(new.physical_at at time zone 'Asia/Jakarta')::date;\n if d>=v or new.reversal_of_id is not null or cp7_cutover.exempt(new.source_type)then return new;end if;\n perform cp7_cutover.refuse(case tg_table_name when'material_stock_movements'then'Mutasi stok bahan'else'Mutasi stok barang jadi'end,d,v,new.source_type);\n return null;\nend "
+],
+[
+"trg_no_future_fg_stock_movement",
+"erp.guard_no_future_physical_event()",
+"O",
+"\nbegin\n  if new.physical_at is null then raise exception 'Tanggal/jam fisik wajib diisi'; end if;\n  if new.physical_at>clock_timestamp()+interval '5 minutes' then\n    raise exception 'Tanggal/jam fisik % berada di masa depan. Periksa tanggal/jam transaksi sebelum posting.',new.physical_at;\n  end if;\n  return new;\nend;\n"
+],
+[
+"trg_system_guard_fg_stock_movements",
+"erp.guard_system_managed_table()",
+"O",
+" BEGIN IF current_user IN ('postgres','service_role','supabase_admin') THEN IF TG_OP='DELETE' THEN RETURN OLD; ELSE RETURN NEW; END IF; END IF; RAISE EXCEPTION '% is system-managed; use ERP posting/reversal functions',TG_TABLE_NAME; END; "
+]
+],
+"writers": {
+"erp.post_fg_movement(uuid,uuid,uuid,text,text,integer,numeric,uuid,text,uuid,timestamp with time zone,text,boolean)": [
+"insert into erp.fg_stock_movements( product_id,lot_id,location_id,quality_grade,movement_type,qty_signed, unit_hpp_snapshot,customer_id,source_type,source_id,physical_at,created_by,notes ) values ( p_product_id,p_lot_id,p_location_id,coalesce(p_quality_grade,'GRADE_A'),p_movement_type,p_qty_signed, coalesce(p_unit_hpp,0),p_customer_id,p_source_type,p_source_id,p_physical_at,erp.current_app_user_id(),p_note ) returning id into v_id;"
+]
+},
+"reversers": {
+"cp7_note._cp3_r4_reverse_journal_internal(uuid,text)": [
+" DECLARE v_old erp.journal_entries%ROWTYPE;v_new_id uuid;v_lines jsonb; begin perform cp7_note.require_context(); PERFORM erp.require_internal(); SELECT * INTO v_old FROM erp.journal_entries WHERE id=p_journal_entry_id FOR UPDATE; IF v_old.id IS NULL OR v_old.status<>'POSTED' THEN RAISE EXCEPTION 'Only posted journal can be reversed'; END IF; SELECT jsonb_agg(jsonb_build_object('account_id',jl.account_id,'debit',jl.credit,'credit',jl.debit,'description','Reversal: '||COALESCE(jl.description,''),'customer_id',jl.customer_id,'vendor_id',jl.vendor_id,'contractor_id',jl.contractor_id,'po_id',jl.po_id,'product_id',jl.product_id)) INTO v_lines FROM erp.journal_lines jl WHERE jl.journal_entry_id=p_journal_entry_id; v_new_id:=erp.post_journal('JOURNAL_REVERSAL',p_journal_entry_id,erp._cp3_business_date(statement_timestamp()),'Reversal: '||v_old.description||' | '||p_reason,v_lines); UPDATE erp.journal_entries SET status='REVERSED' WHERE id=p_journal_entry_id; UPDATE erp.journal_entries SET reversal_of_id=p_journal_entry_id WHERE id=v_new_id; PERFORM cp7_note.restate_reversal(p_journal_entry_id,v_new_id,p_reason); RETURN v"
+],
+"cp7_note.reverse_fg_movement(uuid,text)": [
+" declare m erp.fg_stock_movements%rowtype; v_new uuid; begin perform cp7_note.require_context(); perform erp.require_internal(); select * into m from erp.fg_stock_movements where id=p_movement_id for update; if m.id is null then raise exception 'FG movement not found'; end if; if m.movement_type='REVERSAL' then raise exception 'Cannot reverse a reversal'; end if; if exists (select 1 from erp.fg_stock_movements where reversal_of_id=m.id) then raise exception 'FG movement already reversed'; end if; v_new:=erp.post_fg_movement( m.product_id,m.lot_id,m.location_id,m.quality_grade, 'REVERSAL',-m.qty_signed,m.unit_hpp_snapshot,m.customer_id, 'FG_MOVEMENT_REVERSAL',m.id,m.physical_at,p_reason,false ); update erp.fg_stock_movements set reversal_of_id=m.id where id=v_new; return v_new; end; "
+],
+"cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)": [
+" DECLARE v_old erp.journal_entries%ROWTYPE;v_new_id uuid;v_lines jsonb; begin perform cp7_sales_return_correction.require_context(); PERFORM erp.require_internal(); SELECT * INTO v_old FROM erp.journal_entries WHERE id=p_journal_entry_id FOR UPDATE; IF v_old.id IS NULL OR v_old.status<>'POSTED' THEN RAISE EXCEPTION 'Only posted journal can be reversed'; END IF; SELECT jsonb_agg(jsonb_build_object('account_id',jl.account_id,'debit',jl.credit,'credit',jl.debit,'description','Reversal: '||COALESCE(jl.description,''),'customer_id',jl.customer_id,'vendor_id',jl.vendor_id,'contractor_id',jl.contractor_id,'po_id',jl.po_id,'product_id',jl.product_id)) INTO v_lines FROM erp.journal_lines jl WHERE jl.journal_entry_id=p_journal_entry_id; v_new_id:=erp.post_journal('JOURNAL_REVERSAL',p_journal_entry_id,erp._cp3_business_date(statement_timestamp()),'Reversal: '||v_old.description||' | '||p_reason,v_lines); UPDATE erp.journal_entries SET status='REVERSED' WHERE id=p_journal_entry_id; UPDATE erp.journal_entries SET reversal_of_id=p_journal_entry_id WHERE id=v_new_id; PERFORM cp7_sales_return_correction.restate_reversal(p_journal_entry_id,v_new_id,"
+],
+"cp7_sales_return_correction.reverse_fg_movement(uuid,text)": [
+" declare m erp.fg_stock_movements%rowtype; v_new uuid; begin perform cp7_sales_return_correction.require_context(); perform erp.require_internal(); select * into m from erp.fg_stock_movements where id=p_movement_id for update; if m.id is null then raise exception 'FG movement not found'; end if; if m.movement_type='REVERSAL' then raise exception 'Cannot reverse a reversal'; end if; if exists (select 1 from erp.fg_stock_movements where reversal_of_id=m.id) then raise exception 'FG movement already reversed'; end if; v_new:=erp.post_fg_movement( m.product_id,m.lot_id,m.location_id,m.quality_grade, 'REVERSAL',-m.qty_signed,m.unit_hpp_snapshot,m.customer_id, 'FG_MOVEMENT_REVERSAL',m.id,m.physical_at,p_reason,false ); update erp.fg_stock_movements set reversal_of_id=m.id where id=v_new; return v_new; end; "
+],
+"erp._cp3_r4_reverse_journal_internal(uuid,text)": [
+" DECLARE v_old erp.journal_entries%ROWTYPE;v_new_id uuid;v_lines jsonb; BEGIN PERFORM erp.require_internal(); SELECT * INTO v_old FROM erp.journal_entries WHERE id=p_journal_entry_id FOR UPDATE; IF v_old.id IS NULL OR v_old.status<>'POSTED' THEN RAISE EXCEPTION 'Only posted journal can be reversed'; END IF; SELECT jsonb_agg(jsonb_build_object('account_id',jl.account_id,'debit',jl.credit,'credit',jl.debit,'description','Reversal: '||COALESCE(jl.description,''),'customer_id',jl.customer_id,'vendor_id',jl.vendor_id,'contractor_id',jl.contractor_id,'po_id',jl.po_id,'product_id',jl.product_id)) INTO v_lines FROM erp.journal_lines jl WHERE jl.journal_entry_id=p_journal_entry_id; v_new_id:=erp.post_journal('JOURNAL_REVERSAL',p_journal_entry_id,erp._cp3_business_date(statement_timestamp()),'Reversal: '||v_old.description||' | '||p_reason,v_lines); UPDATE erp.journal_entries SET status='REVERSED' WHERE id=p_journal_entry_id; UPDATE erp.journal_entries SET reversal_of_id=p_journal_entry_id WHERE id=v_new_id; RETURN v_new_id; END; "
+],
+"erp._release_sale_draft_reservations(uuid,text)": [
+" declare r record; v_reversal_id uuid; v_released bigint := 0; begin perform erp.require_internal(); perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0)); for r in select m.* from erp.fg_stock_movements m join erp.sales_items i on i.id = m.source_id where i.sale_id = p_sale_id and m.source_type = 'SALE_ITEM' and m.movement_type = 'SALE_RESERVE' and not exists ( select 1 from erp.fg_stock_movements rv where rv.reversal_of_id = m.id ) order by m.physical_at, m.book_order, m.id for update of m loop v_reversal_id := erp.post_fg_movement( r.product_id,r.lot_id,r.location_id,r.quality_grade, 'REVERSAL',-r.qty_signed,r.unit_hpp_snapshot,r.customer_id, 'FG_MOVEMENT_REVERSAL',r.id,r.physical_at, coalesce(nullif(btrim(p_reason),''),'Release sales Draft reservation'),false ); update erp.fg_stock_movements set reversal_of_id = r.id where id = v_reversal_id; v_released := v_released + abs(r.qty_signed); end loop; delete from erp.s"
+],
+"erp.reverse_fg_movement(uuid,text)": [
+" declare m erp.fg_stock_movements%rowtype; v_new uuid; begin perform erp.require_internal(); select * into m from erp.fg_stock_movements where id=p_movement_id for update; if m.id is null then raise exception 'FG movement not found'; end if; if m.movement_type='REVERSAL' then raise exception 'Cannot reverse a reversal'; end if; if exists (select 1 from erp.fg_stock_movements where reversal_of_id=m.id) then raise exception 'FG movement already reversed'; end if; v_new:=erp.post_fg_movement( m.product_id,m.lot_id,m.location_id,m.quality_grade, 'REVERSAL',-m.qty_signed,m.unit_hpp_snapshot,m.customer_id, 'FG_MOVEMENT_REVERSAL',m.id,clock_timestamp(),p_reason,false ); update erp.fg_stock_movements set reversal_of_id=m.id where id=v_new; return v_new; end; "
+]
+},
+"reversal_of_reversal_direct_insert": null,
+"note": "read by the auditor; not a verdict",
+"status_outside_vocabulary": "INFO",
+"full_boundary_restored": true,
+"public_schema_unchanged": true,
+"session_leaks": {
+"advisory_locks": 0,
+"advisory_lock_keys": [],
+"other_sessions": []
+},
+"business_day": {
+"planned": "2026-10-19",
+"before": "2026-10-19",
+"after": "2026-10-19"
+}
+},
+{
+"group": "FABLE_FABLE_R4_PROBES_NATIVE",
+"group_end_difference": {
+"boundary.auth": {
+"before_count": 0,
+"after_count": 1
+},
+"boundary.erp": [
+"app_users",
+"audit_logs"
+]
+},
+"catalog_observation_start": {
+"stats": [
+{
+"relname": "pg_namespace",
+"n_live_tup": 84,
+"last_analyze": null,
+"last_autovacuum": null,
+"autovacuum_count": 0,
+"last_autoanalyze": null,
+"autoanalyze_count": 0,
+"n_mod_since_analyze": 498
+},
+{
+"relname": "pg_proc",
+"n_live_tup": 5486,
+"last_analyze": null,
+"last_autovacuum": null,
+"autovacuum_count": 0,
+"last_autoanalyze": "2026-10-19T01:59:11.361585+00:00",
+"autoanalyze_count": 1,
+"n_mod_since_analyze": 3868
+}
+],
+"public_state_plan": [
+"Result",
+"Aggregate",
+"Sort",
+"Hash Join",
+"Seq Scan:pg_class",
+"Hash",
+"Index Scan:pg_namespace",
+"Sort",
+"Function Scan",
+"Sort",
+"Function Scan",
+"Sort",
+"Function Scan",
+"Sort",
+"Function Scan",
+"Aggregate",
+"Sort",
+"Hash Join",
+"Seq Scan:pg_proc",
+"Hash",
+"Index Scan:pg_namespace",
+"Sort",
+"Function Scan",
+"Sort",
+"Function Scan",
+"Sort",
+"Function Scan",
+"Sort",
+"Function Scan"
+]
+},
+"catalog_observation_end": {
+"stats": [
+{
+"relname": "pg_namespace",
+"n_live_tup": 84,
+"last_analyze": null,
+"last_autovacuum": null,
+"autovacuum_count": 0,
+"last_autoanalyze": null,
+"autoanalyze_count": 0,
+"n_mod_since_analyze": 503
+},
+{
+"relname": "pg_proc",
+"n_live_tup": 5486,
+"last_analyze": null,
+"last_autovacuum": null,
+"autovacuum_count": 0,
+"last_autoanalyze": "2026-10-19T01:59:11.361585+00:00",
+"autoanalyze_count": 1,
+"n_mod_since_analyze": 3879
+}
+],
+"public_state_plan": [
+"Result",
+"Aggregate",
+"Sort",
+"Hash Join",
+"Seq Scan:pg_class",
+"Hash",
+"Index Scan:pg_namespace",
+"Sort",
+"Function Scan",
+"Sort",
+"Function Scan",
+"Sort",
+"Function Scan",
+"Sort",
+"Function Scan",
+"Aggregate",
+"Sort",
+"Hash Join",
+"Seq Scan:pg_proc",
+"Hash",
+"Index Scan:pg_namespace",
+"Sort",
+"Function Scan",
+"Sort",
+"Function Scan",
+"Sort",
+"Function Scan",
+"Sort",
+"Function Scan"
+]
+}
+},
+{
+"group": "FABLE_FABLE_R4_PROBES_NATIVE",
+"planned": [
+"FABLE_R4:GUARD_SAME_ANSWER_MATRIX",
+"FABLE_R4:FG_REVERSAL_PATHS"
+],
+"final": {
+"FABLE_R4:GUARD_SAME_ANSWER_MATRIX": "INCOMPLETE",
+"FABLE_R4:FG_REVERSAL_PATHS": "INCOMPLETE"
+},
+"missing": [],
+"status": "INCOMPLETE"
+},
+{
+"group": "FABLE_GROUP_KEYS",
+"keys": [
+"native"
+],
+"not_dict": [
+"browser"
+]
+},
+{
+"group": "FABLE_SUMMARY",
+"label": "FABLE_FABLE_R4_PROBES",
+"status": "INCOMPLETE",
+"counts": {
+"native": {
+"INCOMPLETE": 2
+}
+},
+"per_case": {
+"native": {
+"FABLE_R4:GUARD_SAME_ANSWER_MATRIX": "INCOMPLETE",
+"FABLE_R4:FG_REVERSAL_PATHS": "INCOMPLETE"
+}
+},
+"business_day_retried": {
+"native": false
+},
+"cp6_restored": false,
+"error": null
+},
+{
+"group": "T3_RUNTIME_SCHEMA_PROFILE",
+"authenticated_usage": true,
+"acl_unchanged": true
+},
+{
+"t3_backup_restore_drill": {
+"status": "RESTORED_SAME_MEANING",
+"checks": {
+"restore_errors_only_pg_cron": true,
+"catalog_explained": true,
+"data_identical": true,
+"engine_answer_present": true,
+"engine_equal": true
+},
+"dump": {
+"exit": 0,
+"stderr": "",
+"seconds": 1.1,
+"bytes": 10639469
+},
+"restore": {
+"exit": 1,
+"seconds": 4.1,
+"error_count": 19,
+"ignored_reported": 19,
+"unexplained": [],
+"errors": [
+"pg_restore: error: could not execute query: ERROR:  can only create extension in database postgres",
+"pg_restore: error: could not execute query: ERROR:  extension \"pg_cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  relation \"cron.jobid_seq\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  relation \"cron.runid_seq\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+"pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist"
+]
+},
+"catalog": {
+"match": [
+"app_ledger",
+"config_hash",
+"default_acl",
+"function",
+"function_owner_acl",
+"platform_ledger",
+"policy",
+"relation",
+"relation_owner_acl",
+"schema",
+"sequence",
+"trigger"
+],
+"differ": {
+"constraint": {
+"source": {
+"n": 2155,
+"md5": "344d937d7b895739431b3c0571e40960"
+},
+"restored": {
+"n": 2155,
+"md5": "b81cbb5246a8832807de8839a3de15ff"
+}
+},
+"extension": {
+"source": {
+"n": 6,
+"md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+},
+"restored": {
+"n": 5,
+"md5": "2193000efffb6e05911a1c3af1f57381"
+}
+},
+"index": {
+"source": {
+"n": 913,
+"md5": "07758af6439607a0302f57cfd5eb556b"
+},
+"restored": {
+"n": 913,
+"md5": "f0f899946e4e9be0d80ff5f82cd7d90b"
+}
+},
+"view": {
+"source": {
+"n": 51,
+"md5": "c08bd89cf82d60763558b988fea065b3"
+},
+"restored": {
+"n": 51,
+"md5": "1fdac63ca8f241d961df89bbc0cbcbaf"
+}
+}
+},
+"objects": {
+"constraint": {
+"differing": 29,
+"by_class": {
+"VARCHAR_IN_LIST_REPARSE": 29
+},
+"detail": null,
+"unclassified": []
+},
+"extension": {
+"differing": 1,
+"by_class": {
+"PG_CRON_ONLY_IN_DATABASE_POSTGRES": 1
+},
+"detail": null,
+"unclassified": []
+},
+"index": {
+"differing": 1,
+"by_class": {
+"VARCHAR_IN_LIST_REPARSE": 1
+},
+"detail": null,
+"unclassified": []
+},
+"view": {
+"differing": 6,
+"by_class": {
+"VARCHAR_IN_LIST_REPARSE": 6
+},
+"detail": null,
+"unclassified": []
+}
+}
+},
+"data": {
+"tables": 407,
+"rows": 1881,
+"schemas": [
+"_realtime",
+"auth",
+"erp",
+"realtime",
+"storage",
+"supabase_functions",
+"supabase_migrations",
+"vault"
+],
+"differ": {}
+},
+"engine": {
+"day": "2026-10-18",
+"equal": true,
+"source_status": "READY",
+"restored_status": "READY"
+},
+"source_cron_jobs": 0,
+"error": null
+}
+},
+{
+"group": "T3_CUTOVER_DATA_CHECKS",
+"uuid_quality": {
+"status": "CLEAN",
+"pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+"columns_checked": 1109,
+"refused_values": {},
+"refused_total": 0,
+"non_v4_defaults": {},
+"non_rfc_values": {},
+"non_rfc_total": 0,
+"reads_only": true,
+"note": "Frontend UUID pattern (canonical 8-4-4-4-12, D08) against every erp uuid column; non_rfc_values is information only"
+},
+"cash_bank_aliases": {
+"status": "NONE",
+"aliases": [],
+"reads_only": true,
+"note": "Active cash accounts sharing one COA account (CASH_BANK opening identity is per cash account)"
+}
+},
+{
+"t3_package_run": {
+"label": "T3_PREP",
+"mode": "install",
+"status": "ALL_STAGES_INSTALLED",
+"production_go": false,
+"release_evidence": false,
+"run_identity": {
+"label": "T3_PREP",
+"tool_head": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+"product_ref": "d0018ab1099a2c5ffbbe29a4688a0e74c005c3ac",
+"product_paths": [
+"supabase/migrations",
+"supabase/dev",
+"supabase/release",
+"supabase/rollbacks",
+"src"
+],
+"run_id": "39187095072",
+"run_attempt": "1",
+"workflow": "AUDIT/fable/cp7-native",
+"job": "phase",
+"event": "workflow_dispatch",
+"github_sha": "8fbb9083c9305202384aed18a0f72a87d2673b99",
+"release_evidence": false,
+"production_go": false,
+"mode": "install"
+},
+"auth_users_before": 0,
+"ledger_start": {
+"app": [
+"v2.6.20aa",
+"v2.6.20ab"
+],
+"platform_last": "20260914190500"
+},
+"fingerprint_AB": {
+"view": {
+"n": 51,
+"md5": "68b2fbf688881496413307954006bdbe"
+},
+"index": {
+"n": 605,
+"md5": "65816b59b4bd7675995b7b9bc98fa4c5"
+},
+"policy": {
+"n": 190,
+"md5": "48bb358e009dc8d19417bbb3982f6d3f"
+},
+"schema": {
+"n": 2,
+"md5": "6ee1ffa742c0945434188ce249e139ca"
+},
+"trigger": {
+"n": 448,
+"md5": "971341de44cfecc9a587fc140c6cf30a"
+},
+"function": {
+"n": 574,
+"md5": "5e235119482f9767a74ba3fe7fbd2619"
+},
+"relation": {
+"n": 272,
+"md5": "5a8c31607ad25d70808ba9f7699bf690"
+},
+"sequence": {
+"n": 6,
+"md5": "dacd751dd3a5f2f7efbc203171be4ead"
+},
+"extension": {
+"n": 6,
+"md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+},
+"app_ledger": {
+"n": 83,
+"md5": "7ad6fed4ecef5f62d3be04fffdbc9e69"
+},
+"constraint": {
+"n": 1308,
+"md5": "1a354c9c9ddc0b40782e80339e1dbacd"
+},
+"config_hash": {
+"n": 6,
+"md5": "2193b4becca1d4d89e40b444b0a8af29"
+},
+"default_acl": {
+"n": 6,
+"md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+},
+"platform_ledger": {
+"n": 98,
+"md5": "39e21c0d5d36ef100d312dd736898487"
+},
+"function_owner_acl": {
+"n": 574,
+"md5": "12a9878282b3db31bec2d8e34eb57c59"
+},
+"relation_owner_acl": {
+"n": 272,
+"md5": "bf0e6b7cd7ea3e25b7b94918cd3cc844"
+}
+},
+"hosted_capsules": {
+"equal": true,
+"capsules": {
+"bs_resolution_v2619_rollback_capsule": {
+"hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+"clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+"equal": true
+},
+"bs_resolution_v2619a_rollback_capsule": {
+"hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+"clone": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+"equal": true
+},
+"bs_resolution_v2619b_rollback_capsule": {
+"hosted": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+"clone": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+"equal": true
+},
+"bs_resolution_v2619c_rollback_capsule": {
+"hosted": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+"clone": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+"equal": true
+},
+"cp3_r4_rollback_capsule": {
+"hosted": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+"clone": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+"equal": true
+},
+"cp45_v2617_rollback_capsule": {
+"hosted": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+"clone": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+"equal": true
+},
+"cp45_v2617a_rollback_capsule": {
+"hosted": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+"clone": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+"equal": true
+},
+"cp4_v2616_rollback_capsule": {
+"hosted": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+"clone": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+"equal": true
+},
+"cp6_v2620_rollback_capsule": {
+"hosted": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+"clone": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+"equal": true
+},
+"cutting_bridge_v2618_rollback_capsule": {
+"hosted": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+"clone": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+"equal": true
+},
+"cutting_bridge_v2618a_rollback_capsule": {
+"hosted": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+"clone": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+"equal": true
+}
+},
+"cp6_v2620_rows_differing": []
+},
+"ledger_final": {
+"app": [
+"v2.6.20aa",
+"v2.6.20ab",
+"v2.6.20ac",
+"v2.6.20ad",
+"v2.6.20ae",
+"v2.6.20af",
+"v2.6.20ag",
+"v2.6.20ah",
+"v2.6.20ai",
+"v2.6.20aj",
+"v2.6.20ak",
+"v2.6.20al",
+"v2.6.20am",
+"v2.6.20an",
+"v2.6.20ao",
+"v2.6.20ap",
+"v2.6.20aq",
+"v2.6.20ar",
+"v2.6.20as",
+"v2.6.20at",
+"v2.6.20au",
+"v2.6.20av",
+"v2.6.20aw",
+"v2.6.20ax",
+"v2.6.20ay",
+"v2.6.20az"
+],
+"platform_last": "20260928134500"
+},
+"fingerprint_final": {
+"view": {
+"n": 51,
+"md5": "c08bd89cf82d60763558b988fea065b3"
+},
+"index": {
+"n": 913,
+"md5": "07758af6439607a0302f57cfd5eb556b"
+},
+"policy": {
+"n": 190,
+"md5": "48bb358e009dc8d19417bbb3982f6d3f"
+},
+"schema": {
+"n": 2,
+"md5": "6ee1ffa742c0945434188ce249e139ca"
+},
+"trigger": {
+"n": 532,
+"md5": "4875366c3bc04e51eeb02386afa0ee84"
+},
+"function": {
+"n": 1009,
+"md5": "96aeb01a3407e13b0e10b06131dd6f02"
+},
+"relation": {
+"n": 415,
+"md5": "080e1cb6f08e00a325ca0970325958c1"
+},
+"sequence": {
+"n": 6,
+"md5": "dacd751dd3a5f2f7efbc203171be4ead"
+},
+"extension": {
+"n": 6,
+"md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+},
+"app_ledger": {
+"n": 113,
+"md5": "113fe2269e955b01cfc479fcc8dd2a46"
+},
+"constraint": {
+"n": 2155,
+"md5": "344d937d7b895739431b3c0571e40960"
+},
+"config_hash": {
+"n": 6,
+"md5": "2193b4becca1d4d89e40b444b0a8af29"
+},
+"default_acl": {
+"n": 6,
+"md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+},
+"platform_ledger": {
+"n": 128,
+"md5": "baf385423c6d01a00d12b33047c07ba2"
+},
+"function_owner_acl": {
+"n": 1009,
+"md5": "a0233dcc6c1fc36192b1547d6d8fc9b7"
+},
+"relation_owner_acl": {
+"n": 415,
+"md5": "76c59ae744c15052a11a5b8fd18b59bf"
+}
+},
+"writer_runtime": {
+"label": "FABLE_FABLE_R4_PROBES",
+"status": "INCOMPLETE",
+"production_go": false,
+"independent_acceptance": false,
+"schema_profile": "HOSTED_USAGE_UNCHANGED"
+},
+"backup_restore_drill": "RESTORED_SAME_MEANING",
+"cutover_data_checks": {
+"uuid_quality": {
+"status": "CLEAN",
+"pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+"columns_checked": 1109,
+"refused_values": {},
+"refused_total": 0,
+"non_v4_defaults": {},
+"non_rfc_values": {},
+"non_rfc_total": 0,
+"reads_only": true,
+"note": "Frontend UUID pattern (canonical 8-4-4-4-12, D08) against every erp uuid column; non_rfc_values is information only"
+},
+"cash_bank_aliases": {
+"status": "NONE",
+"aliases": [],
+"reads_only": true,
+"note": "Active cash accounts sharing one COA account (CASH_BANK opening identity is per cash account)"
+}
+},
+"primary_unchanged": true,
+"auth_users_after": 0,
+"gate": {
+"installed": true,
+"primary_unchanged": true,
+"backup_restore_drill": true,
+"security_advisors": true,
+"writer_runtime": false
+}
+}
+}
+]
