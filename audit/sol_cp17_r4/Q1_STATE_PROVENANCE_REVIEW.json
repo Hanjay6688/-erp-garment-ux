@@ -1,0 +1,65 @@
+{
+  "state": "QUALIFICATION_ONLY_PAYLOAD_REVIEWABLE",
+  "base_commit": "cad6c65bec64f4d729946e99e1d90b1c3e63ca4b",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "files": [
+    {
+      "path": ".github/workflows/audit-sol-r4-q1-state-metadata.yml",
+      "bytes": 10208,
+      "sha256": "52eb21810eccce0a2a85155c26cf3f2fe7b62415fee353f2e7516b993114fcf7"
+    },
+    {
+      "path": "audit/sol_cp17_r4/q1_state_observer.py",
+      "bytes": 4833,
+      "sha256": "0c4ae697151cb47db0e9af88401c4adc6e3e6990725d5617dc84a23c628ab65e"
+    },
+    {
+      "path": "audit/sol_cp17_r4/q1_state_qualification.py",
+      "bytes": 9633,
+      "sha256": "c687f2626c3735f50801e585a72db7bcd39fb50c9d2c3d3e9975005649192676"
+    },
+    {
+      "path": "audit/sol_cp17_r4/q1_browser_fixture.py",
+      "bytes": 1541,
+      "sha256": "207046a6ea65730b53cbad6b19192f8fc2e78227212b5c0cddb9b7ff8f6a411e"
+    },
+    {
+      "path": "audit/sol_cp17_r4/q1_k4_runner_browser.mjs",
+      "bytes": 8817,
+      "sha256": "117e426fbe4b0a438a2dbc2fafc8381e1197a0b796c0300a11de84d0775e2004"
+    },
+    {
+      "path": "audit/sol_cp17_r4/Q1_STATE_PREEXECUTION_MANIFEST.json",
+      "bytes": 6726,
+      "sha256": "a47a422fd4cae1b1693dd66580b6b3377205a9e3c367b64c0a320083d8d5ccd8"
+    },
+    {
+      "path": "audit/sol_cp17_r4/Q1_STATE_VALIDATION.json",
+      "bytes": 15309,
+      "sha256": "c95876797f79cf2cce2980157bf76b7c8fad5e119a79954b94072389e6f00060"
+    },
+    {
+      "path": "audit/sol_cp17_r4/Q1_QUALIFICATION_NEED.json",
+      "bytes": 2735,
+      "sha256": "a8eb654e4a355aba4da85ef2eb828464a070c2162d4e3ce6cb0bbd72a9bbab99"
+    }
+  ],
+  "own_original_need_bound": true,
+  "product_diff_empty": true,
+  "changes": [
+    "Temporary audit-process wrapper issues only SELECT before/after the unchanged wait and returns its original Boolean.",
+    "Audit browser copy has only two reversible metadata/fixture-path edits.",
+    "Existing server functions and browser cases run once; budgets, product code, expected and fixtures unchanged.",
+    "Cleanup count0 must be exact integer and exported; missing/nonzero/Boolean fails.",
+    "Removed an unmeasured hard-coded advisor_gate=True from the unpublished draft; no fresh advisor claim. This is outside the frozen metadata expected and does not alter product cases."
+  ],
+  "synthetic_metadata_controls": 21,
+  "synthetic_copy_cleanup_controls": 4,
+  "product_or_database_executions_during_preparation": 0,
+  "contains_private_or_sensitive_data": false,
+  "fixture_credentials": "Only existing synthetic loopback postgres values in copied public audit workflow; no credential extraction or hosted endpoint.",
+  "excluded": "Unsealed audit judgments, raw receipts/logs, held r3 probes, STAFF repairs, source/product files and unrelated temp.",
+  "publication_transport": "Root official GitHub connector through normal review, exact local tree, own branch only, no force."
+}

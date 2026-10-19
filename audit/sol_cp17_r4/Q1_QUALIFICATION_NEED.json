@@ -1,0 +1,57 @@
+{
+  "state": "PREPUBLICATION_NEED_PROVEN_FROM_BOTH_OWN_ORIGINALS",
+  "own_original_reviewed": true,
+  "metadata_missing": true,
+  "initial_run_id": 39185235564,
+  "originals": [
+    {
+      "artifact_id": 12159622921,
+      "job_id": 117846167402,
+      "report_path": "ci_receipts/sol_artifacts/12159622921/files/CP7_K4_RUNNER.json",
+      "report_sha256": "71714f6f5b0475c4a595af45bb8bbd21aa0edab5f6b39ed9482923ede1224c67",
+      "log_path": "ci_receipts/own_job_logs/117846167402.log",
+      "log_sha256": "e2385f50f372a9d444d0c9ade1b73eed9af68a2390ce15794a442d5b05df6833",
+      "original_raw_status": "PASS",
+      "original_case_ids": [
+        "K4R_RACE_PG_CRON_FINISHES_JOB",
+        "K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES",
+        "K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES"
+      ],
+      "original_case_statuses": {
+        "K4R_RACE_PG_CRON_FINISHES_JOB": "PASS",
+        "K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES": "PASS",
+        "K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES": "PASS"
+      },
+      "missing_fields": [
+        "Boolean return from wait_recorded",
+        "every cron jobid/runid/status/start_time/end_time row"
+      ],
+      "source_behavior": "Unchanged helper return is ignored; server oracle selects finished rows only. K4 browser checks aggregate successful count but does not retain every end timestamp. Original log-row deletion and cleanup remain unchanged."
+    },
+    {
+      "artifact_id": 12160012258,
+      "job_id": 117846167254,
+      "report_path": "ci_receipts/sol_artifacts/12160012258/files/CP7_K6_PROOF_RUNNER.json",
+      "report_sha256": "9036ed46c392baba31b2960f9dd84762d988f31c0c05fe6525bc33a450da7356",
+      "log_path": "ci_receipts/own_job_logs/117846167254.log",
+      "log_sha256": "75fb2c7c1c8c144d35a7504d389d6136ba1f9a21b7a3791f3eaa62aab2085aeb",
+      "original_raw_status": "PASS",
+      "original_case_ids": [
+        "K6P_RACE_PG_CRON_FINISHES_PASS"
+      ],
+      "original_case_statuses": {
+        "K6P_RACE_PG_CRON_FINISHES_PASS": "PASS"
+      },
+      "missing_fields": [
+        "Boolean return from wait_recorded",
+        "every cron jobid/runid/status/start_time/end_time row"
+      ],
+      "source_behavior": "Unchanged helper return is ignored; server oracle selects finished rows only. K4 browser checks aggregate successful count but does not retain every end timestamp. Original log-row deletion and cleanup remain unchanged."
+    }
+  ],
+  "frozen_expected_unchanged": true,
+  "product_bug_inferred": false,
+  "new_business_case_credit": 0,
+  "new_race_credit": 0,
+  "purpose": "Read-only observation around four existing wait calls; original first17/10 raw PASS preserved. Do not infer metadata terminal success from aggregate or one finished record."
+}

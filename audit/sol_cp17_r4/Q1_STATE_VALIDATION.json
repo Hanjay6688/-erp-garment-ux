@@ -1,0 +1,467 @@
+{
+  "state": "PREPARED_CONDITIONAL_NOT_EXECUTED",
+  "database_calls": 0,
+  "product_execution": false,
+  "metadata_oracle_checks": [
+    {
+      "test": "valid successful terminal row",
+      "expected": "PASS",
+      "actual": "PASS",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": true,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": true,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": true
+      }
+    },
+    {
+      "test": "valid browser copy",
+      "expected": "PASS",
+      "actual": "PASS",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": true,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": true,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": true
+      }
+    },
+    {
+      "test": "wait result False",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": false,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": true,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": true,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": true
+      }
+    },
+    {
+      "test": "wait result None",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": false,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": true,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": true,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": true
+      }
+    },
+    {
+      "test": "missing or inverted end None",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": true,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": false,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": true
+      }
+    },
+    {
+      "test": "missing or inverted end 2026-10-18T23:59:59+00:00",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": true,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": false,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": true
+      }
+    },
+    {
+      "test": "non successful row running",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": false,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": true,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": true
+      }
+    },
+    {
+      "test": "non successful row failed",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": false,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": true,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": true
+      }
+    },
+    {
+      "test": "success plus unfinished row",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": false,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": false,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": true
+      }
+    },
+    {
+      "test": "no records",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": false,
+        "every_job_recorded": false,
+        "all_records_succeeded": false,
+        "only_declared_disposable_databases": false,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": false,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": true
+      }
+    },
+    {
+      "test": "one missing job",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": false,
+        "all_records_succeeded": true,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": true,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": true
+      }
+    },
+    {
+      "test": "duplicate run pair",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": true,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": false,
+        "all_start_end_times_ordered": true,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": true
+      }
+    },
+    {
+      "test": "wrong target database",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": true,
+        "only_declared_disposable_databases": false,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": true,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": true
+      }
+    },
+    {
+      "test": "changed budget",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": false,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": true,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": true,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": true
+      }
+    },
+    {
+      "test": "incomplete observation",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": false,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": true,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": true,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": true
+      }
+    },
+    {
+      "test": "missing start time",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": true,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": false,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": true
+      }
+    },
+    {
+      "test": "missing schedule observation schedule_jobs_remaining",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": true,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": true,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": false,
+        "zero_schedules_remain": false
+      }
+    },
+    {
+      "test": "missing schedule observation remaining_schedule_job_count",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": true,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": true,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": false,
+        "zero_schedules_remain": false
+      }
+    },
+    {
+      "test": "remaining target schedule",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": true,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": true,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": false
+      }
+    },
+    {
+      "test": "Boolean schedule count is not integer zero",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": true,
+        "only_declared_disposable_databases": true,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": true,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": false,
+        "zero_schedules_remain": false
+      }
+    },
+    {
+      "test": "records from a different declared target",
+      "expected": "INCOMPLETE",
+      "actual": "INCOMPLETE",
+      "checks": {
+        "wait_returned_true": true,
+        "unchanged_60_second_budget": true,
+        "observer_complete": true,
+        "jobids_present_unique": true,
+        "records_present": true,
+        "every_job_recorded": true,
+        "all_records_succeeded": true,
+        "only_declared_disposable_databases": false,
+        "unique_job_run_pairs": true,
+        "all_start_end_times_ordered": true,
+        "target_database_declared_disposable": true,
+        "schedule_observation_present": true,
+        "zero_schedules_remain": true
+      }
+    }
+  ],
+  "checks_count": 21,
+  "copy_cleanup_controls": [
+    {
+      "input": 0,
+      "expected_copy_dropped": true,
+      "actual": true
+    },
+    {
+      "input": null,
+      "expected_copy_dropped": false,
+      "actual": false
+    },
+    {
+      "input": 1,
+      "expected_copy_dropped": false,
+      "actual": false
+    },
+    {
+      "input": false,
+      "expected_copy_dropped": false,
+      "actual": false
+    }
+  ],
+  "copy_cleanup_control_count": 4,
+  "syntax": {
+    "python_files": 3,
+    "node_check": true,
+    "workflow_yaml": true
+  },
+  "browser_changes_exact": [
+    "fixture script path only",
+    "metadata label on normal runner_off only"
+  ],
+  "original_browser_restored_by_inverse_edits": true,
+  "workflow_changed_step_indices": [
+    18,
+    21
+  ],
+  "unchanged_setup_timeout_candidate_identity_permissions": true,
+  "publication_need_receipt_required": true
+}

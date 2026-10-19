@@ -1,0 +1,111 @@
+{
+  "contract": "audit.sol.r4.schedule-recording.metadata-qualification.v1",
+  "state": "PREEXECUTION_NEED_PROVEN_NOT_YET_EXECUTED",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "initial_own_run": "39185235564",
+  "publication_condition": "Both own K4/K6 Originals and exact decoded logs have been read. Q1_QUALIFICATION_NEED.json records the omitted Boolean and per-record status/end proof. Preserve all first results; only the four declared metadata IDs may execute.",
+  "expected_origin": "SOL_R4_PREEXECUTION_REVIEW of wait_recorded: timeout is not success; every recorded run must have reached a successful terminal state and end timestamp. Existing product case expectations and budgets remain unchanged.",
+  "fixture_origin": "UNCHANGED_WRITER_EXISTING_K4_K6_SYNTHETIC_FIXTURES_ON_DISPOSABLE_LOOPBACK_COPY",
+  "new_business_case_credit": 0,
+  "new_race_credit": 0,
+  "cases": [
+    {
+      "id": "SOL_R4_Q1_K4_CRON_ALL_ENDS",
+      "original_case_id": "K4R_RACE_PG_CRON_FINISHES_JOB",
+      "mode": "SERVER",
+      "expected": {
+        "original_case_status": "PASS",
+        "wait_return": true,
+        "wait_budget_seconds": 60,
+        "nonempty_records": true,
+        "every_job_has_at_least_one_record": true,
+        "all_record_status": "succeeded",
+        "all_end_time": "NON_NULL_AND_NOT_BEFORE_START",
+        "remaining_schedule_jobs": 0,
+        "copy_dropped": true
+      }
+    },
+    {
+      "id": "SOL_R4_Q1_K6_CRON_ALL_ENDS",
+      "original_case_id": "K6P_RACE_PG_CRON_FINISHES_PASS",
+      "mode": "SERVER",
+      "expected": {
+        "original_case_status": "PASS",
+        "wait_return": true,
+        "wait_budget_seconds": 60,
+        "nonempty_records": true,
+        "every_job_has_at_least_one_record": true,
+        "all_record_status": "succeeded",
+        "all_end_time": "NON_NULL_AND_NOT_BEFORE_START",
+        "remaining_schedule_jobs": 0,
+        "copy_dropped": true
+      }
+    },
+    {
+      "id": "SOL_R4_Q1_K4_DESKTOP_ALL_ENDS",
+      "original_case_id": "K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES",
+      "mode": "BROWSER_DESKTOP",
+      "expected": {
+        "original_case_status": "PASS",
+        "wait_return": true,
+        "wait_budget_seconds": 60,
+        "nonempty_records": true,
+        "every_job_has_at_least_one_record": true,
+        "all_record_status": "succeeded",
+        "all_end_time": "NON_NULL_AND_NOT_BEFORE_START",
+        "remaining_schedule_jobs": 0,
+        "copy_dropped": true
+      }
+    },
+    {
+      "id": "SOL_R4_Q1_K4_MOBILE_ALL_ENDS",
+      "original_case_id": "K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES",
+      "mode": "BROWSER_MOBILE",
+      "expected": {
+        "original_case_status": "PASS",
+        "wait_return": true,
+        "wait_budget_seconds": 60,
+        "nonempty_records": true,
+        "every_job_has_at_least_one_record": true,
+        "all_record_status": "succeeded",
+        "all_end_time": "NON_NULL_AND_NOT_BEFORE_START",
+        "remaining_schedule_jobs": 0,
+        "copy_dropped": true
+      }
+    }
+  ],
+  "observer": "Wrap only the imported cp7_schedule.wait_recorded in the audit process. SELECT cron.job_run_details by the exact passed job IDs before and after calling the unmodified pinned function; record all rows, result and elapsed time. Return the original Boolean unchanged, without an early assertion, so original cleanup runs. Assert the frozen metadata expected only in the outer qualification after the existing case completes.",
+  "browser_transport": "An audit-only copy of the existing K4 ES module changes only the fixture script path and adds a metadata label to the normal runner_off input. The wrapper removes that label, invokes the unmodified pinned product fixture with the original payload, and records the same read-only wait observation. Other operations and finally cleanup remain original.",
+  "runtime": "Use exact existing P21 full-composition install/verify/uninstall and disposable-copy primitives. Call strict_rows / _run_browser_once directly, without business-day retry. No hosted database, extra grants, product edits, alternate RPC, credential logging or held r3 probe.",
+  "preserve": [
+    "initial run and artifact bytes",
+    "all original business outcomes",
+    "all original timeouts/budgets",
+    "candidate/source/workflow identities recorded separately",
+    "original first fail/incomplete even if metadata qualification later passes"
+  ],
+  "cleanup": "Original cron uninstall/quiet/log-row deletion and per-copy drop remain unchanged. The observer itself issues only SELECT. The harness additionally checks no target-db schedules remain and drops the declared copies; original full-composition predecessor/ACL/Native/public state restored.",
+  "frozen_product_sources": {
+    "scripts/cp7_schedule.py": "dc12a10a07652f5d97cde0047c77f220b25936077ab45853526a77824ec7e59c",
+    "scripts/cp7_k4_runner_cases.py": "af14725aea6f2182ba41cbed7e400326fe4b72b4497a74c7001fe0b51e2a6f27",
+    "scripts/cp7_k6_proof_runner_cases.py": "ed90cd40d081dee1c15798b83efb68a73cbb8e737f2f63ebc1a4a920e97309d4",
+    "scripts/cp7_k4_runner_browser.mjs": "8a35e1bf4e28ce312816c404cede033ad8c4b1e8e91c52274d6f3c3b79ef13bb",
+    "scripts/cp7_k4_runner_browser_fixture.py": "94fd16e7efba6471c86580a873d7b2c08921199ed239807a5a0f882a9d7c4d10",
+    "scripts/cp7_p21_full_rehearsal_probe.py": "a6da56d3c3177c2f6083b19e996d1f7a31b7e934607d7f97232336405fd529f7",
+    "scripts/cp6_auditor_modes.py": "d927c7491c72fe1eecfd1b4b8b4faf7e1710d6943fda601ede6a599fbc99209f"
+  },
+  "not_claimed": [
+    "new functional feature coverage",
+    "independent new business fixture",
+    "strict race proof from Barrier",
+    "hosted pg_cron installation",
+    "production acceptance"
+  ],
+  "initial_own_run_register": "ci_receipts/ROOT_RUN_REGISTER.json",
+  "observer_cleanup_binding": "After the unchanged wait, call pinned SELECT-only schedule.installed on the explicitly declared target copy; save all remaining schedules and exact integer count0. Missing/nonzero observations fail. Browser final database_remaining must be integer0 from modes._run_browser_once; missing or Boolean is not zero. Server final copy presence is checked after strict session checks. Overall PASS additionally requires both group gates PASS.",
+  "need_receipt": "Q1_QUALIFICATION_NEED.json",
+  "need_sha256": "a8eb654e4a355aba4da85ef2eb828464a070c2162d4e3ce6cb0bbd72a9bbab99",
+  "advisor_scope": "No new advisor gate claimed; the metadata qualification requires full baseline restoration and preserves original product checks. Existing qualified advisor evidence remains separately dated."
+}
