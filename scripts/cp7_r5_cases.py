@@ -19,6 +19,7 @@ literal calls changed or that uses a key outside the listed core mappings; a cor
 """
 from datetime import timedelta
 from decimal import Decimal
+import json
 import psycopg
 import cp6_bd_probe as bd
 import cp7_nota_cases as nota
@@ -33,6 +34,7 @@ HTTP=[]
 BROWSER=[]
 FUNCTIONS=()
 TARGET='run_v263a_payroll_integrity_checks:'+payroll_checks.CHECK
+OWNER_AUTH=str(bd.chain.production.base.OPERATOR_AUTH)
 WAGE_GUARD='trg_guard_fg_unsourced_repair_wages_v1_immutable'
 
 
@@ -194,11 +196,13 @@ def cases(cur,today):
                 old=report_accounts.unwrap(signature,installed)
                 assert old.count(head)==1,('CP17_R5_02_READER_HEAD_CHANGED',signature)
                 cur.execute(old.replace(head,'FUNCTION cp17_r5_02.'+name.split('.')[1]+'(',1))
-                # Called like the installed reader (owner context, role authenticated); the schema exists only inside the savepoint.
-                cur.execute('grant usage on schema cp17_r5_02 to authenticated;grant execute on all functions in schema cp17_r5_02 to authenticated')
                 args=inputs.get(signature,[()])
                 def answer(fn,a):
-                    bd.api.admin(cur);bd.chain.production.owner(cur);cur.execute('savepoint cp17_r5_02_call')
+                    # Both the installed reader and its copy run in one context: the database owner session (the
+                    # internal readers are not granted to the browser role) with the owner's claims, so
+                    # erp.require_owner_admin() and erp.require_internal() see the owner.
+                    bd.api.admin(cur);cur.execute("select set_config('request.jwt.claims',%s,true)",(json.dumps(dict(sub=OWNER_AUTH,role='authenticated')),))
+                    cur.execute('savepoint cp17_r5_02_call')
                     try:
                         rows=cur.execute('select to_jsonb(x)::text from '+fn+'('+','.join(['%s']*len(a))+') x',a).fetchall()
                         return ('ROWS',sorted(r[0] for r in rows))
