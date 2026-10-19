@@ -144,9 +144,9 @@ jobs:
       max-parallel: 3
       matrix:
         include:
-        - suite: wa-forward-19
+        - suite: wa-forward-21
           probe: cp7_wa_forward_probe.py
-          timeout: 180
+          timeout: 210
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres

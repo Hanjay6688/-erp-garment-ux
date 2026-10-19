@@ -13,12 +13,19 @@ SYNTHETIC steps are labelled where used: provider answers written into net._http
 (SYNTHETIC_PROVIDER_ANSWER; the race cases use the real fake server), and clocks moved back on rows of the module's
 own tables to stand for minutes or hours passing (TEST_CLOCK_OVERRIDE, session_replication_role=replica inside the
 case's transaction only).
+
+WA-2b analysis kinds: the owner's own staged analysis is made by the plan v2 fixture through the public analysis RPCs, the
+owner's reminder rule through erp_cp7_save_reminder_policy_v2, and the reminders' own read-only recheck is the oracle for
+every alert opened, refreshed or resolved. The automatic-analysis case moves the capture time of the owner's finished job
+20 minutes back (TEST_CLOCK_OVERRIDE, labelled, inside the case's transaction only) to stand for the interval passing,
+and drives the job the tick asked for with the ordinary step RPC in the owner's name (the K4 runner's role in production).
 """
 from concurrent.futures import ThreadPoolExecutor
-from datetime import timedelta
-from decimal import Decimal as D
+from datetime import date, timedelta
+from decimal import ROUND_HALF_UP, Decimal as D
 from urllib.parse import parse_qs, urlparse, urlunparse
 import json
+import math
 import os
 import subprocess
 import time
@@ -32,6 +39,8 @@ import cp7_procurement_cases as receipt
 import cp7_sales_cases as sales
 import cp7_invoice_cases as invoice
 import cp7_payable_condition_cases as payables
+import cp7_p19_reminder_v2_cases as remv2
+planv2 = remv2.planv2
 import cp7_alert_bundle as bundle
 
 b = auth.b
@@ -40,14 +49,14 @@ IDS = dict(
             'WAF_OWNER_REMINDERS_ONLY_WHEN_DUE', 'WAF_SEND_ONE_REQUEST_EXACT_TEXT', 'WAF_ROLLBACK_QUEUES_NOTHING',
             'WAF_RESOLVED_BEFORE_SEND_NOT_SENT', 'WAF_ANSWERS_ACCEPTED_REFUSED_UNKNOWN', 'WAF_PACING_BURST_QUIET_DIGEST_REPEAT',
             'WAF_OFF_OR_NO_KEY_SENDS_NOTHING', 'WAF_KEY_WRITE_ONLY_AND_MASKED', 'WAF_PRIVACY_AND_LIST_PERMISSIONS',
-            'WAF_TICKS_PRIVATE_AND_LIMITED'],
+            'WAF_TICKS_PRIVATE_AND_LIMITED', 'WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED', 'WAF_ANALYSIS_AUTOMATIC_RUN'],
     races=['WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE', 'WAF_RACE_COLLECT_AND_SEND_OPEN_ONCE', 'WAF_RACE_FAKE_CALLMEBOT_END_TO_END',
            'WAF_RACE_PG_CRON_RUNS_TICKS'],
     http=['WAF_HTTP_OWNER_SETS_UP_AND_TESTS', 'WAF_HTTP_OTHERS_REFUSED'],
 )
 REQUIRED = {key: len(value) for key, value in IDS.items()}
 EXPECTED = sum(REQUIRED.values())
-DECLARED = 19
+DECLARED = 21
 CONTRACT = 'cp7.wa.forward.v1'
 FUNCTIONS = ('erp_cp7_get_alerts_v1', 'erp_cp7_get_wa_settings_v1', 'erp_cp7_save_wa_settings_v1', 'erp_cp7_set_wa_key_v1',
              'erp_cp7_send_wa_test_v1', 'erp_cp7_resolve_wa_dispatch_v1')
@@ -56,6 +65,8 @@ KEY = 'FAKEKEY-WA3B'
 PHONE = '+620000000000'
 FAKE = 'http://fake-callmebot:8080/whatsapp.php'
 KINDS = ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'AR_DUE', 'AP_DUE']
+ANALYSIS = ['PRODUCTION_GAP', 'FABRIC_NEED']
+PLANNING = {'master.product.view', 'production.wip.view', 'warehouse.stock.view', 'sales.invoice.view'}
 SETTINGS = dict(enabled=False, phone_e164=PHONE, detail='SUMMARY', digest_times=[], kinds=KINDS, repeat_minutes=1440, burst_after_per_day=30,
                 burst_merge_minutes=30, max_items=10, quiet_enabled=False, quiet_start='21:00', quiet_end='06:00', analysis_every_minutes=60,
                 analysis_start='07:00', analysis_end='20:00')
@@ -264,6 +275,39 @@ def dispatch(cur, did):
 def source_errors(cur):
     b.api.admin(cur)
     return cur.execute('select kind,last_error from cp7_alert_native.source_state where last_error is not null').fetchall()
+
+
+def wa_num(d):
+    """A number as the message writes it (cp7_alert_native.num: two decimals at most, no trailing zeros, comma)."""
+    return format(D(d).quantize(D('0.01'), rounding=ROUND_HALF_UP).normalize(), 'f').replace('.', ',')
+
+
+def drain(cur, bound=400):
+    """Analysis ticks until the owner's latest run is worked through (or nothing is left to do); the outcomes in order."""
+    outs = []
+    for _ in range(bound):
+        out = tick(cur, 'analysis_tick')
+        outs.append(out['outcome'])
+        if out['outcome'] not in ('CONDITION_SET_STEP', 'ANALYSIS_CHECKING'):
+            return outs
+    raise AssertionError(('WAF_ANALYSIS_DID_NOT_FINISH', outs[-5:]))
+
+
+def visible(cur, subject):
+    """The kinds Pengingat sistem may show this user: the permissions of the source screens (independent of the module)."""
+    b.api.admin(cur)
+    keys = {r[0] for r in cur.execute('select p.permission_key from erp.app_role_permissions p join erp.app_users u on u.role_id=p.role_id '
+                                      'where u.auth_user_id=%s', (subject,)).fetchall()}
+    out = set()
+    if {'warehouse.material.view', 'master.fabric.view'} <= keys:
+        out.add('FABRIC_BELOW_MINIMUM')
+    if 'finance.ar.view' in keys:
+        out.add('AR_DUE')
+    if 'finance.ap.view' in keys:
+        out.add('AP_DUE')
+    if PLANNING <= keys:
+        out |= set(ANALYSIS)
+    return out
 
 
 def summary_low(cur, owner):
@@ -637,29 +681,21 @@ def cases(cur, today):
         dbody = dispatch(cur, detailed['dispatch_id'])['body']
         assert detailed['outcome'] == 'SENT' and (ar['party'] in dbody or '- dan ' in dbody), dbody
         owner_view = rpc(cur, 'erp_cp7_get_alerts_v1', (json.dumps({}),), s['owner'])
-        assert {'FABRIC_BELOW_MINIMUM', 'AR_DUE', 'AP_DUE'} == {k['kind'] for k in owner_view['kinds']}
+        assert {'FABRIC_BELOW_MINIMUM', 'AR_DUE', 'AP_DUE', 'PRODUCTION_GAP', 'FABRIC_NEED'} == {k['kind'] for k in owner_view['kinds']} \
+            == visible(cur, s['owner']), owner_view['kinds']
         assert any(r['wa'] is not None for r in owner_view['rows'])
         staff = master.role_actor(cur, 'GUDANG')
-        b.api.admin(cur)
-        keys = {r[0] for r in cur.execute('select p.permission_key from erp.app_role_permissions p join erp.app_users u on u.role_id=p.role_id where u.auth_user_id=%s',
-                                          (staff,)).fetchall()}
-        expect = set()
-        if {'warehouse.material.view', 'master.fabric.view'} <= keys:
-            expect.add('FABRIC_BELOW_MINIMUM')
-        if 'finance.ar.view' in keys:
-            expect.add('AR_DUE')
-        if 'finance.ap.view' in keys:
-            expect.add('AP_DUE')
+        expect = visible(cur, staff)
         staff_view = rpc(cur, 'erp_cp7_get_alerts_v1', (json.dumps({}),), staff)
         assert {k['kind'] for k in staff_view['kinds']} == expect and {r['kind'] for r in staff_view['rows']} <= expect, (expect, staff_view['kinds'])
-        assert all(r['wa'] is None for r in staff_view['rows'])
+        assert all(r['wa'] is None for r in staff_view['rows']) and (staff_view['analysis'] is None) == ('PRODUCTION_GAP' not in expect), staff_view['analysis']
         for name, args in (('erp_cp7_get_wa_settings_v1', ()), ('erp_cp7_send_wa_test_v1', (str(uuid.uuid4()),)),
                            ('erp_cp7_set_wa_key_v1', ('FAKEKEY-STAFF', str(uuid.uuid4())))):
             assert refusal(cur, lambda name=name, args=args: rpc(cur, name, args, staff)) == ('42501', 'CP7_WA_OWNER_ONLY'), name
         b.api.admin(cur)
         for sig in bundle.PUBLIC:
             assert not one(cur, "select has_function_privilege('anon',%s,'EXECUTE')", (sig,)), sig
-        return dict(status='PASS', summary_hides_party_names=True, detailed_shows_them=True, owner_sees_three_kinds=True,
+        return dict(status='PASS', summary_hides_party_names=True, detailed_shows_them=True, owner_sees_five_kinds=True,
                     staff_kinds=sorted(expect), staff_no_wa_status=True, staff_refused_on_owner_rpcs=True, anon_no_execute=True)
 
     def ticks_private():
@@ -672,10 +708,15 @@ def cases(cur, today):
         assert tick(cur, 'collect_tick', '3s')['outcome'] == 'COLLECTED'
         b.api.admin(cur)
         defs = one(cur, 'select cp7_alert_native.schedules()')
-        assert [d['name'] for d in defs] == SCHEDULES and all(d['schedule'] == '* * * * *' and d['timezone'] == 'UTC'
-                                                             and d['command'].startswith("set statement_timeout to '8s'; select cp7_alert_native.")
+        unit = 'begin; select cp7_alert_native.analysis_tick(); commit;'
+        commands = {'erp-wa-collect': "set statement_timeout to '8s'; select cp7_alert_native.collect_tick()",
+                    'erp-wa-send': "set statement_timeout to '8s'; select cp7_alert_native.send_tick()",
+                    'erp-wa-analysis': "set statement_timeout to '8s'; " + ' '.join([unit] * 6)}
+        assert [d['name'] for d in defs] == SCHEDULES and all(d['schedule'] == '* * * * *' and d['timezone'] == 'UTC' and d['command'] == commands[d['name']]
                                                              for d in defs), defs
-        for sig in ('cp7_alert_native.collect_tick()', 'cp7_alert_native.send_tick()'):
+        state, message = refusal(cur, lambda: tick(cur, 'analysis_tick', '0'))
+        assert (state, message) == ('55000', 'CP7_ALERT_STATEMENT_LIMIT_REQUIRED'), (state, message)
+        for sig in ('cp7_alert_native.collect_tick()', 'cp7_alert_native.send_tick()', 'cp7_alert_native.analysis_tick()'):
             assert one(cur, "select has_function_privilege('postgres',%s,'EXECUTE')", (sig,))
             for who in ('anon', 'authenticated', 'service_role'):
                 assert not one(cur, "select has_function_privilege(%s,%s,'EXECUTE')", (who, sig)), (who, sig)
@@ -688,8 +729,120 @@ def cases(cur, today):
         return dict(status='PASS', refused_without_limit=details, stricter_limit_allowed=True, schedules=SCHEDULES, ticks_postgres_only=True,
                     authenticated_refused='42501', no_public_tick=True, schedule_not_installed=True)
 
+    def analysis_gap():
+        s = setup(cur, kinds=KINDS + ANALYSIS)
+        first = tick(cur, 'analysis_tick')
+        assert first['outcome'] == 'NO_OWNER_ANALYSIS_YET', first
+        # The owner's own finished staged analysis with an open exact-size production gap; the owner's reminder rule for
+        # production gaps switched on (threshold 1 PCS); no rule for fabric needs.
+        x = planv2.single(cur, today, s['owner'])
+        r = dict(run=x['run'], identity=remv2.identity(cur, x['run']), target=x['target'])
+        remv2.policy(cur, r, 'PRODUCTION_GAP', 'PCS', subject=s['owner'])
+        outs = drain(cur)
+        assert outs[-1] == 'ANALYSIS_CHECKED' and 'CONDITION_SET_STEP' in outs, outs
+        key = 'PRODUCTION_GAP:' + r['target']
+        rows = remv2.conditions(cur, r['run'], subject=s['owner'])
+        c = remv2.row(rows, key)
+        gap = D(c['value']['value'])
+        assert c['state'] == 'ACTIVE' and gap >= 2, c
+        # Oracle: the reminders' own read and read-only recheck, condition by condition.
+        expect_open, expect_off = set(), 0
+        for row in rows:
+            if row['state'] != 'ACTIVE' or row['rule_id'] not in ANALYSIS:
+                continue
+            if row['eligibility'] not in ('LOCAL_PREVIEW_ELIGIBLE', 'QUIET', 'COOLDOWN'):
+                expect_off += 1
+                continue
+            v = remv2.recheck(cur, r['run'], row['key'], s['owner'])
+            if v['verdict'] == 'STILL_OPEN' and v['policy_binding']['policy']['config']['enabled'] is True:
+                expect_open.add((row['rule_id'], row['key']))
+        got = {(k, sk) for k in ANALYSIS for sk in alerts(cur, k)}
+        assert got == expect_open and ('PRODUCTION_GAP', key) in got, (sorted(got), sorted(expect_open))
+        assert not alerts(cur, 'FABRIC_NEED'), 'WAF_FABRIC_NEED_WITHOUT_RULE_OPENED'
+        b.api.admin(cur)
+        run_row = cur.execute('select phase,checked,still_open,rule_off from cp7_alert_native.analysis_runs where run_id=%s', (r['run'],)).fetchone()
+        assert run_row[0] == 'DONE' and run_row[2] == len(expect_open) and run_row[3] == expect_off, (run_row, len(expect_open), expect_off)
+        a = alerts(cur, 'PRODUCTION_GAP')[key]
+        v = remv2.recheck(cur, r['run'], key, s['owner'])
+        assert a['title'] == 'Kekurangan produksi: ' + c['label'] and a['detail']['run_id'] == r['run'] and D(a['detail']['need_now_pcs']) == gap \
+            and D(v['numbers']['need_now_pcs']) == gap and a['party_names'] == [], (a, v['numbers'])
+        assert [o['state'] for o in outbox(cur, a['id'])] == ['PENDING']
+        # One piece found after the snapshot: the send checks again and states the need now (gap - 1), not the snapshot.
+        planv2.found_fg(cur, x, 1)
+        before = last_request(cur)
+        sent = tick(cur, 'send_tick')
+        assert sent['outcome'] == 'SENT' and sent['analysis']['checked'].get('PRODUCTION_GAP', 0) >= 1, sent
+        q = queued(cur, before)
+        line = c['label'] + ': kurang ' + wa_num(gap - 1) + ' pcs'
+        assert len(q) == 1 and q[0]['phone'] == PHONE and 'Kekurangan produksi · analisis ' in q[0]['text'] and line in q[0]['text'], q
+        assert D(alerts(cur, 'PRODUCTION_GAP')[key]['detail']['need_now_pcs']) == gap - 1
+        answer(cur, sent['dispatch_id'], 200, 'Message queued')
+        tick(cur, 'send_tick')
+        # The rest found: the repeat a day later is checked again, resolved, never sent.
+        planv2.found_fg(cur, x, int(math.ceil(gap)))
+        test_clock(cur, "update cp7_alert_native.outbox set settled_at=settled_at-interval'25 hours' where state='ACCEPTED'")
+        age_dispatches(cur, 2)
+        before = last_request(cur)
+        again = tick(cur, 'send_tick')
+        mine = outbox(cur, a['id'])
+        assert queued(cur, before) == [] and [o['state'] for o in mine] == ['ACCEPTED', 'RESOLVED_BEFORE_SEND'] \
+            and mine[1]['reason'] == 'RECHECK_RESOLVED_NOW', (again, mine)
+        gone = alerts(cur, 'PRODUCTION_GAP', 'RESOLVED')[key]
+        assert gone['resolution'] == 'RECHECK_RESOLVED_NOW' and remv2.recheck(cur, r['run'], key, s['owner'])['verdict'] == 'RESOLVED_NOW', gone
+        # The reminders module's own records are untouched: its rechecks here are read-only, nothing claimed.
+        assert remv2.claims_of(cur, key) == 0 and remv2.rechecks_of(cur, key) == 0
+        staff = master.role_actor(cur, 'GUDANG')
+        staff_view = rpc(cur, 'erp_cp7_get_alerts_v1', (json.dumps(dict(resolved_days=7)),), staff)
+        assert ('PRODUCTION_GAP' in {k['kind'] for k in staff_view['kinds']}) == ('PRODUCTION_GAP' in visible(cur, staff))
+        return dict(status='PASS', ticks=outs[:3] + ['...', outs[-1]], set_built_by_tick=True, opened=sorted(k for _, k in got), rule_off=expect_off,
+                    sent_need_now=str(gap - 1), snapshot_gap=str(gap), resolved_before_send='RECHECK_RESOLVED_NOW', reminder_claims=0)
+
+    def analysis_automatic():
+        s = setup(cur, kinds=KINDS + ANALYSIS, analysis_every_minutes=15, analysis_start='00:00', analysis_end='23:59')
+        x = planv2.single(cur, today, s['owner'])
+        assert drain(cur)[-1] == 'ANALYSIS_CHECKED'
+        assert tick(cur, 'analysis_tick')['outcome'] == 'NOT_DUE'
+        b.api.admin(cur)
+        job = cur.execute('select query,request_id from cp7_analysis_stage.jobs where run_id=%s', (x['run'],)).fetchone()
+        # TEST_CLOCK_OVERRIDE (labelled): the owner's finished job captured 20 minutes ago; a change recorded after it.
+        test_clock(cur, "update cp7_analysis_stage.jobs set captured_at=captured_at-interval'20 minutes' where run_id=%s", (x['run'],))
+        planv2.found_fg(cur, x, 1)
+        due = tick(cur, 'analysis_tick')
+        # Oracle: the same period length as the owner's last analysis, ending yesterday (WIB, the database clock), same grouping.
+        yday = one(cur, "select ((clock_timestamp() at time zone 'Asia/Jakarta')::date-1)")
+        span = date.fromisoformat(job[0]['through_date']) - date.fromisoformat(job[0]['from_date'])
+        expect_q = dict(from_date=str(yday - span), through_date=str(yday), group_mode=job[0]['group_mode'])
+        assert due['outcome'] == 'ANALYSIS_DUE' and due['query'] == expect_q and due['freshness'] == 'CHANGES_RECORDED', (due, expect_q)
+        asked = tick(cur, 'analysis_tick')
+        assert asked['outcome'] == 'ANALYSIS_REQUESTED' and asked['request_id'] == due['request_id'] and asked['job_state'] == 'RUNNING', asked
+        b.api.admin(cur)
+        new = cur.execute('select state,query,actor::text from cp7_analysis_stage.jobs where request_id=%s', (due['request_id'],)).fetchone()
+        assert new == ('RUNNING', expect_q, s['owner']), new
+        assert tick(cur, 'analysis_tick')['outcome'] == 'ANALYSIS_RUNNING'
+        done, _ = remv2.staged.drive(cur, due['request_id'], s['owner'])
+        assert done['state'] == 'DONE', done
+        outs = drain(cur)
+        assert outs[-1] == 'ANALYSIS_CHECKED', outs
+        b.api.admin(cur)
+        runs = cur.execute('select run_id::text,phase from cp7_alert_native.analysis_runs order by started_at').fetchall()
+        assert runs == [(x['run'], 'DONE'), (done['run_id'], 'DONE')], runs
+        assert tick(cur, 'analysis_tick')['outcome'] == 'NOT_DUE'
+        # Analysis hours that do not contain the current WIB time.
+        h = one(cur, "select extract(hour from clock_timestamp() at time zone 'Asia/Jakarta')::integer")
+        start, end = ('00:00', '%02d:00' % h) if h >= 1 else ('%02d:00' % (h + 2), '23:59')
+        save(cur, s['owner'], enabled=True, kinds=KINDS + ANALYSIS, analysis_every_minutes=15, analysis_start=start, analysis_end=end)
+        outside = tick(cur, 'analysis_tick')['outcome']
+        save(cur, s['owner'], enabled=True, kinds=KINDS + ANALYSIS, analysis_every_minutes=0, analysis_start='00:00', analysis_end='23:59')
+        off = tick(cur, 'analysis_tick')['outcome']
+        assert outside == 'OUTSIDE_ANALYSIS_HOURS' and off == 'AUTO_ANALYSIS_OFF', (outside, off)
+        status = rpc(cur, 'erp_cp7_get_wa_settings_v1', (), s['owner'])['analysis']
+        assert status['request']['request_id'] == due['request_id'] and status['request']['state'] == 'REQUESTED' and status['run']['run_id'] == done['run_id']
+        return dict(status='PASS', due_query=expect_q, requested_in_owner_name=True, job_driven_by_step_rpc=True, new_run_checked=True,
+                    not_due_after=True, outside_hours=outside, auto_off=off, label='TEST_CLOCK_OVERRIDE on the finished job capture time')
+
     named = [waits_for_owner, fabric_equals_summary, ar_ap_sources, owner_reminders_only, send_one_request, rollback_nothing, resolved_before_send,
-             answers, pacing_burst_quiet_digest_repeat, off_or_no_key, key_write_only, privacy_permissions, ticks_private]
+             answers, pacing_burst_quiet_digest_repeat, off_or_no_key, key_write_only, privacy_permissions, ticks_private, analysis_gap,
+             analysis_automatic]
     assert len(named) == len(IDS['native'])
     return list(zip(IDS['native'], named))
 
@@ -848,8 +1001,11 @@ def races(tools, today):
             worker_back()
         log = fake_log()[before:]
         assert any('WA cron bayar listrik' in r['text'] and r['key_ok'] is True for r in log), log
-        assert runs.get('succeeded', 0) >= 2 and runs.get('failed', 0) == 0 and left == 0, (runs, left)
-        return dict(status='PASS', pg_cron_runs=runs, owner_reminder_delivered=True, schedules_removed=True, test_schedule_override='5 seconds')
+        assert runs.get('succeeded', 0) >= 3 and runs.get('failed', 0) == 0 and left == 0, (runs, left)
+        ticked = committed(lambda cur: (b.api.admin(cur), dict(cur.execute('select job,outcome->>%s from cp7_alert_native.ticks', ('outcome',)).fetchall()))[1])
+        assert set(ticked) == {'COLLECT', 'SEND', 'ANALYSIS'} and ticked['ANALYSIS'] == 'NO_OWNER_ANALYSIS_YET', ticked
+        return dict(status='PASS', pg_cron_runs=runs, owner_reminder_delivered=True, schedules_removed=True, test_schedule_override='5 seconds',
+                    ticks=ticked)
 
     return list(zip(IDS['races'], (two_sends, collect_and_send, end_to_end, pg_cron_ticks)))
 

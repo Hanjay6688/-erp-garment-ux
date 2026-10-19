@@ -20,8 +20,8 @@ checkpoint.
 | WA-0 | CI stack facts: pg_net, Vault, pg_cron, fake CallMeBot on the stack network, pg_net serving a second database, rollback sends nothing | done (run 39266618659) |
 | WA-1 | Map install/test path (done: see below) | done |
 | WA-2a | `scripts/cp7-src/alerts/alerts.sql` + `scripts/cp7_alert_bundle.py`: schema `cp7_alert_native` (role `cp7_alert`), settings, alerts, outbox, dispatches, Vault key, ticks, public RPCs; sources: owner's manual reminders, fabric below minimum, AR/AP due | done (local PG16 smoke, see below); CI in WA-3 |
-| WA-2b | Analysis-based kinds (FABRIC_NEED, ACCESSORY_NEED, PRODUCTION_GAP) from the latest DONE staged set + scheduled owner analysis; job `erp-wa-analysis` in `cp7_alert_native.schedules()` (cp7-* lists of K3/K4/K6 untouched) | todo |
-| WA-3 | Bundle `scripts/cp7_alert_bundle.py` (previous = reminder v2), reachability, cases (Native/race/HTTP), declaration JSON, suite in the probe, fake server in CI | todo |
+| WA-2b | Analysis-based kinds (PRODUCTION_GAP, FABRIC_NEED; ACCESSORY_NEED not forwarded: no live recheck exists) from the owner's latest DONE staged run + automatic owner analysis; job `erp-wa-analysis` | built; local PG16 smoke with stubs PASS; CI with WA-3b |
+| WA-3 | Bundle `scripts/cp7_alert_bundle.py` (previous = reminder v2), reachability, cases (Native/race/HTTP), declaration JSON, suite in the probe, fake server in CI | WA-3a PASS; WA-3b 21 cases, CI running |
 | WA-4 | Reminder menu: Pengingat sistem + tab Sambungan WhatsApp (owner); browser cases desktop + phone | todo |
 | WA-5 | Docs, best practices, owner report; then the r6 candidate for Fable/Astra/Sol (with Sol's five test-hardening points) | todo |
 
@@ -92,6 +92,25 @@ Earlier runs, logs kept in CI: 39271239303 (`must be able to SET ROLE "cp7_alert
 for schema auth`), 39272579014 (`schema "cron" does not exist`; pg_cron not created). Fixes: role granted to the
 installer; identity read without schema auth; pg_cron created by the check. CP7C install facts from these runs:
 `docs/cp7/wa/CP7C_INSTALL_FINDINGS_20261019.md` (best practice E25j).
+
+## WA-3b and WA-2b (19 Oct)
+
+- WA-3b first Native run 39275715784 (job 118139520134, `97cd1386`): INCOMPLETE before any case, verifier
+  `('transport', 'supabase_admin', True)`: the harness installs as supabase_admin and the table was left with its
+  installer. Fix: `alter table cp7_alert_native.transport owner to postgres` (reproduced locally with a non-postgres
+  superuser installer: same assertion before, PASS after). Best practice E25l. Log kept: writer scratchpad
+  `cand-logs/wa3b/run39275715784_job118139520134.log`.
+- CodeQL run 39273065854 (`65789737`): the fake server printed `apikey` (py/clear-text-logging-sensitive-data). Fixed in
+  `97cd1386`: it prints `key_ok` against `FAKE_CALLMEBOT_ACCEPTS`; CodeQL 39275715248 success. Best practice E25k.
+- WA-2b in `alerts.sql`: kinds PRODUCTION_GAP and FABRIC_NEED; tables `analysis_runs`, `analysis_requests`;
+  `analysis_tick()` (one unit per call: condition-set step, or up to 3 s of condition rechecks ten a page, or an automatic
+  request in its own unit, or the due decision); `analysis_recheck()` before every send (5 s budget, at most 20 items or
+  max_items per kind for a digest; the rest waits or is counted "belum dicek ulang"). cp7_alert calls only the public
+  functions the screens call (CALLS in the bundle) and reads six columns of `cp7_analysis_stage.jobs`.
+- Cases: 21 (15 Native, 4 races, 2 HTTP). New: WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED (real staged run of the owner,
+  owner's rule on, set built by the tick, alerts equal the reminders' own read + recheck, sent with need now, resolved
+  before the repeat, no reminder claim written) and WAF_ANALYSIS_AUTOMATIC_RUN (due query oracle, request in the owner's
+  name, job driven, new run checked, NOT_DUE, outside hours, off). The pg_cron race now also proves the analysis command.
 
 ## Checkpoint log
 

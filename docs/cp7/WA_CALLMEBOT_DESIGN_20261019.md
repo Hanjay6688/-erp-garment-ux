@@ -1,6 +1,6 @@
 # Desain: semua pengingat ERP diteruskan ke WhatsApp owner lewat CallMeBot (D17-3..D17-5)
 
-Status: **sedang dibuat** (WA-2a: bagian database selesai dan diuji lokal; uji CI, layar dan jenis analisis menyusul). Belum dipasang.
+Status: **sedang dibuat** (WA-2a dan WA-2b: bagian database selesai; uji CI berjalan; layar menyusul). Belum dipasang.
 
 Keputusan owner (19 Okt 2026), dikutip persis:
 - D17-3: "yaudah desain callmebot buat gw"
@@ -94,7 +94,7 @@ pengingat yang sudah ada (`scripts/cp7-src/reminders/`) tidak diubah. Alasannya:
 | `wa_dispatches` | Satu baris per pesan (`INSTANT`, `DIGEST`, `TEST`), `body`, `body_sha256`, `net_request_id`, `status`, `http_status`, `provider_text`, waktu |
 | `cp7_alert_native.collect()` | Pengumpul. Sumber dibaca sebagai owner lewat pembaca yang sudah ada (pola K4: `request.jwt.claims` owner, akses dicek ulang tiap langkah, klaim dipulihkan sesudahnya). Membuka `alerts` baru dan menutup yang sudah beres |
 | `cp7_alert_native.wa_send()` / `wa_reconcile()` | Menggabung outbox, cek ulang, kirim lewat pg_net sesudah commit; membaca jawaban |
-| Jadwal (`cp7_alert_native.schedules()`, terpisah dari `cp7_ops.schedules()`) | `erp-wa-collect` dan `erp-wa-send` tiap menit, masing-masing dengan batas 8 detik; `erp-wa-analysis` menyusul (WA-2b). Nama `erp-wa-*` dipilih supaya daftar jadwal `cp7-*` yang dikunci kasus K3/K4/K6 tidak berubah |
+| Jadwal (`cp7_alert_native.schedules()`, terpisah dari `cp7_ops.schedules()`) | `erp-wa-collect` dan `erp-wa-send` tiap menit, masing-masing dengan batas 8 detik; `erp-wa-analysis` tiap menit, enam langkah per menit, tiap langkah transaksi sendiri dengan batas 8 detik (WA-2b). Nama `erp-wa-*` dipilih supaya daftar jadwal `cp7-*` yang dikunci kasus K3/K4/K6 tidak berubah |
 | RPC publik (`erp_cp7_*`, owner `cp7_alert`, `authenticated` saja) | `erp_cp7_get_alerts_v1` (daftar Pengingat sistem; izin baca per jenis), `erp_cp7_get_wa_settings_v1`, `erp_cp7_save_wa_settings_v1`, `erp_cp7_set_wa_key_v1`, `erp_cp7_send_wa_test_v1`, `erp_cp7_resolve_wa_dispatch_v1` (tandai "masuk"/"tidak masuk" untuk `UNKNOWN`) |
 | Layar | Menu Reminder: bagian Pengingat sistem (semua peran yang berhak melihat) dan tab "Sambungan WhatsApp" (khusus owner) |
 
@@ -186,6 +186,26 @@ terverifikasi. Pesan sungguhan pertama hanya **pesan uji** yang ditekan owner se
 - `STOCK_AT_REORDER_POINT` belum dibuat (belum ada pembaca saldo per lokasi tanpa hitungan baru).
 - Dicek di preflight CP7C: pg_net harus diaktifkan di Enteng (di stack CI tersedia tetapi belum aktif); log server tidak boleh
   mencatat isi argumen RPC (kunci lewat `erp_cp7_set_wa_key_v1`); pencopotan juga menghapus secret Vault.
+
+### Catatan pembuatan WA-2b (19 Okt 2026)
+
+- Kekurangan produksi (`PRODUCTION_GAP`) dan kain yang perlu dibeli (`FABRIC_NEED`) diambil dari **analisis milik Bos
+  sendiri** (yang Bos jalankan di aplikasi atau yang jalan otomatis), lewat fungsi yang sama dengan layar Pengingat:
+  kumpulan kondisi dibangun, lalu setiap kondisi yang aktif dicek ulang ke data ERP sekarang. Masuk WA hanya kalau aturan
+  pengingatnya di menu Reminder **dinyalakan** dan ambangnya tercapai, dan cek ulang menjawab "masih terbuka" (aturan
+  yang sama dengan pengingat lama). Tanpa aturan pengingat, kondisi itu tidak dikirim.
+- Tepat sebelum pesan dikirim, setiap kondisi dicek ulang lagi satu per satu dalam jatah waktu tick; yang belum sempat
+  dicek menunggu menit berikutnya, tidak pernah dikirim tanpa dicek. Ringkasan menulis yang belum sempat dicek hanya
+  sebagai jumlah ("dan N lainnya (belum dicek ulang)").
+- **Kebutuhan aksesori tidak diteruskan**: modul pengingat lama sendiri belum bisa mengecek ulang kebutuhan aksesori ke
+  data terbaru (jawabannya selalu "belum diketahui"), jadi tidak pernah "masih terbuka".
+- Analisis otomatis: hanya kalau analisis terakhir Bos sudah lebih tua dari `analysis_every_minutes`, di dalam jam
+  analisis, tidak ada analisis Bos yang sedang berjalan, dan data ERP berubah sejak analisis itu (atau hari berganti).
+  Periodenya sama panjang dengan analisis terakhir Bos, berakhir kemarin. Penjalan server K4 yang menghitungnya. Kalau Bos
+  belum pernah menjalankan analisis, tidak ada analisis otomatis.
+- Penyimpanan: setiap analisis disimpan 7 hari. Diukur sebelumnya: 31 MB per analisis untuk 5.000 target sesudah dibersihkan
+  (sekitar 6 KB per target). Tiap 60 menit pada jam 07.00–20.00 berarti sampai sekitar 90 analisis tersimpan; untuk 300
+  target sekitar 0,2 GB, untuk 1.000 target sekitar 0,6 GB. Analisis dilewati kalau datanya tidak berubah.
 
 ### Belum pasti (dicek saat pembuatan atau pemasangan)
 

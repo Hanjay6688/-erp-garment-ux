@@ -8,6 +8,11 @@ functions owned by postgres (the stack's Vault and pg_net user) hold every use o
 call them. The two ticks are executable by postgres only (pg_cron); their schedules (erp-wa-*) are rows of
 cp7_alert_native.schedules(), never installed by this bundle. Uninstall is `drop owned by cp7_alert cascade` like every
 other F03 role: the schema goes with everything in it.
+
+WA-2b: PRODUCTION_GAP and FABRIC_NEED from the owner's own staged analysis, through the public functions the Analysis and
+Reminder screens call (CALLS), with the owner's identity; cp7_alert reads only which staged jobs the owner has (six columns
+of cp7_analysis_stage.jobs). A third tick (analysis_tick, schedule erp-wa-analysis) works through the owner's latest
+finished run and asks for an automatic analysis when one is due.
 """
 import hashlib
 import cp7_reminder_v2_bundle as previous
@@ -22,21 +27,28 @@ TABLE_GRANTS={**previous.TABLE_GRANTS,ROLE:{name:'SELECT'for name in READS}}
 SCHEMA='cp7_alert_native'
 # name -> (owner, security definer, volatility)
 FUNCTIONS={
- **{name:(ROLE,True,'v')for name in('apply_kind','claims_enter','claims_leave','collect_kinds','collect_tick','dispatch','guard_alert',
-  'guard_append_only','guard_dispatch','guard_outbox','owner_access','queue_alert','queue_manual','queue_repeats','reconcile','record_tick',
-  'require_owner','send_tick','wa_key_set','wa_resolve','wa_settings_read','wa_settings_save','wa_test')},
- **{name:(ROLE,True,'s')for name in('alerts_read','ap_source','ar_source','current_settings','fabric_source','in_quiet','item_line','label','num',
-  'outbox_items','render','require_tick_limit','rp','settings_json','tgl','ts_key','uid','jwt')},
- 'defaults':(ROLE,True,'i'),'schedules':(ROLE,False,'i'),
+ **{name:(ROLE,True,'v')for name in('analysis_recheck','analysis_tick','analysis_unit','apply_kind','apply_one','claims_enter','claims_leave',
+  'collect_kinds','collect_tick','dispatch','guard_alert','guard_analysis_request','guard_analysis_run','guard_append_only','guard_dispatch',
+  'guard_outbox','owner_access','queue_alert','queue_manual','queue_repeats','reconcile','record_tick','require_owner','resolve_one','send_tick',
+  'wa_key_set','wa_resolve','wa_settings_read','wa_settings_save','wa_test')},
+ **{name:(ROLE,True,'s')for name in('alerts_read','analysis_row','analysis_status','ap_source','ar_source','current_settings','fabric_source',
+  'in_quiet','item_line','label','num','outbox_items','render','require_tick_limit','rp','settings_json','tgl','ts_key','uid','jwt')},
+ 'analysis_open':(ROLE,True,'i'),'defaults':(ROLE,True,'i'),'schedules':(ROLE,False,'i'),
  'vault_key_present':('postgres',True,'s'),'vault_key_write':('postgres',True,'v'),'wa_post':('postgres',True,'v'),'wa_response':('postgres',True,'s')}
 KEY_FUNCTIONS=('vault_key_present()','vault_key_write(text)','wa_post(text,text)','wa_response(bigint)')
-TICKS=('collect_tick()','send_tick()','schedules()')
-TABLES=('alerts','dispatch_items','dispatches','key_events','outbox','settings','source_state','ticks','transport')
-TRIGGERS={('alerts','alerts_guard'),('alerts','alerts_queue'),('dispatch_items','dispatch_items_append_only'),('dispatches','dispatches_guard'),
+TICKS=('collect_tick()','send_tick()','analysis_tick()','schedules()')
+TABLES=('alerts','analysis_requests','analysis_runs','dispatch_items','dispatches','key_events','outbox','settings','source_state','ticks','transport')
+TRIGGERS={('alerts','alerts_guard'),('alerts','alerts_queue'),('analysis_requests','analysis_requests_guard'),('analysis_runs','analysis_runs_guard'),
+ ('dispatch_items','dispatch_items_append_only'),('dispatches','dispatches_guard'),
  ('key_events','key_events_append_only'),('outbox','outbox_guard'),('settings','settings_append_only'),('transport','transport_no_delete')}
 PUBLIC={'public.erp_cp7_get_alerts_v1(jsonb)':'s','public.erp_cp7_get_wa_settings_v1()':'v','public.erp_cp7_save_wa_settings_v1(jsonb,uuid)':'v',
  'public.erp_cp7_set_wa_key_v1(text,uuid)':'v','public.erp_cp7_send_wa_test_v1(uuid)':'v','public.erp_cp7_resolve_wa_dispatch_v1(jsonb,uuid)':'v'}
-SCHEDULES=('erp-wa-collect','erp-wa-send')
+SCHEDULES=('erp-wa-collect','erp-wa-send','erp-wa-analysis')
+# Functions of other modules cp7_alert may call: the sales reader receivable_source() reads (invoker), and the public
+# functions of the Analysis and Reminder screens, each checking the caller's own access (WA-2b, with the owner's identity).
+CALLS=('public.erp_cp7_get_sales_v1(jsonb)','public.erp_cp7_read_reminder_conditions_v2(jsonb)','public.erp_cp7_recheck_reminder_v2(uuid,text)',
+ 'public.erp_cp7_request_staged_analysis_v1(jsonb,uuid)','public.erp_cp7_staged_snapshot_freshness_v1(uuid)','public.erp_cp7_step_reminder_conditions_v2(uuid)')
+JOB_COLUMNS=('actor','captured_at','created_at','query','run_id','state')
 CALLMEBOT='https://api.callmebot.com/whatsapp.php'
 OUTSIDERS=('anon','authenticated','service_role','cp7_capture','cp7_reminder','cp7_payable_read')
 def extension():return previous.extension()+'\n'+(ROOT/'scripts/cp7-src/alerts/alerts.sql').read_text()
@@ -85,6 +97,18 @@ def verify_alert(cur):
  assert[r[0]for r in called]==['payable_source','receivable_source'],called
  assert not one("select exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='cp7_reminder_native'"
   "and has_table_privilege(%s,c.oid,'SELECT,INSERT,UPDATE,DELETE'))",ROLE)
+ # Outside its schema and the reminder sources: exactly the public functions it calls, and six columns of the staged job list.
+ granted=cur.execute("select n.nspname||'.'||p.proname||'('||replace(oidvectortypes(p.proargtypes),' ','')||')'from pg_proc p "
+  "join pg_namespace n on n.oid=p.pronamespace cross join lateral aclexplode(p.proacl)x where x.grantee=%s::regrole and x.privilege_type='EXECUTE'"
+  "and n.nspname<>%s and p.proowner<>%s::regrole order by 1",(ROLE,SCHEMA,ROLE)).fetchall()
+ assert[r[0]for r in granted]==sorted(CALLS+tuple(GRANTS[ROLE])+('cp7_reminder_native.payable_source()','cp7_reminder_native.receivable_source()')),granted
+ assert not one("select exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='cp7_analysis_stage'"
+  "and has_table_privilege(%s,c.oid,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER'))",ROLE)
+ columns=cur.execute("select a.attname from pg_attribute a where a.attrelid='cp7_analysis_stage.jobs'::regclass and a.attnum>0 and not a.attisdropped "
+  "and has_column_privilege(%s,a.attrelid,a.attnum,'SELECT')order by 1",(ROLE,)).fetchall()
+ assert[r[0]for r in columns]==list(JOB_COLUMNS),columns
+ assert not one("select exists(select 1 from pg_attribute a where a.attrelid='cp7_analysis_stage.jobs'::regclass and a.attnum>0 and not a.attisdropped "
+  "and has_column_privilege(%s,a.attrelid,a.attnum,'INSERT,UPDATE,REFERENCES'))",ROLE)
  for sig,volatility in PUBLIC.items():
   assert cur.execute("select pg_get_userbyid(proowner),prosecdef,provolatile::text,proconfig,prolang=(select oid from pg_language where lanname='sql')"
    " from pg_proc where oid=%s::regprocedure",(sig,)).fetchone()==(ROLE,True,volatility,['search_path=""'],True),sig

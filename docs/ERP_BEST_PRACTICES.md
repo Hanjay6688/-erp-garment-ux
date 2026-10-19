@@ -211,6 +211,11 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     gerbang: server palsu menerima kunci uji yang diharapkan lewat variabel lingkungan dan hanya mencetak `key_ok`
     (benar/salah), sehingga uji tetap membuktikan kunci yang tepat sampai tanpa kunci masuk log. (WA-3, CodeQL run
     39273065854 di `65789737`)
+25l. **Pemilik objek yang disyaratkan desain ditulis eksplisit, tidak mengikuti siapa yang memasang.** Tabel `transport`
+    modul WA harus milik `postgres`; uji tumpukan memasang sebagai `postgres` sehingga lulus, tetapi alat uji Native memasang
+    sebagai `supabase_admin` dan tabel itu jadi milik pemasang (pemeriksa menolak). Tulis `alter ... owner to` untuk setiap
+    objek yang pemiliknya penting, dan pasang modul baru sekali sebagai `postgres` dan sekali sebagai superuser lain sebelum
+    kandidat diserahkan. (WA-3b, CI 39275715784 di `97cd1386`)
 
 ## F. Proses audit
 
@@ -260,6 +265,8 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Uji perbandingan mencatat jumlah masukan per fungsi dan gagal bila ada fungsi yang tidak pernah menjawab (E25i).
 - [ ] Modul baru dipasang, dipakai dan dicopot sebagai `postgres` (bukan superuser) di stack bersih; tidak ada grant ke
   skema `auth` (E25j).
+- [ ] Objek yang pemiliknya disyaratkan diberi `alter ... owner to` eksplisit; modul dipasang sebagai `postgres` dan sebagai superuser
+  lain, pemeriksa lulus di keduanya (E25l).
 - [ ] Tidak ada kunci, token atau kata sandi (termasuk yang palsu) yang dicetak oleh server uji atau probe (E25k).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang

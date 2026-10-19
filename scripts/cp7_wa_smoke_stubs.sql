@@ -49,3 +49,23 @@ begin
  return jsonb_build_object('as_of',(statement_timestamp()at time zone'Asia/Jakarta')::date,'rows',coalesce((select jsonb_agg(r)from public.wa_smoke_ap),'[]'));
 end$f$;
 revoke all on function cp7_reminder_native.receivable_source(),cp7_reminder_native.payable_source()from public,anon,authenticated,service_role;
+-- WA-2b: which staged jobs exist, and the public analysis/reminder functions the analysis tick calls (never reached on
+-- this stack: it holds no analysis job, so the tick answers NO_OWNER_ANALYSIS_YET).
+create schema cp7_analysis_stage;
+create table cp7_analysis_stage.jobs(id uuid primary key default gen_random_uuid(),actor uuid not null,request_id uuid not null,query jsonb not null,
+ run_id uuid not null unique,state text not null,captured_at timestamptz not null,created_at timestamptz not null default now(),updated_at timestamptz not null default now());
+revoke all on schema cp7_analysis_stage from public,anon,authenticated,service_role;
+revoke all on cp7_analysis_stage.jobs from public,anon,authenticated,service_role;
+create function public.erp_cp7_request_staged_analysis_v1(p_query jsonb,p_request uuid)returns jsonb language plpgsql security definer set search_path=''as $f$
+begin raise exception 'WA_SMOKE_NOT_AVAILABLE';end$f$;
+create function public.erp_cp7_staged_snapshot_freshness_v1(p_run uuid)returns jsonb language plpgsql security definer set search_path=''as $f$
+begin raise exception 'WA_SMOKE_NOT_AVAILABLE';end$f$;
+create function public.erp_cp7_step_reminder_conditions_v2(p_run uuid)returns jsonb language plpgsql security definer set search_path=''as $f$
+begin raise exception 'WA_SMOKE_NOT_AVAILABLE';end$f$;
+create function public.erp_cp7_read_reminder_conditions_v2(p_query jsonb)returns jsonb language plpgsql security definer set search_path=''as $f$
+begin raise exception 'WA_SMOKE_NOT_AVAILABLE';end$f$;
+create function public.erp_cp7_recheck_reminder_v2(p_run uuid,p_condition text)returns jsonb language plpgsql security definer set search_path=''as $f$
+begin raise exception 'WA_SMOKE_NOT_AVAILABLE';end$f$;
+revoke all on function public.erp_cp7_request_staged_analysis_v1(jsonb,uuid),public.erp_cp7_staged_snapshot_freshness_v1(uuid),
+ public.erp_cp7_step_reminder_conditions_v2(uuid),public.erp_cp7_read_reminder_conditions_v2(jsonb),public.erp_cp7_recheck_reminder_v2(uuid,text)
+ from public,anon,authenticated,service_role;

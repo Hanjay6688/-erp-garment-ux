@@ -7,9 +7,9 @@
     "D17-6"
   ],
   "design": "docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md",
-  "expected_case_count": 19,
+  "expected_case_count": 21,
   "required_case_counts": {
-    "native": 13,
+    "native": 15,
     "races": 4,
     "http": 2
   },
@@ -27,7 +27,9 @@
       "WAF_OFF_OR_NO_KEY_SENDS_NOTHING",
       "WAF_KEY_WRITE_ONLY_AND_MASKED",
       "WAF_PRIVACY_AND_LIST_PERMISSIONS",
-      "WAF_TICKS_PRIVATE_AND_LIMITED"
+      "WAF_TICKS_PRIVATE_AND_LIMITED",
+      "WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED",
+      "WAF_ANALYSIS_AUTOMATIC_RUN"
     ],
     "races": [
       "WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE",
@@ -50,7 +52,8 @@
   ],
   "schedules": [
     "erp-wa-collect",
-    "erp-wa-send"
+    "erp-wa-send",
+    "erp-wa-analysis"
   ],
   "provider": "FAKE_CALLMEBOT_ONLY",
   "test_phone": "+620000000000",
@@ -59,9 +62,19 @@
   "schedule_installed": false,
   "synthetic_labels": [
     "SYNTHETIC_PROVIDER_ANSWER (savepoint cases only; races use the real fake server)",
-    "TEST_CLOCK_OVERRIDE (module tables only, inside the case transaction)",
+    "TEST_CLOCK_OVERRIDE (module tables inside the case transaction; in WAF_ANALYSIS_AUTOMATIC_RUN also the capture time of the owner's finished staged job)",
     "TEST_SCHEDULE_OVERRIDE (5 seconds, race copy only)"
   ],
   "browser": "WA-4 (screens) adds the browser group",
-  "production_go": false
+  "production_go": false,
+  "analysis_kinds": {
+    "forwarded": [
+      "PRODUCTION_GAP",
+      "FABRIC_NEED"
+    ],
+    "not_forwarded": {
+      "ACCESSORY_NEED": "the reminders module has no live recheck for it (its recheck answers UNKNOWN_NOW), so it is never STILL_OPEN"
+    },
+    "oracle": "the reminders module read (erp_cp7_read_reminder_conditions_v2) and read-only recheck (erp_cp7_recheck_reminder_v2) as the owner"
+  }
 }
