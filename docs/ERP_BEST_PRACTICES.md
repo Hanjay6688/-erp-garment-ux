@@ -216,6 +216,17 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     sebagai `supabase_admin` dan tabel itu jadi milik pemasang (pemeriksa menolak). Tulis `alter ... owner to` untuk setiap
     objek yang pemiliknya penting, dan pasang modul baru sekali sebagai `postgres` dan sekali sebagai superuser lain sebelum
     kandidat diserahkan. (WA-3b, CI 39275715784 di `97cd1386`)
+25m. **Batas jam (jam kerja, jam analisis, jam tenang) hanya menahan pekerjaan baru, bukan laporan keadaan, dan ujinya tidak
+    bergantung jam berapa CI berjalan.** Tick analisis WA menjawab "di luar jam analisis" sebelum "Bos belum pernah
+    menjalankan analisis"; uji lokal siang hari lulus, CI pukul 22.47 WIB gagal di dua kasus. Urutan pemeriksaan: keadaan
+    pekerjaan pemilik dulu (sedang berjalan, belum ada), lalu sakelar, lalu jam. Uji yang menyentuh jendela jam memilih
+    jendelanya dari jam database saat itu (satu jendela berisi sekarang, satu tidak), dan kasus yang tidak bisa dibuat
+    di menit terakhir hari menunggu hari berganti agar kontrol pergantian hari mengulangnya. (WA-2b, CI 39279865016 di
+    `4c36f1a2`)
+25n. **Pelaku dalam data uji memenuhi aturan pelaku modul yang dipakai.** Kasus WA memakai pengguna Gudang untuk
+    "pengingat orang lain", padahal modul pengingat hanya menerima OWNER, ADMIN dan STAFF; kasus berhenti sebelum
+    pemeriksaannya. Pilih peran dari aturan modul itu sendiri (lihat kasus modul aslinya), bukan peran yang kebetulan dipakai
+    kasus lain. (WA-3b, CI 39279865016)
 
 ## F. Proses audit
 
@@ -268,6 +279,8 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Objek yang pemiliknya disyaratkan diberi `alter ... owner to` eksplisit; modul dipasang sebagai `postgres` dan sebagai superuser
   lain, pemeriksa lulus di keduanya (E25l).
 - [ ] Tidak ada kunci, token atau kata sandi (termasuk yang palsu) yang dicetak oleh server uji atau probe (E25k).
+- [ ] Batas jam hanya menahan pekerjaan baru; kasus yang menyentuh jendela jam lulus pada jam berapa pun CI berjalan (E25m).
+- [ ] Pelaku data uji dipilih dari aturan pelaku modul yang dipanggil (E25n).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
   dipicu (E19–E20, E19a).

@@ -492,8 +492,9 @@ language sql stable security definer set search_path=''set TimeZone='UTC'as $$
 -- worked through (its condition set built one step a unit, then the conditions active at the snapshot checked again,
 -- ten a page, until the unit's 3 s budget is spent; at the end every analysis alert the run no longer shows is resolved);
 -- else (2) a pending automatic request is sent, alone in its unit (the capture is the analysis's heaviest statement);
--- else (3) whether a new automatic analysis is due: switched on, inside the analysis hours, none of the owner's running,
--- the last one at least analysis_every_minutes old, and the ERP changed since it (or a new day began). The automatic
+-- else (3) whether a new automatic analysis is due: none of the owner's running, one finished before (until then the
+-- tick says so at any hour), switched on, inside the analysis hours, the last one at least analysis_every_minutes old,
+-- and the ERP changed since it (or a new day began). Steps (1) and (2) run at any hour. The automatic
 -- analysis repeats the owner's last period length, ending yesterday, with the same grouping; the K4 runner computes it.
 create function cp7_alert_native.analysis_unit(s cp7_alert_native.settings,t0 timestamptz)returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
@@ -579,12 +580,14 @@ begin
   update cp7_alert_native.analysis_requests set state='FAILED',requested_at=clock_timestamp(),error=err where request_id=req.request_id;
   return jsonb_build_object('ran',true,'outcome','ANALYSIS_REQUEST_FAILED','request_id',req.request_id,'error',err);
  end if;
- if s.analysis_every_minutes=0 then return jsonb_build_object('ran',false,'outcome','AUTO_ANALYSIS_OFF','run_id',d.run_id);end if;
- if not((t0 at time zone'Asia/Jakarta')::time>=s.analysis_start and(t0 at time zone'Asia/Jakarta')::time<s.analysis_end)then
-  return jsonb_build_object('ran',false,'outcome','OUTSIDE_ANALYSIS_HOURS','run_id',d.run_id);end if;
+ -- What the owner's own analysis is doing is reported first, at any hour; the switch and the hours only gate a new
+ -- automatic request.
  if exists(select 1 from cp7_analysis_stage.jobs j where j.actor=s.actor and j.state='RUNNING')then
   return jsonb_build_object('ran',false,'outcome','ANALYSIS_RUNNING','run_id',d.run_id);end if;
  if d.run_id is null then return jsonb_build_object('ran',false,'outcome','NO_OWNER_ANALYSIS_YET');end if;
+ if s.analysis_every_minutes=0 then return jsonb_build_object('ran',false,'outcome','AUTO_ANALYSIS_OFF','run_id',d.run_id);end if;
+ if not((t0 at time zone'Asia/Jakarta')::time>=s.analysis_start and(t0 at time zone'Asia/Jakarta')::time<s.analysis_end)then
+  return jsonb_build_object('ran',false,'outcome','OUTSIDE_ANALYSIS_HOURS','run_id',d.run_id);end if;
  if d.captured_at>t0-make_interval(mins=>s.analysis_every_minutes)
   or exists(select 1 from cp7_alert_native.analysis_requests x where x.created_at>t0-make_interval(mins=>s.analysis_every_minutes))then
   return jsonb_build_object('ran',false,'outcome','NOT_DUE','run_id',d.run_id);end if;

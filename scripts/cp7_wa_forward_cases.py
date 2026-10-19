@@ -245,6 +245,22 @@ def now(cur):
     return one(cur, 'select clock_timestamp()')
 
 
+def hours_without_now(cur):
+    """Analysis hours (start, end) that do not contain the current WIB time."""
+    b.api.admin(cur)
+    h = one(cur, "select extract(hour from clock_timestamp() at time zone 'Asia/Jakarta')::integer")
+    return ('00:00', '%02d:00' % h) if h >= 1 else ('02:00', '23:59')
+
+
+def past_midnight_if_close(cur, margin=180):
+    """Within margin seconds of WIB midnight, wait until the new day has begun."""
+    b.api.admin(cur)
+    left = float(one(cur, "select extract(epoch from date_trunc('day',clock_timestamp() at time zone 'Asia/Jakarta')+interval'1 day'"
+                          "-(clock_timestamp() at time zone 'Asia/Jakarta'))"))
+    if left < margin:
+        time.sleep(left + 2)
+
+
 def alerts(cur, kind, state='OPEN'):
     b.api.admin(cur)
     rows = cur.execute('select subject_key,episode,title,detail,party_names,resolution,id::text from cp7_alert_native.alerts where kind=%s and state=%s',
@@ -413,7 +429,8 @@ def cases(cur, today):
 
     def owner_reminders_only():
         s = setup(cur, enabled=False)
-        staff = master.role_actor(cur, 'GUDANG')
+        # Another internal user with reminders of their own (the Native actor rule lets only OWNER, ADMIN and STAFF keep them).
+        staff = master.role_actor(cur, 'ADMIN')
         t = now(cur)
         due = reminder(cur, s['owner'], 'WA bayar listrik', t - timedelta(minutes=5))
         later = reminder(cur, s['owner'], 'WA rapat besok', t + timedelta(days=1))
@@ -730,7 +747,10 @@ def cases(cur, today):
                     authenticated_refused='42501', no_public_tick=True, schedule_not_installed=True)
 
     def analysis_gap():
-        s = setup(cur, kinds=KINDS + ANALYSIS)
+        # Analysis hours that do not contain the current WIB time: they gate only a new automatic analysis, never the
+        # owner's own run, which is read and checked at any hour.
+        start, end = hours_without_now(cur)
+        s = setup(cur, kinds=KINDS + ANALYSIS, analysis_start=start, analysis_end=end)
         first = tick(cur, 'analysis_tick')
         assert first['outcome'] == 'NO_OWNER_ANALYSIS_YET', first
         # The owner's own finished staged analysis with an open exact-size production gap; the owner's reminder rule for
@@ -740,6 +760,7 @@ def cases(cur, today):
         remv2.policy(cur, r, 'PRODUCTION_GAP', 'PCS', subject=s['owner'])
         outs = drain(cur)
         assert outs[-1] == 'ANALYSIS_CHECKED' and 'CONDITION_SET_STEP' in outs, outs
+        assert tick(cur, 'analysis_tick')['outcome'] == 'OUTSIDE_ANALYSIS_HOURS'
         key = 'PRODUCTION_GAP:' + r['target']
         rows = remv2.conditions(cur, r['run'], subject=s['owner'])
         c = remv2.row(rows, key)
@@ -794,10 +815,14 @@ def cases(cur, today):
         staff = master.role_actor(cur, 'GUDANG')
         staff_view = rpc(cur, 'erp_cp7_get_alerts_v1', (json.dumps(dict(resolved_days=7)),), staff)
         assert ('PRODUCTION_GAP' in {k['kind'] for k in staff_view['kinds']}) == ('PRODUCTION_GAP' in visible(cur, staff))
-        return dict(status='PASS', ticks=outs[:3] + ['...', outs[-1]], set_built_by_tick=True, opened=sorted(k for _, k in got), rule_off=expect_off,
-                    sent_need_now=str(gap - 1), snapshot_gap=str(gap), resolved_before_send='RECHECK_RESOLVED_NOW', reminder_claims=0)
+        return dict(status='PASS', ticks=outs[:3] + ['...', outs[-1]], set_built_by_tick=True, checked_outside_analysis_hours=[start, end],
+                    opened=sorted(k for _, k in got), rule_off=expect_off, sent_need_now=str(gap - 1), snapshot_gap=str(gap),
+                    resolved_before_send='RECHECK_RESOLVED_NOW', reminder_claims=0)
 
     def analysis_automatic():
+        # 00:00-23:59 leaves out the last minute of the day; a case that would reach it waits for the new day, and the
+        # business-day control runs the group again from a fresh copy.
+        past_midnight_if_close(cur)
         s = setup(cur, kinds=KINDS + ANALYSIS, analysis_every_minutes=15, analysis_start='00:00', analysis_end='23:59')
         x = planv2.single(cur, today, s['owner'])
         assert drain(cur)[-1] == 'ANALYSIS_CHECKED'
@@ -827,9 +852,7 @@ def cases(cur, today):
         runs = cur.execute('select run_id::text,phase from cp7_alert_native.analysis_runs order by started_at').fetchall()
         assert runs == [(x['run'], 'DONE'), (done['run_id'], 'DONE')], runs
         assert tick(cur, 'analysis_tick')['outcome'] == 'NOT_DUE'
-        # Analysis hours that do not contain the current WIB time.
-        h = one(cur, "select extract(hour from clock_timestamp() at time zone 'Asia/Jakarta')::integer")
-        start, end = ('00:00', '%02d:00' % h) if h >= 1 else ('%02d:00' % (h + 2), '23:59')
+        start, end = hours_without_now(cur)
         save(cur, s['owner'], enabled=True, kinds=KINDS + ANALYSIS, analysis_every_minutes=15, analysis_start=start, analysis_end=end)
         outside = tick(cur, 'analysis_tick')['outcome']
         save(cur, s['owner'], enabled=True, kinds=KINDS + ANALYSIS, analysis_every_minutes=0, analysis_start='00:00', analysis_end='23:59')

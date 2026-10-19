@@ -111,6 +111,20 @@ installer; identity read without schema auth; pg_cron created by the check. CP7C
   owner's rule on, set built by the tick, alerts equal the reminders' own read + recheck, sent with need now, resolved
   before the repeat, no reminder claim written) and WAF_ANALYSIS_AUTOMATIC_RUN (due query oracle, request in the owner's
   name, job driven, new run checked, NOT_DUE, outside hours, off). The pg_cron race now also proves the analysis command.
+- WA Forward run 39279865016 (job 118151914129, `4c36f1a2`, 22.41-22.48 WIB): 18 PASS, 3 INCOMPLETE. Log kept: writer
+  scratchpad `cand-logs/wa2b/run39279865016_job118151914129.log`.
+  - WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED and WAF_RACE_PG_CRON_RUNS_TICKS: the first analysis tick answered
+    OUTSIDE_ANALYSIS_HOURS (default hours 07:00-20:00) where NO_OWNER_ANALYSIS_YET was expected. Root cause in
+    `analysis_unit`: the switch and the hours were checked before the owner's own state. Fixed: running job, then no
+    finished run, then switch, then hours (the hours gate only a new automatic request; the owner's run is read and checked
+    at any hour, as before). The gap case now runs with hours that exclude the current WIB time and asserts the run is
+    still worked through, then OUTSIDE_ANALYSIS_HOURS. The automatic case waits past WIB midnight when within 3 minutes of
+    it (00:00-23:59 leaves the last minute out), so the business-day control reruns it. Best practice E25m. Local smoke
+    `wa2/smoke8.sql`: outside hours gives NO_OWNER_ANALYSIS_YET, ANALYSIS_RUNNING, ANALYSIS_CHECKED, OUTSIDE_ANALYSIS_HOURS.
+  - WAF_OWNER_REMINDERS_ONLY_WHEN_DUE: the "other user's reminder" fixture used a GUDANG user; the reminders module accepts
+    only OWNER/ADMIN/STAFF ("Internal ERP access required"). Fixture now ADMIN (as `cp7_r3_reminders_cases.py`); the
+    assertion (another user's reminder never queued or read) is unchanged. Best practice E25n.
+  - `writer_runtime: False` in the package gate follows from the INCOMPLETE suite.
 
 ## Checkpoint log
 
