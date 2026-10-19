@@ -1,0 +1,20 @@
+{
+  "oracle_origin": "ASTRA unchanged from prior locked report 741ffdf30d9ff2709e4b60af901f6dba98a9c1e4",
+  "fixture_origin": "writer helpers, Astra scenarios",
+  "risk_ids": [
+    "ASTRA_R3_REOPEN_POSITIVE_ADJUSTMENT_INVERSE",
+    "ASTRA_R3_MIXED_RATES_NOTA_PAYROLL_HPP",
+    "ASTRA_R3_POOL_PUBLIC_CLOSED_PERIOD",
+    "ASTRA_R3_POOL_PUBLIC_REVOKED_MANAGE"
+  ],
+  "paging_ids": [
+    "ASTRA_R3_AUDIT_LOWER_ID_LATE_COMMIT"
+  ],
+  "hashes": {
+    "audit/astra_cp17_r4/retained/risk_cases.py": "25579d605d832bbab84db2693695b58b641c52f38d3ecee28391e5a34e78c88e",
+    "audit/astra_cp17_r4/retained/risk_runner.py": "bec0debc23ea60186d16bf1b1d847c1aa327910c0c4642ebaa2a44326ee509c4",
+    "audit/astra_cp17_r4/retained/audit_paging_case.py": "9fe08722c2ce4a37413fe038f9f408d2d58f007047442b5b3b42dfedc2e9ed3d",
+    "audit/astra_cp17_r4/retained/audit_paging_runner.py": "637c9abd5e8fc3bdabe9a20fa34ba53e9855a71f13bd3e5a5efadbd4e1b31228"
+  },
+  "p19": "Twelve frozen writer suites; independent execution, writer oracle; declarations in frozen scripts and docs. No fabricated counts from workflow names."
+}
