@@ -1,0 +1,11 @@
+{
+  "state": "FINAL_RAW_SELECTION_FROZEN",
+  "candidate_sha": "17fa25075ba77f0853c3c16f504288ace03eec35",
+  "files": 807,
+  "total_bytes": 674232876,
+  "source_artifact_member_text_count": 695,
+  "image_payload_markers_detected": [],
+  "provider_archive_hashes_verified": true,
+  "archive_receipt": "ARCHIVE_RECEIPT.json",
+  "limits": "Original image/binary artifact members were not selected. This is not screenshot inspection."
+}

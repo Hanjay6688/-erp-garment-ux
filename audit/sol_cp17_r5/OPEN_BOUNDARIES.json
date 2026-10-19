@@ -1,0 +1,292 @@
+{
+  "report_state": "FINAL_EXPLICIT_R5_SCOPE_BOUNDARIES",
+  "candidate_sha": "17fa25075ba77f0853c3c16f504288ace03eec35",
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false,
+  "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+  "retained_boundaries_runtime_credit_r5": 0,
+  "scope_gaps": [
+    {
+      "id": "INV-T02",
+      "family": "INVARIANT",
+      "status": "INCOMPLETE",
+      "requirement": "Periode tertutup tidak berubah diam-diam. Koreksi masuk dengan tanggal ekonomi asal dan tanggal pengakuan di periode terbuka, sesuai aturan Native dan `cp7_period`.",
+      "evidence_scope": "Facade current menolak closed period;25 public Data API lama ditutup. Native DB sessions tetap sama sesuai D14-9, jadi invariant semua entrypoint belum ditutup.",
+      "next_action": {
+        "classification": "OWNER_DEFERRED_CP7C",
+        "owner": "Writer/operator CP7C",
+        "action": "Native DB legacy wrappers/grants remain D14-9; execute already-defined install boundaries only at authorized CP7C. Data API25closure current verified.",
+        "executable_now": false
+      },
+      "proved_product_bug": false,
+      "evidence": "INVARIANT_MATRIX.json"
+    },
+    {
+      "id": "INV-T04",
+      "family": "INVARIANT",
+      "status": "INCOMPLETE",
+      "requirement": "Non-kebocoran waktu: menambah fakta yang baru diketahui sesudah cutoff tidak mengubah hasil \"as-known\" yang lama. Restatement mendapat revisi baru.",
+      "evidence_scope": "Arsip/Original immutable dan batas pengetahuan tertentu teruji; arbitrary historical as-known untuk semua fakta belum tersedia.",
+      "next_action": {
+        "classification": "UNIMPLEMENTED_GENERAL_QUERY_SEMANTICS",
+        "owner": "Writer contract/source",
+        "action": "Current finance rejects arbitrary as_known; existing immutable filed/capture views are verified. Define supported historical knowledge view before any general as-known acceptance.",
+        "executable_now": false
+      },
+      "proved_product_bug": false,
+      "evidence": "INVARIANT_MATRIX.json"
+    },
+    {
+      "id": "INV-L07",
+      "family": "INVARIANT",
+      "status": "INCOMPLETE",
+      "requirement": "Data di luar izin pengguna tidak muncul di angka, total, alasan, cache, atau prompt AI.",
+      "evidence_scope": "Current Auth/RPC/Original/AI dan actual CSV terbukti pada jalur terpilih. Kombinasi download CSV history/audit dari halaman yang sudah memuat data sesudah revoke tanpa refetch belum dieksekusi; jangan menganggap bukti current403 di consumer lain menutup jalur file ini. Tidak ada probe keamanan baru.",
+      "next_action": {
+        "classification": "PRIOR_SESSION_SECURITY_SCOPE_HOLD",
+        "owner": "Audit coordinator",
+        "action": "Review existing loaded CSV/history/audit download after permission revoke without refetch. New access/security probes remain held in this session; no product bug inferred.",
+        "executable_now": false
+      },
+      "proved_product_bug": false,
+      "evidence": "INVARIANT_MATRIX.json"
+    },
+    {
+      "id": "INV-M01",
+      "family": "INVARIANT",
+      "status": "INCOMPLETE",
+      "requirement": "Saldo awal (stok, WIP, utang, piutang, uang muka, upah) sama persis dengan dokumen sumber cutover, per baris.",
+      "evidence_scope": "Impor sumber sintetis teruji, tetapi baris saldo awal dokumen cutover nyata belum direkonsiliasi; CP7C ditunda.",
+      "next_action": {
+        "classification": "OWNER_DEFERRED_CP7C",
+        "owner": "Operator CP7C",
+        "action": "Reconcile actual signed opening source documents, row by row, against approved cutover.",
+        "executable_now": false
+      },
+      "proved_product_bug": false,
+      "evidence": "INVARIANT_MATRIX.json"
+    },
+    {
+      "id": "INV-M03",
+      "family": "INVARIANT",
+      "status": "INCOMPLETE",
+      "requirement": "Sesudah cutover, semua cek integritas bernilai nol pelanggaran.",
+      "evidence_scope": "Nol detector pada fixture tidak membuktikan sesudah real cutover. Tahap produksi/CP7C belum dijalankan.",
+      "next_action": {
+        "classification": "OWNER_DEFERRED_CP7C",
+        "owner": "Operator/auditor CP7C",
+        "action": "Run all integrity checks before/after actual cutover and reconcile real controls.",
+        "executable_now": false
+      },
+      "proved_product_bug": false,
+      "evidence": "INVARIANT_MATRIX.json"
+    },
+    {
+      "id": "INV-M04",
+      "family": "INVARIANT",
+      "status": "INCOMPLETE",
+      "requirement": "Paket rilis diuji **dari baseline hosted yang sebenarnya**, bukan baseline yang diasumsikan. Preflight baca-saja mencatat versi ledger hosted dan objek yang ada; pemasang membawa semua pendahulu yang hilang (contoh nyata: hosted masih v2.6.20 sehingga 30 berkas CP6 membutuhkan 28 pendahulu A–AB, total 58). Hash setiap berkas pendahulu diverifikasi auditor terhadap berkas asli di repo.",
+      "evidence_scope": "Tidak ada SQL hosted aktual pada sesi ini. Operator receipt/aligned clone dan r3 baseline retained bukan fresh hosted observation.",
+      "next_action": {
+        "classification": "HOSTED_OBSERVATION_NOT_AUTHORIZED",
+        "owner": "Operator CP7C",
+        "action": "Capture actual hosted version/catalog/alignment receipt under permitted runbook; audit clone is not fresh hosted observation.",
+        "executable_now": false
+      },
+      "proved_product_bug": false,
+      "evidence": "INVARIANT_MATRIX.json"
+    },
+    {
+      "id": "INV-D04",
+      "family": "INVARIANT",
+      "status": "INCOMPLETE",
+      "requirement": "Nol pelanggaran dicatat **sebelum dan sesudah** setiap skenario §7, bukan hanya di akhir run.",
+      "evidence_scope": "Belum ada nol integritas sebelum/sesudah setiap29 skenario; pemeriksaan akhir/global0 tidak menggantikannya.",
+      "next_action": {
+        "classification": "SCENARIO_DEPENDENCY_DEFERRED",
+        "owner": "Auditor after executable scenario prerequisites",
+        "action": "Per-scenario complete detector snapshots need all29scenario fixtures; actual cutover/hosted/midnight dependencies are currently unavailable or deferred. Final global0 is not a substitute.",
+        "executable_now": false
+      },
+      "proved_product_bug": false,
+      "evidence": "INVARIANT_MATRIX.json"
+    },
+    {
+      "id": "SKN-07",
+      "family": "SCENARIO",
+      "status": "INCOMPLETE",
+      "requirement": "Sen ganjil: 1/3, 0,005, alokasi ke banyak baris; angka sangat besar (≥ 9.007.199.254.740.993) dan sangat kecil.",
+      "evidence_scope": "Contoh sen/huge diuji; semua1/3,0.005,alokasi dan batas intermediate semua jenis transaksi belum lengkap.",
+      "next_action": {
+        "classification": "EXACT_FRACTION_ORACLE_NOT_EXECUTED",
+        "owner": "Auditor",
+        "action": "Current cents/huge6decimal paths and retained half-cent controls exist; one-third allocation contract/path lacks a current independently observed complete source allocation. Held pool probe is not resumed under another value.",
+        "executable_now": false
+      },
+      "proved_product_bug": false,
+      "evidence": "SCENARIO_MATRIX.json"
+    },
+    {
+      "id": "SKN-09",
+      "family": "SCENARIO",
+      "status": "INCOMPLETE",
+      "requirement": "Tengah malam WIB (23:59:59 vs 00:00:00), transaksi yang melewati tengah malam.",
+      "evidence_scope": "UTC/device/WIB counters teruji; tidak ada actual wall-clock23:59:59→00:00:00 atau proses lintas midnight current.",
+      "next_action": {
+        "classification": "WALL_CLOCK_ENVIRONMENT_NOT_AVAILABLE",
+        "owner": "Auditor timed CI",
+        "action": "UTC/WIB and synthetic clock boundary controls exist; actual23:59:59->00:00:00 crossing was not scheduled/observed. Do not fake system clock or claim simulated passage.",
+        "executable_now": false
+      },
+      "proved_product_bug": false,
+      "evidence": "SCENARIO_MATRIX.json"
+    },
+    {
+      "id": "SKN-16",
+      "family": "SCENARIO",
+      "status": "INCOMPLETE",
+      "requirement": "Data cutover nyata (saldo awal) diproses sampai satu periode penuh.",
+      "evidence_scope": "Impor awal sintetis bukan sumber cutover nyata sampai satu periode; CP7C belum dijalankan.",
+      "next_action": {
+        "classification": "OWNER_DEFERRED_CP7C",
+        "owner": "Operator/auditor CP7C",
+        "action": "Real opening source->one full period/shadow reconciliation requires cutover documents/authorized operator action.",
+        "executable_now": false
+      },
+      "proved_product_bug": false,
+      "evidence": "SCENARIO_MATRIX.json"
+    },
+    {
+      "id": "SKN-19",
+      "family": "SCENARIO",
+      "status": "INCOMPLETE",
+      "requirement": "**Perusakan terkendali:** satu angka di tabel state/fakta/jurnal diubah di dalam savepoint; semua detektor terkait harus naik; rollback mengembalikan nol. Bila tabelnya append-only, penolakannya dicatat sebagai bukti INV-K07.",
+      "evidence_scope": "Append-only refusals retained; valid FG_REPAIR false alarm closed on r5. Current exact detector negative controls11/167; across Sol rounds22/167, not universal sensitivity. Full167 vectors exported for valid repair and wrong/missing wage, then rollback.",
+      "next_action": {
+        "classification": "PARTIAL_SENSITIVITY_NOT_A_CURRENT_FALSE_ALARM",
+        "owner": "Auditor/consolidation",
+        "action": "Use DETECTOR_DISPOSITIONS per identity:11 current controls,156 without a fresh r5 negative;22 ever qualified,145 never qualified. Keep guard prevention separate and preserve held access boundaries. SOL-R4-001 is closed on installed r5.",
+        "executable_now": false
+      },
+      "proved_product_bug": false,
+      "evidence": "SCENARIO_MATRIX.json"
+    },
+    {
+      "id": "SKN-21",
+      "family": "SCENARIO",
+      "status": "INCOMPLETE",
+      "requirement": "**Pemasangan dari hosted nyata:** salinan sekali pakai pada versi ledger hosted yang sebenarnya, dipasang penuh dengan akun non-superuser seperti hosted, lalu dicopot (rollback) tanpa sisa; semua penolakan pra-admission INV-M05 dicoba satu per satu.",
+      "evidence_scope": "P21 aligned disposable current dan retained preflight bukan fresh actual-hosted install; tidak ada SQL hosted.",
+      "next_action": {
+        "classification": "HOSTED_BASELINE_UNAVAILABLE",
+        "owner": "Operator CP7C",
+        "action": "Fresh actual-hosted clone/version with hosted-like non-superuser and every pre-admission refusal; existing aligned-source clone scope remains qualified.",
+        "executable_now": false
+      },
+      "proved_product_bug": false,
+      "evidence": "SCENARIO_MATRIX.json"
+    },
+    {
+      "id": "SKN-22",
+      "family": "SCENARIO",
+      "status": "INCOMPLETE",
+      "requirement": "**Lintas checkpoint CP1–7:** saldo awal cutover (CP6 AC..) → pembelian dan potong (CP3–5) → aksesori/laundry/konversi (BC..BF) → penjualan, retur, pembayaran (CP7 P11–P13) → laporan BR dan reminder → koreksi R1 di awal rantai → semua cek integritas nol, laporan per tanggal direproduksi, rekomendasi berubah hanya bila faktanya berubah.",
+      "evidence_scope": "Komposisi Native/real browser slices luas; bukan satu real cutover→satu periode→semua detector/BR/reminder/correction chain.",
+      "next_action": {
+        "classification": "OWNER_DEFERRED_REAL_CUTOVER_CHAIN",
+        "owner": "Operator/auditor CP7C",
+        "action": "Synthetic P18/F03 end-to-end components pass; real cutover plus full period plus BR/reminder plus upstream correction requires authorized real-source shadow phase.",
+        "executable_now": false
+      },
+      "proved_product_bug": false,
+      "evidence": "SCENARIO_MATRIX.json"
+    },
+    {
+      "id": "SKN-29",
+      "family": "SCENARIO",
+      "status": "INCOMPLETE",
+      "requirement": "**Keluaran yang benar-benar dipakai:** cocokkan angka dan izin antara RPC, layar, file laporan yang diunduh, serta proyeksi Tanya AI. Dengan peran operasional, coba filter/ID sumber yang tidak berhak, cache setelah pencabutan izin, dan instruksi yang disisipkan dalam catatan sumber. Periksa kebocoran pada isi respons, alasan, total, file, dan prompt; UI yang menyembunyikan angka saja tidak cukup. Reminder diuji sampai perubahan episode/ACK/snooze; arsip bukan bukti utang lunas. Pengiriman WA memakai transport uji tanpa penerima nyata dan tidak diklaim sebagai bukti pengiriman live.",
+      "evidence_scope": "Native/RPC/UI/CSV/prompt UTF8 dengan source framing dan instruksi dalam label diuji, episode/ACK/snooze/local transport teruji. Jalur file CSV yang sudah dimuat sesudah revoke tanpa refetch belum dieksekusi. Provider obedience/live delivery tidak diukur dan tidak diperlukan sebagai klaim test-sink; tidak ada security probe baru.",
+      "next_action": {
+        "classification": "PRIOR_SESSION_SECURITY_SCOPE_HOLD",
+        "owner": "Audit coordinator",
+        "action": "Actual CSV, protected Original and quoted prompt pass respective paths; loaded-file cache after revoke without refetch remains unexecuted. New access/security probes held, no live recipient/provider claims.",
+        "executable_now": false
+      },
+      "proved_product_bug": false,
+      "evidence": "SCENARIO_MATRIX.json"
+    },
+    {
+      "id": "INV-D01",
+      "family": "INVARIANT",
+      "status": "INCOMPLETE",
+      "requirement": "Setiap detektor punya **kontrol positif dan negatif** di run auditor: diam pada buku yang benar (0 baris), dan **naik tepat +1** ketika auditor merusak satu angka di dalam savepoint, lalu kembali 0 sesudah rollback. Detektor yang tidak bisa dibuat berbunyi berlabel `TIDAK TERUJI`, bukan `PASS`.",
+      "evidence_scope": "The valid FG_REPAIR false alarm is closed. Current exact negative sensitivity is11/167;156 lack a fresh r5 negative control. Across Sol rounds22 are qualified and145 still lack a qualified negative. Normal zeros and Native guard prevention are not sensitivity proof.",
+      "next_action": {
+        "owner": "Auditor/consolidation",
+        "classification": "PER_PREDICATE_NEGATIVE_PROOF_MISSING",
+        "action": "Use DETECTOR_DISPOSITIONS per identity; preserve held access boundaries; do not close global INV-D01.",
+        "executable_now": false
+      },
+      "proved_product_bug": false,
+      "evidence": "DETECTOR_DISPOSITIONS.json"
+    }
+  ],
+  "extra_limits": [
+    {
+      "id": "STAFF_FRESH_TX_ALLOW",
+      "status": "NOT_EXECUTED_AFTER_TWO_AUDITOR_FIXTURE_FAILURES",
+      "evidence": "FRESH_TX_RESULT_REVIEW.json",
+      "owner": "AUDITOR",
+      "product_bug_inferred": false
+    },
+    {
+      "id": "HELD_R3_THREE_DESIGNS",
+      "status": "NOT_EXECUTED_PRIOR_SESSION_SCOPE_HOLD",
+      "owner": "AUDIT_COORDINATOR",
+      "action": "Do not resume through changed values, renamed jobs or another transport; no current PASS or bug credit."
+    }
+  ],
+  "known_operating_boundaries": [
+    {
+      "id": "KNOWN-POOL-PUBLIC-ENTRYPOINTS",
+      "severity": "UNASSIGNED_REMAINING_NATIVE_SCOPE",
+      "status": "DATA_API_CLOSED_NATIVE_DB_SCOPE_OWNER_DEFERRED_CP7C",
+      "first_seen_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "retested_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "evidence": "CP17_RESULT_REVIEW.json; SOURCE_REVIEW.md",
+      "proved": "Four public legacy pool wrappers are among25AuthDataAPI closures with403/42501; current facade positive controls pass. Native DB sessions/grants are deliberately unchanged.",
+      "not_proven": "No fresh mutating closed-period bypass via a DB session. Prior held pool counterfixture was not resumed.",
+      "owner_decision": "D14-9 preserves Native DB compatibility untilCP7C; r4 route closure fixes the prior public DataAPI boundary.",
+      "remedy": "Retain DataAPI first-statement closure; operator/writerCP7C must execute the already-defined Native entrypoint/grant installation boundary.",
+      "owner": "WRITER_OPERATOR_CP7C"
+    },
+    {
+      "id": "KNOWN-BACKUP-REPLACEMENT-WRITE",
+      "severity": "UNASSIGNED_KNOWN_OPERATIONAL_BOUNDARY",
+      "status": "OWNER_DEFERRED_CP7C_NOT_APPLIED",
+      "first_seen_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "retested_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "evidence": "RESULT_REVIEW.json; REHEARSAL_RESULT_REVIEW.json",
+      "proved": "K3boundaryB writes to replacement scratch beforeBACKUP_SCRATCH_REPLACED; replacement remains. Current candidate has no KNOWN_REPLACEMENT patch.",
+      "owner_decision": "D13-9a: patch prepared forCP7C, not applied during this audit.",
+      "remedy": "Apply/qualify target-ownership replacement protection atCP7C; keep mismatch first result and replacement identity. Use proved new-copy restore for data recovery.",
+      "owner": "WRITER_OPERATOR_CP7C"
+    },
+    {
+      "id": "KNOWN-HISTORICAL-KNOWLEDGE-QUERY",
+      "severity": "UNASSIGNED_EXPLICIT_CAPABILITY_BOUNDARY",
+      "status": "GENERAL_AS_KNOWN_NOT_IMPLEMENTED",
+      "retested_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "evidence": "INVARIANT_MATRIX.json:INV-T04; FUNCTION_DETAIL.json",
+      "proved": "Immutable filed/captured Original is retained and current reads state historical knowledge NOT_RECONSTRUCTED; arbitrary general as_known reconstruction is not accepted.",
+      "remedy": "Specify and implement the required general historical-knowledge query before claiming that capability; do not rewrite filed Original.",
+      "owner": "WRITER_CONTRACT_SOURCE"
+    }
+  ],
+  "current_operating_retest": "K3 replacement still receives restore write before mismatch; patch deferred CP7C. P21 used/new-copy restore verified; post-use uninstall is not exact data restore.",
+  "production_gate": "CP6 accepted closure remains distinct from CP7 completeness, full audit and production approval. Real hosted preflight/cutover/shadow and missing sensitivity/access scope remain open.",
+  "peer_round_read": false,
+  "limits": "This is what Sol did not close. Without peer r5 reports, Sol does not claim which items nobody else tested."
+}

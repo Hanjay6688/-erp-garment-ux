@@ -105,6 +105,20 @@ def main():
                        postuse_harness_exact_restore=False,postuse_restore_components=p21['restore_components'],postuse_business_tables_changed=len(p21['harness_restore']['erp_data_changed_by_use']),cluster_roles_after_preinstall_restore=steps['ROLLBACK_BY_PREINSTALL_RESTORE']['cluster_roles_still_present']),
          k3_known_boundary=dict(run_id=39237719026,source=ks,raw_status='PASS',replacement_write_before_mismatch=True,boundary=boundary,disposition='KNOWN_OWNER_DEFERRED_CP7C_NOT_APPLIED'),
          limits=['P21 PASS does not mean post-use uninstall restores committed data. Use the demonstrated new-copy backup restore.','No hosted/Enteng installation, physical cutover, Drive offsite or shadow period is claimed.','K3 expected refusal is not proof that replacement received no write.']))
+    negative,nsource=read(12183518429,'SOL_R5_REPAIR_NEGATIVE_VECTOR.json')
+    nr=negative['groups']['repair_negative_vector']['cases']['SOL_R5_REPAIR_CHECKER_FULL_167_NEGATIVE_VECTORS']
+    assert negative['status']=='PASS' and negative['counts']=={'PASS':1} and negative['cp6_restored']
+    assert nr['all167_vectors_exported'] and len(nr['phases'])==6
+    for phase in nr['phases']:
+        actual={v['function']+':'+v['check_name']:v['issue_count']for v in phase['rows']}
+        assert len(actual)==167 and {k:v for k,v in actual.items()if v}==phase['expected_nonzero']
+    reviewed=json.loads((ROOT/'READER_AND_DETECTOR_RESULT_REVIEW.json').read_text())
+    reviewed['strict_repair_negative_vectors']=dict(run_id=39246794670,source=nsource,status='PASS',absolute0_1_0_on_wrong_and_missing=True,
+        phases=[dict(label=p['label'],exported_identities=len(p['rows']),actual_nonzero={v['function']+':'+v['check_name']:v['issue_count']for v in p['rows']if v['issue_count']})for p in nr['phases']],
+        complete_boundary_restored=nr['full_boundary_restored'],trigger_enabled_at_detection=True,
+        control_fixture_exception='One immutable-wage guard disabled only for each legacy inconsistency write, re-enabled before detection and restored by rollback; not a permission or guard-prevention proof.')
+    reviewed['strict_target_sensitivity_uses_new_Sol_full_vectors_not_CP17_delta_only']=True
+    save('READER_AND_DETECTOR_RESULT_REVIEW.json',reviewed)
     print(json.dumps(dict(cp17_pass=345,original_controls_pass=11,new_full_graph_pass=True,reversed_repair_pass=True,prepared_mapping_pass=True,multirow_capture_qualified_without_replay=True,f03_buckets=8,p21_new_copy_restore=True,original_auditor_tool_failures_preserved=3)))
 
 

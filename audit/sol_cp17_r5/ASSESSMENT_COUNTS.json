@@ -1,0 +1,45 @@
+{
+  "round_deliverable_complete": true,
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false,
+  "invariants": {
+    "PASS": 74,
+    "INCOMPLETE": 8
+  },
+  "scenarios": {
+    "PASS": 22,
+    "INCOMPLETE": 7
+  },
+  "chains": {
+    "PASS": 20
+  },
+  "defined_needs": 57,
+  "screens": 47,
+  "current_detector_controls": {
+    "PASS": 11,
+    "TIDAK_TERUJI": 156
+  },
+  "across_Sol_rounds": {
+    "EVER_QUALIFIED": 22,
+    "NEVER_QUALIFIED": 145
+  },
+  "raw_runs": {
+    "success": 9,
+    "failure": 3
+  },
+  "raw_jobs": {
+    "success": 28,
+    "failure": 3
+  },
+  "raw_case_occurrences": {
+    "PASS": 1036,
+    "INCOMPLETE": 3
+  },
+  "case_occurrences": 1039,
+  "distinct_id_strings": 1034,
+  "pure_decoder_controls": 4,
+  "pure_decoder_native_credit": 0,
+  "all43_archives_digest_verified": true,
+  "progress_percentage": "NOT_COMPUTED_NO_ACCEPTED_GLOBAL_COMPLETION_DENOMINATOR"
+}

@@ -1,0 +1,4049 @@
+{
+  "state": "FINAL_SELECTED_TEXT_EVIDENCE",
+  "candidate_sha": "17fa25075ba77f0853c3c16f504288ace03eec35",
+  "candidate_tree": "65f778479093d869a3354c0b9f19b4d9a541d98a",
+  "created_at": "2026-10-19T12:03:20.011899+00:00",
+  "files": 807,
+  "total_bytes": 674232876,
+  "selection": "All captured original textual artifact members plus provenance/metadata and exact decoded logs; no binary screenshots or Git repository/source copy.",
+  "image_payload_markers_detected": [],
+  "all43_provider_archive_digests_and_sizes_verified": true,
+  "source_artifact_member_text_count": 695,
+  "entries": [
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/AFFECTED_INITIAL_RUN_METADATA.json",
+      "bytes": 58259,
+      "sha256": "f708d9f1dfdd21aca2aa00e23ba5715fba46d975cc283c5a50c5d7542fddf7f6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/AFFECTED_PUBLICATION.json",
+      "bytes": 297,
+      "sha256": "d63ba9ac2a3761e94e8381a11d9906bc0dcfd8f0e6f67f96fa207f747954fa70"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/CP17_INITIAL_RUN_METADATA.json",
+      "bytes": 14091,
+      "sha256": "3fc7b825a2ae7a64880bbc9c1dd3bc2e95c500c1d7b7728c5651785115af8203"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/CP17_PUBLICATION.json",
+      "bytes": 1420,
+      "sha256": "94fcaf60f0ccc15b6057252eeab1feef6f853c907158613a4ec209b961f79f41"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/ORIGINAL_CONTROLS_INITIAL_RUN_METADATA.json",
+      "bytes": 14575,
+      "sha256": "fb93bf053b7bc888ed048ecad5cb0e94558f52d6a32a5d412c857272b9de2065"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/ORIGINAL_CONTROLS_PUBLICATION.json",
+      "bytes": 297,
+      "sha256": "076d6a2860fe112ce7a936cb044b62d3a04d238804ab898e704624e3de1e44ee"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/OWN_CI_RECEIPT_FINAL.json",
+      "bytes": 39657,
+      "sha256": "399f9785d950c72415446d939cd4a0f99074c7ecd9f394b8b83e5d1b7eecaa8a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/OWN_JOB_LOG_INDEX.json",
+      "bytes": 347694,
+      "sha256": "db554e611b6202c525c849b791b280a8402376dfc5e1e10aef31ba915dc769a1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/OWN_JOB_LOG_INDEX_PRE_IDENTITY_SUPPLEMENT.json",
+      "bytes": 115816,
+      "sha256": "79cb1cdc12fbdc262cdb02af068c1783d937120a927f8f88ca7f04cd17e8e80b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/OWN_SNAPSHOT_20261019T1046.json",
+      "bytes": 280212,
+      "sha256": "f89be2d47985ac77fbf04941a0f96ac909b2c31377fd86eb71dcb4bf167566e1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/OWN_SNAPSHOT_20261019T1113.json",
+      "bytes": 398795,
+      "sha256": "9e7b16800778c6c29788bc1411577e3b89daaf4d7273b7a074b3bab952dae475"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/OWN_TERMINAL_OBSERVATIONS.json",
+      "bytes": 425332,
+      "sha256": "7be8247f726c5aafc449d3380ef800bf83740bacd5f900a2591b7ce1820527ca"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/RAW_EVIDENCE_README.md",
+      "bytes": 1693,
+      "sha256": "bb8eae9abef7cb080e418b4163066d45dc2979c1c701edb9bbd4a281844ebf2e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/READER_CAPTURE_Q2_INITIAL_RUN_METADATA.json",
+      "bytes": 14169,
+      "sha256": "0f3f19f75dbd1c8a441861721fc03cafb1983e0dd47cecdb2c5fefd7e6ff3efd"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/READER_CAPTURE_Q2_PUBLICATION.json",
+      "bytes": 1065,
+      "sha256": "edca69ee9d6e3fb11bc162d96ed7e601cbc1f072f98d2e0bd891d47b365b5d8e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/READER_GRAPH_INITIAL_RUN_METADATA.json",
+      "bytes": 14113,
+      "sha256": "8e62e1f4d825bff3abc0b98c36c5992c9110700e87738e9290b6b025c218ddc7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/READER_GRAPH_PUBLICATION.json",
+      "bytes": 1484,
+      "sha256": "cce31b32abcc8c7939f05cc710aceaa7ce4766259df23094787a6416ed2f48d1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/READER_MAPPING_Q2_INITIAL_RUN_METADATA.json",
+      "bytes": 14133,
+      "sha256": "4d410730361255c6adc24e1d1a1f4be9e1a5416cfe153cad3530f495769edaa7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/READER_MAPPING_Q2_PUBLICATION.json",
+      "bytes": 1281,
+      "sha256": "57aeb9322ab05cc30c3a961feafcf43631cc71b72f25105f624fc4a219c4f0c7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/READER_MAPPING_Q3_INITIAL_RUN_METADATA.json",
+      "bytes": 14143,
+      "sha256": "ef00d77fc1b25442b7d285614ed888a99dce1aff3476f22b0bd345c68a189b7b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/READER_MAPPING_Q3_PUBLICATION.json",
+      "bytes": 1281,
+      "sha256": "1fe375619f857c4a7d793257a417cb139e952c979d2ab29c57a1a8f14885d663"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/READER_MULTIROW_INITIAL_RUN_METADATA.json",
+      "bytes": 14120,
+      "sha256": "df1a00c5bb15d4f5dfbc3c8797fa7d2d2b76ae22517bca2888363f8f18264d41"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/READER_MULTIROW_PUBLICATION.json",
+      "bytes": 1273,
+      "sha256": "a75169b07bb6c9c6650ad76f501d769e5f866d186c0930a81d8c3e6164bec0d6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/REPAIR_NEGATIVE_VECTOR_INITIAL_RUN_METADATA.json",
+      "bytes": 14158,
+      "sha256": "aa5d644192f15cacaea0c669f958d4eecef7e6789781844a9c7a9bef0b4d4765"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/REPAIR_NEGATIVE_VECTOR_PUBLICATION.json",
+      "bytes": 1301,
+      "sha256": "1159c4e4e2905016b73593ac44c772032391a48209065e2873b5bbeefc229aa1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/ROOT_RUN_REGISTER.json",
+      "bytes": 264,
+      "sha256": "93f31cd4ded43b6406f37246f68e26a90b90a7724f029e3308f0cad2a6a42c74"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/ROOT_RUN_REGISTER_V2.json",
+      "bytes": 1661,
+      "sha256": "f927a149a5bc1e70f86a0f40c4130dba57ebf03692accc6ed294fd16be9d7ede"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/ROOT_RUN_REGISTER_V3.json",
+      "bytes": 1938,
+      "sha256": "131f4059d393c2cc08f96c44ca5c242e9c86d92597c3001a2c271f821f8a8cc9"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/ROOT_RUN_REGISTER_V4.json",
+      "bytes": 2221,
+      "sha256": "481b87e2e05715c5bc1e06fd0fb10f229266938f1f94b1b97928051586d5f2b9"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/ROOT_RUN_REGISTER_V5.json",
+      "bytes": 2508,
+      "sha256": "a8fd7db1a057e4676b89be394bb317c11fa685abebb9709c5584bc4a29da4404"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/ROOT_RUN_REGISTER_V6.json",
+      "bytes": 2864,
+      "sha256": "1cd57be308cd2a2e09979f1d0e1317c89f24fb46aedce1fd40df75f5b6c52ce1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/ROOT_RUN_REGISTER_V7.json",
+      "bytes": 3151,
+      "sha256": "2c844a93f9f1126901d3fa8f4768a192809bfdc207614095aeeb2b22e3364a99"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/ROOT_RUN_REGISTER_V8.json",
+      "bytes": 3448,
+      "sha256": "d73ddc945d7c0233d982445408ccc5ae0c6132a25db7321c5857c5ae7da321fc"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/SOURCE_FREEZE_END_RECEIPT.json",
+      "bytes": 2754,
+      "sha256": "2cc8a7b3974c3e696a22a95822bd91031e395dff2d5ecd166794b6084ef2f1d8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/WRITER_PROVIDER_JOBS.json",
+      "bytes": 1096821,
+      "sha256": "fb5109cc987010c069095bd38da6c21eb3ec668efd6a6615faacfee105d73007"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/WRITER_PROVIDER_RUNS.json",
+      "bytes": 1752812,
+      "sha256": "99ca59d81bbe2ca3d6d2b45b1d788d19d2df94caebb9572074884e69dbc5b90b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/WRITER_R4_RED_PROVIDER_JOBS.json",
+      "bytes": 177572,
+      "sha256": "1eeef8daa2eb29de083e0fedfc9db0307ac3687b2ec0dc7d0b8879cd63ba0b93"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/WRITER_RED_METADATA_REVIEW.json",
+      "bytes": 14600,
+      "sha256": "508adbe8e4f5f49ed36273f60a2e5d74ad64d0460db461a1c015fcdab0a37bf7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118007430149.log",
+      "bytes": 544723,
+      "sha256": "dd1c78ff2f0c0d5e7de06e14ea80186b53c0d2eeb01d98d67444dc72d477e2f7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118009204727.log",
+      "bytes": 1796780,
+      "sha256": "e25120251f660070dd06b2fde99c295194be69bd8d06674a4385ec47c36f5684"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010758865.log",
+      "bytes": 335097,
+      "sha256": "f4f1ba0605f27091a51a7f4742278c2e70d02f5bb61d5f04e7e4edc52c995e9f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010758984.log",
+      "bytes": 371719,
+      "sha256": "0fb72c2082d1038c04251bcc4c95b9a41139fe8a4bc05bec9574c938a461bb11"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010758989.log",
+      "bytes": 305138,
+      "sha256": "314c87f2cd74154d173d5215bc2ac18e1fdf9b89786971ec1f5a1d1673edab13"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010758993.log",
+      "bytes": 285325,
+      "sha256": "6097adcc5c2b0e1628c05d37e840a6a1770be49358f7836f5ab6dd32db4a03be"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759006.log",
+      "bytes": 327983,
+      "sha256": "b2283403862fd7360890ab81847ba54021fda30bfb654b0a1a0c01a721582100"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759020.log",
+      "bytes": 302100,
+      "sha256": "e24acfe1edb57d495947f5c7d58853868644042bf63277c9162ec3ec92f72789"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759053.log",
+      "bytes": 289806,
+      "sha256": "98a46dc4867a5462de0810c855a63a673839d8ee1017dfb29b288d573bca2896"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759071.log",
+      "bytes": 316388,
+      "sha256": "f50b38c418d6606362e54408b1f163bacbb0b0dfa32c2179200c6c4a93619739"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759124.log",
+      "bytes": 284589,
+      "sha256": "861af58e2b88e3ab65e6f115bac99dbfbbef3b303fadd0d29551a2f4c5021aec"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759135.log",
+      "bytes": 288949,
+      "sha256": "558f0e6c64855bd7aaa33e27314e54e8e13f9a3a7f4abe353543f9f5b147c0c1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759138.log",
+      "bytes": 298819,
+      "sha256": "7e8eeb90689809c293e65b6f96e5745482d24d5b94c0fe6b8461e75d0402e182"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759156.log",
+      "bytes": 327304,
+      "sha256": "00165054e6b26661f444b6ffa0575bdb2d8847ada45fd163711e4e2c0f510cd8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759175.log",
+      "bytes": 2459849,
+      "sha256": "f92e7d3b846347028a85b46dde238d40758590041deb269560660bec6543070e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759185.log",
+      "bytes": 450443,
+      "sha256": "961c34d75ce638579e74071e9172a3f4f38115f3b4b70efb0595af232e9a8067"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759204.log",
+      "bytes": 290622,
+      "sha256": "081916be55ab68adc40c34b7ae332bdee1cf642e1591af689006c9db7810ed0a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759724.log",
+      "bytes": 301418,
+      "sha256": "02057fe73475695e596e9c1f7e3dc2b4c62e04524b204b38e8912933978e96f5"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759821.log",
+      "bytes": 297523,
+      "sha256": "a555c8effdcf21af8732eeb0d163e39137fab4545c68dcb6a35b23682fbd94e9"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759836.log",
+      "bytes": 515002,
+      "sha256": "2c8d75fcc6ad46a75556f5306e757f3e582dd96f6fda51e73e3227204cf12ce4"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759899.log",
+      "bytes": 310136,
+      "sha256": "bd4c707d48adf0447575e94fcd02f0c6cadb4f7a33d0904854cdbc500c6ad28d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759911.log",
+      "bytes": 388394,
+      "sha256": "c6b6f7b230e160df3e05e466c8af9d36693e8d0c361a83618a8e36c96bc87f81"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759914.log",
+      "bytes": 320595,
+      "sha256": "a3bec919d34c7de9198b25d10d3c8996e8a4629c75ea16257a32fac0cb9df74d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010759933.log",
+      "bytes": 283675,
+      "sha256": "a569cb636ff7718ed3d99242977e0bde3483256bb9d858a66ea0a757f9ef3a74"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118010760054.log",
+      "bytes": 342014,
+      "sha256": "2711367e3abc0dd8c7afd48d3c86e1b1cafbbcf1bca3d6c4a6457680300a61f2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118015120137.log",
+      "bytes": 1023993,
+      "sha256": "879990a6bfb4c450f4dc8311271cb3169b9746febcbecbda3fc3ee59bfca570a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118018641936.log",
+      "bytes": 278838,
+      "sha256": "30b12aaed7dedd22ecab3fd2d2a01b6802f96c81bdbcadd71fba96d6c3baf477"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118020342240.log",
+      "bytes": 282969,
+      "sha256": "73458244db74c62aeadc5766fbf52ac3e73fbe60b5d4b311f39014e6860b3525"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118023285070.log",
+      "bytes": 17167,
+      "sha256": "95585f9d94328a2fcb8017400ee290f5ebd3f2cf4f3f572000f0121f5a4c0cb5"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118025251663.log",
+      "bytes": 814859,
+      "sha256": "73849f357f1a65a74694bf6ce6e81dcb377e7295d25fb45477cbb8417f7afcad"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/own_job_logs/118040563956.log",
+      "bytes": 522192,
+      "sha256": "4cff72a1b5b3936302f1d51e07095ce6ceec13b52880e01663e6b58e9a93ac36"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12178999085/DOWNLOAD_RECEIPT.json",
+      "bytes": 2046,
+      "sha256": "a0b86e6c0c74cfc86d137284ee201acfe9b6836dd85fd1a8f25acbff3fadad60"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12178999085/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12178999085/files/CP7_P19_STAGED.json",
+      "bytes": 1553477,
+      "sha256": "7e7a8b47216de532786faab5e63d736def4045d95e0f6a4386ebd821ff7e9854"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12178999085/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "9dc01155d537e04ffd46714bfac53bfa4b8b7b1485545f65003592ea28a16ac0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12178999085/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "79a1386eb38bdaa6e81b83dac1479ad2c3004eef6394fe435b46fd00e0935296"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12178999085/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "8db8d79df268dbf90ca65c1b6242bacb7a5f7792447055d82f39518bce18dc21"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12178999085/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12178999085/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179129053/DOWNLOAD_RECEIPT.json",
+      "bytes": 2056,
+      "sha256": "23d0d1d9da5ed545c02188579061ad18093b78cd88fb05ba795c13ba35468ea6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179129053/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179129053/files/CP7_P19_REMINDER_V2.json",
+      "bytes": 2350110,
+      "sha256": "418dab8f513d5365a490419d3e2a294b7606fbebdb8e9a5ed27ef736cdc68d49"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179129053/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "a06f327158eb9718e2cb17ffb39ccfdf4aa0aab4b8adb3f48c5d34533ff4a5b2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179129053/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "babd19961780545dc54773eb65f66449ab87d81334b178d9e9734227076265bd"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179129053/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "4279f51b402e1b682b39aae3a3a60e2222c82dec67fca9f2acc0b78f9ed86f07"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179129053/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179129053/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179233790/DOWNLOAD_RECEIPT.json",
+      "bytes": 2052,
+      "sha256": "81c92c65671b841bf0e1a0dd862ae29134c7452706855e4f3d819494d773a2c3"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179233790/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179233790/files/CP7_P19_TRANSPORT.json",
+      "bytes": 1547374,
+      "sha256": "af6df249d9c3614b9a34e5976f7165d6c6eb35cdb6f1934608a73e5a96f5f540"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179233790/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "cb24b18c546b1210ba9aadb606703a6d690e54b1edda4de09d9b9807a6751603"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179233790/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "de3804f660725e63704afe8dcb8c41bf493b0260c120454c5d3d74b046a86c6c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179233790/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "8e939f3d1e0a37ec70ef083efa60fdff955abe50097b52e3b9e006284114c6e3"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179233790/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179233790/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179329325/DOWNLOAD_RECEIPT.json",
+      "bytes": 5447,
+      "sha256": "c9ece8281e53b49c4948ebf96794c9d3f72287faa522c3e627c240c11d06a802"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179329325/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179329325/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179329325/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179329325/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "20b69c00647ce53f0a5435d4c03e22f499d6c6c98445863ab8ee07bfc303af4e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179329325/files/CP7_NOTE_CORRECTION.json",
+      "bytes": 7805500,
+      "sha256": "0795f8d692fab75486458ac36862a047b63cf3e98659843470821af017da2e23"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179329325/files/NOTE_DESKTOP_HTTP_TRACE.json",
+      "bytes": 4429,
+      "sha256": "68fa0c41701a8142269d0dd87abd4145087bd0764185ea00562a2fe29b429764"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179329325/files/NOTE_DESKTOP_MICROSECOND_HTTP_TRACE.json",
+      "bytes": 5109,
+      "sha256": "502129e11dd413d3f54bd0bca7904c7556bd9366403717390359d6c918130246"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179329325/files/NOTE_DUPLICATE_SKU_NATIVE_PROOF.json",
+      "bytes": 37222,
+      "sha256": "5464d228619cd2a114b4c0c228f4d10dd16f8ae1d981dfd3f6e081ef3bbc79b1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179329325/files/NOTE_MOBILE_HTTP_TRACE.json",
+      "bytes": 4769,
+      "sha256": "839beece2aa497132cee9eb2e9ffa1dccbace099ed1de88fd6f06b15ac1d76fa"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179329325/files/NOTE_MOBILE_MICROSECOND_HTTP_TRACE.json",
+      "bytes": 4769,
+      "sha256": "9dc533dd5907887666fd54fd8401a8da0ab9e8de31407b303e1d2a42d36194e5"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179329325/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "7d9054112140f9b60a78159f4ffdd0e2b21a3d3ccd74311664fa1025f5b59d93"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179329325/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "af754e09ac92a47ce32b178a488852ad6c2b173ba10b500d9af574853580b483"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179329325/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "a442854282e16a85d790e82c908f6167e31f160cf68d3081bd1b49624b125915"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179329325/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179329325/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360412,
+      "sha256": "ad26b668a45904475fcd4f582de6406b2221f3c23f0d5bee0fe91ead6e20fedd"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428706/DOWNLOAD_RECEIPT.json",
+      "bytes": 3103,
+      "sha256": "e8e31eb5b271e76d1f9bb91a653b835cd01c43f131d3bcf622441deb97c1db17"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428706/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428706/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428706/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428706/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "7e5b7897e449ed3fb692308076aff26323165308d5844845071d6f4c9a136977"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428706/files/CP7_P19_STAGED.json",
+      "bytes": 1553477,
+      "sha256": "7e7a8b47216de532786faab5e63d736def4045d95e0f6a4386ebd821ff7e9854"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428706/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "9dc01155d537e04ffd46714bfac53bfa4b8b7b1485545f65003592ea28a16ac0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428706/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "79a1386eb38bdaa6e81b83dac1479ad2c3004eef6394fe435b46fd00e0935296"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428706/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "8db8d79df268dbf90ca65c1b6242bacb7a5f7792447055d82f39518bce18dc21"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428706/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428706/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428906/DOWNLOAD_RECEIPT.json",
+      "bytes": 3101,
+      "sha256": "21b3106d742793762c41e208e600107977dd4caf7b8d1a926134b526ed93e9a2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428906/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428906/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428906/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428906/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "7f5fe9dc4be0786e2275c849694e52d0b8f2d1618ec11076ebcec7230a75c583"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428906/files/CP7_P19_REMINDER_V2.json",
+      "bytes": 2350110,
+      "sha256": "418dab8f513d5365a490419d3e2a294b7606fbebdb8e9a5ed27ef736cdc68d49"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428906/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "a06f327158eb9718e2cb17ffb39ccfdf4aa0aab4b8adb3f48c5d34533ff4a5b2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428906/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "babd19961780545dc54773eb65f66449ab87d81334b178d9e9734227076265bd"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428906/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "4279f51b402e1b682b39aae3a3a60e2222c82dec67fca9f2acc0b78f9ed86f07"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428906/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179428906/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609515/DOWNLOAD_RECEIPT.json",
+      "bytes": 4075,
+      "sha256": "8341f028d9deabc1aea86241f6e8dd53c044709ddf40a976874943b9702a6dc2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609515/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609515/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609515/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609515/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "04ad8332408f1f8ce7048dce7eed0e8308eefa59f5fefcf7238ff1a8881207d2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609515/files/CP7_F03_FULL_SUPPLIER_CREDIT.json",
+      "bytes": 780852,
+      "sha256": "b08d71d20d651331c6a1efa50d865f2eaa4ee8dd7f91033b48e3951092c1b05e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609515/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "e215fa74e126dec767ae8294f35c2dfb833b92ee7f25700656503d214dab0cb5"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609515/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "b34a3da6b20df36b002d5a1877b6c813fe3bcd3e3d5c0b76cc48333574a71941"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609515/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "b38f6b7a435f9b9ed0a266e10361cdefb3e1ac1c34a9f9fb76c20ff64f56d624"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609515/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609515/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360405,
+      "sha256": "1598418415a7a8af6af74919d385935a58ecc9414c953756de903ccf671db104"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609548/DOWNLOAD_RECEIPT.json",
+      "bytes": 3332,
+      "sha256": "9c34f35a65e745bff6cd4bdbdd4ad14b9da48b9ea91f7463dc3f6335eb06131c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609548/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609548/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609548/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609548/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "7992e922440b308946be722f7eecf64740a0c6b1671e13d84233a9dd8f8ba2de"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609548/files/CP7_P19_TRANSPORT.json",
+      "bytes": 1547374,
+      "sha256": "af6df249d9c3614b9a34e5976f7165d6c6eb35cdb6f1934608a73e5a96f5f540"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609548/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "cb24b18c546b1210ba9aadb606703a6d690e54b1edda4de09d9b9807a6751603"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609548/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "de3804f660725e63704afe8dcb8c41bf493b0260c120454c5d3d74b046a86c6c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609548/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "8e939f3d1e0a37ec70ef083efa60fdff955abe50097b52e3b9e006284114c6e3"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609548/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179609548/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179644807/DOWNLOAD_RECEIPT.json",
+      "bytes": 2048,
+      "sha256": "7c684d19b03310bc0c607c69cd64d52c403dc628f3cacebf88fcb2d5c0743e32"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179644807/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179644807/files/CP7_P19_PLAN_V2.json",
+      "bytes": 2456084,
+      "sha256": "88836d2025a3a3efb0f8d00010831f9d5e162bf3e1732ea1fae21ed73c32b137"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179644807/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "aa330d83b2674d2a78e3bed3bc1ad1216168540ada763b5830b2da025fc841b8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179644807/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "bc5821bfa497f0a35f91058fed157f121fd8a36d086f20332b8bc0e5c077ec37"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179644807/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "b984f4ed1b8d21f348a2db6e58e54a608b1ac2241df565b56da82dbaaf26468f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179644807/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179644807/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179674877/DOWNLOAD_RECEIPT.json",
+      "bytes": 3361,
+      "sha256": "34688b67835fd364385a5a07b35c645033694c95a4264fff6c58e58006b335f6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179674877/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179674877/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179674877/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179674877/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "29c31acd7cbc216492740a259e71c3e9cc7f2240571b55b6053b6173e02717c6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179674877/files/CP7_K4_RUNNER.json",
+      "bytes": 1944426,
+      "sha256": "48b41cc328d254340faab465c1cc2a3fd404599176c00a2ce86eaeeac3ada0e6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179674877/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "57ed33eeb0dc27a34497462972f1f304c78f30008d823b4b2430d6660e51b0ce"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179674877/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "6fe3b43b90d58195ebd50a20d1019e20341f8a546314893d76e0ab5b9db849c2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179674877/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "3c23e3f146b471cb5d142d59e1abbe09586c515321086acf56b4aaa66b4e322a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179674877/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179674877/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179714698/DOWNLOAD_RECEIPT.json",
+      "bytes": 3191,
+      "sha256": "b08ef29a93dc8563784c7baeb42d1739ae4288613b5a8803c260c1c468d137b6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179714698/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179714698/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179714698/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179714698/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "0d81ccc7bcc1c70ee7c02b8a4f6e7d9bdf661bf24ff7f8dd9ced68de36b30a50"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179714698/files/CP7_P19_PLAN_V2.json",
+      "bytes": 2456084,
+      "sha256": "88836d2025a3a3efb0f8d00010831f9d5e162bf3e1732ea1fae21ed73c32b137"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179714698/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "aa330d83b2674d2a78e3bed3bc1ad1216168540ada763b5830b2da025fc841b8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179714698/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "bc5821bfa497f0a35f91058fed157f121fd8a36d086f20332b8bc0e5c077ec37"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179714698/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "b984f4ed1b8d21f348a2db6e58e54a608b1ac2241df565b56da82dbaaf26468f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179714698/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179714698/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179899666/DOWNLOAD_RECEIPT.json",
+      "bytes": 4012,
+      "sha256": "b8a9f8531575fce5ea0e11856bca72283c2517148419453bd387d8d4715fbd0a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179899666/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179899666/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179899666/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179899666/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "1afcc5ff8d44078408f7c4b2327ffa864623e21e8e0850cc50540437e3b9356a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179899666/files/CP7_F03_FULL_P11.json",
+      "bytes": 12121444,
+      "sha256": "9999890b8c4cdcca9c02f66684d906586b628d108e21a2f57d3e1de7b9060f0a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179899666/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "855cd3f9261a0f0ec64dba4f120ce5af753603e154f251dd8f6765b42cc8ef93"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179899666/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "76d6e0a65090475cdeb8d0659f6d65c2c6fac979479b799baf01041e9fdbfce0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179899666/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "ca8fd25e67311a7ab0ffb8f027b1c78d92c2a7b2353929cc25b99993a3b6bbeb"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179899666/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179899666/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360405,
+      "sha256": "1598418415a7a8af6af74919d385935a58ecc9414c953756de903ccf671db104"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179973711/DOWNLOAD_RECEIPT.json",
+      "bytes": 2044,
+      "sha256": "d787f609e19254bda7cb5af3d6864801b3854bd7064dea31e167a47f57bd9f00"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179973711/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179973711/files/CP7_K4_RUNNER.json",
+      "bytes": 1944426,
+      "sha256": "48b41cc328d254340faab465c1cc2a3fd404599176c00a2ce86eaeeac3ada0e6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179973711/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "57ed33eeb0dc27a34497462972f1f304c78f30008d823b4b2430d6660e51b0ce"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179973711/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "6fe3b43b90d58195ebd50a20d1019e20341f8a546314893d76e0ab5b9db849c2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179973711/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "3c23e3f146b471cb5d142d59e1abbe09586c515321086acf56b4aaa66b4e322a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179973711/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12179973711/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180148444/DOWNLOAD_RECEIPT.json",
+      "bytes": 2050,
+      "sha256": "f6187d95d8a52bcecf9f00ac9127797bc1d500b25bf8df907b62e6bd8aa79b86"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180148444/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180148444/files/CP7_K2_RETENTION.json",
+      "bytes": 1727503,
+      "sha256": "1c7cc15fa7777af5dd8fc95dc70a85a0163b315e1fe7461310ba795105e86d54"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180148444/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "58d2abef08c01ccf391f29d32e42f920ef61a0f4f6a95a10a060dc13d4f77a8e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180148444/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "056d58a2cebc89a9c15b6d2a0d5dbd597aff63fe7fbe33889b6f0084cfcd3cc9"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180148444/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "39af18ced12525567e83dd9c2d1ed717502617520d8fe1165ab4b502e747430b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180148444/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180148444/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180196650/DOWNLOAD_RECEIPT.json",
+      "bytes": 2946,
+      "sha256": "70dee3262e51e30641c5594476444007ca04c772721e6267a348ec25e1abbab5"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180196650/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180196650/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180196650/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180196650/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "753e3a186329cded455bd0daa145ec63dee1a0eda0c73af5bc43a4fa0f13b5d7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180196650/files/CP7_K6_PROOF_RUNNER.json",
+      "bytes": 1317999,
+      "sha256": "79e6c8a5a0e1d2654c464c9188ef70f867d7013acfa450b7fdf22f81b6dcc4bf"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180196650/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "eeb4a91a216520e3e175e0ba2728936929eed0a089e39e27646b066ac0ded2ab"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180196650/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "bbaac46edfa5504ec60897bf7004d9be125af2aa40085b47896b63badb6bf1ed"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180196650/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "50bd3b52a6f3ab6000ad9a349c5a5d3e1b5c7e47faead61cfe7e66ce864dbe00"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180196650/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180196650/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180226361/DOWNLOAD_RECEIPT.json",
+      "bytes": 2052,
+      "sha256": "e6996517c7a1f6e9201832ed5d80837ae8ac5efb6786ad4d646bcdac14de4382"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180226361/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180226361/files/CP7_P19_REPORT_V2.json",
+      "bytes": 2271034,
+      "sha256": "609dcaf8b6e43b24179f6db832133bfb67c0833896dc9268c2992810a61bc5ed"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180226361/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "bab94013e681d9c1c57808b812adab236ab2faf0e76358d3c477de52f8fe23c1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180226361/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "02f20554b49d97898058fc96345858852513b0a7153cbfaefeae483dd436206e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180226361/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "cad8b59b1497f18a6dd6326ae61d4bbe4dcb9ce4b286dc1f4ca9db2c990c288c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180226361/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180226361/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180282234/DOWNLOAD_RECEIPT.json",
+      "bytes": 2954,
+      "sha256": "46129210197511bb5607f581d4082f983c03c8b1c0f00bbfdeacc42956b891c8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180282234/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180282234/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180282234/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180282234/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "64dd24da30412f2a0eb2b6baf289b2cfca6ee08470176d467a14701c9f31ac88"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180282234/files/CP7_P21_FULL_REHEARSAL.json",
+      "bytes": 13985859,
+      "sha256": "e8f4a232a0ef2e78aa5387d98bb65b6d98e6190597fb5ec6fe1f24508ccc662a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180282234/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "4b7d28b5812ecb37d37117c521de6fc07d06a31dcc8fe8f5350000d7a573bebe"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180282234/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "6b53e151984df12bcd6f6f3246de959094e65872d5ba27902bbcaabfb5c58618"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180282234/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10528,
+      "sha256": "57262e65b389a0ed1d04f96377f096c3716ae7210a2d1e56b05566e669c41e03"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180282234/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180282234/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 363077,
+      "sha256": "71c98a4b41f131a89631c71c727cea3871a0a2406e6ef92f5af78d9d77d1ac96"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/DOWNLOAD_RECEIPT.json",
+      "bytes": 6992,
+      "sha256": "54289bac0a0bd0611a57cc14e26da26688820b951d6cea20f9a8b60d7a8c5071"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "23ff90230d7602b6637432c617422afbb9cbf6507b72a894aff5f9dafdc5a7cb"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/SOL_R4_D01_ACCESSORY_UOM_GUARD_PREVENTION_OBSERVATIONS.json",
+      "bytes": 200041,
+      "sha256": "34c5b7965059a54f6762f51a6071d851e62647f6de9c76b3a4e52b825d696a04"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/SOL_R4_D01_CORE_GRNI_GUARD_PREVENTION_OBSERVATIONS.json",
+      "bytes": 200067,
+      "sha256": "f85b1b490148072d944963a8ecb27e90103c4a91c8a12844039a1296acccfa42"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/SOL_R4_D01_CUSTOMER_AR_DERIVED_STATUS_OBSERVATIONS.json",
+      "bytes": 148321,
+      "sha256": "7ca0a8e3bce9d2e0aa1c5bb24a3d06448e97adbc1dde8c719b836c8d73739eb3"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/SOL_R4_D01_GRNI_NEW_UNUSED_DEBIT_MAPPING_OBSERVATIONS.json",
+      "bytes": 147984,
+      "sha256": "41a9b8112b209d7ecbe6faa1a6133a7520f73605e9a3d8d6a5d412e9657d09d2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/SOL_R4_D01_HPP_SUBCENT_DERIVED_STATE_OBSERVATIONS.json",
+      "bytes": 148090,
+      "sha256": "1bb1be78e2e81b573505f6534f637e17d9a1a7935e44e5252e5d6822136bfe4c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/SOL_R4_D01_KASBON_DERIVED_STATUS_OBSERVATIONS.json",
+      "bytes": 148291,
+      "sha256": "9afc142375373706a59725694bd5d459d353f51b350763819a07e0221258803a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/SOL_R4_D01_OPENING_DERIVED_STATUS_OBSERVATIONS.json",
+      "bytes": 148546,
+      "sha256": "9f10b4bb3b4744bcd24a61112b20582da0b505e8c251e71a76a2390a8fdf81a2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/SOL_R4_D01_SUPPLIER_PAYMENT_DERIVED_STATUS_OBSERVATIONS.json",
+      "bytes": 148466,
+      "sha256": "ecaf764718e3b0482a2b33348163f0124816e9942c24f777f888087ee2e52177"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/SOL_R4_D01_VENDOR_PAYMENT_DERIVED_STATUS_OBSERVATIONS.json",
+      "bytes": 148295,
+      "sha256": "952408638ade517b75d3206865647ba88acd75a515c7a30fe68067f2200381c9"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/SOL_R4_INV_D02_VALID_FG_REPAIR_NOTA_ZERO_ALARM_OBSERVATIONS.json",
+      "bytes": 238024,
+      "sha256": "043b04df1b2c3b0607d0629a8a7747b7fb63115f0b41cbefe871b10ad0d2d2d8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "8cee1ac12029207fc329f2f87cb10031ff605b8241ffac6075db6cc7a5d8a04c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "0c9ba180e6b617153def69b78fa879a7c9d0ed4e90c84af998a77498362e7dc2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/SOL_R5_ORIGINAL_CONTROLS.json",
+      "bytes": 2237700,
+      "sha256": "90a430bca10826cf15b84be9a715627c546d60b39e7b4c335f1d374da685ee66"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/SOL_R5_ORIGINAL_CONTROL_FUNCTIONS.json",
+      "bytes": 120445,
+      "sha256": "c124e767a90c6adaf5eacb9075a3bd83be17bcbf4dc30092b0857c98d12d8dc8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/SOL_R5_ORIGINAL_CONTROL_GUARDS.json",
+      "bytes": 25138,
+      "sha256": "23481be84b3936bcae913eab60613f490c553872b2f23e0d691d48ddd43fa37b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/SOL_R5_ORIGINAL_CONTROL_TRIGGERS.json",
+      "bytes": 16587,
+      "sha256": "a43787724e63bc2bbdaaf4a95912948df519bf78818ae56b71922ffb8a390057"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/SOL_R5_RUNTIME.json",
+      "bytes": 216,
+      "sha256": "705539906a2d40408d8760cf922eb63d6d9f86a0b5990d07142a71e07adbab2f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "74d2028eb16b4e90e2e87b3a6652bf61d42ac12a6b8a93146704dedbe67c37c8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180340258/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360414,
+      "sha256": "ccea7e6d78d0469248fe5c3f63da17c695b08b7763191aec4ea5138076a66e57"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180368445/DOWNLOAD_RECEIPT.json",
+      "bytes": 3710,
+      "sha256": "db6603f19f102bddbd8978bd7bdc2e162987df76e7559f0afdcb62c00a8347e9"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180368445/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180368445/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180368445/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180368445/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "9ba8d81c95f7f102203dafa7a7009ffdf243fd5ecc699eae90889163ccd70386"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180368445/files/CP7_F03_FULL_P13.json",
+      "bytes": 9234694,
+      "sha256": "147201ef168b6e65b7a3b07769525e5b63d8495ec01c158353f89ba1440495b0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180368445/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "3136fb8774c0e84dc878cd708818945d34c0b5607fda710a13b41d6773591b06"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180368445/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "4576eb9a54610967f86fe071d3c85adbea7b283b88c5d63b2d241138b7ab39a1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180368445/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "026a2cf9c6485fd1fbb6bda25c43cec732d1a6c44e5dab99977ac074c6f198ef"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180368445/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180368445/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360405,
+      "sha256": "1598418415a7a8af6af74919d385935a58ecc9414c953756de903ccf671db104"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180387206/DOWNLOAD_RECEIPT.json",
+      "bytes": 3977,
+      "sha256": "082f1a4800dbe98fa4fd22199fc6d2a1ff3bebbb0b5bdefed7122742d85046ec"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180387206/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180387206/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180387206/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180387206/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "46b8a936334b78e1e7f2d2c733d00f3950ba658415f1492d34326e5496d4bf96"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180387206/files/CP7_F03_FULL_CUSTOMER_REFUND.json",
+      "bytes": 1549204,
+      "sha256": "21368d26f99aa8dfe77b76f735e94928df51e7278eb72be032bf933f7843a82e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180387206/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "bf1f0f40635fc616c128e1f2c4a17b611fbc21cb3e684e820b9d73ae8612beb6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180387206/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "7cf97d13cf0b5828b7a9be06e1449d78b5890eedac70ecdda1acb980954098a7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180387206/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "a82e04233fb9c1a8f6207df47ec3ffc62e31d41e645520c9a844bb580e39a6af"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180387206/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180387206/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360405,
+      "sha256": "1598418415a7a8af6af74919d385935a58ecc9414c953756de903ccf671db104"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180497090/DOWNLOAD_RECEIPT.json",
+      "bytes": 15777,
+      "sha256": "a18f7fb51825c4d2f9a433d4654fbfd65d033f360cffa10f19acaa1bdb63d27b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180497090/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180497090/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180497090/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180497090/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "e704653c73f961b34635589ef14fa5f65d4f51271ca29e0a8fee2c86035df905"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180497090/files/CP17_BROWSER_R4_04_CONNECTED_TEXT_READABLE_DESKTOP.json",
+      "bytes": 36097,
+      "sha256": "0186d5d7dcb478c63ecf34ee48fa091d3515edcf609a8d947c7c1d427efdca7f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180497090/files/CP17_BROWSER_R4_04_CONNECTED_TEXT_READABLE_MOBILE.json",
+      "bytes": 36095,
+      "sha256": "92e0b67dd3654df3d7979e92a961b18c11b57bcf9c21cc1a482d1b9f19b6d2c8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180497090/files/CP7_CP17_FIXES.json",
+      "bytes": 730144,
+      "sha256": "844460e3e2ccda67a0b7638ada6377ab99ac5d0ddae307178ce9aefbec98fd45"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180497090/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "7b5cdbbae31adb329cf852f1da136fdc15c5078cacd984b9ebe4af63a59fb4f9"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180497090/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "47430142057f82f628c4fef9c411a065b1f9fb022efae574674940e5d8e4ebb7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180497090/files/SOL_R5_RUNTIME.json",
+      "bytes": 216,
+      "sha256": "705539906a2d40408d8760cf922eb63d6d9f86a0b5990d07142a71e07adbab2f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180497090/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "bfedcdcb3af993561e65737dd3d20aca68f34df382c5501374b44c6b02d92921"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180497090/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180497090/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360401,
+      "sha256": "e0d6c5ab22eb5e05c044ef1be4a0f9015177b62950a1b132b4117a35560d7624"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180516097/DOWNLOAD_RECEIPT.json",
+      "bytes": 2044,
+      "sha256": "ab2376266d705589ffed050d7eefc34dc6ce13fb00351e9c6b6884b3c70f7c48"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180516097/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180516097/files/CP7_P19_AI_V2.json",
+      "bytes": 1179782,
+      "sha256": "a4b2a6eb259ff70de2b1ac796a8e1b61c7790f9c7e632a4430d2545da768630f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180516097/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "d3c5e2cfcb7d0829d315a6b49f3731adbcda1db0f40c8ec1df93a27603e0863c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180516097/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "a85dbaa336c7f66250ad28cd3a00920a05199dad6e667dc82c070d72d7600e3d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180516097/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "d4ac6f104c16b25c67f94e73762683105513c3a550d3209800ef50099ab5305a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180516097/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180516097/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180521076/DOWNLOAD_RECEIPT.json",
+      "bytes": 3087,
+      "sha256": "a7997d83b70434768e85516749cc5b3d49a4ad5f208b932f6f3a82e0277c5a4e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180521076/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180521076/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180521076/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180521076/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "1477063e70f04d589a0ca4bbddeb46f3264c5c2ead0cd6d5f6848bbedf42a62d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180521076/files/CP7_P19_AI_V2.json",
+      "bytes": 1179782,
+      "sha256": "a4b2a6eb259ff70de2b1ac796a8e1b61c7790f9c7e632a4430d2545da768630f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180521076/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "d3c5e2cfcb7d0829d315a6b49f3731adbcda1db0f40c8ec1df93a27603e0863c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180521076/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "a85dbaa336c7f66250ad28cd3a00920a05199dad6e667dc82c070d72d7600e3d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180521076/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "d4ac6f104c16b25c67f94e73762683105513c3a550d3209800ef50099ab5305a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180521076/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180521076/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180575960/DOWNLOAD_RECEIPT.json",
+      "bytes": 2056,
+      "sha256": "b9a5fccdbbe478909166fa050cf6e7b04d760665a838357625b6174c6af842e5"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180575960/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180575960/files/CP7_K6_PROOF_RUNNER.json",
+      "bytes": 1317999,
+      "sha256": "79e6c8a5a0e1d2654c464c9188ef70f867d7013acfa450b7fdf22f81b6dcc4bf"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180575960/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "eeb4a91a216520e3e175e0ba2728936929eed0a089e39e27646b066ac0ded2ab"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180575960/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "bbaac46edfa5504ec60897bf7004d9be125af2aa40085b47896b63badb6bf1ed"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180575960/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "50bd3b52a6f3ab6000ad9a349c5a5d3e1b5c7e47faead61cfe7e66ce864dbe00"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180575960/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180575960/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180620408/DOWNLOAD_RECEIPT.json",
+      "bytes": 3265,
+      "sha256": "a68aa17aacbf18e76f01e0623ccc4abf9a5d76dcb831eb8bd98e4c5bbbcd3321"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180620408/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180620408/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180620408/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180620408/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "a54eee7260503933183cfbd1bd5aa59e194cd150531a88fe927f3d89a8b01e47"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180620408/files/CP7_P19_REPORT_V2.json",
+      "bytes": 2271034,
+      "sha256": "609dcaf8b6e43b24179f6db832133bfb67c0833896dc9268c2992810a61bc5ed"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180620408/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "bab94013e681d9c1c57808b812adab236ab2faf0e76358d3c477de52f8fe23c1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180620408/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "02f20554b49d97898058fc96345858852513b0a7153cbfaefeae483dd436206e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180620408/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "cad8b59b1497f18a6dd6326ae61d4bbe4dcb9ce4b286dc1f4ca9db2c990c288c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180620408/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180620408/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180691691/DOWNLOAD_RECEIPT.json",
+      "bytes": 2060,
+      "sha256": "edd062cb7e43f89c14e7b20307b873a14ecd31e2e0885b71625fdb9558483e93"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180691691/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180691691/files/CP7_PL5_HISTORY_YIELD.json",
+      "bytes": 2983311,
+      "sha256": "de5e3aaee59ee2511cad16444223f9379f5a947bafe912473a34ad0b60652354"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180691691/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "626bb759c0f35eb43cb75468944a4657b16be92fc5fe2f5a04004e7d1b8656b3"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180691691/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "642822126f7347a0ed59a8501b111b04c522c8f9b38b481ea860a7307b6e8096"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180691691/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "ec7e3db60a482072645e31161c9efcc922ed95a817e0f08df1bf362c524ac27b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180691691/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180691691/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180795380/DOWNLOAD_RECEIPT.json",
+      "bytes": 3180,
+      "sha256": "2c2820e3cc11466691851e8354903e356c40ca9f98da9c99b389926f02148839"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180795380/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180795380/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180795380/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180795380/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "4679456bb846daaefe289d09b7fa9987193289994e4e5643ee0613cbe332a540"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180795380/files/CP7_P21_REHEARSAL.json",
+      "bytes": 682069,
+      "sha256": "faa1a10e9742d3efa7714c48db5427044f2be2d41f09e13b64af11aa57ba984b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180795380/files/P20_DIRECT_PATH_SCAN.json",
+      "bytes": 405176,
+      "sha256": "6c08f87d324dde870e13754e89d2408f026b961cb4efb56ef76cf1999889aef5"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180795380/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "6338fafa01083a9deb17fe0fcf6c44db1962793dbec834c4dc04b0e7e5a4774f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180795380/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "70a41bd129c1545d813601ff0c6d820a7e352fbd004efb933da48756ae8b6f4a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180795380/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "7bf7786b118a667cd768191fcfc2ae8581f492f3d65806ff3156adf35370a643"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180795380/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180795380/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360412,
+      "sha256": "0fee64f599ef4f84d732fd94112256e03be5edf97986b7b36c9a320818836ea2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180840963/DOWNLOAD_RECEIPT.json",
+      "bytes": 3377,
+      "sha256": "b92a7d9fc1afdcdff2af13be3ed81006399331d1bc8e30a0daa48623ec51c20b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180840963/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180840963/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180840963/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180840963/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "9ac37be82dc6375a39747b1bd61b031e809295556b697c650eccf1aac2404173"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180840963/files/CP7_F03_FULL_P10.json",
+      "bytes": 6244030,
+      "sha256": "bbd68355b6e751d4cd6b9ae020791e28376c984e0348e8b5486bc5e51b900f6f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180840963/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "010482d354f56598d2f8f1d015989c0867948fb40e5e27205941ab0599a144f0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180840963/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "a001514d3526b3968095ddcde57ef09f95602191c7dd726f1c02025bd10fbaad"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180840963/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "5aa3ba9c483af6913f456dd2a4b14a17350c20f6989e840dbc700d43cf6a19bb"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180840963/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180840963/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360405,
+      "sha256": "1598418415a7a8af6af74919d385935a58ecc9414c953756de903ccf671db104"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180880743/DOWNLOAD_RECEIPT.json",
+      "bytes": 3234,
+      "sha256": "6126397fb386a2a6b751051a3d7b5c12caf7f61323370d32048ab82521ec677f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180880743/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180880743/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180880743/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180880743/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "462eee3a5120fafc2171f1bc952b9f045dc2c35a7708069f6c7c303b10cdcb96"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180880743/files/CP7_K2_RETENTION.json",
+      "bytes": 1727503,
+      "sha256": "1c7cc15fa7777af5dd8fc95dc70a85a0163b315e1fe7461310ba795105e86d54"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180880743/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "58d2abef08c01ccf391f29d32e42f920ef61a0f4f6a95a10a060dc13d4f77a8e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180880743/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "056d58a2cebc89a9c15b6d2a0d5dbd597aff63fe7fbe33889b6f0084cfcd3cc9"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180880743/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "39af18ced12525567e83dd9c2d1ed717502617520d8fe1165ab4b502e747430b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180880743/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180880743/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955196/DOWNLOAD_RECEIPT.json",
+      "bytes": 3119,
+      "sha256": "2ff51284eefcedea3153b063597e21d36f70ecd514d30653fcf47f11d18f8d2c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955196/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955196/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955196/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955196/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "2328759e64275d3ca886b282dea768459bd5922e6fb6bbf0f81ecf9a94254bd8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955196/files/CP7_K3_CLEANUP.json",
+      "bytes": 2372615,
+      "sha256": "607927b72e068282daa5f1d04be1cfc3e3de1d05397a589fe53137c3def939f4"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955196/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "ded62207ab88ff5390e93cc36613820b448b8da5bd951c9c312c9b831c606572"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955196/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "ff76d2c6548f4253352193c950209c72911c815f4c65c3f78f099e76b7844880"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955196/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "371d7fc9702729b1c06a4190fb9d3bf8f13e3a03311dfab7e801e9d7b5d3234d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955196/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955196/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955199/DOWNLOAD_RECEIPT.json",
+      "bytes": 2046,
+      "sha256": "bb7e12d7d210a3426d4da86e189cbc910b001b7e5e872e0c211c0a6f57c941e5"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955199/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955199/files/CP7_K3_CLEANUP.json",
+      "bytes": 2372615,
+      "sha256": "607927b72e068282daa5f1d04be1cfc3e3de1d05397a589fe53137c3def939f4"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955199/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "ded62207ab88ff5390e93cc36613820b448b8da5bd951c9c312c9b831c606572"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955199/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "ff76d2c6548f4253352193c950209c72911c815f4c65c3f78f099e76b7844880"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955199/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "371d7fc9702729b1c06a4190fb9d3bf8f13e3a03311dfab7e801e9d7b5d3234d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955199/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12180955199/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181031203/DOWNLOAD_RECEIPT.json",
+      "bytes": 3101,
+      "sha256": "0babadcaa906d8832033629874fd7d0e6e07da639634f69b8e179381f36cbece"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181031203/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181031203/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181031203/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181031203/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "b2ceae88150f52f600debe71fa1679c9febe760bcdd90a85f0bd8b4d532819d3"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181031203/files/CP7_PL5_HISTORY_YIELD.json",
+      "bytes": 2983311,
+      "sha256": "de5e3aaee59ee2511cad16444223f9379f5a947bafe912473a34ad0b60652354"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181031203/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "626bb759c0f35eb43cb75468944a4657b16be92fc5fe2f5a04004e7d1b8656b3"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181031203/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "642822126f7347a0ed59a8501b111b04c522c8f9b38b481ea860a7307b6e8096"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181031203/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "ec7e3db60a482072645e31161c9efcc922ed95a817e0f08df1bf362c524ac27b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181031203/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181031203/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/DOWNLOAD_RECEIPT.json",
+      "bytes": 4892,
+      "sha256": "1f5554550049ee5a8e6a8cf57c40833fe92e3d6589e14e4a7889b9e756008ad7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "c702b4f3fcc27a363e8ea5e0452c7c605ac9c7bb2e2b17670a85dee19e70987c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "2637449f5314ac40d894bde70a93afe327773fd639c1fd1048dbf11d29d9c116"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "626c7f921346a4428a2349555b0f257ec7614189b3f9a5f30425d20f32a88ceb"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/files/SOL_R5_ORIGINAL_CONTROL_FUNCTIONS.json",
+      "bytes": 120445,
+      "sha256": "c124e767a90c6adaf5eacb9075a3bd83be17bcbf4dc30092b0857c98d12d8dc8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/files/SOL_R5_ORIGINAL_CONTROL_GUARDS.json",
+      "bytes": 25138,
+      "sha256": "23481be84b3936bcae913eab60613f490c553872b2f23e0d691d48ddd43fa37b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/files/SOL_R5_ORIGINAL_CONTROL_TRIGGERS.json",
+      "bytes": 16587,
+      "sha256": "a43787724e63bc2bbdaaf4a95912948df519bf78818ae56b71922ffb8a390057"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/files/SOL_R5_READER_FULL_GRAPH_PO_SALE_RETURN_OBSERVATIONS.json",
+      "bytes": 589881,
+      "sha256": "00b602b38bfce005114b308cf359ee33de4643fcfcb01ce846c5cb1c0767837e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/files/SOL_R5_READER_GRAPH.json",
+      "bytes": 980244,
+      "sha256": "cb109404b85311859c5ec9f6a977e227170b64ef2ddf68a0760501261854bc07"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/files/SOL_R5_READER_PREPARED_MAPPING_FRESHNESS_OBSERVATIONS.json",
+      "bytes": 406,
+      "sha256": "e40473e80ca922bd59804c5a904f9b9d4a8fe45f94e197930aebbd9b5cacdfa7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/files/SOL_R5_RUNTIME.json",
+      "bytes": 216,
+      "sha256": "705539906a2d40408d8760cf922eb63d6d9f86a0b5990d07142a71e07adbab2f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/files/SOL_R5_VALID_REPAIR_REVERSED_AND_REALLOCATED_ZERO_ALARM_OBSERVATIONS.json",
+      "bytes": 259087,
+      "sha256": "02e18c252426c1097136f1be4e1534d2ae259cf64cbf1bffe785ef8f9a5e8031"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "7bfd04354ca497490daefeb4f4656ae227c1cb8991200f646d68dcd87f5f1dcc"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181191212/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360416,
+      "sha256": "34d72bf6a14d7023d6b4653d0258c890da661f4ab04c8255b3ecddba0651f41d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181332107/DOWNLOAD_RECEIPT.json",
+      "bytes": 4272,
+      "sha256": "2e174d2e11d535b7ad5046391f23e515ce5b60227d2c0f3c4e7082abc8a4a8aa"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181332107/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181332107/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181332107/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181332107/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "f2e94589768773b96aa2569ff61250cb3f2fe246c32af02beff72446eed3119a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181332107/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "2a3188596e234f65f5f7601a446b12129e4c54b3359327b3213e07354b2b7a63"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181332107/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "95520bf7bf536428d689a3a7a90d453f3fecacf49a56107abcebc788905d55e0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181332107/files/SOL_R5_ORIGINAL_CONTROL_FUNCTIONS.json",
+      "bytes": 120445,
+      "sha256": "c124e767a90c6adaf5eacb9075a3bd83be17bcbf4dc30092b0857c98d12d8dc8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181332107/files/SOL_R5_ORIGINAL_CONTROL_GUARDS.json",
+      "bytes": 25138,
+      "sha256": "23481be84b3936bcae913eab60613f490c553872b2f23e0d691d48ddd43fa37b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181332107/files/SOL_R5_ORIGINAL_CONTROL_TRIGGERS.json",
+      "bytes": 16587,
+      "sha256": "a43787724e63bc2bbdaaf4a95912948df519bf78818ae56b71922ffb8a390057"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181332107/files/SOL_R5_READER_MAPPING_Q2.json",
+      "bytes": 47239,
+      "sha256": "1b467a6d4c9796116df4f21507b393a23c22e4c0c10f37de378bc460e032cc14"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181332107/files/SOL_R5_READER_PREPARED_MAPPING_FRESHNESS_Q2_OBSERVATIONS.json",
+      "bytes": 173585,
+      "sha256": "42109d28c80dc621c5be3de7ca796bcb458cf898bb1f82a42451144e2daa4fb1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181332107/files/SOL_R5_RUNTIME.json",
+      "bytes": 216,
+      "sha256": "705539906a2d40408d8760cf922eb63d6d9f86a0b5990d07142a71e07adbab2f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181332107/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "1e01f0181143783158d2ea4d31f944100d98a6e5d039ae4ab6c4772ba40f9cdd"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181332107/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181332107/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360421,
+      "sha256": "4a763add52c4d71c198ed5259f1a7a51488538e3c7ee997333f1fc2244bdd508"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181512237/DOWNLOAD_RECEIPT.json",
+      "bytes": 4062,
+      "sha256": "d36bc32d0569a2d9399325e165fa2eb8b9e411910e504d9e7bab0f47fc39562c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181512237/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181512237/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181512237/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181512237/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "e5f76487d94c53d2996a83f91912d4c017132165bbf23ebd3b3138b5e3041e7f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181512237/files/CP7_F03_FULL_P12.json",
+      "bytes": 14991831,
+      "sha256": "3633cb56c6e060a874b7adf13e30b4827121e7fdfa0813d6194b42bd5963c220"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181512237/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "f2e5fad066c0ec8f2e31beca35bde8cb0c1db0534a82dd8ed614d33a6e029da7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181512237/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "1ffa870bdb2cd7d6060a825011230f054d93f05203a986cc8e375343222426c0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181512237/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10525,
+      "sha256": "1aac9c22668af9f8aa4f9341b59340c4ed496517dd209d0920bc9a9e786386f4"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181512237/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181512237/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360405,
+      "sha256": "1598418415a7a8af6af74919d385935a58ecc9414c953756de903ccf671db104"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181651792/DOWNLOAD_RECEIPT.json",
+      "bytes": 636,
+      "sha256": "c4768f721c412ed184ce29bb07d1284db8e8b60ad85edb273ef918f7446d2a92"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181651792/files/SOL_R5_MULTIROW_CAPTURE_Q2.json",
+      "bytes": 2398,
+      "sha256": "922a0d3d42e70f9bbd8b507b17f4e5e2a5c7822237bb689c28259a2c75def897"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181800315/DOWNLOAD_RECEIPT.json",
+      "bytes": 6693,
+      "sha256": "57fd6b53fc4067ceddfdb6d84151cbb140f4e7ce783d60d70494218fcfabce53"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181800315/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181800315/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181800315/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181800315/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "a611cc36918c34997ed46ab6d13b5261d1447185f5cd659a282889dea898091b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181800315/files/CP7_F03_FULL_CASH_INSTALLMENTS.json",
+      "bytes": 10718581,
+      "sha256": "9ceec3a374a64bde09b40cf148e8ee4dae648390361fc453a1aee1827ac7abbb"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181800315/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "dec141c701680a82b18418c8b08822e07593cdce6dd922814313e03f5291f966"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181800315/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "243ccfd549acc2476aadae5d0d044fe11e293056b23bf11e0fb2670b82d580a2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181800315/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "04a964783e3d61a0de487c03e8c13d54de0d7efd04a43d3440dd12f127d6def2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181800315/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181800315/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360405,
+      "sha256": "1598418415a7a8af6af74919d385935a58ecc9414c953756de903ccf671db104"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181840235/DOWNLOAD_RECEIPT.json",
+      "bytes": 4278,
+      "sha256": "60d2df3a874529c547cfc62c11e2bfa27f34166ad4a48fcc265dfce8a2bebbd3"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181840235/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181840235/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181840235/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181840235/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "c15820ca3b42304d2f19b830099352e81dbba1ab48650b4234ca8e0a1d833de1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181840235/files/SOL_R5_ALL11_EMPTY_AND_MULTIROW_SINGLE_STATEMENT_OBSERVATIONS.json",
+      "bytes": 467342,
+      "sha256": "7a95385e48ea122ba7f37ac5cd787618a7f2dbd922a444c4d027c2aac67297eb"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181840235/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "9814c7ab02e6dca64cb872dbf7f564c3555ac75bbd99ce79882e688937286aeb"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181840235/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "4994dd31cce4b40f1b6388523ab11ded3392f144f78f62753f0da43b9bf8a139"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181840235/files/SOL_R5_ORIGINAL_CONTROL_FUNCTIONS.json",
+      "bytes": 120445,
+      "sha256": "c124e767a90c6adaf5eacb9075a3bd83be17bcbf4dc30092b0857c98d12d8dc8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181840235/files/SOL_R5_ORIGINAL_CONTROL_GUARDS.json",
+      "bytes": 25138,
+      "sha256": "23481be84b3936bcae913eab60613f490c553872b2f23e0d691d48ddd43fa37b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181840235/files/SOL_R5_ORIGINAL_CONTROL_TRIGGERS.json",
+      "bytes": 16587,
+      "sha256": "a43787724e63bc2bbdaaf4a95912948df519bf78818ae56b71922ffb8a390057"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181840235/files/SOL_R5_READER_MULTIROW.json",
+      "bytes": 44284,
+      "sha256": "449fd61fbf03b44d0e14e212e86cc724ae0332e3d224f2c8c81c80eef359ab07"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181840235/files/SOL_R5_RUNTIME.json",
+      "bytes": 216,
+      "sha256": "705539906a2d40408d8760cf922eb63d6d9f86a0b5990d07142a71e07adbab2f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181840235/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "52d31e43004df6476f345183b2e9118d7026a1c86e4b4d865e5b579a36bcf7bd"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181840235/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12181840235/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360419,
+      "sha256": "c7a340e219460ff8dafcbb59987d4562df93bb762402eafa6c9df049b8bd9421"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182140167/DOWNLOAD_RECEIPT.json",
+      "bytes": 4664,
+      "sha256": "57c549b4f446cf8fca0f274bec9720c3cdb1c8b410ce28cda6993973cca919bb"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182140167/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182140167/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182140167/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182140167/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "bd5ee947198f701f42cda383aff0e47bf6e9b6178944572b4e4a88f2d3c24670"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182140167/files/CP7_F03_FULL_P09.json",
+      "bytes": 23727246,
+      "sha256": "0c15b37ef0da3caaf846ca090888b871cbec74335050a3dbae67f05f6a640bbd"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182140167/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "b225b702e233027d94986044cc8522b8ebb0e574b337a3bb9804e0f60ecbffac"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182140167/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "14fcc458df40f10acec614762c591977f3983a37bd3a209906f40cbdb8356b87"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182140167/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "dbad6254d2c4fdb1903b7f72a7972791674693d7227a89a143b3867db5f3d287"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182140167/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182140167/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360405,
+      "sha256": "1598418415a7a8af6af74919d385935a58ecc9414c953756de903ccf671db104"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182475716/DOWNLOAD_RECEIPT.json",
+      "bytes": 4274,
+      "sha256": "404859973450f7b89ab81fc06f1fb9f7187ea96632bc11161a8de6a73a373866"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182475716/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182475716/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182475716/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182475716/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "73ddce8e03554730731b2caed7c68419f4751d6dd8657aadfad4c69dbc2960c4"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182475716/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "1f0f4ac6393ccc139d6e20ffa0acf3f580c614bc5170463de09ac24efe9021c8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182475716/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "b441628befb85491e8b04705999bf6e38d73a4cf6003059554088b6eb485e2b3"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182475716/files/SOL_R5_ORIGINAL_CONTROL_FUNCTIONS.json",
+      "bytes": 120445,
+      "sha256": "c124e767a90c6adaf5eacb9075a3bd83be17bcbf4dc30092b0857c98d12d8dc8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182475716/files/SOL_R5_ORIGINAL_CONTROL_GUARDS.json",
+      "bytes": 25138,
+      "sha256": "23481be84b3936bcae913eab60613f490c553872b2f23e0d691d48ddd43fa37b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182475716/files/SOL_R5_ORIGINAL_CONTROL_TRIGGERS.json",
+      "bytes": 16587,
+      "sha256": "a43787724e63bc2bbdaaf4a95912948df519bf78818ae56b71922ffb8a390057"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182475716/files/SOL_R5_READER_MAPPING_Q3.json",
+      "bytes": 653438,
+      "sha256": "4f8bce4e877b043393f6110caccf90b3ead4d8d3e1a7fbd14c474d8c0efc1ef6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182475716/files/SOL_R5_READER_PREPARED_MAPPING_FRESHNESS_Q3_OBSERVATIONS.json",
+      "bytes": 578216,
+      "sha256": "accdda15ddd691a8f95d1daa1644b44470fa6d9cea9878fd34b545cf6f141bd0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182475716/files/SOL_R5_RUNTIME.json",
+      "bytes": 216,
+      "sha256": "705539906a2d40408d8760cf922eb63d6d9f86a0b5990d07142a71e07adbab2f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182475716/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "9b4f3e341311dbef77dc78f0f541d84d1b956d967c7e8f2dec502da3f3463f3d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182475716/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182475716/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360414,
+      "sha256": "fcadca966220be174f46e72dbcf8466380bd67b5394d6cd285f9d54d6b8209b3"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/DOWNLOAD_RECEIPT.json",
+      "bytes": 41075,
+      "sha256": "75725261d844783e1a4b8f623974a24d33615f580a1fb6d81f190d58366fc171"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "ed533e365d4cf4a4d3e24d1afb6bda2e4a57f5e24f7e57ce884e377db31d9bae"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/CP7_P19_SCALE.json",
+      "bytes": 964641,
+      "sha256": "8bafdfa3fe7d5d60bfa79a142e51f6497a6dc504ce7794a6b833ba343df690ef"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_1000_100_BACKGROUND.json",
+      "bytes": 7152,
+      "sha256": "3eb05d69ff4ef8cc7dbb1a95126cfde8c6681033c09f0ae93f67ceee93590536"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_1000_100_CAPTURE.json",
+      "bytes": 4846,
+      "sha256": "ade72745e5d0e4b735210388b0f98d3728efd7382cf7909210e0ea12b7e231c9"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_1000_100_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4812,
+      "sha256": "b3f55e37a0313666c2e4a95f8139d2afcf9d4eb34ae3de88e4717997f6c1645c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_1000_100_STAGED.json",
+      "bytes": 104915,
+      "sha256": "0a885fdb58af89e14d9a7250bc9bd029519042bf52bab8fb98e8594fedc97183"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_1000_1_BACKGROUND.json",
+      "bytes": 7187,
+      "sha256": "27e85ae7ef2dc1d93e5fc61530925292aeefd7aa0be24da74b90bf3d4e79d767"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_1000_1_CAPTURE.json",
+      "bytes": 4842,
+      "sha256": "842f496a2f7f70956d416563e8fd6beda37a8bde33605f72deb22b0691ddcdf6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_1000_1_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4800,
+      "sha256": "fe2979f581c572b748a1e0d81618bfded91a62e4738720826866a91621b8253e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_1000_1_STAGED.json",
+      "bytes": 92566,
+      "sha256": "85a208a201045fd9e058527f9293930634d165f3037d951d97976da89b8327bc"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_1000_30_BACKGROUND.json",
+      "bytes": 7135,
+      "sha256": "71380b50c5a631a7e42f8dee0eab8b4e11b0218e7dbdf5d51a59bb5b13958c43"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_1000_30_CAPTURE.json",
+      "bytes": 4811,
+      "sha256": "cc10c7137f54263abfb1dd931b3c24e33fb795b2382c5622b1bc7cfce364a0b8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_1000_30_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4750,
+      "sha256": "217fc99ecaf24761ce393f7e168d73f3f46202cf92ef6f3f5d3a4c56e453f61d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_1000_30_STAGED.json",
+      "bytes": 96086,
+      "sha256": "a8a15b6a08e1ed6819764e190706bc6584cb67c7ad807025e37bd227c944659c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_100_100_BACKGROUND.json",
+      "bytes": 10586,
+      "sha256": "506f3d25a5831e5aa75a11a2ec0587d804344485b1ae58eba3898142865dccf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_100_100_CAPTURE.json",
+      "bytes": 5422,
+      "sha256": "9f3e43519462c87d92baad11789a3d00ac4b4db6ef4ee0c535be4661a454ac5d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_100_100_CAPTURE_WITH_FINANCE.json",
+      "bytes": 5449,
+      "sha256": "45540cac3bea80cef00c86e6278ce793084e5b70d8f923b97a618930b31900af"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_100_100_STAGED.json",
+      "bytes": 51686,
+      "sha256": "3b0723e4c3c1a7c83c3023636e7463da3f5d02481871017d795741ae190712b1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_100_1_BACKGROUND.json",
+      "bytes": 10588,
+      "sha256": "a76ae4f1421ed99aaa4529acf081e1f32d24bcaa67ae55d69080d3d7aa318d58"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_100_1_CAPTURE.json",
+      "bytes": 5416,
+      "sha256": "5792173f5d318f4fac616ce52b00369ed72eca48bad433ca1a6ea2feb4b42463"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_100_1_CAPTURE_WITH_FINANCE.json",
+      "bytes": 5392,
+      "sha256": "adaeda1041ba95a1efda3e7d553a9b90cf753a1b52b48240434d9bf7794ec36b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_100_1_STAGED.json",
+      "bytes": 51716,
+      "sha256": "35abb10edffb97be16d96b9b592a98850881926a413a2eed627679ffcc1bb189"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_100_30_BACKGROUND.json",
+      "bytes": 10590,
+      "sha256": "219b7e7318bbf84a5f24e6b606a476cf57d9c1bf2de3758e51967be1fbb9bea6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_100_30_CAPTURE.json",
+      "bytes": 5392,
+      "sha256": "32617c0c8546afda925745054613f5c7978ba74e6a72a3312a2db54dab2edc83"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_100_30_CAPTURE_WITH_FINANCE.json",
+      "bytes": 5446,
+      "sha256": "b690e32d5664f1192da98434763d6cd31ffac49ab67e4300707afd5454e3e8a1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_100_30_STAGED.json",
+      "bytes": 51731,
+      "sha256": "4e6f2fc7e403cb2134f44a9beb7f2c6fd0ccb0ff935b95e87797f0f3a9f73180"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_300_100_BACKGROUND.json",
+      "bytes": 13456,
+      "sha256": "ce94dfd61e3005527a8a5809f2553def21cd4625ba000ff2540494785ea64d9b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_300_100_CAPTURE.json",
+      "bytes": 13005,
+      "sha256": "975a29f6c917eaa39ae688793859dd5ee20d4e552121329619cb93eb50d68ac1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_300_100_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4805,
+      "sha256": "b37a8af6949c005a9b0178f1f8e72e65eacdd108d07dabe6db71402e9adb1b39"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_300_100_STAGED.json",
+      "bytes": 66207,
+      "sha256": "afbef3830bb02da52faa76734222101ffb0da9ac02456699b4165d75b775812d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_300_1_BACKGROUND.json",
+      "bytes": 13457,
+      "sha256": "235254c84f86e9adbe561d50c5bcf659309d5ebb62816b3a48f34848e2348cea"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_300_1_CAPTURE.json",
+      "bytes": 12980,
+      "sha256": "3fdb8e7ad8ce04dcfac34161ba337436fabf6f3cb3ccf00c6f5eb3d283d99d83"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_300_1_CAPTURE_WITH_FINANCE.json",
+      "bytes": 13030,
+      "sha256": "0557ca07da663fc7b415686fdd9cc67a02bdb7a4a2ee2b6d8ae544364bda6b11"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_300_1_STAGED.json",
+      "bytes": 62717,
+      "sha256": "198121b2bbef6a7bbfbf2ab1ccb52074147f7c52020a017cc46d29ba486be94a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_300_30_BACKGROUND.json",
+      "bytes": 13448,
+      "sha256": "5bbe91ca99555e467de22a40b96ff26e6228ffc849d5a5ed55d4c73fe091fc25"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_300_30_CAPTURE.json",
+      "bytes": 13013,
+      "sha256": "b77cf34a3512bbce84dfc3d33cb4a6b96b7a19ddf3f846adb1412715753eb1dd"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_300_30_CAPTURE_WITH_FINANCE.json",
+      "bytes": 12988,
+      "sha256": "b3b45e0ed5fa3c3da5f4a217d4c08695daa95150aa917095812c962594cc3843"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_300_30_STAGED.json",
+      "bytes": 62691,
+      "sha256": "518deaa9d3144fa7364adbd8331240a451a327ea81762c06166bb48d3047f2a7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_5000_100_BACKGROUND.json",
+      "bytes": 7463,
+      "sha256": "16e31cd12dbc88441d327da073c968a0e4c1383072c2797cbafb1be166741448"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_5000_100_CAPTURE.json",
+      "bytes": 5167,
+      "sha256": "2e9c55926f6a35e635dc0f606ac819f5650b18c2a6818982af346ada23379f63"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_5000_100_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4940,
+      "sha256": "7fa0ee08fec20176008ae1255158dc70747c4a8092532a33623ae1e43edd0185"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_5000_100_STAGED.json",
+      "bytes": 360345,
+      "sha256": "7652917f7ae5809883ca8b1fc1e7c6d939c250d1aa5860f207fbbce83c59b780"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_5000_1_BACKGROUND.json",
+      "bytes": 7458,
+      "sha256": "6a7db5e7019e4f67c003247a85d03ac917135385641fd05b088ae3fca0fabf70"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_5000_1_CAPTURE.json",
+      "bytes": 5136,
+      "sha256": "a433e8c54ee6b31c1d0a7032b29b3fd3c07df647e4a486a67fd278ee513d2a37"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_5000_1_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4890,
+      "sha256": "97a6c980803b6bc9b03a82c0676ea5905719bfe368c6cc5f01ce61d7eb3e35c2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_5000_1_STAGED.json",
+      "bytes": 291367,
+      "sha256": "85f7daccd2fa581157ff8c0fa120721be5bd334c720e107363ef6145e65929ea"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_5000_30_BACKGROUND.json",
+      "bytes": 7433,
+      "sha256": "793be8ae3dfb2042cb05bf427fc642156704614a52f54aff7be659443198ae10"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_5000_30_CAPTURE.json",
+      "bytes": 5139,
+      "sha256": "46939ba92c4abb456c1428349cc52d87efc227b6788278e9d92ff18b963fee89"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_5000_30_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4892,
+      "sha256": "e69190ef3922356dc1227a4e4cf1f0d4f15bc0fb6ecaf19895988550797af39e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_5000_30_STAGED.json",
+      "bytes": 312700,
+      "sha256": "9483d24d6f47e3518e9914d251b9ada0848e834a9d60226957ef7235c8113a5e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_SEED_100.json",
+      "bytes": 8816,
+      "sha256": "c2a2e019701e4e293dfa2695456ba311abb6f353ca94b8fa1ee7daad500c5b36"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_SEED_1000.json",
+      "bytes": 8749,
+      "sha256": "bc74201b4d43ae2c07bcfbc08a353f0ef9c6d742fb8c7b1dce60b41500f2a55c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_SEED_300.json",
+      "bytes": 8733,
+      "sha256": "f21d4a95522f610aac18ab1c630b1c405f2b8865fa871e24c2938c75582ed894"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_SEED_5000.json",
+      "bytes": 8943,
+      "sha256": "84a0361aa274210b2e4f527645935b750bd0663fc4bd98e9ccc3d51866443768"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_SQL_LADDER_100.json",
+      "bytes": 86247,
+      "sha256": "49649bace0bc5a2853e97b81e57f20ea18fd88c4a6b5de35732bdfeaaebcba51"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_SQL_LADDER_1000.json",
+      "bytes": 49969,
+      "sha256": "ad339e4ea85b853d7a58bd6ad2c9f094562ff12f37e3a1a7a582cc851d6078c0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_SQL_LADDER_300.json",
+      "bytes": 86607,
+      "sha256": "b16ef06a61506f535040f251caf76afe314da6f7a6110eb595ab36c699e55d2e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19S_BROWSER_SQL_LADDER_5000.json",
+      "bytes": 60616,
+      "sha256": "ef2fd6c3c524b827df5db0b0bd4b5985e814720755bb83660a7627e946eea3b1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_ORIGINAL_100_100_BACKGROUND.json",
+      "bytes": 4165178,
+      "sha256": "a2eacfabcc4bade9c7e54b838963081abacaf666c9ebc715631f382aa2a844ba"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_ORIGINAL_100_100_CAPTURE.json",
+      "bytes": 4165178,
+      "sha256": "27263f00bf6def9a3c47aa8f42e4cd24bc14af2d6736fbf5d919e3d05cd9ce21"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_ORIGINAL_100_100_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4204724,
+      "sha256": "c7a86ebec641b88428922fc50e7ddcc9fa484fffa36eb0101cb32b73d1a9f8e2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_ORIGINAL_100_1_BACKGROUND.json",
+      "bytes": 4164978,
+      "sha256": "973396f1fad54d23b1f22cac2b102fa974ef748217e5ac5ee0d34002ebccfa46"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_ORIGINAL_100_1_CAPTURE.json",
+      "bytes": 4164978,
+      "sha256": "99f34603ef6761f4609d681addee02ea6bf24bfd00b880fc760d4554612f5e90"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_ORIGINAL_100_1_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4204466,
+      "sha256": "5fa16a2ebd96fd6aa40beca4ce5cce3fd39a37e772cc5717590ea98cd3cf7f40"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_ORIGINAL_100_30_BACKGROUND.json",
+      "bytes": 4165078,
+      "sha256": "07a529672acc4f915c402421ffa663847cad03f92bbb8cf59c9e71c64784f412"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_ORIGINAL_100_30_CAPTURE.json",
+      "bytes": 4165078,
+      "sha256": "9d2b4f15f15375e254f443434c8f2505d3048f0cee3e9b12c236406b820946cb"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_ORIGINAL_100_30_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4204624,
+      "sha256": "1350f2a6686ca3213113607d7235476964b9cacef4f39ce7f89baaf73118916a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_ORIGINAL_300_100_BACKGROUND.json",
+      "bytes": 12470980,
+      "sha256": "a5947361406d21502897b39ad8f9938a0c7b4ce7e1a405a555c7ec4706ceed99"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_ORIGINAL_300_100_CAPTURE.json",
+      "bytes": 12470980,
+      "sha256": "f871c4d0041926081ae0ab6cdfb9ba620a30f72597637f821d41ea2d694da95a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_ORIGINAL_300_1_BACKGROUND.json",
+      "bytes": 12470380,
+      "sha256": "af5e1392baabe280715c8b58533505d960c40830d7f260ea3dfd9972ccc2389e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_ORIGINAL_300_1_CAPTURE.json",
+      "bytes": 12470380,
+      "sha256": "29af908709e8bfe0ccc95a003e54902fd238af144032f938da3e09aaee4cab5c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_ORIGINAL_300_1_CAPTURE_WITH_FINANCE.json",
+      "bytes": 12509877,
+      "sha256": "6f026926a6540a50927216b3c9bb2978f28bf5c719403428a4e4b9b9fcfa20eb"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_ORIGINAL_300_30_BACKGROUND.json",
+      "bytes": 12470680,
+      "sha256": "0b53737796b88bb6bce3de03be1b5ed4f5d66a7dcad9fb5a65b9c05393084ff8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_ORIGINAL_300_30_CAPTURE.json",
+      "bytes": 12470680,
+      "sha256": "81b923754da9249ca2f1a8efc12cf12e2e122ec5f2221aaebc06fe6950698b8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_ORIGINAL_300_30_CAPTURE_WITH_FINANCE.json",
+      "bytes": 12510248,
+      "sha256": "41a152efa3d48140e717dd3147df4e13f78e18d51b0879c113e5437012708a4d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_STAGED_HEADER_1000_100_STAGED.json",
+      "bytes": 176251,
+      "sha256": "8c55173491808458df1209f5a2e32d9fcaef8a7e0f32b9b4b49d62c33e0272a1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_STAGED_HEADER_1000_1_STAGED.json",
+      "bytes": 176251,
+      "sha256": "b809a1491958f4bd071c39d472e319d46a0fd33e4baf0499346532bd80bb3368"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_STAGED_HEADER_1000_30_STAGED.json",
+      "bytes": 176251,
+      "sha256": "a686b4f86e01ff20d56275a169102313f01d170e891e024d6e41522800d186a1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_STAGED_HEADER_100_100_STAGED.json",
+      "bytes": 25938,
+      "sha256": "a9837924777f04f3aad11abbac2da5661f1979db88ddfadc59351a6a1c3ff3ce"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_STAGED_HEADER_100_1_STAGED.json",
+      "bytes": 25938,
+      "sha256": "0125a97a53f78877a49a4de1e46121c1a9996db2c67383e72bf9dbb195a5e7d5"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_STAGED_HEADER_100_30_STAGED.json",
+      "bytes": 25938,
+      "sha256": "8c2d4166e8713745ba82c3a462dcd5300ef0a4e0a38e9998c48c64a7dfbbb3f6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_STAGED_HEADER_300_100_STAGED.json",
+      "bytes": 59340,
+      "sha256": "dca868ae429ff4038cc6eded34a5004608d222fb4a3297524a8668ff3301c361"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_STAGED_HEADER_300_1_STAGED.json",
+      "bytes": 59340,
+      "sha256": "de1d968ad1b516ec473f5956d606fcb51bd77db7c039f00269fcac9d19950de1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_STAGED_HEADER_300_30_STAGED.json",
+      "bytes": 59340,
+      "sha256": "240479b98beb4a85270ca740c763701ecbe3a545424c61fff54d17313a9d60c5"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_STAGED_HEADER_5000_100_STAGED.json",
+      "bytes": 842743,
+      "sha256": "ee5faa2ab1c375a01349fefd6b18205de321db79269a6adac58e8b9392b94cd6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_STAGED_HEADER_5000_1_STAGED.json",
+      "bytes": 842743,
+      "sha256": "87c61d190dc0035faf9f1861933ed23671ab80bea7c771c2eb8862adf5523295"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_BROWSER_STAGED_HEADER_5000_30_STAGED.json",
+      "bytes": 842743,
+      "sha256": "748c5cb9408fc0604cbe76f3b3686e76de3d29387616d7ddc960cc825b29ee88"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_NATIVE_100.json",
+      "bytes": 16748,
+      "sha256": "12a97a2783f87794a2e96cacac20a50fa121a5977a26073e6df0304c72091d8e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_NATIVE_ORIGINAL_100_1_BACKGROUND.json",
+      "bytes": 4208467,
+      "sha256": "55e957f379c288a760204f35b4d119db70cd0bdde4cf3a5a58d62c9a2cc4d9b2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_NATIVE_ORIGINAL_100_1_ORDINARY.json",
+      "bytes": 4206534,
+      "sha256": "e1b4961fa3c0aceacb25b09444357e03bc0fb5307c571e65df667c216300b110"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_NATIVE_SEED_100.json",
+      "bytes": 3623,
+      "sha256": "ca8cd5adcd42ae65289855c9b56da16c75e9df1986074c84f9f5b44976567623"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_NATIVE_STAGED_100_1.json",
+      "bytes": 6473,
+      "sha256": "422293d07b2db7545bef6b255a749040826ce052d53cb8f5d7b237c1fd1fa41c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_ORIGINAL_100_100_BACKGROUND.json",
+      "bytes": 4208730,
+      "sha256": "ad4c53d231c453abcb10b8420c145e5bcd5e698b98ca94b5690189afd55a006d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_ORIGINAL_100_100_ORDINARY.json",
+      "bytes": 4206796,
+      "sha256": "00c23b2a78b4304259e86d7cc850f27799bacf62de614315d327b37a0cd0c816"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_ORIGINAL_100_1_BACKGROUND.json",
+      "bytes": 4208469,
+      "sha256": "2d4cfe0ed823cbb106bcd63b216541dba7d98661226dd2347fba356a18d21b19"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_ORIGINAL_100_1_ORDINARY.json",
+      "bytes": 4206534,
+      "sha256": "d9f686d42b752052061ac8758f8d65f5537e3c260370c9e2680d6e82a19927fb"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_ORIGINAL_100_30_BACKGROUND.json",
+      "bytes": 4208627,
+      "sha256": "48d9d404eb07e2e02a6125b58dd905a4a64f8d2b30e18e0f6c4a0e89a307c0a9"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_ORIGINAL_100_30_ORDINARY.json",
+      "bytes": 4206694,
+      "sha256": "09d30cae1057bc4444353386d844c43fe0fafc3bfaab98aa73092cbdfa82dfc1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_ORIGINAL_300_100_BACKGROUND.json",
+      "bytes": 12515024,
+      "sha256": "957cb12f21a5edc52f58814378f1d1f39b43978574f06ce7c975467fda2f5723"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_ORIGINAL_300_1_BACKGROUND.json",
+      "bytes": 12514350,
+      "sha256": "04061659587f6ed99083fb4b192552cf5b5a8e1d047065b2c1183842de281d7e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_ORIGINAL_300_1_ORDINARY.json",
+      "bytes": 12511948,
+      "sha256": "139469d9c63b3d9bd01809098d2b3b0a35af851b01692564d301770ac16ed0bd"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_ORIGINAL_300_30_BACKGROUND.json",
+      "bytes": 12514724,
+      "sha256": "b49249859c3f81322a9da61fe97e656c896857bcbb5f06769cee2d9d50fa1623"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_ORIGINAL_300_30_ORDINARY.json",
+      "bytes": 12512320,
+      "sha256": "8e7cdd4b9d6f5965754b47ed88a4727f54cc940b971837088201a9c9cda41bed"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_PHASE_SCALING.json",
+      "bytes": 36105,
+      "sha256": "98f38e2ad2d7f24e3416eb2b9410bc4f8cbca0cd3ecaa81880c83e5d55737279"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_PROFILE_1000_1.json",
+      "bytes": 12545,
+      "sha256": "8f042e7de749d384acc12e976865e2f2cfc22e687e22d6cafee4a938b5179318"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_PROFILE_1000_100.json",
+      "bytes": 12282,
+      "sha256": "f730bbf2b536d90d66644f1d39b1c59c8472e9e7de1239dd587ed6440bc12a86"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_PROFILE_1000_30.json",
+      "bytes": 12550,
+      "sha256": "848e32a54dee49f08958ceb004cd87ff94194c36ef0840d3770d7da94f1de352"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_PROFILE_100_1.json",
+      "bytes": 23845,
+      "sha256": "f325dc8865f0f5bd88cb16a7a6f1e353de82a2db9261389f95744a98a6b8b3b6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_PROFILE_100_100.json",
+      "bytes": 23860,
+      "sha256": "b5c68570955d350c52ae36d5a8fc3f7e562f8aa50f52492d1e2c8ba40597578b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_PROFILE_100_30.json",
+      "bytes": 23869,
+      "sha256": "2a7a98c1bbf11ad738256c9dc24ba2d1785b7a6a386db6bf371229cab517d6c2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_PROFILE_300_1.json",
+      "bytes": 23876,
+      "sha256": "fe910a9896beba829a0ad2b37c39ff8b3301789a19d317ea954932e675401567"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_PROFILE_300_100.json",
+      "bytes": 13462,
+      "sha256": "6589d6e59351c15f0b49e9d61ae7d30488b3edd045ef993478f5600a017488b7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_PROFILE_300_30.json",
+      "bytes": 23876,
+      "sha256": "1cba5b02fa086609ba69bb387319e8fbf1940781aaa7f63bb273bd2f02e4bf37"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_PROFILE_5000_1.json",
+      "bytes": 9652,
+      "sha256": "b65c8a351789a00e9d11ca9f2d956ce70b1b69afdc9b530a5361de410e772514"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_PROFILE_5000_100.json",
+      "bytes": 9652,
+      "sha256": "31cf9d57cf8d96182a8635353f2174f9c4088ceb6a4fe8f366030f86dcea13ce"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_PROFILE_5000_30.json",
+      "bytes": 9653,
+      "sha256": "4ce4d043e86945760a738d98802ed1bf65d88634280b98bb7da18efc1cc53ab0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_SIZE_100.json",
+      "bytes": 86274,
+      "sha256": "30959d7a93e3b28e7fa74bf2d225e5119187f441b75ceac5cda2a9033af34179"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_SIZE_1000.json",
+      "bytes": 49977,
+      "sha256": "ca39ef7e67bb0f043d76085b7eea4a065d3685468de10975efce81bb38ab76d7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_SIZE_300.json",
+      "bytes": 86632,
+      "sha256": "e94e16bbd44372d12b816c1fef8554ce58c98803d5ad0f9507da9d8b413f67db"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_SIZE_5000.json",
+      "bytes": 60624,
+      "sha256": "5a281f85f6f8b09cf0456552cfd85e8e83a37a41b0c9da72dfec456ff22b5d37"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_STAGED_1000_1.json",
+      "bytes": 8825,
+      "sha256": "8156f4d3f0604d5e103d05ab37357def7315d405b3219d7b90948bb19918e892"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_STAGED_1000_100.json",
+      "bytes": 8893,
+      "sha256": "2c00364d4185b37be337a2c1eecef7b3d36b52184ed77b80bb60ac8d38db3dc3"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_STAGED_1000_30.json",
+      "bytes": 8849,
+      "sha256": "797f5f10b0fb19d81c8c2ab97604e79a32dc44af3da4196d56cd0c4b3fd99267"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_STAGED_100_1.json",
+      "bytes": 6473,
+      "sha256": "dd10ad4ab87998381c9e52eb2964ba321088f8f76cb123812fdb016d9a372101"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_STAGED_100_100.json",
+      "bytes": 6478,
+      "sha256": "139a53e9edff335d98ae41be7f9d7be83c76fd4b44f8daa11934cd68cdfdc09f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_STAGED_100_30.json",
+      "bytes": 6476,
+      "sha256": "7c4f5116d64289e84d2972d924352a76cd0190bb6bcfc99bc21bdebd56925b13"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_STAGED_300_1.json",
+      "bytes": 6965,
+      "sha256": "46b6969c0ff7aa0033272e5c5745214c43a70fe81e783806f52e704f402b70a1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_STAGED_300_100.json",
+      "bytes": 6985,
+      "sha256": "4e21a282e3ba10ad332970557225bd0589265d5f9700d026ee3bab09f525e85a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_STAGED_300_30.json",
+      "bytes": 6966,
+      "sha256": "e6f55e646a9ec5277e128af140f3e770d6e306e40b1c37378e23e43c1c6fa968"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_STAGED_5000_1.json",
+      "bytes": 18288,
+      "sha256": "359f482594db3c68189e7d5b690a6fb3a636cad49383f08f1b95e02c6d8155bc"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_STAGED_5000_100.json",
+      "bytes": 18645,
+      "sha256": "5c8f513dbedfdc051021e952c4a01691f96a95ca210080a9c594626e6f84f4dc"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/P19_SCALE_STAGED_5000_30.json",
+      "bytes": 18414,
+      "sha256": "addd0e27462708f007ce8fcf65b88e6195bc96903094906a7a9fe77f04e6075e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "800ee956bffb1e1c501b24b04dc618330d3cf03d089b13a331bc3d683aa2b32d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "9209663a6a57558a87c43166842db027230a832c7a98f01b690d6cbc012238b0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "9add8e223affc1039c52722726f3658684e3375c1e018f012f06d63fa317750b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12182948458/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/DOWNLOAD_RECEIPT.json",
+      "bytes": 36333,
+      "sha256": "8b51cd6d0ec585870317cc24d02184804dd9e06c99ad612debeb983ffe1a9d24"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/CP7_P19_SCALE.json",
+      "bytes": 964641,
+      "sha256": "8bafdfa3fe7d5d60bfa79a142e51f6497a6dc504ce7794a6b833ba343df690ef"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_1000_100_BACKGROUND.json",
+      "bytes": 7152,
+      "sha256": "3eb05d69ff4ef8cc7dbb1a95126cfde8c6681033c09f0ae93f67ceee93590536"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_1000_100_CAPTURE.json",
+      "bytes": 4846,
+      "sha256": "ade72745e5d0e4b735210388b0f98d3728efd7382cf7909210e0ea12b7e231c9"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_1000_100_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4812,
+      "sha256": "b3f55e37a0313666c2e4a95f8139d2afcf9d4eb34ae3de88e4717997f6c1645c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_1000_100_STAGED.json",
+      "bytes": 104915,
+      "sha256": "0a885fdb58af89e14d9a7250bc9bd029519042bf52bab8fb98e8594fedc97183"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_1000_1_BACKGROUND.json",
+      "bytes": 7187,
+      "sha256": "27e85ae7ef2dc1d93e5fc61530925292aeefd7aa0be24da74b90bf3d4e79d767"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_1000_1_CAPTURE.json",
+      "bytes": 4842,
+      "sha256": "842f496a2f7f70956d416563e8fd6beda37a8bde33605f72deb22b0691ddcdf6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_1000_1_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4800,
+      "sha256": "fe2979f581c572b748a1e0d81618bfded91a62e4738720826866a91621b8253e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_1000_1_STAGED.json",
+      "bytes": 92566,
+      "sha256": "85a208a201045fd9e058527f9293930634d165f3037d951d97976da89b8327bc"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_1000_30_BACKGROUND.json",
+      "bytes": 7135,
+      "sha256": "71380b50c5a631a7e42f8dee0eab8b4e11b0218e7dbdf5d51a59bb5b13958c43"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_1000_30_CAPTURE.json",
+      "bytes": 4811,
+      "sha256": "cc10c7137f54263abfb1dd931b3c24e33fb795b2382c5622b1bc7cfce364a0b8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_1000_30_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4750,
+      "sha256": "217fc99ecaf24761ce393f7e168d73f3f46202cf92ef6f3f5d3a4c56e453f61d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_1000_30_STAGED.json",
+      "bytes": 96086,
+      "sha256": "a8a15b6a08e1ed6819764e190706bc6584cb67c7ad807025e37bd227c944659c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_100_100_BACKGROUND.json",
+      "bytes": 10586,
+      "sha256": "506f3d25a5831e5aa75a11a2ec0587d804344485b1ae58eba3898142865dccf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_100_100_CAPTURE.json",
+      "bytes": 5422,
+      "sha256": "9f3e43519462c87d92baad11789a3d00ac4b4db6ef4ee0c535be4661a454ac5d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_100_100_CAPTURE_WITH_FINANCE.json",
+      "bytes": 5449,
+      "sha256": "45540cac3bea80cef00c86e6278ce793084e5b70d8f923b97a618930b31900af"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_100_100_STAGED.json",
+      "bytes": 51686,
+      "sha256": "3b0723e4c3c1a7c83c3023636e7463da3f5d02481871017d795741ae190712b1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_100_1_BACKGROUND.json",
+      "bytes": 10588,
+      "sha256": "a76ae4f1421ed99aaa4529acf081e1f32d24bcaa67ae55d69080d3d7aa318d58"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_100_1_CAPTURE.json",
+      "bytes": 5416,
+      "sha256": "5792173f5d318f4fac616ce52b00369ed72eca48bad433ca1a6ea2feb4b42463"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_100_1_CAPTURE_WITH_FINANCE.json",
+      "bytes": 5392,
+      "sha256": "adaeda1041ba95a1efda3e7d553a9b90cf753a1b52b48240434d9bf7794ec36b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_100_1_STAGED.json",
+      "bytes": 51716,
+      "sha256": "35abb10edffb97be16d96b9b592a98850881926a413a2eed627679ffcc1bb189"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_100_30_BACKGROUND.json",
+      "bytes": 10590,
+      "sha256": "219b7e7318bbf84a5f24e6b606a476cf57d9c1bf2de3758e51967be1fbb9bea6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_100_30_CAPTURE.json",
+      "bytes": 5392,
+      "sha256": "32617c0c8546afda925745054613f5c7978ba74e6a72a3312a2db54dab2edc83"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_100_30_CAPTURE_WITH_FINANCE.json",
+      "bytes": 5446,
+      "sha256": "b690e32d5664f1192da98434763d6cd31ffac49ab67e4300707afd5454e3e8a1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_100_30_STAGED.json",
+      "bytes": 51731,
+      "sha256": "4e6f2fc7e403cb2134f44a9beb7f2c6fd0ccb0ff935b95e87797f0f3a9f73180"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_300_100_BACKGROUND.json",
+      "bytes": 13456,
+      "sha256": "ce94dfd61e3005527a8a5809f2553def21cd4625ba000ff2540494785ea64d9b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_300_100_CAPTURE.json",
+      "bytes": 13005,
+      "sha256": "975a29f6c917eaa39ae688793859dd5ee20d4e552121329619cb93eb50d68ac1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_300_100_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4805,
+      "sha256": "b37a8af6949c005a9b0178f1f8e72e65eacdd108d07dabe6db71402e9adb1b39"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_300_100_STAGED.json",
+      "bytes": 66207,
+      "sha256": "afbef3830bb02da52faa76734222101ffb0da9ac02456699b4165d75b775812d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_300_1_BACKGROUND.json",
+      "bytes": 13457,
+      "sha256": "235254c84f86e9adbe561d50c5bcf659309d5ebb62816b3a48f34848e2348cea"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_300_1_CAPTURE.json",
+      "bytes": 12980,
+      "sha256": "3fdb8e7ad8ce04dcfac34161ba337436fabf6f3cb3ccf00c6f5eb3d283d99d83"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_300_1_CAPTURE_WITH_FINANCE.json",
+      "bytes": 13030,
+      "sha256": "0557ca07da663fc7b415686fdd9cc67a02bdb7a4a2ee2b6d8ae544364bda6b11"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_300_1_STAGED.json",
+      "bytes": 62717,
+      "sha256": "198121b2bbef6a7bbfbf2ab1ccb52074147f7c52020a017cc46d29ba486be94a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_300_30_BACKGROUND.json",
+      "bytes": 13448,
+      "sha256": "5bbe91ca99555e467de22a40b96ff26e6228ffc849d5a5ed55d4c73fe091fc25"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_300_30_CAPTURE.json",
+      "bytes": 13013,
+      "sha256": "b77cf34a3512bbce84dfc3d33cb4a6b96b7a19ddf3f846adb1412715753eb1dd"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_300_30_CAPTURE_WITH_FINANCE.json",
+      "bytes": 12988,
+      "sha256": "b3b45e0ed5fa3c3da5f4a217d4c08695daa95150aa917095812c962594cc3843"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_300_30_STAGED.json",
+      "bytes": 62691,
+      "sha256": "518deaa9d3144fa7364adbd8331240a451a327ea81762c06166bb48d3047f2a7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_5000_100_BACKGROUND.json",
+      "bytes": 7463,
+      "sha256": "16e31cd12dbc88441d327da073c968a0e4c1383072c2797cbafb1be166741448"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_5000_100_CAPTURE.json",
+      "bytes": 5167,
+      "sha256": "2e9c55926f6a35e635dc0f606ac819f5650b18c2a6818982af346ada23379f63"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_5000_100_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4940,
+      "sha256": "7fa0ee08fec20176008ae1255158dc70747c4a8092532a33623ae1e43edd0185"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_5000_100_STAGED.json",
+      "bytes": 360345,
+      "sha256": "7652917f7ae5809883ca8b1fc1e7c6d939c250d1aa5860f207fbbce83c59b780"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_5000_1_BACKGROUND.json",
+      "bytes": 7458,
+      "sha256": "6a7db5e7019e4f67c003247a85d03ac917135385641fd05b088ae3fca0fabf70"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_5000_1_CAPTURE.json",
+      "bytes": 5136,
+      "sha256": "a433e8c54ee6b31c1d0a7032b29b3fd3c07df647e4a486a67fd278ee513d2a37"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_5000_1_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4890,
+      "sha256": "97a6c980803b6bc9b03a82c0676ea5905719bfe368c6cc5f01ce61d7eb3e35c2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_5000_1_STAGED.json",
+      "bytes": 291367,
+      "sha256": "85f7daccd2fa581157ff8c0fa120721be5bd334c720e107363ef6145e65929ea"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_5000_30_BACKGROUND.json",
+      "bytes": 7433,
+      "sha256": "793be8ae3dfb2042cb05bf427fc642156704614a52f54aff7be659443198ae10"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_5000_30_CAPTURE.json",
+      "bytes": 5139,
+      "sha256": "46939ba92c4abb456c1428349cc52d87efc227b6788278e9d92ff18b963fee89"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_5000_30_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4892,
+      "sha256": "e69190ef3922356dc1227a4e4cf1f0d4f15bc0fb6ecaf19895988550797af39e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_5000_30_STAGED.json",
+      "bytes": 312700,
+      "sha256": "9483d24d6f47e3518e9914d251b9ada0848e834a9d60226957ef7235c8113a5e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_SEED_100.json",
+      "bytes": 8816,
+      "sha256": "c2a2e019701e4e293dfa2695456ba311abb6f353ca94b8fa1ee7daad500c5b36"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_SEED_1000.json",
+      "bytes": 8749,
+      "sha256": "bc74201b4d43ae2c07bcfbc08a353f0ef9c6d742fb8c7b1dce60b41500f2a55c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_SEED_300.json",
+      "bytes": 8733,
+      "sha256": "f21d4a95522f610aac18ab1c630b1c405f2b8865fa871e24c2938c75582ed894"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_SEED_5000.json",
+      "bytes": 8943,
+      "sha256": "84a0361aa274210b2e4f527645935b750bd0663fc4bd98e9ccc3d51866443768"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_SQL_LADDER_100.json",
+      "bytes": 86247,
+      "sha256": "49649bace0bc5a2853e97b81e57f20ea18fd88c4a6b5de35732bdfeaaebcba51"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_SQL_LADDER_1000.json",
+      "bytes": 49969,
+      "sha256": "ad339e4ea85b853d7a58bd6ad2c9f094562ff12f37e3a1a7a582cc851d6078c0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_SQL_LADDER_300.json",
+      "bytes": 86607,
+      "sha256": "b16ef06a61506f535040f251caf76afe314da6f7a6110eb595ab36c699e55d2e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19S_BROWSER_SQL_LADDER_5000.json",
+      "bytes": 60616,
+      "sha256": "ef2fd6c3c524b827df5db0b0bd4b5985e814720755bb83660a7627e946eea3b1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_ORIGINAL_100_100_BACKGROUND.json",
+      "bytes": 4165178,
+      "sha256": "a2eacfabcc4bade9c7e54b838963081abacaf666c9ebc715631f382aa2a844ba"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_ORIGINAL_100_100_CAPTURE.json",
+      "bytes": 4165178,
+      "sha256": "27263f00bf6def9a3c47aa8f42e4cd24bc14af2d6736fbf5d919e3d05cd9ce21"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_ORIGINAL_100_100_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4204724,
+      "sha256": "c7a86ebec641b88428922fc50e7ddcc9fa484fffa36eb0101cb32b73d1a9f8e2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_ORIGINAL_100_1_BACKGROUND.json",
+      "bytes": 4164978,
+      "sha256": "973396f1fad54d23b1f22cac2b102fa974ef748217e5ac5ee0d34002ebccfa46"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_ORIGINAL_100_1_CAPTURE.json",
+      "bytes": 4164978,
+      "sha256": "99f34603ef6761f4609d681addee02ea6bf24bfd00b880fc760d4554612f5e90"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_ORIGINAL_100_1_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4204466,
+      "sha256": "5fa16a2ebd96fd6aa40beca4ce5cce3fd39a37e772cc5717590ea98cd3cf7f40"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_ORIGINAL_100_30_BACKGROUND.json",
+      "bytes": 4165078,
+      "sha256": "07a529672acc4f915c402421ffa663847cad03f92bbb8cf59c9e71c64784f412"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_ORIGINAL_100_30_CAPTURE.json",
+      "bytes": 4165078,
+      "sha256": "9d2b4f15f15375e254f443434c8f2505d3048f0cee3e9b12c236406b820946cb"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_ORIGINAL_100_30_CAPTURE_WITH_FINANCE.json",
+      "bytes": 4204624,
+      "sha256": "1350f2a6686ca3213113607d7235476964b9cacef4f39ce7f89baaf73118916a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_ORIGINAL_300_100_BACKGROUND.json",
+      "bytes": 12470980,
+      "sha256": "a5947361406d21502897b39ad8f9938a0c7b4ce7e1a405a555c7ec4706ceed99"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_ORIGINAL_300_100_CAPTURE.json",
+      "bytes": 12470980,
+      "sha256": "f871c4d0041926081ae0ab6cdfb9ba620a30f72597637f821d41ea2d694da95a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_ORIGINAL_300_1_BACKGROUND.json",
+      "bytes": 12470380,
+      "sha256": "af5e1392baabe280715c8b58533505d960c40830d7f260ea3dfd9972ccc2389e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_ORIGINAL_300_1_CAPTURE.json",
+      "bytes": 12470380,
+      "sha256": "29af908709e8bfe0ccc95a003e54902fd238af144032f938da3e09aaee4cab5c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_ORIGINAL_300_1_CAPTURE_WITH_FINANCE.json",
+      "bytes": 12509877,
+      "sha256": "6f026926a6540a50927216b3c9bb2978f28bf5c719403428a4e4b9b9fcfa20eb"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_ORIGINAL_300_30_BACKGROUND.json",
+      "bytes": 12470680,
+      "sha256": "0b53737796b88bb6bce3de03be1b5ed4f5d66a7dcad9fb5a65b9c05393084ff8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_ORIGINAL_300_30_CAPTURE.json",
+      "bytes": 12470680,
+      "sha256": "81b923754da9249ca2f1a8efc12cf12e2e122ec5f2221aaebc06fe6950698b8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_ORIGINAL_300_30_CAPTURE_WITH_FINANCE.json",
+      "bytes": 12510248,
+      "sha256": "41a152efa3d48140e717dd3147df4e13f78e18d51b0879c113e5437012708a4d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_STAGED_HEADER_1000_100_STAGED.json",
+      "bytes": 176251,
+      "sha256": "8c55173491808458df1209f5a2e32d9fcaef8a7e0f32b9b4b49d62c33e0272a1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_STAGED_HEADER_1000_1_STAGED.json",
+      "bytes": 176251,
+      "sha256": "b809a1491958f4bd071c39d472e319d46a0fd33e4baf0499346532bd80bb3368"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_STAGED_HEADER_1000_30_STAGED.json",
+      "bytes": 176251,
+      "sha256": "a686b4f86e01ff20d56275a169102313f01d170e891e024d6e41522800d186a1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_STAGED_HEADER_100_100_STAGED.json",
+      "bytes": 25938,
+      "sha256": "a9837924777f04f3aad11abbac2da5661f1979db88ddfadc59351a6a1c3ff3ce"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_STAGED_HEADER_100_1_STAGED.json",
+      "bytes": 25938,
+      "sha256": "0125a97a53f78877a49a4de1e46121c1a9996db2c67383e72bf9dbb195a5e7d5"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_STAGED_HEADER_100_30_STAGED.json",
+      "bytes": 25938,
+      "sha256": "8c2d4166e8713745ba82c3a462dcd5300ef0a4e0a38e9998c48c64a7dfbbb3f6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_STAGED_HEADER_300_100_STAGED.json",
+      "bytes": 59340,
+      "sha256": "dca868ae429ff4038cc6eded34a5004608d222fb4a3297524a8668ff3301c361"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_STAGED_HEADER_300_1_STAGED.json",
+      "bytes": 59340,
+      "sha256": "de1d968ad1b516ec473f5956d606fcb51bd77db7c039f00269fcac9d19950de1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_STAGED_HEADER_300_30_STAGED.json",
+      "bytes": 59340,
+      "sha256": "240479b98beb4a85270ca740c763701ecbe3a545424c61fff54d17313a9d60c5"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_STAGED_HEADER_5000_100_STAGED.json",
+      "bytes": 842743,
+      "sha256": "ee5faa2ab1c375a01349fefd6b18205de321db79269a6adac58e8b9392b94cd6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_STAGED_HEADER_5000_1_STAGED.json",
+      "bytes": 842743,
+      "sha256": "87c61d190dc0035faf9f1861933ed23671ab80bea7c771c2eb8862adf5523295"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_BROWSER_STAGED_HEADER_5000_30_STAGED.json",
+      "bytes": 842743,
+      "sha256": "748c5cb9408fc0604cbe76f3b3686e76de3d29387616d7ddc960cc825b29ee88"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_NATIVE_100.json",
+      "bytes": 16748,
+      "sha256": "12a97a2783f87794a2e96cacac20a50fa121a5977a26073e6df0304c72091d8e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_NATIVE_ORIGINAL_100_1_BACKGROUND.json",
+      "bytes": 4208467,
+      "sha256": "55e957f379c288a760204f35b4d119db70cd0bdde4cf3a5a58d62c9a2cc4d9b2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_NATIVE_ORIGINAL_100_1_ORDINARY.json",
+      "bytes": 4206534,
+      "sha256": "e1b4961fa3c0aceacb25b09444357e03bc0fb5307c571e65df667c216300b110"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_NATIVE_SEED_100.json",
+      "bytes": 3623,
+      "sha256": "ca8cd5adcd42ae65289855c9b56da16c75e9df1986074c84f9f5b44976567623"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_NATIVE_STAGED_100_1.json",
+      "bytes": 6473,
+      "sha256": "422293d07b2db7545bef6b255a749040826ce052d53cb8f5d7b237c1fd1fa41c"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_ORIGINAL_100_100_BACKGROUND.json",
+      "bytes": 4208730,
+      "sha256": "ad4c53d231c453abcb10b8420c145e5bcd5e698b98ca94b5690189afd55a006d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_ORIGINAL_100_100_ORDINARY.json",
+      "bytes": 4206796,
+      "sha256": "00c23b2a78b4304259e86d7cc850f27799bacf62de614315d327b37a0cd0c816"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_ORIGINAL_100_1_BACKGROUND.json",
+      "bytes": 4208469,
+      "sha256": "2d4cfe0ed823cbb106bcd63b216541dba7d98661226dd2347fba356a18d21b19"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_ORIGINAL_100_1_ORDINARY.json",
+      "bytes": 4206534,
+      "sha256": "d9f686d42b752052061ac8758f8d65f5537e3c260370c9e2680d6e82a19927fb"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_ORIGINAL_100_30_BACKGROUND.json",
+      "bytes": 4208627,
+      "sha256": "48d9d404eb07e2e02a6125b58dd905a4a64f8d2b30e18e0f6c4a0e89a307c0a9"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_ORIGINAL_100_30_ORDINARY.json",
+      "bytes": 4206694,
+      "sha256": "09d30cae1057bc4444353386d844c43fe0fafc3bfaab98aa73092cbdfa82dfc1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_ORIGINAL_300_100_BACKGROUND.json",
+      "bytes": 12515024,
+      "sha256": "957cb12f21a5edc52f58814378f1d1f39b43978574f06ce7c975467fda2f5723"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_ORIGINAL_300_1_BACKGROUND.json",
+      "bytes": 12514350,
+      "sha256": "04061659587f6ed99083fb4b192552cf5b5a8e1d047065b2c1183842de281d7e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_ORIGINAL_300_1_ORDINARY.json",
+      "bytes": 12511948,
+      "sha256": "139469d9c63b3d9bd01809098d2b3b0a35af851b01692564d301770ac16ed0bd"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_ORIGINAL_300_30_BACKGROUND.json",
+      "bytes": 12514724,
+      "sha256": "b49249859c3f81322a9da61fe97e656c896857bcbb5f06769cee2d9d50fa1623"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_ORIGINAL_300_30_ORDINARY.json",
+      "bytes": 12512320,
+      "sha256": "8e7cdd4b9d6f5965754b47ed88a4727f54cc940b971837088201a9c9cda41bed"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_PHASE_SCALING.json",
+      "bytes": 36105,
+      "sha256": "98f38e2ad2d7f24e3416eb2b9410bc4f8cbca0cd3ecaa81880c83e5d55737279"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_PROFILE_1000_1.json",
+      "bytes": 12545,
+      "sha256": "8f042e7de749d384acc12e976865e2f2cfc22e687e22d6cafee4a938b5179318"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_PROFILE_1000_100.json",
+      "bytes": 12282,
+      "sha256": "f730bbf2b536d90d66644f1d39b1c59c8472e9e7de1239dd587ed6440bc12a86"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_PROFILE_1000_30.json",
+      "bytes": 12550,
+      "sha256": "848e32a54dee49f08958ceb004cd87ff94194c36ef0840d3770d7da94f1de352"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_PROFILE_100_1.json",
+      "bytes": 23845,
+      "sha256": "f325dc8865f0f5bd88cb16a7a6f1e353de82a2db9261389f95744a98a6b8b3b6"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_PROFILE_100_100.json",
+      "bytes": 23860,
+      "sha256": "b5c68570955d350c52ae36d5a8fc3f7e562f8aa50f52492d1e2c8ba40597578b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_PROFILE_100_30.json",
+      "bytes": 23869,
+      "sha256": "2a7a98c1bbf11ad738256c9dc24ba2d1785b7a6a386db6bf371229cab517d6c2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_PROFILE_300_1.json",
+      "bytes": 23876,
+      "sha256": "fe910a9896beba829a0ad2b37c39ff8b3301789a19d317ea954932e675401567"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_PROFILE_300_100.json",
+      "bytes": 13462,
+      "sha256": "6589d6e59351c15f0b49e9d61ae7d30488b3edd045ef993478f5600a017488b7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_PROFILE_300_30.json",
+      "bytes": 23876,
+      "sha256": "1cba5b02fa086609ba69bb387319e8fbf1940781aaa7f63bb273bd2f02e4bf37"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_PROFILE_5000_1.json",
+      "bytes": 9652,
+      "sha256": "b65c8a351789a00e9d11ca9f2d956ce70b1b69afdc9b530a5361de410e772514"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_PROFILE_5000_100.json",
+      "bytes": 9652,
+      "sha256": "31cf9d57cf8d96182a8635353f2174f9c4088ceb6a4fe8f366030f86dcea13ce"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_PROFILE_5000_30.json",
+      "bytes": 9653,
+      "sha256": "4ce4d043e86945760a738d98802ed1bf65d88634280b98bb7da18efc1cc53ab0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_SIZE_100.json",
+      "bytes": 86274,
+      "sha256": "30959d7a93e3b28e7fa74bf2d225e5119187f441b75ceac5cda2a9033af34179"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_SIZE_1000.json",
+      "bytes": 49977,
+      "sha256": "ca39ef7e67bb0f043d76085b7eea4a065d3685468de10975efce81bb38ab76d7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_SIZE_300.json",
+      "bytes": 86632,
+      "sha256": "e94e16bbd44372d12b816c1fef8554ce58c98803d5ad0f9507da9d8b413f67db"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_SIZE_5000.json",
+      "bytes": 60624,
+      "sha256": "5a281f85f6f8b09cf0456552cfd85e8e83a37a41b0c9da72dfec456ff22b5d37"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_STAGED_1000_1.json",
+      "bytes": 8825,
+      "sha256": "8156f4d3f0604d5e103d05ab37357def7315d405b3219d7b90948bb19918e892"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_STAGED_1000_100.json",
+      "bytes": 8893,
+      "sha256": "2c00364d4185b37be337a2c1eecef7b3d36b52184ed77b80bb60ac8d38db3dc3"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_STAGED_1000_30.json",
+      "bytes": 8849,
+      "sha256": "797f5f10b0fb19d81c8c2ab97604e79a32dc44af3da4196d56cd0c4b3fd99267"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_STAGED_100_1.json",
+      "bytes": 6473,
+      "sha256": "dd10ad4ab87998381c9e52eb2964ba321088f8f76cb123812fdb016d9a372101"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_STAGED_100_100.json",
+      "bytes": 6478,
+      "sha256": "139a53e9edff335d98ae41be7f9d7be83c76fd4b44f8daa11934cd68cdfdc09f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_STAGED_100_30.json",
+      "bytes": 6476,
+      "sha256": "7c4f5116d64289e84d2972d924352a76cd0190bb6bcfc99bc21bdebd56925b13"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_STAGED_300_1.json",
+      "bytes": 6965,
+      "sha256": "46b6969c0ff7aa0033272e5c5745214c43a70fe81e783806f52e704f402b70a1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_STAGED_300_100.json",
+      "bytes": 6985,
+      "sha256": "4e21a282e3ba10ad332970557225bd0589265d5f9700d026ee3bab09f525e85a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_STAGED_300_30.json",
+      "bytes": 6966,
+      "sha256": "e6f55e646a9ec5277e128af140f3e770d6e306e40b1c37378e23e43c1c6fa968"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_STAGED_5000_1.json",
+      "bytes": 18288,
+      "sha256": "359f482594db3c68189e7d5b690a6fb3a636cad49383f08f1b95e02c6d8155bc"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_STAGED_5000_100.json",
+      "bytes": 18645,
+      "sha256": "5c8f513dbedfdc051021e952c4a01691f96a95ca210080a9c594626e6f84f4dc"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/P19_SCALE_STAGED_5000_30.json",
+      "bytes": 18414,
+      "sha256": "addd0e27462708f007ce8fcf65b88e6195bc96903094906a7a9fe77f04e6075e"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "800ee956bffb1e1c501b24b04dc618330d3cf03d089b13a331bc3d683aa2b32d"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "9209663a6a57558a87c43166842db027230a832c7a98f01b690d6cbc012238b0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "9add8e223affc1039c52722726f3658684e3375c1e018f012f06d63fa317750b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183472678/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "74bb83172d2e79f1cc9d7a30e7742f5af700d0d66fdf0c9b9ab29bfc96e7bbf0"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183518429/DOWNLOAD_RECEIPT.json",
+      "bytes": 4292,
+      "sha256": "7b32a3eba641db8e4f652394a5766cb5232e6814b8b98b8867a37e739b0e87a1"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183518429/files/ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183518429/files/CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183518429/files/CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183518429/files/CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "32ec6ea6b46c0f9df111c40ff8788fc4ffd462f5fa5fd94666c562e4e2913823"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183518429/files/SOL_R5_IDENTITY_AFTER.json",
+      "bytes": 1156,
+      "sha256": "83f5ae669749164254738b8269c7d731ab476cf520ebc106022535446243b896"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183518429/files/SOL_R5_IDENTITY_BEFORE.json",
+      "bytes": 1157,
+      "sha256": "c4452eea21f53200d7f8e9e4efe223e3e550444cecfa11234e017617dc276e67"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183518429/files/SOL_R5_ORIGINAL_CONTROL_FUNCTIONS.json",
+      "bytes": 120445,
+      "sha256": "c124e767a90c6adaf5eacb9075a3bd83be17bcbf4dc30092b0857c98d12d8dc8"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183518429/files/SOL_R5_ORIGINAL_CONTROL_GUARDS.json",
+      "bytes": 25138,
+      "sha256": "23481be84b3936bcae913eab60613f490c553872b2f23e0d691d48ddd43fa37b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183518429/files/SOL_R5_ORIGINAL_CONTROL_TRIGGERS.json",
+      "bytes": 16587,
+      "sha256": "a43787724e63bc2bbdaaf4a95912948df519bf78818ae56b71922ffb8a390057"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183518429/files/SOL_R5_REPAIR_CHECKER_FULL_167_NEGATIVE_VECTORS_OBSERVATIONS.json",
+      "bytes": 313366,
+      "sha256": "9c12242d2d8757244b02965580736c67fdcdda77c294d7844910f6acf281c4bd"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183518429/files/SOL_R5_REPAIR_NEGATIVE_VECTOR.json",
+      "bytes": 413819,
+      "sha256": "75995a2a864bb83ffa891bede34f6a2a328e6c33fe24525b6a7590eab94f436b"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183518429/files/SOL_R5_RUNTIME.json",
+      "bytes": 216,
+      "sha256": "705539906a2d40408d8760cf922eb63d6d9f86a0b5990d07142a71e07adbab2f"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183518429/files/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "32d2782d1e66b3399e08a6e8d739fa81ca52d4ea76972ff76617c7a41278dc0a"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183518429/files/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "audit/sol_cp17_r5/ci_receipts/sol_artifacts/12183518429/files/T3_PACKAGE_INSTALL.json",
+      "bytes": 360419,
+      "sha256": "277088a54ffad661a061ca179d537f6721bbd2d77beedde74a294f2544d40991"
+    }
+  ]
+}

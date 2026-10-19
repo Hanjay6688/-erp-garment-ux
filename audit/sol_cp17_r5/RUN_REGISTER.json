@@ -1,0 +1,111 @@
+[
+  {
+    "run_id": 39236711065,
+    "suite": "AUDIT/r5/Sol/17fa2507/cp17/1",
+    "head_sha": "348808bb3900060b77d9c4df14470b6c4cf14592",
+    "workflow_path": ".github/workflows/audit-sol-r5-cp17.yml",
+    "attempt": 1,
+    "owner": "Sol",
+    "round": "r5"
+  },
+  {
+    "run_id": 39237249873,
+    "suite": "AUDIT/r5/Sol/17fa2507/original-controls/1",
+    "head_sha": "a0fee585dbfc1f4dc6e9cda981991fe22b0a843b",
+    "workflow_path": ".github/workflows/audit-sol-r5-original-controls.yml",
+    "attempt": 1,
+    "owner": "Sol",
+    "round": "r5"
+  },
+  {
+    "run_id": 39237719026,
+    "suite": "AUDIT/r5/Sol/17fa2507/p19-transport/1",
+    "head_sha": "09b4aa60922e6d282fc9e74b7370827c6055cbae",
+    "workflow_path": ".github/workflows/audit-sol-r5-p19-transport.yml",
+    "attempt": 1,
+    "owner": "Sol",
+    "round": "r5"
+  },
+  {
+    "run_id": 39237719084,
+    "suite": "AUDIT/r5/Sol/17fa2507/p21-rehearsal/1",
+    "head_sha": "09b4aa60922e6d282fc9e74b7370827c6055cbae",
+    "workflow_path": ".github/workflows/audit-sol-r5-p21-rehearsal.yml",
+    "attempt": 1,
+    "owner": "Sol",
+    "round": "r5"
+  },
+  {
+    "run_id": 39237719202,
+    "suite": "AUDIT/r5/Sol/17fa2507/f03-full/1",
+    "head_sha": "09b4aa60922e6d282fc9e74b7370827c6055cbae",
+    "workflow_path": ".github/workflows/audit-sol-r5-f03-full.yml",
+    "attempt": 1,
+    "owner": "Sol",
+    "round": "r5"
+  },
+  {
+    "run_id": 39237719072,
+    "suite": "AUDIT/r5/Sol/17fa2507/note-correction/1",
+    "head_sha": "09b4aa60922e6d282fc9e74b7370827c6055cbae",
+    "workflow_path": ".github/workflows/audit-sol-r5-note-correction.yml",
+    "attempt": 1,
+    "owner": "Sol",
+    "round": "r5"
+  },
+  {
+    "run_id": 39239045650,
+    "suite": "AUDIT/r5/Sol/17fa2507/reader-graph/1",
+    "head_sha": "f8947808fdae24238f384469ff2ec16d9e5ba049",
+    "workflow_path": ".github/workflows/audit-sol-r5-reader-graph.yml",
+    "attempt": 1,
+    "owner": "Sol",
+    "round": "r5"
+  },
+  {
+    "run_id": 39240123342,
+    "suite": "AUDIT/r5/Sol/17fa2507/reader-multirow/1",
+    "head_sha": "1268c46428a63d6e5f23193df28add0aa25cf0d2",
+    "workflow_path": ".github/workflows/audit-sol-r5-reader-multirow.yml",
+    "attempt": 1,
+    "owner": "Sol",
+    "round": "r5"
+  },
+  {
+    "run_id": 39240645298,
+    "suite": "AUDIT/r5/Sol/17fa2507/reader-mapping-q2/1",
+    "head_sha": "e72fd9c2c756f6d52ff0eb2009b005d52a8dcd09",
+    "workflow_path": ".github/workflows/audit-sol-r5-reader-mapping-q2.yml",
+    "attempt": 1,
+    "owner": "Sol",
+    "round": "r5"
+  },
+  {
+    "run_id": 39241538078,
+    "suite": "AUDIT/r5/Sol/17fa2507/reader-multirow-capture-q2/1",
+    "head_sha": "4fe4d4b35157d431dc89f117c93717ba23cacf01",
+    "workflow_path": ".github/workflows/audit-sol-r5-reader-multirow-capture-q2.yml",
+    "attempt": 1,
+    "owner": "Sol",
+    "round": "r5",
+    "runtime_kind": "CAPTURE_REVIEW_NO_DB_REPLAY"
+  },
+  {
+    "run_id": 39242137321,
+    "suite": "AUDIT/r5/Sol/17fa2507/reader-mapping-q3/1",
+    "head_sha": "e5b5220f383ba193485899435099d4959540d360",
+    "workflow_path": ".github/workflows/audit-sol-r5-reader-mapping-q3.yml",
+    "attempt": 1,
+    "owner": "Sol",
+    "round": "r5"
+  },
+  {
+    "run_id": 39246794670,
+    "suite": "AUDIT/r5/Sol/17fa2507/repair-negative-vector/1",
+    "head_sha": "c65e6bb5529c30a9ee18862c6c32ea21817490c5",
+    "workflow_path": ".github/workflows/audit-sol-r5-repair-negative-vector.yml",
+    "attempt": 1,
+    "owner": "Sol",
+    "round": "r5"
+  }
+]

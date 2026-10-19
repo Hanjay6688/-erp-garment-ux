@@ -1,0 +1,14 @@
+{
+  "evidence_origin": "INDEPENDENT_SOURCE_REVIEW",
+  "source": "https://github.com/psycopg/psycopg/blob/3.2.10/psycopg/psycopg/_preparing.py",
+  "version": "3.2.10",
+  "sha256": "b867a5615337a04d21d2f7260e0f2ad7c8fa04efda4e1bb0600539c86e2266c2",
+  "bytes": 6279,
+  "reviewed_methods": [
+    "_should_discard",
+    "clear",
+    "maintain_gen"
+  ],
+  "conclusion": "Rollback discards cached prepared state when auto-prepare names exist. This mechanism and the observed Q2 ordering explain why the manual prepared statement disappeared after differential graph rollback; the product did not return a stale amount.",
+  "runtime_limit": "No direct driver maintenance wire trace was captured. Q3 separates the lifetimes and observes the same manual statement120/0/120."
+}

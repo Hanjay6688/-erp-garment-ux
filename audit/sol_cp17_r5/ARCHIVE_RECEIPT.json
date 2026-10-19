@@ -1,0 +1,12 @@
+{
+  "file_name": "Sol-r5-bukti-20261019.zip",
+  "bytes": 35193963,
+  "sha256": "13d650feb033c02abc4d35d562e53f8503071ff7ffe96e56c78e73445bf43e3c",
+  "whitelist_sha256": "001f60607218dde419c243102c8a8ef32e90199ff333184a5f2f7447313cd065",
+  "archive_members": 808,
+  "uncompressed_bytes": 674415492,
+  "crc_check": "PASS",
+  "saved": true,
+  "contents": "Frozen selected original UTF-8 evidence, provider receipts, exact decoded job logs and source metadata. Screenshots/binaries omitted.",
+  "library_identity_excluded": true
+}

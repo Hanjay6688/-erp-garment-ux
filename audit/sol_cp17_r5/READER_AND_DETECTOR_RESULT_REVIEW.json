@@ -234,5 +234,56 @@
     "A deliberate mapping change can intentionally make books inconsistent; all collateral detector output is preserved and not claimed healthy.",
     "Original raw audit-tool failures remain INCOMPLETE and provider FAILURE.",
     "The read-only capture qualifier adds zero Native executions."
-  ]
+  ],
+  "strict_repair_negative_vectors": {
+    "run_id": 39246794670,
+    "source": {
+      "artifact_id": 12183518429,
+      "path": "ci_receipts/sol_artifacts/12183518429/files/SOL_R5_REPAIR_NEGATIVE_VECTOR.json",
+      "bytes": 413819,
+      "sha256": "75995a2a864bb83ffa891bede34f6a2a328e6c33fe24525b6a7590eab94f436b"
+    },
+    "status": "PASS",
+    "absolute0_1_0_on_wrong_and_missing": true,
+    "phases": [
+      {
+        "label": "INITIAL_HEALTHY",
+        "exported_identities": 167,
+        "actual_nonzero": {}
+      },
+      {
+        "label": "VALID_NOTA_6000",
+        "exported_identities": 167,
+        "actual_nonzero": {}
+      },
+      {
+        "label": "WRONG_CONTRACTOR",
+        "exported_identities": 167,
+        "actual_nonzero": {
+          "run_v263a_payroll_integrity_checks:payroll_work_wrong_contractor": 1
+        }
+      },
+      {
+        "label": "ROLLBACK_WRONG_CONTRACTOR",
+        "exported_identities": 167,
+        "actual_nonzero": {}
+      },
+      {
+        "label": "MISSING_WAGE",
+        "exported_identities": 167,
+        "actual_nonzero": {
+          "run_v263a_payroll_integrity_checks:payroll_work_wrong_contractor": 1
+        }
+      },
+      {
+        "label": "ROLLBACK_MISSING_WAGE",
+        "exported_identities": 167,
+        "actual_nonzero": {}
+      }
+    ],
+    "complete_boundary_restored": true,
+    "trigger_enabled_at_detection": true,
+    "control_fixture_exception": "One immutable-wage guard disabled only for each legacy inconsistency write, re-enabled before detection and restored by rollback; not a permission or guard-prevention proof."
+  },
+  "strict_target_sensitivity_uses_new_Sol_full_vectors_not_CP17_delta_only": true
 }

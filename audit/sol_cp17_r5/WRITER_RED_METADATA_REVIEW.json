@@ -1,0 +1,617 @@
+{
+  "source": "REUSED_WRITER_EVIDENCE_WITH_INDEPENDENT_PROVIDER_METADATA_RECONCILIATION",
+  "current_candidate": "17fa25075ba77f0853c3c16f504288ace03eec35",
+  "comparators": [
+    {
+      "workflow": "CP6 AF Independent Review",
+      "run_id": 39216693772,
+      "r4_run": 39173260745,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "review",
+          "failure",
+          [
+            "Verify source-only review scope"
+          ]
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "review",
+          "failure",
+          [
+            "Verify source-only review scope"
+          ]
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 AF Posted Child Family",
+      "run_id": 39216690049,
+      "r4_run": 39173258904,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "check",
+          "failure",
+          [
+            "Verify incoming AE artifact bytes and phase results",
+            "Require complete AF writer evidence"
+          ]
+        ],
+        [
+          "review-scope",
+          "success",
+          []
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "check",
+          "failure",
+          [
+            "Verify incoming AE artifact bytes and phase results",
+            "Require complete AF writer evidence"
+          ]
+        ],
+        [
+          "review-scope",
+          "success",
+          []
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 AG Additional Writer Review",
+      "run_id": 39216696657,
+      "r4_run": 39173262528,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "review",
+          "failure",
+          [
+            "Verify unchanged AG sources and confined harness"
+          ]
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "review",
+          "failure",
+          [
+            "Verify unchanged AG sources and confined harness"
+          ]
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 AG Sale Reservation Family",
+      "run_id": 39216699261,
+      "r4_run": 39173264170,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "review",
+          "failure",
+          [
+            "Verify pinned whole-family scope"
+          ]
+        ],
+        [
+          "review-scope",
+          "success",
+          []
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "review",
+          "failure",
+          [
+            "Verify pinned whole-family scope"
+          ]
+        ],
+        [
+          "review-scope",
+          "success",
+          []
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 AH Independent Business Review",
+      "run_id": 39216702076,
+      "r4_run": 39173265827,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "review",
+          "failure",
+          [
+            "Verify unchanged AH sources and independent scope"
+          ]
+        ],
+        [
+          "review-scope",
+          "success",
+          []
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "review",
+          "failure",
+          [
+            "Verify unchanged AH sources and independent scope"
+          ]
+        ],
+        [
+          "review-scope",
+          "success",
+          []
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 AH Return Allocation Family",
+      "run_id": 39216705115,
+      "r4_run": 39173267536,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "review",
+          "failure",
+          [
+            "Verify pinned whole-family scope"
+          ]
+        ],
+        [
+          "review-scope",
+          "success",
+          []
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "review",
+          "failure",
+          [
+            "Verify pinned whole-family scope"
+          ]
+        ],
+        [
+          "review-scope",
+          "success",
+          []
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 AI Work Source Family",
+      "run_id": 39216710986,
+      "r4_run": 39173270768,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "review",
+          "failure",
+          [
+            "Verify pinned whole-family scope"
+          ]
+        ],
+        [
+          "review-scope",
+          "success",
+          []
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "review",
+          "failure",
+          [
+            "Verify pinned whole-family scope"
+          ]
+        ],
+        [
+          "review-scope",
+          "success",
+          []
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 AI-R2 Independent Business Review",
+      "run_id": 39216707667,
+      "r4_run": 39173269227,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "review",
+          "failure",
+          [
+            "Verify unchanged AI-R2 and bounded independent scope"
+          ]
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "review",
+          "failure",
+          [
+            "Verify unchanged AI-R2 and bounded independent scope"
+          ]
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 AO AP Permanent Package",
+      "run_id": 39216714033,
+      "r4_run": 39173272251,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Record proposed source and prepare isolated proof paths",
+            "Remove disposable database"
+          ]
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Record proposed source and prepare isolated proof paths",
+            "Remove disposable database"
+          ]
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 AP Real Auth Browser Flow",
+      "run_id": 39216716660,
+      "r4_run": 39173273700,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Record proposed source and prepare isolated proof paths",
+            "Remove disposable database"
+          ]
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Record proposed source and prepare isolated proof paths",
+            "Remove disposable database"
+          ]
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 AR Combined Successor Qualification",
+      "run_id": 39216786806,
+      "r4_run": 39173311862,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Record proposed source and prepare isolated proof paths",
+            "Remove disposable database"
+          ]
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Record proposed source and prepare isolated proof paths",
+            "Remove disposable database"
+          ]
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 AR Opening Overlap Repair",
+      "run_id": 39216720028,
+      "r4_run": 39173275043,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Record proposed source and prepare isolated proof paths",
+            "Remove disposable database"
+          ]
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Record proposed source and prepare isolated proof paths",
+            "Remove disposable database"
+          ]
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 AS Independent AR Audit",
+      "run_id": 39216722576,
+      "r4_run": 39173276489,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Audit exact AR date and cross-brand WIP boundaries"
+          ]
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Audit exact AR date and cross-brand WIP boundaries"
+          ]
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 AS Writer Qualification",
+      "run_id": 39216725043,
+      "r4_run": 39173278118,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Qualify exact AS install rollback and 174 original cases"
+          ]
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Qualify exact AS install rollback and 174 original cases"
+          ]
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 AT Independent AS Audit",
+      "run_id": 39216727496,
+      "r4_run": 39173279660,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Attack exact AR and AS with independent temporal identity cases"
+          ]
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Attack exact AR and AS with independent temporal identity cases"
+          ]
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 AT Qualification",
+      "run_id": 39216729764,
+      "r4_run": 39173281154,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Record proposed source and prepare isolated proof paths",
+            "Remove disposable database"
+          ]
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Record proposed source and prepare isolated proof paths",
+            "Remove disposable database"
+          ]
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 AU Independent AT Review",
+      "run_id": 39216740582,
+      "r4_run": 39173286820,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Review frozen AS AT and ordinary master identity controls"
+          ]
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Review frozen AS AT and ordinary master identity controls"
+          ]
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 AU Qualification",
+      "run_id": 39216738163,
+      "r4_run": 39173285501,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Record proposed source and prepare isolated proof paths",
+            "Remove disposable database"
+          ]
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Record proposed source and prepare isolated proof paths",
+            "Remove disposable database"
+          ]
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 Auditor Scenario",
+      "run_id": 39216963720,
+      "r4_run": 39180053859,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "Auditor runtime self-test (B1 strict group; tool check, not product evidence)",
+          "success",
+          []
+        ],
+        [
+          "Auditor scenario on the final CP6 candidate (AUDITOR_SCENARIO)",
+          "failure",
+          [
+            "Auditor scenario on the final CP6 candidate (AUDITOR_SCENARIO)"
+          ]
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "Auditor runtime self-test (B1 strict group; tool check, not product evidence)",
+          "success",
+          []
+        ],
+        [
+          "Auditor scenario on the final CP6 candidate (AUDITOR_SCENARIO)",
+          "failure",
+          [
+            "Auditor scenario on the final CP6 candidate (AUDITOR_SCENARIO)"
+          ]
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 Final Boundary Audit",
+      "run_id": 39216773954,
+      "r4_run": 39173304647,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "review",
+          "failure",
+          [
+            "Verify unchanged AI-R2 backend and bounded writer UI scope"
+          ]
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "review",
+          "failure",
+          [
+            "Verify unchanged AI-R2 backend and bounded writer UI scope"
+          ]
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 Initial Import Native Trial",
+      "run_id": 39216779276,
+      "r4_run": 39173307575,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Record proposed source and prepare isolated proof paths",
+            "Remove disposable database"
+          ]
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Record proposed source and prepare isolated proof paths",
+            "Remove disposable database"
+          ]
+        ]
+      ]
+    },
+    {
+      "workflow": "CP6 Opening Overlap Probe",
+      "run_id": 39216782027,
+      "r4_run": 39173309060,
+      "same_actual_job_conclusions_and_failed_step_names": true,
+      "actual_r5_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Record proposed source and prepare isolated proof paths",
+            "Remove disposable database"
+          ]
+        ]
+      ],
+      "actual_r4_jobs": [
+        [
+          "trial",
+          "failure",
+          [
+            "Record proposed source and prepare isolated proof paths",
+            "Remove disposable database"
+          ]
+        ]
+      ]
+    }
+  ],
+  "matching_reds": 22,
+  "limits": [
+    "Job/step metadata equality does not prove equality of every failure cause or runtime body.",
+    "These are writer runs, not Sol native execution and not gate-closing evidence."
+  ]
+}

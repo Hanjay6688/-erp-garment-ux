@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 ARTIFACTS = ROOT / 'ci_receipts/sol_artifacts'
 OWN = {'SOL_R5_ORIGINAL_CONTROLS.json', 'SOL_R5_READER_GRAPH.json',
-       'SOL_R5_READER_MULTIROW.json', 'SOL_R5_READER_MAPPING_Q2.json', 'SOL_R5_READER_MAPPING_Q3.json'}
+       'SOL_R5_READER_MULTIROW.json', 'SOL_R5_READER_MAPPING_Q2.json', 'SOL_R5_READER_MAPPING_Q3.json', 'SOL_R5_REPAIR_NEGATIVE_VECTOR.json'}
 
 
 def walk(node, pointer=''):

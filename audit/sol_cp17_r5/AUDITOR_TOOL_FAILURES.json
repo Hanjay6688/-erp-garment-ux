@@ -1,0 +1,63 @@
+{
+  "state": "FINAL_FAILURES_PRESERVED_WITH_DISTINCT_QUALIFICATIONS",
+  "original_provider_failures": 3,
+  "original_raw_incomplete_occurrences": 3,
+  "no_original_job_rerun": true,
+  "no_business_or_numeric_oracle_loosened": true,
+  "product_findings_inferred_from_tool_errors": 0,
+  "rows": [
+    {
+      "run_id": 39239045650,
+      "artifact_id": 12181191212,
+      "raw_provider_conclusion": "failure",
+      "raw_case_id": "SOL_R5_READER_PREPARED_MAPPING_FRESHNESS",
+      "raw_case_status": "INCOMPLETE",
+      "classification": "AUDITOR_TOOL",
+      "stage": "New account fixture before mapping update or PREPARE",
+      "error": "23502 report_group NOT NULL omitted",
+      "correction": "Qualified constructor supplies report_group from original mapped account; oracles unchanged.",
+      "next_run": 39240645298,
+      "successful_sibling_cases_preserved": 2
+    },
+    {
+      "run_id": 39240123342,
+      "artifact_id": 12181840235,
+      "raw_provider_conclusion": "failure",
+      "raw_case_id": "SOL_R5_ALL11_EMPTY_AND_MULTIROW_SINGLE_STATEMENT",
+      "raw_case_status": "INCOMPLETE",
+      "classification": "AUDITOR_TOOL",
+      "stage": "Python decoding after all eleven SQL old/new and empty comparisons and PO literal assertions completed",
+      "error": "TypeError json.loads(None); Native correctly returned SQL NULL for missing journal",
+      "correction": "Read-only pinned capture qualifier decodes SQL NULL as None, never zero; no SQL replay.",
+      "qualification_run": 39241538078,
+      "qualification_artifact": 12181651792,
+      "qualification_status": "PASS",
+      "native_credit_added": 0,
+      "unexecuted_final_inner_fingerprint_assertion_claimed": false,
+      "outer_and_case_restore_proven": true
+    },
+    {
+      "run_id": 39240645298,
+      "artifact_id": 12181332107,
+      "raw_provider_conclusion": "failure",
+      "raw_case_id": "SOL_R5_READER_PREPARED_MAPPING_FRESHNESS_Q2",
+      "raw_case_status": "INCOMPLETE",
+      "classification": "AUDITOR_TOOL",
+      "stage": "After prepared baseline120 and original-config full graph matched",
+      "error": "Primary26000 manual prepared statement not found after graph rollback; cleanup session command masked it as25P02",
+      "correction": "Predeclared Q3 keeps three PREPARE executions consecutive, deallocates, then separately compares three full graphs; recovery rolls back before session commands. Expected120/0/120 unchanged.",
+      "qualification_run": 39242137321,
+      "qualification_artifact": 12182475716,
+      "qualification_status": "PASS",
+      "outer_and_case_restore_proven": true
+    }
+  ],
+  "assessment_metadata_corrections": [
+    {
+      "path": "CHECKPOINT_R5_1117.md",
+      "issue": "Early11-exact-control count included one target evidenced only by CP17 delta dictionaries. It did not yet have full exported167 vectors.",
+      "correction": "Final11 count uses independent strict full vectors from newrun39246794670/artifact12183518429; earlier checkpoint is retained, not treated as a complete sensitivity witness.",
+      "numeric_oracle_changed": false
+    }
+  ]
+}

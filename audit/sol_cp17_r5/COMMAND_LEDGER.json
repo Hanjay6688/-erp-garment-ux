@@ -1,0 +1,955 @@
+{
+  "state": "EXACT_RUN_STEP_SOURCE_NOT_A_NEW_EXECUTION",
+  "candidate_sha": "17fa25075ba77f0853c3c16f504288ace03eec35",
+  "rows": [
+    {
+      "run_id": 39236711065,
+      "workflow_sha": "348808bb3900060b77d9c4df14470b6c4cf14592",
+      "path": ".github/workflows/audit-sol-r5-cp17.yml",
+      "workflow_sha256": "1b8043e2bc551b60ebc3e676a12a10f09ba523ea48d805a65025895f0676b031",
+      "jobs": [
+        {
+          "job": "phase",
+          "steps": [
+            {
+              "index": 9,
+              "name": "Sol record exact candidate and product trees before cases",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase before --out cp6-proof/t3/SOL_R5_IDENTITY_BEFORE.json"
+            },
+            {
+              "index": 10,
+              "name": "Install pinned disposable runtime",
+              "working_directory": null,
+              "run": "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\nsudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\nsudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\narchitecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\nsudo apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\necho '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
+            },
+            {
+              "index": 11,
+              "name": "Install candidate browser dependencies",
+              "working_directory": "auditor",
+              "run": "npm ci\nnpx playwright install --with-deps chromium\n"
+            },
+            {
+              "index": 13,
+              "name": "Record proposed source and prepare isolated proof paths",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nPYTHONPATH=scripts python -c \"import cp6_au_trial; cp6_au_trial.source()\"\nmkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}\n"
+            },
+            {
+              "index": 14,
+              "name": "Start disposable database",
+              "working_directory": "base",
+              "run": "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\ntest \"$(git rev-parse HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\nsupabase --help >/dev/null\nsupabase init --help >/dev/null\nsupabase start --help >/dev/null\nmkdir cp5-local\nsupabase init --force --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\nsed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml\n# ghcr.io can rate-limit image pulls before anything runs. Retry the start\n# only (no test has run), falling back to the same image tags on public.ecr.aws.\nfor attempt in 1 2; do\n  if [ \"$attempt\" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi\n  if supabase start --workdir cp5-local \\\n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\" 2>&1; then\n    echo \"supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\n    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  supabase stop --workdir cp5-local --no-backup || true\n  if [ \"$attempt\" = 2 ]; then exit 1; fi\n  sleep $((attempt * 60))\ndone\n"
+            },
+            {
+              "index": 15,
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "working_directory": "base",
+              "run": "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }\nmkdir -p ../auditor/cp6-proof/t3\nstatus=0\nPYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\nprint(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])\nprint(json.dumps([(s['name'],s['exit_code'],s['after_alignment']) for s in d['steps']])[:6000])\nPY\nexit \"$status\"\n"
+            },
+            {
+              "index": 16,
+              "name": "Provision isolated rollback authority",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\nmaintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec -i \"$CP6_DATABASE_CONTAINER\" \\\n  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"$maintenance_password\" <<'SQL'\ncreate role cp6_maintenance_admission\n  login superuser noinherit nocreatedb nocreaterole noreplication\n  connection limit 4 password :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\" >> \"$GITHUB_ENV\"\n"
+            },
+            {
+              "index": 17,
+              "name": "Clone the aligned AB state for install",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\n"
+            },
+            {
+              "index": 18,
+              "name": "Pin Enteng build host to disposable loopback",
+              "working_directory": null,
+              "run": "set -euo pipefail\necho '127.0.0.1 siimvrusnzxexizpyoib.supabase.co' | sudo tee -a /etc/hosts >/dev/null\ntest \"$(getent hosts siimvrusnzxexizpyoib.supabase.co | awk '{print $1}')\" = '127.0.0.1'\n"
+            },
+            {
+              "index": 19,
+              "name": "Execute all345 declared CP17 cases once on the pinned candidate",
+              "working_directory": "writer",
+              "run": "python '../sol/audit/sol_cp17_r5/cp17_once.py'"
+            },
+            {
+              "index": 20,
+              "name": "Sol record exact candidate and product trees after cases",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase after --out cp6-proof/t3/SOL_R5_IDENTITY_AFTER.json"
+            },
+            {
+              "index": 21,
+              "name": "Record actual database and interpreter versions",
+              "working_directory": "auditor",
+              "run": "python - <<'PY'\nimport json,sys,platform,subprocess,psycopg\nfrom pathlib import Path\nv=dict(python=sys.version,platform=platform.platform(),node=subprocess.check_output(['node','-v'],text=True).strip())\nwith psycopg.connect('postgresql://postgres:postgres@127.0.0.1:54322/postgres') as c:\n v['server_version']=c.execute('show server_version').fetchone()[0];v['server_version_num']=c.execute('show server_version_num').fetchone()[0]\nPath('cp6-proof/t3/SOL_R5_RUNTIME.json').write_text(json.dumps(v,indent=2)+'\\n')\nPY\n"
+            },
+            {
+              "index": 22,
+              "name": "Remove disposable database",
+              "working_directory": "base",
+              "run": "supabase stop --workdir cp5-local --no-backup"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 39237249873,
+      "workflow_sha": "a0fee585dbfc1f4dc6e9cda981991fe22b0a843b",
+      "path": ".github/workflows/audit-sol-r5-original-controls.yml",
+      "workflow_sha256": "f53f497cbc398e2b246097edf098ebaa06e56385cffc16a37fff3a6ae91fe9e0",
+      "jobs": [
+        {
+          "job": "phase",
+          "steps": [
+            {
+              "index": 9,
+              "name": "Sol record exact candidate and product trees before cases",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase before --out cp6-proof/t3/SOL_R5_IDENTITY_BEFORE.json"
+            },
+            {
+              "index": 10,
+              "name": "Install pinned disposable runtime",
+              "working_directory": null,
+              "run": "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\nsudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\nsudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\narchitecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\nsudo apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\necho '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
+            },
+            {
+              "index": 11,
+              "name": "Install candidate browser dependencies",
+              "working_directory": "auditor",
+              "run": "npm ci\nnpx playwright install --with-deps chromium\n"
+            },
+            {
+              "index": 13,
+              "name": "Record proposed source and prepare isolated proof paths",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nPYTHONPATH=scripts python -c \"import cp6_au_trial; cp6_au_trial.source()\"\nmkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}\n"
+            },
+            {
+              "index": 14,
+              "name": "Start disposable database",
+              "working_directory": "base",
+              "run": "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\ntest \"$(git rev-parse HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\nsupabase --help >/dev/null\nsupabase init --help >/dev/null\nsupabase start --help >/dev/null\nmkdir cp5-local\nsupabase init --force --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\nsed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml\n# ghcr.io can rate-limit image pulls before anything runs. Retry the start\n# only (no test has run), falling back to the same image tags on public.ecr.aws.\nfor attempt in 1 2; do\n  if [ \"$attempt\" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi\n  if supabase start --workdir cp5-local \\\n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\" 2>&1; then\n    echo \"supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\n    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  supabase stop --workdir cp5-local --no-backup || true\n  if [ \"$attempt\" = 2 ]; then exit 1; fi\n  sleep $((attempt * 60))\ndone\n"
+            },
+            {
+              "index": 15,
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "working_directory": "base",
+              "run": "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }\nmkdir -p ../auditor/cp6-proof/t3\nstatus=0\nPYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\nprint(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])\nprint(json.dumps([(s['name'],s['exit_code'],s['after_alignment']) for s in d['steps']])[:6000])\nPY\nexit \"$status\"\n"
+            },
+            {
+              "index": 16,
+              "name": "Provision isolated rollback authority",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\nmaintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec -i \"$CP6_DATABASE_CONTAINER\" \\\n  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"$maintenance_password\" <<'SQL'\ncreate role cp6_maintenance_admission\n  login superuser noinherit nocreatedb nocreaterole noreplication\n  connection limit 4 password :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\" >> \"$GITHUB_ENV\"\n"
+            },
+            {
+              "index": 17,
+              "name": "Clone the aligned AB state for install",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\n"
+            },
+            {
+              "index": 18,
+              "name": "Replay unchanged Sol r4 derived and healthy-book oracles once",
+              "working_directory": "writer",
+              "run": "python '../sol/audit/sol_cp17_r5/original_controls_qualification.py'"
+            },
+            {
+              "index": 19,
+              "name": "Sol record exact candidate and product trees after cases",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase after --out cp6-proof/t3/SOL_R5_IDENTITY_AFTER.json"
+            },
+            {
+              "index": 20,
+              "name": "Record actual database and interpreter versions",
+              "working_directory": "auditor",
+              "run": "python - <<'PY'\nimport json,sys,platform,subprocess,psycopg\nfrom pathlib import Path\nv=dict(python=sys.version,platform=platform.platform(),node=subprocess.check_output(['node','-v'],text=True).strip())\nwith psycopg.connect('postgresql://postgres:postgres@127.0.0.1:54322/postgres') as c:\n v['server_version']=c.execute('show server_version').fetchone()[0];v['server_version_num']=c.execute('show server_version_num').fetchone()[0]\nPath('cp6-proof/t3/SOL_R5_RUNTIME.json').write_text(json.dumps(v,indent=2)+'\\n')\nPY\n"
+            },
+            {
+              "index": 21,
+              "name": "Remove disposable database",
+              "working_directory": "base",
+              "run": "supabase stop --workdir cp5-local --no-backup"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 39237719026,
+      "workflow_sha": "09b4aa60922e6d282fc9e74b7370827c6055cbae",
+      "path": ".github/workflows/audit-sol-r5-p19-transport.yml",
+      "workflow_sha256": "ab9d9488e65f91207046933871df3a4eb303c30acdd530ebc87fb05d473e0d15",
+      "jobs": [
+        {
+          "job": "phase",
+          "steps": [
+            {
+              "index": 9,
+              "name": "Sol record exact candidate and product trees before",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase before --out cp6-proof/t3/SOL_R5_IDENTITY_BEFORE.json"
+            },
+            {
+              "index": 10,
+              "name": "Install pinned disposable runtime",
+              "working_directory": null,
+              "run": "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\nsudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\nsudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\narchitecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\nsudo apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\necho '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
+            },
+            {
+              "index": 11,
+              "name": "Install candidate browser dependencies",
+              "working_directory": "auditor",
+              "run": "npm ci\nnpx playwright install --with-deps chromium\n"
+            },
+            {
+              "index": 13,
+              "name": "Record proposed source and prepare isolated proof paths",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nPYTHONPATH=scripts python -c \"import cp6_au_trial; cp6_au_trial.source()\"\nmkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}\n"
+            },
+            {
+              "index": 14,
+              "name": "Start disposable database",
+              "working_directory": "base",
+              "run": "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\ntest \"$(git rev-parse HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\nsupabase --help >/dev/null\nsupabase init --help >/dev/null\nsupabase start --help >/dev/null\nmkdir cp5-local\nsupabase init --force --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\nsed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml\n# ghcr.io can rate-limit image pulls before anything runs. Retry the start\n# only (no test has run), falling back to the same image tags on public.ecr.aws.\nfor attempt in 1 2; do\n  if [ \"$attempt\" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi\n  if supabase start --workdir cp5-local \\\n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\" 2>&1; then\n    echo \"supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\n    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  supabase stop --workdir cp5-local --no-backup || true\n  if [ \"$attempt\" = 2 ]; then exit 1; fi\n  sleep $((attempt * 60))\ndone\n"
+            },
+            {
+              "index": 15,
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "working_directory": "base",
+              "run": "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }\nmkdir -p ../auditor/cp6-proof/t3\nstatus=0\nPYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\nprint(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])\nprint(json.dumps([(s['name'],s['exit_code'],s['after_alignment']) for s in d['steps']])[:6000])\nPY\nexit \"$status\"\n"
+            },
+            {
+              "index": 16,
+              "name": "Provision isolated rollback authority",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\nmaintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec -i \"$CP6_DATABASE_CONTAINER\" \\\n  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"$maintenance_password\" <<'SQL'\ncreate role cp6_maintenance_admission\n  login superuser noinherit nocreatedb nocreaterole noreplication\n  connection limit 4 password :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\" >> \"$GITHUB_ENV\"\n"
+            },
+            {
+              "index": 17,
+              "name": "Clone the aligned AB state for install",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\n"
+            },
+            {
+              "index": 18,
+              "name": "Qualify the declared Native suite",
+              "working_directory": "writer",
+              "run": "python '../sol/audit/sol_cp17_r5/entrypoint_once.py' '${{ matrix.probe }}'"
+            },
+            {
+              "index": 19,
+              "name": "Sol record exact candidate and product trees after",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase after --out cp6-proof/t3/SOL_R5_IDENTITY_AFTER.json"
+            },
+            {
+              "index": 20,
+              "name": "Remove disposable database",
+              "working_directory": "base",
+              "run": "supabase stop --workdir cp5-local --no-backup"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 39237719084,
+      "workflow_sha": "09b4aa60922e6d282fc9e74b7370827c6055cbae",
+      "path": ".github/workflows/audit-sol-r5-p21-rehearsal.yml",
+      "workflow_sha256": "2ae35a20abc6d9fc140a77d6cdfef8bb17904f0a84e577ec3b68c3b9dc562722",
+      "jobs": [
+        {
+          "job": "phase",
+          "steps": [
+            {
+              "index": 9,
+              "name": "Sol record exact candidate and product trees before",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase before --out cp6-proof/t3/SOL_R5_IDENTITY_BEFORE.json"
+            },
+            {
+              "index": 10,
+              "name": "Install pinned disposable runtime",
+              "working_directory": null,
+              "run": "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\nsudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\nsudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\narchitecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\nsudo apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\necho '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
+            },
+            {
+              "index": 11,
+              "name": "Install candidate browser dependencies",
+              "working_directory": "auditor",
+              "run": "npm ci\nnpx playwright install --with-deps chromium\n"
+            },
+            {
+              "index": 13,
+              "name": "Record proposed source and prepare isolated proof paths",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nPYTHONPATH=scripts python -c \"import cp6_au_trial; cp6_au_trial.source()\"\nmkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}\n"
+            },
+            {
+              "index": 14,
+              "name": "Start disposable database",
+              "working_directory": "base",
+              "run": "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\ntest \"$(git rev-parse HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\nsupabase --help >/dev/null\nsupabase init --help >/dev/null\nsupabase start --help >/dev/null\nmkdir cp5-local\nsupabase init --force --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\nsed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml\n# ghcr.io can rate-limit image pulls before anything runs. Retry the start\n# only (no test has run), falling back to the same image tags on public.ecr.aws.\nfor attempt in 1 2; do\n  if [ \"$attempt\" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi\n  if supabase start --workdir cp5-local \\\n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\" 2>&1; then\n    echo \"supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\n    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  supabase stop --workdir cp5-local --no-backup || true\n  if [ \"$attempt\" = 2 ]; then exit 1; fi\n  sleep $((attempt * 60))\ndone\n"
+            },
+            {
+              "index": 15,
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "working_directory": "base",
+              "run": "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }\nmkdir -p ../auditor/cp6-proof/t3\nstatus=0\nPYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\nprint(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])\nprint(json.dumps([(s['name'],s['exit_code'],s['after_alignment']) for s in d['steps']])[:6000])\nPY\nexit \"$status\"\n"
+            },
+            {
+              "index": 16,
+              "name": "Provision isolated rollback authority",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\nmaintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec -i \"$CP6_DATABASE_CONTAINER\" \\\n  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"$maintenance_password\" <<'SQL'\ncreate role cp6_maintenance_admission\n  login superuser noinherit nocreatedb nocreaterole noreplication\n  connection limit 4 password :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\" >> \"$GITHUB_ENV\"\n"
+            },
+            {
+              "index": 17,
+              "name": "Clone the aligned AB state for install",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\n"
+            },
+            {
+              "index": 18,
+              "name": "Rehearse install, rollback and reinstall",
+              "working_directory": "writer",
+              "run": "python '../sol/audit/sol_cp17_r5/entrypoint_once.py' '${{ matrix.probe }}'"
+            },
+            {
+              "index": 19,
+              "name": "Sol record exact candidate and product trees after",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase after --out cp6-proof/t3/SOL_R5_IDENTITY_AFTER.json"
+            },
+            {
+              "index": 20,
+              "name": "Remove disposable database",
+              "working_directory": "base",
+              "run": "supabase stop --workdir cp5-local --no-backup"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 39237719202,
+      "workflow_sha": "09b4aa60922e6d282fc9e74b7370827c6055cbae",
+      "path": ".github/workflows/audit-sol-r5-f03-full.yml",
+      "workflow_sha256": "eed5d0a90805197ab9dbcbf0b6858245cd5ad9e647357f5acde17294f29c80c0",
+      "jobs": [
+        {
+          "job": "phase",
+          "steps": [
+            {
+              "index": 9,
+              "name": "Sol record exact candidate and product trees before",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase before --out cp6-proof/t3/SOL_R5_IDENTITY_BEFORE.json"
+            },
+            {
+              "index": 10,
+              "name": "Install pinned disposable runtime",
+              "working_directory": null,
+              "run": "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\nsudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\nsudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\narchitecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\nsudo apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\necho '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
+            },
+            {
+              "index": 11,
+              "name": "Install candidate browser dependencies",
+              "working_directory": "auditor",
+              "run": "npm ci\nnpx playwright install --with-deps chromium\n"
+            },
+            {
+              "index": 13,
+              "name": "Record proposed source and prepare isolated proof paths",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nPYTHONPATH=scripts python -c \"import cp6_au_trial; cp6_au_trial.source()\"\nmkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}\n"
+            },
+            {
+              "index": 14,
+              "name": "Start disposable database",
+              "working_directory": "base",
+              "run": "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\ntest \"$(git rev-parse HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\nsupabase --help >/dev/null\nsupabase init --help >/dev/null\nsupabase start --help >/dev/null\nmkdir cp5-local\nsupabase init --force --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\nsed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml\n# ghcr.io can rate-limit image pulls before anything runs. Retry the start\n# only (no test has run), falling back to the same image tags on public.ecr.aws.\nfor attempt in 1 2; do\n  if [ \"$attempt\" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi\n  if supabase start --workdir cp5-local \\\n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\" 2>&1; then\n    echo \"supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\n    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  supabase stop --workdir cp5-local --no-backup || true\n  if [ \"$attempt\" = 2 ]; then exit 1; fi\n  sleep $((attempt * 60))\ndone\n"
+            },
+            {
+              "index": 15,
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "working_directory": "base",
+              "run": "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }\nmkdir -p ../auditor/cp6-proof/t3\nstatus=0\nPYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\nprint(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])\nprint(json.dumps([(s['name'],s['exit_code'],s['after_alignment']) for s in d['steps']])[:6000])\nPY\nexit \"$status\"\n"
+            },
+            {
+              "index": 16,
+              "name": "Provision isolated rollback authority",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\nmaintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec -i \"$CP6_DATABASE_CONTAINER\" \\\n  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"$maintenance_password\" <<'SQL'\ncreate role cp6_maintenance_admission\n  login superuser noinherit nocreatedb nocreaterole noreplication\n  connection limit 4 password :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\" >> \"$GITHUB_ENV\"\n"
+            },
+            {
+              "index": 17,
+              "name": "Clone the aligned AB state for install",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\n"
+            },
+            {
+              "index": 18,
+              "name": "Install accepted package and qualify every retained component group on the full F03 stack",
+              "working_directory": "writer",
+              "run": "python '../sol/audit/sol_cp17_r5/entrypoint_once.py' 'cp7_f03_full_probe.py'"
+            },
+            {
+              "index": 19,
+              "name": "Sol record exact candidate and product trees after",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase after --out cp6-proof/t3/SOL_R5_IDENTITY_AFTER.json"
+            },
+            {
+              "index": 20,
+              "name": "Remove disposable database",
+              "working_directory": "base",
+              "run": "supabase stop --workdir cp5-local --no-backup"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 39237719072,
+      "workflow_sha": "09b4aa60922e6d282fc9e74b7370827c6055cbae",
+      "path": ".github/workflows/audit-sol-r5-note-correction.yml",
+      "workflow_sha256": "77bbb01d9630d18295358f59b437b4f6d9e94aa26a80e2cc81464a51642cc22b",
+      "jobs": [
+        {
+          "job": "phase",
+          "steps": [
+            {
+              "index": 4,
+              "name": "Offline complete-history pager refusal controls / zero Native credit",
+              "working_directory": "auditor",
+              "run": "python scripts/cp7_note_correction_http_history_test.py"
+            },
+            {
+              "index": 10,
+              "name": "Sol record exact candidate and product trees before",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase before --out cp6-proof/t3/SOL_R5_IDENTITY_BEFORE.json"
+            },
+            {
+              "index": 11,
+              "name": "Install pinned disposable runtime",
+              "working_directory": null,
+              "run": "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'\nsudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\nsudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\narchitecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\nsudo apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\necho '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
+            },
+            {
+              "index": 12,
+              "name": "Install candidate browser dependencies",
+              "working_directory": "auditor",
+              "run": "npm ci\nnpx playwright install --with-deps chromium\n"
+            },
+            {
+              "index": 14,
+              "name": "Record proposed source and prepare isolated proof paths",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nPYTHONPATH=scripts python -c \"import cp6_au_trial; cp6_au_trial.source()\"\nmkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}\n"
+            },
+            {
+              "index": 15,
+              "name": "Start disposable database",
+              "working_directory": "base",
+              "run": "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\ntest \"$(git rev-parse HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\nsupabase --help >/dev/null\nsupabase init --help >/dev/null\nsupabase start --help >/dev/null\nmkdir cp5-local\nsupabase init --force --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\nsed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml\n# ghcr.io can rate-limit image pulls before anything runs. Retry the start\n# only (no test has run), falling back to the same image tags on public.ecr.aws.\nfor attempt in 1 2; do\n  if [ \"$attempt\" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi\n  if supabase start --workdir cp5-local \\\n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\" 2>&1; then\n    echo \"supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\n    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  supabase stop --workdir cp5-local --no-backup || true\n  if [ \"$attempt\" = 2 ]; then exit 1; fi\n  sleep $((attempt * 60))\ndone\n"
+            },
+            {
+              "index": 16,
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "working_directory": "base",
+              "run": "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }\nmkdir -p ../auditor/cp6-proof/t3\nstatus=0\nPYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\nprint(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])\nprint(json.dumps([(s['name'],s['exit_code'],s['after_alignment']) for s in d['steps']])[:6000])\nPY\nexit \"$status\"\n"
+            },
+            {
+              "index": 17,
+              "name": "Provision isolated rollback authority",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\nmaintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec -i \"$CP6_DATABASE_CONTAINER\" \\\n  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"$maintenance_password\" <<'SQL'\ncreate role cp6_maintenance_admission\n  login superuser noinherit nocreatedb nocreaterole noreplication\n  connection limit 4 password :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\" >> \"$GITHUB_ENV\"\n"
+            },
+            {
+              "index": 18,
+              "name": "Clone the aligned AB state for install",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\n"
+            },
+            {
+              "index": 19,
+              "name": "Install accepted package and qualify owning note correction",
+              "working_directory": "writer",
+              "run": "python '../sol/audit/sol_cp17_r5/entrypoint_once.py' 'cp7_note_correction_probe.py'"
+            },
+            {
+              "index": 20,
+              "name": "Sol record exact candidate and product trees after",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase after --out cp6-proof/t3/SOL_R5_IDENTITY_AFTER.json"
+            },
+            {
+              "index": 21,
+              "name": "Remove disposable database",
+              "working_directory": "base",
+              "run": "supabase stop --workdir cp5-local --no-backup"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 39239045650,
+      "workflow_sha": "f8947808fdae24238f384469ff2ec16d9e5ba049",
+      "path": ".github/workflows/audit-sol-r5-reader-graph.yml",
+      "workflow_sha256": "bc6f3e218ac619f8835c38dd83434049d9745ae219188707e1ec29194c0eb4f8",
+      "jobs": [
+        {
+          "job": "phase",
+          "steps": [
+            {
+              "index": 9,
+              "name": "Sol record exact candidate and product trees before cases",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase before --out cp6-proof/t3/SOL_R5_IDENTITY_BEFORE.json"
+            },
+            {
+              "index": 10,
+              "name": "Install pinned disposable runtime",
+              "working_directory": null,
+              "run": "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\nsudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\nsudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\narchitecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\nsudo apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\necho '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
+            },
+            {
+              "index": 11,
+              "name": "Install candidate browser dependencies",
+              "working_directory": "auditor",
+              "run": "npm ci\nnpx playwright install --with-deps chromium\n"
+            },
+            {
+              "index": 13,
+              "name": "Record proposed source and prepare isolated proof paths",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nPYTHONPATH=scripts python -c \"import cp6_au_trial; cp6_au_trial.source()\"\nmkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}\n"
+            },
+            {
+              "index": 14,
+              "name": "Start disposable database",
+              "working_directory": "base",
+              "run": "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\ntest \"$(git rev-parse HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\nsupabase --help >/dev/null\nsupabase init --help >/dev/null\nsupabase start --help >/dev/null\nmkdir cp5-local\nsupabase init --force --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\nsed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml\n# ghcr.io can rate-limit image pulls before anything runs. Retry the start\n# only (no test has run), falling back to the same image tags on public.ecr.aws.\nfor attempt in 1 2; do\n  if [ \"$attempt\" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi\n  if supabase start --workdir cp5-local \\\n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\" 2>&1; then\n    echo \"supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\n    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  supabase stop --workdir cp5-local --no-backup || true\n  if [ \"$attempt\" = 2 ]; then exit 1; fi\n  sleep $((attempt * 60))\ndone\n"
+            },
+            {
+              "index": 15,
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "working_directory": "base",
+              "run": "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }\nmkdir -p ../auditor/cp6-proof/t3\nstatus=0\nPYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\nprint(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])\nprint(json.dumps([(s['name'],s['exit_code'],s['after_alignment']) for s in d['steps']])[:6000])\nPY\nexit \"$status\"\n"
+            },
+            {
+              "index": 16,
+              "name": "Provision isolated rollback authority",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\nmaintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec -i \"$CP6_DATABASE_CONTAINER\" \\\n  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"$maintenance_password\" <<'SQL'\ncreate role cp6_maintenance_admission\n  login superuser noinherit nocreatedb nocreaterole noreplication\n  connection limit 4 password :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\" >> \"$GITHUB_ENV\"\n"
+            },
+            {
+              "index": 17,
+              "name": "Clone the aligned AB state for install",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\n"
+            },
+            {
+              "index": 18,
+              "name": "Execute predeclared finite reader graph and Nota controls once",
+              "working_directory": "writer",
+              "run": "python '../sol/audit/sol_cp17_r5/reader_graph_qualification.py'"
+            },
+            {
+              "index": 19,
+              "name": "Sol record exact candidate and product trees after cases",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase after --out cp6-proof/t3/SOL_R5_IDENTITY_AFTER.json"
+            },
+            {
+              "index": 20,
+              "name": "Record actual database and interpreter versions",
+              "working_directory": "auditor",
+              "run": "python - <<'PY'\nimport json,sys,platform,subprocess,psycopg\nfrom pathlib import Path\nv=dict(python=sys.version,platform=platform.platform(),node=subprocess.check_output(['node','-v'],text=True).strip())\nwith psycopg.connect('postgresql://postgres:postgres@127.0.0.1:54322/postgres') as c:\n v['server_version']=c.execute('show server_version').fetchone()[0];v['server_version_num']=c.execute('show server_version_num').fetchone()[0]\nPath('cp6-proof/t3/SOL_R5_RUNTIME.json').write_text(json.dumps(v,indent=2)+'\\n')\nPY\n"
+            },
+            {
+              "index": 21,
+              "name": "Remove disposable database",
+              "working_directory": "base",
+              "run": "supabase stop --workdir cp5-local --no-backup"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 39240123342,
+      "workflow_sha": "1268c46428a63d6e5f23193df28add0aa25cf0d2",
+      "path": ".github/workflows/audit-sol-r5-reader-multirow.yml",
+      "workflow_sha256": "f4caaad18f899e5115b2d5fc9415ca060dc9deb8a72d712580d5f486261c2f77",
+      "jobs": [
+        {
+          "job": "phase",
+          "steps": [
+            {
+              "index": 9,
+              "name": "Sol record exact candidate and product trees before cases",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase before --out cp6-proof/t3/SOL_R5_IDENTITY_BEFORE.json"
+            },
+            {
+              "index": 10,
+              "name": "Install pinned disposable runtime",
+              "working_directory": null,
+              "run": "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\nsudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\nsudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\narchitecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\nsudo apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\necho '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
+            },
+            {
+              "index": 11,
+              "name": "Install candidate browser dependencies",
+              "working_directory": "auditor",
+              "run": "npm ci\nnpx playwright install --with-deps chromium\n"
+            },
+            {
+              "index": 13,
+              "name": "Record proposed source and prepare isolated proof paths",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nPYTHONPATH=scripts python -c \"import cp6_au_trial; cp6_au_trial.source()\"\nmkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}\n"
+            },
+            {
+              "index": 14,
+              "name": "Start disposable database",
+              "working_directory": "base",
+              "run": "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\ntest \"$(git rev-parse HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\nsupabase --help >/dev/null\nsupabase init --help >/dev/null\nsupabase start --help >/dev/null\nmkdir cp5-local\nsupabase init --force --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\nsed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml\n# ghcr.io can rate-limit image pulls before anything runs. Retry the start\n# only (no test has run), falling back to the same image tags on public.ecr.aws.\nfor attempt in 1 2; do\n  if [ \"$attempt\" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi\n  if supabase start --workdir cp5-local \\\n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\" 2>&1; then\n    echo \"supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\n    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  supabase stop --workdir cp5-local --no-backup || true\n  if [ \"$attempt\" = 2 ]; then exit 1; fi\n  sleep $((attempt * 60))\ndone\n"
+            },
+            {
+              "index": 15,
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "working_directory": "base",
+              "run": "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }\nmkdir -p ../auditor/cp6-proof/t3\nstatus=0\nPYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\nprint(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])\nprint(json.dumps([(s['name'],s['exit_code'],s['after_alignment']) for s in d['steps']])[:6000])\nPY\nexit \"$status\"\n"
+            },
+            {
+              "index": 16,
+              "name": "Provision isolated rollback authority",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\nmaintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec -i \"$CP6_DATABASE_CONTAINER\" \\\n  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"$maintenance_password\" <<'SQL'\ncreate role cp6_maintenance_admission\n  login superuser noinherit nocreatedb nocreaterole noreplication\n  connection limit 4 password :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\" >> \"$GITHUB_ENV\"\n"
+            },
+            {
+              "index": 17,
+              "name": "Clone the aligned AB state for install",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\n"
+            },
+            {
+              "index": 18,
+              "name": "Execute only additional predeclared single-statement reader control",
+              "working_directory": "writer",
+              "run": "python '../sol/audit/sol_cp17_r5/reader_multirow_qualification.py'"
+            },
+            {
+              "index": 19,
+              "name": "Sol record exact candidate and product trees after cases",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase after --out cp6-proof/t3/SOL_R5_IDENTITY_AFTER.json"
+            },
+            {
+              "index": 20,
+              "name": "Record actual database and interpreter versions",
+              "working_directory": "auditor",
+              "run": "python - <<'PY'\nimport json,sys,platform,subprocess,psycopg\nfrom pathlib import Path\nv=dict(python=sys.version,platform=platform.platform(),node=subprocess.check_output(['node','-v'],text=True).strip())\nwith psycopg.connect('postgresql://postgres:postgres@127.0.0.1:54322/postgres') as c:\n v['server_version']=c.execute('show server_version').fetchone()[0];v['server_version_num']=c.execute('show server_version_num').fetchone()[0]\nPath('cp6-proof/t3/SOL_R5_RUNTIME.json').write_text(json.dumps(v,indent=2)+'\\n')\nPY\n"
+            },
+            {
+              "index": 21,
+              "name": "Remove disposable database",
+              "working_directory": "base",
+              "run": "supabase stop --workdir cp5-local --no-backup"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 39240645298,
+      "workflow_sha": "e72fd9c2c756f6d52ff0eb2009b005d52a8dcd09",
+      "path": ".github/workflows/audit-sol-r5-reader-mapping-q2.yml",
+      "workflow_sha256": "e22de4c86d98ec6fe1f74b678384712c2893b9d9015a93c01f867dbc06a8410b",
+      "jobs": [
+        {
+          "job": "phase",
+          "steps": [
+            {
+              "index": 9,
+              "name": "Sol record exact candidate and product trees before cases",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase before --out cp6-proof/t3/SOL_R5_IDENTITY_BEFORE.json"
+            },
+            {
+              "index": 10,
+              "name": "Install pinned disposable runtime",
+              "working_directory": null,
+              "run": "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\nsudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\nsudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\narchitecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\nsudo apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\necho '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
+            },
+            {
+              "index": 11,
+              "name": "Install candidate browser dependencies",
+              "working_directory": "auditor",
+              "run": "npm ci\nnpx playwright install --with-deps chromium\n"
+            },
+            {
+              "index": 13,
+              "name": "Record proposed source and prepare isolated proof paths",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nPYTHONPATH=scripts python -c \"import cp6_au_trial; cp6_au_trial.source()\"\nmkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}\n"
+            },
+            {
+              "index": 14,
+              "name": "Start disposable database",
+              "working_directory": "base",
+              "run": "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\ntest \"$(git rev-parse HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\nsupabase --help >/dev/null\nsupabase init --help >/dev/null\nsupabase start --help >/dev/null\nmkdir cp5-local\nsupabase init --force --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\nsed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml\n# ghcr.io can rate-limit image pulls before anything runs. Retry the start\n# only (no test has run), falling back to the same image tags on public.ecr.aws.\nfor attempt in 1 2; do\n  if [ \"$attempt\" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi\n  if supabase start --workdir cp5-local \\\n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\" 2>&1; then\n    echo \"supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\n    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  supabase stop --workdir cp5-local --no-backup || true\n  if [ \"$attempt\" = 2 ]; then exit 1; fi\n  sleep $((attempt * 60))\ndone\n"
+            },
+            {
+              "index": 15,
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "working_directory": "base",
+              "run": "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }\nmkdir -p ../auditor/cp6-proof/t3\nstatus=0\nPYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\nprint(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])\nprint(json.dumps([(s['name'],s['exit_code'],s['after_alignment']) for s in d['steps']])[:6000])\nPY\nexit \"$status\"\n"
+            },
+            {
+              "index": 16,
+              "name": "Provision isolated rollback authority",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\nmaintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec -i \"$CP6_DATABASE_CONTAINER\" \\\n  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"$maintenance_password\" <<'SQL'\ncreate role cp6_maintenance_admission\n  login superuser noinherit nocreatedb nocreaterole noreplication\n  connection limit 4 password :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\" >> \"$GITHUB_ENV\"\n"
+            },
+            {
+              "index": 17,
+              "name": "Clone the aligned AB state for install",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\n"
+            },
+            {
+              "index": 18,
+              "name": "Execute only mapping fixture qualification with unchanged oracles",
+              "working_directory": "writer",
+              "run": "python '../sol/audit/sol_cp17_r5/reader_mapping_q2_qualification.py'"
+            },
+            {
+              "index": 19,
+              "name": "Sol record exact candidate and product trees after cases",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase after --out cp6-proof/t3/SOL_R5_IDENTITY_AFTER.json"
+            },
+            {
+              "index": 20,
+              "name": "Record actual database and interpreter versions",
+              "working_directory": "auditor",
+              "run": "python - <<'PY'\nimport json,sys,platform,subprocess,psycopg\nfrom pathlib import Path\nv=dict(python=sys.version,platform=platform.platform(),node=subprocess.check_output(['node','-v'],text=True).strip())\nwith psycopg.connect('postgresql://postgres:postgres@127.0.0.1:54322/postgres') as c:\n v['server_version']=c.execute('show server_version').fetchone()[0];v['server_version_num']=c.execute('show server_version_num').fetchone()[0]\nPath('cp6-proof/t3/SOL_R5_RUNTIME.json').write_text(json.dumps(v,indent=2)+'\\n')\nPY\n"
+            },
+            {
+              "index": 21,
+              "name": "Remove disposable database",
+              "working_directory": "base",
+              "run": "supabase stop --workdir cp5-local --no-backup"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 39241538078,
+      "workflow_sha": "4fe4d4b35157d431dc89f117c93717ba23cacf01",
+      "path": ".github/workflows/audit-sol-r5-reader-multirow-capture-q2.yml",
+      "workflow_sha256": "a60fe408dff668b6b5199fd2cf8962e74b22d3c4109c1fc61ed5e88a97e0e37f",
+      "jobs": [
+        {
+          "job": "qualify",
+          "steps": [
+            {
+              "index": 3,
+              "name": "Retrieve exact previously captured own artifact; do not replay SQL",
+              "working_directory": null,
+              "run": "gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12181840235/zip > \"$RUNNER_TEMP/sol-r5-captured-multirow.zip\""
+            },
+            {
+              "index": 4,
+              "name": "Qualify unchanged oracles and SQL NULL decoding from pinned observations",
+              "working_directory": null,
+              "run": "python audit/sol_cp17_r5/qualify_multirow_capture.py \"$RUNNER_TEMP/sol-r5-captured-multirow.zip\" SOL_R5_MULTIROW_CAPTURE_Q2.json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 39242137321,
+      "workflow_sha": "e5b5220f383ba193485899435099d4959540d360",
+      "path": ".github/workflows/audit-sol-r5-reader-mapping-q3.yml",
+      "workflow_sha256": "3b3e688c3af16eb5eb6494f21e8e8d18bdeb761aa85773e41ce5ebdc7b5f9b8d",
+      "jobs": [
+        {
+          "job": "phase",
+          "steps": [
+            {
+              "index": 9,
+              "name": "Sol record exact candidate and product trees before cases",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase before --out cp6-proof/t3/SOL_R5_IDENTITY_BEFORE.json"
+            },
+            {
+              "index": 10,
+              "name": "Install pinned disposable runtime",
+              "working_directory": null,
+              "run": "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\nsudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\nsudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\narchitecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\nsudo apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\necho '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
+            },
+            {
+              "index": 11,
+              "name": "Install candidate browser dependencies",
+              "working_directory": "auditor",
+              "run": "npm ci\nnpx playwright install --with-deps chromium\n"
+            },
+            {
+              "index": 13,
+              "name": "Record proposed source and prepare isolated proof paths",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nPYTHONPATH=scripts python -c \"import cp6_au_trial; cp6_au_trial.source()\"\nmkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}\n"
+            },
+            {
+              "index": 14,
+              "name": "Start disposable database",
+              "working_directory": "base",
+              "run": "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\ntest \"$(git rev-parse HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\nsupabase --help >/dev/null\nsupabase init --help >/dev/null\nsupabase start --help >/dev/null\nmkdir cp5-local\nsupabase init --force --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\nsed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml\n# ghcr.io can rate-limit image pulls before anything runs. Retry the start\n# only (no test has run), falling back to the same image tags on public.ecr.aws.\nfor attempt in 1 2; do\n  if [ \"$attempt\" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi\n  if supabase start --workdir cp5-local \\\n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\" 2>&1; then\n    echo \"supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\n    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  supabase stop --workdir cp5-local --no-backup || true\n  if [ \"$attempt\" = 2 ]; then exit 1; fi\n  sleep $((attempt * 60))\ndone\n"
+            },
+            {
+              "index": 15,
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "working_directory": "base",
+              "run": "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }\nmkdir -p ../auditor/cp6-proof/t3\nstatus=0\nPYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\nprint(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])\nprint(json.dumps([(s['name'],s['exit_code'],s['after_alignment']) for s in d['steps']])[:6000])\nPY\nexit \"$status\"\n"
+            },
+            {
+              "index": 16,
+              "name": "Provision isolated rollback authority",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\nmaintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec -i \"$CP6_DATABASE_CONTAINER\" \\\n  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"$maintenance_password\" <<'SQL'\ncreate role cp6_maintenance_admission\n  login superuser noinherit nocreatedb nocreaterole noreplication\n  connection limit 4 password :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\" >> \"$GITHUB_ENV\"\n"
+            },
+            {
+              "index": 17,
+              "name": "Clone the aligned AB state for install",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\n"
+            },
+            {
+              "index": 18,
+              "name": "Execute qualified sequencing with unchanged120/0/120 oracles",
+              "working_directory": "writer",
+              "run": "python '../sol/audit/sol_cp17_r5/reader_mapping_q3_qualification.py'"
+            },
+            {
+              "index": 19,
+              "name": "Sol record exact candidate and product trees after cases",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase after --out cp6-proof/t3/SOL_R5_IDENTITY_AFTER.json"
+            },
+            {
+              "index": 20,
+              "name": "Record actual database and interpreter versions",
+              "working_directory": "auditor",
+              "run": "python - <<'PY'\nimport json,sys,platform,subprocess,psycopg\nfrom pathlib import Path\nv=dict(python=sys.version,platform=platform.platform(),node=subprocess.check_output(['node','-v'],text=True).strip())\nwith psycopg.connect('postgresql://postgres:postgres@127.0.0.1:54322/postgres') as c:\n v['server_version']=c.execute('show server_version').fetchone()[0];v['server_version_num']=c.execute('show server_version_num').fetchone()[0]\nPath('cp6-proof/t3/SOL_R5_RUNTIME.json').write_text(json.dumps(v,indent=2)+'\\n')\nPY\n"
+            },
+            {
+              "index": 21,
+              "name": "Remove disposable database",
+              "working_directory": "base",
+              "run": "supabase stop --workdir cp5-local --no-backup"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 39246794670,
+      "workflow_sha": "c65e6bb5529c30a9ee18862c6c32ea21817490c5",
+      "path": ".github/workflows/audit-sol-r5-repair-negative-vector.yml",
+      "workflow_sha256": "53c816b30a138ed1ac0efeab1e23a42c26ac27f8c488a5948768b1113a3281ff",
+      "jobs": [
+        {
+          "job": "phase",
+          "steps": [
+            {
+              "index": 9,
+              "name": "Sol record exact candidate and product trees before cases",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase before --out cp6-proof/t3/SOL_R5_IDENTITY_BEFORE.json"
+            },
+            {
+              "index": 10,
+              "name": "Install pinned disposable runtime",
+              "working_directory": null,
+              "run": "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\nsudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\nsudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\narchitecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\nsudo apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\necho '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
+            },
+            {
+              "index": 11,
+              "name": "Install candidate browser dependencies",
+              "working_directory": "auditor",
+              "run": "npm ci\nnpx playwright install --with-deps chromium\n"
+            },
+            {
+              "index": 13,
+              "name": "Record proposed source and prepare isolated proof paths",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nPYTHONPATH=scripts python -c \"import cp6_au_trial; cp6_au_trial.source()\"\nmkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}\n"
+            },
+            {
+              "index": 14,
+              "name": "Start disposable database",
+              "working_directory": "base",
+              "run": "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\ntest \"$(git rev-parse HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\nsupabase --help >/dev/null\nsupabase init --help >/dev/null\nsupabase start --help >/dev/null\nmkdir cp5-local\nsupabase init --force --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\nsed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml\n# ghcr.io can rate-limit image pulls before anything runs. Retry the start\n# only (no test has run), falling back to the same image tags on public.ecr.aws.\nfor attempt in 1 2; do\n  if [ \"$attempt\" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi\n  if supabase start --workdir cp5-local \\\n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\" 2>&1; then\n    echo \"supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\n    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  supabase stop --workdir cp5-local --no-backup || true\n  if [ \"$attempt\" = 2 ]; then exit 1; fi\n  sleep $((attempt * 60))\ndone\n"
+            },
+            {
+              "index": 15,
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "working_directory": "base",
+              "run": "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }\nmkdir -p ../auditor/cp6-proof/t3\nstatus=0\nPYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\nprint(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])\nprint(json.dumps([(s['name'],s['exit_code'],s['after_alignment']) for s in d['steps']])[:6000])\nPY\nexit \"$status\"\n"
+            },
+            {
+              "index": 16,
+              "name": "Provision isolated rollback authority",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\nmaintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec -i \"$CP6_DATABASE_CONTAINER\" \\\n  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"$maintenance_password\" <<'SQL'\ncreate role cp6_maintenance_admission\n  login superuser noinherit nocreatedb nocreaterole noreplication\n  connection limit 4 password :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\" >> \"$GITHUB_ENV\"\n"
+            },
+            {
+              "index": 17,
+              "name": "Clone the aligned AB state for install",
+              "working_directory": "writer",
+              "run": "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\n"
+            },
+            {
+              "index": 18,
+              "name": "Execute predeclared complete167-vector repair sensitivity",
+              "working_directory": "writer",
+              "run": "python '../sol/audit/sol_cp17_r5/repair_negative_vector_qualification.py'"
+            },
+            {
+              "index": 19,
+              "name": "Sol record exact candidate and product trees after cases",
+              "working_directory": "auditor",
+              "run": "python ../sol/audit/sol_cp17_r5/record_candidate.py --root . --phase after --out cp6-proof/t3/SOL_R5_IDENTITY_AFTER.json"
+            },
+            {
+              "index": 20,
+              "name": "Record actual database and interpreter versions",
+              "working_directory": "auditor",
+              "run": "python - <<'PY'\nimport json,sys,platform,subprocess,psycopg\nfrom pathlib import Path\nv=dict(python=sys.version,platform=platform.platform(),node=subprocess.check_output(['node','-v'],text=True).strip())\nwith psycopg.connect('postgresql://postgres:postgres@127.0.0.1:54322/postgres') as c:\n v['server_version']=c.execute('show server_version').fetchone()[0];v['server_version_num']=c.execute('show server_version_num').fetchone()[0]\nPath('cp6-proof/t3/SOL_R5_RUNTIME.json').write_text(json.dumps(v,indent=2)+'\\n')\nPY\n"
+            },
+            {
+              "index": 21,
+              "name": "Remove disposable database",
+              "working_directory": "base",
+              "run": "supabase stop --workdir cp5-local --no-backup"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "limits": "Declared executable steps are bound to each original workflow SHA. Exact performed/skipped/failed steps are in JOB_LOG_INDEX and archived job logs."
+}

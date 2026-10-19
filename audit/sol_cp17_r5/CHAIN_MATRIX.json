@@ -1,0 +1,1285 @@
+{
+  "candidate_sha": "17fa25075ba77f0853c3c16f504288ace03eec35",
+  "state": "FINAL_R5_RETEST_WITH_EXPLICIT_RETAINED_SCOPE",
+  "audit_complete": false,
+  "denominator": 20,
+  "status_counts": {
+    "PASS": 20
+  },
+  "retained_source": {
+    "seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+    "candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+    "path": "audit/sol_cp17_r4/CHAIN_MATRIX.json",
+    "sha256": "8c8dd2ecb36aa85bc644ec66da9564b30c16ce76b836d75c531430422bf2f47e",
+    "runtime_credit_r5": 0
+  },
+  "method": "Current witness IDs navigate independently captured r5 rows; old scope is retained explicitly. Source impact, runtime row details and body fingerprints are reviewed separately. Counts are not ERP progress percentages.",
+  "all20_one_browser_chain_proven": false,
+  "rows": [
+    {
+      "id": "B1",
+      "requirement": "Pembelian → penerimaan → roll/stok/GRNI",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: Public/Native/Auth browser receipt,GRNI,roll; master source sintetis.",
+      "current_witness_examples": [
+        {
+          "case_id": "P09_DRAFT_ESTIMATED_GRNI",
+          "raw_status": "PASS",
+          "artifact_id": 12182140167,
+          "document": "ci_receipts/sol_artifacts/12182140167/files/CP7_F03_FULL_P09.json",
+          "group_pointer": "/groups/native/cases",
+          "document_sha256": "0c15b37ef0da3caaf846ca090888b871cbec74335050a3dbae67f05f6a640bbd",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        },
+        {
+          "case_id": "P09_BROWSER_RECEIPT_DESKTOP",
+          "raw_status": "PASS",
+          "artifact_id": 12182140167,
+          "document": "ci_receipts/sol_artifacts/12182140167/files/CP7_F03_FULL_P09.json",
+          "group_pointer": "/groups/browser/cases",
+          "document_sha256": "0c15b37ef0da3caaf846ca090888b871cbec74335050a3dbae67f05f6a640bbd",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        }
+      ],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "Public/Native/Auth browser receipt,GRNI,roll; master source sintetis.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "P09_DRAFT_ESTIMATED_GRNI",
+          "run_id": 39185235723,
+          "artifact_id": 12158164165,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P09_BROWSER_RECEIPT_DESKTOP",
+          "run_id": 39185235723,
+          "artifact_id": 12158164165,
+          "group": "browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B2",
+      "requirement": "Bahan → potong → WIP",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: Cut issue dan inverse tepat, rencana bukan physical confirmation.",
+      "current_witness_examples": [],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "Cut issue dan inverse tepat, rencana bukan physical confirmation.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "P08_ACTUAL_PHYSICAL_CUT",
+          "run_id": 39185235603,
+          "artifact_id": 12158153396,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "CP7_CUTTING_REOPEN_EXACT_STOCK_GL_DRAFT",
+          "run_id": 39185235606,
+          "artifact_id": 12158666382,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B3",
+      "requirement": "Potongan → pickup mandor",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: Pickup Native dua PCS aktual ditelusuri, browser source navigation bukan full factory journey.",
+      "current_witness_examples": [],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "Pickup Native dua PCS aktual ditelusuri, browser source navigation bukan full factory journey.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "P08_ACTUAL_PARTIAL_LIFECYCLE",
+          "run_id": 39185235603,
+          "artifact_id": 12158153396,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B4",
+      "requirement": "Pickup → selesai jahit + upah → siap laundry",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: Sewing→wage entitlement/ready Laundry teruji dalam fixture; upah tidak menunggu denominator retur-good palsu.",
+      "current_witness_examples": [
+        {
+          "case_id": "CP17_G1_SEWING_RECORD_WAGE_READY_FOR_LAUNDRY",
+          "raw_status": "PASS",
+          "artifact_id": 12180497090,
+          "document": "ci_receipts/sol_artifacts/12180497090/files/CP7_CP17_FIXES.json",
+          "group_pointer": "/native/cases",
+          "document_sha256": "844460e3e2ccda67a0b7638ada6377ab99ac5d0ddae307178ce9aefbec98fd45",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        },
+        {
+          "case_id": "P12_NOTA_SOURCE_REGULAR_LAUNDRY_OUTSTANDING",
+          "raw_status": "PASS",
+          "artifact_id": 12181512237,
+          "document": "ci_receipts/sol_artifacts/12181512237/files/CP7_F03_FULL_P12.json",
+          "group_pointer": "/groups/native/cases",
+          "document_sha256": "3633cb56c6e060a874b7adf13e30b4827121e7fdfa0813d6194b42bd5963c220",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        }
+      ],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "Sewing→wage entitlement/ready Laundry teruji dalam fixture; upah tidak menunggu denominator retur-good palsu.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "CP17_G1_SEWING_RECORD_WAGE_READY_FOR_LAUNDRY",
+          "run_id": 39184657689,
+          "artifact_id": 12158177672,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P12_NOTA_SOURCE_REGULAR_LAUNDRY_OUTSTANDING",
+          "run_id": 39185235723,
+          "artifact_id": 12158099174,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B5",
+      "requirement": "Jahit → kirim/terima laundry, klaim/cuci ulang",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: Ordinary/claim satu lineage dari Native pickup start lalu actual UI sewing→send→GOOD receive→QC. Free same-product rewash dimulai dari Native QC/BS lalu empat actual UI create/partial/complete/inverse. Lot/SKU/receipt/quantity, WIP/FG/HPP dan no-double-wage/AP cocok. Seeded starting steps tidak dihitung sebagai langkah layar.",
+      "current_witness_examples": [],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "Ordinary/claim satu lineage dari Native pickup start lalu actual UI sewing→send→GOOD receive→QC. Free same-product rewash dimulai dari Native QC/BS lalu empat actual UI create/partial/complete/inverse. Lot/SKU/receipt/quantity, WIP/FG/HPP dan no-double-wage/AP cocok. Seeded starting steps tidak dihitung sebagai langkah layar.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "SOL_R4_B5_B6_ORDINARY_DESKTOP",
+          "run_id": 39196659018,
+          "artifact_id": 12162272799,
+          "group": "/browser",
+          "raw_status": "PASS",
+          "oracle_origin": "SOL_CONTRACT_LITERAL_ARITHMETIC_AND_LINEAGE",
+          "fixture_origin": "WRITER_NATIVE_START_ONLY_THEN_SOL_UI_CONTINUATION",
+          "review_document": "JOURNEY_Q3_RESULT_REVIEW.json"
+        },
+        {
+          "case_id": "SOL_R4_B5_B6_CLAIM_MOBILE",
+          "run_id": 39196659018,
+          "artifact_id": 12162272799,
+          "group": "/browser",
+          "raw_status": "PASS",
+          "oracle_origin": "SOL_CONTRACT_LITERAL_ARITHMETIC_AND_LINEAGE",
+          "fixture_origin": "WRITER_NATIVE_START_ONLY_THEN_SOL_UI_CONTINUATION",
+          "review_document": "JOURNEY_Q3_RESULT_REVIEW.json"
+        },
+        {
+          "case_id": "SOL_R4_B5_FREE_REWASH_SAME_PRODUCT_DESKTOP",
+          "run_id": 39193738642,
+          "artifact_id": 12160684624,
+          "group": "/browser",
+          "raw_status": "PASS",
+          "oracle_origin": "SOL_EXPLICIT_LITERAL_AND_ACTIVE_SOURCE_CONTRACT",
+          "fixture_origin": "ACCEPTED_NATIVE_SYNTHETIC_START",
+          "review_document": "JOURNEY_INITIAL_RESULT_REVIEW.json"
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B6",
+      "requirement": "Invoice/klaim laundry → AP vendor → kas",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: Actual same-lineage invoice draft/edit/post8→claim2 or ordinary→two cash payments→cash/credit/claim/invoice inverses. Ordinary total124/claim130; final AP0/kas8; source lot/SKU/HPP/physical unchanged, posted originals and inverses retained. Q3 qualifies genuine tool repair; all first INCOMPLETE remain.",
+      "current_witness_examples": [],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "Actual same-lineage invoice draft/edit/post8→claim2 or ordinary→two cash payments→cash/credit/claim/invoice inverses. Ordinary total124/claim130; final AP0/kas8; source lot/SKU/HPP/physical unchanged, posted originals and inverses retained. Q3 qualifies genuine tool repair; all first INCOMPLETE remain.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "SOL_R4_B5_B6_ORDINARY_DESKTOP",
+          "run_id": 39196659018,
+          "artifact_id": 12162272799,
+          "group": "/browser",
+          "raw_status": "PASS",
+          "oracle_origin": "SOL_CONTRACT_LITERAL_ARITHMETIC_AND_LINEAGE",
+          "fixture_origin": "WRITER_NATIVE_START_ONLY_THEN_SOL_UI_CONTINUATION",
+          "review_document": "JOURNEY_Q3_RESULT_REVIEW.json"
+        },
+        {
+          "case_id": "SOL_R4_B5_B6_CLAIM_MOBILE",
+          "run_id": 39196659018,
+          "artifact_id": 12162272799,
+          "group": "/browser",
+          "raw_status": "PASS",
+          "oracle_origin": "SOL_CONTRACT_LITERAL_ARITHMETIC_AND_LINEAGE",
+          "fixture_origin": "WRITER_NATIVE_START_ONLY_THEN_SOL_UI_CONTINUATION",
+          "review_document": "JOURNEY_Q3_RESULT_REVIEW.json"
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B7",
+      "requirement": "Terima laundry → QC/final SKU → FG (+BS)",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: Actual QC final SKU dan FG/BS, dengan Native-fixtured source dan real Auth browser.",
+      "current_witness_examples": [
+        {
+          "case_id": "CP17_BROWSER_R3_05_QC_FINAL_SKU_DESKTOP",
+          "raw_status": "PASS",
+          "artifact_id": 12180497090,
+          "document": "ci_receipts/sol_artifacts/12180497090/files/CP7_CP17_FIXES.json",
+          "group_pointer": "/browser/cases",
+          "document_sha256": "844460e3e2ccda67a0b7638ada6377ab99ac5d0ddae307178ce9aefbec98fd45",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        }
+      ],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "Actual QC final SKU dan FG/BS, dengan Native-fixtured source dan real Auth browser.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "CP17_BROWSER_R3_05_QC_FINAL_SKU_DESKTOP",
+          "run_id": 39184657689,
+          "artifact_id": 12158177672,
+          "group": "browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P08_ACTUAL_PARTIAL_LIFECYCLE",
+          "run_id": 39185235603,
+          "artifact_id": 12158153396,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B8",
+      "requirement": "FG → selesai PO → HPP final",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: Finish/reopen satu FG/HPP, active usage; FINISHED tidak memalsukan ACTUAL bila HPP belum lengkap.",
+      "current_witness_examples": [
+        {
+          "case_id": "CP17_G2_FINISH_PO_FINAL_HPP_WIP_CLOSED",
+          "raw_status": "PASS",
+          "artifact_id": 12180497090,
+          "document": "ci_receipts/sol_artifacts/12180497090/files/CP7_CP17_FIXES.json",
+          "group_pointer": "/native/cases",
+          "document_sha256": "844460e3e2ccda67a0b7638ada6377ab99ac5d0ddae307178ce9aefbec98fd45",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        },
+        {
+          "case_id": "CP17_R4_02_POSITIVE_INVERSE_REOPEN_THEN_FINISH_SAME",
+          "raw_status": "PASS",
+          "artifact_id": 12180497090,
+          "document": "ci_receipts/sol_artifacts/12180497090/files/CP7_CP17_FIXES.json",
+          "group_pointer": "/native/cases",
+          "document_sha256": "844460e3e2ccda67a0b7638ada6377ab99ac5d0ddae307178ce9aefbec98fd45",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        }
+      ],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "Finish/reopen satu FG/HPP, active usage; FINISHED tidak memalsukan ACTUAL bila HPP belum lengkap.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "CP17_G2_FINISH_PO_FINAL_HPP_WIP_CLOSED",
+          "run_id": 39184657689,
+          "artifact_id": 12158177672,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "CP17_R4_02_POSITIVE_INVERSE_REOPEN_THEN_FINISH_SAME",
+          "run_id": 39184657689,
+          "artifact_id": 12158177672,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B9",
+      "requirement": "FG → buku Vivo/Widie, adjustment, konversi",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: Book rank terpisah dari physical; adjustment/inverse dan qualified conversion scope retained.",
+      "current_witness_examples": [
+        {
+          "case_id": "P10_BOOK_REORDER_FACTS",
+          "raw_status": "PASS",
+          "artifact_id": 12180840963,
+          "document": "ci_receipts/sol_artifacts/12180840963/files/CP7_F03_FULL_P10.json",
+          "group_pointer": "/groups/book/cases",
+          "document_sha256": "bbd68355b6e751d4cd6b9ae020791e28376c984e0348e8b5486bc5e51b900f6f",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        },
+        {
+          "case_id": "P10_ADJUST_NEGATIVE_VALUE",
+          "raw_status": "PASS",
+          "artifact_id": 12180840963,
+          "document": "ci_receipts/sol_artifacts/12180840963/files/CP7_F03_FULL_P10.json",
+          "group_pointer": "/groups/adjustments/cases",
+          "document_sha256": "bbd68355b6e751d4cd6b9ae020791e28376c984e0348e8b5486bc5e51b900f6f",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        }
+      ],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "Book rank terpisah dari physical; adjustment/inverse dan qualified conversion scope retained.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "P10_BOOK_REORDER_FACTS",
+          "run_id": 39185235723,
+          "artifact_id": 12158837905,
+          "group": "book",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P10_ADJUST_NEGATIVE_VALUE",
+          "run_id": 39185235723,
+          "artifact_id": 12158837905,
+          "group": "adjustments",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B10",
+      "requirement": "FG → draft/invoice penjualan",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: Create/edit/manual13/post dan reservation sekali, money/FG Native source sama.",
+      "current_witness_examples": [
+        {
+          "case_id": "P11_DRAFT_BROWSER_DESKTOP",
+          "raw_status": "PASS",
+          "artifact_id": 12179899666,
+          "document": "ci_receipts/sol_artifacts/12179899666/files/CP7_F03_FULL_P11.json",
+          "group_pointer": "/groups/browser/cases",
+          "document_sha256": "9999890b8c4cdcca9c02f66684d906586b628d108e21a2f57d3e1de7b9060f0a",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        },
+        {
+          "case_id": "P11_COMMAND_POST_ONCE",
+          "raw_status": "PASS",
+          "artifact_id": 12179899666,
+          "document": "ci_receipts/sol_artifacts/12179899666/files/CP7_F03_FULL_P11.json",
+          "group_pointer": "/groups/commands/cases",
+          "document_sha256": "9999890b8c4cdcca9c02f66684d906586b628d108e21a2f57d3e1de7b9060f0a",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        }
+      ],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "Create/edit/manual13/post dan reservation sekali, money/FG Native source sama.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "P11_DRAFT_BROWSER_DESKTOP",
+          "run_id": 39185235693,
+          "artifact_id": 12158636433,
+          "group": "browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P11_COMMAND_POST_ONCE",
+          "run_id": 39185235723,
+          "artifact_id": 12159126728,
+          "group": "commands",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B11",
+      "requirement": "Penjualan → AR → pembayaran pelanggan → kas",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: Actual AR partial/full/inverse, cents, no second stock/HPP.",
+      "current_witness_examples": [
+        {
+          "case_id": "P11_PAYMENT_BROWSER_DESKTOP",
+          "raw_status": "PASS",
+          "artifact_id": 12179899666,
+          "document": "ci_receipts/sol_artifacts/12179899666/files/CP7_F03_FULL_P11.json",
+          "group_pointer": "/groups/browser/cases",
+          "document_sha256": "9999890b8c4cdcca9c02f66684d906586b628d108e21a2f57d3e1de7b9060f0a",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        },
+        {
+          "case_id": "P11_PAYMENT_EXACT_LIFECYCLE",
+          "raw_status": "PASS",
+          "artifact_id": 12179899666,
+          "document": "ci_receipts/sol_artifacts/12179899666/files/CP7_F03_FULL_P11.json",
+          "group_pointer": "/groups/payments/cases",
+          "document_sha256": "9999890b8c4cdcca9c02f66684d906586b628d108e21a2f57d3e1de7b9060f0a",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        }
+      ],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "Actual AR partial/full/inverse, cents, no second stock/HPP.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "P11_PAYMENT_BROWSER_DESKTOP",
+          "run_id": 39185235723,
+          "artifact_id": 12159126728,
+          "group": "browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P11_PAYMENT_EXACT_LIFECYCLE",
+          "run_id": 39185235723,
+          "artifact_id": 12159126728,
+          "group": "payments",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B12",
+      "requirement": "Retur → FG + kredit AR/refund",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: Return grade/location/allocation/cash dependencies, exact inverse and refund source bounded.",
+      "current_witness_examples": [
+        {
+          "case_id": "P11_RETURN_BROWSER_R10_DESKTOP_A",
+          "raw_status": "PASS",
+          "artifact_id": 12179899666,
+          "document": "ci_receipts/sol_artifacts/12179899666/files/CP7_F03_FULL_P11.json",
+          "group_pointer": "/groups/browser/cases",
+          "document_sha256": "9999890b8c4cdcca9c02f66684d906586b628d108e21a2f57d3e1de7b9060f0a",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        },
+        {
+          "case_id": "P11_RETURN_LIFECYCLE",
+          "raw_status": "PASS",
+          "artifact_id": 12179899666,
+          "document": "ci_receipts/sol_artifacts/12179899666/files/CP7_F03_FULL_P11.json",
+          "group_pointer": "/groups/returns/cases",
+          "document_sha256": "9999890b8c4cdcca9c02f66684d906586b628d108e21a2f57d3e1de7b9060f0a",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        }
+      ],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "Return grade/location/allocation/cash dependencies, exact inverse and refund source bounded.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "P11_RETURN_BROWSER_R10_DESKTOP_A",
+          "run_id": 39185235591,
+          "artifact_id": 12158596909,
+          "group": "sales_browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P11_RETURN_LIFECYCLE",
+          "run_id": 39185235723,
+          "artifact_id": 12159126728,
+          "group": "returns",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B13",
+      "requirement": "Semua uang → kas → GL → laporan/tutup periode",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: GL/report/close/reopen dan periode sumber benar; finance latency tetap OPEN.",
+      "current_witness_examples": [
+        {
+          "case_id": "P13_REPORT_LEDGER_LIFECYCLE",
+          "raw_status": "PASS",
+          "artifact_id": 12180368445,
+          "document": "ci_receipts/sol_artifacts/12180368445/files/CP7_F03_FULL_P13.json",
+          "group_pointer": "/groups/native/cases",
+          "document_sha256": "147201ef168b6e65b7a3b07769525e5b63d8495ec01c158353f89ba1440495b0",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        },
+        {
+          "case_id": "P13_PERIOD_CLOSE_REOPEN",
+          "raw_status": "PASS",
+          "artifact_id": 12180368445,
+          "document": "ci_receipts/sol_artifacts/12180368445/files/CP7_F03_FULL_P13.json",
+          "group_pointer": "/groups/period_native/cases",
+          "document_sha256": "147201ef168b6e65b7a3b07769525e5b63d8495ec01c158353f89ba1440495b0",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        }
+      ],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "GL/report/close/reopen dan periode sumber benar; finance latency tetap OPEN.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "P13_REPORT_LEDGER_LIFECYCLE",
+          "run_id": 39185235723,
+          "artifact_id": 12158233630,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P13_PERIOD_CLOSE_REOPEN",
+          "run_id": 39185235723,
+          "artifact_id": 12158233630,
+          "group": "period_native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "F03_COMBINED_LEDGER",
+          "run_id": 39185235591,
+          "artifact_id": 12158596909,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "S1",
+      "requirement": "AP supplier → pembayaran → kas",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: 26th payment exact owning AP/cash, inverse once and no stock/HPP.",
+      "current_witness_examples": [],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "26th payment exact owning AP/cash, inverse once and no stock/HPP.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_DESKTOP",
+          "run_id": 39185235584,
+          "artifact_id": 12158875292,
+          "group": "browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE",
+          "run_id": 39185235584,
+          "artifact_id": 12158875292,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "S2",
+      "requirement": "Retur/kredit supplier",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: Return/credit reallocation same party/date, current paid child prevents unsafe reuse.",
+      "current_witness_examples": [
+        {
+          "case_id": "F03_P09_NATIVE_PAID_SUPPLIER_CREDIT_CARRY",
+          "raw_status": "PASS",
+          "artifact_id": 12179609515,
+          "document": "ci_receipts/sol_artifacts/12179609515/files/CP7_F03_FULL_SUPPLIER_CREDIT.json",
+          "group_pointer": "/groups/native/cases",
+          "document_sha256": "b08d71d20d651331c6a1efa50d865f2eaa4ee8dd7f91033b48e3951092c1b05e",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        },
+        {
+          "case_id": "P09_RETURN_FABRIC_PORTABLE_CREDIT",
+          "raw_status": "PASS",
+          "artifact_id": 12182140167,
+          "document": "ci_receipts/sol_artifacts/12182140167/files/CP7_F03_FULL_P09.json",
+          "group_pointer": "/groups/returns/cases",
+          "document_sha256": "0c15b37ef0da3caaf846ca090888b871cbec74335050a3dbae67f05f6a640bbd",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        }
+      ],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "Return/credit reallocation same party/date, current paid child prevents unsafe reuse.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "F03_P09_NATIVE_PAID_SUPPLIER_CREDIT_CARRY",
+          "run_id": 39185235723,
+          "artifact_id": 12158399442,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P09_RETURN_FABRIC_PORTABLE_CREDIT",
+          "run_id": 39185235723,
+          "artifact_id": 12158164165,
+          "group": "returns",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "S3",
+      "requirement": "Absensi/Nota/upah/rework/kasbon → payroll → kas",
+      "status": "PASS",
+      "current_scope": "Financial attendance/Nota/payroll/cash lifecycle retained and rerun via full F03P12. The former FG_REPAIR integrity failure is closed by original Sol strict zero oracle and negative controls. No claim that old payment/period-close UI was blocked, and no one-browser universal journey claimed.",
+      "current_witness_examples": [
+        {
+          "case_id": "SOL_R4_INV_D02_VALID_FG_REPAIR_NOTA_ZERO_ALARM",
+          "raw_status": "PASS",
+          "artifact_id": 12180340258,
+          "document": "ci_receipts/sol_artifacts/12180340258/files/SOL_R5_ORIGINAL_CONTROLS.json",
+          "group_pointer": "/groups/dispute/cases",
+          "document_sha256": "90a430bca10826cf15b84be9a715627c546d60b39e7b4c335f1d374da685ee66",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "PROMAX_INV_D02_HEALTHY_BOOK_ZERO_WITH_ACTUAL_FG_REPAIR_CONTRACTOR_RESOLUTION",
+          "fixture_origin": "ACCEPTED_AX_NATIVE_REPAIR_QTY2_AND1_THEN_PUBLIC_CP7_NOTA_SAVE_POST"
+        },
+        {
+          "case_id": "CP17_R5_01_PAYROLL_CHECK_STILL_FINDS_WRONG_OR_MISSING_REPAIR",
+          "raw_status": "PASS",
+          "artifact_id": 12180497090,
+          "document": "ci_receipts/sol_artifacts/12180497090/files/CP7_CP17_FIXES.json",
+          "group_pointer": "/native/cases",
+          "document_sha256": "844460e3e2ccda67a0b7638ada6377ab99ac5d0ddae307178ce9aefbec98fd45",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        },
+        {
+          "case_id": "SOL_R5_VALID_REPAIR_REVERSED_AND_REALLOCATED_ZERO_ALARM",
+          "raw_status": "PASS",
+          "artifact_id": 12181191212,
+          "document": "ci_receipts/sol_artifacts/12181191212/files/SOL_R5_READER_GRAPH.json",
+          "group_pointer": "/groups/reader_graph/cases",
+          "document_sha256": "cb109404b85311859c5ec9f6a977e227170b64ef2ddf68a0760501261854bc07",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "SOL_VALID_REPAIR_6000_ALARM_ZERO_POST_REVERSE_REALLOCATE",
+          "fixture_origin": "ACCEPTED_AX_REPAIR_QTY2_AND1_RATE2000_AND_PUBLIC_CP7_NOTA"
+        }
+      ],
+      "retained_r4_status": "FAIL",
+      "retained_r4_scope": "Attendance/nota/payroll approval/pay/inverse plus old opening obligations, no double accrual. Penerimaan integritas end-to-end FAIL pada FG_REPAIR Nota: actual source/6000 benar tetapi detector false CRITICAL2. Tidak mengklaim pembayaran atau period-close UI macet.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "P12_ATTENDANCE_BROWSER_DESKTOP_CYCLE",
+          "run_id": 39185235723,
+          "artifact_id": 12158099174,
+          "group": "attendance_write_browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P12_OPENING_BROWSER_DESKTOP_CYCLE",
+          "run_id": 39185235591,
+          "artifact_id": 12158596909,
+          "group": "opening_payroll_browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "SOL_R4_INV_D02_VALID_FG_REPAIR_NOTA_ZERO_ALARM",
+          "run_id": 39200571137,
+          "artifact_id": 12163559008,
+          "group": "/native",
+          "raw_status": "COUNTEREXAMPLE",
+          "oracle_origin": "PROMAX_INV_D02_HEALTHY_BOOK_ZERO_WITH_ACTUAL_FG_REPAIR_CONTRACTOR_RESOLUTION",
+          "fixture_origin": "ACCEPTED_AX_NATIVE_REPAIR_QTY2_AND1_THEN_PUBLIC_CP7_NOTA_SAVE_POST",
+          "review_document": "PAYROLL_DETECTOR_DISPUTE_RESULT_REVIEW.json"
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": null
+    },
+    {
+      "id": "S4",
+      "requirement": "Nota Ambil Aksesori → potongan payroll → kas",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: Accessory/kasbon deduct limited to payable, carry retained, zero net no cash journal.",
+      "current_witness_examples": [
+        {
+          "case_id": "P12_SETTLEMENT_KASBON_CARRY",
+          "raw_status": "PASS",
+          "artifact_id": 12181512237,
+          "document": "ci_receipts/sol_artifacts/12181512237/files/CP7_F03_FULL_P12.json",
+          "group_pointer": "/groups/settlement/cases",
+          "document_sha256": "3633cb56c6e060a874b7adf13e30b4827121e7fdfa0813d6194b42bd5963c220",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        },
+        {
+          "case_id": "CP17_KASBON_GIVE_DEDUCT_PAY",
+          "raw_status": "PASS",
+          "artifact_id": 12180497090,
+          "document": "ci_receipts/sol_artifacts/12180497090/files/CP7_CP17_FIXES.json",
+          "group_pointer": "/native/cases",
+          "document_sha256": "844460e3e2ccda67a0b7638ada6377ab99ac5d0ddae307178ce9aefbec98fd45",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        }
+      ],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "Accessory/kasbon deduct limited to payable, carry retained, zero net no cash journal.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "P12_SETTLEMENT_KASBON_CARRY",
+          "run_id": 39185235723,
+          "artifact_id": 12158099174,
+          "group": "settlement",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "CP17_KASBON_GIVE_DEDUCT_PAY",
+          "run_id": 39184657689,
+          "artifact_id": 12158177672,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "S5",
+      "requirement": "BS → rework/cuci ulang → QC/upah",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: Ordinary rework2/labor60 plus eligibility/partial-paid, owning inverse; not all rewash full browser.",
+      "current_witness_examples": [
+        {
+          "case_id": "CP17_RWK01_OPEN_CASE_FINISHED_PART_PAID_ONCE",
+          "raw_status": "PASS",
+          "artifact_id": 12180497090,
+          "document": "ci_receipts/sol_artifacts/12180497090/files/CP7_CP17_FIXES.json",
+          "group_pointer": "/native/cases",
+          "document_sha256": "844460e3e2ccda67a0b7638ada6377ab99ac5d0ddae307178ce9aefbec98fd45",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        }
+      ],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "Ordinary rework2/labor60 plus eligibility/partial-paid, owning inverse; not all rewash full browser.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "CP7_SOURCE_REWORK_DOCUMENTS",
+          "run_id": 39185235584,
+          "artifact_id": 12158875292,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "CP17_RWK01_OPEN_CASE_FINISHED_PART_PAID_ONCE",
+          "run_id": 39184657689,
+          "artifact_id": 12158177672,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "S6",
+      "requirement": "Hitung fisik/penyesuaian → stok/GL",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: Physical count/adjust/inverse including registered zero-history position, unknown quantity/cost not defaulted.",
+      "current_witness_examples": [
+        {
+          "case_id": "P09_COUNT_FABRIC",
+          "raw_status": "PASS",
+          "artifact_id": 12182140167,
+          "document": "ci_receipts/sol_artifacts/12182140167/files/CP7_F03_FULL_P09.json",
+          "group_pointer": "/groups/material_count/cases",
+          "document_sha256": "0c15b37ef0da3caaf846ca090888b871cbec74335050a3dbae67f05f6a640bbd",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        },
+        {
+          "case_id": "P09_BROWSER_COUNT_UNMOVED_DESKTOP",
+          "raw_status": "PASS",
+          "artifact_id": 12182140167,
+          "document": "ci_receipts/sol_artifacts/12182140167/files/CP7_F03_FULL_P09.json",
+          "group_pointer": "/groups/browser/cases",
+          "document_sha256": "0c15b37ef0da3caaf846ca090888b871cbec74335050a3dbae67f05f6a640bbd",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        },
+        {
+          "case_id": "P10_ADJUST_NEGATIVE_VALUE",
+          "raw_status": "PASS",
+          "artifact_id": 12180840963,
+          "document": "ci_receipts/sol_artifacts/12180840963/files/CP7_F03_FULL_P10.json",
+          "group_pointer": "/groups/adjustments/cases",
+          "document_sha256": "bbd68355b6e751d4cd6b9ae020791e28376c984e0348e8b5486bc5e51b900f6f",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        }
+      ],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "Physical count/adjust/inverse including registered zero-history position, unknown quantity/cost not defaulted.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "P09_COUNT_FABRIC",
+          "run_id": 39185235723,
+          "artifact_id": 12158164165,
+          "group": "material_count",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P09_BROWSER_COUNT_UNMOVED_DESKTOP",
+          "run_id": 39185235723,
+          "artifact_id": 12158164165,
+          "group": "browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P10_ADJUST_NEGATIVE_VALUE",
+          "run_id": 39185235723,
+          "artifact_id": 12158837905,
+          "group": "adjustments",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "S7",
+      "requirement": "Impor saldo awal → tahap berikutnya",
+      "status": "PASS",
+      "current_scope": "Retained r4 bounded scope, with fresh r5 witnesses below where actually executed: Synthetic opening import→downstream/cutover floor qualified; real cutover remains INCOMPLETE.",
+      "current_witness_examples": [
+        {
+          "case_id": "P12_OPENING_BROWSER_DESKTOP_CYCLE",
+          "raw_status": "PASS",
+          "artifact_id": 12181512237,
+          "document": "ci_receipts/sol_artifacts/12181512237/files/CP7_F03_FULL_P12.json",
+          "group_pointer": "/groups/opening_payroll_browser/cases",
+          "document_sha256": "3633cb56c6e060a874b7adf13e30b4827121e7fdfa0813d6194b42bd5963c220",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        },
+        {
+          "case_id": "CP17_R2_D15_5_CUTOVER_OPENING_PATH_LATE_INVOICE_SETTLEMENT",
+          "raw_status": "PASS",
+          "artifact_id": 12180497090,
+          "document": "ci_receipts/sol_artifacts/12180497090/files/CP7_CP17_FIXES.json",
+          "group_pointer": "/native/cases",
+          "document_sha256": "844460e3e2ccda67a0b7638ada6377ab99ac5d0ddae307178ce9aefbec98fd45",
+          "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE"
+        }
+      ],
+      "retained_r4_status": "PASS",
+      "retained_r4_scope": "Synthetic opening import→downstream/cutover floor qualified; real cutover remains INCOMPLETE.",
+      "retained_r4_witness_examples": [
+        {
+          "case_id": "P12_OPENING_BROWSER_DESKTOP_CYCLE",
+          "run_id": 39185235591,
+          "artifact_id": 12158596909,
+          "group": "opening_payroll_browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "CP17_R2_D15_5_CUTOVER_OPENING_PATH_LATE_INVOICE_SETTLEMENT",
+          "run_id": 39184657689,
+          "artifact_id": 12158177672,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "retained_r4_runtime_credit_r5": 0,
+      "retained_r4_seal": "ecb44425710a0a29203835076f32ef83f7d436d2",
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "INDEPENDENT_SOURCE_REVIEW",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "qualification": "PASS is limited to the written current/retained scope. Unchanged source and old execution do not become fresh r5 execution or whole-ERP acceptance.",
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    }
+  ]
+}
