@@ -1,0 +1,99 @@
+{
+  "read_during_context_recovery": true,
+  "source_writer_sha": "2766a9092f51f240267b9cbe1201d49a836fb490",
+  "sources": [
+    {
+      "path": "docs/AUDIT_PANDUAN_PRO_MAX.md",
+      "blob": "5df759c38e1ea98831a4dfdda3cfd1a2b8bb398b"
+    },
+    {
+      "path": "docs/ERP_BEST_PRACTICES.md",
+      "blob": "a5f3a61871a873a17efd75a8b520e948c6d9e41d"
+    },
+    {
+      "path": "CLAUDE.md",
+      "blob": "49efe5a2401ff5f7534d221809a818963209fe83"
+    },
+    {
+      "path": "docs/erp-reliability-invariants.md",
+      "blob": "3e1b4521e326e6dc21c39bff90920f2397c2cd9b"
+    },
+    {
+      "path": "docs/cp6-competition-mode-audit-protocol.md",
+      "blob": "f670ca7cc97ab90c022587e4f03b833d847cba69"
+    },
+    {
+      "path": "docs/cp6-efficient-audit-rule.md",
+      "blob": "864cb0743dedfe13f013ddf0379ca53fd0159af5"
+    },
+    {
+      "path": "docs/cp6-ao-ap-owner-decisions.md",
+      "blob": "b5431f1f61b97e9b2d58aeefeb8da8dee5d2586b"
+    },
+    {
+      "path": "docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25.md",
+      "blob": "c0241a97c68a4f97dddd41d0d398dd4db6fdfb09"
+    },
+    {
+      "path": "docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25_LAMPIRAN_C6.md",
+      "blob": "de787a5ec1bc85b5f92e2afc490bc32d8ddaca31"
+    },
+    {
+      "path": "docs/cp6-d11-kebijakan-dan-gbd03.md",
+      "blob": "aa5d2bfd6e486b145ce2761e4c0bdc6c56f67439"
+    },
+    {
+      "path": "docs/cp7/OWNER_DECISIONS_20261008.md",
+      "blob": "158f2e4c4cae6f0a0a9c04c0a6a061c962c0dc1f"
+    },
+    {
+      "path": "docs/cp7/framework-v2/00_MULAI_DI_SINI.md",
+      "blob": "8da58f94ed1a61d77cb05948af1132bb6ed5db5a"
+    },
+    {
+      "path": "docs/cp7/framework-v2/01_KONTRAK_DAN_INTEGRASI.md",
+      "blob": "5aaa690847103433d1f401f9e9b3c0ce0ee3e5d1"
+    },
+    {
+      "path": "docs/cp7/framework-v2/04_BUKTI_DAN_ORACLE.md",
+      "blob": "c098630bbaea1bf5d2060db671ecb26d02f4730d"
+    },
+    {
+      "path": "docs/cp7/framework-v2/06_RUSUK_KEBUTUHAN_OWNER.md",
+      "blob": "6511f9b0fd139d6f0d82c4a7f0eb062ff5ef19d8"
+    },
+    {
+      "path": "audit/astra_cp17_r4/RETEST_ASTRA_663f6fae.md",
+      "blob": "1ac23dbb92e7f411bd9aca734fdbb5c671f7e316"
+    },
+    {
+      "path": "audit/astra_cp17_r4/FINDINGS.json",
+      "blob": "25369f64b08876059faafc9caebb6d53878aa02e"
+    },
+    {
+      "path": "docs/cp7/audit-candidate/cp1-7-r5-20261019/README.md",
+      "blob": "1b7a9ee582c1439c5abdb5eed3c9de4056791e60"
+    },
+    {
+      "path": "docs/cp7/audit-candidate/cp1-7-r5-20261019/CROSS_AUDIT.md",
+      "blob": "692230776e3c9d816fa03494d31a8a69737c7a73"
+    },
+    {
+      "path": "docs/cp7/cp17/R5_WRITER_HANDOFF.md",
+      "blob": "6b3075eba89a7195411cab2dbc2bc1aa7d6be36b"
+    },
+    {
+      "path": "docs/cp7/p19/P19_R5_02_REPORT_READERS.md",
+      "blob": "5575a2a8cc5aa8e4f2c8078b3be888f79999432d"
+    }
+  ],
+  "rules_sha256_recomputed_this_audit": "5752e96df751de5ebe4b86d3f572cffa1bbe94eb42bf8e283fa6e04f9f593639",
+  "slogans": [
+    "VENI. VIDI. VICI. ERP.",
+    "I CONQUERED ERP.",
+    "Reliable data adalah dewa.",
+    "Keuangan termasuk laporan, stok, dan HPP adalah raja."
+  ],
+  "limitation": "Recovered authoritative files and targeted history; no claim to possess every old chat verbatim.",
+  "peer_r5_sources_opened": []
+}

@@ -1,0 +1,910 @@
+{
+  "candidate_sha": "17fa25075ba77f0853c3c16f504288ace03eec35",
+  "scope": "r5 delta; full family requirement separate",
+  "invariants": [
+    {
+      "id": "INV-U01",
+      "requirement": "Setiap jurnal seimbang: jumlah debit = jumlah kredit, per jurnal dan per tanggal ekonomi.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-U02",
+      "requirement": "Satu kejadian bisnis menghasilkan tepat satu efek. Mengulang permintaan yang sama tidak menambah efek (INV-C01).",
+      "r5_scoped_status": "PASS",
+      "scope": "Nota same UUID: 8000 active payable, no repeated physical/cost facts",
+      "evidence_case_ids": [
+        "ASTRA_R5_FG_HEALTHY_8000",
+        "ASTRA_R5_FG_REVERSED_REUSE"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-U03",
+      "requirement": "Pembalikan adalah kebalikan persis aslinya per akun dan dimensi (pelanggan, vendor, mandor, PO, produk). Tanggal pembalikan mengikuti aturan tanggal bisnis.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-U04",
+      "requirement": "Saldo buku besar akun kontrol = jumlah subledger (utang supplier, piutang pelanggan, utang upah, uang muka, GRNI).",
+      "r5_scoped_status": "PASS",
+      "scope": "FG repair labor/payable8000; public finance decimal operands",
+      "evidence_case_ids": [
+        "ASTRA_R5_FG_HEALTHY_8000",
+        "ASTRA_R5_FINANCE_DECIMAL_ORACLE"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-U05",
+      "requirement": "Saldo kas/bank = jumlah semua mutasi kas yang diposting. Tidak boleh negatif kecuali kebijakan yang disahkan mengizinkan.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-U06",
+      "requirement": "Tidak ada aritmetika float untuk uang. Pembulatan sen dilakukan sekali, pada titik yang ditentukan kontrak (per baris atau per dokumen, konsisten). Selisih sen dialokasikan secara deterministik.",
+      "r5_scoped_status": "PASS",
+      "scope": "Public finance Decimal expected; tool raw JSON float conversion separately qualified",
+      "evidence_case_ids": [
+        "ASTRA_R5_FINANCE_DECIMAL_ORACLE",
+        "ASTRA_R5_MAPPING_COMMIT_SNAPSHOT"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-U07",
+      "requirement": "Pembayaran tidak boleh melebihi tagihan. Kelebihan bayar menjadi kredit atau uang muka yang tercatat, tidak hilang.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-U08",
+      "requirement": "Mengubah pembayaran tidak menciptakan hak kerja atau HPP baru (pemisahan keuangan).",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-S01",
+      "requirement": "Saldo stok = jumlah semua mutasi, per bahan, roll, lokasi, dan SKU/lot.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-S02",
+      "requirement": "Tidak ada stok negatif pada urutan kronologis, termasuk saat pencatatan mundur (backdate) kecuali ada izin pengganti eksplisit, dan izin itu harus tercatat.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-S03",
+      "requirement": "Transfer antar gudang berjumlah nol untuk total, dan nilainya ikut pindah.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-S04",
+      "requirement": "Identitas roll fisik tetap. Pemakaian, transfer, dan riwayat menunjuk roll yang sama, termasuk sesudah koreksi.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-S05",
+      "requirement": "Konversi satuan memakai snapshot faktor yang berlaku saat transaksi.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-S06",
+      "requirement": "WIP terkonservasi: masuk = keluar + susut/BS + sisa. Satu PCS dihitung sekali.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-S07",
+      "requirement": "Barang jadi per SKU/ukuran/lot terkonservasi dari QC sampai penjualan dan retur.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-H01",
+      "requirement": "Nilai persediaan = \u03a3(jumlah \u00d7 biaya satuan) dan cocok dengan saldo akun persediaan.",
+      "r5_scoped_status": "PASS",
+      "scope": "Public OWNER current/previous HPP97.03/66.67 and profit124.08/33.34",
+      "evidence_case_ids": [
+        "ASTRA_R5_FINANCE_DECIMAL_ORACLE"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-H02",
+      "requirement": "Biaya mengalir dan terkonservasi: bahan \u2192 WIP \u2192 barang jadi \u2192 HPP penjualan. Tidak ada biaya yang muncul atau hilang tanpa sumber.",
+      "r5_scoped_status": "PASS",
+      "scope": "Nota does not repeat physical/HPP/GL events in accepted repair fixture",
+      "evidence_case_ids": [
+        "ASTRA_R5_FG_HEALTHY_8000",
+        "ASTRA_R5_FG_REVERSED_REUSE"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-H03",
+      "requirement": "Recost bersifat kronologis dan bertanggal dari barang dan pergerakannya (keluarga AY/AZ), bukan dari tanggal koreksi.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-H04",
+      "requirement": "Harga perkiraan vs final: GRNI harus nol sesudah semua invoice final. Invoice terlambat mengoreksi GRNI, utang, dan HPP pada tanggal ekonominya, tanpa menciptakan stok.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-H05",
+      "requirement": "Koreksi biaya merambat ke semua posisi barang: sisa bahan, WIP, barang jadi, terjual, dan diretur. Masing-masing pada tanggalnya sendiri.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-H06",
+      "requirement": "HPP yang belum pasti, misalnya harga laundry belum diketahui, ditandai belum pasti dan memblokir aksi yang bergantung padanya (contoh: LAU-DEC04 memblokir penjualan).",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-P01",
+      "requirement": "Sisa utang/piutang per dokumen = total \u2212 pembayaran \u2212 retur/kredit yang dialokasikan. Tidak boleh negatif tanpa dokumen kredit.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-P02",
+      "requirement": "Uang muka hanya dipakai sampai sisanya, untuk pihak yang sama, dan pada tanggal \u2265 tanggal sumbernya.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-P03",
+      "requirement": "Jatuh tempo dan aging dihitung dari dokumen yang aktif. Dokumen yang dibalik tidak ikut terhitung.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-T01",
+      "requirement": "Tanggal bisnis memakai WIB (`erp._cp3_business_date`). Transaksi sekitar tengah malam WIB tidak boleh pindah hari karena UTC.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-T02",
+      "requirement": "Periode tertutup tidak berubah diam-diam. Koreksi masuk dengan tanggal ekonomi asal dan tanggal pengakuan di periode terbuka, sesuai aturan Native dan `cp7_period`.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-T03",
+      "requirement": "Tidak ada kejadian fisik di masa depan. Tanggal datang tidak boleh sesudah pemakaian pertama.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-T04",
+      "requirement": "Non-kebocoran waktu: menambah fakta yang baru diketahui sesudah cutoff tidak mengubah hasil \"as-known\" yang lama. Restatement mendapat revisi baru.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-L01",
+      "requirement": "Setiap angka laporan berasal dari sumber kebenaran yang sama dengan buku besar dan stok, dan cocok dengan jumlahnya.",
+      "r5_scoped_status": "PASS",
+      "scope": "All11 patched readers same tested answers; independent public numbers",
+      "evidence_case_ids": [
+        "ASTRA_R5_READERS_NONEMPTY",
+        "ASTRA_R5_READERS_EMPTY",
+        "ASTRA_R5_MAPPING_REBIND",
+        "ASTRA_R5_FINANCE_DECIMAL_ORACLE"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-L02",
+      "requirement": "Laporan per tanggal bisa direproduksi. Laporan lama immutable; revisi menjadi dokumen baru yang tertaut.",
+      "r5_scoped_status": "PASS",
+      "scope": "P19 sealed revision series; stock at report timestamp alongside snapshot",
+      "evidence_case_ids": [
+        "P19R_REVISION_SERIES",
+        "P19R_ACTUAL_STOCK_AT_REPORT_TIME",
+        "P19R_RACE_STOCK_COMMITTED_DURING_JOB"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-L03",
+      "requirement": "**\"Tidak diketahui\" bukan nol.** Data yang tidak terbaca atau belum lengkap tampil sebagai \"belum diketahui\", tidak pernah 0 atau kosong yang terlihat seperti 0.",
+      "r5_scoped_status": "PASS",
+      "scope": "Deferred finance explicitly unknown, no book read",
+      "evidence_case_ids": [
+        "P19T_FINANCE_DEFERRED_NO_BOOK_READ",
+        "P19T_HTTP_FINANCE_ON_DEMAND"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-L04",
+      "requirement": "Laporan keuangan tidak boleh berstatus READY palsu. Kalau ada komponen yang belum pasti (HPP, invoice, saldo awal), statusnya ikut belum pasti.",
+      "r5_scoped_status": "PASS",
+      "scope": "Race baseline already BLOCKED with8fixture blockers; valid COGS remap adds2specific HPP mismatch blockers, next report remains BLOCKED. Not a READY-to-BLOCKED proof.",
+      "evidence_case_ids": [
+        "ASTRA_R5_MAPPING_COMMIT_SNAPSHOT"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-L05",
+      "requirement": "Perbandingan periode harus sebanding (hari penuh vs hari penuh), atau diberi label yang jelas.",
+      "r5_scoped_status": "PASS",
+      "scope": "Independent decimal comparison of two complete days",
+      "evidence_case_ids": [
+        "ASTRA_R5_FINANCE_DECIMAL_ORACLE"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-L06",
+      "requirement": "Membaca laporan tidak mengubah data bisnis apa pun. Bandingkan seluruh tabel operasional dan sequence sebelum dan sesudah.",
+      "r5_scoped_status": "PASS",
+      "scope": "No fact changes from repeated reader calls; strict case boundaries restored",
+      "evidence_case_ids": [
+        "ASTRA_R5_READERS_NONEMPTY",
+        "ASTRA_R5_FINANCE_DECIMAL_ORACLE"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-L07",
+      "requirement": "Data di luar izin pengguna tidak muncul di angka, total, alasan, cache, atau prompt AI.",
+      "r5_scoped_status": "PASS",
+      "scope": "Report/transport authority and current permission refusal",
+      "evidence_case_ids": [
+        "P19R_FINANCE_ACCESS_CURRENT",
+        "P19T_SEGMENT_AUTHORITY",
+        "P19R_RACE_ACCESS_CHANGED_MID_JOB"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-R01",
+      "requirement": "Rekomendasi hanya dari data yang berlaku dan lengkap. Kalau masukan basi, sebagian, atau tidak diketahui, rekomendasinya ditandai \"perlu cek data\", bukan dihitung dengan angka karangan.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-R02",
+      "requirement": "Setiap kartu tindakan menjawab: kerjakan apa, SKU/ukuran, berapa PCS, paling lambat kapan, kenapa sekarang, sumber apa, dan apa yang belum pasti (`06_RUSUK_KEBUTUHAN_OWNER.md` \u00a75).",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-R03",
+      "requirement": "Urutan prioritas bisa dijelaskan: gap sebelum pasokan siap \u2192 deadline nyata \u2192 aksi yang lebih cepat menutup gap \u2192 ukuran yang kurang \u2192 ID stabil. Laba tidak boleh menyembunyikan gap mendesak.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-R04",
+      "requirement": "Netting tidak menghitung dua kali. Draf penjualan sudah mengurangi stok barang jadi, jadi forecast sisa tidak menghitung penjualan itu lagi. Kelebihan ukuran lain tidak menutup kekurangan ukuran yang tidak bisa dikonversi.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-R05",
+      "requirement": "Pasokan yang mundur tidak memperbaiki gap sebelum tanggal datang yang baru.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-R06",
+      "requirement": "Model adaptif hanya dipromosikan oleh selector yang lolos uji (M01\u2013M08 dan positive promotion). Data tipis atau seri kembali ke baseline. Holdout luar tidak dipakai untuk tuning.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-R07",
+      "requirement": "Tanya AI V1 hanya membaca proyeksi yang diizinkan. Prompt memuat asumsi, unknown, dan sumber. Tidak ada auto-send, auto-writeback, kunci API, atau data di URL.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-R08",
+      "requirement": "Membaca atau menghitung rekomendasi tidak membuat reservasi atau efek bisnis. Menerapkan rencana hanya lewat command sah dengan validasi ulang.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-R09",
+      "requirement": "Kebutuhan bahan = kebutuhan bersih dari model potong yang lolos uji. Kalau yield atau model belum terkualifikasi, tampilkan rentang atau \"belum pasti\", bukan satu angka yang terlihat pasti.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-K01",
+      "requirement": "Dokumen asal yang sudah diposting tidak diubah isinya. Koreksi = pembalik Native pada waktu sumber + pengganti yang persis + lineage privat.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-K02",
+      "requirement": "Efek koreksi jatuh pada tanggal ekonomi aslinya. Selisih tidak dicatat sebagai keuntungan atau kerugian hari ini, kecuali barang yang memang terjual hari ini.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-K03",
+      "requirement": "Pemetaan baris lama \u2192 baru harus eksplisit (lineage per baris), bukan dicocokkan lewat atribut yang bisa kembar.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-K04",
+      "requirement": "Setiap penulisan langsung ke tabel Native di luar writer Native terdaftar, alasannya ditulis, dan tercatat di lineage (`docs/cp7/RECEIPT_CORRECTION.md` butir 4 dan dokumen yang setara milik GPT).",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-K05",
+      "requirement": "Draft terkait (invoice, retur, pembayaran, potong, transfer) memblokir koreksi dan disebut nomornya.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-K06",
+      "requirement": "Koreksi berulang (R1, R2, \u2026) menghasilkan satu dokumen berlaku dan satu baris efektif di kartu mutasi.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-K07",
+      "requirement": "Tabel fakta dan buku (jurnal, mutasi stok, fakta recost, lineage) **append-only**: `UPDATE`/`DELETE` ditolak oleh trigger bahkan untuk peran admin aplikasi. Auditor wajib mencoba merusaknya di dalam savepoint dan mencatat penolakannya (kode, misalnya `MATERIAL_ADJUSTMENT_REVALUATION_FACT_APPEND_ONLY`). Pembalikan selalu baris baru.",
+      "r5_scoped_status": "PASS",
+      "scope": "FG wage immutable guard refuses before diagnostic disable",
+      "evidence_case_ids": [
+        "ASTRA_R5_FG_DETECTOR_0_1_0"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-C01",
+      "requirement": "UUID permintaan yang sama dengan payload yang sama menghasilkan satu efek. UUID sama dengan payload berbeda ditolak secara atomik.",
+      "r5_scoped_status": "PASS",
+      "scope": "Same UUID Nota/report/transport single effect",
+      "evidence_case_ids": [
+        "ASTRA_R5_FG_HEALTHY_8000",
+        "P19R_REQUEST_ONE_UUID",
+        "P19T_JOB_IDENTITY_REFUSALS"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-C02",
+      "requirement": "Versi baris (`row_version`, `review_token`) dicek. Data yang berubah sesudah ditinjau ditolak.",
+      "r5_scoped_status": "PASS",
+      "scope": "Stale report revision rejected40001",
+      "evidence_case_ids": [
+        "P19R_REVISION_SERIES"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-C03",
+      "requirement": "Dua sesi bersamaan menghasilkan urutan yang sah, atau salah satunya ditolak. Tidak ada efek setengah jadi.",
+      "r5_scoped_status": "PASS",
+      "scope": "Observed PgSleep barrier/commit, eight same-statement rows; report job lock schedules",
+      "evidence_case_ids": [
+        "ASTRA_R5_MAPPING_COMMIT_SNAPSHOT",
+        "P19R_RACE_TWO_STEPS_ONE_UNIT"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-C04",
+      "requirement": "Kegagalan di langkah terakhir membatalkan semua efek (atomik).",
+      "r5_scoped_status": "PASS",
+      "scope": "Missing mapping and source drift install refusal preserves definitions",
+      "evidence_case_ids": [
+        "ASTRA_R5_INSTALL_ROUNDTRIP_REFUSALS"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-C05",
+      "requirement": "Balasan yang hilang bisa di-reconcile memakai UUID yang sama. Writer tetap terkunci sampai statusnya pasti.",
+      "r5_scoped_status": "PASS",
+      "scope": "Committed reply loss recovered on reload; no second worker/Original",
+      "evidence_case_ids": [
+        "P19T_BROWSER_DESKTOP_RELOAD_RECOVERY"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-C06",
+      "requirement": "Setiap command meninggalkan database bersih: tidak ada advisory lock tersisa, tidak ada sesi tambahan, skema `public` tidak berubah, dan batas transaksi dipulihkan penuh. Runner ketat memeriksa ini sesudah **setiap** kasus (`full_boundary_restored`, `session_leaks`), dan kasus yang melanggar ditandai `FAIL` walau oraclenya lolos.",
+      "r5_scoped_status": "PASS",
+      "scope": "Completed own/P19 cases cleanup verified; aggregate includes remaining CI when complete",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-A01",
+      "requirement": "Izin dicek di awal dan di akhir command. Izin yang dicabut di tengah jalan menggagalkan transaksi tanpa sisa.",
+      "r5_scoped_status": "PASS",
+      "scope": "Permission revoked while worker waits; no effect/publication",
+      "evidence_case_ids": [
+        "P19T_RACE_REVOKE_WHILE_WAITING",
+        "P19R_RACE_ACCESS_CHANGED_MID_JOB"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-A02",
+      "requirement": "Peran nol atau nonaktif ditolak (fail-closed).",
+      "r5_scoped_status": "PASS",
+      "scope": "Real Auth deactivation rejects transport/report access",
+      "evidence_case_ids": [
+        "P19T_HTTP_REVOKED",
+        "P19R_HTTP_REVOKED"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-A03",
+      "requirement": "Tidak ada kunci server di artefak klien. Gate artefak UAT dan scan rahasia harus lolos.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-A04",
+      "requirement": "Advisor keamanan tidak menunjukkan temuan baru di luar daftar yang sudah ditinjau.",
+      "r5_scoped_status": "PASS",
+      "scope": "Completed package advisor gates; only declared INFO no-policy private-table differences",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-A05",
+      "requirement": "RLS dan grant persis seperti yang dideklarasikan; tidak ada akses langsung ke skema privat.",
+      "r5_scoped_status": "PASS",
+      "scope": "Exact installed definition/owner/ACL set verified; public permission suites independent",
+      "evidence_case_ids": [
+        "ASTRA_R5_INSTALL_ROUNDTRIP_REFUSALS",
+        "P19R_AUTHORITY"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-UI01",
+      "requirement": "Angka yang tampil = angka sumber. Tidak ada perhitungan uang di klien yang bisa berbeda dari server.",
+      "r5_scoped_status": "PASS",
+      "scope": "Connected report desktop/mobile and finance-on-demand outputs",
+      "evidence_case_ids": [
+        "P19R_BROWSER_DESKTOP_REPORT",
+        "P19R_BROWSER_MOBILE_REPORT",
+        "P19T_BROWSER_FINANCE_ON_DEMAND"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-UI02",
+      "requirement": "Sesudah 403, balasan hilang, atau pemulihan bersama, fakta lama disembunyikan sampai dibaca ulang.",
+      "r5_scoped_status": "PASS",
+      "scope": "Reply-loss reload recovery + permission revocation tested",
+      "evidence_case_ids": [
+        "P19T_BROWSER_DESKTOP_RELOAD_RECOVERY",
+        "P19R_HTTP_REVOKED"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-UI03",
+      "requirement": "Aksi yang mengubah uang atau stok punya langkah periksa dan konfirmasi. Penolakan ditampilkan jelas dalam bahasa Indonesia.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-UI04",
+      "requirement": "Tampilan desktop, HP, dan iPad menampilkan angka yang sama.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "Desktop/mobile tested, physical iPad not tested",
+      "evidence_case_ids": [
+        "P19R_BROWSER_DESKTOP_REPORT",
+        "P19R_BROWSER_MOBILE_REPORT"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-POL01",
+      "requirement": "Nilai kebijakan adalah pengaturan di aplikasi dengan nilai awal `PENDING_POLICY_VALUE`. **Tidak ada angka karangan.**",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-POL02",
+      "requirement": "Kebijakan yang masih pending membuat fitur yang bergantung padanya berstatus belum siap, bukan memakai nilai default diam-diam.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-POL03",
+      "requirement": "Satu aturan bisnis, satu sumber. Dua implementasi berbeda untuk hal yang sama adalah temuan.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-POL04",
+      "requirement": "Skenario uji yang oraclenya bertentangan dengan keputusan owner yang lebih baru adalah skenario **basi**, bukan bug produk. Ia ditandai `SUPERSEDED_BY_OWNER_RULE`, dipindah ke historis, dan ditulis ulang pada tingkat yang benar. **Produk tidak pernah diubah supaya skenario lama lulus.** Contoh nyata: paket uji BF yang memasang tarif laundry pada SKU, ditolak produk sesuai D13 (tarif dari vendor).",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-POL05",
+      "requirement": "Hasil `COUNTEREXAMPLE` yang diterima owner lewat keputusan tertulis (contoh: sen per PO, T3 = A) tetap dicatat `COUNTEREXAMPLE` dengan rujukan keputusannya. Tidak direlabel `PASS`, tidak dihapus dari matriks, dan laporan menampilkan aturannya kepada pembaca keuangan.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-M01",
+      "requirement": "Saldo awal (stok, WIP, utang, piutang, uang muka, upah) sama persis dengan dokumen sumber cutover, per baris.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-M02",
+      "requirement": "Impor bersifat idempoten dan menolak baris yang tidak valid dengan alasan. Tidak ada baris yang hilang diam-diam.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-M03",
+      "requirement": "Sesudah cutover, semua cek integritas bernilai nol pelanggaran.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-M04",
+      "requirement": "Paket rilis diuji **dari baseline hosted yang sebenarnya**, bukan baseline yang diasumsikan. Preflight baca-saja mencatat versi ledger hosted dan objek yang ada; pemasang membawa semua pendahulu yang hilang (contoh nyata: hosted masih v2.6.20 sehingga 30 berkas CP6 membutuhkan 28 pendahulu A\u2013AB, total 58). Hash setiap berkas pendahulu diverifikasi auditor terhadap berkas asli di repo.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-M05",
+      "requirement": "Pemasang menolak sebelum mengubah admission bila: baseline berbeda, katalog G-01 bergeser, berkas sudah terpasang, endpoint salah, bukan pemilik database, atau ada maintenance lain. Semua penolakan ini punya kasus uji masing-masing, dan pemasang **tidak pernah mematikan sesi orang lain**.",
+      "r5_scoped_status": "PASS",
+      "scope": "Scoped changed-reader preconditions and exact12-function roundtrip; not all release admission gates",
+      "evidence_case_ids": [
+        "ASTRA_R5_INSTALL_ROUNDTRIP_REFUSALS",
+        "ASTRA_R5_CORE_MAPPING_GUARDS"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-N01",
+      "requirement": "Reminder dihitung dari fakta yang berlaku. Dokumen yang dibalik atau dibatalkan tidak memunculkan alert palsu, dan episodenya selesai dengan jelas.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-N02",
+      "requirement": "ACK atau snooze tidak mengubah fakta bisnis.",
+      "r5_scoped_status": "INCOMPLETE",
+      "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
+      "evidence_case_ids": [],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+    },
+    {
+      "id": "INV-D01",
+      "requirement": "Setiap detektor punya **kontrol positif dan negatif** di run auditor: diam pada buku yang benar (0 baris), dan **naik tepat +1** ketika auditor merusak satu angka di dalam savepoint, lalu kembali 0 sesudah rollback. Detektor yang tidak bisa dibuat berbunyi berlabel `TIDAK TERUJI`, bukan `PASS`.",
+      "r5_scoped_status": "PASS",
+      "scope": "Specific payroll_work_wrong_contractor0/+1/0; not all167negative controls",
+      "evidence_case_ids": [
+        "ASTRA_R5_FG_DETECTOR_0_1_0"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-D02",
+      "requirement": "Detektor yang berbunyi pada buku yang benar adalah **cacat detektor** (S1), bukan alasan membuang alarm: ia disetel ulang ke tingkat yang benar (per dokumen, per fakta), dan kontrol negatifnya dibuktikan lagi sesudah disetel. Mematikan alarm memerlukan keputusan owner tertulis.",
+      "r5_scoped_status": "PASS",
+      "scope": "Old checker2false alarms, candidate0on healthy FG repair8000",
+      "evidence_case_ids": [
+        "ASTRA_R5_FG_HEALTHY_8000"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-D03",
+      "requirement": "Detektor membaca tabel yang **memang ditulis mesin yang berlaku**. Detektor lama yang membaca tabel yang tidak lagi ditulis mesin baru (contoh nyata: `material_cost_revaluation_state` vs fakta v2.6.20t) adalah temuan.",
+      "r5_scoped_status": "PASS",
+      "scope": "Checker joins actual FG_REPAIR wage source; source review + Native",
+      "evidence_case_ids": [
+        "ASTRA_R5_FG_HEALTHY_8000",
+        "ASTRA_R5_FG_DETECTOR_0_1_0"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    },
+    {
+      "id": "INV-D04",
+      "requirement": "Nol pelanggaran dicatat **sebelum dan sesudah** setiap skenario \u00a77, bukan hanya di akhir run.",
+      "r5_scoped_status": "PASS",
+      "scope": "All167 zero before/after selected healthy FG repair paths only",
+      "evidence_case_ids": [
+        "ASTRA_R5_FG_HEALTHY_8000",
+        "ASTRA_R5_FG_REVERSED_REUSE"
+      ],
+      "whole_ERP_requirement_status": "INCOMPLETE",
+      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
+      "origin": "INDEPENDENT_NATIVE_RERUN"
+    }
+  ]
+}

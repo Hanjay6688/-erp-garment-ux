@@ -32,9 +32,13 @@ def run():
    try:obj=json.loads(match[2])
    except json.JSONDecodeError:continue
    if not ('group' in obj and 'case' in obj):continue
-   layer=layer_of(obj['group']);key=(layer,obj['case'])
+   layer=layer_of(obj['group']);canonical_id=obj['case'];id_mapping=None
+   if layer=='browser_enteng' and (layer,canonical_id) not in expected and (layer,canonical_id+'_ENTENG') in expected:
+    canonical_id+='_ENTENG';id_mapping='Candidate cp7_cp17_fix_probe.py:63 appends _ENTENG in its artifact after the browser host logs the base ID; raw ID retained.'
+   key=(layer,canonical_id)
    if key not in expected:continue
-   row=dict(suite=suite,layer=layer,id=obj['case'],original_status=obj.get('status'),group=obj['group'],run_id=run_id,job_id=job_id,log_file='raw/'+log,log_line=lineno,recorded_at=match[1],evidence_origin='INDEPENDENT_NATIVE_RERUN',oracle_origin='ASTRA_INDEPENDENT_CONTRACT_EXPECTED' if suite.startswith('own') else 'REUSED_WRITER_OR_INHERITED_AUDITOR_ORACLE_EXECUTED_INDEPENDENTLY',raw=obj)
+   own=suite.startswith('own')
+   row=dict(suite=suite,layer=layer,id=canonical_id,raw_case_id=obj['case'],id_mapping=id_mapping,original_status=obj.get('status'),protocol_status=obj.get('status'),group=obj['group'],run_id=run_id,run_attempt=1,job_id=job_id,log_file='raw/'+log,log_line=lineno,recorded_at=match[1],evidence_origin='INDEPENDENT_NATIVE_RERUN',oracle_origin='ASTRA_INDEPENDENT_CONTRACT_EXPECTED' if own else 'REUSED_WRITER_OR_INHERITED_AUDITOR_ORACLE_EXECUTED_INDEPENDENTLY',fixture_origin='Accepted Native fixture builders reused; extra reader fixture copied from frozen writer; private corruption diagnostic only' if own else 'Frozen candidate fixture and oracle source',fixture_definition_identity=dict(candidate_sha='17fa25075ba77f0853c3c16f504288ace03eec35',manifest=manifest,manifest_sha256=hashlib.sha256((ROOT/manifest).read_bytes()).hexdigest(),auditor_source_hashes=m.get('source_sha256',m.get('files'))),fixture_hash_scope='Definition/predeclaration, not a claim that every generated UUID is hashed separately',raw=obj)
    rows.append(row);all_rows.append(row)
   counts=Counter((r['layer'],r['id']) for r in rows)
   missing=sorted(expected-set(counts));duplicates=[dict(layer=k[0],id=k[1],count=v) for k,v in counts.items() if v!=1]

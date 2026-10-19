@@ -59,13 +59,23 @@
     },
     {
       "suite": "own-q2",
-      "status": "PENDING",
-      "expected": 2
+      "run_id": 39239850748,
+      "job_id": 118017734464,
+      "status": "RECONCILED",
+      "expected": 2,
+      "observed": 2,
+      "counts": {
+        "PASS": 2
+      },
+      "missing": [],
+      "duplicates": [],
+      "manifest_sha256": "f2e41b5cdddf4020eed7b81395518abef1d940386f8c5297968549eb8d318769",
+      "log_sha256": "8a7ec4cd07afd6c22e6ffa75f7b16aa38323be70d837ca9ada4edf5709e22fa1"
     }
   ],
-  "execution_count": 46,
+  "execution_count": 48,
   "counts": {
-    "PASS": 44,
+    "PASS": 46,
     "INCOMPLETE": 2
   },
   "unique_coverage_key": "suite family + layer + id; own-q2 is qualification of same own-first IDs, not extra product coverage",

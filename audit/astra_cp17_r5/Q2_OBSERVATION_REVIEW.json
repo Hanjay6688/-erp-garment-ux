@@ -1,0 +1,53 @@
+{
+  "run_id": 39239850748,
+  "case": "ASTRA_R5_MAPPING_COMMIT_SNAPSHOT",
+  "origin": "INDEPENDENT_NATIVE_RERUN",
+  "scope": "Manual inspection of existing raw observation, no extra execution and no changed oracle",
+  "baseline": {
+    "status": "BLOCKED",
+    "critical_count": 8
+  },
+  "after": {
+    "status": "BLOCKED",
+    "critical_count": 10
+  },
+  "new_checks": [
+    {
+      "scope": "CURRENT_STATE",
+      "family": "INTEGRITY",
+      "details": "Every Sale lifecycle journal must conserve FG/COGS/disposition independently inside each PO or non-PO dimension",
+      "severity": "CRITICAL",
+      "reference": {
+        "class": "DATABLE",
+        "source": "run_v268_financial_report_checks",
+        "dated_by": null,
+        "check_name": "V2620D_SALE_LIFECYCLE_HPP_DIMENSION_MISMATCH",
+        "date_policy": "BLOCKS_EVERY_DATE",
+        "issue_count": 1,
+        "dated_detector_confirmed": false
+      },
+      "check_name": "V2620D_SALE_LIFECYCLE_HPP_DIMENSION_MISMATCH",
+      "impact_date": null,
+      "issue_count": 1
+    },
+    {
+      "scope": "CURRENT_STATE",
+      "family": "INTEGRITY",
+      "details": "Each non-PO product book must equal cumulative per-lot minor-unit HPP targets across every active Sale, return, correction, and reversal",
+      "severity": "CRITICAL",
+      "reference": {
+        "class": "DATABLE",
+        "source": "run_v268_financial_report_checks",
+        "dated_by": null,
+        "check_name": "V2620F_NON_PO_PRODUCT_HPP_BOOK_MISMATCH",
+        "date_policy": "BLOCKS_EVERY_DATE",
+        "issue_count": 1,
+        "dated_detector_confirmed": false
+      },
+      "check_name": "V2620F_NON_PO_PRODUCT_HPP_BOOK_MISMATCH",
+      "impact_date": null,
+      "issue_count": 1
+    }
+  ],
+  "limitation": "Baseline was already BLOCKED. Do not claim a READY-to-BLOCKED transition."
+}
