@@ -1,0 +1,32 @@
+{
+  "state": "INITIAL_CANDIDATE_AND_WRITER_SOURCE_FREEZE",
+  "candidate_sha": "17fa25075ba77f0853c3c16f504288ace03eec35",
+  "candidate_tree": "65f778479093d869a3354c0b9f19b4d9a541d98a",
+  "basis_r4": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "writer_head": "2766a9092f51f240267b9cbe1201d49a836fb490",
+  "writer_tree": "3eb2b712836585b5d5d538f63c05e86c5c581d0b",
+  "post_candidate_paths": [
+    "docs/cp7/audit-candidate/cp1-7-r5-20261019/CI_RECEIPT.json",
+    "docs/cp7/audit-candidate/cp1-7-r5-20261019/CROSS_AUDIT.md",
+    "docs/cp7/audit-candidate/cp1-7-r5-20261019/HANDOFF_ASTRA.md",
+    "docs/cp7/audit-candidate/cp1-7-r5-20261019/HANDOFF_FABLE.md",
+    "docs/cp7/audit-candidate/cp1-7-r5-20261019/HANDOFF_SOL.md",
+    "docs/cp7/audit-candidate/cp1-7-r5-20261019/README.md",
+    "docs/cp7/audit-candidate/cp1-7-r5-20261019/RED_RUNS_VS_R4.json",
+    "docs/cp7/cp17/R5_WRITER_HANDOFF.md",
+    "docs/cp7/p19/P19_R5_02_REPORT_READERS.md"
+  ],
+  "post_candidate_docs_only": true,
+  "src_supabase_diff_empty_since_r4": true,
+  "product_roots": {
+    "src": "c3008b5bc5662a3ed2d5ab8bc064233ba65a0a1e",
+    "supabase": "5d040436db384b4e574785376367b360a084acb7",
+    "scripts": "5acd25588b32fcaff661ea07376042e88b72479b",
+    ".github/workflows": "592b48dd5b603903d775d30d1d9bab79962db6dc",
+    "package.json": "8707f6817acfc294caeab8aa54496df5b8dde04e",
+    "package-lock.json": "ca9159d26989e0263b6b757f5f824bd9333d8cf6"
+  },
+  "guide_sha256": "5752e96df751de5ebe4b86d3f572cffa1bbe94eb42bf8e283fa6e04f9f593639",
+  "peer_r5_content_read": false,
+  "production_go": false
+}
