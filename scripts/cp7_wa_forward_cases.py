@@ -797,7 +797,7 @@ def races(tools, today):
             d = committed(lambda cur: dispatch(cur, sent['dispatch_id']))
             log = fake_log()[before:]
             assert (d['status'], d['http']) == ('PROVIDER_ACCEPTED', 200) and KEY not in d['text'] and '***' in d['text'], d
-            assert len(log) == 1 and log[0]['phone'] == PHONE and log[0]['apikey'] == KEY and log[0]['text'] == d['body'], log
+            assert len(log) == 1 and log[0]['phone'] == PHONE and log[0]['key_ok'] is True and log[0]['text'] == d['body'], log
             test = committed(lambda cur: rpc(cur, 'erp_cp7_send_wa_test_v1', (str(uuid.uuid4()),), s['owner']))
             assert wait_answer(test['dispatch_id'])
             server_tick('send_tick')
@@ -847,7 +847,7 @@ def races(tools, today):
         finally:
             worker_back()
         log = fake_log()[before:]
-        assert any('WA cron bayar listrik' in r['text'] and r['apikey'] == KEY for r in log), log
+        assert any('WA cron bayar listrik' in r['text'] and r['key_ok'] is True for r in log), log
         assert runs.get('succeeded', 0) >= 2 and runs.get('failed', 0) == 0 and left == 0, (runs, left)
         return dict(status='PASS', pg_cron_runs=runs, owner_reminder_delivered=True, schedules_removed=True, test_schedule_override='5 seconds')
 

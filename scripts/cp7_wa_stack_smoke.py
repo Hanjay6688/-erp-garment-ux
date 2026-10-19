@@ -164,7 +164,7 @@ def main():
     d = last_dispatch()
     log = fake_log()
     check('first_message_delivered_to_fake', d[0] == first and d[2] == 'PROVIDER_ACCEPTED' and d[3] == 200 and KEY not in (d[4] or '') and '***' in (d[4] or '')
-          and len(log) == 1 and log[0]['phone'] == PHONE and log[0]['apikey'] == KEY and 'Katun Smoke Hitam' in log[0]['text'],
+          and len(log) == 1 and log[0]['phone'] == PHONE and log[0]['key_ok'] is True and 'Katun Smoke Hitam' in log[0]['text'],
           dispatch=d[:5], fake=log)
 
     test = rpc(OWNER, 'erp_cp7_send_wa_test_v1', str(uuid.uuid4()))

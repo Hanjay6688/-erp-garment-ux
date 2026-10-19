@@ -206,6 +206,11 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     punya uji pasang-pakai-copot sebagai `postgres` di stack bersih; jangan bergantung pada hak di skema milik Supabase
     yang tidak bisa diteruskan `postgres`. (WA-3a, CI 39271239303 dan 39271994388; lihat
     `docs/cp7/wa/CP7C_INSTALL_FINDINGS_20261019.md`)
+25k. **Server palsu dan alat uji juga tidak boleh mencetak kunci, walau kuncinya palsu.** Server CallMeBot palsu WA-3
+    mencetak `apikey` ke log; gerbang CodeQL menolaknya (`py/clear-text-logging-sensitive-data`). Jangan longgarkan
+    gerbang: server palsu menerima kunci uji yang diharapkan lewat variabel lingkungan dan hanya mencetak `key_ok`
+    (benar/salah), sehingga uji tetap membuktikan kunci yang tepat sampai tanpa kunci masuk log. (WA-3, CodeQL run
+    39273065854 di `65789737`)
 
 ## F. Proses audit
 
@@ -255,6 +260,7 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Uji perbandingan mencatat jumlah masukan per fungsi dan gagal bila ada fungsi yang tidak pernah menjawab (E25i).
 - [ ] Modul baru dipasang, dipakai dan dicopot sebagai `postgres` (bukan superuser) di stack bersih; tidak ada grant ke
   skema `auth` (E25j).
+- [ ] Tidak ada kunci, token atau kata sandi (termasuk yang palsu) yang dicetak oleh server uji atau probe (E25k).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
   dipicu (E19–E20, E19a).

@@ -125,7 +125,8 @@ jobs:
       run: |
         set -euo pipefail
         net="$(docker network ls --format '{{.Name}}' | grep -m1 supabase_network)"
-        docker run -d --name fake-callmebot --network "$net" -v "$PWD/scripts/cp7_wa_fake_callmebot.py:/fake.py:ro" \
+        docker run -d --name fake-callmebot --network "$net" -e FAKE_CALLMEBOT_ACCEPTS=FAKEKEY-SMOKE \
+          -v "$PWD/scripts/cp7_wa_fake_callmebot.py:/fake.py:ro" \
           python:3.12-alpine python -u /fake.py
         sleep 3
         docker ps --filter name=fake-callmebot --format '{{.Status}}'
@@ -324,7 +325,7 @@ jobs:
       run: |
         set -euo pipefail
         net="$(docker network ls --format '{{.Name}}' | grep -m1 supabase_network)"
-        docker run -d --name fake-callmebot --network "$net" \
+        docker run -d --name fake-callmebot --network "$net" -e FAKE_CALLMEBOT_ACCEPTS=FAKEKEY-WA3B \
           -v "$GITHUB_WORKSPACE/auditor/scripts/cp7_wa_fake_callmebot.py:/fake.py:ro" python:3.12-alpine python -u /fake.py
         sleep 3
         docker ps --filter name=fake-callmebot --format '{{.Status}}'
