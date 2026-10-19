@@ -1,0 +1,73 @@
+[
+  {
+    "suite": "own-first",
+    "run_id": 39238457513,
+    "job_id": 118013182781,
+    "artifacts": [
+      {
+        "id": 12180317436,
+        "name": "audit-r5-Astra-17fa2507-own",
+        "size_in_bytes": 1914900,
+        "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12180317436",
+        "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12180317436/zip",
+        "expired": false,
+        "created_at": "2026-10-19T10:41:17Z",
+        "expires_at": "2027-01-17T10:34:47Z",
+        "updated_at": "2026-10-19T10:41:17Z",
+        "digest": "sha256:b129cc222eca4b942b5d29e338fd12f4f1a55ab7f2cce386a8acc53d841c465a",
+        "workflow_run": {
+          "id": 39238457513,
+          "repository_id": 1348063690,
+          "head_repository_id": 1348063690,
+          "head_branch": "audit/astra-cp1-7-r5-17fa2507-20261019",
+          "head_sha": "c24c7dc7a1eab89dc5ce9ee5d3907714a6ac410b"
+        }
+      }
+    ]
+  },
+  {
+    "suite": "p19-report",
+    "run_id": 39238034877,
+    "job_id": 118011792477,
+    "artifacts": [
+      {
+        "id": 12181195167,
+        "name": "audit-r5-Astra-17fa2507-p19-p19-report-v2-20",
+        "size_in_bytes": 10663546,
+        "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12181195167",
+        "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12181195167/zip",
+        "expired": false,
+        "created_at": "2026-10-19T10:44:04Z",
+        "expires_at": "2027-01-17T10:31:12Z",
+        "updated_at": "2026-10-19T10:44:04Z",
+        "digest": "sha256:e9aadbb1af81be12996fdae302d90149af2f127d2084b6fda030b6bc3c86887d",
+        "workflow_run": {
+          "id": 39238034877,
+          "repository_id": 1348063690,
+          "head_repository_id": 1348063690,
+          "head_branch": "audit/astra-cp1-7-r5-17fa2507-20261019",
+          "head_sha": "a28b7056771837d494d58026ad93b7d8f8b4a4ba"
+        }
+      },
+      {
+        "id": 12179739819,
+        "name": "audit-r5-Astra-17fa2507-p19-p19-report-v2-20-original-json",
+        "size_in_bytes": 248747,
+        "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12179739819",
+        "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12179739819/zip",
+        "expired": false,
+        "created_at": "2026-10-19T10:44:05Z",
+        "expires_at": "2027-01-17T10:31:12Z",
+        "updated_at": "2026-10-19T10:44:05Z",
+        "digest": "sha256:8da5d21e59101cd6b7d3241efef308127ba1da6deb07291345a02feac361f2c7",
+        "workflow_run": {
+          "id": 39238034877,
+          "repository_id": 1348063690,
+          "head_repository_id": 1348063690,
+          "head_branch": "audit/astra-cp1-7-r5-17fa2507-20261019",
+          "head_sha": "a28b7056771837d494d58026ad93b7d8f8b4a4ba"
+        }
+      }
+    ]
+  }
+]

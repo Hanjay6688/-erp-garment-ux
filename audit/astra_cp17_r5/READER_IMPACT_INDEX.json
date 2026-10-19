@@ -1,0 +1,3609 @@
+{
+  "_v268_financial_report_checks_pre_scope": [
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 86,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','4eb19d881f47dbbf57bc69f4f49ffdbb5c3071b4b126d2398d26dd2e980b2bf7','dc4ed2384dda4b34a30093cad8cb13fa80db26201371569a88dbaee790a24108',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 102,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','dc4ed2384dda4b34a30093cad8cb13fa80db26201371569a88dbaee790a24108','98fac1a865982d5c60fc5e6a5caae9033755ff915b7e53d22213c0d1d1765ca1',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 150,
+      "excerpt": "  'erp._v268_financial_report_checks_pre_scope()'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 168,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp._v268_financial_report_checks_pre_scope()"
+    },
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 1527,
+      "excerpt": "  from erp._v268_financial_report_checks_pre_scope() r"
+    },
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 2384,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','dc4ed2384dda4b34a30093cad8cb13fa80db26201371569a88dbaee790a24108','98fac1a865982d5c60fc5e6a5caae9033755ff915b7e53d22213c0d1d1765ca1',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql",
+      "line": 79,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','8e0e303066c23476223089e2705b8ad0861b34faa2efb12c58663677f454b196','3a8af1f92f85ddbebf697b681e16f42b9c48b2cdb543b6ab2daa2a928a5bc775',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql",
+      "line": 100,
+      "excerpt": "              when 'erp._v268_financial_report_checks_pre_scope()' then 'c77df75873558f96425b8e6b9591903259e5d985a9bd534ab96466799610e507'"
+    },
+    {
+      "path": "supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql",
+      "line": 113,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','3a8af1f92f85ddbebf697b681e16f42b9c48b2cdb543b6ab2daa2a928a5bc775','bdce68bf47700519d663e63302b5d48a720959d1c9995fcb9d8599a9516c2eef',array['postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql",
+      "line": 127,
+      "excerpt": "              when 'erp._v268_financial_report_checks_pre_scope()' then 'c77df75873558f96425b8e6b9591903259e5d985a9bd534ab96466799610e507'"
+    },
+    {
+      "path": "supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql",
+      "line": 140,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','bdce68bf47700519d663e63302b5d48a720959d1c9995fcb9d8599a9516c2eef','c77df75873558f96425b8e6b9591903259e5d985a9bd534ab96466799610e507',array['postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260912084719_erp_v2_6_20q_cp6_supplier_invoice_exact_quantity.sql",
+      "line": 62,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()',"
+    },
+    {
+      "path": "supabase/migrations/20260912084719_erp_v2_6_20q_cp6_supplier_invoice_exact_quantity.sql",
+      "line": 154,
+      "excerpt": "  'erp._v268_financial_report_checks_pre_scope()'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260912084719_erp_v2_6_20q_cp6_supplier_invoice_exact_quantity.sql",
+      "line": 163,
+      "excerpt": "  select pg_get_functiondef('erp._v268_financial_report_checks_pre_scope()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260912084719_erp_v2_6_20q_cp6_supplier_invoice_exact_quantity.sql",
+      "line": 235,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()',"
+    },
+    {
+      "path": "supabase/migrations/20260911070622_erp_v2_6_20l_cp6_exact_ledger_conservation.sql",
+      "line": 67,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','4eb19d881f47dbbf57bc69f4f49ffdbb5c3071b4b126d2398d26dd2e980b2bf7',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260911070622_erp_v2_6_20l_cp6_exact_ledger_conservation.sql",
+      "line": 103,
+      "excerpt": "  'erp._v268_financial_report_checks_pre_scope()'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260911070622_erp_v2_6_20l_cp6_exact_ledger_conservation.sql",
+      "line": 231,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp._v268_financial_report_checks_pre_scope()"
+    },
+    {
+      "path": "supabase/migrations/20260911070622_erp_v2_6_20l_cp6_exact_ledger_conservation.sql",
+      "line": 472,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','4eb19d881f47dbbf57bc69f4f49ffdbb5c3071b4b126d2398d26dd2e980b2bf7','dc4ed2384dda4b34a30093cad8cb13fa80db26201371569a88dbaee790a24108',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260914190500_erp_v2_6_20ab_cp6_operational_business_clock.sql",
+      "line": 82,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','c77df75873558f96425b8e6b9591903259e5d985a9bd534ab96466799610e507','f95aeb7875cd2a7de603ad33c86cff7c7b0849b7d7f401e9280962b4733c7d45',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 3326,
+      "excerpt": "  from erp._v268_financial_report_checks_pre_scope() r"
+    },
+    {
+      "path": "supabase/migrations/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql",
+      "line": 227,
+      "excerpt": "  from erp._v268_financial_report_checks_pre_scope() r"
+    },
+    {
+      "path": "supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql",
+      "line": 69,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','8e0e303066c23476223089e2705b8ad0861b34faa2efb12c58663677f454b196','3a8af1f92f85ddbebf697b681e16f42b9c48b2cdb543b6ab2daa2a928a5bc775',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql",
+      "line": 90,
+      "excerpt": "              when 'erp._v268_financial_report_checks_pre_scope()' then 'bdce68bf47700519d663e63302b5d48a720959d1c9995fcb9d8599a9516c2eef'"
+    },
+    {
+      "path": "supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql",
+      "line": 103,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','3a8af1f92f85ddbebf697b681e16f42b9c48b2cdb543b6ab2daa2a928a5bc775','bdce68bf47700519d663e63302b5d48a720959d1c9995fcb9d8599a9516c2eef',array['postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql",
+      "line": 207,
+      "excerpt": "  'erp._v268_financial_report_checks_pre_scope()'::regprocedure"
+    },
+    {
+      "path": "supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql",
+      "line": 239,
+      "excerpt": "  select pg_get_functiondef('erp._v268_financial_report_checks_pre_scope()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql",
+      "line": 261,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','bdce68bf47700519d663e63302b5d48a720959d1c9995fcb9d8599a9516c2eef','c77df75873558f96425b8e6b9591903259e5d985a9bd534ab96466799610e507',array['postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 81,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','8e0e303066c23476223089e2705b8ad0861b34faa2efb12c58663677f454b196','3a8af1f92f85ddbebf697b681e16f42b9c48b2cdb543b6ab2daa2a928a5bc775',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 102,
+      "excerpt": "              when 'erp._v268_financial_report_checks_pre_scope()' then 'c77df75873558f96425b8e6b9591903259e5d985a9bd534ab96466799610e507'"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 115,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','3a8af1f92f85ddbebf697b681e16f42b9c48b2cdb543b6ab2daa2a928a5bc775','bdce68bf47700519d663e63302b5d48a720959d1c9995fcb9d8599a9516c2eef',array['postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 129,
+      "excerpt": "              when 'erp._v268_financial_report_checks_pre_scope()' then 'c77df75873558f96425b8e6b9591903259e5d985a9bd534ab96466799610e507'"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 142,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','bdce68bf47700519d663e63302b5d48a720959d1c9995fcb9d8599a9516c2eef','c77df75873558f96425b8e6b9591903259e5d985a9bd534ab96466799610e507',array['postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 235,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','c77df75873558f96425b8e6b9591903259e5d985a9bd534ab96466799610e507',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 295,
+      "excerpt": "where p.oid in('erp.post_opening_subledger_settlement(uuid)'::regprocedure,'erp.post_vendor_payment(uuid)'::regprocedure,'erp.post_sales_payment(uuid)'::regprocedure,'erp.run_v267_financial_truth_checks()'::regprocedure,'erp._v268_financial_report_checks_pre_scope()'::regprocedure,'erp.run_v268_fina"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 365,
+      "excerpt": "  select pg_get_functiondef('erp._v268_financial_report_checks_pre_scope()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 369,
+      "excerpt": "    raise exception 'Y_CANONICAL_DATE_ANCHOR: erp._v268_financial_report_checks_pre_scope() operand 0';"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 396,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','c77df75873558f96425b8e6b9591903259e5d985a9bd534ab96466799610e507','f95aeb7875cd2a7de603ad33c86cff7c7b0849b7d7f401e9280962b4733c7d45',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260912051922_erp_v2_6_20p_cp6_supplier_return_match_state.sql",
+      "line": 92,
+      "excerpt": "      'erp._v268_financial_report_checks_pre_scope()'::regprocedure),'UTF8'),'sha256'),'hex')"
+    },
+    {
+      "path": "supabase/migrations/20260912051922_erp_v2_6_20p_cp6_supplier_return_match_state.sql",
+      "line": 95,
+      "excerpt": "  where object_regidentity='erp._v268_financial_report_checks_pre_scope()';"
+    },
+    {
+      "path": "supabase/migrations/20260912051922_erp_v2_6_20p_cp6_supplier_return_match_state.sql",
+      "line": 102,
+      "excerpt": "          where oid='erp._v268_financial_report_checks_pre_scope()'::regprocedure)"
+    },
+    {
+      "path": "supabase/migrations/20260912051922_erp_v2_6_20p_cp6_supplier_return_match_state.sql",
+      "line": 105,
+      "excerpt": "          from pg_proc where oid='erp._v268_financial_report_checks_pre_scope()'::regprocedure)"
+    },
+    {
+      "path": "supabase/migrations/20260912051922_erp_v2_6_20p_cp6_supplier_return_match_state.sql",
+      "line": 149,
+      "excerpt": "  'erp._v268_financial_report_checks_pre_scope()'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260912051922_erp_v2_6_20p_cp6_supplier_return_match_state.sql",
+      "line": 201,
+      "excerpt": "    'erp._v268_financial_report_checks_pre_scope()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260912051922_erp_v2_6_20p_cp6_supplier_return_match_state.sql",
+      "line": 225,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()',"
+    },
+    {
+      "path": "supabase/migrations/20260910100051_erp_v2_6_20i_cp6_h2_audit_closure.sql",
+      "line": 62,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()',"
+    },
+    {
+      "path": "supabase/migrations/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.sql",
+      "line": 61,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()',"
+    },
+    {
+      "path": "supabase/migrations/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.sql",
+      "line": 152,
+      "excerpt": "  'erp._v268_financial_report_checks_pre_scope()'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.sql",
+      "line": 160,
+      "excerpt": "  select pg_get_functiondef('erp._v268_financial_report_checks_pre_scope()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.sql",
+      "line": 232,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()',"
+    },
+    {
+      "path": "supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql",
+      "line": 531,
+      "excerpt": "  from erp._v268_financial_report_checks_pre_scope() r"
+    },
+    {
+      "path": "supabase/migrations/20260913135850_erp_v2_6_20v_cp6_misc_finance_business_date.sql",
+      "line": 68,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','8e0e303066c23476223089e2705b8ad0861b34faa2efb12c58663677f454b196','3a8af1f92f85ddbebf697b681e16f42b9c48b2cdb543b6ab2daa2a928a5bc775',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913135850_erp_v2_6_20v_cp6_misc_finance_business_date.sql",
+      "line": 173,
+      "excerpt": "  'erp._v268_financial_report_checks_pre_scope()'::regprocedure"
+    },
+    {
+      "path": "supabase/migrations/20260913135850_erp_v2_6_20v_cp6_misc_finance_business_date.sql",
+      "line": 205,
+      "excerpt": "  select pg_get_functiondef('erp._v268_financial_report_checks_pre_scope()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260913135850_erp_v2_6_20v_cp6_misc_finance_business_date.sql",
+      "line": 227,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','3a8af1f92f85ddbebf697b681e16f42b9c48b2cdb543b6ab2daa2a928a5bc775','bdce68bf47700519d663e63302b5d48a720959d1c9995fcb9d8599a9516c2eef',array['postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql",
+      "line": 1143,
+      "excerpt": "  from erp._v268_financial_report_checks_pre_scope() r"
+    },
+    {
+      "path": "supabase/migrations/20260910061516_erp_v2_6_20h_cp6_expanded_audit_closure.sql",
+      "line": 54,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','436a77b32c953e92fc8e43f953335392c4137b61bf632780d26b9b942d94e8b0'),"
+    },
+    {
+      "path": "supabase/migrations/20260910061516_erp_v2_6_20h_cp6_expanded_audit_closure.sql",
+      "line": 95,
+      "excerpt": "  'erp._v268_financial_report_checks_pre_scope()'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260910061516_erp_v2_6_20h_cp6_expanded_audit_closure.sql",
+      "line": 250,
+      "excerpt": "  select pg_get_functiondef('erp._v268_financial_report_checks_pre_scope()'::regprocedure)"
+    },
+    {
+      "path": "supabase/migrations/20260914163608_erp_v2_6_20aa_cp6_material_cost_business_day.sql",
+      "line": 81,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','c77df75873558f96425b8e6b9591903259e5d985a9bd534ab96466799610e507','f95aeb7875cd2a7de603ad33c86cff7c7b0849b7d7f401e9280962b4733c7d45',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql",
+      "line": 66,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','2eb47603dcfefe58ea89e8f3cf832aca187f397d66b99bd7a4ab3bb5d6c428ad','8e0e303066c23476223089e2705b8ad0861b34faa2efb12c58663677f454b196',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql",
+      "line": 173,
+      "excerpt": "  'erp._v268_financial_report_checks_pre_scope()'::regprocedure"
+    },
+    {
+      "path": "supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql",
+      "line": 270,
+      "excerpt": "  select pg_get_functiondef('erp._v268_financial_report_checks_pre_scope()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql",
+      "line": 296,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','8e0e303066c23476223089e2705b8ad0861b34faa2efb12c58663677f454b196','3a8af1f92f85ddbebf697b681e16f42b9c48b2cdb543b6ab2daa2a928a5bc775',array['postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql",
+      "line": 61,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()',"
+    },
+    {
+      "path": "supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql",
+      "line": 149,
+      "excerpt": "  'erp._v268_financial_report_checks_pre_scope()'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql",
+      "line": 157,
+      "excerpt": "  select pg_get_functiondef('erp._v268_financial_report_checks_pre_scope()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql",
+      "line": 214,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()',"
+    },
+    {
+      "path": "supabase/migrations/20260914085912_erp_v2_6_20z_cp6_accounting_close_business_date.sql",
+      "line": 80,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','c77df75873558f96425b8e6b9591903259e5d985a9bd534ab96466799610e507','f95aeb7875cd2a7de603ad33c86cff7c7b0849b7d7f401e9280962b4733c7d45',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.sql",
+      "line": 256,
+      "excerpt": "  from erp._v268_financial_report_checks_pre_scope() r"
+    },
+    {
+      "path": "supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql",
+      "line": 454,
+      "excerpt": "  from erp._v268_financial_report_checks_pre_scope() r"
+    },
+    {
+      "path": "supabase/migrations/20260912171034_erp_v2_6_20t_cp6_material_adjustment_revaluation.sql",
+      "line": 66,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','8b3617725cd9061137dc55d6e2b5af75a87453929c93918b9e0acddea34f3cb2','2eb47603dcfefe58ea89e8f3cf832aca187f397d66b99bd7a4ab3bb5d6c428ad',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260912171034_erp_v2_6_20t_cp6_material_adjustment_revaluation.sql",
+      "line": 145,
+      "excerpt": "  'erp._v268_financial_report_checks_pre_scope()'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260912171034_erp_v2_6_20t_cp6_material_adjustment_revaluation.sql",
+      "line": 327,
+      "excerpt": " select pg_get_functiondef('erp._v268_financial_report_checks_pre_scope()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260912171034_erp_v2_6_20t_cp6_material_adjustment_revaluation.sql",
+      "line": 383,
+      "excerpt": "    ('erp._v268_financial_report_checks_pre_scope()','2eb47603dcfefe58ea89e8f3cf832aca187f397d66b99bd7a4ab3bb5d6c428ad','8e0e303066c23476223089e2705b8ad0861b34faa2efb12c58663677f454b196',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle.sql",
+      "line": 16,
+      "excerpt": "('erp._v268_financial_report_checks_pre_scope()','dc4ed2384dda4b34a30093cad8cb13fa80db26201371569a88dbaee790a24108','98fac1a865982d5c60fc5e6a5caae9033755ff915b7e53d22213c0d1d1765ca1',array['postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
+      "line": 5049,
+      "excerpt": "  from erp._v268_financial_report_checks_pre_scope() r"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 2078,
+      "excerpt": "  from erp._v268_financial_report_checks_pre_scope() r"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql",
+      "line": 6971,
+      "excerpt": "  from erp._v268_financial_report_checks_pre_scope() r"
+    },
+    {
+      "path": "scripts/cp6_v2620y_install_qualification.py",
+      "line": 77,
+      "excerpt": "    expected_error = 'Y_CANONICAL_DATE_ANCHOR: erp._v268_financial_report_checks_pre_scope() operand 0'"
+    },
+    {
+      "path": "scripts/cp6_v2620y_install_qualification.py",
+      "line": 89,
+      "excerpt": "                'erp._v268_financial_report_checks_pre_scope()', 'erp.run_v268_financial_report_checks()'"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 327,
+      "excerpt": "        {'identity': 'erp._v268_financial_report_checks_pre_scope()', 'predecessor_sha256': '436a77b32c953e92fc8e43f953335392c4137b61bf632780d26b9b942d94e8b0', 'installed_sha256': '4eb19d881f47dbbf57bc69f4f49ffdbb5c3071b4b126d2398d26dd2e980b2bf7', 'owner': 'postgres', 'acl': _acl('postgres', 'servic"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 350,
+      "excerpt": "        {'identity': 'erp._v268_financial_report_checks_pre_scope()', 'predecessor_sha256': '4eb19d881f47dbbf57bc69f4f49ffdbb5c3071b4b126d2398d26dd2e980b2bf7', 'installed_sha256': 'dc4ed2384dda4b34a30093cad8cb13fa80db26201371569a88dbaee790a24108', 'owner': 'postgres', 'acl': ['postgres=X/postgres', "
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 354,
+      "excerpt": "        {'identity': 'erp._v268_financial_report_checks_pre_scope()', 'predecessor_sha256': 'dc4ed2384dda4b34a30093cad8cb13fa80db26201371569a88dbaee790a24108', 'installed_sha256': '98fac1a865982d5c60fc5e6a5caae9033755ff915b7e53d22213c0d1d1765ca1', 'owner': 'postgres', 'acl': ['postgres=X/postgres', "
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 420,
+      "excerpt": "        {'identity': 'erp._v268_financial_report_checks_pre_scope()', 'predecessor_sha256': '98fac1a865982d5c60fc5e6a5caae9033755ff915b7e53d22213c0d1d1765ca1', 'installed_sha256': '17a07e10665756088f2faa0570c055efae4513abf1c5985afacf86bf8467e056', 'owner': 'postgres', 'acl': ['postgres=X/postgres', "
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 426,
+      "excerpt": "        {'identity': 'erp._v268_financial_report_checks_pre_scope()', 'predecessor_sha256': '17a07e10665756088f2faa0570c055efae4513abf1c5985afacf86bf8467e056', 'installed_sha256': 'edefb0fa134200d5d541bfdb6ab1b4b81e28b8cd912eff0a7c1ef59106744917', 'owner': 'postgres', 'acl': ['postgres=X/postgres', "
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 433,
+      "excerpt": "        {'identity': 'erp._v268_financial_report_checks_pre_scope()', 'predecessor_sha256': 'edefb0fa134200d5d541bfdb6ab1b4b81e28b8cd912eff0a7c1ef59106744917', 'installed_sha256': '8b3617725cd9061137dc55d6e2b5af75a87453929c93918b9e0acddea34f3cb2', 'owner': 'postgres', 'acl': ['postgres=X/postgres', "
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 439,
+      "excerpt": "        {'identity': 'erp._v268_financial_report_checks_pre_scope()', 'predecessor_sha256': '8b3617725cd9061137dc55d6e2b5af75a87453929c93918b9e0acddea34f3cb2', 'installed_sha256': '2eb47603dcfefe58ea89e8f3cf832aca187f397d66b99bd7a4ab3bb5d6c428ad', 'owner': 'postgres', 'acl': ['postgres=X/postgres', "
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 444,
+      "excerpt": "  'identity': 'erp._v268_financial_report_checks_pre_scope()',"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 475,
+      "excerpt": "        {'identity': 'erp._v268_financial_report_checks_pre_scope()', 'predecessor_sha256': '8e0e303066c23476223089e2705b8ad0861b34faa2efb12c58663677f454b196', 'installed_sha256': '3a8af1f92f85ddbebf697b681e16f42b9c48b2cdb543b6ab2daa2a928a5bc775', 'owner': 'postgres', 'acl': ['postgres=X/postgres', "
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 494,
+      "excerpt": "  'identity': 'erp._v268_financial_report_checks_pre_scope()',"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 527,
+      "excerpt": "    \"identity\": \"erp._v268_financial_report_checks_pre_scope()\","
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 545,
+      "excerpt": "    'Y': [{'identity': 'erp.post_opening_subledger_settlement(uuid)', 'predecessor_sha256': 'c56b387a8593b19cd3b92e6dc20ac95459d2aedeb2b616b6fb1e4d812e729393', 'installed_sha256': 'b709ed64c78b09c113e6e0541eb757b5367dfbf7dd51752a26827207fc12e97e', 'owner': 'postgres', 'acl': ['authenticated=X/postgr"
+    },
+    {
+      "path": "scripts/cp6_v2620m_runtime.py",
+      "line": 38,
+      "excerpt": "    scope_identity = 'erp._v268_financial_report_checks_pre_scope()'"
+    },
+    {
+      "path": "scripts/cp6_v2620l_rollback_guards.py",
+      "line": 181,
+      "excerpt": "                'alter function erp._v268_financial_report_checks_pre_scope() cost 999',"
+    },
+    {
+      "path": "scripts/cp6_v2620l_rollback_guards.py",
+      "line": 187,
+      "excerpt": "                'grant execute on function erp._v268_financial_report_checks_pre_scope() to anon',"
+    },
+    {
+      "path": "scripts/cp6_v2620u_canonical_business_date_regression.py",
+      "line": 89,
+      "excerpt": "        'erp._v268_financial_report_checks_pre_scope()': ["
+    },
+    {
+      "path": "scripts/cp6_v2620m_rollback_guards.py",
+      "line": 181,
+      "excerpt": "                'alter function erp._v268_financial_report_checks_pre_scope() cost 999',"
+    },
+    {
+      "path": "scripts/cp6_v2620m_rollback_guards.py",
+      "line": 187,
+      "excerpt": "                'grant execute on function erp._v268_financial_report_checks_pre_scope() to anon',"
+    },
+    {
+      "path": "scripts/cp7_report_accounts_bundle.py",
+      "line": 31,
+      "excerpt": "    'erp._v268_financial_report_checks_pre_scope()': 2,"
+    }
+  ],
+  "bb_opening_credit_account_v1": [
+    {
+      "path": "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
+      "line": 482,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.bb_opening_credit_account_v1(p_settlement_id uuid)"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
+      "line": 3974,
+      "excerpt": "  where x.amount<=0 or x.amount::text in('NaN','Infinity','-Infinity') or (ca.id is null and erp.initial_prepayment_account_v1(x.id) is null and erp.bb_opening_credit_account_v1(x.id) is null)"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
+      "line": 3986,
+      "excerpt": "          or not((l.account_id=coalesce(erp.initial_prepayment_account_v1(x.id),erp.bb_opening_credit_account_v1(x.id),ca.coa_account_id) and"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
+      "line": 4000,
+      "excerpt": "            or not((l.account_id=coalesce(erp.initial_prepayment_account_v1(x.id),erp.bb_opening_credit_account_v1(x.id),ca.coa_account_id) and"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "line": 151,
+      "excerpt": "from unnest(array['erp.post_material_adjustment(uuid)','erp._cp6_material_adjustment_revaluation_state(uuid)','erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)','erp.sync_material_cost_revaluation(uuid)','erp.populate_payroll_draft(uuid)','erp.validate_material_kasbon_deduc"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "line": 3473,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.bb_opening_credit_account_v1(p_settlement_id uuid)"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "line": 4374,
+      "excerpt": " if exists(select 1 from erp.cp6_v2620bc_rollback_capsule where object_regidentity<>all(array['erp.post_material_adjustment(uuid)','erp._cp6_material_adjustment_revaluation_state(uuid)','erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)','erp.sync_material_cost_revaluation(u"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 5924,
+      "excerpt": "  where x.amount<=0 or x.amount::text in('NaN','Infinity','-Infinity') or (ca.id is null and erp.initial_prepayment_account_v1(x.id) is null and erp.bb_opening_credit_account_v1(x.id) is null)"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 5936,
+      "excerpt": "          or not((l.account_id=coalesce(erp.initial_prepayment_account_v1(x.id),erp.bb_opening_credit_account_v1(x.id),ca.coa_account_id) and"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 5950,
+      "excerpt": "            or not((l.account_id=coalesce(erp.initial_prepayment_account_v1(x.id),erp.bb_opening_credit_account_v1(x.id),ca.coa_account_id) and"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql",
+      "line": 151,
+      "excerpt": "from unnest(array['erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.post_laundry_delivery(uuid)','erp.desired_laundry_accrual(uuid)','erp.rebuild_po_hpp(uuid,text)','erp.period_blockers_v1(date,date)','erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)','erp.validate_laundry_receip"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql",
+      "line": 6952,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.bb_opening_credit_account_v1(p_settlement_id uuid)"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql",
+      "line": 8129,
+      "excerpt": " if exists(select 1 from erp.cp6_v2620bd_rollback_capsule where object_regidentity<>all(array['erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.post_laundry_delivery(uuid)','erp.desired_laundry_accrual(uuid)','erp.rebuild_po_hpp(uuid,text)','erp.period_blockers_v1(date,date)','erp.set_lau"
+    },
+    {
+      "path": "scripts/cp6_bc_build.py",
+      "line": 25,
+      "excerpt": "  N6 erp.bb_opening_credit_lines_v1 and erp.bb_opening_credit_account_v1 (BB): an opening note return credit"
+    },
+    {
+      "path": "scripts/cp6_bc_build.py",
+      "line": 241,
+      "excerpt": "          'erp.get_accessory_issue_workspace_v1(jsonb)','erp.bb_opening_credit_lines_v1(uuid)','erp.bb_opening_credit_account_v1(uuid)',"
+    },
+    {
+      "path": "scripts/cp6_bc_build.py",
+      "line": 289,
+      "excerpt": "    credit_account=substitute(last_definition(BB,'bb_opening_credit_account_v1'),CREDIT_ACCOUNT_SUBS,'credit account')"
+    },
+    {
+      "path": "scripts/cp6_bb_build.py",
+      "line": 416,
+      "excerpt": "CHECKS_SOURCE_NEW=\"(ca.id is null and erp.initial_prepayment_account_v1(x.id) is null and erp.bb_opening_credit_account_v1(x.id) is null)\""
+    },
+    {
+      "path": "scripts/cp6_bb_build.py",
+      "line": 424,
+      "excerpt": "CHECKS_ACCOUNT_NEW=\"coalesce(erp.initial_prepayment_account_v1(x.id),erp.bb_opening_credit_account_v1(x.id),ca.coa_account_id)\""
+    },
+    {
+      "path": "scripts/cp6_bd_build.py",
+      "line": 394,
+      "excerpt": "          'erp.bb_opening_credit_lines_v1(uuid)','erp.bb_opening_credit_account_v1(uuid)','erp.run_v268_financial_report_checks()']"
+    },
+    {
+      "path": "scripts/cp6_bd_build.py",
+      "line": 432,
+      "excerpt": "    d12_account=substitute(last_definition(BC,'bb_opening_credit_account_v1'),D12_ACCOUNT_SUBS,'d12 credit account')"
+    },
+    {
+      "path": "scripts/cp7_report_accounts_bundle.py",
+      "line": 32,
+      "excerpt": "    'erp.bb_opening_credit_account_v1(uuid)': 6,"
+    },
+    {
+      "path": "scripts/cp7_r5_cases.py",
+      "line": 213,
+      "excerpt": "            'erp.bb_opening_credit_account_v1(uuid)':ids('select settlement_id from erp.bb_opening_credits_v1'"
+    },
+    {
+      "path": "scripts/cp7_r5_cases.py",
+      "line": 266,
+      "excerpt": "        valueless=[s for s in ('erp.bb_opening_credit_account_v1(uuid)','erp.pocket_period_book_v1(uuid)',"
+    }
+  ],
+  "compute_non_po_product_hpp_book_v2620f": [
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 1835,
+      "excerpt": "  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(p.product_id) b"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 3637,
+      "excerpt": "  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(p.product_id) b"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 5949,
+      "excerpt": "  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(l.product_id) b;"
+    },
+    {
+      "path": "supabase/migrations/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql",
+      "line": 535,
+      "excerpt": "  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(p.product_id) b"
+    },
+    {
+      "path": "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+      "line": 5215,
+      "excerpt": "    cross join lateral erp.compute_non_po_product_hpp_book_v2620f(r.product_id) b;"
+    },
+    {
+      "path": "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+      "line": 5563,
+      "excerpt": "    cross join lateral erp.compute_non_po_product_hpp_book_v2620f(r.product_id) b;"
+    },
+    {
+      "path": "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+      "line": 11086,
+      "excerpt": "  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(l.product_id) b;"
+    },
+    {
+      "path": "supabase/migrations/20260910031103_erp_v2_6_20g_cp6_independent_audit_closure.sql",
+      "line": 260,
+      "excerpt": "  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(l.product_id) b;"
+    },
+    {
+      "path": "supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql",
+      "line": 409,
+      "excerpt": "    cross join lateral erp.compute_non_po_product_hpp_book_v2620f(r.product_id) b;"
+    },
+    {
+      "path": "supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql",
+      "line": 839,
+      "excerpt": "  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(p.product_id) b"
+    },
+    {
+      "path": "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql",
+      "line": 55,
+      "excerpt": "     or to_regprocedure('erp.compute_non_po_product_hpp_book_v2620f(uuid)') is not null"
+    },
+    {
+      "path": "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql",
+      "line": 613,
+      "excerpt": "create function erp.compute_non_po_product_hpp_book_v2620f(p_product_id uuid)"
+    },
+    {
+      "path": "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql",
+      "line": 644,
+      "excerpt": "alter function erp.compute_non_po_product_hpp_book_v2620f(uuid)"
+    },
+    {
+      "path": "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql",
+      "line": 646,
+      "excerpt": "revoke all on function erp.compute_non_po_product_hpp_book_v2620f(uuid)"
+    },
+    {
+      "path": "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql",
+      "line": 677,
+      "excerpt": "  from erp.compute_non_po_product_hpp_book_v2620f(p_product_id);"
+    },
+    {
+      "path": "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql",
+      "line": 736,
+      "excerpt": "  from erp.compute_non_po_product_hpp_book_v2620f(p_product_id);"
+    },
+    {
+      "path": "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql",
+      "line": 876,
+      "excerpt": "    cross join lateral erp.compute_non_po_product_hpp_book_v2620f(r.product_id) b;"
+    },
+    {
+      "path": "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql",
+      "line": 1015,
+      "excerpt": "    cross join lateral erp.compute_non_po_product_hpp_book_v2620f(r.product_id) b;"
+    },
+    {
+      "path": "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql",
+      "line": 1298,
+      "excerpt": "  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(p.product_id) b"
+    },
+    {
+      "path": "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql",
+      "line": 1464,
+      "excerpt": "         ('erp.compute_non_po_product_hpp_book_v2620f(uuid)'),"
+    },
+    {
+      "path": "supabase/migrations/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.sql",
+      "line": 564,
+      "excerpt": "  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(p.product_id) b"
+    },
+    {
+      "path": "supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql",
+      "line": 336,
+      "excerpt": "    cross join lateral erp.compute_non_po_product_hpp_book_v2620f(r.product_id) b;"
+    },
+    {
+      "path": "supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql",
+      "line": 762,
+      "excerpt": "  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(p.product_id) b"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
+      "line": 5361,
+      "excerpt": "  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(p.product_id) b"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 151,
+      "excerpt": "from unnest(array['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_po(uuid)','erp.compute_po_hpp_gl_targets_v2620d(uuid)','erp.bc_value_custody_v1(jsonb,uuid)','erp.bc_reverse_v1(jsonb,uuid)','erp.sync_material_cost_revaluation(uuid)','erp.run_v268_financial_report_checks()','er"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 2394,
+      "excerpt": "  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(p.product_id) b"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 3286,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.compute_non_po_product_hpp_book_v2620f(p_product_id uuid)"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 3345,
+      "excerpt": "  from erp.compute_non_po_product_hpp_book_v2620f(p_product_id);"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 3403,
+      "excerpt": "  from erp.compute_non_po_product_hpp_book_v2620f(p_product_id);"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 4105,
+      "excerpt": "  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(l.product_id) b;"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 7292,
+      "excerpt": " if exists(select 1 from erp.cp6_v2620be_rollback_capsule where object_regidentity<>all(array['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_po(uuid)','erp.compute_po_hpp_gl_targets_v2620d(uuid)','erp.bc_value_custody_v1(jsonb,uuid)','erp.bc_reverse_v1(jsonb,uuid)','erp.sync_m"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260924010300_erp_v2_6_20az_cp6_material_recost_dated_from_movement.sql",
+      "line": 593,
+      "excerpt": "  from erp.compute_non_po_product_hpp_book_v2620f(p_product_id);"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql",
+      "line": 5712,
+      "excerpt": "    cross join lateral erp.compute_non_po_product_hpp_book_v2620f(r.product_id) b;"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql",
+      "line": 7286,
+      "excerpt": "  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(p.product_id) b"
+    },
+    {
+      "path": "scripts/cp6_be_build.py",
+      "line": 26,
+      "excerpt": "          'erp.compute_non_po_product_hpp_book_v2620f(uuid)','erp.assert_non_po_product_hpp_target_book_v2620f(uuid)',"
+    },
+    {
+      "path": "scripts/cp6_be_build.py",
+      "line": 105,
+      "excerpt": "    nonpo_book=substitute(old_definition(F,'compute_non_po_product_hpp_book_v2620f'),["
+    },
+    {
+      "path": "scripts/cp6_v2620f_final_runtime_regression.py",
+      "line": 80,
+      "excerpt": "        'select * from erp.compute_non_po_product_hpp_book_v2620f(%s)',"
+    },
+    {
+      "path": "scripts/cp6_be_revision_probe.py",
+      "line": 79,
+      "excerpt": "      book=q(cur,'select * from erp.compute_non_po_product_hpp_book_v2620f(%s)',product)[0]"
+    },
+    {
+      "path": "scripts/cp6_be_probe.py",
+      "line": 146,
+      "excerpt": "    target_book=q(cur,'select * from erp.compute_non_po_product_hpp_book_v2620f(%s)',target)[0]"
+    },
+    {
+      "path": "scripts/cp6_be_probe.py",
+      "line": 148,
+      "excerpt": "    source_book=q(cur,'select * from erp.compute_non_po_product_hpp_book_v2620f(%s)',product)[0]"
+    },
+    {
+      "path": "scripts/cp7_report_accounts_bundle.py",
+      "line": 33,
+      "excerpt": "    'erp.compute_non_po_product_hpp_book_v2620f(uuid)': 4,"
+    },
+    {
+      "path": "scripts/cp7_r5_cases.py",
+      "line": 215,
+      "excerpt": "            'erp.compute_non_po_product_hpp_book_v2620f(uuid)':ids('select id from erp.products order by id limit 300'),"
+    }
+  ],
+  "compute_po_hpp_gl_book_v2620e": [
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 1570,
+      "excerpt": "  cross join lateral erp.compute_po_hpp_gl_book_v2620e(s.po_id) b"
+    },
+    {
+      "path": "supabase/migrations/20260922161019_erp_v2_6_20aq_cp6_accessory_lock_order.sql",
+      "line": 162,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "line": 56,
+      "excerpt": "     or to_regprocedure('erp.compute_po_hpp_gl_book_v2620e(uuid)') is not null"
+    },
+    {
+      "path": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "line": 698,
+      "excerpt": "create function erp.compute_po_hpp_gl_book_v2620e(p_po_id uuid)"
+    },
+    {
+      "path": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "line": 771,
+      "excerpt": "alter function erp.compute_po_hpp_gl_book_v2620e(uuid) owner to postgres;"
+    },
+    {
+      "path": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "line": 772,
+      "excerpt": "revoke all on function erp.compute_po_hpp_gl_book_v2620e(uuid)"
+    },
+    {
+      "path": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "line": 789,
+      "excerpt": "  select * into b from erp.compute_po_hpp_gl_book_v2620e(p_po_id);"
+    },
+    {
+      "path": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "line": 841,
+      "excerpt": "  select * into b from erp.compute_po_hpp_gl_book_v2620e(p_po_id);"
+    },
+    {
+      "path": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "line": 1286,
+      "excerpt": "  v_replacement:='erp.compute_po_hpp_gl_book_v2620e(s.po_id)';"
+    },
+    {
+      "path": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "line": 1645,
+      "excerpt": "     or position('compute_po_hpp_gl_book_v2620e' in pg_get_functiondef("
+    },
+    {
+      "path": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "line": 1662,
+      "excerpt": "         ('erp.compute_po_hpp_gl_book_v2620e(uuid)'),"
+    },
+    {
+      "path": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "line": 1704,
+      "excerpt": "comment on function erp.compute_po_hpp_gl_book_v2620e(uuid) is"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 113,
+      "excerpt": "from pg_proc p join pg_namespace n on n.oid=p.pronamespace where p.oid in('erp._validate_migration_batch_base(uuid)'::regprocedure,'erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)'::regprocedure,'erp.apply_migration_master_rows(uuid)'::regprocedure,'erp.prepare_migration_opening_balance("
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 3369,
+      "excerpt": "  cross join lateral erp.compute_po_hpp_gl_book_v2620e(s.po_id) b"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 6175,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.compute_po_hpp_gl_book_v2620e(p_po_id uuid)"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 6752,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql",
+      "line": 270,
+      "excerpt": "  cross join lateral erp.compute_po_hpp_gl_book_v2620e(s.po_id) b"
+    },
+    {
+      "path": "supabase/migrations/20260923045944_erp_v2_6_20au_cp6_controlled_product_lifecycle.sql",
+      "line": 162,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260922210815_erp_v2_6_20as_cp6_event_dates_product_identity.sql",
+      "line": 162,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260922185015_erp_v2_6_20ar_cp6_opening_overlap.sql",
+      "line": 162,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql",
+      "line": 574,
+      "excerpt": "  cross join lateral erp.compute_po_hpp_gl_book_v2620e(s.po_id) b"
+    },
+    {
+      "path": "supabase/migrations/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql",
+      "line": 164,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260923005153_erp_v2_6_20at_cp6_wip_temporal_identity.sql",
+      "line": 162,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.sql",
+      "line": 299,
+      "excerpt": "  cross join lateral erp.compute_po_hpp_gl_book_v2620e(s.po_id) b"
+    },
+    {
+      "path": "supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql",
+      "line": 497,
+      "excerpt": "  cross join lateral erp.compute_po_hpp_gl_book_v2620e(s.po_id) b"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
+      "line": 5092,
+      "excerpt": "  cross join lateral erp.compute_po_hpp_gl_book_v2620e(s.po_id) b"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 2121,
+      "excerpt": "  cross join lateral erp.compute_po_hpp_gl_book_v2620e(s.po_id) b"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql",
+      "line": 7014,
+      "excerpt": "  cross join lateral erp.compute_po_hpp_gl_book_v2620e(s.po_id) b"
+    },
+    {
+      "path": "scripts/cp6_v2620e_counterexample_regression.py",
+      "line": 758,
+      "excerpt": "        'select * from erp.compute_po_hpp_gl_book_v2620e(%s)',"
+    },
+    {
+      "path": "scripts/cp6_initial_import_production.py",
+      "line": 230,
+      "excerpt": "    i='erp.compute_po_hpp_gl_book_v2620e(uuid)'"
+    },
+    {
+      "path": "scripts/cp7_report_accounts_bundle.py",
+      "line": 34,
+      "excerpt": "    'erp.compute_po_hpp_gl_book_v2620e(uuid)': 8,"
+    },
+    {
+      "path": "scripts/cp7_r5_cases.py",
+      "line": 216,
+      "excerpt": "            'erp.compute_po_hpp_gl_book_v2620e(uuid)':ids('select id from erp.production_orders order by id limit 300'),"
+    }
+  ],
+  "get_owner_financial_snapshot_v2": [
+    {
+      "path": "supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql",
+      "line": 80,
+      "excerpt": "    ('erp.get_owner_financial_snapshot_v2(date,date,date)','e51dbe224d112f523e51bddc609ee0f0036ecae2ef5d328b865326781aa8780c','0afb94d932b1c7488c1a787de7f734133c1674e0a43100d366c6f3f129ffb9bb',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql",
+      "line": 70,
+      "excerpt": "    ('erp.get_owner_financial_snapshot_v2(date,date,date)','e51dbe224d112f523e51bddc609ee0f0036ecae2ef5d328b865326781aa8780c','0afb94d932b1c7488c1a787de7f734133c1674e0a43100d366c6f3f129ffb9bb',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+      "line": 52,
+      "excerpt": "  ('erp.get_owner_financial_snapshot_v2(date,date,date)','0afb94d932b1c7488c1a787de7f734133c1674e0a43100d366c6f3f129ffb9bb','053c092f1818eb6018ec0af8d21fe39a824faa6d5a812d619ad01f4217e7ccca','postgres',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+      "line": 2699,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.get_owner_financial_snapshot_v2(p_from date, p_to date, p_as_of date DEFAULT ((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date)"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 82,
+      "excerpt": "    ('erp.get_owner_financial_snapshot_v2(date,date,date)','e51dbe224d112f523e51bddc609ee0f0036ecae2ef5d328b865326781aa8780c','0afb94d932b1c7488c1a787de7f734133c1674e0a43100d366c6f3f129ffb9bb',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 91,
+      "excerpt": "    ('erp.get_owner_financial_snapshot_v2(date,date,date)','cdf3bc3f60fa34346e0c441bb0982373e08714aaf15f44f1b163e15ac2a27845')"
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 145,
+      "excerpt": "  'erp.get_owner_financial_snapshot_v2(date,date,date)'::regprocedure"
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 1490,
+      "excerpt": "create or replace function erp.get_owner_financial_snapshot_v2("
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 1690,
+      "excerpt": "alter function erp.get_owner_financial_snapshot_v2(date,date,date) owner to postgres;"
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 1755,
+      "excerpt": "       'erp.get_owner_financial_snapshot_v2(date,date,date)'::regprocedure))=0"
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 1803,
+      "excerpt": "comment on function erp.get_owner_financial_snapshot_v2(date,date,date) is"
+    },
+    {
+      "path": "supabase/migrations/20260913135850_erp_v2_6_20v_cp6_misc_finance_business_date.sql",
+      "line": 69,
+      "excerpt": "    ('erp.get_owner_financial_snapshot_v2(date,date,date)','e51dbe224d112f523e51bddc609ee0f0036ecae2ef5d328b865326781aa8780c','0afb94d932b1c7488c1a787de7f734133c1674e0a43100d366c6f3f129ffb9bb',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql",
+      "line": 86,
+      "excerpt": "    ('erp.get_owner_financial_snapshot_v2(date,date,date)','90310a979ce13205ddaa93cdf59d9adc09498cb07ab1ea0c097642e894602153'),"
+    },
+    {
+      "path": "supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql",
+      "line": 145,
+      "excerpt": "  'erp.get_owner_financial_snapshot_v2(date,date,date)'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql",
+      "line": 1384,
+      "excerpt": "  select pg_get_functiondef('erp.get_owner_financial_snapshot_v2(date,date,date)'::regprocedure)"
+    },
+    {
+      "path": "supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql",
+      "line": 1519,
+      "excerpt": "       'erp.get_owner_financial_snapshot_v2(date,date,date)'::regprocedure))=0"
+    },
+    {
+      "path": "supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql",
+      "line": 99,
+      "excerpt": "    ('erp.get_owner_financial_snapshot_v2(date,date,date)','e51dbe224d112f523e51bddc609ee0f0036ecae2ef5d328b865326781aa8780c',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql",
+      "line": 171,
+      "excerpt": "  'erp.get_owner_financial_snapshot_v2(date,date,date)'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql",
+      "line": 211,
+      "excerpt": "  select pg_get_functiondef('erp.get_owner_financial_snapshot_v2(date,date,date)'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql",
+      "line": 294,
+      "excerpt": "    ('erp.get_owner_financial_snapshot_v2(date,date,date)','e51dbe224d112f523e51bddc609ee0f0036ecae2ef5d328b865326781aa8780c','0afb94d932b1c7488c1a787de7f734133c1674e0a43100d366c6f3f129ffb9bb',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925010000_erp_v2_6_20ba_cp6_audit_closure.sql",
+      "line": 151,
+      "excerpt": "from unnest(array['erp.post_opening_balance(uuid)','erp.complete_initial_import_wip_v1(jsonb)','erp.manage_initial_prepayment_v1(jsonb)','erp.sync_material_cost_revaluation(uuid)','erp.close_accounting_through(date,text)','erp.assert_new_stock_cutoff_coverage_v1()','erp.get_bs_resolution_workspace_v"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925010000_erp_v2_6_20ba_cp6_audit_closure.sql",
+      "line": 1054,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.get_owner_financial_snapshot_v2(p_from date, p_to date, p_as_of date DEFAULT ((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date)"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925010000_erp_v2_6_20ba_cp6_audit_closure.sql",
+      "line": 3109,
+      "excerpt": " if exists(select 1 from erp.cp6_v2620ba_rollback_capsule where object_regidentity<>all(array['erp.post_opening_balance(uuid)','erp.complete_initial_import_wip_v1(jsonb)','erp.manage_initial_prepayment_v1(jsonb)','erp.sync_material_cost_revaluation(uuid)','erp.close_accounting_through(date,text)','e"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.sql",
+      "line": 151,
+      "excerpt": "from unnest(array['erp.close_accounting_through(date,text)','erp.get_owner_financial_snapshot_v2(date,date,date)']) i(identity)"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.sql",
+      "line": 175,
+      "excerpt": " if md5(pg_get_functiondef('erp.get_owner_financial_snapshot_v2(date,date,date)'::regprocedure))<>'fb82961d59f37d61e50ba70c588bd252' then raise exception 'AW_T1_PREDECESSOR_DRIFT: erp.get_owner_financial_snapshot_v2(date,date,date)'; end if;"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.sql",
+      "line": 825,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.get_owner_financial_snapshot_v2(p_from date, p_to date, p_as_of date DEFAULT ((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date)"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.sql",
+      "line": 1203,
+      "excerpt": " if exists(select 1 from erp.cp6_v2620aw_rollback_capsule where object_regidentity<>all(array['erp.close_accounting_through(date,text)','erp.get_owner_financial_snapshot_v2(date,date,date)']::text[])"
+    },
+    {
+      "path": "scripts/cp7-src/finance/analysis.sql",
+      "line": 21,
+      "excerpt": " current_report:=erp.get_owner_financial_snapshot_v2(f,t,a);"
+    },
+    {
+      "path": "scripts/cp7-src/finance/analysis.sql",
+      "line": 22,
+      "excerpt": " baseline_report:=erp.get_owner_financial_snapshot_v2(bf,bt,bt);"
+    },
+    {
+      "path": "scripts/cp7-src/finance/read.sql",
+      "line": 7,
+      "excerpt": "grant execute on function auth.uid(),auth.jwt(),erp.get_my_access_v1(),erp.has_permission(text),erp.get_owner_financial_snapshot_v2(date,date,date),erp.accounting_close_preflight_v1(date) to cp7_finance_read;"
+    },
+    {
+      "path": "scripts/cp7-src/finance/read.sql",
+      "line": 46,
+      "excerpt": " snapshot:=erp.get_owner_financial_snapshot_v2(from_day,to_day,as_of);"
+    },
+    {
+      "path": "scripts/cp7-src/planning/analysis.sql",
+      "line": 12,
+      "excerpt": "   or p.oid='erp.get_owner_financial_snapshot_v2(date,date,date)'::regprocedure)"
+    },
+    {
+      "path": "scripts/cp6_v2620h_adversarial_regression.py",
+      "line": 176,
+      "excerpt": "        \"select erp.get_owner_financial_snapshot_v2('2026-09-01',current_date,current_date)\","
+    },
+    {
+      "path": "scripts/cp6_aw_probe.py",
+      "line": 85,
+      "excerpt": "    snap=cur.execute('select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',(day,day,day)).fetchone()[0]"
+    },
+    {
+      "path": "scripts/cp6_aw_probe.py",
+      "line": 485,
+      "excerpt": "    snap=cur.execute('select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',(day,day,day)).fetchone()[0]"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 476,
+      "excerpt": "        {'identity': 'erp.get_owner_financial_snapshot_v2(date,date,date)', 'predecessor_sha256': 'e51dbe224d112f523e51bddc609ee0f0036ecae2ef5d328b865326781aa8780c', 'installed_sha256': '0afb94d932b1c7488c1a787de7f734133c1674e0a43100d366c6f3f129ffb9bb', 'owner': 'postgres', 'acl': ['authenticated=X/"
+    },
+    {
+      "path": "scripts/cp6_v2620e_counterexample_regression.py",
+      "line": 616,
+      "excerpt": "        \"select erp.get_owner_financial_snapshot_v2('2026-09-01','2026-09-09','2026-09-09')\","
+    },
+    {
+      "path": "scripts/cp6_v2620e_counterexample_regression.py",
+      "line": 700,
+      "excerpt": "        \"select erp.get_owner_financial_snapshot_v2('2026-09-01','2026-09-09','2026-09-09')\","
+    },
+    {
+      "path": "scripts/cp6_aw_definitions.py",
+      "line": 9,
+      "excerpt": "- get_owner_financial_snapshot_v2 takes data_confidence from the same engine for p_as_of (the old global queue"
+    },
+    {
+      "path": "scripts/cp6_aw_definitions.py",
+      "line": 34,
+      "excerpt": "SNAPSHOT='erp.get_owner_financial_snapshot_v2(date,date,date)'"
+    },
+    {
+      "path": "scripts/cp6_aw_definitions.py",
+      "line": 52,
+      "excerpt": "     SNAPSHOT:av.canonical_from_migration(AC,'get_owner_financial_snapshot_v2')}"
+    },
+    {
+      "path": "scripts/cp6_t3_awx_guard_selftest.py",
+      "line": 30,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.get_owner_financial_snapshot_v2(p_from date,p_to date,p_as_of date default current_date) returns jsonb language sql as $$select '{\"a\":1}'::jsonb$$;"
+    },
+    {
+      "path": "scripts/cp6_t3_awx_guard_selftest.py",
+      "line": 62,
+      "excerpt": "        x(\"create function erp.get_owner_financial_snapshot_v2(p_from date,p_to date,p_as_of date default current_date) returns jsonb language sql as $$select '{}'::jsonb$$\")"
+    },
+    {
+      "path": "scripts/cp6_v2620ae_family.py",
+      "line": 86,
+      "excerpt": "        cur, \"select erp.get_owner_financial_snapshot_v2(%s,%s,%s)\","
+    },
+    {
+      "path": "scripts/cp6_v2620ac_operational_clock_regression.py",
+      "line": 240,
+      "excerpt": "            'select erp.get_owner_financial_snapshot_v2(%s,%s)',"
+    },
+    {
+      "path": "scripts/cp6_v2620ac_operational_clock_regression.py",
+      "line": 664,
+      "excerpt": "            'erp.get_owner_financial_snapshot_v2(date,date,date)',"
+    },
+    {
+      "path": "scripts/cp6_aa_invoice_partial_audit.py",
+      "line": 227,
+      "excerpt": "    return {str(day): one(cur, 'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',"
+    },
+    {
+      "path": "scripts/cp6_final_independent_acceptance.py",
+      "line": 177,
+      "excerpt": "    owner(cur);report=cur.execute('select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',"
+    },
+    {
+      "path": "scripts/cp6_z_expanded_integrity_audit.py",
+      "line": 355,
+      "excerpt": "        \"select erp.get_owner_financial_snapshot_v2(%s,%s,%s)->'data_confidence'->>'status'\","
+    },
+    {
+      "path": "scripts/cp6_z_expanded_integrity_audit.py",
+      "line": 408,
+      "excerpt": "        \"select erp.get_owner_financial_snapshot_v2(%s,%s,%s)->'data_confidence'->>'status'\","
+    },
+    {
+      "path": "scripts/cp6_v2620h_maintenance_rollback_matrix.py",
+      "line": 473,
+      "excerpt": "                    'REPORT': 'get_owner_financial_snapshot_v2',"
+    },
+    {
+      "path": "scripts/cp6_v2620h_maintenance_rollback_matrix.py",
+      "line": 491,
+      "excerpt": "                        'get_owner_financial_snapshot_v2',"
+    },
+    {
+      "path": "scripts/cp6_v2620h_maintenance_rollback_matrix.py",
+      "line": 577,
+      "excerpt": "                'REPORT': 'erp.get_owner_financial_snapshot_v2',"
+    },
+    {
+      "path": "scripts/cp6_v2620v_scrap_adversarial.py",
+      "line": 61,
+      "excerpt": "    return {day: one(cur, 'select erp.get_owner_financial_snapshot_v2(%s::date,%s::date,%s::date)',"
+    },
+    {
+      "path": "scripts/cp6_v2620v_scrap_adversarial.py",
+      "line": 160,
+      "excerpt": "                         'erp.get_owner_financial_snapshot_v2(date,date,date)'):"
+    },
+    {
+      "path": "scripts/cp6_ba_build.py",
+      "line": 53,
+      "excerpt": "  W9 (independent audit round 9; C0 D01 section 3.4, ratified) erp.get_owner_financial_snapshot_v2: a report dated inside a"
+    },
+    {
+      "path": "scripts/cp6_ba_build.py",
+      "line": 458,
+      "excerpt": "SNAP_HEAD='CREATE OR REPLACE FUNCTION erp.get_owner_financial_snapshot_v2(p_from date, p_to date, p_as_of date DEFAULT'"
+    },
+    {
+      "path": "scripts/cp6_ba_build.py",
+      "line": 506,
+      "excerpt": "          'erp.get_owner_financial_snapshot_v2(date,date,date)','erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)']"
+    },
+    {
+      "path": "scripts/cp6_pocket_period_trial.py",
+      "line": 75,
+      "excerpt": "    s=receipts.rpc(a,cur,'get_owner_financial_snapshot_v2',today-timedelta(days=8),today,today)"
+    },
+    {
+      "path": "scripts/cp6_v2620g_expanded_rollback_races.py",
+      "line": 188,
+      "excerpt": "    return base.one(cur, \"select erp.get_owner_financial_snapshot_v2('2026-09-01',current_date,current_date)\")"
+    },
+    {
+      "path": "scripts/cp6_v2620g_expanded_rollback_races.py",
+      "line": 340,
+      "excerpt": "                  'CONVERSION': 'erp.post_product_conversion', 'REPORT': 'erp.get_owner_financial_snapshot_v2',"
+    },
+    {
+      "path": "scripts/cp6_initial_import_receipt_trial.py",
+      "line": 124,
+      "excerpt": "        return {str(day):production.one(cursor,'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',(cutover,day,day))"
+    },
+    {
+      "path": "scripts/cp6_c0_oracles_auditor.py",
+      "line": 46,
+      "excerpt": "        report = cur.execute('select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',"
+    },
+    {
+      "path": "scripts/cp6_t3_awx_release.py",
+      "line": 45,
+      "excerpt": "         replaced=['erp.close_accounting_through(date,text)','erp.get_owner_financial_snapshot_v2(date,date,date)'],"
+    },
+    {
+      "path": "scripts/cp6_v2620v_misc_finance_business_date_regression.py",
+      "line": 59,
+      "excerpt": "    return {day: one(cur, 'select erp.get_owner_financial_snapshot_v2(%s::date,%s::date,%s::date)',"
+    },
+    {
+      "path": "scripts/cp6_final_gap_native.py",
+      "line": 82,
+      "excerpt": "                'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',"
+    },
+    {
+      "path": "scripts/cp6_final_gap_native.py",
+      "line": 112,
+      "excerpt": "        value = production.one(cur, 'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',"
+    },
+    {
+      "path": "scripts/cp6_v2620u_misc_finance_adversarial.py",
+      "line": 29,
+      "excerpt": "        \"select erp.get_owner_financial_snapshot_v2('2026-09-01',%s::date,%s::date)\","
+    },
+    {
+      "path": "scripts/cp6_v2620u_misc_finance_adversarial.py",
+      "line": 69,
+      "excerpt": "                         'erp.get_owner_financial_snapshot_v2(date,date,date)'):"
+    },
+    {
+      "path": "scripts/cp6_s06_close_probe.py",
+      "line": 40,
+      "excerpt": "    snap=cur.execute('select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',(day,day,day)).fetchone()[0]"
+    },
+    {
+      "path": "scripts/cp6_af_independent_review.py",
+      "line": 105,
+      "excerpt": "    return base.one(cur,'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',(day,day,day))"
+    },
+    {
+      "path": "scripts/cp6_v2620af_family.py",
+      "line": 38,
+      "excerpt": "    state=base.one(cur,\"select erp.get_owner_financial_snapshot_v2(%s,%s,%s)\",(day,day,day))"
+    },
+    {
+      "path": "scripts/cp6_v2620u_canonical_business_date_regression.py",
+      "line": 77,
+      "excerpt": "        'erp.get_owner_financial_snapshot_v2(date,date,date)': ["
+    },
+    {
+      "path": "scripts/cp6_v2620u_canonical_business_date_regression.py",
+      "line": 181,
+      "excerpt": "            'erp.get_owner_financial_snapshot_v2(date,date,date)','EXECUTE')\"\"\")"
+    },
+    {
+      "path": "scripts/cp6_v2620u_canonical_business_date_regression.py",
+      "line": 204,
+      "excerpt": "                    'get_owner_financial_snapshot_v2': report_execute,"
+    },
+    {
+      "path": "scripts/cp6_y_independent_audit.py",
+      "line": 276,
+      "excerpt": "        explicit = prior.one(cur, 'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',"
+    },
+    {
+      "path": "scripts/cp6_y_independent_audit.py",
+      "line": 278,
+      "excerpt": "        default = prior.one(cur, 'select erp.get_owner_financial_snapshot_v2(%s,%s)',"
+    },
+    {
+      "path": "scripts/cp6_y_independent_audit.py",
+      "line": 280,
+      "excerpt": "        caller_explicit = prior.one(cur, 'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',"
+    },
+    {
+      "path": "scripts/cp6_y_independent_audit.py",
+      "line": 302,
+      "excerpt": "                    source_posting_correct=True, source='erp.get_owner_financial_snapshot_v2(date,date,date)')"
+    },
+    {
+      "path": "scripts/cp6_y_independent_audit.py",
+      "line": 325,
+      "excerpt": "        target_names = ('get_owner_financial_snapshot_v2', 'close_accounting_through', 'finish_production_order',"
+    },
+    {
+      "path": "scripts/cp6_v2620ag_family.py",
+      "line": 22,
+      "excerpt": " actors.owner(cur);state=base.one(cur,'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',(day,day,day))"
+    },
+    {
+      "path": "scripts/cp6_ad_roll_opening_check.py",
+      "line": 110,
+      "excerpt": "        \"select erp.get_owner_financial_snapshot_v2(%s,%s,%s)\","
+    },
+    {
+      "path": "scripts/cp6_v2620u_install_diagnostic.py",
+      "line": 19,
+      "excerpt": "ERROR = 'U_INSTALLED_FUNCTION_OWNER_ACL_MISMATCH: erp.get_owner_financial_snapshot_v2(date,date,date)'"
+    },
+    {
+      "path": "scripts/cp6_v2620ad_family_proof.py",
+      "line": 49,
+      "excerpt": "    r=one(cur,'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',(day,day,day))"
+    },
+    {
+      "path": "scripts/cp7_report_accounts_bundle.py",
+      "line": 35,
+      "excerpt": "    'erp.get_owner_financial_snapshot_v2(date,date,date)': 11,"
+    },
+    {
+      "path": "scripts/cp7_note_report_bundle.py",
+      "line": 12,
+      "excerpt": "SIGNATURE='erp.get_owner_financial_snapshot_v2(date,date,date)'"
+    },
+    {
+      "path": "scripts/cp7_r5_cases.py",
+      "line": 217,
+      "excerpt": "            'erp.get_owner_financial_snapshot_v2(date,date,date)':windows,"
+    },
+    {
+      "path": "scripts/cp7_finance_bundle.py",
+      "line": 5,
+      "excerpt": "GRANTS=('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','erp.get_owner_financial_snapshot_v2(date,date,date)','erp.accounting_close_preflight_v1(date)','erp.account_id(text)')"
+    }
+  ],
+  "initial_prepayment_checks_v1": [
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 1385,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.initial_prepayment_checks_v1()"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 1451,
+      "excerpt": "revoke all on function erp.initial_prepayment_checks_v1() from public,anon,authenticated,service_role;"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 3144,
+      "excerpt": " union all select * from erp.initial_prepayment_checks_v1()"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
+      "line": 4314,
+      "excerpt": " union all select * from erp.initial_prepayment_checks_v1()"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 6264,
+      "excerpt": " union all select * from erp.initial_prepayment_checks_v1()"
+    },
+    {
+      "path": "scripts/cp6_initial_import_prepayments.py",
+      "line": 441,
+      "excerpt": "TRUTH = r\"\"\"CREATE OR REPLACE FUNCTION erp.initial_prepayment_checks_v1()"
+    },
+    {
+      "path": "scripts/cp6_initial_import_prepayments.py",
+      "line": 530,
+      "excerpt": "      'erp.initial_prepayment_checks_v1()':TRUTH,"
+    },
+    {
+      "path": "scripts/cp6_initial_import_prepayments.py",
+      "line": 618,
+      "excerpt": "    change(identity,';\\n\\n$function$',\"\\n union all select * from erp.initial_prepayment_checks_v1();\\n\\n$function$\")"
+    },
+    {
+      "path": "scripts/cp6_initial_import_prepayment_trial.py",
+      "line": 195,
+      "excerpt": "    assert cur.execute(\"select issue_count from erp.initial_prepayment_checks_v1() where check_name='AP_PREPAYMENT_GL_SUBLEDGER'\").fetchone()==(1,)"
+    },
+    {
+      "path": "scripts/cp6_pocket_fabric.py",
+      "line": 247,
+      "excerpt": "    needle='select * from erp.initial_prepayment_checks_v1()'"
+    },
+    {
+      "path": "scripts/cp7_report_accounts_bundle.py",
+      "line": 36,
+      "excerpt": "    'erp.initial_prepayment_checks_v1()': 5,"
+    }
+  ],
+  "pocket_fabric_checks_v1": [
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 1007,
+      "excerpt": "create or replace function erp.pocket_fabric_checks_v1()"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 1030,
+      "excerpt": "revoke all on function erp.pocket_fabric_checks_v1() from public,anon,authenticated,service_role;"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 3146,
+      "excerpt": " UNION ALL SELECT * FROM erp.pocket_fabric_checks_v1();"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
+      "line": 4316,
+      "excerpt": " UNION ALL SELECT * FROM erp.pocket_fabric_checks_v1();"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 6266,
+      "excerpt": " UNION ALL SELECT * FROM erp.pocket_fabric_checks_v1();"
+    },
+    {
+      "path": "scripts/cp6_t2_regression.py",
+      "line": 528,
+      "excerpt": "      union all select check_name,issue_count from erp.pocket_fabric_checks_v1()"
+    },
+    {
+      "path": "scripts/cp6_pocket_periods.py",
+      "line": 312,
+      "excerpt": "      ('erp.run_v267_financial_truth_checks()', 'UNION ALL SELECT * FROM erp.pocket_fabric_checks_v1()', 'UNION ALL SELECT * FROM erp.pocket_period_checks_v1()\\n UNION ALL SELECT * FROM erp.pocket_fabric_checks_v1()')]:"
+    },
+    {
+      "path": "scripts/cp6_pocket_fabric.py",
+      "line": 190,
+      "excerpt": "CHECKS = r\"\"\"create or replace function erp.pocket_fabric_checks_v1()"
+    },
+    {
+      "path": "scripts/cp6_pocket_fabric.py",
+      "line": 228,
+      "excerpt": "      'erp.pocket_fabric_checks_v1()':CHECKS,"
+    },
+    {
+      "path": "scripts/cp6_pocket_fabric.py",
+      "line": 249,
+      "excerpt": "    functions[identity]=functions[identity].replace(needle,needle+'\\nUNION ALL SELECT * FROM erp.pocket_fabric_checks_v1()')"
+    },
+    {
+      "path": "scripts/cp7_report_accounts_bundle.py",
+      "line": 37,
+      "excerpt": "    'erp.pocket_fabric_checks_v1()': 2,"
+    }
+  ],
+  "pocket_period_book_v1": [
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 630,
+      "excerpt": "create or replace function erp.pocket_period_book_v1(p_pool uuid) returns jsonb"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 640,
+      "excerpt": "revoke all on function erp.pocket_period_book_v1(uuid) from public,anon,authenticated,service_role;"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 719,
+      "excerpt": " target:=erp.pocket_period_target_v1(p_pool,p_kind='CANCEL');book:=erp.pocket_period_book_v1(p_pool);"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 739,
+      "excerpt": " if erp.pocket_period_book_v1(p_pool) is distinct from target then raise exception 'Pocket allocation ledger mismatch';end if;"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 831,
+      "excerpt": " from erp.pocket_periods p where erp.pocket_period_book_v1(p.id) is distinct from erp.pocket_period_target_v1(p.id,false)"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 151,
+      "excerpt": "from unnest(array['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_po(uuid)','erp.compute_po_hpp_gl_targets_v2620d(uuid)','erp.bc_value_custody_v1(jsonb,uuid)','erp.bc_reverse_v1(jsonb,uuid)','erp.sync_material_cost_revaluation(uuid)','erp.run_v268_financial_report_checks()','er"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 6939,
+      "excerpt": "create or replace function erp.pocket_period_book_v1(p_pool uuid) returns jsonb"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 6958,
+      "excerpt": " target:=erp.pocket_period_target_v1(p_pool,p_kind='CANCEL');book:=erp.pocket_period_book_v1(p_pool);"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 6981,
+      "excerpt": " if erp.pocket_period_book_v1(p_pool) is distinct from target then raise exception 'Pocket allocation ledger mismatch';end if;"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 7036,
+      "excerpt": " from erp.pocket_periods p where erp.pocket_period_book_v1(p.id) is distinct from erp.pocket_period_target_v1(p.id,false)"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 7292,
+      "excerpt": " if exists(select 1 from erp.cp6_v2620be_rollback_capsule where object_regidentity<>all(array['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_po(uuid)','erp.compute_po_hpp_gl_targets_v2620d(uuid)','erp.bc_value_custody_v1(jsonb,uuid)','erp.bc_reverse_v1(jsonb,uuid)','erp.sync_m"
+    },
+    {
+      "path": "scripts/cp6_be_pocket_build.py",
+      "line": 15,
+      "excerpt": " 'erp.pocket_period_target_v1(uuid,boolean)','erp.pocket_period_book_v1(uuid)','erp.sync_pocket_period_v1(uuid,date,text,text)',"
+    },
+    {
+      "path": "scripts/cp6_be_pocket_build.py",
+      "line": 49,
+      "excerpt": "    book=patch(AP,'pocket_period_book_v1',[(\"   else 'INVALID|'\", \"   when l.account_id=erp.account_id('OPENING_EQUITY') and l.po_id is null then 'OPENING_EQUITY'\\n   when l.account_id=erp.account_id('COGS') and l.po_id is null then 'COGS'\\n   else 'INVALID|'\")])"
+    },
+    {
+      "path": "scripts/cp6_pocket_periods.py",
+      "line": 119,
+      "excerpt": "BOOK=r\"\"\"create or replace function erp.pocket_period_book_v1(p_pool uuid) returns jsonb"
+    },
+    {
+      "path": "scripts/cp6_pocket_periods.py",
+      "line": 151,
+      "excerpt": " target:=erp.pocket_period_target_v1(p_pool,p_kind='CANCEL');book:=erp.pocket_period_book_v1(p_pool);"
+    },
+    {
+      "path": "scripts/cp6_pocket_periods.py",
+      "line": 171,
+      "excerpt": " if erp.pocket_period_book_v1(p_pool) is distinct from target then raise exception 'Pocket allocation ledger mismatch';end if;"
+    },
+    {
+      "path": "scripts/cp6_pocket_periods.py",
+      "line": 271,
+      "excerpt": " from erp.pocket_periods p where erp.pocket_period_book_v1(p.id) is distinct from erp.pocket_period_target_v1(p.id,false)"
+    },
+    {
+      "path": "scripts/cp6_pocket_periods.py",
+      "line": 318,
+      "excerpt": "      'erp.pocket_period_state_v1(uuid)':STATE,'erp.pocket_period_target_v1(uuid,boolean)':TARGET,'erp.pocket_period_book_v1(uuid)':BOOK,"
+    },
+    {
+      "path": "scripts/cp7_report_accounts_bundle.py",
+      "line": 38,
+      "excerpt": "    'erp.pocket_period_book_v1(uuid)': 4,"
+    },
+    {
+      "path": "scripts/cp7_r5_cases.py",
+      "line": 218,
+      "excerpt": "            'erp.pocket_period_book_v1(uuid)':ids('select id from erp.pocket_periods order by id limit 300'),"
+    },
+    {
+      "path": "scripts/cp7_r5_cases.py",
+      "line": 266,
+      "excerpt": "        valueless=[s for s in ('erp.bb_opening_credit_account_v1(uuid)','erp.pocket_period_book_v1(uuid)',"
+    }
+  ],
+  "run_v267_financial_truth_checks": [
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 115,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','368c7f97b895ce7d08aa6b5fa5a77b50957191465a44e26ef9268b6424c93aea','efde954275e89f01793f405e2b000c6c599bae0be731869802f288994dd154fa',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 163,
+      "excerpt": "  'erp.run_v267_financial_truth_checks()'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 271,
+      "excerpt": "  from erp.run_v267_financial_truth_checks() r"
+    },
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 1304,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.run_v267_financial_truth_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 2397,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','368c7f97b895ce7d08aa6b5fa5a77b50957191465a44e26ef9268b6424c93aea','efde954275e89f01793f405e2b000c6c599bae0be731869802f288994dd154fa',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql",
+      "line": 83,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','acd6f623c83f1ce74323a11b9224955ea922b10788ed631b9973aa9345698af8','f32dcd6d6be2ef1f2762bce1dac463aeeed8965f4ef94f8e7a31f8da4451e6ce',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql",
+      "line": 99,
+      "excerpt": "              when 'erp.run_v267_financial_truth_checks()' then '845b9868bb0b0e25443c4e75c77cfcf815e34c4fac78b8bd38038b0476e2944a'"
+    },
+    {
+      "path": "supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql",
+      "line": 112,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','f32dcd6d6be2ef1f2762bce1dac463aeeed8965f4ef94f8e7a31f8da4451e6ce','13e1c0b7e3a9262aecd18504cb70890eeaeb61190c12e2cc7bb16f2e2d9ddfb2',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql",
+      "line": 126,
+      "excerpt": "              when 'erp.run_v267_financial_truth_checks()' then '845b9868bb0b0e25443c4e75c77cfcf815e34c4fac78b8bd38038b0476e2944a'"
+    },
+    {
+      "path": "supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql",
+      "line": 139,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','13e1c0b7e3a9262aecd18504cb70890eeaeb61190c12e2cc7bb16f2e2d9ddfb2','845b9868bb0b0e25443c4e75c77cfcf815e34c4fac78b8bd38038b0476e2944a',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql",
+      "line": 291,
+      "excerpt": "  if exists(select 1 from erp.run_v267_financial_truth_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912084719_erp_v2_6_20q_cp6_supplier_invoice_exact_quantity.sql",
+      "line": 70,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()',"
+    },
+    {
+      "path": "supabase/migrations/20260912084719_erp_v2_6_20q_cp6_supplier_invoice_exact_quantity.sql",
+      "line": 157,
+      "excerpt": "  'erp.run_v267_financial_truth_checks()'::regprocedure"
+    },
+    {
+      "path": "supabase/migrations/20260912084719_erp_v2_6_20q_cp6_supplier_invoice_exact_quantity.sql",
+      "line": 202,
+      "excerpt": "  select pg_get_functiondef('erp.run_v267_financial_truth_checks()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260912084719_erp_v2_6_20q_cp6_supplier_invoice_exact_quantity.sql",
+      "line": 215,
+      "excerpt": "  select pg_get_functiondef('erp.run_v267_financial_truth_checks()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260912084719_erp_v2_6_20q_cp6_supplier_invoice_exact_quantity.sql",
+      "line": 247,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()',"
+    },
+    {
+      "path": "supabase/migrations/20260912084719_erp_v2_6_20q_cp6_supplier_invoice_exact_quantity.sql",
+      "line": 269,
+      "excerpt": "  select issue_count into v_count from erp.run_v267_financial_truth_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260922161019_erp_v2_6_20aq_cp6_accessory_lock_order.sql",
+      "line": 162,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260911070622_erp_v2_6_20l_cp6_exact_ledger_conservation.sql",
+      "line": 329,
+      "excerpt": "  from erp.run_v267_financial_truth_checks() r"
+    },
+    {
+      "path": "supabase/migrations/20260911165255_erp_v2_6_20o_cp6_supplier_return_document_allocation.sql",
+      "line": 64,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()',"
+    },
+    {
+      "path": "supabase/migrations/20260911165255_erp_v2_6_20o_cp6_supplier_return_document_allocation.sql",
+      "line": 214,
+      "excerpt": "  'erp.run_v267_financial_truth_checks()'::regprocedure"
+    },
+    {
+      "path": "supabase/migrations/20260911165255_erp_v2_6_20o_cp6_supplier_return_document_allocation.sql",
+      "line": 272,
+      "excerpt": "  select pg_get_functiondef('erp.run_v267_financial_truth_checks()'::regprocedure)"
+    },
+    {
+      "path": "supabase/migrations/20260911165255_erp_v2_6_20o_cp6_supplier_return_document_allocation.sql",
+      "line": 389,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()',"
+    },
+    {
+      "path": "supabase/migrations/20260911165255_erp_v2_6_20o_cp6_supplier_return_document_allocation.sql",
+      "line": 414,
+      "excerpt": "  select issue_count into v_count from erp.run_v267_financial_truth_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260914190500_erp_v2_6_20ab_cp6_operational_business_clock.sql",
+      "line": 81,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','845b9868bb0b0e25443c4e75c77cfcf815e34c4fac78b8bd38038b0476e2944a','7ead45b0a09258adcf1b9a9dae44b5627c2ba6fec36767f513706d282f076a9c',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 113,
+      "excerpt": "from pg_proc p join pg_namespace n on n.oid=p.pronamespace where p.oid in('erp._validate_migration_batch_base(uuid)'::regprocedure,'erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)'::regprocedure,'erp.apply_migration_master_rows(uuid)'::regprocedure,'erp.prepare_migration_opening_balance("
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 2634,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.run_v267_financial_truth_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 6752,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql",
+      "line": 73,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','acd6f623c83f1ce74323a11b9224955ea922b10788ed631b9973aa9345698af8','f32dcd6d6be2ef1f2762bce1dac463aeeed8965f4ef94f8e7a31f8da4451e6ce',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql",
+      "line": 89,
+      "excerpt": "              when 'erp.run_v267_financial_truth_checks()' then '13e1c0b7e3a9262aecd18504cb70890eeaeb61190c12e2cc7bb16f2e2d9ddfb2'"
+    },
+    {
+      "path": "supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql",
+      "line": 102,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','f32dcd6d6be2ef1f2762bce1dac463aeeed8965f4ef94f8e7a31f8da4451e6ce','13e1c0b7e3a9262aecd18504cb70890eeaeb61190c12e2cc7bb16f2e2d9ddfb2',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql",
+      "line": 206,
+      "excerpt": "  'erp.run_v267_financial_truth_checks()'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql",
+      "line": 220,
+      "excerpt": "  select pg_get_functiondef('erp.run_v267_financial_truth_checks()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql",
+      "line": 260,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','13e1c0b7e3a9262aecd18504cb70890eeaeb61190c12e2cc7bb16f2e2d9ddfb2','845b9868bb0b0e25443c4e75c77cfcf815e34c4fac78b8bd38038b0476e2944a',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql",
+      "line": 281,
+      "excerpt": "  if exists(select 1 from erp.run_v267_financial_truth_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260923045944_erp_v2_6_20au_cp6_controlled_product_lifecycle.sql",
+      "line": 162,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260922210815_erp_v2_6_20as_cp6_event_dates_product_identity.sql",
+      "line": 162,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 85,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','acd6f623c83f1ce74323a11b9224955ea922b10788ed631b9973aa9345698af8','f32dcd6d6be2ef1f2762bce1dac463aeeed8965f4ef94f8e7a31f8da4451e6ce',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 101,
+      "excerpt": "              when 'erp.run_v267_financial_truth_checks()' then '845b9868bb0b0e25443c4e75c77cfcf815e34c4fac78b8bd38038b0476e2944a'"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 114,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','f32dcd6d6be2ef1f2762bce1dac463aeeed8965f4ef94f8e7a31f8da4451e6ce','13e1c0b7e3a9262aecd18504cb70890eeaeb61190c12e2cc7bb16f2e2d9ddfb2',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 128,
+      "excerpt": "              when 'erp.run_v267_financial_truth_checks()' then '845b9868bb0b0e25443c4e75c77cfcf815e34c4fac78b8bd38038b0476e2944a'"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 141,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','13e1c0b7e3a9262aecd18504cb70890eeaeb61190c12e2cc7bb16f2e2d9ddfb2','845b9868bb0b0e25443c4e75c77cfcf815e34c4fac78b8bd38038b0476e2944a',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 234,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','845b9868bb0b0e25443c4e75c77cfcf815e34c4fac78b8bd38038b0476e2944a',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 295,
+      "excerpt": "where p.oid in('erp.post_opening_subledger_settlement(uuid)'::regprocedure,'erp.post_vendor_payment(uuid)'::regprocedure,'erp.post_sales_payment(uuid)'::regprocedure,'erp.run_v267_financial_truth_checks()'::regprocedure,'erp._v268_financial_report_checks_pre_scope()'::regprocedure,'erp.run_v268_fina"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 328,
+      "excerpt": "  select pg_get_functiondef('erp.run_v267_financial_truth_checks()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 362,
+      "excerpt": "    raise exception 'Y_CANONICAL_DATE_ANCHOR: erp.run_v267_financial_truth_checks() operand 0';"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 395,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','845b9868bb0b0e25443c4e75c77cfcf815e34c4fac78b8bd38038b0476e2944a','7ead45b0a09258adcf1b9a9dae44b5627c2ba6fec36767f513706d282f076a9c',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 417,
+      "excerpt": "  if exists(select 1 from erp.run_v267_financial_truth_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912051922_erp_v2_6_20p_cp6_supplier_return_match_state.sql",
+      "line": 66,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()',"
+    },
+    {
+      "path": "supabase/migrations/20260912051922_erp_v2_6_20p_cp6_supplier_return_match_state.sql",
+      "line": 151,
+      "excerpt": "  'erp.run_v267_financial_truth_checks()'::regprocedure"
+    },
+    {
+      "path": "supabase/migrations/20260912051922_erp_v2_6_20p_cp6_supplier_return_match_state.sql",
+      "line": 173,
+      "excerpt": "  select pg_get_functiondef('erp.run_v267_financial_truth_checks()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260912051922_erp_v2_6_20p_cp6_supplier_return_match_state.sql",
+      "line": 233,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()',"
+    },
+    {
+      "path": "supabase/migrations/20260912051922_erp_v2_6_20p_cp6_supplier_return_match_state.sql",
+      "line": 255,
+      "excerpt": "  select issue_count into v_count from erp.run_v267_financial_truth_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.sql",
+      "line": 73,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()',"
+    },
+    {
+      "path": "supabase/migrations/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.sql",
+      "line": 154,
+      "excerpt": "  'erp.run_v267_financial_truth_checks()'::regprocedure"
+    },
+    {
+      "path": "supabase/migrations/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.sql",
+      "line": 199,
+      "excerpt": "  select pg_get_functiondef('erp.run_v267_financial_truth_checks()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.sql",
+      "line": 240,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()',"
+    },
+    {
+      "path": "supabase/migrations/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.sql",
+      "line": 262,
+      "excerpt": "  select issue_count into v_count from erp.run_v267_financial_truth_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260922185015_erp_v2_6_20ar_cp6_opening_overlap.sql",
+      "line": 162,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260913135850_erp_v2_6_20v_cp6_misc_finance_business_date.sql",
+      "line": 72,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','acd6f623c83f1ce74323a11b9224955ea922b10788ed631b9973aa9345698af8','f32dcd6d6be2ef1f2762bce1dac463aeeed8965f4ef94f8e7a31f8da4451e6ce',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913135850_erp_v2_6_20v_cp6_misc_finance_business_date.sql",
+      "line": 172,
+      "excerpt": "  'erp.run_v267_financial_truth_checks()'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260913135850_erp_v2_6_20v_cp6_misc_finance_business_date.sql",
+      "line": 186,
+      "excerpt": "  select pg_get_functiondef('erp.run_v267_financial_truth_checks()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260913135850_erp_v2_6_20v_cp6_misc_finance_business_date.sql",
+      "line": 226,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','f32dcd6d6be2ef1f2762bce1dac463aeeed8965f4ef94f8e7a31f8da4451e6ce','13e1c0b7e3a9262aecd18504cb70890eeaeb61190c12e2cc7bb16f2e2d9ddfb2',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913135850_erp_v2_6_20v_cp6_misc_finance_business_date.sql",
+      "line": 247,
+      "excerpt": "  if exists(select 1 from erp.run_v267_financial_truth_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql",
+      "line": 164,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260923005153_erp_v2_6_20at_cp6_wip_temporal_identity.sql",
+      "line": 162,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260914163608_erp_v2_6_20aa_cp6_material_cost_business_day.sql",
+      "line": 80,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','845b9868bb0b0e25443c4e75c77cfcf815e34c4fac78b8bd38038b0476e2944a','7ead45b0a09258adcf1b9a9dae44b5627c2ba6fec36767f513706d282f076a9c',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql",
+      "line": 70,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','e5f4d8749851824e11bb7b76bb3614963aa26feca7034962f47cc198a7962e89','acd6f623c83f1ce74323a11b9224955ea922b10788ed631b9973aa9345698af8',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql",
+      "line": 172,
+      "excerpt": "  'erp.run_v267_financial_truth_checks()'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql",
+      "line": 235,
+      "excerpt": "  select pg_get_functiondef('erp.run_v267_financial_truth_checks()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql",
+      "line": 295,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','acd6f623c83f1ce74323a11b9224955ea922b10788ed631b9973aa9345698af8','f32dcd6d6be2ef1f2762bce1dac463aeeed8965f4ef94f8e7a31f8da4451e6ce',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql",
+      "line": 316,
+      "excerpt": "  if exists(select 1 from erp.run_v267_financial_truth_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql",
+      "line": 69,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()',"
+    },
+    {
+      "path": "supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql",
+      "line": 151,
+      "excerpt": "  'erp.run_v267_financial_truth_checks()'::regprocedure"
+    },
+    {
+      "path": "supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql",
+      "line": 183,
+      "excerpt": "  select pg_get_functiondef('erp.run_v267_financial_truth_checks()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql",
+      "line": 222,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()',"
+    },
+    {
+      "path": "supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql",
+      "line": 244,
+      "excerpt": "  select issue_count into v_count from erp.run_v267_financial_truth_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260914085912_erp_v2_6_20z_cp6_accounting_close_business_date.sql",
+      "line": 79,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','845b9868bb0b0e25443c4e75c77cfcf815e34c4fac78b8bd38038b0476e2944a','7ead45b0a09258adcf1b9a9dae44b5627c2ba6fec36767f513706d282f076a9c',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260912171034_erp_v2_6_20t_cp6_material_adjustment_revaluation.sql",
+      "line": 68,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','ce489ade327609230a40a0e804b1b67a9cecb11bb08a42bb470b9ba556183066','e5f4d8749851824e11bb7b76bb3614963aa26feca7034962f47cc198a7962e89',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260912171034_erp_v2_6_20t_cp6_material_adjustment_revaluation.sql",
+      "line": 149,
+      "excerpt": "  'erp.run_v267_financial_truth_checks()'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260912171034_erp_v2_6_20t_cp6_material_adjustment_revaluation.sql",
+      "line": 296,
+      "excerpt": " select pg_get_functiondef('erp.run_v267_financial_truth_checks()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260912171034_erp_v2_6_20t_cp6_material_adjustment_revaluation.sql",
+      "line": 387,
+      "excerpt": "    ('erp.run_v267_financial_truth_checks()','e5f4d8749851824e11bb7b76bb3614963aa26feca7034962f47cc198a7962e89','acd6f623c83f1ce74323a11b9224955ea922b10788ed631b9973aa9345698af8',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260912171034_erp_v2_6_20t_cp6_material_adjustment_revaluation.sql",
+      "line": 407,
+      "excerpt": "  if exists(select 1 from erp.run_v267_financial_truth_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle.sql",
+      "line": 29,
+      "excerpt": "('erp.run_v267_financial_truth_checks()','368c7f97b895ce7d08aa6b5fa5a77b50957191465a44e26ef9268b6424c93aea','efde954275e89f01793f405e2b000c6c599bae0be731869802f288994dd154fa',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle.sql",
+      "line": 42,
+      "excerpt": "select format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),p.oid::regprocedure::text,pg_get_functiondef(p.oid),encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),array(select a::text from unnest(proacl) a order by a::text),pg_get_user"
+    },
+    {
+      "path": "supabase/migrations/20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle.sql",
+      "line": 833,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.run_v267_financial_truth_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle.sql",
+      "line": 1080,
+      "excerpt": "('erp.run_v267_financial_truth_checks()','efde954275e89f01793f405e2b000c6c599bae0be731869802f288994dd154fa','f50decac0d38f9ddc2cfc5a28af53607fb8c1cf38cde5a65f13b38ec748a6fda',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle.sql",
+      "line": 1093,
+      "excerpt": " if exists(select 1 from erp.run_v267_financial_truth_checks() where issue_count<>0 and severity='CRITICAL') then raise exception 'N_PREEXISTING_SUPPLIER_REVIEW_REQUIRED';end if;"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
+      "line": 151,
+      "excerpt": "from unnest(array['erp.post_opening_subledger_settlement(uuid)','erp.post_opening_financial_correction(uuid,numeric,text,date)','erp.reverse_opening_financial_correction(uuid,text)','erp.approve_payroll(uuid)','erp.post_payroll_payment(uuid)','erp.reverse_paid_payroll(uuid,text)','erp.initial_import"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
+      "line": 3802,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.run_v267_financial_truth_checks()"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
+      "line": 6492,
+      "excerpt": " if exists(select 1 from erp.cp6_v2620bb_rollback_capsule where object_regidentity<>all(array['erp.post_opening_subledger_settlement(uuid)','erp.post_opening_financial_correction(uuid,numeric,text,date)','erp.reverse_opening_financial_correction(uuid,text)','erp.approve_payroll(uuid)','erp.post_payr"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 151,
+      "excerpt": "from unnest(array['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_po(uuid)','erp.compute_po_hpp_gl_targets_v2620d(uuid)','erp.bc_value_custody_v1(jsonb,uuid)','erp.bc_reverse_v1(jsonb,uuid)','erp.sync_material_cost_revaluation(uuid)','erp.run_v268_financial_report_checks()','er"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 5210,
+      "excerpt": "      select 'run_v267_financial_truth_checks',r.check_name,r.severity,r.issue_count,r.details from erp.run_v267_financial_truth_checks() r"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 5752,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.run_v267_financial_truth_checks()"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 7292,
+      "excerpt": " if exists(select 1 from erp.cp6_v2620be_rollback_capsule where object_regidentity<>all(array['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_po(uuid)','erp.compute_po_hpp_gl_targets_v2620d(uuid)','erp.bc_value_custody_v1(jsonb,uuid)','erp.bc_reverse_v1(jsonb,uuid)','erp.sync_m"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260928134500_erp_v2_6_20bf_cp6_commercial_ranges_vendor_credit.sql",
+      "line": 2284,
+      "excerpt": "      select 'run_v267_financial_truth_checks',r.check_name,r.severity,r.issue_count,r.details from erp.run_v267_financial_truth_checks() r"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql",
+      "line": 5048,
+      "excerpt": "      select 'run_v267_financial_truth_checks',r.check_name,r.severity,r.issue_count,r.details from erp.run_v267_financial_truth_checks() r"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.sql",
+      "line": 522,
+      "excerpt": "      select 'run_v267_financial_truth_checks',r.check_name,r.severity,r.issue_count,r.details from erp.run_v267_financial_truth_checks() r"
+    },
+    {
+      "path": "scripts/cp6_aw_probe.py",
+      "line": 268,
+      "excerpt": "        union all select 'v267',check_name,severity,issue_count from erp.run_v267_financial_truth_checks()"
+    },
+    {
+      "path": "scripts/cp6_aw_probe.py",
+      "line": 278,
+      "excerpt": "        union select check_name from erp.run_v267_financial_truth_checks() where severity in('CRITICAL','ERROR')"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 367,
+      "excerpt": "        {'identity': 'erp.run_v267_financial_truth_checks()', 'predecessor_sha256': '368c7f97b895ce7d08aa6b5fa5a77b50957191465a44e26ef9268b6424c93aea', 'installed_sha256': 'efde954275e89f01793f405e2b000c6c599bae0be731869802f288994dd154fa', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'po"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 401,
+      "excerpt": "     {'identity': 'erp.run_v267_financial_truth_checks()',"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 413,
+      "excerpt": "      {'identity': 'erp.run_v267_financial_truth_checks()',"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 422,
+      "excerpt": "        {'identity': 'erp.run_v267_financial_truth_checks()', 'predecessor_sha256': 'fc3edcc094fb4843886206466801f96441907d83efeed01c92c5604f658a96d0', 'installed_sha256': '2c546026b1325e265c62828c13f2eea63aaff302c9a359d5f49c18d5fb7a492e', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'po"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 429,
+      "excerpt": "        {'identity': 'erp.run_v267_financial_truth_checks()', 'predecessor_sha256': '2c546026b1325e265c62828c13f2eea63aaff302c9a359d5f49c18d5fb7a492e', 'installed_sha256': '04115f87a2dd4777a56ed3667b461f71fb972887eccd1c9b5281878660a3acc3', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'po"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 435,
+      "excerpt": "        {'identity': 'erp.run_v267_financial_truth_checks()', 'predecessor_sha256': '04115f87a2dd4777a56ed3667b461f71fb972887eccd1c9b5281878660a3acc3', 'installed_sha256': 'ce489ade327609230a40a0e804b1b67a9cecb11bb08a42bb470b9ba556183066', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'po"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 441,
+      "excerpt": "        {'identity': 'erp.run_v267_financial_truth_checks()', 'predecessor_sha256': 'ce489ade327609230a40a0e804b1b67a9cecb11bb08a42bb470b9ba556183066', 'installed_sha256': 'e5f4d8749851824e11bb7b76bb3614963aa26feca7034962f47cc198a7962e89', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'po"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 464,
+      "excerpt": "  'identity': 'erp.run_v267_financial_truth_checks()',"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 479,
+      "excerpt": "        {'identity': 'erp.run_v267_financial_truth_checks()', 'predecessor_sha256': 'acd6f623c83f1ce74323a11b9224955ea922b10788ed631b9973aa9345698af8', 'installed_sha256': 'f32dcd6d6be2ef1f2762bce1dac463aeeed8965f4ef94f8e7a31f8da4451e6ce', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'po"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 489,
+      "excerpt": "  'identity': 'erp.run_v267_financial_truth_checks()',"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 517,
+      "excerpt": "    \"identity\": \"erp.run_v267_financial_truth_checks()\","
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 545,
+      "excerpt": "    'Y': [{'identity': 'erp.post_opening_subledger_settlement(uuid)', 'predecessor_sha256': 'c56b387a8593b19cd3b92e6dc20ac95459d2aedeb2b616b6fb1e4d812e729393', 'installed_sha256': 'b709ed64c78b09c113e6e0541eb757b5367dfbf7dd51752a26827207fc12e97e', 'owner': 'postgres', 'acl': ['authenticated=X/postgr"
+    },
+    {
+      "path": "scripts/cp6_bb_probe.py",
+      "line": 253,
+      "excerpt": "    rows=dict(cur.execute('select check_name,issue_count from erp.run_v267_financial_truth_checks() where check_name=any(%s)',(names,)).fetchall())"
+    },
+    {
+      "path": "scripts/cp6_initial_import_advance_trial.py",
+      "line": 63,
+      "excerpt": "    rows=cur.execute('select check_name,issue_count from erp.run_v267_financial_truth_checks() where check_name=any(%s)',(names,)).fetchall()"
+    },
+    {
+      "path": "scripts/cp6_initial_import_advance_trial.py",
+      "line": 199,
+      "excerpt": "    findings=cur.execute(\"select issue_count from erp.run_v267_financial_truth_checks() where check_name='V2620M_OPENING_SUBLEDGER_STATE'\").fetchone()[0]"
+    },
+    {
+      "path": "scripts/cp6_initial_import_prepayments.py",
+      "line": 615,
+      "excerpt": "    identity='erp.run_v267_financial_truth_checks()'"
+    },
+    {
+      "path": "scripts/cp6_bc_probe.py",
+      "line": 38,
+      "excerpt": "           'run_v267_financial_truth_checks','run_v268_financial_report_checks','run_v263a_payroll_integrity_checks')"
+    },
+    {
+      "path": "scripts/cp6_be_pocket_build.py",
+      "line": 17,
+      "excerpt": " 'erp.check_initial_import_receipt_v1(uuid,uuid)','erp.recost_initial_import_origins_v1(uuid)','erp.run_v267_financial_truth_checks()','erp._cp6_supplier_cent_state(uuid[])',"
+    },
+    {
+      "path": "scripts/cp6_be_pocket_build.py",
+      "line": 78,
+      "excerpt": "    receipt_checks=patch(BB,'run_v267_financial_truth_checks',[(\"where purchase_item_id=pi.id),0)\",\"where purchase_item_id=pi.id),0)+coalesce((select sum(material_qty) from erp.be_pocket_receipt_origins_v1 where purchase_item_id=pi.id),0)\")])"
+    },
+    {
+      "path": "scripts/cp6_v2620w_scrap_business_date_regression.py",
+      "line": 151,
+      "excerpt": "        counts=[one(cur,'select coalesce(sum(issue_count),0) from erp.'+fn+'() where check_name=%s and severity=%s',(DETECTOR,'CRITICAL')) for fn in ('run_v267_financial_truth_checks','run_v268_financial_report_checks')]"
+    },
+    {
+      "path": "scripts/cp6_v2620v_scrap_adversarial.py",
+      "line": 113,
+      "excerpt": "    cur.execute('select * from erp.run_v267_financial_truth_checks()')"
+    },
+    {
+      "path": "scripts/cp6_aw_local_smoke.py",
+      "line": 24,
+      "excerpt": "STUBS=\"create function erp._cp3_business_date(p timestamptz) returns date language sql immutable as $$select (p at time zone 'Asia/Jakarta')::date$$;\\ncreate table erp._stub_accounts(mapping_key text primary key, account_id uuid not null);\\ncreate function erp.account_id(p_mapping_key text) returns "
+    },
+    {
+      "path": "scripts/cp6_pocket_period_trial.py",
+      "line": 83,
+      "excerpt": "    rows=cur.execute(\"select check_name,issue_count from erp.run_v267_financial_truth_checks() where check_name like 'AP_PERIOD_POCKET_%'\").fetchall()"
+    },
+    {
+      "path": "scripts/cp6_initial_import_receipts.py",
+      "line": 329,
+      "excerpt": "    identity='erp.run_v267_financial_truth_checks()'"
+    },
+    {
+      "path": "scripts/cp6_ao_ap_qualify.py",
+      "line": 97,
+      "excerpt": "            entered.set();worker.execute('select * from erp.run_v267_financial_truth_checks()').fetchall();worker.rollback();result['worker']='NATURAL_COMPLETE'"
+    },
+    {
+      "path": "scripts/cp6_ao_ap_qualify.py",
+      "line": 101,
+      "excerpt": "    wait_for(lambda:control.execute(\"select exists(select 1 from pg_stat_activity where pid=%s and wait_event_type='Lock' and query like 'select * from erp.run_v267_financial_truth_checks%%')\",(pid,)).fetchone()[0])"
+    },
+    {
+      "path": "scripts/cp6_initial_import_receipt_trial.py",
+      "line": 52,
+      "excerpt": "    rows=cur.execute('select check_name,issue_count from erp.run_v267_financial_truth_checks() where check_name=any(%s)',(list(names),)).fetchall()"
+    },
+    {
+      "path": "scripts/cp6_initial_import_prepayment_trial.py",
+      "line": 68,
+      "excerpt": "    rows=cur.execute('select check_name,issue_count from erp.run_v267_financial_truth_checks() where check_name=any(%s)',(names,)).fetchall()"
+    },
+    {
+      "path": "scripts/cp6_t2_regression.py",
+      "line": 518,
+      "excerpt": "                  'dengan bukti. Writer trace: readers are run_v267_financial_truth_checks V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER (fact '"
+    },
+    {
+      "path": "scripts/cp6_t2_regression.py",
+      "line": 527,
+      "excerpt": "    rows=cur.execute(\"\"\"select check_name,issue_count from erp.run_v267_financial_truth_checks() where check_name like 'V2620T_MATERIAL_ADJUSTMENT%%'"
+    },
+    {
+      "path": "scripts/cp6_pocket_fabric_trial.py",
+      "line": 35,
+      "excerpt": "    rows=cur.execute(\"select check_name,issue_count from erp.run_v267_financial_truth_checks() where check_name like 'AP_POCKET_%'\").fetchall()"
+    },
+    {
+      "path": "scripts/cp6_bb_build.py",
+      "line": 23,
+      "excerpt": "  F5 erp.run_v267_financial_truth_checks (V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH): a non-cash opening settlement is checked"
+    },
+    {
+      "path": "scripts/cp6_bb_build.py",
+      "line": 414,
+      "excerpt": "CHECKS_HEAD='CREATE OR REPLACE FUNCTION erp.run_v267_financial_truth_checks()'"
+    },
+    {
+      "path": "scripts/cp6_bb_build.py",
+      "line": 430,
+      "excerpt": "          'erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.run_v267_financial_truth_checks()',"
+    },
+    {
+      "path": "scripts/cp6_pocket_periods.py",
+      "line": 312,
+      "excerpt": "      ('erp.run_v267_financial_truth_checks()', 'UNION ALL SELECT * FROM erp.pocket_fabric_checks_v1()', 'UNION ALL SELECT * FROM erp.pocket_period_checks_v1()\\n UNION ALL SELECT * FROM erp.pocket_fabric_checks_v1()')]:"
+    },
+    {
+      "path": "scripts/cp6_v2620n_rollback_guards.py",
+      "line": 193,
+      "excerpt": "                'alter function erp.run_v267_financial_truth_checks() cost 999',"
+    },
+    {
+      "path": "scripts/cp6_v2620n_rollback_guards.py",
+      "line": 199,
+      "excerpt": "                'grant execute on function erp.run_v267_financial_truth_checks() to anon',"
+    },
+    {
+      "path": "scripts/cp6_initial_import_cost_origins.py",
+      "line": 193,
+      "excerpt": "    i='erp.run_v267_financial_truth_checks()'"
+    },
+    {
+      "path": "scripts/cp6_v2620y_cash_business_date_regression.py",
+      "line": 109,
+      "excerpt": "    for function in ('run_v267_financial_truth_checks', 'run_v268_financial_report_checks'):"
+    },
+    {
+      "path": "scripts/cp6_v2620v_misc_finance_business_date_regression.py",
+      "line": 224,
+      "excerpt": "            (DETECTOR, 'CRITICAL')) for function in ('run_v267_financial_truth_checks','run_v268_financial_report_checks')]"
+    },
+    {
+      "path": "scripts/cp6_x_independent_audit.py",
+      "line": 139,
+      "excerpt": "    cur.execute('select * from erp.run_v267_financial_truth_checks()')"
+    },
+    {
+      "path": "scripts/cp6_initial_import_trial.py",
+      "line": 234,
+      "excerpt": "  checks=cur.execute('select check_name,issue_count from erp.run_v267_financial_truth_checks() where check_name=any(%s) order by check_name',(names,)).fetchall()"
+    },
+    {
+      "path": "scripts/cp6_bd_probe.py",
+      "line": 1370,
+      "excerpt": "    rows=q(cur,'select * from erp.run_v267_financial_truth_checks() union all select * from erp.run_v268_financial_report_checks()')"
+    },
+    {
+      "path": "scripts/cp6_bd_probe.py",
+      "line": 1529,
+      "excerpt": "    rows=q(cur,'select * from erp.run_v267_financial_truth_checks() union all select * from erp.run_v268_financial_report_checks()')"
+    },
+    {
+      "path": "scripts/cp6_initial_import_advances.py",
+      "line": 290,
+      "excerpt": "    identity='erp.run_v267_financial_truth_checks()'"
+    },
+    {
+      "path": "scripts/cp6_bf_supplier_probe.py",
+      "line": 79,
+      "excerpt": "    truth=b.q(cur,\"select check_name,issue_count from erp.run_v267_financial_truth_checks() where check_name in('V267_AP_GL_SUBLEDGER_MISMATCH','V267_PAYMENT_EXCEEDS_FINAL_AP','V2620M_SUPPLIER_PAYMENT_EXACT_STATUS')\")"
+    },
+    {
+      "path": "scripts/cp6_v2620u_canonical_business_date_regression.py",
+      "line": 86,
+      "excerpt": "        'erp.run_v267_financial_truth_checks()': ["
+    },
+    {
+      "path": "scripts/cp6_pocket_fabric.py",
+      "line": 246,
+      "excerpt": "    identity='erp.run_v267_financial_truth_checks()'"
+    },
+    {
+      "path": "scripts/cp7_receipt_correction_cases.py",
+      "line": 125,
+      "excerpt": "    rows=cur.execute(\"select check_name,issue_count from erp.run_v267_financial_truth_checks() where check_name='V2620U_JOURNAL_REVERSAL_BUSINESS_DATE'\").fetchall()"
+    },
+    {
+      "path": "scripts/cp7_report_accounts_bundle.py",
+      "line": 39,
+      "excerpt": "    'erp.run_v267_financial_truth_checks()': 7,"
+    },
+    {
+      "path": "scripts/cp7_note_correction_cases.py",
+      "line": 162,
+      "excerpt": " rows=cur.execute(\"select check_name,issue_count from erp.run_v267_financial_truth_checks()where check_name='V2620U_JOURNAL_REVERSAL_BUSINESS_DATE'\").fetchall()"
+    },
+    {
+      "path": "scripts/cp7_cp17_fix_cases.py",
+      "line": 807,
+      "excerpt": "        b.api.admin(cur);truth=one(cur,\"select issue_count from erp.run_v267_financial_truth_checks() where check_name='AP_CASH_ADVANCE_SOURCE'\")"
+    },
+    {
+      "path": "scripts/cp7_kasbon_bundle.py",
+      "line": 10,
+      "excerpt": "- erp.run_v267_financial_truth_checks(): AP_CASH_ADVANCE_SOURCE accepts a lawful kasbon deduction."
+    },
+    {
+      "path": "scripts/cp7_kasbon_bundle.py",
+      "line": 24,
+      "excerpt": "TRUTH = 'erp.run_v267_financial_truth_checks()'"
+    }
+  ],
+  "run_v268_financial_report_checks": [
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 116,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','2bffd2d8f33ad2d918d1fb2f767676dc403ac777ad9a8ff69d4f32bf74067eff','48d60613970b015d1afb30a2f8a7cec0e5d56d1f692c6a1acfa0ffd48684fda1',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 164,
+      "excerpt": "  'erp.run_v268_financial_report_checks()'::regprocedure"
+    },
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 1516,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 2398,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','2bffd2d8f33ad2d918d1fb2f767676dc403ac777ad9a8ff69d4f32bf74067eff','48d60613970b015d1afb30a2f8a7cec0e5d56d1f692c6a1acfa0ffd48684fda1',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql",
+      "line": 2407,
+      "excerpt": "  if exists(select 1 from erp.run_v268_financial_report_checks() where issue_count<>0"
+    },
+    {
+      "path": "supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql",
+      "line": 295,
+      "excerpt": "  if (select count(*) from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912084719_erp_v2_6_20q_cp6_supplier_invoice_exact_quantity.sql",
+      "line": 274,
+      "excerpt": "  if not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912084719_erp_v2_6_20q_cp6_supplier_invoice_exact_quantity.sql",
+      "line": 276,
+      "excerpt": "     or not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912084719_erp_v2_6_20q_cp6_supplier_invoice_exact_quantity.sql",
+      "line": 278,
+      "excerpt": "     or not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912084719_erp_v2_6_20q_cp6_supplier_invoice_exact_quantity.sql",
+      "line": 280,
+      "excerpt": "     or not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260922161019_erp_v2_6_20aq_cp6_accessory_lock_order.sql",
+      "line": 162,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "line": 86,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','808d9f982d82123d6589536029bd95c1a5dc3faa93a47c08304b04cefca9add0'),"
+    },
+    {
+      "path": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "line": 141,
+      "excerpt": "  'erp.run_v268_financial_report_checks()'::regprocedure"
+    },
+    {
+      "path": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "line": 1267,
+      "excerpt": "  select pg_get_functiondef('erp.run_v268_financial_report_checks()'::regprocedure)"
+    },
+    {
+      "path": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "line": 1654,
+      "excerpt": "       'erp.run_v268_financial_report_checks()'::regprocedure))=0"
+    },
+    {
+      "path": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "line": 1672,
+      "excerpt": "  from erp.run_v268_financial_report_checks() c"
+    },
+    {
+      "path": "supabase/migrations/20260911070622_erp_v2_6_20l_cp6_exact_ledger_conservation.sql",
+      "line": 49,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','3ab1c4e42616eadac12dd0d37811703fdd0436690a57ebe962c651af56e3588f','2bffd2d8f33ad2d918d1fb2f767676dc403ac777ad9a8ff69d4f32bf74067eff',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260911070622_erp_v2_6_20l_cp6_exact_ledger_conservation.sql",
+      "line": 482,
+      "excerpt": "  if exists(select 1 from erp.run_v268_financial_report_checks() where issue_count<>0"
+    },
+    {
+      "path": "supabase/migrations/20260910170556_erp_v2_6_20j_cp6_payment_fact_closure.sql",
+      "line": 75,
+      "excerpt": "  if c.object_regidentity is distinct from 'erp.run_v268_financial_report_checks()'"
+    },
+    {
+      "path": "supabase/migrations/20260910170556_erp_v2_6_20j_cp6_payment_fact_closure.sql",
+      "line": 92,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','c25defe6a1403a7199e71f92fd3799f941b7748f6228671e78586ba1ede5f8e1',"
+    },
+    {
+      "path": "supabase/migrations/20260910170556_erp_v2_6_20j_cp6_payment_fact_closure.sql",
+      "line": 107,
+      "excerpt": "  select issue_count into v_count from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260910170556_erp_v2_6_20j_cp6_payment_fact_closure.sql",
+      "line": 141,
+      "excerpt": "  'erp.run_v268_financial_report_checks()'::regprocedure"
+    },
+    {
+      "path": "supabase/migrations/20260910170556_erp_v2_6_20j_cp6_payment_fact_closure.sql",
+      "line": 496,
+      "excerpt": "  select pg_get_functiondef('erp.run_v268_financial_report_checks()'::regprocedure),"
+    },
+    {
+      "path": "supabase/migrations/20260910170556_erp_v2_6_20j_cp6_payment_fact_closure.sql",
+      "line": 498,
+      "excerpt": "      'erp.run_v268_financial_report_checks()'::regprocedure),'UTF8'),'sha256'),'hex')"
+    },
+    {
+      "path": "supabase/migrations/20260910170556_erp_v2_6_20j_cp6_payment_fact_closure.sql",
+      "line": 638,
+      "excerpt": "  select issue_count into v_count from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260914190500_erp_v2_6_20ab_cp6_operational_business_clock.sql",
+      "line": 83,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','48d60613970b015d1afb30a2f8a7cec0e5d56d1f692c6a1acfa0ffd48684fda1','416b8c53665c4c2b814d4621935a9291797fdbf49067deb0a910d16dc90685fd',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 113,
+      "excerpt": "from pg_proc p join pg_namespace n on n.oid=p.pronamespace where p.oid in('erp._validate_migration_batch_base(uuid)'::regprocedure,'erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)'::regprocedure,'erp.apply_migration_master_rows(uuid)'::regprocedure,'erp.prepare_migration_opening_balance("
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 3315,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 6752,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.sql",
+      "line": 78,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','416b8c53665c4c2b814d4621935a9291797fdbf49067deb0a910d16dc90685fd',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.sql",
+      "line": 121,
+      "excerpt": "where p.oid in('erp.post_opening_balance(uuid)'::regprocedure,'erp.run_v268_financial_report_checks()'::regprocedure);"
+    },
+    {
+      "path": "supabase/migrations/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.sql",
+      "line": 130,
+      "excerpt": "  select pg_get_functiondef('erp.run_v268_financial_report_checks()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.sql",
+      "line": 166,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','416b8c53665c4c2b814d4621935a9291797fdbf49067deb0a910d16dc90685fd','6a93242cb0325baee511c2753eb65588600fe8b9a7fc62d423b85f14bf9c71d5',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql",
+      "line": 75,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','b213246d9d2373924699d6a13186b6ebe0e6e87867c0818c70b4e6e54ec09aef',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql",
+      "line": 170,
+      "excerpt": "where p.oid in('erp.guard_child_by_parent_status()'::regprocedure,'erp.run_v268_financial_report_checks()'::regprocedure);"
+    },
+    {
+      "path": "supabase/migrations/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql",
+      "line": 216,
+      "excerpt": "  execute $definition$CREATE OR REPLACE FUNCTION erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql",
+      "line": 1177,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','b213246d9d2373924699d6a13186b6ebe0e6e87867c0818c70b4e6e54ec09aef','c5b587583c1ae3d47ea6f52b50c9b63d982da18cfd7e027046ce0f5eb5d56ee2',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql",
+      "line": 285,
+      "excerpt": "  if (select count(*) from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+      "line": 2827,
+      "excerpt": "  into v_critical,v_warning from erp.run_v268_financial_report_checks();"
+    },
+    {
+      "path": "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+      "line": 2831,
+      "excerpt": "  into v_failed_checks from erp.run_v268_financial_report_checks() c"
+    },
+    {
+      "path": "supabase/migrations/20260923045944_erp_v2_6_20au_cp6_controlled_product_lifecycle.sql",
+      "line": 162,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260910031103_erp_v2_6_20g_cp6_independent_audit_closure.sql",
+      "line": 57,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','dc535f21e23d53af97a98a37da99f5109a8130833fd8bceb518196119cf993ed')"
+    },
+    {
+      "path": "supabase/migrations/20260910031103_erp_v2_6_20g_cp6_independent_audit_closure.sql",
+      "line": 98,
+      "excerpt": "  'erp.run_v268_financial_report_checks()'::regprocedure);"
+    },
+    {
+      "path": "supabase/migrations/20260910031103_erp_v2_6_20g_cp6_independent_audit_closure.sql",
+      "line": 319,
+      "excerpt": "  select pg_get_functiondef('erp.run_v268_financial_report_checks()'::regprocedure) into v_definition;"
+    },
+    {
+      "path": "supabase/migrations/20260910031103_erp_v2_6_20g_cp6_independent_audit_closure.sql",
+      "line": 417,
+      "excerpt": "  select coalesce(sum(issue_count),0) into v_count from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260922210815_erp_v2_6_20as_cp6_event_dates_product_identity.sql",
+      "line": 162,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 236,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','48d60613970b015d1afb30a2f8a7cec0e5d56d1f692c6a1acfa0ffd48684fda1',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 295,
+      "excerpt": "where p.oid in('erp.post_opening_subledger_settlement(uuid)'::regprocedure,'erp.post_vendor_payment(uuid)'::regprocedure,'erp.post_sales_payment(uuid)'::regprocedure,'erp.run_v267_financial_truth_checks()'::regprocedure,'erp._v268_financial_report_checks_pre_scope()'::regprocedure,'erp.run_v268_fina"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 372,
+      "excerpt": "  select pg_get_functiondef('erp.run_v268_financial_report_checks()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 376,
+      "excerpt": "    raise exception 'Y_CANONICAL_DATE_ANCHOR: erp.run_v268_financial_report_checks() operand 0';"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 397,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','48d60613970b015d1afb30a2f8a7cec0e5d56d1f692c6a1acfa0ffd48684fda1','416b8c53665c4c2b814d4621935a9291797fdbf49067deb0a910d16dc90685fd',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql",
+      "line": 421,
+      "excerpt": "  if (select count(*) from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912051922_erp_v2_6_20p_cp6_supplier_return_match_state.sql",
+      "line": 260,
+      "excerpt": "  if not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912051922_erp_v2_6_20p_cp6_supplier_return_match_state.sql",
+      "line": 262,
+      "excerpt": "     or not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912051922_erp_v2_6_20p_cp6_supplier_return_match_state.sql",
+      "line": 264,
+      "excerpt": "     or not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260910100051_erp_v2_6_20i_cp6_h2_audit_closure.sql",
+      "line": 82,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()',"
+    },
+    {
+      "path": "supabase/migrations/20260910100051_erp_v2_6_20i_cp6_h2_audit_closure.sql",
+      "line": 137,
+      "excerpt": "where p.oid='erp.run_v268_financial_report_checks()'::regprocedure;"
+    },
+    {
+      "path": "supabase/migrations/20260910100051_erp_v2_6_20i_cp6_h2_audit_closure.sql",
+      "line": 169,
+      "excerpt": "  select pg_get_functiondef('erp.run_v268_financial_report_checks()'::regprocedure),"
+    },
+    {
+      "path": "supabase/migrations/20260910100051_erp_v2_6_20i_cp6_h2_audit_closure.sql",
+      "line": 171,
+      "excerpt": "      'erp.run_v268_financial_report_checks()'::regprocedure),'UTF8'),'sha256'),'hex')"
+    },
+    {
+      "path": "supabase/migrations/20260910100051_erp_v2_6_20i_cp6_h2_audit_closure.sql",
+      "line": 294,
+      "excerpt": "  select issue_count into v_count from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.sql",
+      "line": 267,
+      "excerpt": "  if not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.sql",
+      "line": 269,
+      "excerpt": "     or not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.sql",
+      "line": 271,
+      "excerpt": "     or not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.sql",
+      "line": 273,
+      "excerpt": "     or not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.sql",
+      "line": 275,
+      "excerpt": "     or not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql",
+      "line": 78,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','6a93242cb0325baee511c2753eb65588600fe8b9a7fc62d423b85f14bf9c71d5',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql",
+      "line": 135,
+      "excerpt": "where p.oid in('erp.post_opening_balance(uuid)'::regprocedure,'erp.run_v268_financial_report_checks()'::regprocedure);"
+    },
+    {
+      "path": "supabase/migrations/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql",
+      "line": 218,
+      "excerpt": "  select pg_get_functiondef('erp.run_v268_financial_report_checks()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql",
+      "line": 270,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','6a93242cb0325baee511c2753eb65588600fe8b9a7fc62d423b85f14bf9c71d5','b213246d9d2373924699d6a13186b6ebe0e6e87867c0818c70b4e6e54ec09aef',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 90,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','0128d7d11ca0dcc10c303a6ad2c7b6b4ecc7215133a2d9a0d6dfec80642eec04'),"
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 144,
+      "excerpt": "  'erp.run_v268_financial_report_checks()'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 1324,
+      "excerpt": "  select pg_get_functiondef('erp.run_v268_financial_report_checks()'::regprocedure)"
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 1621,
+      "excerpt": "  into v_critical,v_warning from erp.run_v268_financial_report_checks();"
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 1625,
+      "excerpt": "  into v_failed_checks from erp.run_v268_financial_report_checks() c"
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 1773,
+      "excerpt": "  from erp.run_v268_financial_report_checks() c"
+    },
+    {
+      "path": "supabase/migrations/20260922185015_erp_v2_6_20ar_cp6_opening_overlap.sql",
+      "line": 162,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql",
+      "line": 72,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','c5b587583c1ae3d47ea6f52b50c9b63d982da18cfd7e027046ce0f5eb5d56ee2',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql",
+      "line": 145,
+      "excerpt": "where p.oid in('erp.guard_child_by_parent_status()'::regprocedure,'erp.guard_posted_document()'::regprocedure,'erp.post_sale(uuid)'::regprocedure,'erp.run_v268_financial_report_checks()'::regprocedure);"
+    },
+    {
+      "path": "supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql",
+      "line": 520,
+      "excerpt": "  execute $definition$CREATE OR REPLACE FUNCTION erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql",
+      "line": 1530,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','c5b587583c1ae3d47ea6f52b50c9b63d982da18cfd7e027046ce0f5eb5d56ee2','e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260913135850_erp_v2_6_20v_cp6_misc_finance_business_date.sql",
+      "line": 251,
+      "excerpt": "  if (select count(*) from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql",
+      "line": 164,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql",
+      "line": 94,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','9d82ca324cc2097f2fbdf98bf20d8c63d0a2474b897cfeb39290683c8e499a44'),"
+    },
+    {
+      "path": "supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql",
+      "line": 153,
+      "excerpt": "  'erp.run_v268_financial_report_checks()'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql",
+      "line": 1132,
+      "excerpt": "create or replace function erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql",
+      "line": 1376,
+      "excerpt": "alter function erp.run_v268_financial_report_checks() owner to postgres;"
+    },
+    {
+      "path": "supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql",
+      "line": 1463,
+      "excerpt": "  into v_critical,v_warning from erp.run_v268_financial_report_checks();$anchor$;"
+    },
+    {
+      "path": "supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql",
+      "line": 1466,
+      "excerpt": "  into v_critical,v_warning from erp.run_v268_financial_report_checks();"
+    },
+    {
+      "path": "supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql",
+      "line": 1470,
+      "excerpt": "  into v_failed_checks from erp.run_v268_financial_report_checks() c"
+    },
+    {
+      "path": "supabase/migrations/20260911023222_erp_v2_6_20k_cp6_payment_date_conservation.sql",
+      "line": 55,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','3ab1c4e42616eadac12dd0d37811703fdd0436690a57ebe962c651af56e3588f',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260911023222_erp_v2_6_20k_cp6_payment_date_conservation.sql",
+      "line": 73,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','c25defe6a1403a7199e71f92fd3799f941b7748f6228671e78586ba1ede5f8e1')"
+    },
+    {
+      "path": "supabase/migrations/20260911023222_erp_v2_6_20k_cp6_payment_date_conservation.sql",
+      "line": 91,
+      "excerpt": "  select sum(issue_count) into v_count from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260911023222_erp_v2_6_20k_cp6_payment_date_conservation.sql",
+      "line": 134,
+      "excerpt": "  'erp.run_v268_financial_report_checks()'::regprocedure,"
+    },
+    {
+      "path": "supabase/migrations/20260911023222_erp_v2_6_20k_cp6_payment_date_conservation.sql",
+      "line": 172,
+      "excerpt": "  select pg_get_functiondef('erp.run_v268_financial_report_checks()'::regprocedure) into d;"
+    },
+    {
+      "path": "supabase/migrations/20260911023222_erp_v2_6_20k_cp6_payment_date_conservation.sql",
+      "line": 209,
+      "excerpt": "alter function erp.run_v268_financial_report_checks() set timezone='UTC';"
+    },
+    {
+      "path": "supabase/migrations/20260911023222_erp_v2_6_20k_cp6_payment_date_conservation.sql",
+      "line": 254,
+      "excerpt": "  select issue_count into v_count from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260910061516_erp_v2_6_20h_cp6_expanded_audit_closure.sql",
+      "line": 55,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','fd48bcf94868dbcf7087af2c34b12c82333ae861d44c6bf79cbb41b1350a8962')"
+    },
+    {
+      "path": "supabase/migrations/20260910061516_erp_v2_6_20h_cp6_expanded_audit_closure.sql",
+      "line": 96,
+      "excerpt": "  'erp.run_v268_financial_report_checks()'::regprocedure"
+    },
+    {
+      "path": "supabase/migrations/20260910061516_erp_v2_6_20h_cp6_expanded_audit_closure.sql",
+      "line": 281,
+      "excerpt": "  select pg_get_functiondef('erp.run_v268_financial_report_checks()'::regprocedure)"
+    },
+    {
+      "path": "supabase/migrations/20260910061516_erp_v2_6_20h_cp6_expanded_audit_closure.sql",
+      "line": 360,
+      "excerpt": "  from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260923005153_erp_v2_6_20at_cp6_wip_temporal_identity.sql",
+      "line": 162,
+      "excerpt": " for r in select * from jsonb_each('{\"erp._cp6_supplier_cent_state(uuid[])\":{\"acl\":[\"postgres=X/postgres\"],\"identity\":\"erp._cp6_supplier_cent_state(uuid[])\",\"installed_sha256\":\"3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b\",\"owner\":\"postgres\",\"predecessor_sha256\":\"19d43e3e32d94c6a"
+    },
+    {
+      "path": "supabase/migrations/20260914163608_erp_v2_6_20aa_cp6_material_cost_business_day.sql",
+      "line": 82,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','48d60613970b015d1afb30a2f8a7cec0e5d56d1f692c6a1acfa0ffd48684fda1','416b8c53665c4c2b814d4621935a9291797fdbf49067deb0a910d16dc90685fd',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql",
+      "line": 320,
+      "excerpt": "  if (select count(*) from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql",
+      "line": 249,
+      "excerpt": "  if not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql",
+      "line": 251,
+      "excerpt": "     or not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql",
+      "line": 253,
+      "excerpt": "     or not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql",
+      "line": 255,
+      "excerpt": "     or not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql",
+      "line": 257,
+      "excerpt": "     or not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql",
+      "line": 259,
+      "excerpt": "     or not exists(select 1 from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql",
+      "line": 86,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','5d06a5d87aecd59f6a069a2d2ad3663859787dfe5b9e4ecd4922e1f7b2e28c6e')"
+    },
+    {
+      "path": "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql",
+      "line": 139,
+      "excerpt": "  'erp.run_v268_financial_report_checks()'::regprocedure"
+    },
+    {
+      "path": "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql",
+      "line": 1219,
+      "excerpt": "  select pg_get_functiondef('erp.run_v268_financial_report_checks()'::regprocedure)"
+    },
+    {
+      "path": "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql",
+      "line": 1457,
+      "excerpt": "       pg_get_functiondef('erp.run_v268_financial_report_checks()'::regprocedure))=0"
+    },
+    {
+      "path": "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql",
+      "line": 1459,
+      "excerpt": "       pg_get_functiondef('erp.run_v268_financial_report_checks()'::regprocedure))=0"
+    },
+    {
+      "path": "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql",
+      "line": 1475,
+      "excerpt": "  from erp.run_v268_financial_report_checks() c"
+    },
+    {
+      "path": "supabase/migrations/20260914085912_erp_v2_6_20z_cp6_accounting_close_business_date.sql",
+      "line": 81,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','48d60613970b015d1afb30a2f8a7cec0e5d56d1f692c6a1acfa0ffd48684fda1','416b8c53665c4c2b814d4621935a9291797fdbf49067deb0a910d16dc90685fd',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.sql",
+      "line": 70,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','ef5ab903b541819a64ca99e20021f5d1a7ad59bee9cda9122834bef5ce93f889',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.sql",
+      "line": 113,
+      "excerpt": "where p.oid in('erp.validate_work_completion()'::regprocedure,'erp.guard_work_completion_posting_consistency()'::regprocedure,'erp.run_v268_financial_report_checks()'::regprocedure);"
+    },
+    {
+      "path": "supabase/migrations/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.sql",
+      "line": 245,
+      "excerpt": "  execute $definition$CREATE OR REPLACE FUNCTION erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.sql",
+      "line": 1305,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','ef5ab903b541819a64ca99e20021f5d1a7ad59bee9cda9122834bef5ce93f889','bf10480574e90303e7a1bd70b29836a1ab2d4216fe1e7a030dece8e78b48561b',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql",
+      "line": 71,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql",
+      "line": 141,
+      "excerpt": "where p.oid in('erp.normalize_sales_return_item_from_allocation()'::regprocedure,'erp.post_sales_return(uuid)'::regprocedure,'erp.run_v268_financial_report_checks()'::regprocedure,'erp.validate_work_completion()'::regprocedure,'erp.validate_vendor_invoice_item_lineage()'::regprocedure);"
+    },
+    {
+      "path": "supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql",
+      "line": 443,
+      "excerpt": "  execute $definition$CREATE OR REPLACE FUNCTION erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql",
+      "line": 1517,
+      "excerpt": "    ('erp.run_v268_financial_report_checks()','e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef','ef5ab903b541819a64ca99e20021f5d1a7ad59bee9cda9122834bef5ce93f889',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),"
+    },
+    {
+      "path": "supabase/migrations/20260912171034_erp_v2_6_20t_cp6_material_adjustment_revaluation.sql",
+      "line": 411,
+      "excerpt": "  if (select count(*) from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/migrations/20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle.sql",
+      "line": 30,
+      "excerpt": "('erp.run_v268_financial_report_checks()','2bffd2d8f33ad2d918d1fb2f767676dc403ac777ad9a8ff69d4f32bf74067eff','48d60613970b015d1afb30a2f8a7cec0e5d56d1f692c6a1acfa0ffd48684fda1',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
+      "line": 151,
+      "excerpt": "from unnest(array['erp.post_opening_subledger_settlement(uuid)','erp.post_opening_financial_correction(uuid,numeric,text,date)','erp.reverse_opening_financial_correction(uuid,text)','erp.approve_payroll(uuid)','erp.post_payroll_payment(uuid)','erp.reverse_paid_payroll(uuid,text)','erp.initial_import"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
+      "line": 5038,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
+      "line": 6492,
+      "excerpt": " if exists(select 1 from erp.cp6_v2620bb_rollback_capsule where object_regidentity<>all(array['erp.post_opening_subledger_settlement(uuid)','erp.post_opening_financial_correction(uuid,numeric,text,date)','erp.reverse_opening_financial_correction(uuid,text)','erp.approve_payroll(uuid)','erp.post_payr"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 151,
+      "excerpt": "from unnest(array['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_po(uuid)','erp.compute_po_hpp_gl_targets_v2620d(uuid)','erp.bc_value_custody_v1(jsonb,uuid)','erp.bc_reverse_v1(jsonb,uuid)','erp.sync_material_cost_revaluation(uuid)','erp.run_v268_financial_report_checks()','er"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 2067,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 5208,
+      "excerpt": "      select 'run_v268_financial_report_checks' src,r.check_name,r.severity,r.issue_count,r.details from erp.run_v268_financial_report_checks() r"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 7292,
+      "excerpt": " if exists(select 1 from erp.cp6_v2620be_rollback_capsule where object_regidentity<>all(array['erp.post_product_conversion(uuid)','erp.propagate_conversion_hpp_for_po(uuid)','erp.compute_po_hpp_gl_targets_v2620d(uuid)','erp.bc_value_custody_v1(jsonb,uuid)','erp.bc_reverse_v1(jsonb,uuid)','erp.sync_m"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925010000_erp_v2_6_20ba_cp6_audit_closure.sql",
+      "line": 1201,
+      "excerpt": "  into v_warning,v_warnings from erp.run_v268_financial_report_checks() c"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260928134500_erp_v2_6_20bf_cp6_commercial_ranges_vendor_credit.sql",
+      "line": 2282,
+      "excerpt": "      select 'run_v268_financial_report_checks' src,r.check_name,r.severity,r.issue_count,r.details from erp.run_v268_financial_report_checks() r"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql",
+      "line": 151,
+      "excerpt": "from unnest(array['erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.post_laundry_delivery(uuid)','erp.desired_laundry_accrual(uuid)','erp.rebuild_po_hpp(uuid,text)','erp.period_blockers_v1(date,date)','erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)','erp.validate_laundry_receip"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql",
+      "line": 5046,
+      "excerpt": "      select 'run_v268_financial_report_checks' src,r.check_name,r.severity,r.issue_count,r.details from erp.run_v268_financial_report_checks() r"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql",
+      "line": 6960,
+      "excerpt": "CREATE OR REPLACE FUNCTION erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql",
+      "line": 8129,
+      "excerpt": " if exists(select 1 from erp.cp6_v2620bd_rollback_capsule where object_regidentity<>all(array['erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.post_laundry_delivery(uuid)','erp.desired_laundry_accrual(uuid)','erp.rebuild_po_hpp(uuid,text)','erp.period_blockers_v1(date,date)','erp.set_lau"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.sql",
+      "line": 520,
+      "excerpt": "      select 'run_v268_financial_report_checks' src,r.check_name,r.severity,r.issue_count,r.details from erp.run_v268_financial_report_checks() r"
+    },
+    {
+      "path": "supabase/release/cp6-t3-src/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.sql",
+      "line": 972,
+      "excerpt": "  into v_warning,v_warnings from erp.run_v268_financial_report_checks() c"
+    },
+    {
+      "path": "scripts/cp6_v2620h_adversarial_regression.py",
+      "line": 87,
+      "excerpt": "        elif item['identity'] == 'erp.run_v268_financial_report_checks()':"
+    },
+    {
+      "path": "scripts/cp6_v2620h_adversarial_regression.py",
+      "line": 107,
+      "excerpt": "        or i_row[0] != 'erp.run_v268_financial_report_checks()'"
+    },
+    {
+      "path": "scripts/cp6_v2620h_adversarial_regression.py",
+      "line": 109,
+      "excerpt": "        or i_row[3] != j_by_identity['erp.run_v268_financial_report_checks()']"
+    },
+    {
+      "path": "scripts/cp6_v2620h_adversarial_regression.py",
+      "line": 183,
+      "excerpt": "        'select issue_count from erp.run_v268_financial_report_checks() where check_name=%s',"
+    },
+    {
+      "path": "scripts/cp6_v2620h_adversarial_regression.py",
+      "line": 192,
+      "excerpt": "           from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "scripts/cp6_aw_probe.py",
+      "line": 267,
+      "excerpt": "    rows=cur.execute(\"\"\"select 'v268',check_name,severity,issue_count from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "scripts/cp6_aw_probe.py",
+      "line": 277,
+      "excerpt": "    names={r[0] for r in cur.execute(\"\"\"select check_name from erp.run_v268_financial_report_checks() where severity in('CRITICAL','ERROR')"
+    },
+    {
+      "path": "scripts/cp6_v2620ae_build_sql.py",
+      "line": 292,
+      "excerpt": "  select pg_get_functiondef('erp.run_v268_financial_report_checks()'::regprocedure) into d;"
+    },
+    {
+      "path": "scripts/cp6_v2620y_install_qualification.py",
+      "line": 89,
+      "excerpt": "                'erp._v268_financial_report_checks_pre_scope()', 'erp.run_v268_financial_report_checks()'"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 315,
+      "excerpt": "        {'identity': 'erp.run_v268_financial_report_checks()', 'predecessor_sha256': '5d06a5d87aecd59f6a069a2d2ad3663859787dfe5b9e4ecd4922e1f7b2e28c6e', 'installed_sha256': 'dc535f21e23d53af97a98a37da99f5109a8130833fd8bceb518196119cf993ed', 'owner': 'postgres', 'acl': _acl('authenticated', 'postgres"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 323,
+      "excerpt": "        {'identity': 'erp.run_v268_financial_report_checks()', 'predecessor_sha256': 'dc535f21e23d53af97a98a37da99f5109a8130833fd8bceb518196119cf993ed', 'installed_sha256': 'fd48bcf94868dbcf7087af2c34b12c82333ae861d44c6bf79cbb41b1350a8962', 'owner': 'postgres', 'acl': _acl('authenticated', 'postgres"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 332,
+      "excerpt": "        {'identity': 'erp.run_v268_financial_report_checks()', 'predecessor_sha256': 'fd48bcf94868dbcf7087af2c34b12c82333ae861d44c6bf79cbb41b1350a8962', 'installed_sha256': '3afc0bef1136bafb14d4fdde69fa0cdf79fff0883c35c65607bdfa624d8cf65f', 'owner': 'postgres', 'acl': _acl('authenticated', 'postgres"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 335,
+      "excerpt": "        {'identity': 'erp.run_v268_financial_report_checks()', 'predecessor_sha256': '3afc0bef1136bafb14d4fdde69fa0cdf79fff0883c35c65607bdfa624d8cf65f', 'installed_sha256': 'c25defe6a1403a7199e71f92fd3799f941b7748f6228671e78586ba1ede5f8e1', 'owner': 'postgres', 'acl': _acl('authenticated', 'postgres"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 340,
+      "excerpt": "        {'identity': 'erp.run_v268_financial_report_checks()', 'predecessor_sha256': 'c25defe6a1403a7199e71f92fd3799f941b7748f6228671e78586ba1ede5f8e1', 'installed_sha256': '3ab1c4e42616eadac12dd0d37811703fdd0436690a57ebe962c651af56e3588f', 'owner': 'postgres', 'acl': _acl('authenticated', 'postgres"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 345,
+      "excerpt": "        {'identity': 'erp.run_v268_financial_report_checks()', 'predecessor_sha256': '3ab1c4e42616eadac12dd0d37811703fdd0436690a57ebe962c651af56e3588f', 'installed_sha256': '2bffd2d8f33ad2d918d1fb2f767676dc403ac777ad9a8ff69d4f32bf74067eff', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'p"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 368,
+      "excerpt": "        {'identity': 'erp.run_v268_financial_report_checks()', 'predecessor_sha256': '2bffd2d8f33ad2d918d1fb2f767676dc403ac777ad9a8ff69d4f32bf74067eff', 'installed_sha256': '48d60613970b015d1afb30a2f8a7cec0e5d56d1f692c6a1acfa0ffd48684fda1', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'p"
+    },
+    {
+      "path": "scripts/cp6_preuse_rollback_maintenance.py",
+      "line": 545,
+      "excerpt": "    'Y': [{'identity': 'erp.post_opening_subledger_settlement(uuid)', 'predecessor_sha256': 'c56b387a8593b19cd3b92e6dc20ac95459d2aedeb2b616b6fb1e4d812e729393', 'installed_sha256': 'b709ed64c78b09c113e6e0541eb757b5367dfbf7dd51752a26827207fc12e97e', 'owner': 'postgres', 'acl': ['authenticated=X/postgr"
+    },
+    {
+      "path": "scripts/cp6_bb_probe.py",
+      "line": 1133,
+      "excerpt": "    report=[list(r) for r in cur.execute('select check_name,issue_count from erp.run_v268_financial_report_checks() where issue_count<>0').fetchall()]"
+    },
+    {
+      "path": "scripts/cp6_v2620e_counterexample_regression.py",
+      "line": 466,
+      "excerpt": "        from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "scripts/cp6_aw_definitions.py",
+      "line": 95,
+      "excerpt": "  into v_critical,v_warning from erp.run_v268_financial_report_checks();"
+    },
+    {
+      "path": "scripts/cp6_aw_definitions.py",
+      "line": 99,
+      "excerpt": "  into v_failed_checks from erp.run_v268_financial_report_checks() c"
+    },
+    {
+      "path": "scripts/cp6_aw_definitions.py",
+      "line": 121,
+      "excerpt": "  into v_warning,v_warnings from erp.run_v268_financial_report_checks() c"
+    },
+    {
+      "path": "scripts/cp6_v2620ae_family.py",
+      "line": 91,
+      "excerpt": "        \"from erp.run_v268_financial_report_checks() where check_name=%s\","
+    },
+    {
+      "path": "scripts/cp6_initial_import_prepayments.py",
+      "line": 619,
+      "excerpt": "    identity='erp.run_v268_financial_report_checks()'"
+    },
+    {
+      "path": "scripts/cp6_bc_probe.py",
+      "line": 38,
+      "excerpt": "           'run_v267_financial_truth_checks','run_v268_financial_report_checks','run_v263a_payroll_integrity_checks')"
+    },
+    {
+      "path": "scripts/cp6_v2620ai_build_sql.py",
+      "line": 20,
+      "excerpt": "            'erp.run_v268_financial_report_checks()')"
+    },
+    {
+      "path": "scripts/cp6_initial_import_production_trial.py",
+      "line": 83,
+      "excerpt": "    rows=cur.execute('select check_name,issue_count from erp.run_v268_financial_report_checks() where check_name=any(%s)',(names,)).fetchall()"
+    },
+    {
+      "path": "scripts/cp6_be_build.py",
+      "line": 24,
+      "excerpt": "          'erp.bc_reverse_v1(jsonb,uuid)','erp.sync_material_cost_revaluation(uuid)','erp.run_v268_financial_report_checks()',"
+    },
+    {
+      "path": "scripts/cp6_be_build.py",
+      "line": 81,
+      "excerpt": "    checks=substitute(last_definition(BD,'run_v268_financial_report_checks'),["
+    },
+    {
+      "path": "scripts/cp6_v2620h_maintenance_rollback_matrix.py",
+      "line": 492,
+      "excerpt": "                        'run_v268_financial_report_checks',"
+    },
+    {
+      "path": "scripts/cp6_v2620k_rollback_guards.py",
+      "line": 181,
+      "excerpt": "                'alter function erp.run_v268_financial_report_checks() cost 999',"
+    },
+    {
+      "path": "scripts/cp6_v2620k_rollback_guards.py",
+      "line": 187,
+      "excerpt": "                'grant execute on function erp.run_v268_financial_report_checks() to anon',"
+    },
+    {
+      "path": "scripts/cp6_v2620w_scrap_business_date_regression.py",
+      "line": 151,
+      "excerpt": "        counts=[one(cur,'select coalesce(sum(issue_count),0) from erp.'+fn+'() where check_name=%s and severity=%s',(DETECTOR,'CRITICAL')) for fn in ('run_v267_financial_truth_checks','run_v268_financial_report_checks')]"
+    },
+    {
+      "path": "scripts/cp6_aw_local_smoke.py",
+      "line": 24,
+      "excerpt": "STUBS=\"create function erp._cp3_business_date(p timestamptz) returns date language sql immutable as $$select (p at time zone 'Asia/Jakarta')::date$$;\\ncreate table erp._stub_accounts(mapping_key text primary key, account_id uuid not null);\\ncreate function erp.account_id(p_mapping_key text) returns "
+    },
+    {
+      "path": "scripts/cp6_initial_import_receipts.py",
+      "line": 288,
+      "excerpt": "    identity='erp.run_v268_financial_report_checks()'"
+    },
+    {
+      "path": "scripts/cp6_initial_import_receipt_trial.py",
+      "line": 208,
+      "excerpt": "    check=lambda:cur.execute(\"select issue_count from erp.run_v268_financial_report_checks() where check_name='V2620AF_OPENING_SOURCE_LINEAGE_MISMATCH'\").fetchone()[0]"
+    },
+    {
+      "path": "scripts/cp6_initial_import_prepayment_trial.py",
+      "line": 70,
+      "excerpt": "    rows2=cur.execute(\"select check_name,issue_count from erp.run_v268_financial_report_checks() where check_name in('V2620I_SALES_PAYMENT_JOURNAL_LINEAGE_MISMATCH','V2620J_SALES_PAYMENT_IMMUTABLE_FACT_MISMATCH')\").fetchall()"
+    },
+    {
+      "path": "scripts/cp6_v2620m_runtime.py",
+      "line": 52,
+      "excerpt": "        'erp.run_v268_financial_report_checks()',"
+    },
+    {
+      "path": "scripts/cp6_v2620ah_family.py",
+      "line": 24,
+      "excerpt": "    check=cur.execute('select severity,issue_count from erp.run_v268_financial_report_checks() where check_name=%s',(CHECK,)).fetchone()"
+    },
+    {
+      "path": "scripts/cp6_v2620f_final_runtime_regression.py",
+      "line": 41,
+      "excerpt": "        from erp.run_v268_financial_report_checks()"
+    },
+    {
+      "path": "scripts/cp6_v2620ai_family.py",
+      "line": 22,
+      "excerpt": " check=cur.execute('select severity,issue_count from erp.run_v268_financial_report_checks() where check_name=%s',(CHECK,)).fetchone()"
+    },
+    {
+      "path": "scripts/cp6_bb_build.py",
+      "line": 67,
+      "excerpt": "  F7 erp.run_v268_financial_report_checks (AP): the WIP source conservation check subtracts split BS disposals like opening BS"
+    },
+    {
+      "path": "scripts/cp6_bb_build.py",
+      "line": 324,
+      "excerpt": "REPORT_HEAD='CREATE OR REPLACE FUNCTION erp.run_v268_financial_report_checks()'"
+    },
+    {
+      "path": "scripts/cp6_bb_build.py",
+      "line": 436,
+      "excerpt": "          'erp.recost_initial_import_origins_v1(uuid)','erp.run_v268_financial_report_checks()',"
+    },
+    {
+      "path": "scripts/cp6_v2620ag_build_sql.py",
+      "line": 19,
+      "excerpt": "            'erp.post_sale(uuid)','erp.run_v268_financial_report_checks()')"
+    },
+    {
+      "path": "scripts/cp6_v2620ag_build_sql.py",
+      "line": 133,
+      "excerpt": "    old_capture=\"where p.oid in('erp.guard_child_by_parent_status()'::regprocedure,'erp.run_v268_financial_report_checks()'::regprocedure);\""
+    },
+    {
+      "path": "scripts/cp6_v2620i_rollback_guards.py",
+      "line": 170,
+      "excerpt": "                'alter function erp.run_v268_financial_report_checks() cost 999',"
+    },
+    {
+      "path": "scripts/cp6_v2620i_rollback_guards.py",
+      "line": 176,
+      "excerpt": "                'grant execute on function erp.run_v268_financial_report_checks() to anon',"
+    },
+    {
+      "path": "scripts/cp6_v2620i_rollback_guards.py",
+      "line": 290,
+      "excerpt": "               from pg_proc p where p.oid='erp.run_v268_financial_report_checks()'::regprocedure\"\"\""
+    },
+    {
+      "path": "scripts/cp6_v2620y_cash_business_date_regression.py",
+      "line": 109,
+      "excerpt": "    for function in ('run_v267_financial_truth_checks', 'run_v268_financial_report_checks'):"
+    },
+    {
+      "path": "scripts/cp6_ax_probe.py",
+      "line": 135,
+      "excerpt": "    check=cur.execute(\"select coalesce(sum(issue_count),0) from erp.run_v268_financial_report_checks() where check_name='V2620F_NON_PO_PRODUCT_HPP_BOOK_MISMATCH'\").fetchone()[0]"
+    },
+    {
+      "path": "scripts/cp6_ax_probe.py",
+      "line": 638,
+      "excerpt": "        issues=cur.execute(\"select coalesce(sum(issue_count),0) from erp.run_v268_financial_report_checks() where check_name='V2620F_NON_PO_PRODUCT_HPP_BOOK_MISMATCH'\").fetchone()[0]"
+    },
+    {
+      "path": "scripts/cp6_v2620ad_build_sql.py",
+      "line": 19,
+      "excerpt": "IDENTITIES=('erp.post_opening_balance(uuid)','erp.run_v268_financial_report_checks()')"
+    },
+    {
+      "path": "scripts/cp6_v2620ad_build_sql.py",
+      "line": 116,
+      "excerpt": "        \"where p.oid in('erp.post_opening_balance(uuid)'::regprocedure,'erp.run_v268_financial_report_checks()'::regprocedure);\")"
+    },
+    {
+      "path": "scripts/cp6_v2620ad_build_sql.py",
+      "line": 124,
+      "excerpt": "  select pg_get_functiondef('erp.run_v268_financial_report_checks()'::regprocedure) into d;"
+    },
+    {
+      "path": "scripts/cp6_v2620v_misc_finance_business_date_regression.py",
+      "line": 224,
+      "excerpt": "            (DETECTOR, 'CRITICAL')) for function in ('run_v267_financial_truth_checks','run_v268_financial_report_checks')]"
+    },
+    {
+      "path": "scripts/cp6_v2620j_payment_fact_regression.py",
+      "line": 40,
+      "excerpt": "        'select issue_count from erp.run_v268_financial_report_checks() where check_name=%s',"
+    },
+    {
+      "path": "scripts/cp6_v2620j_payment_fact_regression.py",
+      "line": 91,
+      "excerpt": "        'erp.run_v268_financial_report_checks()': ("
+    },
+    {
+      "path": "scripts/cp6_initial_import_production.py",
+      "line": 232,
+      "excerpt": "    i='erp.run_v268_financial_report_checks()'"
+    },
+    {
+      "path": "scripts/cp6_v2620i_h2_audit_regression.py",
+      "line": 42,
+      "excerpt": "        'select issue_count from erp.run_v268_financial_report_checks() where check_name=%s',"
+    },
+    {
+      "path": "scripts/cp6_v2620i_h2_audit_regression.py",
+      "line": 84,
+      "excerpt": "        or row[0] != 'erp.run_v268_financial_report_checks()'"
+    },
+    {
+      "path": "scripts/cp6_v2620i_h2_audit_regression.py",
+      "line": 106,
+      "excerpt": "        (item for item in j_rows if item[0] == 'erp.run_v268_financial_report_checks()'),"
+    },
+    {
+      "path": "scripts/cp6_bd_probe.py",
+      "line": 1370,
+      "excerpt": "    rows=q(cur,'select * from erp.run_v267_financial_truth_checks() union all select * from erp.run_v268_financial_report_checks()')"
+    },
+    {
+      "path": "scripts/cp6_bd_probe.py",
+      "line": 1529,
+      "excerpt": "    rows=q(cur,'select * from erp.run_v267_financial_truth_checks() union all select * from erp.run_v268_financial_report_checks()')"
+    },
+    {
+      "path": "scripts/cp6_bd_build.py",
+      "line": 394,
+      "excerpt": "          'erp.bb_opening_credit_lines_v1(uuid)','erp.bb_opening_credit_account_v1(uuid)','erp.run_v268_financial_report_checks()']"
+    },
+    {
+      "path": "scripts/cp6_bd_build.py",
+      "line": 433,
+      "excerpt": "    report=substitute(last_definition(BB,'run_v268_financial_report_checks'),REPORT_SUBS,'report checks')"
+    },
+    {
+      "path": "scripts/cp6_v2620af_family.py",
+      "line": 39,
+      "excerpt": "    check=cur.execute(\"select severity,issue_count from erp.run_v268_financial_report_checks() where check_name=%s\",(CHECK,)).fetchone()"
+    },
+    {
+      "path": "scripts/cp6_v2620ah_build_sql.py",
+      "line": 19,
+      "excerpt": "            'erp.post_sales_return(uuid)','erp.run_v268_financial_report_checks()',"
+    },
+    {
+      "path": "scripts/cp6_v2620j_rollback_guards.py",
+      "line": 181,
+      "excerpt": "                'alter function erp.run_v268_financial_report_checks() cost 999',"
+    },
+    {
+      "path": "scripts/cp6_v2620j_rollback_guards.py",
+      "line": 187,
+      "excerpt": "                'grant execute on function erp.run_v268_financial_report_checks() to anon',"
+    },
+    {
+      "path": "scripts/cp6_v2620af_build_sql.py",
+      "line": 23,
+      "excerpt": "IDENTITIES = (\"erp.guard_child_by_parent_status()\", \"erp.run_v268_financial_report_checks()\")"
+    },
+    {
+      "path": "scripts/cp6_v2620af_build_sql.py",
+      "line": 191,
+      "excerpt": "    migration = replace(migration, \"where p.oid in('erp.post_opening_balance(uuid)'::regprocedure,'erp.run_v268_financial_report_checks()'::regprocedure)\","
+    },
+    {
+      "path": "scripts/cp6_v2620af_build_sql.py",
+      "line": 192,
+      "excerpt": "                        \"where p.oid in('erp.guard_child_by_parent_status()'::regprocedure,'erp.run_v268_financial_report_checks()'::regprocedure)\")"
+    },
+    {
+      "path": "scripts/cp6_v2620af_runtime.py",
+      "line": 59,
+      "excerpt": "        \"erp.guard_child_by_parent_status()\", \"erp.run_v268_financial_report_checks()\""
+    },
+    {
+      "path": "scripts/cp6_v2620ag_family.py",
+      "line": 23,
+      "excerpt": " check=cur.execute('select severity,issue_count from erp.run_v268_financial_report_checks() where check_name=%s',(CHECK,)).fetchone();actors.admin(cur)"
+    },
+    {
+      "path": "scripts/cp6_ad_roll_opening_check.py",
+      "line": 114,
+      "excerpt": "        \"select severity,issue_count,details from erp.run_v268_financial_report_checks() \""
+    },
+    {
+      "path": "scripts/cp6_v2620ad_family_proof.py",
+      "line": 50,
+      "excerpt": "    checks=cur.execute('select check_name,severity,issue_count,details from erp.run_v268_financial_report_checks() where check_name=%s',(CHECK,)).fetchall()"
+    },
+    {
+      "path": "scripts/cp7_rate_revision_bundle.py",
+      "line": 15,
+      "excerpt": "consistency, erp.run_v268_financial_report_checks) stays the accepted definition: a revision is an ordinary snapshot row."
+    },
+    {
+      "path": "scripts/cp7_rate_revision_bundle.py",
+      "line": 99,
+      "excerpt": "                                       'erp.run_v268_financial_report_checks()'])"
+    },
+    {
+      "path": "scripts/cp7_report_accounts_bundle.py",
+      "line": 40,
+      "excerpt": "    'erp.run_v268_financial_report_checks()': 14,"
+    },
+    {
+      "path": "scripts/cp7_r3_rate_cases.py",
+      "line": 86,
+      "excerpt": "    for fn in('erp.run_v268_financial_report_checks','erp.run_v263c_bs_rework_integrity_checks'):"
+    },
+    {
+      "path": "scripts/cp7_r5_cases.py",
+      "line": 272,
+      "excerpt": "        signature='erp.run_v268_financial_report_checks()'"
+    }
+  ],
+  "sale_lifecycle_po_hpp_amount_v2620d": [
+    {
+      "path": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "line": 88,
+      "excerpt": "    ('erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)','ec051d7014e620ffcb219faaa0ed21bd0f4b7674aff6ba977f773ba4a2ee714a'),"
+    },
+    {
+      "path": "supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql",
+      "line": 743,
+      "excerpt": "    erp.sale_lifecycle_po_hpp_amount_v2620d(id,p_po_id)"
+    },
+    {
+      "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "line": 6219,
+      "excerpt": "    erp.sale_lifecycle_po_hpp_amount_v2620d(id,p_po_id)"
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 55,
+      "excerpt": "     or to_regprocedure('erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)') is not null"
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 617,
+      "excerpt": "create function erp.sale_lifecycle_po_hpp_amount_v2620d("
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 726,
+      "excerpt": "alter function erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid) owner to postgres;"
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 727,
+      "excerpt": "revoke all on function erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)"
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 761,
+      "excerpt": "  select coalesce(sum(erp.sale_lifecycle_po_hpp_amount_v2620d(id,p_po_id)),0)::numeric cogs"
+    },
+    {
+      "path": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "line": 1762,
+      "excerpt": "         ('erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)'),"
+    },
+    {
+      "path": "scripts/cp7_report_accounts_bundle.py",
+      "line": 41,
+      "excerpt": "    'erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)': 6,"
+    },
+    {
+      "path": "scripts/cp7_r5_cases.py",
+      "line": 220,
+      "excerpt": "            'erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)':[tuple(r) for r in cur.execute("
+    },
+    {
+      "path": "scripts/cp7_r5_cases.py",
+      "line": 267,
+      "excerpt": "                               'erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)') if not compared[s]['with_value']]"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "candidate_sha": "17fa25075ba77f0853c3c16f504288ace03eec35",
+  "summaries": [
+    {
+      "suite": "cp17",
+      "status": "PENDING",
+      "expected": 345
+    },
+    {
+      "suite": "p19-scale",
+      "status": "PENDING",
+      "expected": 5
+    },
+    {
+      "suite": "p19-transport",
+      "run_id": 39238034877,
+      "job_id": 118011792307,
+      "status": "RECONCILED",
+      "expected": 15,
+      "observed": 15,
+      "counts": {
+        "PASS": 15
+      },
+      "missing": [],
+      "duplicates": [],
+      "manifest_sha256": "76f667d5493e6ebbe36a01765c8d7e26dd57b8b32c24fbb84fe5fa1834a1b1fe",
+      "log_sha256": "612952feb5366ca28ea280afb8386c5ca3a7454d5f49853d64cbdd7817ef6d7f"
+    },
+    {
+      "suite": "p19-report",
+      "run_id": 39238034877,
+      "job_id": 118011792477,
+      "status": "RECONCILED",
+      "expected": 20,
+      "observed": 20,
+      "counts": {
+        "PASS": 20
+      },
+      "missing": [],
+      "duplicates": [],
+      "manifest_sha256": "5630a3b8ae1b00146c73628fc27e0d4a5a05f9099adf12e39fda16449eede9a6",
+      "log_sha256": "a25f9217ec80054d72c0ba67b90ba023e88a5b1c04f4e7d00c1ab338b5288afd"
+    },
+    {
+      "suite": "own-first",
+      "run_id": 39238457513,
+      "job_id": 118013182781,
+      "status": "RECONCILED",
+      "expected": 11,
+      "observed": 11,
+      "counts": {
+        "PASS": 9,
+        "INCOMPLETE": 2
+      },
+      "missing": [],
+      "duplicates": [],
+      "manifest_sha256": "9608255e3148b8b0bd94b96ecdbe5b416ab5ef273bb3e57d9a71388dd01d11ad",
+      "log_sha256": "93fe536309c70713f1ec63d70966ff52839e461c5f3b3865e9bbf5bced50e6bf"
+    },
+    {
+      "suite": "own-q2",
+      "status": "PENDING",
+      "expected": 2
+    }
+  ],
+  "execution_count": 46,
+  "counts": {
+    "PASS": 44,
+    "INCOMPLETE": 2
+  },
+  "unique_coverage_key": "suite family + layer + id; own-q2 is qualification of same own-first IDs, not extra product coverage",
+  "all_first_failures_preserved": true
+}
