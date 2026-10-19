@@ -1,0 +1,457 @@
+{
+  "contract": "cp7.p19.full-application-scale.v1",
+  "evidence_kind": "FULL_APPLICATION_NATIVE",
+  "expected_case_count": 5,
+  "required_case_counts": {
+    "native": 1,
+    "browser": 4
+  },
+  "required_case_ids": {
+    "native": [
+      "P19S_NATIVE_ROLLED_BACK_100_GRID_CAP"
+    ],
+    "browser": [
+      "P19S_BROWSER_DESKTOP_100",
+      "P19S_BROWSER_DESKTOP_300",
+      "P19S_BROWSER_DESKTOP_1000",
+      "P19S_BROWSER_DESKTOP_5000"
+    ]
+  },
+  "sizes": [
+    100,
+    300,
+    1000,
+    5000
+  ],
+  "size_meaning": "Total current Native planning targets (product root:size) in the global source after seeding, including pre-existing products and the one WIP fixture target. Seeding adds size minus current; it never removes or hides a target.",
+  "history_days": [
+    1,
+    30,
+    100
+  ],
+  "grid_boundary": {
+    "size": 1000,
+    "days": 101
+  },
+  "statement_timeout": "8s",
+  "caps": {
+    "STATEMENT_TIMEOUT_8S": {
+      "value": "8s",
+      "codes": [
+        "57014",
+        "CP7_ANALYSIS_JOB_STOPPED"
+      ],
+      "where": "existing authenticated statement limit (PostgREST role setting); SQL path sets the same 8s per public call",
+      "predicted_by_size_model": true
+    },
+    "HISTORY_SOURCE_PRODUCTS_1000": {
+      "value": 1000,
+      "codes": [
+        "CP7_PLANNING_CAPTURE_INCOMPLETE"
+      ],
+      "where": "scripts/cp7-src/planning/history-source.sql (more than 1000 current products: status INCOMPLETE); planning/history.sql history_build refuses",
+      "predicted_by_size_model": true
+    },
+    "HISTORY_GRID_100000": {
+      "value": 100000,
+      "codes": [
+        "CP7_PLANNING_HISTORY_GRID_LIMIT",
+        "CP7_DEMAND_GRID_LIMIT"
+      ],
+      "where": "planning/history.sql and demand/history.sql: products x history days",
+      "predicted_by_size_model": true
+    },
+    "DEMAND_ARRAYS": {
+      "value": "targets 1000, events 50000, availability 100000",
+      "codes": [
+        "CP7_F04_ARRAY_LIMIT"
+      ],
+      "where": "demand/history.sql cp7_demand.items",
+      "predicted_by_size_model": false
+    },
+    "BASELINE_ALLOCATION_100000": {
+      "value": "positions x targets 100000, each list 1000",
+      "codes": [
+        "CP7_BASELINE_ALLOCATION_LIMIT"
+      ],
+      "where": "baseline/allocation.sql",
+      "predicted_by_size_model": false
+    },
+    "NETTING_WORK_100000": {
+      "value": "positions 1000, positions x baseline rows 100000",
+      "codes": [
+        "CP7_NETTING_WORK_LIMIT"
+      ],
+      "where": "planning/netting.sql: more than 1000 WIP positions or positions x baseline rows above 100000",
+      "predicted_by_size_model": false
+    },
+    "NETTING_MATCH_5000": {
+      "value": 5000,
+      "codes": [
+        "CP7_NETTING_MATCH_SOURCE_LIMIT"
+      ],
+      "where": "planning/netting.sql matching_products",
+      "predicted_by_size_model": false
+    },
+    "SUPPLY_SCOPE_1000": {
+      "value": "1000 scope ids per kind (cutting groups not proven exhausted), 20000 posted cutting groups classified, 20000 facts",
+      "codes": [
+        "CP7_SUPPLY_GLOBAL_SCOPE_LIMIT",
+        "CP7_SUPPLY_FACT_LIMIT"
+      ],
+      "where": "planning/supply-source.sql (supply v2: exhausted groups listed in production_scope.exhausted_cutting_groups)",
+      "predicted_by_size_model": false
+    },
+    "SEGMENT_2000000_CODE_POINTS": {
+      "value": 2000000,
+      "codes": [],
+      "where": "planning/analysis-jobs.sql segment cut; a cut, never a refusal",
+      "predicted_by_size_model": false
+    },
+    "BODY_8000000_BYTES": {
+      "value": 8000000,
+      "codes": [],
+      "where": "per segment; above it the panel switches from the single body to the same run's segments",
+      "predicted_by_size_model": false
+    },
+    "CLIENT_DOCUMENT_64000000_BYTES": {
+      "value": 64000000,
+      "codes": [],
+      "where": "src/nativeAnalysisTransport.ts ANALYSIS_DOCUMENT_UTF8_BYTES; the client refuses the whole document",
+      "predicted_by_size_model": false
+    },
+    "STAGED_TARGETS_5000": {
+      "value": 5000,
+      "codes": [
+        "CP7_ANALYSIS_STAGED_TARGET_LIMIT"
+      ],
+      "where": "planning/analysis-stages.sql bounds job_targets: more planned products at capture refuse the staged job",
+      "predicted_by_size_model": true
+    },
+    "STAGED_HISTORY_CELLS_500000": {
+      "value": 500000,
+      "codes": [
+        "CP7_PLANNING_HISTORY_GRID_LIMIT"
+      ],
+      "where": "planning/analysis-stages.sql bounds job_history_cells: planned products x history days (the single path refuses at 100000)",
+      "predicted_by_size_model": true
+    },
+    "STAGED_MATCH_10000": {
+      "value": 10000,
+      "codes": [
+        "CP7_NETTING_MATCH_SOURCE_LIMIT"
+      ],
+      "where": "planning/analysis-stages.sql bounds job_matching_products (the single path keeps 5000)",
+      "predicted_by_size_model": false
+    },
+    "STAGED_UNIT_STOPPED_8S": {
+      "value": "8s, 3 attempts",
+      "codes": [
+        "CP7_ANALYSIS_STAGE_STOPPED"
+      ],
+      "where": "planning/analysis-stages.sql step: a unit stopped by the existing 8 s limit three times fails the job",
+      "predicted_by_size_model": true
+    },
+    "STAGED_PAGE_BODY_8000000": {
+      "value": 8000000,
+      "codes": [
+        "CP7_ANALYSIS_PAGE_BODY_LIMIT"
+      ],
+      "where": "planning/analysis-stages.sql pages: one target whose items alone exceed a page body; a page is never cut inside a target",
+      "predicted_by_size_model": false
+    }
+  },
+  "synthetic_inputs": {
+    "label": "P19_SCALE_SYNTHETIC_NOT_FACTORY_DEFAULT",
+    "sizes_per_model": 10,
+    "products_per_import_batch": 250,
+    "cutover_days": 10,
+    "opening_fg_pcs": "50",
+    "opening_unit_cost": "6.00",
+    "color_name": "Blue",
+    "sale_rounds": [
+      {
+        "days_before_today": 3,
+        "qty_pcs": 3
+      },
+      {
+        "days_before_today": 2,
+        "qty_pcs": 2
+      }
+    ],
+    "sale_unit_price": "20",
+    "sale_lines_per_note": 100,
+    "profile": {
+      "mean_mode": "SELECTED_MANUAL",
+      "daily_pcs": "1",
+      "minimum_available_days": "20",
+      "lead_days": "3",
+      "review_days": "7",
+      "buffer_days": "0"
+    },
+    "profile_reason": "P19 scale synthetic selected profile; not a factory default",
+    "policy_state": "ACTIVE",
+    "policy_reason": "P19 scale synthetic ACTIVE review; not a factory default",
+    "sale_reason": "P19 scale synthetic sale history through the ordinary Native sale writer",
+    "workload_calendar_margin_minutes": 60,
+    "wip_fixture": "one accepted cp7_analysis_cases.setup fixture: BB opening WIP 8 pcs, reviewed 9/10 yield, 45 work minutes",
+    "cutting_groups_seeded": 0
+  },
+  "writers": {
+    "products_and_opening_fg": "BB opening-balance importer (erp_save_initial_import_action_v1 CREATE/SAVE_FILE/VALIDATE/FINALIZE), at most 5000 rows per batch",
+    "sales": "erp.save_sale_draft_v2 then erp.post_sale_v2, at most 100 lines per note (the CP7 sale form bound)",
+    "profiles": "erp_cp7_get_planning_profiles_v1 (200 roots per read) and erp_cp7_save_planning_profile_v1",
+    "commercial_skus": "erp_save_sku_action_v1 SAVE_GROUPS (30 groups per call, one model's sizes per group)",
+    "policies": "erp_cp7_get_production_policy_v1 (200 per read) and erp_cp7_set_production_policy_v1 (100 per call)",
+    "calendar": "erp_cp7_save_production_schedule_v1 through the P19 native-load reviewed workload calendar",
+    "direct_business_inserts": false
+  },
+  "owner_latency_targets": {
+    "routine_screen_ms_exclusive": 1000,
+    "ordinary_save_ms_inclusive": 2000,
+    "heavy_complete_with_progress_ms_inclusive": 3000,
+    "heavier": "background job only as an owner-named, recorded exception; the 3 s heavy-complete target is still measured and reported, never marked met by the exception",
+    "source": "docs/cp7/p19/P19_LOADING_BUDGET_20261006.md",
+    "background_exception": {
+      "id": "P19_PLANNING_ANALYSIS_BACKGROUND_20261007",
+      "decided": "2026-10-07 owner item 5",
+      "scope": "Analisis, laporan & pengingat seluruh produk: Hitung di latar belakang (request/run/get, manifest + segments)",
+      "conditions": [
+        "first visible acknowledgement within the 1 s routine target",
+        "real status: requested/started time, WAITING/RUNNING/DONE/FAILED, attempts, segment progress from the server",
+        "safe to leave and reopen: request UUID persisted, server job state read on reload, no second worker",
+        "complete Original or explicit refusal; nothing truncated or sampled"
+      ],
+      "not_awarded": "owner latency acceptance; 3 s heavy-complete target for this journey"
+    },
+    "staged_exception": {
+      "id": "P19_PLANNING_ANALYSIS_STAGED_20261007",
+      "decided": "2026-10-07 owner items 3 (5,000 targets as a supported capacity through background/staged processing) and 5 (background exception recorded)",
+      "scope": "Analisis bertahap (hingga 5.000 target): request/step/get, page set + pages + source check",
+      "conditions": [
+        "first visible acknowledgement within the 1 s routine target",
+        "real status from the stored job: stage index/count, units done/count, start time; RUNNING/DONE/FAILED; unit attempts",
+        "safe to leave and reopen: request UUID persisted, server job state read on reload, the same job continued (never a second request)",
+        "complete pages or explicit refusal; nothing truncated or sampled; never presented as the whole"
+      ],
+      "not_awarded": "owner latency acceptance; 3 s heavy-complete target for this journey"
+    }
+  },
+  "browser": {
+    "device": "desktop Chromium 1440x1000, Asia/Jakarta, loopback API, no throttling",
+    "controls": [
+      "Ambil analisis ERP terbaru",
+      "Hitung di latar belakang",
+      "Sertakan angka keuangan (menunggu buku besar) + Ambil analisis ERP terbaru",
+      "Analisis bertahap (hingga 5.000 target)"
+    ],
+    "context": "fresh signed-in browser context per click (cold client state, warm database)",
+    "finance_on_demand": "Owner decision 7 Oct 2026: the two default controls run the operational-only analysis (no owner report, no all-book provenance scan; financial figures not loaded, never zero). CAPTURE_WITH_FINANCE ticks the finance choice and runs the unchanged full capture. Earlier runs (through a68abf1e) measured the full capture under CAPTURE/BACKGROUND.",
+    "staged_control": "STAGED clicks the staged job: request, one unit per step with real progress, header + byte-adaptive pages read as \"Target a-b dari N\"; operational only (finance never read). Its observation window is a driver bound (30 min), never a latency figure."
+  },
+  "kernel_evidence_kept_separate": [
+    "scripts/cp7_p19_assembly_benchmark.mjs",
+    "scripts/cp7_p19_schedule_benchmark.mjs",
+    "scripts/cp7_p19_demand_history_benchmark.mjs",
+    "docs/cp7/p19/P19_KERNEL_JOB_TRANSPORT_CLAUDE.md"
+  ],
+  "limits_raised": false,
+  "data_sampled_or_truncated": false,
+  "full_P19_acceptance": false,
+  "owner_latency_acceptance": false,
+  "factory_capacity_or_SLA": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "phase_diagnostics": {
+    "public_rpcs": [
+      "erp_cp7_capture_demand_history_v1",
+      "erp_cp7_capture_production_supply_v1"
+    ],
+    "statement_timeout": "8s",
+    "purpose": "Attribute which step stops a size: demand history alone, then supply (baseline+history+WIP normalisation) alone, under the same 8 s. Not the latency of the analysis click.",
+    "reported_per_size": [
+      "supply scope cutting_groups/opening_items/unsourced_bs",
+      "WIP positions",
+      "zero-quantity WIP positions"
+    ],
+    "known_finding": "PL-8: wip normalize_cutting is quadratic in historical cutting groups (local 250 groups 8.6 s, 500 groups 31.6 s); exhausted groups still emit zero-quantity positions; netting refuses more than 1000 positions. The ladder seeds no cutting group; pre-existing groups are counted, never removed."
+  },
+  "phase_profile": {
+    "label": "PHASE_PROFILE_NOT_APP_LATENCY",
+    "application_latency": false,
+    "order": "after every measured point and step diagnostic of the size, so no measured call is warmed or delayed by it",
+    "role": "cp7_capture",
+    "actor": "the measured capture's actor claims (seeded owner), as inside the security-definer public RPC",
+    "statement_timeout_per_phase": "8s",
+    "isolation": "own rolled-back savepoint; intermediates in a temporary table; nothing survives",
+    "timing": "server clock_timestamp() around the call only; inputs are read before the clock starts",
+    "build_input": "stored facts of the measured ordinary run when it completed (rebuild compared with the stored result), else the profile's own live source",
+    "phases": [
+      "history_source",
+      "baseline_source",
+      "wip_source_at",
+      "supply_source",
+      "schedule_source",
+      "netting_source",
+      "material_source",
+      "fabric_source",
+      "analysis_source_operational",
+      "financial_source",
+      "analysis_source",
+      "history_build",
+      "baseline_build",
+      "wip_normalize",
+      "supply_build",
+      "schedule_build",
+      "netting_build",
+      "fabric_plan",
+      "analysis_build_operational",
+      "analysis_build",
+      "dependency_fingerprint",
+      "serve",
+      "original_document",
+      "report_render_not_in_capture_path"
+    ],
+    "own_cost_layers": [
+      {
+        "layer": "history_source",
+        "wraps": null,
+        "meaning": "history source read (products, stock, sales, journals)"
+      },
+      {
+        "layer": "baseline_source",
+        "wraps": "history_source",
+        "meaning": "planning profiles + production policies"
+      },
+      {
+        "layer": "supply_source",
+        "wraps": "baseline_source",
+        "meaning": "WIP production source (wip_source_at)"
+      },
+      {
+        "layer": "schedule_source",
+        "wraps": "supply_source",
+        "meaning": "reviewed schedule plan read"
+      },
+      {
+        "layer": "netting_source",
+        "wraps": "schedule_source",
+        "meaning": "matching products"
+      },
+      {
+        "layer": "analysis_source_operational",
+        "wraps": "netting_source",
+        "meaning": "engine signature + material + fabric sources"
+      },
+      {
+        "layer": "analysis_source",
+        "wraps": "analysis_source_operational",
+        "meaning": "protected owner financial source"
+      },
+      {
+        "layer": "history_build",
+        "wraps": null,
+        "meaning": "demand history build (grid, events, availability)"
+      },
+      {
+        "layer": "baseline_build",
+        "wraps": "history_build",
+        "meaning": "baseline per-target demand/target"
+      },
+      {
+        "layer": "supply_build",
+        "wraps": "baseline_build",
+        "meaning": "WIP normalisation"
+      },
+      {
+        "layer": "schedule_build",
+        "wraps": "supply_build",
+        "meaning": "schedule scenario (calendar, capacity, ETA)"
+      },
+      {
+        "layer": "netting_build",
+        "wraps": "schedule_build",
+        "meaning": "matching, netting and timelines"
+      },
+      {
+        "layer": "analysis_build_operational",
+        "wraps": "netting_build",
+        "meaning": "fabric plan + per-target analysis assembly"
+      },
+      {
+        "layer": "analysis_build",
+        "wraps": "analysis_build_operational",
+        "meaning": "financial metrics + semantic hash"
+      },
+      {
+        "layer": "serve",
+        "wraps": null,
+        "meaning": "serve: source re-read for freshness + labels"
+      }
+    ],
+    "recorded_per_phase": [
+      "server_ms",
+      "client_ms",
+      "utf8_bytes of the jsonb text",
+      "top-level array lengths",
+      "facts collection lengths",
+      "WIP positions",
+      "history rows",
+      "refusal code"
+    ],
+    "original_breakdown": "Original, analysis and stored-facts top-level keys by PostgreSQL text bytes, with bytes per target",
+    "scaling": "own cost per layer across sizes: ms per target and growth exponent between consecutive sizes"
+  },
+  "native_case": {
+    "size": 100,
+    "history_days": [
+      1
+    ],
+    "grid_cap_days": 1001
+  },
+  "sql_ladder": {
+    "where": "committed browser copy, after the measured clicks of each size",
+    "transaction": "one per size, rolled back; captures and Originals are not kept",
+    "fixture_command": "measure",
+    "sizes": [
+      100,
+      300,
+      1000,
+      5000
+    ],
+    "history_days": [
+      1,
+      30,
+      100
+    ]
+  },
+  "harness_transactions": {
+    "reason": "The first full runs stopped with 'out of shared memory / max_locks_per_transaction' because thousands of writer calls (each CP7 writer takes pg_advisory_xact_lock per request) ran in one transaction. The real app runs one RPC per transaction.",
+    "browser_copy_prepare": "one committed transaction per writer call (BB batch, each sale draft and post, each profile/SKU/policy call, calendar review)",
+    "browser_copy_measure": "one rolled-back transaction per size, after that size's measured clicks",
+    "native_case": "one rolled-back savepoint in the closed harness: first size only, its measured points and a grid-cap refusal",
+    "limits_changed": false,
+    "every_declared_size_and_day_measured": "sizes 100/300/1000/5000 x days 1/30/100 (and 1000x101) on the committed browser copy; the native case adds 100x1 and 100x1001 in the closed harness"
+  },
+  "staged": {
+    "path": "STAGED_JOB_PAGES",
+    "bounds": {
+      "job_targets": 5000,
+      "job_matching_products": 10000,
+      "job_history_cells": 500000
+    },
+    "public_rpcs": [
+      "erp_cp7_request_staged_analysis_v1",
+      "erp_cp7_step_staged_analysis_v1",
+      "erp_cp7_get_staged_analysis_v1",
+      "erp_cp7_read_staged_analysis_pages_v1",
+      "erp_cp7_read_staged_analysis_page_v1",
+      "erp_cp7_check_staged_analysis_source_v1",
+      "erp_cp7_staged_snapshot_freshness_v1"
+    ],
+    "sql_ladder": "one staged point per declared history-days value at every size (also in the rolled-back native case at 100): request, one step per unit, get, page set, every page, source check, snapshot freshness (contract v2: the change counts since the snapshot); each call under the unchanged 8 s",
+    "evidence": "the reassembled analysis (header prefix + every page's items per paged array) is checked by the frozen analysis contract with its semantic_hash recomputed server side from the reassembled text; parity with the single build on the same reference is proven by the kernel tests (f05-staged-*) and the staged suite (P19G_STAGED_EQUALS_SINGLE), not by this ladder",
+    "witness_retention": "header text, every page's bytes and sha256, identity_hash and the reassembled analysis sha256; per-target items are not retained",
+    "installed_bounds_read_back": "every staged point reads cp7_analysis_stage.bounds() (admin) and records declared_match"
+  }
+}

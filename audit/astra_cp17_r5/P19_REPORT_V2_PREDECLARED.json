@@ -1,0 +1,58 @@
+{
+  "contract": "cp7.p19.report-v2.v1",
+  "expected_case_count": 20,
+  "required_case_counts": {
+    "native": 10,
+    "races": 6,
+    "http": 2,
+    "browser": 2
+  },
+  "required_case_ids": {
+    "native": [
+      "P19R_PUBLISH_STEPS_SEAL",
+      "P19R_ACTUAL_STOCK_AT_REPORT_TIME",
+      "P19R_FRESHNESS_STATES_WORDED",
+      "P19R_FINANCE_FROM_OWNER_REPORT",
+      "P19R_FINANCE_ACCESS_CURRENT",
+      "P19R_REVISION_SERIES",
+      "P19R_REQUEST_ONE_UUID",
+      "P19R_AUTHORITY",
+      "P19R_FIELDS_AND_IDENTITY",
+      "P19R_V1_APART"
+    ],
+    "races": [
+      "P19R_RACE_TWO_STEPS_ONE_UNIT",
+      "P19R_RACE_TWO_REVISIONS_ONE_SEALS",
+      "P19R_RACE_STOCK_COMMITTED_DURING_JOB",
+      "P19R_RACE_ACCESS_CHANGED_MID_JOB",
+      "P19R_RACE_SAME_UUID_TWO_SESSIONS",
+      "P19R_RACE_LIMIT_RETRIES_THEN_CONTINUES"
+    ],
+    "http": [
+      "P19R_HTTP_FLOW",
+      "P19R_HTTP_REVOKED"
+    ],
+    "browser": [
+      "P19R_BROWSER_DESKTOP_REPORT",
+      "P19R_BROWSER_MOBILE_REPORT"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_publish_report_v2",
+    "erp_cp7_get_report_request_v2",
+    "erp_cp7_step_report_v2",
+    "erp_cp7_read_report_v2",
+    "erp_cp7_read_report_section_v2",
+    "erp_cp7_list_reports_v2"
+  ],
+  "statement_timeout": "existing 8s authenticated limit; never raised",
+  "scope": "Business Report of a staged analysis snapshot (snapshot contract v2 §4, owner decision 8 Oct 2026). One request is one job over the actor's own DONE staged run bound by its identity hash: ACTUALS (finished-goods stock of every product root of the run and, only when chosen and permitted, the accepted Native owner finance report for the report date, in one statement), one SECTION per page of the run, FRESHNESS (changes recorded since the snapshot and the last full check), SUMMARY (rendered and sealed under the series lock; a revision follows the latest version it names, same kind and period). Each unit is one ordinary request under the unchanged statement limit; the publication is immutable and bound by summary and section hashes.",
+  "labels": "Every section and the summary say 'Data analisis per <WIB time>'; analysis numbers are stated as the state at that time, never as current; the freshness at publication is worded (VERIFIED_SAME with the check time, STALE_VERIFIED, CHANGES_RECORDED with the count per category, NO_RECORDED_CHANGE); the word 'terkini' never appears",
+  "actuals": "Finished-goods stock per target is read at the actuals time by the analysis' own rules (grade A and B; physical without sale reservations and their reversals; available after reservations; physical and recording time not after the read) and printed beside the snapshot value; finance and HPP come only from the accepted Native owner report for the Jakarta date of that read, visible only to an owner/admin with finance reports (close preflight only with period-close rights); without finance the report says so and shows no substitute",
+  "browser": "Real Auth UI on desktop and mobile: one click starts the staged run; the report panel of the staged view publishes a reviewed report, shows its progress unit by unit, then the sealed report with 'Data analisis per', its freshness and one section read on demand; no v1 report RPC is called; no horizontal scroll",
+  "synthetic_case": "none; every fixture is the E01 real workload through the ordinary Native writers and a real staged run",
+  "v1_unchanged": true,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
