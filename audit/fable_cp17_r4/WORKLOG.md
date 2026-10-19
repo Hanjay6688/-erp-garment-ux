@@ -21,3 +21,14 @@
   aktif.
 - R4-Q1 (sumber): `wait_recorded` hanya menunggu; nilai baliknya diabaikan dan run dinilai seperti sebelumnya (minimal satu
   run selesai, semua run berhasil). Syarat lulus tidak berubah (INDEPENDENT_SOURCE_REVIEW).
+
+## CP3a — run Fable pada kandidat (dibaca per kasus dari log)
+| Run | Isi | Hasil per kasus | Label |
+|---|---|---|---|
+| 39184451023 | `fable_cp17c_cash_basis.py` tanpa perubahan | `FABLE_CP17C:CASH_BASIS_MISMATCH` PASS; cp6_restored true | FABLE |
+| 39184458478 | `fable_r2_cash_both.py` tanpa perubahan | 2/2 PASS (CASH_BOTH_BASES_INVARIANT, DETECTOR_BOOK_DATE) | FABLE |
+| 39184465655 | sensus `fable_r3_screens.mjs` tanpa perubahan, build DISPOSABLE | TUTUP_BUKU_TAB PASS; OWNER 1440, OWNER 390, GUDANG: COUNTEREXAMPLE dengan satu-satunya pelanggaran Dashboard `boundary` (pemberitahuan F-UI-01). 47/47 menu terbuka di 1440 dan 390, 0 label contoh, 0 luapan; GUDANG 7/7 menu, tanpa Keuangan | FABLE; Dashboard = AUDITOR_TOOL seperti r3 |
+| 39184472280 | sensus yang sama, build ENTENG | identik; 159 permintaan origin Enteng dijawab loopback, 0 error rute | FABLE |
+
+Modul sensus sengaja tidak diubah dari r3 (sha sama dengan kunci r3), supaya hasilnya sebanding; vonis Dashboard dibaca
+terhadap oracle 1 tertulis (pemberitahuan tanpa angka diizinkan), sama dengan r3.
