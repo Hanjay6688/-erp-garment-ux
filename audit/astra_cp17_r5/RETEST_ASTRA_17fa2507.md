@@ -71,7 +71,7 @@ Run pertama `39238457513`, job `118013182781`, tetap **FAIL /9PASS+2INCOMPLETE**
 
 @@INVARIANTS@@
 
-Status di atas berlaku pada skenario dan lapisan yang disebut. `INVARIANT_MATRIX.json` memisahkan bukti r5 terpilih dari kelengkapan seluruh ERP. Tidak semua167 detektor mendapat kontrol negatif baru; kontrol0/+1/0 baru secara khusus menutup checker FG_REPAIR. Detector coverage universal tetap INCOMPLETE.
+Status di atas berlaku pada skenario dan lapisan yang disebut. Kolom INCOMPLETE untuk seluruh keluarga berarti tidak diverifikasi ulang menyeluruh pada sesi r5; status checkpoint terdahulu tetap mengikuti keputusan owner. `INVARIANT_MATRIX.json` memisahkan bukti r5 terpilih dari kelengkapan seluruh ERP. Tidak semua167 detektor mendapat kontrol negatif baru; kontrol0/+1/0 baru secara khusus menutup checker FG_REPAIR. Detector coverage universal tetap INCOMPLETE.
 
 ## CP1/CP2 dan bukti yang dipertahankan
 

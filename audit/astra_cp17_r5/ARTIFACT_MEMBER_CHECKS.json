@@ -1,0 +1,116 @@
+[
+  {
+    "source_archive": "cp17-full.zip",
+    "source_zip_sha256": "090302800a4b774f6d1251dc12d0d2bce0864505807b57f7bc64142a1c6cc2c9",
+    "preserved_subset": "evidence/cp17-original-json.zip",
+    "subset_zip_sha256": "3427bdba8f26f2d04a3ec323122221b6b5d28f579cc9a925b4c3595f492d138d",
+    "members": [
+      {
+        "member": "ALIGNED_CHAIN.json",
+        "bytes": 17536,
+        "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+        "original_bytes_equal": true
+      },
+      {
+        "member": "CP17_BROWSER_R4_04_CONNECTED_TEXT_READABLE_DESKTOP.json",
+        "bytes": 36097,
+        "sha256": "9270f41d6a6a82739bae108fe3d40a81413f714173e8c984b9068a3e63baa53b",
+        "original_bytes_equal": true
+      },
+      {
+        "member": "CP17_BROWSER_R4_04_CONNECTED_TEXT_READABLE_MOBILE.json",
+        "bytes": 36095,
+        "sha256": "bafbb0a496ae1842235a39bc74388c61523e6705fa07657b145e6ac80ee425c7",
+        "original_bytes_equal": true
+      },
+      {
+        "member": "CP7_CP17_FIXES.json",
+        "bytes": 729806,
+        "sha256": "ab17247fe9d8ee75ecba2ca00b90447d4fb813425c54aa579fa71a7badfbd7f0",
+        "original_bytes_equal": true
+      },
+      {
+        "member": "T3_BACKUP_RESTORE_DRILL.json",
+        "bytes": 10524,
+        "sha256": "8608ae9d4dbc473c15e89410da7bb2efebcf40e5ab7808918a390f9e0e10ceae",
+        "original_bytes_equal": true
+      },
+      {
+        "member": "T3_PACKAGE_FILES_INSTALL.json",
+        "bytes": 1806,
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "original_bytes_equal": true
+      },
+      {
+        "member": "T3_PACKAGE_INSTALL.json",
+        "bytes": 360403,
+        "sha256": "1819f2ec013edc29d12ae6ed5ebe493a4adb93edd4900b4ae2f2be9bb67fc1a6",
+        "original_bytes_equal": true
+      }
+    ]
+  },
+  {
+    "source_archive": "own-first-12180317436.zip",
+    "source_zip_sha256": "b129cc222eca4b942b5d29e338fd12f4f1a55ab7f2cce386a8acc53d841c465a",
+    "preserved_subset": "evidence/own-first-wrapper-original-json.zip",
+    "subset_zip_sha256": "16447a7079198bd15795a54d256e64a69ea6081cfc387effa4afd4bc23468269",
+    "members": [
+      {
+        "member": "ALIGNED_CHAIN.json",
+        "bytes": 17536,
+        "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+        "original_bytes_equal": true
+      },
+      {
+        "member": "T3_BACKUP_RESTORE_DRILL.json",
+        "bytes": 10524,
+        "sha256": "aa7c028caebcf6b1461bdad65efe2cafe5ec46b29ceedeed54a20f7e9d9bbe98",
+        "original_bytes_equal": true
+      },
+      {
+        "member": "T3_PACKAGE_FILES_INSTALL.json",
+        "bytes": 1806,
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "original_bytes_equal": true
+      },
+      {
+        "member": "T3_PACKAGE_INSTALL.json",
+        "bytes": 360409,
+        "sha256": "3fe861747ec7fb09b1c16bd4f98b09e9e78bc27dd5bed5f696b0f9cbb0708bb5",
+        "original_bytes_equal": true
+      }
+    ]
+  },
+  {
+    "source_archive": "own-q2.zip",
+    "source_zip_sha256": "146198bfc98dce9ac7924ab67f2bce56d5a566c7ed64dcb448dc7bffb02b3788",
+    "preserved_subset": "evidence/own-q2-wrapper-original-json.zip",
+    "subset_zip_sha256": "c9415352332e5838271890e88733c9d4f36ec389f0a36aff70241968429dc28a",
+    "members": [
+      {
+        "member": "ALIGNED_CHAIN.json",
+        "bytes": 17536,
+        "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+        "original_bytes_equal": true
+      },
+      {
+        "member": "T3_BACKUP_RESTORE_DRILL.json",
+        "bytes": 10524,
+        "sha256": "b5e58bd3e55d073ca714db907b6ca2c3a2de00f04fd700228c40750368c49faf",
+        "original_bytes_equal": true
+      },
+      {
+        "member": "T3_PACKAGE_FILES_INSTALL.json",
+        "bytes": 1806,
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "original_bytes_equal": true
+      },
+      {
+        "member": "T3_PACKAGE_INSTALL.json",
+        "bytes": 360405,
+        "sha256": "581a942a4fefe1a3d7665da68ccfdc13d2c090178430066830ccbd0804c2d3ef",
+        "original_bytes_equal": true
+      }
+    ]
+  }
+]

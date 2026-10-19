@@ -8,9 +8,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-U02",
@@ -21,9 +21,9 @@
         "ASTRA_R5_FG_HEALTHY_8000",
         "ASTRA_R5_FG_REVERSED_REUSE"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-U03",
@@ -31,9 +31,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-U04",
@@ -44,9 +44,9 @@
         "ASTRA_R5_FG_HEALTHY_8000",
         "ASTRA_R5_FINANCE_DECIMAL_ORACLE"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-U05",
@@ -54,9 +54,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-U06",
@@ -67,9 +67,9 @@
         "ASTRA_R5_FINANCE_DECIMAL_ORACLE",
         "ASTRA_R5_MAPPING_COMMIT_SNAPSHOT"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-U07",
@@ -77,9 +77,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-U08",
@@ -87,9 +87,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-S01",
@@ -97,9 +97,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-S02",
@@ -107,9 +107,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-S03",
@@ -117,9 +117,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-S04",
@@ -127,9 +127,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-S05",
@@ -137,9 +137,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-S06",
@@ -147,9 +147,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-S07",
@@ -157,9 +157,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-H01",
@@ -169,9 +169,9 @@
       "evidence_case_ids": [
         "ASTRA_R5_FINANCE_DECIMAL_ORACLE"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-H02",
@@ -182,9 +182,9 @@
         "ASTRA_R5_FG_HEALTHY_8000",
         "ASTRA_R5_FG_REVERSED_REUSE"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-H03",
@@ -192,9 +192,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-H04",
@@ -202,9 +202,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-H05",
@@ -212,9 +212,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-H06",
@@ -222,9 +222,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-P01",
@@ -232,9 +232,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-P02",
@@ -242,9 +242,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-P03",
@@ -252,9 +252,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-T01",
@@ -262,9 +262,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-T02",
@@ -272,9 +272,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-T03",
@@ -282,9 +282,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-T04",
@@ -292,9 +292,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-L01",
@@ -307,9 +307,9 @@
         "ASTRA_R5_MAPPING_REBIND",
         "ASTRA_R5_FINANCE_DECIMAL_ORACLE"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-L02",
@@ -321,9 +321,9 @@
         "P19R_ACTUAL_STOCK_AT_REPORT_TIME",
         "P19R_RACE_STOCK_COMMITTED_DURING_JOB"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-L03",
@@ -334,9 +334,9 @@
         "P19T_FINANCE_DEFERRED_NO_BOOK_READ",
         "P19T_HTTP_FINANCE_ON_DEMAND"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-L04",
@@ -346,9 +346,9 @@
       "evidence_case_ids": [
         "ASTRA_R5_MAPPING_COMMIT_SNAPSHOT"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-L05",
@@ -358,9 +358,9 @@
       "evidence_case_ids": [
         "ASTRA_R5_FINANCE_DECIMAL_ORACLE"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-L06",
@@ -371,9 +371,9 @@
         "ASTRA_R5_READERS_NONEMPTY",
         "ASTRA_R5_FINANCE_DECIMAL_ORACLE"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-L07",
@@ -385,9 +385,9 @@
         "P19T_SEGMENT_AUTHORITY",
         "P19R_RACE_ACCESS_CHANGED_MID_JOB"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-R01",
@@ -395,9 +395,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-R02",
@@ -405,9 +405,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-R03",
@@ -415,9 +415,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-R04",
@@ -425,9 +425,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-R05",
@@ -435,9 +435,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-R06",
@@ -445,9 +445,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-R07",
@@ -455,9 +455,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-R08",
@@ -465,9 +465,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-R09",
@@ -475,9 +475,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-K01",
@@ -485,9 +485,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-K02",
@@ -495,9 +495,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-K03",
@@ -505,9 +505,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-K04",
@@ -515,9 +515,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-K05",
@@ -525,9 +525,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-K06",
@@ -535,9 +535,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-K07",
@@ -547,9 +547,9 @@
       "evidence_case_ids": [
         "ASTRA_R5_FG_DETECTOR_0_1_0"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-C01",
@@ -561,9 +561,9 @@
         "P19R_REQUEST_ONE_UUID",
         "P19T_JOB_IDENTITY_REFUSALS"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-C02",
@@ -573,9 +573,9 @@
       "evidence_case_ids": [
         "P19R_REVISION_SERIES"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-C03",
@@ -586,9 +586,9 @@
         "ASTRA_R5_MAPPING_COMMIT_SNAPSHOT",
         "P19R_RACE_TWO_STEPS_ONE_UNIT"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-C04",
@@ -598,9 +598,9 @@
       "evidence_case_ids": [
         "ASTRA_R5_INSTALL_ROUNDTRIP_REFUSALS"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-C05",
@@ -610,9 +610,9 @@
       "evidence_case_ids": [
         "P19T_BROWSER_DESKTOP_RELOAD_RECOVERY"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-C06",
@@ -620,9 +620,9 @@
       "r5_scoped_status": "PASS",
       "scope": "Completed own/P19 cases cleanup verified; aggregate includes remaining CI when complete",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-A01",
@@ -633,9 +633,9 @@
         "P19T_RACE_REVOKE_WHILE_WAITING",
         "P19R_RACE_ACCESS_CHANGED_MID_JOB"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-A02",
@@ -646,9 +646,9 @@
         "P19T_HTTP_REVOKED",
         "P19R_HTTP_REVOKED"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-A03",
@@ -656,9 +656,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-A04",
@@ -666,9 +666,9 @@
       "r5_scoped_status": "PASS",
       "scope": "Completed package advisor gates; only declared INFO no-policy private-table differences",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-A05",
@@ -679,9 +679,9 @@
         "ASTRA_R5_INSTALL_ROUNDTRIP_REFUSALS",
         "P19R_AUTHORITY"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-UI01",
@@ -693,9 +693,9 @@
         "P19R_BROWSER_MOBILE_REPORT",
         "P19T_BROWSER_FINANCE_ON_DEMAND"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-UI02",
@@ -706,9 +706,9 @@
         "P19T_BROWSER_DESKTOP_RELOAD_RECOVERY",
         "P19R_HTTP_REVOKED"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-UI03",
@@ -716,9 +716,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-UI04",
@@ -729,9 +729,9 @@
         "P19R_BROWSER_DESKTOP_REPORT",
         "P19R_BROWSER_MOBILE_REPORT"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-POL01",
@@ -739,9 +739,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-POL02",
@@ -749,9 +749,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-POL03",
@@ -759,9 +759,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-POL04",
@@ -769,9 +769,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-POL05",
@@ -779,9 +779,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-M01",
@@ -789,9 +789,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-M02",
@@ -799,9 +799,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-M03",
@@ -809,9 +809,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-M04",
@@ -819,9 +819,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-M05",
@@ -832,9 +832,9 @@
         "ASTRA_R5_INSTALL_ROUNDTRIP_REFUSALS",
         "ASTRA_R5_CORE_MAPPING_GUARDS"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-N01",
@@ -842,9 +842,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-N02",
@@ -852,9 +852,9 @@
       "r5_scoped_status": "INCOMPLETE",
       "scope": "No additional full-family requalification in this delta audit; retain prior scope and explicit limitations",
       "evidence_case_ids": [],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED"
+      "origin": "REUSED_AUDITOR_LOG_READ / NOT_NEWLY_VERIFIED",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-D01",
@@ -864,9 +864,9 @@
       "evidence_case_ids": [
         "ASTRA_R5_FG_DETECTOR_0_1_0"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-D02",
@@ -876,9 +876,9 @@
       "evidence_case_ids": [
         "ASTRA_R5_FG_HEALTHY_8000"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-D03",
@@ -889,9 +889,9 @@
         "ASTRA_R5_FG_HEALTHY_8000",
         "ASTRA_R5_FG_DETECTOR_0_1_0"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     },
     {
       "id": "INV-D04",
@@ -902,9 +902,10 @@
         "ASTRA_R5_FG_HEALTHY_8000",
         "ASTRA_R5_FG_REVERSED_REUSE"
       ],
-      "whole_ERP_requirement_status": "INCOMPLETE",
-      "whole_ERP_reason": "Selected delta cases do not exhaust every input/role/lifecycle and production gate",
-      "origin": "INDEPENDENT_NATIVE_RERUN"
+      "origin": "INDEPENDENT_NATIVE_RERUN",
+      "full_family_retest_this_round": "INCOMPLETE",
+      "full_family_retest_limitation": "Selected delta cases do not exhaust every input/role/lifecycle and production gate"
     }
-  ]
+  ],
+  "prior_checkpoint_acceptance_unchanged": true
 }

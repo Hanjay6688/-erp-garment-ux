@@ -48,5 +48,14 @@
       "no_run_commit": "8c5c86a384bf32cff26a1946b52d1f6a0c74b613",
       "no_run_reason": "Path filter accidentally own-q2-q2.yml; corrected before workflow started"
     }
+  ],
+  "additional_frozen_writer_metadata_read": [
+    {
+      "job_id": 117942069254,
+      "receipt_ref": "2766a9092f51f240267b9cbe1201d49a836fb490:docs/cp7/audit-candidate/cp1-7-r5-20261019/CI_RECEIPT.json",
+      "purpose": "Steps and run timestamps from frozen writer receipt, solely to contextualize large-suite duration; no writer case result used for closure.",
+      "origin": "REUSED_WRITER_EVIDENCE",
+      "run_id": 39216681775
+    }
   ]
 }
