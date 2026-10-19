@@ -15,7 +15,8 @@ ROOT=previous.ROOT
 ROLE='cp7_alert'
 ROLES=(ROLE,)+previous.ROLES
 GRANTS={k:set(v)for k,v in previous.GRANTS.items()}
-GRANTS[ROLE]={'auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)'}
+# No auth.uid()/auth.jwt(): the hosted postgres role cannot grant on schema auth; cp7_alert_native.uid()/jwt() read the same settings.
+GRANTS[ROLE]={'erp.get_my_access_v1()','erp.has_permission(text)'}
 READS=('erp.fabric_master_profiles','erp.locations','erp.manual_reminders','erp.material_stock_movements','erp.materials')
 TABLE_GRANTS={**previous.TABLE_GRANTS,ROLE:{name:'SELECT'for name in READS}}
 SCHEMA='cp7_alert_native'
@@ -25,7 +26,7 @@ FUNCTIONS={
   'guard_append_only','guard_dispatch','guard_outbox','owner_access','queue_alert','queue_manual','queue_repeats','reconcile','record_tick',
   'require_owner','send_tick','wa_key_set','wa_resolve','wa_settings_read','wa_settings_save','wa_test')},
  **{name:(ROLE,True,'s')for name in('alerts_read','ap_source','ar_source','current_settings','fabric_source','in_quiet','item_line','label','num',
-  'outbox_items','render','require_tick_limit','rp','settings_json','tgl','ts_key')},
+  'outbox_items','render','require_tick_limit','rp','settings_json','tgl','ts_key','uid','jwt')},
  'defaults':(ROLE,True,'i'),'schedules':(ROLE,False,'i'),
  'vault_key_present':('postgres',True,'s'),'vault_key_write':('postgres',True,'v'),'wa_post':('postgres',True,'v'),'wa_response':('postgres',True,'s')}
 KEY_FUNCTIONS=('vault_key_present()','vault_key_write(text)','wa_post(text,text)','wa_response(bigint)')
@@ -50,6 +51,7 @@ def verify_alert(cur):
  assert one('select pg_get_userbyid(nspowner)from pg_namespace where nspname=%s',SCHEMA)==ROLE
  # Granted to the installing role only so it can hand objects over (PostgreSQL 16+); cp7_alert itself is in no role.
  assert not one("select exists(select 1 from pg_auth_members where member=%s::regrole)",ROLE)
+ assert not one("select has_schema_privilege(%s,'auth','USAGE')",ROLE)
  rows=cur.execute("select p.oid::regprocedure::text,p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig "
   "from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname=%s",(SCHEMA,)).fetchall()
  assert sorted(r[1]for r in rows)==sorted(FUNCTIONS),rows

@@ -28,8 +28,10 @@ grant cp7_alert to current_user;
 create schema cp7_alert_native authorization cp7_alert;
 revoke all on schema cp7_alert_native from public,anon,authenticated,service_role,cp7_capture;
 grant usage on schema cp7_alert_native to postgres;
-grant usage on schema erp,auth to cp7_alert;
-grant execute on function auth.uid(),auth.jwt(),erp.get_my_access_v1(),erp.has_permission(text)to cp7_alert;
+-- No grant on schema auth: the hosted postgres role cannot pass it on (WA-3a run 39271994388, "permission denied for
+-- schema auth"). The request identity is read by cp7_alert_native.uid()/jwt() below, the same settings cp7_alert_native.uid() reads.
+grant usage on schema erp to cp7_alert;
+grant execute on function erp.get_my_access_v1(),erp.has_permission(text)to cp7_alert;
 grant select on erp.manual_reminders,erp.materials,erp.fabric_master_profiles,erp.material_stock_movements,erp.locations to cp7_alert;
 grant usage on schema cp7_reminder_native to cp7_alert;
 grant execute on function cp7_reminder_native.receivable_source(),cp7_reminder_native.payable_source(),public.erp_cp7_get_sales_v1(jsonb)to cp7_alert;
@@ -208,6 +210,14 @@ begin
 end $$;
 
 -- ------------------------------------------------- owner identity (K4) --
+-- The request identity exactly as Supabase's cp7_alert_native.jwt()/cp7_alert_native.uid() read it (request.jwt.claims, and the older
+-- request.jwt.claim.sub first), without needing a privilege on schema auth.
+create function cp7_alert_native.jwt()returns jsonb
+language sql stable security definer set search_path=''set TimeZone='UTC'as $$
+ select coalesce(nullif(current_setting('request.jwt.claim',true),''),nullif(current_setting('request.jwt.claims',true),''))::jsonb$$;
+create function cp7_alert_native.uid()returns uuid
+language sql stable security definer set search_path=''set TimeZone='UTC'as $$
+ select coalesce(nullif(current_setting('request.jwt.claim.sub',true),''),cp7_alert_native.jwt()->>'sub')::uuid$$;
 create function cp7_alert_native.claims_enter(p_actor uuid)returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
 declare prior jsonb:=jsonb_build_object('claims',current_setting('request.jwt.claims',true),'sub',current_setting('request.jwt.claim.sub',true),
@@ -228,7 +238,7 @@ create function cp7_alert_native.owner_access(p_actor_user uuid)returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
 declare a jsonb;
 begin
- if auth.uid()is null or coalesce(auth.jwt()->>'role','')<>'authenticated'then return null;end if;
+ if cp7_alert_native.uid()is null or coalesce(cp7_alert_native.jwt()->>'role','')<>'authenticated'then return null;end if;
  a:=erp.get_my_access_v1();
  if a->'allowed'is distinct from'true'::jsonb or a->'profile'->>'role_code'is distinct from'OWNER'
   or(p_actor_user is not null and a->'profile'->>'id'is distinct from p_actor_user::text)then return null;end if;
@@ -662,7 +672,7 @@ create function cp7_alert_native.alerts_read(p jsonb)returns jsonb
 language plpgsql stable security definer set search_path=''set TimeZone='UTC'as $$
 declare a jsonb;keep_days integer;vis text[];is_owner boolean;s cp7_alert_native.settings:=cp7_alert_native.current_settings();
 begin
- if auth.uid()is null or coalesce(auth.jwt()->>'role','')<>'authenticated'then raise exception using errcode='42501',message='CP7_ALERTS_DENIED';end if;
+ if cp7_alert_native.uid()is null or coalesce(cp7_alert_native.jwt()->>'role','')<>'authenticated'then raise exception using errcode='42501',message='CP7_ALERTS_DENIED';end if;
  a:=erp.get_my_access_v1();
  if a->'allowed'is distinct from'true'::jsonb then raise exception using errcode='42501',message='CP7_ALERTS_DENIED';end if;
  if jsonb_typeof(p)is distinct from'object'or exists(select 1 from jsonb_object_keys(p)k where k<>'resolved_days')
@@ -715,7 +725,7 @@ begin
  perform pg_advisory_xact_lock(hashtextextended('CP7:WA:SETTINGS',0));
  select*into prev from cp7_alert_native.settings x where x.request_id=p_request;
  if found then
-  if prev.actor<>auth.uid()or prev.request_hash<>encode(sha256(convert_to(coalesce(p::text,''),'UTF8')),'hex')then
+  if prev.actor<>cp7_alert_native.uid()or prev.request_hash<>encode(sha256(convert_to(coalesce(p::text,''),'UTF8')),'hex')then
    raise exception using errcode='22023',message='CP7_WA_REQUEST_REUSED';end if;
   return jsonb_build_object('replay',true,'settings',cp7_alert_native.settings_json(prev));
  end if;
@@ -757,7 +767,7 @@ begin
  values(coalesce(cur.revision,0)+1,(p->>'enabled')::boolean,p->>'phone_e164',p->>'detail',coalesce(times,'{}'),coalesce(kinds,'{}'),
   (p->>'repeat_minutes')::integer,(p->>'burst_after_per_day')::integer,(p->>'burst_merge_minutes')::integer,(p->>'max_items')::integer,
   (p->>'quiet_enabled')::boolean,qs,qe,(p->>'analysis_every_minutes')::integer,(p->>'analysis_start')::time,(p->>'analysis_end')::time,
-  auth.uid(),(a->'profile'->>'id')::uuid,p_request,encode(sha256(convert_to(p::text,'UTF8')),'hex'))returning*into cur;
+  cp7_alert_native.uid(),(a->'profile'->>'id')::uuid,p_request,encode(sha256(convert_to(p::text,'UTF8')),'hex'))returning*into cur;
  return jsonb_build_object('replay',false,'settings',cp7_alert_native.settings_json(cur));
 end $$;
 create function cp7_alert_native.wa_key_set(p_key text,p_request uuid)returns jsonb
@@ -769,11 +779,11 @@ begin
  perform pg_advisory_xact_lock(hashtextextended('CP7:WA:SETTINGS',0));
  select*into e from cp7_alert_native.key_events x where x.request_id=p_request;
  if found then
-  if e.actor<>auth.uid()then raise exception using errcode='22023',message='CP7_WA_REQUEST_REUSED';end if;
+  if e.actor<>cp7_alert_native.uid()then raise exception using errcode='22023',message='CP7_WA_REQUEST_REUSED';end if;
   return jsonb_build_object('replay',true,'key_present',cp7_alert_native.vault_key_present(),'key_set_at',e.at);
  end if;
  perform cp7_alert_native.vault_key_write(p_key);
- insert into cp7_alert_native.key_events(actor,request_id,action)values(auth.uid(),p_request,'SET')returning*into e;
+ insert into cp7_alert_native.key_events(actor,request_id,action)values(cp7_alert_native.uid(),p_request,'SET')returning*into e;
  return jsonb_build_object('replay',false,'key_present',true,'key_set_at',e.at);
 end $$;
 create function cp7_alert_native.wa_test(p_request uuid)returns jsonb
@@ -804,7 +814,7 @@ begin
  if p_request is null then raise exception 'CP7_WA_REQUEST_REQUIRED';end if;
  select*into d from cp7_alert_native.dispatches x where x.resolve_request=p_request;
  if found then
-  if d.resolved_by<>auth.uid()or d.id::text is distinct from p->>'dispatch_id'or d.resolved_outcome is distinct from p->>'outcome'then
+  if d.resolved_by<>cp7_alert_native.uid()or d.id::text is distinct from p->>'dispatch_id'or d.resolved_outcome is distinct from p->>'outcome'then
    raise exception using errcode='22023',message='CP7_WA_REQUEST_REUSED';end if;
   return jsonb_build_object('replay',true,'dispatch_id',d.id,'resolved_outcome',d.resolved_outcome);
  end if;
@@ -814,7 +824,7 @@ begin
  outcome:=p->>'outcome';
  select*into d from cp7_alert_native.dispatches x where x.id=(p->>'dispatch_id')::bigint for update;
  if not found or d.status<>'UNKNOWN'or d.resolved_outcome is not null then raise exception using errcode='22023',message='CP7_WA_RESOLVE_NOT_UNKNOWN';end if;
- update cp7_alert_native.dispatches set resolved_outcome=outcome,resolved_by=auth.uid(),resolved_at=clock_timestamp(),resolve_request=p_request where id=d.id;
+ update cp7_alert_native.dispatches set resolved_outcome=outcome,resolved_by=cp7_alert_native.uid(),resolved_at=clock_timestamp(),resolve_request=p_request where id=d.id;
  update cp7_alert_native.outbox set state=case when outcome='DELIVERED'then'ACCEPTED'else'PENDING'end,
   dispatch_id=case when outcome='DELIVERED'then dispatch_id end,settled_at=case when outcome='DELIVERED'then settled_at end,
   reason=case when outcome='NOT_DELIVERED'then'OWNER_NOT_DELIVERED'end

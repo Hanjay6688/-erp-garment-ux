@@ -110,7 +110,24 @@ def last_dispatch():
 def main():
     stubs = (ROOT / 'scripts/cp7_wa_smoke_stubs.sql').read_text()
     alerts = (ROOT / 'scripts/cp7-src/alerts/alerts.sql').read_text()
+    # CP7C install fact (not WA itself): every CP7 bundle hands objects to the roles it creates. As postgres (not a
+    # superuser) PostgreSQL 16+ allows that only with SET ROLE on the role; the session setting createrole_self_grant
+    # grants each new role to its creator. Proved here on a throw-away role, both without and with the setting.
+    for setting in ('', 'set, inherit'):
+        with psycopg.connect(PG) as c, c.cursor() as cur:
+            cur.execute("select set_config('createrole_self_grant',%s,true)", (setting,))
+            cur.execute('create role wa_install_probe nologin')
+            try:
+                cur.execute('create schema wa_install_probe_s authorization wa_install_probe')
+                say('cp7c_install_fact', createrole_self_grant=setting or '(empty)', handoff_allowed=True)
+            except psycopg.Error as e:
+                say('cp7c_install_fact', createrole_self_grant=setting or '(empty)', handoff_allowed=False, error=e.diag.message_primary)
+            c.rollback()
     with psycopg.connect(PG) as c, c.cursor() as cur:
+        say('cp7c_install_fact_grant_options', **{f'{schema}_{priv}': cur.execute(
+            "select has_schema_privilege('postgres',%s,%s)", (schema, priv + ' WITH GRANT OPTION')).fetchone()[0]
+            for schema in ('auth', 'vault', 'net', 'cron', 'extensions') for priv in ('USAGE',)
+            if cur.execute('select exists(select 1 from pg_namespace where nspname=%s)', (schema,)).fetchone()[0]})
         say('whoami', user=cur.execute('select current_user').fetchone()[0], superuser=cur.execute("select rolsuper from pg_roles where rolname=current_user").fetchone()[0])
         cur.execute(stubs, prepare=False)
         cur.execute(alerts, prepare=False)
