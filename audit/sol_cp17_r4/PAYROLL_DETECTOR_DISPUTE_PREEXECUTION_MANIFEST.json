@@ -1,0 +1,240 @@
+{
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "pinned_product_sources": {
+    "scripts/cp6_bc_probe.py": "147de7092ba2284312ba376f8cae82bf05c0fbb77e28956f45966cdfa6c8adb1",
+    "scripts/cp6_bd_probe.py": "c3add21e66d4d5544bf4e4d046a9fa8d64dbcb0cb285551a92c2d7405156b31b",
+    "scripts/cp6_bd_objects_d07.sql": "f929f6c1f0dfed06a5a1ff8d83c606fef78cbb7b5d34f27cddd0c3c142f5616f",
+    "scripts/cp6_auditor_runner.py": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7",
+    "scripts/cp7_p21_full_rehearsal_probe.py": "a6da56d3c3177c2f6083b19e996d1f7a31b7e934607d7f97232336405fd529f7",
+    "scripts/cp7_cp17_fix_probe.py": "0b95603327920d9e7724bfb0970b3ff6ed4498d0d206e35ed64daa9bbde57e9c",
+    "scripts/cp7_analysis_cases.py": "2df0e458f8108ce80d6d16c90cd6f7a33c9bb59794c3e92e9012b7ad077c0262",
+    "scripts/cp7_planning_netting_cases.py": "acc215b7fed17b1e577ad12546b7d20358809002d5f38acdae293e8fce20579d",
+    "scripts/cp7_planning_schedule_cases.py": "b79a0681ca16f987193354f39c8a72117a16bc1447bb4dedae50ff554e626f69",
+    "scripts/cp7_plan_native_cases.py": "25d066c8468e914f5f0d8b0f9b7f75c296d7079930372bf59d98929914f5a080",
+    "scripts/cp7_wip_cases.py": "a4044dd682fc65562f0d08529fc5bdc49bfb4e146757f90de69e22a3fd861bf1",
+    "scripts/cp7-src/wip/matching.sql": "24c6b8ccbe79a1a6ce5cc4ffc3afa411275819f3d92238c1a6d63b339aa20af2",
+    "scripts/cp7-src/baseline/allocation.sql": "b290b6b68877696ac8bc330cf1a460830c7e0eb7453ef211f5e8e29c8e7ff10d",
+    "scripts/cp7-src/planning/netting.sql": "cf044584c3e5f47993804c7759f74b0a0249551a86cf9de4d916efd7f17df5f7",
+    "scripts/cp7-src/plan-native/preflight.sql": "9fcbbafbc2353380f2e940b7b4ca15ddd25e5171a761e60596c1dd46527d11e8",
+    "scripts/cp7-src/plan-native/source.sql": "5c7eb918a7c3b8e3bd28d1cf7fb9654ec6edf3be63b12cf2ae93090852f1bb64",
+    "scripts/cp7-src/plan-native/commands.sql": "c0865398cc10a0c9b1298847972336b27a21bcb0e612dda1eb58e0b45eb4f1bc",
+    "scripts/cp7-src/plan-native/bootstrap.sql": "8f68fb552d4fa2dc46167d7c1d44d7035927020ab98f2c8260460da34eae4ab4",
+    "scripts/cp7_procurement_cases.py": "460b4541154ba2950425c5fbaa1c0872f941cfc4646a9810841802ce72e9f3d1",
+    "scripts/cp7-src/procurement/bootstrap.sql": "595aee83f4c692fdbe19ba1664b03b85c74f67f5d73bdd3079380a57b2574ad6",
+    "scripts/cp7-src/procurement/command.sql": "4842cb68a901dec90f57752dc5783fe70796f26e655c4228e3a2a959461c9833",
+    "scripts/cp7-src/procurement/accepted-deltas.sql": "f2f39d1cafc25d160bf0917cf898770d2c998c65c837a578bde2a1e6fa2163cf",
+    "src/procurementContract.ts": "9e2d22fafd6c4f93d975deb6c04e848af5e42608bacd9ca6da67ac5678669c2a",
+    "src/ConnectedProcurementPage.tsx": "94ab49f35de9046ed8517705872549dc3aa8b9656babd76b463fe43b21f10e2c",
+    "src/laundryBd.ts": "2d715e0b7833612a96ddcb0911643290d7b93a0b16f3aee413b171e39d1c57a3",
+    "src/LaundryBdPanel.tsx": "0f75a213d9435e1a47cc1b6406a7b0e5e5fbc36c4b4c12c00ad8f8146ef61cc8",
+    "src/hppPoolContract.ts": "c92ea89df06b97bce3491efe6464331351dea615ef9b3ec2cb44c0949403c3a4",
+    "scripts/cp6_bd_objects_policy.sql": "705638fda10c939e6a813958d87316c6b122b41902aa5acd54db1c5fee5898c3",
+    "scripts/cp6_bd_objects_invoice.sql": "f57565e6ee23f3dd6eeba01f911b49f3c59f0fd2017e6d67dfb24486b5988583",
+    "scripts/cp6_bd_objects_claimcredit.sql": "f0ebe32baef55e30025766b87ea4d4723018b2af58cc6fdf6789f9fce45464db",
+    "scripts/cp7-src/hpp-pool/pool.sql": "3d8cb15a19d7eb07f803517730f65e8d475d6168075db9fdf2de68f5d307bb61",
+    "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql": "c5404de584a4734fb235f5253f10fb10a1d13f01f3f993b99150a422008e2268",
+    "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql": "7b5690a2eddf618833d352dc75eb95aa1ef4dbcfb25d39b30374b733d33dadbc",
+    "scripts/cp7_cp17_fix_cases.py": "510f48c61fc7919c5761abe2cf8fa75d952939f924b7681943ac4af8b6f80b1e",
+    "scripts/cp7_recost_cases.py": "376929543a52204e7553019293539c52ce464fa5c250cd60f971a1a803b7fe2a",
+    "scripts/cp6_z_expanded_integrity_audit.py": "c4f977bfd6dd9da1b1eaf068bddf6fce37296d016d4ff9832aa987640682042b",
+    "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz": "7aa808a3060bb878fab6b311ba031b9d91d2f12f7268bcc67ea0b88e0974b7ae",
+    "supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql": "b90cd6c4aa535eb97226d001fdfb5a5bfed783be28ef38dc7c121a7020368aba",
+    "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql": "eab866385d3a462aea5815dc5069d5d7a774f7aa88c43d983c665469f4469465",
+    "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql": "48f0431ca57abc99906d3f578b53ef59f9072fef3fc3e11c0b50a5c3a581279c",
+    "scripts/cp7_opening_payroll_cases.py": "d799a52a417c710b90cffbfb9d1775754b93cf9e480683374515d1e33748bc3a",
+    "scripts/cp7_sales_cases.py": "c76d05c381f712d50e61ab1d8efa367981e7619a842581fecc21a73ed9b6e185",
+    "scripts/cp7_fg_cases.py": "9387f52fe45b0c3d68b11dba21c4b121d5e52f2ab65e966aecdc43f2f85288de",
+    "scripts/cp7_other_obligation_cases.py": "4e59bfa86450f026dc9fb0a91c2b82b04cb2b510e63475eaaf8d5da80340f7ba",
+    "scripts/cp6_bb_probe.py": "8d20ef6cf57e4f399ea0218b0f0f0d7044418990e4fad89231e9397d031c0e84",
+    "supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql": "bff1d7d82917ce226ad0fb8823418fa14e497407d9659e125dc01ed5e2fd5944",
+    "scripts/cp7_settlement_read_cases.py": "817b3c0faa868992ba65bb5a4c77fb74dfe528802a36d3a68b100fbb64d81c83",
+    "scripts/cp7_nota_source_cases.py": "136cf7c0132258fe3b1967ec9046abdba82b06f535c2e790975357e3a237b679",
+    "scripts/cp7_nota_cases.py": "4a1a4934e1f63098813798ac52b8ab34f0177d837c21f8d833477c4b51050ad4",
+    "scripts/cp6_ax_build.py": "8c3025d50a3e243028a7b2dd0f8fbbe22936fc4d9cbf0010fe81fb0bfa7abfb1",
+    "scripts/cp6_ax_functions.sql": "1522b37976f7a13bc3035d94ac33e63f11e7f73761c15b04117868e0416e2389",
+    "scripts/cp7-src/payroll/source.sql": "756da76b060162bc9ba710d798d8c4576ba4fb3a76f329402d8bbf73efdb88b1",
+    "scripts/cp7-src/payroll/notes.sql": "07f5ad44f9f59d6a00874c44ccab4be05cce557a1bd3a9470f9131b38ffa39a1",
+    "supabase/migrations/20260901161322_erp_v2_6_15_payroll_component_entitlement.sql": "5f295958f019111674af3e079eb1bbe4bbf445e6ae35b32c8f3d94bfbad04ec6"
+  },
+  "active_detector_function_sha256": {
+    "run_integrity_checks": "c2681bfbebd66ffb4700268ccf650a32def5d2ec6f7282b32531b103f3333459",
+    "run_v24_accessory_integrity_checks": "040d343cc47316868280ee9bab161631f4deef0f7bc82df083549a2fcf27e795",
+    "run_v255_material_cost_integrity_checks": "65ef40a0a896b977c97bc571ad3f3bf462d7496444eb689afae17e460de73ff2",
+    "run_v264_material_transfer_integrity_checks": "307a5e52eb36a172615dd6985201089ea6d5b03c083ec9887d67974029d7cb09",
+    "run_v265_gudang_write_integrity_checks": "6babce69b0b14908912a0234ed82f773895feed533be605115f424f4146f1016",
+    "run_v266_gudang_accessory_fg_checks": "af89e651bdc505e3c31ef0f8c6d5404054b5e6877f1bf4945164a970bf9d2923",
+    "run_v267_financial_truth_checks": "4618ab826e1eeb3806feb88a36c812cb3bfab37ce3baf4d574f889a9f06d9f48",
+    "run_v268_financial_report_checks": "075c3f91630997d393861a1f72090d37b029e02d80c6e3f0e3f686a81566f3de",
+    "run_v263a_payroll_integrity_checks": "2ac8d584635e30d5d5fcadd2bf0bef9de8710ce127f73a092bbb57db9ce4abcd"
+  },
+  "additional_active_expression_pins": {
+    "_v268_financial_report_checks_pre_scope()": [
+      "q.status='FAILED' and q.attempt_count>=3",
+      "q.status in('PENDING','RUNNING') or(q.status='FAILED' and q.attempt_count<3)"
+    ],
+    "guard_system_managed_table()": [
+      "current_user IN ('postgres','service_role','supabase_admin')"
+    ],
+    "guard_material_cached_fields()": [
+      "current_user in ('postgres','service_role','supabase_admin')"
+    ],
+    "validate_material_accessory_category()": [
+      "IF NEW.accessory_category_id IS NULL THEN RETURN NEW;"
+    ],
+    "guard_accounting_mapping_semantics()": [
+      "Core accounting mapping % tidak boleh dihapus",
+      "Core accounting mapping key % tidak boleh di-rename",
+      "v_type<>v_expected"
+    ],
+    "guard_accessory_category_base_uom()": [
+      "Accessory category base UOM is frozen after material variants exist"
+    ],
+    "guard_posted_document()": [
+      "postgres",
+      "supabase_admin"
+    ],
+    "guard_child_by_parent_status()": [
+      "postgres",
+      "supabase_admin"
+    ],
+    "guard_initial_prepayment_account_v1()": [
+      "initial_import_prepayments",
+      "Akun uang muka tidak boleh dijadikan mapping akun utama"
+    ],
+    "guard_vendor_invoice_post_date()": [
+      "new.invoice_date",
+      "Tanggal invoice vendor laundry berada di masa depan"
+    ],
+    "refresh_hpp_state_after_sale_header()": [
+      "refresh_po_hpp_gl_baseline"
+    ],
+    "sync_opening_hpp_after_sale_status()": [
+      "opening_lot_hpp_gl_state"
+    ],
+    "validate_payroll_work_item_source()": [
+      "new.source_type='FG_REPAIR'",
+      "fg_unsourced_repair_wages_v1"
+    ]
+  },
+  "runtime_trigger_tables": [
+    "contractor_material_issue_items",
+    "material_purchase_headers",
+    "opening_subledger_balances",
+    "vendor_invoices",
+    "po_hpp_gl_state",
+    "sales_headers",
+    "accounting_account_mappings",
+    "chart_accounts",
+    "accessory_categories",
+    "materials",
+    "payroll_work_items",
+    "payroll_settlements",
+    "fg_unsourced_repair_wages_v1",
+    "fg_unsourced_receipts_v1"
+  ],
+  "contract": "audit.sol.r4.payroll-detector-dispute.v1",
+  "state": "PREEXECUTION_NOT_RUN",
+  "qualification_kind": "SOURCE_BOUND_DISPUTE_REPRODUCTION_PLUS_ISOLATED_UNEXECUTED_OPENING_CONTROL",
+  "first_run_id": 39199375501,
+  "first_artifact_id": 12163127220,
+  "original_first_counts": {
+    "PASS": 8,
+    "INCOMPLETE": 1
+  },
+  "originals_preserved": true,
+  "first_cause": "Opening stopped before counter because valid FG_REPAIR Nota predecessor produced two wrong-contractor CRITICAL alarms. Source indicates possible product false alarm, not an adversarial fixture. Dispute must resolve actual source rows.",
+  "new_case_ids": 1,
+  "previously_unexecuted_stable_case_ids": 1,
+  "new_business_case_ids": 1,
+  "new_race_credit": 0,
+  "earlier_PASS_cases_repeated": false,
+  "held_r3_probes_resumed": false,
+  "hosted_or_production": false,
+  "product_changed": false,
+  "guards_privileges_triggers_changed": false,
+  "direct_fact_edit": false,
+  "no_business_retry": true,
+  "max_pre_case_prerequisite_retry": 1,
+  "bootstrap_attempts_max": 2,
+  "all167_each_phase": true,
+  "oracle_origin": "PROMAX_INV_D02_AND_SOURCE_BOUND_LAWFUL_NATIVE_FG_REPAIR_LINEAGE_PLUS_UNCHANGED_OPENING65",
+  "fixture_origin": "ACCEPTED_PUBLIC_NOTA_POSITIVE_SOURCE_AND_ACCEPTED_BB_FINANCIAL_IMPORT_ONLY",
+  "cases": [
+    {
+      "id": "SOL_R4_INV_D02_VALID_FG_REPAIR_NOTA_ZERO_ALARM",
+      "kind": "NATIVE_BUSINESS_CONTRACT_DISPUTE",
+      "oracle_origin": "PROMAX_INV_D02_HEALTHY_BOOK_DETECTORS_ZERO",
+      "fixture_origin": "ACCEPTED_AX_NATIVE_REPAIR2_AND1_PUBLIC_NOTA_SAVE_POST",
+      "expected_phases": {
+        "BEFORE": {
+          "all167": 0
+        },
+        "AFTER_NATIVE_REPAIR": {
+          "all167": 0
+        },
+        "AFTER_DRAFT": {
+          "all167": 0
+        },
+        "AFTER_VALID_NOTA_POST": {
+          "all167": 0
+        },
+        "AFTER_ROLLBACK": {
+          "all167": 0
+        }
+      },
+      "expected_payroll": {
+        "line_count": 2,
+        "qty": [
+          1,
+          2
+        ],
+        "rate": "2000.00",
+        "amounts": [
+          "2000.00",
+          "4000.00"
+        ],
+        "labor_and_net": "6000.00",
+        "status": "CALCULATED",
+        "source_type": "FG_REPAIR",
+        "contractor_and_component_match_actual_wage": true
+      },
+      "contrary_observation_rule": "If actual source/header/component/qty/rate/amount match and only payroll_work_wrong_contractor rises2, preserve rawCOUNTEREXAMPLE, neverPASS. Unexpected collateral/lineage mismatch is INCOMPLETE.",
+      "status_vocabulary": [
+        "PASS",
+        "COUNTEREXAMPLE",
+        "INCOMPLETE"
+      ]
+    },
+    {
+      "id": "SOL_R4_D01_OPENING_DERIVED_STATUS",
+      "kind": "QUALIFIED_PREVIOUSLY_UNEXECUTED_DETECTOR_CONTROL",
+      "oracle_origin": "UNCHANGED_LITERAL_65_0_OPEN_THEN_SETTLED_STATUS_TWO_IDENTITIES",
+      "fixture_origin": "BB_FINANCIAL_FIXTURE_DOCUMENT90_LESS25_NET65_NO_PAYROLL_REVIEW",
+      "expected_phases": {
+        "OPENING_DERIVED_STATUS_ONLY": {
+          "run_v267_financial_truth_checks:V2620M_OPENING_SUBLEDGER_STATE": 1,
+          "run_v268_financial_report_checks:V2620M_OPENING_SUBLEDGER_STATE": 1
+        }
+      },
+      "before_after_all167zero": true,
+      "unchanged_mutation": "Own opening_subledger_balances.status OPEN\u2192SETTLED; original65/settled0, no amount/source changes."
+    }
+  ],
+  "fixture_diff": {
+    "old": "opening.fixture\u2192s.review.fixture creates valid FG_REPAIR Nota beforeBB opening; baseline records wrong_contractor2, opening counter not entered.",
+    "qualified_opening": "bb.financial_fixture documents CONTRACTOR_PAYABLE UPAH-OLD90 settled_before25, bank100; net65/statusOPEN/settled0 unchanged, no unrelated Nota/payroll.",
+    "separate_dispute": "Recreates legitimate Nota path as its own named case with read-only source resolution. The false alarm must remain visible and cannot be dismissed by the isolated opening fixture."
+  },
+  "product_bug_inference_pending_actual_lineage": true,
+  "severity_contract": "ProMaxINV-D02 explicitly S1 if the book/source is correct; no payroll money error or period-close blocking is inferred without observation.",
+  "audit_tools": {
+    "payroll_detector_dispute_cases.py": "9ae01a7ac836cfe6b9deb5923120d4ba225feca2fc6eaea3c6dcb129dab35938",
+    "payroll_detector_dispute_qualification.py": "97650fb52337310a4cd19fbe969409cebc8f3ec57328a65f879e4b1ab2f0a1ef",
+    "detector_derived_controls.py": "c415e29faaf7ec707bbfb98f78f21fb7b1ae3b3c456181648cb0a64962175b61",
+    "detector_mutable_controls.py": "66d7fa6fc2731a38f925cf9ecdba6c0b03d224695682626539218e879616d590",
+    "detector_case.py": "8a6a5c3eea366a10383cf3ab7531089bcef80972abd31c8995f1564aa02d9e1d",
+    "payroll_detector_dispute_validate.py": "7817ddfd294c22a2eef39a533d301dbd693330b2619a6f3ab828783e26c6b9c3"
+  }
+}

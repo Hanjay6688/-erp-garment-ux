@@ -1,0 +1,50 @@
+{
+  "state": "READY_FOR_NORMAL_REVIEW_NO_CASES_EXECUTED",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "parent": "6c6a98f2e3a046ddc335426610154fb85ae4787f",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "created_at": "2026-10-19T04:36:20.396308+00:00",
+  "publication_payload": {
+    ".github/workflows/audit-sol-r4-payroll-detector-dispute.yml": {
+      "bytes": 9585,
+      "sha256": "a4bc64655726aaa140f6cc19f5050bab1c5d988dfc5eb66f496e2f3b2a2163c9"
+    },
+    "audit/sol_cp17_r4/payroll_detector_dispute_cases.py": {
+      "bytes": 7404,
+      "sha256": "9ae01a7ac836cfe6b9deb5923120d4ba225feca2fc6eaea3c6dcb129dab35938"
+    },
+    "audit/sol_cp17_r4/payroll_detector_dispute_qualification.py": {
+      "bytes": 6871,
+      "sha256": "97650fb52337310a4cd19fbe969409cebc8f3ec57328a65f879e4b1ab2f0a1ef"
+    },
+    "audit/sol_cp17_r4/payroll_detector_dispute_validate.py": {
+      "bytes": 5686,
+      "sha256": "7817ddfd294c22a2eef39a533d301dbd693330b2619a6f3ab828783e26c6b9c3"
+    },
+    "audit/sol_cp17_r4/PAYROLL_DETECTOR_DISPUTE_PREEXECUTION_MANIFEST.json": {
+      "bytes": 14375,
+      "sha256": "43fa8a0b7061048aa92517071c61ec956710117c97f7ba609e7ac19793d46fd2"
+    },
+    "audit/sol_cp17_r4/PAYROLL_DETECTOR_DISPUTE_PREEXECUTION_VALIDATION.json": {
+      "bytes": 619,
+      "sha256": "e31ab0bf2bb175925e91c47166796080d84c42732ebaf971aaf4143d84c85cef"
+    }
+  },
+  "source_bound_reason": "Own run39199375501 opening precondition observed wrong_contractor2 after a legitimate publicNota positive, before opening counter. Current source resolves onlyPRODUCTION/REWORK; AX and CP7 explicitly supportFG_REPAIR. New observed source resolution will adjudicate product false alarm; it is not dismissed as an adversarial fixture.",
+  "original_raw_results_preserved": true,
+  "earlier8PASS_not_repeated": true,
+  "cases": 2,
+  "new_business_dispute_ID": 1,
+  "isolated_previously_unexecuted_opening_ID": 1,
+  "expected_healthy_alarm_count": 0,
+  "raw_counterexample_preserved_not_PASS": true,
+  "no_direct_fact_or_guard_grant_trigger_edits": true,
+  "only_counter_DML": "Existing authorized own opening_subledger_balances.status OPEN\u2192SETTLED; same65/0/OPEN and two+1expected, full167/rollback. Nota uses accepted Native/public commands; lineage observation isSELECT-only.",
+  "product_fixes": 0,
+  "hosted_or_production": false,
+  "credentials_fetched": false,
+  "held_r3_probes_resumed": false,
+  "product_paths_changed": false,
+  "normal_review_required": true
+}

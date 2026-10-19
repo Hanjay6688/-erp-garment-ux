@@ -1,0 +1,16 @@
+{
+  "state": "STATIC_AND_PURE_METADATA_ONLY_NO_PRODUCT_RUN",
+  "case_ids": 2,
+  "new_business_contract_ids": 1,
+  "isolated_existing_opening_id": 1,
+  "actual_counterexample_gate_positive": 1,
+  "actual_healthy_gate_positive": 1,
+  "actual_outer_gate_negative": 9,
+  "healthy_expected_zero_not_lowered": true,
+  "observed_contrary_never_PASS": true,
+  "source_and_tool_hashes_verified": true,
+  "readonly_lineage_query_binds_source_header_contractor_component_qty_rate_amount": true,
+  "parsed_workflow_names_entrypoint_artifact_only": true,
+  "setup_permissions_budget_unchanged": true,
+  "product_diff_empty": true
+}
