@@ -1,0 +1,36 @@
+{
+  "state": "PREEXECUTION_NOT_RUN",
+  "candidate_sha": "17fa25075ba77f0853c3c16f504288ace03eec35",
+  "candidate_tree": "65f778479093d869a3354c0b9f19b4d9a541d98a",
+  "contract": "audit.sol.r5.reader-multirow-captured-null-decoder-q2.v1",
+  "source_run_id": 39240123342,
+  "source_artifact_id": 12181840235,
+  "source_archive_sha256": "27caa51a1d681381239945cfceaf77d09f783d20e2cadec423ec91be2c9975ce",
+  "source_raw_case_status": "INCOMPLETE",
+  "source_provider_conclusion": "failure",
+  "qualifier_sha256": "e6769588a05df045b29d1735ec32dda67cd690f9ddcf2b9f53d75abec689fa1b",
+  "readers": [
+    "erp._v268_financial_report_checks_pre_scope()",
+    "erp.bb_opening_credit_account_v1(uuid)",
+    "erp.compute_non_po_product_hpp_book_v2620f(uuid)",
+    "erp.compute_po_hpp_gl_book_v2620e(uuid)",
+    "erp.get_owner_financial_snapshot_v2(date,date,date)",
+    "erp.initial_prepayment_checks_v1()",
+    "erp.pocket_fabric_checks_v1()",
+    "erp.pocket_period_book_v1(uuid)",
+    "erp.run_v267_financial_truth_checks()",
+    "erp.run_v268_financial_report_checks()",
+    "erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)"
+  ],
+  "correction": "Decoder explicitly recognizes psycopg SQL NULL (Python None) before json.loads; expected24/-12/NULL/24 unchanged. Existing exact artifact only, no SQL replay or job rerun.",
+  "expected": [
+    "all11 installed and complete-old-graph answers equal on four input ordinals in one SQL statement",
+    "all11 empty WHERE FALSE answers ROWS[]",
+    "PO108/12/0, zero on missing andNULL, repeat108/12/0",
+    "sale24,return-12,missingSQLNULL,repeat24",
+    "original Native outer/case restore true; final inner fingerprint assertion not claimed",
+    "four pure decoder controls pass; new Native case credit0"
+  ],
+  "original_failure_preserved": true,
+  "gate_closing_scope": "Finite captured SQL results plus tool decoder qualification only; no fresh Native execution or full-family acceptance."
+}
