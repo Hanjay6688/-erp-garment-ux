@@ -1,0 +1,188 @@
+{
+  "state": "PREEXECUTION_NOT_RUN",
+  "candidate_sha": "17fa25075ba77f0853c3c16f504288ace03eec35",
+  "candidate_tree": "65f778479093d869a3354c0b9f19b4d9a541d98a",
+  "classification": "EXISTING_WRITER_ORACLES_INDEPENDENT_SOL_EXECUTION_AND_CASE_REVIEW",
+  "fixture_origin": "FROZEN_WRITER_DISPOSABLE_NATIVE_AUTH_BROWSER",
+  "risk_basis": "R5 financial reader and payroll-check replacements installed through every F03 composition. Twelve P19 groups, eight F03 buckets, two install/restore rehearsals and note corrections test the directly affected read/write/restore consumers.",
+  "workflows": [
+    {
+      "source": ".github/workflows/claude-p19-transport.yml",
+      "source_sha256": "3f2edbb218d4edb1093cf0fe6b5c642e257404d433d3ca29ccfff5d0b29e16df",
+      "r4_template_ref": ".github/workflows/audit-sol-r4-p19-transport.yml",
+      "path": ".github/workflows/audit-sol-r5-p19-transport.yml",
+      "sha256": "ab9d9488e65f91207046933871df3a4eb303c30acdd530ebc87fb05d473e0d15",
+      "matrix": [
+        {
+          "job": "phase",
+          "matrix": {
+            "include": [
+              {
+                "suite": "p19-transport11",
+                "probe": "cp7_p19_transport_probe.py",
+                "timeout": 120
+              },
+              {
+                "suite": "p19-scale5",
+                "probe": "cp7_p19_scale_probe.py",
+                "timeout": 330
+              },
+              {
+                "suite": "p19-staged12",
+                "probe": "cp7_p19_staged_probe.py",
+                "timeout": 150
+              },
+              {
+                "suite": "p19-plan-v2-22",
+                "probe": "cp7_p19_plan_v2_probe.py",
+                "timeout": 180
+              },
+              {
+                "suite": "p19-report-v2-20",
+                "probe": "cp7_p19_report_v2_probe.py",
+                "timeout": 180
+              },
+              {
+                "suite": "p19-ai-v2-9",
+                "probe": "cp7_p19_ai_v2_probe.py",
+                "timeout": 150
+              },
+              {
+                "suite": "p19-reminder-v2-16",
+                "probe": "cp7_p19_reminder_v2_probe.py",
+                "timeout": 180
+              },
+              {
+                "suite": "pl5-history-yield-20",
+                "probe": "cp7_pl5_history_yield_probe.py",
+                "timeout": 180
+              },
+              {
+                "suite": "k2-retention-10",
+                "probe": "cp7_k2_retention_probe.py",
+                "timeout": 150
+              },
+              {
+                "suite": "k3-cleanup-25",
+                "probe": "cp7_k3_cleanup_probe.py",
+                "timeout": 180
+              },
+              {
+                "suite": "k4-runner-17",
+                "probe": "cp7_k4_runner_probe.py",
+                "timeout": 180
+              },
+              {
+                "suite": "k6-proof-runner-10",
+                "probe": "cp7_k6_proof_runner_probe.py",
+                "timeout": 150
+              }
+            ]
+          },
+          "audit_max_parallel": 12
+        }
+      ]
+    },
+    {
+      "source": ".github/workflows/claude-p21-rehearsal.yml",
+      "source_sha256": "715715df3d5cb49bc1a4903e1c0d659a3539dcf60befb74df4766c8f8e4f6aa8",
+      "r4_template_ref": ".github/workflows/audit-sol-r4-p21-rehearsal.yml",
+      "path": ".github/workflows/audit-sol-r5-p21-rehearsal.yml",
+      "sha256": "2ae35a20abc6d9fc140a77d6cdfef8bb17904f0a84e577ec3b68c3b9dc562722",
+      "matrix": [
+        {
+          "job": "phase",
+          "matrix": {
+            "include": [
+              {
+                "name": "Install, pre-use rollback, identical reinstall, use, post-use refusal and restore (disposable clone)",
+                "probe": "cp7_p21_rehearsal_probe.py",
+                "artifact": "cp7-p21-rehearsal",
+                "timeout": 60
+              },
+              {
+                "name": "Full composition with staged analysis, committed use, used backup restore and pre-install restore (disposable clone)",
+                "probe": "cp7_p21_full_rehearsal_probe.py",
+                "artifact": "cp7-p21-full-rehearsal",
+                "timeout": 120
+              }
+            ]
+          },
+          "audit_max_parallel": null
+        }
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f03-full.yml",
+      "source_sha256": "1356737227545874ab82c60e1967620436214786a706d83429591f5b8f9beb58",
+      "r4_template_ref": ".github/workflows/audit-sol-r4-f03-full.yml",
+      "path": ".github/workflows/audit-sol-r5-f03-full.yml",
+      "sha256": "eed5d0a90805197ab9dbcbf0b6858245cd5ad9e647357f5acde17294f29c80c0",
+      "matrix": [
+        {
+          "job": "phase",
+          "matrix": {
+            "bucket": [
+              "p09",
+              "p10",
+              "p11",
+              "p12",
+              "p13",
+              "cash_installments",
+              "supplier_credit",
+              "customer_refund"
+            ]
+          },
+          "audit_max_parallel": null
+        }
+      ]
+    },
+    {
+      "source": ".github/workflows/claude-note-correction.yml",
+      "source_sha256": "266d6118c7ccb51faafebd5c0f100073de335ffaa4b9d8b5e90ee9e6361d47d4",
+      "r4_template_ref": ".github/workflows/audit-sol-r4-note-correction.yml",
+      "path": ".github/workflows/audit-sol-r5-note-correction.yml",
+      "sha256": "77bbb01d9630d18295358f59b437b4f6d9e94aa26a80e2cc81464a51642cc22b",
+      "matrix": [
+        {
+          "job": "phase",
+          "matrix": {},
+          "audit_max_parallel": null
+        }
+      ]
+    }
+  ],
+  "probe_sha256": {
+    "cp7_f03_full_probe.py": "d13096e2cc21a73a2dc7a2bd62a35663996edfa3a1815e088d64b44b7eca6c66",
+    "cp7_k2_retention_probe.py": "bb11e72472c4ff4562f2e396e5b9b06ec262ae55eaaae90ddfd9c79a2caf6c46",
+    "cp7_k3_cleanup_probe.py": "3ce8507ecada1b32ea430ed59c2fe749cae943aba1233a66532e038cb7d0eff6",
+    "cp7_k4_runner_probe.py": "d02aa2c0e66842c35e3813da648b420b6dfff0f424b8aa296dfcf385d54bdbe7",
+    "cp7_k6_proof_runner_probe.py": "f2ba37fb54934b96794ddb46b9c7970cef715347dbeafec1ea7bbd57e8f7657a",
+    "cp7_note_correction_probe.py": "541ac67fe3fb7c883f51e474d730ddd8a32f4c2c8d3e02afa46f21197db462b7",
+    "cp7_p19_ai_v2_probe.py": "d582d11794f2d9a912901452099b2075c3f6d1b3095fa8d0cef7465b545c598e",
+    "cp7_p19_plan_v2_probe.py": "07360323bc05cdbeed235c95a758d419a1c56a8168c451052a3098a7a2ca8d56",
+    "cp7_p19_reminder_v2_probe.py": "4e67e0069737bea902fb8f8076df6b2c8c4231401e9149cf48f6c7a73fcef788",
+    "cp7_p19_report_v2_probe.py": "cdda53438ac8b8f23fc7b6cf06181beb204504efd6fa4b172b50b8e77527bf99",
+    "cp7_p19_scale_probe.py": "202e39fd7d7977ad1444ad93d3244ddf219440197b898df3c8fa8f73e28cbcc4",
+    "cp7_p19_staged_probe.py": "c4338b7572bb192470a22057816461a6184e6dabf328e914d31f6362344fd522",
+    "cp7_p19_transport_probe.py": "6cf93b62dc5c9daf81a0ff33866c65c6cb54eb4155bf1eb460e92329a9dc2199",
+    "cp7_p21_full_rehearsal_probe.py": "a6da56d3c3177c2f6083b19e996d1f7a31b7e934607d7f97232336405fd529f7",
+    "cp7_p21_rehearsal_probe.py": "75aca0895b67618e5a3861e50ae0b521926819018dc3dd9cada84b405783c75b",
+    "cp7_pl5_history_yield_probe.py": "56b994edbfedc686c385bf3beb46de6f52742476a1dd369992a052e40208e136"
+  },
+  "audit_tool_sha256": {
+    "entrypoint_once.py": "86f53d3ecb77011a620b75b627f60827294ac0fe6ff5d2472619bb762600339d",
+    "cp17_once.py": "d5571a303f82323efebc403ca72453018e1af11f55312bd3701527b75fcb51a9"
+  },
+  "numeric_oracles_or_caps_changed": false,
+  "source_product_edits": false,
+  "max_pre_case_prerequisite_retry": 1,
+  "no_business_retry": true,
+  "concurrency_change": "P19 independent disposable GitHub VMs max-parallel3->12 only; no application/user/cap/per-step concurrency or timeout changes.",
+  "retained_unchanged_r4_scopes": [
+    "Build, codeQL and React/CSS source and lockfiles are unchanged; r4 seal retained, currentCP17 repeats both UI builds.",
+    "CP6 accepted scope remains CLOSED; no real hosted/cutover/shadow or held r3 probes."
+  ],
+  "production_go": false,
+  "peer_r5_content_read": false
+}
