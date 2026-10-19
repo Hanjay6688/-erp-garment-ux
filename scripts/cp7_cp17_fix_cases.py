@@ -61,6 +61,7 @@ import cp7_cutover_cases as cutover
 import cp7_wave_sewing_cases as wave
 import cp7_r3_cases as r3
 import cp7_r4_cases as r4
+import cp7_r5_cases as r5
 
 auth,b,bc=s.auth,s.b,s.bc
 refused=auth.refused
@@ -71,7 +72,7 @@ FUNCTIONS=('erp_set_contractor_hpp_policy_v1','erp_cp7_save_nota_v1','erp_cp7_ge
            'erp_cp7_get_kasbon_v1','erp_cp7_save_kasbon_v1','erp_cp7_get_pickup_reversal_v1','erp_cp7_reverse_pickup_v1',
            'erp_cp7_get_cutting_return_reversal_v1','erp_cp7_reverse_cutting_return_v1','erp_cp7_get_sewing_completion_v1','erp_cp7_save_sewing_completion_v1',
            'erp_cp7_list_po_finish_v1','erp_cp7_get_po_finish_v1','erp_cp7_finish_po_v1','erp_cp7_get_po_reopen_v1','erp_cp7_reopen_po_v1',
-           'erp_cp7_save_misc_finance_v1','erp_cp7_correct_misc_finance_v1','erp_cp7_correct_sales_payment_v1','erp_cp7_get_sales_payment_correction_v1','erp_cp7_correct_note_v1')+master.FUNCTIONS+autopo.FUNCTIONS+cutover.FUNCTIONS+r3.FUNCTIONS+r4.FUNCTIONS
+           'erp_cp7_save_misc_finance_v1','erp_cp7_correct_misc_finance_v1','erp_cp7_correct_sales_payment_v1','erp_cp7_get_sales_payment_correction_v1','erp_cp7_correct_note_v1')+master.FUNCTIONS+autopo.FUNCTIONS+cutover.FUNCTIONS+r3.FUNCTIONS+r4.FUNCTIONS+r5.FUNCTIONS
 IDS=dict(
     native=['CP17_FIN01_FULL_PAY_BEFORE_ATTENDANCE_REFUSED','CP17_FIN01_WORK_ONLY_BEFORE_COMPLETION_REFUSED',
             'CP17_FIN01_INSTALLMENT_BEFORE_ACCRUAL_REFUSED','CP17_FIN01_DIRECT_NATIVE_PAYMENT_REFUSED',
@@ -94,15 +95,15 @@ IDS=dict(
             'CP17_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED','CP17_R2_MISC_SPENT_INCOME_CORRECTION_COMMITS','CP17_R2_NOTE_CORRECTION_SPENT_PAYMENT_COMMITS',
             'CP17_R2_COMPOUND_SCOPE_PRIVATE_AND_CLOSED','CP17_R2_DETECTOR_BOOK_DATE_LISTED',
             'CP17_R2_ASTRA_G1_G2_TEN_PIECES_CONSERVED','CP17_R2_ASTRA_G2_UNSEWN_SIX_MUST_NOT_FINISH','CP17_R2_ASTRA_G2_SEWN_UNSENT_SIX_MUST_NOT_FINISH',
-            'CP17_R2_PO_REOPEN_THEN_FINISH_SAME_HPP','CP17_R2_PO_REOPEN_BLOCKERS_UNCHANGED']+master.NATIVE+autopo.NATIVE+cutover.NATIVE+wave.NATIVE+r3.NATIVE+r4.NATIVE,
+            'CP17_R2_PO_REOPEN_THEN_FINISH_SAME_HPP','CP17_R2_PO_REOPEN_BLOCKERS_UNCHANGED']+master.NATIVE+autopo.NATIVE+cutover.NATIVE+wave.NATIVE+r3.NATIVE+r4.NATIVE+r5.NATIVE,
     races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK','CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS','CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS','CP17_RACE_G2_FINISH_TWO_TABS_ONE_WINS',
-           'CP17_RACE_R2_CORRECTION_AND_PAYMENT_ONE_BANK','CP17_RACE_R2_PO_REOPEN_TWO_TABS_ONE_WINS']+master.RACES+autopo.RACES+cutover.RACES+wave.RACES+r3.RACES+r4.RACES,
+           'CP17_RACE_R2_CORRECTION_AND_PAYMENT_ONE_BANK','CP17_RACE_R2_PO_REOPEN_TWO_TABS_ONE_WINS']+master.RACES+autopo.RACES+cutover.RACES+wave.RACES+r3.RACES+r4.RACES+r5.RACES,
     http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED','CP17_HTTP_KASBON_GIVE','CP17_HTTP_ERP_WRITERS_NOT_REACHABLE','CP17_HTTP_G1_SEWING_RECORD','CP17_HTTP_G2_FINISH_PO',
-          'CP17_HTTP_R2_SPENT_INCOME_CORRECTION_COMMITS','CP17_HTTP_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED','CP17_HTTP_R2_PO_REOPEN']+master.HTTP+autopo.HTTP+cutover.HTTP+wave.HTTP+r3.HTTP+r4.HTTP,
+          'CP17_HTTP_R2_SPENT_INCOME_CORRECTION_COMMITS','CP17_HTTP_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED','CP17_HTTP_R2_PO_REOPEN']+master.HTTP+autopo.HTTP+cutover.HTTP+wave.HTTP+r3.HTTP+r4.HTTP+r5.HTTP,
     browser=['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP','CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE','CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP',
              'CP17_BROWSER_D14_5_SERIES_DOZENS_DESKTOP','CP17_BROWSER_D14_5_SERIES_DOZENS_MOBILE','CP17_BROWSER_SG02_FABRIC_RETURN_CORRECT_DESKTOP',
              'CP17_BROWSER_G1_SEWING_DESKTOP','CP17_BROWSER_G1_SEWING_MOBILE','CP17_BROWSER_G2_FINISH_DESKTOP','CP17_BROWSER_G2_FINISH_MOBILE',
-             'CP17_BROWSER_R2_PO_REOPEN_DESKTOP','CP17_BROWSER_R2_PO_REOPEN_MOBILE']+master.BROWSER+autopo.BROWSER+cutover.BROWSER+wave.BROWSER+r3.BROWSER+r4.BROWSER+['CP17_BROWSER_R2_07_IMPORT_WIP_BRAND_SALE_CASH_CLOSE','CP17_BROWSER_R2_07_BS_REWORK_NOTA_PAYROLL_PAY'],
+             'CP17_BROWSER_R2_PO_REOPEN_DESKTOP','CP17_BROWSER_R2_PO_REOPEN_MOBILE']+master.BROWSER+autopo.BROWSER+cutover.BROWSER+wave.BROWSER+r3.BROWSER+r4.BROWSER+r5.BROWSER+['CP17_BROWSER_R2_07_IMPORT_WIP_BRAND_SALE_CASH_CLOSE','CP17_BROWSER_R2_07_BS_REWORK_NOTA_PAYROLL_PAY'],
 )
 # Owner D16-1 / Fable oracle 2, 3 and 5: every browser case runs again on the Enteng (UAT_AUTH_SIMULATION) build against the
 # same kind of disposable copy (scripts/cp6_auditor_browser_host.mjs AUDITOR_UI_MODE=ENTENG; nothing reaches a hosted project).
@@ -1233,8 +1234,8 @@ def cases(cur,today):
            cash_book_date,spent_income_correction,spent_income_note_only,spent_income_negative,misc_spent_income,note_spent_payment,
            compound_private,detector_book_date,
            lambda:astra_journey(10,10),lambda:astra_journey(4,4),lambda:astra_journey(10,4),reopen_same_hpp,reopen_blockers]
-    assert len(named)+len(master.NATIVE)+len(autopo.NATIVE)+len(cutover.NATIVE)+len(wave.NATIVE)+len(r3.NATIVE)+len(r4.NATIVE)==REQUIRED['native']
-    return list(zip(IDS['native'],named))+master.cases(cur,today)+autopo.cases(cur,today)+cutover.cases(cur,today)+wave.cases(cur,today)+r3.cases(cur,today)+r4.cases(cur,today)
+    assert len(named)+len(master.NATIVE)+len(autopo.NATIVE)+len(cutover.NATIVE)+len(wave.NATIVE)+len(r3.NATIVE)+len(r4.NATIVE)+len(r5.NATIVE)==REQUIRED['native']
+    return list(zip(IDS['native'],named))+master.cases(cur,today)+autopo.cases(cur,today)+cutover.cases(cur,today)+wave.cases(cur,today)+r3.cases(cur,today)+r4.cases(cur,today)+r5.cases(cur,today)
 
 
 def spent_payload(cur,f,amount,**changes):
@@ -1364,7 +1365,7 @@ def races(tools,today):
         return dict(status='PASS',two_reopens_same_review=results,reopened_once=True,close_reversals=reversals)
     return [('CP17_RACE_TWO_PAYMENTS_ONE_BANK',two_payments),('CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS',overlapping_payroll),
             ('CP17_RACE_G1_SEWING_TWO_TABS_ONE_WINS',sewing_twice),('CP17_RACE_G2_FINISH_TWO_TABS_ONE_WINS',finish_twice),
-            ('CP17_RACE_R2_CORRECTION_AND_PAYMENT_ONE_BANK',correction_and_payment),('CP17_RACE_R2_PO_REOPEN_TWO_TABS_ONE_WINS',reopen_twice)]+master.races(tools,today)+autopo.races(tools,today)+cutover.races(tools,today)+wave.races(tools,today)+r3.races(tools,today)+r4.races(tools,today)
+            ('CP17_RACE_R2_CORRECTION_AND_PAYMENT_ONE_BANK',correction_and_payment),('CP17_RACE_R2_PO_REOPEN_TWO_TABS_ONE_WINS',reopen_twice)]+master.races(tools,today)+autopo.races(tools,today)+cutover.races(tools,today)+wave.races(tools,today)+r3.races(tools,today)+r4.races(tools,today)+r5.races(tools,today)
 
 
 def http_cases(http,today):
@@ -1516,4 +1517,4 @@ def http_cases(http,today):
     return [('CP17_HTTP_CASH_EMPTY_BANK_REFUSED',cash_refused),('CP17_HTTP_PAYROLL_EARLY_REFUSED',payroll_early),('CP17_HTTP_KASBON_GIVE',kasbon_give_http),
             ('CP17_HTTP_ERP_WRITERS_NOT_REACHABLE',erp_writers_closed),('CP17_HTTP_G1_SEWING_RECORD',sewing_http),('CP17_HTTP_G2_FINISH_PO',finish_http),
             ('CP17_HTTP_R2_SPENT_INCOME_CORRECTION_COMMITS',http_spent_positive),('CP17_HTTP_R2_SPENT_INCOME_GENUINE_NEGATIVE_REFUSED',http_spent_negative),
-            ('CP17_HTTP_R2_PO_REOPEN',reopen_http)]+master.http_cases(http,today)+autopo.http_cases(http,today)+cutover.http_cases(http,today)+wave.http_cases(http,today)+r3.http_cases(http,today)+r4.http_cases(http,today)
+            ('CP17_HTTP_R2_PO_REOPEN',reopen_http)]+master.http_cases(http,today)+autopo.http_cases(http,today)+cutover.http_cases(http,today)+wave.http_cases(http,today)+r3.http_cases(http,today)+r4.http_cases(http,today)+r5.http_cases(http,today)

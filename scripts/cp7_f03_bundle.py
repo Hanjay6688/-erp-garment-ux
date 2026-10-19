@@ -32,6 +32,7 @@ import cp7_warehouse_summary_bundle as warehouse_summary
 import cp7_hpp_pool_bundle as hpp_pool
 import cp7_public_routes_bundle as public_routes
 import cp7_internal_guard_bundle as internal_guard
+import cp7_payroll_checks_bundle as payroll_checks
 ROOT=finance.ROOT
 
 def attendance_internal_body():
@@ -53,7 +54,7 @@ def sales_after_attendance():
 
 def extension():
  prefix=procurement.bundle();full=attendance.bundle();assert full.startswith(prefix+'\n')
- return full[len(prefix)+1:]+'\n'+sales_after_attendance()+'\n'+finance.extension()+'\n'+period.extension()+'\n'+recost.extension()+'\n'+journal.extension()+'\n'+misc.extension()+'\n'+installment.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-lines.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/return-correction.sql').read_text()+'\n'+note_report.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-actors.sql').read_text()+'\n'+transaction_source.extension()+'\n'+misc_correction.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/chain-reversal.sql').read_text()+'\n'+cutting_correction.extension()+'\n'+pickup.extension()+'\n'+rate_revision.extension()+'\n'+kasbon.extension()+'\n'+dated_guard.extension()+'\n'+rework.extension()+'\n'+hpp_policy.extension()+'\n'+master.extension()+'\n'+cutover.extension()+'\n'+reminders.extension()+'\n'+erp_settings.extension()+'\n'+audit.extension()+'\n'+customer_history.extension()+'\n'+warehouse_summary.extension()+'\n'+hpp_pool.extension()+'\n'+public_routes.extension()+'\n'+internal_guard.extension(sales.patched_internal(attendance_internal_body()))
+ return full[len(prefix)+1:]+'\n'+sales_after_attendance()+'\n'+finance.extension()+'\n'+period.extension()+'\n'+recost.extension()+'\n'+journal.extension()+'\n'+misc.extension()+'\n'+installment.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-lines.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/return-correction.sql').read_text()+'\n'+note_report.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-actors.sql').read_text()+'\n'+transaction_source.extension()+'\n'+misc_correction.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/chain-reversal.sql').read_text()+'\n'+cutting_correction.extension()+'\n'+pickup.extension()+'\n'+rate_revision.extension()+'\n'+kasbon.extension()+'\n'+dated_guard.extension()+'\n'+rework.extension()+'\n'+hpp_policy.extension()+'\n'+master.extension()+'\n'+cutover.extension()+'\n'+reminders.extension()+'\n'+erp_settings.extension()+'\n'+audit.extension()+'\n'+customer_history.extension()+'\n'+warehouse_summary.extension()+'\n'+hpp_pool.extension()+'\n'+public_routes.extension()+'\n'+payroll_checks.extension()+'\n'+internal_guard.extension(sales.patched_internal(attendance_internal_body()))
 def bundle():return procurement.bundle()+'\n'+extension()
 # R4-05: the one-probe fast path of the guard is the last delta of the stack (cp7_internal_guard_bundle.py).
 def patched_internal(definition):return internal_guard.patched_internal(sales.patched_internal(attendance.patched_internal(settlement.patched_internal(nota.patched_internal(definition)))))
