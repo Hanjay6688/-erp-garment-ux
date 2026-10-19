@@ -1,6 +1,6 @@
 # Desain: semua pengingat ERP diteruskan ke WhatsApp owner lewat CallMeBot (D17-3..D17-5)
 
-Status: **sedang dibuat** (WA-2a dan WA-2b: bagian database selesai; uji CI berjalan; layar menyusul). Belum dipasang.
+Status: **sedang dibuat** (WA-2a dan WA-2b: bagian database selesai; WA-4: layar Reminder tab Pengingat sistem dan Sambungan WhatsApp selesai; uji CI 24 kasus berjalan). Belum dipasang.
 
 Keputusan owner (19 Okt 2026), dikutip persis:
 - D17-3: "yaudah desain callmebot buat gw"
@@ -202,7 +202,9 @@ terverifikasi. Pesan sungguhan pertama hanya **pesan uji** yang ditekan owner se
 - Analisis otomatis: hanya kalau analisis terakhir Bos sudah lebih tua dari `analysis_every_minutes`, di dalam jam
   analisis, tidak ada analisis Bos yang sedang berjalan, dan data ERP berubah sejak analisis itu (atau hari berganti).
   Periodenya sama panjang dengan analisis terakhir Bos, berakhir kemarin. Penjalan server K4 yang menghitungnya. Kalau Bos
-  belum pernah menjalankan analisis, tidak ada analisis otomatis.
+  belum pernah menjalankan analisis, tidak ada analisis otomatis. Jam analisis hanya membatasi permintaan analisis otomatis
+  yang baru; analisis yang Bos jalankan sendiri tetap dicek ulang dan diteruskan kapan pun (perbaikan sesudah CI
+  39279865016, best practice E25m).
 - Penyimpanan: setiap analisis disimpan 7 hari. Diukur sebelumnya: 31 MB per analisis untuk 5.000 target sesudah dibersihkan
   (sekitar 6 KB per target). Tiap 60 menit pada jam 07.00–20.00 berarti sampai sekitar 90 analisis tersimpan; untuk 300
   target sekitar 0,2 GB, untuk 1.000 target sekitar 0,6 GB. Analisis dilewati kalau datanya tidak berubah.
