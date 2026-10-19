@@ -1,0 +1,110 @@
+{
+  "contract": "audit.sol.r4.guard-staff-fixture-q1.preexecution.v1",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "own_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "case_ids": [
+    "SOL_R4_GUARD_FRESH_TX_STAFF_Q1"
+  ],
+  "case_count": 1,
+  "guard_calls": 4,
+  "guard_call_scope": "Only four previously unexercised STAFF measuring calls; OWNER/ADMIN are not repeated.",
+  "risk": "Audit fixture used a custom role_code while current_app_role returns role_code; original STAFF case stopped before the first guard invocation. Correct the synthetic profile identity, keeping frozen STAFF and ALLOW expected.",
+  "oracle_origin": "SOL_CONTRACT_DERIVED_LITERAL_NATIVE_ROLE_ALLOWANCE",
+  "oracle_source": "scripts/cp7-src/procurement/accepted-deltas.sql: legacy final role test allows exactly OWNER/ADMIN/STAFF; candidate cp7_internal_guard_bundle.py declares unchanged answer without a current context.",
+  "fixture_origin": "SOL_SYNTHETIC_APP_PROFILES_WITH_EXISTING_WRITER_RECORD_LAYOUT_ON_DISPOSABLE_COPY",
+  "cases": [
+    {
+      "id": "SOL_R4_GUARD_FRESH_TX_STAFF_Q1",
+      "role": "STAFF",
+      "measurements": [
+        {
+          "variant": "predecessor",
+          "txid_state": "UNASSIGNED",
+          "expected_before": null,
+          "expected_session_user": "authenticator",
+          "expected_current_user": "authenticated",
+          "expected_legacy_app_role": "STAFF",
+          "expected_matching_context_rows": 0,
+          "expected_outcome": "ALLOW"
+        },
+        {
+          "variant": "actual",
+          "txid_state": "UNASSIGNED",
+          "expected_before": null,
+          "expected_session_user": "authenticator",
+          "expected_current_user": "authenticated",
+          "expected_legacy_app_role": "STAFF",
+          "expected_matching_context_rows": 0,
+          "expected_outcome": "ALLOW"
+        },
+        {
+          "variant": "predecessor",
+          "txid_state": "ASSIGNED_CONTROL",
+          "expected_before": "NON_NULL",
+          "expected_session_user": "authenticator",
+          "expected_current_user": "authenticated",
+          "expected_legacy_app_role": "STAFF",
+          "expected_matching_context_rows": 0,
+          "expected_outcome": "ALLOW"
+        },
+        {
+          "variant": "actual",
+          "txid_state": "ASSIGNED_CONTROL",
+          "expected_before": "NON_NULL",
+          "expected_session_user": "authenticator",
+          "expected_current_user": "authenticated",
+          "expected_legacy_app_role": "STAFF",
+          "expected_matching_context_rows": 0,
+          "expected_outcome": "ALLOW"
+        }
+      ],
+      "expected_native_effects": "None after established fixture",
+      "expected_public_catalog_change": false,
+      "expected_actual_guard_definition_change": false
+    }
+  ],
+  "call_separation": "Every guard variant/state uses a different fresh connection; observe initial txid NULL, set identity, verify role, reobserve immediately before call. A separate admin reader observes matching context counts and cannot assign the measuring connection txid.",
+  "predecessor": "Captured current definition without exact R4 probe; prosrc must also equal candidate source constructor before R4 optimization. Headers/owner semantics preserved in private fixture function.",
+  "role_profile": "Reuse active app_roles.role_code STAFF if present; otherwise create exactly role_code STAFF with zero permission rows and bind synthetic app_users.role STAFF. No Native grant or production role change. The copy is dropped.",
+  "runtime": "Existing P21 install/uninstall and CP17 verification; direct existing copy/strict-row primitives without business_day.with_retry wrapper.",
+  "measurement_SQL": "SELECT guard/metadata only plus session identity SET; no business command.",
+  "setup_writes": [
+    "Synthetic app_users and optional custom STAFF app_roles on each disposable copy",
+    "Private audit_sol_r4_guard_fixture comparison functions and grants only; no product schema/function grant changes by the qualification",
+    "Existing source-pinned candidate installation on disposable aligned clone"
+  ],
+  "cleanup": "Drop every measurement copy; uninstall pinned candidate stack and prove Native/public/definitions/owners/ACL restoration on parent.",
+  "classification": "NEW_R4_FUNCTIONAL_BRANCH_QUALIFICATION_EXPLICITLY_PREDECLARED",
+  "race_claim": false,
+  "real_Auth_HTTP_claim": false,
+  "new_denial_or_security_exploration": false,
+  "held_r3_probes_included": false,
+  "hosted_or_production_actions": false,
+  "automatic_retry": false,
+  "limits_or_expected_lowered": false,
+  "script_sha256": "37173fd60811ac396b1cb8b1dbaec76ee8800de0a13ac49b87c8bb1df4d57ce1",
+  "gates_before_results": {
+    "feature_complete": false,
+    "audit_complete": false,
+    "production_go": false
+  },
+  "case_origin": "SOL_AUDITOR_FIXTURE_REPAIR_NOT_PRODUCT_FIX",
+  "initial_run_id": 39185988432,
+  "initial_job_id": 117848422323,
+  "initial_artifact_id": 12158852129,
+  "initial_original_path": "ci_receipts/sol_artifacts/12158852129/files/SOL_R4_GUARD_FRESH_TX.json",
+  "initial_original_sha256": "fd5a40691131547781b3ee2ca366794e673e7da2c10e795efc569d76a31cbe8e",
+  "initial_status_counts": {
+    "INCOMPLETE": 1,
+    "PASS": 2
+  },
+  "initial_staff_error": "('SOL_R4_FIXTURE_ROLE_DIFFERS', 'STAFF', 'SOL_R4_TXID_A283DE7F')",
+  "initial_results_preserved": true,
+  "auditor_error_owner": "SOL",
+  "native_identity_contract": "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql:558-571; current_app_role returns r.role_code of the active bound profile.",
+  "native_identity_contract_sha256": "66175dcc5c73d2fb3bad493c1c6bd6a1ad14877251b0c690c0b642ae226c849a",
+  "original_tool_sha256": "f984fbe248f5b0b9e627256cee6070eb53bb2aa19648be0a2b646df0f64e37f7",
+  "qualified_tool_sha256": "37173fd60811ac396b1cb8b1dbaec76ee8800de0a13ac49b87c8bb1df4d57ce1",
+  "unmodified_expected": "session_user authenticator; current_user authenticated; current_app_role STAFF; NULL immediately before each unassigned guard; no matching current context; predecessor and actual both ALLOW; no Native/public/guard effect after fixture."
+}

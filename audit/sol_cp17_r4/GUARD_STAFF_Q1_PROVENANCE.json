@@ -1,0 +1,41 @@
+{
+  "contract": "audit.sol.r4.staff-fixture-q1.publication-provenance.v1",
+  "target_repository": "Hanjay6688/-erp-garment-ux",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "expected_parent": "38f16061c2a15b6d709f62eaab6ca2350db50321",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "original_run_preserved": 39185988432,
+  "scope": "One new qualification workflow, one exact-diff audit tool, a predeclared STAFF-only fixture and metadata validation; no OWNER/ADMIN repetition and no product mutation.",
+  "source_provenance": "Public pinned repository audit tool plus literal synthetic fixture/metadata; initial captured report used only for exact hash/error reference. No raw logs, credentials, external user data or extraneous local files are included.",
+  "transport": "Root publishes the exact locally reviewed tree on this own audit branch through the authenticated connector and normal review. No alternate action if rejected.",
+  "permissions": {
+    "contents": "read",
+    "actions": "read"
+  },
+  "runtime": "Local disposable CI PostgreSQL/Auth/browser stack only. No hosted/production credentials or endpoints.",
+  "measuring_calls": 4,
+  "new_business_or_race_case_credit": 0,
+  "files": [
+    {
+      "path": ".github/workflows/audit-sol-r4-guard-staff-q1.yml",
+      "bytes": 10220,
+      "sha256": "04bc1d5844c57e0d7189d635f663f5e4970c2649cb972b3e5df660ce507d871d"
+    },
+    {
+      "path": "audit/sol_cp17_r4/guard_staff_q1_qualification.py",
+      "bytes": 13482,
+      "sha256": "37173fd60811ac396b1cb8b1dbaec76ee8800de0a13ac49b87c8bb1df4d57ce1"
+    },
+    {
+      "path": "audit/sol_cp17_r4/GUARD_STAFF_Q1_PREEXECUTION_MANIFEST.json",
+      "bytes": 6225,
+      "sha256": "283b92048917de713eeef1f09911b2f10469a299dca55b58a48a042ce714c067"
+    },
+    {
+      "path": "audit/sol_cp17_r4/GUARD_STAFF_Q1_VALIDATION.json",
+      "bytes": 2527,
+      "sha256": "e1e7b6fdd7d5da423c11bd35e4acbb8a7acc21e9fedce67ad372110ff1d3b39a"
+    }
+  ]
+}

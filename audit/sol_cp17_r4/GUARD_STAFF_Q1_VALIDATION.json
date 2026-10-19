@@ -1,0 +1,76 @@
+{
+  "state": "PREEXECUTION_NOT_RUN",
+  "database_or_product_executions": 0,
+  "original_result_preserved": true,
+  "original_tool_unchanged": true,
+  "only_new_measuring_role": "STAFF",
+  "measuring_calls": 4,
+  "owner_admin_calls": 0,
+  "expected_not_lowered": true,
+  "source_identity_positive_negative_metadata_controls": true,
+  "syntax_python_yaml": true,
+  "exact_reversible_tool_replacements": [
+    {
+      "before": "Only three valid legacy internal roles are exercised.",
+      "after": "Only the previously unexercised valid STAFF role is qualified after a declared fixture repair.",
+      "occurrences": 1
+    },
+    {
+      "before": "IDS = tuple(\"SOL_R4_GUARD_FRESH_TX_\" + role for role in (\"OWNER\", \"ADMIN\", \"STAFF\"))",
+      "after": "IDS = (\"SOL_R4_GUARD_FRESH_TX_STAFF_Q1\",)",
+      "occurrences": 1
+    },
+    {
+      "before": "SOL_R4_GUARD_FRESH_TX.json",
+      "after": "SOL_R4_GUARD_FRESH_TX_STAFF_Q1.json",
+      "occurrences": 1
+    },
+    {
+      "before": "GUARD_FRESH_TX_PREEXECUTION_MANIFEST.json",
+      "after": "GUARD_STAFF_Q1_PREEXECUTION_MANIFEST.json",
+      "occurrences": 1
+    },
+    {
+      "before": "(profile, \"SOL_R4_TXID_\" + profile.hex[:8].upper(), \"Sol r4 valid STAFF fixture\")",
+      "after": "(profile, role, \"Sol r4 exact STAFF role fixture\")",
+      "occurrences": 1
+    },
+    {
+      "before": "\"\"\"Use existing copy/strict-row primitives directly, with no retry wrapper and no race claim.\"\"\"",
+      "after": "\"\"\"Qualify only STAFF after the original failed before its first guard call; no retry wrapper.\"\"\"",
+      "occurrences": 1
+    },
+    {
+      "before": "label=\"SOL_R4_GUARD_FRESH_TX\"",
+      "after": "label=\"SOL_R4_GUARD_FRESH_TX_STAFF_Q1\"",
+      "occurrences": 2
+    },
+    {
+      "before": "expected_guard_calls=12",
+      "after": "expected_guard_calls=4",
+      "occurrences": 1
+    },
+    {
+      "before": "zip(IDS, (\"OWNER\", \"ADMIN\", \"STAFF\"))",
+      "after": "zip(IDS, (\"STAFF\",))",
+      "occurrences": 1
+    },
+    {
+      "before": "report[\"counts\"] == {\"PASS\": 3}",
+      "after": "report[\"counts\"] == {\"PASS\": 1}",
+      "occurrences": 1
+    },
+    {
+      "before": "declaration[\"guard_calls\"] == 12",
+      "after": "declaration[\"guard_calls\"] == 4",
+      "occurrences": 1
+    },
+    {
+      "before": "expected_case_count=3",
+      "after": "expected_case_count=1",
+      "occurrences": 1
+    }
+  ],
+  "workflow_setup_checkout_timeout_identity_cleanup_unchanged": true,
+  "product_diff": ""
+}
