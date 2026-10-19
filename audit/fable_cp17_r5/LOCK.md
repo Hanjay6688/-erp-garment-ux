@@ -1,0 +1,21 @@
+# LOCK — Fable r5, kandidat 17fa2507, 2026-10-19
+
+Dikunci sebelum membaca laporan, cabang, run, artifact atau komentar auditor lain putaran r5 (Pro Max §2.2, §16.7).
+Perubahan sesudah commit ini tidak mengubah vonis di atas; tambahan apa pun ditulis di berkas terpisah bertanggal.
+
+```
+a66f7520857d371c779157209764e11ee8d27a0c1b83b87ff9afce7e48f0839c  audit/fable_cp17_r5/RETEST_FABLE_17fa2507.md
+eee687e36c42c74d3bb4b5ae6ad71b690d662418b64cee0f58deba804240091e  audit/fable_cp17_r5/FINDINGS.json
+27e9ebc05f936d532f0373aa7ad3f37ab6fb3b50a2479ee345382f69107c8977  audit/fable_cp17_r5/WORKLOG.md
+5bec6babe090941b9e747eb8671d1a77bcea638473fcff0b507cbbf4459bb09a  audit/fable_cp17_r5/MANIFEST.md
+882072724657f41793be242e86bd020d8a03a9f6c93d8fdf932ef236fdaae336  audit/fable_cp17_r5/runs/P19_SCALE5_rerun_39237726903.json
+a14f8ab1b72405be0fa533c2c274332e93665062ef280e09df20d9c4152c093c  audit/fable_cp17_r5/runs/PROBES_R5_39238163462.json
+c47cfc18fe5e8d922102f6778f15a82f73e21aa35c24903a6bb6cdf0774b5bc6  audit/fable_cp17_r5/runs/SCREENS_R5_DISPOSABLE_17fa2507.json
+940a1fd55ed477a974af52d4f3f2372ce0229011ab316786c78cce732fcea06c  audit/fable_cp17_r5/runs/SCREENS_R5_ENTENG_17fa2507.json
+c36415551d32bf716e636fd75875edf64736680b2e1940cccc2b9bec380a5cc2  audit/fable_cp17_r5/runs/dispatch_ledger_r5.jsonl
+66b2628c575a13b277e5c41987530e385d1a6364bdcc1a8e99b3f4cca3e82eef  audit/fable_cp7/scenarios/fable_r5_probes.py
+12954e42f21debfd7c198e1095e3545573d3decf54fabe563d9c0c161fa87ad5  audit/fable_cp7/scenarios/fable_r3_screens.mjs
+513680336ac83bd2bf37b21ab650bb2214fffa8e9a292a41c3ddd36d0deaf030  audit/fable_cp7/scenarios/fable_r2_cash_both.py
+3548b88d0c361e879841a9a1235b94a6f17bfe6db39ba5e191b79340fcb25521  audit/fable_cp7/scenarios/fable_cp17c_cash_basis.py
+bed325dc7ad25cab266bd067f9a218fbe60e097a5ff3930b0712dc77f0baa8e8  .github/workflows/fable-cp7-native.yml
+```

@@ -1,0 +1,57 @@
+{
+  "auditor": "Fable",
+  "round": "r5",
+  "date": "2026-10-19",
+  "candidate": {"commit": "17fa25075ba77f0853c3c16f504288ace03eec35", "tree": "65f778479093d869a3354c0b9f19b4d9a541d98a", "writer_head_at_runs": "2766a9092f51f240267b9cbe1201d49a836fb490", "head_vs_candidate": "9 files under docs/ only; src, scripts, supabase trees equal before and after the audit"},
+  "basis": {"previous_lock": "audit/fable_cp17_r4/LOCK.md (ff6045a9)", "oracles_D16_1": "f2758f39", "owner_decisions": "D14-2..D17-2"},
+  "production_go": false,
+  "retest": {
+    "oracles_D16_1": [
+      {"oracle": "1-2", "status": "DITUTUP", "evidence": ["src unchanged since r4", "Fable census unchanged, runs 39237680398 (DISPOSABLE) and 39237692243 (ENTENG): 47/47 menus, only the allowed Dashboard notice flagged (AUDITOR_TOOL)", "CP17 57 Enteng-build browser cases PASS (run 39237703474)"]},
+      {"oracle": 3, "status": "DITUTUP", "evidence": ["R3_03 chain and guard browser cases PASS on both builds", "Fable cash scenarios 3/3 PASS (runs 39237656752, 39237669080)"]},
+      {"oracle": 4, "status": "DITUTUP", "evidence": ["scripts/cp7-src unchanged; r5 deltas only read/check (INDEPENDENT_SOURCE_REVIEW)"]},
+      {"oracle": 5, "status": "DITUTUP", "evidence": ["Fable cash 3/3 PASS; census ran on the Enteng build"]}
+    ],
+    "findings": [
+      {"id": "FABLE-016", "status": "TETAP_DITUTUP"},
+      {"id": "FABLE-018", "status": "TETAP_DITUTUP"},
+      {"id": "FABLE-012", "status": "MASIH_TERBUKA_DITUNDA_D14_9", "evidence": ["unchanged in r5"]}
+    ]
+  },
+  "new_findings": [],
+  "auditor_tool_notes": [
+    {"id": "FABLE-R5-TOOL-01", "summary": "census does not exempt the Dashboard notice oracle 1 allows (as r3-r4); oracle unchanged", "runs": [39237680398, 39237692243]},
+    {"id": "FABLE-R5-TOOL-02", "summary": "mapping-edit probe did not attempt a REMAP for OPENING_EQUITY: no other active EQUITY account, and the account-copy path looked for a column named code that erp.chart_accounts does not have", "runs": [39238163462]},
+    {"id": "FABLE-R5-TOOL-03", "summary": "three uuid readers (opening credit account, pocket period book, sale lifecycle PO HPP) had no inputs in the base book of the probe; they are compared only by the writer's case with its own fixtures", "runs": [39238163462]}
+  ],
+  "also_checked": [
+    {"item": "R5-02 report readers same answer", "verdict": "holds", "evidence": ["Fable probe run 39238163462: BASE 17 answers equal; MULTI_ROW 8 POs in one query equal; REMAP accepted for 16 of 17 core keys, each 17 answers equal, 0 differences; NULL, DELETE and RENAME refused for 17/17 keys by the Native mapping guard (FABLE)", "writer CP17_R5_02_REPORT_READERS_SAME_ANSWER: all 11 readers compared with values incl. the three fixture-built ones; _REVIEWED refuses 5 changes (INDEPENDENT_NATIVE_RERUN)", "source: wrap evaluated once per query in the same snapshot; install refuses changed literal counts or unlisted keys (INDEPENDENT_SOURCE_REVIEW)"]},
+    {"item": "R5-01 payroll wrong-contractor check (SOL-R4-001)", "verdict": "fixed without loosening", "evidence": ["single anchor replacement; PRODUCTION/REWORK unaffected; REVERSED excluded; missing or other-contractor wage still counts (source)", "Sol's case PASS: 0 alarms over 167 detectors, old checker beside it 0->2; controls 1 alarm each (run 39237703474)"]},
+    {"item": "D17-2 latency", "verdict": "as disclosed; 3 s not stable and not claimed", "evidence": ["SQL 100 targets with figures 2.17-2.23 s (r4 4.57-4.62 s)", "browser 100 with figures 2.84/2.87/3.25 s", "300 with figures SQL 6.37-6.47 s; browser 1 and 30 days 10.4-10.6 s, 100 days refused at 8.1 s with a message", "start clock 0-74 ms"]},
+    {"item": "old guards not loosened", "verdict": "holds", "evidence": ["Fable cash 3/3", "P12 64/81/43", "F03 Full 8 jobs incl. exact definition checks", "comparable regression counts identical to r4", "P19 12 jobs PASS per case"]}
+  ],
+  "owner_notes": [
+    "Analysis with financial figures for 100 products is now about 3 s (was about 5 s), not yet stable under 3 s",
+    "300 products with financial figures: 1 and 30 days finish in about 10 s; 100 days stops at 8 s with a message"
+  ],
+  "before_enteng": [
+    "Install the CP7 database layer (CP7C) before the CP7 UI and run docs/cp7/cp17/R3_INSTALL_TIME_CHECKS.md on Enteng; the R5-02 install refuses unless all 17 core account mappings are filled, so make sure Enteng's mappings are complete",
+    "FABLE-012 / D14-9: revoke direct EXECUTE for authenticated on erp writers before erp is exposed to the Data API",
+    "Confirm the official cutover date in the app before the first operational transaction (D15-5)",
+    "Fill master data, foreman rates and accessory recipes of imported products before QC or rework",
+    "The exposed CP2 key is not used again",
+    "Owner decision on daily use of the analysis screen with financial figures (3 s not stable; 300 products/100 days stops at 8 s)"
+  ],
+  "not_checked": [
+    "Supabase Enteng data and settings, incl. whether the 17 core account mappings are filled: no hosted access",
+    "REMAP of OPENING_EQUITY and the three uuid readers under mapping edits (auditor tool notes)",
+    "text contrast and detail panels behind list screens",
+    "writer qualification workflows not rerun (receipt 116 runs; I reran 12 workflows + 5 Fable runs); 21 old CP6 workflows",
+    "Sol backup patch for CP7C, CP7C backup tool (D13-9a), red team beyond RBAC, other auditors' work this round"
+  ],
+  "runs": {
+    "fable": {"39237656752": "cash_basis 1/1 PASS", "39237669080": "r2_cash_both 2/2 PASS", "39237680398": "census DISPOSABLE (Dashboard tool note)", "39237692243": "census ENTENG (Dashboard tool note)", "39238163462": "READERS_MAPPING_EDITS PASS"},
+    "writer_rerun_head_2766a909": {"39237703474": "CP17 345/345 PASS + 1", "39237715223": "prefreeze 31 PASS + 2 legacy INCOMPLETE", "39237726903": "P19 12 jobs PASS per case", "39237739029": "F03 Full 8 jobs PASS", "39237751915": "F03 cash 21", "39237765221": "misc 20", "39237778532": "payment 23", "39237791246": "P12 64/81/43", "39237804091": "cutting 19", "39237816644": "P13 25", "39237829301": "sales chain 25", "39237840633": "phone width 47 menus, failed [], unreadable []"}
+  },
+  "exposure": "see MANIFEST.md; no report, branch, run, artifact or comment of another auditor from round r5 opened; HANDOFF_ASTRA.md and HANDOFF_SOL.md not opened; hosted Enteng not accessed"
+}

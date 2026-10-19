@@ -51,3 +51,8 @@ Angka kecepatan di runner saya (P19 scale5):
 - Browser 300 target: dengan angka keuangan 1 dan 30 hari selesai 10,4–10,6 s; 100 hari ditolak di 8,1 s dengan pesan.
 - Jam mulai tampil 0–74 ms sesudah klik.
 Semua sesuai pengungkapan penulis.
+
+## CP4 — kunci
+Tree produk sesudah audit (kepala 2766a909): src c3008b5b, scripts 5acd2558, supabase 5d040436, sama dengan kandidat.
+`RETEST_FABLE_17fa2507.md`, `FINDINGS.json`, ledger r5 dan `LOCK.md` dikunci dengan commit sebelum membaca pekerjaan auditor
+lain putaran r5.
