@@ -1,0 +1,47 @@
+{
+  "state": "AUDIT_ONLY_READY_FOR_NORMAL_REVIEW",
+  "parent": "0d8f5a07869e030b55038b2d5092eaa1b67576c3",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "sensitive_private_or_unrelated_data": false,
+  "product_diff_empty": true,
+  "prior_audit_fixture_unchanged": true,
+  "files": [
+    {
+      "path": ".github/workflows/audit-sol-r4-b5-b6-exceptions.yml",
+      "bytes": 9892,
+      "sha256": "2055f94c4eb9e55a315702f986709173551a7ef1a7df2fc5ae3b056b8e4d76db"
+    },
+    {
+      "path": "audit/sol_cp17_r4/exception_fixture.py",
+      "bytes": 5568,
+      "sha256": "9d39bee49d0f30c47ae4f7e7e6e3320be6c108c1fc41c9155868becfd489506a"
+    },
+    {
+      "path": "audit/sol_cp17_r4/claim_browser.mjs",
+      "bytes": 18556,
+      "sha256": "bf9f23bcbbb47efd941aea950ea9ffecf34637488a00f00de7ac52ec3b05f6e6"
+    },
+    {
+      "path": "audit/sol_cp17_r4/exception_browser.mjs",
+      "bytes": 6225,
+      "sha256": "0fcc3b8de7f18875c939c2e3defc0d801141a9ae45c5044d89302f55818a5b21"
+    },
+    {
+      "path": "audit/sol_cp17_r4/exception_qualification.py",
+      "bytes": 5035,
+      "sha256": "0ae1c805ced1d5fa513c72c17c9b8d61349df652a45415d044d25e06dfb89c23"
+    },
+    {
+      "path": "audit/sol_cp17_r4/EXCEPTION_PREEXECUTION_MANIFEST.json",
+      "bytes": 7183,
+      "sha256": "fed1622704ab20c465a7b1519bf6a805c77ae87a9dd3c8b00c5c77052915914d"
+    },
+    {
+      "path": "audit/sol_cp17_r4/EXCEPTION_PREEXECUTION_VALIDATION.json",
+      "bytes": 672,
+      "sha256": "4a8b406194ae900e6ece4b679dca38f8b5dce1ee4fcce35ad7423acff2131f34"
+    }
+  ]
+}

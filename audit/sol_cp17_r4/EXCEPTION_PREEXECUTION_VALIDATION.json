@@ -1,0 +1,18 @@
+{
+  "state": "STATIC_VALIDATION_NO_CASES_EXECUTED",
+  "python_ast": 3,
+  "node_syntax": 2,
+  "exact_pinned_sources": true,
+  "one_pre_case_retry_only": true,
+  "no_business_day_retry_wrapper": true,
+  "all_checkout_credentials_disabled": true,
+  "product_diff_empty": true,
+  "source_derived_current_claim_approval_date": true,
+  "source_derived_AP_claim_credit_no_second_AP": true,
+  "source_derived_rewash_UI_actions": true,
+  "prior_sources_unchanged": true,
+  "first_results_not_overwritten": true,
+  "real_native_qc_precedes_aligned_rewash_minute_asserted": true,
+  "equal_send_completion_allowed_by_native_source": true,
+  "current_clock_nonfuture_asserted": true
+}
