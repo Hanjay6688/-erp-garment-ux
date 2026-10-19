@@ -656,3 +656,17 @@ kondisi baru kena (stok di bawah stok minimum/titik pesan ulang, kekurangan kain
 sejenisnya), otomatis tanpa ditekan. (2) Ringkasan dua kali sehari tetap ada. Penulis membaca "auto kirim terus" sebagai
 "langsung dikirim otomatis"; selama kondisinya belum beres, ia ikut di setiap ringkasan, dan pesan langsung ulangan
 mengikuti jeda yang bisa diatur di aplikasi. Desain: `docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md`.
+
+### D17-5 (owner ke penulis Claude, 19 Okt 2026 WIB, tanggapan atas desain D17-4)
+
+Desain D17-4 penulis: pesan langsung untuk tujuh pemicu (stok di bawah minimum/titik pesan ulang, kekurangan kain/aksesori,
+target produksi, tagihan dan piutang jatuh tempo) yang dicek tiap 5 menit, ditambah ringkasan dua kali sehari.
+
+Owner (persis): "bukan cuma itu, semua hal yg masuk ke reminder harus langsung forward wa biar realtime
+triger lu pasti lebih gampang kan"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): setiap hal yang muncul di Pengingat diteruskan ke WhatsApp
+owner saat itu juga, bukan hanya tujuh pemicu. Yang tercatat sebagai baris di tabel pengingat diteruskan lewat trigger
+(hitungan detik); yang muncul karena waktu (jatuh tempo, pengingat pribadi yang waktunya tiba) dan stok dicek tiap menit,
+tanpa trigger di tabel transaksi gudang. Ringkasan dua kali sehari tetap. Desain:
+`docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md`.
