@@ -27,6 +27,21 @@ Server: pengiriman otomatis (B, C, D) cukup satu panggilan web dari Supabase Edg
 panggilan/bulan) atau Cloudflare Worker (paket gratis 100 rb permintaan/hari), dijadwalkan dengan pg_cron atau Cloudflare
 Cron. Tidak perlu server tambahan.
 
+## Kalau pengingat cukup dikirim ke HP owner sendiri
+
+Owner: "ada app lain yg ngirim ke diri sendiri". Semua di bawah gratis dan otomatis; semuanya butuh pengirim terjadwal di
+server (Supabase Edge Function + pg_cron, paket gratis), yang termasuk pekerjaan CP7C (ditahan, D13-9a).
+
+| Pilihan | Resmi | Catatan |
+|---|---|---|
+| CallMeBot (WhatsApp ke nomor sendiri) | Bukan layanan WhatsApp/Meta; pihak ketiga | Daftar dengan mengirim satu kalimat persetujuan ke nomor CallMeBot, lalu dapat kunci; aplikasi mengirim lewat satu alamat web. Situsnya menulis API gratis ini "hanya untuk pemakaian pribadi" (belum jelas apakah pengingat usaha termasuk). Isi pesan (utang, stok) lewat server pihak ketiga. Kadang kunci baru keluar sesudah 24 jam. Tidak ada jaminan layanan |
+| Bot Telegram ke diri sendiri | Ya | Owner pasang Telegram dan menekan Start pada bot sekali. Gratis penuh, tanpa pihak ketiga selain Telegram |
+| ntfy (aplikasi notifikasi HP) | Proyek sumber terbuka | Pasang aplikasi ntfy, langganan satu "topik" rahasia. Server umum gratis tanpa daftar; siapa pun yang menebak nama topik bisa membaca, jadi nama topik harus rahasia |
+
+Sumber (lewat pencarian, 19 Okt 2026; halaman tidak bisa dibuka langsung dari lingkungan ini):
+https://www.callmebot.com/blog/free-api-whatsapp-messages/ ; https://www.callmebot.com/tag/free/ ;
+https://docs.ntfy.sh/terms/ ; https://core.telegram.org/bots/faq
+
 ## Saran penulis
 
 Dengan aturan owner "gamau keluarin duit 1000 pun":
