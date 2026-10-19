@@ -1,0 +1,32 @@
+{
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "expected_parent": "d872422d4b69d709136775e603c61b80acfce9d2",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "scope": "ONE_PREDECLARED_R4_FUNCTIONAL_QUALIFICATION_ON_DISPOSABLE_STACK",
+  "expected_side_effect": "One job on own audit branch; synthetic copy fixtures and read-only guard observations only. No product commit, hosted access or rollout.",
+  "sensitive_data": "Public source/contract and synthetic fixture descriptions only; no credentials or original user data.",
+  "paths": [
+    {
+      "path": ".github/workflows/audit-sol-r4-guard-fresh-tx.yml",
+      "bytes": 10166,
+      "sha256": "f287fe1df3df8b6c1ee2ac83c164dfaa7961f4bab2e73b03121cd3d3d01717d6"
+    },
+    {
+      "path": "audit/sol_cp17_r4/guard_fresh_tx_qualification.py",
+      "bytes": 13506,
+      "sha256": "f984fbe248f5b0b9e627256cee6070eb53bb2aa19648be0a2b646df0f64e37f7"
+    },
+    {
+      "path": "audit/sol_cp17_r4/GUARD_FRESH_TX_PREEXECUTION_MANIFEST.json",
+      "bytes": 8372,
+      "sha256": "1c7af44662e4210badf4208439382e15e47a52d4a58906fb3d4f7ca3cdc9b47d"
+    },
+    {
+      "path": "audit/sol_cp17_r4/GUARD_FRESH_TX_WORKFLOW_VALIDATION.json",
+      "bytes": 1176,
+      "sha256": "21986d3891058e84fca0f183fe3f3a37fee59cc369b82312271261db7a145e12"
+    }
+  ],
+  "held_r3_probes_included": false,
+  "automatic_retry": false
+}

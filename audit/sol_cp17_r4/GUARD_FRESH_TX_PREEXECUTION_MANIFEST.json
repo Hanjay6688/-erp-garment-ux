@@ -1,0 +1,192 @@
+{
+  "contract": "audit.sol.r4.guard-fresh-tx.preexecution.v1",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "own_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "case_ids": [
+    "SOL_R4_GUARD_FRESH_TX_OWNER",
+    "SOL_R4_GUARD_FRESH_TX_ADMIN",
+    "SOL_R4_GUARD_FRESH_TX_STAFF"
+  ],
+  "case_count": 3,
+  "guard_calls": 12,
+  "guard_call_scope": "Only measuring invocations, excluding bootstrap verification and snapshot collection.",
+  "risk": "R4-05 new txid_current_if_assigned() NULL branch was not exercised by the eight writer callers (their fixture already assigned a transaction id).",
+  "oracle_origin": "SOL_CONTRACT_DERIVED_LITERAL_NATIVE_ROLE_ALLOWANCE",
+  "oracle_source": "scripts/cp7-src/procurement/accepted-deltas.sql: legacy final role test allows exactly OWNER/ADMIN/STAFF; candidate cp7_internal_guard_bundle.py declares unchanged answer without a current context.",
+  "fixture_origin": "SOL_SYNTHETIC_APP_PROFILES_WITH_EXISTING_WRITER_RECORD_LAYOUT_ON_DISPOSABLE_COPY",
+  "cases": [
+    {
+      "id": "SOL_R4_GUARD_FRESH_TX_OWNER",
+      "role": "OWNER",
+      "measurements": [
+        {
+          "variant": "predecessor",
+          "txid_state": "UNASSIGNED",
+          "expected_before": null,
+          "expected_session_user": "authenticator",
+          "expected_current_user": "authenticated",
+          "expected_legacy_app_role": "OWNER",
+          "expected_matching_context_rows": 0,
+          "expected_outcome": "ALLOW"
+        },
+        {
+          "variant": "actual",
+          "txid_state": "UNASSIGNED",
+          "expected_before": null,
+          "expected_session_user": "authenticator",
+          "expected_current_user": "authenticated",
+          "expected_legacy_app_role": "OWNER",
+          "expected_matching_context_rows": 0,
+          "expected_outcome": "ALLOW"
+        },
+        {
+          "variant": "predecessor",
+          "txid_state": "ASSIGNED_CONTROL",
+          "expected_before": "NON_NULL",
+          "expected_session_user": "authenticator",
+          "expected_current_user": "authenticated",
+          "expected_legacy_app_role": "OWNER",
+          "expected_matching_context_rows": 0,
+          "expected_outcome": "ALLOW"
+        },
+        {
+          "variant": "actual",
+          "txid_state": "ASSIGNED_CONTROL",
+          "expected_before": "NON_NULL",
+          "expected_session_user": "authenticator",
+          "expected_current_user": "authenticated",
+          "expected_legacy_app_role": "OWNER",
+          "expected_matching_context_rows": 0,
+          "expected_outcome": "ALLOW"
+        }
+      ],
+      "expected_native_effects": "None after established fixture",
+      "expected_public_catalog_change": false,
+      "expected_actual_guard_definition_change": false
+    },
+    {
+      "id": "SOL_R4_GUARD_FRESH_TX_ADMIN",
+      "role": "ADMIN",
+      "measurements": [
+        {
+          "variant": "predecessor",
+          "txid_state": "UNASSIGNED",
+          "expected_before": null,
+          "expected_session_user": "authenticator",
+          "expected_current_user": "authenticated",
+          "expected_legacy_app_role": "ADMIN",
+          "expected_matching_context_rows": 0,
+          "expected_outcome": "ALLOW"
+        },
+        {
+          "variant": "actual",
+          "txid_state": "UNASSIGNED",
+          "expected_before": null,
+          "expected_session_user": "authenticator",
+          "expected_current_user": "authenticated",
+          "expected_legacy_app_role": "ADMIN",
+          "expected_matching_context_rows": 0,
+          "expected_outcome": "ALLOW"
+        },
+        {
+          "variant": "predecessor",
+          "txid_state": "ASSIGNED_CONTROL",
+          "expected_before": "NON_NULL",
+          "expected_session_user": "authenticator",
+          "expected_current_user": "authenticated",
+          "expected_legacy_app_role": "ADMIN",
+          "expected_matching_context_rows": 0,
+          "expected_outcome": "ALLOW"
+        },
+        {
+          "variant": "actual",
+          "txid_state": "ASSIGNED_CONTROL",
+          "expected_before": "NON_NULL",
+          "expected_session_user": "authenticator",
+          "expected_current_user": "authenticated",
+          "expected_legacy_app_role": "ADMIN",
+          "expected_matching_context_rows": 0,
+          "expected_outcome": "ALLOW"
+        }
+      ],
+      "expected_native_effects": "None after established fixture",
+      "expected_public_catalog_change": false,
+      "expected_actual_guard_definition_change": false
+    },
+    {
+      "id": "SOL_R4_GUARD_FRESH_TX_STAFF",
+      "role": "STAFF",
+      "measurements": [
+        {
+          "variant": "predecessor",
+          "txid_state": "UNASSIGNED",
+          "expected_before": null,
+          "expected_session_user": "authenticator",
+          "expected_current_user": "authenticated",
+          "expected_legacy_app_role": "STAFF",
+          "expected_matching_context_rows": 0,
+          "expected_outcome": "ALLOW"
+        },
+        {
+          "variant": "actual",
+          "txid_state": "UNASSIGNED",
+          "expected_before": null,
+          "expected_session_user": "authenticator",
+          "expected_current_user": "authenticated",
+          "expected_legacy_app_role": "STAFF",
+          "expected_matching_context_rows": 0,
+          "expected_outcome": "ALLOW"
+        },
+        {
+          "variant": "predecessor",
+          "txid_state": "ASSIGNED_CONTROL",
+          "expected_before": "NON_NULL",
+          "expected_session_user": "authenticator",
+          "expected_current_user": "authenticated",
+          "expected_legacy_app_role": "STAFF",
+          "expected_matching_context_rows": 0,
+          "expected_outcome": "ALLOW"
+        },
+        {
+          "variant": "actual",
+          "txid_state": "ASSIGNED_CONTROL",
+          "expected_before": "NON_NULL",
+          "expected_session_user": "authenticator",
+          "expected_current_user": "authenticated",
+          "expected_legacy_app_role": "STAFF",
+          "expected_matching_context_rows": 0,
+          "expected_outcome": "ALLOW"
+        }
+      ],
+      "expected_native_effects": "None after established fixture",
+      "expected_public_catalog_change": false,
+      "expected_actual_guard_definition_change": false
+    }
+  ],
+  "call_separation": "Every guard variant/state uses a different fresh connection; observe initial txid NULL, set identity, verify role, reobserve immediately before call. A separate admin reader observes matching context counts and cannot assign the measuring connection txid.",
+  "predecessor": "Captured current definition without exact R4 probe; prosrc must also equal candidate source constructor before R4 optimization. Headers/owner semantics preserved in private fixture function.",
+  "role_profile": "Existing OWNER/ADMIN profiles mandatory. If no seeded STAFF profile exists, create a private synthetic custom profile with zero permission rows and legacy app_users.role STAFF, following existing P02 fixture layout.",
+  "runtime": "Existing P21 install/uninstall and CP17 verification; direct existing copy/strict-row primitives without business_day.with_retry wrapper.",
+  "measurement_SQL": "SELECT guard/metadata only plus session identity SET; no business command.",
+  "setup_writes": [
+    "Synthetic app_users and optional custom STAFF app_roles on each disposable copy",
+    "Private audit_sol_r4_guard_fixture comparison functions and grants only; no product schema/function grant changes by the qualification",
+    "Existing source-pinned candidate installation on disposable aligned clone"
+  ],
+  "cleanup": "Drop every measurement copy; uninstall pinned candidate stack and prove Native/public/definitions/owners/ACL restoration on parent.",
+  "classification": "NEW_R4_FUNCTIONAL_BRANCH_QUALIFICATION_EXPLICITLY_PREDECLARED",
+  "race_claim": false,
+  "real_Auth_HTTP_claim": false,
+  "new_denial_or_security_exploration": false,
+  "held_r3_probes_included": false,
+  "hosted_or_production_actions": false,
+  "automatic_retry": false,
+  "limits_or_expected_lowered": false,
+  "script_sha256": "f984fbe248f5b0b9e627256cee6070eb53bb2aa19648be0a2b646df0f64e37f7",
+  "gates_before_results": {
+    "feature_complete": false,
+    "audit_complete": false,
+    "production_go": false
+  }
+}

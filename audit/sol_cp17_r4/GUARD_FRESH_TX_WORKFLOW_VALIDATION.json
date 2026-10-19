@@ -1,0 +1,27 @@
+{
+  "scope": "PREPUBLICATION_SYNTAX_AND_MANIFEST_METADATA_ONLY_NO_DB_EXECUTION",
+  "syntax": "PASS",
+  "case_ids": [
+    "SOL_R4_GUARD_FRESH_TX_OWNER",
+    "SOL_R4_GUARD_FRESH_TX_ADMIN",
+    "SOL_R4_GUARD_FRESH_TX_STAFF"
+  ],
+  "measuring_calls": 12,
+  "automatic_retry_calls_found": 0,
+  "candidate_pin": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "source_workflow": ".github/workflows/audit-sol-r4-cp17.yml",
+  "source_workflow_sha256": "9f37e8f81cd3be5fd36cf5faf412b8579f98ef05b38eecb5e384ac0c8a0608fe",
+  "own_workflow": ".github/workflows/audit-sol-r4-guard-fresh-tx.yml",
+  "own_workflow_sha256": "f287fe1df3df8b6c1ee2ac83c164dfaa7961f4bab2e73b03121cd3d3d01717d6",
+  "explicit_changes": [
+    "Own name/run/trigger/artifact",
+    "CP17 business entrypoint replaced with three predeclared own functional cases; CP17 341 cases remain only in their original wave",
+    "Remove two already separately running ancillary CP17 qualifications",
+    "Sparse own audit checkout"
+  ],
+  "product_files_changed": false,
+  "held_probe_included": false,
+  "parsed_step_diff": "PASS_ONLY_DECLARED_ENTRYPOINT_AND_METADATA_DELTAS",
+  "source_steps": 24,
+  "qualification_steps": 22
+}
