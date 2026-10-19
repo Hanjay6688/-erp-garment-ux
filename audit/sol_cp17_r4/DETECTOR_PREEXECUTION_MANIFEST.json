@@ -1,0 +1,50 @@
+{
+  "contract": "audit.sol.r4.d01.safe-state-plus1.v1",
+  "state": "PREEXECUTION_NOT_RUN",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "oracle_origin": "SOL_ONE_MATERIAL_DRIFT_UNIT_FROM_D07_DOCUMENT_LEVEL_FORMULA",
+  "fixture_origin": "ACCEPTED_NATIVE_THREE_RECEIPT_CUT_AND_LATE_INVOICE",
+  "cases": [
+    {
+      "id": "SOL_R4_D01_MATERIAL_RECOST_STATE_PLUS1",
+      "role": "OWNER_IN_DECLARED_NATIVE_FIXTURE_SESSION",
+      "layer": "NATIVE_DISPOSABLE_SAVEPOINT",
+      "target_detector": "run_v255_material_cost_integrity_checks:MATERIAL_RECOST_GL_STATE_DRIFT",
+      "expected_before": 0,
+      "expected_during": 1,
+      "expected_after_rollback": 0,
+      "violation_unit": "One material consumption total differs from applied recost by1.00, larger than3purchase documents*.01 tolerance.",
+      "all_other_detector_counts_unchanged": true
+    }
+  ],
+  "expected_arithmetic": "Three separate receipts1unit*10 cut once each, final invoice12 each -> WIP36, supplier AP/GRNI debit-credit delta-36, material0. Ordinary state applied inventory delta+1 for exactly one own movement makes one material drift unit, no missing-row unit.",
+  "observation": "All rows of all nine current detector functions saved before/during/after, including zero and non-error rows; baseline ERROR/CRITICAL zero required. Target delta exactly+1 and every other count unchanged; affected row restored exactly after rollback.",
+  "permission_boundary": "Existing disposable Native test transaction only. No new EXECUTE grant, no trigger disable, no session_replication_role change, no append-only fact mutation, no SQL on hosted or other database.",
+  "case_runtime": "native._strict_group_once directly, no business-day retry wrapper, outer case rollback and complete primary/catalog restore required.",
+  "max_pre_case_prerequisite_retry": 1,
+  "bootstrap_max_attempts": 2,
+  "held_r3_probes_resumed": false,
+  "product_or_guard_changes": false,
+  "new_business_case_ids": 1,
+  "new_race_credit": 0,
+  "no_global_detector_PASS_claim": true,
+  "not_tested": [
+    "Other detector positive/negative controls remain individually TIDAK_TERUJI when absent.",
+    "Two prior D07 fact controls require disabling trigger behavior and are not executed by this audit payload.",
+    "Deleting a state can create two violation units, so this control changes one amount and never deletes a state."
+  ],
+  "pinned_product_sources": {
+    "scripts/cp6_bc_probe.py": "147de7092ba2284312ba376f8cae82bf05c0fbb77e28956f45966cdfa6c8adb1",
+    "scripts/cp6_bd_probe.py": "c3add21e66d4d5544bf4e4d046a9fa8d64dbcb0cb285551a92c2d7405156b31b",
+    "scripts/cp6_bd_objects_d07.sql": "f929f6c1f0dfed06a5a1ff8d83c606fef78cbb7b5d34f27cddd0c3c142f5616f",
+    "scripts/cp6_auditor_runner.py": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7",
+    "scripts/cp7_p21_full_rehearsal_probe.py": "a6da56d3c3177c2f6083b19e996d1f7a31b7e934607d7f97232336405fd529f7",
+    "scripts/cp7_cp17_fix_probe.py": "0b95603327920d9e7724bfb0970b3ff6ed4498d0d206e35ed64daa9bbde57e9c"
+  },
+  "audit_tools": {
+    "detector_case.py": "8a6a5c3eea366a10383cf3ab7531089bcef80972abd31c8995f1564aa02d9e1d",
+    "detector_qualification.py": "c5e46b1a21934da616aa515b03da1dc4eadb5b6fc9a9de4dae3fe30477804650"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "state": "STATIC_VALIDATION_NO_DATABASE_OR_CASE_EXECUTION",
+  "python_ast": 2,
+  "one_stable_ID": true,
+  "expected_0_1_0_predeclared": true,
+  "one_row_update_returning_enforced": true,
+  "all_detector_rows_preserved": true,
+  "rollback_in_finally": true,
+  "no_guard_or_trigger_disable": true,
+  "bootstrap_cap_two": true,
+  "source_derived_three_document_tolerance": "0.03 <1.00",
+  "literal_fixture_WIP": 36,
+  "literal_fixture_obligation": -36,
+  "product_diff_empty": true
+}

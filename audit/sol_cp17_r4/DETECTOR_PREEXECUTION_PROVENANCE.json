@@ -1,0 +1,36 @@
+{
+  "state": "AUDIT_ONLY_READY_FOR_NORMAL_REVIEW",
+  "parent_expected": "eda47df36e51a50615cd606be60b5313d8622fbb",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "sensitive_private_or_unrelated_data": false,
+  "product_diff_empty": true,
+  "files": [
+    {
+      "path": ".github/workflows/audit-sol-r4-d01-state-control.yml",
+      "bytes": 9894,
+      "sha256": "c706f8df43c1cfc7a08af628457583b66b32c7144b2268978732193a74c57491"
+    },
+    {
+      "path": "audit/sol_cp17_r4/detector_case.py",
+      "bytes": 4758,
+      "sha256": "8a6a5c3eea366a10383cf3ab7531089bcef80972abd31c8995f1564aa02d9e1d"
+    },
+    {
+      "path": "audit/sol_cp17_r4/detector_qualification.py",
+      "bytes": 4346,
+      "sha256": "c5e46b1a21934da616aa515b03da1dc4eadb5b6fc9a9de4dae3fe30477804650"
+    },
+    {
+      "path": "audit/sol_cp17_r4/DETECTOR_PREEXECUTION_MANIFEST.json",
+      "bytes": 3396,
+      "sha256": "1a314db15a5a453b96a74e6746cc704cd8fc265b210f8a04d5d562a25195a03d"
+    },
+    {
+      "path": "audit/sol_cp17_r4/DETECTOR_PREEXECUTION_VALIDATION.json",
+      "bytes": 485,
+      "sha256": "d14c1e97c2de6e896c800ae088e42f21f632765d5f605a046609b40975471db9"
+    }
+  ]
+}
