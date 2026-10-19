@@ -4,7 +4,7 @@ name: AUDIT/Astra/r5/own-q2
     branches:
     - audit/astra-cp1-7-r5-17fa2507-20261019
     paths:
-    - .github/workflows/audit-astra-r5-own-q2-q2.yml
+    - .github/workflows/audit-astra-r5-own-q2.yml
   workflow_dispatch: {}
 permissions:
   contents: read
