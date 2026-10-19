@@ -644,3 +644,15 @@ Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): pengingat dikir
 CallMeBot (gratis; pihak ketiga; situsnya menulis "hanya untuk pemakaian pribadi"). Yang diminta sekarang desain:
 `docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md`. Pengiriman nyata butuh pengirim terjadwal di server, jadi pemasangannya ikut
 CP7C (ditahan, D13-9a). Kunci CallMeBot tidak pernah diminta atau dikirim lewat chat. `production_go:false`.
+
+### D17-4 (owner ke penulis Claude, 19 Okt 2026 WIB, tanggapan atas desain CallMeBot)
+
+Desain pertama penulis hanya mengirim ringkasan dua kali sehari.
+
+Owner (persis): "gw maunya tiap kena safety stock dll auto kirim terus, yg sehari 2kali itu juga mau kan ringkasan"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): dua jenis kiriman. (1) Pesan langsung setiap kali sebuah
+kondisi baru kena (stok di bawah stok minimum/titik pesan ulang, kekurangan kain/aksesori, tagihan jatuh tempo, dan
+sejenisnya), otomatis tanpa ditekan. (2) Ringkasan dua kali sehari tetap ada. Penulis membaca "auto kirim terus" sebagai
+"langsung dikirim otomatis"; selama kondisinya belum beres, ia ikut di setiap ringkasan, dan pesan langsung ulangan
+mengikuti jeda yang bisa diatur di aplikasi. Desain: `docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md`.
