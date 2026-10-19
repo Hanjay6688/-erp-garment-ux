@@ -22,6 +22,9 @@
 -- burst_after_per_day messages in a WIB day, one per burst_merge_minutes). Nothing is dropped: lines over max_items
 -- become "dan N lainnya", and every open item is in each digest. pg_net sends after commit only.
 create role cp7_alert nologin noinherit nosuperuser nocreatedb nocreaterole noreplication bypassrls;
+-- The installing role (postgres on the hosted project, not a superuser) may hand objects to cp7_alert only when it can
+-- SET ROLE to it (PostgreSQL 16+; WA-3a run 39271239383: "must be able to SET ROLE"). Dropped with the role.
+grant cp7_alert to current_user;
 create schema cp7_alert_native authorization cp7_alert;
 revoke all on schema cp7_alert_native from public,anon,authenticated,service_role,cp7_capture;
 grant usage on schema cp7_alert_native to postgres;

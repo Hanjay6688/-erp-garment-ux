@@ -48,6 +48,8 @@ def verify_alert(cur):
  assert cur.execute('select rolcanlogin,rolinherit,rolsuper,rolcreatedb,rolcreaterole,rolreplication,rolbypassrls from pg_roles where rolname=%s',
   (ROLE,)).fetchone()==(False,False,False,False,False,False,True)
  assert one('select pg_get_userbyid(nspowner)from pg_namespace where nspname=%s',SCHEMA)==ROLE
+ # Granted to the installing role only so it can hand objects over (PostgreSQL 16+); cp7_alert itself is in no role.
+ assert not one("select exists(select 1 from pg_auth_members where member=%s::regrole)",ROLE)
  rows=cur.execute("select p.oid::regprocedure::text,p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig "
   "from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname=%s",(SCHEMA,)).fetchall()
  assert sorted(r[1]for r in rows)==sorted(FUNCTIONS),rows
