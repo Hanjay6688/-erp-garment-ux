@@ -1,0 +1,19 @@
+{
+  "ids": [
+    "ASTRA_R4_INTERNAL_ROLE_IDENTITY_MATRIX",
+    "ASTRA_R4_CONTEXT_IDENTITY_AND_FINE_REFUSAL",
+    "ASTRA_R4_UNASSIGNED_XID_AND_CROSS_BACKEND_CONTEXT"
+  ],
+  "expected_count": 3,
+  "oracle_origin": "ASTRA; fixed role allowlist, same-actor/current-transaction context required, exact fine refusal preserved, no cached right after revoke",
+  "fixture_origin": "writer person/admin helpers; Astra context schedule and comparison wrapper",
+  "layers": [
+    "native_guard",
+    "separate_sessions"
+  ],
+  "claim_boundary": "Private context insertion and test-only private wrappers are explicitly Native fixtures. Not claims of public API reachability. No live production state.",
+  "source_sha256": {
+    "guard_cases.py": "2e4315cd0301ffab17afc9228dbd9e880dfbdd2270e158cb3df57a2bfb9e5332",
+    "guard_runner.py": "a776669345cb37fc5e6817bdfc0684e08bb9b1a2cd06bfaf4d8a7df92234f0b1"
+  }
+}

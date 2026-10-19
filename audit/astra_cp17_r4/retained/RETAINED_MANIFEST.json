@@ -1,0 +1,13 @@
+{
+  "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "original_source_commit": "bfa007f6eeecdccc3d0dbb52a98d17545ccae519",
+  "retained_native_count": 11,
+  "retained_dom_count": 4,
+  "policy": "Native v2 bodies and retained r1 bodies byte preserved; original case IDs preserved. Qualified FG oracle from locked r2 only. DOM bodies byte preserved. Raw status lines determine outcomes even if vitest exits green.",
+  "files_sha256": {
+    "ui.dom.test.tsx": "42fcf731d5ea8be76b33823489c16ffc17e621fde7efd9ad1f0a9ba6e9ca3e13",
+    "retained_physical.py": "a26899e736cfdcc3981145cfb2c74860efb12c016b312d40f1bee7737a356a0b",
+    "native_probe_v2.py": "f687d0599f1e60df5302f7ff1227dc701a79676321cdd793a62449a5a3f79d75",
+    "ui_identity.dom.test.tsx": "c8de1ff9bfa96799bd49a40bf3df2f40505c838e296896ea943e548f5a448ad8"
+  }
+}

@@ -1,0 +1,54 @@
+name: AUDIT/Astra/r4/DOM
+run-name: AUDIT/r4-20261019/Astra/663f6fae/dom/1
+'on':
+  push:
+    branches:
+    - audit/astra-cp1-7-r4-663f6fae-20261019
+    paths:
+    - .github/workflows/audit-astra-r4-dom.yml
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  dom:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: scope
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: auditor
+        ref: 663f6faefcbb9c70f0f99bbc7e78164e03521329
+        persist-credentials: false
+    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      with:
+        node-version: '22'
+    - name: Pin candidate and install dependencies
+      working-directory: auditor
+      run: 'test "$(git rev-parse HEAD)" = 663f6faefcbb9c70f0f99bbc7e78164e03521329
+
+        test "$(git rev-parse HEAD^{tree})" = 023f3554432f80f994439f5d0b8cc164846a2041
+
+        npm ci'
+    - name: Run unchanged Astra DOM oracles and affected writer DOM tests
+      working-directory: auditor
+      run: 'mkdir -p audit/astra_ci cp6-proof/t3
+
+        cp ../scope/audit/astra_cp17_r4/retained/ui*.dom.test.tsx audit/astra_ci/
+
+        npx vitest run audit/astra_ci/ui.dom.test.tsx audit/astra_ci/ui_identity.dom.test.tsx src/ConnectedAuditTrailPage.dom.test.tsx
+        src/NativeAnalysisPanel.transport.dom.test.tsx --reporter=verbose --reporter=json --outputFile=cp6-proof/t3/ASTRA_R4_DOM.json'
+    - name: Assert product tracked files unchanged
+      if: always()
+      working-directory: auditor
+      run: git diff --exit-code HEAD -- src scripts supabase tests package.json package-lock.json
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: audit-r4-Astra-663f6fae-dom
+        path: auditor/cp6-proof/t3
+        retention-days: 90
+        if-no-files-found: error
