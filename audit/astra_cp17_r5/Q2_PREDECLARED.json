@@ -1,0 +1,33 @@
+{
+  "candidate_sha": "17fa25075ba77f0853c3c16f504288ace03eec35",
+  "qualification": "Q2_AUDITOR_TOOL",
+  "parent_run": 39238457513,
+  "parent_job": 118013182781,
+  "parent_artifact": 12180317436,
+  "parent_zip_sha256": "b129cc222eca4b942b5d29e338fd12f4f1a55ab7f2cce386a8acc53d841c465a",
+  "rule": "Pro Max \u00a716.3 new tool qualification; not rerun; first INCOMPLETE retained",
+  "required_case_ids": {
+    "NATIVE": [
+      "ASTRA_R5_INSTALL_ROUNDTRIP_REFUSALS"
+    ],
+    "RACE": [
+      "ASTRA_R5_MAPPING_COMMIT_SNAPSHOT"
+    ]
+  },
+  "expected_case_count": 2,
+  "oracle_version": "Original OWN_PREDECLARED.json unchanged business expecteds and IDs",
+  "changes": [
+    "Execute unparameterized SQL with parameters=None, not empty tuple: SQL block percent tokens must reach PostgreSQL literally; prepare=False permits multi-statement block.",
+    "Decode Native JSONB numeric via Decimal(str(value)), not Decimal(float): 97.03 float expands to 97.030000000000001136868377216160297393798828125. Same exact97.03 and0 expected. Capture values if unequal.",
+    "Select only the two incomplete cases. All nine prior PASS cases retained. No product/fixture/UUID/seed/timeout/role/expected changes."
+  ],
+  "classification_pending": "SQL parameter failure AUDITOR_TOOL confirmed; race numeric-conversion cause is supported by deterministic local reproducer, confirm with same runtime and unchanged expected.",
+  "files": {
+    "own_cases.py": "92d3728ae3ad553ebd0d41896f3d24f459ae3e572957c25b5e9caccfd48562eb",
+    "own_runner.py": "95fd6e5eede9dea96792d9e739eb2e2b52a6024bb7c0a1d954c24063835969b2",
+    "OWN_PREDECLARED.json": "9608255e3148b8b0bd94b96ecdbe5b416ab5ef273bb3e57d9a71388dd01d11ad",
+    "own_cases_q2.py": "50ab9591add3b4bfb30465016e53ff509e54d26c28103f08676fe2d0943cc5f6",
+    "own_runner_q2.py": "f5d5cfc586321c8ede1f232f4a74aa67f6b86ba285350f5e9350bb62aad7be21",
+    "Q2_TOOL_DIFF.patch": "d4ff1b7dae117c1d5421945a6fd0628a7907a4c2f56b3f046d5e4ce00127d19b"
+  }
+}

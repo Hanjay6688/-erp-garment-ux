@@ -1,0 +1,33 @@
+--- own_cases.py@c24c7dc7
++++ own_cases_q2.py
+@@ -97,7 +97,7 @@
+  assert not differences,('READER_ANSWER_CHANGED',differences)
+ def mutation(cur,sql,args=()):
+  bd.api.admin(cur);cur.execute('savepoint astra_mutation')
+- try:cur.execute(sql,args);return dict(kind='ALLOW')
++ try:cur.execute(sql,args if args else None,prepare=False);return dict(kind='ALLOW')
+  except psycopg.Error as e:
+   cur.execute('rollback to savepoint astra_mutation')
+   return dict(kind='ERR',code=e.sqlstate,message=str(e).splitlines()[0])
+@@ -232,7 +232,7 @@
+   out=compare(cur,inputs,str(uuid.uuid4()))
+   differences=[dict(signature=s,**p) for s,rows in out.items() for p in rows if not p['equal']]
+   return dict(status='COUNTEREXAMPLE' if differences else 'PASS',observed=out,differences=differences,scope='database owner invoking internal helpers with unknown app actor; not public HTTP reachability')
+- return list(zip(NATIVE,[healthy,corrupted,reversed_reuse,nonempty,empty,mapping,mapping_guards,roundtrip,numbers,contexts]))
++ return [('ASTRA_R5_INSTALL_ROUNDTRIP_REFUSALS',roundtrip)]
+ 
+ def races(tools,today):
+  def snapshot():
+@@ -256,7 +256,11 @@
+     rows=future.result(timeout=30)
+    assert len(rows)==8 and all(row[1]==baseline for row in rows),'ONE_STATEMENT_MIXED_MAPPING_SNAPSHOTS'
+    ctx(r);after=one(r,'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',(day,day,day))
+-   assert D(baseline['performance']['cogs_gl'])==D('97.03') and D(after['performance']['cogs_gl'])==0
++   assert D(str(baseline['performance']['cogs_gl']))==D('97.03') and D(str(after['performance']['cogs_gl']))==0,dict(baseline=baseline,after=after)
+    assert after['data_confidence']['status']=='BLOCKED','REMAPPED_BOOK_FALSE_READY'
+   return dict(status='PASS',reader_pid=pid,barrier=observed,mapping_commit_at=commit_at,old_account=str(old),new_account=str(new),within_statement=baseline,next_statement=after,all_eight_rows_same_snapshot=True)
+  return [(RACE[0],snapshot)]
++
++# New tool qualification, same case IDs and contract; no successful first-run case repeated.
++NATIVE=['ASTRA_R5_INSTALL_ROUNDTRIP_REFUSALS']
++EXPECTED=len(NATIVE)+len(RACE)
