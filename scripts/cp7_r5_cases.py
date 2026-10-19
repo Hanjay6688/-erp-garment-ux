@@ -21,11 +21,22 @@ at all (CI 3b9817ae, PASS on nothing). Inside the case's rolled-back savepoint t
 the paths the BB and BE probes use (an opening import with three allowances and a customer credit applied to an opening
 receivable; a production import with its historical pocket period posted; a sale of an opening finished good and its
 return), and every reader must answer at least one input without a refusal, the three of them with a value.
+
+r6 hardening (Sol's sealed r5 handoff, audit/sol_cp17_r5/WRITER_HANDOFF.md "Penguatan uji permanen"; test strength
+only): Sol's case asserts all 167 detector identities at 0 before it starts; the control keeps all 167 detector outputs
+per phase and each rollback must give the earlier output back exactly; the eleven pre-R5-02 readers are installed
+together in erp inside a rolled-back savepoint, so nested and indirect calls (owner report -> period readiness ->
+run_v267/run_v268; run_v267 -> pocket period checks -> pocket period book) use the old graph too; Sol's literal book (PO
+120 -> FG 96/COGS 24 -> FG 108/COGS 12, lifecycle +24/-12, SQL NULL for a missing journal, empty and multirow answers) is
+asserted on both graphs and a value must be non-zero; one manual PREPARE of the PO book answers 120 -> 0 -> 120 across an
+FG_INVENTORY remap, with psycopg's auto-prepare off for its lifetime. Sol's three tool errors (AUDITOR_TOOL_FAILURES.json)
+are avoided.
 """
 from datetime import timedelta
 from decimal import Decimal
-import json,uuid
+import json,re,uuid
 import psycopg
+from psycopg import sql
 import cp6_bd_probe as bd
 import cp6_be_pocket_probe as pocket
 import cp7_nota_cases as nota
@@ -42,23 +53,81 @@ FUNCTIONS=()
 TARGET='run_v263a_payroll_integrity_checks:'+payroll_checks.CHECK
 OWNER_AUTH=str(bd.chain.production.base.OPERATOR_AUTH)
 WAGE_GUARD='trg_guard_fg_unsourced_repair_wages_v1_immutable'
+# Sol's count of the Native detector identities on the r5 candidate (audit/sol_cp17_r5/WRITER_HANDOFF.md, point 1).
+DETECTOR_IDENTITIES=167
+PO_BOOK='erp.compute_po_hpp_gl_book_v2620e(uuid)'
+NON_PO_BOOK='erp.compute_non_po_product_hpp_book_v2620f(uuid)'
+LIFECYCLE='erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)'
+OWNER_REPORT='erp.get_owner_financial_snapshot_v2(date,date,date)'
+BOOK_KEYS=('fg_value','cogs_value','other_out_value')
+ZERO=(Decimal(0),Decimal(0),Decimal(0))
+PREPARED='cp17_r5_02_po_book'
 
 
-def detectors(cur):
-    """Every Native detector identity and its count (cp6_bc_probe.DETECTORS, the set Sol counted: 167)."""
+def outputs(cur):
+    """Every Native detector row (cp6_bc_probe.DETECTORS) as the owner reads it: identity -> the whole row (check_name,
+    severity, issue_count, details). Exactly the 167 identities Sol counted, or the case stops."""
     out={}
     for function in bd.bcp.DETECTORS:
         bd.api.admin(cur);bd.chain.production.owner(cur)
-        rows=cur.execute('select check_name,issue_count from erp.'+function+'()').fetchall()
+        rows=cur.execute('select to_jsonb(x) from erp.'+function+'() x').fetchall()
         bd.api.admin(cur)
-        for name,count in rows:
-            key=function+':'+name;assert key not in out,('CP17_R5_DUPLICATE_DETECTOR',key);out[key]=int(count)
+        for (row,) in rows:
+            ident=function+':'+row['check_name'];assert ident not in out,('CP17_R5_DUPLICATE_DETECTOR',ident)
+            row['issue_count']=int(row['issue_count']);out[ident]=row
+    assert len(out)==DETECTOR_IDENTITIES,('CP17_R5_DETECTOR_IDENTITIES',len(out),DETECTOR_IDENTITIES)
     return out
+
+
+def counts(out):return {k:v['issue_count'] for k,v in out.items()}
+
+
+def detectors(cur):
+    """Every Native detector identity and its count (all 167)."""
+    return counts(outputs(cur))
 
 
 def delta(before,after):
     assert set(before)==set(after),('CP17_R5_DETECTOR_SET_CHANGED',sorted(set(before)^set(after)))
     return {k:after[k]-before[k] for k in before if after[k]!=before[k]}
+
+
+def types(signature):
+    tail=signature.split('(')[1][:-1];return tail.split(',') if tail else []
+
+
+def key(args):return tuple(None if v is None else str(v) for v in args)
+
+
+def nulls(v):return (v is None,v or '')
+
+
+def decode(text):
+    """One to_jsonb(...)::text answer: SQL NULL stays None (never 0, never the string 'null'); numbers become Decimal."""
+    return None if text is None else json.loads(text,parse_float=Decimal)
+
+
+def meaningful(v):
+    """A value: a non-zero number, a non-empty string or true somewhere in it (SQL NULL, JSON null, 0, '', {}, [] are not)."""
+    if isinstance(v,dict):return any(meaningful(x) for x in v.values())
+    if isinstance(v,list):return any(meaningful(x) for x in v)
+    if isinstance(v,bool):return v
+    if isinstance(v,(int,Decimal)):return v!=0
+    return isinstance(v,str) and v!=''
+
+
+def book(rows):
+    """PO book rows (to_jsonb text) as (fg, cogs, other) Decimal triples."""
+    return [tuple(Decimal(str(decode(r)[k])) for k in BOOK_KEYS) for r in rows]
+
+
+def amounts(rows):
+    """Scalar answers (to_jsonb text) as Decimal, SQL NULL as None."""
+    return [None if decode(r) is None else Decimal(str(decode(r))) for r in rows]
+
+
+def rows_of(answer):
+    assert answer[0]=='ROWS',('CP17_R5_02_EXPECTED_ROWS',str(answer)[:400]);return answer[1]
 
 
 def checker_before(cur):
@@ -100,14 +169,19 @@ def resolved_rows(cur,payroll_id):
 
 
 def cases(cur,today):
+    # Imported here: the CP17 harness imports this module while it loads (finish_fixture and po_hpp are used at run time).
+    import cp7_cp17_fix_cases as cp17
 
     # ---- R5-01: Sol's case, as written in audit/sol_cp17_r4/payroll_detector_dispute_cases.py (correct_repair).
     def sol_valid_repair_nota():
         o=dict(oracle_origin='SOL_R4_INV_D02_VALID_FG_REPAIR_NOTA_ZERO_ALARM (PROMAX_INV_D02_HEALTHY_BOOK_ZERO)',
                fixture_origin='ACCEPTED_AX_NATIVE_REPAIR_QTY2_AND1_THEN_PUBLIC_CP7_NOTA_SAVE_POST',no_direct_fact_edit=True)
         before=detectors(cur)
-        # The CP17 database carries the books of the cases before this one; Sol's oracle is the change this Nota makes.
-        o['baseline_all_zero']=all(v==0 for v in before.values());o['detector_identities']=len(before)
+        # Sol's point 1: the healthy-book contract starts from all 167 identities at 0 (each CP17 case is rolled back, so
+        # the books before this one are the installed CP17 books); asserted, not only recorded.
+        nonzero={k:v for k,v in before.items() if v}
+        assert len(before)==DETECTOR_IDENTITIES and not nonzero,('CP17_R5_01_BASELINE_NOT_ZERO_167',len(before),nonzero)
+        o['baseline_all_zero']=True;o['detector_identities']=len(before)
         cur.execute('savepoint cp17_r5_01_sol')
         try:
             old=checker_before(cur);old_before=old()
@@ -147,7 +221,20 @@ def cases(cur,today):
         return o
 
     # ---- R5-01 control: real wrong-contractor and missing repair sources still count.
+    # Sol's point 5: all 167 detector outputs are kept for the healthy book, the valid Nota, each corruption and each
+    # rollback; a rollback gives the earlier output back exactly. The guard refusing the write is no sensitivity control,
+    # so the wage guard stays off for the corrupting write only (re-enabled before the detectors read).
     def wrong_or_missing_still_found():
+        o=dict(phases=[])
+        def phase(label):
+            out=outputs(cur);o['phases'].append(dict(label=label,identities=len(out),nonzero={k:v for k,v in counts(out).items() if v},outputs=out))
+            return out
+        def guard_on():
+            assert cur.execute("select tgenabled from pg_trigger where tgname=%s",(WAGE_GUARD,)).fetchone()[0]=='O','CP17_R5_01_WAGE_GUARD_OFF'
+        def rollback(name):
+            cur.execute('rollback to savepoint '+name);cur.execute('release savepoint '+name);bd.api.admin(cur)
+        healthy=phase('HEALTHY_BOOK')
+        assert not o['phases'][-1]['nonzero'],('CP17_R5_01_CONTROL_BASELINE_NOT_ZERO',o['phases'][-1]['nonzero'])
         cur.execute('savepoint cp17_r5_01_control')
         try:
             f,second=valid_nota(cur,today)
@@ -156,25 +243,41 @@ def cases(cur,today):
             assert len(wages)==2
             other=cur.execute('select id::text from erp.contractors where id<>%s order by id limit 1',(f['contractor'],)).fetchone()
             assert other,'CP17_R5_01_NO_OTHER_CONTRACTOR'
-            valid=detectors(cur)
-            def without_guard(sql,args):
+            valid=phase('VALID_NOTA_6000')
+            assert counts(valid)==counts(healthy),('CP17_R5_01_CONTROL_VALID_NOTA_ALARM',delta(counts(healthy),counts(valid)))
+            def without_guard(statement,args):
                 # DETECTOR_CONTROL: corrupt one immutable wage inside this savepoint only.
                 bd.api.admin(cur);cur.execute('alter table erp.fg_unsourced_repair_wages_v1 disable trigger '+WAGE_GUARD)
-                try:cur.execute(sql,args)
+                try:cur.execute(statement,args)
                 finally:bd.api.admin(cur);cur.execute('alter table erp.fg_unsourced_repair_wages_v1 enable trigger '+WAGE_GUARD)
-            without_guard('update erp.fg_unsourced_repair_wages_v1 set contractor_id=%s where id=%s',(other[0],wages[0]))
-            moved=delta(valid,detectors(cur))
-            without_guard('update erp.fg_unsourced_repair_wages_v1 set contractor_id=%s where id=%s',(f['contractor'],wages[0]))
-            restored=delta(valid,detectors(cur))
-            without_guard('delete from erp.fg_unsourced_repair_wages_v1 where id=%s',(wages[1],))
-            missing=delta(valid,detectors(cur))
+                guard_on()
+            cur.execute('savepoint cp17_r5_01_wrong')
+            try:
+                without_guard('update erp.fg_unsourced_repair_wages_v1 set contractor_id=%s where id=%s',(other[0],wages[0]))
+                moved=delta(counts(valid),counts(phase('WAGE_OF_ANOTHER_CONTRACTOR')))
+                without_guard('update erp.fg_unsourced_repair_wages_v1 set contractor_id=%s where id=%s',(f['contractor'],wages[0]))
+                restored=delta(counts(valid),counts(phase('WAGE_GIVEN_BACK')))
+            finally:rollback('cp17_r5_01_wrong')
+            assert phase('ROLLBACK_WRONG_CONTRACTOR')==valid,'CP17_R5_01_CONTROL_WRONG_CONTRACTOR_NOT_RESTORED'
+            cur.execute('savepoint cp17_r5_01_missing')
+            try:
+                without_guard('delete from erp.fg_unsourced_repair_wages_v1 where id=%s',(wages[1],))
+                missing=delta(counts(valid),counts(phase('WAGE_MISSING')))
+            finally:rollback('cp17_r5_01_missing')
+            assert phase('ROLLBACK_MISSING_WAGE')==valid,'CP17_R5_01_CONTROL_MISSING_WAGE_NOT_RESTORED'
             # The target counts each corrupted line once; other detectors may notice the corruption too (recorded).
             assert moved.get(TARGET)==1 and restored=={} and missing.get(TARGET)==1,(moved,restored,missing)
-            assert cur.execute("select tgenabled from pg_trigger where tgname=%s",(WAGE_GUARD,)).fetchone()[0]=='O'
-        finally:
-            cur.execute('rollback to savepoint cp17_r5_01_control');cur.execute('release savepoint cp17_r5_01_control');bd.api.admin(cur)
-        return dict(status='PASS',wage_of_another_contractor_counted=moved,restored_wage_counts_nothing=True,
-                    missing_wage_counted=missing,guard_switched_off_only_inside_rolled_back_savepoint=True)
+            guard_on()
+        finally:rollback('cp17_r5_01_control')
+        assert phase('ROLLBACK_CONTROL')==healthy,'CP17_R5_01_CONTROL_NOT_RESTORED'
+        target=[p['outputs'][TARGET]['issue_count'] for p in o['phases']]
+        assert target==[0,0,1,0,0,1,0,0],('CP17_R5_01_CONTROL_TARGET_0_1_0',target)
+        assert all(p['identities']==DETECTOR_IDENTITIES for p in o['phases'])
+        o.update(status='PASS',wage_of_another_contractor_counted=moved,restored_wage_counts_nothing=True,
+                 missing_wage_counted=missing,guard_switched_off_only_inside_rolled_back_savepoint=True,
+                 target_by_phase=dict(zip([p['label'] for p in o['phases']],target)),all_167_outputs_each_phase=True,
+                 rollback_outputs_equal_earlier_outputs=True)
+        return o
 
     # ---- R5-02: every changed reader against itself without the change, on the same books.
     def reader_fixtures():
@@ -205,68 +308,262 @@ def cases(cur,today):
         bd.chain.production.owner(cur);cur.execute('select erp.post_sale_v2(%s,%s,%s)',(sale,uuid.uuid4(),version));bd.api.admin(cur)
         sale_return=pocket.return_sale(cur,sale,cut+timedelta(days=3));bd.api.admin(cur)
         return dict(opening_batch=str(fx['batch']),pocket_period=str(pool),sale=str(sale),sale_return=str(sale_return))
-    def reader_inputs():
+    # ---- r6 (Sol's r5 handoff, points 2-4): the old graph installed together, Sol's literal book, one manual PREPARE.
+    def claims():
+        # Installed and old readers run in one context: the database owner session (the internal readers are not granted to
+        # the browser role) with the owner's claims, so erp.require_owner_admin() and erp.require_internal() see the owner.
+        bd.api.admin(cur);cur.execute("select set_config('request.jwt.claims',%s,true)",(json.dumps(dict(sub=OWNER_AUTH,role='authenticated')),))
+    def call(text,params,shape):
+        claims();cur.execute('savepoint cp17_r5_02_call')
+        try:return ('ROWS',shape(cur.execute(text,params).fetchall()))
+        except psycopg.Error as e:
+            cur.execute('rollback to savepoint cp17_r5_02_call');return ('ERR',e.sqlstate,str(e).split('\n')[0])
+        finally:
+            cur.execute('release savepoint cp17_r5_02_call');bd.api.admin(cur)
+    def answer(signature,a):
+        """One reader call: its rows as to_jsonb text (SQL NULL kept as None), or its refusal."""
+        t=types(signature);assert len(a)==len(t),(signature,a)
+        return call('select to_jsonb(x)::text from '+signature.split('(')[0]+'('+','.join('%s::'+k for k in t)+') x',list(a),
+                    lambda rows:sorted((r[0] for r in rows),key=nulls))
+    def single(signature,args,empty=False):
+        """Sol's multirow control (reader_multirow_cases.py): one statement calls the reader once per input, ordinal kept;
+        with `where false` the empty answer of the same statement."""
+        t=types(signature);cells=[];params=[]
+        for i,a in enumerate(args):
+            assert len(a)==len(t),(signature,a);cells.append('('+str(i)+''.join(',%s::'+k for k in t)+')');params.extend(a)
+        return call('with inputs('+','.join(['ordinal']+['a'+str(i) for i in range(len(t))])+') as(values '+','.join(cells)+')'
+                    ' select i.ordinal,to_jsonb(x)::text from inputs i cross join lateral '+signature.split('(')[0]
+                    +'('+','.join('i.a'+str(i) for i in range(len(t)))+') x'+(' where false' if empty else '')+' order by 1,2',
+                    params,lambda rows:[[o,v] for o,v in rows])
+    def definitions():
         bd.api.admin(cur)
-        ids=lambda sql:[(r[0],) for r in cur.execute(sql).fetchall()]
+        return {s:cur.execute('select pg_get_functiondef(%s::regprocedure)',(s,)).fetchone()[0] for s in report_accounts.READERS}
+    def graph(inputs,pick=None):
+        """The installed readers, then all eleven as they were before R5-02 installed together in erp inside a rolled-back
+        savepoint (Sol's point 2), on the same inputs: every nested or indirect call of a reader then reaches the old body
+        too, not only a call written in another reader. Same rows or the same refusal per input; with `pick`, also the
+        multirow and empty answers of one statement."""
+        installed=definitions();old={s:report_accounts.unwrap(s,d) for s,d in installed.items()}
+        each=lambda:{s:[answer(s,a) for a in args] for s,args in inputs.items()}
+        rows=lambda chosen:{s:dict(multirow=single(s,a),empty=single(s,a,True)) for s,a in chosen.items()}
+        new=dict(each=each());chosen=pick(new['each']) if pick else {};new['rows']=rows(chosen)
+        cur.execute('savepoint cp17_r5_02_old_graph')
+        try:
+            for s in report_accounts.READERS:bd.api.admin(cur);cur.execute(old[s],prepare=False)
+            assert definitions()==old,'CP17_R5_02_OLD_GRAPH_NOT_INSTALLED'
+            previous=dict(each=each(),rows=rows(chosen))
+        finally:
+            cur.execute('rollback to savepoint cp17_r5_02_old_graph');cur.execute('release savepoint cp17_r5_02_old_graph');bd.api.admin(cur)
+        assert definitions()==installed,'CP17_R5_02_GRAPH_NOT_RESTORED'
+        differences=[(s,str(a),str(x)[:400],str(y)[:400]) for s in inputs for a,x,y in zip(inputs[s],new['each'][s],previous['each'][s]) if x!=y]
+        differences+=[(s,k,str(new['rows'][s][k])[:400],str(previous['rows'][s][k])[:400]) for s in chosen for k in ('multirow','empty')
+                      if new['rows'][s][k]!=previous['rows'][s][k]]
+        assert not differences,('CP17_R5_02_READER_ANSWER_CHANGED',differences[:2])
+        # Recorded: the readers each old body names directly (indirect paths, e.g. the owner report through the period
+        # readiness, reach the old bodies as well because the old graph replaced the installed one in erp).
+        nested={s:[r for r in report_accounts.READERS if r!=s and re.search(r'\berp\.'+re.escape(r.split('(')[0].split('.')[1])+r'\s*\(',old[s])]
+                for s in report_accounts.READERS}
+        return dict(new=new,old=previous,chosen=chosen,nested={s:n for s,n in nested.items() if n})
+    def produced():
+        """Sol's PO (reader_graph_cases.produced): 10 pcs of one PO through the chain's writers to FG, HPP 120, one lot."""
+        g=cp17.finish_fixture(cur,today,label='CP17-R5-02');bd.api.admin(cur)
+        assert tuple(map(Decimal,cp17.po_hpp(cur,g['po'])))==(120,10),'CP17_R5_02_FIXTURE_HPP_120_QTY10'
+        f=dict(po=str(g['po']),product=str(g['product']),lot=str(g['lot']))
+        assert cur.execute('select po_id::text,lot_origin from erp.fg_lots where id=%s',(f['lot'],)).fetchone()==(f['po'],'PRODUCTION')
+        locations=cur.execute('select distinct location_id::text from erp.fg_stock_movements where lot_id=%s',(f['lot'],)).fetchall()
+        assert len(locations)==1,locations
+        return dict(f,location=locations[0][0])
+    def make_sale(f):
+        """Sol's sale (reader_graph_cases.make_sale): 2 pcs of the PO's lot, saved and posted by the owner."""
+        customer=bd.chain.base.create_customer(cur,'R5-02-PO-'+uuid.uuid4().hex[:8]);bd.chain.production.owner(cur)
+        at=cur.execute("select statement_timestamp()-interval '10 minutes'").fetchone()[0]
+        made=cur.execute('select erp.save_sale_draft_v2(%s::jsonb,%s::uuid,null)',(json.dumps(dict(sale_number='R5-02-PO-'+uuid.uuid4().hex[:10],
+            customer_id=str(customer),source_location_id=f['location'],sale_date=at.isoformat(),reason='CP17 R5-02 reader input',
+            items=[dict(product_id=f['product'],qty_pcs=2,unit_price_snapshot='20',discount_amount=0)])),uuid.uuid4())).fetchone()[0]
+        bd.api.admin(cur);version=cur.execute('select row_version from erp.sales_headers where id=%s',(made['sale_id'],)).fetchone()[0]
+        bd.chain.production.owner(cur);cur.execute('select erp.post_sale_v2(%s,%s,%s)',(made['sale_id'],uuid.uuid4(),version));bd.api.admin(cur)
+        allocations=cur.execute('select a.lot_id::text,a.qty_pcs::text from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id'
+                                ' where i.sale_id=%s',(made['sale_id'],)).fetchall()
+        assert len(allocations)==1 and allocations[0][0]==f['lot'] and Decimal(allocations[0][1])==2,allocations
+        return str(made['sale_id'])
+    def make_return(sale):
+        """Sol's return (reader_graph_cases.make_return): 1 pc of that sale, drafted and posted by the owner."""
+        ident=str(uuid.uuid4());bd.chain.production.owner(cur)
+        cur.execute("insert into erp.sales_returns(id,return_number,sale_id,customer_id,physical_at,created_by) select %s,%s,id,customer_id,"
+                    "statement_timestamp(),erp.current_app_user_id() from erp.sales_headers where id=%s",(ident,'R5-02-RET-'+ident,sale))
+        cur.execute("insert into erp.sales_return_items(return_id,sale_stock_allocation_id,product_id,lot_id,location_id,qty_pcs,refund_amount)"
+                    " select %s,a.id,l.product_id,l.id,a.location_id,1,20 from erp.sale_stock_allocations a join erp.fg_lots l on l.id=a.lot_id"
+                    " where a.sale_item_id in(select id from erp.sales_items where sale_id=%s)",(ident,sale))
+        cur.execute('select erp.post_sales_return(%s)',(ident,));bd.api.admin(cur)
+        return ident
+    def journal(kind,source):
+        bd.api.admin(cur)
+        rows=cur.execute("select id::text from erp.journal_entries where source_type=%s and source_id=%s and status='POSTED'",(kind,source)).fetchall()
+        assert len(rows)==1,('CP17_R5_02_LIFECYCLE_JOURNAL',kind,rows);return rows[0][0]
+    def stage(label,f,expected,lifecycle,missing):
+        """Sol's literal book at one stage (reader_graph_cases.full_graph): read directly (psycopg decodes numeric and SQL
+        NULL itself), then on the installed and the old graph."""
+        po=f['po'];pairs=[(j,po) for j,_ in lifecycle]+[(missing,po),(missing,missing),(None,None)]
+        want=[Decimal(v) for _,v in lifecycle]+[None,None,None];expected=tuple(map(Decimal,expected))
+        claims()
+        direct=cur.execute('select fg_value,cogs_value,other_out_value from erp.compute_po_hpp_gl_book_v2620e(%s::uuid)',(po,)).fetchall()
+        life=[cur.execute('select erp.sale_lifecycle_po_hpp_amount_v2620d(%s::uuid,%s::uuid)',p).fetchone()[0] for p in pairs]
+        bd.api.admin(cur)
+        assert direct==[expected],('CP17_R5_02_LITERAL_BOOK',label,direct,expected)
+        assert life==want and [v is None for v in life]==[v is None for v in want],('CP17_R5_02_LITERAL_LIFECYCLE',label,life,want)
+        g=graph({PO_BOOK:[(po,),(missing,),(None,)],LIFECYCLE:pairs})
+        for side in ('new','old'):
+            assert [book(rows_of(x)) for x in g[side]['each'][PO_BOOK]]==[[expected],[ZERO],[ZERO]],('CP17_R5_02_GRAPH_LITERAL_BOOK',label,side)
+            assert [amounts(rows_of(x)) for x in g[side]['each'][LIFECYCLE]]==[[v] for v in want],('CP17_R5_02_GRAPH_LITERAL_LIFECYCLE',label,side)
+        return dict(label=label,book=[str(v) for v in direct[0]],lifecycle=[[str(p[0]),str(p[1]),None if v is None else str(v)] for p,v in zip(pairs,life)],
+                    old_graph_same=True)
+    def prepared_mapping(f):
+        """Sol's point 4 (reader_mapping_q3_cases.py): one manual PREPARE of the PO book answers FG_INVENTORY mapped to its
+        account (120), to a new empty ASSET account (0) and to its account again (120)."""
+        bd.api.admin(cur)
+        mapping="select account_id::text from erp.accounting_account_mappings where mapping_key='FG_INVENTORY'"
+        original=cur.execute(mapping).fetchone()[0]
+        assert cur.execute("select erp.expected_mapping_account_type('FG_INVENTORY')").fetchone()[0]=='ASSET'
+        # Every NOT NULL column of the new account comes from the mapped one (Sol's first tool error left report_group out).
+        empty=cur.execute("insert into erp.chart_accounts(account_code,account_name,account_type,report_group,normal_balance,is_postable,is_active)"
+                          " select %s,%s,account_type,report_group,normal_balance,true,true from erp.chart_accounts where id=%s returning id::text",
+                          ('R5FG'+uuid.uuid4().hex[:12],'CP17 R5-02 empty FG account',original)).fetchone()[0]
+        samples=[];conn=cur.connection;threshold=conn.prepare_threshold
+        def execute(label,account,fg):
+            claims()
+            assert cur.execute("select erp.account_id('FG_INVENTORY')::text").fetchone()[0]==account,('CP17_R5_02_MAPPING_NOT_SET',label)
+            statement=cur.execute('select name,statement,prepare_time::text from pg_prepared_statements where name=%s',(PREPARED,)).fetchall()
+            assert len(statement)==1,('CP17_R5_02_PREPARED_STATEMENT_GONE',label)
+            rows=cur.execute(sql.SQL('EXECUTE '+PREPARED+'({})').format(sql.Literal(uuid.UUID(f['po'])))).fetchall()
+            bd.api.admin(cur);observed=book([r[0] for r in rows])
+            samples.append(dict(label=label,mapping_account=account,expected_fg=fg,observed=[[str(v) for v in b] for b in observed],statement=list(statement[0])))
+            assert observed==[(Decimal(fg),Decimal(0),Decimal(0))],('CP17_R5_02_PREPARED_MAPPING_STALE',label,observed)
+        # psycopg 3.2.10 sends DEALLOCATE ALL after a ROLLBACK while its own auto-prepare cache holds names; that ended the
+        # manual statement in Sol's Q2 run (AUDITOR_TOOL_FAILURES.json row 3). Auto-prepare is off for this statement's
+        # lifetime, so only its own PREPARE and DEALLOCATE decide it, across the mapping savepoint's rollback too.
+        conn.prepare_threshold=None
+        try:
+            cur.execute('savepoint cp17_r5_02_prepared')
+            try:
+                cur.execute('PREPARE '+PREPARED+'(uuid) AS SELECT to_jsonb(x)::text FROM erp.compute_po_hpp_gl_book_v2620e($1) x')
+                execute('ORIGINAL',original,120)
+                cur.execute('savepoint cp17_r5_02_mapping')
+                bd.api.admin(cur);cur.execute("update erp.accounting_account_mappings set account_id=%s where mapping_key='FG_INVENTORY'",(empty,))
+                execute('EMPTY_ASSET',empty,0)
+                cur.execute('rollback to savepoint cp17_r5_02_mapping');cur.execute('release savepoint cp17_r5_02_mapping')
+                execute('RESTORED',original,120)
+                cur.execute('DEALLOCATE '+PREPARED)
+            finally:
+                # Recover the transaction before any cleanup, so a cleanup error cannot hide the first one (Sol's Q2: 26000
+                # reported as 25P02).
+                cur.execute('rollback to savepoint cp17_r5_02_prepared');cur.execute('release savepoint cp17_r5_02_prepared');bd.api.admin(cur)
+                if cur.execute('select count(*) from pg_prepared_statements where name=%s',(PREPARED,)).fetchone()[0]:cur.execute('DEALLOCATE '+PREPARED)
+        finally:
+            conn.prepare_threshold=threshold
+        assert not cur.execute('select count(*) from pg_prepared_statements where name=%s',(PREPARED,)).fetchone()[0],'CP17_R5_02_PREPARED_LEFT'
+        assert cur.execute(mapping).fetchone()[0]==original,'CP17_R5_02_MAPPING_NOT_RESTORED'
+        assert [s['label'] for s in samples]==['ORIGINAL','EMPTY_ASSET','RESTORED'] and len({s['statement'][2] for s in samples})==1,samples
+        return dict(samples=samples,same_prepared_statement_120_0_120=True,psycopg_auto_prepare_off_during_lifetime=True,
+                    deallocated=True,mapping_restored=True)
+    def reader_inputs(f,journals,missing):
+        bd.api.admin(cur)
+        ids=lambda text:[(r[0],) for r in cur.execute(text).fetchall()]
         windows=[(today-timedelta(days=d),today,today) for d in (0,30,400)]
-        return {
+        out={
             'erp.bb_opening_credit_account_v1(uuid)':ids('select settlement_id from erp.bb_opening_credits_v1'
                 ' union select id from(select id from erp.opening_subledger_settlements order by id limit 20)s order by 1 limit 300'),
-            'erp.compute_non_po_product_hpp_book_v2620f(uuid)':ids('select id from erp.products order by id limit 300'),
-            'erp.compute_po_hpp_gl_book_v2620e(uuid)':ids('select id from erp.production_orders order by id limit 300'),
-            'erp.get_owner_financial_snapshot_v2(date,date,date)':windows,
+            NON_PO_BOOK:ids('select id from erp.products order by id limit 300'),
+            PO_BOOK:ids('select id from erp.production_orders order by id limit 300'),
+            OWNER_REPORT:windows,
             'erp.pocket_period_book_v1(uuid)':ids('select id from erp.pocket_periods order by id limit 300'),
             # Every Sale lifecycle journal with each PO on its lines and two other POs (the reader answers 0 or null for those).
-            'erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)':[tuple(r) for r in cur.execute(
+            LIFECYCLE:[tuple(r) for r in cur.execute(
                 """select distinct e.id,x.po_id from erp.journal_entries e left join erp.journal_entries o on o.id=e.reversal_of_id
                    cross join lateral(select l.po_id from erp.journal_lines l where l.journal_entry_id=e.id and l.po_id is not null
                      union select id from(select id from erp.production_orders order by id limit 2)p) x(po_id)
                    where e.source_type in('SALE','SALES_RETURN') or(e.source_type='JOURNAL_REVERSAL' and o.source_type in('SALE','SALES_RETURN'))
                    order by 1,2 limit 300""").fetchall()]}
+        def add(s,extra):
+            seen={key(a) for a in out[s]}
+            for a in extra:
+                if key(a) not in seen:seen.add(key(a));out[s].append(a)
+        for s in report_accounts.READERS:
+            out.setdefault(s,[()])
+            if types(s)==['uuid']:add(s,[(missing,),(None,)])
+        # Sol's inputs (reader_graph_cases.expanded_inputs): the literal PO and its product, both lifecycle journals, a
+        # missing journal, NULL arguments and a report window with no books.
+        add(PO_BOOK,[(f['po'],)]);add(NON_PO_BOOK,[(f['product'],)])
+        add(LIFECYCLE,[(journals[0],f['po']),(journals[1],f['po']),(missing,f['po']),(missing,missing),(None,None)])
+        add(OWNER_REPORT,[(today-timedelta(days=500),today-timedelta(days=499),today-timedelta(days=499))])
+        return out
+    def pick(each,inputs,f,journals,missing):
+        """Sol's multirow inputs (reader_multirow_cases.inputs): four ordinals per reader, with the missing and NULL uuid
+        where the reader takes one; only inputs that answered on their own."""
+        special=lambda a:a[0] is None or str(a[0])==str(missing);chosen={}
+        for s,args in inputs.items():
+            ok=[a for a,r in zip(args,each[s]) if r[0]=='ROWS']
+            if s==PO_BOOK:chosen[s]=[(f['po'],),(missing,),(None,),(f['po'],)]
+            elif s==LIFECYCLE:chosen[s]=[(journals[0],f['po']),(journals[1],f['po']),(missing,missing),(journals[0],f['po'])]
+            elif not ok:continue
+            elif types(s)==['uuid']:
+                valued=[a for a,r in zip(args,each[s]) if r[0]=='ROWS' and not special(a) and any(meaningful(decode(v)) for v in r[1])]
+                first=(valued or [a for a in ok if not special(a)] or ok)[0]
+                chosen[s]=[first]+[a for a in ok if special(a)]+[first]
+            else:chosen[s]=(ok*4)[:3]+ok[:1]
+        return chosen
     def readers_same_answer():
-        report=report_accounts.verify(cur);compared={}
+        report=report_accounts.verify(cur);compared={};oracles={}
+        missing=uuid.uuid4()
         cur.execute('savepoint cp17_r5_02_same')
         try:
-            built=reader_fixtures();inputs=reader_inputs()
-            bd.api.admin(cur);cur.execute('create schema cp17_r5_02')
-            for signature in report_accounts.READERS:
-                name=signature.split('(')[0]
-                installed=cur.execute('select pg_get_functiondef(%s::regprocedure)',(signature,)).fetchone()[0]
-                head='FUNCTION '+name+'('
-                old=report_accounts.unwrap(signature,installed)
-                assert old.count(head)==1,('CP17_R5_02_READER_HEAD_CHANGED',signature)
-                cur.execute(old.replace(head,'FUNCTION cp17_r5_02.'+name.split('.')[1]+'(',1))
-                args=inputs.get(signature,[()])
-                def answer(fn,a):
-                    # Both the installed reader and its copy run in one context: the database owner session (the
-                    # internal readers are not granted to the browser role) with the owner's claims, so
-                    # erp.require_owner_admin() and erp.require_internal() see the owner.
-                    bd.api.admin(cur);cur.execute("select set_config('request.jwt.claims',%s,true)",(json.dumps(dict(sub=OWNER_AUTH,role='authenticated')),))
-                    cur.execute('savepoint cp17_r5_02_call')
-                    try:
-                        rows=cur.execute('select to_jsonb(x)::text from '+fn+'('+','.join(['%s']*len(a))+') x',a).fetchall()
-                        return ('ROWS',sorted(r[0] for r in rows))
-                    except psycopg.Error as e:
-                        cur.execute('rollback to savepoint cp17_r5_02_call');return ('ERR',e.sqlstate,str(e).split('\n')[0])
-                    finally:
-                        cur.execute('release savepoint cp17_r5_02_call');bd.api.admin(cur)
-                differences=[];rows=values=0
-                for a in args:
-                    new,old_answer=answer(name,a),answer('cp17_r5_02.'+name.split('.')[1],a)
-                    if new!=old_answer:differences.append((str(a),str(new)[:400],str(old_answer)[:400]))
-                    if new[0]=='ROWS':
-                        rows+=1;values+=any(v not in('null','{}','[]') for v in new[1])
-                assert not differences,('CP17_R5_02_READER_ANSWER_CHANGED',signature,differences[:2])
-                compared[signature]=dict(inputs=len(args),answered=rows,with_value=values)
+            built=reader_fixtures()
+            assert not cur.execute('select exists(select 1 from erp.journal_entries where id=%s) or exists(select 1 from erp.production_orders where id=%s)',
+                                   (missing,missing)).fetchone()[0]
+            # Sol's literal book (point 3): FG/COGS/other 120/0/0 -> sale of 2: 96/24/0, lifecycle +24 -> return of 1:
+            # 108/12/0, lifecycle -12; a missing journal is SQL NULL.
+            f=produced();built.update(po=f['po'],po_product=f['product'],po_lot=f['lot'])
+            oracles['stages']=[stage('FG10',f,(120,0,0),[],missing)]
+            oracles['prepared_mapping']=prepared_mapping(f)
+            sale=make_sale(f);sold=journal('SALE',sale)
+            oracles['stages'].append(stage('SALE2',f,(96,24,0),[(sold,24)],missing))
+            ret=make_return(sale);returned=journal('SALES_RETURN',ret)
+            oracles['stages'].append(stage('RETURN1',f,(108,12,0),[(sold,24),(returned,-12)],missing))
+            built.update(po_sale=sale,po_sale_return=ret)
+            journals=(sold,returned);inputs=reader_inputs(f,journals,missing)
+            g=graph(inputs,lambda each:pick(each,inputs,f,journals,missing))
+            for s in report_accounts.READERS:
+                answered=[r for r in g['new']['each'][s] if r[0]=='ROWS']
+                compared[s]=dict(inputs=len(inputs[s]),answered=len(answered),
+                                 with_value=sum(any(meaningful(decode(v)) for v in r[1]) for r in answered))
+            # Literal answers on both graphs, per input and in one statement (ordinals 0..3), and the empty answers.
+            full=(Decimal(108),Decimal(12),Decimal(0))
+            for side in ('new','old'):
+                keyed={s:{key(a):r for a,r in zip(inputs[s],g[side]['each'][s])} for s in inputs}
+                assert book(rows_of(keyed[PO_BOOK][key((f['po'],))]))==[full],('CP17_R5_02_FINAL_BOOK',side)
+                life=[amounts(rows_of(keyed[LIFECYCLE][key(a)])) for a in ((sold,f['po']),(returned,f['po']),(missing,f['po']),(missing,missing),(None,None))]
+                assert life==[[24],[-12],[None],[None],[None]],('CP17_R5_02_FINAL_LIFECYCLE',side,life)
+                for s,args in g['chosen'].items():
+                    multi=g[side]['rows'][s]['multirow']
+                    assert multi[0]=='ROWS' and g[side]['rows'][s]['empty']==('ROWS',[]),('CP17_R5_02_EMPTY_OR_MULTIROW',s,side,str(g[side]['rows'][s])[:400])
+                    for i,a in enumerate(args):
+                        assert ('ROWS',sorted((v for o,v in multi[1] if o==i),key=nulls))==keyed[s][key(a)],('CP17_R5_02_MULTIROW_DIFFERS_FROM_ONE_CALL',s,side,i)
+                po_rows=[book([v for o,v in g[side]['rows'][PO_BOOK]['multirow'][1] if o==i]) for i in range(4)]
+                life_rows=[amounts([v for o,v in g[side]['rows'][LIFECYCLE]['multirow'][1] if o==i]) for i in range(4)]
+                assert po_rows==[[full],[ZERO],[ZERO],[full]],('CP17_R5_02_MULTIROW_BOOK',side,po_rows)
+                assert life_rows==[[24],[-12],[None],[24]],('CP17_R5_02_MULTIROW_LIFECYCLE',side,life_rows)
+            oracles['final']=dict(multirow_readers=len(g['chosen']),po_multirow=[[[str(v) for v in b] for b in r] for r in po_rows],
+                                  lifecycle_multirow=[[None if v is None else str(v) for v in r] for r in life_rows],empty_answers_equal_and_empty=True)
         finally:
             cur.execute('rollback to savepoint cp17_r5_02_same');cur.execute('release savepoint cp17_r5_02_same');bd.api.admin(cur)
+        assert report_accounts.verify(cur)==report,'CP17_R5_02_READERS_NOT_RESTORED'
         # A reader compared on nothing proves nothing: each must answer at least one input, the three readers the books lack
-        # rows for with a value.
+        # rows for with a value (a non-zero number or a non-empty text; 0, NULL and {} are not values).
         idle=[s for s,c in compared.items() if not c['answered']]
-        valueless=[s for s in ('erp.bb_opening_credit_account_v1(uuid)','erp.pocket_period_book_v1(uuid)',
-                               'erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)') if not compared[s]['with_value']]
+        valueless=[s for s in ('erp.bb_opening_credit_account_v1(uuid)','erp.pocket_period_book_v1(uuid)',LIFECYCLE) if not compared[s]['with_value']]
         assert len(compared)==len(report_accounts.READERS) and not idle and not valueless,('CP17_R5_02_READER_NOT_EXERCISED',idle,valueless,compared)
-        return dict(status='PASS',reviewed=report,fixture=built,inputs_compared=compared,same_rows_or_same_refusal=True)
+        assert len(g['chosen'])==len(report_accounts.READERS),('CP17_R5_02_MULTIROW_NOT_EVERY_READER',sorted(set(report_accounts.READERS)-set(g['chosen'])))
+        return dict(status='PASS',reviewed=report,fixture=built,inputs_compared=compared,same_rows_or_same_refusal=True,
+                    old_graph_installed_together=True,old_graph_nested_reader_calls=g['nested'],literal_oracles=oracles)
     def readers_reviewed():
         bd.api.admin(cur);clean=report_accounts.verify(cur)
         signature='erp.run_v268_financial_report_checks()'
