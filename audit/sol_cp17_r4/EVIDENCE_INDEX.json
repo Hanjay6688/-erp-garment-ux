@@ -1,0 +1,75 @@
+{
+  "state": "FINAL_EVIDENCE_NAVIGATION",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "archive_receipt": "RAW_EVIDENCE_ARCHIVE_RECEIPT.json",
+  "whitelist": "RAW_EVIDENCE_WHITELIST.json",
+  "raw_entries": [
+    {
+      "bytes": 60080,
+      "sha256": "e41d5567525ca60ecfdc564786b5f3d36f74f0829d3ab5ffcf4181e531c3a13f",
+      "path_in_archive": "audit/sol_cp17_r4/ci_receipts/OWN_CI_RECEIPT_FINAL.json"
+    },
+    {
+      "bytes": 18963,
+      "sha256": "1596c0c0f35705720904256dd593a738059a236e6a2078bcaa58df3b7152ead3",
+      "path_in_archive": "audit/sol_cp17_r4/ci_receipts/ROOT_RUN_REGISTER.json"
+    },
+    {
+      "bytes": 593251,
+      "sha256": "74392bfbeaa7e9adae30b59808cd82ccfe33bab0bb826b2765e7da1d2c20c99e",
+      "path_in_archive": "audit/sol_cp17_r4/ci_receipts/OWN_JOB_LOG_INDEX.json"
+    },
+    {
+      "bytes": 2302,
+      "sha256": "ac8d98b75bbede658cbd3e327676ac8d81cb07aefadecc479c2f1f0e72fa34e4",
+      "path_in_archive": "audit/sol_cp17_r4/ci_receipts/WRITER_FREEZE_START.json"
+    },
+    {
+      "bytes": 2846,
+      "sha256": "02ef2038a32cf2913284587b3021515fbd101f5e22c800253ebf4786b6735369",
+      "path_in_archive": "audit/sol_cp17_r4/ci_receipts/WRITER_FREEZE_FINAL.json"
+    },
+    {
+      "bytes": 2058,
+      "sha256": "84a97b3afcdff004ce40edb198b46230bffc5e292e48ac4bad611c4a93200832",
+      "path_in_archive": "audit/sol_cp17_r4/ci_receipts/WRITER_FREEZE_FINAL_DISPUTE_ADDENDUM.json"
+    },
+    {
+      "bytes": 13446105,
+      "sha256": "6d4ece16b15f9090bb2b3ef42c5f65bdad477476e9b73d2886dce41d0fb6fbc0",
+      "path_in_archive": "audit/sol_cp17_r4/ci_receipts/REPRODUCTION_SOURCE_SNAPSHOT.json"
+    },
+    {
+      "bytes": 19289080,
+      "sha256": "29f0333441a83e4c21f8edb57157b8f84cd404e11e28f1f5d1956e35f7175d40",
+      "path_in_archive": "audit/sol_cp17_r4/ci_receipts/SOL_REVIEWED_CASE_LEDGER.jsonl"
+    },
+    {
+      "bytes": 326992,
+      "sha256": "6542ac02b9353c733c18999c2000aa15ce9e6814ab972164263bc71b41c2875e",
+      "path_in_archive": "audit/sol_cp17_r4/ci_receipts/SOL_CP17_CASE_LEDGER.jsonl"
+    },
+    {
+      "bytes": 18543,
+      "sha256": "9040601eae0b7ab6a7976c2fd27f7cd63fcd9d5b3041859146ccfc3ced07851b",
+      "path_in_archive": "audit/sol_cp17_r4/ci_receipts/SOL_QUALIFIED_CASE_INDEX.jsonl"
+    }
+  ],
+  "raw_paths_are_in_archive_not_duplicated_in_small_git_seal": true,
+  "source_snapshot_executed_and_available_source_distinction": "Exact published tools/workflows, pinned import closure and declared sources; available source is not a runtime assertion. Static maps have zero runtime credit.",
+  "redacted_build_source": {
+    "source_path_in_archive_excluded": "audit/sol_cp17_r4/ci_receipts/sol_artifacts/12158565737/files/cp45-browser-original/results.json",
+    "source_sha256": "39df5353687382ac233ae84b4bb1c1b06b6cc69d14371335d0e20b8bb539db4e",
+    "derivative_path_in_archive": "audit/sol_cp17_r4/ci_receipts/derived/BUILD_cp45_browser_original_TEXT_ONLY.json",
+    "derivative_sha256": "89ae6cd80705b6a6bb999dca61c05ac6d0b10f42176dcee753a55b45735914f2",
+    "removed_png_payloads": 8,
+    "visual_acceptance_claim": false
+  },
+  "explicit_nonselection": {
+    "artifact_id": 12158226655,
+    "kind": "built_application_distribution",
+    "downloaded": false
+  },
+  "capture_limit": "Own log hashes are exact decoded UTF8 connector text, not remote log ZIP digests; writer22 LF disclosure is preserved in LOG_CAPTURE_FORMAT.json."
+}

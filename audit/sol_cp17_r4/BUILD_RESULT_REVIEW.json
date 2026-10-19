@@ -1,0 +1,475 @@
+{
+  "state": "REVIEWED_QUALIFIED_BUILD_CONTRACT_SCOPE",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "run_id": 39185235738,
+  "job_id": 117846167312,
+  "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+  "before_after_identity_match": true,
+  "member_files_rehashed": 7,
+  "unit_test_files_passed": 221,
+  "unit_tests_passed": 1861,
+  "unit_test_origin": "WRITER_EXISTING_VITEST_ORACLES_CURRENT_CANDIDATE",
+  "browser_report_rows": 48,
+  "browser_unique_executions": 46,
+  "browser_origin": "WRITER_EXISTING_MOCKED_UAT_CONTRACT_FIXTURES_NOT_NATIVE_DB",
+  "groups": [
+    {
+      "source_path": "ci_receipts/sol_artifacts/12158565737/files/cp45-browser-original/results.json",
+      "sha256": "39df5353687382ac233ae84b4bb1c1b06b6cc69d14371335d0e20b8bb539db4e",
+      "reported_rows": 2,
+      "identical_alias_of": null,
+      "additional_execution_credit": 2,
+      "stats": {
+        "startTime": "2026-10-19T01:42:11.688Z",
+        "duration": 16068.734,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cases": [
+        {
+          "spec_id": "70d35e1a1c37abd331a7-0f8130a550f2af210e8c",
+          "project": "desktop-chromium",
+          "title": "CP4.5 Master Pola grows from operational need with fail-closed Potongan selection",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "70d35e1a1c37abd331a7-e28d63a6a6e66902b174",
+          "project": "mobile-chromium",
+          "title": "CP4.5 Master Pola grows from operational need with fail-closed Potongan selection",
+          "status": "passed",
+          "attempt": 0
+        }
+      ]
+    },
+    {
+      "source_path": "ci_receipts/sol_artifacts/12158565737/files/cp45-browser-proof/results.json",
+      "sha256": "256d167cdbe4c937c30750b23bbf1e511127e3c73f513a204900c6a6a5a629c5",
+      "reported_rows": 2,
+      "identical_alias_of": null,
+      "additional_execution_credit": 2,
+      "stats": {
+        "startTime": "2026-10-19T01:42:28.579Z",
+        "duration": 7285.268,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cases": [
+        {
+          "spec_id": "26dbb53c86463c08969a-6a6f3058f40ca94d9ae1",
+          "project": "desktop-chromium",
+          "title": "pre-CP5 Pola filters preserve one identity through pickup, WIP, Laundry, and QC",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "26dbb53c86463c08969a-d144c761e80d9b4e57c5",
+          "project": "mobile-chromium",
+          "title": "pre-CP5 Pola filters preserve one identity through pickup, WIP, Laundry, and QC",
+          "status": "passed",
+          "attempt": 0
+        }
+      ]
+    },
+    {
+      "source_path": "ci_receipts/sol_artifacts/12158565737/files/cp5-browser-contract-proof/results.json",
+      "sha256": "57610c4cbb78e40d9877acef49fbf19a280978811b0a4280faf9b9c316efd186",
+      "reported_rows": 16,
+      "identical_alias_of": null,
+      "additional_execution_credit": 16,
+      "stats": {
+        "startTime": "2026-10-19T01:42:36.643Z",
+        "duration": 41296.351,
+        "expected": 16,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cases": [
+        {
+          "spec_id": "e876641790a8a17ba04c-7b6147635c9e940bef48",
+          "project": "desktop-chromium",
+          "title": "CP5 local mocked-UAT contract keeps server-side Pattern truth and one mutation",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e876641790a8a17ba04c-f5caf7071aebfdf9d978",
+          "project": "desktop-chromium",
+          "title": "CP5 lost commit response survives reload and reconciles the exact persisted request",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e876641790a8a17ba04c-453cc6b64e48c421e60e",
+          "project": "desktop-chromium",
+          "title": "CP5 BS dialog keeps exact recovery reachable after an uncertain save",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e876641790a8a17ba04c-500606cb17c6d5633ee2",
+          "project": "desktop-chromium",
+          "title": "CP5 CLAIM dialog keeps exact recovery reachable after an uncertain save",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e876641790a8a17ba04c-2d13f9302109917c1ec8",
+          "project": "desktop-chromium",
+          "title": "CP5 committed claim cannot be submitted again after failed then successful refetch",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e876641790a8a17ba04c-3053ce3815c9eda51417",
+          "project": "desktop-chromium",
+          "title": "CP5 committed manual BS cannot be submitted again after failed then successful refetch",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e876641790a8a17ba04c-b1d8b934324eafcb0825",
+          "project": "desktop-chromium",
+          "title": "CP5 local mocked-UAT contract saves cumulative partial return without posting completion",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e876641790a8a17ba04c-6d2d0d8194107c8fd811",
+          "project": "desktop-chromium",
+          "title": "CP5 local mocked-UAT contract keeps view-only identity non-executable",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e876641790a8a17ba04c-cec9f8c8f7634d476dff",
+          "project": "mobile-chromium",
+          "title": "CP5 local mocked-UAT contract keeps server-side Pattern truth and one mutation",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e876641790a8a17ba04c-9b3cdefb3b02a14cb4ae",
+          "project": "mobile-chromium",
+          "title": "CP5 lost commit response survives reload and reconciles the exact persisted request",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e876641790a8a17ba04c-90f1ed2d3e3f995a2f33",
+          "project": "mobile-chromium",
+          "title": "CP5 BS dialog keeps exact recovery reachable after an uncertain save",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e876641790a8a17ba04c-a940152e51eda18c0a4c",
+          "project": "mobile-chromium",
+          "title": "CP5 CLAIM dialog keeps exact recovery reachable after an uncertain save",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e876641790a8a17ba04c-9f9699780ca5482234ca",
+          "project": "mobile-chromium",
+          "title": "CP5 committed claim cannot be submitted again after failed then successful refetch",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e876641790a8a17ba04c-3420af093bddb575cdb6",
+          "project": "mobile-chromium",
+          "title": "CP5 committed manual BS cannot be submitted again after failed then successful refetch",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e876641790a8a17ba04c-d2f0c4dfdc9f537f341d",
+          "project": "mobile-chromium",
+          "title": "CP5 local mocked-UAT contract saves cumulative partial return without posting completion",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e876641790a8a17ba04c-11e9109d4fa4390dce6d",
+          "project": "mobile-chromium",
+          "title": "CP5 local mocked-UAT contract keeps view-only identity non-executable",
+          "status": "passed",
+          "attempt": 0
+        }
+      ]
+    },
+    {
+      "source_path": "ci_receipts/sol_artifacts/12158565737/files/cp6-browser-contract-proof/results.json",
+      "sha256": "36a501e3d352cbf0ef3da287f71a78c72c5b1bfefd81aa3b9f10218a74156632",
+      "reported_rows": 26,
+      "identical_alias_of": null,
+      "additional_execution_credit": 26,
+      "stats": {
+        "startTime": "2026-10-19T01:43:18.732Z",
+        "duration": 54323.972,
+        "expected": 26,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cases": [
+        {
+          "spec_id": "e35728408699831840db-a6e507d05703190c6116",
+          "project": "desktop-chromium",
+          "title": "CP6 Laundry send starts at zero and posts one exact batch-size mutation",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-c9c0f70b8ccdf6dd2dcd",
+          "project": "desktop-chromium",
+          "title": "CP6 Laundry view-only role sees server facts but every mutation control starts locked",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-de6aa70ad5f85b5b1e24",
+          "project": "desktop-chromium",
+          "title": "CP6 two live tabs serialize one global envelope and send at most one operator intent",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-53ef2378e25a3ebb9c26",
+          "project": "desktop-chromium",
+          "title": "CP6 authoritative refetch expires an earlier physical acknowledgement",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-bb0c676e901370d2d210",
+          "project": "desktop-chromium",
+          "title": "CP6 Laundry receipt records only Good and BS while Stuck stays derived",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-0782e7607e83c7691592",
+          "project": "desktop-chromium",
+          "title": "CP6 paid failed-wash retry posts cost without inventing a physical receipt",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-110d739ba7a2b23edb19",
+          "project": "desktop-chromium",
+          "title": "CP6 paid full return is exact, all-or-nothing, and retires the committed form",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-a9f98cd77bc473048212",
+          "project": "desktop-chromium",
+          "title": "CP6 committed send form stays retired after failed then successful refetch",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-c373afec0f3b7664f31d",
+          "project": "desktop-chromium",
+          "title": "CP6 lost response reconciles the exact persisted UUID and payload",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-df3b2898cb39df776d4f",
+          "project": "desktop-chromium",
+          "title": "CP6 QC binds exact receipt batch-size and lets server own stock and HPP",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-e21c14c386ed0d3e6463",
+          "project": "desktop-chromium",
+          "title": "CP6 QC finds an SKU beyond the initial catalog without hiding its source queue",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-26c8df4412d1f8decc13",
+          "project": "desktop-chromium",
+          "title": "CP6 reversal buttons obey authoritative downstream blockers",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-499cdc75f86ca718d8ce",
+          "project": "desktop-chromium",
+          "title": "CP6 never opens the legacy browser Nota writer in connected UAT (owner D16-1: the connected Nota screen instead)",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-7b526c79e2ada2be5f5f",
+          "project": "mobile-chromium",
+          "title": "CP6 Laundry send starts at zero and posts one exact batch-size mutation",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-24deec1b756becf87056",
+          "project": "mobile-chromium",
+          "title": "CP6 Laundry view-only role sees server facts but every mutation control starts locked",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-c4c8928a5c23bf3ee301",
+          "project": "mobile-chromium",
+          "title": "CP6 two live tabs serialize one global envelope and send at most one operator intent",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-0833d62f058ab12c0717",
+          "project": "mobile-chromium",
+          "title": "CP6 authoritative refetch expires an earlier physical acknowledgement",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-b94dc5a6945aeafc266c",
+          "project": "mobile-chromium",
+          "title": "CP6 Laundry receipt records only Good and BS while Stuck stays derived",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-6725541233cb37ce7ad6",
+          "project": "mobile-chromium",
+          "title": "CP6 paid failed-wash retry posts cost without inventing a physical receipt",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-66ef79a8d54a62544f8f",
+          "project": "mobile-chromium",
+          "title": "CP6 paid full return is exact, all-or-nothing, and retires the committed form",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-78c52c0010c3fc41130d",
+          "project": "mobile-chromium",
+          "title": "CP6 committed send form stays retired after failed then successful refetch",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-a97fd3325baa63e7097a",
+          "project": "mobile-chromium",
+          "title": "CP6 lost response reconciles the exact persisted UUID and payload",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-55fc0bf3972dd65f1931",
+          "project": "mobile-chromium",
+          "title": "CP6 QC binds exact receipt batch-size and lets server own stock and HPP",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-3108803fcda7a11b526e",
+          "project": "mobile-chromium",
+          "title": "CP6 QC finds an SKU beyond the initial catalog without hiding its source queue",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-415e81a2830fe6fea9ba",
+          "project": "mobile-chromium",
+          "title": "CP6 reversal buttons obey authoritative downstream blockers",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "e35728408699831840db-a33b6d434a7ba21d32a4",
+          "project": "mobile-chromium",
+          "title": "CP6 never opens the legacy browser Nota writer in connected UAT (owner D16-1: the connected Nota screen instead)",
+          "status": "passed",
+          "attempt": 0
+        }
+      ]
+    },
+    {
+      "source_path": "ci_receipts/sol_artifacts/12158565737/files/precp5-browser-original/results.json",
+      "sha256": "256d167cdbe4c937c30750b23bbf1e511127e3c73f513a204900c6a6a5a629c5",
+      "reported_rows": 2,
+      "identical_alias_of": "ci_receipts/sol_artifacts/12158565737/files/cp45-browser-proof/results.json",
+      "additional_execution_credit": 0,
+      "stats": {
+        "startTime": "2026-10-19T01:42:28.579Z",
+        "duration": 7285.268,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cases": [
+        {
+          "spec_id": "26dbb53c86463c08969a-6a6f3058f40ca94d9ae1",
+          "project": "desktop-chromium",
+          "title": "pre-CP5 Pola filters preserve one identity through pickup, WIP, Laundry, and QC",
+          "status": "passed",
+          "attempt": 0
+        },
+        {
+          "spec_id": "26dbb53c86463c08969a-d144c761e80d9b4e57c5",
+          "project": "mobile-chromium",
+          "title": "pre-CP5 Pola filters preserve one identity through pickup, WIP, Laundry, and QC",
+          "status": "passed",
+          "attempt": 0
+        }
+      ]
+    }
+  ],
+  "gates": {
+    "source_ownership": true,
+    "security_contract_script": true,
+    "production_build": true,
+    "dist_secret_scan": true,
+    "wrangler_dry_run_only": true
+  },
+  "source_contract_counts": {
+    "runtime_files": 331,
+    "browser_RPC_boundaries": 276,
+    "backend_permissions": 111,
+    "nav_labels": 47,
+    "routes": 48,
+    "sensitive_actions": 21
+  },
+  "log_path": "ci_receipts/sol_build_ux_117846167312.log",
+  "log_sha256": "d70b9870eb504749bf28af8e0e9553bb5b2a0f034d7b74956458a9f9861b9a32",
+  "log_origin": "EXACT_DECODED_CONNECTOR_TEXT_NOT_PROVIDER_ZIP",
+  "image_derivatives": [
+    {
+      "path": "ci_receipts/derived/BUILD_cp45_browser_original_TEXT_ONLY.json",
+      "sha256": "89ae6cd80705b6a6bb999dca61c05ac6d0b10f42176dcee753a55b45735914f2",
+      "source_path": "ci_receipts/sol_artifacts/12158565737/files/cp45-browser-original/results.json",
+      "source_sha256": "39df5353687382ac233ae84b4bb1c1b06b6cc69d14371335d0e20b8bb539db4e",
+      "removed_image_attachment_count": 8
+    }
+  ],
+  "not_claimed": [
+    "actual hosted deployment",
+    "real Native HTTP business evidence from mocked browser cases",
+    "visual screenshot inspection",
+    "ERP coverage percentage",
+    "production acceptance"
+  ],
+  "production_go": false,
+  "full_audit_acceptance": false
+}

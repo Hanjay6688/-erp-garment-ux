@@ -1,0 +1,41 @@
+{
+  "state": "DEFINED_PLAN_DISPOSITIONS",
+  "withdrawn_standalone_matching_plan": {
+    "status": "WITHDRAWN_SUPERSEDED_BY_FINITE_CONTROL",
+    "never_published": true,
+    "never_executed": true,
+    "paths": [
+      ".github/workflows/audit-sol-r4-matching-pipeline.yml",
+      "audit/sol_cp17_r4/matching_pipeline_qualification.py",
+      "audit/sol_cp17_r4/MATCHING_PIPELINE_PREEXECUTION_MANIFEST.json",
+      "audit/sol_cp17_r4/MATCHING_PIPELINE_PREEXECUTION_VALIDATION.json"
+    ],
+    "superseded_by": "FUNCTIONAL_BOUNDARIES_PREEXECUTION_MANIFEST.json; actual matching_pipeline_case.py component executed once as one of finite8 cases",
+    "reason": "Standalone package merged into declared finite matcher/numeric/cache qualification; no duplicate execution credit."
+  },
+  "held_r3_designs": {
+    "status": "NOT_EXECUTED_PRIOR_SESSION_HOLD_PRESERVED",
+    "business_runtime_credit": 0,
+    "scope": "Three earlier wage/AR/pool designs remain held; no renamed nominal or alternate transport continuation."
+  },
+  "last_declared_controls": {
+    "manifest": "DERIVED_DETECTOR_PREEXECUTION_MANIFEST.json",
+    "run_id": 39199375501,
+    "status": "READ_8_PASS_1_INCOMPLETE_VALID_PREDECESSOR_PRODUCT_ALARM",
+    "case_ids": 9,
+    "sensitivity_cases_PASS": 6,
+    "prevention_only_cases_PASS": 2,
+    "opening_counter_initially_executed": false,
+    "source_dispute_preserved": true
+  },
+  "last_qualification": {
+    "manifest": "PAYROLL_DETECTOR_DISPUTE_PREEXECUTION_MANIFEST.json",
+    "run_id": 39200571137,
+    "artifact_id": 12163559008,
+    "status": "READ_1_COUNTEREXAMPLE_1_PASS",
+    "new_valid_business_contract_case": "SOL_R4_INV_D02_VALID_FG_REPAIR_NOTA_ZERO_ALARM",
+    "existing_opening_control_qualified": "SOL_R4_D01_OPENING_DERIVED_STATUS",
+    "earlier8PASS_repeated": false,
+    "no_new_work_pending": true
+  }
+}

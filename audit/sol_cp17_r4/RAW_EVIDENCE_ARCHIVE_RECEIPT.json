@@ -1,0 +1,18 @@
+{
+  "state": "SAVED_DURABLE_VERIFIED",
+  "recorded_at": "2026-10-19T04:57:04.034515+00:00",
+  "archive_name": "Sol-r4-bukti-20261019.zip",
+  "archive_bytes": 67953664,
+  "archive_sha256": "11969e3f56e05a7870c0fb2f4d60664435c81b3c180f24a83921c4a652826a0f",
+  "saved": true,
+  "storage_result_origin": "Root mechanical packaging/storage result; helper exit0, saved=true and local metadata applied=true. No private provider ID or URL is recorded.",
+  "crc_verified": true,
+  "member_paths_sizes_hashes_verified": true,
+  "file_count": 2104,
+  "uncompressed_selected_bytes": 1178571633,
+  "whitelist_path": "RAW_EVIDENCE_WHITELIST.json",
+  "whitelist_sha256": "4c04d2b4c3177cb9c72a23205f00a46e72e4d8780399d2b1ceedf71e1e0bb36a",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "report_and_seal_outside_archive": true
+}

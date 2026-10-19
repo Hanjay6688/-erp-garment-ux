@@ -1,0 +1,592 @@
+{
+  "report_state": "FINAL_LIMITED_SCOPE_ASSESSMENT",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "prior_seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+  "items": [
+    {
+      "id": "SOL-R1-001",
+      "prior_status": "CLOSED_TESTED_SCOPE",
+      "status": "RETAINED_CLOSED_PLUS_CURRENT_CASH_DATE_CONTROLS",
+      "retained_seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+      "prior_candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "prior_record": {
+        "id": "SOL-R1-001",
+        "status": "CLOSED_TESTED_SCOPE",
+        "retained_prior_seal": "841fce45c58b7c004d1dea2f293f57e4b1fa5ba0",
+        "retained_prior_candidate": "2e9d6a468c110684c278d585418eb404250d1150",
+        "retained_prior_record": {
+          "id": "SOL-R1-001",
+          "status": "CLOSED_TESTED_SCOPE",
+          "proof": "7/7 literal Native + 4/4 real Auth HTTP; spent30.01−20 corrected25.01→bank5.01; note-only→10.01; negative15.01 refused unchanged."
+        },
+        "evidence_origin": "RETAINED_SOL_R2_SEAL",
+        "retested_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "qualification": "Old independent proof stays bound to its seal; no claim that the held copies of old Sol probes ran on r3.",
+        "current_supplement": "CP17 cash/date guards and current writer/inherited correction suites executed independently by Sol; literal old 7 Native + 4 HTTP remain retained-only.",
+        "auditor_bookkeeping": "Stale INV-U05/INV-POL03, SKN-22/SKN-27 and B11/B13 cash FAIL text corrected; product cash finding remains CLOSED."
+      },
+      "runtime_credit_r4_for_prior_record": 0,
+      "current_candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "current_evidence": "CP17_RESULT_REVIEW.json; DOCUMENT_RECALCULATIONS.json",
+      "bookkeeping": "Old stale INV-POL03 cash-open text was corrected at r3seal. It is not reopened here; current cash economic/book/accrual guards independently rerun."
+    },
+    {
+      "id": "SOL-R1-002",
+      "prior_status": "CLOSED_ORDINARY_NEW_PO_PATH",
+      "status": "RETAINED_PRIOR_CLOSED_SCOPE",
+      "retained_seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+      "prior_candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "prior_record": {
+        "id": "SOL-R1-002",
+        "status": "CLOSED_ORDINARY_NEW_PO_PATH",
+        "retained_prior_seal": "841fce45c58b7c004d1dea2f293f57e4b1fa5ba0",
+        "retained_prior_candidate": "2e9d6a468c110684c278d585418eb404250d1150",
+        "retained_prior_record": {
+          "id": "SOL-R1-002",
+          "status": "CLOSED_ORDINARY_NEW_PO_PATH",
+          "proof": "CP17 autoPO Native/race/HTTP/browser; real UAT-build autoPO phone; PO+cutting atomic and UUID replay. New numbering boundary is separate SOL-R2-001."
+        },
+        "evidence_origin": "RETAINED_SOL_R2_SEAL",
+        "retested_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "qualification": "Old independent proof stays bound to its seal; no claim that the held copies of old Sol probes ran on r3."
+      },
+      "runtime_credit_r4_for_prior_record": 0,
+      "current_candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329"
+    },
+    {
+      "id": "SOL-R1-003",
+      "prior_status": "CLOSED_UNMODIFIED_CANDIDATE_HELPER",
+      "status": "RETAINED_PRIOR_CLOSED_SCOPE",
+      "retained_seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+      "prior_candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "prior_record": {
+        "id": "SOL-R1-003",
+        "status": "CLOSED_UNMODIFIED_CANDIDATE_HELPER",
+        "retained_prior_seal": "841fce45c58b7c004d1dea2f293f57e4b1fa5ba0",
+        "retained_prior_candidate": "2e9d6a468c110684c278d585418eb404250d1150",
+        "retained_prior_record": {
+          "id": "SOL-R1-003",
+          "status": "CLOSED_UNMODIFIED_CANDIDATE_HELPER",
+          "proof": "Stop-before-U records NOT_APPLICABLE_STOPPED_BEFORE_U; native owner10/10, 58/58 pinned files; no prior Sol monkeypatch."
+        },
+        "evidence_origin": "RETAINED_SOL_R2_SEAL",
+        "retested_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "qualification": "Old independent proof stays bound to its seal; no claim that the held copies of old Sol probes ran on r3."
+      },
+      "runtime_credit_r4_for_prior_record": 0,
+      "current_candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329"
+    },
+    {
+      "id": "SOL-R1-004",
+      "prior_status": "CLOSED_DEMO_QC_WIDTH",
+      "status": "RETAINED_PRIOR_CLOSED_SCOPE",
+      "retained_seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+      "prior_candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "prior_record": {
+        "id": "SOL-R1-004",
+        "status": "CLOSED_DEMO_QC_WIDTH",
+        "retained_prior_seal": "841fce45c58b7c004d1dea2f293f57e4b1fa5ba0",
+        "retained_prior_candidate": "2e9d6a468c110684c278d585418eb404250d1150",
+        "retained_prior_record": {
+          "id": "SOL-R1-004",
+          "status": "CLOSED_DEMO_QC_WIDTH",
+          "proof": "DEMO phone390: document.scrollWidth390; desktop1440:1440. Original failing669 at390 retained in seal278a95ce."
+        },
+        "evidence_origin": "RETAINED_SOL_R2_SEAL",
+        "retested_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "qualification": "Old independent proof stays bound to its seal; no claim that the held copies of old Sol probes ran on r3.",
+        "current_supplement": "Run 39146762452 demo phone width 390: all 47 menu document widths 390. Physical devices/current connected loaded states not implied."
+      },
+      "runtime_credit_r4_for_prior_record": 0,
+      "current_candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "current_evidence": "INITIAL_RESULT_REVIEW.json; CP17_RESULT_REVIEW.json; FUNCTION_DETAIL.json",
+      "current_proof": "Current47menu census/connected Enteng views are separately witnessed; old hidden-menu permission is superseded byD16-1 connected scope."
+    },
+    {
+      "id": "SOL-R1-005",
+      "prior_status": "CLOSED_DEMO_HPP_WIDTH",
+      "status": "RETAINED_PRIOR_CLOSED_SCOPE",
+      "retained_seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+      "prior_candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "prior_record": {
+        "id": "SOL-R1-005",
+        "status": "CLOSED_DEMO_HPP_WIDTH",
+        "retained_prior_seal": "841fce45c58b7c004d1dea2f293f57e4b1fa5ba0",
+        "retained_prior_candidate": "2e9d6a468c110684c278d585418eb404250d1150",
+        "retained_prior_record": {
+          "id": "SOL-R1-005",
+          "status": "CLOSED_DEMO_HPP_WIDTH",
+          "proof": "DEMO phone390: document.scrollWidth390; desktop1440:1440. Original failing627 at390 retained in seal278a95ce."
+        },
+        "evidence_origin": "RETAINED_SOL_R2_SEAL",
+        "retested_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "qualification": "Old independent proof stays bound to its seal; no claim that the held copies of old Sol probes ran on r3.",
+        "current_supplement": "Run 39146762452 demo phone width 390: all 47 menu document widths 390. Physical devices/current connected loaded states not implied."
+      },
+      "runtime_credit_r4_for_prior_record": 0,
+      "current_candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "current_evidence": "INITIAL_RESULT_REVIEW.json; CP17_RESULT_REVIEW.json; FUNCTION_DETAIL.json",
+      "current_proof": "Current47menu census/connected Enteng views are separately witnessed; old hidden-menu permission is superseded byD16-1 connected scope."
+    },
+    {
+      "id": "KNOWN-UI-MODE",
+      "prior_status": "SUPERSEDED_IMPLEMENTED_D16_1_WITH_BROWSER_BOUNDS",
+      "status": "RETAINED_PRIOR_CLOSED_SCOPE",
+      "retained_seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+      "prior_candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "prior_record": {
+        "id": "KNOWN-UI-MODE",
+        "status": "SUPERSEDED_IMPLEMENTED_D16_1_WITH_BROWSER_BOUNDS",
+        "retained_prior_seal": "841fce45c58b7c004d1dea2f293f57e4b1fa5ba0",
+        "retained_prior_candidate": "2e9d6a468c110684c278d585418eb404250d1150",
+        "retained_prior_record": {
+          "id": "KNOWN-UI-MODE",
+          "status": "CLOSED_PER_D15_2",
+          "proof": "17 hidden UAT menus; zero UAT sample routes; actual UAT Native census plus all288 mode/refusal/width contexts. Not hosted CP7C acceptance."
+        },
+        "evidence_origin": "RETAINED_SOL_R2_SEAL",
+        "retested_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "qualification": "Old D15-2 hidden-menu acceptance is historical. D16-1 now requires finished connected routes: source 46 CONNECTED + 1 NOTICE, Enteng 55 PASS; ordinary CP17 rollover remains incomplete."
+      },
+      "runtime_credit_r4_for_prior_record": 0,
+      "current_candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "current_evidence": "INITIAL_RESULT_REVIEW.json; CP17_RESULT_REVIEW.json; FUNCTION_DETAIL.json",
+      "current_proof": "Current47menu census/connected Enteng views are separately witnessed; old hidden-menu permission is superseded byD16-1 connected scope."
+    },
+    {
+      "id": "KNOWN-DAILY-MASTER",
+      "prior_status": "CLOSED_TESTED_SIX_SCREENS_AND_RATES",
+      "status": "RETAINED_PRIOR_CLOSED_SCOPE",
+      "retained_seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+      "prior_candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "prior_record": {
+        "id": "KNOWN-DAILY-MASTER",
+        "status": "CLOSED_TESTED_SIX_SCREENS_AND_RATES",
+        "retained_prior_seal": "841fce45c58b7c004d1dea2f293f57e4b1fa5ba0",
+        "retained_prior_candidate": "2e9d6a468c110684c278d585418eb404250d1150",
+        "retained_prior_record": {
+          "id": "KNOWN-DAILY-MASTER",
+          "status": "CLOSED_TESTED_SIX_SCREENS_AND_RATES",
+          "proof": "CP17 master10 Native +7race +2HTTP +13browser; actual UAT customer create/update/deactivate and usage blockers."
+        },
+        "evidence_origin": "RETAINED_SOL_R2_SEAL",
+        "retested_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "qualification": "Old independent proof stays bound to its seal; no claim that the held copies of old Sol probes ran on r3."
+      },
+      "runtime_credit_r4_for_prior_record": 0,
+      "current_candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329"
+    },
+    {
+      "id": "KNOWN-BF-WAVE",
+      "prior_status": "CLOSED_TESTED_PER_SKU_FLOW",
+      "status": "RETAINED_PRIOR_CLOSED_SCOPE",
+      "retained_seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+      "prior_candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "prior_record": {
+        "id": "KNOWN-BF-WAVE",
+        "status": "CLOSED_TESTED_PER_SKU_FLOW",
+        "retained_prior_seal": "841fce45c58b7c004d1dea2f293f57e4b1fa5ba0",
+        "retained_prior_candidate": "2e9d6a468c110684c278d585418eb404250d1150",
+        "retained_prior_record": {
+          "id": "KNOWN-BF-WAVE",
+          "status": "CLOSED_TESTED_PER_SKU_FLOW",
+          "proof": "CP17 wave5Native+1race+1HTTP+2browser; Sol independent5/2/9 sizes, cancel B, repost:16pcs, net WIP356 exact."
+        },
+        "evidence_origin": "RETAINED_SOL_R2_SEAL",
+        "retested_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "qualification": "Old independent proof stays bound to its seal; no claim that the held copies of old Sol probes ran on r3."
+      },
+      "runtime_credit_r4_for_prior_record": 0,
+      "current_candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329"
+    },
+    {
+      "id": "SOL-001",
+      "prior_status": "RETAINED_CLOSED_FRESH_CASH_CONTROL",
+      "status": "RETAINED_PRIOR_CLOSED_SCOPE",
+      "retained_seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+      "prior_candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "prior_record": {
+        "id": "SOL-001",
+        "status": "RETAINED_CLOSED_FRESH_CASH_CONTROL",
+        "retained_prior_seal": "841fce45c58b7c004d1dea2f293f57e4b1fa5ba0",
+        "retained_prior_candidate": "2e9d6a468c110684c278d585418eb404250d1150",
+        "retained_prior_record": {
+          "id": "SOL-001",
+          "status": "RETAINED_CLOSED_FRESH_CASH_CONTROL",
+          "proof": "Original emptybank pay1 refused; F03/current cash guards and own literal unchanged."
+        },
+        "evidence_origin": "RETAINED_SOL_R2_SEAL",
+        "retested_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "qualification": "Old independent proof stays bound to its seal; no claim that the held copies of old Sol probes ran on r3."
+      },
+      "runtime_credit_r4_for_prior_record": 0,
+      "current_candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329"
+    },
+    {
+      "id": "SOL-002",
+      "prior_status": "RETAINED_CLOSED_PRIOR_BE16_SCOPE",
+      "status": "RETAINED_PRIOR_CLOSED_SCOPE",
+      "retained_seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+      "prior_candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "prior_record": {
+        "id": "SOL-002",
+        "status": "RETAINED_CLOSED_PRIOR_BE16_SCOPE",
+        "retained_prior_seal": "841fce45c58b7c004d1dea2f293f57e4b1fa5ba0",
+        "retained_prior_candidate": "2e9d6a468c110684c278d585418eb404250d1150",
+        "retained_prior_record": {
+          "id": "SOL-002",
+          "status": "RETAINED_CLOSED_PRIOR_BE16_SCOPE",
+          "proof": "Prior independent BE16 complete original retained; supabase tree unchanged. Current connected prefreeze regression separately recorded, not relabelled as Native BE16 rerun."
+        },
+        "evidence_origin": "RETAINED_SOL_R2_SEAL",
+        "retested_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "qualification": "Old independent proof stays bound to its seal; no claim that the held copies of old Sol probes ran on r3.",
+        "current_supplement": "Own BE T1 run 39146762579: 16 NO_ROUTE BEFORE retained, 16 PASS AFTER. Full F03 separately admits current 49-role/Native-delta stack; do not conflate the CP6 stage with all CP7 runtime."
+      },
+      "runtime_credit_r4_for_prior_record": 0,
+      "current_candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329"
+    },
+    {
+      "id": "SOL-003",
+      "prior_status": "RETAINED_CLOSED_DIAGNOSTIC_SCOPE",
+      "status": "RETAINED_PRIOR_CLOSED_SCOPE",
+      "retained_seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+      "prior_candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "prior_record": {
+        "id": "SOL-003",
+        "status": "RETAINED_CLOSED_DIAGNOSTIC_SCOPE",
+        "retained_prior_seal": "841fce45c58b7c004d1dea2f293f57e4b1fa5ba0",
+        "retained_prior_candidate": "2e9d6a468c110684c278d585418eb404250d1150",
+        "retained_prior_record": {
+          "id": "SOL-003",
+          "status": "RETAINED_CLOSED_DIAGNOSTIC_SCOPE",
+          "proof": "Prior diagnostic3/3 original; current58-file owner install pass. Historical first AZ reason remains unknown."
+        },
+        "evidence_origin": "RETAINED_SOL_R2_SEAL",
+        "retested_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "qualification": "Prior diagnostic proof retained. Original historical first-AZ cause remains unknown and is not relabelled as an understood or current product failure."
+      },
+      "runtime_credit_r4_for_prior_record": 0,
+      "current_candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329"
+    },
+    {
+      "id": "SOL-R2-001",
+      "prior_status": "CLOSED_TESTED_SCOPE",
+      "status": "CLOSED_CURRENT_PO_NUMBER_BOUNDARIES",
+      "retained_seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+      "prior_candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "prior_record": {
+        "id": "SOL-R2-001",
+        "severity": "S2",
+        "first_seen_sha": "2e9d6a468c110684c278d585418eb404250d1150",
+        "retested_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "CLOSED_TESTED_SCOPE",
+        "evidence_origin": "INDEPENDENT_SOL_EXECUTION_OF_WRITER_DECLARED_CASES",
+        "oracle_origin": "R3_WRITER_DECLARATION_REUSING_SOL_R2_BOUNDED_COUNTEREXAMPLE_AND_BOUNDARY_CONTROLS",
+        "fixture_origin": "PUBLIC_SYNTHETIC_UNUSED_DAILY_PO_HEADERS_AND_MATERIAL_FIXTURE",
+        "before": {
+          "seal": "841fce45c58b7c004d1dea2f293f57e4b1fa5ba0",
+          "run_id": 38934111700,
+          "job_id": 117085146759,
+          "artifact_id": 12059209949,
+          "status": "COUNTEREXAMPLE",
+          "number": 1000,
+          "elapsed_seconds": 3.003,
+          "deadline_seconds": 3,
+          "error": "57014 statement timeout at truncated lpad search; original unchanged"
+        },
+        "after": {
+          "run_id": 39146521757,
+          "job_id": 117731362035,
+          "artifact_id": 12143844276,
+          "actual_number": "PO-261016-1000",
+          "elapsed_seconds": 0.015,
+          "deadline_seconds": 3,
+          "native_cases": [
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/native",
+              "id": "CP17_R3_01_AUTO_PO_NUMBER_999_CONTROL",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            },
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/native",
+              "id": "CP17_R3_01_AUTO_PO_NUMBER_1000_BOUNDED",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            },
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/native",
+              "id": "CP17_R3_01_AUTO_PO_NUMBER_999_TO_1000_ASTRA",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            },
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/native",
+              "id": "CP17_R3_01_AUTO_PO_NUMBER_1001_AND_10000",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            },
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/native",
+              "id": "CP17_R3_01_AUTO_PO_NUMBER_REFUSAL_AND_SAME_UUID_PAST_1000",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            }
+          ],
+          "race_cases": [
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/races",
+              "id": "CP17_RACE_R3_01_AUTO_PO_NUMBER_BOUNDARY_TWO_SESSIONS",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            }
+          ]
+        },
+        "cause_and_remedy": "Minimum lpad width replaces fixed width; per-date lock, uniqueness and command atomics retained.",
+        "qualification": "999/1000/1001/10000, UUID/refusal and two sessions witnessed. Not a global all-integer or factory SLA claim."
+      },
+      "runtime_credit_r4_for_prior_record": 0,
+      "current_candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "current_evidence": "CP17_RESULT_REVIEW.json",
+      "current_proof": "999/1000/999→1000/1001/10000 exact bounded response; UUID replay once. Originalr2three-second counterexample retained."
+    },
+    {
+      "id": "KNOWN-R2-POOL-UI",
+      "prior_status": "CLOSED_UI_GAP_WITH_OPEN_ENTRYPOINT_BOUNDARY",
+      "status": "RETAINED_PRIOR_CLOSED_SCOPE",
+      "retained_seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+      "prior_candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "prior_record": {
+        "id": "KNOWN-R2-POOL-UI",
+        "retested_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "CLOSED_UI_GAP_WITH_OPEN_ENTRYPOINT_BOUNDARY",
+        "evidence_origin": "INDEPENDENT_SOL_EXECUTION_OF_WRITER_DECLARED_CASES",
+        "after": {
+          "run_id": 39146521757,
+          "artifact_id": 12143844276,
+          "native_cases": [
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/native",
+              "id": "CP17_R3_04_HPP_POOL_PREVIEW_READY_AND_BLOCKED",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            },
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/native",
+              "id": "CP17_R3_04_HPP_POOL_CREATE_ACTIVATE_CANCEL_EQUALS_NATIVE",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            },
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/native",
+              "id": "CP17_R3_04_HPP_POOL_DRAFT_VOID_NO_JOURNAL",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            },
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/native",
+              "id": "CP17_R3_04_HPP_POOL_CANCEL_SOURCE_CORRECTION_REPLACEMENT",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            },
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/native",
+              "id": "CP17_R3_04_HPP_POOL_CLOSED_PERIOD_REFUSED_ATOMICALLY",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            },
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/native",
+              "id": "CP17_R3_04_HPP_POOL_PERMISSION_REMOVED_BETWEEN_READ_AND_SAVE",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            },
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/native",
+              "id": "CP17_R3_04_HPP_POOL_SAME_UUID_REPLAYS_ONCE",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            },
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/native",
+              "id": "CP17_R3_04_HPP_POOL_CHANGED_REVIEW_TOKEN_REFUSED",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            },
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/native",
+              "id": "CP17_R3_04_HPP_POOL_OWNER_ADMIN_ONLY_AND_FIELDS",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            },
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/native",
+              "id": "CP17_R3_04_HPP_POOL_FACADE_PRIVATE_AND_IMMUTABLE",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            }
+          ],
+          "browser_cases": [
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/browser",
+              "id": "CP17_BROWSER_R3_04_HPP_POOL_DESKTOP",
+              "status": "INCOMPLETE",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            },
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/browser",
+              "id": "CP17_BROWSER_R3_04_HPP_POOL_MOBILE",
+              "status": "INCOMPLETE",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            },
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/browser_enteng",
+              "id": "CP17_BROWSER_R3_04_HPP_POOL_DESKTOP_ENTENG",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            },
+            {
+              "run_id": 39146521757,
+              "artifact_id": 12143844276,
+              "group": "/browser_enteng",
+              "id": "CP17_BROWSER_R3_04_HPP_POOL_MOBILE_ENTENG",
+              "status": "PASS",
+              "category": "CANONICAL_DOCUMENT_ROW"
+            }
+          ]
+        },
+        "qualification": "Enteng and new facade lifecycle are witnessed. Ordinary browser rollover retained; four old public CP4 wrappers not independently reproduced and remain before-install boundary."
+      },
+      "runtime_credit_r4_for_prior_record": 0,
+      "current_candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329"
+    },
+    {
+      "id": "KNOWN-RECEIPT-FIRST100",
+      "prior_status": "CLOSED_RUN_JOB_ENUMERATION_WITH_ANNOTATION_BOUNDARY",
+      "status": "RETAINED_PRIOR_CLOSED_SCOPE",
+      "retained_seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+      "prior_candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+      "prior_record": {
+        "id": "KNOWN-RECEIPT-FIRST100",
+        "retested_sha": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "CLOSED_RUN_JOB_ENUMERATION_WITH_ANNOTATION_BOUNDARY",
+        "evidence_origin": "INDEPENDENT_READ_ONLY_METADATA_ARITHMETIC_AND_SOURCE_REVIEW",
+        "after": "117 exact run IDs on two pages; 182 all-attempt job rows, 181 latest IDs match receipt; source paginates runs/jobs/annotations.",
+        "evidence_files": [
+          "WRITER_RECEIPT_DOCUMENT_REVIEW.json",
+          "WRITER_FAILURE_LOG_REVIEW.json"
+        ],
+        "qualification": "Annotation endpoint unavailable HTTP400; no annotation enumeration or >100 jobs-in-one-run runtime claim."
+      },
+      "runtime_credit_r4_for_prior_record": 0,
+      "current_candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329"
+    },
+    {
+      "id": "R4-01",
+      "status": "CLOSED_TESTED_DATA_API_SCOPE",
+      "retested_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "evidence_origin": "INDEPENDENT_SOL_EXECUTION_WITH_EXPLICIT_ORACLE_ORIGINS",
+      "proof": "25legacy route HTTP403/42501 plus valid facade200; Native DB boundary remains distinct.",
+      "evidence": "CP17_RESULT_REVIEW.json"
+    },
+    {
+      "id": "R4-02",
+      "status": "CLOSED_TESTED_ACTIVE_USAGE_SCOPE",
+      "retested_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "evidence_origin": "INDEPENDENT_SOL_EXECUTION_WITH_EXPLICIT_ORACLE_ORIGINS",
+      "proof": "10+2−2=10/HPP120÷10; active usage2 refuses and cancel releases.",
+      "evidence": "CP17_RESULT_REVIEW.json"
+    },
+    {
+      "id": "R4-03",
+      "status": "CLOSED_TESTED_LATE_COMMIT_SCHEDULE",
+      "retested_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "evidence_origin": "INDEPENDENT_SOL_EXECUTION_WITH_EXPLICIT_ORACLE_ORIGINS",
+      "proof": "Low uncommitted ID below high cutoff later commits; marker changes/filter control/reload exact.",
+      "evidence": "CP17_RESULT_REVIEW.json"
+    },
+    {
+      "id": "R4-04",
+      "status": "CLOSED_MEASURED_47_MENU_SCOPE",
+      "retested_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "evidence_origin": "INDEPENDENT_SOL_EXECUTION_WITH_EXPLICIT_ORACLE_ORIGINS",
+      "proof": "47menus exact,290WIP ratios minimum5.1718195 versus4.5; helper exclusions and overwritten ordinary detail retained.",
+      "evidence": "CP17_RESULT_REVIEW.json"
+    },
+    {
+      "id": "R4-05",
+      "status": "QUALIFIED_OWNER_ADMIN_BRANCH_STAFF_UNEXECUTED",
+      "retested_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "evidence_origin": "INDEPENDENT_SOL_EXECUTION_WITH_EXPLICIT_ORACLE_ORIGINS",
+      "proof": "Assigned writer8calls plus own OWNER/ADMIN8calls withNULL entry; STAFF never executed after two tool failures.",
+      "evidence": "FRESH_TX_RESULT_REVIEW.json"
+    },
+    {
+      "id": "R4-Q1",
+      "status": "CLOSED_FOUR_METADATA_ID_SCOPE",
+      "retested_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "evidence_origin": "INDEPENDENT_SOL_EXECUTION_WITH_EXPLICIT_ORACLE_ORIGINS",
+      "proof": "5cron rows all succeeded/ended/start ordered, waitTrue, cleanup exact; initial dependency failure retained.",
+      "evidence": "Q1_STATE_RESULT_REVIEW.json"
+    },
+    {
+      "id": "B5-B6",
+      "status": "CLOSED_DEFINED_BROWSER_LINEAGES",
+      "retested_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "evidence_origin": "INDEPENDENT_SOL_EXECUTION_WITH_EXPLICIT_ORACLE_ORIGINS",
+      "proof": "ordinary3+claimQ3 and separate first free-rewashPASS. Literal costs/lineage/cash/AP/inverse checked.",
+      "evidence": "JOURNEY_Q3_RESULT_REVIEW.json; JOURNEY_INITIAL_RESULT_REVIEW.json"
+    },
+    {
+      "id": "SKN-24-26",
+      "status": "CLOSED_DEFINED_FINITE_BOUNDARIES",
+      "retested_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+      "evidence_origin": "INDEPENDENT_SOL_EXECUTION_WITH_EXPLICIT_ORACLE_ORIGINS",
+      "proof": "Eight unique canonical IDs from initial5PASS plus qualified3PASS,27actual client helper controls; no global numeric N/A.",
+      "evidence": "FUNCTIONAL_BOUNDARIES_RESULT_REVIEW.json"
+    }
+  ],
+  "r3_runtime_not_relabelled": true,
+  "old_cash_bookkeeping_corrected": true,
+  "product_fixes_made": false,
+  "peer_r4_read": false
+}

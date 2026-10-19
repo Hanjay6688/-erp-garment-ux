@@ -1,0 +1,98 @@
+{
+  "state": "REVIEWED_UNCHANGED_ACCEPTED_SCOPE",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "retained_seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+  "retained_candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "source_comparisons": [
+    {
+      "path": "scripts/cp6_t2_regression.py",
+      "source_sha256": "b73ee2fa3a96cde0011286767dcc5e916131a4e476421776a953b7824a6d6742",
+      "r3_blob": "72e9459f78847ec61f165e7c226e7337eaadaf40",
+      "r4_blob": "72e9459f78847ec61f165e7c226e7337eaadaf40",
+      "byte_unchanged": true
+    },
+    {
+      "path": "scripts/cp6_t3_package_run.py",
+      "source_sha256": "952bbf1b99652dadf69ab0e1291979a4e7227182631baaab6af7a7eabcb80ab0",
+      "r3_blob": "2711d357ef34788363c7d3f8a2f158ef0746f13e",
+      "r4_blob": "2711d357ef34788363c7d3f8a2f158ef0746f13e",
+      "byte_unchanged": true
+    },
+    {
+      "path": "scripts/cp6_t3_aligned_install.py",
+      "source_sha256": "afecc12be5d87263df9084a1d8bc0bcc8e9095be940dea6c809a8930918a3d69",
+      "r3_blob": "bd8b78def1f69bcb3d7c9a5bf5052939fce74b21",
+      "r4_blob": "bd8b78def1f69bcb3d7c9a5bf5052939fce74b21",
+      "byte_unchanged": true
+    },
+    {
+      "path": "scripts/cp6_auditor_runner.py",
+      "source_sha256": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7",
+      "r3_blob": "b11c524ca48a262022c44ad4f865f2f297540b7c",
+      "r4_blob": "b11c524ca48a262022c44ad4f865f2f297540b7c",
+      "byte_unchanged": true
+    },
+    {
+      "path": "scripts/cp6_auditor_modes.py",
+      "source_sha256": "d927c7491c72fe1eecfd1b4b8b4faf7e1710d6943fda601ede6a599fbc99209f",
+      "r3_blob": "b5b40e740ef7b0337b4d1b3922c9454df334afd8",
+      "r4_blob": "b5b40e740ef7b0337b4d1b3922c9454df334afd8",
+      "byte_unchanged": true
+    },
+    {
+      "path": "scripts/cp6_initial_import_masters.py",
+      "source_sha256": "8df4c98778a7b01ead90ad4d6bfb9d3b5f28e0e7b836fbfa16af20c03f4c10a8",
+      "r3_blob": "50d505858c6542fe37851b2d69278c0ce79e55c7",
+      "r4_blob": "50d505858c6542fe37851b2d69278c0ce79e55c7",
+      "byte_unchanged": true
+    },
+    {
+      "path": "scripts/cp6_ba_probe.py",
+      "source_sha256": "efb568c01ed6a908348cbbdc90e2faa939611ef31b9b2a4ff8ab911c43df7eba",
+      "r3_blob": "b40ccbb151931bb3a6667c8fffa88ff0ba19939d",
+      "r4_blob": "b40ccbb151931bb3a6667c8fffa88ff0ba19939d",
+      "byte_unchanged": true
+    },
+    {
+      "path": "scripts/cp6_bd_revision_cases.py",
+      "source_sha256": "c4bfc723c950a328f1fbc734d0a5e76b649f844e540c4e37d3675e1471d0eec5",
+      "r3_blob": "d0fdb7139549bae757346d324a700aeda5e7e9a5",
+      "r4_blob": "d0fdb7139549bae757346d324a700aeda5e7e9a5",
+      "byte_unchanged": true
+    },
+    {
+      "path": "scripts/cp7_p21_rehearsal_probe.py",
+      "source_sha256": "75aca0895b67618e5a3861e50ae0b521926819018dc3dd9cada84b405783c75b",
+      "r3_blob": "dab77efab50e21a98e70076bc08f0eb7a976ac89",
+      "r4_blob": "dab77efab50e21a98e70076bc08f0eb7a976ac89",
+      "byte_unchanged": true
+    },
+    {
+      "path": "scripts/cp7_p21_full_rehearsal_probe.py",
+      "source_sha256": "a6da56d3c3177c2f6083b19e996d1f7a31b7e934607d7f97232336405fd529f7",
+      "r3_blob": "9e55ba762e8976d56c60a5117b3f688e9c44bde5",
+      "r4_blob": "9e55ba762e8976d56c60a5117b3f688e9c44bde5",
+      "byte_unchanged": true
+    }
+  ],
+  "supabase_tree_unchanged": "5d040436db384b4e574785376367b360a084acb7",
+  "origin": "REUSED_AUDITOR_LOG_READ",
+  "r4_runtime_credit_for_unchanged_canonical_regressions": 0,
+  "owner_scope": "Standing owner instruction: CP6 remains CLOSED. Untouched already-tested accepted CP6 scope is not reopened solely because this r4 audit did not rerun every canonical old case.",
+  "current_r4_dependency": "Global internal guard is installed by F03 after accepted CP6 install/pre-admission. Canonical T2 baseline before F03 has none of the new guard bodies or TSX screens. R4 current F03 broad regression selected from57target callgraph, CP17 exact admission definitions and current P21 install/uninstall/new-copy restore qualify actual changed integration.",
+  "current_evidence": [
+    "SOURCE_CHANGE_REVIEW.json",
+    "CP17_RESULT_REVIEW.json",
+    "RESULT_REVIEW.json",
+    "FRESH_TX_RESULT_REVIEW.json",
+    "REHEARSAL_RESULT_REVIEW.json"
+  ],
+  "M05_disposition": "PASS qualified retained accepted installer refusal scope with source byte identity and current P21 success/restore. Not a fresh run of every pre-admission refusal or proof of actual hosted baseline.",
+  "SKN23_disposition": "PASS qualified accepted unchanged canonical CP3–5/CP6 scope, supplemented by current integration regressions. Literal326+AS34+AR174+AT16+AU15 were not reexecuted wholesale in r4; no fresh per-ID/count claim.",
+  "explicit_boundaries": [
+    "CP6 CLOSED differs from CP7 integration acceptance/production readiness.",
+    "Original historical scope holds/counterexamples and owner-superseded cases retain original statuses.",
+    "Native STAFF unassigned control remains unexecuted after two Sol fixture failures.",
+    "M04/SKN21 actual-hosted observation remains incomplete; source identity does not replace fresh hosted preflight."
+  ]
+}

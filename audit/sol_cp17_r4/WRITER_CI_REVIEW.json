@@ -1,0 +1,618 @@
+{
+  "origin": "WRITER_REUSED_CANDIDATE_663F6FAE",
+  "independent_sol_runtime_credit": 0,
+  "metadata_comparison": "Sol exact ID/name/status/event/attempt/job-parent multiset comparison against paginated GitHub metadata; no peer r4 evidence",
+  "run_count": 116,
+  "distinct_workflow_count": 115,
+  "run_status_counts": {
+    "failure": 22,
+    "success": 94
+  },
+  "job_count": 179,
+  "job_status_counts": {
+    "success": 157,
+    "failure": 22
+  },
+  "all_attempts_1": true,
+  "all_product_candidate": true,
+  "run_branches": [
+    "claude/new-session-deapao"
+  ],
+  "receipt_all_run_and_job_sets_equal": true,
+  "annotations": "Not fetched; not claimed checked. Classification relies on actual full stored failed-job text and step metadata.",
+  "receipt_field_note": "summary.workflows counts 116 run rows; README distinguishes 115 distinct workflow IDs.",
+  "duplicate_workflow": [
+    {
+      "workflow_id": 366111432,
+      "run_ids": [
+        39180053859,
+        39173288385
+      ]
+    }
+  ],
+  "business_day_reruns": [],
+  "business_day_kept_first": [],
+  "failure_classification_counts": {
+    "LEGACY_CP6_SCENARIO_4_INCOMPLETE": 1,
+    "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD": 20,
+    "EXPIRED_INCOMING_AF_EVIDENCE": 1
+  },
+  "failures": [
+    {
+      "run_id": 39180053859,
+      "job_id": 117830699716,
+      "workflow": "CP6 Auditor Scenario",
+      "classification": "LEGACY_CP6_SCENARIO_4_INCOMPLETE",
+      "business_disposition": "104 Native / 26 race / 9 HTTP / 27 browser PASS; 4 browser INCOMPLETE",
+      "reason": "Two historical readiness facades absent before CP7 composition; two retired SALES_MANUAL_13 fixtures. Current replacement acceptance still requires own CP17 evidence.",
+      "failed_steps": [
+        "Auditor scenario on the final CP6 candidate (AUDITOR_SCENARIO)"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 2683,
+          "text": "assert report['status']==('SELFTEST_PASS' if selftest else 'RUN_COMPLETE'),report.get('error',report['status'])"
+        }
+      ],
+      "expired_artifact_lines": [
+        {
+          "line": 1633,
+          "text": "gh: Artifact has expired (HTTP 410)"
+        }
+      ],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117830699716.log",
+      "stored_decoded_text_sha256": "5f49f6d197e78d15e13b23776e4597405d84dccafcb96bdb67fa082191110bfd",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173311862,
+      "job_id": 117810740773,
+      "workflow": "CP6 AR Combined Successor Qualification",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Record proposed source and prepare isolated proof paths",
+        "Remove disposable database"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 1375,
+          "text": "assert not git('rev-list', '--merges', BASE+'..HEAD')"
+        }
+      ],
+      "expired_artifact_lines": [],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117810740773.log",
+      "stored_decoded_text_sha256": "0adbfbbd80a4deb4286e2cd540b2ae90f1082828b405eafa8a295e0702c64620",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173309060,
+      "job_id": 117810729050,
+      "workflow": "CP6 Opening Overlap Probe",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Record proposed source and prepare isolated proof paths",
+        "Remove disposable database"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 1134,
+          "text": "assert changed<=ALLOWED,sorted(changed-ALLOWED)"
+        }
+      ],
+      "expired_artifact_lines": [],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117810729050.log",
+      "stored_decoded_text_sha256": "bc568bca06b41a4b35652cd462d309b76bdd16446db397bcfea9c0094ce59cb4",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173307575,
+      "job_id": 117810725020,
+      "workflow": "CP6 Initial Import Native Trial",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Record proposed source and prepare isolated proof paths",
+        "Remove disposable database"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 1114,
+          "text": "assert changed<=ALLOWED,sorted(changed-ALLOWED)"
+        }
+      ],
+      "expired_artifact_lines": [],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117810725020.log",
+      "stored_decoded_text_sha256": "84c8e264716770af957ba7a052e75a1b663b9e237d85ba0edfa9c246fd659e47",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173304647,
+      "job_id": 117810720842,
+      "workflow": "CP6 Final Boundary Audit",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Verify unchanged AI-R2 backend and bounded writer UI scope"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 2519,
+          "text": "assert not git('rev-list', '--merges', BASE+'..HEAD')"
+        }
+      ],
+      "expired_artifact_lines": [],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117810720842.log",
+      "stored_decoded_text_sha256": "472765abebe168a803d56347a21f7bf7aa224c13da7a04ae4c3ba8fb44d5c0d7",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173286820,
+      "job_id": 117810660349,
+      "workflow": "CP6 AU Independent AT Review",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Review frozen AS AT and ordinary master identity controls"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 2118,
+          "text": "assert set(subprocess.check_output(['git','-C',str(ROOT),'diff','--name-only',FROZEN,head],text=True).splitlines())==allowed"
+        }
+      ],
+      "expired_artifact_lines": [
+        {
+          "line": 1607,
+          "text": "gh: Artifact has expired (HTTP 410)"
+        }
+      ],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117810660349.log",
+      "stored_decoded_text_sha256": "9a5988b3e013d158cc7a640920c5085d157dca5991dc7c064d992c2b53dea1ed",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173285501,
+      "job_id": 117810654752,
+      "workflow": "CP6 AU Qualification",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Record proposed source and prepare isolated proof paths",
+        "Remove disposable database"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 1294,
+          "text": "assert set(changed)==allowed,('AU_SCOPE',changed)"
+        }
+      ],
+      "expired_artifact_lines": [],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117810654752.log",
+      "stored_decoded_text_sha256": "8958152160d407f8e94bc25dfed579dea4de1769b73562784a9758971b6f268d",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173281154,
+      "job_id": 117810641018,
+      "workflow": "CP6 AT Qualification",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Record proposed source and prepare isolated proof paths",
+        "Remove disposable database"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 1305,
+          "text": "assert set(changed)==allowed,('AT_SCOPE',changed)"
+        }
+      ],
+      "expired_artifact_lines": [],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117810641018.log",
+      "stored_decoded_text_sha256": "e5a2454a8b9e284e98a44030e1e9a46502db36f183493afa4c286a7681703b18",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173279660,
+      "job_id": 117810636360,
+      "workflow": "CP6 AT Independent AS Audit",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Attack exact AR and AS with independent temporal identity cases"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 2841,
+          "text": "assert set(changed)==allowed,('AUDITOR_SCOPE',changed)"
+        }
+      ],
+      "expired_artifact_lines": [
+        {
+          "line": 1609,
+          "text": "gh: Artifact has expired (HTTP 410)"
+        }
+      ],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117810636360.log",
+      "stored_decoded_text_sha256": "27c2705cadbbf5cc3c1be08c0cbe57607c25b84dabf59798be2818766c0fb569",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173278118,
+      "job_id": 117810632103,
+      "workflow": "CP6 AS Writer Qualification",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Qualify exact AS install rollback and 174 original cases"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 1874,
+          "text": "assert set(changed)<=allowed and set(changed)>=allowed-{'docs/cp6-as-qualification.md'},('AS_SCOPE',changed)"
+        }
+      ],
+      "expired_artifact_lines": [
+        {
+          "line": 1361,
+          "text": "gh: Artifact has expired (HTTP 410)"
+        }
+      ],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117810632103.log",
+      "stored_decoded_text_sha256": "a967e0bcf9f9f4f218dacd630acebd833b3b1eda9cee04bcf04ce184dc54bb98",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173276489,
+      "job_id": 117810627341,
+      "workflow": "CP6 AS Independent AR Audit",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Audit exact AR date and cross-brand WIP boundaries"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 1880,
+          "text": "assert changed == ALLOWED, ('AS_PROBE_SOURCE_SCOPE', changed)"
+        }
+      ],
+      "expired_artifact_lines": [
+        {
+          "line": 1370,
+          "text": "gh: Artifact has expired (HTTP 410)"
+        }
+      ],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117810627341.log",
+      "stored_decoded_text_sha256": "6d50a8f338db70f62a899b899ec6059061e593877496d42dbd65c0a4aa4f8988",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173275043,
+      "job_id": 117810622692,
+      "workflow": "CP6 AR Opening Overlap Repair",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Record proposed source and prepare isolated proof paths",
+        "Remove disposable database"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 1133,
+          "text": "assert changed<=ALLOWED,sorted(changed-ALLOWED)"
+        }
+      ],
+      "expired_artifact_lines": [],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117810622692.log",
+      "stored_decoded_text_sha256": "f4c5be61a3b3c59c4f3d54b5945e19dfd1d916c3d5e5c731ff8f359eba8e5b2f",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173273700,
+      "job_id": 117810618440,
+      "workflow": "CP6 AP Real Auth Browser Flow",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Record proposed source and prepare isolated proof paths",
+        "Remove disposable database"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 1134,
+          "text": "assert all(allowed(p) for p in changed),[p for p in changed if not allowed(p)]"
+        }
+      ],
+      "expired_artifact_lines": [],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117810618440.log",
+      "stored_decoded_text_sha256": "58bb16b33fd9dfd876ea0501f32d9c7c5f71cf1c2b27bf03edd002bfc67ec4be",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173272251,
+      "job_id": 117810613230,
+      "workflow": "CP6 AO AP Permanent Package",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Record proposed source and prepare isolated proof paths",
+        "Remove disposable database"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 1125,
+          "text": "assert all(allowed(p) for p in changed),[p for p in changed if not allowed(p)]"
+        }
+      ],
+      "expired_artifact_lines": [],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117810613230.log",
+      "stored_decoded_text_sha256": "23b3cb922b4fd5da5f02797e6b7947384a13511d49ef7f501a11f54ec1d6e1dc",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173270768,
+      "job_id": 117812137625,
+      "workflow": "CP6 AI Work Source Family",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Verify pinned whole-family scope"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 1032,
+          "text": "assert git('merge-base',BASE,'HEAD')==BASE and not git('rev-list','--merges',BASE+'..HEAD')"
+        }
+      ],
+      "expired_artifact_lines": [],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117812137625.log",
+      "stored_decoded_text_sha256": "0f844b7c0ff7f06dd2a1147e0bf960e80bcb3cbaf855430fbaf0a4b4cf15d94f",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173269227,
+      "job_id": 117810604902,
+      "workflow": "CP6 AI-R2 Independent Business Review",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Verify unchanged AI-R2 and bounded independent scope"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 1039,
+          "text": "assert not git('rev-list','--merges',HEAD+'..HEAD')"
+        }
+      ],
+      "expired_artifact_lines": [],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117810604902.log",
+      "stored_decoded_text_sha256": "c5c5a4fa243de88800be437792cc64e8d682d8f68180dc80ccf7d260c282ec38",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173267536,
+      "job_id": 117812215335,
+      "workflow": "CP6 AH Return Allocation Family",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Verify pinned whole-family scope"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 781,
+          "text": "assert git('merge-base',BASE,'HEAD')==BASE and not git('rev-list','--merges',BASE+'..HEAD')"
+        }
+      ],
+      "expired_artifact_lines": [],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117812215335.log",
+      "stored_decoded_text_sha256": "8b79062f24215549dfbc68e7359c495f0133073ebd530959441ddda588e7416f",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173265827,
+      "job_id": 117813625885,
+      "workflow": "CP6 AH Independent Business Review",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Verify unchanged AH sources and independent scope"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 1024,
+          "text": "assert not git('rev-list','--merges',HEAD+'..HEAD')"
+        }
+      ],
+      "expired_artifact_lines": [],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117813625885.log",
+      "stored_decoded_text_sha256": "057636592af858c937128e9524c849f526303d05cd73ff83e8b6b7703a9ad992",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173264170,
+      "job_id": 117811335426,
+      "workflow": "CP6 AG Sale Reservation Family",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Verify pinned whole-family scope"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 782,
+          "text": "assert git('merge-base',BASE,'HEAD')==BASE and not git('rev-list','--merges',BASE+'..HEAD')"
+        }
+      ],
+      "expired_artifact_lines": [],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117811335426.log",
+      "stored_decoded_text_sha256": "40396ecc17664b17e1addff196e826b20d68af40fc733ce4a02fb5bd59d7db77",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173262528,
+      "job_id": 117810588175,
+      "workflow": "CP6 AG Additional Writer Review",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Verify unchanged AG sources and confined harness"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 1032,
+          "text": "assert not git('rev-list','--merges',HEAD+'..HEAD')"
+        }
+      ],
+      "expired_artifact_lines": [],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117810588175.log",
+      "stored_decoded_text_sha256": "8f9166e35219593569afdc251deb78738c93553943656ec977877d2f0d9d53d0",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173260745,
+      "job_id": 117810580671,
+      "workflow": "CP6 AF Independent Review",
+      "classification": "HISTORICAL_CLOSED_SOURCE_SCOPE_GUARD",
+      "business_disposition": "No business acceptance credit from this job",
+      "reason": "Pinned historical merge/diff allowlist rejects accumulated successor source. Cleanup failure is subsequent; no reinterpretation as product runtime PASS.",
+      "failed_steps": [
+        "Verify source-only review scope"
+      ],
+      "assertion_evidence": [
+        {
+          "line": 982,
+          "text": "assert not git('rev-list','--merges',HEAD+'..HEAD')"
+        }
+      ],
+      "expired_artifact_lines": [],
+      "file_not_found_lines": [],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117810580671.log",
+      "stored_decoded_text_sha256": "368298d9bf5cbd6f4dd43e27dec1a682bd230428c6b68eaa055265e90878ade0",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    },
+    {
+      "run_id": 39173258904,
+      "job_id": 117811088125,
+      "workflow": "CP6 AF Posted Child Family",
+      "classification": "EXPIRED_INCOMING_AF_EVIDENCE",
+      "business_disposition": "No AF acceptance credit",
+      "reason": "Incoming AE artifact HTTP 410; admission.json absent; preserve first failure.",
+      "failed_steps": [
+        "Verify incoming AE artifact bytes and phase results",
+        "Require complete AF writer evidence"
+      ],
+      "assertion_evidence": [],
+      "expired_artifact_lines": [
+        {
+          "line": 1255,
+          "text": "gh: Artifact has expired (HTTP 410)"
+        }
+      ],
+      "file_not_found_lines": [
+        {
+          "line": 1384,
+          "text": "FileNotFoundError: [Errno 2] No such file or directory: 'cp6-proof/writer-af/admission.json'"
+        }
+      ],
+      "log_path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/failed_job_logs/117811088125.log",
+      "stored_decoded_text_sha256": "1355c83b7fcbe66e48101256860490ec4915a795b8534a4275af92a24c8646ea",
+      "capture_origin": "GitHub connector decoded text; one final LF added on local capture; no provider ZIP digest"
+    }
+  ],
+  "scope_guard_reuse_limit": "Historical source guards remain red and are not loosened. Successor mapping/source review and own reruns are separate evidence; CI colors alone do not close business contracts.",
+  "first_result_retained": true,
+  "scenario_counts": {
+    "auditor_cases": {
+      "PASS": 104
+    },
+    "auditor_races": {
+      "PASS": 26
+    },
+    "auditor_http": {
+      "PASS": 9
+    },
+    "auditor_browser": {
+      "INCOMPLETE": 4,
+      "PASS": 27
+    }
+  },
+  "scenario_unresolved_ids": [
+    "READINESS_BROWSER:DESKTOP_NATIVE_POLICY_STATES_FINANCE_NOTE",
+    "READINESS_BROWSER:MOBILE_NATIVE_POLICY_STATES_FINANCE_NOTE",
+    "BF_BROWSER:SALES_MANUAL_13_DESKTOP",
+    "BF_BROWSER:SALES_MANUAL_13_MOBILE"
+  ],
+  "input_files": [
+    {
+      "path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/runs_page_1.json",
+      "sha256": "72dfbedf0d89ad1a4e200646a930e9d35d1f990dded4c1e907dbc62e06a69525"
+    },
+    {
+      "path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/runs_page_2.json",
+      "sha256": "90c17550c65473a4a1d9f3ba2fa465afe9560c1d2d04a270f29516fb5ebcf204"
+    },
+    {
+      "path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/jobs_all_latest.json",
+      "sha256": "50a75a86c79765574aaa65c29c521ae22d9e1e33f41062120363411c4b6f9cb4"
+    },
+    {
+      "path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/CI_RECEIPT_WRITER.json",
+      "sha256": "ead1cf3b31cf77701e42a7642148b143efa1c1ce32eab1cfa3c75adfa9d7dd0f"
+    },
+    {
+      "path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/FAILED_LOG_INDEX.json",
+      "sha256": "8c901b8a3fad4215899a6f184c3a8e4e8851b581e3a22bea3037e49ff3690777"
+    },
+    {
+      "path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/CP6_SCENARIO_FROM_ORIGINAL_LOG.json",
+      "sha256": "6d62eeba378b31f4467fa3d7be8c8415b48d17cdebff768ad90bc0034ae1911b"
+    },
+    {
+      "path": "audit/sol_cp17_r4/ci_receipts/writer_663f6fae/CP6_SCENARIO_CASES_FROM_ORIGINAL_LOG.json",
+      "sha256": "394f7da8d398cd1e52e8debd4b53aa5539a6a267f9ae8ea57d25a0c836a0b686"
+    }
+  ]
+}

@@ -1,0 +1,298 @@
+{
+  "state": "READ_EIGHT_PASS_AND_PRESERVED_HEALTHY_NOTA_FALSE_ALARM_DISPUTE",
+  "first_run_id": 39199375501,
+  "first_job_id": 117888970333,
+  "first_artifact_id": 12163127220,
+  "first_archive_sha256": "91221e55ed1376f7b26fa6e6a66d5febf13eaec1bbdfb682a5bda852b92709f7",
+  "selected_members_rehashed": 22,
+  "raw_counts": {
+    "PASS": 8,
+    "INCOMPLETE": 1
+  },
+  "canonical_cases": [
+    {
+      "case_id": "SOL_R4_D01_KASBON_DERIVED_STATUS",
+      "run_id": 39199375501,
+      "artifact_id": 12163127220,
+      "raw_status": "PASS",
+      "case_kind": "DETECTOR_CONTROL",
+      "oracle_origin": "SOL_ONE_UNALLOCATED_COLLECTIBLE10_STATUS_SET_TO_SETTLED",
+      "fixture_origin": "ACCEPTED_BC_NATIVE_NOTE_QTY1_MANUAL_PRICE10",
+      "phases": [
+        {
+          "name": "KASBON_STATUS_ONLY",
+          "exact_deltas": {
+            "run_integrity_checks:KASBON_STATUS_MISMATCH": 1
+          },
+          "other_counts_unchanged": true
+        }
+      ],
+      "counts_each_phase": 167,
+      "all_other_counts_unchanged": true,
+      "protected_facts_and_guards_unchanged": true,
+      "full_boundary_restored": true,
+      "canonical_for_candidate": true,
+      "group": "/native"
+    },
+    {
+      "case_id": "SOL_R4_D01_SUPPLIER_PAYMENT_DERIVED_STATUS",
+      "run_id": 39199375501,
+      "artifact_id": 12163127220,
+      "raw_status": "PASS",
+      "case_kind": "DETECTOR_CONTROL",
+      "oracle_origin": "SOL_FINAL_AP10_PAID0_HEADER_PAID_INCONSISTENCY_TWO_EXPORTED_IDENTITIES",
+      "fixture_origin": "ACCEPTED_PUBLIC_PROCUREMENT_RECEIPT_QTY1_FINAL10",
+      "phases": [
+        {
+          "name": "SUPPLIER_PAYMENT_STATUS_ONLY",
+          "exact_deltas": {
+            "run_v267_financial_truth_checks:V2620M_SUPPLIER_PAYMENT_EXACT_STATUS": 1,
+            "run_v268_financial_report_checks:V2620M_SUPPLIER_PAYMENT_EXACT_STATUS": 1
+          },
+          "other_counts_unchanged": true
+        }
+      ],
+      "counts_each_phase": 167,
+      "all_other_counts_unchanged": true,
+      "protected_facts_and_guards_unchanged": true,
+      "full_boundary_restored": true,
+      "canonical_for_candidate": true,
+      "group": "/native"
+    },
+    {
+      "case_id": "SOL_R4_D01_VENDOR_PAYMENT_DERIVED_STATUS",
+      "run_id": 39199375501,
+      "artifact_id": 12163127220,
+      "raw_status": "PASS",
+      "case_kind": "DETECTOR_CONTROL",
+      "oracle_origin": "SOL_POSTED_VENDOR_INVOICE17312_90_PAID0_STATUS_ONLY",
+      "fixture_origin": "ACCEPTED_P16_NATIVE_LAUNDRY_RECEIPT_AND_BD_INVOICE",
+      "phases": [
+        {
+          "name": "VENDOR_DERIVED_STATUS_ONLY",
+          "exact_deltas": {
+            "run_v268_financial_report_checks:V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH": 1
+          },
+          "other_counts_unchanged": true
+        }
+      ],
+      "counts_each_phase": 167,
+      "all_other_counts_unchanged": true,
+      "protected_facts_and_guards_unchanged": true,
+      "full_boundary_restored": true,
+      "canonical_for_candidate": true,
+      "group": "/native"
+    },
+    {
+      "case_id": "SOL_R4_D01_HPP_SUBCENT_DERIVED_STATE",
+      "run_id": 39199375501,
+      "artifact_id": 12163127220,
+      "raw_status": "PASS",
+      "case_kind": "DETECTOR_CONTROL",
+      "oracle_origin": "SOL_ONE_PO_HPP_TOTAL_CACHE_PLUS_ONE_MICRO_UNIT_SUBCENT_AND_EXACT_TARGET_COLLATERAL",
+      "fixture_origin": "ACCEPTED_NATIVE_FINISH10_GOOD_HPP120",
+      "phases": [
+        {
+          "name": "ONE_MICRO_UNIT_SUBCENT",
+          "exact_deltas": {
+            "run_v268_financial_report_checks:V2620C_PO_HPP_TARGET_STATE_MISMATCH": 1,
+            "run_v268_financial_report_checks:V2620C_HPP_STATE_HAS_SUBCENT": 1
+          },
+          "other_counts_unchanged": true
+        }
+      ],
+      "counts_each_phase": 167,
+      "all_other_counts_unchanged": true,
+      "protected_facts_and_guards_unchanged": true,
+      "full_boundary_restored": true,
+      "canonical_for_candidate": true,
+      "group": "/native"
+    },
+    {
+      "case_id": "SOL_R4_D01_CUSTOMER_AR_DERIVED_STATUS",
+      "run_id": 39199375501,
+      "artifact_id": 12163127220,
+      "raw_status": "PASS",
+      "case_kind": "DETECTOR_CONTROL",
+      "oracle_origin": "SOL_ACTIVE_SALE20_PAID0_STATUS_SET_TO_PAID",
+      "fixture_origin": "ACCEPTED_NATIVE_UNSOURCED_FG_AND_SALE_QTY1_PRICE20",
+      "phases": [
+        {
+          "name": "CUSTOMER_DERIVED_STATUS_ONLY",
+          "exact_deltas": {
+            "run_v268_financial_report_checks:V2620H_CUSTOMER_AR_STATUS_MISMATCH": 1
+          },
+          "other_counts_unchanged": true
+        }
+      ],
+      "counts_each_phase": 167,
+      "all_other_counts_unchanged": true,
+      "protected_facts_and_guards_unchanged": true,
+      "full_boundary_restored": true,
+      "canonical_for_candidate": true,
+      "group": "/native"
+    },
+    {
+      "case_id": "SOL_R4_D01_GRNI_NEW_UNUSED_DEBIT_MAPPING",
+      "run_id": 39199375501,
+      "artifact_id": 12163127220,
+      "raw_status": "PASS",
+      "case_kind": "DETECTOR_CONTROL",
+      "oracle_origin": "SOL_NEW_UNUSED_ACTIVE_POSTABLE_LIABILITY_DEBIT_ACCOUNT_VIOLATES_GRNI_CREDIT_PREDICATE",
+      "fixture_origin": "NEW_UNUSED_CHART_ACCOUNT_BEFORE_POINTER_COUNTER_NO_LEDGER_OR_PREPAYMENT",
+      "phases": [
+        {
+          "name": "NEW_UNUSED_LIABILITY_DEBIT_POINTER",
+          "exact_deltas": {
+            "run_v267_financial_truth_checks:V267_GRNI_MAPPING_INVALID": 1
+          },
+          "other_counts_unchanged": true
+        }
+      ],
+      "counts_each_phase": 167,
+      "all_other_counts_unchanged": true,
+      "protected_facts_and_guards_unchanged": true,
+      "full_boundary_restored": true,
+      "canonical_for_candidate": true,
+      "group": "/native"
+    },
+    {
+      "case_id": "SOL_R4_D01_ACCESSORY_UOM_GUARD_PREVENTION",
+      "run_id": 39199375501,
+      "artifact_id": 12163127220,
+      "raw_status": "PASS",
+      "case_kind": "GUARD_PREVENTION_ONLY",
+      "oracle_origin": "SOL_EXACT_NATIVE_CATEGORY_FREEZE_AND_VARIANT_UOM_VALIDATOR_REFUSALS",
+      "fixture_origin": "NEW_UNUSED_BC_ACCESSORY_CATEGORY_AND_VARIANT_NO_RECEIPT",
+      "phases": [
+        {
+          "name": "CATEGORY_WITH_VARIANT_UOM_CHANGE_ATOMIC_REFUSAL",
+          "exact_deltas": {},
+          "other_counts_unchanged": true
+        },
+        {
+          "name": "VARIANT_UOM_MISMATCH_ATOMIC_REFUSAL",
+          "exact_deltas": {},
+          "other_counts_unchanged": true
+        }
+      ],
+      "counts_each_phase": 167,
+      "all_other_counts_unchanged": true,
+      "protected_facts_and_guards_unchanged": true,
+      "full_boundary_restored": true,
+      "canonical_for_candidate": true,
+      "group": "/native",
+      "refusals": [
+        {
+          "name": "CATEGORY_WITH_VARIANT_UOM_CHANGE",
+          "observed": {
+            "sqlstate": "P0001",
+            "message": "Accessory category base UOM is frozen after material variants exist; create a new category instead\nCONTEXT:  PL/pgSQL function guard_accessory_category_base_uom() line 1 at RAISE"
+          },
+          "expected_sqlstate": "P0001",
+          "expected_fragment": "Accessory category base UOM is frozen"
+        },
+        {
+          "name": "VARIANT_UOM_MISMATCH",
+          "observed": {
+            "sqlstate": "P0001",
+            "message": "Accessory variant base UOM BOX must match category base UOM PCS\nCONTEXT:  PL/pgSQL function validate_material_accessory_category() line 1 at RAISE"
+          },
+          "expected_sqlstate": "P0001",
+          "expected_fragment": "must match category base UOM"
+        }
+      ],
+      "negative_sensitivity_claim": false
+    },
+    {
+      "case_id": "SOL_R4_D01_CORE_GRNI_GUARD_PREVENTION",
+      "run_id": 39199375501,
+      "artifact_id": 12163127220,
+      "raw_status": "PASS",
+      "case_kind": "GUARD_PREVENTION_ONLY",
+      "oracle_origin": "SOL_EXACT_CORE_MAPPING_DELETE_AND_RENAME_GUARD_WITH_NO_ADMIN_BYPASS",
+      "fixture_origin": "EXISTING_REQUIRED_GRNI_MAPPING_UNCHANGED",
+      "phases": [
+        {
+          "name": "CORE_MAPPING_DELETE_ATOMIC_REFUSAL",
+          "exact_deltas": {},
+          "other_counts_unchanged": true
+        },
+        {
+          "name": "CORE_MAPPING_RENAME_ATOMIC_REFUSAL",
+          "exact_deltas": {},
+          "other_counts_unchanged": true
+        }
+      ],
+      "counts_each_phase": 167,
+      "all_other_counts_unchanged": true,
+      "protected_facts_and_guards_unchanged": true,
+      "full_boundary_restored": true,
+      "canonical_for_candidate": true,
+      "group": "/native",
+      "refusals": [
+        {
+          "name": "CORE_MAPPING_DELETE",
+          "observed": {
+            "sqlstate": "P0001",
+            "message": "Core accounting mapping GRNI_MATERIAL tidak boleh dihapus. Pindahkan ke akun aktif dengan tipe LIABILITY jika perlu.\nCONTEXT:  PL/pgSQL function guard_accounting_mapping_semantics() line 6 at RAISE"
+          },
+          "expected_sqlstate": "P0001",
+          "expected_fragment": "Core accounting mapping GRNI_MATERIAL tidak boleh dihapus"
+        },
+        {
+          "name": "CORE_MAPPING_RENAME",
+          "observed": {
+            "sqlstate": "P0001",
+            "message": "Core accounting mapping key GRNI_MATERIAL tidak boleh di-rename\nCONTEXT:  PL/pgSQL function guard_accounting_mapping_semantics() line 10 at RAISE"
+          },
+          "expected_sqlstate": "P0001",
+          "expected_fragment": "Core accounting mapping key GRNI_MATERIAL tidak boleh di-rename"
+        }
+      ],
+      "negative_sensitivity_claim": false
+    }
+  ],
+  "first_opening_status": "INCOMPLETE_BEFORE_COUNTER_NOT_RELABELLED",
+  "first_opening_values": [
+    "65.00",
+    "0.00",
+    "OPEN"
+  ],
+  "first_opening_changed": false,
+  "preceding_alarm": {
+    "identity": "run_v263a_payroll_integrity_checks:payroll_work_wrong_contractor",
+    "count": 2,
+    "observation": "ci_receipts/sol_artifacts/12163127220/files/SOL_R4_D01_OPENING_DERIVED_STATUS_OBSERVATIONS.json",
+    "classification": "PROVED_S1_VALID_FG_REPAIR_FALSE_CRITICAL",
+    "not_classified_as_adversarial_fixture": true,
+    "source_reason": "cp7_settlement_read_cases.fixture invokes valid source.repair and publicNotaSAVE/POST. AX and CP7 supportFG_REPAIR; current payroll detector resolves onlyPRODUCTION/REWORK.",
+    "initial_classification": "POTENTIAL_PRODUCT_FALSE_ALARM_ON_VALID_FG_REPAIR_NOTA_PENDING_ACTUAL_SOURCE_RESOLUTION",
+    "superseded_by": "PAYROLL_DETECTOR_DISPUTE_RESULT_REVIEW.json"
+  },
+  "guard_prevention": {
+    "run_v24_accessory_integrity_checks:ACCESSORY_CATEGORY_UOM_MISMATCH": {
+      "case_id": "SOL_R4_D01_ACCESSORY_UOM_GUARD_PREVENTION",
+      "run_id": 39199375501,
+      "artifact_id": 12163127220,
+      "disposition": "TWO_NATIVE_GUARD_REFUSALS_NO_ADMIN_BYPASS_NOT_SENSITIVITY"
+    },
+    "run_v267_financial_truth_checks:V267_MISSING_GRNI_MAPPING": {
+      "case_id": "SOL_R4_D01_CORE_GRNI_GUARD_PREVENTION",
+      "run_id": 39199375501,
+      "artifact_id": 12163127220,
+      "disposition": "DELETE_AND_RENAME_NATIVE_GUARD_REFUSED_NOT_SENSITIVITY"
+    }
+  },
+  "protected_facts_guards_and_primary_restored": true,
+  "product_fix_applied": false,
+  "final_qualification": {
+    "run_id": 39200571137,
+    "artifact_id": 12163559008,
+    "status": "READ_COUNTEREXAMPLE1_PASS1",
+    "false_alarm": "SOL-R4-001_S1",
+    "isolated_opening": "QUALIFIED_SAME65_0_OPEN",
+    "earlier8PASS_repeated": false,
+    "first_opening_INCOMPLETE_preserved": true
+  }
+}

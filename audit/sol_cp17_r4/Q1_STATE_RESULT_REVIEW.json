@@ -1,0 +1,118 @@
+{
+  "state": "REVIEWED_NOT_SEALED",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "run_id": 39192391656,
+  "job_id": 117867818293,
+  "logical_prerequisite_attempt": 2,
+  "github_run_attempt": 1,
+  "workflow_sha": "47ed1c28cac718959973893446727e8fd8cee3d8",
+  "artifact_id": 12159739710,
+  "archive_sha256": "13f868e53f3538521c043f4fd2fa87874d50357d1e59d3a84d28f2930e90da44",
+  "report_sha256": "afd857b2fa459a04db6b9059fbd2552eadbde335f40838b15097304b518a25ed",
+  "member_files_rehashed": 14,
+  "counts": {
+    "PASS": 4
+  },
+  "rows": [
+    {
+      "case_id": "SOL_R4_Q1_K4_CRON_ALL_ENDS",
+      "original_case_id": "K4R_RACE_PG_CRON_FINISHES_JOB",
+      "status": "PASS",
+      "record_count": 1,
+      "jobids": [
+        1
+      ],
+      "runids": [
+        1
+      ],
+      "wait_result": true,
+      "budget_seconds": 60,
+      "all_status_succeeded": true,
+      "all_end_timestamps_present_ordered": true,
+      "schedule_jobs_remaining": 0,
+      "copy_dropped": true,
+      "new_business_case_credit": 0,
+      "new_race_credit": 0
+    },
+    {
+      "case_id": "SOL_R4_Q1_K6_CRON_ALL_ENDS",
+      "original_case_id": "K6P_RACE_PG_CRON_FINISHES_PASS",
+      "status": "PASS",
+      "record_count": 1,
+      "jobids": [
+        2
+      ],
+      "runids": [
+        2
+      ],
+      "wait_result": true,
+      "budget_seconds": 60,
+      "all_status_succeeded": true,
+      "all_end_timestamps_present_ordered": true,
+      "schedule_jobs_remaining": 0,
+      "copy_dropped": true,
+      "new_business_case_credit": 0,
+      "new_race_credit": 0
+    },
+    {
+      "case_id": "SOL_R4_Q1_K4_DESKTOP_ALL_ENDS",
+      "original_case_id": "K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES",
+      "status": "PASS",
+      "record_count": 2,
+      "jobids": [
+        3
+      ],
+      "runids": [
+        3,
+        4
+      ],
+      "wait_result": true,
+      "budget_seconds": 60,
+      "all_status_succeeded": true,
+      "all_end_timestamps_present_ordered": true,
+      "schedule_jobs_remaining": 0,
+      "copy_dropped": true,
+      "new_business_case_credit": 0,
+      "new_race_credit": 0
+    },
+    {
+      "case_id": "SOL_R4_Q1_K4_MOBILE_ALL_ENDS",
+      "original_case_id": "K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES",
+      "status": "PASS",
+      "record_count": 1,
+      "jobids": [
+        4
+      ],
+      "runids": [
+        5
+      ],
+      "wait_result": true,
+      "budget_seconds": 60,
+      "all_status_succeeded": true,
+      "all_end_timestamps_present_ordered": true,
+      "schedule_jobs_remaining": 0,
+      "copy_dropped": true,
+      "new_business_case_credit": 0,
+      "new_race_credit": 0
+    }
+  ],
+  "terminal_cron_records": 5,
+  "independent_business_case_credit": 0,
+  "new_race_credit": 0,
+  "strict_full_baseline_restored": true,
+  "first_failure": {
+    "run_id": 39191503650,
+    "status": "FAILURE_BEFORE_QUALIFICATION_CASES",
+    "classification": "AUDITOR_TOOL_MISSING_PINNED_PREREQUISITE",
+    "error": "ModuleNotFoundError jsonschema",
+    "cases": 0,
+    "product_install_prerequisite_completed": true,
+    "retained": true
+  },
+  "closed_gap": "K4/K6 all-record success/end metadata now demonstrated in this separate four-ID qualification. Original raw reports remain unchanged and keep missing-export qualification.",
+  "limits": [
+    "Test schedules explicitly5seconds, not production installation or load.",
+    "Actual before/after rows were already ended when wait called; frozen helper metadata controls cover false/running/missing-end inputs separately. No new race credit.",
+    "No additional advisor gate asserted by this metadata-only qualification."
+  ]
+}

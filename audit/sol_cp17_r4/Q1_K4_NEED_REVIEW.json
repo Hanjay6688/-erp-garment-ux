@@ -1,0 +1,36 @@
+{
+  "state": "OWN_K4_REVIEWED_WAITING_OWN_K6_BEFORE_PUBLICATION",
+  "initial_run_id": 39185235564,
+  "job_id": 117846167402,
+  "artifact_id": 12159622921,
+  "report_path": "ci_receipts/sol_artifacts/12159622921/files/CP7_K4_RUNNER.json",
+  "report_sha256": "71714f6f5b0475c4a595af45bb8bbd21aa0edab5f6b39ed9482923ede1224c67",
+  "log_path": "ci_receipts/own_job_logs/117846167402.log",
+  "log_sha256": "e2385f50f372a9d444d0c9ade1b73eed9af68a2390ce15794a442d5b05df6833",
+  "raw_case_ids": [
+    "K4R_RACE_PG_CRON_FINISHES_JOB",
+    "K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES",
+    "K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES"
+  ],
+  "raw_statuses": [
+    "PASS",
+    "PASS",
+    "PASS"
+  ],
+  "raw_cron_counts": [
+    1,
+    2,
+    1
+  ],
+  "missing_fields": [
+    "wait_recorded Boolean return",
+    "all cron jobid/runid/status/start_time/end_time rows"
+  ],
+  "source_fact": "K4 server ignores wait_recorded return and filters finished statuses; browser asserts all counted rows succeeded but exports only count and no end timestamps. Both delete cron run rows after reading. Full decoded log retains the same limited case fields.",
+  "frozen_expected_unchanged": true,
+  "metadata_missing": true,
+  "own_original_reviewed": true,
+  "publishing_or_execution_permitted_by_this_partial_receipt": false,
+  "business_case_credit": 0,
+  "product_failure_inferred": false
+}

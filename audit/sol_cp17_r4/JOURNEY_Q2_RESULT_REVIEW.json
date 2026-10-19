@@ -1,0 +1,106 @@
+{
+  "state": "READ_ORIGINAL_Q2_PRESERVED",
+  "run_id": 39195171465,
+  "job_id": 117876289697,
+  "artifact_id": 12161841489,
+  "archive_sha256": "edd87b5ad2f2aa70de540ad9f4e84a4b742eade273e699f9a927aa1232defa24",
+  "member_hashes_rechecked": 14,
+  "raw_counts": {
+    "INCOMPLETE": 4
+  },
+  "cases": [
+    {
+      "id": "SOL_R4_B5_B6_CLAIM_MOBILE",
+      "raw_status": "INCOMPLETE",
+      "disposition": "UNRESOLVED_DIALOG_RENDER_OR_LABEL_BINDING",
+      "failure_file": "SOL_R4_B5_B6_CLAIM_MOBILE_FAILURE.json",
+      "sha256": "2e2a8930139df19541c83d5cd4bde51b945be75b7d969a0db11eab8fcc985bd5",
+      "ap": "8.00",
+      "bank": "8.00",
+      "payments": [],
+      "main_text_bytes": 0,
+      "claims": []
+    },
+    {
+      "id": "SOL_R4_B5_B6_ORDINARY_DESKTOP",
+      "raw_status": "INCOMPLETE",
+      "disposition": "AUDITOR_FORM_STATE_ASSUMPTION",
+      "failure_file": "SOL_R4_B5_B6_ORDINARY_DESKTOP_FAILURE.json",
+      "sha256": "5a6cda01389fa9eb737e33dff2352010df3d07a20275d04484770039437c0057",
+      "ap": "4.75",
+      "bank": "4.75",
+      "payments": [
+        [
+          "157f4d5e-a085-4b5f-bb65-e20cfb7cbe1f",
+          "POSTED",
+          "3.25",
+          "CASH"
+        ],
+        [
+          "c3085f7b-bb0f-4d5c-9b34-34d997c5b37e",
+          "REVERSED",
+          "4.75",
+          "CASH"
+        ]
+      ],
+      "main_text_bytes": 3345,
+      "claims": null
+    },
+    {
+      "id": "SOL_R4_B5_B6_ORDINARY_IPAD_VIEWPORT",
+      "raw_status": "INCOMPLETE",
+      "disposition": "AUDITOR_FORM_STATE_ASSUMPTION",
+      "failure_file": "SOL_R4_B5_B6_ORDINARY_IPAD_VIEWPORT_FAILURE.json",
+      "sha256": "6b71ad11e836a20e11fd4f92dc8bb9639a9497299cc7b6be06235b3353d78d31",
+      "ap": "4.75",
+      "bank": "4.75",
+      "payments": [
+        [
+          "c17bb3c5-a3d9-48be-a433-d1dd2e32fcdf",
+          "POSTED",
+          "3.25",
+          "CASH"
+        ],
+        [
+          "d615710d-0923-4d2e-92d6-4bbee85de071",
+          "REVERSED",
+          "4.75",
+          "CASH"
+        ]
+      ],
+      "main_text_bytes": 3419,
+      "claims": null
+    },
+    {
+      "id": "SOL_R4_B5_B6_ORDINARY_MOBILE",
+      "raw_status": "INCOMPLETE",
+      "disposition": "AUDITOR_FORM_STATE_ASSUMPTION",
+      "failure_file": "SOL_R4_B5_B6_ORDINARY_MOBILE_FAILURE.json",
+      "sha256": "c312a0be82de3e020f4e3618e7ca0861fdf953378d3936d643df4632a8d842c7",
+      "ap": "4.75",
+      "bank": "4.75",
+      "payments": [
+        [
+          "8ea25705-a0a9-4b67-929a-e657796fca09",
+          "POSTED",
+          "3.25",
+          "CASH"
+        ],
+        [
+          "05b7db0f-6e15-4ecc-aa4d-304fe9705c9e",
+          "REVERSED",
+          "4.75",
+          "CASH"
+        ]
+      ],
+      "main_text_bytes": 3311,
+      "claims": null
+    }
+  ],
+  "full_primary_restore": true,
+  "auth_restored": true,
+  "ordinary_source_proof": "LaundryBdPanel.tsx77 retire sets data null;107\u2013112 Payables is unmounted while data null;350 undoReason initializes empty;390 inverse requires\u22654. Original tool filled one reason before loop; second inverse correctly disabled after first mutation refetch/remount.",
+  "claim_limit": "No SAVE_CLAIM. main_text0 is an innerText().catch fallback; nested mains can cause strict-locator failure, so no blank body or product crash is proven. Existing host pageerror-only count cannot rule out console.error. Q3 adds independent body/main-count/DOM/console observations and exact source-label binding; original result stays INCOMPLETE.",
+  "next_tool_scope": "Re-enter required reason before each inverse and after claim ACCEPT refetch; retain same commands/expected/budget. Claim field binding follows exact visible span within wrapping label, with mandatory visible dialog and diagnostics. A render failure must remain failure, never force-enabled or stubbed.",
+  "production_go": false
+}

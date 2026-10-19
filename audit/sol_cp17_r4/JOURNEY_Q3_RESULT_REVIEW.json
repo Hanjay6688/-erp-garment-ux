@@ -1,0 +1,235 @@
+{
+  "state": "READ_ORIGINAL_AND_INDEPENDENTLY_RECALCULATED",
+  "run_id": 39196659018,
+  "job_id": 117880796168,
+  "artifact_id": 12162272799,
+  "archive_sha256": "9c6a7f432198db9fdd6797fccaa3de2aba985c21176a286cc69391dfcefe94f9",
+  "selected_member_hashes_rechecked": 19,
+  "counts": {
+    "PASS": 4
+  },
+  "canonical_unique_business_ids": 4,
+  "new_business_ids_since_initial": 0,
+  "cases": [
+    {
+      "id": "SOL_R4_B5_B6_ORDINARY_DESKTOP",
+      "status": "PASS_QUALIFIED",
+      "raw_status": "PASS",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "signature": {
+        "sewn": 4,
+        "wage": "16.00",
+        "received": 4,
+        "fg": 4,
+        "total_fg_wip": "124.00",
+        "invoice": "8.00",
+        "partial_ap": "4.75",
+        "partial_cash": "4.75",
+        "paid_ap": "0.00",
+        "paid_cash": "0.00",
+        "final_ap": "0.00",
+        "final_cash": "8.00"
+      },
+      "write_actions": [
+        "RECORD",
+        "POST_DELIVERY",
+        "POST_RECEIPT",
+        "POST_FINAL_SKU",
+        "SAVE_INVOICE_DRAFT",
+        "SAVE_INVOICE_DRAFT",
+        "POST_INVOICE",
+        "PAY_VENDOR_DOCUMENT",
+        "PAY_VENDOR_DOCUMENT",
+        "REVERSE_VENDOR_SETTLEMENT",
+        "REVERSE_VENDOR_SETTLEMENT",
+        "REVERSE_INVOICE"
+      ],
+      "source_receipt_line": "61ef87bf-49db-4c6e-8df9-1da6a4ca45f0",
+      "source_lot": "51a3d4f3-d24d-4a2d-800a-70109f9fc851",
+      "product": "9d55d1b0-845e-4fa1-8f16-097bb3777a7e",
+      "literal_total_calculation": "100+4*(3+1)+4*2=124",
+      "physical_HPP_values_and_lineage_unchanged_during_settlements": true,
+      "posted_original_and_inverses_retained": true
+    },
+    {
+      "id": "SOL_R4_B5_B6_ORDINARY_MOBILE",
+      "status": "PASS_QUALIFIED",
+      "raw_status": "PASS",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "signature": {
+        "sewn": 4,
+        "wage": "16.00",
+        "received": 4,
+        "fg": 4,
+        "total_fg_wip": "124.00",
+        "invoice": "8.00",
+        "partial_ap": "4.75",
+        "partial_cash": "4.75",
+        "paid_ap": "0.00",
+        "paid_cash": "0.00",
+        "final_ap": "0.00",
+        "final_cash": "8.00"
+      },
+      "write_actions": [
+        "RECORD",
+        "POST_DELIVERY",
+        "POST_RECEIPT",
+        "POST_FINAL_SKU",
+        "SAVE_INVOICE_DRAFT",
+        "SAVE_INVOICE_DRAFT",
+        "POST_INVOICE",
+        "PAY_VENDOR_DOCUMENT",
+        "PAY_VENDOR_DOCUMENT",
+        "REVERSE_VENDOR_SETTLEMENT",
+        "REVERSE_VENDOR_SETTLEMENT",
+        "REVERSE_INVOICE"
+      ],
+      "source_receipt_line": "d1eee42b-b367-4306-bffc-bb917e32f62e",
+      "source_lot": "a3b14c52-41c4-408c-abc8-653cab3b89e0",
+      "product": "6e6c0126-9c84-4dc7-af1c-024b848aae94",
+      "literal_total_calculation": "100+4*(3+1)+4*2=124",
+      "physical_HPP_values_and_lineage_unchanged_during_settlements": true,
+      "posted_original_and_inverses_retained": true
+    },
+    {
+      "id": "SOL_R4_B5_B6_ORDINARY_IPAD_VIEWPORT",
+      "status": "PASS_QUALIFIED",
+      "raw_status": "PASS",
+      "viewport": {
+        "width": 820,
+        "height": 1180
+      },
+      "signature": {
+        "sewn": 4,
+        "wage": "16.00",
+        "received": 4,
+        "fg": 4,
+        "total_fg_wip": "124.00",
+        "invoice": "8.00",
+        "partial_ap": "4.75",
+        "partial_cash": "4.75",
+        "paid_ap": "0.00",
+        "paid_cash": "0.00",
+        "final_ap": "0.00",
+        "final_cash": "8.00"
+      },
+      "write_actions": [
+        "RECORD",
+        "POST_DELIVERY",
+        "POST_RECEIPT",
+        "POST_FINAL_SKU",
+        "SAVE_INVOICE_DRAFT",
+        "SAVE_INVOICE_DRAFT",
+        "POST_INVOICE",
+        "PAY_VENDOR_DOCUMENT",
+        "PAY_VENDOR_DOCUMENT",
+        "REVERSE_VENDOR_SETTLEMENT",
+        "REVERSE_VENDOR_SETTLEMENT",
+        "REVERSE_INVOICE"
+      ],
+      "source_receipt_line": "d8ece016-62cb-450a-9877-d49b1aa4be67",
+      "source_lot": "6fca1ec9-0efb-42af-b55c-40bee1bdb32e",
+      "product": "d5cebb9c-8fda-4ec5-940a-0cf39820dc24",
+      "literal_total_calculation": "100+4*(3+1)+4*2=124",
+      "physical_HPP_values_and_lineage_unchanged_during_settlements": true,
+      "posted_original_and_inverses_retained": true
+    },
+    {
+      "id": "SOL_R4_B5_B6_CLAIM_MOBILE",
+      "status": "PASS_QUALIFIED",
+      "raw_status": "PASS",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "signature": {
+        "sewn": 5,
+        "wage": "20.00",
+        "received": 4,
+        "fg": 4,
+        "total_fg_wip": "130.00",
+        "invoice": "8.00",
+        "partial_ap": "3.75",
+        "partial_cash": "5.75",
+        "paid_ap": "0.00",
+        "paid_cash": "2.00",
+        "final_ap": "0.00",
+        "final_cash": "8.00"
+      },
+      "write_actions": [
+        "RECORD",
+        "POST_DELIVERY",
+        "POST_RECEIPT",
+        "POST_FINAL_SKU",
+        "SAVE_INVOICE_DRAFT",
+        "SAVE_INVOICE_DRAFT",
+        "POST_INVOICE",
+        "SAVE_CLAIM",
+        "SAVE_CLAIM",
+        "RESOLVE_CLAIM",
+        "APPLY_CLAIM_CREDIT",
+        "PAY_VENDOR_DOCUMENT",
+        "PAY_VENDOR_DOCUMENT",
+        "REVERSE_VENDOR_SETTLEMENT",
+        "REVERSE_VENDOR_SETTLEMENT",
+        "REVERSE_VENDOR_SETTLEMENT",
+        "REVERSE_CLAIM_RESOLUTION",
+        "REVERSE_INVOICE"
+      ],
+      "source_receipt_line": "d6355b25-8b85-4520-a25f-85e9536109bb",
+      "source_lot": "5f13fcb6-eeb4-409f-baae-5f7e63ae568d",
+      "product": "4a51a216-bb53-4a8d-a7dc-1d307f0e74b2",
+      "literal_total_calculation": "100+5*(3+1)+5*2=130",
+      "physical_HPP_values_and_lineage_unchanged_during_settlements": true,
+      "posted_original_and_inverses_retained": true
+    }
+  ],
+  "qualification": "Q3 genuine form-state/selector-observation repair; Q2 expected and actions unchanged; every initial INCOMPLETE retained",
+  "original_runs_retained": [
+    39193178808,
+    39193738642,
+    39195171465
+  ],
+  "claim_Q2_disposition": "AUDITOR_LABEL_BINDING_AND_MAIN_CAPTURE_LIMIT; Q2 main text0 came from a catch fallback and cannot distinguish strict multi-main from empty main. Q3 actual main_count2/body1942 and composite label option text support the source-derived observer repair. No crash observed in Q3; no retroactive PASS assigned to Q2.",
+  "claim_dialog_actual": {
+    "main_count": 2,
+    "body_text_characters": 1942,
+    "type_label": "JENISSTUCKMISSINGDAMAGE",
+    "visible_span": "JENIS",
+    "console_errors": [],
+    "page_errors": []
+  },
+  "strict_host_and_exact_int_cleanup": true,
+  "full_primary_restoration": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "free_rewash_PASS_retained_from_run39193738642": true,
+  "limits": [
+    "Three Chromium viewports, not physical Apple/iPad hardware.",
+    "Four controlled journeys with OWNER; not every role or every exception permutation.",
+    "Physical/HPP economic values and lot/receipt/SKU lineage checked; no claim that HPP version UUIDs never change."
+  ]
+}

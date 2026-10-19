@@ -1,0 +1,280 @@
+{
+  "origin": "SOL_OFFLINE_ARITHMETIC_ON_CAPTURED_WRITER_FIXTURE_ROWS",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "does_not_execute_product": true,
+  "note_artifact": 12158247347,
+  "note_report_sha256": "f1e618bf041f2def0724cd77892350509d067d39cf36079fe124420868b9fffc",
+  "x04_artifact": 12158616422,
+  "x04_report_sha256": "15493ff8923bc0dc83ee8dc430ffdec927d5aaf5aa1a598b3593fd581a037fd0",
+  "checks": {
+    "book_all_366_prefixes_and_364_plus12": true,
+    "lot_all_366_prefixes_and_364_plus12": true,
+    "16_actual_Auth_pages_cover366_each": true,
+    "decimal_invoice_14_times10_03_less0_04_equals140_38": true,
+    "x04_timezone_differences_same_exact_instant": true,
+    "cash_four_sets_of364_exact_prefix_shifts": true,
+    "return_four_sets_of367_prefixes_and364_later_shifts": true,
+    "ten_full_cycle_GL_equalities_and_nonnegative_bank": true,
+    "p19_small_fixture_nearest_rank_and_overlap": true,
+    "eight_prefreeze_delivery_literal_amounts": true,
+    "O18_cent_conservation_and_E24_qty_value_literal_arithmetic": true
+  },
+  "note_details": {
+    "book": {
+      "rows": 366,
+      "changed_source_index": 1,
+      "source_before": -24,
+      "source_after": -12,
+      "later_shift_rows": 364,
+      "final_before": 100,
+      "final_after": 112,
+      "every_original_time_rank_and_id_equal": true
+    },
+    "lot": {
+      "rows": 366,
+      "changed_source_index": 1,
+      "source_before": -24,
+      "source_after": -12,
+      "later_shift_rows": 364,
+      "final_before": 100,
+      "final_after": 112,
+      "every_original_time_rank_and_id_equal": true
+    }
+  },
+  "x04_equivalent_timestamp_spellings": 14,
+  "cash_details": [
+    {
+      "artifact_id": 12158304231,
+      "source_sha256": "7522819ed6c153ba5b0a0ce3036537bb1b7f96ca36e7ec6324c25e69348ba6b8",
+      "group": "native",
+      "prefixes": 364,
+      "independent_shift": -12,
+      "all_verified": true
+    },
+    {
+      "artifact_id": 12158304231,
+      "source_sha256": "7522819ed6c153ba5b0a0ce3036537bb1b7f96ca36e7ec6324c25e69348ba6b8",
+      "group": "http",
+      "prefixes": 364,
+      "independent_shift": -12,
+      "all_verified": true
+    },
+    {
+      "artifact_id": 12159036032,
+      "source_sha256": "50e68f23f770de668586dd8cc52023cefbe8d5d7529ee0403fbe03c0266a0a7c",
+      "group": "native",
+      "prefixes": 364,
+      "independent_shift": 12,
+      "all_verified": true
+    },
+    {
+      "artifact_id": 12159036032,
+      "source_sha256": "50e68f23f770de668586dd8cc52023cefbe8d5d7529ee0403fbe03c0266a0a7c",
+      "group": "http",
+      "prefixes": 364,
+      "independent_shift": 12,
+      "all_verified": true
+    }
+  ],
+  "return_details": [
+    {
+      "group": "native",
+      "kind": "book",
+      "all367_prefixes_verified": true,
+      "all364_later_shift": 12,
+      "source_before": 24,
+      "source_after": 36,
+      "final_before": 124,
+      "final_after": 136,
+      "all_original_ids_times_ranks_preserved": true
+    },
+    {
+      "group": "native",
+      "kind": "lot",
+      "all367_prefixes_verified": true,
+      "all364_later_shift": 12,
+      "source_before": 24,
+      "source_after": 36,
+      "final_before": 124,
+      "final_after": 136,
+      "all_original_ids_times_ranks_preserved": true
+    },
+    {
+      "group": "http",
+      "kind": "book",
+      "all367_prefixes_verified": true,
+      "all364_later_shift": 12,
+      "source_before": 24,
+      "source_after": 36,
+      "final_before": 124,
+      "final_after": 136,
+      "all_original_ids_times_ranks_preserved": true
+    },
+    {
+      "group": "http",
+      "kind": "lot",
+      "all367_prefixes_verified": true,
+      "all364_later_shift": 12,
+      "source_before": 24,
+      "source_after": 36,
+      "final_before": 124,
+      "final_after": 136,
+      "all_original_ids_times_ranks_preserved": true
+    }
+  ],
+  "return_artifact": 12158424026,
+  "return_report_sha256": "bbf4f72384aa740485087afcdf93bd5e2efa5f084c8044937d893414faa56a2d",
+  "cycle_artifact": 12157979346,
+  "cycle_report_sha256": "08c1ccb168c7bc8982341fb2571b5e670a843e6fdf73818abae0726cce80d5c2",
+  "cycle_details": [
+    {
+      "boundary": "B1_PRODUCTION_HPP_FINAL",
+      "GL_plus_cash_delta": 0,
+      "cash_delta": "0",
+      "capital_before_snapshot": "1200",
+      "actual_bank_from_capital_and_delta": "1200"
+    },
+    {
+      "boundary": "B2_SALE_POSTED",
+      "GL_plus_cash_delta": 0,
+      "cash_delta": "0",
+      "capital_before_snapshot": "1200",
+      "actual_bank_from_capital_and_delta": "1200"
+    },
+    {
+      "boundary": "B3_CUSTOMER_CASH",
+      "GL_plus_cash_delta": 0,
+      "cash_delta": "200.00",
+      "capital_before_snapshot": "1200",
+      "actual_bank_from_capital_and_delta": "1400.00"
+    },
+    {
+      "boundary": "B4_RETURN",
+      "GL_plus_cash_delta": 0,
+      "cash_delta": "200.00",
+      "capital_before_snapshot": "1200",
+      "actual_bank_from_capital_and_delta": "1400.00"
+    },
+    {
+      "boundary": "B5_SUPPLIER_PARTIAL",
+      "GL_plus_cash_delta": 0,
+      "cash_delta": "-200.00",
+      "capital_before_snapshot": "1200",
+      "actual_bank_from_capital_and_delta": "1000.00"
+    },
+    {
+      "boundary": "B6_SUPPLIER_PAID",
+      "GL_plus_cash_delta": 0,
+      "cash_delta": "-800.00",
+      "capital_before_snapshot": "1200",
+      "actual_bank_from_capital_and_delta": "400.00"
+    },
+    {
+      "boundary": "B7_VENDOR_PAID",
+      "GL_plus_cash_delta": 0,
+      "cash_delta": "-920.00",
+      "capital_before_snapshot": "1200",
+      "actual_bank_from_capital_and_delta": "280.00"
+    },
+    {
+      "boundary": "B8_PAYROLL_PAID",
+      "GL_plus_cash_delta": 0,
+      "cash_delta": "-1100.00",
+      "capital_before_snapshot": "1200",
+      "actual_bank_from_capital_and_delta": "100.00"
+    },
+    {
+      "boundary": "B9_LATE_PRICE_AFTER_FULL_CYCLE",
+      "GL_plus_cash_delta": 0,
+      "cash_delta": "-1100.00",
+      "capital_before_snapshot": "1200",
+      "actual_bank_from_capital_and_delta": "100.00"
+    },
+    {
+      "boundary": "B10_SUPPLIER_DIFFERENCE_PAID",
+      "GL_plus_cash_delta": 0,
+      "cash_delta": "-1200.00",
+      "capital_before_snapshot": "1200",
+      "actual_bank_from_capital_and_delta": "0.00"
+    }
+  ],
+  "p19_native_load_artifact": 12158216968,
+  "p19_native_load_report_sha256": "ffede60b34c90df846cba371adc93768e024254f69c17f34d49aabed67ecfb96",
+  "timing_details": [
+    {
+      "case_id": "P19_FOUR_ACTOR_CAPTURE",
+      "field": "capture_timings",
+      "samples": 4,
+      "maximum_ms": 1767.165,
+      "p95_nearest_rank_ms": 1767.165
+    },
+    {
+      "case_id": "P19_CASH_WRITER_DURING_FOUR_READERS",
+      "field": "reader_timings",
+      "samples": 16,
+      "maximum_ms": 941.969,
+      "p95_nearest_rank_ms": 941.969
+    },
+    {
+      "case_id": "P19_REAL_AUTH_FOUR_ACTOR_CAPTURE",
+      "field": "actual_HTTP_capture_timings",
+      "samples": 4,
+      "maximum_ms": 1604.799,
+      "p95_nearest_rank_ms": 1604.799
+    }
+  ],
+  "p19_writer_reader_intervals_overlap": true,
+  "prefreeze_artifact": 12158636433,
+  "prefreeze_report_sha256": "fe1fc371fb665da7ed2790f8a28fb14704d2f0af6f61c6ca788b09ccf4474b76",
+  "prefreeze_delivery_details": [
+    {
+      "case_id": "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_DESKTOP",
+      "qty_sent": 13,
+      "total_known": "59568.72",
+      "all_literal_rates_charges_and_size_sums_verified": true
+    },
+    {
+      "case_id": "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_MOBILE",
+      "qty_sent": 13,
+      "total_known": "59568.72",
+      "all_literal_rates_charges_and_size_sums_verified": true
+    },
+    {
+      "case_id": "BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP",
+      "qty_sent": 13,
+      "total_known": "0.00",
+      "all_literal_rates_charges_and_size_sums_verified": true
+    },
+    {
+      "case_id": "BD_REV_BROWSER:WAIVED_MASTER_THEN_PHYSICAL_MOBILE",
+      "qty_sent": 13,
+      "total_known": "0.00",
+      "all_literal_rates_charges_and_size_sums_verified": true
+    },
+    {
+      "case_id": "RANGE_BROWSER:WHOLE_31_33_RESET_DESKTOP",
+      "qty_sent": 13,
+      "total_known": "56174.17",
+      "all_literal_rates_charges_and_size_sums_verified": true
+    },
+    {
+      "case_id": "RANGE_BROWSER:POPULAR_32_ONLY_MOBILE",
+      "qty_sent": 6,
+      "total_known": "25926.54",
+      "all_literal_rates_charges_and_size_sums_verified": true
+    },
+    {
+      "case_id": "RANGE_BROWSER:SIZE_27_SINGLE_MOBILE",
+      "qty_sent": 3,
+      "total_known": "12963.27",
+      "all_literal_rates_charges_and_size_sums_verified": true
+    },
+    {
+      "case_id": "RANGE_BROWSER:PARTIAL_FINISH_32_MOBILE",
+      "qty_sent": 13,
+      "total_known": "59568.72",
+      "all_literal_rates_charges_and_size_sums_verified": true
+    }
+  ],
+  "new_case_credit": 0
+}

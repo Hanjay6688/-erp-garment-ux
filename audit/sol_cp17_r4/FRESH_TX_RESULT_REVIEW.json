@@ -1,0 +1,275 @@
+{
+  "state": "FINAL_STAFF_LIMIT_TWO_AUDITOR_FIXTURE_FAILURES_PRESERVED",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "run_id": 39185988432,
+  "job_id": 117848422323,
+  "artifact_id": 12158852129,
+  "job_conclusion": "failure",
+  "raw_counts": {
+    "INCOMPLETE": 1,
+    "PASS": 2
+  },
+  "guard_calls_exercised": 8,
+  "unique_STAFF_measuring_calls_not_exercised": 4,
+  "cases": [
+    {
+      "id": "SOL_R4_GUARD_FRESH_TX_OWNER",
+      "raw_status": "PASS",
+      "qualified_status": "PASS_VALID_ROLE_READ_ONLY_GUARD_SCOPE",
+      "guard_calls": 4,
+      "observations": [
+        {
+          "variant": "predecessor",
+          "state": "UNASSIGNED",
+          "session_user": "authenticator",
+          "current_user": "authenticated",
+          "legacy_app_role": "OWNER",
+          "backend_pid": 219,
+          "txid_at_session_start": null,
+          "txid_immediately_before": null,
+          "txid_after": 7563,
+          "current_context_counts": {
+            "cp7_sales.command_context": 0,
+            "erp.cutting_bridge_execution_context": 0,
+            "erp.bs_resolution_execution_context": 0,
+            "erp.cp6_laundry_qc_execution_context": 0,
+            "cp7_procurement.execution_context": 0,
+            "cp7_material.execution_context": 0,
+            "cp7_supplier_return.execution_context": 0,
+            "cp7_payroll.execution_context": 0,
+            "cp7_payroll.settlement_context": 0,
+            "cp7_attendance.command_context": 0
+          },
+          "outcome": "ALLOW"
+        },
+        {
+          "variant": "actual",
+          "state": "UNASSIGNED",
+          "session_user": "authenticator",
+          "current_user": "authenticated",
+          "legacy_app_role": "OWNER",
+          "backend_pid": 221,
+          "txid_at_session_start": null,
+          "txid_immediately_before": null,
+          "txid_after": 7564,
+          "current_context_counts": {
+            "cp7_sales.command_context": 0,
+            "erp.cutting_bridge_execution_context": 0,
+            "erp.bs_resolution_execution_context": 0,
+            "erp.cp6_laundry_qc_execution_context": 0,
+            "cp7_procurement.execution_context": 0,
+            "cp7_material.execution_context": 0,
+            "cp7_supplier_return.execution_context": 0,
+            "cp7_payroll.execution_context": 0,
+            "cp7_payroll.settlement_context": 0,
+            "cp7_attendance.command_context": 0
+          },
+          "outcome": "ALLOW"
+        },
+        {
+          "variant": "predecessor",
+          "state": "ASSIGNED_CONTROL",
+          "session_user": "authenticator",
+          "current_user": "authenticated",
+          "legacy_app_role": "OWNER",
+          "backend_pid": 223,
+          "txid_at_session_start": null,
+          "txid_immediately_before": 7565,
+          "txid_after": 7565,
+          "current_context_counts": {
+            "cp7_sales.command_context": 0,
+            "erp.cutting_bridge_execution_context": 0,
+            "erp.bs_resolution_execution_context": 0,
+            "erp.cp6_laundry_qc_execution_context": 0,
+            "cp7_procurement.execution_context": 0,
+            "cp7_material.execution_context": 0,
+            "cp7_supplier_return.execution_context": 0,
+            "cp7_payroll.execution_context": 0,
+            "cp7_payroll.settlement_context": 0,
+            "cp7_attendance.command_context": 0
+          },
+          "outcome": "ALLOW"
+        },
+        {
+          "variant": "actual",
+          "state": "ASSIGNED_CONTROL",
+          "session_user": "authenticator",
+          "current_user": "authenticated",
+          "legacy_app_role": "OWNER",
+          "backend_pid": 225,
+          "txid_at_session_start": null,
+          "txid_immediately_before": 7566,
+          "txid_after": 7566,
+          "current_context_counts": {
+            "cp7_sales.command_context": 0,
+            "erp.cutting_bridge_execution_context": 0,
+            "erp.bs_resolution_execution_context": 0,
+            "erp.cp6_laundry_qc_execution_context": 0,
+            "cp7_procurement.execution_context": 0,
+            "cp7_material.execution_context": 0,
+            "cp7_supplier_return.execution_context": 0,
+            "cp7_payroll.execution_context": 0,
+            "cp7_payroll.settlement_context": 0,
+            "cp7_attendance.command_context": 0
+          },
+          "outcome": "ALLOW"
+        }
+      ]
+    },
+    {
+      "id": "SOL_R4_GUARD_FRESH_TX_ADMIN",
+      "raw_status": "PASS",
+      "qualified_status": "PASS_VALID_ROLE_READ_ONLY_GUARD_SCOPE",
+      "guard_calls": 4,
+      "observations": [
+        {
+          "variant": "predecessor",
+          "state": "UNASSIGNED",
+          "session_user": "authenticator",
+          "current_user": "authenticated",
+          "legacy_app_role": "ADMIN",
+          "backend_pid": 255,
+          "txid_at_session_start": null,
+          "txid_immediately_before": null,
+          "txid_after": 7574,
+          "current_context_counts": {
+            "cp7_sales.command_context": 0,
+            "erp.cutting_bridge_execution_context": 0,
+            "erp.bs_resolution_execution_context": 0,
+            "erp.cp6_laundry_qc_execution_context": 0,
+            "cp7_procurement.execution_context": 0,
+            "cp7_material.execution_context": 0,
+            "cp7_supplier_return.execution_context": 0,
+            "cp7_payroll.execution_context": 0,
+            "cp7_payroll.settlement_context": 0,
+            "cp7_attendance.command_context": 0
+          },
+          "outcome": "ALLOW"
+        },
+        {
+          "variant": "actual",
+          "state": "UNASSIGNED",
+          "session_user": "authenticator",
+          "current_user": "authenticated",
+          "legacy_app_role": "ADMIN",
+          "backend_pid": 257,
+          "txid_at_session_start": null,
+          "txid_immediately_before": null,
+          "txid_after": 7575,
+          "current_context_counts": {
+            "cp7_sales.command_context": 0,
+            "erp.cutting_bridge_execution_context": 0,
+            "erp.bs_resolution_execution_context": 0,
+            "erp.cp6_laundry_qc_execution_context": 0,
+            "cp7_procurement.execution_context": 0,
+            "cp7_material.execution_context": 0,
+            "cp7_supplier_return.execution_context": 0,
+            "cp7_payroll.execution_context": 0,
+            "cp7_payroll.settlement_context": 0,
+            "cp7_attendance.command_context": 0
+          },
+          "outcome": "ALLOW"
+        },
+        {
+          "variant": "predecessor",
+          "state": "ASSIGNED_CONTROL",
+          "session_user": "authenticator",
+          "current_user": "authenticated",
+          "legacy_app_role": "ADMIN",
+          "backend_pid": 259,
+          "txid_at_session_start": null,
+          "txid_immediately_before": 7576,
+          "txid_after": 7576,
+          "current_context_counts": {
+            "cp7_sales.command_context": 0,
+            "erp.cutting_bridge_execution_context": 0,
+            "erp.bs_resolution_execution_context": 0,
+            "erp.cp6_laundry_qc_execution_context": 0,
+            "cp7_procurement.execution_context": 0,
+            "cp7_material.execution_context": 0,
+            "cp7_supplier_return.execution_context": 0,
+            "cp7_payroll.execution_context": 0,
+            "cp7_payroll.settlement_context": 0,
+            "cp7_attendance.command_context": 0
+          },
+          "outcome": "ALLOW"
+        },
+        {
+          "variant": "actual",
+          "state": "ASSIGNED_CONTROL",
+          "session_user": "authenticator",
+          "current_user": "authenticated",
+          "legacy_app_role": "ADMIN",
+          "backend_pid": 261,
+          "txid_at_session_start": null,
+          "txid_immediately_before": 7577,
+          "txid_after": 7577,
+          "current_context_counts": {
+            "cp7_sales.command_context": 0,
+            "erp.cutting_bridge_execution_context": 0,
+            "erp.bs_resolution_execution_context": 0,
+            "erp.cp6_laundry_qc_execution_context": 0,
+            "cp7_procurement.execution_context": 0,
+            "cp7_material.execution_context": 0,
+            "cp7_supplier_return.execution_context": 0,
+            "cp7_payroll.execution_context": 0,
+            "cp7_payroll.settlement_context": 0,
+            "cp7_attendance.command_context": 0
+          },
+          "outcome": "ALLOW"
+        }
+      ]
+    },
+    {
+      "id": "SOL_R4_GUARD_FRESH_TX_STAFF",
+      "raw_status": "INCOMPLETE",
+      "qualified_status": "NOT_EXERCISED_AUDITOR_FIXTURE_ERROR",
+      "error": "('SOL_R4_FIXTURE_ROLE_DIFFERS', 'STAFF', 'SOL_R4_TXID_A283DE7F')",
+      "measuring_guard_calls": 0,
+      "owner": "SOL",
+      "cause": "The audit fixture bound app_users.role STAFF to a synthetic custom app_roles.role_code. Native current_app_role returns r.role_code, so precondition failed before the first guard invocation. Product guard was not reached."
+    }
+  ],
+  "original_report_path": "ci_receipts/sol_artifacts/12158852129/files/SOL_R4_GUARD_FRESH_TX.json",
+  "original_report_sha256": "fd5a40691131547781b3ee2ca366794e673e7da2c10e795efc569d76a31cbe8e",
+  "selected_files_rehashed": 20,
+  "log_path": "ci_receipts/sol_guard_fresh_tx_117848422323.log",
+  "log_sha256": "1869c94a73d8621fca894ea0f31a3e6ec7b12271b042a1830fc6e86f2604e41c",
+  "log_case_id_status_match": true,
+  "all_restore_components": true,
+  "copy_removed": true,
+  "before_after_exact_candidate_roots": true,
+  "staff_fixture_qualification": {
+    "run_id": 39188635131,
+    "job_id": 117856315117,
+    "artifact_id": 12159231571,
+    "workflow_sha": "cad6c65bec64f4d729946e99e1d90b1c3e63ca4b",
+    "job_conclusion": "failure",
+    "raw_counts": {
+      "INCOMPLETE": 1
+    },
+    "case_id": "SOL_R4_GUARD_FRESH_TX_STAFF_Q1",
+    "raw_error": "duplicate key value violates unique constraint \"app_roles_role_code_key\"\nDETAIL:  Key (role_code)=(STAFF) already exists.",
+    "measuring_guard_calls": 0,
+    "all_restore_components": true,
+    "copy_removed": true,
+    "report_path": "ci_receipts/sol_artifacts/12159231571/files/SOL_R4_GUARD_FRESH_TX_STAFF_Q1.json",
+    "report_sha256": "f5447171542d75258be260a1a8394977789a08d5bb5709ad7b0dd34bbd864a29",
+    "log_path": "ci_receipts/sol_guard_staff_q1_117856315117.log",
+    "log_sha256": "8011eee90f080f2a62235b87f602bea3091944ba47a42cbd0d4be1e38c4e4a10",
+    "cause": "Auditor fixture still filtered active profiles, then tried to insert STAFF. Native already seeds STAFF inactive; duplicate role_code was refused before guard calls. No Native profile activated, expected lowered, or third run attempted."
+  },
+  "native_identity_source_path": "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql",
+  "native_identity_source_sha256": "66175dcc5c73d2fb3bad493c1c6bd6a1ad14877251b0c690c0b642ae226c849a",
+  "baseline_source_fact": "STAFF system=true, protected=false, active=false; current_app_role returns active bound app_roles.role_code. Role is compatibility-only, not an active new-access template.",
+  "runtime_inference": "Active STAFF lookup returned none and duplicate STAFF insertion failed, consistent with the pinned inactive seed. No new SELECT/probe was run to change or activate that baseline.",
+  "staff_disposition": "Predeclared STAFF ALLOW remains INCOMPLETE/UNEXECUTED on the active baseline. No product guard failure inferred. Hypothetical future active legacy STAFF is outside current demonstrated scope.",
+  "staff_q1_pending": false,
+  "further_staff_execution": false,
+  "does_not_claim": [
+    "all three roles qualified",
+    "performance acceptance from guard calls",
+    "new race or Auth HTTP cases",
+    "production acceptance"
+  ]
+}

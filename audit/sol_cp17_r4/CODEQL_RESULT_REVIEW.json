@@ -1,0 +1,156 @@
+{
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+  "run_id": 39185235728,
+  "attempt": 1,
+  "origin": "INDEPENDENT_SOL_EXECUTION_OF_EXISTING_CODEQL_GATE",
+  "status": "PASS_WITH_SCOPE",
+  "analyses": [
+    {
+      "artifact_id": 12158237945,
+      "language": "c-cpp",
+      "rules": 95,
+      "results": 0,
+      "version": "2.27.0",
+      "execution_successful": true,
+      "sha256": "8798886fded216aad3bf53c9630eb6c36ad04a34c7c283a8789960e64153a9b2",
+      "bytes": 1081082,
+      "tool_notification_levels": {
+        "none": 1691,
+        "note": 2
+      },
+      "query_packs": [
+        {
+          "name": "codeql/cpp-queries",
+          "version": "1.8.3+c6baf479093fafc81d4655dc2014dc583360308e",
+          "rule_count": 95
+        },
+        {
+          "name": "codeql/cpp-all",
+          "version": "12.1.0+c6baf479093fafc81d4655dc2014dc583360308e",
+          "rule_count": 0
+        }
+      ]
+    },
+    {
+      "artifact_id": 12158190673,
+      "language": "actions",
+      "rules": 23,
+      "results": 0,
+      "version": "2.27.0",
+      "execution_successful": true,
+      "sha256": "2b5be591befdd25116b313da7669428c73fe7727305213a77830855ed42aa0e9",
+      "bytes": 872439,
+      "tool_notification_levels": {
+        "none": 1833
+      },
+      "query_packs": [
+        {
+          "name": "codeql/actions-queries",
+          "version": "0.6.35+c6baf479093fafc81d4655dc2014dc583360308e",
+          "rule_count": 23
+        },
+        {
+          "name": "codeql/actions-all",
+          "version": "0.6.1+c6baf479093fafc81d4655dc2014dc583360308e",
+          "rule_count": 0
+        },
+        {
+          "name": "codeql/javascript-all",
+          "version": "2.10.1+c6baf479093fafc81d4655dc2014dc583360308e",
+          "rule_count": 0
+        },
+        {
+          "name": "codeql/threat-models",
+          "version": "1.0.57+c6baf479093fafc81d4655dc2014dc583360308e",
+          "rule_count": 0
+        }
+      ]
+    },
+    {
+      "artifact_id": 12158072078,
+      "language": "javascript-typescript",
+      "rules": 103,
+      "results": 0,
+      "version": "2.27.0",
+      "execution_successful": true,
+      "sha256": "dd5a6a44d93251f7dc411c8ad548a8beeb666b9c12e6aca0ca52a7226f3d5329",
+      "bytes": 1564704,
+      "tool_notification_levels": {
+        "none": 2637
+      },
+      "query_packs": [
+        {
+          "name": "codeql/javascript-queries",
+          "version": "2.4.5+c6baf479093fafc81d4655dc2014dc583360308e",
+          "rule_count": 103
+        },
+        {
+          "name": "codeql/javascript-all",
+          "version": "2.10.1+c6baf479093fafc81d4655dc2014dc583360308e",
+          "rule_count": 0
+        },
+        {
+          "name": "codeql/threat-models",
+          "version": "1.0.57+c6baf479093fafc81d4655dc2014dc583360308e",
+          "rule_count": 0
+        }
+      ]
+    },
+    {
+      "artifact_id": 12157899274,
+      "language": "python",
+      "rules": 50,
+      "results": 0,
+      "version": "2.27.0",
+      "execution_successful": true,
+      "sha256": "926807c55f15af49de53447cfeda79d7e5dd39966220fc7ca887ce4bce77c581",
+      "bytes": 1247824,
+      "tool_notification_levels": {
+        "none": 2632
+      },
+      "query_packs": [
+        {
+          "name": "codeql/python-queries",
+          "version": "1.8.10+c6baf479093fafc81d4655dc2014dc583360308e",
+          "rule_count": 50
+        },
+        {
+          "name": "codeql/python-all",
+          "version": "7.2.5+c6baf479093fafc81d4655dc2014dc583360308e",
+          "rule_count": 0
+        },
+        {
+          "name": "codeql/threat-models",
+          "version": "1.0.57+c6baf479093fafc81d4655dc2014dc583360308e",
+          "rule_count": 0
+        }
+      ]
+    }
+  ],
+  "identity_pairs": [
+    {
+      "artifact_id": 12158230553,
+      "before_after_exact": true
+    },
+    {
+      "artifact_id": 12158073854,
+      "before_after_exact": true
+    },
+    {
+      "artifact_id": 12157958965,
+      "before_after_exact": true
+    },
+    {
+      "artifact_id": 12157808304,
+      "before_after_exact": true
+    }
+  ],
+  "selected_files_rehashed": 16,
+  "binding_gate": "PASS; product SHA/tree separate from workflow SHA; no GITHUB_SHA spoof",
+  "scope": "Pinned candidate Actions / JavaScript-TypeScript / Python; C-C++ only compiles the existing61-line PostgreSQL test clock fixture plus included headers. No SQL/PLpgSQL static analysis or exhaustive security acceptance. SARIF retained as artifacts; upload never.",
+  "historical_r3_first_failure_preserved": 39146762479,
+  "historical_r3_Q1_repair_origin": 39150692634,
+  "production_go": false
+}

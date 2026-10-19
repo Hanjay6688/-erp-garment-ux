@@ -1,0 +1,1755 @@
+{
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "state": "REVIEWED_DISPOSABLE_REHEARSALS_ONLY",
+  "reports": [
+    {
+      "artifact_id": 12158019626,
+      "run_id": 39185235784,
+      "file": "CP7_P21_REHEARSAL.json",
+      "sha256": "2b1adeada876cb04a1f875732b6ee525c7cb9846daf907802e0c854c1714fc58",
+      "raw_status": "PASS",
+      "origin": "INDEPENDENT_SOL_EXECUTION_OF_WRITER_REHEARSAL",
+      "steps": [
+        {
+          "step": "INSTALL_1",
+          "catalog_sha256": "2f4d295d1e76b0503bbb7a9bf42d5ffb6b822ad4657d4dd2407312a671dff0f9",
+          "functions": 1567,
+          "cp7_tables": 107,
+          "cp7_roles": 50,
+          "rows_seeded_by_install": {
+            "cp7_cutover.control": 1,
+            "cp7_note.helper_sources": 6,
+            "cp7_note.report_sources": 1,
+            "cp7_sales_return_correction.helper_sources": 4
+          }
+        },
+        {
+          "step": "PREUSE_ROLLBACK",
+          "status": "ROLLED_BACK",
+          "restored_exactly": true,
+          "restore_components": {
+            "erp_platform_auth_schema_acl": true,
+            "all_public_catalog_members_and_row_hashes": true,
+            "erp_public_auth_function_definitions_owners_acls": true
+          }
+        },
+        {
+          "step": "REINSTALL",
+          "catalog_sha256": "2f4d295d1e76b0503bbb7a9bf42d5ffb6b822ad4657d4dd2407312a671dff0f9",
+          "identical_to_first": true
+        },
+        {
+          "step": "USE",
+          "supplier_payment_created": "774d967f-6913-4955-ac38-b33db6e4f91a",
+          "remaining_after": "900.00",
+          "transaction": "HELD_OPEN_THEN_ROLLED_BACK"
+        },
+        {
+          "step": "POSTUSE_ROLLBACK",
+          "status": "REFUSED",
+          "reason": "CP7_ROLLBACK_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+          "cp7_rows_since_install": {
+            "cp7_procurement.draft_requests": 1,
+            "cp7_supplier_payment_create.requests": 1
+          },
+          "catalog_unchanged": true
+        },
+        {
+          "step": "HARNESS_RESTORE_AFTER_USE",
+          "catalog_restored": true,
+          "note": "Native rows written by the USE step stay in this disposable clone; a used installation is restored from backup, not rolled back"
+        }
+      ],
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "all_public_catalog_members_and_row_hashes": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "qualification": "Use transaction is held open to exercise the post-use refusal, then rolled back by the harness; all final restore components TRUE. This does not prove durability of that use; the separate full composition commits use and restores backups. Direct-path census is observation only, not accepted closure of Native grants.",
+      "business_case_count_credit": 0
+    },
+    {
+      "artifact_id": 12158108470,
+      "run_id": 39185235784,
+      "file": "CP7_P21_FULL_REHEARSAL.json",
+      "sha256": "114f7fe883dbfc05e6b1a8db236752a4e90f87a5c5a8756378f30633f5ba007d",
+      "raw_status": "PASS",
+      "origin": "INDEPENDENT_SOL_EXECUTION_OF_WRITER_REHEARSAL",
+      "steps": [
+        {
+          "step": "PREINSTALL_BACKUP",
+          "dump_bytes": 10637896,
+          "tables": 407,
+          "rows": 1860,
+          "cp7_tables": 0
+        },
+        {
+          "step": "INSTALL_1",
+          "catalog_sha256": "4c249f79e8b4cd8d9149f554a3b85bafeee1e46efd866f11be45a665378b1d34",
+          "functions": 2052,
+          "cp7_tables": 185,
+          "cp7_roles": 54,
+          "rows_seeded_by_install": {
+            "cp7_cutover.control": 1,
+            "cp7_model_native.registry": 1,
+            "cp7_note.helper_sources": 6,
+            "cp7_note.report_sources": 1,
+            "cp7_sales_return_correction.helper_sources": 4
+          }
+        },
+        {
+          "step": "PREUSE_ROLLBACK",
+          "status": "ROLLED_BACK",
+          "restored_exactly": true,
+          "restore_components": {
+            "erp_platform_auth_schema_acl": true,
+            "all_public_catalog_members_and_row_hashes": true,
+            "erp_public_auth_function_definitions_owners_acls": true
+          }
+        },
+        {
+          "step": "REINSTALL",
+          "catalog_sha256": "4c249f79e8b4cd8d9149f554a3b85bafeee1e46efd866f11be45a665378b1d34",
+          "identical_to_first": true
+        },
+        {
+          "step": "USE",
+          "transaction": "COMMITTED",
+          "supplier_payment_created": "769fcaaf-2311-4ba7-98eb-1fc2709fff0e",
+          "remaining_after": "900.00",
+          "staged_request": "56db4171-0260-43e9-9799-4767d6ebde8d",
+          "staged_run": "c9867b6e-29d3-496b-8076-ceb8ff60ede8",
+          "staged_units": 21,
+          "staged_pages": 1,
+          "staged_targets": 3,
+          "identity_hash": "10e8d521d6f8a3c0bf5b4556eaf84be6319e565c686b98050fb0a28b1e66d3b8",
+          "test_usage_grant_revoked": false,
+          "harness_users_seeded": true
+        },
+        {
+          "step": "POSTUSE_ROLLBACK",
+          "status": "REFUSED",
+          "reason": "CP7_ROLLBACK_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+          "cp7_rows_since_install": {
+            "cp7_analysis_stage.capture_marks": 1,
+            "cp7_analysis_stage.fragments": 21,
+            "cp7_analysis_stage.headers": 1,
+            "cp7_analysis_stage.jobs": 1,
+            "cp7_analysis_stage.outputs": 21,
+            "cp7_analysis_stage.page_sets": 1,
+            "cp7_analysis_stage.pages": 1,
+            "cp7_analysis_stage.pair_lists": 3,
+            "cp7_analysis_stage.pair_rows": 1,
+            "cp7_analysis_stage.plan_groups": 1,
+            "cp7_analysis_stage.plan_scope": 1,
+            "cp7_analysis_stage.plan_targets": 3,
+            "cp7_analysis_stage.target_rows": 19,
+            "cp7_analysis_stage.units": 21,
+            "cp7_identity.commands": 1,
+            "cp7_identity.production_policy": 3,
+            "cp7_payroll.note_requests": 2,
+            "cp7_payroll.notes": 1,
+            "cp7_payroll.settlement_requests": 2,
+            "cp7_procurement.draft_requests": 2,
+            "cp7_profile.commands": 3,
+            "cp7_profile.profiles": 3,
+            "cp7_sales.requests": 4,
+            "cp7_schedule_native.commands": 1,
+            "cp7_schedule_native.plans": 1,
+            "cp7_supplier_payment_create.requests": 1,
+            "cp7_supply_native.exhaustion_proofs": 1,
+            "cp7_supply_native.runs": 1,
+            "cp7_wip.runs": 1
+          },
+          "catalog_unchanged": true
+        },
+        {
+          "step": "USED_BACKUP_RESTORE",
+          "status": "RESTORED_SAME_MEANING",
+          "dump_bytes": 14276712,
+          "restore": {
+            "exit": 1,
+            "error_count": 19,
+            "unexplained": [],
+            "only_pg_cron_errors": true
+          },
+          "catalog": {
+            "differ_kinds": [
+              "constraint",
+              "extension",
+              "index",
+              "view"
+            ],
+            "objects": {
+              "constraint": {
+                "differing": 29,
+                "objects": [
+                  {
+                    "object": "erp.attendance_hpp_journal_line_links.attendance_hpp_journal_line_links_link_type_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.attendance_hpp_pools.attendance_hpp_pools_status_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.attendance_periods.attendance_periods_status_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.attendance_records.attendance_records_lifecycle_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.bs_cases.bs_cases_status_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.fg_stock_movements.fg_stock_movements_movement_type_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.idempotency_requests.idempotency_requests_status_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.laundry_claims.laundry_claims_claim_type_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.manual_reminders.manual_reminders_priority_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.manual_reminders.manual_reminders_status_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.material_purchase_cost_corrections.material_purchase_cost_corrections_post_seq_state",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.material_purchase_items.material_purchase_items_invoice_match_state_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.material_purchase_items.material_purchase_items_price_source_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.material_purchase_items.material_purchase_items_price_state_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.material_stock_movements.material_stock_movements_movement_type_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.material_supplier_invoices.material_supplier_invoices_status_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.material_transfers.material_transfers_status_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.payroll_deductions.payroll_deductions_deduction_type_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.qc_inspections.qc_inspections_completion_mode_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.rework_accessory_decisions.rework_accessory_decisions_decision_state_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.rework_accessory_selection_lines.rework_accessory_selection_lines_hpp_method_snapshot_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.rework_accessory_selection_lines.rework_accessory_selection_lines_selection_basis_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.rework_component_lines.rework_component_lines_rate_basis_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.sewing_terminal_events.sewing_terminal_events_event_kind_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.stock_explainability_snapshots.stock_explainability_snapshots_basis_source_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.stock_explainability_snapshots.stock_explainability_snapshots_health_status_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.stock_explainability_snapshots.stock_explainability_snapshots_subject_type_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.stock_policy_versions.stock_policy_versions_basis_source_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.stock_policy_versions.stock_policy_versions_subject_type_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  }
+                ]
+              },
+              "extension": {
+                "differing": 1,
+                "objects": [
+                  {
+                    "object": "pg_cron",
+                    "cls": "PG_CRON_ONLY_IN_DATABASE_POSTGRES"
+                  }
+                ]
+              },
+              "index": {
+                "differing": 1,
+                "objects": [
+                  {
+                    "object": "erp.uq_cp6_wip_reversal_source_v2620",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  }
+                ]
+              },
+              "view": {
+                "differing": 6,
+                "objects": [
+                  {
+                    "object": "erp.v_case_browser",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.v_customer_receivables",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.v_fg_partial_completion_progress",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.v_laundry_po_operational_progress",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.v_payroll_production_work_eligibility",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.v_wip_control_status_v1",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  }
+                ]
+              }
+            },
+            "identical": false,
+            "explained": true
+          },
+          "data_tables": 590,
+          "data_differ": {},
+          "cp7_catalog_equal": true,
+          "cp7_catalog_diff": {
+            "equal": false,
+            "functions": [],
+            "policies": [],
+            "tables": [
+              {
+                "object": "cp7_analysis_jobs.documents",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_jobs.jobs",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_jobs.segments",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_native.report_requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_native.runs",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.capture_marks",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.cleanups",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.fragments",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.headers",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.jobs",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.outputs",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.page_sets",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.pages",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.pair_lists",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.pair_rows",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.plan_groups",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.plan_scope",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.plan_targets",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.report_jobs",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.report_publications",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.report_reads",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.report_sections",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.retention_log",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.runner",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.source_checks",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.target_rows",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_analysis_stage.units",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_attendance.command_requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_attendance.roster_requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_baseline_native.runs",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutover.control",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutover.history",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutover.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.auto_po_drafts",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.auto_po_history",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.auto_po_requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.finish_history",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.finish_requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.history",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.pickup_context",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.pickup_history",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.pickup_requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.po_rate_modes",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.po_reopen_history",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.po_reopen_requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.rate_revisions",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.return_history",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.return_requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.return_reversal_history",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.return_reversal_requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.sewing_history",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.sewing_requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_correction.sewing_wave_history",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_inputs.plans",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_inputs.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_model.policies",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_model.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_model.runs",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_observations.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_observations.runs",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_cutting_yield.runs",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_fabric_native.commands",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_fabric_native.recipes",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_fg.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_guard.compound_scope",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_guard.compound_touch",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_hpp_pool.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_invoice.payment_requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_invoice.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_kasbon.advances",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_kasbon.command_context",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_kasbon.deduction_links",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_kasbon.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_master.history",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_master.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_material.execution_context",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_material.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_misc.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_model_native.registry",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_model_native.runs",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_netting_native.runs",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_note.context",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_note.helper_sources",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_note.item_lineage",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_note.journal_restatements",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_note.payment_replays",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_note.report_sources",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_note.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_note.revisions",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_payment_correction.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_payroll.execution_context",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_payroll.note_requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_payroll.settlement_requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_period.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_plan_native.apply_own_drafts",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_plan_native.commands",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_plan_native.drafts",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_plan_native.intents",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_plan_native.staged_drafts",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_planning.history_runs",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_procurement.draft_requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_procurement.reversals",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_profile.commands",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_proof_runner.passes",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_proof_runner.state",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_receipt_fix.context",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_receipt_fix.invoice_replays",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_receipt_fix.invoice_restatements",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_receipt_fix.journal_restatements",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_receipt_fix.material_names",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_receipt_fix.movement_lineage",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_receipt_fix.name_requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_receipt_fix.payment_replays",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_receipt_fix.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_receipt_fix.revisions",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_receipt_fix.roll_lineage",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_recost.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.attention",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.local_bindings",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.local_claims",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.local_resolutions",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.obligation_episodes",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.obligation_observations",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.obligation_report_requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.obligation_reports",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.rule_episodes",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.rule_observations",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.rule_policies",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.staged_claim_resolutions",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.staged_claims",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.staged_condition_sets",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.staged_conditions",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.staged_episodes",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_reminder_native.staged_rechecks",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_sales.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_sales_chain.history",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_sales_chain.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_sales_return_correction.context",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_sales_return_correction.helper_sources",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_sales_return_correction.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_schedule_native.commands",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_schedule_native.plans",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_schedule_native.runs",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_supplier_payment_correction.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_supplier_payment_create.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_supplier_return.execution_context",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_supplier_return.requests",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_supply_native.exhaustion_proofs",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_supply_native.runs",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_wip.production_runs",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_wip.runs",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              },
+              {
+                "object": "cp7_yield_policy.commands",
+                "cls": "DEFAULT_ACL_EXPLICIT_OR_NULL"
+              }
+            ],
+            "other": {},
+            "same_meaning": true,
+            "unclassified_count": 0
+          },
+          "cp7_rows": 136,
+          "staged_reread_equal": true,
+          "staged_identity_hash": "10e8d521d6f8a3c0bf5b4556eaf84be6319e565c686b98050fb0a28b1e66d3b8"
+        },
+        {
+          "step": "ROLLBACK_BY_PREINSTALL_RESTORE",
+          "status": "RESTORED_PRE_INSTALL_STATE",
+          "restore": {
+            "exit": 1,
+            "error_count": 19,
+            "unexplained": [],
+            "only_pg_cron_errors": true
+          },
+          "catalog": {
+            "differ_kinds": [
+              "constraint",
+              "extension",
+              "index",
+              "view"
+            ],
+            "objects": {
+              "constraint": {
+                "differing": 29,
+                "objects": [
+                  {
+                    "object": "erp.attendance_hpp_journal_line_links.attendance_hpp_journal_line_links_link_type_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.attendance_hpp_pools.attendance_hpp_pools_status_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.attendance_periods.attendance_periods_status_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.attendance_records.attendance_records_lifecycle_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.bs_cases.bs_cases_status_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.fg_stock_movements.fg_stock_movements_movement_type_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.idempotency_requests.idempotency_requests_status_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.laundry_claims.laundry_claims_claim_type_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.manual_reminders.manual_reminders_priority_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.manual_reminders.manual_reminders_status_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.material_purchase_cost_corrections.material_purchase_cost_corrections_post_seq_state",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.material_purchase_items.material_purchase_items_invoice_match_state_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.material_purchase_items.material_purchase_items_price_source_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.material_purchase_items.material_purchase_items_price_state_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.material_stock_movements.material_stock_movements_movement_type_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.material_supplier_invoices.material_supplier_invoices_status_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.material_transfers.material_transfers_status_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.payroll_deductions.payroll_deductions_deduction_type_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.qc_inspections.qc_inspections_completion_mode_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.rework_accessory_decisions.rework_accessory_decisions_decision_state_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.rework_accessory_selection_lines.rework_accessory_selection_lines_hpp_method_snapshot_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.rework_accessory_selection_lines.rework_accessory_selection_lines_selection_basis_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.rework_component_lines.rework_component_lines_rate_basis_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.sewing_terminal_events.sewing_terminal_events_event_kind_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.stock_explainability_snapshots.stock_explainability_snapshots_basis_source_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.stock_explainability_snapshots.stock_explainability_snapshots_health_status_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.stock_explainability_snapshots.stock_explainability_snapshots_subject_type_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.stock_policy_versions.stock_policy_versions_basis_source_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.stock_policy_versions.stock_policy_versions_subject_type_check",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  }
+                ]
+              },
+              "extension": {
+                "differing": 1,
+                "objects": [
+                  {
+                    "object": "pg_cron",
+                    "cls": "PG_CRON_ONLY_IN_DATABASE_POSTGRES"
+                  }
+                ]
+              },
+              "index": {
+                "differing": 1,
+                "objects": [
+                  {
+                    "object": "erp.uq_cp6_wip_reversal_source_v2620",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  }
+                ]
+              },
+              "view": {
+                "differing": 6,
+                "objects": [
+                  {
+                    "object": "erp.v_case_browser",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.v_customer_receivables",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.v_fg_partial_completion_progress",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.v_laundry_po_operational_progress",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.v_payroll_production_work_eligibility",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  },
+                  {
+                    "object": "erp.v_wip_control_status_v1",
+                    "cls": "VARCHAR_IN_LIST_REPARSE"
+                  }
+                ]
+              }
+            },
+            "identical": false,
+            "explained": true
+          },
+          "data_differ": {},
+          "cp7_objects_absent": true,
+          "functions_same_meaning": true,
+          "cluster_roles_still_present": 54,
+          "business_tables_lost_by_restore": [
+            "cp7_analysis_jobs.documents",
+            "cp7_analysis_jobs.jobs",
+            "cp7_analysis_jobs.segments",
+            "cp7_analysis_native.publications",
+            "cp7_analysis_native.report_requests",
+            "cp7_analysis_native.runs",
+            "cp7_analysis_stage.capture_marks",
+            "cp7_analysis_stage.cleanups",
+            "cp7_analysis_stage.fragments",
+            "cp7_analysis_stage.headers",
+            "cp7_analysis_stage.jobs",
+            "cp7_analysis_stage.outputs",
+            "cp7_analysis_stage.page_sets",
+            "cp7_analysis_stage.pages",
+            "cp7_analysis_stage.pair_lists",
+            "cp7_analysis_stage.pair_rows",
+            "cp7_analysis_stage.plan_groups",
+            "cp7_analysis_stage.plan_scope",
+            "cp7_analysis_stage.plan_targets",
+            "cp7_analysis_stage.report_jobs",
+            "cp7_analysis_stage.report_publications",
+            "cp7_analysis_stage.report_reads",
+            "cp7_analysis_stage.report_sections",
+            "cp7_analysis_stage.retention_log",
+            "cp7_analysis_stage.runner",
+            "cp7_analysis_stage.source_checks",
+            "cp7_analysis_stage.target_rows",
+            "cp7_analysis_stage.units",
+            "cp7_attendance.command_context",
+            "cp7_attendance.command_requests",
+            "cp7_attendance.roster_requests",
+            "cp7_baseline_native.runs",
+            "cp7_cutover.control",
+            "cp7_cutover.history",
+            "cp7_cutover.requests",
+            "cp7_cutting_correction.auto_po_drafts",
+            "cp7_cutting_correction.auto_po_history",
+            "cp7_cutting_correction.auto_po_requests",
+            "cp7_cutting_correction.finish_history",
+            "cp7_cutting_correction.finish_requests",
+            "cp7_cutting_correction.history",
+            "cp7_cutting_correction.pickup_context",
+            "cp7_cutting_correction.pickup_history",
+            "cp7_cutting_correction.pickup_requests",
+            "cp7_cutting_correction.po_rate_modes",
+            "cp7_cutting_correction.po_reopen_history",
+            "cp7_cutting_correction.po_reopen_requests",
+            "cp7_cutting_correction.rate_revisions",
+            "cp7_cutting_correction.requests",
+            "cp7_cutting_correction.return_history",
+            "cp7_cutting_correction.return_requests",
+            "cp7_cutting_correction.return_reversal_history",
+            "cp7_cutting_correction.return_reversal_requests",
+            "cp7_cutting_correction.sewing_history",
+            "cp7_cutting_correction.sewing_requests",
+            "cp7_cutting_correction.sewing_wave_history",
+            "cp7_cutting_inputs.plans",
+            "cp7_cutting_inputs.requests",
+            "cp7_cutting_model.policies",
+            "cp7_cutting_model.requests",
+            "cp7_cutting_model.runs",
+            "cp7_cutting_observations.requests",
+            "cp7_cutting_observations.runs",
+            "cp7_cutting_yield.runs",
+            "cp7_fabric_native.commands",
+            "cp7_fabric_native.recipes",
+            "cp7_fg.adjustment_documents",
+            "cp7_fg.correction_movements",
+            "cp7_fg.requests",
+            "cp7_guard.compound_scope",
+            "cp7_guard.compound_touch",
+            "cp7_hpp_pool.requests",
+            "cp7_identity.commands",
+            "cp7_identity.production_policy",
+            "cp7_installment.accounts",
+            "cp7_installment.command_context",
+            "cp7_installment.payments",
+            "cp7_installment.requests",
+            "cp7_invoice.payment_requests",
+            "cp7_invoice.requests",
+            "cp7_kasbon.advances",
+            "cp7_kasbon.command_context",
+            "cp7_kasbon.deduction_links",
+            "cp7_kasbon.requests",
+            "cp7_master.history",
+            "cp7_master.requests",
+            "cp7_material.count_documents",
+            "cp7_material.execution_context",
+            "cp7_material.requests",
+            "cp7_misc.command_context",
+            "cp7_misc.requests",
+            "cp7_misc_correction.links",
+            "cp7_model_native.registry",
+            "cp7_model_native.runs",
+            "cp7_netting_native.runs",
+            "cp7_note.context",
+            "cp7_note.helper_sources",
+            "cp7_note.item_lineage",
+            "cp7_note.journal_restatements",
+            "cp7_note.payment_replays",
+            "cp7_note.report_sources",
+            "cp7_note.requests",
+            "cp7_note.revisions",
+            "cp7_payment_correction.context",
+            "cp7_payment_correction.links",
+            "cp7_payment_correction.requests",
+            "cp7_payroll.card_claims",
+            "cp7_payroll.execution_context",
+            "cp7_payroll.note_requests",
+            "cp7_payroll.notes",
+            "cp7_payroll.settlement_context",
+            "cp7_payroll.settlement_requests",
+            "cp7_period.requests",
+            "cp7_plan_native.apply_own_drafts",
+            "cp7_plan_native.commands",
+            "cp7_plan_native.drafts",
+            "cp7_plan_native.intents",
+            "cp7_plan_native.staged_drafts",
+            "cp7_planning.history_runs",
+            "cp7_private.analysis_runs",
+            "cp7_procurement.draft_requests",
+            "cp7_procurement.execution_context",
+            "cp7_procurement.reversals",
+            "cp7_profile.commands",
+            "cp7_profile.profiles",
+            "cp7_proof_runner.passes",
+            "cp7_proof_runner.state",
+            "cp7_receipt_fix.context",
+            "cp7_receipt_fix.invoice_replays",
+            "cp7_receipt_fix.invoice_restatements",
+            "cp7_receipt_fix.journal_restatements",
+            "cp7_receipt_fix.ledger_links",
+            "cp7_receipt_fix.material_names",
+            "cp7_receipt_fix.movement_lineage",
+            "cp7_receipt_fix.name_requests",
+            "cp7_receipt_fix.payment_replays",
+            "cp7_receipt_fix.requests",
+            "cp7_receipt_fix.revisions",
+            "cp7_receipt_fix.roll_lineage",
+            "cp7_recost.requests",
+            "cp7_reminder_native.attention",
+            "cp7_reminder_native.local_bindings",
+            "cp7_reminder_native.local_claims",
+            "cp7_reminder_native.local_resolutions",
+            "cp7_reminder_native.obligation_episodes",
+            "cp7_reminder_native.obligation_observations",
+            "cp7_reminder_native.obligation_report_requests",
+            "cp7_reminder_native.obligation_reports",
+            "cp7_reminder_native.requests",
+            "cp7_reminder_native.rule_episodes",
+            "cp7_reminder_native.rule_observations",
+            "cp7_reminder_native.rule_policies",
+            "cp7_reminder_native.staged_claim_resolutions",
+            "cp7_reminder_native.staged_claims",
+            "cp7_reminder_native.staged_condition_sets",
+            "cp7_reminder_native.staged_conditions",
+            "cp7_reminder_native.staged_episodes",
+            "cp7_reminder_native.staged_rechecks",
+            "cp7_sales.command_context",
+            "cp7_sales.requests",
+            "cp7_sales_chain.history",
+            "cp7_sales_chain.requests",
+            "cp7_sales_return_correction.context",
+            "cp7_sales_return_correction.helper_sources",
+            "cp7_sales_return_correction.journal_restatements",
+            "cp7_sales_return_correction.links",
+            "cp7_sales_return_correction.requests",
+            "cp7_schedule_native.commands",
+            "cp7_schedule_native.plans",
+            "cp7_schedule_native.runs",
+            "cp7_supplier_payment_correction.context",
+            "cp7_supplier_payment_correction.links",
+            "cp7_supplier_payment_correction.requests",
+            "cp7_supplier_payment_create.context",
+            "cp7_supplier_payment_create.requests",
+            "cp7_supplier_return.execution_context",
+            "cp7_supplier_return.requests",
+            "cp7_supply_native.exhaustion_proofs",
+            "cp7_supply_native.runs",
+            "cp7_wip.production_runs",
+            "cp7_wip.runs",
+            "cp7_yield_policy.commands",
+            "cp7_yield_policy.policies",
+            "erp.accessory_bom_items",
+            "erp.accessory_bom_versions",
+            "erp.accessory_categories",
+            "erp.accessory_category_uom_conversions",
+            "erp.account_daily_balances",
+            "erp.accounting_period_control",
+            "erp.app_users",
+            "erp.attendance_periods",
+            "erp.attendance_records",
+            "erp.audit_logs",
+            "erp.bd_laundry_charge_lines_v1",
+            "erp.bd_laundry_charge_shares_v1",
+            "erp.bd_laundry_invoice_lines_v1",
+            "erp.bd_laundry_invoices_v1",
+            "erp.bd_laundry_priced_lines_v1",
+            "erp.bd_laundry_receipt_allocations_v1",
+            "erp.bd_laundry_size_estimates_v1",
+            "erp.bd_policy_setting_events_v1",
+            "erp.bd_policy_settings_v1",
+            "erp.bd_requests_v1",
+            "erp.bf_laundry_delivery_sources_v1",
+            "erp.bf_requests_v1",
+            "erp.bf_sku_members_v1",
+            "erp.bf_sku_versions_v1",
+            "erp.bf_skus_v1",
+            "erp.brands",
+            "erp.cash_accounts",
+            "erp.chart_accounts",
+            "erp.contractor_accessory_reimbursement_entitlements",
+            "erp.contractor_hpp_policy_versions",
+            "erp.contractor_work_rates",
+            "erp.contractor_workers",
+            "erp.contractors",
+            "erp.customers",
+            "erp.cutting_batches",
+            "erp.cutting_distribution_allocations",
+            "erp.cutting_distribution_batches",
+            "erp.cutting_group_rolls",
+            "erp.cutting_group_size_slots",
+            "erp.cutting_groups",
+            "erp.cutting_pickups",
+            "erp.cutting_qty_correction_lines",
+            "erp.cutting_qty_corrections",
+            "erp.cutting_roll_yields",
+            "erp.fg_accessory_cost_snapshots",
+            "erp.fg_inventory_balances",
+            "erp.fg_lots",
+            "erp.fg_stock_movements",
+            "erp.hpp_version_components",
+            "erp.hpp_versions",
+            "erp.idempotency_requests",
+            "erp.initial_import_opening_stock_sources",
+            "erp.initial_import_production_sources",
+            "erp.journal_entries",
+            "erp.journal_lines",
+            "erp.laundry_cost_accrual_events",
+            "erp.laundry_cost_accrual_state",
+            "erp.laundry_deliveries",
+            "erp.laundry_delivery_batch_size_lines",
+            "erp.laundry_delivery_lines",
+            "erp.laundry_receipt_batch_size_lines",
+            "erp.laundry_receipt_lines",
+            "erp.laundry_receipts",
+            "erp.laundry_vendor_rate_versions",
+            "erp.laundry_vendors",
+            "erp.locations",
+            "erp.material_cost_checkpoints",
+            "erp.material_cost_history",
+            "erp.material_cost_revaluation_state",
+            "erp.material_purchase_headers",
+            "erp.material_purchase_items",
+            "erp.material_rolls",
+            "erp.material_stock_movements",
+            "erp.materials",
+            "erp.migration_batches",
+            "erp.migration_staging_rows",
+            "erp.opening_balance_headers",
+            "erp.opening_balance_items",
+            "erp.payroll_attendance_items",
+            "erp.payroll_reimbursements",
+            "erp.payroll_settlements",
+            "erp.payroll_work_items",
+            "erp.po_accessory_bom_commitments",
+            "erp.po_hpp_gl_events",
+            "erp.po_hpp_gl_lot_state_v1",
+            "erp.po_hpp_gl_material_state_v1",
+            "erp.po_hpp_gl_state",
+            "erp.po_work_component_snapshots",
+            "erp.product_model_sizes",
+            "erp.product_models",
+            "erp.production_orders",
+            "erp.production_patterns",
+            "erp.products",
+            "erp.qc_inspection_items",
+            "erp.qc_inspections",
+            "erp.sale_stock_allocations",
+            "erp.sales_headers",
+            "erp.sales_items",
+            "erp.sales_payment_posting_facts",
+            "erp.sales_payments",
+            "erp.sales_return_items",
+            "erp.sales_returns",
+            "erp.sewing_terminal_events",
+            "erp.sizes",
+            "erp.supplier_payments",
+            "erp.suppliers",
+            "erp.vendor_invoices",
+            "erp.wash_processes",
+            "erp.wip_stage_events",
+            "erp.work_bom_items",
+            "erp.work_bom_versions",
+            "erp.work_completion_events",
+            "erp.work_completion_lines",
+            "erp.work_components",
+            "erp.worker_daily_rate_versions",
+            "erp.worker_employment_periods"
+          ],
+          "note": "writes after the install are lost by construction; a used installation is restored from a backup, never rolled back silently"
+        },
+        {
+          "step": "HARNESS_RESTORE_AFTER_USE",
+          "catalog_restored": true,
+          "harness_restore": {
+            "exact": false,
+            "schema_acl": true,
+            "migration_ledgers": true,
+            "definitions_owners_acls": true,
+            "public_members": true,
+            "public_tables_with_rows_from_use": [],
+            "erp_data_changed_by_use": [
+              "accessory_bom_items",
+              "accessory_bom_versions",
+              "accessory_categories",
+              "accessory_category_uom_conversions",
+              "account_daily_balances",
+              "accounting_period_control",
+              "app_users",
+              "attendance_periods",
+              "attendance_records",
+              "audit_logs",
+              "bd_laundry_charge_lines_v1",
+              "bd_laundry_charge_shares_v1",
+              "bd_laundry_invoice_lines_v1",
+              "bd_laundry_invoices_v1",
+              "bd_laundry_priced_lines_v1",
+              "bd_laundry_receipt_allocations_v1",
+              "bd_laundry_size_estimates_v1",
+              "bd_policy_setting_events_v1",
+              "bd_policy_settings_v1",
+              "bd_requests_v1",
+              "bf_laundry_delivery_sources_v1",
+              "bf_requests_v1",
+              "bf_sku_members_v1",
+              "bf_sku_versions_v1",
+              "bf_skus_v1",
+              "brands",
+              "cash_accounts",
+              "chart_accounts",
+              "contractor_accessory_reimbursement_entitlements",
+              "contractor_hpp_policy_versions",
+              "contractor_work_rates",
+              "contractor_workers",
+              "contractors",
+              "customers",
+              "cutting_batches",
+              "cutting_distribution_allocations",
+              "cutting_distribution_batches",
+              "cutting_group_rolls",
+              "cutting_group_size_slots",
+              "cutting_groups",
+              "cutting_pickups",
+              "cutting_qty_correction_lines",
+              "cutting_qty_corrections",
+              "cutting_roll_yields",
+              "fg_accessory_cost_snapshots",
+              "fg_inventory_balances",
+              "fg_lots",
+              "fg_stock_movements",
+              "hpp_version_components",
+              "hpp_versions",
+              "idempotency_requests",
+              "initial_import_opening_stock_sources",
+              "initial_import_production_sources",
+              "journal_entries",
+              "journal_lines",
+              "laundry_cost_accrual_events",
+              "laundry_cost_accrual_state",
+              "laundry_deliveries",
+              "laundry_delivery_batch_size_lines",
+              "laundry_delivery_lines",
+              "laundry_receipt_batch_size_lines",
+              "laundry_receipt_lines",
+              "laundry_receipts",
+              "laundry_vendor_rate_versions",
+              "laundry_vendors",
+              "locations",
+              "material_cost_checkpoints",
+              "material_cost_history",
+              "material_cost_revaluation_state",
+              "material_purchase_headers",
+              "material_purchase_items",
+              "material_rolls",
+              "material_stock_movements",
+              "materials",
+              "migration_batches",
+              "migration_staging_rows",
+              "opening_balance_headers",
+              "opening_balance_items",
+              "payroll_attendance_items",
+              "payroll_reimbursements",
+              "payroll_settlements",
+              "payroll_work_items",
+              "po_accessory_bom_commitments",
+              "po_hpp_gl_events",
+              "po_hpp_gl_lot_state_v1",
+              "po_hpp_gl_material_state_v1",
+              "po_hpp_gl_state",
+              "po_work_component_snapshots",
+              "product_model_sizes",
+              "product_models",
+              "production_orders",
+              "production_patterns",
+              "products",
+              "qc_inspection_items",
+              "qc_inspections",
+              "sale_stock_allocations",
+              "sales_headers",
+              "sales_items",
+              "sales_payment_posting_facts",
+              "sales_payments",
+              "sales_return_items",
+              "sales_returns",
+              "sewing_terminal_events",
+              "sizes",
+              "supplier_payments",
+              "suppliers",
+              "vendor_invoices",
+              "wash_processes",
+              "wip_stage_events",
+              "work_bom_items",
+              "work_bom_versions",
+              "work_completion_events",
+              "work_completion_lines",
+              "work_components",
+              "worker_daily_rate_versions",
+              "worker_employment_periods"
+            ],
+            "auth_users_changed_by_use": false
+          },
+          "native_tables_changed_by_committed_use": [
+            "erp.accessory_bom_items",
+            "erp.accessory_bom_versions",
+            "erp.accessory_categories",
+            "erp.accessory_category_uom_conversions",
+            "erp.account_daily_balances",
+            "erp.accounting_period_control",
+            "erp.app_users",
+            "erp.attendance_periods",
+            "erp.attendance_records",
+            "erp.audit_logs",
+            "erp.bd_laundry_charge_lines_v1",
+            "erp.bd_laundry_charge_shares_v1",
+            "erp.bd_laundry_invoice_lines_v1",
+            "erp.bd_laundry_invoices_v1",
+            "erp.bd_laundry_priced_lines_v1",
+            "erp.bd_laundry_receipt_allocations_v1",
+            "erp.bd_laundry_size_estimates_v1",
+            "erp.bd_policy_setting_events_v1",
+            "erp.bd_policy_settings_v1",
+            "erp.bd_requests_v1",
+            "erp.bf_laundry_delivery_sources_v1",
+            "erp.bf_requests_v1",
+            "erp.bf_sku_members_v1",
+            "erp.bf_sku_versions_v1",
+            "erp.bf_skus_v1",
+            "erp.brands",
+            "erp.cash_accounts",
+            "erp.chart_accounts",
+            "erp.contractor_accessory_reimbursement_entitlements",
+            "erp.contractor_hpp_policy_versions",
+            "erp.contractor_work_rates",
+            "erp.contractor_workers",
+            "erp.contractors",
+            "erp.customers",
+            "erp.cutting_batches",
+            "erp.cutting_distribution_allocations",
+            "erp.cutting_distribution_batches",
+            "erp.cutting_group_rolls",
+            "erp.cutting_group_size_slots",
+            "erp.cutting_groups",
+            "erp.cutting_pickups",
+            "erp.cutting_qty_correction_lines",
+            "erp.cutting_qty_corrections",
+            "erp.cutting_roll_yields",
+            "erp.fg_accessory_cost_snapshots",
+            "erp.fg_inventory_balances",
+            "erp.fg_lots",
+            "erp.fg_stock_movements",
+            "erp.hpp_version_components",
+            "erp.hpp_versions",
+            "erp.idempotency_requests",
+            "erp.initial_import_opening_stock_sources",
+            "erp.initial_import_production_sources",
+            "erp.journal_entries",
+            "erp.journal_lines",
+            "erp.laundry_cost_accrual_events",
+            "erp.laundry_cost_accrual_state",
+            "erp.laundry_deliveries",
+            "erp.laundry_delivery_batch_size_lines",
+            "erp.laundry_delivery_lines",
+            "erp.laundry_receipt_batch_size_lines",
+            "erp.laundry_receipt_lines",
+            "erp.laundry_receipts",
+            "erp.laundry_vendor_rate_versions",
+            "erp.laundry_vendors",
+            "erp.locations",
+            "erp.material_cost_checkpoints",
+            "erp.material_cost_history",
+            "erp.material_cost_revaluation_state",
+            "erp.material_purchase_headers",
+            "erp.material_purchase_items",
+            "erp.material_rolls",
+            "erp.material_stock_movements",
+            "erp.materials",
+            "erp.migration_batches",
+            "erp.migration_staging_rows",
+            "erp.opening_balance_headers",
+            "erp.opening_balance_items",
+            "erp.payroll_attendance_items",
+            "erp.payroll_reimbursements",
+            "erp.payroll_settlements",
+            "erp.payroll_work_items",
+            "erp.po_accessory_bom_commitments",
+            "erp.po_hpp_gl_events",
+            "erp.po_hpp_gl_lot_state_v1",
+            "erp.po_hpp_gl_material_state_v1",
+            "erp.po_hpp_gl_state",
+            "erp.po_work_component_snapshots",
+            "erp.product_model_sizes",
+            "erp.product_models",
+            "erp.production_orders",
+            "erp.production_patterns",
+            "erp.products",
+            "erp.qc_inspection_items",
+            "erp.qc_inspections",
+            "erp.sale_stock_allocations",
+            "erp.sales_headers",
+            "erp.sales_items",
+            "erp.sales_payment_posting_facts",
+            "erp.sales_payments",
+            "erp.sales_return_items",
+            "erp.sales_returns",
+            "erp.sewing_terminal_events",
+            "erp.sizes",
+            "erp.supplier_payments",
+            "erp.suppliers",
+            "erp.vendor_invoices",
+            "erp.wash_processes",
+            "erp.wip_stage_events",
+            "erp.work_bom_items",
+            "erp.work_bom_versions",
+            "erp.work_completion_events",
+            "erp.work_completion_lines",
+            "erp.work_components",
+            "erp.worker_daily_rate_versions",
+            "erp.worker_employment_periods"
+          ],
+          "note": "the clone keeps the committed Native rows of step 4 and is dropped by the harness; a used installation is restored from backup"
+        }
+      ],
+      "restore_components": {
+        "erp_platform_auth_schema_acl": false,
+        "all_public_catalog_members_and_row_hashes": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "qualification": "Committed Native use intentionally changes 116 ERP tables in the disposable source; final exact data-boundary component is FALSE, with catalog/ACL/definition/owner/public comparisons TRUE. Used backup restore and pre-install restore occur in separate fresh databases, preserve staged identity, and show no data differences. This is not a false claim that uninstall erased used data. All clones are isolated; CP7C/hosted/KNOWN_REPLACEMENT patch remain deferred by D13-9a.",
+      "business_case_count_credit": 0
+    }
+  ],
+  "selected_files_rehashed": 21,
+  "missing_or_hash_mismatch": 0,
+  "literal_payment_check": "AP 1000 minus payment 100 = remaining 900",
+  "does_not_claim": [
+    "hosted installation",
+    "D13-9a replacement patch applied",
+    "actual cutover or Drive restore",
+    "all used data exactly restored by uninstall"
+  ],
+  "production_go": false
+}

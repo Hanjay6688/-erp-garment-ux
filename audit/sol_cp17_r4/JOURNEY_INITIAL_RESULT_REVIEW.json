@@ -1,0 +1,138 @@
+{
+  "state": "READ_AND_ADJUDICATED_ORIGINALS_PRESERVED",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "execution_results": [
+    {
+      "path": "ci_receipts/sol_artifacts/12161116886/files/SOL_R4_B5_B6_JOURNEY.json",
+      "sha256": "e6356ec5a178a101ebbf68c78762abbf9f6df4ee81310d644e51514678130a5d",
+      "raw_status": "INCOMPLETE",
+      "raw_counts": {
+        "INCOMPLETE": 3
+      },
+      "full_primary_restore": true,
+      "browser_copy_dropped": true,
+      "auth_restored": true,
+      "host_exit": 0,
+      "console_errors": 0
+    },
+    {
+      "path": "ci_receipts/sol_artifacts/12160684624/files/SOL_R4_B5_B6_EXCEPTIONS.json",
+      "sha256": "a2cdc28efde2eeeb92dfac25f89d8a0f32591924085670cb691e50646f2be8b2",
+      "raw_status": "INCOMPLETE",
+      "raw_counts": {
+        "INCOMPLETE": 1,
+        "PASS": 1
+      },
+      "full_primary_restore": true,
+      "browser_copy_dropped": true,
+      "auth_restored": true,
+      "host_exit": 0,
+      "console_errors": 0
+    }
+  ],
+  "ordinary_partial_cases": [
+    {
+      "id": "SOL_R4_B5_B6_ORDINARY_DESKTOP",
+      "raw_status": "INCOMPLETE",
+      "disposition": "AUDITOR_OBSERVER_ERROR",
+      "write_actions": [
+        "RECORD",
+        "POST_DELIVERY",
+        "POST_RECEIPT",
+        "POST_FINAL_SKU",
+        "SAVE_INVOICE_DRAFT"
+      ],
+      "observed_fg": "64.00",
+      "observed_wip": "60.00",
+      "observed_total": "124.00",
+      "draft_ui_visible": true,
+      "core_invoice_list_empty_before_post": true,
+      "original_path": "ci_receipts/sol_artifacts/12161116886/files/SOL_R4_B5_B6_ORDINARY_DESKTOP_FAILURE.json",
+      "original_sha256": "c1bc4b051548b5153cb3c02eedd518e61d2ddc7592ac6d4ec53d7ebfb4db89cb"
+    },
+    {
+      "id": "SOL_R4_B5_B6_ORDINARY_IPAD_VIEWPORT",
+      "raw_status": "INCOMPLETE",
+      "disposition": "AUDITOR_OBSERVER_ERROR",
+      "write_actions": [
+        "RECORD",
+        "POST_DELIVERY",
+        "POST_RECEIPT",
+        "POST_FINAL_SKU",
+        "SAVE_INVOICE_DRAFT"
+      ],
+      "observed_fg": "64.00",
+      "observed_wip": "60.00",
+      "observed_total": "124.00",
+      "draft_ui_visible": true,
+      "core_invoice_list_empty_before_post": true,
+      "original_path": "ci_receipts/sol_artifacts/12161116886/files/SOL_R4_B5_B6_ORDINARY_IPAD_VIEWPORT_FAILURE.json",
+      "original_sha256": "d7ccca45e1fea6959dbc2e195826a5af7daff6238c00b8192daef196870a9cf2"
+    },
+    {
+      "id": "SOL_R4_B5_B6_ORDINARY_MOBILE",
+      "raw_status": "INCOMPLETE",
+      "disposition": "AUDITOR_OBSERVER_ERROR",
+      "write_actions": [
+        "RECORD",
+        "POST_DELIVERY",
+        "POST_RECEIPT",
+        "POST_FINAL_SKU",
+        "SAVE_INVOICE_DRAFT"
+      ],
+      "observed_fg": "64.00",
+      "observed_wip": "60.00",
+      "observed_total": "124.00",
+      "draft_ui_visible": true,
+      "core_invoice_list_empty_before_post": true,
+      "original_path": "ci_receipts/sol_artifacts/12161116886/files/SOL_R4_B5_B6_ORDINARY_MOBILE_FAILURE.json",
+      "original_sha256": "440d994c80487d6974cf82279f3de4190df304ad2cf17782dbc4685471034686"
+    }
+  ],
+  "claim": {
+    "id": "SOL_R4_B5_B6_CLAIM_MOBILE",
+    "raw_status": "INCOMPLETE",
+    "disposition": "AUDITOR_ORACLE_ERROR",
+    "original_path": "ci_receipts/sol_artifacts/12160684624/files/SOL_R4_B5_B6_CLAIM_MOBILE_FAILURE.json",
+    "original_sha256": "c5203a168c17d758156faa7bce6034c6fdb9f0ea4e2f5d0a4605caa9178f0ca1",
+    "wrong_frozen_total": "128.00",
+    "correct_contract_total": "130.00",
+    "independent_formula": "10 yd*10 material + 5*(3+1) wage + 5 sent*2 known laundry estimate = 130; returned 4*2=8 is invoice capacity, not the total outstanding estimate.",
+    "observed_fg": "64.00",
+    "observed_wip": "66.00",
+    "compensation_is_separate": "GBD-03 option1 keeps missing-piece cost in WIP until PO residual close; claim settlement debits AP_VENDOR / credits OTHER_EXPENSE, no FG/WIP movement."
+  },
+  "rewash": {
+    "id": "SOL_R4_B5_FREE_REWASH_SAME_PRODUCT_DESKTOP",
+    "raw_status": "PASS",
+    "disposition": "PASS_DEFINED_FREE_SAME_PRODUCT_UI_SCOPE",
+    "actions": 4,
+    "partial_fg": 0,
+    "completed_fg": 2,
+    "reversed_fg": 0,
+    "same_product": true,
+    "vendor_ap_unchanged": true,
+    "no_new_rework_or_wage_journal": true,
+    "original_path": "ci_receipts/sol_artifacts/12160684624/files/SOL_R4_B5_FREE_REWASH_SAME_PRODUCT_DESKTOP_OBSERVATIONS.json",
+    "original_sha256": "03ce6a16fb5315d1bd1402987a69a1b699998f82d72f99ec7c0db9c8e28d06b2",
+    "repeat_in_qualification": false
+  },
+  "source_reasoning": [
+    "BD invoice header table (cp6_bd_objects_invoice.sql:28–35) holds DRAFT with header_total; SAVE inserts it at line264. Core vendor_invoices is inserted only on POST at line537, preserving the same ID and amount. Original observer queried the core prematurely.",
+    "LAU-DEC01 is per PCS by default; LAU-DEC02 selects the billable returned categories. These are distinct from pre-invoice estimate accrual.",
+    "Owner LAU-DEC04 says a known rate is used as an estimate before invoice; desired_laundry_accrual adds costed received estimate plus outstanding sent minus costed qty times known rate. BD build retains the old formula for non-priced delivery and releases only the invoiced receipt share.",
+    "GBD-03 option1 and Native claim settlement preserve missing cost in WIP and book compensation separately. No source authorizes removing the fifth-piece estimate at partial receipt."
+  ],
+  "source_sha256": {
+    "scripts/cp6_bd_objects_invoice.sql": "f57565e6ee23f3dd6eeba01f911b49f3c59f0fd2017e6d67dfb24486b5988583",
+    "scripts/cp6_bd_build.py": "e08330f8e9e5eba18ca6f4d949a33ec43d923e6ca8ea23e60e600fb875e28e93",
+    "docs/cp6-d11-kebijakan-dan-gbd03.md": "4d351c4fc727b73a29c181fb8c0c6aaaebb6aa4b7f17fbd7e9fd3db4407af8f0",
+    "docs/cp6-readiness/README.md": "0bdc8f4d54da5a7d5f3949937ed75d38a548b8f2bf3740d531ae9fbef712d780",
+    "supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql": "52e51f56f4b8b08b7797b1a92ca9b9e26cbe611e81615c3379c728b95877ada1",
+    "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql": "7b5690a2eddf618833d352dc75eb95aa1ef4dbcfb25d39b30374b733d33dadbc"
+  },
+  "qualification_scope": "Three ordinary cases: readback correction only. Claim: same readback correction and declared literal total128→130 oracle correction with contract trace; invoice8, claim2, cash2.25+3.75, sequence18, budgets and product stay unchanged. Free rewash is excluded.",
+  "new_business_or_race_credit": 0,
+  "production_go": false,
+  "independent_full_acceptance": false
+}

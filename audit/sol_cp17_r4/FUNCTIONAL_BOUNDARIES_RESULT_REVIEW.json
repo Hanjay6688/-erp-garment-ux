@@ -1,0 +1,212 @@
+{
+  "state": "READ_ORIGINALS_AND_INDEPENDENTLY_RECALCULATED",
+  "first_run_id": 39195943779,
+  "first_artifact_id": 12161878541,
+  "first_archive_sha256": "9fcbd1164f9da66c03b149f98bf8d891e443b980b4d2f2676ff38e64d43c8d06",
+  "first_counts": {
+    "PASS": 5,
+    "INCOMPLETE": 3
+  },
+  "qualified_run_id": 39196974051,
+  "qualified_artifact_id": 12162243325,
+  "qualified_archive_sha256": "4f2d219fff5b0acc84296c7af88692750d3464096bf0b37358775bde490f5560",
+  "qualified_counts": {
+    "PASS": 3
+  },
+  "unique_canonical_ids": 8,
+  "kind_breakdown": {
+    "native_business": 5,
+    "actual_client_pure_helper": 1,
+    "mutable_cache_detector_control": 2
+  },
+  "first_INCOMPLETE_preserved": true,
+  "first_causes": {
+    "procurement12_6": "AUDITOR_ORACLE_DIMENSION_MISMATCH_SOURCE_PROVEN: raw helper unrounded; initial raw value not captured. Q2 requires exact raw6decimal and separately actual GLcent.",
+    "client": "AUDITOR_API_ASSUMPTION: TypeScript7 package has no legacy ScriptTarget; no27controls ran initially. Q2 same27controls via read-only type erasure.",
+    "daily_cache": "AUDITOR_READ_ONLY_SELECTOR: journal_lines.cash_account_id does not exist; initial stopped before UPDATE. Q2 uses own bank.coa_account_id."
+  },
+  "selected_member_hashes_rechecked": 33,
+  "matching": {
+    "input8_projected7": true,
+    "target100_gap93": true,
+    "negativeDTO_not_persisted": true,
+    "public_bad_extra_fields_refused_atomically": true,
+    "one_unposted_Native_draft2": true,
+    "Original_physical_stock_money_HPP_unchanged": true
+  },
+  "numeric": {
+    "procurement_raw_and_GL": [
+      {
+        "input": "999999999999.999998",
+        "raw_ap": "999999999999.999998000000",
+        "raw_grni": "0",
+        "actual_ap_journal": [
+          [
+            "07f0ace4-21b3-46a6-8462-9bc1329cd1ee",
+            "MATERIAL_PURCHASE",
+            "86dee1f2-38b3-459c-a1e2-b77f76552bda",
+            "POSTED",
+            "0.00",
+            "1000000000000.00"
+          ]
+        ],
+        "expected_journal_ap": "1000000000000.00"
+      },
+      {
+        "input": "999999999999.999999",
+        "raw_ap": "999999999999.999999000000",
+        "raw_grni": "0",
+        "actual_ap_journal": [
+          [
+            "ebba7951-f600-4be1-865c-13d320780bce",
+            "MATERIAL_PURCHASE",
+            "4ee4d328-d741-4d07-bcbd-d748ec8727c7",
+            "POSTED",
+            "0.00",
+            "1000000000000.00"
+          ]
+        ],
+        "expected_journal_ap": "1000000000000.00"
+      }
+    ],
+    "sixth_scale_preserved_seventh_refused": true,
+    "cent32_around": [
+      "21474836.47",
+      "21474836.48",
+      "21474836.49"
+    ],
+    "BD_native_numeric18_2_draft_max": true,
+    "BD_two_lines_zero_discount": [
+      "21474836.49",
+      "0.00",
+      "21474836.49",
+      2
+    ],
+    "actual_client_controls": 27,
+    "client_node": "v22.23.3",
+    "client_control_scope": "Actual pure helper derivatives; no browser/form/device inference"
+  },
+  "detector_controls": [
+    {
+      "id": "SOL_R4_D01_FG_MUTABLE_CACHE_ONE_KEY",
+      "run_id": 39195943779,
+      "artifact_id": 12161878541,
+      "counts_per_phase": 167,
+      "exact_deltas": {
+        "run_integrity_checks:FG_CACHE_MISMATCH": 1
+      },
+      "all_other_counts_unchanged": true,
+      "full_row_restore": true
+    },
+    {
+      "id": "SOL_R4_D01_DAILY_EQUITY_CACHE_ONE_KEY",
+      "run_id": 39196974051,
+      "artifact_id": 12162243325,
+      "counts_per_phase": 167,
+      "exact_deltas": {
+        "run_v268_financial_report_checks:V268_DAILY_BALANCE_LEDGER_MISMATCH": 1,
+        "run_v268_financial_report_checks:V268_BALANCE_SHEET_EQUATION": 1
+      },
+      "all_other_counts_unchanged": true,
+      "full_row_restore": true
+    }
+  ],
+  "canonical_cases": [
+    {
+      "case_id": "SOL_R4_SKN24_NATIVE_MATCH_ALLOCATE_PLAN_COMMAND",
+      "run_id": 39195943779,
+      "artifact_id": 12161878541,
+      "group": "/native",
+      "raw_status": "PASS",
+      "canonical_for_candidate": true,
+      "case_kind": "NATIVE_BUSINESS",
+      "oracle_origin": "SOL_MATCHER_REFUSAL_AND_IMMUTABLE_NATIVE_SOURCE_BINDING",
+      "fixture_origin": "ACCEPTED_NATIVE_OPENING8_AND_RECEIPT10_BEFORE_SOL_PUBLIC_ORIGINAL"
+    },
+    {
+      "case_id": "SOL_R4_SKN26_PROCUREMENT_12_6_BOUNDARY",
+      "run_id": 39196974051,
+      "artifact_id": 12162243325,
+      "group": "/native",
+      "raw_status": "PASS",
+      "canonical_for_candidate": true,
+      "case_kind": "NATIVE_BUSINESS",
+      "oracle_origin": "SOL_SOURCE_DERIVED_RAW_AP_SIX_DECIMAL_AND_DISTINCT_ACTUAL_POSTED_GL_CENTS",
+      "fixture_origin": "ACCEPTED_PUBLIC_PROCUREMENT_FIXTURE_WITH_SOL_NEW_BOUNDARY_AMOUNTS"
+    },
+    {
+      "case_id": "SOL_R4_SKN26_PROCUREMENT_SIX_DECIMAL_SCALE",
+      "run_id": 39195943779,
+      "artifact_id": 12161878541,
+      "group": "/native",
+      "raw_status": "PASS",
+      "canonical_for_candidate": true,
+      "case_kind": "NATIVE_BUSINESS",
+      "oracle_origin": "SOL_SIX_DECIMAL_TEXT_BOUNDARY_NO_ROUNDING_OR_STOCK",
+      "fixture_origin": "ACCEPTED_PUBLIC_PROCUREMENT_FIXTURE_WITH_SOL_NEW_SCALE_INPUTS"
+    },
+    {
+      "case_id": "SOL_R4_SKN26_PROCUREMENT_32BIT_CENT_AROUND",
+      "run_id": 39195943779,
+      "artifact_id": 12161878541,
+      "group": "/native",
+      "raw_status": "PASS",
+      "canonical_for_candidate": true,
+      "case_kind": "NATIVE_BUSINESS",
+      "oracle_origin": "SOL_LITERAL2147483647_2147483648_2147483649_CENTS_EXACT",
+      "fixture_origin": "ACCEPTED_PUBLIC_PROCUREMENT_FIXTURE_WITH_SOL_32BIT_CENT_AROUND_INPUTS"
+    },
+    {
+      "case_id": "SOL_R4_SKN26_LAUNDRY_NUMERIC18_2_AND_TWO_LINES",
+      "run_id": 39195943779,
+      "artifact_id": 12161878541,
+      "group": "/native",
+      "raw_status": "PASS",
+      "canonical_for_candidate": true,
+      "case_kind": "NATIVE_BUSINESS",
+      "oracle_origin": "SOL_NUMERIC18_2_EXACT_MAXIMUM_AND_TWO_LINE_ZERO_DISCOUNT",
+      "fixture_origin": "ACCEPTED_NATIVE_LAUNDRY_RECEIPT10_THEN_SOL_PUBLIC_DRAFT_AMOUNTS"
+    },
+    {
+      "case_id": "SOL_R4_SKN26_ACTUAL_CLIENT_BOUNDARY_HELPERS",
+      "run_id": 39196974051,
+      "artifact_id": 12162243325,
+      "group": "/native",
+      "raw_status": "PASS",
+      "canonical_for_candidate": true,
+      "case_kind": "CLIENT_PURE_HELPER",
+      "oracle_origin": "SOL_LITERAL_ACTUAL_HELPER_INPUT_RANGES",
+      "fixture_origin": "ACTUAL_CANDIDATE_SOURCE_PURE_HELPERS_NO_BUSINESS_FIXTURE"
+    },
+    {
+      "case_id": "SOL_R4_D01_FG_MUTABLE_CACHE_ONE_KEY",
+      "run_id": 39195943779,
+      "artifact_id": 12161878541,
+      "group": "/native",
+      "raw_status": "PASS",
+      "canonical_for_candidate": true,
+      "case_kind": "DETECTOR_CONTROL",
+      "oracle_origin": "SOL_ONE_MUTABLE_FG_CACHE_KEY_EXPECT_ONE_MISMATCH_UNIT",
+      "fixture_origin": "WRITER_ACCEPTED_NATIVE_SEWING_LAUNDRY_QC10_TO_OWN_PRODUCT"
+    },
+    {
+      "case_id": "SOL_R4_D01_DAILY_EQUITY_CACHE_ONE_KEY",
+      "run_id": 39196974051,
+      "artifact_id": 12162243325,
+      "group": "/native",
+      "raw_status": "PASS",
+      "canonical_for_candidate": true,
+      "case_kind": "DETECTOR_CONTROL",
+      "oracle_origin": "SOL_ONE_MUTABLE_EQUITY_CACHE_KEY_EXPECT_DAILY_AND_EQUATION_ONE_UNIT_EACH",
+      "fixture_origin": "WRITER_ACCEPTED_OWNER_CAPITAL8_OWN_BANK"
+    }
+  ],
+  "full_primary_restoration": true,
+  "identity_collector_case_count_note": "Generic identity files carry CP17 reference counts341, not these qualification case counts. Their candidate/workflow/root fields are verified; actual required IDs/counts come from each separately pinned qualification manifest/report.",
+  "limits": [
+    "Finite named routes/types/casts and actual source pages; no global32bit N/A or every RPC permutation.",
+    "BD maximum is DRAFT save/read; no maximum-size invoice POST/cash inferred.",
+    "Eight stable IDs total across initial and Q2, not11 new cases.",
+    "Detector exact controls cover only three named detector identities here; global INV-D01 remains separately incomplete."
+  ]
+}

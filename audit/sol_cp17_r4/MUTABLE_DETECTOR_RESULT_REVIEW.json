@@ -1,0 +1,154 @@
+{
+  "state": "READ_FIRST_AND_QUALIFIED_ORIGINALS_FOUR_UNIQUE_CONTROLS",
+  "first_run_id": 39197469845,
+  "first_artifact_id": 12162647072,
+  "first_counts": {
+    "PASS": 3,
+    "INCOMPLETE": 1
+  },
+  "first_archive_sha256": "7f722e14bf0596fc61de0239b82b28fa9b189ca02f33b9f3cf5bac5877910cdd",
+  "selected_members_rehashed": 29,
+  "canonical_cases": [
+    {
+      "case_id": "SOL_R4_D01_QUEUE_STATUS_AND_AGE_ONE_ROW",
+      "run_id": 39197469845,
+      "artifact_id": 12162647072,
+      "raw_status": "PASS",
+      "case_kind": "DETECTOR_CONTROL",
+      "oracle_origin": "SOL_ACTIVE_STATUS_AND_AGE_PREDICATES_ONE_QUEUE_ROW",
+      "fixture_origin": "EXISTING_P13_ADMINISTRATIVE_FAULT_CONSTRUCTOR_NO_PROCESSOR_EXECUTED",
+      "phases": [
+        {
+          "name": "OLD_PENDING",
+          "exact_deltas": {
+            "run_integrity_checks:STALE_RECOST_QUEUE": 1,
+            "run_v268_financial_report_checks:V268_COST_RECALC_PENDING": 1
+          },
+          "other_counts_unchanged": true
+        },
+        {
+          "name": "RETRYABLE_FAILED",
+          "exact_deltas": {
+            "run_integrity_checks:FAILED_RECOST_QUEUE": 1,
+            "run_v268_financial_report_checks:V268_COST_RECALC_PENDING": 1
+          },
+          "other_counts_unchanged": true
+        },
+        {
+          "name": "EXHAUSTED_FAILED",
+          "exact_deltas": {
+            "run_integrity_checks:FAILED_RECOST_QUEUE": 1,
+            "run_v268_financial_report_checks:V268_COST_RECALC_EXHAUSTED": 1
+          },
+          "other_counts_unchanged": true
+        }
+      ],
+      "counts_each_phase": 167,
+      "all_other_counts_unchanged": true,
+      "protected_facts_and_guards_unchanged": true,
+      "full_boundary_restored": true,
+      "canonical_for_candidate": true,
+      "group": "/native"
+    },
+    {
+      "case_id": "SOL_R4_D01_MATERIAL_MAC_CACHE_ONE_KEY",
+      "run_id": 39197469845,
+      "artifact_id": 12162647072,
+      "raw_status": "PASS",
+      "case_kind": "DETECTOR_CONTROL",
+      "oracle_origin": "SOL_ONE_OWN_MATERIAL_CACHE_VALUE_DIFFERS_BY_ONE",
+      "fixture_origin": "ACCEPTED_PUBLIC_RECEIPT_QTY1_PRICE10_BEFORE_COUNTERFIXTURE",
+      "phases": [
+        {
+          "name": "MAC_10_TO_11",
+          "exact_deltas": {
+            "run_v255_material_cost_integrity_checks:MATERIAL_GL_VALUATION_MISMATCH": 1
+          },
+          "other_counts_unchanged": true
+        }
+      ],
+      "counts_each_phase": 167,
+      "all_other_counts_unchanged": true,
+      "protected_facts_and_guards_unchanged": true,
+      "full_boundary_restored": true,
+      "canonical_for_candidate": true,
+      "group": "/native"
+    },
+    {
+      "case_id": "SOL_R4_D01_PO_OUTPUT_CACHE_ONE_KEY",
+      "run_id": 39197469845,
+      "artifact_id": 12162647072,
+      "raw_status": "PASS",
+      "case_kind": "DETECTOR_CONTROL",
+      "oracle_origin": "SOL_ONE_PO_DERIVED_OUTPUT_CACHE_10_TO_11_WITH_FACTS_FIXED",
+      "fixture_origin": "ACCEPTED_NATIVE_FINISH_FIXTURE10_GOOD",
+      "phases": [
+        {
+          "name": "PO_OUTPUT_CACHE_10_TO_11",
+          "exact_deltas": {
+            "run_v268_financial_report_checks:V2620C_PO_HPP_TARGET_STATE_MISMATCH": 1
+          },
+          "other_counts_unchanged": true
+        }
+      ],
+      "counts_each_phase": 167,
+      "all_other_counts_unchanged": true,
+      "protected_facts_and_guards_unchanged": true,
+      "full_boundary_restored": true,
+      "canonical_for_candidate": true,
+      "group": "/native"
+    },
+    {
+      "case_id": "SOL_R4_D01_NEW_ACCESSORY_NULL_CATEGORY",
+      "run_id": 39198198716,
+      "artifact_id": 12162817995,
+      "raw_status": "PASS",
+      "case_kind": "DETECTOR_CONTROL",
+      "oracle_origin": "SOL_ONE_NEW_ACTIVE_ACCESSORY_NULL_CATEGORY_MATCHES_TWO_EXPLICIT_PREDICATES",
+      "fixture_origin": "EXISTING_ISOLATED_MASTER_CLONE_NO_STOCK_OR_FINANCIAL_FACTS",
+      "phases": [
+        {
+          "name": "OWN_NEW_ACCESSORY_WITH_NULL_CATEGORY",
+          "exact_deltas": {
+            "run_v24_accessory_integrity_checks:ACCESSORY_WITHOUT_CATEGORY": 1,
+            "run_v266_gudang_accessory_fg_checks:v266_accessory_material_category_mismatch": 1
+          },
+          "other_counts_unchanged": true
+        }
+      ],
+      "counts_each_phase": 167,
+      "all_other_counts_unchanged": true,
+      "protected_facts_and_guards_unchanged": true,
+      "full_boundary_restored": true,
+      "canonical_for_candidate": true,
+      "group": "/native"
+    }
+  ],
+  "first_failure_preserved": true,
+  "first_failure": {
+    "case_id": "SOL_R4_D01_NEW_ACCESSORY_NULL_CATEGORY",
+    "raw_status": "INCOMPLETE",
+    "classification": "AUDITOR_FIXTURE_SKU_PREFIX_TOO_LONG",
+    "generated_length": 64,
+    "column_maximum": 60,
+    "fixture_created": false,
+    "detector_counter_phase_executed": false,
+    "product_bug_inferred": false,
+    "qualified_prefix_length": 48
+  },
+  "qualified_accessory_state": "PASS_SEPARATE_GENUINE_FIXTURE_PREFIX_QUALIFICATION",
+  "limits": [
+    "Administrative mutable queue/cache/master counterfixtures are not ordinary user CRUD.",
+    "No protected fact, trigger, grant or guard was altered during a counter phase.",
+    "Four unique control cases here, with eight exact detector identities; initial accessory failure remains INCOMPLETE.",
+    "Global INV-D01 remains incomplete: clean zero rows are not negative controls for the remaining identities."
+  ],
+  "qualified_run_id": 39198198716,
+  "qualified_job_id": 117885441312,
+  "qualified_artifact_id": 12162817995,
+  "qualified_archive_sha256": "1003b69445ccbc93cf8691443584252c3c40861b6ba180f2efa3d408abd08ad1",
+  "qualified_counts": {
+    "PASS": 1
+  },
+  "unique_case_ids": 4
+}

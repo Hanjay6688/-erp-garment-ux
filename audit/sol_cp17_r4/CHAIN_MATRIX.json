@@ -1,0 +1,1028 @@
+{
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "report_state": "FINAL_LIMITED_SCOPE_ASSESSMENT",
+  "audit_complete": false,
+  "denominator": 20,
+  "status_counts": {
+    "PASS": 19,
+    "FAIL": 1
+  },
+  "retained_source_sha256": "2056af1485ccb76c59c2647244c60371c70546126715ff31083bb33cfd99cd0c",
+  "witness_ledger_sha256": {
+    "ci_receipts/SOL_REVIEWED_CASE_LEDGER.jsonl": "29f0333441a83e4c21f8edb57157b8f84cd404e11e28f1f5d1956e35f7175d40",
+    "ci_receipts/SOL_CP17_CASE_LEDGER.jsonl": "6542ac02b9353c733c18999c2000aa15ce9e6814ab972164263bc71b41c2875e",
+    "ci_receipts/SOL_QUALIFIED_CASE_INDEX.jsonl": "9040601eae0b7ab6a7976c2fd27f7cd63fcd9d5b3041859146ccfc3ced07851b"
+  },
+  "method": "Each row manually adjudicated to a semantic scope; exact ID lookup only locates examples. No matched-count closes an invariant.",
+  "all_20_one_browser_chain_proven": false,
+  "rows": [
+    {
+      "id": "B1",
+      "requirement": "Pembelian → penerimaan → roll/stok/GRNI",
+      "status": "PASS",
+      "current_scope": "Public/Native/Auth browser receipt,GRNI,roll; master source sintetis.",
+      "current_witness_examples": [
+        {
+          "case_id": "P09_DRAFT_ESTIMATED_GRNI",
+          "run_id": 39185235723,
+          "artifact_id": 12158164165,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P09_BROWSER_RECEIPT_DESKTOP",
+          "run_id": 39185235723,
+          "artifact_id": 12158164165,
+          "group": "browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_BROWSER_RERUN",
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B2",
+      "requirement": "Bahan → potong → WIP",
+      "status": "PASS",
+      "current_scope": "Cut issue dan inverse tepat, rencana bukan physical confirmation.",
+      "current_witness_examples": [
+        {
+          "case_id": "P08_ACTUAL_PHYSICAL_CUT",
+          "run_id": 39185235603,
+          "artifact_id": 12158153396,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "CP7_CUTTING_REOPEN_EXACT_STOCK_GL_DRAFT",
+          "run_id": 39185235606,
+          "artifact_id": 12158666382,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B3",
+      "requirement": "Potongan → pickup mandor",
+      "status": "PASS",
+      "current_scope": "Pickup Native dua PCS aktual ditelusuri, browser source navigation bukan full factory journey.",
+      "current_witness_examples": [
+        {
+          "case_id": "P08_ACTUAL_PARTIAL_LIFECYCLE",
+          "run_id": 39185235603,
+          "artifact_id": 12158153396,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B4",
+      "requirement": "Pickup → selesai jahit + upah → siap laundry",
+      "status": "PASS",
+      "current_scope": "Sewing→wage entitlement/ready Laundry teruji dalam fixture; upah tidak menunggu denominator retur-good palsu.",
+      "current_witness_examples": [
+        {
+          "case_id": "CP17_G1_SEWING_RECORD_WAGE_READY_FOR_LAUNDRY",
+          "run_id": 39184657689,
+          "artifact_id": 12158177672,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P12_NOTA_SOURCE_REGULAR_LAUNDRY_OUTSTANDING",
+          "run_id": 39185235723,
+          "artifact_id": 12158099174,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B5",
+      "requirement": "Jahit → kirim/terima laundry, klaim/cuci ulang",
+      "status": "PASS",
+      "current_scope": "Ordinary/claim satu lineage dari Native pickup start lalu actual UI sewing→send→GOOD receive→QC. Free same-product rewash dimulai dari Native QC/BS lalu empat actual UI create/partial/complete/inverse. Lot/SKU/receipt/quantity, WIP/FG/HPP dan no-double-wage/AP cocok. Seeded starting steps tidak dihitung sebagai langkah layar.",
+      "current_witness_examples": [
+        {
+          "case_id": "SOL_R4_B5_B6_ORDINARY_DESKTOP",
+          "run_id": 39196659018,
+          "artifact_id": 12162272799,
+          "group": "/browser",
+          "raw_status": "PASS",
+          "oracle_origin": "SOL_CONTRACT_LITERAL_ARITHMETIC_AND_LINEAGE",
+          "fixture_origin": "WRITER_NATIVE_START_ONLY_THEN_SOL_UI_CONTINUATION",
+          "review_document": "JOURNEY_Q3_RESULT_REVIEW.json"
+        },
+        {
+          "case_id": "SOL_R4_B5_B6_CLAIM_MOBILE",
+          "run_id": 39196659018,
+          "artifact_id": 12162272799,
+          "group": "/browser",
+          "raw_status": "PASS",
+          "oracle_origin": "SOL_CONTRACT_LITERAL_ARITHMETIC_AND_LINEAGE",
+          "fixture_origin": "WRITER_NATIVE_START_ONLY_THEN_SOL_UI_CONTINUATION",
+          "review_document": "JOURNEY_Q3_RESULT_REVIEW.json"
+        },
+        {
+          "case_id": "SOL_R4_B5_FREE_REWASH_SAME_PRODUCT_DESKTOP",
+          "run_id": 39193738642,
+          "artifact_id": 12160684624,
+          "group": "/browser",
+          "raw_status": "PASS",
+          "oracle_origin": "SOL_EXPLICIT_LITERAL_AND_ACTIVE_SOURCE_CONTRACT",
+          "fixture_origin": "ACCEPTED_NATIVE_SYNTHETIC_START",
+          "review_document": "JOURNEY_INITIAL_RESULT_REVIEW.json"
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_BROWSER_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [
+        "JOURNEY_Q3_RESULT_REVIEW.json",
+        "FUNCTION_DETAIL.json"
+      ],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "INCOMPLETE",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B6",
+      "requirement": "Invoice/klaim laundry → AP vendor → kas",
+      "status": "PASS",
+      "current_scope": "Actual same-lineage invoice draft/edit/post8→claim2 or ordinary→two cash payments→cash/credit/claim/invoice inverses. Ordinary total124/claim130; final AP0/kas8; source lot/SKU/HPP/physical unchanged, posted originals and inverses retained. Q3 qualifies genuine tool repair; all first INCOMPLETE remain.",
+      "current_witness_examples": [
+        {
+          "case_id": "SOL_R4_B5_B6_ORDINARY_DESKTOP",
+          "run_id": 39196659018,
+          "artifact_id": 12162272799,
+          "group": "/browser",
+          "raw_status": "PASS",
+          "oracle_origin": "SOL_CONTRACT_LITERAL_ARITHMETIC_AND_LINEAGE",
+          "fixture_origin": "WRITER_NATIVE_START_ONLY_THEN_SOL_UI_CONTINUATION",
+          "review_document": "JOURNEY_Q3_RESULT_REVIEW.json"
+        },
+        {
+          "case_id": "SOL_R4_B5_B6_CLAIM_MOBILE",
+          "run_id": 39196659018,
+          "artifact_id": 12162272799,
+          "group": "/browser",
+          "raw_status": "PASS",
+          "oracle_origin": "SOL_CONTRACT_LITERAL_ARITHMETIC_AND_LINEAGE",
+          "fixture_origin": "WRITER_NATIVE_START_ONLY_THEN_SOL_UI_CONTINUATION",
+          "review_document": "JOURNEY_Q3_RESULT_REVIEW.json"
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_BROWSER_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [
+        "JOURNEY_Q3_RESULT_REVIEW.json",
+        "FUNCTION_DETAIL.json"
+      ],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "INCOMPLETE",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B7",
+      "requirement": "Terima laundry → QC/final SKU → FG (+BS)",
+      "status": "PASS",
+      "current_scope": "Actual QC final SKU dan FG/BS, dengan Native-fixtured source dan real Auth browser.",
+      "current_witness_examples": [
+        {
+          "case_id": "CP17_BROWSER_R3_05_QC_FINAL_SKU_DESKTOP",
+          "run_id": 39184657689,
+          "artifact_id": 12158177672,
+          "group": "browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P08_ACTUAL_PARTIAL_LIFECYCLE",
+          "run_id": 39185235603,
+          "artifact_id": 12158153396,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_BROWSER_RERUN",
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B8",
+      "requirement": "FG → selesai PO → HPP final",
+      "status": "PASS",
+      "current_scope": "Finish/reopen satu FG/HPP, active usage; FINISHED tidak memalsukan ACTUAL bila HPP belum lengkap.",
+      "current_witness_examples": [
+        {
+          "case_id": "CP17_G2_FINISH_PO_FINAL_HPP_WIP_CLOSED",
+          "run_id": 39184657689,
+          "artifact_id": 12158177672,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "CP17_R4_02_POSITIVE_INVERSE_REOPEN_THEN_FINISH_SAME",
+          "run_id": 39184657689,
+          "artifact_id": 12158177672,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B9",
+      "requirement": "FG → buku Vivo/Widie, adjustment, konversi",
+      "status": "PASS",
+      "current_scope": "Book rank terpisah dari physical; adjustment/inverse dan qualified conversion scope retained.",
+      "current_witness_examples": [
+        {
+          "case_id": "P10_BOOK_REORDER_FACTS",
+          "run_id": 39185235723,
+          "artifact_id": 12158837905,
+          "group": "book",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P10_ADJUST_NEGATIVE_VALUE",
+          "run_id": 39185235723,
+          "artifact_id": 12158837905,
+          "group": "adjustments",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B10",
+      "requirement": "FG → draft/invoice penjualan",
+      "status": "PASS",
+      "current_scope": "Create/edit/manual13/post dan reservation sekali, money/FG Native source sama.",
+      "current_witness_examples": [
+        {
+          "case_id": "P11_DRAFT_BROWSER_DESKTOP",
+          "run_id": 39185235693,
+          "artifact_id": 12158636433,
+          "group": "browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P11_COMMAND_POST_ONCE",
+          "run_id": 39185235723,
+          "artifact_id": 12159126728,
+          "group": "commands",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_BROWSER_RERUN",
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B11",
+      "requirement": "Penjualan → AR → pembayaran pelanggan → kas",
+      "status": "PASS",
+      "current_scope": "Actual AR partial/full/inverse, cents, no second stock/HPP.",
+      "current_witness_examples": [
+        {
+          "case_id": "P11_PAYMENT_BROWSER_DESKTOP",
+          "run_id": 39185235723,
+          "artifact_id": 12159126728,
+          "group": "browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P11_PAYMENT_EXACT_LIFECYCLE",
+          "run_id": 39185235723,
+          "artifact_id": 12159126728,
+          "group": "payments",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_BROWSER_RERUN",
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B12",
+      "requirement": "Retur → FG + kredit AR/refund",
+      "status": "PASS",
+      "current_scope": "Return grade/location/allocation/cash dependencies, exact inverse and refund source bounded.",
+      "current_witness_examples": [
+        {
+          "case_id": "P11_RETURN_BROWSER_R10_DESKTOP_A",
+          "run_id": 39185235591,
+          "artifact_id": 12158596909,
+          "group": "sales_browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P11_RETURN_LIFECYCLE",
+          "run_id": 39185235723,
+          "artifact_id": 12159126728,
+          "group": "returns",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_BROWSER_RERUN",
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "B13",
+      "requirement": "Semua uang → kas → GL → laporan/tutup periode",
+      "status": "PASS",
+      "current_scope": "GL/report/close/reopen dan periode sumber benar; finance latency tetap OPEN.",
+      "current_witness_examples": [
+        {
+          "case_id": "P13_REPORT_LEDGER_LIFECYCLE",
+          "run_id": 39185235723,
+          "artifact_id": 12158233630,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P13_PERIOD_CLOSE_REOPEN",
+          "run_id": 39185235723,
+          "artifact_id": 12158233630,
+          "group": "period_native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "F03_COMBINED_LEDGER",
+          "run_id": 39185235591,
+          "artifact_id": 12158596909,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "S1",
+      "requirement": "AP supplier → pembayaran → kas",
+      "status": "PASS",
+      "current_scope": "26th payment exact owning AP/cash, inverse once and no stock/HPP.",
+      "current_witness_examples": [
+        {
+          "case_id": "CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_DESKTOP",
+          "run_id": 39185235584,
+          "artifact_id": 12158875292,
+          "group": "browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE",
+          "run_id": 39185235584,
+          "artifact_id": 12158875292,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_BROWSER_RERUN",
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "S2",
+      "requirement": "Retur/kredit supplier",
+      "status": "PASS",
+      "current_scope": "Return/credit reallocation same party/date, current paid child prevents unsafe reuse.",
+      "current_witness_examples": [
+        {
+          "case_id": "F03_P09_NATIVE_PAID_SUPPLIER_CREDIT_CARRY",
+          "run_id": 39185235723,
+          "artifact_id": 12158399442,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P09_RETURN_FABRIC_PORTABLE_CREDIT",
+          "run_id": 39185235723,
+          "artifact_id": 12158164165,
+          "group": "returns",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "S3",
+      "requirement": "Absensi/Nota/upah/rework/kasbon → payroll → kas",
+      "status": "FAIL",
+      "current_scope": "Attendance/nota/payroll approval/pay/inverse plus old opening obligations, no double accrual. Penerimaan integritas end-to-end FAIL pada FG_REPAIR Nota: actual source/6000 benar tetapi detector false CRITICAL2. Tidak mengklaim pembayaran atau period-close UI macet.",
+      "current_witness_examples": [
+        {
+          "case_id": "P12_ATTENDANCE_BROWSER_DESKTOP_CYCLE",
+          "run_id": 39185235723,
+          "artifact_id": 12158099174,
+          "group": "attendance_write_browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P12_OPENING_BROWSER_DESKTOP_CYCLE",
+          "run_id": 39185235591,
+          "artifact_id": 12158596909,
+          "group": "opening_payroll_browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "SOL_R4_INV_D02_VALID_FG_REPAIR_NOTA_ZERO_ALARM",
+          "run_id": 39200571137,
+          "artifact_id": 12163559008,
+          "group": "/native",
+          "raw_status": "COUNTEREXAMPLE",
+          "oracle_origin": "PROMAX_INV_D02_HEALTHY_BOOK_ZERO_WITH_ACTUAL_FG_REPAIR_CONTRACTOR_RESOLUTION",
+          "fixture_origin": "ACCEPTED_AX_NATIVE_REPAIR_QTY2_AND1_THEN_PUBLIC_CP7_NOTA_SAVE_POST",
+          "review_document": "PAYROLL_DETECTOR_DISPUTE_RESULT_REVIEW.json"
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_BROWSER_RERUN",
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [
+        "PAYROLL_DETECTOR_DISPUTE_RESULT_REVIEW.json",
+        "DETECTOR_DISPOSITIONS.json"
+      ],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "PROVED_S1_VALID_FG_REPAIR_FALSE_ALARM",
+        "owner": "Writer Native detector/installer then independent auditor",
+        "action": "Resolve supported FG_REPAIR source contractor/component from actual wage/receipt in the Native checker; retain real wrong-contractor/orphan detection and installer definition pins/restore. Retest valid Nota6000 with all167zero and legitimate negative controls. No alarm filtering or guard weakening.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "S4",
+      "requirement": "Nota Ambil Aksesori → potongan payroll → kas",
+      "status": "PASS",
+      "current_scope": "Accessory/kasbon deduct limited to payable, carry retained, zero net no cash journal.",
+      "current_witness_examples": [
+        {
+          "case_id": "P12_SETTLEMENT_KASBON_CARRY",
+          "run_id": 39185235723,
+          "artifact_id": 12158099174,
+          "group": "settlement",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "CP17_KASBON_GIVE_DEDUCT_PAY",
+          "run_id": 39184657689,
+          "artifact_id": 12158177672,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "S5",
+      "requirement": "BS → rework/cuci ulang → QC/upah",
+      "status": "PASS",
+      "current_scope": "Ordinary rework2/labor60 plus eligibility/partial-paid, owning inverse; not all rewash full browser.",
+      "current_witness_examples": [
+        {
+          "case_id": "CP7_SOURCE_REWORK_DOCUMENTS",
+          "run_id": 39185235584,
+          "artifact_id": 12158875292,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "CP17_RWK01_OPEN_CASE_FINISHED_PART_PAID_ONCE",
+          "run_id": 39184657689,
+          "artifact_id": 12158177672,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "S6",
+      "requirement": "Hitung fisik/penyesuaian → stok/GL",
+      "status": "PASS",
+      "current_scope": "Physical count/adjust/inverse including registered zero-history position, unknown quantity/cost not defaulted.",
+      "current_witness_examples": [
+        {
+          "case_id": "P09_COUNT_FABRIC",
+          "run_id": 39185235723,
+          "artifact_id": 12158164165,
+          "group": "material_count",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P09_BROWSER_COUNT_UNMOVED_DESKTOP",
+          "run_id": 39185235723,
+          "artifact_id": 12158164165,
+          "group": "browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "P10_ADJUST_NEGATIVE_VALUE",
+          "run_id": 39185235723,
+          "artifact_id": 12158837905,
+          "group": "adjustments",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_BROWSER_RERUN",
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    },
+    {
+      "id": "S7",
+      "requirement": "Impor saldo awal → tahap berikutnya",
+      "status": "PASS",
+      "current_scope": "Synthetic opening import→downstream/cutover floor qualified; real cutover remains INCOMPLETE.",
+      "current_witness_examples": [
+        {
+          "case_id": "P12_OPENING_BROWSER_DESKTOP_CYCLE",
+          "run_id": 39185235591,
+          "artifact_id": 12158596909,
+          "group": "opening_payroll_browser",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        },
+        {
+          "case_id": "CP17_R2_D15_5_CUTOVER_OPENING_PATH_LATE_INVOICE_SETTLEMENT",
+          "run_id": 39184657689,
+          "artifact_id": 12158177672,
+          "group": "native",
+          "raw_status": "PASS",
+          "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+          "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+          "review_document": null
+        }
+      ],
+      "evidence_origins": [
+        "INDEPENDENT_BROWSER_RERUN",
+        "INDEPENDENT_NATIVE_RERUN",
+        "REUSED_AUDITOR_LOG_READ"
+      ],
+      "review_document_refs": [],
+      "oracle_origin": "Per-witness origin preserved: writer/legacy accepted oracles are distinct from Sol-designed contract qualifications. ID matching is navigation only.",
+      "qualification": "PASS is limited to written current/retained scope, not every permutation, current whole-production gate or an ERP percentage. INCOMPLETE does not itself prove a product bug.",
+      "retained_r3": {
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+        "status": "PASS",
+        "path": "audit/sol_cp17_r3/CHAIN_MATRIX.json",
+        "runtime_credit_r4": 0
+      },
+      "next_action": {
+        "classification": "QUALIFIED_DEFINED_SCOPE",
+        "owner": "Writer regression / auditor next candidate",
+        "action": "Retain exact witnessed or accepted-unchanged scope; no additional run required solely for more permutations.",
+        "executable_now": false
+      }
+    }
+  ]
+}

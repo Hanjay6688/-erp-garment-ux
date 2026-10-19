@@ -1,0 +1,301 @@
+{
+  "origin": "INDEPENDENT_SOL_EXECUTION_WRITER_ORACLES_PLUS_SOL_DOCUMENT_CHECKS",
+  "stage": "PARTIAL_NOT_SEALED",
+  "reports": [
+    {
+      "run_id": 39185235756,
+      "artifact": 12157922491,
+      "path": "audit/sol_cp17_r4/ci_receipts/sol_artifacts/12157922491/files/CP7_F03_MISC_FINANCE.json",
+      "sha256": "9baa9c1a22b737543534039d4c59bc13ec3a2f235a0b1718243471dd29d6b3ef",
+      "label": "CP7_F03_MISC_FINANCE",
+      "counts": {
+        "native": 9,
+        "races": 2,
+        "http": 1,
+        "browser": 2
+      },
+      "case_ids": {
+        "native": [
+          "F03_MISC_DRAFT_EXACT",
+          "F03_MISC_POST_ACCOUNTING",
+          "F03_MISC_INVERSE_DATES",
+          "F03_MISC_STALE_REVIEW",
+          "F03_MISC_FIELDS",
+          "F03_MISC_PROTECTED_ACCOUNTS",
+          "F03_MISC_REPLAY",
+          "F03_MISC_CURRENT_ACCESS_PRIVATE",
+          "F03_MISC_PAGES"
+        ],
+        "races": [
+          "F03_MISC_RACE_REPLAY",
+          "F03_MISC_RACE_CURRENT_REVOKE"
+        ],
+        "http": [
+          "F03_MISC_REAL_HTTP"
+        ],
+        "browser": [
+          "F03_MISC_BROWSER_DESKTOP_LOST_REPLY",
+          "F03_MISC_BROWSER_MOBILE_CURRENT_AUTH"
+        ]
+      },
+      "total": 14,
+      "raw_status": "PASS",
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "oracle_origin": "WRITER_DECLARED",
+      "fixture_origin": "WRITER_SYNTHETIC",
+      "numeric_contract_check": {
+        "expected_cash_delta": "149.99",
+        "inverse_expected_delta": "0.00",
+        "origin": "SOL_DECIMAL_ARITHMETIC_ON_WRITER_FIXTURE; report flags assert these deltas but does not serialize each cash balance",
+        "independent_new_fixture": false
+      }
+    },
+    {
+      "run_id": 39185235595,
+      "artifact": 12158220771,
+      "label": "UI_PHONE_WIDTH",
+      "mode": "DEMO_STATIC_BUILD_ONLY",
+      "unique_menus": 47,
+      "exact_menu_set_matches_sol_predeclaration": true,
+      "all_scroll_widths": 390,
+      "all_inner_widths": 390,
+      "overflows": 0,
+      "below_2_reported": 0,
+      "contrast_scope": "Writer measurement excludes faded/disabled/image text; no full-text independent visual acceptance",
+      "raw_status": "PASS",
+      "oracle_origin": "SOL_MENU_SET_AND_WIDTH_RULE; WRITER_CONTRAST_MEASURE"
+    },
+    {
+      "run_id": 39185235700,
+      "artifact": 12157997739,
+      "path": "audit/sol_cp17_r4/ci_receipts/sol_artifacts/12157997739/files/CP7_RECEIPT_CORRECTION.json",
+      "sha256": "6e672baae3997b2d9169175f0b81ff4569d889d5cc85274f069138bb5d269de7",
+      "label": "CP7_OWNING_RECEIPT_CORRECTION",
+      "counts": {
+        "native": 37,
+        "races": 3,
+        "http": 1,
+        "browser": 2
+      },
+      "case_ids": {
+        "native": [
+          "RF_QTY_DOWN_AFTER_CUTTING",
+          "RF_QTY_UP_AFTER_CUTTING",
+          "RF_PRICE_AFTER_SALE_AND_RETURN",
+          "RF_WRONG_MATERIAL_AFTER_CUTTING",
+          "RF_WRONG_MATERIAL_AND_PRICE",
+          "RF_ROLL_COUNT_TYPO_UNUSED_ROLL",
+          "RF_REMOVED_ROLL_USED_REFUSED",
+          "RF_ROLL_BELOW_USE_REFUSED",
+          "RF_ROLL_NUMBER_TYPO_USED_ROLL",
+          "RF_HEADER_TYPO",
+          "RF_INVOICE_HEADER_TYPO",
+          "RF_ARRIVAL_DATE_TYPO",
+          "RF_WAREHOUSE_TYPO",
+          "RF_SUPPLIER_TYPO",
+          "RF_PAYMENT_REPLAY",
+          "RF_PAID_EXCEEDS_CORRECTED_REFUSED",
+          "RF_OVERPAID_CREDIT_TO_NEXT_NOTA",
+          "RF_OPENING_ADVANCE_PAYMENT_REPLAY",
+          "RF_INVOICE_PRICE_AFTER_SALE",
+          "RF_INVOICED_QTY_DOWN_WITH_PAYMENT",
+          "RF_INVOICE_INCOMPLETE_REFUSED",
+          "RF_SHARED_INVOICE_CORRECTED",
+          "RF_CLOSED_PERIOD_CORRECTION",
+          "RF_REPEATED_REVISIONS",
+          "RF_REPLAY_SAME_REQUEST",
+          "RF_REVIEW_CHANGED_REFUSED",
+          "RF_ACCESS_CURRENT_AUTHORITY",
+          "RF_YEAR_HISTORY_364",
+          "RF_YEAR_FINAL_INVOICE_PRICE",
+          "RF_DRAFT_ROLL_USE_BLOCKS",
+          "RF_CREDIT_RESTORED_UNBLOCKS",
+          "RF_DUPLICATE_LINES_KEEP_LOT",
+          "RF_LATE_FAILURE_ATOMIC",
+          "RF_ACCESSORY_LINE_QTY",
+          "RF_MATERIAL_NAME_TYPO",
+          "RF_MATERIAL_SKU_TYPO",
+          "RF_MATERIAL_NAME_REFUSALS"
+        ],
+        "races": [
+          "RF_RACE_TWO_REQUESTS",
+          "RF_RACE_SAME_UUID",
+          "RF_RACE_CUTTING_USE"
+        ],
+        "http": [
+          "RF_HTTP_COMMAND_REPLAY_AUTH"
+        ],
+        "browser": [
+          "RF_BROWSER_DESKTOP",
+          "RF_BROWSER_MOBILE"
+        ]
+      },
+      "total": 43,
+      "raw_status": "PASS",
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "oracle_origin": "WRITER_DECLARED",
+      "fixture_origin": "WRITER_SYNTHETIC",
+      "strict_race_qualification": "Receipt three Barrier cases have no observed wait; only two-session effect credit.",
+      "numeric_contract_check": {
+        "origin": "SOL_DECIMAL_ARITHMETIC_ON_WRITER_FIXTURE; assertions checked in pinned provider; no independently new fixture",
+        "expected": {
+          "remaining_qty": "20",
+          "raw_value": "200",
+          "unchanged_hpp_total": "900",
+          "hpp_per_piece": "15",
+          "price_12_recost_hpp": "17",
+          "FG_revaluation": "90",
+          "COGS_revaluation": "30"
+        }
+      }
+    },
+    {
+      "run_id": 39185235694,
+      "artifact": 12158390988,
+      "path": "audit/sol_cp17_r4/ci_receipts/sol_artifacts/12158390988/files/CP7_P18_E01_BRIDGE.json",
+      "sha256": "4f2c5ad6379cad1e324daeab362c327a15a90c703ab120c2166632209ada4789",
+      "label": "CP7_P18_E01_BRIDGE",
+      "counts": {
+        "native": 5,
+        "races": 1,
+        "http": 1,
+        "browser": 2
+      },
+      "case_ids": {
+        "native": [
+          "P18_E01_NATIVE_SOURCE_TO_ALL_CONSUMERS",
+          "P18_E01_CASH_INVERSE_IMMUTABLE_ARCHIVE",
+          "P18_E01_CURRENT_AUTHORITY",
+          "P18_E01_OWNING_NOTE_CORRECTION_ALL_CONSUMERS",
+          "P18_E01_CORRECTED_DEMAND_PROSPECTIVE_MODEL"
+        ],
+        "races": [
+          "P18_E01_CASH_INVERSE_DURING_SAVED_REPORT_WAIT"
+        ],
+        "http": [
+          "P18_E01_EXACT_AUTH_NATIVE_SOURCE_TO_REPORT"
+        ],
+        "browser": [
+          "P18_E01_BRIDGE_BROWSER_DESKTOP",
+          "P18_E01_BRIDGE_BROWSER_MOBILE"
+        ]
+      },
+      "total": 9,
+      "raw_status": "PASS",
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "oracle_origin": "WRITER_DECLARED",
+      "fixture_origin": "WRITER_SYNTHETIC",
+      "strict_race_qualification": "Advisory wait observed by source assertion before inverse COMMIT; report serializes Boolean, not backend PID trace.",
+      "numeric_contract_check": {
+        "origin": "SOL_DECIMAL_ARITHMETIC_ON_WRITER_FIXTURE; serialized checkpoints checked",
+        "expected": {
+          "hpp_total": "900",
+          "hpp_per_piece": "15",
+          "FG_qty": "45",
+          "FG_value": "675",
+          "net_revenue": "375",
+          "AR": "175",
+          "AR_after_cash_inverse": "375"
+        }
+      }
+    },
+    {
+      "run_id": 39185235655,
+      "artifact": 12158211706,
+      "path": "audit/sol_cp17_r4/ci_receipts/sol_artifacts/12158211706/files/CP7_F03_NATIVE_PLANNER_SEAMS.json",
+      "sha256": "5187634364c2ecc58cbb55e1a553bba2a0ff9e6ab1c0fba3ea990bf32f4416be",
+      "label": "CP7_F03_NATIVE_PLANNER_SEAMS",
+      "counts": {
+        "native": 2
+      },
+      "case_ids": {
+        "native": [
+          "O06_NATIVE_RESERVATION_PLANNER_ONCE",
+          "O07_NATIVE_SAME_SKU_SIZE_GAP"
+        ]
+      },
+      "total": 2,
+      "raw_status": "PASS",
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "oracle_origin": "WRITER_O06_O07_DECLARED; SOL_INDEPENDENT_ARITHMETIC_ON_WRITER_FIXTURE",
+      "fixture_origin": "WRITER_SYNTHETIC",
+      "numeric_contract_check": {
+        "projected_before_and_after_post": "100-24-20=56; no duplicate reservation subtraction",
+        "after_cancel": "100-20=80",
+        "size_surplus_S": "25-10=15",
+        "size_gap_L": "20-5=15; total stock30 does not erase size gap15"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "artifact": 12157922491,
+      "run_id": "39185235756",
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "product_roots_match_before_after": true
+    },
+    {
+      "artifact": 12158022121,
+      "run_id": "39185235595",
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "product_roots_match_before_after": true
+    },
+    {
+      "artifact": 12157997739,
+      "run_id": "39185235700",
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "product_roots_match_before_after": true
+    },
+    {
+      "artifact": 12158390988,
+      "run_id": "39185235694",
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "product_roots_match_before_after": true
+    },
+    {
+      "artifact": 12158211706,
+      "run_id": "39185235655",
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "product_roots_match_before_after": true
+    }
+  ],
+  "selected_files_rehashed": 48,
+  "missing_files": 0,
+  "hash_mismatches": 0,
+  "cp17_pending": true,
+  "full_audit_acceptance": false,
+  "production_go": false,
+  "bounded_loading_samples": [
+    {
+      "id": "ANALYSIS_CAPTURE_DESKTOP",
+      "elapsed_ms": 850.5,
+      "limit_ms": 3000,
+      "meets_limit": true
+    },
+    {
+      "id": "STOCK_POPUP_DESKTOP",
+      "elapsed_ms": 348.20000000001164,
+      "limit_ms": 1000,
+      "meets_limit": true
+    },
+    {
+      "id": "ANALYSIS_CAPTURE_MOBILE",
+      "elapsed_ms": 986.8999999999651,
+      "limit_ms": 3000,
+      "meets_limit": true
+    },
+    {
+      "id": "STOCK_POPUP_MOBILE",
+      "elapsed_ms": 397.5,
+      "limit_ms": 1000,
+      "meets_limit": true
+    }
+  ],
+  "loading_scope": "FOUR_CI_LOOPBACK_REAL_AUTH_SAMPLES_ONLY; no factory/full P19 SLA acceptance",
+  "reviewed_runs": 5,
+  "registered_runs": 46
+}

@@ -1,0 +1,1865 @@
+{
+  "state": "FINAL_ALL60_REGISTERED_RUNS_TERMINAL_LOGS_REVIEWED",
+  "source_index_path": "ci_receipts/OWN_JOB_LOG_INDEX.json",
+  "source_index_sha256": "74392bfbeaa7e9adae30b59808cd82ccfe33bab0bb826b2765e7da1d2c20c99e",
+  "exact_decoded_text_not_provider_zip_bytes": true,
+  "job_count": 90,
+  "jobs_with_database_bootstrap": 84,
+  "bootstrap_attempt_counts": {
+    "1": 83,
+    "2": 1
+  },
+  "failed_installation_bootstrap_steps_at_provider_step_level": 0,
+  "failed_qualification_steps_in_collector_setup_name_list": 8,
+  "precase_startup_failures_retained": 1,
+  "any_github_run_attempt_above_one": false,
+  "missing_or_hash_mismatch": 0,
+  "jobs": [
+    {
+      "run_id": 39184657689,
+      "job_id": 117844410757,
+      "workflow_sha": "3eb1edd795efdbfb77a57c9165f05d5d5dc8ca13",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117844410757.log",
+      "sha256": "29a166343fb45ed4afd25277973b7578539e748f2646f4b994be3de31527bc81",
+      "bytes": 547550,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 341,
+      "case_log_status_counts": {
+        "PASS": 341
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235564,
+      "job_id": 117846167254,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167254.log",
+      "sha256": "75fb2c7c1c8c144d35a7504d389d6136ba1f9a21b7a3791f3eaa62aab2085aeb",
+      "bytes": 283054,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 10,
+      "case_log_status_counts": {
+        "PASS": 10
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235564,
+      "job_id": 117846167402,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167402.log",
+      "sha256": "e2385f50f372a9d444d0c9ade1b73eed9af68a2390ce15794a442d5b05df6833",
+      "bytes": 302866,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 17,
+      "case_log_status_counts": {
+        "PASS": 17
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235564,
+      "job_id": 117846167438,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167438.log",
+      "sha256": "1f0ea5df1920d6187f37b136c74e45603bac519eed8c39c142779cc91e432e08",
+      "bytes": 282705,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 10,
+      "case_log_status_counts": {
+        "PASS": 10
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235564,
+      "job_id": 117846167447,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167447.log",
+      "sha256": "237a6da858dd73ff6279c9abd10a77aa82967d51c9982b47471a02606dd8fe15",
+      "bytes": 288614,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 20,
+      "case_log_status_counts": {
+        "PASS": 20
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235564,
+      "job_id": 117846167489,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167489.log",
+      "sha256": "5f282d7b927b8ce2ed97f688bd668b9e6833fb70529de87e60b53cdfc5486578",
+      "bytes": 370317,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 20,
+      "case_log_status_counts": {
+        "PASS": 20
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235564,
+      "job_id": 117846167496,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167496.log",
+      "sha256": "862ac6cc1cf8c73905c73616fdbae9281301105e9fe54e190b8843ac92768dd1",
+      "bytes": 447569,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 5,
+      "case_log_status_counts": {
+        "PASS": 5
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235564,
+      "job_id": 117846167510,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167510.log",
+      "sha256": "cf0d69c67a6275496d4c027be4c70a2525378d04ffcad3fc93f39fceed48c575",
+      "bytes": 287553,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 16,
+      "case_log_status_counts": {
+        "PASS": 16
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235564,
+      "job_id": 117846167514,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167514.log",
+      "sha256": "ac198496a1ca5d25791758c4536eb8faf0a04dabc46c2392fd6df5260006f36f",
+      "bytes": 326575,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 15,
+      "case_log_status_counts": {
+        "PASS": 15
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235564,
+      "job_id": 117846167541,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167541.log",
+      "sha256": "06692f2ccc25904c53d4a8522b8eba7d4f651c197f0c438d3e902ca3850efc66",
+      "bytes": 296606,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 22,
+      "case_log_status_counts": {
+        "PASS": 22
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235564,
+      "job_id": 117846167545,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167545.log",
+      "sha256": "e26c9237338f60341c936da07ece1ceb2bde7426d3e7e131d5a3fe8faf0bbe90",
+      "bytes": 333698,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 14,
+      "case_log_status_counts": {
+        "PASS": 14
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235564,
+      "job_id": 117846167556,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167556.log",
+      "sha256": "2fcfe5f1dc230c9b412c2fca020192422961294164b45b79f048619df0f80533",
+      "bytes": 300082,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 25,
+      "case_log_status_counts": {
+        "PASS": 25
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235564,
+      "job_id": 117846167798,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167798.log",
+      "sha256": "16b472466c5f897d223db0e0626af0f1f2bc8c3cf5113ddaa6fd43b58f8b47f8",
+      "bytes": 314556,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 9,
+      "case_log_status_counts": {
+        "PASS": 9
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235566,
+      "job_id": 117846165896,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846165896.log",
+      "sha256": "797416349a82c67e0b688fb99a81644b0f176680a1b63f22f8c8e638b346ff07",
+      "bytes": 298806,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 23,
+      "case_log_status_counts": {
+        "PASS": 23
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235567,
+      "job_id": 117846166055,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166055.log",
+      "sha256": "57d269153ffa2fe102130e7e60b4b5b0d696093515d2a560723be9d53b10e89d",
+      "bytes": 6610720,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 6,
+      "case_log_status_counts": {
+        "PASS": 6
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235572,
+      "job_id": 117846166341,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166341.log",
+      "sha256": "3588ba7c93f559113ec519593de0ccd1abc6c5c0262e2963555fe74df20e6375",
+      "bytes": 297908,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 4,
+      "case_log_status_counts": {
+        "PASS": 4
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235575,
+      "job_id": 117846165714,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846165714.log",
+      "sha256": "e3a0b1d5c82e664ab7029fda2d7fa5a07dafb8b18acd9a6fc3d6247dca33e5b1",
+      "bytes": 305922,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 5,
+      "case_log_status_counts": {
+        "PASS": 5
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235584,
+      "job_id": 117846166155,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166155.log",
+      "sha256": "fd18ec427fa7cad1a40878e900e7f60fb4648d72c11f849829367dc4b6110ad4",
+      "bytes": 328715,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 78,
+      "case_log_status_counts": {
+        "PASS": 78
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235586,
+      "job_id": 117846166227,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166227.log",
+      "sha256": "0c70a02003cf1d28a64f1da8245e7c8eb2e5d7735580d42ff11a16acbf9bca76",
+      "bytes": 297618,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 10,
+      "case_log_status_counts": {
+        "PASS": 10
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235591,
+      "job_id": 117846166316,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166316.log",
+      "sha256": "fc17867e9624fc25ad21e6b1a6f4fbea7d39965973d5f37eb1aa084308ca785b",
+      "bytes": 554901,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 22,
+      "case_log_status_counts": {
+        "PASS": 22
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235593,
+      "job_id": 117846166156,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166156.log",
+      "sha256": "0952a20c7032b2f7d84e6c46940a2c9a537dc12e4a31f00f3dc0a4af65b66a3e",
+      "bytes": 316183,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 44,
+      "case_log_status_counts": {
+        "PASS": 44
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235595,
+      "job_id": 117846166584,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166584.log",
+      "sha256": "1ac84b93a8e5044993d319730a4b369e74899ab913b9253a7403785829ae2e59",
+      "bytes": 75322,
+      "bootstrap_success_attempts": [],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 0,
+      "case_log_status_counts": {},
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235599,
+      "job_id": 117846166650,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166650.log",
+      "sha256": "e9b2ad808baef0f79f97c952e64fdff60f6875dcb51b9f95d528c72cf76eddfd",
+      "bytes": 310554,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 26,
+      "case_log_status_counts": {
+        "PASS": 26
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235603,
+      "job_id": 117846166829,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166829.log",
+      "sha256": "49f2747dfcea7a69f540ada3828cbc6b6dd04638daf67c150dc6ed980e2b2b48",
+      "bytes": 853148,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 21,
+      "case_log_status_counts": {
+        "PASS": 21
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235603,
+      "job_id": 117846167058,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167058.log",
+      "sha256": "d8beb1e861bb0ac17c75fa7039d36d5438f5b5a03d45217e02c4d0597ecc1cce",
+      "bytes": 332011,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 43,
+      "case_log_status_counts": {
+        "PASS": 43
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235603,
+      "job_id": 117846167103,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167103.log",
+      "sha256": "08ae6852bafcab5b4b451b10191ed576d8d442b36b53a5bf51918ed750cd4bc3",
+      "bytes": 462337,
+      "bootstrap_success_attempts": [
+        2
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 289,
+      "case_log_status_counts": {
+        "PASS": 289
+      },
+      "precase_startup_retry": {
+        "classification": "INFRA_RACE_RERUN_PASSED",
+        "first_failure_line": 2027,
+        "first_failure": "2026-10-19T01:59:18.0087369Z failed to start docker container \"supabase_db_cp5-local\": Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint supabase_db_cp5-local (f9ea15b4651c02d72adaa09751e021d9b32054a82d36d046d1534e611946932f): failed to bind host port for 0.0.0.0:54322:172.18.0.2:5432/tcp: address already in use",
+        "successful_bootstrap_line": 2034,
+        "successful_bootstrap": "2026-10-19T02:00:54.1212385Z supabase start succeeded on attempt 2 from public.ecr.aws",
+        "first_case_line": 2288,
+        "first_case_id": "P14_NATIVE_ANALYSIS_FROZEN_NATIVE",
+        "github_run_attempt": 1,
+        "github_job_rerun": false,
+        "disposition": "The local database container could not bind port54322 before any case/admission output. Existing bootstrap stopped containers and retried once with registry fallback. Start succeeded at02:00:54Z; first case at02:02:12Z. Guide1.9/16.3 permits one pre-case prerequisite retry; no product result or case failure was retried.",
+        "limitation": "Copied workflow bootstrap loop allows up to4 attempts; only2 occurred. Future auditor harness should enforce the guide limit directly. No product change requested."
+      }
+    },
+    {
+      "run_id": 39185235603,
+      "job_id": 117846167107,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167107.log",
+      "sha256": "8f9cfef3443bbfcec174863e1eea1a9f07fe739cf0979abfa07dcf9965562a70",
+      "bytes": 367968,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 153,
+      "case_log_status_counts": {
+        "PASS": 153
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235603,
+      "job_id": 117846167184,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167184.log",
+      "sha256": "337142fdfb8190142f0fcce47e4ae35b6d015a001fe470e318339c4c34d6c16d",
+      "bytes": 1261136,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 13,
+      "case_log_status_counts": {
+        "PASS": 13
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235606,
+      "job_id": 117846166380,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166380.log",
+      "sha256": "5bfb557d8b2ec3d1ea45e5b9c51665b3f01fb4074b356180bf3e708eaffcf4b9",
+      "bytes": 315978,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 19,
+      "case_log_status_counts": {
+        "PASS": 19
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235608,
+      "job_id": 117846166503,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166503.log",
+      "sha256": "be499278cb518f41fe2d896bf30ad64fc777cab1068e0ea917176dea77dc7879",
+      "bytes": 281340,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 12,
+      "case_log_status_counts": {
+        "PASS": 12
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235610,
+      "job_id": 117846166304,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166304.log",
+      "sha256": "72e2146f543495a9a1a63c2f2c6d515c961f2af7159f9bf1ce8ace86a57df8c3",
+      "bytes": 285338,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 20,
+      "case_log_status_counts": {
+        "PASS": 20
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235616,
+      "job_id": 117846167374,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167374.log",
+      "sha256": "787cbce2d8a25e1440bd6476bb3be8b23c6ccf8324587924d14d892b42a38195",
+      "bytes": 2456001,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 43,
+      "case_log_status_counts": {
+        "PASS": 43
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235629,
+      "job_id": 117846167202,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167202.log",
+      "sha256": "b0db161076ae8471802572dfef74ae3bbcb50bc1a918eca4fd0625b4b3da790f",
+      "bytes": 276291,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 4,
+      "case_log_status_counts": {
+        "PASS": 4
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235654,
+      "job_id": 117846166478,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166478.log",
+      "sha256": "aedf8f58df592786fddaa9ea804b8f4e3feff2ebcffb7a81e70b834d0e810f64",
+      "bytes": 324364,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 83,
+      "case_log_status_counts": {
+        "PASS": 83
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235654,
+      "job_id": 117846166701,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166701.log",
+      "sha256": "36f6259927b8ac12966bcfd327f7503ae3cb3e2080193ba06f6732b7f3384437",
+      "bytes": 315981,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 71,
+      "case_log_status_counts": {
+        "PASS": 71
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235654,
+      "job_id": 117846166743,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166743.log",
+      "sha256": "4d77e77f45f95485cb357e8eb33d3526e4d3319c6c5647d2261f8c2d73dd72dc",
+      "bytes": 296053,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 32,
+      "case_log_status_counts": {
+        "PASS": 32
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235654,
+      "job_id": 117846166754,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166754.log",
+      "sha256": "eb02c3099c74349be343145819516d3e5621f74caf44e45e4878043f8da4b1dd",
+      "bytes": 305528,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 53,
+      "case_log_status_counts": {
+        "PASS": 53
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235655,
+      "job_id": 117846166647,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166647.log",
+      "sha256": "41b3370c954f2545d4775c6bdab54dba51cfdf83a0e0dd68836ad6389de13890",
+      "bytes": 274965,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 2,
+      "case_log_status_counts": {
+        "PASS": 2
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235668,
+      "job_id": 117846166983,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166983.log",
+      "sha256": "161bdafd099c208530de66f9e87376fe4ac90e6a6ceb7d47177c30e26addcddf",
+      "bytes": 309281,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 21,
+      "case_log_status_counts": {
+        "PASS": 21
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235693,
+      "job_id": 117846167070,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167070.log",
+      "sha256": "08b46b322cddffac1f2cd02c38335371b2ce0b1aae3cf8c2b75fe17d6f5c26c4",
+      "bytes": 334763,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 33,
+      "case_log_status_counts": {
+        "INCOMPLETE": 2,
+        "PASS": 31
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235694,
+      "job_id": 117846166730,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166730.log",
+      "sha256": "bd71dd02da11c874e62e780d663b807e9155656c8cb9d6998af4241a87cffa49",
+      "bytes": 324129,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 9,
+      "case_log_status_counts": {
+        "PASS": 9
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235697,
+      "job_id": 117846167069,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167069.log",
+      "sha256": "2cc6d1dc63ab0e4c41106f40e893454332f9994729eb821c380c168ce7341fa1",
+      "bytes": 294446,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 37,
+      "case_log_status_counts": {
+        "PASS": 37
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235700,
+      "job_id": 117846166961,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166961.log",
+      "sha256": "571f0a34d08386dac7f259ba4c5242b4ff17ceab4921bc64e5428b388b912303",
+      "bytes": 361768,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 43,
+      "case_log_status_counts": {
+        "PASS": 43
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235702,
+      "job_id": 117846167230,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167230.log",
+      "sha256": "6176ecfe623d5c0f7fd59a84f55f4e4c66a7e7c0802499a13a74ae8b70d156df",
+      "bytes": 4581405,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 25,
+      "case_log_status_counts": {
+        "PASS": 25
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235704,
+      "job_id": 117846167120,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167120.log",
+      "sha256": "4fd7d46f6a32ac4af942e98cc421eaa14b4a2e180941514990b8911d5c2e1373",
+      "bytes": 325807,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 23,
+      "case_log_status_counts": {
+        "PASS": 23
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235705,
+      "job_id": 117846167441,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167441.log",
+      "sha256": "4ac37c6d13c9bfd31b52919a4524e664e3d44de651043523da0a4f25f8da97e8",
+      "bytes": 285058,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 6,
+      "case_log_status_counts": {
+        "PASS": 6
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235706,
+      "job_id": 117846167135,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167135.log",
+      "sha256": "c13c66ed6d3804f434e3af1ba16c7315ef3fecf25216b731903156e9d12bd7e5",
+      "bytes": 287792,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 25,
+      "case_log_status_counts": {
+        "PASS": 25
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235714,
+      "job_id": 117846167166,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167166.log",
+      "sha256": "905ed4ab29e67c64a232062af7971f837d339e7e4c546e626ffbc369d03b310a",
+      "bytes": 275335,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 5,
+      "case_log_status_counts": {
+        "PASS": 5
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235717,
+      "job_id": 117846167116,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167116.log",
+      "sha256": "6eb33d72de64e6a01e3fea80571868ca2c23de4dd5bde95d75e0a5621cef4bfd",
+      "bytes": 321254,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 16,
+      "case_log_status_counts": {
+        "PASS": 16
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235717,
+      "job_id": 117846167286,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167286.log",
+      "sha256": "cb46e5d694aa19de1ef1f68858b3df2dc36d7b773f986e7ae9c0bd701351ce47",
+      "bytes": 309054,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 11,
+      "case_log_status_counts": {
+        "PASS": 11
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235723,
+      "job_id": 117846166915,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846166915.log",
+      "sha256": "98eaa9238a0c002e8abf296153a81cd1494221a4d5d04d46c4946bf1679e705e",
+      "bytes": 294394,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 34,
+      "case_log_status_counts": {
+        "PASS": 34
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235723,
+      "job_id": 117846167002,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167002.log",
+      "sha256": "54753117b8f458e284456f880185cfd5706d33bf40fd0dcb5d67b9729b01ac87",
+      "bytes": 317842,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 61,
+      "case_log_status_counts": {
+        "PASS": 61
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235723,
+      "job_id": 117846167014,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167014.log",
+      "sha256": "5a8ee3267175ce690a166d019c73839480d05bd14f2932886c4858861221988e",
+      "bytes": 339260,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 91,
+      "case_log_status_counts": {
+        "PASS": 91
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235723,
+      "job_id": 117846167019,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167019.log",
+      "sha256": "04c855c14ad67525402a4516268d9f0eb1c4689ffc8f9dfe587199d1af4beb7e",
+      "bytes": 385211,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 135,
+      "case_log_status_counts": {
+        "PASS": 135
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235723,
+      "job_id": 117846167030,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167030.log",
+      "sha256": "ab5ae32a8606cd501fde55ae3bb9809ab7e5a0e2337f33aa25248bdcae1a579c",
+      "bytes": 511249,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 64,
+      "case_log_status_counts": {
+        "PASS": 64
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235723,
+      "job_id": 117846167051,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167051.log",
+      "sha256": "fa51637474a28d719eb41de2eef10567bfea000157c9f77b7cf0c525e8db6e95",
+      "bytes": 280721,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 5,
+      "case_log_status_counts": {
+        "PASS": 5
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235723,
+      "job_id": 117846167090,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167090.log",
+      "sha256": "19760c7559fa35ea301d5719ffcfc072b4b3289874dfb21dda83c7ceb9dc4003",
+      "bytes": 307260,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 50,
+      "case_log_status_counts": {
+        "PASS": 50
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235723,
+      "job_id": 117846167136,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167136.log",
+      "sha256": "e0f09be6ce61678d8c0804850a5c26517868acd19ba98f5ef387148b3377b765",
+      "bytes": 298728,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 10,
+      "case_log_status_counts": {
+        "PASS": 10
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235728,
+      "job_id": 117846167171,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167171.log",
+      "sha256": "ad058bbf4df3ca30492099912f7f985d126d2a9c830725ebce7acd3b06204565",
+      "bytes": 611195,
+      "bootstrap_success_attempts": [],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 0,
+      "case_log_status_counts": {},
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235728,
+      "job_id": 117846167460,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167460.log",
+      "sha256": "8c08f0de0c54e4f59a76e927150c90a25bbb590f540cb928080e6c31177ccbcd",
+      "bytes": 350241,
+      "bootstrap_success_attempts": [],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 0,
+      "case_log_status_counts": {},
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235728,
+      "job_id": 117846167469,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167469.log",
+      "sha256": "7bf08a2ed17a4970a37275e69939201dfe143825de6ce9e2e7c4b5614f2e8bdd",
+      "bytes": 210773,
+      "bootstrap_success_attempts": [],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 0,
+      "case_log_status_counts": {},
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235728,
+      "job_id": 117846167747,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167747.log",
+      "sha256": "56af4c4a68d07b00aa48b0598dc4e755f77e94092fcc482d09306148c88a1b4c",
+      "bytes": 250795,
+      "bootstrap_success_attempts": [],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 0,
+      "case_log_status_counts": {},
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235732,
+      "job_id": 117846167276,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167276.log",
+      "sha256": "5b3e93d34d3dbe72213ab779659cbfc1bd913cbb37d53d65ed78e22b88af61bc",
+      "bytes": 308846,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 34,
+      "case_log_status_counts": {
+        "PASS": 34
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235736,
+      "job_id": 117846167368,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167368.log",
+      "sha256": "4358bb459366287a19a8a7f94dfd19a2ed21bbea16899732ba6fc6913b3d8a9a",
+      "bytes": 297826,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 2,
+      "case_log_status_counts": {
+        "PASS": 2
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235738,
+      "job_id": 117846167312,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167312.log",
+      "sha256": "d70b9870eb504749bf28af8e0e9553bb5b2a0f034d7b74956458a9f9861b9a32",
+      "bytes": 255410,
+      "bootstrap_success_attempts": [],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 0,
+      "case_log_status_counts": {},
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235744,
+      "job_id": 117846167285,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167285.log",
+      "sha256": "924083d89246e5b08838f8ef3c9850fb8d8c5555bc99163d1b69b3fc66c17895",
+      "bytes": 326867,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 23,
+      "case_log_status_counts": {
+        "PASS": 23
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235745,
+      "job_id": 117846167289,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167289.log",
+      "sha256": "5d78a5c5b874ebb8a19423547129efb044520ebaefc3a76e075e251da26b12c4",
+      "bytes": 289726,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 4,
+      "case_log_status_counts": {
+        "PASS": 4
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235747,
+      "job_id": 117846167356,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167356.log",
+      "sha256": "f466c5eb885a7b3559aed58944f9a5af11516973e07c132ec47580af2fcd227f",
+      "bytes": 338178,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 7,
+      "case_log_status_counts": {
+        "PASS": 7
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235753,
+      "job_id": 117846167561,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167561.log",
+      "sha256": "235eda85b8ca754b8143cc7d5b616c69ef68b44d1f026c3a33a5d204261c8093",
+      "bytes": 278720,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 5,
+      "case_log_status_counts": {
+        "PASS": 5
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235756,
+      "job_id": 117846167326,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167326.log",
+      "sha256": "378f71531b1ba230ae0116af9248abef62f1ff563520f500295e730373b23594",
+      "bytes": 304497,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 14,
+      "case_log_status_counts": {
+        "PASS": 14
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235758,
+      "job_id": 117846167264,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167264.log",
+      "sha256": "501ce5d76c395928b1783c338ee573093a1d46ab0a58ecaec6bdc5277324b6cf",
+      "bytes": 332253,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 57,
+      "case_log_status_counts": {
+        "PASS": 57
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235767,
+      "job_id": 117846167646,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167646.log",
+      "sha256": "cfe501d89e28b479fc2895c28aa66d39a2cf4f33859deabe811810b854b01b07",
+      "bytes": 1258168,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 13,
+      "case_log_status_counts": {
+        "PASS": 13
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235784,
+      "job_id": 117846167555,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167555.log",
+      "sha256": "4cf6fe1942dbd69c8ab98cdcf831f4f06fe59b50bcb4297b81a599052c1f8970",
+      "bytes": 287606,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 0,
+      "case_log_status_counts": {},
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235784,
+      "job_id": 117846167760,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167760.log",
+      "sha256": "04e52b41cc86cb735b3e6413f8566976afda79924b6edf047024071691e60060",
+      "bytes": 323738,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 0,
+      "case_log_status_counts": {},
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185235837,
+      "job_id": 117846167896,
+      "workflow_sha": "d872422d4b69d709136775e603c61b80acfce9d2",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117846167896.log",
+      "sha256": "93672975c7a07b57a77f1be14c0f01cbe88013d7b817a847f86241db3ebbf6bb",
+      "bytes": 280389,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 10,
+      "case_log_status_counts": {
+        "PASS": 10
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39185988432,
+      "job_id": 117848422323,
+      "workflow_sha": "38f16061c2a15b6d709f62eaab6ca2350db50321",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117848422323.log",
+      "sha256": "1869c94a73d8621fca894ea0f31a3e6ec7b12271b042a1830fc6e86f2604e41c",
+      "bytes": 284104,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 3,
+      "case_log_status_counts": {
+        "PASS": 2,
+        "INCOMPLETE": 1
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39188635131,
+      "job_id": 117856315117,
+      "workflow_sha": "cad6c65bec64f4d729946e99e1d90b1c3e63ca4b",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117856315117.log",
+      "sha256": "8011eee90f080f2a62235b87f602bea3091944ba47a42cbd0d4be1e38c4e4a10",
+      "bytes": 276474,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": false,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 1,
+      "case_log_status_counts": {
+        "INCOMPLETE": 1
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39191503650,
+      "job_id": 117865105145,
+      "workflow_sha": "298e79a167b619b634545d9faa3506ee423bc787",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117865105145.log",
+      "sha256": "b29b60983bf1a1c60c1684c80655b1fa5642c37d5f3f470ef6f23f1a96dde901",
+      "bytes": 245409,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": true,
+      "failed_qualification_entrypoints_preserved": [
+        {
+          "name": "Qualify frozen all-record status and end metadata on existing K4/K6 cases",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 20
+        }
+      ],
+      "case_log_rows": 0,
+      "case_log_status_counts": {},
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39192391656,
+      "job_id": 117867818293,
+      "workflow_sha": "47ed1c28cac718959973893446727e8fd8cee3d8",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117867818293.log",
+      "sha256": "a076a6bad171ab5857e4401d68b13b84fa474f53d5411f414a808f207ff09425",
+      "bytes": 287642,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": true,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 4,
+      "case_log_status_counts": {
+        "PASS": 4
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39193178808,
+      "job_id": 117870186941,
+      "workflow_sha": "0d8f5a07869e030b55038b2d5092eaa1b67576c3",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117870186941.log",
+      "sha256": "d8ee8500a153c7196d3180e374c075b3a9f5145b3c62c36da2051bb4952ce00e",
+      "bytes": 277687,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": true,
+      "failed_qualification_entrypoints_preserved": [
+        {
+          "name": "Qualify declared one-lineage ordinary B5/B6 journeys",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 19
+        }
+      ],
+      "case_log_rows": 3,
+      "case_log_status_counts": {
+        "INCOMPLETE": 3
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39193738642,
+      "job_id": 117871887805,
+      "workflow_sha": "eda47df36e51a50615cd606be60b5313d8622fbb",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117871887805.log",
+      "sha256": "89116aa6d8c03e623494a433723cc0d4a432497dcca23ccb2345a960b6a8afaa",
+      "bytes": 275061,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": true,
+      "failed_qualification_entrypoints_preserved": [
+        {
+          "name": "Qualify declared claim and same-product rewash continuations",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 19
+        }
+      ],
+      "case_log_rows": 2,
+      "case_log_status_counts": {
+        "INCOMPLETE": 1,
+        "PASS": 1
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39194063047,
+      "job_id": 117872863870,
+      "workflow_sha": "a948922561e6d92faa882f21cc34d379840ce61c",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117872863870.log",
+      "sha256": "b3a5ab4abb9555ccc70b8396147ab66c82e71a363ec6137cd84e084b8271a244",
+      "bytes": 394892,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": true,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 1,
+      "case_log_status_counts": {
+        "PASS": 1
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39195171465,
+      "job_id": 117876289697,
+      "workflow_sha": "15dfad2008bac748470231045fe9decbc67b8034",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117876289697.log",
+      "sha256": "5cfb3222eecc0f8024e67d0cff2d85e5a272638cf061c33c78db51fc90de4d7f",
+      "bytes": 279578,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": true,
+      "failed_qualification_entrypoints_preserved": [
+        {
+          "name": "Qualify declared invoice observer and source-derived claim oracle repairs",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 19
+        }
+      ],
+      "case_log_rows": 4,
+      "case_log_status_counts": {
+        "INCOMPLETE": 4
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39195943779,
+      "job_id": 117878632261,
+      "workflow_sha": "3291da3caab4b965aa80d381c22ebcc3b1799378",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117878632261.log",
+      "sha256": "777edf864c53f6b4d609a7da236eeadac98326fc5b4e31934138f819d1183866",
+      "bytes": 495146,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": true,
+      "failed_qualification_entrypoints_preserved": [
+        {
+          "name": "Execute eight predeclared finite functional controls once",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 19
+        }
+      ],
+      "case_log_rows": 8,
+      "case_log_status_counts": {
+        "PASS": 5,
+        "INCOMPLETE": 3
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39196659018,
+      "job_id": 117880796168,
+      "workflow_sha": "ed16d24a95f0a8fd022803e82f011ff578de884a",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117880796168.log",
+      "sha256": "8ae5c5094667ee2bfbccee0a746aeb2b2a4199f2bc2a20bc41407036bf868066",
+      "bytes": 276933,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": true,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 4,
+      "case_log_status_counts": {
+        "PASS": 4
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39196974051,
+      "job_id": 117881730891,
+      "workflow_sha": "cf75881ce1b57b382e7d233d93dc6fcb0527e03e",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117881730891.log",
+      "sha256": "cf8ed0745c69207ed23f1f3a5aabc7355b8ba55301c6e39ca2a2ce733913535a",
+      "bytes": 411367,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": true,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 3,
+      "case_log_status_counts": {
+        "PASS": 3
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39197469845,
+      "job_id": 117883233496,
+      "workflow_sha": "06c91b1c00281320de00dff5c4791ce724d4960b",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117883233496.log",
+      "sha256": "939921b9624b49f5dbbedf2f20b2b5b7959d9ab9a95b7bf344400537eafea9ee",
+      "bytes": 726681,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": true,
+      "failed_qualification_entrypoints_preserved": [
+        {
+          "name": "Execute four predeclared exact-unit detector counterfixtures once",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 19
+        }
+      ],
+      "case_log_rows": 4,
+      "case_log_status_counts": {
+        "PASS": 3,
+        "INCOMPLETE": 1
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39198198716,
+      "job_id": 117885441312,
+      "workflow_sha": "753537f121b4a61b23b4cfdfbb727d449051b576",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117885441312.log",
+      "sha256": "d299bce333332f598509afab098d14f6dea5a8aac7873a202f7a24ed4a4ba62c",
+      "bytes": 396985,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": true,
+      "failed_qualification_entrypoints_preserved": [],
+      "case_log_rows": 1,
+      "case_log_status_counts": {
+        "PASS": 1
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39199375501,
+      "job_id": 117888970333,
+      "workflow_sha": "6c6a98f2e3a046ddc335426610154fb85ae4787f",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117888970333.log",
+      "sha256": "10854157574008119a98aa62ee2073d0e43a2bef8df57ce30fd002645ea65773",
+      "bytes": 1342920,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": true,
+      "failed_qualification_entrypoints_preserved": [
+        {
+          "name": "Execute seven predeclared counterfixtures and two prevention controls once",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 19
+        }
+      ],
+      "case_log_rows": 9,
+      "case_log_status_counts": {
+        "PASS": 8,
+        "INCOMPLETE": 1
+      },
+      "precase_startup_retry": null
+    },
+    {
+      "run_id": 39200571137,
+      "job_id": 117892503808,
+      "workflow_sha": "7f7e1b83a596f3f9c700a6c739d5dc998568a8c8",
+      "run_attempt": 1,
+      "log_path": "own_job_logs/117892503808.log",
+      "sha256": "850fd9771544c4c0d6d14bbadb638e267528ce399852df9217126a16276d9ffd",
+      "bytes": 601864,
+      "bootstrap_success_attempts": [
+        1
+      ],
+      "installation_bootstrap_steps_all_success": true,
+      "collector_setup_list_includes_qualification_entrypoint": true,
+      "failed_qualification_entrypoints_preserved": [
+        {
+          "name": "Observe legitimate Nota source and qualify isolated opening counter once",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 19
+        }
+      ],
+      "case_log_rows": 2,
+      "case_log_status_counts": {
+        "COUNTEREXAMPLE": 1,
+        "PASS": 1
+      },
+      "precase_startup_retry": null
+    }
+  ],
+  "limitation": "Bootstrap retry is separate from GitHub attempt and business-day/case retry. Business outcomes require per-case review; no acceptance inferred from job success."
+}

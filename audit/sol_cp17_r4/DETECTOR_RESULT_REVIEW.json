@@ -1,0 +1,1544 @@
+{
+  "state": "READ_AND_INDEPENDENTLY_RECALCULATED",
+  "run_id": 39194063047,
+  "job_id": 117872863870,
+  "artifact_id": 12161202911,
+  "archive_sha256": "ba36c5849f1001cc72379b96740775ec73ea7f0c6ab6ba49d5db98ab23f9e80b",
+  "selected_member_hashes_rechecked": 11,
+  "case_id": "SOL_R4_D01_MATERIAL_RECOST_STATE_PLUS1",
+  "raw_status": "PASS",
+  "disposition": "PASS_ONE_NAMED_DETECTOR_CONTROL",
+  "oracle_origin": "SOL_EXPLICIT_DOCUMENT_LEVEL_ONE_MATERIAL_DRIFT_UNIT",
+  "functions_observed": 9,
+  "check_rows_per_phase": 167,
+  "one_controlled_check": "run_v255_material_cost_integrity_checks:MATERIAL_RECOST_GL_STATE_DRIFT",
+  "observed_counts": [
+    0,
+    1,
+    0
+  ],
+  "all_other_166_counts_unchanged_zero": true,
+  "original_state": "-2.00",
+  "poisoned_state": "-1.00",
+  "state_recovery_exact": true,
+  "book_deltas": {
+    "material": "0.00",
+    "sub": "0.00",
+    "wip": "36.00",
+    "obligation": "-36.00"
+  },
+  "guards_or_triggers_modified": false,
+  "strict_boundary_restored": true,
+  "primary_restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "global_INV_D01_closed": false,
+  "limits": "All167 output rows were exported, but only this one check has the exact0→1→0 controlled perturbation. Other166 counters are TIDAK TERUJI for that property; normal zeros are not negative-control proof.",
+  "matrix": [
+    {
+      "function": "run_integrity_checks",
+      "check_name": "UNBALANCED_POSTED_JOURNALS",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_integrity_checks",
+      "check_name": "NEGATIVE_MATERIAL_LOCATION_BALANCE",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_integrity_checks",
+      "check_name": "NEGATIVE_FG_BALANCE",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_integrity_checks",
+      "check_name": "FG_CACHE_MISMATCH",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_integrity_checks",
+      "check_name": "DUPLICATE_CURRENT_HPP",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_integrity_checks",
+      "check_name": "LAUNDRY_OVER_RETURN",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_integrity_checks",
+      "check_name": "QC_SOURCE_OVER_ALLOCATION",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_integrity_checks",
+      "check_name": "PAYROLL_ATTENDANCE_DUPLICATE",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_integrity_checks",
+      "check_name": "REWORK_PAYROLL_BEFORE_COST_POST",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_integrity_checks",
+      "check_name": "PAYROLL_PAID_NEGATIVE_NET",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_integrity_checks",
+      "check_name": "KASBON_PAID_OVERSETTLED",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_integrity_checks",
+      "check_name": "KASBON_STATUS_MISMATCH",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_integrity_checks",
+      "check_name": "REWORK_COMPLETION_UNRECONCILED",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_integrity_checks",
+      "check_name": "REWORK_GOOD_WITHOUT_FG",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_integrity_checks",
+      "check_name": "REWORK_FG_QTY_MISMATCH",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_integrity_checks",
+      "check_name": "BS_RESOLUTION_OVER_QTY",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_integrity_checks",
+      "check_name": "STALE_RECOST_QUEUE",
+      "severity": "WARN",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_integrity_checks",
+      "check_name": "FAILED_RECOST_QUEUE",
+      "severity": "WARN",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v24_accessory_integrity_checks",
+      "check_name": "ACCESSORY_WITHOUT_CATEGORY",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v24_accessory_integrity_checks",
+      "check_name": "ACCESSORY_CATEGORY_UOM_MISMATCH",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v24_accessory_integrity_checks",
+      "check_name": "ACCESSORY_ISSUE_UOM_MISMATCH",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v24_accessory_integrity_checks",
+      "check_name": "ACCESSORY_REIMBURSE_DUPLICATE_PAYROLL",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v24_accessory_integrity_checks",
+      "check_name": "ACCESSORY_HPP_PHYSICAL_ISSUE_LINK",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v24_accessory_integrity_checks",
+      "check_name": "ACCESSORY_SNAPSHOT_REIMBURSE_MISMATCH",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v24_accessory_integrity_checks",
+      "check_name": "ACCESSORY_BOM_SNAPSHOT_MISSING",
+      "severity": "WARN",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v255_material_cost_integrity_checks",
+      "check_name": "MATERIAL_RECOST_GL_STATE_DRIFT",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 1,
+      "after": 0,
+      "control_status": "PASS_0_1_0"
+    },
+    {
+      "function": "run_v255_material_cost_integrity_checks",
+      "check_name": "MATERIAL_GL_VALUATION_MISMATCH",
+      "severity": "ERROR",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v264_material_transfer_integrity_checks",
+      "check_name": "posted_transfer_without_balanced_pair",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v264_material_transfer_integrity_checks",
+      "check_name": "reversed_transfer_with_active_source_movement",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v264_material_transfer_integrity_checks",
+      "check_name": "transfer_changes_global_material_qty",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v264_material_transfer_integrity_checks",
+      "check_name": "browser_direct_transfer_write_grant",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v264_material_transfer_integrity_checks",
+      "check_name": "transfer_view_not_security_invoker",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v265_gudang_write_integrity_checks",
+      "check_name": "browser_direct_gudang_document_write",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v265_gudang_write_integrity_checks",
+      "check_name": "browser_legacy_gudang_post_execute",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v265_gudang_write_integrity_checks",
+      "check_name": "posted_adjustment_without_active_movement",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v265_gudang_write_integrity_checks",
+      "check_name": "posted_supplier_return_without_active_movement",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v265_gudang_write_integrity_checks",
+      "check_name": "posted_contractor_issue_without_active_movement",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v265_gudang_write_integrity_checks",
+      "check_name": "supplier_return_client_price_provenance_gap",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v265_gudang_write_integrity_checks",
+      "check_name": "contractor_issue_price_provenance_gap",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v266_gudang_accessory_fg_checks",
+      "check_name": "v266_protected_tables_with_direct_write",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v266_gudang_accessory_fg_checks",
+      "check_name": "v266_legacy_fg_rpc_exposed",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v266_gudang_accessory_fg_checks",
+      "check_name": "v266_public_rpc_execute",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v266_gudang_accessory_fg_checks",
+      "check_name": "v266_missing_optimistic_version",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v266_gudang_accessory_fg_checks",
+      "check_name": "v266_view_without_security_invoker",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v266_gudang_accessory_fg_checks",
+      "check_name": "v266_accessory_material_category_mismatch",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v266_gudang_accessory_fg_checks",
+      "check_name": "v266_posted_fg_adjustment_missing_movement",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v266_gudang_accessory_fg_checks",
+      "check_name": "v266_reversed_fg_adjustment_missing_reversal",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V267_GRNI_MAPPING_INVALID",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V267_MISSING_GRNI_MAPPING",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V267_ESTIMATED_RECEIPT_MISSING_GRNI_RECLASS",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V267_POSTED_INVOICE_MISSING_JOURNAL",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V267_INVOICE_MATCH_OVER_RECEIPT",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V267_PAYMENT_EXCEEDS_FINAL_AP",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V267_LEGACY_CORRECTION_ON_GRNI",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V267_POSTED_RETURN_MISSING_LIABILITY_SNAPSHOT",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V267_GRNI_GL_SUBLEDGER_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V267_AP_GL_SUBLEDGER_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V267_BROWSER_ROLE_DIRECT_INVOICE_WRITE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620M_SUPPLIER_PAYMENT_EXACT_STATUS",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620M_OPENING_SUBLEDGER_STATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620M_ORPHAN_PAYMENT_JOURNAL",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620P_SUPPLIER_RETURN_MATCH_STATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620O_SUPPLIER_RETURN_ALLOCATION",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620R_SUPPLIER_INVOICE_SOURCE_STATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620Y_SALES_PAYMENT_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620W_SCRAP_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620V_MISC_FINANCE_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620U_MATERIAL_ADJUSTMENT_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620U_JOURNAL_REVERSAL_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620U_MATERIAL_RECEIPT_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620T_JOURNAL_FUTURE_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620T_MATERIAL_ADJUSTMENT_REVALUATION",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620S_SUPPLIER_PAYMENT_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "V2620N_SUPPLIER_CENT_FACT_LEDGER",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_OPENING_RECEIPT_SOURCE_DRIFT",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_OPENING_RECEIPT_JOURNAL_DRIFT",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_CASH_ADVANCE_CAPACITY",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_CASH_ADVANCE_SOURCE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_CASH_ADVANCE_PAYROLL_JOURNAL",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_PREPAYMENT_CAPACITY",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_PREPAYMENT_PAYMENT_SOURCE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_PREPAYMENT_PAYMENT_JOURNAL",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_PREPAYMENT_OPENING_JOURNAL",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_PREPAYMENT_EVENT_JOURNAL",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_PREPAYMENT_GL_SUBLEDGER",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_PERIOD_POCKET_LEDGER",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_PERIOD_POCKET_SOURCES",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_PERIOD_POCKET_OVERLAP",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_PERIOD_POCKET_HPP",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_POCKET_SOURCE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_POCKET_EXPENSE_LEDGER",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v267_financial_truth_checks",
+      "check_name": "AP_POCKET_NO_CUTTING",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V268_DAILY_BALANCE_LEDGER_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V268_UNBALANCED_POSTED_JOURNAL",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V268_BALANCE_SHEET_EQUATION",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620L_NONFINITE_LEDGER_MONEY",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620L_NEGATIVE_VENDOR_AP",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V268_AR_GL_SUBLEDGER_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V267_INVOICE_MATCH_OVER_RECEIPT",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V267_PAYMENT_EXCEEDS_FINAL_AP",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V267_GRNI_GL_SUBLEDGER_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V267_AP_GL_SUBLEDGER_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620M_SUPPLIER_PAYMENT_EXACT_STATUS",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620M_OPENING_SUBLEDGER_STATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620M_ORPHAN_PAYMENT_JOURNAL",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620P_SUPPLIER_RETURN_MATCH_STATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620O_SUPPLIER_RETURN_ALLOCATION",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620R_SUPPLIER_INVOICE_SOURCE_STATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620Y_SALES_PAYMENT_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620W_SCRAP_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620V_MISC_FINANCE_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620U_MATERIAL_ADJUSTMENT_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620U_JOURNAL_REVERSAL_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620U_MATERIAL_RECEIPT_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620T_JOURNAL_FUTURE_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620T_MATERIAL_ADJUSTMENT_REVALUATION",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620S_SUPPLIER_PAYMENT_BUSINESS_DATE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620N_SUPPLIER_CENT_FACT_LEDGER",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V268_POSTED_CUSTOMER_PAYMENT_MISSING_JOURNAL",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V268_PRODUCTION_FG_WITHOUT_CURRENT_HPP",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V268_COST_RECALC_EXHAUSTED",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V268_COST_RECALC_PENDING",
+      "severity": "WARNING",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V268_LIABILITY_VIEW_HELPER_PRIVILEGE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V268_BROWSER_DIRECT_LEDGER_OR_INVOICE_WRITE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620C_PO_HPP_TARGET_STATE_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620C_HPP_COMPONENT_SUM_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620C_PO_HPP_BOOK_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620C_WIP_SOURCE_CONSERVATION_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620C_SALE_REVENUE_REPORT_INPUT_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620C_SALES_RETURN_REPORT_INPUT_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620C_DRAFT_SALE_VALUE_LEAK",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620C_HPP_STATE_HAS_SUBCENT",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620D_REDISPATCH_PARTICIPANT_LINEAGE_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V268_ACTIVE_SALE_MISSING_JOURNAL",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V268_POSTED_SALES_RETURN_MISSING_JOURNAL",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620F_NON_PO_PRODUCT_HPP_BOOK_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620E_SALES_RETURN_VALUE_EXCEEDS_SALE",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620E_OPENING_HPP_LINEAGE_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620E_OPENING_FG_GL_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620I_SALES_PAYMENT_JOURNAL_LINEAGE_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620K_PAYMENT_ALLOCATION_DATE_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620J_SALES_PAYMENT_IMMUTABLE_FACT_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620H_FAILED_WASH_RETURN_TIME_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620H_CUSTOMER_AR_STATUS_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620G_LAUNDRY_WIP_CUSTODY_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620E_REDISPATCH_EVENT_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620F_CONVERSION_VALUE_LINEAGE_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620D_SALE_LIFECYCLE_HPP_DIMENSION_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620AD_OPENING_MATERIAL_TIMELINE_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620AE_OPENING_MATERIAL_ROLL_INTEGRITY",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620AF_OPENING_SOURCE_LINEAGE_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620AG_SALE_RESERVATION_LINEAGE_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620AH_RETURN_ALLOCATION_LINEAGE_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v268_financial_report_checks",
+      "check_name": "V2620AI_WORK_SOURCE_LINEAGE_MISMATCH",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v263a_payroll_integrity_checks",
+      "check_name": "production_payroll_exceeds_component_entitlement",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v263a_payroll_integrity_checks",
+      "check_name": "rework_payroll_before_case_resolution",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    },
+    {
+      "function": "run_v263a_payroll_integrity_checks",
+      "check_name": "payroll_work_wrong_contractor",
+      "severity": "CRITICAL",
+      "before": 0,
+      "during": 0,
+      "after": 0,
+      "control_status": "TIDAK_TERUJI_NEGATIVE_CONTROL"
+    }
+  ]
+}

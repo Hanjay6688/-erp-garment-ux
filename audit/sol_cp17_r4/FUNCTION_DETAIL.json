@@ -1,0 +1,3769 @@
+{
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "state": "FINAL_DEFINED_NEED_LIFECYCLE_AND_INTEGRITY_DISPOSITIONS",
+  "defined_function_rows": 57,
+  "screen_rows": 47,
+  "source_screen_table_sha256": "df30395037201d41a4b3decacf797566919bfd3fc1092bf2321801d6e7ccfd5d",
+  "method": "Manual lifecycle mapping to already-read exact case IDs/review docs. Navigation lookup never creates PASS or runtime credit. Read-only needs use explicit revision/restore rather than fabricated financial correction.",
+  "rows": [
+    {
+      "id": "FUN-001",
+      "checkpoint": "CP1",
+      "defined_need": "Identitas produk, baseline, paket dan katalog",
+      "positive": {
+        "kind": "AUDITOR_REVIEW_DOCUMENT",
+        "path": "SOURCE_CHANGE_REVIEW.json",
+        "sha256": "586a50ba005aefcc4b7ae633b2982c2e301b4b75cfcc87548901205779c42fc8"
+      },
+      "refusal": {
+        "kind": "AUDITOR_REVIEW_DOCUMENT",
+        "path": "WRITER_CI_REVIEW.json",
+        "sha256": "7c92e29379e6931779b943cc9b7d2d4890deaed9b094b5da405eff62985805f4"
+      },
+      "correction_or_revision": {
+        "kind": "AUDITOR_REVIEW_DOCUMENT",
+        "path": "REHEARSAL_RESULT_REVIEW.json",
+        "sha256": "44b9070e7c296d6bdc3402afe3fba6c5a4656336a7f023384d12993d845409d6"
+      },
+      "downstream": {
+        "kind": "AUDITOR_REVIEW_DOCUMENT",
+        "path": "RESULT_REVIEW.json",
+        "sha256": "ab734a9f7c48b7e335422304fb0dea5c9bf37e133cd69bc9be4133855258f0be"
+      },
+      "scope_limit": "Tujuh root BEFORE/AFTER dan sumber bundle; fresh hosted baseline tidak diamati.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "master-products"
+      ]
+    },
+    {
+      "id": "FUN-002",
+      "checkpoint": "CP1",
+      "defined_need": "Satu tabel aktivasi untuk semua 47 menu",
+      "positive": {
+        "kind": "AUDITOR_REVIEW_DOCUMENT",
+        "path": "INITIAL_RESULT_REVIEW.json",
+        "sha256": "f3518c33747766860dee41619956043c62fa0773894e5e3318a33b69a35eea2b"
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_03_HISTORY_DENIED_WITHOUT_VIEW",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "AUDITOR_REVIEW_DOCUMENT",
+        "path": "CP17_RESULT_REVIEW.json",
+        "sha256": "bf27c45f320c5bf9594e8018a7431ab110f701cbbbbc54e31fa4d74fa8c3e5d5"
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_BROWSER_R3_03_HISTORY_DESKTOP",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "browser",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Dashboard NOTICE; census kehadiran bukan semua field loaded. Demo/Enteng loopback terpisah.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "dashboard"
+      ]
+    },
+    {
+      "id": "FUN-003",
+      "checkpoint": "CP1",
+      "defined_need": "Readability dan build yang dapat ditelusuri",
+      "positive": {
+        "kind": "AUDITOR_REVIEW_DOCUMENT",
+        "path": "CP17_RESULT_REVIEW.json",
+        "sha256": "bf27c45f320c5bf9594e8018a7431ab110f701cbbbbc54e31fa4d74fa8c3e5d5"
+      },
+      "refusal": {
+        "kind": "AUDITOR_REVIEW_DOCUMENT",
+        "path": "BUILD_RESULT_REVIEW.json",
+        "sha256": "83ffb99a41d4a88c294ab74c766e80ed6959df4048a82e1598300c881fba76ea"
+      },
+      "correction_or_revision": {
+        "kind": "AUDITOR_REVIEW_DOCUMENT",
+        "path": "CODEQL_RESULT_REVIEW.json",
+        "sha256": "90d45c43e8aed6425aff5a0c4c23cc3c0d42a409e8f1b51c59573a066b75d47c"
+      },
+      "downstream": {
+        "kind": "AUDITOR_REVIEW_DOCUMENT",
+        "path": "BUILD_RESULT_REVIEW.json",
+        "sha256": "83ffb99a41d4a88c294ab74c766e80ed6959df4048a82e1598300c881fba76ea"
+      },
+      "scope_limit": "290 rasio WIP dihitung ulang; opacity/disabled/image/form yang tidak dibuka belum terbukti.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE"
+    },
+    {
+      "id": "FUN-004",
+      "checkpoint": "CP2",
+      "defined_need": "Backup/restore data, struktur dan ACL ke copy baru",
+      "positive": {
+        "kind": "AUDITOR_REVIEW_DOCUMENT",
+        "path": "REHEARSAL_RESULT_REVIEW.json",
+        "sha256": "44b9070e7c296d6bdc3402afe3fba6c5a4656336a7f023384d12993d845409d6"
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "K3C_RACE_NIGHTLY_BACKUP_VERIFIED",
+        "run_id": 39185235564,
+        "artifact_id": 12159034249,
+        "group": "races",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "AUDITOR_REVIEW_DOCUMENT",
+        "path": "REHEARSAL_RESULT_REVIEW.json",
+        "sha256": "44b9070e7c296d6bdc3402afe3fba6c5a4656336a7f023384d12993d845409d6"
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "K3C_RACE_BACKUP_VERIFIED_UNDER_WRITES",
+        "run_id": 39185235564,
+        "artifact_id": 12159034249,
+        "group": "races",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Backup source names diperiksa lewat pencarian ID di bawah; original tidak ditulis ulang. Hosted/Drive CP7C ditunda.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE"
+    },
+    {
+      "id": "FUN-005",
+      "checkpoint": "CP2",
+      "defined_need": "Retention dan cleanup tanpa membuang Original",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "K2_PURGE_ONLY_EXPIRED_TEMPORARY",
+        "run_id": 39185235564,
+        "artifact_id": 12159213174,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "K3C_RACE_BUSY_TABLE_RETRIED",
+        "run_id": 39185235564,
+        "artifact_id": 12159034249,
+        "group": "races",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "K2_PURGE_KEEPS_DOCUMENT_RUNS",
+        "run_id": 39185235564,
+        "artifact_id": 12159213174,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "K3C_CLEANED_ONLY_TEMPORARY",
+        "run_id": 39185235564,
+        "artifact_id": 12159034249,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Metadata time-aging, bukan tujuh hari nyata. Replacement B tetap menulis sebelum mismatch; D13-9a.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE"
+    },
+    {
+      "id": "FUN-006",
+      "checkpoint": "CP3",
+      "defined_need": "Aktor aktif, role, hak current dan private context",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R4_01_EVERY_PUBLIC_ROUTE_REVIEWED",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R4_01_DATA_API_REFUSED_DATABASE_SESSION_UNCHANGED",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "AUDITOR_REVIEW_DOCUMENT",
+        "path": "FRESH_TX_RESULT_REVIEW.json",
+        "sha256": "1c7a2e4f0845d2ead4795043a966fa9a5ae63d603e4f9b33b695625a660fb8d2"
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R4_05_INTERNAL_GUARD_DISPATCH_REVIEWED",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "25 legacy Data API ditutup; Native DB grants tetap D14-9. Fresh STAFF belum dijalankan.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "admin-access"
+      ]
+    },
+    {
+      "id": "FUN-007",
+      "checkpoint": "CP3",
+      "defined_need": "Current authority sesudah menunggu sumber",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_DESKTOP",
+        "run_id": 39185235584,
+        "artifact_id": 12158875292,
+        "group": "browser",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE",
+        "run_id": 39185235584,
+        "artifact_id": 12158875292,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_SALES_CHAIN_RACE_AUTH_RETIRE",
+        "run_id": 39185235706,
+        "artifact_id": 12158592023,
+        "group": "races",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE",
+        "run_id": 39185235584,
+        "artifact_id": 12158875292,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Strict wait yang diamati dibedakan dari Barrier-only; bukan setiap race memiliki PID lengkap.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "admin-access"
+      ]
+    },
+    {
+      "id": "FUN-008",
+      "checkpoint": "CP4",
+      "defined_need": "Master pelanggan create/edit/nonaktif dan dipakai sales",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_MASTER_CUSTOMER_LIFECYCLE",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_MASTER_ACCESS_RIGHTS",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_MASTER_CUSTOMER_USED_IN_SALES",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P11_DRAFT_MULTI_CREATE_EDIT_POST",
+        "run_id": 39185235723,
+        "artifact_id": 12159126728,
+        "group": "drafts",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Master soft retirement tidak menghapus fakta posted lama.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "master-customers"
+      ]
+    },
+    {
+      "id": "FUN-009",
+      "checkpoint": "CP4",
+      "defined_need": "Master supplier, vendor, lokasi dan receipt",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_MASTER_SUPPLIER_LOCATION_FABRIC_IN_RECEIPT",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_MASTER_VENDOR_AND_LOCATION_RULES",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_MASTER_SUPPLIER_LOCATION_FABRIC_IN_RECEIPT",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_FINAL_EXACT_VALUE",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Tidak menguji semua kombinasi pihak; identitas setiap fixture dipertahankan.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "master-fabric",
+        "master-partners",
+        "master-locations"
+      ]
+    },
+    {
+      "id": "FUN-010",
+      "checkpoint": "CP4",
+      "defined_need": "Master kain, benchmark, aksesori dan harga mandor",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_MASTER_FABRIC_PROFILE_BENCHMARK",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_MASTER_ACCESS_RIGHTS",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_MASTER_ACCESSORY_CATEGORY_VARIANT_PRICE",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_SOURCE_ACCESSORY_DOCUMENTS",
+        "run_id": 39185235584,
+        "artifact_id": 12158875292,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Native identity dan ukuran/unit tidak dicocokkan hanya lewat nama.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "accessories",
+        "master-fabric",
+        "master-accessory"
+      ]
+    },
+    {
+      "id": "FUN-011",
+      "checkpoint": "CP4",
+      "defined_need": "Mandor, Work BOM dan tarif bertanggal",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_MASTER_RATE_VERSIONS_AND_BOM",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_09_SWITCH_REFUSALS_AND_ACCESS",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_09_CHOOSE_NEW_PAYS_THROUGH_REVISION",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_09_NEW_RATE_WAGE_TO_PAYROLL_AND_DETECTORS",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "OLD/NEW dan per-PO always-new hanya Owner/Admin; old wage tidak ditulis ulang.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "master-products",
+        "master-workforce",
+        "master-pattern"
+      ]
+    },
+    {
+      "id": "FUN-012",
+      "checkpoint": "CP4",
+      "defined_need": "Nomor PO otomatis, draft/post dan rollback atomik",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_01_AUTO_PO_NUMBER_1000_BOUNDED",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_D15_6_AUTO_PO_FAILURE_MIDWAY_LEAVES_NOTHING",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_D15_6_AUTO_PO_DRAFT_NO_STOCK_NO_FINANCE",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_D15_6_AUTO_PO_THEN_BAGI_POTONGAN_AND_SEWING",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "999/1000/1001/10000, same UUID dan batas tiga detik terukur di CP17.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "cutting-roll"
+      ]
+    },
+    {
+      "id": "FUN-013",
+      "checkpoint": "CP4",
+      "defined_need": "Cutting create/edit/post, material issue dan reopen",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P08_ACTUAL_PHYSICAL_CUT",
+        "run_id": 39185235603,
+        "artifact_id": 12158153396,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_CUTTING_REOPEN_PICKUP_DOWNSTREAM",
+        "run_id": 39185235606,
+        "artifact_id": 12158666382,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_CUTTING_REOPEN_EXACT_STOCK_GL_DRAFT",
+        "run_id": 39185235606,
+        "artifact_id": 12158666382,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_TRANSFER_PRODUCTION_LATE_INVOICE",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "material_crossflow",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Correction sebelum sewing; setelah dependensi aktif harus inverse sah lebih dahulu.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "cutting-roll",
+        "master-pattern"
+      ]
+    },
+    {
+      "id": "FUN-014",
+      "checkpoint": "CP4",
+      "defined_need": "Pickup mandor dan pembatalan",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_D15_6_AUTO_PO_THEN_BAGI_POTONGAN_AND_SEWING",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_SG01_PICKUP_REVERSE_REFUSED",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_SG01_PICKUP_REVERSE_BEFORE_SEWING",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_G1_SEWING_RECORD_WAGE_READY_FOR_LAUNDRY",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "PO dan material posted tidak ikut dibalik ketika pickup saja dibatalkan.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "mandor-wip"
+      ]
+    },
+    {
+      "id": "FUN-015",
+      "checkpoint": "CP4",
+      "defined_need": "Sewing biasa dan per-SKU, upah sekali",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_G1_SEWING_RECORD_WAGE_READY_FOR_LAUNDRY",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_G1_SEWING_REFUSALS_UNCHANGED",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_G1_SEWING_CANCEL_ONLY_AT_MANDOR",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_09_NEW_RATE_WAGE_TO_PAYROLL_AND_DETECTORS",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Upah dari selesai dijahit, bukan menunggu denominator barang kembali GOOD.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "mandor-wip",
+        "sewing-wip"
+      ]
+    },
+    {
+      "id": "FUN-016",
+      "checkpoint": "CP4",
+      "defined_need": "Kain kembali/correct return yang sah",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_SG02_RETURN_STOCK_VALUE_PO_COST",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_SG02_OVER_REMAINDER_REFUSED",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_SG02_CORRECT_RETURN_ONE_TRANSACTION",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_SG02_CANCEL_RETURN_RESTORES_STOCK_GL_COST",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Single compound transaction, original dan inverse tersimpan; tanggal sumber dipertahankan.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "cutting-roll"
+      ]
+    },
+    {
+      "id": "FUN-017",
+      "checkpoint": "CP4",
+      "defined_need": "Finish/reopen PO dan HPP",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_G2_FINISH_PO_FINAL_HPP_WIP_CLOSED",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_G2_FINISH_REFUSALS_UNCHANGED",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R4_02_POSITIVE_INVERSE_REOPEN_THEN_FINISH_SAME",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R4_02_POSITIVE_INVERSE_DOES_NOT_HIDE_ACTIVE_USE",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "FINISHED sah dapat BELUM_LENGKAP/ESTIMATED; tidak diberi label ACTUAL palsu.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "sewing-wip",
+        "hpp"
+      ]
+    },
+    {
+      "id": "FUN-018",
+      "checkpoint": "CP4",
+      "defined_need": "Pool HPP attendance, activate/cancel/replacement",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_04_HPP_POOL_CREATE_ACTIVATE_CANCEL_EQUALS_NATIVE",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_04_HPP_POOL_CLOSED_PERIOD_REFUSED_ATOMICALLY",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_04_HPP_POOL_CANCEL_SOURCE_CORRECTION_REPLACEMENT",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_04_HPP_POOL_PREVIEW_READY_AND_BLOCKED",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Public legacy route ditutup Data API; Native DB guard batas D14-9. Held independent pool probe tidak dijalankan.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "hpp"
+      ]
+    },
+    {
+      "id": "FUN-019",
+      "checkpoint": "CP5",
+      "defined_need": "Receipt bahan estimated/final dan inverse",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_DRAFT_ESTIMATED_GRNI",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_INVALID_ATOMIC",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_RECEIPT_REVERSE_ESTIMATED",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "receipt_reversal",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "RF_PRICE_AFTER_SALE_AND_RETURN",
+        "run_id": 39185235700,
+        "artifact_id": 12157997739,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Draft bukan stok; estimated GRNI bukan final AP.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "warehouse-dashboard",
+        "procurement",
+        "materials-rolls"
+      ]
+    },
+    {
+      "id": "FUN-020",
+      "checkpoint": "CP5",
+      "defined_need": "Invoice supplier parsial/multi-receipt/exact",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_INVOICE_COMPLETE_MULTI_RECEIPT",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "invoice",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_INVOICE_ATOMIC_REFUSALS",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "invoice",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_INVOICE_STAGED_AND_REVERSE",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "invoice",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P18_E13_LATE_SUPPLIER_PRICE_AFTER_FULL_CYCLE",
+        "run_id": 39185235736,
+        "artifact_id": 12157979346,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Harga bukan stok tambahan; discount/precision dan receipt lineage lengkap.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "procurement",
+        "finance-ap"
+      ]
+    },
+    {
+      "id": "FUN-021",
+      "checkpoint": "CP5",
+      "defined_need": "Return supplier/portable credit/alokasi ulang",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_RETURN_PARTIAL_AP_GRNI",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "returns",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_RETURN_ATOMIC_LINEAGE",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "returns",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_COMBINED_RETURN_FABRIC_CREDIT_INVERSE",
+        "run_id": 39185235608,
+        "artifact_id": 12158028123,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "F03_P09_NATIVE_PAID_SUPPLIER_CREDIT_CARRY",
+        "run_id": 39185235723,
+        "artifact_id": 12158399442,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Pihak dan sumber sama; paid child memblokir reuse yang tidak sah.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "procurement",
+        "finance-ap"
+      ]
+    },
+    {
+      "id": "FUN-022",
+      "checkpoint": "CP5",
+      "defined_need": "Pembayaran supplier create/correct/inverse",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE",
+        "run_id": 39185235837,
+        "artifact_id": 12158707657,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_CASH_EMPTY_BANK_REFUSED",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_SUPPLIER_PAYMENT_CORRECTION_EXACT_CENTS",
+        "run_id": 39185235744,
+        "artifact_id": 12159036032,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE",
+        "run_id": 39185235584,
+        "artifact_id": 12158875292,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Cash tanggal ekonomi dan book date, accrual floor serta huge exact cents.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "procurement",
+        "finance-cash",
+        "finance-ap"
+      ]
+    },
+    {
+      "id": "FUN-023",
+      "checkpoint": "CP5",
+      "defined_need": "Transfer roll/aksesori/other lintas lokasi",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_TRANSFER_CONSERVATION",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "material",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_TRANSFER_HISTORICAL_PREFIX",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "material",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_TRANSFER_CONSUMED_REVERSE",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "material",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_TRANSFER_CLOSED_DAY_LATE_INVOICE",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "material_crossflow",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Jumlah/nilai seluruh lokasi nol, tanpa roll palsu pada barang null-roll.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "warehouse-dashboard",
+        "materials-rolls",
+        "pocket-fabric",
+        "accessories",
+        "movements-vivo",
+        "movements-widie",
+        "stock-card",
+        "master-locations"
+      ]
+    },
+    {
+      "id": "FUN-024",
+      "checkpoint": "CP5",
+      "defined_need": "Stock count/opname bahan dan aksesori",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_COUNT_FABRIC",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "material_count",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_COUNT_FORGED_ATOMIC",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "material_count",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_COUNT_MULTI_EDIT_INVERSE",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "material_count",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P09_COUNT_ACCESSORY",
+        "run_id": 39185235723,
+        "artifact_id": 12158164165,
+        "group": "material_count",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Physical entered, system delta dari Native; unrecorded cost bukan nol.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "warehouse-dashboard",
+        "materials-rolls",
+        "accessories",
+        "movements-vivo",
+        "movements-widie",
+        "stock-card",
+        "stock-adjustment"
+      ]
+    },
+    {
+      "id": "FUN-025",
+      "checkpoint": "CP5",
+      "defined_need": "Laundry physical delivery/receipt/correction",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "SOL_R4_B5_B6_ORDINARY_DESKTOP",
+        "run_id": 39196659018,
+        "artifact_id": 12162272799,
+        "group": "/browser",
+        "raw_status": "PASS",
+        "oracle_origin": "SOL_CONTRACT_LITERAL_ARITHMETIC_AND_LINEAGE",
+        "fixture_origin": "WRITER_NATIVE_START_ONLY_THEN_SOL_UI_CONTINUATION",
+        "review_document": "JOURNEY_Q3_RESULT_REVIEW.json"
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_SOURCE_LAUNDRY_DEPENDENCIES",
+        "run_id": 39185235584,
+        "artifact_id": 12158875292,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_SOURCE_LAUNDRY_DOCUMENTS",
+        "run_id": 39185235584,
+        "artifact_id": 12158875292,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "SOL_R4_B5_B6_ORDINARY_MOBILE",
+        "run_id": 39196659018,
+        "artifact_id": 12162272799,
+        "group": "/browser",
+        "raw_status": "PASS",
+        "oracle_origin": "SOL_CONTRACT_LITERAL_ARITHMETIC_AND_LINEAGE",
+        "fixture_origin": "WRITER_NATIVE_START_ONLY_THEN_SOL_UI_CONTINUATION",
+        "review_document": "JOURNEY_Q3_RESULT_REVIEW.json"
+      },
+      "scope_limit": "Q3 ordinary3 menjalankan sewing→send→receipt→QC pada satu lineage; tiga first INCOMPLETE tetap tersimpan.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "laundry"
+      ]
+    },
+    {
+      "id": "FUN-026",
+      "checkpoint": "CP5",
+      "defined_need": "Laundry pricing dan invoice vendor/koreksi harga",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "SOL_R4_B5_B6_ORDINARY_DESKTOP",
+        "run_id": 39196659018,
+        "artifact_id": 12162272799,
+        "group": "/browser",
+        "raw_status": "PASS",
+        "oracle_origin": "SOL_CONTRACT_LITERAL_ARITHMETIC_AND_LINEAGE",
+        "fixture_origin": "WRITER_NATIVE_START_ONLY_THEN_SOL_UI_CONTINUATION",
+        "review_document": "JOURNEY_Q3_RESULT_REVIEW.json"
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_CASH_LAUNDRY_VENDOR_EMPTY_BANK_REFUSED",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "BD_BROWSER:DEC06_CORRECTION_UP_DOWN_ON_SCREEN",
+        "run_id": 39185235693,
+        "artifact_id": 12158636433,
+        "group": "browser",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "SOL_R4_B5_B6_ORDINARY_IPAD_VIEWPORT",
+        "run_id": 39196659018,
+        "artifact_id": 12162272799,
+        "group": "/browser",
+        "raw_status": "PASS",
+        "oracle_origin": "SOL_CONTRACT_LITERAL_ARITHMETIC_AND_LINEAGE",
+        "fixture_origin": "WRITER_NATIVE_START_ONLY_THEN_SOL_UI_CONTINUATION",
+        "review_document": "JOURNEY_Q3_RESULT_REVIEW.json"
+      },
+      "scope_limit": "Q3 ordinary3/claim1 menutup draft/edit/post invoice8, payment/credit dan inverse; BD document dan core payable dibaca terpisah.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "laundry",
+        "finance-ap"
+      ]
+    },
+    {
+      "id": "FUN-027",
+      "checkpoint": "CP5",
+      "defined_need": "Klaim laundry dan pemakaian kredit/AP/kas",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "SOL_R4_B5_B6_CLAIM_MOBILE",
+        "run_id": 39196659018,
+        "artifact_id": 12162272799,
+        "group": "/browser",
+        "raw_status": "PASS",
+        "oracle_origin": "SOL_CONTRACT_LITERAL_ARITHMETIC_AND_LINEAGE",
+        "fixture_origin": "WRITER_NATIVE_START_ONLY_THEN_SOL_UI_CONTINUATION",
+        "review_document": "JOURNEY_Q3_RESULT_REVIEW.json"
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_FIN02_CLAIM_BEFORE_SOURCE_REFUSED",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "SOL_R4_B5_B6_CLAIM_MOBILE",
+        "run_id": 39196659018,
+        "artifact_id": 12162272799,
+        "group": "/browser",
+        "raw_status": "PASS",
+        "oracle_origin": "SOL_CONTRACT_LITERAL_ARITHMETIC_AND_LINEAGE",
+        "fixture_origin": "WRITER_NATIVE_START_ONLY_THEN_SOL_UI_CONTINUATION",
+        "review_document": "JOURNEY_Q3_RESULT_REVIEW.json"
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "SOL_R4_B5_B6_CLAIM_MOBILE",
+        "run_id": 39196659018,
+        "artifact_id": 12162272799,
+        "group": "/browser",
+        "raw_status": "PASS",
+        "oracle_origin": "SOL_CONTRACT_LITERAL_ARITHMETIC_AND_LINEAGE",
+        "fixture_origin": "WRITER_NATIVE_START_ONLY_THEN_SOL_UI_CONTINUATION",
+        "review_document": "JOURNEY_Q3_RESULT_REVIEW.json"
+      },
+      "scope_limit": "Q3 claim mobile: lima sent/empat GOOD, total130; kompensasi2 hanya AP/OTHER_EXPENSE, cicilan6 dan seluruh inverse; physical/HPP tetap.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "laundry",
+        "bs-rework",
+        "finance-ap"
+      ]
+    },
+    {
+      "id": "FUN-028",
+      "checkpoint": "CP5",
+      "defined_need": "Free same-product rewash dan hasil/reversal",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "SOL_R4_B5_FREE_REWASH_SAME_PRODUCT_DESKTOP",
+        "run_id": 39193738642,
+        "artifact_id": 12160684624,
+        "group": "/browser",
+        "raw_status": "PASS",
+        "oracle_origin": "SOL_EXPLICIT_LITERAL_AND_ACTIVE_SOURCE_CONTRACT",
+        "fixture_origin": "ACCEPTED_NATIVE_SYNTHETIC_START",
+        "review_document": "JOURNEY_INITIAL_RESULT_REVIEW.json"
+      },
+      "refusal": {
+        "kind": "ACCEPTED_UNCHANGED_CP6_SCOPE",
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "runtime_credit_r4": 0,
+        "review": "CP6_SCOPE_RETENTION.json"
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "SOL_R4_B5_FREE_REWASH_SAME_PRODUCT_DESKTOP",
+        "run_id": 39193738642,
+        "artifact_id": 12160684624,
+        "group": "/browser",
+        "raw_status": "PASS",
+        "oracle_origin": "SOL_EXPLICIT_LITERAL_AND_ACTIVE_SOURCE_CONTRACT",
+        "fixture_origin": "ACCEPTED_NATIVE_SYNTHETIC_START",
+        "review_document": "JOURNEY_INITIAL_RESULT_REVIEW.json"
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_SOURCE_REWORK_DOCUMENTS",
+        "run_id": 39185235584,
+        "artifact_id": 12158875292,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "UI free same-product rewash empat aksi lulus pada initial run39193738642; inverse sah, AP/wage/rework journal tetap0. Tidak diulang.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "laundry",
+        "bs-rework"
+      ]
+    },
+    {
+      "id": "FUN-029",
+      "checkpoint": "CP5",
+      "defined_need": "BS, ordinary rework dan hak kerja",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_RWK01_GOOD_CONTROL",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_RWK01_ALL_SCRAP_REWORK_PAYABLE_ONCE",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_SOURCE_REWORK_DOCUMENTS",
+        "run_id": 39185235584,
+        "artifact_id": 12158875292,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_RWK01_OPEN_CASE_FINISHED_PART_PAID_ONCE",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Hak kerja dan reimbursement bukan lagi upah baru setiap kali barang dicuci ulang.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "mandor-wip",
+        "bs-rework"
+      ]
+    },
+    {
+      "id": "FUN-030",
+      "checkpoint": "CP5",
+      "defined_need": "QC final SKU, grade/size, FG dan inverse",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_BROWSER_R3_05_QC_FINAL_SKU_DESKTOP",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "browser",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_SOURCE_LAUNDRY_DEPENDENCIES",
+        "run_id": 39185235584,
+        "artifact_id": 12158875292,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_SOURCE_LAUNDRY_DEPENDENCIES",
+        "run_id": 39185235584,
+        "artifact_id": 12158875292,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P10_FG_NATIVE_SOURCE",
+        "run_id": 39185235723,
+        "artifact_id": 12158837905,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Good/BS/lot/receipt FK persis; source fixture terpisah dari browser post.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "qc",
+        "fg-summary",
+        "master-products"
+      ]
+    },
+    {
+      "id": "FUN-031",
+      "checkpoint": "CP5",
+      "defined_need": "FG stock adjustment/count/book rank",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P10_ADJUST_POSITIVE_VALUE",
+        "run_id": 39185235723,
+        "artifact_id": 12158837905,
+        "group": "adjustments",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P10_ADJUST_FORGED_ATOMIC",
+        "run_id": 39185235723,
+        "artifact_id": 12158837905,
+        "group": "adjustments",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P10_ADJUST_MULTI_EDIT_VERSION",
+        "run_id": 39185235723,
+        "artifact_id": 12158837905,
+        "group": "adjustments",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P10_BOOK_REORDER_FACTS",
+        "run_id": 39185235723,
+        "artifact_id": 12158837905,
+        "group": "book",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Rank tampilan tidak mengubah physical stock, HPP atau laporan.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "warehouse-dashboard",
+        "fg-summary",
+        "movements-vivo",
+        "movements-widie",
+        "stock-card",
+        "stock-adjustment"
+      ]
+    },
+    {
+      "id": "FUN-032",
+      "checkpoint": "CP5",
+      "defined_need": "Ganti merek/celup ulang/pocket origins",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "F03_X04_REWORK_NEW_CONTRACTOR",
+        "run_id": 39185235747,
+        "artifact_id": 12158616422,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "F03_X04_PO_PIN_MISMATCH_REFUSED",
+        "run_id": 39185235747,
+        "artifact_id": 12158616422,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "ACCEPTED_UNCHANGED_CP6_SCOPE",
+        "seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+        "runtime_credit_r4": 0,
+        "review": "CP6_SCOPE_RETENTION.json"
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_SOURCE_REWORK_DOCUMENTS",
+        "run_id": 39185235584,
+        "artifact_id": 12158875292,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Accepted unchanged Native BE/BF source; current X04 source pin dan biaya dibaca. Tidak fresh seluruh CP6.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "pocket-fabric",
+        "fg-summary",
+        "movements-vivo",
+        "movements-widie",
+        "brand-conversion",
+        "master-products"
+      ]
+    },
+    {
+      "id": "FUN-033",
+      "checkpoint": "CP7",
+      "defined_need": "Sales draft multi-line/manual13/post/inverse",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P11_DRAFT_MULTI_CREATE_EDIT_POST",
+        "run_id": 39185235723,
+        "artifact_id": 12159126728,
+        "group": "drafts",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P11_DRAFT_INSUFFICIENT_EDIT",
+        "run_id": 39185235723,
+        "artifact_id": 12159126728,
+        "group": "drafts",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_SALES_CHAIN_EXACT",
+        "run_id": 39185235706,
+        "artifact_id": 12158592023,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P11_READ_NATIVE_LIFECYCLE",
+        "run_id": 39185235723,
+        "artifact_id": 12159126728,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Reservation tidak double-deduct saat post; original posted tidak diedit.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "sales-invoice",
+        "sales-allocation",
+        "sales-history"
+      ]
+    },
+    {
+      "id": "FUN-034",
+      "checkpoint": "CP7",
+      "defined_need": "Customer payment/correct/inverse",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P11_PAYMENT_EXACT_LIFECYCLE",
+        "run_id": 39185235723,
+        "artifact_id": 12159126728,
+        "group": "payments",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P11_PAYMENT_SOURCE_CHANGE",
+        "run_id": 39185235723,
+        "artifact_id": 12159126728,
+        "group": "payments",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_PAYMENT_CORRECTION_EXACT_CENTS",
+        "run_id": 39185235704,
+        "artifact_id": 12158304231,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P13_REPORT_LEDGER_LIFECYCLE",
+        "run_id": 39185235723,
+        "artifact_id": 12158233630,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Bukan pendapatan atau HPP kedua; 364 prefix sesudah koreksi dihitung ulang.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "sales-payments",
+        "sales-history",
+        "finance-cash",
+        "finance-ar"
+      ]
+    },
+    {
+      "id": "FUN-035",
+      "checkpoint": "CP7",
+      "defined_need": "Sales return per allocation/grade/correction",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P11_RETURN_LIFECYCLE",
+        "run_id": 39185235723,
+        "artifact_id": 12159126728,
+        "group": "returns",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P11_RETURN_PAID_REFUSAL",
+        "run_id": 39185235723,
+        "artifact_id": 12159126728,
+        "group": "returns",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_RETURN_CORRECTION_TWO_ALLOCATIONS",
+        "run_id": 39185235702,
+        "artifact_id": 12158424026,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_RETURN_CORRECTION_YEAR_364",
+        "run_id": 39185235702,
+        "artifact_id": 12158424026,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Duplicate product/lot tidak membuat allocation ID dapat ditukar.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "sales-returns",
+        "sales-history",
+        "finance-ar"
+      ]
+    },
+    {
+      "id": "FUN-036",
+      "checkpoint": "CP7",
+      "defined_need": "Customer refund/custody source",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "F03_E03_NATIVE_LEGACY_REFUND",
+        "run_id": 39185235586,
+        "artifact_id": 12157394057,
+        "group": "refund_native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P11_RETURN_CONSUMED",
+        "run_id": 39185235723,
+        "artifact_id": 12159126728,
+        "group": "returns",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "F03_E03_NATIVE_IMPORTED_REFUND",
+        "run_id": 39185235586,
+        "artifact_id": 12157394057,
+        "group": "refund_native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "F03_E03_NATIVE_LEGACY_REFUND",
+        "run_id": 39185235586,
+        "artifact_id": 12157394057,
+        "group": "refund_native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Service customer-owned tidak masuk FG/HPP perusahaan; refund punya credit source sendiri.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "sales-returns",
+        "sales-payments",
+        "finance-cash",
+        "finance-ar"
+      ]
+    },
+    {
+      "id": "FUN-037",
+      "checkpoint": "CP7",
+      "defined_need": "Attendance roster/rate dated/current version",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_ROSTER_LIFECYCLE",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "roster",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_ROSTER_FIELDS",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "roster",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_ROSTER_POSTED_HISTORY",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "roster",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_ATTENDANCE_WRITE_DATED_RATES",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "attendance_write",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Blank attendance tidak disimpulkan HADIR/ABSEN, role/period/current revisions wajib.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "operations-attendance",
+        "master-workforce"
+      ]
+    },
+    {
+      "id": "FUN-038",
+      "checkpoint": "CP7",
+      "defined_need": "Attendance record/correction/consumed source",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_ATTENDANCE_WRITE_LIFECYCLE",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "attendance_write",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_ATTENDANCE_WRITE_CONSUMED",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "attendance_write",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_ATTENDANCE_WRITE_CORRECTION",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "attendance_write",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_SETTLEMENT_ATTENDANCE_ACCRUAL",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "settlement",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Koreksi consumed perlu release/payroll inverse lebih dahulu, bukan edit fakta lama.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "operations-attendance"
+      ]
+    },
+    {
+      "id": "FUN-039",
+      "checkpoint": "CP7",
+      "defined_need": "Nota mandor/source allocation",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_NOTA_SAVE_POST_REPLAY",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "notes",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_NOTA_STALE_SOURCE",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "notes",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_NOTA_CANCEL_RELEASE",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "notes",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_SETTLEMENT_PRESERVE_SELECTED_WORK",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "settlement",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Source page lengkap, satu hak kerja tidak diambil nota dua kali. Valid FG_REPAIR Nota 2 lines/6000 has correct source/contractor/component but raises2 false CRITICAL wrong-contractor alarms. Financial proof remains separate; end-to-end integrity is FAIL, see PAYROLL_DETECTOR_DISPUTE_RESULT_REVIEW.json.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "FINANCIAL_LIFECYCLE_QUALIFIED_INTEGRITY_FAIL_S1",
+      "integrity_finding": "SOL-R4-001",
+      "integrity_counterexample": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "SOL_R4_INV_D02_VALID_FG_REPAIR_NOTA_ZERO_ALARM",
+        "run_id": 39200571137,
+        "artifact_id": 12163559008,
+        "group": "/native",
+        "raw_status": "COUNTEREXAMPLE",
+        "oracle_origin": "PROMAX_INV_D02_HEALTHY_BOOK_ZERO_WITH_ACTUAL_FG_REPAIR_CONTRACTOR_RESOLUTION",
+        "fixture_origin": "ACCEPTED_AX_NATIVE_REPAIR_QTY2_AND1_THEN_PUBLIC_CP7_NOTA_SAVE_POST",
+        "review_document": "PAYROLL_DETECTOR_DISPUTE_RESULT_REVIEW.json"
+      },
+      "financial_amounts_wrong": false,
+      "period_close_or_payment_UI_blocking": "NOT_VERIFIED",
+      "routes": [
+        "fg-handoff",
+        "finance-payroll"
+      ]
+    },
+    {
+      "id": "FUN-040",
+      "checkpoint": "CP7",
+      "defined_need": "Nota ambil aksesori ke payroll deduction",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_BROWSER_R3_05_ACCESSORY_NOTE_TO_PAYROLL_DESKTOP",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "browser",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_SETTLEMENT_INVALID_PAY_CANCEL",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "settlement",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP7_SOURCE_ACCESSORY_DOCUMENTS",
+        "run_id": 39185235584,
+        "artifact_id": 12158875292,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_SETTLEMENT_KASBON_CARRY",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "settlement",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "7*300=2100; reversed3*500 tidak dihitung; net6000−2100=3900.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "accessories",
+        "finance-payroll",
+        "contractor-issue",
+        "master-accessory"
+      ]
+    },
+    {
+      "id": "FUN-041",
+      "checkpoint": "CP7",
+      "defined_need": "Payroll approve/partial/final/inverse",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_SETTLEMENT_FULL_LIFECYCLE",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "settlement",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_FIN01_INSTALLMENT_BEFORE_ACCRUAL_REFUSED",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_PAYROLL_READ_REVERSED_HISTORY",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "payroll_review",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "E05_EXACT_LARGE_CENTS",
+        "run_id": 39185235599,
+        "artifact_id": 12158647550,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Approval menimbulkan hak/biaya; pembayaran hanya settlement, tanggal tidak sebelum accrual. Valid FG_REPAIR Nota 2 lines/6000 has correct source/contractor/component but raises2 false CRITICAL wrong-contractor alarms. Financial proof remains separate; end-to-end integrity is FAIL, see PAYROLL_DETECTOR_DISPUTE_RESULT_REVIEW.json.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "FINANCIAL_LIFECYCLE_QUALIFIED_INTEGRITY_FAIL_S1",
+      "integrity_finding": "SOL-R4-001",
+      "integrity_counterexample": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "SOL_R4_INV_D02_VALID_FG_REPAIR_NOTA_ZERO_ALARM",
+        "run_id": 39200571137,
+        "artifact_id": 12163559008,
+        "group": "/native",
+        "raw_status": "COUNTEREXAMPLE",
+        "oracle_origin": "PROMAX_INV_D02_HEALTHY_BOOK_ZERO_WITH_ACTUAL_FG_REPAIR_CONTRACTOR_RESOLUTION",
+        "fixture_origin": "ACCEPTED_AX_NATIVE_REPAIR_QTY2_AND1_THEN_PUBLIC_CP7_NOTA_SAVE_POST",
+        "review_document": "PAYROLL_DETECTOR_DISPUTE_RESULT_REVIEW.json"
+      },
+      "financial_amounts_wrong": false,
+      "period_close_or_payment_UI_blocking": "NOT_VERIFIED",
+      "routes": [
+        "finance-cash",
+        "finance-ap",
+        "finance-payroll"
+      ]
+    },
+    {
+      "id": "FUN-042",
+      "checkpoint": "CP7",
+      "defined_need": "Kasbon GIVE/ALLOCATE/release/cancel",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_KASBON_GIVE_DEDUCT_PAY",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_KASBON_LIMITS_REFUSED",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_KASBON_RELEASE_CANCEL_REPLAY",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_SETTLEMENT_KASBON_CARRY",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "settlement",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Net tak negatif, carry tersimpan, zero-net tidak membuat jurnal kas.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "finance-ar",
+        "finance-payroll",
+        "contractor-issue"
+      ]
+    },
+    {
+      "id": "FUN-043",
+      "checkpoint": "CP6/CP7",
+      "defined_need": "Opening import/validate/finalize/inverse downstream",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_OPENING_LIFECYCLE",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "opening_payroll",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_D15_5_CUTOVER_FAILURE_MIDWAY_LEAVES_NOTHING",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P12_OPENING_CANCEL",
+        "run_id": 39185235723,
+        "artifact_id": 12158099174,
+        "group": "opening_payroll",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_D15_5_CUTOVER_OPENING_PATH_LATE_INVOICE_SETTLEMENT",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Data sintetis, bukan real cutover atau satu periode shadow.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "pocket-fabric",
+        "admin-import"
+      ]
+    },
+    {
+      "id": "FUN-044",
+      "checkpoint": "CP7",
+      "defined_need": "Misc income/expense/correction/cash prefix",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_SPENT_INCOME_CORRECTION_COMMITS",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_CASH_BACKDATE_BEFORE_FUNDS_REFUSED",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R2_MISC_SPENT_INCOME_CORRECTION_COMMITS",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P13_ANALYSIS_INVERSE_DATES",
+        "run_id": 39185235723,
+        "artifact_id": 12158233630,
+        "group": "analysis_native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Compound cash rule berlaku saldo akhir; penggunaan income yang sah tidak diblokir palsu.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "finance-cash",
+        "finance-journal"
+      ]
+    },
+    {
+      "id": "FUN-045",
+      "checkpoint": "CP7",
+      "defined_need": "Laporan GL/AR/AP/cash dan known/current vs filed",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P13_REPORT_LEDGER_LIFECYCLE",
+        "run_id": 39185235723,
+        "artifact_id": 12158233630,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P13_REPORT_QUERY",
+        "run_id": 39185235723,
+        "artifact_id": 12158233630,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P13_REPORT_FILED_LATE_CORRECTION",
+        "run_id": 39185235723,
+        "artifact_id": 12158233630,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "F03_COMBINED_LEDGER",
+        "run_id": 39185235591,
+        "artifact_id": 12158596909,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "As-filed immutable; facade finance menolak arbitrary as_known. Finance latency D17-2 tetap OPEN.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "dashboard",
+        "finance-overview",
+        "finance-cash",
+        "finance-ap",
+        "finance-ar",
+        "finance-journal",
+        "finance-reports"
+      ]
+    },
+    {
+      "id": "FUN-046",
+      "checkpoint": "CP7",
+      "defined_need": "Tutup/reopen periode dan filing immutable",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P13_PERIOD_CLOSE_REOPEN",
+        "run_id": 39185235723,
+        "artifact_id": 12158233630,
+        "group": "period_native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P13_PERIOD_BLOCKED",
+        "run_id": 39185235723,
+        "artifact_id": 12158233630,
+        "group": "period_native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P13_PERIOD_LATE_ARCHIVE",
+        "run_id": 39185235723,
+        "artifact_id": 12158233630,
+        "group": "period_native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P13_REPORT_FILING_PAGES",
+        "run_id": 39185235723,
+        "artifact_id": 12158233630,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Satu tab finance, permission report/period terpisah; current READY tidak menghapus change marker.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "finance-reports"
+      ]
+    },
+    {
+      "id": "FUN-047",
+      "checkpoint": "CP7",
+      "defined_need": "Recost bounded queue/retry/per tanggal",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P13_RECOST_LATE_COST",
+        "run_id": 39185235723,
+        "artifact_id": 12158233630,
+        "group": "recost_native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P13_RECOST_BOUNDED_FAILURE",
+        "run_id": 39185235723,
+        "artifact_id": 12158233630,
+        "group": "recost_native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P13_RECOST_RETRY",
+        "run_id": 39185235723,
+        "artifact_id": 12158233630,
+        "group": "recost_native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "F03_E06_YEAR_END_INCREASE_UTC",
+        "run_id": 39185235714,
+        "artifact_id": 12158900958,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Max20 completed berbeda dari attempted, fault bukan selesai; sejarah sale tetap immutable.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "hpp"
+      ]
+    },
+    {
+      "id": "FUN-048",
+      "checkpoint": "CP7",
+      "defined_need": "Native source capture/projection/model/capacity",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P14_NATIVE_ANALYSIS_FROZEN_NATIVE",
+        "run_id": 39185235603,
+        "artifact_id": 12158332992,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P14_NATIVE_ANALYSIS_MISSING_POLICY",
+        "run_id": 39185235603,
+        "artifact_id": 12158332992,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P08_VERSION",
+        "run_id": 39185235603,
+        "artifact_id": 12158153396,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P15_NATIVE_ANALYSIS_FINANCE_SAME_SOURCE",
+        "run_id": 39185235603,
+        "artifact_id": 12158332992,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Kernel/factory proof berbeda; projected7 bukan physical7; global source tidak diubah filter tampilan.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "cutting-roll",
+        "sewing-wip",
+        "master-pattern"
+      ]
+    },
+    {
+      "id": "FUN-049",
+      "checkpoint": "CP7",
+      "defined_need": "Native plan draft/apply/cancel/current recheck",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "SOL_R4_SKN24_NATIVE_MATCH_ALLOCATE_PLAN_COMMAND",
+        "run_id": 39195943779,
+        "artifact_id": 12161878541,
+        "group": "/native",
+        "raw_status": "PASS",
+        "oracle_origin": "SOL_MATCHER_REFUSAL_AND_IMMUTABLE_NATIVE_SOURCE_BINDING",
+        "fixture_origin": "ACCEPTED_NATIVE_OPENING8_AND_RECEIPT10_BEFORE_SOL_PUBLIC_ORIGINAL",
+        "review_document": "FUNCTIONAL_BOUNDARIES_RESULT_REVIEW.json"
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P08_PHYSICAL_WRONG_MATERIAL_DRAFT",
+        "run_id": 39185235603,
+        "artifact_id": 12158004467,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P08_SHARED_FABRIC_NATIVE_DRAFT_EDIT",
+        "run_id": 39185235603,
+        "artifact_id": 12158153396,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P08_ACTUAL_PARTIAL_LIFECYCLE",
+        "run_id": 39185235603,
+        "artifact_id": 12158153396,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Finite Native matching8→7, color mismatch dan relabel CANDIDATE ditolak; public command menolak extra matching dan membuat satu draft2 dari Original sah, tanpa stok/uang/HPP.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "cutting-roll",
+        "master-pattern"
+      ]
+    },
+    {
+      "id": "FUN-050",
+      "checkpoint": "CP7",
+      "defined_need": "Publication/report/AI immutable current-authorized output",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P15_OBLIGATION_REPORT_NATIVE_EXACT_DATED_NATIVE",
+        "run_id": 39185235603,
+        "artifact_id": 12159708433,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P15_OBLIGATION_REPORT_NATIVE_CURRENT_FINE_RIGHTS",
+        "run_id": 39185235603,
+        "artifact_id": 12159708433,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P15_OBLIGATION_REPORT_NATIVE_LINKED_REVISION",
+        "run_id": 39185235603,
+        "artifact_id": 12159708433,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P17_BROWSER_DESKTOP_NATIVE_HANDOFF",
+        "run_id": 39185235603,
+        "artifact_id": 12159708433,
+        "group": "browser",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Exact body/UTF8 source escaping; model obedience dan provider contact tidak diuji.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE"
+    },
+    {
+      "id": "FUN-051",
+      "checkpoint": "CP7",
+      "defined_need": "Manual reminder/current episode/ACK/snooze",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_03_REMINDERS_CREATE_EDIT_NATIVE_ROW_AND_AUDIT",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_03_REMINDERS_DENIED_WITHOUT_KEYS",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_03_REMINDERS_DONE_REOPEN_CANCEL_NATIVE_ROW_AND_AUDIT",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P16_NATIVE_ATTENTION_REVIEW_METADATA",
+        "run_id": 39185235603,
+        "artifact_id": 12159708433,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Review/archive bukan debt resolved; actual Native settlement/inverse menentukan episode.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "admin-reminders"
+      ]
+    },
+    {
+      "id": "FUN-052",
+      "checkpoint": "CP7",
+      "defined_need": "Versioned reminder policy/local claim/ambiguity",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P16_RULE_SOURCE_LOCAL_UTF8_CAPTURE",
+        "run_id": 39185235603,
+        "artifact_id": 12159708433,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P16_RULE_SOURCE_LOCAL_DISABLED_SUPPRESSION",
+        "run_id": 39185235603,
+        "artifact_id": 12159708433,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P16_RULE_SOURCE_LOCAL_MANUAL_RESOLUTION",
+        "run_id": 39185235603,
+        "artifact_id": 12159708433,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P16_RULE_SOURCE_LOCAL_NATIVE_HEAL",
+        "run_id": 39185235603,
+        "artifact_id": 12159708433,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Local preview belum dikirim; UNKNOWN tidak otomatis resend atau dianggap selesai.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "admin-reminders"
+      ]
+    },
+    {
+      "id": "FUN-053",
+      "checkpoint": "CP7",
+      "defined_need": "Staged runner/closed-page/current auth/budget",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "K4R_RACE_PG_CRON_FINISHES_JOB",
+        "run_id": 39185235564,
+        "artifact_id": 12159622921,
+        "group": "races",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "K4R_LIMIT_REQUIRED",
+        "run_id": 39185235564,
+        "artifact_id": 12159622921,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "K4R_RACE_COLD_START_TWO_TICKS",
+        "run_id": 39185235564,
+        "artifact_id": 12159622921,
+        "group": "races",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "AUDITOR_REVIEW_DOCUMENT",
+        "path": "Q1_STATE_RESULT_REVIEW.json",
+        "sha256": "754c1367ac52fc2d39569439e9064db0facc94a9de3be7e8aaa2bd4ba433ed8a"
+      },
+      "scope_limit": "K4 raw17, Q1metadata4 terpisah; future production scheduler CP7C.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE"
+    },
+    {
+      "id": "FUN-054",
+      "checkpoint": "CP7",
+      "defined_need": "Server physical proof bounded/shared tick",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "K6P_RACE_PG_CRON_FINISHES_PASS",
+        "run_id": 39185235564,
+        "artifact_id": 12160012258,
+        "group": "races",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "K6P_LIMIT_REQUIRED",
+        "run_id": 39185235564,
+        "artifact_id": 12160012258,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "K6P_CANCEL_CORRECT_BACKDATE_REPROVEN_BY_SERVER",
+        "run_id": 39185235564,
+        "artifact_id": 12160012258,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "AUDITOR_REVIEW_DOCUMENT",
+        "path": "Q1_STATE_RESULT_REVIEW.json",
+        "sha256": "754c1367ac52fc2d39569439e9064db0facc94a9de3be7e8aaa2bd4ba433ed8a"
+      },
+      "scope_limit": "151group includes labelled spent clones; ordinary five-group positive terpisah, no capture-time work.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE"
+    },
+    {
+      "id": "FUN-055",
+      "checkpoint": "CP7",
+      "defined_need": "Large transport/pages/caps and honest refusal",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P19S_BROWSER_DESKTOP_100",
+        "run_id": 39185235564,
+        "artifact_id": 12159513142,
+        "group": "browser",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "P08_PHYSICAL_WIP_IDENTITY_UPPER_BOUND",
+        "run_id": 39185235603,
+        "artifact_id": 12158004467,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_ACCEPTED_ORACLE_EXECUTED_BY_SOL",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "AUDITOR_REVIEW_DOCUMENT",
+        "path": "PERFORMANCE_RESULT_REVIEW.json",
+        "sha256": "c5ad8a59310b1652a21719366547ddc71133881a85129e6174b4d8823efab43e"
+      },
+      "downstream": {
+        "kind": "AUDITOR_REVIEW_DOCUMENT",
+        "path": "PERFORMANCE_RESULT_REVIEW.json",
+        "sha256": "c5ad8a59310b1652a21719366547ddc71133881a85129e6174b4d8823efab43e"
+      },
+      "scope_limit": "5business IDs/48 measurements bukan48 transaksi baru atau all-size SLA.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE"
+    },
+    {
+      "id": "FUN-056",
+      "checkpoint": "CP7",
+      "defined_need": "Riwayat pelanggan/CSV dan audit trail listing",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_BROWSER_R3_03_HISTORY_DESKTOP",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "browser",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_03_HISTORY_AMOUNTS_HIDDEN_WITHOUT_AR",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_03_HISTORY_REVERSALS_LISTED_NOT_COUNTED",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_BROWSER_R3_03_AUDIT_DESKTOP",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "browser",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "CSV actual sesuai rows tampil; current audit content marker bukan immutable transaction snapshot.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "sales-history",
+        "admin-audit"
+      ]
+    },
+    {
+      "id": "FUN-057",
+      "checkpoint": "CP7",
+      "defined_need": "ERP settings/policy source dan warehouse summary",
+      "positive": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_03_ERP_SETTINGS_FACADE_EQUALS_NATIVE",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "refusal": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_03_ERP_SETTINGS_NON_OWNER_REFUSED_BY_NATIVE",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "correction_or_revision": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_03_ERP_SETTINGS_SET_CHANGES_ONLY_THAT_POLICY",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "downstream": {
+        "kind": "REVIEWED_CURRENT_CASE",
+        "case_id": "CP17_R3_03_WAREHOUSE_RECEIPT_CUTTING_EQUALS_NATIVE_AND_READS",
+        "run_id": 39184657689,
+        "artifact_id": 12158177672,
+        "group": "native",
+        "raw_status": "PASS",
+        "oracle_origin": "WRITER_DECLARED_OR_R3_AUDITOR_REPRODUCTION_ADOPTED_BY_WRITER",
+        "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+        "review_document": null
+      },
+      "scope_limit": "Satu Native policy/source, non-admin redaction dan mutation read-only dibedakan.",
+      "oracle_origin": "WRITER_ACCEPTED_CONTRACT_ORACLE_PLUS_SOL_REVIEWED_LITERAL_DOCUMENT_ARITHMETIC; individual audit qualifications separately labelled",
+      "status": "QUALIFIED_LIFECYCLE_EVIDENCE_NOT_GLOBAL_ACCEPTANCE",
+      "routes": [
+        "dashboard",
+        "warehouse-dashboard",
+        "fg-summary",
+        "admin-settings"
+      ]
+    }
+  ],
+  "screens": [
+    {
+      "route": "dashboard",
+      "label": "Dashboard",
+      "section": "Dashboard",
+      "enteng": "NOTICE",
+      "test": "NOTICE",
+      "defined_need_ids": [
+        "FUN-002",
+        "FUN-045",
+        "FUN-057"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "cutting-roll",
+      "label": "Buat Potongan",
+      "section": "Produksi",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-012",
+        "FUN-013",
+        "FUN-016",
+        "FUN-048",
+        "FUN-049"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "mandor-wip",
+      "label": "Bagi Potongan",
+      "section": "Produksi",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-014",
+        "FUN-015",
+        "FUN-029"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "sewing-wip",
+      "label": "WIP & Sewing",
+      "section": "Produksi",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-015",
+        "FUN-017",
+        "FUN-048"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "laundry",
+      "label": "Laundry",
+      "section": "Produksi",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-025",
+        "FUN-026",
+        "FUN-027",
+        "FUN-028"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "qc",
+      "label": "QC & Final SKU",
+      "section": "Produksi",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-030"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "fg-handoff",
+      "label": "Susun Nota FG",
+      "section": "Produksi",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-039"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle",
+      "source_binding": "ConnectedFgHandoffBoundary returns ConnectedNotaPage; work-right/nota needs, not sales."
+    },
+    {
+      "route": "bs-rework",
+      "label": "Barang BS & Rework",
+      "section": "Produksi",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-027",
+        "FUN-028",
+        "FUN-029"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "warehouse-dashboard",
+      "label": "Ringkasan Gudang",
+      "section": "Gudang",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-019",
+        "FUN-023",
+        "FUN-024",
+        "FUN-031",
+        "FUN-057"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "procurement",
+      "label": "Pembelian & Penerimaan",
+      "section": "Gudang",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-019",
+        "FUN-020",
+        "FUN-021",
+        "FUN-022"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "materials-rolls",
+      "label": "Bahan & Roll",
+      "section": "Gudang",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-019",
+        "FUN-023",
+        "FUN-024"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "pocket-fabric",
+      "label": "Kain kantong",
+      "section": "Gudang",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-023",
+        "FUN-032",
+        "FUN-043"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "accessories",
+      "label": "Aksesori",
+      "section": "Gudang",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-010",
+        "FUN-023",
+        "FUN-024",
+        "FUN-040"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "fg-summary",
+      "label": "Ringkasan Barang Jadi",
+      "section": "Gudang",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-030",
+        "FUN-031",
+        "FUN-032",
+        "FUN-057"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "movements-vivo",
+      "label": "Mutasi Barang Jadi · Vivo",
+      "section": "Gudang",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-023",
+        "FUN-024",
+        "FUN-031",
+        "FUN-032"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "movements-widie",
+      "label": "Mutasi Barang Jadi · Widie",
+      "section": "Gudang",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-023",
+        "FUN-024",
+        "FUN-031",
+        "FUN-032"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "stock-card",
+      "label": "Kartu Stok FG",
+      "section": "Gudang",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-023",
+        "FUN-024",
+        "FUN-031"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "stock-adjustment",
+      "label": "Stock Adjustment",
+      "section": "Gudang",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-024",
+        "FUN-031"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "brand-conversion",
+      "label": "Ganti Merek",
+      "section": "Gudang",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-032"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "sales-invoice",
+      "label": "Penjualan & Invoice",
+      "section": "Penjualan",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-033"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "sales-allocation",
+      "label": "Semua Invoice",
+      "section": "Penjualan",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-033"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "sales-returns",
+      "label": "Retur Penjualan",
+      "section": "Penjualan",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-035",
+        "FUN-036"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "sales-payments",
+      "label": "Pembayaran Pelanggan",
+      "section": "Penjualan",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-034",
+        "FUN-036"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "sales-history",
+      "label": "Riwayat Pelanggan",
+      "section": "Penjualan",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-033",
+        "FUN-034",
+        "FUN-035",
+        "FUN-056"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "finance-overview",
+      "label": "Ringkasan Keuangan",
+      "section": "Keuangan",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-045"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "finance-cash",
+      "label": "Kas & Bank",
+      "section": "Keuangan",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-022",
+        "FUN-034",
+        "FUN-036",
+        "FUN-041",
+        "FUN-044",
+        "FUN-045"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "finance-ap",
+      "label": "Hutang Supplier & Vendor",
+      "section": "Keuangan",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-020",
+        "FUN-021",
+        "FUN-022",
+        "FUN-026",
+        "FUN-027",
+        "FUN-041",
+        "FUN-045"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "finance-ar",
+      "label": "Piutang Pelanggan",
+      "section": "Keuangan",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-034",
+        "FUN-035",
+        "FUN-036",
+        "FUN-042",
+        "FUN-045"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "finance-payroll",
+      "label": "Payroll & Kasbon",
+      "section": "Keuangan",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-039",
+        "FUN-040",
+        "FUN-041",
+        "FUN-042"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "operations-attendance",
+      "label": "Absensi & Rate Harian",
+      "section": "Keuangan",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-037",
+        "FUN-038"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "contractor-issue",
+      "label": "Nota Ambil Aksesori",
+      "section": "Keuangan",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-040",
+        "FUN-042"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "hpp",
+      "label": "HPP & Rekalkulasi",
+      "section": "Keuangan",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-017",
+        "FUN-018",
+        "FUN-047"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "finance-journal",
+      "label": "Jurnal & Transaksi Lain",
+      "section": "Keuangan",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-044",
+        "FUN-045"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "finance-reports",
+      "label": "Laporan & Tutup Buku",
+      "section": "Keuangan",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-045",
+        "FUN-046"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "master-fabric",
+      "label": "Kain & Benchmark",
+      "section": "Master Data",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-009",
+        "FUN-010"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "master-accessory",
+      "label": "Aksesori & Harga Mandor",
+      "section": "Master Data",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-010",
+        "FUN-040"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "master-products",
+      "label": "Produk & SKU",
+      "section": "Master Data",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-001",
+        "FUN-011",
+        "FUN-030",
+        "FUN-032"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle",
+      "explicit_limit": "Canonical product/model/size identity and master Native source retained unchanged from accepted CP4/CP6; current consumers/QC/source mappings exercised. No fresh all-product-CRUD browser claim."
+    },
+    {
+      "route": "master-customers",
+      "label": "Pelanggan",
+      "section": "Master Data",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-008"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "master-partners",
+      "label": "Supplier & Vendor",
+      "section": "Master Data",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-009"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "master-workforce",
+      "label": "Mandor",
+      "section": "Master Data",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-011",
+        "FUN-037"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "master-locations",
+      "label": "Gudang & Lokasi",
+      "section": "Master Data",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-009",
+        "FUN-023"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "master-pattern",
+      "label": "Pola",
+      "section": "Master Data",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-011",
+        "FUN-013",
+        "FUN-048",
+        "FUN-049"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "admin-reminders",
+      "label": "Reminder",
+      "section": "Pengaturan & Audit",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-051",
+        "FUN-052"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "admin-access",
+      "label": "Pengguna & Hak Akses",
+      "section": "Pengaturan & Audit",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-006",
+        "FUN-007"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "admin-settings",
+      "label": "Pengaturan ERP",
+      "section": "Pengaturan & Audit",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-057"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "admin-import",
+      "label": "Impor data awal",
+      "section": "Pengaturan & Audit",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-043"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    },
+    {
+      "route": "admin-audit",
+      "label": "Audit Trail",
+      "section": "Pengaturan & Audit",
+      "enteng": "CONNECTED",
+      "test": "CONNECTED",
+      "defined_need_ids": [
+        "FUN-056"
+      ],
+      "census_evidence": "CP17_RESULT_REVIEW.json / INITIAL_RESULT_REVIEW.json",
+      "runtime_scope": "CONNECTED_NATIVE_LOOPBACK; activation census is separate from each function lifecycle"
+    }
+  ]
+}

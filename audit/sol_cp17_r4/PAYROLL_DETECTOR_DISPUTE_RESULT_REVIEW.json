@@ -1,0 +1,141 @@
+{
+  "state": "READ_COUNTEREXAMPLE_WITH_ACTUAL_LINEAGE_AND_QUALIFIED_OPENING",
+  "run_id": 39200571137,
+  "job_id": 117892503808,
+  "artifact_id": 12163559008,
+  "archive_sha256": "e990bbc8dd48000d6947d847ee8dc84b9afef969ca7034c539f7721e6052bdf7",
+  "selected_members_rehashed": 15,
+  "raw_counts": {
+    "COUNTEREXAMPLE": 1,
+    "PASS": 1
+  },
+  "raw_status": "COUNTEREXAMPLE",
+  "evidence_protocol_complete": true,
+  "full_primary_restore": true,
+  "first_run_preserved": 39199375501,
+  "first_opening_still_INCOMPLETE": true,
+  "false_alarm_reproduced": true,
+  "false_alarm_disposition": {
+    "identity": "run_v263a_payroll_integrity_checks:payroll_work_wrong_contractor",
+    "expected_healthy_count": 0,
+    "observed_count": 2,
+    "status": "COUNTEREXAMPLE_S1_VALID_FG_REPAIR",
+    "run_id": 39200571137,
+    "artifact_id": 12163559008,
+    "case_id": "SOL_R4_INV_D02_VALID_FG_REPAIR_NOTA_ZERO_ALARM",
+    "source_type": "FG_REPAIR",
+    "actual_header": [
+      "76d6dfaa-b8b5-42b4-9674-fbba9dee8204",
+      "a431f382-02e6-4bca-a458-7bd3fbd95c68",
+      "CALCULATED",
+      "6000.00",
+      "6000.00"
+    ],
+    "resolved_source_rows": [
+      [
+        "723ca1fc-8619-49bf-8cd6-396c39ffbb88",
+        "FG_REPAIR",
+        "fada6038-c1ac-40ce-b359-a9ee6369b385",
+        "1",
+        "2000.00",
+        "2000.00",
+        "a431f382-02e6-4bca-a458-7bd3fbd95c68",
+        "a431f382-02e6-4bca-a458-7bd3fbd95c68",
+        "a4000000-0000-0000-0000-000000000001",
+        "a4000000-0000-0000-0000-000000000001",
+        "1",
+        "2000.00",
+        "2000.00",
+        "POSTED",
+        "POSTED",
+        "1ffb4127-6788-4f2e-8e1a-778f6a5eabd6"
+      ],
+      [
+        "37f9ab2b-7367-4564-ae91-c22b384601bc",
+        "FG_REPAIR",
+        "d54cbe66-94a4-4902-bbd7-946dc871bfda",
+        "2",
+        "2000.00",
+        "4000.00",
+        "a431f382-02e6-4bca-a458-7bd3fbd95c68",
+        "a431f382-02e6-4bca-a458-7bd3fbd95c68",
+        "a4000000-0000-0000-0000-000000000001",
+        "a4000000-0000-0000-0000-000000000001",
+        "2",
+        "2000.00",
+        "4000.00",
+        "POSTED",
+        "POSTED",
+        "6791c1a0-8c2e-4893-9103-1e56a38931ef"
+      ]
+    ],
+    "phase_counts": {
+      "before": {},
+      "after_native_repair_sources": {},
+      "after_draft": {},
+      "after_valid_post": {
+        "run_v263a_payroll_integrity_checks:payroll_work_wrong_contractor": 2
+      },
+      "after_rollback": {}
+    },
+    "all167_each_phase": true,
+    "contractor_component_qty_rate_amount_correct": true,
+    "severity_source": "ProMaxINV-D02",
+    "Native_money_wrong": false,
+    "period_close_UI_blocked": "NOT_VERIFIED",
+    "alarm_silenced": false
+  },
+  "canonical_cases": [
+    {
+      "case_id": "SOL_R4_INV_D02_VALID_FG_REPAIR_NOTA_ZERO_ALARM",
+      "run_id": 39200571137,
+      "artifact_id": 12163559008,
+      "group": "/native",
+      "raw_status": "COUNTEREXAMPLE",
+      "canonical_for_candidate": true,
+      "case_kind": "NATIVE_BUSINESS_CONTRACT",
+      "oracle_origin": "PROMAX_INV_D02_HEALTHY_BOOK_ZERO_WITH_ACTUAL_FG_REPAIR_CONTRACTOR_RESOLUTION",
+      "fixture_origin": "ACCEPTED_AX_NATIVE_REPAIR_QTY2_AND1_THEN_PUBLIC_CP7_NOTA_SAVE_POST",
+      "expected_alarm_count": 0,
+      "observed_alarm_count": 2,
+      "actual_source_lineage_valid": true,
+      "no_direct_fact_or_guard_change": true,
+      "full_boundary_restored": true
+    },
+    {
+      "case_id": "SOL_R4_D01_OPENING_DERIVED_STATUS",
+      "run_id": 39200571137,
+      "artifact_id": 12163559008,
+      "raw_status": "PASS",
+      "case_kind": "DETECTOR_CONTROL",
+      "oracle_origin": "SOL_OPENING65_SETTLED0_STATUS_TO_SETTLED_TWO_EXPORTED_IDENTITIES_UNCHANGED",
+      "fixture_origin": "ACCEPTED_BB_FINANCIAL_FIXTURE_ONE_90_LESS25_DOCUMENT_NO_NOTA_OR_PAYROLL_REVIEW",
+      "phases": [
+        {
+          "name": "OPENING_DERIVED_STATUS_ONLY",
+          "exact_deltas": {
+            "run_v267_financial_truth_checks:V2620M_OPENING_SUBLEDGER_STATE": 1,
+            "run_v268_financial_report_checks:V2620M_OPENING_SUBLEDGER_STATE": 1
+          },
+          "other_counts_unchanged": true
+        }
+      ],
+      "counts_each_phase": 167,
+      "all_other_counts_unchanged": true,
+      "protected_facts_and_guards_unchanged": true,
+      "full_boundary_restored": true,
+      "canonical_for_candidate": true,
+      "group": "/native"
+    }
+  ],
+  "qualification_reason": "First opening counter never started because a valid Nota predecessor raised two alarms. Isolated BB fixture proves the unchanged opening control; separate dispute preserves and resolves the valid-source false alarm.",
+  "opening_qualified_same_literal65_0_OPEN": true,
+  "earlier8PASS_not_repeated": true,
+  "protected_facts_observation_limit": "Pinned runtime compares actual fingerprints before/after publicNota and rollback; the raw report exports the success assertion, not every fingerprint value. Actual PWI/wage/header rows and all167 detector rows are exported.",
+  "limits": [
+    "No direct PWI, wage, source, journal, grant, guard or trigger edit. Nota allocations use accepted public Native commands.",
+    "The inherited identity recorder still exports static CP17 required counts341, declaration53fb2f86 and WRITER_DECLARED_CASES. Those fields are not the executed declaration or case count for this run. The separate qualification report binds the actual own manifest SHA256 and exactly two observed case IDs; before/after candidate/tree/product/workflow/run identities are valid.",
+    "This proves the diagnostic falseCRITICAL and audit/integrity gate violation, not an application period-close/payment blocker or a wrong6000financial value.",
+    "First9 group remains8PASS/1INCOMPLETE. New dispute COUNTEREXAMPLE is not renamedPASS and opening-only counter is a separately declared qualification."
+  ]
+}
