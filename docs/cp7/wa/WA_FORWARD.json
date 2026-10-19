@@ -1,0 +1,67 @@
+{
+  "contract": "cp7.wa.forward.v1",
+  "owner_decisions": [
+    "D17-3",
+    "D17-4",
+    "D17-5",
+    "D17-6"
+  ],
+  "design": "docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md",
+  "expected_case_count": 19,
+  "required_case_counts": {
+    "native": 13,
+    "races": 4,
+    "http": 2
+  },
+  "required_case_ids": {
+    "native": [
+      "WAF_COLLECT_WAITS_FOR_OWNER_SETTINGS",
+      "WAF_FABRIC_EQUALS_WAREHOUSE_SUMMARY",
+      "WAF_AR_AP_FROM_ACCEPTED_SOURCES",
+      "WAF_OWNER_REMINDERS_ONLY_WHEN_DUE",
+      "WAF_SEND_ONE_REQUEST_EXACT_TEXT",
+      "WAF_ROLLBACK_QUEUES_NOTHING",
+      "WAF_RESOLVED_BEFORE_SEND_NOT_SENT",
+      "WAF_ANSWERS_ACCEPTED_REFUSED_UNKNOWN",
+      "WAF_PACING_BURST_QUIET_DIGEST_REPEAT",
+      "WAF_OFF_OR_NO_KEY_SENDS_NOTHING",
+      "WAF_KEY_WRITE_ONLY_AND_MASKED",
+      "WAF_PRIVACY_AND_LIST_PERMISSIONS",
+      "WAF_TICKS_PRIVATE_AND_LIMITED"
+    ],
+    "races": [
+      "WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE",
+      "WAF_RACE_COLLECT_AND_SEND_OPEN_ONCE",
+      "WAF_RACE_FAKE_CALLMEBOT_END_TO_END",
+      "WAF_RACE_PG_CRON_RUNS_TICKS"
+    ],
+    "http": [
+      "WAF_HTTP_OWNER_SETS_UP_AND_TESTS",
+      "WAF_HTTP_OTHERS_REFUSED"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send"
+  ],
+  "provider": "FAKE_CALLMEBOT_ONLY",
+  "test_phone": "+620000000000",
+  "test_keys": "FAKEKEY-*",
+  "real_message_sent": false,
+  "schedule_installed": false,
+  "synthetic_labels": [
+    "SYNTHETIC_PROVIDER_ANSWER (savepoint cases only; races use the real fake server)",
+    "TEST_CLOCK_OVERRIDE (module tables only, inside the case transaction)",
+    "TEST_SCHEDULE_OVERRIDE (5 seconds, race copy only)"
+  ],
+  "browser": "WA-4 (screens) adds the browser group",
+  "production_go": false
+}
