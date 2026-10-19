@@ -16,12 +16,18 @@ line (cp7_report_accounts_bundle.py). Native cases: each installed reader and th
 by side on the CP17 books (every product, PO, pocket period, opening settlement and sale journal/PO pair the database
 holds, and three report windows) and must give the same rows or the same refusal; the review fails for a reader whose
 literal calls changed or that uses a key outside the listed core mappings; a core mapping cannot be deleted.
+The CP17 books hold no opening credit, pocket period or sale journal, so a first run compared three readers on no input
+at all (CI 3b9817ae, PASS on nothing). Inside the case's rolled-back savepoint the case now builds those rows through
+the paths the BB and BE probes use (an opening import with three allowances and a customer credit applied to an opening
+receivable; a production import with its historical pocket period posted; a sale of an opening finished good and its
+return), and every reader must answer at least one input without a refusal, the three of them with a value.
 """
 from datetime import timedelta
 from decimal import Decimal
-import json
+import json,uuid
 import psycopg
 import cp6_bd_probe as bd
+import cp6_be_pocket_probe as pocket
 import cp7_nota_cases as nota
 import cp7_nota_source_cases as sources
 import cp7_payroll_checks_bundle as payroll_checks
@@ -171,23 +177,57 @@ def cases(cur,today):
                     missing_wage_counted=missing,guard_switched_off_only_inside_rolled_back_savepoint=True)
 
     # ---- R5-02: every changed reader against itself without the change, on the same books.
+    def reader_fixtures():
+        """Rows the CP17 books lack for three readers, built inside the caller's savepoint (BB and BE probe paths)."""
+        bbp=bd.bbp
+        fx=bbp.financial_fixture(cur,today,documents=[('CUSTOMER_RECEIVABLE','R5-CA','100.00','30.00'),('SUPPLIER_PAYABLE','R5-SA','100.00','30.00'),
+                                                      ('VENDOR_PAYABLE','R5-VA','100.00','30.00')],credits=[('R5-RC','25.00','0.00')])
+        effective=str(fx['cutover']+timedelta(days=2))
+        for number,kind in (('R5-CA','CUSTOMER_ALLOWANCE'),('R5-SA','SUPPLIER_ALLOWANCE'),('R5-VA','VENDOR_ALLOWANCE')):
+            bbp.act(cur,'OPENING_SETTLEMENT',fx['batch'],operation='CREDIT',balance_id=fx['balances'][number],amount='10.00',effective_date=effective,
+                    credit_kind=kind,credit_note_number='CN-'+number+'-'+fx['code'],reason='CP17 R5-02 reader input')
+        credit=bbp.ws(cur,fx['batch'])['customer_credits'][0]
+        bbp.act(cur,'CUSTOMER_CREDIT',fx['batch'],operation='APPLY_OPENING_AR',credit_id=credit['credit_id'],balance_id=fx['balances']['R5-CA'],
+                amount='20.00',effective_date=effective,reason='CP17 R5-02 reader input')
+        cut=today-timedelta(days=10)
+        f=bbp.production_post(cur,today,pocket.active_unit(cur,pocket.rows(cut)))
+        p=pocket.preview(cur,cut-timedelta(days=1),cut)
+        pool=pocket.call(cur,'POST_PERIOD',dict(period_start=p['period_start'],period_end=p['period_end'],expected_revision=p['revision'],
+                                                reason='CP17 R5-02 reader input'))['id']
+        lot,product,location=bd.q(cur,"""select m.lot_id::text,l.product_id::text,m.location_id::text from erp.be_pocket_sewing_v1 s
+            join erp.fg_stock_movements m on m.source_type='OPENING_BALANCE_ITEM' and m.source_id=s.opening_item_id and m.movement_type='OPENING'
+            join erp.fg_lots l on l.id=m.lot_id where s.batch_id=%s and s.target_kind='FINISHED_GOODS'""",f['batch'])[0]
+        customer=bd.chain.base.create_customer(cur,'R5-02-'+uuid.uuid4().hex[:8]);bd.chain.production.owner(cur)
+        made=bd.one(cur,'select erp.save_sale_draft_v2(%s::jsonb,%s::uuid,null)',json.dumps(dict(sale_number='R5-02-'+uuid.uuid4().hex[:10],
+            customer_id=customer,source_location_id=location,sale_date=bd.iso(bd.chain.production.at(cut+timedelta(days=1),17)),
+            reason='CP17 R5-02 reader input',items=[dict(product_id=product,qty_pcs=1,unit_price_snapshot='20000',discount_amount=0)])),str(uuid.uuid4()))
+        sale=made['sale_id'];version=bd.one(cur,'select row_version from erp.sales_headers where id=%s',sale)
+        bd.chain.production.owner(cur);cur.execute('select erp.post_sale_v2(%s,%s,%s)',(sale,uuid.uuid4(),version));bd.api.admin(cur)
+        sale_return=pocket.return_sale(cur,sale,cut+timedelta(days=3));bd.api.admin(cur)
+        return dict(opening_batch=str(fx['batch']),pocket_period=str(pool),sale=str(sale),sale_return=str(sale_return))
     def reader_inputs():
         bd.api.admin(cur)
         ids=lambda sql:[(r[0],) for r in cur.execute(sql).fetchall()]
         windows=[(today-timedelta(days=d),today,today) for d in (0,30,400)]
         return {
-            'erp.bb_opening_credit_account_v1(uuid)':ids('select id from erp.opening_subledger_settlements order by id limit 300'),
+            'erp.bb_opening_credit_account_v1(uuid)':ids('select settlement_id from erp.bb_opening_credits_v1'
+                ' union select id from(select id from erp.opening_subledger_settlements order by id limit 20)s order by 1 limit 300'),
             'erp.compute_non_po_product_hpp_book_v2620f(uuid)':ids('select id from erp.products order by id limit 300'),
             'erp.compute_po_hpp_gl_book_v2620e(uuid)':ids('select id from erp.production_orders order by id limit 300'),
             'erp.get_owner_financial_snapshot_v2(date,date,date)':windows,
             'erp.pocket_period_book_v1(uuid)':ids('select id from erp.pocket_periods order by id limit 300'),
+            # Every Sale lifecycle journal with each PO on its lines and two other POs (the reader answers 0 or null for those).
             'erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)':[tuple(r) for r in cur.execute(
-                "select distinct e.id,l.po_id from erp.journal_entries e join erp.journal_lines l on l.journal_entry_id=e.id"
-                " where e.source_type in('SALE','SALES_RETURN','JOURNAL_REVERSAL') and l.po_id is not null order by 1,2 limit 300").fetchall()]}
+                """select distinct e.id,x.po_id from erp.journal_entries e left join erp.journal_entries o on o.id=e.reversal_of_id
+                   cross join lateral(select l.po_id from erp.journal_lines l where l.journal_entry_id=e.id and l.po_id is not null
+                     union select id from(select id from erp.production_orders order by id limit 2)p) x(po_id)
+                   where e.source_type in('SALE','SALES_RETURN') or(e.source_type='JOURNAL_REVERSAL' and o.source_type in('SALE','SALES_RETURN'))
+                   order by 1,2 limit 300""").fetchall()]}
     def readers_same_answer():
-        inputs=reader_inputs();report=report_accounts.verify(cur);compared={}
+        report=report_accounts.verify(cur);compared={}
         cur.execute('savepoint cp17_r5_02_same')
         try:
+            built=reader_fixtures();inputs=reader_inputs()
             bd.api.admin(cur);cur.execute('create schema cp17_r5_02')
             for signature in report_accounts.READERS:
                 name=signature.split('(')[0]
@@ -210,15 +250,23 @@ def cases(cur,today):
                         cur.execute('rollback to savepoint cp17_r5_02_call');return ('ERR',e.sqlstate,str(e).split('\n')[0])
                     finally:
                         cur.execute('release savepoint cp17_r5_02_call');bd.api.admin(cur)
-                differences=[]
+                differences=[];rows=values=0
                 for a in args:
                     new,old_answer=answer(name,a),answer('cp17_r5_02.'+name.split('.')[1],a)
                     if new!=old_answer:differences.append((str(a),str(new)[:400],str(old_answer)[:400]))
+                    if new[0]=='ROWS':
+                        rows+=1;values+=any(v not in('null','{}','[]') for v in new[1])
                 assert not differences,('CP17_R5_02_READER_ANSWER_CHANGED',signature,differences[:2])
-                compared[signature]=len(args)
+                compared[signature]=dict(inputs=len(args),answered=rows,with_value=values)
         finally:
             cur.execute('rollback to savepoint cp17_r5_02_same');cur.execute('release savepoint cp17_r5_02_same');bd.api.admin(cur)
-        return dict(status='PASS',reviewed=report,inputs_compared=compared,same_rows_or_same_refusal=True)
+        # A reader compared on nothing proves nothing: each must answer at least one input, the three readers the books lack
+        # rows for with a value.
+        idle=[s for s,c in compared.items() if not c['answered']]
+        valueless=[s for s in ('erp.bb_opening_credit_account_v1(uuid)','erp.pocket_period_book_v1(uuid)',
+                               'erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)') if not compared[s]['with_value']]
+        assert len(compared)==len(report_accounts.READERS) and not idle and not valueless,('CP17_R5_02_READER_NOT_EXERCISED',idle,valueless,compared)
+        return dict(status='PASS',reviewed=report,fixture=built,inputs_compared=compared,same_rows_or_same_refusal=True)
     def readers_reviewed():
         bd.api.admin(cur);clean=report_accounts.verify(cur)
         signature='erp.run_v268_financial_report_checks()'

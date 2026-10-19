@@ -193,6 +193,11 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     sesudah sesi pg_cron pergi, dan sesudah setiap run punya akhir yang tertulis (dengan batas waktu). Syarat lulus tetap
     sama. Celah ini sudah ada sejak r3; r3 lulus karena kebetulan membaca lebih lambat (cron_runs 1). (R4-Q1,
     kualifikasi `769f2cc3`, CI 39161868253 `K6P_RACE_PG_CRON_FINISHES_PASS`)
+25i. **Uji "jawaban sama" harus membuktikan ia membandingkan sesuatu.** Uji lama-lawan-baru R5-02 lulus walau tiga dari
+    sebelas pembaca dibandingkan pada nol masukan: buku uji CP17 tidak punya kredit saldo awal, periode pocket atau
+    jurnal penjualan. Catat per fungsi berapa masukan, berapa yang dijawab tanpa penolakan dan berapa yang berisi nilai;
+    gagalkan uji bila ada fungsi yang tidak pernah menjawab; bangun baris yang tidak ada di buku uji di dalam savepoint
+    yang dibatalkan, lewat jalur yang sama dengan probe. (R5-02, CI 39209921715 di `3b9817ae`)
 
 ## F. Proses audit
 
@@ -239,6 +244,7 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
   detektor; buku sehat dengan nilai baru membuat semua detektor 0 (C12e).
 - [ ] Panggilan fungsi STABLE di filter per baris: dibungkus scalar subquery bila panas, dengan prasyarat untuk jalur
   error dan uji lama-lawan-baru (E25h).
+- [ ] Uji perbandingan mencatat jumlah masukan per fungsi dan gagal bila ada fungsi yang tidak pernah menjawab (E25i).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
   dipicu (E19–E20, E19a).
