@@ -1,0 +1,33 @@
+{
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "writer_head": "5eda90e10b2e87485ab710e9fd9ffa68d81a3565",
+  "prior_candidate": "b53b5acdf260b03ebac3474e9ae837fcef6f6eb1",
+  "prior_audit_lock": "741ffdf30d9ff2709e4b60af901f6dba98a9c1e4",
+  "trees": {
+    "src": "c3008b5bc5662a3ed2d5ab8bc064233ba65a0a1e",
+    "scripts": "793d6ea67f482254a5baff04cfa6e83d306ca091",
+    "scripts/cp7-src": "d71b0bc41acdf2b56b68c1867edde17f58c2c2dc",
+    "supabase": "5d040436db384b4e574785376367b360a084acb7",
+    "supabase/release": "be1e91c172ffb5c05b694a3a54c69562700c6d5e",
+    "supabase/migrations": "8f6053bbd0bda80da18065418ad43371cdfd9461",
+    "supabase/dev": "88759f4fc51864a1ec9e224fcb4f236204b5c853",
+    ".github": "bd344c207316db169eecfea07b047662822b330f",
+    "package-lock.json": "ca9159d26989e0263b6b757f5f824bd9333d8cf6"
+  },
+  "writer_docs_diff": [
+    "docs/cp7/OWNER_DECISIONS_20261008.md",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/CI_RECEIPT.json",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/CI_RECEIPT_FIRST_769f2cc3.json",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/HANDOFF_ASTRA.md",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/HANDOFF_FABLE.md",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/HANDOFF_SOL.md",
+    "docs/cp7/audit-candidate/cp1-7-r4-20261019/README.md",
+    "docs/cp7/cp17/R4_WRITER_HANDOFF.md",
+    "docs/cp7/p19/P19_R4_05_DIRECT_LATENCY.md"
+  ],
+  "supabase_delta": [],
+  "guide_sha256": "5752e96df751de5ebe4b86d3f572cffa1bbe94eb42bf8e283fa6e04f9f593639",
+  "scope": "r4 CP1\u2013CP7 retest and regression; no hosted, no product edits; independent of same-round other auditors",
+  "exposure": "Initial filesystem filename search revealed Sol r4 directory names; no files, report, code, runs or artifacts from that directory were opened. Fresh own checkout from writer used."
+}
