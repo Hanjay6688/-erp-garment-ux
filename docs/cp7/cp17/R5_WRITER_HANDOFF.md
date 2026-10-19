@@ -51,7 +51,24 @@ Basis: candidate r4 `663f6faefcbb9c70f0f99bbc7e78164e03521329` (tree `023f3554`)
 |---|---|---|
 | Fable | `audit/fable-cp1-7-r5-17fa2507-20261019`, lock `2e3d5b38` (`audit/fable_cp17_r5/`) | No new finding; D16-1 oracles closed; R5-02 same answer holds (own probe: base 17 answers, 8 POs in one query, REMAP 16 of 17 core keys, NULL/DELETE/RENAME refused); R5-01 fixed without loosening; latency as disclosed (browser 100 with figures 2.84/2.87/3.25 s). Tool notes FABLE-R5-TOOL-01..03 (Fable's own). Before Enteng adds: all 17 core account mappings must be filled (R5-02 install refuses otherwise); owner decision on daily use of the analysis screen with figures |
 | Astra | `audit/astra-cp1-7-r5-17fa2507-20261019`, lock `ff9fc3da` (`audit/astra_cp17_r5/`) | FUNCTIONAL_RETEST_PASS_WITH_EVIDENCE_LIMITS_LATENCY_OPEN: no new finding; SOL-R4-001 closed with Astra's own cases; 396 coverage slots PASS (2 Astra tool INCOMPLETE requalified); KNOWN-P19-DIRECT-LATENCY open S2 (100 targets 1.88-2.19 s, 300 targets 6.57-7.75 s in Astra's run); unverified includes physical iPad and live WA |
-| Sol | `audit/sol-cp1-7-r5-17fa2507-20261019` | No sealed report yet: last push `c65e6bb5` (11:44 UTC) is a predeclaration; checkpoint `CHECKPOINT_R5_1117.md` lists the final report, findings and seal as still to do |
+| Sol | `audit/sol-cp1-7-r5-17fa2507-20261019`, seal `8f414e96` (`audit/sol_cp17_r5/`) | FINAL_SOL_R5_BOUNDED_RETEST_COMPLETE_FULL_CP17_HOLD: no new product finding; SOL-R4-001 closed on the installed candidate (167 detectors zero through source, DRAFT, POST, reversal and replacement; old checker +2; wrong and missing wage exactly +1 each, rollback 0); R5-02 PASS within the tested inputs (Sol installed all 11 old readers together: PO 120 -> FG 96/COGS 24 -> FG 108/COGS 12, lifecycle +24/-12, NULL/empty/multirow equal); KNOWN-P19-DIRECT-LATENCY open S2 (100 targets with figures 2.98/2.94/3.45 s); CP7 HOLD for the CP7C boundaries already decided |
+
+### r5 cross-audit (writer)
+
+All three: no new product finding; SOL-R4-001 closed; KNOWN-P19-DIRECT-LATENCY stays open S2 (100 targets with figures
+2.84-3.45 s across the three runs and the writer's qualification; 300 targets above 3 s). No owner question reopened. The
+open boundaries are the ones already decided (CP7C held D13-9a, FABLE-012 D14-9, real cutover/hosted preflight, detector
+negative controls INV-D01, Apple device, live WA).
+
+Test hardening Sol proposes for the writer's own cases (`audit/sol_cp17_r5/WRITER_HANDOFF.md`, "Penguatan uji permanen";
+not product bugs; next candidate):
+1. `scripts/cp7_r5_cases.py` Sol case: assert the baseline is all zero and exactly 167 detector identities (now recorded only).
+2. Compare the 11 old readers installed together, so nested calls also use the old graph (now each copy calls the installed
+   readers it nests).
+3. `with_value` accepts `'0'`: add exact expected values (PO 120 -> FG 96/COGS 24 -> FG 108/COGS 12, lifecycle +24/-12, NULL for
+   a missing journal, empty/multirow).
+4. Keep one manual PREPARE across a mapping change 120 -> 0 -> 120 (separate from psycopg's prepared cache).
+5. Keep all 167 detector outputs for healthy, corrupted and rolled-back states in the control.
 
 ## Checkpoint log
 
@@ -67,3 +84,4 @@ Basis: candidate r4 `663f6faefcbb9c70f0f99bbc7e78164e03521329` (tree `023f3554`)
 | docs(r5): qualification of candidate 17fa2507 dispatched | Candidate `17fa25075ba77f0853c3c16f504288ace03eec35` (tree `65f778479093d869a3354c0b9f19b4d9a541d98a`); `claude/new-session-deapao` fast-forwarded from `5eda90e1`. 7 workflows started on push, 108 dispatched (`scratchpad/qualify_r4.py`, log `scratchpad/dispatch_r5.log`), plus the full writer CP6 scenario (`scenario_path=scripts/cp6_bf_combined_modes.py`, `browser_path=scripts/cp6_bf_vendor_browser.mjs`). Waiting: `scratchpad/wait_qual_r4b.py` (stops on a red run not in the r3 known-red list). Package drafts: `scratchpad/r5pkg/` (README, CROSS_AUDIT, boxes.py, redcmp.py) |
 | docs(r5): retest package cp1-7-r5-20261019 for candidate 17fa2507 | Qualification complete: `CI_RECEIPT.json` 116 runs from 115 workflows, 94 success, 179 jobs, 157 success, all first attempts; 22 red runs all red in r3/r4 with the same jobs and failing steps (`RED_RUNS_VS_R4.json`, 22 of 22). CP17 39216595138: 345/345 PASS + public-state order PASS, Enteng build 1,361 loopback answers, 0 route errors. Full writer CP6 scenario 39216963720: 104/104, 26/26, 9/9, browser 27 PASS + the same 4 INCOMPLETE; sample 39216743258 success. P19 scale 39216681775: all PASS, 100 targets with figures 2.89/3.00/3.33 s browser, 2.25 s server (r4 qualification 4.57-5.92 s, 4.56 s). Package: README (SIAP DIKIRIM), CROSS_AUDIT, boxes for Fable/Astra/Sol (`scratchpad/r5pkg/boxes.py`), receipt, red-run comparison. Logs: `scratchpad/cand-logs/r5q/` (writer) |
 | docs(r5): intake of the r5 reports (Fable, Astra; Sol not sealed) | Fable `2e3d5b38` and Astra `ff9fc3da`: no new product finding, SOL-R4-001 closed by both; latency stays open S2 (owner decision on daily use with figures). Sol's branch has no RETEST/FINDINGS yet. Next: Sol's sealed report, then validity check and cross-audit |
+| docs(r5): Sol r5 sealed; cross-audit of the three r5 reports | Sol `8f414e96`: no new finding, SOL-R4-001 closed, latency open S2. All three reports agree: no new product finding. Next writer items: Sol's five test-hardening points (above) and the remaining latency (D17-2), on a new candidate |
