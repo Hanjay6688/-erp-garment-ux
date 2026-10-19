@@ -1,0 +1,475 @@
+{
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "pinned_product_sources": {
+    "scripts/cp6_bc_probe.py": "147de7092ba2284312ba376f8cae82bf05c0fbb77e28956f45966cdfa6c8adb1",
+    "scripts/cp6_bd_probe.py": "c3add21e66d4d5544bf4e4d046a9fa8d64dbcb0cb285551a92c2d7405156b31b",
+    "scripts/cp6_bd_objects_d07.sql": "f929f6c1f0dfed06a5a1ff8d83c606fef78cbb7b5d34f27cddd0c3c142f5616f",
+    "scripts/cp6_auditor_runner.py": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7",
+    "scripts/cp7_p21_full_rehearsal_probe.py": "a6da56d3c3177c2f6083b19e996d1f7a31b7e934607d7f97232336405fd529f7",
+    "scripts/cp7_cp17_fix_probe.py": "0b95603327920d9e7724bfb0970b3ff6ed4498d0d206e35ed64daa9bbde57e9c",
+    "scripts/cp7_analysis_cases.py": "2df0e458f8108ce80d6d16c90cd6f7a33c9bb59794c3e92e9012b7ad077c0262",
+    "scripts/cp7_planning_netting_cases.py": "acc215b7fed17b1e577ad12546b7d20358809002d5f38acdae293e8fce20579d",
+    "scripts/cp7_planning_schedule_cases.py": "b79a0681ca16f987193354f39c8a72117a16bc1447bb4dedae50ff554e626f69",
+    "scripts/cp7_plan_native_cases.py": "25d066c8468e914f5f0d8b0f9b7f75c296d7079930372bf59d98929914f5a080",
+    "scripts/cp7_wip_cases.py": "a4044dd682fc65562f0d08529fc5bdc49bfb4e146757f90de69e22a3fd861bf1",
+    "scripts/cp7-src/wip/matching.sql": "24c6b8ccbe79a1a6ce5cc4ffc3afa411275819f3d92238c1a6d63b339aa20af2",
+    "scripts/cp7-src/baseline/allocation.sql": "b290b6b68877696ac8bc330cf1a460830c7e0eb7453ef211f5e8e29c8e7ff10d",
+    "scripts/cp7-src/planning/netting.sql": "cf044584c3e5f47993804c7759f74b0a0249551a86cf9de4d916efd7f17df5f7",
+    "scripts/cp7-src/plan-native/preflight.sql": "9fcbbafbc2353380f2e940b7b4ca15ddd25e5171a761e60596c1dd46527d11e8",
+    "scripts/cp7-src/plan-native/source.sql": "5c7eb918a7c3b8e3bd28d1cf7fb9654ec6edf3be63b12cf2ae93090852f1bb64",
+    "scripts/cp7-src/plan-native/commands.sql": "c0865398cc10a0c9b1298847972336b27a21bcb0e612dda1eb58e0b45eb4f1bc",
+    "scripts/cp7-src/plan-native/bootstrap.sql": "8f68fb552d4fa2dc46167d7c1d44d7035927020ab98f2c8260460da34eae4ab4",
+    "scripts/cp7_procurement_cases.py": "460b4541154ba2950425c5fbaa1c0872f941cfc4646a9810841802ce72e9f3d1",
+    "scripts/cp7-src/procurement/bootstrap.sql": "595aee83f4c692fdbe19ba1664b03b85c74f67f5d73bdd3079380a57b2574ad6",
+    "scripts/cp7-src/procurement/command.sql": "4842cb68a901dec90f57752dc5783fe70796f26e655c4228e3a2a959461c9833",
+    "scripts/cp7-src/procurement/accepted-deltas.sql": "f2f39d1cafc25d160bf0917cf898770d2c998c65c837a578bde2a1e6fa2163cf",
+    "src/procurementContract.ts": "9e2d22fafd6c4f93d975deb6c04e848af5e42608bacd9ca6da67ac5678669c2a",
+    "src/ConnectedProcurementPage.tsx": "94ab49f35de9046ed8517705872549dc3aa8b9656babd76b463fe43b21f10e2c",
+    "src/laundryBd.ts": "2d715e0b7833612a96ddcb0911643290d7b93a0b16f3aee413b171e39d1c57a3",
+    "src/LaundryBdPanel.tsx": "0f75a213d9435e1a47cc1b6406a7b0e5e5fbc36c4b4c12c00ad8f8146ef61cc8",
+    "src/hppPoolContract.ts": "c92ea89df06b97bce3491efe6464331351dea615ef9b3ec2cb44c0949403c3a4",
+    "scripts/cp6_bd_objects_policy.sql": "705638fda10c939e6a813958d87316c6b122b41902aa5acd54db1c5fee5898c3",
+    "scripts/cp6_bd_objects_invoice.sql": "f57565e6ee23f3dd6eeba01f911b49f3c59f0fd2017e6d67dfb24486b5988583",
+    "scripts/cp6_bd_objects_claimcredit.sql": "f0ebe32baef55e30025766b87ea4d4723018b2af58cc6fdf6789f9fce45464db",
+    "scripts/cp7-src/hpp-pool/pool.sql": "3d8cb15a19d7eb07f803517730f65e8d475d6168075db9fdf2de68f5d307bb61",
+    "supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql": "c5404de584a4734fb235f5253f10fb10a1d13f01f3f993b99150a422008e2268",
+    "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql": "7b5690a2eddf618833d352dc75eb95aa1ef4dbcfb25d39b30374b733d33dadbc",
+    "scripts/cp7_cp17_fix_cases.py": "510f48c61fc7919c5761abe2cf8fa75d952939f924b7681943ac4af8b6f80b1e",
+    "scripts/cp7_recost_cases.py": "376929543a52204e7553019293539c52ce464fa5c250cd60f971a1a803b7fe2a",
+    "scripts/cp6_z_expanded_integrity_audit.py": "c4f977bfd6dd9da1b1eaf068bddf6fce37296d016d4ff9832aa987640682042b",
+    "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz": "7aa808a3060bb878fab6b311ba031b9d91d2f12f7268bcc67ea0b88e0974b7ae",
+    "supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql": "b90cd6c4aa535eb97226d001fdfb5a5bfed783be28ef38dc7c121a7020368aba",
+    "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql": "eab866385d3a462aea5815dc5069d5d7a774f7aa88c43d983c665469f4469465",
+    "supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql": "48f0431ca57abc99906d3f578b53ef59f9072fef3fc3e11c0b50a5c3a581279c",
+    "scripts/cp7_opening_payroll_cases.py": "d799a52a417c710b90cffbfb9d1775754b93cf9e480683374515d1e33748bc3a",
+    "scripts/cp7_sales_cases.py": "c76d05c381f712d50e61ab1d8efa367981e7619a842581fecc21a73ed9b6e185",
+    "scripts/cp7_fg_cases.py": "9387f52fe45b0c3d68b11dba21c4b121d5e52f2ab65e966aecdc43f2f85288de",
+    "scripts/cp7_other_obligation_cases.py": "4e59bfa86450f026dc9fb0a91c2b82b04cb2b510e63475eaaf8d5da80340f7ba",
+    "scripts/cp6_bb_probe.py": "8d20ef6cf57e4f399ea0218b0f0f0d7044418990e4fad89231e9397d031c0e84",
+    "supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql": "bff1d7d82917ce226ad0fb8823418fa14e497407d9659e125dc01ed5e2fd5944"
+  },
+  "active_detector_function_sha256": {
+    "run_integrity_checks": "c2681bfbebd66ffb4700268ccf650a32def5d2ec6f7282b32531b103f3333459",
+    "run_v24_accessory_integrity_checks": "040d343cc47316868280ee9bab161631f4deef0f7bc82df083549a2fcf27e795",
+    "run_v255_material_cost_integrity_checks": "65ef40a0a896b977c97bc571ad3f3bf462d7496444eb689afae17e460de73ff2",
+    "run_v264_material_transfer_integrity_checks": "307a5e52eb36a172615dd6985201089ea6d5b03c083ec9887d67974029d7cb09",
+    "run_v265_gudang_write_integrity_checks": "6babce69b0b14908912a0234ed82f773895feed533be605115f424f4146f1016",
+    "run_v266_gudang_accessory_fg_checks": "af89e651bdc505e3c31ef0f8c6d5404054b5e6877f1bf4945164a970bf9d2923",
+    "run_v267_financial_truth_checks": "4618ab826e1eeb3806feb88a36c812cb3bfab37ce3baf4d574f889a9f06d9f48",
+    "run_v268_financial_report_checks": "075c3f91630997d393861a1f72090d37b029e02d80c6e3f0e3f686a81566f3de",
+    "run_v263a_payroll_integrity_checks": "2ac8d584635e30d5d5fcadd2bf0bef9de8710ce127f73a092bbb57db9ce4abcd"
+  },
+  "contract": "audit.sol.r4.derived-detector-controls.v1",
+  "state": "PREEXECUTION_NOT_RUN",
+  "new_case_ids": 9,
+  "new_business_case_ids": 0,
+  "new_race_credit": 0,
+  "oracle_origin": "SOL_ACTIVE_PREDICATES_EXACT_COUNTS_AND_UNCHANGED_NATIVE_GUARD_REFUSALS",
+  "fixture_origin": "CASE_LEVEL_ACCEPTED_NATIVE_STARTS_AND_NEW_UNUSED_MASTER",
+  "no_business_retry": true,
+  "max_pre_case_prerequisite_retry": 1,
+  "bootstrap_attempts_max": 2,
+  "all167_each_phase": true,
+  "all167_keysets_equal": true,
+  "protected_fact_tables": [
+    "journal_entries",
+    "journal_lines",
+    "material_stock_movements",
+    "fg_stock_movements",
+    "wip_stage_events",
+    "hpp_versions",
+    "hpp_version_components"
+  ],
+  "guards_triggers_privileges_unchanged": true,
+  "facts_or_journals_modified_during_counter": false,
+  "held_r3_probes_resumed": false,
+  "hosted_or_production": false,
+  "prior_PASS_cases_repeated": false,
+  "case_kind_breakdown": {
+    "new_detector_counter_cases": 7,
+    "native_guard_prevention_only": 2
+  },
+  "new_target_detector_identities": 9,
+  "existing_identity_collateral": "V2620C_PO_HPP_TARGET_STATE_MISMATCH +1 is declared collateral of the new subcent control, not a repeat of the prior output-quantity case.",
+  "cases": [
+    {
+      "id": "SOL_R4_D01_KASBON_DERIVED_STATUS",
+      "layer": "NATIVE_DETECTOR_COUNTERFIXTURE",
+      "oracle_origin": "SOL_SOURCE_PREDICATE_AND_LITERAL_BASELINE",
+      "fixture_origin": "ACCEPTED_BC_NATIVE_NOTE_QTY1_MANUAL_PRICE10",
+      "expected_phases": {
+        "KASBON_STATUS_ONLY": {
+          "run_integrity_checks:KASBON_STATUS_MISMATCH": 1
+        }
+      },
+      "mutation": "contractor_material_issue_items.payroll_status UNALLOCATED to SETTLED; own collectible10/paid0/allocated0",
+      "before_and_after_all_zero": true,
+      "negative_detector_sensitivity_claim": true
+    },
+    {
+      "id": "SOL_R4_D01_SUPPLIER_PAYMENT_DERIVED_STATUS",
+      "layer": "NATIVE_DETECTOR_COUNTERFIXTURE",
+      "oracle_origin": "SOL_SOURCE_PREDICATE_AND_LITERAL_BASELINE",
+      "fixture_origin": "ACCEPTED_PUBLIC_PROCUREMENT_QTY1_FINAL_PRICE10",
+      "expected_phases": {
+        "SUPPLIER_PAYMENT_STATUS_ONLY": {
+          "run_v267_financial_truth_checks:V2620M_SUPPLIER_PAYMENT_EXACT_STATUS": 1,
+          "run_v268_financial_report_checks:V2620M_SUPPLIER_PAYMENT_EXACT_STATUS": 1
+        }
+      },
+      "mutation": "own POSTED material_purchase_headers.payment_status UNPAID to PAID; final AP10/paid0, header.status unchanged",
+      "before_and_after_all_zero": true,
+      "negative_detector_sensitivity_claim": true
+    },
+    {
+      "id": "SOL_R4_D01_OPENING_DERIVED_STATUS",
+      "layer": "NATIVE_DETECTOR_COUNTERFIXTURE",
+      "oracle_origin": "SOL_SOURCE_PREDICATE_AND_LITERAL_BASELINE",
+      "fixture_origin": "ACCEPTED_BB_UPAH_OLD_NET65_OPENING",
+      "expected_phases": {
+        "OPENING_DERIVED_STATUS_ONLY": {
+          "run_v267_financial_truth_checks:V2620M_OPENING_SUBLEDGER_STATE": 1,
+          "run_v268_financial_report_checks:V2620M_OPENING_SUBLEDGER_STATE": 1
+        }
+      },
+      "mutation": "own opening_subledger_balances.status OPEN to SETTLED; original65/settled0, amounts and source unchanged",
+      "before_and_after_all_zero": true,
+      "negative_detector_sensitivity_claim": true
+    },
+    {
+      "id": "SOL_R4_D01_VENDOR_PAYMENT_DERIVED_STATUS",
+      "layer": "NATIVE_DETECTOR_COUNTERFIXTURE",
+      "oracle_origin": "SOL_SOURCE_PREDICATE_AND_LITERAL_BASELINE",
+      "fixture_origin": "ACCEPTED_P16_NATIVE_LAUNDRY_AND_BD_POSTED_INVOICE",
+      "expected_phases": {
+        "VENDOR_DERIVED_STATUS_ONLY": {
+          "run_v268_financial_report_checks:V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH": 1
+        }
+      },
+      "mutation": "own vendor_invoices.status POSTED to PAID; total17312.90/paid0 unchanged",
+      "before_and_after_all_zero": true,
+      "negative_detector_sensitivity_claim": true
+    },
+    {
+      "id": "SOL_R4_D01_HPP_SUBCENT_DERIVED_STATE",
+      "layer": "NATIVE_DETECTOR_COUNTERFIXTURE",
+      "oracle_origin": "SOL_SOURCE_PREDICATE_AND_LITERAL_BASELINE",
+      "fixture_origin": "ACCEPTED_NATIVE_FINISH10_GOOD_HPP120",
+      "expected_phases": {
+        "ONE_MICRO_UNIT_SUBCENT": {
+          "run_v268_financial_report_checks:V2620C_HPP_STATE_HAS_SUBCENT": 1,
+          "run_v268_financial_report_checks:V2620C_PO_HPP_TARGET_STATE_MISMATCH": 1
+        }
+      },
+      "mutation": "own po_hpp_gl_state.hpp_total_cost120 to120.000001; exact target collateral+1; 0.000001 is below0.005 book/WIP tolerance",
+      "before_and_after_all_zero": true,
+      "negative_detector_sensitivity_claim": true
+    },
+    {
+      "id": "SOL_R4_D01_CUSTOMER_AR_DERIVED_STATUS",
+      "layer": "NATIVE_DETECTOR_COUNTERFIXTURE",
+      "oracle_origin": "SOL_SOURCE_PREDICATE_AND_LITERAL_BASELINE",
+      "fixture_origin": "ACCEPTED_NATIVE_UNSOURCED_FG_AND_SALE1_PRICE20",
+      "expected_phases": {
+        "CUSTOMER_DERIVED_STATUS_ONLY": {
+          "run_v268_financial_report_checks:V2620H_CUSTOMER_AR_STATUS_MISMATCH": 1
+        }
+      },
+      "mutation": "own sales_headers.status POSTED to PAID; sale20/paid0, accepted FOUND_AT_OPNAME lot po_idNULL/notOPENING avoids HPP lineage side effects; triggers stay active",
+      "before_and_after_all_zero": true,
+      "negative_detector_sensitivity_claim": true
+    },
+    {
+      "id": "SOL_R4_D01_GRNI_NEW_UNUSED_DEBIT_MAPPING",
+      "layer": "NATIVE_DETECTOR_COUNTERFIXTURE",
+      "oracle_origin": "SOL_SOURCE_PREDICATE_AND_LITERAL_BASELINE",
+      "fixture_origin": "NEW_UNUSED_CHART_MASTER_NOT_USED_BY_FACT_OR_PREPAYMENT",
+      "expected_phases": {
+        "NEW_UNUSED_LIABILITY_DEBIT_POINTER": {
+          "run_v267_financial_truth_checks:V267_GRNI_MAPPING_INVALID": 1
+        }
+      },
+      "mutation": "GRNI pointer to own new unused active/postable LIABILITY DEBIT account; guard requires active+LIABILITY but detector also requires CREDIT; baseline GRNI book0 required",
+      "before_and_after_all_zero": true,
+      "negative_detector_sensitivity_claim": true
+    },
+    {
+      "id": "SOL_R4_D01_ACCESSORY_UOM_GUARD_PREVENTION",
+      "layer": "NATIVE_GUARD_PREVENTION_ONLY",
+      "oracle_origin": "SOL_SOURCE_PREDICATE_AND_LITERAL_BASELINE",
+      "fixture_origin": "NEW_UNUSED_BC_ACCESSORY_CATEGORY_VARIANT_NO_RECEIPT",
+      "expected_phases": {
+        "CATEGORY_WITH_VARIANT_UOM_CHANGE_ATOMIC_REFUSAL": {},
+        "VARIANT_UOM_MISMATCH_ATOMIC_REFUSAL": {}
+      },
+      "mutation": "two refused updates: category base UOM when variant exists, and variant UOM unequal category; exactP0001 messages and full zero167 required, no detector sensitivity claim",
+      "before_and_after_all_zero": true,
+      "negative_detector_sensitivity_claim": false
+    },
+    {
+      "id": "SOL_R4_D01_CORE_GRNI_GUARD_PREVENTION",
+      "layer": "NATIVE_GUARD_PREVENTION_ONLY",
+      "oracle_origin": "SOL_SOURCE_PREDICATE_AND_LITERAL_BASELINE",
+      "fixture_origin": "EXISTING_REQUIRED_GRNI_MAPPING_UNCHANGED",
+      "expected_phases": {
+        "CORE_MAPPING_DELETE_ATOMIC_REFUSAL": {},
+        "CORE_MAPPING_RENAME_ATOMIC_REFUSAL": {}
+      },
+      "mutation": "DELETE and rename required GRNI mapping both source-guard refusedP0001; no mapping becomes missing and no detector sensitivity claim",
+      "before_and_after_all_zero": true,
+      "negative_detector_sensitivity_claim": false
+    }
+  ],
+  "runtime_trigger_tables": [
+    "contractor_material_issue_items",
+    "material_purchase_headers",
+    "opening_subledger_balances",
+    "vendor_invoices",
+    "po_hpp_gl_state",
+    "sales_headers",
+    "accounting_account_mappings",
+    "chart_accounts",
+    "accessory_categories",
+    "materials"
+  ],
+  "additional_active_expression_pins": {
+    "_v268_financial_report_checks_pre_scope()": [
+      "q.status='FAILED' and q.attempt_count>=3",
+      "q.status in('PENDING','RUNNING') or(q.status='FAILED' and q.attempt_count<3)"
+    ],
+    "guard_system_managed_table()": [
+      "current_user IN ('postgres','service_role','supabase_admin')"
+    ],
+    "guard_material_cached_fields()": [
+      "current_user in ('postgres','service_role','supabase_admin')"
+    ],
+    "validate_material_accessory_category()": [
+      "IF NEW.accessory_category_id IS NULL THEN RETURN NEW;"
+    ],
+    "guard_accounting_mapping_semantics()": [
+      "Core accounting mapping % tidak boleh dihapus",
+      "Core accounting mapping key % tidak boleh di-rename",
+      "v_type<>v_expected"
+    ],
+    "guard_accessory_category_base_uom()": [
+      "Accessory category base UOM is frozen after material variants exist"
+    ],
+    "guard_posted_document()": [
+      "postgres",
+      "supabase_admin"
+    ],
+    "guard_child_by_parent_status()": [
+      "postgres",
+      "supabase_admin"
+    ],
+    "guard_initial_prepayment_account_v1()": [
+      "initial_import_prepayments",
+      "Akun uang muka tidak boleh dijadikan mapping akun utama"
+    ],
+    "guard_vendor_invoice_post_date()": [
+      "new.invoice_date",
+      "Tanggal invoice vendor laundry berada di masa depan"
+    ],
+    "refresh_hpp_state_after_sale_header()": [
+      "refresh_po_hpp_gl_baseline"
+    ],
+    "sync_opening_hpp_after_sale_status()": [
+      "opening_lot_hpp_gl_state"
+    ]
+  },
+  "table_field_source_pins": {
+    "contractor_material_issue_items": {
+      "path": "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz",
+      "line": 467,
+      "line_basis": "DECOMPRESSED_UTF8_SQL",
+      "ddl": "create table \"erp\".\"contractor_material_issue_items\" (\n  \"id\" uuid default gen_random_uuid() not null,\n  \"issue_id\" uuid not null,\n  \"material_id\" uuid not null,\n  \"roll_id\" uuid,\n  \"qty\" numeric(18,6) not null,\n  \"unit_sale_price_snapshot\" numeric(18,4) not null,\n  \"unit_cost_snapshot\" numeric(18,6) default 0 not null,\n  \"payroll_status\" character varying(20) default 'UNALLOCATED'::character varying not null,\n  \"notes\" text,\n  \"transaction_qty\" numeric(18,6),\n  \"transaction_uom_code\" character varying(20),\n  \"base_qty_per_transaction_uom\" numeric(18,6),\n  \"accessory_price_version_id\" uuid,\n  \"total_receivable\" numeric(24,6) generated always as ((transaction_qty * unit_sale_price_snapshot)) stored,\n  \"material_price_version_id\" uuid\n);",
+      "ddl_sha256": "e4be1841e919a02e226fafa5592686dfda24a6485a2393ec30f154ed70a200ef"
+    },
+    "material_purchase_headers": {
+      "path": "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz",
+      "line": 1297,
+      "line_basis": "DECOMPRESSED_UTF8_SQL",
+      "ddl": "create table \"erp\".\"material_purchase_headers\" (\n  \"id\" uuid default gen_random_uuid() not null,\n  \"purchase_number\" character varying(60) not null,\n  \"supplier_id\" uuid,\n  \"physical_at\" timestamp with time zone not null,\n  \"status\" character varying(20) default 'DRAFT'::character varying not null,\n  \"notes\" text,\n  \"created_by\" uuid,\n  \"created_at\" timestamp with time zone default now() not null,\n  \"updated_at\" timestamp with time zone default now() not null,\n  \"location_id\" uuid,\n  \"supplier_invoice_number\" character varying(100),\n  \"due_date\" date,\n  \"payment_status\" character varying(20) default 'UNPAID'::character varying not null,\n  \"row_version\" bigint default 1 not null\n);",
+      "ddl_sha256": "06885da8e5132fb50360b2d9c7d59bf1c5ffeee58bfcc476c95b0e49cdcd237a"
+    },
+    "opening_subledger_balances": {
+      "path": "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz",
+      "line": 1665,
+      "line_basis": "DECOMPRESSED_UTF8_SQL",
+      "ddl": "create table \"erp\".\"opening_subledger_balances\" (\n  \"id\" uuid default gen_random_uuid() not null,\n  \"opening_item_id\" uuid not null,\n  \"party_type\" character varying(20) not null,\n  \"direction\" character varying(20) not null,\n  \"customer_id\" uuid,\n  \"supplier_id\" uuid,\n  \"vendor_id\" uuid,\n  \"contractor_id\" uuid,\n  \"original_amount\" numeric(20,2) not null,\n  \"settled_amount\" numeric(20,2) default 0 not null,\n  \"status\" character varying(20) default 'OPEN'::character varying not null,\n  \"created_at\" timestamp with time zone default now() not null,\n  \"updated_at\" timestamp with time zone default now() not null\n);",
+      "ddl_sha256": "ef2fe5f1d6488b151a5a498b6ab0cd53076250235b5ef3ba0bbc286aa09aa500"
+    },
+    "vendor_invoices": {
+      "path": "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz",
+      "line": 2341,
+      "line_basis": "DECOMPRESSED_UTF8_SQL",
+      "ddl": "create table \"erp\".\"vendor_invoices\" (\n  \"id\" uuid default gen_random_uuid() not null,\n  \"invoice_number\" character varying(80) not null,\n  \"vendor_id\" uuid not null,\n  \"invoice_date\" date not null,\n  \"received_at\" timestamp with time zone default now() not null,\n  \"due_date\" date,\n  \"status\" character varying(20) default 'DRAFT'::character varying not null,\n  \"total_amount\" numeric(20,2) default 0 not null,\n  \"notes\" text,\n  \"created_by\" uuid,\n  \"created_at\" timestamp with time zone default now() not null,\n  \"updated_at\" timestamp with time zone default now() not null\n);",
+      "ddl_sha256": "5c63fa4d2aea24b2705a53f09a4b38addfab7137653e0d17fb6750b94f9a5105"
+    },
+    "po_hpp_gl_state": {
+      "path": "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz",
+      "line": 1813,
+      "line_basis": "DECOMPRESSED_UTF8_SQL",
+      "ddl": "create table \"erp\".\"po_hpp_gl_state\" (\n  \"po_id\" uuid not null,\n  \"base_output_qty\" integer default 0 not null,\n  \"hpp_total_cost\" numeric(24,6) default 0 not null,\n  \"fg_value\" numeric(24,6) default 0 not null,\n  \"cogs_value\" numeric(24,6) default 0 not null,\n  \"other_out_value\" numeric(24,6) default 0 not null,\n  \"updated_at\" timestamp with time zone default now() not null\n);",
+      "ddl_sha256": "81db18997441b67acfafe3fc82a19b930aa2b595abd7a64fb159f514383307a6"
+    },
+    "sales_headers": {
+      "path": "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz",
+      "line": 2073,
+      "line_basis": "DECOMPRESSED_UTF8_SQL",
+      "ddl": "create table \"erp\".\"sales_headers\" (\n  \"id\" uuid default gen_random_uuid() not null,\n  \"sale_number\" character varying(60) not null,\n  \"customer_id\" uuid not null,\n  \"sale_date\" timestamp with time zone not null,\n  \"due_date\" date,\n  \"status\" character varying(20) default 'DRAFT'::character varying not null,\n  \"payment_terms\" character varying(100),\n  \"notes\" text,\n  \"created_by\" uuid,\n  \"created_at\" timestamp with time zone default now() not null,\n  \"updated_at\" timestamp with time zone default now() not null,\n  \"source_location_id\" uuid,\n  \"row_version\" bigint default 1 not null\n);",
+      "ddl_sha256": "14b61428353797bab883d97152209171d882782b59a5d4577e6dfe0c334430c0"
+    },
+    "accounting_account_mappings": {
+      "path": "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz",
+      "line": 109,
+      "line_basis": "DECOMPRESSED_UTF8_SQL",
+      "ddl": "create table \"erp\".\"accounting_account_mappings\" (\n  \"mapping_key\" character varying(50) not null,\n  \"account_id\" uuid not null,\n  \"notes\" text\n);",
+      "ddl_sha256": "59e65dfb4d9bacd3ee060883078551b28ea29d2982a4722f5969d1ce5c521895"
+    },
+    "chart_accounts": {
+      "path": "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz",
+      "line": 406,
+      "line_basis": "DECOMPRESSED_UTF8_SQL",
+      "ddl": "create table \"erp\".\"chart_accounts\" (\n  \"id\" uuid default gen_random_uuid() not null,\n  \"account_code\" character varying(30) not null,\n  \"account_name\" character varying(150) not null,\n  \"account_type\" character varying(20) not null,\n  \"report_group\" character varying(40) not null,\n  \"parent_account_id\" uuid,\n  \"normal_balance\" character varying(10) not null,\n  \"is_postable\" boolean default true not null,\n  \"is_active\" boolean default true not null,\n  \"created_at\" timestamp with time zone default now() not null\n);",
+      "ddl_sha256": "78f554feb22b04c825a74ab33fc561c949230f1b99e58ee9176e9604f0d5e6ca"
+    },
+    "accessory_categories": {
+      "path": "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz",
+      "line": 72,
+      "line_basis": "DECOMPRESSED_UTF8_SQL",
+      "ddl": "create table \"erp\".\"accessory_categories\" (\n  \"id\" uuid default gen_random_uuid() not null,\n  \"category_code\" character varying(40) not null,\n  \"category_name\" character varying(120) not null,\n  \"base_uom_code\" character varying(20) not null,\n  \"is_active\" boolean default true not null,\n  \"notes\" text,\n  \"created_at\" timestamp with time zone default now() not null,\n  \"updated_at\" timestamp with time zone default now() not null,\n  \"row_version\" bigint default 1 not null\n);",
+      "ddl_sha256": "6f3302d97b6a8c1ae99129b72ec679b78e37f10651e2437b4f3b9da5b6345fa8"
+    },
+    "materials": {
+      "path": "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz",
+      "line": 1489,
+      "line_basis": "DECOMPRESSED_UTF8_SQL",
+      "ddl": "create table \"erp\".\"materials\" (\n  \"id\" uuid default gen_random_uuid() not null,\n  \"material_sku\" character varying(60) not null,\n  \"material_name\" character varying(150) not null,\n  \"material_type\" character varying(20) not null,\n  \"unit_code\" character varying(20) not null,\n  \"moving_average_cost\" numeric(18,6) default 0 not null,\n  \"cached_stock_qty\" numeric(18,6) default 0 not null,\n  \"is_active\" boolean default true not null,\n  \"created_at\" timestamp with time zone default now() not null,\n  \"updated_at\" timestamp with time zone default now() not null,\n  \"accessory_category_id\" uuid,\n  \"row_version\" bigint default 1 not null\n);",
+      "ddl_sha256": "a6f00cc672c39bf4e3252f3ea9d10f208380da8861fbda1a96a679c7e14db3a7"
+    }
+  },
+  "predicate_source_pins": {
+    "run_integrity_checks:KASBON_STATUS_MISMATCH": {
+      "predicate_sql": "SELECT 'KASBON_STATUS_MISMATCH','ERROR',COUNT(*)::bigint,'Kasbon status differs from amount actually paid/allocated'\n  FROM (\n    SELECT cmii.id,cmii.payroll_status,erp.bc_note_item_collectible_v1(cmii.id) total_receivable,\n      COALESCE(SUM(CASE WHEN ps.status='PAID' THEN pd.amount ELSE 0 END),0) paid_amt,\n      COALESCE(SUM(CASE WHEN ps.status<>'REVERSED' THEN pd.amount ELSE 0 END),0) allocated_amt\n    FROM erp.contractor_material_issue_items cmii\n    LEFT JOIN erp.payroll_deductions pd ON pd.contractor_issue_item_id=cmii.id AND pd.deduction_type='MATERIAL_KASBON'\n    LEFT JOIN erp.payroll_settlements ps ON ps.id=pd.payroll_id\n    GROUP BY cmii.id,cmii.payroll_status,cmii.total_receivable\n  ) s\n  WHERE s.payroll_status IS DISTINCT FROM CASE\n    WHEN s.total_receivable<=0 OR s.paid_amt>=s.total_receivable-0.01 THEN 'SETTLED'\n    WHEN s.paid_amt>0 THEN 'PARTIAL'\n    WHEN s.allocated_amt>0 THEN 'ALLOCATED'\n    ELSE 'UNALLOCATED' END",
+      "predicate_sha256": "7afb065a2aa53e82de1d675beb658e6ff1d52ecaf2b42d7ab2bf53d859a05ef2",
+      "origin": {
+        "path": "ci_receipts/sol_artifacts/12161878541/files/SOL_R4_CURRENT_DETECTOR_DEFINITIONS.json",
+        "function": "run_integrity_checks",
+        "sha256": "c2681bfbebd66ffb4700268ccf650a32def5d2ec6f7282b32531b103f3333459",
+        "binding": "RUNTIME_PG_GET_FUNCTIONDEF_DIRECT"
+      }
+    },
+    "run_v267_financial_truth_checks:V267_GRNI_MAPPING_INVALID": {
+      "predicate_sql": "select 'V267_GRNI_MAPPING_INVALID','CRITICAL',count(*)::bigint,\n         'GRNI_MATERIAL must map to an active CREDIT liability account'\n  from erp.accounting_account_mappings m\n  join erp.chart_accounts a on a.id=m.account_id\n  where m.mapping_key='GRNI_MATERIAL'\n    and not(a.account_type='LIABILITY' and a.normal_balance='CREDIT' and a.is_active and a.is_postable)",
+      "predicate_sha256": "34f92f7482d067f4ecfe81ba16e561bdd0c44b0421a0a4b9cfb0b53504749e93",
+      "origin": {
+        "path": "ci_receipts/sol_artifacts/12161878541/files/SOL_R4_CURRENT_DETECTOR_DEFINITIONS.json",
+        "function": "run_v267_financial_truth_checks",
+        "sha256": "4618ab826e1eeb3806feb88a36c812cb3bfab37ce3baf4d574f889a9f06d9f48",
+        "binding": "RUNTIME_PG_GET_FUNCTIONDEF_DIRECT"
+      }
+    },
+    "run_v267_financial_truth_checks:V2620M_SUPPLIER_PAYMENT_EXACT_STATUS": {
+      "predicate_sql": "select 'V2620M_SUPPLIER_PAYMENT_EXACT_STATUS','CRITICAL',count(*)::bigint,\n    'Supplier payment status and capacity must equal the rounded final liability of each purchase'\n  from erp.material_purchase_headers h\n  cross join lateral(select round(erp.material_purchase_final_ap_total(h.id),2) payable,\n    coalesce((select sum(p.amount) from erp.supplier_payments p\n      where p.purchase_id=h.id and p.status='POSTED'),0) paid) x\n  where h.status='POSTED' and(\n    x.paid<0 or x.paid>x.payable\n    or x.paid::text in('NaN','Infinity','-Infinity')\n    or x.payable::text in('NaN','Infinity','-Infinity')\n    or(h.payment_status='PAID' and x.paid<>x.payable)\n    or(h.payment_status='PARTIAL' and not(x.paid>0 and x.paid<x.payable))\n    or(h.payment_status='UNPAID' and x.paid<>0))",
+      "predicate_sha256": "cfea389aff6c94b2d4f95a8e8d1d3a6d6153a526ff1aee86730f69d516d1178a",
+      "origin": {
+        "path": "ci_receipts/sol_artifacts/12161878541/files/SOL_R4_CURRENT_DETECTOR_DEFINITIONS.json",
+        "function": "run_v267_financial_truth_checks",
+        "sha256": "4618ab826e1eeb3806feb88a36c812cb3bfab37ce3baf4d574f889a9f06d9f48",
+        "binding": "RUNTIME_PG_GET_FUNCTIONDEF_DIRECT"
+      }
+    },
+    "run_v267_financial_truth_checks:V2620M_OPENING_SUBLEDGER_STATE": {
+      "predicate_sql": "select 'V2620M_OPENING_SUBLEDGER_STATE','CRITICAL',count(*)::bigint,\n    'Every posted financial opening requires one source-matched balance, exact settlements, and exact status'\n  from erp.opening_balance_items i\n  join erp.opening_balance_headers h on h.id=i.opening_id and h.status='POSTED'\n  left join erp.opening_subledger_balances b on b.opening_item_id=i.id\n  cross join lateral(select coalesce((select c.corrected_amount\n      from erp.opening_financial_corrections c where c.opening_item_id=i.id and c.status='POSTED'\n      order by c.correction_seq desc limit 1),i.amount) original,\n    coalesce((select sum(s.amount) from erp.opening_subledger_settlements s\n      where s.balance_id=b.id and s.status='POSTED'),0)\n    +coalesce((select sum(d.amount) from erp.payroll_deductions d join erp.payroll_settlements p on p.id=d.payroll_id\n      where d.opening_cash_advance_balance_id=b.id and p.status='PAID'),0)\n    +coalesce((select sum(r.amount) from erp.payroll_reimbursements r join erp.payroll_settlements p on p.id=r.payroll_id\n      where r.opening_payable_balance_id=b.id and p.status='PAID'),0) paid) x\n  where i.balance_type in('CUSTOMER_RECEIVABLE','SUPPLIER_PAYABLE','VENDOR_PAYABLE',\n    'CONTRACTOR_RECEIVABLE','CONTRACTOR_PAYABLE') and(\n    b.id is null or (select count(*) from erp.opening_subledger_balances bx where bx.opening_item_id=i.id)<>1\n    or b.original_amount is distinct from x.original\n    or b.settled_amount is distinct from x.paid\n    or b.original_amount::text in('NaN','Infinity','-Infinity')\n    or b.settled_amount::text in('NaN','Infinity','-Infinity')\n    or b.original_amount<0 or b.settled_amount<0 or b.settled_amount>b.original_amount\n    or b.status is distinct from case when x.paid=x.original then 'SETTLED'\n      when x.paid>0 then 'PARTIAL' else 'OPEN' end\n    or b.party_type is distinct from split_part(i.balance_type,'_',1)\n    or b.direction is distinct from split_part(i.balance_type,'_',2)\n    or b.customer_id is distinct from i.customer_id\n    or b.supplier_id is distinct from i.supplier_id\n    or b.vendor_id is distinct from i.vendor_id\n    or b.contractor_id is distinct from i.contractor_id)",
+      "predicate_sha256": "baa663c73361f5766240c5b006a428a7dff9bd2af06afd2c4327518454441d76",
+      "origin": {
+        "path": "ci_receipts/sol_artifacts/12161878541/files/SOL_R4_CURRENT_DETECTOR_DEFINITIONS.json",
+        "function": "run_v267_financial_truth_checks",
+        "sha256": "4618ab826e1eeb3806feb88a36c812cb3bfab37ce3baf4d574f889a9f06d9f48",
+        "binding": "RUNTIME_PG_GET_FUNCTIONDEF_DIRECT"
+      }
+    },
+    "run_v268_financial_report_checks:V2620M_SUPPLIER_PAYMENT_EXACT_STATUS": {
+      "predicate_sql": "select 'V2620M_SUPPLIER_PAYMENT_EXACT_STATUS','CRITICAL',count(*)::bigint,\n    'Supplier payment status and capacity must equal the rounded final liability of each purchase'\n  from erp.material_purchase_headers h\n  cross join lateral(select round(erp.material_purchase_final_ap_total(h.id),2) payable,\n    coalesce((select sum(p.amount) from erp.supplier_payments p\n      where p.purchase_id=h.id and p.status='POSTED'),0) paid) x\n  where h.status='POSTED' and(\n    x.paid<0 or x.paid>x.payable\n    or x.paid::text in('NaN','Infinity','-Infinity')\n    or x.payable::text in('NaN','Infinity','-Infinity')\n    or(h.payment_status='PAID' and x.paid<>x.payable)\n    or(h.payment_status='PARTIAL' and not(x.paid>0 and x.paid<x.payable))\n    or(h.payment_status='UNPAID' and x.paid<>0))",
+      "predicate_sha256": "cfea389aff6c94b2d4f95a8e8d1d3a6d6153a526ff1aee86730f69d516d1178a",
+      "origin": {
+        "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+        "stored_sha256": "fb8e14f0fd505edf730c0908f7e1c500cf850e29bcc0e90b3a51877224edd61b",
+        "expanded_utf8_sha256": "fb8e14f0fd505edf730c0908f7e1c500cf850e29bcc0e90b3a51877224edd61b",
+        "line_basis": "UTF8_SQL",
+        "function": "erp.run_v267_financial_truth_checks",
+        "line": 2741,
+        "binding": "CANDIDATE_DELEGATE_SOURCE_OBSERVED_OUTPUT_IDENTITY"
+      }
+    },
+    "run_v268_financial_report_checks:V2620M_OPENING_SUBLEDGER_STATE": {
+      "predicate_sql": "select 'V2620M_OPENING_SUBLEDGER_STATE','CRITICAL',count(*)::bigint,\n    'Every posted financial opening requires one source-matched balance, exact settlements, and exact status'\n  from erp.opening_balance_items i\n  join erp.opening_balance_headers h on h.id=i.opening_id and h.status='POSTED'\n  left join erp.opening_subledger_balances b on b.opening_item_id=i.id\n  cross join lateral(select coalesce((select c.corrected_amount\n      from erp.opening_financial_corrections c where c.opening_item_id=i.id and c.status='POSTED'\n      order by c.correction_seq desc limit 1),i.amount) original,\n    coalesce((select sum(s.amount) from erp.opening_subledger_settlements s\n      where s.balance_id=b.id and s.status='POSTED'),0)\n    +coalesce((select sum(d.amount) from erp.payroll_deductions d join erp.payroll_settlements p on p.id=d.payroll_id\n      where d.opening_cash_advance_balance_id=b.id and p.status='PAID'),0) paid) x\n  where i.balance_type in('CUSTOMER_RECEIVABLE','SUPPLIER_PAYABLE','VENDOR_PAYABLE',\n    'CONTRACTOR_RECEIVABLE','CONTRACTOR_PAYABLE') and(\n    b.id is null or (select count(*) from erp.opening_subledger_balances bx where bx.opening_item_id=i.id)<>1\n    or b.original_amount is distinct from x.original\n    or b.settled_amount is distinct from x.paid\n    or b.original_amount::text in('NaN','Infinity','-Infinity')\n    or b.settled_amount::text in('NaN','Infinity','-Infinity')\n    or b.original_amount<0 or b.settled_amount<0 or b.settled_amount>b.original_amount\n    or b.status is distinct from case when x.paid=x.original then 'SETTLED'\n      when x.paid>0 then 'PARTIAL' else 'OPEN' end\n    or b.party_type is distinct from split_part(i.balance_type,'_',1)\n    or b.direction is distinct from split_part(i.balance_type,'_',2)\n    or b.customer_id is distinct from i.customer_id\n    or b.supplier_id is distinct from i.supplier_id\n    or b.vendor_id is distinct from i.vendor_id\n    or b.contractor_id is distinct from i.contractor_id)",
+      "predicate_sha256": "dcac1a040bfe5747362c62f41546eb7d031c536a1cdcc9055c1d6617ea60a98c",
+      "origin": {
+        "path": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+        "stored_sha256": "fb8e14f0fd505edf730c0908f7e1c500cf850e29bcc0e90b3a51877224edd61b",
+        "expanded_utf8_sha256": "fb8e14f0fd505edf730c0908f7e1c500cf850e29bcc0e90b3a51877224edd61b",
+        "line_basis": "UTF8_SQL",
+        "function": "erp.run_v267_financial_truth_checks",
+        "line": 2756,
+        "binding": "CANDIDATE_DELEGATE_SOURCE_OBSERVED_OUTPUT_IDENTITY"
+      }
+    },
+    "run_v268_financial_report_checks:V2620C_PO_HPP_TARGET_STATE_MISMATCH": {
+      "predicate_sql": "select 'V2620C_PO_HPP_TARGET_STATE_MISMATCH','CRITICAL',count(*)::bigint,\n    'Saved PO HPP/FG/COGS/other state must equal independently recomputed current minor-unit targets'\n  from erp.po_hpp_gl_state s\n  cross join lateral erp.compute_po_hpp_gl_targets_v2620d(s.po_id) t\n  where s.base_output_qty is distinct from coalesce(t.base_output_qty,0)\n     or s.hpp_total_cost is distinct from round(coalesce(t.hpp_total_cost,0),2)\n     or s.fg_value is distinct from round(coalesce(t.fg_value,0),2)\n     or s.cogs_value is distinct from round(coalesce(t.cogs_value,0),2)\n     or s.other_out_value is distinct from(\n       round(coalesce(t.hpp_total_cost,0),2)-round(coalesce(t.fg_value,0),2)-round(coalesce(t.cogs_value,0),2))",
+      "predicate_sha256": "0e4986b58f702028781a480aeb61648652ded87c71f334b31b620fca48d04b05",
+      "origin": {
+        "path": "ci_receipts/sol_artifacts/12161878541/files/SOL_R4_CURRENT_DETECTOR_DEFINITIONS.json",
+        "function": "run_v268_financial_report_checks",
+        "sha256": "075c3f91630997d393861a1f72090d37b029e02d80c6e3f0e3f686a81566f3de",
+        "binding": "RUNTIME_PG_GET_FUNCTIONDEF_DIRECT"
+      }
+    },
+    "run_v268_financial_report_checks:V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH": {
+      "predicate_sql": "select 'V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH','CRITICAL',count(*)::bigint,\n    'Vendor invoice PAID/PARTIAL status must match the exact two-decimal payment subledger'\n  from erp.vendor_invoices h\n  cross join lateral(\n    select coalesce(sum(p.amount),0)::numeric(20,2) paid\n    from erp.vendor_payments p where p.vendor_invoice_id=h.id and p.status='POSTED'\n  ) x\n  where (h.status='PAID' and x.paid<>h.total_amount)\n     or (h.status='PARTIAL_PAID' and not(x.paid>0 and x.paid<h.total_amount))\n     or (h.status='POSTED' and x.paid<>0)",
+      "predicate_sha256": "54e82d6363cf25983f253eaf41d5834aba2e60f411089b2f4c7964b8bf03d4a8",
+      "origin": {
+        "path": "ci_receipts/sol_artifacts/12161878541/files/SOL_R4_CURRENT_DETECTOR_DEFINITIONS.json",
+        "function": "run_v268_financial_report_checks",
+        "sha256": "075c3f91630997d393861a1f72090d37b029e02d80c6e3f0e3f686a81566f3de",
+        "binding": "RUNTIME_PG_GET_FUNCTIONDEF_DIRECT"
+      }
+    },
+    "run_v268_financial_report_checks:V2620C_HPP_STATE_HAS_SUBCENT": {
+      "predicate_sql": "select 'V2620C_HPP_STATE_HAS_SUBCENT','CRITICAL',count(*)::bigint,\n    'Cumulative PO HPP GL state must contain exactly the minor-unit amounts that were journaled'\n  from erp.po_hpp_gl_state s\n  where s.hpp_total_cost<>round(s.hpp_total_cost,2)\n     or s.fg_value<>round(s.fg_value,2)\n     or s.cogs_value<>round(s.cogs_value,2)\n     or s.other_out_value<>round(s.other_out_value,2)",
+      "predicate_sha256": "10dade336ddcaf672e5435c31ff245a0de38c370e3dcff24076adf46d19c9d0e",
+      "origin": {
+        "path": "ci_receipts/sol_artifacts/12161878541/files/SOL_R4_CURRENT_DETECTOR_DEFINITIONS.json",
+        "function": "run_v268_financial_report_checks",
+        "sha256": "075c3f91630997d393861a1f72090d37b029e02d80c6e3f0e3f686a81566f3de",
+        "binding": "RUNTIME_PG_GET_FUNCTIONDEF_DIRECT"
+      }
+    },
+    "run_v268_financial_report_checks:V2620H_CUSTOMER_AR_STATUS_MISMATCH": {
+      "predicate_sql": "select 'V2620H_CUSTOMER_AR_STATUS_MISMATCH','CRITICAL',count(*)::bigint,\n    'Sale PAID/PARTIAL/POSTED status must equal the exact two-decimal payment subledger and overpayment is unsupported'\n  from erp.sales_headers h\n  cross join lateral(\n    select round(erp.sale_net_total(h.id),2)::numeric(20,2) total,\n      round(coalesce(sum(round(p.amount,2)),0),2)::numeric(20,2) paid\n    from erp.sales_payments p where p.sale_id=h.id and p.status='POSTED'\n  ) x\n  where h.status in('POSTED','PARTIAL_PAID','PAID') and(\n    x.paid>x.total\n    or (h.status='PAID' and x.paid<>x.total)\n    or (h.status='PARTIAL_PAID' and not(x.paid>0 and x.paid<x.total))\n    or (h.status='POSTED' and x.paid<>0)\n  )",
+      "predicate_sha256": "7a6e1f476d164aea639658f4e82968a837376e250410c4121cdf3fcc5bec6921",
+      "origin": {
+        "path": "ci_receipts/sol_artifacts/12161878541/files/SOL_R4_CURRENT_DETECTOR_DEFINITIONS.json",
+        "function": "run_v268_financial_report_checks",
+        "sha256": "075c3f91630997d393861a1f72090d37b029e02d80c6e3f0e3f686a81566f3de",
+        "binding": "RUNTIME_PG_GET_FUNCTIONDEF_DIRECT"
+      }
+    }
+  },
+  "source_based_prevention": {
+    "ACCESSORY_CATEGORY_UOM_MISMATCH": "Category freeze and variant validation have no admin bypass; explicit refusal-only evidence; negative detector control remains not executed.",
+    "V267_MISSING_GRNI_MAPPING": "Core mapping deletion/rename guard has no admin bypass; prevents missing mapping. account_id missing exception is not reached by weakening guard."
+  },
+  "audit_tools": {
+    "detector_derived_controls.py": "c415e29faaf7ec707bbfb98f78f21fb7b1ae3b3c456181648cb0a64962175b61",
+    "detector_derived_qualification.py": "62252d0504306e39d3d9b9e98679c703c7fd205de79d0e62a0da7ca31aec038d",
+    "detector_mutable_controls.py": "66d7fa6fc2731a38f925cf9ecdba6c0b03d224695682626539218e879616d590",
+    "detector_case.py": "8a6a5c3eea366a10383cf3ab7531089bcef80972abd31c8995f1564aa02d9e1d",
+    "detector_derived_validate.py": "a78874b93ca1674b7b72bddc92c0f571b596f3eb5a59fbb5a9e938d1bf8c5aa8"
+  },
+  "source_pin_note": "Vendor invoice date guard has current AC WIB semantics; only stable message/field fragments are required and actual complete function body is exported before cases. No bootstrap current_date assumption.",
+  "runtime_phase_name_and_delta_binding": true
+}

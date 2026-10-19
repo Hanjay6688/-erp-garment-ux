@@ -1,0 +1,19 @@
+{
+  "state": "STATIC_AND_PURE_METADATA_ONLY_NO_PRODUCT_CASES_RUN",
+  "exact_case_ids": 9,
+  "new_sensitivity_cases": 7,
+  "prevention_only_cases": 2,
+  "new_target_identities": 9,
+  "declared_existing_collateral": 1,
+  "actual_phase_positive": 11,
+  "actual_phase_negative": 7,
+  "actual_outer_gate_positive": 1,
+  "actual_outer_gate_negative": 9,
+  "source_tool_DDL_hashes_verified": true,
+  "parsed_workflow_names_entrypoint_artifact_only": true,
+  "permissions_setup_budget_unchanged": true,
+  "all167_keysets_enforced": true,
+  "protected_facts_and_guards_unchanged_enforced": true,
+  "product_diff_empty": true,
+  "held_probes_resumed": false
+}

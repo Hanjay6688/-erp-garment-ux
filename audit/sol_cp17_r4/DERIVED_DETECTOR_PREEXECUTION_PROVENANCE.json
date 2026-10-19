@@ -1,0 +1,51 @@
+{
+  "state": "READY_FOR_NORMAL_REVIEW_NOT_EXECUTED",
+  "created_at": "2026-10-19T04:23:30.900223+00:00",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "parent": "753537f121b4a61b23b4cfdfbb727d449051b576",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "new_case_ids": 9,
+  "kind_breakdown": {
+    "new_detector_sensitivity": 7,
+    "guard_prevention_only": 2
+  },
+  "publication_payload": {
+    ".github/workflows/audit-sol-r4-derived-detectors.yml": {
+      "bytes": 9568,
+      "sha256": "ad9f47b6534efc8143aec8aafe8ef2a1035a8c42c3aa31208bc6fa98d4677a2c"
+    },
+    "audit/sol_cp17_r4/detector_derived_controls.py": {
+      "bytes": 13542,
+      "sha256": "c415e29faaf7ec707bbfb98f78f21fb7b1ae3b3c456181648cb0a64962175b61"
+    },
+    "audit/sol_cp17_r4/detector_derived_qualification.py": {
+      "bytes": 6566,
+      "sha256": "62252d0504306e39d3d9b9e98679c703c7fd205de79d0e62a0da7ca31aec038d"
+    },
+    "audit/sol_cp17_r4/detector_derived_validate.py": {
+      "bytes": 8648,
+      "sha256": "a78874b93ca1674b7b72bddc92c0f571b596f3eb5a59fbb5a9e938d1bf8c5aa8"
+    },
+    "audit/sol_cp17_r4/DERIVED_DETECTOR_PREEXECUTION_MANIFEST.json": {
+      "bytes": 40826,
+      "sha256": "759a69567185519feff6fe61fd1597cd2f43b008676a0191bf70a5db1b323d98"
+    },
+    "audit/sol_cp17_r4/DERIVED_DETECTOR_PREEXECUTION_VALIDATION.json": {
+      "bytes": 650,
+      "sha256": "442d313f837564b0d4934dbaeb412148147440ea338f94ff3c861f9985774ce6"
+    }
+  },
+  "new_product_files": 0,
+  "source_or_case_mutations": "Only new audit files. Fixture/counter writes run on disposable loopback via unchanged Native rollback runner. No protected fact/ledger/guard/grant/trigger edits during counter phases.",
+  "sensitive_data": "Sources and synthetic literals only. No credentials fetched; public disposable loopback fixture URLs inherited unchanged. Raw receipts/logs/reviews excluded from this publication.",
+  "held_probes_resumed": false,
+  "earlier_PASS_case_repeated": false,
+  "no_business_retry": true,
+  "precase_retry_maximum": 1,
+  "scope_authority": "Standing full CP1-CP7 audit; root request to close safe finite derived/config/master controls. Normal publication review required; no product changes.",
+  "catalog_guards": "MissingGRNI/UOM mismatch are prevention-only exact native refusals. No guard bypass; no negative-sensitivity PASS inferred.",
+  "product_diff_empty": true,
+  "prepublication_pin_correction": "Vendor date guard pin uses stable refusal message+field; current AC function is WIB-aware and is exported in full before cases. No case/oracle/amount/budget changed.",
+  "prepublication_phase_name_binding": "Prevention phases use exact actual named refusal phases, with unchanged empty deltas. Outer gate now requires phase name+observed delta map equal manifest for every PASS case."
+}
