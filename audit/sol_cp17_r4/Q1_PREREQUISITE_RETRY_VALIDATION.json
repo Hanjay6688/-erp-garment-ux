@@ -1,0 +1,20 @@
+{
+  "state": "PREPUBLICATION_VALIDATED",
+  "parsed_workflow_diff_only": [
+    "one pinned jsonschema dependency",
+    "logical run suffix2-prerequisite",
+    "distinct artifact suffixprerequisite2"
+  ],
+  "step_indices": [
+    9,
+    21
+  ],
+  "same_permissions_timeout_checkout_candidate_cleanup": true,
+  "case_contract_sha256_unchanged": "75359143dc758379c829789f8bfd4411c387b8d55c0cb20b198ead9436c6d3c9",
+  "first_failure_receipt_and_log_verified": true,
+  "first_case_count": 0,
+  "original_case_tools_unchanged": true,
+  "existing_metadata_controls": 21,
+  "existing_cleanup_controls": 4,
+  "new_product_database_or_case_execution": 0
+}

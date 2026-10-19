@@ -1,0 +1,30 @@
+{
+  "state": "AUDIT_ONLY_PREREQUISITE_RETRY_READY_FOR_NORMAL_REVIEW",
+  "parent": "298e79a167b619b634545d9faa3506ee423bc787",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "product_diff_empty": true,
+  "first_failure_preserved": true,
+  "contains_sensitive_private_or_unrelated_data": false,
+  "files": [
+    {
+      "path": ".github/workflows/audit-sol-r4-q1-state-metadata.yml",
+      "bytes": 10249,
+      "sha256": "8548f561fe3b5c9f6e235ab96ad0380c4fec51a26689299a358227a5e345f876"
+    },
+    {
+      "path": "audit/sol_cp17_r4/Q1_PREREQUISITE_RETRY_MANIFEST.json",
+      "bytes": 2093,
+      "sha256": "be3c7a7f4b45d0c2e8c7ee2551aba02f97a2712e34bebdcdea17e72017305fd1"
+    },
+    {
+      "path": "audit/sol_cp17_r4/Q1_PREREQUISITE_RETRY_VALIDATION.json",
+      "bytes": 643,
+      "sha256": "ab9e0c67db7b655db6ebc072c35f0aba3f5f86a3d906772b920b3c9ec38d3223"
+    }
+  ],
+  "scope": "Only dependency and identity labels; four frozen metadata cases and all underlying business calls/fixtures/budgets are byte unchanged. Normal review on own audit branch only.",
+  "guide_sections_verified": [
+    "§1.9 max one pre-case prerequisite retry",
+    "§16.3 second pre-case failure closes eligibility; original failures retained"
+  ]
+}

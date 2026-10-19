@@ -79,8 +79,8 @@ jobs:
       run: python ../sol/audit/sol_cp17_r4/record_candidate.py --root . --phase before --out cp6-proof/t3/SOL_R4_IDENTITY_BEFORE.json
     - name: Install pinned disposable runtime
       shell: bash
-      run: "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'\nsudo apt-get\
-        \ update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\n\
+      run: "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\n\
+        sudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\n\
         sudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\
         \ \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg --show-keys --with-colons\
         \ \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk -F: '$1 == \"fpr\" { print\
@@ -177,8 +177,8 @@ jobs:
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
-        name: audit-r4-Sol-663f6fae-q1-state-metadata-first
+        name: audit-r4-Sol-663f6fae-q1-state-metadata-prerequisite2
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error
-run-name: AUDIT/r4/Sol/663f6fae/q1-state-metadata/1
+run-name: AUDIT/r4/Sol/663f6fae/q1-state-metadata/2-prerequisite

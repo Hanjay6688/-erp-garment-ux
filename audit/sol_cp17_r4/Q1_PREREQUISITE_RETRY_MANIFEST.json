@@ -1,0 +1,45 @@
+{
+  "contract": "audit.sol.r4.q1.single-prerequisite-retry.v1",
+  "state": "PREEXECUTION_NOT_RUN",
+  "original_first_result": {
+    "run_id": 39191503650,
+    "job_id": 117865105145,
+    "workflow_sha": "298e79a167b619b634545d9faa3506ee423bc787",
+    "artifact_id": 12160198174,
+    "artifact_digest": "e830cc16c93fe4a8305cb25c6701e969cb99372511bb80eab21513b2078673ae",
+    "selected_files_rehashed": 6,
+    "log_path": "ci_receipts/own_job_logs/117865105145.log",
+    "log_sha256": "b29b60983bf1a1c60c1684c80655b1fa5642c37d5f3f470ef6f23f1a96dde901",
+    "status": "FAILURE_BEFORE_ALL_METADATA_CASES",
+    "case_outputs": 0,
+    "error": "ModuleNotFoundError: No module named 'jsonschema'",
+    "import_chain": [
+      "q1_state_qualification.py",
+      "cp7_k4_runner_cases.py",
+      "cp7_p19_staged_cases.py",
+      "cp7_analysis_cases.py"
+    ],
+    "candidate_roots_unchanged": true,
+    "metadata_case_runtime_entered": false,
+    "product_install_prerequisite_completed": true
+  },
+  "rule": "Guide §1.9 and §16.3: at most one explicit retry after failure before every qualification case; installed product prerequisite remains acknowledged. A second pre-case prerequisite failure closes run eligibility. Original failure remains preserved.",
+  "logical_attempt": 2,
+  "github_run_attempt_will_be_separate": 1,
+  "changed_prerequisite": "Add exactly jsonschema==4.25.1, same dependency as existing pinned own/writer P19 K4/K6 workflows.",
+  "expected_case_contract_sha256": "75359143dc758379c829789f8bfd4411c387b8d55c0cb20b198ead9436c6d3c9",
+  "metadata_case_ids": [
+    "SOL_R4_Q1_K4_CRON_ALL_ENDS",
+    "SOL_R4_Q1_K6_CRON_ALL_ENDS",
+    "SOL_R4_Q1_K4_DESKTOP_ALL_ENDS",
+    "SOL_R4_Q1_K4_MOBILE_ALL_ENDS"
+  ],
+  "all_original_product_and_observer_sources_unchanged": true,
+  "new_business_case_credit": 0,
+  "new_race_credit": 0,
+  "no_auto_retry": true,
+  "no_expected_or_budget_change": true,
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019"
+}
