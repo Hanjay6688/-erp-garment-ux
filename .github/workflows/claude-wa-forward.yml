@@ -1,0 +1,74 @@
+# Owner D17-3..D17-6: reminders forwarded to the owner's WhatsApp through CallMeBot. WA-0 learns what the CI Supabase
+# stack offers (pg_net, Vault, a fake CallMeBot on the stack network) before the forwarding is built on it. No real
+# message and no real key: the fake server answers on the runner's docker network only.
+name: CP7 WA Forward
+'on':
+  workflow_dispatch: {}
+  push:
+    branches:
+    - claude/new-session-deapao
+    paths:
+    - scripts/cp7_wa_*
+    - .github/workflows/claude-wa-forward.yml
+permissions:
+  contents: read
+jobs:
+  wa0-stack-facts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+    - name: Install PostgreSQL 17 client
+      run: |
+        set -euo pipefail
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq ca-certificates curl gnupg
+        sudo install -d /usr/share/postgresql-common/pgdg
+        sudo curl --fail --silent --show-error \
+          -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        key_fingerprint="$(gpg --show-keys --with-colons \
+          /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          | awk -F: '$1 == "fpr" { print $10; exit }')"
+        test "$key_fingerprint" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'
+        . /etc/os-release
+        architecture="$(dpkg --print-architecture)"
+        sudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<SRC
+        Types: deb
+        URIs: https://apt.postgresql.org/pub/repos/apt
+        Suites: ${VERSION_CODENAME}-pgdg
+        Architectures: ${architecture}
+        Components: main
+        Signed-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc
+        SRC
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq postgresql-client-17
+        echo '/usr/lib/postgresql/17/bin' >> "$GITHUB_PATH"
+    - name: Install pinned Supabase CLI
+      uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+      with:
+        version: 2.116.0
+    - name: Start disposable database
+      shell: bash
+      run: |
+        set -euo pipefail
+        mkdir cp5-local
+        supabase init --force --workdir cp5-local
+        mkdir -p cp5-local/supabase/.temp
+        echo '17.6.1.165' > cp5-local/supabase/.temp/postgres-version
+        sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml
+        for attempt in 1 2 3 4; do
+          if [ "$attempt" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi
+          if supabase start --workdir cp5-local \
+            -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \
+            > "$RUNNER_TEMP/start.log" 2>&1; then
+            echo "supabase start succeeded on attempt $attempt"
+            break
+          fi
+          tail -n 20 "$RUNNER_TEMP/start.log"
+          supabase stop --workdir cp5-local --no-backup || true
+          if [ "$attempt" = 4 ]; then exit 1; fi
+          sleep $((attempt * 60))
+        done
+    - name: WA-0 stack facts
+      run: bash scripts/cp7_wa_spike.sh
