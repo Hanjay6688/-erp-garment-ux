@@ -123,13 +123,13 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
  if wa_forward:
   # WA (owner D17-3..D17-6): Pengingat sistem and their forwarding to the
   # owner's WhatsApp through CallMeBot, on top of reminders v2; the fake
-  # CallMeBot of the CI stack only, no real message. No screen yet (WA-4), so
-  # no browser group.
+  # CallMeBot of the CI stack only, no real message. WA-4b: the Reminder tabs
+  # Pengingat sistem and Sambungan WhatsApp in the browser group.
   assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_transport,p19_scale,p19_staged,p19_plan_v2,p19_report_v2,p19_ai_v2,p19_reminder_v2,pl5_history_yield,k2_retention,k3_cleanup,k4_runner,k6_proof_runner)),'WA_FORWARD_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
   import cp7_alert_bundle as candidate
   import cp7_wa_forward_cases as case_provider
   def checker(cur):verify(cur);candidate.verify(cur)
-  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED;out=OUT.with_name('CP7_WA_FORWARD.json');phase='cp7_wa_forward'
+  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED;out=OUT.with_name('CP7_WA_FORWARD.json');phase='cp7_wa_forward';browser_script='cp7_wa_forward_browser.mjs'
  if k3_cleanup:
   # K3b + CP7C (owner decision 9 Oct 2026 WIB): a finished run's temporary work
   # removed on the server's schedule after its result verifies; the pg_cron
@@ -333,7 +333,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
    # measured inside its browser cases on the same seeded copy.
    report['races']=modes.run_races(case_provider,checker,phase)
    report['http']=modes.run_http(case_provider,checker,phase)
-  if not(p19_load or k6_proof_runner or wa_forward):
+  if not(p19_load or k6_proof_runner):
    # Keep port ownership evidence before opening the native browser host.
    import subprocess
    report['browser_port_state_before']=subprocess.run(['ss','-lntp','sport = :54328'],capture_output=True,text=True,check=False).stdout
@@ -361,7 +361,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
     report.setdefault('error','CP7_RESTORATION_INCOMPLETE: '+str(restoration_error))
   if fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2 or p19_report_v2 or p19_ai_v2 or p19_reminder_v2 or pl5_history_yield or k2_retention or k3_cleanup or k4_runner or k6_proof_runner or wa_forward:
    report['required_case_ids_pass']=all(set(report.get(k,{}).get('races'if k=='races'else'cases',{}))==set(ids)for k,ids in case_provider.IDS.items())
-  group_names=('native','races','http')if p19_load or k6_proof_runner or wa_forward else('native','browser')if p19_scale else('native','races','http','browser')
+  group_names=('native','races','http')if p19_load or k6_proof_runner else('native','browser')if p19_scale else('native','races','http','browser')
   groups=[report.get(k,{})for k in group_names];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['required_case_counts_pass']=not(attention or p18_e01 or rule_lifecycle or source_navigation or misc_correction or payment_correction or supplier_payment_correction or return_correction or sales_chain or cutting_correction or fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2 or p19_report_v2 or p19_ai_v2 or p19_reminder_v2 or pl5_history_yield or k2_retention or k3_cleanup or k4_runner or k6_proof_runner or wa_forward)or all(report.get(k,{}).get('counts')=={'PASS':n}for k,n in report['required_case_counts'].items());report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and report['required_case_counts_pass'] and(not(fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2 or p19_report_v2 or p19_ai_v2 or p19_reminder_v2 or pl5_history_yield or k2_retention or k3_cleanup or k4_runner or k6_proof_runner or wa_forward)or report.get('required_case_ids_pass'))and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
  return dict(status=report['status'],production_go=False,independent_acceptance=False,full_family_acceptance=False)

@@ -7,11 +7,12 @@
     "D17-6"
   ],
   "design": "docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md",
-  "expected_case_count": 21,
+  "expected_case_count": 24,
   "required_case_counts": {
     "native": 15,
     "races": 4,
-    "http": 2
+    "http": 2,
+    "browser": 3
   },
   "required_case_ids": {
     "native": [
@@ -40,6 +41,11 @@
     "http": [
       "WAF_HTTP_OWNER_SETS_UP_AND_TESTS",
       "WAF_HTTP_OTHERS_REFUSED"
+    ],
+    "browser": [
+      "WAF_BROWSER_DESKTOP_OWNER_SETS_UP_TESTS_AND_FORWARDS",
+      "WAF_BROWSER_MOBILE_OWNER_SETS_UP_TESTS_AND_FORWARDS",
+      "WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA"
     ]
   },
   "public_rpcs": [
@@ -63,9 +69,10 @@
   "synthetic_labels": [
     "SYNTHETIC_PROVIDER_ANSWER (savepoint cases only; races use the real fake server)",
     "TEST_CLOCK_OVERRIDE (module tables inside the case transaction; in WAF_ANALYSIS_AUTOMATIC_RUN also the capture time of the owner's finished staged job)",
-    "TEST_SCHEDULE_OVERRIDE (5 seconds, race copy only)"
+    "TEST_SCHEDULE_OVERRIDE (5 seconds, race copy only)",
+    "TEST_RESET (browser copy only: the module rows and the Vault key removed before each browser journey)"
   ],
-  "browser": "WA-4 (screens) adds the browser group",
+  "browser": "scripts/cp7_wa_forward_browser.mjs: owner desktop 1440 px and phone 390 px (first save, key typed into the password box and never returned, test message and a fabric alert received by the fake CallMeBot, Riwayat pesan equal to what it received, no horizontal scroll); ADMIN sees Pengingat sistem without the WhatsApp tab or chips and is refused on the owner functions",
   "production_go": false,
   "analysis_kinds": {
     "forwarded": [

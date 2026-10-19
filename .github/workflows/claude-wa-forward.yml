@@ -4,7 +4,8 @@
 # Vault, pg_net and pg_cron (scripts/cp7_wa_stack_smoke.py). No real message and no real key: the fake server answers
 # on the runner's docker network only. WA-3b runs the declared Native suite (scripts/cp7_wa_forward_cases.py, docs/cp7/wa/
 # WA_FORWARD.json) on the closed harness, same pinned checkouts and rebuild as the other CP7 suites, with the fake
-# CallMeBot on the stack network.
+# CallMeBot on the stack network. WA-4b adds the browser group (scripts/cp7_wa_forward_browser.mjs): the Reminder tabs
+# Pengingat sistem and Sambungan WhatsApp with real Auth and PostgREST, the fake CallMeBot receiving what the screen set up.
 name: CP7 WA Forward
 'on':
   workflow_dispatch: {}
@@ -17,6 +18,11 @@ name: CP7 WA Forward
     - scripts/cp7_alert_bundle.py
     - scripts/cp7_f05_analysis_probe.py
     - docs/cp7/wa/WA_FORWARD.json
+    - src/waContract.ts
+    - src/WaConnectionPanel.tsx
+    - src/SystemRemindersPanel.tsx
+    - src/ConnectedRemindersPage.tsx
+    - src/connected-wa.css
     - .github/workflows/claude-wa-forward.yml
 permissions:
   contents: read
@@ -144,9 +150,9 @@ jobs:
       max-parallel: 3
       matrix:
         include:
-        - suite: wa-forward-21
+        - suite: wa-forward-24
           probe: cp7_wa_forward_probe.py
-          timeout: 210
+          timeout: 240
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres
