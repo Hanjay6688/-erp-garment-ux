@@ -62,6 +62,8 @@ def checker_before(cur):
     assert old.count(head)==1,'CP17_R5_01_CHECKER_HEAD_CHANGED'
     cur.execute('create schema cp17_r5_01')
     cur.execute(old.replace(head,'FUNCTION cp17_r5_01.checks_before()',1))
+    # Called like the installed checker (owner context, role authenticated); the schema exists only inside the savepoint.
+    cur.execute('grant usage on schema cp17_r5_01 to authenticated;grant execute on function cp17_r5_01.checks_before() to authenticated')
     def wrong():
         bd.api.admin(cur);bd.chain.production.owner(cur)
         n=cur.execute("select issue_count from cp17_r5_01.checks_before() where check_name=%s",(payroll_checks.CHECK,)).fetchone()[0]
@@ -192,6 +194,8 @@ def cases(cur,today):
                 old=report_accounts.unwrap(signature,installed)
                 assert old.count(head)==1,('CP17_R5_02_READER_HEAD_CHANGED',signature)
                 cur.execute(old.replace(head,'FUNCTION cp17_r5_02.'+name.split('.')[1]+'(',1))
+                # Called like the installed reader (owner context, role authenticated); the schema exists only inside the savepoint.
+                cur.execute('grant usage on schema cp17_r5_02 to authenticated;grant execute on all functions in schema cp17_r5_02 to authenticated')
                 args=inputs.get(signature,[()])
                 def answer(fn,a):
                     bd.api.admin(cur);bd.chain.production.owner(cur);cur.execute('savepoint cp17_r5_02_call')
@@ -202,8 +206,11 @@ def cases(cur,today):
                         cur.execute('rollback to savepoint cp17_r5_02_call');return ('ERR',e.sqlstate,str(e).split('\n')[0])
                     finally:
                         cur.execute('release savepoint cp17_r5_02_call');bd.api.admin(cur)
-                differences=[a for a in args if answer(name,a)!=answer('cp17_r5_02.'+name.split('.')[1],a)]
-                assert not differences,('CP17_R5_02_READER_ANSWER_CHANGED',signature,[str(x) for x in differences[:3]])
+                differences=[]
+                for a in args:
+                    new,old_answer=answer(name,a),answer('cp17_r5_02.'+name.split('.')[1],a)
+                    if new!=old_answer:differences.append((str(a),str(new)[:400],str(old_answer)[:400]))
+                assert not differences,('CP17_R5_02_READER_ANSWER_CHANGED',signature,differences[:2])
                 compared[signature]=len(args)
         finally:
             cur.execute('rollback to savepoint cp17_r5_02_same');cur.execute('release savepoint cp17_r5_02_same');bd.api.admin(cur)

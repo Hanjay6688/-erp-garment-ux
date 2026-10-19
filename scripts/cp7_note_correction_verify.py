@@ -26,7 +26,8 @@ def verify(cur):
  assert hashlib.sha256(original.encode()).hexdigest()==original_hash,'NOTE_NATIVE_REPORT_ORIGINAL_HASH'
  overlay=bundle.note_report.patched_report(original)
  assert hashlib.sha256(overlay.encode()).hexdigest()==overlay_hash,'NOTE_NATIVE_REPORT_DECLARED_DELTA_HASH'
- assert cur.execute('select pg_get_functiondef(%s::regprocedure)',(report_signature,)).fetchone()[0]==overlay,'NOTE_NATIVE_REPORT_EXACT_READ_DELTA'
+ # R5-02 (cp7_report_accounts_bundle.py) is the one later declared delta on the same report: account lookups once per query.
+ assert cur.execute('select pg_get_functiondef(%s::regprocedure)',(report_signature,)).fetchone()[0]==bundle.report_accounts.wrap(report_signature,overlay),'NOTE_NATIVE_REPORT_EXACT_READ_DELTA'
  for table in ('requests','revisions','context','helper_sources','journal_restatements','payment_replays','report_sources','item_lineage'):
   assert cur.execute("select pg_get_userbyid(relowner),relrowsecurity from pg_class where oid=%s::regclass",('cp7_note.'+table,)).fetchone()==('postgres',True),('NOTE_PRIVATE_METADATA_OWNER',table)
  for signature in ('public.erp_cp7_get_sales_v1(jsonb)','cp7_fg.book_anchor(uuid,uuid,text)'):
