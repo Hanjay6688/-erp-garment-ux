@@ -1,0 +1,139 @@
+{
+  "state": "FINAL_FINITE_INDEPENDENT_CP17_REVIEW",
+  "candidate_sha": "17fa25075ba77f0853c3c16f504288ace03eec35",
+  "run_id": 39236711065,
+  "source": {
+    "artifact_id": 12180497090,
+    "path": "ci_receipts/sol_artifacts/12180497090/files/CP7_CP17_FIXES.json",
+    "bytes": 730144,
+    "sha256": "844460e3e2ccda67a0b7638ada6377ab99ac5d0ddae307178ce9aefbec98fd45"
+  },
+  "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+  "oracle_origin": "WRITER_DECLARED_OR_ADOPTED_PRIOR_AUDITOR_ORACLES",
+  "fixture_origin": "WRITER_SYNTHETIC_LOOPBACK",
+  "groups": {
+    "native": {
+      "count": 165,
+      "raw_status_counts": {
+        "PASS": 165
+      },
+      "all_ids_match_declaration": true,
+      "all_pass": true,
+      "cleanup_recorded_clean": true
+    },
+    "races": {
+      "count": 39,
+      "raw_status_counts": {
+        "PASS": 39
+      },
+      "all_ids_match_declaration": true,
+      "all_pass": true,
+      "cleanup_recorded_clean": true
+    },
+    "http": {
+      "count": 27,
+      "raw_status_counts": {
+        "PASS": 27
+      },
+      "all_ids_match_declaration": true,
+      "all_pass": true,
+      "cleanup_recorded_clean": true
+    },
+    "browser": {
+      "count": 57,
+      "raw_status_counts": {
+        "PASS": 57
+      },
+      "all_ids_match_declaration": true,
+      "all_pass": true,
+      "cleanup_recorded_clean": true
+    },
+    "browser_enteng": {
+      "count": 57,
+      "raw_status_counts": {
+        "PASS": 57
+      },
+      "all_ids_match_declaration": true,
+      "all_pass": true,
+      "cleanup_recorded_clean": true
+    }
+  },
+  "declared_case_count": 345,
+  "observed_pass": 345,
+  "cp6_restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "all_other_predecessor_definitions_and_owners_unchanged": true,
+  "r5_valid_repair": {
+    "oracle_origin": "SOL_R4_INV_D02_VALID_FG_REPAIR_NOTA_ZERO_ALARM (PROMAX_INV_D02_HEALTHY_BOOK_ZERO)",
+    "fixture_origin": "ACCEPTED_AX_NATIVE_REPAIR_QTY2_AND1_THEN_PUBLIC_CP7_NOTA_SAVE_POST",
+    "no_direct_fact_edit": true,
+    "baseline_all_zero": true,
+    "detector_identities": 167,
+    "contractor_id": "04249133-e46c-4b39-9881-056054eb4da1",
+    "receipt_ids": [
+      "8ee7bdc2-c0e8-41f3-8799-3c36d26fa0a8",
+      "c4648708-2067-4300-872e-12d197cb4764"
+    ],
+    "payroll_header": [
+      "7dfd113c-382f-4e2f-91aa-40c6caed8b46",
+      "04249133-e46c-4b39-9881-056054eb4da1",
+      "CALCULATED",
+      "6000.00",
+      "6000.00"
+    ],
+    "observed_delta": {},
+    "checker_before_r5_01": {
+      "before": 0,
+      "after": 2
+    },
+    "status": "PASS",
+    "false_alarm_reproduced": false,
+    "contract_satisfied": true,
+    "full_restore": true,
+    "full_boundary_restored": true,
+    "public_schema_unchanged": true,
+    "session_leaks": {
+      "advisory_locks": 0,
+      "advisory_lock_keys": [],
+      "other_sessions": []
+    },
+    "business_day": {
+      "planned": "2026-10-19",
+      "before": "2026-10-19",
+      "after": "2026-10-19"
+    }
+  },
+  "r5_negative_control": {
+    "status": "PASS",
+    "wage_of_another_contractor_counted": {
+      "run_v263a_payroll_integrity_checks:payroll_work_wrong_contractor": 1
+    },
+    "restored_wage_counts_nothing": true,
+    "missing_wage_counted": {
+      "run_v263a_payroll_integrity_checks:payroll_work_wrong_contractor": 1
+    },
+    "guard_switched_off_only_inside_rolled_back_savepoint": true,
+    "full_boundary_restored": true,
+    "public_schema_unchanged": true,
+    "session_leaks": {
+      "advisory_locks": 0,
+      "advisory_lock_keys": [],
+      "other_sessions": []
+    },
+    "business_day": {
+      "planned": "2026-10-19",
+      "before": "2026-10-19",
+      "after": "2026-10-19"
+    }
+  },
+  "limitations": [
+    "39 scheduled-race cases do not imply39 independently qualified overlap/barrier proofs.",
+    "Enteng frontend build uses isolated local API interception; no hosted execution or installation credit.",
+    "Negative repair controls temporarily disable the immutable-wage trigger only during the declared corrupting write, then re-enable it before detection and roll back.",
+    "Writer valid-repair implementation records baseline_all_zero but does not assert it; actual value here is true and the separate unchanged Sol oracle asserts all167zero.",
+    "All11 writer reader comparisons use copied individual bodies with installed nested callees. The separate Sol full canonical graph comparison closes that finite coverage gap."
+  ]
+}

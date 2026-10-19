@@ -1,0 +1,238 @@
+{
+  "state": "FINAL_BOUNDED_READER_AND_DETECTOR_REVIEW",
+  "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+  "candidate_sha": "17fa25075ba77f0853c3c16f504288ace03eec35",
+  "original_controls": {
+    "run_id": 39237249873,
+    "source": {
+      "artifact_id": 12180340258,
+      "path": "ci_receipts/sol_artifacts/12180340258/files/SOL_R5_ORIGINAL_CONTROLS.json",
+      "bytes": 2237700,
+      "sha256": "90a430bca10826cf15b84be9a715627c546d60b39e7b4c335f1d374da685ee66"
+    },
+    "raw_counts": {
+      "PASS": 11
+    },
+    "occurrences": 11,
+    "unique_ids": 10,
+    "case_code_byte_identical": true,
+    "full_restore": true
+  },
+  "original_Sol_S1_reproduction": {
+    "case_id": "SOL_R4_INV_D02_VALID_FG_REPAIR_NOTA_ZERO_ALARM",
+    "status": "PASS",
+    "all167zero_at_five_stages": true,
+    "observed_delta": {},
+    "resolved_source_amount": "6000",
+    "no_guard_or_fact_edit": true
+  },
+  "full_graph": {
+    "run_id": 39239045650,
+    "source": {
+      "artifact_id": 12181191212,
+      "path": "ci_receipts/sol_artifacts/12181191212/files/SOL_R5_READER_GRAPH.json",
+      "bytes": 980244,
+      "sha256": "cb109404b85311859c5ec9f6a977e227170b64ef2ddf68a0760501261854bc07"
+    },
+    "status": "PASS",
+    "all11_full_old_graph_compared_at_three_stages": true,
+    "literal_book_oracles": [
+      {
+        "phase": "FG10",
+        "expected": [
+          "120",
+          "0",
+          "0"
+        ],
+        "observed": [
+          "120.00",
+          "0.00",
+          "0.00"
+        ]
+      },
+      {
+        "phase": "SALE2",
+        "expected": [
+          "96",
+          "24",
+          "0"
+        ],
+        "observed": [
+          "96.00",
+          "24.00",
+          "0.00"
+        ]
+      },
+      {
+        "phase": "RETURN1",
+        "expected": [
+          "108",
+          "12",
+          "0"
+        ],
+        "observed": [
+          "108.00",
+          "12.00",
+          "0.00"
+        ]
+      }
+    ],
+    "sale_lifecycle": {
+      "kind": "SALE",
+      "source_id": "89871897-e666-43c7-8cb9-6f29ae64f8a5",
+      "journal_id": "a8fc77f4-c6e7-40d4-b518-649f33bbb6b9",
+      "po_id": "b4b8f479-3b75-4573-a80c-2e5be121685a",
+      "expected": "24",
+      "observed": "24.00"
+    },
+    "return_lifecycle": {
+      "kind": "SALES_RETURN",
+      "source_id": "6f4c9f47-edfd-4593-8f79-12a38ba52954",
+      "journal_id": "e9ef5f72-7e06-4d38-8935-f6d42668aa94",
+      "po_id": "b4b8f479-3b75-4573-a80c-2e5be121685a",
+      "expected": "-12",
+      "observed": "-12.00"
+    },
+    "all167_actual_Owner_detector_counts_zero": true
+  },
+  "reversed_repair": {
+    "run_id": 39239045650,
+    "status": "PASS",
+    "five_stages_all167zero": true,
+    "stock_HPP_journal_unchanged": true
+  },
+  "prepared_mapping": {
+    "run_id": 39242137321,
+    "source": {
+      "artifact_id": 12182475716,
+      "path": "ci_receipts/sol_artifacts/12182475716/files/SOL_R5_READER_MAPPING_Q3.json",
+      "bytes": 653438,
+      "sha256": "4f8bce4e877b043393f6110caccf90b3ead4d8d3e1a7fbd14c474d8c0efc1ef6"
+    },
+    "status": "PASS",
+    "prepared_samples": [
+      {
+        "label": "ORIGINAL",
+        "mapping_account": "20a7533b-5578-4799-9973-90ab000e9e43",
+        "expected_fg": "120",
+        "observed": {
+          "fg_value": 120.0,
+          "cogs_value": 0.0,
+          "other_out_value": 0.0
+        },
+        "actual_prepared_statement": [
+          [
+            "sol_r5_mapping_fresh",
+            "PREPARE sol_r5_mapping_fresh(uuid) AS SELECT to_jsonb(x) FROM erp.compute_po_hpp_gl_book_v2620e($1) x",
+            "{uuid}"
+          ]
+        ]
+      },
+      {
+        "label": "NEW_EMPTY_ASSET",
+        "mapping_account": "2181a650-9c6a-495e-893a-eb45d210d17b",
+        "expected_fg": "0",
+        "observed": {
+          "fg_value": 0.0,
+          "cogs_value": 0.0,
+          "other_out_value": 0.0
+        },
+        "actual_prepared_statement": [
+          [
+            "sol_r5_mapping_fresh",
+            "PREPARE sol_r5_mapping_fresh(uuid) AS SELECT to_jsonb(x) FROM erp.compute_po_hpp_gl_book_v2620e($1) x",
+            "{uuid}"
+          ]
+        ]
+      },
+      {
+        "label": "RESTORED",
+        "mapping_account": "20a7533b-5578-4799-9973-90ab000e9e43",
+        "expected_fg": "120",
+        "observed": {
+          "fg_value": 120.0,
+          "cogs_value": 0.0,
+          "other_out_value": 0.0
+        },
+        "actual_prepared_statement": [
+          [
+            "sol_r5_mapping_fresh",
+            "PREPARE sol_r5_mapping_fresh(uuid) AS SELECT to_jsonb(x) FROM erp.compute_po_hpp_gl_book_v2620e($1) x",
+            "{uuid}"
+          ]
+        ]
+      }
+    ],
+    "refusals": [
+      {
+        "action": "DELETE_CORE",
+        "observed": {
+          "sqlstate": "P0001",
+          "message": "Core accounting mapping FG_INVENTORY tidak boleh dihapus. Pindahkan ke akun aktif dengan tipe ASSET jika perlu."
+        }
+      },
+      {
+        "action": "RENAME_CORE",
+        "observed": {
+          "sqlstate": "P0001",
+          "message": "Core accounting mapping key FG_INVENTORY tidak boleh di-rename"
+        }
+      }
+    ],
+    "all11_old_new_graph_equal_at_three_mapping_states": true,
+    "manual_prepare_deallocated": true,
+    "full_restore": true
+  },
+  "single_statement_capture": {
+    "run_id": 39240123342,
+    "qualification_run_id": 39241538078,
+    "source": {
+      "artifact_id": 12181651792,
+      "path": "ci_receipts/sol_artifacts/12181651792/files/SOL_R5_MULTIROW_CAPTURE_Q2.json",
+      "bytes": 2398,
+      "sha256": "922a0d3d42e70f9bbd8b507b17f4e5e2a5c7822237bb689c28259a2c75def897"
+    },
+    "raw_case_status": "INCOMPLETE",
+    "classification": "QUALIFIED_CAPTURE_REVIEW_NOT_NEW_NATIVE_EXECUTION",
+    "capture_review_status": "PASS",
+    "native_case_credit_added": 0,
+    "all11_same_and_empty": true,
+    "po_literal_rows": [
+      [
+        "108.00",
+        "12.00",
+        "0.00"
+      ],
+      [
+        "0.00",
+        "0.00",
+        "0.00"
+      ],
+      [
+        "0.00",
+        "0.00",
+        "0.00"
+      ],
+      [
+        "108.00",
+        "12.00",
+        "0.00"
+      ]
+    ],
+    "lifecycle_literal_rows": [
+      "24.00",
+      "-12.00",
+      null,
+      "24.00"
+    ],
+    "final_inner_fingerprint_assertion_executed": false,
+    "strict_outer_and_case_restore": true
+  },
+  "role_scope": "Internal canonical readers run in the database-owner administrative session with Owner JWT claims; proper Owner detector outputs and public Auth proofs are separate. No UI authorization claim from canonical-reader comparisons.",
+  "limits": [
+    "Finite inputs, not a universal equivalence proof.",
+    "A deliberate mapping change can intentionally make books inconsistent; all collateral detector output is preserved and not claimed healthy.",
+    "Original raw audit-tool failures remain INCOMPLETE and provider FAILURE.",
+    "The read-only capture qualifier adds zero Native executions."
+  ]
+}

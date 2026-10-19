@@ -1,0 +1,1135 @@
+{
+  "state": "FINAL_AFFECTED_F03_AND_RESTORE_REVIEW",
+  "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+  "full_f03": [
+    {
+      "bucket": "supplier_credit",
+      "source": {
+        "path": "ci_receipts/sol_artifacts/12179609515/files/CP7_F03_FULL_SUPPLIER_CREDIT.json",
+        "sha256": "b08d71d20d651331c6a1efa50d865f2eaa4ee8dd7f91033b48e3951092c1b05e",
+        "bytes": 780852,
+        "artifact_id": 12179609515,
+        "label": "CP7_F03_FULL_SUPPLIER_CREDIT",
+        "status": "PASS",
+        "copies": [],
+        "groups": [
+          {
+            "pointer": "/groups/native/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/races/races",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/browser/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          }
+        ],
+        "case_occurrences": 5
+      },
+      "declared_cases": 5,
+      "observed_cases": 5,
+      "smoke": 0,
+      "groups": 4,
+      "all_three_restore_components": true,
+      "payroll_delta": {
+        "stage": "R5_01_PAYROLL_CHECK_KNOWS_FG_REPAIR"
+      },
+      "reader_delta": {
+        "stage": "R5_02_REPORT_READERS_ACCOUNT_LOOKUP_ONCE",
+        "readers": 11,
+        "core_keys": 17
+      }
+    },
+    {
+      "bucket": "p11",
+      "source": {
+        "path": "ci_receipts/sol_artifacts/12179899666/files/CP7_F03_FULL_P11.json",
+        "sha256": "9999890b8c4cdcca9c02f66684d906586b628d108e21a2f57d3e1de7b9060f0a",
+        "bytes": 12121444,
+        "artifact_id": 12179899666,
+        "label": "CP7_F03_FULL_P11",
+        "status": "PASS",
+        "copies": [],
+        "groups": [
+          {
+            "pointer": "/groups/native/cases",
+            "cases": 8,
+            "counts": {
+              "PASS": 8
+            }
+          },
+          {
+            "pointer": "/groups/http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/commands/cases",
+            "cases": 6,
+            "counts": {
+              "PASS": 6
+            }
+          },
+          {
+            "pointer": "/groups/command_races/races",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/command_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/drafts/cases",
+            "cases": 7,
+            "counts": {
+              "PASS": 7
+            }
+          },
+          {
+            "pointer": "/groups/draft_races/races",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/draft_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/payments/cases",
+            "cases": 8,
+            "counts": {
+              "PASS": 8
+            }
+          },
+          {
+            "pointer": "/groups/payment_races/races",
+            "cases": 3,
+            "counts": {
+              "PASS": 3
+            }
+          },
+          {
+            "pointer": "/groups/payment_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/returns/cases",
+            "cases": 11,
+            "counts": {
+              "PASS": 11
+            }
+          },
+          {
+            "pointer": "/groups/return_races/races",
+            "cases": 3,
+            "counts": {
+              "PASS": 3
+            }
+          },
+          {
+            "pointer": "/groups/return_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/browser/cases",
+            "cases": 10,
+            "counts": {
+              "PASS": 10
+            }
+          }
+        ],
+        "case_occurrences": 64
+      },
+      "declared_cases": 64,
+      "observed_cases": 64,
+      "smoke": 0,
+      "groups": 15,
+      "all_three_restore_components": true,
+      "payroll_delta": {
+        "stage": "R5_01_PAYROLL_CHECK_KNOWS_FG_REPAIR"
+      },
+      "reader_delta": {
+        "stage": "R5_02_REPORT_READERS_ACCOUNT_LOOKUP_ONCE",
+        "readers": 11,
+        "core_keys": 17
+      }
+    },
+    {
+      "bucket": "p13",
+      "source": {
+        "path": "ci_receipts/sol_artifacts/12180368445/files/CP7_F03_FULL_P13.json",
+        "sha256": "147201ef168b6e65b7a3b07769525e5b63d8495ec01c158353f89ba1440495b0",
+        "bytes": 9234694,
+        "artifact_id": 12180368445,
+        "label": "CP7_F03_FULL_P13",
+        "status": "PASS",
+        "copies": [],
+        "groups": [
+          {
+            "pointer": "/groups/native/cases",
+            "cases": 8,
+            "counts": {
+              "PASS": 8
+            }
+          },
+          {
+            "pointer": "/groups/races/races",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/browser/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/period_native/cases",
+            "cases": 8,
+            "counts": {
+              "PASS": 8
+            }
+          },
+          {
+            "pointer": "/groups/period_races/races",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/period_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/period_browser/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/analysis_native/cases",
+            "cases": 8,
+            "counts": {
+              "PASS": 8
+            }
+          },
+          {
+            "pointer": "/groups/analysis_races/races",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/analysis_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/analysis_browser/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/recost_native/cases",
+            "cases": 8,
+            "counts": {
+              "PASS": 8
+            }
+          },
+          {
+            "pointer": "/groups/recost_races/races",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/recost_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/recost_browser/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          }
+        ],
+        "case_occurrences": 50
+      },
+      "declared_cases": 50,
+      "observed_cases": 50,
+      "smoke": 0,
+      "groups": 16,
+      "all_three_restore_components": true,
+      "payroll_delta": {
+        "stage": "R5_01_PAYROLL_CHECK_KNOWS_FG_REPAIR"
+      },
+      "reader_delta": {
+        "stage": "R5_02_REPORT_READERS_ACCOUNT_LOOKUP_ONCE",
+        "readers": 11,
+        "core_keys": 17
+      }
+    },
+    {
+      "bucket": "customer_refund",
+      "source": {
+        "path": "ci_receipts/sol_artifacts/12180387206/files/CP7_F03_FULL_CUSTOMER_REFUND.json",
+        "sha256": "21368d26f99aa8dfe77b76f735e94928df51e7278eb72be032bf933f7843a82e",
+        "bytes": 1549204,
+        "artifact_id": 12180387206,
+        "label": "CP7_F03_FULL_CUSTOMER_REFUND",
+        "status": "PASS",
+        "copies": [],
+        "groups": [
+          {
+            "pointer": "/groups/native/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/refund_native/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/refund_races/races",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/refund_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/refund_browser/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/browser/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          }
+        ],
+        "case_occurrences": 10
+      },
+      "declared_cases": 10,
+      "observed_cases": 10,
+      "smoke": 0,
+      "groups": 7,
+      "all_three_restore_components": true,
+      "payroll_delta": {
+        "stage": "R5_01_PAYROLL_CHECK_KNOWS_FG_REPAIR"
+      },
+      "reader_delta": {
+        "stage": "R5_02_REPORT_READERS_ACCOUNT_LOOKUP_ONCE",
+        "readers": 11,
+        "core_keys": 17
+      }
+    },
+    {
+      "bucket": "p10",
+      "source": {
+        "path": "ci_receipts/sol_artifacts/12180840963/files/CP7_F03_FULL_P10.json",
+        "sha256": "bbd68355b6e751d4cd6b9ae020791e28376c984e0348e8b5486bc5e51b900f6f",
+        "bytes": 6244030,
+        "artifact_id": 12180840963,
+        "label": "CP7_F03_FULL_P10",
+        "status": "PASS",
+        "copies": [],
+        "groups": [
+          {
+            "pointer": "/groups/native/cases",
+            "cases": 7,
+            "counts": {
+              "PASS": 7
+            }
+          },
+          {
+            "pointer": "/groups/http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/adjustments/cases",
+            "cases": 8,
+            "counts": {
+              "PASS": 8
+            }
+          },
+          {
+            "pointer": "/groups/adjustment_races/races",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/adjustment_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/book/cases",
+            "cases": 6,
+            "counts": {
+              "PASS": 6
+            }
+          },
+          {
+            "pointer": "/groups/book_races/races",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/book_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/browser/cases",
+            "cases": 6,
+            "counts": {
+              "PASS": 6
+            }
+          }
+        ],
+        "case_occurrences": 34
+      },
+      "declared_cases": 34,
+      "observed_cases": 34,
+      "smoke": 0,
+      "groups": 9,
+      "all_three_restore_components": true,
+      "payroll_delta": {
+        "stage": "R5_01_PAYROLL_CHECK_KNOWS_FG_REPAIR"
+      },
+      "reader_delta": {
+        "stage": "R5_02_REPORT_READERS_ACCOUNT_LOOKUP_ONCE",
+        "readers": 11,
+        "core_keys": 17
+      }
+    },
+    {
+      "bucket": "p12",
+      "source": {
+        "path": "ci_receipts/sol_artifacts/12181512237/files/CP7_F03_FULL_P12.json",
+        "sha256": "3633cb56c6e060a874b7adf13e30b4827121e7fdfa0813d6194b42bd5963c220",
+        "bytes": 14991831,
+        "artifact_id": 12181512237,
+        "label": "CP7_F03_FULL_P12",
+        "status": "PASS",
+        "copies": [],
+        "groups": [
+          {
+            "pointer": "/groups/native/cases",
+            "cases": 5,
+            "counts": {
+              "PASS": 5
+            }
+          },
+          {
+            "pointer": "/groups/http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/notes/cases",
+            "cases": 7,
+            "counts": {
+              "PASS": 7
+            }
+          },
+          {
+            "pointer": "/groups/note_races/races",
+            "cases": 3,
+            "counts": {
+              "PASS": 3
+            }
+          },
+          {
+            "pointer": "/groups/note_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/admission_regression/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/browser/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/payroll_review/cases",
+            "cases": 4,
+            "counts": {
+              "PASS": 4
+            }
+          },
+          {
+            "pointer": "/groups/payroll_review_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/payroll_review_browser/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/settlement/cases",
+            "cases": 8,
+            "counts": {
+              "PASS": 8
+            }
+          },
+          {
+            "pointer": "/groups/settlement_races/races",
+            "cases": 4,
+            "counts": {
+              "PASS": 4
+            }
+          },
+          {
+            "pointer": "/groups/settlement_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/settlement_browser/cases",
+            "cases": 3,
+            "counts": {
+              "PASS": 3
+            }
+          },
+          {
+            "pointer": "/groups/attendance_read/cases",
+            "cases": 6,
+            "counts": {
+              "PASS": 6
+            }
+          },
+          {
+            "pointer": "/groups/attendance_read_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/attendance_read_browser/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/roster/cases",
+            "cases": 6,
+            "counts": {
+              "PASS": 6
+            }
+          },
+          {
+            "pointer": "/groups/roster_races/races",
+            "cases": 3,
+            "counts": {
+              "PASS": 3
+            }
+          },
+          {
+            "pointer": "/groups/roster_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/roster_browser/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/attendance_write/cases",
+            "cases": 10,
+            "counts": {
+              "PASS": 10
+            }
+          },
+          {
+            "pointer": "/groups/attendance_write_races/races",
+            "cases": 4,
+            "counts": {
+              "PASS": 4
+            }
+          },
+          {
+            "pointer": "/groups/attendance_write_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/attendance_write_browser/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/opening_payroll/cases",
+            "cases": 5,
+            "counts": {
+              "PASS": 5
+            }
+          },
+          {
+            "pointer": "/groups/opening_payroll_races/races",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/opening_payroll_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/opening_payroll_browser/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          }
+        ],
+        "case_occurrences": 91
+      },
+      "declared_cases": 91,
+      "observed_cases": 91,
+      "smoke": 0,
+      "groups": 29,
+      "all_three_restore_components": true,
+      "payroll_delta": {
+        "stage": "R5_01_PAYROLL_CHECK_KNOWS_FG_REPAIR"
+      },
+      "reader_delta": {
+        "stage": "R5_02_REPORT_READERS_ACCOUNT_LOOKUP_ONCE",
+        "readers": 11,
+        "core_keys": 17
+      }
+    },
+    {
+      "bucket": "cash_installments",
+      "source": {
+        "path": "ci_receipts/sol_artifacts/12181800315/files/CP7_F03_FULL_CASH_INSTALLMENTS.json",
+        "sha256": "9ceec3a374a64bde09b40cf148e8ee4dae648390361fc453a1aee1827ac7abbb",
+        "bytes": 10718581,
+        "artifact_id": 12181800315,
+        "label": "CP7_F03_FULL_CASH_INSTALLMENTS",
+        "status": "PASS",
+        "copies": [],
+        "groups": [
+          {
+            "pointer": "/groups/cp7_f03_cash_native/cases",
+            "cases": 3,
+            "counts": {
+              "PASS": 3
+            }
+          },
+          {
+            "pointer": "/groups/cp7_f03_cash_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/cp7_f03_cash_journal_native/cases",
+            "cases": 6,
+            "counts": {
+              "PASS": 6
+            }
+          },
+          {
+            "pointer": "/groups/cp7_f03_cash_journal_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/cp7_f03_cash_browser/cases",
+            "cases": 10,
+            "counts": {
+              "PASS": 10
+            }
+          },
+          {
+            "pointer": "/groups/cp7_f03_misc_native/cases",
+            "cases": 9,
+            "counts": {
+              "PASS": 9
+            }
+          },
+          {
+            "pointer": "/groups/cp7_f03_misc_races/races",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/cp7_f03_misc_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/cp7_f03_misc_browser/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/cp7_f03_e05_native/cases",
+            "cases": 20,
+            "counts": {
+              "PASS": 20
+            }
+          },
+          {
+            "pointer": "/groups/cp7_f03_e05_races/races",
+            "cases": 3,
+            "counts": {
+              "PASS": 3
+            }
+          },
+          {
+            "pointer": "/groups/cp7_f03_e05_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/cp7_f03_e05_browser/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          }
+        ],
+        "case_occurrences": 61
+      },
+      "declared_cases": 61,
+      "observed_cases": 61,
+      "smoke": 0,
+      "groups": 13,
+      "all_three_restore_components": true,
+      "payroll_delta": {
+        "stage": "R5_01_PAYROLL_CHECK_KNOWS_FG_REPAIR"
+      },
+      "reader_delta": {
+        "stage": "R5_02_REPORT_READERS_ACCOUNT_LOOKUP_ONCE",
+        "readers": 11,
+        "core_keys": 17
+      }
+    },
+    {
+      "bucket": "p09",
+      "source": {
+        "path": "ci_receipts/sol_artifacts/12182140167/files/CP7_F03_FULL_P09.json",
+        "sha256": "0c15b37ef0da3caaf846ca090888b871cbec74335050a3dbae67f05f6a640bbd",
+        "bytes": 23727246,
+        "artifact_id": 12182140167,
+        "label": "CP7_F03_FULL_P09",
+        "status": "PASS",
+        "copies": [],
+        "groups": [
+          {
+            "pointer": "/groups/smoke/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/native/cases",
+            "cases": 9,
+            "counts": {
+              "PASS": 9
+            }
+          },
+          {
+            "pointer": "/groups/races/races",
+            "cases": 3,
+            "counts": {
+              "PASS": 3
+            }
+          },
+          {
+            "pointer": "/groups/http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/material_smoke/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/material/cases",
+            "cases": 13,
+            "counts": {
+              "PASS": 13
+            }
+          },
+          {
+            "pointer": "/groups/material_crossflow/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/material_races/races",
+            "cases": 3,
+            "counts": {
+              "PASS": 3
+            }
+          },
+          {
+            "pointer": "/groups/material_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/material_count/cases",
+            "cases": 17,
+            "counts": {
+              "PASS": 17
+            }
+          },
+          {
+            "pointer": "/groups/material_count_races/races",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/material_count_http/cases",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/invoice/cases",
+            "cases": 9,
+            "counts": {
+              "PASS": 9
+            }
+          },
+          {
+            "pointer": "/groups/invoice_races/races",
+            "cases": 3,
+            "counts": {
+              "PASS": 3
+            }
+          },
+          {
+            "pointer": "/groups/invoice_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/combined_invoice/cases",
+            "cases": 6,
+            "counts": {
+              "PASS": 6
+            }
+          },
+          {
+            "pointer": "/groups/combined_invoice_races/races",
+            "cases": 3,
+            "counts": {
+              "PASS": 3
+            }
+          },
+          {
+            "pointer": "/groups/combined_invoice_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/browser/cases",
+            "cases": 22,
+            "counts": {
+              "PASS": 22
+            }
+          },
+          {
+            "pointer": "/groups/return_smoke/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/returns/cases",
+            "cases": 10,
+            "counts": {
+              "PASS": 10
+            }
+          },
+          {
+            "pointer": "/groups/return_races/races",
+            "cases": 3,
+            "counts": {
+              "PASS": 3
+            }
+          },
+          {
+            "pointer": "/groups/return_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/receipt_reversal/cases",
+            "cases": 7,
+            "counts": {
+              "PASS": 7
+            }
+          },
+          {
+            "pointer": "/groups/receipt_reversal_races/races",
+            "cases": 3,
+            "counts": {
+              "PASS": 3
+            }
+          },
+          {
+            "pointer": "/groups/receipt_reversal_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          },
+          {
+            "pointer": "/groups/uom/cases",
+            "cases": 6,
+            "counts": {
+              "PASS": 6
+            }
+          },
+          {
+            "pointer": "/groups/uom_races/races",
+            "cases": 2,
+            "counts": {
+              "PASS": 2
+            }
+          },
+          {
+            "pointer": "/groups/uom_http/cases",
+            "cases": 1,
+            "counts": {
+              "PASS": 1
+            }
+          }
+        ],
+        "case_occurrences": 135
+      },
+      "declared_cases": 132,
+      "observed_cases": 132,
+      "smoke": 3,
+      "groups": 29,
+      "all_three_restore_components": true,
+      "payroll_delta": {
+        "stage": "R5_01_PAYROLL_CHECK_KNOWS_FG_REPAIR"
+      },
+      "reader_delta": {
+        "stage": "R5_02_REPORT_READERS_ACCOUNT_LOOKUP_ONCE",
+        "readers": 11,
+        "core_keys": 17
+      }
+    }
+  ],
+  "all8_full_f03_buckets_pass": true,
+  "source_scope": "Exact r4 workflow templates retargeted to pinned r5; external bootstrap attempts4->2, no application budget or business oracle raised.",
+  "p21_full": {
+    "run_id": 39237719084,
+    "source": {
+      "artifact_id": 12180282234,
+      "path": "ci_receipts/sol_artifacts/12180282234/files/CP7_P21_FULL_REHEARSAL.json",
+      "bytes": 13985859,
+      "sha256": "e8f4a232a0ef2e78aa5387d98bb65b6d98e6190597fb5ec6fe1f24508ccc662a"
+    },
+    "preuse_rollback_exact": true,
+    "reinstall_same_catalog": true,
+    "postuse_uninstall_refused": true,
+    "used_backup_new_copy_590_tables_equal": true,
+    "preinstall_backup_new_copy_equal": true,
+    "postuse_harness_exact_restore": false,
+    "postuse_restore_components": {
+      "erp_platform_auth_schema_acl": false,
+      "all_public_catalog_members_and_row_hashes": true,
+      "erp_public_auth_function_definitions_owners_acls": true
+    },
+    "postuse_business_tables_changed": 116,
+    "cluster_roles_after_preinstall_restore": 54
+  },
+  "k3_known_boundary": {
+    "run_id": 39237719026,
+    "source": {
+      "artifact_id": 12180955196,
+      "path": "ci_receipts/sol_artifacts/12180955196/files/CP7_K3_CLEANUP.json",
+      "bytes": 2372615,
+      "sha256": "607927b72e068282daa5f1d04be1cfc3e3de1d05397a589fe53137c3def939f4"
+    },
+    "raw_status": "PASS",
+    "replacement_write_before_mismatch": true,
+    "boundary": {
+      "replacement_kept": true,
+      "own_dropped_by_oid": {
+        "result": "DROPPED",
+        "oid": 2899327962,
+        "name": "k3c_own_moved_871cc40c0a"
+      },
+      "error": "('BACKUP_SCRATCH_REPLACED', 'after restore', 'k3c_own_scr_871cc40c0a_6d7aee6fd0f042d5')",
+      "boundary": "the restore wrote into the replacement; the replacement was not dropped"
+    },
+    "disposition": "KNOWN_OWNER_DEFERRED_CP7C_NOT_APPLIED"
+  },
+  "limits": [
+    "P21 PASS does not mean post-use uninstall restores committed data. Use the demonstrated new-copy backup restore.",
+    "No hosted/Enteng installation, physical cutover, Drive offsite or shadow period is claimed.",
+    "K3 expected refusal is not proof that replacement received no write."
+  ]
+}
