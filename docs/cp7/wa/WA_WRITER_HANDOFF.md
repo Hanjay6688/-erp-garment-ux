@@ -17,7 +17,7 @@ checkpoint.
 
 | Step | Content | State |
 |---|---|---|
-| WA-0 | CI stack facts: pg_net, Vault, pg_cron, fake CallMeBot on the stack network, pg_net serving a second database, rollback sends nothing | running |
+| WA-0 | CI stack facts: pg_net, Vault, pg_cron, fake CallMeBot on the stack network, pg_net serving a second database, rollback sends nothing | done (run 39266618659) |
 | WA-1 | Map install/test path (done: see below) | done |
 | WA-2a | `scripts/cp7-src/alerts/alerts.sql`: schema `cp7_alert_native` (role `cp7_alert`), `alerts`, `alert_settings`, Vault key, `wa_outbox`, `wa_dispatches`, trigger on `alerts`, sender + reconcile (pg_net), public RPCs; sources: owner's manual reminders, fabric below minimum, AR/AP due | todo |
 | WA-2b | Analysis-based kinds (FABRIC_NEED, ACCESSORY_NEED, PRODUCTION_GAP) from the latest DONE staged set + scheduled owner analysis; schedules in `cp7_ops.schedules()` with K3/K4/K6 schedule lists updated by declaration | todo |
@@ -41,6 +41,19 @@ checkpoint.
   K3/K4/K6 cases pin that list.
 - WA-0 first run (39261328722): pg_net 0.20.4 and pg_cron preloaded; `pg_net.database_name=postgres`; supabase_vault 0.3.1
   installed; `http` 1.6 available. The run hung in `createdb` (password prompt); fixed.
+- WA-0 third run (39266618659, job 118107749879, a638d592), all as printed by `scripts/cp7_wa_spike.sh`:
+  - Vault as `postgres`: `vault.create_secret` works and `vault.decrypted_secrets` returns the value; `authenticated` has
+    no SELECT on `vault.secrets` or `vault.decrypted_secrets`.
+  - `postgres` cannot set `pg_net.database_name` (permission denied). `supabase_admin` inside the db container can
+    (`alter system` + `pg_reload_conf()`), and after `net.worker_restart()` the worker serves the second database: fake
+    CallMeBot answered 200 "Message queued" and 500 for a FAIL text, both read back from `net._http_response`.
+  - A rolled-back `net.http_get` never reached the fake server (2 requests seen, rollback text 0 times).
+  - `net.http_request_queue` columns: id, method, url, headers, body, timeout_milliseconds (the query string, key
+    included, sits in `url` until the worker takes the row). Responses are kept 6 hours (`pg_net.ttl`).
+  - Back on `postgres` after `alter system reset`: 200 again. pg_cron exists only in `postgres` (its own database), so
+    cases call the tick functions directly; schedules are checked as rows, as K3 does.
+  - `vault_clone` printed nothing: probe bug (volatile `create_secret` in the WHERE of the read; the subquery returned
+    NULL). Not a fact either way; WA-3 cases check Vault in the harness clone itself.
 
 ## Checkpoint log
 
