@@ -13,11 +13,16 @@ Keputusan owner (19 Okt 2026), dikutip persis:
 **Aturannya:** apa pun yang muncul di Pengingat ERP langsung diteruskan ke WhatsApp Bos, otomatis, tanpa ada yang menekan
 tombol. Ditambah ringkasan jam 08.00 dan 15.00 (jamnya bisa diubah) berisi semua yang masih belum beres.
 
+Supaya "semua yang masuk Pengingat" benar-benar satu tempat, menu **Reminder** mendapat bagian baru **Pengingat sistem**: stok
+di bawah minimum, tagihan dan piutang jatuh tempo, kekurangan kain/aksesori untuk PO dan target produksi. Sekarang hal-hal
+itu tersebar di Ringkasan Gudang dan panel analisis. Pengingat pribadi yang diketik manual tetap di tempatnya. Setiap baris baru
+di Pengingat sistem (dan pengingat pribadi Bos yang waktunya tiba) langsung diteruskan ke WA.
+
 **Yang diteruskan:**
 
 | Yang muncul di Pengingat | Kapan masuk WA |
 |---|---|
-| Hal "Perlu perhatian" baru dari analisis (kekurangan kain/aksesori untuk PO, target produksi kurang, dan lainnya) | Beberapa detik sesudah muncul |
+| Kekurangan kain/aksesori untuk PO, target produksi kurang | Beberapa detik sesudah analisis selesai. Analisis dijalankan otomatis tiap 60 menit di jam kerja (bisa diubah, paling cepat 15 menit), dan juga setiap kali seseorang menjalankannya di aplikasi |
 | Pengingat aturan yang baru kena (tagihan supplier, piutang pelanggan, kewajiban lain) | Beberapa detik sesudah tercatat |
 | Pengingat pribadi Bos sendiri (yang dibuat di menu Reminder) | Saat waktunya tiba (paling lambat ±1 menit) |
 | Jatuh tempo yang tiba karena tanggal berganti | Paling lambat ±1 menit sesudah lewat |
@@ -70,149 +75,115 @@ atau dimatikan).
 
 ## Desain teknis
 
-### Prinsip
+Versi kedua (sesudah pemetaan modul pengingat): penerusan WA dan daftar Pengingat sistem dibuat sebagai modul sendiri. Modul
+pengingat yang sudah ada (`scripts/cp7-src/reminders/`) tidak diubah. Alasannya:
 
-- Satu kotak keluar (outbox) untuk semua sumber pengingat. Sumber hanya menaruh "sesuatu baru muncul"; satu pengirim
-  memeriksa ulang, menggabung, dan mengirim.
-- Mesin pengingat yang sudah ada (`scripts/cp7-src/reminders/`) tidak diubah perilakunya: kondisi, episode, kebijakan
-  (`cooldown_minutes`, `quiet`) dan pemeriksaan ulang dipakai apa adanya. Lingkungan klaim baru `CALLMEBOT_WA_SELF` di
-  samping `LOCAL_TEST_SINK`.
-- Semuanya di database: trigger dan pg_cron (tiap menit) mengisi outbox, pg_net mengirim permintaan web **sesudah transaksi
-  commit** (transaksi batal = tidak ada pesan), Supabase Vault menyimpan kunci. Tidak perlu Edge Function atau server
-  tambahan. Biaya Rp0.
-- Tidak ada trigger di tabel bisnis Native (stok, jurnal, penjualan). Trigger hanya di tabel milik `cp7_reminder_native`.
-- Paling banyak satu kali kirim per kejadian (at-most-once). Kiriman yang hasilnya tidak diketahui tidak dikirim ulang
-  otomatis.
-- Pengirim tidak menghitung angka bisnis; ia hanya membaca kondisi yang lolos pemeriksaan ulang.
+- Pengingat di modul lama dihitung saat seseorang membuka panel. Tidak ada aliran kejadian otomatis.
+- Klaim WA di tabel klaim lama akan muncul di panel lama dan ditolak oleh layarnya.
+- Pemeriksa bundle lama mengunci jumlah fungsi, trigger dan hak baca tabel `erp` peran `cp7_reminder`.
 
-### Sumber dan cara masuk outbox
+### Bagian
 
-| Sumber (tabel/rule yang sudah ada) | Dianggap "masuk" saat | Cara masuk outbox |
-|---|---|---|
-| `cp7_reminder_native.attention` (Perlu perhatian dari analisis) | baris baru `state='NEW'`, atau `SNOOZED` yang `resume_at`-nya tiba | Trigger `AFTER INSERT`; snooze lewat tick menit |
-| `cp7_reminder_native.rule_episodes`, `staged_episodes` (PRODUCTION_GAP, ACCESSORY_NEED, FABRIC_NEED, AR_DUE, AP_DUE) | episode baru `state='ACTIVE'` | Trigger `AFTER INSERT` |
-| `cp7_reminder_native.obligation_episodes` (AR, MATERIAL_AP, kewajiban lain bila sudah dipasang) | episode baru `state='ACTIVE'` | Trigger `AFTER INSERT` |
-| `erp.manual_reminders` milik owner (`owner_user_id` = owner, `status='OPEN'`) | `due_at` tiba | Tick menit (dibaca saja; tidak ada trigger di tabel Native ini) |
-| Jatuh tempo AR/AP yang tiba karena tanggal | tanggal WIB berganti / jam tertentu | Tick menit menjalankan pembaca langsung yang sudah ada; episode baru lalu masuk lewat trigger di atas |
-| Stok: `FABRIC_BELOW_MINIMUM`, `STOCK_AT_REORDER_POINT` (rule baru, di bawah) | kondisi baru terbuka | Tick menit; episode baru lalu masuk lewat trigger di atas |
-
-`attention` ditulis ulang per run analisis dan per pengguna (`actor`, `run_id`, `action_key`). Pengirim mengenali hal yang sama
-lewat `semantic_hash`: hal yang sama dari run analisis berikutnya (atau dari analisis staf) tidak dikirim lagi selama masih
-dalam jeda ulang; hanya `semantic_hash` yang belum pernah diteruskan atau yang muncul lagi sesudah beres yang dihitung baru.
-
-Trigger hanya menyisipkan satu baris kecil ke `wa_self_outbox` (`source`, `source_id`, `condition_key`, `seen_at`) dan tidak
-pernah gagal karena isi (tanpa validasi rumit, tanpa panggilan luar). Kalau settings mati, trigger tidak menulis apa pun.
-
-### Rule baru untuk stok
-
-| Rule | Kondisi terbuka | Sumber | Kunci kondisi |
-|---|---|---|---|
-| `FABRIC_BELOW_MINIMUM` | qty kain aktif di semua lokasi < `fabric_master_profiles.minimum_stock_qty` (> 0) | Rumus `low_hit` di `scripts/cp7-src/warehouse-summary/summary.sql`, dipindah ke satu fungsi baca bersama supaya layar Gudang dan pengingat tidak bisa berbeda | `FABRIC_BELOW_MINIMUM:<material_id>` |
-| `STOCK_AT_REORDER_POINT` | qty FG/bahan per lokasi ≤ `manual_reorder_point_qty` dari `erp.stock_policy_versions` yang berlaku (basis `MANUAL`) | Saldo stok Native per lokasi | `STOCK_AT_REORDER_POINT:<subject>:<id>:<location>` |
-
-`rule_policies` dan `policy_validate` menerima kedua rule (bawaan: aktif, cooldown 1.440 menit, jam tenang 21:00–06:00 WIB).
-Episode dan `recheck` mengikuti pola `AR_DUE`/`AP_DUE`. Tick menit hanya membaca bahan dengan stok minimum/titik pesan ulang
-(himpunan kecil), jadi murah.
-
-### Komponen
-
-| Komponen | Isi |
+| Bagian | Isi |
 |---|---|
-| `cp7_reminder_native.wa_self_settings` (revisi append-only, pola `rule_policies`) | `enabled`, `phone_e164`, `detail` (`SUMMARY` bawaan / `DETAILED`), `digest_times` (bawaan `08:00`,`15:00` WIB), `instant_enabled` (bawaan true), `sources` (bawaan semua), `repeat_minutes` (bawaan 1.440; 0 = tidak diulang), `burst_after_per_day` (bawaan 30), `burst_merge_minutes` (bawaan 30), `max_items` (bawaan 10), `quiet` (bawaan 21:00–06:00), `actor` (owner), `reason`, `created_at` |
-| Vault secret `cp7_callmebot_apikey` | Ditulis lewat `erp_cp7_set_wa_self_key_v1` (khusus owner). Tidak ada RPC yang membacanya kembali |
-| `cp7_reminder_native.wa_self_outbox` | Baris "muncul" dari trigger/tick: `id`, `source`, `source_id`, `condition_key`, `seen_at`, `dispatch_id` (null sampai dikirim/diputuskan), `outcome` (`SENT`, `RESOLVED_BEFORE_SEND`, `MERGED`, `HELD_QUIET`, `DISABLED`) |
-| `cp7_reminder_native.wa_self_dispatches` | Satu baris per pesan: `kind` (`INSTANT`, `DIGEST`, `TEST`), `slot`, `claim_ids[]`, `outbox_ids[]`, `body`, `body_sha256`, `net_request_id`, `status` (`QUEUED`, `PROVIDER_ACCEPTED`, `PROVIDER_REFUSED`, `UNKNOWN`, `NOTHING_DUE`, `HELD_QUIET`), `http_status`, `provider_text` (dipotong, tanpa kunci), `created_at`, `finished_at` |
-| `cp7_reminder_native.wa_self_tick()` (pg_cron tiap menit) | Isi outbox dari sumber berbasis waktu dan stok; kirim outbox yang menunggu; ringkasan bila slotnya tiba |
-| `cp7_reminder_native.wa_self_reconcile()` (pg_cron tiap menit) | Membaca `net._http_response` untuk dispatch `QUEUED` |
-| Layar "Sambungan WhatsApp" (halaman yang sudah ada di `src/cp7/Cp7Shell.tsx`) | Aktif/mati; nomor (disamarkan); kunci terpasang ya/tidak; sumber yang diteruskan; ulang tiap; batas gabung; jam tenang; Ringkas/Rinci; jam ringkasan; **Kirim pesan uji**; riwayat 30 kiriman terakhir dengan status |
+| Skema `cp7_alert_native`, peran `cp7_alert` (nologin, noinherit) | Pemilik semua tabel dan fungsi baru. Hak baca hanya yang dipakai pengumpul (dicek bundle seperti `cp7_reminder`) |
+| `alerts` | Satu baris per kejadian Pengingat sistem: `id`, `kind` (`FABRIC_BELOW_MINIMUM`, `STOCK_AT_REORDER_POINT`, `AR_DUE`, `AP_DUE`, `FABRIC_NEED`, `ACCESSORY_NEED`, `PRODUCTION_GAP`), `subject_key`, `episode` (naik bila muncul lagi sesudah beres), `title`, `detail` jsonb (angka dari sumber, tanpa hitungan baru), `party_names` jsonb (dipisah agar Ringkas bisa menyembunyikan), `source_hash`, `opened_at`, `resolved_at`, `state` (`OPEN`/`RESOLVED`). Satu `OPEN` per `kind+subject_key` (unique index parsial). Append-only kecuali penutupan |
+| `alert_settings` | Revisi append-only: `enabled`, `phone_e164`, `detail` (`SUMMARY` bawaan / `DETAILED`), `digest_times`, `kinds`, `repeat_minutes` (1.440), `burst_after_per_day` (30), `burst_merge_minutes` (30), `max_items` (10), `quiet` (21:00–06:00), `analysis_every_minutes` (60, minimal 15, `0` = mati), `analysis_hours` (07:00–20:00), `actor` (owner yang mengaktifkan) |
+| Vault secret `cp7_callmebot_apikey` | Ditulis lewat `erp_cp7_set_wa_key_v1` (khusus owner). Tidak ada RPC yang membacanya kembali |
+| `wa_outbox` | Diisi trigger `AFTER INSERT` pada `alerts` (kejadian baru) dan oleh tick untuk pengingat pribadi owner yang jatuh waktu dan untuk ulangan. Kolom: `source` (`ALERT`, `MANUAL_REMINDER`, `REPEAT`), `source_id`, `seen_at`, `dispatch_id`, `outcome` |
+| `wa_dispatches` | Satu baris per pesan (`INSTANT`, `DIGEST`, `TEST`), `body`, `body_sha256`, `net_request_id`, `status`, `http_status`, `provider_text`, waktu |
+| `cp7_alert_native.collect()` | Pengumpul. Sumber dibaca sebagai owner lewat pembaca yang sudah ada (pola K4: `request.jwt.claims` owner, akses dicek ulang tiap langkah, klaim dipulihkan sesudahnya). Membuka `alerts` baru dan menutup yang sudah beres |
+| `cp7_alert_native.wa_send()` / `wa_reconcile()` | Menggabung outbox, cek ulang, kirim lewat pg_net sesudah commit; membaca jawaban |
+| Jadwal (`cp7_ops.schedules()`, dipasang `scripts/cp7_schedule.py` bersama jadwal CP7 lain) | `cp7-alert-collect` tiap menit, `cp7-wa-send` tiap menit, `cp7-alert-analysis` sesuai `analysis_every_minutes`. Daftar jadwal di kasus K3/K4/K6 ditambah secara terdeklarasi |
+| RPC publik (`erp_cp7_*`, owner `cp7_alert`, `authenticated` saja) | `erp_cp7_get_alerts_v1` (daftar Pengingat sistem; izin baca per jenis), `erp_cp7_get_wa_settings_v1`, `erp_cp7_save_wa_settings_v1`, `erp_cp7_set_wa_key_v1`, `erp_cp7_send_wa_test_v1`, `erp_cp7_resolve_wa_dispatch_v1` (tandai "masuk"/"tidak masuk" untuk `UNKNOWN`) |
+| Layar | Menu Reminder: bagian Pengingat sistem (semua peran yang berhak melihat) dan tab "Sambungan WhatsApp" (khusus owner) |
 
-Identitas: tick berjalan sebagai peran `cp7_reminder` dengan identitas owner dari settings (pola penjalan server K4: akses
-dicek ulang tiap unit). Pengingat yang owner tidak berhak lihat tidak diteruskan.
+### Sumber pengumpul (dibaca sebagai owner, tanpa hitungan baru)
 
-### Alur kirim (tiap tick)
+| Jenis | Pembaca yang sudah ada |
+|---|---|
+| `FABRIC_BELOW_MINIMUM` | `low`/`low_hit` di `scripts/cp7-src/warehouse-summary/summary.sql` dipindah ke satu fungsi baca bersama (`cp7_warehouse_summary.fabric_below_minimum()`); Ringkasan Gudang dan pengumpul memakai fungsi yang sama. Uji gudang lama tetap harus lulus tanpa diubah |
+| `STOCK_AT_REORDER_POINT` | `erp.stock_policy_versions` yang berlaku (basis `MANUAL`) dibanding saldo stok Native per lokasi lewat pembaca kartu stok CP7 yang sudah ada. Diperiksa saat pembuatan: kalau tidak ada pembaca tanpa hitungan baru, jenis ini ditunda dan ditulis di "belum" |
+| `AR_DUE`, `AP_DUE` | `cp7_reminder_native.receivable_source()` / `payable_source()` (tidak butuh run analisis; izin `finance.ar.view` / `finance.ap.view`), aturan jatuh tempo yang sama dengan pengingat aturan |
+| `FABRIC_NEED`, `ACCESSORY_NEED`, `PRODUCTION_GAP` | Set kondisi staged `DONE` terbaru (milik siapa pun yang berhak; label "data analisis per <waktu>"), dicek ulang langsung lewat `staged_recheck` sebelum dibuka sebagai alert |
+| Pengingat pribadi owner | `erp.manual_reminders` milik owner, `status='OPEN'`, `due_at` tiba |
 
-1. Lock advisory `CP7:WA_SELF:TICK`; tick kedua yang bersamaan langsung selesai.
-2. Settings mati atau kunci tidak ada → outbox yang menunggu ditandai `DISABLED`; selesai.
-3. Isi outbox dari sumber berbasis waktu dan stok (tabel di atas).
-4. Ambil outbox yang menunggu. Untuk tiap baris, klaim lewat jalur klaim yang sudah ada dengan lingkungan `CALLMEBOT_WA_SELF`.
-   Pemeriksaan ulang ke data sekarang berjalan di sini. Yang bukan `STILL_OPEN` ditandai `RESOLVED_BEFORE_SEND` dengan
-   alasannya. `occurrence_key` mencegah dobel. Pengingat pribadi dan hal Perlu perhatian diperiksa masih `OPEN`/`NEW`.
-5. Jam tenang → `HELD_QUIET`; diproses lagi (dengan cek ulang) di tick pertama sesudah jam tenang.
-6. Gabung semua yang lolos jadi satu pesan, dikelompokkan per jenis, paling banyak `max_items` baris lalu "dan N lainnya",
-   maksimal 1.000 karakter. Kalau jumlah pesan hari ini ≥ `burst_after_per_day`, tahan dan gabung sampai
-   `burst_merge_minutes` lewat sejak pesan terakhir.
-7. Kirim (paling banyak satu pesan per tick): `net.http_get('https://api.callmebot.com/whatsapp.php', phone, text, apikey)`.
-   Kunci dibaca dari Vault di dalam fungsi `security definer` milik `cp7_reminder`, tidak pernah ditulis ke tabel ERP atau
-   log. Dispatch `QUEUED`.
-8. Ulangan: kondisi yang masih terbuka dan sudah dikirim masuk outbox lagi bila `repeat_minutes` lewat.
+Analisis otomatis: `cp7-alert-analysis` memulai satu analisis staged sebagai owner lewat RPC mulai yang sudah ada bila tidak ada
+analisis owner yang sedang berjalan; penjalan server K4 menyelesaikannya. Batas 8 detik per langkah dan semua pemeriksaan
+sumber/otoritas/hash tetap.
 
-Ringkasan (slot `digest_times`): lock per slot; semua yang masih terbuka dari semua sumber; klaim dengan `occurrence_key`
-milik slot (tidak memakan jeda pesan langsung); cek ulang; tidak ada yang terbuka → `NOTHING_DUE` tanpa pesan.
+### Alur kirim (tiap menit)
 
-Hasil (`wa_self_reconcile`):
-- HTTP 200 → `PROVIDER_ACCEPTED`; klaim selesai (status klaim baru `PROVIDER_ACCEPTED`).
-- HTTP lain → `PROVIDER_REFUSED`; klaim `SUPPRESSED` dengan alasan; outbox kembali menunggu (belum pernah terkirim).
-- Tidak ada jawaban sesudah 10 menit → `UNKNOWN`; tidak dikirim ulang otomatis; layar meminta owner menandai "masuk"/"tidak
-  masuk" (tabel resolusi yang sudah ada).
-- Tiga kegagalan berturut-turut → peringatan di layar Sambungan WhatsApp dan halaman Pengingat; pengiriman tetap dicoba.
+1. Lock advisory per tugas (`CP7:ALERT:COLLECT`, `CP7:WA:SEND`); tick kedua yang bersamaan langsung selesai.
+2. Settings mati atau kunci tidak ada → outbox ditandai `DISABLED`; tidak ada permintaan.
+3. Ambil outbox yang menunggu. Cek ulang tiap baris ke sumbernya sekarang (alert masih `OPEN` dan sumbernya masih terbuka;
+   pengingat pribadi masih `OPEN`). Yang sudah beres → `RESOLVED_BEFORE_SEND` dengan alasan.
+4. Jam tenang → `HELD_QUIET`, diproses lagi sesudah jam tenang dengan cek ulang.
+5. Gabung yang lolos jadi satu pesan, per jenis, paling banyak `max_items` baris lalu "dan N lainnya", maksimal 1.000 karakter.
+   Sesudah `burst_after_per_day` pesan, gabung per `burst_merge_minutes`. Tidak ada yang dibuang.
+6. Kirim satu pesan per tick: `net.http_get('https://api.callmebot.com/whatsapp.php', phone, text, apikey)`. Kunci dibaca dari
+   Vault di dalam fungsi `security definer` milik `cp7_alert`; tidak pernah ditulis ke tabel ERP atau log. pg_net mengirim
+   sesudah transaksi commit, jadi transaksi yang batal tidak mengirim apa pun.
+7. `wa_reconcile`: HTTP 200 → `PROVIDER_ACCEPTED`; HTTP lain → `PROVIDER_REFUSED`, outbox menunggu lagi; tidak ada jawaban
+   sesudah 10 menit → `UNKNOWN`, tidak dikirim ulang otomatis, owner menandai di layar.
+8. Ulangan: alert yang masih `OPEN` dan sudah dikirim masuk outbox lagi bila `repeat_minutes` lewat.
 
-Pesan uji: `erp_cp7_send_wa_self_test_v1`, satu pesan tetap ("ERP Enteng: pesan uji <jam>"), dispatch `TEST`, paling banyak
-3 per jam.
+Ringkasan: per slot `digest_times`, semua alert `OPEN` dan pengingat pribadi owner yang terbuka; tidak memakan jeda ulang;
+`NOTHING_DUE` tanpa pesan.
+
+Pesan uji: `erp_cp7_send_wa_test_v1`, satu pesan tetap, paling banyak 3 per jam.
 
 ### Keamanan dan izin
 
-- Semua RPC baru hanya owner (`erp.require_owner_admin()`) dan mengikuti fasad CP7: `authenticated` hanya memanggil RPC
-  publik `erp_cp7_*`; fungsi dan tabel di `cp7_reminder_native` tidak bisa dipakai peran browser (FABLE-012 tetap berlaku).
-- Kunci: Vault, tulis-saja. Tidak ada di repo, chat, artifact CI, outbox atau dispatch. Uji mencari nilai kunci di semua tabel
-  `cp7_*`/`erp` dan log job: harus nol.
-- `net.http_request_queue` menyimpan URL berisi kunci sampai permintaan diproses, dan hanya bisa dibaca superuser/peran
-  Supabase. Batas ini diterima dan dicatat; alternatifnya Edge Function dengan secret, kalau auditor menolak.
-- `SUMMARY` memuat nama kain/barang tetapi tidak memuat nama supplier, pelanggan, mandor, nomor HP atau alamat.
-- Pengingat pribadi staf tidak pernah dibaca pengirim (filter `owner_user_id` = owner di settings).
+- RPC pengaturan, kunci dan uji hanya owner (`erp.require_owner_admin()` plus peran OWNER). `erp_cp7_get_alerts_v1` mengikuti
+  izin baca per jenis (gudang/bahan untuk stok, `finance.ar.view`/`finance.ap.view`, izin analisis untuk kebutuhan produksi).
+- Kunci: Vault, tulis-saja; tidak ada di repo, chat, artifact CI, outbox atau dispatch. Uji mencari nilai kunci di semua tabel
+  `cp7_*`/`erp` dan log job.
+- `net.http_request_queue` menyimpan URL berisi kunci sampai permintaan diproses; hanya superuser/peran Supabase yang bisa
+  membacanya. Batas ini dicatat; alternatifnya Edge Function dengan secret bila auditor menolak.
+- `SUMMARY` menyembunyikan `party_names` (supplier, pelanggan, mandor); nama kain/barang tetap.
+- Pengingat pribadi staf tidak pernah dibaca.
+- Tidak ada trigger di tabel bisnis Native. Satu-satunya trigger baru ada di `cp7_alert_native.alerts`.
 
 ### Uji (sebelum pemasangan; tidak ada pesan sungguhan)
 
-CI memakai server CallMeBot palsu (HTTP lokal di runner) yang mencatat permintaan dan bisa menjawab 200, 500 atau diam.
-pg_net diarahkan ke alamat palsu lewat setting uji; alamat asli hanya di pemasangan.
+Server CallMeBot palsu berjalan sebagai kontainer di jaringan docker stack Supabase CI. Uji kelayakan WA-0 (workflow "CP7 WA
+Forward") memastikan dulu bahwa pg_net dan Vault tersedia dan pg_net bisa melayani database salinan uji.
 
 | Uji | Yang dibuktikan |
 |---|---|
-| Native: tiap sumber (attention baru, episode aturan baru, episode kewajiban baru, pengingat pribadi owner jatuh waktu, jatuh tempo karena tanggal, kain di bawah minimum, titik pesan ulang) | Masuk outbox dan terkirim; waktu dari muncul sampai permintaan tercatat (target: trigger < 1 tick, waktu/stok ≤ 2 tick) |
-| Native: transaksi yang membuat episode lalu batal (rollback) | Tidak ada outbox, tidak ada permintaan |
-| Native: analisis dijalankan dua kali (owner, lalu staf) dengan hal Perlu perhatian yang sama | Satu kiriman; analisis kedua tidak mengirim ulang |
-| Native: kondisi beres sebelum tick | Tidak dikirim; `RESOLVED_BEFORE_SEND` dengan alasan |
-| Native: masih terbuka, ulang belum lewat / sudah lewat | Tidak dobel / dikirim ulang sekali |
-| Native: 10 hal muncul di menit yang sama | Satu pesan |
-| Native: lewat 30 pesan sehari | Pesan berikutnya digabung tiap 30 menit; tidak ada yang hilang (jumlah outbox = jumlah yang terkirim/tergabung/beres) |
-| Native: jam tenang | `HELD_QUIET` lalu dikirim 06:00 dengan cek ulang |
-| Native: ringkasan | Semua yang terbuka masuk; tidak memakan jeda pesan langsung; `NOTHING_DUE` tanpa pesan |
+| Native per jenis sumber | Muncul di `alerts`, masuk WA; isi sama dengan layar asalnya (Ringkasan Gudang, AR/AP, analisis) |
+| Native: pengingat pribadi owner jatuh waktu; milik staf | Terkirim; milik staf tidak pernah masuk outbox |
+| Native: transaksi yang membuka alert lalu batal | Tidak ada outbox, tidak ada permintaan |
+| Native: beres sebelum kirim | `RESOLVED_BEFORE_SEND` dengan alasan |
+| Native: muncul lagi sesudah beres | Episode baru, terkirim lagi |
+| Native: ulang belum lewat / sudah lewat | Tidak dobel / sekali |
+| Native: banyak dalam satu menit; lewat 30 pesan sehari | Satu pesan; digabung tiap 30 menit; jumlah outbox = terkirim + tergabung + beres |
+| Native: jam tenang; ringkasan | `HELD_QUIET` lalu kirim 06:00; ringkasan memuat semua yang terbuka |
 | Native: 200 / 500 / diam | `PROVIDER_ACCEPTED` / `PROVIDER_REFUSED` lalu kirim lagi / `UNKNOWN` tanpa kirim ulang |
-| Native: mati, tanpa kunci | Tidak ada permintaan ke server palsu; trigger tidak menulis |
-| Native: trigger tidak mengganggu | Transaksi yang membuat episode/attention tetap berhasil dengan outbox penuh atau settings rusak |
-| Native: kunci | Tidak terbaca lewat RPC mana pun; tidak ada di tabel ERP, outbox, dispatch atau log |
-| Native: privasi | `SUMMARY` tanpa nama supplier/pelanggan/mandor; pengingat pribadi staf tidak pernah masuk outbox |
-| Native: izin | Non-owner ditolak di semua RPC baru; pengingat yang owner tidak berhak lihat tidak diteruskan |
-| Race: dua tick bersamaan; ringkasan dan tick bersamaan; episode dibuat saat tick berjalan | Satu dispatch per tick/slot; tidak ada kiriman dobel atau outbox yatim |
-| Race: kain diterima saat tick berjalan | Dikirim hanya kalau masih di bawah minimum saat diklaim |
-| HTTP Auth nyata | Owner bisa set kunci/aktifkan/kirim uji; staf ditolak 42501 |
-| Browser desktop + HP | Layar Sambungan WhatsApp: isi kunci, kirim uji (server palsu), atur sumber/ulang/gabung, riwayat, matikan |
+| Native: mati, tanpa kunci | Tidak ada permintaan |
+| Native: kunci | Tidak terbaca lewat RPC mana pun; tidak ada di tabel, outbox, dispatch, log |
+| Native: privasi dan izin | `SUMMARY` tanpa nama pihak; non-owner ditolak di RPC pengaturan; daftar Pengingat sistem mengikuti izin baca |
+| Native: Ringkasan Gudang | Uji gudang lama lulus tanpa diubah sesudah `low_hit` dipindah ke fungsi bersama |
+| Race | Dua tick bersamaan; ringkasan dan tick; alert dibuka saat tick berjalan; stok diterima saat tick: satu dispatch, tidak dobel, tidak ada outbox yatim |
+| HTTP Auth nyata | Owner set kunci/aktifkan/kirim uji; staf ditolak 42501; daftar Pengingat sistem per peran |
+| Browser desktop + HP | Menu Reminder: Pengingat sistem; tab Sambungan WhatsApp: isi kunci, kirim uji (server palsu), atur, riwayat, matikan |
+| Pasang/copot | Bundle terpasang di atas tumpukan CP7 lengkap; pencopotan memulihkan katalog, jadwal dan isi `cp7_*` lain persis |
 
 ### Pemasangan
 
-Ikut CP7C (ditahan, D13-9a): butuh pg_cron (jadwal tiap menit), pg_net dan Vault aktif di Enteng (dicek saat preflight), dan
-pemasangan sesudah backup awal terverifikasi. Pesan sungguhan pertama hanya **pesan uji** yang ditekan owner sendiri.
-Penulis tidak mengirim pesan apa pun.
+Ikut CP7C (ditahan, D13-9a): pg_cron, pg_net dan Vault aktif di Enteng (dicek saat preflight); pemasangan sesudah backup awal
+terverifikasi. Pesan sungguhan pertama hanya **pesan uji** yang ditekan owner sendiri. Penulis tidak mengirim pesan apa pun.
 
 ### Belum pasti (dicek saat pembuatan atau pemasangan)
 
 - Format dan metode API CallMeBot (GET dengan `phone`, `text`, `apikey` menurut tutorial; sumber lain menyebut POST) serta
   teks jawaban suksesnya. Desain ini hanya memakai HTTP 200 sebagai tanda diterima.
-- Batas kirim CallMeBot (tidak ditemukan angka resmi). Bawaan desain: maksimal satu pesan per menit, digabung tiap 30 menit
-  sesudah 30 pesan sehari; angkanya bisa diubah di aplikasi.
+- Batas kirim CallMeBot (tidak ditemukan angka resmi). Bawaan: satu pesan per menit, digabung tiap 30 menit sesudah 30
+  pesan sehari.
 - Apakah "pemakaian pribadi" mencakup pengingat usaha ke nomor owner sendiri. Owner memilih CallMeBot dengan catatan ini.
-- `STOCK_AT_REORDER_POINT` hanya berguna bila titik pesan ulang sudah diatur di Kebijakan stok; layar CP7 untuk mengaturnya
-  diperiksa saat pembuatan (yang pasti ada: stok minimum kain di data Kain).
-- Kewajiban lain (`other-obligation-source.sql`) masih draf; diteruskan begitu sumbernya dipasang.
+- `STOCK_AT_REORDER_POINT`: ada atau tidaknya pembaca saldo per lokasi tanpa hitungan baru (lihat tabel sumber).
+- Kewajiban lain (`other-obligation-source.sql`) masih draf; ditambahkan sebagai jenis alert begitu sumbernya dipasang.
 
 Sumber: https://www.callmebot.com/blog/free-api-whatsapp-messages/ ; https://www.callmebot.com/tag/free/ (lewat pencarian,
 19 Okt 2026). Perbandingan pilihan: `WA_PILIHAN_PENGIRIMAN_20261019.md`.
