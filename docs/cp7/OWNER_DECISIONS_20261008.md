@@ -670,3 +670,16 @@ owner saat itu juga, bukan hanya tujuh pemicu. Yang tercatat sebagai baris di ta
 (hitungan detik); yang muncul karena waktu (jatuh tempo, pengingat pribadi yang waktunya tiba) dan stok dicek tiap menit,
 tanpa trigger di tabel transaksi gudang. Ringkasan dua kali sehari tetap. Desain:
 `docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md`.
+
+### D17-6 (owner ke penulis Claude, 19 Okt 2026 WIB, jawaban "mau saya mulai buat sekarang?")
+
+Pertanyaan penulis: "Saya perlu Bos memutuskan: mau saya mulai buat sekarang? Pengujiannya pakai server CallMeBot palsu, jadi
+tidak ada pesan sungguhan dan tidak dipasang ke Enteng. Ya atau tidak?"
+
+Owner (persis): "karna safety stock dll bakal masuk reminder anyway. ya boleh pake yg palsu gw perlu kasi no hape?"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): penulis membangun penerusan pengingat ke WhatsApp sesuai
+`docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md`, diuji dengan server CallMeBot palsu di CI. Pengingat stok (safety stock dan
+sejenisnya) adalah pengingat biasa dan lewat jalur yang sama. Nomor HP tidak diminta: uji memakai nomor contoh; nomor asli
+dan kunci diisi owner sendiri di layar aplikasi saat pemasangan (CP7C, ditahan D13-9a), tidak lewat chat. Tidak ada pesan
+sungguhan dan tidak ada pemasangan ke Enteng.
