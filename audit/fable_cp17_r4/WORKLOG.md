@@ -32,3 +32,19 @@
 
 Modul sensus sengaja tidak diubah dari r3 (sha sama dengan kunci r3), supaya hasilnya sebanding; vonis Dashboard dibaca
 terhadap oracle 1 tertulis (pemberitahuan tanpa angka diizinkan), sama dengan r3.
+
+## CP3b — probe r4 v1 (run 39185025017) kosong maknanya: kesalahan alat saya
+- `GUARD_SAME_ANSWER_MATRIX` v1 berstatus PASS tetapi **bukan bukti**. `authenticated` dan `anon` tidak punya EXECUTE
+  pada `erp.require_internal()`, sehingga pembungkus invoker saya berhenti di "permission denied" untuk kedua versi.
+  Koneksi kedua juga tidak melihat pengguna aplikasi yang di-commit, jadi matriks hanya punya UNKNOWN_USER, JWT tanpa sub,
+  anon dan service_role. Hanya service_role yang mencapai penjaga (ALLOW = ALLOW). Syarat "bermakna" v1 terlalu lemah,
+  karena menerima penolakan hak sebagai penolakan. Dicatat terbuka sebagai AUDITOR_TOOL; log run pertama disimpan
+  (`runs/PROBES_R4_v1_39185025017.json`).
+- `FG_REVERSAL_PATHS` v1: data FG kosong pada titik itu. Satu-satunya fungsi yang meng-insert gerakan FG adalah
+  `erp.post_fg_movement()`, yang tidak mengisi `reversal_of_id`; pembalik mengisinya lewat UPDATE. Tidak ada trigger atau
+  constraint tabel yang melarang pembalik dari pembalik (hanya FK, cek tipe, cek qty≠0, penjaga tanggal masa depan,
+  penjaga cutover, penjaga tabel sistem).
+- Perbaikan alat v2 (oracle sama, syarat "bermakna" diperketat, lihat docstring): pembungkus SECURITY DEFINER milik
+  postgres seperti fasad CP7; satu pengguna aplikasi per kode peran dan satu OWNER nonaktif di-commit untuk matriks;
+  FRESH wajib ALLOW untuk peran internal dan wajib memunculkan penolakan penjaga sendiri. FG: daftar semua badan fungsi
+  terpasang yang mengisi `reversal_of_id`.

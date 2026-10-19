@@ -12,6 +12,11 @@ FABLE_R4:GUARD_SAME_ANSWER_MATRIX — R4-05 claim: erp.require_internal() with i
   COMMITTED_ROW_EARLIER (a sales context row committed by an earlier transaction of the same backend).
   Any cell where the two answers differ -> COUNTEREXAMPLE. FAIL when the matrix is not meaningful: no internal identity
   allowed at FRESH, no refusal at FRESH, or a FRESH cell already had a transaction id before the call.
+  Tool v2 (after run 39185025017, whose matrix never reached the guard: `authenticated`/`anon` cannot EXECUTE
+  erp.require_internal() and no committed app user existed, so every refusal was a privilege error): the wrapper is SECURITY
+  DEFINER owned by postgres, as the CP7 facades call the guard; one app user per erp.app_roles code plus an inactive OWNER
+  is committed on the second connection for the matrix. Stricter, never looser: FRESH must ALLOW an internal app role
+  (OWNER/ADMIN/STAFF) and must show the guard's own refusal 'Internal ERP access required', else FAIL.
 
 FABLE_R4:FG_REVERSAL_PATHS — R4-02 excludes from "use" a negative movement that reverses a positive inflow. That would hide
   an active use only if such an outflow can re-establish one: a reversal of a reversal of an outflow, or a reversal of a
@@ -19,6 +24,8 @@ FABLE_R4:FG_REVERSAL_PATHS — R4-02 excludes from "use" a negative movement tha
   read (status INFO, not a verdict): movement shapes present in the data (type, sign, target type, target sign), every
   installed function body that inserts into erp.fg_stock_movements (statement excerpts), and whether a direct insert of a
   reversal of a positive REVERSAL row is refused by the table's own constraints/triggers (savepoint, rolled back).
+  Tool v2: erp.post_fg_movement() inserts without reversal_of_id; reversers set it afterwards by UPDATE, so every installed
+  body that sets reversal_of_id is listed too, with the statements before it that choose the reversed rows.
 """
 import hashlib,json,re,uuid
 import psycopg
@@ -52,7 +59,7 @@ def cases(cur,today):
             out['removed_lines']=len(body.splitlines())-len(before.splitlines())
             c.execute('create schema fable_r4_guard');c.execute(copy,prepare=False)
             c.execute('alter function fable_r4_guard.guard_before() owner to '+owner)
-            c.execute("""create function fable_r4_guard.answer(p_before boolean)returns text language plpgsql security invoker set search_path='' as $f$
+            c.execute("""create function fable_r4_guard.answer(p_before boolean)returns text language plpgsql security definer set search_path='' as $f$
 begin
  if p_before then perform fable_r4_guard.guard_before();else perform erp.require_internal();end if;
  return 'ALLOW';
@@ -64,13 +71,24 @@ end $f$""",prepare=False)
                 acl[role]=c.execute("select has_function_privilege(%s,'erp.require_internal()','EXECUTE')",(role,)).fetchone()[0]
                 if acl[role]:c.execute(f'grant execute on function fable_r4_guard.guard_before() to {role}')
             c.execute('revoke execute on function fable_r4_guard.guard_before() from public')
+            c.execute('alter function fable_r4_guard.answer(boolean) owner to postgres')
+            # One committed app user per role code, plus an inactive OWNER (the facades' callers).
+            made=[]
+            for code in [r[0] for r in c.execute('select role_code from erp.app_roles order by role_code').fetchall()]+['OWNER#INACTIVE']:
+                sub=str(uuid.uuid4());rc=code.split('#')[0]
+                c.execute('savepoint fable_user')
+                try:
+                    c.execute("insert into auth.users(id,aud,role,email) values(%s,'authenticated','authenticated',%s)",(sub,'fable-r4-'+sub[:8]+'@example.test'))
+                    c.execute("insert into erp.app_users(auth_user_id,full_name,role,role_id,is_active) select %s,%s,role_code,id,%s from erp.app_roles where role_code=%s",
+                              (sub,'Fable r4 '+code,not code.endswith('#INACTIVE'),rc))
+                    c.execute('release savepoint fable_user');made.append((code,sub))
+                except Exception as e:
+                    c.execute('rollback to savepoint fable_user');out.setdefault('users_not_made',[]).append([code,str(e).split(chr(10))[0][:200]])
+            out['users_made']=[m[0] for m in made]
             out['execute_on_guard']=acl
             conn.commit()
-            users=c.execute("""select distinct on(u.role,u.is_active) u.role,u.is_active,u.auth_user_id::text from erp.app_users u
-                               where u.auth_user_id is not null order by u.role,u.is_active,u.auth_user_id""").fetchall()
-            conn.rollback()
             ident={}
-            for role,active,sub in users:ident[('APP_'+str(role)+('' if active else '_INACTIVE'))]=(sub,'authenticated')
+            for code,sub in made:ident['APP_'+code.replace('#','_')]=(sub,'authenticated')
             ident['UNKNOWN_USER']=(str(uuid.uuid4()),'authenticated');ident['JWT_WITHOUT_SUB']=(None,'authenticated')
             ident['ANON']=(None,'anon');ident['SERVICE_ROLE']=(str(uuid.uuid4()),'service_role')
             out['identities']={k:v[1] for k,v in ident.items()}
@@ -106,7 +124,10 @@ end $f$""",prepare=False)
                         if o[1] or n[1]:fresh_had_xid.append(name)
             if earlier is not None:
                 c.execute('delete from cp7_sales.command_context where backend_pid=pg_backend_pid() and transaction_id=%s',(earlier,));conn.commit()
-            meaningful=bool(fresh_allow) and bool(fresh_refuse) and not fresh_had_xid
+            guard_refusal=[k for k,v in out['cells'].items() if k.endswith('/FRESH') and 'Internal ERP access required' in str(v.get('after'))]
+            internal_allow=[n for n in fresh_allow if n in('APP_OWNER','APP_ADMIN','APP_STAFF')]
+            meaningful=bool(internal_allow) and bool(guard_refusal) and not fresh_had_xid
+            out.update(internal_allow_at_fresh=internal_allow,guard_refusal_at_fresh=guard_refusal)
             out.update(differences=bad,fresh_allow=fresh_allow,fresh_refuse=fresh_refuse,fresh_had_xid=fresh_had_xid,
                        status='COUNTEREXAMPLE' if bad else ('PASS' if meaningful else 'FAIL'),
                        oracle='R4-05: installed guard and the same guard without its probe answer alike in every cell')
@@ -114,6 +135,10 @@ end $f$""",prepare=False)
         finally:
             try:
                 conn.rollback();c.execute('drop schema if exists fable_r4_guard cascade');conn.commit()
+                for code,sub in locals().get('made') or []:
+                    try:
+                        c.execute('delete from erp.app_users where auth_user_id=%s',(sub,));c.execute('delete from auth.users where id=%s',(sub,));conn.commit()
+                    except Exception as e:conn.rollback();out.setdefault('cleanup_left',[]).append([code,str(e)[:160]])
             finally:conn.close()
 
     def fg_paths():
@@ -129,6 +154,11 @@ end $f$""",prepare=False)
         for oid,src in cur.execute("""select p.oid::regprocedure::text,p.prosrc from pg_proc p join pg_namespace n on n.oid=p.pronamespace
                                       where p.prosrc ~* 'insert\\s+into\\s+erp\\.fg_stock_movements' order by 1""").fetchall():
             writers[oid]=[re.sub(r'\s+',' ',m.group(0))[:900] for m in re.finditer(r'insert\s+into\s+erp\.fg_stock_movements.*?;',src,re.S|re.I)]
+        reversers={}
+        for oid,src in cur.execute("""select p.oid::regprocedure::text,p.prosrc from pg_proc p
+                                      where p.prosrc ~* 'set\\s+reversal_of_id' order by 1""").fetchall():
+            reversers[oid]=[re.sub(r'\s+',' ',src[max(0,m.start()-1400):m.end()+120])
+                            for m in re.finditer(r'set\s+reversal_of_id',src,re.I)][:3]
         attempt=None
         row=cur.execute("""select m.id from erp.fg_stock_movements m join erp.fg_stock_movements o on o.id=m.reversal_of_id
                            where m.movement_type='REVERSAL' and m.qty_signed>0 and o.qty_signed<0 order by m.id limit 1""").fetchone()
@@ -143,7 +173,7 @@ end $f$""",prepare=False)
             except Exception as e:attempt='REFUSED: '+str(e).split('\n')[0][:300]
             finally:cur.execute('rollback to savepoint fable_r4_rr');cur.execute('release savepoint fable_r4_rr');misc.b.api.admin(cur)
         return dict(status='INFO',shapes=[list(map(str,r)) for r in shapes],constraints=constraints,
-                    triggers=[[a,b,str(c),d] for a,b,c,d in triggers],writers=writers,reversal_of_reversal_direct_insert=attempt,
+                    triggers=[[a,b,str(c),d] for a,b,c,d in triggers],writers=writers,reversers=reversers,reversal_of_reversal_direct_insert=attempt,
                     note='read by the auditor; not a verdict')
 
     return [('FABLE_R4:GUARD_SAME_ANSWER_MATRIX',guard_matrix),('FABLE_R4:FG_REVERSAL_PATHS',fg_paths)]
