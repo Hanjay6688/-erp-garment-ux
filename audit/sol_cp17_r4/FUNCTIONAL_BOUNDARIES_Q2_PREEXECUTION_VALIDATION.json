@@ -1,0 +1,19 @@
+{
+  "state": "STATIC_AND_PURE_METADATA_ONLY_NO_PRODUCT_CASES_RUN",
+  "three_stable_ids_only": true,
+  "five_original_PASS_excluded": true,
+  "all_hashes_verified": true,
+  "actual_pass_gate_positive": 1,
+  "actual_pass_gate_negative": 8,
+  "client27_controls_and_literals_unchanged": true,
+  "cache_check_body_and_two_named_deltas_unchanged": true,
+  "raw_ap_and_GL_cent_dimensions_separate": true,
+  "source_derivative_syntax": {
+    "node": "v24.19.0",
+    "source_derivatives_syntax_only": true,
+    "helpers_executed": false
+  },
+  "parsed_workflow_changes_only_names_entrypoint_artifact": true,
+  "permissions_setup_budget_unchanged": true,
+  "product_diff_empty": true
+}

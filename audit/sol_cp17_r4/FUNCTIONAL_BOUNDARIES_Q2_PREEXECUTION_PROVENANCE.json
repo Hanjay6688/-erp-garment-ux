@@ -1,0 +1,54 @@
+{
+  "state": "AUDIT_ONLY_THREE_GENUINE_TOOL_ORACLE_QUALIFICATIONS_READY_FOR_NORMAL_REVIEW",
+  "parent_expected": "ed16d24a95f0a8fd022803e82f011ff578de884a",
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "sensitive_private_or_unrelated_data": false,
+  "product_diff_empty": true,
+  "initial_results_retained": true,
+  "five_PASS_not_repeated": true,
+  "scope": "Three same stable IDs only: distinguish raw AP6decimal from actual GLcent, erase types for unchanged27purehelper controls, and correct read-only own-equity cache selector. No fact/guard/trigger/grant edits.",
+  "files": [
+    {
+      "path": ".github/workflows/audit-sol-r4-functional-boundaries-q2.yml",
+      "bytes": 9628,
+      "sha256": "c03ce41b936029d7e228bea66cc81559ea63bdd27cca21823e53e5aaf58e7a03"
+    },
+    {
+      "path": "audit/sol_cp17_r4/numeric_boundary_q2_cases.py",
+      "bytes": 4876,
+      "sha256": "4233a25d672091192ce301ef55073205dd2c0521510c58f4cc549302c743b898"
+    },
+    {
+      "path": "audit/sol_cp17_r4/numeric_boundary_client_q2.mjs",
+      "bytes": 3486,
+      "sha256": "0562c5c35009db021757139c73ea008c90b70909832885926ae0e5da191e3ea0"
+    },
+    {
+      "path": "audit/sol_cp17_r4/cache_detector_q2_cases.py",
+      "bytes": 4253,
+      "sha256": "538ab71caf0c5a8cc994c671426afd897c26e11dc1fc7c6b62e5d4d0919e47bc"
+    },
+    {
+      "path": "audit/sol_cp17_r4/functional_boundaries_q2_qualification.py",
+      "bytes": 5114,
+      "sha256": "ae84800d14462b1d054daf0f325af798475496d954ce6c28a719ff8ab0f5ac46"
+    },
+    {
+      "path": "audit/sol_cp17_r4/functional_boundaries_q2_validate.py",
+      "bytes": 7277,
+      "sha256": "e223d54746fd521bba1b54294c32f5866bcf3cd02ee3cca75bf7018d3d0f5aad"
+    },
+    {
+      "path": "audit/sol_cp17_r4/FUNCTIONAL_BOUNDARIES_Q2_PREEXECUTION_MANIFEST.json",
+      "bytes": 13724,
+      "sha256": "ff6a1e55fe4af979aa78761ce199668ca18f93bc359ef89a7083326e4cd90cbb"
+    },
+    {
+      "path": "audit/sol_cp17_r4/FUNCTIONAL_BOUNDARIES_Q2_PREEXECUTION_VALIDATION.json",
+      "bytes": 677,
+      "sha256": "fe9ed14935221c20b65089a2e95153e432003d67e48b6c14f5e1a8fb4b7fbb44"
+    }
+  ]
+}
