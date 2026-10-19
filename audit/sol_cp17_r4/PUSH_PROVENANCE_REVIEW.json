@@ -1,0 +1,44 @@
+{
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "parent_candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "payload_scope": "AUDIT_ONLY_NO_PRODUCT_MODIFICATIONS",
+  "sensitive_data_review": "Only public pinned source, synthetic fixture descriptions, SHA metadata and own audit text. No credentials, private endpoints, user data, local extras, raw archives or screenshots.",
+  "files": [
+    {
+      "path": ".github/workflows/audit-sol-r4-cp17.yml",
+      "bytes": 10754,
+      "sha256": "9f37e8f81cd3be5fd36cf5faf412b8579f98ef05b38eecb5e384ac0c8a0608fe"
+    },
+    {
+      "path": "audit/sol_cp17_r4/record_candidate.py",
+      "bytes": 2728,
+      "sha256": "7454127458ef8b6d9825e16f2669b32f596652f6d21bdd04924f3310cd473dde"
+    },
+    {
+      "path": "audit/sol_cp17_r4/CP17_PREEXECUTION_MANIFEST.json",
+      "bytes": 20844,
+      "sha256": "bf0800d04f2f8d9b476fc907cd035a7a88d188e7fa9b5addcc02a188892a4588"
+    },
+    {
+      "path": "audit/sol_cp17_r4/PREEXECUTION_PLAN.md",
+      "bytes": 7929,
+      "sha256": "3f0222c96c1bc03c209cf7a4ba2113e6e4af3ecec6b17e74ab47c12900ff5911"
+    },
+    {
+      "path": "audit/sol_cp17_r4/WORKFLOW_VALIDATION.json",
+      "bytes": 1447,
+      "sha256": "8277d35a2bc93a87f01be7e7c30b48d7ad482bc659b4a0fb9ff207f850011e81"
+    }
+  ],
+  "side_effects": [
+    "Create audit-only commit and own branch",
+    "One independent disposable CP17 GitHub Actions qualification on push; no writer/main/hosted changes"
+  ],
+  "reviewed_harness_changes": [
+    "own audit name, run name, branch/path triggers, artifact prefix, concurrency",
+    "auditor checkout pinned to candidate, separate own audit checkout",
+    "read-only before/after identity hooks; no test or product edits"
+  ],
+  "r3_held_probes_included": false
+}

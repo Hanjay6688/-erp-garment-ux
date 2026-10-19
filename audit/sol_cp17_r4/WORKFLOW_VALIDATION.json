@@ -1,0 +1,50 @@
+{
+  "scope": "READ_ONLY_METADATA_VALIDATION_ONLY_NO_BUSINESS_PROBE",
+  "parsed_workflow_step_deltas": [
+    1,
+    20
+  ],
+  "source_steps": 21,
+  "own_steps": 24,
+  "case_declaration": {
+    "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+    "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+    "product_roots": {
+      "src": "c3008b5bc5662a3ed2d5ab8bc064233ba65a0a1e",
+      "supabase": "5d040436db384b4e574785376367b360a084acb7",
+      "scripts": "793d6ea67f482254a5baff04cfa6e83d306ca091",
+      "package.json": "8707f6817acfc294caeab8aa54496df5b8dde04e",
+      "package-lock.json": "ca9159d26989e0263b6b757f5f824bd9333d8cf6",
+      "index.html": "4912086ce24a0fb4f7dfc2b03e3cefdcbee8f91c",
+      "vite.config.ts": "4d782219003da02d024ed397e11abb686694c1cb"
+    },
+    "product_worktree_clean": true,
+    "declaration_sha256": "53fb2f86e1044070a14e86a420b8d05fd885282c4ccff7b4cd58d70c5fadb64e",
+    "required_case_counts": {
+      "native": 161,
+      "races": 39,
+      "http": 27,
+      "browser": 57,
+      "browser_enteng": 57
+    },
+    "required_unique_case_ids": 341
+  },
+  "tests": [
+    {
+      "id": "IDENTITY_CORRECT_CANDIDATE",
+      "status": "PASS"
+    },
+    {
+      "id": "WRONG_HEAD",
+      "status": "PASS_EXPECTED_REFUSAL"
+    },
+    {
+      "id": "WRONG_TREE",
+      "status": "PASS_EXPECTED_REFUSAL"
+    },
+    {
+      "id": "DIRTY_PRODUCT",
+      "status": "PASS_EXPECTED_REFUSAL"
+    }
+  ]
+}
