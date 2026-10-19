@@ -1,0 +1,244 @@
+{
+  "scope": "PARSED_WORKFLOW_AND_PURE_METADATA_VALIDATION_ONLY",
+  "workflow_checks": [
+    {
+      "workflow": ".github/workflows/audit-sol-r4-note-correction.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-p08-physical.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-p18-fabric-rule.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-p18-full-cycle.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-p19-transport.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-p21-rehearsal.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-pl-native.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-supplier-payment-correction.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-supplier-payment-create.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-cutting-correction.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f03-capacity.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f03-cash.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f03-combined.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f03-cost-continuation.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f03-e01.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f03-e03.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f03-e05.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f03-e06.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f03-e24-issue.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f03-full.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f03-misc.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f03-planner-seam.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f03-redye.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f03-return-documents.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f03-x04.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f04-baseline.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f04-cutting-inputs.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f04-cutting-model.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f04-cutting-observations.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f04-fabric.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-f04-history.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-misc-correction.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-p18-e01-bridge.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-p19-native-load.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-payment-correction.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-prefreeze-ui.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-receipt-correction.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-sales-chain.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-sales-return-correction.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-supplier-credit-authority.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-transaction-source.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-build-ux.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    },
+    {
+      "workflow": ".github/workflows/audit-sol-r4-phone-census.yml",
+      "status": "PASS_PARSED_DIFF",
+      "only_declared_changes": true
+    }
+  ],
+  "regression_workflows": 43,
+  "regression_job_phases": 70,
+  "codeql_matrix_phases": 4,
+  "codeql_scan_and_sarif_oracle_unchanged": true,
+  "codeql_metadata_tests": [
+    {
+      "id": "CODEQL_EXACT_PRODUCT_DISTINCT_WORKFLOW",
+      "status": "PASS"
+    },
+    {
+      "id": "CODEQL_WRONG_PRODUCT",
+      "status": "PASS_EXPECTED_REFUSAL"
+    },
+    {
+      "id": "CODEQL_WRONG_TREE",
+      "status": "PASS_EXPECTED_REFUSAL"
+    },
+    {
+      "id": "CODEQL_INVALID_WORKFLOW",
+      "status": "PASS_EXPECTED_REFUSAL"
+    }
+  ],
+  "no_business_or_access_probe_executed": true,
+  "prepublication_issue": "One CodeQL identity comment replacement initially caused IndentationError; caught by compile before publication. Clean inline metadata script now compiles."
+}

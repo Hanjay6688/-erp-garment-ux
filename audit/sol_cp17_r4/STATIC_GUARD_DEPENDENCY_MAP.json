@@ -1,0 +1,422 @@
+{
+  "method": "Conservative Python AST import reachability; code reading only, does not prove branch execution or dynamic imports",
+  "target": "cp7_f03_bundle",
+  "affected_workflows": [
+    {
+      "workflow": ".github/workflows/claude-cp17-fixes.yml",
+      "entrypoints": [
+        "cp7_cp17_fix_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/claude-note-correction.yml",
+      "entrypoints": [
+        "cp7_note_correction_cases",
+        "cp7_note_correction_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/claude-p08-physical.yml",
+      "entrypoints": [
+        "cp7_analysis_bundle",
+        "cp7_f04_plan_probe",
+        "cp7_f05_analysis_probe",
+        "cp7_f05_attention_probe",
+        "cp7_fabric_physical_probe",
+        "cp7_fabric_recipe_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/claude-p18-fabric-rule.yml",
+      "entrypoints": [
+        "cp7_p18_e01_bridge_probe",
+        "cp7_p18_fabric_rule_probe",
+        "cp7_rule_lifecycle_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/claude-p18-full-cycle.yml",
+      "entrypoints": [
+        "cp7_p18_full_cycle_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/claude-p19-capture-diagnosis.yml",
+      "entrypoints": [
+        "cp7_p19_scale_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/claude-p19-transport.yml",
+      "entrypoints": [
+        "cp7_analysis_bundle",
+        "cp7_f05_analysis_probe",
+        "cp7_k2_retention_probe",
+        "cp7_k3_cleanup_probe",
+        "cp7_k4_runner_probe",
+        "cp7_k6_proof_runner_probe",
+        "cp7_obligation_report_bundle",
+        "cp7_other_obligation_bundle",
+        "cp7_p19_ai_v2_probe",
+        "cp7_p19_plan_v2_probe",
+        "cp7_p19_reminder_v2_probe",
+        "cp7_p19_report_v2_probe",
+        "cp7_p19_scale_probe",
+        "cp7_p19_staged_probe",
+        "cp7_p19_transport_probe",
+        "cp7_pl5_history_yield_probe",
+        "cp7_reminder_v2_bundle"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/claude-p21-rehearsal.yml",
+      "entrypoints": [
+        "cp7_p21_full_rehearsal_probe",
+        "cp7_p21_rehearsal_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/claude-pl-native.yml",
+      "entrypoints": [
+        "cp7_f04_model_probe",
+        "cp7_f04_netting_probe",
+        "cp7_f04_schedule_probe",
+        "cp7_f04_supply_probe",
+        "cp7_supply_bundle"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/claude-supplier-payment-correction.yml",
+      "entrypoints": [
+        "cp7_supplier_payment_correction_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/claude-supplier-payment-create.yml",
+      "entrypoints": [
+        "cp7_supplier_payment_create_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-cutting-correction.yml",
+      "entrypoints": [
+        "cp7_cutting_correction_probe",
+        "cp7_f05_analysis_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f03-capacity.yml",
+      "entrypoints": [
+        "cp7_f03_capacity_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f03-cash.yml",
+      "entrypoints": [
+        "cp7_f03_cash_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f03-combined.yml",
+      "entrypoints": [
+        "cp7_f03_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f03-cost-continuation.yml",
+      "entrypoints": [
+        "cp7_f03_cost_continuation_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f03-e01.yml",
+      "entrypoints": [
+        "cp7_f03_e01_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f03-e03.yml",
+      "entrypoints": [
+        "cp7_f03_e03_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f03-e05.yml",
+      "entrypoints": [
+        "cp7_f03_e05_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f03-e06.yml",
+      "entrypoints": [
+        "cp7_f03_e06_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f03-e24-issue.yml",
+      "entrypoints": [
+        "cp7_f03_e24_issue_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f03-full.yml",
+      "entrypoints": [
+        "cp7_f03_full_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f03-misc.yml",
+      "entrypoints": [
+        "cp7_f03_misc_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f03-p13-regression.yml",
+      "entrypoints": [
+        "cp7_f03_full_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f03-planner-seam.yml",
+      "entrypoints": [
+        "cp7_baseline_bundle",
+        "cp7_f03_planner_seam_probe",
+        "cp7_netting_bundle",
+        "cp7_schedule_bundle",
+        "cp7_supply_bundle"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f03-redye.yml",
+      "entrypoints": [
+        "cp7_f03_redye_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f03-return-documents.yml",
+      "entrypoints": [
+        "cp7_f03_return_documents_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f03-x04.yml",
+      "entrypoints": [
+        "cp7_f03_x04_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f04-baseline.yml",
+      "entrypoints": [
+        "cp7_baseline_bundle",
+        "cp7_f04_baseline_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f04-cutting-inputs.yml",
+      "entrypoints": [
+        "cp7_cutting_input_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f04-cutting-model.yml",
+      "entrypoints": [
+        "cp7_cutting_model_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f04-cutting-observations.yml",
+      "entrypoints": [
+        "cp7_cutting_observation_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f04-fabric.yml",
+      "entrypoints": [
+        "cp7_baseline_bundle",
+        "cp7_fabric_recipe_probe",
+        "cp7_netting_bundle",
+        "cp7_schedule_bundle",
+        "cp7_supply_bundle"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f04-history.yml",
+      "entrypoints": [
+        "cp7_f04_history_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f04-model.yml",
+      "entrypoints": [
+        "cp7_f04_model_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f04-netting.yml",
+      "entrypoints": [
+        "cp7_baseline_bundle",
+        "cp7_f04_netting_probe",
+        "cp7_netting_bundle",
+        "cp7_schedule_bundle",
+        "cp7_supply_bundle"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f04-plan.yml",
+      "entrypoints": [
+        "cp7_f04_plan_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f04-schedule.yml",
+      "entrypoints": [
+        "cp7_baseline_bundle",
+        "cp7_f04_schedule_probe",
+        "cp7_schedule_bundle",
+        "cp7_supply_bundle"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f04-supply.yml",
+      "entrypoints": [
+        "cp7_baseline_bundle",
+        "cp7_f04_supply_probe",
+        "cp7_supply_bundle"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f05-analysis.yml",
+      "entrypoints": [
+        "cp7_baseline_bundle",
+        "cp7_f05_analysis_probe",
+        "cp7_netting_bundle",
+        "cp7_schedule_bundle",
+        "cp7_supply_bundle"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-f05-attention.yml",
+      "entrypoints": [
+        "cp7_baseline_bundle",
+        "cp7_f03_bundle",
+        "cp7_f05_attention_probe",
+        "cp7_netting_bundle",
+        "cp7_reminder_bundle",
+        "cp7_schedule_bundle",
+        "cp7_supply_bundle"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-group-end-diagnosis.yml",
+      "entrypoints": [
+        "cp7_group_end_repeat_diagnosis"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-misc-correction.yml",
+      "entrypoints": [
+        "cp7_f05_analysis_probe",
+        "cp7_misc_correction_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-native-read-diagnostic.yml",
+      "entrypoints": [
+        "cp7_native_scale_diagnostic_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-note-command-diagnostic.yml",
+      "entrypoints": [
+        "cp7_note_command_diagnostic_probe",
+        "cp7_note_correction_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-note-correction.yml",
+      "entrypoints": [
+        "cp7_note_correction_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-p18-e01-bridge.yml",
+      "entrypoints": [
+        "cp7_f05_analysis_probe",
+        "cp7_p18_e01_bridge_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-p19-native-load.yml",
+      "entrypoints": [
+        "cp7_f05_analysis_probe",
+        "cp7_p19_native_load_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-payment-correction.yml",
+      "entrypoints": [
+        "cp7_f05_analysis_probe",
+        "cp7_payment_correction_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-prefreeze-ui.yml",
+      "entrypoints": [
+        "cp7_f03_full_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-receipt-correction.yml",
+      "entrypoints": [
+        "cp7_f03_bundle",
+        "cp7_receipt_correction_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-rule-lifecycle.yml",
+      "entrypoints": [
+        "cp7_f05_analysis_probe",
+        "cp7_rule_lifecycle_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-sales-chain.yml",
+      "entrypoints": [
+        "cp7_f05_analysis_probe",
+        "cp7_sales_chain_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-sales-return-correction.yml",
+      "entrypoints": [
+        "cp7_f05_analysis_probe",
+        "cp7_sales_return_correction_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-supplier-credit-authority.yml",
+      "entrypoints": [
+        "cp7_f03_full_probe",
+        "cp7_supplier_credit_authority_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-supplier-payment-correction.yml",
+      "entrypoints": [
+        "cp7_f05_analysis_probe",
+        "cp7_supplier_payment_correction_probe"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/cp7-transaction-source.yml",
+      "entrypoints": [
+        "cp7_bundle_reachability",
+        "cp7_cutting_source_cases",
+        "cp7_f05_analysis_probe",
+        "cp7_laundry_source_cases",
+        "cp7_qc_source_cases",
+        "cp7_transaction_source_probe"
+      ]
+    }
+  ]
+}

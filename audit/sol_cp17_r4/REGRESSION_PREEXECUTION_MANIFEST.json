@@ -1,0 +1,619 @@
+{
+  "contract": "audit.sol.r4.regression.preexecution.v1",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "own_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "classification": "AUTHORIZED_EXISTING_QUALIFICATIONS_ONLY_NO_NEW_BUSINESS_OR_ACCESS_PROBES",
+  "risk_basis": "R4-05 changes a global guard. Conservative AST reachability identifies 57 writer workflows; execute distinct business qualifications, retain duplicate/diagnosis-only sources explicitly.",
+  "existing_cp17_wave_run": 39184657689,
+  "affected_writer_workflows": 57,
+  "workflows": [
+    {
+      "source": ".github/workflows/claude-note-correction.yml",
+      "source_sha256": "266d6118c7ccb51faafebd5c0f100073de335ffaa4b9d8b5e90ee9e6361d47d4",
+      "path": ".github/workflows/audit-sol-r4-note-correction.yml",
+      "sha256": "b60fadc3bcfca2f2c94154cde09744e1ef2f138d9949cbadb41e621279126005",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/claude-p08-physical.yml",
+      "source_sha256": "d64288af3a559ca93ae7f068a7bfb874e9f6f4dca1a35487703999b1e75ae586",
+      "path": ".github/workflows/audit-sol-r4-p08-physical.yml",
+      "sha256": "c778c3105b0a9062d29047ba32c2a6882a0c6a5b38be31b18e81b91768cef311",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/claude-p18-fabric-rule.yml",
+      "source_sha256": "4b50d9e66ced5c48f6d664d625d14d3897e20f01d5ed268f1ad1371db507e8a1",
+      "path": ".github/workflows/audit-sol-r4-p18-fabric-rule.yml",
+      "sha256": "14a5bc16b98ffb70d97532c0d6b077c457e0bc6bc8eebcef19d235b95a7fff4c",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [
+        {
+          "removed": [
+            {
+              "suite": "p18-e01-9",
+              "probe": "cp7_p18_e01_bridge_probe.py",
+              "timeout": 120
+            }
+          ],
+          "canonical": "cp7-p18-e01-bridge",
+          "reason": "The separate workflow additionally verifies browser loading; retain that complete entrypoint once."
+        }
+      ],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/claude-p18-full-cycle.yml",
+      "source_sha256": "d7ca83ec9c220b137d40b4082fb61592cd4abc45a72d389b955823dd182bce69",
+      "path": ".github/workflows/audit-sol-r4-p18-full-cycle.yml",
+      "sha256": "9bba793270f38597cd39b7a2f344c1b7a4ab034f0e21618e81e6c653230ffd89",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/claude-p19-transport.yml",
+      "source_sha256": "3f2edbb218d4edb1093cf0fe6b5c642e257404d433d3ca29ccfff5d0b29e16df",
+      "path": ".github/workflows/audit-sol-r4-p19-transport.yml",
+      "sha256": "fcf8ee5615ef49a17f9d0aebe85a6bb2db87ae390e3fc9b649a833ae5175efcb",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/claude-p21-rehearsal.yml",
+      "source_sha256": "715715df3d5cb49bc1a4903e1c0d659a3539dcf60befb74df4766c8f8e4f6aa8",
+      "path": ".github/workflows/audit-sol-r4-p21-rehearsal.yml",
+      "sha256": "301e39a77b2259cf9e6499733dd7e4cfbdf12b27da979e99674f38e4105a1efd",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/claude-pl-native.yml",
+      "source_sha256": "1b7fd6e5ca8f75e03c2e1f6e924225b4e7b23a148edfbedb0a417b4c16512e78",
+      "path": ".github/workflows/audit-sol-r4-pl-native.yml",
+      "sha256": "4b09715d798dafbab4afca3e0b9f6347be2a65bd114ee0c68e5579e6bb2aa7c9",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/claude-supplier-payment-correction.yml",
+      "source_sha256": "a73bc8d82b2ed6c4aee88077bdad1c5daf3b00bd5e0f2355ed53dc32bdbb5acd",
+      "path": ".github/workflows/audit-sol-r4-supplier-payment-correction.yml",
+      "sha256": "bb5391f219e4d4f1dfcec3e0419f57b35edbecce45b2a1e5bc02e67e5e493804",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/claude-supplier-payment-create.yml",
+      "source_sha256": "4e38cf73ef4b523d7fa2147138648183621e864196fcfe4187a1cc1702f8b9fd",
+      "path": ".github/workflows/audit-sol-r4-supplier-payment-create.yml",
+      "sha256": "56bd76b2d2d85f8c75a8c2ab58ff8a949bb3f4787f674307106af4a8ebfbd1d4",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-cutting-correction.yml",
+      "source_sha256": "c98dc451b9ab26acafae5ffd8a5ebb8b36d3f61961ec1c1adf6dc1b29cc3192c",
+      "path": ".github/workflows/audit-sol-r4-cutting-correction.yml",
+      "sha256": "f1ada75328b7935429e4cef6ed565bf6a0052bcb1c1c93e095232a0e442f983e",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f03-capacity.yml",
+      "source_sha256": "59b82b66ca594967f711f26a1a1351aeb7efc12f094ca169e8f57faba0e9bf21",
+      "path": ".github/workflows/audit-sol-r4-f03-capacity.yml",
+      "sha256": "df10f8d23e5e814c26f997fec3510429e031241e68136a6f1ad4e3d160d7475f",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f03-cash.yml",
+      "source_sha256": "5b5bd853522154de772d567508a9509069ac130e6d03a993d44ed270e71621c6",
+      "path": ".github/workflows/audit-sol-r4-f03-cash.yml",
+      "sha256": "87fe68cc87435257dfa562d61d90ba52ce19361d6a8dc8bbbc21a2d535f62fa4",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f03-combined.yml",
+      "source_sha256": "0b29a9bb85ce823a13d2b1c5dbf63f4dfa6fd835c6ebbfc5c289144ea37120af",
+      "path": ".github/workflows/audit-sol-r4-f03-combined.yml",
+      "sha256": "65605ab7de332e7ad6d593175d6b8f12b6bb112d785f9fca65576a0a4974a61d",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f03-cost-continuation.yml",
+      "source_sha256": "6f96b93a670111373b0c7a6234a8fef06177da2ae945a10d3a527e57e1aa15e8",
+      "path": ".github/workflows/audit-sol-r4-f03-cost-continuation.yml",
+      "sha256": "6e336e64359f8f043eef7dcd649ad623df0eb1065161cc549e3bcd546e60f69a",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f03-e01.yml",
+      "source_sha256": "8dd04ee962abd7212c92be74c7d1387911e8c0f1c1c50eaccf96ace8cdead2f5",
+      "path": ".github/workflows/audit-sol-r4-f03-e01.yml",
+      "sha256": "46481df3702103a8b167f79e8d59229fdf1f98c8940a55706a1f1688c294af69",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f03-e03.yml",
+      "source_sha256": "239d59dfb413d4190e2b0eb7097796bc652b9a3c7eb18f51e985517c198f5904",
+      "path": ".github/workflows/audit-sol-r4-f03-e03.yml",
+      "sha256": "6c81b5bbcad2d364a1564e1e6aebd299753b0acbf959cc7687da44946bedb557",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f03-e05.yml",
+      "source_sha256": "90d2692578eb89c745f21bddc423e4b4035a3c171c0ea6b495d35ce8b01f53dc",
+      "path": ".github/workflows/audit-sol-r4-f03-e05.yml",
+      "sha256": "0675613dd61ca2ee695e2c7f832458210ebec3c6b68adfb536370d85c1787997",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f03-e06.yml",
+      "source_sha256": "9c56b0d62813ed07178340858dbe2d72de37e5d1a45867a1fa8d7466547585ed",
+      "path": ".github/workflows/audit-sol-r4-f03-e06.yml",
+      "sha256": "6bd3ec401a2b331d9d4966cbcca00463899d77a65bd69f714f34c7cf91c298f5",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f03-e24-issue.yml",
+      "source_sha256": "cb3660f57659e13b0c8b01f340310160bdba143c1c04af0f1460958a343b7c99",
+      "path": ".github/workflows/audit-sol-r4-f03-e24-issue.yml",
+      "sha256": "118984031fff50c3da9c9e0053f2aa3da030e236d3d88034bc5488f001df1802",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f03-full.yml",
+      "source_sha256": "1356737227545874ab82c60e1967620436214786a706d83429591f5b8f9beb58",
+      "path": ".github/workflows/audit-sol-r4-f03-full.yml",
+      "sha256": "bfb79d7de688dc3fe3c52b7dea3180cf92df66b91bda977300b330f853852b03",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f03-misc.yml",
+      "source_sha256": "d193ee56b2790929d53da03026be6339f1d06282eaef2c3fc5ef3dec8357b729",
+      "path": ".github/workflows/audit-sol-r4-f03-misc.yml",
+      "sha256": "e013925882ee969463a0026678b6053ed85c6e18ea02e340e6a89d0b6df68702",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f03-planner-seam.yml",
+      "source_sha256": "00723983fc6c09f1c1f812acb4162dc9263855aeec46c239171a69d71671cce6",
+      "path": ".github/workflows/audit-sol-r4-f03-planner-seam.yml",
+      "sha256": "0da656b698de41d4d340b2e011fac2fc7a97c621bef58ce01fd4ea6189bf93eb",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f03-redye.yml",
+      "source_sha256": "b28fe71f614a0689d9639d569071807972c7f286a6afa30ddb44c8870a52c817",
+      "path": ".github/workflows/audit-sol-r4-f03-redye.yml",
+      "sha256": "8b3d14478c2eed218ecf56a2154518f8756c559fb703283dc38544b882208b2e",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f03-return-documents.yml",
+      "source_sha256": "391c871b12a1643ced9ef6e109230a6ba9769f815d6843718a6d84fbd41f2daf",
+      "path": ".github/workflows/audit-sol-r4-f03-return-documents.yml",
+      "sha256": "e77b71640dafbeda654eec443c7b3d950dd7ac750ca88972d7b07583b8033722",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f03-x04.yml",
+      "source_sha256": "e867413a2810dbcbe0cca5089f4687b50d69e3ba853309de0267b13d6b777a8c",
+      "path": ".github/workflows/audit-sol-r4-f03-x04.yml",
+      "sha256": "74071d263fe1b8eb0706598ae5ab6a5affa70cb832db8d58b03d52e4db3e9c9d",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f04-baseline.yml",
+      "source_sha256": "9c39a052ca87335e385f8b8f451407a4f82ade65003f2e91e77254905dc0761b",
+      "path": ".github/workflows/audit-sol-r4-f04-baseline.yml",
+      "sha256": "f497e880bf67327ac000535dcc915040424178189d3b3a7b8b29c85f4ef66526",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f04-cutting-inputs.yml",
+      "source_sha256": "fd8ae8eff9b9979e64185684136d7ddcfd0fd65e5ae1c21318a00b4c927a4312",
+      "path": ".github/workflows/audit-sol-r4-f04-cutting-inputs.yml",
+      "sha256": "1ec18cc002e6a12ba8bf17d59fccf3bc70b9f36c8c93193d95ea89d1f3475981",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f04-cutting-model.yml",
+      "source_sha256": "5d3467491fe0cf72f76c6330b828318561d0c3d46bc7d613b38f1926306e0dbe",
+      "path": ".github/workflows/audit-sol-r4-f04-cutting-model.yml",
+      "sha256": "e99bd12ead507e12aa4a2706489d6fbd96adb41c2e0bd75d41a59551feb3030c",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f04-cutting-observations.yml",
+      "source_sha256": "35e62db493dd7c04ecb6c9334dc7d141c92d87d5f3a4720f5b2b04e188ccfeaa",
+      "path": ".github/workflows/audit-sol-r4-f04-cutting-observations.yml",
+      "sha256": "e4da5370a080ce4a72355bd3f99dcc7738c207b4f5dd56de1c049865023598be",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f04-fabric.yml",
+      "source_sha256": "61fc636605568ba0021c6a7c5a07f7833e1cadcbc775107079211db2f452e164",
+      "path": ".github/workflows/audit-sol-r4-f04-fabric.yml",
+      "sha256": "ab6ae928771f024543bdf26ed1f1ef9c1226e63c6c8b98f83532941337b31cd4",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-f04-history.yml",
+      "source_sha256": "353226fa6f5158add166894333e84e342de5d27ef99bd81747d10d2689e27f18",
+      "path": ".github/workflows/audit-sol-r4-f04-history.yml",
+      "sha256": "9be1bcf0ee9fee065645ce360159e81084954e64b796477d45c79a5e813911b6",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-misc-correction.yml",
+      "source_sha256": "072028c66f7d22ecdc6c2ba1354d1c880c593dbb96b1ee4d4b8cf511d382786f",
+      "path": ".github/workflows/audit-sol-r4-misc-correction.yml",
+      "sha256": "53e91c36e10a804dd38534a33c4011114456b2f451c1686d4e958ad07d523bc8",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-p18-e01-bridge.yml",
+      "source_sha256": "e6dddc4dff8a13a0bcf9f39ffb9d864ae291540c2ddf3eb7a07f2389d311acae",
+      "path": ".github/workflows/audit-sol-r4-p18-e01-bridge.yml",
+      "sha256": "d4a287bd67f8e2d7ccef81416a33a3e6efca11ecfc8d55d9421ac7f154bb07aa",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-p19-native-load.yml",
+      "source_sha256": "5cbe89928a86e60cfdb231e85c5118f49cc4fa8ee49c14b05c72fd01e4c28167",
+      "path": ".github/workflows/audit-sol-r4-p19-native-load.yml",
+      "sha256": "37a63b3c82787b92a61f72c281ea502c1031b3da6cd090e9f10d00d6ab6d6b05",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-payment-correction.yml",
+      "source_sha256": "eaed524cb7af773bff81729d15d8016e00b32a03ba3c4e1e5b9bfec474a3e595",
+      "path": ".github/workflows/audit-sol-r4-payment-correction.yml",
+      "sha256": "866fcad7c55650920d972946d6d2b746bb5ffb0d1f3141dc6d32733c323f4454",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-prefreeze-ui.yml",
+      "source_sha256": "7e6e1a3bb2f26a14222f1447d4cf6b4ba58afba3aaafed18c1e5f139d9d348aa",
+      "path": ".github/workflows/audit-sol-r4-prefreeze-ui.yml",
+      "sha256": "24045bda2e784ad4a6c4d0b3f50486b6667e92a1c8e4d734e428b9c1d2d6cf67",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-receipt-correction.yml",
+      "source_sha256": "55c18fb7c62ba4f8fe07677e8c0122cb625adc021c7b97ce09fdcabdaebc5f8d",
+      "path": ".github/workflows/audit-sol-r4-receipt-correction.yml",
+      "sha256": "4ac5c4a27e8c8500b8e149c443a93084d2c3f3a7529e22bfb71587a8f6c4f6a1",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-sales-chain.yml",
+      "source_sha256": "87e34898ce1b58540457a27f61a540163fc0c16c347db52e496ead2d9e56b575",
+      "path": ".github/workflows/audit-sol-r4-sales-chain.yml",
+      "sha256": "37915c17b0e281c4a6ffcff774bb9c7847e18ac9424a77cf3291f5ad4a31c164",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-sales-return-correction.yml",
+      "source_sha256": "f7abc22ba66db37be50481bcc9e880a673cadffbc2207a3b67a0ef1e5ebf774d",
+      "path": ".github/workflows/audit-sol-r4-sales-return-correction.yml",
+      "sha256": "5e4781e50dcf472ac9abc3cf73685643c37012badd55c592308e83abd2d0375e",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-supplier-credit-authority.yml",
+      "source_sha256": "5a919e1c2e9c278656780032402cbf681e5c9c7c585ffb1f9eafb09876eccc70",
+      "path": ".github/workflows/audit-sol-r4-supplier-credit-authority.yml",
+      "sha256": "f009cc69102f7a6bd3628f3fcd53ca47b7a6ccb3bda714ce7c3229f9c3c2e2bf",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/cp7-transaction-source.yml",
+      "source_sha256": "4db5099ad733224ac39636c7936eda4bc663b89057e82bb180924c487458df3f",
+      "path": ".github/workflows/audit-sol-r4-transaction-source.yml",
+      "sha256": "ece400651abc3c36124079bec7edb77b394d2729b0b94189c5e3958169165fbe",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "phase"
+      ]
+    },
+    {
+      "source": ".github/workflows/ci.yml",
+      "source_sha256": "292d3305e31e43c3347b03c78e558ec7097cb15f923fa93001a0f9be19011d8d",
+      "path": ".github/workflows/audit-sol-r4-build-ux.yml",
+      "sha256": "9cda4ac20a1c8d7cd866785fed0d79f0a49c79662b706a4a6d043227a1f2f50b",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "build"
+      ]
+    },
+    {
+      "source": ".github/workflows/ui-phone-width.yml",
+      "source_sha256": "264596661e93e35b1813d9660b087aa510382b49c41b8d6e4e05fa28e57a4f06",
+      "path": ".github/workflows/audit-sol-r4-phone-census.yml",
+      "sha256": "f9be17831522e3b1119924d5bfa8089a92e05cafa99962eec58b990d9596aa74",
+      "classification": "EXISTING_WRITER_QUALIFICATION_INDEPENDENT_SOL_EXECUTION",
+      "oracle_origin": "WRITER_SOURCE_PINNED",
+      "fixture_origin": "WRITER_SYNTHETIC_DISPOSABLE",
+      "matrix_changes": [],
+      "job_keys": [
+        "census"
+      ]
+    }
+  ],
+  "excluded_workflows": {
+    "claude-cp17-fixes": "Already requested as the complete separate CP17 wave; 341 exact IDs remain canonical there.",
+    "claude-p19-capture-diagnosis": "Diagnostic 100/300 subset. The complete P19 scale5 qualification already executes capture_diagnosis at both sizes.",
+    "cp7-group-end-diagnosis": "Diagnosis-only run; zero product acceptance credit. r3 source-bound diagnostic retained.",
+    "cp7-native-read-diagnostic": "Diagnosis-only run; zero product acceptance credit. r3 source-bound diagnostic retained.",
+    "cp7-note-command-diagnostic": "Diagnosis-only run; zero product acceptance credit. r3 source-bound diagnostic retained.",
+    "cp7-note-correction": "Same complete run-step sequence and environment as claude-note-correction; canonical invocation there.",
+    "cp7-supplier-payment-correction": "Same complete run-step sequence and environment as claude-supplier-payment-correction; canonical invocation there.",
+    "cp7-f03-p13-regression": "Identical p13 bucket is included in all eight buckets of cp7-f03-full.",
+    "cp7-f04-model": "Same model entrypoint in claude-pl-native; that runtime also pins jsonschema 4.25.1.",
+    "cp7-f04-netting": "Same netting entrypoint in claude-pl-native; complete case provider unchanged.",
+    "cp7-f04-schedule": "Same schedule entrypoint in claude-pl-native; complete case provider unchanged.",
+    "cp7-f04-supply": "Same supply entrypoint in claude-pl-native; complete case provider unchanged.",
+    "cp7-f04-plan": "Same plan39 entrypoint in claude-p08-physical; complete run-step sequence except matrix substitution.",
+    "cp7-f05-analysis": "Same analysis152 entrypoint in claude-p08-physical; complete run-step sequence except matrix substitution.",
+    "cp7-f05-attention": "Same attention284 entrypoint in claude-p08-physical. Extra original155 historical artifact diagnostics remain retained r3; not new candidate runtime cases.",
+    "cp7-rule-lifecycle": "Same rule-lifecycle16 entrypoint in claude-p18-fabric-rule; complete run-step sequence except matrix substitution."
+  },
+  "source_freeze_sha256": "4a2b4f5607bfd1fd550ea802faaf738343556fd6e5aaec8af8b7dc348901fd81",
+  "expected_contract": "PREEXECUTION_PLAN.md",
+  "exact_case_ids_cp17": "CP17_PREEXECUTION_MANIFEST.json",
+  "case_budget_rule": "Regression case identities/counts are defined by pinned provider and declaration bytes; expand per group and check each result multiset. A conservative string index is not an exact mandatory-case inventory, and earns no independent-oracle credit.",
+  "first_result_policy": "Keep every first result and internal helper attempt; no post-case identical rerun for green.",
+  "identity_deltas": "Separate workflow/product checkout and SHA, read-only before/after identity hooks and prefixed artifacts; immutable candidate. Root historical checkouts untouched.",
+  "product_test_edits": false,
+  "limits_or_expected_values_changed": false,
+  "held_r3_probes_included": false,
+  "backup_patch_applied": false,
+  "hosted_or_production_writes": false,
+  "peer_r4_evidence_read": false,
+  "static_codeql": "Existing candidate CodeQL Q1 gate to be prepared separately with product/workflow identities distinct.",
+  "gates_before_results": {
+    "feature_complete": false,
+    "audit_complete": false,
+    "production_go": false
+  }
+}

@@ -1,0 +1,58 @@
+name: AUDIT/Sol/r4/phone-census
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: audit-sol-r4-phone-census-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  census:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        persist-credentials: false
+        ref: 663f6faefcbb9c70f0f99bbc7e78164e03521329
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: sol
+        fetch-depth: 1
+        sparse-checkout: audit/sol_cp17_r4
+        persist-credentials: false
+    - name: Sol record exact candidate and product trees before
+      run: python sol/audit/sol_cp17_r4/record_candidate.py --root . --phase before --out audit-sol-proof/SOL_R4_IDENTITY_BEFORE.json
+    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      with:
+        node-version: 22
+        cache: npm
+    - run: npm ci
+    - run: npm run build
+    - run: npx --no-install playwright install --with-deps chromium
+    - name: 48 menus at 390 px
+      run: node scripts/ui_phone_width_census.mjs dist test-results/ui-phone-width/UI_PHONE_WIDTH.json
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: audit-r4-Sol-663f6fae-phone-census-ui-phone-width
+        path: test-results/ui-phone-width
+        if-no-files-found: warn
+        retention-days: 30
+    - name: Sol record exact candidate and product trees after
+      run: python sol/audit/sol_cp17_r4/record_candidate.py --root . --phase after --out audit-sol-proof/SOL_R4_IDENTITY_AFTER.json
+      if: always()
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: audit-r4-Sol-663f6fae-phone-census-identity
+        path: audit-sol-proof
+        retention-days: 30
+        if-no-files-found: error
+run-name: AUDIT/r4/Sol/663f6fae/phone-census/1
+'on':
+  push:
+    branches:
+    - audit/sol-cp1-7-r4-663f6fae-20261019
+    paths:
+    - .github/workflows/audit-sol-r4-phone-census.yml
+  workflow_dispatch: {}

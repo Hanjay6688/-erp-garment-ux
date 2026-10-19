@@ -1,0 +1,159 @@
+name: AUDIT/Sol/r4/candidate-codeql
+permissions:
+  contents: read
+concurrency:
+  group: audit-sol-r4-candidate-codeql-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  analyze:
+    name: CodeQL ${{ matrix.language }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - language: actions
+          build_mode: none
+        - language: javascript-typescript
+          build_mode: none
+        - language: python
+          build_mode: none
+        - language: c-cpp
+          build_mode: manual
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+        ref: 663f6faefcbb9c70f0f99bbc7e78164e03521329
+    - name: Sol record exact candidate and product trees before analysis
+      run: 'python3 - <<''SOL_IDENTITY''
+
+        import hashlib,json,os,pathlib,subprocess
+
+        candidate=''663f6faefcbb9c70f0f99bbc7e78164e03521329''
+
+        expected_tree=''023f3554432f80f994439f5d0b8cc164846a2041''
+
+        roots=[''src'',''supabase'',''scripts'',''package.json'',''package-lock.json'',''index.html'',''vite.config.ts'']
+
+        git=lambda *a:subprocess.check_output([''git'',*a],text=True).strip()
+
+        head=git(''rev-parse'',''HEAD'');tree=git(''rev-parse'',''HEAD^{tree}'')
+
+        dirty=git(''status'',''--porcelain'',''--'',*roots)
+
+        report=dict(candidate_sha=candidate,head=head,tree=tree,workflow_sha=os.environ[''GITHUB_SHA''],run_id=os.environ[''GITHUB_RUN_ID''],attempt=os.environ[''GITHUB_RUN_ATTEMPT''],phase=''before'',product_roots={q:git(''rev-parse'',''HEAD:''+q)for
+        q in roots},tracked_product_status=dirty,lock_sha256=hashlib.sha256(pathlib.Path(''package-lock.json'').read_bytes()).hexdigest(),evidence_origin=''INDEPENDENT_STATIC_GATE_ON_PINNED_SOURCE'',oracle_origin=''INHERITED_WRITER_GATE_WITH_SOL_Q1_BINDING'')
+
+        out=pathlib.Path(os.environ[''RUNNER_TEMP''])/''sol-proof'';out.mkdir(exist_ok=True);(out/''IDENTITY_BEFORE.json'').write_text(json.dumps(report,indent=2)+''\n'');print(json.dumps(report))
+
+        assert head==candidate,''SOL_R4_CODEQL_CANDIDATE_MISMATCH''
+
+        assert tree==expected_tree,''SOL_R4_CODEQL_TREE_MISMATCH''
+
+        assert not dirty,''SOL_R4_CODEQL_PRODUCT_CHANGED''
+
+        SOL_IDENTITY'
+    - uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+      with:
+        languages: ${{ matrix.language }}
+        build-mode: ${{ matrix.build_mode }}
+        queries: security-extended
+    - name: Compile isolated PostgreSQL clock fixture for analysis
+      if: matrix.language == 'c-cpp'
+      run: cc -std=c11 -shared -fPIC -O2 -Wall -Wextra -Werror supabase/tests/support/cp6_clock_offset.c -o /tmp/cp6-aa-clock-codeql.so
+    - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+      with:
+        output: cp6-codeql/sarif
+        upload: never
+        upload-database: false
+        category: candidate/${{ matrix.language }}
+    - name: Verify analysis and bind SARIF to candidate
+      env:
+        CP6_CODEQL_LANGUAGE: ${{ matrix.language }}
+      run: "python3 - <<'SOL_CODEQL_METADATA'\n\"\"\"Existing SARIF gate with product identity separated from workflow identity.\n\
+        \nOnly identity binding is changed from scripts/cp6_codeql_artifact_gate.py.\nNo CodeQL query, scan invocation, application\
+        \ code or business oracle is run here.\n\"\"\"\nimport hashlib\nimport json\nimport os\nfrom pathlib import Path\n\
+        import re\nimport subprocess\n\nEXPECTED_PRODUCT_SHA = \"663f6faefcbb9c70f0f99bbc7e78164e03521329\"\nEXPECTED_PRODUCT_TREE\
+        \ = \"023f3554432f80f994439f5d0b8cc164846a2041\"\n\n\ndef bind_identity(head, tree, workflow_sha):\n    if head !=\
+        \ EXPECTED_PRODUCT_SHA:\n        raise ValueError(\"CODEQL_PRODUCT_HEAD_MISMATCH\")\n    if tree != EXPECTED_PRODUCT_TREE:\n\
+        \        raise ValueError(\"CODEQL_PRODUCT_TREE_MISMATCH\")\n    if not re.fullmatch(r\"[0-9a-f]{40}\", workflow_sha):\n\
+        \        raise ValueError(\"CODEQL_WORKFLOW_SHA_INVALID\")\n    return dict(head=head, tree=tree, workflow_sha=workflow_sha,\n\
+        \        expected_product_sha=EXPECTED_PRODUCT_SHA, expected_product_tree=EXPECTED_PRODUCT_TREE)\n\n\ndef main():\n\
+        \    root=Path('cp6-codeql')\n    files=sorted((root/'sarif').glob('*.sarif'))\n    if not files:raise SystemExit('CODEQL_SARIF_MISSING')\n\
+        \    head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()\n    tree=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip()\n\
+        \    identity=bind_identity(head,tree,os.environ['GITHUB_SHA'])\n    observations=[]\n    for path in files:\n   \
+        \     data=path.read_bytes();document=json.loads(data)\n        runs=document.get('runs',[])\n        if not runs:raise\
+        \ SystemExit('CODEQL_RUNS_MISSING')\n        for run in runs:\n            invocations=run.get('invocations',[])\n\
+        \            if not invocations or any(i.get('executionSuccessful') is not True for i in invocations):\n         \
+        \       raise SystemExit('CODEQL_EXECUTION_INCOMPLETE')\n            findings=run.get('results',[])\n            for\
+        \ finding in findings:\n                location=(finding.get('locations') or [{}])[0].get('physicalLocation',{})\n\
+        \                print('CODEQL_FINDING '+json.dumps({'rule':finding.get('ruleId'),'file':location.get('artifactLocation',{}).get('uri'),\n\
+        \                    'line':location.get('region',{}).get('startLine'),'message':(finding.get('message') or {}).get('text','')[:300]}),flush=True)\n\
+        \            observations.append({'file':str(path.relative_to(root)),\n                'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data),\n\
+        \                'tool':run['tool']['driver']['name'],'version':run['tool']['driver'].get('semanticVersion',run['tool']['driver'].get('version')),\n\
+        \                'rule_count':sum(len(component.get('rules',[])) for component in\n                    [run['tool']['driver'],*run['tool'].get('extensions',[])]),\n\
+        \                'query_packs':[{'name':x['name'],'version':x.get('semanticVersion'),\n                    'rule_count':len(x.get('rules',[]))}\
+        \ for x in run['tool'].get('extensions',[])],\n                'result_count':len(findings),'execution_successful':True})\n\
+        \    result={**identity,'metadata_qualification':'SOL_R4_FRESH_SOURCE_INHERITED_Q1_BINDING','binding_source_run_id':39150692634,'historical_metadata_failure_run_id':39146762479,\n\
+        \        'run_id':int(os.environ['GITHUB_RUN_ID']),'attempt':int(os.environ['GITHUB_RUN_ATTEMPT']),\n        'language':os.environ['CP6_CODEQL_LANGUAGE'],'queries':'security-extended',\n\
+        \        'classification':'NATIVE_CODEQL_SARIF_ARTIFACT_NOT_CODE_SCANNING_UPLOAD',\n        'observations':observations,'production_go':False,\n\
+        \        'status':'PASS' if all(x['result_count']==0 and x['rule_count']>0 for x in observations) else 'FAIL'}\n \
+        \   (root/'manifest.json').write_text(json.dumps(result,indent=2)+'\\n')\n    print(json.dumps({'status':result['status'],'language':result['language'],\n\
+        \        'result_count':sum(x['result_count'] for x in observations),'production_go':False}))\n    if result['status']!='PASS':raise\
+        \ SystemExit(1)\n\n\nif __name__ == \"__main__\":\n    main()\n\nSOL_CODEQL_METADATA"
+    - name: Sol record exact candidate and product trees after analysis
+      run: 'python3 - <<''SOL_IDENTITY''
+
+        import hashlib,json,os,pathlib,subprocess
+
+        candidate=''663f6faefcbb9c70f0f99bbc7e78164e03521329''
+
+        expected_tree=''023f3554432f80f994439f5d0b8cc164846a2041''
+
+        roots=[''src'',''supabase'',''scripts'',''package.json'',''package-lock.json'',''index.html'',''vite.config.ts'']
+
+        git=lambda *a:subprocess.check_output([''git'',*a],text=True).strip()
+
+        head=git(''rev-parse'',''HEAD'');tree=git(''rev-parse'',''HEAD^{tree}'')
+
+        dirty=git(''status'',''--porcelain'',''--'',*roots)
+
+        report=dict(candidate_sha=candidate,head=head,tree=tree,workflow_sha=os.environ[''GITHUB_SHA''],run_id=os.environ[''GITHUB_RUN_ID''],attempt=os.environ[''GITHUB_RUN_ATTEMPT''],phase=''after'',product_roots={q:git(''rev-parse'',''HEAD:''+q)for
+        q in roots},tracked_product_status=dirty,lock_sha256=hashlib.sha256(pathlib.Path(''package-lock.json'').read_bytes()).hexdigest(),evidence_origin=''INDEPENDENT_STATIC_GATE_ON_PINNED_SOURCE'',oracle_origin=''INHERITED_WRITER_GATE_WITH_SOL_Q1_BINDING'')
+
+        out=pathlib.Path(os.environ[''RUNNER_TEMP''])/''sol-proof'';out.mkdir(exist_ok=True);(out/''IDENTITY_AFTER.json'').write_text(json.dumps(report,indent=2)+''\n'');print(json.dumps(report))
+
+        assert head==candidate,''SOL_R4_CODEQL_CANDIDATE_MISMATCH''
+
+        assert tree==expected_tree,''SOL_R4_CODEQL_TREE_MISMATCH''
+
+        assert not dirty,''SOL_R4_CODEQL_PRODUCT_CHANGED''
+
+        SOL_IDENTITY'
+      if: always()
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: audit-r4-Sol-663f6fae-cp6-candidate-codeql-${{ matrix.language }}
+        path: cp6-codeql
+        if-no-files-found: error
+        retention-days: 30
+    - name: Sol preserve audit identity
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: audit-r4-Sol-663f6fae-cp6-candidate-codeql-${{ github.job }}-${{ strategy.job-index }}-identity
+        path: ${{ runner.temp }}/sol-proof
+        retention-days: 30
+        if-no-files-found: warn
+run-name: AUDIT/r4/Sol/663f6fae/candidate-codeql/1
+'on':
+  push:
+    branches:
+    - audit/sol-cp1-7-r4-663f6fae-20261019
+    paths:
+    - .github/workflows/audit-sol-r4-candidate-codeql.yml
+  workflow_dispatch: {}

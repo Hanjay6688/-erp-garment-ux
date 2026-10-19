@@ -1,0 +1,69 @@
+{
+  "source": "src/App.tsx",
+  "source_sha256": "0bca1e95f69c51d3fb394028b41d9df1d5829858c185f0df008202dbaf1c08c4",
+  "candidate": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "sections": {
+    "Produksi": [
+      "Buat Potongan",
+      "Bagi Potongan",
+      "WIP & Sewing",
+      "Laundry",
+      "QC & Final SKU",
+      "Susun Nota FG",
+      "Barang BS & Rework"
+    ],
+    "Gudang": [
+      "Ringkasan Gudang",
+      "Pembelian & Penerimaan",
+      "Bahan & Roll",
+      "Kain kantong",
+      "Aksesori",
+      "Ringkasan Barang Jadi",
+      "Mutasi Barang Jadi · Vivo",
+      "Mutasi Barang Jadi · Widie",
+      "Kartu Stok FG",
+      "Stock Adjustment",
+      "Ganti Merek"
+    ],
+    "Penjualan": [
+      "Penjualan & Invoice",
+      "Semua Invoice",
+      "Retur Penjualan",
+      "Pembayaran Pelanggan",
+      "Riwayat Pelanggan"
+    ],
+    "Keuangan": [
+      "Ringkasan Keuangan",
+      "Kas & Bank",
+      "Hutang Supplier & Vendor",
+      "Piutang Pelanggan",
+      "Payroll & Kasbon",
+      "Absensi & Rate Harian",
+      "Nota Ambil Aksesori",
+      "HPP & Rekalkulasi",
+      "Jurnal & Transaksi Lain",
+      "Laporan & Tutup Buku"
+    ],
+    "Master Data": [
+      "Kain & Benchmark",
+      "Aksesori & Harga Mandor",
+      "Produk & SKU",
+      "Pelanggan",
+      "Supplier & Vendor",
+      "Mandor",
+      "Gudang & Lokasi",
+      "Pola"
+    ]
+  },
+  "admin": [
+    "Reminder",
+    "Pengguna & Hak Akses",
+    "Pengaturan ERP",
+    "Impor data awal",
+    "Audit Trail"
+  ],
+  "dashboard": true,
+  "expected_unique_menus": 47,
+  "oracle_origin": "SOL_STATIC_MENU_ENUMERATION_AND_D16_1_D16_5",
+  "note": "Compare actual menu sets, not only writer >=40 threshold. Extra HPP preview/form states do not increase unique-menu credit; skipped faded/image text remains outside measured contrast coverage."
+}

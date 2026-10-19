@@ -1,0 +1,30 @@
+{
+  "path": ".github/workflows/audit-sol-r4-candidate-codeql.yml",
+  "source_seal": "ff6374ad6edef19896c32258e3f30172a95069bd",
+  "source_path": ".github/workflows/audit-sol-r3-cp6-candidate-codeql.yml",
+  "source_sha256": "487c2f1f3df354d3b2aefac0b66335c3bdd17b3d4a2dc5f00efd61480e90ec6b",
+  "sha256": "a456e88751521e5a56ba769e938552aa6524ea577dfffcee2ade93e53a350026",
+  "classification": "EXISTING_STATIC_GATE_ON_CHANGED_SOURCE_NO_NEW_ACCESS_PROBE",
+  "product_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "product_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "languages": [
+    "actions",
+    "javascript-typescript",
+    "python",
+    "c-cpp"
+  ],
+  "queries": "security-extended",
+  "code_scanning_upload": "never",
+  "expected": "All four SARIF invocations complete, zero results, rule_count > 0; exact product SHA/tree, workflow SHA independently recorded.",
+  "changes": [
+    "candidate/tree pins and audit naming/trigger",
+    "r4 lineage labels reference successful prior binding qualification and retained old failure",
+    "before/after identity checks seven product roots and rejects wrong product or tracked edits"
+  ],
+  "unchanged": [
+    "CodeQL actions and query configuration",
+    "build modes and C fixture compile command",
+    "SARIF execution/result/rule gates",
+    "no GITHUB_SHA override"
+  ]
+}

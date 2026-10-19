@@ -1,0 +1,286 @@
+{
+  "target_branch": "audit/sol-cp1-7-r4-663f6fae-20261019",
+  "expected_parent": "3eb1edd795efdbfb77a57c9165f05d5d5dc8ca13",
+  "candidate_sha": "663f6faefcbb9c70f0f99bbc7e78164e03521329",
+  "candidate_tree": "023f3554432f80f994439f5d0b8cc164846a2041",
+  "payload_scope": "AUDIT_ONLY_EXISTING_QUALIFICATIONS_AND_READ_ONLY_METADATA",
+  "regression_workflows": 43,
+  "regression_job_phases": 70,
+  "codeql_workflows": 1,
+  "codeql_phases": 4,
+  "held_probe_included": false,
+  "product_or_hosted_mutation": false,
+  "sensitive_data_review": "Public pinned source/workflows, synthetic local test authority, SHA metadata and own audit text only. No credentials, original user data, private provider identifiers, raw logs/artifacts, screenshots, temporary files or unrelated local files.",
+  "expected_side_effects": [
+    "44 existing qualification workflows on own audit push; 74 disposable/static job phases",
+    "Read-only artifact collection; no Code Scanning upload; no product/hosted deployment"
+  ],
+  "exclusions": "Only explicitly enumerated paths; no blanket audit/ or raw receipt staging.",
+  "paths": [
+    {
+      "path": ".github/workflows/audit-sol-r4-note-correction.yml",
+      "bytes": 10003,
+      "sha256": "b60fadc3bcfca2f2c94154cde09744e1ef2f138d9949cbadb41e621279126005"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-p08-physical.yml",
+      "bytes": 10743,
+      "sha256": "c778c3105b0a9062d29047ba32c2a6882a0c6a5b38be31b18e81b91768cef311"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-p18-fabric-rule.yml",
+      "bytes": 10481,
+      "sha256": "14a5bc16b98ffb70d97532c0d6b077c457e0bc6bc8eebcef19d235b95a7fff4c"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-p18-full-cycle.yml",
+      "bytes": 9842,
+      "sha256": "9bba793270f38597cd39b7a2f344c1b7a4ab034f0e21618e81e6c653230ffd89"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-p19-transport.yml",
+      "bytes": 11448,
+      "sha256": "fcf8ee5615ef49a17f9d0aebe85a6bb2db87ae390e3fc9b649a833ae5175efcb"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-p21-rehearsal.yml",
+      "bytes": 10340,
+      "sha256": "301e39a77b2259cf9e6499733dd7e4cfbdf12b27da979e99674f38e4105a1efd"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-pl-native.yml",
+      "bytes": 10593,
+      "sha256": "4b09715d798dafbab4afca3e0b9f6347be2a65bd114ee0c68e5579e6bb2aa7c9"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-supplier-payment-correction.yml",
+      "bytes": 9986,
+      "sha256": "bb5391f219e4d4f1dfcec3e0419f57b35edbecce45b2a1e5bc02e67e5e493804"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-supplier-payment-create.yml",
+      "bytes": 9906,
+      "sha256": "56bd76b2d2d85f8c75a8c2ab58ff8a949bb3f4787f674307106af4a8ebfbd1d4"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-cutting-correction.yml",
+      "bytes": 9906,
+      "sha256": "f1ada75328b7935429e4cef6ed565bf6a0052bcb1c1c93e095232a0e442f983e"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f03-capacity.yml",
+      "bytes": 9832,
+      "sha256": "df10f8d23e5e814c26f997fec3510429e031241e68136a6f1ad4e3d160d7475f"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f03-cash.yml",
+      "bytes": 10417,
+      "sha256": "87fe68cc87435257dfa562d61d90ba52ce19361d6a8dc8bbbc21a2d535f62fa4"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f03-combined.yml",
+      "bytes": 9802,
+      "sha256": "65605ab7de332e7ad6d593175d6b8f12b6bb112d785f9fca65576a0a4974a61d"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f03-cost-continuation.yml",
+      "bytes": 9874,
+      "sha256": "6e336e64359f8f043eef7dcd649ad623df0eb1065161cc549e3bcd546e60f69a"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f03-e01.yml",
+      "bytes": 9764,
+      "sha256": "46481df3702103a8b167f79e8d59229fdf1f98c8940a55706a1f1688c294af69"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f03-e03.yml",
+      "bytes": 9772,
+      "sha256": "6c81b5bbcad2d364a1564e1e6aebd299753b0acbf959cc7687da44946bedb557"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f03-e05.yml",
+      "bytes": 10370,
+      "sha256": "0675613dd61ca2ee695e2c7f832458210ebec3c6b68adfb536370d85c1787997"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f03-e06.yml",
+      "bytes": 9602,
+      "sha256": "6bd3ec401a2b331d9d4966cbcca00463899d77a65bd69f714f34c7cf91c298f5"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f03-e24-issue.yml",
+      "bytes": 9810,
+      "sha256": "118984031fff50c3da9c9e0053f2aa3da030e236d3d88034bc5488f001df1802"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f03-full.yml",
+      "bytes": 10089,
+      "sha256": "bfb79d7de688dc3fe3c52b7dea3180cf92df66b91bda977300b330f853852b03"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f03-misc.yml",
+      "bytes": 10518,
+      "sha256": "e013925882ee969463a0026678b6053ed85c6e18ea02e340e6a89d0b6df68702"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f03-planner-seam.yml",
+      "bytes": 9830,
+      "sha256": "0da656b698de41d4d340b2e011fac2fc7a97c621bef58ce01fd4ea6189bf93eb"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f03-redye.yml",
+      "bytes": 9822,
+      "sha256": "8b3d14478c2eed218ecf56a2154518f8756c559fb703283dc38544b882208b2e"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f03-return-documents.yml",
+      "bytes": 9859,
+      "sha256": "e77b71640dafbeda654eec443c7b3d950dd7ac750ca88972d7b07583b8033722"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f03-x04.yml",
+      "bytes": 9625,
+      "sha256": "74071d263fe1b8eb0706598ae5ab6a5affa70cb832db8d58b03d52e4db3e9c9d"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f04-baseline.yml",
+      "bytes": 9832,
+      "sha256": "f497e880bf67327ac000535dcc915040424178189d3b3a7b8b29c85f4ef66526"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f04-cutting-inputs.yml",
+      "bytes": 9859,
+      "sha256": "1ec18cc002e6a12ba8bf17d59fccf3bc70b9f36c8c93193d95ea89d1f3475981"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f04-cutting-model.yml",
+      "bytes": 9864,
+      "sha256": "e99bd12ead507e12aa4a2706489d6fbd96adb41c2e0bd75d41a59551feb3030c"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f04-cutting-observations.yml",
+      "bytes": 9903,
+      "sha256": "e4da5370a080ce4a72355bd3f99dcc7738c207b4f5dd56de1c049865023598be"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f04-fabric.yml",
+      "bytes": 9811,
+      "sha256": "ab6ae928771f024543bdf26ed1f1ef9c1226e63c6c8b98f83532941337b31cd4"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-f04-history.yml",
+      "bytes": 9815,
+      "sha256": "9be1bcf0ee9fee065645ce360159e81084954e64b796477d45c79a5e813911b6"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-misc-correction.yml",
+      "bytes": 9893,
+      "sha256": "53e91c36e10a804dd38534a33c4011114456b2f451c1686d4e958ad07d523bc8"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-p18-e01-bridge.yml",
+      "bytes": 10084,
+      "sha256": "d4a287bd67f8e2d7ccef81416a33a3e6efca11ecfc8d55d9421ac7f154bb07aa"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-p19-native-load.yml",
+      "bytes": 9870,
+      "sha256": "37a63b3c82787b92a61f72c281ea502c1031b3da6cd090e9f10d00d6ab6d6b05"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-payment-correction.yml",
+      "bytes": 9910,
+      "sha256": "866fcad7c55650920d972946d6d2b746bb5ffb0d1f3141dc6d32733c323f4454"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-prefreeze-ui.yml",
+      "bytes": 9986,
+      "sha256": "24045bda2e784ad4a6c4d0b3f50486b6667e92a1c8e4d734e428b9c1d2d6cf67"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-receipt-correction.yml",
+      "bytes": 9846,
+      "sha256": "4ac5c4a27e8c8500b8e149c443a93084d2c3f3a7529e22bfb71587a8f6c4f6a1"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-sales-chain.yml",
+      "bytes": 9870,
+      "sha256": "37915c17b0e281c4a6ffcff774bb9c7847e18ac9424a77cf3291f5ad4a31c164"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-sales-return-correction.yml",
+      "bytes": 9955,
+      "sha256": "5e4781e50dcf472ac9abc3cf73685643c37012badd55c592308e83abd2d0375e"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-supplier-credit-authority.yml",
+      "bytes": 10072,
+      "sha256": "f009cc69102f7a6bd3628f3fcd53ca47b7a6ccb3bda714ce7c3229f9c3c2e2bf"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-transaction-source.yml",
+      "bytes": 10181,
+      "sha256": "ece400651abc3c36124079bec7edb77b394d2729b0b94189c5e3958169165fbe"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-build-ux.yml",
+      "bytes": 3050,
+      "sha256": "9cda4ac20a1c8d7cd866785fed0d79f0a49c79662b706a4a6d043227a1f2f50b"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-phone-census.yml",
+      "bytes": 2146,
+      "sha256": "f9be17831522e3b1119924d5bfa8089a92e05cafa99962eec58b990d9596aa74"
+    },
+    {
+      "path": ".github/workflows/audit-sol-r4-candidate-codeql.yml",
+      "bytes": 9986,
+      "sha256": "a456e88751521e5a56ba769e938552aa6524ea577dfffcee2ade93e53a350026"
+    },
+    {
+      "path": "audit/sol_cp17_r4/prepare_regression_workflows.py",
+      "bytes": 10704,
+      "sha256": "d51d73dfb91a509545aa6390a574fe64fb2d96844a14f88a437080f98d5db30b"
+    },
+    {
+      "path": "audit/sol_cp17_r4/validate_prepublication.py",
+      "bytes": 7336,
+      "sha256": "a818da4ae9ea85d89719611cf4b44a6a58fd39d01d25b1b6acac52f9b92b21af"
+    },
+    {
+      "path": "audit/sol_cp17_r4/STATIC_GUARD_DEPENDENCY_MAP.json",
+      "bytes": 10683,
+      "sha256": "7021acca1c4d4a368d8536fe7aecd8901bbe7d1b513b7fb0232e2a085117b74e"
+    },
+    {
+      "path": "audit/sol_cp17_r4/REGRESSION_SOURCE_FREEZE.json",
+      "bytes": 218269,
+      "sha256": "4a2b4f5607bfd1fd550ea802faaf738343556fd6e5aaec8af8b7dc348901fd81"
+    },
+    {
+      "path": "audit/sol_cp17_r4/REGRESSION_PREEXECUTION_MANIFEST.json",
+      "bytes": 28961,
+      "sha256": "917d2d9be00d20ed9e49ce94854a219d9ce3e57ccb7cf9bfd209164b2fefbc5a"
+    },
+    {
+      "path": "audit/sol_cp17_r4/CODEQL_PREEXECUTION_MANIFEST.json",
+      "bytes": 1339,
+      "sha256": "28480698f1057c3bf00cbaf1687139c527be2a65e348ae993583f1fe5136fdf1"
+    },
+    {
+      "path": "audit/sol_cp17_r4/REGRESSION_WORKFLOW_VALIDATION.json",
+      "bytes": 7565,
+      "sha256": "a8504260949b105868277ffc55b9c5688de8deaf07a3e27e7e253e4f4cd24082"
+    },
+    {
+      "path": "audit/sol_cp17_r4/SCREEN_PREEXECUTION_INVENTORY.json",
+      "bytes": 1822,
+      "sha256": "72db1335607f566ba5a3b5e0958e93074991e7781a1e43fef9c9fc5be712b5e5"
+    },
+    {
+      "path": "audit/sol_cp17_r4/CHECKPOINT.md",
+      "bytes": 4259,
+      "sha256": "53d0689796c884c0f34d9c8a2026ed1f8095dc7ac5f18f3b781b88638c8e906a"
+    }
+  ]
+}
