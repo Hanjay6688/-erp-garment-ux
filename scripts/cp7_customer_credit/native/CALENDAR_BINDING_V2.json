@@ -1,0 +1,21 @@
+{
+  "contract_version": "ow04.native-fixture-calendar-binding.v2",
+  "classification": "PREDECLARED_FIXTURE_INPUT_CORRECTION_NOT_PRODUCT_OR_FINANCIAL_ORACLE_CHANGE",
+  "supersedes_only": "native/EXPECTED.json dates.anchor",
+  "preserved_expected_sha256": "f6d7efdde1a409094b8c5485fb7942209175bce1d869e8c05f1a1d097b7cadde",
+  "old_anchor": "D0 = actual Native Asia/Jakarta today minus7days; shifts only fixture input calendar, never any stored journal",
+  "new_anchor": "D3 = actual Native Asia/Jakarta today; D0 = today minus literal_offsets_days.D3",
+  "unchanged": [
+    "all literal_offsets_days",
+    "all OPEN/CLOSED/REOPENED expected journal date labels",
+    "all financial values and32 case IDs",
+    "original source sale/payment journal bytes after posting"
+  ],
+  "normative_contract": {
+    "source": "docs/cp7/evidence/p00/CP7_P00_CATALOGUE.json.gz",
+    "function": "erp.resolve_accounting_transaction_date(date)",
+    "definition_sha256": "656ac4cd3ae6a2df24bd11f4c1c044c3e9bf423cc6c7343ab863bad16eee6803",
+    "rule": "For a closed economic date, Native returns greatest(current WIB business day,closed_through+1)."
+  },
+  "reason": "The old minus7 anchor made D3 four days before today, while the same frozen expected file required closed-period Native journals to use D3. This is internally impossible under the accepted Native resolver. Change only fixture physical input calendar before posting; never override stored dates or change Native behavior."
+}

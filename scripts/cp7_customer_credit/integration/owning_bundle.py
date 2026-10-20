@@ -71,7 +71,28 @@ NEW_SALES = (
 PRIVATE_FUNCTION_OWNERS = {
     'cp7_credit.return_settlement_command(jsonb,uuid,text)': 'cp7_credit_write',
     'cp7_credit._has_ambient_plan_apply_scope()': 'cp7_plan_writer',
+    'cp7_credit.lock_payment_correction_links(uuid[])': 'cp7_sales_write',
 }
+PAYMENT_LINK_LOCK_SQL = """create function cp7_credit.lock_payment_correction_links(p_payments uuid[])returns void
+language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $lock_links$
+begin
+ perform 1 from cp7_payment_correction.links where original_id=any(p_payments)
+  or replacement_id=any(p_payments)order by original_id for share;
+end $lock_links$;
+grant create on schema cp7_credit to cp7_sales_write;
+alter function cp7_credit.lock_payment_correction_links(uuid[])owner to cp7_sales_write;
+revoke create on schema cp7_credit from cp7_sales_write;
+revoke all on function cp7_credit.lock_payment_correction_links(uuid[])from public,anon,authenticated,service_role,cp7_capture,cp7_sales_read;
+grant execute on function cp7_credit.lock_payment_correction_links(uuid[])to postgres;
+"""
+
+
+def _payment_link_metadata(cur):
+    row = cur.execute("select pg_get_userbyid(relowner),relrowsecurity,relforcerowsecurity,relacl::text[]"
+        "from pg_class where oid='cp7_payment_correction.links'::regclass").fetchone()
+    if row is None or row[:3]!=('cp7_sales_write',True,False):
+        raise ValueError('OW04_PAYMENT_LINK_LOCK_OWNER_OR_VISIBILITY_CHANGED')
+    return row
 PRIVATE_TABLE_OWNERS = {
     'cp7_credit.return_requests': 'cp7_credit_write',
     'cp7_credit.return_command_scope': 'cp7_credit_write',
@@ -200,6 +221,7 @@ def install(cur, predecessor_verify, predecessor_functions):
     readers = load('ow04_integrated_reader_plan', ROOT / 'readers/03_reader_transforms.py')
     refunds = load('ow04_integrated_refund_plan', ROOT / 'refund/02_native_refund_transform.py')
     approval, receipt = _predecessor_approval(cur, assembly, predecessor_verify, predecessor_functions)
+    payment_link_before = _payment_link_metadata(cur)
     captures = assembly.capture_verified(cur, approval, REPO)
     plan = assembly.derive_plan(captures, approval)
     reader_before = {sig: assembly._capture(cur, sig) for sig in readers.TRANSFORMS}
@@ -238,6 +260,7 @@ def install(cur, predecessor_verify, predecessor_functions):
             raise ValueError('OW04_SOURCE_CHANGED_DURING_COMPOSITION')
         if name == 'coordinator/07_capabilities_and_quote.sql':
             cur.execute(contexts.plan_reader_sql(), prepare=False)
+            cur.execute(PAYMENT_LINK_LOCK_SQL, prepare=False)
             cur.execute(refusal_guards['no_ambient'], prepare=False)
             cur.execute(refusal_guards['only_own_return'], prepare=False)
         cur.execute(_actual_sql(name), prepare=False)
@@ -267,6 +290,7 @@ def install(cur, predecessor_verify, predecessor_functions):
         view_canonical_sha256=digest(view_installed['definition']),
         context_proof=context_proof, refund_proof=refund_proof,
         source_sha256=expected_sources)
+    state['payment_link_before'] = payment_link_before
     state['private_inventory'] = _private_inventory(cur)
     verify(cur, state)
     return state
@@ -282,6 +306,8 @@ def verify(cur, state):
     private_inventory = _private_inventory(cur)
     if private_inventory != state['private_inventory']:
         raise ValueError('OW04_PRIVATE_FUNCTION_TABLE_OR_ACL_CHANGED')
+    if _payment_link_metadata(cur)!=state['payment_link_before']:
+        raise ValueError('OW04_PREDECESSOR_PAYMENT_LINK_ACL_CHANGED')
     for sig, target in state['reader_targets'].items():
         actual = assembly._capture(cur, sig)
         expected = state['reader_before'][sig]

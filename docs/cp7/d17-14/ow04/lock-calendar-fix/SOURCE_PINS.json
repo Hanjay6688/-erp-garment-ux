@@ -1,0 +1,19 @@
+{
+  "classification": "ISOLATED_CONTROL_NOT_NATIVE_SETTLEMENT_PROOF",
+  "command": "PGLITE_MODULE=/absolute/path/to/@electric-sql/pglite/dist/index.js node docs/cp7/d17-14/ow04/lock-calendar-fix/check.mjs",
+  "sources": {
+    "scripts/cp7_customer_credit/integration/owning_bundle.py": "e8b041f56b76afd2d97bb8ec05a78157aaf0235d68be6cbb10cc01d50ec1ec33",
+    "scripts/cp7_customer_credit/source/source.sql": "dd091f3896929d46587634f70545eea26ffd0ac9a516ffac79d90d4e5b80a729",
+    "scripts/cp7_customer_credit/native/cp7_ow04_native_source_fixture.py": "4984926b221df459e6e88c2f282da3e553d4810d177208ea489c9c3b1d264497",
+    "scripts/cp7_customer_credit/native/CALENDAR_BINDING_V2.json": "216f2e6d2f1c812454f965e13a24a72fd57a10f5c7a25a30f246e5d7bc6918ae",
+    "scripts/cp7_customer_credit/native/EXPECTED.json": "f6d7efdde1a409094b8c5485fb7942209175bce1d869e8c05f1a1d097b7cadde"
+  },
+  "limits": [
+    "PGlite caller role renamed from postgres to isolated_reader to model a non-superuser",
+    "Full ERP installation, Native settlement lifecycle and browser not exercised"
+  ],
+  "proof_files": {
+    "check.mjs": "c695448c827915ca906fc84ebe26a8882aba19f752eb7f11f07473143644b5e3",
+    "RESULT.json": "6685615f29660cb6bf0fd736d94c6f05385ee1a9d67d986e92a40ace1f129009"
+  }
+}

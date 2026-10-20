@@ -1,0 +1,50 @@
+{
+  "classification": "ISOLATED_ACTUAL_PRIVATE_LOCK_SQL_AND_ACCEPTED_NATIVE_RESOLVER",
+  "status": "PASS",
+  "count": 10,
+  "cases": [
+    {
+      "name": "FIRST_RED_SELECT_DOES_NOT_AUTHORIZE_FOR_SHARE",
+      "status": "PASS"
+    },
+    {
+      "name": "ACTUAL_OWNER_HELPER_LOCKS_EXISTING_ROW",
+      "status": "PASS"
+    },
+    {
+      "name": "EMPTY_SET_IS_VALID",
+      "status": "PASS"
+    },
+    {
+      "name": "REAL_RELATION_ROW_SHARE_LOCK_HELD",
+      "status": "PASS"
+    },
+    {
+      "name": "CALLER_STILL_CANNOT_UPDATE_HISTORY",
+      "status": "PASS"
+    },
+    {
+      "name": "PREDECESSOR_TABLE_ACL_UNCHANGED",
+      "status": "PASS"
+    },
+    {
+      "name": "TEMPORARY_SCHEMA_CREATE_REVOKED",
+      "status": "PASS"
+    },
+    {
+      "name": "ORIGINAL_MINUS7_FIXTURE_CONTRADICTS_ACCEPTED_NATIVE_RESOLVER",
+      "status": "PASS"
+    },
+    {
+      "name": "V2_CLOSED_EXPECTED_D3_EQUALS_LAWFUL_TODAY",
+      "status": "PASS"
+    },
+    {
+      "name": "REOPENED_RESOLVER_REMAINS_EARLIER_D2",
+      "status": "PASS"
+    }
+  ],
+  "full_erp_native_settlement": false,
+  "role_name_substitution": "postgres->isolated_reader for lock-caller fixture only",
+  "financial_expected_changed": false
+}

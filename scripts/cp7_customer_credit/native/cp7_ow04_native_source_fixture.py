@@ -21,6 +21,7 @@ import cp7_period_cases as period
 payments,cmd,source,b,auth=returns.payments,returns.cmd,returns.source,returns.b,returns.auth
 ERP_ZONE=ZoneInfo('Asia/Jakarta')
 EXPECTED_SHA='f6d7efdde1a409094b8c5485fb7942209175bce1d869e8c05f1a1d097b7cadde'
+CALENDAR_SHA='216f2e6d2f1c812454f965e13a24a72fd57a10f5c7a25a30f246e5d7bc6918ae'
 QUOTE_SIGNATURE='public.erp_cp7_get_sales_return_settlement_quote_v1(jsonb)'
 SOURCE_FIXTURE_IDS=tuple('OW04_SOURCE_'+p+'_'+t for p in ('1000','900') for t in ('OPEN','CLOSED','REOPENED'))
 
@@ -30,6 +31,15 @@ def expected(path=None):
     data=p.read_bytes()
     assert hashlib.sha256(data).hexdigest()==EXPECTED_SHA,'OW04_FROZEN_EXPECTED_CHANGED'
     return json.loads(data)
+
+
+def calendar_binding():
+    data=Path(__file__).with_name('CALENDAR_BINDING_V2.json').read_bytes()
+    assert hashlib.sha256(data).hexdigest()==CALENDAR_SHA,'OW04_DECLARED_CALENDAR_BINDING_CHANGED'
+    binding=json.loads(data)
+    assert binding['preserved_expected_sha256']==EXPECTED_SHA
+    assert expected()['dates']['anchor']==binding['old_anchor']
+    return binding
 
 
 def _raw(cur,query,args=()):
@@ -157,9 +167,15 @@ def source_manifest(cur,x):
 
 
 def _calendar(cur):
+    calendar_binding()  # Declared correction; preserve the incompatible v1.
     today=cur.execute("select (clock_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
-    anchor=today-timedelta(days=7)
-    dates={name:anchor+timedelta(days=offset) for name,offset in expected()['dates']['literal_offsets_days'].items()}
+    offsets=expected()['dates']['literal_offsets_days']
+    # Native closed-period resolution is max(current WIB day, closed+1).
+    # Keep the frozen D0/D1/D2/D3 expectations, placing D3 on today's lawful
+    # book day rather than inventing a past shifted date.
+    anchor=today-timedelta(days=offsets['D3'])
+    dates={name:anchor+timedelta(days=offset) for name,offset in offsets.items()}
+    assert dates['D3']==today,'OW04_FIXTURE_CURRENT_SHIFTED_BOOK_DAY_REQUIRED'
     def at(name,hour):
         return datetime.combine(dates[name],time(hour,0,0,123456),ERP_ZONE)
     return dates,dict(stock=at('D-1',8),sale=at('D0',10),payment=at('D1',11),returned=at('D2',12))
@@ -180,6 +196,7 @@ def prepared(cur,today,paid='1000.00',profile='OPEN'):
     before_sale=cmd.accounts(cur)
     if profile!='OPEN':
         source.fg.ax.boundary.historical.prior.set_open_period(cur,dates['D2'])
+        assert cur.execute('select erp.resolve_accounting_transaction_date(%s)',(dates['D0'],)).fetchone()[0]==dates['D3'], 'OW04_FIXTURE_LAWFUL_D3_REQUIRED'
     note.posted(cur,f,'5','200')  # public CREATE/POST, invoking accepted Native sale
     f['allocations']=returns.read(cur,f)['page']['rows']
     assert len(f['allocations'])==1 and f['allocations'][0]['allocated_qty']=='5'
@@ -191,7 +208,8 @@ def prepared(cur,today,paid='1000.00',profile='OPEN'):
     f['payment']=cmd.command(cur,'PAYMENT',p,v)['payment_id']
     x=dict(fixture_id=ident,f=f,expected=exp,profile=profile,dates={k:str(v) for k,v in dates.items()},
         physical={k:v.isoformat() for k,v in physical.items()},before_sale_accounts=before_sale,
-        payment_before=payment_snapshot(cur,f['payment']),period_setup='ADMINISTRATIVE_PERIOD_FIXTURE')
+        payment_before=payment_snapshot(cur,f['payment']),period_setup='ADMINISTRATIVE_PERIOD_FIXTURE',
+        fixture_calendar_binding=calendar_binding(),fixture_calendar_binding_sha256=CALENDAR_SHA)
     ps=x['payment_before']['payment']['document']
     assert ps['header']['status']=='POSTED' and D(str(ps['header']['amount']))==D(paid)
     assert ps['reversal_facts']==[]

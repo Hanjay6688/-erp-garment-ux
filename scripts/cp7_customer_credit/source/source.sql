@@ -184,7 +184,10 @@ begin
  perform 1 from cp7_note.revisions where root_sale_id=root order by revision for share;
  perform 1 from cp7_note.payment_replays where previous_payment_id=any(payments)or replacement_payment_id=any(payments)order by previous_payment_id for share;
  perform 1 from cp7_sales_return_correction.links where original_id=any(returns)or replacement_id=any(returns)order by original_id for share;
- perform 1 from cp7_payment_correction.links where original_id=any(payments)or replacement_id=any(payments)order by original_id for share;
+ -- SELECT alone does not authorize a tuple lock. The fixed private helper
+ -- runs this exact FOR SHARE under the immutable table's existing owner;
+ -- postgres receives no UPDATE right on posted correction history.
+ perform cp7_credit.lock_payment_correction_links(payments);
  perform 1 from cp7_note.journal_restatements where previous_sale_id=any(sales)order by source_journal_id for share;
  perform 1 from cp7_sales_return_correction.journal_restatements where original_return_id=any(returns)order by source_journal_id for share;
  if to_regclass('cp7_credit.return_families')is not null and to_regclass('cp7_credit.return_family_members')is not null then

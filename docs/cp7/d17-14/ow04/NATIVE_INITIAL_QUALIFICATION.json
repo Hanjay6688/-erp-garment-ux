@@ -38,6 +38,7 @@
   "expected": "All32 must PASS with exact original financial, date, replay, authority and restoration assertions; no change to old oracles",
   "new_settlement_constraint_check": "All pending deferred constraints and factual closure triggers must run before each of the12 new fixtures rolls back; this is not an actual COMMIT/recovery qualification",
   "advisor_gate": "Reject every new OW04 finding and every warning; only exact old RLS/no-policy INFO objects observed after the verified F05 predecessor and before OW04 receive the existing F05 default-deny disposition. Preserve full findings and first strict-gate result.",
+  "fixture_calendar_binding": {"file":"scripts/cp7_customer_credit/native/CALENDAR_BINDING_V2.json","sha256":"216f2e6d2f1c812454f965e13a24a72fd57a10f5c7a25a30f246e5d7bc6918ae","overrides_only":"old fixture input calendar anchor; keeps v1 EXPECTED file, all monetary values and all expected date-pair labels"},
   "limits": [
     "No new browser/race qualification in this first run",
     "Direct Native new EMPTY-family registration remains a known contract gap; a32PASS result cannot close this gap",
