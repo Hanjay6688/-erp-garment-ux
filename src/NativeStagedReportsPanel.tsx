@@ -1,4 +1,4 @@
-import {useEffect,useMemo,useRef,useState} from 'react'
+import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {getUatSupabaseClient} from './lib/supabase'
 import {normalizeClientError} from './lib/clientError'
@@ -30,15 +30,16 @@ function Reports({staged,blocked:outer,financeAccess,scope,actor}:Props&{scope:s
  const[withFinance,setWithFinance]=useState(false),[reviewed,setReviewed]=useState(false),[base,setBase]=useState<Base|null>(null)
  const[report,setReport]=useState<StagedReport|null>(null),[section,setSection]=useState<StagedReportSection|null>(null),[sectionIndex,setSectionIndex]=useState(0),[index,setIndex]=useState<StagedReportIndex|null>(null)
  const[busy,setBusy]=useState(false),[error,setError]=useState(''),[message,setMessage]=useState('')
+ const retireFacts=useCallback(()=>{setReport(null);setSection(null);setSectionIndex(0);setIndex(null);setJob(null);setBase(null);setReviewed(false);setMessage('')},[])
  useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;++seq.current}},[])
- useEffect(()=>{const listener=(e:StorageEvent)=>{if(e.key===null||e.key===stagedReportRequestKey(scope))setRecovery(readStagedReportRequest(scope))};addEventListener('storage',listener);return()=>removeEventListener('storage',listener)},[scope])
+ useEffect(()=>{const listener=(e:StorageEvent)=>{if(e.key===null||e.key===stagedReportRequestKey(scope)){++seq.current;retireFacts();setBusy(false);setRecovery(readStagedReportRequest(scope))}};addEventListener('storage',listener);return()=>removeEventListener('storage',listener)},[scope,retireFacts])
  const blocked=outer||busy
  const rpc:StagedReportRpc={publish:r=>client.rpc('erp_cp7_publish_report_v2',{p_payload:r.payload,p_request:r.id}),lookup:r=>client.rpc('erp_cp7_get_report_request_v2',{p_payload:r.payload,p_request:r.id}),
   step:id=>client.rpc('erp_cp7_step_report_v2',{p_request:id})}
  // A refused or uncertain reread retires every server fact in this panel.
  // Keep the request UUID: an uncertain publication still needs reconciliation.
- const perform=async(op:(n:number)=>Promise<void>)=>{const n=++seq.current;setBusy(true);setError('');setMessage('');try{await op(n)}catch(e){if(n===seq.current&&mounted.current){setReport(null);setSection(null);setSectionIndex(0);setIndex(null);setJob(null);setBase(null);setReviewed(false);setError(normalizeClientError(e).message)}}finally{if(n===seq.current&&mounted.current){setBusy(false);setRecovery(readStagedReportRequest(scope))}}}
- const open=async(id:string,n:number)=>{const r=await client.rpc('erp_cp7_read_report_v2',{p_id:id});if(n!==seq.current)return;if(r.error)throw r.error;const d=await parseStagedReport(r.data,actor);if(n!==seq.current)return;if(d.id!==id)throw Error('Identitas laporan server berubah.');setReport(d);setSection(null);setSectionIndex(0)}
+ const perform=async(op:(n:number)=>Promise<void>)=>{const n=++seq.current;setBusy(true);setError('');setMessage('');try{await op(n)}catch(e){if(n===seq.current&&mounted.current){retireFacts();setError(normalizeClientError(e).message)}}finally{if(n===seq.current&&mounted.current){setBusy(false);setRecovery(readStagedReportRequest(scope))}}}
+ const open=async(id:string,n:number)=>{setReport(null);setSection(null);setSectionIndex(0);setBase(null);setReviewed(false);const r=await client.rpc('erp_cp7_read_report_v2',{p_id:id});if(n!==seq.current)return;if(r.error)throw r.error;const d=await parseStagedReport(r.data,actor);if(n!==seq.current)return;if(d.id!==id)throw Error('Identitas laporan server berubah.');setReport(d)}
  const drive=(r:StagedReportRequest,lookup:boolean)=>perform(async n=>{
   setReport(null);setSection(null)
   const last=await driveStagedReport({rpc,request:r,lookup,aborted:()=>n!==seq.current||!mounted.current,onStatus:s=>{if(n===seq.current)setJob(s)}})

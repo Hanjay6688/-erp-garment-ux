@@ -91,3 +91,29 @@ it('lists the actor\'s staged reports and starts a revision of the latest in the
  await click('Simpan revisi laporan bertahap')
  const p=client.rpc.mock.calls.find(c=>c[0]==='erp_cp7_publish_report_v2')![1].p_payload;expect([p.series_id,p.expected_revision,p.kind]).toEqual([f.series,'1','DAILY'])
 })
+it('retires report facts and an in-flight old read when shared recovery changes',async()=>{
+ client.rpc.mockImplementation(reply);await render();await publish();await click('Buka bagian laporan');await click('Muat laporan bertahap tersimpan')
+ let finish!:(value:unknown)=>void
+ client.rpc.mockImplementation(()=>new Promise(resolve=>{finish=resolve}))
+ await act(async()=>button('Buka bagian laporan').click())
+ await act(async()=>window.dispatchEvent(new StorageEvent('storage',{key})))
+ expect(container.querySelector('[aria-label="Isi laporan bertahap"]')).toBeNull()
+ expect(container.querySelector('[aria-label="Buka laporan bertahap 1"]')).toBeNull()
+ await act(async()=>finish({data:f.section(0),error:null}));await settle()
+ expect(container.querySelector('[aria-label="Bagian laporan bertahap"]')).toBeNull()
+ expect(button('Muat laporan bertahap tersimpan').disabled).toBe(false)
+})
+it('opening another publication retires the previous revision series and review confirmation',async()=>{
+ client.rpc.mockImplementation(reply);await render();await publish();await click('Muat laporan bertahap tersimpan');await click('Buat revisi dari laporan ini')
+ await fill('Judul laporan bertahap','Revisi A');await fill('Alasan laporan bertahap','A');await check('Laporan bertahap sudah ditinjau')
+ expect(button('Simpan revisi laporan bertahap').disabled).toBe(false)
+ const other='99999999-9999-4999-8999-999999999999'
+ client.rpc.mockImplementation((n:string,a:Record<string,unknown>)=>Promise.resolve(n==='erp_cp7_list_reports_v2'?{data:{...f.index(),rows:[{...f.index().rows[0],id:other,title:'Laporan B'}]},error:null}
+  :n==='erp_cp7_read_report_v2'?{data:f.report({id:other,series_id:'88888888-8888-4888-8888-888888888888',title:'Laporan B'}),error:null}:reply(n,a)))
+ await click('Muat laporan bertahap tersimpan')
+ await act(async()=>(container.querySelector('[aria-label="Buka laporan bertahap 1"]') as HTMLButtonElement).click());await settle()
+ expect(container.querySelector('[aria-label="Isi laporan bertahap"]')?.getAttribute('data-report-id')).toBe(other)
+ expect([...container.querySelectorAll('button')].some(b=>b.textContent==='Simpan revisi laporan bertahap')).toBe(false)
+ expect(button('Buat laporan dari analisis ini').disabled).toBe(true)
+ expect((container.querySelector('[aria-label="Laporan bertahap sudah ditinjau"]') as HTMLInputElement).checked).toBe(false)
+})

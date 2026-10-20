@@ -49,7 +49,16 @@ Rincian asli ada di ci-39406686784-first-failures.json.
 - Pada batas panjang pesan, fallback hitungan seluruh jenis dipakai sebelum memotong rincian uang,
   agar satu jenis tidak hilang hanya karena pesan memuat banyak domain.
 
-Perbaikan ini perlu CI berikutnya; **OW-01 masih belum selesai**.
+CI berikutnya pada `0bde7153`, run **39409032583**, attempt 1: **65/65 PASS**
+(48 Native, 6 balapan, 4 HTTP, 7 browser). Stack smoke PASS; restore/advisor/boundary gate PASS.
+Kasus dan observed disimpan di `CI_39409032583.json`, bukan hanya warna job.
+Hash SQL terpasang `fc5256d9abf563bd4069124c4cadae0ac088b687b3af8438324c5eb3edf7ee39`
+dicocokkan dengan komposisi sumber `0bde7153` dari objek Git dan berbeda dari SQL `39212271`.
+Label legacy `product_ref=39212271` hanya memindai src/supabase, tidak scripts/cp7-src;
+limit metadata itu dicatat, bukan dianggap seluruh run menguji produk lama.
+Bukti ini milik penulis, bukan penerimaan auditor, dan tidak menguji perubahan OW-02 sesudahnya.
+Jalur tujuh domain baru teruji; **OW-01 belum ditandai selesai penuh** karena batas keputusan
+kebutuhan aksesori rencana masih terbuka sebagaimana bagian akhir dokumen ini.
 
 ## Perubahan perilaku yang disengaja
 

@@ -4,7 +4,8 @@ Penulis: Astra/Codex. Cabang `astra/d17-14-20261020`, mulai dari
 `5fd5d38ef43618e48f9aa36208f46ad2290404c0`. Otorisasi owner: **“gas”**, 20 Oktober 2026,
 sesudah serah-terima D17-14. Kandidat auditor `55c885d1` tetap beku.
 
-Lingkup tetap semua 15 butir `OPEN_WORK_D17_14_20261020.md`. Belum ada butir yang dinyatakan selesai.
+Lingkup kini semua **16 butir** `OPEN_WORK_D17_14_20261020.md` (15 D17-14 + OW-16 D17-15).
+Belum ada butir yang dinyatakan selesai penuh.
 Penulis tidak memberikan penerimaan audit independen. Pemeriksa berikutnya Fable atau Sol.
 `production_go:false`; tidak ada perubahan hosted, main, Cloudflare, Drive, atau pengiriman WA nyata.
 
@@ -35,7 +36,10 @@ karena hanya UID root tersedia; tidak ada pengujian hosted sebagai pengganti.
 TypeScript dan pemeriksaan kepemilikan sumber/akses/CSS, pemulihan perintah dan keterjangkauan SQL lulus.
 Bukti dan batasnya: `docs/cp7/d17-14/ow01/README.md`. Tujuh kasus Native baru dan perluasan browser
 desktop/HP telah dideklarasikan. CI pertama 39406686784 di 39212271 selesai 59/65 PASS:
-enam INCOMPLETE disimpan dan sedang diperbaiki; tujuh browser PASS. OW-01 belum selesai.
+enam INCOMPLETE disimpan; tujuh browser PASS. Perbaikan pada `0bde7153` lulus run39409032583:
+65/65 PASS (48 Native/6 balapan/4 HTTP/7 browser). Hash SQL terpasang cocok komposisi0b,
+meskipun metadata legacy product_ref masih392 karena tidak memindai scripts/cp7-src.
+Receipt per kasus: `docs/cp7/d17-14/ow01/CI_39409032583.json`. Batas kebutuhan aksesori rencana tetap terbuka.
 
 ## Berikutnya
 
@@ -51,6 +55,17 @@ OW-16: setelah potongan selesai, tampil otomatis status total pcs berdasarkan ri
 berkelompok jenis bahan + pola + rentang ukuran pola (jumbo/kecil). Tidak ke WA atau Pengingat.
 Lebar rentang dan minimum riwayat belum boleh dikarang. Perubahan produk belum dimulai.
 
-OW-02: dispatcher privat sudah ditulis di working tree, memakai satu tick K4 yang sama untuk analisis
+OW-02: dispatcher privat sudah di-commit, memakai satu tick K4 yang sama untuk analisis
 bertahap, laporan, set pengingat dan analisis tunggal. Pemeriksaan lokal sintetis 15/15, bukan Native.
-Kasus Native/balapan sedang ditulis; belum diklaim selesai dan belum terpasang ke hosted.
+Manifest 32 kasus lengkap (13 Native, 13 balapan, 2 HTTP, 4 browser), dicocokkan sebelum push;
+dua browser baru benar-benar menutup tab laporan/pengingat/analisis lalu membuka hasil yang sama.
+Counter-review menemukan cacat fakta basi/recovery/seri revisi; 4 gagal awal→14/14, lalu 6 gagal→20/20 DOM.
+Log semua percobaan dipertahankan. Hasil Native/browser CI OW-02 belum ada saat catatan ini dibuat.
+
+## Pemeriksa internal dan lanjutannya
+
+Owner menegaskan satu integrator dan empat pembantu GPT-6.1 Sol Max, tanpa anak agen.
+Penilaian awal dikunci pada satu kandidat, baru kemudian UI↔SQL dan uang/HPP↔stok/koreksi saling counter.
+Ini review internal writer, bukan audit eksternal. Temuan, bukti dan batasnya:
+`docs/cp7/d17-14/INTERNAL_COUNTER_REVIEW_20261020.md`.
+Rancangan reproduksi uang/HPP berikutnya ada di `NEXT_MONEY_WORK_SOURCE_REVIEW.md`; belum dianggap runtime terbukti.

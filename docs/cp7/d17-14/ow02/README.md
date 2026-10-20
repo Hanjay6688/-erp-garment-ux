@@ -21,8 +21,8 @@ Pemasangan operasional tetap pekerjaan CP7C yang ditahan.
 
 ## Expected yang dideklarasikan sebelum CI
 
-Manifest `docs/cp7/k4/K4_RUNNER.json`: **30 kasus** (13 Native, 11 balapan, 2 HTTP, 4 browser).
-Seluruh 17 kasus lama dipertahankan. Tambahan: enam Native, lima balapan dan dua browser desktop/HP.
+Manifest `docs/cp7/k4/K4_RUNNER.json`: **32 kasus** (13 Native, 13 balapan, 2 HTTP, 4 browser).
+Seluruh 17 kasus lama dipertahankan. Tambahan: enam Native, tujuh balapan dan dua browser desktop/HP.
 
 - Laporan: selesai tanpa langkah halaman; dokumen dan seluruh bagian diverifikasi hash; satu publikasi;
   angka keuangan tetap disertakan dan rekonsiliasi bisnis tetap sama.
@@ -51,6 +51,12 @@ CI pada cabang penulis harus menguji instalasi asli, seluruh kasus dan pemulihan
 Counter-review internal penulis tidak menggantikan audit independen Fable/Sol.
 `production_go:false`.
 
+Tambahan setelah penilaian awal pemeriksa SQL: dua kasus batas waktu memakai kunci tabel keluaran
+asli dan batas lebih ketat 2 detik. Expected: percobaan 1/2 RUNNING tanpa unit/keluaran tambahan,
+percobaan 3 FAILED dengan kode tepat 57014, sesudahnya tidak dicoba selamanya.
+Semua balapan tambahan juga memeriksa ketiga pengaturan JWT pemanggil pada koneksi yang sama,
+sebelum commit/pemulihan harness. Deklarasi 32 kasus dicocokkan dengan modul sebelum push.
+
 ## Counter-review dan kegagalan lokal pertama
 
 Pada kandidat lokal `5e4554247b5e0a8c6d71d6687d6e77e6c79989b2`, pemeriksa UI menemukan
@@ -66,3 +72,14 @@ Laporan dibuka ulang harus cocok nomor publikasi, run, identitas, hash, dan ring
 analisis tunggal harus cocok run yang ditampilkan, hash semantik hasil dan jumlah seluruh target.
 Kasus mobile K4 lama hanya berhenti memantau; dua kasus OTHER yang baru benar-benar menutup
 tiga tab masing-masing pada desktop dan HP. Batas kasus lama tetap dicatat, tidak dilabeli ulang.
+
+Putaran koreksi kedua memakai enam kasus tambahan: recovery dari tab lain dan balasan lama yang
+datang terlambat; workspace pengingat RUNNING/FAILED/tidak ada setelah DONE; pindah publikasi B
+sesudah menyiapkan revisi A. **6 gagal, 14 lulus** pada kode `155d9dc7`
+(`local-shared-recovery-first-failure.log`). Perbaikan membatalkan generasi baca saat recovery,
+membersihkan fakta yang tidak lagi DONE, serta membatalkan pilihan revisi dan konfirmasi saat membuka
+publikasi lain. Seluruh **20/20 lulus** (`local-shared-recovery-fixed.log`).
+Satu percobaan perbaikan membersihkan halaman DONE terlalu luas saat workspace normal dimuat ulang,
+sehingga dua prasyarat uji lama tidak terpenuhi. Percobaan gagal itu dipertahankan di
+`local-refresh-attempt-first-failure.log`; pembersihan kini sesuai perubahan keadaan/hak.
+Expected negatif dan hasil akhir uji tidak dilonggarkan.

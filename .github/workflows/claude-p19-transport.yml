@@ -90,7 +90,7 @@ jobs:
       matrix:
         include:
         # Keep every gate; start the changed runner before the long scale ladder.
-        - suite: k4-runner-30
+        - suite: k4-runner-32
           probe: cp7_k4_runner_probe.py
           timeout: 180
         - suite: p19-transport11

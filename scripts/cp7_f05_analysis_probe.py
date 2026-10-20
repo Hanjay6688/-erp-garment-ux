@@ -109,7 +109,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   import cp7_reminder_v2_bundle as candidate
   import cp7_k4_runner_cases as case_provider
   def checker(cur):verify(cur);candidate.verify(cur)
-  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==30;out=OUT.with_name('CP7_K4_RUNNER.json');phase='cp7_k4_runner';browser_script='cp7_k4_runner_browser.mjs'
+  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==32;out=OUT.with_name('CP7_K4_RUNNER.json');phase='cp7_k4_runner';browser_script='cp7_k4_runner_browser.mjs'
  if k6_proof_runner:
   # K6 (owner decision 8 Oct 2026, 8, PL-8): the exhaustion proofs are made by
   # the server's runner (pg_cron, one window per tick through the unchanged

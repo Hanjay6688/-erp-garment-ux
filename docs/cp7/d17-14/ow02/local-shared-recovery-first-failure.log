@@ -1,0 +1,407 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/9442228ed2dc/erp-d1714
+
+ ❯ src/NativeStagedReportsPanel.dom.test.tsx (9 tests | 2 failed) 980ms
+   × retires report facts and an in-flight old read when shared recovery changes 103ms
+   × opening another publication retires the previous revision series and review confirmation 155ms
+ ❯ src/NativeStagedRemindersPanel.dom.test.tsx (11 tests | 4 failed) 1196ms
+   × retires conditions and a late old response on shared recovery 76ms
+   × does not reuse a DONE page when fresh workspace conditions are RUNNING 91ms
+   × does not reuse a DONE page when fresh workspace conditions are FAILED 89ms
+   × does not reuse a DONE page when fresh workspace conditions are ABSENT 85ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/NativeStagedRemindersPanel.dom.test.tsx > retires conditions and a late old response on shared recovery
+AssertionError: expected <ul …(1)><li …(1)>…(4)</li>
+…(2)</ul> to be null
+
+- Expected:
+null
+
++ Received:
+<ul
+  aria-label="Daftar pengingat dari analisis"
+>
+  <li
+    data-condition-key="PRODUCTION_GAP:00000000-0000-4000-8000-000000000001:44444444-4444-4444-8444-444444444444"
+  >
+    <p>
+      <strong>
+        SKU-1 · Produk 1
+      </strong>
+       · 
+      Kebutuhan produksi
+       · 
+      Perlu ditangani saat analisis
+       · 
+      4
+       
+      PCS
+    </p>
+    <p>
+      Pengaturan: 
+      Bisa ditinjau secara lokal
+    </p>
+    <button
+      aria-label="Periksa ulang sekarang SKU-1 · Produk 1"
+      disabled=""
+    >
+      Periksa ulang sekarang
+    </button>
+    <button
+      aria-label="Buat pratinjau lokal SKU-1 · Produk 1"
+      disabled=""
+    >
+      Buat pratinjau lokal
+    </button>
+  </li>
+  <li
+    data-condition-key="PRODUCTION_GAP:00000000-0000-4000-8000-000000000002:44444444-4444-4444-8444-444444444444"
+  >
+    <p>
+      <strong>
+        SKU-2 · Produk 2
+      </strong>
+       · 
+      Kebutuhan produksi
+       · 
+      Perlu ditangani saat analisis
+       · 
+      5
+       
+      PCS
+    </p>
+    <p>
+      Pengaturan: 
+      Bisa ditinjau secara lokal
+    </p>
+    <button
+      aria-label="Periksa ulang sekarang SKU-2 · Produk 2"
+      disabled=""
+    >
+      Periksa ulang sekarang
+    </button>
+    <button
+      aria-label="Buat pratinjau lokal SKU-2 · Produk 2"
+      disabled=""
+    >
+      Buat pratinjau lokal
+    </button>
+  </li>
+  <li
+    data-condition-key="PRODUCTION_GAP:00000000-0000-4000-8000-000000000003:44444444-4444-4444-8444-444444444444"
+  >
+    <p>
+      <strong>
+        SKU-3 · Produk 3
+      </strong>
+       · 
+      Kebutuhan produksi
+       · 
+      Perlu ditangani saat analisis
+       · 
+      6
+       
+      PCS
+    </p>
+    <p>
+      Pengaturan: 
+      Bisa ditinjau secara lokal
+    </p>
+    <button
+      aria-label="Periksa ulang sekarang SKU-3 · Produk 3"
+      disabled=""
+    >
+      Periksa ulang sekarang
+    </button>
+    <button
+      aria-label="Buat pratinjau lokal SKU-3 · Produk 3"
+      disabled=""
+    >
+      Buat pratinjau lokal
+    </button>
+  </li>
+</ul>
+
+ ❯ src/NativeStagedRemindersPanel.dom.test.tsx:105:83
+    103|  await act(async()=>{[...container.querySelectorAll('button')].find(b=…
+    104|  await act(async()=>window.dispatchEvent(new StorageEvent('storage',{k…
+    105|  expect(container.querySelector('[aria-label="Daftar pengingat dari an…
+       |                                                                                   ^
+    106|  const q={run_id:f.run,rule_id:null,state:'ACTIVE',offset:0,limit:25}
+    107|  await act(async()=>finish({data:f.page(q),error:null}));await settle()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  src/NativeStagedRemindersPanel.dom.test.tsx > does not reuse a DONE page when fresh workspace conditions are RUNNING
+ FAIL  src/NativeStagedRemindersPanel.dom.test.tsx > does not reuse a DONE page when fresh workspace conditions are FAILED
+ FAIL  src/NativeStagedRemindersPanel.dom.test.tsx > does not reuse a DONE page when fresh workspace conditions are ABSENT
+AssertionError: expected <ul …(1)><li …(1)>…(4)</li>
+…(2)</ul> to be null
+
+- Expected:
+null
+
++ Received:
+<ul
+  aria-label="Daftar pengingat dari analisis"
+>
+  <li
+    data-condition-key="PRODUCTION_GAP:00000000-0000-4000-8000-000000000001:44444444-4444-4444-8444-444444444444"
+  >
+    <p>
+      <strong>
+        SKU-1 · Produk 1
+      </strong>
+       · 
+      Kebutuhan produksi
+       · 
+      Perlu ditangani saat analisis
+       · 
+      4
+       
+      PCS
+    </p>
+    <p>
+      Pengaturan: 
+      Bisa ditinjau secara lokal
+    </p>
+    <button
+      aria-label="Periksa ulang sekarang SKU-1 · Produk 1"
+    >
+      Periksa ulang sekarang
+    </button>
+    <button
+      aria-label="Buat pratinjau lokal SKU-1 · Produk 1"
+    >
+      Buat pratinjau lokal
+    </button>
+  </li>
+  <li
+    data-condition-key="PRODUCTION_GAP:00000000-0000-4000-8000-000000000002:44444444-4444-4444-8444-444444444444"
+  >
+    <p>
+      <strong>
+        SKU-2 · Produk 2
+      </strong>
+       · 
+      Kebutuhan produksi
+       · 
+      Perlu ditangani saat analisis
+       · 
+      5
+       
+      PCS
+    </p>
+    <p>
+      Pengaturan: 
+      Bisa ditinjau secara lokal
+    </p>
+    <button
+      aria-label="Periksa ulang sekarang SKU-2 · Produk 2"
+    >
+      Periksa ulang sekarang
+    </button>
+    <button
+      aria-label="Buat pratinjau lokal SKU-2 · Produk 2"
+    >
+      Buat pratinjau lokal
+    </button>
+  </li>
+  <li
+    data-condition-key="PRODUCTION_GAP:00000000-0000-4000-8000-000000000003:44444444-4444-4444-8444-444444444444"
+  >
+    <p>
+      <strong>
+        SKU-3 · Produk 3
+      </strong>
+       · 
+      Kebutuhan produksi
+       · 
+      Perlu ditangani saat analisis
+       · 
+      6
+       
+      PCS
+    </p>
+    <p>
+      Pengaturan: 
+      Bisa ditinjau secara lokal
+    </p>
+    <button
+      aria-label="Periksa ulang sekarang SKU-3 · Produk 3"
+    >
+      Periksa ulang sekarang
+    </button>
+    <button
+      aria-label="Buat pratinjau lokal SKU-3 · Produk 3"
+    >
+      Buat pratinjau lokal
+    </button>
+  </li>
+</ul>
+
+ ❯ src/NativeStagedRemindersPanel.dom.test.tsx:116:83
+    114|  client.rpc.mockResolvedValue({data:f.workspace(true,{conditions:statu…
+    115|  await click('Muat hasil pengingat tersimpan')
+    116|  expect(container.querySelector('[aria-label="Daftar pengingat dari an…
+       |                                                                                   ^
+    117|  expect(container.querySelector('[aria-label="Piutang dan utang terbuk…
+    118|  expect(container.querySelector('[aria-label="Pratinjau lokal penginga…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  src/NativeStagedReportsPanel.dom.test.tsx > retires report facts and an in-flight old read when shared recovery changes
+AssertionError: expected <article …(3)>…(9)</article> to be null
+
+- Expected:
+null
+
++ Received:
+<article
+  aria-label="Isi laporan bertahap"
+  data-freshness-state="CHANGES_RECORDED"
+  data-report-id="44444444-4444-4444-8444-444444444444"
+>
+  <h4>
+    Briefing pagi
+     · versi 
+    1
+  </h4>
+  <p>
+    Versi terbaru dalam seri ini.
+     Data analisis per 
+    8 Okt 2026, 08.00 WIB
+    . 
+    Saat laporan dibuat: ada 3 perubahan tercatat sejak data diambil; isi analisis tetap keadaan saat data diambil.
+  </p>
+  <p>
+    Stok barang jadi aktual dibaca 
+    8 Okt 2026, 09.00 WIB
+     · tanggal laporan 
+    2026-10-08
+    . 
+    Keuangan dan HPP tidak dimasukkan.
+  </p>
+  <p>
+    Alasan: 
+    Ditinjau dari analisis bertahap
+  </p>
+  <button
+    disabled=""
+  >
+    Buat revisi dari laporan ini
+  </button>
+  <pre
+    aria-label="Ringkasan laporan bertahap"
+  >
+    Briefing pagi
+
+BRIEFING HARIAN
+
+Data analisis per 2026-10-08 08:00:00 WIB (analisis bertahap, 5 target). Isi analisis adalah keadaan pada waktu itu, bukan angka saat ini.
+  </pre>
+  <div>
+    <label>
+      Pilih bagian laporan
+      <select
+        aria-label="Pilih bagian laporan bertahap"
+        disabled=""
+      >
+        <option
+          value="0"
+        >
+          Bagian 
+          1
+          : target 
+          1
+          –
+          3
+           dari 
+          5
+        </option>
+        <option
+          value="1"
+        >
+          Bagian 
+          2
+          : target 
+          4
+          –
+          5
+           dari 
+          5
+        </option>
+      </select>
+    </label>
+    <button
+      disabled=""
+    >
+      Buka bagian laporan
+    </button>
+  </div>
+  <pre
+    aria-label="Bagian laporan bertahap"
+    data-section-index="0"
+  >
+    BAGIAN 1 dari 2 · Target 1–3 dari 5 · Data analisis per 2026-10-08 08:00:00 WIB.
+
+SKU-1 · Produk 1 · size S · Aktif: stok fisik saat analisis 5 PCS; stok fisik aktual per 2026-10-08 09:00:00 WIB 8 PCS
+  </pre>
+  <details>
+    <summary>
+      Identitas laporan
+    </summary>
+    <p>
+      Analisis 
+      22222222-2222-4222-8222-222222222222
+       · identitas 
+      eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+    </p>
+    <p>
+      Hash laporan 
+      b2c079a2a69f60469fdc9637bce4da44d1da9396854564705a97c1bec25b5a6c
+       · diterbitkan 
+      8 Okt 2026, 09.00 WIB
+      .
+    </p>
+  </details>
+</article>
+
+ ❯ src/NativeStagedReportsPanel.dom.test.tsx:100:73
+     98|  await act(async()=>button('Buka bagian laporan').click())
+     99|  await act(async()=>window.dispatchEvent(new StorageEvent('storage',{k…
+    100|  expect(container.querySelector('[aria-label="Isi laporan bertahap"]')…
+       |                                                                         ^
+    101|  expect(container.querySelector('[aria-label="Buka laporan bertahap 1"…
+    102|  await act(async()=>finish({data:f.section(0),error:null}));await sett…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  src/NativeStagedReportsPanel.dom.test.tsx > opening another publication retires the previous revision series and review confirmation
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/NativeStagedReportsPanel.dom.test.tsx:116:110
+    114|  await act(async()=>(container.querySelector('[aria-label="Buka lapora…
+    115|  expect(container.querySelector('[aria-label="Isi laporan bertahap"]')…
+    116|  expect([...container.querySelectorAll('button')].some(b=>b.textConten…
+       |                                                                                                              ^
+    117|  expect(button('Buat laporan dari analisis ini').disabled).toBe(true)
+    118|  expect((container.querySelector('[aria-label="Laporan bertahap sudah …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  6 failed | 14 passed (20)
+   Start at  19:52:43
+   Duration  2.10s (transform 463ms, setup 0ms, import 700ms, tests 2.18s, environment 735ms)
+

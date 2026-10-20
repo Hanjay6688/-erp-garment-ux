@@ -5,6 +5,7 @@ no synthetic business facts, altered steps, real schedule installation or send.
 The real-browser closed-tab cases are declared separately by K4.
 """
 from concurrent.futures import ThreadPoolExecutor
+import json
 import time
 import uuid
 
@@ -17,7 +18,8 @@ IDS = ['K4R_REPORT_FINISHES_WITHOUT_PAGE', 'K4R_REMINDER_FINISHES_WITHOUT_PAGE',
        'K4R_OTHER_FAMILIES_REVOKED_ACTOR', 'K4R_BACKGROUND_PRIVATE_NO_NATIVE_GRANTS']
 RACE_IDS = ['K4R_REPORT_PAGE_SERVER_ONE_UNIT', 'K4R_REMINDER_PAGE_SERVER_ONE_UNIT',
             'K4R_REPORT_REVOKED_DURING_SERVER_UNIT', 'K4R_REMINDER_REVOKED_DURING_SERVER_UNIT',
-            'K4R_SINGLE_PAGE_LOCK_SKIPPED_BY_SERVER']
+            'K4R_SINGLE_PAGE_LOCK_SKIPPED_BY_SERVER',
+            'K4R_REPORT_SERVER_TIMEOUT_RESTORES_CALLER', 'K4R_REMINDER_SERVER_TIMEOUT_RESTORES_CALLER']
 
 
 def cases(cur, today):
@@ -141,9 +143,18 @@ def races(tools, today):
     import cp7_k4_runner_cases as k4
     b, auth = k4.b, k4.auth
 
-    def ticking():
+    def ticking(timeout='8s'):
         with tools.connect() as conn, conn.cursor() as cur:
-            out = k4.tick(cur)
+            b.api.admin(cur)
+            # All three identity settings must survive success, revocation
+            # and timeout in the SAME connection, before commit or cleanup.
+            for name, value in [('request.jwt.claims', json.dumps({'sub': str(uuid.uuid4()), 'role': 'authenticated', 'probe': 'OW02_CALLER'})),
+                                ('request.jwt.claim.sub', str(uuid.uuid4())),
+                                ('request.jwt.claim', json.dumps({'sub': str(uuid.uuid4()), 'probe': 'OW02_SECONDARY'}))]:
+                cur.execute('select set_config(%s,%s,true)', (name, value))
+            identity = cur.execute("select current_setting('request.jwt.claims',true),current_setting('request.jwt.claim.sub',true),current_setting('request.jwt.claim',true)").fetchone()
+            out = k4.tick(cur, timeout)
+            assert cur.execute("select current_setting('request.jwt.claims',true),current_setting('request.jwt.claim.sub',true),current_setting('request.jwt.claim',true)").fetchone() == identity, 'OW02_CALLER_IDENTITY_NOT_RESTORED'
             conn.commit()
             return out
 
@@ -233,5 +244,44 @@ def races(tools, today):
             assert transport.counts(cur, key) == (1, 1, 1)
         return dict(status='PASS', page_advisory_lock_skipped=True, same_job_completed_after_release=True, one_original=True)
 
+    def timed_out(family):
+        with tools.connect() as conn, conn.cursor() as cur:
+            k4.load.real_workload(cur, today)
+            r = report.staged_run(cur, today)
+            key = uuid.uuid4()
+            if family == 'REPORT':
+                first = report.publish(cur, report.payload(r), key)
+                relation, table, where, value, code = ('cp7_analysis_stage.report_reads', 'cp7_analysis_stage.report_jobs',
+                    'request_id', key, 'CP7_REPORT_V2_STAGE_STOPPED')
+            else:
+                first = reminder.rpc(cur, 'erp_cp7_step_reminder_conditions_v2', (r['run'],))
+                relation, table, where, value, code = ('cp7_reminder_native.staged_conditions', 'cp7_reminder_native.staged_condition_sets',
+                    'run_id', r['run'], 'CP7_REMINDER_V2_STAGE_STOPPED')
+            assert first['state'] == 'RUNNING', first
+            b.api.admin(cur)
+            before = cur.execute('select count(*)from '+relation).fetchone()[0]
+            conn.commit()
+        holder = tools.connect()
+        try:
+            holder.execute('lock table '+relation+' in access exclusive mode')
+            for attempt in range(1, 4):
+                out = ticking('2s')
+                assert out['family'] == family and out['units_done'] == first['units_done'], out
+                assert out['outcome'] == ('UNIT_RETRY' if attempt < 3 else 'JOB_FAILED'), out
+                with tools.connect() as conn, conn.cursor() as cur:
+                    got = cur.execute('select state,unit_attempts,failure_sqlstate,failure_code from '+table+' where '+where+'=%s', (value,)).fetchone()
+                    assert got == (('RUNNING', attempt, None, None) if attempt < 3 else ('FAILED', 3, '57014', code)), got
+        finally:
+            holder.rollback()
+            holder.close()
+        with tools.connect() as conn, conn.cursor() as cur:
+            assert cur.execute('select count(*)from '+relation).fetchone()[0] == before
+            assert k4.tick(cur)['outcome'] == 'IDLE'
+            conn.commit()
+        return dict(status='PASS', family=family, real_output_lock=True, statement_limit='2s',
+                    unchanged_units_and_output=True, attempts=[1, 2, 3], final_sqlstate='57014',
+                    final_code=code, all_three_caller_identity_settings_restored_in_same_connection=True)
+
     return list(zip(RACE_IDS, (lambda: unit('REPORT', False), lambda: unit('REMINDER', False),
-                              lambda: unit('REPORT', True), lambda: unit('REMINDER', True), single_locked)))
+                              lambda: unit('REPORT', True), lambda: unit('REMINDER', True), single_locked,
+                              lambda: timed_out('REPORT'), lambda: timed_out('REMINDER'))))

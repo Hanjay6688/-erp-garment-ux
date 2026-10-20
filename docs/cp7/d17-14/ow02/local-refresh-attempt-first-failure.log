@@ -1,0 +1,36 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/9442228ed2dc/erp-d1714
+
+ ❯ src/NativeStagedRemindersPanel.dom.test.tsx (11 tests | 2 failed) 1142ms
+   × retires stored conditions, checks and previews after 42501 until a successful reread 150ms
+   × retires stored conditions, checks and previews after NETWORK until a successful reread 123ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/NativeStagedRemindersPanel.dom.test.tsx > retires stored conditions, checks and previews after 42501 until a successful reread
+ FAIL  src/NativeStagedRemindersPanel.dom.test.tsx > retires stored conditions, checks and previews after NETWORK until a successful reread
+AssertionError: expected null to be truthy
+
+- Expected:
+true
+
++ Received:
+null
+
+ ❯ src/NativeStagedRemindersPanel.dom.test.tsx:73:83
+     71|  const item=container.querySelector(`[data-condition-key="PRODUCTION_G…
+     72|  await click('Periksa ulang sekarang SKU-1 · Produk 1',item);await cli…
+     73|  expect(container.querySelector('[aria-label="Daftar pengingat dari an…
+       |                                                                                   ^
+     74|  expect(container.querySelector('[data-verdict="STILL_OPEN"]')).toBeTr…
+     75|  expect(container.querySelector('[aria-label="Pratinjau lokal penginga…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 18 passed (20)
+   Start at  19:53:57
+   Duration  2.12s (transform 623ms, setup 0ms, import 895ms, tests 2.20s, environment 703ms)
+

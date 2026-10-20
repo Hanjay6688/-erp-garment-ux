@@ -1,4 +1,4 @@
-import {useEffect,useMemo,useRef,useState} from 'react'
+import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {getUatSupabaseClient} from './lib/supabase'
 import {normalizeClientError} from './lib/clientError'
@@ -35,13 +35,14 @@ function Reminders({staged,blocked:outer,scope,actor}:Props&{scope:string;actor:
  const[bLabel,setBLabel]=useState('Pratinjau lokal'),[bRules,setBRules]=useState<ReminderRule[]>(['PRODUCTION_GAP']),[bEnabled,setBEnabled]=useState(true),[bReason,setBReason]=useState('')
  const[pRule,setPRule]=useState<ReminderRule>('PRODUCTION_GAP'),[pValue,setPValue]=useState(''),[pUnit,setPUnit]=useState('PCS'),[pCooldown,setPCooldown]=useState('0'),[pReason,setPReason]=useState('')
  const[resolveReason,setResolveReason]=useState('')
+ const retireFacts=useCallback(()=>{setSet(null);setWs(null);setPage(null);setOffset(0);setChecks({});setLast(null);setLive(null);setMessage('')},[])
  useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;++seq.current}},[])
- useEffect(()=>{const l=(e:StorageEvent)=>{if(e.key===null||e.key===reminderV2RequestKey(scope))setRecovery(readReminderRequest(scope))};addEventListener('storage',l);return()=>removeEventListener('storage',l)},[scope])
+ useEffect(()=>{const l=(e:StorageEvent)=>{if(e.key===null||e.key===reminderV2RequestKey(scope)){++seq.current;retireFacts();setBusy(false);setRecovery(readReminderRequest(scope))}};addEventListener('storage',l);return()=>removeEventListener('storage',l)},[scope,retireFacts])
  const blocked=outer||busy
  // Refused/uncertain reads must not leave old balances, conditions or preview
  // bodies on screen. An unresolved command keeps its stored UUID for lookup.
- const perform=async(op:(n:number)=>Promise<void>)=>{const n=++seq.current;setBusy(true);setError('');setMessage('');try{await op(n)}catch(e){if(n===seq.current&&mounted.current){setSet(null);setWs(null);setPage(null);setOffset(0);setChecks({});setLast(null);setLive(null);setError(normalizeClientError(e).message)}}finally{if(n===seq.current&&mounted.current){setBusy(false);setRecovery(readReminderRequest(scope))}}}
- const loadWs=async(n:number)=>{const r=await client.rpc('erp_cp7_get_reminder_workspace_v2',{p_run:run.runId});if(n!==seq.current)return;if(r.error)throw r.error;const parsed=parseWorkspace(r.data,run.runId,run.identityHash,actor);setWs(parsed);setSet(parsed.conditions);return parsed}
+ const perform=async(op:(n:number)=>Promise<void>)=>{const n=++seq.current;setBusy(true);setError('');setMessage('');try{await op(n)}catch(e){if(n===seq.current&&mounted.current){retireFacts();setError(normalizeClientError(e).message)}}finally{if(n===seq.current&&mounted.current){setBusy(false);setRecovery(readReminderRequest(scope))}}}
+ const loadWs=async(n:number)=>{const r=await client.rpc('erp_cp7_get_reminder_workspace_v2',{p_run:run.runId});if(n!==seq.current)return;if(r.error)throw r.error;const parsed=parseWorkspace(r.data,run.runId,run.identityHash,actor);setWs(parsed);setSet(parsed.conditions);if(parsed.conditions?.state!=='DONE'||!parsed.manageAllowed){setPage(null);setOffset(0);setChecks({});setLast(null);setLive(null)}return parsed}
  const loadPage=async(n:number,at:number)=>{const q:ConditionsQuery={run_id:run.runId,rule_id:ruleFilter||null,state:stateFilter||null,offset:at,limit:PAGE}
   const r=await client.rpc('erp_cp7_read_reminder_conditions_v2',{p_query:q});if(n!==seq.current)return;if(r.error)throw r.error;setPage(parseConditionsPage(r.data,q,actor,run.identityHash));setOffset(at)}
  const prepare=()=>void perform(async n=>{
@@ -63,13 +64,13 @@ function Reminders({staged,blocked:outer,scope,actor}:Props&{scope:string;actor:
    :await client.rpc('erp_cp7_resolve_reminder_claim_v2',args)
   if(n!==seq.current)return
   if(res.error){if(serverAnswer(res.error))clearReminderRequest(scope,r);throw res.error}
-  const out=parseCommand(res.data,r,actor);clearReminderRequest(scope,r);setLast(out)
+  const out=parseCommand(res.data,r,actor);clearReminderRequest(scope,r)
   if(out.status==='NOT_COMMITTED')setMessage('Server memastikan permintaan lama belum tersimpan dan sudah ditutup. Buat permintaan baru bila masih diperlukan.')
   else if(out.outcome==='NOT_SENT'&&out.recheck)setMessage('Tidak dibuat pratinjau. '+verdictText(out.recheck))
   else if(out.operation==='BINDING')setMessage('Tujuan pratinjau lokal tersimpan. Tidak ada penerima atau pengiriman di luar ERP.')
   else if(out.operation==='POLICY')setMessage('Pengaturan pengingat tersimpan sebagai versi baru.')
   else if(out.operation==='OUTCOME'&&out.claim)setMessage(claimStatusLabels[out.claim.status]+(out.claim.status==='SUPPRESSED'&&out.recheck?'. '+verdictText(out.recheck):'.'))
-  await loadWs(n)})
+  const current=await loadWs(n);if(n===seq.current&&current?.manageAllowed)setLast(out)})
  const send=(operation:Operation,payload:Record<string,unknown>)=>{try{
   const held=readReminderRequest(scope);if(held.error||held.pending)throw Error(held.error??'Selesaikan permintaan pengingat yang tertunda terlebih dahulu.')
   const r:ReminderRequest={id:crypto.randomUUID(),operation,runId:run.runId,payload:{run_id:run.runId,identity_hash:run.identityHash,...payload}}

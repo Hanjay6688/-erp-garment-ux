@@ -1,9 +1,9 @@
 {
   "contract": "cp7.k4.server-runner.v1",
-  "expected_case_count": 30,
+  "expected_case_count": 32,
   "required_case_counts": {
     "native": 13,
-    "races": 11,
+    "races": 13,
     "http": 2,
     "browser": 4
   },
@@ -34,7 +34,9 @@
       "K4R_REMINDER_PAGE_SERVER_ONE_UNIT",
       "K4R_REPORT_REVOKED_DURING_SERVER_UNIT",
       "K4R_REMINDER_REVOKED_DURING_SERVER_UNIT",
-      "K4R_SINGLE_PAGE_LOCK_SKIPPED_BY_SERVER"
+      "K4R_SINGLE_PAGE_LOCK_SKIPPED_BY_SERVER",
+      "K4R_REPORT_SERVER_TIMEOUT_RESTORES_CALLER",
+      "K4R_REMINDER_SERVER_TIMEOUT_RESTORES_CALLER"
     ],
     "http": [
       "K4R_HTTP_CLOSED_PAGE_FINISHES",
@@ -107,7 +109,7 @@
     ],
     "browser_closed_tab_cases": 2,
     "new_native_cases": 6,
-    "new_concurrent_cases": 5,
+    "new_concurrent_cases": 7,
     "wa_settings_required": false,
     "new_schedule": false,
     "native_business_writes": false,

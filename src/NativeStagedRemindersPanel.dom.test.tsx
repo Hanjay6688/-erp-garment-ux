@@ -96,3 +96,24 @@ it('keeps a pending request and closes it by lookup without sending anything new
  expect(client.rpc.mock.calls[0]).toEqual(['erp_cp7_get_reminder_request_v2',{p_payload:r.payload,p_request:r.id,p_operation:'CLAIM'}])
  expect(container.textContent).toContain('Server memastikan permintaan lama belum tersimpan');expect(localStorage.getItem('erp.cp7.reminder-v2-request.v1:'+scope)).toBeNull()
 })
+it('retires conditions and a late old response on shared recovery',async()=>{
+ server();await render();await click('Muat hasil pengingat tersimpan')
+ let finish!:(value:unknown)=>void
+ client.rpc.mockImplementation(()=>new Promise(resolve=>{finish=resolve}))
+ await act(async()=>{[...container.querySelectorAll('button')].find(b=>b.textContent==='Tampilkan pengingat')!.click()})
+ await act(async()=>window.dispatchEvent(new StorageEvent('storage',{key:'erp.cp7.reminder-v2-request.v1:'+scope})))
+ expect(container.querySelector('[aria-label="Daftar pengingat dari analisis"]')).toBeNull()
+ const q={run_id:f.run,rule_id:null,state:'ACTIVE',offset:0,limit:25}
+ await act(async()=>finish({data:f.page(q),error:null}));await settle()
+ expect(container.querySelector('[aria-label="Daftar pengingat dari analisis"]')).toBeNull()
+ expect([...container.querySelectorAll('button')].find(b=>b.textContent==='Muat hasil pengingat tersimpan')!.disabled).toBe(false)
+})
+it.each(['RUNNING','FAILED','ABSENT'])('does not reuse a DONE page when fresh workspace conditions are %s',async status=>{
+ server();await render();await click('Muat hasil pengingat tersimpan')
+ expect(container.querySelector('[aria-label="Daftar pengingat dari analisis"]')).toBeTruthy()
+ client.rpc.mockResolvedValue({data:f.workspace(true,{conditions:status==='ABSENT'?null:f.setStatus(status as 'RUNNING'|'FAILED',1)}),error:null})
+ await click('Muat hasil pengingat tersimpan')
+ expect(container.querySelector('[aria-label="Daftar pengingat dari analisis"]')).toBeNull()
+ expect(container.querySelector('[aria-label="Piutang dan utang terbuka"]')).toBeNull()
+ expect(container.querySelector('[aria-label="Pratinjau lokal pengingat"]')).toBeNull()
+})
