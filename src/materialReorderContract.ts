@@ -10,7 +10,7 @@ import {
 // writes is refused with "Respons titik pesan ulang tidak cocok"; quantities stay decimal text in the material's own unit.
 // Owner D17-10 ("aksesoris pake batas minimum manual aja ... rumus ga penting"): an accessory never has the formula. Owner
 // D17-12 ("slot untuk diisi aja in app"): the app works its minimum out from the owner's own numbers per accessory (MOQ, lama
-// kirim dari Cina, perkiraan pemakaian per bulan, cadangan): ESTIMATE = ceil to 0.01 of usage_month / 30 x (lead + buffer).
+// kirim dari Cina, perkiraan pemakaian per bulan, cadangan): ESTIMATE = ceil to 0.01 of usage_month x (lead + buffer) / 30, exact.
 // A minimum typed directly wins (MANUAL); neither: NOT_SET (NO_MINIMUM_OR_ESTIMATE). Its measured usage per day is shown next
 // to the estimate, never used in the number. Fabric rows are unchanged (the four estimate keys are always null there).
 export type MaterialType = 'FABRIC' | 'ACCESSORY'

@@ -150,7 +150,7 @@
       "fabric_stock": "every location; on order: remaining opening purchase commitments (erp.bb_commitment_line_remaining_v1)",
       "accessory_stock": "active raw-material warehouses that are not a service zone (what Bahan & Roll shows on hand); no on-order source",
       "lead_time": "per-material setting lama kirim (Owner/Admin); fabric: empty NOT_ENOUGH_DATA; accessory: one of the owner estimate numbers (D17-12)",
-      "manual": "fabric: the Kain & Benchmark minimum replaces the formula and keeps the Ringkasan Gudang rule (free stock strictly under); accessory (D17-10/D17-12): no formula; a typed minimum (0 = never), else the minimum worked out from the owner numbers (ESTIMATE = ceil 0.01 of usage_month_qty / 30 x (lead_days + buffer_days); MOQ kept for the order), else NOT_SET (no reminder); stock <= minimum rings",
+      "manual": "fabric: the Kain & Benchmark minimum replaces the formula and keeps the Ringkasan Gudang rule (free stock strictly under); accessory (D17-10/D17-12): no formula; a typed minimum (0 = never), else the minimum worked out from the owner numbers (ESTIMATE = ceil 0.01 of usage_month_qty x (lead_days + buffer_days) / 30, multiplied before dividing (E25v); MOQ kept for the order), else NOT_SET (no reminder); stock <= minimum rings",
       "rounding": "ceiling to 0.01 in the material unit (fabric formula)",
       "one_fabric_reminder": "D17-10: fabrics on the formula (stock + on order <= point) are rows of FABRIC_BELOW_MINIMUM \"Stok kain di bawah minimum\" next to the fabrics under their minimum (cp7_alert_native.fabric_kind_source); Ringkasan Gudang lists the minimums only",
       "estimate_oracle": "scripts/cp7_stock_formula_cases.py estimate_oracle(), exact decimals"

@@ -6,6 +6,7 @@ reorder point in Python from the fixture's own numbers (days, quantities, settin
 """
 from datetime import timedelta
 from decimal import Decimal as D, ROUND_CEILING, ROUND_HALF_UP, localcontext
+from fractions import Fraction as F
 import json
 import math
 import statistics
@@ -104,11 +105,15 @@ def oracle(stock, pattern, today, window=30, lead=None, level='0.95', buffer_day
     mean = D(sum(days)) / D(len(days))
     sd = D(str(statistics.stdev([float(x) for x in days]))) if len(days) > 1 else D(0)
     lead = D(str(lead))
+    # The point in exact fractions: the mean is sum / days, never a rounded decimal (a rounded-up mean pushed a whole
+    # number of pieces up by one, E25v).
+    exact_mean = F(sum(days), len(days))
     if buffer_days is not None:
         safety = mean * D(str(buffer_days))
+        point = math.ceil(exact_mean * (F(str(lead)) + F(str(buffer_days))))
     else:
         safety = Z[level] * sd * lead.sqrt()
-    point = int((mean * lead + safety).to_integral_value(rounding=ROUND_CEILING))
+        point = math.ceil(exact_mean * F(str(lead)) + F(str(safety)))
     return dict(basis='FORMULA', point=point, counted=len(days), mean=mean, sd=sd, safety=safety)
 
 
@@ -402,10 +407,8 @@ def save_material(cur, subject, material, lead=None, manual=None, reason='SS-2 l
 
 def estimate_oracle(usage_month, lead, buffer):
     """D17-12: the accessory minimum from the owner's own numbers, ceiling to 0.01, exact decimals."""
-    with localcontext() as ctx:
-        ctx.prec = 40
-        raw = D(str(usage_month)) / 30 * (D(str(lead)) + D(str(buffer)))
-        return ((raw * 100).to_integral_value(rounding=ROUND_CEILING) / 100).quantize(D('0.01'))
+    cents = math.ceil(F(str(usage_month)) * (F(str(lead)) + F(str(buffer))) * 100 / 30)
+    return (D(cents) / 100).quantize(D('0.01'))
 
 
 def material_evaluation(cur, material):
@@ -451,7 +454,8 @@ def material_oracle(stock, pattern, lead, level='0.95', extra_moves=()):
         sd = (sum(((x - mean) ** 2 for x in days), D(0)) / (n - 1)).sqrt()
         lead = D(str(lead))
         safety = Z[level] * sd * lead.sqrt()
-        point = ((mean * lead + safety) * 100).to_integral_value(rounding=ROUND_CEILING) / 100
+        cents = math.ceil((F(str(sum(days, D(0)))) / n * F(str(lead)) + F(str(safety))) * 100)
+        point = D(cents) / 100
         return dict(basis='FORMULA', point=point.quantize(D('0.01')), counted=n, mean=mean, sd=sd, safety=safety, free=start, usage=total)
 
 
@@ -520,7 +524,18 @@ def cases(cur, today):
         o = oracle(200, PATTERN, today, lead=7, buffer_days=3)
         assert e['buffer_mode'] == 'DAYS' and D(str(e['buffer_days'])) == 3 and e['point'] == o['point'], (e, o)
         assert abs(D(str(e['safety_pcs'])) - o['mean'] * 3) < D('0.0001'), e
-        return dict(status='PASS', point=o['point'], safety=str(o['safety']), sigma_not_used=True)
+        # Whole-piece boundary (E25v): 20 sold over 30 days, lead 2 + buffer 1 is exactly 2 pieces; the rounded mean
+        # (0.6666...67) times 3 would have pushed it to 3.
+        edge = [1 if i % 3 != 2 else 0 for i in range(30)]
+        g = item(cur, today, 200)
+        sell_days(cur, g, today, edge)
+        profile(cur, g, lead_days=2, buffer_days=1)
+        compute(cur)
+        eg = evaluation(cur, g)
+        og = oracle(200, edge, today, lead=2, buffer_days=1)
+        assert og['point'] == 2 and eg['buffer_mode'] == 'DAYS' and eg['counted_days'] == 30 and eg['point'] == 2, (eg, og)
+        return dict(status='PASS', point=o['point'], safety=str(o['safety']), sigma_not_used=True,
+                    whole_piece_boundary=dict(sold=sum(edge), days=30, lead_days=2, buffer_days=1, point=2))
 
     def settings_level_and_window():
         f = item(cur, today, 200)
@@ -969,6 +984,14 @@ def material_cases(cur, today):
         d = mine[0]['detail']
         assert (D(d['reorder_point_qty']), d['basis'], D(d['lead_days']), d['safety_qty'], d['service_level'], D(d['free_qty'])) == (
             point, 'ESTIMATE', 21, None, None, 180), d
+        # Whole-cent boundaries (E25v): dividing first (500 / 30 rounded, then x 21) gave 350.01 where the exact answer is 350.
+        bounds = []
+        for usage, lead, buf, want in (('500', 14, '7', D('350.00')), ('200', 10, '5', D('100.00'))):
+            assert estimate_oracle(usage, lead, buf) == want, (usage, lead, buf)
+            e = save_material(cur, admin, a['material'], lead=lead, estimate=dict(moq='10000', usage_month_qty=usage, buffer_days=buf),
+                              reason='SS-3 batas pembulatan')['evaluation']
+            assert (e['basis'], D(str(e['point'])), D(str(e['estimate_point']))) == ('ESTIMATE', want, want), (usage, lead, buf, e)
+            bounds.append(dict(usage_month=usage, lead_days=lead, buffer_days=buf, minimum=str(want)))
         steps = []
         for manual, more, expect in ((None, dict(buffer_days='0'), ('ESTIMATE', estimate_oracle(1000, 21, 0), 'AT_OR_BELOW')),
                                      ('100', {}, ('MANUAL', D(100), 'ABOVE')), (None, {}, ('ESTIMATE', estimate_oracle(1000, 21, 0), 'AT_OR_BELOW')),
@@ -986,8 +1009,9 @@ def material_cases(cur, today):
             assert refused(cur, lambda: save_material(cur, admin, fm['material'], lead=6, estimate=bad))[1] == 'CP7_FORMULA_MATERIAL_INVALID', bad
         for bad in (dict(moq='0'), dict(usage_month_qty='0'), dict(buffer_days='366'), dict(buffer_days='-1')):
             assert refused(cur, lambda: save_material(cur, admin, a['material'], lead=21, estimate=bad))[1] == 'CP7_FORMULA_MATERIAL_INVALID', bad
-        return dict(status='PASS', minimum=str(point), rule='perkiraan per bulan / 30 x (lama kirim + cadangan), ke atas 0,01', steps=steps,
-                    typed_minimum_wins=True, missing_number_no_minimum=True, fabric_refuses_estimate=True, invalid_refused=True)
+        return dict(status='PASS', minimum=str(point), rule='perkiraan per bulan x (lama kirim + cadangan) / 30, dikali dulu baru dibagi, ke atas 0,01', steps=steps,
+                    whole_cent_boundaries=bounds, typed_minimum_wins=True, missing_number_no_minimum=True, fabric_refuses_estimate=True,
+                    invalid_refused=True)
 
     named = [fabric_formula, fabric_out_of_stock, fabric_reversed, fabric_minimum, fabric_on_order, no_lead_time,
              accessory_usage, service_zones, accessory_manual, source_and_access, accessory_estimate]

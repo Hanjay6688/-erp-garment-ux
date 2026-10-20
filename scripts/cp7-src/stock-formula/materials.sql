@@ -2,7 +2,8 @@
 -- (formula.sql): ceil to 0.01 of (D x L + z(service level) x sigma x sqrt(L)), in the material's own unit. Owner D17-10:
 -- accessories use no formula, only a minimum set by hand ("aksesoris pake batas minimum manual aja"). Owner D17-12: the
 -- app works that minimum out from the owner's own numbers per accessory (perkiraan pemakaian per bulan, lama kirim,
--- cadangan; MOQ kept for the order), ceil to 0.01 of usage_month / 30 x (lead + buffer) (basis ESTIMATE); a minimum typed
+-- cadangan; MOQ kept for the order), ceil to 0.01 of usage_month x (lead + buffer) / 30, multiplied before dividing so a
+-- whole cent is never pushed up (basis ESTIMATE); a minimum typed
 -- directly wins. The usage the ERP measures is shown next to the estimate, never used by itself.
 -- * Usage per complete WIB day of the window (settings of formula.sql), posted movements only, a movement that has an
 --   inverse and the inverse itself not counted (the accepted STK01 rule of Bahan & Roll):
@@ -124,9 +125,9 @@ begin
   select c.*,case when c.material_type='FABRIC'and c.usage>0 and c.counted>=14 and c.lead_days is not null
    then zv*coalesce(c.sd,0)*sqrt(c.lead_days)end safety,
    case when c.material_type='ACCESSORY'and c.usage_month_qty is not null and c.lead_days is not null and c.buffer_days is not null
-   then ceil(c.usage_month_qty/30*(c.lead_days+c.buffer_days)*100)/100 end estimate_point from calc c),
+   then ceil(c.usage_month_qty*(c.lead_days+c.buffer_days)*100/30)/100 end estimate_point from calc c),
  final as(
-  select f.*,case when f.safety is not null then greatest(ceil((f.mean*f.lead_days+f.safety)*100)/100,0)end formula_point,
+  select f.*,case when f.safety is not null then greatest(ceil((f.usage*f.lead_days/f.counted+f.safety)*100)/100,0)end formula_point,
    case when f.manual_source is not null then'MANUAL'when f.estimate_point is not null then'ESTIMATE'when f.material_type='ACCESSORY'then'NOT_SET'
     when f.usage<=0 then'NO_USAGE'when f.counted<14 or f.lead_days is null then'NOT_ENOUGH_DATA'else'FORMULA'end basis,
    case when f.manual_source is not null or f.estimate_point is not null then null when f.material_type='ACCESSORY'then'NO_MINIMUM_OR_ESTIMATE'

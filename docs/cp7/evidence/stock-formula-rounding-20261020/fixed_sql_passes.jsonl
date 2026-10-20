@@ -1,0 +1,3 @@
+# LOCAL_PG16_DEV (not CI evidence). Fixed SQL from the working tree, same cases.
+{"case": "SS1_DAYS_BUFFER_NOT_STACKED", "status": "PASS", "secs": 2.8, "error": null}
+{"case": "SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE", "status": "PASS", "secs": 0.8, "error": null}

@@ -81,7 +81,7 @@ Kode: `scripts/cp7-src/stock-formula/materials.sql`. Kasus: `SS2_*` dan `SS3_*` 
 | Sedang dipesan | Sisa PO terbuka saldo awal (`erp.bb_commitment_line_remaining_v1`, sumber yang dipakai analisis kain) | Tidak ada sumbernya; 0 |
 | Lama kirim L | Isian "lama kirim (hari)" per bahan oleh Owner/Admin (`material_settings`, riwayat tidak bisa diubah); kosong: belum cukup data | Isian "lama kirim dari Cina (hari)", bagian dari isian hitungan (D17-12) |
 | Angka manual | Minimum di Kain & Benchmark (tidak diubah), menggantikan rumus (stok < minimum) | Batas minimum yang diketik, menang atas hitungan; 0 = tidak pernah diingatkan |
-| Titik | Rumus barang jadi, dalam satuan bahan, dibulatkan ke atas 0,01 | Batas minimum: yang diketik, atau hitungan dari isian owner (D17-12): perkiraan pemakaian per bulan ÷ 30 × (lama kirim + cadangan), ke atas 0,01 (`ESTIMATE`); MOQ disimpan untuk pesanan, tidak mengubah minimum; tanpa keduanya `NOT_SET` |
+| Titik | Rumus barang jadi, dalam satuan bahan, dibulatkan ke atas 0,01 | Batas minimum: yang diketik, atau hitungan dari isian owner (D17-12): perkiraan pemakaian per bulan × (lama kirim + cadangan) ÷ 30 (dikali dulu baru dibagi, supaya hasil yang pas tidak naik 0,01; E25v), ke atas 0,01 (`ESTIMATE`); MOQ disimpan untuk pesanan, tidak mengubah minimum; tanpa keduanya `NOT_SET` |
 | Menipis | Kain pakai rumus: stok + dipesan ≤ titik | stok ≤ batas minimum |
 | Pengingat | `FABRIC_BELOW_MINIMUM` "Stok kain di bawah minimum", bersama kain yang punya minimum (D17-10; hak Bahan & Roll + Kain & Benchmark) | `ACCESSORY_AT_REORDER_POINT` "Stok aksesori menipis" (hak Aksesori) |
 
@@ -114,7 +114,7 @@ keknya. lalu untuk judul itu merge aja yg stok menipis atau di bawah minimum". Y
 - Isian lama kirim tetap di Master Data dan Gudang.
 - **D17-12** (owner: "itu nanti lu bikin slot untuk diisi aja in app kan?"): batas minimum aksesori dihitung di aplikasi dari
   isian owner per aksesori: MOQ, lama kirim dari Cina, perkiraan pemakaian per bulan, dan cadangan (hari). Hitungan:
-  pemakaian per bulan ÷ 30 × (lama kirim + cadangan), ke atas 0,01 (`ESTIMATE`). Batas minimum yang diketik langsung menang.
+  pemakaian per bulan × (lama kirim + cadangan) ÷ 30, dikali dulu baru dibagi (E25v), ke atas 0,01 (`ESTIMATE`). Batas minimum yang diketik langsung menang.
   Kurang satu isian dan tidak ada minimum yang diketik: `NOT_SET`, tidak diingatkan. Kain menolak isian ini. Pemakaian nyata
   yang diukur ERP hanya ditampilkan untuk dibandingkan. Kasus `SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE` (pembanding
   `estimate_oracle()`, desimal pasti); penerusan WA dan kasus HTTP aksesori memakai hitungan ini.

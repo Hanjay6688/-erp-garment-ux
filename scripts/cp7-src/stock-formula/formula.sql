@@ -194,7 +194,10 @@ begin
     case c.buffer_mode when'DAYS'then c.mean*c.buffer_days else zv*coalesce(c.sd,0)*sqrt(c.lead_days)end end safety
   from calc c),
  final as(
-  select f.*,case when f.safety is not null then ceil(f.mean*f.lead_days+f.safety)::integer end formula_point,
+  -- Exact: total x lead / counted days (multiply before dividing), never the rounded mean times the lead time; a DAYS
+  -- buffer is one product (total x (lead + buffer) / counted), so a whole number of pieces is never pushed up by one.
+  select f.*,case when f.safety is not null then case f.buffer_mode when'DAYS'then ceil(f.sales_pcs*(f.lead_days+f.buffer_days)/f.counted)
+    else ceil(f.sales_pcs*f.lead_days/f.counted+f.safety)end::integer end formula_point,
    case when f.manual_point is not null then'MANUAL'when f.sales_pcs<=0 then'NO_SALES'when f.counted<14 or f.lead_days is null then'NOT_ENOUGH_DATA'
     else'FORMULA'end basis,
    case when f.manual_point is not null then null when f.sales_pcs<=0 then'NO_POSTED_SALES_IN_WINDOW'when f.counted<14 then'FEWER_THAN_14_COUNTED_DAYS'
