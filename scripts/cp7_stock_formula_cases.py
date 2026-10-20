@@ -129,6 +129,9 @@ def workspace(cur, subject=None, **query):
     return r
 
 
+NATIVE_IDS = ['SS1_FORMULA_FROM_POSTED_SALES', 'SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND', 'SS1_LEAD_TIME_MEASURED_FROM_PRODUCTION',
+              'SS1_DAYS_BUFFER_NOT_STACKED', 'SS1_SETTINGS_SERVICE_LEVEL_AND_WINDOW', 'SS1_MANUAL_POINT_REPLACES_AND_CLEARS',
+              'SS1_NOT_ENOUGH_DATA_NEVER_GUESSES', 'SS1_REVERSED_SALE_NOT_DEMAND', 'SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION', 'SS1_SOURCE_AND_ACCESS']
 PATTERN = [3, 5, 0, 4, 6, 2, 5, 3, 7, 4, 0, 5, 6, 3, 4, 5, 2, 6, 4, 3, 5, 0, 4, 6, 3, 5, 4, 2, 6, 5]
 
 
@@ -451,8 +454,7 @@ def cases(cur, today):
             assert not one(cur, "select has_schema_privilege(%s,'cp7_stock_formula','USAGE')", (who,)), who
         return dict(status='PASS', alert_row_exact=True, resolved_when_stock_back=True, fg_view_required=True, viewer_cannot_manage=True)
 
-    return [('SS1_FORMULA_FROM_POSTED_SALES', formula_from_sales), ('SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND', out_of_stock_days),
-            ('SS1_LEAD_TIME_MEASURED_FROM_PRODUCTION', lead_time_measured), ('SS1_DAYS_BUFFER_NOT_STACKED', days_buffer),
-            ('SS1_SETTINGS_SERVICE_LEVEL_AND_WINDOW', settings_level_and_window), ('SS1_MANUAL_POINT_REPLACES_AND_CLEARS', manual_point),
-            ('SS1_NOT_ENOUGH_DATA_NEVER_GUESSES', not_enough_data), ('SS1_REVERSED_SALE_NOT_DEMAND', reversed_sale),
-            ('SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION', in_production), ('SS1_SOURCE_AND_ACCESS', source_and_access)]
+    named = [formula_from_sales, out_of_stock_days, lead_time_measured, days_buffer, settings_level_and_window, manual_point, not_enough_data,
+             reversed_sale, in_production, source_and_access]
+    assert len(named) == len(NATIVE_IDS)
+    return list(zip(NATIVE_IDS, named))

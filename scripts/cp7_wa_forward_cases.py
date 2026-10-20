@@ -42,6 +42,7 @@ import cp7_payable_condition_cases as payables
 import cp7_p19_reminder_v2_cases as remv2
 planv2 = remv2.planv2
 import cp7_alert_bundle as bundle
+import cp7_stock_formula_cases as formula
 
 b = auth.b
 IDS = dict(
@@ -49,17 +50,19 @@ IDS = dict(
             'WAF_OWNER_REMINDERS_ONLY_WHEN_DUE', 'WAF_SEND_ONE_REQUEST_EXACT_TEXT', 'WAF_ROLLBACK_QUEUES_NOTHING',
             'WAF_RESOLVED_BEFORE_SEND_NOT_SENT', 'WAF_ANSWERS_ACCEPTED_REFUSED_UNKNOWN', 'WAF_PACING_BURST_QUIET_DIGEST_REPEAT',
             'WAF_OFF_OR_NO_KEY_SENDS_NOTHING', 'WAF_KEY_WRITE_ONLY_AND_MASKED', 'WAF_PRIVACY_AND_LIST_PERMISSIONS',
-            'WAF_TICKS_PRIVATE_AND_LIMITED', 'WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED', 'WAF_ANALYSIS_AUTOMATIC_RUN'],
+            'WAF_TICKS_PRIVATE_AND_LIMITED', 'WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED', 'WAF_ANALYSIS_AUTOMATIC_RUN',
+            # SS-1 (D17-8/D17-9): finished goods at or under their reorder point, and the formula itself (cp7_stock_formula_cases).
+            'WAF_FG_REORDER_POINT_FORWARDED', 'WAF_FG_RESOLVED_BEFORE_SEND'] + formula.NATIVE_IDS,
     races=['WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE', 'WAF_RACE_COLLECT_AND_SEND_OPEN_ONCE', 'WAF_RACE_FAKE_CALLMEBOT_END_TO_END',
-           'WAF_RACE_PG_CRON_RUNS_TICKS'],
-    http=['WAF_HTTP_OWNER_SETS_UP_AND_TESTS', 'WAF_HTTP_OTHERS_REFUSED'],
+           'WAF_RACE_PG_CRON_RUNS_TICKS', 'WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK'],
+    http=['WAF_HTTP_OWNER_SETS_UP_AND_TESTS', 'WAF_HTTP_OTHERS_REFUSED', 'WAF_HTTP_FG_REORDER_SCREEN'],
     # WA-4b: scripts/cp7_wa_forward_browser.mjs (real Auth, PostgREST and UI on the browser copy; fake CallMeBot only).
     browser=['WAF_BROWSER_DESKTOP_OWNER_SETS_UP_TESTS_AND_FORWARDS', 'WAF_BROWSER_MOBILE_OWNER_SETS_UP_TESTS_AND_FORWARDS',
              'WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA'],
 )
 REQUIRED = {key: len(value) for key, value in IDS.items()}
 EXPECTED = sum(REQUIRED.values())
-DECLARED = 24
+DECLARED = 39
 CONTRACT = 'cp7.wa.forward.v1'
 FUNCTIONS = ('erp_cp7_get_alerts_v1', 'erp_cp7_get_wa_settings_v1', 'erp_cp7_save_wa_settings_v1', 'erp_cp7_set_wa_key_v1',
              'erp_cp7_send_wa_test_v1', 'erp_cp7_resolve_wa_dispatch_v1')
@@ -320,6 +323,8 @@ def visible(cur, subject):
     out = set()
     if {'warehouse.material.view', 'master.fabric.view'} <= keys:
         out.add('FABRIC_BELOW_MINIMUM')
+    if 'warehouse.fg.view' in keys:
+        out.add('FG_AT_REORDER_POINT')
     if 'finance.ar.view' in keys:
         out.add('AR_DUE')
     if 'finance.ap.view' in keys:
@@ -701,7 +706,7 @@ def cases(cur, today):
         dbody = dispatch(cur, detailed['dispatch_id'])['body']
         assert detailed['outcome'] == 'SENT' and (ar['party'] in dbody or '- dan ' in dbody), dbody
         owner_view = rpc(cur, 'erp_cp7_get_alerts_v1', (json.dumps({}),), s['owner'])
-        assert {'FABRIC_BELOW_MINIMUM', 'AR_DUE', 'AP_DUE', 'PRODUCTION_GAP', 'FABRIC_NEED'} == {k['kind'] for k in owner_view['kinds']} \
+        assert {'FABRIC_BELOW_MINIMUM', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE', 'PRODUCTION_GAP', 'FABRIC_NEED'} == {k['kind'] for k in owner_view['kinds']} \
             == visible(cur, s['owner']), owner_view['kinds']
         assert any(r['wa'] is not None for r in owner_view['rows'])
         staff = master.role_actor(cur, 'GUDANG')
@@ -715,7 +720,7 @@ def cases(cur, today):
         b.api.admin(cur)
         for sig in bundle.PUBLIC:
             assert not one(cur, "select has_function_privilege('anon',%s,'EXECUTE')", (sig,)), sig
-        return dict(status='PASS', summary_hides_party_names=True, detailed_shows_them=True, owner_sees_five_kinds=True,
+        return dict(status='PASS', summary_hides_party_names=True, detailed_shows_them=True, owner_sees_six_kinds=True,
                     staff_kinds=sorted(expect), staff_no_wa_status=True, staff_refused_on_owner_rpcs=True, anon_no_execute=True)
 
     def ticks_private():
@@ -866,9 +871,65 @@ def cases(cur, today):
         return dict(status='PASS', due_query=expect_q, requested_in_owner_name=True, job_driven_by_step_rpc=True, new_run_checked=True,
                     not_due_after=True, outside_hours=outside, auto_off=off, label='TEST_CLOCK_OVERRIDE on the finished job capture time')
 
+    def fg_low(stock=140):
+        """An item whose free stock is at or under its formula point: PATTERN sold over 30 days, lead 7 days in its profile."""
+        f = formula.item(cur, today, stock)
+        formula.sell_days(cur, f, today, formula.PATTERN)
+        formula.profile(cur, f, lead_days=7)
+        o = formula.oracle(stock, formula.PATTERN, today, lead=7)
+        free = stock - sum(formula.PATTERN)
+        assert free <= o['point'], (free, o)
+        b.api.admin(cur)
+        name, size = cur.execute('select p.product_name,s.size_code from erp.products p join erp.sizes s on s.id=p.size_id where p.id=%s',
+                                 (f['product'],)).fetchone()
+        return f, o['point'], free, name + ' ' + size
+
+    def fg_forwarded():
+        s = setup(cur, kinds=KINDS + ['FG_AT_REORDER_POINT'])
+        f, point, free, label = fg_low()
+        out = tick(cur, 'collect_tick')
+        assert out['kinds']['FG_AT_REORDER_POINT'].get('error') is None and out['kinds']['FG_AT_REORDER_POINT']['opened'] >= 1, out
+        item = alert_item(cur, 'FG_AT_REORDER_POINT', f['target'])
+        b.api.admin(cur)
+        detail = one(cur, 'select detail from cp7_alert_native.alerts where id=%s', (item,))
+        assert (detail['free_pcs'], detail['reorder_point_pcs'], detail['wip_status'], detail['wip_pcs'], detail['basis']) == \
+            (str(free), str(point), 'COMPLETE', '0', 'FORMULA'), detail
+        before = last_request(cur)
+        sent = tick(cur, 'send_tick')
+        assert sent['outcome'] == 'SENT', sent
+        d = dispatch(cur, sent['dispatch_id'])
+        reqs = queued(cur, before)
+        line = '- %s: sisa %s pcs, sedang diproduksi 0 pcs, titik pesan ulang %s pcs' % (label, free, point)
+        assert len(reqs) == 1 and reqs[0]['text'] == d['body'] and reqs[0]['phone'] == PHONE, [dict(r, apikey='?') for r in reqs]
+        lines = d['body'].split('\n')
+        assert 'Stok barang jadi menipis (1):' in lines and line in lines, lines
+        mine = outbox(cur, item)
+        assert [(o['state'], o['dispatch']) for o in mine] == [('DISPATCHED', d['id'])], mine
+        owner_view = rpc(cur, 'erp_cp7_get_alerts_v1', ('{}',), s['owner'])
+        assert [r['kind'] for r in owner_view['rows'] if r['subject_key'] == f['target']] == ['FG_AT_REORDER_POINT'], owner_view['rows']
+        blind = formula.staff_with(cur, 'warehouse.stock.view')
+        assert not [r for r in rpc(cur, 'erp_cp7_get_alerts_v1', ('{}',), blind)['rows'] if r['kind'] == 'FG_AT_REORDER_POINT']
+        return dict(status='PASS', line=line, free=free, point=point, staff_without_fg_view_sees_none=True)
+
+    def fg_resolved_before_send():
+        setup(cur, kinds=KINDS + ['FG_AT_REORDER_POINT'])
+        tick(cur, 'collect_tick')
+        tick(cur, 'send_tick')
+        age_dispatches(cur, 2)
+        f, point, free, _ = fg_low()
+        tick(cur, 'collect_tick')
+        item = alert_item(cur, 'FG_AT_REORDER_POINT', f['target'])
+        assert [o['state'] for o in outbox(cur, item)] == ['PENDING']
+        formula.found(cur, f, today, point - free + 1, hour=0)
+        out = tick(cur, 'send_tick')
+        a = outbox(cur, item)[0]
+        assert (a['state'], a['reason'], a['dispatch']) == ('RESOLVED_BEFORE_SEND', 'ABOVE_REORDER_POINT', None), (a, out)
+        return dict(status='PASS', stock_found_before_send=a['reason'], tick=out['outcome'])
+
     named = [waits_for_owner, fabric_equals_summary, ar_ap_sources, owner_reminders_only, send_one_request, rollback_nothing, resolved_before_send,
              answers, pacing_burst_quiet_digest_repeat, off_or_no_key, key_write_only, privacy_permissions, ticks_private, analysis_gap,
-             analysis_automatic]
+             analysis_automatic, fg_forwarded, fg_resolved_before_send]
+    named += [op for _, op in formula.cases(cur, today)]
     assert len(named) == len(IDS['native'])
     return list(zip(IDS['native'], named))
 
@@ -1033,7 +1094,45 @@ def races(tools, today):
         return dict(status='PASS', pg_cron_runs=runs, owner_reminder_delivered=True, schedules_removed=True, test_schedule_override='5 seconds',
                     ticks=ticked)
 
-    return list(zip(IDS['races'], (two_sends, collect_and_send, end_to_end, pg_cron_ticks)))
+    def fg_busy_recheck():
+        """While another evaluation holds the formula lock, the collector checks the items at or under their point against the
+        free stock now (not the stored evaluation) and writes no evaluation; a refresh from the screen is refused as busy."""
+        s = ready(kinds=KINDS + ['FG_AT_REORDER_POINT'])
+
+        def low(cur):
+            f = formula.item(cur, today, 140)
+            formula.sell_days(cur, f, today, formula.PATTERN)
+            formula.profile(cur, f, lead_days=7)
+            return f
+        f = committed(low)
+        o = formula.oracle(140, formula.PATTERN, today, lead=7)
+        free = 140 - sum(formula.PATTERN)
+        committed(lambda cur: tick(cur, 'collect_tick'))
+        state = lambda cur: (b.api.admin(cur), cur.execute(
+            "select e.state,a.state,a.resolution from cp7_stock_formula.evaluations e left join cp7_alert_native.alerts a "
+            "on a.kind='FG_AT_REORDER_POINT' and a.subject_key=e.target_key where e.target_key=%s order by a.episode desc nulls last limit 1",
+            (f['target'],)).fetchone())[1]
+        assert committed(state) == ('AT_OR_BELOW', 'OPEN', None), committed(state)
+        committed(lambda cur: formula.found(cur, f, today, o['point'] - free + 1, hour=0))
+        holder = tools.connect()
+        try:
+            holder.execute("select pg_advisory_xact_lock(hashtextextended('CP7:FORMULA:FG',0))")
+            out = server_tick('collect_tick')
+            during = committed(state)
+            busy = committed(lambda cur: refusal(cur, lambda: rpc(cur, 'erp_cp7_refresh_fg_reorder_v1', (), s['owner'])))
+        finally:
+            holder.rollback()
+            holder.close()
+        assert out['kinds']['FG_AT_REORDER_POINT'].get('error') is None, out
+        assert during == ('AT_OR_BELOW', 'RESOLVED', 'ABOVE_REORDER_POINT'), during
+        assert busy == ('55P03', 'CP7_FORMULA_BUSY'), busy
+        committed(lambda cur: tick(cur, 'collect_tick'))
+        after = committed(state)
+        assert after == ('ABOVE', 'RESOLVED', 'ABOVE_REORDER_POINT'), after
+        return dict(status='PASS', resolved_from_live_stock_while_busy=True, evaluation_untouched_while_busy=True, refresh_busy=busy[1],
+                    next_tick_evaluates=after[0])
+
+    return list(zip(IDS['races'], (two_sends, collect_and_send, end_to_end, pg_cron_ticks, fg_busy_recheck)))
 
 
 # ------------------------------------------------------------------------------------------------------- http --
@@ -1090,4 +1189,49 @@ def http_cases(http, today):
             assert one(cur, "select count(*) from vault.secrets where name='cp7_callmebot_apikey' and secret like %s", ('%STAFF%',)) == 0
         return dict(status='PASS', staff_refused=refusals, anon_refused=True, staff_alerts_without_wa_status=True, private_functions_not_exposed=True)
 
-    return list(zip(IDS['http'], (owner_flow, others_refused)))
+    def fg_reorder_screen():
+        """The finished-goods reorder RPCs through PostgREST with real Auth: the owner reads and refreshes, the admin sets a
+        manual point, the owner the service level; a warehouse user may only read (with the permission), anon nothing."""
+        with http.connect() as conn, conn.cursor() as cur:
+            f = formula.item(cur, today, 140)
+            formula.sell_days(cur, f, today, formula.PATTERN)
+            formula.profile(cur, f, lead_days=7)
+            conn.commit()
+        o = formula.oracle(140, formula.PATTERN, today, lead=7)
+        owner = http.login('OWNER', 'ss1-owner')
+        r = owner.rpc('erp_cp7_refresh_fg_reorder_v1', {})
+        assert r['status'] == 200 and r['body']['items'] >= 1, r
+        w = owner.rpc('erp_cp7_get_fg_reorder_v1', dict(p_query=dict(q=f['sku'])))
+        assert w['status'] == 200 and w['body']['can_manage'] is True, w
+        row = w['body']['page']['rows'][0]
+        assert (row['target_key'], row['point'], row['basis'], row['state']) == (f['target'], o['point'], 'FORMULA', 'AT_OR_BELOW'), row
+        admin = http.login('ADMIN', 'ss1-admin')
+        m = admin.rpc('erp_cp7_save_fg_reorder_manual_v1', dict(p_payload=dict(root_id=f['product'], expected_revision=0, reorder_point_pcs=10,
+                                                                                reason='SS-1 HTTP manual'), p_request=str(uuid.uuid4())))
+        assert m['status'] == 200 and (m['body']['evaluation']['basis'], m['body']['evaluation']['state']) == ('MANUAL', 'ABOVE'), m
+        st = owner.rpc('erp_cp7_save_stock_formula_settings_v1', dict(p_payload=dict(expected_revision=0, service_level='0.99', window_days=30,
+                                                                                    reason='SS-1 HTTP level'), p_request=str(uuid.uuid4())))
+        assert st['status'] == 200 and st['body']['settings']['service_level'] == '0.99', st
+        staff = http.login('GUDANG', 'ss1-staff')
+        with http.connect() as conn, conn.cursor() as cur:
+            b.api.admin(cur)
+            sees = one(cur, "select exists(select 1 from erp.app_role_permissions p join erp.app_roles r on r.id=p.role_id "
+                            "where r.role_code='GUDANG' and p.permission_key='warehouse.fg.view')")
+        read = staff.rpc('erp_cp7_get_fg_reorder_v1', dict(p_query={}))
+        assert (read['status'] == 200) == sees and (sees or 'CP7_FORMULA_ACCESS_DENIED' in json.dumps(read['body'])), read
+        for name, args in (('erp_cp7_save_fg_reorder_manual_v1', dict(p_payload=dict(root_id=f['product'], expected_revision=1, reorder_point_pcs=99,
+                                                                                         reason='staff'), p_request=str(uuid.uuid4()))),
+                           ('erp_cp7_save_stock_formula_settings_v1', dict(p_payload=dict(expected_revision=1, service_level='0.90', window_days=30,
+                                                                                          reason='staff'), p_request=str(uuid.uuid4())))):
+            x = staff.rpc(name, args)
+            assert x['status'] >= 400 and 'CP7_FORMULA_ACCESS_DENIED' in json.dumps(x['body']), (name, x)
+        for name, args in (('erp_cp7_get_fg_reorder_v1', dict(p_query={})), ('erp_cp7_refresh_fg_reorder_v1', {}),
+                           ('erp_cp7_save_fg_reorder_manual_v1', dict(p_payload={}, p_request=str(uuid.uuid4()))),
+                           ('erp_cp7_save_stock_formula_settings_v1', dict(p_payload={}, p_request=str(uuid.uuid4())))):
+            assert http.anon_rpc(name, args)['status'] >= 400, name
+        for name in ('compute', 'fg_source', 'model_wip'):
+            assert staff.rpc(name, {})['status'] >= 400, name
+        return dict(status='PASS', real_Auth=True, owner_reads_and_refreshes=True, admin_manual=True, owner_level=True, gudang_reads=sees,
+                    staff_cannot_change=True, anon_refused=True)
+
+    return list(zip(IDS['http'], (owner_flow, others_refused, fg_reorder_screen)))
