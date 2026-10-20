@@ -2,7 +2,9 @@
 
 **Status: BELUM SIAP DIKIRIM — kandidat `55c885d1` sudah dikualifikasi (bagian Kandidat), tetapi pemeriksaan D17-13
 (`../../D17_13_PENUNDAAN_PENULIS_20261020.md`) menemukan tiga hal yang tidak sesuai keputusan owner; menunggu keputusan owner
-apakah dibetulkan dulu.** Dua kandidat sebelumnya
+apakah dibetulkan dulu.** Owner D17-14: ketiganya dibetulkan dulu di cabang terpisah, dilanjutkan Astra
+(`../../handoff/HANDOFF_ASTRA_WRITER_D17_14_20261020.md`, `../../OPEN_WORK_D17_14_20261020.md`); paket berikutnya dibuat pada
+satu versi baru. Dua kandidat sebelumnya
 tidak dikirim: `b1649535` (owner meminta rumus titik pesan ulang disambungkan dulu, D17-9) dan `3b7bb381` (sebelum dikirim
 owner memutuskan aksesori memakai batas minimum manual dan kain memakai satu judul pengingat, D17-10, lalu isian hitung
 batas minimum aksesori di aplikasi, D17-12).

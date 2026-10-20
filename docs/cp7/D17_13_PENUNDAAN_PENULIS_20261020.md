@@ -1,7 +1,8 @@
 # D17-13: hal CP7 yang ditunda atau dikecilkan penulis tanpa keputusan owner (20 Okt 2026)
 
 Dasar: keputusan owner D17-13 ("ya", `docs/cp7/OWNER_DECISIONS_20261008.md`). Ini laporan saja; tidak ada yang dibuat atau
-diubah sebelum owner memutuskan per butir. Cara periksa: semua dokumen `docs/cp7/` (berkas utama dan subfolder), kode
+diubah sebelum owner memutuskan per butir. **Owner D17-14: semua butir dicatat sebagai pekerjaan belum selesai dan dilanjutkan; daftar kerja,
+urutan dan syarat selesai di `docs/cp7/OPEN_WORK_D17_14_20261020.md`.** Cara periksa: semua dokumen `docs/cp7/` (berkas utama dan subfolder), kode
 `scripts/cp7-src/` dan layar `src/`, dicari kata seperti "kelak", "ditunda", "belum", "tidak aktif", "later", "deferred",
 "not yet"; setiap temuan dicocokkan dengan keputusan owner yang tercatat dan dengan kode hari ini (yang sudah dibuat belakangan
 tidak dimasukkan). Kolom "Dicek ulang" = penulis sendiri membuka kode/berkasnya; "belum" = dari pemeriksaan pembantu, rujukan
