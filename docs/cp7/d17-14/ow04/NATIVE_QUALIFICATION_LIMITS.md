@@ -19,6 +19,15 @@ ikatan isi persis;44 kasus itu tidak dijalankan ulang. Lihat
 CI_6F31_HTTP_RACE14_PASS.json dan WRITER_CHECKPOINT_20261020.md untuk cakupan,
 kegagalan awal yang dipertahankan, reproduksi, dan batas buktinya.
 
+Browser4 nyata lulus pada142beaea99d39c30e0356b5671f47648f619d191,
+run39506933483/job118918087524. Build Enteng dengan Auth/PostgREST nyata dan
+trafik loopback membuktikan CREDIT respons hilang/reload, REFUND HP,
+quote-edit fence serta revoke/gagal reload/pemulihan. CP6/advisor/source
+restore, Auth cleanup dan5 gerbang luar lulus. Receipt/log/report/host lengkap
+CI_142B_BROWSER4_* menyimpan bukti baru;44 Native dan14 HTTP/race di atas
+dipakai ulang, tidak dijalankan lagi. Ketiga kegagalan browser sebelumnya
+tetap tersimpan dan dijelaskan di WRITER_CHECKPOINT_20261020.md.
+
 Kandidat SQL sumber, ledger, refund, pembaca dan koordinator dikomposisikan
 secara atomik hanya oleh `scripts/cp7_ow04_probe.py` di database sekali pakai.
 Default installer produk tidak berubah. Tidak ada pemasangan di Enteng.
@@ -58,9 +67,17 @@ Blokir kontrak yang tetap terbuka setelah kualifikasi Native dan HTTP/race:
 - Parent UI baru belum digabung ke alur aktif. HTTP COMMIT nyata, replay,
   penolakan, race, hak dicabut sesudah menunggu FG, rollback transaksi dan
   putusnya backend transaksi yang belum COMMIT telah lulus pada14 kasus baru.
-  Browser aktif, respons sukses yang hilang, pemulihan seluruh server dan
-  komposisi produk default belum terbukti. Enam race memakai fixture SQL
+  Browser4 dengan respons sukses hilang sudah terbukti di salinan kualifikasi;
+  UI/installer produk default dan pemulihan seluruh server belum diterima.
+  Enam race memakai fixture SQL
   terautentikasi, bukan sesi Auth browser.
+- Proyeksi awal mensyaratkan biaya per pcs tepat dalam sen. Native44/browser4
+  memakai HPP10; biaya pecahan, beberapa lot/PO dan HPP susulan belum
+  diterima. NEXT_CONTRACT_GAPS.md mengikat sisa kontrak. Contoh matematika
+  dan counter HPP berikutnya bukan eksekusi Native tambahan.
+- Browser quote terukur228,059–342,827ms; save1465,888/2003,692ms. Save terakhir
+  melewati target2000ms, sehingga target simpan belum sepenuhnya tercapai.
+  Ini bukan pengukuran penerimaan skala pabrik/seluruh ERP.
 
 Counter yang sudah diperbaiki sebelum Native: tinjauan akun UUID sama dengan
 hash baru, urutan hash akun refund, bypass pembaca kredit lama, dan serialisasi

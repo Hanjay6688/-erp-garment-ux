@@ -1,0 +1,42 @@
+{
+  "candidate": "142beaea99d39c30e0356b5671f47648f619d191",
+  "run_id": 39506933483,
+  "job_id": 118918087524,
+  "artifact_id": 12304826113,
+  "zip_bytes": 9944741,
+  "zip_sha256": "272486092faee4f6a9769d603813215bbfeb471ae253aced7f96284763a7e86b",
+  "all_receipt_cases_byte_semantically_equal_to_original_host_cases": true,
+  "source_hashes_bound": true,
+  "full_original_reports": {
+    "CI_142B_BROWSER4_REPORT.json.gz": {
+      "bytes": 380865,
+      "gzip_bytes": 26688,
+      "raw_sha256": "44d6fe4e09d43ca07c5a51bda953e0881bbb37de2ccdfc6c99656779fe555fe7",
+      "gzip_sha256": "5b1a1643dafb6cbbfbc88c5662abcc6b3015be671477e04ca86034cd20d7fba3"
+    },
+    "CI_142B_BROWSER4_HOST.json.gz": {
+      "bytes": 46265,
+      "gzip_bytes": 5180,
+      "raw_sha256": "9f193da2d42be5becc5a23ac265611f948bc72070cd74a5aa434a2e5e237cc95",
+      "gzip_sha256": "47973a0d2dbee7be251640c0847f66cbd92e455825cbffa176c0237cff830833"
+    }
+  },
+  "screenshots_in_original_GitHub_artifact": {
+    "OW04_BROWSER_EDIT.png": {
+      "bytes": 798830,
+      "sha256": "1973ed40e8fb93666228cd4fd6eb605dd2f126c808fab2452609ab37ccd6e77a"
+    },
+    "OW04_BROWSER_LOST.png": {
+      "bytes": 802613,
+      "sha256": "80716a62ddd086dd355eb1fd1d2ba8736d93d94b965f0a447885c0b774e6ea7b"
+    },
+    "OW04_BROWSER_REFUND.png": {
+      "bytes": 552707,
+      "sha256": "86e57fccc9af1683c828928f1b87eb2eb51d18a4773f2f3aca5805ff688e0197"
+    },
+    "OW04_BROWSER_REVOKED.png": {
+      "bytes": 789484,
+      "sha256": "28bb0cb6f08ede2aa5a81466437fdfd76c4a67363fb86ae7b332e3d5ca31d872"
+    }
+  }
+}

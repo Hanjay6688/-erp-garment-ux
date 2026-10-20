@@ -11,6 +11,13 @@ BROWSER_EXPECTED.json. Tiga item backlog lain sudah selesai; OW04 tetap terbuka.
   parent UI nyata yang baru. K=0 dengan komponen bertanda pada tanggal berbeda
   tetap berbeda dari target kosong seluruhnya; tidak boleh diubah menjadi
   retur biasa atau dianggap tidak memiliki pengakuan historis.
+- Proyeksi HPP awal saat ini mensyaratkan biaya per pcs tepat dalam sen:
+  coordinator/02_initial_projection.sql:75–79 dan103 menolak pecahan sen,
+  dan memeriksa target penuh terhadap buku sebelum menerima proyeksi/quote.
+  Browser4 memakai HPP10,00 per pcs; itu belum membuktikan biaya pecahan,
+  beberapa lot/PO atau penyesuaian HPP susulan. Perlu proyeksi selisih target
+  kumulatif Native yang tepat, tanpa membulatkan biaya per pcs agar lolos.
+  Penolakan tertutup tersebut menjaga data, tetapi belum melengkapi fitur.
 - Semua keluarga retur memiliki ordinal tetap. Koreksi/pembayaran berikutnya
   wajib menghitung ulang T_i setiap keluarga yang terpengaruh dan mem-posting
   target minus seluruh I aktual yang dipertahankan per pasangan tanggal.

@@ -1,0 +1,848 @@
+{
+  "classification": "FRESH_REAL_AUTH_ENTENG_LOOPBACK_BROWSER4_PASS_SCOPED_INITIAL_SETTLEMENT",
+  "candidate": "142beaea99d39c30e0356b5671f47648f619d191",
+  "tree": "1424b29412a55320df1ab727320ddcda70070801",
+  "run_id": 39506933483,
+  "job_id": 118918087524,
+  "job_conclusion": "success",
+  "qualification_step": {
+    "name": "Compose exact escrow frontend with qualified backend and run four real browser journeys",
+    "status": "completed",
+    "conclusion": "success",
+    "number": 18
+  },
+  "counts": {
+    "PASS": 4
+  },
+  "cases": [
+    {
+      "group": "AUDITOR_BROWSER_CP7_OW04_SETTLEMENT_BROWSER",
+      "case": "OW04_BROWSER_CREDIT_LOST_REPLY_DESKTOP",
+      "status": "PASS",
+      "real_Auth_and_Enteng_build_loopback": true,
+      "mode": "CREDIT",
+      "mobile": false,
+      "request_count": 2,
+      "complete_request_UUID_document_version_recovery": true,
+      "real_upstream_COMMIT_before_lost_reply": true,
+      "positive_other_domain_controls_then_global_pending_lock": true,
+      "actual_replay_revocation_and_failed_postcommit_reload_lock": false,
+      "quote_A_B_A_retires_review_requires_new_request": false,
+      "strict_original_money_date_stock_HPP": {
+        "status": "PASS",
+        "strict_original_money_date_stock_HPP_oracles": true,
+        "original_payments_immutable": true,
+        "original_paid": "1000.00",
+        "effective_paid": "800.00",
+        "receivable": "0.00",
+        "return_journal": {
+          "raw_json": "{\"lines\": [{\"id\": \"454a70a2-5cfd-4c34-9d7c-c8394a44982d\", \"debit\": 0.00, \"po_id\": null, \"credit\": 200.00, \"vendor_id\": null, \"account_id\": \"377d37ea-56a9-4ebc-853a-0158a78bb4ff\", \"product_id\": null, \"customer_id\": \"29fb569b-5cb6-4ee5-b475-50d28f80f93a\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"2514c9cb-6cad-43a4-a74c-6a1ec2bbbe33\"}, {\"id\": \"75b385ed-24cd-4a17-96cf-8d32472db017\", \"debit\": 10.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"20a7533b-5578-4799-9973-90ab000e9e43\", \"product_id\": \"f027b19d-0893-499f-b2d7-9a3793acece2\", \"customer_id\": \"29fb569b-5cb6-4ee5-b475-50d28f80f93a\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"2514c9cb-6cad-43a4-a74c-6a1ec2bbbe33\"}, {\"id\": \"8562a231-e5c5-4d1b-af40-84fa238023f8\", \"debit\": 200.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"86ddff01-e556-4777-ad30-1943f3200224\", \"product_id\": null, \"customer_id\": \"29fb569b-5cb6-4ee5-b475-50d28f80f93a\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"2514c9cb-6cad-43a4-a74c-6a1ec2bbbe33\"}, {\"id\": \"b6bf6c0c-5759-4516-95a7-cc20b4c73795\", \"debit\": 0.00, \"po_id\": null, \"credit\": 10.00, \"vendor_id\": null, \"account_id\": \"370746aa-abe3-418b-b912-b8a63c9ffcc1\", \"product_id\": \"f027b19d-0893-499f-b2d7-9a3793acece2\", \"customer_id\": \"29fb569b-5cb6-4ee5-b475-50d28f80f93a\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"2514c9cb-6cad-43a4-a74c-6a1ec2bbbe33\"}], \"header\": {\"id\": \"2514c9cb-6cad-43a4-a74c-6a1ec2bbbe33\", \"status\": \"POSTED\", \"source_id\": \"32e70d22-eb88-4aba-b1c1-42a4ab8c8176\", \"created_at\": \"2026-10-20T22:22:53.468734+00:00\", \"created_by\": \"686ee494-f6ff-468b-a10f-d54ca1e0d52a\", \"posting_at\": \"2026-10-20T22:22:53.468734+00:00\", \"description\": \"Sales return from customer · cumulative exact HPP target\", \"source_type\": \"SALES_RETURN\", \"economic_date\": \"2026-10-20\", \"journal_number\": \"JRN-20261021052253712-4e6506ae\", \"period_shifted\": false, \"reversal_of_id\": null, \"transaction_date\": \"2026-10-20\"}}",
+          "sha256": "23f9887f5e2da133849b02609d892b40b5fa482f32c039cab319679c56648ec6",
+          "document": {
+            "lines": [
+              {
+                "id": "454a70a2-5cfd-4c34-9d7c-c8394a44982d",
+                "debit": "0.00",
+                "po_id": null,
+                "credit": "200.00",
+                "vendor_id": null,
+                "account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff",
+                "product_id": null,
+                "customer_id": "29fb569b-5cb6-4ee5-b475-50d28f80f93a",
+                "description": null,
+                "contractor_id": null,
+                "journal_entry_id": "2514c9cb-6cad-43a4-a74c-6a1ec2bbbe33"
+              },
+              {
+                "id": "75b385ed-24cd-4a17-96cf-8d32472db017",
+                "debit": "10.00",
+                "po_id": null,
+                "credit": "0.00",
+                "vendor_id": null,
+                "account_id": "20a7533b-5578-4799-9973-90ab000e9e43",
+                "product_id": "f027b19d-0893-499f-b2d7-9a3793acece2",
+                "customer_id": "29fb569b-5cb6-4ee5-b475-50d28f80f93a",
+                "description": null,
+                "contractor_id": null,
+                "journal_entry_id": "2514c9cb-6cad-43a4-a74c-6a1ec2bbbe33"
+              },
+              {
+                "id": "8562a231-e5c5-4d1b-af40-84fa238023f8",
+                "debit": "200.00",
+                "po_id": null,
+                "credit": "0.00",
+                "vendor_id": null,
+                "account_id": "86ddff01-e556-4777-ad30-1943f3200224",
+                "product_id": null,
+                "customer_id": "29fb569b-5cb6-4ee5-b475-50d28f80f93a",
+                "description": null,
+                "contractor_id": null,
+                "journal_entry_id": "2514c9cb-6cad-43a4-a74c-6a1ec2bbbe33"
+              },
+              {
+                "id": "b6bf6c0c-5759-4516-95a7-cc20b4c73795",
+                "debit": "0.00",
+                "po_id": null,
+                "credit": "10.00",
+                "vendor_id": null,
+                "account_id": "370746aa-abe3-418b-b912-b8a63c9ffcc1",
+                "product_id": "f027b19d-0893-499f-b2d7-9a3793acece2",
+                "customer_id": "29fb569b-5cb6-4ee5-b475-50d28f80f93a",
+                "description": null,
+                "contractor_id": null,
+                "journal_entry_id": "2514c9cb-6cad-43a4-a74c-6a1ec2bbbe33"
+              }
+            ],
+            "header": {
+              "id": "2514c9cb-6cad-43a4-a74c-6a1ec2bbbe33",
+              "status": "POSTED",
+              "source_id": "32e70d22-eb88-4aba-b1c1-42a4ab8c8176",
+              "created_at": "2026-10-20T22:22:53.468734+00:00",
+              "created_by": "686ee494-f6ff-468b-a10f-d54ca1e0d52a",
+              "posting_at": "2026-10-20T22:22:53.468734+00:00",
+              "description": "Sales return from customer · cumulative exact HPP target",
+              "source_type": "SALES_RETURN",
+              "economic_date": "2026-10-20",
+              "journal_number": "JRN-20261021052253712-4e6506ae",
+              "period_shifted": false,
+              "reversal_of_id": null,
+              "transaction_date": "2026-10-20"
+            }
+          }
+        },
+        "recognition_journal": {
+          "raw_json": "{\"lines\": [{\"id\": \"6e73d310-eea3-4cb4-83bd-35ebf91dc058\", \"debit\": 0.00, \"po_id\": null, \"credit\": 200.00, \"vendor_id\": null, \"account_id\": \"a17a0742-6644-4314-ba78-291f23221a33\", \"product_id\": null, \"customer_id\": \"29fb569b-5cb6-4ee5-b475-50d28f80f93a\", \"description\": \"OW04 source-bound recognition\", \"contractor_id\": null, \"journal_entry_id\": \"0757f59b-de25-473b-97e0-441277daed50\"}, {\"id\": \"7391e23d-592d-4964-90fb-4aaf81363898\", \"debit\": 200.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"377d37ea-56a9-4ebc-853a-0158a78bb4ff\", \"product_id\": null, \"customer_id\": \"29fb569b-5cb6-4ee5-b475-50d28f80f93a\", \"description\": \"OW04 source-bound recognition\", \"contractor_id\": null, \"journal_entry_id\": \"0757f59b-de25-473b-97e0-441277daed50\"}], \"header\": {\"id\": \"0757f59b-de25-473b-97e0-441277daed50\", \"status\": \"POSTED\", \"source_id\": \"b61aac74-6418-4cd4-9e9d-eeeea7d37703\", \"created_at\": \"2026-10-20T22:22:53.468734+00:00\", \"created_by\": \"686ee494-f6ff-468b-a10f-d54ca1e0d52a\", \"posting_at\": \"2026-10-20T22:22:53.468734+00:00\", \"description\": \"Kredit retur: pengakuan terikat sumber\", \"source_type\": \"CP7_CUSTOMER_CREDIT_RECOGNITION\", \"economic_date\": \"2026-10-20\", \"journal_number\": \"JRN-20261021052253933-cde3a975\", \"period_shifted\": false, \"reversal_of_id\": null, \"transaction_date\": \"2026-10-20\"}}",
+          "sha256": "fafde6203ac55b4c4e8eb8263ede22b4032075c1fb1b86e49e41fb0544e95fd0",
+          "document": {
+            "lines": [
+              {
+                "id": "6e73d310-eea3-4cb4-83bd-35ebf91dc058",
+                "debit": "0.00",
+                "po_id": null,
+                "credit": "200.00",
+                "vendor_id": null,
+                "account_id": "a17a0742-6644-4314-ba78-291f23221a33",
+                "product_id": null,
+                "customer_id": "29fb569b-5cb6-4ee5-b475-50d28f80f93a",
+                "description": "OW04 source-bound recognition",
+                "contractor_id": null,
+                "journal_entry_id": "0757f59b-de25-473b-97e0-441277daed50"
+              },
+              {
+                "id": "7391e23d-592d-4964-90fb-4aaf81363898",
+                "debit": "200.00",
+                "po_id": null,
+                "credit": "0.00",
+                "vendor_id": null,
+                "account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff",
+                "product_id": null,
+                "customer_id": "29fb569b-5cb6-4ee5-b475-50d28f80f93a",
+                "description": "OW04 source-bound recognition",
+                "contractor_id": null,
+                "journal_entry_id": "0757f59b-de25-473b-97e0-441277daed50"
+              }
+            ],
+            "header": {
+              "id": "0757f59b-de25-473b-97e0-441277daed50",
+              "status": "POSTED",
+              "source_id": "b61aac74-6418-4cd4-9e9d-eeeea7d37703",
+              "created_at": "2026-10-20T22:22:53.468734+00:00",
+              "created_by": "686ee494-f6ff-468b-a10f-d54ca1e0d52a",
+              "posting_at": "2026-10-20T22:22:53.468734+00:00",
+              "description": "Kredit retur: pengakuan terikat sumber",
+              "source_type": "CP7_CUSTOMER_CREDIT_RECOGNITION",
+              "economic_date": "2026-10-20",
+              "journal_number": "JRN-20261021052253933-cde3a975",
+              "period_shifted": false,
+              "reversal_of_id": null,
+              "transaction_date": "2026-10-20"
+            }
+          }
+        },
+        "refund_journal": null
+      },
+      "complete_UI_timings": [
+        {
+          "operation": "quote_to_complete_result",
+          "milliseconds": 342.82656700000007
+        }
+      ],
+      "timing_scope": "Scoped initial settlement journeys; no whole ERP performance acceptance",
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_OW04_SETTLEMENT_BROWSER",
+      "case": "OW04_BROWSER_REFUND_MOBILE",
+      "status": "PASS",
+      "real_Auth_and_Enteng_build_loopback": true,
+      "mode": "REFUND",
+      "mobile": true,
+      "request_count": 1,
+      "complete_request_UUID_document_version_recovery": false,
+      "real_upstream_COMMIT_before_lost_reply": false,
+      "positive_other_domain_controls_then_global_pending_lock": false,
+      "actual_replay_revocation_and_failed_postcommit_reload_lock": false,
+      "quote_A_B_A_retires_review_requires_new_request": false,
+      "strict_original_money_date_stock_HPP": {
+        "status": "PASS",
+        "strict_original_money_date_stock_HPP_oracles": true,
+        "original_payments_immutable": true,
+        "original_paid": "900.00",
+        "effective_paid": "800.00",
+        "receivable": "0.00",
+        "return_journal": {
+          "raw_json": "{\"lines\": [{\"id\": \"29dc5f77-251c-414d-9b39-c752c1b7abcb\", \"debit\": 200.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"86ddff01-e556-4777-ad30-1943f3200224\", \"product_id\": null, \"customer_id\": \"15a602bf-ee57-4134-a5bb-71483e576076\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"0346ae3f-8ac3-4a73-a720-a1831cbe18c4\"}, {\"id\": \"674e1ccf-8808-4550-9fba-a542c44a3dd8\", \"debit\": 0.00, \"po_id\": null, \"credit\": 10.00, \"vendor_id\": null, \"account_id\": \"370746aa-abe3-418b-b912-b8a63c9ffcc1\", \"product_id\": \"c8cd797c-b847-41c3-94ca-732cf99bf3a9\", \"customer_id\": \"15a602bf-ee57-4134-a5bb-71483e576076\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"0346ae3f-8ac3-4a73-a720-a1831cbe18c4\"}, {\"id\": \"f867cd34-23d7-462a-9424-474126272381\", \"debit\": 0.00, \"po_id\": null, \"credit\": 200.00, \"vendor_id\": null, \"account_id\": \"377d37ea-56a9-4ebc-853a-0158a78bb4ff\", \"product_id\": null, \"customer_id\": \"15a602bf-ee57-4134-a5bb-71483e576076\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"0346ae3f-8ac3-4a73-a720-a1831cbe18c4\"}, {\"id\": \"fc63af1c-79d2-4a99-93ac-335ecf76b502\", \"debit\": 10.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"20a7533b-5578-4799-9973-90ab000e9e43\", \"product_id\": \"c8cd797c-b847-41c3-94ca-732cf99bf3a9\", \"customer_id\": \"15a602bf-ee57-4134-a5bb-71483e576076\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"0346ae3f-8ac3-4a73-a720-a1831cbe18c4\"}], \"header\": {\"id\": \"0346ae3f-8ac3-4a73-a720-a1831cbe18c4\", \"status\": \"POSTED\", \"source_id\": \"02a18340-b8ba-4531-912a-c517efd4de5d\", \"created_at\": \"2026-10-20T22:23:03.95338+00:00\", \"created_by\": \"1c54449d-3270-4eb8-b409-314b3a28a39b\", \"posting_at\": \"2026-10-20T22:23:03.95338+00:00\", \"description\": \"Sales return from customer · cumulative exact HPP target\", \"source_type\": \"SALES_RETURN\", \"economic_date\": \"2026-10-20\", \"journal_number\": \"JRN-20261021052304137-31fd9837\", \"period_shifted\": true, \"reversal_of_id\": null, \"transaction_date\": \"2026-10-21\"}}",
+          "sha256": "c1bb2a74f1e9a20c616ab04e42d0cf75cf9a0e4ff9cac265856b4df153297762",
+          "document": {
+            "lines": [
+              {
+                "id": "29dc5f77-251c-414d-9b39-c752c1b7abcb",
+                "debit": "200.00",
+                "po_id": null,
+                "credit": "0.00",
+                "vendor_id": null,
+                "account_id": "86ddff01-e556-4777-ad30-1943f3200224",
+                "product_id": null,
+                "customer_id": "15a602bf-ee57-4134-a5bb-71483e576076",
+                "description": null,
+                "contractor_id": null,
+                "journal_entry_id": "0346ae3f-8ac3-4a73-a720-a1831cbe18c4"
+              },
+              {
+                "id": "674e1ccf-8808-4550-9fba-a542c44a3dd8",
+                "debit": "0.00",
+                "po_id": null,
+                "credit": "10.00",
+                "vendor_id": null,
+                "account_id": "370746aa-abe3-418b-b912-b8a63c9ffcc1",
+                "product_id": "c8cd797c-b847-41c3-94ca-732cf99bf3a9",
+                "customer_id": "15a602bf-ee57-4134-a5bb-71483e576076",
+                "description": null,
+                "contractor_id": null,
+                "journal_entry_id": "0346ae3f-8ac3-4a73-a720-a1831cbe18c4"
+              },
+              {
+                "id": "f867cd34-23d7-462a-9424-474126272381",
+                "debit": "0.00",
+                "po_id": null,
+                "credit": "200.00",
+                "vendor_id": null,
+                "account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff",
+                "product_id": null,
+                "customer_id": "15a602bf-ee57-4134-a5bb-71483e576076",
+                "description": null,
+                "contractor_id": null,
+                "journal_entry_id": "0346ae3f-8ac3-4a73-a720-a1831cbe18c4"
+              },
+              {
+                "id": "fc63af1c-79d2-4a99-93ac-335ecf76b502",
+                "debit": "10.00",
+                "po_id": null,
+                "credit": "0.00",
+                "vendor_id": null,
+                "account_id": "20a7533b-5578-4799-9973-90ab000e9e43",
+                "product_id": "c8cd797c-b847-41c3-94ca-732cf99bf3a9",
+                "customer_id": "15a602bf-ee57-4134-a5bb-71483e576076",
+                "description": null,
+                "contractor_id": null,
+                "journal_entry_id": "0346ae3f-8ac3-4a73-a720-a1831cbe18c4"
+              }
+            ],
+            "header": {
+              "id": "0346ae3f-8ac3-4a73-a720-a1831cbe18c4",
+              "status": "POSTED",
+              "source_id": "02a18340-b8ba-4531-912a-c517efd4de5d",
+              "created_at": "2026-10-20T22:23:03.95338+00:00",
+              "created_by": "1c54449d-3270-4eb8-b409-314b3a28a39b",
+              "posting_at": "2026-10-20T22:23:03.95338+00:00",
+              "description": "Sales return from customer · cumulative exact HPP target",
+              "source_type": "SALES_RETURN",
+              "economic_date": "2026-10-20",
+              "journal_number": "JRN-20261021052304137-31fd9837",
+              "period_shifted": true,
+              "reversal_of_id": null,
+              "transaction_date": "2026-10-21"
+            }
+          }
+        },
+        "recognition_journal": {
+          "raw_json": "{\"lines\": [{\"id\": \"4e141c8e-acac-41af-90eb-b39d2b7414a1\", \"debit\": 100.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"377d37ea-56a9-4ebc-853a-0158a78bb4ff\", \"product_id\": null, \"customer_id\": \"15a602bf-ee57-4134-a5bb-71483e576076\", \"description\": \"OW04 source-bound recognition\", \"contractor_id\": null, \"journal_entry_id\": \"77e9f66e-5c07-4eda-ac51-c85fa76f4608\"}, {\"id\": \"78a7c3bb-f67b-4294-997b-922134075323\", \"debit\": 0.00, \"po_id\": null, \"credit\": 100.00, \"vendor_id\": null, \"account_id\": \"c17ed59f-5a47-4730-b107-c009083bd5f6\", \"product_id\": null, \"customer_id\": \"15a602bf-ee57-4134-a5bb-71483e576076\", \"description\": \"OW04 source-bound recognition\", \"contractor_id\": null, \"journal_entry_id\": \"77e9f66e-5c07-4eda-ac51-c85fa76f4608\"}], \"header\": {\"id\": \"77e9f66e-5c07-4eda-ac51-c85fa76f4608\", \"status\": \"POSTED\", \"source_id\": \"4bc56d1f-9cb2-49a1-810a-6bd8c10dc92e\", \"created_at\": \"2026-10-20T22:23:03.95338+00:00\", \"created_by\": \"1c54449d-3270-4eb8-b409-314b3a28a39b\", \"posting_at\": \"2026-10-20T22:23:03.95338+00:00\", \"description\": \"Kredit retur: pengakuan terikat sumber\", \"source_type\": \"CP7_CUSTOMER_CREDIT_RECOGNITION\", \"economic_date\": \"2026-10-20\", \"journal_number\": \"JRN-20261021052304343-ff08975d\", \"period_shifted\": true, \"reversal_of_id\": null, \"transaction_date\": \"2026-10-21\"}}",
+          "sha256": "0165fe78013f787215ecbeeca6bedca541f70f35b5f56266f77a835495bd195a",
+          "document": {
+            "lines": [
+              {
+                "id": "4e141c8e-acac-41af-90eb-b39d2b7414a1",
+                "debit": "100.00",
+                "po_id": null,
+                "credit": "0.00",
+                "vendor_id": null,
+                "account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff",
+                "product_id": null,
+                "customer_id": "15a602bf-ee57-4134-a5bb-71483e576076",
+                "description": "OW04 source-bound recognition",
+                "contractor_id": null,
+                "journal_entry_id": "77e9f66e-5c07-4eda-ac51-c85fa76f4608"
+              },
+              {
+                "id": "78a7c3bb-f67b-4294-997b-922134075323",
+                "debit": "0.00",
+                "po_id": null,
+                "credit": "100.00",
+                "vendor_id": null,
+                "account_id": "c17ed59f-5a47-4730-b107-c009083bd5f6",
+                "product_id": null,
+                "customer_id": "15a602bf-ee57-4134-a5bb-71483e576076",
+                "description": "OW04 source-bound recognition",
+                "contractor_id": null,
+                "journal_entry_id": "77e9f66e-5c07-4eda-ac51-c85fa76f4608"
+              }
+            ],
+            "header": {
+              "id": "77e9f66e-5c07-4eda-ac51-c85fa76f4608",
+              "status": "POSTED",
+              "source_id": "4bc56d1f-9cb2-49a1-810a-6bd8c10dc92e",
+              "created_at": "2026-10-20T22:23:03.95338+00:00",
+              "created_by": "1c54449d-3270-4eb8-b409-314b3a28a39b",
+              "posting_at": "2026-10-20T22:23:03.95338+00:00",
+              "description": "Kredit retur: pengakuan terikat sumber",
+              "source_type": "CP7_CUSTOMER_CREDIT_RECOGNITION",
+              "economic_date": "2026-10-20",
+              "journal_number": "JRN-20261021052304343-ff08975d",
+              "period_shifted": true,
+              "reversal_of_id": null,
+              "transaction_date": "2026-10-21"
+            }
+          }
+        },
+        "refund_journal": {
+          "raw_json": "{\"lines\": [{\"id\": \"bfb5b6f5-eeb3-4edc-bbf7-2d6f1c67fe09\", \"debit\": 0.00, \"po_id\": null, \"credit\": 100.00, \"vendor_id\": null, \"account_id\": \"f24bb9e8-4d5d-47d1-9533-01995d09552a\", \"product_id\": null, \"customer_id\": \"15a602bf-ee57-4134-a5bb-71483e576076\", \"description\": \"Kredit retur: pengembalian uang\", \"contractor_id\": null, \"journal_entry_id\": \"1d0b534b-c955-4c7c-9dd9-73ebd592ec7f\"}, {\"id\": \"f6d78a2f-0606-4992-822a-648a9c12e39f\", \"debit\": 100.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"c17ed59f-5a47-4730-b107-c009083bd5f6\", \"product_id\": null, \"customer_id\": \"15a602bf-ee57-4134-a5bb-71483e576076\", \"description\": \"Kredit retur: pengembalian uang\", \"contractor_id\": null, \"journal_entry_id\": \"1d0b534b-c955-4c7c-9dd9-73ebd592ec7f\"}], \"header\": {\"id\": \"1d0b534b-c955-4c7c-9dd9-73ebd592ec7f\", \"status\": \"POSTED\", \"source_id\": \"11d20ed2-1f7d-4365-b7e1-e59fd80a074f\", \"created_at\": \"2026-10-20T22:23:03.95338+00:00\", \"created_by\": \"1c54449d-3270-4eb8-b409-314b3a28a39b\", \"posting_at\": \"2026-10-20T22:23:03.95338+00:00\", \"description\": \"Kredit retur: pengembalian uang\", \"source_type\": \"CP7_CUSTOMER_CREDIT_REFUND\", \"economic_date\": \"2026-10-20\", \"journal_number\": \"JRN-20261021052304641-cc92ed5c\", \"period_shifted\": true, \"reversal_of_id\": null, \"transaction_date\": \"2026-10-21\"}}",
+          "sha256": "7b0f6e8cb509e2b616925596a117833d3de3a390a7ad11bce391ea87266fb858",
+          "document": {
+            "lines": [
+              {
+                "id": "bfb5b6f5-eeb3-4edc-bbf7-2d6f1c67fe09",
+                "debit": "0.00",
+                "po_id": null,
+                "credit": "100.00",
+                "vendor_id": null,
+                "account_id": "f24bb9e8-4d5d-47d1-9533-01995d09552a",
+                "product_id": null,
+                "customer_id": "15a602bf-ee57-4134-a5bb-71483e576076",
+                "description": "Kredit retur: pengembalian uang",
+                "contractor_id": null,
+                "journal_entry_id": "1d0b534b-c955-4c7c-9dd9-73ebd592ec7f"
+              },
+              {
+                "id": "f6d78a2f-0606-4992-822a-648a9c12e39f",
+                "debit": "100.00",
+                "po_id": null,
+                "credit": "0.00",
+                "vendor_id": null,
+                "account_id": "c17ed59f-5a47-4730-b107-c009083bd5f6",
+                "product_id": null,
+                "customer_id": "15a602bf-ee57-4134-a5bb-71483e576076",
+                "description": "Kredit retur: pengembalian uang",
+                "contractor_id": null,
+                "journal_entry_id": "1d0b534b-c955-4c7c-9dd9-73ebd592ec7f"
+              }
+            ],
+            "header": {
+              "id": "1d0b534b-c955-4c7c-9dd9-73ebd592ec7f",
+              "status": "POSTED",
+              "source_id": "11d20ed2-1f7d-4365-b7e1-e59fd80a074f",
+              "created_at": "2026-10-20T22:23:03.95338+00:00",
+              "created_by": "1c54449d-3270-4eb8-b409-314b3a28a39b",
+              "posting_at": "2026-10-20T22:23:03.95338+00:00",
+              "description": "Kredit retur: pengembalian uang",
+              "source_type": "CP7_CUSTOMER_CREDIT_REFUND",
+              "economic_date": "2026-10-20",
+              "journal_number": "JRN-20261021052304641-cc92ed5c",
+              "period_shifted": true,
+              "reversal_of_id": null,
+              "transaction_date": "2026-10-21"
+            }
+          }
+        }
+      },
+      "complete_UI_timings": [
+        {
+          "operation": "quote_to_complete_result",
+          "milliseconds": 228.27151800000138
+        },
+        {
+          "operation": "save_to_verified_authoritative_UI",
+          "milliseconds": 2003.6917600000015
+        }
+      ],
+      "timing_scope": "Scoped initial settlement journeys; no whole ERP performance acceptance",
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_OW04_SETTLEMENT_BROWSER",
+      "case": "OW04_BROWSER_QUOTE_EDIT_FENCE",
+      "status": "PASS",
+      "real_Auth_and_Enteng_build_loopback": true,
+      "mode": "CREDIT",
+      "mobile": false,
+      "request_count": 1,
+      "complete_request_UUID_document_version_recovery": false,
+      "real_upstream_COMMIT_before_lost_reply": false,
+      "positive_other_domain_controls_then_global_pending_lock": false,
+      "actual_replay_revocation_and_failed_postcommit_reload_lock": false,
+      "quote_A_B_A_retires_review_requires_new_request": true,
+      "strict_original_money_date_stock_HPP": {
+        "status": "PASS",
+        "strict_original_money_date_stock_HPP_oracles": true,
+        "original_payments_immutable": true,
+        "original_paid": "1000.00",
+        "effective_paid": "800.00",
+        "receivable": "0.00",
+        "return_journal": {
+          "raw_json": "{\"lines\": [{\"id\": \"5ea09e9a-8fc6-42c1-8f8f-9455ea41cde0\", \"debit\": 200.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"86ddff01-e556-4777-ad30-1943f3200224\", \"product_id\": null, \"customer_id\": \"3738ac40-6b7b-4793-9113-dba317b216ad\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"0aad72c8-9eea-4eb9-82af-9fe1701282d2\"}, {\"id\": \"66cbe6e5-c0b7-46ff-b756-444e66a3848c\", \"debit\": 10.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"20a7533b-5578-4799-9973-90ab000e9e43\", \"product_id\": \"66979914-8163-44d1-a807-653ada0eafc0\", \"customer_id\": \"3738ac40-6b7b-4793-9113-dba317b216ad\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"0aad72c8-9eea-4eb9-82af-9fe1701282d2\"}, {\"id\": \"7da565fd-78c9-47c9-bac4-ea34e510973d\", \"debit\": 0.00, \"po_id\": null, \"credit\": 200.00, \"vendor_id\": null, \"account_id\": \"377d37ea-56a9-4ebc-853a-0158a78bb4ff\", \"product_id\": null, \"customer_id\": \"3738ac40-6b7b-4793-9113-dba317b216ad\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"0aad72c8-9eea-4eb9-82af-9fe1701282d2\"}, {\"id\": \"bb67cd62-0bb2-4371-84fd-5c37c2456b6c\", \"debit\": 0.00, \"po_id\": null, \"credit\": 10.00, \"vendor_id\": null, \"account_id\": \"370746aa-abe3-418b-b912-b8a63c9ffcc1\", \"product_id\": \"66979914-8163-44d1-a807-653ada0eafc0\", \"customer_id\": \"3738ac40-6b7b-4793-9113-dba317b216ad\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"0aad72c8-9eea-4eb9-82af-9fe1701282d2\"}], \"header\": {\"id\": \"0aad72c8-9eea-4eb9-82af-9fe1701282d2\", \"status\": \"POSTED\", \"source_id\": \"10ced221-27b1-40d8-bf32-a48cd60e170c\", \"created_at\": \"2026-10-20T22:23:10.879965+00:00\", \"created_by\": \"2f99608d-9ab4-4168-a459-b786722f60a2\", \"posting_at\": \"2026-10-20T22:23:10.879965+00:00\", \"description\": \"Sales return from customer · cumulative exact HPP target\", \"source_type\": \"SALES_RETURN\", \"economic_date\": \"2026-10-20\", \"journal_number\": \"JRN-20261021052311078-c296bd12\", \"period_shifted\": false, \"reversal_of_id\": null, \"transaction_date\": \"2026-10-20\"}}",
+          "sha256": "c2006f2d71ed2b64c8522e23185e9095551d73a900983a514909845e41346cb6",
+          "document": {
+            "lines": [
+              {
+                "id": "5ea09e9a-8fc6-42c1-8f8f-9455ea41cde0",
+                "debit": "200.00",
+                "po_id": null,
+                "credit": "0.00",
+                "vendor_id": null,
+                "account_id": "86ddff01-e556-4777-ad30-1943f3200224",
+                "product_id": null,
+                "customer_id": "3738ac40-6b7b-4793-9113-dba317b216ad",
+                "description": null,
+                "contractor_id": null,
+                "journal_entry_id": "0aad72c8-9eea-4eb9-82af-9fe1701282d2"
+              },
+              {
+                "id": "66cbe6e5-c0b7-46ff-b756-444e66a3848c",
+                "debit": "10.00",
+                "po_id": null,
+                "credit": "0.00",
+                "vendor_id": null,
+                "account_id": "20a7533b-5578-4799-9973-90ab000e9e43",
+                "product_id": "66979914-8163-44d1-a807-653ada0eafc0",
+                "customer_id": "3738ac40-6b7b-4793-9113-dba317b216ad",
+                "description": null,
+                "contractor_id": null,
+                "journal_entry_id": "0aad72c8-9eea-4eb9-82af-9fe1701282d2"
+              },
+              {
+                "id": "7da565fd-78c9-47c9-bac4-ea34e510973d",
+                "debit": "0.00",
+                "po_id": null,
+                "credit": "200.00",
+                "vendor_id": null,
+                "account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff",
+                "product_id": null,
+                "customer_id": "3738ac40-6b7b-4793-9113-dba317b216ad",
+                "description": null,
+                "contractor_id": null,
+                "journal_entry_id": "0aad72c8-9eea-4eb9-82af-9fe1701282d2"
+              },
+              {
+                "id": "bb67cd62-0bb2-4371-84fd-5c37c2456b6c",
+                "debit": "0.00",
+                "po_id": null,
+                "credit": "10.00",
+                "vendor_id": null,
+                "account_id": "370746aa-abe3-418b-b912-b8a63c9ffcc1",
+                "product_id": "66979914-8163-44d1-a807-653ada0eafc0",
+                "customer_id": "3738ac40-6b7b-4793-9113-dba317b216ad",
+                "description": null,
+                "contractor_id": null,
+                "journal_entry_id": "0aad72c8-9eea-4eb9-82af-9fe1701282d2"
+              }
+            ],
+            "header": {
+              "id": "0aad72c8-9eea-4eb9-82af-9fe1701282d2",
+              "status": "POSTED",
+              "source_id": "10ced221-27b1-40d8-bf32-a48cd60e170c",
+              "created_at": "2026-10-20T22:23:10.879965+00:00",
+              "created_by": "2f99608d-9ab4-4168-a459-b786722f60a2",
+              "posting_at": "2026-10-20T22:23:10.879965+00:00",
+              "description": "Sales return from customer · cumulative exact HPP target",
+              "source_type": "SALES_RETURN",
+              "economic_date": "2026-10-20",
+              "journal_number": "JRN-20261021052311078-c296bd12",
+              "period_shifted": false,
+              "reversal_of_id": null,
+              "transaction_date": "2026-10-20"
+            }
+          }
+        },
+        "recognition_journal": {
+          "raw_json": "{\"lines\": [{\"id\": \"a32a9141-0b0c-4d9b-8a91-ef2a99592267\", \"debit\": 200.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"377d37ea-56a9-4ebc-853a-0158a78bb4ff\", \"product_id\": null, \"customer_id\": \"3738ac40-6b7b-4793-9113-dba317b216ad\", \"description\": \"OW04 source-bound recognition\", \"contractor_id\": null, \"journal_entry_id\": \"356ca227-8abf-46a7-9930-cbbc662f6017\"}, {\"id\": \"db88f05b-48a2-40ac-96aa-a4e848461dc6\", \"debit\": 0.00, \"po_id\": null, \"credit\": 200.00, \"vendor_id\": null, \"account_id\": \"17dc6fc1-0b00-41fd-b4e9-14584f63e2f4\", \"product_id\": null, \"customer_id\": \"3738ac40-6b7b-4793-9113-dba317b216ad\", \"description\": \"OW04 source-bound recognition\", \"contractor_id\": null, \"journal_entry_id\": \"356ca227-8abf-46a7-9930-cbbc662f6017\"}], \"header\": {\"id\": \"356ca227-8abf-46a7-9930-cbbc662f6017\", \"status\": \"POSTED\", \"source_id\": \"526ecd94-0c4a-489f-9cf6-f021f75c8b3b\", \"created_at\": \"2026-10-20T22:23:10.879965+00:00\", \"created_by\": \"2f99608d-9ab4-4168-a459-b786722f60a2\", \"posting_at\": \"2026-10-20T22:23:10.879965+00:00\", \"description\": \"Kredit retur: pengakuan terikat sumber\", \"source_type\": \"CP7_CUSTOMER_CREDIT_RECOGNITION\", \"economic_date\": \"2026-10-20\", \"journal_number\": \"JRN-20261021052311276-5094b213\", \"period_shifted\": false, \"reversal_of_id\": null, \"transaction_date\": \"2026-10-20\"}}",
+          "sha256": "1417b2a767bd89551cd2678125c75e39d5f95aaeef5a194c1aae4780165e82ce",
+          "document": {
+            "lines": [
+              {
+                "id": "a32a9141-0b0c-4d9b-8a91-ef2a99592267",
+                "debit": "200.00",
+                "po_id": null,
+                "credit": "0.00",
+                "vendor_id": null,
+                "account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff",
+                "product_id": null,
+                "customer_id": "3738ac40-6b7b-4793-9113-dba317b216ad",
+                "description": "OW04 source-bound recognition",
+                "contractor_id": null,
+                "journal_entry_id": "356ca227-8abf-46a7-9930-cbbc662f6017"
+              },
+              {
+                "id": "db88f05b-48a2-40ac-96aa-a4e848461dc6",
+                "debit": "0.00",
+                "po_id": null,
+                "credit": "200.00",
+                "vendor_id": null,
+                "account_id": "17dc6fc1-0b00-41fd-b4e9-14584f63e2f4",
+                "product_id": null,
+                "customer_id": "3738ac40-6b7b-4793-9113-dba317b216ad",
+                "description": "OW04 source-bound recognition",
+                "contractor_id": null,
+                "journal_entry_id": "356ca227-8abf-46a7-9930-cbbc662f6017"
+              }
+            ],
+            "header": {
+              "id": "356ca227-8abf-46a7-9930-cbbc662f6017",
+              "status": "POSTED",
+              "source_id": "526ecd94-0c4a-489f-9cf6-f021f75c8b3b",
+              "created_at": "2026-10-20T22:23:10.879965+00:00",
+              "created_by": "2f99608d-9ab4-4168-a459-b786722f60a2",
+              "posting_at": "2026-10-20T22:23:10.879965+00:00",
+              "description": "Kredit retur: pengakuan terikat sumber",
+              "source_type": "CP7_CUSTOMER_CREDIT_RECOGNITION",
+              "economic_date": "2026-10-20",
+              "journal_number": "JRN-20261021052311276-5094b213",
+              "period_shifted": false,
+              "reversal_of_id": null,
+              "transaction_date": "2026-10-20"
+            }
+          }
+        },
+        "refund_journal": null
+      },
+      "complete_UI_timings": [
+        {
+          "operation": "quote_to_complete_result",
+          "milliseconds": 289.50438399999985
+        },
+        {
+          "operation": "quote_to_complete_result",
+          "milliseconds": 228.05875200000082
+        },
+        {
+          "operation": "save_to_verified_authoritative_UI",
+          "milliseconds": 1465.8879209999977
+        }
+      ],
+      "timing_scope": "Scoped initial settlement journeys; no whole ERP performance acceptance",
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_OW04_SETTLEMENT_BROWSER",
+      "case": "OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK",
+      "status": "PASS",
+      "real_Auth_and_Enteng_build_loopback": true,
+      "mode": "CREDIT",
+      "mobile": false,
+      "request_count": 3,
+      "complete_request_UUID_document_version_recovery": true,
+      "real_upstream_COMMIT_before_lost_reply": true,
+      "positive_other_domain_controls_then_global_pending_lock": true,
+      "actual_replay_revocation_and_failed_postcommit_reload_lock": true,
+      "quote_A_B_A_retires_review_requires_new_request": false,
+      "strict_original_money_date_stock_HPP": {
+        "status": "PASS",
+        "strict_original_money_date_stock_HPP_oracles": true,
+        "original_payments_immutable": true,
+        "original_paid": "1000.00",
+        "effective_paid": "800.00",
+        "receivable": "0.00",
+        "return_journal": {
+          "raw_json": "{\"lines\": [{\"id\": \"2de153f5-2b51-4383-babf-21713c9eff66\", \"debit\": 0.00, \"po_id\": null, \"credit\": 200.00, \"vendor_id\": null, \"account_id\": \"377d37ea-56a9-4ebc-853a-0158a78bb4ff\", \"product_id\": null, \"customer_id\": \"acde9f9e-5ae8-485b-b197-fd13bd1e963c\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"37531c7c-9cd4-48f6-b85d-98288dcf6a1c\"}, {\"id\": \"dfeb5ff5-a5f5-4fb1-99ba-ab7756a1ab97\", \"debit\": 0.00, \"po_id\": null, \"credit\": 10.00, \"vendor_id\": null, \"account_id\": \"370746aa-abe3-418b-b912-b8a63c9ffcc1\", \"product_id\": \"0843c674-bb32-41c7-ad21-527791cfdd5f\", \"customer_id\": \"acde9f9e-5ae8-485b-b197-fd13bd1e963c\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"37531c7c-9cd4-48f6-b85d-98288dcf6a1c\"}, {\"id\": \"e13157d9-d119-4a0f-b13c-5dcf0b5584d1\", \"debit\": 200.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"86ddff01-e556-4777-ad30-1943f3200224\", \"product_id\": null, \"customer_id\": \"acde9f9e-5ae8-485b-b197-fd13bd1e963c\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"37531c7c-9cd4-48f6-b85d-98288dcf6a1c\"}, {\"id\": \"e15f4cf5-7165-4afa-a49f-c9653f9cff78\", \"debit\": 10.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"20a7533b-5578-4799-9973-90ab000e9e43\", \"product_id\": \"0843c674-bb32-41c7-ad21-527791cfdd5f\", \"customer_id\": \"acde9f9e-5ae8-485b-b197-fd13bd1e963c\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"37531c7c-9cd4-48f6-b85d-98288dcf6a1c\"}], \"header\": {\"id\": \"37531c7c-9cd4-48f6-b85d-98288dcf6a1c\", \"status\": \"POSTED\", \"source_id\": \"03b821ed-d35c-4bed-8b80-bab6504cc30d\", \"created_at\": \"2026-10-20T22:23:19.649234+00:00\", \"created_by\": \"6e578f77-ac70-422f-a44e-001c491a4592\", \"posting_at\": \"2026-10-20T22:23:19.649234+00:00\", \"description\": \"Sales return from customer · cumulative exact HPP target\", \"source_type\": \"SALES_RETURN\", \"economic_date\": \"2026-10-20\", \"journal_number\": \"JRN-20261021052319832-f4a078fd\", \"period_shifted\": false, \"reversal_of_id\": null, \"transaction_date\": \"2026-10-20\"}}",
+          "sha256": "424587216aa6adbc42005ecec12acb6c822386517e261f34ab8d79784c0b7d8a",
+          "document": {
+            "lines": [
+              {
+                "id": "2de153f5-2b51-4383-babf-21713c9eff66",
+                "debit": "0.00",
+                "po_id": null,
+                "credit": "200.00",
+                "vendor_id": null,
+                "account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff",
+                "product_id": null,
+                "customer_id": "acde9f9e-5ae8-485b-b197-fd13bd1e963c",
+                "description": null,
+                "contractor_id": null,
+                "journal_entry_id": "37531c7c-9cd4-48f6-b85d-98288dcf6a1c"
+              },
+              {
+                "id": "dfeb5ff5-a5f5-4fb1-99ba-ab7756a1ab97",
+                "debit": "0.00",
+                "po_id": null,
+                "credit": "10.00",
+                "vendor_id": null,
+                "account_id": "370746aa-abe3-418b-b912-b8a63c9ffcc1",
+                "product_id": "0843c674-bb32-41c7-ad21-527791cfdd5f",
+                "customer_id": "acde9f9e-5ae8-485b-b197-fd13bd1e963c",
+                "description": null,
+                "contractor_id": null,
+                "journal_entry_id": "37531c7c-9cd4-48f6-b85d-98288dcf6a1c"
+              },
+              {
+                "id": "e13157d9-d119-4a0f-b13c-5dcf0b5584d1",
+                "debit": "200.00",
+                "po_id": null,
+                "credit": "0.00",
+                "vendor_id": null,
+                "account_id": "86ddff01-e556-4777-ad30-1943f3200224",
+                "product_id": null,
+                "customer_id": "acde9f9e-5ae8-485b-b197-fd13bd1e963c",
+                "description": null,
+                "contractor_id": null,
+                "journal_entry_id": "37531c7c-9cd4-48f6-b85d-98288dcf6a1c"
+              },
+              {
+                "id": "e15f4cf5-7165-4afa-a49f-c9653f9cff78",
+                "debit": "10.00",
+                "po_id": null,
+                "credit": "0.00",
+                "vendor_id": null,
+                "account_id": "20a7533b-5578-4799-9973-90ab000e9e43",
+                "product_id": "0843c674-bb32-41c7-ad21-527791cfdd5f",
+                "customer_id": "acde9f9e-5ae8-485b-b197-fd13bd1e963c",
+                "description": null,
+                "contractor_id": null,
+                "journal_entry_id": "37531c7c-9cd4-48f6-b85d-98288dcf6a1c"
+              }
+            ],
+            "header": {
+              "id": "37531c7c-9cd4-48f6-b85d-98288dcf6a1c",
+              "status": "POSTED",
+              "source_id": "03b821ed-d35c-4bed-8b80-bab6504cc30d",
+              "created_at": "2026-10-20T22:23:19.649234+00:00",
+              "created_by": "6e578f77-ac70-422f-a44e-001c491a4592",
+              "posting_at": "2026-10-20T22:23:19.649234+00:00",
+              "description": "Sales return from customer · cumulative exact HPP target",
+              "source_type": "SALES_RETURN",
+              "economic_date": "2026-10-20",
+              "journal_number": "JRN-20261021052319832-f4a078fd",
+              "period_shifted": false,
+              "reversal_of_id": null,
+              "transaction_date": "2026-10-20"
+            }
+          }
+        },
+        "recognition_journal": {
+          "raw_json": "{\"lines\": [{\"id\": \"1b79ea8b-bdeb-454c-b813-91bf07496c8b\", \"debit\": 0.00, \"po_id\": null, \"credit\": 200.00, \"vendor_id\": null, \"account_id\": \"efdc9baf-667c-4466-8dfe-f87e828e99a6\", \"product_id\": null, \"customer_id\": \"acde9f9e-5ae8-485b-b197-fd13bd1e963c\", \"description\": \"OW04 source-bound recognition\", \"contractor_id\": null, \"journal_entry_id\": \"d2ab397c-0ebd-435f-96d6-4a39b990d118\"}, {\"id\": \"b80811c1-da28-4a3a-8a83-f30c283075e4\", \"debit\": 200.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"377d37ea-56a9-4ebc-853a-0158a78bb4ff\", \"product_id\": null, \"customer_id\": \"acde9f9e-5ae8-485b-b197-fd13bd1e963c\", \"description\": \"OW04 source-bound recognition\", \"contractor_id\": null, \"journal_entry_id\": \"d2ab397c-0ebd-435f-96d6-4a39b990d118\"}], \"header\": {\"id\": \"d2ab397c-0ebd-435f-96d6-4a39b990d118\", \"status\": \"POSTED\", \"source_id\": \"1609a642-4d7c-4e80-b6f5-7c1b9be2ddec\", \"created_at\": \"2026-10-20T22:23:19.649234+00:00\", \"created_by\": \"6e578f77-ac70-422f-a44e-001c491a4592\", \"posting_at\": \"2026-10-20T22:23:19.649234+00:00\", \"description\": \"Kredit retur: pengakuan terikat sumber\", \"source_type\": \"CP7_CUSTOMER_CREDIT_RECOGNITION\", \"economic_date\": \"2026-10-20\", \"journal_number\": \"JRN-20261021052320054-f4a74b12\", \"period_shifted\": false, \"reversal_of_id\": null, \"transaction_date\": \"2026-10-20\"}}",
+          "sha256": "53edb9f61a6902442e84deeab385ae4ed7c187f863af016c54e9f7beaf8561ac",
+          "document": {
+            "lines": [
+              {
+                "id": "1b79ea8b-bdeb-454c-b813-91bf07496c8b",
+                "debit": "0.00",
+                "po_id": null,
+                "credit": "200.00",
+                "vendor_id": null,
+                "account_id": "efdc9baf-667c-4466-8dfe-f87e828e99a6",
+                "product_id": null,
+                "customer_id": "acde9f9e-5ae8-485b-b197-fd13bd1e963c",
+                "description": "OW04 source-bound recognition",
+                "contractor_id": null,
+                "journal_entry_id": "d2ab397c-0ebd-435f-96d6-4a39b990d118"
+              },
+              {
+                "id": "b80811c1-da28-4a3a-8a83-f30c283075e4",
+                "debit": "200.00",
+                "po_id": null,
+                "credit": "0.00",
+                "vendor_id": null,
+                "account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff",
+                "product_id": null,
+                "customer_id": "acde9f9e-5ae8-485b-b197-fd13bd1e963c",
+                "description": "OW04 source-bound recognition",
+                "contractor_id": null,
+                "journal_entry_id": "d2ab397c-0ebd-435f-96d6-4a39b990d118"
+              }
+            ],
+            "header": {
+              "id": "d2ab397c-0ebd-435f-96d6-4a39b990d118",
+              "status": "POSTED",
+              "source_id": "1609a642-4d7c-4e80-b6f5-7c1b9be2ddec",
+              "created_at": "2026-10-20T22:23:19.649234+00:00",
+              "created_by": "6e578f77-ac70-422f-a44e-001c491a4592",
+              "posting_at": "2026-10-20T22:23:19.649234+00:00",
+              "description": "Kredit retur: pengakuan terikat sumber",
+              "source_type": "CP7_CUSTOMER_CREDIT_RECOGNITION",
+              "economic_date": "2026-10-20",
+              "journal_number": "JRN-20261021052320054-f4a74b12",
+              "period_shifted": false,
+              "reversal_of_id": null,
+              "transaction_date": "2026-10-20"
+            }
+          }
+        },
+        "refund_journal": null
+      },
+      "complete_UI_timings": [
+        {
+          "operation": "quote_to_complete_result",
+          "milliseconds": 260.233146999999
+        }
+      ],
+      "timing_scope": "Scoped initial settlement journeys; no whole ERP performance acceptance",
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    }
+  ],
+  "summary": {
+    "label": "CP7_OW04_BROWSER",
+    "status": "PASS",
+    "candidate_commit": "142beaea99d39c30e0356b5671f47648f619d191",
+    "expected_case_count": 4,
+    "observed_case_count": 4,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "error": null,
+    "traceback": null,
+    "restore_error": null
+  },
+  "host": {
+    "group": "AUDITOR_BROWSER_CP7_OW04_SETTLEMENT_BROWSER",
+    "planned": [
+      "OW04_BROWSER_CREDIT_LOST_REPLY_DESKTOP",
+      "OW04_BROWSER_REFUND_MOBILE",
+      "OW04_BROWSER_QUOTE_EDIT_FENCE",
+      "OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK"
+    ],
+    "final": {
+      "OW04_BROWSER_CREDIT_LOST_REPLY_DESKTOP": "PASS",
+      "OW04_BROWSER_REFUND_MOBILE": "PASS",
+      "OW04_BROWSER_QUOTE_EDIT_FENCE": "PASS",
+      "OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK": "PASS"
+    },
+    "status": "RUN_COMPLETE",
+    "console_errors": 0,
+    "users_created": 4,
+    "auth_cleanup_failures": [],
+    "enteng_requests_answered_by_loopback": 108,
+    "enteng_route_errors": []
+  },
+  "packages": [
+    {
+      "status": "ALL_STAGES_INSTALLED",
+      "gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "writer_runtime": {
+        "status": "PASS",
+        "production_go": false,
+        "independent_acceptance": false,
+        "feature_complete": false,
+        "schema_profile": "HOSTED_USAGE_UNCHANGED"
+      },
+      "primary_unchanged": true,
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "run_identity": {
+        "label": "T3_PREP",
+        "tool_head": "142beaea99d39c30e0356b5671f47648f619d191",
+        "product_ref": "b7fc541ca2b0221865ed7982155e844e1a9bed80",
+        "product_paths": [
+          "supabase/migrations",
+          "supabase/dev",
+          "supabase/release",
+          "supabase/rollbacks",
+          "src"
+        ],
+        "run_id": "39506933483",
+        "run_attempt": "1",
+        "workflow": "CP7 OW04 Real Browser Settlement and Recovery Qualification",
+        "job": "phase",
+        "event": "push",
+        "github_sha": "142beaea99d39c30e0356b5671f47648f619d191",
+        "release_evidence": false,
+        "production_go": false,
+        "mode": "install"
+      }
+    }
+  ],
+  "runtime": {
+    "path": "CI_142B_BROWSER4_RUNTIME.log.gz",
+    "bytes": 302339,
+    "gzip_bytes": 45408,
+    "raw_sha256": "ea3f587bfcd9ed9dbb4e634493ea8e0317584f0b2806ae42c13f35f6c4da5fbd",
+    "gzip_sha256": "fe587089e671963629b1f0f3ad5afb233f08906f19bfd593a833a82625331ef5"
+  },
+  "artifact": {
+    "id": 12304826113,
+    "name": "cp7-ow04-browser",
+    "size_in_bytes": 9944741,
+    "github_digest": "sha256:272486092faee4f6a9769d603813215bbfeb471ae253aced7f96284763a7e86b",
+    "downloaded_zip_sha256": "272486092faee4f6a9769d603813215bbfeb471ae253aced7f96284763a7e86b"
+  },
+  "reused_evidence": {
+    "native44": "ef98e6e65c13322bf08e6f704e511bdbb03a07a8",
+    "HTTP8_race6": "6f318261ab585ad7a8378d6041839dc1a549fa87",
+    "reexecuted_here": false,
+    "core_directory_tree": "07064b179f82e6827020074d0dc9707fbe5bd76e",
+    "native_probe_blob": "b82ad1f28fcb8b19db2a2892960151bba01df56c"
+  },
+  "UI_time_scope": {
+    "measurement": "From user click to complete checked visible quote, or from save click through verified authoritative UI; browser control/assertion overhead included; no SQL-only shortcut",
+    "quote_ms": [
+      342.82656700000007,
+      228.27151800000138,
+      289.50438399999985,
+      228.05875200000082,
+      260.233146999999
+    ],
+    "save_ms": [
+      2003.6917600000015,
+      1465.8879209999977
+    ],
+    "save_target_ms": 2000,
+    "save_target_fully_met": false,
+    "whole_ERP_performance_accepted": false
+  },
+  "preserved_initial_failures": [
+    "CI_DFC4_BROWSER_FIRST_FAILURE.json",
+    "CI_6D9C_BROWSER_SECOND_FAILURE.json",
+    "CI_F74E_BROWSER_FIRST_3PASS.json"
+  ],
+  "limits": [
+    "Exact initial CREDIT/REFUND only; no corrected/multiple-cohort/APPLY/consumer undo acceptance",
+    "Exact-cent HPP cost10 in fixtures, not fractional-cost/multi-lot/PO acceptance",
+    "Escrow UI applied/restored only on disposable qualification build, root/default product installation unchanged",
+    "Failed/lost response recovery does not establish full server disaster recovery",
+    "No Enteng, WhatsApp, Drive, main/integration merge or production deployment"
+  ],
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false
+}

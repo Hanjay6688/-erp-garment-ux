@@ -1,4 +1,4 @@
-# Writer checkpoint OW04 — Native44, Auth HTTP8 dan race/pemulihan6
+# Writer checkpoint OW04 — Native44, HTTP8, race6 dan browser4
 
 Ini pemeriksaan internal writer, bukan audit independen eksternal. OW04 tetap
 BELUM SELESAI; feature_complete:false, audit_complete:false,
@@ -11,6 +11,7 @@ counter terbatas tanpa mengedit produk bersama.
 |---|---|---|
 | Backend Native44 | ef98e6e65c13322bf08e6f704e511bdbb03a07a8 | run39489386389/job118858149684,44 PASS |
 | HTTP8 + race6 baru, backend persis sama | 6f318261ab585ad7a8378d6041839dc1a549fa87 | run39497414236/job118885938105,8+6 PASS |
+| Browser4 nyata, UI escrow dan backend yang sama | 142beaea99d39c30e0356b5671f47648f619d191 | run39506933483/job118918087524,4 PASS; lima gerbang paket lulus |
 | Snapshot frontend parser terhadap keluaran Native44 lama | parser proposal tidak berubah | ui-wire-native44/RESULT.json,12 pasangan/72 assertion PASS; bukan browser/runtime baru |
 
 Tree kandidat HTTP/race: d13e185c229cab3011ca4112decd4c9df80ba733.
@@ -36,6 +37,53 @@ paket, kandidat, run/job dan SHA256 log mentah serta gzip. Log lengkap baru
 1bd6e6b8f65c1c8d2ab2df64079edb713d51aa0737bdaf9e38b617f5207d0cdf.
 Gzip SHA256:
 80f9679997903541f69f323f4f0e8a7ca1f4498c9e4a271e9757bc0f5db870cc.
+
+## Browser nyata yang baru selesai
+
+Tree kandidat browser142beaea:1424b29412a55320df1ab727320ddcda70070801.
+Empat pengguna Auth sungguhan menjalankan build Enteng yang seluruh trafiknya
+diarahkan ke loopback:108 respons,0 route error, tanpa respons produk palsu.
+UI persis dari53 anggota escrow/two patches dibangun hanya di salinan sekali
+pakai, lalu kesembilan sumber dikembalikan. Sumber root/default tetap sama.
+Native44 dan HTTP8/race6 dipakai ulang secara terpisah, tidak dijalankan lagi
+pada run browser. Implementasi, expected, core dan source hashes terikat dalam
+report lengkap.
+
+- CREDIT desktop: respons200 asli sesudah COMMIT dibuang; envelope lengkap
+  bertahan melalui reload, kemudian UUID/payload/version yang sama memberi
+  receipt identik, satu settlement, pembayaran asli1000 dan E800/AR0.
+- REFUND390px pada sumber reopened: pembayaran asli900 tetap, refund100 sekali,
+  ekonomi D2/buku D3 tetap, E800/AR0 dan tidak ada overflow horizontal.
+- Edit200→199→200 mematikan quote/review lama; sebelum quote/review baru tidak
+  ada request settlement. Sesudahnya oracle asli tetap terpenuhi.
+- Pencabutan izin memberi403 yang persis tanpa mengubah envelope/ledger;
+  sesudah izin dikembalikan replay identik berhasil. Read invoice sengaja
+  digagalkan; notice settled, panel tanpa fakta, form tutup dan SALES/FG writer
+  tetap terkunci. Read200 baru dengan versi/E/AR tepat membuka SALES lagi.
+
+Semua kasus memakai koneksi database baru untuk oracle keuangan/jurnal/
+pasangan tanggal/stok/HPP dan pembayaran asli; replay membandingkan keadaan
+privat/bisnis lengkap. CP6/advisor/source restore dan Auth cleanup lulus,
+database kasus tersisa0 dan seluruh5 gerbang paket luar true. Outcome langkah
+Compose exact escrow frontend... serta job GitHub sendiri success.
+
+CI_142B_BROWSER4_PASS.json menyimpan4 keluaran asli, identitas dan waktu;
+CI_142B_BROWSER4_RUNTIME.log.gz menyimpan log lengkap302339 byte.
+Full original report/host ada di CI_142B_BROWSER4_REPORT.json.gz dan
+CI_142B_BROWSER4_HOST.json.gz; browser-check/CI_142B_ARTIFACT_MANIFEST.json
+mengikat hash sumber artifact, empat screenshot dan kedua report. Seluruh
+case receipt sama persis secara semantik dengan case pada host asli.
+COUNTER_RUNTIME_BROWSER4_FINAL.json mencatat recheck kedua terhadap objek
+kasus, jurnal, source/restore, artifact dan5 gerbang; tidak ditemukan bantahan
+baru dalam lingkup itu. Ia tidak menjalankan ulang database atau menjadi
+penerimaan auditor independen.
+
+Waktu dari klik hingga hasil lengkap yang diperiksa: quote228,059–342,827ms;
+dua save1465,888 dan2003,692ms. Ini termasuk overhead kontrol/assertion browser,
+bukan waktu SQL saja. Refund terakhir melewati target2000ms sebesar3,692ms;
+target simpan belum boleh disebut seluruhnya terpenuhi, dan hasil kecil ini
+bukan penerimaan kinerja seluruh ERP atau skala pabrik. Tidak dilakukan run
+ulang hanya untuk mendapatkan angka hijau.
 
 ## Perubahan dan kontrak yang telah dibuktikan
 
@@ -110,6 +158,20 @@ HTTP sukses yang hilang sesudah COMMIT.
   Kontrol sintetis bukan bukti runtime/Auth/Native.
 - Satu preflight awal memakai CWD keliru untuk import bukti lama; kegagalan
   lingkungan disimpan, diperbaiki lewat CWD tanpa koneksi DB/perubahan expected.
+- Browser pertama dfc4a56b:4 INCOMPLETE sebelum Auth karena fixture salah
+  memakai kolom product_sku. Lookup diganti ke sku Native yang sudah dibaca;
+  CI_DFC4_BROWSER_FIRST_FAILURE dan log lengkap tetap ada.
+- Browser6d9c58e1:4 INCOMPLETE sesudah Auth karena Playwright menolak input
+  datetime-local berdetik nol. Format menit mempertahankan instant/wire yang
+  sama; CI_6D9C_BROWSER_SECOND_FAILURE dan log lengkap tetap ada.
+- Browserf74ede79:3 PASS/1 INCOMPLETE. Oracle penulis meminta seluruh aside
+  hilang, padahal kontrak hanya meminta fakta lama/form hilang. Source dan
+  artifact menunjukkan judul+placeholder kosong. Pemeriksa internal menilai
+  sumber/artifact sebelum diberi kesimpulan root. Oracle kini
+  mewajibkan isi placeholder persis dan menolak fakta/item/kontrol/list/form.
+  Hasil pertama, runtime lengkap, artifact dan counter tetap disimpan; status
+  awal tidak diubah menjadi PASS.15 kontrol DOM atas export aktual dan recheck
+  fault/overflow terpisah lulus, tanpa mengklaim runtime produk dari kontrol itu.
 
 Tidak ada bantahan yang belum diselesaikan di lingkup source review akhir
 yang terbatas tersebut. Kesepakatan pemeriksa internal bukan bukti bahwa
@@ -149,13 +211,20 @@ diaktifkan. Enam sumber dasar masih cocok BASE_MANIFEST dan parent patch
 lulus git apply --check. Hasil167 uji mocked DOM/type adalah bukti historis
 dengan SDK stand-ins, bukan hasil browser/backend baru.
 
+Browser4 dapat direproduksi dengan workflow cp7-ow04-browser.yml dari kandidat
+142beaea, mempertahankan seluruh pin, bootstrap, runtime, otoritas rollback
+salinan dan env aslinya. Entry pada direktori writer yang disiapkan workflow:
+`AUDITOR_UI_MODE=ENTENG python ../auditor/scripts/ow04-qualification/browser_probe.py`.
+Entry tidak menerima argumen/override otoritas. Handoff auditor ada di
+HANDOFF_AUDITOR_BROWSER_20261020.md; reproduksi ini tidak memasang ke Enteng.
+
 ## Pekerjaan berikutnya dan batas penyerahan
 
 Lanjut OW04 pada cabang astra/d17-14-20261020; kandidat auditor
 55c885d1a12336905e433e05852b99be4d933f74 tetap beku. Masih perlu:
 rekonsiliasi keluarga terkoreksi/beberapa cohort, APPLY/konsumsi refund serta
-compound undo, komposisi installer produk atomik, UI aktif dan browser nyata,
-respons sukses hilang/reload/writer-lock, batas akun/kas/tanggal tambahan yang
+compound undo, komposisi installer produk atomik, UI produk default aktif,
+HPP pecahan/multi-lot/PO dan batas akun/kas/tanggal tambahan yang
 relevan, serta kualifikasi produk terpadu. UI dan pembaca E harus dipasang
 bersama backend baru; jangan memasang frontend parsial ke installer lama.
 
@@ -169,7 +238,10 @@ penerimaan; OW07 guard pool/HPP/WIP; OW08 koreksi uang/HPP; OW09 filter global;
 OW10–14 perencanaan/model/keuangan skala pabrik/rumus bahan; OW16 status potong
 tambahan D17-15; terakhir OW15 paket auditor. Nilai kebijakan tidak dikarang.
 
-Tidak ada pengukuran browser/latensi baru. Bukti P19 lama dan audit Astra r5
-tetap terikat kandidatnya sendiri. Tidak ada perubahan Enteng, kirim WhatsApp
+Ada4 perjalanan browser baru dengan batas di atas. NEXT_CONTRACT_GAPS.md
+dan browser-check/HPP_NEXT_SCOPE_SOURCE_NOT_RUNTIME.md mencatat sisa kontrak;
+contoh HPP/PO di dokumen itu hanya sumber/matematika, bukan Native baru.
+Bukti P19 lama dan audit Astra r5 tetap terikat kandidatnya sendiri.
+Tidak ada perubahan Enteng, kirim WhatsApp
 nyata, Drive, merge main atau deploy produksi pada checkpoint ini.
 
