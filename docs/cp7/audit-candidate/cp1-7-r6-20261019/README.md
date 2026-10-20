@@ -50,8 +50,11 @@ laporan r5 di `CROSS_AUDIT.md`. Paket ini satu kandidat untuk ketiga auditor, da
   runner; 1 jawaban tidak sampai karena halamannya sudah ditutup saat kasus selesai ("Request context disposed"; r4: 2, r5: 0,
   `b1649535`: 1, `3b7bb381`: 5): satu bacaan `erp_cp7_get_material_transfers_v1`. Ke-57 kasus tetap PASS. Suite CP17 tidak
   memasang modul stok minimum; modul dipasang bersama seluruh lapisan CP7 saat CP7C.
-- **Kasus WA dan stok minimum:** MENUNGGU (58 kasus yang dideklarasikan: Native 41, termasuk 22 kasus `SS1_*`/`SS2_*`/`SS3_*`;
-  race 6; HTTP 4; browser 7).
+- **Kasus WA dan stok minimum:** run 39385547480, job 118504823367 (wa-forward-58): 58 kasus yang dideklarasikan PASS
+  (Native 41, termasuk 22 kasus `SS1_*`/`SS2_*`/`SS3_*`; race 6; HTTP 4; browser 7); uji tumpukan wa3a (job 118504823185)
+  lulus; `cp6_restored` dan gerbang advisor benar. Kasus batas pembulatan PASS di CI: 350,00 dan 100,00 (aksesori), 2 pcs
+  (barang jadi, cadangan hari). Penerusan kain: satu judul "Stok kain di bawah minimum" berisi "sisa 30 YD, dipesan 0 YD,
+  minimum rumus 39,32 YD" dan "sisa 100 YD, minimum 500 YD". 2.000 barang tiap menit: 539–572 ms (batas 3.000 ms).
 - **P19 pada `3b7bb381` (riwayat):** run 39368267401 percobaan pertama: job p19-scale5 INCOMPLETE pada
   `P19S_BROWSER_DESKTOP_300` di langkah login (`.top-title strong` tidak tampil dalam 5 detik sesudah Masuk), sebelum klik
   yang diukur; 100, 1.000 dan 5.000 target PASS. Dijalankan ulang sekali pada commit yang sama: percobaan kedua lulus. Penyebab

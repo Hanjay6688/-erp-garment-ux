@@ -92,6 +92,8 @@ Kode: `scripts/cp7-src/stock-formula/materials.sql`. Kasus: `SS2_*` dan `SS3_*` 
 
 Bukti CI: WA Forward run 39365590365 di `b9b11e1c`, 57 dari 57 PASS (termasuk 21 kasus rumus dan layar barang jadi,
 kain, aksesori di komputer dan HP).
+Sesudah D17-10/D17-12 dan perbaikan pembulatan: WA Forward run 39385547480 di `55c885d1`, 58 dari 58 PASS (22 kasus stok,
+termasuk kasus batas 350,00, 100,00 dan 2 pcs).
 
 ### Keputusan owner D17-10 (20 Okt, sesudah SS-2/SS-3 dibuat)
 
