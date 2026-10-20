@@ -1,0 +1,2231 @@
+{
+  "classification": "FRESH_ACTUAL_DISPOSABLE_ERP_NATIVE_QUALIFICATION",
+  "candidate": "3f7e0329eb296d98ad8ea0fcdffc1e93e8bd34b0",
+  "tree": "208548ab7d993ce76d7ef12a3a822f319be48aff",
+  "run_id": 39485291311,
+  "job_id": 118844009987,
+  "command": "python ../auditor/scripts/cp7_ow04_probe.py",
+  "counts": {
+    "PASS": 32
+  },
+  "summary": {
+    "label": "CP7_OW04_INITIAL",
+    "status": "PASS",
+    "expected_case_count": 32,
+    "observed_case_count": 32,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "error": null,
+    "traceback": null,
+    "restore_error": null
+  },
+  "cases": [
+    {
+      "id": "OW04_INITIAL_1000_OPEN_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_OPEN_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_LIFECYCLE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_SPLIT_GRADES",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_ALLOCATION_CAP",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_FIELDS",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_PAID_REFUSAL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_DATE_LOCATION",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_REPLAY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_SOURCE_CHANGE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_PERMISSIONS",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_PAGES",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_CONSUMED",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_DRAFT_CANCEL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_NATIVE_LIFECYCLE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_EXACT_CENTS",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_FINANCIAL_REDACTION",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_PRIVATE_READ_ONLY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_COMPLETE_PAGES",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_QUERY_REFUSAL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_EMPTY_MISSING",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "F03_E01_NATIVE_60_TO_CASH_RETURN",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    }
+  ],
+  "initial_settlements": [
+    {
+      "case": "OW04_INITIAL_1000_OPEN_CREDIT",
+      "mode": "CREDIT",
+      "source_fixture_id": "OW04_SOURCE_1000_OPEN",
+      "quote": {
+        "kind": "QUOTE",
+        "source": {
+          "sale_id": "43e35ede-b7d2-4efd-94d6-d8b6c1d85314",
+          "customer_id": "2d7ed05a-e185-430e-bdf3-33135c3133b4",
+          "row_version": "3",
+          "sale_number": "NOTE-a9de619d45c4",
+          "review_token": "4b4876e761dfe47fe8b53a9684d16619",
+          "customer_name": "CP6 E NOTE-3b1ac1a97cb2 customer"
+        },
+        "totals": {
+          "after": {
+            "net_total": "800.00",
+            "gross_total": "1000.00",
+            "return_total": "200.00",
+            "credit_applied": "0.00",
+            "effective_paid": "800.00",
+            "credit_recognized": "200.00",
+            "payments_received": "1000.00",
+            "receivable_remaining": "0.00"
+          },
+          "before": {
+            "net_total": "1000.00",
+            "gross_total": "1000.00",
+            "return_total": "0.00",
+            "credit_applied": "0.00",
+            "effective_paid": "1000.00",
+            "credit_recognized": "0.00",
+            "payments_received": "1000.00",
+            "receivable_remaining": "0.00"
+          }
+        },
+        "binding": {
+          "draft_sha256": "a251eed2d5b1869c26b9632dadf24bd292a4b8f9ca88f0bbaa7b0af4179c86c2",
+          "quote_sha256": "fc468126d7d5521c3b2a9616d9d8e8a3e2fb3736c41edbc1d73f5f307c4b4868",
+          "choice_sha256": "35cd0e9186d005907ca31758d31d0e45071116985f963722680a3f21837ec9be",
+          "period_sha256": "a386c99004494c3cef5a66d5b6c200a9373cb2e27695c6da74d1272ac89fa209",
+          "authority_sha256": "d57bc95ea9b682fd0e3677c86c13e2c2985694a739055e2f2adc48d256349892",
+          "dependency_sha256": "3035d966ed1e719e832f7f505adf2aed2fabe72752dd41f824b1e39ac6d95332",
+          "projection_sha256": "fe759f8ce90e902af361f741e5792b149ecf4f88f30918eedc3c0c49d77c4f49",
+          "current_state_sha256": "f3fbb79fec9eaf9537cb218f7eaff82f9d332900bc547819ed783ffd67c08804",
+          "immutable_source_sha256": "704337f970eae6a45469d6894362c02e3255aac02d05799b4a6f0fd0dc177c81"
+        },
+        "read_only": true,
+        "readiness": {
+          "state": "READY",
+          "issues": []
+        },
+        "components": [
+          {
+            "book_date": "2026-10-20",
+            "component_key": "fe79c66de51f807a2fc3d31785f909ca9b857e5fd5080dbe80ee82c37bcb173b",
+            "economic_date": "2026-10-20",
+            "signed_amount": "200.00",
+            "support_sha256": "8395bc52d8c710367dcd3955360e64e7a45100e18b0d5a73948dbb0ccf6ade06"
+          }
+        ],
+        "input_echo": {
+          "sale_id": "43e35ede-b7d2-4efd-94d6-d8b6c1d85314",
+          "settlement": {
+            "mode": "CREDIT",
+            "reference": null,
+            "cash_account_id": null,
+            "credit_account_id": "5ea15077-aa03-4e9c-bc6e-1f765cc5a709",
+            "refund_physical_at": null
+          },
+          "review_token": "4b4876e761dfe47fe8b53a9684d16619",
+          "return_payload": {
+            "items": [
+              {
+                "notes": "Return original allocation only",
+                "qty_pcs": "1",
+                "location_id": "e16e60a1-fad3-4c2e-adfd-c9bcb57a8c53",
+                "allocation_id": "8edab464-482c-4f93-98ba-1c7dea97f6ae",
+                "quality_grade": "GRADE_A",
+                "refund_amount": "200.00"
+              }
+            ],
+            "notes": "OW04 independently expected source return1/value200; no settlement choice supplied",
+            "physical_at": "2026-10-20T12:00:00.123456+07:00",
+            "change_reason": "Invoice quantities and amount reviewed",
+            "return_number": "RET-87648be3f01b"
+          },
+          "expected_version": "3"
+        },
+        "captured_at": "2026-10-20T19:44:35.051495+00:00",
+        "business_DML": false,
+        "capabilities": {
+          "refund_cash": false,
+          "record_return": true,
+          "recognize_credit": true
+        },
+        "cash_account": null,
+        "credit_account": {
+          "id": "5ea15077-aa03-4e9c-bc6e-1f765cc5a709",
+          "code": "OW04C-e126bd34382a409da0",
+          "name": "OW04 explicitly selected customer credit",
+          "facts_sha256": "e196851bb3fdca47b42d4c92c3e2ffb854f220418b0839a3c5a5ddfde7b7476a"
+        },
+        "contract_version": "cp7.sales-return-settlement-quote.v1",
+        "refund_projection": null,
+        "return_projection": {
+          "hpp_amount": "10.00",
+          "prior_causal": {
+            "scope": "PRIOR_CAUSAL_SALE_RETURN",
+            "state": "DATED",
+            "proof_sha256": "882e3a3c3ce14253fbdb02ffe492cb36d2b08b398eadf4422cc55b6cdbf6019c",
+            "contract_version": "ow04.prior-causal-book-proof.v1",
+            "causal_book_floor": "2026-10-18"
+          },
+          "economic_date": "2026-10-20",
+          "return_amount": "200.00",
+          "journal_effect": "JOURNAL_EXPECTED",
+          "planned_book_date": "2026-10-20",
+          "receivable_account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff"
+        },
+        "current_credit_amount": "200.00",
+        "has_recognition_effect": true
+      },
+      "outcome": {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "RETURN_SETTLEMENT",
+        "sale_id": "43e35ede-b7d2-4efd-94d6-d8b6c1d85314",
+        "credit_id": "21cd01ce-a586-4dd1-955f-1d0a00f87cb2",
+        "return_id": "baab8082-37b9-4e7d-bc6b-47cddbd3ec20",
+        "request_id": "6f44e935-8581-4b0b-8c60-8a74844766fb",
+        "row_version": "4",
+        "quote_sha256": "fc468126d7d5521c3b2a9616d9d8e8a3e2fb3736c41edbc1d73f5f307c4b4868",
+        "production_go": false,
+        "return_status": "POSTED",
+        "family_ordinal": "1",
+        "refund_event_id": null,
+        "contract_version": "cp7.sales-return-settlement-outcome.v1",
+        "projection_sha256": "fe759f8ce90e902af361f741e5792b149ecf4f88f30918eedc3c0c49d77c4f49",
+        "actual_manifest_sha256": "b29df4ad0fa72875f7453e6bad9c6ad8aec149cd806af533d0d13c6d5f78f3c6",
+        "projection_actual_proof_sha256": "8b6053ca8b1899d9eef560bfa70ca0144e34373ec080f837572a7c3c67e3d996"
+      },
+      "replay_same_outcome": true,
+      "replay_additional_effects": 0,
+      "original_payment_byte_equal": true,
+      "original_sale_and_payment_journals_byte_equal": true,
+      "deferred_constraints_forced_before_fixture_rollback": true
+    },
+    {
+      "case": "OW04_INITIAL_1000_OPEN_REFUND",
+      "mode": "REFUND",
+      "source_fixture_id": "OW04_SOURCE_1000_OPEN",
+      "quote": {
+        "kind": "QUOTE",
+        "source": {
+          "sale_id": "49ebeaa4-4989-44ad-892a-3abd9e24d537",
+          "customer_id": "ce3fa157-4d0c-40e4-8188-ac8e2aa2ac4c",
+          "row_version": "3",
+          "sale_number": "NOTE-f177bf312cd4",
+          "review_token": "7008660e798f78464008d61f47a2197f",
+          "customer_name": "CP6 E NOTE-e919f198d9c8 customer"
+        },
+        "totals": {
+          "after": {
+            "net_total": "800.00",
+            "gross_total": "1000.00",
+            "return_total": "200.00",
+            "credit_applied": "0.00",
+            "effective_paid": "800.00",
+            "credit_recognized": "200.00",
+            "payments_received": "1000.00",
+            "receivable_remaining": "0.00"
+          },
+          "before": {
+            "net_total": "1000.00",
+            "gross_total": "1000.00",
+            "return_total": "0.00",
+            "credit_applied": "0.00",
+            "effective_paid": "1000.00",
+            "credit_recognized": "0.00",
+            "payments_received": "1000.00",
+            "receivable_remaining": "0.00"
+          }
+        },
+        "binding": {
+          "draft_sha256": "a5a0591dd7e54d381c85a21b6e51f9714a8f43de318178ca0d45f6b6018490a8",
+          "quote_sha256": "5c38a26f60111977526c22e828ef003a2bf0deec29fb2453a03fceb8927b87ab",
+          "choice_sha256": "0b4359af147cb93bc67d750f299670c5cf5c4a5b3ef4fdfb41ef49a53f3e79fd",
+          "period_sha256": "e99ab5e605a5d0aa6d154ff347b7367650b8fc519a3e400aecf56e7c7ebb1f2a",
+          "authority_sha256": "d57bc95ea9b682fd0e3677c86c13e2c2985694a739055e2f2adc48d256349892",
+          "dependency_sha256": "3035d966ed1e719e832f7f505adf2aed2fabe72752dd41f824b1e39ac6d95332",
+          "projection_sha256": "e5295e8e485697c56605bf4c5c2f348494452e0533603e69c6cd9783501c9ae3",
+          "current_state_sha256": "bca559a585cf64ed9d4e724aa9fcb7e605fade9ce611a6a14e2493dfe3cb5bb0",
+          "immutable_source_sha256": "aafaeb37fefb6977cb8dec82c8e5ceefe34040783f0d696e1433a9c21cb05eea"
+        },
+        "read_only": true,
+        "readiness": {
+          "state": "READY",
+          "issues": []
+        },
+        "components": [
+          {
+            "book_date": "2026-10-20",
+            "component_key": "fe79c66de51f807a2fc3d31785f909ca9b857e5fd5080dbe80ee82c37bcb173b",
+            "economic_date": "2026-10-20",
+            "signed_amount": "200.00",
+            "support_sha256": "5f4734aefdf3f5c5923b5cd8574849c31f20220770efc6e18cb1ff0963bfca58"
+          }
+        ],
+        "input_echo": {
+          "sale_id": "49ebeaa4-4989-44ad-892a-3abd9e24d537",
+          "settlement": {
+            "mode": "REFUND",
+            "reference": "OW04 explicit full refund",
+            "cash_account_id": "51dff14a-1311-4a55-9371-b92cfa480fea",
+            "credit_account_id": "a31e9d3c-28b3-4c8f-9bae-fb3af39f3eb4",
+            "refund_physical_at": "2026-10-20T13:00:00.654321+07:00"
+          },
+          "review_token": "7008660e798f78464008d61f47a2197f",
+          "return_payload": {
+            "items": [
+              {
+                "notes": "Return original allocation only",
+                "qty_pcs": "1",
+                "location_id": "6f42c819-b58e-43d9-860a-dcc0519a89a1",
+                "allocation_id": "e439b94b-dfd2-4393-b704-6a3bfae726d1",
+                "quality_grade": "GRADE_A",
+                "refund_amount": "200.00"
+              }
+            ],
+            "notes": "OW04 independently expected source return1/value200; no settlement choice supplied",
+            "physical_at": "2026-10-20T12:00:00.123456+07:00",
+            "change_reason": "Invoice quantities and amount reviewed",
+            "return_number": "RET-4677bcaccb98"
+          },
+          "expected_version": "3"
+        },
+        "captured_at": "2026-10-20T19:44:38.439286+00:00",
+        "business_DML": false,
+        "capabilities": {
+          "refund_cash": true,
+          "record_return": true,
+          "recognize_credit": true
+        },
+        "cash_account": {
+          "id": "51dff14a-1311-4a55-9371-b92cfa480fea",
+          "code": "OW04-7380796221L",
+          "name": "BC L bank",
+          "facts_sha256": "8e77000b502e05234a919ca0d753fff74b5f2e1139c24b0092debbbc3416f29e"
+        },
+        "credit_account": {
+          "id": "a31e9d3c-28b3-4c8f-9bae-fb3af39f3eb4",
+          "code": "OW04C-49315ebc9982439c99",
+          "name": "OW04 explicitly selected customer credit",
+          "facts_sha256": "62bfcaf2cd94be85aa9b0c277b1a54ea198c3ce5f15597930387b8c72da11efb"
+        },
+        "contract_version": "cp7.sales-return-settlement-quote.v1",
+        "refund_projection": {
+          "amount": "200.00",
+          "book_date": "2026-10-20",
+          "physical_at": "2026-10-20T13:00:00.654321+07:00",
+          "economic_date": "2026-10-20",
+          "safe_capacity": "200.00",
+          "capacity_sha256": "1d496c2b5d04f6bf03b1ac28c07239f9adc5ad1688bf3fcead3336c158460847"
+        },
+        "return_projection": {
+          "hpp_amount": "10.00",
+          "prior_causal": {
+            "scope": "PRIOR_CAUSAL_SALE_RETURN",
+            "state": "DATED",
+            "proof_sha256": "0423d8f2ee0b11d65eb18c3818ab5fb7da18f085bb15efcfeebc717d0846a8cb",
+            "contract_version": "ow04.prior-causal-book-proof.v1",
+            "causal_book_floor": "2026-10-18"
+          },
+          "economic_date": "2026-10-20",
+          "return_amount": "200.00",
+          "journal_effect": "JOURNAL_EXPECTED",
+          "planned_book_date": "2026-10-20",
+          "receivable_account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff"
+        },
+        "current_credit_amount": "200.00",
+        "has_recognition_effect": true
+      },
+      "outcome": {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "RETURN_SETTLEMENT",
+        "sale_id": "49ebeaa4-4989-44ad-892a-3abd9e24d537",
+        "credit_id": "53f197a1-073b-477e-b6a5-34e2882af617",
+        "return_id": "6deeb79f-ebff-45f8-8478-16f9917fb480",
+        "request_id": "a0a751b4-1763-4b29-9ce3-3e7a5a8285d5",
+        "row_version": "4",
+        "quote_sha256": "5c38a26f60111977526c22e828ef003a2bf0deec29fb2453a03fceb8927b87ab",
+        "production_go": false,
+        "return_status": "POSTED",
+        "family_ordinal": "1",
+        "refund_event_id": "15294d99-f29f-4b73-9b17-0b592dccd1a4",
+        "contract_version": "cp7.sales-return-settlement-outcome.v1",
+        "projection_sha256": "e5295e8e485697c56605bf4c5c2f348494452e0533603e69c6cd9783501c9ae3",
+        "actual_manifest_sha256": "0bd0a3de53b2e57b202b4ae7eecfceee160ed8aca375c7fedbc109d104b9b946",
+        "projection_actual_proof_sha256": "d2a80edc9581301527f73bda974446fc967e1b2821a24a033e7744f98cc610c1"
+      },
+      "replay_same_outcome": true,
+      "replay_additional_effects": 0,
+      "original_payment_byte_equal": true,
+      "original_sale_and_payment_journals_byte_equal": true,
+      "deferred_constraints_forced_before_fixture_rollback": true
+    },
+    {
+      "case": "OW04_INITIAL_1000_CLOSED_CREDIT",
+      "mode": "CREDIT",
+      "source_fixture_id": "OW04_SOURCE_1000_CLOSED",
+      "quote": {
+        "kind": "QUOTE",
+        "source": {
+          "sale_id": "13c7354d-26c0-43df-b169-fe304c1bab93",
+          "customer_id": "7b36332c-04a1-4279-aae9-cbe5759461d3",
+          "row_version": "3",
+          "sale_number": "NOTE-38fc16814db6",
+          "review_token": "a3a9325fae886f60350a986e091e21f4",
+          "customer_name": "CP6 E NOTE-a00ca71520df customer"
+        },
+        "totals": {
+          "after": {
+            "net_total": "800.00",
+            "gross_total": "1000.00",
+            "return_total": "200.00",
+            "credit_applied": "0.00",
+            "effective_paid": "800.00",
+            "credit_recognized": "200.00",
+            "payments_received": "1000.00",
+            "receivable_remaining": "0.00"
+          },
+          "before": {
+            "net_total": "1000.00",
+            "gross_total": "1000.00",
+            "return_total": "0.00",
+            "credit_applied": "0.00",
+            "effective_paid": "1000.00",
+            "credit_recognized": "0.00",
+            "payments_received": "1000.00",
+            "receivable_remaining": "0.00"
+          }
+        },
+        "binding": {
+          "draft_sha256": "d23ce2016d34321064c9ea0a33849a5ef1a106deec8b965a2e25c71790f81036",
+          "quote_sha256": "12ba2440956121bd6ecd63a4c7895c953df9c4bbc2be66a8baddf5d90a104e00",
+          "choice_sha256": "d0ee137e185f65cbe54817df8dba08bd7b996c30e3986bd5e591baeff042eec5",
+          "period_sha256": "4f7cae5c6f94688484021359ca61b742067f01288f22ad1b425cf10a8267ecb9",
+          "authority_sha256": "d57bc95ea9b682fd0e3677c86c13e2c2985694a739055e2f2adc48d256349892",
+          "dependency_sha256": "3035d966ed1e719e832f7f505adf2aed2fabe72752dd41f824b1e39ac6d95332",
+          "projection_sha256": "0cca5cc272976b4e74ba2b9fb9b5f0694e5d63c28228b2aa7b26500be349b1c9",
+          "current_state_sha256": "bfafdc5ebdf0c1fcec86451e6d221ebed0b866e9d67fd0712f1f917c6ab29325",
+          "immutable_source_sha256": "af84227f2146a5d0a8a76acdecddfde7b285f1518b0098b6ee71ba57470a1eb8"
+        },
+        "read_only": true,
+        "readiness": {
+          "state": "READY",
+          "issues": []
+        },
+        "components": [
+          {
+            "book_date": "2026-10-21",
+            "component_key": "5db67de23c934ad6cdf27f9c9f210824e649c0a4b45cdb1e74ccd6eb8fd3a83d",
+            "economic_date": "2026-10-20",
+            "signed_amount": "200.00",
+            "support_sha256": "c3f2dddf5d11692703432c4a3b0106e1495b84871e3df8a349417a2bc2a06125"
+          }
+        ],
+        "input_echo": {
+          "sale_id": "13c7354d-26c0-43df-b169-fe304c1bab93",
+          "settlement": {
+            "mode": "CREDIT",
+            "reference": null,
+            "cash_account_id": null,
+            "credit_account_id": "6696de6c-d419-4506-b6b3-64f4a8721fe4",
+            "refund_physical_at": null
+          },
+          "review_token": "a3a9325fae886f60350a986e091e21f4",
+          "return_payload": {
+            "items": [
+              {
+                "notes": "Return original allocation only",
+                "qty_pcs": "1",
+                "location_id": "02901be4-00d0-42b3-807c-5c10be339a22",
+                "allocation_id": "16b4cbcd-3660-408a-90ca-409a3f07b806",
+                "quality_grade": "GRADE_A",
+                "refund_amount": "200.00"
+              }
+            ],
+            "notes": "OW04 independently expected source return1/value200; no settlement choice supplied",
+            "physical_at": "2026-10-20T12:00:00.123456+07:00",
+            "change_reason": "Invoice quantities and amount reviewed",
+            "return_number": "RET-f2b719b68766"
+          },
+          "expected_version": "3"
+        },
+        "captured_at": "2026-10-20T19:44:42.168145+00:00",
+        "business_DML": false,
+        "capabilities": {
+          "refund_cash": false,
+          "record_return": true,
+          "recognize_credit": true
+        },
+        "cash_account": null,
+        "credit_account": {
+          "id": "6696de6c-d419-4506-b6b3-64f4a8721fe4",
+          "code": "OW04C-7e6bdf2f58284e7b97",
+          "name": "OW04 explicitly selected customer credit",
+          "facts_sha256": "10caead881ca6dbf7fd91e3be2163598c4606e75e4977131cbd060ca06d5b7a7"
+        },
+        "contract_version": "cp7.sales-return-settlement-quote.v1",
+        "refund_projection": null,
+        "return_projection": {
+          "hpp_amount": "10.00",
+          "prior_causal": {
+            "scope": "PRIOR_CAUSAL_SALE_RETURN",
+            "state": "DATED",
+            "proof_sha256": "fe533f024004d39cacfcbcd32dc862bcb07a65ed83bcef7326a68537bfcb06d6",
+            "contract_version": "ow04.prior-causal-book-proof.v1",
+            "causal_book_floor": "2026-10-21"
+          },
+          "economic_date": "2026-10-20",
+          "return_amount": "200.00",
+          "journal_effect": "JOURNAL_EXPECTED",
+          "planned_book_date": "2026-10-21",
+          "receivable_account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff"
+        },
+        "current_credit_amount": "200.00",
+        "has_recognition_effect": true
+      },
+      "outcome": {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "RETURN_SETTLEMENT",
+        "sale_id": "13c7354d-26c0-43df-b169-fe304c1bab93",
+        "credit_id": "814521ca-3517-4d23-84fe-e22415b5be26",
+        "return_id": "f873c120-2b55-4ebc-a067-a0db74d7f900",
+        "request_id": "77bdef9b-aa53-4bad-9d21-42e8ebf1027d",
+        "row_version": "4",
+        "quote_sha256": "12ba2440956121bd6ecd63a4c7895c953df9c4bbc2be66a8baddf5d90a104e00",
+        "production_go": false,
+        "return_status": "POSTED",
+        "family_ordinal": "1",
+        "refund_event_id": null,
+        "contract_version": "cp7.sales-return-settlement-outcome.v1",
+        "projection_sha256": "0cca5cc272976b4e74ba2b9fb9b5f0694e5d63c28228b2aa7b26500be349b1c9",
+        "actual_manifest_sha256": "53b9f68917974f201285aa07884ffc64ea95878c73e68d3e464f851f00703e09",
+        "projection_actual_proof_sha256": "993d7654f112dc810ccc1a2ab7b19cff6b0bfcb6ca898cee981044be75c9bee0"
+      },
+      "replay_same_outcome": true,
+      "replay_additional_effects": 0,
+      "original_payment_byte_equal": true,
+      "original_sale_and_payment_journals_byte_equal": true,
+      "deferred_constraints_forced_before_fixture_rollback": true
+    },
+    {
+      "case": "OW04_INITIAL_1000_CLOSED_REFUND",
+      "mode": "REFUND",
+      "source_fixture_id": "OW04_SOURCE_1000_CLOSED",
+      "quote": {
+        "kind": "QUOTE",
+        "source": {
+          "sale_id": "2dd2e741-c4f5-47fd-954a-a84ce6fb4408",
+          "customer_id": "9121f5db-8bc6-49c3-83c3-2b4f0c01f4d6",
+          "row_version": "3",
+          "sale_number": "NOTE-10b8915c9de2",
+          "review_token": "fcad1d16aa8488102c3bcd19ad738f34",
+          "customer_name": "CP6 E NOTE-eab684a7353d customer"
+        },
+        "totals": {
+          "after": {
+            "net_total": "800.00",
+            "gross_total": "1000.00",
+            "return_total": "200.00",
+            "credit_applied": "0.00",
+            "effective_paid": "800.00",
+            "credit_recognized": "200.00",
+            "payments_received": "1000.00",
+            "receivable_remaining": "0.00"
+          },
+          "before": {
+            "net_total": "1000.00",
+            "gross_total": "1000.00",
+            "return_total": "0.00",
+            "credit_applied": "0.00",
+            "effective_paid": "1000.00",
+            "credit_recognized": "0.00",
+            "payments_received": "1000.00",
+            "receivable_remaining": "0.00"
+          }
+        },
+        "binding": {
+          "draft_sha256": "0c7671ea039f7527547682747ffb9cfc559756dc35d6c8b2b9dbbb072fdb3b92",
+          "quote_sha256": "044b00ca66de40861b6087be790754326654bce1e87eef269a324a8f4ef8cd21",
+          "choice_sha256": "a73acbf89cf9a9e46770cea0b7f36c84ae6a75074922db0e6f79b2cce13a1fc7",
+          "period_sha256": "5d1c56cf37454c642df99be653306cd52f6fb71a11be0a45659ba9d7eb420d96",
+          "authority_sha256": "d57bc95ea9b682fd0e3677c86c13e2c2985694a739055e2f2adc48d256349892",
+          "dependency_sha256": "3035d966ed1e719e832f7f505adf2aed2fabe72752dd41f824b1e39ac6d95332",
+          "projection_sha256": "ba01ffafc2999b99e2768c655ef48e5b0dbf9aaf8fbcffa23300bb9b1c9a6c77",
+          "current_state_sha256": "58cd04da1d142de66ae995c77e7f00edbedf8ef3d88b5875a4d15595f173940a",
+          "immutable_source_sha256": "98e437709f6057f8189a586e07ff79e06ed1e02db9992b603200704bafa221db"
+        },
+        "read_only": true,
+        "readiness": {
+          "state": "READY",
+          "issues": []
+        },
+        "components": [
+          {
+            "book_date": "2026-10-21",
+            "component_key": "5db67de23c934ad6cdf27f9c9f210824e649c0a4b45cdb1e74ccd6eb8fd3a83d",
+            "economic_date": "2026-10-20",
+            "signed_amount": "200.00",
+            "support_sha256": "e3d1da25a935df58bab068c493bd8d844665d75587e3a87e2fc4ecd20dfcd4ad"
+          }
+        ],
+        "input_echo": {
+          "sale_id": "2dd2e741-c4f5-47fd-954a-a84ce6fb4408",
+          "settlement": {
+            "mode": "REFUND",
+            "reference": "OW04 explicit full refund",
+            "cash_account_id": "084dbf65-cddc-4e35-aec3-ee656acaedda",
+            "credit_account_id": "a720ef33-74b5-4792-ac95-b0471ce2d738",
+            "refund_physical_at": "2026-10-20T13:00:00.654321+07:00"
+          },
+          "review_token": "fcad1d16aa8488102c3bcd19ad738f34",
+          "return_payload": {
+            "items": [
+              {
+                "notes": "Return original allocation only",
+                "qty_pcs": "1",
+                "location_id": "a6019401-bbf2-44ae-a114-78dacd1cc77d",
+                "allocation_id": "a842d4dd-5d70-4d26-bd91-56e6abd8b1dd",
+                "quality_grade": "GRADE_A",
+                "refund_amount": "200.00"
+              }
+            ],
+            "notes": "OW04 independently expected source return1/value200; no settlement choice supplied",
+            "physical_at": "2026-10-20T12:00:00.123456+07:00",
+            "change_reason": "Invoice quantities and amount reviewed",
+            "return_number": "RET-9e8d148dec22"
+          },
+          "expected_version": "3"
+        },
+        "captured_at": "2026-10-20T19:44:45.456023+00:00",
+        "business_DML": false,
+        "capabilities": {
+          "refund_cash": true,
+          "record_return": true,
+          "recognize_credit": true
+        },
+        "cash_account": {
+          "id": "084dbf65-cddc-4e35-aec3-ee656acaedda",
+          "code": "OW04-12e75f7c00L",
+          "name": "BC L bank",
+          "facts_sha256": "929c841cfdb68a86e5d266cdf69e71aa2081285c8f698689af3413a5eabffc82"
+        },
+        "credit_account": {
+          "id": "a720ef33-74b5-4792-ac95-b0471ce2d738",
+          "code": "OW04C-22cfe87de1a44a04a7",
+          "name": "OW04 explicitly selected customer credit",
+          "facts_sha256": "a9befe2ffbd01e063ee6c0ed337b7706d76c0f1ec0da52fc35eb082942fb63b7"
+        },
+        "contract_version": "cp7.sales-return-settlement-quote.v1",
+        "refund_projection": {
+          "amount": "200.00",
+          "book_date": "2026-10-21",
+          "physical_at": "2026-10-20T13:00:00.654321+07:00",
+          "economic_date": "2026-10-20",
+          "safe_capacity": "200.00",
+          "capacity_sha256": "bfbd8e75e099cd4f12bd024ceda3da230c09e987eab2f2ef89d0dd8ce7f67c0b"
+        },
+        "return_projection": {
+          "hpp_amount": "10.00",
+          "prior_causal": {
+            "scope": "PRIOR_CAUSAL_SALE_RETURN",
+            "state": "DATED",
+            "proof_sha256": "784e5aafeb5ab8d96c1b0dc9d1ada3abe0ed32985a78e4f09ad6c23923ba3951",
+            "contract_version": "ow04.prior-causal-book-proof.v1",
+            "causal_book_floor": "2026-10-21"
+          },
+          "economic_date": "2026-10-20",
+          "return_amount": "200.00",
+          "journal_effect": "JOURNAL_EXPECTED",
+          "planned_book_date": "2026-10-21",
+          "receivable_account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff"
+        },
+        "current_credit_amount": "200.00",
+        "has_recognition_effect": true
+      },
+      "outcome": {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "RETURN_SETTLEMENT",
+        "sale_id": "2dd2e741-c4f5-47fd-954a-a84ce6fb4408",
+        "credit_id": "1f7970be-de57-497f-8b8c-c1d61604e61b",
+        "return_id": "367b7e7a-35b9-49bf-8e94-206b740bbcb5",
+        "request_id": "1c83ec14-54aa-4022-9abf-30f52042915f",
+        "row_version": "4",
+        "quote_sha256": "044b00ca66de40861b6087be790754326654bce1e87eef269a324a8f4ef8cd21",
+        "production_go": false,
+        "return_status": "POSTED",
+        "family_ordinal": "1",
+        "refund_event_id": "a7ea1cd6-32c4-4302-bbfa-81d3d0783c4f",
+        "contract_version": "cp7.sales-return-settlement-outcome.v1",
+        "projection_sha256": "ba01ffafc2999b99e2768c655ef48e5b0dbf9aaf8fbcffa23300bb9b1c9a6c77",
+        "actual_manifest_sha256": "e4db959f3b5a407f9e05bf3c31d5bd972ce7de1d24b75cd800478b8714d984af",
+        "projection_actual_proof_sha256": "7025b25e65cc6f7caa838b684f354fdebdefb1a77e1bd248d38c3d5ba0ee3c61"
+      },
+      "replay_same_outcome": true,
+      "replay_additional_effects": 0,
+      "original_payment_byte_equal": true,
+      "original_sale_and_payment_journals_byte_equal": true,
+      "deferred_constraints_forced_before_fixture_rollback": true
+    },
+    {
+      "case": "OW04_INITIAL_1000_REOPENED_CREDIT",
+      "mode": "CREDIT",
+      "source_fixture_id": "OW04_SOURCE_1000_REOPENED",
+      "quote": {
+        "kind": "QUOTE",
+        "source": {
+          "sale_id": "bae3d72b-be7b-4ece-93dd-a041e4fbc474",
+          "customer_id": "20b26b22-9862-4db5-b6de-dc2e775fd0ff",
+          "row_version": "3",
+          "sale_number": "NOTE-bb61dba8ca23",
+          "review_token": "6c0460b726aae125aa6fb17057756569",
+          "customer_name": "CP6 E NOTE-a3e09497db85 customer"
+        },
+        "totals": {
+          "after": {
+            "net_total": "800.00",
+            "gross_total": "1000.00",
+            "return_total": "200.00",
+            "credit_applied": "0.00",
+            "effective_paid": "800.00",
+            "credit_recognized": "200.00",
+            "payments_received": "1000.00",
+            "receivable_remaining": "0.00"
+          },
+          "before": {
+            "net_total": "1000.00",
+            "gross_total": "1000.00",
+            "return_total": "0.00",
+            "credit_applied": "0.00",
+            "effective_paid": "1000.00",
+            "credit_recognized": "0.00",
+            "payments_received": "1000.00",
+            "receivable_remaining": "0.00"
+          }
+        },
+        "binding": {
+          "draft_sha256": "f03769a783da19ed1588b932e22e6ba1cc407d186f994c6b81840934d2842d62",
+          "quote_sha256": "a45aec51bcb90372c61901728d349e761fe5dc1dd692bbcff4044a6903d61bd2",
+          "choice_sha256": "beb29a65500943ce0b94b383c8c857572736b29acc39e70620ed8d293bad7ccf",
+          "period_sha256": "4ec5daf8ab6eb5206e88b521fa60257bebb2fde68cb7ce33bfc21359420bd750",
+          "authority_sha256": "d57bc95ea9b682fd0e3677c86c13e2c2985694a739055e2f2adc48d256349892",
+          "dependency_sha256": "3035d966ed1e719e832f7f505adf2aed2fabe72752dd41f824b1e39ac6d95332",
+          "projection_sha256": "3b191e9d3c6c2458701c4b0194b961228197f6fabb40f60999e448f8bb2da6be",
+          "current_state_sha256": "8ce3da28a0e1b0f8840a89f40479bd7437ea73bf64481745e6a296829c52cb08",
+          "immutable_source_sha256": "f70fbd23768a5a8c23f4666e50f17e9c44de8a4ecb1b1dd10bdc47f7c8def6ff"
+        },
+        "read_only": true,
+        "readiness": {
+          "state": "READY",
+          "issues": []
+        },
+        "components": [
+          {
+            "book_date": "2026-10-21",
+            "component_key": "5db67de23c934ad6cdf27f9c9f210824e649c0a4b45cdb1e74ccd6eb8fd3a83d",
+            "economic_date": "2026-10-20",
+            "signed_amount": "200.00",
+            "support_sha256": "54b23e92e149ad8b3da03dd079f79f4828991761c991b1b1f50e2cb239265d63"
+          }
+        ],
+        "input_echo": {
+          "sale_id": "bae3d72b-be7b-4ece-93dd-a041e4fbc474",
+          "settlement": {
+            "mode": "CREDIT",
+            "reference": null,
+            "cash_account_id": null,
+            "credit_account_id": "4dafc1bf-0084-4cdf-b964-fd69c1dc8030",
+            "refund_physical_at": null
+          },
+          "review_token": "6c0460b726aae125aa6fb17057756569",
+          "return_payload": {
+            "items": [
+              {
+                "notes": "Return original allocation only",
+                "qty_pcs": "1",
+                "location_id": "62a04189-faae-4ed0-963d-17069b186bee",
+                "allocation_id": "f38637b7-7ff0-403a-8dd8-f5acfc2ed9e5",
+                "quality_grade": "GRADE_A",
+                "refund_amount": "200.00"
+              }
+            ],
+            "notes": "OW04 independently expected source return1/value200; no settlement choice supplied",
+            "physical_at": "2026-10-20T12:00:00.123456+07:00",
+            "change_reason": "Invoice quantities and amount reviewed",
+            "return_number": "RET-4a849587ca13"
+          },
+          "expected_version": "3"
+        },
+        "captured_at": "2026-10-20T19:44:49.206885+00:00",
+        "business_DML": false,
+        "capabilities": {
+          "refund_cash": false,
+          "record_return": true,
+          "recognize_credit": true
+        },
+        "cash_account": null,
+        "credit_account": {
+          "id": "4dafc1bf-0084-4cdf-b964-fd69c1dc8030",
+          "code": "OW04C-fd7848e5f3604eddbc",
+          "name": "OW04 explicitly selected customer credit",
+          "facts_sha256": "a90d6ac4236602be5c41f9a818bfe527dcd9d5cfe328ded501e25ddc54c05305"
+        },
+        "contract_version": "cp7.sales-return-settlement-quote.v1",
+        "refund_projection": null,
+        "return_projection": {
+          "hpp_amount": "10.00",
+          "prior_causal": {
+            "scope": "PRIOR_CAUSAL_SALE_RETURN",
+            "state": "DATED",
+            "proof_sha256": "b6d77b5495c7caeda5845553b63bd8eb4161a65a275ad3cf0cd25089dd882ac4",
+            "contract_version": "ow04.prior-causal-book-proof.v1",
+            "causal_book_floor": "2026-10-21"
+          },
+          "economic_date": "2026-10-20",
+          "return_amount": "200.00",
+          "journal_effect": "JOURNAL_EXPECTED",
+          "planned_book_date": "2026-10-21",
+          "receivable_account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff"
+        },
+        "current_credit_amount": "200.00",
+        "has_recognition_effect": true
+      },
+      "outcome": {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "RETURN_SETTLEMENT",
+        "sale_id": "bae3d72b-be7b-4ece-93dd-a041e4fbc474",
+        "credit_id": "1ea29f95-5a0a-4531-beb1-344da78a0fe9",
+        "return_id": "43850b15-4899-40df-8f83-6624797ca1ce",
+        "request_id": "8193409d-f912-49a6-865d-3fd9cead02a9",
+        "row_version": "4",
+        "quote_sha256": "a45aec51bcb90372c61901728d349e761fe5dc1dd692bbcff4044a6903d61bd2",
+        "production_go": false,
+        "return_status": "POSTED",
+        "family_ordinal": "1",
+        "refund_event_id": null,
+        "contract_version": "cp7.sales-return-settlement-outcome.v1",
+        "projection_sha256": "3b191e9d3c6c2458701c4b0194b961228197f6fabb40f60999e448f8bb2da6be",
+        "actual_manifest_sha256": "3e4f5a34e2d7bb6d36452b66299abb6809f3e40ae8b3e8b2dfe9463b1fc7837d",
+        "projection_actual_proof_sha256": "b907e10a482a51bb9a41786ad6934fe79908cc8fc19fdfc8dad62bca5d742ffd"
+      },
+      "replay_same_outcome": true,
+      "replay_additional_effects": 0,
+      "original_payment_byte_equal": true,
+      "original_sale_and_payment_journals_byte_equal": true,
+      "deferred_constraints_forced_before_fixture_rollback": true
+    },
+    {
+      "case": "OW04_INITIAL_1000_REOPENED_REFUND",
+      "mode": "REFUND",
+      "source_fixture_id": "OW04_SOURCE_1000_REOPENED",
+      "quote": {
+        "kind": "QUOTE",
+        "source": {
+          "sale_id": "1d9dede9-23b0-4d28-856f-5f72d56ae871",
+          "customer_id": "641ac012-87af-435b-8341-19670dc5e818",
+          "row_version": "3",
+          "sale_number": "NOTE-c534d4ba9540",
+          "review_token": "f77d59cc7adad0cff9983d1d7eabc411",
+          "customer_name": "CP6 E NOTE-189c12bbb126 customer"
+        },
+        "totals": {
+          "after": {
+            "net_total": "800.00",
+            "gross_total": "1000.00",
+            "return_total": "200.00",
+            "credit_applied": "0.00",
+            "effective_paid": "800.00",
+            "credit_recognized": "200.00",
+            "payments_received": "1000.00",
+            "receivable_remaining": "0.00"
+          },
+          "before": {
+            "net_total": "1000.00",
+            "gross_total": "1000.00",
+            "return_total": "0.00",
+            "credit_applied": "0.00",
+            "effective_paid": "1000.00",
+            "credit_recognized": "0.00",
+            "payments_received": "1000.00",
+            "receivable_remaining": "0.00"
+          }
+        },
+        "binding": {
+          "draft_sha256": "907c8e1f1427ea3b63164da4c7096b53bbcb2cbb8cd98839ed646cf5dc832f5c",
+          "quote_sha256": "07ea075ed0663c7026cd436e46b8b429d2dcb7ab5ab46557832c4afdec75ffa7",
+          "choice_sha256": "a24369d207c2b3b22799d5bc39211355d14cebe35cff3ad457aa9b3dbe87d04d",
+          "period_sha256": "d3ad44650616e9b1e64dfabd920680b595ad57891508437111d61f1d6bbe24b8",
+          "authority_sha256": "d57bc95ea9b682fd0e3677c86c13e2c2985694a739055e2f2adc48d256349892",
+          "dependency_sha256": "3035d966ed1e719e832f7f505adf2aed2fabe72752dd41f824b1e39ac6d95332",
+          "projection_sha256": "e574f40f4b744ce1ca82b8e0fa305e46f2f641f042226d02035d1e421476d03a",
+          "current_state_sha256": "82eb9ab4691f7c68ab9d677c3aa40138d595a61c93e100e9f00732288be0d3db",
+          "immutable_source_sha256": "655eccbc65e93bd9fcd59b00eb415457c468ee0e44463c4e9fdcae55418e3419"
+        },
+        "read_only": true,
+        "readiness": {
+          "state": "READY",
+          "issues": []
+        },
+        "components": [
+          {
+            "book_date": "2026-10-21",
+            "component_key": "5db67de23c934ad6cdf27f9c9f210824e649c0a4b45cdb1e74ccd6eb8fd3a83d",
+            "economic_date": "2026-10-20",
+            "signed_amount": "200.00",
+            "support_sha256": "d3ad30289157a43300d52748ccbfc99a506498423f64e63be97dcbd7e2424b0e"
+          }
+        ],
+        "input_echo": {
+          "sale_id": "1d9dede9-23b0-4d28-856f-5f72d56ae871",
+          "settlement": {
+            "mode": "REFUND",
+            "reference": "OW04 explicit full refund",
+            "cash_account_id": "af67e1d3-a429-4b48-a119-5d82d289ab55",
+            "credit_account_id": "fe6fb754-a643-4fdc-b1e5-ae900ee28093",
+            "refund_physical_at": "2026-10-20T13:00:00.654321+07:00"
+          },
+          "review_token": "f77d59cc7adad0cff9983d1d7eabc411",
+          "return_payload": {
+            "items": [
+              {
+                "notes": "Return original allocation only",
+                "qty_pcs": "1",
+                "location_id": "b9a6a2a7-0394-4f7d-97a8-74048a1f7943",
+                "allocation_id": "dd0fbc9b-e798-4dac-a8df-7fca85e75008",
+                "quality_grade": "GRADE_A",
+                "refund_amount": "200.00"
+              }
+            ],
+            "notes": "OW04 independently expected source return1/value200; no settlement choice supplied",
+            "physical_at": "2026-10-20T12:00:00.123456+07:00",
+            "change_reason": "Invoice quantities and amount reviewed",
+            "return_number": "RET-e3bc1240fed2"
+          },
+          "expected_version": "3"
+        },
+        "captured_at": "2026-10-20T19:44:52.510518+00:00",
+        "business_DML": false,
+        "capabilities": {
+          "refund_cash": true,
+          "record_return": true,
+          "recognize_credit": true
+        },
+        "cash_account": {
+          "id": "af67e1d3-a429-4b48-a119-5d82d289ab55",
+          "code": "OW04-8816664856L",
+          "name": "BC L bank",
+          "facts_sha256": "0376ad0707d9cd72f097834d31e5173a724232d3c0a99f343c7c27f3f0e06595"
+        },
+        "credit_account": {
+          "id": "fe6fb754-a643-4fdc-b1e5-ae900ee28093",
+          "code": "OW04C-98a377abab1a4bf2a3",
+          "name": "OW04 explicitly selected customer credit",
+          "facts_sha256": "bc5a66d9b873e70c06cac52051caed7fdc095eb199dee203650f70d839184101"
+        },
+        "contract_version": "cp7.sales-return-settlement-quote.v1",
+        "refund_projection": {
+          "amount": "200.00",
+          "book_date": "2026-10-21",
+          "physical_at": "2026-10-20T13:00:00.654321+07:00",
+          "economic_date": "2026-10-20",
+          "safe_capacity": "200.00",
+          "capacity_sha256": "b63be2f4442a65fdb75a51c14d19c36eea949a19dc27ae6209d4a207c5c501a9"
+        },
+        "return_projection": {
+          "hpp_amount": "10.00",
+          "prior_causal": {
+            "scope": "PRIOR_CAUSAL_SALE_RETURN",
+            "state": "DATED",
+            "proof_sha256": "77de366f349278ca8f7327919ba3fe15d4b902cb7f7d0bde08cbf8ed90f540c8",
+            "contract_version": "ow04.prior-causal-book-proof.v1",
+            "causal_book_floor": "2026-10-21"
+          },
+          "economic_date": "2026-10-20",
+          "return_amount": "200.00",
+          "journal_effect": "JOURNAL_EXPECTED",
+          "planned_book_date": "2026-10-21",
+          "receivable_account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff"
+        },
+        "current_credit_amount": "200.00",
+        "has_recognition_effect": true
+      },
+      "outcome": {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "RETURN_SETTLEMENT",
+        "sale_id": "1d9dede9-23b0-4d28-856f-5f72d56ae871",
+        "credit_id": "10621ed2-b675-4dce-9f42-2248471c3934",
+        "return_id": "e6fdeee8-d623-4f3b-9938-6695a97f5814",
+        "request_id": "8f098c96-d6d6-434c-949d-b4eb9f142ba8",
+        "row_version": "4",
+        "quote_sha256": "07ea075ed0663c7026cd436e46b8b429d2dcb7ab5ab46557832c4afdec75ffa7",
+        "production_go": false,
+        "return_status": "POSTED",
+        "family_ordinal": "1",
+        "refund_event_id": "a3e144b9-b303-4800-9b75-35683a48e993",
+        "contract_version": "cp7.sales-return-settlement-outcome.v1",
+        "projection_sha256": "e574f40f4b744ce1ca82b8e0fa305e46f2f641f042226d02035d1e421476d03a",
+        "actual_manifest_sha256": "6e00c4064fb814c870133cf88fffe9e90af2f9f682b2641799b1139657a3d3b8",
+        "projection_actual_proof_sha256": "6c4a6daa5efc852e24d3191e5b2c18e81c46fa8d4133be6105c7015399cc9cff"
+      },
+      "replay_same_outcome": true,
+      "replay_additional_effects": 0,
+      "original_payment_byte_equal": true,
+      "original_sale_and_payment_journals_byte_equal": true,
+      "deferred_constraints_forced_before_fixture_rollback": true
+    },
+    {
+      "case": "OW04_INITIAL_900_OPEN_CREDIT",
+      "mode": "CREDIT",
+      "source_fixture_id": "OW04_SOURCE_900_OPEN",
+      "quote": {
+        "kind": "QUOTE",
+        "source": {
+          "sale_id": "0bb10385-d3ed-4b07-8f58-e36ab85a1daa",
+          "customer_id": "44f5d238-ede9-48f2-a158-a46396d31ff0",
+          "row_version": "3",
+          "sale_number": "NOTE-d51ef6da19da",
+          "review_token": "da38873bd2acfe1f0fe559a06fdbf83b",
+          "customer_name": "CP6 E NOTE-b24e88b9a87e customer"
+        },
+        "totals": {
+          "after": {
+            "net_total": "800.00",
+            "gross_total": "1000.00",
+            "return_total": "200.00",
+            "credit_applied": "0.00",
+            "effective_paid": "800.00",
+            "credit_recognized": "100.00",
+            "payments_received": "900.00",
+            "receivable_remaining": "0.00"
+          },
+          "before": {
+            "net_total": "1000.00",
+            "gross_total": "1000.00",
+            "return_total": "0.00",
+            "credit_applied": "0.00",
+            "effective_paid": "900.00",
+            "credit_recognized": "0.00",
+            "payments_received": "900.00",
+            "receivable_remaining": "100.00"
+          }
+        },
+        "binding": {
+          "draft_sha256": "b18e35fadbe013e757293a53167e55d3b4837747e0b9d3e3d34a24551d318b91",
+          "quote_sha256": "0099d8c9a0752a07613d1b8ca0d1f398eb5b114c836348d82d97ac896f35419d",
+          "choice_sha256": "58e51c25fe9361e05ea5183b90ab0a4190a60186eda8198b12fba8c28c68ea5b",
+          "period_sha256": "78919857994d9a5701fb3a154f5eadf84f6166826a19c70c6097243da6c74f63",
+          "authority_sha256": "d57bc95ea9b682fd0e3677c86c13e2c2985694a739055e2f2adc48d256349892",
+          "dependency_sha256": "3035d966ed1e719e832f7f505adf2aed2fabe72752dd41f824b1e39ac6d95332",
+          "projection_sha256": "7c125675208934aa9e3961638f45225ff4962bbad47c56f64fe7b41fe59eb6e2",
+          "current_state_sha256": "f5deee5170e3e95de33753eba35498f471cbb3ed8df37be25bfe4cbfdd391d87",
+          "immutable_source_sha256": "9cae6342cb1d8248dfea5e29a1c29252077578d5b7a89b9143079de7ec798a50"
+        },
+        "read_only": true,
+        "readiness": {
+          "state": "READY",
+          "issues": []
+        },
+        "components": [
+          {
+            "book_date": "2026-10-20",
+            "component_key": "78fae73804f0b7acce9a325bd01d2abacd1fb3e489183f5ee58f50315eac0088",
+            "economic_date": "2026-10-20",
+            "signed_amount": "100.00",
+            "support_sha256": "e0edec2816e98e12d001b3b08383efb3f1debe3ebc63e4fbc6881599b9069716"
+          }
+        ],
+        "input_echo": {
+          "sale_id": "0bb10385-d3ed-4b07-8f58-e36ab85a1daa",
+          "settlement": {
+            "mode": "CREDIT",
+            "reference": null,
+            "cash_account_id": null,
+            "credit_account_id": "06212ffc-7b2f-4f66-a793-bf673a2a5ccb",
+            "refund_physical_at": null
+          },
+          "review_token": "da38873bd2acfe1f0fe559a06fdbf83b",
+          "return_payload": {
+            "items": [
+              {
+                "notes": "Return original allocation only",
+                "qty_pcs": "1",
+                "location_id": "0b9dd0c4-bdfb-47fb-b355-95ba9a5e1b26",
+                "allocation_id": "a221bfee-c8f7-4c16-85ff-43c67f7ec40e",
+                "quality_grade": "GRADE_A",
+                "refund_amount": "200.00"
+              }
+            ],
+            "notes": "OW04 independently expected source return1/value200; no settlement choice supplied",
+            "physical_at": "2026-10-20T12:00:00.123456+07:00",
+            "change_reason": "Invoice quantities and amount reviewed",
+            "return_number": "RET-e4fc4ed186ec"
+          },
+          "expected_version": "3"
+        },
+        "captured_at": "2026-10-20T19:44:56.121864+00:00",
+        "business_DML": false,
+        "capabilities": {
+          "refund_cash": false,
+          "record_return": true,
+          "recognize_credit": true
+        },
+        "cash_account": null,
+        "credit_account": {
+          "id": "06212ffc-7b2f-4f66-a793-bf673a2a5ccb",
+          "code": "OW04C-ce25a128009448109a",
+          "name": "OW04 explicitly selected customer credit",
+          "facts_sha256": "26ef3224905e3a75415d83f37e2a6b04f38e05b01808b702cd46201cdf611fe3"
+        },
+        "contract_version": "cp7.sales-return-settlement-quote.v1",
+        "refund_projection": null,
+        "return_projection": {
+          "hpp_amount": "10.00",
+          "prior_causal": {
+            "scope": "PRIOR_CAUSAL_SALE_RETURN",
+            "state": "DATED",
+            "proof_sha256": "462d8f8d7ba44ebeba6b4a132c6da2ae8ce9a389bda48bb7018e795702e0b304",
+            "contract_version": "ow04.prior-causal-book-proof.v1",
+            "causal_book_floor": "2026-10-18"
+          },
+          "economic_date": "2026-10-20",
+          "return_amount": "200.00",
+          "journal_effect": "JOURNAL_EXPECTED",
+          "planned_book_date": "2026-10-20",
+          "receivable_account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff"
+        },
+        "current_credit_amount": "100.00",
+        "has_recognition_effect": true
+      },
+      "outcome": {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "RETURN_SETTLEMENT",
+        "sale_id": "0bb10385-d3ed-4b07-8f58-e36ab85a1daa",
+        "credit_id": "81f32e2d-7b39-4d81-b8f1-3235bbd178ba",
+        "return_id": "096aa14c-205a-4557-997d-b6bd6f95ebed",
+        "request_id": "0ad631e9-568e-4523-b7cc-d4dbcd21e1e4",
+        "row_version": "4",
+        "quote_sha256": "0099d8c9a0752a07613d1b8ca0d1f398eb5b114c836348d82d97ac896f35419d",
+        "production_go": false,
+        "return_status": "POSTED",
+        "family_ordinal": "1",
+        "refund_event_id": null,
+        "contract_version": "cp7.sales-return-settlement-outcome.v1",
+        "projection_sha256": "7c125675208934aa9e3961638f45225ff4962bbad47c56f64fe7b41fe59eb6e2",
+        "actual_manifest_sha256": "f40a28a2bca9c106cf4758c38514835d8c848d576cea76773eac4b3196077a64",
+        "projection_actual_proof_sha256": "5491334ac888860793facd7e378cdd533dcce8beacb27d023000be6ffeb6b6c0"
+      },
+      "replay_same_outcome": true,
+      "replay_additional_effects": 0,
+      "original_payment_byte_equal": true,
+      "original_sale_and_payment_journals_byte_equal": true,
+      "deferred_constraints_forced_before_fixture_rollback": true
+    },
+    {
+      "case": "OW04_INITIAL_900_OPEN_REFUND",
+      "mode": "REFUND",
+      "source_fixture_id": "OW04_SOURCE_900_OPEN",
+      "quote": {
+        "kind": "QUOTE",
+        "source": {
+          "sale_id": "ae3db446-ef08-4264-a1cc-4f1fb0707511",
+          "customer_id": "2993117f-ba60-4c68-9c8c-baaac776bab1",
+          "row_version": "3",
+          "sale_number": "NOTE-1cac2172f5e8",
+          "review_token": "b175ea72825b5198ec0f4a362a2ba818",
+          "customer_name": "CP6 E NOTE-89dd00b6f17c customer"
+        },
+        "totals": {
+          "after": {
+            "net_total": "800.00",
+            "gross_total": "1000.00",
+            "return_total": "200.00",
+            "credit_applied": "0.00",
+            "effective_paid": "800.00",
+            "credit_recognized": "100.00",
+            "payments_received": "900.00",
+            "receivable_remaining": "0.00"
+          },
+          "before": {
+            "net_total": "1000.00",
+            "gross_total": "1000.00",
+            "return_total": "0.00",
+            "credit_applied": "0.00",
+            "effective_paid": "900.00",
+            "credit_recognized": "0.00",
+            "payments_received": "900.00",
+            "receivable_remaining": "100.00"
+          }
+        },
+        "binding": {
+          "draft_sha256": "dc99ab75f9dad95d7c8ebb671d4399954e0972710a354c31292947ca05cc5099",
+          "quote_sha256": "b903e5988e40f6d8862642acc36474f0df1e230558cb100420bd6b3f82ccc53a",
+          "choice_sha256": "9122ca8aa934f10d139b2ee6beb080d3c67656e75dc5086fe38b6dad5ad34de7",
+          "period_sha256": "35ab49d7ed611de16b4217d1db2a85fb08380a8117574480bfd6521ca04aa3fc",
+          "authority_sha256": "d57bc95ea9b682fd0e3677c86c13e2c2985694a739055e2f2adc48d256349892",
+          "dependency_sha256": "3035d966ed1e719e832f7f505adf2aed2fabe72752dd41f824b1e39ac6d95332",
+          "projection_sha256": "40a8dbf4a87b165710125087fd15ee4864e636114e55b60cb4dc588eecd27456",
+          "current_state_sha256": "64f0be4f6e4310c04a36cc0d52a2a3007bf0c8b29874e903816d4f6302286485",
+          "immutable_source_sha256": "7ba3bef2fbc63162d8220572150eb04e4b8ab7a8cea2bbdead2629a7539b983a"
+        },
+        "read_only": true,
+        "readiness": {
+          "state": "READY",
+          "issues": []
+        },
+        "components": [
+          {
+            "book_date": "2026-10-20",
+            "component_key": "78fae73804f0b7acce9a325bd01d2abacd1fb3e489183f5ee58f50315eac0088",
+            "economic_date": "2026-10-20",
+            "signed_amount": "100.00",
+            "support_sha256": "a1c3d9cfecfe5449342affa9f163ace1391cc006d822d08736be9ce369a9ce51"
+          }
+        ],
+        "input_echo": {
+          "sale_id": "ae3db446-ef08-4264-a1cc-4f1fb0707511",
+          "settlement": {
+            "mode": "REFUND",
+            "reference": "OW04 explicit full refund",
+            "cash_account_id": "0fa5959c-9a41-4186-be6c-ff520923aed5",
+            "credit_account_id": "39f2c0cc-720b-4d7b-aa82-7523499e7720",
+            "refund_physical_at": "2026-10-20T13:00:00.654321+07:00"
+          },
+          "review_token": "b175ea72825b5198ec0f4a362a2ba818",
+          "return_payload": {
+            "items": [
+              {
+                "notes": "Return original allocation only",
+                "qty_pcs": "1",
+                "location_id": "dcf9b290-a707-4c54-8489-e3b354f9e789",
+                "allocation_id": "c0921919-c1a4-48cf-b0b5-4298203970d1",
+                "quality_grade": "GRADE_A",
+                "refund_amount": "200.00"
+              }
+            ],
+            "notes": "OW04 independently expected source return1/value200; no settlement choice supplied",
+            "physical_at": "2026-10-20T12:00:00.123456+07:00",
+            "change_reason": "Invoice quantities and amount reviewed",
+            "return_number": "RET-20597b1133de"
+          },
+          "expected_version": "3"
+        },
+        "captured_at": "2026-10-20T19:44:59.301305+00:00",
+        "business_DML": false,
+        "capabilities": {
+          "refund_cash": true,
+          "record_return": true,
+          "recognize_credit": true
+        },
+        "cash_account": {
+          "id": "0fa5959c-9a41-4186-be6c-ff520923aed5",
+          "code": "OW04-36fb0a2cd3L",
+          "name": "BC L bank",
+          "facts_sha256": "59fcd271c9517c62845a8d453f383d65eef8cc7d3995b346ee3fe12726ceb0a7"
+        },
+        "credit_account": {
+          "id": "39f2c0cc-720b-4d7b-aa82-7523499e7720",
+          "code": "OW04C-f13507ee91b5404682",
+          "name": "OW04 explicitly selected customer credit",
+          "facts_sha256": "9e2e9a19d52390877645622930566304cad8db09ff88c6049e489ae6a8ec41c5"
+        },
+        "contract_version": "cp7.sales-return-settlement-quote.v1",
+        "refund_projection": {
+          "amount": "100.00",
+          "book_date": "2026-10-20",
+          "physical_at": "2026-10-20T13:00:00.654321+07:00",
+          "economic_date": "2026-10-20",
+          "safe_capacity": "100.00",
+          "capacity_sha256": "f97e7b9b9eaaaedc1c5eb747997d98d96536d30906e80367b1d4da7237717503"
+        },
+        "return_projection": {
+          "hpp_amount": "10.00",
+          "prior_causal": {
+            "scope": "PRIOR_CAUSAL_SALE_RETURN",
+            "state": "DATED",
+            "proof_sha256": "40ba33f0114e554590b503331466f73ef2eed5cea30ee59a98bbad69854471de",
+            "contract_version": "ow04.prior-causal-book-proof.v1",
+            "causal_book_floor": "2026-10-18"
+          },
+          "economic_date": "2026-10-20",
+          "return_amount": "200.00",
+          "journal_effect": "JOURNAL_EXPECTED",
+          "planned_book_date": "2026-10-20",
+          "receivable_account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff"
+        },
+        "current_credit_amount": "100.00",
+        "has_recognition_effect": true
+      },
+      "outcome": {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "RETURN_SETTLEMENT",
+        "sale_id": "ae3db446-ef08-4264-a1cc-4f1fb0707511",
+        "credit_id": "bb32e355-65b3-486c-8103-9ced514eb2e9",
+        "return_id": "3f6d453a-a8c3-4139-a327-9754f2a0b772",
+        "request_id": "f1691dd5-bd89-4b6c-97c2-4a3bb85ee75a",
+        "row_version": "4",
+        "quote_sha256": "b903e5988e40f6d8862642acc36474f0df1e230558cb100420bd6b3f82ccc53a",
+        "production_go": false,
+        "return_status": "POSTED",
+        "family_ordinal": "1",
+        "refund_event_id": "2f8ac3f3-8419-4984-8a79-6384180655e4",
+        "contract_version": "cp7.sales-return-settlement-outcome.v1",
+        "projection_sha256": "40a8dbf4a87b165710125087fd15ee4864e636114e55b60cb4dc588eecd27456",
+        "actual_manifest_sha256": "ed3b80f439eef88fa8f72932175c4c795bb82d074729041b4ab46e71281c78f0",
+        "projection_actual_proof_sha256": "898f0b304639b28ce1b54db701bfb83c8c8142f23473c227d9c94f75836fe8d4"
+      },
+      "replay_same_outcome": true,
+      "replay_additional_effects": 0,
+      "original_payment_byte_equal": true,
+      "original_sale_and_payment_journals_byte_equal": true,
+      "deferred_constraints_forced_before_fixture_rollback": true
+    },
+    {
+      "case": "OW04_INITIAL_900_CLOSED_CREDIT",
+      "mode": "CREDIT",
+      "source_fixture_id": "OW04_SOURCE_900_CLOSED",
+      "quote": {
+        "kind": "QUOTE",
+        "source": {
+          "sale_id": "a2a008b1-5bd3-4f27-be2f-3ea9551fc8b8",
+          "customer_id": "b34cb6fe-39dd-4d6a-9283-dafbeeccc088",
+          "row_version": "3",
+          "sale_number": "NOTE-8f98012c1fae",
+          "review_token": "a491a7648f8d6f78539019ce764020e4",
+          "customer_name": "CP6 E NOTE-d6fd29dde11f customer"
+        },
+        "totals": {
+          "after": {
+            "net_total": "800.00",
+            "gross_total": "1000.00",
+            "return_total": "200.00",
+            "credit_applied": "0.00",
+            "effective_paid": "800.00",
+            "credit_recognized": "100.00",
+            "payments_received": "900.00",
+            "receivable_remaining": "0.00"
+          },
+          "before": {
+            "net_total": "1000.00",
+            "gross_total": "1000.00",
+            "return_total": "0.00",
+            "credit_applied": "0.00",
+            "effective_paid": "900.00",
+            "credit_recognized": "0.00",
+            "payments_received": "900.00",
+            "receivable_remaining": "100.00"
+          }
+        },
+        "binding": {
+          "draft_sha256": "48ce3a0395f838455548f2e073aa64b9fbba44729f367f7cfc16d2e4ea3079b3",
+          "quote_sha256": "bf70c16410c4c3bd5e47eb3f02a7dcdf52b34e33c38d301578465042af5d5330",
+          "choice_sha256": "941a88fc5ddd68e921991b13be47020f19636606ee6c5f6fa2ea02838c39d4cc",
+          "period_sha256": "cc21d4823072e562fb090585403559877c2889ef32fb817c342018faa1bb18a4",
+          "authority_sha256": "d57bc95ea9b682fd0e3677c86c13e2c2985694a739055e2f2adc48d256349892",
+          "dependency_sha256": "3035d966ed1e719e832f7f505adf2aed2fabe72752dd41f824b1e39ac6d95332",
+          "projection_sha256": "69fb7941aa327f8f21548d3e61537d2e5da48bafe7646d10763f6b8de6fabbf8",
+          "current_state_sha256": "9a39a8d13f271099aaeab4cf6e723166ab14c45bee1816b43b5664a6a1dbbc44",
+          "immutable_source_sha256": "e5eecda29a6ab273c92d270a0d98a457e77b473fdb4df3f8d3b3f5daebfcdc88"
+        },
+        "read_only": true,
+        "readiness": {
+          "state": "READY",
+          "issues": []
+        },
+        "components": [
+          {
+            "book_date": "2026-10-21",
+            "component_key": "367c6642c521cb7360aed99ce6afa94396b42e2caae77bbf7ae8aecef2bbd95b",
+            "economic_date": "2026-10-20",
+            "signed_amount": "100.00",
+            "support_sha256": "6abdd2976001544ce99ec92a250c2096494372583e7bc89fd3f7458146f742b8"
+          }
+        ],
+        "input_echo": {
+          "sale_id": "a2a008b1-5bd3-4f27-be2f-3ea9551fc8b8",
+          "settlement": {
+            "mode": "CREDIT",
+            "reference": null,
+            "cash_account_id": null,
+            "credit_account_id": "d06f797a-7a0f-4826-ac96-118f5f0ad00e",
+            "refund_physical_at": null
+          },
+          "review_token": "a491a7648f8d6f78539019ce764020e4",
+          "return_payload": {
+            "items": [
+              {
+                "notes": "Return original allocation only",
+                "qty_pcs": "1",
+                "location_id": "2c0e1cd1-b80a-400b-afdc-6659e6836ff3",
+                "allocation_id": "cd73adc9-6399-4299-9f49-1e5e96dcbf05",
+                "quality_grade": "GRADE_A",
+                "refund_amount": "200.00"
+              }
+            ],
+            "notes": "OW04 independently expected source return1/value200; no settlement choice supplied",
+            "physical_at": "2026-10-20T12:00:00.123456+07:00",
+            "change_reason": "Invoice quantities and amount reviewed",
+            "return_number": "RET-6b12abc48a95"
+          },
+          "expected_version": "3"
+        },
+        "captured_at": "2026-10-20T19:45:02.88925+00:00",
+        "business_DML": false,
+        "capabilities": {
+          "refund_cash": false,
+          "record_return": true,
+          "recognize_credit": true
+        },
+        "cash_account": null,
+        "credit_account": {
+          "id": "d06f797a-7a0f-4826-ac96-118f5f0ad00e",
+          "code": "OW04C-2bc1239035044a5db7",
+          "name": "OW04 explicitly selected customer credit",
+          "facts_sha256": "b202669a1e807a333888d254c35aa198d733875a4561f661aa964d72e04a4f03"
+        },
+        "contract_version": "cp7.sales-return-settlement-quote.v1",
+        "refund_projection": null,
+        "return_projection": {
+          "hpp_amount": "10.00",
+          "prior_causal": {
+            "scope": "PRIOR_CAUSAL_SALE_RETURN",
+            "state": "DATED",
+            "proof_sha256": "46c94d5debdae4170106b3f1cc6359445f41514a064a0c1c926506d3faee5fbe",
+            "contract_version": "ow04.prior-causal-book-proof.v1",
+            "causal_book_floor": "2026-10-21"
+          },
+          "economic_date": "2026-10-20",
+          "return_amount": "200.00",
+          "journal_effect": "JOURNAL_EXPECTED",
+          "planned_book_date": "2026-10-21",
+          "receivable_account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff"
+        },
+        "current_credit_amount": "100.00",
+        "has_recognition_effect": true
+      },
+      "outcome": {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "RETURN_SETTLEMENT",
+        "sale_id": "a2a008b1-5bd3-4f27-be2f-3ea9551fc8b8",
+        "credit_id": "17a8defc-4780-4750-bbc5-eff82122873f",
+        "return_id": "116b170a-9996-41eb-9b3a-eb6a022d4448",
+        "request_id": "06391c32-1f7c-4238-a290-b5954774a308",
+        "row_version": "4",
+        "quote_sha256": "bf70c16410c4c3bd5e47eb3f02a7dcdf52b34e33c38d301578465042af5d5330",
+        "production_go": false,
+        "return_status": "POSTED",
+        "family_ordinal": "1",
+        "refund_event_id": null,
+        "contract_version": "cp7.sales-return-settlement-outcome.v1",
+        "projection_sha256": "69fb7941aa327f8f21548d3e61537d2e5da48bafe7646d10763f6b8de6fabbf8",
+        "actual_manifest_sha256": "458e3ae688563051fcee1c1a425512e355a1b6af9f0ccea919ae8c7e5e0d9251",
+        "projection_actual_proof_sha256": "67bd3a2248758ef531af08a219ea90c39ab2f2827b90543e2a93cba764420b54"
+      },
+      "replay_same_outcome": true,
+      "replay_additional_effects": 0,
+      "original_payment_byte_equal": true,
+      "original_sale_and_payment_journals_byte_equal": true,
+      "deferred_constraints_forced_before_fixture_rollback": true
+    },
+    {
+      "case": "OW04_INITIAL_900_CLOSED_REFUND",
+      "mode": "REFUND",
+      "source_fixture_id": "OW04_SOURCE_900_CLOSED",
+      "quote": {
+        "kind": "QUOTE",
+        "source": {
+          "sale_id": "d0c22825-e327-4f29-8666-110b05fc88fc",
+          "customer_id": "4bcf8723-465e-49c0-88f8-3611ea9aefbc",
+          "row_version": "3",
+          "sale_number": "NOTE-cfda96b681ec",
+          "review_token": "e824a8520f87453ee3e8ce71ecb26fd9",
+          "customer_name": "CP6 E NOTE-7d1bdbed28a1 customer"
+        },
+        "totals": {
+          "after": {
+            "net_total": "800.00",
+            "gross_total": "1000.00",
+            "return_total": "200.00",
+            "credit_applied": "0.00",
+            "effective_paid": "800.00",
+            "credit_recognized": "100.00",
+            "payments_received": "900.00",
+            "receivable_remaining": "0.00"
+          },
+          "before": {
+            "net_total": "1000.00",
+            "gross_total": "1000.00",
+            "return_total": "0.00",
+            "credit_applied": "0.00",
+            "effective_paid": "900.00",
+            "credit_recognized": "0.00",
+            "payments_received": "900.00",
+            "receivable_remaining": "100.00"
+          }
+        },
+        "binding": {
+          "draft_sha256": "12f4f865c899108ca35de00e8897ac316d97d55cbac1ed975912e9b42810f4b9",
+          "quote_sha256": "a612776c5d4ff7e294ea92caad96195bbfb9fe87ab0c5037b0daefe04dc9e43e",
+          "choice_sha256": "eb6bc58ee79f13cbd7075bc0c5a9f03d328f5d5c4ef980d6df1c75b61831d220",
+          "period_sha256": "22fe6f07cbeadaffbcd2c90704d774fad0c8833a1ddf671907e90d03c22cb24c",
+          "authority_sha256": "d57bc95ea9b682fd0e3677c86c13e2c2985694a739055e2f2adc48d256349892",
+          "dependency_sha256": "3035d966ed1e719e832f7f505adf2aed2fabe72752dd41f824b1e39ac6d95332",
+          "projection_sha256": "ac9e9862f3477532ceb59a4cea7bdd78255a3abd5099924014f8feae02ea23d8",
+          "current_state_sha256": "6c41ea1ddb4919e27d6a2cefca55db353b2a4761ad530686f84dc94f0e820470",
+          "immutable_source_sha256": "f92a7e9963bdd6b37349ccc14c50165771d22844ded5ad514ec12f7baec9b142"
+        },
+        "read_only": true,
+        "readiness": {
+          "state": "READY",
+          "issues": []
+        },
+        "components": [
+          {
+            "book_date": "2026-10-21",
+            "component_key": "367c6642c521cb7360aed99ce6afa94396b42e2caae77bbf7ae8aecef2bbd95b",
+            "economic_date": "2026-10-20",
+            "signed_amount": "100.00",
+            "support_sha256": "abec14894984f885854bb6bbcc973e717365512de8e38a8561babc5c2cdcf0d6"
+          }
+        ],
+        "input_echo": {
+          "sale_id": "d0c22825-e327-4f29-8666-110b05fc88fc",
+          "settlement": {
+            "mode": "REFUND",
+            "reference": "OW04 explicit full refund",
+            "cash_account_id": "cf91c250-deb8-40ff-8b32-07fe7a6d06bb",
+            "credit_account_id": "3e1779ca-0972-42ed-b84f-ab5ae4247068",
+            "refund_physical_at": "2026-10-20T13:00:00.654321+07:00"
+          },
+          "review_token": "e824a8520f87453ee3e8ce71ecb26fd9",
+          "return_payload": {
+            "items": [
+              {
+                "notes": "Return original allocation only",
+                "qty_pcs": "1",
+                "location_id": "841db098-747d-4bd9-b349-cd42ef750230",
+                "allocation_id": "2d47901a-b312-445c-8cbd-b4d736bbb92d",
+                "quality_grade": "GRADE_A",
+                "refund_amount": "200.00"
+              }
+            ],
+            "notes": "OW04 independently expected source return1/value200; no settlement choice supplied",
+            "physical_at": "2026-10-20T12:00:00.123456+07:00",
+            "change_reason": "Invoice quantities and amount reviewed",
+            "return_number": "RET-da997454939e"
+          },
+          "expected_version": "3"
+        },
+        "captured_at": "2026-10-20T19:45:06.047429+00:00",
+        "business_DML": false,
+        "capabilities": {
+          "refund_cash": true,
+          "record_return": true,
+          "recognize_credit": true
+        },
+        "cash_account": {
+          "id": "cf91c250-deb8-40ff-8b32-07fe7a6d06bb",
+          "code": "OW04-58110b2e0dL",
+          "name": "BC L bank",
+          "facts_sha256": "cd357c5e4855a41fe2c9e8428268817e1def36ff7f0188ed174a39ad2e608b59"
+        },
+        "credit_account": {
+          "id": "3e1779ca-0972-42ed-b84f-ab5ae4247068",
+          "code": "OW04C-7cb803c1d25e467c82",
+          "name": "OW04 explicitly selected customer credit",
+          "facts_sha256": "d97a368a785d3c5de9bd17bef62bf67bab888cae436617a55693f682821b6cd1"
+        },
+        "contract_version": "cp7.sales-return-settlement-quote.v1",
+        "refund_projection": {
+          "amount": "100.00",
+          "book_date": "2026-10-21",
+          "physical_at": "2026-10-20T13:00:00.654321+07:00",
+          "economic_date": "2026-10-20",
+          "safe_capacity": "100.00",
+          "capacity_sha256": "b548cc0a1fbfb244e69255aeaa4e739be98dea20167788596b285dc4b2376963"
+        },
+        "return_projection": {
+          "hpp_amount": "10.00",
+          "prior_causal": {
+            "scope": "PRIOR_CAUSAL_SALE_RETURN",
+            "state": "DATED",
+            "proof_sha256": "42167ad533320550e8bba36296469323af742838c5deafc1c8d41153f8d77f7c",
+            "contract_version": "ow04.prior-causal-book-proof.v1",
+            "causal_book_floor": "2026-10-21"
+          },
+          "economic_date": "2026-10-20",
+          "return_amount": "200.00",
+          "journal_effect": "JOURNAL_EXPECTED",
+          "planned_book_date": "2026-10-21",
+          "receivable_account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff"
+        },
+        "current_credit_amount": "100.00",
+        "has_recognition_effect": true
+      },
+      "outcome": {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "RETURN_SETTLEMENT",
+        "sale_id": "d0c22825-e327-4f29-8666-110b05fc88fc",
+        "credit_id": "660c7262-fb9c-473a-82a2-442ea4abe256",
+        "return_id": "4d51d5ce-3fc8-488d-87fc-bd5aad244d53",
+        "request_id": "1ef45b22-5b5e-4126-b82e-41bfb87a9a32",
+        "row_version": "4",
+        "quote_sha256": "a612776c5d4ff7e294ea92caad96195bbfb9fe87ab0c5037b0daefe04dc9e43e",
+        "production_go": false,
+        "return_status": "POSTED",
+        "family_ordinal": "1",
+        "refund_event_id": "4c9750c1-5510-4cfa-b585-cd243d4dce0c",
+        "contract_version": "cp7.sales-return-settlement-outcome.v1",
+        "projection_sha256": "ac9e9862f3477532ceb59a4cea7bdd78255a3abd5099924014f8feae02ea23d8",
+        "actual_manifest_sha256": "ccbc9e844346bf7bb1855747b7c4f22a8d2dfaf77f30500f7d36708bf48c06e1",
+        "projection_actual_proof_sha256": "ba33be67cbd774407c6544f4cd81f27ec52af1b051fe955ab2877532cf513f0c"
+      },
+      "replay_same_outcome": true,
+      "replay_additional_effects": 0,
+      "original_payment_byte_equal": true,
+      "original_sale_and_payment_journals_byte_equal": true,
+      "deferred_constraints_forced_before_fixture_rollback": true
+    },
+    {
+      "case": "OW04_INITIAL_900_REOPENED_CREDIT",
+      "mode": "CREDIT",
+      "source_fixture_id": "OW04_SOURCE_900_REOPENED",
+      "quote": {
+        "kind": "QUOTE",
+        "source": {
+          "sale_id": "8eb425b6-eba4-42fe-a4c3-eef14fa4231e",
+          "customer_id": "8e929fb2-bd5b-4025-8636-07d20a6731dc",
+          "row_version": "3",
+          "sale_number": "NOTE-3c2c9cc4b46b",
+          "review_token": "343c776b9b00395bc3ab408ba2e96dcd",
+          "customer_name": "CP6 E NOTE-9236741d9f03 customer"
+        },
+        "totals": {
+          "after": {
+            "net_total": "800.00",
+            "gross_total": "1000.00",
+            "return_total": "200.00",
+            "credit_applied": "0.00",
+            "effective_paid": "800.00",
+            "credit_recognized": "100.00",
+            "payments_received": "900.00",
+            "receivable_remaining": "0.00"
+          },
+          "before": {
+            "net_total": "1000.00",
+            "gross_total": "1000.00",
+            "return_total": "0.00",
+            "credit_applied": "0.00",
+            "effective_paid": "900.00",
+            "credit_recognized": "0.00",
+            "payments_received": "900.00",
+            "receivable_remaining": "100.00"
+          }
+        },
+        "binding": {
+          "draft_sha256": "f6cd9d8d495f2d6c45ddb27361565e70604efd9e6f0a9c9c80cc5e9dee264365",
+          "quote_sha256": "3bcfae2a5c4a85730c13241c52d5f056a10eca6994dfb4942ef71b1531975809",
+          "choice_sha256": "ce52dc12d984048d2d0a62d9b62ea8b30df6215daea850d8a3d468f5eb6c5fec",
+          "period_sha256": "f2c08f1947b35b1bc9439329806aa6dac46b144716622f5a3323e2df1857788a",
+          "authority_sha256": "d57bc95ea9b682fd0e3677c86c13e2c2985694a739055e2f2adc48d256349892",
+          "dependency_sha256": "3035d966ed1e719e832f7f505adf2aed2fabe72752dd41f824b1e39ac6d95332",
+          "projection_sha256": "767e0012ec820dedeebe42e6177270e6ebf7455cef132ae65184c25c72bc39fe",
+          "current_state_sha256": "98ffe6e2f69521f55dbd4d57d870041cb7adc7d89d2072fe8870b4057aa1e36f",
+          "immutable_source_sha256": "cd41dcb6ab4223ec760dc92655dea4261543a04221254cee6f439c79212bad3f"
+        },
+        "read_only": true,
+        "readiness": {
+          "state": "READY",
+          "issues": []
+        },
+        "components": [
+          {
+            "book_date": "2026-10-21",
+            "component_key": "367c6642c521cb7360aed99ce6afa94396b42e2caae77bbf7ae8aecef2bbd95b",
+            "economic_date": "2026-10-20",
+            "signed_amount": "100.00",
+            "support_sha256": "94668adecca4cd2ea17dfc21737338ce1d875ea98821c40b704731238359fbff"
+          }
+        ],
+        "input_echo": {
+          "sale_id": "8eb425b6-eba4-42fe-a4c3-eef14fa4231e",
+          "settlement": {
+            "mode": "CREDIT",
+            "reference": null,
+            "cash_account_id": null,
+            "credit_account_id": "13f21da5-533f-4aff-81ac-5437fcffce67",
+            "refund_physical_at": null
+          },
+          "review_token": "343c776b9b00395bc3ab408ba2e96dcd",
+          "return_payload": {
+            "items": [
+              {
+                "notes": "Return original allocation only",
+                "qty_pcs": "1",
+                "location_id": "8e0baaf7-8bd5-46c6-9456-d2a2ff12434e",
+                "allocation_id": "889f904a-d763-44cc-8467-df599c0771bb",
+                "quality_grade": "GRADE_A",
+                "refund_amount": "200.00"
+              }
+            ],
+            "notes": "OW04 independently expected source return1/value200; no settlement choice supplied",
+            "physical_at": "2026-10-20T12:00:00.123456+07:00",
+            "change_reason": "Invoice quantities and amount reviewed",
+            "return_number": "RET-2821c946e262"
+          },
+          "expected_version": "3"
+        },
+        "captured_at": "2026-10-20T19:45:09.743763+00:00",
+        "business_DML": false,
+        "capabilities": {
+          "refund_cash": false,
+          "record_return": true,
+          "recognize_credit": true
+        },
+        "cash_account": null,
+        "credit_account": {
+          "id": "13f21da5-533f-4aff-81ac-5437fcffce67",
+          "code": "OW04C-7f33f50d52ed424fb8",
+          "name": "OW04 explicitly selected customer credit",
+          "facts_sha256": "edf1eba1857c67eccd7c3c243fce169fad41a88615aa168b41c221beb4efa80f"
+        },
+        "contract_version": "cp7.sales-return-settlement-quote.v1",
+        "refund_projection": null,
+        "return_projection": {
+          "hpp_amount": "10.00",
+          "prior_causal": {
+            "scope": "PRIOR_CAUSAL_SALE_RETURN",
+            "state": "DATED",
+            "proof_sha256": "b61a6a1e9f968beee22af8512756858b7ad6837592afb8eba894e05c9e8d5790",
+            "contract_version": "ow04.prior-causal-book-proof.v1",
+            "causal_book_floor": "2026-10-21"
+          },
+          "economic_date": "2026-10-20",
+          "return_amount": "200.00",
+          "journal_effect": "JOURNAL_EXPECTED",
+          "planned_book_date": "2026-10-21",
+          "receivable_account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff"
+        },
+        "current_credit_amount": "100.00",
+        "has_recognition_effect": true
+      },
+      "outcome": {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "RETURN_SETTLEMENT",
+        "sale_id": "8eb425b6-eba4-42fe-a4c3-eef14fa4231e",
+        "credit_id": "5e023ddf-835c-4222-b812-b7b36a3c5c60",
+        "return_id": "c28bc691-a80d-4613-b138-424078b4ba46",
+        "request_id": "625e1b6d-39ed-4010-9314-8f1af433d49f",
+        "row_version": "4",
+        "quote_sha256": "3bcfae2a5c4a85730c13241c52d5f056a10eca6994dfb4942ef71b1531975809",
+        "production_go": false,
+        "return_status": "POSTED",
+        "family_ordinal": "1",
+        "refund_event_id": null,
+        "contract_version": "cp7.sales-return-settlement-outcome.v1",
+        "projection_sha256": "767e0012ec820dedeebe42e6177270e6ebf7455cef132ae65184c25c72bc39fe",
+        "actual_manifest_sha256": "960f6d90fd74808e913ff14efd5b0b9badcdcbd6c56181a23965f0ac512cc8af",
+        "projection_actual_proof_sha256": "8ef30a8c97ae9f8bc2cd2e59e0222412e775dc63420b4573633c0ce4b3649a51"
+      },
+      "replay_same_outcome": true,
+      "replay_additional_effects": 0,
+      "original_payment_byte_equal": true,
+      "original_sale_and_payment_journals_byte_equal": true,
+      "deferred_constraints_forced_before_fixture_rollback": true
+    },
+    {
+      "case": "OW04_INITIAL_900_REOPENED_REFUND",
+      "mode": "REFUND",
+      "source_fixture_id": "OW04_SOURCE_900_REOPENED",
+      "quote": {
+        "kind": "QUOTE",
+        "source": {
+          "sale_id": "789d0c93-d12a-42c0-8159-832aef6b66be",
+          "customer_id": "bee9e0bc-591f-463f-af25-d19ea4e5d7e8",
+          "row_version": "3",
+          "sale_number": "NOTE-6496b848414c",
+          "review_token": "328e577e7302a91a8d654ae604eb75a6",
+          "customer_name": "CP6 E NOTE-12e3d1fda0aa customer"
+        },
+        "totals": {
+          "after": {
+            "net_total": "800.00",
+            "gross_total": "1000.00",
+            "return_total": "200.00",
+            "credit_applied": "0.00",
+            "effective_paid": "800.00",
+            "credit_recognized": "100.00",
+            "payments_received": "900.00",
+            "receivable_remaining": "0.00"
+          },
+          "before": {
+            "net_total": "1000.00",
+            "gross_total": "1000.00",
+            "return_total": "0.00",
+            "credit_applied": "0.00",
+            "effective_paid": "900.00",
+            "credit_recognized": "0.00",
+            "payments_received": "900.00",
+            "receivable_remaining": "100.00"
+          }
+        },
+        "binding": {
+          "draft_sha256": "64387960aa4728b158ada38e35f83fc139cd2ae561287f0b80921771b7f6d3d8",
+          "quote_sha256": "57b6c307978aa6ba39f14de508b7d60da7419d2eeffb0af5e79fb4434e8fd38b",
+          "choice_sha256": "6054054729e110ddaeeceabb72355fc94eb1619e6712fdcb3a824ab8a900d016",
+          "period_sha256": "435c7b365b4646e1c0547f10cc4c67c4e45e204bf8ad480281becfc6b29cf938",
+          "authority_sha256": "d57bc95ea9b682fd0e3677c86c13e2c2985694a739055e2f2adc48d256349892",
+          "dependency_sha256": "3035d966ed1e719e832f7f505adf2aed2fabe72752dd41f824b1e39ac6d95332",
+          "projection_sha256": "f73bd5827dfac5ce64f6055d4b03e10f52754a736c10ad0d92bd712ea2a59ce1",
+          "current_state_sha256": "d13947e4c3a0e4d5311da7da3dc0dc5005489e3f62c30b6914f111d82749d3de",
+          "immutable_source_sha256": "24e1ee0f0000cb6f72b9cd8b161b23f553ef76ffbc6822a04c3dd9012beb8aab"
+        },
+        "read_only": true,
+        "readiness": {
+          "state": "READY",
+          "issues": []
+        },
+        "components": [
+          {
+            "book_date": "2026-10-21",
+            "component_key": "367c6642c521cb7360aed99ce6afa94396b42e2caae77bbf7ae8aecef2bbd95b",
+            "economic_date": "2026-10-20",
+            "signed_amount": "100.00",
+            "support_sha256": "94e3a8465d26a14aa0e93fa86f0548d3caae59707c232ad172e538f0e74dca5a"
+          }
+        ],
+        "input_echo": {
+          "sale_id": "789d0c93-d12a-42c0-8159-832aef6b66be",
+          "settlement": {
+            "mode": "REFUND",
+            "reference": "OW04 explicit full refund",
+            "cash_account_id": "c31f3b9b-e66d-40ef-b6bc-05e4d11457fc",
+            "credit_account_id": "2c194a63-eb9a-43b5-9f0e-a6be1006da39",
+            "refund_physical_at": "2026-10-20T13:00:00.654321+07:00"
+          },
+          "review_token": "328e577e7302a91a8d654ae604eb75a6",
+          "return_payload": {
+            "items": [
+              {
+                "notes": "Return original allocation only",
+                "qty_pcs": "1",
+                "location_id": "207f8bb6-b282-410c-8ecf-94b593ac8b1e",
+                "allocation_id": "2928b7e3-70d3-4335-8ce2-ea59698fcd03",
+                "quality_grade": "GRADE_A",
+                "refund_amount": "200.00"
+              }
+            ],
+            "notes": "OW04 independently expected source return1/value200; no settlement choice supplied",
+            "physical_at": "2026-10-20T12:00:00.123456+07:00",
+            "change_reason": "Invoice quantities and amount reviewed",
+            "return_number": "RET-80c307be9d35"
+          },
+          "expected_version": "3"
+        },
+        "captured_at": "2026-10-20T19:45:12.996976+00:00",
+        "business_DML": false,
+        "capabilities": {
+          "refund_cash": true,
+          "record_return": true,
+          "recognize_credit": true
+        },
+        "cash_account": {
+          "id": "c31f3b9b-e66d-40ef-b6bc-05e4d11457fc",
+          "code": "OW04-f9fbf1cefbL",
+          "name": "BC L bank",
+          "facts_sha256": "75cb8bfc0994e9a02918bf922d13b361093d510dfa88f1cba8389b6705fa8e84"
+        },
+        "credit_account": {
+          "id": "2c194a63-eb9a-43b5-9f0e-a6be1006da39",
+          "code": "OW04C-33535f4e133744f780",
+          "name": "OW04 explicitly selected customer credit",
+          "facts_sha256": "5b6512b597dd84b37bfbe441d39fade6a7413e246c9f6193f0a7fc4d208221dc"
+        },
+        "contract_version": "cp7.sales-return-settlement-quote.v1",
+        "refund_projection": {
+          "amount": "100.00",
+          "book_date": "2026-10-21",
+          "physical_at": "2026-10-20T13:00:00.654321+07:00",
+          "economic_date": "2026-10-20",
+          "safe_capacity": "100.00",
+          "capacity_sha256": "b04f2b3fbaaa4593a714a0ee8ec049dc9c40dcb81697f449ae7d37c10ba8ef22"
+        },
+        "return_projection": {
+          "hpp_amount": "10.00",
+          "prior_causal": {
+            "scope": "PRIOR_CAUSAL_SALE_RETURN",
+            "state": "DATED",
+            "proof_sha256": "9ccd2265ec10c9a44488d4964233b30d89e0070a709a001c4ff2074bf2bee934",
+            "contract_version": "ow04.prior-causal-book-proof.v1",
+            "causal_book_floor": "2026-10-21"
+          },
+          "economic_date": "2026-10-20",
+          "return_amount": "200.00",
+          "journal_effect": "JOURNAL_EXPECTED",
+          "planned_book_date": "2026-10-21",
+          "receivable_account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff"
+        },
+        "current_credit_amount": "100.00",
+        "has_recognition_effect": true
+      },
+      "outcome": {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "RETURN_SETTLEMENT",
+        "sale_id": "789d0c93-d12a-42c0-8159-832aef6b66be",
+        "credit_id": "96e3c49c-1792-4ea4-a965-a01d088647d7",
+        "return_id": "e8e2cb2b-d289-4d3b-b650-283522936950",
+        "request_id": "ae361150-bc1f-4da4-af94-f7d4b0bbaf3c",
+        "row_version": "4",
+        "quote_sha256": "57b6c307978aa6ba39f14de508b7d60da7419d2eeffb0af5e79fb4434e8fd38b",
+        "production_go": false,
+        "return_status": "POSTED",
+        "family_ordinal": "1",
+        "refund_event_id": "a6917be1-eaf9-4e70-8961-426d6b746b47",
+        "contract_version": "cp7.sales-return-settlement-outcome.v1",
+        "projection_sha256": "f73bd5827dfac5ce64f6055d4b03e10f52754a736c10ad0d92bd712ea2a59ce1",
+        "actual_manifest_sha256": "6f080bedac698bf637ccc594f230a27ebf420b0b21ab5e8285194fa48e755777",
+        "projection_actual_proof_sha256": "4978e843d9ed19a73bcdd2812ef5db5242b01eed8088027ec5fad292a17139a5"
+      },
+      "replay_same_outcome": true,
+      "replay_additional_effects": 0,
+      "original_payment_byte_equal": true,
+      "original_sale_and_payment_journals_byte_equal": true,
+      "deferred_constraints_forced_before_fixture_rollback": true
+    }
+  ],
+  "runtime_log": {
+    "path": "CI_3F7E_NATIVE32_RUNTIME.log.gz",
+    "raw_bytes": 1861370,
+    "raw_sha256": "ec59d88289f94eee4d3c27144216816d5e35c83acc12e56cc9b98240ce25629c",
+    "gzip_bytes": 250104,
+    "gzip_sha256": "e10b14100fcc823307a21be9fc17e4e13a906449bbaac99136b2404cc3b2869a"
+  },
+  "limits": [
+    "Internal writer verification, not independent auditor acceptance",
+    "12 new initial settlements and20 exact retained controls only; no new HTTP/browser/race/performance qualification",
+    "Deferred constraints forced before case savepoint rollback; not actual transaction commit/crash recovery",
+    "Native EMPTY direct registration and corrected/multiple-cohort/APPLY mutation remain open on this candidate",
+    "No Enteng/production deployment; production_go:false"
+  ],
+  "production_go": false,
+  "feature_complete": false,
+  "audit_complete": false
+}

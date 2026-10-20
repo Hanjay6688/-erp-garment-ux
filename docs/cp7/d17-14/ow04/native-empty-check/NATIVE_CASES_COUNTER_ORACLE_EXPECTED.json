@@ -1,0 +1,12 @@
+{
+  "case": "N01 oracle with contradictory reader financial values",
+  "classification": "PURE_PYTHON_ASSERTION_COUNTER_NO_DB_NO_NATIVE",
+  "financial_rows_created": false,
+  "given_reader": {
+    "net_total": "70.00",
+    "open_balance": "30.00",
+    "paid_total": "40.00"
+  },
+  "native_called": false,
+  "required": "Reject because frozen expected is NET60/P30/AR30; returning literal NET60/P30 is not readback verification"
+}

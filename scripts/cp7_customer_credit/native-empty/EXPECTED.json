@@ -1,0 +1,20 @@
+{
+  "contract_version": "ow04.native-empty-expected.v1",
+  "classification": "EXPECTED_BEFORE_IMPLEMENTATION_AND_ISOLATED_CHECKS_NOT_NATIVE_EVIDENCE",
+  "native_execution_proven": false,
+  "cases": [
+    {"id":"N01_NATIVE_FIRST_POST","given":"Native sale80/payment30, first return20; actual Native authority and source guards unchanged","expected":"One new technical operation, ordinal1 ORIGINAL member, empty dated recognition target, no cohort/plan/account/CP7 request; net60/P30/AR30."},
+    {"id":"N02_NULL_HUMAN","given":"The same genuine Native call under the original administrative session or service-role authority with auth.uid NULL","expected":"Actual nullable UID and typed session/JWT provenance, no fabricated human or CP7 envelope; original Native guard remains the authority."},
+    {"id":"N03_APPEND_EMPTY","given":"A second newly posted empty Native return, including after a registered CP7 empty return","expected":"Append exactly one next ordinal under the actual FG lock; retain prior family; do not infer order from dates or UUIDs."},
+    {"id":"N04_LEGACY_UNKNOWN","given":"A prior completed unregistered return exists","expected":"Atomic refusal before registering the new return. No historical ordinal backfill."},
+    {"id":"N05_NO_JOURNAL","given":"Real zero-refund/zero-HPP return with complete Native physical/allocation proof","expected":"NO_JOURNAL, null actual source journal/book event, still register its family. A dated SALE retains a separate prior causal floor."},
+    {"id":"N06_HPP_ONLY","given":"Real zero-refund/HPP10 Native return, including a reopened resolver earlier than the actual causal SALE book","expected":"Actual HPP-only SALES_RETURN journal and both stored dates; bound book=max(lawful resolver, actual causal SALE floor), no invented monetary event and no free date input."},
+    {"id":"N07_ZERO_K_NONEMPTY","given":"Sale1000; funding500@18, funding400@19, inverse500@20; return200@19","expected":"CurrentK0 but signed recognition +100@19/-100@20. Ordinary Native route refuses because the complete target is nonempty."},
+    {"id":"N08_PAID_NATIVE_REFUSAL","given":"Sale80/payment80, return20","expected":"The exact original Native paid-return exception remains reachable and unchanged; all technical work/registration rolls back."},
+    {"id":"N09_REPLAY","given":"Native post is attempted again for a finished return","expected":"Original DRAFT refusal; no second operation/family."},
+    {"id":"N10_NATIVE_INVERSES","given":"N01 then original payment inverse, return inverse, sale inverse","expected":"Exact Native physical/financial neutralization remains available without a CP7 envelope, including truthful null-human technical source scope; after-profile remains empty at every joint cutoff."},
+    {"id":"N11_PARTICIPATING_CREDIT","given":"A retained credit cohort, incoming application, source correction or unsupported family is present","expected":"Explicit refusal. No new source mutation or authority capability."},
+    {"id":"N12_ATOMIC_CLOSURE","given":"Missing Native completion, altered actual facts/assignment/marker or leaked private scope","expected":"Factual deferred closure refuses without live JWT/context; a failed transaction retains no partial Native or registry effects."}
+  ],
+  "isolated_controls": ["Actual proposal DDL compiles; no Native permission/poster success stubs", "Pure dated target distinguishes EMPTY from netK0", "Native proof requires request_id NULL and exact operation/principal binding", "All private owners/ACL/configs preserve no outsider EXEC", "Shared deferred/provenance/member dispatch reaches exact technical proof", "Original frozen SQL pins remain unchanged"]
+}

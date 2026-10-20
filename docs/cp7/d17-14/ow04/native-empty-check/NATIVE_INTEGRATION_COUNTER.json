@@ -1,0 +1,181 @@
+{
+  "classification": "INDEPENDENT_SOURCE_ONLY_NATIVE_EMPTY_INTEGRATION_RECHECK",
+  "product_head": "3f7e0329eb296d98ad8ea0fcdffc1e93e8bd34b0",
+  "reviewed_state": "Uncommitted Native EMPTY integration at the pinned HEAD; hashes below identify actual reviewed files.",
+  "native_execution_proven": false,
+  "database_started": false,
+  "runtime_catalog_metadata_verified": false,
+  "active_repo_edits": false,
+  "children_spawned": false,
+  "source_sha256": {
+    "scripts/cp7_customer_credit/integration/owning_bundle.py": "72ae61ceb22c96e50db7dd5594054fb2b2551450c58e6e5c629d818bee45c0bb",
+    "scripts/cp7_customer_credit/integration/native_empty_bundle.py": "909caab9e62242cd50ebc20e4c5116b9f2041b4bebe7774eccf1d73aa06fbcee",
+    "scripts/cp7_ow04_probe.py": "7bf156a9e823f3e715bc57413ab3e6f2932a3037e40ece4e7ce7d2be789e0403",
+    "scripts/cp7_customer_credit/native-empty/01_native_empty_facts.sql": "ec3a102ffc65cc8dfcff294706c5cdacedc749b62320ea6c307c00dcd4696584",
+    "scripts/cp7_customer_credit/native-empty/02_native_empty_callbacks.sql": "68f458c7e061b3c7161e5c1525c678defc343869c766a60d9a5139366f414173",
+    "scripts/cp7_customer_credit/native-empty/04_exact_overlays.sql": "08af7ed38e9211e39a699bd9182b379b9c8c390b87ee10d14c97485f25fc5aa0",
+    "scripts/cp7_customer_credit/native-empty/OVERLAY_MANIFEST.json": "3988527a75cd46e643ea07c4453a175a5e9936f01cb5c6ec7da13a901750f9d0",
+    "scripts/cp7_customer_credit/native-empty/SOURCE_PINS.json": "184449be0a43bec648c191467878b634d709e771b4c8e02d7acf62ae81695c8a",
+    "scripts/cp7_customer_credit/native-empty/cp7_ow04_native_empty_cases.py": "c8fe32dca9c2953d242377040d95a477a682322d8eeba17e3fa65abc92d7bd37",
+    "scripts/cp7_customer_credit/native-empty/EXPECTED.json": "5e713283516288011b6c8ccdff4af85d3df3c077e771e36de2b2bc2c16abfd3b",
+    "docs/cp7/d17-14/ow04/NATIVE_EMPTY_QUALIFICATION.json": "bf1fdfe477f98137cda07fefef01c398d5432cb2830ec5ba3e64536ab24a3428",
+    "docs/cp7/d17-14/ow04/NATIVE_INITIAL_QUALIFICATION.json": "8d859a2f293d63c8bc4d61cb3f5e834017b11ff81234b4414b916614cbcfc3c8"
+  },
+  "frozen_expected_unchanged": true,
+  "prior_findings": [
+    {
+      "id": "TEST_N01_LITERAL_NET_P_NOT_ASSERTED",
+      "source_status": "CLOSED",
+      "evidence": [
+        "native-empty/cp7_ow04_native_empty_cases.py:148-155 asserts actual gross80/return20/net60/P30/AR30, PARTIAL_PAID, returnedqty1, complete net GL vector and FG lotqty7",
+        "Previously frozen contradictory NET70/P40/AR30 Python-only oracle now raises AssertionError before financial/stock observation; original first counter retained."
+      ],
+      "runtime_limit": "Real Native success not executed."
+    },
+    {
+      "id": "TEST_N03_CP7_TO_NATIVE_NOT_EXERCISED",
+      "source_status": "CLOSED",
+      "evidence": [
+        "native-empty/cp7_ow04_native_empty_cases.py:159-175 preserves Native\u2192Native ordinals1/2 and adds actual ordinary CP7 RETURN then direct Native EMPTY ordinal2",
+        "CP7 family/member original raw snapshots are compared unchanged after Native append; CP7 first-family request is proven non-null."
+      ],
+      "runtime_limit": "Actual CP7\u2192Native sequence still requires Native44 run."
+    },
+    {
+      "id": "TEST_N10_NULL_HUMAN_INVERSE_NOT_EXERCISED",
+      "source_status": "CLOSED",
+      "evidence": [
+        "native-empty/cp7_ow04_native_empty_cases.py:245-259 repeats entire post/inverse lifecycle for both OWNER and null-human administrative sessions",
+        "native():93-102 clears both subject/claims, asserts auth.uid NULL and invokes retained Native directly; it avoids source.native OWNER coercion in the null branch",
+        "After payment\u2192return\u2192sale inverses, readback validates registered immutable operation and final neutral GL/stock10."
+      ],
+      "runtime_limit": "No claim about service_role specifically; this test selects the already-authorized administrative null-human route."
+    },
+    {
+      "id": "TEST_N06_HPP_AMOUNT_NOT_ASSERTED",
+      "source_status": "CLOSED",
+      "evidence": [
+        "native-empty/cp7_ow04_native_empty_cases.py:192-213 requires actual journal lines exactly FG debit10 and COGS credit10, GL delta+10/-10, physicalqty7, econD2/bookD3 and current resolverD2",
+        "Original SALE journal snapshots remain byte-equal. NO_JOURNAL sibling requires absent journal and unchanged GL."
+      ],
+      "runtime_limit": "Bound Native poster, period guards and actual HPP calculation remain unexecuted locally."
+    }
+  ],
+  "fixture_validity": {
+    "accepted_writers_preserved": true,
+    "fabricated_posted_finance_or_journal_setup_found": false,
+    "period_and_master_fixture_labelled": true,
+    "N04": "Explicit isolated predecessor14 helpers\u2192real Native legacy return\u2192same exact guarded overlays. No fabricated historical return or ordinal; case-level savepoint restores helper DDL.",
+    "N12": "Explicit privileged private-scope leak only; not public authority or synthetic money.",
+    "native_authority": "Original Native require_internal/require_owner_admin not replaced or granted by the overlay; typed principal observation remains distinct from admission."
+  },
+  "composer_integrity": {
+    "source_pin_declarations_pass": {
+      "passes": true,
+      "overlays": 14,
+      "frozen_source_count": 7,
+      "generated_hash": "08af7ed38e9211e39a699bd9182b379b9c8c390b87ee10d14c97485f25fc5aa0"
+    },
+    "all14_before_after_bodies_match_manifest": true,
+    "per_helper_body_checks": [
+      {
+        "identity": "cp7_credit.is_unchanged_native_return_v1(uuid)",
+        "before_matches": true,
+        "after_matches": true
+      },
+      {
+        "identity": "cp7_credit.native_return_enter(uuid)",
+        "before_matches": true,
+        "after_matches": true
+      },
+      {
+        "identity": "cp7_credit.native_return_guard(uuid,numeric,numeric,numeric)",
+        "before_matches": true,
+        "after_matches": true
+      },
+      {
+        "identity": "cp7_credit.post_return_journal(text,uuid,date,text,jsonb)",
+        "before_matches": true,
+        "after_matches": true
+      },
+      {
+        "identity": "cp7_credit.native_return_complete(uuid,numeric,numeric)",
+        "before_matches": true,
+        "after_matches": true
+      },
+      {
+        "identity": "cp7_credit.native_return_leave(uuid)",
+        "before_matches": true,
+        "after_matches": true
+      },
+      {
+        "identity": "cp7_credit.assert_bound_post(text,uuid,date,jsonb)",
+        "before_matches": true,
+        "after_matches": true
+      },
+      {
+        "identity": "cp7_credit.bound_book_date(text,uuid,date,jsonb)",
+        "before_matches": true,
+        "after_matches": true
+      },
+      {
+        "identity": "cp7_credit.bound_audit_context()",
+        "before_matches": true,
+        "after_matches": true
+      },
+      {
+        "identity": "ow04_source_proposal.verify_return_member_v1(uuid)",
+        "before_matches": true,
+        "after_matches": true
+      },
+      {
+        "identity": "cp7_credit.assert_financial_materialization_provenance(jsonb)",
+        "before_matches": true,
+        "after_matches": true
+      },
+      {
+        "identity": "cp7_credit.enforce_initial_return_closure_v1()",
+        "before_matches": true,
+        "after_matches": true
+      },
+      {
+        "identity": "cp7_credit.native_source_enter(text,uuid)",
+        "before_matches": true,
+        "after_matches": true
+      },
+      {
+        "identity": "cp7_credit.native_source_complete(text,uuid)",
+        "before_matches": true,
+        "after_matches": true
+      }
+    ],
+    "source_observation": [
+      "owning_bundle.py:299-311 verifies full base installation before optional Native-empty DDL, then finalizes private owners and inventories and verifies again",
+      "native_empty_bundle.py:23-36 pins new SQL/manifest and all7 predecessor source files",
+      "native_empty_bundle.py:77-111 checks predecessor actual function body/owner/definer/volatility/config before DDL, then exact installed body+definition+metadata equality; relations capture nullable schema/constraints/deferred triggers",
+      "owning_bundle.py:315-353 retains Native plan, legacy captures, contexts, private inventories, readers/view and public facade metadata checks; includes Native-empty verifier when installed"
+    ],
+    "source_limit": "These are executable verification guard definitions and source checks, not observed database catalog verification."
+  },
+  "mode_registration": {
+    "default_count": 32,
+    "explicit_native_empty_count": 44,
+    "original32_ids_retained_as_exact_prefix": true,
+    "unique_ids": true,
+    "all_registered_callables": true,
+    "declaration_ids_match": true,
+    "activation": "Only explicit --native-empty adds12 and invokes credit.install(native_empty=True). Default installer argument remains False and original32 selection unchanged.",
+    "result_labels_distinct": [
+      "CP7_OW04_INITIAL",
+      "CP7_OW04_NATIVE_EMPTY"
+    ]
+  },
+  "concrete_unresolved_source_bugs": [],
+  "unresolved_execution_scenarios": [
+    "Native32 candidate result must be read from its own completed evidence; this review does not infer it.",
+    "Explicit Native44 still must execute Native entry/guard/private poster/complete/leave, both inverse principals, CP7\u2192Native append, N04 helper upgrade and deferred closures against actual catalog metadata.",
+    "No HTTP/browser/race/actual COMMIT/crash-recovery qualification is added; declared limits remain open."
+  ],
+  "supporting_static_artifact": "NATIVE_INTEGRATION_STATIC_RECHECK.json",
+  "disposition": "All four previous source/test gaps are closed in the reviewed code; no new concrete bounded source defect identified. Ready for root to run explicit Native44 after its separate Native32 qualification; no Native PASS or feature completion claim."
+}

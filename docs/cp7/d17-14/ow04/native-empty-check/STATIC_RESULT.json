@@ -1,0 +1,17 @@
+{
+  "classification": "PURE_SOURCE_TRANSFORM_NOT_NATIVE",
+  "generated_sql_reproducible": true,
+  "overlays": 14,
+  "results": [
+    {
+      "id": "duplicate_function_capture",
+      "pass": true,
+      "refusal": "NATIVE_EMPTY_FUNCTION_CAPTURE_NOT_UNIQUE: x"
+    },
+    {
+      "id": "missing_outer_begin",
+      "pass": true,
+      "refusal": "NATIVE_EMPTY_OUTER_BEGIN_CHANGED"
+    }
+  ]
+}

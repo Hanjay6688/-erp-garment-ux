@@ -1,0 +1,240 @@
+{
+  "classification": "EXACT_FROZEN_HELPER_OVERLAYS_NOT_NATIVE_CAPTURE_OR_EXECUTION",
+  "native_execution_proven": false,
+  "frozen_sources": {
+    "coordinator/01_coordinator_facts.sql": "4741483e2a61056a6e2365cfcc43e65d83c4ab9d1c8fd6fa77d33eda26b7af99",
+    "coordinator/03_native_initial_callbacks.sql": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843",
+    "coordinator/04_register_and_materialize.sql": "9c3ca9d1be3f76237d7b6c6415cc42c4b4fdefe559441b323274e1a0694cc0a3",
+    "coordinator/05_factual_profile.sql": "b264aefe2d69411a8ed2e7b30cf75271eaa008a795af0897e7887df5c3d08449",
+    "coordinator/06_finish_and_closed_routes.sql": "cd486b197eb165505cb488f6aa08ed2886dfb7e05dc3371be9aba9b3a9aeb928",
+    "source/member-proof.sql": "565e4e8643323442eadad2d6d1e65fdf1750da1675a2c68cc28187add17c1205",
+    "ledger/02_uuid_poster.proposal.sql": "d9bfca1d97113e8aacfbb5f29d5dcb1d4d3cbdc5c950073943de1bd2d6be9728"
+  },
+  "overlays": [
+    {
+      "identity": "cp7_credit.is_unchanged_native_return_v1(uuid)",
+      "source": "coordinator/01_coordinator_facts.sql",
+      "source_sha256": "4741483e2a61056a6e2365cfcc43e65d83c4ab9d1c8fd6fa77d33eda26b7af99",
+      "before_body_sha256": "a53cf43cf44362cfd1701c2b9e8e67b61b3e912534e8ec2ba5ed06f106c5b493",
+      "after_body_sha256": "61f530cd4845e914fd120de04e457aa53defa49089a804d830af154ca479c733",
+      "overlay_definition_sha256": "301080c2f7046e0a308e6feb247ef374173ece893da63cb330a5ea1e81636cf8",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "s",
+      "required_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "acl": "unchanged by CREATE OR REPLACE; no outsider EXEC before or after"
+    },
+    {
+      "identity": "cp7_credit.native_return_enter(uuid)",
+      "source": "coordinator/03_native_initial_callbacks.sql",
+      "source_sha256": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843",
+      "before_body_sha256": "b6f61de7cb23a5da66c771e2e4a5b5d6cc963ebcc2543dcde563be50fa4e583a",
+      "after_body_sha256": "49b18bc56535551d01fe16e2edfc015129c285a148f109c864e349362e44475b",
+      "overlay_definition_sha256": "7b325c25413dd07287a3eb5419d6b2c0351e3256808007deffba7b44dcf4f3e9",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "v",
+      "required_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "acl": "unchanged by CREATE OR REPLACE; no outsider EXEC before or after"
+    },
+    {
+      "identity": "cp7_credit.native_return_guard(uuid,numeric,numeric,numeric)",
+      "source": "coordinator/03_native_initial_callbacks.sql",
+      "source_sha256": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843",
+      "before_body_sha256": "1d37cc37540a982f7c8bfbf19b6945f8ae4b8d93a4a85f0e6dbd534d8b39f200",
+      "after_body_sha256": "d4f348e655416593a15173fa663fbc21f43b4565b97204b3a2b51c6eef22ddd0",
+      "overlay_definition_sha256": "cc0db37047dbd92019b890dc78cb3ee9aea1155a904aceb9276bb82b3ccc2840",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "v",
+      "required_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "acl": "unchanged by CREATE OR REPLACE; no outsider EXEC before or after"
+    },
+    {
+      "identity": "cp7_credit.post_return_journal(text,uuid,date,text,jsonb)",
+      "source": "coordinator/03_native_initial_callbacks.sql",
+      "source_sha256": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843",
+      "before_body_sha256": "dcd2dd2737a249f6b0fff9fd30765be5e5d7bef61a55f52c802b6184722cf140",
+      "after_body_sha256": "f4f54419fdb260fad118513f4a418786e5a1cda4d300dafd03d71768a47cd5ff",
+      "overlay_definition_sha256": "b839255fa6dccb25fffd106ed876a98312fa03488ed40d26fc3761f0cbf87666",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "v",
+      "required_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "acl": "unchanged by CREATE OR REPLACE; no outsider EXEC before or after"
+    },
+    {
+      "identity": "cp7_credit.native_return_complete(uuid,numeric,numeric)",
+      "source": "coordinator/04_register_and_materialize.sql",
+      "source_sha256": "9c3ca9d1be3f76237d7b6c6415cc42c4b4fdefe559441b323274e1a0694cc0a3",
+      "before_body_sha256": "a98db4b645991db1b6b3d93ad614edb54382c57a2395b184eb1b45f052d970f1",
+      "after_body_sha256": "c1a5364f55920b4a49a257a91662ed534f54e4fd362a7e78bf4b63d0b198b0fa",
+      "overlay_definition_sha256": "d39355bb180812143428b9932fd42114740e0de85d7b2c43a12e9fb13d62ce98",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "v",
+      "required_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "acl": "unchanged by CREATE OR REPLACE; no outsider EXEC before or after"
+    },
+    {
+      "identity": "cp7_credit.native_return_leave(uuid)",
+      "source": "coordinator/06_finish_and_closed_routes.sql",
+      "source_sha256": "cd486b197eb165505cb488f6aa08ed2886dfb7e05dc3371be9aba9b3a9aeb928",
+      "before_body_sha256": "507136a7bbcce2e2234ba6f82d6038a4891ad7bb37521e695782c27b3d52a11f",
+      "after_body_sha256": "88bfd39dc16feb3208e7961f41205487e0810234b9b7e7e9cf7fefa5f7956805",
+      "overlay_definition_sha256": "7bba8332ba9624e98b39fcc9db63831e654af64f0bae533bca1e8e24926e720f",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "v",
+      "required_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "acl": "unchanged by CREATE OR REPLACE; no outsider EXEC before or after"
+    },
+    {
+      "identity": "cp7_credit.assert_bound_post(text,uuid,date,jsonb)",
+      "source": "ledger/02_uuid_poster.proposal.sql",
+      "source_sha256": "d9bfca1d97113e8aacfbb5f29d5dcb1d4d3cbdc5c950073943de1bd2d6be9728",
+      "before_body_sha256": "0a6cef4f65c8b0ad0f380f13a312c1688bd82075df2605de51f20c9c46ec3334",
+      "after_body_sha256": "c4a8bd54e31e51b8a340d7a39620f91357836350aef60bd73d1479edece83a69",
+      "overlay_definition_sha256": "da4ac5af5043d16f5df002f400855fb0937bd9feaded6f279549377e44acea0c",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "v",
+      "required_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "acl": "unchanged by CREATE OR REPLACE; no outsider EXEC before or after"
+    },
+    {
+      "identity": "cp7_credit.bound_book_date(text,uuid,date,jsonb)",
+      "source": "coordinator/03_native_initial_callbacks.sql",
+      "source_sha256": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843",
+      "before_body_sha256": "e00a52b3cf7e05120f1df0c1ee7cab21f815b77b447bfb4c02d90a7bd4d66b62",
+      "after_body_sha256": "9dcccea911e21f30a67790e3bebd826e15b0550fd3bb28313a0fcce768061e5b",
+      "overlay_definition_sha256": "0460f2df91123d3c6283d7f0cf11891f6d4507bc23dfb9159ecdf41ef797dea4",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "v",
+      "required_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "acl": "unchanged by CREATE OR REPLACE; no outsider EXEC before or after"
+    },
+    {
+      "identity": "cp7_credit.bound_audit_context()",
+      "source": "ledger/02_uuid_poster.proposal.sql",
+      "source_sha256": "d9bfca1d97113e8aacfbb5f29d5dcb1d4d3cbdc5c950073943de1bd2d6be9728",
+      "before_body_sha256": "0fe9f09937ad330668a17aac3a4fc3f2fd35c210832be9c5f29b856440147c16",
+      "after_body_sha256": "43313fa1cbaeb0c5beb4b5262099bd793d6131b56c7e2010272ab6f22181d021",
+      "overlay_definition_sha256": "6f550cef6a84f7f16350ad3f21808b61d1e8250a85db63af1eb64001a4557bac",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "v",
+      "required_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "acl": "unchanged by CREATE OR REPLACE; no outsider EXEC before or after"
+    },
+    {
+      "identity": "ow04_source_proposal.verify_return_member_v1(uuid)",
+      "source": "source/member-proof.sql",
+      "source_sha256": "565e4e8643323442eadad2d6d1e65fdf1750da1675a2c68cc28187add17c1205",
+      "before_body_sha256": "d9332a1ed9b54187ef57c3879b92ad89c0f177e7530171f22244ddacc45559ce",
+      "after_body_sha256": "6be9a9dcaff58c88ce3a03b40e017d2c24f4848fa13a9b255e49c7331ac6cd00",
+      "overlay_definition_sha256": "85b93e452cd1df3bb53a325ccfd2140fb4be2d5cfc9431fecdb9c64553ca738f",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "s",
+      "required_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "acl": "unchanged by CREATE OR REPLACE; no outsider EXEC before or after"
+    },
+    {
+      "identity": "cp7_credit.assert_financial_materialization_provenance(jsonb)",
+      "source": "coordinator/05_factual_profile.sql",
+      "source_sha256": "b264aefe2d69411a8ed2e7b30cf75271eaa008a795af0897e7887df5c3d08449",
+      "before_body_sha256": "46e77f70b9b341b887d40dc40762728451eedad26989a156f67ccb82e8c96cd8",
+      "after_body_sha256": "60b095983aa91e0da0fe576964f9029531964994a648ac4e5525128d26b8b8df",
+      "overlay_definition_sha256": "f938aa6c8bb52bd145f84ad323a1c77352ce7036439b420e4d6bfbc67ebb4aef",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "s",
+      "required_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "acl": "unchanged by CREATE OR REPLACE; no outsider EXEC before or after"
+    },
+    {
+      "identity": "cp7_credit.enforce_initial_return_closure_v1()",
+      "source": "coordinator/06_finish_and_closed_routes.sql",
+      "source_sha256": "cd486b197eb165505cb488f6aa08ed2886dfb7e05dc3371be9aba9b3a9aeb928",
+      "before_body_sha256": "2051012dc3db458b7628057fcd53fa3778d402686082fee561f8eaa8a52e507f",
+      "after_body_sha256": "c75fd7523ef9dea5a0d2e5199b30e064b9520091fc932c66d94f8db6f714abac",
+      "overlay_definition_sha256": "4e10f983d618e29274c5257e8b41d5b1f55d6ae9f3279d75b90c173fe8826f53",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "v",
+      "required_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "acl": "unchanged by CREATE OR REPLACE; no outsider EXEC before or after"
+    },
+    {
+      "identity": "cp7_credit.native_source_enter(text,uuid)",
+      "source": "coordinator/06_finish_and_closed_routes.sql",
+      "source_sha256": "cd486b197eb165505cb488f6aa08ed2886dfb7e05dc3371be9aba9b3a9aeb928",
+      "before_body_sha256": "79dca590fcfef839036dacffe80666672c2d5954ffe1f7fa3f91e9016b2e4f6e",
+      "after_body_sha256": "af6aa84d35a2508aed842b94af5da557d5ebcb9c1061a4ada01086d43b29a83a",
+      "overlay_definition_sha256": "171ddc1dc7939ee99feb074109421b96b4898f1df19188a320a452276c31da5b",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "v",
+      "required_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "acl": "unchanged by CREATE OR REPLACE; no outsider EXEC before or after"
+    },
+    {
+      "identity": "cp7_credit.native_source_complete(text,uuid)",
+      "source": "coordinator/06_finish_and_closed_routes.sql",
+      "source_sha256": "cd486b197eb165505cb488f6aa08ed2886dfb7e05dc3371be9aba9b3a9aeb928",
+      "before_body_sha256": "d801713c8d7e837da350c25c7d329a612a747bc73667ffd3789f20d9b5a5050f",
+      "after_body_sha256": "619fc7318ec592e60cd622eae5675044eff2203290a12c23c2ebb473db75497a",
+      "overlay_definition_sha256": "41ce844228c64a1bae3fae4211b28b306bb390beb9b4bca46e9af33c4cc3777c",
+      "owner": "postgres",
+      "security_definer": true,
+      "volatility": "v",
+      "required_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "acl": "unchanged by CREATE OR REPLACE; no outsider EXEC before or after"
+    }
+  ],
+  "generated_sql_sha256": "08af7ed38e9211e39a699bd9182b379b9c8c390b87ee10d14c97485f25fc5aa0"
+}

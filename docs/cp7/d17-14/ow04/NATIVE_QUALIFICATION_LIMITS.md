@@ -3,6 +3,13 @@
 Ini pekerjaan writer internal, bukan audit independen atau fitur yang telah
 diterima. Produk WA yang telah terbukti adalah9b323f13; OW-04 tetap BELUM SELESAI.
 
+Hasil baru: kandidat3f7e0329 lulus32/32 Native pada run39485291311,
+job118844009987; pemulihan dan advisor gate lulus. Dua belas settlement awal
+dan20 kontrol lama kini terbukti dalam lingkupnya. Bukti lengkap tersimpan di
+CI_3F7E_NATIVE32_PASS.json dan CI_3F7E_NATIVE32_RUNTIME.log.gz. Riwayat percobaan
+awal di bawah tetap dipertahankan. Perluasan12 kasus Native EMPTY sedang
+dikualifikasi terpisah; lihat NATIVE_EMPTY_INTEGRATION.md dan deklarasi44 kasus.
+
 Kandidat SQL sumber, ledger, refund, pembaca dan koordinator dikomposisikan
 secara atomik hanya oleh `scripts/cp7_ow04_probe.py` di database sekali pakai.
 Default installer produk tidak berubah. Tidak ada pemasangan di Enteng.

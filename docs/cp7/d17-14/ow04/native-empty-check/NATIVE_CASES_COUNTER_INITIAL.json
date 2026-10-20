@@ -1,0 +1,126 @@
+{
+  "classification": "INDEPENDENT_BOUNDED_NATIVE_CASES_SOURCE_COUNTER_NOT_NATIVE_EXECUTION",
+  "product_pin": "a96079dc",
+  "native_execution_proven": false,
+  "database_started": false,
+  "active_repo_edits": false,
+  "initial_assessment_before_peer_exchange": true,
+  "pins": {
+    "01_native_empty_facts.sql": "ec3a102ffc65cc8dfcff294706c5cdacedc749b62320ea6c307c00dcd4696584",
+    "02_native_empty_callbacks.sql": "68f458c7e061b3c7161e5c1525c678defc343869c766a60d9a5139366f414173",
+    "04_exact_overlays.sql": "08af7ed38e9211e39a699bd9182b379b9c8c390b87ee10d14c97485f25fc5aa0",
+    "OVERLAY_MANIFEST.json": "3988527a75cd46e643ea07c4453a175a5e9936f01cb5c6ec7da13a901750f9d0",
+    "cp7_ow04_native_empty_cases.py": "e4928dae5d81d02cf154f0c999256bc3a4a14094825338c2aac458d17ce8e778",
+    "EXPECTED.json": "5e713283516288011b6c8ccdff4af85d3df3c077e771e36de2b2bc2c16abfd3b"
+  },
+  "static_registration": {
+    "import_succeeded": true,
+    "db_calls_during_import_or_registration": false,
+    "count": 12,
+    "ids_unique": true,
+    "all_callables": true,
+    "executed": false
+  },
+  "overlay_manifest": {
+    "generated_sql_hash_matches": true,
+    "all7_frozen_source_pins_match_active": true
+  },
+  "setup_assessment": {
+    "financial_fabrication_found": false,
+    "stock_and_financial_facts": "FOUND_AT_OPNAME writer, ordinary CP7 CREATE/POST invoking Native sale, Native payment and Native return/inverse writers. Direct inserts create DRAFT payment/return inputs only. No inserted POSTED finance or journal facts. Explicit master/period fixtures are retained accepted setup.",
+    "N04": "Explicit disposable upgrade simulation restores supplied predecessor helper definitions, posts actual Native legacy return, reapplies candidate overlays, and requires exact refusal plus unchanged boundary/registry. It does not relax the shipped helper or fabricate old ordinals.",
+    "N12": "Explicitly privileged private-work-row leak fault after a real Native completion, with deferred refusal and residue equality. It is not evidence of public authority or a fabricated monetary event."
+  },
+  "findings": [
+    {
+      "id": "TEST_N01_LITERAL_NET_P_NOT_ASSERTED",
+      "kind": "CONFIRMED_TEST_ORACLE_GAP",
+      "source": [
+        "cp7_ow04_native_empty_cases.py:126-133"
+      ],
+      "expected": "N01 frozen NET60/P30/AR30 must all be read back and asserted.",
+      "observed": "Only open_balance30 is asserted; NET60/P30 are returned as constants. The unchanged Python first() assertion slice accepted reader NET70/P40/AR30 and returned NET60/P30.",
+      "reproduction_classification": "Pure Python oracle-only dependency instrumentation; no Native/product execution and no financial setup rows created.",
+      "reproduction": {
+        "expected_frozen_sha256": "e75fb730f3319b693c4f8238b88c58e4a9a3c39c38bb3e34c6ecfd8605fd6788",
+        "expected_file": "NATIVE_CASES_COUNTER_ORACLE_EXPECTED.json",
+        "expected": {
+          "classification": "PURE_PYTHON_ASSERTION_COUNTER_NO_DB_NO_NATIVE",
+          "case": "N01 oracle with contradictory reader financial values",
+          "given_reader": {
+            "net_total": "70.00",
+            "paid_total": "40.00",
+            "open_balance": "30.00"
+          },
+          "required": "Reject because frozen expected is NET60/P30/AR30; returning literal NET60/P30 is not readback verification",
+          "financial_rows_created": false,
+          "native_called": false
+        },
+        "observed": {
+          "rejected": false,
+          "returned": {
+            "net": "60.00",
+            "raw_paid": "30.00",
+            "receivable": "30.00",
+            "ordinal": 1,
+            "actual_null_human": false
+          },
+          "dependency_trace": [
+            "fixture",
+            "pay",
+            "draft_return",
+            "post",
+            "registered"
+          ]
+        }
+      },
+      "bounded_repair": "Assert the actual reader net_total and paid_total alongside open_balance before reporting the literals."
+    },
+    {
+      "id": "TEST_N03_CP7_TO_NATIVE_NOT_EXERCISED",
+      "kind": "CONFIRMED_DECLARED_SUBCASE_GAP",
+      "source": [
+        "EXPECTED.json:N03_APPEND_EMPTY",
+        "cp7_ow04_native_empty_cases.py:135-139"
+      ],
+      "expected": "N03 explicitly includes direct Native EMPTY after a registered CP7 EMPTY return.",
+      "observed": "append() posts both first and second returns through direct Native post(); no ordinary CP7 RETURN creates the first family.",
+      "repro": "AST/source trace of append() has fixture\u2192draft_return\u2192post\u2192registered twice; there is no CP7 command or reviewed EMPTY first-family subcase.",
+      "bounded_repair": "Add the already-declared CP7-EMPTY\u2192Native-EMPTY variant with retained ordinal1 and appended ordinal2; keep Native\u2192Native variant."
+    },
+    {
+      "id": "TEST_N10_NULL_HUMAN_INVERSE_NOT_EXERCISED",
+      "kind": "CONFIRMED_DECLARED_SUBCASE_GAP",
+      "source": [
+        "EXPECTED.json:N10_NATIVE_INVERSES",
+        "cp7_ow04_native_empty_cases.py:198-208",
+        "scripts/cp7_sales_cases.py:21-22",
+        "scripts/cp6_z_expanded_integrity_audit.py:as_owner"
+      ],
+      "expected": "N10 explicitly includes truthful null-human Native source inverse scope.",
+      "observed": "Every inverse calls source.native(), whose actual retained helper forces authenticated OWNER claims/session. N02 exercises only the initial return under null-human administrative authority, so it cannot catch inverse-only null actor/request regressions.",
+      "repro": "Read-only inspect.getsource(source.native) and actual production.owner: owner forces {sub:OPERATOR_AUTH,role:authenticated}, session authenticated, OWNER assertion.",
+      "bounded_repair": "Exercise the already-declared inverse lifecycle variant under the original legitimate administrative/null-human session; keep existing OWNER variant."
+    },
+    {
+      "id": "TEST_N06_HPP_AMOUNT_NOT_ASSERTED",
+      "kind": "CONFIRMED_TEST_ORACLE_GAP",
+      "source": [
+        "EXPECTED.json:N06_HPP_ONLY",
+        "cp7_ow04_native_empty_cases.py:155-167"
+      ],
+      "expected": "Actual HPP10 return implies FG+10/COGS-10 with zero monetary AR effect, alongside economicD2/bookD3.",
+      "observed": "The HPP branch asserts JOURNAL type, two dates and reopened resolver only. It does not assert actual HPP amount/GL vector or the stock/HPP delta.",
+      "repro": "AST of zero() contains only type/date/resolver assertions for hpp_only; returned hpp_only flag is a parameter value. Native frozen target checks may independently reject bad effects, but the case itself does not prove the literal HPP10 oracle.",
+      "bounded_repair": "Assert actual journal FG+10/COGS-10/AR0 and physical+1 using existing readers; retain exact two-date assertions."
+    }
+  ],
+  "product_defect_found": false,
+  "limits": [
+    "No Native database available or invoked; no PASS/FAIL verdict on the product Native routes.",
+    "N07 contains a read-only explicitly hypothetical pure-kernel vector to assert target shape; it does not fabricate financial setup. Its clock-bound dates are D0/D1/D3 and the test currently asserts component amounts only, not exact component dates.",
+    "N11 covers one genuine retained CREDIT cohort refusal, not every source-correction/APPLY branch listed as unsupported.",
+    "N12 covers leaked scope specifically; missing completion and every altered-marker branch are not all individually exercised by this case."
+  ],
+  "disposition": "Bounded genuine-Native draft packet is importable and uses accepted writers, but do not claim full N01/N03/N06/N10 declared coverage until the precise assertions/subcases above are added. Existing immutable literal expectations remain unchanged."
+}

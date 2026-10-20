@@ -1,0 +1,248 @@
+{
+  "classification": "ACTUAL_PROPOSAL_SQL_SELECTED_NATIVE_DDL_SYNTHETIC_NOT_NATIVE",
+  "native_execution_proven": false,
+  "authority_proven": false,
+  "poster_execution_proven": false,
+  "expected_sha256": "5e713283516288011b6c8ccdff4af85d3df3c077e771e36de2b2bc2c16abfd3b",
+  "sources": {
+    "source/ISOLATED_TABLES.sql": "eb5b830ac6f89389c685cb5e1a796a06a349bb524d6bd334564fcbfe4ed19b7e",
+    "kernel/kernel.sql": "f531f50d5a1c7ddc0a2f22f607be5ba0625a2e0388af3e7a4c6d129bf82e15fc",
+    "ordinal-wrapper/wrapper.sql": "ed66c7f09433956d18368b7a804b1b04f0dcb7f9e0457686400421a849d671d1",
+    "ledger/01_immutable_facts.proposal.sql": "62383030bf27b70c5c07f948c69329be6f8229c314097e7d3c02293cc8c929c6",
+    "ledger/02_uuid_poster.proposal.sql": "d9bfca1d97113e8aacfbb5f29d5dcb1d4d3cbdc5c950073943de1bd2d6be9728",
+    "source/NO_JOURNAL_SCHEMA_DIFF.proposal.sql": "bed7aea0c7eab97c3917444aac5ea21e167b7ca0dfea4a92d4150124f21baa45",
+    "source/source.sql": "dd091f3896929d46587634f70545eea26ffd0ac9a516ffac79d90d4e5b80a729",
+    "source/member-proof.sql": "565e4e8643323442eadad2d6d1e65fdf1750da1675a2c68cc28187add17c1205",
+    "source/absence-proof.sql": "079a76d64bdfe99051566d4053cdfc1740aded2d6c5a43aeae85feead483ad0c",
+    "readers/01_current_reader_capability.proposal.sql": "104853e41bd3cfa79af47d09c7f6ad9d45ff10fb00756b5b57ea71d137d94773",
+    "readers/02_materialized_profile.proposal.sql": "317e689b3b2e738889e86a62dc130fa3ee2f128750f95d5264cd56084fce8575",
+    "admission/01_typed_context_and_preclaim.proposal.sql": "44fe8bfae73aecdd85a332f328a4b7dfd6331fa40764025462772a701c9ddb08",
+    "admission/02_owning_wrapper.proposal.sql": "16d93266a9a9c721ec582e62e10db0deccfe7c39724215b955912dfc092f7511",
+    "refund/01_initial_refund.proposal.sql": "d273107f12f1d063005ed0a250d55dde529b725bdf41e8091193046aa0b27410",
+    "coordinator/01_coordinator_facts.sql": "4741483e2a61056a6e2365cfcc43e65d83c4ab9d1c8fd6fa77d33eda26b7af99",
+    "coordinator/02_initial_projection.sql": "c37cd7f20deb1ae7537c7207801fc61cd370b67d889b532252eb0b8ca2aa2ff3",
+    "coordinator/03_native_initial_callbacks.sql": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843",
+    "coordinator/04_register_and_materialize.sql": "9c3ca9d1be3f76237d7b6c6415cc42c4b4fdefe559441b323274e1a0694cc0a3",
+    "coordinator/05_factual_profile.sql": "b264aefe2d69411a8ed2e7b30cf75271eaa008a795af0897e7887df5c3d08449",
+    "coordinator/06_finish_and_closed_routes.sql": "cd486b197eb165505cb488f6aa08ed2886dfb7e05dc3371be9aba9b3a9aeb928",
+    "coordinator/07_capabilities_and_quote.sql": "7df8b2a4b4e90b1ebd741a7d81a6e2cc7eb9ea26a6918c452fb31db5429329ca",
+    "coordinator/08_outer_wrapper.sql": "2e94d859e620dab81aae4b053918f5408c196ded8b571a12d5ef33f827c72c44",
+    "coordinator/09_public_facades.sql": "bb873a9e4d297c8cf1b8e062ece1fa79d39b8411146a1b31787b32b919a74d56",
+    "native-empty/01_native_empty_facts.sql": "ec3a102ffc65cc8dfcff294706c5cdacedc749b62320ea6c307c00dcd4696584",
+    "native-empty/02_native_empty_callbacks.sql": "68f458c7e061b3c7161e5c1525c678defc343869c766a60d9a5139366f414173",
+    "native-empty/04_exact_overlays.sql": "08af7ed38e9211e39a699bd9182b379b9c8c390b87ee10d14c97485f25fc5aa0"
+  },
+  "results": [
+    {
+      "id": "ACTUAL_DDL_AND_14_EXACT_OVERLAYS",
+      "pass": true,
+      "limit": "Native/Auth/context-capability grants/copy poster not executed or stubbed"
+    },
+    {
+      "id": "ACTUAL_NULL_HUMAN_DATABASE_PRINCIPAL",
+      "pass": true,
+      "expected": {
+        "kind": "DATABASE_SESSION",
+        "uid": null,
+        "session_user": "postgres",
+        "auth_uid_function_present": false
+      },
+      "actual": {
+        "kind": "DATABASE_SESSION",
+        "uid": null,
+        "session_user": "postgres",
+        "auth_uid_function_present": false
+      }
+    },
+    {
+      "id": "FAKE_HUMAN_KIND",
+      "pass": true,
+      "expected_refusal": "CP7_NATIVE_EMPTY_PRINCIPAL_BINDING",
+      "error": "CP7_NATIVE_EMPTY_PRINCIPAL_BINDING"
+    },
+    {
+      "id": "FABRICATED_UID_WITHOUT_AUTH",
+      "pass": true,
+      "expected_refusal": "CP7_NATIVE_EMPTY_PRINCIPAL_BINDING",
+      "error": "CP7_NATIVE_EMPTY_PRINCIPAL_BINDING"
+    },
+    {
+      "id": "ALL_CUT_EMPTY_TARGET",
+      "pass": true,
+      "expected": {
+        "k": "0.00",
+        "effect": false
+      },
+      "actual": {
+        "k": "0.00",
+        "effect": false
+      }
+    },
+    {
+      "id": "ZERO_CURRENT_K_NONEMPTY_TEMPORAL",
+      "pass": true,
+      "expected": {
+        "k": "0.00",
+        "effect": true,
+        "amounts": [
+          "100.00",
+          "-100.00"
+        ]
+      },
+      "actual": {
+        "k": "0.00",
+        "effect": true,
+        "amounts": [
+          "100.00",
+          "-100.00"
+        ]
+      }
+    },
+    {
+      "id": "NO_UNREGISTERED_NATIVE_NOOP",
+      "pass": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "NEW_PRIVATE_METADATA",
+      "pass": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "NO_NATIVE_AUTHORITY_CAPABILITY_STUB",
+      "pass": true,
+      "expected_refusal": "function erp.require_internal() does not exist",
+      "error": "function erp.require_internal() does not exist"
+    },
+    {
+      "id": "SYNTHETIC_NULL_HUMAN_MEMBER_PROOF",
+      "pass": true,
+      "expected": {
+        "kind": "DATABASE_SESSION",
+        "ordinal": "1",
+        "state": "JOURNAL"
+      },
+      "actual": {
+        "kind": "DATABASE_SESSION",
+        "ordinal": "1",
+        "state": "JOURNAL"
+      }
+    },
+    {
+      "id": "SYNTHETIC_SHARED_CURRENT_E",
+      "pass": true,
+      "expected": "30.00",
+      "actual": "30.00"
+    },
+    {
+      "id": "SYNTHETIC_NO_CP7_ENVELOPE_OR_CREDIT",
+      "pass": true,
+      "expected": {
+        "requests": 0,
+        "cohorts": 0,
+        "plans": 0,
+        "contexts": 0
+      },
+      "actual": {
+        "requests": 0,
+        "cohorts": 0,
+        "plans": 0,
+        "contexts": 0
+      }
+    },
+    {
+      "id": "SYNTHETIC_CONTEXT_FREE_CLOSURE_NO_AUTH",
+      "pass": true,
+      "expected": "VALID",
+      "actual": "VALID"
+    },
+    {
+      "id": "SYNTHETIC_SECOND_EMPTY_APPEND",
+      "pass": true,
+      "expected": [
+        "1",
+        "2"
+      ],
+      "actual": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "SYNTHETIC_TYPED_ABSENCE_AND_NO_JOURNAL",
+      "pass": true,
+      "expected": {
+        "state": "NO_JOURNAL",
+        "j": null,
+        "floor": null,
+        "prior": "PROVEN_ABSENT",
+        "event_count": 0
+      },
+      "actual": {
+        "state": "NO_JOURNAL",
+        "j": null,
+        "floor": null,
+        "prior": "PROVEN_ABSENT",
+        "event_count": 0
+      }
+    },
+    {
+      "id": "SYNTHETIC_HPP_ONLY_REOPENED_CAUSAL_PAIR",
+      "pass": true,
+      "expected": {
+        "state": "JOURNAL",
+        "floor": "2026-10-20",
+        "event_amount": "0.00",
+        "economic": "2026-10-19",
+        "book": "2026-10-20"
+      },
+      "actual": {
+        "state": "JOURNAL",
+        "floor": "2026-10-20",
+        "event_amount": "0.00",
+        "economic": "2026-10-19",
+        "book": "2026-10-20"
+      }
+    },
+    {
+      "id": "ALTERED_ACTUAL_PHYSICAL",
+      "pass": true,
+      "expected_refusal": "CP7_NATIVE_EMPTY_ACTUAL_PHYSICAL_PROOF",
+      "error": "CP7_NATIVE_EMPTY_ACTUAL_PHYSICAL_PROOF"
+    },
+    {
+      "id": "RETURN_JOURNAL_PRECEDES_ECONOMIC",
+      "pass": true,
+      "expected_refusal": "OW04_MEMBER_ORIGINAL_JOURNAL_PAIR_OR_STATE_CHANGED",
+      "error": "OW04_MEMBER_ORIGINAL_JOURNAL_PAIR_OR_STATE_CHANGED"
+    },
+    {
+      "id": "WRONG_RETURN_ORIGINAL_JOURNAL_SOURCE",
+      "pass": true,
+      "expected_refusal": "OW04_MEMBER_ORIGINAL_JOURNAL_MISSING_OR_DUPLICATE",
+      "error": "OW04_MEMBER_ORIGINAL_JOURNAL_MISSING_OR_DUPLICATE"
+    },
+    {
+      "id": "NOJ_WITH_EXTRA_FINANCIAL_JOURNAL",
+      "pass": true,
+      "expected_refusal": "OW04_MEMBER_ORIGINAL_UNBALANCED",
+      "error": "OW04_MEMBER_ORIGINAL_UNBALANCED"
+    },
+    {
+      "id": "CURRENT_HEADER_STATUS_MISMATCH",
+      "pass": true,
+      "expected_refusal": "CP7_NATIVE_EMPTY_FINAL_AR_OR_STATUS",
+      "error": "CP7_NATIVE_EMPTY_FINAL_AR_OR_STATUS"
+    },
+    {
+      "id": "ALL_SYNTHETIC_FACTS_DEFERRED_CLOSURE",
+      "pass": true,
+      "expected": "VALID",
+      "actual": "VALID"
+    }
+  ],
+  "status": "PASS",
+  "stage": "complete"
+}

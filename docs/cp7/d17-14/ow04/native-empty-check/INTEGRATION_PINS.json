@@ -1,0 +1,9 @@
+{
+  "scripts/cp7_customer_credit/native-empty/cp7_ow04_native_empty_cases.py": "c8fe32dca9c2953d242377040d95a477a682322d8eeba17e3fa65abc92d7bd37",
+  "scripts/cp7_customer_credit/native-empty/build_exact_overlays.py": "6b7089312de3bc6b65133722851c1b6c214fcc24bb5d58bb4b38e3c2b7a124a6",
+  "scripts/cp7_customer_credit/native-empty/EXPECTED.json": "5e713283516288011b6c8ccdff4af85d3df3c077e771e36de2b2bc2c16abfd3b",
+  "scripts/cp7_customer_credit/integration/owning_bundle.py": "72ae61ceb22c96e50db7dd5594054fb2b2551450c58e6e5c629d818bee45c0bb",
+  "scripts/cp7_customer_credit/integration/native_empty_bundle.py": "909caab9e62242cd50ebc20e4c5116b9f2041b4bebe7774eccf1d73aa06fbcee",
+  "scripts/cp7_ow04_probe.py": "7bf156a9e823f3e715bc57413ab3e6f2932a3037e40ece4e7ce7d2be789e0403",
+  ".github/workflows/cp7-ow04.yml": "49558c2f683bf48b43441781c2233fc448f57d291c358de5700edc2a41e6c6f3"
+}

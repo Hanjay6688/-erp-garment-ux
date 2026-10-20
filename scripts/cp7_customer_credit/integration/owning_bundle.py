@@ -158,8 +158,14 @@ def _private_inventory(cur):
     return {'schemas':schemas,'domains':domains,'functions':functions,'tables':tables}
 
 
-def source_files():
-    return {name: digest((ROOT / name).read_text()) for name in SQL_FILES}
+def source_files(native_empty=False):
+    names = SQL_FILES
+    if native_empty:
+        names += ('native-empty/01_native_empty_facts.sql','native-empty/02_native_empty_callbacks.sql',
+                  'native-empty/04_exact_overlays.sql','native-empty/OVERLAY_MANIFEST.json',
+                  'native-empty/SOURCE_PINS.json','native-empty/EXPECTED.json',
+                  'native-empty/cp7_ow04_native_empty_cases.py','integration/native_empty_bundle.py')
+    return {name: digest((ROOT / name).read_text()) for name in names}
 
 
 def _actual_sql(name):
@@ -212,7 +218,7 @@ def _postgres_reader(cur):
             cur.execute("select set_config('role',%s,true)", (previous,))
 
 
-def install(cur, predecessor_verify, predecessor_functions):
+def install(cur, predecessor_verify, predecessor_functions, *, native_empty=False):
     """Execute in caller's SINGLE transaction; no commit and no partial mode."""
     for schema in NEW_SCHEMAS:
         if cur.execute('select to_regnamespace(%s)is not null',(schema,)).fetchone()[0]:
@@ -254,7 +260,7 @@ def install(cur, predecessor_verify, predecessor_functions):
     approved = refunds.native.Approved(**{**{k: v for k, v in assembly._fingerprint(poster).items() if k != 'body_sha256'},
         'acl':tuple(poster['acl'] or ()), 'config':tuple(poster['config'] or ())})
     refund_sql, refund_proof = refunds.derive_initial_refund_post(cap, approved)
-    expected_sources = source_files()
+    expected_sources = source_files(native_empty=native_empty)
     for name in SQL_FILES:
         if digest((ROOT / name).read_text()) != expected_sources[name]:
             raise ValueError('OW04_SOURCE_CHANGED_DURING_COMPOSITION')
@@ -293,6 +299,16 @@ def install(cur, predecessor_verify, predecessor_functions):
     state['payment_link_before'] = payment_link_before
     state['private_inventory'] = _private_inventory(cur)
     verify(cur, state)
+    if native_empty:
+        # Never connect a partial overlay to an unverified Native/copy/reader
+        # installation. The complete base verification above precedes its DDL.
+        empty = load('ow04_integrated_native_empty', ROOT / 'integration/native_empty_bundle.py')
+        state['native_empty'] = empty.install(cur, _actual_sql)
+        _finalize_private_owners(cur)
+        for schema in NEW_SCHEMAS:
+            cur.execute('revoke all on all functions in schema ' + schema + ' from public,anon,authenticated,service_role,cp7_capture')
+        state['private_inventory'] = _private_inventory(cur)
+        verify(cur, state)
     return state
 
 
@@ -331,9 +347,14 @@ def verify(cur, state):
         for role in ('anon','service_role','cp7_capture'):
             if cur.execute("select has_function_privilege(%s,%s,'EXECUTE')", (role,sig)).fetchone()[0]:
                 raise ValueError('OW04_PUBLIC_FACADE_EXPOSED')
+    empty_proof = None
+    if 'native_empty' in state:
+        empty = load('ow04_integrated_native_empty_verify', ROOT / 'integration/native_empty_bundle.py')
+        empty_proof = empty.verify(cur,state['native_empty'])
     return {'classification':'INTERNAL_WRITER_NATIVE_CANDIDATE_VERIFICATION','native':proof,
             'legacy_composition':legacy,'context_inventory':context_verification,
-            'private_inventory_sha256':digest(canonical(private_inventory)),'production_go':False}
+            'private_inventory_sha256':digest(canonical(private_inventory)),
+            'native_empty':empty_proof,'production_go':False}
 
 
 def uninstall(cur, state):

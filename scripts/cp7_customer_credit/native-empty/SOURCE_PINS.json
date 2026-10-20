@@ -1,0 +1,13 @@
+{
+  "classification": "UNQUALIFIED_ATOMIC_DEVELOPMENT_NATIVE_EMPTY",
+  "files": {
+    "01_native_empty_facts.sql": "ec3a102ffc65cc8dfcff294706c5cdacedc749b62320ea6c307c00dcd4696584",
+    "02_native_empty_callbacks.sql": "68f458c7e061b3c7161e5c1525c678defc343869c766a60d9a5139366f414173",
+    "04_exact_overlays.sql": "08af7ed38e9211e39a699bd9182b379b9c8c390b87ee10d14c97485f25fc5aa0",
+    "OVERLAY_MANIFEST.json": "3988527a75cd46e643ea07c4453a175a5e9936f01cb5c6ec7da13a901750f9d0",
+    "EXPECTED.json": "5e713283516288011b6c8ccdff4af85d3df3c077e771e36de2b2bc2c16abfd3b",
+    "cp7_ow04_native_empty_cases.py": "c8fe32dca9c2953d242377040d95a477a682322d8eeba17e3fa65abc92d7bd37",
+    "build_exact_overlays.py": "6b7089312de3bc6b65133722851c1b6c214fcc24bb5d58bb4b38e3c2b7a124a6"
+  },
+  "native_proven": false
+}
