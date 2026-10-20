@@ -757,3 +757,8 @@ Owner (persis): "ya"
 Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): penulis membaca proyek ERP lama (`vlxdhpkjeevubjxexnfo`)
 dengan kueri SELECT saja untuk pemakaian aksesori per bulan; tidak ada yang diubah. Angka dari data produksi tidak masuk repo
 (repo publik) atau artifact; hasilnya disampaikan ke owner di chat dan disimpan di folder kerja sementara penulis.
+
+Sesudahnya (penulis): konektor Supabase sesi ini tidak terhubung ke proyek mana pun, jadi tidak ada yang dibaca. Owner
+(persis): "erp lama mah gada datanya orang ini pertama kali wkwk". Akibat (ringkasan penulis): ERP lama tidak menyimpan
+pemakaian aksesori; batas minimum dihitung dari perkiraan pemakaian yang diberikan owner, lalu diperbaiki dengan pemakaian
+nyata yang diukur ERP sesudah dipakai.
