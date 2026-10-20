@@ -17,8 +17,15 @@ fg        SS-1 (owner D17-8, D17-9): one new finished good whose free stock is a
           complete WIB days before today, planning profile lead time 7 days): its ids, label, the oracle's point and its
           free stock. Today is the copy's WIB date.
 fg_state  read back: the item's evaluation row (to_jsonb of cp7_stock_formula.evaluations) and its latest manual point row.
+material  SS-2/SS-3: one new fabric (130 YD received 40 days ago, SPARSE cut over the 30 complete WIB days before today) and
+          one new accessory (280 PCS, SPARSE used by nota mandor and factory use), made with the Native helpers of
+          cp7_stock_formula_cases, no lama kirim saved: their ids, names, units, free stock and the oracle's point for a
+          lama kirim of `lead` days (default 6). The fabric is at or under that point.
+material_state  read back: each material's evaluation row (to_jsonb of cp7_stock_formula.material_evaluations) and its
+          latest material_settings row.
 The answer on stdout is JSON only; nothing else is printed, and no key appears in it."""
 from contextlib import redirect_stdout
+from datetime import timedelta
 from urllib.parse import urlparse
 import json
 import os
@@ -175,6 +182,45 @@ def main():
                 return dict(evaluation=None if e is None else e[0],
                             manual=None if m is None else dict(revision=m[0], reorder_point_pcs=m[1], reason=m[2]))
             out = committed(target, fg_state)
+        elif op == 'material':
+            def material(cur):
+                today = cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
+                lead = p.get('lead', 6)
+
+                def made():
+                    m = formula.fabric(cur, 130, today - timedelta(days=40))
+                    formula.cut_days(cur, m, today, formula.SPARSE)
+                    a = formula.accessory(cur, today, 280)
+                    formula.accessory_days(cur, a, today, formula.SPARSE)
+                    return m, a
+                m, a = with_erp_usage(cur, made)
+                # The oracle with the settings in force on the copy (none saved: 95% and 30 days); SPARSE covers the 30 days
+                # before today, a shorter window reads its last days with the stock left before them.
+                s = cur.execute('select cp7_stock_formula.current_settings()').fetchone()[0]
+                window, cut = int(s['window_days']), 30 - int(s['window_days'])
+                assert 14 <= window <= 30, ('WAF_MATERIAL_FIXTURE_WINDOW_OVER_30', s)
+                fo = formula.material_oracle(130 - sum(formula.SPARSE[:cut]), formula.SPARSE[cut:], lead, level=s['service_level'])
+                ao = formula.material_oracle(280 - sum(formula.SPARSE[:cut]), formula.SPARSE[cut:], lead, level=s['service_level'])
+                assert fo['basis'] == 'FORMULA' and fo['free'] <= fo['point'], ('WAF_MATERIAL_FIXTURE_NOT_AT_OR_UNDER', fo)
+                wa.b.api.admin(cur)
+                unit = lambda mid: cur.execute('select unit_code::text from erp.materials where id=%s', (mid,)).fetchone()[0]
+                return dict(today=str(today), lead=str(lead), label_note='TEST_FIXTURE SS-2/SS-3',
+                            fabric=dict(id=m['material'], sku=m['sku'], name=m['name'], unit=unit(m['material']), free=str(fo['free']), point=str(fo['point'])),
+                            accessory=dict(id=a['material'], sku=a['sku'], name=a['name'], unit=unit(a['material']), free=str(ao['free']),
+                                           point=str(ao['point'])))
+            out = committed(target, material)
+        elif op == 'material_state':
+            def material_state(cur):
+                wa.b.api.admin(cur)
+                out = {}
+                for mid in p['ids']:
+                    e = cur.execute('select to_jsonb(e) from cp7_stock_formula.material_evaluations e where e.material_id=%s', (mid,)).fetchone()
+                    s = cur.execute('select revision,lead_days::text,manual_point::text,reason from cp7_stock_formula.material_settings where material_id=%s '
+                                    'order by revision desc limit 1', (mid,)).fetchone()
+                    out[mid] = dict(evaluation=None if e is None else e[0],
+                                    setting=None if s is None else dict(revision=s[0], lead_days=s[1], manual_point=s[2], reason=s[3]))
+                return out
+            out = committed(target, material_state)
         elif op == 'restore':
             worker(target, None)
             out = dict(worker='default')

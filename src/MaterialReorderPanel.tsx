@@ -95,7 +95,7 @@ function Panel({ materialType }: { materialType: MaterialType }) {
       if (reply.error) throw reply.error
       const saved = parseMaterialSaveResult(reply.data, payload, materialType)
       pending.current.delete(r.materialId)
-      const parts = [payload.lead_days === null ? 'lama kirim dikosongkan' : `lama kirim ${formatReorderUpTo2(payload.lead_days)} hari`]
+      const parts = [payload.lead_days === null ? 'lama kirim kosong' : `lama kirim ${formatReorderUpTo2(payload.lead_days)} hari`]
       if (!fabric) parts.push(payload.manual_point === null ? 'tanpa angka manual (pakai rumus)'
         : `angka manual ${materialQty(payload.manual_point, r.unitCode)}${Number(payload.manual_point) === 0 ? ' (tidak pernah diingatkan)' : ''}`)
       note(r.materialId, { tone: 'ok', text: `Tersimpan (revisi ${formatReorderWhole(saved.revision)}): ${parts.join(', ')}.`
