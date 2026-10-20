@@ -20,7 +20,7 @@ Laporan r5 yang sudah dikunci atas kandidat `17fa2507`:
 | Butir | Keputusan | Isi |
 |---|---|---|
 | R6-02 Pengingat sistem dan penerusan ke WhatsApp owner | D17-3..D17-7 (kutipan di `docs/cp7/OWNER_DECISIONS_20261008.md`) | Modul CP7 baru `cp7_alert_native` (`scripts/cp7-src/alerts/alerts.sql`), layar Reminder tab Pengingat sistem dan Sambungan WhatsApp, kasus yang dideklarasikan (`docs/cp7/wa/WA_FORWARD.json`; 24 di kandidat pertama `b1649535`), workflow "CP7 WA Forward". Analisis otomatis bawaan tiap 240 menit (D17-7). Hanya server CallMeBot palsu di CI; tidak ada pesan atau kunci nyata. Belum dipasang di Enteng (CP7C ditahan, D13-9a) |
-| R6-03 Titik pesan ulang dengan rumus (barang jadi, kain, aksesori) | D17-8, D17-9 (usulan `docs/cp7/wa/PROPOSAL_SAFETY_STOCK_R6_20261020.md` disetujui) | Modul CP7 baru `cp7_stock_formula` (`scripts/cp7-src/stock-formula/`), tiga jenis pengingat baru yang diteruskan ke WhatsApp dan dicek ulang sebelum dikirim, panel Titik pesan ulang di layar gudang dan Master Data, lama kirim per bahan diisi Owner/Admin. Kasus di suite WA yang sama (57 di kandidat `3b7bb381`). Desain dan tiga beda dari usulan: `docs/cp7/wa/STOCK_FORMULA_FG_DESIGN.md`; dua di antaranya menunggu keputusan owner |
+| R6-03 Titik pesan ulang dan batas minimum (barang jadi, kain, aksesori) | D17-8, D17-9 (usulan `docs/cp7/wa/PROPOSAL_SAFETY_STOCK_R6_20261020.md` disetujui), D17-10, D17-12 | Modul CP7 baru `cp7_stock_formula` (`scripts/cp7-src/stock-formula/`). Barang jadi dan kain dengan rumus; kain berumus masuk ke pengingat lama "Stok kain di bawah minimum" (D17-10); aksesori tanpa rumus, batas minimum diketik atau dihitung dari isian owner di aplikasi (MOQ, lama kirim dari Cina, perkiraan pemakaian per bulan, cadangan; D17-12). Dua jenis pengingat baru (`FG_AT_REORDER_POINT`, `ACCESSORY_AT_REORDER_POINT`) yang diteruskan ke WhatsApp dan dicek ulang sebelum dikirim, panel di layar gudang dan Master Data. Kasus di suite WA yang sama (58 di kandidat `55c885d1`). Desain: `docs/cp7/wa/STOCK_FORMULA_FG_DESIGN.md` |
 
 Batas bukti yang sama di ketiga laporan (CP7C, salinan data nyata, preflight hosted, restore CP2 penuh, cakupan 12 jalur lama,
 kontrol negatif detektor INV-D01, perangkat Apple fisik, WA langsung) tetap ditahan sesuai keputusan owner; tidak dibuka
@@ -35,4 +35,8 @@ ulang.
 - D17-7..D17-9 (20 Okt 2026 WIB), kutipan persis di berkas yang sama: analisis otomatis bawaan tiap 4 jam; titik pesan
   ulang barang jadi dihitung dengan rumus seperti bahan, dihitung ulang di belakang dan diteruskan ke WhatsApp; "Konek in lah
   rumus rumus itu penting loh, kenapa writer gak hubungi itu sama sekali ya??". Karena itu kandidat pertama `b1649535` tidak
-  dikirim; paket ini kini memakai `3b7bb381`.
+  dikirim.
+- D17-10..D17-12 (20 Okt 2026 WIB), kutipan persis di berkas yang sama: "aksesoris pake batas minimum manual aja ... lalu
+  untuk judul itu merge aja yg stok menipis atau di bawah minimum"; "ya" lalu "erp lama mah gada datanya orang ini pertama
+  kali wkwk" (baca ERP lama untuk pemakaian aksesori; tidak ada datanya); "itu nanti lu bikin slot untuk diisi aja in app
+  kan?". Karena itu kandidat `3b7bb381` juga tidak dikirim; paket ini kini memakai `55c885d1`.

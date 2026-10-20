@@ -117,7 +117,7 @@ keknya. lalu untuk judul itu merge aja yg stok menipis atau di bawah minimum". Y
   pemakaian per bulan × (lama kirim + cadangan) ÷ 30, dikali dulu baru dibagi (E25v), ke atas 0,01 (`ESTIMATE`). Batas minimum yang diketik langsung menang.
   Kurang satu isian dan tidak ada minimum yang diketik: `NOT_SET`, tidak diingatkan. Kain menolak isian ini. Pemakaian nyata
   yang diukur ERP hanya ditampilkan untuk dibandingkan. Kasus `SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE` (pembanding
-  `estimate_oracle()`, desimal pasti); penerusan WA dan kasus HTTP aksesori memakai hitungan ini.
+  `estimate_oracle()`, pecahan eksak; kasus batas 350,00 dan 100,00); penerusan WA dan kasus HTTP aksesori memakai hitungan ini.
 - Kebutuhan aksesori dari rencana produksi tetap tidak diteruskan (analisis menyatakannya "belum diketahui"); belum ada
   keputusan owner lain soal ini.
 
