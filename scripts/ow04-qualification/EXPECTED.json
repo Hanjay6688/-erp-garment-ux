@@ -1,0 +1,44 @@
+{
+  "classification": "PREDECLARED_REAL_AUTH_HTTP_CASES_NOT_EXECUTED",
+  "cases": [
+    {
+      "id": "OW04_HTTP_CREDIT_COMMIT_REPLAY",
+      "expected": "Actual Auth OWNER: sale1000/payment1000/return200 creates credit200 and AR0; full original payment/journals unchanged. Repeated same envelope after real commit returns identical outcome and no new effect."
+    },
+    {
+      "id": "OW04_HTTP_REFUND_COMMIT_REPLAY",
+      "expected": "Actual Auth OWNER: sale1000/payment900/return200 at reopened prior bookD3 refunds100, AR0, original payment intact. Real committed replay is identical with no new effect."
+    },
+    {
+      "id": "OW04_HTTP_CHANGED_PAYLOAD_REFUSAL",
+      "expected": "A changed valid payload under an already committed UUID refuses CP7_CREDIT_RETURN_REQUEST_CHANGED; full business/private ledger unchanged."
+    },
+    {
+      "id": "OW04_HTTP_REVOKED_REPLAY_REFUSAL",
+      "expected": "After successful commit, deactivate the same actual Auth user's ERP membership. Replay refuses403 CP7_SALES_ACCESS_DENIED; full business/private ledger unchanged. Restore the disposable user only afterward."
+    },
+    {
+      "id": "OW04_HTTP_QUOTE_DIGEST_REFUSAL",
+      "expected": "A well-shaped wrong digest refuses400 CP7_CREDIT_COMPLETE_QUOTE_CHANGED, atomically, before any settlement facts persist."
+    },
+    {
+      "id": "OW04_HTTP_RESERVED_PLAN_REFUSAL",
+      "expected": "Client-supplied book_date outside the closed payload refuses400 CP7_SALES_RETURN_FIELDS with no business/private effect."
+    },
+    {
+      "id": "OW04_HTTP_ANON_REFUSAL",
+      "expected": "Anonymous quote and write cannot call the public authenticated-only facades;401/403 and no business/private effect."
+    },
+    {
+      "id": "OW04_HTTP_NON_OWNER_REFUND_REFUSAL",
+      "expected": "A real STAFF user with all OWNER role permission keys still lacks Native owner/admin identity; refund quote/write refuse400/P0001 with exact Native message OWNER or ADMIN access required, with no business/private effect. No forged token or Native authority helper."
+    }
+  ],
+  "limits": [
+    "Real HTTP commit/replay is not a browser lost-response test or crash recovery",
+    "Actual Auth only; no token is minted by the test",
+    "Administrative source/master setup is disposable and labelled; no fake posted/journal facts",
+    "Not activated before Native44 separately qualifies",
+    "Internal writer qualification, production_go:false"
+  ]
+}

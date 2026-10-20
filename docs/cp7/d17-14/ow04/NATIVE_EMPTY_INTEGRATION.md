@@ -1,5 +1,15 @@
 # Direct Native EMPTY: bounded development qualification
 
+Latest actual result: candidate `ef98e6e65c13322bf08e6f704e511bdbb03a07a8`
+passed44/44 in run39489386389/job118858149684, with exact CP6 restoration
+and advisor gate true. The unchanged32-case prefix and all12 Native EMPTY
+cases passed, including OWNER and null-human inverses in N10. The first
+expanded run80b97175 remains42PASS/2INCOMPLETE; its complete log and the
+source-completion ordering disposition are retained. See
+`CI_EF98_NATIVE44_PASS.json` and `CI_EF98_NATIVE44_RUNTIME.log.gz`.
+This proves the declared disposable Native scope, not COMMIT, HTTP, browser,
+race, crash recovery or full OW04 completion.
+
 The separate base candidate3f7e0329 passed32/32 actual Native cases in
 run39485291311/job118844009987, including12 initial paid settlements,
 all11 unchanged returns,8 unchanged readers and E01. Restore/advisor gates

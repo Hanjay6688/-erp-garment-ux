@@ -1,0 +1,59 @@
+{
+  "classification": "BOUNDED_SOURCE_ORCHESTRATION_FOLLOWUP_NO_EXECUTION",
+  "initial_record_preserved": {
+    "path": "/workspace/scratch/9442228ed2dc/ow04-proposals/transport/COUNTER_INITIAL.json",
+    "sha256": "1ae26e3074eca6c7104807db7be6824cfaa97aa757886ec49e5028ccfb2048de"
+  },
+  "reviewed_hashes": {
+    "/workspace/scratch/9442228ed2dc/ow04-proposals/transport/transport_probe.py": "483ba2336e9187dcd93f7184c3876ab5237f9c5e6c582dce4f8655ec1a37e884",
+    "/workspace/scratch/9442228ed2dc/ow04-proposals/transport/EXPECTED.json": "c8a252bc998e31d5a1bf12c52a14d6dcce7eed44e0dc0ea82c49caa9759f642e",
+    "/workspace/scratch/9442228ed2dc/ow04-proposals/transport/cp7_ow04_http_cases.py": "ce7142118f1295a1a73afac5e2dd9b9f970affc4d80d8cf2825eca763f68846b",
+    "/workspace/scratch/9442228ed2dc/erp-d1714/scripts/cp6_auditor_modes.py": "d927c7491c72fe1eecfd1b4b8b4faf7e1710d6943fda601ede6a599fbc99209f",
+    "/workspace/scratch/9442228ed2dc/erp-d1714/scripts/cp7_ow04_probe.py": "7bf156a9e823f3e715bc57413ab3e6f2932a3037e40ece4e7ce7d2be789e0403"
+  },
+  "db_or_http_executed": false,
+  "native_pass_inferred": false,
+  "positive_gates": [
+    {
+      "boundary": "Distinct8 case qualification",
+      "source": "transport_probe.py:22-24,32-38,67-73",
+      "observed": "Exact expected IDs;8PASS counts; exact final case set; own CP7_OW04_HTTP output and no relabeling of Native44."
+    },
+    {
+      "boundary": "Real Auth cleanup/session/copy",
+      "source": "cp6_auditor_modes.py:313-340 and137-172; Http275-303",
+      "observed": "Actual Auth credentials only. Strict per-case session leakage/business-day guard, Auth users removal, container removal, copied database zero, primary auth_counts equality required. Outer PASS also requires no cleanup failures and auth restored."
+    },
+    {
+      "boundary": "Core restore and Native identity",
+      "source": "transport_probe.py:33-49,54-66,69-73",
+      "observed": "Captures candidate commit plus committed core directory tree and Native probe blob. Uses same native_empty=True owning installation/core verifier, then uninstalls/restores predecessor and proves snapshot/function restoration; advisor gate required."
+    }
+  ],
+  "concrete_followup": [
+    {
+      "id": "HTTP_QUALIFICATION_IMPLEMENTATION_HASH_NOT_RECORDED",
+      "kind": "EVIDENCE_IDENTITY_GAP",
+      "expected": "Final evidence identifies actual HTTP case implementation and actual orchestration bytes, separately from reused core and EXPECTED text.",
+      "observed": "report captures candidate commit/core tree/native probe blob/core source files and EXPECTED hash, but no SHA256 for cp7_ow04_http_cases.py or transport_probe.py. These are currently outside the active Git repo; Git HEAD cannot identify their implementation bytes.",
+      "source": "transport_probe.py:32-38",
+      "repro": "Changing case bodies while retaining IDS and EXPECTED yields the same currently emitted case declaration/core identity fields. No execution needed to observe that none of the report constructors hashes either file.",
+      "bounded_fix": "Record SHA256 of Path(http_cases.__file__).read_bytes() and Path(__file__).read_bytes(); retain candidate/core tree/blob and do not reuse Native44 PASS."
+    },
+    {
+      "id": "OUTSIDE_ENTRY_REPO_PATH_REQUIRES_EXPLICIT_ENV",
+      "kind": "RUNTIME_PRECONDITION",
+      "expected": "Outside proposal entry is run against the intended ERP repository.",
+      "observed": "Default Path(__file__).resolve().parents[2] resolves to /workspace/scratch/9442228ed2dc for this outside location, rather than erp-d1714. Import path would be scratch/scripts unless ERP_REPO is explicitly set.",
+      "source": "transport_probe.py:8-9",
+      "repro": "/workspace/scratch/9442228ed2dc",
+      "bounded_fix": "Set ERP_REPO=/workspace/scratch/9442228ed2dc/erp-d1714 in the activation command, or stage the entry at a location whose declared default resolves correctly. This is an orchestration precondition, not a financial oracle change."
+    }
+  ],
+  "initial_case_blockers_still_applicable_to_pinned_bytes": [
+    "Reserved-field expected error is CP7_SALES_RETURN_FIELDS",
+    "Unchanged Native OWNER/ADMIN failure is400/P0001/exact message",
+    "Full private request/materialization/completion no-effect snapshot missing from9-table initial snapshot"
+  ],
+  "disposition": "Count/Auth/cleanup/restoration gates are coherent in source. Correct pinned initial case blockers and bind actual HTTP implementation hashes before reporting the new separate HTTP8 qualification."
+}

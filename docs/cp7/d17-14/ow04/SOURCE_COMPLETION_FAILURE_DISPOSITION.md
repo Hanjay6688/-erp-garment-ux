@@ -1,5 +1,12 @@
 # Source completion must follow the Native header/HPP tail
 
+Retest result: candidateef98e6e6 passed44/44 on
+run39489386389/job118858149684, including both previously incomplete cases.
+Restore and advisor gates are true; the original44 IDs and monetary/date
+goldens remain unchanged. The full runtime and receipt are preserved in
+CI_EF98_NATIVE44_RUNTIME.log.gz and CI_EF98_NATIVE44_PASS.json. The first
+42PASS/2INCOMPLETE result below remains part of the evidence lineage.
+
 Candidate80b97175, run39486961564/job118849751690, ran all44 declared cases:
 42 PASS/2 INCOMPLETE. `P11_READ_NATIVE_LIFECYCLE` and `OW04_NATIVE_EMPTY_N10`
 failed with `CP7_NATIVE_EMPTY_FINAL_AR_OR_STATUS` on payment inverse. All12
@@ -36,8 +43,8 @@ Source/fragment controls and their declarations are in `source-completion-fix/`.
 Nine isolated checks reproduce the stale-header refusal, accept the final
 Native UPDATE result and retain negative-money refusals; these are fragments,
 not Native posters or authority tests. Independent internal source counter
-also checks3 Native and3 private-copy derivations. Actual Native44 must now run
-again on the new candidate; previous42 PASS are historical evidence only.
+also checks3 Native and3 private-copy derivations. The fresh Native44 retest
+recorded above was required; previous42 PASS remain historical evidence only.
 
 The UI wire check separately reuses the12 actual initial settlement pairs
 from3f7e0329 with the exact inert proposal parser (12 pairs,72 assertions).

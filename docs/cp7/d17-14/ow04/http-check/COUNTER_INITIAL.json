@@ -1,0 +1,114 @@
+{
+  "classification": "INDEPENDENT_SOURCE_ONLY_HTTP8_COUNTER_NOT_HTTP_OR_NATIVE_EXECUTION",
+  "candidate_core": "ef98e6e65c13322bf08e6f704e511bdbb03a07a8",
+  "initial_assessment_before_peer_exchange": true,
+  "pins": {
+    "transport/EXPECTED.json": "c8a252bc998e31d5a1bf12c52a14d6dcce7eed44e0dc0ea82c49caa9759f642e",
+    "transport/cp7_ow04_http_cases.py": "ce7142118f1295a1a73afac5e2dd9b9f970affc4d80d8cf2825eca763f68846b",
+    "initial_expected": "acb42395ea5e679c0b059be56ecceadc6b0cd5d5de70686f4c089ad9b5e95888",
+    "initial_cases": "6d4e2389e0090333ae076fc3091ec4333492e886e08fc1a96c4eea9282f93602",
+    "retained_real_auth_http_harness": "d927c7491c72fe1eecfd1b4b8b4faf7e1710d6943fda601ede6a599fbc99209f",
+    "sales_return_validator": "14704954a190bb87908b6c2ee8f0a03c42134322ff39a98d051a47731cae3191",
+    "settlement_validator": "16d93266a9a9c721ec582e62e10db0deccfe7c39724215b955912dfc092f7511",
+    "return_access": "44fe8bfae73aecdd85a332f328a4b7dfd6331fa40764025462772a701c9ddb08",
+    "outer_wrapper": "2e94d859e620dab81aae4b053918f5408c196ded8b571a12d5ef33f827c72c44",
+    "public_facades": "bb873a9e4d297c8cf1b8e062ece1fa79d39b8411146a1b31787b32b919a74d56"
+  },
+  "db_or_http_executed": false,
+  "native_pass_inferred": false,
+  "active_repo_edits": false,
+  "static_registration": {
+    "imports_without_connection": true,
+    "db_connection_guarded": true,
+    "ids": [
+      "OW04_HTTP_CREDIT_COMMIT_REPLAY",
+      "OW04_HTTP_REFUND_COMMIT_REPLAY",
+      "OW04_HTTP_CHANGED_PAYLOAD_REFUSAL",
+      "OW04_HTTP_REVOKED_REPLAY_REFUSAL",
+      "OW04_HTTP_QUOTE_DIGEST_REFUSAL",
+      "OW04_HTTP_RESERVED_PLAN_REFUSAL",
+      "OW04_HTTP_ANON_REFUSAL",
+      "OW04_HTTP_NON_OWNER_REFUND_REFUSAL"
+    ],
+    "distinct_callable_cases": 8,
+    "case_operations_executed": false
+  },
+  "blockers": [
+    {
+      "id": "HTTP_RESERVED_FIELD_EXPECTED_CODE_WRONG",
+      "kind": "TEST_EXPECTATION_SOURCE_MISMATCH",
+      "scenario": "Add book_date to otherwise valid p_payload, as invalid(reserved) does at HTTP cases113.",
+      "packet_expected": "HTTP400 CP7_CREDIT_RETURN_FIELDS",
+      "source_predicted": "HTTP400/P0001 CP7_SALES_RETURN_FIELDS",
+      "evidence": [
+        "admission/02_owning_wrapper.proposal.sql:15-19 checks settlement/digest then passes every remaining field to cp7_sales.validate_return",
+        "scripts/cp7-src/sales/returns.sql:8-9 excludes book_date and raises CP7_SALES_RETURN_FIELDS",
+        "coordinator/08_outer_wrapper.sql:12 calls that validator directly; no error translation exists"
+      ],
+      "repro": "Source trace validate_return_settlement_payload(valid_legacy+settlement+digest+book_date)\u2192cp7_sales.validate_return(valid_legacy+book_date,false)\u2192CP7_SALES_RETURN_FIELDS. No DB/HTTP invocation.",
+      "bounded_fix": "Correct the HTTP expected error to the accepted delegated validator error; preserve strict unknown-field rejection and no-effect oracle."
+    },
+    {
+      "id": "HTTP_STAFF_REFUND_EXPECTED_STATUS_WRONG",
+      "kind": "TEST_EXPECTATION_SOURCE_MISMATCH",
+      "scenario": "Real STAFF with positive CREDIT quote and required permission keys attempts REFUND quote/write.",
+      "packet_expected": "HTTP403 for both REFUND calls at139-140",
+      "source_predicted": "HTTP400/P0001 with message OWNER or ADMIN access required after positive fine-permission precondition",
+      "evidence": [
+        "admission/01_typed_context_and_preclaim.proposal.sql:93-95 calls real cp7_sales.command_access(RETURN), then Native erp.require_owner_admin",
+        "Native migration20260902043000:127-145 plain raise exception OWNER or ADMIN access required uses default P0001",
+        "Retained actual-HTTP oracle scripts/cp7_f03_refund_cases.py:55 requires400/P0001/exact Native message; scripts/cp7_opening_payroll_cases.py:189 agrees",
+        "Public quote/settle SQL facades contain no exception remapping"
+      ],
+      "repro": "Actual STAFF positive CREDIT quote establishes view/return fine permissions. REFUND then reaches unchanged Native OWNER/ADMIN guard; current HTTP fixture incorrectly demands403. No DB/HTTP invocation.",
+      "bounded_fix": "Assert400, body.code=P0001 and the exact unchanged Native role message; keep positive STAFF CREDIT precondition and no-effect snapshots."
+    },
+    {
+      "id": "HTTP_PRIVATE_LEDGER_SNAPSHOT_INCOMPLETE",
+      "kind": "TEST_ORACLE_COVERAGE_GAP",
+      "scenario": "A replay/refusal changes only an outer/inner request receipt or initial materialization/completion marker while ERP and the nine old credit tables remain unchanged.",
+      "packet_expected": "Entire business/private ledger unchanged after replay/refusal.",
+      "source_observed": "snapshot() uses ERP/platform/auth/schema boundary plus initial._ledger_snapshot(), which covers only return_families,members,cohorts,plans,support,components,parts,part_journals,consumption_events. It omits cp7_credit.return_requests, initial_return_materializations/completions, financial_materializations/objects, initial_refund_operations, private scopes and cp7_sales.requests. Such mutations are invisible to this equality oracle.",
+      "evidence": [
+        "transport/cp7_ow04_http_cases.py:17-22",
+        "initial-settlement/cp7_ow04_initial_settlement_cases.py:28-30 and89-92",
+        "scripts/cp6_successor_regression.py:snapshot includes every ERP table/platform/auth but no CP7 schemas"
+      ],
+      "repro": "Compare snapshot projection before/after a hypothetical mutation limited to cp7_credit.return_requests.response: none of the snapshot queries selects that row. This is an oracle source counter, not a product mutation or HTTP runtime result.",
+      "bounded_fix": "Snapshot the complete authoritative request/materialization/completion and relevant private scope tables, including inner CP7 request facts, before asserting full private no-effect replay/refusal. Keep ERP/source/stock/HPP checks unchanged."
+    }
+  ],
+  "positive_source_findings": [
+    {
+      "boundary": "Setup facts and original money/date oracle",
+      "observed": "nf.prepared uses real retained stock/sale/payment/reopen writers; _credit_master is labelled empty disposable LIABILITY master. Prepared commits before requests. committed() reuses frozen initial quote/outcome/actual/payment assertions on a newly opened connection after HTTP write, preserving exact journal lines/date pairs/stock/HPP and original payments."
+    },
+    {
+      "boundary": "Auth identity",
+      "observed": "Retained Http.login creates actual Auth admin user, maps returned real UUID into ERP membership, then obtains access token through password grant. HttpUser.rpc forwards that token; anon forwards actual anon key. Packet mints no token and replaces no Auth or Native guard. Harness construction/login was not executed."
+    },
+    {
+      "boundary": "Temporary fixture ERP schema grant",
+      "observed": "prepared():36-46 records exact raw nspacl, grants authenticated ERP USAGE only when absent, restores it before commit/any HTTP, and rejects any non-byte-equal ACL. Existing inherited/default ACL variation may make setup fail closed, which is truthful rather than permitting a changed HTTP surface."
+    },
+    {
+      "boundary": "Public wire",
+      "observed": "QUOTE uses p_query; SETTLE uses p_payload/p_request/p_expected exactly matching public facades. The envelope uses initial builder and fresh actual HTTP quote SHA, with no client-generated financial plan."
+    },
+    {
+      "boundary": "Replay/payload/digest/revocation/anonymous",
+      "observed": "Changed valid payload under committed UUID matches CP7_CREDIT_RETURN_REQUEST_CHANGED source; wrong well-shaped digest reaches CP7_CREDIT_COMPLETE_QUOTE_CHANGED; revoked live ERP user reaches42501 CP7_SALES_ACCESS_DENIED; anon lacks public EXEC. Exact HTTP status/runtime observation remains pending."
+    },
+    {
+      "boundary": "STAFF positive precondition",
+      "observed": "Fixture copies permission keys, checks required subset, logs in real STAFF, then demands successful CREDIT quote with capabilities before REFUND denials. It therefore tests the Native identity distinction rather than an incidental missing return permission."
+    }
+  ],
+  "remaining_limits": [
+    "No DB/HTTP/Native executed; all error observations above are source-predicted plus retained source oracle evidence.",
+    "Real COMMIT is plausibly exercised by PostgREST followed by fresh administrative connection; acceptance requires actual request and fresh-connection results.",
+    "Real Auth creation, restoration/cleanup and no-leak counts must still be supplied by the enclosing Http harness.",
+    "Scheduling activation text is root scheduling only; a concurrent separate disposable HTTP8 run must distinguish its candidate commit/module hashes and exact reused core from independently running Native44."
+  ],
+  "disposition": "Fix the two error expectations and extend the private no-effect snapshot before executing/reporting HTTP8. No source product defect established and no financial/date oracle change requested."
+}

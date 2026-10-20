@@ -1,0 +1,65 @@
+{
+  "classification": "BOUNDED_FINAL_SOURCE_ONLY_HTTP8_BLOCKER_RECHECK",
+  "db_or_http_executed": false,
+  "native_executed": false,
+  "product_edits": false,
+  "children_spawned": false,
+  "scope": "Only the two previous blockers and revised snapshot SQL placeholders; no renewed backend/full inventory audit.",
+  "reviewed_hashes": {
+    "scripts/ow04-qualification/cp7_ow04_http_cases.py": "e2cb4293be26281ccbade283ca36759191507f3c860f7c62af1b6ba2216fcc6d",
+    "scripts/ow04-qualification/transport_probe.py": "6526197e374024357e380a9ca2624b58a64cba0fdc92646c3377999432bfd813",
+    ".github/workflows/cp7-ow04-http.yml": "043334d4820949f06a1b4abdebad63167aca92adeda3e41866674e5c0c09931b"
+  },
+  "initial_red_preserved": {
+    "outside_sha256": "34a2d4a79cd8d438cf7747dbaf5b1a57d1f711e588e86aa1e1990352af3aa349",
+    "archived_sha256": "34a2d4a79cd8d438cf7747dbaf5b1a57d1f711e588e86aa1e1990352af3aa349",
+    "byte_identical": true
+  },
+  "findings": [
+    {
+      "id": "SNAPSHOT_REQUIRES_TABLES_IN_FUNCTION_ONLY_SCHEMAS",
+      "source_status": "CLOSED",
+      "scenario": "All4 private schemas exist; only cp7_credit has tables.",
+      "expected": "Capture all real tables while accepting zero-table schemas.",
+      "observed": "cases21-22 checks all4 namespaces independently. cases23-26 enumerates every real table across4schemas and requires the real cp7_credit.return_requests anchor. The per-schema table requirement is gone; cp7_sales.requests/context and full exact row payloads remain included.",
+      "source_predicate_control": {
+        "classification": "PURE_PYTHON_SHAPE_PREDICATE_NO_DB",
+        "namespace_names": [
+          "cp7_credit",
+          "ow04_ordinal_wrapper",
+          "ow04_pure_kernel",
+          "ow04_source_proposal"
+        ],
+        "minimal_table_shape": [
+          "cp7_credit.return_requests"
+        ],
+        "accepted": true
+      }
+    },
+    {
+      "id": "WORKFLOW_SECOND_IMPORT_ALWAYS_REFUSED",
+      "source_status": "CLOSED",
+      "scenario": "Second qualifier import check before bootstrap.",
+      "expected": "Import entry without user arguments and inspect its core selector.",
+      "observed": "workflow106 imports transport_probe as p without argv append and asserts p.core.NATIVE_EMPTY plus len(p.core.IDS)==44. The forbidden argument and unbound global name are absent; the entry still owns appending its internal selector after the no-user-arguments guard.",
+      "source_lines": [
+        "ERP_REPO=../auditor PYTHONPATH=../auditor/scripts:../auditor/scripts/ow04-qualification python -c \"import transport_probe as p; p.qualified_core(); assert len(p.http_cases.IDS)==8; print('OW04_HTTP_IMPORT_ADMISSION_PASS_NOT_EXECUTED')\"",
+        "ERP_REPO=../auditor PYTHONPATH=../auditor/scripts:../auditor/scripts/ow04-qualification python -c \"import transport_probe as p; assert p.core.NATIVE_EMPTY and len(p.core.IDS)==44; print('OW04_REUSED_NATIVE44_IMPORT_ADMISSION_PASS_NOT_EXECUTED')\""
+      ]
+    },
+    {
+      "id": "SNAPSHOT_PSYCOPG_PLACEHOLDER_COMPATIBILITY",
+      "source_status": "SOURCE_VALID",
+      "expected": "Quoted catalog identifiers without percent-format tokens confused with psycopg markers.",
+      "observed": "cases24 uses quote_ident for both schema/table names. Each catalog query contains exactly one %s::text[] with one supplied tuple parameter; no %I/%L remains.",
+      "catalog_queries": [
+        "select nspname from pg_namespace where nspname=any(%s::text[])order by 1",
+        "select quote_ident(n.nspname)||'.'||quote_ident(c.relname)from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname=any(%s::text[])and c.relkind in('r','p')order by 1"
+      ]
+    }
+  ],
+  "verification_harness_note": "One harmless static-filter failure was corrected and retained in COUNTER_FINAL_FIRST_HARNESS_FAILURE.json; no product or runtime failure.",
+  "concrete_source_blockers_remaining": [],
+  "runtime_limit": "No SQL/Auth/HTTP/Native execution or success claimed. Real COMMIT/replay, permission, cleanup and restoration remain separate HTTP CI evidence.",
+  "disposition": "Both bounded source blockers are closed at these hashes; no backend change requested. Root can proceed with separate HTTP CI qualification."
+}

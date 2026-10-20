@@ -1,0 +1,13 @@
+{
+  "classification": "REUSED_NATIVE44_EVIDENCE_EXACT_CORE_BINDING_NOT_NEW_HTTP_EXECUTION",
+  "candidate": "ef98e6e65c13322bf08e6f704e511bdbb03a07a8",
+  "tree": "7f4b094916bd27c4b6f8a6978b6dacd570ff121a",
+  "run_id": 39489386389,
+  "job_id": 118858149684,
+  "status": "PASS",
+  "native_case_count": 44,
+  "core_directory_tree": "07064b179f82e6827020074d0dc9707fbe5bd76e",
+  "native_probe_blob": "b82ad1f28fcb8b19db2a2892960151bba01df56c",
+  "receipt": "docs/cp7/d17-14/ow04/CI_EF98_NATIVE44_PASS.json",
+  "receipt_sha256": "6f7f8ef24a2b8fa1e5dd741314825fbf2ec199ae4ebf7f6fa1b79cd35a3cfe79"
+}

@@ -1,0 +1,39 @@
+{
+  "classification": "SOURCE_IMPORT_REGISTRATION_AND_IDENTITY_PREFLIGHT_NOT_HTTP_EXECUTION",
+  "db_connections": 0,
+  "case_count": 8,
+  "native_reused_count": 44,
+  "core_binding": {
+    "classification": "REUSED_NATIVE44_EVIDENCE_EXACT_CORE_BINDING_NOT_NEW_HTTP_EXECUTION",
+    "candidate": "ef98e6e65c13322bf08e6f704e511bdbb03a07a8",
+    "tree": "7f4b094916bd27c4b6f8a6978b6dacd570ff121a",
+    "run_id": 39489386389,
+    "job_id": 118858149684,
+    "status": "PASS",
+    "native_case_count": 44,
+    "core_directory_tree": "07064b179f82e6827020074d0dc9707fbe5bd76e",
+    "native_probe_blob": "b82ad1f28fcb8b19db2a2892960151bba01df56c",
+    "receipt": "docs/cp7/d17-14/ow04/CI_EF98_NATIVE44_PASS.json",
+    "receipt_sha256": "6f7f8ef24a2b8fa1e5dd741314825fbf2ec199ae4ebf7f6fa1b79cd35a3cfe79",
+    "binding_sha256": "a731ad51ba486658b95ffaa52b27a9c35481cbd3e7a9f7ab5d48274a287c5a17"
+  },
+  "workflow_import_checks": [
+    {
+      "exit_code": 0,
+      "stdout": "OW04_HTTP_IMPORT_ADMISSION_PASS_NOT_EXECUTED"
+    },
+    {
+      "exit_code": 0,
+      "stdout": "OW04_REUSED_NATIVE44_IMPORT_ADMISSION_PASS_NOT_EXECUTED"
+    }
+  ],
+  "workflow_sha256": "043334d4820949f06a1b4abdebad63167aca92adeda3e41866674e5c0c09931b",
+  "files": {
+    "scripts/ow04-qualification/QUALIFIED_CORE.json": "a731ad51ba486658b95ffaa52b27a9c35481cbd3e7a9f7ab5d48274a287c5a17",
+    "scripts/ow04-qualification/README.md": "c2961f56e89ab8e38a7c9af57445ac4c3006be1c6776367a82b7b658d61a6d51",
+    "scripts/ow04-qualification/transport_probe.py": "6526197e374024357e380a9ca2624b58a64cba0fdc92646c3377999432bfd813",
+    "scripts/ow04-qualification/EXPECTED.json": "a91685c5d3b043af1839555fa694f643742a48ddd618d855bda4b676a5513d7d",
+    "scripts/ow04-qualification/cp7_ow04_http_cases.py": "e2cb4293be26281ccbade283ca36759191507f3c860f7c62af1b6ba2216fcc6d"
+  },
+  "passed": true
+}
