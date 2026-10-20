@@ -8,15 +8,17 @@ import { isUnansweredFailure, normalizeClientError } from './lib/clientError'
 // "Respons ... tidak cocok". The settings predicates mirror wa_settings_save (best practice D13) except the digest/quiet
 // hours rule, which only the server decides (CP7_WA_DIGEST_IN_QUIET_HOURS is shown in plain words). The CallMeBot key is
 // never parsed, kept or returned here: no reply carries it.
-export const alertKinds = ['FABRIC_BELOW_MINIMUM', 'AR_DUE', 'AP_DUE', 'PRODUCTION_GAP', 'FABRIC_NEED'] as const
+// SS-1 (owner D17-8, D17-9) adds FG_AT_REORDER_POINT: a finished good at or under its reorder point (cp7_stock_formula).
+export const alertKinds = ['FABRIC_BELOW_MINIMUM', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE', 'PRODUCTION_GAP', 'FABRIC_NEED'] as const
 export type AlertKind = typeof alertKinds[number]
-export const waKinds = ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'AR_DUE', 'AP_DUE', 'PRODUCTION_GAP', 'FABRIC_NEED'] as const
+export const waKinds = ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE', 'PRODUCTION_GAP', 'FABRIC_NEED'] as const
 export type WaKind = typeof waKinds[number]
-/** The order of the groups on the Pengingat sistem screen. */
-export const alertKindOrder: readonly AlertKind[] = ['FABRIC_BELOW_MINIMUM', 'FABRIC_NEED', 'PRODUCTION_GAP', 'AP_DUE', 'AR_DUE']
+/** The order of the groups on the Pengingat sistem screen (the order of the WhatsApp message, render() in alerts.sql). */
+export const alertKindOrder: readonly AlertKind[] = ['FABRIC_BELOW_MINIMUM', 'FG_AT_REORDER_POINT', 'FABRIC_NEED', 'PRODUCTION_GAP', 'AP_DUE', 'AR_DUE']
 export const waKindLabel: Record<WaKind, string> = {
   MANUAL_REMINDER: 'Pengingat pribadi Bos',
   FABRIC_BELOW_MINIMUM: 'Stok kain di bawah minimum',
+  FG_AT_REORDER_POINT: 'Stok barang jadi menipis',
   AR_DUE: 'Piutang pelanggan jatuh tempo',
   AP_DUE: 'Tagihan supplier jatuh tempo',
   PRODUCTION_GAP: 'Kekurangan produksi (dari analisis)',
@@ -64,7 +66,14 @@ type AnalysisFields = {
   value: string | null; unit: string | null; threshold: string | null; reason: string | null
 }
 export type AnalysisDetail = ({ kind: 'PRODUCTION_GAP' } & AnalysisFields) | ({ kind: 'FABRIC_NEED' } & AnalysisFields)
-export type AlertDetail = FabricDetail | DueDetail | AnalysisDetail
+/** cp7_stock_formula.alert_row: the numbers only, quantities as decimal text. */
+export type FgReorderDetail = {
+  kind: 'FG_AT_REORDER_POINT'; rootId: string; sizeId: string; sku: string; productName: string; sizeCode: string | null
+  freePcs: string; wipPcs: string | null; wipStatus: 'COMPLETE' | 'UNKNOWN' | 'NOT_READ'; positionPcs: string | null; reorderPointPcs: string
+  basis: 'MANUAL' | 'FORMULA'; dailyMean: string | null; leadDays: string | null; leadBasis: string | null; bufferMode: string | null
+  safetyPcs: string | null; serviceLevel: string | null
+}
+export type AlertDetail = FabricDetail | FgReorderDetail | DueDetail | AnalysisDetail
 export type SystemAlert = {
   id: string; kind: AlertKind; subjectKey: string; episode: number; title: string; detail: AlertDetail; partyNames: string[]
   state: 'OPEN' | 'RESOLVED'; openedAt: string; refreshedAt: string; resolvedAt: string | null; resolution: string | null; wa: AlertWa | null
@@ -178,6 +187,7 @@ function detail(kind: AlertKind, v: unknown): AlertDetail {
     return { kind, materialId: uuidText(d.material_id, 'rincian stok'), materialSku: maybeStr(d.material_sku, 'rincian stok'), materialName: str(d.material_name, 'rincian stok'),
       unitCode: maybeStr(d.unit_code, 'rincian stok'), qty: decimal(d.qty, 'rincian stok'), minimumQty: decimal(d.minimum_qty, 'rincian stok') }
   }
+  if (kind === 'FG_AT_REORDER_POINT') return fgReorderDetail(d)
   if (kind === 'AR_DUE') {
     keys(d, ['sale_id', 'number', 'open_balance', 'due_date', 'state', 'as_of'], 'rincian piutang')
     return { kind, documentId: maybeStr(d.sale_id, 'rincian piutang'), number: maybeStr(d.number, 'rincian piutang'), amount: maybeDecimal(d.open_balance, 'rincian piutang'),
@@ -203,6 +213,28 @@ function detail(kind: AlertKind, v: unknown): AlertDetail {
     increasePcs: maybeDecimal(at('increase_pcs'), 'rincian analisis'), materialId: maybeUuid(at('material_id'), 'rincian analisis'),
     materialName: maybeStr(at('material_name'), 'rincian analisis'), value: maybeDecimal(at('value'), 'rincian analisis'), unit: maybeStr(at('unit'), 'rincian analisis'),
     threshold: maybeDecimal(at('threshold'), 'rincian analisis'), reason: maybeStr(at('reason'), 'rincian analisis') }
+}
+
+// alert_row writes all seventeen keys (null where there is none). Only an item at or under a point is an alert, so its
+// basis is MANUAL or FORMULA; the formula's parts (cadangan, tingkat layanan) are written for FORMULA only.
+function fgReorderDetail(d: Record<string, unknown>): FgReorderDetail {
+  const what = 'rincian barang jadi'
+  keys(d, ['root_id', 'size_id', 'sku', 'product_name', 'size_code', 'free_pcs', 'wip_pcs', 'wip_status', 'position_pcs', 'reorder_point_pcs', 'basis', 'daily_mean',
+    'lead_days', 'lead_basis', 'buffer_mode', 'safety_pcs', 'service_level'], what)
+  const text = (v: unknown) => typeof v === 'string' && decimalText.test(v) ? v : fail(what)
+  const maybeText = (v: unknown) => v === null ? null : text(v)
+  const r: FgReorderDetail = { kind: 'FG_AT_REORDER_POINT', rootId: uuidText(d.root_id, what), sizeId: uuidText(d.size_id, what), sku: str(d.sku, what),
+    productName: str(d.product_name, what), sizeCode: maybeStr(d.size_code, what), freePcs: text(d.free_pcs), wipPcs: maybeText(d.wip_pcs),
+    wipStatus: oneOf(d.wip_status, ['COMPLETE', 'UNKNOWN', 'NOT_READ'] as const, what), positionPcs: maybeText(d.position_pcs), reorderPointPcs: text(d.reorder_point_pcs),
+    basis: oneOf(d.basis, ['MANUAL', 'FORMULA'] as const, what), dailyMean: maybeText(d.daily_mean), leadDays: maybeText(d.lead_days),
+    leadBasis: d.lead_basis === null ? null : oneOf(d.lead_basis, ['MEASURED', 'PROFILE'] as const, what),
+    bufferMode: d.buffer_mode === null ? null : oneOf(d.buffer_mode, ['STATISTICAL', 'DAYS'] as const, what), safetyPcs: maybeText(d.safety_pcs),
+    serviceLevel: d.service_level === null ? null : oneOf(d.service_level, ['0.90', '0.95', '0.99'] as const, what) }
+  const complete = r.wipStatus === 'COMPLETE'
+  if (complete !== (r.wipPcs !== null) || complete !== (r.positionPcs !== null)) fail(what)
+  if (r.basis === 'MANUAL' ? r.bufferMode !== null || r.safetyPcs !== null || r.serviceLevel !== null
+    : r.bufferMode === null || r.safetyPcs === null || (r.serviceLevel !== null) !== (r.bufferMode === 'STATISTICAL')) fail(what)
+  return r
 }
 
 function alertWa(v: unknown): AlertWa {
@@ -245,7 +277,9 @@ function systemAlerts(value: unknown, options: { owner: boolean }): SystemAlerts
       resolvedAt: maybeInstant(r.resolved_at, 'waktu beres'), resolution: maybeStr(r.resolution, 'alasan beres'), wa: r.wa === null ? null : alertWa(r.wa) }
     if ((a.state === 'OPEN') !== (a.resolvedAt === null) || (a.state === 'OPEN') !== (a.resolution === null)) fail('status')
     if (!options.owner && a.wa !== null) fail('status WA')
-    if (isAnalysisKind(kind) && a.partyNames.length > 0) fail('nama pihak')
+    if ((isAnalysisKind(kind) || kind === 'FG_AT_REORDER_POINT') && a.partyNames.length > 0) fail('nama pihak')
+    // A finished-goods alert is keyed by its item (target_key root:size).
+    if (a.detail.kind === 'FG_AT_REORDER_POINT' && a.subjectKey !== `${a.detail.rootId}:${a.detail.sizeId}`) fail('pengingat')
     return a
   })
   if (rows.length > 500 || new Set(rows.map(r => r.id)).size !== rows.length
@@ -489,6 +523,8 @@ const resolutionText: Record<string, string> = {
   DRAFT_ONLY: 'Dokumennya masih draf',
   DRAFT_PREVIEW: 'Dokumennya masih draf',
   NOT_IN_SOURCE: 'Tidak muncul lagi di datanya',
+  ABOVE_REORDER_POINT: 'Stok sudah di atas titik pesan ulang',
+  NO_REORDER_POINT: 'Titik pesan ulangnya tidak ada lagi',
   RECHECK_RESOLVED_NOW: 'Dicek ulang: kebutuhannya sudah tertutup',
   RECHECK_BELOW_THRESHOLD_NOW: 'Dicek ulang: sudah di bawah ambang pengingat',
   RECHECK_CHANGED_REVIEW_REQUIRED: 'Dicek ulang: datanya berubah, perlu analisis baru',
@@ -536,9 +572,25 @@ function invoiceList(v: string | null) {
   try { const x: unknown = JSON.parse(v); if (Array.isArray(x) && x.every(i => typeof i === 'string')) return x.length ? x.join(', ') : null } catch { /* plain text */ }
   return v
 }
+/** cp7_alert_native.num: rounded to two decimals (half away from zero, like numeric round), trailing zeros dropped, a decimal
+ * comma and no thousands dots; '?' when there is no number. Exact on the decimal text. */
+export function alertNumber(v: string | null): string {
+  const m = v === null ? null : /^(-?)(\d+)(?:\.(\d+))?$/.exec(v)
+  if (!m) return '?'
+  const fraction = m[3] ?? '', hundredths = BigInt(m[2] + (fraction + '00').slice(0, 2)) + ((fraction[2] ?? '0') >= '5' ? 1n : 0n)
+  const digits = hundredths.toString().padStart(3, '0'), cents = digits.slice(-2).replace(/0+$/, '')
+  return `${m[1] && hundredths !== 0n ? '-' : ''}${digits.slice(0, -2)}${cents ? `,${cents}` : ''}`
+}
+/** The line item_line (alerts.sql) writes for a finished good in the WhatsApp message, cut to 120 characters like left(). */
+export function fgReorderLine(d: FgReorderDetail): string {
+  const line = `${d.productName}${d.sizeCode !== null ? ` ${d.sizeCode}` : ''}: sisa ${alertNumber(d.freePcs)} pcs, sedang diproduksi `
+    + `${d.wipStatus === 'COMPLETE' ? `${alertNumber(d.wipPcs)} pcs` : 'belum diketahui'}, titik pesan ulang ${alertNumber(d.reorderPointPcs)} pcs`
+  return Array.from(line).slice(0, 120).join('')
+}
 /** One line of the numbers of a system reminder, in plain words. */
 export function alertSummary(a: SystemAlert): string {
   const d = a.detail
+  if (d.kind === 'FG_AT_REORDER_POINT') return fgReorderLine(d)
   if (d.kind === 'FABRIC_BELOW_MINIMUM') {
     const unit = d.unitCode ? ` ${d.unitCode}` : ''
     return `Sisa ${num(d.qty)}${unit}, minimum ${num(d.minimumQty)}${unit}${d.materialSku ? ` · SKU ${d.materialSku}` : ''}`

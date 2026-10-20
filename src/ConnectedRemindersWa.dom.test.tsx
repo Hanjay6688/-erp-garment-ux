@@ -6,7 +6,8 @@ import ConnectedRemindersPage from './ConnectedRemindersPage'
 import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
 import { formatCp6WibDateTime } from './cp6BusinessTime'
 import {
-  parseSystemAlerts, parseWaSaveResult, parseWaWorkspace, waDraftFromSettings, waRefusal, waSettingsPayload, type WaDraft,
+  alertNumber, alertSummary, parseSystemAlerts, parseWaSaveResult, parseWaWorkspace, resolutionLabel, waDraftFromSettings, waRefusal, waSettingsPayload,
+  type SystemAlert, type WaDraft,
 } from './waContract'
 
 // WA-4 (owner D17-3..D17-6): the Pengingat sistem and Sambungan WhatsApp tabs against a fake of the six public RPCs of
@@ -37,6 +38,11 @@ const row = (n: number, kind: string, title: string, detail: Record<string, unkn
   refreshed_at: '2026-10-19T02:40:00+00:00', resolved_at: null as string | null, resolution: null as string | null, wa: null as unknown, ...extra })
 const fabric = (sku: string, name: string, qty: string) => ({ material_id: id(100 + qty.length), material_sku: sku, material_name: name, unit_code: 'kg', qty, minimum_qty: '60' })
 const resolved = (resolution: string) => ({ state: 'RESOLVED', resolved_at: '2026-10-18T05:00:00+00:00', resolution })
+// SS-1: cp7_stock_formula.alert_row of a finished good at or under its reorder point (its subject is the item, root:size).
+const fgDetail = (n: number, extra: Record<string, unknown> = {}) => ({ root_id: id(200 + n), size_id: id(300 + n), sku: 'KML-M', product_name: 'Kemeja Linen',
+  size_code: 'M', free_pcs: '23', wip_pcs: '0', wip_status: 'COMPLETE', position_pcs: '23', reorder_point_pcs: '36', basis: 'FORMULA', daily_mean: '3.90',
+  lead_days: '7', lead_basis: 'PROFILE', buffer_mode: 'STATISTICAL', safety_pcs: '8.3', service_level: '0.95', ...extra })
+const fgSubject = (n: number) => `${id(200 + n)}:${id(300 + n)}`
 function alertRows(withWa: boolean) {
   const w = (state: string, extra: Record<string, unknown> = {}) => withWa ? waState(state, extra) : null
   return [
@@ -56,6 +62,8 @@ function alertRows(withWa: boolean) {
       { ...resolved('RECHECK_SOMETHING_NEW'), episode: 2, wa: w('ACCEPTED', { round: 1, dispatch_id: 6, dispatch_status: 'PROVIDER_ACCEPTED', settled_at: '2026-10-18T01:00:00+00:00' }) }),
     row(8, 'AR_DUE', 'Piutang jatuh tempo: S-0009', { sale_id: id(108), number: 'S-0009', open_balance: '0', due_date: '2026-10-10', state: 'OVERDUE', as_of: '2026-10-17' },
       { ...resolved('SOMETHING_UNMAPPED'), party_names: ['Toko Lain'], wa: w('ACCEPTED') }),
+    row(9, 'FG_AT_REORDER_POINT', 'Stok barang jadi menipis: Kemeja Linen M', fgDetail(9), { subject_key: fgSubject(9),
+      wa: w('ACCEPTED', { dispatch_id: 8, dispatch_status: 'PROVIDER_ACCEPTED', settled_at: '2026-10-19T02:41:00+00:00' }) }),
   ]
 }
 const kindsOwner = [
@@ -63,6 +71,7 @@ const kindsOwner = [
   { kind: 'AR_DUE', last_try_at: '2026-10-19T02:59:00+00:00', last_ok_at: '2026-10-19T02:00:00+00:00', last_error: '42501 CP7_ALERT_AR_SOURCE_DENIED', open_count: 1 },
   { kind: 'FABRIC_BELOW_MINIMUM', last_try_at: '2026-10-19T02:59:00+00:00', last_ok_at: '2026-10-19T02:59:00+00:00', last_error: null, open_count: 1 },
   { kind: 'FABRIC_NEED', last_try_at: null, last_ok_at: null, last_error: null, open_count: null },
+  { kind: 'FG_AT_REORDER_POINT', last_try_at: '2026-10-19T02:59:00+00:00', last_ok_at: '2026-10-19T02:59:00+00:00', last_error: null, open_count: 1 },
   { kind: 'PRODUCTION_GAP', last_try_at: null, last_ok_at: null, last_error: null, open_count: null },
 ]
 const analysisStatus = {
@@ -79,9 +88,11 @@ function alertsReply(who: 'OWNER' | 'STAFF', configured = true) {
 }
 
 // ---------------------------------------------------------- Sambungan WhatsApp --
+// The server defaults (alerts.sql defaults()): the finished-goods kind forwarded (SS-1), automatic analysis every 240 minutes (D17-7).
 const defaults = { revision: 0, enabled: false, phone_e164: null as string | null, detail: 'SUMMARY', digest_times: ['08:00', '15:00'],
-  kinds: ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'AR_DUE', 'AP_DUE', 'PRODUCTION_GAP', 'FABRIC_NEED'], repeat_minutes: 1440, burst_after_per_day: 30,
-  burst_merge_minutes: 30, max_items: 10, quiet_enabled: true, quiet_start: '21:00', quiet_end: '06:00', analysis_every_minutes: 60, analysis_start: '07:00', analysis_end: '20:00' }
+  kinds: ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE', 'PRODUCTION_GAP', 'FABRIC_NEED'], repeat_minutes: 1440,
+  burst_after_per_day: 30, burst_merge_minutes: 30, max_items: 10, quiet_enabled: true, quiet_start: '21:00', quiet_end: '06:00', analysis_every_minutes: 240,
+  analysis_start: '07:00', analysis_end: '20:00' }
 type Settings = typeof defaults & { saved_at?: string }
 type Dispatch = { id: number; kind: string; status: string; queued_at: string; answered_at: string | null; http_status: number | null; provider_text: string | null
   body: string | null; digest_slot: string | null; resolved_outcome: string | null; resolved_at: string | null; items: number }
@@ -192,7 +203,8 @@ describe('Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4)', () => 
   it('parses the documented shapes and refuses unknown or missing keys', () => {
     const good = alertsReply('OWNER')
     const parsed = parseSystemAlerts(good, { owner: true })
-    expect(parsed.rows).toHaveLength(8); expect(parsed.kinds.map(k => k.kind)).toEqual(['AP_DUE', 'AR_DUE', 'FABRIC_BELOW_MINIMUM', 'FABRIC_NEED', 'PRODUCTION_GAP'])
+    expect(parsed.rows).toHaveLength(9)
+    expect(parsed.kinds.map(k => k.kind)).toEqual(['AP_DUE', 'AR_DUE', 'FABRIC_BELOW_MINIMUM', 'FABRIC_NEED', 'FG_AT_REORDER_POINT', 'PRODUCTION_GAP'])
     expect(parsed.rows[3].detail).toMatchObject({ kind: 'PRODUCTION_GAP', needSnapshotPcs: '150', needNowPcs: '120', threshold: '50' })
     // The analysis detail as the brief lists it (only the keys of its kind) is the same contract.
     const lean = structuredClone(good); const gap = lean.rows[3].detail as Record<string, unknown>
@@ -258,8 +270,8 @@ describe('Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4)', () => 
     const fake = server(); await mount(); await tab('Pengingat sistem')
     expect(calls(fake, 'erp_cp7_get_alerts_v1')).toEqual([{ p: { resolved_days: 7 } }])
     const groups = [...panel('Pengingat sistem').querySelectorAll('.csys-group')].map(g => g.getAttribute('aria-label'))
-    expect(groups).toEqual(['Stok kain di bawah minimum', 'Kain perlu dibeli (dari analisis)', 'Kekurangan produksi (dari analisis)', 'Tagihan supplier jatuh tempo',
-      'Piutang pelanggan jatuh tempo'])
+    expect(groups).toEqual(['Stok kain di bawah minimum', 'Stok barang jadi menipis', 'Kain perlu dibeli (dari analisis)', 'Kekurangan produksi (dari analisis)',
+      'Tagihan supplier jatuh tempo', 'Piutang pelanggan jatuh tempo'])
     const text = (title: string) => field<HTMLElement>(`[aria-label="Pengingat sistem ${title}"]`).textContent ?? ''
     expect(text('Stok kain di bawah minimum: Katun Combed 30s Hitam')).toContain('Sisa 42,5 kg, minimum 60 kg · SKU KC30-HTM')
     expect(text('Stok kain di bawah minimum: Katun Combed 30s Hitam')).toContain(`Muncul ${wib('2026-10-19T02:00:00+00:00')} · diperbarui ${wib('2026-10-19T02:40:00+00:00')}`)
@@ -466,6 +478,69 @@ describe('Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4)', () => 
     fake.dispatches[0].resolved_outcome = 'DELIVERED'; fake.dispatches[0].resolved_at = LATER
     await click('Tandai pesan 5 tidak masuk')
     expect(container.textContent).toContain('Pesan ini sudah tidak berstatus "belum pasti"')
+  })
+
+  it('shows a finished good at or under its reorder point with its WhatsApp line, and forwards the kind by default (SS-1)', async () => {
+    const good = alertsReply('OWNER'), parsed = parseSystemAlerts(good, { owner: true })
+    const fg = parsed.rows.find(r => r.kind === 'FG_AT_REORDER_POINT')!
+    expect(fg.detail).toEqual({ kind: 'FG_AT_REORDER_POINT', rootId: id(209), sizeId: id(309), sku: 'KML-M', productName: 'Kemeja Linen', sizeCode: 'M', freePcs: '23',
+      wipPcs: '0', wipStatus: 'COMPLETE', positionPcs: '23', reorderPointPcs: '36', basis: 'FORMULA', dailyMean: '3.90', leadDays: '7', leadBasis: 'PROFILE',
+      bufferMode: 'STATISTICAL', safetyPcs: '8.3', serviceLevel: '0.95' })
+    // The same line item_line (alerts.sql) writes into the WhatsApp message, numbers as cp7_alert_native.num writes them.
+    expect(alertSummary(fg)).toBe('Kemeja Linen M: sisa 23 pcs, sedang diproduksi 0 pcs, titik pesan ulang 36 pcs')
+    const variant = (detail: Record<string, unknown>) => ({ ...fg, detail: { ...fg.detail, ...detail } }) as SystemAlert
+    expect(alertSummary(variant({ wipStatus: 'UNKNOWN', wipPcs: null, positionPcs: null, sizeCode: null, freePcs: '1234.505', reorderPointPcs: '1500' })))
+      .toBe('Kemeja Linen: sisa 1234,51 pcs, sedang diproduksi belum diketahui, titik pesan ulang 1500 pcs')
+    expect(alertSummary(variant({ productName: 'K'.repeat(130) }))).toBe('K'.repeat(120))
+    expect(['23', '4.065', '0.5', '-0.001', '-2.345', '12.30', '1234.5', '0.004', null].map(alertNumber)).toEqual(['23', '4,07', '0,5', '0', '-2,35', '12,3', '1234,5', '0', '?'])
+    const withFg = (detail: Record<string, unknown>, extra: Record<string, unknown> = {}) => ({ ...good, rows: good.rows.map(r => r.kind === 'FG_AT_REORDER_POINT'
+      ? { ...r, detail: { ...(r.detail as object), ...detail }, ...extra } : r) })
+    expect(() => parseSystemAlerts(withFg({ extra: 1 }), { owner: true })).toThrow('Respons pengingat sistem tidak cocok (rincian barang jadi)')
+    const missing = withFg({}); delete (missing.rows[8].detail as Record<string, unknown>).service_level
+    expect(() => parseSystemAlerts(missing, { owner: true })).toThrow('(rincian barang jadi)')
+    expect(() => parseSystemAlerts(withFg({ wip_pcs: null }), { owner: true })).toThrow('(rincian barang jadi)')
+    expect(() => parseSystemAlerts(withFg({ free_pcs: 23 }), { owner: true })).toThrow('(rincian barang jadi)')
+    expect(() => parseSystemAlerts(withFg({ basis: 'MANUAL' }), { owner: true })).toThrow('(rincian barang jadi)')
+    expect(() => parseSystemAlerts(withFg({ basis: 'NO_SALES' }), { owner: true })).toThrow('(rincian barang jadi)')
+    expect(parseSystemAlerts(withFg({ basis: 'MANUAL', buffer_mode: null, safety_pcs: null, service_level: null }), { owner: true }).rows[8].detail.kind).toBe('FG_AT_REORDER_POINT')
+    expect(() => parseSystemAlerts(withFg({}, { subject_key: 'FG_AT_REORDER_POINT:9' }), { owner: true })).toThrow('(pengingat)')
+    expect(() => parseSystemAlerts(withFg({}, { party_names: ['Toko'] }), { owner: true })).toThrow('(nama pihak)')
+    expect(resolutionLabel('ABOVE_REORDER_POINT')).toBe('Stok sudah di atas titik pesan ulang')
+    expect(resolutionLabel('NO_REORDER_POINT')).toBe('Titik pesan ulangnya tidak ada lagi')
+
+    // Pengingat sistem: its own group after fabric, the line, the source of the number, and the WhatsApp state.
+    const fake = server(), rpc = client.rpc.getMockImplementation()!
+    const back = row(10, 'FG_AT_REORDER_POINT', 'Stok barang jadi menipis: Kemeja Linen L', fgDetail(10, { size_code: 'L' }), { subject_key: fgSubject(10),
+      ...resolved('ABOVE_REORDER_POINT'), wa: waState('RESOLVED_BEFORE_SEND', { reason: 'ABOVE_REORDER_POINT', settled_at: '2026-10-18T05:00:00+00:00' }) })
+    client.rpc.mockImplementation(async (name: string, args?: Record<string, unknown>) => name === 'erp_cp7_get_alerts_v1'
+      ? { data: { ...good, rows: [...good.rows, back] }, error: null } : rpc(name, args))
+    await mount(); await tab('Pengingat sistem')
+    const item = field<HTMLElement>('[aria-label="Pengingat sistem Stok barang jadi menipis: Kemeja Linen M"]').textContent ?? ''
+    expect(item).toContain('Kemeja Linen M: sisa 23 pcs, sedang diproduksi 0 pcs, titik pesan ulang 36 pcs')
+    expect(item).toContain('SKU KML-M · titik pesan ulang dari rumus · rinciannya di Gudang › Ringkasan Barang Jadi')
+    expect(item).toContain('WA: terkirim')
+    expect(panel('Stok barang jadi menipis').textContent).toContain(`Sumber terakhir dibaca ${wib('2026-10-19T02:59:00+00:00')}.`)
+    expect(panel('Pengingat sistem').textContent).toContain('stok barang jadi yang menipis')
+    await click('Tampilkan pengingat sistem yang sudah beres 7 hari terakhir')
+    const gone = field<HTMLElement>('[aria-label="Pengingat sistem Stok barang jadi menipis: Kemeja Linen L"]').textContent ?? ''
+    expect(gone).toContain(`Beres ${wib('2026-10-18T05:00:00+00:00')} · Stok sudah di atas titik pesan ulang`)
+    expect(gone).toContain('WA: beres sebelum dikirim')
+
+    // Sambungan WhatsApp: the kind is one of the choices, on by default, and saved with the others.
+    await tab('Sambungan WhatsApp')
+    expect([...container.querySelectorAll('.cwa-kinds input')].map(i => i.getAttribute('aria-label'))).toEqual(['Teruskan Pengingat pribadi Bos',
+      'Teruskan Stok kain di bawah minimum', 'Teruskan Stok barang jadi menipis', 'Teruskan Piutang pelanggan jatuh tempo', 'Teruskan Tagihan supplier jatuh tempo',
+      'Teruskan Kekurangan produksi (dari analisis)', 'Teruskan Kain perlu dibeli (dari analisis)'])
+    expect(input('Teruskan Stok barang jadi menipis').checked).toBe(true)
+    expect(input('Analisis otomatis tiap (menit)').value).toBe('240')
+    await click('Simpan pengaturan')
+    expect((calls(fake, 'erp_cp7_save_wa_settings_v1')[0].p as { kinds: string[]; analysis_every_minutes: number })).toMatchObject({
+      kinds: ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE', 'PRODUCTION_GAP', 'FABRIC_NEED'], analysis_every_minutes: 240 })
+    expect(container.textContent).toContain('Tersimpan (revisi 1).')
+    await check('Teruskan Stok barang jadi menipis'); await click('Simpan pengaturan')
+    expect((calls(fake, 'erp_cp7_save_wa_settings_v1')[1].p as { kinds: string[] }).kinds).not.toContain('FG_AT_REORDER_POINT')
+    expect(fake.settings.kinds).not.toContain('FG_AT_REORDER_POINT')
+    expect(input('Teruskan Stok barang jadi menipis').checked).toBe(false)
   })
 
   it('shows the server refusal in words when the connection read is refused', async () => {
