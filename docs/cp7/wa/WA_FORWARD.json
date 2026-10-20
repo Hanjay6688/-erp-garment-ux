@@ -10,12 +10,12 @@
     "D17-9"
   ],
   "design": "docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md",
-  "expected_case_count": 41,
+  "expected_case_count": 57,
   "required_case_counts": {
-    "native": 28,
-    "races": 5,
-    "http": 3,
-    "browser": 5
+    "native": 40,
+    "races": 6,
+    "http": 4,
+    "browser": 7
   },
   "required_case_ids": {
     "native": [
@@ -36,6 +36,8 @@
       "WAF_ANALYSIS_AUTOMATIC_RUN",
       "WAF_FG_REORDER_POINT_FORWARDED",
       "WAF_FG_RESOLVED_BEFORE_SEND",
+      "WAF_FABRIC_REORDER_POINT_FORWARDED",
+      "WAF_ACCESSORY_REORDER_POINT_FORWARDED",
       "SS1_FORMULA_FROM_POSTED_SALES",
       "SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND",
       "SS1_LEAD_TIME_MEASURED_FROM_PRODUCTION",
@@ -46,26 +48,40 @@
       "SS1_REVERSED_SALE_NOT_DEMAND",
       "SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION",
       "SS1_SOURCE_AND_ACCESS",
-      "SS1_VOLUME_2000_ITEMS_EVERY_MINUTE"
+      "SS1_VOLUME_2000_ITEMS_EVERY_MINUTE",
+      "SS2_FABRIC_FORMULA_FROM_CUTTING_USE",
+      "SS2_FABRIC_OUT_OF_STOCK_DAYS_NOT_ZERO_USE",
+      "SS2_FABRIC_REVERSED_ISSUE_NOT_USE",
+      "SS2_FABRIC_MINIMUM_STAYS_BELOW_MINIMUM",
+      "SS2_FABRIC_ON_ORDER_COUNTS_TOWARD_POSITION",
+      "SS2_NO_LEAD_TIME_NEVER_GUESSES",
+      "SS3_ACCESSORY_FORMULA_FROM_NOTES_AND_USE",
+      "SS3_SERVICE_ZONES_NOT_FREE_STOCK",
+      "SS3_ACCESSORY_MANUAL_POINT_REPLACES_ZERO_NEVER",
+      "SS3_MATERIAL_SOURCE_AND_ACCESS"
     ],
     "races": [
       "WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE",
       "WAF_RACE_COLLECT_AND_SEND_OPEN_ONCE",
       "WAF_RACE_FAKE_CALLMEBOT_END_TO_END",
       "WAF_RACE_PG_CRON_RUNS_TICKS",
-      "WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK"
+      "WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK",
+      "WAF_RACE_MATERIAL_BUSY_RECHECKS_LIVE_STOCK"
     ],
     "http": [
       "WAF_HTTP_OWNER_SETS_UP_AND_TESTS",
       "WAF_HTTP_OTHERS_REFUSED",
-      "WAF_HTTP_FG_REORDER_SCREEN"
+      "WAF_HTTP_FG_REORDER_SCREEN",
+      "WAF_HTTP_MATERIAL_REORDER_SCREEN"
     ],
     "browser": [
       "WAF_BROWSER_DESKTOP_OWNER_SETS_UP_TESTS_AND_FORWARDS",
       "WAF_BROWSER_MOBILE_OWNER_SETS_UP_TESTS_AND_FORWARDS",
       "WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA",
       "WAF_BROWSER_FG_REORDER_DESKTOP",
-      "WAF_BROWSER_FG_REORDER_MOBILE"
+      "WAF_BROWSER_FG_REORDER_MOBILE",
+      "WAF_BROWSER_MATERIAL_REORDER_DESKTOP",
+      "WAF_BROWSER_MATERIAL_REORDER_MOBILE"
     ]
   },
   "public_rpcs": [
@@ -78,7 +94,10 @@
     "erp_cp7_get_fg_reorder_v1",
     "erp_cp7_refresh_fg_reorder_v1",
     "erp_cp7_save_fg_reorder_manual_v1",
-    "erp_cp7_save_stock_formula_settings_v1"
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1"
   ],
   "schedules": [
     "erp-wa-collect",
@@ -110,12 +129,25 @@
     "oracle": "the reminders module read (erp_cp7_read_reminder_conditions_v2) and read-only recheck (erp_cp7_recheck_reminder_v2) as the owner"
   },
   "stock_formula": {
-    "module": "scripts/cp7-src/stock-formula/formula.sql (schema cp7_stock_formula, owned by cp7_capture; installed before alerts.sql)",
+    "module": "scripts/cp7-src/stock-formula/formula.sql (finished goods) and materials.sql (fabric, accessories); schema cp7_stock_formula, owned by cp7_capture; installed before alerts.sql",
     "design": "docs/cp7/wa/STOCK_FORMULA_FG_DESIGN.md",
     "alert_kind": "FG_AT_REORDER_POINT",
     "formula": "reorder point = ceil(D x L + safety); safety = z(service level) x sigma x sqrt(L) (STATISTICAL) or D x buffer_days (DAYS, from the planning profile), never both",
-    "oracle": "scripts/cp7_stock_formula_cases.py oracle(): recomputed in Python from the fixture own days and quantities (statistics.stdev, Decimal), never from the module tables",
-    "fixtures": "stock found at opname, sale draft and post, sale inverse, the production chain (cut, wash, QC) and the planning profile, all through accepted Native or CP7 commands; only masters inserted",
-    "not_tested_on_real_data": "service level 95% has not been backtested on the owner data (none in the test environment); after CP7C"
+    "oracle": "scripts/cp7_stock_formula_cases.py oracle() and material_oracle(): recomputed in Python from the fixture own days and quantities (Decimal), never from the module tables",
+    "fixtures": "stock found at opname, sale draft and post, sale inverse, the production chain (cut, wash, QC), the planning profile, fabric receipts, Buat Potongan, fabric back from a cutting, cutting reopen, opening purchase commitments, notas mandor, factory use, nota returns credited, service post fill; all through accepted Native or CP7 commands; only masters inserted",
+    "not_tested_on_real_data": "service level 95% has not been backtested on the owner data (none in the test environment); after CP7C",
+    "material_alert_kinds": [
+      "FABRIC_AT_REORDER_POINT",
+      "ACCESSORY_AT_REORDER_POINT"
+    ],
+    "material_rules": {
+      "fabric_use": "CUTTING_ISSUE less CUTTING_RETURN, INTERNAL_USE, CONTRACTOR_ISSUE; an inverted movement and its inverse not counted",
+      "accessory_use": "CONTRACTOR_ISSUE (nota mandor) and INTERNAL_USE, less a nota credited back usable (BC_NOTE_RETURN_CREDIT outside the service zones)",
+      "fabric_stock": "every location; on order: remaining opening purchase commitments (erp.bb_commitment_line_remaining_v1)",
+      "accessory_stock": "active raw-material warehouses that are not a service zone (what Bahan & Roll shows on hand); no on-order source",
+      "lead_time": "per-material setting lama kirim (Owner/Admin); empty: NOT_ENOUGH_DATA",
+      "manual": "fabric: the Kain & Benchmark minimum (FABRIC_BELOW_MINIMUM stays, free stock strictly under); accessory: a manual point, 0 = never",
+      "rounding": "ceiling to 0.01 in the material unit"
+    }
   }
 }

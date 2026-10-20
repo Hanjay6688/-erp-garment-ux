@@ -52,20 +52,27 @@ IDS = dict(
             'WAF_OFF_OR_NO_KEY_SENDS_NOTHING', 'WAF_KEY_WRITE_ONLY_AND_MASKED', 'WAF_PRIVACY_AND_LIST_PERMISSIONS',
             'WAF_TICKS_PRIVATE_AND_LIMITED', 'WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED', 'WAF_ANALYSIS_AUTOMATIC_RUN',
             # SS-1 (D17-8/D17-9): finished goods at or under their reorder point, and the formula itself (cp7_stock_formula_cases).
-            'WAF_FG_REORDER_POINT_FORWARDED', 'WAF_FG_RESOLVED_BEFORE_SEND'] + formula.NATIVE_IDS,
+            'WAF_FG_REORDER_POINT_FORWARDED', 'WAF_FG_RESOLVED_BEFORE_SEND',
+            # SS-2, SS-3: fabric on the formula and accessories at or under their point.
+            'WAF_FABRIC_REORDER_POINT_FORWARDED', 'WAF_ACCESSORY_REORDER_POINT_FORWARDED'] + formula.NATIVE_IDS,
     races=['WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE', 'WAF_RACE_COLLECT_AND_SEND_OPEN_ONCE', 'WAF_RACE_FAKE_CALLMEBOT_END_TO_END',
-           'WAF_RACE_PG_CRON_RUNS_TICKS', 'WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK'],
-    http=['WAF_HTTP_OWNER_SETS_UP_AND_TESTS', 'WAF_HTTP_OTHERS_REFUSED', 'WAF_HTTP_FG_REORDER_SCREEN'],
+           'WAF_RACE_PG_CRON_RUNS_TICKS', 'WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK', 'WAF_RACE_MATERIAL_BUSY_RECHECKS_LIVE_STOCK'],
+    http=['WAF_HTTP_OWNER_SETS_UP_AND_TESTS', 'WAF_HTTP_OTHERS_REFUSED', 'WAF_HTTP_FG_REORDER_SCREEN', 'WAF_HTTP_MATERIAL_REORDER_SCREEN'],
     # WA-4b: scripts/cp7_wa_forward_browser.mjs (real Auth, PostgREST and UI on the browser copy; fake CallMeBot only).
     browser=['WAF_BROWSER_DESKTOP_OWNER_SETS_UP_TESTS_AND_FORWARDS', 'WAF_BROWSER_MOBILE_OWNER_SETS_UP_TESTS_AND_FORWARDS',
-             'WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA', 'WAF_BROWSER_FG_REORDER_DESKTOP', 'WAF_BROWSER_FG_REORDER_MOBILE'],
+             'WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA', 'WAF_BROWSER_FG_REORDER_DESKTOP', 'WAF_BROWSER_FG_REORDER_MOBILE',
+             'WAF_BROWSER_MATERIAL_REORDER_DESKTOP', 'WAF_BROWSER_MATERIAL_REORDER_MOBILE'],
 )
 REQUIRED = {key: len(value) for key, value in IDS.items()}
 EXPECTED = sum(REQUIRED.values())
-DECLARED = 41
+DECLARED = 57
 CONTRACT = 'cp7.wa.forward.v1'
 FUNCTIONS = ('erp_cp7_get_alerts_v1', 'erp_cp7_get_wa_settings_v1', 'erp_cp7_save_wa_settings_v1', 'erp_cp7_set_wa_key_v1',
-             'erp_cp7_send_wa_test_v1', 'erp_cp7_resolve_wa_dispatch_v1')
+             'erp_cp7_send_wa_test_v1', 'erp_cp7_resolve_wa_dispatch_v1',
+             # SS-1..SS-3: the reorder-point screens (cp7_stock_formula).
+             'erp_cp7_get_fg_reorder_v1', 'erp_cp7_refresh_fg_reorder_v1', 'erp_cp7_save_fg_reorder_manual_v1',
+             'erp_cp7_save_stock_formula_settings_v1', 'erp_cp7_get_material_reorder_v1', 'erp_cp7_refresh_material_reorder_v1',
+             'erp_cp7_save_material_reorder_v1')
 SCHEDULES = list(bundle.SCHEDULES)
 KEY = 'FAKEKEY-WA3B'
 PHONE = '+620000000000'
@@ -322,7 +329,9 @@ def visible(cur, subject):
                                       'where u.auth_user_id=%s', (subject,)).fetchall()}
     out = set()
     if {'warehouse.material.view', 'master.fabric.view'} <= keys:
-        out.add('FABRIC_BELOW_MINIMUM')
+        out |= {'FABRIC_BELOW_MINIMUM', 'FABRIC_AT_REORDER_POINT'}
+    if 'warehouse.accessory.view' in keys:
+        out.add('ACCESSORY_AT_REORDER_POINT')
     if 'warehouse.fg.view' in keys:
         out.add('FG_AT_REORDER_POINT')
     if 'finance.ar.view' in keys:
@@ -706,7 +715,8 @@ def cases(cur, today):
         dbody = dispatch(cur, detailed['dispatch_id'])['body']
         assert detailed['outcome'] == 'SENT' and (ar['party'] in dbody or '- dan ' in dbody), dbody
         owner_view = rpc(cur, 'erp_cp7_get_alerts_v1', (json.dumps({}),), s['owner'])
-        assert {'FABRIC_BELOW_MINIMUM', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE', 'PRODUCTION_GAP', 'FABRIC_NEED'} == {k['kind'] for k in owner_view['kinds']} \
+        assert {'FABRIC_BELOW_MINIMUM', 'FABRIC_AT_REORDER_POINT', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
+                'PRODUCTION_GAP', 'FABRIC_NEED'} == {k['kind'] for k in owner_view['kinds']} \
             == visible(cur, s['owner']), owner_view['kinds']
         assert any(r['wa'] is not None for r in owner_view['rows'])
         staff = master.role_actor(cur, 'GUDANG')
@@ -720,7 +730,7 @@ def cases(cur, today):
         b.api.admin(cur)
         for sig in bundle.PUBLIC:
             assert not one(cur, "select has_function_privilege('anon',%s,'EXECUTE')", (sig,)), sig
-        return dict(status='PASS', summary_hides_party_names=True, detailed_shows_them=True, owner_sees_six_kinds=True,
+        return dict(status='PASS', summary_hides_party_names=True, detailed_shows_them=True, owner_sees_eight_kinds=True,
                     staff_kinds=sorted(expect), staff_no_wa_status=True, staff_refused_on_owner_rpcs=True, anon_no_execute=True)
 
     def ticks_private():
@@ -926,9 +936,89 @@ def cases(cur, today):
         assert (a['state'], a['reason'], a['dispatch']) == ('RESOLVED_BEFORE_SEND', 'ABOVE_REORDER_POINT', None), (a, out)
         return dict(status='PASS', stock_found_before_send=a['reason'], tick=out['outcome'])
 
+    def fabric_low(stock=130):
+        """A fabric on the formula at or under its point: 10 YD cut every third day over 30 days, lead time 6 days."""
+        m = formula.fabric(cur, stock, today - timedelta(days=40))
+        formula.cut_days(cur, m, today, formula.SPARSE)
+        formula.save_material(cur, master.role_actor(cur, 'ADMIN'), m['material'], lead=6)
+        o = formula.material_oracle(stock, formula.SPARSE, 6)
+        assert o['free'] <= o['point'], o
+        return m, o
+
+    def fabric_forwarded():
+        s = setup(cur, kinds=KINDS + ['FABRIC_AT_REORDER_POINT'])
+        m, o = fabric_low()
+        minimum = formula.fabric(cur, 100, today - timedelta(days=40), minimum='500')
+        out = tick(cur, 'collect_tick')
+        assert out['kinds']['FABRIC_AT_REORDER_POINT'].get('error') is None and out['kinds']['FABRIC_AT_REORDER_POINT']['opened'] >= 1, out
+        item = alert_item(cur, 'FABRIC_AT_REORDER_POINT', m['material'])
+        d0 = alerts(cur, 'FABRIC_AT_REORDER_POINT')[m['material']]['detail']
+        assert (D(d0['free_qty']), D(d0['on_order_qty']), D(d0['reorder_point_qty']), d0['basis'], d0['unit_code']) == (o['free'], 0, o['point'], 'FORMULA', 'YD'), d0
+        assert minimum['material'] not in alerts(cur, 'FABRIC_AT_REORDER_POINT') and minimum['material'] in alerts(cur, 'FABRIC_BELOW_MINIMUM')
+        before = last_request(cur)
+        sent = tick(cur, 'send_tick')
+        assert sent['outcome'] == 'SENT', sent
+        d = dispatch(cur, sent['dispatch_id'])
+        reqs = queued(cur, before)
+        line = '- %s: sisa %s YD, dipesan 0 YD, titik pesan ulang %s YD' % (m['name'], wa_num(o['free']), wa_num(o['point']))
+        lines = d['body'].split('\n')
+        assert len(reqs) == 1 and reqs[0]['text'] == d['body'] and 'Stok kain menipis (1):' in lines and line in lines, lines
+        assert [(x['state'], x['dispatch']) for x in outbox(cur, item)] == [('DISPATCHED', d['id'])]
+        owner_view = rpc(cur, 'erp_cp7_get_alerts_v1', ('{}',), s['owner'])
+        assert [r['kind'] for r in owner_view['rows'] if r['subject_key'] == m['material']] == ['FABRIC_AT_REORDER_POINT'], owner_view['rows']
+        blind = formula.staff_with(cur, 'warehouse.material.view', 'warehouse.accessory.view')
+        assert not [r for r in rpc(cur, 'erp_cp7_get_alerts_v1', ('{}',), blind)['rows'] if r['kind'] == 'FABRIC_AT_REORDER_POINT']
+        # A second fabric goes under its point, and is received before the next message: resolved, not sent.
+        age_dispatches(cur, 2)
+        m2, o2 = fabric_low()
+        tick(cur, 'collect_tick')
+        item2 = alert_item(cur, 'FABRIC_AT_REORDER_POINT', m2['material'])
+        assert [x['state'] for x in outbox(cur, item2)] == ['PENDING']
+        formula.receive_fabric(cur, m2['material'], 50, today, location=m2['location'], hour=0)
+        out2 = tick(cur, 'send_tick')
+        a2 = outbox(cur, item2)[0]
+        assert (a2['state'], a2['reason'], a2['dispatch']) == ('RESOLVED_BEFORE_SEND', 'ABOVE_REORDER_POINT', None), (a2, out2)
+        return dict(status='PASS', line=line, minimum_fabric_stays_below_minimum=True, staff_without_fabric_view_sees_none=True,
+                    received_before_send=a2['reason'])
+
+    def accessory_forwarded():
+        s = setup(cur, kinds=KINDS + ['ACCESSORY_AT_REORDER_POINT'])
+        admin = master.role_actor(cur, 'ADMIN')
+        a = formula.accessory(cur, today, 280)
+        formula.accessory_days(cur, a, today, formula.SPARSE)
+        formula.save_material(cur, admin, a['material'], lead=5, manual='250')
+        out = tick(cur, 'collect_tick')
+        assert out['kinds']['ACCESSORY_AT_REORDER_POINT'].get('error') is None and out['kinds']['ACCESSORY_AT_REORDER_POINT']['opened'] >= 1, out
+        item = alert_item(cur, 'ACCESSORY_AT_REORDER_POINT', a['material'])
+        d0 = alerts(cur, 'ACCESSORY_AT_REORDER_POINT')[a['material']]['detail']
+        assert (D(d0['free_qty']), D(d0['reorder_point_qty']), d0['basis'], d0['safety_qty'], d0['service_level']) == (180, 250, 'MANUAL', None, None), d0
+        before = last_request(cur)
+        sent = tick(cur, 'send_tick')
+        assert sent['outcome'] == 'SENT', sent
+        d = dispatch(cur, sent['dispatch_id'])
+        reqs = queued(cur, before)
+        unit = d0['unit_code']
+        line = '- %s: sisa 180 %s, titik pesan ulang 250 %s' % (a['name'], unit, unit)
+        lines = d['body'].split('\n')
+        assert len(reqs) == 1 and reqs[0]['text'] == d['body'] and 'Stok aksesori menipis (1):' in lines and line in lines, lines
+        blind = formula.staff_with(cur, 'warehouse.material.view', 'master.fabric.view')
+        assert not [r for r in rpc(cur, 'erp_cp7_get_alerts_v1', ('{}',), blind)['rows'] if r['kind'] == 'ACCESSORY_AT_REORDER_POINT']
+        # A second accessory at its manual point, set to 0 (never) before the next message: resolved, not sent.
+        age_dispatches(cur, 2)
+        a2 = formula.accessory(cur, today, 280)
+        formula.accessory_days(cur, a2, today, formula.SPARSE)
+        formula.save_material(cur, admin, a2['material'], manual='250')
+        tick(cur, 'collect_tick')
+        item2 = alert_item(cur, 'ACCESSORY_AT_REORDER_POINT', a2['material'])
+        formula.save_material(cur, admin, a2['material'], manual='0', reason='SS-3 tidak perlu diingatkan')
+        out2 = tick(cur, 'send_tick')
+        x = outbox(cur, item2)[0]
+        assert (x['state'], x['reason'], x['dispatch']) == ('RESOLVED_BEFORE_SEND', 'NO_REORDER_POINT', None), (x, out2)
+        return dict(status='PASS', line=line, staff_without_accessory_view_sees_none=True, manual_zero_before_send=x['reason'])
+
     named = [waits_for_owner, fabric_equals_summary, ar_ap_sources, owner_reminders_only, send_one_request, rollback_nothing, resolved_before_send,
              answers, pacing_burst_quiet_digest_repeat, off_or_no_key, key_write_only, privacy_permissions, ticks_private, analysis_gap,
-             analysis_automatic, fg_forwarded, fg_resolved_before_send]
+             analysis_automatic, fg_forwarded, fg_resolved_before_send, fabric_forwarded, accessory_forwarded]
     named += [op for _, op in formula.cases(cur, today)]
     assert len(named) == len(IDS['native'])
     return list(zip(IDS['native'], named))
@@ -1132,7 +1222,45 @@ def races(tools, today):
         return dict(status='PASS', resolved_from_live_stock_while_busy=True, evaluation_untouched_while_busy=True, refresh_busy=busy[1],
                     next_tick_evaluates=after[0])
 
-    return list(zip(IDS['races'], (two_sends, collect_and_send, end_to_end, pg_cron_ticks, fg_busy_recheck)))
+    def material_busy_recheck():
+        """The same for a fabric on the formula: while the lock is held, the collector checks it against the stock now (same
+        locations, the last evaluation's point and on-order quantity) and writes no evaluation; the screen's refresh is busy."""
+        s = ready(kinds=KINDS + ['FABRIC_AT_REORDER_POINT'])
+
+        def low(cur):
+            m = formula.fabric(cur, 130, today - timedelta(days=40))
+            formula.cut_days(cur, m, today, formula.SPARSE)
+            formula.save_material(cur, master.role_actor(cur, 'ADMIN'), m['material'], lead=6)
+            return m
+        m = committed(low)
+        o = formula.material_oracle(130, formula.SPARSE, 6)
+        committed(lambda cur: tick(cur, 'collect_tick'))
+        state = lambda cur: (b.api.admin(cur), cur.execute(
+            "select e.state,a.state,a.resolution from cp7_stock_formula.material_evaluations e left join cp7_alert_native.alerts a "
+            "on a.kind='FABRIC_AT_REORDER_POINT' and a.subject_key=e.material_id::text where e.material_id=%s order by a.episode desc nulls last limit 1",
+            (m['material'],)).fetchone())[1]
+        assert committed(state) == ('AT_OR_BELOW', 'OPEN', None), committed(state)
+        more = int(o['point'] - o['free']) + 1
+        committed(lambda cur: formula.receive_fabric(cur, m['material'], more, today, location=m['location'], hour=0))
+        holder = tools.connect()
+        try:
+            holder.execute("select pg_advisory_xact_lock(hashtextextended('CP7:FORMULA:FG',0))")
+            out = server_tick('collect_tick')
+            during = committed(state)
+            busy = committed(lambda cur: refusal(cur, lambda: rpc(cur, 'erp_cp7_refresh_material_reorder_v1', ('FABRIC',), s['owner'])))
+        finally:
+            holder.rollback()
+            holder.close()
+        assert out['kinds']['FABRIC_AT_REORDER_POINT'].get('error') is None, out
+        assert during == ('AT_OR_BELOW', 'RESOLVED', 'ABOVE_REORDER_POINT'), during
+        assert busy == ('55P03', 'CP7_FORMULA_BUSY'), busy
+        committed(lambda cur: tick(cur, 'collect_tick'))
+        after = committed(state)
+        assert after == ('ABOVE', 'RESOLVED', 'ABOVE_REORDER_POINT'), after
+        return dict(status='PASS', resolved_from_live_stock_while_busy=True, evaluation_untouched_while_busy=True, refresh_busy=busy[1],
+                    next_tick_evaluates=after[0])
+
+    return list(zip(IDS['races'], (two_sends, collect_and_send, end_to_end, pg_cron_ticks, fg_busy_recheck, material_busy_recheck)))
 
 
 # ------------------------------------------------------------------------------------------------------- http --
@@ -1234,4 +1362,53 @@ def http_cases(http, today):
         return dict(status='PASS', real_Auth=True, owner_reads_and_refreshes=True, admin_manual=True, owner_level=True, gudang_reads=sees,
                     staff_cannot_change=True, anon_refused=True)
 
-    return list(zip(IDS['http'], (owner_flow, others_refused, fg_reorder_screen)))
+    def material_reorder_screen():
+        """The material reorder RPCs through PostgREST with real Auth: the owner reads and refreshes, the admin sets a lead time and
+        an accessory manual point (a fabric's is refused); a warehouse user reads what its permissions allow, changes nothing;
+        anon nothing; the module's own functions are not exposed."""
+        with http.connect() as conn, conn.cursor() as cur:
+            m = formula.fabric(cur, 130, today - timedelta(days=40))
+            formula.cut_days(cur, m, today, formula.SPARSE)
+            a = formula.accessory(cur, today, 280)
+            formula.accessory_days(cur, a, today, formula.SPARSE)
+            conn.commit()
+        o = formula.material_oracle(130, formula.SPARSE, 6)
+        owner = http.login('OWNER', 'ss2-owner')
+        r = owner.rpc('erp_cp7_refresh_material_reorder_v1', dict(p_material_type='FABRIC'))
+        assert r['status'] == 200 and r['body']['materials'] >= 2, r
+        w = owner.rpc('erp_cp7_get_material_reorder_v1', dict(p_query=dict(material_type='FABRIC', q=m['sku'])))
+        assert w['status'] == 200 and w['body']['can_manage'] is True, w
+        row = w['body']['page']['rows'][0]
+        assert (row['material_id'], row['basis'], row['reason'], row['state']) == (m['material'], 'NOT_ENOUGH_DATA', 'NO_LEAD_TIME', 'NO_POINT'), row
+        admin = http.login('ADMIN', 'ss2-admin')
+        save = lambda who, payload: who.rpc('erp_cp7_save_material_reorder_v1', dict(p_payload=payload, p_request=str(uuid.uuid4())))
+        f1 = save(admin, dict(material_id=m['material'], expected_revision=0, lead_days='6', manual_point=None, reason='SS-2 HTTP lama kirim'))
+        e = f1['body']['evaluation'] if f1['status'] == 200 else None
+        assert e and (e['basis'], D(str(e['point'])), e['state']) == ('FORMULA', o['point'], 'AT_OR_BELOW'), f1
+        a1 = save(admin, dict(material_id=a['material'], expected_revision=0, lead_days=None, manual_point='0', reason='SS-3 HTTP tidak diingatkan'))
+        assert a1['status'] == 200 and (a1['body']['evaluation']['basis'], a1['body']['evaluation']['state']) == ('MANUAL', 'NO_POINT'), a1
+        bad = save(admin, dict(material_id=m['material'], expected_revision=1, lead_days='6', manual_point='10', reason='SS-2 HTTP manual kain'))
+        assert bad['status'] >= 400 and 'CP7_FORMULA_MATERIAL_INVALID' in json.dumps(bad['body']), bad
+        staff = http.login('GUDANG', 'ss2-staff')
+        with http.connect() as conn, conn.cursor() as cur:
+            b.api.admin(cur)
+            keys = {k for (k,) in cur.execute("select p.permission_key from erp.app_role_permissions p join erp.app_roles r on r.id=p.role_id "
+                                              "where r.role_code='GUDANG'").fetchall()}
+        for kind, needs in (('FABRIC', {'warehouse.material.view', 'master.fabric.view'}), ('ACCESSORY', {'warehouse.accessory.view'})):
+            read = staff.rpc('erp_cp7_get_material_reorder_v1', dict(p_query=dict(material_type=kind)))
+            sees = needs <= keys
+            assert (read['status'] == 200) == sees and (sees or 'CP7_FORMULA_ACCESS_DENIED' in json.dumps(read['body'])), (kind, read)
+        x = save(staff, dict(material_id=a['material'], expected_revision=1, lead_days='3', manual_point=None, reason='staff'))
+        assert x['status'] >= 400 and 'CP7_FORMULA_ACCESS_DENIED' in json.dumps(x['body']), x
+        for name, args in (('erp_cp7_get_material_reorder_v1', dict(p_query=dict(material_type='FABRIC'))),
+                           ('erp_cp7_refresh_material_reorder_v1', dict(p_material_type='FABRIC')),
+                           ('erp_cp7_save_material_reorder_v1', dict(p_payload={}, p_request=str(uuid.uuid4())))):
+            assert http.anon_rpc(name, args)['status'] >= 400, name
+        for name in ('compute_materials', 'material_source', 'save_material', 'material_workspace'):
+            assert staff.rpc(name, {})['status'] >= 400, name
+        return dict(status='PASS', real_Auth=True, owner_reads_and_refreshes=True, admin_lead_time=True, accessory_manual_zero=True,
+                    fabric_manual_refused=True, staff_reads_by_permission=sorted(keys & {'warehouse.material.view', 'master.fabric.view',
+                                                                                         'warehouse.accessory.view'}),
+                    staff_cannot_change=True, anon_refused=True)
+
+    return list(zip(IDS['http'], (owner_flow, others_refused, fg_reorder_screen, material_reorder_screen)))
