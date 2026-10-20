@@ -5,7 +5,7 @@ Penulis: Astra/Codex. Cabang `astra/d17-14-20261020`, mulai dari
 sesudah serah-terima D17-14. Kandidat auditor `55c885d1` tetap beku.
 
 Lingkup kini semua **16 butir** `OPEN_WORK_D17_14_20261020.md` (15 D17-14 + OW-16 D17-15).
-OW-02 sudah selesai terbukti pada cakupan kebutuhan aplikasi; pemasangan operasional CP7C tetap HOLD.
+OW-02 dan OW-03 sudah selesai terbukti pada cakupan kebutuhan aplikasi masing-masing; pemasangan operasional CP7C tetap HOLD.
 Penulis tidak memberikan penerimaan audit independen. Pemeriksa berikutnya Fable atau Sol.
 `production_go:false`; tidak ada perubahan hosted, main, Cloudflare, Drive, atau pengiriman WA nyata.
 
@@ -24,8 +24,11 @@ Penulis tidak memberikan penerimaan audit independen. Pemeriksa berikutnya Fable
 - Ringkas menyembunyikan identitas pihak; rincian dapat menampilkan label sumber. Pemilik tujuan tetap
   owner yang menyimpan sambungan; pengingat pribadi staf tidak dibaca (D17-3 dan desain yang berlaku).
 - Pengiriman memakai outbox/status/deduplikasi dan cek ulang yang sama. Uji memakai server palsu saja.
-- Kebutuhan aksesori dari rencana tetap pertanyaan terpisah yang belum dijawab pada D17-10;
-  tidak ditandai selesai atau disamarkan sebagai pengingat minimum aksesori.
+- D17-14 sudah mencakup kebutuhan aksesori dari rencana; tidak perlu meminta
+  izin forwarding lagi. Pemeriksaan live `ACCESSORY_NEED` dan sambungan WA
+  belum tersedia, jadi butir ini tetap terbuka sebagai implementasi, tidak
+  disamarkan sebagai pengingat minimum aksesori. Ini mengoreksi disposisi
+  penulis sebelumnya yang masih menyebut menunggu jawaban D17-10.
 
 ## Verifikasi
 
@@ -43,8 +46,8 @@ Receipt per kasus: `docs/cp7/d17-14/ow01/CI_39409032583.json`. Batas kebutuhan a
 
 ## Berikutnya
 
-OW-02 penjalan server (analisis, laporan bisnis, pengingat), OW-03 isian kelipatan produksi;
-lalu urutan daftar kerja, termasuk OW-16 sebelum paket OW-15. Kegagalan CP6 lama tetap dicatat sebagai gagal beserta
+Sesudah checkpoint OW-02/03, lanjut jalur retur lunas, koreksi mandor dan pembayaran supplier
+sesuai urutan daftar kerja, termasuk OW-16 sebelum paket OW-15. Kegagalan CP6 lama tetap dicatat sebagai gagal beserta
 pembanding dan cakupan penggantinya. Paket auditor baru menunggu tiga butir Kelompok 1 selesai.
 
 ## Tambahan scope Claude yang diambil 20 Oktober
@@ -98,6 +101,19 @@ WA pada2ad juga **65/65 PASS**,
 run39420750724/job118620792072; receipt `docs/cp7/d17-14/ow01/CI_39420750724.json`.
 Rincian/reproduksi: `docs/cp7/d17-14/ow03/README.md`.
 
-Paket auditor baru tetap menunggu syarat Kelompok1, termasuk batas WA yang
-masih memerlukan keputusan D17-10. Semua OW uang/stok/HPP berikutnya tetap
+Paket auditor baru tetap menunggu syarat Kelompok1, termasuk pemeriksaan live
+dan sambungan WA kebutuhan aksesori rencana. Semua OW uang/stok/HPP berikutnya tetap
 daftar terbuka; belum ada klaim feature_complete/audit_complete/production_go.
+
+## Bukti terbaru — perjalanan layar878e0a9c
+
+Run39423331714/job118629536646 pada head878e0a9c **154/154 PASS**.
+Browser desktop/HP mengetik12, simpan dan baca kembali, lalu analisis memakai
+ID/revisi profil yang sama untuk93→96+3. SQLsourcehash3c0364ce… cocok bundle
+lokal. Produk byte-identik terhadap2ad; hanya dua alat browser berubah.
+Receipt ow03/CI_39423331714.json. OW-03 kini selesai pada kontrak isian→analisis.
+
+K6job118620792566 belum menguji produk: port54322 bentrok, lalu registry
+menolak unduhan akibat batas data. Bukti awal disimpan, tidak diubah menjadi
+PASS; GitHub menolak permintaan ulang selama workflow masih berjalan.
+Skala5.000 masih berjalan pada saat pembaruan ini. Bukan bukti SLA1/2/3detik.

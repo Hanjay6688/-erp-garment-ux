@@ -128,3 +128,26 @@ lima sumber SQL kandidat2ad di PGlite0.5.10 dengan row-type kosong;
 `local-compile-result.jsonl` mencatat60/60 berhasil. Ini hanya kompilasi tubuh,
 bukan bukti perencanaan kueri, izin atau bisnis Native. Log stderr kosong
 dipertahankan. Jangan menambahkan angka60 ke jumlah kasus Native.
+
+## Hasil penguatan perjalanan layar — kandidat878e0a9c
+
+Run `39423331714`, job `118629536646`, head persis
+`878e0a9cad779db42826d7cb1fb97d978d498b73`: **154/154 PASS**,
+termasuk desktop dan HP yang mengetik12 pada profil kosong, menyimpan,
+memuat kembali12, lalu memperoleh gap93/saran96/tambahan3 dengan ID/revisi
+profil hasil simpan layar yang sama. Replay, arsip, laporan/AI, keuangan,
+pencabutan izin403, pemulihan CP6 dan advisor juga tetap PASS.
+Receipt lengkap: `CI_39423331714.json`.
+
+Hash SQL terpasang `3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005`
+cocok komposisi bundle lokal878. Semua berkas produk byte-identik terhadap2ad;
+perubahan non-dokumen sesudah2ad hanya dua berkas alat browser yang disebut
+di atas. Bukti2ad digunakan kembali dengan batas identitas ini, bukan dengan
+mengganti label kandidat lama. **OW-03 selesai pada kontrak isian dan analisis.**
+
+Kualifikasi umum tetap terpisah: K6 pada2ad gagal sebelum satu kasus pun
+berjalan, karena port database bentrok lalu registry menolak unduhan akibat
+batas data (`CI_39420750772_K6_ENVIRONMENT.json`). Permintaan ulang satu job
+ditolak GitHub karena workflow yang sama masih berjalan; itu bukan hasil
+uji produk. Skala5.000 masih dipantau terpisah. Tidak ada klaim kecepatan
+1/2/3detik, audit independen, kesiapan seluruh ERP, atau izin produksi.

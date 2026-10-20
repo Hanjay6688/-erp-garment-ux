@@ -1,0 +1,29 @@
+{
+  "kind": "INTERNAL_WRITER_ENVIRONMENT_INCOMPLETE",
+  "candidate": "2ad56e147a180c3fb2c433aed53cadb6a421f434",
+  "run_id": 39420750772,
+  "job_id": 118620792566,
+  "job": "k6-proof-runner-10",
+  "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39420750772/job/118620792566",
+  "stage": "Start disposable database; before qualification/test cases",
+  "status": "INCOMPLETE_ENVIRONMENT",
+  "observed_cases": 0,
+  "error_lines": [
+    "2026-10-20T12:54:38.9942843Z failed to start docker container \"supabase_db_cp5-local\": Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint supabase_db_cp5-local (cebf8748c88ab8dd6a90e203813d5a4774cc37ff2afae83ab0b68852221a482d): failed to bind host port for 0.0.0.0:54322:172.18.0.2:5432/tcp: address already in use",
+    "2026-10-20T12:56:07.0867932Z Error response from daemon: toomanyrequests: Data limit exceeded",
+    "2026-10-20T12:56:07.0868939Z Error response from daemon: toomanyrequests: Data limit exceeded",
+    "2026-10-20T12:56:07.0869900Z Error response from daemon: toomanyrequests: Data limit exceeded",
+    "2026-10-20T12:56:07.0872680Z failed to pull docker image from all registries: public.ecr.aws/supabase/realtime:v2.129.3 attempt 1: Error response from daemon: toomanyrequests: Data limit exceeded; public.ecr.aws/supabase/realtime:v2.129.3 attempt 2: Error response from daemon: toomanyrequests: Data limit exceeded; public.ecr.aws/supabase/realtime:v2.129.3 attempt 3: Error response from daemon: toomanyrequests: Data limit exceeded",
+    "2026-10-20T12:58:34.8491150Z Error response from daemon: toomanyrequests: Data limit exceeded",
+    "2026-10-20T12:58:34.8492395Z Error response from daemon: toomanyrequests: Data limit exceeded",
+    "2026-10-20T12:58:34.8493327Z Error response from daemon: toomanyrequests: Data limit exceeded",
+    "2026-10-20T12:58:34.8495574Z failed to pull docker image from all registries: public.ecr.aws/supabase/realtime:v2.129.3 attempt 1: Error response from daemon: toomanyrequests: Data limit exceeded; public.ecr.aws/supabase/realtime:v2.129.3 attempt 2: Error response from daemon: toomanyrequests: Data limit exceeded; public.ecr.aws/supabase/realtime:v2.129.3 attempt 3: Error response from daemon: toomanyrequests: Data limit exceeded",
+    "2026-10-20T13:02:02.5018098Z Error response from daemon: toomanyrequests: Data limit exceeded",
+    "2026-10-20T13:02:02.5019129Z Error response from daemon: toomanyrequests: Data limit exceeded",
+    "2026-10-20T13:02:02.5020105Z Error response from daemon: toomanyrequests: Data limit exceeded",
+    "2026-10-20T13:02:02.5022647Z failed to pull docker image from all registries: public.ecr.aws/supabase/realtime:v2.129.3 attempt 1: Error response from daemon: toomanyrequests: Data limit exceeded; public.ecr.aws/supabase/realtime:v2.129.3 attempt 2: Error response from daemon: toomanyrequests: Data limit exceeded; public.ecr.aws/supabase/realtime:v2.129.3 attempt 3: Error response from daemon: toomanyrequests: Data limit exceeded",
+    "2026-10-20T13:02:03.5068148Z ##[error]Process completed with exit code 1."
+  ],
+  "disposition": "Retain first failure. No product/test expected altered. K6 current candidate remains unqualified; older candidate PASS is not relabelled.",
+  "production_go": false
+}

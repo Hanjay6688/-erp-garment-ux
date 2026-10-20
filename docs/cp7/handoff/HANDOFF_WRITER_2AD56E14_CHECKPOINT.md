@@ -12,7 +12,8 @@ Keuangan, laporan, stok, dan HPP adalah raja.
 - Kandidat auditor55c885d1 tetap beku. Tidak ada merge/deploy/hosted/Drive/WA nyata.
 - `feature_complete:false`, `audit_complete:false`, `production_go:false`.
 - Ini serah-terima writer dan bukti internal; paket auditor eksternal baru belum
-  dinyatakan siap. OW-01 masih mempunyai keputusan D17-10 yang belum dijawab.
+  dinyatakan siap. OW-01 masih belum mempunyai pemeriksaan live dan sambungan
+  WA untuk kebutuhan aksesori rencana; cakupan forwarding sudah diperintahkan D17-14.
 
 Local commit dan GitHub commit berbeda metadata tetapi **tree identik**;
 integrator memeriksa kesamaan sebelum memindahkan ref dengan lease, tanpa force.
@@ -70,7 +71,7 @@ Jangan menyebut empat browser K4 PASS pada333 sebagai32/32 kandidat baru.
 OW-01 pada333: run39411967784/job118591662633 lulus65/65, restore/advisor lulus.
 Receipt seluruh kasus `docs/cp7/d17-14/ow01/CI_39411967784.json`.
 Ini bukti lama yang dibawa, bukan otomatis hasil2ad. Aksesori kebutuhan rencana
-tetap menunggu keputusan owner D17-10; tidak disamarkan sebagai kebutuhan minimum.
+belum mempunyai pemeriksaan live dan sambungan WA; tidak disamarkan sebagai kebutuhan minimum.
 Ulang kandidat2ad kemudian lulus65/65 juga; ini bukti runtime baru, bukan warisan333.
 
 OW-02 pada333: run39411967722/job118591662201 **28PASS/4INCOMPLETE**.
@@ -149,3 +150,18 @@ melalui fixture Native dengan konfigurasi sama; batas ini dinyatakan jelas.
 Expected lengkap dan counter-review ada pada ow03/README.md. Ini belum
 hasil runtime. F05 perlu dijalankan pada commit follow-up; hasil Native
 produk2ad dipakai ulang hanya dengan bukti berkas produk byte-identik.
+
+## Hasil follow-up878 dan posisi berikutnya
+
+Penguatan di atas kemudian **154/154 PASS** pada878e0a9c,
+run39423331714/job118629536646. Receipt lengkap ow03/CI_39423331714.json;
+hash SQL cocok bundle3c0364ce… dan produk identik terhadap2ad.
+OW-02 dan OW-03 selesai pada kontrak aplikasi masing-masing. Kelompok1
+belum seluruhnya selesai karena pemeriksaan live dan sambungan WA/aksesori rencana belum ada.
+
+K6job118620792566 kandidat2ad gagal sebelum kualifikasi karena lingkungan
+startup/registry; nol kasus produk, receipt ow03/CI_39420750772_K6_ENVIRONMENT.json.
+GitHub menolak permintaan ulang satu job saat workflow masih berjalan.
+Skala5.000 tetap dipantau. Semua hasil itu tidak memberikan penerimaan audit
+independen, SLA, atau production_go. Pekerjaan produk berikutnya: OW-04,
+kemudian OW-05/06 dan pemeriksaan HPP sesuai daftar owner.

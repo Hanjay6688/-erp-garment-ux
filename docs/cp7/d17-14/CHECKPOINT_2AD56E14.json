@@ -1,0 +1,181 @@
+{
+  "kind": "INTERNAL_WRITER_CHECKPOINT_NOT_EXTERNAL_AUDIT",
+  "date": "2026-10-20",
+  "product_candidate": "2ad56e147a180c3fb2c433aed53cadb6a421f434",
+  "product_tree": "a640963cb5c8870da07543f1bb62aae7c17bd92e",
+  "test_candidate": "878e0a9cad779db42826d7cb1fb97d978d498b73",
+  "test_tree": "8baf6bd7dd5f1e172e65108d09f6cc235ec25e80",
+  "only_non_document_changes_since_product": [
+    "scripts/cp7_f05_analysis_browser.mjs",
+    "scripts/cp7_f05_analysis_browser_fixture.py"
+  ],
+  "product_files_byte_identical": true,
+  "native_runtime": [
+    {
+      "label": "CP7_K4_RUNNER",
+      "status": "PASS",
+      "source_sha256": "b4adfb3a3f60693427841adff357b65d6819cf51e3208a8bb00ba9f7d858044d",
+      "observed_case_count": 32,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "error": null,
+      "traceback": null,
+      "run_id": 39420750772,
+      "job_id": 118620792070,
+      "evidence": "ow02/CI_39420750772.json"
+    },
+    {
+      "label": "CP7_WA_FORWARD",
+      "status": "PASS",
+      "source_sha256": "1e366eb62cce137810bf4a5d4a864f7de2bc141230d6ff9dc28928fde04ddb1e",
+      "observed_case_count": 65,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "error": null,
+      "traceback": null,
+      "run_id": 39420750724,
+      "job_id": 118620792072,
+      "evidence": "ow01/CI_39420750724.json"
+    },
+    {
+      "label": "CP7_F05_NATIVE_ANALYSIS",
+      "status": "PASS",
+      "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+      "observed_case_count": 154,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "error": null,
+      "traceback": null,
+      "run_id": 39420750819,
+      "job_id": 118620792620,
+      "evidence": "ow03/CI_39420750819.json"
+    },
+    {
+      "label": "CP7_P19_STAGED",
+      "status": "PASS",
+      "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+      "observed_case_count": 15,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "error": null,
+      "traceback": null,
+      "run_id": 39420750772,
+      "job_id": 118620792697,
+      "evidence": "ow03/CI_39420750772_STAGED.json"
+    },
+    {
+      "label": "CP7_P19_TRANSPORT",
+      "status": "PASS",
+      "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+      "observed_case_count": 15,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "error": null,
+      "traceback": null,
+      "run_id": 39420750772,
+      "job_id": 118620792626,
+      "evidence": "ow03/CI_39420750772_TRANSPORT.json"
+    },
+    {
+      "label": "CP7_P19_PLAN_V2",
+      "status": "PASS",
+      "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+      "observed_case_count": 22,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "error": null,
+      "traceback": null,
+      "run_id": 39420750772,
+      "job_id": 118620792820,
+      "evidence": "ow03/CI_39420750772_PLAN.json"
+    },
+    {
+      "label": "CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+      "observed_case_count": 20,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "error": null,
+      "traceback": null,
+      "run_id": 39420750772,
+      "job_id": 118620792398,
+      "evidence": "ow03/CI_39420750772_REPORT.json"
+    },
+    {
+      "label": "CP7_P19_AI_V2",
+      "status": "PASS",
+      "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+      "observed_case_count": 9,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "error": null,
+      "traceback": null,
+      "run_id": 39420750772,
+      "job_id": 118620792932,
+      "evidence": "ow03/CI_39420750772_AI.json"
+    }
+  ],
+  "case_counts_overlap_across_suites": true,
+  "F04": {
+    "status": "PASS",
+    "observed_case_count": 38,
+    "run_id": 39420750723,
+    "job_id": 118620792464,
+    "evidence": "ow03/CI_39420750723.json",
+    "cp6_restored": true,
+    "advisor_gate": true
+  },
+  "followup_UI_chain": {
+    "status": "PASS",
+    "run_id": 39423331714,
+    "job_id": 118629536646,
+    "expected": "154 suite cases unchanged; desktop/mobile enter12 through real UI, read back12, same saved profile ID/revision yields96+3; schedule re-review remains explicit Native fixture step",
+    "observed_case_count": 154,
+    "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+    "evidence": "ow03/CI_39423331714.json"
+  },
+  "completed_owner_work": [
+    "OW-02_APPLICATION_SCOPE",
+    "OW-03_PROFILE_TO_ANALYSIS_SCOPE"
+  ],
+  "partial_owner_work": [
+    "OW-01 seven additional obligation domains covered; ACCESSORY_NEED live recheck and WA wiring remain unimplemented; forwarding already authorized by D17-14"
+  ],
+  "first_failures_retained": [
+    "ow01/ci-39406686784-first-failures.json",
+    "ow02/CI_39411967722_FIRST_FAILURE.json",
+    "ow03/local-profile-first-failure.log",
+    "ow03/local-staged-401-first-failure.log",
+    "ow03/local-sql-first-failure.log"
+  ],
+  "limitations": [
+    "No production deployment or hosted schedule",
+    "No claim of full ERP qualification; historical CP6 21 failed suites and four screen cases remain documented, not newly retested here",
+    "Native old-server\u2192new-server upgrade replay not newly qualified",
+    "Local PGlite synthetic/compile checks are not Native",
+    "1/2/3 second full journey SLA not established",
+    "OW-04/05/06/07/09 source reviews are not runtime fixes"
+  ],
+  "auditor_candidate_frozen": "55c885d1a12336905e433e05852b99be4d933f74",
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false,
+  "unqualified_current_candidate": [
+    {
+      "job": "k6-proof-runner-10",
+      "run_id": 39420750772,
+      "job_id": 118620792566,
+      "status": "INCOMPLETE_ENVIRONMENT_BEFORE_TESTS",
+      "evidence": "ow03/CI_39420750772_K6_ENVIRONMENT.json",
+      "retry": "GitHub refused while containing workflow still running"
+    },
+    {
+      "job": "p19-scale5",
+      "run_id": 39420750772,
+      "job_id": 118620792724,
+      "status": "RUNNING_AT_CHECKPOINT"
+    }
+  ],
+  "auditor_frozen_tree_verified_via_GitHub": "80622a93bbbd2fb6295546aa00f1dc5eb919d827"
+}

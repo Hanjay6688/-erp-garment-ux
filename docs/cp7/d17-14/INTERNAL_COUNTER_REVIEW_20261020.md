@@ -103,3 +103,19 @@ Belum ada perselisihan kebenaran terbuka; kekurangan runtime tetap terbuka.
 Risiko reuse alat browser lama: tombol jeda berganti nama saat penjalan aktif,
 dan status progres dapat berlalu cepat. Suite staged mandiri tidak memasang
 penjalan; bukti gabungan tidak diklaim dari suite tersebut.
+
+## Disposisi setelah bukti Native dan perjalanan layar tersedia
+
+Pada produk2ad: K4 **32/32 PASS**, profil **38/38 PASS**, staged **15/15 PASS**,
+analisis penuh **154/154 PASS**. Pada878 (produk byte-identik, dua alat browser
+diperkuat), analisis **154/154 PASS** lagi dengan isian12→profil tersimpan yang
+sama→hasil96+3 di desktop/HP. Receipt yang dapat direproduksi ada pada folder
+ow02/ow03; hash bundle lokal878 cocok SQL terpasang3c0364ce….
+
+Pemeriksa internal Sol Max membaca ulang sumber/receipt terkini dan menantang
+batas klaim; tidak menemukan kontra-contoh untuk penyelesaian **OW-02 pada
+aplikasi** dan **OW-03 pada isian→analisis**. Kesimpulan bertumpu pada sumber
+dan runtime yang disebut, bukan persetujuan agen. Tidak ada sengketa sumber
+yang diketahui tersisa untuk kedua cakupan itu. K6 gagal di persiapan lingkungan
+sebelum kasus berjalan, skala besar masih dipantau, dan Native upgrade replay
+lintas versi belum baru dibuktikan. Batas audit/produksi/SLA tetap terbuka.
