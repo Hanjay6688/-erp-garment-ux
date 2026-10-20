@@ -260,6 +260,17 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     tidak boleh berbagi subjek: `apply_kind` menolak sumber yang memberi satu subjek sebagai baris dan juga sebagai keadaan,
     jadi keadaan `MANUAL_MINIMUM_IN_FORCE` dari rumus dibuang dan keadaan kain yang punya minimum diambil dari sumber lama.
     (D17-10, 20 Okt)
+25v. **Kalikan dulu, baru bagi; pembanding memakai pecahan eksak.** Batas minimum aksesori D17-12 ditulis
+    `pemakaian_bulan / 30 × (lama kirim + cadangan)`. PostgreSQL membulatkan `500/30` ke 16 desimal (ke atas di digit
+    terakhir) sebelum dikali, sehingga 500 per bulan dengan 14 + 7 hari menjadi 350,01, padahal tepatnya 350. Kelas yang sama
+    ada di rumus barang jadi mode cadangan hari (rata-rata dibulatkan × (lama kirim + cadangan): 20 terjual dalam 30 hari,
+    2 + 1 hari menjadi 3 pcs, padahal tepatnya 2) dan rumus kain. Ditemukan oleh pemeriksaan layar yang menghitung ulang
+    secara eksak (bilangan bulat besar); pembanding Python lama memakai `Decimal` yang dibulatkan dengan cara serupa sehingga
+    ikut salah dan tidak menangkapnya. Aturan: susun rumus sebagai satu pembilang dibagi satu penyebut
+    (`ceil(total × hari × 100 / 30) / 100`), dan pembanding di kasus memakai `fractions.Fraction`, bukan desimal yang
+    dibulatkan. Selalu sertakan kasus batas yang hasil tepatnya bilangan bulat/sen bulat (`SS1_DAYS_BUFFER_NOT_STACKED`,
+    `SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE`); log gagal di kode lama ada di
+    `docs/cp7/evidence/stock-formula-rounding-20261020/`. (D17-12, 20 Okt)
 
 ## F. Proses audit
 
@@ -327,6 +338,7 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Stok bebas mengikuti aturan "ada di gudang" layar yang diterima, termasuk zona khusus (E25s).
 - [ ] Deklarasi kasus dicek lokal dengan aturan probe sebelum push (E25t).
 - [ ] Menggabungkan sumber: sumber lama yang punya pembanding tetap utuh, subjek kedua himpunan tidak tumpang tindih (E25u).
+- [ ] Rumus dengan pembagian: kalikan dulu baru bagi; pembanding pakai pecahan eksak; ada kasus batas yang hasil tepatnya bulat (E25v).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
   dipicu (E19–E20, E19a).
