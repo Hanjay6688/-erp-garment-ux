@@ -851,3 +851,12 @@ Owner (persis): "per jenis bahan dengan pola dong kan dia hasilin ukurannya rang
 Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): rentang wajar dikelompokkan per pasangan jenis bahan +
 pola, dan dinilai untuk rentang ukuran yang dihasilkan pola itu (bukan satu angka total), karena satu pola menghasilkan
 beberapa ukuran.
+
+Lanjutan kedua. Penjelasan penulis sebelumnya (chat): butir 2 yang perlu dibuat, "Penilaian per rentang ukuran yang
+dihasilkan pola. Sekarang yang dinilai hanya satu angka total pcs per roll."
+
+Owner (persis): "nomor 2 emang dari total tapi dia harus lihat dari range ukuran dong, pola jumbo apa kecil"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): yang dinilai tetap total pcs hasil potong, tetapi rentang
+wajarnya dibedakan menurut rentang ukuran pola (pola ukuran jumbo dan pola ukuran kecil punya rentang wajar sendiri), di
+dalam kelompok jenis bahan + pola. Ini mengoreksi ringkasan lanjutan pertama di atas ("bukan satu angka total").
