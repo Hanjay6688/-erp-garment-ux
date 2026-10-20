@@ -9,7 +9,8 @@
 # SS-1 (owner D17-8/D17-9) adds the finished-goods reorder point by formula (scripts/cp7-src/stock-formula/formula.sql,
 # installed before alerts.sql) and its alert kind FG_AT_REORDER_POINT to the same declared suite (scripts/
 # cp7_stock_formula_cases.py), with the Ringkasan Barang Jadi panel in the browser group. SS-2/SS-3 add fabric and
-# accessories (stock-formula/materials.sql; kinds FABRIC_AT_REORDER_POINT, ACCESSORY_AT_REORDER_POINT) the same way.
+# accessories (stock-formula/materials.sql) the same way; owner D17-10: fabrics on the formula are rows of
+# FABRIC_BELOW_MINIMUM, accessories ring at a manual minimum only (ACCESSORY_AT_REORDER_POINT).
 name: CP7 WA Forward
 'on':
   workflow_dispatch: {}

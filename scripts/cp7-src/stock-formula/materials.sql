@@ -1,5 +1,7 @@
--- SS-2 and SS-3 (owner D17-9, 20 Oct 2026): the reorder point of each fabric and accessory, with the same formula as the
--- finished goods (formula.sql): ceil to 0.01 of (D x L + z(service level) x sigma x sqrt(L)), in the material's own unit.
+-- SS-2 and SS-3 (owner D17-9, 20 Oct 2026): the reorder point of each fabric, with the same formula as the finished goods
+-- (formula.sql): ceil to 0.01 of (D x L + z(service level) x sigma x sqrt(L)), in the material's own unit. Owner D17-10:
+-- accessories use no formula, only a minimum entered by hand ("aksesoris pake batas minimum manual aja"); their usage is
+-- still measured and shown, to help choose that minimum.
 -- * Usage per complete WIB day of the window (settings of formula.sql), posted movements only, a movement that has an
 --   inverse and the inverse itself not counted (the accepted STK01 rule of Bahan & Roll):
 --   FABRIC: issued to cutting (CUTTING_ISSUE) less returned from cutting (CUTTING_RETURN), factory use (INTERNAL_USE,
@@ -12,12 +14,14 @@
 --   active raw-material warehouses that are not a service zone (pos servis, area periksa, area rusak are SPECIAL_ZONE
 --   there, cp7_material.workspace). On order: FABRIC the remaining opening purchase commitments
 --   (erp.bb_commitment_line_remaining_v1, the fabric analysis' own source); ACCESSORY none (no commitment source).
--- * Lead time: the supplier's delivery time is not recorded in the ERP (owner 20 Oct), so it is a per-material setting
---   "lama kirim (hari)" of Owner/Admin (material_settings); empty: no formula for that material (NOT_ENOUGH_DATA).
--- * A manual number replaces the formula: FABRIC the minimum of Kain & Benchmark (fabric_master_profiles, unchanged; its
---   alert stays FABRIC_BELOW_MINIMUM, free stock under the minimum); ACCESSORY a manual point here (0 = never).
--- * Alerts: FABRIC_AT_REORDER_POINT (fabric on the formula only: stock + on order <= point) and ACCESSORY_AT_REORDER_POINT
---   (stock <= point, formula or manual).
+-- * Lead time (fabric only): the supplier's delivery time is not recorded in the ERP (owner 20 Oct), so it is a per-fabric
+--   setting "lama kirim (hari)" of Owner/Admin (material_settings); empty: no formula for that fabric (NOT_ENOUGH_DATA).
+-- * A manual number: FABRIC the minimum of Kain & Benchmark (fabric_master_profiles, unchanged), which replaces the formula
+--   and keeps the Ringkasan Gudang rule (free stock under the minimum); ACCESSORY the minimum here (manual_point, 0 = never;
+--   empty = NOT_SET, no reminder).
+-- * Alerts: the fabrics on the formula (stock + on order <= point) are rows of FABRIC_BELOW_MINIMUM "Stok kain di bawah
+--   minimum" next to the fabrics with a minimum (D17-10, cp7_alert_native.fabric_kind_source); ACCESSORY_AT_REORDER_POINT
+--   "Stok aksesori menipis": stock <= the manual minimum.
 grant select(id,movement_type,reversal_of_id,source_type)on erp.material_stock_movements to cp7_capture;
 grant select(material_id,minimum_stock_qty)on erp.fabric_master_profiles to cp7_capture;
 grant select(location_id)on erp.bc_accessory_zones_v1 to cp7_capture;
@@ -34,7 +38,7 @@ create table cp7_stock_formula.material_evaluations(
  unit_code text,free_qty numeric not null,on_order_qty numeric not null,usage_qty numeric not null,counted_days integer not null,
  use_days integer not null,daily_mean numeric,daily_sd numeric,lead_days numeric,setting_revision integer,z numeric not null,safety_qty numeric,
  formula_point numeric,manual_point numeric,manual_source text check(manual_source in('FABRIC_MINIMUM','ACCESSORY_MANUAL')),point numeric,
- basis text not null check(basis in('MANUAL','FORMULA','NOT_ENOUGH_DATA','NO_USAGE')),reason text check(length(reason)<=80),
+ basis text not null check(basis in('MANUAL','FORMULA','NOT_ENOUGH_DATA','NO_USAGE','NOT_SET')),reason text check(length(reason)<=80),
  state text not null check(state in('AT_OR_BELOW','ABOVE','NO_POINT')),changed_at timestamptz not null,
  check((basis in('MANUAL','FORMULA'))=(point is not null)),check((manual_source is null)=(manual_point is null)));
 do $$declare t text;begin
@@ -100,7 +104,8 @@ begin
   order by x.material_id,x.revision desc),
  calc as(
   select i.*,coalesce(b.free,0)free,case when i.material_type='FABRIC'then coalesce(o.qty,0)else 0 end on_order,coalesce(st.total,0)usage,
-   coalesce(st.counted,0)counted,coalesce(st.use_days,0)use_days,st.mean,case when st.counted>=2 then st.sd end sd,s.lead_days,s.revision setting_revision,
+   coalesce(st.counted,0)counted,coalesce(st.use_days,0)use_days,st.mean,case when st.counted>=2 then st.sd end sd,
+   case when i.material_type='FABRIC'then s.lead_days end lead_days,s.revision setting_revision,
    case when i.material_type='FABRIC'then nullif(fp.minimum_stock_qty,0)else s.manual_point end manual_point,
    case when i.material_type='FABRIC'and fp.minimum_stock_qty>0 then'FABRIC_MINIMUM'when i.material_type='ACCESSORY'and s.manual_point is not null
     then'ACCESSORY_MANUAL'end manual_source
@@ -108,13 +113,14 @@ begin
   left join ordered o on o.material_id=i.material_id left join setting s on s.material_id=i.material_id
   left join erp.fabric_master_profiles fp on fp.material_id=i.material_id and i.material_type='FABRIC'),
  formula as(
-  select c.*,case when c.usage>0 and c.counted>=14 and c.lead_days is not null then zv*coalesce(c.sd,0)*sqrt(c.lead_days)end safety from calc c),
+  select c.*,case when c.material_type='FABRIC'and c.usage>0 and c.counted>=14 and c.lead_days is not null
+   then zv*coalesce(c.sd,0)*sqrt(c.lead_days)end safety from calc c),
  final as(
   select f.*,case when f.safety is not null then greatest(ceil((f.mean*f.lead_days+f.safety)*100)/100,0)end formula_point,
-   case when f.manual_source is not null then'MANUAL'when f.usage<=0 then'NO_USAGE'when f.counted<14 or f.lead_days is null then'NOT_ENOUGH_DATA'
-    else'FORMULA'end basis,
-   case when f.manual_source is not null then null when f.usage<=0 then'NO_POSTED_USAGE_IN_WINDOW'when f.counted<14 then'FEWER_THAN_14_COUNTED_DAYS'
-    when f.lead_days is null then'NO_LEAD_TIME'end reason
+   case when f.manual_source is not null then'MANUAL'when f.material_type='ACCESSORY'then'NOT_SET'when f.usage<=0 then'NO_USAGE'
+    when f.counted<14 or f.lead_days is null then'NOT_ENOUGH_DATA'else'FORMULA'end basis,
+   case when f.manual_source is not null then null when f.material_type='ACCESSORY'then'NO_MANUAL_MINIMUM'when f.usage<=0 then'NO_POSTED_USAGE_IN_WINDOW'
+    when f.counted<14 then'FEWER_THAN_14_COUNTED_DAYS'when f.lead_days is null then'NO_LEAD_TIME'end reason
   from formula f),
  scored as(
   select x.*,case x.basis when'MANUAL'then x.manual_point when'FORMULA'then x.formula_point end point from final x),
@@ -162,15 +168,16 @@ end $$;
 create function cp7_stock_formula.material_alert_row(e jsonb,p_level numeric)returns jsonb
 language sql stable security definer set search_path=''set TimeZone='UTC'as $$
  select jsonb_build_object('subject_key',e->>'material_id',
-  'title',case e->>'material_type'when'FABRIC'then'Stok kain menipis: 'else'Stok aksesori menipis: 'end||(e->>'name'),
+  'title',case e->>'material_type'when'FABRIC'then'Stok kain di bawah minimum: 'else'Stok aksesori menipis: 'end||(e->>'name'),
   'detail',jsonb_build_object('material_id',e->'material_id','material_type',e->'material_type','sku',e->'sku','name',e->'name','unit_code',e->'unit_code',
    'free_qty',(e->>'free_qty')::numeric::text,'on_order_qty',(e->>'on_order_qty')::numeric::text,'reorder_point_qty',(e->>'point')::numeric::text,
    'basis',e->'basis','daily_mean',round((e->>'daily_mean')::numeric,2)::text,'lead_days',(e->>'lead_days')::numeric::text,
    'safety_qty',case when e->>'basis'='FORMULA'then round((e->>'safety_qty')::numeric,2)::text end,
    'service_level',case when e->>'basis'='FORMULA'then p_level::text end),
   'party_names','[]'::jsonb)$$;
--- The sources of FABRIC_AT_REORDER_POINT (the fabrics on the formula; a fabric with a minimum stays with
--- FABRIC_BELOW_MINIMUM) and ACCESSORY_AT_REORDER_POINT, with the permissions of their screens.
+-- FABRIC: the fabrics on the formula, read by cp7_alert_native.fabric_kind_source() into FABRIC_BELOW_MINIMUM (a fabric
+-- with a minimum is left to the Ringkasan Gudang rule there); ACCESSORY: the source of ACCESSORY_AT_REORDER_POINT. Each
+-- with the permissions of its screen.
 create function cp7_stock_formula.material_source(p_type text)returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
 declare r jsonb;lvl numeric:=(cp7_stock_formula.current_settings()->>'service_level')::numeric;t timestamptz:=clock_timestamp();
@@ -232,7 +239,7 @@ begin
  if jsonb_typeof(p)is distinct from'object'or exists(select 1 from jsonb_object_keys(p)k where k not in('material_type','q','filter','offset','limit'))
   or jsonb_typeof(p->'material_type')is distinct from'string'
   or(p?'q'and jsonb_typeof(p->'q')<>'string')or(p?'filter'and(jsonb_typeof(p->'filter')<>'string'
-   or p->>'filter'not in('ALL','AT_OR_BELOW','MANUAL','NOT_ENOUGH_DATA')))
+   or p->>'filter'not in('ALL','AT_OR_BELOW','MANUAL','NOT_ENOUGH_DATA','NOT_SET')))
   or(p?'offset'and(jsonb_typeof(p->'offset')<>'number'or(p->>'offset')!~'^[0-9]{1,7}$'))
   or(p?'limit'and(jsonb_typeof(p->'limit')<>'number'or(p->>'limit')!~'^[0-9]{1,3}$'))then raise exception using errcode='22023',message='CP7_FORMULA_QUERY';end if;
  typ:=p->>'material_type';a:=cp7_stock_formula.material_access_now(typ,false);
@@ -240,17 +247,20 @@ begin
  if length(q)>120 or n not between 1 and 100 then raise exception using errcode='22023',message='CP7_FORMULA_QUERY';end if;
  select count(*)into total from cp7_stock_formula.material_evaluations e where e.material_type=typ
   and(q=''or strpos(lower(concat_ws(' ',e.sku,e.name)),q)>0)
-  and(f='ALL'or(f='AT_OR_BELOW'and e.state='AT_OR_BELOW')or(f='MANUAL'and e.basis='MANUAL')or(f='NOT_ENOUGH_DATA'and e.basis='NOT_ENOUGH_DATA'));
+  and(f='ALL'or(f='AT_OR_BELOW'and e.state='AT_OR_BELOW')or(f='MANUAL'and e.basis='MANUAL')or(f='NOT_ENOUGH_DATA'and e.basis='NOT_ENOUGH_DATA')
+   or(f='NOT_SET'and e.basis='NOT_SET'));
  select coalesce(jsonb_agg(to_jsonb(x)-'ord'order by x.ord,x.sku,x.material_id),'[]')into rows from(
   select e.*,case e.state when'AT_OR_BELOW'then 0 when'ABOVE'then 1 else 2 end ord from cp7_stock_formula.material_evaluations e
   where e.material_type=typ and(q=''or strpos(lower(concat_ws(' ',e.sku,e.name)),q)>0)
-   and(f='ALL'or(f='AT_OR_BELOW'and e.state='AT_OR_BELOW')or(f='MANUAL'and e.basis='MANUAL')or(f='NOT_ENOUGH_DATA'and e.basis='NOT_ENOUGH_DATA'))
+   and(f='ALL'or(f='AT_OR_BELOW'and e.state='AT_OR_BELOW')or(f='MANUAL'and e.basis='MANUAL')or(f='NOT_ENOUGH_DATA'and e.basis='NOT_ENOUGH_DATA')
+    or(f='NOT_SET'and e.basis='NOT_SET'))
   order by ord,e.sku,e.material_id limit n offset off)x;
  return jsonb_build_object('contract_version','cp7.material-reorder.v1','material_type',typ,'read_at',statement_timestamp(),
   'settings',cp7_stock_formula.current_settings(),'run',(select to_jsonb(r)-'id'from cp7_stock_formula.runs r),
   'can_manage',coalesce(a->'profile'->>'role_code','')in('OWNER','ADMIN'),
   'counts',(select jsonb_build_object('items',count(*),'at_or_below',count(*)filter(where e.state='AT_OR_BELOW'),'manual',count(*)filter(where e.basis='MANUAL'),
-    'formula',count(*)filter(where e.basis='FORMULA'),'not_enough_data',count(*)filter(where e.basis='NOT_ENOUGH_DATA'),'no_usage',count(*)filter(where e.basis='NO_USAGE'))
+    'formula',count(*)filter(where e.basis='FORMULA'),'not_enough_data',count(*)filter(where e.basis='NOT_ENOUGH_DATA'),'no_usage',count(*)filter(where e.basis='NO_USAGE'),
+    'not_set',count(*)filter(where e.basis='NOT_SET'))
    from cp7_stock_formula.material_evaluations e where e.material_type=typ),
   'page',jsonb_build_object('rows',rows,'total',total::text,'offset',off,'limit',n,'next_offset',case when off+jsonb_array_length(rows)<total then off+jsonb_array_length(rows)end));
 end $$;
@@ -262,7 +272,8 @@ begin
  if not pg_try_advisory_xact_lock(hashtextextended('CP7:FORMULA:FG',0))then raise exception using errcode='55P03',message='CP7_FORMULA_BUSY';end if;
  return cp7_stock_formula.compute(clock_timestamp(),interval'1 second');
 end $$;
--- Lead time (all) and manual point (accessories only; a fabric's manual number is its minimum in Kain & Benchmark).
+-- Lead time (fabrics only, D17-10) and manual minimum (accessories only; a fabric's manual number is its minimum in Kain &
+-- Benchmark).
 create function cp7_stock_formula.save_material(p jsonb,p_request uuid)returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
 declare a jsonb;h text;prev cp7_stock_formula.material_settings;mat record;cur_rev integer;row cp7_stock_formula.material_settings;lead numeric;manual numeric;
@@ -282,7 +293,8 @@ begin
  a:=cp7_stock_formula.material_access_now(mat.material_type,true);
  if p_request is null then raise exception using errcode='22023',message='CP7_FORMULA_REQUEST_REQUIRED';end if;
  lead:=(p->>'lead_days')::numeric;manual:=(p->>'manual_point')::numeric;
- if(lead is not null and(lead<=0 or lead>365))or(manual is not null and mat.material_type='FABRIC')then
+ if(lead is not null and(lead<=0 or lead>365))or(manual is not null and mat.material_type='FABRIC')
+  or(lead is not null and mat.material_type='ACCESSORY')then
   raise exception using errcode='22023',message='CP7_FORMULA_MATERIAL_INVALID';end if;
  h:=encode(sha256(convert_to(coalesce(p::text,''),'UTF8')),'hex');
  perform pg_advisory_xact_lock(hashtextextended('CP7:FORMULA:FG',0));

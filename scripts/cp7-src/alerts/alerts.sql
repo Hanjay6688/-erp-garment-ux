@@ -9,8 +9,9 @@
 --   filters; the CI compares both answers), receivables and payables due today or overdue (the accepted reminder
 --   sources receivable_source()/payable_source(), states DUE_TODAY and OVERDUE), and (SS-1, D17-8/D17-9) finished goods
 --   at or under their reorder point (cp7_stock_formula.fg_source(), stock-formula/formula.sql), and (SS-2, SS-3) fabrics on
---   the formula and accessories at or under theirs (cp7_stock_formula.material_source(), stock-formula/materials.sql); a
---   fabric with a minimum in Kain & Benchmark keeps FABRIC_BELOW_MINIMUM.
+--   the formula and accessories at or under their manual minimum (cp7_stock_formula.material_source(),
+--   stock-formula/materials.sql). Owner D17-10: one fabric reminder, FABRIC_BELOW_MINIMUM "Stok kain di bawah minimum":
+--   the minimum of Kain & Benchmark, or the formula's number when that minimum is empty (fabric_kind_source()).
 -- * outbox: what must reach WhatsApp: every new alert (AFTER INSERT trigger on alerts, so a rolled-back transaction
 --   queues nothing), every manual reminder of the owner whose time has come, and repeats of what is still open.
 --   Staff reminders are never read.
@@ -78,7 +79,7 @@ create table cp7_alert_native.transport(
  timeout_ms integer not null check(timeout_ms between 1000 and 15000));
 insert into cp7_alert_native.transport values(true,'https://api.callmebot.com/whatsapp.php',5000);
 create table cp7_alert_native.alerts(
- id uuid primary key default gen_random_uuid(),kind text not null check(kind in('FABRIC_BELOW_MINIMUM','FABRIC_AT_REORDER_POINT','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','AR_DUE','AP_DUE','PRODUCTION_GAP','FABRIC_NEED')),
+ id uuid primary key default gen_random_uuid(),kind text not null check(kind in('FABRIC_BELOW_MINIMUM','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','AR_DUE','AP_DUE','PRODUCTION_GAP','FABRIC_NEED')),
  subject_key text not null check(length(subject_key)between 1 and 200),episode integer not null check(episode>0),
  title text not null check(length(title)between 1 and 300),detail jsonb not null check(jsonb_typeof(detail)='object'),
  party_names jsonb not null check(jsonb_typeof(party_names)='array'),source_hash text not null check(source_hash~'^[0-9a-f]{64}$'),
@@ -100,7 +101,7 @@ create unique index dispatches_one_digest on cp7_alert_native.dispatches(digest_
 create table cp7_alert_native.outbox(
  id bigint generated always as identity primary key,item_kind text not null check(item_kind in('ALERT','MANUAL_REMINDER')),item_id uuid not null,
  item_episode text not null,round integer not null check(round>=0),
- alert_kind text not null check(alert_kind in('MANUAL_REMINDER','FABRIC_BELOW_MINIMUM','FABRIC_AT_REORDER_POINT','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','AR_DUE','AP_DUE',
+ alert_kind text not null check(alert_kind in('MANUAL_REMINDER','FABRIC_BELOW_MINIMUM','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','AR_DUE','AP_DUE',
   'PRODUCTION_GAP','FABRIC_NEED')),
  queued_at timestamptz not null default clock_timestamp(),
  state text not null default'PENDING'check(state in('PENDING','HELD_QUIET','DISPATCHED','ACCEPTED','UNKNOWN','RESOLVED_BEFORE_SEND','DISABLED','KIND_OFF')),
@@ -115,7 +116,7 @@ create table cp7_alert_native.dispatch_items(
  primary key(dispatch_id,outbox_id));
 -- Last read of each source and last run of each tick, for the screen ("diperbarui jam ...").
 create table cp7_alert_native.source_state(
- kind text primary key check(kind in('FABRIC_BELOW_MINIMUM','FABRIC_AT_REORDER_POINT','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','AR_DUE','AP_DUE','PRODUCTION_GAP','FABRIC_NEED')),last_try_at timestamptz not null,last_ok_at timestamptz,
+ kind text primary key check(kind in('FABRIC_BELOW_MINIMUM','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','AR_DUE','AP_DUE','PRODUCTION_GAP','FABRIC_NEED')),last_try_at timestamptz not null,last_ok_at timestamptz,
  last_error text check(length(last_error)<=200),open_count integer);
 create table cp7_alert_native.ticks(job text primary key check(job in('COLLECT','SEND','ANALYSIS')),at timestamptz not null,outcome jsonb not null);
 -- The owner's finished staged analyses as the analysis tick works through them (WA-2b): the reminders v2 condition set
@@ -332,6 +333,17 @@ begin
  into r from low y;
  return r;
 end $$;
+-- Owner D17-10: the fabric reminder is one kind. Fabrics with a minimum in Kain & Benchmark come from fabric_source()
+-- (the Ringkasan Gudang rule, unchanged); fabrics without one come from the formula (cp7_stock_formula.material_source,
+-- stock + on order <= the formula's number), whose state for a fabric with a minimum (MANUAL_MINIMUM_IN_FORCE) is left to
+-- fabric_source(). The two sets never share a fabric.
+create function cp7_alert_native.fabric_kind_source()returns jsonb
+language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
+declare m jsonb:=cp7_alert_native.fabric_source();f jsonb:=cp7_stock_formula.material_source('FABRIC');
+begin
+ return jsonb_build_object('rows',(m->'rows')||(f->'rows'),
+  'states',coalesce((select jsonb_object_agg(e.key,e.value)from jsonb_each(f->'states')e where e.value<>'"MANUAL_MINIMUM_IN_FORCE"'::jsonb),'{}')||(m->'states'));
+end $$;
 -- Receivables: cp7_reminder_native.receivable_source() (finance.ar.view), open while DUE_TODAY or OVERDUE.
 create function cp7_alert_native.ar_source()returns jsonb
 language plpgsql stable security definer set search_path=''set TimeZone='UTC'as $$
@@ -425,8 +437,7 @@ begin
  for k in select distinct u from unnest(p_kinds)u where u not in('MANUAL_REMINDER','PRODUCTION_GAP','FABRIC_NEED')order by 1 loop
   perform pg_advisory_xact_lock(hashtextextended('CP7:ALERT:KIND:'||k,0));
   begin
-   src:=case k when'FABRIC_BELOW_MINIMUM'then cp7_alert_native.fabric_source()when'FG_AT_REORDER_POINT'then cp7_stock_formula.fg_source()
-    when'FABRIC_AT_REORDER_POINT'then cp7_stock_formula.material_source('FABRIC')
+   src:=case k when'FABRIC_BELOW_MINIMUM'then cp7_alert_native.fabric_kind_source()when'FG_AT_REORDER_POINT'then cp7_stock_formula.fg_source()
     when'ACCESSORY_AT_REORDER_POINT'then cp7_stock_formula.material_source('ACCESSORY')
     when'AR_DUE'then cp7_alert_native.ar_source()
     when'AP_DUE'then cp7_alert_native.ap_source()end;
@@ -470,7 +481,7 @@ begin
   perform cp7_alert_native.claims_leave(prior);
   return cp7_alert_native.record_tick('COLLECT',jsonb_build_object('ran',false,'outcome','OWNER_ACCESS_DENIED'));
  end if;
- res:=cp7_alert_native.collect_kinds(array['FABRIC_BELOW_MINIMUM','FABRIC_AT_REORDER_POINT','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT',
+ res:=cp7_alert_native.collect_kinds(array['FABRIC_BELOW_MINIMUM','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT',
   'AR_DUE','AP_DUE']);
  manual:=cp7_alert_native.queue_manual(s.actor_user_id);
  if erp.get_my_access_v1()is distinct from a then raise exception using errcode='42501',message='CP7_ALERT_ACCESS_CHANGED_DURING_TICK';end if;
@@ -673,17 +684,18 @@ end $$;
 create function cp7_alert_native.item_line(p jsonb,p_detail text)returns text
 language sql stable security definer set search_path=''set TimeZone='UTC'as $$
  select left(case p->>'kind'
-  when'FABRIC_BELOW_MINIMUM'then(p->'detail'->>'material_name')||': sisa '||cp7_alert_native.num(p->'detail'->>'qty')||' '||(p->'detail'->>'unit_code')
-   ||', minimum '||cp7_alert_native.num(p->'detail'->>'minimum_qty')||' '||(p->'detail'->>'unit_code')
+  when'FABRIC_BELOW_MINIMUM'then case when p->'detail'?'reorder_point_qty'then(p->'detail'->>'name')||': sisa '
+    ||cp7_alert_native.num(p->'detail'->>'free_qty')||' '||coalesce(p->'detail'->>'unit_code','')
+    ||', dipesan '||cp7_alert_native.num(p->'detail'->>'on_order_qty')||' '||coalesce(p->'detail'->>'unit_code','')
+    ||', minimum rumus '||cp7_alert_native.num(p->'detail'->>'reorder_point_qty')||' '||coalesce(p->'detail'->>'unit_code','')
+   else(p->'detail'->>'material_name')||': sisa '||cp7_alert_native.num(p->'detail'->>'qty')||' '||(p->'detail'->>'unit_code')
+   ||', minimum '||cp7_alert_native.num(p->'detail'->>'minimum_qty')||' '||(p->'detail'->>'unit_code')end
   when'FG_AT_REORDER_POINT'then coalesce(p->'detail'->>'product_name','?')||coalesce(' '||(p->'detail'->>'size_code'),'')
    ||': sisa '||cp7_alert_native.num(p->'detail'->>'free_pcs')||' pcs, sedang diproduksi '
    ||case when p->'detail'->>'wip_status'='COMPLETE'then cp7_alert_native.num(p->'detail'->>'wip_pcs')||' pcs'else'belum diketahui'end
    ||', titik pesan ulang '||cp7_alert_native.num(p->'detail'->>'reorder_point_pcs')||' pcs'
-  when'FABRIC_AT_REORDER_POINT'then(p->'detail'->>'name')||': sisa '||cp7_alert_native.num(p->'detail'->>'free_qty')||' '||coalesce(p->'detail'->>'unit_code','')
-   ||', dipesan '||cp7_alert_native.num(p->'detail'->>'on_order_qty')||' '||coalesce(p->'detail'->>'unit_code','')
-   ||', titik pesan ulang '||cp7_alert_native.num(p->'detail'->>'reorder_point_qty')||' '||coalesce(p->'detail'->>'unit_code','')
   when'ACCESSORY_AT_REORDER_POINT'then(p->'detail'->>'name')||': sisa '||cp7_alert_native.num(p->'detail'->>'free_qty')||' '||coalesce(p->'detail'->>'unit_code','')
-   ||', titik pesan ulang '||cp7_alert_native.num(p->'detail'->>'reorder_point_qty')||' '||coalesce(p->'detail'->>'unit_code','')
+   ||', minimum '||cp7_alert_native.num(p->'detail'->>'reorder_point_qty')||' '||coalesce(p->'detail'->>'unit_code','')
   when'MANUAL_REMINDER'then(p->>'title')||case when p_detail='DETAILED'and coalesce(p->'detail'->>'note','')<>''then' ('||left(p->'detail'->>'note',60)||')'else''end
   when'AR_DUE'then coalesce((p->'party_names'->>0)||' ','')||coalesce(p->'detail'->>'number','?')||': '||cp7_alert_native.rp(p->'detail'->>'open_balance')
    ||', jatuh tempo '||cp7_alert_native.tgl(p->'detail'->>'due_date')
@@ -700,9 +712,9 @@ language sql stable security definer set search_path=''set TimeZone='UTC'as $$
 create function cp7_alert_native.render(p_mode text,p_items jsonb,p_failed text[],p_detail text,p_max integer,p_at timestamptz,p_unchecked jsonb)returns text
 language plpgsql stable security definer set search_path=''set TimeZone='UTC'as $$
 declare cap integer;body text;k text;n integer;u integer;head text;x jsonb;
- kinds text[]:=array['MANUAL_REMINDER','FABRIC_BELOW_MINIMUM','FABRIC_AT_REORDER_POINT','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','FABRIC_NEED',
+ kinds text[]:=array['MANUAL_REMINDER','FABRIC_BELOW_MINIMUM','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','FABRIC_NEED',
   'PRODUCTION_GAP','AP_DUE','AR_DUE'];
- heads jsonb:='{"MANUAL_REMINDER":"Pengingat","FABRIC_BELOW_MINIMUM":"Stok kain di bawah minimum","FABRIC_AT_REORDER_POINT":"Stok kain menipis",'
+ heads jsonb:='{"MANUAL_REMINDER":"Pengingat","FABRIC_BELOW_MINIMUM":"Stok kain di bawah minimum",'
   '"ACCESSORY_AT_REORDER_POINT":"Stok aksesori menipis","FG_AT_REORDER_POINT":"Stok barang jadi menipis",'
   '"FABRIC_NEED":"Kain perlu dibeli",'
   '"PRODUCTION_GAP":"Kekurangan produksi","AP_DUE":"Tagihan supplier jatuh tempo","AR_DUE":"Piutang pelanggan jatuh tempo"}';
@@ -968,7 +980,7 @@ end $$;
 create function cp7_alert_native.defaults()returns jsonb
 language sql immutable security definer set search_path=''set TimeZone='UTC'as $$
  select jsonb_build_object('revision',0,'enabled',false,'phone_e164',null,'detail','SUMMARY','digest_times',jsonb_build_array('08:00','15:00'),
-  'kinds',jsonb_build_array('MANUAL_REMINDER','FABRIC_BELOW_MINIMUM','FABRIC_AT_REORDER_POINT','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','AR_DUE',
+  'kinds',jsonb_build_array('MANUAL_REMINDER','FABRIC_BELOW_MINIMUM','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','AR_DUE',
    'AP_DUE','PRODUCTION_GAP','FABRIC_NEED'),'repeat_minutes',1440,'burst_after_per_day',30,
   'burst_merge_minutes',30,'max_items',10,'quiet_enabled',true,'quiet_start','21:00','quiet_end','06:00','analysis_every_minutes',240,
   'analysis_start','07:00','analysis_end','20:00')$$;
@@ -1003,7 +1015,6 @@ begin
  keep_days:=coalesce((p->>'resolved_days')::integer,7);
  is_owner:=a->'profile'->>'role_code'='OWNER';
  vis:=array_remove(array[case when erp.has_permission('warehouse.material.view')and erp.has_permission('master.fabric.view')then'FABRIC_BELOW_MINIMUM'end,
-  case when erp.has_permission('warehouse.material.view')and erp.has_permission('master.fabric.view')then'FABRIC_AT_REORDER_POINT'end,
   case when erp.has_permission('warehouse.accessory.view')then'ACCESSORY_AT_REORDER_POINT'end,
   case when erp.has_permission('warehouse.fg.view')then'FG_AT_REORDER_POINT'end,
   case when erp.has_permission('finance.ar.view')then'AR_DUE'end,case when erp.has_permission('finance.ap.view')then'AP_DUE'end]
@@ -1066,7 +1077,7 @@ begin
   or exists(select 1 from jsonb_array_elements(p->'digest_times')e where jsonb_typeof(e)<>'string'or e#>>'{}'!~'^([01][0-9]|2[0-3]):[0-5][0-9]$')
   or jsonb_typeof(p->'kinds')<>'array'
   or exists(select 1 from jsonb_array_elements(p->'kinds')e where jsonb_typeof(e)<>'string'
-   or e#>>'{}'not in('MANUAL_REMINDER','FABRIC_BELOW_MINIMUM','FABRIC_AT_REORDER_POINT','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','AR_DUE','AP_DUE',
+   or e#>>'{}'not in('MANUAL_REMINDER','FABRIC_BELOW_MINIMUM','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','AR_DUE','AP_DUE',
     'PRODUCTION_GAP','FABRIC_NEED'))
   or exists(select 1 from(values('repeat_minutes'),('burst_after_per_day'),('burst_merge_minutes'),('max_items'),('analysis_every_minutes'))v(k)
    where jsonb_typeof(p->v.k)<>'number'or(p->>v.k)!~'^[0-9]{1,5}$')

@@ -2,7 +2,8 @@
 
 Dasar: keputusan owner D17-4, D17-5, D17-7, D17-8 (kutipan persis di `docs/cp7/OWNER_DECISIONS_20261008.md`) dan riset pakar
 28 Sep (`docs/cp7/benchmark-decisions.md`). Status: **disetujui owner (D17-9)**. Bagian 1–4 (barang jadi, kain, aksesori) sudah dibuat,
-desain teknis dan bedanya dari usulan ini di `docs/cp7/wa/STOCK_FORMULA_FG_DESIGN.md` (tiga beda menunggu keputusan owner);
+desain teknis dan bedanya dari usulan ini di `docs/cp7/wa/STOCK_FORMULA_FG_DESIGN.md`. Owner D17-10 mengubah bagian 3–4:
+aksesori memakai batas minimum manual saja (tanpa rumus), kain berumus masuk ke "Stok kain di bawah minimum" (satu judul);
 bagian 5: uji lengkap satu versi belum.
 
 ## 1. Safety stock barang jadi dengan rumus pakar

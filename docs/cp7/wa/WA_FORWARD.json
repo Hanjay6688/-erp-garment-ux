@@ -7,7 +7,8 @@
     "D17-6",
     "D17-7",
     "D17-8",
-    "D17-9"
+    "D17-9",
+    "D17-10"
   ],
   "design": "docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md",
   "expected_case_count": 57,
@@ -55,9 +56,9 @@
       "SS2_FABRIC_MINIMUM_STAYS_BELOW_MINIMUM",
       "SS2_FABRIC_ON_ORDER_COUNTS_TOWARD_POSITION",
       "SS2_NO_LEAD_TIME_NEVER_GUESSES",
-      "SS3_ACCESSORY_FORMULA_FROM_NOTES_AND_USE",
+      "SS3_ACCESSORY_USAGE_SHOWN_NO_FORMULA",
       "SS3_SERVICE_ZONES_NOT_FREE_STOCK",
-      "SS3_ACCESSORY_MANUAL_POINT_REPLACES_ZERO_NEVER",
+      "SS3_ACCESSORY_MANUAL_MINIMUM_ONLY_ZERO_NEVER",
       "SS3_MATERIAL_SOURCE_AND_ACCESS"
     ],
     "races": [
@@ -137,7 +138,7 @@
     "fixtures": "stock found at opname, sale draft and post, sale inverse, the production chain (cut, wash, QC), the planning profile, fabric receipts, Buat Potongan, fabric back from a cutting, cutting reopen, opening purchase commitments, notas mandor, factory use, nota returns credited, service post fill; all through accepted Native or CP7 commands; only masters inserted",
     "not_tested_on_real_data": "service level 95% has not been backtested on the owner data (none in the test environment); after CP7C",
     "material_alert_kinds": [
-      "FABRIC_AT_REORDER_POINT",
+      "FABRIC_BELOW_MINIMUM",
       "ACCESSORY_AT_REORDER_POINT"
     ],
     "material_rules": {
@@ -145,9 +146,10 @@
       "accessory_use": "CONTRACTOR_ISSUE (nota mandor) and INTERNAL_USE, less a nota credited back usable (BC_NOTE_RETURN_CREDIT outside the service zones)",
       "fabric_stock": "every location; on order: remaining opening purchase commitments (erp.bb_commitment_line_remaining_v1)",
       "accessory_stock": "active raw-material warehouses that are not a service zone (what Bahan & Roll shows on hand); no on-order source",
-      "lead_time": "per-material setting lama kirim (Owner/Admin); empty: NOT_ENOUGH_DATA",
-      "manual": "fabric: the Kain & Benchmark minimum (FABRIC_BELOW_MINIMUM stays, free stock strictly under); accessory: a manual point, 0 = never",
-      "rounding": "ceiling to 0.01 in the material unit"
+      "lead_time": "fabric only: per-fabric setting lama kirim (Owner/Admin); empty: NOT_ENOUGH_DATA; refused for an accessory (D17-10)",
+      "manual": "fabric: the Kain & Benchmark minimum replaces the formula and keeps the Ringkasan Gudang rule (free stock strictly under); accessory (D17-10): only a manual minimum, no formula; empty NOT_SET (no reminder), 0 = never; stock <= minimum rings",
+      "rounding": "ceiling to 0.01 in the material unit (fabric formula)",
+      "one_fabric_reminder": "D17-10: fabrics on the formula (stock + on order <= point) are rows of FABRIC_BELOW_MINIMUM \"Stok kain di bawah minimum\" next to the fabrics under their minimum (cp7_alert_native.fabric_kind_source); Ringkasan Gudang lists the minimums only"
     }
   }
 }

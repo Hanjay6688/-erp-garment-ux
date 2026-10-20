@@ -1,4 +1,4 @@
-# SS-1..SS-3 Titik pesan ulang barang jadi, kain, dan aksesori dengan rumus (desain teknis, 20 Okt 2026)
+# SS-1..SS-3 Titik pesan ulang: barang jadi dan kain dengan rumus, aksesori dengan minimum manual (desain teknis, 20 Okt 2026)
 
 Dasar: owner D17-8 dan D17-9 (kutipan persis di `docs/cp7/OWNER_DECISIONS_20261008.md`), usulan
 `docs/cp7/wa/PROPOSAL_SAFETY_STOCK_R6_20261020.md`, riset 28 Sep `docs/cp7/benchmark-decisions.md` (MIT ESD.260; kontrak
@@ -79,11 +79,11 @@ Kode: `scripts/cp7-src/stock-formula/materials.sql`. Kasus: `SS2_*` dan `SS3_*` 
 | Gerakan yang dibalik | Gerakan yang punya pembalik dan pembaliknya tidak dihitung (aturan STK01 Bahan & Roll) | sama |
 | Stok | Semua lokasi (aturan Ringkasan Gudang dan minimum kain) | Yang Bahan & Roll sebut "ada di gudang": gudang bahan aktif, bukan pos servis, area periksa, atau area rusak |
 | Sedang dipesan | Sisa PO terbuka saldo awal (`erp.bb_commitment_line_remaining_v1`, sumber yang dipakai analisis kain) | Tidak ada sumbernya; 0 |
-| Lama kirim L | Isian "lama kirim (hari)" per bahan oleh Owner/Admin (`material_settings`, riwayat tidak bisa diubah); kosong: belum cukup data | sama |
-| Angka manual | Minimum di Kain & Benchmark (tidak diubah); kain itu tetap di pengingat lama "Stok kain di bawah minimum" (stok < minimum) | Angka manual di pengaturan yang sama; 0 = tidak pernah diingatkan; kosong = rumus |
-| Titik | Rumus barang jadi, dalam satuan bahan, dibulatkan ke atas 0,01 | sama |
-| Menipis | Kain pakai rumus: stok + dipesan ≤ titik | stok ≤ titik (rumus atau manual) |
-| Pengingat | `FABRIC_AT_REORDER_POINT` "Stok kain menipis" (hak Bahan & Roll + Kain & Benchmark) | `ACCESSORY_AT_REORDER_POINT` "Stok aksesori menipis" (hak Aksesori) |
+| Lama kirim L | Isian "lama kirim (hari)" per bahan oleh Owner/Admin (`material_settings`, riwayat tidak bisa diubah); kosong: belum cukup data | Tidak ada (D17-10: tanpa rumus); ditolak |
+| Angka manual | Minimum di Kain & Benchmark (tidak diubah), menggantikan rumus (stok < minimum) | Batas minimum di pengaturan yang sama, satu-satunya dasar (D17-10); 0 = tidak pernah diingatkan; kosong = belum diatur, tidak diingatkan |
+| Titik | Rumus barang jadi, dalam satuan bahan, dibulatkan ke atas 0,01 | Batas minimum manual |
+| Menipis | Kain pakai rumus: stok + dipesan ≤ titik | stok ≤ batas minimum |
+| Pengingat | `FABRIC_BELOW_MINIMUM` "Stok kain di bawah minimum", bersama kain yang punya minimum (D17-10; hak Bahan & Roll + Kain & Benchmark) | `ACCESSORY_AT_REORDER_POINT` "Stok aksesori menipis" (hak Aksesori) |
 
 - Dihitung tiap menit bersama barang jadi, satu kunci modul yang sama. Satu tick menghitung sekali untuk ketiga sumber
   (`ensure_computed()`, kunci: waktu mulai perintah). Saat kunci dipegang, kain/aksesori yang menipis dicek ulang ke stok saat
@@ -93,18 +93,28 @@ Kode: `scripts/cp7-src/stock-formula/materials.sql`. Kasus: `SS2_*` dan `SS3_*` 
 Bukti CI: WA Forward run 39365590365 di `b9b11e1c`, 57 dari 57 PASS (termasuk 21 kasus rumus dan layar barang jadi,
 kain, aksesori di komputer dan HP).
 
-### Beda dari usulan (perlu keputusan owner)
+### Keputusan owner D17-10 (20 Okt, sesudah SS-2/SS-3 dibuat)
 
-- Usulan §3: "Peringatan 'stok kain di bawah minimum' yang sudah ada tetap jalan, memakai angka rumus bila tidak ada angka
-  manual." Yang dibuat: kain yang memakai rumus diingatkan dengan judul sendiri "Stok kain menipis"; judul lama tetap hanya
-  untuk kain yang punya minimum. Alasan: pengingat lama dan daftar Ringkasan Gudang dibuktikan sama (kasus
-  `WAF_FABRIC_EQUALS_WAREHOUSE_SUMMARY`), dan aturannya beda (stok < minimum, tanpa barang dipesan). Kalau owner memilih
-  satu judul, keduanya digabung dan Ringkasan Gudang ikut diubah.
-- Usulan §3/§4: lama kirim diisi "di data master". Panel isian dipasang di Master Data (Kain & Benchmark, Aksesori & Harga
-  Mandor) dan juga di Gudang (Bahan & Roll, Aksesori); datanya satu.
-- Usulan §4: "Kebutuhan aksesori dari rencana produksi ikut diteruskan ke WA" dengan cek ulang sebelum kirim. Belum dibuat:
-  analisis rencana produksi selalu menyatakan kebutuhan aksesori "belum diketahui" (aturan yang sudah diterima: pemakaian
-  aksesori per potong tidak tercatat), jadi tidak ada kebutuhan yang bisa dicek ulang atau dikirim. Yang dikirim ke WA untuk
-  aksesori adalah "Stok aksesori menipis" dari rumus stok di atas.
+Owner (persis, `docs/cp7/OWNER_DECISIONS_20261008.md`): "aksesoris pake batas minimum manual aja ... rumus ga penting
+keknya. lalu untuk judul itu merge aja yg stok menipis atau di bawah minimum". Yang diubah:
+
+- **Aksesori tanpa rumus.** Pengingat "Stok aksesori menipis" hanya dari batas minimum yang diisi manual per aksesori
+  (stok di gudang ≤ minimum; 0 = tidak pernah; kosong = `NOT_SET`, tidak diingatkan). Lama kirim untuk aksesori ditolak
+  (`CP7_FORMULA_MATERIAL_INVALID`). Pemakaian per hari tetap dihitung dan ditampilkan, untuk membantu memilih minimum
+  (owner akan memberi MOQ dan lama kirim dari Cina; penulis membantu menghitung angkanya). Kasus
+  `SS3_ACCESSORY_USAGE_SHOWN_NO_FORMULA`, `SS3_ACCESSORY_MANUAL_MINIMUM_ONLY_ZERO_NEVER`.
+- **Satu pengingat kain.** Kalimat usulan §3 yang disetujui di D17-9 dipakai: kain yang memakai rumus masuk ke
+  "Stok kain di bawah minimum" (`FABRIC_BELOW_MINIMUM`), memakai angka rumus bila minimum di Kain & Benchmark kosong. Jenis
+  `FABRIC_AT_REORDER_POINT` dihapus. Gabungannya fungsi baru `cp7_alert_native.fabric_kind_source()`: kain yang punya
+  minimum tetap dari `fabric_source()` (aturan Ringkasan Gudang, tidak diubah); kain lain dari rumus (stok + dipesan ≤
+  titik). Baris WA: "Kain A: sisa 30 YD, dipesan 0 YD, minimum rumus 45 YD" di samping "Kain B: sisa 100 YD, minimum
+  500 YD", di bawah satu judul.
+- Ringkasan Gudang tetap hanya mendaftar minimum yang diisi di Kain & Benchmark (teksnya memang menyebut itu); pembanding
+  lama `WAF_FABRIC_EQUALS_WAREHOUSE_SUMMARY` tidak diubah. Kain berumus terlihat di Pengingat sistem, WA, dan panel Titik
+  pesan ulang (kasus `WAF_FABRIC_REORDER_POINT_FORWARDED` memeriksa keduanya).
+- Isian lama kirim tetap di Master Data dan Gudang, kini hanya untuk kain.
+- Kebutuhan aksesori dari rencana produksi tetap tidak diteruskan (analisis menyatakannya "belum diketahui"); belum ada
+  keputusan owner lain soal ini.
+
 - Usulan §5 "Belum diperiksa: pemakaian aksesori per hari": sudah diperiksa, sumbernya nota mandor, pemakaian pabrik, dan
   retur nota yang dikreditkan (tabel di atas).

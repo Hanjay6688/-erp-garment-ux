@@ -329,7 +329,7 @@ def visible(cur, subject):
                                       'where u.auth_user_id=%s', (subject,)).fetchall()}
     out = set()
     if {'warehouse.material.view', 'master.fabric.view'} <= keys:
-        out |= {'FABRIC_BELOW_MINIMUM', 'FABRIC_AT_REORDER_POINT'}
+        out.add('FABRIC_BELOW_MINIMUM')
     if 'warehouse.accessory.view' in keys:
         out.add('ACCESSORY_AT_REORDER_POINT')
     if 'warehouse.fg.view' in keys:
@@ -715,7 +715,7 @@ def cases(cur, today):
         dbody = dispatch(cur, detailed['dispatch_id'])['body']
         assert detailed['outcome'] == 'SENT' and (ar['party'] in dbody or '- dan ' in dbody), dbody
         owner_view = rpc(cur, 'erp_cp7_get_alerts_v1', (json.dumps({}),), s['owner'])
-        assert {'FABRIC_BELOW_MINIMUM', 'FABRIC_AT_REORDER_POINT', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
+        assert {'FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
                 'PRODUCTION_GAP', 'FABRIC_NEED'} == {k['kind'] for k in owner_view['kinds']} \
             == visible(cur, s['owner']), owner_view['kinds']
         assert any(r['wa'] is not None for r in owner_view['rows'])
@@ -945,60 +945,73 @@ def cases(cur, today):
         assert o['free'] <= o['point'], o
         return m, o
 
+    # Owner D17-10: one fabric reminder. A fabric on the formula (no minimum in Kain & Benchmark) is a row of
+    # FABRIC_BELOW_MINIMUM next to a fabric under its minimum, under one heading; Ringkasan Gudang keeps listing only the
+    # minimums of Kain & Benchmark.
     def fabric_forwarded():
-        s = setup(cur, kinds=KINDS + ['FABRIC_AT_REORDER_POINT'])
+        s = setup(cur, kinds=KINDS)
         m, o = fabric_low()
         minimum = formula.fabric(cur, 100, today - timedelta(days=40), minimum='500')
         out = tick(cur, 'collect_tick')
-        assert out['kinds']['FABRIC_AT_REORDER_POINT'].get('error') is None and out['kinds']['FABRIC_AT_REORDER_POINT']['opened'] >= 1, out
-        item = alert_item(cur, 'FABRIC_AT_REORDER_POINT', m['material'])
-        d0 = alerts(cur, 'FABRIC_AT_REORDER_POINT')[m['material']]['detail']
+        assert out['kinds']['FABRIC_BELOW_MINIMUM'].get('error') is None and out['kinds']['FABRIC_BELOW_MINIMUM']['opened'] >= 2, out
+        assert 'FABRIC_AT_REORDER_POINT' not in out['kinds'], out
+        item = alert_item(cur, 'FABRIC_BELOW_MINIMUM', m['material'])
+        opened = alerts(cur, 'FABRIC_BELOW_MINIMUM')
+        d0, dm = opened[m['material']]['detail'], opened[minimum['material']]['detail']
         assert (D(d0['free_qty']), D(d0['on_order_qty']), D(d0['reorder_point_qty']), d0['basis'], d0['unit_code']) == (o['free'], 0, o['point'], 'FORMULA', 'YD'), d0
-        assert minimum['material'] not in alerts(cur, 'FABRIC_AT_REORDER_POINT') and minimum['material'] in alerts(cur, 'FABRIC_BELOW_MINIMUM')
+        assert (D(dm['qty']), D(dm['minimum_qty']), dm['unit_code']) == (100, 500, 'YD') and 'basis' not in dm, dm
+        assert opened[m['material']]['title'] == 'Stok kain di bawah minimum: ' + m['name'], opened[m['material']]
+        low = summary_low(cur, s['owner'])
+        listed = {r['material_id'] for r in low['rows']}
+        assert minimum['material'] in listed and m['material'] not in listed, (low, m['material'])
         before = last_request(cur)
         sent = tick(cur, 'send_tick')
         assert sent['outcome'] == 'SENT', sent
         d = dispatch(cur, sent['dispatch_id'])
         reqs = queued(cur, before)
-        line = '- %s: sisa %s YD, dipesan 0 YD, titik pesan ulang %s YD' % (m['name'], wa_num(o['free']), wa_num(o['point']))
+        line = '- %s: sisa %s YD, dipesan 0 YD, minimum rumus %s YD' % (m['name'], wa_num(o['free']), wa_num(o['point']))
+        line_min = '- %s: sisa 100 YD, minimum 500 YD' % minimum['name']
         lines = d['body'].split('\n')
-        assert len(reqs) == 1 and reqs[0]['text'] == d['body'] and 'Stok kain menipis (1):' in lines and line in lines, lines
+        assert len(reqs) == 1 and reqs[0]['text'] == d['body'] and 'Stok kain di bawah minimum (2):' in lines and line in lines and line_min in lines, lines
+        assert not [x for x in lines if 'menipis' in x], lines
         assert [(x['state'], x['dispatch']) for x in outbox(cur, item)] == [('DISPATCHED', d['id'])]
         owner_view = rpc(cur, 'erp_cp7_get_alerts_v1', ('{}',), s['owner'])
-        assert [r['kind'] for r in owner_view['rows'] if r['subject_key'] == m['material']] == ['FABRIC_AT_REORDER_POINT'], owner_view['rows']
+        assert [r['kind'] for r in owner_view['rows'] if r['subject_key'] == m['material']] == ['FABRIC_BELOW_MINIMUM'], owner_view['rows']
         blind = formula.staff_with(cur, 'warehouse.material.view', 'warehouse.accessory.view')
-        assert not [r for r in rpc(cur, 'erp_cp7_get_alerts_v1', ('{}',), blind)['rows'] if r['kind'] == 'FABRIC_AT_REORDER_POINT']
+        assert not [r for r in rpc(cur, 'erp_cp7_get_alerts_v1', ('{}',), blind)['rows'] if r['kind'] == 'FABRIC_BELOW_MINIMUM']
         # A second fabric goes under its point, and is received before the next message: resolved, not sent.
         age_dispatches(cur, 2)
         m2, o2 = fabric_low()
         tick(cur, 'collect_tick')
-        item2 = alert_item(cur, 'FABRIC_AT_REORDER_POINT', m2['material'])
+        item2 = alert_item(cur, 'FABRIC_BELOW_MINIMUM', m2['material'])
         assert [x['state'] for x in outbox(cur, item2)] == ['PENDING']
         formula.receive_fabric(cur, m2['material'], 50, today, location=m2['location'], hour=0)
         out2 = tick(cur, 'send_tick')
         a2 = outbox(cur, item2)[0]
         assert (a2['state'], a2['reason'], a2['dispatch']) == ('RESOLVED_BEFORE_SEND', 'ABOVE_REORDER_POINT', None), (a2, out2)
-        return dict(status='PASS', line=line, minimum_fabric_stays_below_minimum=True, staff_without_fabric_view_sees_none=True,
-                    received_before_send=a2['reason'])
+        return dict(status='PASS', line=line, line_minimum=line_min, one_heading='Stok kain di bawah minimum',
+                    ringkasan_gudang_lists_minimums_only=True, staff_without_fabric_view_sees_none=True, received_before_send=a2['reason'])
 
     def accessory_forwarded():
         s = setup(cur, kinds=KINDS + ['ACCESSORY_AT_REORDER_POINT'])
         admin = master.role_actor(cur, 'ADMIN')
         a = formula.accessory(cur, today, 280)
         formula.accessory_days(cur, a, today, formula.SPARSE)
-        formula.save_material(cur, admin, a['material'], lead=5, manual='250')
+        assert refusal(cur, lambda: formula.save_material(cur, admin, a['material'], lead=5, manual='250'))[1] == 'CP7_FORMULA_MATERIAL_INVALID'
+        formula.save_material(cur, admin, a['material'], manual='250', reason='SS-3 batas minimum')
         out = tick(cur, 'collect_tick')
         assert out['kinds']['ACCESSORY_AT_REORDER_POINT'].get('error') is None and out['kinds']['ACCESSORY_AT_REORDER_POINT']['opened'] >= 1, out
         item = alert_item(cur, 'ACCESSORY_AT_REORDER_POINT', a['material'])
         d0 = alerts(cur, 'ACCESSORY_AT_REORDER_POINT')[a['material']]['detail']
-        assert (D(d0['free_qty']), D(d0['reorder_point_qty']), d0['basis'], d0['safety_qty'], d0['service_level']) == (180, 250, 'MANUAL', None, None), d0
+        assert (D(d0['free_qty']), D(d0['reorder_point_qty']), d0['basis'], d0['safety_qty'], d0['service_level'], d0['lead_days']) == (
+            180, 250, 'MANUAL', None, None, None), d0
         before = last_request(cur)
         sent = tick(cur, 'send_tick')
         assert sent['outcome'] == 'SENT', sent
         d = dispatch(cur, sent['dispatch_id'])
         reqs = queued(cur, before)
         unit = d0['unit_code']
-        line = '- %s: sisa 180 %s, titik pesan ulang 250 %s' % (a['name'], unit, unit)
+        line = '- %s: sisa 180 %s, minimum 250 %s' % (a['name'], unit, unit)
         lines = d['body'].split('\n')
         assert len(reqs) == 1 and reqs[0]['text'] == d['body'] and 'Stok aksesori menipis (1):' in lines and line in lines, lines
         blind = formula.staff_with(cur, 'warehouse.material.view', 'master.fabric.view')
@@ -1014,7 +1027,7 @@ def cases(cur, today):
         out2 = tick(cur, 'send_tick')
         x = outbox(cur, item2)[0]
         assert (x['state'], x['reason'], x['dispatch']) == ('RESOLVED_BEFORE_SEND', 'NO_REORDER_POINT', None), (x, out2)
-        return dict(status='PASS', line=line, staff_without_accessory_view_sees_none=True, manual_zero_before_send=x['reason'])
+        return dict(status='PASS', line=line, lead_time_refused=True, staff_without_accessory_view_sees_none=True, manual_zero_before_send=x['reason'])
 
     named = [waits_for_owner, fabric_equals_summary, ar_ap_sources, owner_reminders_only, send_one_request, rollback_nothing, resolved_before_send,
              answers, pacing_burst_quiet_digest_repeat, off_or_no_key, key_write_only, privacy_permissions, ticks_private, analysis_gap,
@@ -1225,7 +1238,7 @@ def races(tools, today):
     def material_busy_recheck():
         """The same for a fabric on the formula: while the lock is held, the collector checks it against the stock now (same
         locations, the last evaluation's point and on-order quantity) and writes no evaluation; the screen's refresh is busy."""
-        s = ready(kinds=KINDS + ['FABRIC_AT_REORDER_POINT'])
+        s = ready(kinds=KINDS)
 
         def low(cur):
             m = formula.fabric(cur, 130, today - timedelta(days=40))
@@ -1237,7 +1250,7 @@ def races(tools, today):
         committed(lambda cur: tick(cur, 'collect_tick'))
         state = lambda cur: (b.api.admin(cur), cur.execute(
             "select e.state,a.state,a.resolution from cp7_stock_formula.material_evaluations e left join cp7_alert_native.alerts a "
-            "on a.kind='FABRIC_AT_REORDER_POINT' and a.subject_key=e.material_id::text where e.material_id=%s order by a.episode desc nulls last limit 1",
+            "on a.kind='FABRIC_BELOW_MINIMUM' and a.subject_key=e.material_id::text where e.material_id=%s order by a.episode desc nulls last limit 1",
             (m['material'],)).fetchone())[1]
         assert committed(state) == ('AT_OR_BELOW', 'OPEN', None), committed(state)
         more = int(o['point'] - o['free']) + 1
@@ -1251,7 +1264,7 @@ def races(tools, today):
         finally:
             holder.rollback()
             holder.close()
-        assert out['kinds']['FABRIC_AT_REORDER_POINT'].get('error') is None, out
+        assert out['kinds']['FABRIC_BELOW_MINIMUM'].get('error') is None, out
         assert during == ('AT_OR_BELOW', 'RESOLVED', 'ABOVE_REORDER_POINT'), during
         assert busy == ('55P03', 'CP7_FORMULA_BUSY'), busy
         committed(lambda cur: tick(cur, 'collect_tick'))
@@ -1392,6 +1405,8 @@ def http_cases(http, today):
         assert a1['status'] == 200 and (a1['body']['evaluation']['basis'], a1['body']['evaluation']['state']) == ('MANUAL', 'NO_POINT'), a1
         bad = save(admin, dict(material_id=m['material'], expected_revision=1, lead_days='6', manual_point='10', reason='SS-2 HTTP manual kain'))
         assert bad['status'] >= 400 and 'CP7_FORMULA_MATERIAL_INVALID' in json.dumps(bad['body']), bad
+        bad = save(admin, dict(material_id=a['material'], expected_revision=1, lead_days='5', manual_point='10', reason='SS-3 HTTP lama kirim aksesori'))
+        assert bad['status'] >= 400 and 'CP7_FORMULA_MATERIAL_INVALID' in json.dumps(bad['body']), bad
         staff = http.login('GUDANG', 'ss2-staff')
         with http.connect() as conn, conn.cursor() as cur:
             b.api.admin(cur)
@@ -1401,7 +1416,7 @@ def http_cases(http, today):
             read = staff.rpc('erp_cp7_get_material_reorder_v1', dict(p_query=dict(material_type=kind)))
             sees = needs <= keys
             assert (read['status'] == 200) == sees and (sees or 'CP7_FORMULA_ACCESS_DENIED' in json.dumps(read['body'])), (kind, read)
-        x = save(staff, dict(material_id=a['material'], expected_revision=1, lead_days='3', manual_point=None, reason='staff'))
+        x = save(staff, dict(material_id=a['material'], expected_revision=1, lead_days=None, manual_point='5', reason='staff'))
         assert x['status'] >= 400 and 'CP7_FORMULA_ACCESS_DENIED' in json.dumps(x['body']), x
         for name, args in (('erp_cp7_get_material_reorder_v1', dict(p_query=dict(material_type='FABRIC'))),
                            ('erp_cp7_refresh_material_reorder_v1', dict(p_material_type='FABRIC')),
@@ -1410,7 +1425,7 @@ def http_cases(http, today):
         for name in ('compute_materials', 'material_source', 'save_material', 'material_workspace'):
             assert staff.rpc(name, {})['status'] >= 400, name
         return dict(status='PASS', real_Auth=True, owner_reads_and_refreshes=True, admin_lead_time=True, accessory_manual_zero=True,
-                    fabric_manual_refused=True, staff_reads_by_permission=sorted(keys & {'warehouse.material.view', 'master.fabric.view',
+                    fabric_manual_refused=True, accessory_lead_time_refused=True, staff_reads_by_permission=sorted(keys & {'warehouse.material.view', 'master.fabric.view',
                                                                                          'warehouse.accessory.view'}),
                     staff_cannot_change=True, anon_refused=True)
 

@@ -28,7 +28,7 @@ SCHEMA='cp7_alert_native'
 # name -> (owner, security definer, volatility)
 FUNCTIONS={
  **{name:(ROLE,True,'v')for name in('analysis_recheck','analysis_tick','analysis_unit','apply_kind','apply_one','claims_enter','claims_leave',
-  'collect_kinds','collect_tick','dispatch','guard_alert','guard_analysis_request','guard_analysis_run','guard_append_only','guard_dispatch',
+  'collect_kinds','collect_tick','dispatch','fabric_kind_source','guard_alert','guard_analysis_request','guard_analysis_run','guard_append_only','guard_dispatch',
   'guard_outbox','owner_access','queue_alert','queue_manual','queue_repeats','reconcile','record_tick','require_owner','resolve_one','send_tick',
   'wa_key_set','wa_resolve','wa_settings_read','wa_settings_save','wa_test')},
  **{name:(ROLE,True,'s')for name in('alerts_read','analysis_row','analysis_status','ap_source','ar_source','current_settings','fabric_source',
