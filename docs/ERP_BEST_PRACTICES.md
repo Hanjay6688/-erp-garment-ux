@@ -254,6 +254,12 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     yang tidak ada di daftar `FUNCTIONS` modul kasus; probe akan menolak seluruh suite (`..._PREDECLARED_CASE_BUDGET_CHANGED`)
     sebelum satu kasus pun jalan. Jalankan pemeriksaan yang sama dengan probe (`contract`, jumlah, ID, RPC, jadwal) di lokal
     setiap kali deklarasi atau modul kasus berubah. (SS-2, 20 Okt)
+25u. **Dua jenis pengingat digabung tanpa mengubah sumber lama yang sudah punya pembanding.** Owner D17-10 meminta kain
+    berumus masuk ke "Stok kain di bawah minimum". Sumber lama (`fabric_source()`, aturan Ringkasan Gudang, dibuktikan sama
+    oleh `WAF_FABRIC_EQUALS_WAREHOUSE_SUMMARY`) tidak disentuh; gabungannya fungsi baru `fabric_kind_source()`. Dua himpunan
+    tidak boleh berbagi subjek: `apply_kind` menolak sumber yang memberi satu subjek sebagai baris dan juga sebagai keadaan,
+    jadi keadaan `MANUAL_MINIMUM_IN_FORCE` dari rumus dibuang dan keadaan kain yang punya minimum diambil dari sumber lama.
+    (D17-10, 20 Okt)
 
 ## F. Proses audit
 
@@ -320,6 +326,7 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Cache satu putaran berkunci putaran (waktu mulai perintah), bukan transaksi (E25r).
 - [ ] Stok bebas mengikuti aturan "ada di gudang" layar yang diterima, termasuk zona khusus (E25s).
 - [ ] Deklarasi kasus dicek lokal dengan aturan probe sebelum push (E25t).
+- [ ] Menggabungkan sumber: sumber lama yang punya pembanding tetap utuh, subjek kedua himpunan tidak tumpang tindih (E25u).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
   dipicu (E19–E20, E19a).
