@@ -1,0 +1,1196 @@
+{
+  "candidate": "2ad56e147a180c3fb2c433aed53cadb6a421f434",
+  "run_id": 39420750772,
+  "run_attempt": 1,
+  "job_id": 118620792724,
+  "derived_from": "CI_39420750772_SCALE.json",
+  "cases": [
+    {
+      "case": "P19S_NATIVE_ROLLED_BACK_100_GRID_CAP",
+      "size": 100,
+      "status": "PASS",
+      "controls": []
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_100",
+      "size": 100,
+      "status": "PASS",
+      "controls": [
+        {
+          "history_days": 1,
+          "control": "CAPTURE",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 1695.2000000000116,
+          "first_status_ms": 6.400000000023283,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 1695.2000000000116,
+            "meets_limit": true
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 1,
+          "control": "BACKGROUND",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 1800.4000000000233,
+          "first_status_ms": 6.600000000034925,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 1800.4000000000233,
+            "meets_limit": true
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 1,
+          "control": "CAPTURE_WITH_FINANCE",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 2719.100000000035,
+          "first_status_ms": 11.100000000034925,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 2719.100000000035,
+            "meets_limit": true
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 1,
+          "control": "STAGED",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 2195.2000000000116,
+          "first_status_ms": 8.600000000034925,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": {
+            "steps": 21,
+            "pages_read": 1,
+            "targets_total": 100,
+            "page_count": 1,
+            "identity_hash": "b199684e3e1fb86eb4117795733649c88d5018608bc1ea66715128a9a0395e9a",
+            "reassembled_analysis_sha256": "dfc9147634007795fbdb6907feb1416ada0124ac44e8ad1cebe68eed9c33d337",
+            "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_100_1_STAGED.json",
+            "job_state": "DONE",
+            "unit_count": 21,
+            "units_done": 21,
+            "click_to_staged_progress_ms": 118.5
+          },
+          "page_ms": null,
+          "completed_open_ms": 538.2999999999884,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 2195.2000000000116,
+            "meets_limit": true
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 30,
+          "control": "CAPTURE",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 1712.5999999999767,
+          "first_status_ms": 14.5,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 1712.5999999999767,
+            "meets_limit": true
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 30,
+          "control": "BACKGROUND",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 1933.4000000000233,
+          "first_status_ms": 7.5,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 1933.4000000000233,
+            "meets_limit": true
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 30,
+          "control": "CAPTURE_WITH_FINANCE",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 2725,
+          "first_status_ms": 6.099999999976717,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 2725,
+            "meets_limit": true
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 30,
+          "control": "STAGED",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 2216.8000000000466,
+          "first_status_ms": 6.2000000000116415,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": {
+            "steps": 21,
+            "pages_read": 1,
+            "targets_total": 100,
+            "page_count": 1,
+            "identity_hash": "8c44a776710f28cefa46f016b2a7035f9e4715ab180a1ff45d9ff258f0d4e34e",
+            "reassembled_analysis_sha256": "b39637c1ee728432dd768010dc7144a8ebc41d3596f0288b9f033514741a8846",
+            "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_100_30_STAGED.json",
+            "job_state": "DONE",
+            "unit_count": 21,
+            "units_done": 21,
+            "click_to_staged_progress_ms": 97.20000000001164
+          },
+          "page_ms": null,
+          "completed_open_ms": 545,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 2216.8000000000466,
+            "meets_limit": true
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 100,
+          "control": "CAPTURE",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 2115.600000000035,
+          "first_status_ms": 6.5,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 2115.600000000035,
+            "meets_limit": true
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 100,
+          "control": "BACKGROUND",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 2395.7999999999884,
+          "first_status_ms": 7.600000000034925,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 2395.7999999999884,
+            "meets_limit": true
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 100,
+          "control": "CAPTURE_WITH_FINANCE",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 3131.2999999999884,
+          "first_status_ms": 11.599999999976717,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 3131.2999999999884,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 100,
+          "control": "STAGED",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 2694.2000000000116,
+          "first_status_ms": 6.400000000023283,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": {
+            "steps": 21,
+            "pages_read": 1,
+            "targets_total": 100,
+            "page_count": 1,
+            "identity_hash": "bbf139b0a213391c3bca02279040d9737032ab3645e12b08241116d637d4bbce",
+            "reassembled_analysis_sha256": "3d809e0a5fe178efbfaf52030a599c7a271c946846a3172ac20a94b740437ed6",
+            "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_100_100_STAGED.json",
+            "job_state": "DONE",
+            "unit_count": 21,
+            "units_done": 21,
+            "click_to_staged_progress_ms": 104.79999999998836
+          },
+          "page_ms": null,
+          "completed_open_ms": 569.7000000000116,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 2694.2000000000116,
+            "meets_limit": true
+          },
+          "progress_status_visible_by_3000ms": true
+        }
+      ]
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_300",
+      "size": 300,
+      "status": "PASS",
+      "controls": [
+        {
+          "history_days": 1,
+          "control": "CAPTURE",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 6092.099999999977,
+          "first_status_ms": 7.800000000046566,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 6092.099999999977,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 1,
+          "control": "BACKGROUND",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 5030.5,
+          "first_status_ms": 7.299999999930151,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 5030.5,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 1,
+          "control": "CAPTURE_WITH_FINANCE",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 9437,
+          "first_status_ms": 11.699999999953434,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 9437,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 1,
+          "control": "STAGED",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 5360.900000000023,
+          "first_status_ms": 5.099999999976717,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": {
+            "steps": 26,
+            "pages_read": 2,
+            "targets_total": 300,
+            "page_count": 2,
+            "identity_hash": "d7825cc385e28329b297cfe93f37bc3b39a12275b87262287d23eaaf2013c71a",
+            "reassembled_analysis_sha256": "95a62a8a4c4b71b65759c2bfac81f8f1fa0a8d59ff33288272a458f92193483f",
+            "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_300_1_STAGED.json",
+            "job_state": "DONE",
+            "unit_count": 26,
+            "units_done": 26,
+            "click_to_staged_progress_ms": 198.79999999993015
+          },
+          "page_ms": {
+            "count": 1,
+            "min": 435.5,
+            "max": 435.5
+          },
+          "completed_open_ms": 919.7000000000698,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 5360.900000000023,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 30,
+          "control": "CAPTURE",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 6417.899999999907,
+          "first_status_ms": 9.099999999976717,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 6417.899999999907,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 30,
+          "control": "BACKGROUND",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 5351.399999999907,
+          "first_status_ms": 5.5,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 5351.399999999907,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 30,
+          "control": "CAPTURE_WITH_FINANCE",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 9987.899999999907,
+          "first_status_ms": 7.099999999976717,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 9987.899999999907,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 30,
+          "control": "STAGED",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 5639.20000000007,
+          "first_status_ms": 5.5,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": {
+            "steps": 26,
+            "pages_read": 2,
+            "targets_total": 300,
+            "page_count": 2,
+            "identity_hash": "3b41563a8693da8dd23590072e44f26fdf8eb300a9f9cb025407a422a046fa2e",
+            "reassembled_analysis_sha256": "d6a2ad1a9d48aea0a4a8621c3231c4fb29995dfffd8ce6a8546a15c4f67065a3",
+            "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_300_30_STAGED.json",
+            "job_state": "DONE",
+            "unit_count": 26,
+            "units_done": 26,
+            "click_to_staged_progress_ms": 193.30000000004657
+          },
+          "page_ms": {
+            "count": 1,
+            "min": 431.89999999990687,
+            "max": 431.89999999990687
+          },
+          "completed_open_ms": 857.4000000000233,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 5639.20000000007,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 100,
+          "control": "CAPTURE",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 8097.300000000047,
+          "first_status_ms": 6.700000000069849,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 8097.300000000047,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 100,
+          "control": "BACKGROUND",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 6928.400000000023,
+          "first_status_ms": 8.20000000006985,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 6928.400000000023,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 100,
+          "control": "CAPTURE_WITH_FINANCE",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 11149.400000000023,
+          "first_status_ms": 14,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 11149.400000000023,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 100,
+          "control": "STAGED",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 6453,
+          "first_status_ms": 4.299999999930151,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": {
+            "steps": 28,
+            "pages_read": 2,
+            "targets_total": 300,
+            "page_count": 2,
+            "identity_hash": "bc6311fc434717eaaea7769be262db3800180fc6b942ebe73b354107054991e1",
+            "reassembled_analysis_sha256": "299d662eda6b7dac1f86c81948b73437f9b5ca1c0fadee301e57f39a805551f6",
+            "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_300_100_STAGED.json",
+            "job_state": "DONE",
+            "unit_count": 28,
+            "units_done": 28,
+            "click_to_staged_progress_ms": 190.39999999990687
+          },
+          "page_ms": {
+            "count": 1,
+            "min": 462.9000000000233,
+            "max": 462.9000000000233
+          },
+          "completed_open_ms": 968.0999999999767,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 6453,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        }
+      ]
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_1000",
+      "size": 1000,
+      "status": "PASS",
+      "controls": [
+        {
+          "history_days": 1,
+          "control": "CAPTURE",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 8049.899999999907,
+          "first_status_ms": 9.79999999993015,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "57014",
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 8049.899999999907,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 1,
+          "control": "BACKGROUND",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 8080.5,
+          "first_status_ms": 4,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "CP7_ANALYSIS_JOB_STOPPED",
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 8080.5,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 1,
+          "control": "CAPTURE_WITH_FINANCE",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 8041.59999999986,
+          "first_status_ms": 8.699999999953434,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "57014",
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 8041.59999999986,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 1,
+          "control": "STAGED",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 15093.40000000014,
+          "first_status_ms": 6,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": {
+            "steps": 38,
+            "pages_read": 6,
+            "targets_total": 1000,
+            "page_count": 6,
+            "identity_hash": "5afaa6efe5320c777a102be17fff3b8b4c7a9006cf95dc950a53aee2b320d1ef",
+            "reassembled_analysis_sha256": "e922cf205a4410e063511af8d26a546f228a1890c05e312ab040403b2a39bcd3",
+            "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_1000_1_STAGED.json",
+            "job_state": "DONE",
+            "unit_count": 38,
+            "units_done": 38,
+            "click_to_staged_progress_ms": 488.10000000009313
+          },
+          "page_ms": {
+            "count": 5,
+            "min": 164.9000000001397,
+            "max": 827.4000000001397
+          },
+          "completed_open_ms": 969.5,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 15093.40000000014,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 30,
+          "control": "CAPTURE",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 8049.90000000014,
+          "first_status_ms": 9,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "57014",
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 8049.90000000014,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 30,
+          "control": "BACKGROUND",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 8078.5,
+          "first_status_ms": 6.100000000093132,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "CP7_ANALYSIS_JOB_STOPPED",
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 8078.5,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 30,
+          "control": "CAPTURE_WITH_FINANCE",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 8043.600000000093,
+          "first_status_ms": 9.100000000093132,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "57014",
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 8043.600000000093,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 30,
+          "control": "STAGED",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 16781.399999999907,
+          "first_status_ms": 5.599999999860302,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": {
+            "steps": 40,
+            "pages_read": 6,
+            "targets_total": 1000,
+            "page_count": 6,
+            "identity_hash": "a1672f1a86cc85a534d952801060e4331fc1be480f8a7e4d92ede278548d66a0",
+            "reassembled_analysis_sha256": "33ddf8309e70b9c0847c7c69e3fa458f7d51ba8c1364bd5d3733ab2eb29ee8e2",
+            "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_1000_30_STAGED.json",
+            "job_state": "DONE",
+            "unit_count": 40,
+            "units_done": 40,
+            "click_to_staged_progress_ms": 499.80000000004657
+          },
+          "page_ms": {
+            "count": 5,
+            "min": 158.30000000004657,
+            "max": 823.7999999998137
+          },
+          "completed_open_ms": 1049.3000000000466,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 16781.399999999907,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 100,
+          "control": "CAPTURE",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 8112,
+          "first_status_ms": 9.899999999906868,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "57014",
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 8112,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 100,
+          "control": "BACKGROUND",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 8062.09999999986,
+          "first_status_ms": 4,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "CP7_ANALYSIS_JOB_STOPPED",
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 8062.09999999986,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 100,
+          "control": "CAPTURE_WITH_FINANCE",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 8044,
+          "first_status_ms": 10.5,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "57014",
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 8044,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 100,
+          "control": "STAGED",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 20206.5,
+          "first_status_ms": 4.199999999953434,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": {
+            "steps": 45,
+            "pages_read": 6,
+            "targets_total": 1000,
+            "page_count": 6,
+            "identity_hash": "8411f8e0b3436ae6da0b40c07b41b3217f8a11c4c5a94a864cb89fdec1034622",
+            "reassembled_analysis_sha256": "ba8f1d7566e9f5a269a2800f0d7c5f4c32ac3e6464fe52c7da3152d77e591cf2",
+            "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_1000_100_STAGED.json",
+            "job_state": "DONE",
+            "unit_count": 45,
+            "units_done": 45,
+            "click_to_staged_progress_ms": 520.1000000000931
+          },
+          "page_ms": {
+            "count": 5,
+            "min": 164.10000000009313,
+            "max": 867.5
+          },
+          "completed_open_ms": 1011,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 20206.5,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        }
+      ]
+    },
+    {
+      "case": "P19S_BROWSER_DESKTOP_5000",
+      "size": 5000,
+      "status": "PASS",
+      "controls": [
+        {
+          "history_days": 1,
+          "control": "CAPTURE",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 598.0999999998603,
+          "first_status_ms": 9.399999999906868,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+          "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 598.0999999998603,
+            "meets_limit": true
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 1,
+          "control": "BACKGROUND",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 927.8000000000466,
+          "first_status_ms": 5.800000000046566,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+          "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 927.8000000000466,
+            "meets_limit": true
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 1,
+          "control": "CAPTURE_WITH_FINANCE",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 8042.700000000186,
+          "first_status_ms": 9.100000000093132,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "57014",
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 8042.700000000186,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 1,
+          "control": "STAGED",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 79402.5,
+          "first_status_ms": 4.7999999998137355,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": {
+            "steps": 126,
+            "pages_read": 26,
+            "targets_total": 5000,
+            "page_count": 26,
+            "identity_hash": "70a3c28c28ee5f6bc83bb03c9b1aeb984db3f66870dc69041073519ec8413182",
+            "reassembled_analysis_sha256": "e47921b7764af353eaa6656751171cb7ceb2f4d29a912cbeb5f9275f8aef1d56",
+            "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_5000_1_STAGED.json",
+            "job_state": "DONE",
+            "unit_count": 126,
+            "units_done": 126,
+            "click_to_staged_progress_ms": 2393.0999999998603
+          },
+          "page_ms": {
+            "count": 25,
+            "min": 616.4000000001397,
+            "max": 780.3000000000466
+          },
+          "completed_open_ms": 1278.6000000000931,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 79402.5,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 30,
+          "control": "CAPTURE",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 828.6000000000931,
+          "first_status_ms": 11.299999999813735,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+          "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 828.6000000000931,
+            "meets_limit": true
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 30,
+          "control": "BACKGROUND",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 851.3999999999069,
+          "first_status_ms": 5.7000000001862645,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+          "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 851.3999999999069,
+            "meets_limit": true
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 30,
+          "control": "CAPTURE_WITH_FINANCE",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 8058.700000000186,
+          "first_status_ms": 18.200000000186265,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "57014",
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 8058.700000000186,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 30,
+          "control": "STAGED",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 88219.5,
+          "first_status_ms": 5.600000000093132,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": {
+            "steps": 138,
+            "pages_read": 26,
+            "targets_total": 5000,
+            "page_count": 26,
+            "identity_hash": "1fd8118d992d673f225cc0c55cad898dabfed8bddfe1a3dd82079ae76057930c",
+            "reassembled_analysis_sha256": "71c79c561b78ba832be1bdb5a3fb2137b650e09e5dbf1b991e59a4b3de92b669",
+            "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_5000_30_STAGED.json",
+            "job_state": "DONE",
+            "unit_count": 138,
+            "units_done": 138,
+            "click_to_staged_progress_ms": 3091.899999999907
+          },
+          "page_ms": {
+            "count": 25,
+            "min": 595.7999999998137,
+            "max": 797.1000000000931
+          },
+          "completed_open_ms": 1261.1999999997206,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 88219.5,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": false
+        },
+        {
+          "history_days": 100,
+          "control": "CAPTURE",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 945.5,
+          "first_status_ms": 11.5,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+          "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 945.5,
+            "meets_limit": true
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 100,
+          "control": "BACKGROUND",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 907.6999999997206,
+          "first_status_ms": 14.699999999720603,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+          "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 907.6999999997206,
+            "meets_limit": true
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 100,
+          "control": "CAPTURE_WITH_FINANCE",
+          "ui_status": "REFUSAL_RENDERED",
+          "click_to_complete_ms": 8044.899999999907,
+          "first_status_ms": 11.699999999720603,
+          "verdict": "HONEST_CAP_REFUSAL",
+          "refusal_code": "57014",
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "staged": null,
+          "page_ms": null,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 8044.899999999907,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": true
+        },
+        {
+          "history_days": 100,
+          "control": "STAGED",
+          "ui_status": "RESULT_RENDERED",
+          "click_to_complete_ms": 105267.3999999999,
+          "first_status_ms": 6.5,
+          "verdict": "COMPLETE_RESULT",
+          "refusal_code": null,
+          "cap": null,
+          "staged": {
+            "steps": 165,
+            "pages_read": 26,
+            "targets_total": 5000,
+            "page_count": 26,
+            "identity_hash": "d9ef5a344f58ab72886e33cc063a97574843e28c0951376f10e405b9d1dca82c",
+            "reassembled_analysis_sha256": "9621dddd029b5906a6ab3f050e87130e6ccfd6e2310cf51f1aaac351244f47b8",
+            "header_witness": "P19_SCALE_BROWSER_STAGED_HEADER_5000_100_STAGED.json",
+            "job_state": "DONE",
+            "unit_count": 165,
+            "units_done": 165,
+            "click_to_staged_progress_ms": 3034.6999999997206
+          },
+          "page_ms": {
+            "count": 25,
+            "min": 620.1999999997206,
+            "max": 834.3999999999069
+          },
+          "completed_open_ms": 1567.5,
+          "owner_budget": {
+            "class": "HEAVY_COMPLETE",
+            "limit_ms": 3000,
+            "inclusive": true,
+            "elapsed_ms": 105267.3999999999,
+            "meets_limit": false
+          },
+          "progress_status_visible_by_3000ms": false
+        }
+      ]
+    }
+  ],
+  "production_go": false
+}

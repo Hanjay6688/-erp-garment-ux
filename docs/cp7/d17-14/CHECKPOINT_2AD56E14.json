@@ -152,7 +152,7 @@
   "limitations": [
     "No production deployment or hosted schedule",
     "No claim of full ERP qualification; historical CP6 21 failed suites and four screen cases remain documented, not newly retested here",
-    "Native old-server\u2192new-server upgrade replay not newly qualified",
+    "Native old-server→new-server upgrade replay not newly qualified",
     "Local PGlite synthetic/compile checks are not Native",
     "1/2/3 second full journey SLA not established",
     "OW-04/05/06/07/09 source reviews are not runtime fixes"
@@ -161,21 +161,62 @@
   "feature_complete": false,
   "audit_complete": false,
   "production_go": false,
-  "unqualified_current_candidate": [
-    {
-      "job": "k6-proof-runner-10",
-      "run_id": 39420750772,
-      "job_id": 118620792566,
-      "status": "INCOMPLETE_ENVIRONMENT_BEFORE_TESTS",
-      "evidence": "ow03/CI_39420750772_K6_ENVIRONMENT.json",
-      "retry": "GitHub refused while containing workflow still running"
+  "auditor_frozen_tree_verified_via_GitHub": "80622a93bbbd2fb6295546aa00f1dc5eb919d827",
+  "physical_time_followup": {
+    "candidate": "4e3c98b3ce04427c65c7bc7c1b21ec3bdacfea71",
+    "tree": "29db6ac1b6fd80de2e1480930eeaae36713be621",
+    "run_id": 39430283909,
+    "job_id": 118653236629,
+    "native_status": "PASS",
+    "local_status": "32/32 DOM, TypeScript and source/access/CSS PASS",
+    "scope": "Explicit returnedgoods time only, credit/refund notimplemented",
+    "observed_case_count": 64,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "source_sha256": "722aca08e1788960794e5b65aee4e7df774df6c62e68c781cffe8468a43c241f",
+    "evidence": "ow04/CI_39430283909_PHYSICAL_TIME.json"
+  },
+  "environment_first_failure_and_retry": {
+    "job": "k6-proof-runner-10",
+    "run_id": 39420750772,
+    "job_id": 118620792566,
+    "status": "INCOMPLETE_ENVIRONMENT_BEFORE_TESTS",
+    "evidence": "ow03/CI_39420750772_K6_ENVIRONMENT.json",
+    "retry": {
+      "status": "PASS",
+      "run_attempt": 2,
+      "job_id": 118654098080,
+      "observed_case_count": 10,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "evidence": "ow03/CI_39420750772_K6_RETRY.json"
     },
-    {
-      "job": "p19-scale5",
-      "run_id": 39420750772,
-      "job_id": 118620792724,
-      "status": "RUNNING_AT_CHECKPOINT"
-    }
-  ],
-  "auditor_frozen_tree_verified_via_GitHub": "80622a93bbbd2fb6295546aa00f1dc5eb919d827"
+    "disposition": "RESOLVED_BY_SINGLE_JOB_RETRY_ON_SAME_CANDIDATE",
+    "other_job_successes_reused_not_new_retests": true
+  },
+  "scale_measurement": {
+    "job": "p19-scale5",
+    "run_id": 39420750772,
+    "job_id": 118620792724,
+    "status": "PASS_MEASUREMENT_NOT_SLA",
+    "observed_case_count": 5,
+    "evidence": "ow03/CI_39420750772_SCALE.json",
+    "run_attempt": 1,
+    "limits": "Staged finance DEFERRED; finance5000 timeout8s;79.4..105.3s to first result, otherpages timed separately"
+  },
+  "current_product_delta_since_2ad": {
+    "candidate": "4e3c98b3ce04427c65c7bc7c1b21ec3bdacfea71",
+    "runtime_product_files": [
+      "src/SalesReturnPanel.tsx"
+    ],
+    "test_files_in_product_folder": [
+      "src/SalesReturnPanel.dom.test.tsx"
+    ],
+    "scope": "New returned-goods timestamp starts blank; no settlement, Native SQL or money formula changes"
+  },
+  "paid_return_temporal_counter": {
+    "status": "SOURCE_CONFIRMED_DESIGN_COUNTER_NOT_RUNTIME",
+    "evidence": "ow04/TEMPORAL_COUNTER_20261020.md",
+    "scope": "Current-state P+U-I is insufficient for economic/book date histories; single-date issuance design rejected before implementation"
+  }
 }

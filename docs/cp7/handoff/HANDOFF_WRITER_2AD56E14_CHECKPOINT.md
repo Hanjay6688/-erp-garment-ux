@@ -5,6 +5,19 @@ Keuangan, laporan, stok, dan HPP adalah raja.
 
 ## Identitas dan batas
 
+Pembaruan terbaru: perbaikan waktu retur baru ada pada produk4e3c98b3,
+tree29db6ac1, dan P11 lulus64/64 (run39430283909/job118653236629).
+Bundle P11 terpasang722aca08… cocok sumber lokal. Bukti baru ini tidak
+mengganti label bukti2ad/878 di bawah. Ulang tunggal K6 pada2ad lulus10/10,
+attempt2/job118654098080. Skala2ad selesai diukur:5000target79–105detik sampai
+halaman hasil pertama, keuangan DEFERRED; OW-12 dan target kecepatan tetap
+terbuka. Rujuk CHECKPOINT_2AD56E14.json dan ow03/SCALE_LIMITS_20261020.md.
+
+Retur lunas belum diimplementasikan. Counter sumber menolak rancangan kredit
+satu tanggal: pembayaran yang lebih akhir dan buku yang dibuka kembali perlu
+pengakuan turunan berdasarkan tanggal sumber yang sebenarnya. Expected dan
+batasnya: ow04/TEMPORAL_COUNTER_20261020.md. Ini review internal, bukan runtime.
+
 - Cabang writer: `astra/d17-14-20261020`.
 - Kandidat produk: **2ad56e147a180c3fb2c433aed53cadb6a421f434**.
 - Tree seluruh repo: **a640963cb5c8870da07543f1bb62aae7c17bd92e**.

@@ -116,6 +116,32 @@ Pemeriksa internal Sol Max membaca ulang sumber/receipt terkini dan menantang
 batas klaim; tidak menemukan kontra-contoh untuk penyelesaian **OW-02 pada
 aplikasi** dan **OW-03 pada isian→analisis**. Kesimpulan bertumpu pada sumber
 dan runtime yang disebut, bukan persetujuan agen. Tidak ada sengketa sumber
-yang diketahui tersisa untuk kedua cakupan itu. K6 gagal di persiapan lingkungan
-sebelum kasus berjalan, skala besar masih dipantau, dan Native upgrade replay
-lintas versi belum baru dibuktikan. Batas audit/produksi/SLA tetap terbuka.
+yang diketahui tersisa untuk kedua cakupan itu. K6 awal gagal di persiapan
+lingkungan; ulang tunggal sesudah skala selesai lulus10/10 pada kode2ad sama.
+Skala5/5 lulus sebagai pengukuran, bukan penerimaan kecepatan. Native upgrade
+replay lintas versi belum baru dibuktikan. Batas audit/produksi/SLA tetap terbuka.
+
+## Counter lanjutan pada4e dan bukti penutup checkpoint
+
+- Pemeriksa UI menantang label sumber build P11; pin candidate Native berbeda
+  dari checkout auditor yang membangun UI. Writer membatalkan perubahan pin
+  yang tidak diperlukan dan memperbaiki penjelasan. Perbaikan input waktu
+  retur baru lulus32/32 DOM lalu64/64 Native P11, termasuk desktop/HP, pada4e.
+- Dua pemeriksa uang/dependensi menguji rancangan retur lunas dengan sumber
+  tanggal yang sama secara independen. Keduanya menemukan counter terhadap
+  seluruh K pada satu tanggal: dana sesudah retur dan buku yang dibuka ulang.
+  Setelah penilaian awal dikunci, mereka bertukar anchor dan menantang hook
+  tanggal buku. Tidak ditemukan hook pasangan tanggal yang sudah tersedia;
+  private source-bound derived poster masih usulan, bukan produk/bukti.
+  Writer membaca ulang jurnal/resolver/laporan dan menolak rancangan awal.
+  Expected lengkap serta scope sumber: ow04/TEMPORAL_COUNTER_20261020.md.
+- Pemeriksa UI membandingkan48 kontrol ringkasan skala dengan receipt raw:
+  nol selisih; menelusuri timer browser sebelum pagination. Ia menolak
+  menyebut legacy budget3000ms sebagai owner1s, acknowledgement sebagai
+  progres nyata, atau PASS penolakan timeout sebagai hasil lengkap.
+  Klaim dibatasi di ow03/SCALE_LIMITS_20261020.md.
+
+Perselisihan satu-tanggal diselesaikan lewat sumber/aritmetika, bukan voting.
+Implementasi credit dated components/paired posting dan seluruh Native oracle
+masih terbuka. Tiga temuan awal UI/token/fixture sudah memiliki runtime sesuai
+receipt masing-masing; kesepakatan internal sendiri tidak dihitung bukti PASS.

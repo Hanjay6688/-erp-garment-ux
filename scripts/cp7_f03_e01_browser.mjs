@@ -84,6 +84,9 @@ async function journey(ui,today,mobile) {
     assert.deepEqual(paid.report.snapshot.performance,sold.report.snapshot.performance)
     await open(ui,p,'Retur Penjualan'); await select()
     await detail.getByRole('button',{name:'Retur fisik invoice',exact:true}).click()
+    await ui.expect(retForm.getByLabel('Waktu retur pelanggan WIB',{exact:true})).toHaveValue('')
+    const returnAtWib=new Date(new Date(f.sale_at).getTime()+(2*60+7*60*60)*1000).toISOString().slice(0,16)
+    const returnAtIso=new Date(returnAtWib+'+07:00').toISOString()
     await retForm.getByLabel('Nomor retur pelanggan',{exact:true}).fill(f.tag+'-RET')
     await retForm.getByLabel('Cari gudang retur',{exact:true}).fill(f.destination_name)
     await retForm.getByRole('button',{name:'Cari gudang retur',exact:true}).click()
@@ -95,6 +98,10 @@ async function journey(ui,today,mobile) {
     await retForm.getByLabel('Nilai retur 1',{exact:true}).fill('125')
     await retForm.getByLabel('Grade retur 1',{exact:true}).selectOption('GRADE_A')
     await retForm.getByLabel('Catatan barang retur 1',{exact:true}).fill('Lima GOOD dari alokasi asli')
+    await retForm.getByLabel('Retur pelanggan sudah diperiksa',{exact:true}).check()
+    await ui.expect(retForm.getByRole('button',{name:'Catat retur pelanggan',exact:true})).toBeDisabled()
+    await retForm.getByLabel('Waktu retur pelanggan WIB',{exact:true}).fill(returnAtWib)
+    await ui.expect(retForm.getByLabel('Retur pelanggan sudah diperiksa',{exact:true})).not.toBeChecked()
     await retForm.getByLabel('Retur pelanggan sudah diperiksa',{exact:true}).check()
     if(mobile) {
       // A second real tab shares this authenticated session and recovery
@@ -161,6 +168,7 @@ async function journey(ui,today,mobile) {
     assert.equal(returned.report.snapshot.data_confidence.status,'READY')
     assert.equal(returned.available,45); assert.equal(cents(returned.fg_value),67500n)
     assert.equal(returned.returns.page.total,'1'); assert.equal(returned.cash.payments.total,'1')
+    assert.equal(new Date(returned.returns.page.rows[0].physical_at).toISOString(),returnAtIso,'E01_RETURN_PHYSICAL_TIME_NOT_THE_EXPLICIT_WIB_INPUT')
     ledger(f,before,returned,{ar:175,revenue:375,fg:-225,cogs:225,cash:200})
     for(const [section,key,expected] of [['financial_position','cash',200],['financial_position','customer_ar',175],['financial_position','fg_inventory',-225],['performance','sales_revenue_gl',375],['performance','cogs_gl',225],['performance','gross_profit',150]]) {
       assert.equal(cents(returned.report.snapshot[section][key])-cents(before.report.snapshot[section][key]),BigInt(expected)*100n)

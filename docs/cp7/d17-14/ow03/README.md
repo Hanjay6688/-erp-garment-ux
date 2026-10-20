@@ -149,5 +149,10 @@ Kualifikasi umum tetap terpisah: K6 pada2ad gagal sebelum satu kasus pun
 berjalan, karena port database bentrok lalu registry menolak unduhan akibat
 batas data (`CI_39420750772_K6_ENVIRONMENT.json`). Permintaan ulang satu job
 ditolak GitHub karena workflow yang sama masih berjalan; itu bukan hasil
-uji produk. Skala5.000 masih dipantau terpisah. Tidak ada klaim kecepatan
+uji produk. Sesudah skala selesai, ulang tunggal K6 attempt2/job118654098080
+lulus10/10 pada2ad, pemulihan/advisor PASS; hasil awal tetap disimpan.
+Skala attempt1/job118620792724 lulus5/5 pada kontrak pengukuran, tetapi
+5000target membutuhkan79–105detik sampai hasil pertama dan keuangan DEFERRED.
+Rincian lengkap `SCALE_LIMITS_20261020.md`, receipt skala serta K6_RETRY.
+Tidak ada klaim kecepatan
 1/2/3detik, audit independen, kesiapan seluruh ERP, atau izin produksi.

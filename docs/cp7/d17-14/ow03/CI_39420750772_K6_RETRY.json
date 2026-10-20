@@ -1,0 +1,265 @@
+{
+  "kind": "INTERNAL_WRITER_RUNTIME_NOT_EXTERNAL_ACCEPTANCE",
+  "candidate": "2ad56e147a180c3fb2c433aed53cadb6a421f434",
+  "run_id": 39420750772,
+  "job_id": 118654098080,
+  "run_attempt": 2,
+  "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39420750772/job/118654098080",
+  "cases": [
+    {
+      "group": "CP7_K6_PROOF_RUNNER",
+      "case": "K6P_PASS_PROVES_FINISHED_HISTORY",
+      "status": "PASS",
+      "ticks": 1,
+      "finished_groups_proven": 5,
+      "open_group_unproven": true,
+      "capture_reuses_server_proofs": true,
+      "capture_added_proofs": 0,
+      "history_yield_counts_server_proofs": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_K6_PROOF_RUNNER",
+      "case": "K6P_CANCEL_CORRECT_BACKDATE_REPROVEN_BY_SERVER",
+      "status": "PASS",
+      "reversed_scrap_drops_group_before_any_pass": true,
+      "pass_after_cancel_proves_nothing": true,
+      "backdated_rescrap_out_until_next_pass": true,
+      "reproven_by_server_with_new_hash": true,
+      "old_proof_row_kept": true,
+      "other_groups_unchanged": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_K6_PROOF_RUNNER",
+      "case": "K6P_LIMIT_REQUIRED",
+      "status": "PASS",
+      "refused_without_limit": {
+        "0": {
+          "required": "statement_timeout 1..8000 ms",
+          "statement_timeout_ms": 0
+        },
+        "9s": {
+          "required": "statement_timeout 1..8000 ms",
+          "statement_timeout_ms": 9000
+        },
+        "1h": {
+          "required": "statement_timeout 1..8000 ms",
+          "statement_timeout_ms": 3600000
+        }
+      },
+      "nothing_read_or_written_when_refused": true,
+      "stricter_limit_allowed": true,
+      "statement_limit_never_raised": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_K6_PROOF_RUNNER",
+      "case": "K6P_SCHEDULE_DEFINED_PRIVATE",
+      "status": "PASS",
+      "runner_definition": "cp7-proof-runner",
+      "twenty_ticks_each_own_transaction": true,
+      "tick_scheduler_role_only": true,
+      "runner_private": true,
+      "authenticated_refused": "42501",
+      "state_row_never_deleted": true,
+      "finished_passes_immutable": true,
+      "no_public_rpc": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_K6_PROOF_RUNNER",
+      "case": "K6P_RACE_SECOND_TICK_NEVER_WAITS",
+      "status": "PASS",
+      "cold_start": {
+        "second": "BUSY",
+        "second_waited_s": 0.011,
+        "first": "PASS_DONE"
+      },
+      "warm": {
+        "second": "BUSY",
+        "second_waited_s": 0.011,
+        "first": "PASS_DONE"
+      },
+      "no_tick_waited_on_another": true,
+      "groups_proven": 61,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_K6_PROOF_RUNNER",
+      "case": "K6P_RACE_WINDOW_STOPPED_THEN_SKIPPED",
+      "status": "PASS",
+      "stops_shrink_window": [
+        200,
+        100,
+        50
+      ],
+      "three_stops_at_50_skip": true,
+      "nothing_partial_stored": true,
+      "skipped_recorded_in_pass": true,
+      "pass_went_on": 2,
+      "next_pass_proves_skipped": 50,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_K6_PROOF_RUNNER",
+      "case": "K6P_RACE_CAPTURE_DURING_WINDOW",
+      "status": "PASS",
+      "capture_same_result": true,
+      "every_group_one_proof_meaning": true,
+      "duplicate_rows": 0,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_K6_PROOF_RUNNER",
+      "case": "K6P_RACE_PG_CRON_FINISHES_PASS",
+      "status": "PASS",
+      "pg_cron": "1.6.4",
+      "test_schedule_override": "5 seconds",
+      "cron_runs": 1,
+      "pass_done": 1,
+      "groups_proven": 151,
+      "removed_after_test": [
+        "cp7-proof-runner@cp6_auditor_race"
+      ],
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_K6_PROOF_RUNNER",
+      "case": "K6P_HTTP_TICK_NOT_REACHABLE",
+      "status": "PASS",
+      "not_exposed": {
+        "proof_tick": 404,
+        "prove_next": 404,
+        "prove_exhausted": 404,
+        "status": 404,
+        "erp_cp7_proof_tick_v1": 404
+      },
+      "nothing_ran": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_K6_PROOF_RUNNER",
+      "case": "K6P_HTTP_CAPTURE_USES_SERVER_PROOFS",
+      "status": "PASS",
+      "real_Auth_capture": true,
+      "exhausted_listed": 41,
+      "capture_added_proofs": 0,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    }
+  ],
+  "summary": {
+    "label": "CP7_K6_PROOF_RUNNER",
+    "status": "PASS",
+    "source_sha256": "b4adfb3a3f60693427841adff357b65d6819cf51e3208a8bb00ba9f7d858044d",
+    "observed_case_count": 10,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "error": null,
+    "traceback": null
+  },
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "2ad56e147a180c3fb2c433aed53cadb6a421f434",
+    "product_ref": "2ad56e147a180c3fb2c433aed53cadb6a421f434",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "39420750772",
+    "run_attempt": "2",
+    "workflow": "CP7 P19 Analysis Job Transport",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "2ad56e147a180c3fb2c433aed53cadb6a421f434",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "first_failure": "CI_39420750772_K6_ENVIRONMENT.json",
+  "limit": "Only K6 was rerun after pre-test environment failure; other matrix successes are reused, not rerun.",
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false
+}

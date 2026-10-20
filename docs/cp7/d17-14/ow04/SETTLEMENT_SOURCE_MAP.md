@@ -28,6 +28,13 @@ Untuk invoice aktif, buat satu pembaca settlement privat/STABLE:
   Prasyarat piutang_sebelum≥0, E≥0 dan E≤net_sebelum harus diperiksa; jangan
   mengubah korupsi lama menjadi kredit baru yang melebihi R.
 
+**Batas penting rumus ini:** P/U/I di atas adalah keadaan terkini, bukan
+otomatis angka per tanggal. Jangan menerbitkan seluruh K di tanggal retur
+apabila sebagian funding baru ada sesudahnya. Counter tanggal yang nyata
+di sumber, termasuk tanggal buku setelah periode dibuka ulang, dicatat di
+`TEMPORAL_COUNTER_20261020.md`; rancangan satu tanggal untuk seluruh K
+ditolak sebelum implementasi. Belum ada runtime settlement dari rumus ini.
+
 Retur tetap Dr pendapatan/Cr piutang R dan mempertahankan gerakan stok/HPP
 Native. Penerbitan kredit menambah Dr piutang/Cr kewajiban kredit K dalam
 transaksi yang sama. Refund menambah Dr kewajiban kredit/Cr kas K. Refund

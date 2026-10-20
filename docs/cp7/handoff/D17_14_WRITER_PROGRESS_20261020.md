@@ -133,3 +133,38 @@ perbaikan; seluruh32 kasus tiga formulir lulus sesudahnya. Browser P11
 desktop/HP diperkuat dengan waktu eksplisit dan pemeriksaan instant tersimpan;
 CI64 kasus diaktifkan pada cabang writer. Bukti/batas: ow04/PHYSICAL_TIME.md.
 Native/browser perbaikannya belum ada saat catatan ini dibuat.
+
+## Skala selesai diukur dan CI perbaikan waktu fisik
+
+Skala2ad run39420750772/job118620792724 attempt1 kemudian **5/5 PASS**
+untuk pengukuran, restore/advisor PASS. Bukan SLA: klik sampai hasil5000
+siap/halaman pertama terlihat79,40/88,22/105,27dtk untuk1/30/100hari,
+dengan keuangan DEFERRED. Seluruh26halaman dibaca/diverifikasi; buka ulang
+1,261–1,568dtk. Keuangan langsung5000 masih timeout8dtk, jadi OW-12 tetap
+belum selesai. Data lengkap dan batas: ow03/SCALE_LIMITS_20261020.md.
+
+Sesudah skala selesai, ulang **K6 saja** diterima GitHub pada kode2ad yang
+sama; kegagalan lingkungan awal tetap tersimpan. Attempt2/job118654098080
+kemudian **10/10 PASS**, restore/advisor PASS; receipt ow03/CI_39420750772_K6_RETRY.json.
+Perbaikan waktu fisik retur sudah di-push pada4e3c98b3, tree29db6ac1;
+CI P11run39430283909/job118653236629 kemudian **64/64 PASS**, restore/advisor
+PASS. Sourcehash722aca08… cocok bundle; desktop/HP membuktikan input kosong,
+waktu eksplisit WIB→UTC, review dibatalkan bila waktu berubah, dan readback
+tetap tepat pada replay. Receipt ow04/CI_39430283909_PHYSICAL_TIME.json.
+Ini perbaikan waktu fisik; settlement retur lunas tetap belum tersedia.
+
+## Counter tanggal dan langkah berikutnya
+
+Pemeriksaan lanjutan menemukan celah rancangan, sebelum menjadi kode produk:
+seluruh kredit tidak boleh diberi tanggal retur bila dananya baru ada setelah
+tanggal itu. Satu tanggal juga tidak cukup ketika sebagian pembayaran datang
+lebih dahulu, atau tanggal buku sumber berbeda karena periode tutup/buka.
+Writer dan dua pemeriksa membaca jurnal sumber; detail expected, anchor dan
+batas bukti: ow04/TEMPORAL_COUNTER_20261020.md. Ini source-only, bukan hasil
+runtime atau cacat kredit yang sudah terpasang. Perlu rancangan penerbitan
+bertanggal dan Native oracle sebelum implementasi uang penuh.
+
+OW-01 kebutuhan aksesori dari rencana masih ditelusuri: sumber saat ini
+menandai tambahan pembelian UNKNOWN bila pemasangan/alokasi fisik belum
+terbukti. D17-14 mengizinkan forwarding seluruh pengingat, termasuk keadaan
+perlu diperiksa; tidak boleh mengganti UNKNOWN dengan kebutuhan bruto atau0.
