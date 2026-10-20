@@ -358,6 +358,10 @@ def _run(cur, today, gold):
         native.assert_payment_unchanged(cur, x)
         # Stored actual book D3 must survive REOPENED's ordinary resolver D2.
         assert x['current_return_resolver'] == x['dates'][gold['ordinary_return_resolver']]
+        # The fixture rolls back its inner savepoint on exit. Force every
+        # pending FK and factual closure trigger now, so rollback cannot hide
+        # a transaction that would fail at COMMIT. Existing oracles stay intact.
+        cur.execute('set constraints all immediate')
         return dict(status='PASS', classification='ACTUAL_NATIVE_INITIAL_SETTLEMENT_CASE_WHEN_RUN',
             source_fixture_id=x['fixture_id'], mode=gold['mode'], period_fixture=x['period_setup'],
             credit_master_fixture=credit, source_before=x['source_before'], payment_before=x['payment_before'],
@@ -366,6 +370,7 @@ def _run(cur, today, gold):
             actual_quote=quote, actual_outcome=result, actual_facts=actual,
             replay_same_outcome=True, replay_additional_effects=0, original_payment_byte_equal=True,
             original_sale_and_payment_journals_byte_equal=True,
+            deferred_constraints_forced_before_fixture_rollback=True,
             native_executed=True, production_go=False)
 
 

@@ -1,0 +1,340 @@
+{
+  "candidate_commit": "c0a63312db57627ea029008c2f5ab6e4027e0d87",
+  "run_id": 39468743043,
+  "job_id": 118786908506,
+  "classification": "UNCHANGED_DEFAULT_INSTALLER_P11_REGRESSION",
+  "runtime_summary": {
+    "label": "CP7_P11_SALES_READ",
+    "status": "PASS",
+    "source_sha256": "722aca08e1788960794e5b65aee4e7df774df6c62e68c781cffe8468a43c241f",
+    "observed_case_count": 64,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "error": null,
+    "traceback": null
+  },
+  "cases": [
+    {
+      "group": "CP7_P11_READ_NATIVE",
+      "id": "P11_READ_DRAFT_CANCEL",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_READ_NATIVE",
+      "id": "P11_READ_NATIVE_LIFECYCLE",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_READ_NATIVE",
+      "id": "P11_READ_EXACT_CENTS",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_READ_NATIVE",
+      "id": "P11_READ_FINANCIAL_REDACTION",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_READ_NATIVE",
+      "id": "P11_READ_PRIVATE_READ_ONLY",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_READ_NATIVE",
+      "id": "P11_READ_COMPLETE_PAGES",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_READ_NATIVE",
+      "id": "P11_READ_QUERY_REFUSAL",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_READ_NATIVE",
+      "id": "P11_READ_EMPTY_MISSING",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_P11_READ",
+      "id": "P11_READ_HTTP_CURRENT_AUTH",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_COMMAND_NATIVE",
+      "id": "P11_COMMAND_POST_ONCE",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_COMMAND_NATIVE",
+      "id": "P11_COMMAND_CANCEL",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_COMMAND_NATIVE",
+      "id": "P11_COMMAND_CHILD_REVIEW",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_COMMAND_NATIVE",
+      "id": "P11_COMMAND_VERSION_STATUS",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_COMMAND_NATIVE",
+      "id": "P11_COMMAND_REPLAY_AUTH",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_COMMAND_NATIVE",
+      "id": "P11_COMMAND_PRIVATE_FIELDS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_P11_COMMANDS",
+      "id": "P11_COMMAND_RACE_POST_CANCEL",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_P11_COMMANDS",
+      "id": "P11_COMMAND_RACE_REVOKE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_P11_COMMANDS",
+      "id": "P11_COMMAND_HTTP_AUTH",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_DRAFT_NATIVE",
+      "id": "P11_DRAFT_MULTI_CREATE_EDIT_POST",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_DRAFT_NATIVE",
+      "id": "P11_DRAFT_REPLAY",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_DRAFT_NATIVE",
+      "id": "P11_DRAFT_INSUFFICIENT_EDIT",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_DRAFT_NATIVE",
+      "id": "P11_DRAFT_EXACT_FIELDS",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_DRAFT_NATIVE",
+      "id": "P11_DRAFT_SELECTORS",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_DRAFT_NATIVE",
+      "id": "P11_DRAFT_MASTER_REFUSAL",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_DRAFT_NATIVE",
+      "id": "P11_DRAFT_PERMISSIONS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_P11_DRAFTS",
+      "id": "P11_DRAFT_RACE_AVAILABLE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_P11_DRAFTS",
+      "id": "P11_DRAFT_HTTP",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_PAYMENT_NATIVE",
+      "id": "P11_PAYMENT_EXACT_LIFECYCLE",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_PAYMENT_NATIVE",
+      "id": "P11_PAYMENT_REPLAY",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_PAYMENT_NATIVE",
+      "id": "P11_PAYMENT_FIELDS",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_PAYMENT_NATIVE",
+      "id": "P11_PAYMENT_SOURCE_CHANGE",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_PAYMENT_NATIVE",
+      "id": "P11_PAYMENT_PAGES",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_PAYMENT_NATIVE",
+      "id": "P11_PAYMENT_INACTIVE_BANK",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_PAYMENT_NATIVE",
+      "id": "P11_PAYMENT_PERMISSIONS",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_PAYMENT_NATIVE",
+      "id": "P11_PAYMENT_PRIVATE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_P11_PAYMENTS",
+      "id": "P11_PAYMENT_RACE_SAME_UUID",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_P11_PAYMENTS",
+      "id": "P11_PAYMENT_RACE_COMPETING",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_P11_PAYMENTS",
+      "id": "P11_PAYMENT_RACE_REVOKE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_P11_PAYMENTS",
+      "id": "P11_PAYMENT_HTTP",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_RETURN_NATIVE",
+      "id": "P11_RETURN_LIFECYCLE",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_RETURN_NATIVE",
+      "id": "P11_RETURN_SPLIT_GRADES",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_RETURN_NATIVE",
+      "id": "P11_RETURN_ALLOCATION_CAP",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_RETURN_NATIVE",
+      "id": "P11_RETURN_FIELDS",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_RETURN_NATIVE",
+      "id": "P11_RETURN_PAID_REFUSAL",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_RETURN_NATIVE",
+      "id": "P11_RETURN_DATE_LOCATION",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_RETURN_NATIVE",
+      "id": "P11_RETURN_REPLAY",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_RETURN_NATIVE",
+      "id": "P11_RETURN_SOURCE_CHANGE",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_RETURN_NATIVE",
+      "id": "P11_RETURN_PERMISSIONS",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_RETURN_NATIVE",
+      "id": "P11_RETURN_PAGES",
+      "status": "PASS"
+    },
+    {
+      "group": "CP7_P11_RETURN_NATIVE",
+      "id": "P11_RETURN_CONSUMED",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_P11_RETURNS",
+      "id": "P11_RETURN_RACE_CAPACITY",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_P11_RETURNS",
+      "id": "P11_RETURN_RACE_CASH",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_P11_RETURNS",
+      "id": "P11_RETURN_RACE_REVOKE",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_P11_RETURNS",
+      "id": "P11_RETURN_HTTP",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_P11_READ",
+      "id": "P11_READ_BROWSER_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_P11_READ",
+      "id": "P11_READ_BROWSER_MOBILE_OPERATIONS",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_P11_READ",
+      "id": "P11_COMMAND_BROWSER_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_P11_READ",
+      "id": "P11_COMMAND_BROWSER_MOBILE_RECOVERY",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_P11_READ",
+      "id": "P11_DRAFT_BROWSER_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_P11_READ",
+      "id": "P11_DRAFT_BROWSER_MOBILE_RECOVERY",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_P11_READ",
+      "id": "P11_PAYMENT_BROWSER_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_P11_READ",
+      "id": "P11_PAYMENT_BROWSER_MOBILE_RECOVERY",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_P11_READ",
+      "id": "P11_RETURN_BROWSER_R10_DESKTOP_A",
+      "status": "PASS"
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_P11_READ",
+      "id": "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY",
+      "status": "PASS"
+    }
+  ],
+  "new_ow04_native_evidence": false,
+  "production_go": false
+}

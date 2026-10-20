@@ -8,12 +8,14 @@ The caller owns the transaction and must roll back every failure.
 from __future__ import annotations
 
 from copy import deepcopy
+from contextlib import contextmanager
 from hashlib import sha256
 import importlib.util
 import json
 from pathlib import Path
 import re
 import sys
+from psycopg.pq import TransactionStatus
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO = Path(__file__).resolve().parents[3]
@@ -108,28 +110,18 @@ def _view_capture(cur):
     return {'definition': row[0], 'owner': row[1], 'acl': row[2], 'options': row[3]}
 
 
-def _only_own_return_context(context_names):
-    # Exact same accepted full inventory as the no-ambient guard. This is a
-    # refusal helper, never a require_internal admission branch.
-    if 'cp7_sales.command_context' not in context_names or len(set(context_names)) != len(context_names):
-        raise ValueError('OW04_OWN_RETURN_CONTEXT_MANIFEST_REQUIRED')
-    own = "c.actor=auth.uid()and c.action='RETURN'and c.sale_id=p_sale"
-    queries = []
-    for table in context_names:
-        if re.fullmatch(r'[a-z0-9_]+\.[a-z0-9_]*context',table) is None:
-            raise ValueError('OW04_CONTEXT_IDENTIFIER_NOT_TRUSTED')
-        extra = 'and not('+own+')' if table == 'cp7_sales.command_context' else ''
-        queries.append('select 1 from '+table+' c where c.backend_pid=pg_backend_pid() and c.transaction_id=txid_current() '+extra)
-    return """create function cp7_credit.assert_only_own_return_native_context(p_sale uuid)returns void
-language plpgsql volatile security definer set search_path='' set TimeZone='UTC'as $$begin
- if(select count(*)from cp7_sales.command_context c where c.backend_pid=pg_backend_pid()
-  and c.transaction_id=txid_current()and %s)<>1 or exists(%s)then
-  raise exception using errcode='42501',message='CP7_CREDIT_ONLY_OWN_RETURN_CONTEXT_REQUIRED';end if;
-end $$;
-alter function cp7_credit.assert_only_own_return_native_context(uuid)owner to postgres;
-revoke all on function cp7_credit.assert_only_own_return_native_context(uuid)
- from public,anon,authenticated,service_role,cp7_capture,cp7_sales_read,cp7_sales_write;
-""" % (own,' union all '.join(queries))
+@contextmanager
+def _postgres_reader(cur):
+    """Measure visibility as the actual private guard owner, not installer."""
+    previous = cur.execute("select current_setting('role')").fetchone()[0]
+    cur.execute('set local role postgres')
+    try:
+        yield
+    finally:
+        # A database exception requires the caller's atomic rollback. Do not
+        # replace that first error with another statement in an aborted tx.
+        if cur.connection.info.transaction_status != TransactionStatus.INERROR:
+            cur.execute("select set_config('role',%s,true)", (previous,))
 
 
 def install(cur, predecessor_verify, predecessor_functions):
@@ -152,19 +144,20 @@ def install(cur, predecessor_verify, predecessor_functions):
     if view_before['owner'] != 'postgres' or 'security_invoker=true' not in (view_before['options'] or []):
         raise ValueError('OW04_NATIVE_RECEIVABLE_VIEW_METADATA_CHANGED')
     view_after = readers.receivables_view(view_before['definition'])
-    # Exact complete dispatch inventory from the verified installed guard. A
-    # prefix catalogue would miss contexts from other modules and is forbidden.
+    # The Native admission dispatch is not the complete set of private scopes.
+    # Keep its exact proof, then capture the closed source-backed typed census
+    # across every namespace, including correction and transaction-only scopes.
     guard = load('ow04_integrated_internal_guard', REPO / 'scripts/cp7_internal_guard_bundle.py')
     guard.verify(cur)
     guard_body = cur.execute("select prosrc from pg_proc where oid='erp.require_internal()'::regprocedure").fetchone()[0]
     unpatched, probe = guard.unpatched(guard_body)
     context_names = guard.contexts(unpatched)
-    if 'cp7_sales.command_context' not in context_names or 'cp7_note.context' not in context_names \
-            or 'cp7_sales_return_correction.context' not in context_names:
-        raise ValueError('OW04_ACTUAL_NATIVE_CONTEXT_INVENTORY_INCOMPLETE')
-    no_ambient = assembly.admission.derive_no_ambient_context(context_names, context_names)
+    contexts = load('ow04_integrated_context_inventory', ROOT / 'integration/typed_context_inventory.py')
+    with _postgres_reader(cur):
+        census = contexts.capture(cur, REPO, context_names)
+    refusal_guards = contexts.render_guards(census)
     context_proof = {'guard_body_sha256':digest(guard_body),'probe_sha256':digest(probe),
-                     'exact_context_tables':context_names,'context_manifest_sha256':digest(canonical(context_names))}
+                     'typed_census':census}
     # Refund is a second exact private copy from the SAME approved actual
     # Native poster. Its source UUID and journal pair are operation-bound.
     poster = next(row for row in captures['functions'] if row['identity'] == assembly.POSTER)
@@ -177,8 +170,9 @@ def install(cur, predecessor_verify, predecessor_functions):
         if digest((ROOT / name).read_text()) != expected_sources[name]:
             raise ValueError('OW04_SOURCE_CHANGED_DURING_COMPOSITION')
         if name == 'coordinator/07_capabilities_and_quote.sql':
-            cur.execute(no_ambient, prepare=False)
-            cur.execute(_only_own_return_context(context_names), prepare=False)
+            cur.execute(contexts.plan_reader_sql(), prepare=False)
+            cur.execute(refusal_guards['no_ambient'], prepare=False)
+            cur.execute(refusal_guards['only_own_return'], prepare=False)
         cur.execute(_actual_sql(name), prepare=False)
     cur.execute("create function cp7_credit.return_causal_book_floor(p_return uuid)returns date "
         "language sql volatile security definer set search_path=''as $$ "
@@ -213,6 +207,9 @@ def verify(cur, state):
     assembly = load('ow04_integrated_native_plan', ROOT / 'integration/derive_plan.py')
     proof = assembly.verify_installed(cur, state['plan'], state['approval'])
     legacy = assembly.verify_legacy_composed(cur, state['plan'], state['approval'], REPO)
+    contexts = load('ow04_integrated_context_inventory', ROOT / 'integration/typed_context_inventory.py')
+    with _postgres_reader(cur):
+        context_verification = contexts.verify(cur, REPO, state['context_proof']['typed_census'])
     for sig, target in state['reader_targets'].items():
         actual = assembly._capture(cur, sig)
         expected = state['reader_before'][sig]
@@ -237,7 +234,7 @@ def verify(cur, state):
             if cur.execute("select has_function_privilege(%s,%s,'EXECUTE')", (role,sig)).fetchone()[0]:
                 raise ValueError('OW04_PUBLIC_FACADE_EXPOSED')
     return {'classification':'INTERNAL_WRITER_NATIVE_CANDIDATE_VERIFICATION','native':proof,
-            'legacy_composition':legacy,'production_go':False}
+            'legacy_composition':legacy,'context_inventory':context_verification,'production_go':False}
 
 
 def uninstall(cur, state):

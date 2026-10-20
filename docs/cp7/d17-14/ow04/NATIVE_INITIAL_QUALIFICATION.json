@@ -36,6 +36,7 @@
     "F03_E01_NATIVE_60_TO_CASH_RETURN"
   ],
   "expected": "All32 must PASS with exact original financial, date, replay, authority and restoration assertions; no change to old oracles",
+  "new_settlement_constraint_check": "All pending deferred constraints and factual closure triggers must run before each of the12 new fixtures rolls back; this is not an actual COMMIT/recovery qualification",
   "limits": [
     "No new browser/race qualification in this first run",
     "Direct Native new EMPTY-family registration remains a known contract gap; a32PASS result cannot close this gap",

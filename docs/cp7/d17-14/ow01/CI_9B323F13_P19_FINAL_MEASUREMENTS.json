@@ -1,0 +1,740 @@
+{
+  "candidate_commit": "9b323f135074a56cf652aab7b0dd3990b3e1b3bf",
+  "run_id": 39463501285,
+  "classification": "INTERNAL_WRITER_REUSED_PRODUCT_REGRESSION_AND_MEASUREMENTS",
+  "jobs": [
+    {
+      "name": "p19-transport11",
+      "id": 118768678142,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "k6-proof-runner-10",
+      "id": 118768678534,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "p19-report-v2-20",
+      "id": 118768678609,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "pl5-history-yield-20",
+      "id": 118768678646,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "p19-staged12",
+      "id": 118768678663,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "p19-scale5",
+      "id": 118768678669,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "p19-ai-v2-9",
+      "id": 118768678683,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "k3-cleanup-25",
+      "id": 118768678763,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "p19-reminder-v2-16",
+      "id": 118768678831,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "k4-runner-32",
+      "id": 118768678914,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "k2-retention-10",
+      "id": 118768678933,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "p19-plan-v2-22",
+      "id": 118768679008,
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "logs_read_here": [
+    118768678669,
+    118768678609
+  ],
+  "scale_runtime_summary": {
+    "label": "CP7_P19_SCALE",
+    "status": "PASS",
+    "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+    "observed_case_count": 5,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "error": null,
+    "traceback": null
+  },
+  "report_runtime_summary": {
+    "label": "CP7_P19_REPORT_V2",
+    "status": "PASS",
+    "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+    "observed_case_count": 20,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "error": null,
+    "traceback": null
+  },
+  "report_cases": [
+    {
+      "id": "P19R_PUBLISH_STEPS_SEAL",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_ACTUAL_STOCK_AT_REPORT_TIME",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_FRESHNESS_STATES_WORDED",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_FINANCE_FROM_OWNER_REPORT",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_FINANCE_ACCESS_CURRENT",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_REVISION_SERIES",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_REQUEST_ONE_UUID",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_AUTHORITY",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_FIELDS_AND_IDENTITY",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_V1_APART",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_RACE_TWO_STEPS_ONE_UNIT",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_RACE_TWO_REVISIONS_ONE_SEALS",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_RACE_STOCK_COMMITTED_DURING_JOB",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_RACE_ACCESS_CHANGED_MID_JOB",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_RACE_SAME_UUID_TWO_SESSIONS",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_RACE_LIMIT_RETRIES_THEN_CONTINUES",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_HTTP_FLOW",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_HTTP_REVOKED",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_BROWSER_DESKTOP_REPORT",
+      "status": "PASS"
+    },
+    {
+      "id": "P19R_BROWSER_MOBILE_REPORT",
+      "status": "PASS"
+    }
+  ],
+  "scale": [
+    {
+      "id": "P19S_NATIVE_ROLLED_BACK_100_GRID_CAP",
+      "status": "PASS",
+      "measurements": []
+    },
+    {
+      "id": "P19S_BROWSER_DESKTOP_100",
+      "status": "PASS",
+      "measurements": [
+        {
+          "history_days": 1,
+          "control": "CAPTURE",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 1114.0999999999767,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "95832ccefda9b50e2ec2bb8e00d37fe4f4d768e333132c9e922253472da2708c",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 1,
+          "control": "BACKGROUND",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 1165.3000000000466,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "08b417d4fcfd1d0ff749fab51be00ca7e7f6b6b366ed6b818fb4ea93ef110b9f",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 1,
+          "control": "CAPTURE_WITH_FINANCE",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 1587.5,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "1eca7b29d3f8b63f4c9f29fcb318b7d08a00a134cb9558a54c724d740af53683",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 1,
+          "control": "STAGED",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 1531.7000000000116,
+          "first_progress_ms": 89,
+          "reopen_ms": 424.6000000000349,
+          "max_page_ms": null,
+          "cap": null,
+          "targets": 100,
+          "hash": "b3711421e094a23949c3e2682442fbbac326cd65ecafa4801b47e8ba4b0884a2",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 30,
+          "control": "CAPTURE",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 1157.9000000000233,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "20d5a7b649b1495a9e8006520d7b363a14bcd85fc322f791ba4a3154c714d722",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 30,
+          "control": "BACKGROUND",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 1295.4000000000233,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "513f7bb5fd3dd15804dedd8b939cbbc224bb0414f71cb67c1f64b50d32bc96eb",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 30,
+          "control": "CAPTURE_WITH_FINANCE",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 1684,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "be937f6cda9cd7011b28d7b532397dc02fc0300f3ee110101fe9d18e384bd22e",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 30,
+          "control": "STAGED",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 1503.8000000000466,
+          "first_progress_ms": 76.20000000001164,
+          "reopen_ms": 416.9000000000233,
+          "max_page_ms": null,
+          "cap": null,
+          "targets": 100,
+          "hash": "e8286ed0fb0d759e07421ddbef7472fca79d77d742b25cdbc038a70e9bbe4dac",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 100,
+          "control": "CAPTURE",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 1390,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "47b2d6dde4c05e4305fe21f33f9e427b6e3fcf89e2d14329509c1217215116eb",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 100,
+          "control": "BACKGROUND",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 1504.7999999999884,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "24265ee191da65fc34fd0ff6e7992ce4e941474ee767655542c5a64fa1479a09",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 100,
+          "control": "CAPTURE_WITH_FINANCE",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 1975.6999999999534,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "25a1638d273aae9daa255cb84268908c0c4fa2d5c815a8548371e98b59b5a7d6",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 100,
+          "control": "STAGED",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 1755.0999999999767,
+          "first_progress_ms": 83.09999999997672,
+          "reopen_ms": 447.5999999999767,
+          "max_page_ms": null,
+          "cap": null,
+          "targets": 100,
+          "hash": "7a05c8ecda094a79c5ab348cbba7339d2f7cd621ab6eed00ea807b37d3936b63",
+          "owner_latency_acceptance": false
+        }
+      ]
+    },
+    {
+      "id": "P19S_BROWSER_DESKTOP_300",
+      "status": "PASS",
+      "measurements": [
+        {
+          "history_days": 1,
+          "control": "CAPTURE",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 4108.200000000012,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "185c375aeaa5da0c6e3f866a3fd692ae7d0c31bc9b2954abafed205f5130429c",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 1,
+          "control": "BACKGROUND",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 3210.7999999999884,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "4607a66be518d2eadfb219e3fb18bf7be77e2c037494cc28892cf74986c23c86",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 1,
+          "control": "CAPTURE_WITH_FINANCE",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 5836.200000000012,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "ba0fc8200ccc44fbca7f26a111440478e0cbe478d2e6f560bbb51eb16cdbdd9a",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 1,
+          "control": "STAGED",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 3476.2000000000116,
+          "first_progress_ms": 131.80000000004657,
+          "reopen_ms": 661.5999999999767,
+          "max_page_ms": 311.6000000000349,
+          "cap": null,
+          "targets": 300,
+          "hash": "aa459c1b9549055bfff54fd29bef322d3eae4b65a384df486969006e7626ddb2",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 30,
+          "control": "CAPTURE",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 4306.899999999965,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "d5df7db19afb6b4b39192a4f4cd174e9456bf78cbdf22e93baa47a2afeb44722",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 30,
+          "control": "BACKGROUND",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 3545.2000000000116,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "dfcb936fb5bb6f364e7158642ae6468c02a228aba2a8a51356f1a3585a147434",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 30,
+          "control": "CAPTURE_WITH_FINANCE",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 6157.400000000023,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "9ba1e39ce6c27816235188b27533160eaca85a1381b828869ca2359b35657b74",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 30,
+          "control": "STAGED",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 3843.100000000035,
+          "first_progress_ms": 123.40000000002328,
+          "reopen_ms": 644.9000000000233,
+          "max_page_ms": 303.70000000006985,
+          "cap": null,
+          "targets": 300,
+          "hash": "92fc3228ab38c3e150f2a2e7dbb711da0854025d195f137686def1e8c5696c92",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 100,
+          "control": "CAPTURE",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 5532.900000000023,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "2d1b4d2447a8cf59fd99f5501daf9895c26eef068068132356277d99968c1de6",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 100,
+          "control": "BACKGROUND",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 4937.800000000047,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "5e039ffb788736505c40ddf31c0576d28d4f24ef0a8304fa9831eda05615343e",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 100,
+          "control": "CAPTURE_WITH_FINANCE",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 7266.5,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "35bfa63fb98df80b9549613b89fa002eb54c0e2a6d760c97f441e7b3d728ad70",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 100,
+          "control": "STAGED",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 4221.900000000023,
+          "first_progress_ms": 112.90000000002328,
+          "reopen_ms": 682.3000000000466,
+          "max_page_ms": 338,
+          "cap": null,
+          "targets": 300,
+          "hash": "f05961d4925ee23803687ed3e4cab58ecdbabe5f25a54d1eb46464edac7c25cc",
+          "owner_latency_acceptance": false
+        }
+      ]
+    },
+    {
+      "id": "P19S_BROWSER_DESKTOP_1000",
+      "status": "PASS",
+      "measurements": [
+        {
+          "history_days": 1,
+          "control": "CAPTURE",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 14163.29999999993,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "559403a5826ccfc2c314fad353d31cb544fa9b33a266843f5c111ffb860cb43d",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 1,
+          "control": "BACKGROUND",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 11205.5,
+          "max_page_ms": null,
+          "cap": null,
+          "hash": "65208b0525b61965a95a5142ae18cf5a65064a4dac333f3dce48bbe4b9318fd6",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 1,
+          "control": "CAPTURE_WITH_FINANCE",
+          "result": "REFUSAL_RENDERED",
+          "complete_ms": 8234.400000000023,
+          "max_page_ms": null,
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "hash": null,
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 1,
+          "control": "STAGED",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 9097.600000000093,
+          "first_progress_ms": 338.4000000000233,
+          "reopen_ms": 714,
+          "max_page_ms": 640.1000000000931,
+          "cap": null,
+          "targets": 1000,
+          "hash": "fc6a19cefa47895a3a9d2d675a622fe2c2f66fdc4f1df5803ddc28ca8dcd0760",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 30,
+          "control": "CAPTURE",
+          "result": "REFUSAL_RENDERED",
+          "complete_ms": 8197.199999999953,
+          "max_page_ms": null,
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "hash": null,
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 30,
+          "control": "BACKGROUND",
+          "result": "REFUSAL_RENDERED",
+          "complete_ms": 8330.800000000047,
+          "max_page_ms": null,
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "hash": null,
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 30,
+          "control": "CAPTURE_WITH_FINANCE",
+          "result": "REFUSAL_RENDERED",
+          "complete_ms": 8030.900000000023,
+          "max_page_ms": null,
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "hash": null,
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 30,
+          "control": "STAGED",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 10073,
+          "first_progress_ms": 352.19999999995343,
+          "reopen_ms": 694.0999999999767,
+          "max_page_ms": 637.4000000000233,
+          "cap": null,
+          "targets": 1000,
+          "hash": "190e463014b3612314997ab60815cb0167938dca8ed3b2651ebd404faf18991b",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 100,
+          "control": "CAPTURE",
+          "result": "REFUSAL_RENDERED",
+          "complete_ms": 8297.199999999953,
+          "max_page_ms": null,
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "hash": null,
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 100,
+          "control": "BACKGROUND",
+          "result": "REFUSAL_RENDERED",
+          "complete_ms": 8265.600000000093,
+          "max_page_ms": null,
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "hash": null,
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 100,
+          "control": "CAPTURE_WITH_FINANCE",
+          "result": "REFUSAL_RENDERED",
+          "complete_ms": 8033.5,
+          "max_page_ms": null,
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "hash": null,
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 100,
+          "control": "STAGED",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 12176.300000000047,
+          "first_progress_ms": 347,
+          "reopen_ms": 780,
+          "max_page_ms": 618.0999999999767,
+          "cap": null,
+          "targets": 1000,
+          "hash": "48d26ad6c889c843c5cc6e4dd7c1252260596219a4b3948067c69fd7d1bb0402",
+          "owner_latency_acceptance": false
+        }
+      ]
+    },
+    {
+      "id": "P19S_BROWSER_DESKTOP_5000",
+      "status": "PASS",
+      "measurements": [
+        {
+          "history_days": 1,
+          "control": "CAPTURE",
+          "result": "REFUSAL_RENDERED",
+          "complete_ms": 465.4000000001397,
+          "max_page_ms": null,
+          "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+          "hash": null,
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 1,
+          "control": "BACKGROUND",
+          "result": "REFUSAL_RENDERED",
+          "complete_ms": 498.20000000018626,
+          "max_page_ms": null,
+          "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+          "hash": null,
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 1,
+          "control": "CAPTURE_WITH_FINANCE",
+          "result": "REFUSAL_RENDERED",
+          "complete_ms": 8035.199999999953,
+          "max_page_ms": null,
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "hash": null,
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 1,
+          "control": "STAGED",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 55348.700000000186,
+          "first_progress_ms": 2082.9000000001397,
+          "reopen_ms": 1002.4000000001397,
+          "max_page_ms": 658.8000000000466,
+          "cap": null,
+          "targets": 5000,
+          "hash": "978194d9cc8417d1b1b79d456f6ce8e2e2ebe0ae750ec1f91bea461590ef7dc8",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 30,
+          "control": "CAPTURE",
+          "result": "REFUSAL_RENDERED",
+          "complete_ms": 657,
+          "max_page_ms": null,
+          "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+          "hash": null,
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 30,
+          "control": "BACKGROUND",
+          "result": "REFUSAL_RENDERED",
+          "complete_ms": 544.8999999999069,
+          "max_page_ms": null,
+          "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+          "hash": null,
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 30,
+          "control": "CAPTURE_WITH_FINANCE",
+          "result": "REFUSAL_RENDERED",
+          "complete_ms": 8029.09999999986,
+          "max_page_ms": null,
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "hash": null,
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 30,
+          "control": "STAGED",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 60872.299999999814,
+          "first_progress_ms": 2064.7999999998137,
+          "reopen_ms": 999.3000000000466,
+          "max_page_ms": 656.8999999999069,
+          "cap": null,
+          "targets": 5000,
+          "hash": "8fb64ede6451985890aeb9643046fbc9e7e3d530915f71f8955cad06278c0681",
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 100,
+          "control": "CAPTURE",
+          "result": "REFUSAL_RENDERED",
+          "complete_ms": 574,
+          "max_page_ms": null,
+          "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+          "hash": null,
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 100,
+          "control": "BACKGROUND",
+          "result": "REFUSAL_RENDERED",
+          "complete_ms": 629.8000000000466,
+          "max_page_ms": null,
+          "cap": "HISTORY_SOURCE_PRODUCTS_1000",
+          "hash": null,
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 100,
+          "control": "CAPTURE_WITH_FINANCE",
+          "result": "REFUSAL_RENDERED",
+          "complete_ms": 8035.699999999953,
+          "max_page_ms": null,
+          "cap": "STATEMENT_TIMEOUT_8S",
+          "hash": null,
+          "owner_latency_acceptance": false
+        },
+        {
+          "history_days": 100,
+          "control": "STAGED",
+          "result": "RESULT_RENDERED",
+          "complete_ms": 81664.69999999995,
+          "first_progress_ms": 2611.5999999998603,
+          "reopen_ms": 866.2999999998137,
+          "max_page_ms": 703.0999999998603,
+          "cap": null,
+          "targets": 5000,
+          "hash": "a67d51b9b4331a074ac1aa77214f6d37aed1509297e00a40c230b4df479d8a41",
+          "owner_latency_acceptance": false
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Job success outside logs_read_here is job-level evidence only; other read logs are recorded separately.",
+    "Scale PASS measures complete/refusal behavior, not owner acceptance or3second complete results.",
+    "5000 staged result excludes required fullscale financial/HPP/comparison scope; OW12 stays open.",
+    "Direct finance1000/5000 times out; refusal is not complete result.",
+    "No application code/performance changes are inferred from different runner timings."
+  ],
+  "production_go": false
+}

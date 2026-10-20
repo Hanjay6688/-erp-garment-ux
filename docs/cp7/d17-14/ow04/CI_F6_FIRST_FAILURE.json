@@ -1,0 +1,29 @@
+{
+  "candidate_commit": "f6a053156d85388c9949f93f8bfc2d30cf989459",
+  "run_id": 39469756271,
+  "job_id": 118790414794,
+  "status": "INCOMPLETE",
+  "observed_native_cases": 0,
+  "classification": "WRITER_COMPOSITION_CONTEXT_INVENTORY_ASSUMPTION",
+  "first_runtime_summary": {
+    "label": "CP7_OW04_INITIAL",
+    "status": "INCOMPLETE",
+    "expected_case_count": 32,
+    "observed_case_count": 0,
+    "cp6_restored": null,
+    "advisor_gate": null,
+    "error": "OW04_ACTUAL_NATIVE_CONTEXT_INVENTORY_INCOMPLETE",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_ow04_probe.py\", line 123, in run\n    STATE = credit.install(cur,predecessor.verify,p09.functions)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_customer_credit/integration/owning_bundle.py\", line 164, in install\n    raise ValueError('OW04_ACTUAL_NATIVE_CONTEXT_INVENTORY_INCOMPLETE')\nValueError: OW04_ACTUAL_NATIVE_CONTEXT_INVENTORY_INCOMPLETE\n",
+    "restore_error": null
+  },
+  "expected_not_changed": true,
+  "product_tests_executed": false,
+  "production_go": false,
+  "disposition": "The verified require_internal dispatch has10 tables, but private correction and other own-context guards are outside that dispatch. Preserve exact dispatch proof and add a complete source-backed catalog-checked context manifest; never remove ambient refusals.",
+  "full_first_log": {
+    "path": "CI_F6_FIRST_RUNTIME.log.gz",
+    "utf8_bytes": 265223,
+    "sha256": "fe31a13756c8a2e07c39731bc64d5f7052e88cbc26f8a9d60586f243f087c4d2",
+    "gzip_sha256": "d63d45fb337acbe3d2ccb44c65eb6748df5114119fcbbbd565e325efd87586c2"
+  }
+}
