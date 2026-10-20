@@ -1,0 +1,2 @@
+{"runtime":"LOCAL_PGLITE18_DEV","original_dispatcher_sql_installed":true,"synthetic_job_contracts":true,"native_acceptance":false}
+{"status":"PASS","checks":15,"real_sql":true,"synthetic_steps":true,"native_acceptance":false,"concurrency_proven":false}

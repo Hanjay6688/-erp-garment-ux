@@ -52,6 +52,13 @@ it('shows a claimed preview with the snapshot time and the recheck',async()=>{
  const article=container.querySelector('[aria-label="Pratinjau lokal pengingat"]')!
  expect(article.getAttribute('data-claim-status')).toBe('CLAIMED');expect(article.textContent).toContain('Data analisis per 2026-10-08 08:00:00 WIB');expect(article.textContent).toContain('Diperiksa ulang')
 })
+it('reopens the stored condition set by reading it without running another unit or claiming a reminder',async()=>{
+ server();await render();await click('Muat hasil pengingat tersimpan')
+ expect(container.querySelector('[aria-label="Pengingat dari analisis bertahap"]')?.getAttribute('data-set-state')).toBe('DONE')
+ expect(container.textContent).toContain('Daftar pengingat siap: 3 kondisi dari 3 target.')
+ expect(client.rpc.mock.calls.map(c=>c[0])).toEqual(['erp_cp7_get_reminder_workspace_v2','erp_cp7_read_reminder_conditions_v2'])
+ expect(client.rpc.mock.calls[0][1]).toEqual({p_run:f.run})
+})
 it('lets a viewer read and recheck but not claim or change settings',async()=>{
  server({manage:false});await render();await click('Siapkan daftar pengingat')
  expect(container.querySelectorAll('button[aria-label^="Buat pratinjau lokal"]').length).toBe(0)

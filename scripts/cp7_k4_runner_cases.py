@@ -28,6 +28,7 @@ import cp7_p19_native_load_cases as load
 import cp7_p18_e01_bridge_cases as bridge
 import cp7_p19_plan_v2_cases as planv2
 import cp7_schedule as schedule
+import cp7_background_cases as background
 
 IDS = dict(
     native=['K4R_SERVER_FINISHES_WITHOUT_PAGE', 'K4R_PAGE_AND_SERVER_ONE_JOB', 'K4R_ACCESS_RECHECKED_EACH_UNIT',
@@ -37,6 +38,9 @@ IDS = dict(
     http=['K4R_HTTP_CLOSED_PAGE_FINISHES', 'K4R_HTTP_TICK_NOT_REACHABLE'],
     browser=['K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES', 'K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES'],
 )
+IDS['native'] += background.IDS
+IDS['races'] += background.RACE_IDS
+IDS['browser'] += ['K4R_BROWSER_DESKTOP_OTHER_WORK_CLOSED', 'K4R_BROWSER_MOBILE_OTHER_WORK_CLOSED']
 REQUIRED = {key: len(value) for key, value in IDS.items()}
 EXPECTED = sum(REQUIRED.values())
 CONTRACT = 'cp7.k4.server-runner.v1'
@@ -285,7 +289,7 @@ def cases(cur, today):
                     inactive_after_2_minutes=True, statement_limit_recorded_ms=row['statement_timeout_ms'])
 
     return list(zip(IDS['native'], (finishes_without_page, page_and_server, access_rechecked, denied_does_not_hold, limit_required,
-                                    schedule_private, status_reports_runner)))
+                                    schedule_private, status_reports_runner))) + background.cases(cur, today)
 
 
 def races(tools, today):
@@ -606,7 +610,7 @@ def races(tools, today):
             time.sleep(0.5)
         raise AssertionError('K4R_PG_CRON_SESSION_LEFT')
 
-    return list(zip(IDS['races'], (page_and_server, two_ticks, cold_start, limit_stops, access_changed_during_unit, pg_cron_finishes)))
+    return list(zip(IDS['races'], (page_and_server, two_ticks, cold_start, limit_stops, access_changed_during_unit, pg_cron_finishes))) + background.races(tools, today)
 
 
 def http_cases(http, today):

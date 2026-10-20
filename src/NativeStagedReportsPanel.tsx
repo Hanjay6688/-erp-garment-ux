@@ -62,6 +62,7 @@ function Reports({staged,blocked:outer,financeAccess,scope,actor}:Props&{scope:s
  return<section className="panel" role="region" aria-label="Laporan analisis bertahap" data-report-state={job?.state??''}>
   <h3>Laporan dari analisis bertahap</h3>
   <p>Laporan memakai data analisis per {formatCp6WibDateTime(run.reference.capturedAt)}: angka analisis adalah keadaan pada waktu itu, bukan angka saat ini. Stok barang jadi aktual dibaca saat laporan dibuat, dan keuangan serta HPP hanya diambil dari laporan keuangan ERP untuk tanggal laporan.</p>
+  <p>Penjalan server yang aktif melanjutkan laporan yang sudah diminta meski halaman ditutup. Periksa hasil laporan yang tertunda untuk membuka permintaan yang sama.</p>
   {busy&&job?<p role="status">{stagedReportProgressText(job)}</p>:busy?<p role="status">Memeriksa laporan dan izin ERP…</p>:null}
   {error||recovery.error?<p role="alert">{error||recovery.error}</p>:null}{message?<p role="status">{message}</p>:null}
   {pending?<div role="status"><p>{mine?'Ada laporan dari analisis ini yang belum selesai disusun. Permintaan yang sama dipertahankan.':'Ada laporan dari analisis bertahap lain yang belum selesai. Selesaikan dulu dari sini.'}</p>

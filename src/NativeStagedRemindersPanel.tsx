@@ -39,7 +39,7 @@ function Reminders({staged,blocked:outer,scope,actor}:Props&{scope:string;actor:
  useEffect(()=>{const l=(e:StorageEvent)=>{if(e.key===null||e.key===reminderV2RequestKey(scope))setRecovery(readReminderRequest(scope))};addEventListener('storage',l);return()=>removeEventListener('storage',l)},[scope])
  const blocked=outer||busy
  const perform=async(op:(n:number)=>Promise<void>)=>{const n=++seq.current;setBusy(true);setError('');setMessage('');try{await op(n)}catch(e){if(n===seq.current&&mounted.current)setError(normalizeClientError(e).message)}finally{if(n===seq.current&&mounted.current){setBusy(false);setRecovery(readReminderRequest(scope))}}}
- const loadWs=async(n:number)=>{const r=await client.rpc('erp_cp7_get_reminder_workspace_v2',{p_run:run.runId});if(n!==seq.current)return;if(r.error)throw r.error;setWs(parseWorkspace(r.data,run.runId,run.identityHash,actor))}
+ const loadWs=async(n:number)=>{const r=await client.rpc('erp_cp7_get_reminder_workspace_v2',{p_run:run.runId});if(n!==seq.current)return;if(r.error)throw r.error;const parsed=parseWorkspace(r.data,run.runId,run.identityHash,actor);setWs(parsed);setSet(parsed.conditions);return parsed}
  const loadPage=async(n:number,at:number)=>{const q:ConditionsQuery={run_id:run.runId,rule_id:ruleFilter||null,state:stateFilter||null,offset:at,limit:PAGE}
   const r=await client.rpc('erp_cp7_read_reminder_conditions_v2',{p_query:q});if(n!==seq.current)return;if(r.error)throw r.error;setPage(parseConditionsPage(r.data,q,actor,run.identityHash));setOffset(at)}
  const prepare=()=>void perform(async n=>{
@@ -97,11 +97,13 @@ function Reminders({staged,blocked:outer,scope,actor}:Props&{scope:string;actor:
  return<section className="panel" role="region" aria-label="Pengingat dari analisis bertahap" data-set-state={set?.state??''}>
   <h3>Pengingat dari analisis bertahap</h3>
   <p>Daftar ini memakai data analisis per {formatCp6WibDateTime(run.reference.capturedAt)}: keadaan pada waktu itu, bukan angka saat ini. Sebelum pratinjau dibuat, dan lagi saat dicatat, server memeriksa ulang kondisinya dengan data ERP saat itu; yang sudah selesai sejak analisis tidak ditagih. Tidak ada pesan yang dikirim ke luar ERP: hasilnya hanya pratinjau lokal.</p>
+  <p>Penjalan server yang aktif melanjutkan persiapan daftar meski halaman ditutup. Buka kembali hasil dari analisis yang sama di sini.</p>
   {set&&busy?<p role="status">{conditionSetProgressText(set)}</p>:busy?<p role="status">Memeriksa pengingat dan izin ERP…</p>:null}
   {error||recovery.error?<p role="alert">{error||recovery.error}</p>:null}{message?<p role="status">{message}</p>:null}
   {pending?<div role="status"><p>Ada permintaan pengingat yang belum pasti hasilnya. Permintaan yang sama dipertahankan.</p>
    <button disabled={blocked} onClick={()=>resume(false)}>Kirim ulang permintaan pengingat yang sama</button><button disabled={blocked} onClick={()=>resume(true)}>Periksa hasil permintaan pengingat</button></div>:null}
   <button disabled={blocked} onClick={prepare}>Siapkan daftar pengingat</button>
+  <button disabled={blocked} onClick={()=>void perform(async n=>{const saved=await loadWs(n);if(saved?.conditions?.state==='DONE')await loadPage(n,0)})}>Muat hasil pengingat tersimpan</button>
   {set&&!busy?<p>{conditionSetProgressText(set)}</p>:null}
   {set?.state==='DONE'&&set.totals?<p>Saat analisis: {Object.entries(set.totals.byRule).map(([r,m])=>`${ruleLabel(r as ReminderRule)} ${m.ACTIVE??0} perlu ditangani`).join(' · ')}.</p>:null}
   {set?.state==='DONE'?<div>

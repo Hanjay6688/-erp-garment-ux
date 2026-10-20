@@ -1,11 +1,11 @@
 {
   "contract": "cp7.k4.server-runner.v1",
-  "expected_case_count": 17,
+  "expected_case_count": 30,
   "required_case_counts": {
-    "native": 7,
-    "races": 6,
+    "native": 13,
+    "races": 11,
     "http": 2,
-    "browser": 2
+    "browser": 4
   },
   "required_case_ids": {
     "native": [
@@ -15,7 +15,13 @@
       "K4R_DENIED_JOB_DOES_NOT_HOLD_OTHERS",
       "K4R_LIMIT_REQUIRED",
       "K4R_SCHEDULE_DEFINED_PRIVATE",
-      "K4R_STATUS_REPORTS_RUNNER"
+      "K4R_STATUS_REPORTS_RUNNER",
+      "K4R_REPORT_FINISHES_WITHOUT_PAGE",
+      "K4R_REMINDER_FINISHES_WITHOUT_PAGE",
+      "K4R_SINGLE_ANALYSIS_FINISHES_WITHOUT_PAGE",
+      "K4R_FOUR_FAMILIES_GET_A_TURN",
+      "K4R_OTHER_FAMILIES_REVOKED_ACTOR",
+      "K4R_BACKGROUND_PRIVATE_NO_NATIVE_GRANTS"
     ],
     "races": [
       "K4R_RACE_PAGE_AND_SERVER_ONE_UNIT",
@@ -23,7 +29,12 @@
       "K4R_RACE_COLD_START_TWO_TICKS",
       "K4R_RACE_LIMIT_STOPS_THEN_CONTINUES",
       "K4R_RACE_ACCESS_CHANGED_DURING_UNIT",
-      "K4R_RACE_PG_CRON_FINISHES_JOB"
+      "K4R_RACE_PG_CRON_FINISHES_JOB",
+      "K4R_REPORT_PAGE_SERVER_ONE_UNIT",
+      "K4R_REMINDER_PAGE_SERVER_ONE_UNIT",
+      "K4R_REPORT_REVOKED_DURING_SERVER_UNIT",
+      "K4R_REMINDER_REVOKED_DURING_SERVER_UNIT",
+      "K4R_SINGLE_PAGE_LOCK_SKIPPED_BY_SERVER"
     ],
     "http": [
       "K4R_HTTP_CLOSED_PAGE_FINISHES",
@@ -31,7 +42,9 @@
     ],
     "browser": [
       "K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES",
-      "K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES"
+      "K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES",
+      "K4R_BROWSER_DESKTOP_OTHER_WORK_CLOSED",
+      "K4R_BROWSER_MOBILE_OTHER_WORK_CLOSED"
     ]
   },
   "public_rpcs": [
@@ -48,20 +61,19 @@
     "timezone": "UTC",
     "meaning": "every minute: up to 60 units, each in its own transaction under the 8 s limit"
   },
-  "owner_decision": "8 Oct 2026 (6, Penjalan): arah akhirnya berjalan di server, supaya tetap lanjut saat halaman ditutup. Membuka ulang harus melanjutkan job yang sama, bukan menghitung ulang atau menggandakan pekerjaan. 9 Oct 2026: K4 dikerjakan sekarang; audit nanti sekalian semua.",
+  "owner_decision": "8 Oct 2026 (6, Penjalan): arah akhirnya berjalan di server, supaya tetap lanjut saat halaman ditutup. Membuka ulang harus melanjutkan job yang sama, bukan menghitung ulang atau menggandakan pekerjaan. 9 Oct 2026: K4 dikerjakan sekarang; audit nanti sekalian semua. D17-14 (20 Oct 2026): reports and reminders must also continue on the server when the page closes.",
   "runner": {
-    "entry": "pg_cron every minute: set statement_timeout to '8s'; then 60 x (begin; select cp7_ops.analysis_tick(); commit;) -> cp7_analysis_stage.run_next()",
-    "unit": "run_next takes the RUNNING job with the oldest progress that no other session holds (FOR UPDATE SKIP LOCKED) and runs ONE unit through cp7_analysis_stage.step(), the function a page's step request uses",
+    "entry": "pg_cron every minute: set statement_timeout to '8s'; then 60 x (begin; select cp7_ops.analysis_tick(); commit;) -> cp7_background.run_next()",
+    "unit": "Oldest progress across staged analysis, report v2, reminder condition sets and waiting single analysis. Exactly one existing step/run per tick, same actor, current access before/after; row SKIP LOCKED or existing nonblocking advisory lock. Busy families do not hold back another family.",
     "statement_limit": "refused (55000 CP7_RUNNER_STATEMENT_LIMIT_REQUIRED) unless the session's statement_timeout is set and at most 8000 ms; PostgreSQL applies the command's 8 s to each statement; pg_cron's background-worker mode refuses the command's transaction statements, so no tick runs there; a unit stopped by the limit is an attempt, three in a row fail the job (CP7_ANALYSIS_STAGE_STOPPED), as for a page",
     "access": "for every unit the job's stored actor is the transaction's request identity (sub, role authenticated) and cp7_schedule_native.access_now(false) is read before and after the unit; access different from the access at capture or denied fails the job (CP7_ANALYSIS_ACCESS_CHANGED); access changed during the unit discards the unit; the previous request identity is put back after the unit",
     "no_double_work": "one job row lock per unit (a page step meanwhile answers worker_active and runs nothing), outputs primary key (job, unit); reopening with the same request UUID returns the same job and run",
     "status": "job status carries server_runner {active: a tick in the last 2 minutes, last_tick_at}; the page then says the page may be closed and a stopped page does not pause the job",
-    "private": "cp7_ops.analysis_tick() SECURITY DEFINER as cp7_capture, EXECUTE for postgres only; run_next private; table cp7_analysis_stage.runner (one row, updated at most every 10 s, never deleted); no public RPC",
-    "heartbeat": "only the tick that takes the private lock hashtextextended('CP7:K4_RUNNER_HEARTBEAT',0) without waiting (pg_try_advisory_xact_lock) writes the runner row, first time or later; any other tick skips the heartbeat and goes on to its job (independent audit SOL-K4-01, Sol, 8cc1b081: the first row's insert made a second tick wait on a fresh installation)"
+    "private": "cp7_ops.analysis_tick() SECURITY DEFINER as cp7_capture, EXECUTE for postgres only; run_next private; table cp7_analysis_stage.runner (one row, updated at most every 10 s, never deleted); no public RPC OW-02: cp7_background private dispatcher, no new public RPC or client grant; reminder table remains private, two reminder-owned capabilities expose only pending age and one guarded step.",
+    "heartbeat": "only the tick that takes the private lock hashtextextended('CP7:K4_RUNNER_HEARTBEAT',0) without waiting (pg_try_advisory_xact_lock) writes the runner row, first time or later; any other tick skips the heartbeat and goes on to its job (independent audit SOL-K4-01, Sol, 8cc1b081: the first row's insert made a second tick wait on a fresh installation)",
+    "failure": "Existing per-family failure/attempt rules; denied actor makes report/reminder/single job terminal FAILED after rolling back the unit, without storing output or claiming/sending reminders."
   },
-  "not_runner_driven": [
-    "Business Report v2 jobs, reminder condition sets and the single background analysis job stay driven by their page (they are short)"
-  ],
+  "not_runner_driven": [],
   "installed": false,
   "production_go": false,
   "synthetic_steps": [
@@ -85,5 +97,20 @@
       ],
       "writer_case": "K4R_RACE_COLD_START_TWO_TICKS"
     }
-  ]
+  ],
+  "ow02_scope": {
+    "families": [
+      "STAGED",
+      "REPORT",
+      "REMINDER",
+      "ANALYSIS"
+    ],
+    "browser_closed_tab_cases": 2,
+    "new_native_cases": 6,
+    "new_concurrent_cases": 5,
+    "wa_settings_required": false,
+    "new_schedule": false,
+    "native_business_writes": false,
+    "claim_or_send": false
+  }
 }

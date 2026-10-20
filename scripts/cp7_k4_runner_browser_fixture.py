@@ -52,6 +52,25 @@ def main():
                     from cp7_analysis_stage.jobs j where j.actor=%s order by j.created_at""", (p['actor'],)).fetchall()
             out = dict(jobs=[dict(request_id=r[0], state=r[1], units_done=r[2], unit_count=r[3], run_id=r[4] if r[1] == 'DONE' else None,
                                   distinct_units=r[5], stored_units=r[6], identity_hash=r[7]) for r in rows])
+        elif op == 'other_state':
+            with psycopg.connect(target) as conn, conn.cursor() as cur:
+                def rows(sql):
+                    cur.execute(sql, (p['actor'],))
+                    names = [c.name for c in cur.description]
+                    return [dict(zip(names, row)) for row in cur.fetchall()]
+                out = dict(
+                    reports=rows("""select j.id::text,j.request_id::text,j.state,j.units_done,j.unit_count,j.run_id::text,
+                        j.identity_hash,j.publication_id::text,
+                        (select count(*)from cp7_analysis_stage.report_sections s where s.job_id=j.id)sections,
+                        (select count(*)from cp7_analysis_stage.report_publications s where s.job_id=j.id)publications,
+                        j.page_count from cp7_analysis_stage.report_jobs j where j.actor=%s order by j.created_at"""),
+                    reminders=rows("""select s.run_id::text,s.state,s.units_done,s.unit_count,s.identity_hash,s.set_hash,
+                        (select count(*)from cp7_reminder_native.staged_conditions c where c.run_id=s.run_id)conditions,
+                        (select count(*)from cp7_reminder_native.staged_claims c where c.run_id=s.run_id)claims
+                        from cp7_reminder_native.staged_condition_sets s where s.actor=%s order by s.created_at"""),
+                    analyses=rows("""select j.request_id::text,j.state,j.run_id::text,
+                        (select count(*)from cp7_analysis_jobs.documents d where d.run_id=j.run_id)documents
+                        from cp7_analysis_jobs.jobs j where j.actor=%s order by j.requested_at"""))
         elif op == 'runner_off':
             with psycopg.connect(cron_url, autocommit=True) as cron, cron.cursor() as cc:
                 ids = [j['jobid'] for j in schedule.installed(cc, database)]

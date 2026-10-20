@@ -4,6 +4,7 @@ name: CP7 P19 Analysis Job Transport
   push:
     branches:
     - claude/new-session-deapao
+    - astra/d17-14-20261020
     paths:
     - scripts/cp7-src/planning/analysis-jobs.sql
     - scripts/cp7_analysis_jobs_bundle.py
@@ -65,6 +66,7 @@ name: CP7 P19 Analysis Job Transport
     - scripts/cp7-src/ops/**
     - docs/cp7/k3/K3_CLEANUP.json
     - scripts/cp7_k4_runner_*
+    - scripts/cp7_background_cases.py
     - docs/cp7/k4/K4_RUNNER.json
     - scripts/cp7_k6_proof_runner_*
     - docs/cp7/k6/K6_PROOF_RUNNER.json
@@ -87,6 +89,10 @@ jobs:
       max-parallel: 3
       matrix:
         include:
+        # Keep every gate; start the changed runner before the long scale ladder.
+        - suite: k4-runner-30
+          probe: cp7_k4_runner_probe.py
+          timeout: 180
         - suite: p19-transport11
           probe: cp7_p19_transport_probe.py
           timeout: 120
@@ -116,9 +122,6 @@ jobs:
           timeout: 150
         - suite: k3-cleanup-25
           probe: cp7_k3_cleanup_probe.py
-          timeout: 180
-        - suite: k4-runner-17
-          probe: cp7_k4_runner_probe.py
           timeout: 180
         - suite: k6-proof-runner-10
           probe: cp7_k6_proof_runner_probe.py
