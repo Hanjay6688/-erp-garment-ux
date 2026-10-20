@@ -231,6 +231,15 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     GitHub hanya mencocokkan `head_sha` yang lengkap; pemantau penulis memakai SHA pendek, tidak pernah menemukan run, dan
     hasil WA Forward 39285796156 (selesai 16.39 UTC) baru terbaca 85 menit kemudian. Pemantau mengubah SHA ke bentuk penuh
     sebelum bertanya, dan mencetak jumlah run yang ia temukan pada setiap putaran. (WA-4b, 19 Okt)
+25p. **Kerja yang jalan tiap menit diukur dengan data sebesar pemakaian nyata, dan rencana kuerinya dibaca.** Rumus titik
+    pesan ulang (SS-1) butuh 3,7 detik untuk 2.000 barang dan 202.000 gerakan; 3,1 detik di antaranya kompilasi JIT karena
+    perkiraan baris planner jauh di atas kenyataan (deret hari × barang). Dengan `set jit=off` pada fungsinya dan satu himpunan
+    model berjalan (bukan panggilan fungsi per baris): 0,6 detik. Kasus volume berlabel `SYNTHETIC_VOLUME` menjaga batasnya di
+    CI. Ukur dulu (`auto_explain` dengan `log_nested_statements`), baru ubah. (SS-1, 20 Okt)
+25q. **Rumus stok tidak menganggap hari kehabisan stok sebagai permintaan nol, dan pembandingnya dihitung ulang dari angka
+    fixture.** Hari tanpa stok di awal dan tanpa penjualan tidak masuk hitungan rata-rata dan simpangan; kasus
+    `SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND` menunjukkan titik yang berbeda (28 lawan 24) bila hari itu dihitung. Pembanding di
+    kasus (`oracle()`) memakai hari dan jumlah fixture sendiri di Python, tidak membaca tabel modul. (SS-1, 20 Okt)
 
 ## F. Proses audit
 
@@ -292,6 +301,8 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Pelaku data uji dipilih dari aturan pelaku modul yang dipanggil (E25n).
 - [ ] Pemantau CI memakai SHA penuh dan mencetak berapa run yang ia lihat (E25o).
 - [ ] Setiap rumus/fitur "disiapkan, belum aktif" tercantum di daftar terbuka laporan, dengan apa yang kurang (29c).
+- [ ] Kerja tiap menit diukur dengan volume pemakaian nyata dan rencana kuerinya dibaca; JIT tidak memakan waktunya (E25p).
+- [ ] Rumus stok: hari kehabisan stok bukan permintaan nol; pembanding dihitung ulang dari angka fixture, bukan dari modul (E25q).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
   dipicu (E19–E20, E19a).
