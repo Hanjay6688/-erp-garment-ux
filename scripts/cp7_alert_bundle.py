@@ -76,7 +76,8 @@ def verify_formula(cur):
   "from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname=%s",(FORMULA_SCHEMA,)).fetchall()
  assert sorted(r[1]for r in rows)==sorted(FORMULA_FUNCTIONS),rows
  for sig,name,owner,definer,volatility,config in rows:
-  assert(owner,definer,volatility,config)==('cp7_capture',True,FORMULA_FUNCTIONS[name],['search_path=""','TimeZone=UTC']),sig
+  assert(owner,definer,volatility,config)==('cp7_capture',True,FORMULA_FUNCTIONS[name],
+   ['search_path=""','TimeZone=UTC']+(['jit=off']if name=='compute'else[])),sig
   for who in('anon','authenticated','service_role','cp7_reminder','cp7_payable_read'):assert not one("select has_function_privilege(%s,%s,'EXECUTE')",who,sig),(who,sig)
   if name!='fg_source':assert not one("select has_function_privilege(%s,%s,'EXECUTE')",ROLE,sig),sig
  assert one("select has_function_privilege(%s,'cp7_stock_formula.fg_source()','EXECUTE')",ROLE)

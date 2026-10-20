@@ -9,6 +9,7 @@ from decimal import Decimal as D, ROUND_CEILING
 import json
 import math
 import statistics
+import time
 import uuid
 
 import psycopg
@@ -131,7 +132,9 @@ def workspace(cur, subject=None, **query):
 
 NATIVE_IDS = ['SS1_FORMULA_FROM_POSTED_SALES', 'SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND', 'SS1_LEAD_TIME_MEASURED_FROM_PRODUCTION',
               'SS1_DAYS_BUFFER_NOT_STACKED', 'SS1_SETTINGS_SERVICE_LEVEL_AND_WINDOW', 'SS1_MANUAL_POINT_REPLACES_AND_CLEARS',
-              'SS1_NOT_ENOUGH_DATA_NEVER_GUESSES', 'SS1_REVERSED_SALE_NOT_DEMAND', 'SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION', 'SS1_SOURCE_AND_ACCESS']
+              'SS1_NOT_ENOUGH_DATA_NEVER_GUESSES', 'SS1_REVERSED_SALE_NOT_DEMAND', 'SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION', 'SS1_SOURCE_AND_ACCESS',
+              'SS1_VOLUME_2000_ITEMS_EVERY_MINUTE']
+VOLUME_LIMIT_MS = 3000
 PATTERN = [3, 5, 0, 4, 6, 2, 5, 3, 7, 4, 0, 5, 6, 3, 4, 5, 2, 6, 4, 3, 5, 0, 4, 6, 3, 5, 4, 2, 6, 5]
 
 
@@ -454,7 +457,40 @@ def cases(cur, today):
             assert not one(cur, "select has_schema_privilege(%s,'cp7_stock_formula','USAGE')", (who,)), who
         return dict(status='PASS', alert_row_exact=True, resolved_when_stock_back=True, fg_view_required=True, viewer_cannot_manage=True)
 
+    def volume():
+        """SYNTHETIC_VOLUME (labelled, timing only): 2,000 items of 200 models, 800 pieces each 130 days ago and 100 sales each
+        over the last 120 days (202,000 movements), written with session_replication_role=replica inside this case's
+        transaction and rolled back with it. The evaluation the tick runs every minute must finish within VOLUME_LIMIT_MS."""
+        b.api.admin(cur)
+        cur.execute('set local session_replication_role=replica')
+        cur.execute("""insert into erp.product_models(id,model_code,model_name,is_active)
+            select gen_random_uuid(),'SS1V-M'||g,'SS-1 volume model '||g,true from generate_series(1,200)g""")
+        cur.execute("""insert into erp.products(id,sku,model_id,brand_id,color_name,size_id,product_name,identity_root_id,effective_from,is_active,is_portal_visible)
+            select x.id,'SS1V-'||x.n,m.id,b.brand_id,'SS1V',b.size_id,'SS-1 volume '||x.n,x.id,b.effective_from,true,true
+            from(select gen_random_uuid()id,g n from generate_series(1,2000)g)x
+            join(select id,row_number()over(order by model_code)rn from erp.product_models where model_code like 'SS1V-M%%')m on m.rn=1+(x.n%%200)
+            cross join(select * from erp.products where id=%s)b""", (sales.fg.base.BASE_PRODUCT,))
+        cur.execute("""insert into erp.fg_stock_movements(id,product_id,lot_id,location_id,quality_grade,movement_type,qty_signed,unit_hpp_snapshot,source_type,physical_at,system_created_at)
+            select gen_random_uuid(),p.id,null,%s,'GRADE_A','OPENING',800,10,'SS1_VOLUME',now()-interval'130 days',now()-interval'130 days'
+            from erp.products p where p.sku like 'SS1V-%%'""", (sales.fg.base.LOCATION,))
+        cur.execute("""insert into erp.fg_stock_movements(id,product_id,lot_id,location_id,quality_grade,movement_type,qty_signed,unit_hpp_snapshot,source_type,physical_at,system_created_at)
+            select gen_random_uuid(),p.id,null,%s,'GRADE_A','SALE',-(1+(g%%6)),10,'SS1_VOLUME',now()-((g%%120)||' days')::interval-interval'2 hours',now()-interval'1 hour'
+            from erp.products p cross join generate_series(1,100)g where p.sku like 'SS1V-%%'""", (sales.fg.base.LOCATION,))
+        cur.execute('set local session_replication_role=origin')
+        cur.execute('analyze erp.fg_stock_movements')
+        moves = one(cur, "select count(*) from erp.fg_stock_movements where source_type='SS1_VOLUME'")
+        times = []
+        for _ in range(3):
+            t = time.monotonic()
+            r = compute(cur)
+            times.append(round((time.monotonic() - t) * 1000))
+        b.api.admin(cur)
+        n = one(cur, "select count(*) from cp7_stock_formula.evaluations where sku like 'SS1V-%%' and counted_days=30")
+        assert moves == 202000 and n == 2000 and r['items'] >= 2000, (moves, n, r)
+        assert max(times[1:]) <= VOLUME_LIMIT_MS, times
+        return dict(status='PASS', label='SYNTHETIC_VOLUME', items=2000, movements=moves, millis=times, limit_ms=VOLUME_LIMIT_MS)
+
     named = [formula_from_sales, out_of_stock_days, lead_time_measured, days_buffer, settings_level_and_window, manual_point, not_enough_data,
-             reversed_sale, in_production, source_and_access]
+             reversed_sale, in_production, source_and_access, volume]
     assert len(named) == len(NATIVE_IDS)
     return list(zip(NATIVE_IDS, named))

@@ -4,15 +4,18 @@
     "D17-3",
     "D17-4",
     "D17-5",
-    "D17-6"
+    "D17-6",
+    "D17-7",
+    "D17-8",
+    "D17-9"
   ],
   "design": "docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md",
-  "expected_case_count": 24,
+  "expected_case_count": 41,
   "required_case_counts": {
-    "native": 15,
-    "races": 4,
-    "http": 2,
-    "browser": 3
+    "native": 28,
+    "races": 5,
+    "http": 3,
+    "browser": 5
   },
   "required_case_ids": {
     "native": [
@@ -30,22 +33,39 @@
       "WAF_PRIVACY_AND_LIST_PERMISSIONS",
       "WAF_TICKS_PRIVATE_AND_LIMITED",
       "WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED",
-      "WAF_ANALYSIS_AUTOMATIC_RUN"
+      "WAF_ANALYSIS_AUTOMATIC_RUN",
+      "WAF_FG_REORDER_POINT_FORWARDED",
+      "WAF_FG_RESOLVED_BEFORE_SEND",
+      "SS1_FORMULA_FROM_POSTED_SALES",
+      "SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND",
+      "SS1_LEAD_TIME_MEASURED_FROM_PRODUCTION",
+      "SS1_DAYS_BUFFER_NOT_STACKED",
+      "SS1_SETTINGS_SERVICE_LEVEL_AND_WINDOW",
+      "SS1_MANUAL_POINT_REPLACES_AND_CLEARS",
+      "SS1_NOT_ENOUGH_DATA_NEVER_GUESSES",
+      "SS1_REVERSED_SALE_NOT_DEMAND",
+      "SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION",
+      "SS1_SOURCE_AND_ACCESS",
+      "SS1_VOLUME_2000_ITEMS_EVERY_MINUTE"
     ],
     "races": [
       "WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE",
       "WAF_RACE_COLLECT_AND_SEND_OPEN_ONCE",
       "WAF_RACE_FAKE_CALLMEBOT_END_TO_END",
-      "WAF_RACE_PG_CRON_RUNS_TICKS"
+      "WAF_RACE_PG_CRON_RUNS_TICKS",
+      "WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK"
     ],
     "http": [
       "WAF_HTTP_OWNER_SETS_UP_AND_TESTS",
-      "WAF_HTTP_OTHERS_REFUSED"
+      "WAF_HTTP_OTHERS_REFUSED",
+      "WAF_HTTP_FG_REORDER_SCREEN"
     ],
     "browser": [
       "WAF_BROWSER_DESKTOP_OWNER_SETS_UP_TESTS_AND_FORWARDS",
       "WAF_BROWSER_MOBILE_OWNER_SETS_UP_TESTS_AND_FORWARDS",
-      "WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA"
+      "WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA",
+      "WAF_BROWSER_FG_REORDER_DESKTOP",
+      "WAF_BROWSER_FG_REORDER_MOBILE"
     ]
   },
   "public_rpcs": [
@@ -54,7 +74,11 @@
     "erp_cp7_save_wa_settings_v1",
     "erp_cp7_set_wa_key_v1",
     "erp_cp7_send_wa_test_v1",
-    "erp_cp7_resolve_wa_dispatch_v1"
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1"
   ],
   "schedules": [
     "erp-wa-collect",
@@ -70,9 +94,10 @@
     "SYNTHETIC_PROVIDER_ANSWER (savepoint cases only; races use the real fake server)",
     "TEST_CLOCK_OVERRIDE (module tables inside the case transaction; in WAF_ANALYSIS_AUTOMATIC_RUN also the capture time of the owner's finished staged job)",
     "TEST_SCHEDULE_OVERRIDE (5 seconds, race copy only)",
-    "TEST_RESET (browser copy only: the module rows and the Vault key removed before each browser journey)"
+    "TEST_RESET (browser copy only: the module rows and the Vault key removed before each browser journey)",
+    "SYNTHETIC_VOLUME (SS1_VOLUME_2000_ITEMS_EVERY_MINUTE only: 2,000 items and 202,000 movements written with session_replication_role=replica inside the case transaction, rolled back with it; timing only, limit 3,000 ms per evaluation)"
   ],
-  "browser": "scripts/cp7_wa_forward_browser.mjs: owner desktop 1440 px and phone 390 px (first save, key typed into the password box and never returned, test message and a fabric alert received by the fake CallMeBot, Riwayat pesan equal to what it received, no horizontal scroll); ADMIN sees Pengingat sistem without the WhatsApp tab or chips and is refused on the owner functions",
+  "browser": "scripts/cp7_wa_forward_browser.mjs: owner desktop 1440 px and phone 390 px (first save, key typed into the password box and never returned, test message and a fabric alert received by the fake CallMeBot, Riwayat pesan equal to what it received, no horizontal scroll); ADMIN sees Pengingat sistem without the WhatsApp tab or chips and is refused on the owner functions; finished goods (scripts/cp7_wa_forward_browser.mjs WAF_BROWSER_FG_REORDER_*): owner desktop 1440 px and phone 390 px open Ringkasan Barang Jadi, refresh, see the item at its point with the fixture numbers, set and remove a manual point",
   "production_go": false,
   "analysis_kinds": {
     "forwarded": [
@@ -83,5 +108,14 @@
       "ACCESSORY_NEED": "the reminders module has no live recheck for it (its recheck answers UNKNOWN_NOW), so it is never STILL_OPEN"
     },
     "oracle": "the reminders module read (erp_cp7_read_reminder_conditions_v2) and read-only recheck (erp_cp7_recheck_reminder_v2) as the owner"
+  },
+  "stock_formula": {
+    "module": "scripts/cp7-src/stock-formula/formula.sql (schema cp7_stock_formula, owned by cp7_capture; installed before alerts.sql)",
+    "design": "docs/cp7/wa/STOCK_FORMULA_FG_DESIGN.md",
+    "alert_kind": "FG_AT_REORDER_POINT",
+    "formula": "reorder point = ceil(D x L + safety); safety = z(service level) x sigma x sqrt(L) (STATISTICAL) or D x buffer_days (DAYS, from the planning profile), never both",
+    "oracle": "scripts/cp7_stock_formula_cases.py oracle(): recomputed in Python from the fixture own days and quantities (statistics.stdev, Decimal), never from the module tables",
+    "fixtures": "stock found at opname, sale draft and post, sale inverse, the production chain (cut, wash, QC) and the planning profile, all through accepted Native or CP7 commands; only masters inserted",
+    "not_tested_on_real_data": "service level 95% has not been backtested on the owner data (none in the test environment); after CP7C"
   }
 }

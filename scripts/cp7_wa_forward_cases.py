@@ -58,11 +58,11 @@ IDS = dict(
     http=['WAF_HTTP_OWNER_SETS_UP_AND_TESTS', 'WAF_HTTP_OTHERS_REFUSED', 'WAF_HTTP_FG_REORDER_SCREEN'],
     # WA-4b: scripts/cp7_wa_forward_browser.mjs (real Auth, PostgREST and UI on the browser copy; fake CallMeBot only).
     browser=['WAF_BROWSER_DESKTOP_OWNER_SETS_UP_TESTS_AND_FORWARDS', 'WAF_BROWSER_MOBILE_OWNER_SETS_UP_TESTS_AND_FORWARDS',
-             'WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA'],
+             'WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA', 'WAF_BROWSER_FG_REORDER_DESKTOP', 'WAF_BROWSER_FG_REORDER_MOBILE'],
 )
 REQUIRED = {key: len(value) for key, value in IDS.items()}
 EXPECTED = sum(REQUIRED.values())
-DECLARED = 39
+DECLARED = 41
 CONTRACT = 'cp7.wa.forward.v1'
 FUNCTIONS = ('erp_cp7_get_alerts_v1', 'erp_cp7_get_wa_settings_v1', 'erp_cp7_save_wa_settings_v1', 'erp_cp7_set_wa_key_v1',
              'erp_cp7_send_wa_test_v1', 'erp_cp7_resolve_wa_dispatch_v1')

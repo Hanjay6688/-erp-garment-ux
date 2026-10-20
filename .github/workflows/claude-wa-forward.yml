@@ -6,6 +6,9 @@
 # WA_FORWARD.json) on the closed harness, same pinned checkouts and rebuild as the other CP7 suites, with the fake
 # CallMeBot on the stack network. WA-4b adds the browser group (scripts/cp7_wa_forward_browser.mjs): the Reminder tabs
 # Pengingat sistem and Sambungan WhatsApp with real Auth and PostgREST, the fake CallMeBot receiving what the screen set up.
+# SS-1 (owner D17-8/D17-9) adds the finished-goods reorder point by formula (scripts/cp7-src/stock-formula/formula.sql,
+# installed before alerts.sql) and its alert kind FG_AT_REORDER_POINT to the same declared suite (scripts/
+# cp7_stock_formula_cases.py), with the Ringkasan Barang Jadi panel in the browser group.
 name: CP7 WA Forward
 'on':
   workflow_dispatch: {}
@@ -15,6 +18,11 @@ name: CP7 WA Forward
     paths:
     - scripts/cp7_wa_*
     - scripts/cp7-src/alerts/**
+    - scripts/cp7-src/stock-formula/**
+    - scripts/cp7_stock_formula_cases.py
+    - src/FgReorderPanel.tsx
+    - src/fgReorderContract.ts
+    - src/ConnectedFgStockPage.tsx
     - scripts/cp7_alert_bundle.py
     - scripts/cp7_f05_analysis_probe.py
     - docs/cp7/wa/WA_FORWARD.json
@@ -150,7 +158,7 @@ jobs:
       max-parallel: 3
       matrix:
         include:
-        - suite: wa-forward-24
+        - suite: wa-forward-40
           probe: cp7_wa_forward_probe.py
           timeout: 240
     env:

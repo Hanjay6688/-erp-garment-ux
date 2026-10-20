@@ -118,12 +118,15 @@ end $$;
 -- Every item evaluated at p_at. In production is read for the models of items at or under their point first (when its
 -- last read is older than 55 s), then for the other models with orders in production (older than 10 minutes), while
 -- p_budget lasts; a model not reached keeps its last read and its time. The caller holds the module lock.
+-- jit off: the planner's estimate of the day series is far above the real rows (thousands), and JIT compilation alone
+-- took about 3 s of a 3.7 s evaluation of 2,000 items and 202,000 movements (local measurement); the work itself is
+-- about 0.6 s.
 create function cp7_stock_formula.compute(p_at timestamptz,p_budget interval)returns jsonb
-language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
-declare cfg jsonb:=cp7_stock_formula.current_settings();sl numeric;w integer;today date;d0 date;t0 timestamptz;t1 timestamptz;
+language plpgsql volatile security definer set search_path=''set TimeZone='UTC'set jit=off as $$
+declare cfg jsonb:=cp7_stock_formula.current_settings();sl numeric;zv numeric;w integer;today date;d0 date;t0 timestamptz;t1 timestamptz;
  started timestamptz:=clock_timestamp();deadline timestamptz:=clock_timestamp()+p_budget;mdl record;got jsonb;wip_read integer:=0;n_items integer;n_low integer;
 begin
- sl:=(cfg->>'service_level')::numeric;w:=(cfg->>'window_days')::integer;
+ sl:=(cfg->>'service_level')::numeric;zv:=cp7_stock_formula.z(sl);w:=(cfg->>'window_days')::integer;
  today:=(p_at at time zone'Asia/Jakarta')::date;d0:=today-w;
  t0:=d0::timestamp at time zone'Asia/Jakarta';t1:=today::timestamp at time zone'Asia/Jakarta';
  with cur as(
@@ -184,9 +187,9 @@ begin
   from items i left join bal b on b.root_id=i.root_id left join stats st on st.root_id=i.root_id
   left join lead ld on ld.model_id=i.model_id left join prof pf on pf.root_id=i.root_id left join man mn on mn.root_id=i.root_id),
  formula as(
-  select c.*,cp7_stock_formula.z(sl)z,
+  select c.*,zv z,
    case when c.sales_pcs>0 and c.counted>=14 and c.lead_days is not null then
-    case c.buffer_mode when'DAYS'then c.mean*c.buffer_days else cp7_stock_formula.z(sl)*coalesce(c.sd,0)*sqrt(c.lead_days)end end safety
+    case c.buffer_mode when'DAYS'then c.mean*c.buffer_days else zv*coalesce(c.sd,0)*sqrt(c.lead_days)end end safety
   from calc c),
  final as(
   select f.*,case when f.safety is not null then ceil(f.mean*f.lead_days+f.safety)::integer end formula_point,
@@ -225,7 +228,8 @@ begin
    select e.model_id,(e.point>0 and e.free_pcs<=e.point)near from cp7_stock_formula.evaluations e where e.model_id is not null
    union all select po.model_id,false from erp.production_orders po where po.status not in('FINISHED','CANCELLED')and po.model_id is not null)y
   left join cp7_stock_formula.wip_models c on c.model_id=y.model_id
-  where cp7_stock_formula.open_groups(y.model_id,p_at)
+  where y.model_id in(select po.model_id from erp.production_orders po join erp.cutting_groups g on g.po_id=po.id
+   where po.status not in('FINISHED','CANCELLED')and g.material_issue_posted and g.cut_at<=p_at)
   group by y.model_id,c.computed_at
   having c.computed_at is null or c.computed_at<p_at-case when bool_or(y.near)then interval'55 seconds'else interval'10 minutes'end
   order by bool_or(y.near)desc,c.computed_at nulls first,y.model_id
@@ -239,13 +243,16 @@ begin
    computed_at=excluded.computed_at,millis=excluded.millis;
   wip_read:=wip_read+1;
  end loop;
- with v as(
+ with open_models as materialized(
+  select distinct po.model_id from erp.production_orders po join erp.cutting_groups g on g.po_id=po.id
+  where po.status not in('FINISHED','CANCELLED')and g.material_issue_posted and g.cut_at<=p_at),
+ v as(
   select e.target_key,e.point,e.free_pcs,o.open,
    case when e.model_id is null then'UNKNOWN'when not o.open then'COMPLETE'when c.model_id is null then'NOT_READ'else c.status end wip_status,
    case when e.model_id is not null and not o.open then 0 when o.open and c.status='COMPLETE'then coalesce((c.sizes->>e.size_id::text)::numeric,0)end wip_pcs,
    case when e.model_id is null then'PRODUCT_WITHOUT_MODEL'when not o.open then null when c.model_id is null then'NOT_READ_YET'else c.reason end wip_reason
   from cp7_stock_formula.evaluations e left join cp7_stock_formula.wip_models c on c.model_id=e.model_id
-  cross join lateral(select e.model_id is not null and cp7_stock_formula.open_groups(e.model_id,p_at)open)o),
+  cross join lateral(select e.model_id is not null and e.model_id in(select m.model_id from open_models m)open)o),
  s as(
   select v.*,case when v.point is null or v.point<=0 then'NO_POINT'
    when v.wip_status='COMPLETE'and v.free_pcs+v.wip_pcs<=v.point then'AT_OR_BELOW'
