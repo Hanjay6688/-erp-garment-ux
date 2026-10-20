@@ -696,3 +696,19 @@ Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): bawaan analisis
 bersama pemasangan CP7C (kandidat r6 `b1649535` masih 60 menit). Pertanyaan owner dijawab di chat: stok di bawah minimum,
 piutang dan tagihan jatuh tempo, dan pengingat pribadi dicek server tiap menit tanpa analisis; hanya kekurangan produksi dan
 kain yang perlu dibeli yang menunggu analisis, dan setiap kondisi dicek ulang ke data terbaru sebelum pesannya dikirim.
+
+### D17-8 (owner ke penulis Claude, 20 Okt 2026 WIB, safety stock barang jadi)
+
+Penjelasan penulis sebelumnya: kekurangan produksi menunggu analisis besar; peringatan "stok barang jadi menyentuh titik
+pesan ulang" belum dibuat.
+
+Owner (persis): "Bro masalahnya safety stock buat barang jadi kan bakal adjust terus dan angkanya kan snap shot kan, setiap
+ada perubahan dia baru hitung ulang safety stock kan? Itu bakal jalan di background simple. Jadi kalo kena safety stok itu
+ya sama aja kek hitungan safety stock barang mentah dong?? Semua kan pake rumus kalo kita punya barang, gimana dah?"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): safety stock / titik pesan ulang barang jadi dihitung
+dengan rumus dari data barang itu sendiri dan dihitung ulang di belakang setiap ada perubahan pada barang itu; stok sekarang
+dibandingkan dengan angka itu tiap menit seperti stok kain, dan yang kena langsung diteruskan ke WhatsApp, tanpa menunggu
+analisis besar. Fakta yang diluruskan penulis di chat: minimum kain saat ini angka manual di data master kain; untuk barang
+jadi ERP sudah menyimpan tempat angka titik pesan ulang manual dan rumus rekomendasinya, tetapi rumus itu belum disambungkan
+ke data penjualan (`erp_get_fg_stock_explainability_v1` menjawab `BELUM_CUKUP_DATA`) dan belum ada layarnya.
