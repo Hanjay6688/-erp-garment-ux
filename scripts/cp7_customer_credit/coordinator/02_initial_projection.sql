@@ -79,13 +79,13 @@ end $$;
 create function cp7_credit.initial_hpp_projection_v1(p_legacy jsonb)returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
 declare x jsonb;a record;r record;t record;b record;cost numeric;owned numeric;sold numeric;returned numeric;
- hpp numeric:=0;items jsonb:='[]';groups jsonb:='[]';lines jsonb:='[]';value numeric;
+ hpp numeric:=0;items jsonb:='[]';groups jsonb:='[]';lines jsonb:='[]';group_amount numeric;
 begin
  perform 1 from erp.locations where id in(select(value->>'location_id')::uuid from jsonb_array_elements(p_legacy->'items'))order by id for share;
- perform 1 from erp.fg_inventory_balances b where exists(select 1 from jsonb_array_elements(p_legacy->'items')x
-  join erp.sale_stock_allocations sa on sa.id=(x->>'allocation_id')::uuid join erp.sales_items si on si.id=sa.sale_item_id
-  where b.product_id=si.product_id and b.location_id=(x->>'location_id')::uuid and b.quality_grade=x->>'quality_grade')
-  order by b.product_id,b.location_id,b.quality_grade for update;
+ perform 1 from erp.fg_inventory_balances inv where exists(select 1 from jsonb_array_elements(p_legacy->'items')draft_item
+  join erp.sale_stock_allocations sa on sa.id=(draft_item->>'allocation_id')::uuid join erp.sales_items si on si.id=sa.sale_item_id
+  where inv.product_id=si.product_id and inv.location_id=(draft_item->>'location_id')::uuid and inv.quality_grade=draft_item->>'quality_grade')
+  order by inv.product_id,inv.location_id,inv.quality_grade for update;
  perform 1 from erp.fg_lots where product_id in(select i.product_id from erp.sale_stock_allocations sa
   join erp.sales_items i on i.id=sa.sale_item_id where sa.id in(select(value->>'allocation_id')::uuid from jsonb_array_elements(p_legacy->'items')))order by id for update;
  perform 1 from erp.hpp_versions where lot_id in(select fl.id from erp.fg_lots fl where fl.product_id in(select i.product_id
@@ -113,9 +113,9 @@ begin
    join erp.sale_stock_allocations s on s.id=(v->>'allocation_id')::uuid where s.lot_id=a.lot_id)
    or (x->>'qty_pcs')::numeric>a.qty_pcs-coalesce((select sum(ri.qty_pcs)from erp.sales_return_items ri join erp.sales_returns rr on rr.id=ri.return_id
     where rr.status='POSTED'and ri.sale_stock_allocation_id=a.id),0)then raise exception 'CP7_CREDIT_RETURN_QTY_SOURCE_INVALID';end if;
-  value:=(x->>'qty_pcs')::numeric*cost;hpp:=hpp+value;
+  group_amount:=(x->>'qty_pcs')::numeric*cost;hpp:=hpp+group_amount;
   items:=items||jsonb_build_array(x||jsonb_build_object('product_id',a.product_id,'lot_id',a.lot_id,'po_id',a.po_id,
-   'hpp_version_id',a.hpp_id,'unit_hpp',cp7_credit.cent_text(cost),'hpp_amount',cp7_credit.cent_text(value)));
+   'hpp_version_id',a.hpp_id,'unit_hpp',cp7_credit.cent_text(cost),'hpp_amount',cp7_credit.cent_text(group_amount)));
  end loop;
  for r in select distinct (z->>'product_id')::uuid product_id,(z->>'po_id')::uuid po_id from jsonb_array_elements(items)z
   order by po_id nulls first,product_id loop
@@ -130,7 +130,7 @@ begin
      and(j.source_type<>'JOURNAL_REVERSAL'or o.source_type is distinct from'PRODUCT_CONVERSION'or erp.be_nonpo_admitted_v1(o.source_id));
    if round(t.fg_value,2)<>b.fg_value or round(t.cogs_value,2)<>b.cogs_value or round(t.other_out_value,2)<>b.other_out_value then
     raise exception 'CP7_CREDIT_HPP_TARGET_BOOK_NOT_RECONCILED';end if;
-   select sum((z->>'hpp_amount')::numeric)into value from jsonb_array_elements(items)z where(z->>'product_id')::uuid=r.product_id and z->'po_id'='null';
+   select sum((z->>'hpp_amount')::numeric)into group_amount from jsonb_array_elements(items)z where(z->>'product_id')::uuid=r.product_id and z->'po_id'='null';
   else
    -- PO groups are emitted once below; Native refresh will use this same
    -- already-locked target/book state, without late source acquisition.
@@ -139,13 +139,13 @@ begin
    select *into strict b from erp.po_hpp_gl_state where po_id=r.po_id;
    if round(t.hpp_total_cost,2)<>b.hpp_total_cost or round(t.fg_value,2)<>b.fg_value or round(t.cogs_value,2)<>b.cogs_value
     or round(t.other_out_value,2)<>b.other_out_value then raise exception 'CP7_CREDIT_HPP_TARGET_BOOK_NOT_RECONCILED';end if;
-   select sum((z->>'hpp_amount')::numeric)into value from jsonb_array_elements(items)z where(z->>'po_id')::uuid=r.po_id;
+   select sum((z->>'hpp_amount')::numeric)into group_amount from jsonb_array_elements(items)z where(z->>'po_id')::uuid=r.po_id;
   end if;
   groups:=groups||jsonb_build_array(jsonb_build_object('product_id',case when r.po_id is null then r.product_id end,'po_id',r.po_id,
-   'amount',cp7_credit.cent_text(value),'before_target',to_jsonb(t),'before_book',to_jsonb(b)));
-  if value<>0 then lines:=lines||jsonb_build_array(
-   jsonb_strip_nulls(jsonb_build_object('mapping_key','FG_INVENTORY','debit',value,'credit',0,'product_id',case when r.po_id is null then r.product_id end,'po_id',r.po_id)),
-   jsonb_strip_nulls(jsonb_build_object('mapping_key','COGS','debit',0,'credit',value,'product_id',case when r.po_id is null then r.product_id end,'po_id',r.po_id)));end if;
+   'amount',cp7_credit.cent_text(group_amount),'before_target',to_jsonb(t),'before_book',to_jsonb(b)));
+  if group_amount<>0 then lines:=lines||jsonb_build_array(
+   jsonb_strip_nulls(jsonb_build_object('mapping_key','FG_INVENTORY','debit',group_amount,'credit',0,'product_id',case when r.po_id is null then r.product_id end,'po_id',r.po_id)),
+   jsonb_strip_nulls(jsonb_build_object('mapping_key','COGS','debit',0,'credit',group_amount,'product_id',case when r.po_id is null then r.product_id end,'po_id',r.po_id)));end if;
  end loop;
  return jsonb_build_object('items',items,'groups',groups,'hpp_amount',cp7_credit.cent_text(hpp),'lines',lines);
 end $$;
@@ -222,7 +222,7 @@ begin
  perform cp7_credit.assert_zero_excess_v1(before_events);
  select coalesce(sum(line_total),0)into gross from erp.sales_items where sale_id=h.id;
  select coalesce(sum(i.refund_amount),0)into returns from erp.sales_return_items i join erp.sales_returns r on r.id=i.return_id where r.sale_id=h.id and r.status='POSTED';
- select coalesce(sum(amount),0)into paid from erp.sales_payments where sale_id=h.id and status='POSTED';
+ select coalesce(sum(pay.amount),0)into paid from erp.sales_payments pay where pay.sale_id=h.id and pay.status='POSTED';
  select sum((x->>'refund_amount')::numeric)into amount from jsonb_array_elements(p_legacy->'items')x;
  net:=gross-returns;after_net:=net-amount;
  if gross<0 or net<0 or paid<0 or paid>net or amount<0 or after_net<0 then raise exception 'CP7_CREDIT_CORRUPT_BEFORE_AR_OR_RETURN';end if;

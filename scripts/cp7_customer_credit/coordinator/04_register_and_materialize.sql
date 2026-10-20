@@ -199,9 +199,9 @@ begin
  select *into strict w from cp7_credit.initial_return_work where operation_id=p_operation;
  perform cp7_credit.assert_return_owner_context(w.return_id);
  a:=cp7_credit.current_materialized_objects(w.source_sale_id,w.source_sale_id,w.source_sale_id);objects:=a->'actual_objects';
- select coalesce(jsonb_agg(x order by x->>'object_kind'collate"C",x->>'object_id'collate"C"),'[]')into new_objects
-  from jsonb_array_elements(objects)x where not exists(select 1 from cp7_credit.financial_materialization_objects o
-   where o.object_kind=x->>'object_kind'and o.object_id=(x->>'object_id')::uuid);
+ select coalesce(jsonb_agg(obj order by obj->>'object_kind'collate"C",obj->>'object_id'collate"C"),'[]')into new_objects
+  from jsonb_array_elements(objects)obj where not exists(select 1 from cp7_credit.financial_materialization_objects o
+   where o.object_kind=obj->>'object_kind'and o.object_id=(obj->>'object_id')::uuid);
  if jsonb_array_length(new_objects)=0 then raise exception 'CP7_CREDIT_NEW_MATERIALIZATION_EMPTY';end if;
  insert into cp7_credit.financial_materializations(id,root_sale_id,actor,request_id,request_ordinal,owning_action,payload_sha256,source_plan_sha256,actual_objects,actual_objects_sha256)
  values(materialization,w.source_sale_id,w.actor,w.request_id,1,case when w.origin='ORDINARY'then'RETURN'else'RETURN_SETTLEMENT'end,

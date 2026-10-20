@@ -216,12 +216,12 @@ end $$;
 
 create function cp7_credit.enforce_initial_return_closure_v1()returns trigger
 language plpgsql security definer set search_path=''set TimeZone='UTC'as $$
-declare id uuid;row jsonb:=to_jsonb(new);family uuid;plan uuid;
+declare operation uuid;row jsonb:=to_jsonb(new);family uuid;plan uuid;
 begin
- if tg_table_name in('initial_return_materializations','initial_return_completions')then id:=(row->>'operation_id')::uuid;
- elsif tg_table_name='initial_refund_operations'then select operation_id into id from cp7_credit.initial_return_materializations where refund_operation_id=(row->>'id')::uuid;
- elsif tg_table_name='financial_materializations'then select operation_id into id from cp7_credit.initial_return_materializations where materialization_id=(row->>'id')::uuid or refund_operation_id=(row->>'id')::uuid;
- elsif tg_table_name='financial_materialization_objects'then select operation_id into id from cp7_credit.initial_return_materializations where materialization_id=(row->>'materialization_id')::uuid or refund_operation_id=(row->>'materialization_id')::uuid;
+ if tg_table_name in('initial_return_materializations','initial_return_completions')then operation:=(row->>'operation_id')::uuid;
+ elsif tg_table_name='initial_refund_operations'then select operation_id into operation from cp7_credit.initial_return_materializations where refund_operation_id=(row->>'id')::uuid;
+ elsif tg_table_name='financial_materializations'then select operation_id into operation from cp7_credit.initial_return_materializations where materialization_id=(row->>'id')::uuid or refund_operation_id=(row->>'id')::uuid;
+ elsif tg_table_name='financial_materialization_objects'then select operation_id into operation from cp7_credit.initial_return_materializations where materialization_id=(row->>'materialization_id')::uuid or refund_operation_id=(row->>'materialization_id')::uuid;
  else
   case tg_table_name
    when'return_families'then family:=(row->>'id')::uuid;
@@ -236,10 +236,10 @@ begin
    when'plan_dependencies'then plan:=(row->>'plan_id')::uuid;
    else raise exception 'CP7_CREDIT_CLOSURE_TABLE_UNRECOGNIZED';
   end case;
-  select operation_id into id from cp7_credit.initial_return_materializations where family_id=family or plan_id=plan;
+  select operation_id into operation from cp7_credit.initial_return_materializations where family_id=family or plan_id=plan;
  end if;
- if id is null then raise exception 'CP7_CREDIT_UNOWNED_IMMUTABLE_FACT';end if;
- perform cp7_credit.assert_initial_return_closed_v1(id);return null;
+ if operation is null then raise exception 'CP7_CREDIT_UNOWNED_IMMUTABLE_FACT';end if;
+ perform cp7_credit.assert_initial_return_closed_v1(operation);return null;
 end $$;
 
 do $deferred$declare t text;begin

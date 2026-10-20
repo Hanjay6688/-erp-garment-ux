@@ -1,0 +1,12 @@
+{
+  "before_commit": "de3d5c6d23e788481f4d30957cf46615add5f3d6",
+  "new_sources": {
+    "02_initial_projection.sql": "fc3e413f9a168daf9ce21a281ff414ef5a1e00bb669d4708ecb265f9e7575e54",
+    "04_register_and_materialize.sql": "5559a23012154da3c8899895a3ee784320d47efbed90d61ecced7b6f63afe32e",
+    "05_factual_profile.sql": "b264aefe2d69411a8ed2e7b30cf75271eaa008a795af0897e7887df5c3d08449",
+    "06_finish_and_closed_routes.sql": "cd486b197eb165505cb488f6aa08ed2886dfb7e05dc3371be9aba9b3a9aeb928"
+  },
+  "scope": "ISOLATED_ACTUAL_QUERY_FRAGMENTS_NOT_ERP_NATIVE",
+  "expected": "Seven original 42702 refusals and seven new exact row/value successes",
+  "proof_sha256": "aecff1b4f1592c2c8546b16afe7d2fcef88c29aecf93e041f48a20b86a1430f6"
+}

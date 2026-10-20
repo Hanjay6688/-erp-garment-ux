@@ -1,0 +1,92 @@
+{
+  "classification": "ACTUAL_SQL_FRAGMENT_NAME_RESOLUTION_NOT_ERP_NATIVE",
+  "status": "PASS",
+  "count": 14,
+  "cases": [
+    {
+      "name": "FIRST_RED_PAYMENT_SUM",
+      "status": "PASS",
+      "first_failure": {
+        "message": "column reference \"amount\" is ambiguous",
+        "sqlstate": "42702"
+      }
+    },
+    {
+      "name": "FIRST_RED_JSON_VALUE_COLUMN",
+      "status": "PASS",
+      "first_failure": {
+        "message": "column reference \"value\" is ambiguous",
+        "sqlstate": "42702"
+      }
+    },
+    {
+      "name": "FIRST_RED_HPP_BALANCE_LOCK",
+      "status": "PASS",
+      "first_failure": {
+        "message": "column reference \"x\" is ambiguous",
+        "sqlstate": "42702"
+      }
+    },
+    {
+      "name": "FIRST_RED_MATERIALIZED_OBJECT_FILTER",
+      "status": "PASS",
+      "first_failure": {
+        "message": "column reference \"x\" is ambiguous",
+        "sqlstate": "42702"
+      }
+    },
+    {
+      "name": "FIRST_RED_CONSUMER_ROWS",
+      "status": "PASS",
+      "first_failure": {
+        "message": "column reference \"ce.id\" is ambiguous",
+        "sqlstate": "42702"
+      }
+    },
+    {
+      "name": "FIRST_RED_PROVENANCE_MARKER",
+      "status": "PASS",
+      "first_failure": {
+        "message": "column reference \"id\" is ambiguous",
+        "sqlstate": "42702"
+      }
+    },
+    {
+      "name": "FIRST_RED_DEFERRED_CLOSURE_LOOKUP",
+      "status": "PASS",
+      "first_failure": {
+        "message": "column reference \"id\" is ambiguous",
+        "sqlstate": "42702"
+      }
+    },
+    {
+      "name": "QUALIFIED_PAYMENT_SUM",
+      "status": "PASS"
+    },
+    {
+      "name": "QUALIFIED_JSON_VALUE_COLUMN",
+      "status": "PASS"
+    },
+    {
+      "name": "QUALIFIED_HPP_BALANCE_LOCK",
+      "status": "PASS"
+    },
+    {
+      "name": "QUALIFIED_MATERIALIZED_OBJECT_FILTER",
+      "status": "PASS"
+    },
+    {
+      "name": "QUALIFIED_CONSUMER_ROWS",
+      "status": "PASS"
+    },
+    {
+      "name": "QUALIFIED_PROVENANCE_MARKER",
+      "status": "PASS"
+    },
+    {
+      "name": "QUALIFIED_DEFERRED_CLOSURE_LOOKUP",
+      "status": "PASS"
+    }
+  ],
+  "full_erp_native": false
+}

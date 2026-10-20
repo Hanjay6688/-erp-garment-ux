@@ -1,0 +1,83 @@
+{
+  "contract_version": "ow04.name-clash-counter.initial.v1",
+  "recorded_at_utc": "2026-10-20T19:08:51.096322+00:00",
+  "scope": "Read-only source comparison of the four local coordinator SQL diffs; no active repo modification, Native execution, or independent audit claim.",
+  "candidate_head": "de3d5c6d23e788481f4d30957cf46615add5f3d6",
+  "diff_sha256": "9519ce63585655a11f47cbd77538fd05eb46241b190c4879f224fd22638e6e0c",
+  "files": [
+    {
+      "path": "scripts/cp7_customer_credit/coordinator/02_initial_projection.sql",
+      "baseline_sha256": "c09bb813a7dd268dc455c6896b9119b28a0832ba97a2c6b480b7150e5b809a53",
+      "candidate_sha256": "fc3e413f9a168daf9ce21a281ff414ef5a1e00bb669d4708ecb265f9e7575e54"
+    },
+    {
+      "path": "scripts/cp7_customer_credit/coordinator/04_register_and_materialize.sql",
+      "baseline_sha256": "e83948ecfa03dd4e923e7052210c61f9306e9f002da4ba1759228ade9ccbd5f4",
+      "candidate_sha256": "5559a23012154da3c8899895a3ee784320d47efbed90d61ecced7b6f63afe32e"
+    },
+    {
+      "path": "scripts/cp7_customer_credit/coordinator/05_factual_profile.sql",
+      "baseline_sha256": "ecb4a34dc61f9e3c754b520a696a3aa20f476a84e72ef800c7c9a037ddf3363e",
+      "candidate_sha256": "b264aefe2d69411a8ed2e7b30cf75271eaa008a795af0897e7887df5c3d08449"
+    },
+    {
+      "path": "scripts/cp7_customer_credit/coordinator/06_finish_and_closed_routes.sql",
+      "baseline_sha256": "ed65fdfafa678f40065e6e7046eaca14db365df2cc514323420f9e1b4d7bc73f",
+      "candidate_sha256": "cd486b197eb165505cb488f6aa08ed2886dfb7e05dc3371be9aba9b3a9aeb928"
+    }
+  ],
+  "expected_before_review": [
+    "Disambiguate PL/pgSQL variables from SQL columns and relation aliases under normal variable_conflict=error.",
+    "Preserve exact source predicates, ordering, lock modes, arithmetic, account/date rules, strict-row cardinality, provenance and deferred closure checks.",
+    "Do not resolve ambiguity by changing variable_conflict, disabling a verifier, or accepting a different source population."
+  ],
+  "observed": [
+    {
+      "function": "cp7_credit.build_initial_return_for_draft_v1",
+      "old_fault": "Local amount numeric competes with unqualified sales_payments.amount in sum(amount).",
+      "new_resolution": "sum(pay.amount), pay.sale_id=h.id and pay.status=POSTED",
+      "semantic_result": "Same posted payment population and same aggregate; no arithmetic change.",
+      "repro_not_executed": "Invoke the actual builder on a draft through its owning path; old SQL reaches sum(amount) with the local amount declared. A minimal isolated PL/pgSQL block declaring amount and selecting sum(amount) from a relation exposing amount represents the same resolution conflict."
+    },
+    {
+      "function": "cp7_credit.initial_hpp_projection_v1",
+      "old_fault": "Local value competes with jsonb_array_elements value output; record b and JSON x also share SQL aliases.",
+      "new_resolution": "Local value renamed consistently to group_amount; SQL aliases inv and draft_item used consistently.",
+      "semantic_result": "Location/balance/lot/HPP predicates, lock order and modes retained. Per-item multiplication, summed group amount, HPP accumulation and FG/COGS lines unchanged."
+    },
+    {
+      "function": "cp7_credit.materialize_initial_objects_v1",
+      "old_fault": "Local JSON x shares the jsonb_array_elements alias x.",
+      "new_resolution": "SQL alias obj, including aggregate sort and NOT EXISTS comparisons.",
+      "semantic_result": "Same object_kind/object_id anti-join and canonical order; empty-materialization refusal retained."
+    },
+    {
+      "function": "cp7_credit.assert_current_source_plan_profile",
+      "old_fault": "Typed consumption record ce shares the aggregate SQL alias ce.",
+      "new_resolution": "SQL alias consumer in all projected fields, order and cohort filter.",
+      "semantic_result": "Same complete cohort consumer rows and same capacity input; no filtering or amount change."
+    },
+    {
+      "function": "cp7_credit.assert_financial_materialization_provenance",
+      "old_fault": "Local id collides with table id; old f.id is a PL record field rather than a declared SQL table alias.",
+      "new_resolution": "Local marker_id and explicit FROM financial_materializations fm WHERE fm.id=marker_id; SELECT fm.* INTO STRICT f.",
+      "semantic_result": "Exactly the requested immutable materialization marker is selected by its primary key; strict cardinality and all subsequent provenance checks retained."
+    },
+    {
+      "function": "cp7_credit.enforce_initial_return_closure_v1",
+      "old_fault": "Local id competes with unqualified table id in closure lookup branches.",
+      "new_resolution": "Local operation with every assignment, INTO, null refusal and closure callback updated.",
+      "semantic_result": "All trigger table branches, family/plan predicates, unowned-fact refusal and assert_initial_return_closed_v1 invocation retained."
+    }
+  ],
+  "additional_scoped_scan": {
+    "checked": "Neighboring coordinator queries and materialized reader record/alias use; declared loop records used as intended were not treated as a fault solely because they are records.",
+    "concrete_remaining_name_collision_found": false,
+    "limit": "Source scan only; not proof of full package execution or absence of all other SQL errors."
+  },
+  "disposition": "CLEAR_WITHIN_REQUESTED_SOURCE_SCOPE",
+  "native_evidence": "Parent reported de3d5c6d Native 32: 11 PASS / 21 INCOMPLETE, common first error amount ambiguity. Not rerun by this reviewer.",
+  "ordering_note": "The source assessment above was formed before reading peer conclusions. Parent progress message reporting seven old-fragment rejections and seven new-fragment successes arrived while freezing this file; those controls were not run or relied upon by this reviewer.",
+  "product_edits": false,
+  "child_agents": false
+}

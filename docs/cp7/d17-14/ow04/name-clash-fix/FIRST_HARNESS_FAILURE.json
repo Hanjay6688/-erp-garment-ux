@@ -1,0 +1,14 @@
+{
+  "error": "{\"name\":\"FIRST_RED_JSON_VALUE_COLUMN\",\"message\":\"missing \\\"LOOP\\\" at end of SQL expression\",\"code\":\"42601\"}",
+  "code": "ERR_ASSERTION",
+  "cases": [
+    {
+      "name": "FIRST_RED_PAYMENT_SUM",
+      "status": "PASS",
+      "first_failure": {
+        "message": "column reference \"amount\" is ambiguous",
+        "sqlstate": "42702"
+      }
+    }
+  ]
+}

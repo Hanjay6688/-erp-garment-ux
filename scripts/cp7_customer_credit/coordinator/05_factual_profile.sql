@@ -190,8 +190,8 @@ begin
    raise exception 'CP7_CREDIT_REFUND_ACTUAL_LINES_CHANGED';end if;
  end loop;
  if(select count(*)from cp7_credit.consumption_events where cohort_id=ch.id)>1 then raise exception 'CP7_CREDIT_SECOND_CONSUMPTION_UNIMPLEMENTED';end if;
- select coalesce(jsonb_agg(jsonb_build_object('id',ce.id::text,'amount',cp7_credit.cent_text(ce.amount),'economic_date',ce.economic_date::text,
-  'transaction_date',ce.transaction_date::text,'source_sha256',ce.source_sha256)order by ce.id),'[]')into c_events from cp7_credit.consumption_events ce where ce.cohort_id=ch.id;
+ select coalesce(jsonb_agg(jsonb_build_object('id',consumer.id::text,'amount',cp7_credit.cent_text(consumer.amount),'economic_date',consumer.economic_date::text,
+  'transaction_date',consumer.transaction_date::text,'source_sha256',consumer.source_sha256)order by consumer.id),'[]')into c_events from cp7_credit.consumption_events consumer where consumer.cohort_id=ch.id;
  capacity:=ow04_pure_kernel.credit_capacity_v1(cp7_credit.component_movements_v1(fresh),c_events,
   (select min((x->>'economic_date')::date)::text from jsonb_array_elements(fresh->'components')x),
   (select min((x->>'transaction_date')::date)::text from jsonb_array_elements(fresh->'components')x));
@@ -200,10 +200,10 @@ end $$;
 
 create function cp7_credit.assert_financial_materialization_provenance(p_actual jsonb)returns void
 language plpgsql stable security definer set search_path=''set TimeZone='UTC'as $$
-declare id uuid;f cp7_credit.financial_materializations;m cp7_credit.initial_return_materializations;o cp7_credit.initial_refund_operations;
+declare marker_id uuid;f cp7_credit.financial_materializations;m cp7_credit.initial_return_materializations;o cp7_credit.initial_refund_operations;
 begin
- for id in select value::uuid from jsonb_array_elements_text(p_actual->'materialization_ids')loop
-  select *into strict f from cp7_credit.financial_materializations where f.id=id;
+ for marker_id in select value::uuid from jsonb_array_elements_text(p_actual->'materialization_ids')loop
+  select fm.*into strict f from cp7_credit.financial_materializations fm where fm.id=marker_id;
   select *into m from cp7_credit.initial_return_materializations where materialization_id=f.id;
   if m.operation_id is not null then
    if(f.root_sale_id,f.actor,f.request_id,f.request_ordinal,f.payload_sha256,f.source_plan_sha256)is distinct from

@@ -1,0 +1,30 @@
+{
+  "error": "{\"name\":\"FIRST_RED_MATERIALIZED_OBJECT_FILTER\",\"message\":\"syntax error at or near \\\"if\\\"\",\"code\":\"42601\"}",
+  "code": "ERR_ASSERTION",
+  "cases": [
+    {
+      "name": "FIRST_RED_PAYMENT_SUM",
+      "status": "PASS",
+      "first_failure": {
+        "message": "column reference \"amount\" is ambiguous",
+        "sqlstate": "42702"
+      }
+    },
+    {
+      "name": "FIRST_RED_JSON_VALUE_COLUMN",
+      "status": "PASS",
+      "first_failure": {
+        "message": "column reference \"value\" is ambiguous",
+        "sqlstate": "42702"
+      }
+    },
+    {
+      "name": "FIRST_RED_HPP_BALANCE_LOCK",
+      "status": "PASS",
+      "first_failure": {
+        "message": "column reference \"x\" is ambiguous",
+        "sqlstate": "42702"
+      }
+    }
+  ]
+}
