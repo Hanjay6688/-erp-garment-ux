@@ -1,0 +1,21 @@
+{
+  "classification": "INERT_UNINSTALLED_NEXT_QUALIFICATION_WIP",
+  "basis_candidate": "6d350f79dacd41cecb0c0e80d2c62ffb8b723dd8",
+  "isolated_checks": 22,
+  "actual_native_proven": false,
+  "native_cases_drafted": 12,
+  "native_cases_executed": 0,
+  "needs_rebase_before_install": "Current later optional/group fixes changed predecessor guard pins; do not bypass them",
+  "files": {
+    "01_native_empty_facts.sql": "ec3a102ffc65cc8dfcff294706c5cdacedc749b62320ea6c307c00dcd4696584",
+    "02_native_empty_callbacks.sql": "68f458c7e061b3c7161e5c1525c678defc343869c766a60d9a5139366f414173",
+    "03_build_exact_overlay.py": "96b256377b29ef885c67a3e5b81417a0a4bdf7a1307e04b7a8d59ac183e847da",
+    "04_exact_overlays.sql": "08af7ed38e9211e39a699bd9182b379b9c8c390b87ee10d14c97485f25fc5aa0",
+    "OVERLAY_MANIFEST.json": "1fe66b4d0abf8a8078e5bd3ab04233d4c47258d56db8200d689618532c2c8d61",
+    "EXPECTED.json": "5e713283516288011b6c8ccdff4af85d3df3c077e771e36de2b2bc2c16abfd3b",
+    "RESULT.json": "90abd893a5d6a1e6226a30cebb80107252922a85ee570be109e35d48275eef2b",
+    "check_native_empty.mjs": "78f1a3e8d942f02e644709465a8e96bbbfe6a94a20f4277683d63c2cdc7ad816",
+    "cp7_ow04_native_empty_cases.py": "e4928dae5d81d02cf154f0c999256bc3a4a14094825338c2aac458d17ce8e778"
+  },
+  "archive_sha256": "c9e0e3db4df76965aa2f50756efb86ea8b2dc88cc19cf8cb8321280c889de6f8"
+}

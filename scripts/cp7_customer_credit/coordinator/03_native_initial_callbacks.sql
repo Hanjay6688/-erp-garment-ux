@@ -75,9 +75,9 @@ begin
  values(op,s.backend_pid,s.transaction_id,s.actor,s.request_id,s.source_sale_id,'REVIEWED_SETTLEMENT','SEALED',s.expected_version,s.legacy_payload,
   (select payload->'settlement'from cp7_credit.return_requests where actor=s.actor and request_id=s.request_id),s.payload_sha256,s.quote_sha256,
   s.current_authority,b,ow04_source_proposal.sha(b->'source'->'source_lock_ids'),b->'projection',b->'quote'->'binding'->>'projection_sha256',
-  b->'projected_kernel',b->'prior_causal',b->'prior_causal_manifest',b->'period_snapshot',b->'credit_account_snapshot',b->'cash_account_snapshot');
+  b->'projected_kernel',b->'prior_causal',b->'prior_causal_manifest',b->'period_snapshot',nullif(b->'credit_account_snapshot','null'::jsonb),nullif(b->'cash_account_snapshot','null'::jsonb));
  update cp7_credit.return_command_scope set stage='LOCKED',source_lock_sha256=ow04_source_proposal.sha(b->'source'->'source_lock_ids'),
-  projection_sha256=b->'quote'->'binding'->>'projection_sha256',credit_account_snapshot=b->'credit_account_snapshot',cash_account_snapshot=b->'cash_account_snapshot'
+  projection_sha256=b->'quote'->'binding'->>'projection_sha256',credit_account_snapshot=nullif(b->'credit_account_snapshot','null'::jsonb),cash_account_snapshot=nullif(b->'cash_account_snapshot','null'::jsonb)
   where backend_pid=s.backend_pid and transaction_id=s.transaction_id;
 end $$;
 

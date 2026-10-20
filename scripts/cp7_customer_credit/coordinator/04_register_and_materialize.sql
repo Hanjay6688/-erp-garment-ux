@@ -167,7 +167,7 @@ begin
   cp7_credit.pg_jsonb_sha256((select jsonb_agg(z-'component'-'component_ordinal'order by(z->>'component_ordinal')::integer,(z->>'ordinal')::bigint)from jsonb_array_elements(parts)z)),
   (actual_k->>'net_current_k')::numeric,true,jsonb_array_length(actual_k->'components'),part_count);
  for x in select jsonb_build_object('component',z->'component','component_id',z->'component_id','ord',z->'component_ordinal')
-  from jsonb_array_elements(parts)z group by z->'component',z->'component_id',z->'component_ordinal'order by(z->>'component_ordinal')::integer loop
+  from jsonb_array_elements(parts)z group by z->'component',z->'component_id',z->'component_ordinal'order by(z->'component_ordinal')::integer loop
   insert into cp7_credit.recognition_components(id,plan_id,ordinal,economic_date,transaction_date,amount,previous_economic_date,previous_transaction_date,corners,kernel_component,component_sha256_pg)
   values((x->>'component_id')::uuid,plan,(x->>'ord')::integer,(x->'component'->>'economic_date')::date,(x->'component'->>'transaction_date')::date,
    (x->'component'->>'amount')::numeric,(x->'component'->>'previous_economic_date')::date,(x->'component'->>'previous_transaction_date')::date,

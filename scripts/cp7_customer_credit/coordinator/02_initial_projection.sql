@@ -109,10 +109,12 @@ begin
    join erp.sales_headers sh on sh.id=si.sale_id where sa.lot_id=a.lot_id and sh.status in('POSTED','PARTIAL_PAID','PAID');
   select coalesce(sum(ri.qty_pcs),0)into returned from erp.sales_return_items ri join erp.sales_returns rr on rr.id=ri.return_id
    where ri.lot_id=a.lot_id and rr.status='POSTED';
+  -- Preserve the retained Native allocation refusal before the extra HPP
+  -- target checks; a prior completed return consumes this same allocation.
+  if (x->>'qty_pcs')::numeric>a.qty_pcs-coalesce((select sum(ri.qty_pcs)from erp.sales_return_items ri join erp.sales_returns rr on rr.id=ri.return_id
+    where rr.status='POSTED'and ri.sale_stock_allocation_id=a.id),0)then raise exception 'AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION';end if;
   if owned<0 or sold-returned<(select sum((v->>'qty_pcs')::numeric)from jsonb_array_elements(p_legacy->'items')v
-   join erp.sale_stock_allocations s on s.id=(v->>'allocation_id')::uuid where s.lot_id=a.lot_id)
-   or (x->>'qty_pcs')::numeric>a.qty_pcs-coalesce((select sum(ri.qty_pcs)from erp.sales_return_items ri join erp.sales_returns rr on rr.id=ri.return_id
-    where rr.status='POSTED'and ri.sale_stock_allocation_id=a.id),0)then raise exception 'CP7_CREDIT_RETURN_QTY_SOURCE_INVALID';end if;
+   join erp.sale_stock_allocations s on s.id=(v->>'allocation_id')::uuid where s.lot_id=a.lot_id)then raise exception 'CP7_CREDIT_RETURN_QTY_SOURCE_INVALID';end if;
   group_amount:=(x->>'qty_pcs')::numeric*cost;hpp:=hpp+group_amount;
   items:=items||jsonb_build_array(x||jsonb_build_object('product_id',a.product_id,'lot_id',a.lot_id,'po_id',a.po_id,
    'hpp_version_id',a.hpp_id,'unit_hpp',cp7_credit.cent_text(cost),'hpp_amount',cp7_credit.cent_text(group_amount)));

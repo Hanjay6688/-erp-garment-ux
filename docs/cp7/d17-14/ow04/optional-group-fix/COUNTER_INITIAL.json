@@ -1,0 +1,101 @@
+{
+  "contract_version": "ow04.optional-group-fix.counter.initial.v1",
+  "recorded_at_utc": "2026-10-20T19:22:08.534675+00:00",
+  "head": "6d350f79dacd41cecb0c0e80d2c62ffb8b723dd8",
+  "review_scope": "Read-only source review of the exact five local SQL diffs and directly adjacent account/ordinal/allocation consumers; no active edits, child agents, Native execution or independent audit claim.",
+  "initial_before_peer_exchange": true,
+  "diff_sha256": "82f7bd6337f71e10222c9ebf79396e3c8f651ba0e188170f5d406a431950ca84",
+  "files": [
+    {
+      "path": "scripts/cp7_customer_credit/admission/01_typed_context_and_preclaim.proposal.sql",
+      "baseline_sha256": "5018f3dcce92cd669ee861b9c4e459a9b2d1bf81e51a0afa61357637c5c67f36",
+      "candidate_sha256": "44fe8bfae73aecdd85a332f328a4b7dfd6331fa40764025462772a701c9ddb08"
+    },
+    {
+      "path": "scripts/cp7_customer_credit/coordinator/01_coordinator_facts.sql",
+      "baseline_sha256": "e57a97d4a964d23692aee3f7508d36f0f0b9d1534e7c55f8df8845e0f3097526",
+      "candidate_sha256": "4741483e2a61056a6e2365cfcc43e65d83c4ab9d1c8fd6fa77d33eda26b7af99"
+    },
+    {
+      "path": "scripts/cp7_customer_credit/coordinator/02_initial_projection.sql",
+      "baseline_sha256": "fc3e413f9a168daf9ce21a281ff414ef5a1e00bb669d4708ecb265f9e7575e54",
+      "candidate_sha256": "c37cd7f20deb1ae7537c7207801fc61cd370b67d889b532252eb0b8ca2aa2ff3"
+    },
+    {
+      "path": "scripts/cp7_customer_credit/coordinator/03_native_initial_callbacks.sql",
+      "baseline_sha256": "e8e7a173ab3845982ecc4a0988a1919b97896edb263cabfaae559bbea1371de3",
+      "candidate_sha256": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843"
+    },
+    {
+      "path": "scripts/cp7_customer_credit/coordinator/04_register_and_materialize.sql",
+      "baseline_sha256": "5559a23012154da3c8899895a3ee784320d47efbed90d61ecced7b6f63afe32e",
+      "candidate_sha256": "9c3ca9d1be3f76237d7b6c6415cc42c4b4fdefe559441b323274e1a0694cc0a3"
+    }
+  ],
+  "expected": [
+    "Only absent optional account snapshots become SQL NULL; selected credit/cash object snapshots retain their complete contents and current-master verification.",
+    "Reject JSON null/scalar/array snapshots in private rows after normalization; an object-only CHECK must not be mistaken for complete source/authority proof.",
+    "One component row per internally generated component identity/ordinal, preserving numeric ordinal order and all constituent parts/amounts.",
+    "The allocation residual limit remains original allocation quantity minus prior POSTED returns for that exact allocation, retaining the Native allocation refusal code."
+  ],
+  "findings": [
+    {
+      "topic": "Optional JSON null normalization",
+      "assessment": "CLEAR in the actual sealed-builder path",
+      "observed": "seal_return_settlement normalizes b.credit_account_snapshot and b.cash_account_snapshot using nullif(value, JSON null) both in initial_return_work INSERT and return_command_scope UPDATE. Other JSON values are unchanged. New CHECKs admit SQL NULL or object only; JSON null has jsonb_typeof=null-text and fails, as do arrays/scalars.",
+      "cross_stage_proof": "build_initial_return_for_draft_v1 calls strict credit_account_facts_v1/cash_account_facts_v1 for every selected account before constructing the quote; missing required choices add readiness issues, and sealing requires READY plus exact quote/authority binding. Existing assertions recheck every present credit account master and cash facts. Recognition requires nonnull credit snapshot; REFUND operations additionally require a nonnull object cash snapshot and verify current snapshot equality. No permission, date, account predicate or refund check was removed.",
+      "boundary": "The object CHECK alone allows {} and SQL NULL and does not prove selected-account presence. Safety here depends on the existing private builder/READY/seal and later recognition/refund verifiers, which remain intact. No new public snapshot input or scope-writing capability is introduced."
+    },
+    {
+      "topic": "GROUP BY / numeric ordinal ordering",
+      "assessment": "CLEAR",
+      "observed": "Only ORDER BY changes from (z->>component_ordinal)::integer to (z->component_ordinal)::integer, matching the JSONB expression already present in GROUP BY. Group keys, SELECT payload and all INSERT values are unchanged.",
+      "cross_stage_proof": "parts is built internally with component_ordinal=n, where n is integer and increments once per kernel component. component UUID is generated once before its part loop; every part of that component carries the same UUID, component JSON and numeric ordinal. GROUP BY still emits one row for that component and numeric JSONB-to-integer ordering places 2 before 10. The parts aggregation/hash still independently sorts numeric component ordinal and part ordinal. All part rows are inserted afterward unchanged.",
+      "boundary": "Casting JSONB string ordinals would fail rather than silently use lexical ordering; caller-supplied parts are not accepted by this function."
+    },
+    {
+      "topic": "Allocation refusal and guard order",
+      "assessment": "CLEAR",
+      "observed": "The exact per-allocation overflow predicate was extracted from the existing OR guard and now raises AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION before the unchanged owned<0 / aggregate sold-returned HPP guard. No quantity term or prior POSTED-row filter was removed.",
+      "native_source_reference": "supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql:281-289 uses prior POSTED returns for the selected allocation plus current-document allocation quantity compared against original allocation quantity.",
+      "cross_stage_proof": "The projection first proves allocation belongs to the sale. Allocation UUID uniquely identifies its source; the actual owning own-return exclusion is DRAFT, so status POSTED excludes it automatically. Existing validate_return rejects duplicate allocation IDs in one request, making the per-item proposed quantity equal the current-document quantity for that allocation. Other allocation IDs and reversed prior returns do not consume this allocation residual. The residual and aggregate invalid-source cases all still refuse; only precedence/error code for overflow changes intentionally."
+    }
+  ],
+  "counterexample_controls_considered_not_executed": [
+    {
+      "input": "Absent CREDIT-mode cash snapshot encoded as JSON null in builder JSON",
+      "expected": "Normalize to SQL NULL, pass optional CHECK, skip only the absent cash recheck; preserve and recheck the selected credit object."
+    },
+    {
+      "input": "REFUND with selected valid cash object",
+      "expected": "Object survives NULLIF byte-for-byte as JSONB, stays nonnull, reaches both existing work/source and refund cash proof checks."
+    },
+    {
+      "input": "Missing required selected credit/cash snapshot",
+      "expected": "Builder readiness issue / strict facts refusal prevents seal; recognition/refund nonnull guards remain additional refusal. The new nullable object CHECK alone is not relied upon for this guarantee."
+    },
+    {
+      "input": "JSON null / array / scalar inserted directly as a snapshot",
+      "expected": "CHECK rejects each non-object, non-SQL-NULL value; normalizing a scalar/array does not convert it to NULL."
+    },
+    {
+      "input": "Several parts for component ordinals 2 and 10",
+      "expected": "Exactly one grouped component row for each generated component; numeric order 2 then 10; all parts and sums retained."
+    },
+    {
+      "input": "Original allocation qty=2, prior POSTED return qty=2, new qty=1",
+      "expected": "AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION before extra aggregate HPP target check; no posting/closure bypass."
+    },
+    {
+      "input": "Original allocation qty=2, prior POSTED return qty=1, new qty=1",
+      "expected": "Residual guard allows equality; all existing source/HPP/financial checks still apply."
+    },
+    {
+      "input": "Two entries reusing one allocation in a request",
+      "expected": "Existing CP7_SALES_RETURN_DUPLICATE_ALLOCATION refusal before projection; normalization/grouping does not weaken it."
+    }
+  ],
+  "concrete_blocker_found": false,
+  "disposition": "CLEAR_WITHIN_REQUESTED_SOURCE_SCOPE",
+  "limits": "No Native rerun or SQL fragment execution by this reviewer. Parent-reported 6d350f79 result is 19 PASS / 13 INCOMPLETE; this record does not assert a new runtime result. No scan of the whole ERP."
+}

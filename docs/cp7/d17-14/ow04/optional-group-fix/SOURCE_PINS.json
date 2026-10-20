@@ -1,0 +1,12 @@
+{
+  "before_commit": "6d350f79dacd41cecb0c0e80d2c62ffb8b723dd8",
+  "scope": "ACTUAL_SQL_HELPER_FRAGMENTS_NOT_ERP_NATIVE",
+  "sources": {
+    "admission/01_typed_context_and_preclaim.proposal.sql": "44fe8bfae73aecdd85a332f328a4b7dfd6331fa40764025462772a701c9ddb08",
+    "coordinator/01_coordinator_facts.sql": "4741483e2a61056a6e2365cfcc43e65d83c4ab9d1c8fd6fa77d33eda26b7af99",
+    "coordinator/02_initial_projection.sql": "c37cd7f20deb1ae7537c7207801fc61cd370b67d889b532252eb0b8ca2aa2ff3",
+    "coordinator/03_native_initial_callbacks.sql": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843",
+    "coordinator/04_register_and_materialize.sql": "9c3ca9d1be3f76237d7b6c6415cc42c4b4fdefe559441b323274e1a0694cc0a3"
+  },
+  "control_sha256": "4c40c0264bf9c2c18690ed27383a2494b1b6c9de09cc8ae60ee37e93b48ceddb"
+}

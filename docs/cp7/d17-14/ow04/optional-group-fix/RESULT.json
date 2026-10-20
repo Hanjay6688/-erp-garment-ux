@@ -1,0 +1,97 @@
+{
+  "classification": "ACTUAL_SQL_FRAGMENTS_NOT_ERP_NATIVE",
+  "status": "PASS",
+  "count": 15,
+  "cases": [
+    {
+      "name": "FIRST_RED_ABSENT_CASH",
+      "status": "PASS",
+      "expected_refusal": "P0002",
+      "observed_error": "query returned no rows"
+    },
+    {
+      "name": "FIRST_RED_SELECTED_CASH_PRESERVED",
+      "status": "PASS",
+      "expected_refusal": null,
+      "observed_error": null
+    },
+    {
+      "name": "FIRST_RED_GROUPED_NUMERIC_COMPONENTS",
+      "status": "PASS",
+      "expected_refusal": "42803",
+      "observed_error": "column \"z.value\" must appear in the GROUP BY clause or be used in an aggregate function"
+    },
+    {
+      "name": "FIRST_RED_OVER_ALLOCATED_REFUSAL",
+      "status": "PASS",
+      "expected_refusal": "CP7_CREDIT_RETURN_QTY_SOURCE_INVALID",
+      "observed_error": "CP7_CREDIT_RETURN_QTY_SOURCE_INVALID"
+    },
+    {
+      "name": "FIRST_RED_VALID_QTY_STILL_ALLOWED",
+      "status": "PASS",
+      "expected_refusal": null,
+      "observed_error": null
+    },
+    {
+      "name": "FIXED_ABSENT_CASH",
+      "status": "PASS",
+      "expected_refusal": null,
+      "observed_error": null
+    },
+    {
+      "name": "FIXED_SELECTED_CASH_PRESERVED",
+      "status": "PASS",
+      "expected_refusal": null,
+      "observed_error": null
+    },
+    {
+      "name": "FIXED_GROUPED_NUMERIC_COMPONENTS",
+      "status": "PASS",
+      "expected_refusal": null,
+      "observed_error": null
+    },
+    {
+      "name": "FIXED_OVER_ALLOCATED_REFUSAL",
+      "status": "PASS",
+      "expected_refusal": "AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION",
+      "observed_error": "AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION"
+    },
+    {
+      "name": "FIXED_VALID_QTY_STILL_ALLOWED",
+      "status": "PASS",
+      "expected_refusal": null,
+      "observed_error": null
+    },
+    {
+      "name": "SQL_NULL_OPTIONAL_SHAPE_ALLOWED",
+      "status": "PASS",
+      "expected_refusal": null,
+      "observed_error": null
+    },
+    {
+      "name": "JSON_NULL_OPTIONAL_SHAPE_REFUSED",
+      "status": "PASS",
+      "expected_refusal": "23514",
+      "observed_error": "new row for relation \"optional_shape\" violates check constraint \"optional_shape_cash_account_snapshot_check\""
+    },
+    {
+      "name": "ARRAY_OPTIONAL_SHAPE_REFUSED",
+      "status": "PASS",
+      "expected_refusal": "23514",
+      "observed_error": "new row for relation \"optional_shape\" violates check constraint \"optional_shape_cash_account_snapshot_check\""
+    },
+    {
+      "name": "OBJECT_OPTIONAL_SHAPE_ALLOWED",
+      "status": "PASS",
+      "expected_refusal": null,
+      "observed_error": null
+    },
+    {
+      "name": "SELECTED_CASH_DELETED_STILL_REFUSES",
+      "status": "PASS",
+      "expected_refusal": "P0002",
+      "observed_error": "query returned no rows"
+    }
+  ]
+}

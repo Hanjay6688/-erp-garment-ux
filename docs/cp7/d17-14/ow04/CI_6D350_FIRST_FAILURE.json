@@ -1,0 +1,243 @@
+{
+  "candidate_commit": "6d350f79dacd41cecb0c0e80d2c62ffb8b723dd8",
+  "run_id": 39481082837,
+  "job_id": 118829518238,
+  "status": "INCOMPLETE",
+  "observed_cases": 32,
+  "counts": {
+    "INCOMPLETE": 13,
+    "PASS": 19
+  },
+  "new_paid_settlement_passed": 0,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "classification": "OPTIONAL_JSON_NULL_GROUP_ORDER_AND_NATIVE_ALLOCATION_CODE",
+  "cases": [
+    {
+      "id": "OW04_INITIAL_1000_OPEN_CREDIT",
+      "status": "INCOMPLETE",
+      "error": "query returned no rows"
+    },
+    {
+      "id": "OW04_INITIAL_1000_OPEN_REFUND",
+      "status": "INCOMPLETE",
+      "error": "column \"z.value\" must appear in the GROUP BY clause or be used in an aggregate function"
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_CREDIT",
+      "status": "INCOMPLETE",
+      "error": "query returned no rows"
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_REFUND",
+      "status": "INCOMPLETE",
+      "error": "column \"z.value\" must appear in the GROUP BY clause or be used in an aggregate function"
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_CREDIT",
+      "status": "INCOMPLETE",
+      "error": "query returned no rows"
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_REFUND",
+      "status": "INCOMPLETE",
+      "error": "column \"z.value\" must appear in the GROUP BY clause or be used in an aggregate function"
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_CREDIT",
+      "status": "INCOMPLETE",
+      "error": "query returned no rows"
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_REFUND",
+      "status": "INCOMPLETE",
+      "error": "column \"z.value\" must appear in the GROUP BY clause or be used in an aggregate function"
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_CREDIT",
+      "status": "INCOMPLETE",
+      "error": "query returned no rows"
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_REFUND",
+      "status": "INCOMPLETE",
+      "error": "column \"z.value\" must appear in the GROUP BY clause or be used in an aggregate function"
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_CREDIT",
+      "status": "INCOMPLETE",
+      "error": "query returned no rows"
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_REFUND",
+      "status": "INCOMPLETE",
+      "error": "column \"z.value\" must appear in the GROUP BY clause or be used in an aggregate function"
+    },
+    {
+      "id": "P11_RETURN_LIFECYCLE",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_SPLIT_GRADES",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_ALLOCATION_CAP",
+      "status": "INCOMPLETE",
+      "error": "('AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION', 'CP7_CREDIT_RETURN_QTY_SOURCE_INVALID')"
+    },
+    {
+      "id": "P11_RETURN_FIELDS",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_PAID_REFUSAL",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_DATE_LOCATION",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_REPLAY",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_SOURCE_CHANGE",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_PERMISSIONS",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_PAGES",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_CONSUMED",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_READ_DRAFT_CANCEL",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_READ_NATIVE_LIFECYCLE",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_READ_EXACT_CENTS",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_READ_FINANCIAL_REDACTION",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_READ_PRIVATE_READ_ONLY",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_READ_COMPLETE_PAGES",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_READ_QUERY_REFUSAL",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_READ_EMPTY_MISSING",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "F03_E01_NATIVE_60_TO_CASH_RETURN",
+      "status": "PASS",
+      "error": null
+    }
+  ],
+  "representative_first_failures": [
+    {
+      "group": "CP7_OW04_INITIAL",
+      "case": "OW04_INITIAL_1000_OPEN_CREDIT",
+      "status": "INCOMPLETE",
+      "error": "query returned no rows\nCONTEXT:  PL/pgSQL function cp7_credit.cash_account_facts_v1(uuid) line 4 at SQL statement\nPL/pgSQL function cp7_credit.assert_initial_work_v1(uuid,boolean) line 35 at IF\nSQL statement \"SELECT cp7_credit.assert_initial_work_v1(p_return,true)\"\nPL/pgSQL function cp7_credit.assert_return_owner_context(uuid) line 1 at PERFORM\nSQL statement \"SELECT cp7_credit.assert_return_owner_context(r.id)\"\nPL/pgSQL function cp7_credit.native_return_enter(uuid) line 58 at PERFORM\nSQL statement \"SELECT cp7_credit.native_return_enter(p_return_id)\"\nPL/pgSQL function post_sales_return(uuid) line 29 at PERFORM\nSQL statement \"SELECT erp.post_sales_return(return_id)\"\nPL/pgSQL function cp7_sales.apply_command(text,jsonb,uuid,text) line 59 at PERFORM\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 26 at assignment\nPL/pgSQL function cp7_sales.execute_preclaimed_credit_return(uuid,jsonb,text) line 13 at RETURN\nPL/pgSQL function cp7_credit.return_settlement_command(jsonb,uuid,text) line 47 at assignment\nSQL function \"erp_cp7_settle_sales_return_v1\" statement 1",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py\", line 380, in <lambda>\n    return [(gold['id'], lambda gold=gold: _run(cur, today, gold)) for gold in rows]\n                                           ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py\", line 351, in _run\n    result = _settle(cur, envelope, request)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py\", line 187, in _settle\n    result = cur.execute('select public.erp_cp7_settle_sales_return_v1(%s::jsonb,%s::uuid,%s::text)',\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.NoDataFound: query returned no rows\nCONTEXT:  PL/pgSQL function cp7_credit.cash_account_facts_v1(uuid) line 4 at SQL statement\nPL/pgSQL function cp7_credit.assert_initial_work_v1(uuid,boolean) line 35 at IF\nSQL statement \"SELECT cp7_credit.assert_initial_work_v1(p_return,true)\"\nPL/pgSQL function cp7_credit.assert_return_owner_context(uuid) line 1 at PERFORM\nSQL statement \"SELECT cp7_credit.assert_return_owner_context(r.id)\"\nPL/pgSQL function cp7_credit.native_return_enter(uuid) line 58 at PERFORM\nSQL statement \"SELECT cp7_credit.native_return_enter(p_return_id)\"\nPL/pgSQL function post_sales_return(uuid) line 29 at PERFORM\nSQL statement \"SELECT erp.post_sales_return(return_id)\"\nPL/pgSQL function cp7_sales.apply_command(text,jsonb,uuid,text) line 59 at PERFORM\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 26 at assignment\nPL/pgSQL function cp7_sales.execute_preclaimed_credit_return(uuid,jsonb,text) line 13 at RETURN\nPL/pgSQL function cp7_credit.return_settlement_command(jsonb,uuid,text) line 47 at assignment\nSQL function \"erp_cp7_settle_sales_return_v1\" statement 1\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "CP7_OW04_INITIAL",
+      "case": "OW04_INITIAL_1000_OPEN_REFUND",
+      "status": "INCOMPLETE",
+      "error": "column \"z.value\" must appear in the GROUP BY clause or be used in an aggregate function\nLINE 2: ...,z->'component_id',z->'component_ordinal'order by(z->>'compo...\n                                                             ^\nQUERY:  select jsonb_build_object('component',z->'component','component_id',z->'component_id','ord',z->'component_ordinal')\n  from jsonb_array_elements(parts)z group by z->'component',z->'component_id',z->'component_ordinal'order by(z->>'component_ordinal')::integer\nCONTEXT:  PL/pgSQL function cp7_credit.store_initial_plan_v1(uuid) line 88 at FOR over SELECT rows\nSQL statement \"SELECT cp7_credit.store_initial_plan_v1(w.operation_id)\"\nPL/pgSQL function cp7_credit.native_return_complete(uuid,numeric,numeric) line 11 at PERFORM\nPL/pgSQL function post_sales_return(uuid) line 213 at assignment\nSQL statement \"SELECT erp.post_sales_return(return_id)\"\nPL/pgSQL function cp7_sales.apply_command(text,jsonb,uuid,text) line 59 at PERFORM\nPL/pgSQL assignment \"r:=cp7_sales.apply_command(p_action,p_payload,p_request,p_expected)\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 26 at assignment\nSQL expression \"cp7_sales.command('RETURN',p_legacy,p_request,p_expected)\"\nPL/pgSQL function cp7_sales.execute_preclaimed_credit_return(uuid,jsonb,text) line 13 at RETURN\nPL/pgSQL assignment \"inner_receipt:=cp7_sales.execute_preclaimed_credit_return(p_request,legacy,p_expected)\"\nPL/pgSQL function cp7_credit.return_settlement_command(jsonb,uuid,text) line 47 at assignment\nSQL function \"erp_cp7_settle_sales_return_v1\" statement 1",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py\", line 380, in <lambda>\n    return [(gold['id'], lambda gold=gold: _run(cur, today, gold)) for gold in rows]\n                                           ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py\", line 351, in _run\n    result = _settle(cur, envelope, request)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py\", line 187, in _settle\n    result = cur.execute('select public.erp_cp7_settle_sales_return_v1(%s::jsonb,%s::uuid,%s::text)',\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.GroupingError: column \"z.value\" must appear in the GROUP BY clause or be used in an aggregate function\nLINE 2: ...,z->'component_id',z->'component_ordinal'order by(z->>'compo...\n                                                             ^\nQUERY:  select jsonb_build_object('component',z->'component','component_id',z->'component_id','ord',z->'component_ordinal')\n  from jsonb_array_elements(parts)z group by z->'component',z->'component_id',z->'component_ordinal'order by(z->>'component_ordinal')::integer\nCONTEXT:  PL/pgSQL function cp7_credit.store_initial_plan_v1(uuid) line 88 at FOR over SELECT rows\nSQL statement \"SELECT cp7_credit.store_initial_plan_v1(w.operation_id)\"\nPL/pgSQL function cp7_credit.native_return_complete(uuid,numeric,numeric) line 11 at PERFORM\nPL/pgSQL function post_sales_return(uuid) line 213 at assignment\nSQL statement \"SELECT erp.post_sales_return(return_id)\"\nPL/pgSQL function cp7_sales.apply_command(text,jsonb,uuid,text) line 59 at PERFORM\nPL/pgSQL assignment \"r:=cp7_sales.apply_command(p_action,p_payload,p_request,p_expected)\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 26 at assignment\nSQL expression \"cp7_sales.command('RETURN',p_legacy,p_request,p_expected)\"\nPL/pgSQL function cp7_sales.execute_preclaimed_credit_return(uuid,jsonb,text) line 13 at RETURN\nPL/pgSQL assignment \"inner_receipt:=cp7_sales.execute_preclaimed_credit_return(p_request,legacy,p_expected)\"\nPL/pgSQL function cp7_credit.return_settlement_command(jsonb,uuid,text) line 47 at assignment\nSQL function \"erp_cp7_settle_sales_return_v1\" statement 1\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "CP7_OW04_INITIAL",
+      "case": "P11_RETURN_ALLOCATION_CAP",
+      "status": "INCOMPLETE",
+      "error": "('AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION', 'CP7_CREDIT_RETURN_QTY_SOURCE_INVALID')",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_snapshot_cases.py\", line 30, in refused\n    try:op()\n        ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_sales_return_cases.py\", line 59, in <lambda>\n    a=returned(cur,f,qty='2',refund='40');p,v=payload(cur,f,qty='1',refund='20');before=b.boundary.snapshot(cur);auth.refused(cur,lambda:cmd.command(cur,'RETURN',p,v),'AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION');assert b.boundary.snapshot(cur)==before\n                                                                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_sales_command_cases.py\", line 9, in command\n    auth.actor(cur,subject);r=cur.execute('select public.erp_cp7_save_sale_v1(%s,%s,%s,%s)',(action,json.dumps(payload),key or uuid.uuid4(),version)).fetchone()[0];b.api.admin(cur);return r\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_CREDIT_RETURN_QTY_SOURCE_INVALID\nCONTEXT:  PL/pgSQL function cp7_credit.initial_hpp_projection_v1(jsonb) line 36 at RAISE\nPL/pgSQL function cp7_credit.build_initial_return_for_draft_v1(jsonb,text,jsonb,uuid) line 53 at assignment\nPL/pgSQL function cp7_credit.native_return_enter(uuid) line 22 at assignment\nSQL statement \"SELECT cp7_credit.native_return_enter(p_return_id)\"\nPL/pgSQL function post_sales_return(uuid) line 29 at PERFORM\nSQL statement \"SELECT erp.post_sales_return(return_id)\"\nPL/pgSQL function cp7_sales.apply_command(text,jsonb,uuid,text) line 59 at PERFORM\nPL/pgSQL assignment \"r:=cp7_sales.apply_command(p_action,p_payload,p_request,p_expected)\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 26 at assignment\nSQL function \"erp_cp7_save_sale_v1\" statement 1\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_sales_return_cases.py\", line 59, in capacity\n    a=returned(cur,f,qty='2',refund='40');p,v=payload(cur,f,qty='1',refund='20');before=b.boundary.snapshot(cur);auth.refused(cur,lambda:cmd.command(cur,'RETURN',p,v),'AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION');assert b.boundary.snapshot(cur)==before\n                                                                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_snapshot_cases.py\", line 34, in refused\n    assert ok,(code,detail)\n           ^^\nAssertionError: ('AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION', 'CP7_CREDIT_RETURN_QTY_SOURCE_INVALID')\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    }
+  ],
+  "disposition": "OPTIONAL_GROUP_FAILURE_DISPOSITION.md",
+  "runtime_log": {
+    "path": "CI_6D350_FIRST_RUNTIME.log.gz",
+    "raw_bytes": 348235,
+    "raw_sha256": "b239878d6202c88edfa7866a755ebe056e439727549fdc8a3a39b22297a943b5",
+    "gzip_sha256": "9e1a1d11eeec78c9edf2f55916604b69a01d055f852d87e13a15c207347dab51"
+  }
+}
