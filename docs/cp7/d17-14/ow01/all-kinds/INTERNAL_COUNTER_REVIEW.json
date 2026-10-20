@@ -1,0 +1,22 @@
+{
+  "classification": "INTERNAL_WRITER_SOURCE_REVIEW_NOT_INDEPENDENT_AUDIT",
+  "candidate_source_sha256": "29b45d3ca5c4dba23ba0a931e26bcdde1ce6964467eee5e921df941bbe7fd945",
+  "initial_independent_scopes": [
+    "UI helper: two analysis fixtures and Original preservation",
+    "dependencies helper: seven obligation fixtures, exact-source projection and business conservation",
+    "root: actual queue/body/outbox APIs and all13 closures",
+    "Native helper: worker lifecycle, actual queue/receipt and four exact source shapes CLEAR at29b45; FAIL category never enters display label; source review only",
+    "Contract helper: exact99 registration, preserved86, fresh copy per race, event auditor import provenance CLEAR; no Native claim"
+  ],
+  "cross_counter": {
+    "reporter": "max_paid_return_dependencies",
+    "scenario": "Frozen payroll source OPEN/MISSING_RECORDED_DUE_DATE; alert detail accidentally SETTLED/SOURCE_REVIEW",
+    "expected": "Reject any mismatch, also incidental dispatched comparison rows",
+    "initial_observed": "Old partial detail assertion accepted mismatched reason/economic_state",
+    "repair": "Both required and incidental rows compare exact _other_detail Native projection",
+    "verification": "Peer 9 isolated assertion controls PASS: valid KNOWN/UNKNOWN, wrong reason/economic/amount/due/label/hash/as_of rejected",
+    "runtime_limit": "Synthetic assertion controls, not Native or provider execution"
+  },
+  "native_execution_proven": false,
+  "production_go": false
+}

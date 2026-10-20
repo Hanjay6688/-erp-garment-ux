@@ -1,0 +1,16 @@
+{
+  "classification": "SOURCE_ONLY_STATIC_COUNTER_NOT_NATIVE",
+  "counter": "OUTBOX_TEXT_EPISODE_VS_ALERT_INTEGER_EPISODE",
+  "reported_by": "/root/max_paid_return_ui_contract",
+  "source": "alerts.sql outbox.item_episode text; alerts.episode integer; cp7_wa_forward_cases.outbox/alerts preserve those types",
+  "initial_expression": "o['episode'] == a['episode']",
+  "minimal_model": {"outbox_episode": "1", "alert_episode": 1, "initial_equal": false},
+  "expected_fix": "o['episode'] == str(a['episode'])",
+  "additional_self_counter": {
+    "counter": "UNKNOWN_NATIVE_AMOUNT_OMITS_VALUE_KEY",
+    "source": "other-obligation-source.sql other_money(NULL) returns UNKNOWN without a value member; alert projection deliberately exposes remaining:null",
+    "initial_expression": "src['financial_source']['remaining']['value']",
+    "fix": "src['financial_source']['remaining'].get('value')"
+  },
+  "native_execution_proven": false
+}

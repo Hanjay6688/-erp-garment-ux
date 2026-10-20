@@ -1,4 +1,4 @@
-"""D17-14 OW-01. Native obligation writers -> WA collector -> fake transport.
+"""D17-14 OW-01. Native obligation writers -> WA collector -> genuine pg_net queue.
 
 Use the accepted opening/payroll/accessory/laundry fixtures. No substituted due
 dates, computed payable amounts, or business-table changes by this suite. The
@@ -58,6 +58,7 @@ def sent(cur):
     requests = wa.queued(cur, before)
     assert len(requests) == 1 and requests[0]['base'] == wa.FAKE and requests[0]['phone'] == wa.PHONE
     assert requests[0]['text'] == message['body'] and 0 < len(message['body']) <= 1000
+    # Queue proof only: the savepoint case does not commit for a worker receipt.
     # Never return the decoded request or the key in case output.
     return message
 
@@ -86,7 +87,8 @@ def cases(cur, today):
         assert f['code'] not in message['body'] and 'perlu diperiksa' in message['body']
         assert wa.b.boundary.snapshot(cur) == before
         return dict(status='PASS', opening_receivable='70.00', opening_payable='65.00', no_invented_due_date=True,
-                    exact_native_source=True, one_episode_each=True, fake_message=True, business_unchanged=True)
+                    exact_native_source=True, one_episode_each=True, genuine_pg_net_request_queued=True,
+                    provider_delivery_proven_here=False, business_unchanged=True)
 
     def payroll():
         f = other.installments.fixture(cur, today)
@@ -109,7 +111,7 @@ def cases(cur, today):
         reopened = assert_amount(cur, 'PAYROLL_AP', f['payroll'], '600')
         assert reopened['id'] != first['id'] and reopened['episode'] == first['episode'] + 1
         return dict(status='PASS', exact_native_balances=['1000', '400', '0', '600'], partial_keeps_episode=True,
-                    settled_closes_inverse_new_episode=True, fake_message=True)
+                    settled_closes_inverse_new_episode=True, genuine_pg_net_request_queued=True, provider_delivery_proven_here=False)
 
     def accessory():
         f = other.accessory_fixture(cur, today)
@@ -127,7 +129,8 @@ def cases(cur, today):
         collect(cur)
         assert other.key('ACCESSORY_AP', f['credit']['event_id']) not in wa.alerts(cur, 'ACCESSORY_AP')
         return dict(status='PASS', credit='12.00', allocated_not_paid_keeps_episode_and_unknown=True,
-                    paid_closes=True, no_unknown_zero_or_double_total=True)
+                    paid_closes=True, no_unknown_zero_or_double_total=True, genuine_pg_net_request_queued=True,
+                    provider_delivery_proven_here=False)
 
     def laundry():
         f = other.laundry_fixture(cur, today, invoice=True)
@@ -152,7 +155,8 @@ def cases(cur, today):
         assert 'Tagihan laundry' in message['body'] and 'Penerimaan laundry perlu diperiksa' in message['body']
         assert 'nilai terbuka' not in message['body'].split('Penerimaan laundry perlu diperiksa:')[1].split('\n')[0]
         return dict(status='PASS', final_payable='17312.90', receipt_not_double_payable=True,
-                    send_recheck_sees_paid=True, inverse_reopens=True)
+                    send_recheck_sees_paid=True, inverse_reopens=True, genuine_pg_net_request_queued=True,
+                    provider_delivery_proven_here=False)
 
     def laundry_opening():
         f = other.laundry_opening_fixture(cur, today)
@@ -163,7 +167,8 @@ def cases(cur, today):
         message = sent(cur)
         assert 'Laundry awal belum ditagih' in message['body'] and 'perlu diperiksa' in message['body']
         assert 'Rp70.000' not in message['body'] and 'Rp0' not in message['body']
-        return dict(status='PASS', two_opening_receipts_unknown=True, estimate_not_final_payable=True, fake_message=True)
+        return dict(status='PASS', two_opening_receipts_unknown=True, estimate_not_final_payable=True,
+                    genuine_pg_net_request_queued=True, provider_delivery_proven_here=False)
 
     def permissions():
         f = other.installments.fixture(cur, today)

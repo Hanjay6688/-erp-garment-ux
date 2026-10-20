@@ -14,10 +14,10 @@
     "D17-14"
   ],
   "design": "docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md",
-  "expected_case_count": 86,
+  "expected_case_count": 99,
   "required_case_counts": {
     "native": 55,
-    "races": 17,
+    "races": 30,
     "http": 5,
     "browser": 9
   },
@@ -96,7 +96,20 @@
       "WAF_RACE_WA_TEST_NEW_REVOKED_AFTER_WAIT",
       "WAF_RACE_WA_TEST_REPLAY_REVOKED_AFTER_WAIT",
       "WAF_RACE_WA_RESOLVE_NEW_REVOKED_AFTER_WAIT",
-      "WAF_RACE_WA_RESOLVE_REPLAY_REVOKED_AFTER_WAIT"
+      "WAF_RACE_WA_RESOLVE_REPLAY_REVOKED_AFTER_WAIT",
+      "WAF_RACE_ALL_KIND_FG_AT_REORDER_POINT_FAKE_PROVIDER",
+      "WAF_RACE_ALL_KIND_ACCESSORY_AT_REORDER_POINT_FAKE_PROVIDER",
+      "WAF_RACE_ALL_KIND_AR_DUE_FAKE_PROVIDER",
+      "WAF_RACE_ALL_KIND_AP_DUE_FAKE_PROVIDER",
+      "WAF_RACE_ALL_KIND_PRODUCTION_GAP_FAKE_PROVIDER",
+      "WAF_RACE_ALL_KIND_FABRIC_NEED_FAKE_PROVIDER",
+      "WAF_RACE_ALL_KIND_OPENING_AR_FAKE_PROVIDER",
+      "WAF_RACE_ALL_KIND_OPENING_AP_FAKE_PROVIDER",
+      "WAF_RACE_ALL_KIND_PAYROLL_AP_FAKE_PROVIDER",
+      "WAF_RACE_ALL_KIND_ACCESSORY_AP_FAKE_PROVIDER",
+      "WAF_RACE_ALL_KIND_LAUNDRY_AP_FAKE_PROVIDER",
+      "WAF_RACE_ALL_KIND_LAUNDRY_RECEIPT_FAKE_PROVIDER",
+      "WAF_RACE_ALL_KIND_LAUNDRY_OPENING_UNINVOICED_FAKE_PROVIDER"
     ],
     "http": [
       "WAF_HTTP_OWNER_SETS_UP_AND_TESTS",
@@ -209,5 +222,11 @@
       "DATA_REVIEW"
     ],
     "amounts": "Exact Native remaining strings; UNKNOWN stays unknown; unfinalised receipts never become a second AP amount. Missing due dates are review reminders, not overdue."
+  },
+  "per_kind_real_transport": {
+    "module": "scripts/cp7_wa_all_kinds_transport_cases.py",
+    "predeclared_expected": "docs/cp7/d17-14/ow01/all-kinds/EXPECTED.json",
+    "required": "Thirteen separate committed disposable copies; exact live source, queue then real fake-provider receipt and reconciliation; no source mutation, no duplicate on next tick.",
+    "native_result": "PENDING_NEW_CANDIDATE_CI"
   }
 }

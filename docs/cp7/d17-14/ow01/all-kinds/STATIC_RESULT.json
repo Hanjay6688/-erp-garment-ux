@@ -1,0 +1,53 @@
+{
+  "classification": "SOURCE_ONLY_NOT_NATIVE_NOT_PROVIDER_EXECUTION",
+  "source_commit": "ff587d89d110d871c084770629beb8f508503b55",
+  "syntax": "PASS",
+  "actual_accepted_fixture_import": "PASS",
+  "guarded_connection_attempts": 0,
+  "registration": "PASS",
+  "new_registered_ids": [
+    "WAF_RACE_ALL_KIND_FG_AT_REORDER_POINT_FAKE_PROVIDER",
+    "WAF_RACE_ALL_KIND_ACCESSORY_AT_REORDER_POINT_FAKE_PROVIDER",
+    "WAF_RACE_ALL_KIND_AR_DUE_FAKE_PROVIDER",
+    "WAF_RACE_ALL_KIND_AP_DUE_FAKE_PROVIDER",
+    "WAF_RACE_ALL_KIND_PRODUCTION_GAP_FAKE_PROVIDER",
+    "WAF_RACE_ALL_KIND_FABRIC_NEED_FAKE_PROVIDER",
+    "WAF_RACE_ALL_KIND_OPENING_AR_FAKE_PROVIDER",
+    "WAF_RACE_ALL_KIND_OPENING_AP_FAKE_PROVIDER",
+    "WAF_RACE_ALL_KIND_PAYROLL_AP_FAKE_PROVIDER",
+    "WAF_RACE_ALL_KIND_ACCESSORY_AP_FAKE_PROVIDER",
+    "WAF_RACE_ALL_KIND_LAUNDRY_AP_FAKE_PROVIDER",
+    "WAF_RACE_ALL_KIND_LAUNDRY_RECEIPT_FAKE_PROVIDER",
+    "WAF_RACE_ALL_KIND_LAUNDRY_OPENING_UNINVOICED_FAKE_PROVIDER"
+  ],
+  "closure_kind_defaults_match_expected": true,
+  "root_has_integrated_during_review": true,
+  "root_integrated_module_equals_proposal": true,
+  "actual_registered_case_counts": {
+    "native": 55,
+    "races": 30,
+    "http": 5,
+    "browser": 9
+  },
+  "actual_registered_total": 99,
+  "original_86_IDs_preserved_against_pinned_git_manifest": true,
+  "case_closures_executed": 0,
+  "actual_Native_fixture_execution": false,
+  "actual_provider_receipts": 0,
+  "first_counters_retained": "FIRST_STATIC_COUNTER.json",
+  "static_harness_correction": "After root integrated99, stale17-only assertion failed. Final checker verifies all30 against pinned17+frozen13; no runtime case or product expectation changed.",
+  "independent_source_reviews": {
+    "analysis": "CLEAR; reviewer UI; analysis paths unchanged after b2ef72e3 review",
+    "obligations": "CLEAR at29b45d3c; reviewer dependencies; exact other_detail counter repaired; reviewer reported9/9 isolated scalar controls, not Native"
+  },
+  "workflow_copy": "Candidate auditor checkout/scripts import confirmed by root; no external copy_harness required",
+  "final_transport_module_sha256": "29b45d3ca5c4dba23ba0a931e26bcdde1ce6964467eee5e921df941bbe7fd945",
+  "artifact_sha256": {
+    "EXPECTED.json": "39231c15df81dd47e7f4a43650196abaf158c25c0b26f67cf321a47c9f38500e",
+    "FIRST_STATIC_COUNTER.json": "8d70808d71cb945f7381e69d0ad2608d1d467c1300cefc9b4791eff337c6623b",
+    "INTEGRATION.md": "d86ee66d8eec80a92fe4109dda553fa70a1b32d5a7997e5920106704d7919b26",
+    "cp7_wa_all_kinds_transport_cases.py": "29b45d3ca5c4dba23ba0a931e26bcdde1ce6964467eee5e921df941bbe7fd945",
+    "fixture-map.md": "152d0971d71a1c5408120f8c2a60f1bf04019046cc688e974705826200667d9f"
+  },
+  "runtime_pending": "Root must run all13 registered committed races; no missing-kind skip or queue-only receipt can satisfy them."
+}

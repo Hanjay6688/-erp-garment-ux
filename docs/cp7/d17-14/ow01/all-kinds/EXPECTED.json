@@ -1,0 +1,36 @@
+{
+  "classification": "EXPECTED_BEFORE_IMPLEMENTATION_SOURCE_ONLY_NOT_NATIVE",
+  "source_commit": "ff587d89d110d871c084770629beb8f508503b55",
+  "scope": "THIRTEEN_UNCOVERED_SYSTEM_KINDS_ACTUAL_COMMITTED_FAKE_PROVIDER_RECEIPTS",
+  "already_covered": ["FABRIC_BELOW_MINIMUM", "ACCESSORY_NEED", "MANUAL_REMINDER"],
+  "registered_races": [
+    {"id":"WAF_RACE_ALL_KIND_FG_AT_REORDER_POINT_FAKE_PROVIDER","kind":"FG_AT_REORDER_POINT"},
+    {"id":"WAF_RACE_ALL_KIND_ACCESSORY_AT_REORDER_POINT_FAKE_PROVIDER","kind":"ACCESSORY_AT_REORDER_POINT"},
+    {"id":"WAF_RACE_ALL_KIND_AR_DUE_FAKE_PROVIDER","kind":"AR_DUE"},
+    {"id":"WAF_RACE_ALL_KIND_AP_DUE_FAKE_PROVIDER","kind":"AP_DUE"},
+    {"id":"WAF_RACE_ALL_KIND_PRODUCTION_GAP_FAKE_PROVIDER","kind":"PRODUCTION_GAP"},
+    {"id":"WAF_RACE_ALL_KIND_FABRIC_NEED_FAKE_PROVIDER","kind":"FABRIC_NEED"},
+    {"id":"WAF_RACE_ALL_KIND_OPENING_AR_FAKE_PROVIDER","kind":"OPENING_AR"},
+    {"id":"WAF_RACE_ALL_KIND_OPENING_AP_FAKE_PROVIDER","kind":"OPENING_AP"},
+    {"id":"WAF_RACE_ALL_KIND_PAYROLL_AP_FAKE_PROVIDER","kind":"PAYROLL_AP"},
+    {"id":"WAF_RACE_ALL_KIND_ACCESSORY_AP_FAKE_PROVIDER","kind":"ACCESSORY_AP"},
+    {"id":"WAF_RACE_ALL_KIND_LAUNDRY_AP_FAKE_PROVIDER","kind":"LAUNDRY_AP"},
+    {"id":"WAF_RACE_ALL_KIND_LAUNDRY_RECEIPT_FAKE_PROVIDER","kind":"LAUNDRY_RECEIPT"},
+    {"id":"WAF_RACE_ALL_KIND_LAUNDRY_OPENING_UNINVOICED_FAKE_PROVIDER","kind":"LAUNDRY_OPENING_UNINVOICED"}
+  ],
+  "closed_copy_precondition": "Existing run_races runner recreates cp6_auditor_race/setup_copy for EACH registered race (cp6_auditor_modes.py175-194); no shared-copy test rate or fixture isolation assumption.",
+  "required_each": [
+    "Use accepted existing Native/public fixture writers, fresh OWNER and one selected forwarding kind only.",
+    "Finish and commit all Native business fixture/policy/analysis writes before queueing.",
+    "Assert the exact Native-derived alert subject/detail/amount or explicitly UNKNOWN values before queueing.",
+    "Freeze the complete existing Native business boundary and selected Native-source facts after setup; for analysis also freeze the reassembled Original/page identity and require zero local-preview claims/rechecks. Compare read-only after send_tick BEFORE its COMMIT, and again after the actual provider response/reconciliation and final tick. This is not a claim that a postcommit read beat the provider.",
+    "send_tick produces one actual pg_net request whose phone/body/key and dispatch-item linkage are checked, then immediately COMMIT. No business mutation after send before commit.",
+    "Point the existing pg_net worker only at the strict disposable copy and wait for the actual fake server response; never fabricate net._http_response.",
+    "Fake receipt must be unique, successful, correct phone/key and byte-equal to stored dispatch body; expected kind/source detail must survive actual formatting.",
+    "Reconcile the real response to PROVIDER_ACCEPTED/ACCEPTED outbox; another committed tick creates no new dispatch or fake receipt.",
+    "Restore the previous/default pg_net worker target in finally; no real CallMeBot or hosted ERP.",
+    "Any missing condition, truncation losing the required kind/source, extra request, provider refusal, worker failure or incomplete response fails the entire registered case."
+  ],
+  "forbidden": ["synthetic business rows/source DTOs", "synthetic render as source proof", "synthetic provider response", "fake_message label on queued-only checks", "business mutation after queued send before its commit", "skipping a missing kind and claiming a passing case count"],
+  "native_execution_proven": false
+}

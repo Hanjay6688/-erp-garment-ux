@@ -1,0 +1,431 @@
+{
+  "candidate": "b7fc541ca2b0221865ed7982155e844e1a9bed80",
+  "tree": "f047ceb76b26f95f6ade10eb9bc53edb0f669ec8",
+  "run_id": 39449898770,
+  "scope": "Fresh bounded runtime at b7fc; ff587d89 changes only test oracle and receipts, not product",
+  "jobs": [
+    {
+      "job_id": 118721611918,
+      "summary": {
+        "label": "CP7_K4_RUNNER",
+        "status": "PASS",
+        "source_sha256": "85211549a91f40635482943472996c3a80917fe23a7f1486ee8e4641931634b6",
+        "observed_case_count": 32,
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "error": null,
+        "traceback": null
+      },
+      "cases": [
+        {
+          "case": "K4R_SERVER_FINISHES_WITHOUT_PAGE",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_PAGE_AND_SERVER_ONE_JOB",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_ACCESS_RECHECKED_EACH_UNIT",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_DENIED_JOB_DOES_NOT_HOLD_OTHERS",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_LIMIT_REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_SCHEDULE_DEFINED_PRIVATE",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_STATUS_REPORTS_RUNNER",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_REPORT_FINISHES_WITHOUT_PAGE",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_REMINDER_FINISHES_WITHOUT_PAGE",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_SINGLE_ANALYSIS_FINISHES_WITHOUT_PAGE",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_FOUR_FAMILIES_GET_A_TURN",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_OTHER_FAMILIES_REVOKED_ACTOR",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_BACKGROUND_PRIVATE_NO_NATIVE_GRANTS",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_RACE_PAGE_AND_SERVER_ONE_UNIT",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_RACE_TWO_TICKS_ONE_UNIT",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_RACE_COLD_START_TWO_TICKS",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_RACE_LIMIT_STOPS_THEN_CONTINUES",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_RACE_ACCESS_CHANGED_DURING_UNIT",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_RACE_PG_CRON_FINISHES_JOB",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_REPORT_PAGE_SERVER_ONE_UNIT",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_REMINDER_PAGE_SERVER_ONE_UNIT",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_REPORT_REVOKED_DURING_SERVER_UNIT",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_REMINDER_REVOKED_DURING_SERVER_UNIT",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_SINGLE_PAGE_LOCK_SKIPPED_BY_SERVER",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_REPORT_SERVER_TIMEOUT_RESTORES_CALLER",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_REMINDER_SERVER_TIMEOUT_RESTORES_CALLER",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_HTTP_CLOSED_PAGE_FINISHES",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_HTTP_TICK_NOT_REACHABLE",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_BROWSER_DESKTOP_OTHER_WORK_CLOSED",
+          "status": "PASS"
+        },
+        {
+          "case": "K4R_BROWSER_MOBILE_OTHER_WORK_CLOSED",
+          "status": "PASS"
+        }
+      ],
+      "nonpass": []
+    },
+    {
+      "job_id": 118721611939,
+      "summary": {
+        "label": "CP7_P19_STAGED",
+        "status": "PASS",
+        "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+        "observed_case_count": 15,
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "error": null,
+        "traceback": null
+      },
+      "cases": [
+        {
+          "case": "P19G_STAGED_EQUALS_SINGLE",
+          "status": "PASS"
+        },
+        {
+          "case": "P19G_STAGED_AUTHORITY",
+          "status": "PASS"
+        },
+        {
+          "case": "P19G_STAGED_IDENTITY",
+          "status": "PASS"
+        },
+        {
+          "case": "P19G_STAGED_SOURCE_CHECK",
+          "status": "PASS"
+        },
+        {
+          "case": "P19G_STAGED_BOUNDS_VS_SINGLE",
+          "status": "PASS"
+        },
+        {
+          "case": "P19G_SNAPSHOT_FRESHNESS",
+          "status": "PASS"
+        },
+        {
+          "case": "P19G_STAGED_PRODUCTION_MULTIPLE",
+          "status": "PASS"
+        },
+        {
+          "case": "P19G_RACE_TWO_STEPS_ONE_UNIT",
+          "status": "PASS"
+        },
+        {
+          "case": "P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES",
+          "status": "PASS"
+        },
+        {
+          "case": "P19G_RACE_ACCESS_CHANGED_MID_JOB",
+          "status": "PASS"
+        },
+        {
+          "case": "P19G_RACE_SNAPSHOT_IN_FLIGHT",
+          "status": "PASS"
+        },
+        {
+          "case": "P19G_HTTP_STAGED_FLOW",
+          "status": "PASS"
+        },
+        {
+          "case": "P19G_HTTP_REVOKED",
+          "status": "PASS"
+        },
+        {
+          "case": "P19G_BROWSER_DESKTOP_STAGED_RELOAD",
+          "status": "PASS"
+        },
+        {
+          "case": "P19G_BROWSER_MOBILE_STAGED",
+          "status": "PASS"
+        }
+      ],
+      "nonpass": []
+    },
+    {
+      "job_id": 118721611510,
+      "summary": {
+        "label": "CP7_P19_REPORT_V2",
+        "status": "PASS",
+        "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+        "observed_case_count": 20,
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "error": null,
+        "traceback": null
+      },
+      "cases": [
+        {
+          "case": "P19R_PUBLISH_STEPS_SEAL",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_ACTUAL_STOCK_AT_REPORT_TIME",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_FRESHNESS_STATES_WORDED",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_FINANCE_FROM_OWNER_REPORT",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_FINANCE_ACCESS_CURRENT",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_REVISION_SERIES",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_REQUEST_ONE_UUID",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_AUTHORITY",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_FIELDS_AND_IDENTITY",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_V1_APART",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_RACE_TWO_STEPS_ONE_UNIT",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_RACE_TWO_REVISIONS_ONE_SEALS",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_RACE_STOCK_COMMITTED_DURING_JOB",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_RACE_ACCESS_CHANGED_MID_JOB",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_RACE_SAME_UUID_TWO_SESSIONS",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_RACE_LIMIT_RETRIES_THEN_CONTINUES",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_HTTP_FLOW",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_HTTP_REVOKED",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_BROWSER_DESKTOP_REPORT",
+          "status": "PASS"
+        },
+        {
+          "case": "P19R_BROWSER_MOBILE_REPORT",
+          "status": "PASS"
+        }
+      ],
+      "nonpass": []
+    },
+    {
+      "job_id": 118721611983,
+      "summary": {
+        "label": "CP7_P19_PLAN_V2",
+        "status": "PASS",
+        "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+        "observed_case_count": 22,
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "error": null,
+        "traceback": null
+      },
+      "cases": [
+        {
+          "case": "P19P_INDEX_RETAINED",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_SAVE_FROM_STALE_SNAPSHOT",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_PREVIEW_READ_ONLY_LIVE",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_APPLY_AFTER_UNRELATED_CHANGE",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_FG_INCREASE_NEED_CHANGED",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_WIP_INCREASE_NEED_CHANGED",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_POLICY_CHANGED",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_CAPACITY_USED",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_TARGET_PLANNED_AND_LINKED",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_FIELDS_KINDS_ACCESS",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_V1_V2_SHARED_CAPACITY",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_RACE_CAPACITY_TWO_TARGETS",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_RACE_SAME_TARGET",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_RACE_FG_WHILE_WAITING",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_RACE_INTENT_IN_FLIGHT_AT_CAPTURE",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_RACE_V1_HOLDS_V2_REFUSED",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_RACE_V2_HOLDS_V1_REFUSED",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_RACE_V1_ROLLBACK_FREES_CAPACITY",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_HTTP_FLOW",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_HTTP_REVOKED",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_BROWSER_DESKTOP_PLAN",
+          "status": "PASS"
+        },
+        {
+          "case": "P19P_BROWSER_MOBILE_PLAN",
+          "status": "PASS"
+        }
+      ],
+      "nonpass": []
+    }
+  ],
+  "full_workflow_claim": false,
+  "performance_SLA_claim": false,
+  "production_go": false
+}

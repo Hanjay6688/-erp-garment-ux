@@ -1,0 +1,19 @@
+{
+  "classification": "LOCAL_SYNTAX_IMPORT_AND_REGISTRATION_ONLY_NOT_NATIVE",
+  "counts": {
+    "native": 55,
+    "races": 30,
+    "http": 5,
+    "browser": 9
+  },
+  "total": 99,
+  "old_86_ids_preserved": true,
+  "registration_no_connections": true,
+  "native_execution_proven": false,
+  "source_sha256": "29b45d3ca5c4dba23ba0a931e26bcdde1ce6964467eee5e921df941bbe7fd945",
+  "initial_root_probe": {
+    "status": "HARNESS_ERROR",
+    "error": "AttributeError: NoneType has no attribute admin",
+    "disposition": "Existing races registration reads tools.admin; supplied explicit nonconnecting stub URL, without executing any closure or changing expected"
+  }
+}
