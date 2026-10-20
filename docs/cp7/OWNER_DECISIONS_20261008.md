@@ -792,3 +792,37 @@ Owner (persis): "ya"
 Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): penulis memeriksa dokumen dan kode CP7 untuk setiap hal yang
 ditunda, dimatikan, atau dikecilkan atas pilihan penulis sendiri (bukan keputusan owner yang tercatat), lalu melaporkan
 daftarnya ke owner. Laporan saja; tidak ada yang dibuat atau diubah sebelum owner memutuskan per butir.
+
+### D17-14 (owner ke penulis Claude, 20 Okt 2026 WIB, jawaban atas daftar D17-13 dan serah-terima ke Astra)
+
+Pertanyaan penulis (chat): "1. Tiga hal di Kelompok 1 saya betulkan dulu sebelum paket dikirim ke auditor? Ya atau tidak?
+2. Untuk Kelompok 2, boleh saya susun usulan urutan kerjanya? Ya atau tidak?" (daftar:
+`docs/cp7/D17_13_PENUNDAAN_PENULIS_20261020.md`).
+
+Owner (persis):
+
+> Catat semuanya sebagai pekerjaan yang belum selesai dan lanjutkan perbaikannya. Keuangan, stok, dan HPP tetap prioritas utama.
+> Arahan saya:
+>
+> 1. WhatsApp: seluruh jenis pengingat harus tercakup, termasuk gaji, laundry, nota aksesori mandor, dan saldo awal. Pengiriman mengikuti penerima serta hak akses, punya status pengiriman, dan pengaman duplikasi.
+> 2. Proses di server: analisis, laporan bisnis, dan pengingat harus tetap berjalan ketika halaman ditutup. Saat dibuka kembali, pengguna bisa melihat progres atau hasilnya. Buktikan dengan menutup browser saat proses berlangsung.
+> 3. Kelipatan produksi: sediakan pengaturannya di aplikasi, lengkap dengan satuan dan validasi. Jangan menulis bahwa saya bisa mengisi sesuatu yang belum tersedia. Nilai kebijakan yang belum disepakati jangan dikarang.
+> 4. Retur transaksi lunas dan koreksi mandor setelah dijahit: sediakan jalur penyelesaian yang benar. Retur harus jelas menjadi pengembalian uang atau saldo kredit. Koreksi mandor harus menangani dampaknya ke upah, nota, payroll, dan HPP. Riwayat tetap tersimpan; kalau perlu membalik dokumen terkait, tampilkan langkahnya dengan jelas.
+> 5. Pembayaran supplier: satu transfer harus bisa dialokasikan ke beberapa penerimaan/tagihan. Jumlah alokasi harus cocok dengan pembayaran, kas keluar tercatat sekali, dan pembatalan/koreksinya tetap konsisten.
+> 6. Urut dan saring: perbaiki kedelapan layar agar berlaku atas seluruh hasil pencarian sebelum dibagi halaman. Jumlah hasil dan perpindahan halaman harus konsisten.
+> 7. Target produksi: tambahkan cadangan yang memperhitungkan variasi permintaan dan waktu tunggu. Pastikan stok, WIP, dan rencana yang sudah ada tidak dihitung dua kali. Ajukan hanya parameter kebijakan yang memang masih membutuhkan keputusan saya.
+> 8. Model perkiraan: model yang terbukti lebih baik lewat pengujian harus benar-benar bisa dipakai. Baseline tetap menjadi cadangan ketika bukti/data belum cukup. Produk baru dapat memakai pola produk serupa dengan dasar pemilihan yang jelas dan ketidakpastian yang terlihat.
+> 9. Skala pabrik: buktikan analisis sekitar 3.600 barang dengan angka keuangan, HPP, dan pembanding periode lalu. Tetap kejar kecepatan maksimal tanpa menghilangkan isi analisis atau mengubah hasil hitung.
+>
+> Mulai dari jalur uang, stok, HPP, dan koreksi transaksi. Jaga kandidat yang sedang diaudit tetap beku; kerjakan perubahan ini di cabang terpisah.
+> Untuk setiap butir, catat perubahan, bukti pengujian, dan batas yang masih tersisa. Pertahankan pemeriksaan yang ketat. Status selesai harus berarti kebutuhan saya terpenuhi dan alurnya terbukti berjalan.Ya. Betulkan ketiga hal Kelompok 1 sebelum paket dikirim ke auditor. Buktikan seluruh jenis pengingat tercakup di WA, laporan dan pengingat tetap diproses saat browser ditutup, serta pengaturan kelipatan produksi benar-benar tersedia dan berfungsi.
+>
+> 1. Ya. Susun urutan Kelompok 2, lalu langsung kerjakan bagian yang kebutuhannya sudah jelas. Prioritaskan retur transaksi lunas, koreksi mandor setelah dijahit, dan pembayaran supplier lintas penerimaan karena menyangkut uang, stok, serta HPP. Berikutnya filter/urut seluruh data, perencanaan, dan analisis skala pabrik. Minta keputusan hanya untuk nilai kebijakan atau pilihan bisnis yang memang belum ditetapkan.
+>
+> Untuk 21 kegagalan CP6 dan empat kasus layar, tetap tampilkan sebagai gagal beserta pembanding versi sebelumnya. Sertakan pemetaan uji pengganti untuk layar yang sudah dipensiunkan agar auditor bisa menilai cakupannya. Pemeriksaan jangan dilonggarkan.
+> Siapkan paket pada satu versi yang jelas, dengan daftar temuan tertutup dan masih terbuka. “Tidak ada kegagalan baru” belum berarti seluruh kebutuhan selesai. ini jawabannya karna limit lu mepet siapin handover buat astra
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): semua butir D17-13 dicatat sebagai pekerjaan belum selesai
+di `docs/cp7/OPEN_WORK_D17_14_20261020.md`, dengan urutan dan syarat selesai dari kata-kata owner di atas. Pekerjaan
+dilanjutkan oleh Astra (serah-terima `docs/cp7/handoff/HANDOFF_ASTRA_WRITER_D17_14_20261020.md`) di cabang terpisah;
+kandidat yang diaudit (`55c885d1`) tetap beku. Paket r6 belum dikirim.
