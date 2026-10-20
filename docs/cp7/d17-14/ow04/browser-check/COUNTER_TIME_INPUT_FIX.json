@@ -1,0 +1,25 @@
+{
+  "kind": "BOUNDED_INTERNAL_SOURCE_COUNTER_REVIEW",
+  "reviewer": "/root/ow01_contract_counter",
+  "base_candidate": "6d9c58e1ae95d18225054da7b8b71c2efce39822",
+  "candidate_with_repair": "f74ede790f48dbe453e77d94d2f45dcbbfc97035",
+  "fixture_sha256": "83583e3c3b91a9ef1aa2c7e1105d626b9192fb6e18a3392d14efb3e578f68acb",
+  "browser_script_sha256": "0d6d33dbdbb75a09f145ec2a4d0ecd4f8ee44b6afcebb04e7c64ced4c8908caa",
+  "expected_sha256": "498f1943b91704d916268d0fe0a3f5caa1924199484de512626b72847170424f",
+  "scenario": "Playwright rejects seconds-formatted datetime-local values before any settlement",
+  "expected_from_contract": "The browser enters the same prospective return/refund instants in WIB; posted source timestamps and fixed financial/date goldens remain unchanged",
+  "observed_source": [
+    "Only the two display slices change from [:19] to [:16]",
+    "Prospective return/refund inputs already have seconds and microseconds zero",
+    "fromisoformat retains the Native +07:00 offset",
+    "Original Native source timestamps with microseconds123456 are not rewritten",
+    "cp6BusinessTime.ts17-26 supplies omitted seconds00 and explicit+07",
+    "Pure datetime control retains wire03:00:00.000Z and06:00:00.000Z",
+    "Node assertions, expected4, core tree07064b17 and Native probe b82ad1f remain identical"
+  ],
+  "disposition": "NO_SOURCE_BLOCKER_FOUND",
+  "real_DB_Auth_browser_reexecuted_by_reviewer": false,
+  "runtime_PASS_inferred": false,
+  "independent_external_audit": false,
+  "production_go": false
+}

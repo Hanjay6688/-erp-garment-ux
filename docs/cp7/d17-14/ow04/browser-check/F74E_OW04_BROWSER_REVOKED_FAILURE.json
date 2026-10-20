@@ -1,0 +1,240 @@
+{
+  "error": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByRole('complementary', { name: 'Rincian invoice', exact: true })\nExpected: 0\nReceived: 1\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.count\" with timeout 5000ms\n  - waiting for getByRole('complementary', { name: 'Rincian invoice', exact: true })\n    14 × locator resolved to 1 element\n       - unexpected value \"1\"\n",
+  "stack": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByRole('complementary', { name: 'Rincian invoice', exact: true })\nExpected: 0\nReceived: 1\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.count\" with timeout 5000ms\n  - waiting for getByRole('complementary', { name: 'Rincian invoice', exact: true })\n    14 × locator resolved to 1 element\n       - unexpected value \"1\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toHaveCount (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow04-qualification/browser_cases.mjs:185:72)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+  "text": "Retur Penjualan\nCepat, jelas, dan aman buat operasional\nUAT · MODUL TERPILIH LIVE\nAB\nAuditor browser ow04-browser-revoked\nOwner · UAT\n⌄\nPENJUALAN\nRetur Penjualan\n\nPilih invoice asal untuk mencatat barang kembali dan nilai retur.\n\nMuat ulang invoice\nBuat invoice\nAksi sudah tersimpan, tetapi refresh authoritative gagal. Jangan ulangi aksi; seluruh writer terkunci sampai Refetch berhasil.\n\nLayanan UAT belum dapat dihubungi. Coba lagi setelah status diperiksa.\n\nTelusuri invoice\nCari\nBrowse semua\nFilter\nUrutkan halaman ini\nUrutan standar\nNama / nomor A–Z\nNama / nomor Z–A\nCari nomor invoice atau pelanggan\nStatus invoice\nSemua status\nDraft · stok dipesan\nBelum lunas\nDibayar sebagian\nLunas\nDraft dibatalkan\nPenjualan dibatalkan\nCari invoice\nPencarian menelusuri daftar yang berhak Anda lihat. Urutan hanya mengatur halaman yang sedang tampil.\nDaftar invoice\nRincian invoice\n\nPilih invoice untuk memeriksa barang dan pembayaran yang tercatat.",
+  "requests": [
+    {
+      "p_payload": {
+        "items": [
+          {
+            "notes": "Return original allocation only",
+            "qty_pcs": "1",
+            "location_id": "25367c93-ad93-423a-8256-c6ccf554d90a",
+            "allocation_id": "f91fdd16-0d3a-4dc3-99bc-f7123cd4ca9f",
+            "quality_grade": "GRADE_A",
+            "refund_amount": "200.00"
+          }
+        ],
+        "notes": "OW04 independently expected source return1/value200; no settlement choice supplied",
+        "physical_at": "2026-10-20T03:00:00.000Z",
+        "change_reason": "Invoice quantities and amount reviewed",
+        "return_number": "RET-6b0351f51320",
+        "sale_id": "79078c6f-47c8-4fc2-84f0-8324321230b2",
+        "review_token": "e09d16133934f7d4acaebb11c7f3d09c",
+        "settlement": {
+          "mode": "CREDIT",
+          "credit_account_id": "09af7d76-833d-4457-a955-51974ac3e498"
+        },
+        "quote_sha256": "8d769be5491e56782b11adf3e8505597f6ae71b76744043ae2b02f5c4d71d4b3"
+      },
+      "p_request": "caed31eb-6667-4cf1-84c5-05c86df96df5",
+      "p_expected": "3"
+    },
+    {
+      "p_payload": {
+        "items": [
+          {
+            "notes": "Return original allocation only",
+            "qty_pcs": "1",
+            "location_id": "25367c93-ad93-423a-8256-c6ccf554d90a",
+            "allocation_id": "f91fdd16-0d3a-4dc3-99bc-f7123cd4ca9f",
+            "quality_grade": "GRADE_A",
+            "refund_amount": "200.00"
+          }
+        ],
+        "notes": "OW04 independently expected source return1/value200; no settlement choice supplied",
+        "physical_at": "2026-10-20T03:00:00.000Z",
+        "change_reason": "Invoice quantities and amount reviewed",
+        "return_number": "RET-6b0351f51320",
+        "sale_id": "79078c6f-47c8-4fc2-84f0-8324321230b2",
+        "review_token": "e09d16133934f7d4acaebb11c7f3d09c",
+        "settlement": {
+          "mode": "CREDIT",
+          "credit_account_id": "09af7d76-833d-4457-a955-51974ac3e498"
+        },
+        "quote_sha256": "8d769be5491e56782b11adf3e8505597f6ae71b76744043ae2b02f5c4d71d4b3"
+      },
+      "p_request": "caed31eb-6667-4cf1-84c5-05c86df96df5",
+      "p_expected": "3"
+    },
+    {
+      "p_payload": {
+        "items": [
+          {
+            "notes": "Return original allocation only",
+            "qty_pcs": "1",
+            "location_id": "25367c93-ad93-423a-8256-c6ccf554d90a",
+            "allocation_id": "f91fdd16-0d3a-4dc3-99bc-f7123cd4ca9f",
+            "quality_grade": "GRADE_A",
+            "refund_amount": "200.00"
+          }
+        ],
+        "notes": "OW04 independently expected source return1/value200; no settlement choice supplied",
+        "physical_at": "2026-10-20T03:00:00.000Z",
+        "change_reason": "Invoice quantities and amount reviewed",
+        "return_number": "RET-6b0351f51320",
+        "sale_id": "79078c6f-47c8-4fc2-84f0-8324321230b2",
+        "review_token": "e09d16133934f7d4acaebb11c7f3d09c",
+        "settlement": {
+          "mode": "CREDIT",
+          "credit_account_id": "09af7d76-833d-4457-a955-51974ac3e498"
+        },
+        "quote_sha256": "8d769be5491e56782b11adf3e8505597f6ae71b76744043ae2b02f5c4d71d4b3"
+      },
+      "p_request": "caed31eb-6667-4cf1-84c5-05c86df96df5",
+      "p_expected": "3"
+    }
+  ],
+  "quotes": [
+    {
+      "kind": "QUOTE",
+      "source": {
+        "sale_id": "79078c6f-47c8-4fc2-84f0-8324321230b2",
+        "customer_id": "584e0392-91a1-48df-9496-f8dc15427e02",
+        "row_version": "3",
+        "sale_number": "NOTE-cff31fa66026",
+        "review_token": "e09d16133934f7d4acaebb11c7f3d09c",
+        "customer_name": "CP6 E NOTE-bd886180f20f customer"
+      },
+      "totals": {
+        "after": {
+          "net_total": "800.00",
+          "gross_total": "1000.00",
+          "return_total": "200.00",
+          "credit_applied": "0.00",
+          "effective_paid": "800.00",
+          "credit_recognized": "200.00",
+          "payments_received": "1000.00",
+          "receivable_remaining": "0.00"
+        },
+        "before": {
+          "net_total": "1000.00",
+          "gross_total": "1000.00",
+          "return_total": "0.00",
+          "credit_applied": "0.00",
+          "effective_paid": "1000.00",
+          "credit_recognized": "0.00",
+          "payments_received": "1000.00",
+          "receivable_remaining": "0.00"
+        }
+      },
+      "binding": {
+        "draft_sha256": "c2ad5ae35483350b1fe694462ec9113e5181cb615a41a18bf0e85d7576fc962a",
+        "quote_sha256": "8d769be5491e56782b11adf3e8505597f6ae71b76744043ae2b02f5c4d71d4b3",
+        "choice_sha256": "e450413f39a917eb3848e84baec5ba0cffe4c3bbd48def278c885b4450357f09",
+        "period_sha256": "804321b290a6091bf941f868cac190afa86c66e06d43d3c983c085b773cbbfbb",
+        "authority_sha256": "8ba4877aeb248884ccfec1dbad878c37d8f046663f4e5fd97bf18fa802f0a0e7",
+        "dependency_sha256": "3035d966ed1e719e832f7f505adf2aed2fabe72752dd41f824b1e39ac6d95332",
+        "projection_sha256": "5d82fe1b0f652ccdf44e147e76cf06db7496ad63c8049eb02c0ce78e7e4a041d",
+        "current_state_sha256": "6c04bc08b59f247907b3ecac62089b2cdf0fc175ff4ec90160cba86def93a9d5",
+        "immutable_source_sha256": "046e8861248073570736c229a573b38ad63b622ddc39c0e57baf2e3bbf91f941"
+      },
+      "read_only": true,
+      "readiness": {
+        "state": "READY",
+        "issues": []
+      },
+      "components": [
+        {
+          "book_date": "2026-10-20",
+          "component_key": "fe79c66de51f807a2fc3d31785f909ca9b857e5fd5080dbe80ee82c37bcb173b",
+          "economic_date": "2026-10-20",
+          "signed_amount": "200.00",
+          "support_sha256": "efcdb6a29547fdf07a67e6e6b708d6b00cc1c8bcbe609986086b00c0e8d12093"
+        }
+      ],
+      "input_echo": {
+        "sale_id": "79078c6f-47c8-4fc2-84f0-8324321230b2",
+        "settlement": {
+          "mode": "CREDIT",
+          "reference": null,
+          "cash_account_id": null,
+          "credit_account_id": "09af7d76-833d-4457-a955-51974ac3e498",
+          "refund_physical_at": null
+        },
+        "review_token": "e09d16133934f7d4acaebb11c7f3d09c",
+        "return_payload": {
+          "items": [
+            {
+              "notes": "Return original allocation only",
+              "qty_pcs": "1",
+              "location_id": "25367c93-ad93-423a-8256-c6ccf554d90a",
+              "allocation_id": "f91fdd16-0d3a-4dc3-99bc-f7123cd4ca9f",
+              "quality_grade": "GRADE_A",
+              "refund_amount": "200.00"
+            }
+          ],
+          "notes": "OW04 independently expected source return1/value200; no settlement choice supplied",
+          "physical_at": "2026-10-20T03:00:00.000Z",
+          "change_reason": "Invoice quantities and amount reviewed",
+          "return_number": "RET-6b0351f51320"
+        },
+        "expected_version": "3"
+      },
+      "captured_at": "2026-10-20T22:09:44.176879+00:00",
+      "business_DML": false,
+      "capabilities": {
+        "refund_cash": false,
+        "record_return": true,
+        "recognize_credit": true
+      },
+      "cash_account": null,
+      "credit_account": {
+        "id": "09af7d76-833d-4457-a955-51974ac3e498",
+        "code": "OW04C-25357742aa194ca08b",
+        "name": "OW04 explicitly selected customer credit",
+        "facts_sha256": "698030f879c12a8d587b95e687dc116c6d645c032b10d003396cc756c143017e"
+      },
+      "contract_version": "cp7.sales-return-settlement-quote.v1",
+      "refund_projection": null,
+      "return_projection": {
+        "hpp_amount": "10.00",
+        "prior_causal": {
+          "scope": "PRIOR_CAUSAL_SALE_RETURN",
+          "state": "DATED",
+          "proof_sha256": "b5a013926ecaa97760dd6046769f86e5b2d676f4d89fbc6207cf811ed68a5960",
+          "contract_version": "ow04.prior-causal-book-proof.v1",
+          "causal_book_floor": "2026-10-18"
+        },
+        "economic_date": "2026-10-20",
+        "return_amount": "200.00",
+        "journal_effect": "JOURNAL_EXPECTED",
+        "planned_book_date": "2026-10-20",
+        "receivable_account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff"
+      },
+      "current_credit_amount": "200.00",
+      "has_recognition_effect": true
+    }
+  ],
+  "quoteInputs": [
+    {
+      "sale_id": "79078c6f-47c8-4fc2-84f0-8324321230b2",
+      "expected_version": "3",
+      "review_token": "e09d16133934f7d4acaebb11c7f3d09c",
+      "return_payload": {
+        "return_number": "RET-6b0351f51320",
+        "physical_at": "2026-10-20T03:00:00.000Z",
+        "notes": "OW04 independently expected source return1/value200; no settlement choice supplied",
+        "change_reason": "Invoice quantities and amount reviewed",
+        "items": [
+          {
+            "allocation_id": "f91fdd16-0d3a-4dc3-99bc-f7123cd4ca9f",
+            "location_id": "25367c93-ad93-423a-8256-c6ccf554d90a",
+            "qty_pcs": "1",
+            "quality_grade": "GRADE_A",
+            "refund_amount": "200.00",
+            "notes": "Return original allocation only"
+          }
+        ]
+      },
+      "settlement": {
+        "mode": "CREDIT",
+        "credit_account_id": "09af7d76-833d-4457-a955-51974ac3e498",
+        "cash_account_id": null,
+        "refund_physical_at": null,
+        "reference": null
+      }
+    }
+  ],
+  "recovery": []
+}

@@ -1,0 +1,189 @@
+{
+  "classification": "LOCAL_JSDOM_EXACT_EXPORTED_ASSERTION_CONTROLS_NOT_PRODUCT_BROWSER_RUNTIME",
+  "source_sha256": "d5474c0d081478b046d29c4814b3689b4718d6210c4818a295722e97a3522c9f",
+  "controls_declared_before_execution": [
+    {
+      "name": "exact_empty_shell_and_empty_list",
+      "expected": "ACCEPT",
+      "html": "<aside aria-label=\"Rincian invoice\"><h2>Rincian invoice</h2><p>Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat.</p></aside><section aria-label=\"Daftar invoice\"></section>"
+    },
+    {
+      "name": "old_invoice_facts_without_placeholder",
+      "expected": "REFUSE",
+      "html": "<aside aria-label=\"Rincian invoice\"><h2>NOTE-OLD</h2><p>Pelunasan efektif invoice Rp1000</p></aside><section aria-label=\"Daftar invoice\"></section>"
+    },
+    {
+      "name": "placeholder_plus_old_financial_text",
+      "expected": "REFUSE",
+      "html": "<aside aria-label=\"Rincian invoice\"><h2>Rincian invoice</h2><p>Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat.</p><p>Pelunasan efektif invoice Rp1000</p></aside><section aria-label=\"Daftar invoice\"></section>"
+    },
+    {
+      "name": "placeholder_plus_empty_financial_container",
+      "expected": "REFUSE",
+      "html": "<aside aria-label=\"Rincian invoice\"><h2>Rincian invoice</h2><p>Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat.</p><div aria-label=\"Nilai invoice\"></div></aside><section aria-label=\"Daftar invoice\"></section>"
+    },
+    {
+      "name": "placeholder_plus_empty_item_container",
+      "expected": "REFUSE",
+      "html": "<aside aria-label=\"Rincian invoice\"><h2>Rincian invoice</h2><p>Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat.</p><article class=\"cproc-item\"></article></aside><section aria-label=\"Daftar invoice\"></section>"
+    },
+    {
+      "name": "placeholder_plus_button",
+      "expected": "REFUSE",
+      "html": "<aside aria-label=\"Rincian invoice\"><h2>Rincian invoice</h2><p>Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat.</p><button></button></aside><section aria-label=\"Daftar invoice\"></section>"
+    },
+    {
+      "name": "placeholder_plus_input",
+      "expected": "REFUSE",
+      "html": "<aside aria-label=\"Rincian invoice\"><h2>Rincian invoice</h2><p>Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat.</p><input></input></aside><section aria-label=\"Daftar invoice\"></section>"
+    },
+    {
+      "name": "placeholder_plus_select",
+      "expected": "REFUSE",
+      "html": "<aside aria-label=\"Rincian invoice\"><h2>Rincian invoice</h2><p>Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat.</p><select></select></aside><section aria-label=\"Daftar invoice\"></section>"
+    },
+    {
+      "name": "placeholder_plus_textarea",
+      "expected": "REFUSE",
+      "html": "<aside aria-label=\"Rincian invoice\"><h2>Rincian invoice</h2><p>Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat.</p><textarea></textarea></aside><section aria-label=\"Daftar invoice\"></section>"
+    },
+    {
+      "name": "placeholder_plus_stale_source_list",
+      "expected": "REFUSE",
+      "html": "<aside aria-label=\"Rincian invoice\"><h2>Rincian invoice</h2><p>Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat.</p></aside><section aria-label=\"Daftar invoice\"><button class=\"cproc-receipt\">NOTE-OLD</button></section>"
+    },
+    {
+      "name": "placeholder_but_return_form_open",
+      "expected": "REFUSE",
+      "html": "<aside aria-label=\"Rincian invoice\"><h2>Rincian invoice</h2><p>Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat.</p></aside><section aria-label=\"Daftar invoice\"></section><section aria-label=\"Retur fisik invoice\"></section>"
+    },
+    {
+      "name": "placeholder_but_settlement_form_open",
+      "expected": "REFUSE",
+      "html": "<aside aria-label=\"Rincian invoice\"><h2>Rincian invoice</h2><p>Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat.</p></aside><section aria-label=\"Daftar invoice\"></section><section aria-label=\"Penyelesaian nilai retur\"></section>"
+    },
+    {
+      "name": "missing_detail_shell_not_validated",
+      "expected": "REFUSE",
+      "html": "<section aria-label=\"Daftar invoice\"></section>"
+    },
+    {
+      "name": "duplicate_detail_shell",
+      "expected": "REFUSE",
+      "html": "<aside aria-label=\"Rincian invoice\"><h2>Rincian invoice</h2><p>Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat.</p></aside><aside aria-label=\"Rincian invoice\"><h2>Rincian invoice</h2><p>Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat.</p></aside><section aria-label=\"Daftar invoice\"></section>"
+    },
+    {
+      "name": "placeholder_plus_hidden_stale_financial_text",
+      "expected": "REFUSE",
+      "html": "<aside aria-label=\"Rincian invoice\"><h2>Rincian invoice</h2><p>Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat.</p><p hidden>Pelunasan efektif invoice Rp1000</p></aside><section aria-label=\"Daftar invoice\"></section>"
+    }
+  ],
+  "results": [
+    {
+      "name": "exact_empty_shell_and_empty_list",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "agrees": true
+    },
+    {
+      "name": "old_invoice_facts_without_placeholder",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "error": "The input did not match the regular expression /^Rincian invoice\\s*Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat\\.$/. Input:\n\n'NOTE-OLDPelunasan efektif invoice Rp1000'\n"
+    },
+    {
+      "name": "placeholder_plus_old_financial_text",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "error": "The input did not match the regular expression /^Rincian invoice\\s*Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat\\.$/. Input:\n\n'Rincian invoicePilih invoice untuk memeriksa barang dan pembayaran yang tercatat.Pelunasan efektif invoice Rp1000'\n"
+    },
+    {
+      "name": "placeholder_plus_empty_financial_container",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "error": "Expected values to be strictly equal:\n\n1 !== 0\n"
+    },
+    {
+      "name": "placeholder_plus_empty_item_container",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "error": "Expected values to be strictly equal:\n\n1 !== 0\n"
+    },
+    {
+      "name": "placeholder_plus_button",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "error": "Expected values to be strictly equal:\n\n1 !== 0\n"
+    },
+    {
+      "name": "placeholder_plus_input",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "error": "Expected values to be strictly equal:\n\n1 !== 0\n"
+    },
+    {
+      "name": "placeholder_plus_select",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "error": "Expected values to be strictly equal:\n\n1 !== 0\n"
+    },
+    {
+      "name": "placeholder_plus_textarea",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "error": "Expected values to be strictly equal:\n\n1 !== 0\n"
+    },
+    {
+      "name": "placeholder_plus_stale_source_list",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "error": "Expected values to be strictly equal:\n\n1 !== 0\n"
+    },
+    {
+      "name": "placeholder_but_return_form_open",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "error": "Expected values to be strictly equal:\n\n1 !== 0\n"
+    },
+    {
+      "name": "placeholder_but_settlement_form_open",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "error": "Expected values to be strictly equal:\n\n1 !== 0\n"
+    },
+    {
+      "name": "missing_detail_shell_not_validated",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "error": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "duplicate_detail_shell",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "error": "Expected values to be strictly equal:\n\n2 !== 1\n"
+    },
+    {
+      "name": "placeholder_plus_hidden_stale_financial_text",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "error": "The input did not match the regular expression /^Rincian invoice\\s*Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat\\.$/. Input:\n\n'Rincian invoicePilih invoice untuk memeriksa barang dan pembayaran yang tercatat.Pelunasan efektif invoice Rp1000'\n"
+    }
+  ],
+  "status": "PASS",
+  "real_Auth_DB_browser": false
+}

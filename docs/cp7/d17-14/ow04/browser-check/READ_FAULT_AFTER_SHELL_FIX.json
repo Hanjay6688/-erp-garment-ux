@@ -1,0 +1,82 @@
+{
+  "classification": "PURE_SYNTHETIC_FIXED_TEST_CLAUSE_RECHECK_NOT_BROWSER_OR_PRODUCT_RUNTIME",
+  "source": "/workspace/scratch/9442228ed2dc/erp-d1714/scripts/ow04-qualification/browser_cases.mjs",
+  "source_sha256": "d5474c0d081478b046d29c4814b3689b4718d6210c4818a295722e97a3522c9f",
+  "clause_sha256": "eb7555998e7df8d95c43b1051235fcc8c5d1c4c221b701be9503f6692cc51c9f",
+  "expected_before_execution": [
+    {
+      "schedule": "read_deferred_beyond_fault_observation",
+      "expected": "REFUSE"
+    },
+    {
+      "schedule": "requestfailed_event_without_abort_handler",
+      "expected": "REFUSE"
+    },
+    {
+      "schedule": "actual_abort_event_settled_error_then_verified_reload",
+      "expected": "COMPLETE"
+    }
+  ],
+  "results": [
+    {
+      "schedule": "read_deferred_beyond_fault_observation",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "actual_abort_handler_calls": 0,
+      "failed_event_observed": false,
+      "fault_removed": false,
+      "trace": [
+        "fault_registered",
+        "no_failed_read_observed"
+      ],
+      "error": "SYNTHETIC_REQUESTFAILED_TIMEOUT"
+    },
+    {
+      "schedule": "requestfailed_event_without_abort_handler",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "actual_abort_handler_calls": 0,
+      "failed_event_observed": true,
+      "fault_removed": false,
+      "trace": [
+        "fault_registered",
+        "foreign_failure_event_without_handler"
+      ],
+      "error": "A real postcommit invoice read must reach the abort handler"
+    },
+    {
+      "schedule": "actual_abort_event_settled_error_then_verified_reload",
+      "expected": "COMPLETE",
+      "observed": "COMPLETE",
+      "agrees": true,
+      "actual_abort_handler_calls": 1,
+      "failed_event_observed": true,
+      "fault_removed": true,
+      "trace": [
+        "fault_registered",
+        "abort_handler_called",
+        "stale_fact_clause_reached",
+        "fault_removed",
+        "explicit_reload_clicked"
+      ]
+    }
+  ],
+  "width_expression": "document.documentElement.scrollWidth<=innerWidth",
+  "widths": [
+    {
+      "scroll": 390,
+      "viewport": 390,
+      "expected": true,
+      "observed": true
+    },
+    {
+      "scroll": 391,
+      "viewport": 390,
+      "expected": false,
+      "observed": false
+    }
+  ],
+  "all_expected_controls_satisfied": true
+}

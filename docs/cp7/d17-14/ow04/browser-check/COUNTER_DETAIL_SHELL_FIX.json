@@ -1,0 +1,35 @@
+{
+  "classification": "BOUNDED_INTERNAL_SOURCE_AND_ARTIFACT_COUNTER_NOT_EXTERNAL_AUDIT",
+  "reviewer": "/root/ow01_contract_counter",
+  "base_candidate": "f74ede790f48dbe453e77d94d2f45dcbbfc97035",
+  "initial_assessment_recorded_before_root_conclusion": true,
+  "scenario": "Settled failed authoritative read leaves one Rincian invoice layout aside",
+  "expected_from_contract": "Reliability invariant26 requires stale authoritative facts and transaction forms hidden and writers locked until verified fresh read; it does not require removal of an empty layout aside",
+  "observed": {
+    "derived_escrow_UI_matches_runtime": true,
+    "failed_UI_artifact_sha256": "414f6417f745964b05b27557b7588a32dfd301360fd6c59ddae098ff71ca57a3",
+    "actual_aside": "heading and exact choose-invoice placeholder only",
+    "authoritative_money_identity_items_present": false,
+    "recovery": [],
+    "settlement_requests": 3,
+    "later_FG_lock_fresh_read_final_oracles_reached": false
+  },
+  "initial_disposition": "OVERBROAD_TEST_SHELL_ORACLE_NOT_STALE_FACT_PRODUCT_DEFECT",
+  "reviewer_correction": "Earlier source assessment had not traced the unconditional placeholder aside",
+  "recheck": {
+    "source_sha256": "d5474c0d081478b046d29c4814b3689b4718d6210c4818a295722e97a3522c9f",
+    "only_node_diff": "Add exported assertNoStaleInvoiceFacts and replace zero-aside count with its call",
+    "anchored_placeholder_rejects_extra_visible_and_hidden_text": true,
+    "empty_financial_item_and_control_remnants_rejected": true,
+    "source_list_rows_and_open_return_settlement_forms_rejected": true,
+    "exact_export_executed_by_local_DOM_driver": true,
+    "local_controls": {"valid": 1, "negative": 14, "agreed": 15},
+    "fault_settled_error_SALES_FG_lock_fresh200_version_E_AR_oracles_retained": true,
+    "fixture_predeclared_expected_and_original_goldens_unchanged": true,
+    "core_and_native_probe_unchanged": true,
+    "disposition": "NO_BLOCKER_FOUND_IN_BOUNDED_SCOPE"
+  },
+  "runtime_DB_HTTP_browser_reexecuted_by_reviewer": false,
+  "browser_PASS_inferred": false,
+  "production_go": false
+}

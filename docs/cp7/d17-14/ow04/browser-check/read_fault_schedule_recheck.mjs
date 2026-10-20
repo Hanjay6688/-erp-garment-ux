@@ -19,7 +19,7 @@ const expected=[
  {schedule:'actual_abort_event_settled_error_then_verified_reload',expected:'COMPLETE'},
 ]
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor
-const run=new AsyncFunction('assert','page','ui','readEndpoint','observed','reconcile','envelope','create','detail','first','otherButtons','f',clause)
+const run=new AsyncFunction('assert','page','ui','readEndpoint','observed','reconcile','envelope','create','detail','first','otherButtons','f','assertNoStaleInvoiceFacts',clause)
 const result=[]
 for(const literal of expected){
  const trace=[];let handler,failedPredicate,resolveFailed,rejectFailed,resolveFresh,freshPredicate
@@ -49,7 +49,9 @@ for(const literal of expected){
  const expect=actual=>({toBeVisible:async()=>assert.equal(actual.visible,true),toBeDisabled:async()=>assert.equal(actual.disabled,true),toHaveCount:async n=>assert.equal(actual.count,n)})
  expect.poll=fn=>({toHaveLength:async n=>assert.equal((await fn()).length,n)})
  let observedVerdict,error
- try{await run(assert,fakePage,{expect},readEndpoint,observed,()=>({}),async()=>[],()=>({disabled:true}),()=>({count:0}),first,{all:async()=>[{disabled:true}]},f);observedVerdict='COMPLETE'}
+ // This script isolates fault scheduling. The actual exported stale-fact
+ // clause is exercised separately against positive/negative DOM controls.
+ try{await run(assert,fakePage,{expect},readEndpoint,observed,()=>({}),async()=>[],()=>({disabled:true}),()=>({count:0}),first,{all:async()=>[{disabled:true}]},f,async()=>{trace.push('stale_fact_clause_reached')});observedVerdict='COMPLETE'}
  catch(e){observedVerdict='REFUSE';error=String(e.message)}
  result.push({...literal,observed:observedVerdict,agrees:literal.expected===observedVerdict,actual_abort_handler_calls:abortedReads,failed_event_observed:eventObserved,fault_removed:faultRemoved,trace,...(error?{error}:{})})
 }

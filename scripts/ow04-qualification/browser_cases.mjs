@@ -28,6 +28,16 @@ async function observed(page,button){
  const pending=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_settle_sales_return_v1'))
  await button.click();return await pending
 }
+export async function assertNoStaleInvoiceFacts(ui,page){
+ const empty=page.getByRole('complementary',{name:'Rincian invoice',exact:true})
+ // The unconditional layout aside may remain; no authoritative facts or
+ // transaction controls may survive inside it after a failed fresh read.
+ await ui.expect(empty).toHaveText(/^Rincian invoice\s*Pilih invoice untuk memeriksa barang dan pembayaran yang tercatat\.$/)
+ await ui.expect(empty.locator('[aria-label="Nilai invoice"],.cproc-item,button,input,select,textarea')).toHaveCount(0)
+ await ui.expect(page.getByRole('region',{name:'Daftar invoice',exact:true}).locator('.cproc-receipt')).toHaveCount(0)
+ await ui.expect(page.getByRole('region',{name:'Retur fisik invoice',exact:true})).toHaveCount(0)
+ await ui.expect(page.getByRole('region',{name:'Penyelesaian nilai retur',exact:true})).toHaveCount(0)
+}
 async function journey(ui,today,kind){
  const mobile=kind==='REFUND',mode=mobile?'REFUND':'CREDIT',f=fixture('prepare',{today,mode})
  const user=await ui.login('OWNER',{label:'ow04-browser-'+kind.toLowerCase(),mobile,timezoneId:'America/Los_Angeles'})
@@ -182,7 +192,7 @@ async function journey(ui,today,kind){
     assert.ok(abortedReads>0,'A real postcommit invoice read must reach the abort handler')
     await ui.expect.poll(()=>envelope(page)).toHaveLength(0)
     await ui.expect(page.getByText('Aksi sudah tersimpan, tetapi refresh authoritative gagal. Jangan ulangi aksi; seluruh writer terkunci sampai Refetch berhasil.',{exact:true})).toBeVisible()
-    await ui.expect(create()).toBeDisabled();await ui.expect(detail()).toHaveCount(0)
+    await ui.expect(create()).toBeDisabled();await assertNoStaleInvoiceFacts(ui,page)
     for(const button of await otherButtons.all())await ui.expect(button).toBeDisabled()
     await page.unroute(readEndpoint)
     const freshRead=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_get_sales_v1')&&r.request().postDataJSON()?.p_query?.sale_id===f.invoice.id)

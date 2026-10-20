@@ -1,0 +1,24 @@
+{
+  "artifact_id": 12303880498,
+  "archive_bytes": 9616230,
+  "archive_sha256": "4db27f7252090008e854c7e006d0a8b66efbad47a9a603d5c8a5509ca399e2be",
+  "files": {
+    "F74E_OW04_BROWSER_REVOKED_FAILURE.json": {
+      "bytes": 11847,
+      "sha256": "414f6417f745964b05b27557b7588a32dfd301360fd6c59ddae098ff71ca57a3"
+    },
+    "F74E_OW04_BROWSER_HOST_1.json": {
+      "bytes": 37342,
+      "sha256": "280a839685c0229357a3058e0626ad39751983c467e46ee11798430feb90beab"
+    },
+    "BEFORE_DETAIL_SHELL_FIX_read_fault_schedule_recheck.mjs": {
+      "bytes": 5180,
+      "sha256": "4617f17e288c5238eb9c63b026be34a43b7e7018f07768f464898a4454991eb1"
+    }
+  },
+  "original_runtime_case_status": {
+    "PASS": 3,
+    "INCOMPLETE": 1
+  },
+  "fourth_case_not_relabelled_as_PASS": true
+}
