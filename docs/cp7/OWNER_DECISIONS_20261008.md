@@ -725,3 +725,24 @@ Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): usulan disetuju
 disambungkan ke data ERP untuk barang jadi, kain dan aksesori, lalu ke Pengingat sistem dan WA, sebelum paket r6 dikirim.
 Lama kirim supplier menjadi isian per bahan karena tidak tercatat. Penulis menjelaskan di chat mengapa rumus belum
 tersambung (riset 28 Sep: "tidak aktif otomatis", lalu tidak diangkat lagi ke owner).
+
+### D17-10 (owner ke penulis Claude, 20 Okt 2026 WIB, aksesori pakai minimum manual, satu judul kain)
+
+Penjelasan penulis sebelumnya (chat): tiga beda dari usulan D17-9 (`docs/cp7/wa/STOCK_FORMULA_FG_DESIGN.md`): (1) kain yang
+memakai rumus diberi judul sendiri "Stok kain menipis", terpisah dari "Stok kain di bawah minimum" — pilihan A terpisah
+(dibuat) atau B digabung; (2) kebutuhan aksesori dari rencana produksi tidak diteruskan; (3) isian lama kirim di Master Data
+dan Gudang. Lalu jawaban atas pertanyaan owner soal BOM aksesori per judul besar (kancing per warna, sleting per ukuran,
+dibeli mandor lewat nota) dan isi HPP (kain kantong, aksesori).
+
+Owner (persis): "aksesoris pake batas minimum manual aja nanti gw kasih tau ke lu minimal order tuh berapa pcs dan lama
+kirim dari cina ya. tar bantu hitungin stok minimum harus berapa. ini karena harus bulk order moq rumus ga penting keknya.
+lalu untuk judul itu merge aja yg stok menipis atau di bawah minimum"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
+- Aksesori tidak memakai rumus titik pesan ulang. Pengingat aksesori hanya dari batas minimum yang diisi manual per
+  aksesori; kosong berarti tidak diingatkan. Owner nanti memberi tahu jumlah pesanan minimum (MOQ, pcs) dan lama kirim dari
+  Cina; penulis membantu menghitung batas minimumnya, lalu angkanya diisi di aplikasi.
+- Beda (1): pilihan B. Kain yang memakai rumus masuk ke pengingat yang sudah ada "Stok kain di bawah minimum", memakai
+  angka rumus bila minimum manual kosong (kalimat usulan bagian 3 yang disetujui di D17-9). Tidak ada lagi judul terpisah
+  "Stok kain menipis".
+- Beda (2) dan pertanyaan BOM per warna/ukuran, laporan aksesori mandor, dan waktunya belum dijawab owner; tidak dikerjakan.
