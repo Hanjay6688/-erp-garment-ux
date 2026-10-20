@@ -79,9 +79,9 @@ Kode: `scripts/cp7-src/stock-formula/materials.sql`. Kasus: `SS2_*` dan `SS3_*` 
 | Gerakan yang dibalik | Gerakan yang punya pembalik dan pembaliknya tidak dihitung (aturan STK01 Bahan & Roll) | sama |
 | Stok | Semua lokasi (aturan Ringkasan Gudang dan minimum kain) | Yang Bahan & Roll sebut "ada di gudang": gudang bahan aktif, bukan pos servis, area periksa, atau area rusak |
 | Sedang dipesan | Sisa PO terbuka saldo awal (`erp.bb_commitment_line_remaining_v1`, sumber yang dipakai analisis kain) | Tidak ada sumbernya; 0 |
-| Lama kirim L | Isian "lama kirim (hari)" per bahan oleh Owner/Admin (`material_settings`, riwayat tidak bisa diubah); kosong: belum cukup data | Tidak ada (D17-10: tanpa rumus); ditolak |
-| Angka manual | Minimum di Kain & Benchmark (tidak diubah), menggantikan rumus (stok < minimum) | Batas minimum di pengaturan yang sama, satu-satunya dasar (D17-10); 0 = tidak pernah diingatkan; kosong = belum diatur, tidak diingatkan |
-| Titik | Rumus barang jadi, dalam satuan bahan, dibulatkan ke atas 0,01 | Batas minimum manual |
+| Lama kirim L | Isian "lama kirim (hari)" per bahan oleh Owner/Admin (`material_settings`, riwayat tidak bisa diubah); kosong: belum cukup data | Isian "lama kirim dari Cina (hari)", bagian dari isian hitungan (D17-12) |
+| Angka manual | Minimum di Kain & Benchmark (tidak diubah), menggantikan rumus (stok < minimum) | Batas minimum yang diketik, menang atas hitungan; 0 = tidak pernah diingatkan |
+| Titik | Rumus barang jadi, dalam satuan bahan, dibulatkan ke atas 0,01 | Batas minimum: yang diketik, atau hitungan dari isian owner (D17-12): perkiraan pemakaian per bulan ÷ 30 × (lama kirim + cadangan), ke atas 0,01 (`ESTIMATE`); MOQ disimpan untuk pesanan, tidak mengubah minimum; tanpa keduanya `NOT_SET` |
 | Menipis | Kain pakai rumus: stok + dipesan ≤ titik | stok ≤ batas minimum |
 | Pengingat | `FABRIC_BELOW_MINIMUM` "Stok kain di bawah minimum", bersama kain yang punya minimum (D17-10; hak Bahan & Roll + Kain & Benchmark) | `ACCESSORY_AT_REORDER_POINT` "Stok aksesori menipis" (hak Aksesori) |
 
@@ -98,11 +98,10 @@ kain, aksesori di komputer dan HP).
 Owner (persis, `docs/cp7/OWNER_DECISIONS_20261008.md`): "aksesoris pake batas minimum manual aja ... rumus ga penting
 keknya. lalu untuk judul itu merge aja yg stok menipis atau di bawah minimum". Yang diubah:
 
-- **Aksesori tanpa rumus.** Pengingat "Stok aksesori menipis" hanya dari batas minimum yang diisi manual per aksesori
-  (stok di gudang ≤ minimum; 0 = tidak pernah; kosong = `NOT_SET`, tidak diingatkan). Lama kirim untuk aksesori ditolak
-  (`CP7_FORMULA_MATERIAL_INVALID`). Pemakaian per hari tetap dihitung dan ditampilkan, untuk membantu memilih minimum
-  (owner akan memberi MOQ dan lama kirim dari Cina; penulis membantu menghitung angkanya). Kasus
-  `SS3_ACCESSORY_USAGE_SHOWN_NO_FORMULA`, `SS3_ACCESSORY_MANUAL_MINIMUM_ONLY_ZERO_NEVER`.
+- **Aksesori tanpa rumus.** Pengingat "Stok aksesori menipis" hanya dari batas minimum per aksesori (stok di gudang ≤
+  minimum; 0 = tidak pernah; tanpa minimum = `NOT_SET`, tidak diingatkan); minimumnya diketik atau dihitung dari isian owner
+  (D17-12, di bawah). Pemakaian per hari tetap diukur dan ditampilkan. Kasus `SS3_ACCESSORY_USAGE_SHOWN_NO_FORMULA`,
+  `SS3_ACCESSORY_MANUAL_MINIMUM_ZERO_NEVER`.
 - **Satu pengingat kain.** Kalimat usulan §3 yang disetujui di D17-9 dipakai: kain yang memakai rumus masuk ke
   "Stok kain di bawah minimum" (`FABRIC_BELOW_MINIMUM`), memakai angka rumus bila minimum di Kain & Benchmark kosong. Jenis
   `FABRIC_AT_REORDER_POINT` dihapus. Gabungannya fungsi baru `cp7_alert_native.fabric_kind_source()`: kain yang punya
@@ -112,7 +111,13 @@ keknya. lalu untuk judul itu merge aja yg stok menipis atau di bawah minimum". Y
 - Ringkasan Gudang tetap hanya mendaftar minimum yang diisi di Kain & Benchmark (teksnya memang menyebut itu); pembanding
   lama `WAF_FABRIC_EQUALS_WAREHOUSE_SUMMARY` tidak diubah. Kain berumus terlihat di Pengingat sistem, WA, dan panel Titik
   pesan ulang (kasus `WAF_FABRIC_REORDER_POINT_FORWARDED` memeriksa keduanya).
-- Isian lama kirim tetap di Master Data dan Gudang, kini hanya untuk kain.
+- Isian lama kirim tetap di Master Data dan Gudang.
+- **D17-12** (owner: "itu nanti lu bikin slot untuk diisi aja in app kan?"): batas minimum aksesori dihitung di aplikasi dari
+  isian owner per aksesori: MOQ, lama kirim dari Cina, perkiraan pemakaian per bulan, dan cadangan (hari). Hitungan:
+  pemakaian per bulan ÷ 30 × (lama kirim + cadangan), ke atas 0,01 (`ESTIMATE`). Batas minimum yang diketik langsung menang.
+  Kurang satu isian dan tidak ada minimum yang diketik: `NOT_SET`, tidak diingatkan. Kain menolak isian ini. Pemakaian nyata
+  yang diukur ERP hanya ditampilkan untuk dibandingkan. Kasus `SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE` (pembanding
+  `estimate_oracle()`, desimal pasti); penerusan WA dan kasus HTTP aksesori memakai hitungan ini.
 - Kebutuhan aksesori dari rencana produksi tetap tidak diteruskan (analisis menyatakannya "belum diketahui"); belum ada
   keputusan owner lain soal ini.
 
