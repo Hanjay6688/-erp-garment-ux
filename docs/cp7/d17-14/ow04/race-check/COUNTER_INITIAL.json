@@ -1,0 +1,115 @@
+{
+  "classification": "INDEPENDENT_INITIAL_BOUNDED_SOURCE_REVIEW_OF_SIX_RACES_NOT_EXECUTED",
+  "initial_assessment_before_peer_exchange": true,
+  "qualified_core": "ef98e6e65c13322bf08e6f704e511bdbb03a07a8",
+  "reviewed_local_head": "f3437108aa57999ced7e76604c05536ebae86f13",
+  "pins": {
+    "/workspace/scratch/9442228ed2dc/ow04-proposals/race/EXPECTED.json": "7472ecc59d32e837ff882a8991c4f55226a3afb152887760f3d237f8101b3802",
+    "/workspace/scratch/9442228ed2dc/ow04-proposals/race/RACE_EXPECTED.json": "7472ecc59d32e837ff882a8991c4f55226a3afb152887760f3d237f8101b3802",
+    "/workspace/scratch/9442228ed2dc/ow04-proposals/race/cp7_ow04_race_cases.py": "e1b098bf0f9c9b54b66289eabe871e5488f40f42d070c38a3e58d5a5a8ccb400",
+    "/workspace/scratch/9442228ed2dc/erp-d1714/scripts/ow04-qualification/cp7_ow04_http_cases.py": "4eacd5f58287d078997fee5e43bcad2375c778158da305d14127930d61cb4725",
+    "/workspace/scratch/9442228ed2dc/erp-d1714/scripts/cp6_aw_probe.py": "b67a896d3ddc593fb226598a1987d3716eed8684b311c5bd3c6ae1ac967f6532",
+    "/workspace/scratch/9442228ed2dc/erp-d1714/scripts/cp6_auditor_modes.py": "d927c7491c72fe1eecfd1b4b8b4faf7e1710d6943fda601ede6a599fbc99209f",
+    "/workspace/scratch/9442228ed2dc/erp-d1714/docs/erp-reliability-invariants.md": "0d80d3fbaf4880424e9db89b559323dfd7553d352eef100ba6e4b7e80a099dcc",
+    "/workspace/scratch/9442228ed2dc/erp-d1714/scripts/cp7_customer_credit/coordinator/08_outer_wrapper.sql": "2e94d859e620dab81aae4b053918f5408c196ded8b571a12d5ef33f827c72c44",
+    "/workspace/scratch/9442228ed2dc/erp-d1714/scripts/cp7_customer_credit/coordinator/02_initial_projection.sql": "c37cd7f20deb1ae7537c7207801fc61cd370b67d889b532252eb0b8ca2aa2ff3",
+    "/workspace/scratch/9442228ed2dc/erp-d1714/scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py": "6d4e2389e0090333ae076fc3091ec4333492e886e08fc1a96c4eea9282f93602"
+  },
+  "expected_frozen_hash_matches": true,
+  "expected_sha256": "7472ecc59d32e837ff882a8991c4f55226a3afb152887760f3d237f8101b3802",
+  "db_http_or_native_executed": false,
+  "active_repo_or_author_edits": false,
+  "children_spawned": false,
+  "static_registration": {
+    "import_succeeded_with_connection_guard": true,
+    "transport_dependency": "/workspace/scratch/9442228ed2dc/erp-d1714/scripts/ow04-qualification/cp7_ow04_http_cases.py",
+    "count": 6,
+    "ids": [
+      "OW04_RACE_DISTINCT_REQUESTS_ONE_SETTLEMENT",
+      "OW04_RACE_SAME_REQUEST_REPLAY",
+      "OW04_RACE_CHANGED_REQUEST_REFUSAL",
+      "OW04_RACE_REVOKED_AFTER_FG_WAIT",
+      "OW04_RACE_HOLDER_ROLLBACK_RECOVERY",
+      "OW04_RACE_BACKEND_TERMINATION_RECOVERY"
+    ],
+    "unique_callable_ids": true,
+    "operations_executed": false
+  },
+  "concrete_serious_source_counterexamples_found": [],
+  "scenario_assessment": [
+    {
+      "scenario": "DISTINCT committed source competition",
+      "expected": "Exact holder blocking then P0001 INITIAL_SOURCE_FAMILY_UNSUPPORTED; one complete settlement and no additional private/business effect.",
+      "source_observed": [
+        "race81-105 sends distinct UUIDs but same actual quote; holder completes facade and forces deferred closure before worker starts",
+        "Actual RaceTools.two_sessions delegates to cp6_aw_probe.two_sessions725-746: obtains both backend PIDs, future must remain pending, and pg_blocking_pids(worker) must contain exact holder; assertion rejects NO_CONTENTION or wrong blocker",
+        "Core outer wrapper acquires actual request/FG locks; initial projection201-205 checks retained cohort before stale invoice token207-208, matching frozen unsupported error",
+        "actual() reuses immutable initial actual journal/stock/HPP/payment assertions; final full observe equals holder complete_state for commit cases"
+      ],
+      "verdict": "Source coherent; no DB outcome observed."
+    },
+    {
+      "scenario": "Same UUID same payload / changed payload",
+      "expected": "Actual request wait; identical receipt or exact changed-request refusal; one outer/inner request and no extra effect.",
+      "source_observed": [
+        "Core wrapper18-21 inserts exact actor/request, waits on conflict and checks complete payload before replay",
+        "race83-85 reuses actual UUID; only CHANGED modifies valid change_reason",
+        "race94-101 requires exact refusal or identical replay, then full final==holder state",
+        "actual68-70 queries both requests tables for exact relevant UUIDs and requires one outer/inner receipt linked to winner"
+      ],
+      "verdict": "Source coherent. Actual measured request wait required at runtime; timing barrier alone cannot pass contention assertion."
+    },
+    {
+      "scenario": "Revocation after FG wait",
+      "expected": "Positive custom-subject CREDIT quote; exact FG holder blocks worker; committed third session revokes existing permission;42501 CP7_SALES_WRITE_DENIED and complete post-revocation state unchanged.",
+      "source_observed": [
+        "revoke127-132 creates labelled custom ERP role/subject with permission fixture, commits it and requires positive quote capabilities",
+        "holder133-135 owns only exact FG advisory lock; wait_for_holder118-124 polls actual exact blocker PID, not just wait_event text",
+        "inspect141-144 is autocommit and deletes precisely sales.return.post; rowcount1 rejects a missing-precondition negative",
+        "snapshot145 occurs after revocation but before holder release;149-150 compares full committed post-revocation state",
+        "Core wrapper41-43 rechecks current access after FG; cp7_sales.command_access raises42501 CP7_SALES_WRITE_DENIED before generic changed-authority comparison"
+      ],
+      "verdict": "Source coherent; custom claims remain explicitly authenticated SQL fixture, not real Auth."
+    },
+    {
+      "scenario": "Holder rollback recovery",
+      "expected": "Holder completes body+deferred closure, then rollback; same waiting UUID commits one valid successor; aborted return/cohort absent.",
+      "source_observed": [
+        "race86-90 holder executes actual facade, set constraints all immediate, then helper called with commit=False only for ROLLBACK",
+        "Helper744 explicitly holder.rollback(); worker transaction then commits",
+        "actual71-74 requires different winner return/cohort IDs and actual absence of both aborted IDs; reused financial oracle requires exactly one real source return/cohort/plan and exact fresh journal set"
+      ],
+      "verdict": "Source coherent; actual rollback and worker commit still unexecuted."
+    },
+    {
+      "scenario": "Known backend termination recovery",
+      "expected": "Terminate only known case holder on disposable race DB after full uncommitted settlement and actual blocking; worker commits one valid recovery.",
+      "source_observed": [
+        "backend_loss159-165 opens its own holder, checks current_database==modes.RACE_DB and obtains that holder PID directly before actual full facade+deferred constraints",
+        "inspect170-173 independently checks disposable DB, requires exact holder\u2192worker block and pg_terminate_backend(knownPID)==true",
+        "finally174-183 closes holder even if setup fails before waiting on executor shutdown",
+        "actual180 reuses complete financial/source oracle and proves aborted IDs absent"
+      ],
+      "verdict": "Source coherent. It correctly labels uncommitted backend-loss recovery, not lost committed HTTP response/whole-server crash."
+    },
+    {
+      "scenario": "Full snapshots/frozen financial oracles/fresh race copies",
+      "expected": "Complete relevant private state, immutable original payment/journals, exact financial/date/stock/HPP oracles and per-case fresh disposable DB.",
+      "source_observed": [
+        "observe18-29 separately checks4 schema names; snapshots every actual table via catalog quote_ident plus cp7_sales.requests/context and full ERP/platform boundary",
+        "actual63-78 calls frozen initial._assert_outcome/_assert_actual/assert_payment_unchanged; complete state equality enforced for committed races and post-revocation negative",
+        "Retained modes._run_races_once183-192 creates fresh first copy and recreates+verifies same copy before each later closure, retaining planned operations bound to stable RaceTools URL"
+      ],
+      "verdict": "Source coherent. Six-case restoration/cleanup/advisor orchestration is outside these three files and must be evidenced by enclosing qualifier."
+    }
+  ],
+  "important_limits_not_product_findings": [
+    "No new serious false-positive/false-negative was established from the bounded source review; this is not runtime proof.",
+    "races() checks frozen IDs; reviewed EXPECTED and RACE_EXPECTED hashes match the declared7472 bytes. Enclosing qualifier still needs to pin actual module/dependency bytes and all6 results.",
+    "Exact blocking helpers require current PID-level proof; source ordering indicates request/FG targets, but source-only review does not claim observed wait events.",
+    "Recovery cases validate full financial/source oracle and aborted return/cohort absence. Exact no-additional-effect state equality applies to committed/replay/refusal cases, as predeclared; no new recovery policy is invented.",
+    "Race harness supplies authenticated SQL fixture claims and temporary fixture ERP schema usage; packet labels these correctly and makes no real Auth/HTTP/browser claim.",
+    "Current active transport dependency loaded from scripts/ow04-qualification, not the preserved BEFORE HTTP packet. Byte hash recorded above."
+  ],
+  "disposition": "No blocking source counter found in this bounded initial assessment. Proceed only with the separately declared disposable six-race qualification and retain first failures; no Native/race PASS or OW04 completion inferred."
+}

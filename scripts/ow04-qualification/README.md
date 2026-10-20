@@ -29,3 +29,18 @@ CP7_OW04_HTTP.json even on failure. Source preflight and counter records live
 in `docs/cp7/d17-14/ow04/http-check/`; they are not HTTP runtime results.
 This does not prove browser interactions, concurrency, interrupted-response
 recovery, corrected/cohort/APPLY completion or production readiness.
+
+Six separately declared public-SQL races now follow this group in the same
+disposable workflow, using RACE_EXPECTED.json and race_probe.py. They reuse
+the unchanged qualified backend, not this HTTP group's results:
+
+```sh
+python ../auditor/scripts/ow04-qualification/race_probe.py
+```
+
+Each race gets a fresh copied database. The test requires observed exact
+holder-to-worker blocking and checks the full ledger and unchanged financial,
+date, stock and HPP oracles. The termination case only kills its own known
+holder PID after proving the exact disposable race database; it tests server
+rollback of an uncommitted transaction. Real Auth belongs to the first group;
+SQL fixture claims do not establish Auth, browser or lost-committed-reply proof.

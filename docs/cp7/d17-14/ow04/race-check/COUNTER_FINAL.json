@@ -1,0 +1,78 @@
+{
+  "label": "OW04_HTTP8_RACE6_WORKFLOW_BOUNDED_FINAL_COUNTER",
+  "assessment": "SOURCE_ONLY_PREVIOUS_ORCHESTRATION_BLOCKER_CLOSED",
+  "scope": "Only HTTP evidence preservation, fresh AB clone dependency and race ordering, plus both artifact paths.",
+  "runtime_executed": false,
+  "database_connections_opened": false,
+  "http_executed": false,
+  "product_edited": false,
+  "child_agents_spawned": false,
+  "reviewed_sha256": {
+    ".github/workflows/cp7-ow04-http.yml": "d0886f74d8ca40c65649aba1c9678c80cf8ec79b721d9d33209da8c8cb4fd05f",
+    "scripts/clone-cp6-disposable-database.sh": "c786ad04009547e2e78baf56f93c5dd6dd5847befdb16e721e01909a592285da",
+    "scripts/cp6_t3_package_run.py": "952bbf1b99652dadf69ab0e1291979a4e7227182631baaab6af7a7eabcb80ab0",
+    "scripts/ow04-qualification/race_probe.py": "69148dbdf9f14144a90613b1d3126de434d412c0fd8571a78b25a4e5908e2f4c",
+    "scripts/ow04-qualification/transport_probe.py": "6526197e374024357e380a9ca2624b58a64cba0fdc92646c3377999432bfd813",
+    "scripts/ow04-qualification/cp7_ow04_race_cases.py": "e1b098bf0f9c9b54b66289eabe871e5488f40f42d070c38a3e58d5a5a8ccb400",
+    "scripts/ow04-qualification/RACE_EXPECTED.json": "7472ecc59d32e837ff882a8991c4f55226a3afb152887760f3d237f8101b3802",
+    "scripts/ow04-qualification/cp7_ow04_http_cases.py": "4eacd5f58287d078997fee5e43bcad2375c778158da305d14127930d61cb4725",
+    "scripts/ow04-qualification/EXPECTED.json": "a91685c5d3b043af1839555fa694f643742a48ddd618d855bda4b676a5513d7d"
+  },
+  "prior_counter_sha256": "c5c4689900fe132406b4f52cbd8b60756de67c26d09ca6359cd6bf9b44179cd9",
+  "prior_workflow_sha256": "c20fef5c9b0f269fc2b0a612080ec097d65452c953ba90a569726890e86cd698",
+  "unchanged_module_and_expected_pins": {
+    "scripts/ow04-qualification/race_probe.py": true,
+    "scripts/ow04-qualification/transport_probe.py": true,
+    "scripts/ow04-qualification/cp7_ow04_race_cases.py": true,
+    "scripts/ow04-qualification/RACE_EXPECTED.json": true,
+    "scripts/ow04-qualification/cp7_ow04_http_cases.py": true,
+    "scripts/ow04-qualification/EXPECTED.json": true
+  },
+  "findings": [],
+  "checks": [
+    {
+      "id": "CLONE_DEPENDENCY_FIXED",
+      "scenario": "HTTP8 succeeds and package.run removes cp6_rollback before race6.",
+      "expected": "A separate fresh AB clone exists before race package installation; existing outer cleanup stays enabled.",
+      "observed_source": "A new intervening step follows HTTP and precedes race. It runs the same clone tool with source postgres, template1 maintenance, cp6_rollback target and supabase_db_cp5-local, with distinct CLONE_race_install evidence prefix. The package still drops its own clone and requires primary_unchanged before command success, so the second clone uses the retained aligned AB primary.",
+      "evidence": [
+        ".github/workflows/cp7-ow04-http.yml:203-222",
+        "scripts/cp6_t3_package_run.py:226-242",
+        "scripts/clone-cp6-disposable-database.sh:19-45,110-122,166"
+      ]
+    },
+    {
+      "id": "HTTP_PROOF_NOT_OVERWRITTEN",
+      "scenario": "Race package and drill write the same t3 report filenames used by HTTP.",
+      "expected": "The completed full HTTP proof tree remains separately available before race starts.",
+      "observed_source": "Before the new clone, shutil.copytree copies the entire t3 tree into sibling ow04-http-completed. No dirs_exist_ok option is enabled, so an existing destination causes refusal instead of overwrite. This runs as its own normal success-conditioned workflow step after successful HTTP; failures prevent the later race step.",
+      "evidence": [
+        ".github/workflows/cp7-ow04-http.yml:203-222"
+      ]
+    },
+    {
+      "id": "BOTH_EVIDENCE_TREES_UPLOADED",
+      "scenario": "Race succeeds or fails after HTTP evidence was preserved.",
+      "expected": "Artifact includes preserved HTTP package/drill proof and current race proof.",
+      "observed_source": "The always upload step now includes both auditor/cp6-proof/t3 and auditor/cp6-proof/ow04-http-completed, retaining the original HTTP tree beside race outputs. Always disposable-runtime cleanup remains before the artifact step.",
+      "evidence": [
+        ".github/workflows/cp7-ow04-http.yml:223-235"
+      ]
+    },
+    {
+      "id": "ONE_BOOTSTRAP_TWO_ISOLATED_ENTRY_CLONES",
+      "scenario": "HTTP8 and race6 share one disposable runtime bootstrap.",
+      "expected": "One bootstrap can support both entries while each receives its own aligned AB clone and retains its own gates.",
+      "observed_source": "The original initial clone step remains, a second allowlisted clone is inserted between the entries, and no backend, case module, entrypoint or frozen expected bytes changed from the initial source assessment.",
+      "evidence": [
+        ".github/workflows/cp7-ow04-http.yml:193-222",
+        "unchanged_module_and_expected_pins"
+      ]
+    }
+  ],
+  "limits": [
+    "Source assessment only; no DB/HTTP/race/Native execution or CI PASS claim.",
+    "Does not repeat the broader initial race or HTTP case inventory.",
+    "No new product or financial acceptance claim."
+  ]
+}

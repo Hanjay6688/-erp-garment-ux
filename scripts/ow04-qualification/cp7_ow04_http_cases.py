@@ -135,7 +135,13 @@ def http_cases(http,today):
         # Explicit disposable role-policy fixture: same permission keys are
         # not an OWNER/ADMIN role. The original Native role guard must decide.
         with http.connect()as conn,conn.cursor()as cur:
-            row=cur.execute("select id from erp.app_roles where role_code='STAFF'and is_active").fetchone();assert row is not None,'OW04_HTTP_STAFF_ROLE_REQUIRED'
+            row=cur.execute("select id,is_active from erp.app_roles where role_code='STAFF'").fetchone()
+            created=row is None
+            if created:
+                role=uuid.uuid4()
+                cur.execute("insert into erp.app_roles(id,role_code,role_name,is_system,is_protected,is_active)values(%s,'STAFF','OW04 disposable non-owner fixture',false,false,true)",(role,))
+                row=(role,True)
+            assert row[1]is True,'OW04_HTTP_STAFF_ROLE_REQUIRED'
             cur.execute('delete from erp.app_role_permissions where role_id=%s',(row[0],))
             cur.execute("insert into erp.app_role_permissions(role_id,permission_key)select %s,p.permission_key from erp.app_role_permissions p join erp.app_roles r on r.id=p.role_id where r.role_code='OWNER'",(row[0],))
             keys={r[0]for r in cur.execute('select permission_key from erp.app_role_permissions where role_id=%s',(row[0],)).fetchall()}
@@ -151,6 +157,8 @@ def http_cases(http,today):
             denied=response(s.rpc(name,payload),400,'OWNER or ADMIN access required')
             assert denied.get('code')=='P0001',denied
         assert snapshot(http)==before
-        return dict(status='PASS',real_non_owner_with_all_permission_keys_denied_refund=True,Native_owner_guard_not_forged=True,no_partial_effect=True)
+        return dict(status='PASS',disposable_STAFF_role_fixture_created=created,
+            successful_same_user_CREDIT_quote_before_refund=True,
+            real_non_owner_with_all_permission_keys_denied_refund=True,Native_owner_guard_not_forged=True,no_partial_effect=True)
     operations=[lambda:commit_case('CREDIT'),lambda:commit_case('REFUND'),changed,revoked,lambda:invalid('digest'),lambda:invalid('reserved'),anonymous,staff]
     return list(zip(IDS,operations))

@@ -1,0 +1,135 @@
+{
+  "label": "OW04_HTTP8_RACE6_ORCHESTRATION_INDEPENDENT_SOURCE_COUNTER",
+  "assessment": "SOURCE_ONLY_BLOCKER_FOUND",
+  "runtime_executed": false,
+  "database_connections_opened": false,
+  "http_executed": false,
+  "product_edited": false,
+  "child_agents_spawned": false,
+  "head_observed": "f3437108aa57999ced7e76604c05536ebae86f13",
+  "reviewed_sha256": {
+    "scripts/ow04-qualification/race_probe.py": "69148dbdf9f14144a90613b1d3126de434d412c0fd8571a78b25a4e5908e2f4c",
+    "scripts/ow04-qualification/cp7_ow04_race_cases.py": "e1b098bf0f9c9b54b66289eabe871e5488f40f42d070c38a3e58d5a5a8ccb400",
+    "scripts/ow04-qualification/RACE_EXPECTED.json": "7472ecc59d32e837ff882a8991c4f55226a3afb152887760f3d237f8101b3802",
+    "scripts/ow04-qualification/cp7_ow04_http_cases.py": "4eacd5f58287d078997fee5e43bcad2375c778158da305d14127930d61cb4725",
+    "scripts/ow04-qualification/EXPECTED.json": "a91685c5d3b043af1839555fa694f643742a48ddd618d855bda4b676a5513d7d",
+    "scripts/ow04-qualification/transport_probe.py": "6526197e374024357e380a9ca2624b58a64cba0fdc92646c3377999432bfd813",
+    ".github/workflows/cp7-ow04-http.yml": "c20fef5c9b0f269fc2b0a612080ec097d65452c953ba90a569726890e86cd698",
+    "scripts/cp6_t3_package_run.py": "952bbf1b99652dadf69ab0e1291979a4e7227182631baaab6af7a7eabcb80ab0",
+    "scripts/cp6_auditor_modes.py": "d927c7491c72fe1eecfd1b4b8b4faf7e1710d6943fda601ede6a599fbc99209f",
+    "scripts/cp7_customer_credit/admission/01_typed_context_and_preclaim.proposal.sql": "44fe8bfae73aecdd85a332f328a4b7dfd6331fa40764025462772a701c9ddb08",
+    "supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql": "fcba665519b289fd8d0cca2a07d4207d6e959e4bd1c2c1b700e35c0334f0c9e2"
+  },
+  "workflow_sha256_at_record_time": "c20fef5c9b0f269fc2b0a612080ec097d65452c953ba90a569726890e86cd698",
+  "frozen_race_expected_sha256": "7472ecc59d32e837ff882a8991c4f55226a3afb152887760f3d237f8101b3802",
+  "frozen_http_expected_sha256": "a91685c5d3b043af1839555fa694f643742a48ddd618d855bda4b676a5513d7d",
+  "initial_race_counter_untouched_sha256": "70c533edc4e31974f2003aafa793b5309c60f8dee8263f49a8fdefd34ae97689",
+  "findings": [
+    {
+      "id": "ORCHESTRATION_CLONE_DROPPED_BEFORE_RACES",
+      "severity": "BLOCKER",
+      "scenario": "HTTP8 completes successfully, then workflow launches race6 in the same bootstrapped Supabase runtime.",
+      "expected": "race6 receives a fresh aligned AB cp6_rollback clone and runs its own package install, cases, restore and cleanup.",
+      "observed_source": "The only clone step precedes HTTP8. HTTP8 calls package.run(install), whose finally block force-drops cp6_rollback. The next workflow step invokes race_probe, which also calls package.run(install) and immediately reads the absent ADMIN clone. No clone recreation is present between the two entries. This is a source-predicted runtime refusal, not a Native or CI observation.",
+      "evidence": [
+        {
+          "file": ".github/workflows/cp7-ow04-http.yml",
+          "lines": "193-208"
+        },
+        {
+          "file": "scripts/ow04-qualification/transport_probe.py",
+          "lines": "99-101"
+        },
+        {
+          "file": "scripts/ow04-qualification/race_probe.py",
+          "lines": "78-80"
+        },
+        {
+          "file": "scripts/cp6_t3_package_run.py",
+          "lines": "158-162,226-242"
+        },
+        {
+          "file": "scripts/cp6_ar_trial.py",
+          "lines": "18-19"
+        },
+        {
+          "file": "scripts/cp6_successor_regression.py",
+          "lines": "23-24"
+        }
+      ],
+      "bounded_remedy": "Recreate the aligned AB cp6_rollback clone between HTTP8 and race6, with a distinct clone evidence prefix. Reuse the existing one-time bootstrap and retain both entry cleanup gates; do not skip package cleanup or relax source/runtime guards."
+    }
+  ],
+  "source_checks": [
+    {
+      "id": "RACE_EXACT_SIX",
+      "scenario": "Missing, duplicate, unexpected or non-PASS race case.",
+      "expected": "Qualification cannot PASS.",
+      "observed_source": "Import binds declaration tuple to IDS and requires six IDs; strict_rows rejects duplicate planned IDs; final report requires exact case-ID set and counts exactly PASS:6.",
+      "evidence": [
+        "race_probe.py:15-17,67-72",
+        "cp6_auditor_modes.py:137-165,179-197"
+      ]
+    },
+    {
+      "id": "RESTORE_ADVISOR_NO_DATABASE_LEFT",
+      "scenario": "Case assertions pass while restoration, advisor disposition, leak cleanup or copy removal fails.",
+      "expected": "Qualification cannot PASS.",
+      "observed_source": "Race report requires cp6_restored and advisor_gate and zero database_remaining. run_races drops its copy in finally and labels session leaks INCOMPLETE. Outer package additionally requires unchanged primary, backup restore drill, advisor gate and writer_runtime PASS, then asserts all gates to make command failure visible to GitHub.",
+      "evidence": [
+        "race_probe.py:54-72",
+        "cp6_auditor_modes.py:158-159,168-171,195-197",
+        "cp6_t3_package_run.py:226-242"
+      ]
+    },
+    {
+      "id": "HTTP_STEP_FAILURE_BLOCKS_RACE_STEP",
+      "scenario": "HTTP8 is not PASS.",
+      "expected": "Race step does not run and workflow fails.",
+      "observed_source": "Default GitHub success-conditioned sequential steps apply; package.run asserts writer_runtime status PASS. There is no continue-on-error on either qualification step. The always cleanup/artifact steps remain available.",
+      "evidence": [
+        ".github/workflows/cp7-ow04-http.yml:203-219",
+        "cp6_t3_package_run.py:237-242"
+      ]
+    },
+    {
+      "id": "STAFF_MASTER_FIXTURE_ONLY",
+      "scenario": "Disposable HTTP database has no STAFF role.",
+      "expected": "Create an explicitly non-system, unprotected active STAFF master; do not forge an OWNER/ADMIN role or bypass its guard.",
+      "observed_source": "New fixture inserts only STAFF when absent with is_system=false and is_protected=false, refuses an existing inactive STAFF, copies actual OWNER permission keys into STAFF and asserts six required keys. It does not alter role code or Native authorization functions.",
+      "evidence": [
+        "cp7_ow04_http_cases.py:133-150"
+      ]
+    },
+    {
+      "id": "STAFF_ACTUAL_AUTH_AND_POSITIVE_PERMISSION_CONTROL",
+      "scenario": "STAFF has fine-grained quote permissions but lacks OWNER/ADMIN role.",
+      "expected": "The same real authenticated STAFF can obtain CREDIT quote, while REFUND quote and settlement fail with actual Native 400/P0001 OWNER or ADMIN access required; complete business snapshot stays unchanged.",
+      "observed_source": "Fixture invokes unchanged http.login(STAFF), whose Auth admin create + password grant returns the real access token; positive CREDIT quote asserts both capabilities before exact REFUND denials. The unchanged return_command_access REFUND branch calls erp.require_owner_admin, whose role-code guard still rejects STAFF.",
+      "evidence": [
+        "cp7_ow04_http_cases.py:150-162",
+        "cp6_auditor_modes.py:268-289",
+        "scripts/cp7_customer_credit/admission/01_typed_context_and_preclaim.proposal.sql:88-99",
+        "supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql:127-149"
+      ]
+    },
+    {
+      "id": "FIXTURE_CLEANUP_AND_EXPECTEDS",
+      "scenario": "Disposable STAFF role or copied permissions persist after qualification.",
+      "expected": "No surviving fixture database or Auth users; frozen financial and denial oracles unchanged.",
+      "observed_source": "STAFF mutation is confined to the HTTP copy and its existing runner cleanup gates; transport PASS requires zero database_remaining, Auth counts restored and no cleanup failures. HTTP EXPECTED and race RACE_EXPECTED pins match the previously frozen bytes. No backend edits are required by the fixture change.",
+      "evidence": [
+        "transport_probe.py:87-93",
+        "cp6_auditor_modes.py:318-343",
+        "EXPECTED.json",
+        "RACE_EXPECTED.json"
+      ]
+    }
+  ],
+  "limits": [
+    "Read-only source assessment only; no DB, HTTP, Native or race execution.",
+    "Previously qualified Native44 remains separate evidence, not inferred from this assessment.",
+    "Source PASS checks describe required conditions; they do not establish that cleanup or runtime cases actually passed.",
+    "No broad ERP audit or new feature requirements added."
+  ]
+}

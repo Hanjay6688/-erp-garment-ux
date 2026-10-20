@@ -1,0 +1,9 @@
+{
+  "classification": "SOURCE_IMPORT_ENVIRONMENT_ERROR_BEFORE_DB_OR_CASE_EXECUTION",
+  "first_command_cwd": "/workspace/scratch/9442228ed2dc/ow04-proposals/race",
+  "error": "FileNotFoundError: docs/evidence/cp6-ao-predecessor-input.json",
+  "cause": "Retained source imports resolve their evidence path relative to the ERP working directory; the initial outside registration command used its proposal directory.",
+  "fix": "Run import/registration from the ERP repo and add the outside proposal path to sys.path; no product or expected change.",
+  "db_connections": 0,
+  "executed_cases": 0
+}
