@@ -24,6 +24,11 @@ name: CP7 WA Forward
     - src/FgReorderPanel.tsx
     - src/fgReorderContract.ts
     - src/ConnectedFgStockPage.tsx
+    - src/MaterialReorderPanel.tsx
+    - src/materialReorderContract.ts
+    - src/ConnectedMaterialsPage.tsx
+    - src/ConnectedAccessoryServicePage.tsx
+    - src/ConnectedMasterPage.tsx
     - scripts/cp7_alert_bundle.py
     - scripts/cp7_f05_analysis_probe.py
     - docs/cp7/wa/WA_FORWARD.json
