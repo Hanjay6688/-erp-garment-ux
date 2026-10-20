@@ -1,0 +1,490 @@
+{
+  "candidate": "b040bc6492d2184efad0b9a06c1dd4e2a10b9053",
+  "tree": "049bcef0e25c438ebd048ea03358b9e0907fc9af",
+  "run_id": 39458882424,
+  "job_id": 118752813669,
+  "summary": {
+    "label": "CP7_WA_FORWARD",
+    "status": "INCOMPLETE",
+    "source_sha256": "59eb4d1a3f898dc37fc63a677781043be3faf008c038dd61d6a49ce8beb1d0fe",
+    "observed_case_count": 99,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "error": null,
+    "traceback": null
+  },
+  "counts": {
+    "PASS": 97,
+    "INCOMPLETE": 2
+  },
+  "first_failures": [
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_ALL_KIND_FABRIC_NEED_FAKE_PROVIDER",
+      "status": "INCOMPLETE",
+      "error": "('assumptions', 2, {'items': 2, 'prefix': 1})",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 153, in strict_rows\n    row=run_one(i,key,operation)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 189, in run_one\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_all_kinds_transport_cases.py\", line 428, in <lambda>\n    return [(case_id, lambda kind=kind: _case(tools, today, wa, kind))\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_all_kinds_transport_cases.py\", line 396, in _case\n    x = transport._committed(tools, lambda cur: _prepare(cur, tools, today, wa, kind))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 43, in _committed\n    out = operation(cur)\n          ^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_all_kinds_transport_cases.py\", line 396, in <lambda>\n    x = transport._committed(tools, lambda cur: _prepare(cur, tools, today, wa, kind))\n                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_all_kinds_transport_cases.py\", line 275, in _prepare\n    x = _fixture(cur, today, wa, kind, cfg['owner'])\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_all_kinds_transport_cases.py\", line 142, in _fixture\n    document, pages, _ = wa.remv2.staged.fetch(cur, x['run']['run'], owner)\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p19_staged_cases.py\", line 163, in fetch\n    assert len(prefix) == layout['prefix'], (name, len(prefix), layout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ('assumptions', 2, {'items': 2, 'prefix': 1})\n",
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_ALL_KIND_LAUNDRY_RECEIPT_FAKE_PROVIDER",
+      "status": "INCOMPLETE",
+      "error": "('WA_ALL_KINDS_SOURCE_FRAGMENT_LOST', 'LAUNDRY_RECEIPT', 'nilai belum diketahui', '⚠ ERP Enteng · 20 Okt 23.51\\nPenerimaan laundry perlu diperiksa (1):\\n- Penerimaan laundry · LRC-261017-1A964A7CCD134C0488117F30D9E8B1B0 · BD vendor P16 Native obligation: nilai belum diketahu\\nBuka ERP > Reminder')",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 153, in strict_rows\n    row=run_one(i,key,operation)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 189, in run_one\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_all_kinds_transport_cases.py\", line 428, in <lambda>\n    return [(case_id, lambda kind=kind: _case(tools, today, wa, kind))\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_all_kinds_transport_cases.py\", line 400, in _case\n    d = transport._committed(tools, lambda cur: _send(cur, tools, wa, x))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 43, in _committed\n    out = operation(cur)\n          ^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_all_kinds_transport_cases.py\", line 400, in <lambda>\n    d = transport._committed(tools, lambda cur: _send(cur, tools, wa, x))\n                                                ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_all_kinds_transport_cases.py\", line 366, in _send\n    _body(d['body'], x)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_all_kinds_transport_cases.py\", line 319, in _body\n    assert fragment in body, ('WA_ALL_KINDS_SOURCE_FRAGMENT_LOST', x['kind'], fragment, body)\n           ^^^^^^^^^^^^^^^^\nAssertionError: ('WA_ALL_KINDS_SOURCE_FRAGMENT_LOST', 'LAUNDRY_RECEIPT', 'nilai belum diketahui', '⚠ ERP Enteng · 20 Okt 23.51\\nPenerimaan laundry perlu diperiksa (1):\\n- Penerimaan laundry · LRC-261017-1A964A7CCD134C0488117F30D9E8B1B0 · BD vendor P16 Native obligation: nilai belum diketahu\\nBuka ERP > Reminder')\n",
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    }
+  ],
+  "cases": [
+    {
+      "case": "WAF_COLLECT_WAITS_FOR_OWNER_SETTINGS",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_FABRIC_EQUALS_WAREHOUSE_SUMMARY",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_AR_AP_FROM_ACCEPTED_SOURCES",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_OWNER_REMINDERS_ONLY_WHEN_DUE",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_SEND_ONE_REQUEST_EXACT_TEXT",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_ROLLBACK_QUEUES_NOTHING",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RESOLVED_BEFORE_SEND_NOT_SENT",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_ANSWERS_ACCEPTED_REFUSED_UNKNOWN",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_PACING_BURST_QUIET_DIGEST_REPEAT",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_OFF_OR_NO_KEY_SENDS_NOTHING",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_KEY_WRITE_ONLY_AND_MASKED",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_PRIVACY_AND_LIST_PERMISSIONS",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_TICKS_PRIVATE_AND_LIMITED",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_ANALYSIS_AUTOMATIC_RUN",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_FG_REORDER_POINT_FORWARDED",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_FG_RESOLVED_BEFORE_SEND",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_FABRIC_REORDER_POINT_FORWARDED",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_ACCESSORY_REORDER_POINT_FORWARDED",
+      "status": "PASS"
+    },
+    {
+      "case": "SS1_FORMULA_FROM_POSTED_SALES",
+      "status": "PASS"
+    },
+    {
+      "case": "SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND",
+      "status": "PASS"
+    },
+    {
+      "case": "SS1_LEAD_TIME_MEASURED_FROM_PRODUCTION",
+      "status": "PASS"
+    },
+    {
+      "case": "SS1_DAYS_BUFFER_NOT_STACKED",
+      "status": "PASS"
+    },
+    {
+      "case": "SS1_SETTINGS_SERVICE_LEVEL_AND_WINDOW",
+      "status": "PASS"
+    },
+    {
+      "case": "SS1_MANUAL_POINT_REPLACES_AND_CLEARS",
+      "status": "PASS"
+    },
+    {
+      "case": "SS1_NOT_ENOUGH_DATA_NEVER_GUESSES",
+      "status": "PASS"
+    },
+    {
+      "case": "SS1_REVERSED_SALE_NOT_DEMAND",
+      "status": "PASS"
+    },
+    {
+      "case": "SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION",
+      "status": "PASS"
+    },
+    {
+      "case": "SS1_SOURCE_AND_ACCESS",
+      "status": "PASS"
+    },
+    {
+      "case": "SS1_VOLUME_2000_ITEMS_EVERY_MINUTE",
+      "status": "PASS"
+    },
+    {
+      "case": "SS2_FABRIC_FORMULA_FROM_CUTTING_USE",
+      "status": "PASS"
+    },
+    {
+      "case": "SS2_FABRIC_OUT_OF_STOCK_DAYS_NOT_ZERO_USE",
+      "status": "PASS"
+    },
+    {
+      "case": "SS2_FABRIC_REVERSED_ISSUE_NOT_USE",
+      "status": "PASS"
+    },
+    {
+      "case": "SS2_FABRIC_MINIMUM_STAYS_BELOW_MINIMUM",
+      "status": "PASS"
+    },
+    {
+      "case": "SS2_FABRIC_ON_ORDER_COUNTS_TOWARD_POSITION",
+      "status": "PASS"
+    },
+    {
+      "case": "SS2_NO_LEAD_TIME_NEVER_GUESSES",
+      "status": "PASS"
+    },
+    {
+      "case": "SS3_ACCESSORY_USAGE_SHOWN_NO_FORMULA",
+      "status": "PASS"
+    },
+    {
+      "case": "SS3_SERVICE_ZONES_NOT_FREE_STOCK",
+      "status": "PASS"
+    },
+    {
+      "case": "SS3_ACCESSORY_MANUAL_MINIMUM_ZERO_NEVER",
+      "status": "PASS"
+    },
+    {
+      "case": "SS3_MATERIAL_SOURCE_AND_ACCESS",
+      "status": "PASS"
+    },
+    {
+      "case": "SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_OTHER_OPENING_AR_AP",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_OTHER_PAYROLL_PAYMENT_INVERSE",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_OTHER_ACCESSORY_ALLOCATION_NOT_SETTLEMENT",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_OTHER_LAUNDRY_PAYMENT_INVERSE",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_OTHER_LAUNDRY_OPENING_UNKNOWN",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_OTHER_NARROWER_PERMISSIONS",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_OTHER_ALL_DOMAINS_SUMMARY_PRIVATE",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_ACCESSORY_NEED_NATIVE_UNKNOWN_FORWARDED",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_ACCESSORY_NEED_MISSING_EMPTY",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_ACCESSORY_NEED_BOM_SUCCESSOR",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_ACCESSORY_NEED_CURRENT_PERMISSIONS",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_ACCESSORY_NEED_ISSUE_NOT_INSTALLATION_RESOLVED",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_ACCESSORY_NEED_POLICY_REPLAY_DEDUP",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_ACCESSORY_NEED_PAUSE_RESUME",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RACE_COLLECT_AND_SEND_OPEN_ONCE",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RACE_FAKE_CALLMEBOT_END_TO_END",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RACE_PG_CRON_RUNS_TICKS",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RACE_MATERIAL_BUSY_RECHECKS_LIVE_STOCK",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RACE_ACCESSORY_NEED_TWO_TICKS_ONE_RECEIPT",
+      "status": "PASS",
+      "real_fake_provider_receipts": 1
+    },
+    {
+      "case": "WAF_RACE_ACCESSORY_NEED_BOM_CHANGE_DURING_WAIT",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RACE_ACCESSORY_NEED_ACCESS_REVOKED_DURING_WAIT",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RACE_WA_SETTINGS_NEW_REVOKED_AFTER_WAIT",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RACE_WA_SETTINGS_REPLAY_REVOKED_AFTER_WAIT",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RACE_WA_KEY_NEW_REVOKED_AFTER_WAIT",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RACE_WA_KEY_REPLAY_REVOKED_AFTER_WAIT",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RACE_WA_TEST_NEW_REVOKED_AFTER_WAIT",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RACE_WA_TEST_REPLAY_REVOKED_AFTER_WAIT",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RACE_WA_RESOLVE_NEW_REVOKED_AFTER_WAIT",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RACE_WA_RESOLVE_REPLAY_REVOKED_AFTER_WAIT",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_RACE_ALL_KIND_FG_AT_REORDER_POINT_FAKE_PROVIDER",
+      "status": "PASS",
+      "real_fake_provider_receipts": 1,
+      "business_source_unchanged_after_send_before_commit": true,
+      "next_tick_no_duplicate": true
+    },
+    {
+      "case": "WAF_RACE_ALL_KIND_ACCESSORY_AT_REORDER_POINT_FAKE_PROVIDER",
+      "status": "PASS",
+      "real_fake_provider_receipts": 1,
+      "business_source_unchanged_after_send_before_commit": true,
+      "next_tick_no_duplicate": true
+    },
+    {
+      "case": "WAF_RACE_ALL_KIND_AR_DUE_FAKE_PROVIDER",
+      "status": "PASS",
+      "real_fake_provider_receipts": 1,
+      "business_source_unchanged_after_send_before_commit": true,
+      "next_tick_no_duplicate": true
+    },
+    {
+      "case": "WAF_RACE_ALL_KIND_AP_DUE_FAKE_PROVIDER",
+      "status": "PASS",
+      "real_fake_provider_receipts": 1,
+      "business_source_unchanged_after_send_before_commit": true,
+      "next_tick_no_duplicate": true
+    },
+    {
+      "case": "WAF_RACE_ALL_KIND_PRODUCTION_GAP_FAKE_PROVIDER",
+      "status": "PASS",
+      "real_fake_provider_receipts": 1,
+      "business_source_unchanged_after_send_before_commit": true,
+      "next_tick_no_duplicate": true
+    },
+    {
+      "case": "WAF_RACE_ALL_KIND_FABRIC_NEED_FAKE_PROVIDER",
+      "status": "INCOMPLETE"
+    },
+    {
+      "case": "WAF_RACE_ALL_KIND_OPENING_AR_FAKE_PROVIDER",
+      "status": "PASS",
+      "real_fake_provider_receipts": 1,
+      "business_source_unchanged_after_send_before_commit": true,
+      "next_tick_no_duplicate": true
+    },
+    {
+      "case": "WAF_RACE_ALL_KIND_OPENING_AP_FAKE_PROVIDER",
+      "status": "PASS",
+      "real_fake_provider_receipts": 1,
+      "business_source_unchanged_after_send_before_commit": true,
+      "next_tick_no_duplicate": true
+    },
+    {
+      "case": "WAF_RACE_ALL_KIND_PAYROLL_AP_FAKE_PROVIDER",
+      "status": "PASS",
+      "real_fake_provider_receipts": 1,
+      "business_source_unchanged_after_send_before_commit": true,
+      "next_tick_no_duplicate": true
+    },
+    {
+      "case": "WAF_RACE_ALL_KIND_ACCESSORY_AP_FAKE_PROVIDER",
+      "status": "PASS",
+      "real_fake_provider_receipts": 1,
+      "business_source_unchanged_after_send_before_commit": true,
+      "next_tick_no_duplicate": true
+    },
+    {
+      "case": "WAF_RACE_ALL_KIND_LAUNDRY_AP_FAKE_PROVIDER",
+      "status": "PASS",
+      "real_fake_provider_receipts": 1,
+      "business_source_unchanged_after_send_before_commit": true,
+      "next_tick_no_duplicate": true
+    },
+    {
+      "case": "WAF_RACE_ALL_KIND_LAUNDRY_RECEIPT_FAKE_PROVIDER",
+      "status": "INCOMPLETE"
+    },
+    {
+      "case": "WAF_RACE_ALL_KIND_LAUNDRY_OPENING_UNINVOICED_FAKE_PROVIDER",
+      "status": "PASS",
+      "real_fake_provider_receipts": 1,
+      "business_source_unchanged_after_send_before_commit": true,
+      "next_tick_no_duplicate": true
+    },
+    {
+      "case": "WAF_HTTP_OWNER_SETS_UP_AND_TESTS",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_HTTP_OTHERS_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_HTTP_FG_REORDER_SCREEN",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_HTTP_MATERIAL_REORDER_SCREEN",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_HTTP_ACCESSORY_NEED_SETTINGS_LOST_REPLY_REVOKED_REPLAY",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_BROWSER_DESKTOP_OWNER_SETS_UP_TESTS_AND_FORWARDS",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_BROWSER_MOBILE_OWNER_SETS_UP_TESTS_AND_FORWARDS",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_BROWSER_FG_REORDER_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_BROWSER_FG_REORDER_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_BROWSER_MATERIAL_REORDER_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_BROWSER_MATERIAL_REORDER_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_BROWSER_ACCESSORY_NEED_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "case": "WAF_BROWSER_ACCESSORY_NEED_MOBILE",
+      "status": "PASS"
+    }
+  ],
+  "disposition": "OPEN: one staged-reassembly test oracle/source-layout mismatch and one real obligation-message truncation; no expected softened, no fixture shortened, not a whole PASS",
+  "production_go": false,
+  "raw_log_preservation": {
+    "raw_sha256": "2f184fd583bc1f3ae0b5a10145a4a64c7b37c7e51d2d3b4adba2570d021186f0",
+    "raw_bytes": 357222,
+    "gzip_file": "CI_B040_FIRST_RUNTIME_RAW.log.gz",
+    "gzip_sha256": "0bfb924b28bac9229f587d212d1ab638b13222c0436ba350ba92dace0331f561",
+    "decompressed_exact": true,
+    "note": "Complete original decoded GitHub job log; original357222 UTF8 bytes and final newline retained exactly; extra text-materialization newline removed."
+  }
+}

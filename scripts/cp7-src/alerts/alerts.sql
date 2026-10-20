@@ -755,7 +755,16 @@ end $$;
 -- One item as the message shows it: {kind,title,detail,party_names,repeat}.
 create function cp7_alert_native.item_line(p jsonb,p_detail text)returns text
 language sql stable security definer set search_path=''set TimeZone='UTC'as $$
- select left(case p->>'kind'
+ -- Obligation facts have priority over a long document/party label. Preserve
+ -- the complete value/UNKNOWN and review/due text; only the label may shorten.
+ select case when p->'detail'?'domain'then(
+  select case when length(label||suffix)<=256 then label||suffix
+   else left(label,greatest(0,255-length(suffix)))||'…'||suffix end
+  from(select coalesce(p->'detail'->>'label','?')label,': '
+   ||case when p->'detail'->>'remaining_state'='KNOWN'then cp7_alert_native.rp(p->'detail'->>'remaining')else'nilai belum diketahui'end
+   ||case when p->'detail'->>'state'='DATA_REVIEW'then', perlu diperiksa'
+     else', jatuh tempo '||cp7_alert_native.tgl(p->'detail'->>'due_date')end suffix)x)
+ else left(case p->>'kind'
   when'FABRIC_BELOW_MINIMUM'then case when p->'detail'?'reorder_point_qty'then(p->'detail'->>'name')||': sisa '
     ||cp7_alert_native.num(p->'detail'->>'free_qty')||' '||coalesce(p->'detail'->>'unit_code','')
     ||', dipesan '||cp7_alert_native.num(p->'detail'->>'on_order_qty')||' '||coalesce(p->'detail'->>'unit_code','')
@@ -780,11 +789,7 @@ language sql stable security definer set search_path=''set TimeZone='UTC'as $$
     ||trim_scale((p->'detail'->>'gross_qty')::numeric)::text||' '||coalesce(p->'detail'->>'unit','')else''end
   when'FABRIC_NEED'then coalesce(p->'detail'->>'material_name','?')||' untuk '||coalesce(p->'detail'->>'label','?')||': '
    ||cp7_alert_native.num(p->'detail'->>'value')||' '||coalesce(p->'detail'->>'unit','')
-  else case when p->'detail'?'domain'then coalesce(p->'detail'->>'label','?')||': '
-   ||case when p->'detail'->>'remaining_state'='KNOWN'then cp7_alert_native.rp(p->'detail'->>'remaining')else'nilai belum diketahui'end
-   ||case when p->'detail'->>'state'='DATA_REVIEW'then', perlu diperiksa'
-     else', jatuh tempo '||cp7_alert_native.tgl(p->'detail'->>'due_date')end
-   else p->>'title'end end,120)$$;
+  else p->>'title'end,120)end$$;
 -- SUMMARY (default) never shows supplier or customer names: payables and receivables become one line, count and total.
 -- Lines per kind are cut to fit 1000 characters; what is cut is counted in "dan N lainnya", never dropped silently.
 -- Analysis kinds carry the time of their analysis data; analysis alerts a digest could not check again in time are

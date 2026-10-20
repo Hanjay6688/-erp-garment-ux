@@ -1,0 +1,52 @@
+{
+  "classification": "EXPECTED_FIRST_SYNTHETIC_RPC_ACTUAL_FETCH_CONTROL_NOT_NATIVE",
+  "CI_first_receipt": {
+    "commit": "b040bc6492d2184efad0b9a06c1dd4e2a10b9053",
+    "run": 39458882424,
+    "job": 118752813669,
+    "reported": "99 planned,97PASS2INCOMPLETE",
+    "failure": "FABRIC_NEED staged.fetch assumptions len2 vs prefix1/items2"
+  },
+  "source_sha256": "758373a7fbcfca1ac5710ba772caade210326444961b6675a29a8a639b994856",
+  "initial_fetch_source_sha256": "e16a0ee7760b11c3519d27f47e7eea83135abf40b6326804692ce33b6bb09d88",
+  "independent_literal": {
+    "header_assumptions": [
+      "GLOBAL_SCHEDULE",
+      "GLOBAL_FABRIC_SUFFIX"
+    ],
+    "prefix": 1,
+    "paged_items": [
+      "TARGET_A",
+      "TARGET_B"
+    ],
+    "expected_original_assumptions": [
+      "GLOBAL_SCHEDULE",
+      "TARGET_A",
+      "TARGET_B",
+      "GLOBAL_FABRIC_SUFFIX"
+    ],
+    "old_expected_refusal": [
+      "assumptions",
+      2,
+      {
+        "prefix": 1,
+        "items": 2
+      }
+    ]
+  },
+  "source_contract": [
+    "analysis-stages.sql1245 global schedule +target sentinel +global fabric suffix",
+    "page_layout1513\u20131523 prefix=sentinel index",
+    "ANA_META1948\u20131952 removes onlysentinel",
+    "scale REASSEMBLE_SQL448\u2013453 prefix+items+suffix alreadycorrect",
+    "nativeAnalysisPages.ts120 allows prefix<=headerarray.length"
+  ],
+  "required": [
+    "Execute actual frozen old fetch source unchanged with SYNTHETIC RPC fixtures and retain exactfirstred",
+    "Execute root actual newfetch unchanged withsamefixtures",
+    "Preserveexact4itemsinposition,Original/query/pageidentity andimmutablefixture acrossread",
+    "Header/pagebyteSHA,size,identity,range,run/index,layoutanditemcount controls stillrefuse"
+  ],
+  "Native_execution_proven": false,
+  "active_edits": false
+}

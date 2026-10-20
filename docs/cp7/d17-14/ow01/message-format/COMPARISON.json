@@ -1,0 +1,22 @@
+{
+  "classification": "ISOLATED_FORMATTER_BEFORE_AFTER_COUNTER_NOT_NATIVE",
+  "native_execution_proven": false,
+  "active_repo_modified": false,
+  "same_expected_sha256": true,
+  "expected_sha256": "77e6dc2c7310f6f3c1908e8132cc33ea093910630520c9da616cc2374dcaa7f1",
+  "before": {
+    "source_sha256": "dba47f0c79c99e8f3179d6d96fc5e8dd74c43815e36a4b26f6b5d3a9239f09fb",
+    "passed": 4,
+    "failed": 6
+  },
+  "after": {
+    "source_sha256": "219adb738c65aa56301b4befd266e76da29f0c46db3dba2cc9b97ee4fb214410",
+    "passed": 10,
+    "failed": 0
+  },
+  "changed_extracted_functions": [
+    "item_line"
+  ],
+  "required_settings_stub": null,
+  "native_or_provider_cases_added": 0
+}

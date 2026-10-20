@@ -155,15 +155,17 @@ def fetch(cur, run_id, subject=None):
         bodies.append(page)
         sizes.append(len(raw))
     assert nxt - 1 == ps['targets_total'], ('P19G_PAGES_DO_NOT_COVER_EVERY_TARGET', nxt - 1, ps['targets_total'])
-    # Reassemble: each paged array is its header prefix followed by every
-    # page's items in page order; everything else is the header's.
+    # Reassemble at the declared insertion index. The header may also retain
+    # global suffix items (for example fabric assumptions); keep both sides.
     whole = dict(header['analysis_header'])
     for name, layout in header['paged'].items():
-        prefix = whole[name]
-        assert len(prefix) == layout['prefix'], (name, len(prefix), layout)
+        retained = whole[name]
+        insertion = layout['prefix']
+        assert isinstance(retained, list) and isinstance(insertion, int) and not isinstance(insertion, bool), (name, layout)
+        assert 0 <= insertion <= len(retained), (name, len(retained), layout)
         items = [x for page in bodies for x in page['items'].get(name, [])]
         assert len(items) == layout['items'], (name, len(items), layout)
-        whole[name] = prefix + items
+        whole[name] = retained[:insertion] + items + retained[insertion:]
     original = dict(contract_version='cp7.native-analysis-run.v1', run_id=header['run_id'], request_id=header['request_id'],
                     analysis=whole, product_labels=header['product_labels'], query=header['query'],
                     financial_source=header['financial_source'], apply_enabled=False, production_go=False)

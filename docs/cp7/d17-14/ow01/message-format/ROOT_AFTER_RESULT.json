@@ -1,0 +1,109 @@
+{
+  "classification": "ISOLATED_ACTUAL_FORMATTER_SQL_LITERAL_EXPECTED_NOT_NATIVE",
+  "native_execution_proven": false,
+  "active_repo_modified": false,
+  "source_path": "/workspace/scratch/9442228ed2dc/erp-d1714/scripts/cp7-src/alerts/alerts.sql",
+  "source_sha256": "219adb738c65aa56301b4befd266e76da29f0c46db3dba2cc9b97ee4fb214410",
+  "expected_sha256": "77e6dc2c7310f6f3c1908e8132cc33ea093910630520c9da616cc2374dcaa7f1",
+  "declared_cases": [
+    "EXACT_NATIVE_LRC_UNKNOWN138",
+    "KNOWN_FULL_MAXCENT_AND_DATE",
+    "OVERLONG_LABEL_UNKNOWN_SUFFIX256",
+    "OVERLONG_LABEL_KNOWN_SUFFIX256",
+    "DETAILED_EXACT_LRC_BODY",
+    "SUMMARY_UNKNOWN_REVIEW_PRIVACY",
+    "SUMMARY_KNOWN_EXACT_VALUE_PRIVACY",
+    "MULTI_WHOLE_LINES_1000_FOOTER",
+    "LEGACY_FG_UNCHANGED",
+    "ACTUAL_SCALARS_UNCHANGED"
+  ],
+  "required_settings_stub": null,
+  "functions": [
+    {
+      "name": "num",
+      "sha256": "8cb33a3170693c9f39dc1c10c7ab50198da94d9ecefae3af9c5061b5c6276ad6"
+    },
+    {
+      "name": "rp",
+      "sha256": "755d9e0478e50eaec11064bc5f75c65ae986490681d5855bb55a0c242f7b8bd7"
+    },
+    {
+      "name": "tgl",
+      "sha256": "1e6d3a456a05a80f588fef2ed7cb300889d077a14954045034e773832056075d"
+    },
+    {
+      "name": "label",
+      "sha256": "b6f21d7bb382e4557c5ff5784589e9142acb78afe79b73088228d8769417bf8b"
+    },
+    {
+      "name": "item_line",
+      "sha256": "09ff58d1f3240ff482542c34e7530d6cb340454b627a640806e1e250e5fad4ea"
+    },
+    {
+      "name": "render",
+      "sha256": "298dd367e644881c4e6ada2372b2a22946e2ec48e538ce1a99b98857515bcfaf"
+    }
+  ],
+  "cases": [
+    {
+      "id": "EXACT_NATIVE_LRC_UNKNOWN138",
+      "status": "PASS",
+      "observed": "Penerimaan laundry · LRC-261017-1A964A7CCD134C0488117F30D9E8B1B0 · BD vendor P16 Native obligation: nilai belum diketahui, perlu diperiksa",
+      "old_precise_truncation": false
+    },
+    {
+      "id": "KNOWN_FULL_MAXCENT_AND_DATE",
+      "status": "PASS",
+      "observed": "Penerimaan laundry · LRC-261017-1A964A7CCD134C0488117F30D9E8B1B0 · BD vendor P16 Native obligation: Rp999.999.999.999.999.999,99, jatuh tempo 20 Okt"
+    },
+    {
+      "id": "OVERLONG_LABEL_UNKNOWN_SUFFIX256",
+      "status": "PASS",
+      "observed": "Penerimaan laundry · LRC-261017-1A964A7CCD134C0488117F30D9E8B1B0 · VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV…: nilai belum diketahui, perlu diperiksa"
+    },
+    {
+      "id": "OVERLONG_LABEL_KNOWN_SUFFIX256",
+      "status": "PASS",
+      "observed": "Penerimaan laundry · LRC-261017-1A964A7CCD134C0488117F30D9E8B1B0 · VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV…: Rp999.999.999.999.999.999,99, jatuh tempo 20 Okt"
+    },
+    {
+      "id": "DETAILED_EXACT_LRC_BODY",
+      "status": "PASS",
+      "observed": "⚠ ERP Enteng · 20 Okt 10.00\nPenerimaan laundry perlu diperiksa (1):\n- Penerimaan laundry · LRC-261017-1A964A7CCD134C0488117F30D9E8B1B0 · BD vendor P16 Native obligation: nilai belum diketahui, perlu diperiksa\nBuka ERP > Reminder"
+    },
+    {
+      "id": "SUMMARY_UNKNOWN_REVIEW_PRIVACY",
+      "status": "PASS",
+      "observed": "⚠ ERP Enteng · 20 Okt 10.00\nPenerimaan laundry perlu diperiksa: 1 pengingat, perlu diperiksa\nBuka ERP > Reminder"
+    },
+    {
+      "id": "SUMMARY_KNOWN_EXACT_VALUE_PRIVACY",
+      "status": "PASS",
+      "observed": "⚠ ERP Enteng · 20 Okt 10.00\nTagihan laundry: 1 pengingat, nilai terbuka Rp999.999.999.999.999.999,99\nBuka ERP > Reminder"
+    },
+    {
+      "id": "MULTI_WHOLE_LINES_1000_FOOTER",
+      "status": "PASS",
+      "observed": "⚠ ERP Enteng · 20 Okt 10.00\nPenerimaan laundry perlu diperiksa (10):\n- Penerimaan laundry · LRC-261017-CONTROL-00 · VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV…: nilai belum diketahui, perlu diperiksa\n- Penerimaan laundry · LRC-261017-CONTROL-01 · VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV…: nilai belum diketahui, perlu diperiksa\n- Penerimaan laundry · LRC-261017-CONTROL-02 · VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV…: nilai belum diketahui, perlu diperiksa\n- dan 7 lainnya\nBuka ERP > Reminder",
+      "body_length": 881
+    },
+    {
+      "id": "LEGACY_FG_UNCHANGED",
+      "status": "PASS",
+      "observed": "Model pcs: sisa 10 pcs, sedang diproduksi belum diketahui, titik pesan ulang 25 pcs"
+    },
+    {
+      "id": "ACTUAL_SCALARS_UNCHANGED",
+      "status": "PASS",
+      "observed": {
+        "num": "1,23",
+        "rp": "Rp17.312,9",
+        "tgl": "20 Okt",
+        "label": "20 Okt 10.00"
+      }
+    }
+  ],
+  "passed": 10,
+  "failed": 0,
+  "status": "PASS"
+}

@@ -1,0 +1,11 @@
+{
+  "classification": "EXPECTED_BEFORE_PRODUCT_FORMAT_FIX",
+  "source_candidate": "b040bc6492d2184efad0b9a06c1dd4e2a10b9053",
+  "native_failing_label": "Penerimaan laundry · LRC-261017-1A964A7CCD134C0488117F30D9E8B1B0 · BD vendor P16 Native obligation",
+  "expected_full_unknown_line": "Penerimaan laundry · LRC-261017-1A964A7CCD134C0488117F30D9E8B1B0 · BD vendor P16 Native obligation: nilai belum diketahui, perlu diperiksa",
+  "length": 138,
+  "old_incorrect_120": "Penerimaan laundry · LRC-261017-1A964A7CCD134C0488117F30D9E8B1B0 · BD vendor P16 Native obligation: nilai belum diketahu",
+  "contract": "Preserve entire money/UNKNOWN and review/due suffix; labels stay unchanged when full line fits256, otherwise visibly abbreviate only label. Do not shorten Native fixture or source. Whole message stays<=1000 with existing wholeitem count and footer.",
+  "known_large_suffix": ": Rp999.999.999.999.999.999,99, jatuh tempo 20 Okt",
+  "unchanged_allkind_body_assertions": true
+}

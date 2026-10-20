@@ -1,0 +1,44 @@
+{
+  "classification": "FIRST_RED_ACTUAL_OLD_FETCH_SYNTHETIC_RPC_NOT_NATIVE",
+  "source_sha256": "e16a0ee7760b11c3519d27f47e7eea83135abf40b6326804692ce33b6bb09d88",
+  "expected_original": {
+    "contract_version": "cp7.native-analysis-run.v1",
+    "run_id": "00000000-0000-0000-0000-000000000001",
+    "request_id": "00000000-0000-0000-0000-000000000002",
+    "analysis": {
+      "assumptions": [
+        "GLOBAL_SCHEDULE",
+        "TARGET_A",
+        "TARGET_B",
+        "GLOBAL_FABRIC_SUFFIX"
+      ]
+    },
+    "product_labels": [],
+    "query": {
+      "from_date": "2026-09-01",
+      "through_date": "2026-09-30",
+      "group_mode": "CURRENT_RESTATED"
+    },
+    "financial_source": null,
+    "apply_enabled": false,
+    "production_go": false
+  },
+  "expected_assertion": [
+    "assumptions",
+    2,
+    {
+      "prefix": 1,
+      "items": 2
+    }
+  ],
+  "Native_execution_proven": false,
+  "observed_assertion": [
+    "assumptions",
+    2,
+    {
+      "prefix": 1,
+      "items": 2
+    }
+  ],
+  "first_red_reproduced": true
+}

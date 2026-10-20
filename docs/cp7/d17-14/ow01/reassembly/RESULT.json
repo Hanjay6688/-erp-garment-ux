@@ -1,0 +1,232 @@
+{
+  "classification": "ACTUAL_ROOT_FETCH_SYNTHETIC_RPC_ORACLE_CONTROLS_NOT_NATIVE",
+  "actual_source_file": "/workspace/scratch/9442228ed2dc/erp-d1714/scripts/cp7_p19_staged_cases.py",
+  "actual_fetch_sha256": "64ffce7c3361d3c14efeb3c7328f5369f76b9447ec07be7545d217b1290615e2",
+  "expected_sha256": "ea960c6420aa04cf65fa4987573951e02030ed9fbb238484b840d3db2d12f26d",
+  "first_red_sha256": "16d94312622e322de7e9775a4cf04ce6f1b72fc542be0948a8cbc5e5e459b97e",
+  "controls": [
+    {
+      "id": "PREFIX1_ITEMS2_SUFFIX1_PRESERVES_ALL4",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "complete_original": {
+        "contract_version": "cp7.native-analysis-run.v1",
+        "run_id": "00000000-0000-0000-0000-000000000001",
+        "request_id": "00000000-0000-0000-0000-000000000002",
+        "analysis": {
+          "assumptions": [
+            "GLOBAL_SCHEDULE",
+            "TARGET_A",
+            "TARGET_B",
+            "GLOBAL_FABRIC_SUFFIX"
+          ]
+        },
+        "product_labels": [],
+        "query": {
+          "from_date": "2026-09-01",
+          "through_date": "2026-09-30",
+          "group_mode": "CURRENT_RESTATED"
+        },
+        "financial_source": null,
+        "apply_enabled": false,
+        "production_go": false
+      },
+      "identity_hash": "d7aa1bc17445658ac0d8a84997ac2f28041364bd87465840f21f156541a7c34a"
+    },
+    {
+      "id": "PREFIX_ONLY_EXISTING_LAYOUT_UNCHANGED",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "complete_original": {
+        "contract_version": "cp7.native-analysis-run.v1",
+        "run_id": "00000000-0000-0000-0000-000000000001",
+        "request_id": "00000000-0000-0000-0000-000000000002",
+        "analysis": {
+          "assumptions": [
+            "GLOBAL_SCHEDULE",
+            "TARGET_A",
+            "TARGET_B"
+          ]
+        },
+        "product_labels": [],
+        "query": {
+          "from_date": "2026-09-01",
+          "through_date": "2026-09-30",
+          "group_mode": "CURRENT_RESTATED"
+        },
+        "financial_source": null,
+        "apply_enabled": false,
+        "production_go": false
+      },
+      "identity_hash": "b34e963cb508745df5f3a77398ada4263871b8d589a2f8c84a635b20111911bb"
+    },
+    {
+      "id": "ZERO_PREFIX_WITH_GLOBAL_SUFFIX",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "complete_original": {
+        "contract_version": "cp7.native-analysis-run.v1",
+        "run_id": "00000000-0000-0000-0000-000000000001",
+        "request_id": "00000000-0000-0000-0000-000000000002",
+        "analysis": {
+          "assumptions": [
+            "TARGET_A",
+            "TARGET_B",
+            "GLOBAL_FABRIC_SUFFIX"
+          ]
+        },
+        "product_labels": [],
+        "query": {
+          "from_date": "2026-09-01",
+          "through_date": "2026-09-30",
+          "group_mode": "CURRENT_RESTATED"
+        },
+        "financial_source": null,
+        "apply_enabled": false,
+        "production_go": false
+      },
+      "identity_hash": "1ff77b7b24dad4c8f15baf7a6645a9c4021d5a1e9c455d43030c009f428a8ee6"
+    },
+    {
+      "id": "EMPTY_HEADER_ARRAY",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "complete_original": {
+        "contract_version": "cp7.native-analysis-run.v1",
+        "run_id": "00000000-0000-0000-0000-000000000001",
+        "request_id": "00000000-0000-0000-0000-000000000002",
+        "analysis": {
+          "assumptions": [
+            "TARGET_A",
+            "TARGET_B"
+          ]
+        },
+        "product_labels": [],
+        "query": {
+          "from_date": "2026-09-01",
+          "through_date": "2026-09-30",
+          "group_mode": "CURRENT_RESTATED"
+        },
+        "financial_source": null,
+        "apply_enabled": false,
+        "production_go": false
+      },
+      "identity_hash": "9e1dde62c38e9ce29b7b9026fb057427c8fd2126e1f7c79e957c9c7494c02620"
+    },
+    {
+      "id": "EACH_ARRAY_HAS_ITS_OWN_INSERTION_INDEX",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "complete_original": {
+        "contract_version": "cp7.native-analysis-run.v1",
+        "run_id": "00000000-0000-0000-0000-000000000001",
+        "request_id": "00000000-0000-0000-0000-000000000002",
+        "analysis": {
+          "assumptions": [
+            "GLOBAL_SCHEDULE",
+            "TARGET_A",
+            "TARGET_B",
+            "GLOBAL_FABRIC_SUFFIX"
+          ],
+          "metrics": [
+            "METRIC_0",
+            "METRIC_1",
+            "METRIC_SUFFIX"
+          ]
+        },
+        "product_labels": [],
+        "query": {
+          "from_date": "2026-09-01",
+          "through_date": "2026-09-30",
+          "group_mode": "CURRENT_RESTATED"
+        },
+        "financial_source": null,
+        "apply_enabled": false,
+        "production_go": false
+      },
+      "identity_hash": "ab032c1faee944318da1d55383298fdfbb30843ee5548d729ffdb0166d6ad102"
+    },
+    {
+      "id": "REJECT_HEADER_BODY_HASH",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "assertion": "()"
+    },
+    {
+      "id": "REJECT_PAGE_BODY_HASH",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "assertion": "()"
+    },
+    {
+      "id": "REJECT_HEADER_UTF8_SIZE",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "assertion": "()"
+    },
+    {
+      "id": "REJECT_PAGE_UTF8_SIZE",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "assertion": "()"
+    },
+    {
+      "id": "REJECT_PAGESET_IDENTITY",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "assertion": "('P19G_IDENTITY_HASH',)"
+    },
+    {
+      "id": "REJECT_CONTIGUOUS_TARGET_RANGE",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "assertion": "({'index': 1, 'target_lo': 3, 'target_hi': 2, 'utf8_bytes': 360, 'sha256': 'e0568ff726abfdc6508d479f9e2d3c8837c8bf3db862f0951ef7a1f71079b098', 'counts': {'assumptions': 1}},)"
+    },
+    {
+      "id": "REJECT_PAGE_FOREIGN_RUN",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "assertion": "(0,)"
+    },
+    {
+      "id": "REJECT_PAGE_WRONG_INDEX",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "assertion": "(1,)"
+    },
+    {
+      "id": "REJECT_HEADER_LAYOUT_EQUALS_PAGESET",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "assertion": "()"
+    },
+    {
+      "id": "REJECT_PREFIX_OUT_OF_HEADER_WITH_CONSISTENT_HASHES",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "assertion": "(('assumptions', 2, {'prefix': 3, 'items': 2}),)"
+    },
+    {
+      "id": "REJECT_PREFIX_NEGATIVE_WITH_CONSISTENT_HASHES",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "assertion": "(('assumptions', 2, {'prefix': -1, 'items': 2}),)"
+    },
+    {
+      "id": "REJECT_HEADER_NOT_ARRAY_WITH_CONSISTENT_HASHES",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "assertion": "(('assumptions', {'prefix': 1, 'items': 2}),)"
+    },
+    {
+      "id": "REJECT_MISSING_PER_TARGET_ITEM_WITH_CONSISTENT_HASHES",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "assertion": "(('assumptions', 1, {'prefix': 1, 'items': 2}),)"
+    }
+  ],
+  "status": "PASS",
+  "Native_execution_proven": false,
+  "database_calls": 0,
+  "no_hash_range_identity_or_item_count_guard_removed": true
+}
