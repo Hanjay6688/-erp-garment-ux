@@ -1,0 +1,136 @@
+{
+  "label": "OW04_BROWSER4_IMPLEMENTATION_INDEPENDENT_INITIAL_COUNTER",
+  "classification": "INTERNAL_WRITER_SOURCE_REVIEW_WITH_PURE_SYNTHETIC_CLAUSE_COUNTER_NOT_EXTERNAL_AUDIT",
+  "assessment": "QUALIFICATION_ORACLE_GAPS_FOUND_NO_PRODUCT_RUNTIME_CLAIM",
+  "initial_contract_assessment_sha256": "6be733f7e6fb67b9ace086c41b07fe088aeeb648ef852aa2b2f85ca1377faa9b",
+  "predeclared_expected_sha256": "498f1943b91704d916268d0fe0a3f5caa1924199484de512626b72847170424f",
+  "reviewed_sha256": {
+    "scripts/ow04-qualification/browser_sources.py": "a35e1de34662e74d017347edfdff89760c1612cf62c23705d5f62f13229e28e7",
+    "scripts/ow04-qualification/browser_fixture.py": "3c7ddc9ed731e5d91b7e62b413ee282a6f775a461610ee575ce4989f4f9f8b98",
+    "scripts/ow04-qualification/browser_cases.mjs": "f8513773f17f3fe4d880d12a03d644a93a91514e768c2164e933b7cd773da241",
+    "scripts/ow04-qualification/browser_probe.py": "899cd1bfef64bc24001e2182fed434bcdcb64fd5f6aa2180f5487b357702cb6f",
+    ".github/workflows/cp7-ow04-browser.yml": "cddf2c08d5d598e5dd92c883b8c36a9135c296f8e9cb6af4269b16d467da50ab"
+  },
+  "other_reviewer_conclusions_received": false,
+  "database_connections_opened": false,
+  "browser_executed": false,
+  "http_executed": false,
+  "Native_executed": false,
+  "product_edited": false,
+  "child_agents_spawned": false,
+  "executed_controls": "Pure Node evaluation of the exact copied read-fault clause with synthetic page state/schedules, and actual overflow expression only. This is not a real Playwright journey or actual product defect reproduction.",
+  "findings": [
+    {
+      "id": "POSTCOMMIT_READ_FAULT_CAN_BE_UNOBSERVED",
+      "kind": "QUALIFICATION_GAP",
+      "severity": "BLOCKS_CLAIM_OF_FAILED_POSTCOMMIT_RELOAD_PROOF",
+      "scenario": "Successful replay clears the envelope and begins asynchronous invoice refresh, but the actual network read starts after the test has observed temporary loading state and removed its route fault.",
+      "expected_contract": "The fourth declared journey must abort actual postcommit read traffic, establish that reload failed and writers remain locked/stale, then remove fault and explicitly reload.",
+      "observed": "The test awaits empty envelope, disabled create and absent detail, which also describe in-progress loading. It never counts or awaits an aborted read, read failure completion, or the persistent failed-refresh state before unroute. The exact clause completed in a synthetic deferred-read schedule with zero abort-handler calls; its normal already-failed-read control also completed.",
+      "evidence": [
+        {
+          "file": "scripts/ow04-qualification/browser_cases.mjs",
+          "lines": "149-155"
+        },
+        "READ_FAULT_SCHEDULE_RESULT.json"
+      ],
+      "reproduction": "node /workspace/scratch/9442228ed2dc/ow04-proposals/browser/READ_FAULT_SCHEDULE_COUNTER.mjs; synthetic schedule only, actual copied test clause.",
+      "minimal_repair": "Before unroute, require at least one matching postcommit read to reach the installed abort handler and finish as a failed request, then assert the settled failed-refresh state while lock/stale state remains. Later require the explicit reload to yield a fresh authoritative response before unlock."
+    },
+    {
+      "id": "MOBILE_OVERFLOW_RELAXED_BY_ONE_PIXEL",
+      "kind": "QUALIFICATION_GAP",
+      "severity": "STRICT_ORACLE_MISMATCH",
+      "scenario": "390px viewport and document scrollWidth391.",
+      "expected_contract": "No horizontal overflow; binding ERP_BEST_PRACTICES17 explicitly requires scrollWidth <= window.innerWidth.",
+      "observed": "The browser assertion evaluates scrollWidth <= innerWidth+1, so391 at390 passes. Pure evaluation of the exact expression returned true while the frozen predicate is false.",
+      "evidence": [
+        {
+          "file": "scripts/ow04-qualification/browser_cases.mjs",
+          "lines": "172"
+        },
+        "docs/ERP_BEST_PRACTICES.md:116-118",
+        "READ_FAULT_SCHEDULE_RESULT.json:one_pixel_overflow"
+      ],
+      "reproduction": "The same pure Node counter evaluates the exact expression with scrollWidth391 and innerWidth390.",
+      "minimal_repair": "Use the original exact no-overflow predicate; do not add tolerance."
+    },
+    {
+      "id": "READY_UI_MONEY_DATE_ORACLE_NOT_ASSERTED",
+      "kind": "QUALIFICATION_GAP",
+      "severity": "DECLARED_UI_OBSERVATION_MISSING",
+      "scenario": "Actual backend quote contains correct dates/amounts, but READY UI renders an incorrect book date, credit or cash amount.",
+      "expected_contract": "First/second declared journeys inspect READY date/money totals; mobile READY must show credit100, cash100 and distinct lawful economic/book dates.",
+      "observed": "quote() asserts raw response kind/READY/current credit/E800/AR0, then only checks that the result region is visible and review/save can be enabled. No assertion reads the READY UI credit/cash/date/totals content before review. The later Python _assert_quote proves backend quote fields, not the rendered UI. This is a source coverage gap; no claim that the current UI actually renders incorrect values.",
+      "evidence": [
+        {
+          "file": "scripts/ow04-qualification/browser_cases.mjs",
+          "lines": "44-58"
+        },
+        "scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py:121-171",
+        "src/SalesReturnSettlementSection.tsx:221-245"
+      ],
+      "reproduction": "Source-level counter: replace only rendered READY date/money text while preserving valid actual quote/raw response and visibility; all current quote() assertions observe the same values. No mutated product/browser run was performed.",
+      "minimal_repair": "Assert rendered READY credit, refund amount, before/after totals and return/recognition/refund date axes before checking review. Compare to frozen fixture dates and real quote fields already validated by the retained exact oracle."
+    }
+  ],
+  "source_checks": [
+    {
+      "id": "TYPED_FIXTURE_AND_NEW_PHYSICAL_INPUTS",
+      "observed_source": "Codec preserves dict key types, UUID, Decimal, date/datetime and set/tuple/list. prepare uses existing Native setup and administrative empty credit master, adjusts only prospective new return/refund inputs to D2 10:00/13:00 WIB, preserves all posted original source facts and stores the exact typed fixture. verify reuses original initial money/date/GL/stock/HPP/source and payment immutability assertions on a fresh connection. No fake posted finance or journal writes were found in the new helper.",
+      "evidence": [
+        "browser_fixture.py:15-28,40-67,79-96"
+      ]
+    },
+    {
+      "id": "EXACT_ESCROW_AND_RESTORATION",
+      "observed_source": "53 safe regular-file members, archive/member hashes and baseline hashes are checked; exact nine patch paths and clean src are required. Both patches are checked/applied in order; all touched paths are backed up/restored in finally, including removal of newly created files, and clean source status is required afterward.",
+      "evidence": [
+        "browser_sources.py:13-64"
+      ]
+    },
+    {
+      "id": "REAL_LOST_SUCCESS_AND_ENVELOPE_REPLAY",
+      "observed_source": "Lost reply handler fetches the real upstream settle response, requires200 and captures body/args before aborting delivery. Fresh fixture verification proves actual one-effect settlement; full serialized envelope survives reload/revocation, and all subsequent actual request bodies must equal the first. Replay bodies equal the first actual body. No product reply mocks appear in the new module.",
+      "evidence": [
+        "browser_cases.mjs:lost(),LOST/REVOKED branches",
+        "browser_fixture.py:79-96",
+        "cp6_auditor_browser_host.mjs:164-193"
+      ]
+    },
+    {
+      "id": "REVOCATION_BOUNDARY",
+      "observed_source": "Only the exact created browser Auth user membership is changed on the disposable copy and committed. Denied replay checks exact403/message and complete snapshot equality after the administrative baseline; restoration retains committed private facts rather than deleting metadata changes.",
+      "evidence": [
+        "browser_fixture.py:70-77",
+        "browser_cases.mjs:REVOKED branch"
+      ]
+    },
+    {
+      "id": "PENDING_GLOBAL_LOCK_AND_AFTER_CLEAR_SCOPE",
+      "observed_source": "An FG page has positive enabled controls before pending and those controls are checked disabled during pending; SALES create is disabled. After validated outcome clears the envelope, this implementation tests SALES stale/lock only. No actual cross-domain postclear breach was reproduced. Reliability invariant26 says freeze all writers until refetch succeeds, but this review does not infer an all-domain product defect merely from that phrase; the concrete finding is that actual failed SALES read is not yet observed.",
+      "evidence": [
+        "browser_cases.mjs:stockControls(),lost(),REVOKED branch",
+        "docs/erp-reliability-invariants.md:26",
+        "src/useProductionMutation.ts:48-96,167-209"
+      ]
+    },
+    {
+      "id": "WRAPPER_AND_WORKFLOW_GATES",
+      "observed_source": "Exact declared four IDs and allPASS are required along with real Auth Enteng loopback host proof, source restoration, CP6/advisor/Auth cleanup and no database remaining. Workflow calls package.run install without continue-on-error; original outer five gates remain fatal, so the previous HTTP/race masked-outcome issue does not recur here.",
+      "evidence": [
+        "browser_probe.py:12-87",
+        ".github/workflows/cp7-ow04-browser.yml:202-218",
+        "scripts/cp6_t3_package_run.py:226-242"
+      ]
+    }
+  ],
+  "synthetic_counter_result_sha256": "02a3b4eb0b404480c2602e45ff979db5bb2ae7268113e2852f5d43f16d5350e6",
+  "synthetic_counter_source_sha256": "72a1645f8a17422c0837d5a088702e3dba8be1d6577c68218e60fcc78413ba3a",
+  "limits": [
+    "No new Native44, HTTP8/race6 rerun or inference.",
+    "Current backend source was not edited or requalified.",
+    "Only the declared initial settlement browser scope is assessed; no new business policy or corrected-cohort requirements added.",
+    "Actual browser runtime remains unexecuted and may reveal separate setup/product issues."
+  ]
+}

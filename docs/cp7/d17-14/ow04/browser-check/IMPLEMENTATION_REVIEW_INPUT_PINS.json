@@ -1,0 +1,7 @@
+{
+  "scripts/ow04-qualification/browser_sources.py": "a35e1de34662e74d017347edfdff89760c1612cf62c23705d5f62f13229e28e7",
+  "scripts/ow04-qualification/browser_fixture.py": "3c7ddc9ed731e5d91b7e62b413ee282a6f775a461610ee575ce4989f4f9f8b98",
+  "scripts/ow04-qualification/browser_cases.mjs": "f8513773f17f3fe4d880d12a03d644a93a91514e768c2164e933b7cd773da241",
+  "scripts/ow04-qualification/browser_probe.py": "899cd1bfef64bc24001e2182fed434bcdcb64fd5f6aa2180f5487b357702cb6f",
+  ".github/workflows/cp7-ow04-browser.yml": "cddf2c08d5d598e5dd92c883b8c36a9135c296f8e9cb6af4269b16d467da50ab"
+}

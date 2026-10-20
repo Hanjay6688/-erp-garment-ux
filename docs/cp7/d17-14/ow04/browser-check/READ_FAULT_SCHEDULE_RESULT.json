@@ -1,0 +1,53 @@
+{
+  "classification": "PURE_SYNTHETIC_TEST_CLAUSE_NOT_BROWSER_OR_PRODUCT_RUNTIME",
+  "source_sha256": "f8513773f17f3fe4d880d12a03d644a93a91514e768c2164e933b7cd773da241",
+  "clause_sha256": "aabbe81b4d1b9ffe785e69f2acdfe6fc42bae7a9dc9a9b05d779920ae45e9f82",
+  "expected_before_execution": [
+    {
+      "schedule": "read_request_deferred_until_fault_is_removed",
+      "expected": "REFUSE_UNOBSERVED_READ_FAILURE"
+    },
+    {
+      "schedule": "read_request_already_failed_before_state_checks",
+      "expected": "CLAUSE_COMPLETES"
+    }
+  ],
+  "results": [
+    {
+      "schedule": "read_request_deferred_until_fault_is_removed",
+      "expected": "REFUSE_UNOBSERVED_READ_FAILURE",
+      "observed": "CLAUSE_COMPLETES",
+      "agrees": false,
+      "actual_abort_handler_calls": 0,
+      "trace": [
+        "fault_registered",
+        "fault_removed",
+        "read_after_fault_removed",
+        "explicit_reload_clicked"
+      ]
+    },
+    {
+      "schedule": "read_request_already_failed_before_state_checks",
+      "expected": "CLAUSE_COMPLETES",
+      "observed": "CLAUSE_COMPLETES",
+      "agrees": true,
+      "actual_abort_handler_calls": 1,
+      "trace": [
+        "fault_registered",
+        "read_under_fault",
+        "actual_abort_handler_called",
+        "fault_removed",
+        "explicit_reload_clicked"
+      ]
+    }
+  ],
+  "one_pixel_overflow": {
+    "expected": false,
+    "observed": true,
+    "dimensions": {
+      "scrollWidth": 391,
+      "innerWidth": 390
+    },
+    "actual_source_expression": "document.documentElement.scrollWidth<=innerWidth+1"
+  }
+}

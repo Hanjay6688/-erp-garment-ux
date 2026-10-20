@@ -1,0 +1,50 @@
+{
+  "classification": "PREDECLARED_DISPOSABLE_ATOMIC_UI_AND_QUALIFIED_BACKEND_BROWSER_CASES_NOT_YET_EXECUTED",
+  "backend_candidate": "ef98e6e65c13322bf08e6f704e511bdbb03a07a8",
+  "reused_HTTP_race_candidate": "6f318261ab585ad7a8378d6041839dc1a549fa87",
+  "ui_scope": "Exact escrow prerequisite+parent patches, applied only while building the disposable candidate; root/default product frontend remains unchanged. Real Enteng-mode build redirected to loopback, no hosted requests.",
+  "cases": [
+    {
+      "id": "OW04_BROWSER_CREDIT_LOST_REPLY_DESKTOP",
+      "expected": "On desktop, log in through real Auth, fill a paid invoice return with the original exact200.00 value, explicitly select the new eligible liability account, inspect READY quote and date/money totals, then record CREDIT. Obtain real HTTP200/body after COMMIT but abort delivery. The durable recovery envelope and global writer lock remain. Reload and reconcile with exactly the original request UUID, expected version and complete document. Receive the identical original result, exactly one settlement/receipt, immutable source/payment journals, exact GL/date-pair/stock/HPP oracle, E800.00 and AR0.00 while raw P1000.00 remains."
+    },
+    {
+      "id": "OW04_BROWSER_REFUND_MOBILE",
+      "expected": "On390px mobile, log in through real Auth, record a REOPENED paid900.00 source return200.00, explicitly choosing liability/cash account and a separate physical refund input. READY shows credit100.00, distinct lawful economic/book date pairs and cash100.00. Actual settlement COMMIT succeeds with one refund cash out, original payment900.00 unchanged, E800.00/AR0.00, strict old journals/stock/HPP oracle and no horizontal overflow."
+    },
+    {
+      "id": "OW04_BROWSER_QUOTE_EDIT_FENCE",
+      "expected": "With a real READY CREDIT quote, check review then change the return amount200→199→200. The old quote/review disappears and save is disabled before any settlement request. A new actual quote must be requested, reviewed and used; exact unchanged200.00 oracle then passes. The original quote cannot be reused merely because inputs returned to equal values."
+    },
+    {
+      "id": "OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK",
+      "expected": "Create a real committed CREDIT settlement whose successful reply is lost. While its original durable recovery envelope is pending, revoke this Auth user's ERP membership in a committed administrative fixture. Reconcile reaches real PostgREST and returns exact403/CP7_SALES_ACCESS_DENIED, preserving the identical envelope and business/private state, with other writes locked. Restore membership; reconcile retries the exact original envelope and returns the identical committed result. Fail the postcommit invoice reload by aborting actual read traffic, preserving writer lock/stale facts. Remove the read fault and explicitly reload; only a verified fresh source unlocks writes. No second settlement/cash/stock/HPP or original-payment effect."
+    }
+  ],
+  "inputs": {
+    "sale_gross": "1000.00",
+    "return_value": "200.00",
+    "return_qty": "1",
+    "source_unit_HPP": "10.00",
+    "post_return_stock": "6",
+    "effective_paid": "800.00",
+    "receivable": "0.00",
+    "physical_return_input": "Known source calendar D2,10:00:00 WIB, explicit minute/second precision accepted by the HTML control; prospective input only, no posted input rewritten",
+    "physical_refund_input": "Known source calendar D2,13:00:00 WIB, separate from return input"
+  },
+  "required": [
+    "all4 exact IDs PASS",
+    "real Auth and actual public PostgREST responses, no product reply mocks",
+    "all original exact initial money/date/stock/HPP/source oracles",
+    "complete private/business equality for replay/refusal",
+    "both patches and all53 escrow members hash verified",
+    "source tree restored after browser build",
+    "CP6 restored, Auth cleanup, advisor and five outer package gates true"
+  ],
+  "limits": [
+    "Internal writer verification, not independent audit",
+    "Scoped initial settlement UI, not corrected/multiple-cohort/APPLY/consumer undo completion",
+    "No default installation, Enteng/WA/Drive mutation or production deployment",
+    "Existing Native44 and HTTP8/race6 are reused separately, not rerun"
+  ]
+}

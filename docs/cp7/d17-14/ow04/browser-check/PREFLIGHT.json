@@ -1,0 +1,12 @@
+{
+  "classification": "PREFLIGHT_NOT_BROWSER_RUNTIME",
+  "escrow_members_verified": 53,
+  "applied_frontend_files": 9,
+  "frontend_source_restored": true,
+  "dirty_checkout_refused": true,
+  "changed_base_refused": true,
+  "typed_fixture_roundtrip": true,
+  "db_connections": 0,
+  "predeclared_case_sha256": "498f1943b91704d916268d0fe0a3f5caa1924199484de512626b72847170424f",
+  "first_failure": "FIRST_LOCAL_PREFLIGHT_FAILURE.json"
+}

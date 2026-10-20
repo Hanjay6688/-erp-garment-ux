@@ -1,0 +1,139 @@
+{
+  "label": "OW04_BROWSER4_INTERNAL_WRITER_COUNTER_INITIAL",
+  "classification": "INDEPENDENT_INITIAL_SOURCE_CONTRACT_ASSESSMENT_BEFORE_IMPLEMENTATION_REVIEW_NOT_EXTERNAL_AUDIT",
+  "assessment": "PREDECLARED_SCOPE_COHERENT_IMPLEMENTATION_NOT_YET_REVIEWED",
+  "head_observed": "ecf1565fd37f547eeba98ceeb7202396f3a90f08",
+  "reviewed_sha256": {
+    "scripts/ow04-qualification/BROWSER_EXPECTED.json": "498f1943b91704d916268d0fe0a3f5caa1924199484de512626b72847170424f",
+    "docs/cp7/d17-14/ow04/ui-parent-escrow/INTEGRATOR_STATUS.md": "45368ac426f99a92575c12f5f1f53de8eaad95f8036b96003633d86c9ccf4054",
+    "docs/cp7/d17-14/ow04/ui-parent-escrow/ARCHIVE.json": "48728c4dae45cab83af6a0c1617f22af1f9275ae0e62e26bd19b1be89c6363dd",
+    "docs/cp7/d17-14/ow04/ui-parent-escrow/ESCROW_MANIFEST.json": "9f8ca447d038231c5e9ff786292a1151c2c352a80df0aeca2aa2c6b511cf9f4c",
+    "docs/cp7/d17-14/ow04/ui-parent-escrow/UI_PARENT_ESCROW.tar.gz": "09d063ce179be6f579aa561fb9ca7dd32841ecb838fef1199a7e7ca66e33d349",
+    "docs/cp7/d17-14/ow04/WRITER_CHECKPOINT_20261020.md": "4dd5f853cf07ea3cae3ba1c294adabedd6cba16911e934d41dcccd260ed604b3",
+    "docs/cp7/d17-14/ow04/NATIVE_QUALIFICATION_LIMITS.md": "4ee8ed7311bb93d0e2c1208c98938c6e842fea28cdb0c2863f9568f61e3608a7",
+    "docs/cp7/d17-14/ow04/CI_EF98_NATIVE44_PASS.json": "6f7f8ef24a2b8fa1e5dd741314825fbf2ec199ae4ebf7f6fa1b79cd35a3cfe79",
+    "docs/cp7/d17-14/ow04/CI_6F31_HTTP_RACE14_PASS.json": "8cac03651e2b4e5a0952350595729a78a792764217194209033eaea6f6e99700",
+    "docs/erp-reliability-invariants.md": "0d80d3fbaf4880424e9db89b559323dfd7553d352eef100ba6e4b7e80a099dcc",
+    "docs/ERP_BEST_PRACTICES.md": "f79cf5e9d7dc02240d83d56edf23e4ebc911d665f8cda0df499b3337a4f7c119",
+    "docs/cp7/OWNER_DECISIONS_20261008.md": "fcb521c97e658d1f43eb361558e897e5e05f1402a3527393a43418549ec1f419",
+    "docs/cp7/OPEN_WORK_D17_14_20261020.md": "2a9eb1323a8e626d10357097b999bd36d1beac7f308ea1a7518d7935ab0ee3ef",
+    "CLAUDE.md": "c43a68ae93e385829c977c161c77c79a67065f636f9c8ec98b5365d4449ad920"
+  },
+  "implementation_path_received": false,
+  "other_reviewer_conclusions_received": false,
+  "database_connections_opened": false,
+  "browser_executed": false,
+  "http_executed": false,
+  "Native_executed": false,
+  "product_edited": false,
+  "child_agents_spawned": false,
+  "required_case_ids": [
+    "OW04_BROWSER_CREDIT_LOST_REPLY_DESKTOP",
+    "OW04_BROWSER_REFUND_MOBILE",
+    "OW04_BROWSER_QUOTE_EDIT_FENCE",
+    "OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK"
+  ],
+  "scope_assessment": {
+    "authorized": "Four initial paid-return browser journeys using exact existing escrow UI plus exact qualified ef98 backend only in a disposable CI composition; unchanged default frontend and hosted ERP.",
+    "owner_basis": "D17-14 requires explicit refund versus customer credit and preserved history. Reliability invariants require atomic financial/stock/HPP effects, original-envelope idempotency and authoritative read-after-write before writers unlock.",
+    "separate_prior_evidence": [
+      "ef98 Native44",
+      "6f318261 real Auth HTTP8 and authenticated SQL race6"
+    ],
+    "not_claimed": [
+      "Corrected or multiple cohort reconciliation",
+      "APPLY and consumer undo completion",
+      "Whole-server crash recovery",
+      "Default product adoption",
+      "OW04 completion or independent external audit"
+    ],
+    "implementation_findings": []
+  },
+  "expected_cases": [
+    {
+      "id": "OW04_BROWSER_CREDIT_LOST_REPLY_DESKTOP",
+      "scenario": "Real Auth desktop user records CREDIT200 on paid1000 return200, with an explicitly selected eligible liability account. The successful committed reply is lost.",
+      "expected": "Exactly one actual settlement/result is committed. After reload, original UUID, expected version and complete document are retried unchanged and return the exact first successful body. Durable recovery and global lock persist through uncertainty. Raw payment1000 and its original source/journals stay unchanged; retained recognition200 gives E800, AR0, liability200, FG6/value60, net revenue800 and COGS40.",
+      "observed": "Contract declared; implementation and runtime not yet observed.",
+      "required_reproduction": "Browser emits the real initial settlement. Capture actual upstream HTTP200/body after COMMIT, then abort delivery. Inspect the durable envelope, reload page, capture the next actual settle body and compare every envelope field with the original; use a fresh authoritative connection for exact financial/date/stock/HPP and one-effect assertions."
+    },
+    {
+      "id": "OW04_BROWSER_REFUND_MOBILE",
+      "scenario": "390px mobile user records a REOPENED paid900 return200, explicitly choosing liability/cash accounts and separate return/refund physical inputs.",
+      "expected": "READY credit100 and cash100 agree with actual source dates; economic D2 and lawful book D3 are retained even when ordinary reopened resolver would choose D2. Settlement commits one refund100, cash800, liability0, retained I100, source P900 unchanged, E800, AR0, FG6/value60, net revenue800 and COGS40. No horizontal overflow.",
+      "observed": "Contract declared; implementation and runtime not yet observed.",
+      "required_reproduction": "Use the actual Native source calendar and explicit D2 10:00 WIB return/D2 13:00 WIB refund inputs, inspect READY axes, submit through UI, then compare both original funding journals and actual new paired journals/GL/HPP/stock. Measure document.documentElement.scrollWidth <= window.innerWidth at390 with the filled form; do not conceal overflow."
+    },
+    {
+      "id": "OW04_BROWSER_QUOTE_EDIT_FENCE",
+      "scenario": "Review a genuine READY CREDIT200 quote, change amount200\u2192199\u2192200.",
+      "expected": "The old quote/review is retired on input change and saving stays disabled with zero settlement requests. Returning to the original value cannot revive the old UI generation. A new real quote request, review and settlement are necessary; unchanged200 financial oracle still applies.",
+      "observed": "Contract declared; implementation and runtime not yet observed.",
+      "required_reproduction": "Capture network counts and review/save state after each edit before a new quote. Confirm a later actual quote request and current review precede the only settle. Do not require two deterministic server quote hashes to differ merely because the browser requested a new generation."
+    },
+    {
+      "id": "OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK",
+      "scenario": "A CREDIT commit reply is lost; the real user membership is then revoked while its original recovery envelope remains. Membership is restored, retry succeeds, then postcommit invoice reads fail.",
+      "expected": "Actual replay returns exact403/CP7_SALES_ACCESS_DENIED while preserving the identical recovery envelope and all financial/private facts. Restore membership and retry the same original envelope to obtain the identical committed result. Read failure after success leaves source stale and all writers locked until explicit verified fresh reload. No second settlement, cash, stock, HPP or source-payment effect.",
+      "observed": "Contract declared; implementation and runtime not yet observed.",
+      "required_reproduction": "Commit the disposable administrative membership change before capture of the denied-call baseline, so the expected fixture change is not mistaken for a partial financial effect. Reach actual PostgREST on denial and recovery; compare full private/business snapshots. Apply the read fault only after the successful settle/replay response, inspect other writer controls, remove fault and require a genuine fresh-source response before unlock."
+    }
+  ],
+  "initial_risks_and_required_observations": [
+    {
+      "id": "LOST_REPLY_MUST_FOLLOW_COMMIT",
+      "risk": "Aborting before the server completed would prove request failure rather than recovery of a committed settlement.",
+      "expected": "Record real upstream success body and committed authoritative facts before withholding browser delivery.",
+      "source": "BROWSER_EXPECTED first/fourth cases; reliability invariant19/21/26."
+    },
+    {
+      "id": "COMPLETE_ENVELOPE_RETENTION",
+      "risk": "Comparing only UUID can miss regenerated expected version, altered document, account, physical time or quote binding.",
+      "expected": "Compare the complete immutable mutation envelope across durable storage, page reload, denied replay and successful replay; do not rebuild it from current source or current input.",
+      "source": "BROWSER_EXPECTED first/fourth cases; idempotency invariant21."
+    },
+    {
+      "id": "GLOBAL_LOCK_AFTER_RESULT",
+      "risk": "Clearing pending recovery or showing a successful receipt can prematurely enable another writer while postcommit data are stale.",
+      "expected": "Observe the actual global writer state and another writer route/control, through failed reads and until authoritative fresh reload succeeds.",
+      "source": "BROWSER_EXPECTED fourth case; read-after-write invariant26; best-practices18b."
+    },
+    {
+      "id": "ORACLE_IS_AUTHORITATIVE_NOT_DOM_ALONE",
+      "risk": "UI text and mocked response totals can agree while no actual finance/GL/HPP/stock effect occurred.",
+      "expected": "Actual browser public calls plus fresh-connection immutable source and exact initial settlement oracle, complete private-state equality on replay/refusal, actual one-effect cardinality.",
+      "source": "BROWSER_EXPECTED required; checkpoint financial formula E=P+U-I and raw payment history P."
+    },
+    {
+      "id": "PRECISE_ECONOMIC_BOOK_AXES",
+      "risk": "A REOPENED fixture using ordinary resolver D2 or browser-current time would hide the required lawful D3 book floor.",
+      "expected": "Explicit Native calendar-based physical inputs; both actual economic/book pairs, including refund physical D2/book D3, compare to frozen oracle.",
+      "source": "BROWSER_EXPECTED mobile case/inputs; unchanged initial settlement dates."
+    },
+    {
+      "id": "EXACT_ESCROW_ATOMIC_COMPOSITION",
+      "risk": "Applying prerequisite files over current root files or building only the parent patch can produce a different or partial candidate.",
+      "expected": "Fresh disposable source, verify53 regular members and both patch hashes, apply exact prerequisite then parent patches against matching bases, pair with qualified backend, restore all touched source paths in failure and success paths.",
+      "source": "ui-parent-escrow/INTEGRATOR_STATUS.md; ESCROW_MANIFEST.json; BROWSER_EXPECTED required."
+    },
+    {
+      "id": "LOOPBACK_RELEASE_MODE",
+      "risk": "A test-only build or mocked RPC path can bypass real Enteng-mode permissions/data behavior.",
+      "expected": "Use actual release Enteng mode with only loopback project routing/browser key substitution; block other hosts and avoid product response mocks. Auth must be real.",
+      "source": "BROWSER_EXPECTED ui_scope/required; ERP_BEST_PRACTICES25d."
+    },
+    {
+      "id": "EXACT_FOUR_AND_OUTER_GATES",
+      "risk": "Missing cases, masked command failures or unverified source restoration can yield a misleading green receipt.",
+      "expected": "Exact four declared IDs and four PASS, actual candidate/backend/UI pins, restored source tree, CP6/advisor/Auth cleanup and all five outer package gates. Prior44/14 receipts stay separately identified.",
+      "source": "BROWSER_EXPECTED required/limits; existing checkpoint gate disposition."
+    }
+  ],
+  "next_bounded_review": "After root provides implementation paths, inspect actual journey code and source/CI gates against these fixed expectations. Record only concrete expected/observed/reproduction counters; do not infer runtime success.",
+  "unresolved_business_policy_questions": [],
+  "limits": [
+    "This is internal writer review only.",
+    "No implementation or new browser runtime result has been inspected.",
+    "Escrow historical DOM167/type stand-in results are metadata, not actual browser evidence."
+  ]
+}

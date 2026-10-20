@@ -1,0 +1,157 @@
+{
+  "label": "OW04_BROWSER4_IMPLEMENTATION_BOUNDED_FINAL_COUNTER",
+  "classification": "INTERNAL_WRITER_SOURCE_RECHECK_PLUS_PURE_SYNTHETIC_TEST_CLAUSE_NOT_BROWSER_RUNTIME",
+  "assessment": "ALL_THREE_INITIAL_QUALIFICATION_GAPS_CLOSED_WITHIN_REVIEWED_SCOPE",
+  "reviewed_sha256": {
+    "scripts/ow04-qualification/browser_cases.mjs": "0d6d33dbdbb75a09f145ec2a4d0ecd4f8ee44b6afcebb04e7c64ced4c8908caa",
+    "scripts/ow04-qualification/browser_fixture.py": "5d287742a94b87cf207b3b7d43c294988edf0f54412207a0654b46d2dcb7e501",
+    "scripts/ow04-qualification/browser_probe.py": "899cd1bfef64bc24001e2182fed434bcdcb64fd5f6aa2180f5487b357702cb6f",
+    "scripts/ow04-qualification/browser_sources.py": "a35e1de34662e74d017347edfdff89760c1612cf62c23705d5f62f13229e28e7",
+    "scripts/ow04-qualification/BROWSER_EXPECTED.json": "498f1943b91704d916268d0fe0a3f5caa1924199484de512626b72847170424f",
+    ".github/workflows/cp7-ow04-browser.yml": "cddf2c08d5d598e5dd92c883b8c36a9135c296f8e9cb6af4269b16d467da50ab"
+  },
+  "initial_counter_sha256": "f07095127808345ecf5533dcbc3974efe748e77529123381b6f9572feef4b4be",
+  "initial_counter_source_sha256": "72a1645f8a17422c0837d5a088702e3dba8be1d6577c68218e60fcc78413ba3a",
+  "first_red_preserved": true,
+  "frozen_expected_unchanged": true,
+  "database_connections_opened": false,
+  "browser_executed": false,
+  "http_executed": false,
+  "Native_executed": false,
+  "product_edited": false,
+  "child_agents_spawned": false,
+  "findings": [],
+  "dispositions": [
+    {
+      "id": "POSTCOMMIT_READ_FAULT_CAN_BE_UNOBSERVED",
+      "status": "CLOSED_SOURCE_AND_SYNTHETIC_CLAUSE",
+      "expected": "Actual aborted read and settled failed refresh must be observed before fault removal; subsequent unlock requires verified fresh source.",
+      "observed_source": "The fixed clause installs requestfailed observation before route and replay, awaits that event, requires abort handler count>0, awaits exact committedRefreshError, and checks absent detail/disabled SALES and FG controls before unroute. It then awaits a real200 read with the fixture sale UUID, outcome row_version, effective-paid800 and open-balance0. Later UI assertions require fresh detail and enabled create.",
+      "reproduction": "Portable actual-clause recheck refuses the prior deferred-read schedule before unroute. It also refuses a matching requestfailed event with zero handler calls; valid abort+event+settled error+fresh reload control completes.",
+      "evidence": [
+        "browser_cases.mjs:176-203",
+        "READ_FAULT_SCHEDULE_RECHECK.json"
+      ]
+    },
+    {
+      "id": "MOBILE_OVERFLOW_RELAXED_BY_ONE_PIXEL",
+      "status": "CLOSED_ACTUAL_EXPRESSION",
+      "expected": "scrollWidth <= innerWidth exactly.",
+      "observed": "The fixed source has no+1 tolerance. Actual extracted expression accepts390/390 and refuses391/390.",
+      "evidence": [
+        "browser_cases.mjs:209",
+        "READ_FAULT_SCHEDULE_RECHECK.json:widths"
+      ]
+    },
+    {
+      "id": "READY_UI_MONEY_DATE_ORACLE_NOT_ASSERTED",
+      "status": "CLOSED_SOURCE",
+      "expected": "Before checking review, assert visible READY credit, eight before/after totals, return/recognition axes and refund cash/date pair.",
+      "observed_source": "quote() now asserts actual rendered credit output; both cells for all8 total rows; return book and economic/book text; recognition row economic/book/value; review return axes. REFUND also asserts cashRp100, distinct frozen refund axes, review refund dates and rendered refund book date. All these precede the review checkbox.",
+      "evidence": [
+        "browser_cases.mjs:55-84",
+        "browser_fixture.py:70-73"
+      ]
+    }
+  ],
+  "additional_bounded_source_observations": [
+    {
+      "id": "FIXTURE_FROZEN_EXPECTED_AND_BYTES",
+      "observed_source": "load_fixture verifies serialized bytes against the original fixture hash and requires gold to be one of original expected() cases (which independently pins its source EXPECTED SHA). Verification calls pass the serialized SHA. Newly exposed return/refund pairs map only original frozen profile labels through actual fixture calendar; no posted source facts or Native golden are rewritten.",
+      "evidence": [
+        "browser_fixture.py:32-38,50-58,70-73,85-97",
+        "browser_cases.mjs:103,206",
+        "initial-settlement/cp7_ow04_initial_settlement_cases.py:EXPECTED_SHA,expected()"
+      ]
+    },
+    {
+      "id": "SCOPED_LOCK_OBSERVATION",
+      "observed_source": "After envelope clearing and settled failed SALES reload, SALES controls and the already-open FG controls are checked disabled. This review does not assert a broader untested new-domain-lock policy. The fault now must actually occur; no lock proof is inferred solely from transient loading.",
+      "evidence": [
+        "browser_cases.mjs:176-203"
+      ]
+    },
+    {
+      "id": "OUTER_WRAPPER_UNCHANGED",
+      "observed_source": "browser_probe, browser_sources and workflow pins remain unchanged from initial implementation assessment. No continue-on-error masks the package command; original five outer gates and exact4/backend/Auth/restoration checks remain required.",
+      "evidence": [
+        "browser_probe.py",
+        "browser_sources.py",
+        ".github/workflows/cp7-ow04-browser.yml"
+      ]
+    }
+  ],
+  "reproduction": {
+    "script": "read_fault_schedule_recheck.mjs",
+    "script_sha256": "4617f17e288c5238eb9c63b026be34a43b7e7018f07768f464898a4454991eb1",
+    "usage": "node read_fault_schedule_recheck.mjs SOURCE_BROWSER_CASES OUTPUT_JSON",
+    "sample_from_repository": "node /workspace/scratch/9442228ed2dc/ow04-proposals/browser/read_fault_schedule_recheck.mjs scripts/ow04-qualification/browser_cases.mjs /workspace/scratch/9442228ed2dc/ow04-proposals/browser/READ_FAULT_SCHEDULE_RECHECK.json",
+    "result_sha256": "e176fc4e3570166dac6206ecef34c1cc29810a47076bde9678207977683da553",
+    "control_results": [
+      {
+        "schedule": "read_deferred_beyond_fault_observation",
+        "expected": "REFUSE",
+        "observed": "REFUSE",
+        "agrees": true,
+        "actual_abort_handler_calls": 0,
+        "failed_event_observed": false,
+        "fault_removed": false,
+        "trace": [
+          "fault_registered",
+          "no_failed_read_observed"
+        ],
+        "error": "SYNTHETIC_REQUESTFAILED_TIMEOUT"
+      },
+      {
+        "schedule": "requestfailed_event_without_abort_handler",
+        "expected": "REFUSE",
+        "observed": "REFUSE",
+        "agrees": true,
+        "actual_abort_handler_calls": 0,
+        "failed_event_observed": true,
+        "fault_removed": false,
+        "trace": [
+          "fault_registered",
+          "foreign_failure_event_without_handler"
+        ],
+        "error": "A real postcommit invoice read must reach the abort handler"
+      },
+      {
+        "schedule": "actual_abort_event_settled_error_then_verified_reload",
+        "expected": "COMPLETE",
+        "observed": "COMPLETE",
+        "agrees": true,
+        "actual_abort_handler_calls": 1,
+        "failed_event_observed": true,
+        "fault_removed": true,
+        "trace": [
+          "fault_registered",
+          "abort_handler_called",
+          "fault_removed",
+          "explicit_reload_clicked"
+        ]
+      }
+    ],
+    "width_results": [
+      {
+        "scroll": 390,
+        "viewport": 390,
+        "expected": true,
+        "observed": true
+      },
+      {
+        "scroll": 391,
+        "viewport": 390,
+        "expected": false,
+        "observed": false
+      }
+    ]
+  },
+  "limits": [
+    "No actual browser journey, DB/Auth/PostgREST, Native or financial execution occurred.",
+    "The portable driver executes the exact copied test clause with synthetic locators/events. It verifies the oracle guard, not product behavior or actual event timing.",
+    "READY UI date/money closure is a source review only; the real browser still needs to execute and may reveal separate setup/product issues.",
+    "Prior Native44 and HTTP8/race6 evidence remains separate and was not rerun.",
+    "No whole OW04 feature-complete, default frontend activation or production claim."
+  ]
+}
