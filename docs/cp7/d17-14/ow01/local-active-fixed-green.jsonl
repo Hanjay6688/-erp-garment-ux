@@ -1,0 +1,2 @@
+{"step":"full_alerts_sql_installed","runtime":"LOCAL_PGLITE18_DEV","original_sql":true,"old":false,"sourceRef":null}
+{"status":"PASS","checks":26,"runtime":"LOCAL_PGLITE18_DEV","scope":"full SQL installs; adapter, exact money, grouping, dedup, resolution and permission checks with synthetic source contracts","not_native_business_evidence":true,"no_network_transport":true}

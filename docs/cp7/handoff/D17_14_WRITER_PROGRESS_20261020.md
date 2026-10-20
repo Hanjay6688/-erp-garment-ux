@@ -34,10 +34,23 @@ bukan Native PostgreSQL/Supabase CI. PostgreSQL biasa tidak dapat dijalankan di 
 karena hanya UID root tersedia; tidak ada pengujian hosted sebagai pengganti.
 TypeScript dan pemeriksaan kepemilikan sumber/akses/CSS, pemulihan perintah dan keterjangkauan SQL lulus.
 Bukti dan batasnya: `docs/cp7/d17-14/ow01/README.md`. Tujuh kasus Native baru dan perluasan browser
-desktop/HP telah dideklarasikan; CI belum dijalankan, OW-01 belum selesai.
+desktop/HP telah dideklarasikan. CI pertama 39406686784 di 39212271 selesai 59/65 PASS:
+enam INCOMPLETE disimpan dan sedang diperbaiki; tujuh browser PASS. OW-01 belum selesai.
 
 ## Berikutnya
 
 OW-02 penjalan server (analisis, laporan bisnis, pengingat), OW-03 isian kelipatan produksi;
-lalu urutan OW-04..15 dari daftar kerja. Kegagalan CP6 lama tetap dicatat sebagai gagal beserta
+lalu urutan daftar kerja, termasuk OW-16 sebelum paket OW-15. Kegagalan CP6 lama tetap dicatat sebagai gagal beserta
 pembanding dan cakupan penggantinya. Paket auditor baru menunggu tiga butir Kelompok 1 selesai.
+
+## Tambahan scope Claude yang diambil 20 Oktober
+
+Owner meminta lanjut dan tambahkan scope baru Claude. Dokumen owner/daftar kerja disalin persis dari
+claude/new-session-deapao 41b5b0e (rantai 19293bf, 684bb4a, 41b5b0e); hanya dua dokumen itu yang diambil.
+OW-16: setelah potongan selesai, tampil otomatis status total pcs berdasarkan riwayat seluruh pabrik,
+berkelompok jenis bahan + pola + rentang ukuran pola (jumbo/kecil). Tidak ke WA atau Pengingat.
+Lebar rentang dan minimum riwayat belum boleh dikarang. Perubahan produk belum dimulai.
+
+OW-02: dispatcher privat sudah ditulis di working tree, memakai satu tick K4 yang sama untuk analisis
+bertahap, laporan, set pengingat dan analisis tunggal. Pemeriksaan lokal sintetis 15/15, bukan Native.
+Kasus Native/balapan sedang ditulis; belum diklaim selesai dan belum terpasang ke hosted.

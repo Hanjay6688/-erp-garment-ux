@@ -1,0 +1,3 @@
+{"step":"full_alerts_sql_installed","runtime":"LOCAL_PGLITE18_DEV","original_sql":true,"old":false,"sourceRef":"39212271aba68c28d91e1c1ed2bacd267339cad2"}
+{"diagnostic":"SYNTHETIC_RENDER_NULL","detail":"SUMMARY","rp":"Rp17.312,9","first":null,"second":"⚠ ERP Enteng · 20 Okt 17.34\nPenerimaan laundry perlu diperiksa: 1 pengingat, perlu diperiksa\nBuka ERP > Reminder"}
+{"status":"FAIL","checks":17,"old":false,"error":"laundry render must not be NULL: SUMMARY\n\n'object' !== 'string'\n","code":"ERR_ASSERTION","position":null}

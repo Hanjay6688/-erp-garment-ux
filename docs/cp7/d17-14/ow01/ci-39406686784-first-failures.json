@@ -1,0 +1,125 @@
+{
+  "head": "39212271aba68c28d91e1c1ed2bacd267339cad2",
+  "run_id": 39406686784,
+  "attempt": 1,
+  "job_id": 118574211136,
+  "overall": "INCOMPLETE",
+  "observed_cases": 65,
+  "failures": [
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_SEND_ONE_REQUEST_EXACT_TEXT",
+      "status": "INCOMPLETE",
+      "error": "({'job': 'SEND', 'ran': True, 'items': 1, 'failed': None, 'outcome': 'SENT', 'repeats': 0, 'analysis': {'failed': [], 'checked': {}, 'resolved': 0, 'unchecked': {}}, 'answered': 0, 'dispatch_id': 1}, 7)",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 495, in send_one_request\n    assert out['outcome'] == 'SENT' and out['items'] == len(pending), (out, len(pending))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ({'job': 'SEND', 'ran': True, 'items': 1, 'failed': None, 'outcome': 'SENT', 'repeats': 0, 'analysis': {'failed': [], 'checked': {}, 'resolved': 0, 'unchecked': {}}, 'answered': 0, 'dispatch_id': 1}, 7)\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_PACING_BURST_QUIET_DIGEST_REPEAT",
+      "status": "INCOMPLETE",
+      "error": "({'id': 13, 'kind': 'DIGEST', 'status': 'QUEUED', 'body': '📋 Ringkasan ERP Enteng · 20 Okt 17.20\\nStok kain di bawah minimum (3):\\n- Kain WAAWAL 80D7E1EC: sisa 0 YD, minimum 25 YD\\n- Kain WAPACE 5C10B0FD: sisa 0 YD, minimum 25 YD\\n- Kain WATENANG 4894E254: sisa 0 YD, minimum 25 YD\\nBuka ERP > Reminder', 'net': 4, 'http': None, 'text': None, 'resolved': None}, 9)",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 652, in pacing_burst_quiet_digest_repeat\n    assert d['kind'] == 'DIGEST' and d['body'].startswith('\\U0001f4cb Ringkasan ERP Enteng · ') and digest['items'] >= open_count, (d, open_count)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ({'id': 13, 'kind': 'DIGEST', 'status': 'QUEUED', 'body': '📋 Ringkasan ERP Enteng · 20 Okt 17.20\\nStok kain di bawah minimum (3):\\n- Kain WAAWAL 80D7E1EC: sisa 0 YD, minimum 25 YD\\n- Kain WAPACE 5C10B0FD: sisa 0 YD, minimum 25 YD\\n- Kain WATENANG 4894E254: sisa 0 YD, minimum 25 YD\\nBuka ERP > Reminder', 'net': 4, 'http': None, 'text': None, 'resolved': None}, 9)\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_PRIVACY_AND_LIST_PERMISSIONS",
+      "status": "INCOMPLETE",
+      "error": "[{'kind': 'ACCESSORY_AP', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.196762+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.196762+00:00'}, {'kind': 'ACCESSORY_AT_REORDER_POINT', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.212048+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.212048+00:00'}, {'kind': 'AP_DUE', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.299619+00:00', 'open_count': 1, 'last_try_at': '2026-10-20T10:20:59.299619+00:00'}, {'kind': 'AR_DUE', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.303782+00:00', 'open_count': 1, 'last_try_at': '2026-10-20T10:20:59.303782+00:00'}, {'kind': 'FABRIC_BELOW_MINIMUM', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.234589+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.234589+00:00'}, {'kind': 'FABRIC_NEED', 'last_error': None, 'last_ok_at': None, 'open_count': None, 'last_try_at': None}, {'kind': 'FG_AT_REORDER_POINT', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.235267+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.235267+00:00'}, {'kind': 'LAUNDRY_AP', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.23579+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.23579+00:00'}, {'kind': 'LAUNDRY_OPENING_UNINVOICED', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.236198+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.236198+00:00'}, {'kind': 'LAUNDRY_RECEIPT', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.236586+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.236586+00:00'}, {'kind': 'OPENING_AP', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.236868+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.236868+00:00'}, {'kind': 'OPENING_AR', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.237175+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.237175+00:00'}, {'kind': 'PAYROLL_AP', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.239101+00:00', 'open_count': 6, 'last_try_at': '2026-10-20T10:20:59.239101+00:00'}, {'kind': 'PRODUCTION_GAP', 'last_error': None, 'last_ok_at': None, 'open_count': None, 'last_try_at': None}]",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 732, in privacy_permissions\n    assert {'FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: [{'kind': 'ACCESSORY_AP', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.196762+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.196762+00:00'}, {'kind': 'ACCESSORY_AT_REORDER_POINT', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.212048+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.212048+00:00'}, {'kind': 'AP_DUE', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.299619+00:00', 'open_count': 1, 'last_try_at': '2026-10-20T10:20:59.299619+00:00'}, {'kind': 'AR_DUE', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.303782+00:00', 'open_count': 1, 'last_try_at': '2026-10-20T10:20:59.303782+00:00'}, {'kind': 'FABRIC_BELOW_MINIMUM', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.234589+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.234589+00:00'}, {'kind': 'FABRIC_NEED', 'last_error': None, 'last_ok_at': None, 'open_count': None, 'last_try_at': None}, {'kind': 'FG_AT_REORDER_POINT', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.235267+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.235267+00:00'}, {'kind': 'LAUNDRY_AP', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.23579+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.23579+00:00'}, {'kind': 'LAUNDRY_OPENING_UNINVOICED', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.236198+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.236198+00:00'}, {'kind': 'LAUNDRY_RECEIPT', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.236586+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.236586+00:00'}, {'kind': 'OPENING_AP', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.236868+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.236868+00:00'}, {'kind': 'OPENING_AR', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.237175+00:00', 'open_count': 0, 'last_try_at': '2026-10-20T10:20:59.237175+00:00'}, {'kind': 'PAYROLL_AP', 'last_error': None, 'last_ok_at': '2026-10-20T10:20:59.239101+00:00', 'open_count': 6, 'last_try_at': '2026-10-20T10:20:59.239101+00:00'}, {'kind': 'PRODUCTION_GAP', 'last_error': None, 'last_ok_at': None, 'open_count': None, 'last_try_at': None}]\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_OTHER_OPENING_AR_AP",
+      "status": "INCOMPLETE",
+      "error": "permission denied for schema cp7_reminder_native\nLINE 1: select cp7_reminder_native.other_obligation_source()\n               ^",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_obligation_cases.py\", line 77, in opening\n    src = source(cur, cfg['owner'])\n          ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_obligation_cases.py\", line 25, in source\n    result = wa.one(cur, 'select cp7_reminder_native.other_obligation_source()')\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 90, in one\n    return cur.execute(sql, args).fetchone()[0]\n           ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied for schema cp7_reminder_native\nLINE 1: select cp7_reminder_native.other_obligation_source()\n               ^\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_OTHER_PAYROLL_PAYMENT_INVERSE",
+      "status": "INCOMPLETE",
+      "error": "",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_obligation_cases.py\", line 101, in payroll\n    assert 'Tagihan gaji' in message['body'] and 'Rp400' in message['body']\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_OTHER_LAUNDRY_PAYMENT_INVERSE",
+      "status": "INCOMPLETE",
+      "error": "new row for relation \"dispatches\" violates check constraint \"dispatches_check4\"\nDETAIL:  Failing row contains (25, INSTANT, null, 2, null, null, null, null, NOTHING_DUE, 2026-10-20 10:21:59.337732+00, null, null, null, null, null, null, null).\nCONTEXT:  SQL statement \"insert into cp7_alert_native.dispatches(kind,digest_slot,settings_revision,body,body_sha256,request_id,status)\n values(p_kind,p_slot,p_revision,p_body,case when p_body is not null then encode(sha256(convert_to(p_body,'UTF8')),'hex')end,p_request,\n  case when p_body is null then'NOTHING_DUE'else'QUEUED'end)returning id\"\nPL/pgSQL function cp7_alert_native.dispatch(text,timestamp with time zone,bigint,text,text,uuid) line 4 at SQL statement\nPL/pgSQL function cp7_alert_native.send_tick() line 95 at assignment",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_obligation_cases.py\", line 149, in laundry\n    message = sent(cur)\n              ^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_obligation_cases.py\", line 55, in sent\n    result = wa.tick(cur, 'send_tick')\n             ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 123, in tick\n    out = one(cur, 'select cp7_alert_native.' + name + '()')\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 90, in one\n    return cur.execute(sql, args).fetchone()[0]\n           ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.CheckViolation: new row for relation \"dispatches\" violates check constraint \"dispatches_check4\"\nDETAIL:  Failing row contains (25, INSTANT, null, 2, null, null, null, null, NOTHING_DUE, 2026-10-20 10:21:59.337732+00, null, null, null, null, null, null, null).\nCONTEXT:  SQL statement \"insert into cp7_alert_native.dispatches(kind,digest_slot,settings_revision,body,body_sha256,request_id,status)\n values(p_kind,p_slot,p_revision,p_body,case when p_body is not null then encode(sha256(convert_to(p_body,'UTF8')),'hex')end,p_request,\n  case when p_body is null then'NOTHING_DUE'else'QUEUED'end)returning id\"\nPL/pgSQL function cp7_alert_native.dispatch(text,timestamp with time zone,bigint,text,text,uuid) line 4 at SQL statement\nPL/pgSQL function cp7_alert_native.send_tick() line 95 at assignment\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    }
+  ],
+  "rerun_without_fix": false
+}

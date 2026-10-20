@@ -490,7 +490,11 @@ def cases(cur, today):
         mat = fabric(cur, 40, 'WAKIRIM')
         tick(cur, 'collect_tick')
         before = last_request(cur)
-        pending = [o for o in outbox(cur) if o['state'] == 'PENDING']
+        # The collector also records newly supported obligation domains.
+        # This case explicitly enables KINDS only: compare every eligible
+        # pending item, and separately prove disabled kinds are not sent.
+        pending = [o for o in outbox(cur) if o['state'] == 'PENDING' and o['kind'] in KINDS]
+        disabled = [o['id'] for o in outbox(cur) if o['state'] == 'PENDING' and o['kind'] not in KINDS]
         out = tick(cur, 'send_tick')
         assert out['outcome'] == 'SENT' and out['items'] == len(pending), (out, len(pending))
         d = dispatch(cur, out['dispatch_id'])
@@ -503,6 +507,7 @@ def cases(cur, today):
         assert lines[0].startswith('⚠ ERP Enteng · ') and lines[-1] == 'Buka ERP > Reminder' and len(d['body']) <= 1000, lines
         assert '- ' + name + ': sisa 0 YD, minimum 40 YD' in lines or any(l.startswith('- dan ') for l in lines), lines
         rows = outbox(cur)
+        assert all(o['state'] == 'KIND_OFF' and o['dispatch'] is None for o in rows if o['id'] in disabled)
         sent = [o for o in rows if o['dispatch'] == d['id']]
         assert len(sent) == len(pending) and all(o['state'] == 'DISPATCHED' and o['attempts'] == 1 for o in sent)
         b.api.admin(cur)
@@ -648,7 +653,7 @@ def cases(cur, today):
         assert digest['outcome'] == 'DIGEST', digest
         d = dispatch(cur, digest['dispatch_id'])
         b.api.admin(cur)
-        open_count = one(cur, "select count(*) from cp7_alert_native.alerts where state='OPEN'")
+        open_count = one(cur, "select count(*) from cp7_alert_native.alerts where state='OPEN' and kind=any(%s::text[])", (KINDS,))
         assert d['kind'] == 'DIGEST' and d['body'].startswith('\U0001f4cb Ringkasan ERP Enteng · ') and digest['items'] >= open_count, (d, open_count)
         age_dispatches(cur, 2)
         assert tick(cur, 'send_tick')['outcome'] in ('IDLE', 'WAITING'), 'WAF_DIGEST_TWICE_IN_ONE_SLOT'
@@ -730,7 +735,8 @@ def cases(cur, today):
         assert detailed['outcome'] == 'SENT' and (ar['party'] in dbody or '- dan ' in dbody), dbody
         owner_view = rpc(cur, 'erp_cp7_get_alerts_v1', (json.dumps({}),), s['owner'])
         assert {'FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
-                'PRODUCTION_GAP', 'FABRIC_NEED'} == {k['kind'] for k in owner_view['kinds']} \
+                'PRODUCTION_GAP', 'FABRIC_NEED', 'OPENING_AR', 'OPENING_AP', 'PAYROLL_AP', 'ACCESSORY_AP',
+                'LAUNDRY_AP', 'LAUNDRY_RECEIPT', 'LAUNDRY_OPENING_UNINVOICED'} == {k['kind'] for k in owner_view['kinds']} \
             == visible(cur, s['owner']), owner_view['kinds']
         assert any(r['wa'] is not None for r in owner_view['rows'])
         staff = master.role_actor(cur, 'GUDANG')

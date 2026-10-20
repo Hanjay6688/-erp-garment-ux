@@ -21,7 +21,7 @@ IDS = ['WAF_OTHER_OPENING_AR_AP', 'WAF_OTHER_PAYROLL_PAYMENT_INVERSE',
 def source(cur, owner):
     wa.auth.actor(cur, owner)
     # Same current identity as the tick. Private reader is not exposed to authenticated.
-    cur.execute('reset role')
+    wa.b.api.admin(cur)
     result = wa.one(cur, 'select cp7_reminder_native.other_obligation_source()')
     wa.b.api.admin(cur)
     return result
@@ -90,7 +90,9 @@ def cases(cur, today):
 
     def payroll():
         f = other.installments.fixture(cur, today)
-        wa.setup(cur, kinds=KINDS)
+        # The fixture includes other open payrolls. Detailed mode must carry
+        # this payroll's exact 400; summary correctly adds all open payrolls.
+        wa.setup(cur, kinds=KINDS, detail='DETAILED', max_items=20)
         collect(cur)
         first = assert_amount(cur, 'PAYROLL_AP', f['payroll'], '1000')
         payment = other.installments.act(cur, f)
@@ -98,7 +100,7 @@ def cases(cur, today):
         partial = assert_amount(cur, 'PAYROLL_AP', f['payroll'], '400')
         assert first['id'] == partial['id'] and first['episode'] == partial['episode']
         message = sent(cur)
-        assert 'Tagihan gaji' in message['body'] and 'Rp400' in message['body']
+        assert 'Tagihan gaji' in message['body'] and 'Rp400' in message['body'], message['body']
         other.installments.act(cur, f, amount='400.00')
         collect(cur)
         assert other.key('PAYROLL_AP', f['payroll']) not in wa.alerts(cur, 'PAYROLL_AP')
@@ -194,9 +196,15 @@ def cases(cur, today):
         assert 'Rahasia pihak' not in body and 'Rp0' not in body and len(body) <= 1000
         assert body.count('1 pengingat') == 7 and body.count('perlu diperiksa') >= 7
         assert body.endswith('Buka ERP > Reminder')
+        # ACTIVE has no review suffix. It must not concatenate SQL NULL and
+        # lose the whole message (first failure run 39406686784, laundry).
+        active = [dict(x, detail=dict(x['detail'], domain=x['kind'], state='ACTIVE', remaining_state='KNOWN',
+                      remaining='17312.90', economic_state='OPEN', due_date='2026-10-20')) for x in items]
+        body_active = wa.one(cur, "select cp7_alert_native.render('INSTANT',%s::jsonb,'{}','SUMMARY',10,statement_timestamp(),'{}')", (json.dumps(active),))
+        assert body_active is not None and body_active.count('Rp17.312,9') == 7 and body_active.endswith('Buka ERP > Reminder'), body_active
         settings = wa.rpc(cur, 'erp_cp7_get_wa_settings_v1', (), cfg['owner'])
         assert set(settings['settings']['kinds']) == set(KINDS)
         return dict(status='PASS', seven_default_domains_and_saved_settings=True, summary_private_and_all_counted=True,
-                    synthetic_render_input=True, unknown_not_zero=True)
+                    synthetic_render_input=True, unknown_not_zero=True, active_without_review_suffix_not_null=True)
 
     return list(zip(IDS, [opening, payroll, accessory, laundry, laundry_opening, permissions, all_summary]))

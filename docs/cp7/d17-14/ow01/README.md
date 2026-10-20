@@ -16,7 +16,7 @@ Penulis Astra/Codex; audit independen menunggu Fable/Sol. Tidak ada pengiriman W
   (tambahkan `--old` untuk penolakan kode lama). Tidak ada dependensi baru di aplikasi.
 - TypeScript, kepemilikan sumber/akses/CSS, pemulihan perintah, dan keterjangkauan seluruh SQL lulus lokal.
 
-## Pengujian Native yang ditambahkan, belum dijalankan
+## Pengujian Native yang ditambahkan
 
 `scripts/cp7_wa_obligation_cases.py` menambahkan tujuh kasus ke suite WA: saldo awal AR/AP;
 gaji cicilan/lunas/balik; alokasi kredit aksesori yang belum dibayar; invoice dan penerimaan laundry
@@ -27,7 +27,29 @@ dan tersimpan di desktop/HP. Jumlah manifest sekarang 65 (48 Native, 6 balapan, 
 
 CI WA dipicu oleh push produk pada cabang writer baru yang dideklarasikan di workflow; isi job,
 identitas pemasang, oracle dan gate tetap. Ini pekerjaan penulis, bukan dispatch audit pada kandidat beku.
-Hasil CI harus dicatat sebelum OW-01 ditandai selesai. Sisa 14 pekerjaan tetap terbuka.
+Hasil CI harus dicatat sebelum OW-01 ditandai selesai. Dengan OW-16 dari D17-15, ada 16 butir pekerjaan.
+
+## CI pertama dan koreksinya — 20 Oktober
+
+Run 39406686784 / attempt 1 pada 39212271: **59/65 PASS, 6 INCOMPLETE**.
+Native 42/48, balapan 6/6, HTTP 4/4, browser 7/7; stack smoke juga PASS.
+Data dan skema dipulihkan; enam kegagalan tidak dihapus atau disebut hijau.
+Rincian asli ada di ci-39406686784-first-failures.json.
+
+- Cacat produk: ringkasan kewajiban ACTIVE tanpa suffix DATA_REVIEW menggabungkan SQL NULL.
+  Akibatnya pesan laundry kosong dan guard dispatch menolak. ELSE kosong ditambahkan;
+  guard dispatch tetap. Reproduksi lokal gagal pada 39212271 dan lulus setelah koreksi.
+- Penyiapan uji sumber: RESET ROLE tidak membatalkan SESSION AUTHORIZATION authenticated.
+  Pembacaan pembanding kini memakai helper admin harness, dengan identitas JWT yang sama.
+- Oracle gaji: ringkasan benar menjumlahkan gaji fixture lain juga. Kasus saldo 400 kini
+  memilih mode rinci agar angka payroll itu sendiri dapat diperiksa; saldo Native tetap diuji persis.
+- Dua oracle antrian menghitung jenis yang sengaja tidak dipilih di pengaturan. Hitungan kini
+  tepat mencakup semua jenis yang dipilih, dan jenis nonaktif wajib KIND_OFF tanpa dispatch.
+  Oracle hak baca owner diperluas dengan tujuh jenis baru, tetap perbandingan himpunan persis.
+- Pada batas panjang pesan, fallback hitungan seluruh jenis dipakai sebelum memotong rincian uang,
+  agar satu jenis tidak hilang hanya karena pesan memuat banyak domain.
+
+Perbaikan ini perlu CI berikutnya; **OW-01 masih belum selesai**.
 
 ## Perubahan perilaku yang disengaja
 

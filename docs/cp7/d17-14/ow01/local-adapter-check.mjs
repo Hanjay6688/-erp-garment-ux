@@ -6,6 +6,8 @@ import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 const repo=fileURLToPath(new URL('../../../../',import.meta.url));
 const old=process.argv.includes('--old');
+const sourceRef=process.argv.find(a=>a.startsWith('--ref='))?.slice(6)??(old?'5fd5d38ef43618e48f9aa36208f46ad2290404c0':null);
+if(sourceRef&&!/^[0-9a-f]{40}$/.test(sourceRef))throw Error('Expected complete commit SHA');
 const db=new PGlite();
 const q=async(s,p=[]) => (await db.query(s,p)).rows;
 const one=async(s,p=[]) => Object.values((await q(s,p))[0])[0];
@@ -26,9 +28,9 @@ create function net.http_get(url text,params jsonb,timeout_milliseconds integer)
 await db.exec(await fs.readFile(repo+'/scripts/cp7_wa_smoke_stubs.sql','utf8'));
 await db.exec(`create table public.test_obligations(doc jsonb);
 create or replace function cp7_reminder_native.other_obligation_source()returns jsonb language sql stable security definer set search_path=''as $$select jsonb_build_object('contract_version','cp7.native-other-obligations.v1','as_of','2026-10-20','rows',coalesce((select jsonb_agg(doc)from public.test_obligations),'[]'))$$;`);
-let sql=old?execFileSync('git',['show','5fd5d38ef43618e48f9aa36208f46ad2290404c0:scripts/cp7-src/alerts/alerts.sql'],{cwd:repo,encoding:'utf8'}):await fs.readFile(repo+'/scripts/cp7-src/alerts/alerts.sql','utf8');
+let sql=sourceRef?execFileSync('git',['show',sourceRef+':scripts/cp7-src/alerts/alerts.sql'],{cwd:repo,encoding:'utf8'}):await fs.readFile(repo+'/scripts/cp7-src/alerts/alerts.sql','utf8');
 await db.exec(sql);
-console.log(JSON.stringify({step:'full_alerts_sql_installed',runtime:'LOCAL_PGLITE18_DEV',original_sql:true,old}));
+console.log(JSON.stringify({step:'full_alerts_sql_installed',runtime:'LOCAL_PGLITE18_DEV',original_sql:true,old,sourceRef}));
 const owner='10000000-0000-4000-8000-000000000001';
 const perms=['finance.ar.view','finance.ap.view','finance.payroll.view','warehouse.accessory.view','production.laundry.view','finance.hpp.view','warehouse.dashboard.view','warehouse.material.view','master.fabric.view','warehouse.fg.view'];
 await db.query('insert into erp.test_users(sub,role_code,perms)values($1,\'OWNER\',$2)',[owner,perms]);
@@ -48,6 +50,17 @@ for(const a of first){const src=rows.find(r=>r.domain===a.kind);assert.equal(a.s
 await one('select cp7_alert_native.collect_kinds($1::text[])',[domains]);assert.equal(await one('select count(*)::integer from cp7_alert_native.outbox'),7);cases++;
 const items=first.map(a=>({kind:a.kind,subject_key:a.subject_key,title:a.detail.label,detail:a.detail}));
 const body=await one("select cp7_alert_native.render('DIGEST',$1,'{}','SUMMARY',10,now(),'{}')",[JSON.stringify(items)]);
+const laundryItems=[
+ {kind:'LAUNDRY_AP',title:'Jatuh tempo: invoice',repeat:false,detail:{domain:'LAUNDRY_AP',label:'invoice',remaining_state:'KNOWN',remaining:'17312.90',economic_state:'OPEN',state:'ACTIVE',due_date:'2026-10-20'}},
+ {kind:'LAUNDRY_RECEIPT',title:'Perlu diperiksa: penerimaan',repeat:false,detail:{domain:'LAUNDRY_RECEIPT',label:'penerimaan',remaining_state:'UNKNOWN',remaining:null,economic_state:'UNKNOWN',state:'DATA_REVIEW',due_date:null}}
+];
+for(const detail of['SUMMARY','DETAILED']){
+ const rendered=await one("select cp7_alert_native.render('INSTANT',$1,null,$2,10,now(),'{}')",[JSON.stringify(laundryItems),detail]);
+ if(rendered===null)console.log(JSON.stringify({diagnostic:'SYNTHETIC_RENDER_NULL',detail,rp:await one("select cp7_alert_native.rp('17312.90')"),
+  first:await one("select cp7_alert_native.render('INSTANT',$1,null,$2,10,now(),'{}')",[JSON.stringify(laundryItems.slice(0,1)),detail]),
+  second:await one("select cp7_alert_native.render('INSTANT',$1,null,$2,10,now(),'{}')",[JSON.stringify(laundryItems.slice(1)),detail])}));
+ assert.equal(typeof rendered,'string','laundry render must not be NULL: '+detail);assert(rendered.includes('Tagihan laundry'));cases++;
+}
 assert(!body.includes('Rahasia'));assert.equal(body.split('1 pengingat').length-1,7);assert(!body.includes('Rp0'));assert(body.endsWith('Buka ERP > Reminder'));assert(body.length<=1000);cases++;
 assert.equal(await one("select cp7_alert_native.rp('9007199254740993.01')"),'Rp9.007.199.254.740.993,01');
 assert.equal(await one("select cp7_alert_native.rp('0.01')"),'Rp0,01');cases++;

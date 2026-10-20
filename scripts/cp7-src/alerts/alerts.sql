@@ -774,7 +774,8 @@ begin
    if k=any(coalesce(p_failed,'{}'))then body:=body||E'\n'||(heads->>k)||': belum bisa dicek ulang, lihat ERP';end if;
    if n=0 and u>0 then body:=body||E'\n'||(heads->>k)||': '||u||' belum dicek ulang, lihat ERP';end if;
    continue when n=0;
-   if p_detail='SUMMARY'and k in('AR_DUE','AP_DUE')then
+   if cap=0 then body:=body||E'\n'||head||': '||n||case when u>0 then' (+'||u||' belum dicek ulang)'else''end;
+   elsif p_detail='SUMMARY'and k in('AR_DUE','AP_DUE')then
     body:=body||E'\n'||head||': '||n||case k when'AR_DUE'then' nota'else' penerimaan'end||', total '
      ||cp7_alert_native.rp((select sum((e->'detail'->>case k when'AR_DUE'then'open_balance'else'remaining'end)::numeric)::text
       from jsonb_array_elements(p_items)e where e->>'kind'=k));
@@ -786,8 +787,7 @@ begin
       ||cp7_alert_native.rp((select sum((e->'detail'->>'remaining')::numeric)::text from jsonb_array_elements(p_items)e
        where e->>'kind'=k and e->'detail'->>'economic_state'='OPEN'and e->'detail'->>'remaining_state'='KNOWN'))else''end
      ||case when exists(select 1 from jsonb_array_elements(p_items)e where e->>'kind'=k and e->'detail'->>'state'='DATA_REVIEW')
-      then', perlu diperiksa'end;
-   elsif cap=0 then body:=body||E'\n'||head||': '||n||case when u>0 then' (+'||u||' belum dicek ulang)'else''end;
+      then', perlu diperiksa'else''end;
    else
     body:=body||E'\n'||head||' ('||n||'):';
     for x in select e from jsonb_array_elements(p_items)e where e->>'kind'=k order by e->>'title',e->>'subject_key'limit cap loop

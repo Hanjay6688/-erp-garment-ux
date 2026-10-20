@@ -826,3 +826,37 @@ Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): semua butir D17
 di `docs/cp7/OPEN_WORK_D17_14_20261020.md`, dengan urutan dan syarat selesai dari kata-kata owner di atas. Pekerjaan
 dilanjutkan oleh Astra (serah-terima `docs/cp7/handoff/HANDOFF_ASTRA_WRITER_D17_14_20261020.md`) di cabang terpisah;
 kandidat yang diaudit (`55c885d1`) tetap beku. Paket r6 belum dikirim.
+
+### D17-15 (owner ke penulis Claude, 20 Okt 2026 WIB, status hasil potong tidak wajar)
+
+Pertanyaan owner sebelumnya: "boleh cek analisis hasil potongan yang ga wajar itu udah ada apa belom?" Jawaban penulis:
+sudah ada panel penilaian potong di halaman Potongan (hasil nyata per roll dibanding rentang empiris; di luar rentang =
+"Periksa kejadian ini"), tetapi manual per potongan, perlu riwayat cukup, riwayat per akun, tanpa daftar dan tanpa
+peringatan. Pertanyaan penulis: "hasil potong tidak wajar dicek otomatis untuk seluruh pabrik, muncul di Pengingat dan
+WA, lalu ditambahkan ke daftar kerja Astra? Ya atau tidak?"
+
+Owner (persis): "gaperlu wa, cuma perlu pas udah selesai dipotong keluar statusnya. per jenis barang"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): tidak ke WA (dan tidak sebagai pengingat). Begitu
+potongan selesai, statusnya keluar sendiri di potongan itu (wajar / lebih sedikit / lebih banyak dari biasanya / riwayat
+belum cukup), dengan rentang wajar per jenis barang dari riwayat pabrik. Dicatat sebagai OW-16 di
+`docs/cp7/OPEN_WORK_D17_14_20261020.md`. Arti "jenis barang" (penulis menafsirkan: model/pola produk yang dipotong)
+ditanyakan ke owner.
+
+Lanjutan. Pertanyaan penulis: ""jenis barang" maksudnya per model celana (misalnya Chino dan Cargo dihitung terpisah), ya
+atau tidak? Kalau tidak, sebutkan pembagiannya."
+
+Owner (persis): "per jenis bahan dengan pola dong kan dia hasilin ukurannya range juga"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): rentang wajar dikelompokkan per pasangan jenis bahan +
+pola, dan dinilai untuk rentang ukuran yang dihasilkan pola itu (bukan satu angka total), karena satu pola menghasilkan
+beberapa ukuran.
+
+Lanjutan kedua. Penjelasan penulis sebelumnya (chat): butir 2 yang perlu dibuat, "Penilaian per rentang ukuran yang
+dihasilkan pola. Sekarang yang dinilai hanya satu angka total pcs per roll."
+
+Owner (persis): "nomor 2 emang dari total tapi dia harus lihat dari range ukuran dong, pola jumbo apa kecil"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): yang dinilai tetap total pcs hasil potong, tetapi rentang
+wajarnya dibedakan menurut rentang ukuran pola (pola ukuran jumbo dan pola ukuran kecil punya rentang wajar sendiri), di
+dalam kelompok jenis bahan + pola. Ini mengoreksi ringkasan lanjutan pertama di atas ("bukan satu angka total").
