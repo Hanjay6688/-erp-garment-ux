@@ -826,3 +826,19 @@ Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): semua butir D17
 di `docs/cp7/OPEN_WORK_D17_14_20261020.md`, dengan urutan dan syarat selesai dari kata-kata owner di atas. Pekerjaan
 dilanjutkan oleh Astra (serah-terima `docs/cp7/handoff/HANDOFF_ASTRA_WRITER_D17_14_20261020.md`) di cabang terpisah;
 kandidat yang diaudit (`55c885d1`) tetap beku. Paket r6 belum dikirim.
+
+### D17-15 (owner ke penulis Claude, 20 Okt 2026 WIB, status hasil potong tidak wajar)
+
+Pertanyaan owner sebelumnya: "boleh cek analisis hasil potongan yang ga wajar itu udah ada apa belom?" Jawaban penulis:
+sudah ada panel penilaian potong di halaman Potongan (hasil nyata per roll dibanding rentang empiris; di luar rentang =
+"Periksa kejadian ini"), tetapi manual per potongan, perlu riwayat cukup, riwayat per akun, tanpa daftar dan tanpa
+peringatan. Pertanyaan penulis: "hasil potong tidak wajar dicek otomatis untuk seluruh pabrik, muncul di Pengingat dan
+WA, lalu ditambahkan ke daftar kerja Astra? Ya atau tidak?"
+
+Owner (persis): "gaperlu wa, cuma perlu pas udah selesai dipotong keluar statusnya. per jenis barang"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): tidak ke WA (dan tidak sebagai pengingat). Begitu
+potongan selesai, statusnya keluar sendiri di potongan itu (wajar / lebih sedikit / lebih banyak dari biasanya / riwayat
+belum cukup), dengan rentang wajar per jenis barang dari riwayat pabrik. Dicatat sebagai OW-16 di
+`docs/cp7/OPEN_WORK_D17_14_20261020.md`. Arti "jenis barang" (penulis menafsirkan: model/pola produk yang dipotong)
+ditanyakan ke owner.
