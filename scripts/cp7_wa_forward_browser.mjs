@@ -16,8 +16,9 @@ const PHONE='+620000000000',KEY='FAKEKEY-WA3B'
 const OWNER_RPCS=['erp_cp7_get_wa_settings_v1','erp_cp7_save_wa_settings_v1','erp_cp7_set_wa_key_v1','erp_cp7_send_wa_test_v1','erp_cp7_resolve_wa_dispatch_v1']
 const RPCS=['erp_cp7_get_alerts_v1',...OWNER_RPCS]
 // SS-1: the server shows FG_AT_REORDER_POINT to every account with warehouse.fg.view, so the admin case needs its group name.
-// SS-2/SS-3 likewise for the fabric and accessory reorder kinds (Bahan & Roll with Kain & Benchmark; Aksesori).
-const KIND_LABEL={FABRIC_BELOW_MINIMUM:'Stok kain di bawah minimum',FABRIC_AT_REORDER_POINT:'Stok kain menipis',ACCESSORY_AT_REORDER_POINT:'Stok aksesori menipis',
+// SS-2/SS-3 likewise for the accessory kind (Aksesori). Owner D17-10: a fabric on the formula is a row of FABRIC_BELOW_MINIMUM
+// ("Stok kain di bawah minimum"); there is no separate fabric kind.
+const KIND_LABEL={FABRIC_BELOW_MINIMUM:'Stok kain di bawah minimum',ACCESSORY_AT_REORDER_POINT:'Stok aksesori menipis',
  FG_AT_REORDER_POINT:'Stok barang jadi menipis',AR_DUE:'Piutang pelanggan jatuh tempo',AP_DUE:'Tagihan supplier jatuh tempo',
  PRODUCTION_GAP:'Kekurangan produksi (dari analisis)',FABRIC_NEED:'Kain perlu dibeli (dari analisis)'}
 async function openSidebar(page){const open=page.getByRole('button',{name:'Buka menu',exact:true});if(await open.isVisible())await open.click()}
@@ -252,13 +253,14 @@ async function fgReorderJourney(ui,mobile){
   await page.screenshot({path:`cp6-proof/t3/WAF_FG_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
  finally{await user.context.close()}
 }
-// SS-2/SS-3 (owner D17-9): Titik pesan ulang of fabric and accessories, real UI, Auth and PostgREST on the browser copy. The
-// fixture makes one fabric (130 YD, SPARSE cut) and one accessory (280 PCS, SPARSE used) with the Native helpers of
-// cp7_stock_formula_cases, without lama kirim. The owner opens Master Data › Kain & Benchmark, presses "Hitung sekarang",
-// finds the fabric (no lama kirim: no point), saves lama kirim 6 days there and sees the oracle's point, "Rumus" and
-// "Menipis"; Gudang › Bahan & Roll shows the same numbers; on Gudang › Aksesori the accessory gets the manual number 0 and
-// is "Tanpa titik" (never reminded). The evaluations and setting rows are read back. Desktop 1440 px and phone 390 px, no
-// horizontal page scroll.
+// SS-2/SS-3 (owner D17-9, D17-10): Titik pesan ulang of fabric and Batas minimum of accessories, real UI, Auth and PostgREST on
+// the browser copy. The fixture makes one fabric (130 YD, SPARSE cut) and one accessory (280 PCS, SPARSE used) with the Native
+// helpers of cp7_stock_formula_cases, without lama kirim or minimum. The owner opens Master Data › Kain & Benchmark, presses
+// "Hitung sekarang", finds the fabric (no lama kirim: no point), saves lama kirim 6 days there and sees the oracle's point,
+// "Rumus" and "Menipis" (its reminder is "Stok kain di bawah minimum"); Gudang › Bahan & Roll shows the same numbers. On
+// Gudang › Aksesori the accessory has no lama kirim and no formula (D17-10): "Belum diisi", not reminded; the owner fills a
+// batas minimum 10 above its stock in the warehouse and sees "Manual" and "Menipis". The evaluations and setting rows are read
+// back. Desktop 1440 px and phone 390 px, no horizontal page scroll.
 const MAT_RPCS=['erp_cp7_get_material_reorder_v1','erp_cp7_refresh_material_reorder_v1','erp_cp7_save_material_reorder_v1']
 // A decimal text as the screen writes it (formatReceiptDecimal): dots between thousands, a decimal comma, no trailing zeros.
 const decimalText=v=>{const [i,f='']=String(v).split('.'),t=f.replace(/0+$/,'');return i.replace(/\B(?=(\d{3})+(?!\d))/g,'.')+(t?','+t:'')}
@@ -273,16 +275,21 @@ async function openMenu(page,section,item){
 async function materialReorderJourney(ui,mobile){
  const suffix=mobile?'MOBILE':'DESKTOP',shots=[],reason='WAF material browser '+suffix.toLowerCase()
  const item=fixture('material',{lead:6}),f=item.fabric,a=item.accessory
- assert.ok(Number(f.free)<=Number(f.point)&&f.unit&&a.unit,JSON.stringify(item))
+ assert.ok(Number(f.free)<=Number(f.point)&&f.unit&&a.unit&&Number.isFinite(Number(a.free))&&!('point' in a),JSON.stringify(item))
+ // D17-10: the accessory's minimum is entered by hand, above its stock in the warehouse, so it is at or under it.
+ const minimum=String(Math.ceil(Number(a.free))+10)
  const user=await ui.login('OWNER',{label:'waf-mat-'+suffix.toLowerCase(),mobile}),page=user.page,w=watch(page,MAT_RPCS)
  let panel=null
  const cell=(row,key)=>row.locator(`[data-cmr="${key}"]`),chipOf=row=>row.locator('.cfr-chip')
- const find=async(name,noun,m)=>{
-  panel=page.getByRole('region',{name,exact:true})
-  await ui.expect(panel.getByRole('heading',{name:name+' (safety stock)',exact:true})).toBeVisible()
-  await panel.getByLabel(`Cari ${noun} untuk titik pesan ulang`,{exact:true}).fill(m.sku)
+ // The fabric panel "Titik pesan ulang kain", the accessory panel "Batas minimum aksesori" (D17-10).
+ const screens={FABRIC:{name:'Titik pesan ulang kain',heading:'Titik pesan ulang kain (safety stock)',search:'Cari kain untuk titik pesan ulang',row:'Titik pesan ulang'},
+  ACCESSORY:{name:'Batas minimum aksesori',heading:'Batas minimum aksesori',search:'Cari aksesori untuk batas minimum',row:'Batas minimum'}}
+ const find=async(type,m)=>{
+  const s=screens[type];panel=page.getByRole('region',{name:s.name,exact:true})
+  await ui.expect(panel.getByRole('heading',{name:s.heading,exact:true})).toBeVisible()
+  await panel.getByLabel(s.search,{exact:true}).fill(m.sku)
   await panel.getByRole('button',{name:'Cari',exact:true}).click()
-  const row=panel.getByRole('article',{name:`Titik pesan ulang ${m.name} (SKU ${m.sku})`,exact:true})
+  const row=panel.getByRole('article',{name:`${s.row} ${m.name} (SKU ${m.sku})`,exact:true})
   await ui.expect(row).toBeVisible();return row
  }
  try{
@@ -292,14 +299,16 @@ async function materialReorderJourney(ui,mobile){
   panel=page.getByRole('region',{name:'Titik pesan ulang kain',exact:true})
   await panel.getByRole('button',{name:'Hitung sekarang',exact:true}).click()
   await ui.expect(panel.getByRole('status').filter({hasText:'Selesai dihitung '})).toBeVisible()
-  let row=await find('Titik pesan ulang kain','kain',f)
+  // D17-10: one reminder title for fabric.
+  await ui.expect(panel).toContainText('muncul pengingat "Stok kain di bawah minimum"');await ui.expect(panel).not.toContainText('Stok kain menipis')
+  let row=await find('FABRIC',f)
   await ui.expect(chipOf(row)).toHaveText('Tanpa titik');await ui.expect(cell(row,'basis')).toHaveText('Belum cukup data: lama kirim belum diisi')
   await ui.expect(cell(row,'lead')).toHaveText('belum diisi');await ui.expect(cell(row,'free')).toHaveText(qty(f.free,f.unit))
   await ui.expect(cell(row,'ordered')).toHaveText(qty('0',f.unit))
   if(mobile)await noScroll(ui,page)
   await row.getByRole('button',{name:'Atur lama kirim',exact:true}).click()
   let form=row.getByRole('group',{name:'Lama kirim',exact:true})
-  await ui.expect(form.getByLabel('Angka manual',{exact:true})).toHaveCount(0)
+  await ui.expect(form.getByLabel('Angka manual',{exact:true})).toHaveCount(0);await ui.expect(form.getByLabel(`Batas minimum (${f.unit})`,{exact:true})).toHaveCount(0)
   await ui.expect(form).toContainText('Angka minimum diatur di Master Data › Kain & Benchmark.')
   await form.getByLabel('Lama kirim (hari)',{exact:true}).fill(item.lead)
   await form.getByLabel('Alasan perubahan bahan',{exact:true}).fill(reason)
@@ -315,42 +324,48 @@ async function materialReorderJourney(ui,mobile){
   shots.push(await shot(ui,page,`WAF_MAT_${suffix}_MASTER_FABRIC.png`))
   // Gudang › Bahan & Roll: the same fabric, the same lama kirim and point.
   await openMenu(page,'Gudang','Bahan & Roll')
-  row=await find('Titik pesan ulang kain','kain',f)
+  row=await find('FABRIC',f)
   await ui.expect(cell(row,'lead')).toHaveText(decimalText(item.lead));await ui.expect(cell(row,'point')).toHaveText(qty(f.point,f.unit))
   await ui.expect(cell(row,'basis')).toHaveText('Rumus');await ui.expect(chipOf(row)).toHaveText('Menipis')
   if(mobile)await noScroll(ui,page)
   shots.push(await shot(ui,page,`WAF_MAT_${suffix}_BAHAN_ROLL.png`))
-  // Gudang › Aksesori: the manual number 0 means never reminded.
+  // Gudang › Aksesori (D17-10): no lama kirim and no formula; without a minimum it is not reminded. The owner fills a batas
+  // minimum above the stock in the warehouse: "Manual" and "Menipis".
   await openMenu(page,'Gudang','Aksesori')
-  row=await find('Titik pesan ulang aksesori','aksesori',a)
-  await ui.expect(chipOf(row)).toHaveText('Tanpa titik');await ui.expect(cell(row,'basis')).toHaveText('Belum cukup data: lama kirim belum diisi')
-  await ui.expect(cell(row,'free')).toHaveText(qty(a.free,a.unit));await ui.expect(row.locator('[data-cmr="ordered"]')).toHaveCount(0)
-  await row.getByRole('button',{name:'Atur lama kirim & angka manual',exact:true}).click()
-  form=row.getByRole('group',{name:'Lama kirim dan angka manual',exact:true})
-  await ui.expect(form).toContainText('0 = tidak pernah diingatkan, kosong = pakai rumus.')
-  await form.getByLabel('Angka manual',{exact:true}).fill('0')
+  row=await find('ACCESSORY',a)
+  await ui.expect(chipOf(row)).toHaveText('Tidak diingatkan');await ui.expect(cell(row,'basis')).toHaveText('Belum diisi')
+  await ui.expect(cell(row,'free')).toHaveText(qty(a.free,a.unit));await ui.expect(cell(row,'point')).toHaveText('belum diisi')
+  for(const key of['ordered','lead'])await ui.expect(row.locator(`[data-cmr="${key}"]`)).toHaveCount(0)
+  await ui.expect(row.locator('.cfr-formula')).toHaveCount(0)
+  await ui.expect(panel).toContainText('Aksesori memakai batas minimum yang diisi manual, bukan rumus.')
+  await row.getByRole('button',{name:'Atur batas minimum',exact:true}).click()
+  form=row.getByRole('group',{name:'Batas minimum',exact:true})
+  await ui.expect(form.getByLabel('Lama kirim (hari)',{exact:true})).toHaveCount(0)
+  await ui.expect(form).toContainText('0 = tidak pernah diingatkan, kosong = belum diisi (tidak diingatkan).')
+  await form.getByLabel(`Batas minimum (${a.unit})`,{exact:true}).fill(minimum)
   await form.getByLabel('Alasan perubahan bahan',{exact:true}).fill(reason)
   if(mobile)await noScroll(ui,page)
   await form.getByRole('button',{name:'Simpan',exact:true}).click()
-  await ui.expect(row.getByRole('status').filter({hasText:`Tersimpan (revisi 1): lama kirim kosong, angka manual ${qty('0',a.unit)} (tidak pernah diingatkan).`})).toBeVisible()
-  await ui.expect(chipOf(row)).toHaveText('Tanpa titik');await ui.expect(cell(row,'basis')).toHaveText('Angka manual 0: tidak pernah diingatkan')
-  await ui.expect(cell(row,'point')).toHaveText(qty('0',a.unit))
+  await ui.expect(row.getByRole('status').filter({hasText:`Tersimpan (revisi 1): batas minimum ${qty(minimum,a.unit)}.`})).toBeVisible()
+  await ui.expect(chipOf(row)).toHaveText('Menipis');await ui.expect(cell(row,'basis')).toHaveText('Manual')
+  await ui.expect(cell(row,'point')).toHaveText(qty(minimum,a.unit))
   st=fixture('material_state',{ids:[a.id]})
   const ae=st[a.id].evaluation,as=st[a.id].setting
-  assert.deepEqual([ae.basis,ae.state,Number(ae.point),ae.manual_source,ae.setting_revision,as.revision,as.lead_days,Number(as.manual_point),as.reason],
-   ['MANUAL','NO_POINT',0,'ACCESSORY_MANUAL',1,1,null,0,reason],JSON.stringify(st[a.id]))
+  assert.deepEqual([ae.basis,ae.state,Number(ae.point),ae.manual_source,ae.lead_days,ae.formula_point,ae.setting_revision,as.revision,as.lead_days,
+   Number(as.manual_point),as.reason],['MANUAL','AT_OR_BELOW',Number(minimum),'ACCESSORY_MANUAL',null,null,1,1,null,Number(minimum),reason],JSON.stringify(st[a.id]))
   if(mobile)await noScroll(ui,page)
-  shots.push(await shot(ui,page,`WAF_MAT_${suffix}_ACCESSORY_NEVER.png`))
+  shots.push(await shot(ui,page,`WAF_MAT_${suffix}_ACCESSORY_MINIMUM.png`))
   // Exactly the two saves' payloads, each with its own request id; no refused answer on the way.
   const answers=await w.texts()
   assert.equal(answers.filter(x=>x.status>=400).length,0,JSON.stringify(answers.filter(x=>x.status>=400).map(x=>[x.name,x.status,x.text.slice(0,300)])))
   const saves=w.sent.filter(r=>r.name==='erp_cp7_save_material_reorder_v1').map(r=>JSON.parse(r.body))
   assert.deepEqual(saves.map(x=>x.p_payload),[{material_id:f.id,expected_revision:0,lead_days:item.lead,manual_point:null,reason},
-   {material_id:a.id,expected_revision:0,lead_days:null,manual_point:'0',reason}])
+   {material_id:a.id,expected_revision:0,lead_days:null,manual_point:minimum,reason}])
   assert.equal(new Set(saves.map(x=>x.p_request)).size,2)
   assert.deepEqual(w.sent.filter(r=>r.name==='erp_cp7_refresh_material_reorder_v1').map(r=>JSON.parse(r.body)),[{p_material_type:'FABRIC'}])
   return{status:'PASS',phone:mobile,fabric:{sku:f.sku,free:f.free,point:f.point,lead_days:item.lead,set_on:'Master Data › Kain & Benchmark',
-   same_on:'Gudang › Bahan & Roll'},accessory:{sku:a.sku,manual_point:'0',status:'Tanpa titik'},distinct_request_ids:2,no_horizontal_scroll:true,
+   same_on:'Gudang › Bahan & Roll',reminder:'Stok kain di bawah minimum'},accessory:{sku:a.sku,free:a.free,minimum,lead_days:null,basis:'Manual',status:'Menipis'},
+   distinct_request_ids:2,no_horizontal_scroll:true,
    screenshots:shots,label:'TEST_FIXTURE SS-2/SS-3 materials; real Auth and PostgREST'}
  }catch(e){writeFileSync(`cp6-proof/t3/WAF_MAT_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),text:await (panel??page.locator('body')).innerText().catch(()=>'')},null,2))
   await page.screenshot({path:`cp6-proof/t3/WAF_MAT_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}

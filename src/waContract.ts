@@ -9,21 +9,22 @@ import { isUnansweredFailure, normalizeClientError } from './lib/clientError'
 // hours rule, which only the server decides (CP7_WA_DIGEST_IN_QUIET_HOURS is shown in plain words). The CallMeBot key is
 // never parsed, kept or returned here: no reply carries it.
 // SS-1 (owner D17-8, D17-9) adds FG_AT_REORDER_POINT: a finished good at or under its reorder point (cp7_stock_formula);
-// SS-2/SS-3 add FABRIC_AT_REORDER_POINT and ACCESSORY_AT_REORDER_POINT (materials.sql, material_alert_row).
-export const alertKinds = ['FABRIC_BELOW_MINIMUM', 'FABRIC_AT_REORDER_POINT', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
+// SS-2/SS-3 add ACCESSORY_AT_REORDER_POINT (materials.sql, material_alert_row). Owner D17-10: a fabric on the formula is a row
+// of FABRIC_BELOW_MINIMUM (one title, "Stok kain di bawah minimum"; no separate fabric kind), and an accessory is reminded
+// only by the minimum entered by hand (basis MANUAL, never the formula).
+export const alertKinds = ['FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
   'PRODUCTION_GAP', 'FABRIC_NEED'] as const
 export type AlertKind = typeof alertKinds[number]
 /** The order of cp7_alert_native.defaults(). */
-export const waKinds = ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'FABRIC_AT_REORDER_POINT', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
+export const waKinds = ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
   'PRODUCTION_GAP', 'FABRIC_NEED'] as const
 export type WaKind = typeof waKinds[number]
 /** The order of the groups on the Pengingat sistem screen (the order of the WhatsApp message, render() in alerts.sql). */
-export const alertKindOrder: readonly AlertKind[] = ['FABRIC_BELOW_MINIMUM', 'FABRIC_AT_REORDER_POINT', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT',
+export const alertKindOrder: readonly AlertKind[] = ['FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT',
   'FABRIC_NEED', 'PRODUCTION_GAP', 'AP_DUE', 'AR_DUE']
 export const waKindLabel: Record<WaKind, string> = {
   MANUAL_REMINDER: 'Pengingat pribadi Bos',
   FABRIC_BELOW_MINIMUM: 'Stok kain di bawah minimum',
-  FABRIC_AT_REORDER_POINT: 'Stok kain menipis',
   ACCESSORY_AT_REORDER_POINT: 'Stok aksesori menipis',
   FG_AT_REORDER_POINT: 'Stok barang jadi menipis',
   AR_DUE: 'Piutang pelanggan jatuh tempo',
@@ -32,8 +33,9 @@ export const waKindLabel: Record<WaKind, string> = {
   FABRIC_NEED: 'Kain perlu dibeli (dari analisis)',
 }
 export const isAnalysisKind = (kind: AlertKind) => kind === 'PRODUCTION_GAP' || kind === 'FABRIC_NEED'
-/** The reorder-point kinds (cp7_stock_formula): no party names, keyed by the item or material. */
-export const isReorderKind = (kind: AlertKind) => kind === 'FG_AT_REORDER_POINT' || kind === 'FABRIC_AT_REORDER_POINT' || kind === 'ACCESSORY_AT_REORDER_POINT'
+/** The kinds whose every row comes from cp7_stock_formula: no party names, keyed by the item or material. FABRIC_BELOW_MINIMUM
+ * also has rows from the formula (FabricFormulaDetail); those are checked by their detail. */
+export const isReorderKind = (kind: AlertKind) => kind === 'FG_AT_REORDER_POINT' || kind === 'ACCESSORY_AT_REORDER_POINT'
 export const outboxStates = ['PENDING', 'HELD_QUIET', 'DISPATCHED', 'ACCEPTED', 'UNKNOWN', 'RESOLVED_BEFORE_SEND', 'DISABLED', 'KIND_OFF'] as const
 export type OutboxState = typeof outboxStates[number]
 export const dispatchStatuses = ['QUEUED', 'PROVIDER_ACCEPTED', 'PROVIDER_REFUSED', 'TRANSPORT_FAILED', 'UNKNOWN', 'NOTHING_DUE'] as const
@@ -63,6 +65,7 @@ export type AnalysisRequest = {
 export type AnalysisStatus = { run: AnalysisRun | null; request: AnalysisRequest | null; tick: Tick | null }
 export type AlertSource = { kind: AlertKind; lastTryAt: string | null; lastOkAt: string | null; lastError: string | null; openCount: number | null }
 export type AlertWa = { state: OutboxState; round: number; reason: string | null; dispatchId: number | null; dispatchStatus: DispatchStatus | null; settledAt: string | null }
+/** FABRIC_BELOW_MINIMUM of a fabric with a minimum in Kain & Benchmark (fabric_source, the Ringkasan Gudang rule). */
 export type FabricDetail = { kind: 'FABRIC_BELOW_MINIMUM'; materialId: string; materialSku: string | null; materialName: string; unitCode: string | null; qty: string; minimumQty: string }
 type DueFields = {
   documentId: string | null; number: string | null; amount: string | null; dueDate: string | null
@@ -82,13 +85,20 @@ export type FgReorderDetail = {
   basis: 'MANUAL' | 'FORMULA'; dailyMean: string | null; leadDays: string | null; leadBasis: string | null; bufferMode: string | null
   safetyPcs: string | null; serviceLevel: string | null
 }
-/** cp7_stock_formula.material_alert_row: a fabric or accessory at or under its reorder point, quantities as decimal text. */
+/** cp7_stock_formula.material_alert_row: a fabric or accessory at or under its number, quantities as decimal text. */
 type MaterialReorderFields = {
-  materialId: string; materialType: 'FABRIC' | 'ACCESSORY'; sku: string; name: string; unitCode: string | null; freeQty: string; onOrderQty: string
-  reorderPointQty: string; basis: 'MANUAL' | 'FORMULA'; dailyMean: string | null; leadDays: string | null; safetyQty: string | null; serviceLevel: string | null
+  materialId: string; sku: string; name: string; unitCode: string | null; freeQty: string; onOrderQty: string; reorderPointQty: string
+  dailyMean: string | null; leadDays: string | null; safetyQty: string | null; serviceLevel: string | null
 }
-export type MaterialReorderDetail = ({ kind: 'FABRIC_AT_REORDER_POINT' } & MaterialReorderFields) | ({ kind: 'ACCESSORY_AT_REORDER_POINT' } & MaterialReorderFields)
+/** D17-10: a fabric without a minimum, on the formula, is a row of FABRIC_BELOW_MINIMUM with the material shape. */
+export type FabricFormulaDetail = { kind: 'FABRIC_BELOW_MINIMUM'; materialType: 'FABRIC'; basis: 'FORMULA' } & MaterialReorderFields
+/** D17-10: an accessory at or under the minimum entered by hand (reorderPointQty); no formula, so no lead time or cadangan. */
+export type AccessoryMinimumDetail = { kind: 'ACCESSORY_AT_REORDER_POINT'; materialType: 'ACCESSORY'; basis: 'MANUAL' } & MaterialReorderFields
+export type MaterialReorderDetail = FabricFormulaDetail | AccessoryMinimumDetail
 export type AlertDetail = FabricDetail | MaterialReorderDetail | FgReorderDetail | DueDetail | AnalysisDetail
+/** A detail with the material shape (a fabric on the formula, or an accessory), not the fabric minimum's. */
+export const isMaterialReorderDetail = (d: AlertDetail): d is MaterialReorderDetail =>
+  d.kind === 'ACCESSORY_AT_REORDER_POINT' || (d.kind === 'FABRIC_BELOW_MINIMUM' && 'materialType' in d)
 export type SystemAlert = {
   id: string; kind: AlertKind; subjectKey: string; episode: number; title: string; detail: AlertDetail; partyNames: string[]
   state: 'OPEN' | 'RESOLVED'; openedAt: string; refreshedAt: string; resolvedAt: string | null; resolution: string | null; wa: AlertWa | null
@@ -198,12 +208,14 @@ const analysisDetailKeys = ['run_id', 'data_as_of', 'checked_at', 'label', 'targ
 function detail(kind: AlertKind, v: unknown): AlertDetail {
   const d = obj(v, 'rincian')
   if (kind === 'FABRIC_BELOW_MINIMUM') {
+    // D17-10: a fabric on the formula has the material shape (it carries material_type and basis); the others the minimum's.
+    if ('material_type' in d || 'basis' in d) return materialReorderDetail(kind, d)
     keys(d, ['material_id', 'material_sku', 'material_name', 'unit_code', 'qty', 'minimum_qty'], 'rincian stok')
     return { kind, materialId: uuidText(d.material_id, 'rincian stok'), materialSku: maybeStr(d.material_sku, 'rincian stok'), materialName: str(d.material_name, 'rincian stok'),
       unitCode: maybeStr(d.unit_code, 'rincian stok'), qty: decimal(d.qty, 'rincian stok'), minimumQty: decimal(d.minimum_qty, 'rincian stok') }
   }
   if (kind === 'FG_AT_REORDER_POINT') return fgReorderDetail(d)
-  if (kind === 'FABRIC_AT_REORDER_POINT' || kind === 'ACCESSORY_AT_REORDER_POINT') return materialReorderDetail(kind, d)
+  if (kind === 'ACCESSORY_AT_REORDER_POINT') return materialReorderDetail(kind, d)
   if (kind === 'AR_DUE') {
     keys(d, ['sale_id', 'number', 'open_balance', 'due_date', 'state', 'as_of'], 'rincian piutang')
     return { kind, documentId: maybeStr(d.sale_id, 'rincian piutang'), number: maybeStr(d.number, 'rincian piutang'), amount: maybeDecimal(d.open_balance, 'rincian piutang'),
@@ -253,25 +265,27 @@ function fgReorderDetail(d: Record<string, unknown>): FgReorderDetail {
   return r
 }
 
-// material_alert_row writes all thirteen keys. Its material type is the kind's; a fabric is an alert on the formula only (a
-// fabric with a minimum stays FABRIC_BELOW_MINIMUM), an accessory on the formula or its manual number. Cadangan and tingkat
-// layanan are written for the formula only; nothing is on order for an accessory.
-function materialReorderDetail(kind: 'FABRIC_AT_REORDER_POINT' | 'ACCESSORY_AT_REORDER_POINT', d: Record<string, unknown>): MaterialReorderDetail {
+// material_alert_row writes all thirteen keys (owner D17-10). A fabric in this shape is on the formula only (FABRIC_BELOW_MINIMUM;
+// a fabric with a minimum has the minimum's shape): basis FORMULA with its lama kirim, cadangan and tingkat layanan. An
+// accessory is reminded by its manual minimum only: basis MANUAL, no lama kirim, cadangan or tingkat layanan, nothing on order.
+function materialReorderDetail(kind: 'FABRIC_BELOW_MINIMUM' | 'ACCESSORY_AT_REORDER_POINT', d: Record<string, unknown>): MaterialReorderDetail {
   const what = 'rincian bahan'
   keys(d, ['material_id', 'material_type', 'sku', 'name', 'unit_code', 'free_qty', 'on_order_qty', 'reorder_point_qty', 'basis', 'daily_mean', 'lead_days',
     'safety_qty', 'service_level'], what)
   const text = (v: unknown) => typeof v === 'string' && decimalText.test(v) ? v : fail(what)
   const maybeText = (v: unknown) => v === null ? null : text(v)
-  const r: MaterialReorderDetail = { kind, materialId: uuidText(d.material_id, what), materialType: oneOf(d.material_type, ['FABRIC', 'ACCESSORY'] as const, what),
-    sku: str(d.sku, what), name: str(d.name, what), unitCode: maybeStr(d.unit_code, what), freeQty: text(d.free_qty), onOrderQty: text(d.on_order_qty),
-    reorderPointQty: text(d.reorder_point_qty), basis: oneOf(d.basis, ['MANUAL', 'FORMULA'] as const, what), dailyMean: maybeText(d.daily_mean),
-    leadDays: maybeText(d.lead_days), safetyQty: maybeText(d.safety_qty),
+  const fields: MaterialReorderFields = { materialId: uuidText(d.material_id, what), sku: str(d.sku, what), name: str(d.name, what),
+    unitCode: maybeStr(d.unit_code, what), freeQty: text(d.free_qty), onOrderQty: text(d.on_order_qty), reorderPointQty: text(d.reorder_point_qty),
+    dailyMean: maybeText(d.daily_mean), leadDays: maybeText(d.lead_days), safetyQty: maybeText(d.safety_qty),
     serviceLevel: d.service_level === null ? null : oneOf(d.service_level, ['0.90', '0.95', '0.99'] as const, what) }
-  const formula = r.basis === 'FORMULA'
-  if (r.materialType !== (kind === 'FABRIC_AT_REORDER_POINT' ? 'FABRIC' : 'ACCESSORY') || (r.materialType === 'FABRIC' && !formula)
-    || (r.materialType === 'ACCESSORY' && Number(r.onOrderQty) !== 0) || formula !== (r.safetyQty !== null) || formula !== (r.serviceLevel !== null)
-    || (formula && (r.leadDays === null || r.dailyMean === null))) fail(what)
-  return r
+  if (kind === 'FABRIC_BELOW_MINIMUM') {
+    if (d.material_type !== 'FABRIC' || d.basis !== 'FORMULA' || fields.safetyQty === null || fields.serviceLevel === null || fields.leadDays === null
+      || fields.dailyMean === null) fail(what)
+    return { kind, materialType: 'FABRIC', basis: 'FORMULA', ...fields }
+  }
+  if (d.material_type !== 'ACCESSORY' || d.basis !== 'MANUAL' || fields.safetyQty !== null || fields.serviceLevel !== null || fields.leadDays !== null
+    || Number(fields.onOrderQty) !== 0) fail(what)
+  return { kind, materialType: 'ACCESSORY', basis: 'MANUAL', ...fields }
 }
 
 function alertWa(v: unknown): AlertWa {
@@ -314,10 +328,10 @@ function systemAlerts(value: unknown, options: { owner: boolean }): SystemAlerts
       resolvedAt: maybeInstant(r.resolved_at, 'waktu beres'), resolution: maybeStr(r.resolution, 'alasan beres'), wa: r.wa === null ? null : alertWa(r.wa) }
     if ((a.state === 'OPEN') !== (a.resolvedAt === null) || (a.state === 'OPEN') !== (a.resolution === null)) fail('status')
     if (!options.owner && a.wa !== null) fail('status WA')
-    if ((isAnalysisKind(kind) || isReorderKind(kind)) && a.partyNames.length > 0) fail('nama pihak')
+    if ((isAnalysisKind(kind) || isReorderKind(kind) || isMaterialReorderDetail(a.detail)) && a.partyNames.length > 0) fail('nama pihak')
     // A finished-goods alert is keyed by its item (target_key root:size), a material alert by the material.
     if (a.detail.kind === 'FG_AT_REORDER_POINT' && a.subjectKey !== `${a.detail.rootId}:${a.detail.sizeId}`) fail('pengingat')
-    if ((a.detail.kind === 'FABRIC_AT_REORDER_POINT' || a.detail.kind === 'ACCESSORY_AT_REORDER_POINT') && a.subjectKey !== a.detail.materialId) fail('pengingat')
+    if (isMaterialReorderDetail(a.detail) && a.subjectKey !== a.detail.materialId) fail('pengingat')
     return a
   })
   if (rows.length > 500 || new Set(rows.map(r => r.id)).size !== rows.length
@@ -578,7 +592,15 @@ const resolutionText: Record<string, string> = {
   ANALYSIS_UNAVAILABLE: 'Analisisnya tidak bisa dipakai lagi',
   ANALYSIS_EXPIRED: 'Analisisnya sudah kedaluwarsa',
 }
-export function resolutionLabel(resolution: string | null): string {
+// D17-10: the fabric on the formula and the accessory are closed with the reorder codes, said with the words of their screens.
+const minimumResolutionText: Partial<Record<AlertKind, Record<string, string>>> = {
+  FABRIC_BELOW_MINIMUM: { ABOVE_REORDER_POINT: 'Stok sudah di atas minimum rumus', NO_REORDER_POINT: 'Minimum rumusnya tidak ada lagi' },
+  ACCESSORY_AT_REORDER_POINT: { ABOVE_REORDER_POINT: 'Stok sudah di atas batas minimum', NO_REORDER_POINT: 'Batas minimumnya dikosongkan atau diisi 0' },
+}
+/** Why a system reminder closed, in plain words; `kind` picks the words of its screen when they differ. */
+export function resolutionLabel(resolution: string | null, kind?: AlertKind): string {
+  const own = resolution && kind ? minimumResolutionText[kind]?.[resolution] : undefined
+  if (own) return own
   if (resolution && resolutionText[resolution]) return resolutionText[resolution]
   if (resolution?.startsWith('RECHECK_')) return 'Dicek ulang: sudah tidak terbuka'
   if (resolution?.startsWith('RULE_')) return 'Aturan pengingatnya tidak meminta pengingat ini lagi'
@@ -626,18 +648,19 @@ export function fgReorderLine(d: FgReorderDetail): string {
     + `${d.wipStatus === 'COMPLETE' ? `${alertNumber(d.wipPcs)} pcs` : 'belum diketahui'}, titik pesan ulang ${alertNumber(d.reorderPointPcs)} pcs`
   return Array.from(line).slice(0, 120).join('')
 }
-/** The line item_line (alerts.sql) writes for a fabric or accessory: the unit after every number (empty when there is none). */
+/** The line item_line (alerts.sql) writes for a fabric on the formula or an accessory (D17-10): the unit after every number
+ * (empty when there is none). */
 export function materialReorderLine(d: MaterialReorderDetail): string {
   const unit = d.unitCode ?? '', q = (v: string) => `${alertNumber(v)} ${unit}`
-  const line = d.kind === 'FABRIC_AT_REORDER_POINT' ? `${d.name}: sisa ${q(d.freeQty)}, dipesan ${q(d.onOrderQty)}, titik pesan ulang ${q(d.reorderPointQty)}`
-    : `${d.name}: sisa ${q(d.freeQty)}, titik pesan ulang ${q(d.reorderPointQty)}`
+  const line = d.materialType === 'FABRIC' ? `${d.name}: sisa ${q(d.freeQty)}, dipesan ${q(d.onOrderQty)}, minimum rumus ${q(d.reorderPointQty)}`
+    : `${d.name}: sisa ${q(d.freeQty)}, minimum ${q(d.reorderPointQty)}`
   return Array.from(line).slice(0, 120).join('')
 }
 /** One line of the numbers of a system reminder, in plain words. */
 export function alertSummary(a: SystemAlert): string {
   const d = a.detail
   if (d.kind === 'FG_AT_REORDER_POINT') return fgReorderLine(d)
-  if (d.kind === 'FABRIC_AT_REORDER_POINT' || d.kind === 'ACCESSORY_AT_REORDER_POINT') return materialReorderLine(d)
+  if (isMaterialReorderDetail(d)) return materialReorderLine(d)
   if (d.kind === 'FABRIC_BELOW_MINIMUM') {
     const unit = d.unitCode ? ` ${d.unitCode}` : ''
     return `Sisa ${num(d.qty)}${unit}, minimum ${num(d.minimumQty)}${unit}${d.materialSku ? ` · SKU ${d.materialSku}` : ''}`

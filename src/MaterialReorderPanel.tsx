@@ -5,28 +5,32 @@ import { getUatSupabaseClient } from './lib/supabase'
 import { isUnansweredFailure } from './lib/clientError'
 import { formatCp6WibDateTime } from './cp6BusinessTime'
 import { formatWaDay } from './waContract'
-import { REASON_MAX, REORDER_PAGE, REORDER_QUERY_MAX, formatReorderUpTo2, formatReorderWhole, parseFgReorderRefresh, servicePercent, type ReorderFilter,
+import { REASON_MAX, REORDER_PAGE, REORDER_QUERY_MAX, formatReorderUpTo2, formatReorderWhole, parseFgReorderRefresh, servicePercent,
   type ServiceLevel } from './fgReorderContract'
 import {
-  materialBasisText, materialChanged, materialDraftOf, materialErrorText, materialFormulaLines, materialPayload, materialProblem, materialQty, materialStatus,
-  materialReorderVisible, materialWriteErrorText, parseMaterialSaveResult, parseMaterialWorkspace, type MaterialDraft, type MaterialQuery, type MaterialRow, type MaterialType,
-  type MaterialWorkspace,
+  materialBasisText, materialChanged, materialDraftOf, materialErrorText, materialFilters, materialFormulaLines, materialPayload, materialProblem, materialQty,
+  materialStatus, materialReorderVisible, materialWriteErrorText, parseMaterialSaveResult, parseMaterialWorkspace, type MaterialDraft, type MaterialFilter,
+  type MaterialQuery, type MaterialRow, type MaterialType, type MaterialWorkspace,
 } from './materialReorderContract'
 import './procurement-connected.css'
 import './fg-reorder.css'
 
-// SS-2 (fabric) and SS-3 (accessories), owner D17-9: "Titik pesan ulang" of every active fabric or accessory, one component on
-// Gudang › Bahan & Roll and Master Data › Kain & Benchmark (FABRIC), Gudang › Aksesori and Master Data › Aksesori & Harga
-// Mandor (ACCESSORY). It reads erp_cp7_get_material_reorder_v1 with the server's own permissions (it shows nothing to an
-// account the server would refuse), "Hitung sekarang" refreshes, and Owner/Admin (can_manage from the server) set the lama
-// kirim of a material and, for an accessory, its manual number. As on Ringkasan Barang Jadi: every read is sequenced so the
-// latest question wins, and a write keeps one request id per attempt in memory (an unanswered attempt is sent again with it).
+// SS-2 (fabric) and SS-3 (accessories), owner D17-9 and D17-10: one component on Gudang › Bahan & Roll and Master Data › Kain &
+// Benchmark (FABRIC: "Titik pesan ulang kain", the formula with the lama kirim of each fabric), Gudang › Aksesori and Master
+// Data › Aksesori & Harga Mandor (ACCESSORY: "Batas minimum aksesori", D17-10 "aksesoris pake batas minimum manual aja": no
+// formula, only the minimum entered by hand, with the usage per day shown to help choose it). It reads
+// erp_cp7_get_material_reorder_v1 with the server's own permissions (it shows nothing to an account the server would refuse),
+// "Hitung sekarang" refreshes, and Owner/Admin (can_manage from the server) set the lama kirim of a fabric or the batas minimum
+// of an accessory. As on Ringkasan Barang Jadi: every read is sequenced so the latest question wins, and a write keeps one
+// request id per attempt in memory (an unanswered attempt is sent again with it).
 type Note = { tone: 'ok' | 'bad'; text: string }
 type Pending = { id: string; fingerprint: string }
 type Editing = MaterialDraft & { materialId: string }
-const words: Record<MaterialType, { label: string; noun: string; manualFilter: string; alert: string }> = {
-  FABRIC: { label: 'Titik pesan ulang kain', noun: 'kain', manualFilter: 'Pakai minimum', alert: 'Stok kain menipis' },
-  ACCESSORY: { label: 'Titik pesan ulang aksesori', noun: 'aksesori', manualFilter: 'Angka manual', alert: 'Stok aksesori menipis' },
+const words: Record<MaterialType, { label: string; heading: string; noun: string; search: string; row: string; manualFilter: string }> = {
+  FABRIC: { label: 'Titik pesan ulang kain', heading: 'Titik pesan ulang kain (safety stock)', noun: 'kain', search: 'Cari kain untuk titik pesan ulang',
+    row: 'Titik pesan ulang', manualFilter: 'Pakai minimum' },
+  ACCESSORY: { label: 'Batas minimum aksesori', heading: 'Batas minimum aksesori', noun: 'aksesori', search: 'Cari aksesori untuk batas minimum',
+    row: 'Batas minimum', manualFilter: 'Sudah diisi' },
 }
 
 export default function MaterialReorderPanel({ materialType }: { materialType: MaterialType }) {
@@ -41,7 +45,7 @@ function Panel({ materialType }: { materialType: MaterialType }) {
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime]), say = words[materialType], fabric = materialType === 'FABRIC'
   const serial = useRef(0), requested = useRef<MaterialQuery>({ material_type: materialType, q: '', filter: 'ALL', offset: 0, limit: REORDER_PAGE })
   const [data, setData] = useState<MaterialWorkspace | null>(null), [busy, setBusy] = useState(false), [error, setError] = useState('')
-  const [filter, setFilter] = useState<ReorderFilter>('ALL'), [search, setSearch] = useState('')
+  const [filter, setFilter] = useState<MaterialFilter>('ALL'), [search, setSearch] = useState('')
   const [writing, setWriting] = useState<string | null>(null), [notes, setNotes] = useState<Record<string, Note>>({})
   const [editing, setEditing] = useState<Editing | null>(null)
   const pending = useRef(new Map<string, Pending>())
@@ -95,10 +99,11 @@ function Panel({ materialType }: { materialType: MaterialType }) {
       if (reply.error) throw reply.error
       const saved = parseMaterialSaveResult(reply.data, payload, materialType)
       pending.current.delete(r.materialId)
-      const parts = [payload.lead_days === null ? 'lama kirim kosong' : `lama kirim ${formatReorderUpTo2(payload.lead_days)} hari`]
-      if (!fabric) parts.push(payload.manual_point === null ? 'tanpa angka manual (pakai rumus)'
-        : `angka manual ${materialQty(payload.manual_point, r.unitCode)}${Number(payload.manual_point) === 0 ? ' (tidak pernah diingatkan)' : ''}`)
-      note(r.materialId, { tone: 'ok', text: `Tersimpan (revisi ${formatReorderWhole(saved.revision)}): ${parts.join(', ')}.`
+      // A fabric saves its lama kirim, an accessory its batas minimum (D17-10): the note names what was saved.
+      const what = fabric ? (payload.lead_days === null ? 'lama kirim kosong' : `lama kirim ${formatReorderUpTo2(payload.lead_days)} hari`)
+        : payload.manual_point === null ? 'batas minimum dikosongkan (tidak diingatkan)'
+        : `batas minimum ${materialQty(payload.manual_point, r.unitCode)}${Number(payload.manual_point) === 0 ? ' (tidak pernah diingatkan)' : ''}`
+      note(r.materialId, { tone: 'ok', text: `Tersimpan (revisi ${formatReorderWhole(saved.revision)}): ${what}.`
         + (saved.replay ? ' Permintaan ini ternyata sudah tersimpan sebelumnya.' : '') })
       setEditing(null); setWriting(null); await load()
     } catch (e) {
@@ -113,22 +118,32 @@ function Panel({ materialType }: { materialType: MaterialType }) {
 
   const run = data?.run ?? null, windowDays = run?.windowDays ?? data?.settings.windowDays ?? 30
   const level = run?.serviceLevel ?? data?.settings.serviceLevel ?? '0.95', counts = data?.counts, page = data?.page
-  const filterLabel: Record<ReorderFilter, string> = { ALL: 'Semua', AT_OR_BELOW: 'Menipis', MANUAL: say.manualFilter, NOT_ENOUGH_DATA: 'Belum cukup data' }
-  const countOf: Record<ReorderFilter, number | undefined> = { ALL: counts?.items, AT_OR_BELOW: counts?.atOrBelow, MANUAL: counts?.manual, NOT_ENOUGH_DATA: counts?.notEnoughData }
+  const filterLabel: Record<MaterialFilter, string> = { ALL: 'Semua', AT_OR_BELOW: 'Menipis', MANUAL: say.manualFilter, NOT_ENOUGH_DATA: 'Belum cukup data',
+    NOT_SET: 'Belum diisi' }
+  const countOf: Record<MaterialFilter, number | undefined> = { ALL: counts?.items, AT_OR_BELOW: counts?.atOrBelow, MANUAL: counts?.manual,
+    NOT_ENOUGH_DATA: counts?.notEnoughData, NOT_SET: counts?.notSet }
 
   return <section className="cproc cfr" aria-label={say.label}><div className="panel cfr-panel">
     <header className="cfr-head">
       <div>
         <div className="eyebrow">{fabric ? 'KAIN' : 'AKSESORI'} · PENGINGAT STOK</div>
-        <h2>{say.label} (safety stock)</h2>
-        <p>Titik pesan ulang = rata-rata pakai per hari × lama kirim + cadangan. Dihitung dari pemakaian yang sudah diposting {formatReorderWhole(windowDays)} hari
-          terakhir (hari tanpa stok tidak dihitung) dengan tingkat layanan {servicePercent(level)}%, dalam satuan bahannya.</p>
-        <p>{fabric ? 'Pemakaian kain = dikeluarkan untuk potong dikurangi sisa yang kembali, pemakaian pabrik, dan bahan ke mandor. Kain yang sudah dipesan '
-          + '(PO terbuka) ikut dihitung. Kain yang punya angka minimum di Master Data › Kain & Benchmark memakai minimum itu.'
-          : 'Pemakaian aksesori = nota mandor dan pemakaian pabrik. Stok di pos servis, area periksa dan area rusak tidak dihitung sebagai stok.'}
-          {' '}Lama kirim (hari) dari supplier diisi per {say.noun} oleh Owner atau Admin, karena ERP belum mencatatnya. Kalau sisa{fabric ? ' ditambah yang dipesan' : ''} sudah
-          sama atau di bawah titik ini, muncul pengingat "{say.alert}" di Reminder › Pengingat sistem, diteruskan ke WhatsApp Bos bila Sambungan WhatsApp menyala.
-          Tingkat layanan dan jumlah hari diatur di Gudang › Ringkasan Barang Jadi.</p>
+        <h2>{say.heading}</h2>
+        {fabric ? <>
+          <p>Titik pesan ulang = rata-rata pakai per hari × lama kirim + cadangan. Dihitung dari pemakaian yang sudah diposting {formatReorderWhole(windowDays)} hari
+            terakhir (hari tanpa stok tidak dihitung) dengan tingkat layanan {servicePercent(level)}%, dalam satuan bahannya.</p>
+          <p>Pemakaian kain = dikeluarkan untuk potong dikurangi sisa yang kembali, pemakaian pabrik, dan bahan ke mandor. Kain yang sudah dipesan (PO terbuka)
+            ikut dihitung. Kain yang punya angka minimum di Master Data › Kain & Benchmark memakai minimum itu. Lama kirim (hari) dari supplier diisi per kain
+            oleh Owner atau Admin, karena ERP belum mencatatnya. Kalau sisa ditambah yang dipesan sudah sama atau di bawah titik ini, muncul pengingat "Stok kain
+            di bawah minimum" di Reminder › Pengingat sistem, diteruskan ke WhatsApp Bos bila Sambungan WhatsApp menyala. Tingkat layanan dan jumlah hari diatur
+            di Gudang › Ringkasan Barang Jadi.</p>
+        </> : <>
+          <p>Aksesori memakai batas minimum yang diisi manual, bukan rumus. Pengingat "Stok aksesori menipis" muncul di Reminder › Pengingat sistem kalau stok di
+            gudang sama dengan atau di bawah batas minimum, dan diteruskan ke WhatsApp Bos bila Sambungan WhatsApp menyala. 0 berarti tidak pernah diingatkan;
+            kosong berarti belum diisi, jadi juga tidak diingatkan.</p>
+          <p>Batas minimum diisi per aksesori oleh Owner atau Admin. Pemakaian rata-rata per hari ({formatReorderWhole(windowDays)} hari terakhir, dari nota
+            mandor dan pemakaian pabrik) hanya keterangan untuk membantu memilih angkanya. Stok di pos servis, area periksa dan area rusak tidak dihitung
+            sebagai stok di gudang.</p>
+        </>}
         {data ? <p className="cfr-run">{run ? <>Dihitung {formatCp6WibDateTime(run.computedAt)} (pemakaian {formatWaDay(run.windowFrom)} sampai {formatWaDay(run.windowThrough)}).</>
           : <>Belum pernah dihitung. Server menghitungnya tiap menit sesudah pengingat WhatsApp diatur (Owner menyimpan pengaturan di Reminder › Sambungan
             WhatsApp satu kali), atau tekan "Hitung sekarang".</>}</p> : null}
@@ -141,12 +156,12 @@ function Panel({ materialType }: { materialType: MaterialType }) {
     {noteView('REFRESH')}
     {error ? <p className="cfr-note bad" role="alert">{error}</p> : null}
     <div className="cfr-filters" role="group" aria-label={`Saring ${say.label.toLowerCase()}`}>
-      {(Object.keys(filterLabel) as ReorderFilter[]).map(f => { const n = countOf[f]; return <button type="button" key={f} aria-pressed={filter === f}
+      {materialFilters[materialType].map(f => { const n = countOf[f]; return <button type="button" key={f} aria-pressed={filter === f}
         className={filter === f ? 'active' : ''} disabled={writing !== null} onClick={() => { setFilter(f); ask({ filter: f, offset: 0 }) }}>
         {filterLabel[f]}{n === undefined ? '' : ` (${formatReorderWhole(n)})`}</button> })}
     </div>
     <form className="cfr-search" onSubmit={e => { e.preventDefault(); ask({ q: search.trim(), offset: 0 }) }}>
-      <label>Cari SKU atau nama {say.noun}<input aria-label={`Cari ${say.noun} untuk titik pesan ulang`} maxLength={REORDER_QUERY_MAX} value={search}
+      <label>Cari SKU atau nama {say.noun}<input aria-label={say.search} maxLength={REORDER_QUERY_MAX} value={search}
         onChange={e => setSearch(e.target.value)}/></label>
       <button type="submit" disabled={writing !== null}>Cari</button>
       <button type="button" disabled={writing !== null || (search === '' && requested.current.q === '')}
@@ -172,35 +187,44 @@ function Row({ r, type, windowDays, level, canManage, locked, writing, draft, no
   note: ReactNode; onOpen: () => void; onClose: () => void; onDraft: (next: Partial<MaterialDraft>) => void; onSave: () => void
 }) {
   const status = materialStatus(r), fabric = type === 'FABRIC', q = (v: string) => materialQty(v, r.unitCode)
-  const unit = r.unitCode ? ` ${r.unitCode}` : ''
+  const unit = r.unitCode ? ` ${r.unitCode}` : '', minimumLabel = `Batas minimum${r.unitCode ? ` (${r.unitCode})` : ''}`
   const problem = draft ? materialProblem(type, draft) : '', changed = draft ? materialChanged(type, r, draft) : false
-  return <article className="cfr-row" aria-label={`Titik pesan ulang ${r.name} (SKU ${r.sku})`} data-material-id={r.materialId}>
+  const actions = <div className="cfr-actions">
+    <button type="submit" className="primary-btn" disabled={locked || problem !== '' || !changed}>{writing ? 'Menyimpan…' : 'Simpan'}</button>
+    <button type="button" disabled={writing} onClick={onClose}>Batal</button>
+  </div>
+  const reason = <label>Alasan<input aria-label="Alasan perubahan bahan" maxLength={REASON_MAX} value={draft?.reason ?? ''} onChange={e => onDraft({ reason: e.target.value })}/></label>
+  const check = !changed ? <p className="cfr-none">Belum ada yang diubah.</p> : problem ? <p className="cfr-problem">{problem}</p> : null
+  return <article className="cfr-row" aria-label={`${words[type].row} ${r.name} (SKU ${r.sku})`} data-material-id={r.materialId}>
     <header><div><h3>{r.name}</h3><small>SKU {r.sku}</small></div><span className={`cfr-chip ${status.tone}`}>{status.label}</span></header>
-    <dl>
+    {fabric ? <dl>
       <div><dt>Sisa</dt><dd data-cmr="free">{q(r.freeQty)}</dd></div>
-      {fabric ? <div><dt>Dipesan</dt><dd data-cmr="ordered">{q(r.onOrderQty)}</dd></div> : null}
+      <div><dt>Dipesan</dt><dd data-cmr="ordered">{q(r.onOrderQty)}</dd></div>
       <div><dt>Pakai/hari</dt><dd data-cmr="daily">{r.dailyMean === null ? 'belum ada' : `${formatReorderUpTo2(r.dailyMean)}${unit}`}</dd></div>
       <div><dt>Lama kirim (hari)</dt><dd data-cmr="lead">{r.leadDays === null ? 'belum diisi' : formatReorderUpTo2(r.leadDays)}</dd></div>
       <div><dt>Titik pesan ulang</dt><dd data-cmr="point">{r.point === null ? 'belum ada' : q(r.point)}</dd></div>
       <div><dt>Dasar</dt><dd data-cmr="basis">{materialBasisText(r, windowDays)}</dd></div>
-    </dl>
-    <details className="cfr-formula"><summary>Rincian rumus</summary><ul>{materialFormulaLines(r, windowDays, level).map(line => <li key={line}>{line}</li>)}</ul></details>
+    </dl> : <dl>
+      <div><dt>Stok di gudang</dt><dd data-cmr="free">{q(r.freeQty)}</dd></div>
+      <div><dt>Pemakaian rata-rata per hari ({formatReorderWhole(windowDays)} hari terakhir)</dt>
+        <dd data-cmr="daily">{r.dailyMean === null ? 'belum ada pemakaian' : `${formatReorderUpTo2(r.dailyMean)}${unit}`}</dd></div>
+      <div><dt>Batas minimum</dt><dd data-cmr="point">{r.point === null ? 'belum diisi' : q(r.point)}</dd></div>
+      <div><dt>Diisi</dt><dd data-cmr="basis">{materialBasisText(r, windowDays)}</dd></div>
+    </dl>}
+    {fabric ? <details className="cfr-formula"><summary>Rincian rumus</summary><ul>{materialFormulaLines(r, windowDays, level).map(line => <li key={line}>{line}</li>)}</ul></details> : null}
     {note}
-    {canManage && !draft ? <button type="button" disabled={locked} onClick={onOpen}>{fabric ? 'Atur lama kirim' : 'Atur lama kirim & angka manual'}</button> : null}
+    {canManage && !draft ? <button type="button" disabled={locked} onClick={onOpen}>{fabric ? 'Atur lama kirim' : 'Atur batas minimum'}</button> : null}
     {canManage && draft ? <form className="cfr-manual" onSubmit={e => { e.preventDefault(); onSave() }}>
-      <fieldset disabled={locked}><legend>{fabric ? 'Lama kirim' : 'Lama kirim dan angka manual'}</legend>
+      {fabric ? <fieldset disabled={locked}><legend>Lama kirim</legend>
         <label>Lama kirim (hari)<input inputMode="decimal" aria-label="Lama kirim (hari)" maxLength={6} value={draft.lead} onChange={e => onDraft({ lead: e.target.value })}/>
-          <small>Berapa hari dari pesan ke supplier sampai {fabric ? 'kain' : 'aksesori'} diterima. Kosong = rumus tidak dihitung.</small></label>
-        {fabric ? <p className="cfr-source">Angka minimum diatur di Master Data › Kain & Benchmark.</p>
-          : <label>Angka manual{r.unitCode ? ` (${r.unitCode})` : ''}<input inputMode="decimal" aria-label="Angka manual" maxLength={18} value={draft.manual}
-            onChange={e => onDraft({ manual: e.target.value })}/><small>0 = tidak pernah diingatkan, kosong = pakai rumus.</small></label>}
-        <label>Alasan<input aria-label="Alasan perubahan bahan" maxLength={REASON_MAX} value={draft.reason} onChange={e => onDraft({ reason: e.target.value })}/></label>
-        {!changed ? <p className="cfr-none">Belum ada yang diubah.</p> : problem ? <p className="cfr-problem">{problem}</p> : null}
-        <div className="cfr-actions">
-          <button type="submit" className="primary-btn" disabled={locked || problem !== '' || !changed}>{writing ? 'Menyimpan…' : 'Simpan'}</button>
-          <button type="button" disabled={writing} onClick={onClose}>Batal</button>
-        </div>
-      </fieldset>
+          <small>Berapa hari dari pesan ke supplier sampai kain diterima. Kosong = rumus tidak dihitung.</small></label>
+        <p className="cfr-source">Angka minimum diatur di Master Data › Kain & Benchmark.</p>
+        {reason}{check}{actions}
+      </fieldset> : <fieldset disabled={locked}><legend>Batas minimum</legend>
+        <label>{minimumLabel}<input inputMode="decimal" aria-label={minimumLabel} maxLength={18} value={draft.manual} onChange={e => onDraft({ manual: e.target.value })}/>
+          <small>Pengingat muncul kalau stok di gudang sama dengan atau di bawah angka ini. 0 = tidak pernah diingatkan, kosong = belum diisi (tidak diingatkan).</small></label>
+        {reason}{check}{actions}
+      </fieldset>}
     </form> : null}
   </article>
 }
