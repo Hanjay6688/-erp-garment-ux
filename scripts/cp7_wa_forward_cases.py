@@ -1371,8 +1371,11 @@ def http_cases(http, today):
             formula.cut_days(cur, m, today, formula.SPARSE)
             a = formula.accessory(cur, today, 280)
             formula.accessory_days(cur, a, today, formula.SPARSE)
+            # The settings in force on this copy (the finished-goods HTTP case before this one saves 99%).
+            s = one(cur, 'select cp7_stock_formula.current_settings()')
             conn.commit()
-        o = formula.material_oracle(130, formula.SPARSE, 6)
+        assert s['window_days'] == 30, s
+        o = formula.material_oracle(130, formula.SPARSE, 6, level=s['service_level'])
         owner = http.login('OWNER', 'ss2-owner')
         r = owner.rpc('erp_cp7_refresh_material_reorder_v1', dict(p_material_type='FABRIC'))
         assert r['status'] == 200 and r['body']['materials'] >= 2, r
