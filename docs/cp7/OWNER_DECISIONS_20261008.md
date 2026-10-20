@@ -746,3 +746,14 @@ Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
   angka rumus bila minimum manual kosong (kalimat usulan bagian 3 yang disetujui di D17-9). Tidak ada lagi judul terpisah
   "Stok kain menipis".
 - Beda (2) dan pertanyaan BOM per warna/ukuran, laporan aksesori mandor, dan waktunya belum dijawab owner; tidak dikerjakan.
+
+### D17-11 (owner ke penulis Claude, 20 Okt 2026 WIB, baca ERP lama untuk pemakaian aksesori)
+
+Pertanyaan penulis (chat): "Saya perlu Bos memutuskan: boleh saya baca data ERP lama untuk angka pemakaian itu? Hanya
+dibaca, tidak diubah apa pun. Ya atau tidak?" (pemakaian aksesori per bulan, untuk menghitung batas minimum D17-10).
+
+Owner (persis): "ya"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): penulis membaca proyek ERP lama (`vlxdhpkjeevubjxexnfo`)
+dengan kueri SELECT saja untuk pemakaian aksesori per bulan; tidak ada yang diubah. Angka dari data produksi tidak masuk repo
+(repo publik) atau artifact; hasilnya disampaikan ke owner di chat dan disimpan di folder kerja sementara penulis.
