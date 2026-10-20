@@ -1,0 +1,71 @@
+
+ RUN  v4.1.11 /workspace/scratch/9442228ed2dc/ow01-proposals/ui/isolated
+
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > D17-14 renders all seven obligation domains with exact known money and honest unknowns 151ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > D17-14 rejects mismatched obligation identity and money coerced to a JS number 3ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > parses the documented shapes and refuses unknown or missing keys 6ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > shows the WhatsApp tab to the owner only, and tells each who receives their own reminders 62ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > lists the system reminders by kind with their numbers, analysis time, WhatsApp state and resolution 66ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > explains that system reminders start after the owner saves the WhatsApp settings once 56ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > sends the key once, in its own request only, then empties the input; the key is never shown or stored 158ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > a refused or lost key reply shows codes only and still empties the input 56ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > checks the settings like the server, shows the digest/quiet refusal in words and asks to reload when stale 151ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > resends a settings save whose reply was lost with the same request id, and the server answers it once 40ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > sends a test message, keeps the id of a lost reply, and says plainly when the hourly limit is reached 80ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > shows the status and history in plain words and marks an UNKNOWN message delivered or not 43ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > marks an UNKNOWN message delivered with its own payload; a second mark is refused in words 42ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > shows a finished good at or under its reorder point with its WhatsApp line, and forwards the kind by default (SS-1) 79ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > shows a fabric on the formula under "Stok kain di bawah minimum" and an accessory under its manual minimum, with their WhatsApp lines (D17-10) 78ms
+ × src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > OW01_UI_01_SETTINGS_ROUNDTRIP saves the accessory review kind, retries a lost choice exactly and restores it with a fresh UUID 89ms
+   → expected 'Analisis otomatis (untuk kekurangan p…' to contain 'aksesori'
+ × src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > OW01_UI_02_GROSS_REVIEW renders unknown additional need and gross186 only as assumed BOM need 32ms
+   → expected 'Analisis untuk kekurangan produksi da…' to contain 'aksesori'
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > 'OW01_UI_03_BOM_NOT_RECORDED' renders the source review reason without inventing zero or purchase quantity 26ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > 'OW01_UI_04_BOM_AMBIGUOUS' renders the source review reason without inventing zero or purchase quantity 24ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > 'OW01_UI_05_CATEGORY_UNAVAILABLE' renders the source review reason without inventing zero or purchase quantity 28ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > 'OW01_UI_06_HTTP_401_RETIRE' retires already displayed review facts while AuthProvider remains AUTHORIZED 41ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > 'OW01_UI_07_HTTP_403_RETIRE' retires already displayed review facts while AuthProvider remains AUTHORIZED 37ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > 'OW01_UI_08_LATE_401' cannot restore an old identity response after the new identity read is refused 61ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > 'OW01_UI_09_LATE_403' cannot restore an old identity response after the new identity read is refused 60ms
+ ✓ src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > shows the server refusal in words when the connection read is refused 16ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > OW01_UI_01_SETTINGS_ROUNDTRIP saves the accessory review kind, retries a lost choice exactly and restores it with a fresh UUID
+AssertionError: expected 'Analisis otomatis (untuk kekurangan p…' to contain 'aksesori'
+
+Expected: "aksesori"
+Received: "Analisis otomatis (untuk kekurangan produksi dan kain)"
+
+ ❯ src/ConnectedRemindersWa.dom.test.tsx:786:41
+    784|     expect(input(label).checked).toBe(true)
+    785|     const analysisLegend = [...panel('Sambungan WhatsApp').querySelect…
+    786|     expect(analysisLegend?.textContent).toContain('aksesori')
+       |                                         ^
+    787|   })
+    788|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > OW01_UI_02_GROSS_REVIEW renders unknown additional need and gross186 only as assumed BOM need
+AssertionError: expected 'Analisis untuk kekurangan produksi da…' to contain 'aksesori'
+
+Expected: "aksesori"
+Received: "Analisis untuk kekurangan produksi dan kainAnalisis terbaru: data per 19 Okt 2026, 08.00 WIB, selesai dicek ulang 19 Okt 2026, 09.31 WIB. 3 masih terbuka, 6 sudah beres, 1 tidak diteruskan karena aturan pengingatnya tidak aktif.Analisis otomatis terakhir dilewati 19 Okt 2026, 09.45 WIB: data ERP tidak berubah sejak analisis sebelumnya.Pemeriksa analisis terakhir jalan 19 Okt 2026, 09.59 WIB: belum waktunya analisis baru."
+
+ ❯ src/ConnectedRemindersWa.dom.test.tsx:803:50
+    801|     expect(panel(ACCESSORY_KIND_LABEL).querySelector('header')?.textCo…
+    802|     expect(panel('Status analisis').textContent).toContain('3 masih te…
+    803|     expect(panel('Status analisis').textContent).toContain('aksesori')
+       |                                                  ^
+    804|   })
+    805|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 23 passed (25)
+   Start at  23:21:39
+   Duration  2.38s (transform 343ms, setup 0ms, import 451ms, tests 1.49s, environment 291ms)
+

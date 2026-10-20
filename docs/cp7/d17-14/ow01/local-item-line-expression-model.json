@@ -1,0 +1,65 @@
+{
+  "evidence": "STANDALONE_PYTHON_EXPRESSION_MODEL_OF_EXTRACTED_SQL_BRANCH",
+  "native_execution": false,
+  "postgres_execution": false,
+  "source": "/workspace/scratch/9442228ed2dc/erp-d1714/scripts/cp7-src/alerts/alerts.sql",
+  "source_sha256": "df926fa9c6332e5b92760076eb0f4d3a06444bfdda5fe88bd3a9ccc7ca570535",
+  "actual_sql_branch": "  when'ACCESSORY_NEED'then left(coalesce(p->'detail'->>'label','?'),20)||': perlu diperiksa; jumlah tambahan belum diketahui'\n   ||case when p->'detail'->>'gross_qty'is not null and length(trim_scale((p->'detail'->>'gross_qty')::numeric)::text||' '||coalesce(p->'detail'->>'unit',''))<=25\n    then'; BOM '||case when p->'detail'->>'gross_state'='ASSUMED'then'(perkiraan) 'else''end\n    ||trim_scale((p->'detail'->>'gross_qty')::numeric)::text||' '||coalesce(p->'detail'->>'unit','')else''end\n",
+  "cases": [
+    {
+      "case": "SMALL_POSITIVE",
+      "status": "PASS",
+      "characters": 95,
+      "line": "LLLLLLLLLLLLLLLLLLLL: perlu diperiksa; jumlah tambahan belum diketahui; BOM (perkiraan) 0.001 M"
+    },
+    {
+      "case": "WHOLE_25_BOUNDARY",
+      "status": "PASS",
+      "characters": 113,
+      "line": "LLLLLLLLLLLLLLLLLLLL: perlu diperiksa; jumlah tambahan belum diketahui; BOM (perkiraan) 12345678901234567890123 M"
+    },
+    {
+      "case": "WHOLE_26_OMITTED",
+      "status": "PASS",
+      "characters": 70,
+      "line": "LLLLLLLLLLLLLLLLLLLL: perlu diperiksa; jumlah tambahan belum diketahui"
+    },
+    {
+      "case": "LONG_GROSS_OMITTED",
+      "status": "PASS",
+      "characters": 70,
+      "line": "LLLLLLLLLLLLLLLLLLLL: perlu diperiksa; jumlah tambahan belum diketahui"
+    },
+    {
+      "case": "UNKNOWN_GROSS",
+      "status": "PASS",
+      "characters": 70,
+      "line": "LLLLLLLLLLLLLLLLLLLL: perlu diperiksa; jumlah tambahan belum diketahui"
+    },
+    {
+      "case": "KNOWN_EXACT",
+      "status": "PASS",
+      "characters": 86,
+      "line": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀: perlu diperiksa; jumlah tambahan belum diketahui; BOM 186.25 PCS"
+    }
+  ],
+  "max_possible_branch_characters": 113,
+  "initial_counter_source": {
+    "path": "scripts/cp7-src/alerts/alerts.sql",
+    "previous_item_line_lines": "770-779",
+    "shared_num_lines": "246-248",
+    "native_bom_type": "numeric(18,6), CHECK qty_per_good_fg_base>0 (baseline gzip43/3035)",
+    "small_positive": {
+      "gap": "1",
+      "bom_qty": "0.001",
+      "gross": "0.001",
+      "previous_display_gross": "0",
+      "expected": "exact positive gross or whole gross segment omitted"
+    },
+    "long_gross": {
+      "reachable_input": "daily_pcs accepts 30 integer digits; Native BOM quantity has 12 integer digits",
+      "previous_effect": "left(line,120) can cut a gross integer",
+      "expected": "whole exact gross+unit or whole omission"
+    }
+  }
+}

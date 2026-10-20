@@ -1,0 +1,10 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/9442228ed2dc/erp-d1714
+
+
+ Test Files  3 passed (3)
+      Tests  58 passed (58)
+   Start at  23:26:49
+   Duration  2.63s (transform 637ms, setup 0ms, import 857ms, tests 1.80s, environment 653ms)
+

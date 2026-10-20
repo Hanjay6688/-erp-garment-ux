@@ -1,0 +1,843 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/9442228ed2dc/erp-d1714
+
+ ❯ tests/cp7/families/f04-supply-proofs.test.ts (3 tests | 3 skipped) 17ms
+ ❯ tests/cp7/families/f04-supply-exhausted.test.ts (6 tests | 6 skipped) 10ms
+ ❯ tests/cp7/families/f05-analysis-jobs.test.ts (1 test | 1 failed) 17ms
+   × P19 analysis job states, exact segmented Original, refusals and privileges 16ms
+ ❯ tests/cp7/families/f05-staged-scenario.test.ts (3 tests | 3 failed) 15ms
+   × P19 staged scenario units equal the single chain byte for byte, including the first refusal 10ms
+   × P19 staged scenario: single-call caps are job bounds that refuse loudly; the two intended differences 1ms
+   × P19 staged scenario: the comparison catches every deliberately wrong unit 3ms
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts (4 tests | 4 failed) 11ms
+   × P19 staged allocation equals allocate byte for byte, including the first refusal 7ms
+   × P19 linear check_allocations equals its predecessor, including the first refusal 1ms
+   × P19 staged job Original equals the single build byte for byte; refusals are the same refusals 1ms
+   × P19 staged job: progress from stored rows, retry after the statement limit, refusal, no double worker, immutable outputs 1ms
+ ❯ tests/cp7/families/cutting-learning.test.ts (6 tests | 6 skipped) 18ms
+ ❯ tests/cp7/families/cutting-model-producer.test.ts (7 tests | 7 failed) 13ms
+   × prospective policy is immutable and server timed; rejected fields/counts/CAS cannot create partial metadata 9ms
+   × ten prospectively captured independent batches qualify the fixed width challenger without business mutation 1ms
+   × a new policy cannot claim past batches and a missing current observation cannot resurrect older history 1ms
+   × UUID recovery and permanently sealed absent receipt preserve actor Original; current denial applies to caches 0ms
+   × metadata-only model has no public private-schema access or authenticated business DML grant 0ms
+   × training uses only prospective batches after the policy, never earlier same-context history 0ms
+   × holdout keeps exactly the required batches when a later batch is captured before the last one 0ms
+ ❯ tests/cp7/families/f05-staged-pages.test.ts (3 tests | 3 failed) 29ms
+   × P19 product pages: every item and hash reassembles to the single analysis and Original at many byte cuts 25ms
+   × P19 product pages: access epoch, actor binding, no partial/whole reads, immutable output, bounded multibyte pages 2ms
+   × P19 product refuses a target above the page budget without exposing a header or page set 0ms
+ ❯ tests/cp7/families/cutting-inputs.test.ts (4 tests | 4 skipped) 13ms
+ ❯ tests/cp7/families/internal-guard.test.ts (6 tests | 6 failed) 15ms
+   × active legacy internal roles do not enter irrelevant scope-permission lookups 8ms
+   × fine-only actor requires its exact private context and live permissions 1ms
+   × inactive subject or role is denied despite a previously matching private context 0ms
+   × other actor, transaction, action and caller GUC cannot grant a scope 0ms
+   × matching sales scope still checks revoked fine rights before legacy fallback 0ms
+   × every preceding context keeps its priority over a refused matching sales scope 0ms
+ ❯ tests/cp7/families/f05-staged-api.test.ts (3 tests | 3 failed) 12ms
+   × P19 staged API: idempotent request, fixed capture, status has no side effects, lost step reply resumes, access revoked stops 5ms
+   × P19 staged API: exact six public boundaries and deny-all private tables, immutable reference and retained completed pages 1ms
+   × P19 real scenario status is accepted by the frontend at every unit; pairs are not target progress 1ms
+ ❯ tests/cp7/families/f05-kernel-maps.test.ts (1 test | 1 failed) 11ms
+   × P19 kernel maps equal the predecessor for rich edges, match results, ETAs, sources and inputs 10ms
+ ❯ tests/cp7/families/sales-command-access.test.ts (5 tests | 5 skipped) 8ms
+ ❯ tests/cp7/families/f05-authority.test.ts (1 test | 1 failed) 11ms
+   × private Original admission preserves own actor, current capabilities and final-reader separation 10ms
+ ❯ tests/cp7/families/cutting-observations.test.ts (5 tests | 5 skipped) 10ms
+ ❯ tests/cp7/families/f04-model-knowledge-cutoff.test.ts (2 tests | 2 failed) 14ms
+   × folds complete when each closed day becomes known on the next WIB day, and nothing later leaks in 11ms
+   × daily Native captures complete three paired folds through the real dataset/build adapter 1ms
+ ❯ tests/cp7/families/f04-netting-linear.test.ts (1 test | 1 failed) 7ms
+   × P19 netting build equals its predecessor byte for byte, including the first refusal 6ms
+ ❯ tests/cp7/families/f04-wip-normalize-linear.test.ts (1 test | 1 failed) 6ms
+   × PL-8 linear cutting normalization, settle_bs, reconcile and production merge equal their predecessors byte for byte, including the first refusal 5ms
+ ❯ tests/cp7/families/f04-allocation-linear.test.ts (1 test | 1 failed) 8ms
+   × P19 allocation equals its predecessor byte for byte, including the first refusal 7ms
+ ❯ tests/cp7/families/f04-baseline-build-linear.test.ts (1 test | 1 failed) 8ms
+   × P19 baseline build equals its predecessor byte for byte, including the first refusal 7ms
+ ❯ tests/cp7/families/note-lineage.test.ts (4 tests | 4 failed) 8ms
+   × duplicate SKU5/10→5/6 keeps two original anchors even when new ids sort6 before5 6ms
+   × explicit reordering preserves original identity; deleted lines are not shifted into the first matching SKU 1ms
+   × held legacy payload without lineage pairs each SKU occurrence once using submitted full values 0ms
+   × foreign, repeated or incomplete source references and unmatched Native replacement lines fail atomically 0ms
+ ❯ tests/cp7/families/corrected-lot-card.test.ts (1 test | 1 skipped) 9ms
+ ❯ tests/cp7/families/f05-timeline.test.ts (1 test | 1 failed) 50ms
+   × ordered timeline aggregation equals the predecessor including intraday rows, nulls and exact decimals 48ms
+ ❯ tests/cp7/families/f04-schedule-scenario-linear.test.ts (1 test | 1 failed) 8ms
+   × P19 schedule scenario and project_yield equal their predecessors byte for byte, including the first refusal 6ms
+ ❯ tests/cp7/families/f04-demand-history-linear.test.ts (1 test | 1 failed) 11ms
+   × P19 linear demand-1 history equals the predecessor byte for byte, including the first refusal 9ms
+Traceback (most recent call last):
+  File "<string>", line 9, in <module>
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'docs/cp7/evidence/gpt-staged-5000-20261008/43d26996-scale5-first-failure-retained/ORIGINAL_REPORTS.json.gz'
+ ❯ tests/cp7/p19-scale-verdict.test.mjs (1 test | 1 failed) 94ms
+   × retained Native completion is valid below a possible timeout; structural caps and corrupt results remain failures 93ms
+ ❯ tests/cp7/families/f05-report-render.test.ts (1 test | 1 failed) 11ms
+   × P19 report_render with grouped labels equals the predecessor text, refusal and order 9ms
+ ❯ tests/cp7/families/f05-assembly.test.ts (1 test | 1 failed) 7ms
+   × P19 full assembler preserves every predecessor field, row order, assumptions and refusal 6ms
+ ❯ tests/cp7/families/f04-demand-estimate-rounding.test.ts (1 test | 1 failed) 8ms
+   × own-history target equals the exact ceil(total*(L+R+B)/days), never one piece more 6ms
+file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/runtime.mjs:50
+    if (!bin || process.getuid?.() === 0) throw new Error('F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.');
+                                                ^
+
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+    at openRuntime (file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/runtime.mjs:50:49)
+    at file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/run.mjs:9:18
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+ ❯ tests/cp7/families/f04.test.ts (1 test | 1 failed) 119ms
+   × F04 private SQL kernels pass independent numeric fixtures in a disposable runtime 118ms
+ ❯ tests/cp7/families/f04-history-build-linear.test.ts (1 test | 1 failed) 5ms
+   × P19 history_build with per-root sums equals its predecessor byte for byte, including the reservation refusal 4ms
+file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/runtime.mjs:50
+    if (!bin || process.getuid?.() === 0) throw new Error('F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.');
+                                                ^
+
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+    at openRuntime (file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/runtime.mjs:50:49)
+    at file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/fabric-recipe.mjs:16:16
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+ ❯ tests/cp7/families/fabric-recipe.test.ts (1 test | 1 failed) 74ms
+   × effective fabric review preserves source identity, recording clock, CAS, UNKNOWN and metadata boundaries 72ms
+file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/runtime.mjs:50
+    if (!bin || process.getuid?.() === 0) throw new Error('F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.');
+                                                ^
+
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+    at openRuntime (file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/runtime.mjs:50:49)
+    at file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/material-pool.mjs:12:16
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+ ❯ tests/cp7/families/material-pool.test.ts (1 test | 1 failed) 73ms
+   × one physical roll/location is one plan budget without a second deduction after posting 72ms
+file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/runtime.mjs:50
+    if (!bin || process.getuid?.() === 0) throw new Error('F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.');
+                                                ^
+
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+    at openRuntime (file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/runtime.mjs:50:49)
+    at file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/history-availability-parity.mjs:36:16
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+ ❯ tests/cp7/families/history-availability-parity.test.ts (1 test | 1 failed) 69ms
+   × whole Native history availability preserves WIB opening and intraday minimum at every root 68ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cp7/families/corrected-lot-card.test.ts [ tests/cp7/families/corrected-lot-card.test.ts ]
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/corrected-lot-card.test.ts:9:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/58]⎯
+
+ FAIL  tests/cp7/families/cutting-inputs.test.ts [ tests/cp7/families/cutting-inputs.test.ts ]
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/cutting-inputs.test.ts:17:14
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/58]⎯
+
+ FAIL  tests/cp7/families/cutting-learning.test.ts [ tests/cp7/families/cutting-learning.test.ts ]
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/cutting-learning.test.ts:10:14
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/58]⎯
+
+ FAIL  tests/cp7/families/cutting-observations.test.ts [ tests/cp7/families/cutting-observations.test.ts ]
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ syntheticCuttingInputs tests/cp7/families/f04/cutting-input-fixture.mjs:6:17
+ ❯ tests/cp7/families/cutting-observations.test.ts:9:30
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/58]⎯
+
+ FAIL  tests/cp7/families/f04-supply-exhausted.test.ts [ tests/cp7/families/f04-supply-exhausted.test.ts ]
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f04-supply-exhausted.test.ts:21:36
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/58]⎯
+
+ FAIL  tests/cp7/families/f04-supply-proofs.test.ts [ tests/cp7/families/f04-supply-proofs.test.ts ]
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f04-supply-proofs.test.ts:27:36
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/58]⎯
+
+ FAIL  tests/cp7/families/sales-command-access.test.ts [ tests/cp7/families/sales-command-access.test.ts ]
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/sales-command-access.test.ts:22:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/58]⎯
+
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 51 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cp7/p19-scale-verdict.test.mjs > retained Native completion is valid below a possible timeout; structural caps and corrupt results remain failures
+Error: Command failed: python3 -c 
+import ast,copy,gzip,json
+from pathlib import Path
+source=Path('scripts/cp7_p19_scale_cases.py')
+tree=ast.parse(source.read_text())
+nodes=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name in ('cap_of','verdict')
+ or isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id in ('CAPS','STAGED_PATH') for t in n.targets)]
+ns={};exec(compile(ast.Module(body=nodes,type_ignores=[]),str(source),'exec'),ns)
+envelope=json.loads(gzip.decompress(Path('docs/cp7/evidence/gpt-staged-5000-20261008/43d26996-scale5-first-failure-retained/ORIGINAL_REPORTS.json.gz').read_bytes()))
+report=json.loads(envelope['root_json_utf8']['CP7_P19_SCALE.json'])
+assert report['status']=='INCOMPLETE'
+points=report['native']['cases']['P19S_NATIVE_ROLLED_BACK_100_GRID_CAP']['points']
+point=next(p for p in points if p['path']==ns['STAGED_PATH'])
+assert point['verdict']['kind']=='BEYOND_CAP_NOT_REFUSED'
+assert point['expected_caps']==['STATEMENT_TIMEOUT_8S','STAGED_UNIT_STOPPED_8S']
+assert all(point[k] is True for k in ('coverage_complete','frozen_contract_valid','transport_exact','original_recorded'))
+assert ns['verdict'](point)==dict(kind='COMPLETE_RESULT',acceptable=True,counterexample=False)
+checks=1
+for cap in ('STAGED_TARGETS_5000','STAGED_HISTORY_CELLS_500000','HISTORY_GRID_100000'):
+ p=copy.deepcopy(point);p['expected_caps'].append(cap)
+ v=ns['verdict'](p);assert v['kind']=='BEYOND_CAP_NOT_REFUSED' and v['caps']==[cap] and not v['acceptable'];checks+=1
+for flag in ('coverage_complete','frozen_contract_valid','transport_exact'):
+ p=copy.deepcopy(point);p[flag]=False
+ v=ns['verdict'](p);assert v['kind']=='RESULT_DEFECT' and v['failed']==[flag] and not v['acceptable'];checks+=1
+p=copy.deepcopy(point);p['original_recorded']=False
+assert ns['verdict'](p)['kind']=='EVIDENCE_MISSING';checks+=1
+for code in ('57014','CP7_ANALYSIS_STAGE_STOPPED'):
+ p=copy.deepcopy(point);p['phases'].append(dict(name='step',outcome='JOB_FAILED',code=code,sqlstate='57014'))
+ assert ns['verdict'](p)['kind']=='HONEST_CAP_REFUSAL';checks+=1
+ p['result_saved_after_refusal']=True
+ assert ns['verdict'](p)['kind']=='REFUSAL_SAVED_A_RESULT';checks+=1
+print(json.dumps(dict(checks=checks,source_commit=envelope['source_commit'],original_status_unchanged=report['status'])))
+
+Traceback (most recent call last):
+  File "<string>", line 9, in <module>
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'docs/cp7/evidence/gpt-staged-5000-20261008/43d26996-scale5-first-failure-retained/ORIGINAL_REPORTS.json.gz'
+
+ ❯ tests/cp7/p19-scale-verdict.test.mjs:9:15
+      7|  // psycopg harness. The input is the exact first-failing Native Origi…
+      8|  // INCOMPLETE receipt and failed cleanup gates are retained without r…
+      9|  const result=execFileSync('python3',['-c',String.raw`
+       |               ^
+     10| import ast,copy,gzip,json
+     11| from pathlib import Path
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/58]⎯
+
+ FAIL  tests/cp7/families/cutting-model-producer.test.ts > prospective policy is immutable and server timed; rejected fields/counts/CAS cannot create partial metadata
+ FAIL  tests/cp7/families/cutting-model-producer.test.ts > ten prospectively captured independent batches qualify the fixed width challenger without business mutation
+ FAIL  tests/cp7/families/cutting-model-producer.test.ts > a new policy cannot claim past batches and a missing current observation cannot resurrect older history
+ FAIL  tests/cp7/families/cutting-model-producer.test.ts > UUID recovery and permanently sealed absent receipt preserve actor Original; current denial applies to caches
+ FAIL  tests/cp7/families/cutting-model-producer.test.ts > metadata-only model has no public private-schema access or authenticated business DML grant
+ FAIL  tests/cp7/families/cutting-model-producer.test.ts > training uses only prospective batches after the policy, never earlier same-context history
+ FAIL  tests/cp7/families/cutting-model-producer.test.ts > holdout keeps exactly the required batches when a later batch is captured before the last one
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ syntheticCuttingInputs tests/cp7/families/f04/cutting-input-fixture.mjs:6:17
+ ❯ tests/cp7/families/cutting-model-producer.test.ts:6:31
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/58]⎯
+
+ FAIL  tests/cp7/families/f04-allocation-linear.test.ts > P19 allocation equals its predecessor byte for byte, including the first refusal
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f04-allocation-linear.test.ts:17:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/58]⎯
+
+ FAIL  tests/cp7/families/f04-baseline-build-linear.test.ts > P19 baseline build equals its predecessor byte for byte, including the first refusal
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f04-baseline-build-linear.test.ts:17:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/58]⎯
+
+ FAIL  tests/cp7/families/f04-demand-estimate-rounding.test.ts > own-history target equals the exact ceil(total*(L+R+B)/days), never one piece more
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f04-demand-estimate-rounding.test.ts:15:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/58]⎯
+
+ FAIL  tests/cp7/families/f04-demand-history-linear.test.ts > P19 linear demand-1 history equals the predecessor byte for byte, including the first refusal
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f04-demand-history-linear.test.ts:16:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/58]⎯
+
+ FAIL  tests/cp7/families/f04-history-build-linear.test.ts > P19 history_build with per-root sums equals its predecessor byte for byte, including the reservation refusal
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f04-history-build-linear.test.ts:7:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/58]⎯
+
+ FAIL  tests/cp7/families/f04-model-knowledge-cutoff.test.ts > folds complete when each closed day becomes known on the next WIB day, and nothing later leaks in
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f04-model-knowledge-cutoff.test.ts:16:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/58]⎯
+
+ FAIL  tests/cp7/families/f04-model-knowledge-cutoff.test.ts > daily Native captures complete three paired folds through the real dataset/build adapter
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f04-model-knowledge-cutoff.test.ts:40:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/58]⎯
+
+ FAIL  tests/cp7/families/f04-netting-linear.test.ts > P19 netting build equals its predecessor byte for byte, including the first refusal
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f04-netting-linear.test.ts:17:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/58]⎯
+
+ FAIL  tests/cp7/families/f04-schedule-scenario-linear.test.ts > P19 schedule scenario and project_yield equal their predecessors byte for byte, including the first refusal
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f04-schedule-scenario-linear.test.ts:7:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/58]⎯
+
+ FAIL  tests/cp7/families/f04-wip-normalize-linear.test.ts > PL-8 linear cutting normalization, settle_bs, reconcile and production merge equal their predecessors byte for byte, including the first refusal
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f04-wip-normalize-linear.test.ts:9:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/58]⎯
+
+ FAIL  tests/cp7/families/f04.test.ts > F04 private SQL kernels pass independent numeric fixtures in a disposable runtime
+Error: Command failed: /opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node tests/cp7/families/f04/run.mjs
+file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/runtime.mjs:50
+    if (!bin || process.getuid?.() === 0) throw new Error('F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.');
+                                                ^
+
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+    at openRuntime (file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/runtime.mjs:50:49)
+    at file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/run.mjs:9:18
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f04/run.mjs:9:18
+ ❯ tests/cp7/families/f04.test.ts:11:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/58]⎯
+
+ FAIL  tests/cp7/families/f05-analysis-jobs.test.ts > P19 analysis job states, exact segmented Original, refusals and privileges
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-analysis-jobs.test.ts:74:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/58]⎯
+
+ FAIL  tests/cp7/families/f05-assembly.test.ts > P19 full assembler preserves every predecessor field, row order, assumptions and refusal
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-assembly.test.ts:7:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/58]⎯
+
+ FAIL  tests/cp7/families/f05-authority.test.ts > private Original admission preserves own actor, current capabilities and final-reader separation
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-authority.test.ts:8:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/58]⎯
+
+ FAIL  tests/cp7/families/f05-kernel-maps.test.ts > P19 kernel maps equal the predecessor for rich edges, match results, ETAs, sources and inputs
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-kernel-maps.test.ts:59:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/58]⎯
+
+ FAIL  tests/cp7/families/f05-report-render.test.ts > P19 report_render with grouped labels equals the predecessor text, refusal and order
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-report-render.test.ts:10:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/58]⎯
+
+ FAIL  tests/cp7/families/f05-staged-analysis.test.ts > P19 staged allocation equals allocate byte for byte, including the first refusal
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts:21:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/58]⎯
+
+ FAIL  tests/cp7/families/f05-staged-analysis.test.ts > P19 linear check_allocations equals its predecessor, including the first refusal
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts:49:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/58]⎯
+
+ FAIL  tests/cp7/families/f05-staged-analysis.test.ts > P19 staged job Original equals the single build byte for byte; refusals are the same refusals
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts:89:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/58]⎯
+
+ FAIL  tests/cp7/families/f05-staged-analysis.test.ts > P19 staged job: progress from stored rows, retry after the statement limit, refusal, no double worker, immutable outputs
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts:133:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/58]⎯
+
+ FAIL  tests/cp7/families/f05-staged-api.test.ts > P19 staged API: idempotent request, fixed capture, status has no side effects, lost step reply resumes, access revoked stops
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-staged-api.test.ts:11:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/58]⎯
+
+ FAIL  tests/cp7/families/f05-staged-api.test.ts > P19 staged API: exact six public boundaries and deny-all private tables, immutable reference and retained completed pages
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-staged-api.test.ts:50:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/58]⎯
+
+ FAIL  tests/cp7/families/f05-staged-api.test.ts > P19 real scenario status is accepted by the frontend at every unit; pairs are not target progress
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-staged-api.test.ts:81:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/58]⎯
+
+ FAIL  tests/cp7/families/f05-staged-pages.test.ts > P19 product pages: every item and hash reassembles to the single analysis and Original at many byte cuts
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-staged-pages.test.ts:15:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/58]⎯
+
+ FAIL  tests/cp7/families/f05-staged-pages.test.ts > P19 product pages: access epoch, actor binding, no partial/whole reads, immutable output, bounded multibyte pages
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-staged-pages.test.ts:61:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/58]⎯
+
+ FAIL  tests/cp7/families/f05-staged-pages.test.ts > P19 product refuses a target above the page budget without exposing a header or page set
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-staged-pages.test.ts:114:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/58]⎯
+
+ FAIL  tests/cp7/families/f05-staged-scenario.test.ts > P19 staged scenario units equal the single chain byte for byte, including the first refusal
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-staged-scenario.test.ts:39:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/58]⎯
+
+ FAIL  tests/cp7/families/f05-staged-scenario.test.ts > P19 staged scenario: single-call caps are job bounds that refuse loudly; the two intended differences
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-staged-scenario.test.ts:94:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/58]⎯
+
+ FAIL  tests/cp7/families/f05-staged-scenario.test.ts > P19 staged scenario: the comparison catches every deliberately wrong unit
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-staged-scenario.test.ts:149:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[38/58]⎯
+
+ FAIL  tests/cp7/families/f05-timeline.test.ts > ordered timeline aggregation equals the predecessor including intraday rows, nulls and exact decimals
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f05-timeline.test.ts:18:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39/58]⎯
+
+ FAIL  tests/cp7/families/fabric-recipe.test.ts > effective fabric review preserves source identity, recording clock, CAS, UNKNOWN and metadata boundaries
+Error: Command failed: /opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node tests/cp7/families/f04/fabric-recipe.mjs
+file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/runtime.mjs:50
+    if (!bin || process.getuid?.() === 0) throw new Error('F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.');
+                                                ^
+
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+    at openRuntime (file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/runtime.mjs:50:49)
+    at file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/fabric-recipe.mjs:16:16
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f04/fabric-recipe.mjs:16:16
+ ❯ tests/cp7/families/fabric-recipe.test.ts:6:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[40/58]⎯
+
+ FAIL  tests/cp7/families/history-availability-parity.test.ts > whole Native history availability preserves WIB opening and intraday minimum at every root
+Error: Command failed: /opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node tests/cp7/families/f04/history-availability-parity.mjs
+file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/runtime.mjs:50
+    if (!bin || process.getuid?.() === 0) throw new Error('F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.');
+                                                ^
+
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+    at openRuntime (file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/runtime.mjs:50:49)
+    at file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/history-availability-parity.mjs:36:16
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f04/history-availability-parity.mjs:36:16
+ ❯ tests/cp7/families/history-availability-parity.test.ts:7:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[41/58]⎯
+
+ FAIL  tests/cp7/families/internal-guard.test.ts > active legacy internal roles do not enter irrelevant scope-permission lookups
+ FAIL  tests/cp7/families/internal-guard.test.ts > fine-only actor requires its exact private context and live permissions
+ FAIL  tests/cp7/families/internal-guard.test.ts > inactive subject or role is denied despite a previously matching private context
+ FAIL  tests/cp7/families/internal-guard.test.ts > other actor, transaction, action and caller GUC cannot grant a scope
+ FAIL  tests/cp7/families/internal-guard.test.ts > matching sales scope still checks revoked fine rights before legacy fallback
+ FAIL  tests/cp7/families/internal-guard.test.ts > every preceding context keeps its priority over a refused matching sales scope
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/internal-guard.test.ts:14:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[42/58]⎯
+
+ FAIL  tests/cp7/families/material-pool.test.ts > one physical roll/location is one plan budget without a second deduction after posting
+Error: Command failed: /opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node tests/cp7/families/f04/material-pool.mjs
+file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/runtime.mjs:50
+    if (!bin || process.getuid?.() === 0) throw new Error('F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.');
+                                                ^
+
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+    at openRuntime (file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/runtime.mjs:50:49)
+    at file:///workspace/scratch/9442228ed2dc/erp-d1714/tests/cp7/families/f04/material-pool.mjs:12:16
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/f04/material-pool.mjs:12:16
+ ❯ tests/cp7/families/material-pool.test.ts:7:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[43/58]⎯
+
+ FAIL  tests/cp7/families/note-lineage.test.ts > duplicate SKU5/10→5/6 keeps two original anchors even when new ids sort6 before5
+ FAIL  tests/cp7/families/note-lineage.test.ts > explicit reordering preserves original identity; deleted lines are not shifted into the first matching SKU
+ FAIL  tests/cp7/families/note-lineage.test.ts > held legacy payload without lineage pairs each SKU occurrence once using submitted full values
+ FAIL  tests/cp7/families/note-lineage.test.ts > foreign, repeated or incomplete source references and unmatched Native replacement lines fail atomically
+Error: F04 native PostgreSQL unavailable/non-root required. Explicit local F04_PGLITE_MODULE is allowed; no green skip.
+ ❯ openRuntime tests/cp7/families/f04/runtime.mjs:50:49
+     48|     const versions = existsSync(root) ? readdirSync(root).filter(v => …
+     49|     const bin = versions.map(v => join(root, v, 'bin')).find(p => exis…
+     50|     if (!bin || process.getuid?.() === 0) throw new Error('F04 native …
+       |                                                 ^
+     51|     const dir = mkdtempSync(join(tmpdir(), 'cp7-f04-'));
+     52|     const data = join(dir, 'data');
+ ❯ tests/cp7/families/note-lineage.test.ts:11:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[44/58]⎯
+
+
+ Test Files  34 failed | 191 passed (225)
+      Tests  51 failed | 1880 passed | 30 skipped (1961)
+   Start at  23:24:47
+   Duration  36.70s (transform 19.24s, setup 0ms, import 42.81s, tests 114.08s, environment 51.29s)
+

@@ -48,9 +48,10 @@ create table cp7_reminder_native.staged_rechecks(
  id uuid primary key default gen_random_uuid(),actor uuid not null,request_id uuid not null,run_id uuid not null,
  identity_hash text not null,condition_key text not null,rule_id text not null,kind text not null check(kind in('SNAPSHOT','LIVE')),
  phase text not null check(phase in('CLAIM','FINISH')),data_as_of timestamptz,checked_at timestamptz not null,
- verdict text not null check(verdict in('STILL_OPEN','RESOLVED_NOW','BELOW_THRESHOLD_NOW','UNKNOWN_NOW','CHANGED_REVIEW_REQUIRED','NO_LONGER_DUE','NOT_FOUND_NOW','CONDITION_CHANGED')),
+ verdict text not null check(verdict in('STILL_OPEN','REVIEW_REQUIRED_NOW','RESOLVED_NOW','BELOW_THRESHOLD_NOW','UNKNOWN_NOW','CHANGED_REVIEW_REQUIRED','NO_LONGER_DUE','NOT_FOUND_NOW','CONDITION_CHANGED')),
  reason text not null,numbers jsonb not null,policy_id uuid,episode_id uuid references cp7_reminder_native.staged_episodes(id),created_at timestamptz not null,
- check((kind='SNAPSHOT')=(data_as_of is not null)));
+ check((kind='SNAPSHOT')=(data_as_of is not null)),
+ check(verdict<>'REVIEW_REQUIRED_NOW'or(rule_id='ACCESSORY_NEED'and kind='SNAPSHOT')));
 create index staged_rechecks_actor_run on cp7_reminder_native.staged_rechecks(actor,run_id,created_at);
 create table cp7_reminder_native.staged_claims(
  id uuid primary key default gen_random_uuid(),actor uuid not null,run_id uuid not null,identity_hash text not null,
@@ -530,6 +531,7 @@ language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'a
 declare c cp7_reminder_native.staged_conditions%rowtype;s cp7_reminder_native.staged_condition_sets%rowtype;d text;
  now_t jsonb;sn jsonb;lv jsonb;lp jsonb;need_snap numeric;fg_snap numeric;wip_snap numeric;fg_now numeric;wip_now numeric;increase numeric;need_now numeric;
  verdict text;reason text;numbers jsonb;pb jsonb;threshold numeric;unit text;value numeric;r jsonb;o jsonb;at timestamptz;
+ evidence jsonb;notice jsonb;timing jsonb;notice_eligibility text;
 begin
  d:=cp7_reminder_native.condition_domain(p_key);
  if d in('PRODUCTION','ACCESSORY','FABRIC')then
@@ -539,14 +541,22 @@ begin
   if c.run_id is null then raise exception using errcode='42501',message='CP7_REMINDER_V2_CONDITION_UNAVAILABLE';end if;
   if p_hash is not null and p_hash<>c.condition_hash then raise exception using errcode='40001',message='CP7_REMINDER_V2_CONDITION_CHANGED',
    detail=jsonb_build_object('condition_key',p_key,'presented_hash',p_hash,'snapshot_hash',c.condition_hash)::text;end if;
+  if c.rule_id='ACCESSORY_NEED'then
+   now_t:=cp7_reminder_native.accessory_target_now(p_run,c.target_key,c.material_key,c.page_index);
+   evidence:=now_t->'original';
+   if evidence->'additional_external'is distinct from c.value then raise exception 'CP7_REMINDER_V2_SNAPSHOT_INVARIANT';end if;
+   policies:=cp7_reminder_native.staged_policy_rows(p_run);
+  else now_t:=cp7_reminder_native.staged_target_now(p_run,c.target_key,case when c.rule_id='FABRIC_NEED'then c.material_key end);end if;
   pb:=cp7_reminder_native.policy_resolve(policies,c.rule_id,c.target_key);
-  now_t:=cp7_reminder_native.staged_target_now(p_run,c.target_key,case when c.rule_id='FABRIC_NEED'then c.material_key end);
   sn:=now_t->'snapshot';lv:=now_t->'live';lp:=case when jsonb_array_length(lv->'products')=1 then lv->'products'->0 end;
   need_snap:=(sn->>'need_pcs')::numeric;fg_snap:=(sn->>'available_fg_pcs')::numeric;wip_snap:=(sn->>'wip_model_size_pcs')::numeric;
   fg_now:=(lv->>'fg_pcs')::numeric;wip_now:=case when lv->'wip'->>'status'='COMPLETE'then(lv->'wip'->>'pcs')::numeric end;
   if need_snap is not null and fg_snap is not null and wip_snap is not null and fg_now is not null and wip_now is not null then
    increase:=greatest(0,(fg_now+wip_now)-(fg_snap+wip_snap));need_now:=greatest(0,need_snap-increase);end if;
-  if need_now=0 then verdict:='RESOLVED_NOW';reason:='FINISHED_STOCK_AND_WIP_COVER_THE_NEED_NOW';
+  if c.rule_id='ACCESSORY_NEED'and now_t->'binding_unchanged'is distinct from'true'::jsonb then verdict:='CHANGED_REVIEW_REQUIRED';reason:='ACCESSORY_SOURCE_CHANGED_AFTER_SNAPSHOT';
+  elsif c.rule_id='ACCESSORY_NEED'and evidence->'additional_external'->>'state'='KNOWN'and(evidence->'additional_external'->>'value')::numeric=0 then
+   verdict:='RESOLVED_NOW';reason:='KNOWN_ZERO_ACCESSORY_NEED';
+  elsif need_now=0 then verdict:='RESOLVED_NOW';reason:='FINISHED_STOCK_AND_WIP_COVER_THE_NEED_NOW';
   elsif lp is null or lp->'is_active'is distinct from'true'::jsonb or sn->'product'is null
    or lp->>'model_id'is distinct from sn->'product'->>'model_id'or lp->>'size_id'is distinct from sn->'product'->>'size_id'then
    verdict:='CHANGED_REVIEW_REQUIRED';reason:='PRODUCT_CHANGED_AFTER_SNAPSHOT';
@@ -572,11 +582,36 @@ begin
     elsif threshold is not null and value<threshold then verdict:='BELOW_THRESHOLD_NOW';reason:='NEED_BELOW_SELECTED_THRESHOLD';
     else verdict:='STILL_OPEN';reason:='FABRIC_NEED_UNCHANGED_SINCE_SNAPSHOT';end if;
    end if;
-  else verdict:='UNKNOWN_NOW';reason:='ACCESSORY_NEED_NOT_RECHECKED_LIVE';end if;
+  else
+   evidence:=now_t->'original';
+   if evidence->'additional_external'is distinct from c.value then raise exception 'CP7_REMINDER_V2_SNAPSHOT_INVARIANT';end if;
+   if now_t->'binding_unchanged'is distinct from'true'::jsonb then verdict:='CHANGED_REVIEW_REQUIRED';reason:='ACCESSORY_SOURCE_CHANGED_AFTER_SNAPSHOT';
+   elsif need_now<need_snap then verdict:='CHANGED_REVIEW_REQUIRED';reason:='PRODUCTION_NEED_FELL_AFTER_SNAPSHOT';
+   elsif evidence->'additional_external'->>'state'='KNOWN'and(evidence->'additional_external'->>'value')::numeric=0 then
+    verdict:='RESOLVED_NOW';reason:='KNOWN_ZERO_ACCESSORY_NEED';
+   elsif c.snapshot_state='DATA_REVIEW'and evidence->'installed_proven'->>'state'='UNKNOWN'
+    and evidence->'unused_allocated_proven'->>'state'='UNKNOWN'and evidence->'additional_external'->>'state'='UNKNOWN'
+    and evidence->'installed_proven'->>'value'is null and evidence->'unused_allocated_proven'->>'value'is null and evidence->'additional_external'->>'value'is null then
+    verdict:='REVIEW_REQUIRED_NOW';reason:=now_t->>'review_reason';
+   else verdict:='UNKNOWN_NOW';reason:='ACCESSORY_PHYSICAL_PROOF_NOT_SUPPORTED';end if;
+  end if;
   numbers:=jsonb_build_object('need_snapshot_pcs',sn->'need_pcs','fg_snapshot_pcs',sn->'available_fg_pcs','wip_snapshot_pcs',sn->'wip_model_size_pcs',
    'fg_now_pcs',lv->'fg_pcs','wip_now_pcs',lv->'wip'->'pcs','wip_status_now',lv->'wip'->'status','increase_pcs',trim_scale(increase)::text,
    'need_now_pcs',trim_scale(need_now)::text,'target_plans_after',now_t->'target_plans_after','material',now_t->'material',
    'snapshot_value',c.value->'value','snapshot_unit',c.value->'unit','threshold',pb->'policy'->'config'->'threshold_value');
+  if c.rule_id='ACCESSORY_NEED'then
+   timing:=cp7_reminder_native.policy_timing(pb->'policy'->'config',(now_t->>'checked_at')::timestamptz,null);
+   notice_eligibility:=case when verdict<>'REVIEW_REQUIRED_NOW'then'SOURCE_REVIEW_REQUIRED'
+    when pb->'policy'->'config'->'enabled'is distinct from'true'::jsonb then case when pb->'policy'->'config'->'enabled'='false'::jsonb then'DISABLED'else'UNCONFIGURED'end
+    when timing->>'status'not in('READY','QUIET','COOLDOWN')or timing->>'status'is null then'UNCONFIGURED'else'REVIEW_NOTICE_ELIGIBLE'end;
+   notice:=jsonb_build_object('run_id',p_run,'data_as_of',s.data_as_of,'checked_at',now_t->'checked_at','label',c.label,'target_key',c.target_key,
+    'category_key',coalesce(c.material_key,'UNKNOWN_BOM'),'category_name',now_t->'category'->'category_name','state','DATA_REVIEW','verdict','REVIEW_REQUIRED_NOW',
+    'gross_state',evidence->'gross'->'state','gross_qty',evidence->'gross'->'value','unit',evidence->'gross'->'unit',
+    'installed_state','UNKNOWN','installed_proven',null,'unused_allocated_state','UNKNOWN','unused_allocated_proven',null,
+    'additional_external_state','UNKNOWN','additional_external',null,'threshold_status','NOT_EVALUATED_UNKNOWN','reason',now_t->>'review_reason');
+   numbers:=numbers||jsonb_build_object('wa_notice_eligibility',notice_eligibility,'threshold_status','NOT_EVALUATED_UNKNOWN',
+    'accessory_detail',case when verdict='REVIEW_REQUIRED_NOW'then notice else null end);
+  end if;
   return jsonb_build_object('condition_key',c.key,'rule_id',c.rule_id,'kind','SNAPSHOT','label',c.label,'target_key',c.target_key,
    'snapshot_state',c.snapshot_state,'condition_hash',c.condition_hash,'data_as_of',s.data_as_of,'checked_at',now_t->'checked_at',
    'verdict',verdict,'reason',reason,'numbers',numbers,'policy_binding',pb,'row',cp7_reminder_native.staged_row(c,s.data_as_of));

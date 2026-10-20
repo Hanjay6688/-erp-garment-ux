@@ -98,11 +98,51 @@ function alertsReply(who: 'OWNER' | 'STAFF', configured = true) {
     rows: who === 'OWNER' ? rows : rows.filter(r => r.kind === 'AR_DUE') }
 }
 
+
+// OW01_UI_01..09: expected results were declared in ACCESSORY_NEED_UI_EXPECTED.md
+// before execution. These twenty keys describe a review notice, never a known
+// purchase quantity. Deep-clone the old reply: kindsOwner/analysisStatus are shared.
+const ACCESSORY_TITLE = 'Kebutuhan aksesori perlu diperiksa: Kemeja A M'
+const ACCESSORY_KIND_LABEL = 'Kebutuhan aksesori perlu diperiksa (dari analisis)'
+const accessoryNeedDetail = (extra: Record<string, unknown> = {}) => ({
+  run_id: RUN, data_as_of: '2026-10-19T01:00:00+00:00', checked_at: '2026-10-19T02:30:00+00:00',
+  label: 'Kemeja A M', target_key: `${id(601)}:${id(602)}`, category_key: `ACCESSORY_CATEGORY:${id(603)}`, category_name: 'Kancing',
+  state: 'DATA_REVIEW', verdict: 'REVIEW_REQUIRED_NOW', gross_state: 'ASSUMED', gross_qty: '186', unit: 'PCS',
+  installed_state: 'UNKNOWN', installed_proven: null, unused_allocated_state: 'UNKNOWN', unused_allocated_proven: null,
+  additional_external_state: 'UNKNOWN', additional_external: null, threshold_status: 'NOT_EVALUATED_UNKNOWN',
+  reason: 'INSTALLATION_AND_ELIGIBLE_UNUSED_SUPPLY_NOT_PROVEN', ...extra,
+})
+function accessoryAlertsReply(extra: Record<string, unknown> = {}) {
+  const reply = structuredClone(alertsReply('OWNER')), d = accessoryNeedDetail(extra)
+  reply.kinds.push({ kind: 'ACCESSORY_NEED', last_try_at: null, last_ok_at: null, last_error: null, open_count: null })
+  reply.rows.push(row(61, 'ACCESSORY_NEED', ACCESSORY_TITLE, d, {
+    subject_key: `ACCESSORY_NEED:${d.target_key}:${d.category_key}`, wa: waState('PENDING'),
+  }))
+  if (!reply.analysis) throw new Error('The owner fixture must include analysis status.')
+  reply.analysis.run = { ...reply.analysis.run, rule: 'ACCESSORY_NEED', next_offset: 1, checked: 10, still_open: 3 }
+  return reply
+}
+const accessoryRow = () => field<HTMLElement>(`[aria-label="Pengingat sistem ${ACCESSORY_TITLE}"]`)
+const accessRefusal = (status: number) => ({ data: null, error: {
+  status, code: status === 401 ? 'PGRST301' : '42501', message: 'Current source read refused', details: null, hint: null,
+} })
+const accessRefusalText = (status: number) => status === 401
+  ? 'Sesi berakhir. Silakan masuk ulang.' : 'Akun tidak memiliki izin untuk operasi ini.'
+function expectAccessoryFactsRetired(status: number) {
+  const system = panel('Pengingat sistem')
+  expect(system.querySelector('[role="alert"]')?.textContent).toBe(accessRefusalText(status))
+  expect(system.querySelector(`[aria-label="Pengingat sistem ${ACCESSORY_TITLE}"]`)).toBeNull()
+  expect(system.querySelector('[aria-label="Status analisis"]')).toBeNull()
+  for (const oldFact of ['Kemeja A M', 'Kancing', '186', 'kebutuhan BOM', 'WA: menunggu',
+    `Data analisis per ${wib('2026-10-19T01:00:00+00:00')}`, `dicek ulang ${wib('2026-10-19T02:30:00+00:00')}`])
+    expect(system.textContent).not.toContain(oldFact)
+}
+
 // ---------------------------------------------------------- Sambungan WhatsApp --
 // The server defaults (alerts.sql defaults()): the finished-goods kind forwarded (SS-1), automatic analysis every 240 minutes (D17-7).
 const defaults = { revision: 0, enabled: false, phone_e164: null as string | null, detail: 'SUMMARY', digest_times: ['08:00', '15:00'],
   kinds: ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
-    'PRODUCTION_GAP', 'FABRIC_NEED', 'OPENING_AR', 'OPENING_AP', 'PAYROLL_AP', 'ACCESSORY_AP', 'LAUNDRY_AP', 'LAUNDRY_RECEIPT', 'LAUNDRY_OPENING_UNINVOICED'], repeat_minutes: 1440,
+    'PRODUCTION_GAP', 'FABRIC_NEED', 'ACCESSORY_NEED', 'OPENING_AR', 'OPENING_AP', 'PAYROLL_AP', 'ACCESSORY_AP', 'LAUNDRY_AP', 'LAUNDRY_RECEIPT', 'LAUNDRY_OPENING_UNINVOICED'], repeat_minutes: 1440,
   burst_after_per_day: 30, burst_merge_minutes: 30, max_items: 10, quiet_enabled: true, quiet_start: '21:00', quiet_end: '06:00', analysis_every_minutes: 240,
   analysis_start: '07:00', analysis_end: '20:00' }
 type Settings = typeof defaults & { saved_at?: string }
@@ -591,6 +631,7 @@ describe('Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4)', () => 
       'Teruskan Stok kain di bawah minimum', 'Teruskan Stok aksesori menipis', 'Teruskan Stok barang jadi menipis',
       'Teruskan Piutang pelanggan jatuh tempo', 'Teruskan Tagihan supplier jatuh tempo',
       'Teruskan Kekurangan produksi (dari analisis)', 'Teruskan Kain perlu dibeli (dari analisis)',
+      'Teruskan Kebutuhan aksesori perlu diperiksa (dari analisis)',
       'Teruskan Piutang saldo awal', 'Teruskan Utang saldo awal', 'Teruskan Tagihan gaji', 'Teruskan Kredit retur aksesori mandor',
       'Teruskan Tagihan laundry', 'Teruskan Penerimaan laundry perlu diperiksa', 'Teruskan Laundry awal belum ditagih'])
     expect(input('Teruskan Stok barang jadi menipis').checked).toBe(true)
@@ -598,7 +639,7 @@ describe('Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4)', () => 
     await click('Simpan pengaturan')
     expect((calls(fake, 'erp_cp7_save_wa_settings_v1')[0].p as { kinds: string[]; analysis_every_minutes: number })).toMatchObject({
       kinds: ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
-        'PRODUCTION_GAP', 'FABRIC_NEED', 'OPENING_AR', 'OPENING_AP', 'PAYROLL_AP', 'ACCESSORY_AP', 'LAUNDRY_AP', 'LAUNDRY_RECEIPT', 'LAUNDRY_OPENING_UNINVOICED'], analysis_every_minutes: 240 })
+        'PRODUCTION_GAP', 'FABRIC_NEED', 'ACCESSORY_NEED', 'OPENING_AR', 'OPENING_AP', 'PAYROLL_AP', 'ACCESSORY_AP', 'LAUNDRY_AP', 'LAUNDRY_RECEIPT', 'LAUNDRY_OPENING_UNINVOICED'], analysis_every_minutes: 240 })
     expect(container.textContent).toContain('Tersimpan (revisi 1).')
     await check('Teruskan Stok barang jadi menipis'); await click('Simpan pengaturan')
     expect((calls(fake, 'erp_cp7_save_wa_settings_v1')[1].p as { kinds: string[] }).kinds).not.toContain('FG_AT_REORDER_POINT')
@@ -701,6 +742,139 @@ describe('Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4)', () => 
     expect(input('Teruskan Stok kain di bawah minimum').checked).toBe(true); expect(input('Teruskan Stok aksesori menipis').checked).toBe(true)
     await click('Simpan pengaturan')
     expect((calls(fake, 'erp_cp7_save_wa_settings_v1')[0].p as { kinds: string[] }).kinds).not.toContain('FABRIC_AT_REORDER_POINT')
+  })
+
+
+  it('OW01_UI_01_SETTINGS_ROUNDTRIP saves the accessory review kind, retries a lost choice exactly and restores it with a fresh UUID', async () => {
+    const fake = server(), label = `Teruskan ${ACCESSORY_KIND_LABEL}`
+    await mount(); await tab('Sambungan WhatsApp')
+    expect(input(label).checked).toBe(true)
+    await click('Simpan pengaturan')
+    const first = calls(fake, 'erp_cp7_save_wa_settings_v1')[0]
+    expect(Object.keys(first).sort()).toEqual(['p', 'p_request'])
+    expect(first.p_request).toMatch(/^[0-9a-f-]{36}$/)
+    expect(first.p).toMatchObject({ expected_revision: 0, kinds: defaults.kinds })
+    expect(fake.settings.kinds).toContain('ACCESSORY_NEED')
+    expect(input(label).checked).toBe(true)
+
+    fake.lose.add('erp_cp7_save_wa_settings_v1')
+    await check(label); await click('Simpan pengaturan')
+    const lost = calls(fake, 'erp_cp7_save_wa_settings_v1')[1]
+    expect(lost.p_request).not.toBe(first.p_request)
+    expect(lost.p).toMatchObject({ expected_revision: 1, kinds: defaults.kinds.filter(k => k !== 'ACCESSORY_NEED') })
+    expect(container.textContent).toContain('Jawaban server tidak sampai, jadi belum pasti pengaturan tersimpan.')
+    expect(fake.settings.revision).toBe(2)
+    expect(fake.settings.kinds).not.toContain('ACCESSORY_NEED')
+    await click('Simpan pengaturan')
+    const retry = calls(fake, 'erp_cp7_save_wa_settings_v1')[2]
+    expect(retry).toEqual(lost)
+    expect(fake.settings.revision).toBe(2)
+    expect(input(label).checked).toBe(false)
+    expect(container.textContent).toContain('Tersimpan (revisi 2). Permintaan ini ternyata sudah tersimpan sebelumnya.')
+
+    await check(label); await click('Simpan pengaturan')
+    const saves = calls(fake, 'erp_cp7_save_wa_settings_v1'), restored = saves[3]
+    expect(saves).toHaveLength(4)
+    expect(restored.p_request).toMatch(/^[0-9a-f-]{36}$/)
+    expect(restored.p_request).not.toBe(first.p_request)
+    expect(restored.p_request).not.toBe(lost.p_request)
+    expect(restored.p).toMatchObject({ expected_revision: 2, kinds: defaults.kinds })
+    expect(fake.settings.revision).toBe(3)
+    expect(fake.settings.kinds).toEqual([...defaults.kinds].sort())
+    expect(input(label).checked).toBe(true)
+    const analysisLegend = [...panel('Sambungan WhatsApp').querySelectorAll('legend')].find(l => l.textContent?.startsWith('Analisis otomatis'))
+    expect(analysisLegend?.textContent).toContain('aksesori')
+  })
+
+  it('OW01_UI_02_GROSS_REVIEW renders unknown additional need and gross186 only as assumed BOM need', async () => {
+    const before = structuredClone(alertsReply('OWNER')), reply = accessoryAlertsReply()
+    expect(alertsReply('OWNER')).toEqual(before)
+    expect(Object.keys(reply.rows.at(-1)!.detail)).toHaveLength(20)
+    server({ alertsData: reply }); await mount(); await tab('Pengingat sistem')
+    const text = accessoryRow().textContent ?? ''
+    expect(text).toContain('Kemeja A M · Kancing: kebutuhan aksesori perlu diperiksa; jumlah tambahan belum diketahui')
+    expect(text).toContain('kebutuhan BOM (perkiraan) 186 PCS')
+    expect(text).toContain('Pemasangan dan sisa yang dialokasikan belum terbukti')
+    expect(text).toContain(`Data analisis per ${wib('2026-10-19T01:00:00+00:00')}, dicek ulang ${wib('2026-10-19T02:30:00+00:00')}`)
+    expect(text).toContain('WA: menunggu')
+    expect(text).not.toMatch(/perlu dibeli|perlu beli|tambahan 186|tambahan 0|ambang pengingat/)
+    expect(panel(ACCESSORY_KIND_LABEL).querySelector('header')?.textContent).toContain('1 terbuka')
+    expect(panel('Status analisis').textContent).toContain('3 masih terbuka')
+    expect(panel('Status analisis').textContent).toContain('aksesori')
+  })
+
+  it.each([
+    { caseId: 'OW01_UI_03_BOM_NOT_RECORDED', extra: { category_key: 'UNKNOWN_BOM', category_name: null,
+      gross_state: 'UNKNOWN', gross_qty: null, reason: 'BOM_NOT_RECORDED' }, message: 'BOM aksesori belum dicatat' },
+    { caseId: 'OW01_UI_04_BOM_AMBIGUOUS', extra: { category_key: 'UNKNOWN_BOM', category_name: null,
+      gross_state: 'UNKNOWN', gross_qty: null, reason: 'BOM_AMBIGUOUS' }, message: 'BOM aksesori tumpang tindih; perlu diperiksa' },
+    { caseId: 'OW01_UI_05_CATEGORY_UNAVAILABLE', extra: { category_key: `ACCESSORY_CATEGORY:${id(603)}`, category_name: 'Kancing tidak aktif',
+      gross_state: 'UNKNOWN', gross_qty: null, reason: 'CATEGORY_UNAVAILABLE' }, message: 'Kategori aksesori tidak tersedia' },
+  ])('$caseId renders the source review reason without inventing zero or purchase quantity', async ({ extra, message }) => {
+    server({ alertsData: accessoryAlertsReply(extra) }); await mount(); await tab('Pengingat sistem')
+    const text = accessoryRow().textContent ?? ''
+    expect(text).toContain('kebutuhan aksesori perlu diperiksa; jumlah tambahan belum diketahui')
+    expect(text).toContain(message)
+    expect(text).toContain('dicek ulang')
+    expect(text).toContain('WA: menunggu')
+    expect(text).not.toMatch(/kebutuhan BOM|186|0 PCS|perlu dibeli|perlu beli|tambahan 0|ambang pengingat/)
+    expect(panel(ACCESSORY_KIND_LABEL).querySelector('header')?.textContent).toContain('1 terbuka')
+  })
+
+  it.each([
+    { caseId: 'OW01_UI_06_HTTP_401_RETIRE', status: 401 },
+    { caseId: 'OW01_UI_07_HTTP_403_RETIRE', status: 403 },
+  ])('$caseId retires already displayed review facts while AuthProvider remains AUTHORIZED', async ({ status }) => {
+    server({ alertsData: accessoryAlertsReply() }); const rpc = client.rpc.getMockImplementation()!
+    let denied = false
+    client.rpc.mockImplementation(async (name: string, args?: Record<string, unknown>) =>
+      name === 'erp_cp7_get_alerts_v1' && denied ? accessRefusal(status) : rpc(name, args))
+    await mount(); await tab('Pengingat sistem')
+    expect(accessoryRow().textContent).toContain('kebutuhan BOM (perkiraan) 186 PCS')
+    expect(accessoryRow().textContent).toContain('WA: menunggu')
+    const identity = auth.current
+    denied = true; await click('Muat ulang pengingat sistem')
+    expect(auth.current).toBe(identity)
+    expect((auth.current as typeof owner).identity.status).toBe('AUTHORIZED')
+    expectAccessoryFactsRetired(status)
+    expect(client.rpc.mock.calls.filter(([name]) => name === 'erp_cp7_get_alerts_v1')).toHaveLength(2)
+    expect(client.rpc.mock.calls.some(([name]) => /erp_cp7_(save|set|send|resolve)_/.test(String(name)))).toBe(false)
+  })
+
+  it.each([
+    { caseId: 'OW01_UI_08_LATE_401', status: 401 },
+    { caseId: 'OW01_UI_09_LATE_403', status: 403 },
+  ])('$caseId cannot restore an old identity response after the new identity read is refused', async ({ status }) => {
+    const reply = accessoryAlertsReply()
+    server({ alertsData: reply }); const rpc = client.rpc.getMockImplementation()!
+    let reads = 0
+    let finishOld: ((value: { data: ReturnType<typeof accessoryAlertsReply>; error: null }) => void) | null = null
+    client.rpc.mockImplementation(async (name: string, args?: Record<string, unknown>) => {
+      if (name !== 'erp_cp7_get_alerts_v1') return rpc(name, args)
+      reads += 1
+      if (reads === 1) return { data: structuredClone(reply), error: null }
+      if (reads === 2) return new Promise(resolve => { finishOld = resolve })
+      return accessRefusal(status)
+    })
+    await mount(); await tab('Pengingat sistem')
+    expect(accessoryRow().textContent).toContain('186 PCS')
+    await click('Muat ulang pengingat sistem')
+    expect(reads).toBe(2)
+    expect(finishOld).not.toBeNull()
+    expect(button('Muat ulang pengingat sistem').disabled).toBe(true)
+    expect(container.querySelector(`[aria-label="Pengingat sistem ${ACCESSORY_TITLE}"]`)).toBeNull()
+
+    // An actual identity revision remounts Workspace; no second disabled refresh
+    // is manufactured. The new identity remains AUTHORIZED but its RPC is denied.
+    auth.current = { ...owner, identity: { ...owner.identity, profile: { ...owner.identity.profile, rowVersion: 1 } } }
+    await mount(); await tab('Pengingat sistem')
+    expect(reads).toBe(3)
+    expect((auth.current as typeof owner).identity.status).toBe('AUTHORIZED')
+    expectAccessoryFactsRetired(status)
+    const complete = finishOld as unknown as (value: { data: ReturnType<typeof accessoryAlertsReply>; error: null }) => void
+    await act(async () => { complete({ data: structuredClone(reply), error: null }) }); await settle()
+    expect(reads).toBe(3)
+    expectAccessoryFactsRetired(status)
   })
 
   it('shows the server refusal in words when the connection read is refused', async () => {

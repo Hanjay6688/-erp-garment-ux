@@ -134,7 +134,7 @@ function AnalysisBlock({ analysis: { run, request, tick } }: { analysis: Analysi
     : request.state === 'FAILED' ? `Analisis otomatis terakhir gagal diminta ${when(request.requestedAt ?? '')}.${request.error ? ` Catatan server: ${request.error}.` : ''}`
     : `Analisis otomatis terakhir dilewati ${when(request.createdAt)}: data ERP tidak berubah sejak analisis sebelumnya.`
   return <section className="csys-analysis" aria-label="Status analisis">
-    <strong>Analisis untuk kekurangan produksi dan kain</strong>
+    <strong>Analisis untuk kekurangan produksi, kain, dan aksesori</strong>
     <p>{runText}</p>
     <p>{requestText}</p>
     <small>{tick ? `Pemeriksa analisis terakhir jalan ${when(tick.at)}: ${tickOutcomeLabel(tick.outcome)}.` : 'Pemeriksa analisis belum pernah jalan.'}</small>

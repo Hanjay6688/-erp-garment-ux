@@ -10,7 +10,7 @@ import {reminderRuleIds,reminderRuleLabels,parseReminderPolicyConfig,type Remind
 // analysis is recorded and not billed. Receivables and payables are always
 // read now. Nothing is sent outside the ERP: the preview is a local record.
 export type SnapshotState='ACTIVE'|'DATA_REVIEW'|'NO_CURRENT_GAP'|'RESOLVED'
-export type Verdict='STILL_OPEN'|'RESOLVED_NOW'|'BELOW_THRESHOLD_NOW'|'UNKNOWN_NOW'|'CHANGED_REVIEW_REQUIRED'|'NO_LONGER_DUE'|'NOT_FOUND_NOW'|'CONDITION_CHANGED'
+export type Verdict='STILL_OPEN'|'REVIEW_REQUIRED_NOW'|'RESOLVED_NOW'|'BELOW_THRESHOLD_NOW'|'UNKNOWN_NOW'|'CHANGED_REVIEW_REQUIRED'|'NO_LONGER_DUE'|'NOT_FOUND_NOW'|'CONDITION_CHANGED'
 export type ConditionSet={runId:string;identityHash:string;dataAsOf:string;state:'RUNNING'|'DONE'|'FAILED';stage:'PAGE'|'SEAL'|null;unitsDone:number;unitCount:number;unitAttempts:number
  pagesDone:number;pageCount:number;targetsTotal:number;totals:{conditions:number;byRule:Record<string,Record<string,number>>}|null;setHash:string|null;lastProgressAt:string
  failure:{unit:number;sqlstate:string;code:string}|null;workerActive:boolean}
@@ -47,7 +47,7 @@ const nstr=(v:unknown,max=2000)=>v===null?null:str(v,max)
 const rule=(v:unknown):ReminderRule=>reminderRuleIds.includes(v as ReminderRule)?v as ReminderRule:fail()
 const instant=(v:unknown)=>stagedInstant(v)
 const ninstant=(v:unknown)=>v===null?null:stagedInstant(v)
-const VERDICTS:readonly Verdict[]=['STILL_OPEN','RESOLVED_NOW','BELOW_THRESHOLD_NOW','UNKNOWN_NOW','CHANGED_REVIEW_REQUIRED','NO_LONGER_DUE','NOT_FOUND_NOW','CONDITION_CHANGED']
+const VERDICTS:readonly Verdict[]=['STILL_OPEN','REVIEW_REQUIRED_NOW','RESOLVED_NOW','BELOW_THRESHOLD_NOW','UNKNOWN_NOW','CHANGED_REVIEW_REQUIRED','NO_LONGER_DUE','NOT_FOUND_NOW','CONDITION_CHANGED']
 const verdict=(v:unknown):Verdict=>VERDICTS.includes(v as Verdict)?v as Verdict:fail()
 // The snapshot is never presented as current data.
 const notCurrent=(s:string)=>/terkini/i.test(s)?fail():s
@@ -118,8 +118,10 @@ function recheck(v:unknown):Recheck{
  const r=obj(v);has(r,['condition_key','rule_id','kind','data_as_of','checked_at','verdict','reason','numbers'])
  const kind=r.kind==='SNAPSHOT'||r.kind==='LIVE'?r.kind:fail()
  if((kind==='SNAPSHOT')!==(r.data_as_of!==null))fail()
+ const checkedVerdict=verdict(r.verdict)
+ if(checkedVerdict==='REVIEW_REQUIRED_NOW'&&(kind!=='SNAPSHOT'||r.rule_id!=='ACCESSORY_NEED'||typeof r.condition_key!=='string'||!r.condition_key.startsWith('ACCESSORY_NEED:')))fail()
  return{id:r.id===undefined?null:uuid(r.id),conditionKey:str(r.condition_key,400),ruleId:rule(r.rule_id),kind,phase:r.phase===undefined?null:r.phase==='CLAIM'||r.phase==='FINISH'?r.phase:fail(),
-  dataAsOf:ninstant(r.data_as_of),checkedAt:instant(r.checked_at),verdict:verdict(r.verdict),reason:str(r.reason,200),numbers:obj(r.numbers)}
+  dataAsOf:ninstant(r.data_as_of),checkedAt:instant(r.checked_at),verdict:checkedVerdict,reason:str(r.reason,200),numbers:obj(r.numbers)}
 }
 export function parseRecheck(v:unknown,runId:string,actor:string,key:string):Recheck{
  const r=obj(v);if(r.contract_version!=='cp7.reminder-recheck.v2'||r.actor_scope_id!==actor||r.run_id!==runId||r.recorded!==false||r.sent!==false||r.external_delivery_enabled!==false||r.condition_key!==key)fail()
@@ -216,7 +218,8 @@ export function verdictText(r:Recheck):string{
  switch(r.verdict){
   case'STILL_OPEN':return r.kind==='SNAPSHOT'?(r.ruleId==='PRODUCTION_GAP'?`Masih perlu: kurang sedikitnya ${n(x.need_now_pcs)} PCS sekarang (analisis: ${n(x.need_snapshot_pcs)} PCS).`:'Masih perlu: kebutuhan produksi dan bahan tidak berubah sejak analisis.')
    :`Masih terbuka: lewat jatuh tempo ${n(x.days_overdue)} hari, sisa ${n(x.remaining_idr)} IDR.`
-  case'RESOLVED_NOW':return r.kind==='SNAPSHOT'?`Sudah selesai sejak analisis — tidak ditagih: kurang ${n(x.need_snapshot_pcs)} PCS saat analisis; stok jadi dan barang dalam proses naik ${n(x.increase_pcs)} PCS.`
+  case'REVIEW_REQUIRED_NOW':return'Kebutuhan aksesori perlu diperiksa; jumlah tambahan belum diketahui — tidak dibuat pratinjau lokal.'
+  case'RESOLVED_NOW':return r.ruleId==='ACCESSORY_NEED'&&r.reason==='KNOWN_ZERO_ACCESSORY_NEED'?'BOM tercatat tanpa aksesori — kebutuhan aksesori nol; bukan bukti kebutuhan produksi atau bahan lain selesai.':r.kind==='SNAPSHOT'?`Sudah selesai sejak analisis — tidak ditagih: kurang ${n(x.need_snapshot_pcs)} PCS saat analisis; stok jadi dan barang dalam proses naik ${n(x.increase_pcs)} PCS.`
    :'Sudah lunas atau selesai — tidak ditagih.'
   case'BELOW_THRESHOLD_NOW':return r.kind==='SNAPSHOT'&&r.ruleId==='PRODUCTION_GAP'?`Kekurangan sekarang ${n(x.need_now_pcs)} PCS, di bawah batas pengaturan ${n(x.threshold)} — tidak dibuat pratinjau.`:`Di bawah batas pengaturan ${n(x.threshold)} — tidak dibuat pratinjau.`
   case'UNKNOWN_NOW':return'Belum bisa dipastikan sekarang (data proses atau sumber belum lengkap) — tidak dibuat pratinjau.'

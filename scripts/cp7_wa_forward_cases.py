@@ -28,6 +28,7 @@ import json
 import math
 import os
 import subprocess
+import sys
 import time
 import uuid
 
@@ -43,6 +44,8 @@ import cp7_p19_reminder_v2_cases as remv2
 planv2 = remv2.planv2
 import cp7_alert_bundle as bundle
 import cp7_stock_formula_cases as formula
+import cp7_wa_accessory_cases as accessory
+import cp7_wa_accessory_transport_cases as accessory_transport
 
 b = auth.b
 IDS = dict(
@@ -54,18 +57,18 @@ IDS = dict(
             # SS-1 (D17-8/D17-9): finished goods at or under their reorder point, and the formula itself (cp7_stock_formula_cases).
             'WAF_FG_REORDER_POINT_FORWARDED', 'WAF_FG_RESOLVED_BEFORE_SEND',
             # SS-2, SS-3: fabric on the formula and accessories at or under their point.
-            'WAF_FABRIC_REORDER_POINT_FORWARDED', 'WAF_ACCESSORY_REORDER_POINT_FORWARDED'] + formula.NATIVE_IDS + ['WAF_OTHER_OPENING_AR_AP', 'WAF_OTHER_PAYROLL_PAYMENT_INVERSE', 'WAF_OTHER_ACCESSORY_ALLOCATION_NOT_SETTLEMENT', 'WAF_OTHER_LAUNDRY_PAYMENT_INVERSE', 'WAF_OTHER_LAUNDRY_OPENING_UNKNOWN', 'WAF_OTHER_NARROWER_PERMISSIONS', 'WAF_OTHER_ALL_DOMAINS_SUMMARY_PRIVATE'],
+            'WAF_FABRIC_REORDER_POINT_FORWARDED', 'WAF_ACCESSORY_REORDER_POINT_FORWARDED'] + formula.NATIVE_IDS + ['WAF_OTHER_OPENING_AR_AP', 'WAF_OTHER_PAYROLL_PAYMENT_INVERSE', 'WAF_OTHER_ACCESSORY_ALLOCATION_NOT_SETTLEMENT', 'WAF_OTHER_LAUNDRY_PAYMENT_INVERSE', 'WAF_OTHER_LAUNDRY_OPENING_UNKNOWN', 'WAF_OTHER_NARROWER_PERMISSIONS', 'WAF_OTHER_ALL_DOMAINS_SUMMARY_PRIVATE'] + list(accessory.NATIVE_IDS),
     races=['WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE', 'WAF_RACE_COLLECT_AND_SEND_OPEN_ONCE', 'WAF_RACE_FAKE_CALLMEBOT_END_TO_END',
-           'WAF_RACE_PG_CRON_RUNS_TICKS', 'WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK', 'WAF_RACE_MATERIAL_BUSY_RECHECKS_LIVE_STOCK'],
-    http=['WAF_HTTP_OWNER_SETS_UP_AND_TESTS', 'WAF_HTTP_OTHERS_REFUSED', 'WAF_HTTP_FG_REORDER_SCREEN', 'WAF_HTTP_MATERIAL_REORDER_SCREEN'],
+           'WAF_RACE_PG_CRON_RUNS_TICKS', 'WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK', 'WAF_RACE_MATERIAL_BUSY_RECHECKS_LIVE_STOCK'] + list(accessory_transport.RACE_IDS),
+    http=['WAF_HTTP_OWNER_SETS_UP_AND_TESTS', 'WAF_HTTP_OTHERS_REFUSED', 'WAF_HTTP_FG_REORDER_SCREEN', 'WAF_HTTP_MATERIAL_REORDER_SCREEN'] + list(accessory_transport.HTTP_IDS),
     # WA-4b: scripts/cp7_wa_forward_browser.mjs (real Auth, PostgREST and UI on the browser copy; fake CallMeBot only).
     browser=['WAF_BROWSER_DESKTOP_OWNER_SETS_UP_TESTS_AND_FORWARDS', 'WAF_BROWSER_MOBILE_OWNER_SETS_UP_TESTS_AND_FORWARDS',
              'WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA', 'WAF_BROWSER_FG_REORDER_DESKTOP', 'WAF_BROWSER_FG_REORDER_MOBILE',
-             'WAF_BROWSER_MATERIAL_REORDER_DESKTOP', 'WAF_BROWSER_MATERIAL_REORDER_MOBILE'],
+             'WAF_BROWSER_MATERIAL_REORDER_DESKTOP', 'WAF_BROWSER_MATERIAL_REORDER_MOBILE'] + list(accessory_transport.BROWSER_IDS),
 )
 REQUIRED = {key: len(value) for key, value in IDS.items()}
 EXPECTED = sum(REQUIRED.values())
-DECLARED = 65
+DECLARED = 77
 CONTRACT = 'cp7.wa.forward.v1'
 FUNCTIONS = ('erp_cp7_get_alerts_v1', 'erp_cp7_get_wa_settings_v1', 'erp_cp7_save_wa_settings_v1', 'erp_cp7_set_wa_key_v1',
              'erp_cp7_send_wa_test_v1', 'erp_cp7_resolve_wa_dispatch_v1',
@@ -78,7 +81,7 @@ KEY = 'FAKEKEY-WA3B'
 PHONE = '+620000000000'
 FAKE = 'http://fake-callmebot:8080/whatsapp.php'
 KINDS = ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'AR_DUE', 'AP_DUE']
-ANALYSIS = ['PRODUCTION_GAP', 'FABRIC_NEED']
+ANALYSIS = ['PRODUCTION_GAP', 'FABRIC_NEED', 'ACCESSORY_NEED']
 PLANNING = {'master.product.view', 'production.wip.view', 'warehouse.stock.view', 'sales.invoice.view'}
 SETTINGS = dict(enabled=False, phone_e164=PHONE, detail='SUMMARY', digest_times=[], kinds=KINDS, repeat_minutes=1440, burst_after_per_day=30,
                 burst_merge_minutes=30, max_items=10, quiet_enabled=False, quiet_start='21:00', quiet_end='06:00', analysis_every_minutes=60,
@@ -735,7 +738,7 @@ def cases(cur, today):
         assert detailed['outcome'] == 'SENT' and (ar['party'] in dbody or '- dan ' in dbody), dbody
         owner_view = rpc(cur, 'erp_cp7_get_alerts_v1', (json.dumps({}),), s['owner'])
         assert {'FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
-                'PRODUCTION_GAP', 'FABRIC_NEED', 'OPENING_AR', 'OPENING_AP', 'PAYROLL_AP', 'ACCESSORY_AP',
+                'PRODUCTION_GAP', 'FABRIC_NEED', 'ACCESSORY_NEED', 'OPENING_AR', 'OPENING_AP', 'PAYROLL_AP', 'ACCESSORY_AP',
                 'LAUNDRY_AP', 'LAUNDRY_RECEIPT', 'LAUNDRY_OPENING_UNINVOICED'} == {k['kind'] for k in owner_view['kinds']} \
             == visible(cur, s['owner']), owner_view['kinds']
         assert any(r['wa'] is not None for r in owner_view['rows'])
@@ -750,7 +753,7 @@ def cases(cur, today):
         b.api.admin(cur)
         for sig in bundle.PUBLIC:
             assert not one(cur, "select has_function_privilege('anon',%s,'EXECUTE')", (sig,)), sig
-        return dict(status='PASS', summary_hides_party_names=True, detailed_shows_them=True, owner_sees_eight_kinds=True,
+        return dict(status='PASS', summary_hides_party_names=True, detailed_shows_them=True, owner_visible_kinds=sorted(visible(cur, s['owner'])),
                     staff_kinds=sorted(expect), staff_no_wa_status=True, staff_refused_on_owner_rpcs=True, anon_no_execute=True)
 
     def ticks_private():
@@ -807,6 +810,13 @@ def cases(cur, today):
         # Oracle: the reminders' own read and read-only recheck, condition by condition.
         expect_open, expect_off = set(), 0
         for row in rows:
+            if row['rule_id'] == 'ACCESSORY_NEED' and row['state'] in ('ACTIVE', 'DATA_REVIEW'):
+                review = remv2.recheck(cur, r['run'], row['key'], s['owner'])
+                if review['verdict'] == 'REVIEW_REQUIRED_NOW' and review['numbers']['wa_notice_eligibility'] == 'REVIEW_NOTICE_ELIGIBLE':
+                    expect_open.add((row['rule_id'], row['key']))
+                else:
+                    expect_off += 1
+                continue
             if row['state'] != 'ACTIVE' or row['rule_id'] not in ANALYSIS:
                 continue
             if row['eligibility'] not in ('LOCAL_PREVIEW_ELIGIBLE', 'QUIET', 'COOLDOWN'):
@@ -1056,8 +1066,11 @@ def cases(cur, today):
              answers, pacing_burst_quiet_digest_repeat, off_or_no_key, key_write_only, privacy_permissions, ticks_private, analysis_gap,
              analysis_automatic, fg_forwarded, fg_resolved_before_send, fabric_forwarded, accessory_forwarded]
     named += [op for _, op in formula.cases(cur, today)]
-    assert len(named) + len(obligation_cases(cur, today)) == len(IDS['native'])
-    return list(zip(IDS['native'][:len(named)], named)) + obligation_cases(cur, today)
+    original = list(zip(IDS['native'][:len(named)], named)) + obligation_cases(cur, today)
+    assert len(original) == len(IDS['native']) - len(accessory.NATIVE_IDS)
+    planned = original + accessory.cases(cur, today, sys.modules[__name__])
+    assert [key for key, _ in planned] == IDS['native'], 'OW01_NATIVE_CASE_REGISTRATION_CHANGED'
+    return planned
 
 
 # ----------------------------------------------------------------------------------------------------- races --
@@ -1296,7 +1309,10 @@ def races(tools, today):
         return dict(status='PASS', resolved_from_live_stock_while_busy=True, evaluation_untouched_while_busy=True, refresh_busy=busy[1],
                     next_tick_evaluates=after[0])
 
-    return list(zip(IDS['races'], (two_sends, collect_and_send, end_to_end, pg_cron_ticks, fg_busy_recheck, material_busy_recheck)))
+    original = list(zip(IDS['races'][:6], (two_sends, collect_and_send, end_to_end, pg_cron_ticks, fg_busy_recheck, material_busy_recheck)))
+    planned = original + accessory_transport.races(tools, today, sys.modules[__name__])
+    assert [key for key, _ in planned] == IDS['races'], 'OW01_RACE_CASE_REGISTRATION_CHANGED'
+    return planned
 
 
 # ------------------------------------------------------------------------------------------------------- http --
@@ -1455,4 +1471,7 @@ def http_cases(http, today):
                                                                                          'warehouse.accessory.view'}),
                     staff_cannot_change=True, anon_refused=True)
 
-    return list(zip(IDS['http'], (owner_flow, others_refused, fg_reorder_screen, material_reorder_screen)))
+    original = list(zip(IDS['http'][:4], (owner_flow, others_refused, fg_reorder_screen, material_reorder_screen)))
+    planned = original + accessory_transport.http_cases(http, today, sys.modules[__name__])
+    assert [key for key, _ in planned] == IDS['http'], 'OW01_HTTP_CASE_REGISTRATION_CHANGED'
+    return planned

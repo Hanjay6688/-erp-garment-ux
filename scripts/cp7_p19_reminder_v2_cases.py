@@ -51,7 +51,8 @@ SIGNATURES = ('public.erp_cp7_step_reminder_conditions_v2(uuid)', 'public.erp_cp
               'public.erp_cp7_finish_reminder_v2(jsonb,uuid)', 'public.erp_cp7_resolve_reminder_claim_v2(jsonb,uuid)',
               'public.erp_cp7_get_reminder_request_v2(jsonb,uuid,text)')
 CAPABILITIES = ('cp7_reminder_native.staged_authority(uuid,text[])', 'cp7_reminder_native.staged_page_inputs(uuid,integer)',
-                'cp7_reminder_native.staged_target_now(uuid,text,text)')
+                'cp7_reminder_native.staged_target_now(uuid,text,text)',
+                'cp7_reminder_native.accessory_target_now(uuid,text,text,integer)')
 auth, b = staged.auth, staged.b
 QUIET = dict(enabled=False, starts_at=None, ends_at=None, timezone='Asia/Jakarta')
 

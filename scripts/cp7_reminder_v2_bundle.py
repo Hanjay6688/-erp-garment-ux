@@ -8,20 +8,21 @@ GRANTS={k:set(v)for k,v in previous.GRANTS.items()}
 # The live recheck counts the plans of a target recorded after a snapshot: their recording time and row transaction.
 TABLE_GRANTS={**previous.TABLE_GRANTS,'cp7_capture':{**previous.TABLE_GRANTS['cp7_capture'],
  'cp7_plan_native.intents':'SELECT(id,target_key,cutting_group_id,recorded_at,xmin)'}}
-CAPABILITIES=('staged_authority','staged_page_inputs','staged_target_now')
+CAPABILITIES=('staged_authority','staged_page_inputs','staged_target_now','accessory_target_now')
 FUNCTIONS=dict(staged_authority='v',staged_page_inputs='v',staged_target_now='v',guard_staged_set='v',guard_staged_episode='v',guard_staged_claim='v',
  staged_wib='i',staged_access='v',staged_policy_rows='v',staged_row='i',staged_live_hash='i',staged_page_rows='i',staged_set_status='s',
  staged_set_unit='v',staged_set_step='v',staged_conditions_read='v',staged_obligation_rows='v',staged_obligations='v',staged_verdict='v',
  staged_recheck='v',staged_body='i',staged_payload='v',staged_policy_scope='v',staged_policy_command='v',staged_binding_command='v',
  staged_last_local='s',staged_record='v',staged_recheck_json='s',staged_claim_json='s',staged_claim='v',staged_finish='v',staged_resolution='v',
- staged_command='v',staged_workspace='v')
+ staged_command='v',staged_workspace='v',accessory_target_now='v',accessory_capture='s',accessory_category_locks='v')
 CONTRACTS={name:('cp7_capture',True)for name in CAPABILITIES}
+CONTRACTS.update(accessory_capture=('cp7_capture',False),accessory_category_locks=('postgres',True))
 TABLES=('staged_condition_sets','staged_conditions','staged_episodes','staged_rechecks','staged_claims','staged_claim_resolutions')
 PUBLIC=('public.erp_cp7_step_reminder_conditions_v2(uuid)','public.erp_cp7_read_reminder_conditions_v2(jsonb)',
  'public.erp_cp7_get_reminder_obligations_v2(uuid)','public.erp_cp7_recheck_reminder_v2(uuid,text)','public.erp_cp7_get_reminder_workspace_v2(uuid)',
  'public.erp_cp7_save_reminder_policy_v2(jsonb,uuid)','public.erp_cp7_save_reminder_binding_v2(jsonb,uuid)','public.erp_cp7_claim_reminder_v2(jsonb,uuid)',
  'public.erp_cp7_finish_reminder_v2(jsonb,uuid)','public.erp_cp7_resolve_reminder_claim_v2(jsonb,uuid)','public.erp_cp7_get_reminder_request_v2(jsonb,uuid,text)')
-def extension():return previous.extension()+'\n'+(ROOT/'scripts/cp7-src/reminders/staged-reminders.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/ops/background.sql').read_text()
+def extension():return previous.extension()+'\n'+(ROOT/'scripts/cp7-src/reminders/staged-reminders.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/reminders/accessory-source.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/ops/background.sql').read_text()
 def bundle():return previous.previous.previous.previous.predecessor.bundle()+'\n'+extension()
 def verify(cur):
  previous.verify(cur,FUNCTIONS,TABLES,PUBLIC,CONTRACTS)
@@ -32,6 +33,17 @@ def verify(cur):
   assert cur.execute("select has_function_privilege('cp7_reminder',%s,'EXECUTE')",(sig,)).fetchone()[0],sig
   for who in('anon','authenticated','service_role','cp7_obligation_read','cp7_payable_read'):
    assert not cur.execute('select has_function_privilege(%s,%s,\'EXECUTE\')',(who,sig)).fetchone()[0],(who,sig)
+ for sig in('cp7_reminder_native.accessory_capture(uuid,text,text,integer,timestamp with time zone)',
+            'cp7_reminder_native.accessory_category_locks(uuid,text)'):
+  assert cur.execute("select has_function_privilege('cp7_capture',%s,'EXECUTE')",(sig,)).fetchone()[0],sig
+  for who in('cp7_reminder','cp7_obligation_read','cp7_payable_read','anon','authenticated','service_role'):
+   assert not cur.execute("select has_function_privilege(%s,%s,'EXECUTE')",(who,sig)).fetchone()[0],(who,sig)
+ # The installed postgres role is deliberately NON-superuser; created-role membership must confer these private dependencies.
+ assert cur.execute("select has_schema_privilege('postgres','cp7_analysis_stage','USAGE')and has_schema_privilege('postgres','cp7_schedule_native','USAGE')and "
+  "has_table_privilege('postgres','cp7_analysis_stage.jobs','SELECT')and "
+  "has_table_privilege('postgres','cp7_analysis_stage.plan_targets','SELECT')and "
+  "has_function_privilege('postgres','cp7_schedule_native.access_now(boolean)','EXECUTE')and "
+  "has_function_privilege('postgres','cp7_analysis_stage.require_kept(uuid)','EXECUTE')").fetchone()[0]
  for column in('id','target_key','cutting_group_id','recorded_at','xmin'):
   assert cur.execute("select has_column_privilege('cp7_capture','cp7_plan_native.intents',%s,'SELECT')",(column,)).fetchone()[0],column
  for column in('actor','core_hash','request_id','draft_id'):

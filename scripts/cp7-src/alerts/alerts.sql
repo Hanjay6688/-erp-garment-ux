@@ -81,11 +81,11 @@ create table cp7_alert_native.transport(
  timeout_ms integer not null check(timeout_ms between 1000 and 15000));
 insert into cp7_alert_native.transport values(true,'https://api.callmebot.com/whatsapp.php',5000);
 create table cp7_alert_native.alerts(
- id uuid primary key default gen_random_uuid(),kind text not null check(kind in('FABRIC_BELOW_MINIMUM','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','AR_DUE','AP_DUE','PRODUCTION_GAP','FABRIC_NEED','OPENING_AR','OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED')),
+ id uuid primary key default gen_random_uuid(),kind text not null check(kind in('FABRIC_BELOW_MINIMUM','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','AR_DUE','AP_DUE','PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED','OPENING_AR','OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED')),
  subject_key text not null check(length(subject_key)between 1 and 200),episode integer not null check(episode>0),
  title text not null check(length(title)between 1 and 300),detail jsonb not null check(jsonb_typeof(detail)='object'),
  party_names jsonb not null check(jsonb_typeof(party_names)='array'),source_hash text not null check(source_hash~'^[0-9a-f]{64}$'),
- opened_at timestamptz not null default clock_timestamp(),refreshed_at timestamptz not null default clock_timestamp(),
+ opened_at timestamptz not null default clock_timestamp(),refreshed_at timestamptz not null default clock_timestamp(),last_rechecked_at timestamptz,
  state text not null default'OPEN'check(state in('OPEN','RESOLVED')),resolved_at timestamptz,resolution text,
  unique(kind,subject_key,episode),check((state='OPEN')=(resolved_at is null)and(state='OPEN')=(resolution is null)));
 create unique index alerts_one_open on cp7_alert_native.alerts(kind,subject_key)where state='OPEN';
@@ -104,7 +104,7 @@ create table cp7_alert_native.outbox(
  id bigint generated always as identity primary key,item_kind text not null check(item_kind in('ALERT','MANUAL_REMINDER')),item_id uuid not null,
  item_episode text not null,round integer not null check(round>=0),
  alert_kind text not null check(alert_kind in('MANUAL_REMINDER','FABRIC_BELOW_MINIMUM','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','AR_DUE','AP_DUE',
-  'PRODUCTION_GAP','FABRIC_NEED','OPENING_AR','OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED')),
+  'PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED','OPENING_AR','OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED')),
  queued_at timestamptz not null default clock_timestamp(),
  state text not null default'PENDING'check(state in('PENDING','HELD_QUIET','DISPATCHED','ACCEPTED','UNKNOWN','RESOLVED_BEFORE_SEND','DISABLED','KIND_OFF')),
  dispatch_id bigint references cp7_alert_native.dispatches(id),attempts integer not null default 0 check(attempts>=0),reason text,settled_at timestamptz,
@@ -118,14 +118,14 @@ create table cp7_alert_native.dispatch_items(
  primary key(dispatch_id,outbox_id));
 -- Last read of each source and last run of each tick, for the screen ("diperbarui jam ...").
 create table cp7_alert_native.source_state(
- kind text primary key check(kind in('FABRIC_BELOW_MINIMUM','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','AR_DUE','AP_DUE','PRODUCTION_GAP','FABRIC_NEED','OPENING_AR','OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED')),last_try_at timestamptz not null,last_ok_at timestamptz,
+ kind text primary key check(kind in('FABRIC_BELOW_MINIMUM','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','AR_DUE','AP_DUE','PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED','OPENING_AR','OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED')),last_try_at timestamptz not null,last_ok_at timestamptz,
  last_error text check(length(last_error)<=200),open_count integer);
 create table cp7_alert_native.ticks(job text primary key check(job in('COLLECT','SEND','ANALYSIS')),at timestamptz not null,outcome jsonb not null);
 -- The owner's finished staged analyses as the analysis tick works through them (WA-2b): the reminders v2 condition set
 -- built, then every condition active at the snapshot checked again, rule by rule, page by page.
 create table cp7_alert_native.analysis_runs(
  run_id uuid primary key,data_as_of timestamptz not null,phase text not null check(phase in('SET','CHECK','DONE','FAILED')),
- rule text not null check(rule in('PRODUCTION_GAP','FABRIC_NEED')),next_offset integer not null check(next_offset>=0),
+ rule text not null check(rule in('PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED')),next_offset integer not null check(next_offset>=0),
  checked integer not null default 0 check(checked>=0),still_open integer not null default 0 check(still_open>=0),
  closed integer not null default 0 check(closed>=0),rule_off integer not null default 0 check(rule_off>=0),error text check(length(error)<=200),
  started_at timestamptz not null,updated_at timestamptz not null,finished_at timestamptz,
@@ -161,6 +161,7 @@ create function cp7_alert_native.guard_alert()returns trigger
 language plpgsql security definer set search_path=''set TimeZone='UTC'as $$
 begin
  if tg_op='DELETE'or old.state<>'OPEN'or(new.id,new.kind,new.subject_key,new.episode,new.opened_at)is distinct from(old.id,old.kind,old.subject_key,old.episode,old.opened_at)
+  or(old.last_rechecked_at is not null and(new.last_rechecked_at is null or new.last_rechecked_at<old.last_rechecked_at))
   or(new.state='OPEN'and(new.resolved_at,new.resolution)is distinct from(null::timestamptz,null::text))
   or(new.state='RESOLVED'and(new.title,new.detail,new.party_names,new.source_hash,new.refreshed_at)is distinct from(old.title,old.detail,old.party_names,old.source_hash,old.refreshed_at))
  then raise exception 'CP7_ALERT_IMMUTABLE';end if;
@@ -209,7 +210,7 @@ language plpgsql security definer set search_path=''set TimeZone='UTC'as $$
 begin
  if tg_op='DELETE'or old.phase in('DONE','FAILED')or(new.run_id,new.data_as_of,new.started_at)is distinct from(old.run_id,old.data_as_of,old.started_at)
   or(old.phase,new.phase)not in(('SET','SET'),('SET','CHECK'),('SET','FAILED'),('CHECK','CHECK'),('CHECK','DONE'),('CHECK','FAILED'))
-  or(old.rule='FABRIC_NEED'and new.rule='PRODUCTION_GAP')or(old.rule=new.rule and new.next_offset<old.next_offset)
+  or array_position(array['PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED'],new.rule)<array_position(array['PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED'],old.rule)or(old.rule=new.rule and new.next_offset<old.next_offset)
   or new.checked<old.checked or new.still_open<old.still_open or new.closed<old.closed or new.rule_off<old.rule_off
  then raise exception 'CP7_ALERT_ANALYSIS_RUN_TRANSITION' using detail=old.phase||'->'||new.phase;end if;
  return new;
@@ -465,7 +466,7 @@ create function cp7_alert_native.collect_kinds(p_kinds text[])returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
 declare k text;src jsonb;res jsonb;answer jsonb:='{}';other_src jsonb;
 begin
- for k in select distinct u from unnest(p_kinds)u where u not in('MANUAL_REMINDER','PRODUCTION_GAP','FABRIC_NEED')order by 1 loop
+ for k in select distinct u from unnest(p_kinds)u where u not in('MANUAL_REMINDER','PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED')order by 1 loop
   perform pg_advisory_xact_lock(hashtextextended('CP7:ALERT:KIND:'||k,0));
   begin
    if k in('OPENING_AR','OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED')then
@@ -526,25 +527,29 @@ begin
 end $$;
 
 -- ---------------------------------------------------------------- analysis --
--- WA-2b. PRODUCTION_GAP and FABRIC_NEED come from the owner's own staged analysis: the reminders v2 condition set of the
+-- WA-2b. Production, fabric, and accessory-review notices come from the owner's own staged analysis: the reminders v2 condition set of the
 -- owner's latest finished run, read through the public functions the Reminder screen calls, with the owner's identity
 -- (erp_cp7_step_reminder_conditions_v2 builds the set, erp_cp7_read_reminder_conditions_v2 lists the conditions active at
 -- the snapshot with the owner's reminder rule, erp_cp7_recheck_reminder_v2 checks one against the ERP now). A condition
 -- is an alert only while its reminder rule is on and reached and the recheck says STILL_OPEN, the reminders' own rule
--- for a reminder; ACCESSORY_NEED is never STILL_OPEN there (no live recheck exists), so it is not forwarded.
+-- for a numerical reminder. ACCESSORY_NEED has its own fresh REVIEW_REQUIRED_NOW verdict: unknown installation and
+-- unused supply stay unknown, and a notice never authorizes a purchase or claims its numerical threshold was met.
 create function cp7_alert_native.analysis_open(v jsonb)returns boolean
 language sql immutable security definer set search_path=''set TimeZone='UTC'as $$
- select coalesce(v->>'verdict'='STILL_OPEN'and v->'policy_binding'->'policy'->'config'->>'enabled'='true',false)$$;
+ select coalesce(case when v->>'rule_id'='ACCESSORY_NEED'then
+  v->>'verdict'='REVIEW_REQUIRED_NOW'and v#>>'{numbers,wa_notice_eligibility}'='REVIEW_NOTICE_ELIGIBLE'
+  else v->>'verdict'='STILL_OPEN'and v->'policy_binding'->'policy'->'config'->>'enabled'='true'end,false)$$;
 -- One rechecked condition as an alert row (no party names: these conditions name products and fabrics only).
 create function cp7_alert_native.analysis_row(p_kind text,v jsonb,p_run uuid)returns jsonb
 language sql stable security definer set search_path=''set TimeZone='UTC'as $$
  select jsonb_build_object('subject_key',v->>'condition_key',
-  'title',case p_kind when'PRODUCTION_GAP'then'Kekurangan produksi: '||coalesce(v->>'label','(tanpa label)')
+  'title',case p_kind when'ACCESSORY_NEED'then'Kebutuhan aksesori perlu diperiksa: '||coalesce(v->>'label','(tanpa label)')
+   when'PRODUCTION_GAP'then'Kekurangan produksi: '||coalesce(v->>'label','(tanpa label)')
    else'Kain perlu dibeli: '||coalesce(m.material_name::text,'?')||' untuk '||coalesce(v->>'label','(tanpa label)')end,
-  'detail',jsonb_build_object('run_id',p_run,'data_as_of',v->'data_as_of','checked_at',v->'checked_at','label',v->'label','target_key',v->'target_key',
+  'detail',case when p_kind='ACCESSORY_NEED'then v#>'{numbers,accessory_detail}'else jsonb_build_object('run_id',p_run,'data_as_of',v->'data_as_of','checked_at',v->'checked_at','label',v->'label','target_key',v->'target_key',
    'need_snapshot_pcs',v->'numbers'->'need_snapshot_pcs','need_now_pcs',v->'numbers'->'need_now_pcs','increase_pcs',v->'numbers'->'increase_pcs',
    'material_id',m.id,'material_name',m.material_name::text,'value',v->'numbers'->'snapshot_value','unit',v->'numbers'->'snapshot_unit',
-   'threshold',v->'numbers'->'threshold','reason',v->'reason'),
+   'threshold',v->'numbers'->'threshold','reason',v->'reason')end,
   'party_names','[]'::jsonb)
  from(select 1)one left join erp.materials m on p_kind='FABRIC_NEED'and m.id::text=v->'numbers'->'material'->>'material_id'$$;
 -- One unit of the analysis tick, with the owner's identity already in place: (1) the owner's latest finished run is
@@ -583,15 +588,35 @@ begin
     update cp7_alert_native.analysis_runs set phase='CHECK',updated_at=clock_timestamp()where run_id=r.run_id returning*into r;
    end if;
    if not pg_try_advisory_xact_lock(hashtextextended('CP7:ALERT:KIND:FABRIC_NEED',0))
-    or not pg_try_advisory_xact_lock(hashtextextended('CP7:ALERT:KIND:PRODUCTION_GAP',0))then
+    or not pg_try_advisory_xact_lock(hashtextextended('CP7:ALERT:KIND:PRODUCTION_GAP',0))
+    or not pg_try_advisory_xact_lock(hashtextextended('CP7:ALERT:KIND:ACCESSORY_NEED',0))then
     return jsonb_build_object('ran',false,'outcome','KIND_BUSY','run_id',r.run_id);
    end if;
    <<pages>>loop
-    page:=public.erp_cp7_read_reminder_conditions_v2(jsonb_build_object('run_id',r.run_id,'rule_id',r.rule,'state','ACTIVE','offset',r.next_offset,'limit',10));
+    page:=public.erp_cp7_read_reminder_conditions_v2(jsonb_build_object('run_id',r.run_id,'rule_id',r.rule,'state',case when r.rule='ACCESSORY_NEED'then null else'ACTIVE'end,'offset',r.next_offset,'limit',10));
     total:=(page->>'total')::integer;
     if r.next_offset<total and jsonb_array_length(page->'rows')=0 then raise exception 'CP7_WA_CONDITION_PAGE_EMPTY';end if;
     for x in select e from jsonb_array_elements(page->'rows')e loop
-     if x->>'eligibility'in('LOCAL_PREVIEW_ELIGIBLE','QUIET','COOLDOWN')then
+     if r.rule='ACCESSORY_NEED'then
+      v:=public.erp_cp7_recheck_reminder_v2(r.run_id,x->>'key');
+      if cp7_alert_native.analysis_open(v)then
+       perform cp7_alert_native.apply_one(r.rule,cp7_alert_native.analysis_row(r.rule,v,r.run_id));n_open:=n_open+1;
+      elsif v->>'verdict'='RESOLVED_NOW'then
+       n_closed:=n_closed+cp7_alert_native.resolve_one(r.rule,x->>'key','RECHECK_'||coalesce(v->>'reason','RESOLVED_NOW'));
+       if v->>'reason'='KNOWN_ZERO_ACCESSORY_NEED'then
+        -- A complete, unchanged empty BOM also resolves older category keys of this target.
+        for q in select to_jsonb(a)from cp7_alert_native.alerts a where a.kind='ACCESSORY_NEED'and a.state='OPEN'
+         and a.detail->>'target_key'=v->>'target_key'loop
+         n_closed:=n_closed+cp7_alert_native.resolve_one(r.rule,q->>'subject_key','RECHECK_KNOWN_ZERO_ACCESSORY_NEED');
+        end loop;
+       end if;
+      else
+       n_off:=n_off+1;
+       update cp7_alert_native.outbox o set reason='RECHECK_'||coalesce(v->>'reason','UNKNOWN')
+       from cp7_alert_native.alerts a where a.kind=r.rule and a.subject_key=x->>'key'and a.state='OPEN'
+        and o.item_kind='ALERT'and o.item_id=a.id and o.state in('PENDING','HELD_QUIET');
+      end if;
+     elsif x->>'eligibility'in('LOCAL_PREVIEW_ELIGIBLE','QUIET','COOLDOWN')then
       v:=public.erp_cp7_recheck_reminder_v2(r.run_id,x->>'key');
       if cp7_alert_native.analysis_open(v)then
        perform cp7_alert_native.apply_one(r.rule,cp7_alert_native.analysis_row(r.rule,v,r.run_id));n_open:=n_open+1;
@@ -603,7 +628,8 @@ begin
      exit pages when clock_timestamp()>deadline;
     end loop;
     if r.next_offset>=total then
-     if r.rule='PRODUCTION_GAP'then r.rule:='FABRIC_NEED';r.next_offset:=0;else finished:=true;exit pages;end if;
+     if r.rule='PRODUCTION_GAP'then r.rule:='FABRIC_NEED';r.next_offset:=0;
+     elsif r.rule='FABRIC_NEED'then r.rule:='ACCESSORY_NEED';r.next_offset:=0;else finished:=true;exit pages;end if;
     end if;
     exit pages when clock_timestamp()>deadline;
    end loop;
@@ -693,24 +719,34 @@ language plpgsql volatile security definer set search_path=''set TimeZone='UTC'a
 declare x cp7_alert_native.alerts;v jsonb;ok uuid[]:='{}';failed text[]:='{}';unchecked jsonb:='{}';done jsonb:='{}';resolved integer:=0;
 begin
  for x in select a.*from unnest(coalesce(p_alerts,'{}'))with ordinality u(id,o)join cp7_alert_native.alerts a on a.id=u.id
-  where a.state='OPEN'and a.kind in('PRODUCTION_GAP','FABRIC_NEED')order by u.o loop
+  where a.state='OPEN'and a.kind in('PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED')order by u.o loop
   continue when x.kind=any(failed);
   if clock_timestamp()>p_deadline or coalesce((done->>x.kind)::integer,0)>=p_cap then
    unchecked:=jsonb_set(unchecked,array[x.kind],to_jsonb(coalesce((unchecked->>x.kind)::integer,0)+1));continue;
   end if;
   if not pg_try_advisory_xact_lock(hashtextextended('CP7:ALERT:KIND:'||x.kind,0))then failed:=failed||x.kind;continue;end if;
+  -- Persist rotation only for attempted checks; unchecked rows retain priority on the next tick.
+  update cp7_alert_native.alerts set last_rechecked_at=clock_timestamp()where id=x.id and state='OPEN';
+  done:=jsonb_set(done,array[x.kind],to_jsonb(coalesce((done->>x.kind)::integer,0)+1));
   begin
    v:=public.erp_cp7_recheck_reminder_v2((x.detail->>'run_id')::uuid,x.subject_key);
   exception when query_canceled then raise;
    when others then
-    if SQLERRM='CP7_ANALYSIS_RESULT_EXPIRED'then resolved:=resolved+cp7_alert_native.resolve_one(x.kind,x.subject_key,'ANALYSIS_EXPIRED');
+    if SQLERRM='CP7_ANALYSIS_RESULT_EXPIRED'then
+     if x.kind='ACCESSORY_NEED'then
+      update cp7_alert_native.outbox set reason='ANALYSIS_EXPIRED'where item_kind='ALERT'and item_id=x.id and state in('PENDING','HELD_QUIET');
+     else resolved:=resolved+cp7_alert_native.resolve_one(x.kind,x.subject_key,'ANALYSIS_EXPIRED');end if;
     else failed:=failed||x.kind;end if;
     continue;
   end;
   if cp7_alert_native.analysis_open(v)then
    perform cp7_alert_native.apply_one(x.kind,cp7_alert_native.analysis_row(x.kind,v,(x.detail->>'run_id')::uuid));ok:=ok||x.id;
+  elsif x.kind='ACCESSORY_NEED'and v->>'verdict'<>'RESOLVED_NOW'then
+   -- Hold the episode and unsent item across uncertainty/policy changes. A later run may refresh this same episode.
+   update cp7_alert_native.outbox set reason='RECHECK_'||coalesce(v->>'reason','UNKNOWN')
+    where item_kind='ALERT'and item_id=x.id and state in('PENDING','HELD_QUIET');
   else resolved:=resolved+cp7_alert_native.resolve_one(x.kind,x.subject_key,'RECHECK_'||coalesce(v->>'verdict','UNKNOWN'));end if;
-  done:=jsonb_set(done,array[x.kind],to_jsonb(coalesce((done->>x.kind)::integer,0)+1));
+
  end loop;
  return jsonb_build_object('ok',to_jsonb(ok),'unchecked',unchecked,'failed',to_jsonb(failed),'resolved',resolved,'checked',done);
 end $$;
@@ -738,6 +774,10 @@ language sql stable security definer set search_path=''set TimeZone='UTC'as $$
   when'AP_DUE'then coalesce((p->'party_names'->>0)||' ','')||coalesce(p->'detail'->>'purchase_number','?')||': '||cp7_alert_native.rp(p->'detail'->>'remaining')
    ||', jatuh tempo '||cp7_alert_native.tgl(p->'detail'->>'due_date')
   when'PRODUCTION_GAP'then coalesce(p->'detail'->>'label','?')||': kurang '||cp7_alert_native.num(p->'detail'->>'need_now_pcs')||' pcs'
+  when'ACCESSORY_NEED'then left(coalesce(p->'detail'->>'label','?'),20)||': perlu diperiksa; jumlah tambahan belum diketahui'
+   ||case when p->'detail'->>'gross_qty'is not null and length(trim_scale((p->'detail'->>'gross_qty')::numeric)::text||' '||coalesce(p->'detail'->>'unit',''))<=25
+    then'; BOM '||case when p->'detail'->>'gross_state'='ASSUMED'then'(perkiraan) 'else''end
+    ||trim_scale((p->'detail'->>'gross_qty')::numeric)::text||' '||coalesce(p->'detail'->>'unit','')else''end
   when'FABRIC_NEED'then coalesce(p->'detail'->>'material_name','?')||' untuk '||coalesce(p->'detail'->>'label','?')||': '
    ||cp7_alert_native.num(p->'detail'->>'value')||' '||coalesce(p->'detail'->>'unit','')
   else case when p->'detail'?'domain'then coalesce(p->'detail'->>'label','?')||': '
@@ -752,11 +792,11 @@ language sql stable security definer set search_path=''set TimeZone='UTC'as $$
 create function cp7_alert_native.render(p_mode text,p_items jsonb,p_failed text[],p_detail text,p_max integer,p_at timestamptz,p_unchecked jsonb)returns text
 language plpgsql stable security definer set search_path=''set TimeZone='UTC'as $$
 declare cap integer;body text;k text;n integer;u integer;head text;x jsonb;
- kinds text[]:=array['MANUAL_REMINDER','FABRIC_BELOW_MINIMUM','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','FABRIC_NEED',
+ kinds text[]:=array['MANUAL_REMINDER','FABRIC_BELOW_MINIMUM','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','FABRIC_NEED','ACCESSORY_NEED',
   'PRODUCTION_GAP','AP_DUE','AR_DUE','OPENING_AR','OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED'];
  heads jsonb:='{"MANUAL_REMINDER":"Pengingat","FABRIC_BELOW_MINIMUM":"Stok kain di bawah minimum",'
   '"ACCESSORY_AT_REORDER_POINT":"Stok aksesori menipis","FG_AT_REORDER_POINT":"Stok barang jadi menipis",'
-  '"FABRIC_NEED":"Kain perlu dibeli",'
+  '"FABRIC_NEED":"Kain perlu dibeli","ACCESSORY_NEED":"Aksesori perlu diperiksa — jumlah tambahan belum diketahui",'
   '"PRODUCTION_GAP":"Kekurangan produksi","AP_DUE":"Tagihan supplier jatuh tempo","AR_DUE":"Piutang pelanggan jatuh tempo",'
   '"OPENING_AR":"Piutang saldo awal","OPENING_AP":"Utang saldo awal","PAYROLL_AP":"Tagihan gaji",'
   '"ACCESSORY_AP":"Kredit retur aksesori mandor","LAUNDRY_AP":"Tagihan laundry",'
@@ -911,7 +951,7 @@ create function cp7_alert_native.send_tick()returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
 declare s cp7_alert_native.settings;t0 timestamptz:=clock_timestamp();prior jsonb;a jsonb;answered integer;repeats integer;
  slot timestamptz;since timestamptz;check_kinds text[];res jsonb;failed text[];pend bigint[];items jsonb;d bigint;last_at timestamptz;sent_today integer;
- refused_at timestamptz;off text;an jsonb;ok uuid[];
+ refused_at timestamptz;off text;an jsonb;ok uuid[];send_at timestamptz;
 begin
  perform cp7_alert_native.require_tick_limit();
  if not pg_try_advisory_xact_lock(hashtextextended('CP7:WA:SEND',0))then return jsonb_build_object('ran',false,'outcome','BUSY');end if;
@@ -950,10 +990,11 @@ begin
  -- Analysis items are checked one condition at a time within the tick's budget (all open ones for a digest, in order of
  -- opening); what is not reached waits for the next tick and is never sent unchecked.
  an:=cp7_alert_native.analysis_recheck(case when slot is not null then
-   array(select a2.id from cp7_alert_native.alerts a2 where a2.state='OPEN'and a2.kind in('PRODUCTION_GAP','FABRIC_NEED')and a2.kind=any(s.kinds)
-    order by a2.kind,a2.opened_at,a2.id)
-  else array(select o.item_id from cp7_alert_native.outbox o where o.state in('PENDING','HELD_QUIET')and o.alert_kind in('PRODUCTION_GAP','FABRIC_NEED')
-   group by o.item_id order by min(o.id))end,
+   array(select a2.id from cp7_alert_native.alerts a2 where a2.state='OPEN'and a2.kind in('PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED')and a2.kind=any(s.kinds)
+    order by a2.kind,case when a2.kind='ACCESSORY_NEED'then a2.last_rechecked_at end nulls first,a2.opened_at,a2.id)
+  else array(select o.item_id from cp7_alert_native.outbox o where o.state in('PENDING','HELD_QUIET')and o.alert_kind in('PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED')
+   group by o.item_id order by
+    (select a2.last_rechecked_at from cp7_alert_native.alerts a2 where a2.id=o.item_id and a2.kind='ACCESSORY_NEED')nulls first,min(o.id))end,
   t0+interval'5 seconds',case when slot is not null then s.max_items else 20 end);
  ok:=array(select jsonb_array_elements_text(an->'ok')::uuid);
  failed:=nullif(array(select distinct f from unnest(coalesce(failed,'{}')||array(select jsonb_array_elements_text(an->'failed')))f order by 1),'{}');
@@ -967,21 +1008,29 @@ begin
   and(r.id is null or r.owner_user_id<>s.actor_user_id or r.status<>'OPEN'or cp7_alert_native.ts_key(r.due_at)<>o.item_episode);
  if erp.get_my_access_v1()is distinct from a then raise exception using errcode='42501',message='CP7_ALERT_ACCESS_CHANGED_DURING_TICK';end if;
  perform cp7_alert_native.claims_leave(prior);
+ if not pg_try_advisory_xact_lock(hashtextextended('CP7:WA:SETTINGS',0))then
+  return cp7_alert_native.record_tick('SEND',jsonb_build_object('ran',false,'outcome','SETTINGS_BUSY','answered',answered));end if;
+ if(cp7_alert_native.current_settings()).revision is distinct from s.revision then
+  return cp7_alert_native.record_tick('SEND',jsonb_build_object('ran',false,'outcome','SETTINGS_CHANGED','answered',answered));end if;
+ send_at:=clock_timestamp();
+ if cp7_alert_native.in_quiet(s.quiet_enabled,s.quiet_start,s.quiet_end,send_at)then
+  update cp7_alert_native.outbox set state='HELD_QUIET'where state='PENDING';
+  return cp7_alert_native.record_tick('SEND',jsonb_build_object('ran',true,'outcome','HELD_QUIET','answered',answered,'repeats',repeats));end if;
  select array_agg(o.id order by o.id)into pend from cp7_alert_native.outbox o
  where o.state in('PENDING','HELD_QUIET')and(o.item_kind='MANUAL_REMINDER'or not(o.alert_kind=any(coalesce(failed,'{}'))))
-  and(o.alert_kind not in('PRODUCTION_GAP','FABRIC_NEED')or o.item_id=any(ok));
+  and(o.alert_kind not in('PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED')or o.item_id=any(ok));
  if slot is not null then
   select coalesce(jsonb_agg(i order by i->>'kind',i->>'title'),'[]')into items from(
    select jsonb_build_object('kind',x.kind,'subject_key',x.subject_key,'title',x.title,'detail',x.detail,'party_names',x.party_names,'repeat',false)i
    from cp7_alert_native.alerts x where x.state='OPEN'and x.kind=any(s.kinds)and not(x.kind=any(coalesce(failed,'{}')))
-    and(x.kind not in('PRODUCTION_GAP','FABRIC_NEED')or x.id=any(ok))
+    and(x.kind not in('PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED')or x.id=any(ok))
    union all
    select jsonb_build_object('kind','MANUAL_REMINDER','subject_key',r.id::text,'title',r.title,'detail',jsonb_build_object('note',r.note,'due_at',r.due_at),
     'party_names','[]'::jsonb,'repeat',false)
    from erp.manual_reminders r where'MANUAL_REMINDER'=any(s.kinds)and r.owner_user_id=s.actor_user_id and r.status='OPEN'and r.due_at<=t0)q;
   d:=cp7_alert_native.dispatch('DIGEST',slot,s.revision,s.phone_e164,
    case when jsonb_array_length(items)>0 or failed is not null or an->'unchecked'<>'{}'::jsonb
-    then cp7_alert_native.render('DIGEST',items,failed,s.detail,s.max_items,t0,an->'unchecked')end,null);
+    then cp7_alert_native.render('DIGEST',items,failed,s.detail,s.max_items,send_at,an->'unchecked')end,null);
   if pend is not null and exists(select 1 from cp7_alert_native.dispatches x where x.id=d and x.status='QUEUED')then
    update cp7_alert_native.outbox set state='DISPATCHED',dispatch_id=d,attempts=attempts+1 where id=any(pend);
    insert into cp7_alert_native.dispatch_items select d,unnest(pend);
@@ -1002,7 +1051,7 @@ begin
    'failed',failed,'answered',answered,'repeats',repeats,'analysis',an-'ok'));
  end if;
  items:=cp7_alert_native.outbox_items(pend);
- d:=cp7_alert_native.dispatch('INSTANT',null,s.revision,s.phone_e164,cp7_alert_native.render('INSTANT',items,null,s.detail,s.max_items,t0,'{}'),null);
+ d:=cp7_alert_native.dispatch('INSTANT',null,s.revision,s.phone_e164,cp7_alert_native.render('INSTANT',items,null,s.detail,s.max_items,send_at,'{}'),null);
  update cp7_alert_native.outbox set state='DISPATCHED',dispatch_id=d,attempts=attempts+1 where id=any(pend);
  insert into cp7_alert_native.dispatch_items select d,unnest(pend);
  return cp7_alert_native.record_tick('SEND',jsonb_build_object('ran',true,'outcome','SENT','dispatch_id',d,'items',cardinality(pend),'failed',failed,
@@ -1033,7 +1082,7 @@ create function cp7_alert_native.defaults()returns jsonb
 language sql immutable security definer set search_path=''set TimeZone='UTC'as $$
  select jsonb_build_object('revision',0,'enabled',false,'phone_e164',null,'detail','SUMMARY','digest_times',jsonb_build_array('08:00','15:00'),
   'kinds',jsonb_build_array('MANUAL_REMINDER','FABRIC_BELOW_MINIMUM','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','AR_DUE',
-   'AP_DUE','PRODUCTION_GAP','FABRIC_NEED','OPENING_AR','OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED'),'repeat_minutes',1440,'burst_after_per_day',30,
+   'AP_DUE','PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED','OPENING_AR','OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED'),'repeat_minutes',1440,'burst_after_per_day',30,
   'burst_merge_minutes',30,'max_items',10,'quiet_enabled',true,'quiet_start','21:00','quiet_end','06:00','analysis_every_minutes',240,
   'analysis_start','07:00','analysis_end','20:00')$$;
 create function cp7_alert_native.settings_json(s cp7_alert_native.settings)returns jsonb
@@ -1073,7 +1122,7 @@ begin
   ||array(select d from unnest(array['OPENING_AR','OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED'])d
    where a->'profile'->>'role_code'in('OWNER','ADMIN','STAFF')and cp7_reminder_native.condition_domain_access(d))
   ||case when erp.has_permission('master.product.view')and erp.has_permission('production.wip.view')and erp.has_permission('warehouse.stock.view')
-   and erp.has_permission('sales.invoice.view')then array['PRODUCTION_GAP','FABRIC_NEED']else'{}'::text[]end,null);
+   and erp.has_permission('sales.invoice.view')then array['PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED']else'{}'::text[]end,null);
  return jsonb_build_object('contract_version','cp7.system-alerts.v1','read_at',statement_timestamp(),'configured',s.revision is not null,
   'collector',(select jsonb_build_object('at',t.at,'outcome',t.outcome->>'outcome')from cp7_alert_native.ticks t where t.job='COLLECT'),
   'analysis',case when'PRODUCTION_GAP'=any(vis)then cp7_alert_native.analysis_status()end,
@@ -1132,7 +1181,7 @@ begin
   or jsonb_typeof(p->'kinds')<>'array'
   or exists(select 1 from jsonb_array_elements(p->'kinds')e where jsonb_typeof(e)<>'string'
    or e#>>'{}'not in('MANUAL_REMINDER','FABRIC_BELOW_MINIMUM','ACCESSORY_AT_REORDER_POINT','FG_AT_REORDER_POINT','AR_DUE','AP_DUE',
-    'PRODUCTION_GAP','FABRIC_NEED','OPENING_AR','OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED'))
+    'PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED','OPENING_AR','OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED'))
   or exists(select 1 from(values('repeat_minutes'),('burst_after_per_day'),('burst_merge_minutes'),('max_items'),('analysis_every_minutes'))v(k)
    where jsonb_typeof(p->v.k)<>'number'or(p->>v.k)!~'^[0-9]{1,5}$')
   or exists(select 1 from(values('quiet_start'),('quiet_end'),('analysis_start'),('analysis_end'))v(k)

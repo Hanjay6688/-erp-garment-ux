@@ -17,15 +17,15 @@ export const obligationKinds = ['OPENING_AR', 'OPENING_AP', 'PAYROLL_AP', 'ACCES
 export type ObligationKind = typeof obligationKinds[number]
 const isObligationKind = (kind: string): kind is ObligationKind => obligationKinds.some(k => k === kind)
 export const alertKinds = ['FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
-  'PRODUCTION_GAP', 'FABRIC_NEED', ...obligationKinds] as const
+  'PRODUCTION_GAP', 'FABRIC_NEED', 'ACCESSORY_NEED', ...obligationKinds] as const
 export type AlertKind = typeof alertKinds[number]
 /** The order of cp7_alert_native.defaults(). */
 export const waKinds = ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
-  'PRODUCTION_GAP', 'FABRIC_NEED', ...obligationKinds] as const
+  'PRODUCTION_GAP', 'FABRIC_NEED', 'ACCESSORY_NEED', ...obligationKinds] as const
 export type WaKind = typeof waKinds[number]
 /** The order of the groups on the Pengingat sistem screen (the order of the WhatsApp message, render() in alerts.sql). */
 export const alertKindOrder: readonly AlertKind[] = ['FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT',
-  'FABRIC_NEED', 'PRODUCTION_GAP', 'AP_DUE', 'AR_DUE', ...obligationKinds]
+  'FABRIC_NEED', 'ACCESSORY_NEED', 'PRODUCTION_GAP', 'AP_DUE', 'AR_DUE', ...obligationKinds]
 export const waKindLabel: Record<WaKind, string> = {
   MANUAL_REMINDER: 'Pengingat pribadi Bos',
   FABRIC_BELOW_MINIMUM: 'Stok kain di bawah minimum',
@@ -35,6 +35,7 @@ export const waKindLabel: Record<WaKind, string> = {
   AP_DUE: 'Tagihan supplier jatuh tempo',
   PRODUCTION_GAP: 'Kekurangan produksi (dari analisis)',
   FABRIC_NEED: 'Kain perlu dibeli (dari analisis)',
+  ACCESSORY_NEED: 'Kebutuhan aksesori perlu diperiksa (dari analisis)',
   OPENING_AR: 'Piutang saldo awal',
   OPENING_AP: 'Utang saldo awal',
   PAYROLL_AP: 'Tagihan gaji',
@@ -43,7 +44,7 @@ export const waKindLabel: Record<WaKind, string> = {
   LAUNDRY_RECEIPT: 'Penerimaan laundry perlu diperiksa',
   LAUNDRY_OPENING_UNINVOICED: 'Laundry awal belum ditagih',
 }
-export const isAnalysisKind = (kind: AlertKind) => kind === 'PRODUCTION_GAP' || kind === 'FABRIC_NEED'
+export const isAnalysisKind = (kind: AlertKind) => kind === 'PRODUCTION_GAP' || kind === 'FABRIC_NEED' || kind === 'ACCESSORY_NEED'
 /** The kinds whose every row comes from cp7_stock_formula: no party names, keyed by the item or material. FABRIC_BELOW_MINIMUM
  * also has rows from the formula (FabricFormulaDetail); those are checked by their detail. */
 export const isReorderKind = (kind: AlertKind) => kind === 'FG_AT_REORDER_POINT' || kind === 'ACCESSORY_AT_REORDER_POINT'
@@ -65,7 +66,7 @@ export const WA_DIGEST_SLOTS = 4
 
 export type Tick = { at: string; outcome: string | null }
 export type AnalysisRun = {
-  runId: string; dataAsOf: string; phase: 'SET' | 'CHECK' | 'DONE' | 'FAILED'; rule: 'PRODUCTION_GAP' | 'FABRIC_NEED'; nextOffset: number
+  runId: string; dataAsOf: string; phase: 'SET' | 'CHECK' | 'DONE' | 'FAILED'; rule: 'PRODUCTION_GAP' | 'FABRIC_NEED' | 'ACCESSORY_NEED'; nextOffset: number
   checked: number; stillOpen: number; closed: number; ruleOff: number; error: string | null; startedAt: string; updatedAt: string; finishedAt: string | null
 }
 export type AnalysisRequest = {
@@ -94,6 +95,14 @@ type AnalysisFields = {
   value: string | null; unit: string | null; threshold: string | null; reason: string | null
 }
 export type AnalysisDetail = ({ kind: 'PRODUCTION_GAP' } & AnalysisFields) | ({ kind: 'FABRIC_NEED' } & AnalysisFields)
+export type AccessoryNeedDetail = {
+  kind: 'ACCESSORY_NEED'; runId: string; dataAsOf: string; checkedAt: string; label: string; targetKey: string
+  categoryKey: string; categoryName: string | null; state: 'DATA_REVIEW'; verdict: 'REVIEW_REQUIRED_NOW'
+  grossState: 'KNOWN' | 'ASSUMED' | 'UNKNOWN'; grossQty: string | null; unit: string
+  installedState: 'UNKNOWN'; installedProven: null; unusedAllocatedState: 'UNKNOWN'; unusedAllocatedProven: null
+  additionalExternalState: 'UNKNOWN'; additionalExternal: null; thresholdStatus: 'NOT_EVALUATED_UNKNOWN'
+  reason: 'INSTALLATION_AND_ELIGIBLE_UNUSED_SUPPLY_NOT_PROVEN' | 'BOM_NOT_RECORDED' | 'BOM_AMBIGUOUS' | 'CATEGORY_UNAVAILABLE'
+}
 /** cp7_stock_formula.alert_row: the numbers only, quantities as decimal text. */
 export type FgReorderDetail = {
   kind: 'FG_AT_REORDER_POINT'; rootId: string; sizeId: string; sku: string; productName: string; sizeCode: string | null
@@ -112,7 +121,7 @@ export type FabricFormulaDetail = { kind: 'FABRIC_BELOW_MINIMUM'; materialType: 
  * (ESTIMATE, with its lama kirim); never the formula, so no cadangan or tingkat layanan. */
 export type AccessoryMinimumDetail = { kind: 'ACCESSORY_AT_REORDER_POINT'; materialType: 'ACCESSORY'; basis: 'MANUAL' | 'ESTIMATE' } & MaterialReorderFields
 export type MaterialReorderDetail = FabricFormulaDetail | AccessoryMinimumDetail
-export type AlertDetail = FabricDetail | MaterialReorderDetail | FgReorderDetail | DueDetail | AnalysisDetail | ObligationDetail
+export type AlertDetail = FabricDetail | MaterialReorderDetail | FgReorderDetail | DueDetail | AnalysisDetail | AccessoryNeedDetail | ObligationDetail
 export const isObligationDetail = (d: AlertDetail): d is ObligationDetail => obligationKinds.some(k => k === d.kind)
 /** A detail with the material shape (a fabric on the formula, or an accessory), not the fabric minimum's. */
 export const isMaterialReorderDetail = (d: AlertDetail): d is MaterialReorderDetail =>
@@ -198,7 +207,7 @@ export function parseAnalysisStatus(v: unknown): AnalysisStatus {
     const r = obj(o.run, 'analisis')
     keys(r, ['run_id', 'data_as_of', 'phase', 'rule', 'next_offset', 'checked', 'still_open', 'closed', 'rule_off', 'error', 'started_at', 'updated_at', 'finished_at'], 'analisis')
     run = { runId: uuidText(r.run_id, 'analisis'), dataAsOf: instant(r.data_as_of, 'analisis'), phase: oneOf(r.phase, ['SET', 'CHECK', 'DONE', 'FAILED'] as const, 'tahap analisis'),
-      rule: oneOf(r.rule, ['PRODUCTION_GAP', 'FABRIC_NEED'] as const, 'analisis'), nextOffset: count(r.next_offset, 'analisis'), checked: count(r.checked, 'analisis'),
+      rule: oneOf(r.rule, ['PRODUCTION_GAP', 'FABRIC_NEED', 'ACCESSORY_NEED'] as const, 'analisis'), nextOffset: count(r.next_offset, 'analisis'), checked: count(r.checked, 'analisis'),
       stillOpen: count(r.still_open, 'analisis'), closed: count(r.closed, 'analisis'), ruleOff: count(r.rule_off, 'analisis'), error: maybeStr(r.error, 'analisis'),
       startedAt: instant(r.started_at, 'analisis'), updatedAt: instant(r.updated_at, 'analisis'), finishedAt: maybeInstant(r.finished_at, 'analisis') }
     if ((run.finishedAt !== null) !== (run.phase === 'DONE' || run.phase === 'FAILED') || (run.error !== null) !== (run.phase === 'FAILED')) fail('tahap analisis')
@@ -224,8 +233,41 @@ export function parseAnalysisStatus(v: unknown): AnalysisStatus {
 
 const analysisDetailKeys = ['run_id', 'data_as_of', 'checked_at', 'label', 'target_key', 'need_snapshot_pcs', 'need_now_pcs', 'increase_pcs', 'material_id',
   'material_name', 'value', 'unit', 'threshold', 'reason'] as const
+function accessoryNeedDetail(d: Obj): AccessoryNeedDetail {
+  if (typeof d.unit !== 'string' || d.unit.trim().length === 0) fail('kebutuhan aksesori')
+  const what = 'kebutuhan aksesori'
+  keys(d, ['run_id', 'data_as_of', 'checked_at', 'label', 'target_key', 'category_key', 'category_name', 'state', 'verdict', 'gross_state', 'gross_qty',
+    'unit', 'installed_state', 'installed_proven', 'unused_allocated_state', 'unused_allocated_proven', 'additional_external_state', 'additional_external',
+    'threshold_status', 'reason'], what)
+  const targetKey = str(d.target_key, what), parts = targetKey.split(':')
+  if (parts.length !== 2) fail(what)
+  parts.forEach(p => uuidText(p, what))
+  const categoryKey = str(d.category_key, what)
+  if (categoryKey !== 'UNKNOWN_BOM') {
+    const category = categoryKey.split(':')
+    if (category.length !== 2 || category[0] !== 'ACCESSORY_CATEGORY') fail(what)
+    uuidText(category[1], what)
+  }
+  const reason = oneOf(d.reason, ['INSTALLATION_AND_ELIGIBLE_UNUSED_SUPPLY_NOT_PROVEN', 'BOM_NOT_RECORDED', 'BOM_AMBIGUOUS', 'CATEGORY_UNAVAILABLE'] as const, what)
+  const grossState = oneOf(d.gross_state, ['KNOWN', 'ASSUMED', 'UNKNOWN'] as const, what)
+  const missingBom = reason === 'BOM_NOT_RECORDED' || reason === 'BOM_AMBIGUOUS'
+  if (missingBom !== (categoryKey === 'UNKNOWN_BOM') || (missingBom && d.category_name !== null)) fail(what)
+  if (grossState === 'UNKNOWN' ? d.gross_qty !== null
+    : typeof d.gross_qty !== 'string' || d.gross_qty.length > 128 || !/^(0|[1-9][0-9]*)(\.[0-9]+)?$/.test(d.gross_qty) || !/[1-9]/.test(d.gross_qty)) fail(what)
+  if ((reason === 'INSTALLATION_AND_ELIGIBLE_UNUSED_SUPPLY_NOT_PROVEN') !== (grossState !== 'UNKNOWN')) fail(what)
+  for (const [state, value] of [['installed_state', 'installed_proven'], ['unused_allocated_state', 'unused_allocated_proven'], ['additional_external_state', 'additional_external']]) {
+    if (d[state] !== 'UNKNOWN' || d[value] !== null) fail(what)
+  }
+  return { kind: 'ACCESSORY_NEED', runId: uuidText(d.run_id, what), dataAsOf: instant(d.data_as_of, what), checkedAt: instant(d.checked_at, what),
+    label: str(d.label, what), targetKey, categoryKey, categoryName: maybeStr(d.category_name, what),
+    state: oneOf(d.state, ['DATA_REVIEW'] as const, what), verdict: oneOf(d.verdict, ['REVIEW_REQUIRED_NOW'] as const, what),
+    grossState, grossQty: d.gross_qty as string | null, unit: str(d.unit, what), installedState: 'UNKNOWN', installedProven: null,
+    unusedAllocatedState: 'UNKNOWN', unusedAllocatedProven: null, additionalExternalState: 'UNKNOWN', additionalExternal: null,
+    thresholdStatus: oneOf(d.threshold_status, ['NOT_EVALUATED_UNKNOWN'] as const, what), reason }
+}
 function detail(kind: AlertKind, v: unknown): AlertDetail {
   const d = obj(v, 'rincian')
+  if (kind === 'ACCESSORY_NEED') return accessoryNeedDetail(d)
   if (kind === 'FABRIC_BELOW_MINIMUM') {
     // D17-10: a fabric on the formula has the material shape (it carries material_type and basis); the others the minimum's.
     if ('material_type' in d || 'basis' in d) return materialReorderDetail(kind, d)
@@ -351,6 +393,7 @@ function systemAlerts(value: unknown, options: { owner: boolean }): SystemAlerts
   const visible = new Set(kinds.map(k => k.kind))
   if (visible.size !== kinds.length) fail('jenis')
   if (visible.has('PRODUCTION_GAP') !== visible.has('FABRIC_NEED')) fail('jenis')
+  if (visible.has('ACCESSORY_NEED') && !visible.has('PRODUCTION_GAP')) fail('jenis')
   const analysis = w.analysis === null ? null : parseAnalysisStatus(w.analysis)
   if ((analysis !== null) !== visible.has('PRODUCTION_GAP')) fail('analisis')
   const rows = arr(w.rows, 'daftar').map((x): SystemAlert => {
@@ -369,6 +412,7 @@ function systemAlerts(value: unknown, options: { owner: boolean }): SystemAlerts
     if (a.detail.kind === 'FG_AT_REORDER_POINT' && a.subjectKey !== `${a.detail.rootId}:${a.detail.sizeId}`) fail('pengingat')
     if (isMaterialReorderDetail(a.detail) && a.subjectKey !== a.detail.materialId) fail('pengingat')
     if (isObligationDetail(a.detail) && a.subjectKey !== `${kind === 'OPENING_AR' ? 'AR_DUE' : 'AP_DUE'}:${kind}:${a.detail.documentId}`) fail('pengingat')
+    if (a.detail.kind === 'ACCESSORY_NEED' && a.subjectKey !== `ACCESSORY_NEED:${a.detail.targetKey}:${a.detail.categoryKey}`) fail('pengingat')
     return a
   })
   if (rows.length > 500 || new Set(rows.map(r => r.id)).size !== rows.length
@@ -697,6 +741,12 @@ export function materialReorderLine(d: MaterialReorderDetail): string {
 /** One line of the numbers of a system reminder, in plain words. */
 export function alertSummary(a: SystemAlert): string {
   const d = a.detail
+  if (d.kind === 'ACCESSORY_NEED') {
+    const reasons = { BOM_NOT_RECORDED: 'BOM aksesori belum dicatat', BOM_AMBIGUOUS: 'BOM aksesori tumpang tindih; perlu diperiksa',
+      CATEGORY_UNAVAILABLE: 'Kategori aksesori tidak tersedia', INSTALLATION_AND_ELIGIBLE_UNUSED_SUPPLY_NOT_PROVEN: 'Pemasangan dan sisa yang dialokasikan belum terbukti' }
+    const gross = d.grossQty === null ? '' : ` · kebutuhan BOM${d.grossState === 'ASSUMED' ? ' (perkiraan)' : ''} ${formatReceiptDecimal(d.grossQty)} ${d.unit}`
+    return `${d.label}${d.categoryName ? ` · ${d.categoryName}` : ''}: kebutuhan aksesori perlu diperiksa; jumlah tambahan belum diketahui${gross} · ${reasons[d.reason]}`
+  }
   if (isObligationDetail(d)) {
     const reasons: Record<string, string> = {
       MISSING_RECORDED_DUE_DATE: 'Tanggal jatuh tempo belum tercatat',
@@ -735,6 +785,6 @@ export function alertSummary(a: SystemAlert): string {
 /** "Data analisis per <WIB>, dicek ulang <WIB>" for the analysis kinds; null for the others. */
 export function alertAnalysisLine(a: SystemAlert): string | null {
   const d = a.detail
-  if (d.kind !== 'PRODUCTION_GAP' && d.kind !== 'FABRIC_NEED') return null
+  if (d.kind !== 'PRODUCTION_GAP' && d.kind !== 'FABRIC_NEED' && d.kind !== 'ACCESSORY_NEED') return null
   return `Data analisis per ${formatCp6WibDateTime(d.dataAsOf)}${d.checkedAt ? `, dicek ulang ${formatCp6WibDateTime(d.checkedAt)}` : ', belum dicek ulang'}`
 }

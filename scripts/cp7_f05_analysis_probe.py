@@ -345,6 +345,13 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
     with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
      for definition in originals.values():cur.execute(definition,prepare=False)
      for role in candidate.ROLES:cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
+     if wa_forward:
+      accessory_helpers=('cp7_reminder_native.accessory_target_now(uuid,text,text,integer)',
+       'cp7_reminder_native.accessory_capture(uuid,text,text,integer,timestamp with time zone)',
+       'cp7_reminder_native.accessory_category_locks(uuid,text)')
+      missing_helpers={sig:cur.execute('select to_regprocedure(%s)is null',(sig,)).fetchone()[0]for sig in accessory_helpers}
+      report['ow01_helpers_removed']=missing_helpers
+      assert all(missing_helpers.values()),'OW01_PRIVATE_HELPER_ORPHAN_AFTER_UNINSTALL'
      conn.commit();restored_boundary=package.boundary.snapshot(cur);restored_public=public_state(cur)
      restored_functions=p09.functions(cur)
      report['restore_components']=dict(erp_platform_auth_schema_acl=restored_boundary==before,public_catalog_and_rows=restored_public==public_before,erp_public_auth_function_definitions_owners_acls=restored_functions==accepted_functions_before)

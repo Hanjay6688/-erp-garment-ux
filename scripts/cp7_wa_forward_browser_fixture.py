@@ -38,6 +38,7 @@ import psycopg
 
 import cp7_stock_formula_cases as formula
 import cp7_wa_forward_cases as wa
+import cp7_wa_accessory_transport_cases as accessory_transport
 
 RESET_ORDER = ('dispatch_items', 'outbox', 'dispatches', 'alerts', 'key_events', 'source_state', 'ticks', 'analysis_runs',
                'analysis_requests', 'settings')
@@ -130,6 +131,15 @@ def main():
                 owner = with_erp_usage(cur, lambda: wa.setup(cur, enabled=False, key=False))['owner']
                 return dict(owner_settings_saved=True, seeded_owner=owner, collect=wa.tick(cur, 'collect_tick')['outcome'])
             out = committed(target, configure)
+        elif op == 'accessory_need':
+            def accessory_need(cur):
+                today = cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
+                return accessory_transport.browser_prepare(cur, today, p, wa, with_erp_usage)
+            out = committed(target, accessory_need)
+        elif op == 'accessory_need_collect':
+            out = committed(target, lambda cur: accessory_transport.browser_collect(cur, p, wa))
+        elif op == 'accessory_need_source':
+            out = committed(target, lambda cur: accessory_transport.browser_source_proof(cur, p, wa))
         elif op == 'state':
             def state(cur):
                 wa.b.api.admin(cur)

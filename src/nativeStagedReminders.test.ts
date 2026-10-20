@@ -67,3 +67,14 @@ it('shows claims and settings only to a manager',()=>{
  expect(()=>parseWorkspace(f.workspace(false,{binding:f.binding()}),f.run,f.identityHash,f.actor)).toThrow()
  expect(()=>parseWorkspace(f.workspace(true,{external_delivery_enabled:true}),f.run,f.identityHash,f.actor)).toThrow()
 })
+
+it('limits an accessory-review verdict to its own snapshot rule and key, and words a known empty BOM independently',()=>{
+ const key='ACCESSORY_NEED:'+f.keys[0]+':UNKNOWN_BOM'
+ const review={...f.liveRecheck('UNKNOWN_NOW'),condition_key:key,rule_id:'ACCESSORY_NEED',verdict:'REVIEW_REQUIRED_NOW'}
+ expect(verdictText(parseRecheck(review,f.run,f.actor,key))).toContain('jumlah tambahan belum diketahui')
+ for(const bad of[{...review,rule_id:'PRODUCTION_GAP'},{...review,rule_id:'FABRIC_NEED'},
+  {...review,kind:'LIVE',data_as_of:null},{...review,condition_key:'PRODUCTION_GAP:'+f.keys[0]}])
+  expect(()=>parseRecheck(bad,f.run,f.actor,bad.condition_key)).toThrow()
+ const zero=parseRecheck({...review,verdict:'RESOLVED_NOW',reason:'KNOWN_ZERO_ACCESSORY_NEED'},f.run,f.actor,key)
+ expect(verdictText(zero)).toBe('BOM tercatat tanpa aksesori — kebutuhan aksesori nol; bukan bukti kebutuhan produksi atau bahan lain selesai.')
+})

@@ -276,7 +276,7 @@ function Connection() {
             <label className="cwa-field"><span>SELESAI</span><input type="time" aria-label="Jam tenang selesai" value={draft.quietEnd} disabled={locked} onChange={e => set('quietEnd', e.target.value)}/></label>
           </div>
         </fieldset>
-        <fieldset className="cwa-fieldset"><legend>Analisis otomatis (untuk kekurangan produksi dan kain)</legend>
+        <fieldset className="cwa-fieldset"><legend>Analisis otomatis (untuk kekurangan produksi, kain, dan aksesori)</legend>
           <div className="cwa-grid">
             <NumberField label="JALANKAN TIAP (MENIT)" name="Analisis otomatis tiap (menit)" hint="0 = mati; 15 sampai 1.440."
               value={draft.analysisEveryMinutes} min={0} max={1440} disabled={locked} onChange={v => set('analysisEveryMinutes', v)}/>

@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import {accessoryCases} from './cp7_wa_accessory_browser.mjs'
 import {execFileSync} from 'node:child_process'
 import {mkdirSync,writeFileSync} from 'node:fs'
 // WA-4b (owner D17-3..D17-6) in the real UI, real Auth and PostgREST on the committed browser copy; the provider is only the
@@ -21,6 +22,7 @@ const RPCS=['erp_cp7_get_alerts_v1',...OWNER_RPCS]
 const KIND_LABEL={FABRIC_BELOW_MINIMUM:'Stok kain di bawah minimum',ACCESSORY_AT_REORDER_POINT:'Stok aksesori menipis',
  FG_AT_REORDER_POINT:'Stok barang jadi menipis',AR_DUE:'Piutang pelanggan jatuh tempo',AP_DUE:'Tagihan supplier jatuh tempo',
  PRODUCTION_GAP:'Kekurangan produksi (dari analisis)',FABRIC_NEED:'Kain perlu dibeli (dari analisis)',
+ ACCESSORY_NEED:'Kebutuhan aksesori perlu diperiksa (dari analisis)',
  OPENING_AR:'Piutang saldo awal',OPENING_AP:'Utang saldo awal',PAYROLL_AP:'Tagihan gaji',ACCESSORY_AP:'Kredit retur aksesori mandor',
  LAUNDRY_AP:'Tagihan laundry',LAUNDRY_RECEIPT:'Penerimaan laundry perlu diperiksa',LAUNDRY_OPENING_UNINVOICED:'Laundry awal belum ditagih'}
 async function openSidebar(page){const open=page.getByRole('button',{name:'Buka menu',exact:true});if(await open.isVisible())await open.click()}
@@ -396,4 +398,5 @@ export function cases(ui){
   ['WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA',()=>adminJourney(ui)],['WAF_BROWSER_FG_REORDER_DESKTOP',()=>fgReorderJourney(ui,false)],
   ['WAF_BROWSER_FG_REORDER_MOBILE',()=>fgReorderJourney(ui,true)],['WAF_BROWSER_MATERIAL_REORDER_DESKTOP',()=>materialReorderJourney(ui,false)],
   ['WAF_BROWSER_MATERIAL_REORDER_MOBILE',()=>materialReorderJourney(ui,true)]]
+ .concat(accessoryCases(ui,{fixture,openReminders,shot,watch,PHONE,KEY}))
 }

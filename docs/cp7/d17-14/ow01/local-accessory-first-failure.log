@@ -1,0 +1,58 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/9442228ed2dc/erp-d1714
+
+ ❯ src/waAccessoryNeed.test.ts (22 tests | 4 failed) 16ms
+     × retains unknown external quantity and labels gross186 as assumed BOM need 7ms
+     × can describe complete-source BOM_NOT_RECORDED without fabricated gross or external amount 1ms
+     × can describe complete-source BOM_AMBIGUOUS without fabricated gross or external amount 0ms
+     × describes an unavailable category truthfully 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/waAccessoryNeed.test.ts > ACCESSORY_NEED review notice, never a purchase quantity > retains unknown external quantity and labels gross186 as assumed BOM need
+Error: Respons pengingat sistem tidak cocok (jenis).
+ ❯ parseSystemAlerts src/waContract.ts:339:42
+    337| export function parseSystemAlerts(value: unknown, options: { owner: bo…
+    338|   try { return systemAlerts(value, options) } catch (e) {
+    339|     throw e instanceof WaResponseError ? new WaResponseError(e.message…
+       |                                          ^
+    340|   }
+    341| }
+ ❯ src/waAccessoryNeed.test.ts:23:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/waAccessoryNeed.test.ts > ACCESSORY_NEED review notice, never a purchase quantity > can describe complete-source BOM_NOT_RECORDED without fabricated gross or external amount
+ FAIL  src/waAccessoryNeed.test.ts > ACCESSORY_NEED review notice, never a purchase quantity > can describe complete-source BOM_AMBIGUOUS without fabricated gross or external amount
+Error: Respons pengingat sistem tidak cocok (jenis).
+ ❯ parseSystemAlerts src/waContract.ts:339:42
+    337| export function parseSystemAlerts(value: unknown, options: { owner: bo…
+    338|   try { return systemAlerts(value, options) } catch (e) {
+    339|     throw e instanceof WaResponseError ? new WaResponseError(e.message…
+       |                                          ^
+    340|   }
+    341| }
+ ❯ src/waAccessoryNeed.test.ts:35:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/waAccessoryNeed.test.ts > ACCESSORY_NEED review notice, never a purchase quantity > describes an unavailable category truthfully
+Error: Respons pengingat sistem tidak cocok (jenis).
+ ❯ parseSystemAlerts src/waContract.ts:339:42
+    337| export function parseSystemAlerts(value: unknown, options: { owner: bo…
+    338|   try { return systemAlerts(value, options) } catch (e) {
+    339|     throw e instanceof WaResponseError ? new WaResponseError(e.message…
+       |                                          ^
+    340|   }
+    341| }
+ ❯ src/waAccessoryNeed.test.ts:41:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 18 passed (22)
+   Start at  23:06:44
+   Duration  321ms (transform 117ms, setup 0ms, import 159ms, tests 16ms, environment 0ms)
+

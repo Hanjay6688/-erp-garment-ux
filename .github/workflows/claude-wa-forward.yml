@@ -21,6 +21,9 @@ name: CP7 WA Forward
     paths:
     - scripts/cp7_wa_*
     - scripts/cp7-src/alerts/**
+    - scripts/cp7-src/reminders/**
+    - scripts/cp7_reminder_v2_bundle.py
+    - src/nativeStagedReminders.ts
     - scripts/cp7-src/stock-formula/**
     - scripts/cp7_stock_formula_cases.py
     - src/FgReorderPanel.tsx
