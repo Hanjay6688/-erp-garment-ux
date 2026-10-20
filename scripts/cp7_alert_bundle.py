@@ -51,11 +51,56 @@ CALLS=('public.erp_cp7_get_sales_v1(jsonb)','public.erp_cp7_read_reminder_condit
 JOB_COLUMNS=('actor','captured_at','created_at','query','run_id','state')
 CALLMEBOT='https://api.callmebot.com/whatsapp.php'
 OUTSIDERS=('anon','authenticated','service_role','cp7_capture','cp7_reminder','cp7_payable_read')
-def extension():return previous.extension()+'\n'+(ROOT/'scripts/cp7-src/alerts/alerts.sql').read_text()
-def bundle():return previous.bundle()+'\n'+(ROOT/'scripts/cp7-src/alerts/alerts.sql').read_text()
+# SS-1 (D17-8/D17-9): the finished-goods reorder point (stock-formula/formula.sql), installed before alerts.sql, whose
+# collector reads it through cp7_stock_formula.fg_source(). Schema cp7_stock_formula is owned by cp7_capture (the role
+# that already reads the FG stock, sales, production and WIP sources and the planning profile); no new Native read.
+FORMULA='scripts/cp7-src/stock-formula/formula.sql'
+FORMULA_SCHEMA='cp7_stock_formula'
+FORMULA_TABLES=('evaluations','manual_points','runs','settings','wip_models')
+FORMULA_FUNCTIONS={'access_now':'v','alert_row':'s','append_only':'v','compute':'v','current_settings':'s','fg_source':'v','model_wip':'v',
+ 'open_groups':'s','refresh':'v','save_manual':'v','save_settings':'v','workspace':'v','z':'i'}
+FORMULA_PUBLIC={'public.erp_cp7_get_fg_reorder_v1(jsonb)':'v','public.erp_cp7_refresh_fg_reorder_v1()':'v',
+ 'public.erp_cp7_save_fg_reorder_manual_v1(jsonb,uuid)':'v','public.erp_cp7_save_stock_formula_settings_v1(jsonb,uuid)':'v'}
+def extension():return previous.extension()+'\n'+(ROOT/FORMULA).read_text()+'\n'+(ROOT/'scripts/cp7-src/alerts/alerts.sql').read_text()
+def bundle():return previous.bundle()+'\n'+(ROOT/FORMULA).read_text()+'\n'+(ROOT/'scripts/cp7-src/alerts/alerts.sql').read_text()
 def verify(cur):
  previous.verify(cur)
+ verify_formula(cur)
  return verify_alert(cur)
+def verify_formula(cur):
+ one=lambda sql,*args:cur.execute(sql,args or None).fetchone()[0]
+ assert one('select pg_get_userbyid(nspowner)from pg_namespace where nspname=%s',FORMULA_SCHEMA)=='cp7_capture'
+ for who in OUTSIDERS:
+  if who!='cp7_capture':assert not one("select has_schema_privilege(%s,%s,'USAGE')",who,FORMULA_SCHEMA),who
+ rows=cur.execute("select p.oid::regprocedure::text,p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig "
+  "from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname=%s",(FORMULA_SCHEMA,)).fetchall()
+ assert sorted(r[1]for r in rows)==sorted(FORMULA_FUNCTIONS),rows
+ for sig,name,owner,definer,volatility,config in rows:
+  assert(owner,definer,volatility,config)==('cp7_capture',True,FORMULA_FUNCTIONS[name],['search_path=""','TimeZone=UTC']),sig
+  for who in('anon','authenticated','service_role','cp7_reminder','cp7_payable_read'):assert not one("select has_function_privilege(%s,%s,'EXECUTE')",who,sig),(who,sig)
+  if name!='fg_source':assert not one("select has_function_privilege(%s,%s,'EXECUTE')",ROLE,sig),sig
+ assert one("select has_function_privilege(%s,'cp7_stock_formula.fg_source()','EXECUTE')",ROLE)
+ tables=cur.execute("select c.relname,pg_get_userbyid(c.relowner),c.relrowsecurity from pg_class c join pg_namespace n on n.oid=c.relnamespace "
+  "where n.nspname=%s and c.relkind in('r','p','v','m','f')order by 1",(FORMULA_SCHEMA,)).fetchall()
+ assert[t[0]for t in tables]==list(FORMULA_TABLES),tables
+ for name,owner,rls in tables:
+  assert owner=='cp7_capture'and rls,(name,owner)
+  assert one("select count(*)from pg_policy where polrelid=%s::regclass and pg_get_expr(polqual,polrelid)='false'and pg_get_expr(polwithcheck,polrelid)='false'",
+   FORMULA_SCHEMA+'.'+name)==1,name
+  for who in('anon','authenticated','service_role',ROLE,'cp7_reminder'):
+   assert not one("select has_table_privilege(%s,%s,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')",who,FORMULA_SCHEMA+'.'+name),(who,name)
+ assert set(cur.execute("select c.relname,t.tgname from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace "
+  "where n.nspname=%s and not t.tgisinternal",(FORMULA_SCHEMA,)).fetchall())=={('settings','settings_append_only'),('manual_points','manual_points_append_only')}
+ for sig,volatility in FORMULA_PUBLIC.items():
+  assert cur.execute("select pg_get_userbyid(proowner),prosecdef,provolatile::text,proconfig from pg_proc where oid=%s::regprocedure",(sig,)).fetchone()==(
+   'cp7_capture',True,volatility,['search_path=""']),sig
+  assert one("select has_function_privilege('authenticated',%s,'EXECUTE')",sig),sig
+  for who in('anon','service_role',ROLE):assert not one("select has_function_privilege(%s,%s,'EXECUTE')",who,sig),(who,sig)
+ # Writes only its own tables: no Native table may be written by cp7_capture (the accepted F03 rule, checked again here).
+ assert not one("select exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp'and c.relkind in('r','p','v')"
+  "and has_table_privilege('cp7_capture',c.oid,'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER'))")
+ assert not one("select has_schema_privilege('cp7_capture','public','CREATE')")
+ for name in FORMULA_TABLES:assert one('select count(*)from cp7_stock_formula.'+name)==0,name
 def verify_alert(cur):
  one=lambda sql,*args:cur.execute(sql,args or None).fetchone()[0]
  assert cur.execute('select rolcanlogin,rolinherit,rolsuper,rolcreatedb,rolcreaterole,rolreplication,rolbypassrls from pg_roles where rolname=%s',
@@ -101,7 +146,8 @@ def verify_alert(cur):
  granted=cur.execute("select n.nspname||'.'||p.proname||'('||replace(oidvectortypes(p.proargtypes),' ','')||')'from pg_proc p "
   "join pg_namespace n on n.oid=p.pronamespace cross join lateral aclexplode(p.proacl)x where x.grantee=%s::regrole and x.privilege_type='EXECUTE'"
   "and n.nspname<>%s and p.proowner<>%s::regrole order by 1",(ROLE,SCHEMA,ROLE)).fetchall()
- assert[r[0]for r in granted]==sorted(CALLS+tuple(GRANTS[ROLE])+('cp7_reminder_native.payable_source()','cp7_reminder_native.receivable_source()')),granted
+ assert[r[0]for r in granted]==sorted(CALLS+tuple(GRANTS[ROLE])+('cp7_reminder_native.payable_source()','cp7_reminder_native.receivable_source()',
+  'cp7_stock_formula.fg_source()')),granted
  assert not one("select exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='cp7_analysis_stage'"
   "and has_table_privilege(%s,c.oid,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER'))",ROLE)
  columns=cur.execute("select a.attname from pg_attribute a where a.attrelid='cp7_analysis_stage.jobs'::regclass and a.attnum>0 and not a.attisdropped "

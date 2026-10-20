@@ -69,3 +69,13 @@ begin raise exception 'WA_SMOKE_NOT_AVAILABLE';end$f$;
 revoke all on function public.erp_cp7_request_staged_analysis_v1(jsonb,uuid),public.erp_cp7_staged_snapshot_freshness_v1(uuid),
  public.erp_cp7_step_reminder_conditions_v2(uuid),public.erp_cp7_read_reminder_conditions_v2(jsonb),public.erp_cp7_recheck_reminder_v2(uuid,text)
  from public,anon,authenticated,service_role;
+-- SS-1: the finished-goods reorder point source (stock-formula/formula.sql is not installed on this bare stack): the
+-- Ringkasan Barang Jadi permission checked as the module does, no item at or under its point.
+create schema cp7_stock_formula;
+revoke all on schema cp7_stock_formula from public,anon,authenticated,service_role;
+create function cp7_stock_formula.fg_source()returns jsonb language plpgsql volatile security definer set search_path=''as $f$
+begin
+ if erp.has_permission('warehouse.fg.view')is not true then raise exception using errcode='42501',message='CP7_FORMULA_FG_SOURCE_DENIED';end if;
+ return jsonb_build_object('rows','[]'::jsonb,'states','{}'::jsonb);
+end$f$;
+revoke all on function cp7_stock_formula.fg_source()from public,anon,authenticated,service_role;

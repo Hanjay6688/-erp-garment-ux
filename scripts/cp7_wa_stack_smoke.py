@@ -29,7 +29,7 @@ PHONE = '+620000000000'
 KEY = 'FAKEKEY-SMOKE'
 OWNER = str(uuid.UUID(int=0xA1))
 STAFF = str(uuid.UUID(int=0xB1))
-PERMS = ['warehouse.dashboard.view', 'warehouse.material.view', 'master.fabric.view', 'finance.ar.view', 'finance.ap.view']
+PERMS = ['warehouse.dashboard.view', 'warehouse.material.view', 'master.fabric.view', 'finance.ar.view', 'finance.ap.view', 'warehouse.fg.view']
 SETTINGS = dict(enabled=False, phone_e164=PHONE, detail='SUMMARY', digest_times=[], kinds=['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'AR_DUE', 'AP_DUE'],
                 repeat_minutes=1440, burst_after_per_day=30, burst_merge_minutes=30, max_items=10, quiet_enabled=False, quiet_start='21:00',
                 quiet_end='06:00', analysis_every_minutes=60, analysis_start='07:00', analysis_end='20:00')
