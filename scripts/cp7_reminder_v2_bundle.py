@@ -38,12 +38,10 @@ def verify(cur):
   assert cur.execute("select has_function_privilege('cp7_capture',%s,'EXECUTE')",(sig,)).fetchone()[0],sig
   for who in('cp7_reminder','cp7_obligation_read','cp7_payable_read','anon','authenticated','service_role'):
    assert not cur.execute("select has_function_privilege(%s,%s,'EXECUTE')",(who,sig)).fetchone()[0],(who,sig)
- # The installed postgres role is deliberately NON-superuser; created-role membership must confer these private dependencies.
- assert cur.execute("select has_schema_privilege('postgres','cp7_analysis_stage','USAGE')and has_schema_privilege('postgres','cp7_schedule_native','USAGE')and "
-  "has_table_privilege('postgres','cp7_analysis_stage.jobs','SELECT')and "
-  "has_table_privilege('postgres','cp7_analysis_stage.plan_targets','SELECT')and "
-  "has_function_privilege('postgres','cp7_schedule_native.access_now(boolean)','EXECUTE')and "
-  "has_function_privilege('postgres','cp7_analysis_stage.require_kept(uuid)','EXECUTE')").fetchone()[0]
+ # Hosted postgres is NON-superuser: the row-lock helper calls only the
+ # explicit own-run capability, not inherited private capture-table rights.
+ assert cur.execute("select has_schema_privilege('postgres','cp7_reminder_native','USAGE')and "
+  "has_function_privilege('postgres','cp7_reminder_native.staged_authority(uuid,text[])','EXECUTE')").fetchone()[0]
  for column in('id','target_key','cutting_group_id','recorded_at','xmin'):
   assert cur.execute("select has_column_privilege('cp7_capture','cp7_plan_native.intents',%s,'SELECT')",(column,)).fetchone()[0],column
  for column in('actor','core_hash','request_id','draft_id'):

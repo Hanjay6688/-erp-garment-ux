@@ -1,14 +1,17 @@
 -- OW-01: one coherent current observation, not an authorization to buy.
 -- No ERP mutation privilege is given to the capture/reminder roles.
+grant usage on schema cp7_reminder_native to postgres;
+grant execute on function cp7_reminder_native.staged_authority(uuid,text[])to postgres;
 create function cp7_reminder_native.accessory_category_locks(p_run uuid,p_target text)returns void
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
-declare j uuid;root uuid;
+declare authority jsonb;root uuid;
 begin
- perform cp7_schedule_native.access_now(false);
  if p_target!~'^[0-9a-f-]{36}:[0-9a-f-]{36}$'then raise exception 'CP7_REMINDER_V2_PAYLOAD';end if;
- select x.id into j from cp7_analysis_stage.jobs x where x.run_id=p_run and x.actor=auth.uid()and x.state='DONE';
- perform cp7_analysis_stage.require_kept(j);
- if j is null or(select count(*)from cp7_analysis_stage.plan_targets t where t.job_id=j and t.target_key=p_target)<>1 then
+ -- The NON-superuser postgres owner receives this capability, never broad
+ -- membership/SELECT on private captured analysis tables.
+ authority:=cp7_reminder_native.staged_authority(p_run,array[p_target]);
+ if authority->>'run_id'is distinct from p_run::text or authority->>'actor'is distinct from auth.uid()::text
+  or authority->'targets_present'is distinct from jsonb_build_array(p_target)or authority->>'job_id'is null then
   raise exception using errcode='42501',message='CP7_REMINDER_V2_CONDITION_UNAVAILABLE';end if;
  root:=split_part(p_target,':',1)::uuid;
  -- Include future versions: a category wait can cross an effective boundary.

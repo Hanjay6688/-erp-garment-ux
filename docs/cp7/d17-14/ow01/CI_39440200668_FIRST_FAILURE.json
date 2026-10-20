@@ -1,0 +1,23 @@
+{
+  "classification": "FIRST_CANDIDATE_FAILURE_RETAINED",
+  "candidate": "754f387a04a6b81a8b750db24184444a41bec9df",
+  "tree": "cbeb54911ec98e63c2507ad0e07453b151be161d",
+  "run_id": 39440200668,
+  "job_id": 118687701608,
+  "run_attempt": 1,
+  "phase": "installed package verification before declared cases",
+  "original_summary": {
+    "label": "CP7_WA_FORWARD",
+    "status": "INCOMPLETE",
+    "source_sha256": "70fc5a49aa744d7c08121121fdcc75f1b9fa5329e46833fb498cf9236abe0cbf",
+    "observed_case_count": 0,
+    "cp6_restored": true,
+    "advisor_gate": false,
+    "error": "",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 309, in run\n    conn.commit();installed=True;checker(cur);conn.rollback()\n                                 ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 131, in checker\n    def checker(cur):verify(cur);candidate.verify(cur)\n                                 ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_alert_bundle.py\", line 79, in verify\n    previous.verify(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_reminder_v2_bundle.py\", line 42, in verify\n    assert cur.execute(\"select has_schema_privilege('postgres','cp7_analysis_stage','USAGE')and has_schema_privilege('postgres','cp7_schedule_native','USAGE')and \"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+  },
+  "observed": "Composite postgres private-dependency assertion is false; no individual missing privilege is identified by that assertion.",
+  "disposition": "Replace direct private-table/schema dependencies in postgres category-lock helper with explicitly granted own-run staged_authority capability. Keep all 77 cases and non-superuser public execution checks.",
+  "corrected_runtime": "PENDING",
+  "production_go": false
+}
