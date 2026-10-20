@@ -1,0 +1,129 @@
+{
+  "classification": "FRESH_BROWSER_QUALIFICATION_INPUT_FORMAT_FAILURE_AFTER_AUTH_BEFORE_SETTLEMENT",
+  "candidate": "6d9c58e1ae95d18225054da7b8b71c2efce39822",
+  "tree": "ee7cc59dd0e4f4381a9deda7b062389bc25060a9",
+  "run_id": 39503792170,
+  "job_id": 118907533136,
+  "counts": {
+    "INCOMPLETE": 4,
+    "PASS": 0
+  },
+  "cases": [
+    {
+      "group": "AUDITOR_BROWSER_CP7_OW04_SETTLEMENT_BROWSER",
+      "case": "OW04_BROWSER_CREDIT_LOST_REPLY_DESKTOP",
+      "status": "INCOMPLETE",
+      "error": "locator.fill: Error: Malformed value\nCall log:\n  - waiting for getByRole('region', { name: 'Retur fisik invoice', exact: true }).getByLabel('Waktu retur pelanggan WIB', { exact: true })\n    - locator resolved to <input value=\"\" type=\"datetime-local\" aria-label=\"Waktu retur pelanggan WIB\"/>\n    - fill(\"2026-10-20T10:00:00\")\n  - attempting fill action\n    - waiting for element to be visible, enabled and editable\n\n    at journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow04-qualification/browser_cases.mjs:117:70)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_OW04_SETTLEMENT_BROWSER",
+      "case": "OW04_BROWSER_REFUND_MOBILE",
+      "status": "INCOMPLETE",
+      "error": "locator.fill: Error: Malformed value\nCall log:\n  - waiting for getByRole('region', { name: 'Retur fisik invoice', exact: true }).getByLabel('Waktu retur pelanggan WIB', { exact: true })\n    - locator resolved to <input value=\"\" type=\"datetime-local\" aria-label=\"Waktu retur pelanggan WIB\"/>\n    - fill(\"2026-10-20T10:00:00\")\n  - attempting fill action\n    - waiting for element to be visible, enabled and editable\n\n    at journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow04-qualification/browser_cases.mjs:117:70)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_OW04_SETTLEMENT_BROWSER",
+      "case": "OW04_BROWSER_QUOTE_EDIT_FENCE",
+      "status": "INCOMPLETE",
+      "error": "locator.fill: Error: Malformed value\nCall log:\n  - waiting for getByRole('region', { name: 'Retur fisik invoice', exact: true }).getByLabel('Waktu retur pelanggan WIB', { exact: true })\n    - locator resolved to <input value=\"\" type=\"datetime-local\" aria-label=\"Waktu retur pelanggan WIB\"/>\n    - fill(\"2026-10-20T10:00:00\")\n  - attempting fill action\n    - waiting for element to be visible, enabled and editable\n\n    at journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow04-qualification/browser_cases.mjs:117:70)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_OW04_SETTLEMENT_BROWSER",
+      "case": "OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK",
+      "status": "INCOMPLETE",
+      "error": "locator.fill: Error: Malformed value\nCall log:\n  - waiting for getByRole('region', { name: 'Retur fisik invoice', exact: true }).getByLabel('Waktu retur pelanggan WIB', { exact: true })\n    - locator resolved to <input value=\"\" type=\"datetime-local\" aria-label=\"Waktu retur pelanggan WIB\"/>\n    - fill(\"2026-10-20T10:00:00\")\n  - attempting fill action\n    - waiting for element to be visible, enabled and editable\n\n    at journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow04-qualification/browser_cases.mjs:117:70)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    }
+  ],
+  "summary": {
+    "label": "CP7_OW04_BROWSER",
+    "status": "INCOMPLETE",
+    "candidate_commit": "6d9c58e1ae95d18225054da7b8b71c2efce39822",
+    "expected_case_count": 4,
+    "observed_case_count": 4,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "error": "OW04_BROWSER_ACTUAL_ENTENG_HOST_PROOF_REQUIRED",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/ow04-qualification/browser_probe.py\", line 53, in run\n    assert final and final.get('ui_mode')=='ENTENG'and final.get('enteng_requests_answered_by_loopback',0)>0 \\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: OW04_BROWSER_ACTUAL_ENTENG_HOST_PROOF_REQUIRED\n",
+    "restore_error": null
+  },
+  "host": {
+    "group": "AUDITOR_BROWSER_CP7_OW04_SETTLEMENT_BROWSER",
+    "planned": [
+      "OW04_BROWSER_CREDIT_LOST_REPLY_DESKTOP",
+      "OW04_BROWSER_REFUND_MOBILE",
+      "OW04_BROWSER_QUOTE_EDIT_FENCE",
+      "OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK"
+    ],
+    "final": {
+      "OW04_BROWSER_CREDIT_LOST_REPLY_DESKTOP": "INCOMPLETE",
+      "OW04_BROWSER_REFUND_MOBILE": "INCOMPLETE",
+      "OW04_BROWSER_QUOTE_EDIT_FENCE": "INCOMPLETE",
+      "OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK": "INCOMPLETE"
+    },
+    "status": "RUN_COMPLETE",
+    "console_errors": 0,
+    "users_created": 4,
+    "auth_cleanup_failures": [],
+    "enteng_requests_answered_by_loopback": 44,
+    "enteng_route_errors": []
+  },
+  "packages": [
+    {
+      "status": "ALL_STAGES_INSTALLED",
+      "gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "writer_runtime": {
+        "status": "INCOMPLETE",
+        "production_go": false,
+        "independent_acceptance": false,
+        "feature_complete": false,
+        "schema_profile": "HOSTED_USAGE_UNCHANGED"
+      },
+      "primary_unchanged": true
+    }
+  ],
+  "runtime": {
+    "path": "CI_6D9C_BROWSER_SECOND_RUNTIME.log.gz",
+    "bytes": 271083,
+    "gzip_bytes": 40560,
+    "raw_sha256": "023c46c8448205c7a4057842cf3124c2c8ae1d930a2f3ba961f3ee2bcb69881e",
+    "gzip_sha256": "9fb3da894550a48534095b3e08f482682340b0245963efdee636d1341d2b4db3"
+  },
+  "diagnosis": {
+    "classification": "WRITER_QUALIFICATION_DATETIME_LOCAL_INPUT_FORMAT",
+    "source": "Playwright locator.fill rejects the fixture input with seconds; retained cp6WibDateTimeInput emits minute precision",
+    "repair": "Emit YYYY-MM-DDTHH:mm for new zero-second return/refund input only; wire timestamps, goldens and assertions unchanged",
+    "browser_transactions_executed": 0,
+    "Auth_users_created": 4,
+    "expected_changed": false,
+    "product_changed": false
+  },
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false
+}

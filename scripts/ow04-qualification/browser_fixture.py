@@ -67,8 +67,8 @@ def main():
         payload=json.dumps(encoded(f),separators=(',',':')).encode()
         with(OUT/(key+'.json')).open('xb')as stream:stream.write(payload)
         out=dict(fixture=key,mode=mode,invoice=detail,query=f['query'],credit=f['master'],
-          destination_name=destination,sku=sku,return_local=physical.isoformat()[:19],
-          refund_local=physical.replace(hour=13).isoformat()[:19]if mode=='REFUND'else None,
+          destination_name=destination,sku=sku,return_local=physical.isoformat()[:16],
+          refund_local=physical.replace(hour=13).isoformat()[:16]if mode=='REFUND'else None,
           original_paid=f['gold']['paid'],credit_amount=f['gold']['current_credit_amount'],
           return_pair=[f['x']['dates'][d]for d in f['gold']['return_pair']],
           refund_pair=[f['x']['dates'][d]for d in f['gold']['refund_pair']]if mode=='REFUND'else None,
