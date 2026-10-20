@@ -8,12 +8,14 @@
     "D17-7",
     "D17-8",
     "D17-9",
-    "D17-10"
+    "D17-10",
+    "D17-11",
+    "D17-12"
   ],
   "design": "docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md",
-  "expected_case_count": 57,
+  "expected_case_count": 58,
   "required_case_counts": {
-    "native": 40,
+    "native": 41,
     "races": 6,
     "http": 4,
     "browser": 7
@@ -58,8 +60,9 @@
       "SS2_NO_LEAD_TIME_NEVER_GUESSES",
       "SS3_ACCESSORY_USAGE_SHOWN_NO_FORMULA",
       "SS3_SERVICE_ZONES_NOT_FREE_STOCK",
-      "SS3_ACCESSORY_MANUAL_MINIMUM_ONLY_ZERO_NEVER",
-      "SS3_MATERIAL_SOURCE_AND_ACCESS"
+      "SS3_ACCESSORY_MANUAL_MINIMUM_ZERO_NEVER",
+      "SS3_MATERIAL_SOURCE_AND_ACCESS",
+      "SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE"
     ],
     "races": [
       "WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE",
@@ -146,10 +149,11 @@
       "accessory_use": "CONTRACTOR_ISSUE (nota mandor) and INTERNAL_USE, less a nota credited back usable (BC_NOTE_RETURN_CREDIT outside the service zones)",
       "fabric_stock": "every location; on order: remaining opening purchase commitments (erp.bb_commitment_line_remaining_v1)",
       "accessory_stock": "active raw-material warehouses that are not a service zone (what Bahan & Roll shows on hand); no on-order source",
-      "lead_time": "fabric only: per-fabric setting lama kirim (Owner/Admin); empty: NOT_ENOUGH_DATA; refused for an accessory (D17-10)",
-      "manual": "fabric: the Kain & Benchmark minimum replaces the formula and keeps the Ringkasan Gudang rule (free stock strictly under); accessory (D17-10): only a manual minimum, no formula; empty NOT_SET (no reminder), 0 = never; stock <= minimum rings",
+      "lead_time": "per-material setting lama kirim (Owner/Admin); fabric: empty NOT_ENOUGH_DATA; accessory: one of the owner estimate numbers (D17-12)",
+      "manual": "fabric: the Kain & Benchmark minimum replaces the formula and keeps the Ringkasan Gudang rule (free stock strictly under); accessory (D17-10/D17-12): no formula; a typed minimum (0 = never), else the minimum worked out from the owner numbers (ESTIMATE = ceil 0.01 of usage_month_qty / 30 x (lead_days + buffer_days); MOQ kept for the order), else NOT_SET (no reminder); stock <= minimum rings",
       "rounding": "ceiling to 0.01 in the material unit (fabric formula)",
-      "one_fabric_reminder": "D17-10: fabrics on the formula (stock + on order <= point) are rows of FABRIC_BELOW_MINIMUM \"Stok kain di bawah minimum\" next to the fabrics under their minimum (cp7_alert_native.fabric_kind_source); Ringkasan Gudang lists the minimums only"
+      "one_fabric_reminder": "D17-10: fabrics on the formula (stock + on order <= point) are rows of FABRIC_BELOW_MINIMUM \"Stok kain di bawah minimum\" next to the fabrics under their minimum (cp7_alert_native.fabric_kind_source); Ringkasan Gudang lists the minimums only",
+      "estimate_oracle": "scripts/cp7_stock_formula_cases.py estimate_oracle(), exact decimals"
     }
   }
 }

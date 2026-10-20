@@ -65,7 +65,7 @@ IDS = dict(
 )
 REQUIRED = {key: len(value) for key, value in IDS.items()}
 EXPECTED = sum(REQUIRED.values())
-DECLARED = 57
+DECLARED = 58
 CONTRACT = 'cp7.wa.forward.v1'
 FUNCTIONS = ('erp_cp7_get_alerts_v1', 'erp_cp7_get_wa_settings_v1', 'erp_cp7_save_wa_settings_v1', 'erp_cp7_set_wa_key_v1',
              'erp_cp7_send_wa_test_v1', 'erp_cp7_resolve_wa_dispatch_v1',
@@ -997,14 +997,16 @@ def cases(cur, today):
         admin = master.role_actor(cur, 'ADMIN')
         a = formula.accessory(cur, today, 280)
         formula.accessory_days(cur, a, today, formula.SPARSE)
-        assert refusal(cur, lambda: formula.save_material(cur, admin, a['material'], lead=5, manual='250'))[1] == 'CP7_FORMULA_MATERIAL_INVALID'
-        formula.save_material(cur, admin, a['material'], manual='250', reason='SS-3 batas minimum')
+        # D17-12: the minimum worked out from the owner's numbers: 300 a month, 20 days to arrive, 5 days buffer -> 250.
+        formula.save_material(cur, admin, a['material'], lead=20, estimate=dict(moq='5000', usage_month_qty='300', buffer_days='5'),
+                              reason='SS-3 isian hitung minimum')
+        assert formula.estimate_oracle(300, 20, 5) == 250
         out = tick(cur, 'collect_tick')
         assert out['kinds']['ACCESSORY_AT_REORDER_POINT'].get('error') is None and out['kinds']['ACCESSORY_AT_REORDER_POINT']['opened'] >= 1, out
         item = alert_item(cur, 'ACCESSORY_AT_REORDER_POINT', a['material'])
         d0 = alerts(cur, 'ACCESSORY_AT_REORDER_POINT')[a['material']]['detail']
-        assert (D(d0['free_qty']), D(d0['reorder_point_qty']), d0['basis'], d0['safety_qty'], d0['service_level'], d0['lead_days']) == (
-            180, 250, 'MANUAL', None, None, None), d0
+        assert (D(d0['free_qty']), D(d0['reorder_point_qty']), d0['basis'], d0['safety_qty'], d0['service_level'], D(d0['lead_days'])) == (
+            180, 250, 'ESTIMATE', None, None, 20), d0
         before = last_request(cur)
         sent = tick(cur, 'send_tick')
         assert sent['outcome'] == 'SENT', sent
@@ -1027,7 +1029,8 @@ def cases(cur, today):
         out2 = tick(cur, 'send_tick')
         x = outbox(cur, item2)[0]
         assert (x['state'], x['reason'], x['dispatch']) == ('RESOLVED_BEFORE_SEND', 'NO_REORDER_POINT', None), (x, out2)
-        return dict(status='PASS', line=line, lead_time_refused=True, staff_without_accessory_view_sees_none=True, manual_zero_before_send=x['reason'])
+        return dict(status='PASS', line=line, minimum_from_owner_estimate='250', staff_without_accessory_view_sees_none=True,
+                    manual_zero_before_send=x['reason'])
 
     named = [waits_for_owner, fabric_equals_summary, ar_ap_sources, owner_reminders_only, send_one_request, rollback_nothing, resolved_before_send,
              answers, pacing_burst_quiet_digest_repeat, off_or_no_key, key_write_only, privacy_permissions, ticks_private, analysis_gap,
@@ -1405,8 +1408,11 @@ def http_cases(http, today):
         assert a1['status'] == 200 and (a1['body']['evaluation']['basis'], a1['body']['evaluation']['state']) == ('MANUAL', 'NO_POINT'), a1
         bad = save(admin, dict(material_id=m['material'], expected_revision=1, lead_days='6', manual_point='10', reason='SS-2 HTTP manual kain'))
         assert bad['status'] >= 400 and 'CP7_FORMULA_MATERIAL_INVALID' in json.dumps(bad['body']), bad
-        bad = save(admin, dict(material_id=a['material'], expected_revision=1, lead_days='5', manual_point='10', reason='SS-3 HTTP lama kirim aksesori'))
+        bad = save(admin, dict(material_id=m['material'], expected_revision=1, lead_days='6', manual_point=None, moq='100', reason='SS-2 HTTP MOQ kain'))
         assert bad['status'] >= 400 and 'CP7_FORMULA_MATERIAL_INVALID' in json.dumps(bad['body']), bad
+        a2 = save(admin, dict(material_id=a['material'], expected_revision=1, lead_days='20', manual_point=None, moq='5000', usage_month_qty='300',
+                              buffer_days='5', reason='SS-3 HTTP isian hitung minimum'))
+        assert a2['status'] == 200 and (a2['body']['evaluation']['basis'], D(str(a2['body']['evaluation']['point']))) == ('ESTIMATE', 250), a2
         staff = http.login('GUDANG', 'ss2-staff')
         with http.connect() as conn, conn.cursor() as cur:
             b.api.admin(cur)
@@ -1416,7 +1422,7 @@ def http_cases(http, today):
             read = staff.rpc('erp_cp7_get_material_reorder_v1', dict(p_query=dict(material_type=kind)))
             sees = needs <= keys
             assert (read['status'] == 200) == sees and (sees or 'CP7_FORMULA_ACCESS_DENIED' in json.dumps(read['body'])), (kind, read)
-        x = save(staff, dict(material_id=a['material'], expected_revision=1, lead_days=None, manual_point='5', reason='staff'))
+        x = save(staff, dict(material_id=a['material'], expected_revision=2, lead_days=None, manual_point='5', reason='staff'))
         assert x['status'] >= 400 and 'CP7_FORMULA_ACCESS_DENIED' in json.dumps(x['body']), x
         for name, args in (('erp_cp7_get_material_reorder_v1', dict(p_query=dict(material_type='FABRIC'))),
                            ('erp_cp7_refresh_material_reorder_v1', dict(p_material_type='FABRIC')),
@@ -1425,7 +1431,7 @@ def http_cases(http, today):
         for name in ('compute_materials', 'material_source', 'save_material', 'material_workspace'):
             assert staff.rpc(name, {})['status'] >= 400, name
         return dict(status='PASS', real_Auth=True, owner_reads_and_refreshes=True, admin_lead_time=True, accessory_manual_zero=True,
-                    fabric_manual_refused=True, accessory_lead_time_refused=True, staff_reads_by_permission=sorted(keys & {'warehouse.material.view', 'master.fabric.view',
+                    fabric_manual_refused=True, fabric_moq_refused=True, accessory_estimate='250', staff_reads_by_permission=sorted(keys & {'warehouse.material.view', 'master.fabric.view',
                                                                                          'warehouse.accessory.view'}),
                     staff_cannot_change=True, anon_refused=True)
 

@@ -137,8 +137,8 @@ NATIVE_IDS = ['SS1_FORMULA_FROM_POSTED_SALES', 'SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_D
               'SS1_VOLUME_2000_ITEMS_EVERY_MINUTE']
 MATERIAL_IDS = ['SS2_FABRIC_FORMULA_FROM_CUTTING_USE', 'SS2_FABRIC_OUT_OF_STOCK_DAYS_NOT_ZERO_USE', 'SS2_FABRIC_REVERSED_ISSUE_NOT_USE',
                 'SS2_FABRIC_MINIMUM_STAYS_BELOW_MINIMUM', 'SS2_FABRIC_ON_ORDER_COUNTS_TOWARD_POSITION', 'SS2_NO_LEAD_TIME_NEVER_GUESSES',
-                'SS3_ACCESSORY_USAGE_SHOWN_NO_FORMULA', 'SS3_SERVICE_ZONES_NOT_FREE_STOCK', 'SS3_ACCESSORY_MANUAL_MINIMUM_ONLY_ZERO_NEVER',
-                'SS3_MATERIAL_SOURCE_AND_ACCESS']
+                'SS3_ACCESSORY_USAGE_SHOWN_NO_FORMULA', 'SS3_SERVICE_ZONES_NOT_FREE_STOCK', 'SS3_ACCESSORY_MANUAL_MINIMUM_ZERO_NEVER',
+                'SS3_MATERIAL_SOURCE_AND_ACCESS', 'SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE']
 NATIVE_IDS = NATIVE_IDS + MATERIAL_IDS
 VOLUME_LIMIT_MS = 3000
 PATTERN = [3, 5, 0, 4, 6, 2, 5, 3, 7, 4, 0, 5, 6, 3, 4, 5, 2, 6, 4, 3, 5, 0, 4, 6, 3, 5, 4, 2, 6, 5]
@@ -390,12 +390,22 @@ def credit_back(cur, a, item, qty, day, condition='USABLE'):
     return lot
 
 
-def save_material(cur, subject, material, lead=None, manual=None, reason='SS-2 lama kirim', request=None, expected=None):
+def save_material(cur, subject, material, lead=None, manual=None, reason='SS-2 lama kirim', request=None, expected=None, estimate=None):
+    """estimate (D17-12, accessories): dict of moq, usage_month_qty, buffer_days; the keys are sent only when given."""
     rev = expected if expected is not None else one(cur, 'select coalesce(max(revision),0) from cp7_stock_formula.material_settings where material_id=%s',
                                                     (material,))
-    return as_actor(cur, subject, 'select public.erp_cp7_save_material_reorder_v1(%s::jsonb,%s)', (json.dumps(dict(
-        material_id=material, expected_revision=rev, lead_days=None if lead is None else str(lead),
-        manual_point=None if manual is None else str(manual), reason=reason)), request or str(uuid.uuid4())))
+    payload = dict(material_id=material, expected_revision=rev, lead_days=None if lead is None else str(lead),
+                   manual_point=None if manual is None else str(manual), reason=reason)
+    payload.update({k: None if v is None else str(v) for k, v in (estimate or {}).items()})
+    return as_actor(cur, subject, 'select public.erp_cp7_save_material_reorder_v1(%s::jsonb,%s)', (json.dumps(payload), request or str(uuid.uuid4())))
+
+
+def estimate_oracle(usage_month, lead, buffer):
+    """D17-12: the accessory minimum from the owner's own numbers, ceiling to 0.01, exact decimals."""
+    with localcontext() as ctx:
+        ctx.prec = 40
+        raw = D(str(usage_month)) / 30 * (D(str(lead)) + D(str(buffer)))
+        return ((raw * 100).to_integral_value(rounding=ROUND_CEILING) / 100).quantize(D('0.01'))
 
 
 def material_evaluation(cur, material):
@@ -817,14 +827,15 @@ def material_cases(cur, today):
         return dict(status='PASS', no_lead_time='NOT_ENOUGH_DATA', fewer_than_14_counted=ol['counted'], no_use='NO_USAGE', lead_saved_then_formula=True)
 
     # Owner D17-10: accessories have no formula. The usage is still measured (shown to help choose the minimum); without a
-    # manual minimum there is no point and no reminder, and a lead time for an accessory is refused.
+    # minimum (typed, or worked out from the owner's numbers, D17-12) there is no point and no reminder; a lead time alone is
+    # not enough.
     def accessory_usage():
         a = accessory(cur, today, 270)
         notes = accessory_days(cur, a, today, MAT_PATTERN)
         credit_back(cur, a, notes[2][1], 4, day(3))
         pattern = [q - (4 if i == 3 else 0) for i, q in enumerate(MAT_PATTERN)]
         admin, owner = master.role_actor(cur, 'ADMIN'), master.role_actor(cur, 'OWNER')
-        assert refused(cur, lambda: save_material(cur, admin, a['material'], lead=5))[1] == 'CP7_FORMULA_MATERIAL_INVALID'
+        save_material(cur, admin, a['material'], lead=5, reason='SS-3 lama kirim saja')
         before = business(cur)
         compute(cur)
         assert business(cur) == before, 'SS3_COMPUTE_WROTE_BUSINESS'
@@ -832,8 +843,8 @@ def material_cases(cur, today):
         o = material_oracle(270, pattern, 1)
         kinds = dict(cur.execute("select movement_type||coalesce(':'||source_type,''),count(*) from erp.material_stock_movements where material_id=%s "
                                  "and movement_type in('CONTRACTOR_ISSUE','INTERNAL_USE','ADJUSTMENT') group by 1", (a['material'],)).fetchall())
-        assert (e['basis'], e['reason'], e['point'], e['formula_point'], e['safety_qty'], e['lead_days'], e['state']) == (
-            'NOT_SET', 'NO_MANUAL_MINIMUM', None, None, None, None, 'NO_POINT'), e
+        assert (e['basis'], e['reason'], e['point'], e['formula_point'], e['estimate_point'], e['safety_qty'], D(str(e['lead_days'])), e['state']) == (
+            'NOT_SET', 'NO_MINIMUM_OR_ESTIMATE', None, None, None, None, 5, 'NO_POINT'), e
         assert D(str(e['free_qty'])) == o['free'] == 50 and D(str(e['usage_qty'])) == 220 and e['counted_days'] == o['counted'] == 30, (e, o)
         assert D(str(e['daily_mean'])) == o['mean'].quantize(D('0.0001'), rounding=ROUND_HALF_UP), (e['daily_mean'], o['mean'])
         assert kinds == {'CONTRACTOR_ISSUE:CONTRACTOR_MATERIAL_ISSUE_ITEM': 10, 'INTERNAL_USE:MATERIAL_ADJUSTMENT_ITEM': 12,
@@ -843,7 +854,7 @@ def material_cases(cur, today):
         w = material_workspace(cur, admin, material_type='ACCESSORY', filter='NOT_SET', q=a['sku'])
         assert [r['material_id'] for r in w['page']['rows']] == [a['material']] and w['counts']['formula'] == 0, w
         return dict(status='PASS', basis='NOT_SET', free='50', usage='220 (224 used, 4 credited back usable)', daily_mean=str(e['daily_mean']),
-                    lead_time_refused=True, no_reminder_without_minimum=True, movements=kinds)
+                    lead_time_alone_no_point=True, no_reminder_without_minimum=True, movements=kinds)
 
     def service_zones():
         a = accessory(cur, today, 300)
@@ -874,7 +885,7 @@ def material_cases(cur, today):
         assert material_oracle(280, SPARSE, 1)['free'] == 180
         steps = []
         # Stock 180: a minimum of 80 is above, 180 (equal) and 250 ring, 0 never rings, clearing it leaves no minimum (D17-10:
-        # no formula to fall back to).
+        # no formula to fall back to; no estimate entered here).
         for manual, expect in (('80', ('MANUAL', D(80), 'ABOVE')), ('180', ('MANUAL', D(180), 'AT_OR_BELOW')),
                                ('250', ('MANUAL', D(250), 'AT_OR_BELOW')), ('0', ('MANUAL', D(0), 'NO_POINT')), (None, ('NOT_SET', None, 'NO_POINT'))):
             r = save_material(cur, admin, a['material'], manual=manual, reason='SS-3 batas minimum')
@@ -887,12 +898,10 @@ def material_cases(cur, today):
             if expect[2] == 'NO_POINT':
                 assert src['states'].get(a['material']) == 'NO_REORDER_POINT', src['states']
             steps.append(dict(manual=manual, basis=got[0], point=None if got[1] is None else str(got[1]), state=got[2]))
-        assert refused(cur, lambda: save_material(cur, admin, a['material'], lead=5, manual='250'))[1] == 'CP7_FORMULA_MATERIAL_INVALID'
         assert one(cur, 'select max(revision) from cp7_stock_formula.material_settings where material_id=%s', (a['material'],)) == 5
         code = refused(cur, lambda: cur.execute("update cp7_stock_formula.material_settings set reason='x' where material_id=%s", (a['material'],)))
         assert code[0] == 'P0001' or 'APPEND' in code[1].upper(), code
-        return dict(status='PASS', steps=steps, equal_rings=True, zero_means_never=True, cleared_means_no_minimum=True, lead_time_refused=True,
-                    history_append_only=True)
+        return dict(status='PASS', steps=steps, equal_rings=True, zero_means_never=True, cleared_means_no_minimum=True, history_append_only=True)
 
     def source_and_access():
         fm = fabric(cur, 130, stock_day)
@@ -940,7 +949,47 @@ def material_cases(cur, today):
         return dict(status='PASS', alert_rows_exact=True, fabric_needs_material_and_fabric_view=True, accessory_view_separate=True,
                     viewer_cannot_change=True, stale_reused_invalid_unknown_refused=True, resolved_when_stock_back=True)
 
+    # Owner D17-12: the accessory minimum worked out in the app from the owner's own numbers (MOQ, monthly use, lead time,
+    # buffer), checked against estimate_oracle(); a typed minimum wins; a missing number leaves no minimum.
+    def accessory_estimate():
+        a = accessory(cur, today, 280)
+        accessory_days(cur, a, today, SPARSE)
+        admin, owner = master.role_actor(cur, 'ADMIN'), master.role_actor(cur, 'OWNER')
+        est = dict(moq='10000', usage_month_qty='1000', buffer_days='7')
+        r = save_material(cur, admin, a['material'], lead=21, estimate=est, reason='SS-3 isian hitung minimum')
+        e = r['evaluation']
+        point = estimate_oracle(1000, 21, 7)
+        assert point == D('933.34'), point
+        assert (e['basis'], D(str(e['point'])), D(str(e['estimate_point'])), D(str(e['moq'])), D(str(e['usage_month_qty'])), D(str(e['buffer_days'])),
+                D(str(e['lead_days'])), e['manual_point'], e['formula_point'], e['safety_qty'], e['state']) == (
+            'ESTIMATE', point, point, 10000, 1000, 7, 21, None, None, None, 'AT_OR_BELOW'), e
+        src = material_source(cur, owner, 'ACCESSORY')
+        mine = [x for x in src['rows'] if x['subject_key'] == a['material']]
+        assert len(mine) == 1 and mine[0]['title'] == 'Stok aksesori menipis: ' + a['name'], src
+        d = mine[0]['detail']
+        assert (D(d['reorder_point_qty']), d['basis'], D(d['lead_days']), d['safety_qty'], d['service_level'], D(d['free_qty'])) == (
+            point, 'ESTIMATE', 21, None, None, 180), d
+        steps = []
+        for manual, more, expect in ((None, dict(buffer_days='0'), ('ESTIMATE', estimate_oracle(1000, 21, 0), 'AT_OR_BELOW')),
+                                     ('100', {}, ('MANUAL', D(100), 'ABOVE')), (None, {}, ('ESTIMATE', estimate_oracle(1000, 21, 0), 'AT_OR_BELOW')),
+                                     (None, dict(usage_month_qty=None), ('NOT_SET', None, 'NO_POINT'))):
+            est = {**est, **more}
+            e = save_material(cur, admin, a['material'], lead=21, manual=manual, estimate=est, reason='SS-3 isian hitung minimum')['evaluation']
+            got = (e['basis'], None if e['point'] is None else D(str(e['point'])), e['state'])
+            assert got == expect, (manual, more, got, expect, e)
+            steps.append(dict(manual=manual, changed=more, basis=got[0], point=None if got[1] is None else str(got[1]), state=got[2]))
+        assert estimate_oracle(1000, 21, 0) == D('700.00')
+        w = material_workspace(cur, admin, material_type='ACCESSORY', filter='NOT_SET', q=a['sku'])
+        assert [r['material_id'] for r in w['page']['rows']] == [a['material']], w
+        fm = fabric(cur, 130, stock_day)
+        for bad in (dict(moq='100'), dict(usage_month_qty='100'), dict(buffer_days='3')):
+            assert refused(cur, lambda: save_material(cur, admin, fm['material'], lead=6, estimate=bad))[1] == 'CP7_FORMULA_MATERIAL_INVALID', bad
+        for bad in (dict(moq='0'), dict(usage_month_qty='0'), dict(buffer_days='366'), dict(buffer_days='-1')):
+            assert refused(cur, lambda: save_material(cur, admin, a['material'], lead=21, estimate=bad))[1] == 'CP7_FORMULA_MATERIAL_INVALID', bad
+        return dict(status='PASS', minimum=str(point), rule='perkiraan per bulan / 30 x (lama kirim + cadangan), ke atas 0,01', steps=steps,
+                    typed_minimum_wins=True, missing_number_no_minimum=True, fabric_refuses_estimate=True, invalid_refused=True)
+
     named = [fabric_formula, fabric_out_of_stock, fabric_reversed, fabric_minimum, fabric_on_order, no_lead_time,
-             accessory_usage, service_zones, accessory_manual, source_and_access]
+             accessory_usage, service_zones, accessory_manual, source_and_access, accessory_estimate]
     assert len(named) == len(MATERIAL_IDS)
     return list(zip(MATERIAL_IDS, named))

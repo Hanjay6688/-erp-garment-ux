@@ -1,7 +1,9 @@
 -- SS-2 and SS-3 (owner D17-9, 20 Oct 2026): the reorder point of each fabric, with the same formula as the finished goods
 -- (formula.sql): ceil to 0.01 of (D x L + z(service level) x sigma x sqrt(L)), in the material's own unit. Owner D17-10:
--- accessories use no formula, only a minimum entered by hand ("aksesoris pake batas minimum manual aja"); their usage is
--- still measured and shown, to help choose that minimum.
+-- accessories use no formula, only a minimum set by hand ("aksesoris pake batas minimum manual aja"). Owner D17-12: the
+-- app works that minimum out from the owner's own numbers per accessory (perkiraan pemakaian per bulan, lama kirim,
+-- cadangan; MOQ kept for the order), ceil to 0.01 of usage_month / 30 x (lead + buffer) (basis ESTIMATE); a minimum typed
+-- directly wins. The usage the ERP measures is shown next to the estimate, never used by itself.
 -- * Usage per complete WIB day of the window (settings of formula.sql), posted movements only, a movement that has an
 --   inverse and the inverse itself not counted (the accepted STK01 rule of Bahan & Roll):
 --   FABRIC: issued to cutting (CUTTING_ISSUE) less returned from cutting (CUTTING_RETURN), factory use (INTERNAL_USE,
@@ -14,14 +16,15 @@
 --   active raw-material warehouses that are not a service zone (pos servis, area periksa, area rusak are SPECIAL_ZONE
 --   there, cp7_material.workspace). On order: FABRIC the remaining opening purchase commitments
 --   (erp.bb_commitment_line_remaining_v1, the fabric analysis' own source); ACCESSORY none (no commitment source).
--- * Lead time (fabric only): the supplier's delivery time is not recorded in the ERP (owner 20 Oct), so it is a per-fabric
---   setting "lama kirim (hari)" of Owner/Admin (material_settings); empty: no formula for that fabric (NOT_ENOUGH_DATA).
+-- * Lead time: the supplier's delivery time is not recorded in the ERP (owner 20 Oct), so it is a per-material setting
+--   "lama kirim (hari)" of Owner/Admin (material_settings); empty: no formula for that fabric (NOT_ENOUGH_DATA), no estimate
+--   for that accessory. MOQ, monthly use and buffer (D17-12) are accessory settings only.
 -- * A manual number: FABRIC the minimum of Kain & Benchmark (fabric_master_profiles, unchanged), which replaces the formula
---   and keeps the Ringkasan Gudang rule (free stock under the minimum); ACCESSORY the minimum here (manual_point, 0 = never;
---   empty = NOT_SET, no reminder).
+--   and keeps the Ringkasan Gudang rule (free stock under the minimum); ACCESSORY the minimum here (manual_point, 0 = never),
+--   which replaces the estimate; neither: NOT_SET, no reminder.
 -- * Alerts: the fabrics on the formula (stock + on order <= point) are rows of FABRIC_BELOW_MINIMUM "Stok kain di bawah
 --   minimum" next to the fabrics with a minimum (D17-10, cp7_alert_native.fabric_kind_source); ACCESSORY_AT_REORDER_POINT
---   "Stok aksesori menipis": stock <= the manual minimum.
+--   "Stok aksesori menipis": stock <= the minimum (typed or worked out from the owner's numbers).
 grant select(id,movement_type,reversal_of_id,source_type)on erp.material_stock_movements to cp7_capture;
 grant select(material_id,minimum_stock_qty)on erp.fabric_master_profiles to cp7_capture;
 grant select(location_id)on erp.bc_accessory_zones_v1 to cp7_capture;
@@ -30,6 +33,8 @@ create table cp7_stock_formula.material_settings(
  material_id uuid not null,revision integer not null check(revision>0),
  lead_days numeric(6,2)check(lead_days is null or(lead_days>0 and lead_days<=365)),
  manual_point numeric(18,4)check(manual_point is null or manual_point>=0),
+ moq numeric(18,4)check(moq is null or moq>0),usage_month_qty numeric(18,4)check(usage_month_qty is null or usage_month_qty>0),
+ buffer_days numeric(6,2)check(buffer_days is null or(buffer_days>=0 and buffer_days<=365)),
  reason text not null check(length(btrim(reason))between 1 and 500),actor uuid not null,request_id uuid not null unique,
  request_hash text not null check(request_hash~'^[0-9a-f]{64}$'),recorded_at timestamptz not null default clock_timestamp(),
  primary key(material_id,revision));
@@ -38,9 +43,10 @@ create table cp7_stock_formula.material_evaluations(
  unit_code text,free_qty numeric not null,on_order_qty numeric not null,usage_qty numeric not null,counted_days integer not null,
  use_days integer not null,daily_mean numeric,daily_sd numeric,lead_days numeric,setting_revision integer,z numeric not null,safety_qty numeric,
  formula_point numeric,manual_point numeric,manual_source text check(manual_source in('FABRIC_MINIMUM','ACCESSORY_MANUAL')),point numeric,
- basis text not null check(basis in('MANUAL','FORMULA','NOT_ENOUGH_DATA','NO_USAGE','NOT_SET')),reason text check(length(reason)<=80),
+ moq numeric,usage_month_qty numeric,buffer_days numeric,estimate_point numeric,
+ basis text not null check(basis in('MANUAL','FORMULA','ESTIMATE','NOT_ENOUGH_DATA','NO_USAGE','NOT_SET')),reason text check(length(reason)<=80),
  state text not null check(state in('AT_OR_BELOW','ABOVE','NO_POINT')),changed_at timestamptz not null,
- check((basis in('MANUAL','FORMULA'))=(point is not null)),check((manual_source is null)=(manual_point is null)));
+ check((basis in('MANUAL','FORMULA','ESTIMATE'))=(point is not null)),check((manual_source is null)=(manual_point is null)));
 do $$declare t text;begin
  foreach t in array array['material_settings','material_evaluations']loop
   execute format('alter table cp7_stock_formula.%I owner to cp7_capture',t);
@@ -100,12 +106,14 @@ begin
   cross join lateral(select erp.bb_commitment_line_remaining_v1(l.id,null)remaining)r
   where l.material_id in(select i.material_id from items i where i.material_type='FABRIC')and r.remaining>0 group by 1),
  setting as materialized(
-  select distinct on(x.material_id)x.material_id,x.revision,x.lead_days,x.manual_point from cp7_stock_formula.material_settings x
-  order by x.material_id,x.revision desc),
+  select distinct on(x.material_id)x.material_id,x.revision,x.lead_days,x.manual_point,x.moq,x.usage_month_qty,x.buffer_days
+  from cp7_stock_formula.material_settings x order by x.material_id,x.revision desc),
  calc as(
   select i.*,coalesce(b.free,0)free,case when i.material_type='FABRIC'then coalesce(o.qty,0)else 0 end on_order,coalesce(st.total,0)usage,
    coalesce(st.counted,0)counted,coalesce(st.use_days,0)use_days,st.mean,case when st.counted>=2 then st.sd end sd,
-   case when i.material_type='FABRIC'then s.lead_days end lead_days,s.revision setting_revision,
+   s.lead_days,s.revision setting_revision,
+   case when i.material_type='ACCESSORY'then s.moq end moq,case when i.material_type='ACCESSORY'then s.usage_month_qty end usage_month_qty,
+   case when i.material_type='ACCESSORY'then s.buffer_days end buffer_days,
    case when i.material_type='FABRIC'then nullif(fp.minimum_stock_qty,0)else s.manual_point end manual_point,
    case when i.material_type='FABRIC'and fp.minimum_stock_qty>0 then'FABRIC_MINIMUM'when i.material_type='ACCESSORY'and s.manual_point is not null
     then'ACCESSORY_MANUAL'end manual_source
@@ -114,35 +122,42 @@ begin
   left join erp.fabric_master_profiles fp on fp.material_id=i.material_id and i.material_type='FABRIC'),
  formula as(
   select c.*,case when c.material_type='FABRIC'and c.usage>0 and c.counted>=14 and c.lead_days is not null
-   then zv*coalesce(c.sd,0)*sqrt(c.lead_days)end safety from calc c),
+   then zv*coalesce(c.sd,0)*sqrt(c.lead_days)end safety,
+   case when c.material_type='ACCESSORY'and c.usage_month_qty is not null and c.lead_days is not null and c.buffer_days is not null
+   then ceil(c.usage_month_qty/30*(c.lead_days+c.buffer_days)*100)/100 end estimate_point from calc c),
  final as(
   select f.*,case when f.safety is not null then greatest(ceil((f.mean*f.lead_days+f.safety)*100)/100,0)end formula_point,
-   case when f.manual_source is not null then'MANUAL'when f.material_type='ACCESSORY'then'NOT_SET'when f.usage<=0 then'NO_USAGE'
-    when f.counted<14 or f.lead_days is null then'NOT_ENOUGH_DATA'else'FORMULA'end basis,
-   case when f.manual_source is not null then null when f.material_type='ACCESSORY'then'NO_MANUAL_MINIMUM'when f.usage<=0 then'NO_POSTED_USAGE_IN_WINDOW'
-    when f.counted<14 then'FEWER_THAN_14_COUNTED_DAYS'when f.lead_days is null then'NO_LEAD_TIME'end reason
+   case when f.manual_source is not null then'MANUAL'when f.estimate_point is not null then'ESTIMATE'when f.material_type='ACCESSORY'then'NOT_SET'
+    when f.usage<=0 then'NO_USAGE'when f.counted<14 or f.lead_days is null then'NOT_ENOUGH_DATA'else'FORMULA'end basis,
+   case when f.manual_source is not null or f.estimate_point is not null then null when f.material_type='ACCESSORY'then'NO_MINIMUM_OR_ESTIMATE'
+    when f.usage<=0 then'NO_POSTED_USAGE_IN_WINDOW'when f.counted<14 then'FEWER_THAN_14_COUNTED_DAYS'when f.lead_days is null then'NO_LEAD_TIME'end reason
   from formula f),
  scored as(
-  select x.*,case x.basis when'MANUAL'then x.manual_point when'FORMULA'then x.formula_point end point from final x),
+  select x.*,case x.basis when'MANUAL'then x.manual_point when'FORMULA'then x.formula_point when'ESTIMATE'then x.estimate_point end point from final x),
  stated as(
   select x.*,case when x.point is null or x.point<=0 then'NO_POINT'
    when x.manual_source='FABRIC_MINIMUM'then case when x.free<x.point then'AT_OR_BELOW'else'ABOVE'end
    when x.free+x.on_order<=x.point then'AT_OR_BELOW'else'ABOVE'end state from scored x),
  ins as(
   insert into cp7_stock_formula.material_evaluations as e(material_id,material_type,sku,name,unit_code,free_qty,on_order_qty,usage_qty,counted_days,
-   use_days,daily_mean,daily_sd,lead_days,setting_revision,z,safety_qty,formula_point,manual_point,manual_source,point,basis,reason,state,changed_at)
+   use_days,daily_mean,daily_sd,lead_days,setting_revision,z,safety_qty,formula_point,manual_point,manual_source,point,moq,usage_month_qty,buffer_days,
+   estimate_point,basis,reason,state,changed_at)
   select x.material_id,x.material_type,x.sku,x.name,x.unit_code,x.free,x.on_order,x.usage,x.counted,x.use_days,round(x.mean,4),round(x.sd,4),x.lead_days,
-   x.setting_revision,zv,round(x.safety,4),x.formula_point,x.manual_point,x.manual_source,x.point,x.basis,x.reason,x.state,p_at from stated x
+   x.setting_revision,zv,round(x.safety,4),x.formula_point,x.manual_point,x.manual_source,x.point,x.moq,x.usage_month_qty,x.buffer_days,x.estimate_point,
+   x.basis,x.reason,x.state,p_at from stated x
   on conflict(material_id)do update set material_type=excluded.material_type,sku=excluded.sku,name=excluded.name,unit_code=excluded.unit_code,
    free_qty=excluded.free_qty,on_order_qty=excluded.on_order_qty,usage_qty=excluded.usage_qty,counted_days=excluded.counted_days,use_days=excluded.use_days,
    daily_mean=excluded.daily_mean,daily_sd=excluded.daily_sd,lead_days=excluded.lead_days,setting_revision=excluded.setting_revision,z=excluded.z,
    safety_qty=excluded.safety_qty,formula_point=excluded.formula_point,manual_point=excluded.manual_point,manual_source=excluded.manual_source,
-   point=excluded.point,basis=excluded.basis,reason=excluded.reason,state=excluded.state,changed_at=p_at
+   point=excluded.point,moq=excluded.moq,usage_month_qty=excluded.usage_month_qty,buffer_days=excluded.buffer_days,estimate_point=excluded.estimate_point,
+   basis=excluded.basis,reason=excluded.reason,state=excluded.state,changed_at=p_at
   where(e.material_type,e.sku,e.name,e.unit_code,e.free_qty,e.on_order_qty,e.usage_qty,e.counted_days,e.use_days,e.daily_mean,e.daily_sd,e.lead_days,
-   e.setting_revision,e.z,e.safety_qty,e.formula_point,e.manual_point,e.manual_source,e.point,e.basis,e.reason,e.state)is distinct from(
+   e.setting_revision,e.z,e.safety_qty,e.formula_point,e.manual_point,e.manual_source,e.point,e.moq,e.usage_month_qty,e.buffer_days,e.estimate_point,
+   e.basis,e.reason,e.state)is distinct from(
    excluded.material_type,excluded.sku,excluded.name,excluded.unit_code,excluded.free_qty,excluded.on_order_qty,excluded.usage_qty,excluded.counted_days,
    excluded.use_days,excluded.daily_mean,excluded.daily_sd,excluded.lead_days,excluded.setting_revision,excluded.z,excluded.safety_qty,
-   excluded.formula_point,excluded.manual_point,excluded.manual_source,excluded.point,excluded.basis,excluded.reason,excluded.state)
+   excluded.formula_point,excluded.manual_point,excluded.manual_source,excluded.point,excluded.moq,excluded.usage_month_qty,excluded.buffer_days,
+   excluded.estimate_point,excluded.basis,excluded.reason,excluded.state)
   returning 1)
  delete from cp7_stock_formula.material_evaluations e where not exists(select 1 from items i where i.material_id=e.material_id);
  select count(*),count(*)filter(where state='AT_OR_BELOW')into n,low from cp7_stock_formula.material_evaluations;
@@ -239,7 +254,7 @@ begin
  if jsonb_typeof(p)is distinct from'object'or exists(select 1 from jsonb_object_keys(p)k where k not in('material_type','q','filter','offset','limit'))
   or jsonb_typeof(p->'material_type')is distinct from'string'
   or(p?'q'and jsonb_typeof(p->'q')<>'string')or(p?'filter'and(jsonb_typeof(p->'filter')<>'string'
-   or p->>'filter'not in('ALL','AT_OR_BELOW','MANUAL','NOT_ENOUGH_DATA','NOT_SET')))
+   or p->>'filter'not in('ALL','AT_OR_BELOW','MANUAL','ESTIMATE','NOT_ENOUGH_DATA','NOT_SET')))
   or(p?'offset'and(jsonb_typeof(p->'offset')<>'number'or(p->>'offset')!~'^[0-9]{1,7}$'))
   or(p?'limit'and(jsonb_typeof(p->'limit')<>'number'or(p->>'limit')!~'^[0-9]{1,3}$'))then raise exception using errcode='22023',message='CP7_FORMULA_QUERY';end if;
  typ:=p->>'material_type';a:=cp7_stock_formula.material_access_now(typ,false);
@@ -248,19 +263,19 @@ begin
  select count(*)into total from cp7_stock_formula.material_evaluations e where e.material_type=typ
   and(q=''or strpos(lower(concat_ws(' ',e.sku,e.name)),q)>0)
   and(f='ALL'or(f='AT_OR_BELOW'and e.state='AT_OR_BELOW')or(f='MANUAL'and e.basis='MANUAL')or(f='NOT_ENOUGH_DATA'and e.basis='NOT_ENOUGH_DATA')
-   or(f='NOT_SET'and e.basis='NOT_SET'));
+   or(f='NOT_SET'and e.basis='NOT_SET')or(f='ESTIMATE'and e.basis='ESTIMATE'));
  select coalesce(jsonb_agg(to_jsonb(x)-'ord'order by x.ord,x.sku,x.material_id),'[]')into rows from(
   select e.*,case e.state when'AT_OR_BELOW'then 0 when'ABOVE'then 1 else 2 end ord from cp7_stock_formula.material_evaluations e
   where e.material_type=typ and(q=''or strpos(lower(concat_ws(' ',e.sku,e.name)),q)>0)
    and(f='ALL'or(f='AT_OR_BELOW'and e.state='AT_OR_BELOW')or(f='MANUAL'and e.basis='MANUAL')or(f='NOT_ENOUGH_DATA'and e.basis='NOT_ENOUGH_DATA')
-    or(f='NOT_SET'and e.basis='NOT_SET'))
+    or(f='NOT_SET'and e.basis='NOT_SET')or(f='ESTIMATE'and e.basis='ESTIMATE'))
   order by ord,e.sku,e.material_id limit n offset off)x;
  return jsonb_build_object('contract_version','cp7.material-reorder.v1','material_type',typ,'read_at',statement_timestamp(),
   'settings',cp7_stock_formula.current_settings(),'run',(select to_jsonb(r)-'id'from cp7_stock_formula.runs r),
   'can_manage',coalesce(a->'profile'->>'role_code','')in('OWNER','ADMIN'),
   'counts',(select jsonb_build_object('items',count(*),'at_or_below',count(*)filter(where e.state='AT_OR_BELOW'),'manual',count(*)filter(where e.basis='MANUAL'),
     'formula',count(*)filter(where e.basis='FORMULA'),'not_enough_data',count(*)filter(where e.basis='NOT_ENOUGH_DATA'),'no_usage',count(*)filter(where e.basis='NO_USAGE'),
-    'not_set',count(*)filter(where e.basis='NOT_SET'))
+    'not_set',count(*)filter(where e.basis='NOT_SET'),'estimate',count(*)filter(where e.basis='ESTIMATE'))
    from cp7_stock_formula.material_evaluations e where e.material_type=typ),
   'page',jsonb_build_object('rows',rows,'total',total::text,'offset',off,'limit',n,'next_offset',case when off+jsonb_array_length(rows)<total then off+jsonb_array_length(rows)end));
 end $$;
@@ -272,19 +287,24 @@ begin
  if not pg_try_advisory_xact_lock(hashtextextended('CP7:FORMULA:FG',0))then raise exception using errcode='55P03',message='CP7_FORMULA_BUSY';end if;
  return cp7_stock_formula.compute(clock_timestamp(),interval'1 second');
 end $$;
--- Lead time (fabrics only, D17-10) and manual minimum (accessories only; a fabric's manual number is its minimum in Kain &
--- Benchmark).
+-- Lead time (all), manual minimum and the owner's estimate (accessories only, D17-10/D17-12: MOQ, monthly use, buffer
+-- days; a fabric's manual number is its minimum in Kain & Benchmark). The estimate keys may be left out (null).
 create function cp7_stock_formula.save_material(p jsonb,p_request uuid)returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
 declare a jsonb;h text;prev cp7_stock_formula.material_settings;mat record;cur_rev integer;row cp7_stock_formula.material_settings;lead numeric;manual numeric;
+ moq numeric;usage_month numeric;buffer numeric;
 begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  if jsonb_typeof(p)is distinct from'object'or not p?&array['material_id','expected_revision','lead_days','manual_point','reason']
-  or exists(select 1 from jsonb_object_keys(p)k where k not in('material_id','expected_revision','lead_days','manual_point','reason'))
+  or exists(select 1 from jsonb_object_keys(p)k where k not in('material_id','expected_revision','lead_days','manual_point','reason','moq',
+   'usage_month_qty','buffer_days'))
   or jsonb_typeof(p->'material_id')<>'string'or(p->>'material_id')!~'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
   or jsonb_typeof(p->'expected_revision')<>'number'or(p->>'expected_revision')!~'^[0-9]{1,9}$'
   or jsonb_typeof(p->'lead_days')not in('string','null')or coalesce(p->>'lead_days','1')!~'^[0-9]{1,3}(\.[0-9]{1,2})?$'
   or jsonb_typeof(p->'manual_point')not in('string','null')or coalesce(p->>'manual_point','0')!~'^[0-9]{1,13}(\.[0-9]{1,4})?$'
+  or(p?'moq'and(jsonb_typeof(p->'moq')not in('string','null')or coalesce(p->>'moq','1')!~'^[0-9]{1,13}(\.[0-9]{1,4})?$'))
+  or(p?'usage_month_qty'and(jsonb_typeof(p->'usage_month_qty')not in('string','null')or coalesce(p->>'usage_month_qty','1')!~'^[0-9]{1,13}(\.[0-9]{1,4})?$'))
+  or(p?'buffer_days'and(jsonb_typeof(p->'buffer_days')not in('string','null')or coalesce(p->>'buffer_days','0')!~'^[0-9]{1,3}(\.[0-9]{1,2})?$'))
   or jsonb_typeof(p->'reason')<>'string'or length(btrim(p->>'reason'))not between 1 and 500
  then raise exception using errcode='22023',message='CP7_FORMULA_MATERIAL_INVALID';end if;
  select m.id,m.material_type::text material_type into mat from erp.materials m
@@ -293,8 +313,10 @@ begin
  a:=cp7_stock_formula.material_access_now(mat.material_type,true);
  if p_request is null then raise exception using errcode='22023',message='CP7_FORMULA_REQUEST_REQUIRED';end if;
  lead:=(p->>'lead_days')::numeric;manual:=(p->>'manual_point')::numeric;
- if(lead is not null and(lead<=0 or lead>365))or(manual is not null and mat.material_type='FABRIC')
-  or(lead is not null and mat.material_type='ACCESSORY')then
+ moq:=(p->>'moq')::numeric;usage_month:=(p->>'usage_month_qty')::numeric;buffer:=(p->>'buffer_days')::numeric;
+ if(lead is not null and(lead<=0 or lead>365))or(moq is not null and moq<=0)or(usage_month is not null and usage_month<=0)
+  or(buffer is not null and buffer>365)
+  or(mat.material_type='FABRIC'and(manual is not null or moq is not null or usage_month is not null or buffer is not null))then
   raise exception using errcode='22023',message='CP7_FORMULA_MATERIAL_INVALID';end if;
  h:=encode(sha256(convert_to(coalesce(p::text,''),'UTF8')),'hex');
  perform pg_advisory_xact_lock(hashtextextended('CP7:FORMULA:FG',0));
@@ -305,8 +327,8 @@ begin
  end if;
  select coalesce(max(x.revision),0)into cur_rev from cp7_stock_formula.material_settings x where x.material_id=mat.id;
  if cur_rev<>(p->>'expected_revision')::integer then raise exception using errcode='40001',message='CP7_FORMULA_MATERIAL_STALE';end if;
- insert into cp7_stock_formula.material_settings(material_id,revision,lead_days,manual_point,reason,actor,request_id,request_hash)
- values(mat.id,cur_rev+1,lead,manual,btrim(p->>'reason'),auth.uid(),p_request,h)returning*into row;
+ insert into cp7_stock_formula.material_settings(material_id,revision,lead_days,manual_point,moq,usage_month_qty,buffer_days,reason,actor,request_id,request_hash)
+ values(mat.id,cur_rev+1,lead,manual,moq,usage_month,buffer,btrim(p->>'reason'),auth.uid(),p_request,h)returning*into row;
  perform cp7_stock_formula.compute(clock_timestamp(),interval'1 second');
  return jsonb_build_object('replay',false,'material_id',row.material_id,'revision',row.revision,
   'evaluation',(select to_jsonb(e)from cp7_stock_formula.material_evaluations e where e.material_id=mat.id));

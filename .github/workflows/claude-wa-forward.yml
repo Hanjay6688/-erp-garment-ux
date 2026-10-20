@@ -165,7 +165,7 @@ jobs:
       max-parallel: 3
       matrix:
         include:
-        - suite: wa-forward-57
+        - suite: wa-forward-58
           probe: cp7_wa_forward_probe.py
           timeout: 240
     env:
