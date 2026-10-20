@@ -6,6 +6,13 @@ import {mkdirSync,writeFileSync} from 'node:fs'
 // checkbox, saves settings, types the key, and enables WA in the real UI.
 export const ACCESSORY_BROWSER_IDS=['WAF_BROWSER_ACCESSORY_NEED_DESKTOP','WAF_BROWSER_ACCESSORY_NEED_MOBILE']
 const LABEL='Kebutuhan aksesori perlu diperiksa (dari analisis)'
+// The wire preserves PostgreSQL decimal scale. Accept only the exact expected
+// quantity; displayed text and provider text still have their own strict checks.
+export function assertAccessoryGross186(value){
+ assert.equal(typeof value,'string')
+ assert.equal(value.trim(),value)
+ assert.match(value,/^186(?:\.0+)?$/)
+}
 const LOCAL_PREVIEW_RPCS=['erp_cp7_claim_reminder_v2','erp_cp7_finish_reminder_v2','erp_cp7_resolve_reminder_claim_v2']
 const WATCH_RPCS=['erp_cp7_get_alerts_v1','erp_cp7_get_wa_settings_v1','erp_cp7_save_wa_settings_v1','erp_cp7_set_wa_key_v1',
  'erp_cp7_send_wa_test_v1','erp_cp7_resolve_wa_dispatch_v1',...LOCAL_PREVIEW_RPCS]
@@ -70,10 +77,11 @@ async function journey(ui,mobile,h){
   assert.deepEqual([state.settings.actor,state.settings.kinds,state.settings.enabled],[user.user.id,['ACCESSORY_NEED'],true])
   const collected=fixture('accessory_need_collect',{proof:source.proof})
   assert.equal(collected.alert.episode,1)
-  assert.deepEqual([collected.detail.state,collected.detail.verdict,collected.detail.gross_state,collected.detail.gross_qty,
+  assertAccessoryGross186(collected.detail.gross_qty)
+  assert.deepEqual([collected.detail.state,collected.detail.verdict,collected.detail.gross_state,
    collected.detail.installed_state,collected.detail.installed_proven,collected.detail.unused_allocated_state,collected.detail.unused_allocated_proven,
    collected.detail.additional_external_state,collected.detail.additional_external,collected.detail.threshold_status],
-   ['DATA_REVIEW','REVIEW_REQUIRED_NOW','ASSUMED','186','UNKNOWN',null,'UNKNOWN',null,'UNKNOWN',null,'NOT_EVALUATED_UNKNOWN'])
+   ['DATA_REVIEW','REVIEW_REQUIRED_NOW','ASSUMED','UNKNOWN',null,'UNKNOWN',null,'UNKNOWN',null,'NOT_EVALUATED_UNKNOWN'])
   await page.getByRole('tab',{name:'Pengingat sistem',exact:true}).click()
   const sys=page.getByRole('region',{name:'Pengingat sistem',exact:true}),reload=sys.getByRole('button',{name:'Muat ulang pengingat sistem',exact:true})
   await ui.expect(reload).toBeEnabled();await reload.click()

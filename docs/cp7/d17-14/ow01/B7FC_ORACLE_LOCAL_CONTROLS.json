@@ -1,0 +1,29 @@
+{
+  "kind": "LOCAL_ORACLE_CONTROLS_NOT_NATIVE",
+  "base_candidate": "b7fc541ca2b0221865ed7982155e844e1a9bed80",
+  "expected_declared_before_changes": "B7FC_ORACLE_DISPOSITION.md",
+  "product_changed": false,
+  "partition_controls": {
+    "cases": 6,
+    "status": "PASS",
+    "execution": "compile exact AST function from current cp7_wa_forward_cases.py; no imports or DB"
+  },
+  "browser_oracle_controls": {
+    "accepted": 3,
+    "rejected": 11,
+    "status": "PASS",
+    "execution": "import actual assertAccessoryGross186; no UI/Auth/DB/provider"
+  },
+  "syntax": {
+    "python_py_compile": "PASS",
+    "node_check": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "source_sha256": {
+    "scripts/cp7_wa_forward_cases.py": "b4f0840b69f0519edb10eb63e430b4b3d7d9845d112679c052c033da76630e8a",
+    "scripts/cp7_wa_accessory_browser.mjs": "3171abd7ee6a9d9cfa539bb616c14a45022b91219872a3914bf7cdc3473bf3d2"
+  },
+  "native_cases_declared": 86,
+  "native_run_complete": false,
+  "production_go": false
+}

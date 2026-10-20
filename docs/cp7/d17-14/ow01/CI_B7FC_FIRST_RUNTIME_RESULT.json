@@ -1,0 +1,302 @@
+{
+  "candidate": "b7fc541ca2b0221865ed7982155e844e1a9bed80",
+  "tree": "f047ceb76b26f95f6ade10eb9bc53edb0f669ec8",
+  "run_id": 39449899036,
+  "job_id": 118721611386,
+  "scope": "New Native and browser execution, not release/audit acceptance",
+  "summary": {
+    "label": "CP7_WA_FORWARD",
+    "status": "INCOMPLETE",
+    "source_sha256": "59eb4d1a3f898dc37fc63a677781043be3faf008c038dd61d6a49ce8beb1d0fe",
+    "observed_case_count": 86,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "error": null,
+    "traceback": null
+  },
+  "counts": {
+    "PASS": 83,
+    "INCOMPLETE": 3
+  },
+  "first_nonpass": [
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED",
+      "status": "INCOMPLETE",
+      "error": "(('DONE', 3, 1, 1), 1, 2)",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 839, in analysis_gap\n    assert run_row[0] == 'DONE' and run_row[2] == len(expect_open) and run_row[3] == expect_off, (run_row, len(expect_open), expect_off)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: (('DONE', 3, 1, 1), 1, 2)\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_WA_FORWARD_BROWSER",
+      "case": "WAF_BROWSER_ACCESSORY_NEED_DESKTOP",
+      "status": "INCOMPLETE",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'DATA_REVIEW',\n    'REVIEW_REQUIRED_NOW',\n    'ASSUMED',\n+   '186.000000',\n-   '186',\n    'UNKNOWN',\n    null,\n    'UNKNOWN',\n    null,\n    'UNKNOWN',\n\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_browser.mjs:73:10)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_WA_FORWARD_BROWSER",
+      "case": "WAF_BROWSER_ACCESSORY_NEED_MOBILE",
+      "status": "INCOMPLETE",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'DATA_REVIEW',\n    'REVIEW_REQUIRED_NOW',\n    'ASSUMED',\n+   '186.000000',\n-   '186',\n    'UNKNOWN',\n    null,\n    'UNKNOWN',\n    null,\n    'UNKNOWN',\n\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_browser.mjs:73:10)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    }
+  ],
+  "new_lifecycle_and_authority": [
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_ACCESSORY_NEED_PAUSE_RESUME",
+      "status": "PASS",
+      "checks": {
+        "INITIAL_PAUSE_RESUME": "same OPEN episode and round0, one first notice, no immediate repeat after acceptance",
+        "SOURCE_CHANGE_WHILE_OFF": "old snapshot held, same episode refreshed by new immutable analysis, one fresh round0 notice279",
+        "SOURCE_RESOLVED_WHILE_OFF": "complete Native coverage resolves same unattempted item before any queue request",
+        "QUEUED_REPEAT_CURRENT_POLICY": "same queued round1 held by repeat0 and120, sent once when current60 is due",
+        "UNKNOWN_PROVIDER_PAUSE_RESUME": "same UNKNOWN round0/attempt1; kindoff and WAoff/on never retry automatically",
+        "SCHEDULED_DIGEST_PENDING_LINKAGE": {
+          "CURRENT_KIND_OFF": "due digest queues no accessory request and does not link pending round0",
+          "CURRENT_KIND_SELECTED": "repeat0 independent; one fresh reviewed digest links pending round0 once, same-slot acceptance never duplicates"
+        }
+      },
+      "legacy_cases_retained_unchanged": true,
+      "source_fixture": "accepted Native target100-WIP7=gap93; BOM2=>ASSUMED186; coverage remains UNKNOWN",
+      "test_labels": [
+        "SYNTHETIC_PROVIDER_ANSWER",
+        "TEST_CLOCK_OVERRIDE on own WA rows only"
+      ],
+      "transport_scope": "queued pg_net request only; actual fake provider is a retained race case",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_WA_SETTINGS_NEW_REVOKED_AFTER_WAIT",
+      "status": "PASS",
+      "operation": "SETTINGS",
+      "committed_replay": false,
+      "actual_lock_wait_observed_by": "pg_blocking_pids",
+      "actual_holder_is_blocker": true,
+      "initially_authorized_public_read": true,
+      "fresh_owner_retired_during_wait": true,
+      "existing_owner_rows_unchanged": true,
+      "refusal_sqlstate": "42501",
+      "refusal_message": "CP7_WA_OWNER_ONLY",
+      "returned_receipt": false,
+      "WA_receipts_key_and_transport_state_unchanged": true,
+      "unknown_fixture": null,
+      "provider_delivery_proven": false,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_WA_SETTINGS_REPLAY_REVOKED_AFTER_WAIT",
+      "status": "PASS",
+      "operation": "SETTINGS",
+      "committed_replay": true,
+      "actual_lock_wait_observed_by": "pg_blocking_pids",
+      "actual_holder_is_blocker": true,
+      "initially_authorized_public_read": true,
+      "fresh_owner_retired_during_wait": true,
+      "existing_owner_rows_unchanged": true,
+      "refusal_sqlstate": "42501",
+      "refusal_message": "CP7_WA_OWNER_ONLY",
+      "returned_receipt": false,
+      "WA_receipts_key_and_transport_state_unchanged": true,
+      "unknown_fixture": null,
+      "provider_delivery_proven": false,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_WA_KEY_NEW_REVOKED_AFTER_WAIT",
+      "status": "PASS",
+      "operation": "KEY",
+      "committed_replay": false,
+      "actual_lock_wait_observed_by": "pg_blocking_pids",
+      "actual_holder_is_blocker": true,
+      "initially_authorized_public_read": true,
+      "fresh_owner_retired_during_wait": true,
+      "existing_owner_rows_unchanged": true,
+      "refusal_sqlstate": "42501",
+      "refusal_message": "CP7_WA_OWNER_ONLY",
+      "returned_receipt": false,
+      "WA_receipts_key_and_transport_state_unchanged": true,
+      "unknown_fixture": null,
+      "provider_delivery_proven": false,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_WA_KEY_REPLAY_REVOKED_AFTER_WAIT",
+      "status": "PASS",
+      "operation": "KEY",
+      "committed_replay": true,
+      "actual_lock_wait_observed_by": "pg_blocking_pids",
+      "actual_holder_is_blocker": true,
+      "initially_authorized_public_read": true,
+      "fresh_owner_retired_during_wait": true,
+      "existing_owner_rows_unchanged": true,
+      "refusal_sqlstate": "42501",
+      "refusal_message": "CP7_WA_OWNER_ONLY",
+      "returned_receipt": false,
+      "WA_receipts_key_and_transport_state_unchanged": true,
+      "unknown_fixture": null,
+      "provider_delivery_proven": false,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_WA_TEST_NEW_REVOKED_AFTER_WAIT",
+      "status": "PASS",
+      "operation": "TEST",
+      "committed_replay": false,
+      "actual_lock_wait_observed_by": "pg_blocking_pids",
+      "actual_holder_is_blocker": true,
+      "initially_authorized_public_read": true,
+      "fresh_owner_retired_during_wait": true,
+      "existing_owner_rows_unchanged": true,
+      "refusal_sqlstate": "42501",
+      "refusal_message": "CP7_WA_OWNER_ONLY",
+      "returned_receipt": false,
+      "WA_receipts_key_and_transport_state_unchanged": true,
+      "unknown_fixture": null,
+      "provider_delivery_proven": false,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_WA_TEST_REPLAY_REVOKED_AFTER_WAIT",
+      "status": "PASS",
+      "operation": "TEST",
+      "committed_replay": true,
+      "actual_lock_wait_observed_by": "pg_blocking_pids",
+      "actual_holder_is_blocker": true,
+      "initially_authorized_public_read": true,
+      "fresh_owner_retired_during_wait": true,
+      "existing_owner_rows_unchanged": true,
+      "refusal_sqlstate": "42501",
+      "refusal_message": "CP7_WA_OWNER_ONLY",
+      "returned_receipt": false,
+      "WA_receipts_key_and_transport_state_unchanged": true,
+      "unknown_fixture": null,
+      "provider_delivery_proven": false,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_WA_RESOLVE_NEW_REVOKED_AFTER_WAIT",
+      "status": "PASS",
+      "operation": "RESOLVE",
+      "committed_replay": false,
+      "actual_lock_wait_observed_by": "pg_blocking_pids",
+      "actual_holder_is_blocker": true,
+      "initially_authorized_public_read": true,
+      "fresh_owner_retired_during_wait": true,
+      "existing_owner_rows_unchanged": true,
+      "refusal_sqlstate": "42501",
+      "refusal_message": "CP7_WA_OWNER_ONLY",
+      "returned_receipt": false,
+      "WA_receipts_key_and_transport_state_unchanged": true,
+      "unknown_fixture": "TEST_CLOCK_OVERRIDE_11_MINUTES_THEN_REAL_RECONCILE",
+      "provider_delivery_proven": false,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_WA_RESOLVE_REPLAY_REVOKED_AFTER_WAIT",
+      "status": "PASS",
+      "operation": "RESOLVE",
+      "committed_replay": true,
+      "actual_lock_wait_observed_by": "pg_blocking_pids",
+      "actual_holder_is_blocker": true,
+      "initially_authorized_public_read": true,
+      "fresh_owner_retired_during_wait": true,
+      "existing_owner_rows_unchanged": true,
+      "refusal_sqlstate": "42501",
+      "refusal_message": "CP7_WA_OWNER_ONLY",
+      "returned_receipt": false,
+      "WA_receipts_key_and_transport_state_unchanged": true,
+      "unknown_fixture": "TEST_CLOCK_OVERRIDE_11_MINUTES_THEN_REAL_RECONCILE",
+      "provider_delivery_proven": false,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    }
+  ],
+  "product_change_not_yet_qualified": true
+}

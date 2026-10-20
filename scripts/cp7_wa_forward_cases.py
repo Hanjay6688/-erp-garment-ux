@@ -50,6 +50,17 @@ import cp7_wa_accessory_pause_cases as accessory_pause
 import cp7_wa_authority_race_cases as authority_races
 
 b = auth.b
+
+
+def accessory_analysis_partition(review):
+    """Read-only oracle: a resolved source is never a disabled reminder rule."""
+    if review['verdict'] == 'RESOLVED_NOW':
+        return 'RESOLVED'
+    if review['verdict'] == 'REVIEW_REQUIRED_NOW' and review['numbers']['wa_notice_eligibility'] == 'REVIEW_NOTICE_ELIGIBLE':
+        return 'OPEN'
+    return 'OFF'
+
+
 IDS = dict(
     native=['WAF_COLLECT_WAITS_FOR_OWNER_SETTINGS', 'WAF_FABRIC_EQUALS_WAREHOUSE_SUMMARY', 'WAF_AR_AP_FROM_ACCEPTED_SOURCES',
             'WAF_OWNER_REMINDERS_ONLY_WHEN_DUE', 'WAF_SEND_ONE_REQUEST_EXACT_TEXT', 'WAF_ROLLBACK_QUEUES_NOTHING',
@@ -814,29 +825,44 @@ def cases(cur, today):
         gap = D(c['value']['value'])
         assert c['state'] == 'ACTIVE' and gap >= 2, c
         # Oracle: the reminders' own read and read-only recheck, condition by condition.
-        expect_open, expect_off = set(), 0
+        expect_open, expect_off, expect_checked = set(), 0, 0
+        condition_diagnostics = []
         for row in rows:
-            if row['rule_id'] == 'ACCESSORY_NEED' and row['state'] in ('ACTIVE', 'DATA_REVIEW'):
+            if row['rule_id'] == 'ACCESSORY_NEED':
+                expect_checked += 1
                 review = remv2.recheck(cur, r['run'], row['key'], s['owner'])
-                if review['verdict'] == 'REVIEW_REQUIRED_NOW' and review['numbers']['wa_notice_eligibility'] == 'REVIEW_NOTICE_ELIGIBLE':
+                partition = accessory_analysis_partition(review)
+                condition_diagnostics.append(dict(key=row['key'], snapshot_state=row['state'], eligibility=row['eligibility'],
+                    live_verdict=review['verdict'], reason=review['reason'],
+                    wa_notice_eligibility=review['numbers']['wa_notice_eligibility'], partition=partition))
+                if partition == 'OPEN':
                     expect_open.add((row['rule_id'], row['key']))
-                else:
+                elif partition == 'OFF':
                     expect_off += 1
                 continue
             if row['state'] != 'ACTIVE' or row['rule_id'] not in ANALYSIS:
                 continue
+            expect_checked += 1
             if row['eligibility'] not in ('LOCAL_PREVIEW_ELIGIBLE', 'QUIET', 'COOLDOWN'):
                 expect_off += 1
+                condition_diagnostics.append(dict(key=row['key'], snapshot_state=row['state'], eligibility=row['eligibility'],
+                    live_verdict=None, reason='LOCAL_RULE_NOT_ELIGIBLE', partition='OFF'))
                 continue
             v = remv2.recheck(cur, r['run'], row['key'], s['owner'])
-            if v['verdict'] == 'STILL_OPEN' and v['policy_binding']['policy']['config']['enabled'] is True:
+            opens = v['verdict'] == 'STILL_OPEN' and v['policy_binding']['policy']['config']['enabled'] is True
+            condition_diagnostics.append(dict(key=row['key'], snapshot_state=row['state'], eligibility=row['eligibility'],
+                live_verdict=v['verdict'], reason=v['reason'], partition='OPEN' if opens else 'RESOLVE_EXISTING'))
+            if opens:
                 expect_open.add((row['rule_id'], row['key']))
         got = {(k, sk) for k in ANALYSIS for sk in alerts(cur, k)}
         assert got == expect_open and ('PRODUCTION_GAP', key) in got, (sorted(got), sorted(expect_open))
         assert not alerts(cur, 'FABRIC_NEED'), 'WAF_FABRIC_NEED_WITHOUT_RULE_OPENED'
         b.api.admin(cur)
         run_row = cur.execute('select phase,checked,still_open,rule_off from cp7_alert_native.analysis_runs where run_id=%s', (r['run'],)).fetchone()
-        assert run_row[0] == 'DONE' and run_row[2] == len(expect_open) and run_row[3] == expect_off, (run_row, len(expect_open), expect_off)
+        diagnostic = dict(diagnostic='WAF_ANALYSIS_GAP_ORACLE', run_id=r['run'], observed=list(run_row),
+            expected_checked=expect_checked, expected_open=sorted(expect_open), expected_off=expect_off, conditions=condition_diagnostics)
+        print(json.dumps(diagnostic), flush=True)
+        assert run_row == ('DONE', expect_checked, len(expect_open), expect_off), diagnostic
         a = alerts(cur, 'PRODUCTION_GAP')[key]
         v = remv2.recheck(cur, r['run'], key, s['owner'])
         assert a['title'] == 'Kekurangan produksi: ' + c['label'] and a['detail']['run_id'] == r['run'] and D(a['detail']['need_now_pcs']) == gap \
@@ -870,7 +896,8 @@ def cases(cur, today):
         staff_view = rpc(cur, 'erp_cp7_get_alerts_v1', (json.dumps(dict(resolved_days=7)),), staff)
         assert ('PRODUCTION_GAP' in {k['kind'] for k in staff_view['kinds']}) == ('PRODUCTION_GAP' in visible(cur, staff))
         return dict(status='PASS', ticks=outs[:3] + ['...', outs[-1]], set_built_by_tick=True, checked_outside_analysis_hours=[start, end],
-                    opened=sorted(k for _, k in got), rule_off=expect_off, sent_need_now=str(gap - 1), snapshot_gap=str(gap),
+                    opened=sorted(k for _, k in got), rule_off=expect_off, checked=expect_checked, conditions=condition_diagnostics,
+                    sent_need_now=str(gap - 1), snapshot_gap=str(gap),
                     resolved_before_send='RECHECK_RESOLVED_NOW', reminder_claims=0)
 
     def analysis_automatic():

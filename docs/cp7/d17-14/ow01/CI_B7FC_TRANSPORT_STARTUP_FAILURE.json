@@ -1,0 +1,17 @@
+{
+  "candidate": "b7fc541ca2b0221865ed7982155e844e1a9bed80",
+  "run_id": 39449898770,
+  "job_id": 118721611968,
+  "case_execution": false,
+  "classification": "ENVIRONMENT_STARTUP_FAILURE",
+  "first_error": "2026-10-20T15:44:48.2181829Z failed to start docker container \"supabase_db_cp5-local\": Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint supabase_db_cp5-local (1389a51450708f61a42854e6ffb4bad3557937bf204f573f020909f507bf582c): failed to bind host port for 0.0.0.0:54322:172.18.0.2:5432/tcp: address already in use",
+  "final_errors": [
+    "2026-10-20T15:44:48.2181829Z failed to start docker container \"supabase_db_cp5-local\": Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint supabase_db_cp5-local (1389a51450708f61a42854e6ffb4bad3557937bf204f573f020909f507bf582c): failed to bind host port for 0.0.0.0:54322:172.18.0.2:5432/tcp: address already in use",
+    "2026-10-20T15:45:51.9927114Z failed to start docker container \"supabase_db_cp5-local\": Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint supabase_db_cp5-local (ffb070855094c7fe0ee78c7ba8dd900197ac62fb0875ca6788d50e33138b12b7): failed to bind host port for 0.0.0.0:54322:172.18.0.2:5432/tcp: address already in use",
+    "2026-10-20T15:47:55.3620152Z failed to start docker container \"supabase_db_cp5-local\": Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint supabase_db_cp5-local (656e10e161d30583d913b9ba1daa7b137b291392112f62dd1c67d8dc620667a3): failed to bind host port for 0.0.0.0:54322:172.18.0.2:5432/tcp: address already in use",
+    "2026-10-20T15:50:58.6845319Z failed to start docker container \"supabase_db_cp5-local\": Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint supabase_db_cp5-local (1d9e1d856cf552a2ee03a5dbd7199de97b9d7792ff799dd6054a269e20f0acdb): failed to bind host port for 0.0.0.0:54322:172.18.0.2:5432/tcp: address already in use",
+    "2026-10-20T15:50:59.5886896Z ##[error]Process completed with exit code 1."
+  ],
+  "disposition": "No suite output/artifact existed. Retain this first result; rerun failed job after remaining workflow jobs finish. No product/oracle change justified.",
+  "production_go": false
+}
