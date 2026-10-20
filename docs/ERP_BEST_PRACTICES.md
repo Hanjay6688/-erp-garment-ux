@@ -240,6 +240,20 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     fixture.** Hari tanpa stok di awal dan tanpa penjualan tidak masuk hitungan rata-rata dan simpangan; kasus
     `SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND` menunjukkan titik yang berbeda (28 lawan 24) bila hari itu dihitung. Pembanding di
     kasus (`oracle()`) memakai hari dan jumlah fixture sendiri di Python, tidak membaca tabel modul. (SS-1, 20 Okt)
+25r. **Hasil yang disimpan sementara untuk satu putaran diberi kunci putaran itu, bukan kunci transaksi.** Tiga sumber
+    pengingat stok (barang jadi, kain, aksesori) memakai satu hitungan per tick. Tanda "sudah dihitung" pertama dipasang per
+    transaksi; kasus yang menaikkan stok lalu membaca sumber lagi di transaksi yang sama mendapat hitungan basi
+    (`SS1_SOURCE_AND_ACCESS` gagal lokal). Kunci yang benar: waktu mulai perintah (`statement_timestamp()`), sehingga satu tick
+    berbagi satu hitungan dan perintah berikutnya menghitung ulang. (SS-2, 20 Okt)
+25s. **"Stok ada di gudang" dibaca dari aturan layar yang sudah diterima, bukan dari jenis lokasi saja.** Area pos servis,
+    area periksa dan area rusak aksesori (BC) tercatat sebagai `RAW_MATERIAL_WAREHOUSE`; menghitung semua lokasi jenis itu
+    akan menganggap barang rusak dan barang yang belum diperiksa sebagai stok bebas, dan pengingat terlambat. Rumus aksesori
+    memakai aturan Bahan & Roll (zona khusus bukan "ON_HAND"); kasus `SS3_SERVICE_ZONES_NOT_FREE_STOCK` menjaganya. Begitu
+    pula retur nota yang dikreditkan sebagai rusak tidak mengurangi pemakaian. (SS-3, 20 Okt)
+25t. **Deklarasi kasus dicocokkan dengan modul kasus di lokal sebelum push.** Deklarasi WA mencantumkan empat RPC barang jadi
+    yang tidak ada di daftar `FUNCTIONS` modul kasus; probe akan menolak seluruh suite (`..._PREDECLARED_CASE_BUDGET_CHANGED`)
+    sebelum satu kasus pun jalan. Jalankan pemeriksaan yang sama dengan probe (`contract`, jumlah, ID, RPC, jadwal) di lokal
+    setiap kali deklarasi atau modul kasus berubah. (SS-2, 20 Okt)
 
 ## F. Proses audit
 
@@ -303,6 +317,9 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Setiap rumus/fitur "disiapkan, belum aktif" tercantum di daftar terbuka laporan, dengan apa yang kurang (29c).
 - [ ] Kerja tiap menit diukur dengan volume pemakaian nyata dan rencana kuerinya dibaca; JIT tidak memakan waktunya (E25p).
 - [ ] Rumus stok: hari kehabisan stok bukan permintaan nol; pembanding dihitung ulang dari angka fixture, bukan dari modul (E25q).
+- [ ] Cache satu putaran berkunci putaran (waktu mulai perintah), bukan transaksi (E25r).
+- [ ] Stok bebas mengikuti aturan "ada di gudang" layar yang diterima, termasuk zona khusus (E25s).
+- [ ] Deklarasi kasus dicek lokal dengan aturan probe sebelum push (E25t).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
   dipicu (E19–E20, E19a).

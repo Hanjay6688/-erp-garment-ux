@@ -1,8 +1,9 @@
 # Usulan penulis: safety stock dengan rumus + peringatan WA, sebelum paket r6 dikirim ke auditor (20 Okt 2026)
 
 Dasar: keputusan owner D17-4, D17-5, D17-7, D17-8 (kutipan persis di `docs/cp7/OWNER_DECISIONS_20261008.md`) dan riset pakar
-28 Sep (`docs/cp7/benchmark-decisions.md`). Status: **disetujui owner (D17-9)**. Bagian 1 dan 2 (barang jadi) sudah dibuat,
-desain teknis dan bedanya dari usulan ini di `docs/cp7/wa/STOCK_FORMULA_FG_DESIGN.md`; bagian 3–5 sedang dikerjakan.
+28 Sep (`docs/cp7/benchmark-decisions.md`). Status: **disetujui owner (D17-9)**. Bagian 1–4 (barang jadi, kain, aksesori) sudah dibuat,
+desain teknis dan bedanya dari usulan ini di `docs/cp7/wa/STOCK_FORMULA_FG_DESIGN.md` (tiga beda menunggu keputusan owner);
+bagian 5: uji lengkap satu versi belum.
 
 ## 1. Safety stock barang jadi dengan rumus pakar
 

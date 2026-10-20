@@ -1,4 +1,4 @@
-# SS-1 Titik pesan ulang barang jadi dengan rumus (desain teknis, 20 Okt 2026)
+# SS-1..SS-3 Titik pesan ulang barang jadi, kain, dan aksesori dengan rumus (desain teknis, 20 Okt 2026)
 
 Dasar: owner D17-8 dan D17-9 (kutipan persis di `docs/cp7/OWNER_DECISIONS_20261008.md`), usulan
 `docs/cp7/wa/PROPOSAL_SAFETY_STOCK_R6_20261020.md`, riset 28 Sep `docs/cp7/benchmark-decisions.md` (MIT ESD.260; kontrak
@@ -49,9 +49,10 @@ Batas yang ditulis jujur:
 ## Pemasangan dan hak
 
 - Skema `cp7_stock_formula` milik `cp7_capture` (peran CP7 yang sudah membaca stok, penjualan, produksi, WIP, dan profil
-  perencanaan). Tidak ada hak baca Native baru. Dipasang oleh bundle WA sebelum `alerts.sql`; diverifikasi
-  `cp7_alert_bundle.verify_formula`.
-- Modul pengingat (`cp7_alert`) hanya boleh menjalankan `cp7_stock_formula.fg_source()`.
+  perencanaan). Untuk barang jadi tidak ada hak baca Native baru; untuk bahan ditambah hak baca kolom: empat kolom
+  `erp.material_stock_movements`, dua kolom `erp.fabric_master_profiles`, dan `location_id` `erp.bc_accessory_zones_v1`.
+  Dipasang oleh bundle WA sebelum `alerts.sql`; diverifikasi `cp7_alert_bundle.verify_formula`.
+- Modul pengingat (`cp7_alert`) hanya boleh menjalankan `cp7_stock_formula.fg_source()` dan `material_source(text)`.
 - RPC: `erp_cp7_get_fg_reorder_v1` (baca, `warehouse.fg.view`), `erp_cp7_refresh_fg_reorder_v1` (hitung sekarang, sama),
   `erp_cp7_save_fg_reorder_manual_v1` dan `erp_cp7_save_stock_formula_settings_v1` (Owner/Admin dengan `warehouse.fg.view`;
   revisi diharapkan, id permintaan sekali pakai, riwayat tidak bisa diubah).
@@ -64,3 +65,43 @@ Batas yang ditulis jujur:
   kalau ada, angkanya dimasukkan ulang lewat layar baru.
 - Usulan menyebut "dihitung ulang hanya untuk barang yang berubah"; yang dibuat menghitung ulang semua barang tiap menit
   (lihat "Kapan dihitung"). Hasil untuk owner sama.
+
+## Kain dan aksesori (SS-2, SS-3)
+
+Kode: `scripts/cp7-src/stock-formula/materials.sql`. Kasus: `SS2_*` dan `SS3_*` di `scripts/cp7_stock_formula_cases.py`, dan
+`WAF_FABRIC_REORDER_POINT_FORWARDED`, `WAF_ACCESSORY_REORDER_POINT_FORWARDED`, `WAF_RACE_MATERIAL_BUSY_RECHECKS_LIVE_STOCK`,
+`WAF_HTTP_MATERIAL_REORDER_SCREEN` di suite WA.
+
+| Bagian | Kain | Aksesori |
+|---|---|---|
+| Barang | Bahan aktif jenis FABRIC | Bahan aktif jenis ACCESSORY |
+| Pemakaian per hari | Keluar ke potong (`CUTTING_ISSUE`) dikurangi kembali dari potong (`CUTTING_RETURN`), pemakaian pabrik (`INTERNAL_USE`), keluar ke mandor (`CONTRACTOR_ISSUE`) | Nota mandor (`CONTRACTOR_ISSUE`) dan pemakaian pabrik (`INTERNAL_USE`), dikurangi retur nota yang dikreditkan layak pakai (`ADJUSTMENT` dari `BC_NOTE_RETURN_CREDIT` ke gudang, bukan ke area rusak) |
+| Gerakan yang dibalik | Gerakan yang punya pembalik dan pembaliknya tidak dihitung (aturan STK01 Bahan & Roll) | sama |
+| Stok | Semua lokasi (aturan Ringkasan Gudang dan minimum kain) | Yang Bahan & Roll sebut "ada di gudang": gudang bahan aktif, bukan pos servis, area periksa, atau area rusak |
+| Sedang dipesan | Sisa PO terbuka saldo awal (`erp.bb_commitment_line_remaining_v1`, sumber yang dipakai analisis kain) | Tidak ada sumbernya; 0 |
+| Lama kirim L | Isian "lama kirim (hari)" per bahan oleh Owner/Admin (`material_settings`, riwayat tidak bisa diubah); kosong: belum cukup data | sama |
+| Angka manual | Minimum di Kain & Benchmark (tidak diubah); kain itu tetap di pengingat lama "Stok kain di bawah minimum" (stok < minimum) | Angka manual di pengaturan yang sama; 0 = tidak pernah diingatkan; kosong = rumus |
+| Titik | Rumus barang jadi, dalam satuan bahan, dibulatkan ke atas 0,01 | sama |
+| Menipis | Kain pakai rumus: stok + dipesan ≤ titik | stok ≤ titik (rumus atau manual) |
+| Pengingat | `FABRIC_AT_REORDER_POINT` "Stok kain menipis" (hak Bahan & Roll + Kain & Benchmark) | `ACCESSORY_AT_REORDER_POINT` "Stok aksesori menipis" (hak Aksesori) |
+
+- Dihitung tiap menit bersama barang jadi, satu kunci modul yang sama. Satu tick menghitung sekali untuk ketiga sumber
+  (`ensure_computed()`, kunci: waktu mulai perintah). Saat kunci dipegang, kain/aksesori yang menipis dicek ulang ke stok saat
+  itu dengan titik dan angka dipesan hitungan terakhir, tanpa menulis apa pun (kasus race bahan).
+- RPC: `erp_cp7_get_material_reorder_v1`, `erp_cp7_refresh_material_reorder_v1`, `erp_cp7_save_material_reorder_v1`.
+
+### Beda dari usulan (perlu keputusan owner)
+
+- Usulan §3: "Peringatan 'stok kain di bawah minimum' yang sudah ada tetap jalan, memakai angka rumus bila tidak ada angka
+  manual." Yang dibuat: kain yang memakai rumus diingatkan dengan judul sendiri "Stok kain menipis"; judul lama tetap hanya
+  untuk kain yang punya minimum. Alasan: pengingat lama dan daftar Ringkasan Gudang dibuktikan sama (kasus
+  `WAF_FABRIC_EQUALS_WAREHOUSE_SUMMARY`), dan aturannya beda (stok < minimum, tanpa barang dipesan). Kalau owner memilih
+  satu judul, keduanya digabung dan Ringkasan Gudang ikut diubah.
+- Usulan §3/§4: lama kirim diisi "di data master". Panel isian dipasang di Master Data (Kain & Benchmark, Aksesori & Harga
+  Mandor) dan juga di Gudang (Bahan & Roll, Aksesori); datanya satu.
+- Usulan §4: "Kebutuhan aksesori dari rencana produksi ikut diteruskan ke WA" dengan cek ulang sebelum kirim. Belum dibuat:
+  analisis rencana produksi selalu menyatakan kebutuhan aksesori "belum diketahui" (aturan yang sudah diterima: pemakaian
+  aksesori per potong tidak tercatat), jadi tidak ada kebutuhan yang bisa dicek ulang atau dikirim. Yang dikirim ke WA untuk
+  aksesori adalah "Stok aksesori menipis" dari rumus stok di atas.
+- Usulan §5 "Belum diperiksa: pemakaian aksesori per hari": sudah diperiksa, sumbernya nota mandor, pemakaian pabrik, dan
+  retur nota yang dikreditkan (tabel di atas).
