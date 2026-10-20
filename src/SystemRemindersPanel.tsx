@@ -50,8 +50,8 @@ export default function SystemRemindersPanel({ owner, onOpenWa }: { owner: boole
       <div>
         <span className="eyebrow">PENGINGAT SISTEM</span>
         <h2>Pengingat dari data ERP</h2>
-        <p>Stok kain di bawah minimum, stok barang jadi yang menipis (sampai titik pesan ulangnya), kain yang perlu dibeli, kekurangan produksi,
-          tagihan supplier, dan piutang pelanggan yang jatuh tempo.
+        <p>Stok kain di bawah minimum, stok kain, aksesori dan barang jadi yang menipis (sampai titik pesan ulangnya), kain yang perlu dibeli,
+          kekurangan produksi, tagihan supplier, dan piutang pelanggan yang jatuh tempo.
           Pengingat ini muncul dan tertutup sendiri mengikuti datanya, jadi tidak perlu ditandai selesai. Akun ini hanya melihat jenis yang boleh dibukanya.</p>
         {data ? <small>Dibaca {formatCp6WibDateTime(data.readAt)}.</small> : null}
       </div>
@@ -78,7 +78,7 @@ export default function SystemRemindersPanel({ owner, onOpenWa }: { owner: boole
           className={view === 'RESOLVED' ? 'active' : ''} onClick={() => setView('RESOLVED')}>
           Sudah beres ({ALERTS_RESOLVED_DAYS} hari) ({formatWaNumber(resolvedCount)})</button>
       </div>
-      {groups.length === 0 ? <p className="csys-none">Akun ini belum punya hak membaca sumber pengingat sistem mana pun (stok kain, barang jadi, keuangan, atau analisis).
+      {groups.length === 0 ? <p className="csys-none">Akun ini belum punya hak membaca sumber pengingat sistem mana pun (stok kain, aksesori, barang jadi, keuangan, atau analisis).
         Minta Owner menambahkannya di Pengguna & Hak Akses bila perlu.</p> : null}
       {groups.map(g => <section key={g.kind} className="csys-group" aria-label={waKindLabel[g.kind]}>
         <header><strong>{waKindLabel[g.kind]}</strong><span>{formatWaNumber(data.rows.filter(r => r.kind === g.kind && r.state === 'OPEN').length)} terbuka</span></header>
@@ -100,12 +100,15 @@ function SourceLine({ source }: { source: AlertSource }) {
 
 function AlertRow({ alert: a, owner }: { alert: SystemAlert; owner: boolean }) {
   const analysis = alertAnalysisLine(a), chip = owner ? waChip(a.wa) : null, fg = a.detail.kind === 'FG_AT_REORDER_POINT' ? a.detail : null
+  const material = a.detail.kind === 'FABRIC_AT_REORDER_POINT' || a.detail.kind === 'ACCESSORY_AT_REORDER_POINT' ? a.detail : null
   return <li className={`csys-row ${a.state.toLowerCase()}`} aria-label={`Pengingat sistem ${a.title}`}>
     <div className="csys-row-main">
       <strong>{a.title}</strong>
       <p>{alertSummary(a)}</p>
       {analysis ? <small className="csys-analysis-line">{analysis}</small> : null}
       {fg ? <small>SKU {fg.sku} · titik pesan ulang dari {fg.basis === 'MANUAL' ? 'angka manual' : 'rumus'} · rinciannya di Gudang › Ringkasan Barang Jadi</small> : null}
+      {material ? <small>SKU {material.sku} · titik pesan ulang dari {material.basis === 'MANUAL' ? 'angka manual' : 'rumus'} · rinciannya di Gudang ›{' '}
+        {material.materialType === 'FABRIC' ? 'Bahan & Roll' : 'Aksesori'}</small> : null}
       <small>Muncul {formatCp6WibDateTime(a.openedAt)}{a.episode > 1 ? ` (muncul lagi, ke-${a.episode})` : ''} · diperbarui {formatCp6WibDateTime(a.refreshedAt)}</small>
       {a.state === 'RESOLVED' ? <small className="csys-resolved">Beres {formatCp6WibDateTime(a.resolvedAt ?? '')} · {resolutionLabel(a.resolution)}</small> : null}
     </div>

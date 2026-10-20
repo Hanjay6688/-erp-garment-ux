@@ -43,6 +43,13 @@ const fgDetail = (n: number, extra: Record<string, unknown> = {}) => ({ root_id:
   size_code: 'M', free_pcs: '23', wip_pcs: '0', wip_status: 'COMPLETE', position_pcs: '23', reorder_point_pcs: '36', basis: 'FORMULA', daily_mean: '3.90',
   lead_days: '7', lead_basis: 'PROFILE', buffer_mode: 'STATISTICAL', safety_pcs: '8.3', service_level: '0.95', ...extra })
 const fgSubject = (n: number) => `${id(200 + n)}:${id(300 + n)}`
+// SS-2/SS-3: cp7_stock_formula.material_alert_row of a fabric (formula, on order counted) and an accessory (manual number).
+const fabricReorder = (n: number, extra: Record<string, unknown> = {}) => ({ material_id: id(400 + n), material_type: 'FABRIC', sku: 'KC-HTM-2', name: 'Katun Hitam',
+  unit_code: 'YD', free_qty: '56', on_order_qty: '20', reorder_point_qty: '98.51', basis: 'FORMULA', daily_mean: '7.47', lead_days: '6', safety_qty: '17.08',
+  service_level: '0.95', ...extra })
+const accessoryReorder = (n: number, extra: Record<string, unknown> = {}) => ({ material_id: id(400 + n), material_type: 'ACCESSORY', sku: 'KCG-12', name: 'Kancing 12 mm',
+  unit_code: 'PCS', free_qty: '180', on_order_qty: '0', reorder_point_qty: '250', basis: 'MANUAL', daily_mean: '3.33', lead_days: '5', safety_qty: null,
+  service_level: null, ...extra })
 function alertRows(withWa: boolean) {
   const w = (state: string, extra: Record<string, unknown> = {}) => withWa ? waState(state, extra) : null
   return [
@@ -64,11 +71,15 @@ function alertRows(withWa: boolean) {
       { ...resolved('SOMETHING_UNMAPPED'), party_names: ['Toko Lain'], wa: w('ACCEPTED') }),
     row(9, 'FG_AT_REORDER_POINT', 'Stok barang jadi menipis: Kemeja Linen M', fgDetail(9), { subject_key: fgSubject(9),
       wa: w('ACCEPTED', { dispatch_id: 8, dispatch_status: 'PROVIDER_ACCEPTED', settled_at: '2026-10-19T02:41:00+00:00' }) }),
+    row(12, 'FABRIC_AT_REORDER_POINT', 'Stok kain menipis: Katun Hitam', fabricReorder(12), { subject_key: id(412), wa: w('PENDING') }),
+    row(13, 'ACCESSORY_AT_REORDER_POINT', 'Stok aksesori menipis: Kancing 12 mm', accessoryReorder(13), { subject_key: id(413), wa: w('HELD_QUIET') }),
   ]
 }
 const kindsOwner = [
+  { kind: 'ACCESSORY_AT_REORDER_POINT', last_try_at: '2026-10-19T02:59:00+00:00', last_ok_at: '2026-10-19T02:59:00+00:00', last_error: null, open_count: 1 },
   { kind: 'AP_DUE', last_try_at: '2026-10-19T02:59:00+00:00', last_ok_at: '2026-10-19T02:59:00+00:00', last_error: null, open_count: 1 },
   { kind: 'AR_DUE', last_try_at: '2026-10-19T02:59:00+00:00', last_ok_at: '2026-10-19T02:00:00+00:00', last_error: '42501 CP7_ALERT_AR_SOURCE_DENIED', open_count: 1 },
+  { kind: 'FABRIC_AT_REORDER_POINT', last_try_at: '2026-10-19T02:59:00+00:00', last_ok_at: '2026-10-19T02:59:00+00:00', last_error: null, open_count: 1 },
   { kind: 'FABRIC_BELOW_MINIMUM', last_try_at: '2026-10-19T02:59:00+00:00', last_ok_at: '2026-10-19T02:59:00+00:00', last_error: null, open_count: 1 },
   { kind: 'FABRIC_NEED', last_try_at: null, last_ok_at: null, last_error: null, open_count: null },
   { kind: 'FG_AT_REORDER_POINT', last_try_at: '2026-10-19T02:59:00+00:00', last_ok_at: '2026-10-19T02:59:00+00:00', last_error: null, open_count: 1 },
@@ -90,7 +101,8 @@ function alertsReply(who: 'OWNER' | 'STAFF', configured = true) {
 // ---------------------------------------------------------- Sambungan WhatsApp --
 // The server defaults (alerts.sql defaults()): the finished-goods kind forwarded (SS-1), automatic analysis every 240 minutes (D17-7).
 const defaults = { revision: 0, enabled: false, phone_e164: null as string | null, detail: 'SUMMARY', digest_times: ['08:00', '15:00'],
-  kinds: ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE', 'PRODUCTION_GAP', 'FABRIC_NEED'], repeat_minutes: 1440,
+  kinds: ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'FABRIC_AT_REORDER_POINT', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
+    'PRODUCTION_GAP', 'FABRIC_NEED'], repeat_minutes: 1440,
   burst_after_per_day: 30, burst_merge_minutes: 30, max_items: 10, quiet_enabled: true, quiet_start: '21:00', quiet_end: '06:00', analysis_every_minutes: 240,
   analysis_start: '07:00', analysis_end: '20:00' }
 type Settings = typeof defaults & { saved_at?: string }
@@ -203,8 +215,9 @@ describe('Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4)', () => 
   it('parses the documented shapes and refuses unknown or missing keys', () => {
     const good = alertsReply('OWNER')
     const parsed = parseSystemAlerts(good, { owner: true })
-    expect(parsed.rows).toHaveLength(9)
-    expect(parsed.kinds.map(k => k.kind)).toEqual(['AP_DUE', 'AR_DUE', 'FABRIC_BELOW_MINIMUM', 'FABRIC_NEED', 'FG_AT_REORDER_POINT', 'PRODUCTION_GAP'])
+    expect(parsed.rows).toHaveLength(11)
+    expect(parsed.kinds.map(k => k.kind)).toEqual(['ACCESSORY_AT_REORDER_POINT', 'AP_DUE', 'AR_DUE', 'FABRIC_AT_REORDER_POINT', 'FABRIC_BELOW_MINIMUM', 'FABRIC_NEED',
+      'FG_AT_REORDER_POINT', 'PRODUCTION_GAP'])
     expect(parsed.rows[3].detail).toMatchObject({ kind: 'PRODUCTION_GAP', needSnapshotPcs: '150', needNowPcs: '120', threshold: '50' })
     // The analysis detail as the brief lists it (only the keys of its kind) is the same contract.
     const lean = structuredClone(good); const gap = lean.rows[3].detail as Record<string, unknown>
@@ -270,7 +283,8 @@ describe('Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4)', () => 
     const fake = server(); await mount(); await tab('Pengingat sistem')
     expect(calls(fake, 'erp_cp7_get_alerts_v1')).toEqual([{ p: { resolved_days: 7 } }])
     const groups = [...panel('Pengingat sistem').querySelectorAll('.csys-group')].map(g => g.getAttribute('aria-label'))
-    expect(groups).toEqual(['Stok kain di bawah minimum', 'Stok barang jadi menipis', 'Kain perlu dibeli (dari analisis)', 'Kekurangan produksi (dari analisis)',
+    expect(groups).toEqual(['Stok kain di bawah minimum', 'Stok kain menipis', 'Stok aksesori menipis', 'Stok barang jadi menipis', 'Kain perlu dibeli (dari analisis)',
+      'Kekurangan produksi (dari analisis)',
       'Tagihan supplier jatuh tempo', 'Piutang pelanggan jatuh tempo'])
     const text = (title: string) => field<HTMLElement>(`[aria-label="Pengingat sistem ${title}"]`).textContent ?? ''
     expect(text('Stok kain di bawah minimum: Katun Combed 30s Hitam')).toContain('Sisa 42,5 kg, minimum 60 kg · SKU KC30-HTM')
@@ -520,7 +534,7 @@ describe('Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4)', () => 
     expect(item).toContain('SKU KML-M · titik pesan ulang dari rumus · rinciannya di Gudang › Ringkasan Barang Jadi')
     expect(item).toContain('WA: terkirim')
     expect(panel('Stok barang jadi menipis').textContent).toContain(`Sumber terakhir dibaca ${wib('2026-10-19T02:59:00+00:00')}.`)
-    expect(panel('Pengingat sistem').textContent).toContain('stok barang jadi yang menipis')
+    expect(panel('Pengingat sistem').textContent).toContain('stok kain, aksesori dan barang jadi yang menipis')
     await click('Tampilkan pengingat sistem yang sudah beres 7 hari terakhir')
     const gone = field<HTMLElement>('[aria-label="Pengingat sistem Stok barang jadi menipis: Kemeja Linen L"]').textContent ?? ''
     expect(gone).toContain(`Beres ${wib('2026-10-18T05:00:00+00:00')} · Stok sudah di atas titik pesan ulang`)
@@ -529,18 +543,62 @@ describe('Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4)', () => 
     // Sambungan WhatsApp: the kind is one of the choices, on by default, and saved with the others.
     await tab('Sambungan WhatsApp')
     expect([...container.querySelectorAll('.cwa-kinds input')].map(i => i.getAttribute('aria-label'))).toEqual(['Teruskan Pengingat pribadi Bos',
-      'Teruskan Stok kain di bawah minimum', 'Teruskan Stok barang jadi menipis', 'Teruskan Piutang pelanggan jatuh tempo', 'Teruskan Tagihan supplier jatuh tempo',
+      'Teruskan Stok kain di bawah minimum', 'Teruskan Stok kain menipis', 'Teruskan Stok aksesori menipis', 'Teruskan Stok barang jadi menipis',
+      'Teruskan Piutang pelanggan jatuh tempo', 'Teruskan Tagihan supplier jatuh tempo',
       'Teruskan Kekurangan produksi (dari analisis)', 'Teruskan Kain perlu dibeli (dari analisis)'])
     expect(input('Teruskan Stok barang jadi menipis').checked).toBe(true)
     expect(input('Analisis otomatis tiap (menit)').value).toBe('240')
     await click('Simpan pengaturan')
     expect((calls(fake, 'erp_cp7_save_wa_settings_v1')[0].p as { kinds: string[]; analysis_every_minutes: number })).toMatchObject({
-      kinds: ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE', 'PRODUCTION_GAP', 'FABRIC_NEED'], analysis_every_minutes: 240 })
+      kinds: ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'FABRIC_AT_REORDER_POINT', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
+        'PRODUCTION_GAP', 'FABRIC_NEED'], analysis_every_minutes: 240 })
     expect(container.textContent).toContain('Tersimpan (revisi 1).')
     await check('Teruskan Stok barang jadi menipis'); await click('Simpan pengaturan')
     expect((calls(fake, 'erp_cp7_save_wa_settings_v1')[1].p as { kinds: string[] }).kinds).not.toContain('FG_AT_REORDER_POINT')
     expect(fake.settings.kinds).not.toContain('FG_AT_REORDER_POINT')
     expect(input('Teruskan Stok barang jadi menipis').checked).toBe(false)
+  })
+
+  it('shows a fabric and an accessory at or under their reorder point with their WhatsApp lines, and refuses impossible details (SS-2/SS-3)', async () => {
+    const good = alertsReply('OWNER'), parsed = parseSystemAlerts(good, { owner: true })
+    const fab = parsed.rows.find(r => r.kind === 'FABRIC_AT_REORDER_POINT')!, acc = parsed.rows.find(r => r.kind === 'ACCESSORY_AT_REORDER_POINT')!
+    expect(fab.detail).toEqual({ kind: 'FABRIC_AT_REORDER_POINT', materialId: id(412), materialType: 'FABRIC', sku: 'KC-HTM-2', name: 'Katun Hitam', unitCode: 'YD',
+      freeQty: '56', onOrderQty: '20', reorderPointQty: '98.51', basis: 'FORMULA', dailyMean: '7.47', leadDays: '6', safetyQty: '17.08', serviceLevel: '0.95' })
+    // The same lines item_line (alerts.sql) writes into the WhatsApp message: the unit after every number.
+    expect(alertSummary(fab)).toBe('Katun Hitam: sisa 56 YD, dipesan 20 YD, titik pesan ulang 98,51 YD')
+    expect(alertSummary(acc)).toBe('Kancing 12 mm: sisa 180 PCS, titik pesan ulang 250 PCS')
+    const variant = (a: SystemAlert, detail: Record<string, unknown>) => ({ ...a, detail: { ...a.detail, ...detail } }) as SystemAlert
+    expect(alertSummary(variant(acc, { unitCode: null, freeQty: '0.125', reorderPointQty: '12.3456' }))).toBe('Kancing 12 mm: sisa 0,13 , titik pesan ulang 12,35 ')
+    expect(alertSummary(variant(fab, { name: 'K'.repeat(130) }))).toBe('K'.repeat(120))
+    const withRow = (kind: string, detail: Record<string, unknown>, extra: Record<string, unknown> = {}) => ({ ...good, rows: good.rows.map(r => r.kind === kind
+      ? { ...r, detail: { ...(r.detail as object), ...detail }, ...extra } : r) })
+    const F = 'FABRIC_AT_REORDER_POINT', A = 'ACCESSORY_AT_REORDER_POINT'
+    expect(() => parseSystemAlerts(withRow(F, { extra: 1 }), { owner: true })).toThrow('Respons pengingat sistem tidak cocok (rincian bahan)')
+    const missing = withRow(F, {}); delete (missing.rows[9].detail as Record<string, unknown>).on_order_qty
+    expect(() => parseSystemAlerts(missing, { owner: true })).toThrow('(rincian bahan)')
+    expect(() => parseSystemAlerts(withRow(F, { material_type: 'ACCESSORY' }), { owner: true })).toThrow('(rincian bahan)')
+    expect(() => parseSystemAlerts(withRow(F, { basis: 'MANUAL', safety_qty: null, service_level: null }), { owner: true })).toThrow('(rincian bahan)')
+    expect(() => parseSystemAlerts(withRow(F, { free_qty: 56 }), { owner: true })).toThrow('(rincian bahan)')
+    expect(() => parseSystemAlerts(withRow(F, { safety_qty: null }), { owner: true })).toThrow('(rincian bahan)')
+    expect(() => parseSystemAlerts(withRow(A, { on_order_qty: '5' }), { owner: true })).toThrow('(rincian bahan)')
+    expect(() => parseSystemAlerts(withRow(A, { service_level: '0.95' }), { owner: true })).toThrow('(rincian bahan)')
+    expect(parseSystemAlerts(withRow(A, { basis: 'FORMULA', safety_qty: '4.2', service_level: '0.99' }), { owner: true }).rows[10].detail.kind).toBe(A)
+    expect(parseSystemAlerts(withRow(A, { lead_days: null }), { owner: true }).rows[10].detail.kind).toBe(A)
+    expect(() => parseSystemAlerts(withRow(A, {}, { subject_key: id(999) }), { owner: true })).toThrow('(pengingat)')
+    expect(() => parseSystemAlerts(withRow(F, {}, { party_names: ['Supplier'] }), { owner: true })).toThrow('(nama pihak)')
+    expect(resolutionLabel('MANUAL_MINIMUM_IN_FORCE')).toBe('Kain ini sekarang memakai angka minimum (Master Data › Kain & Benchmark)')
+
+    server(); await mount(); await tab('Pengingat sistem')
+    const fabric = field<HTMLElement>('[aria-label="Pengingat sistem Stok kain menipis: Katun Hitam"]').textContent ?? ''
+    expect(fabric).toContain('Katun Hitam: sisa 56 YD, dipesan 20 YD, titik pesan ulang 98,51 YD')
+    expect(fabric).toContain('SKU KC-HTM-2 · titik pesan ulang dari rumus · rinciannya di Gudang › Bahan & Roll')
+    const accessory = field<HTMLElement>('[aria-label="Pengingat sistem Stok aksesori menipis: Kancing 12 mm"]').textContent ?? ''
+    expect(accessory).toContain('Kancing 12 mm: sisa 180 PCS, titik pesan ulang 250 PCS')
+    expect(accessory).toContain('SKU KCG-12 · titik pesan ulang dari angka manual · rinciannya di Gudang › Aksesori')
+    expect(accessory).toContain('WA: jam tenang')
+    expect(panel('Stok aksesori menipis').textContent).toContain(`Sumber terakhir dibaca ${wib('2026-10-19T02:59:00+00:00')}.`)
+    await tab('Sambungan WhatsApp')
+    expect(input('Teruskan Stok kain menipis').checked).toBe(true); expect(input('Teruskan Stok aksesori menipis').checked).toBe(true)
   })
 
   it('shows the server refusal in words when the connection read is refused', async () => {
