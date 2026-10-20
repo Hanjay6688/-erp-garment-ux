@@ -1,34 +1,43 @@
-# First actual HTTP8 run: missing STAFF master fixture
+# Two actual HTTP8 fixture failures, unchanged product/expected
 
-Candidatef3437108, run39492199058/job118867983298, executed all eight slots:
-7PASS/1INCOMPLETE. Actual CREDIT and REFUND commits, fresh-connection exact
-money/journal/date/stock/HPP verification, committed replay and five negative
-cases passed. CP6 restoration and advisor gate were true. The complete first
-log and per-case results are retained in CI_F343_HTTP_FIRST_RUNTIME.log.gz
-and CI_F343_HTTP_FIRST_FAILURE.json.
+f3437108, run39492199058/job118867983298:7PASS/1INCOMPLETE.
+2f6c28ec, run39494596197/job118876226645:7PASS/1INCOMPLETE;
+the six race cases were skipped after the HTTP step failed, not passed.
+Both complete first logs and receipts remain in CI_F343_HTTP_FIRST_* and
+CI_2F6C_HTTP_FIRST_*. CP6 restoration and advisor gates were true in both.
 
-The non-owner case stopped with OW04_HTTP_STAFF_ROLE_REQUIRED while looking
-up a STAFF row in the disposable ERP role master. It never reached STAFF
-Auth creation, login or either refund refusal. That authority distinction
-is not proved by this run. The frozen copied runtime seeds OWNER/ADMIN for
-its old cases; assuming a third role was a new fixture setup error.
+Both runs passed actual CREDIT and REFUND commits, fresh-connection exact
+money/journal/date/stock/HPP assertions, unchanged original payments,
+committed replay and five negative cases. The STAFF case stopped before
+STAFF Auth login/refund calls, so neither run proves the non-owner distinction.
 
-The corrected test explicitly creates a non-system, unprotected active STAFF
-master only if absent, exclusively on its disposable HTTP copy. An existing
-inactive STAFF remains a setup refusal. It then copies the actual OWNER fine
-permission keys, checks all six required keys, creates a real Auth STAFF user
-through the unchanged retained harness, and requires that same user's CREDIT
-quote to succeed before both REFUND calls fail with the exact unchanged
-Native400/P0001 owner/admin message. No Native permission/posting helper,
-public facade, authority guard or product role is replaced or broadened.
+The writer initially interpreted a lookup filtered by is_active as an absent
+STAFF master. That diagnosis was wrong. The next run proves the existing
+STAFF is inactive; migration20260902104937 seeds that Legacy STAFF inactive.
+The first correction only created absent rows and deliberately refused an
+inactive existing row, producing the second fixture error.
 
-The eight declared IDs and EXPECTED.json remain unchanged fromf3437108.
-Both implementation bytes and the reused Native44 core identity remain
-reported independently. A fresh actual HTTP run is required; the historical
-seven passing cases are not reclassified as an eight-case PASS.
+The final administrative setup explicitly activates this STAFF only on the
+disposable HTTP copy, records prior_active/created/activated, and preserves
+its actual STAFF identity and system/protection flags. It copies the actual
+OWNER fine-permission keys, asserts all six required keys, uses unchanged
+real Auth user creation/password-grant login, and requires the same user's
+CREDIT quote to succeed before both REFUND calls fail with the exact unchanged
+Native400/P0001 owner/admin message. No Native authority helper, guard,
+public facade, product master or frozen monetary/date golden changes.
+The eight IDs and EXPECTED.json remain byte-identical to f3437108.
 
-The following six SQL concurrency/recovery cases are separately predeclared
-in RACE_EXPECTED.json. They exercise actual waiting, COMMIT/ROLLBACK and an
-explicit known-backend termination on disposable copies. They are not real
-Auth or browser tests and cannot inherit PASS from either previous group.
-No Enteng/main/production changes; OW04 remains open, production_go:false.
+The workflow now collects the two independent copied-runtime groups even
+if one inner test fails, after verifying CP6 restoration, primary unchanged
+and real Auth cleanup before preserving HTTP proofs and making a fresh AB
+clone. continue-on-error never permits overall PASS: the final gate requires
+both actual GitHub step outcomes to be success (not the masked conclusion),
+both preserved/current package reports' five original gates all true, and
+all inner exact8/6 IDs/counts/candidate/core/restore/advisor/cleanup checks.
+The counter's two false-green reproductions and previous gate/workflow are
+preserved in race-check; the final source recheck and24 synthetic gate controls
+reject those counterexamples. Those controls are not runtime/Auth/Native proof.
+
+A fresh actual qualification is required. Historical seven-case PASS is not
+reclassified as eight-case PASS. No browser, race, whole-server crash or
+production readiness is inferred. OW04 remains open; production_go:false.

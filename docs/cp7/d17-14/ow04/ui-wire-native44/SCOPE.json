@@ -1,0 +1,12 @@
+{
+  "classification": "PREDECLARED_FRESH_WIRE_INPUTS_REUSED_ACTUAL_NATIVE44_NOT_NEW_NATIVE_BROWSER_OR_UI",
+  "candidate": "ef98e6e65c13322bf08e6f704e511bdbb03a07a8",
+  "run": 39489386389,
+  "job": 118858149684,
+  "source": "CI_EF98_NATIVE44_RUNTIME.log.gz",
+  "expected_native_pairs": 12,
+  "expected_assertions": 72,
+  "parser_changed": false,
+  "active_UI": false,
+  "production_go": false
+}

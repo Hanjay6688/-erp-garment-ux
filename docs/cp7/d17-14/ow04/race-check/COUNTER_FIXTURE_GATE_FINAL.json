@@ -1,0 +1,231 @@
+{
+  "label": "OW04_STAFF_FIXTURE_FINAL_GATE_BOUNDED_RECHECK",
+  "assessment": "PREVIOUS_TWO_FALSE_GREEN_COUNTERS_CLOSED_PURE_GATE_REPRODUCTION",
+  "scope": "Only previous two outer-package false-green counters, actual outcome environment wiring and failure receipt.",
+  "candidate_observed": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+  "reviewed_sha256": {
+    "scripts/ow04-qualification/qualification_gate.py": "641623324e1852b7ae646539ee44c30509c6998d136c4065b6fc3b92918170ea",
+    ".github/workflows/cp7-ow04-http.yml": "1a93652a10f94dca7aef78ca235644ba4bcd7ee77cd4f5e3767552ab46e7743c",
+    "scripts/ow04-qualification/EXPECTED.json": "a91685c5d3b043af1839555fa694f643742a48ddd618d855bda4b676a5513d7d",
+    "scripts/ow04-qualification/RACE_EXPECTED.json": "7472ecc59d32e837ff882a8991c4f55226a3afb152887760f3d237f8101b3802",
+    "scripts/ow04-qualification/cp7_ow04_http_cases.py": "b557397344120a7e77cd05b1ff161da4a047320c3362e7059cf4f8992213463d",
+    "scripts/ow04-qualification/transport_probe.py": "6526197e374024357e380a9ca2624b58a64cba0fdc92646c3377999432bfd813",
+    "scripts/ow04-qualification/race_probe.py": "69148dbdf9f14144a90613b1d3126de434d412c0fd8571a78b25a4e5908e2f4c"
+  },
+  "initial_counter_sha256": "0aba73228338111013241b45c9d53658ec3a7a19645bfd34d711312f3748e9e5",
+  "literal_expected_before_recheck": {
+    "complete": "ACCEPT",
+    "old_race_primary_changed": "REFUSE",
+    "old_HTTP_drill_failed": "REFUSE",
+    "HTTP_step_failed_only": "REFUSE",
+    "race_step_failed_only": "REFUSE",
+    "outcome_env_absent": "REFUSE"
+  },
+  "unchanged_module_and_expected_pins": {
+    "scripts/ow04-qualification/EXPECTED.json": true,
+    "scripts/ow04-qualification/RACE_EXPECTED.json": true,
+    "scripts/ow04-qualification/cp7_ow04_http_cases.py": true,
+    "scripts/ow04-qualification/transport_probe.py": true,
+    "scripts/ow04-qualification/race_probe.py": true
+  },
+  "database_connections_opened": false,
+  "http_executed": false,
+  "Native_executed": false,
+  "product_edited": false,
+  "child_agents_spawned": false,
+  "findings": [],
+  "checks": [
+    {
+      "id": "ACTUAL_GITHUB_OUTCOME_NOT_MASKED_CONCLUSION",
+      "expected": "Both actual entry outcomes must be success, including after continue-on-error.",
+      "observed_source": "Final always step provides steps.http_settlement.outcome and steps.race_settlement.outcome through the two env vars. CLI reads those exact variables and require() refuses every other outcome mapping. Each failed or missing outcome is refused by actual CLI with complete synthetic inner/outer reports.",
+      "evidence": [
+        ".github/workflows/cp7-ow04-http.yml:237-243",
+        "qualification_gate.py:6-7,40-49"
+      ]
+    },
+    {
+      "id": "OLD_RACE_PRIMARY_CHANGED",
+      "expected": "REFUSE",
+      "observed": "REFUSE for the source-reachable failed step outcome and independently REFUSE when success outcomes are supplied but current race package primary_unchanged gate is false.",
+      "evidence": [
+        "qualification_gate.py:28-32",
+        "pure_gate_results"
+      ]
+    },
+    {
+      "id": "OLD_HTTP_BACKUP_DRILL_FAILED",
+      "expected": "REFUSE",
+      "observed": "REFUSE for the source-reachable failed step outcome and independently REFUSE when success outcomes are supplied but preserved HTTP package backup_restore_drill gate is false. Harness now uses the real sibling preserved directory specified by the fixed gate.",
+      "evidence": [
+        "qualification_gate.py:28-32",
+        "pure_gate_results"
+      ]
+    },
+    {
+      "id": "FAILURE_RECEIPT_RETAINED",
+      "expected": "Refusal exits nonzero and writes final INCOMPLETE receipt.",
+      "observed": "Actual CLI on failed HTTP outcome, failed race outcome and absent env writes INCOMPLETE JSON and exits1. The complete synthetic control exits0 and records both package SHA256 values plus outcomes.",
+      "evidence": [
+        "qualification_gate.py:33-50",
+        "pure_gate_results"
+      ]
+    }
+  ],
+  "pure_gate_results": [
+    {
+      "id": "old_race_primary_changed",
+      "variant": "source_reachable_failed_command",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "step_outcomes": {
+        "HTTP": "success",
+        "RACES": "failure"
+      },
+      "actual_gate_result": "('OW04_FINAL_COMMAND_OUTCOME', {'HTTP': 'success', 'RACES': 'failure'})",
+      "execution": "ACTUAL_REQUIRE_FUNCTION_SYNTHETIC_JSON"
+    },
+    {
+      "id": "old_race_primary_changed",
+      "variant": "isolate_package_defense_with_supplied_success_outcomes",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "step_outcomes": {
+        "HTTP": "success",
+        "RACES": "success"
+      },
+      "actual_gate_result": "('OW04_FINAL_PACKAGE_GATE', 'RACES', {'installed': True, 'primary_unchanged': False, 'backup_restore_drill': True, 'security_advisors': True, 'writer_runtime': True})",
+      "execution": "ACTUAL_REQUIRE_FUNCTION_SYNTHETIC_JSON"
+    },
+    {
+      "id": "old_HTTP_drill_failed",
+      "variant": "source_reachable_failed_command",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "step_outcomes": {
+        "HTTP": "failure",
+        "RACES": "success"
+      },
+      "actual_gate_result": "('OW04_FINAL_COMMAND_OUTCOME', {'HTTP': 'failure', 'RACES': 'success'})",
+      "execution": "ACTUAL_REQUIRE_FUNCTION_SYNTHETIC_JSON"
+    },
+    {
+      "id": "old_HTTP_drill_failed",
+      "variant": "isolate_package_defense_with_supplied_success_outcomes",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "step_outcomes": {
+        "HTTP": "success",
+        "RACES": "success"
+      },
+      "actual_gate_result": "('OW04_FINAL_PACKAGE_GATE', 'HTTP', {'installed': True, 'primary_unchanged': True, 'backup_restore_drill': False, 'security_advisors': True, 'writer_runtime': True})",
+      "execution": "ACTUAL_REQUIRE_FUNCTION_SYNTHETIC_JSON"
+    },
+    {
+      "id": "complete",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "agrees": true,
+      "exit_code": 0,
+      "actual_final_receipt": {
+        "label": "OW04_HTTP_RACE_FINAL",
+        "status": "PASS",
+        "candidate": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+        "counts": {
+          "HTTP": 8,
+          "RACES": 6
+        },
+        "native44_reused_candidate": "ef98e6e65c13322bf08e6f704e511bdbb03a07a8",
+        "native44_rerun": false,
+        "reports": {
+          "HTTP": {
+            "candidate": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+            "core": "07064b179f82e6827020074d0dc9707fbe5bd76e",
+            "package_gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true,
+              "writer_runtime": true
+            },
+            "package_sha256": "d05d72f4f65ed2e7a25a2f9d9f92ae15f0e34231adef77d7ae786af9b38bb8c2"
+          },
+          "RACES": {
+            "candidate": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+            "core": "07064b179f82e6827020074d0dc9707fbe5bd76e",
+            "package_gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true,
+              "writer_runtime": true
+            },
+            "package_sha256": "d05d72f4f65ed2e7a25a2f9d9f92ae15f0e34231adef77d7ae786af9b38bb8c2"
+          }
+        },
+        "step_outcomes": {
+          "HTTP": "success",
+          "RACES": "success"
+        },
+        "feature_complete": false,
+        "audit_complete": false,
+        "production_go": false
+      },
+      "execution": "ACTUAL_GATE_CLI_SYNTHETIC_JSON_ENV_ONLY"
+    },
+    {
+      "id": "HTTP_step_failed_only",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "exit_code": 1,
+      "actual_final_receipt": {
+        "label": "OW04_HTTP_RACE_FINAL",
+        "status": "INCOMPLETE",
+        "candidate": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+        "error": "('OW04_FINAL_COMMAND_OUTCOME', {'HTTP': 'failure', 'RACES': 'success'})",
+        "production_go": false
+      },
+      "execution": "ACTUAL_GATE_CLI_SYNTHETIC_JSON_ENV_ONLY"
+    },
+    {
+      "id": "race_step_failed_only",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "exit_code": 1,
+      "actual_final_receipt": {
+        "label": "OW04_HTTP_RACE_FINAL",
+        "status": "INCOMPLETE",
+        "candidate": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+        "error": "('OW04_FINAL_COMMAND_OUTCOME', {'HTTP': 'success', 'RACES': 'failure'})",
+        "production_go": false
+      },
+      "execution": "ACTUAL_GATE_CLI_SYNTHETIC_JSON_ENV_ONLY"
+    },
+    {
+      "id": "outcome_env_absent",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "exit_code": 1,
+      "actual_final_receipt": {
+        "label": "OW04_HTTP_RACE_FINAL",
+        "status": "INCOMPLETE",
+        "candidate": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+        "error": "('OW04_FINAL_COMMAND_OUTCOME', {'HTTP': None, 'RACES': None})",
+        "production_go": false
+      },
+      "execution": "ACTUAL_GATE_CLI_SYNTHETIC_JSON_ENV_ONLY"
+    }
+  ],
+  "limits": [
+    "Actual pure Python gate/CLI executed only against explicitly synthetic JSON; no DB/Auth/HTTP/race/Native execution.",
+    "No new whole-feature or CI runtime acceptance.",
+    "The first-red counter and its expected verdicts remain unchanged."
+  ]
+}

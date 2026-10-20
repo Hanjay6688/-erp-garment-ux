@@ -1,0 +1,129 @@
+{
+  "classification": "SYNTHETIC_CI_GATE_CONTROLS_NOT_PRODUCT_AUTH_NATIVE_HTTP_OR_RACE_EXECUTION",
+  "controls": 24,
+  "results": [
+    {
+      "case": "SYNTHETIC_COMPLETE14_AND_OUTER_GATES_ACCEPTED",
+      "status": "PASS"
+    },
+    {
+      "case": "HTTP7_PLUS_INCOMPLETE",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_COUNTS', 'HTTP')"
+    },
+    {
+      "case": "RACE5_PLUS_INCOMPLETE",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_COUNTS', 'RACES')"
+    },
+    {
+      "case": "CANDIDATE_CHANGED",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_CANDIDATE_CHANGED', 'HTTP')"
+    },
+    {
+      "case": "CORE_CHANGED",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_CORE_CHANGED', 'RACES')"
+    },
+    {
+      "case": "RESTORE_FALSE",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_RESTORE_OR_ADVISOR', 'HTTP')"
+    },
+    {
+      "case": "ADVISOR_FALSE",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_RESTORE_OR_ADVISOR', 'RACES')"
+    },
+    {
+      "case": "AUTH_FALSE",
+      "status": "PASS",
+      "refused": "OW04_FINAL_AUTH_NOT_RESTORED"
+    },
+    {
+      "case": "AUTH_CLEANUP_FAILED",
+      "status": "PASS",
+      "refused": "OW04_FINAL_AUTH_NOT_RESTORED"
+    },
+    {
+      "case": "DB_REMAINS",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_DATABASE_REMAINS', 'RACES')"
+    },
+    {
+      "case": "FORGED_COUNTS_WRONG_ROW",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_CASE_SET', 'RACES')"
+    },
+    {
+      "case": "MISSING_CASE",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_CASE_SET', 'HTTP')"
+    },
+    {
+      "case": "MISSING_REPORT",
+      "status": "PASS",
+      "refused": "[Errno 2] No such file or directory: '/tmp/ow04-ci-gate-25mtdjci/t3/CP7_OW04_RACES.json'"
+    },
+    {
+      "case": "MISSING_HTTP_PACKAGE",
+      "status": "PASS",
+      "refused": "[Errno 2] No such file or directory: '/tmp/ow04-ci-gate-25mtdjci/ow04-http-completed/T3_PACKAGE_INSTALL.json'"
+    },
+    {
+      "case": "MISSING_RACE_PACKAGE",
+      "status": "PASS",
+      "refused": "[Errno 2] No such file or directory: '/tmp/ow04-ci-gate-25mtdjci/t3/T3_PACKAGE_INSTALL.json'"
+    },
+    {
+      "case": "HTTP_OUTER_BACKUP_FAILED_WITH_INNER_PASS",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_PACKAGE_GATE', 'HTTP', {'installed': True, 'primary_unchanged': True, 'backup_restore_drill': False, 'security_advisors': True, 'writer_runtime': True})"
+    },
+    {
+      "case": "RACE_OUTER_PRIMARY_CHANGED_WITH_INNER_PASS",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_PACKAGE_GATE', 'RACES', {'installed': True, 'primary_unchanged': False, 'backup_restore_drill': True, 'security_advisors': True, 'writer_runtime': True})"
+    },
+    {
+      "case": "RACE_OUTER_ADVISOR_FAILED",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_PACKAGE_GATE', 'RACES', {'installed': True, 'primary_unchanged': True, 'backup_restore_drill': True, 'security_advisors': False, 'writer_runtime': True})"
+    },
+    {
+      "case": "OUTER_RUNTIME_FAILED",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_PACKAGE_GATE', 'RACES', {'installed': True, 'primary_unchanged': True, 'backup_restore_drill': True, 'security_advisors': True, 'writer_runtime': False})"
+    },
+    {
+      "case": "OUTER_GATE_MISSING_KEY",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_PACKAGE_GATE', 'HTTP', {'installed': True, 'backup_restore_drill': True, 'security_advisors': True, 'writer_runtime': True})"
+    },
+    {
+      "case": "OUTER_TRUTHY_INTEGER_NOT_TRUE",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_PACKAGE_GATE', 'RACES', {'installed': True, 'primary_unchanged': 1, 'backup_restore_drill': True, 'security_advisors': True, 'writer_runtime': True})"
+    },
+    {
+      "case": "HTTP_COMMAND_FAILED",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_COMMAND_OUTCOME', {'HTTP': 'failure', 'RACES': 'success'})"
+    },
+    {
+      "case": "RACE_COMMAND_FAILED",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_COMMAND_OUTCOME', {'HTTP': 'success', 'RACES': 'failure'})"
+    },
+    {
+      "case": "COMMAND_OUTCOMES_MISSING",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_COMMAND_OUTCOME', None)"
+    }
+  ],
+  "gate_sha256": "641623324e1852b7ae646539ee44c30509c6998d136c4065b6fc3b92918170ea",
+  "control_source_sha256": "d106d9c5ecfa8da025cc4355a214691217895066f1f581449884342123251411",
+  "runtime_cases_executed": 0,
+  "db_connections": 0
+}

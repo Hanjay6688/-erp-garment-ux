@@ -203,9 +203,21 @@ jobs:
     - name: Install exact Native44-qualified core and qualify eight real Auth HTTP cases
       working-directory: writer
       run: python '../auditor/scripts/ow04-qualification/transport_probe.py'
+      id: http_settlement
+      continue-on-error: true
     - name: Preserve HTTP evidence and clone fresh AB state for the separate race entry
       working-directory: writer
       run: |
+        set -euo pipefail
+        python - <<'PY_SAFE'
+        import json,pathlib
+        root=pathlib.Path('../auditor/cp6-proof/t3')
+        http=json.loads((root/'CP7_OW04_HTTP.json').read_text())
+        package=json.loads((root/'T3_PACKAGE_INSTALL.json').read_text())
+        assert http.get('cp6_restored') is True, 'HTTP did not restore CP6; race entry refused'
+        assert package.get('primary_unchanged') is True, 'HTTP changed primary; race entry refused'
+        assert (http.get('http',{}).get('auth_counts') or {}).get('restored') is True, 'HTTP Auth cleanup incomplete; race entry refused'
+        PY_SAFE
         python - <<'PY_COPY'
         import shutil
         shutil.copytree('../auditor/cp6-proof/t3','../auditor/cp6-proof/ow04-http-completed')
@@ -220,6 +232,15 @@ jobs:
     - name: Qualify six actual SQL races and uncommitted backend recovery
       working-directory: writer
       run: python '../auditor/scripts/ow04-qualification/race_probe.py'
+      id: race_settlement
+      continue-on-error: true
+    - name: Require all eight HTTP and all six race cases
+      if: always()
+      working-directory: writer
+      run: python '../auditor/scripts/ow04-qualification/qualification_gate.py' '../auditor/cp6-proof/t3'
+      env:
+        OW04_HTTP_STEP_OUTCOME: ${{ steps.http_settlement.outcome }}
+        OW04_RACE_STEP_OUTCOME: ${{ steps.race_settlement.outcome }}
     - name: Remove disposable database
       if: always()
       working-directory: base

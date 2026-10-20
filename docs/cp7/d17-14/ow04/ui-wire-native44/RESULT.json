@@ -1,0 +1,445 @@
+{
+  "classification": "UI_PARSER_VS_REUSED_NATIVE44_WIRE_NOT_NEW_NATIVE_OR_BROWSER",
+  "native_candidate": "ef98e6e65c13322bf08e6f704e511bdbb03a07a8",
+  "run": 39489386389,
+  "job": 118858149684,
+  "expected": "All12 real server quotes and outcomes parse; frontend command document exactly equals the actual settled envelope; contradictory money, wrong outcome digest and changed source version reject. Same unmodified proposal parser, no RPC/DB/browser.",
+  "status": "PASS",
+  "native_pairs": 12,
+  "assertion_count": 72,
+  "parser_sha256": "fa9e916cdfddeae72cfe842d4dd40c74a257f541396fa9ea55f09694ad7463cf",
+  "results": [
+    {
+      "case": "OW04_INITIAL_1000_OPEN_CREDIT",
+      "assertion": "actual_quote",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_OPEN_CREDIT",
+      "assertion": "actual_envelope",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_OPEN_CREDIT",
+      "assertion": "actual_outcome",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_OPEN_CREDIT",
+      "assertion": "contradictory_money_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_1000_OPEN_CREDIT",
+      "assertion": "wrong_outcome_digest_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_1000_OPEN_CREDIT",
+      "assertion": "changed_source_version_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_1000_OPEN_REFUND",
+      "assertion": "actual_quote",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_OPEN_REFUND",
+      "assertion": "actual_envelope",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_OPEN_REFUND",
+      "assertion": "actual_outcome",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_OPEN_REFUND",
+      "assertion": "contradictory_money_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_1000_OPEN_REFUND",
+      "assertion": "wrong_outcome_digest_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_1000_OPEN_REFUND",
+      "assertion": "changed_source_version_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_1000_CLOSED_CREDIT",
+      "assertion": "actual_quote",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_CLOSED_CREDIT",
+      "assertion": "actual_envelope",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_CLOSED_CREDIT",
+      "assertion": "actual_outcome",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_CLOSED_CREDIT",
+      "assertion": "contradictory_money_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_1000_CLOSED_CREDIT",
+      "assertion": "wrong_outcome_digest_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_1000_CLOSED_CREDIT",
+      "assertion": "changed_source_version_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_1000_CLOSED_REFUND",
+      "assertion": "actual_quote",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_CLOSED_REFUND",
+      "assertion": "actual_envelope",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_CLOSED_REFUND",
+      "assertion": "actual_outcome",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_CLOSED_REFUND",
+      "assertion": "contradictory_money_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_1000_CLOSED_REFUND",
+      "assertion": "wrong_outcome_digest_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_1000_CLOSED_REFUND",
+      "assertion": "changed_source_version_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_1000_REOPENED_CREDIT",
+      "assertion": "actual_quote",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_REOPENED_CREDIT",
+      "assertion": "actual_envelope",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_REOPENED_CREDIT",
+      "assertion": "actual_outcome",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_REOPENED_CREDIT",
+      "assertion": "contradictory_money_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_1000_REOPENED_CREDIT",
+      "assertion": "wrong_outcome_digest_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_1000_REOPENED_CREDIT",
+      "assertion": "changed_source_version_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_1000_REOPENED_REFUND",
+      "assertion": "actual_quote",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_REOPENED_REFUND",
+      "assertion": "actual_envelope",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_REOPENED_REFUND",
+      "assertion": "actual_outcome",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_1000_REOPENED_REFUND",
+      "assertion": "contradictory_money_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_1000_REOPENED_REFUND",
+      "assertion": "wrong_outcome_digest_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_1000_REOPENED_REFUND",
+      "assertion": "changed_source_version_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_OPEN_CREDIT",
+      "assertion": "actual_quote",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_OPEN_CREDIT",
+      "assertion": "actual_envelope",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_OPEN_CREDIT",
+      "assertion": "actual_outcome",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_OPEN_CREDIT",
+      "assertion": "contradictory_money_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_OPEN_CREDIT",
+      "assertion": "wrong_outcome_digest_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_OPEN_CREDIT",
+      "assertion": "changed_source_version_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_OPEN_REFUND",
+      "assertion": "actual_quote",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_OPEN_REFUND",
+      "assertion": "actual_envelope",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_OPEN_REFUND",
+      "assertion": "actual_outcome",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_OPEN_REFUND",
+      "assertion": "contradictory_money_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_OPEN_REFUND",
+      "assertion": "wrong_outcome_digest_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_OPEN_REFUND",
+      "assertion": "changed_source_version_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_CLOSED_CREDIT",
+      "assertion": "actual_quote",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_CLOSED_CREDIT",
+      "assertion": "actual_envelope",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_CLOSED_CREDIT",
+      "assertion": "actual_outcome",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_CLOSED_CREDIT",
+      "assertion": "contradictory_money_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_CLOSED_CREDIT",
+      "assertion": "wrong_outcome_digest_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_CLOSED_CREDIT",
+      "assertion": "changed_source_version_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_CLOSED_REFUND",
+      "assertion": "actual_quote",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_CLOSED_REFUND",
+      "assertion": "actual_envelope",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_CLOSED_REFUND",
+      "assertion": "actual_outcome",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_CLOSED_REFUND",
+      "assertion": "contradictory_money_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_CLOSED_REFUND",
+      "assertion": "wrong_outcome_digest_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_CLOSED_REFUND",
+      "assertion": "changed_source_version_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_REOPENED_CREDIT",
+      "assertion": "actual_quote",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_REOPENED_CREDIT",
+      "assertion": "actual_envelope",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_REOPENED_CREDIT",
+      "assertion": "actual_outcome",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_REOPENED_CREDIT",
+      "assertion": "contradictory_money_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_REOPENED_CREDIT",
+      "assertion": "wrong_outcome_digest_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_REOPENED_CREDIT",
+      "assertion": "changed_source_version_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_REOPENED_REFUND",
+      "assertion": "actual_quote",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_REOPENED_REFUND",
+      "assertion": "actual_envelope",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_REOPENED_REFUND",
+      "assertion": "actual_outcome",
+      "status": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "OW04_INITIAL_900_REOPENED_REFUND",
+      "assertion": "contradictory_money_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_REOPENED_REFUND",
+      "assertion": "wrong_outcome_digest_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    },
+    {
+      "case": "OW04_INITIAL_900_REOPENED_REFUND",
+      "assertion": "changed_source_version_refused",
+      "status": "PASS",
+      "observed_error": "Perhitungan penyelesaian retur berubah atau belum lengkap. Periksa ulang sumber retur."
+    }
+  ]
+}

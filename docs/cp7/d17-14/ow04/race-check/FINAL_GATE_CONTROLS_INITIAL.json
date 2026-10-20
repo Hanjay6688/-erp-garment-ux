@@ -1,0 +1,73 @@
+{
+  "classification": "SYNTHETIC_CI_GATE_CONTROLS_NOT_PRODUCT_AUTH_NATIVE_HTTP_OR_RACE_EXECUTION",
+  "controls": 13,
+  "results": [
+    {
+      "case": "SYNTHETIC_COMPLETE14_ACCEPTED",
+      "status": "PASS"
+    },
+    {
+      "case": "HTTP7_PLUS_INCOMPLETE",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_COUNTS', 'HTTP')"
+    },
+    {
+      "case": "RACE5_PLUS_INCOMPLETE",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_COUNTS', 'RACES')"
+    },
+    {
+      "case": "CANDIDATE_CHANGED",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_CANDIDATE_CHANGED', 'HTTP')"
+    },
+    {
+      "case": "CORE_CHANGED",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_CORE_CHANGED', 'RACES')"
+    },
+    {
+      "case": "RESTORE_FALSE",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_RESTORE_OR_ADVISOR', 'HTTP')"
+    },
+    {
+      "case": "ADVISOR_FALSE",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_RESTORE_OR_ADVISOR', 'RACES')"
+    },
+    {
+      "case": "AUTH_FALSE",
+      "status": "PASS",
+      "refused": "OW04_FINAL_AUTH_NOT_RESTORED"
+    },
+    {
+      "case": "AUTH_CLEANUP_FAILED",
+      "status": "PASS",
+      "refused": "OW04_FINAL_AUTH_NOT_RESTORED"
+    },
+    {
+      "case": "DB_REMAINS",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_DATABASE_REMAINS', 'RACES')"
+    },
+    {
+      "case": "FORGED_COUNTS_WRONG_ROW",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_CASE_SET', 'RACES')"
+    },
+    {
+      "case": "MISSING_CASE",
+      "status": "PASS",
+      "refused": "('OW04_FINAL_CASE_SET', 'HTTP')"
+    },
+    {
+      "case": "MISSING_REPORT",
+      "status": "PASS",
+      "refused": "[Errno 2] No such file or directory: '/tmp/ow04-ci-gate-jjl6xeiz/CP7_OW04_RACES.json'"
+    }
+  ],
+  "gate_sha256": "cb5194cef041b2f30f99b7803d9ad64c6345aa87cc0a1755d61cadc9796963fc",
+  "runtime_cases_executed": 0,
+  "db_connections": 0
+}

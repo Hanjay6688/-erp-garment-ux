@@ -1,0 +1,12 @@
+{
+  "classification": "LOSSLESS_HISTORICAL_UI_PROPOSAL_ESCROW_NOT_ACTIVE_CODE_OR_NEW_RUNTIME",
+  "member_count": 53,
+  "tar_bytes": 358400,
+  "gzip_bytes": 68571,
+  "tar_sha256": "4b12192ebdc7338453ae9573c3d8b804be1dd220e75467f3932bc32f74b0964a",
+  "gzip_sha256": "09d063ce179be6f579aa561fb9ca7dd32841ecb838fef1199a7e7ca66e33d349",
+  "all_member_hashes_match_manifest": true,
+  "contains_symlinks": false,
+  "contains_worktree_or_dependencies": false,
+  "active_product_edits": false
+}

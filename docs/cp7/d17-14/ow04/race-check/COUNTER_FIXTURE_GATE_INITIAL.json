@@ -1,0 +1,338 @@
+{
+  "label": "OW04_STAFF_FIXTURE_AND_FINAL_CI_GATE_INDEPENDENT_COUNTER",
+  "assessment": "SOURCE_ONLY_BLOCKER_WITH_PURE_PYTHON_REPRODUCTION",
+  "runtime_executed": "ACTUAL_PURE_GATE_FUNCTION_ON_SYNTHETIC_JSON_ONLY",
+  "database_connections_opened": false,
+  "http_executed": false,
+  "Native_executed": false,
+  "product_edited": false,
+  "child_agents_spawned": false,
+  "candidate_observed": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+  "reviewed_sha256": {
+    "scripts/ow04-qualification/qualification_gate.py": "cb5194cef041b2f30f99b7803d9ad64c6345aa87cc0a1755d61cadc9796963fc",
+    "scripts/ow04-qualification/cp7_ow04_http_cases.py": "b557397344120a7e77cd05b1ff161da4a047320c3362e7059cf4f8992213463d",
+    "scripts/ow04-qualification/transport_probe.py": "6526197e374024357e380a9ca2624b58a64cba0fdc92646c3377999432bfd813",
+    "scripts/ow04-qualification/race_probe.py": "69148dbdf9f14144a90613b1d3126de434d412c0fd8571a78b25a4e5908e2f4c",
+    "scripts/ow04-qualification/EXPECTED.json": "a91685c5d3b043af1839555fa694f643742a48ddd618d855bda4b676a5513d7d",
+    "scripts/ow04-qualification/RACE_EXPECTED.json": "7472ecc59d32e837ff882a8991c4f55226a3afb152887760f3d237f8101b3802",
+    "scripts/ow04-qualification/QUALIFIED_CORE.json": "a731ad51ba486658b95ffaa52b27a9c35481cbd3e7a9f7ab5d48274a287c5a17",
+    ".github/workflows/cp7-ow04-http.yml": "823069e6a5b5d4904a2d2cff42099174a98239504288f8fea81198efddb3d1f4",
+    "scripts/cp6_t3_package_run.py": "952bbf1b99652dadf69ab0e1291979a4e7227182631baaab6af7a7eabcb80ab0",
+    "scripts/cp6_auditor_modes.py": "d927c7491c72fe1eecfd1b4b8b4faf7e1710d6943fda601ede6a599fbc99209f"
+  },
+  "fixtures_or_authority_not_validated_by_runtime": true,
+  "findings": [
+    {
+      "id": "CONTINUE_ON_ERROR_CAN_HIDE_OUTER_PACKAGE_FAILURE",
+      "severity": "BLOCKER",
+      "scenario": "Both inner case reports are PASS8/PASS6, but either entry exits nonzero after its inner group completes: e.g. race package primary_unchanged=false or HTTP package backup_restore_drill failure.",
+      "expected": "Final CI gate must refuse a failed entry command or any failed retained outer package gate, while permitting safe collection of the other group.",
+      "observed": "qualification_gate.require reads only CP7_OW04_HTTP.json and CP7_OW04_RACES.json. It ignores both step outcomes and both outer T3_PACKAGE_INSTALL reports. Actual function accepts both synthetic source-reachable outer failures. Workflow continue-on-error makes those entry failures nonfatal; the final gate can then return PASS.",
+      "evidence": [
+        "scripts/ow04-qualification/qualification_gate.py:6-30",
+        ".github/workflows/cp7-ow04-http.yml:203-240",
+        "scripts/cp6_t3_package_run.py:211-242"
+      ],
+      "bounded_remedy": "Keep collection continuation but require the two GitHub step outcome values to be success in the always final gate (use outcome, not the success-masked conclusion), or verify all original outer gates from preserved HTTP and final race package reports. Retain existing exact inner group checks."
+    }
+  ],
+  "checks": [
+    {
+      "id": "STAFF_ACTIVATION_RETAINS_NON_OWNER_ROLE",
+      "expected": "Explicit active STAFF precondition only in disposable HTTP copy; no OwnerAdmin identity or guard stub.",
+      "observed_source": "Existing STAFF is activated by id only, preserving role_code and identity; absent STAFF is created non-system/unprotected. The fixture commits actual fine-permission keys, then uses unchanged real Auth login. Positive CREDIT quote and exact400/P0001 Native OwnerAdmin denial on REFUND quote+settle remain. prior_active/created/activated are recorded.",
+      "evidence": [
+        "cp7_ow04_http_cases.py:133-172",
+        "cp6_auditor_modes.py:275-289",
+        "scripts/cp7_customer_credit/admission/01_typed_context_and_preclaim.proposal.sql:88-99"
+      ]
+    },
+    {
+      "id": "SAFE_RECLONE_GUARD",
+      "expected": "No new clone from an unrestored HTTP primary or uncleared Auth state.",
+      "observed_source": "Intervening step refuses absent or nontrue HTTP cp6_restored, package primary_unchanged and Auth counts restored before copytree and allowlisted clone. This protects HTTP primary cleanup but does not establish all outer gates passed.",
+      "evidence": [
+        ".github/workflows/cp7-ow04-http.yml:208-231"
+      ]
+    },
+    {
+      "id": "EXACT_INNER_CASES_RETAINED",
+      "expected": "Missing/INCOMPLETE group cannot pass despite continue-on-error.",
+      "observed_source": "Actual gate checks current candidate/core/native-probe, exact8/6 counts+IDs+all rows PASS, restore/advisor, noDBleft and HTTP Auth cleanup. Synthetic HTTP7PASS1INCOMPLETE is refused; this does not cover outer package failure.",
+      "evidence": [
+        "qualification_gate.py:13-26"
+      ]
+    }
+  ],
+  "literal_expected_before_gate_calls": [
+    {
+      "id": "COMPLETE_GROUPS_AND_SUCCESSFUL_OUTER_COMMANDS",
+      "expected": "ACCEPT"
+    },
+    {
+      "id": "RACE_PRIMARY_CHANGED_AFTER_INNER_PASS",
+      "expected": "REFUSE"
+    },
+    {
+      "id": "HTTP_OUTER_BACKUP_DRILL_FAILED_AFTER_INNER_PASS",
+      "expected": "REFUSE"
+    },
+    {
+      "id": "HTTP_INCOMPLETE_GROUP",
+      "expected": "REFUSE"
+    }
+  ],
+  "pure_gate_results": [
+    {
+      "id": "COMPLETE_GROUPS_AND_SUCCESSFUL_OUTER_COMMANDS",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "agrees": true,
+      "supplied_outer_reports": {
+        "race": {
+          "status": "ALL_STAGES_INSTALLED",
+          "primary_unchanged": true,
+          "writer_runtime": {
+            "status": "PASS"
+          },
+          "backup_restore_drill": "RESTORED_IDENTICAL",
+          "gate": {
+            "installed": true,
+            "primary_unchanged": true,
+            "backup_restore_drill": true,
+            "security_advisors": true,
+            "writer_runtime": true
+          }
+        },
+        "HTTP_preserved": {
+          "status": "ALL_STAGES_INSTALLED",
+          "primary_unchanged": true,
+          "writer_runtime": {
+            "status": "PASS"
+          },
+          "backup_restore_drill": "RESTORED_IDENTICAL",
+          "gate": {
+            "installed": true,
+            "primary_unchanged": true,
+            "backup_restore_drill": true,
+            "security_advisors": true,
+            "writer_runtime": true
+          }
+        }
+      },
+      "workflow_outcomes": {
+        "http_step_outcome": "success",
+        "race_step_outcome": "success"
+      },
+      "actual_gate_result": {
+        "label": "OW04_HTTP_RACE_FINAL",
+        "status": "PASS",
+        "candidate": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+        "counts": {
+          "HTTP": 8,
+          "RACES": 6
+        },
+        "native44_reused_candidate": "ef98e6e65c13322bf08e6f704e511bdbb03a07a8",
+        "native44_rerun": false,
+        "reports": {
+          "HTTP": {
+            "candidate": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+            "core": "07064b179f82e6827020074d0dc9707fbe5bd76e"
+          },
+          "RACES": {
+            "candidate": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+            "core": "07064b179f82e6827020074d0dc9707fbe5bd76e"
+          }
+        },
+        "feature_complete": false,
+        "audit_complete": false,
+        "production_go": false
+      },
+      "synthetic": true
+    },
+    {
+      "id": "RACE_PRIMARY_CHANGED_AFTER_INNER_PASS",
+      "expected": "REFUSE",
+      "observed": "ACCEPT",
+      "agrees": false,
+      "supplied_outer_reports": {
+        "race": {
+          "status": "ALL_STAGES_INSTALLED",
+          "primary_unchanged": false,
+          "writer_runtime": {
+            "status": "PASS"
+          },
+          "backup_restore_drill": "RESTORED_IDENTICAL",
+          "gate": {
+            "installed": true,
+            "primary_unchanged": false,
+            "backup_restore_drill": true,
+            "security_advisors": true,
+            "writer_runtime": true
+          }
+        },
+        "HTTP_preserved": {
+          "status": "ALL_STAGES_INSTALLED",
+          "primary_unchanged": true,
+          "writer_runtime": {
+            "status": "PASS"
+          },
+          "backup_restore_drill": "RESTORED_IDENTICAL",
+          "gate": {
+            "installed": true,
+            "primary_unchanged": true,
+            "backup_restore_drill": true,
+            "security_advisors": true,
+            "writer_runtime": true
+          }
+        }
+      },
+      "workflow_outcomes": {
+        "http_step_outcome": "success",
+        "race_step_outcome": "failure"
+      },
+      "actual_gate_result": {
+        "label": "OW04_HTTP_RACE_FINAL",
+        "status": "PASS",
+        "candidate": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+        "counts": {
+          "HTTP": 8,
+          "RACES": 6
+        },
+        "native44_reused_candidate": "ef98e6e65c13322bf08e6f704e511bdbb03a07a8",
+        "native44_rerun": false,
+        "reports": {
+          "HTTP": {
+            "candidate": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+            "core": "07064b179f82e6827020074d0dc9707fbe5bd76e"
+          },
+          "RACES": {
+            "candidate": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+            "core": "07064b179f82e6827020074d0dc9707fbe5bd76e"
+          }
+        },
+        "feature_complete": false,
+        "audit_complete": false,
+        "production_go": false
+      },
+      "synthetic": true
+    },
+    {
+      "id": "HTTP_OUTER_BACKUP_DRILL_FAILED_AFTER_INNER_PASS",
+      "expected": "REFUSE",
+      "observed": "ACCEPT",
+      "agrees": false,
+      "supplied_outer_reports": {
+        "race": {
+          "status": "ALL_STAGES_INSTALLED",
+          "primary_unchanged": true,
+          "writer_runtime": {
+            "status": "PASS"
+          },
+          "backup_restore_drill": "RESTORED_IDENTICAL",
+          "gate": {
+            "installed": true,
+            "primary_unchanged": true,
+            "backup_restore_drill": true,
+            "security_advisors": true,
+            "writer_runtime": true
+          }
+        },
+        "HTTP_preserved": {
+          "status": "ALL_STAGES_INSTALLED",
+          "primary_unchanged": true,
+          "writer_runtime": {
+            "status": "PASS"
+          },
+          "backup_restore_drill": "INCOMPLETE",
+          "gate": {
+            "installed": true,
+            "primary_unchanged": true,
+            "backup_restore_drill": false,
+            "security_advisors": true,
+            "writer_runtime": true
+          }
+        }
+      },
+      "workflow_outcomes": {
+        "http_step_outcome": "failure",
+        "race_step_outcome": "success"
+      },
+      "actual_gate_result": {
+        "label": "OW04_HTTP_RACE_FINAL",
+        "status": "PASS",
+        "candidate": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+        "counts": {
+          "HTTP": 8,
+          "RACES": 6
+        },
+        "native44_reused_candidate": "ef98e6e65c13322bf08e6f704e511bdbb03a07a8",
+        "native44_rerun": false,
+        "reports": {
+          "HTTP": {
+            "candidate": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+            "core": "07064b179f82e6827020074d0dc9707fbe5bd76e"
+          },
+          "RACES": {
+            "candidate": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+            "core": "07064b179f82e6827020074d0dc9707fbe5bd76e"
+          }
+        },
+        "feature_complete": false,
+        "audit_complete": false,
+        "production_go": false
+      },
+      "synthetic": true
+    },
+    {
+      "id": "HTTP_INCOMPLETE_GROUP",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "agrees": true,
+      "supplied_outer_reports": {
+        "race": {
+          "status": "ALL_STAGES_INSTALLED",
+          "primary_unchanged": true,
+          "writer_runtime": {
+            "status": "PASS"
+          },
+          "backup_restore_drill": "RESTORED_IDENTICAL",
+          "gate": {
+            "installed": true,
+            "primary_unchanged": true,
+            "backup_restore_drill": true,
+            "security_advisors": true,
+            "writer_runtime": true
+          }
+        },
+        "HTTP_preserved": {
+          "status": "ALL_STAGES_INSTALLED",
+          "primary_unchanged": true,
+          "writer_runtime": {
+            "status": "PASS"
+          },
+          "backup_restore_drill": "RESTORED_IDENTICAL",
+          "gate": {
+            "installed": true,
+            "primary_unchanged": true,
+            "backup_restore_drill": true,
+            "security_advisors": true,
+            "writer_runtime": true
+          }
+        }
+      },
+      "workflow_outcomes": {
+        "http_step_outcome": "failure",
+        "race_step_outcome": "success"
+      },
+      "actual_gate_result": "('OW04_FINAL_INCOMPLETE', 'HTTP')",
+      "synthetic": true
+    }
+  ],
+  "limits": [
+    "No DB, Auth, HTTP, race or Native execution. Synthetic reports exercise the actual pure gate function only.",
+    "No product or frozen financial EXPECTED edits.",
+    "Earlier incorrect absent-STAFF diagnosis is not used; this review accepts explicit inactive STAFF baseline and evaluates the proposed disposable activation.",
+    "No claim that outer failure occurred in the cited actual HTTP run. The false-green path is an executable source counter."
+  ]
+}
