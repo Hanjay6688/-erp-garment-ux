@@ -1,0 +1,268 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/9442228ed2dc/erp-d1714
+
+ ❯ src/NativeStagedReportsPanel.dom.test.tsx (7 tests | 2 failed) 778ms
+   × retires every previously read report fact after 42501 and requires a fresh successful read 159ms
+   × retires every previously read report fact after NETWORK and requires a fresh successful read 154ms
+ ❯ src/NativeStagedRemindersPanel.dom.test.tsx (7 tests | 2 failed) 897ms
+   × retires stored conditions, checks and previews after 42501 until a successful reread 199ms
+   × retires stored conditions, checks and previews after NETWORK until a successful reread 201ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/NativeStagedRemindersPanel.dom.test.tsx > retires stored conditions, checks and previews after 42501 until a successful reread
+ FAIL  src/NativeStagedRemindersPanel.dom.test.tsx > retires stored conditions, checks and previews after NETWORK until a successful reread
+AssertionError: expected <ul …(1)><li …(1)>…(5)</li>
+…(2)</ul> to be null
+
+- Expected:
+null
+
++ Received:
+<ul
+  aria-label="Daftar pengingat dari analisis"
+>
+  <li
+    data-condition-key="PRODUCTION_GAP:00000000-0000-4000-8000-000000000001:44444444-4444-4444-8444-444444444444"
+  >
+    <p>
+      <strong>
+        SKU-1 · Produk 1
+      </strong>
+       · 
+      Kebutuhan produksi
+       · 
+      Perlu ditangani saat analisis
+       · 
+      4
+       
+      PCS
+    </p>
+    <p>
+      Pengaturan: 
+      Bisa ditinjau secara lokal
+    </p>
+    <button
+      aria-label="Periksa ulang sekarang SKU-1 · Produk 1"
+    >
+      Periksa ulang sekarang
+    </button>
+    <button
+      aria-label="Buat pratinjau lokal SKU-1 · Produk 1"
+    >
+      Buat pratinjau lokal
+    </button>
+    <p
+      data-verdict="STILL_OPEN"
+      role="status"
+    >
+      Hasil periksa ulang 
+      8 Okt 2026, 09.00 WIB
+      : 
+      Masih perlu: kurang sedikitnya 4 PCS sekarang (analisis: 4 PCS).
+    </p>
+  </li>
+  <li
+    data-condition-key="PRODUCTION_GAP:00000000-0000-4000-8000-000000000002:44444444-4444-4444-8444-444444444444"
+  >
+    <p>
+      <strong>
+        SKU-2 · Produk 2
+      </strong>
+       · 
+      Kebutuhan produksi
+       · 
+      Perlu ditangani saat analisis
+       · 
+      5
+       
+      PCS
+    </p>
+    <p>
+      Pengaturan: 
+      Bisa ditinjau secara lokal
+    </p>
+    <button
+      aria-label="Periksa ulang sekarang SKU-2 · Produk 2"
+    >
+      Periksa ulang sekarang
+    </button>
+    <button
+      aria-label="Buat pratinjau lokal SKU-2 · Produk 2"
+    >
+      Buat pratinjau lokal
+    </button>
+  </li>
+  <li
+    data-condition-key="PRODUCTION_GAP:00000000-0000-4000-8000-000000000003:44444444-4444-4444-8444-444444444444"
+  >
+    <p>
+      <strong>
+        SKU-3 · Produk 3
+      </strong>
+       · 
+      Kebutuhan produksi
+       · 
+      Perlu ditangani saat analisis
+       · 
+      6
+       
+      PCS
+    </p>
+    <p>
+      Pengaturan: 
+      Bisa ditinjau secara lokal
+    </p>
+    <button
+      aria-label="Periksa ulang sekarang SKU-3 · Produk 3"
+    >
+      Periksa ulang sekarang
+    </button>
+    <button
+      aria-label="Buat pratinjau lokal SKU-3 · Produk 3"
+    >
+      Buat pratinjau lokal
+    </button>
+  </li>
+</ul>
+
+ ❯ src/NativeStagedRemindersPanel.dom.test.tsx:79:83
+     77|  await click('Muat hasil pengingat tersimpan')
+     78|  expect(container.querySelector('[role="alert"]')).toBeTruthy()
+     79|  expect(container.querySelector('[aria-label="Daftar pengingat dari an…
+       |                                                                                   ^
+     80|  expect(container.querySelector('[data-verdict="STILL_OPEN"]')).toBeNu…
+     81|  expect(container.querySelector('[aria-label="Pratinjau lokal penginga…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/NativeStagedReportsPanel.dom.test.tsx > retires every previously read report fact after 42501 and requires a fresh successful read
+ FAIL  src/NativeStagedReportsPanel.dom.test.tsx > retires every previously read report fact after NETWORK and requires a fresh successful read
+AssertionError: expected <article …(3)>…(9)</article> to be null
+
+- Expected:
+null
+
++ Received:
+<article
+  aria-label="Isi laporan bertahap"
+  data-freshness-state="CHANGES_RECORDED"
+  data-report-id="44444444-4444-4444-8444-444444444444"
+>
+  <h4>
+    Briefing pagi
+     · versi 
+    1
+  </h4>
+  <p>
+    Versi terbaru dalam seri ini.
+     Data analisis per 
+    8 Okt 2026, 08.00 WIB
+    . 
+    Saat laporan dibuat: ada 3 perubahan tercatat sejak data diambil; isi analisis tetap keadaan saat data diambil.
+  </p>
+  <p>
+    Stok barang jadi aktual dibaca 
+    8 Okt 2026, 09.00 WIB
+     · tanggal laporan 
+    2026-10-08
+    . 
+    Keuangan dan HPP tidak dimasukkan.
+  </p>
+  <p>
+    Alasan: 
+    Ditinjau dari analisis bertahap
+  </p>
+  <button>
+    Buat revisi dari laporan ini
+  </button>
+  <pre
+    aria-label="Ringkasan laporan bertahap"
+  >
+    Briefing pagi
+
+BRIEFING HARIAN
+
+Data analisis per 2026-10-08 08:00:00 WIB (analisis bertahap, 5 target). Isi analisis adalah keadaan pada waktu itu, bukan angka saat ini.
+  </pre>
+  <div>
+    <label>
+      Pilih bagian laporan
+      <select
+        aria-label="Pilih bagian laporan bertahap"
+      >
+        <option
+          value="0"
+        >
+          Bagian 
+          1
+          : target 
+          1
+          –
+          3
+           dari 
+          5
+        </option>
+        <option
+          value="1"
+        >
+          Bagian 
+          2
+          : target 
+          4
+          –
+          5
+           dari 
+          5
+        </option>
+      </select>
+    </label>
+    <button>
+      Buka bagian laporan
+    </button>
+  </div>
+  <pre
+    aria-label="Bagian laporan bertahap"
+    data-section-index="0"
+  >
+    BAGIAN 1 dari 2 · Target 1–3 dari 5 · Data analisis per 2026-10-08 08:00:00 WIB.
+
+SKU-1 · Produk 1 · size S · Aktif: stok fisik saat analisis 5 PCS; stok fisik aktual per 2026-10-08 09:00:00 WIB 8 PCS
+  </pre>
+  <details>
+    <summary>
+      Identitas laporan
+    </summary>
+    <p>
+      Analisis 
+      22222222-2222-4222-8222-222222222222
+       · identitas 
+      eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+    </p>
+    <p>
+      Hash laporan 
+      b2c079a2a69f60469fdc9637bce4da44d1da9396854564705a97c1bec25b5a6c
+       · diterbitkan 
+      8 Okt 2026, 09.00 WIB
+      .
+    </p>
+  </details>
+</article>
+
+ ❯ src/NativeStagedReportsPanel.dom.test.tsx:65:73
+     63|  await click('Muat laporan bertahap tersimpan')
+     64|  expect(container.querySelector('[role="alert"]')).toBeTruthy()
+     65|  expect(container.querySelector('[aria-label="Isi laporan bertahap"]')…
+       |                                                                         ^
+     66|  expect(container.querySelector('[aria-label="Bagian laporan bertahap"…
+     67|  expect(container.querySelector('[aria-label="Buka laporan bertahap 1"…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  4 failed | 10 passed (14)
+   Start at  19:47:07
+   Duration  2.07s (transform 632ms, setup 0ms, import 900ms, tests 1.67s, environment 910ms)
+

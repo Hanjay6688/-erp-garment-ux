@@ -50,3 +50,19 @@ Seluruh 17 kasus lama dipertahankan. Tambahan: enam Native, lima balapan dan dua
 CI pada cabang penulis harus menguji instalasi asli, seluruh kasus dan pemulihan. Kegagalan pertama disimpan.
 Counter-review internal penulis tidak menggantikan audit independen Fable/Sol.
 `production_go:false`.
+
+## Counter-review dan kegagalan lokal pertama
+
+Pada kandidat lokal `5e4554247b5e0a8c6d71d6687d6e77e6c79989b2`, pemeriksa UI menemukan
+fakta laporan/pengingat lama tetap terlihat setelah pembacaan ditolak atau tidak pasti.
+Empat kasus baru dideklarasikan dan dijalankan sebelum perbaikan: **4 gagal, 10 lulus**
+(`local-stale-ui-first-failure.log`). Setelah state fakta dikosongkan di jalur gagal yang sama,
+seluruh **14/14 lulus** (`local-stale-ui-fixed.log`). UUID perintah yang belum pasti tetap disimpan;
+uji kehilangan balasan dan pemulihannya tetap lulus. Ini bukti DOM sintetis, bukan pencabutan izin Native.
+
+Pemeriksa juga menemukan pemantau permintaan browser dipasang sesudah membuka ulang halaman.
+Kini dipasang sebelum navigasi, sehingga pekerjaan ganda saat mount juga menggagalkan kasus.
+Laporan dibuka ulang harus cocok nomor publikasi, run, identitas, hash, dan ringkasan utuh;
+analisis tunggal harus cocok run yang ditampilkan, hash semantik hasil dan jumlah seluruh target.
+Kasus mobile K4 lama hanya berhenti memantau; dua kasus OTHER yang baru benar-benar menutup
+tiga tab masing-masing pada desktop dan HP. Batas kasus lama tetap dicatat, tidak dilabeli ulang.

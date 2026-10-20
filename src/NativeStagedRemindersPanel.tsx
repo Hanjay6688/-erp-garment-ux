@@ -38,7 +38,9 @@ function Reminders({staged,blocked:outer,scope,actor}:Props&{scope:string;actor:
  useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;++seq.current}},[])
  useEffect(()=>{const l=(e:StorageEvent)=>{if(e.key===null||e.key===reminderV2RequestKey(scope))setRecovery(readReminderRequest(scope))};addEventListener('storage',l);return()=>removeEventListener('storage',l)},[scope])
  const blocked=outer||busy
- const perform=async(op:(n:number)=>Promise<void>)=>{const n=++seq.current;setBusy(true);setError('');setMessage('');try{await op(n)}catch(e){if(n===seq.current&&mounted.current)setError(normalizeClientError(e).message)}finally{if(n===seq.current&&mounted.current){setBusy(false);setRecovery(readReminderRequest(scope))}}}
+ // Refused/uncertain reads must not leave old balances, conditions or preview
+ // bodies on screen. An unresolved command keeps its stored UUID for lookup.
+ const perform=async(op:(n:number)=>Promise<void>)=>{const n=++seq.current;setBusy(true);setError('');setMessage('');try{await op(n)}catch(e){if(n===seq.current&&mounted.current){setSet(null);setWs(null);setPage(null);setOffset(0);setChecks({});setLast(null);setLive(null);setError(normalizeClientError(e).message)}}finally{if(n===seq.current&&mounted.current){setBusy(false);setRecovery(readReminderRequest(scope))}}}
  const loadWs=async(n:number)=>{const r=await client.rpc('erp_cp7_get_reminder_workspace_v2',{p_run:run.runId});if(n!==seq.current)return;if(r.error)throw r.error;const parsed=parseWorkspace(r.data,run.runId,run.identityHash,actor);setWs(parsed);setSet(parsed.conditions);return parsed}
  const loadPage=async(n:number,at:number)=>{const q:ConditionsQuery={run_id:run.runId,rule_id:ruleFilter||null,state:stateFilter||null,offset:at,limit:PAGE}
   const r=await client.rpc('erp_cp7_read_reminder_conditions_v2',{p_query:q});if(n!==seq.current)return;if(r.error)throw r.error;setPage(parseConditionsPage(r.data,q,actor,run.identityHash));setOffset(at)}

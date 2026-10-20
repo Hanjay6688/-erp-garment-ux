@@ -84,7 +84,8 @@ async function journey(ui,today,mobile,other=false){
 async function otherWork(ui,user,startPage,suffix,shots){
  let page=startPage
  const appUrl=page.url(),state=()=>fixture('other_state',{actor:user.user.id})
- const reopen=async()=>{page=await user.context.newPage();await page.goto(appUrl);await openPanel(page);await ui.expect(page.getByRole('region',{name:'Hasil analisis bertahap',exact:true})).toBeVisible({timeout:90000})}
+ // Observe before navigation: mount recovery is part of reopening too.
+ const reopen=async()=>{page=await user.context.newPage();const calls=watchOther();await page.goto(appUrl);await openPanel(page);await ui.expect(page.getByRole('region',{name:'Hasil analisis bertahap',exact:true})).toBeVisible({timeout:90000});return calls}
  const response=(name,action)=>Promise.all([page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/rpc/'+name)),action()]).then(async([r])=>{assert.equal(r.status(),200);return r.json()})
  const watchOther=()=>{const calls=[];page.on('request',r=>{const name=r.url().split('/rpc/')[1];if(name)calls.push(name)});return calls}
  // Business report: only publish; every page step is held before transport.
@@ -100,9 +101,12 @@ async function otherWork(ui,user,startPage,suffix,shots){
  await ui.expect.poll(()=>state().reports.at(-1)?.state,{timeout:180000,intervals:[2000]}).toBe('DONE')
  const saved=state().reports.at(-1);assert.equal(saved.request_id,asked.request_id);assert.equal(saved.identity_hash,asked.identity_hash)
  assert.equal(saved.units_done,saved.unit_count);assert.equal(saved.sections,saved.page_count);assert.equal(saved.publications,1)
- await reopen();const reportCalls=watchOther();report=page.getByRole('region',{name:'Laporan analisis bertahap',exact:true})
+ const reportCalls=await reopen();report=page.getByRole('region',{name:'Laporan analisis bertahap',exact:true})
  await report.getByRole('button',{name:'Periksa hasil laporan yang tertunda',exact:true}).click()
  await ui.expect(report.getByRole('article',{name:'Isi laporan bertahap',exact:true})).toHaveAttribute('data-report-id',saved.publication_id,{timeout:60000})
+ const article=report.getByRole('article',{name:'Isi laporan bertahap',exact:true})
+ await ui.expect(article).toContainText(saved.run_id);await ui.expect(article).toContainText(saved.identity_hash);await ui.expect(article).toContainText(saved.report_hash)
+ await ui.expect(article.getByLabel('Ringkasan laporan bertahap',{exact:true})).toHaveText(saved.summary)
  assert.equal(reportCalls.includes('erp_cp7_step_report_v2')||reportCalls.includes('erp_cp7_publish_report_v2'),false)
  shots.push(await shot(ui,page,`K4R_${suffix}_REPORT_REOPENED.png`))
  console.error(JSON.stringify({ow02_stage:'REPORT_REOPENED_SAME_RESULT',suffix}))
@@ -116,7 +120,7 @@ async function otherWork(ui,user,startPage,suffix,shots){
  await ui.expect.poll(()=>state().reminders.at(-1)?.state,{timeout:180000,intervals:[2000]}).toBe('DONE')
  const ready=state().reminders.at(-1);assert.equal(ready.run_id,preparing.run_id);assert.equal(ready.identity_hash,preparing.identity_hash)
  assert.equal(ready.units_done,ready.unit_count);assert.match(ready.set_hash,/^[0-9a-f]{64}$/);assert.equal(ready.claims,0)
- await reopen();const remCalls=watchOther();rem=page.getByRole('region',{name:'Pengingat dari analisis bertahap',exact:true})
+ const remCalls=await reopen();rem=page.getByRole('region',{name:'Pengingat dari analisis bertahap',exact:true})
  const workspace=await response('erp_cp7_get_reminder_workspace_v2',()=>rem.getByRole('button',{name:'Muat hasil pengingat tersimpan',exact:true}).click())
  await ui.expect(rem).toHaveAttribute('data-set-state','DONE')
  assert.equal(workspace.conditions.set_hash,ready.set_hash);assert.equal(remCalls.includes('erp_cp7_step_reminder_conditions_v2'),false)
@@ -133,6 +137,9 @@ async function otherWork(ui,user,startPage,suffix,shots){
  const done=state().analyses.at(-1);assert.equal(done.request_id,analysis.request_id);assert.equal(done.documents,1)
  page=await user.context.newPage();const analysisCalls=watchOther();await page.goto(appUrl);await openPanel(page)
  await ui.expect(page.locator('.native-analysis-result')).toBeVisible({timeout:90000})
+ await ui.expect(page.locator('.native-analysis-run span')).toHaveText(done.run_id)
+ await ui.expect(page.locator('.native-analysis-result')).toHaveAttribute('data-semantic-hash',done.semantic_hash)
+ await ui.expect(page.locator('.native-analysis-result .responsive-table').first().locator('tbody tr')).toHaveCount(done.targets_total)
  assert.equal(analysisCalls.some(n=>n==='erp_cp7_run_analysis_job_v1'||n==='erp_cp7_request_operational_analysis_job_v1'||n==='erp_cp7_request_analysis_job_v1'),false)
  const final=state();assert.deepEqual([final.reports.length,final.reminders.length,final.analyses.length],[1,1,1])
  assert.equal(final.analyses[0].run_id,done.run_id);assert.equal(final.reminders[0].claims,0)

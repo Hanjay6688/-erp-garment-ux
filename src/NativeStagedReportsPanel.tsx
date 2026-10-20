@@ -35,7 +35,9 @@ function Reports({staged,blocked:outer,financeAccess,scope,actor}:Props&{scope:s
  const blocked=outer||busy
  const rpc:StagedReportRpc={publish:r=>client.rpc('erp_cp7_publish_report_v2',{p_payload:r.payload,p_request:r.id}),lookup:r=>client.rpc('erp_cp7_get_report_request_v2',{p_payload:r.payload,p_request:r.id}),
   step:id=>client.rpc('erp_cp7_step_report_v2',{p_request:id})}
- const perform=async(op:(n:number)=>Promise<void>)=>{const n=++seq.current;setBusy(true);setError('');setMessage('');try{await op(n)}catch(e){if(n===seq.current&&mounted.current)setError(normalizeClientError(e).message)}finally{if(n===seq.current&&mounted.current){setBusy(false);setRecovery(readStagedReportRequest(scope))}}}
+ // A refused or uncertain reread retires every server fact in this panel.
+ // Keep the request UUID: an uncertain publication still needs reconciliation.
+ const perform=async(op:(n:number)=>Promise<void>)=>{const n=++seq.current;setBusy(true);setError('');setMessage('');try{await op(n)}catch(e){if(n===seq.current&&mounted.current){setReport(null);setSection(null);setSectionIndex(0);setIndex(null);setJob(null);setBase(null);setReviewed(false);setError(normalizeClientError(e).message)}}finally{if(n===seq.current&&mounted.current){setBusy(false);setRecovery(readStagedReportRequest(scope))}}}
  const open=async(id:string,n:number)=>{const r=await client.rpc('erp_cp7_read_report_v2',{p_id:id});if(n!==seq.current)return;if(r.error)throw r.error;const d=await parseStagedReport(r.data,actor);if(n!==seq.current)return;if(d.id!==id)throw Error('Identitas laporan server berubah.');setReport(d);setSection(null);setSectionIndex(0)}
  const drive=(r:StagedReportRequest,lookup:boolean)=>perform(async n=>{
   setReport(null);setSection(null)

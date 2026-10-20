@@ -65,6 +65,27 @@ it('lets a viewer read and recheck but not claim or change settings',async()=>{
  expect(container.querySelectorAll('button[aria-label^="Periksa ulang sekarang"]').length).toBe(3)
  expect(container.textContent).toContain('tidak bisa membuat pratinjau atau mengubah pengaturan');expect(container.textContent).not.toContain('Tujuan dan pengaturan pengingat')
 })
+it.each(['42501','NETWORK'])('retires stored conditions, checks and previews after %s until a successful reread',async code=>{
+ server({claim:(_p,id)=>f.command('CLAIM',id,{status:'COMMITTED',outcome:'CLAIMED',verdict:'STILL_OPEN',recheck_id:'dddddddd-dddd-4ddd-8ddd-dddddddddddd',claim_id:f.claimId,fence:f.fence},f.claim(),f.recheck('STILL_OPEN'))})
+ await render();await click('Siapkan daftar pengingat')
+ const item=container.querySelector(`[data-condition-key="PRODUCTION_GAP:${f.keys[0]}"]`)!
+ await click('Periksa ulang sekarang SKU-1 · Produk 1',item);await click('Buat pratinjau lokal SKU-1 · Produk 1',item)
+ expect(container.querySelector('[aria-label="Daftar pengingat dari analisis"]')).toBeTruthy()
+ expect(container.querySelector('[data-verdict="STILL_OPEN"]')).toBeTruthy()
+ expect(container.querySelector('[aria-label="Pratinjau lokal pengingat"]')).toBeTruthy()
+ client.rpc.mockResolvedValue({data:null,error:{code,message:'Pembacaan tidak dapat dipastikan'}})
+ await click('Muat hasil pengingat tersimpan')
+ expect(container.querySelector('[role="alert"]')).toBeTruthy()
+ expect(container.querySelector('[aria-label="Daftar pengingat dari analisis"]')).toBeNull()
+ expect(container.querySelector('[data-verdict="STILL_OPEN"]')).toBeNull()
+ expect(container.querySelector('[aria-label="Pratinjau lokal pengingat"]')).toBeNull()
+ expect(container.querySelector('[aria-label="Pratinjau lokal tersimpan"]')).toBeNull()
+ expect(container.querySelector('[data-set-state]')?.getAttribute('data-set-state')).toBe('')
+ server();await click('Muat hasil pengingat tersimpan')
+ expect(container.querySelector('[aria-label="Daftar pengingat dari analisis"]')).toBeTruthy()
+ expect(container.querySelector('[data-verdict="STILL_OPEN"]')).toBeNull()
+ expect(container.querySelector('[aria-label="Pratinjau lokal pengingat"]')).toBeNull()
+})
 it('keeps a pending request and closes it by lookup without sending anything new',async()=>{
  const r={id:'12345678-1234-4234-8234-123456789012',operation:'CLAIM',runId:f.run,payload:{run_id:f.run,identity_hash:f.identityHash,condition_key:'PRODUCTION_GAP:'+f.keys[0],condition_hash:'1'.repeat(64),binding_id:f.bindingId}}
  localStorage.setItem('erp.cp7.reminder-v2-request.v1:'+scope,JSON.stringify(r))

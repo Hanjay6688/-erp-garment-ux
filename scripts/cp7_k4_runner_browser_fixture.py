@@ -61,6 +61,8 @@ def main():
                 out = dict(
                     reports=rows("""select j.id::text,j.request_id::text,j.state,j.units_done,j.unit_count,j.run_id::text,
                         j.identity_hash,j.publication_id::text,
+                        (select p.report_hash from cp7_analysis_stage.report_publications p where p.job_id=j.id)report_hash,
+                        (select p.summary from cp7_analysis_stage.report_publications p where p.job_id=j.id)summary,
                         (select count(*)from cp7_analysis_stage.report_sections s where s.job_id=j.id)sections,
                         (select count(*)from cp7_analysis_stage.report_publications s where s.job_id=j.id)publications,
                         j.page_count from cp7_analysis_stage.report_jobs j where j.actor=%s order by j.created_at"""),
@@ -69,6 +71,8 @@ def main():
                         (select count(*)from cp7_reminder_native.staged_claims c where c.run_id=s.run_id)claims
                         from cp7_reminder_native.staged_condition_sets s where s.actor=%s order by s.created_at"""),
                     analyses=rows("""select j.request_id::text,j.state,j.run_id::text,
+                        (select r.result->>'semantic_hash'from cp7_analysis_native.runs r where r.id=j.run_id)semantic_hash,
+                        (select jsonb_array_length(r.result->'recommendations')from cp7_analysis_native.runs r where r.id=j.run_id)targets_total,
                         (select count(*)from cp7_analysis_jobs.documents d where d.run_id=j.run_id)documents
                         from cp7_analysis_jobs.jobs j where j.actor=%s order by j.requested_at"""))
         elif op == 'runner_off':
