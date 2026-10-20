@@ -43,8 +43,16 @@ laporan r5 di `CROSS_AUDIT.md`. Paket ini satu kandidat untuk ketiga auditor, da
   `supabase/` tidak berubah sejak r5. `src/` berubah hanya untuk layar Reminder (tab Pengingat sistem dan Sambungan
   WhatsApp) dan panel Titik pesan ulang / Batas minimum aksesori (Ringkasan Barang Jadi, Bahan & Roll, Aksesori, Kain &
   Benchmark, Aksesori & Harga Mandor).
-- **`CI_RECEIPT.json`:** MENUNGGU — dibuat dengan `scripts/cp7_ci_receipt.py` sesudah semua run selesai.
-- **Run merah:** MENUNGGU — `RED_RUNS_VS_R6.json`.
+- **`CI_RECEIPT.json`:** dibuat dengan `scripts/cp7_ci_receipt.py`: 117 run (116 workflow kualifikasi + satu run skenario
+  CP6), 96 lulus; 182 job, 160 lulus; tidak ada percobaan kedua karena pergantian hari.
+- **Run merah:** 21 run merah, semuanya workflow CP6 lama, dan ke-21 punya job dan langkah gagal yang sama dengan run
+  merah workflow yang sama pada `3b7bb381` (`RED_RUNS_VS_R6.json`). P19 lulus pada percobaan pertama.
+- **Skenario penulis CP6 lengkap — salah berkas, diulang:** run 39385942007 lulus, tetapi penulis menjalankannya dengan
+  berkas skenario `scripts/cp6_be_modes.py` / `scripts/cp6_be_browser.mjs` (17 kasus), bukan berkas skenario lengkap yang
+  dipakai `b1649535` dan `3b7bb381` (`scripts/cp6_bf_combined_modes.py` / `scripts/cp6_bf_vendor_browser.mjs`: 104 kasus,
+  26 race, 9 HTTP, 31 browser). Run itu **tidak** dihitung sebagai skenario lengkap. Skenario lengkap dijalankan ulang
+  dengan berkas yang benar: run 39396888098 di `c512a178` (sesudah `55c885d1` hanya `docs/` yang berubah:
+  `git diff --name-only 55c885d1 c512a178`). Hasil: MENUNGGU. Best practice E25w.
 - **Kasus CP17:** run 39385547471, job 118504391137: 345 kasus yang dideklarasikan PASS (Native 165, race 39, HTTP 27,
   browser 57, browser build Enteng 57). Di grup build Enteng 1.377 permintaan ke alamat proyek Enteng dijawab API lokal
   runner; 1 jawaban tidak sampai karena halamannya sudah ditutup saat kasus selesai ("Request context disposed"; r4: 2, r5: 0,

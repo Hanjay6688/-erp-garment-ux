@@ -271,6 +271,11 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     dibulatkan. Selalu sertakan kasus batas yang hasil tepatnya bilangan bulat/sen bulat (`SS1_DAYS_BUFFER_NOT_STACKED`,
     `SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE`); log gagal di kode lama ada di
     `docs/cp7/evidence/stock-formula-rounding-20261020/`. (D17-12, 20 Okt)
+25w. **Masukan run yang diulang diambil dari log run yang diterima sebelumnya, bukan dari ingatan atau riwayat perintah.**
+    Skenario penulis CP6 lengkap untuk `55c885d1` dijalankan dengan `scripts/cp6_be_modes.py` (17 kasus) karena perintahnya
+    disalin dari riwayat lama; run lulus, padahal skenario lengkap kandidat sebelumnya `scripts/cp6_bf_combined_modes.py`
+    (170 kasus). Sebelum dispatch, baca baris `SCENARIO_PATH`/`BROWSER_PATH` (atau masukan lain) di log run pembanding dan
+    pakai yang sama; sesudah run, cocokkan jumlah kasus dengan run pembanding sebelum menyebutnya lulus. (r6, 20 Okt)
 
 ## F. Proses audit
 
@@ -339,6 +344,7 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Deklarasi kasus dicek lokal dengan aturan probe sebelum push (E25t).
 - [ ] Menggabungkan sumber: sumber lama yang punya pembanding tetap utuh, subjek kedua himpunan tidak tumpang tindih (E25u).
 - [ ] Rumus dengan pembagian: kalikan dulu baru bagi; pembanding pakai pecahan eksak; ada kasus batas yang hasil tepatnya bulat (E25v).
+- [ ] Run yang diulang memakai masukan yang sama dengan run pembanding (baca log-nya), dan jumlah kasusnya dicocokkan (E25w).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
   dipicu (E19–E20, E19a).
