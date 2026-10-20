@@ -762,3 +762,18 @@ Sesudahnya (penulis): konektor Supabase sesi ini tidak terhubung ke proyek mana 
 (persis): "erp lama mah gada datanya orang ini pertama kali wkwk". Akibat (ringkasan penulis): ERP lama tidak menyimpan
 pemakaian aksesori; batas minimum dihitung dari perkiraan pemakaian yang diberikan owner, lalu diperbaiki dengan pemakaian
 nyata yang diukur ERP sesudah dipakai.
+
+### D17-12 (owner ke penulis Claude, 20 Okt 2026 WIB, isian hitung minimum aksesori di aplikasi)
+
+Penjelasan penulis sebelumnya (chat): untuk menghitung batas minimum aksesori penulis meminta per aksesori MOQ, lama kirim
+dari Cina, dan perkiraan pemakaian per bulan; contoh hitung: pemakaian selama menunggu kiriman + cadangan untuk kiriman
+telat; MOQ hanya mengubah jumlah pesan. Pertanyaan: cadangan dipukul rata 2 minggu, ya atau tidak.
+
+Owner (persis): "itu nanti lu bikin slot untuk diisi aja in app kan?"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): angka-angka itu diisi di aplikasi, bukan dikirim ke
+penulis. Panel aksesori (Owner/Admin) mendapat isian per aksesori: MOQ (pcs), lama kirim (hari), perkiraan pemakaian per
+bulan, dan cadangan (hari). Aplikasi menghitung batas minimum = pemakaian per hari (perkiraan per bulan / 30) × (lama kirim +
+cadangan), dibulatkan ke atas, dan memakainya untuk pengingat "Stok aksesori menipis". Batas minimum yang diketik langsung
+tetap bisa dipakai dan menang atas hitungan. Cadangan juga isian (tidak ada angka bawaan dari penulis); pertanyaan "2 minggu"
+gugur. Pemakaian nyata yang diukur ERP ditampilkan di samping perkiraan, tidak dipakai otomatis (D17-10: tanpa rumus).
