@@ -320,6 +320,10 @@ def drain(cur, bound=400):
     for _ in range(bound):
         out = tick(cur, 'analysis_tick')
         outs.append(out['outcome'])
+        if out['outcome'] == 'ANALYSIS_RUN_FAILED':
+            # Keep the first actual SQL failure, rather than dropping its
+            # diagnostic and reporting only the terminal outcome string.
+            raise AssertionError(('WAF_ANALYSIS_RUN_FAILED', outs, out))
         if out['outcome'] not in ('CONDITION_SET_STEP', 'ANALYSIS_CHECKING'):
             return outs
     raise AssertionError(('WAF_ANALYSIS_DID_NOT_FINISH', outs[-5:]))

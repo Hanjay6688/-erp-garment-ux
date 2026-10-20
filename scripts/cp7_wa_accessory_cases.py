@@ -186,8 +186,15 @@ def _stage(cur, today, wa, f, s, source_subject, *, policy, policy_enabled, enab
     _, _, done, _ = staged.staged_done(cur, today, subject=source_subject)
     run = done['run_id']
     document, pages, _ = staged.fetch(cur, run, source_subject)
-    rows = material.rows(document, f['root'])
-    assert len(rows) == 1, rows
+    expected_target = f['root'] + ':' + f['size']
+    expected_material = (None if f['mode'] in ('MISSING', 'OVERLAP') else
+                         'NO_ACCESSORY:' + f['root'] if f['mode'] == 'EMPTY' else
+                         'ACCESSORY_CATEGORY:' + f['category']['category_id'])
+    # material.rows also contains this target's FABRIC_UNREVIEWED row. Select
+    # the exact accessory source, then retain the uniqueness and value checks.
+    rows = [m for m in material.rows(document, f['root'])
+            if m['target_key'] == expected_target and m['material_key'] == expected_material]
+    assert len(rows) == 1, (expected_target, expected_material, rows)
     m = rows[0]
     assert m['target_key'] == f['root'] + ':' + f['size'], (m['target_key'], f)
     r = dict(run=run, identity=pages['identity_hash'], target=m['target_key'], root=f['root'])
