@@ -55,11 +55,31 @@ Dasar: keputusan owner D17-4, D17-5, D17-7, D17-8 (kutipan persis di `docs/cp7/O
   (bukan memakai fungsi yang diuji), layar diuji di komputer dan HP, lalu ke-117 uji dijalankan ulang di satu versi.
 - Paket r6 diperbarui (README, kotak Fable/Astra/Sol) sesudah semuanya lulus, baru dikirim.
 
-## 6. Yang masih dipastikan penulis saat mulai
+## 6. Hasil pemeriksaan data (20 Okt, baca saja, tidak ada yang diubah)
 
-- Data penjualan per hari per barang, lama produksi per model, dan lama kirim supplier: sumbernya di ERP dan seberapa
-  lengkap. Bila salah satu tidak tercatat di ERP, bagian itu memakai angka manual sampai datanya ada, dan ditulis di laporan.
-- Stok "sedang diproduksi" tercatat per model dan ukuran, belum per SKU akhir; pembagiannya ke SKU dipastikan.
+- **Stok barang jadi:** sudah ada pembaca CP7 yang diterima (`cp7_fg.positions`, layar Ringkasan Barang Jadi), dihitung
+  dari gerakan stok barang jadi; stok bebas sudah dikurangi draf penjualan. Itu yang dipakai, bukan view lama
+  `erp.v_fg_stock_position_v1` (tidak dipakai pembaca CP7 mana pun dan tanpa filter tanggal fisik).
+- **Penjualan per hari per barang:** pembaca riwayat permintaan yang ada terlalu berat untuk tiap menit (sekali tangkap
+  semua barang, batas 1.000 barang). Sumber yang dipakai: gerakan stok `SALE` yang tidak dibalik, per barang (akar
+  identitas + ukuran) per hari WIB. Retur dicatat terpisah, tidak mengurangi penjualan (sama dengan aturan riwayat
+  permintaan yang sudah ada).
+- **Lama produksi:** belum ada yang mengukur. Datanya ada: tanggal potong (`cutting_groups.cut_at`, bahan sudah dikeluarkan)
+  sampai barang lulus QC masuk gudang (`fg_lots.produced_at`, asal PRODUCTION, QC tidak dibalik), dihitung per model
+  (median beberapa bulan terakhir). Yang tidak dihitung: lot saldo awal/impor/void, hasil rework. Kalau model belum punya
+  catatan, dipakai `lead_days` manual di profil perencanaan yang sudah ada, kalau tidak ada: "belum cukup data".
+- **Rumus yang sudah ada di ERP:** profil perencanaan per barang (`lead_days`, `review_days`, `buffer_days`, isian manual)
+  dan hitungan target `ceil(D*(L+R+B))` (cadangan dalam hari). Riset 28 Sep mempertahankan dua cara cadangan, DAYS (hari)
+  atau STATISTICAL (rumus pakar), dan melarang memakai keduanya sekaligus. Bawaan baru: STATISTICAL; kalau Bos mengisi
+  cadangan dalam hari untuk barang tertentu, barang itu memakai DAYS.
+- **Angka manual titik pesan ulang:** tempatnya ada (`erp.stock_policy_versions`), tetapi fungsi tulis Native ditutup untuk
+  browser sejak R4-01 dan tidak ada layarnya. Dibuat fasad CP7 baru khusus Owner/Admin untuk mengisi dan menutupnya.
+- **Hak lihat:** peringatan barang jadi mengikuti hak layar Ringkasan Barang Jadi (`warehouse.fg.view`).
+- **Hitung ulang saat berubah:** modul peringatan tidak mengubah tabel Native. Angka rumus disimpan di tabel CP7 sendiri dan
+  dihitung ulang hanya untuk barang yang punya gerakan baru sejak hitungan terakhir (cara deteksi perubahan yang sudah
+  dipakai analisis bertahap).
+- **Belum diperiksa:** lama kirim supplier untuk kain dan aksesori (tanggal pesan ke tanggal terima), pemakaian aksesori per
+  hari, dan pembagian barang yang sedang diproduksi (dicatat per model dan ukuran) ke SKU akhir.
 
 ## Tidak termasuk
 
