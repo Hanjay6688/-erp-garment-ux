@@ -5,10 +5,12 @@
 --   FABRIC: issued to cutting (CUTTING_ISSUE) less returned from cutting (CUTTING_RETURN), factory use (INTERNAL_USE,
 --   pocket fabric) and material handed to a contractor (CONTRACTOR_ISSUE);
 --   ACCESSORY: handed to a contractor (CONTRACTOR_ISSUE, the nota mandor) and factory use (INTERNAL_USE), less a returned
---   nota credited back (ADJUSTMENT from BC_NOTE_RETURN_CREDIT). Sewing posts no accessory movement.
+--   nota credited back as usable (ADJUSTMENT from BC_NOTE_RETURN_CREDIT into a warehouse; credited as damaged it goes to the
+--   damaged area and was used up). Sewing posts no accessory movement.
 --   A day counts when material was used that day or the day started with stock (a day without stock is not zero use).
--- * Stock: FABRIC every location (the Ringkasan Gudang and minimum rule); ACCESSORY active raw-material warehouses (the
---   accepted accessory service reader). On order: FABRIC the remaining opening purchase commitments
+-- * Stock: FABRIC every location (the Ringkasan Gudang and minimum rule); ACCESSORY what Bahan & Roll shows as on hand:
+--   active raw-material warehouses that are not a service zone (pos servis, area periksa, area rusak are SPECIAL_ZONE
+--   there, cp7_material.workspace). On order: FABRIC the remaining opening purchase commitments
 --   (erp.bb_commitment_line_remaining_v1, the fabric analysis' own source); ACCESSORY none (no commitment source).
 -- * Lead time: the supplier's delivery time is not recorded in the ERP (owner 20 Oct), so it is a per-material setting
 --   "lama kirim (hari)" of Owner/Admin (material_settings); empty: no formula for that material (NOT_ENOUGH_DATA).
@@ -18,6 +20,7 @@
 --   (stock <= point, formula or manual).
 grant select(id,movement_type,reversal_of_id,source_type)on erp.material_stock_movements to cp7_capture;
 grant select(material_id,minimum_stock_qty)on erp.fabric_master_profiles to cp7_capture;
+grant select(location_id)on erp.bc_accessory_zones_v1 to cp7_capture;
 
 create table cp7_stock_formula.material_settings(
  material_id uuid not null,revision integer not null check(revision>0),
@@ -60,7 +63,8 @@ begin
   from erp.material_stock_movements s join items i on i.material_id=s.material_id
   left join erp.locations l on l.id=s.location_id
   where s.physical_at<=p_at and s.system_created_at<=p_at
-   and(i.material_type='FABRIC'or(l.location_type='RAW_MATERIAL_WAREHOUSE'and l.is_active))),
+   and(i.material_type='FABRIC'or(l.location_type='RAW_MATERIAL_WAREHOUSE'and l.is_active
+    and not exists(select 1 from erp.bc_accessory_zones_v1 z where z.location_id=l.id)))),
  bal as materialized(
   select c.material_id,sum(c.qty)free,coalesce(sum(c.qty)filter(where c.physical_at<t0),0)opening from counted_moves c group by 1),
  net as materialized(
@@ -73,7 +77,8 @@ begin
    and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=s.id and rv.physical_at<=p_at and rv.system_created_at<=p_at)
    and((i.material_type='FABRIC'and s.movement_type in('CUTTING_ISSUE','CUTTING_RETURN','INTERNAL_USE','CONTRACTOR_ISSUE'))
     or(i.material_type='ACCESSORY'and(s.movement_type in('CONTRACTOR_ISSUE','INTERNAL_USE')
-     or(s.movement_type='ADJUSTMENT'and s.source_type='BC_NOTE_RETURN_CREDIT'))))
+     or(s.movement_type='ADJUSTMENT'and s.source_type='BC_NOTE_RETURN_CREDIT'
+      and not exists(select 1 from erp.bc_accessory_zones_v1 z where z.location_id=s.location_id)))))
   group by 1,2),
  series as(
   select x.material_id,x.day,coalesce(u.qty,0)qty,
@@ -192,7 +197,8 @@ begin
    where e.material_type=p_type and e.state='AT_OR_BELOW'and(p_type='ACCESSORY'or e.basis='FORMULA')),
  live as(select l.material_id,l.sku,l.point,l.on_order_qty,l.j,coalesce((select sum(s.qty_signed)from erp.material_stock_movements s
    left join erp.locations x on x.id=s.location_id where s.material_id=l.material_id and s.physical_at<=t and s.system_created_at<=t
-    and(p_type='FABRIC'or(x.location_type='RAW_MATERIAL_WAREHOUSE'and x.is_active))),0)::numeric free from low l),
+    and(p_type='FABRIC'or(x.location_type='RAW_MATERIAL_WAREHOUSE'and x.is_active
+     and not exists(select 1 from erp.bc_accessory_zones_v1 z where z.location_id=x.id)))),0)::numeric free from low l),
  now_state as(select v.*,v.free+v.on_order_qty<=v.point still from live v)
  select jsonb_build_object(
   'rows',coalesce(jsonb_agg(cp7_stock_formula.material_alert_row(n.j||jsonb_build_object('free_qty',n.free),lvl)order by n.sku,n.material_id)

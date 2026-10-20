@@ -55,7 +55,8 @@ OUTSIDERS=('anon','authenticated','service_role','cp7_capture','cp7_reminder','c
 # (stock-formula/materials.sql), installed before alerts.sql, whose collector reads them through
 # cp7_stock_formula.fg_source() and material_source(text). Schema cp7_stock_formula is owned by cp7_capture (the role that
 # already reads the FG stock, sales, production and WIP sources, material stock and commitments, and the planning profile);
-# the only new Native reads are four columns of erp.material_stock_movements and two of erp.fabric_master_profiles.
+# the only new Native reads are four columns of erp.material_stock_movements, two of erp.fabric_master_profiles and the
+# location of erp.bc_accessory_zones_v1.
 FORMULA=('scripts/cp7-src/stock-formula/formula.sql','scripts/cp7-src/stock-formula/materials.sql')
 FORMULA_SCHEMA='cp7_stock_formula'
 FORMULA_TABLES=('evaluations','manual_points','material_evaluations','material_settings','runs','settings','wip_models')
@@ -70,7 +71,7 @@ FORMULA_PUBLIC={'public.erp_cp7_get_fg_reorder_v1(jsonb)':'v','public.erp_cp7_re
  'public.erp_cp7_get_material_reorder_v1(jsonb)':'v','public.erp_cp7_refresh_material_reorder_v1(text)':'v',
  'public.erp_cp7_save_material_reorder_v1(jsonb,uuid)':'v'}
 FORMULA_COLUMNS={'erp.material_stock_movements':('id','movement_type','reversal_of_id','source_type'),
- 'erp.fabric_master_profiles':('material_id','minimum_stock_qty')}
+ 'erp.fabric_master_profiles':('material_id','minimum_stock_qty'),'erp.bc_accessory_zones_v1':('location_id',)}
 def formula_sql():return '\n'.join((ROOT/name).read_text()for name in FORMULA)
 def extension():return previous.extension()+'\n'+formula_sql()+'\n'+(ROOT/'scripts/cp7-src/alerts/alerts.sql').read_text()
 def bundle():return previous.bundle()+'\n'+formula_sql()+'\n'+(ROOT/'scripts/cp7-src/alerts/alerts.sql').read_text()
