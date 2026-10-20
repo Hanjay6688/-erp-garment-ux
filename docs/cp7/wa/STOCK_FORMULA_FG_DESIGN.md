@@ -90,6 +90,9 @@ Kode: `scripts/cp7-src/stock-formula/materials.sql`. Kasus: `SS2_*` dan `SS3_*` 
   itu dengan titik dan angka dipesan hitungan terakhir, tanpa menulis apa pun (kasus race bahan).
 - RPC: `erp_cp7_get_material_reorder_v1`, `erp_cp7_refresh_material_reorder_v1`, `erp_cp7_save_material_reorder_v1`.
 
+Bukti CI: WA Forward run 39365590365 di `b9b11e1c`, 57 dari 57 PASS (termasuk 21 kasus rumus dan layar barang jadi,
+kain, aksesori di komputer dan HP).
+
 ### Beda dari usulan (perlu keputusan owner)
 
 - Usulan §3: "Peringatan 'stok kain di bawah minimum' yang sudah ada tetap jalan, memakai angka rumus bila tidak ada angka
