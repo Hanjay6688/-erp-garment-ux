@@ -68,6 +68,73 @@ NEW_SALES = (
     'cp7_sales.execute_preclaimed_credit_return(uuid,jsonb,text)',
     'cp7_sales.preclaim_credit_return(uuid,jsonb,text)',
 )
+PRIVATE_FUNCTION_OWNERS = {
+    'cp7_credit.return_settlement_command(jsonb,uuid,text)': 'cp7_credit_write',
+    'cp7_credit._has_ambient_plan_apply_scope()': 'cp7_plan_writer',
+}
+PRIVATE_TABLE_OWNERS = {
+    'cp7_credit.return_requests': 'cp7_credit_write',
+    'cp7_credit.return_command_scope': 'cp7_credit_write',
+}
+
+
+def _finalize_private_owners(cur):
+    """Only the four fresh, uncommitted schemas; never ERP/predecessor grants."""
+    for schema in NEW_SCHEMAS:
+        cur.execute('alter schema ' + schema + ' owner to postgres')
+    tables = cur.execute("select n.nspname||'.'||c.relname,c.relrowsecurity "
+        "from pg_class c join pg_namespace n on n.oid=c.relnamespace "
+        "where n.nspname=any(%s::text[])and c.relkind in('r','p') order by 1", (list(NEW_SCHEMAS),)).fetchall()
+    for identity, rls in tables:
+        cur.execute('alter table ' + identity + ' owner to ' + PRIVATE_TABLE_OWNERS.get(identity,'postgres'))
+        if rls and not cur.execute('select exists(select 1 from pg_policy where polrelid=%s::regclass)',(identity,)).fetchone()[0]:
+            # Explicit false is the same default denial as RLS/no policies.
+            cur.execute('create policy ow04_deny_direct on ' + identity + ' for all to public using(false)with check(false)')
+    for (identity,) in cur.execute("select p.oid::regprocedure::text from pg_proc p join pg_namespace n on n.oid=p.pronamespace "
+            "where n.nspname=any(%s::text[])order by 1",(list(NEW_SCHEMAS),)).fetchall():
+        cur.execute('alter function ' + identity + ' owner to ' + PRIVATE_FUNCTION_OWNERS.get(identity,'postgres'))
+    cur.execute('alter domain cp7_credit.cent_amount owner to postgres')
+    # The postgres-owned seal/materialize/finish helpers read these two new
+    # outer-owned facts and update only the server-maintained scope fields.
+    cur.execute('grant select on cp7_credit.return_requests,cp7_credit.return_command_scope to postgres')
+    cur.execute('grant update(stage,source_lock_sha256,projection_sha256,credit_account_snapshot,cash_account_snapshot,'
+        'return_id,family_id,family_ordinal,actual_manifest_sha256)on cp7_credit.return_command_scope to postgres')
+
+
+def _private_inventory(cur):
+    schemas = cur.execute("select nspname,pg_get_userbyid(nspowner),nspacl::text[]from pg_namespace "
+        "where nspname=any(%s::text[])order by 1",(list(NEW_SCHEMAS),)).fetchall()
+    domains = cur.execute("select t.oid::regtype::text,pg_get_userbyid(t.typowner),t.typacl::text[],t.typbasetype::regtype::text,"
+        "t.typnotnull,t.typtypmod,(select jsonb_agg(jsonb_build_array(c.conname,c.convalidated,pg_get_constraintdef(c.oid,false))order by c.conname)"
+        "from pg_constraint c where c.contypid=t.oid)from pg_type t join pg_namespace n on n.oid=t.typnamespace "
+        "where n.nspname=any(%s::text[])and t.typtype='d'order by 1",(list(NEW_SCHEMAS),)).fetchall()
+    functions = cur.execute("select p.oid::regprocedure::text,pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,"
+        "p.proconfig,p.proacl::text[],encode(pg_catalog.sha256(convert_to(pg_get_functiondef(p.oid),'UTF8')),'hex') "
+        "from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname=any(%s::text[])order by 1",
+        (list(NEW_SCHEMAS),)).fetchall()
+    tables = cur.execute("select n.nspname||'.'||c.relname,pg_get_userbyid(c.relowner),c.relacl::text[],c.relrowsecurity,c.relforcerowsecurity,"
+        "(select jsonb_agg(jsonb_build_array(a.attname,a.attacl)order by a.attnum)from pg_attribute a where a.attrelid=c.oid and a.attnum>0 and not a.attisdropped),"
+        "(select jsonb_agg(jsonb_build_array(p.polname,p.polcmd,p.polroles,p.polpermissive,pg_get_expr(p.polqual,p.polrelid),pg_get_expr(p.polwithcheck,p.polrelid))order by p.polname)from pg_policy p where p.polrelid=c.oid) "
+        "from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname=any(%s::text[])and c.relkind in('r','p')order by 1",
+        (list(NEW_SCHEMAS),)).fetchall()
+    for identity,owner,*_ in functions:
+        if owner != PRIVATE_FUNCTION_OWNERS.get(identity,'postgres'):
+            raise ValueError('OW04_PRIVATE_FUNCTION_OWNER_CHANGED: '+identity)
+    for identity,owner,*_ in tables:
+        if owner != PRIVATE_TABLE_OWNERS.get(identity,'postgres'):
+            raise ValueError('OW04_PRIVATE_TABLE_OWNER_CHANGED: '+identity)
+    if len(schemas)!=len(NEW_SCHEMAS)or any(x[1]!='postgres'for x in schemas):
+        raise ValueError('OW04_PRIVATE_SCHEMA_OWNER_CHANGED')
+    if len(domains)!=1 or domains[0][0]!='cp7_credit.cent_amount'or domains[0][1]!='postgres':
+        raise ValueError('OW04_PRIVATE_DOMAIN_OWNER_CHANGED')
+    if not set(PRIVATE_FUNCTION_OWNERS)<=set(x[0]for x in functions)or not set(PRIVATE_TABLE_OWNERS)<=set(x[0]for x in tables):
+        raise ValueError('OW04_PRIVATE_CAPABILITY_OBJECT_MISSING')
+    with _postgres_reader(cur):
+        for table in PRIVATE_TABLE_OWNERS:
+            row = cur.execute("select has_table_privilege('postgres',%s,'SELECT'),row_security_active(%s::regclass)",
+                (table,table)).fetchone()
+            if row!=(True,False):raise ValueError('OW04_PRIVATE_OUTER_SCOPE_VISIBILITY_CHANGED')
+    return {'schemas':schemas,'domains':domains,'functions':functions,'tables':tables}
 
 
 def source_files():
@@ -190,6 +257,7 @@ def install(cur, predecessor_verify, predecessor_functions):
     view_installed = _view_capture(cur)
     if any(view_installed[key] != view_before[key] for key in ('owner','acl','options')):
         raise ValueError('OW04_INSTALLED_VIEW_METADATA_CHANGED')
+    _finalize_private_owners(cur)
     for schema in NEW_SCHEMAS:
         cur.execute('revoke all on schema ' + schema + ' from public,anon,authenticated,service_role,cp7_capture')
         cur.execute('revoke all on all functions in schema ' + schema + ' from public,anon,authenticated,service_role,cp7_capture')
@@ -199,6 +267,7 @@ def install(cur, predecessor_verify, predecessor_functions):
         view_canonical_sha256=digest(view_installed['definition']),
         context_proof=context_proof, refund_proof=refund_proof,
         source_sha256=expected_sources)
+    state['private_inventory'] = _private_inventory(cur)
     verify(cur, state)
     return state
 
@@ -210,6 +279,9 @@ def verify(cur, state):
     contexts = load('ow04_integrated_context_inventory', ROOT / 'integration/typed_context_inventory.py')
     with _postgres_reader(cur):
         context_verification = contexts.verify(cur, REPO, state['context_proof']['typed_census'])
+    private_inventory = _private_inventory(cur)
+    if private_inventory != state['private_inventory']:
+        raise ValueError('OW04_PRIVATE_FUNCTION_TABLE_OR_ACL_CHANGED')
     for sig, target in state['reader_targets'].items():
         actual = assembly._capture(cur, sig)
         expected = state['reader_before'][sig]
@@ -234,7 +306,8 @@ def verify(cur, state):
             if cur.execute("select has_function_privilege(%s,%s,'EXECUTE')", (role,sig)).fetchone()[0]:
                 raise ValueError('OW04_PUBLIC_FACADE_EXPOSED')
     return {'classification':'INTERNAL_WRITER_NATIVE_CANDIDATE_VERIFICATION','native':proof,
-            'legacy_composition':legacy,'context_inventory':context_verification,'production_go':False}
+            'legacy_composition':legacy,'context_inventory':context_verification,
+            'private_inventory_sha256':digest(canonical(private_inventory)),'production_go':False}
 
 
 def uninstall(cur, state):

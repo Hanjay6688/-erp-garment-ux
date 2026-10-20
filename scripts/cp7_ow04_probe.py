@@ -40,6 +40,36 @@ DECLARATION_BYTES = (REPO/'docs/cp7/d17-14/ow04/NATIVE_INITIAL_QUALIFICATION.jso
 DECLARATION = json.loads(DECLARATION_BYTES)
 assert DECLARATION['expected_count']==32 and tuple(DECLARATION['required_case_ids'])==IDS, 'OW04_DECLARED_CASES_CHANGED'
 STATE = None
+PREDECESSOR_INFO_SCHEMAS = ('cp7_recost','cp7_period','cp7_sales','cp7_payroll','cp7_attendance',
+    'cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material',
+    'cp7_supplier_return','cp7_invoice','cp7_receipt_fix')
+
+
+def predecessor_info_manifest(cur):
+    """Exact old default-deny INFO objects, after the raw predecessor verify."""
+    return cur.execute("select n.nspname,c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace "
+        "where n.nspname=any(%s::text[])and c.relkind='r'and c.relrowsecurity "
+        "and not exists(select 1 from pg_policy p where p.polrelid=c.oid)order by 1,2",
+        (list(PREDECESSOR_INFO_SCHEMAS),)).fetchall()
+
+
+def advisor_disposition(delta, manifest):
+    # F05 already classifies this INFO condition as private default denial.
+    # Restrict that disposition further to exact objects observed BEFORE OW04;
+    # a new OW04 table, different finding, or warning is never explained here.
+    existing = set(map(tuple,manifest))
+    explained, unexplained = [], []
+    for finding in delta.get('added',[]):
+        meta = finding.get('metadata') or {}
+        old = finding.get('name')=='rls_enabled_no_policy'and finding.get('level')=='INFO' \
+            and meta.get('type')=='table'and(meta.get('schema'),meta.get('name'))in existing
+        (explained if old else unexplained).append(finding)
+    comparable = delta.get('status')in('NO_NEW_FINDINGS','REVIEW_REQUIRED')
+    return dict(status='UNEXPLAINED_FINDINGS'if unexplained else
+        'NOT_COMPARABLE'if not comparable else
+        'ONLY_VERIFIED_PREDECESSOR_INFO'if explained else'NO_NEW_FINDINGS',
+        exact_predecessor_info=explained,unexplained=unexplained,
+        gate=bool(comparable and not unexplained))
 
 
 def cases(cur, today):
@@ -120,6 +150,7 @@ def run():
             restore_before = restore_state.capture(cur,package.boundary.snapshot,predecessor.public_state,p09.functions)
             conn.rollback()
             originals = install_predecessor(cur, report)
+            report['verified_predecessor_info_manifest'] = predecessor_info_manifest(cur)
             STATE = credit.install(cur,predecessor.verify,p09.functions)
             # The exact target/reader/private/native proof precedes updating
             # the original harness's complete installed-function inventory.
@@ -151,7 +182,8 @@ def run():
                     p09.wip.policy.bf.verified(cur)
                     conn.rollback()
                 report['advisor_delta'] = advisor_delta(advisors(package.boundary.PG),report['advisors_with_cp7'])
-                report['advisor_gate'] = report['advisor_delta']['status'] == 'NO_NEW_FINDINGS'
+                report['advisor_disposition'] = advisor_disposition(report['advisor_delta'],report['verified_predecessor_info_manifest'])
+                report['advisor_gate'] = report['advisor_disposition']['gate']
             except Exception as error:
                 report.update(restore_error=str(error),restore_traceback=traceback.format_exc(),cp6_restored=False,advisor_gate=False)
         group = report.get('native',{})

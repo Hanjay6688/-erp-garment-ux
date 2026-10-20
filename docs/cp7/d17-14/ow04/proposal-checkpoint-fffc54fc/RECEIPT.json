@@ -1,0 +1,17 @@
+{
+  "classification": "INERT_PROPOSALS_AND_INTERNAL_SOURCE_COUNTERS_NOT_ACTIVE_INSTALLER",
+  "baseline_candidate": "fffc54fcbc4be65a68fe5f9e6aef565b2712dd8e",
+  "files": 31,
+  "source_bytes": 324137,
+  "archive_bytes": 66102,
+  "archive_sha256": "948ec9dc9b4eecc1f7d01f610d35928d7a1503d80a8d19bcaba777773a16e05d",
+  "all_files_readback_hash_verified": true,
+  "native_empty_isolated": 22,
+  "typed_context_isolated": 82,
+  "root_typed_context_isolated": 82,
+  "actual_erp_native_cases_proven_here": 0,
+  "product_complete": false,
+  "production_go": false,
+  "owner_finalizer_isolated": 16,
+  "owner_role_substitution": "PGlite immutable bootstrap postgres; non-superuser fixture ow04_business, no Native claim"
+}

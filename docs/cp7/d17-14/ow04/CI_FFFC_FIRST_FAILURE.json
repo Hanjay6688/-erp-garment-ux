@@ -1,0 +1,201 @@
+{
+  "candidate_commit": "fffc54fcbc4be65a68fe5f9e6aef565b2712dd8e",
+  "run_id": 39473461357,
+  "job_id": 118803249673,
+  "status": "INCOMPLETE",
+  "observed_native_cases": 32,
+  "counts": {
+    "INCOMPLETE": 26,
+    "PASS": 6
+  },
+  "cp6_restored": true,
+  "advisor_gate": false,
+  "new_paid_settlement_cases_passed": 0,
+  "classification": "PRODUCT_COMPOSITION_PRIVATE_OWNER_AND_ADVISOR_BASELINE_ERRORS",
+  "errors": [
+    "permission denied for function current_leaf_assignment",
+    "permission denied for function family_read_v1"
+  ],
+  "cases": [
+    {
+      "id": "OW04_INITIAL_1000_OPEN_CREDIT",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "OW04_INITIAL_1000_OPEN_REFUND",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_CREDIT",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_REFUND",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_CREDIT",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_REFUND",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_CREDIT",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_REFUND",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_CREDIT",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_REFUND",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_CREDIT",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_REFUND",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "P11_RETURN_LIFECYCLE",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "P11_RETURN_SPLIT_GRADES",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "P11_RETURN_ALLOCATION_CAP",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "P11_RETURN_FIELDS",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "P11_RETURN_PAID_REFUSAL",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "P11_RETURN_DATE_LOCATION",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "P11_RETURN_REPLAY",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "P11_RETURN_SOURCE_CHANGE",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "P11_RETURN_PERMISSIONS",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "P11_RETURN_PAGES",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "P11_RETURN_CONSUMED",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "P11_READ_DRAFT_CANCEL",
+      "status": "PASS",
+      "first_error": null
+    },
+    {
+      "id": "P11_READ_NATIVE_LIFECYCLE",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    },
+    {
+      "id": "P11_READ_EXACT_CENTS",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function family_read_v1"
+    },
+    {
+      "id": "P11_READ_FINANCIAL_REDACTION",
+      "status": "PASS",
+      "first_error": null
+    },
+    {
+      "id": "P11_READ_PRIVATE_READ_ONLY",
+      "status": "PASS",
+      "first_error": null
+    },
+    {
+      "id": "P11_READ_COMPLETE_PAGES",
+      "status": "PASS",
+      "first_error": null
+    },
+    {
+      "id": "P11_READ_QUERY_REFUSAL",
+      "status": "PASS",
+      "first_error": null
+    },
+    {
+      "id": "P11_READ_EMPTY_MISSING",
+      "status": "PASS",
+      "first_error": null
+    },
+    {
+      "id": "F03_E01_NATIVE_60_TO_CASH_RETURN",
+      "status": "INCOMPLETE",
+      "first_error": "permission denied for function current_leaf_assignment"
+    }
+  ],
+  "advisor_findings": {
+    "added": 36,
+    "old_predecessor_info": 30,
+    "new_credit_default_deny_info": 6
+  },
+  "first_log": {
+    "path": "CI_FFFC_FIRST_RUNTIME.log.gz",
+    "utf8_bytes": 385849,
+    "sha256": "63c1975e0b93a17128fb93ab25f29514b85f894323ce8e0983c78a7656c8c648",
+    "gzip_sha256": "6f8d9d2be3af9be22af8ff46b49c42811278460cef554518bc29796e714cb937"
+  },
+  "full_report": {
+    "path": "CI_FFFC_FIRST_REPORT.json.gz",
+    "utf8_bytes": 6506178,
+    "sha256": "57e49c67d6aa80de1a3c54b264f8d2cf2912001ed49f53b753fd76708b40b39e",
+    "gzip_sha256": "2b342438593e465e1adadb96c5c7c3dc2881bd782016494aa79f38da7dd5c823"
+  },
+  "expected_financial_values_changed": false,
+  "production_go": false,
+  "feature_complete": false
+}

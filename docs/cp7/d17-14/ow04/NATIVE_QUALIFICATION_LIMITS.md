@@ -17,6 +17,13 @@ daftar konteks yang salah. Kedua hasil pertama disimpan pada CI_C0_FIRST_FAILURE
 dan CI_F6_FIRST_FAILURE. Status Native tetap BELUM TERKUALIFIKASI; nol kasus
 bukan PASS produk. Sumber dan konfigurasi harus dibaca dari commit/run hasilnya.
 
+Percobaanfffc54fc sudah menjalankan32slot:6PASS/26INCOMPLETE. Semua12kasus
+settlement baru tertahan saat membaca sumber karena fungsi privat masih
+dimiliki akun pemasang. CP6 berhasil dipulihkan; advisor gate awal false.
+Hasil pertama lengkap dan perbaikan owner/advisor dicatat di
+CI_FFFC_FIRST_FAILURE.json dan PRIVATE_OWNER_FAILURE_DISPOSITION.md.
+Tidak ada settlement baru yang terbukti pada percobaan itu.
+
 Sebelum percobaan berikutnya,12 fixture baru juga diperkuat dengan
 `SET CONSTRAINTS ALL IMMEDIATE` sebelum rollback internal. Ini memaksa semua
 FK tertunda dan trigger penutupan fakta berjalan; bukan bukti COMMIT nyata
