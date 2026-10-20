@@ -1,0 +1,129 @@
+{
+  "classification": "FRESH_BROWSER_QUALIFICATION_FIXTURE_FAILURE_BEFORE_AUTH_OR_SETTLEMENT",
+  "candidate": "dfc4a56b6691d1fde1754bccb443093f70ad3b8f",
+  "tree": "32da7dad9d3230b12f44a62b25b6cb4431f5d37d",
+  "run_id": 39502462818,
+  "job_id": 118903108563,
+  "counts": {
+    "INCOMPLETE": 4,
+    "PASS": 0
+  },
+  "cases": [
+    {
+      "group": "AUDITOR_BROWSER_CP7_OW04_SETTLEMENT_BROWSER",
+      "case": "OW04_BROWSER_CREDIT_LOST_REPLY_DESKTOP",
+      "status": "INCOMPLETE",
+      "error": "Error: Command failed: python ../auditor/scripts/ow04-qualification/browser_fixture.py prepare\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/ow04-qualification/browser_fixture.py\", line 104, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/ow04-qualification/browser_fixture.py\", line 62, in main\n    sku=cur.execute('select product_sku from erp.products where id=%s',(f['x']['f']['product'],)).fetchone()[0]\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.UndefinedColumn: column \"product_sku\" does not exist\nLINE 1: select product_sku from erp.products where id=$1\n               ^\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow04-qualification/browser_cases.mjs:6:37)\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow04-qualification/browser_cases.mjs:32:63)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow04-qualification/browser_cases.mjs:233:48\n    at main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:33)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_OW04_SETTLEMENT_BROWSER",
+      "case": "OW04_BROWSER_REFUND_MOBILE",
+      "status": "INCOMPLETE",
+      "error": "Error: Command failed: python ../auditor/scripts/ow04-qualification/browser_fixture.py prepare\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/ow04-qualification/browser_fixture.py\", line 104, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/ow04-qualification/browser_fixture.py\", line 62, in main\n    sku=cur.execute('select product_sku from erp.products where id=%s',(f['x']['f']['product'],)).fetchone()[0]\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.UndefinedColumn: column \"product_sku\" does not exist\nLINE 1: select product_sku from erp.products where id=$1\n               ^\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow04-qualification/browser_cases.mjs:6:37)\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow04-qualification/browser_cases.mjs:32:63)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow04-qualification/browser_cases.mjs:234:36\n    at main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:33)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_OW04_SETTLEMENT_BROWSER",
+      "case": "OW04_BROWSER_QUOTE_EDIT_FENCE",
+      "status": "INCOMPLETE",
+      "error": "Error: Command failed: python ../auditor/scripts/ow04-qualification/browser_fixture.py prepare\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/ow04-qualification/browser_fixture.py\", line 104, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/ow04-qualification/browser_fixture.py\", line 62, in main\n    sku=cur.execute('select product_sku from erp.products where id=%s',(f['x']['f']['product'],)).fetchone()[0]\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.UndefinedColumn: column \"product_sku\" does not exist\nLINE 1: select product_sku from erp.products where id=$1\n               ^\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow04-qualification/browser_cases.mjs:6:37)\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow04-qualification/browser_cases.mjs:32:63)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow04-qualification/browser_cases.mjs:235:39\n    at main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:33)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_OW04_SETTLEMENT_BROWSER",
+      "case": "OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK",
+      "status": "INCOMPLETE",
+      "error": "Error: Command failed: python ../auditor/scripts/ow04-qualification/browser_fixture.py prepare\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/ow04-qualification/browser_fixture.py\", line 104, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/ow04-qualification/browser_fixture.py\", line 62, in main\n    sku=cur.execute('select product_sku from erp.products where id=%s',(f['x']['f']['product'],)).fetchone()[0]\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.UndefinedColumn: column \"product_sku\" does not exist\nLINE 1: select product_sku from erp.products where id=$1\n               ^\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow04-qualification/browser_cases.mjs:6:37)\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow04-qualification/browser_cases.mjs:32:63)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow04-qualification/browser_cases.mjs:236:53\n    at main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:33)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    }
+  ],
+  "summary": {
+    "label": "CP7_OW04_BROWSER",
+    "status": "INCOMPLETE",
+    "candidate_commit": "dfc4a56b6691d1fde1754bccb443093f70ad3b8f",
+    "expected_case_count": 4,
+    "observed_case_count": 4,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "error": "OW04_BROWSER_ACTUAL_ENTENG_HOST_PROOF_REQUIRED",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/ow04-qualification/browser_probe.py\", line 53, in run\n    assert final and final.get('ui_mode')=='ENTENG'and final.get('enteng_requests_answered_by_loopback',0)>0 \\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: OW04_BROWSER_ACTUAL_ENTENG_HOST_PROOF_REQUIRED\n",
+    "restore_error": null
+  },
+  "host": {
+    "group": "AUDITOR_BROWSER_CP7_OW04_SETTLEMENT_BROWSER",
+    "planned": [
+      "OW04_BROWSER_CREDIT_LOST_REPLY_DESKTOP",
+      "OW04_BROWSER_REFUND_MOBILE",
+      "OW04_BROWSER_QUOTE_EDIT_FENCE",
+      "OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK"
+    ],
+    "final": {
+      "OW04_BROWSER_CREDIT_LOST_REPLY_DESKTOP": "INCOMPLETE",
+      "OW04_BROWSER_REFUND_MOBILE": "INCOMPLETE",
+      "OW04_BROWSER_QUOTE_EDIT_FENCE": "INCOMPLETE",
+      "OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK": "INCOMPLETE"
+    },
+    "status": "RUN_COMPLETE",
+    "console_errors": 0,
+    "users_created": 0,
+    "auth_cleanup_failures": [],
+    "enteng_requests_answered_by_loopback": 0,
+    "enteng_route_errors": []
+  },
+  "packages": [
+    {
+      "status": "ALL_STAGES_INSTALLED",
+      "gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "writer_runtime": {
+        "status": "INCOMPLETE",
+        "production_go": false,
+        "independent_acceptance": false,
+        "feature_complete": false,
+        "schema_profile": "HOSTED_USAGE_UNCHANGED"
+      },
+      "primary_unchanged": true
+    }
+  ],
+  "runtime": {
+    "path": "CI_DFC4_BROWSER_FIRST_RUNTIME.log.gz",
+    "bytes": 280223,
+    "gzip_bytes": 42071,
+    "raw_sha256": "a53dcadfeaa8cbc5dfb6e0fad02f26f1bf091ac74deb8295ef1e6348b32f70e1",
+    "gzip_sha256": "50ad8fe7e18ea0b82bc73c182eec2f25fecae27264d15a8a0f2db86b9ecef62f"
+  },
+  "diagnosis": {
+    "classification": "WRITER_TEST_FIXTURE_SCHEMA_ASSUMPTION_ERROR",
+    "source": "products.sku is selected as public product_sku by the retained returns reader; product_sku is not a physical column",
+    "repair": "Use the retained Native stock fixture's existing f.sku, whose actual products.sku query is scripts/cp7_note_correction_cases.py:136",
+    "browser_transactions_executed": 0,
+    "Auth_users_created": 0,
+    "expected_changed": false,
+    "product_changed": false
+  },
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false
+}

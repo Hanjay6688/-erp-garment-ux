@@ -1,0 +1,52 @@
+{
+  "label": "OW04_BROWSER_STOCK_SKU_FIX_BOUNDED_COUNTER",
+  "assessment": "SOURCE_ONLY_ONE_LOOKUP_REPAIR_SUPPORTED_NO_UNRESOLVED_COUNTER",
+  "scope": "Only the bad physical-column lookup and its retained Native fixture provenance.",
+  "prior_candidate": "dfc4a56b",
+  "prior_fixture_sha256": "5d287742a94b87cf207b3b7d43c294988edf0f54412207a0654b46d2dcb7e501",
+  "reviewed_sha256": {
+    "scripts/ow04-qualification/browser_fixture.py": "4b60d538f217673b0996e3f2e38e8af09660b26236e89c03654879a61923559b",
+    "scripts/cp7_note_correction_cases.py": "1f6bfff2974b865d54600dec4fd515bd8b931efdd737c19e50eb8b1a094f604c",
+    "scripts/cp7_customer_credit/native/cp7_ow04_native_source_fixture.py": "4984926b221df459e6e88c2f282da3e553d4810d177208ea489c9c3b1d264497",
+    "scripts/cp7-src/sales/returns.sql": "14704954a190bb87908b6c2ee8f0a03c42134322ff39a98d051a47731cae3191",
+    "scripts/ow04-qualification/browser_cases.mjs": "0d6d33dbdbb75a09f145ec2a4d0ecd4f8ee44b6afcebb04e7c64ced4c8908caa",
+    "scripts/ow04-qualification/BROWSER_EXPECTED.json": "498f1943b91704d916268d0fe0a3f5caa1924199484de512626b72847170424f"
+  },
+  "only_diff_from_prior_fixture": "One lookup replaced with f[x][f][sku], plus explanatory comments; verified exact byte substitution.",
+  "scenario": "browser prepare previously queried erp.products.product_sku before creating/login browser Auth user.",
+  "expected": "Use the actual physical products.sku returned for the exact Native fixture product; preserve original source, posted facts, frozen expected values and Node journey code.",
+  "observed_source": "note.stock() returns sku from select sku from erp.products where id=product. native.prepared() retains that same dict as x[f]. Public returns reader only aliases p.sku as product_sku. Fixed browser helper now reads that exact retained f[x][f][sku] instead of querying a nonexistent physical column.",
+  "evidence": [
+    {
+      "file": "scripts/cp7_note_correction_cases.py",
+      "lines": "131-136"
+    },
+    {
+      "file": "scripts/cp7_customer_credit/native/cp7_ow04_native_source_fixture.py",
+      "lines": "192-210"
+    },
+    {
+      "file": "scripts/cp7-src/sales/returns.sql",
+      "lines": "54-57"
+    },
+    {
+      "file": "scripts/ow04-qualification/browser_fixture.py",
+      "lines": "59-70"
+    }
+  ],
+  "findings": [],
+  "browser_expected_unchanged": true,
+  "browser_cases_unchanged": true,
+  "prior_three_gap_fixes_retained_by_identical_Node_source": true,
+  "database_connections_opened": false,
+  "browser_executed": false,
+  "http_executed": false,
+  "Native_executed": false,
+  "product_edited": false,
+  "child_agents_spawned": false,
+  "limits": [
+    "Source and exact diff recheck only; no runtime success inferred.",
+    "Parent reported first browser run39502462818/job118903108563 as4INCOMPLETE before Auth; this check did not independently rerun or re-audit that CI log.",
+    "Fix removes the identified preparation lookup failure; it does not establish the four browser journeys will pass."
+  ]
+}

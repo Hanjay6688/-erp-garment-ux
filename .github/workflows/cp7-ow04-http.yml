@@ -7,6 +7,8 @@ name: CP7 OW04 Real Auth HTTP and SQL Recovery Qualification
     paths:
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/ow04-qualification/**
+    - '!scripts/ow04-qualification/browser*'
+    - '!scripts/ow04-qualification/BROWSER_EXPECTED.json'
     - .github/workflows/cp7-ow04-http.yml
   workflow_dispatch: {}
 permissions:

@@ -59,7 +59,9 @@ def main():
         with adapter.connect()as conn,conn.cursor()as cur:
             nf.b.api.admin(cur);detail=nf.source.read(cur,f['x']['f'])['detail']
             destination=cur.execute('select location_name from erp.locations where id=%s',(f['x']['f']['destination'],)).fetchone()[0]
-            sku=cur.execute('select product_sku from erp.products where id=%s',(f['x']['f']['product'],)).fetchone()[0]
+            # The retained Native stock fixture already reads the real products.sku.
+            # product_sku is a public reader alias, not a physical column.
+            sku=f['x']['f']['sku']
             conn.rollback()
         key=str(uuid.uuid4());OUT.mkdir(parents=True,exist_ok=True)
         payload=json.dumps(encoded(f),separators=(',',':')).encode()
