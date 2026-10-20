@@ -49,6 +49,19 @@ begin
  return jsonb_build_object('as_of',(statement_timestamp()at time zone'Asia/Jakarta')::date,'rows',coalesce((select jsonb_agg(r)from public.wa_smoke_ap),'[]'));
 end$f$;
 revoke all on function cp7_reminder_native.receivable_source(),cp7_reminder_native.payable_source()from public,anon,authenticated,service_role;
+-- D17-14: empty test-only obligation source. Real Native source/fixtures run in the full suite, not this bare stack.
+create function cp7_reminder_native.other_obligation_source()returns jsonb language sql stable security definer set search_path=''as $f$
+ select jsonb_build_object('contract_version','cp7.native-other-obligations.v1','as_of',(statement_timestamp()at time zone'Asia/Jakarta')::date,'rows','[]'::jsonb)$f$;
+create function cp7_reminder_native.condition_domain_access(p_domain text)returns boolean language plpgsql stable security invoker set search_path=''as $f$
+begin
+ if p_domain='OPENING_AR'then return erp.has_permission('finance.ar.view');end if;
+ if p_domain='OPENING_AP'then return erp.has_permission('finance.ap.view');end if;
+ if p_domain='PAYROLL_AP'then return erp.has_permission('finance.ap.view')and erp.has_permission('finance.payroll.view');end if;
+ if p_domain='ACCESSORY_AP'then return erp.has_permission('finance.ap.view')and erp.has_permission('warehouse.accessory.view')and(erp.has_permission('finance.hpp.view')or erp.has_permission('finance.hpp.manage'));end if;
+ if p_domain in('LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED')then return erp.has_permission('finance.ap.view')and erp.has_permission('production.laundry.view')and(erp.has_permission('finance.hpp.view')or erp.has_permission('finance.hpp.manage'));end if;
+ raise exception 'CP7_RULE_CONDITION_DOMAIN_INVALID';
+end$f$;
+revoke all on function cp7_reminder_native.other_obligation_source(),cp7_reminder_native.condition_domain_access(text)from public,anon,authenticated,service_role;
 -- WA-2b: which staged jobs exist, and the public analysis/reminder functions the analysis tick calls (never reached on
 -- this stack: it holds no analysis job, so the tick answers NO_OWNER_ANALYSIS_YET).
 create schema cp7_analysis_stage;

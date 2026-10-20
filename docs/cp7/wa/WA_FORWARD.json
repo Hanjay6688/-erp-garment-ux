@@ -10,12 +10,13 @@
     "D17-9",
     "D17-10",
     "D17-11",
-    "D17-12"
+    "D17-12",
+    "D17-14"
   ],
   "design": "docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md",
-  "expected_case_count": 58,
+  "expected_case_count": 65,
   "required_case_counts": {
-    "native": 41,
+    "native": 48,
     "races": 6,
     "http": 4,
     "browser": 7
@@ -62,7 +63,14 @@
       "SS3_SERVICE_ZONES_NOT_FREE_STOCK",
       "SS3_ACCESSORY_MANUAL_MINIMUM_ZERO_NEVER",
       "SS3_MATERIAL_SOURCE_AND_ACCESS",
-      "SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE"
+      "SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE",
+      "WAF_OTHER_OPENING_AR_AP",
+      "WAF_OTHER_PAYROLL_PAYMENT_INVERSE",
+      "WAF_OTHER_ACCESSORY_ALLOCATION_NOT_SETTLEMENT",
+      "WAF_OTHER_LAUNDRY_PAYMENT_INVERSE",
+      "WAF_OTHER_LAUNDRY_OPENING_UNKNOWN",
+      "WAF_OTHER_NARROWER_PERMISSIONS",
+      "WAF_OTHER_ALL_DOMAINS_SUMMARY_PRIVATE"
     ],
     "races": [
       "WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE",
@@ -155,5 +163,23 @@
       "one_fabric_reminder": "D17-10: fabrics on the formula (stock + on order <= point) are rows of FABRIC_BELOW_MINIMUM \"Stok kain di bawah minimum\" next to the fabrics under their minimum (cp7_alert_native.fabric_kind_source); Ringkasan Gudang lists the minimums only",
       "estimate_oracle": "scripts/cp7_stock_formula_cases.py estimate_oracle(), exact decimals"
     }
+  },
+  "other_obligations": {
+    "domains": [
+      "OPENING_AR",
+      "OPENING_AP",
+      "PAYROLL_AP",
+      "ACCESSORY_AP",
+      "LAUNDRY_AP",
+      "LAUNDRY_RECEIPT",
+      "LAUNDRY_OPENING_UNINVOICED"
+    ],
+    "source": "cp7_reminder_native.other_obligation_source()",
+    "permissions": "cp7_reminder_native.condition_domain_access(text)",
+    "forwarded_states": [
+      "ACTIVE",
+      "DATA_REVIEW"
+    ],
+    "amounts": "Exact Native remaining strings; UNKNOWN stays unknown; unfinalised receipts never become a second AP amount. Missing due dates are review reminders, not overdue."
   }
 }

@@ -32,7 +32,7 @@ FUNCTIONS={
   'guard_outbox','owner_access','queue_alert','queue_manual','queue_repeats','reconcile','record_tick','require_owner','resolve_one','send_tick',
   'wa_key_set','wa_resolve','wa_settings_read','wa_settings_save','wa_test')},
  **{name:(ROLE,True,'s')for name in('alerts_read','analysis_row','analysis_status','ap_source','ar_source','current_settings','fabric_source',
-  'in_quiet','item_line','label','num','outbox_items','render','require_tick_limit','rp','settings_json','tgl','ts_key','uid','jwt')},
+  'in_quiet','item_line','label','num','other_source','outbox_items','render','require_tick_limit','rp','settings_json','tgl','ts_key','uid','jwt')},
  'analysis_open':(ROLE,True,'i'),'defaults':(ROLE,True,'i'),'schedules':(ROLE,False,'i'),
  'vault_key_present':('postgres',True,'s'),'vault_key_write':('postgres',True,'v'),'wa_post':('postgres',True,'v'),'wa_response':('postgres',True,'s')}
 KEY_FUNCTIONS=('vault_key_present()','vault_key_write(text)','wa_post(text,text)','wa_response(bigint)')
@@ -157,7 +157,7 @@ def verify_alert(cur):
   "and has_table_privilege(%s,c.oid,'INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER'))",ROLE)
  called=cur.execute("select p.proname from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_reminder_native'"
   "and has_function_privilege(%s,p.oid,'EXECUTE')order by 1",(ROLE,)).fetchall()
- assert[r[0]for r in called]==['payable_source','receivable_source'],called
+ assert[r[0]for r in called]==['condition_domain_access','other_obligation_source','payable_source','receivable_source'],called
  assert not one("select exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='cp7_reminder_native'"
   "and has_table_privilege(%s,c.oid,'SELECT,INSERT,UPDATE,DELETE'))",ROLE)
  # Outside its schema and the reminder sources: exactly the public functions it calls, and six columns of the staged job list.
@@ -165,6 +165,7 @@ def verify_alert(cur):
   "join pg_namespace n on n.oid=p.pronamespace cross join lateral aclexplode(p.proacl)x where x.grantee=%s::regrole and x.privilege_type='EXECUTE'"
   "and n.nspname<>%s and p.proowner<>%s::regrole order by 1",(ROLE,SCHEMA,ROLE)).fetchall()
  assert[r[0]for r in granted]==sorted(CALLS+tuple(GRANTS[ROLE])+('cp7_reminder_native.payable_source()','cp7_reminder_native.receivable_source()',
+  'cp7_reminder_native.other_obligation_source()','cp7_reminder_native.condition_domain_access(text)',
   )+FORMULA_ALERT_CALLS),granted
  assert not one("select exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='cp7_analysis_stage'"
   "and has_table_privilege(%s,c.oid,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER'))",ROLE)

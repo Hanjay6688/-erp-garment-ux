@@ -1,0 +1,2 @@
+{"step":"full_alerts_sql_installed","runtime":"LOCAL_PGLITE18_DEV","original_sql":true,"old":true}
+{"status":"FAIL","checks":0,"old":true,"error":"D17-14: all seven obligation domains must be enabled by default","code":"ERR_ASSERTION","position":null}

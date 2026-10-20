@@ -102,7 +102,7 @@ function alertsReply(who: 'OWNER' | 'STAFF', configured = true) {
 // The server defaults (alerts.sql defaults()): the finished-goods kind forwarded (SS-1), automatic analysis every 240 minutes (D17-7).
 const defaults = { revision: 0, enabled: false, phone_e164: null as string | null, detail: 'SUMMARY', digest_times: ['08:00', '15:00'],
   kinds: ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
-    'PRODUCTION_GAP', 'FABRIC_NEED'], repeat_minutes: 1440,
+    'PRODUCTION_GAP', 'FABRIC_NEED', 'OPENING_AR', 'OPENING_AP', 'PAYROLL_AP', 'ACCESSORY_AP', 'LAUNDRY_AP', 'LAUNDRY_RECEIPT', 'LAUNDRY_OPENING_UNINVOICED'], repeat_minutes: 1440,
   burst_after_per_day: 30, burst_merge_minutes: 30, max_items: 10, quiet_enabled: true, quiet_start: '21:00', quiet_end: '06:00', analysis_every_minutes: 240,
   analysis_start: '07:00', analysis_end: '20:00' }
 type Settings = typeof defaults & { saved_at?: string }
@@ -115,7 +115,7 @@ type WaFake = { settings: Settings; keyPresent: boolean; keySetAt: string | null
   lose: Set<string>; calls: [string, Record<string, unknown>][] }
 const refuse = (code: string, message: string) => ({ data: null, error: { code, message, details: null, hint: null } })
 const inQuiet = (s: { quiet_start: string; quiet_end: string }, t: string) => s.quiet_start < s.quiet_end ? t >= s.quiet_start && t < s.quiet_end : t >= s.quiet_start || t < s.quiet_end
-function server(options: { alerts?: 'OWNER' | 'STAFF'; configured?: boolean; wa?: Partial<WaFake> } = {}) {
+function server(options: { alerts?: 'OWNER' | 'STAFF'; configured?: boolean; wa?: Partial<WaFake>; alertsData?: ReturnType<typeof alertsReply> } = {}) {
   const fake: WaFake = { settings: { ...defaults }, keyPresent: false, keySetAt: null, transport: true, quietNow: false, dispatches: [], tests: 0, lose: new Set(), calls: [], ...options.wa }
   const answers = new Map<string, { args: string; data: unknown }>()
   const once = (key: string, args: unknown, run: () => { data: unknown; error: unknown }) => {
@@ -135,7 +135,7 @@ function server(options: { alerts?: 'OWNER' | 'STAFF'; configured?: boolean; wa?
         counts: { open: 0, done: 0, cancelled: 0 }, due: { overdue: 0, today: 0, tomorrow: 0, complete: true }, today: '2026-10-19', read_at: NOW, can_manage: true,
         business_DML: false }, error: null }
     }
-    if (name === 'erp_cp7_get_alerts_v1') return { data: alertsReply(options.alerts ?? (isOwner ? 'OWNER' : 'STAFF'), options.configured ?? true), error: null }
+    if (name === 'erp_cp7_get_alerts_v1') return { data: options.alertsData ?? alertsReply(options.alerts ?? (isOwner ? 'OWNER' : 'STAFF'), options.configured ?? true), error: null }
     if (!isOwner) return refuse('42501', 'CP7_WA_OWNER_ONLY')
     const key = String(args.p_request ?? '')
     const lost = fake.lose.has(name)
@@ -212,6 +212,48 @@ const tabs = () => [...container.querySelectorAll('[role="tab"]')].map(t => t.te
 const calls = (fake: WaFake, name: string) => fake.calls.filter(c => c[0] === name).map(c => c[1])
 
 describe('Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4)', () => {
+  it('D17-14 renders all seven obligation domains with exact known money and honest unknowns', async () => {
+    const domains = ['OPENING_AR', 'OPENING_AP', 'PAYROLL_AP', 'ACCESSORY_AP', 'LAUNDRY_AP', 'LAUNDRY_RECEIPT', 'LAUNDRY_OPENING_UNINVOICED']
+    const labels = ['Piutang saldo awal', 'Utang saldo awal', 'Tagihan gaji', 'Kredit retur aksesori mandor', 'Tagihan laundry',
+      'Penerimaan laundry perlu diperiksa', 'Laundry awal belum ditagih']
+    const reply = alertsReply('OWNER')
+    const newRows = domains.map((domain, i) => row(700 + i, domain, `Perlu diperiksa: Dokumen ${i}`, {
+      domain, source_id: id(800 + i), label: `Dokumen ${i}`, remaining_state: i < 5 ? 'KNOWN' : 'UNKNOWN',
+      remaining: i < 5 ? '9007199254740993.01' : null, due_date: null, state: 'DATA_REVIEW',
+      reason: i < 5 ? 'MISSING_RECORDED_DUE_DATE' : 'VALUE_PENDING', economic_state: i < 5 ? 'OPEN' : 'UNKNOWN', as_of: '2026-10-19', source_hash: 'a'.repeat(64),
+    }, { subject_key: `${domain === 'OPENING_AR' ? 'AR_DUE' : 'AP_DUE'}:${domain}:${id(800 + i)}`, wa: waState('PENDING') }))
+    reply.rows = newRows
+    reply.kinds = [...reply.kinds, ...domains.map(kind => ({ kind, last_try_at: NOW, last_ok_at: NOW, last_error: null, open_count: 1 }))]
+    const parsed = parseSystemAlerts(reply, { owner: true })
+    expect(parsed.rows.map(r => r.kind)).toEqual(domains)
+    expect(alertSummary(parsed.rows[0])).toContain('9.007.199.254.740.993,01')
+    expect(alertSummary(parsed.rows[5])).toContain('Nilai belum diketahui')
+    expect(alertSummary(parsed.rows[5])).not.toContain('Rp0')
+    const fake = server({ alertsData: reply }); await mount(); await tab('Pengingat sistem')
+    for (const label of labels) expect(panel('Pengingat sistem').querySelector(`section[aria-label="${label}"]`)).not.toBeNull()
+    expect(panel('Pengingat sistem').textContent).toContain('Tanggal jatuh tempo belum tercatat')
+    expect(panel('Pengingat sistem').textContent).toContain('Nilai tagihan final belum tersedia')
+    await tab('Sambungan WhatsApp')
+    for (const label of labels) expect(input(`Teruskan ${label}`).checked).toBe(true)
+    await click('Simpan pengaturan')
+    expect((calls(fake, 'erp_cp7_save_wa_settings_v1')[0].p as { kinds: string[] }).kinds).toEqual(defaults.kinds)
+  })
+
+  it('D17-14 rejects mismatched obligation identity and money coerced to a JS number', () => {
+    const reply = alertsReply('OWNER')
+    reply.rows = [row(700, 'PAYROLL_AP', 'Gaji perlu diperiksa', { domain: 'PAYROLL_AP', source_id: id(800), label: 'Gaji',
+      remaining_state: 'KNOWN', remaining: '0.01', due_date: null, state: 'DATA_REVIEW', reason: 'MISSING_RECORDED_DUE_DATE',
+      economic_state: 'OPEN', as_of: '2026-10-19', source_hash: 'a'.repeat(64) }, { subject_key: `AP_DUE:PAYROLL_AP:${id(800)}` })]
+    reply.kinds = [...reply.kinds, { kind: 'PAYROLL_AP', last_try_at: NOW, last_ok_at: NOW, last_error: null, open_count: 1 }]
+    expect(() => parseSystemAlerts(reply, { owner: true })).not.toThrow()
+    const malformed = (change: Record<string, unknown>) => ({ ...reply, rows: [{ ...reply.rows[0], detail: { ...reply.rows[0].detail, ...change } }] })
+    expect(() => parseSystemAlerts(malformed({ remaining: 0.01 }), { owner: true })).toThrow('nilai kewajiban')
+    expect(() => parseSystemAlerts(malformed({ remaining: null }), { owner: true })).toThrow('nilai kewajiban')
+    expect(() => parseSystemAlerts(malformed({ domain: 'OPENING_AP' }), { owner: true })).toThrow('jenis kewajiban')
+    expect(() => parseSystemAlerts(malformed({ state: 'ACTIVE' }), { owner: true })).toThrow('nilai kewajiban')
+    expect(() => parseSystemAlerts({ ...reply, rows: [{ ...reply.rows[0], subject_key: `AP_DUE:PAYROLL_AP:${id(801)}` }] }, { owner: true })).toThrow('pengingat')
+  })
+
   it('parses the documented shapes and refuses unknown or missing keys', () => {
     const good = alertsReply('OWNER')
     const parsed = parseSystemAlerts(good, { owner: true })
@@ -548,13 +590,15 @@ describe('Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4)', () => 
     expect([...container.querySelectorAll('.cwa-kinds input')].map(i => i.getAttribute('aria-label'))).toEqual(['Teruskan Pengingat pribadi Bos',
       'Teruskan Stok kain di bawah minimum', 'Teruskan Stok aksesori menipis', 'Teruskan Stok barang jadi menipis',
       'Teruskan Piutang pelanggan jatuh tempo', 'Teruskan Tagihan supplier jatuh tempo',
-      'Teruskan Kekurangan produksi (dari analisis)', 'Teruskan Kain perlu dibeli (dari analisis)'])
+      'Teruskan Kekurangan produksi (dari analisis)', 'Teruskan Kain perlu dibeli (dari analisis)',
+      'Teruskan Piutang saldo awal', 'Teruskan Utang saldo awal', 'Teruskan Tagihan gaji', 'Teruskan Kredit retur aksesori mandor',
+      'Teruskan Tagihan laundry', 'Teruskan Penerimaan laundry perlu diperiksa', 'Teruskan Laundry awal belum ditagih'])
     expect(input('Teruskan Stok barang jadi menipis').checked).toBe(true)
     expect(input('Analisis otomatis tiap (menit)').value).toBe('240')
     await click('Simpan pengaturan')
     expect((calls(fake, 'erp_cp7_save_wa_settings_v1')[0].p as { kinds: string[]; analysis_every_minutes: number })).toMatchObject({
       kinds: ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
-        'PRODUCTION_GAP', 'FABRIC_NEED'], analysis_every_minutes: 240 })
+        'PRODUCTION_GAP', 'FABRIC_NEED', 'OPENING_AR', 'OPENING_AP', 'PAYROLL_AP', 'ACCESSORY_AP', 'LAUNDRY_AP', 'LAUNDRY_RECEIPT', 'LAUNDRY_OPENING_UNINVOICED'], analysis_every_minutes: 240 })
     expect(container.textContent).toContain('Tersimpan (revisi 1).')
     await check('Teruskan Stok barang jadi menipis'); await click('Simpan pengaturan')
     expect((calls(fake, 'erp_cp7_save_wa_settings_v1')[1].p as { kinds: string[] }).kinds).not.toContain('FG_AT_REORDER_POINT')

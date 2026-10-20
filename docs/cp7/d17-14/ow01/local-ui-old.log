@@ -1,0 +1,46 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/9442228ed2dc/erp-d1714-before
+
+xx--------------
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > D17-14 renders all seven obligation domains with exact known money and honest unknowns
+Error: Respons pengingat sistem tidak cocok (jenis).
+ ❯ Module.parseSystemAlerts src/waContract.ts:306:42
+    304| export function parseSystemAlerts(value: unknown, options: { owner: bo…
+    305|   try { return systemAlerts(value, options) } catch (e) {
+    306|     throw e instanceof WaResponseError ? new WaResponseError(e.message…
+       |                                          ^
+    307|   }
+    308| }
+ ❯ src/ConnectedRemindersWa.dom.test.tsx:227:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/ConnectedRemindersWa.dom.test.tsx > Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4) > D17-14 rejects mismatched obligation identity and money coerced to a JS number
+AssertionError: expected [Function] to not throw an error but 'Error: Respons pengingat sistem tidak…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"Error: Respons pengingat sistem tidak cocok (jenis)."
+
+ ❯ src/ConnectedRemindersWa.dom.test.tsx:248:65
+    246|       economic_state: 'OPEN', as_of: '2026-10-19', source_hash: 'a'.re…
+    247|     reply.kinds = [...reply.kinds, { kind: 'PAYROLL_AP', last_try_at: …
+    248|     expect(() => parseSystemAlerts(reply, { owner: true })).not.toThro…
+       |                                                                 ^
+    249|     const malformed = (change: Record<string, unknown>) => ({ ...reply…
+    250|     expect(() => parseSystemAlerts(malformed({ remaining: 0.01 }), { o…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 14 skipped (16)
+   Start at  19:12:03
+   Duration  848ms (transform 274ms, setup 0ms, import 359ms, tests 23ms, environment 320ms)
+

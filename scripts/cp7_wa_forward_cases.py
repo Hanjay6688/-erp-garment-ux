@@ -54,7 +54,7 @@ IDS = dict(
             # SS-1 (D17-8/D17-9): finished goods at or under their reorder point, and the formula itself (cp7_stock_formula_cases).
             'WAF_FG_REORDER_POINT_FORWARDED', 'WAF_FG_RESOLVED_BEFORE_SEND',
             # SS-2, SS-3: fabric on the formula and accessories at or under their point.
-            'WAF_FABRIC_REORDER_POINT_FORWARDED', 'WAF_ACCESSORY_REORDER_POINT_FORWARDED'] + formula.NATIVE_IDS,
+            'WAF_FABRIC_REORDER_POINT_FORWARDED', 'WAF_ACCESSORY_REORDER_POINT_FORWARDED'] + formula.NATIVE_IDS + ['WAF_OTHER_OPENING_AR_AP', 'WAF_OTHER_PAYROLL_PAYMENT_INVERSE', 'WAF_OTHER_ACCESSORY_ALLOCATION_NOT_SETTLEMENT', 'WAF_OTHER_LAUNDRY_PAYMENT_INVERSE', 'WAF_OTHER_LAUNDRY_OPENING_UNKNOWN', 'WAF_OTHER_NARROWER_PERMISSIONS', 'WAF_OTHER_ALL_DOMAINS_SUMMARY_PRIVATE'],
     races=['WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE', 'WAF_RACE_COLLECT_AND_SEND_OPEN_ONCE', 'WAF_RACE_FAKE_CALLMEBOT_END_TO_END',
            'WAF_RACE_PG_CRON_RUNS_TICKS', 'WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK', 'WAF_RACE_MATERIAL_BUSY_RECHECKS_LIVE_STOCK'],
     http=['WAF_HTTP_OWNER_SETS_UP_AND_TESTS', 'WAF_HTTP_OTHERS_REFUSED', 'WAF_HTTP_FG_REORDER_SCREEN', 'WAF_HTTP_MATERIAL_REORDER_SCREEN'],
@@ -65,7 +65,7 @@ IDS = dict(
 )
 REQUIRED = {key: len(value) for key, value in IDS.items()}
 EXPECTED = sum(REQUIRED.values())
-DECLARED = 58
+DECLARED = 65
 CONTRACT = 'cp7.wa.forward.v1'
 FUNCTIONS = ('erp_cp7_get_alerts_v1', 'erp_cp7_get_wa_settings_v1', 'erp_cp7_save_wa_settings_v1', 'erp_cp7_set_wa_key_v1',
              'erp_cp7_send_wa_test_v1', 'erp_cp7_resolve_wa_dispatch_v1',
@@ -338,6 +338,19 @@ def visible(cur, subject):
         out.add('AR_DUE')
     if 'finance.ap.view' in keys:
         out.add('AP_DUE')
+    role = one(cur, 'select r.role_code from erp.app_users u join erp.app_roles r on r.id=u.role_id where u.auth_user_id=%s', (subject,))
+    if role in ('OWNER', 'ADMIN', 'STAFF'):
+        if 'finance.ar.view' in keys:
+            out.add('OPENING_AR')
+        if 'finance.ap.view' in keys:
+            out.add('OPENING_AP')
+            if 'finance.payroll.view' in keys:
+                out.add('PAYROLL_AP')
+            if {'finance.hpp.view', 'finance.hpp.manage'} & keys:
+                if 'warehouse.accessory.view' in keys:
+                    out.add('ACCESSORY_AP')
+                if 'production.laundry.view' in keys:
+                    out |= {'LAUNDRY_AP', 'LAUNDRY_RECEIPT', 'LAUNDRY_OPENING_UNINVOICED'}
     if PLANNING <= keys:
         out |= set(ANALYSIS)
     return out
@@ -360,6 +373,7 @@ def raw_low(cur):
 
 
 def cases(cur, today):
+    from cp7_wa_obligation_cases import cases as obligation_cases
     def waits_for_owner():
         pg_net(cur)
         b.api.admin(cur)
@@ -1036,8 +1050,8 @@ def cases(cur, today):
              answers, pacing_burst_quiet_digest_repeat, off_or_no_key, key_write_only, privacy_permissions, ticks_private, analysis_gap,
              analysis_automatic, fg_forwarded, fg_resolved_before_send, fabric_forwarded, accessory_forwarded]
     named += [op for _, op in formula.cases(cur, today)]
-    assert len(named) == len(IDS['native'])
-    return list(zip(IDS['native'], named))
+    assert len(named) + len(obligation_cases(cur, today)) == len(IDS['native'])
+    return list(zip(IDS['native'][:len(named)], named)) + obligation_cases(cur, today)
 
 
 # ----------------------------------------------------------------------------------------------------- races --

@@ -51,7 +51,8 @@ export default function SystemRemindersPanel({ owner, onOpenWa }: { owner: boole
         <span className="eyebrow">PENGINGAT SISTEM</span>
         <h2>Pengingat dari data ERP</h2>
         <p>Stok kain di bawah minimum, stok aksesori dan barang jadi yang menipis, kain yang perlu dibeli,
-          kekurangan produksi, tagihan supplier, dan piutang pelanggan yang jatuh tempo.
+          kekurangan produksi, tagihan supplier, piutang pelanggan, saldo awal, gaji, kredit retur aksesori mandor, dan laundry.
+          Nilai atau tanggal yang belum pasti ditandai perlu diperiksa.
           Pengingat ini muncul dan tertutup sendiri mengikuti datanya, jadi tidak perlu ditandai selesai. Akun ini hanya melihat jenis yang boleh dibukanya.</p>
         {data ? <small>Dibaca {formatCp6WibDateTime(data.readAt)}.</small> : null}
       </div>

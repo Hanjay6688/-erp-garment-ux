@@ -1,6 +1,7 @@
 import type { Json } from './types/database.preconnect'
 import { formatCp6WibDateTime } from './cp6BusinessTime'
 import { isUnansweredFailure, normalizeClientError } from './lib/clientError'
+import { formatReceiptDecimal } from './procurementContract'
 
 // WA-4 (owner D17-3..D17-6): closed parsers for the public RPCs of scripts/cp7-src/alerts/alerts.sql (alerts_read,
 // wa_settings_read, wa_settings_save, wa_key_set, wa_test, wa_resolve, settings_json, defaults, analysis_status). Every
@@ -12,16 +13,19 @@ import { isUnansweredFailure, normalizeClientError } from './lib/clientError'
 // SS-2/SS-3 add ACCESSORY_AT_REORDER_POINT (materials.sql, material_alert_row). Owner D17-10: a fabric on the formula is a row
 // of FABRIC_BELOW_MINIMUM (one title, "Stok kain di bawah minimum"; no separate fabric kind), and an accessory is reminded
 // only by its minimum, never the formula: typed (MANUAL) or worked out from the owner's numbers (ESTIMATE, D17-12).
+export const obligationKinds = ['OPENING_AR', 'OPENING_AP', 'PAYROLL_AP', 'ACCESSORY_AP', 'LAUNDRY_AP', 'LAUNDRY_RECEIPT', 'LAUNDRY_OPENING_UNINVOICED'] as const
+export type ObligationKind = typeof obligationKinds[number]
+const isObligationKind = (kind: string): kind is ObligationKind => obligationKinds.some(k => k === kind)
 export const alertKinds = ['FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
-  'PRODUCTION_GAP', 'FABRIC_NEED'] as const
+  'PRODUCTION_GAP', 'FABRIC_NEED', ...obligationKinds] as const
 export type AlertKind = typeof alertKinds[number]
 /** The order of cp7_alert_native.defaults(). */
 export const waKinds = ['MANUAL_REMINDER', 'FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
-  'PRODUCTION_GAP', 'FABRIC_NEED'] as const
+  'PRODUCTION_GAP', 'FABRIC_NEED', ...obligationKinds] as const
 export type WaKind = typeof waKinds[number]
 /** The order of the groups on the Pengingat sistem screen (the order of the WhatsApp message, render() in alerts.sql). */
 export const alertKindOrder: readonly AlertKind[] = ['FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT',
-  'FABRIC_NEED', 'PRODUCTION_GAP', 'AP_DUE', 'AR_DUE']
+  'FABRIC_NEED', 'PRODUCTION_GAP', 'AP_DUE', 'AR_DUE', ...obligationKinds]
 export const waKindLabel: Record<WaKind, string> = {
   MANUAL_REMINDER: 'Pengingat pribadi Bos',
   FABRIC_BELOW_MINIMUM: 'Stok kain di bawah minimum',
@@ -31,6 +35,13 @@ export const waKindLabel: Record<WaKind, string> = {
   AP_DUE: 'Tagihan supplier jatuh tempo',
   PRODUCTION_GAP: 'Kekurangan produksi (dari analisis)',
   FABRIC_NEED: 'Kain perlu dibeli (dari analisis)',
+  OPENING_AR: 'Piutang saldo awal',
+  OPENING_AP: 'Utang saldo awal',
+  PAYROLL_AP: 'Tagihan gaji',
+  ACCESSORY_AP: 'Kredit retur aksesori mandor',
+  LAUNDRY_AP: 'Tagihan laundry',
+  LAUNDRY_RECEIPT: 'Penerimaan laundry perlu diperiksa',
+  LAUNDRY_OPENING_UNINVOICED: 'Laundry awal belum ditagih',
 }
 export const isAnalysisKind = (kind: AlertKind) => kind === 'PRODUCTION_GAP' || kind === 'FABRIC_NEED'
 /** The kinds whose every row comes from cp7_stock_formula: no party names, keyed by the item or material. FABRIC_BELOW_MINIMUM
@@ -72,6 +83,11 @@ type DueFields = {
   state: 'OVERDUE' | 'DUE_TODAY'; asOf: string | null; invoiceNumbers: string | null
 }
 export type DueDetail = ({ kind: 'AR_DUE' } & DueFields) | ({ kind: 'AP_DUE' } & DueFields)
+export type ObligationDetail = {
+  kind: ObligationKind; documentId: string; label: string; amount: string | null; amountState: 'KNOWN' | 'UNKNOWN'
+  dueDate: string | null; state: 'ACTIVE' | 'DATA_REVIEW'; reason: string; economicState: 'OPEN' | 'UNKNOWN'
+  asOf: string; sourceHash: string
+}
 type AnalysisFields = {
   runId: string; dataAsOf: string; checkedAt: string | null; label: string | null; targetKey: string | null
   needSnapshotPcs: string | null; needNowPcs: string | null; increasePcs: string | null; materialId: string | null; materialName: string | null
@@ -96,7 +112,8 @@ export type FabricFormulaDetail = { kind: 'FABRIC_BELOW_MINIMUM'; materialType: 
  * (ESTIMATE, with its lama kirim); never the formula, so no cadangan or tingkat layanan. */
 export type AccessoryMinimumDetail = { kind: 'ACCESSORY_AT_REORDER_POINT'; materialType: 'ACCESSORY'; basis: 'MANUAL' | 'ESTIMATE' } & MaterialReorderFields
 export type MaterialReorderDetail = FabricFormulaDetail | AccessoryMinimumDetail
-export type AlertDetail = FabricDetail | MaterialReorderDetail | FgReorderDetail | DueDetail | AnalysisDetail
+export type AlertDetail = FabricDetail | MaterialReorderDetail | FgReorderDetail | DueDetail | AnalysisDetail | ObligationDetail
+export const isObligationDetail = (d: AlertDetail): d is ObligationDetail => obligationKinds.some(k => k === d.kind)
 /** A detail with the material shape (a fabric on the formula, or an accessory), not the fabric minimum's. */
 export const isMaterialReorderDetail = (d: AlertDetail): d is MaterialReorderDetail =>
   d.kind === 'ACCESSORY_AT_REORDER_POINT' || (d.kind === 'FABRIC_BELOW_MINIMUM' && 'materialType' in d)
@@ -146,6 +163,7 @@ const positive = (v: unknown, what: string) => typeof v === 'number' && Number.i
 const maybePositive = (v: unknown, what: string) => v === null ? null : positive(v, what)
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 const uuidText = (v: unknown, what: string) => typeof v === 'string' && uuid.test(v) ? v : fail(what)
+const hash = (v: unknown, what: string) => typeof v === 'string' && /^[0-9a-f]{64}$/.test(v) ? v : fail(what)
 const maybeUuid = (v: unknown, what: string) => v === null ? null : uuidText(v, what)
 const decimalText = /^-?\d+(\.\d+)?$/
 // Numbers come from the sources as text (numeric::text) or, inside the analysis numbers, as JSON numbers.
@@ -217,6 +235,21 @@ function detail(kind: AlertKind, v: unknown): AlertDetail {
   }
   if (kind === 'FG_AT_REORDER_POINT') return fgReorderDetail(d)
   if (kind === 'ACCESSORY_AT_REORDER_POINT') return materialReorderDetail(kind, d)
+  if (isObligationKind(kind)) {
+    keys(d, ['domain', 'source_id', 'label', 'remaining_state', 'remaining', 'due_date', 'state', 'reason', 'economic_state', 'as_of', 'source_hash'], 'rincian kewajiban')
+    const domain = oneOf(d.domain, obligationKinds, 'jenis kewajiban')
+    if (domain !== kind) fail('jenis kewajiban')
+    const amountState = oneOf(d.remaining_state, ['KNOWN', 'UNKNOWN'] as const, 'nilai kewajiban')
+    const amount = maybeDecimal(d.remaining, 'nilai kewajiban')
+    const state = oneOf(d.state, ['ACTIVE', 'DATA_REVIEW'] as const, 'keadaan kewajiban')
+    const dueDate = d.due_date === null ? null : typeof d.due_date === 'string' && day.test(d.due_date) ? d.due_date : fail('tanggal kewajiban')
+    const economicState = oneOf(d.economic_state, ['OPEN', 'UNKNOWN'] as const, 'keadaan nilai kewajiban')
+    if ((amountState === 'KNOWN') !== (amount !== null) || (amountState === 'KNOWN' && typeof d.remaining !== 'string')
+      || (state === 'ACTIVE' && (dueDate === null || amountState !== 'KNOWN' || economicState !== 'OPEN'))) fail('nilai kewajiban')
+    return { kind: domain, documentId: uuidText(d.source_id, 'dokumen kewajiban'), label: str(d.label, 'label kewajiban'),
+      amountState, amount, dueDate, state, reason: str(d.reason, 'sebab kewajiban'), economicState,
+      asOf: typeof d.as_of === 'string' && day.test(d.as_of) ? d.as_of : fail('tanggal sumber'), sourceHash: hash(d.source_hash, 'sidik sumber') }
+  }
   if (kind === 'AR_DUE') {
     keys(d, ['sale_id', 'number', 'open_balance', 'due_date', 'state', 'as_of'], 'rincian piutang')
     return { kind, documentId: maybeStr(d.sale_id, 'rincian piutang'), number: maybeStr(d.number, 'rincian piutang'), amount: maybeDecimal(d.open_balance, 'rincian piutang'),
@@ -335,6 +368,7 @@ function systemAlerts(value: unknown, options: { owner: boolean }): SystemAlerts
     // A finished-goods alert is keyed by its item (target_key root:size), a material alert by the material.
     if (a.detail.kind === 'FG_AT_REORDER_POINT' && a.subjectKey !== `${a.detail.rootId}:${a.detail.sizeId}`) fail('pengingat')
     if (isMaterialReorderDetail(a.detail) && a.subjectKey !== a.detail.materialId) fail('pengingat')
+    if (isObligationDetail(a.detail) && a.subjectKey !== `${kind === 'OPENING_AR' ? 'AR_DUE' : 'AP_DUE'}:${kind}:${a.detail.documentId}`) fail('pengingat')
     return a
   })
   if (rows.length > 500 || new Set(rows.map(r => r.id)).size !== rows.length
@@ -570,6 +604,7 @@ export function waChip(wa: AlertWa | null): { label: string; tone: 'ok' | 'wait'
 const resolutionText: Record<string, string> = {
   AT_OR_ABOVE_MINIMUM: 'Stok sudah mencapai minimum',
   ZERO_BALANCE: 'Sudah lunas',
+  ZERO_NATIVE_REMAINING: 'Sumber membuktikan sudah lunas',
   NOT_DUE_YET: 'Belum jatuh tempo lagi',
   MISSING_DUE_DATE: 'Tanggal jatuh tempo tidak ada lagi',
   INACTIVE_DOCUMENT: 'Dokumennya sudah dibatalkan',
@@ -626,7 +661,7 @@ export const tickOutcomeLabel = (outcome: string | null) => (outcome && tickText
 const plain = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 2 })
 export const formatWaNumber = (n: number) => plain.format(n)
 const num = (v: string | null) => v === null ? '?' : plain.format(Number(v))
-const rupiah = (v: string | null) => v === null ? 'Rp?' : `Rp${plain.format(Math.round(Number(v)))}`
+const rupiah = (v: string | null) => v === null ? 'Rp?' : `Rp${formatReceiptDecimal(v)}`
 const dateOnly = (v: string | null) => v === null ? '-' : new Intl.DateTimeFormat('id-ID', { dateStyle: 'medium', timeZone: 'UTC' }).format(new Date(`${v}T00:00:00Z`))
 /** A calendar date (YYYY-MM-DD) as "20 Okt 2026". */
 export const formatWaDay = dateOnly
@@ -662,6 +697,20 @@ export function materialReorderLine(d: MaterialReorderDetail): string {
 /** One line of the numbers of a system reminder, in plain words. */
 export function alertSummary(a: SystemAlert): string {
   const d = a.detail
+  if (isObligationDetail(d)) {
+    const reasons: Record<string, string> = {
+      MISSING_RECORDED_DUE_DATE: 'Tanggal jatuh tempo belum tercatat',
+      UNKNOWN_NATIVE_REMAINING: 'Sisa kewajiban belum dapat dipastikan',
+      NATIVE_CREDIT_REVIEW: 'Saldo kredit perlu diperiksa',
+      VALUE_PENDING: 'Nilai tagihan final belum tersedia',
+      ALLOCATION_NOT_SETTLEMENT: 'Alokasi belum membuktikan pembayaran',
+      SOURCE_REVIEW: 'Sumber perlu diperiksa',
+      INVOICED_LIABILITY_SEE_NATIVE_DOCUMENT: 'Sudah ditagih; nilai utang ada di invoice laundry',
+    }
+    const money = d.amountState === 'KNOWN' ? `Nilai ${rupiah(d.amount)}` : 'Nilai belum diketahui'
+    return d.state === 'DATA_REVIEW' ? `${money} · ${reasons[d.reason] ?? 'Perlu diperiksa di dokumen asal'}`
+      : `${money} · jatuh tempo ${dateOnly(d.dueDate)} (${d.reason === 'DUE_TODAY' ? 'hari ini' : 'terlewat'})`
+  }
   if (d.kind === 'FG_AT_REORDER_POINT') return fgReorderLine(d)
   if (isMaterialReorderDetail(d)) return materialReorderLine(d)
   if (d.kind === 'FABRIC_BELOW_MINIMUM') {

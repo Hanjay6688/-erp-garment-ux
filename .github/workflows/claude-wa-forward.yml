@@ -17,6 +17,7 @@ name: CP7 WA Forward
   push:
     branches:
     - claude/new-session-deapao
+    - astra/d17-14-20261020
     paths:
     - scripts/cp7_wa_*
     - scripts/cp7-src/alerts/**

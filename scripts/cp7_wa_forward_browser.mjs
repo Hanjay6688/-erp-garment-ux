@@ -20,7 +20,9 @@ const RPCS=['erp_cp7_get_alerts_v1',...OWNER_RPCS]
 // ("Stok kain di bawah minimum"); there is no separate fabric kind.
 const KIND_LABEL={FABRIC_BELOW_MINIMUM:'Stok kain di bawah minimum',ACCESSORY_AT_REORDER_POINT:'Stok aksesori menipis',
  FG_AT_REORDER_POINT:'Stok barang jadi menipis',AR_DUE:'Piutang pelanggan jatuh tempo',AP_DUE:'Tagihan supplier jatuh tempo',
- PRODUCTION_GAP:'Kekurangan produksi (dari analisis)',FABRIC_NEED:'Kain perlu dibeli (dari analisis)'}
+ PRODUCTION_GAP:'Kekurangan produksi (dari analisis)',FABRIC_NEED:'Kain perlu dibeli (dari analisis)',
+ OPENING_AR:'Piutang saldo awal',OPENING_AP:'Utang saldo awal',PAYROLL_AP:'Tagihan gaji',ACCESSORY_AP:'Kredit retur aksesori mandor',
+ LAUNDRY_AP:'Tagihan laundry',LAUNDRY_RECEIPT:'Penerimaan laundry perlu diperiksa',LAUNDRY_OPENING_UNINVOICED:'Laundry awal belum ditagih'}
 async function openSidebar(page){const open=page.getByRole('button',{name:'Buka menu',exact:true});if(await open.isVisible())await open.click()}
 async function openReminders(ui,page){
  await openSidebar(page)
@@ -60,6 +62,9 @@ async function ownerJourney(ui,mobile){
   await ui.expect(sendTest).toBeDisabled();await ui.expect(testBox).toContainText('Simpan nomor WA Bos di Pengaturan dulu.')
   // Settings: the number; quiet hours and digest times cleared, so nothing waits for the hour the run happens at.
   const settings=wa.getByRole('region',{name:'Pengaturan WhatsApp',exact:true}),save=settings.getByRole('button',{name:'Simpan pengaturan WhatsApp',exact:true})
+  // D17-14: real desktop and phone builds must offer every obligation domain, selected by default.
+  const obligationKinds=['OPENING_AR','OPENING_AP','PAYROLL_AP','ACCESSORY_AP','LAUNDRY_AP','LAUNDRY_RECEIPT','LAUNDRY_OPENING_UNINVOICED']
+  for(const k of obligationKinds)await ui.expect(settings.getByLabel('Teruskan '+KIND_LABEL[k],{exact:true})).toBeChecked()
   await settings.getByLabel('Nomor WA Bos',{exact:true}).fill(PHONE)
   await settings.getByLabel('Pakai jam tenang',{exact:true}).uncheck()
   for(const i of[1,2]){const clear=settings.getByRole('button',{name:'Kosongkan jam ringkasan '+i,exact:true});if(await clear.isEnabled())await clear.click()}
@@ -67,6 +72,7 @@ async function ownerJourney(ui,mobile){
   let st=fixture('state',{key:KEY})
   assert.deepEqual([st.settings.revision,st.settings.enabled,st.settings.phone,st.settings.quiet_enabled,st.settings.digest_times,st.key_matches],[1,false,PHONE,false,[],false])
   assert.equal(st.settings.actor,user.user.id)
+  assert.ok(obligationKinds.every(k=>st.settings.kinds.includes(k)),'D17-14 obligation settings were not persisted')
   shots.push(await shot(ui,page,`WAF_${suffix}_SETTINGS_SAVED.png`))
   // The key: typed once into the password box, sent once, the box emptied, never shown again.
   const keyBox=wa.getByRole('region',{name:'Bagian kunci CallMeBot',exact:true}),keyInput=keyBox.getByLabel('Kunci CallMeBot',{exact:true})
