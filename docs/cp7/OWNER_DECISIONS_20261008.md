@@ -683,3 +683,16 @@ Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): penulis membang
 sejenisnya) adalah pengingat biasa dan lewat jalur yang sama. Nomor HP tidak diminta: uji memakai nomor contoh; nomor asli
 dan kunci diisi owner sendiri di layar aplikasi saat pemasangan (CP7C, ditahan D13-9a), tidak lewat chat. Tidak ada pesan
 sungguhan dan tidak ada pemasangan ke Enteng.
+
+### D17-7 (owner ke penulis Claude, 20 Okt 2026 WIB, bawaan analisis otomatis untuk WhatsApp)
+
+Penjelasan penulis sebelumnya: analisis otomatis menghitung ulang kekurangan produksi dan kain yang perlu dibeli di server
+secara berkala, hanya pada jam kerja dan hanya kalau data berubah; setiap hasil disimpan 7 hari; bawaan diusulkan tiap 4
+jam supaya database gratis tidak cepat penuh, dan angkanya bisa diubah owner di layar Sambungan WhatsApp.
+
+Owner (persis): "Ya 4 jam, tapi kan analisis jalan tiap terjadi sesuatu di background kan? Atau gimana sih"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): bawaan analisis otomatis 240 menit, dibuat dan diuji
+bersama pemasangan CP7C (kandidat r6 `b1649535` masih 60 menit). Pertanyaan owner dijawab di chat: stok di bawah minimum,
+piutang dan tagihan jatuh tempo, dan pengingat pribadi dicek server tiap menit tanpa analisis; hanya kekurangan produksi dan
+kain yang perlu dibeli yang menunggu analisis, dan setiap kondisi dicek ulang ke data terbaru sebelum pesannya dikirim.
