@@ -1,0 +1,113 @@
+{
+  "classification": "ISOLATED_SQL_NOT_ERP_NATIVE",
+  "status": "PASS",
+  "count": 18,
+  "cases": [
+    {
+      "name": "FIRST_RED_OUTER_DIRECT_EMPTY_TABLE",
+      "status": "PASS",
+      "expected_refusal": "42501",
+      "observed_error": "permission denied for table return_native_scope"
+    },
+    {
+      "name": "FIXED_EMPTY_SCOPE_ALLOWS",
+      "status": "PASS",
+      "expected_refusal": null,
+      "observed_error": null
+    },
+    {
+      "name": "OWN_SCOPE_LEAK_REFUSED",
+      "status": "PASS",
+      "expected_refusal": "CP7_CREDIT_NATIVE_SCOPE_NOT_CLEARED",
+      "observed_error": "CP7_CREDIT_NATIVE_SCOPE_NOT_CLEARED"
+    },
+    {
+      "name": "COMPLETED_SCOPE_STILL_REFUSED",
+      "status": "PASS",
+      "expected_refusal": "CP7_CREDIT_NATIVE_SCOPE_NOT_CLEARED",
+      "observed_error": "CP7_CREDIT_NATIVE_SCOPE_NOT_CLEARED"
+    },
+    {
+      "name": "OTHER_ACTOR_SAME_PID_TX_STILL_REFUSED",
+      "status": "PASS",
+      "expected_refusal": "CP7_CREDIT_NATIVE_SCOPE_NOT_CLEARED",
+      "observed_error": "CP7_CREDIT_NATIVE_SCOPE_NOT_CLEARED"
+    },
+    {
+      "name": "OTHER_BACKEND_IGNORED",
+      "status": "PASS",
+      "expected_refusal": null,
+      "observed_error": null
+    },
+    {
+      "name": "OTHER_TRANSACTION_IGNORED",
+      "status": "PASS",
+      "expected_refusal": null,
+      "observed_error": null
+    },
+    {
+      "name": "NO_HELPER_EXEC_authenticated",
+      "status": "PASS",
+      "expected_refusal": "42501",
+      "observed_error": "permission denied for function assert_return_native_scope_cleared_v1"
+    },
+    {
+      "name": "NO_HELPER_EXEC_anon",
+      "status": "PASS",
+      "expected_refusal": "42501",
+      "observed_error": "permission denied for function assert_return_native_scope_cleared_v1"
+    },
+    {
+      "name": "NO_HELPER_EXEC_service_role",
+      "status": "PASS",
+      "expected_refusal": "42501",
+      "observed_error": "permission denied for function assert_return_native_scope_cleared_v1"
+    },
+    {
+      "name": "NO_HELPER_EXEC_cp7_sales_write",
+      "status": "PASS",
+      "expected_refusal": "42501",
+      "observed_error": "permission denied for function assert_return_native_scope_cleared_v1"
+    },
+    {
+      "name": "NO_TABLE_CAPABILITY_select",
+      "status": "PASS",
+      "expected_refusal": "42501",
+      "observed_error": "permission denied for table return_native_scope"
+    },
+    {
+      "name": "NO_TABLE_CAPABILITY_delete",
+      "status": "PASS",
+      "expected_refusal": "42501",
+      "observed_error": "permission denied for table return_native_scope"
+    },
+    {
+      "name": "NO_TABLE_CAPABILITY_insert",
+      "status": "PASS",
+      "expected_refusal": "42501",
+      "observed_error": "permission denied for table return_native_scope"
+    },
+    {
+      "name": "NO_TABLE_CAPABILITY_update",
+      "status": "PASS",
+      "expected_refusal": "42501",
+      "observed_error": "permission denied for table return_native_scope"
+    },
+    {
+      "name": "HYPOTHETICAL_SELECT_GRANT_HIDES_LEAK_VIA_RLS",
+      "status": "PASS",
+      "expected_refusal": null,
+      "observed_error": null
+    },
+    {
+      "name": "DEFINER_STILL_SEES_LEAK_UNDER_FALSE_RLS",
+      "status": "PASS",
+      "expected_refusal": "CP7_CREDIT_NATIVE_SCOPE_NOT_CLEARED",
+      "observed_error": "CP7_CREDIT_NATIVE_SCOPE_NOT_CLEARED"
+    },
+    {
+      "name": "EXACT_OWNER_CONFIG_NO_TABLE_GRANTS",
+      "status": "PASS"
+    }
+  ]
+}

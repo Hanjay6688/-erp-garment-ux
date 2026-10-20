@@ -176,8 +176,7 @@ begin
  perform cp7_credit.assert_completed_return_receipt(p_request,p_payload,p_expected,result);
  if cp7_credit.return_command_access(mode)is distinct from a then
   raise exception using errcode='42501',message='CP7_CREDIT_ACCESS_CHANGED';end if;
- if exists(select 1 from cp7_credit.return_native_scope where backend_pid=pg_backend_pid()and transaction_id=txid_current())then
-  raise exception 'CP7_CREDIT_NATIVE_SCOPE_NOT_CLEARED';end if;
+ perform cp7_credit.assert_return_native_scope_cleared_v1();
  perform cp7_credit.assert_no_ambient_native_context();
  delete from cp7_credit.return_command_scope where backend_pid=pg_backend_pid()and transaction_id=txid_current()
   and actor=auth.uid()and request_id=p_request;

@@ -29,6 +29,16 @@ begin
  return b->'quote';
 end $$;
 
+-- The outer role cannot read this postgres-owned RLS-denied table. Preserve
+-- its complete current-backend/transaction leak check through a void-only
+-- capability; never grant table SELECT or let RLS turn a leak into no rows.
+create function cp7_credit.assert_return_native_scope_cleared_v1()returns void
+language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
+begin
+ if exists(select 1 from cp7_credit.return_native_scope where backend_pid=pg_backend_pid()and transaction_id=txid_current())then
+  raise exception 'CP7_CREDIT_NATIVE_SCOPE_NOT_CLEARED';end if;
+end $$;
+
 create function cp7_credit.close_completed_return_receipt_v1(p_request uuid)returns void
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
 declare m cp7_credit.initial_return_materializations;
@@ -81,7 +91,7 @@ grant execute on function auth.uid(),auth.jwt()to cp7_credit_write;
 grant execute on function cp7_sales.validate_return(jsonb,boolean),cp7_sales.preclaim_credit_return(uuid,jsonb,text),
  cp7_sales.execute_preclaimed_credit_return(uuid,jsonb,text)to cp7_credit_write;
 grant execute on function cp7_credit.pg_jsonb_sha256(jsonb),cp7_credit.validate_return_settlement_payload(jsonb),cp7_credit.return_command_access(text),
- cp7_credit.assert_no_ambient_native_context(),cp7_credit.seal_return_settlement(uuid),cp7_credit.finish_return_settlement(uuid,jsonb),
+ cp7_credit.assert_no_ambient_native_context(),cp7_credit.assert_return_native_scope_cleared_v1(),cp7_credit.seal_return_settlement(uuid),cp7_credit.finish_return_settlement(uuid,jsonb),
  cp7_credit.assert_completed_return_receipt(uuid,jsonb,text,jsonb),cp7_credit.close_completed_return_receipt_v1(uuid)to cp7_credit_write;
 grant usage on schema cp7_credit to cp7_sales_write;
 grant execute on function cp7_credit.assert_pending_return_outer(uuid,jsonb,text),cp7_credit.assert_locked_return_outer(uuid,jsonb,text)to cp7_sales_write;
@@ -106,7 +116,7 @@ do $private_functions$declare sig text;begin
  'assert_financial_materialization_provenance(jsonb)','current_effective_paid(uuid)','assert_refund_operation_v1(uuid,uuid,text)','native_return_leave(uuid)',
  'finish_return_settlement(uuid,jsonb)','assert_completed_return_receipt(uuid,jsonb,text,jsonb)','native_source_enter(text,uuid)','native_source_complete(text,uuid)',
  'assert_initial_return_closed_v1(uuid)','enforce_initial_return_closure_v1()','get_initial_return_quote_v1(jsonb)','close_completed_return_receipt_v1(uuid)',
- 'enforce_initial_scope_cleared_v1()']loop
+ 'enforce_initial_scope_cleared_v1()','assert_return_native_scope_cleared_v1()']loop
   execute'alter function cp7_credit.'||sig||' owner to postgres';
   execute'revoke all on function cp7_credit.'||sig||' from public,anon,authenticated,service_role,cp7_capture,cp7_sales_read,cp7_sales_write';
  end loop;

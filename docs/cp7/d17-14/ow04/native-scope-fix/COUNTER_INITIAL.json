@@ -1,0 +1,102 @@
+{
+  "contract_version": "ow04.native-scope-fix.counter.initial.v1",
+  "recorded_at_utc": "2026-10-20T19:37:57.758270+00:00",
+  "head": "a96079dc0f0ee5aadb8bcd07f4fce7a434a12227",
+  "review_type": "INTERNAL_WRITER_SOURCE_REVIEW_ONLY",
+  "initial_before_peer_exchange": true,
+  "scope": "Exact three-file native-scope leak-capability diff plus existing owner installer, grants and native-scope RLS declaration. Uncommitted Native EMPTY files were not considered or activated.",
+  "files": [
+    {
+      "path": "scripts/cp7_customer_credit/admission/02_owning_wrapper.proposal.sql",
+      "baseline_sha256": "22559f9cfb09c9f8cd0d0b64f50c08e52d3c1a302ea88803044373ab691eea34",
+      "candidate_sha256": "16d93266a9a9c721ec582e62e10db0deccfe7c39724215b955912dfc092f7511"
+    },
+    {
+      "path": "scripts/cp7_customer_credit/coordinator/07_capabilities_and_quote.sql",
+      "baseline_sha256": "d2cbef3365a53d9df3b3f11023204de1b6281caf43473ff4c19401066a8017db",
+      "candidate_sha256": "7df8b2a4b4e90b1ebd741a7d81a6e2cc7eb9ea26a6918c452fb31db5429329ca"
+    },
+    {
+      "path": "scripts/cp7_customer_credit/coordinator/08_outer_wrapper.sql",
+      "baseline_sha256": "59b5b2e9e9bd136cb16b50b6452e2d23167262ae1fa9ea8e9039fcc8f115a04a",
+      "candidate_sha256": "2e94d859e620dab81aae4b053918f5408c196ded8b571a12d5ef33f827c72c44"
+    }
+  ],
+  "diff_sha256": "669ac999850a5c9bffb784e2295c531fe47da1bf31f1ef68af04cc381c8830ea",
+  "installer_pin": {
+    "path": "scripts/cp7_customer_credit/integration/owning_bundle.py",
+    "sha256": "472464035a69a6d2883b575aec4f980ee7e942f29ad9ddf02721a7fa96efb1ec"
+  },
+  "expected": [
+    "The final fresh-command check must refuse any return_native_scope row with current pg_backend_pid() and txid_current(), without filtering by actor/request or accepting an RLS-hidden leak.",
+    "The owning outer role cp7_credit_write receives only EXECUTE on a no-argument void assertion; return_native_scope remains postgres-owned, RLS-denied, with no added table privilege.",
+    "Current-authority checks, completed-receipt proof, ambient-scope refusal, own outer-scope deletion, persisted response and actual final closure ordering must remain unchanged."
+  ],
+  "observed": [
+    {
+      "topic": "Exact leak predicate",
+      "evidence": "coordinator/07 new assert_return_native_scope_cleared_v1 has the same EXISTS predicate and CP7_CREDIT_NATIVE_SCOPE_NOT_CLEARED exception as both removed inline blocks. It is no-argument, returns void, PL/pgSQL VOLATILE SECURITY DEFINER, empty search_path and UTC.",
+      "assessment": "Exact current-backend/current-transaction refusal retained, including a mismatched actor/request leak."
+    },
+    {
+      "topic": "Owner and row visibility",
+      "evidence": "07 private-functions loop explicitly changes the new helper owner to postgres. Existing installer _finalize_private_owners also assigns postgres to all fresh private functions except its exact three exceptions; this helper is not an exception. return_native_scope is explicitly postgres-owned in 07 and is not in PRIVATE_TABLE_OWNERS exceptions. admission/01 enables RLS without FORCE; finalizer installs explicit PUBLIC false policy only when no policy exists.",
+      "assessment": "The assertion reads as the owning postgres role and does not run its EXISTS under cp7_credit_write RLS filtering."
+    },
+    {
+      "topic": "Narrow ACL",
+      "evidence": "07 adds only EXECUTE on the new helper to cp7_credit_write; its private loop revokes PUBLIC/anon/authenticated/service_role/cp7_capture/cp7_sales_read/cp7_sales_write. Installer also removes outsider schema/function privileges. No diff adds a return_native_scope table grant; installer grants SELECT only on return_requests/return_command_scope to postgres and nine server-column UPDATE rights on return_command_scope.",
+      "assessment": "No new table-read/write capability or caller-chosen predicate. Existing credit-writer schema USAGE and its exact helper EXECUTE remain sufficient."
+    },
+    {
+      "topic": "Cross-stage ordering",
+      "evidence": "Both wrappers replace only their inline EXISTS/RAISE with PERFORM assertion. The helper remains after completed-receipt validation and a current-authority equality check, before ambient-scope refusal, outer-scope delete and response UPDATE. coordinator/08 retains close_completed_return_receipt_v1 after response persistence and the final authority check. Replay branch is untouched.",
+      "assessment": "No authority, cleanup, response or closure ordering change."
+    },
+    {
+      "topic": "Installation and repeat verification",
+      "evidence": "SQL_FILES loads 07 before the replacing 08 body; PL/pgSQL admission wrapper declaration can reference the later helper. 07 owner/revoke loop includes the helper, and _private_inventory captures every new-schema function definition SHA, owner, SECURITY DEFINER/volatility/config/ACL as well as table owner/RLS/policies/ACL, then compares it during verify.",
+      "assessment": "The helper is included in existing whole private inventory and finalization rather than silently omitted from owner/ACL handling."
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario": "No row for current backend/current transaction",
+      "expected": "Void assertion completes; it does not modify any table. All later ambient and closure checks still execute.",
+      "observed": "EXISTS false falls through empty function end; no DML present. Source-only."
+    },
+    {
+      "scenario": "One leaked scope row for current backend/current transaction, arbitrary actor or request",
+      "expected": "CP7_CREDIT_NATIVE_SCOPE_NOT_CLEARED before outer cleanup/response persistence.",
+      "observed": "Exact predicate has no actor/request filter and raises unchanged exception. Source-only."
+    },
+    {
+      "scenario": "Rows exist only for another backend or a different transaction",
+      "expected": "This exact current-scope assertion does not reject them; existing deferred/global contracts remain untouched.",
+      "observed": "Both backend and transaction predicates preserved with AND. Source-only."
+    },
+    {
+      "scenario": "cp7_credit_write attempts direct table SELECT versus calls the assertion",
+      "expected": "No direct table permission added; the granted void SECURITY DEFINER assertion can inspect the owning-role view.",
+      "observed": "Only helper EXECUTE is added, helper and table owned postgres; no SELECT grant on native scope. No SQL execution performed."
+    },
+    {
+      "scenario": "Authority changes during earlier request/source/Native waits",
+      "expected": "Existing fresh authority checks still reject before/after finalization as applicable.",
+      "observed": "Diff does not touch any return_command_access checks or their ordering; helper performs only a current-scope read."
+    }
+  ],
+  "static_source_assertions": {
+    "passed": true,
+    "checks": [
+      "exact old predicate/error preserved in new helper",
+      "no-argument void VOLATILE SECURITY DEFINER with pinned search_path/UTC",
+      "one helper invocation per wrapper",
+      "completed-receipt and authority checks precede helper",
+      "helper precedes ambient check, scope delete and response update"
+    ]
+  },
+  "concrete_blocker_found": false,
+  "disposition": "CLEAR_WITHIN_REQUESTED_SOURCE_SCOPE",
+  "limitations": "No database/Native execution, role-grant runtime test or independent audit claim. Actual installer execution and runtime results remain for the parent integrator. No product modifications or child agents."
+}

@@ -1,0 +1,5 @@
+{
+  "classification": "ISOLATED_ACTUAL_SQL_ROLE_RLS_CONTROLS",
+  "candidate_base": "a96079dc0f0ee5aadb8bcd07f4fce7a434a12227",
+  "expected": "Old query denied42501; helper observes every own pid/tx leak despite RLS; other pid/tx ignored; no table rights or outsider execution; no authority/posting/commit claim."
+}

@@ -1,0 +1,5 @@
+{
+  "scripts/cp7_customer_credit/admission/02_owning_wrapper.proposal.sql": "16d93266a9a9c721ec582e62e10db0deccfe7c39724215b955912dfc092f7511",
+  "scripts/cp7_customer_credit/coordinator/07_capabilities_and_quote.sql": "7df8b2a4b4e90b1ebd741a7d81a6e2cc7eb9ea26a6918c452fb31db5429329ca",
+  "scripts/cp7_customer_credit/coordinator/08_outer_wrapper.sql": "2e94d859e620dab81aae4b053918f5408c196ded8b571a12d5ef33f827c72c44"
+}
