@@ -38,6 +38,14 @@ The counter's two false-green reproductions and previous gate/workflow are
 preserved in race-check; the final source recheck and24 synthetic gate controls
 reject those counterexamples. Those controls are not runtime/Auth/Native proof.
 
-A fresh actual qualification is required. Historical seven-case PASS is not
-reclassified as eight-case PASS. No browser, race, whole-server crash or
-production readiness is inferred. OW04 remains open; production_go:false.
+Fresh actual qualification on6f318261, run39497414236/job118885938105,
+passed all eight real Auth HTTP cases and all six actual SQL race/recovery
+cases. The actual STAFF fixture records prior_active:false and explicit
+activation:true; the same user's CREDIT quote succeeds before both exact
+Native refund refusals. Both actual GitHub step outcomes are success and both
+outer package reports pass all five gates. CP6 restoration, advisors and Auth
+cleanup pass. CI_6F31_HTTP_RACE14_PASS.json and the complete compressed log
+preserve the new result, separately from both original seven-case results.
+Native44 is reused with the exact backend/probe binding, not rerun here.
+No browser, whole-server crash, lost successful HTTP response or production
+readiness is inferred. OW04 remains open; production_go:false.

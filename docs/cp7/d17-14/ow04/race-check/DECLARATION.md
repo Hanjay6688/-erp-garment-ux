@@ -47,3 +47,14 @@ a fresh AB clone between entries using the unchanged allowlisted clone tool,
 then runs race6. Both proof directories are uploaded, so the second package
 wrapper cannot overwrite the first group's package/backup receipts. Bootstrap,
 authority gates, actual source and expected outcomes stay unchanged.
+
+## Recorded runtime result
+
+On candidate6f318261ab585ad7a8378d6041839dc1a549fa87,
+run39497414236/job118885938105, all six declared race/recovery cases and all
+eight real Auth HTTP cases passed. Both preserved/current package gates and
+both actual GitHub step outcomes passed. See ../CI_6F31_HTTP_RACE14_PASS.json
+and its full compressed runtime. This result is distinct from source-only
+counters and24 synthetic final-gate controls. Native44 is reused from ef98,
+not rerun; whole-server crash, a lost successful HTTP response, active UI and
+complete OW04 remain outside this checkpoint.

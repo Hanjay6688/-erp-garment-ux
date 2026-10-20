@@ -1,0 +1,1458 @@
+{
+  "classification": "FRESH_ACTUAL_DISPOSABLE_ERP_REAL_AUTH_HTTP_AND_AUTHENTICATED_SQL_RACE_RECOVERY",
+  "candidate": "6f318261ab585ad7a8378d6041839dc1a549fa87",
+  "tree": "d13e185c229cab3011ca4112decd4c9df80ba733",
+  "run_id": 39497414236,
+  "job_id": 118885938105,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39497414236",
+  "workflow": ".github/workflows/cp7-ow04-http.yml",
+  "commands": [
+    "python ../auditor/scripts/ow04-qualification/transport_probe.py",
+    "fresh allowlisted AB clone after preserving the complete HTTP proof tree",
+    "python ../auditor/scripts/ow04-qualification/race_probe.py",
+    "python ../auditor/scripts/ow04-qualification/qualification_gate.py ../auditor/cp6-proof/t3"
+  ],
+  "counts": {
+    "HTTP_PASS": 8,
+    "SQL_RACE_RECOVERY_PASS": 6,
+    "INCOMPLETE": 0,
+    "FAIL": 0
+  },
+  "summaries": [
+    {
+      "label": "CP7_OW04_HTTP",
+      "status": "PASS",
+      "candidate_commit": "6f318261ab585ad7a8378d6041839dc1a549fa87",
+      "core_directory_tree": "07064b179f82e6827020074d0dc9707fbe5bd76e",
+      "expected_case_count": 8,
+      "observed_case_count": 8,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "error": null,
+      "traceback": null,
+      "restore_error": null
+    },
+    {
+      "label": "CP7_OW04_RACES",
+      "status": "PASS",
+      "candidate_commit": "6f318261ab585ad7a8378d6041839dc1a549fa87",
+      "core_directory_tree": "07064b179f82e6827020074d0dc9707fbe5bd76e",
+      "expected_case_count": 6,
+      "observed_case_count": 6,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "error": null,
+      "traceback": null,
+      "restore_error": null
+    },
+    {
+      "label": "OW04_HTTP_RACE_FINAL",
+      "status": "PASS",
+      "candidate": "6f318261ab585ad7a8378d6041839dc1a549fa87",
+      "counts": {
+        "HTTP": 8,
+        "RACES": 6
+      },
+      "native44_reused_candidate": "ef98e6e65c13322bf08e6f704e511bdbb03a07a8",
+      "native44_rerun": false,
+      "reports": {
+        "HTTP": {
+          "candidate": "6f318261ab585ad7a8378d6041839dc1a549fa87",
+          "core": "07064b179f82e6827020074d0dc9707fbe5bd76e",
+          "package_gate": {
+            "installed": true,
+            "primary_unchanged": true,
+            "backup_restore_drill": true,
+            "security_advisors": true,
+            "writer_runtime": true
+          },
+          "package_sha256": "c49f569cf76f003c5a5c224acbf6bea92aa77baf84d23b1c93a092f8a90f7604"
+        },
+        "RACES": {
+          "candidate": "6f318261ab585ad7a8378d6041839dc1a549fa87",
+          "core": "07064b179f82e6827020074d0dc9707fbe5bd76e",
+          "package_gate": {
+            "installed": true,
+            "primary_unchanged": true,
+            "backup_restore_drill": true,
+            "security_advisors": true,
+            "writer_runtime": true
+          },
+          "package_sha256": "c49f569cf76f003c5a5c224acbf6bea92aa77baf84d23b1c93a092f8a90f7604"
+        }
+      },
+      "step_outcomes": {
+        "HTTP": "success",
+        "RACES": "success"
+      },
+      "feature_complete": false,
+      "audit_complete": false,
+      "production_go": false
+    }
+  ],
+  "cases": [
+    {
+      "group": "AUDITOR_HTTP_CP7_OW04_SETTLEMENT",
+      "case": "OW04_HTTP_CREDIT_COMMIT_REPLAY",
+      "status": "PASS",
+      "actual_auth": true,
+      "actual_HTTP_commit_and_fresh_connection_proof": true,
+      "mode": "CREDIT",
+      "exact_original_financial_and_date_oracles": true,
+      "committed_replay_identical": true,
+      "original_payment_unchanged": true,
+      "actual_outcome": {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "RETURN_SETTLEMENT",
+        "sale_id": "2c83e2ef-fff9-4686-bc43-da38db0fb475",
+        "credit_id": "f20596c1-db55-44bd-8c3e-049a4391d515",
+        "return_id": "6b6bb195-943e-4be9-9973-d9bd94fbf2be",
+        "request_id": "40384e84-29e7-44f6-91e7-ee150703269f",
+        "row_version": "4",
+        "quote_sha256": "b79e13ca63711c532ef157d63aa384dd3315be226328be88817e757173d749c7",
+        "production_go": false,
+        "return_status": "POSTED",
+        "family_ordinal": "1",
+        "refund_event_id": null,
+        "contract_version": "cp7.sales-return-settlement-outcome.v1",
+        "projection_sha256": "a510b1213ea99d6681cc7ce75e439635c3f9a67b85c1fb7e14856721663643d7",
+        "actual_manifest_sha256": "86d77fb612337f4da5e0292cd9f50849bfd98580067f82c8f8f97bab49c5634b",
+        "projection_actual_proof_sha256": "109575376587bf9e8c2fb584a54678e9c63a35135b81044e4e3bbc9495f709e6"
+      },
+      "actual_return_journal": {
+        "raw_json": "{\"lines\": [{\"id\": \"138f4346-049e-45d4-96ed-a4b230b27b0c\", \"debit\": 10.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"20a7533b-5578-4799-9973-90ab000e9e43\", \"product_id\": \"f0399a22-ca0c-482f-86de-b2ee359d61c1\", \"customer_id\": \"cf75fe7f-8212-4c54-91bc-5ba2a1feed8a\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"696180b8-dbe4-4806-83d4-201e50df96e5\"}, {\"id\": \"82ca6f06-e77b-427a-ac61-c39a4985ef3d\", \"debit\": 200.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"86ddff01-e556-4777-ad30-1943f3200224\", \"product_id\": null, \"customer_id\": \"cf75fe7f-8212-4c54-91bc-5ba2a1feed8a\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"696180b8-dbe4-4806-83d4-201e50df96e5\"}, {\"id\": \"9a007165-bb4d-440b-9097-8a22ba548595\", \"debit\": 0.00, \"po_id\": null, \"credit\": 200.00, \"vendor_id\": null, \"account_id\": \"377d37ea-56a9-4ebc-853a-0158a78bb4ff\", \"product_id\": null, \"customer_id\": \"cf75fe7f-8212-4c54-91bc-5ba2a1feed8a\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"696180b8-dbe4-4806-83d4-201e50df96e5\"}, {\"id\": \"df3daa81-0cc1-407f-9540-19498702e0ef\", \"debit\": 0.00, \"po_id\": null, \"credit\": 10.00, \"vendor_id\": null, \"account_id\": \"370746aa-abe3-418b-b912-b8a63c9ffcc1\", \"product_id\": \"f0399a22-ca0c-482f-86de-b2ee359d61c1\", \"customer_id\": \"cf75fe7f-8212-4c54-91bc-5ba2a1feed8a\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"696180b8-dbe4-4806-83d4-201e50df96e5\"}], \"header\": {\"id\": \"696180b8-dbe4-4806-83d4-201e50df96e5\", \"status\": \"POSTED\", \"source_id\": \"6b6bb195-943e-4be9-9973-d9bd94fbf2be\", \"created_at\": \"2026-10-20T21:10:09.326801+00:00\", \"created_by\": \"7ff632e1-343a-4c28-aee1-58adf0437f45\", \"posting_at\": \"2026-10-20T21:10:09.326801+00:00\", \"description\": \"Sales return from customer · cumulative exact HPP target\", \"source_type\": \"SALES_RETURN\", \"economic_date\": \"2026-10-20\", \"journal_number\": \"JRN-20261021041009417-c3839fd3\", \"period_shifted\": false, \"reversal_of_id\": null, \"transaction_date\": \"2026-10-20\"}}",
+        "sha256": "e435da8d17848c75d2aec0ff55122b626dc28412f2d848610292108568a73991",
+        "document": {
+          "lines": [
+            {
+              "id": "138f4346-049e-45d4-96ed-a4b230b27b0c",
+              "debit": "10.00",
+              "po_id": null,
+              "credit": "0.00",
+              "vendor_id": null,
+              "account_id": "20a7533b-5578-4799-9973-90ab000e9e43",
+              "product_id": "f0399a22-ca0c-482f-86de-b2ee359d61c1",
+              "customer_id": "cf75fe7f-8212-4c54-91bc-5ba2a1feed8a",
+              "description": null,
+              "contractor_id": null,
+              "journal_entry_id": "696180b8-dbe4-4806-83d4-201e50df96e5"
+            },
+            {
+              "id": "82ca6f06-e77b-427a-ac61-c39a4985ef3d",
+              "debit": "200.00",
+              "po_id": null,
+              "credit": "0.00",
+              "vendor_id": null,
+              "account_id": "86ddff01-e556-4777-ad30-1943f3200224",
+              "product_id": null,
+              "customer_id": "cf75fe7f-8212-4c54-91bc-5ba2a1feed8a",
+              "description": null,
+              "contractor_id": null,
+              "journal_entry_id": "696180b8-dbe4-4806-83d4-201e50df96e5"
+            },
+            {
+              "id": "9a007165-bb4d-440b-9097-8a22ba548595",
+              "debit": "0.00",
+              "po_id": null,
+              "credit": "200.00",
+              "vendor_id": null,
+              "account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff",
+              "product_id": null,
+              "customer_id": "cf75fe7f-8212-4c54-91bc-5ba2a1feed8a",
+              "description": null,
+              "contractor_id": null,
+              "journal_entry_id": "696180b8-dbe4-4806-83d4-201e50df96e5"
+            },
+            {
+              "id": "df3daa81-0cc1-407f-9540-19498702e0ef",
+              "debit": "0.00",
+              "po_id": null,
+              "credit": "10.00",
+              "vendor_id": null,
+              "account_id": "370746aa-abe3-418b-b912-b8a63c9ffcc1",
+              "product_id": "f0399a22-ca0c-482f-86de-b2ee359d61c1",
+              "customer_id": "cf75fe7f-8212-4c54-91bc-5ba2a1feed8a",
+              "description": null,
+              "contractor_id": null,
+              "journal_entry_id": "696180b8-dbe4-4806-83d4-201e50df96e5"
+            }
+          ],
+          "header": {
+            "id": "696180b8-dbe4-4806-83d4-201e50df96e5",
+            "status": "POSTED",
+            "source_id": "6b6bb195-943e-4be9-9973-d9bd94fbf2be",
+            "created_at": "2026-10-20T21:10:09.326801+00:00",
+            "created_by": "7ff632e1-343a-4c28-aee1-58adf0437f45",
+            "posting_at": "2026-10-20T21:10:09.326801+00:00",
+            "description": "Sales return from customer · cumulative exact HPP target",
+            "source_type": "SALES_RETURN",
+            "economic_date": "2026-10-20",
+            "journal_number": "JRN-20261021041009417-c3839fd3",
+            "period_shifted": false,
+            "reversal_of_id": null,
+            "transaction_date": "2026-10-20"
+          }
+        }
+      },
+      "recognition_journal": {
+        "raw_json": "{\"lines\": [{\"id\": \"257b9036-5370-4774-87de-19c171797d4e\", \"debit\": 0.00, \"po_id\": null, \"credit\": 200.00, \"vendor_id\": null, \"account_id\": \"8f5ff737-ee07-4375-bea9-fe4ee8b97b46\", \"product_id\": null, \"customer_id\": \"cf75fe7f-8212-4c54-91bc-5ba2a1feed8a\", \"description\": \"OW04 source-bound recognition\", \"contractor_id\": null, \"journal_entry_id\": \"4068cc96-1418-4bb0-9c65-3dba8fbe6d6b\"}, {\"id\": \"5072a5ed-6b70-413e-b760-8fb224796259\", \"debit\": 200.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"377d37ea-56a9-4ebc-853a-0158a78bb4ff\", \"product_id\": null, \"customer_id\": \"cf75fe7f-8212-4c54-91bc-5ba2a1feed8a\", \"description\": \"OW04 source-bound recognition\", \"contractor_id\": null, \"journal_entry_id\": \"4068cc96-1418-4bb0-9c65-3dba8fbe6d6b\"}], \"header\": {\"id\": \"4068cc96-1418-4bb0-9c65-3dba8fbe6d6b\", \"status\": \"POSTED\", \"source_id\": \"e7cea1e3-f91c-4e2c-8307-8c843f0caeca\", \"created_at\": \"2026-10-20T21:10:09.326801+00:00\", \"created_by\": \"7ff632e1-343a-4c28-aee1-58adf0437f45\", \"posting_at\": \"2026-10-20T21:10:09.326801+00:00\", \"description\": \"Kredit retur: pengakuan terikat sumber\", \"source_type\": \"CP7_CUSTOMER_CREDIT_RECOGNITION\", \"economic_date\": \"2026-10-20\", \"journal_number\": \"JRN-20261021041009544-f341def5\", \"period_shifted\": false, \"reversal_of_id\": null, \"transaction_date\": \"2026-10-20\"}}",
+        "sha256": "d1e4bb3c62d7b979ede940e767b2c041307fc8e7e07a2b8af933de3a9f73b2e5",
+        "document": {
+          "lines": [
+            {
+              "id": "257b9036-5370-4774-87de-19c171797d4e",
+              "debit": "0.00",
+              "po_id": null,
+              "credit": "200.00",
+              "vendor_id": null,
+              "account_id": "8f5ff737-ee07-4375-bea9-fe4ee8b97b46",
+              "product_id": null,
+              "customer_id": "cf75fe7f-8212-4c54-91bc-5ba2a1feed8a",
+              "description": "OW04 source-bound recognition",
+              "contractor_id": null,
+              "journal_entry_id": "4068cc96-1418-4bb0-9c65-3dba8fbe6d6b"
+            },
+            {
+              "id": "5072a5ed-6b70-413e-b760-8fb224796259",
+              "debit": "200.00",
+              "po_id": null,
+              "credit": "0.00",
+              "vendor_id": null,
+              "account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff",
+              "product_id": null,
+              "customer_id": "cf75fe7f-8212-4c54-91bc-5ba2a1feed8a",
+              "description": "OW04 source-bound recognition",
+              "contractor_id": null,
+              "journal_entry_id": "4068cc96-1418-4bb0-9c65-3dba8fbe6d6b"
+            }
+          ],
+          "header": {
+            "id": "4068cc96-1418-4bb0-9c65-3dba8fbe6d6b",
+            "status": "POSTED",
+            "source_id": "e7cea1e3-f91c-4e2c-8307-8c843f0caeca",
+            "created_at": "2026-10-20T21:10:09.326801+00:00",
+            "created_by": "7ff632e1-343a-4c28-aee1-58adf0437f45",
+            "posting_at": "2026-10-20T21:10:09.326801+00:00",
+            "description": "Kredit retur: pengakuan terikat sumber",
+            "source_type": "CP7_CUSTOMER_CREDIT_RECOGNITION",
+            "economic_date": "2026-10-20",
+            "journal_number": "JRN-20261021041009544-f341def5",
+            "period_shifted": false,
+            "reversal_of_id": null,
+            "transaction_date": "2026-10-20"
+          }
+        }
+      },
+      "refund_journal": null,
+      "production_go": false,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_OW04_SETTLEMENT",
+      "case": "OW04_HTTP_REFUND_COMMIT_REPLAY",
+      "status": "PASS",
+      "actual_auth": true,
+      "actual_HTTP_commit_and_fresh_connection_proof": true,
+      "mode": "REFUND",
+      "exact_original_financial_and_date_oracles": true,
+      "committed_replay_identical": true,
+      "original_payment_unchanged": true,
+      "actual_outcome": {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "RETURN_SETTLEMENT",
+        "sale_id": "3e9b9ff3-ea99-4798-8286-5637d7b6357d",
+        "credit_id": "cb0913ec-2673-4781-a443-180b6f7e9adf",
+        "return_id": "d2264178-cecc-4ac9-b7f6-140a9db09486",
+        "request_id": "025a2bd4-97ee-43df-8f09-da7fa717a5a8",
+        "row_version": "4",
+        "quote_sha256": "218a5b5c7888da4ed330e0e30b5ac769fa0471434d66931125aa482640cb4b7b",
+        "production_go": false,
+        "return_status": "POSTED",
+        "family_ordinal": "1",
+        "refund_event_id": "49cea824-54ba-48fc-84e3-ee758057da04",
+        "contract_version": "cp7.sales-return-settlement-outcome.v1",
+        "projection_sha256": "7e342c7dcf900e78d65bfde47c87ffa715dfbfd05502b5706c1e6ee0b7b3f5ef",
+        "actual_manifest_sha256": "a6b067627159ac0056d238eb5e68ff93f9dd314bf5c8a6263617efff4140b757",
+        "projection_actual_proof_sha256": "242d736d69552aa10f079677ab42dfc0896ecec1ad2e2a19af0dd69a06f9e59a"
+      },
+      "actual_return_journal": {
+        "raw_json": "{\"lines\": [{\"id\": \"154d4ed8-334d-4a96-93b3-461f33984d07\", \"debit\": 0.00, \"po_id\": null, \"credit\": 200.00, \"vendor_id\": null, \"account_id\": \"377d37ea-56a9-4ebc-853a-0158a78bb4ff\", \"product_id\": null, \"customer_id\": \"380561e0-c231-4637-8f24-c73b93153e25\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"d7b98e45-0a06-4ee0-9ae0-15fbbb6f7031\"}, {\"id\": \"4c37c03a-dc1d-4f8b-a3f0-b6ff922a7747\", \"debit\": 10.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"20a7533b-5578-4799-9973-90ab000e9e43\", \"product_id\": \"08a8bc47-42cd-4198-a58f-7f2ef808e47b\", \"customer_id\": \"380561e0-c231-4637-8f24-c73b93153e25\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"d7b98e45-0a06-4ee0-9ae0-15fbbb6f7031\"}, {\"id\": \"62ce4794-2ce7-4b50-a677-5e5bc6638a32\", \"debit\": 0.00, \"po_id\": null, \"credit\": 10.00, \"vendor_id\": null, \"account_id\": \"370746aa-abe3-418b-b912-b8a63c9ffcc1\", \"product_id\": \"08a8bc47-42cd-4198-a58f-7f2ef808e47b\", \"customer_id\": \"380561e0-c231-4637-8f24-c73b93153e25\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"d7b98e45-0a06-4ee0-9ae0-15fbbb6f7031\"}, {\"id\": \"cb5dd8bb-2484-4151-9d65-27722f1eb35f\", \"debit\": 200.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"86ddff01-e556-4777-ad30-1943f3200224\", \"product_id\": null, \"customer_id\": \"380561e0-c231-4637-8f24-c73b93153e25\", \"description\": null, \"contractor_id\": null, \"journal_entry_id\": \"d7b98e45-0a06-4ee0-9ae0-15fbbb6f7031\"}], \"header\": {\"id\": \"d7b98e45-0a06-4ee0-9ae0-15fbbb6f7031\", \"status\": \"POSTED\", \"source_id\": \"d2264178-cecc-4ac9-b7f6-140a9db09486\", \"created_at\": \"2026-10-20T21:10:11.932551+00:00\", \"created_by\": \"7ff632e1-343a-4c28-aee1-58adf0437f45\", \"posting_at\": \"2026-10-20T21:10:11.932551+00:00\", \"description\": \"Sales return from customer · cumulative exact HPP target\", \"source_type\": \"SALES_RETURN\", \"economic_date\": \"2026-10-20\", \"journal_number\": \"JRN-20261021041011995-38940ec6\", \"period_shifted\": true, \"reversal_of_id\": null, \"transaction_date\": \"2026-10-21\"}}",
+        "sha256": "847961430bbd61994c60693ed7d27b64844329106a775e4f5625e2d108e5d31c",
+        "document": {
+          "lines": [
+            {
+              "id": "154d4ed8-334d-4a96-93b3-461f33984d07",
+              "debit": "0.00",
+              "po_id": null,
+              "credit": "200.00",
+              "vendor_id": null,
+              "account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff",
+              "product_id": null,
+              "customer_id": "380561e0-c231-4637-8f24-c73b93153e25",
+              "description": null,
+              "contractor_id": null,
+              "journal_entry_id": "d7b98e45-0a06-4ee0-9ae0-15fbbb6f7031"
+            },
+            {
+              "id": "4c37c03a-dc1d-4f8b-a3f0-b6ff922a7747",
+              "debit": "10.00",
+              "po_id": null,
+              "credit": "0.00",
+              "vendor_id": null,
+              "account_id": "20a7533b-5578-4799-9973-90ab000e9e43",
+              "product_id": "08a8bc47-42cd-4198-a58f-7f2ef808e47b",
+              "customer_id": "380561e0-c231-4637-8f24-c73b93153e25",
+              "description": null,
+              "contractor_id": null,
+              "journal_entry_id": "d7b98e45-0a06-4ee0-9ae0-15fbbb6f7031"
+            },
+            {
+              "id": "62ce4794-2ce7-4b50-a677-5e5bc6638a32",
+              "debit": "0.00",
+              "po_id": null,
+              "credit": "10.00",
+              "vendor_id": null,
+              "account_id": "370746aa-abe3-418b-b912-b8a63c9ffcc1",
+              "product_id": "08a8bc47-42cd-4198-a58f-7f2ef808e47b",
+              "customer_id": "380561e0-c231-4637-8f24-c73b93153e25",
+              "description": null,
+              "contractor_id": null,
+              "journal_entry_id": "d7b98e45-0a06-4ee0-9ae0-15fbbb6f7031"
+            },
+            {
+              "id": "cb5dd8bb-2484-4151-9d65-27722f1eb35f",
+              "debit": "200.00",
+              "po_id": null,
+              "credit": "0.00",
+              "vendor_id": null,
+              "account_id": "86ddff01-e556-4777-ad30-1943f3200224",
+              "product_id": null,
+              "customer_id": "380561e0-c231-4637-8f24-c73b93153e25",
+              "description": null,
+              "contractor_id": null,
+              "journal_entry_id": "d7b98e45-0a06-4ee0-9ae0-15fbbb6f7031"
+            }
+          ],
+          "header": {
+            "id": "d7b98e45-0a06-4ee0-9ae0-15fbbb6f7031",
+            "status": "POSTED",
+            "source_id": "d2264178-cecc-4ac9-b7f6-140a9db09486",
+            "created_at": "2026-10-20T21:10:11.932551+00:00",
+            "created_by": "7ff632e1-343a-4c28-aee1-58adf0437f45",
+            "posting_at": "2026-10-20T21:10:11.932551+00:00",
+            "description": "Sales return from customer · cumulative exact HPP target",
+            "source_type": "SALES_RETURN",
+            "economic_date": "2026-10-20",
+            "journal_number": "JRN-20261021041011995-38940ec6",
+            "period_shifted": true,
+            "reversal_of_id": null,
+            "transaction_date": "2026-10-21"
+          }
+        }
+      },
+      "recognition_journal": {
+        "raw_json": "{\"lines\": [{\"id\": \"8da4f90f-5984-494f-85cc-10e4c335b331\", \"debit\": 100.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"377d37ea-56a9-4ebc-853a-0158a78bb4ff\", \"product_id\": null, \"customer_id\": \"380561e0-c231-4637-8f24-c73b93153e25\", \"description\": \"OW04 source-bound recognition\", \"contractor_id\": null, \"journal_entry_id\": \"8e7cc3a8-b48b-4298-9247-49591d967931\"}, {\"id\": \"c1a413c5-90a2-4264-8d74-59cea6f3dc56\", \"debit\": 0.00, \"po_id\": null, \"credit\": 100.00, \"vendor_id\": null, \"account_id\": \"9c93cdac-20da-4b9d-a680-03da517e8254\", \"product_id\": null, \"customer_id\": \"380561e0-c231-4637-8f24-c73b93153e25\", \"description\": \"OW04 source-bound recognition\", \"contractor_id\": null, \"journal_entry_id\": \"8e7cc3a8-b48b-4298-9247-49591d967931\"}], \"header\": {\"id\": \"8e7cc3a8-b48b-4298-9247-49591d967931\", \"status\": \"POSTED\", \"source_id\": \"3d0cb3bb-2bd1-4253-9dfe-ecc06535aa8b\", \"created_at\": \"2026-10-20T21:10:11.932551+00:00\", \"created_by\": \"7ff632e1-343a-4c28-aee1-58adf0437f45\", \"posting_at\": \"2026-10-20T21:10:11.932551+00:00\", \"description\": \"Kredit retur: pengakuan terikat sumber\", \"source_type\": \"CP7_CUSTOMER_CREDIT_RECOGNITION\", \"economic_date\": \"2026-10-20\", \"journal_number\": \"JRN-20261021041012088-2db33dac\", \"period_shifted\": true, \"reversal_of_id\": null, \"transaction_date\": \"2026-10-21\"}}",
+        "sha256": "85d1dfa40efac7d0641598fe131c7cc4a9a87baba7758d1b0e5549238014432b",
+        "document": {
+          "lines": [
+            {
+              "id": "8da4f90f-5984-494f-85cc-10e4c335b331",
+              "debit": "100.00",
+              "po_id": null,
+              "credit": "0.00",
+              "vendor_id": null,
+              "account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff",
+              "product_id": null,
+              "customer_id": "380561e0-c231-4637-8f24-c73b93153e25",
+              "description": "OW04 source-bound recognition",
+              "contractor_id": null,
+              "journal_entry_id": "8e7cc3a8-b48b-4298-9247-49591d967931"
+            },
+            {
+              "id": "c1a413c5-90a2-4264-8d74-59cea6f3dc56",
+              "debit": "0.00",
+              "po_id": null,
+              "credit": "100.00",
+              "vendor_id": null,
+              "account_id": "9c93cdac-20da-4b9d-a680-03da517e8254",
+              "product_id": null,
+              "customer_id": "380561e0-c231-4637-8f24-c73b93153e25",
+              "description": "OW04 source-bound recognition",
+              "contractor_id": null,
+              "journal_entry_id": "8e7cc3a8-b48b-4298-9247-49591d967931"
+            }
+          ],
+          "header": {
+            "id": "8e7cc3a8-b48b-4298-9247-49591d967931",
+            "status": "POSTED",
+            "source_id": "3d0cb3bb-2bd1-4253-9dfe-ecc06535aa8b",
+            "created_at": "2026-10-20T21:10:11.932551+00:00",
+            "created_by": "7ff632e1-343a-4c28-aee1-58adf0437f45",
+            "posting_at": "2026-10-20T21:10:11.932551+00:00",
+            "description": "Kredit retur: pengakuan terikat sumber",
+            "source_type": "CP7_CUSTOMER_CREDIT_RECOGNITION",
+            "economic_date": "2026-10-20",
+            "journal_number": "JRN-20261021041012088-2db33dac",
+            "period_shifted": true,
+            "reversal_of_id": null,
+            "transaction_date": "2026-10-21"
+          }
+        }
+      },
+      "refund_journal": {
+        "raw_json": "{\"lines\": [{\"id\": \"5a112da9-988a-4ac5-8194-5cff1b428b56\", \"debit\": 0.00, \"po_id\": null, \"credit\": 100.00, \"vendor_id\": null, \"account_id\": \"c5affa75-25b3-4442-aafc-5191eba502d1\", \"product_id\": null, \"customer_id\": \"380561e0-c231-4637-8f24-c73b93153e25\", \"description\": \"Kredit retur: pengembalian uang\", \"contractor_id\": null, \"journal_entry_id\": \"365a2cd9-75c6-4b27-aaf2-a9d53e9baffc\"}, {\"id\": \"9b976776-7886-47b5-9eb1-f07e180f4739\", \"debit\": 100.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"9c93cdac-20da-4b9d-a680-03da517e8254\", \"product_id\": null, \"customer_id\": \"380561e0-c231-4637-8f24-c73b93153e25\", \"description\": \"Kredit retur: pengembalian uang\", \"contractor_id\": null, \"journal_entry_id\": \"365a2cd9-75c6-4b27-aaf2-a9d53e9baffc\"}], \"header\": {\"id\": \"365a2cd9-75c6-4b27-aaf2-a9d53e9baffc\", \"status\": \"POSTED\", \"source_id\": \"49cea824-54ba-48fc-84e3-ee758057da04\", \"created_at\": \"2026-10-20T21:10:11.932551+00:00\", \"created_by\": \"7ff632e1-343a-4c28-aee1-58adf0437f45\", \"posting_at\": \"2026-10-20T21:10:11.932551+00:00\", \"description\": \"Kredit retur: pengembalian uang\", \"source_type\": \"CP7_CUSTOMER_CREDIT_REFUND\", \"economic_date\": \"2026-10-20\", \"journal_number\": \"JRN-20261021041012241-3928e053\", \"period_shifted\": true, \"reversal_of_id\": null, \"transaction_date\": \"2026-10-21\"}}",
+        "sha256": "62d73b6b30ec267ad96f3f4641689c4ba4fc2e9cc8cc2b06ee8aa4e3c064f273",
+        "document": {
+          "lines": [
+            {
+              "id": "5a112da9-988a-4ac5-8194-5cff1b428b56",
+              "debit": "0.00",
+              "po_id": null,
+              "credit": "100.00",
+              "vendor_id": null,
+              "account_id": "c5affa75-25b3-4442-aafc-5191eba502d1",
+              "product_id": null,
+              "customer_id": "380561e0-c231-4637-8f24-c73b93153e25",
+              "description": "Kredit retur: pengembalian uang",
+              "contractor_id": null,
+              "journal_entry_id": "365a2cd9-75c6-4b27-aaf2-a9d53e9baffc"
+            },
+            {
+              "id": "9b976776-7886-47b5-9eb1-f07e180f4739",
+              "debit": "100.00",
+              "po_id": null,
+              "credit": "0.00",
+              "vendor_id": null,
+              "account_id": "9c93cdac-20da-4b9d-a680-03da517e8254",
+              "product_id": null,
+              "customer_id": "380561e0-c231-4637-8f24-c73b93153e25",
+              "description": "Kredit retur: pengembalian uang",
+              "contractor_id": null,
+              "journal_entry_id": "365a2cd9-75c6-4b27-aaf2-a9d53e9baffc"
+            }
+          ],
+          "header": {
+            "id": "365a2cd9-75c6-4b27-aaf2-a9d53e9baffc",
+            "status": "POSTED",
+            "source_id": "49cea824-54ba-48fc-84e3-ee758057da04",
+            "created_at": "2026-10-20T21:10:11.932551+00:00",
+            "created_by": "7ff632e1-343a-4c28-aee1-58adf0437f45",
+            "posting_at": "2026-10-20T21:10:11.932551+00:00",
+            "description": "Kredit retur: pengembalian uang",
+            "source_type": "CP7_CUSTOMER_CREDIT_REFUND",
+            "economic_date": "2026-10-20",
+            "journal_number": "JRN-20261021041012241-3928e053",
+            "period_shifted": true,
+            "reversal_of_id": null,
+            "transaction_date": "2026-10-21"
+          }
+        }
+      },
+      "production_go": false,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_OW04_SETTLEMENT",
+      "case": "OW04_HTTP_CHANGED_PAYLOAD_REFUSAL",
+      "status": "PASS",
+      "committed_request_payload_immutable": true,
+      "no_partial_effect": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_OW04_SETTLEMENT",
+      "case": "OW04_HTTP_REVOKED_REPLAY_REFUSAL",
+      "status": "PASS",
+      "actual_Auth_ERP_membership_revoked_replay_denied": true,
+      "no_partial_effect": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_OW04_SETTLEMENT",
+      "case": "OW04_HTTP_QUOTE_DIGEST_REFUSAL",
+      "status": "PASS",
+      "invalid_kind": "digest",
+      "exact_code": "CP7_CREDIT_COMPLETE_QUOTE_CHANGED",
+      "no_partial_effect": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_OW04_SETTLEMENT",
+      "case": "OW04_HTTP_RESERVED_PLAN_REFUSAL",
+      "status": "PASS",
+      "invalid_kind": "reserved",
+      "exact_code": "CP7_SALES_RETURN_FIELDS",
+      "no_partial_effect": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_OW04_SETTLEMENT",
+      "case": "OW04_HTTP_ANON_REFUSAL",
+      "status": "PASS",
+      "anonymous_read_and_write_denied": true,
+      "no_partial_effect": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_OW04_SETTLEMENT",
+      "case": "OW04_HTTP_NON_OWNER_REFUND_REFUSAL",
+      "status": "PASS",
+      "disposable_STAFF_role_fixture_created": false,
+      "disposable_STAFF_role_prior_active": false,
+      "disposable_STAFF_role_explicitly_activated": true,
+      "successful_same_user_CREDIT_quote_before_refund": true,
+      "real_non_owner_with_all_permission_keys_denied_refund": true,
+      "Native_owner_guard_not_forged": true,
+      "no_partial_effect": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_OW04_SETTLEMENT",
+      "case": "OW04_RACE_DISTINCT_REQUESTS_ONE_SETTLEMENT",
+      "status": "PASS",
+      "two_actual_sessions": true,
+      "authenticated_SQL_fixture_not_real_Auth": true,
+      "observed_holder_blocks_worker": true,
+      "holder_committed": true,
+      "kind": "DISTINCT",
+      "identical_committed_replay": false,
+      "aborted_return_and_cohort_absent": false,
+      "actual_worker": {
+        "ok": false,
+        "sqlstate": "P0001",
+        "message": "CP7_CREDIT_INITIAL_SOURCE_FAMILY_UNSUPPORTED"
+      },
+      "full_private_sha256": "a1f36eba8e56e383a21aa5df6acd41c667f4ced29d63cdc46783411aebef544a",
+      "private_table_count": 29,
+      "native_return_journal_sha256": "780d9e4de6f0f078bc97cdd2120e23d64fcfa202d4db3cc1ea861b7b0152c772",
+      "recognition_journal_sha256": "b7d44d58550daed4eec6d08035ff04c9b53fb6368fa18dde7a3cb32d9be95bc7",
+      "exact_original_money_date_stock_HPP_oracles": true,
+      "original_payments_and_journals_unchanged": true,
+      "one_outer_and_inner_receipt": true,
+      "production_go": false,
+      "copy_runtime": {
+        "classification": "INTERNAL_WRITER_NATIVE_CANDIDATE_VERIFICATION",
+        "native": {
+          "contract_version": "ow04.native-install-verification.v1",
+          "plan_sha256": "b01a798e35f24c818f23e08dbd59f060615da99695f60ab87b5a83cb2682b9fb",
+          "functions_verified": 19,
+          "original_poster_unchanged": true,
+          "immutable_helper_sources_unchanged": true
+        },
+        "legacy_composition": {
+          "classification": "COMPOSED_LEGACY_VERIFICATION_NOT_RAW_LEGACY_PASS",
+          "live_proof": {
+            "contract_version": "ow04.native-install-verification.v1",
+            "plan_sha256": "b01a798e35f24c818f23e08dbd59f060615da99695f60ab87b5a83cb2682b9fb",
+            "functions_verified": 19,
+            "original_poster_unchanged": true,
+            "immutable_helper_sources_unchanged": true
+          },
+          "direct_legacy_first_failures": [
+            {
+              "verifier": "scripts/cp7_note_correction_verify.py",
+              "direct_legacy_assertion": "(('NOTE_NATIVE_DEFINITION_CHANGED', 'erp.reverse_journal(uuid,text)'),)"
+            },
+            {
+              "verifier": "scripts/cp7_sales_return_correction_bundle.py",
+              "direct_legacy_assertion": "(('cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)', 'Undeclared private Native delta'),)"
+            }
+          ],
+          "projected_definition_reads": [
+            [
+              "erp.reverse_journal(uuid,text)",
+              "erp.reverse_sale(uuid,text)",
+              "erp.reverse_sales_return(uuid,text)",
+              "erp.reverse_sales_payment(uuid,text)"
+            ],
+            [
+              "cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)",
+              "erp.reverse_journal(uuid,text)",
+              "cp7_sales_return_correction.reverse_journal(uuid,text)",
+              "erp.reverse_sales_return(uuid,text)",
+              "cp7_sales_return_correction.reverse_sales_return(uuid,text)",
+              "cp7_sales_return_correction.reverse_fg_movement(uuid,text)"
+            ]
+          ],
+          "legacy_results": [
+            {
+              "owning_note_source_sha256": "e76810c17c1f6e7f03539dcf6d6897965672d1f666bfcc2207f2ebe8739268a4",
+              "accepted_six_native_helpers_unchanged": true,
+              "exact_owner_report_read_delta": true,
+              "native_owner_report_original_sha256": "f82a4589d05a8282ead7491d67aa6107fbd763a37690bd65276f740d7885e303",
+              "native_owner_report_overlay_sha256": "1c751785b8a64b13b6d10d5023938055db255ba9c1fb09f4ffceaa21197a9dd1",
+              "private_helpers_not_callable": true,
+              "original_financial_and_stock_rules_retained": true,
+              "production_go": false
+            },
+            {
+              "private_return_atomic_Native_inverse_post": true,
+              "all4_Native_helpers_unchanged": true,
+              "exact_private_derivation": true,
+              "source_links_immutable": true,
+              "no_app_ERP_DML": true
+            }
+          ],
+          "immutable_baselines_rewritten": false
+        },
+        "context_inventory": {
+          "contract_version": "ow04.typed-context-census-verified.v1",
+          "contexts": 30,
+          "catalog_sha256": "8863a33c2418789c69e5324aeb958fb1e4c8d16c5be47345aa4eeea9d0e9f841",
+          "exact_new_schema_exclusions": [
+            "cp7_credit",
+            "ow04_ordinal_wrapper",
+            "ow04_source_proposal",
+            "ow04_pure_kernel"
+          ],
+          "plan_reader": {
+            "signature": "cp7_credit._has_ambient_plan_apply_scope()",
+            "owner": "cp7_plan_writer",
+            "predicate_sha256": "db420f714d536a9d06c24b58cc751e0f3b5fcfd06aa834e14b043f9663ca92a2",
+            "private_acl_exact": true
+          }
+        },
+        "private_inventory_sha256": "aa65b5d7d11297c2e1c152bd806894fc6577ef5557bd96d367550ca0cbda4caf",
+        "native_empty": {
+          "classification": "SOURCE_AND_METADATA_VERIFICATION_NOT_NATIVE_EXECUTION",
+          "overlays": 14,
+          "relations": 7,
+          "production_go": false
+        },
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_OW04_SETTLEMENT",
+      "case": "OW04_RACE_SAME_REQUEST_REPLAY",
+      "status": "PASS",
+      "two_actual_sessions": true,
+      "authenticated_SQL_fixture_not_real_Auth": true,
+      "observed_holder_blocks_worker": true,
+      "holder_committed": true,
+      "kind": "REPLAY",
+      "identical_committed_replay": true,
+      "aborted_return_and_cohort_absent": false,
+      "actual_worker": {
+        "ok": true,
+        "result": {
+          "kind": "COMMITTED_OUTCOME",
+          "action": "RETURN_SETTLEMENT",
+          "sale_id": "4405235e-febd-43ad-9c80-514e6ab4959d",
+          "credit_id": "2c64ed20-f9be-446c-9978-ade3cdac57c0",
+          "return_id": "dac9866f-6838-4af6-b6ca-6e71256bee91",
+          "request_id": "d4bc6665-a13e-4e5b-825f-f260e69e357c",
+          "row_version": "4",
+          "quote_sha256": "de5a79198603a2ede564a1e41192a5c366189a44936c8b7406323e43266fb0e7",
+          "production_go": false,
+          "return_status": "POSTED",
+          "family_ordinal": "1",
+          "refund_event_id": null,
+          "contract_version": "cp7.sales-return-settlement-outcome.v1",
+          "projection_sha256": "6db346cdb17a3552e9a4667d5f1fcaee5c619b308bf4e304d88e21e9ee1eb07a",
+          "actual_manifest_sha256": "0c1e62b58caee43553fd2b4182d1dfd61b00ebf18ce8f5cf4d8affce7ad4361d",
+          "projection_actual_proof_sha256": "1059a6d5c330d6c8d3e011eb5a39bafb4cc99038fbfda12b4f48ead19743aeb6"
+        }
+      },
+      "full_private_sha256": "b293f104dbd226bde2daf2cf9b39006d181857ae0305cfb6185b707aa5dcdd64",
+      "private_table_count": 29,
+      "native_return_journal_sha256": "d7c8630124216908bc9c6f3ab45f4d1ef485f680eeb54803ca33a7f3a30b18d0",
+      "recognition_journal_sha256": "4305217c3fa73ff4f031f434f0ad6689f616ae75c998c22890f71fc45ec71273",
+      "exact_original_money_date_stock_HPP_oracles": true,
+      "original_payments_and_journals_unchanged": true,
+      "one_outer_and_inner_receipt": true,
+      "production_go": false,
+      "copy_runtime": {
+        "classification": "INTERNAL_WRITER_NATIVE_CANDIDATE_VERIFICATION",
+        "native": {
+          "contract_version": "ow04.native-install-verification.v1",
+          "plan_sha256": "b01a798e35f24c818f23e08dbd59f060615da99695f60ab87b5a83cb2682b9fb",
+          "functions_verified": 19,
+          "original_poster_unchanged": true,
+          "immutable_helper_sources_unchanged": true
+        },
+        "legacy_composition": {
+          "classification": "COMPOSED_LEGACY_VERIFICATION_NOT_RAW_LEGACY_PASS",
+          "live_proof": {
+            "contract_version": "ow04.native-install-verification.v1",
+            "plan_sha256": "b01a798e35f24c818f23e08dbd59f060615da99695f60ab87b5a83cb2682b9fb",
+            "functions_verified": 19,
+            "original_poster_unchanged": true,
+            "immutable_helper_sources_unchanged": true
+          },
+          "direct_legacy_first_failures": [
+            {
+              "verifier": "scripts/cp7_note_correction_verify.py",
+              "direct_legacy_assertion": "(('NOTE_NATIVE_DEFINITION_CHANGED', 'erp.reverse_journal(uuid,text)'),)"
+            },
+            {
+              "verifier": "scripts/cp7_sales_return_correction_bundle.py",
+              "direct_legacy_assertion": "(('cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)', 'Undeclared private Native delta'),)"
+            }
+          ],
+          "projected_definition_reads": [
+            [
+              "erp.reverse_journal(uuid,text)",
+              "erp.reverse_sale(uuid,text)",
+              "erp.reverse_sales_return(uuid,text)",
+              "erp.reverse_sales_payment(uuid,text)"
+            ],
+            [
+              "cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)",
+              "erp.reverse_journal(uuid,text)",
+              "cp7_sales_return_correction.reverse_journal(uuid,text)",
+              "erp.reverse_sales_return(uuid,text)",
+              "cp7_sales_return_correction.reverse_sales_return(uuid,text)",
+              "cp7_sales_return_correction.reverse_fg_movement(uuid,text)"
+            ]
+          ],
+          "legacy_results": [
+            {
+              "owning_note_source_sha256": "e76810c17c1f6e7f03539dcf6d6897965672d1f666bfcc2207f2ebe8739268a4",
+              "accepted_six_native_helpers_unchanged": true,
+              "exact_owner_report_read_delta": true,
+              "native_owner_report_original_sha256": "f82a4589d05a8282ead7491d67aa6107fbd763a37690bd65276f740d7885e303",
+              "native_owner_report_overlay_sha256": "1c751785b8a64b13b6d10d5023938055db255ba9c1fb09f4ffceaa21197a9dd1",
+              "private_helpers_not_callable": true,
+              "original_financial_and_stock_rules_retained": true,
+              "production_go": false
+            },
+            {
+              "private_return_atomic_Native_inverse_post": true,
+              "all4_Native_helpers_unchanged": true,
+              "exact_private_derivation": true,
+              "source_links_immutable": true,
+              "no_app_ERP_DML": true
+            }
+          ],
+          "immutable_baselines_rewritten": false
+        },
+        "context_inventory": {
+          "contract_version": "ow04.typed-context-census-verified.v1",
+          "contexts": 30,
+          "catalog_sha256": "8863a33c2418789c69e5324aeb958fb1e4c8d16c5be47345aa4eeea9d0e9f841",
+          "exact_new_schema_exclusions": [
+            "cp7_credit",
+            "ow04_ordinal_wrapper",
+            "ow04_source_proposal",
+            "ow04_pure_kernel"
+          ],
+          "plan_reader": {
+            "signature": "cp7_credit._has_ambient_plan_apply_scope()",
+            "owner": "cp7_plan_writer",
+            "predicate_sha256": "db420f714d536a9d06c24b58cc751e0f3b5fcfd06aa834e14b043f9663ca92a2",
+            "private_acl_exact": true
+          }
+        },
+        "private_inventory_sha256": "aa65b5d7d11297c2e1c152bd806894fc6577ef5557bd96d367550ca0cbda4caf",
+        "native_empty": {
+          "classification": "SOURCE_AND_METADATA_VERIFICATION_NOT_NATIVE_EXECUTION",
+          "overlays": 14,
+          "relations": 7,
+          "production_go": false
+        },
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_OW04_SETTLEMENT",
+      "case": "OW04_RACE_CHANGED_REQUEST_REFUSAL",
+      "status": "PASS",
+      "two_actual_sessions": true,
+      "authenticated_SQL_fixture_not_real_Auth": true,
+      "observed_holder_blocks_worker": true,
+      "holder_committed": true,
+      "kind": "CHANGED",
+      "identical_committed_replay": false,
+      "aborted_return_and_cohort_absent": false,
+      "actual_worker": {
+        "ok": false,
+        "sqlstate": "P0001",
+        "message": "CP7_CREDIT_RETURN_REQUEST_CHANGED"
+      },
+      "full_private_sha256": "06e7fda3911308438d517b3b486df33b0262fb315928a9ea92e48dbd40641a9c",
+      "private_table_count": 29,
+      "native_return_journal_sha256": "b81bdc0c6f7867164c0224b6ab14595bb97a6c636c4e7b3171e8d39b1ac69f9e",
+      "recognition_journal_sha256": "1fb0cde992ee0d739a485f5f31a5b1bfa15d828be07f48b44e997c8c77e587b5",
+      "exact_original_money_date_stock_HPP_oracles": true,
+      "original_payments_and_journals_unchanged": true,
+      "one_outer_and_inner_receipt": true,
+      "production_go": false,
+      "copy_runtime": {
+        "classification": "INTERNAL_WRITER_NATIVE_CANDIDATE_VERIFICATION",
+        "native": {
+          "contract_version": "ow04.native-install-verification.v1",
+          "plan_sha256": "b01a798e35f24c818f23e08dbd59f060615da99695f60ab87b5a83cb2682b9fb",
+          "functions_verified": 19,
+          "original_poster_unchanged": true,
+          "immutable_helper_sources_unchanged": true
+        },
+        "legacy_composition": {
+          "classification": "COMPOSED_LEGACY_VERIFICATION_NOT_RAW_LEGACY_PASS",
+          "live_proof": {
+            "contract_version": "ow04.native-install-verification.v1",
+            "plan_sha256": "b01a798e35f24c818f23e08dbd59f060615da99695f60ab87b5a83cb2682b9fb",
+            "functions_verified": 19,
+            "original_poster_unchanged": true,
+            "immutable_helper_sources_unchanged": true
+          },
+          "direct_legacy_first_failures": [
+            {
+              "verifier": "scripts/cp7_note_correction_verify.py",
+              "direct_legacy_assertion": "(('NOTE_NATIVE_DEFINITION_CHANGED', 'erp.reverse_journal(uuid,text)'),)"
+            },
+            {
+              "verifier": "scripts/cp7_sales_return_correction_bundle.py",
+              "direct_legacy_assertion": "(('cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)', 'Undeclared private Native delta'),)"
+            }
+          ],
+          "projected_definition_reads": [
+            [
+              "erp.reverse_journal(uuid,text)",
+              "erp.reverse_sale(uuid,text)",
+              "erp.reverse_sales_return(uuid,text)",
+              "erp.reverse_sales_payment(uuid,text)"
+            ],
+            [
+              "cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)",
+              "erp.reverse_journal(uuid,text)",
+              "cp7_sales_return_correction.reverse_journal(uuid,text)",
+              "erp.reverse_sales_return(uuid,text)",
+              "cp7_sales_return_correction.reverse_sales_return(uuid,text)",
+              "cp7_sales_return_correction.reverse_fg_movement(uuid,text)"
+            ]
+          ],
+          "legacy_results": [
+            {
+              "owning_note_source_sha256": "e76810c17c1f6e7f03539dcf6d6897965672d1f666bfcc2207f2ebe8739268a4",
+              "accepted_six_native_helpers_unchanged": true,
+              "exact_owner_report_read_delta": true,
+              "native_owner_report_original_sha256": "f82a4589d05a8282ead7491d67aa6107fbd763a37690bd65276f740d7885e303",
+              "native_owner_report_overlay_sha256": "1c751785b8a64b13b6d10d5023938055db255ba9c1fb09f4ffceaa21197a9dd1",
+              "private_helpers_not_callable": true,
+              "original_financial_and_stock_rules_retained": true,
+              "production_go": false
+            },
+            {
+              "private_return_atomic_Native_inverse_post": true,
+              "all4_Native_helpers_unchanged": true,
+              "exact_private_derivation": true,
+              "source_links_immutable": true,
+              "no_app_ERP_DML": true
+            }
+          ],
+          "immutable_baselines_rewritten": false
+        },
+        "context_inventory": {
+          "contract_version": "ow04.typed-context-census-verified.v1",
+          "contexts": 30,
+          "catalog_sha256": "8863a33c2418789c69e5324aeb958fb1e4c8d16c5be47345aa4eeea9d0e9f841",
+          "exact_new_schema_exclusions": [
+            "cp7_credit",
+            "ow04_ordinal_wrapper",
+            "ow04_source_proposal",
+            "ow04_pure_kernel"
+          ],
+          "plan_reader": {
+            "signature": "cp7_credit._has_ambient_plan_apply_scope()",
+            "owner": "cp7_plan_writer",
+            "predicate_sha256": "db420f714d536a9d06c24b58cc751e0f3b5fcfd06aa834e14b043f9663ca92a2",
+            "private_acl_exact": true
+          }
+        },
+        "private_inventory_sha256": "aa65b5d7d11297c2e1c152bd806894fc6577ef5557bd96d367550ca0cbda4caf",
+        "native_empty": {
+          "classification": "SOURCE_AND_METADATA_VERIFICATION_NOT_NATIVE_EXECUTION",
+          "overlays": 14,
+          "relations": 7,
+          "production_go": false
+        },
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_OW04_SETTLEMENT",
+      "case": "OW04_RACE_REVOKED_AFTER_FG_WAIT",
+      "status": "PASS",
+      "actual_FG_holder_blocks_worker": true,
+      "permission_revoked_by_committed_third_session": true,
+      "post_revocation_full_state_identical": true,
+      "full_private_sha256": "d34a629f050ad041084a044e015ececb3337ca2d4cf94a22d24b2b30d3f145ab",
+      "actual_worker": {
+        "ok": false,
+        "sqlstate": "42501",
+        "message": "CP7_SALES_WRITE_DENIED"
+      },
+      "authenticated_SQL_fixture_not_real_Auth": true,
+      "production_go": false,
+      "copy_runtime": {
+        "classification": "INTERNAL_WRITER_NATIVE_CANDIDATE_VERIFICATION",
+        "native": {
+          "contract_version": "ow04.native-install-verification.v1",
+          "plan_sha256": "b01a798e35f24c818f23e08dbd59f060615da99695f60ab87b5a83cb2682b9fb",
+          "functions_verified": 19,
+          "original_poster_unchanged": true,
+          "immutable_helper_sources_unchanged": true
+        },
+        "legacy_composition": {
+          "classification": "COMPOSED_LEGACY_VERIFICATION_NOT_RAW_LEGACY_PASS",
+          "live_proof": {
+            "contract_version": "ow04.native-install-verification.v1",
+            "plan_sha256": "b01a798e35f24c818f23e08dbd59f060615da99695f60ab87b5a83cb2682b9fb",
+            "functions_verified": 19,
+            "original_poster_unchanged": true,
+            "immutable_helper_sources_unchanged": true
+          },
+          "direct_legacy_first_failures": [
+            {
+              "verifier": "scripts/cp7_note_correction_verify.py",
+              "direct_legacy_assertion": "(('NOTE_NATIVE_DEFINITION_CHANGED', 'erp.reverse_journal(uuid,text)'),)"
+            },
+            {
+              "verifier": "scripts/cp7_sales_return_correction_bundle.py",
+              "direct_legacy_assertion": "(('cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)', 'Undeclared private Native delta'),)"
+            }
+          ],
+          "projected_definition_reads": [
+            [
+              "erp.reverse_journal(uuid,text)",
+              "erp.reverse_sale(uuid,text)",
+              "erp.reverse_sales_return(uuid,text)",
+              "erp.reverse_sales_payment(uuid,text)"
+            ],
+            [
+              "cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)",
+              "erp.reverse_journal(uuid,text)",
+              "cp7_sales_return_correction.reverse_journal(uuid,text)",
+              "erp.reverse_sales_return(uuid,text)",
+              "cp7_sales_return_correction.reverse_sales_return(uuid,text)",
+              "cp7_sales_return_correction.reverse_fg_movement(uuid,text)"
+            ]
+          ],
+          "legacy_results": [
+            {
+              "owning_note_source_sha256": "e76810c17c1f6e7f03539dcf6d6897965672d1f666bfcc2207f2ebe8739268a4",
+              "accepted_six_native_helpers_unchanged": true,
+              "exact_owner_report_read_delta": true,
+              "native_owner_report_original_sha256": "f82a4589d05a8282ead7491d67aa6107fbd763a37690bd65276f740d7885e303",
+              "native_owner_report_overlay_sha256": "1c751785b8a64b13b6d10d5023938055db255ba9c1fb09f4ffceaa21197a9dd1",
+              "private_helpers_not_callable": true,
+              "original_financial_and_stock_rules_retained": true,
+              "production_go": false
+            },
+            {
+              "private_return_atomic_Native_inverse_post": true,
+              "all4_Native_helpers_unchanged": true,
+              "exact_private_derivation": true,
+              "source_links_immutable": true,
+              "no_app_ERP_DML": true
+            }
+          ],
+          "immutable_baselines_rewritten": false
+        },
+        "context_inventory": {
+          "contract_version": "ow04.typed-context-census-verified.v1",
+          "contexts": 30,
+          "catalog_sha256": "8863a33c2418789c69e5324aeb958fb1e4c8d16c5be47345aa4eeea9d0e9f841",
+          "exact_new_schema_exclusions": [
+            "cp7_credit",
+            "ow04_ordinal_wrapper",
+            "ow04_source_proposal",
+            "ow04_pure_kernel"
+          ],
+          "plan_reader": {
+            "signature": "cp7_credit._has_ambient_plan_apply_scope()",
+            "owner": "cp7_plan_writer",
+            "predicate_sha256": "db420f714d536a9d06c24b58cc751e0f3b5fcfd06aa834e14b043f9663ca92a2",
+            "private_acl_exact": true
+          }
+        },
+        "private_inventory_sha256": "aa65b5d7d11297c2e1c152bd806894fc6577ef5557bd96d367550ca0cbda4caf",
+        "native_empty": {
+          "classification": "SOURCE_AND_METADATA_VERIFICATION_NOT_NATIVE_EXECUTION",
+          "overlays": 14,
+          "relations": 7,
+          "production_go": false
+        },
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_OW04_SETTLEMENT",
+      "case": "OW04_RACE_HOLDER_ROLLBACK_RECOVERY",
+      "status": "PASS",
+      "two_actual_sessions": true,
+      "authenticated_SQL_fixture_not_real_Auth": true,
+      "observed_holder_blocks_worker": true,
+      "holder_committed": false,
+      "kind": "ROLLBACK",
+      "identical_committed_replay": false,
+      "aborted_return_and_cohort_absent": true,
+      "actual_worker": {
+        "ok": true,
+        "result": {
+          "kind": "COMMITTED_OUTCOME",
+          "action": "RETURN_SETTLEMENT",
+          "sale_id": "0a011bf0-7324-47ad-9d38-f3aed7d4e356",
+          "credit_id": "874863fe-2175-4ed3-a264-3f2e8f37944e",
+          "return_id": "ab146fc6-a9be-43a9-a72e-8857f6abdc03",
+          "request_id": "cbe5292a-8990-49b0-ae8a-53eb7435112b",
+          "row_version": "4",
+          "quote_sha256": "5177679f606cf52e7d0d01b99b7b4f41a07f199612b6c8d3bc4abffc1c837803",
+          "production_go": false,
+          "return_status": "POSTED",
+          "family_ordinal": "1",
+          "refund_event_id": null,
+          "contract_version": "cp7.sales-return-settlement-outcome.v1",
+          "projection_sha256": "c93daf165dd58489899c8639d0efadbb24835903cbe213896834391dd6cbab4a",
+          "actual_manifest_sha256": "2791a743ce1bf871c30e002c226d84d609797e3121abd7e741217e10c44e6478",
+          "projection_actual_proof_sha256": "9859399b0d78e3b1f9c47c76d1a042bf6b5d26a9f2a098e533f0094828e1fc9a"
+        }
+      },
+      "full_private_sha256": "c3e14424584d25a79360acb1ed450078e0e5f736a4c046870bd43acbe3ec7a1b",
+      "private_table_count": 29,
+      "native_return_journal_sha256": "d8224c049fbb5af9f12477f4a108bbc09271e8bca05cde38e951a0094314fcd9",
+      "recognition_journal_sha256": "20e3a08e69a9b77c158cf70426bdefd8583e4933f1eb2d721d714e934f3f87f7",
+      "exact_original_money_date_stock_HPP_oracles": true,
+      "original_payments_and_journals_unchanged": true,
+      "one_outer_and_inner_receipt": true,
+      "production_go": false,
+      "copy_runtime": {
+        "classification": "INTERNAL_WRITER_NATIVE_CANDIDATE_VERIFICATION",
+        "native": {
+          "contract_version": "ow04.native-install-verification.v1",
+          "plan_sha256": "b01a798e35f24c818f23e08dbd59f060615da99695f60ab87b5a83cb2682b9fb",
+          "functions_verified": 19,
+          "original_poster_unchanged": true,
+          "immutable_helper_sources_unchanged": true
+        },
+        "legacy_composition": {
+          "classification": "COMPOSED_LEGACY_VERIFICATION_NOT_RAW_LEGACY_PASS",
+          "live_proof": {
+            "contract_version": "ow04.native-install-verification.v1",
+            "plan_sha256": "b01a798e35f24c818f23e08dbd59f060615da99695f60ab87b5a83cb2682b9fb",
+            "functions_verified": 19,
+            "original_poster_unchanged": true,
+            "immutable_helper_sources_unchanged": true
+          },
+          "direct_legacy_first_failures": [
+            {
+              "verifier": "scripts/cp7_note_correction_verify.py",
+              "direct_legacy_assertion": "(('NOTE_NATIVE_DEFINITION_CHANGED', 'erp.reverse_journal(uuid,text)'),)"
+            },
+            {
+              "verifier": "scripts/cp7_sales_return_correction_bundle.py",
+              "direct_legacy_assertion": "(('cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)', 'Undeclared private Native delta'),)"
+            }
+          ],
+          "projected_definition_reads": [
+            [
+              "erp.reverse_journal(uuid,text)",
+              "erp.reverse_sale(uuid,text)",
+              "erp.reverse_sales_return(uuid,text)",
+              "erp.reverse_sales_payment(uuid,text)"
+            ],
+            [
+              "cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)",
+              "erp.reverse_journal(uuid,text)",
+              "cp7_sales_return_correction.reverse_journal(uuid,text)",
+              "erp.reverse_sales_return(uuid,text)",
+              "cp7_sales_return_correction.reverse_sales_return(uuid,text)",
+              "cp7_sales_return_correction.reverse_fg_movement(uuid,text)"
+            ]
+          ],
+          "legacy_results": [
+            {
+              "owning_note_source_sha256": "e76810c17c1f6e7f03539dcf6d6897965672d1f666bfcc2207f2ebe8739268a4",
+              "accepted_six_native_helpers_unchanged": true,
+              "exact_owner_report_read_delta": true,
+              "native_owner_report_original_sha256": "f82a4589d05a8282ead7491d67aa6107fbd763a37690bd65276f740d7885e303",
+              "native_owner_report_overlay_sha256": "1c751785b8a64b13b6d10d5023938055db255ba9c1fb09f4ffceaa21197a9dd1",
+              "private_helpers_not_callable": true,
+              "original_financial_and_stock_rules_retained": true,
+              "production_go": false
+            },
+            {
+              "private_return_atomic_Native_inverse_post": true,
+              "all4_Native_helpers_unchanged": true,
+              "exact_private_derivation": true,
+              "source_links_immutable": true,
+              "no_app_ERP_DML": true
+            }
+          ],
+          "immutable_baselines_rewritten": false
+        },
+        "context_inventory": {
+          "contract_version": "ow04.typed-context-census-verified.v1",
+          "contexts": 30,
+          "catalog_sha256": "8863a33c2418789c69e5324aeb958fb1e4c8d16c5be47345aa4eeea9d0e9f841",
+          "exact_new_schema_exclusions": [
+            "cp7_credit",
+            "ow04_ordinal_wrapper",
+            "ow04_source_proposal",
+            "ow04_pure_kernel"
+          ],
+          "plan_reader": {
+            "signature": "cp7_credit._has_ambient_plan_apply_scope()",
+            "owner": "cp7_plan_writer",
+            "predicate_sha256": "db420f714d536a9d06c24b58cc751e0f3b5fcfd06aa834e14b043f9663ca92a2",
+            "private_acl_exact": true
+          }
+        },
+        "private_inventory_sha256": "aa65b5d7d11297c2e1c152bd806894fc6577ef5557bd96d367550ca0cbda4caf",
+        "native_empty": {
+          "classification": "SOURCE_AND_METADATA_VERIFICATION_NOT_NATIVE_EXECUTION",
+          "overlays": 14,
+          "relations": 7,
+          "production_go": false
+        },
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_OW04_SETTLEMENT",
+      "case": "OW04_RACE_BACKEND_TERMINATION_RECOVERY",
+      "status": "PASS",
+      "known_disposable_holder_backend_terminated": true,
+      "observed_holder_blocks_worker": true,
+      "server_aborted_uncommitted_transaction": true,
+      "aborted_return_and_cohort_absent": true,
+      "authenticated_SQL_fixture_not_real_Auth": true,
+      "actual_worker": {
+        "ok": true,
+        "result": {
+          "kind": "COMMITTED_OUTCOME",
+          "action": "RETURN_SETTLEMENT",
+          "sale_id": "fbef18c2-0c75-4cf2-8a23-bf41db590d2d",
+          "credit_id": "3f0db8dc-bf9d-478d-ad9e-096deb08cf8d",
+          "return_id": "30e41ecd-0125-48bf-be0b-33c3b9851478",
+          "request_id": "74e3614e-dfd7-42e1-8086-0eca0c2748fe",
+          "row_version": "4",
+          "quote_sha256": "02014159b4cbe162bb5f6f423540cbdd23ae1fd4ac44d3ac643b5e15dca0d581",
+          "production_go": false,
+          "return_status": "POSTED",
+          "family_ordinal": "1",
+          "refund_event_id": null,
+          "contract_version": "cp7.sales-return-settlement-outcome.v1",
+          "projection_sha256": "25876226be2a0491a9727028ae6121038ef133d20232be25c06b7051b2772685",
+          "actual_manifest_sha256": "6256a0ac559fb39ad758600d6931bb3b5e6184c141532ef09a14215fa082a3b9",
+          "projection_actual_proof_sha256": "603d8f68cd308c9ea3e2e52bc510a64950789659fb08c492eba5fe3cb1f22748"
+        }
+      },
+      "full_private_sha256": "381e4f25714c44539720cd3f95989f897f9465b44c025e692a4e2ecc89a7b252",
+      "private_table_count": 29,
+      "native_return_journal_sha256": "b3f71b2ac75ac6e0a7c6592c3b941eb50b2d5a0e772f500f86a749bd62bdd2ec",
+      "recognition_journal_sha256": "9db74f9b719e13facbfaf77b937c50f5d67b18aada847edb758aef1f26a0f765",
+      "exact_original_money_date_stock_HPP_oracles": true,
+      "original_payments_and_journals_unchanged": true,
+      "one_outer_and_inner_receipt": true,
+      "production_go": false,
+      "copy_runtime": {
+        "classification": "INTERNAL_WRITER_NATIVE_CANDIDATE_VERIFICATION",
+        "native": {
+          "contract_version": "ow04.native-install-verification.v1",
+          "plan_sha256": "b01a798e35f24c818f23e08dbd59f060615da99695f60ab87b5a83cb2682b9fb",
+          "functions_verified": 19,
+          "original_poster_unchanged": true,
+          "immutable_helper_sources_unchanged": true
+        },
+        "legacy_composition": {
+          "classification": "COMPOSED_LEGACY_VERIFICATION_NOT_RAW_LEGACY_PASS",
+          "live_proof": {
+            "contract_version": "ow04.native-install-verification.v1",
+            "plan_sha256": "b01a798e35f24c818f23e08dbd59f060615da99695f60ab87b5a83cb2682b9fb",
+            "functions_verified": 19,
+            "original_poster_unchanged": true,
+            "immutable_helper_sources_unchanged": true
+          },
+          "direct_legacy_first_failures": [
+            {
+              "verifier": "scripts/cp7_note_correction_verify.py",
+              "direct_legacy_assertion": "(('NOTE_NATIVE_DEFINITION_CHANGED', 'erp.reverse_journal(uuid,text)'),)"
+            },
+            {
+              "verifier": "scripts/cp7_sales_return_correction_bundle.py",
+              "direct_legacy_assertion": "(('cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)', 'Undeclared private Native delta'),)"
+            }
+          ],
+          "projected_definition_reads": [
+            [
+              "erp.reverse_journal(uuid,text)",
+              "erp.reverse_sale(uuid,text)",
+              "erp.reverse_sales_return(uuid,text)",
+              "erp.reverse_sales_payment(uuid,text)"
+            ],
+            [
+              "cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)",
+              "erp.reverse_journal(uuid,text)",
+              "cp7_sales_return_correction.reverse_journal(uuid,text)",
+              "erp.reverse_sales_return(uuid,text)",
+              "cp7_sales_return_correction.reverse_sales_return(uuid,text)",
+              "cp7_sales_return_correction.reverse_fg_movement(uuid,text)"
+            ]
+          ],
+          "legacy_results": [
+            {
+              "owning_note_source_sha256": "e76810c17c1f6e7f03539dcf6d6897965672d1f666bfcc2207f2ebe8739268a4",
+              "accepted_six_native_helpers_unchanged": true,
+              "exact_owner_report_read_delta": true,
+              "native_owner_report_original_sha256": "f82a4589d05a8282ead7491d67aa6107fbd763a37690bd65276f740d7885e303",
+              "native_owner_report_overlay_sha256": "1c751785b8a64b13b6d10d5023938055db255ba9c1fb09f4ffceaa21197a9dd1",
+              "private_helpers_not_callable": true,
+              "original_financial_and_stock_rules_retained": true,
+              "production_go": false
+            },
+            {
+              "private_return_atomic_Native_inverse_post": true,
+              "all4_Native_helpers_unchanged": true,
+              "exact_private_derivation": true,
+              "source_links_immutable": true,
+              "no_app_ERP_DML": true
+            }
+          ],
+          "immutable_baselines_rewritten": false
+        },
+        "context_inventory": {
+          "contract_version": "ow04.typed-context-census-verified.v1",
+          "contexts": 30,
+          "catalog_sha256": "8863a33c2418789c69e5324aeb958fb1e4c8d16c5be47345aa4eeea9d0e9f841",
+          "exact_new_schema_exclusions": [
+            "cp7_credit",
+            "ow04_ordinal_wrapper",
+            "ow04_source_proposal",
+            "ow04_pure_kernel"
+          ],
+          "plan_reader": {
+            "signature": "cp7_credit._has_ambient_plan_apply_scope()",
+            "owner": "cp7_plan_writer",
+            "predicate_sha256": "db420f714d536a9d06c24b58cc751e0f3b5fcfd06aa834e14b043f9663ca92a2",
+            "private_acl_exact": true
+          }
+        },
+        "private_inventory_sha256": "aa65b5d7d11297c2e1c152bd806894fc6577ef5557bd96d367550ca0cbda4caf",
+        "native_empty": {
+          "classification": "SOURCE_AND_METADATA_VERIFICATION_NOT_NATIVE_EXECUTION",
+          "overlays": 14,
+          "relations": 7,
+          "production_go": false
+        },
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    }
+  ],
+  "outer_packages": [
+    {
+      "group": "HTTP",
+      "status": "ALL_STAGES_INSTALLED",
+      "run_identity": {
+        "label": "T3_PREP",
+        "tool_head": "6f318261ab585ad7a8378d6041839dc1a549fa87",
+        "product_ref": "b7fc541ca2b0221865ed7982155e844e1a9bed80",
+        "product_paths": [
+          "supabase/migrations",
+          "supabase/dev",
+          "supabase/release",
+          "supabase/rollbacks",
+          "src"
+        ],
+        "run_id": "39497414236",
+        "run_attempt": "1",
+        "workflow": "CP7 OW04 Real Auth HTTP and SQL Recovery Qualification",
+        "job": "phase",
+        "event": "push",
+        "github_sha": "6f318261ab585ad7a8378d6041839dc1a549fa87",
+        "release_evidence": false,
+        "production_go": false,
+        "mode": "install"
+      },
+      "gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "primary_unchanged": true,
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "backup_restore_drill": "RESTORED_SAME_MEANING"
+    },
+    {
+      "group": "RACES",
+      "status": "ALL_STAGES_INSTALLED",
+      "run_identity": {
+        "label": "T3_PREP",
+        "tool_head": "6f318261ab585ad7a8378d6041839dc1a549fa87",
+        "product_ref": "b7fc541ca2b0221865ed7982155e844e1a9bed80",
+        "product_paths": [
+          "supabase/migrations",
+          "supabase/dev",
+          "supabase/release",
+          "supabase/rollbacks",
+          "src"
+        ],
+        "run_id": "39497414236",
+        "run_attempt": "1",
+        "workflow": "CP7 OW04 Real Auth HTTP and SQL Recovery Qualification",
+        "job": "phase",
+        "event": "push",
+        "github_sha": "6f318261ab585ad7a8378d6041839dc1a549fa87",
+        "release_evidence": false,
+        "production_go": false,
+        "mode": "install"
+      },
+      "gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "primary_unchanged": true,
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "backup_restore_drill": "RESTORED_SAME_MEANING"
+    }
+  ],
+  "native44_reused": {
+    "candidate": "ef98e6e65c13322bf08e6f704e511bdbb03a07a8",
+    "rerun": false,
+    "core_directory_tree": "07064b179f82e6827020074d0dc9707fbe5bd76e",
+    "native_probe_blob": "b82ad1f28fcb8b19db2a2892960151bba01df56c",
+    "receipt": "CI_EF98_NATIVE44_PASS.json",
+    "run_id": 39489386389,
+    "job_id": 118858149684,
+    "case_count": 44
+  },
+  "runtime": {
+    "bytes": 356939,
+    "gzip_bytes": 55197,
+    "raw_sha256": "1bd6e6b8f65c1c8d2ab2df64079edb713d51aa0737bdaf9e38b617f5207d0cdf",
+    "gzip_sha256": "80f9679997903541f69f323f4f0e8a7ca1f4498c9e4a271e9757bc0f5db870cc",
+    "path": "CI_6F31_HTTP_RACE14_RUNTIME.log.gz"
+  },
+  "first_failures": [
+    {
+      "candidate": "f3437108aa57999ced7e76604c05536ebae86f13",
+      "run_id": 39492199058,
+      "job_id": 118867983298,
+      "HTTP": {
+        "PASS": 7,
+        "INCOMPLETE": 1
+      },
+      "receipt": "CI_F343_HTTP_FIRST_FAILURE.json",
+      "disposition": "HTTP_STAFF_FIXTURE_FAILURE_DISPOSITION.md",
+      "expected_changed": false,
+      "product_changed": false
+    },
+    {
+      "candidate": "2f6c28ec1b79a3d6a18c6baed4981a09cdd24eaf",
+      "run_id": 39494596197,
+      "job_id": 118876226645,
+      "HTTP": {
+        "PASS": 7,
+        "INCOMPLETE": 1
+      },
+      "RACES": "SKIPPED",
+      "receipt": "CI_2F6C_HTTP_FIRST_FAILURE.json",
+      "disposition": "HTTP_STAFF_FIXTURE_FAILURE_DISPOSITION.md",
+      "expected_changed": false,
+      "product_changed": false
+    }
+  ],
+  "internal_counter_review": {
+    "external_independent_audit": false,
+    "source_reports": "http-check/ and race-check/",
+    "final_gate_controls": "race-check/FINAL_GATE_CONTROLS.json",
+    "control_count": 24,
+    "runtime_proof": false,
+    "unresolved_within_bounded_final_source_reviews": []
+  },
+  "limits": [
+    "Real Auth/password-grant/public PostgREST COMMIT applies to eight HTTP cases; six race cases use authenticated SQL fixtures, not Auth.",
+    "Backend termination aborts the test's known uncommitted transaction on its disposable database; it is not whole-server crash or lost successful HTTP response proof.",
+    "Native44 evidence is reused from ef98 with exact core/probe/product-dependency binding, not rerun or counted as new cases here.",
+    "Source money/date/stock/HPP oracles, original payment history and complete private state remain strict; unsupported corrected/multiple-cohort/APPLY/consumer-undo routes remain fail-closed.",
+    "No active parent UI, actual browser journey, current full-product qualification or new end-to-end performance measurement.",
+    "Default product installer/frontend unchanged; no Enteng, real WhatsApp, Drive, main merge or production deployment."
+  ],
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false
+}
