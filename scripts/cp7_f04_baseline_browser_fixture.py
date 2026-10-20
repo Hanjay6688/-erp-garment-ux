@@ -14,9 +14,9 @@ def main():
   if not had:cur.execute('grant usage on schema erp to authenticated')
   if op=='prepare':out=cases.history.fixture(cur,date.fromisoformat(p['today']))
   elif op=='state':
-   f=p['fixture'];out=dict(profile_count=cur.execute('select count(*)from cp7_profile.profiles where root_id=%s',(f['product'],)).fetchone()[0],baseline_count=cur.execute('select count(*)from cp7_baseline_native.runs where actor=%s',(p['actor'],)).fetchone()[0],business=cases.b.boundary.snapshot(cur))
+   f=p['fixture'];config=cur.execute('select config from cp7_profile.profiles where root_id=%s order by revision desc limit 1',(f['product'],)).fetchone();out=dict(profile_config=config[0]if config else None,profile_count=cur.execute('select count(*)from cp7_profile.profiles where root_id=%s',(f['product'],)).fetchone()[0],baseline_count=cur.execute('select count(*)from cp7_baseline_native.runs where actor=%s',(p['actor'],)).fetchone()[0],business=cases.b.boundary.snapshot(cur))
   elif op=='update_profile':
-   f=p['fixture'];profile=cases.get(cur,[f['product']])['rows'][0];payload=cases.payload(cur,f,profile['revision']);payload['config']['daily_pcs']='20';out=cases.save(cur,payload)
+   f=p['fixture'];profile=cases.get(cur,[f['product']])['rows'][0];payload=cases.payload(cur,f,profile['revision']);payload['config']={**profile['config'],'daily_pcs':'20'};out=cases.save(cur,payload)
   elif op in('deactivate','restore'):
    cur.execute('update erp.app_users set is_active=%s where auth_user_id=%s',(op=='restore',p['actor']));out=dict(status='PASS')
   else:raise ValueError('UNKNOWN_P06_BROWSER_FIXTURE_ACTION')

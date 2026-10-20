@@ -13,10 +13,10 @@ const STAGED='Analisis bertahap (hingga 5.000 target)',KEY_PREFIX='erp.cp7.analy
 const DOWNSTREAM=/pengingat|laporan|AI/i
 async function navigate(page){await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).waitFor({state:'attached'});const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click();const link=page.getByRole('button',{name:'• Ringkasan Barang Jadi',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).click();await link.click()}
 async function openPanel(page,measurement=null){await navigate(page);const history=page.getByRole('region',{name:'Data permintaan ERP',exact:true});await history.getByRole('button',{name:'Data permintaan & stok',exact:true}).click();const button=history.getByRole('button',{name:'Analisis, laporan & pengingat seluruh produk',exact:true});if(measurement)await armStagedResultOpen(button,measurement.key,measurement.runId);await button.click();return page.getByRole('region',{name:'Analisis ERP bersama',exact:true})}
-async function shot(ui,page,name){await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'cp6-proof/t3/'+name,fullPage:true});return name}
+async function shot(ui,page,name){await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:'cp6-proof/t3/'+name,fullPage:true});return name}
 const stagedKeys=page=>page.evaluate(prefix=>Object.keys(localStorage).filter(k=>k.startsWith(prefix)),KEY_PREFIX)
 async function journey(ui,today,mobile){
- fixture('prepare',{today});const user=await ui.login('OWNER',{label:'p19g-'+(mobile?'mobile':'desktop'),mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),page=user.page,suffix=mobile?'MOBILE':'DESKTOP',calls=[],replies=[],shots=[]
+ const f=fixture('prepare',{today,rounding_multiple:'12'}),user=await ui.login('OWNER',{label:'p19g-'+(mobile?'mobile':'desktop'),mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),page=user.page,suffix=mobile?'MOBILE':'DESKTOP',calls=[],replies=[],shots=[]
  const state=()=>fixture('staged_state',{actor:user.user.id})
  page.on('request',r=>{const name=names.find(n=>r.url().endsWith('/rpc/'+n));if(name)calls.push({name,body:r.postDataJSON()})})
  page.on('response',async r=>{const name=names.find(n=>r.url().endsWith('/rpc/'+n));if(name&&name.includes('staged')){try{replies.push({name,status:r.status(),body:await r.json()})}catch{replies.push({name,status:r.status(),body:null})}}})
@@ -55,6 +55,20 @@ async function journey(ui,today,mobile){
   const pageCalls=calls.filter(c=>c.name==='erp_cp7_read_staged_analysis_page_v1');assert.ok(pageCalls.length>=1&&pageCalls.every(c=>c.body.p_run===done.run_id&&c.body.p_access===set.access_epoch))
   const total=set.targets_total,first=set.pages[0]
   await ui.expect(region).toContainText(`Target ${first.target_lo.toLocaleString('id-ID')}–${first.target_hi.toLocaleString('id-ID')} dari ${total.toLocaleString('id-ID')}`)
+  const targetRow=region.locator(`[data-analysis-target^="${f.product}:"]`)
+  let targetPage=0
+  while(await targetRow.count()===0&&targetPage+1<set.page_count){
+   targetPage++
+   await region.getByLabel('Pilih rentang target',{exact:true}).selectOption(String(targetPage))
+   await ui.expect(region.locator(`[data-page-index="${targetPage}"]`)).toBeVisible()
+  }
+  await ui.expect(targetRow.locator('[data-label="Saran sebelum cek bahan/kapasitas"]')).toContainText('96 PCS')
+  await ui.expect(targetRow.locator('[data-label="Tambahan kelipatan"]')).toContainText('3 PCS');await ui.expect(targetRow.locator('[data-label="Produksi baru layak"]')).toHaveText('Belum diketahui')
+  const target=replies.filter(r=>r.name==='erp_cp7_read_staged_analysis_page_v1'&&r.status===200).flatMap(r=>JSON.parse(r.body.body).items.recommendations).find(r=>r.target.product_id===f.product)
+  assert.ok(target,'OW03_ROUNDED_NATIVE_TARGET_NOT_READ')
+  assert.deepEqual([target.q_conditional.value,target.suggested_new.state,target.suggested_new.value,target.rounding_extra.state,target.rounding_extra.value,target.feasible_new.state],['93','ASSUMED','96','ASSUMED','3','UNKNOWN'])
+  for(const fact of[target.suggested_new,target.rounding_extra]){assert.ok(fact.assumption_ids.includes(f.rounding_profile.profile_id));assert.ok(fact.refs.some(r=>r.kind==='PLANNING_PROFILE'&&r.id===f.rounding_profile.profile_id&&r.revision===f.rounding_profile.revision))}
+  if(targetPage!==0){await region.getByLabel('Pilih rentang target',{exact:true}).selectOption('0');await ui.expect(region.locator('[data-page-index="0"]')).toBeVisible()}
   const next=region.getByRole('button',{name:'Halaman berikutnya',exact:true}),prev=region.getByRole('button',{name:'Halaman sebelumnya',exact:true})
   await ui.expect(prev).toBeDisabled();if(set.page_count===1)await ui.expect(next).toBeDisabled();else{await next.click();await ui.expect(region).toContainText(`Target ${set.pages[1].target_lo.toLocaleString('id-ID')}–`)}
   // Downstream features are stated unavailable for a staged run (no fake buttons).
@@ -81,9 +95,12 @@ async function journey(ui,today,mobile){
   const after=state();assert.equal(after.jobs.length,1);assert.equal(after.jobs[0].state,'DONE');assert.equal(after.jobs[0].request_id,requestId)
   assert.equal(after.pages,set.page_count);assert.equal(after.analysis_count,before.analysis_count);assert.deepEqual(after.business,before.business)
   shots.push(await shot(ui,page,`P19G_${suffix}_STAGED_RESULT.png`))
+  fixture('deactivate',{actor:user.user.id});const denied=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_check_staged_snapshot_v1'))
+  await page.getByRole('region',{name:'Hasil analisis bertahap',exact:true}).getByRole('button',{name:'Cek sumber',exact:true}).click()
+  assert.equal((await denied).status(),403);await ui.expect(page.getByRole('region',{name:'Hasil analisis bertahap',exact:true})).toHaveCount(0)
   const steps=calls.filter(c=>c.name==='erp_cp7_step_staged_analysis_v1').length
   return{status:'PASS',progress_text:progress,reload_resumed_same_request:resumed,one_job_one_request:true,steps,page_count:set.page_count,targets_total:total,
-   identity_hash:set.identity_hash,completed_open:completedLoad,completed_open_target_ms:3000,load_target_mandatory:false,whole_readers_not_called:true,downstream_unavailable_stated:true,source_check_unchanged:true,business_unchanged:true,no_horizontal_scroll:true,screenshots:shots}
+   identity_hash:set.identity_hash,completed_open:completedLoad,completed_open_target_ms:3000,load_target_mandatory:false,explicit_profile_multiple12_gap93_suggestion96_extra3_feasibility_unknown:true,current403_retires_rounded_result:true,whole_readers_not_called:true,downstream_unavailable_stated:true,source_check_unchanged:true,business_unchanged:true,no_horizontal_scroll:true,screenshots:shots}
  }catch(e){writeFileSync(`cp6-proof/t3/P19G_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),progress,calls:calls.map(c=>c.name),replies:replies.map(r=>({name:r.name,status:r.status,state:r.body?.state,failure:r.body?.failure})),text:await panel?.innerText().catch(()=>'')},null,2));await page.screenshot({path:`cp6-proof/t3/P19G_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
  finally{fixture('restore',{actor:user.user.id});await user.context.close()}
 }

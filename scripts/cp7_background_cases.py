@@ -5,6 +5,7 @@ no synthetic business facts, altered steps, real schedule installation or send.
 The real-browser closed-tab cases are declared separately by K4.
 """
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
 import json
 import time
 import uuid
@@ -20,6 +21,42 @@ RACE_IDS = ['K4R_REPORT_PAGE_SERVER_ONE_UNIT', 'K4R_REMINDER_PAGE_SERVER_ONE_UNI
             'K4R_REPORT_REVOKED_DURING_SERVER_UNIT', 'K4R_REMINDER_REVOKED_DURING_SERVER_UNIT',
             'K4R_SINGLE_PAGE_LOCK_SKIPPED_BY_SERVER',
             'K4R_REPORT_SERVER_TIMEOUT_RESTORES_CALLER', 'K4R_REMINDER_SERVER_TIMEOUT_RESTORES_CALLER']
+
+
+def conditions_at_read(cur, reference):
+    """Compare every public fact, verifying the sole varying read-clock field.
+
+    The contract explicitly evaluates policy eligibility at read time. Its
+    checked_at must equal that page's read_at, not a prior request's clock.
+    All other timing/policy/eligibility fields remain in the exact comparison.
+    """
+    rows, offset, run = [], 0, reference['run']
+    while True:
+        reminder.b.api.admin(cur)
+        before = cur.execute('select clock_timestamp()').fetchone()[0]
+        page = reminder.rpc(cur, 'erp_cp7_read_reminder_conditions_v2',
+                            (json.dumps(dict(run_id=str(run), rule_id=None, state=None, offset=offset, limit=50)),))
+        after = cur.execute('select clock_timestamp()').fetchone()[0]
+        assert page['contract_version'] == 'cp7.reminder-conditions.v2' and page['run_id'] == str(run), page
+        assert page['identity_hash'] == reference['identity'] and datetime.fromisoformat(page['data_as_of']) == reference['captured'], page
+        assert before <= datetime.fromisoformat(page['read_at']) <= after, ('OW02_PAGE_READ_CLOCK_OUTSIDE_RPC', before, page['read_at'], after)
+        assert page['eligibility_basis'] == 'SNAPSHOT_VALUE_POLICY_AT_READ'
+        assert page['recheck_required_before_preview'] is True and page['sent'] is False
+        for row in page['rows']:
+            timing = dict(row['policy_timing'])
+            assert timing['checked_at'] == page['read_at'], ('OW02_POLICY_READ_CLOCK', row['key'], timing, page['read_at'])
+            timing['checked_at'] = 'VERIFIED_EQUAL_TO_THIS_PAGE_READ_AT'
+            rows.append(dict(row, policy_timing=timing))
+        offset += len(page['rows'])
+        if offset >= page['total'] or not page['rows']:
+            assert offset == page['total'], (offset, page['total'])
+            return rows
+
+
+def stored_conditions(cur, run):
+    # No volatile presentation time exists in these sealed business facts.
+    reminder.b.api.admin(cur)
+    return cur.execute('select to_jsonb(c) from cp7_reminder_native.staged_conditions c where run_id=%s order by page_index,seq', (run,)).fetchall()
 
 
 def cases(cur, today):
@@ -58,7 +95,8 @@ def cases(cur, today):
         b.api.admin(cur)
         cur.execute('savepoint ow02_same_reminder_input')
         expected, _ = reminder.step_all(cur, r['run'])
-        expected_rows = reminder.conditions(cur, r['run'])
+        expected_rows = conditions_at_read(cur, r)
+        expected_stored = stored_conditions(cur, r['run'])
         cur.execute('rollback to savepoint ow02_same_reminder_input')
         cur.execute('release savepoint ow02_same_reminder_input')
         for unit in range(first['units_done'], first['unit_count']):
@@ -66,12 +104,19 @@ def cases(cur, today):
             assert out['family'] == 'REMINDER' and out['units_done'] == unit + 1, out
         got = reminder.workspace(cur, r['run'])['conditions']
         assert got['state'] == 'DONE' and got['set_hash'] == expected['set_hash'] and got['totals'] == expected['totals'], (got, expected)
-        assert reminder.conditions(cur, r['run']) == expected_rows
+        assert stored_conditions(cur, r['run']) == expected_stored, 'OW02_SEALED_CONDITIONS_DIFFER'
+        rows = conditions_at_read(cur, r)
+        assert len(rows) == len(expected_rows), ('OW02_PUBLIC_CONDITION_COUNT', len(rows), len(expected_rows))
+        for got_row, expected_row in zip(rows, expected_rows):
+            assert got_row == expected_row, ('OW02_PUBLIC_CONDITION_DIFF', got_row['key'],
+                {k: dict(expected=expected_row.get(k), observed=got_row.get(k)) for k in set(got_row) | set(expected_row)
+                 if got_row.get(k) != expected_row.get(k)})
         assert reminder.rpc(cur, 'erp_cp7_step_reminder_conditions_v2', (r['run'],)) == got
         assert k4.tick(cur)['outcome'] == 'IDLE' and b.boundary.snapshot(cur) == before
         assert cur.execute('select count(*)from cp7_reminder_native.staged_claims').fetchone()[0] == 0
         return dict(status='PASS', page_steps_after_first=0, server_units=first['unit_count']-1,
-                    same_identity=True, same_complete_conditions_and_hash_as_page=True, no_claim_or_send=True)
+                    same_identity=True, same_complete_conditions_and_hash_as_page=True,
+                    sealed_rows_exact=True, each_public_policy_clock_equals_its_page_read_at=True, no_claim_or_send=True)
 
     def single_done():
         f, _ = k4.load.real_workload(cur, today)
@@ -110,10 +155,16 @@ def cases(cur, today):
         return dict(status='PASS', first_four_families=seen, no_wa_settings_required=True)
 
     def revoked():
+        from cp7_cutting_input_cases import custom_owner
+        # Administrative authority fixture only. Native rightly refuses to
+        # deactivate the last OWNER; a second active OWNER makes this a valid
+        # revocation while retaining the same requesting actor/permissions.
+        spare_owner = custom_owner(cur)
         r, report_key, single_key = prepare_three()
         b.api.admin(cur)
         actor = auth.base.OPERATOR_AUTH
         cur.execute('update erp.app_users set is_active=false where auth_user_id=%s', (actor,))
+        assert cur.execute("select is_active and role='OWNER' from erp.app_users where auth_user_id=%s", (spare_owner,)).fetchone() == (True,)
         held = k4.claims(cur)
         outcomes = [k4.tick(cur) for _ in range(3)]
         assert {o['family'] for o in outcomes} == {'REPORT', 'REMINDER', 'ANALYSIS'} and all(o['outcome'] == 'JOB_FAILED' for o in outcomes), outcomes
@@ -160,6 +211,9 @@ def races(tools, today):
 
     def unit(family, revoke):
         with tools.connect() as conn, conn.cursor() as cur:
+            if revoke:
+                from cp7_cutting_input_cases import custom_owner
+                spare_owner = custom_owner(cur)
             k4.load.real_workload(cur, today)
             r = report.staged_run(cur, today)
             key = uuid.uuid4()
@@ -191,6 +245,7 @@ def races(tools, today):
                 with tools.connect() as conn, conn.cursor() as cur:
                     if revoke:
                         cur.execute('update erp.app_users set is_active=false where auth_user_id=%s', (auth.base.OPERATOR_AUTH,))
+                        assert cur.execute("select is_active and role='OWNER' from erp.app_users where auth_user_id=%s", (spare_owner,)).fetchone() == (True,)
                     else:
                         skipped = report.step(cur, key) if family == 'REPORT' else reminder.rpc(cur, 'erp_cp7_step_reminder_conditions_v2', (r['run'],))
                         assert skipped['worker_active'] is True and skipped['units_done'] == first['units_done'], skipped

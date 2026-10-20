@@ -1,8 +1,8 @@
 {
   "contract": "cp7.p19.analysis-staged.v1",
-  "expected_case_count": 14,
+  "expected_case_count": 15,
   "required_case_counts": {
-    "native": 6,
+    "native": 7,
     "races": 4,
     "http": 2,
     "browser": 2
@@ -14,7 +14,8 @@
       "P19G_STAGED_IDENTITY",
       "P19G_STAGED_SOURCE_CHECK",
       "P19G_STAGED_BOUNDS_VS_SINGLE",
-      "P19G_SNAPSHOT_FRESHNESS"
+      "P19G_SNAPSHOT_FRESHNESS",
+      "P19G_STAGED_PRODUCTION_MULTIPLE"
     ],
     "races": [
       "P19G_RACE_TWO_STEPS_ONE_UNIT",
@@ -52,5 +53,6 @@
   "factory_capacity_or_SLA": false,
   "independent_acceptance": false,
   "production_go": false,
-  "snapshot_v2": "Contract v2 (docs/cp7/p19/P19_STAGED_SNAPSHOT_V2.md, owner decision 8 Oct 2026). P19G_SNAPSHOT_FRESHNESS: time label, changes per category including a backdated entry and a deletion, recorded full checks, every state; one test transaction, so boundaries by recording time. P19G_RACE_SNAPSHOT_IN_FLIGHT: real transactions; a write running at the capture and one running at a full check count once committed although recorded before the boundary, a deletion by another transaction counts. The snapshot is never called current: a full check only reports sameness as of its own time (same_as_of)."
+  "snapshot_v2": "Contract v2 (docs/cp7/p19/P19_STAGED_SNAPSHOT_V2.md, owner decision 8 Oct 2026). P19G_SNAPSHOT_FRESHNESS: time label, changes per category including a backdated entry and a deletion, recorded full checks, every state; one test transaction, so boundaries by recording time. P19G_RACE_SNAPSHOT_IN_FLIGHT: real transactions; a write running at the capture and one running at a full check count once committed although recorded before the boundary, a deletion by another transaction counts. The snapshot is never called current: a full check only reports sameness as of its own time (same_as_of).",
+  "ow03": "P19G_STAGED_PRODUCTION_MULTIPLE: two real Native roots with FG0/WIP8/selected GOOD7/target100/gap93; selected12 gives96+3 and selected5 gives95+2 with exact profile revision assumptions; complete same-reference direct/staged parity; legacy absence and null clear UNKNOWN; raw gaps/stock/WIP/material BOM2 gross186/capacity/quality/readiness unchanged; both Native report publications retain values and old Originals/publications remain immutable across profile changes. Explicit fixture assumptions, not factory defaults. Browser desktop/mobile reads96+3 from actual response, finds its target across pages, and current403 retires the result."
 }

@@ -1,5 +1,5 @@
 import {parseNativeDemandHistory,type NativeDemandQuery} from './nativeDemandHistory'
-export type PlanningConfig={mean_mode:'OWN_AVAILABLE_HISTORY'|'SELECTED_MANUAL';daily_pcs:string|null;minimum_available_days:string;lead_days:string|null;review_days:string|null;buffer_days:string|null}
+export type PlanningConfig={mean_mode:'OWN_AVAILABLE_HISTORY'|'SELECTED_MANUAL';daily_pcs:string|null;minimum_available_days:string;lead_days:string|null;review_days:string|null;buffer_days:string|null;rounding_multiple?:string|null}
 export type PlanningProfile={rootId:string;productVersionId:string;sizeId:string;sku:string;productName:string;profileId:string|null;revision:string;quality:'UNREVIEWED'|'SELECTED_ASSUMPTION'|'PHYSICAL_VERSION_CHANGED';config:PlanningConfig|null;reason:string|null}
 export type PlanningPayload={root_id:string;product_version_id:string;expected_revision:string;config:PlanningConfig;reason:string}
 export type PlanningRequest={id:string;payload:PlanningPayload}
@@ -15,14 +15,17 @@ const decimal=(v:unknown)=>typeof v==='string'&&/^(0|[1-9][0-9]{0,29})(\.[0-9]{1
 const nullable=(v:unknown,parse:(v:unknown)=>string)=>v===null?null:parse(v)
 const exact=(v:Record<string,unknown>,keys:string[])=>{if(Object.keys(v).sort().join('|')!==keys.sort().join('|'))fail()}
 export function parsePlanningConfig(v:unknown):PlanningConfig{
- const c=obj(v);exact(c,['mean_mode','daily_pcs','minimum_available_days','lead_days','review_days','buffer_days'])
+ const c=obj(v),hasMultiple=Object.hasOwn(c,'rounding_multiple');exact(c,['mean_mode','daily_pcs','minimum_available_days','lead_days','review_days','buffer_days',...(hasMultiple?['rounding_multiple']:[])])
  if(c.mean_mode!=='OWN_AVAILABLE_HISTORY'&&c.mean_mode!=='SELECTED_MANUAL')fail()
  const daily=nullable(c.daily_pcs,decimal),minimum=integer(c.minimum_available_days)
  if(BigInt(minimum)<1n||BigInt(minimum)>3660n||(c.mean_mode==='OWN_AVAILABLE_HISTORY'&&daily!==null)||(c.mean_mode==='SELECTED_MANUAL'&&daily===null))fail()
  const lead=nullable(c.lead_days,decimal),review=nullable(c.review_days,decimal),buffer=nullable(c.buffer_days,decimal)
  // Exact decimal comparison against an integer bound, never target arithmetic.
  for(const x of[lead,review,buffer])if(x!==null){const [whole,fraction='']=x.split('.');if(BigInt(whole)>3660n||(BigInt(whole)===3660n&&/[1-9]/.test(fraction)))fail()}
- return{mean_mode:c.mean_mode as PlanningConfig['mean_mode'],daily_pcs:daily,minimum_available_days:minimum,lead_days:lead,review_days:review,buffer_days:buffer}
+ // Old pending UUIDs retain their exact six-key payload. Missing never turns
+ // into a new explicit null on recovery, and no batch size is invented.
+ const multiple=hasMultiple?nullable(c.rounding_multiple,v=>typeof v==='string'&&/^[1-9][0-9]{0,29}$/.test(v)?v:fail()):null
+ return{mean_mode:c.mean_mode as PlanningConfig['mean_mode'],daily_pcs:daily,minimum_available_days:minimum,lead_days:lead,review_days:review,buffer_days:buffer,...(hasMultiple?{rounding_multiple:multiple}:{})}
 }
 function profile(raw:unknown):PlanningProfile{
  const p=obj(raw),quality=str(p.quality);if(!['UNREVIEWED','SELECTED_ASSUMPTION','PHYSICAL_VERSION_CHANGED'].includes(quality))fail()

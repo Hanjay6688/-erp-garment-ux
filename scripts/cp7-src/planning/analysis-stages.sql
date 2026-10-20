@@ -1018,7 +1018,7 @@ end $$;
 create function cp7_analysis_stage.analysis_targets(c jsonb,rows jsonb,products_by_root jsonb,stock_by_target jsonb,history_by_target jsonb,
  edges_by_target jsonb,match_results_by_target jsonb,plan_aids jsonb,fabric_plan jsonb)returns jsonb
 language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
-declare r jsonb;refs jsonb;policy text;product jsonb;stock jsonb;hist jsonb;commercial jsonb;row_aids jsonb;v jsonb;target_timeline jsonb;
+declare r jsonb;refs jsonb;policy text;product jsonb;stock jsonb;hist jsonb;commercial jsonb;row_aids jsonb;rounded jsonb;rounding_aids jsonb;v jsonb;target_timeline jsonb;
  t_assumptions jsonb;t_warnings jsonb;t_actions jsonb;t_recommendations jsonb;t_models jsonb;t_materials jsonb;t_metrics jsonb;t_timeline jsonb;
  targets_acc jsonb[]:='{}';known_keys text[]:='{}';materials_null boolean:=false;
  demand_unknown boolean:=false;captured text:=c->>'captured_at';
@@ -1050,6 +1050,7 @@ begin
     'origin','OWNER_INPUT','confirmed_for_operation',false));
   end if;
   commercial:=product->'commercial'->0;known_keys:=array_append(known_keys,r->>'target_key');
+  rounded:=cp7_analysis_native.rounded_suggestion(r);rounding_aids:=case when rounded->>'applied'='true'then row_aids else '[]'::jsonb end;
   t_recommendations:=jsonb_build_array(jsonb_build_object(
    'target',jsonb_build_object('kind','PRODUCT','key',r->'target_key','brand_id',product->'brand_id',
     'product_id',product->'root_id','product_version_id',product->'id','size_id',r->'size_id',
@@ -1061,8 +1062,8 @@ begin
    'target_qty',cp7_analysis_native.fact(r->'target'->>'target_pcs','PCS',refs,row_aids),
    'q_base',cp7_analysis_native.fact(r->>'base_gap_pcs','PCS',refs,row_aids),
    'q_conditional',cp7_analysis_native.fact(r->>'conditional_gap_pcs','PCS',refs,row_aids),
-   'suggested_new',cp7_analysis_native.fact(case when policy in('PAUSED','STOPPED')then '0'else null end,'PCS',refs),
-   'rounding_extra',cp7_analysis_native.fact(null,'PCS',refs),
+   'suggested_new',cp7_analysis_native.fact(rounded->>'suggested_pcs','PCS',refs,rounding_aids),
+   'rounding_extra',cp7_analysis_native.fact(rounded->>'extra_pcs','PCS',refs,rounding_aids),
    'feasible_new',cp7_analysis_native.fact(case when policy in('PAUSED','STOPPED')then '0'else null end,'PCS',refs),
    'unresolved_qty',cp7_analysis_native.fact(case when policy in('PAUSED','STOPPED')then r->>'base_gap_pcs'else null end,'PCS',refs,row_aids),
    'reason_codes',jsonb_build_array('MATERIAL_FEASIBILITY_NOT_PROVEN'),'assumption_ids',row_aids));

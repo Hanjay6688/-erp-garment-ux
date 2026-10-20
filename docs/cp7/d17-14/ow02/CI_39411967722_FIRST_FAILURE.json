@@ -1,0 +1,751 @@
+{
+  "kind": "INTERNAL_WRITER_RUNTIME_FIRST_FAILURE",
+  "candidate": "333005edbc052cfba0d0dcdff26f72854849a4fb",
+  "run_id": 39411967722,
+  "job_id": 118591662201,
+  "job": "k4-runner-32",
+  "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39411967722/job/118591662201",
+  "summary": {
+    "PASS": 28,
+    "INCOMPLETE": 4,
+    "total": 32
+  },
+  "cases": [
+    {
+      "group": "CP7_K4_RUNNER",
+      "case": "K4R_SERVER_FINISHES_WITHOUT_PAGE",
+      "status": "PASS",
+      "page_calls_after_request": 0,
+      "ticks": 21,
+      "units": 21,
+      "server_job_ms": 198.625,
+      "pages": {
+        "page_count": 1,
+        "targets_total": 3,
+        "header_utf8_bytes": 9704,
+        "page_utf8_bytes_max": 128299,
+        "page_utf8_bytes_total": 128299,
+        "uneven_ranges": false
+      },
+      "identity_hash": "23e24bd0d0bf52217af4aedbd43cab52fe141eaa64e0508246bb038554e80813",
+      "result_equals_single_on_same_reference": true,
+      "reopened_same_job_and_run": true,
+      "every_unit_stored_once": true,
+      "request_reference": {
+        "captured_at": "2026-10-20T11:05:23.995884+00:00",
+        "source_hash": "ff4c4c2e4d9c1b8b714e73e0aab0b7cc5fd40566bc9abb567ef2eb4331b2db0a"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_K4_RUNNER",
+      "case": "K4R_PAGE_AND_SERVER_ONE_JOB",
+      "status": "PASS",
+      "units": 21,
+      "units_by_page": 7,
+      "units_by_server": 14,
+      "one_job_one_run": true,
+      "every_unit_stored_once": true,
+      "result_equals_single_on_same_reference": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_K4_RUNNER",
+      "case": "K4R_ACCESS_RECHECKED_EACH_UNIT",
+      "status": "PASS",
+      "unit_ran_as_stored_actor": true,
+      "request_identity_restored_after_tick": true,
+      "role_change_fails_job": {
+        "code": "CP7_ANALYSIS_ACCESS_CHANGED",
+        "unit": 1,
+        "sqlstate": "42501"
+      },
+      "deactivated_actor_fails_job": "CP7_ANALYSIS_ACCESS_CHANGED",
+      "no_pages_after_failure": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_K4_RUNNER",
+      "case": "K4R_DENIED_JOB_DOES_NOT_HOLD_OTHERS",
+      "status": "PASS",
+      "denied_job_failed_once": true,
+      "other_job_ran_next": true,
+      "other_job_done_by_server": 16,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_K4_RUNNER",
+      "case": "K4R_LIMIT_REQUIRED",
+      "status": "PASS",
+      "refused_without_limit": {
+        "0": {
+          "required": "statement_timeout 1..8000 ms",
+          "statement_timeout_ms": 0
+        },
+        "9s": {
+          "required": "statement_timeout 1..8000 ms",
+          "statement_timeout_ms": 9000
+        },
+        "1h": {
+          "required": "statement_timeout 1..8000 ms",
+          "statement_timeout_ms": 3600000
+        }
+      },
+      "ran_at_8s": true,
+      "stricter_limit_allowed": true,
+      "statement_limit_never_raised": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_K4_RUNNER",
+      "case": "K4R_SCHEDULE_DEFINED_PRIVATE",
+      "status": "PASS",
+      "runner_definition": "cp7-staged-runner",
+      "sixty_ticks_each_own_transaction": true,
+      "tick_scheduler_role_only": true,
+      "run_next_private": true,
+      "authenticated_refused": "42501",
+      "no_public_rpc": true,
+      "runner_row_never_deleted": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_K4_RUNNER",
+      "case": "K4R_STATUS_REPORTS_RUNNER",
+      "status": "PASS",
+      "inactive_without_tick": true,
+      "active_after_tick": true,
+      "heartbeat_at_most_every_10s": true,
+      "inactive_after_2_minutes": true,
+      "statement_limit_recorded_ms": 8000,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_K4_RUNNER",
+      "case": "K4R_REPORT_FINISHES_WITHOUT_PAGE",
+      "status": "PASS",
+      "page_steps": 0,
+      "server_units": 4,
+      "same_request_and_identity": true,
+      "complete_report_hash_verified": "c626f3f0ecb113a871484b197a1e4d9a2f32d08877e33b7e75039935f42a3ed7",
+      "finance_included": true,
+      "publication_count": 1,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_K4_RUNNER",
+      "case": "K4R_REMINDER_FINISHES_WITHOUT_PAGE",
+      "status": "INCOMPLETE",
+      "error": "",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_background_cases.py\", line 69, in reminder_done\n    assert reminder.conditions(cur, r['run']) == expected_rows\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_K4_RUNNER",
+      "case": "K4R_SINGLE_ANALYSIS_FINISHES_WITHOUT_PAGE",
+      "status": "PASS",
+      "page_worker_calls": 0,
+      "same_request_and_run": true,
+      "one_original_and_document": true,
+      "complete_original_equals_serve": true,
+      "document_sha256": "802c9c38b8f37a46691c72daeb957cadb45a7be0fd53faa37460386601cfb9d3",
+      "segments": 1,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_K4_RUNNER",
+      "case": "K4R_FOUR_FAMILIES_GET_A_TURN",
+      "status": "PASS",
+      "first_four_families": [
+        "REPORT",
+        "REMINDER",
+        "ANALYSIS",
+        "STAGED"
+      ],
+      "no_wa_settings_required": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_K4_RUNNER",
+      "case": "K4R_OTHER_FAMILIES_REVOKED_ACTOR",
+      "status": "INCOMPLETE",
+      "error": "LAST_ACTIVE_OWNER_PROTECTED\nCONTEXT:  PL/pgSQL function erp.guard_last_active_owner() line 27 at RAISE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_background_cases.py\", line 116, in revoked\n    cur.execute('update erp.app_users set is_active=false where auth_user_id=%s', (actor,))\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: LAST_ACTIVE_OWNER_PROTECTED\nCONTEXT:  PL/pgSQL function erp.guard_last_active_owner() line 27 at RAISE\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_K4_RUNNER",
+      "case": "K4R_BACKGROUND_PRIVATE_NO_NATIVE_GRANTS",
+      "status": "PASS",
+      "private_function_allowlist_verified": true,
+      "no_native_writes": true,
+      "no_reminder_table_grants": true,
+      "same_schedules": true,
+      "no_public_runner": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_K4_RUNNER",
+      "case": "K4R_RACE_PAGE_AND_SERVER_ONE_UNIT",
+      "status": "PASS",
+      "page_step_while_server_holds_runs_nothing": true,
+      "tick_while_page_holds_runs_nothing": true,
+      "every_unit_stored_once": true,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_K4_RUNNER",
+      "case": "K4R_RACE_TWO_TICKS_ONE_UNIT",
+      "status": "PASS",
+      "concurrent_ticks_never_run_one_unit_twice": true,
+      "results": [
+        "UNIT_STORED",
+        "IDLE"
+      ],
+      "two_jobs_two_ticks": [
+        "UNIT_STORED",
+        "UNIT_STORED"
+      ],
+      "every_unit_stored_once": true,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_K4_RUNNER",
+      "case": "K4R_RACE_COLD_START_TWO_TICKS",
+      "status": "PASS",
+      "runner_row_before": 0,
+      "synthetic_row_removed": false,
+      "both_ticks_in_their_units_at_once": true,
+      "no_tick_waited_on_another": true,
+      "heartbeat_rows_after": 1,
+      "every_unit_stored_once": true,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_K4_RUNNER",
+      "case": "K4R_RACE_LIMIT_STOPS_THEN_CONTINUES",
+      "status": "PASS",
+      "stopped_unit_is_an_attempt": true,
+      "continues_after_release": true,
+      "three_stops_fail_job": {
+        "code": "CP7_ANALYSIS_STAGE_STOPPED",
+        "unit": 0,
+        "sqlstate": "57014"
+      },
+      "nothing_partial_stored": true,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_K4_RUNNER",
+      "case": "K4R_RACE_ACCESS_CHANGED_DURING_UNIT",
+      "status": "PASS",
+      "unit_discarded_when_access_changed_during_it": true,
+      "next_tick_fails_job": {
+        "code": "CP7_ANALYSIS_ACCESS_CHANGED",
+        "unit": 1,
+        "sqlstate": "42501"
+      },
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_K4_RUNNER",
+      "case": "K4R_RACE_PG_CRON_FINISHES_JOB",
+      "status": "PASS",
+      "pg_cron": "1.6.4",
+      "test_schedule_override": "5 seconds",
+      "cron_runs": 1,
+      "units": 21,
+      "no_page_call": true,
+      "result_equals_single_on_same_reference": true,
+      "removed_after_test": [
+        "cp7-staged-runner@cp6_auditor_race"
+      ],
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_K4_RUNNER",
+      "case": "K4R_REPORT_PAGE_SERVER_ONE_UNIT",
+      "status": "PASS",
+      "real_output_lock": true,
+      "family": "REPORT",
+      "one_unit_only": true,
+      "page_while_server_skips": true,
+      "server_while_page_skips": true,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_K4_RUNNER",
+      "case": "K4R_REMINDER_PAGE_SERVER_ONE_UNIT",
+      "status": "PASS",
+      "real_output_lock": true,
+      "family": "REMINDER",
+      "one_unit_only": true,
+      "page_while_server_skips": true,
+      "server_while_page_skips": true,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_K4_RUNNER",
+      "case": "K4R_REPORT_REVOKED_DURING_SERVER_UNIT",
+      "status": "INCOMPLETE",
+      "error": "LAST_ACTIVE_OWNER_PROTECTED\nCONTEXT:  PL/pgSQL function erp.guard_last_active_owner() line 27 at RAISE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 153, in strict_rows\n    row=run_one(i,key,operation)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 189, in run_one\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_background_cases.py\", line 286, in <lambda>\n    lambda: unit('REPORT', True), lambda: unit('REMINDER', True), single_locked,\n            ^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_background_cases.py\", line 193, in unit\n    cur.execute('update erp.app_users set is_active=false where auth_user_id=%s', (auth.base.OPERATOR_AUTH,))\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: LAST_ACTIVE_OWNER_PROTECTED\nCONTEXT:  PL/pgSQL function erp.guard_last_active_owner() line 27 at RAISE\n",
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_K4_RUNNER",
+      "case": "K4R_REMINDER_REVOKED_DURING_SERVER_UNIT",
+      "status": "INCOMPLETE",
+      "error": "LAST_ACTIVE_OWNER_PROTECTED\nCONTEXT:  PL/pgSQL function erp.guard_last_active_owner() line 27 at RAISE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 153, in strict_rows\n    row=run_one(i,key,operation)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 189, in run_one\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_background_cases.py\", line 286, in <lambda>\n    lambda: unit('REPORT', True), lambda: unit('REMINDER', True), single_locked,\n                                          ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_background_cases.py\", line 193, in unit\n    cur.execute('update erp.app_users set is_active=false where auth_user_id=%s', (auth.base.OPERATOR_AUTH,))\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: LAST_ACTIVE_OWNER_PROTECTED\nCONTEXT:  PL/pgSQL function erp.guard_last_active_owner() line 27 at RAISE\n",
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_K4_RUNNER",
+      "case": "K4R_SINGLE_PAGE_LOCK_SKIPPED_BY_SERVER",
+      "status": "PASS",
+      "page_advisory_lock_skipped": true,
+      "same_job_completed_after_release": true,
+      "one_original": true,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_K4_RUNNER",
+      "case": "K4R_REPORT_SERVER_TIMEOUT_RESTORES_CALLER",
+      "status": "PASS",
+      "family": "REPORT",
+      "real_output_lock": true,
+      "statement_limit": "2s",
+      "unchanged_units_and_output": true,
+      "attempts": [
+        1,
+        2,
+        3
+      ],
+      "final_sqlstate": "57014",
+      "final_code": "CP7_REPORT_V2_STAGE_STOPPED",
+      "all_three_caller_identity_settings_restored_in_same_connection": true,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_K4_RUNNER",
+      "case": "K4R_REMINDER_SERVER_TIMEOUT_RESTORES_CALLER",
+      "status": "PASS",
+      "family": "REMINDER",
+      "real_output_lock": true,
+      "statement_limit": "2s",
+      "unchanged_units_and_output": true,
+      "attempts": [
+        1,
+        2,
+        3
+      ],
+      "final_sqlstate": "57014",
+      "final_code": "CP7_REMINDER_V2_STAGE_STOPPED",
+      "all_three_caller_identity_settings_restored_in_same_connection": true,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_K4_RUNNER",
+      "case": "K4R_HTTP_CLOSED_PAGE_FINISHES",
+      "status": "PASS",
+      "real_Auth_request_then_server_only": true,
+      "units_by_server": 16,
+      "reopened_same_job_and_run": true,
+      "pages_hash_verified": 1,
+      "server_runner_reported_active": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_K4_RUNNER",
+      "case": "K4R_HTTP_TICK_NOT_REACHABLE",
+      "status": "PASS",
+      "not_exposed": {
+        "analysis_tick": 404,
+        "run_next": 404,
+        "erp_cp7_analysis_tick_v1": 404
+      },
+      "nothing_ran": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_K4_RUNNER_BROWSER",
+      "case": "K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES",
+      "status": "PASS",
+      "pg_cron": true,
+      "test_schedule_override": "5 seconds",
+      "closed": "TAB_CLOSED",
+      "page_units": 0,
+      "server_units": 16,
+      "same_request_and_run": true,
+      "identity_hash": "06346ee3fdb22fabf2cbb9a17f4a30c1c99296d95854f4ba2235aa65cc57c706",
+      "no_request_or_step_on_reopen": true,
+      "every_unit_stored_once": true,
+      "cron_runs": 2,
+      "no_horizontal_scroll": true,
+      "screenshots": [
+        "K4R_DESKTOP_SERVER_RUNS.png",
+        "K4R_DESKTOP_REOPENED_DONE_BY_SERVER.png"
+      ],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_K4_RUNNER_BROWSER",
+      "case": "K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES",
+      "status": "PASS",
+      "pg_cron": true,
+      "test_schedule_override": "5 seconds",
+      "closed": "STOPPED_WATCHING",
+      "page_units": 0,
+      "server_units": 16,
+      "same_request_and_run": true,
+      "identity_hash": "cb4d26c9c15e4f20e8ef4f9646bd3d431955ba29e37c3a416d694ea028a39545",
+      "no_request_or_step_on_reopen": true,
+      "every_unit_stored_once": true,
+      "cron_runs": 1,
+      "no_horizontal_scroll": true,
+      "screenshots": [
+        "K4R_MOBILE_SERVER_RUNS.png",
+        "K4R_MOBILE_STOPPED_WATCHING.png",
+        "K4R_MOBILE_REOPENED_DONE_BY_SERVER.png"
+      ],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_K4_RUNNER_BROWSER",
+      "case": "K4R_BROWSER_DESKTOP_OTHER_WORK_CLOSED",
+      "status": "PASS",
+      "pg_cron": true,
+      "test_schedule_override": "5 seconds",
+      "closed": "TAB_CLOSED",
+      "page_units": 0,
+      "server_units": 21,
+      "same_request_and_run": true,
+      "identity_hash": "42bb86de70c47b5afb179c5835123b81774326713d9944d2e49326aa40bae8b6",
+      "no_request_or_step_on_reopen": true,
+      "every_unit_stored_once": true,
+      "cron_runs": 4,
+      "no_horizontal_scroll": true,
+      "screenshots": [
+        "K4R_OTHER_DESKTOP_SERVER_RUNS.png",
+        "K4R_OTHER_DESKTOP_REOPENED_DONE_BY_SERVER.png",
+        "K4R_OTHER_DESKTOP_REPORT_REOPENED.png",
+        "K4R_OTHER_DESKTOP_REMINDERS_REOPENED.png",
+        "K4R_OTHER_DESKTOP_SINGLE_ANALYSIS_REOPENED.png"
+      ],
+      "other_work": {
+        "actual_tabs_closed": 3,
+        "report_request": "f4628cb6-ccda-412f-bf0e-016339c63e23",
+        "report_run": "776d28c3-9194-4729-a69e-1fea4426d255",
+        "publication": "e4148c91-745f-4137-829c-5dd0aac041cd",
+        "reminder_run": "776d28c3-9194-4729-a69e-1fea4426d255",
+        "condition_set_hash": "f5012ae9b7229ba0205117e60416a6b7f63ead94e0cb8949c6a85b3caa901815",
+        "analysis_request": "6430f04f-7527-4716-ae5c-b61f02bf2896",
+        "analysis_run": "a1ec1425-322a-4e98-b4e2-29c2c815fb16",
+        "page_report_units": 0,
+        "page_reminder_units": 1,
+        "page_analysis_workers": 0,
+        "one_result_each": true,
+        "no_claim_or_send": true
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_K4_RUNNER_BROWSER",
+      "case": "K4R_BROWSER_MOBILE_OTHER_WORK_CLOSED",
+      "status": "PASS",
+      "pg_cron": true,
+      "test_schedule_override": "5 seconds",
+      "closed": "STOPPED_WATCHING",
+      "page_units": 0,
+      "server_units": 21,
+      "same_request_and_run": true,
+      "identity_hash": "48f52817cdf2d5faf182f8dd153ee48f299e8959357417130d648804256189f5",
+      "no_request_or_step_on_reopen": true,
+      "every_unit_stored_once": true,
+      "cron_runs": 4,
+      "no_horizontal_scroll": true,
+      "screenshots": [
+        "K4R_OTHER_MOBILE_SERVER_RUNS.png",
+        "K4R_OTHER_MOBILE_STOPPED_WATCHING.png",
+        "K4R_OTHER_MOBILE_REOPENED_DONE_BY_SERVER.png",
+        "K4R_OTHER_MOBILE_REPORT_REOPENED.png",
+        "K4R_OTHER_MOBILE_REMINDERS_REOPENED.png",
+        "K4R_OTHER_MOBILE_SINGLE_ANALYSIS_REOPENED.png"
+      ],
+      "other_work": {
+        "actual_tabs_closed": 3,
+        "report_request": "6f6328eb-b333-47f6-9ea1-3cf611efa828",
+        "report_run": "a15dd490-fe71-4383-adbc-b545395336eb",
+        "publication": "b0fca329-ef51-4c40-972f-017b929643db",
+        "reminder_run": "a15dd490-fe71-4383-adbc-b545395336eb",
+        "condition_set_hash": "69ef2dc059388a7c09f052c361c0bf79e0283ff9eb53778f275dcbc716eb3e29",
+        "analysis_request": "7bd43660-75a9-40f6-83c9-f1b1d69d7cf0",
+        "analysis_run": "fb5113f0-d7eb-4c7b-8589-e2d9dac4a70b",
+        "page_report_units": 0,
+        "page_reminder_units": 1,
+        "page_analysis_workers": 0,
+        "one_result_each": true,
+        "no_claim_or_send": true
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "label": "CP7_K4_RUNNER",
+      "status": "INCOMPLETE",
+      "source_sha256": "9b998f28354e7412b3b9eb2e622d5f66bc633c09c47c6b1d1faaad98d1923374",
+      "observed_case_count": 32,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "error": null,
+      "traceback": null
+    }
+  ],
+  "disposition": "OPEN; expected values and guards remain unchanged; investigating before rerun",
+  "production_go": false
+}

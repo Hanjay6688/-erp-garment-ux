@@ -1,0 +1,47 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/9442228ed2dc/erp-d1714
+
+ ❯ src/nativePlanningProfile.test.ts (29 tests | 4 failed) 25ms
+     × preserves a reviewed optional production multiple 1 exactly 4ms
+     × preserves a reviewed optional production multiple 12 exactly 0ms
+     × preserves a reviewed optional production multiple 9007199254740993 exactly 1ms
+     × preserves a reviewed optional production multiple null exactly 0ms
+ ❯ src/NativePlanningProfilePanel.dom.test.tsx (9 tests | 1 failed) 187ms
+   × offers a blank PCS multiple for this product/size and saves only the explicitly entered value 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/NativePlanningProfilePanel.dom.test.tsx > offers a blank PCS multiple for this product/size and saves only the explicitly entered value
+AssertionError: expected null to be truthy
+
+- Expected:
+true
+
++ Received:
+null
+
+ ❯ src/NativePlanningProfilePanel.dom.test.tsx:26:16
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  src/nativePlanningProfile.test.ts > Native planning profile and baseline client contract > preserves a reviewed optional production multiple 1 exactly
+ FAIL  src/nativePlanningProfile.test.ts > Native planning profile and baseline client contract > preserves a reviewed optional production multiple 12 exactly
+ FAIL  src/nativePlanningProfile.test.ts > Native planning profile and baseline client contract > preserves a reviewed optional production multiple 9007199254740993 exactly
+ FAIL  src/nativePlanningProfile.test.ts > Native planning profile and baseline client contract > preserves a reviewed optional production multiple null exactly
+Error: Aturan atau hasil target dari server berubah atau belum lengkap. Muat ulang sumber.
+ ❯ fail src/nativePlanningProfile.ts:8:29
+
+ ❯ exact src/nativePlanningProfile.ts:16:115
+ ❯ parsePlanningConfig src/nativePlanningProfile.ts:18:17
+ ❯ src/nativePlanningProfile.test.ts:18:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  5 failed | 33 passed (38)
+   Start at  20:03:30
+   Duration  904ms (transform 282ms, setup 0ms, import 395ms, tests 213ms, environment 619ms)
+

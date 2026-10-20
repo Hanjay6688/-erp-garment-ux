@@ -14,6 +14,19 @@ describe('Native planning profile and baseline client contract',()=>{
  it('keeps large target quantities exact without Number arithmetic',()=>{const r=baselineWire();r.rows[0].target.target_pcs='900719925474099300000';expect(parseNativeBaseline(r,planningQuery).rows[0].target).toBe('900719925474099300000')})
  it('refuses unknown identity, another size, numeric demand and extra configuration',()=>{const r=profileWire();r.rows[0].quality='IDENTITY_CONFLICT';expect(()=>parsePlanningProfile(r,demandRoot,demandSize)).toThrow();expect(()=>parsePlanningProfile(profileWire(),demandRoot,demandRoot)).toThrow();expect(()=>parsePlanningConfig({...planningConfig,daily_pcs:10})).toThrow();expect(()=>parsePlanningConfig({...planningConfig,capacity_pcs:'1000'})).toThrow();expect(()=>parsePlanningConfig({...planningConfig,lead_days:'3660.0001'})).toThrow()})
  it('preserves unknown lead, review and buffer instead of replacing them with zero',()=>{expect(parsePlanningConfig({...planningConfig,lead_days:null,review_days:null,buffer_days:null})).toMatchObject({lead_days:null,review_days:null,buffer_days:null})})
+ it.each(['1','12','9007199254740993',null])('preserves a reviewed optional production multiple %s exactly',multiple=>{
+  expect(parsePlanningConfig({...planningConfig,rounding_multiple:multiple})).toEqual({...planningConfig,rounding_multiple:multiple})
+ })
+ it.each(['0','-1','1.1','12.0','1,000','',12,undefined])('rejects invalid production multiple %s without guessing',multiple=>{
+  expect(()=>parsePlanningConfig({...planningConfig,rounding_multiple:multiple})).toThrow()
+ })
+ it('replays legacy six-key pending payloads without adding a missing production multiple',()=>{
+  const scope='legacy:actor:root',r={id:demandRequest,payload:planningPayload(parsePlanningProfile(profileWire(false),demandRoot,demandSize),planningConfig,'legacy review')}
+  const original=JSON.stringify(r);localStorage.setItem(planningRequestKey(scope),original)
+  expect(JSON.stringify(readPlanningRequest(scope).pending)).toBe(original)
+  expect(Object.hasOwn(readPlanningRequest(scope).pending!.payload.config,'rounding_multiple')).toBe(false)
+  expect(localStorage.getItem(planningRequestKey(scope))).toBe(original)
+ })
  it('validates exact saved request outcome and metadata revision',()=>{const request={id:demandRequest,payload:planningPayload(parsePlanningProfile(profileWire(false),demandRoot,demandSize),planningConfig,'review')};const outcome={contract_version:'cp7.planning-profile-outcome.v1',request_id:demandRequest,root_id:demandRoot,profile_id:planningId,revision:'1',quality:'SELECTED_ASSUMPTION'};expect(()=>checkPlanningOutcome(outcome,request)).not.toThrow();expect(()=>checkPlanningOutcome({...outcome,request_id:planningId},request)).toThrow();expect(()=>checkPlanningOutcome({...outcome,revision:'2'},request)).toThrow()})
  it('persists an exact profile request before send and refuses another UUID until reconciliation',()=>{const scope='project:actor:root',r={id:demandRequest,payload:planningPayload(parsePlanningProfile(profileWire(false),demandRoot,demandSize),planningConfig,'review')};persistPlanningRequest(scope,r);expect(readPlanningRequest(scope).pending).toEqual(r);expect(()=>persistPlanningRequest(scope,{...r,id:planningId})).toThrow();expect(()=>clearPlanningRequest(scope,planningId)).toThrow();expect(readPlanningRequest(scope).pending).toEqual(r);clearPlanningRequest(scope,r.id);expect(readPlanningRequest(scope).pending).toBeNull()})
  it('fails closed on corrupt recovery and keeps the original evidence',()=>{const scope='project:actor:root';localStorage.setItem(planningRequestKey(scope),'corrupt');expect(readPlanningRequest(scope).error).toBeTruthy();expect(()=>persistPlanningRequest(scope,{id:demandRequest,payload:{}as never})).toThrow();expect(localStorage.getItem(planningRequestKey(scope))).toBe('corrupt')})

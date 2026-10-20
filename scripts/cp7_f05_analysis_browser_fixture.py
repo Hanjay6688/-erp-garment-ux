@@ -14,11 +14,23 @@ def main():
   if not had:cur.execute('grant usage on schema erp to authenticated')
   if op=='prepare':
    f,root,s,payload=cases.setup(cur,date.fromisoformat(p['today']),False)
+   rounding=None
+   if 'rounding_multiple' in p:
+    profile=cases.previous.baseline.get(cur,[root])['rows'][0]
+    rounding=cases.previous.baseline.save(cur,dict(root_id=profile['root_id'],product_version_id=profile['product_version_id'],
+     expected_revision=profile['revision'],config=dict(profile['config'],rounding_multiple=p['rounding_multiple']),
+     reason='Explicit OW-03 browser fixture choice for this product and size, not an operating default'))
+    # Profile revisions are part of the supply fingerprint. Re-review the
+    # same real work only after capturing that new source, never reuse stale
+    # schedule admission from before the profile choice.
+    s=cases.previous.supply.capture(cur,date.fromisoformat(p['today']))
+    payload=cases.schedule.payload(cur,s,payload['expected_revision'])
    load=sum(int(step['remaining_minutes'])for w in payload['config']['positions']for step in w['remaining_steps'])
    start=cases.schedule.datetime.fromisoformat(payload['config']['windows'][0]['starts_at'].replace('Z','+00:00'))
    payload['config']['windows'][0]['ends_at']=cases.schedule.stamp(start+timedelta(minutes=load+120))
    payload['config']['through_at']=cases.schedule.stamp(start+timedelta(minutes=load+180));cases.schedule.save(cur,payload)
    out=dict(product=root,source_item=f['item'])
+   if rounding is not None:out['rounding_profile']=rounding
    if p.get('untrusted_source_text'):
     # Descriptive master metadata only. No financial/stock result is seeded.
     # Actual Native capture must carry this exact name through its own reader.

@@ -83,3 +83,25 @@ Satu percobaan perbaikan membersihkan halaman DONE terlalu luas saat workspace n
 sehingga dua prasyarat uji lama tidak terpenuhi. Percobaan gagal itu dipertahankan di
 `local-refresh-attempt-first-failure.log`; pembersihan kini sesuai perubahan keadaan/hak.
 Expected negatif dan hasil akhir uji tidak dilonggarkan.
+
+## CI pertama — 333005ed
+
+Run `39411967722`, job `118591662201`: **28 PASS, 4 INCOMPLETE dari 32**.
+Seluruh empat browser dan dua kasus timeout lulus; laporan, pengingat dan analisis
+benar-benar selesai sesudah tiga tab ditutup pada desktop/HP. Ini belum PASS penuh.
+Semua baris hasil dan traceback awal disimpan dalam `CI_39411967722_FIRST_FAILURE.json`.
+
+- Pembanding kondisi pengingat keliru menuntut `policy_timing.checked_at` sama
+  antara dua permintaan yang berbeda. Kontrak `SNAPSHOT_VALUE_POLICY_AT_READ`
+  memang menghitung waktu itu dari `read_at` setiap halaman. Perbaikan alat uji
+  menuntut seluruh baris tersegel persis sama, dan seluruh field publik persis
+  sama kecuali satu clock tersebut, yang **wajib cocok persis dengan read_at**.
+  Nilai, hash, rujukan, policy, kelayakan dan semua field waktu lain tetap diuji.
+- Tiga skenario pencabutan izin mencoba menonaktifkan satu-satunya OWNER.
+  Native menolaknya dengan `LAST_ACTIVE_OWNER_PROTECTED` sebelum penjalan diuji.
+  Fixture kini menyiapkan OWNER kedua melalui helper yang sudah ada, sebelum
+  sumber ditangkap. Actor peminta, pencabutan, tuntutan FAILED dan rollback
+  keluaran tetap sama. Trigger dan pengaman OWNER tidak diubah.
+
+Diagnosis sumber dikonfirmasi pemeriksa internal Sol Max sebelum perbaikan.
+Perubahan ini hanya alat uji; hasil Native perbaikannya masih menunggu CI baru.

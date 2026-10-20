@@ -114,6 +114,9 @@ language sql immutable security invoker set search_path=''set TimeZone='UTC'as $
    '; stok tersedia setelah reservasi aktual '||coalesce(st->>'available_fg_pcs','Belum diketahui')||' PCS'||
    '; target '||cp7_analysis_native.report_fact(x.r->'target_qty')||'; gap dasar '||cp7_analysis_native.report_fact(x.r->'q_base')||
    '; gap bersyarat '||cp7_analysis_native.report_fact(x.r->'q_conditional')||
+   case when x.r->'rounding_extra'->>'value'is not null then
+    '; saran sebelum cek bahan/kapasitas '||cp7_analysis_native.report_fact(x.r->'suggested_new')||
+    '; tambahan kelipatan '||cp7_analysis_native.report_fact(x.r->'rounding_extra')else ''end||
    '; produksi baru layak '||cp7_analysis_native.report_fact(x.r->'feasible_new')||
    '; belum tertutup '||cp7_analysis_native.report_fact(x.r->'unresolved_qty')||'.'||E'\n'||
    'Identitas produk, size dan membership: '||(x.r->'target')::text||'; referensi gap '||coalesce((x.r->'q_base'->'refs')::text,'[]')||

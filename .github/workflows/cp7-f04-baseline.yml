@@ -3,6 +3,7 @@ name: CP7 F04 Native Profile and Baseline Targets
   push:
     branches:
     - cp7/integration
+    - astra/d17-14-20261020
     paths:
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_catalog_state.py

@@ -128,6 +128,17 @@ it('surfaces a FAILED job with its code verbatim, ends the busy state and drops 
  expect(names()).toEqual(['erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1'])
 },30000)
 
+it.each(['CHECK','FRESHNESS','PAGE'] as const)('retires staged facts on current401 during %s while the auth identity has not refreshed',async(action)=>{
+ const base=server({steps:1});client.rpc.mockImplementation(base)
+ await render();await click(STAGED);await until(()=>Boolean(region())&&rows()>0&&freshnessState()!=='')
+ const denied=action==='CHECK'?'erp_cp7_check_staged_snapshot_v1':action==='FRESHNESS'?'erp_cp7_staged_snapshot_freshness_v1':'erp_cp7_read_staged_analysis_page_v1'
+ client.rpc.mockImplementation(async(name:string,args:Args)=>name===denied?{data:null,error:{status:401,code:'PGRST301',message:'JWT expired'}}:base(name,args))
+ if(action==='PAGE')await click('Halaman berikutnya');else await click('Cek sumber')
+ await until(()=>container.textContent!.includes('Sesi berakhir'))
+ expect(region()).toBeNull();expect(rows()).toBe(0)
+ expect(container.querySelector('[aria-label="Ringkasan seluruh analisis bertahap"]')).toBeNull()
+},30000)
+
 it('resumes a stored job on mount by reading status, shows "dijeda sejak" with Lanjutkan after a lost step, and continues from there',async()=>{
  const id='0b7e3c2a-1d4f-4a6b-9c8d-7e6f5a4b3c2d';s=await stagedRun({targets:1200,pageSizes:SIZES,unreviewed:7,requestId:id})
  localStorage.setItem(stagedRequestKey(scope),JSON.stringify({id,q:q()}))

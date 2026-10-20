@@ -76,3 +76,30 @@ yang ditutup lewat voting. Belum ada sengketa kebenaran yang diputuskan tanpa su
 kekurangan bukti Native tetap eksplisit.
 
 `feature_complete:false`, `audit_complete:false`, `production_go:false`.
+
+## Lanjutan saat writer aktif kembali — OW-02/03
+
+Empat pembantu baru GPT-6.1 Sol Max (fork kosong, dilarang membuat anak atau
+mengubah produk): `max_ow02_failure`, `max_ow03_sql`, `max_ow03_ui`,
+`max_ow03_native`. Semua mendapat base333005ed dan patch sama
+`fa614dcdf21a74fd7c0f85e79d6ee1f48e624c7d8e309b0962208545b7a27476`.
+Sesudah penilaian awal dikunci, UI/SQL serta Native/SQL saling menantang
+kontrak dan fixture. Review final dibatasi pada patch
+`8b65c8871ee322272eccd23f44f1f645b27461c851b6a9a769be1f5c8e3e2157`.
+
+| Skenario / expected | Observed dan bukti | Disposisi |
+|---|---|---|
+| Hasil pengingat server dan halaman sama untuk satu referensi | CI28/32; satu perbandingan gagal karena waktu baca publik memang berbeda, meski hash/total sama | Stored rows seluruh kolom harus persis sama; setiap clock harus cocok read_at halaman dan berada dalam batas clock DB. Semua field publik lain tetap persis dibandingkan, dengan diagnosis selisih. Native ulang menunggu. |
+| Actor dicabut sebelum/di tengah pekerjaan, tanpa output parsial | Tiga fixture mencoba mencabut OWNER terakhir, ditolak sebelum penjalan diuji | OWNER kedua administratif dibuat sebelum capture; actor, pencabutan, guard dan expected semula tetap. Pemeriksa scoped final tidak menemukan pelemahan; runtime menunggu. |
+| Kelipatan opsional: legacy/replay, exact PCS, ASSUMED refs, gap dan bahan tetap | Tidak ditemukan cacat aritmetika/kontrak pada patch; bukti aktual analisis awal belum ada karena F04 hanya baseline | Tambah Native complete same-reference parity dua root, BOM186, clear/arsip dan dua publikasi; browser langsung/bertahap96+3. Runtime belum diklaim. |
+| Sesi RPC401 harus menghapus fakta, walau identitas provider belum berubah | Tiga catch bertahap hanya menghapus FORBIDDEN; ketiga DOM baru gagal | Reset state bertahap untuk AUTH_REQUIRED dan FORBIDDEN, termasuk generasi baca;17/17 DOM lulus. |
+| Produk acak boleh muncul pada halaman mana pun | Browser baru berasumsi halaman0 | Tiga pemeriksa menemukan risiko yang sama secara terpisah. Writer menelusuri rentang sampai produk ditemukan dan kembali ke halaman0 untuk kontrol lama; tidak mengubah pemeriksaan kuantitas. |
+
+Pemeriksa SQL melaporkan eksekusi sintetis tambahan (helper, compiler, laporan,
+upgrade/profile/ACL). Harness terpisahnya tidak diarsipkan di sini; laporan
+itu tidak digunakan sebagai bukti kualifikasi Native. Bukti lokal writer
+yang dapat dijalankan ulang, kegagalan awal, dan batas ada pada `ow03/README.md`.
+Belum ada perselisihan kebenaran terbuka; kekurangan runtime tetap terbuka.
+Risiko reuse alat browser lama: tombol jeda berganti nama saat penjalan aktif,
+dan status progres dapat berlalu cepat. Suite staged mandiri tidak memasang
+penjalan; bukti gabungan tidak diklaim dari suite tersebut.

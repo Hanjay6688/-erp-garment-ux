@@ -27,7 +27,7 @@ import cp7_p18_e01_bridge_cases as bridge
 
 IDS = dict(
     native=['P19G_STAGED_EQUALS_SINGLE', 'P19G_STAGED_AUTHORITY', 'P19G_STAGED_IDENTITY', 'P19G_STAGED_SOURCE_CHECK',
-            'P19G_STAGED_BOUNDS_VS_SINGLE', 'P19G_SNAPSHOT_FRESHNESS'],
+            'P19G_STAGED_BOUNDS_VS_SINGLE', 'P19G_SNAPSHOT_FRESHNESS', 'P19G_STAGED_PRODUCTION_MULTIPLE'],
     races=['P19G_RACE_TWO_STEPS_ONE_UNIT', 'P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES', 'P19G_RACE_ACCESS_CHANGED_MID_JOB',
            'P19G_RACE_SNAPSHOT_IN_FLIGHT'],
     http=['P19G_HTTP_STAGED_FLOW', 'P19G_HTTP_REVOKED'],
@@ -515,7 +515,171 @@ def cases(cur, today):
                     same_only_as_of_check_time=True, snapshot_pages_unchanged=True, foreign_actor_refused=True,
                     recorded_checks_and_marks_immutable=True)
 
-    return list(zip(IDS['native'], (equals_single, authority, identity, source_check, bounds_vs_single, snapshot_freshness)))
+    def production_multiple():
+        from copy import deepcopy
+        baseline = analysis.previous.baseline
+        f, _ = load.real_workload(cur, today, factsets=0)
+        _, root_a, _, _ = analysis.setup(cur, today)
+        _, root_b, _, _ = analysis.setup(cur, today)
+        roots = (root_a, root_b)
+        assert root_a != root_b
+        category = analysis.material_cases.master(cur, today, analysis)
+        bom = analysis.material_cases.bom(cur, root_a, analysis, category, qty='2')
+
+        def revise(root, multiple, absent=False):
+            current = baseline.get(cur, [root])['rows'][0]
+            config = deepcopy(current['config'])
+            config['daily_pcs'] = '10'
+            if absent:
+                config.pop('rounding_multiple', None)
+            else:
+                config['rounding_multiple'] = multiple
+            return baseline.save(cur, dict(root_id=root, product_version_id=current['product_version_id'],
+                expected_revision=current['revision'], reason='OW03 explicit fixture choice; not production authorisation', config=config))
+
+        for root in roots:
+            revise(root, None, absent=True)
+        assert all('rounding_multiple' not in row['config'] for row in baseline.get(cur, list(roots))['rows'])
+        review = load.reviewed_workload_calendar(cur, today)
+        selected_work = deepcopy(review['proposal']['config'])
+        before = b.boundary.snapshot(cur)
+
+        def rebind_same_work():
+            current = analysis.previous.supply.capture(cur, today)
+            revision = str(cur.execute('select coalesce(max(revision),0) from cp7_schedule_native.plans').fetchone()[0])
+            proposal = schedule.payload(cur, current, revision)
+            proposal['config'] = deepcopy(selected_work)
+            schedule.save(cur, proposal)
+
+        def clean(value):
+            # Between real metadata revisions only their source/assumption
+            # references change. Complete same-reference parity below strips
+            # nothing except the staged contract's absent semantic_hash.
+            if isinstance(value, list):
+                return [clean(item) for item in value]
+            if isinstance(value, dict):
+                return {key: clean(item) for key, item in value.items() if key not in ('refs', 'assumption_ids')}
+            return value
+
+        def unchanged_quantities(document):
+            x = document['analysis']
+            fields = ('actual_fg', 'target_qty', 'q_base', 'q_conditional', 'feasible_new', 'unresolved_qty')
+            return clean(dict(status=x['status'], quality=x['quality'], financial_readiness=x['financial_readiness'],
+                policy_basis=x['policy_basis'], recommendations=[dict(target_key=row['target']['key'], **{k: row[k] for k in fields})
+                for row in x['recommendations']], sources=x['sources'], allocation_edges=x['allocation_edges'],
+                material_needs=x['material_needs'], metrics=x['metrics'], capacity_checks=[
+                    {k: v for k, v in row.items() if k != 'calendar_version'} for row in x['capacity_checks']]))
+
+        def observe():
+            netting = analysis.previous.capture(cur, today)
+            for root in roots:
+                row = analysis.previous.row(netting, root)
+                assert [row[k] for k in ('raw_gap_pcs', 'directed_on_time_good_pcs', 'base_gap_pcs', 'conditional_gap_pcs')] == ['100', '7', '93', '93'], row
+            key, _, done, _ = staged_done(cur, today)
+            document, pages, _ = fetch(cur, done['run_id'])
+            job = job_row(cur, key)
+            single = single_on_reference(cur, job)
+            analysis.checked({**document, 'analysis': single})
+            assert document['analysis'] == {k: v for k, v in single.items() if k != 'semantic_hash'}, 'OW03_COMPLETE_STAGED_SINGLE_PARITY'
+            x = document['analysis']
+            for root in roots:
+                row = analysis.recommendation(x, root)
+                assert [row[k]['value'] for k in ('actual_fg', 'target_qty', 'q_base', 'q_conditional')] == ['0', '100', '93', '93'], row
+                assert row['feasible_new']['state'] == 'UNKNOWN' and 'value' not in row['feasible_new'], row
+                edges = [e for e in x['allocation_edges'] if e['target_key'] == row['target']['key']]
+                assert len(edges) == 1 and [edges[0][k]['value'] for k in ('input_qty', 'projected_output_qty')] == ['8', '7'], edges
+                source = next(s for s in x['sources'] if s['source_key'] == edges[0]['source_key'])
+                assert [source[k]['value'] for k in ('physical_remaining', 'eligible_input', 'eligible_projected', 'allocated')] == ['8', '8', '7', '8'], source
+            material = next(m for m in x['material_needs'] if m['target_key'].split(':')[0] == root_a
+                and m['material_key'] == 'ACCESSORY_CATEGORY:' + category['category_id'])
+            assert material['gross']['state'] == 'ASSUMED' and Decimal(material['gross']['value']) == Decimal(186), material
+            assert any(r['kind'] == 'erp.accessory_bom_versions' and r['id'] == bom['id'] for r in material['gross']['refs'])
+            analysis.material_cases.unknown_installation(material)
+            return key, document, pages, deepcopy(job['reference'])
+
+        def unknown(row):
+            for field in ('suggested_new', 'rounding_extra'):
+                assert row[field]['state'] == 'UNKNOWN' and 'value' not in row[field], row[field]
+
+        def selected(row, field, value, saved, x):
+            fact = row[field]
+            assert (fact['state'], fact['value'], fact['unit']) == ('ASSUMED', value, 'PCS'), fact
+            assert fact['assumption_ids'] == [x['scenario']['id'], saved['profile_id']], fact
+            assert dict(kind='PLANNING_PROFILE', id=saved['profile_id'], revision=saved['revision']) in fact['refs'], fact
+
+        def archived(kept):
+            key, original, pages, reference = kept
+            checked_source = limited(cur, 'erp_cp7_check_staged_analysis_source_v1', (original['run_id'],))
+            assert checked_source['source_state'] == 'ARCHIVED_STALE', checked_source
+            again, fresh_pages, _ = fetch(cur, original['run_id'])
+            assert again == original and fresh_pages['header'] == pages['header'] and fresh_pages['pages'] == pages['pages'], 'OW03_ARCHIVED_ORIGINAL_CHANGED'
+            assert fresh_pages['identity_hash'] == pages['identity_hash'] and job_row(cur, key)['reference'] == reference
+
+        legacy = observe()
+        for root in roots:
+            unknown(analysis.recommendation(legacy[1]['analysis'], root))
+        quantities = unchanged_quantities(legacy[1])
+        saved = {root_a: revise(root_a, '12'), root_b: revise(root_b, '5')}
+        rebind_same_work()
+        rounded = observe()
+        archived(legacy)
+        assert unchanged_quantities(rounded[1]) == quantities, 'OW03_CHANGED_UNROUNDED_BUSINESS_QUANTITIES'
+        for root, value, extra in ((root_a, '96', '3'), (root_b, '95', '2')):
+            row = analysis.recommendation(rounded[1]['analysis'], root)
+            selected(row, 'suggested_new', value, saved[root], rounded[1]['analysis'])
+            selected(row, 'rounding_extra', extra, saved[root], rounded[1]['analysis'])
+
+        direct, _ = load.sql_capture(cur, today)
+        direct_stored = load.stored(cur, direct['run_id'])
+        for root, value, extra in ((root_a, '96', '3'), (root_b, '95', '2')):
+            row = analysis.recommendation(direct['analysis'], root)
+            selected(row, 'suggested_new', value, saved[root], direct['analysis'])
+            selected(row, 'rounding_extra', extra, saved[root], direct['analysis'])
+        # Execute both changed Native report renderers on these positive
+        # values, not only old fixtures where rounding remains UNKNOWN.
+        publication = analysis.publication_cases
+        direct_payload = publication.payload(direct)
+        direct_report = publication.checked(publication.command(cur, analysis, direct_payload), direct, direct_payload)
+        import cp7_p19_report_v2_cases as reports
+        report_key = uuid.uuid4()
+        reports.publish(cur, reports.payload(dict(run=rounded[1]['run_id'], identity=rounded[2]['identity_hash'])), report_key)
+        report_done, _ = reports.drive(cur, report_key)
+        assert report_done['state'] == 'DONE', report_done
+        staged_report, section_bodies = reports.document(cur, report_done['publication_id'])
+        for root, value, extra in ((root_a, '96', '3'), (root_b, '95', '2')):
+            label = next(l for l in direct['product_labels'] if l['target_key'].split(':')[0] == root)
+            for body in (direct_report['body'], '\n'.join(section_bodies)):
+                lines = [line for line in body.splitlines() if line.startswith(label['sku']+' · ') and '; gap bersyarat ' in line]
+                assert len(lines) == 1, ('OW03_REPORT_TARGET_LINE', root, lines)
+                assert '; saran sebelum cek bahan/kapasitas '+value+' PCS [asumsi]' in lines[0], lines[0]
+                assert '; tambahan kelipatan '+extra+' PCS [asumsi]' in lines[0], lines[0]
+                assert '; produksi baru layak Belum diketahui' in lines[0], lines[0]
+        revise(root_a, None)
+        archived(rounded)
+        old = analysis.read(cur, direct['run_id'])
+        assert old['source_state'] == 'ARCHIVED_STALE'
+        load.unchanged(direct, old)
+        assert load.stored(cur, direct['run_id']) == direct_stored
+        assert publication.read(cur, analysis, direct_report['id'])['body'] == direct_report['body']
+        read_report, read_sections = reports.document(cur, staged_report['id'])
+        assert read_report['summary'] == staged_report['summary'] and read_sections == section_bodies
+        rebind_same_work()
+        cleared = observe()
+        unknown(analysis.recommendation(cleared[1]['analysis'], root_a))
+        row_b = analysis.recommendation(cleared[1]['analysis'], root_b)
+        selected(row_b, 'suggested_new', '95', saved[root_b], cleared[1]['analysis'])
+        selected(row_b, 'rounding_extra', '2', saved[root_b], cleared[1]['analysis'])
+        assert unchanged_quantities(cleared[1]) == quantities and b.boundary.snapshot(cur) == before
+        bridge.literal(cur, f, '175.00')
+        return dict(status='PASS', independent_fixture_arithmetic='100-0-floor(8*9/10)=93',
+            separate_root_multiples=['12', '5'], expected_suggested_and_extra=[['96', '3'], ['95', '2']],
+            complete_same_reference_direct_staged_parity=True, exact_ASSUMED_profile_revision_refs=True,
+            Native_direct_and_staged_published_report_values_verified=True,
+            legacy_absence_and_clear_UNKNOWN=True, raw_gaps_stock_WIP_material186_feasibility_unchanged=True,
+            prior_direct_staged_originals_immutable_after_revision=True, Native_business_unchanged=True,
+            statement_timeout=STATEMENT_TIMEOUT)
+
+    return list(zip(IDS['native'], (equals_single, authority, identity, source_check, bounds_vs_single, snapshot_freshness, production_multiple)))
 
 
 def races(tools, today):

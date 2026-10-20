@@ -92,7 +92,13 @@ begin
  select coalesce(max(revision),0)into current_revision from cp7_profile.profiles where root_id=sid;
  if expected<>current_revision then raise exception 'CP7_PROFILE_REVISION_CHANGED';end if;
  config:=p_payload->'config';reason:=btrim(p_payload->>'reason');
- perform cp7_wip.fields(config,array['mean_mode','daily_pcs','minimum_available_days','lead_days','review_days','buffer_days']);
+ perform cp7_wip.fields(config-'rounding_multiple',array['mean_mode','daily_pcs','minimum_available_days','lead_days','review_days','buffer_days']);
+ -- Optional additive field: old immutable profiles and pending six-key
+ -- payloads stay byte-identical. Null/absence means unreviewed, never 1 PCS.
+ if config?'rounding_multiple'and config->'rounding_multiple'<>'null'::jsonb then
+  if jsonb_typeof(config->'rounding_multiple')is distinct from 'string'
+   or config->>'rounding_multiple'!~'^[1-9][0-9]{0,29}$'then raise exception 'CP7_PROFILE_ROUNDING_MULTIPLE';end if;
+ end if;
  mode:=config->>'mean_mode';
  if mode is null or mode not in('OWN_AVAILABLE_HISTORY','SELECTED_MANUAL')or jsonb_typeof(p_payload->'reason')is distinct from 'string'or reason is null
   or length(reason)not between 1 and 1000 then raise exception 'CP7_PROFILE_CONFIG';end if;

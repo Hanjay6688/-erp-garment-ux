@@ -69,3 +69,25 @@ Penilaian awal dikunci pada satu kandidat, baru kemudian UI↔SQL dan uang/HPP�
 Ini review internal writer, bukan audit eksternal. Temuan, bukti dan batasnya:
 `docs/cp7/d17-14/INTERNAL_COUNTER_REVIEW_20261020.md`.
 Rancangan reproduksi uang/HPP berikutnya ada di `NEXT_MONEY_WORK_SOURCE_REVIEW.md`; belum dianggap runtime terbukti.
+
+## Checkpoint lanjutan writer — OW-02/03
+
+Base publikasi sebelumnya333005ed. WA run39411967784/job118591662633 lulus65/65;
+receipt per kasus disimpan di `docs/cp7/d17-14/ow01/CI_39411967784.json`.
+K4 run39411967722/job118591662201 **28/32 PASS,4 INCOMPLETE**. Empat browser
+lulus, tetapi tiga fixture pencabutan OWNER terakhir dan satu pembanding clock
+pengingat perlu diperbaiki. Kegagalan awal dan diagnosis disimpan; perbaikan
+alat uji tidak mengubah penjalan atau pengaman produk. Menunggu Native ulang.
+
+OW-03 kini mempunyai isian kelipatan PCS per produk/ukuran, tanpa default,
+legacy UUID tetap, helper exact bersama untuk direct/staged, dan teks laporan
+bersyarat.40/40 profil dan17/17 layar bertahap lulus lokal;165 pemeriksaan
+PGlite sintetis terdokumentasi. Tiga kegagalan401 sebelum perbaikan disimpan.
+Native profile38 dan staged15 beserta browserdesktop/HP dideklarasikan,
+termasuk gap93->96+3, M5->95+2, bahan186 tetap, clearUNKNOWN, arsip utuh,
+publikasi langsung/bertahap dan izin dicabut. Hasil CI perubahan ini belum ada.
+Rincian/reproduksi: `docs/cp7/d17-14/ow03/README.md`.
+
+Paket auditor baru tetap menunggu syarat Kelompok1, termasuk batas WA yang
+masih memerlukan keputusan D17-10. Semua OW uang/stok/HPP berikutnya tetap
+daftar terbuka; belum ada klaim feature_complete/audit_complete/production_go.

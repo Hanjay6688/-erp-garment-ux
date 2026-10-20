@@ -132,8 +132,32 @@ def cases(cur,today):
   assert_unknown_execution(a);history.sales.fg.post_sale(cur,f['draft']);fresh=row(capture(cur,today),f)
   assert fresh['available_fg_pcs']=='76'and fresh['start_new_pcs']=='0'and read(cur,r['run_id'])['source_state']=='ARCHIVED_STALE'
   return dict(status='PASS',known_STOP_new_production0_existing_native_stock_still_sellable=True,native_post_allowed_stop_not_sales_cancellation=True)
+ def production_multiple():
+  f=history.fixture(cur,today);other=history.fixture(cur,today);before=b.boundary.snapshot(cur)
+  legacy=payload(cur,f);key=uuid.uuid4();saved=save(cur,legacy,key)
+  assert save(cur,legacy,key)==saved
+  changed=deepcopy(legacy);changed['config']['rounding_multiple']=None
+  auth.refused(cur,lambda:save(cur,changed,key),'CP7_PROFILE_REQUEST_CHANGED')
+  assert 'rounding_multiple'not in get(cur,[f['product']])['rows'][0]['config']
+  selected=payload(cur,f,'1',rounding_multiple='12');save(cur,selected)
+  save(cur,payload(cur,other,rounding_multiple='5'))
+  scope={r['root_id']:r for r in get(cur,[f['product'],other['product']])['rows']}
+  assert scope[f['product']]['config']==selected['config']and scope[other['product']]['config']['rounding_multiple']=='5'
+  for value in('0','-1','1.5','12.0','01','',12,True):
+   bad=payload(cur,f,'2',rounding_multiple=value)
+   auth.refused(cur,lambda bad=bad:save(cur,bad),'CP7_PROFILE_ROUNDING_MULTIPLE')
+  old=capture(cur,today);original=cur.execute('select facts,result from cp7_baseline_native.runs where id=%s',(old['run_id'],)).fetchone()
+  assert row(old,f)['profile']['config']['rounding_multiple']=='12'
+  save(cur,payload(cur,f,'2',rounding_multiple=None))
+  assert get(cur,[f['product']])['rows'][0]['config']['rounding_multiple']is None
+  prior=read(cur,old['run_id']);assert prior['source_state']=='ARCHIVED_STALE'and row(prior,f)['profile']['config']['rounding_multiple']=='12'
+  assert cur.execute('select facts,result from cp7_baseline_native.runs where id=%s',(old['run_id'],)).fetchone()==original
+  assert b.boundary.snapshot(cur)==before
+  return dict(status='PASS',legacy_six_key_UUID_preserved=True,explicit_null_is_changed_payload=True,
+   separate_product_size_multiples=['12','5'],invalid_values_atomic=True,cleared_to_unknown_not_one=True,
+   old_snapshot_immutable_and_stale=True,no_native_business_write=True)
  declared=[('PROFILE_METADATA',metadata),('PROFILE_UUID',replay),('STALE_REVISION',stale),('NATIVE_VERSION',wrong_version),('STRICT_CONFIG',malformed),('UNREVIEWED_UNKNOWN',absent),('SELECTED_TARGET100',manual),('OWN_HISTORY_UNKNOWN',own_unknown),('LEAD_UNKNOWN',horizon_unknown),('IMMUTABLE_ARCHIVE200',archive),('CURRENT_AUTHORITY',revoke),('PRIVATE_CAPS',private),('TIMEZONES',zones),('STOP_NATIVE_STOCK',stopped_stock)]
- return history.cases(cur,today)+[('P06_NATIVE_'+name,fn)for name,fn in declared]
+ return history.cases(cur,today)+[('P06_NATIVE_'+name,fn)for name,fn in declared]+[('P06_NATIVE_PRODUCTION_MULTIPLE',production_multiple)]
 
 def races(tools,today):
  def prepare():

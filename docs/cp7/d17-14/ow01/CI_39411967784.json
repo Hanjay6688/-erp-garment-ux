@@ -1,0 +1,1675 @@
+{
+  "kind": "INTERNAL_WRITER_RUNTIME",
+  "candidate": "333005edbc052cfba0d0dcdff26f72854849a4fb",
+  "run_id": 39411967784,
+  "job_id": 118591662633,
+  "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39411967784/job/118591662633",
+  "cases": [
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_COLLECT_WAITS_FOR_OWNER_SETTINGS",
+      "status": "PASS",
+      "before_settings": "NOT_CONFIGURED",
+      "staff_refused": "42501",
+      "replay_same": true,
+      "reused_request_refused": true,
+      "stale_refused": true,
+      "digest_in_quiet_refused": true,
+      "enable_without_key_refused": true,
+      "invalid_repeat_refused": true,
+      "settings_append_only": true,
+      "after_settings": "COLLECTED",
+      "kinds_read_without_error": [
+        "ACCESSORY_AP",
+        "ACCESSORY_AT_REORDER_POINT",
+        "AP_DUE",
+        "AR_DUE",
+        "FABRIC_BELOW_MINIMUM",
+        "FG_AT_REORDER_POINT",
+        "LAUNDRY_AP",
+        "LAUNDRY_OPENING_UNINVOICED",
+        "LAUNDRY_RECEIPT",
+        "OPENING_AP",
+        "OPENING_AR",
+        "PAYROLL_AP"
+      ],
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_FABRIC_EQUALS_WAREHOUSE_SUMMARY",
+      "status": "PASS",
+      "open_equals_raw_movements": 2,
+      "equals_summary_count_and_first_rows": true,
+      "above_minimum_not_open": true,
+      "received_stock_resolves": "AT_OR_ABOVE_MINIMUM",
+      "fixtures": {
+        "below": "c41f283a-9cf6-453f-8470-9225f54cf8af",
+        "partly": "53b25213-dff3-4e97-bf76-1c7221767365",
+        "above": "a9823282-402e-4f7b-b231-a9aa3c5ede35"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_AR_AP_FROM_ACCEPTED_SOURCES",
+      "status": "PASS",
+      "receivable_open_300_overdue": true,
+      "payable_open_500_overdue": true,
+      "party_names_kept_apart": true,
+      "paid_resolves": "ZERO_BALANCE",
+      "payment_reversed_new_episode": 2,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_OWNER_REMINDERS_ONLY_WHEN_DUE",
+      "status": "PASS",
+      "owner_due_queued_once": true,
+      "future_not_queued": true,
+      "staff_never_read": true,
+      "rescheduled_new_episode": true,
+      "moved_version": 2,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_SEND_ONE_REQUEST_EXACT_TEXT",
+      "status": "PASS",
+      "one_request": true,
+      "phone_text_key_decoded": true,
+      "text_equals_body": true,
+      "items": 1,
+      "header": "⚠ ERP Enteng ·",
+      "max_chars": 129,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_ROLLBACK_QUEUES_NOTHING",
+      "status": "PASS",
+      "inside": [
+        7,
+        7,
+        1,
+        1
+      ],
+      "after_rollback": [
+        6,
+        6,
+        0,
+        0
+      ],
+      "request_gone_with_transaction": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_RESOLVED_BEFORE_SEND_NOT_SENT",
+      "status": "PASS",
+      "stock_received_before_send": "AT_OR_ABOVE_MINIMUM",
+      "reminder_done_before_send": "REMINDER_DONE",
+      "tick": "IDLE",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_ANSWERS_ACCEPTED_REFUSED_UNKNOWN",
+      "status": "PASS",
+      "accepted_key_masked": true,
+      "results": {
+        "refused": "PROVIDER_REFUSED",
+        "no_route": "TRANSPORT_FAILED",
+        "timeout": "UNKNOWN",
+        "silence_10_minutes": "UNKNOWN"
+      },
+      "refused_rest_then_resent": true,
+      "unknown_never_resent": true,
+      "owner_not_delivered_waits_again": true,
+      "staff_resolve_refused": true,
+      "silent_tick": "IDLE",
+      "label": "SYNTHETIC_PROVIDER_ANSWER",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_PACING_BURST_QUIET_DIGEST_REPEAT",
+      "status": "PASS",
+      "one_per_minute": true,
+      "burst_after_1_then_30_minutes": true,
+      "quiet_held_then_sent": true,
+      "digest_once_per_slot": true,
+      "repeat_after_24h": 3,
+      "label": "TEST_CLOCK_OVERRIDE+SYNTHETIC_PROVIDER_ANSWER",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_OFF_OR_NO_KEY_SENDS_NOTHING",
+      "status": "PASS",
+      "wa_off_disabled": true,
+      "key_missing_disabled": true,
+      "test_refused_without_key": true,
+      "requests": 0,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_KEY_WRITE_ONLY_AND_MASKED",
+      "status": "PASS",
+      "tables_scanned": 559,
+      "key_in_no_table": true,
+      "key_in_no_answer": true,
+      "provider_text_masked": true,
+      "vault_holds_key": true,
+      "key_functions_private": true,
+      "replayed_request_keeps_first_key": true,
+      "test_dispatch": 16,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_PRIVACY_AND_LIST_PERMISSIONS",
+      "status": "PASS",
+      "summary_hides_party_names": true,
+      "detailed_shows_them": true,
+      "owner_sees_eight_kinds": true,
+      "staff_kinds": [
+        "ACCESSORY_AT_REORDER_POINT",
+        "FG_AT_REORDER_POINT"
+      ],
+      "staff_no_wa_status": true,
+      "staff_refused_on_owner_rpcs": true,
+      "anon_no_execute": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_TICKS_PRIVATE_AND_LIMITED",
+      "status": "PASS",
+      "refused_without_limit": {
+        "0": "55000",
+        "9s": "55000",
+        "1h": "55000"
+      },
+      "stricter_limit_allowed": true,
+      "schedules": [
+        "erp-wa-collect",
+        "erp-wa-send",
+        "erp-wa-analysis"
+      ],
+      "ticks_postgres_only": true,
+      "authenticated_refused": "42501",
+      "no_public_tick": true,
+      "schedule_not_installed": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED",
+      "status": "PASS",
+      "ticks": [
+        "CONDITION_SET_STEP",
+        "ANALYSIS_CHECKED",
+        "...",
+        "ANALYSIS_CHECKED"
+      ],
+      "set_built_by_tick": true,
+      "checked_outside_analysis_hours": [
+        "00:00",
+        "18:00"
+      ],
+      "opened": [
+        "PRODUCTION_GAP:a2231cef-7ca3-4ec1-af15-d7d822072dbf:c8c10000-0000-4000-8000-000000000002"
+      ],
+      "rule_off": 0,
+      "sent_need_now": "84",
+      "snapshot_gap": "85",
+      "resolved_before_send": "RECHECK_RESOLVED_NOW",
+      "reminder_claims": 0,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_ANALYSIS_AUTOMATIC_RUN",
+      "status": "PASS",
+      "due_query": {
+        "from_date": "2026-10-19",
+        "through_date": "2026-10-19",
+        "group_mode": "AS_SOLD"
+      },
+      "requested_in_owner_name": true,
+      "job_driven_by_step_rpc": true,
+      "new_run_checked": true,
+      "not_due_after": true,
+      "outside_hours": "OUTSIDE_ANALYSIS_HOURS",
+      "auto_off": "AUTO_ANALYSIS_OFF",
+      "label": "TEST_CLOCK_OVERRIDE on the finished job capture time",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_FG_REORDER_POINT_FORWARDED",
+      "status": "PASS",
+      "line": "- AX no reference CP6-RACE-S: sisa 23 pcs, sedang diproduksi 0 pcs, titik pesan ulang 36 pcs",
+      "free": 23,
+      "point": 36,
+      "staff_without_fg_view_sees_none": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_FG_RESOLVED_BEFORE_SEND",
+      "status": "PASS",
+      "stock_found_before_send": "ABOVE_REORDER_POINT",
+      "tick": "IDLE",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_FABRIC_REORDER_POINT_FORWARDED",
+      "status": "PASS",
+      "line": "- Kain SS2 643A5C8F: sisa 30 YD, dipesan 0 YD, minimum rumus 39,32 YD",
+      "line_minimum": "- Kain SS2 B2E654E1: sisa 100 YD, minimum 500 YD",
+      "one_heading": "Stok kain di bawah minimum",
+      "ringkasan_gudang_lists_minimums_only": true,
+      "staff_without_fabric_view_sees_none": true,
+      "received_before_send": "ABOVE_REORDER_POINT",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_ACCESSORY_REORDER_POINT_FORWARDED",
+      "status": "PASS",
+      "line": "- BC kancing silver: sisa 180 PCS, minimum 250 PCS",
+      "minimum_from_owner_estimate": "250",
+      "staff_without_accessory_view_sees_none": true,
+      "manual_zero_before_send": "NO_REORDER_POINT",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS1_FORMULA_FROM_POSTED_SALES",
+      "status": "PASS",
+      "point": 36,
+      "free": 83,
+      "counted": 30,
+      "mean": "3.9",
+      "sd": "1.8634413844023772",
+      "business_unchanged": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND",
+      "status": "PASS",
+      "counted": 18,
+      "of_days": 30,
+      "point": 28,
+      "point_if_stockout_days_were_zero_demand": 24,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS1_LEAD_TIME_MEASURED_FROM_PRODUCTION",
+      "status": "PASS",
+      "lead_days": "9.25",
+      "lots": 3,
+      "groups": 3,
+      "measured_over_profile": true,
+      "point": 46,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS1_DAYS_BUFFER_NOT_STACKED",
+      "status": "PASS",
+      "point": 39,
+      "safety": "11.7",
+      "sigma_not_used": true,
+      "whole_piece_boundary": {
+        "sold": 20,
+        "days": 30,
+        "lead_days": 2,
+        "buffer_days": 1,
+        "point": 2
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS1_SETTINGS_SERVICE_LEVEL_AND_WINDOW",
+      "status": "PASS",
+      "point_99": 39,
+      "point_90_14days": 34,
+      "staff_refused": true,
+      "replay": true,
+      "stale_refused": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS1_MANUAL_POINT_REPLACES_AND_CLEARS",
+      "status": "PASS",
+      "manual": 83,
+      "zero_means_never": true,
+      "cleared_back_to_formula": 36,
+      "staff_refused": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS1_NOT_ENOUGH_DATA_NEVER_GUESSES",
+      "status": "PASS",
+      "fewer_days": 10,
+      "no_lead": true,
+      "no_sales": true,
+      "no_guessed_number": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS1_REVERSED_SALE_NOT_DEMAND",
+      "status": "PASS",
+      "with_sale": 71,
+      "after_inverse": 36,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION",
+      "status": "PASS",
+      "free": 33,
+      "wip": "60",
+      "point": 36,
+      "state_before": "AT_OR_BELOW",
+      "state": "ABOVE",
+      "groups": 1,
+      "other_size_not_counted": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS1_SOURCE_AND_ACCESS",
+      "status": "PASS",
+      "alert_row_exact": true,
+      "resolved_when_stock_back": true,
+      "fg_view_required": true,
+      "viewer_cannot_manage": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS1_VOLUME_2000_ITEMS_EVERY_MINUTE",
+      "status": "PASS",
+      "label": "SYNTHETIC_VOLUME",
+      "items": 2000,
+      "movements": 202000,
+      "millis": [
+        600,
+        579,
+        560
+      ],
+      "limit_ms": 3000,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS2_FABRIC_FORMULA_FROM_CUTTING_USE",
+      "status": "PASS",
+      "point": "65.29",
+      "free": "56",
+      "usage": "224",
+      "issued": "226.000000",
+      "returned": "2.000000",
+      "lead_days": "6",
+      "counted": 30,
+      "compute_wrote_no_business_row": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS2_FABRIC_OUT_OF_STOCK_DAYS_NOT_ZERO_USE",
+      "status": "PASS",
+      "counted": 25,
+      "empty_days_not_counted": 5,
+      "point": "64.87",
+      "point_if_empty_days_were_zero_use": "58.92",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS2_FABRIC_REVERSED_ISSUE_NOT_USE",
+      "status": "PASS",
+      "cancelled_cutting_and_its_inverse_not_use": true,
+      "usage": "100",
+      "point": "39.32",
+      "point_if_cancelled_cut_counted": "49.87",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS2_FABRIC_MINIMUM_STAYS_BELOW_MINIMUM",
+      "status": "PASS",
+      "minimum_replaces_formula": true,
+      "strict_below_like_fabric_below_minimum": true,
+      "formula_point_kept_for_view": "39.32",
+      "fabric_manual_point_refused": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS2_FABRIC_ON_ORDER_COUNTS_TOWARD_POSITION",
+      "status": "PASS",
+      "free": "30",
+      "on_order": "20",
+      "point": "39.32",
+      "state_before": "AT_OR_BELOW",
+      "state_after": "ABOVE",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS2_NO_LEAD_TIME_NEVER_GUESSES",
+      "status": "PASS",
+      "no_lead_time": "NOT_ENOUGH_DATA",
+      "fewer_than_14_counted": 9,
+      "no_use": "NO_USAGE",
+      "lead_saved_then_formula": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS3_ACCESSORY_USAGE_SHOWN_NO_FORMULA",
+      "status": "PASS",
+      "basis": "NOT_SET",
+      "free": "50",
+      "usage": "220 (224 used, 4 credited back usable)",
+      "daily_mean": "7.3333",
+      "lead_time_alone_no_point": true,
+      "no_reminder_without_minimum": true,
+      "movements": {
+        "ADJUSTMENT:BC_NOTE_RETURN_CREDIT": 1,
+        "CONTRACTOR_ISSUE:CONTRACTOR_MATERIAL_ISSUE_ITEM": 10,
+        "INTERNAL_USE:MATERIAL_ADJUSTMENT_ITEM": 12
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS3_SERVICE_ZONES_NOT_FREE_STOCK",
+      "status": "PASS",
+      "free_main_only": "160",
+      "service_post_not_free": "25",
+      "damaged_area_not_free": "5",
+      "damaged_credit_not_subtracted_from_use": true,
+      "use_at_service_post_counted": "15",
+      "minimum": "170",
+      "state": "AT_OR_BELOW",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS3_ACCESSORY_MANUAL_MINIMUM_ZERO_NEVER",
+      "status": "PASS",
+      "steps": [
+        {
+          "manual": "80",
+          "basis": "MANUAL",
+          "point": "80.0",
+          "state": "ABOVE"
+        },
+        {
+          "manual": "180",
+          "basis": "MANUAL",
+          "point": "180.0",
+          "state": "AT_OR_BELOW"
+        },
+        {
+          "manual": "250",
+          "basis": "MANUAL",
+          "point": "250.0",
+          "state": "AT_OR_BELOW"
+        },
+        {
+          "manual": "0",
+          "basis": "MANUAL",
+          "point": "0.0",
+          "state": "NO_POINT"
+        },
+        {
+          "manual": null,
+          "basis": "NOT_SET",
+          "point": null,
+          "state": "NO_POINT"
+        }
+      ],
+      "equal_rings": true,
+      "zero_means_never": true,
+      "cleared_means_no_minimum": true,
+      "history_append_only": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS3_MATERIAL_SOURCE_AND_ACCESS",
+      "status": "PASS",
+      "alert_rows_exact": true,
+      "fabric_needs_material_and_fabric_view": true,
+      "accessory_view_separate": true,
+      "viewer_cannot_change": true,
+      "stale_reused_invalid_unknown_refused": true,
+      "resolved_when_stock_back": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE",
+      "status": "PASS",
+      "minimum": "933.34",
+      "rule": "perkiraan per bulan x (lama kirim + cadangan) / 30, dikali dulu baru dibagi, ke atas 0,01",
+      "steps": [
+        {
+          "manual": null,
+          "changed": {
+            "buffer_days": "0"
+          },
+          "basis": "ESTIMATE",
+          "point": "700.0",
+          "state": "AT_OR_BELOW"
+        },
+        {
+          "manual": "100",
+          "changed": {},
+          "basis": "MANUAL",
+          "point": "100.0",
+          "state": "ABOVE"
+        },
+        {
+          "manual": null,
+          "changed": {},
+          "basis": "ESTIMATE",
+          "point": "700.0",
+          "state": "AT_OR_BELOW"
+        },
+        {
+          "manual": null,
+          "changed": {
+            "usage_month_qty": null
+          },
+          "basis": "NOT_SET",
+          "point": null,
+          "state": "NO_POINT"
+        }
+      ],
+      "whole_cent_boundaries": [
+        {
+          "usage_month": "500",
+          "lead_days": 14,
+          "buffer_days": "7",
+          "minimum": "350.00"
+        },
+        {
+          "usage_month": "200",
+          "lead_days": 10,
+          "buffer_days": "5",
+          "minimum": "100.00"
+        }
+      ],
+      "typed_minimum_wins": true,
+      "missing_number_no_minimum": true,
+      "fabric_refuses_estimate": true,
+      "invalid_refused": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_OTHER_OPENING_AR_AP",
+      "status": "PASS",
+      "opening_receivable": "70.00",
+      "opening_payable": "65.00",
+      "no_invented_due_date": true,
+      "exact_native_source": true,
+      "one_episode_each": true,
+      "fake_message": true,
+      "business_unchanged": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_OTHER_PAYROLL_PAYMENT_INVERSE",
+      "status": "PASS",
+      "exact_native_balances": [
+        "1000",
+        "400",
+        "0",
+        "600"
+      ],
+      "partial_keeps_episode": true,
+      "settled_closes_inverse_new_episode": true,
+      "fake_message": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_OTHER_ACCESSORY_ALLOCATION_NOT_SETTLEMENT",
+      "status": "PASS",
+      "credit": "12.00",
+      "allocated_not_paid_keeps_episode_and_unknown": true,
+      "paid_closes": true,
+      "no_unknown_zero_or_double_total": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_OTHER_LAUNDRY_PAYMENT_INVERSE",
+      "status": "PASS",
+      "final_payable": "17312.90",
+      "receipt_not_double_payable": true,
+      "send_recheck_sees_paid": true,
+      "inverse_reopens": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_OTHER_LAUNDRY_OPENING_UNKNOWN",
+      "status": "PASS",
+      "two_opening_receipts_unknown": true,
+      "estimate_not_final_payable": true,
+      "fake_message": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_OTHER_NARROWER_PERMISSIONS",
+      "status": "PASS",
+      "current_domain_permissions_on_cached_rows_and_kind_counts": true,
+      "cases": 5,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_OTHER_ALL_DOMAINS_SUMMARY_PRIVATE",
+      "status": "PASS",
+      "seven_default_domains_and_saved_settings": true,
+      "summary_private_and_all_counted": true,
+      "synthetic_render_input": true,
+      "unknown_not_zero": true,
+      "active_without_review_suffix_not_null": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE",
+      "status": "PASS",
+      "concurrent_outcomes": [
+        "BUSY",
+        "SENT"
+      ],
+      "instant_dispatches": 1,
+      "held_lock_busy_s": 0.013,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_COLLECT_AND_SEND_OPEN_ONCE",
+      "status": "PASS",
+      "one_alert_one_outbox_row": true,
+      "outcomes": [
+        "COLLECTED",
+        "SENT"
+      ],
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_FAKE_CALLMEBOT_END_TO_END",
+      "status": "PASS",
+      "delivered_to_fake": true,
+      "phone_text_key_as_sent": true,
+      "stored_answer_masked": true,
+      "test_message_delivered": true,
+      "answer_500_refused": true,
+      "requests": 3,
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_PG_CRON_RUNS_TICKS",
+      "status": "PASS",
+      "pg_cron_runs": {
+        "succeeded": 6
+      },
+      "owner_reminder_delivered": true,
+      "schedules_removed": true,
+      "test_schedule_override": "5 seconds",
+      "ticks": {
+        "ANALYSIS": "NO_OWNER_ANALYSIS_YET",
+        "SEND": "SENT",
+        "COLLECT": "COLLECTED"
+      },
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK",
+      "status": "PASS",
+      "resolved_from_live_stock_while_busy": true,
+      "evaluation_untouched_while_busy": true,
+      "refresh_busy": "CP7_FORMULA_BUSY",
+      "next_tick_evaluates": "ABOVE",
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_MATERIAL_BUSY_RECHECKS_LIVE_STOCK",
+      "status": "PASS",
+      "resolved_from_live_stock_while_busy": true,
+      "evaluation_untouched_while_busy": true,
+      "refresh_busy": "CP7_FORMULA_BUSY",
+      "next_tick_evaluates": "ABOVE",
+      "copy_runtime": null,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_WA_FORWARD",
+      "case": "WAF_HTTP_OWNER_SETS_UP_AND_TESTS",
+      "status": "PASS",
+      "real_Auth_owner": true,
+      "settings_saved": true,
+      "key_set_not_returned": true,
+      "enabled": true,
+      "test_queued": true,
+      "settings_read_without_key": true,
+      "alerts_listed": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_WA_FORWARD",
+      "case": "WAF_HTTP_OTHERS_REFUSED",
+      "status": "PASS",
+      "staff_refused": {
+        "erp_cp7_get_wa_settings_v1": 403,
+        "erp_cp7_save_wa_settings_v1": 403,
+        "erp_cp7_set_wa_key_v1": 403,
+        "erp_cp7_send_wa_test_v1": 403,
+        "erp_cp7_resolve_wa_dispatch_v1": 403
+      },
+      "anon_refused": true,
+      "staff_alerts_without_wa_status": true,
+      "private_functions_not_exposed": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_WA_FORWARD",
+      "case": "WAF_HTTP_FG_REORDER_SCREEN",
+      "status": "PASS",
+      "real_Auth": true,
+      "owner_reads_and_refreshes": true,
+      "admin_manual": true,
+      "owner_level": true,
+      "gudang_reads": true,
+      "staff_cannot_change": true,
+      "anon_refused": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_WA_FORWARD",
+      "case": "WAF_HTTP_MATERIAL_REORDER_SCREEN",
+      "status": "PASS",
+      "real_Auth": true,
+      "owner_reads_and_refreshes": true,
+      "admin_lead_time": true,
+      "accessory_manual_zero": true,
+      "fabric_manual_refused": true,
+      "fabric_moq_refused": true,
+      "accessory_estimate": "250",
+      "staff_reads_by_permission": [
+        "warehouse.accessory.view",
+        "warehouse.material.view"
+      ],
+      "staff_cannot_change": true,
+      "anon_refused": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_WA_FORWARD_BROWSER",
+      "case": "WAF_BROWSER_DESKTOP_OWNER_SETS_UP_TESTS_AND_FORWARDS",
+      "status": "PASS",
+      "phone": false,
+      "test_reset": true,
+      "first_save_starts_system_reminders": true,
+      "key_typed_once_never_returned": true,
+      "vault_holds_typed_key": true,
+      "test_message_received_by_fake": true,
+      "instant_message_received_by_fake": true,
+      "history_text_equals_received": true,
+      "system_reminder_wa_chip": "WA: terkirim",
+      "distinct_request_ids": 4,
+      "quiet_hours_and_digest_cleared": true,
+      "no_horizontal_scroll": true,
+      "screenshots": [
+        "WAF_DESKTOP_SETTINGS_SAVED.png",
+        "WAF_DESKTOP_TEST_ACCEPTED.png",
+        "WAF_DESKTOP_SYSTEM_FORWARDED.png",
+        "WAF_DESKTOP_HISTORY.png"
+      ],
+      "label": "TEST_RESET; fake CallMeBot only",
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_WA_FORWARD_BROWSER",
+      "case": "WAF_BROWSER_MOBILE_OWNER_SETS_UP_TESTS_AND_FORWARDS",
+      "status": "PASS",
+      "phone": true,
+      "test_reset": true,
+      "first_save_starts_system_reminders": true,
+      "key_typed_once_never_returned": true,
+      "vault_holds_typed_key": true,
+      "test_message_received_by_fake": true,
+      "instant_message_received_by_fake": true,
+      "history_text_equals_received": true,
+      "system_reminder_wa_chip": "WA: terkirim",
+      "distinct_request_ids": 4,
+      "quiet_hours_and_digest_cleared": true,
+      "no_horizontal_scroll": true,
+      "screenshots": [
+        "WAF_MOBILE_SETTINGS_SAVED.png",
+        "WAF_MOBILE_TEST_ACCEPTED.png",
+        "WAF_MOBILE_SYSTEM_FORWARDED.png",
+        "WAF_MOBILE_HISTORY.png"
+      ],
+      "label": "TEST_RESET; fake CallMeBot only",
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_WA_FORWARD_BROWSER",
+      "case": "WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA",
+      "status": "PASS",
+      "tabs": [
+        "Pengingat saya",
+        "Pengingat sistem"
+      ],
+      "visible_kinds": [
+        "ACCESSORY_AP",
+        "ACCESSORY_AT_REORDER_POINT",
+        "AP_DUE",
+        "AR_DUE",
+        "FABRIC_BELOW_MINIMUM",
+        "FABRIC_NEED",
+        "FG_AT_REORDER_POINT",
+        "LAUNDRY_AP",
+        "LAUNDRY_OPENING_UNINVOICED",
+        "LAUNDRY_RECEIPT",
+        "OPENING_AP",
+        "OPENING_AR",
+        "PAYROLL_AP",
+        "PRODUCTION_GAP"
+      ],
+      "open_rows_checked": 5,
+      "wa_chips": 0,
+      "owner_rpcs_called": 0,
+      "direct_owner_rpc_refused": 403,
+      "screenshots": [
+        "WAF_ADMIN_SYSTEM_REMINDERS.png"
+      ],
+      "label": "TEST_RESET",
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_WA_FORWARD_BROWSER",
+      "case": "WAF_BROWSER_FG_REORDER_DESKTOP",
+      "status": "PASS",
+      "phone": false,
+      "sku": "AX-6655502dc4",
+      "free": 23,
+      "formula_point": 36,
+      "manual_point": 22,
+      "chips": [
+        "Perlu produksi",
+        "Aman",
+        "Perlu produksi"
+      ],
+      "basis_after_manual": "MANUAL",
+      "manual_revisions": [
+        1,
+        2
+      ],
+      "formula_point_after_removal": 36,
+      "distinct_request_ids": 2,
+      "no_horizontal_scroll": true,
+      "screenshots": [
+        "WAF_FG_DESKTOP_AT_OR_BELOW.png",
+        "WAF_FG_DESKTOP_MANUAL.png",
+        "WAF_FG_DESKTOP_FORMULA_AGAIN.png"
+      ],
+      "label": "TEST_FIXTURE SS-1 item; real Auth and PostgREST",
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_WA_FORWARD_BROWSER",
+      "case": "WAF_BROWSER_FG_REORDER_MOBILE",
+      "status": "PASS",
+      "phone": true,
+      "sku": "AX-9f27e23782",
+      "free": 23,
+      "formula_point": 36,
+      "manual_point": 22,
+      "chips": [
+        "Perlu produksi",
+        "Aman",
+        "Perlu produksi"
+      ],
+      "basis_after_manual": "MANUAL",
+      "manual_revisions": [
+        1,
+        2
+      ],
+      "formula_point_after_removal": 36,
+      "distinct_request_ids": 2,
+      "no_horizontal_scroll": true,
+      "screenshots": [
+        "WAF_FG_MOBILE_AT_OR_BELOW.png",
+        "WAF_FG_MOBILE_MANUAL.png",
+        "WAF_FG_MOBILE_FORMULA_AGAIN.png"
+      ],
+      "label": "TEST_FIXTURE SS-1 item; real Auth and PostgREST",
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_WA_FORWARD_BROWSER",
+      "case": "WAF_BROWSER_MATERIAL_REORDER_DESKTOP",
+      "status": "PASS",
+      "phone": false,
+      "fabric": {
+        "sku": "SS2-4A0C23D0",
+        "free": "30",
+        "point": "39.32",
+        "lead_days": "6",
+        "set_on": "Master Data › Kain & Benchmark",
+        "same_on": "Gudang › Bahan & Roll",
+        "reminder": "Stok kain di bawah minimum"
+      },
+      "accessory": {
+        "sku": "BC5101F38894",
+        "free": "180",
+        "lead_days": "20",
+        "usage_month_qty": "300",
+        "buffer_days": "5",
+        "moq": "5000",
+        "typed_minimum": null,
+        "minimum": "250.00",
+        "basis": "Dari isian hitungan",
+        "status": "Menipis"
+      },
+      "distinct_request_ids": 2,
+      "no_horizontal_scroll": true,
+      "screenshots": [
+        "WAF_MAT_DESKTOP_MASTER_FABRIC.png",
+        "WAF_MAT_DESKTOP_BAHAN_ROLL.png",
+        "WAF_MAT_DESKTOP_ACCESSORY_ESTIMATE.png"
+      ],
+      "label": "TEST_FIXTURE SS-2/SS-3 materials; real Auth and PostgREST",
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_WA_FORWARD_BROWSER",
+      "case": "WAF_BROWSER_MATERIAL_REORDER_MOBILE",
+      "status": "PASS",
+      "phone": true,
+      "fabric": {
+        "sku": "SS2-2DF489F1",
+        "free": "30",
+        "point": "39.32",
+        "lead_days": "6",
+        "set_on": "Master Data › Kain & Benchmark",
+        "same_on": "Gudang › Bahan & Roll",
+        "reminder": "Stok kain di bawah minimum"
+      },
+      "accessory": {
+        "sku": "BCC18DDD146B",
+        "free": "180",
+        "lead_days": "20",
+        "usage_month_qty": "300",
+        "buffer_days": "5",
+        "moq": "5000",
+        "typed_minimum": null,
+        "minimum": "250.00",
+        "basis": "Dari isian hitungan",
+        "status": "Menipis"
+      },
+      "distinct_request_ids": 2,
+      "no_horizontal_scroll": true,
+      "screenshots": [
+        "WAF_MAT_MOBILE_MASTER_FABRIC.png",
+        "WAF_MAT_MOBILE_BAHAN_ROLL.png",
+        "WAF_MAT_MOBILE_ACCESSORY_ESTIMATE.png"
+      ],
+      "label": "TEST_FIXTURE SS-2/SS-3 materials; real Auth and PostgREST",
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "label": "CP7_WA_FORWARD",
+      "status": "PASS",
+      "source_sha256": "f2247b8f487c6361784040793097bf4354afa45d024570cb99db0e461050e9b4",
+      "observed_case_count": 65,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "error": null,
+      "traceback": null
+    }
+  ],
+  "production_go": false,
+  "scope_limit": "No operational hosted schedule or actual WhatsApp; accessory production-plan need still pending owner D17-10."
+}

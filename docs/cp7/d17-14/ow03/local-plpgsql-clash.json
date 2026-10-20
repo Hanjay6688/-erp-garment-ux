@@ -1,0 +1,30 @@
+{
+  "classification": "STATIC_NAME_CHECK_NOT_NATIVE_COMPILE",
+  "sources": {
+    "scripts/cp7-src/planning/analysis-stages.sql": {
+      "before": "cp7_analysis_stage.netting_prep ['n']\ncp7_analysis_stage.run_unit ['k', 'v']\nfunctions 42",
+      "after": "cp7_analysis_stage.netting_prep ['n']\ncp7_analysis_stage.run_unit ['k', 'v']\nfunctions 42",
+      "same_name_warnings": true
+    },
+    "scripts/cp7-src/planning/analysis.sql": {
+      "before": "functions 3",
+      "after": "functions 4",
+      "same_name_warnings": true
+    },
+    "scripts/cp7-src/planning/profile.sql": {
+      "before": "functions 2",
+      "after": "functions 2",
+      "same_name_warnings": true
+    },
+    "scripts/cp7-src/planning/report-publication.sql": {
+      "before": "cp7_analysis_native.report_compare ['l', 'r']\nfunctions 5",
+      "after": "cp7_analysis_native.report_compare ['l', 'r']\nfunctions 5",
+      "same_name_warnings": true
+    },
+    "scripts/cp7-src/planning/report-staged.sql": {
+      "before": "cp7_analysis_stage.report_run_unit ['n']\nfunctions 7",
+      "after": "cp7_analysis_stage.report_run_unit ['n']\nfunctions 7",
+      "same_name_warnings": true
+    }
+  }
+}

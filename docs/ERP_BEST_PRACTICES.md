@@ -99,6 +99,11 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 15. **Selama data pendukung dimuat, simpan diblokir dan tinjauan dibatalkan sejak perubahan dimulai**, bukan sesudah
     respons datang. Respons terlambat atau gagal tidak boleh diam-diam mengubah dokumen yang sudah disimpan.
     (ASTRA-C17-02)
+15a. **RPC401 dan403 sama-sama membatalkan fakta yang memerlukan sesi/hak tersebut**, termasuk hasil bertahap,
+    ringkasan, laporan anak dan generasi respons yang masih menunggu. Jangan menunggu provider login berubah atau
+    halaman mendapat fokus. Uji saat identitas provider masih AUTHORIZED tetapi pembacaan halaman, kesegaran, atau
+    pemeriksaan sumber ditolak. (WR-OW03-401: tiga DOM gagal sebelum perbaikan,17/17 lulus sesudahnya;
+    `docs/cp7/d17-14/ow03/README.md`)
 16. **Angka contoh tidak pernah tampil tanpa label**, dan label tidak bergantung pada tata letak (misalnya ada atau
     tidaknya tombol). Satu tabel aktivasi menentukan menu mana tersambung di tiap mode; yang belum tersambung di mode
     data nyata disembunyikan atau berupa layar batas tanpa angka. (FABLE-015, ASTRA-C17-03, KNOWN-UI-MODE, D15-2)

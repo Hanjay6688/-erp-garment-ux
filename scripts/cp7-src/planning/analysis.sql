@@ -38,11 +38,38 @@ language sql immutable security invoker set search_path=''set TimeZone='UTC'as $
   else jsonb_build_object('state','KNOWN','value',value,'unit',unit,'refs',refs)end
 $$;
 
+-- OW-03: round the already-netted conditional need, never stock/WIP again.
+-- This is a selected suggestion, not a material/capacity feasibility claim.
+-- Missing/old profiles retain the previous UNKNOWN facts, with no 1 PCS default.
+create function cp7_analysis_native.rounded_suggestion(p_row jsonb)returns jsonb
+language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
+declare cfg jsonb;need numeric;multiple numeric;extra numeric;
+begin
+ if p_row->'production_policy'->'policy'->>'state'in('PAUSED','STOPPED')then
+  return jsonb_build_object('suggested_pcs','0','extra_pcs',null,'applied',false);
+ end if;
+ if p_row->'production_policy'->'policy'->>'state'is distinct from 'ACTIVE'
+  or p_row->'profile'->>'quality'is distinct from 'SELECTED_ASSUMPTION'then
+  return jsonb_build_object('suggested_pcs',null,'extra_pcs',null,'applied',false);
+ end if;
+ cfg:=p_row->'profile'->'config';
+ if cfg->>'rounding_multiple'is null or p_row->>'conditional_gap_pcs'is null then
+  return jsonb_build_object('suggested_pcs',null,'extra_pcs',null,'applied',false);
+ end if;
+ if jsonb_typeof(cfg->'rounding_multiple')is distinct from 'string'
+  or cfg->>'rounding_multiple'!~'^[1-9][0-9]{0,29}$'then raise exception 'CP7_PROFILE_ROUNDING_MULTIPLE';end if;
+ multiple:=(cfg->>'rounding_multiple')::numeric;need:=cp7_wip.pcs(p_row->'conditional_gap_pcs');
+ -- Remainders are exact even at the 30-digit wire bound; ceil(need/multiple)
+ -- can lose the fraction through numeric division rounding (E25v).
+ extra:=mod(multiple-mod(need,multiple),multiple);
+ return jsonb_build_object('suggested_pcs',(need+extra)::text,'extra_pcs',extra::text,'applied',true);
+end $$;
+
 create function cp7_analysis_native.build(c jsonb,q jsonb,p_run uuid,a jsonb)returns jsonb
 language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
 declare n jsonb:=cp7_netting_native.build(c,q);scenario jsonb:=n->'schedule_run_result';wip jsonb:=scenario->'wip';
  p jsonb;r jsonb;product jsonb;stock jsonb;hist jsonb;eta jsonb;e jsonb;event jsonb;commercial jsonb;policy text;
- refs jsonb;row_aids jsonb;plan_refs jsonb:='[]';plan_aids jsonb:='[]';assumptions jsonb:='[]';sources jsonb:='[]';recommendations jsonb:='[]';
+ refs jsonb;row_aids jsonb;rounded jsonb;rounding_aids jsonb;plan_refs jsonb:='[]';plan_aids jsonb:='[]';assumptions jsonb:='[]';sources jsonb:='[]';recommendations jsonb:='[]';
  edges jsonb:='[]';actions jsonb:='[]';timeline jsonb:='[]';models jsonb:='[]';materials jsonb:='[]';metrics jsonb:='[]';
  dependencies jsonb:='[]';warnings jsonb:='["MATERIAL_FEASIBILITY_NOT_PROVEN","ADAPTIVE_MODEL_PROMOTION_NOT_PROVEN","FINANCIAL_DOMAIN_NOT_CAPTURED"]';
  known_targets jsonb:='{}';target_timeline jsonb;v jsonb;part jsonb;k text;part_hash text;count_facts integer:=0;part_count integer;
@@ -126,6 +153,7 @@ begin
     'origin','OWNER_INPUT','confirmed_for_operation',false)));
   end if;
   commercial:=product->'commercial'->0;known_keys:=array_append(known_keys,r->>'target_key');
+  rounded:=cp7_analysis_native.rounded_suggestion(r);rounding_aids:=case when rounded->>'applied'='true'then row_aids else '[]'::jsonb end;
   recommendations_acc:=array_append(recommendations_acc,jsonb_build_array(jsonb_build_object(
    'target',jsonb_build_object('kind','PRODUCT','key',r->'target_key','brand_id',product->'brand_id',
     'product_id',product->'root_id','product_version_id',product->'id','size_id',r->'size_id',
@@ -137,8 +165,8 @@ begin
    'target_qty',cp7_analysis_native.fact(r->'target'->>'target_pcs','PCS',refs,row_aids),
    'q_base',cp7_analysis_native.fact(r->>'base_gap_pcs','PCS',refs,row_aids),
    'q_conditional',cp7_analysis_native.fact(r->>'conditional_gap_pcs','PCS',refs,row_aids),
-   'suggested_new',cp7_analysis_native.fact(case when policy in('PAUSED','STOPPED')then '0'else null end,'PCS',refs),
-   'rounding_extra',cp7_analysis_native.fact(null,'PCS',refs),
+   'suggested_new',cp7_analysis_native.fact(rounded->>'suggested_pcs','PCS',refs,rounding_aids),
+   'rounding_extra',cp7_analysis_native.fact(rounded->>'extra_pcs','PCS',refs,rounding_aids),
    'feasible_new',cp7_analysis_native.fact(case when policy in('PAUSED','STOPPED')then '0'else null end,'PCS',refs),
    'unresolved_qty',cp7_analysis_native.fact(case when policy in('PAUSED','STOPPED')then r->>'base_gap_pcs'else null end,'PCS',refs,row_aids),
    'reason_codes',jsonb_build_array('MATERIAL_FEASIBILITY_NOT_PROVEN'),'assumption_ids',row_aids)));
@@ -359,6 +387,7 @@ alter function cp7_analysis_native.material_needs(jsonb,jsonb,jsonb)owner to cp7
 alter function cp7_analysis_native.fingerprint(jsonb)owner to cp7_capture;
 alter function cp7_analysis_native.finance_mode(jsonb)owner to cp7_capture;
 alter function cp7_analysis_native.fact(text,text,jsonb,jsonb)owner to cp7_capture;
+alter function cp7_analysis_native.rounded_suggestion(jsonb)owner to cp7_capture;
 alter function cp7_analysis_native.build(jsonb,jsonb,uuid,jsonb)owner to cp7_capture;
 alter function cp7_analysis_native.serve(uuid)owner to cp7_capture;
 alter function cp7_analysis_native.capture(jsonb,uuid,text)owner to cp7_capture;

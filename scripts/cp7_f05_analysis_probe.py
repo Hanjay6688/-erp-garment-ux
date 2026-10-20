@@ -42,7 +42,7 @@ def verify(cur):
 def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False,payment_correction=False,supplier_payment_correction=False,return_correction=False,sales_chain=False,cutting_correction=False,fabric_recipe=False,fabric_physical=False,fabric_reminder=False,p19_load=False,p19_transport=False,p19_scale=False,p19_staged=False,p19_plan_v2=False,p19_report_v2=False,p19_ai_v2=False,p19_reminder_v2=False,pl5_history_yield=False,k2_retention=False,k3_cleanup=False,k4_runner=False,k6_proof_runner=False,wa_forward=False):
  assert not p19_load or not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_scale,p19_staged)),'P19_LOAD_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
  fabric_any=fabric_recipe or fabric_physical or fabric_reminder
- candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=153;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
+ candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=154;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
  if p19_transport:
   # P19 job/segment transport: its own predeclared IDs on the same closed harness.
   assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_scale,p19_staged)),'P19_TRANSPORT_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
@@ -58,7 +58,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   # P19 staged analysis (5,000 targets): its own predeclared IDs on the same closed harness.
   assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_transport,p19_scale)),'P19_STAGED_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
   import cp7_p19_staged_cases as case_provider
-  expected=case_provider.EXPECTED;assert expected==14;out=OUT.with_name('CP7_P19_STAGED.json');phase='cp7_p19_staged';browser_script='cp7_p19_staged_browser.mjs'
+  expected=case_provider.EXPECTED;assert expected==15;out=OUT.with_name('CP7_P19_STAGED.json');phase='cp7_p19_staged';browser_script='cp7_p19_staged_browser.mjs'
  if p19_plan_v2:
   # P19 plan v2 (production plan from a staged snapshot, live recheck at apply):
   # its own predeclared IDs on the same closed harness.
@@ -148,7 +148,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   import cp7_obligation_report_bundle as candidate
   import cp7_obligation_report_cases as case_provider
   def checker(cur):verify(cur);candidate.verify(cur)
-  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==286;out=OUT.with_name('CP7_F05_NATIVE_ATTENTION.json');phase='cp7_f05_attention';browser_script='cp7_f05_obligation_report_browser_all.mjs'
+  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==287;out=OUT.with_name('CP7_F05_NATIVE_ATTENTION.json');phase='cp7_f05_attention';browser_script='cp7_f05_obligation_report_browser_all.mjs'
  if p18_e01:
   assert not attention
   import cp7_obligation_report_bundle as candidate
@@ -210,7 +210,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   declaration_bytes=declaration_path.read_bytes();declaration=json.loads(declaration_bytes)
   assert declaration['contract']==contract and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS,'FABRIC_PREDECLARED_CASE_BUDGET_CHANGED'
  report=dict(label='CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_NATIVE_ATTENTION'if attention else'CP7_F05_NATIVE_ANALYSIS',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='ATOMIC_POSTED_MISC_NATIVE_INVERSE_REPLACEMENT_HISTORY_EXACT_UUID_CURRENT_AUTH_AND_BROWSER_CORRECTION'if misc_correction else'EXACT_NATIVE_SOURCE_PARENT_CHILD_PAGE_CURRENT_AUTH_OWNING_BROWSER_INVERSE_RETAINED_F03_REVOKE_SCHEDULES'if source_navigation else'NATIVE_INACTIVE_EPISODE_ARCHIVE_NOT_PAID_EXACT_SOURCE_REPLAY_CURRENT_AUTH_AND_RETAINED_E01_BRIDGE'if rule_lifecycle else'FOCUSED_E01_NATIVE_SOURCE_TO_ORIGINAL_REPORT_APPENDIX_RULE_EPISODES_NOT_FULL_P18'if p18_e01 else'IMMUTABLE_NATIVE_PUBLICATIONS_ATTENTION_ALL_NATIVE_OBLIGATION_DOMAINS_UNKNOWN_REVIEW_EPISODES_LOCAL_TEST_SINK'if attention else'FROZEN_ANALYSIS_V2_NATIVE_PUBLICATION_REVISION_PERIOD_COMPARISON_ACCEPTED_OWNER_FINANCE_REUSE_MATERIAL_APPLY_UNKNOWN',source_sha256=hashlib.sha256(candidate.bundle().encode()).hexdigest(),expected_case_count=expected);installed=False
- if attention:report['required_case_counts']=dict(native=181,races=40,http=29,browser=36)
+ if attention:report['required_case_counts']=dict(native=182,races=40,http=29,browser=36)
  if payment_correction:
   report.update(label='CP7_PAYMENT_CORRECTION',scope='ORDINARY_CASH_PAYMENT_ATOMIC_NATIVE_INVERSE_REPLACEMENT_EXACT_HISTORY_OLD_DATES_CURRENT_AUTH_RECOVERY_BROWSER')
  if supplier_payment_correction:

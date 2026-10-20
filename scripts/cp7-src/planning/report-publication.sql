@@ -62,6 +62,9 @@ begin
   lines:=array_append(lines,name||' · '||case r->>'production_state'when'ACTIVE'then'Aktif'when'PAUSED'then'Ditunda'else'Dihentikan'end||': FG '||cp7_analysis_native.report_fact(r->'actual_fg')||
    '; target '||cp7_analysis_native.report_fact(r->'target_qty')||'; gap dasar '||cp7_analysis_native.report_fact(r->'q_base')||
    '; gap bersyarat '||cp7_analysis_native.report_fact(r->'q_conditional')||
+   case when r->'rounding_extra'->>'value'is not null then
+    '; saran sebelum cek bahan/kapasitas '||cp7_analysis_native.report_fact(r->'suggested_new')||
+    '; tambahan kelipatan '||cp7_analysis_native.report_fact(r->'rounding_extra')else ''end||
    '; produksi baru layak '||cp7_analysis_native.report_fact(r->'feasible_new')||
    '; belum tertutup '||cp7_analysis_native.report_fact(r->'unresolved_qty')||'.');
   lines:=array_append(lines,'Identitas produk, size dan membership: '||(r->'target')::text||
