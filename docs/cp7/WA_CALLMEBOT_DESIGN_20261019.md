@@ -208,6 +208,11 @@ terverifikasi. Pesan sungguhan pertama hanya **pesan uji** yang ditekan owner se
 - Penyimpanan: setiap analisis disimpan 7 hari. Diukur sebelumnya: 31 MB per analisis untuk 5.000 target sesudah dibersihkan
   (sekitar 6 KB per target). Tiap 60 menit pada jam 07.00–20.00 berarti sampai sekitar 90 analisis tersimpan; untuk 300
   target sekitar 0,2 GB, untuk 1.000 target sekitar 0,6 GB. Analisis dilewati kalau datanya tidak berubah.
+- Bawaan frekuensi (20 Okt 2026): pertanyaan "60 menit atau 4 jam" ke owner ditarik, karena ini isian di layar Sambungan
+  WhatsApp yang bisa diubah owner kapan saja. Supaya database gratis tidak cepat penuh (owner tidak mau keluar biaya),
+  bawaan diganti menjadi tiap 4 jam (240 menit; paling banyak sekitar 28 analisis tersimpan: 300 target sekitar 0,05 GB,
+  1.000 target sekitar 0,17 GB). Kandidat r6 `b1649535` masih memakai bawaan 60 menit; perubahan satu angka ini dibuat dan
+  diuji bersama pemasangan CP7C, sebelum dipasang di Enteng.
 
 ### Belum pasti (dicek saat pembuatan atau pemasangan)
 
