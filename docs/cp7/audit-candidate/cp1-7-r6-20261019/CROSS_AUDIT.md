@@ -19,7 +19,8 @@ Laporan r5 yang sudah dikunci atas kandidat `17fa2507`:
 
 | Butir | Keputusan | Isi |
 |---|---|---|
-| R6-02 Pengingat sistem dan penerusan ke WhatsApp owner | D17-3..D17-6 (kutipan di `docs/cp7/OWNER_DECISIONS_20261008.md`) | Modul CP7 baru `cp7_alert_native` (`scripts/cp7-src/alerts/alerts.sql`), layar Reminder tab Pengingat sistem dan Sambungan WhatsApp, 24 kasus yang dideklarasikan (`docs/cp7/wa/WA_FORWARD.json`), workflow "CP7 WA Forward". Hanya server CallMeBot palsu di CI; tidak ada pesan atau kunci nyata. Belum dipasang di Enteng (CP7C ditahan, D13-9a) |
+| R6-02 Pengingat sistem dan penerusan ke WhatsApp owner | D17-3..D17-7 (kutipan di `docs/cp7/OWNER_DECISIONS_20261008.md`) | Modul CP7 baru `cp7_alert_native` (`scripts/cp7-src/alerts/alerts.sql`), layar Reminder tab Pengingat sistem dan Sambungan WhatsApp, kasus yang dideklarasikan (`docs/cp7/wa/WA_FORWARD.json`; 24 di kandidat pertama `b1649535`), workflow "CP7 WA Forward". Analisis otomatis bawaan tiap 240 menit (D17-7). Hanya server CallMeBot palsu di CI; tidak ada pesan atau kunci nyata. Belum dipasang di Enteng (CP7C ditahan, D13-9a) |
+| R6-03 Titik pesan ulang dengan rumus (barang jadi, kain, aksesori) | D17-8, D17-9 (usulan `docs/cp7/wa/PROPOSAL_SAFETY_STOCK_R6_20261020.md` disetujui) | Modul CP7 baru `cp7_stock_formula` (`scripts/cp7-src/stock-formula/`), tiga jenis pengingat baru yang diteruskan ke WhatsApp dan dicek ulang sebelum dikirim, panel Titik pesan ulang di layar gudang dan Master Data, lama kirim per bahan diisi Owner/Admin. Kasus di suite WA yang sama (57 di kandidat `3b7bb381`). Desain dan tiga beda dari usulan: `docs/cp7/wa/STOCK_FORMULA_FG_DESIGN.md`; dua di antaranya menunggu keputusan owner |
 
 Batas bukti yang sama di ketiga laporan (CP7C, salinan data nyata, preflight hosted, restore CP2 penuh, cakupan 12 jalur lama,
 kontrol negatif detektor INV-D01, perangkat Apple fisik, WA langsung) tetap ditahan sesuai keputusan owner; tidak dibuka
@@ -31,3 +32,7 @@ ulang.
   buat gw"; "gw maunya tiap kena safety stock dll auto kirim terus, yg sehari 2kali itu juga mau kan ringkasan"; "bukan
   cuma itu, semua hal yg masuk ke reminder harus langsung forward wa biar realtime"; "ya boleh pake yg palsu". Jam
   ringkasan bawaan 08.00 dan 15.00 adalah isian awal penulis, bisa diubah owner di aplikasi.
+- D17-7..D17-9 (20 Okt 2026 WIB), kutipan persis di berkas yang sama: analisis otomatis bawaan tiap 4 jam; titik pesan
+  ulang barang jadi dihitung dengan rumus seperti bahan, dihitung ulang di belakang dan diteruskan ke WhatsApp; "Konek in lah
+  rumus rumus itu penting loh, kenapa writer gak hubungi itu sama sekali ya??". Karena itu kandidat pertama `b1649535` tidak
+  dikirim; paket ini kini memakai `3b7bb381`.

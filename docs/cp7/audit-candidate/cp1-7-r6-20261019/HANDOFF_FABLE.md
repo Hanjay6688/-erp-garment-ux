@@ -7,25 +7,36 @@ Rincian: `README.md` di folder ini.
 Kamu Fable, auditor independen. Ini UJI ULANG PUTARAN r6 untuk ERP Garment, repo Hanjay6688/-erp-garment-ux, cabang
 writer claude/new-session-deapao. Kamu sudah menguji ulang kandidat r5 17fa2507 (audit/fable_cp17_r5/, cabang audit/fable-cp1-7-r5-17fa2507-20261019,
 kunci 2e3d5b38; tidak ada temuan baru; oracle D16-1 tetap ditutup; R5-02 "jawaban sama" bertahan di probe-mu sendiri;
-R5-01 diperbaiki tanpa melonggarkan; catatan alatmu FABLE-R5-TOOL-01..03). Di r6 penulis menguatkan kasus R5 sesuai usulan Sol dan membangun penerusan
-pengingat ke WhatsApp owner atas keputusan owner D17-3..D17-6. Ini pemeriksaan terakhir sebelum CP7C (CP7C tetap ditahan,
+R5-01 diperbaiki tanpa melonggarkan; catatan alatmu FABLE-R5-TOOL-01..03). Di r6 penulis menguatkan kasus R5 sesuai usulan Sol, membangun penerusan
+pengingat ke WhatsApp owner atas keputusan owner D17-3..D17-7, dan menyambungkan rumus titik pesan ulang barang jadi, kain dan
+aksesori ke data ERP dan ke WhatsApp atas D17-8..D17-9. Ini pemeriksaan terakhir sebelum CP7C (CP7C tetap ditahan,
 D13-9a). Fable, Astra dan Sol menguji ulang kandidat yang sama secara terpisah.
 KANDIDAT
-- Commit b1649535c42e9d8641a1128b02e60c23093a0685, tree 954d3ef3c9cbf544cfd66d6f8ddb49d8fd243329. Basis r5: 17fa25075ba77f0853c3c16f504288ace03eec35
+- Commit 3b7bb38178b54a86f07a849e5b59703b31778fc4, tree b9487027918f53e18b1aa9e2baf8ccb911055b2e. Basis r5: 17fa25075ba77f0853c3c16f504288ace03eec35
   (tree 65f778479093d869a3354c0b9f19b4d9a541d98a). Commit sesudah kandidat di cabang writer hanya dokumen; buktikan:
-  git diff --name-only b1649535c42e9d8641a1128b02e60c23093a0685 origin/claude/new-session-deapao. Catat tree produk sebelum dan sesudah auditmu (Pro Max §2.8).
-- supabase/ tidak berubah sejak 17fa2507. Yang berubah: src/ (layar Reminder tab Pengingat sistem dan Sambungan WhatsApp),
-  scripts/ (modul cp7_alert_native, pemasang, kasus WA, server CallMeBot palsu, pemeriksa repo, kasus R5) dan workflow baru
-  .github/workflows/claude-wa-forward.yml: git diff --stat 17fa25075ba77f0853c3c16f504288ace03eec35 b1649535c42e9d8641a1128b02e60c23093a0685 -- src supabase scripts tests .github.
+  git diff --name-only 3b7bb38178b54a86f07a849e5b59703b31778fc4 origin/claude/new-session-deapao. Catat tree produk sebelum dan sesudah auditmu (Pro Max §2.8).
+  Kandidat r6 pertama b1649535 tidak dikirim (owner meminta rumus stok disambungkan dulu, D17-9).
+- supabase/ tidak berubah sejak 17fa2507. Yang berubah: src/ (layar Reminder tab Pengingat sistem dan Sambungan WhatsApp;
+  panel Titik pesan ulang di Ringkasan Barang Jadi, Bahan & Roll, Aksesori, Kain & Benchmark, Aksesori & Harga Mandor),
+  scripts/ (modul cp7_alert_native dan cp7_stock_formula, pemasang, kasus WA dan rumus, server CallMeBot palsu, pemeriksa
+  repo, kasus R5) dan workflow baru .github/workflows/claude-wa-forward.yml:
+  git diff --stat 17fa25075ba77f0853c3c16f504288ace03eec35 3b7bb38178b54a86f07a849e5b59703b31778fc4 -- src supabase scripts tests .github.
 - Bukti penulis: docs/cp7/audit-candidate/cp1-7-r6-20261019/CI_RECEIPT.json (semua run dan job pada kandidat; ringkasan di
-  README.md bagian Kandidat); docs/cp7/cp17/CP17_FIXES.json (345 kasus CP17) dan docs/cp7/wa/WA_FORWARD.json (24 kasus WA),
-  keduanya dideklarasikan sebelum dijalankan. Run, job dan kasus disebut terpisah.
-- Paket: docs/cp7/audit-candidate/cp1-7-r6-20261019/ (README.md per butir R6-01..R6-02, CROSS_AUDIT.md audit silang penulis
+  README.md bagian Kandidat; run merah dibandingkan di RED_RUNS_VS_R6.json); docs/cp7/cp17/CP17_FIXES.json (345 kasus CP17)
+  dan docs/cp7/wa/WA_FORWARD.json (57 kasus WA dan rumus stok), keduanya dideklarasikan sebelum dijalankan. Run, job dan
+  kasus disebut terpisah.
+- Paket: docs/cp7/audit-candidate/cp1-7-r6-20261019/ (README.md per butir R6-01..R6-03, CROSS_AUDIT.md audit silang penulis
   atas ketiga laporan r5). Isinya titik awal penulis, bukan bukti lulus.
 
-KEPUTUSAN OWNER BARU (kutipan persis di docs/cp7/OWNER_DECISIONS_20261008.md, D17-3..D17-6): "yaudah desain callmebot
+KEPUTUSAN OWNER BARU (kutipan persis di docs/cp7/OWNER_DECISIONS_20261008.md, D17-3..D17-9): "yaudah desain callmebot
 buat gw"; "gw maunya tiap kena safety stock dll auto kirim terus, yg sehari 2kali itu juga mau kan ringkasan"; "bukan cuma
-itu, semua hal yg masuk ke reminder harus langsung forward wa biar realtime"; "ya boleh pake yg palsu". Nomor dan kunci
+itu, semua hal yg masuk ke reminder harus langsung forward wa biar realtime"; "ya boleh pake yg palsu" (D17-3..D17-6);
+"Ya 4 jam, tapi kan analisis jalan tiap terjadi sesuatu di background kan? Atau gimana sih" (D17-7: analisis otomatis bawaan
+240 menit); "Bro masalahnya safety stock buat barang jadi kan bakal adjust terus dan angkanya kan snap shot kan, setiap ada
+perubahan dia baru hitung ulang safety stock kan? Itu bakal jalan di background simple. Jadi kalo kena safety stok itu ya
+sama aja kek hitungan safety stock barang mentah dong?? Semua kan pake rumus kalo kita punya barang, gimana dah?" (D17-8);
+"Lama kirim supplier cenderung gak ada data ke record pula" dan "Konek in lah rumus rumus itu penting loh, kenapa writer gak
+hubungi itu sama sekali ya??" (D17-9, usulan docs/cp7/wa/PROPOSAL_SAFETY_STOCK_R6_20261020.md disetujui). Nomor dan kunci
 diisi owner sendiri di layar saat pemasangan, tidak lewat chat; uji hanya dengan server palsu. Keputusan yang sudah
 disahkan tidak dibuka ulang; uji dengan oracle-mu sendiri.
 
@@ -40,13 +51,13 @@ JUGA PERIKSA (bukan temuanmu, dan regresi di sekitarnya)
   savepoint yang dibatalkan, jadi panggilan bersarang memakai grafik lama; (3) nilai buku persis di kedua grafik: PO 120/0/0
   → 96/24/0 → 108/12/0, siklus +24/−12, NULL untuk jurnal yang tidak ada, jawaban banyak baris dan kosong; (4) satu PREPARE
   manual lintas ganti pemetaan FG_INVENTORY dengan auto-prepare mati: 120 → 0 → 120; (5) ke-167 keluaran detektor disimpan
-  per fase di kontrol. CP17 run 39280347023 pada 97e42575: 345 kasus PASS.
-- R6-02 (owner D17-3..D17-6) Pengingat sistem dan penerusan ke WhatsApp owner lewat CallMeBot: modul CP7 baru
+  per fase di kontrol. CP17 run 39368249559 pada kandidat 3b7bb381: 345 kasus PASS.
+- R6-02 (owner D17-3..D17-7) Pengingat sistem dan penerusan ke WhatsApp owner lewat CallMeBot: modul CP7 baru
   cp7_alert_native (scripts/cp7-src/alerts/alerts.sql, pemasang scripts/cp7_alert_bundle.py, desain
   docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md) dan layar Reminder tab Pengingat sistem dan Sambungan WhatsApp (src/waContract.ts,
-  src/SystemRemindersPanel.tsx, src/WaConnectionPanel.tsx). 24 kasus dideklarasikan sebelum dijalankan
-  (docs/cp7/wa/WA_FORWARD.json: Native 15, race 4, HTTP Auth nyata 2, browser 3; workflow "CP7 WA Forward"), hanya server
-  CallMeBot palsu di CI, nomor +620000000000, kunci FAKEKEY-*. Coba patahkan:
+  src/SystemRemindersPanel.tsx, src/WaConnectionPanel.tsx). 57 kasus dideklarasikan sebelum dijalankan untuk R6-02 dan
+  R6-03 bersama (docs/cp7/wa/WA_FORWARD.json: Native 40, race 6, HTTP Auth nyata 4, browser 7; workflow "CP7 WA Forward"),
+  hanya server CallMeBot palsu di CI, nomor +620000000000, kunci FAKEKEY-*. Coba patahkan:
   - kunci CallMeBot hanya di Vault: tidak pernah dijawab balik oleh RPC mana pun, tidak tersimpan di tabel, browser storage
     atau log, teks jawaban penyedia disamarkan; hanya Owner yang boleh mengatur, menguji dan menandai pesan;
   - pengingat pribadi staf tidak pernah diteruskan atau dibaca; nama pelanggan/supplier hanya di mode Rinci; Pengingat sistem
@@ -56,18 +67,45 @@ JUGA PERIKSA (bukan temuanmu, dan regresi di sekitarnya)
     ringkasan, ulangan sesudah jeda; jawaban "ditolak" dikirim lagi sesudah jeda, jawaban "belum pasti" tidak pernah
     dikirim ulang sampai owner menandainya "tidak masuk";
   - kekurangan produksi dan kain dari analisis owner sendiri sama dengan bacaan dan cek ulang modul pengingat itu sendiri
-    (aturan pengingat harus menyala); kebutuhan aksesori sengaja tidak diteruskan; jam analisis hanya menahan analisis
-    otomatis yang baru;
+    (aturan pengingat harus menyala); kebutuhan aksesori dari rencana produksi sengaja tidak diteruskan; jam analisis
+    hanya menahan analisis otomatis yang baru; analisis otomatis bawaan tiap 240 menit (D17-7);
   - tick hanya bisa dijalankan postgres dengan batas waktu pernyataan; jadwal pg_cron dibuat tetapi tidak dipasang;
   - pemasangan sebagai postgres (bukan superuser): temuan F1/F2 di docs/cp7/wa/CP7C_INSTALL_FINDINGS_20261019.md berlaku
     untuk semua bundle CP7, modul WA sudah memakai jalan amannya.
+- R6-03 (owner D17-8, D17-9) Titik pesan ulang dengan rumus: modul CP7 baru cp7_stock_formula
+  (scripts/cp7-src/stock-formula/formula.sql barang jadi, materials.sql kain dan aksesori; desain
+  docs/cp7/wa/STOCK_FORMULA_FG_DESIGN.md), tiga jenis pengingat baru FG_AT_REORDER_POINT, FABRIC_AT_REORDER_POINT,
+  ACCESSORY_AT_REORDER_POINT, panel Titik pesan ulang (src/FgReorderPanel.tsx, src/MaterialReorderPanel.tsx). Kasus rumus
+  SS1_*/SS2_*/SS3_* dan WAF_* terkait ada di suite WA yang sama. Coba patahkan dengan pembandingmu sendiri:
+  - rumus: titik = ceil(D × L + cadangan); cadangan z × σ × √L (90/95/99%) atau D × hari penyangga profil perencanaan,
+    tidak pernah keduanya; jendela hari WIB penuh (bawaan 30, sampai kemarin); hari kehabisan stok tanpa pemakaian bukan
+    permintaan nol; < 14 hari terhitung atau lama kirim kosong: belum cukup data, tidak ada pengingat dan tidak ditebak;
+    bahan dibulatkan ke atas 0,01;
+  - barang jadi: hanya penjualan POSTED yang tidak dibalik; lama produksi terukur dari potong sampai QC (median, ≥ 3
+    potongan), selain itu lead_days profil; barang dalam produksi ikut posisi; angka manual menggantikan rumus, 0 = tidak
+    pernah diingatkan;
+  - kain: pemakaian = keluar ke potong − kembali dari potong + pemakaian pabrik + keluar ke mandor, gerakan yang dibalik tidak
+    dihitung; stok semua lokasi + sisa PO terbuka; kain yang punya minimum di Kain & Benchmark tetap di pengingat lama "Stok
+    kain di bawah minimum" (stok < minimum);
+  - aksesori: nota mandor + pemakaian pabrik − retur nota yang dikreditkan layak pakai; stok hanya yang "ada di gudang" menurut
+    Bahan & Roll (bukan pos servis, area periksa, area rusak);
+  - dihitung tiap menit sekali per perintah; saat kunci modul terpegang, barang yang menipis dicek ulang ke stok saat itu
+    tanpa menulis; setiap pengingat dicek ulang sebelum dikirim ke WA, yang sudah aman tidak dikirim;
+  - hak: barang jadi warehouse.fg.view; kain Bahan & Roll + Kain & Benchmark; aksesori Aksesori; mengubah lama kirim, angka
+    manual, tingkat layanan dan jendela hanya Owner/Admin, riwayatnya tidak bisa diubah; modul pengingat hanya boleh
+    memanggil fg_source() dan material_source(text); hak baca Native baru hanya kolom yang disebut desain.
 - Tab Pengingat saya tetap seperti r5 (pengingat pribadi per akun, aturan pelaku OWNER/ADMIN/STAFF).
 - Bahwa penjaga lama tidak dilonggarkan: kas per tanggal ekonomi dan buku (D14-3, D15-1), bayar upah tidak mendahului akrual
   (D14-2), lantai cutover (D15-5), kebijakan HPP, delta Native yang dideklarasikan hanya berlaku di dalam perintahnya.
 
 YANG SUDAH DIKETAHUI PENULIS (uji sendiri; jangan dianggap benar atau salah tanpa bukti)
 - Lapisan CP7, termasuk WhatsApp, belum terpasang di Enteng (CP7C ditahan, D13-9a); tidak ada pesan atau kunci nyata.
-- Kebutuhan aksesori tidak diteruskan ke WA; STOCK_AT_REORDER_POINT belum dibuat.
+- Kebutuhan aksesori dari rencana produksi tidak diteruskan ke WA (analisis selalu menyatakannya "belum diketahui");
+  gantinya "Stok aksesori menipis" dari rumus stok. Kain yang memakai rumus diingatkan dengan judul sendiri "Stok kain
+  menipis". Kedua hal ini beda dari usulan dan menunggu keputusan owner (desain, bagian "Beda dari usulan"); jangan
+  dianggap keputusan owner.
+- Tingkat layanan 95% belum diuji ke data penjualan owner; lama kirim bahan tidak tercatat di ERP sehingga bahan tanpa isian
+  lama kirim tidak diingatkan rumus.
 - FABLE-012 tetap ditunda ke CP7C (D14-9). Patch backup Sol disiapkan untuk CP7C, tidak dipasang.
 - KNOWN-P19-DIRECT-LATENCY tidak diubah di r6: 100 target dengan angka keuangan sekitar 2,8–3,5 detik di browser pada run
   ketiga auditor r5; 300 target di atas 3 detik. 3 detik tidak ditandai tercapai.
@@ -89,9 +127,9 @@ ATURAN
   sama dengan putaran sebelumnya). Bila ada beda, berkas di repo yang berlaku.
 
 LAPORAN
-- Satu cabang audit baru, usul: audit/fable-cp1-7-r6-b1649535-<tanggal>, dikunci dengan commit sebelum membaca laporan
+- Satu cabang audit baru, usul: audit/fable-cp1-7-r6-3b7bb381-<tanggal>, dikunci dengan commit sebelum membaca laporan
   auditor lain di putaran ini:
-  1. audit/fable_cp17_r6/RETEST_FABLE_b1649535.md — per temuan dan per butir: DITUTUP / MASIH TERBUKA / BARU, dengan bukti;
+  1. audit/fable_cp17_r6/RETEST_FABLE_3b7bb381.md — per temuan dan per butir: DITUTUP / MASIH TERBUKA / BARU, dengan bukti;
   2. audit/fable_cp17_r6/FINDINGS.json — temuan baru per akar masalah, tingkat, bukti; daftar yang harus beres sebelum
      pemasangan ke Enteng (CP7C); daftar "belum saya periksa".
 - Ringkasan untuk owner ≤ 10 kalimat, bahasa sehari-hari. Owner bukan programmer.
