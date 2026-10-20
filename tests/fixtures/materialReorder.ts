@@ -6,19 +6,21 @@ export const materialId = (n: number) => `6b6b0000-0000-4000-8000-${String(n).pa
 export type MaterialWireRow = Record<string, unknown> & { material_id: string; material_type: string; state: string; basis: string; sku: string }
 
 /** A material of `n`: 56 left, 224 used over 30 counted days. A fabric is on the formula (lead 6 days, point 63.34, at or under
- * it); an accessory (owner D17-10, no formula) has no minimum yet: NOT_SET, no lead time, cadangan or formula number. */
+ * it); an accessory (owner D17-10/D17-12, no formula) has no minimum and none of the owner's numbers yet: NOT_SET. */
 export function materialRow(n: number, type: 'FABRIC' | 'ACCESSORY' = 'FABRIC', extra: Record<string, unknown> = {}): MaterialWireRow {
   const own = type === 'FABRIC' ? { lead_days: 6, setting_revision: 1, safety_qty: 18.5521, formula_point: 63.34, point: 63.34, basis: 'FORMULA', reason: null,
     state: 'AT_OR_BELOW' }
-    : { lead_days: null, setting_revision: null, safety_qty: null, formula_point: null, point: null, basis: 'NOT_SET', reason: 'NO_MANUAL_MINIMUM', state: 'NO_POINT' }
+    : { lead_days: null, setting_revision: null, safety_qty: null, formula_point: null, point: null, basis: 'NOT_SET', reason: 'NO_MINIMUM_OR_ESTIMATE',
+      state: 'NO_POINT' }
   return { material_id: materialId(n), material_type: type, sku: `${type === 'FABRIC' ? 'KC' : 'KCG'}-${n}`, name: `${type === 'FABRIC' ? 'Katun' : 'Kancing'} ${n}`,
     unit_code: type === 'FABRIC' ? 'YD' : 'PCS', free_qty: 56, on_order_qty: 0, usage_qty: 224, counted_days: 30, use_days: 22, daily_mean: 7.4667, daily_sd: 4.6043,
-    z: 1.6449, manual_point: null, manual_source: null, changed_at: REORDER_RUN_AT, ...own, ...extra }
+    z: 1.6449, manual_point: null, manual_source: null, moq: null, usage_month_qty: null, buffer_days: null, estimate_point: null, changed_at: REORDER_RUN_AT,
+    ...own, ...extra }
 }
 export function materialCounts(rows: MaterialWireRow[]) {
   const by = (basis: string) => rows.filter(r => r.basis === basis).length
   return { items: rows.length, at_or_below: rows.filter(r => r.state === 'AT_OR_BELOW').length, manual: by('MANUAL'), formula: by('FORMULA'),
-    not_enough_data: by('NOT_ENOUGH_DATA'), no_usage: by('NO_USAGE'), not_set: by('NOT_SET') }
+    estimate: by('ESTIMATE'), not_enough_data: by('NOT_ENOUGH_DATA'), no_usage: by('NO_USAGE'), not_set: by('NOT_SET') }
 }
 type Query = { material_type?: string; q?: string; filter?: string; offset?: number; limit?: number }
 /** The workspace answering `query` over the rows of its material type (filter, search, page), as the server does. */
@@ -28,7 +30,8 @@ export function materialWire(rows: MaterialWireRow[] = [materialRow(1)], query: 
   const order = { AT_OR_BELOW: 0, ABOVE: 1, NO_POINT: 2 } as Record<string, number>
   const hits = mine.filter(r => (q === '' || `${r.sku} ${r.name}`.toLowerCase().includes(q))
     && (filter === 'ALL' || (filter === 'AT_OR_BELOW' && r.state === 'AT_OR_BELOW') || (filter === 'MANUAL' && r.basis === 'MANUAL')
-      || (filter === 'NOT_ENOUGH_DATA' && r.basis === 'NOT_ENOUGH_DATA') || (filter === 'NOT_SET' && r.basis === 'NOT_SET')))
+      || (filter === 'NOT_ENOUGH_DATA' && r.basis === 'NOT_ENOUGH_DATA') || (filter === 'NOT_SET' && r.basis === 'NOT_SET')
+      || (filter === 'ESTIMATE' && r.basis === 'ESTIMATE')))
     .sort((a, b) => order[a.state] - order[b.state] || a.sku.localeCompare(b.sku) || a.material_id.localeCompare(b.material_id))
   const page = hits.slice(offset, offset + limit)
   return { contract_version: 'cp7.material-reorder.v1', material_type: type, read_at: REORDER_READ_AT, settings: reorderSettings(),

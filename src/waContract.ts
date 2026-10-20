@@ -11,7 +11,7 @@ import { isUnansweredFailure, normalizeClientError } from './lib/clientError'
 // SS-1 (owner D17-8, D17-9) adds FG_AT_REORDER_POINT: a finished good at or under its reorder point (cp7_stock_formula);
 // SS-2/SS-3 add ACCESSORY_AT_REORDER_POINT (materials.sql, material_alert_row). Owner D17-10: a fabric on the formula is a row
 // of FABRIC_BELOW_MINIMUM (one title, "Stok kain di bawah minimum"; no separate fabric kind), and an accessory is reminded
-// only by the minimum entered by hand (basis MANUAL, never the formula).
+// only by its minimum, never the formula: typed (MANUAL) or worked out from the owner's numbers (ESTIMATE, D17-12).
 export const alertKinds = ['FABRIC_BELOW_MINIMUM', 'ACCESSORY_AT_REORDER_POINT', 'FG_AT_REORDER_POINT', 'AR_DUE', 'AP_DUE',
   'PRODUCTION_GAP', 'FABRIC_NEED'] as const
 export type AlertKind = typeof alertKinds[number]
@@ -92,8 +92,9 @@ type MaterialReorderFields = {
 }
 /** D17-10: a fabric without a minimum, on the formula, is a row of FABRIC_BELOW_MINIMUM with the material shape. */
 export type FabricFormulaDetail = { kind: 'FABRIC_BELOW_MINIMUM'; materialType: 'FABRIC'; basis: 'FORMULA' } & MaterialReorderFields
-/** D17-10: an accessory at or under the minimum entered by hand (reorderPointQty); no formula, so no lead time or cadangan. */
-export type AccessoryMinimumDetail = { kind: 'ACCESSORY_AT_REORDER_POINT'; materialType: 'ACCESSORY'; basis: 'MANUAL' } & MaterialReorderFields
+/** D17-10/D17-12: an accessory at or under its minimum (reorderPointQty), typed (MANUAL) or worked out from the owner's numbers
+ * (ESTIMATE, with its lama kirim); never the formula, so no cadangan or tingkat layanan. */
+export type AccessoryMinimumDetail = { kind: 'ACCESSORY_AT_REORDER_POINT'; materialType: 'ACCESSORY'; basis: 'MANUAL' | 'ESTIMATE' } & MaterialReorderFields
 export type MaterialReorderDetail = FabricFormulaDetail | AccessoryMinimumDetail
 export type AlertDetail = FabricDetail | MaterialReorderDetail | FgReorderDetail | DueDetail | AnalysisDetail
 /** A detail with the material shape (a fabric on the formula, or an accessory), not the fabric minimum's. */
@@ -267,7 +268,8 @@ function fgReorderDetail(d: Record<string, unknown>): FgReorderDetail {
 
 // material_alert_row writes all thirteen keys (owner D17-10). A fabric in this shape is on the formula only (FABRIC_BELOW_MINIMUM;
 // a fabric with a minimum has the minimum's shape): basis FORMULA with its lama kirim, cadangan and tingkat layanan. An
-// accessory is reminded by its manual minimum only: basis MANUAL, no lama kirim, cadangan or tingkat layanan, nothing on order.
+// accessory is reminded by its minimum only: basis MANUAL (lama kirim optional) or ESTIMATE (with its lama kirim, D17-12), no
+// cadangan or tingkat layanan, nothing on order.
 function materialReorderDetail(kind: 'FABRIC_BELOW_MINIMUM' | 'ACCESSORY_AT_REORDER_POINT', d: Record<string, unknown>): MaterialReorderDetail {
   const what = 'rincian bahan'
   keys(d, ['material_id', 'material_type', 'sku', 'name', 'unit_code', 'free_qty', 'on_order_qty', 'reorder_point_qty', 'basis', 'daily_mean', 'lead_days',
@@ -283,9 +285,10 @@ function materialReorderDetail(kind: 'FABRIC_BELOW_MINIMUM' | 'ACCESSORY_AT_REOR
       || fields.dailyMean === null) fail(what)
     return { kind, materialType: 'FABRIC', basis: 'FORMULA', ...fields }
   }
-  if (d.material_type !== 'ACCESSORY' || d.basis !== 'MANUAL' || fields.safetyQty !== null || fields.serviceLevel !== null || fields.leadDays !== null
+  const basis = d.basis === 'MANUAL' || d.basis === 'ESTIMATE' ? d.basis : fail(what)
+  if (d.material_type !== 'ACCESSORY' || fields.safetyQty !== null || fields.serviceLevel !== null || (basis === 'ESTIMATE' && fields.leadDays === null)
     || Number(fields.onOrderQty) !== 0) fail(what)
-  return { kind, materialType: 'ACCESSORY', basis: 'MANUAL', ...fields }
+  return { kind, materialType: 'ACCESSORY', basis, ...fields }
 }
 
 function alertWa(v: unknown): AlertWa {

@@ -21,9 +21,10 @@ material  SS-2/SS-3: one new fabric (130 YD received 40 days ago, SPARSE cut ove
           one new accessory (280 PCS, SPARSE used by nota mandor and factory use), made with the Native helpers of
           cp7_stock_formula_cases, no lama kirim or minimum saved: their ids, names, units and free stock; for the fabric also
           the oracle's point for a lama kirim of `lead` days (default 6), at or above its stock. Owner D17-10: an accessory
-          has no formula (its minimum is entered by hand), so it has no point here.
+          has no formula, so it has no point here; with `estimate` {usage, lead, buffer} (D17-12) the answer adds the
+          minimum those numbers give (estimate_oracle).
 material_state  read back: each material's evaluation row (to_jsonb of cp7_stock_formula.material_evaluations) and its
-          latest material_settings row.
+          latest material_settings row (with the accessory numbers of D17-12).
 The answer on stdout is JSON only; nothing else is printed, and no key appears in it."""
 from contextlib import redirect_stdout
 from datetime import timedelta
@@ -202,13 +203,16 @@ def main():
                 assert 14 <= window <= 30, ('WAF_MATERIAL_FIXTURE_WINDOW_OVER_30', s)
                 fo = formula.material_oracle(130 - sum(formula.SPARSE[:cut]), formula.SPARSE[cut:], lead, level=s['service_level'])
                 assert fo['basis'] == 'FORMULA' and fo['free'] <= fo['point'], ('WAF_MATERIAL_FIXTURE_NOT_AT_OR_UNDER', fo)
-                # D17-10: the accessory's stock in the warehouse after the SPARSE use (no formula, no point).
+                # D17-10: the accessory's stock in the warehouse after the SPARSE use (no formula, no point); D17-12: the minimum
+                # the owner's numbers give, when the journey names them.
                 afree = 280 - sum(formula.SPARSE)
+                est = p.get('estimate')
+                extra = {} if est is None else dict(estimate=str(formula.estimate_oracle(est['usage'], est['lead'], est['buffer'])))
                 wa.b.api.admin(cur)
                 unit = lambda mid: cur.execute('select unit_code::text from erp.materials where id=%s', (mid,)).fetchone()[0]
                 return dict(today=str(today), lead=str(lead), label_note='TEST_FIXTURE SS-2/SS-3',
                             fabric=dict(id=m['material'], sku=m['sku'], name=m['name'], unit=unit(m['material']), free=str(fo['free']), point=str(fo['point'])),
-                            accessory=dict(id=a['material'], sku=a['sku'], name=a['name'], unit=unit(a['material']), free=str(afree)))
+                            accessory=dict(id=a['material'], sku=a['sku'], name=a['name'], unit=unit(a['material']), free=str(afree), **extra))
             out = committed(target, material)
         elif op == 'material_state':
             def material_state(cur):
@@ -216,10 +220,11 @@ def main():
                 out = {}
                 for mid in p['ids']:
                     e = cur.execute('select to_jsonb(e) from cp7_stock_formula.material_evaluations e where e.material_id=%s', (mid,)).fetchone()
-                    s = cur.execute('select revision,lead_days::text,manual_point::text,reason from cp7_stock_formula.material_settings where material_id=%s '
-                                    'order by revision desc limit 1', (mid,)).fetchone()
+                    s = cur.execute('select revision,lead_days::text,manual_point::text,moq::text,usage_month_qty::text,buffer_days::text,reason '
+                                    'from cp7_stock_formula.material_settings where material_id=%s order by revision desc limit 1', (mid,)).fetchone()
                     out[mid] = dict(evaluation=None if e is None else e[0],
-                                    setting=None if s is None else dict(revision=s[0], lead_days=s[1], manual_point=s[2], reason=s[3]))
+                                    setting=None if s is None else dict(revision=s[0], lead_days=s[1], manual_point=s[2], moq=s[3], usage_month_qty=s[4],
+                                                                        buffer_days=s[5], reason=s[6]))
                 return out
             out = committed(target, material_state)
         elif op == 'restore':

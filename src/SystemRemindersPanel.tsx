@@ -109,7 +109,7 @@ function AlertRow({ alert: a, owner }: { alert: SystemAlert; owner: boolean }) {
       {fg ? <small>SKU {fg.sku} · titik pesan ulang dari {fg.basis === 'MANUAL' ? 'angka manual' : 'rumus'} · rinciannya di Gudang › Ringkasan Barang Jadi</small> : null}
       {material ? <small>SKU {material.sku} · {material.materialType === 'FABRIC'
         ? 'minimum dari rumus, karena kain ini belum punya minimum di Kain & Benchmark · rinciannya di Gudang › Bahan & Roll'
-        : 'batas minimum diisi manual · rinciannya di Gudang › Aksesori'}</small> : null}
+        : `batas minimum ${material.basis === 'MANUAL' ? 'diketik manual' : 'dari isian hitungan'} · rinciannya di Gudang › Aksesori`}</small> : null}
       <small>Muncul {formatCp6WibDateTime(a.openedAt)}{a.episode > 1 ? ` (muncul lagi, ke-${a.episode})` : ''} · diperbarui {formatCp6WibDateTime(a.refreshedAt)}</small>
       {a.state === 'RESOLVED' ? <small className="csys-resolved">Beres {formatCp6WibDateTime(a.resolvedAt ?? '')} · {resolutionLabel(a.resolution, a.kind)}</small> : null}
     </div>
