@@ -28,6 +28,16 @@ async function click(e:HTMLElement){await act(async()=>e.click());await flush()}
 async function add(location='Gudang lain'){await click(button(location));await click(container.querySelector<HTMLElement>('[aria-label="Pilih alokasi retur"] .cproc-receipt:not(:disabled)')!)}
 async function header(){await fill('Nomor retur pelanggan','RET-NEW');await fill('Waktu retur pelanggan WIB','2026-09-29T12:31')}
 describe('P11 selected-allocation physical return',()=>{
+ it('requires an explicitly entered goods-return time before dispatch and preserves that WIB instant',async()=>{
+  await mount();expect(input('Waktu retur pelanggan WIB').value).toBe('')
+  await fill('Nomor retur pelanggan','RET-EXPLICIT-TIME');await add();await fill('Jumlah retur 1','1');await fill('Nilai retur 1','20')
+  await click(input('Retur pelanggan sudah diperiksa'));expect(button('Catat retur pelanggan').disabled).toBe(true)
+  await click(button('Catat retur pelanggan'));expect(saved).not.toHaveBeenCalled()
+  await fill('Waktu retur pelanggan WIB','2026-09-29T12:31');expect(input('Retur pelanggan sudah diperiksa').checked).toBe(false)
+  await click(input('Retur pelanggan sudah diperiksa'));expect(button('Catat retur pelanggan').disabled).toBe(false)
+  await click(button('Catat retur pelanggan'));expect(saved).toHaveBeenCalledOnce()
+  expect(saved.mock.calls[0][1].physical_at).toBe('2026-09-29T05:31:00.000Z')
+ })
  it('retains entered lines and review across owning history renders with the same read ticket callbacks',async()=>{
   const ticket={sequence:1,scope:'owning',signature:'source' as string|null,session:{}},currentReadTicket=()=>ticket,isReadCurrent=(t:typeof ticket)=>t===ticket,inputs={},onInvalid=vi.fn()
   const render=async()=>{await act(async()=>root.render(<SalesReturnPanel source={source} locked={false} stale={false} onSave={saved} onClose={()=>{}} inputs={inputs} onInvalid={onInvalid} readFence={{currentReadTicket,isReadCurrent}}/>));await flush()}

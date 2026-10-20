@@ -117,3 +117,19 @@ K6job118620792566 belum menguji produk: port54322 bentrok, lalu registry
 menolak unduhan akibat batas data. Bukti awal disimpan, tidak diubah menjadi
 PASS; GitHub menolak permintaan ulang selama workflow masih berjalan.
 Skala5.000 masih berjalan pada saat pembaruan ini. Bukan bukti SLA1/2/3detik.
+
+## OW-04 mulai dikerjakan — belum selesai
+
+Keputusan penyelesaian retur sudah ada pada D17-14. Empat pembantu Sol Max
+menelusuri satu sumber yang sama, lalu saling counter. Peta lengkap pembaca
+piutang/status/detektor, lock, koreksi, akun, undo dan fixture disimpan di
+`d17-14/ow04/SETTLEMENT_SOURCE_MAP.md`; semua hitungan di sana expected sumber,
+bukan runtime kredit/refund baru. Native lama tidak boleh dilonggarkan hanya
+dengan menghapus penolakan overpayment. Kredit/refund masih belum tersedia.
+
+Satu cacat pendahuluan sudah ditulis perbaikannya: waktu penerimaan retur
+baru tidak lagi diisi dari jam buka halaman. Uji baru merah1/10 sebelum
+perbaikan; seluruh32 kasus tiga formulir lulus sesudahnya. Browser P11
+desktop/HP diperkuat dengan waktu eksplisit dan pemeriksaan instant tersimpan;
+CI64 kasus diaktifkan pada cabang writer. Bukti/batas: ow04/PHYSICAL_TIME.md.
+Native/browser perbaikannya belum ada saat catatan ini dibuat.

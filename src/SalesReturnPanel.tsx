@@ -5,7 +5,7 @@ import {useAuth} from './auth/AuthProvider'
 import {isConnectedRuntime} from './config/runtime'
 import {getUatSupabaseClient} from './lib/supabase'
 import {normalizeClientError} from './lib/clientError'
-import {cp6WibDateTimeInput,cp6WibPhysicalTimeToIso,formatCp6WibDateTime} from './cp6BusinessTime'
+import {cp6WibPhysicalTimeToIso,formatCp6WibDateTime} from './cp6BusinessTime'
 import {formatReceiptDecimal as numberText} from './procurementContract'
 import {salesCashAmount} from './salesCashContract'
 import {salesQtyInput,type SalesRead} from './salesReadContract'
@@ -23,7 +23,7 @@ export default function SalesReturnPanel({source,locked,stale,onClose,onSave,inp
  const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi retur belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),seq=useRef(0),query=useRef({ALLOCATIONS:{offset:0,q:''},RETURNS:{offset:focus?.page_offset??0,q:''},LOCATIONS:{offset:0,q:''}})
  const [data,setData]=useState<{allocations:Read<Allocation>;returns:Read<Record>;locations:Read<Location>}|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState('')
- const [q,setQ]=useState(''),[locationQ,setLocationQ]=useState(''),[location,setLocation]=useState<Location|null>(null),[number,setNumber]=useState(''),[at,setAt]=useState(()=>cp6WibDateTimeInput()),[notes,setNotes]=useState(''),[reason,setReason]=useState('Barang retur dan invoice sudah diperiksa'),[review,setReview]=useState(false),[reverse,setReverse]=useState<Record|null>(null),[lines,setLines]=useState<Line[]>([])
+ const [q,setQ]=useState(''),[locationQ,setLocationQ]=useState(''),[location,setLocation]=useState<Location|null>(null),[number,setNumber]=useState(''),[at,setAt]=useState(''),[notes,setNotes]=useState(''),[reason,setReason]=useState('Barang retur dan invoice sudah diperiksa'),[review,setReview]=useState(false),[reverse,setReverse]=useState<Record|null>(null),[lines,setLines]=useState<Line[]>([])
  const currentReadTicket=readFence?.currentReadTicket,isReadCurrent=readFence?.isReadCurrent
  const dataTicket=useRef<ReturnType<NonNullable<typeof currentReadTicket>>>(null)
  const [correction,setCorrection]=useState<{id:string;number:string;edit:boolean}|null>(null)

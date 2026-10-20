@@ -3,6 +3,7 @@ name: CP7 P11 Sales
   push:
     branches:
     - cp7/integration
+    - astra/d17-14-20261020
     paths:
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7-src/sales/**
