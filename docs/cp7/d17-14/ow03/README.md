@@ -79,3 +79,52 @@ Native ditambah. Tidak ada klaim bahwa kesepakatan agen membuktikan produk.
 Replay lintas versi penuh di PostgreSQL Native belum dibuktikan; fixture
 Native menggunakan bentuk legacy, sedangkan pemeriksaan upgrade apply lama
 ke baru yang dilaporkan pemeriksa memakai sumber/identitas sintetis PGlite.
+
+## Hasil Native pertama — kandidat2ad56e14
+
+Run `39420750723`, job `118620792464`: **38/38 PASS**, pemulihan CP6 dan advisor
+PASS; receipt lengkap `CI_39420750723.json`. Hash sumber terpasang
+`9e2603d23d8dcdf25861f5956f87b2eb94c9f9fcda9cc25c0d7214c17cc306d2`.
+Bukti ini mencakup simpan12 dari browser sungguhan, ulang UUID sesudah
+balasan hilang dan pembacaan kembali; bukti ini sendiri belum membuktikan
+bahwa compiler analisis memakai profil hasil simpan yang sama.
+
+Run `39420750819`, job `118620792620`: **154/154 PASS**. Run `39420750772`,
+job `118620792697`: **15/15 PASS**, termasuk kasus Native baru dengan dua
+kelipatan12/5, parity hasil utuh pada referensi sama, publikasi laporan kedua
+jalur, clearUNKNOWN dan arsip immutable. Kedua receipt mencatat hash sumber
+`3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005`;
+pemulihan CP6/advisor PASS. Browser langsung dan bertahap desktop/HP PASS.
+Receipt: `CI_39420750819.json` dan `CI_39420750772_STAGED.json`.
+Transport juga **15/15 PASS** pada job118620792626, receipt
+`CI_39420750772_TRANSPORT.json`; nama job lama bukan jumlah kasus aktual.
+Hasil ini memakai kandidat produk2ad, sebelum penguatan perjalanan tunggal
+di bawah; tidak dilabeli sebagai runtime alat uji yang belum dijalankan.
+
+## Penguatan alat uji setelah produk2ad — expected sebelum run
+
+Hanya dua berkas alat uji berubah: `cp7_f05_analysis_browser.mjs` dan
+`cp7_f05_analysis_browser_fixture.py`. Kode produk tetap byte-identik dengan
+2ad56e14. Perjalanan browser utama sekarang tidak menyuntikkan M melalui
+fixture: profil mula-mula kosong, pengguna mengisi12, menyimpan lewat RPC,
+memuat aturan kembali dan membaca12. Analisis sesudahnya wajib memberi
+gap93/saran96/tambahan3 dengan ID/revisi **hasil simpan layar yang sama**,
+pada desktop dan HP. Expected keuangan, arsip, replay,403 dan larangan efek
+bisnis tetap utuh. Jumlah kasus F05 tetap154; ini penguatan dua kasus browser.
+
+Jadwal fixture terikat hash sumber. Sesudah simpan profil, langkah terpisah
+`review_schedule` meninjau ulang pekerjaan Native yang sama terhadap suplai
+terbaru, tanpa mengubah konfigurasi. Ini dinyatakan terbuka sebagai langkah
+fixture; bukan bukti bahwa peninjauan kalender dilakukan melalui layar.
+Operasi lama `update_schedule` tetap mengubah unit_minutes menjadi4 untuk
+menguji arsip basi. Counter-review read-only Sol Max pada patch
+`13ee8eae1c44405b25dfaa4293d17b6433bbb6e01dc34b094e70dd130e07947f`
+tidak menemukan penghalang; Node syntax dan Python AST PASS. Runtime baru
+belum ada ketika expected ini ditulis. F05 terpicu; matriks P19 tidak perlu
+diulang karena produk dan kasus matriks tidak berubah.
+
+Tambahan pemeriksaan lokal: `local-compile-check.mjs` membuat60 fungsi dari
+lima sumber SQL kandidat2ad di PGlite0.5.10 dengan row-type kosong;
+`local-compile-result.jsonl` mencatat60/60 berhasil. Ini hanya kompilasi tubuh,
+bukan bukti perencanaan kueri, izin atau bisnis Native. Log stderr kosong
+dipertahankan. Jangan menambahkan angka60 ke jumlah kasus Native.

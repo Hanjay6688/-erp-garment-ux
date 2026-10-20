@@ -5,7 +5,7 @@ Penulis: Astra/Codex. Cabang `astra/d17-14-20261020`, mulai dari
 sesudah serah-terima D17-14. Kandidat auditor `55c885d1` tetap beku.
 
 Lingkup kini semua **16 butir** `OPEN_WORK_D17_14_20261020.md` (15 D17-14 + OW-16 D17-15).
-Belum ada butir yang dinyatakan selesai penuh.
+OW-02 sudah selesai terbukti pada cakupan kebutuhan aplikasi; pemasangan operasional CP7C tetap HOLD.
 Penulis tidak memberikan penerimaan audit independen. Pemeriksa berikutnya Fable atau Sol.
 `production_go:false`; tidak ada perubahan hosted, main, Cloudflare, Drive, atau pengiriman WA nyata.
 
@@ -77,7 +77,9 @@ receipt per kasus disimpan di `docs/cp7/d17-14/ow01/CI_39411967784.json`.
 K4 run39411967722/job118591662201 **28/32 PASS,4 INCOMPLETE**. Empat browser
 lulus, tetapi tiga fixture pencabutan OWNER terakhir dan satu pembanding clock
 pengingat perlu diperbaiki. Kegagalan awal dan diagnosis disimpan; perbaikan
-alat uji tidak mengubah penjalan atau pengaman produk. Menunggu Native ulang.
+alat uji tidak mengubah penjalan atau pengaman produk. Pada kandidat2ad56e14,
+run39420750772/job118620792070 kemudian **32/32 PASS**, restore/advisor PASS.
+Receipt lengkap `docs/cp7/d17-14/ow02/CI_39420750772.json`; kegagalan awal tetap ada.
 
 OW-03 kini mempunyai isian kelipatan PCS per produk/ukuran, tanpa default,
 legacy UUID tetap, helper exact bersama untuk direct/staged, dan teks laporan
@@ -85,7 +87,15 @@ bersyarat.40/40 profil dan17/17 layar bertahap lulus lokal;165 pemeriksaan
 PGlite sintetis terdokumentasi. Tiga kegagalan401 sebelum perbaikan disimpan.
 Native profile38 dan staged15 beserta browserdesktop/HP dideklarasikan,
 termasuk gap93->96+3, M5->95+2, bahan186 tetap, clearUNKNOWN, arsip utuh,
-publikasi langsung/bertahap dan izin dicabut. Hasil CI perubahan ini belum ada.
+publikasi langsung/bertahap dan izin dicabut. F04 kandidat2ad56e14 kemudian
+**38/38 PASS**, run39420750723/job118620792464, restore/advisor PASS; receipt
+`docs/cp7/d17-14/ow03/CI_39420750723.json`. Analisis penuh kemudian **154/154 PASS**,
+run39420750819/job118620792620; staged **15/15 PASS** pada
+run39420750772/job118620792697. Receipt masing-masing ada di folder ow03.
+Penguatan perjalanan yang mengetik12 di layar lalu memakai profil yang sama
+untuk analisis96+3 disiapkan sebagai follow-up alat uji; belum runtime.
+WA pada2ad juga **65/65 PASS**,
+run39420750724/job118620792072; receipt `docs/cp7/d17-14/ow01/CI_39420750724.json`.
 Rincian/reproduksi: `docs/cp7/d17-14/ow03/README.md`.
 
 Paket auditor baru tetap menunggu syarat Kelompok1, termasuk batas WA yang

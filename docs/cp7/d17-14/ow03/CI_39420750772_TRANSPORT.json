@@ -1,0 +1,2447 @@
+{
+  "kind": "INTERNAL_WRITER_RUNTIME_NOT_EXTERNAL_ACCEPTANCE",
+  "candidate": "2ad56e147a180c3fb2c433aed53cadb6a421f434",
+  "run_id": 39420750772,
+  "job_id": 118620792626,
+  "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39420750772/job/118620792626",
+  "cases": [
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RECEIPT",
+      "raw_qty": 100,
+      "raw_value": 1000,
+      "supplier_ap": 1000,
+      "grni": 0
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "CUTTING",
+      "raw_qty": 40,
+      "raw_value": 400,
+      "consumed_value": 600,
+      "produced_pcs": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "SEWING",
+      "legs": [
+        30,
+        30
+      ],
+      "cost": 120,
+      "completion_ids": [
+        "ae18bf3c-170c-4c20-975d-b048c81c781d",
+        "1ef2b0f1-0260-4b0d-bdc3-2abb8f9300b1"
+      ]
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "LAUNDRY_QC",
+      "laundry_legs": [
+        30,
+        30
+      ],
+      "qc": [
+        20,
+        40
+      ],
+      "fg": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "FINAL_FG",
+      "fg": 60,
+      "value": 900,
+      "hpp": 15,
+      "wip": 0,
+      "raw": 600,
+      "sewing": 120,
+      "accessory": 60,
+      "laundry": 120,
+      "current_hpp_components": {
+        "ACCESSORY": "60.000000",
+        "LABOR": "120.000000",
+        "LAUNDRY": "120.000000",
+        "MATERIAL": "600.000000"
+      },
+      "hpp_completeness": {
+        "po_id": "78a8d57a-6aff-4701-943a-a534af20c323",
+        "po_number": "E01-896895209f00",
+        "po_status": "FINISHED",
+        "hpp_per_pcs": 15,
+        "is_adjusted": false,
+        "latest_hpp_at": "2026-10-20T19:19:34.896814+07:00",
+        "qty_basis_pcs": 60,
+        "display_status": "LENGKAP_BERDASARKAN_DATA_SAAT_INI",
+        "pending_reasons": [],
+        "current_hpp_total": 900,
+        "engine_cost_state": "ACTUAL",
+        "pending_reason_count": 0
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "NOTA_PAYROLL",
+      "note": "76c956e3-2205-41b9-a28b-10876ff62dcb",
+      "payroll": "fcfaab91-7a6b-46a6-90ea-a095cb258351",
+      "labor": 120,
+      "accessory_reimbursement": 60,
+      "approved_unpaid": 180,
+      "same_request_once": true,
+      "stock_hpp_journals_unchanged": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "REPORT_READY",
+      "confidence": {
+        "info": [],
+        "as_of": "2026-10-20",
+        "engine": "PERIOD_READINESS_V1",
+        "filing": null,
+        "status": "READY",
+        "blockers": [],
+        "window_from": "2026-10-17",
+        "failed_checks": [],
+        "closed_through": "2026-10-16",
+        "warning_issue_count": "0",
+        "changed_since_filing": false,
+        "critical_issue_count": "0",
+        "pending_cost_recalc_count": "0"
+      },
+      "seed_completion": {
+        "attendance": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "2f6e4b44-aba3-4bb0-99b0-0a1d4e55a310",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000002",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "61e8f2a2-7b43-46d5-a764-adea2d60fbb5",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000003",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "0b9f7e7b-d580-49cd-a2aa-2f9d32ee9690",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000005",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "a93d2630-5cef-49ed-92e7-1609922a2331",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          }
+        ],
+        "approved": [
+          "a6000000-0000-0000-0000-000000000021"
+        ],
+        "work_payrolls": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "start": "2026-08-30",
+            "end": "2026-09-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000004",
+            "start": "2026-01-01",
+            "end": "2026-01-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000006",
+            "start": "2026-04-01",
+            "end": "2026-04-01"
+          }
+        ],
+        "refused": []
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "DRAFT_SALE",
+      "available": 40,
+      "no_gl": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "PAYMENT",
+      "cash": 200,
+      "ar": 300,
+      "revenue": 500,
+      "cogs": 300,
+      "fg": 40,
+      "fg_value": 600
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RETURN_AND_REPORT",
+      "fg": 45,
+      "fg_value": 675,
+      "cogs": 225,
+      "revenue": 375,
+      "ar": 175,
+      "cash": 200,
+      "gross_profit": 150,
+      "replay_no_second_effect": true
+    },
+    {
+      "group": "CP7_P19_TRANSPORT",
+      "case": "P19T_JOB_COMPLETE_ORIGINAL",
+      "status": "PASS",
+      "request_run_get_manifest_segments_exact": true,
+      "job_elapsed_ms": 339.264,
+      "document": {
+        "sha256": "115c3a8689a2be08be7ef7cd348d6f972c13fae191d0e119e2a7dbed351d33ca",
+        "characters": 170004,
+        "utf8_bytes": 170004,
+        "segment_count": 1,
+        "segment_characters": 2000000
+      },
+      "one_Original_one_document_one_job": true,
+      "ordinary_capture_same_UUID_same_Original": true,
+      "Native_business_unchanged": true,
+      "statement_timeout": "8s",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_P19_TRANSPORT",
+      "case": "P19T_MULTI_SEGMENT_EXACT",
+      "status": "PASS",
+      "explicit_synthetic_transport_only": true,
+      "analysis_credit": false,
+      "segments": 3,
+      "multibyte_segment_cuts_exact": true,
+      "every_segment_within_8000000_bytes": true,
+      "immutable_document": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RECEIPT",
+      "raw_qty": 100,
+      "raw_value": 1000,
+      "supplier_ap": 1000,
+      "grni": 0
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "CUTTING",
+      "raw_qty": 40,
+      "raw_value": 400,
+      "consumed_value": 600,
+      "produced_pcs": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "SEWING",
+      "legs": [
+        30,
+        30
+      ],
+      "cost": 120,
+      "completion_ids": [
+        "2fb76531-4e7f-4a7d-a2d3-75b8c9815091",
+        "075e4470-54b3-4358-afc4-d82cee89d319"
+      ]
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "LAUNDRY_QC",
+      "laundry_legs": [
+        30,
+        30
+      ],
+      "qc": [
+        20,
+        40
+      ],
+      "fg": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "FINAL_FG",
+      "fg": 60,
+      "value": 900,
+      "hpp": 15,
+      "wip": 0,
+      "raw": 600,
+      "sewing": 120,
+      "accessory": 60,
+      "laundry": 120,
+      "current_hpp_components": {
+        "ACCESSORY": "60.000000",
+        "LABOR": "120.000000",
+        "LAUNDRY": "120.000000",
+        "MATERIAL": "600.000000"
+      },
+      "hpp_completeness": {
+        "po_id": "8c8f0884-db71-4ddd-b3af-3254b9d70952",
+        "po_number": "E01-a4ec26839cb2",
+        "po_status": "FINISHED",
+        "hpp_per_pcs": 15,
+        "is_adjusted": false,
+        "latest_hpp_at": "2026-10-20T19:19:42.358812+07:00",
+        "qty_basis_pcs": 60,
+        "display_status": "LENGKAP_BERDASARKAN_DATA_SAAT_INI",
+        "pending_reasons": [],
+        "current_hpp_total": 900,
+        "engine_cost_state": "ACTUAL",
+        "pending_reason_count": 0
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "NOTA_PAYROLL",
+      "note": "feead763-b35e-4acd-90a8-eb56bd68b69e",
+      "payroll": "1670b296-5423-4f7c-8c57-7dbfb5d46df8",
+      "labor": 120,
+      "accessory_reimbursement": 60,
+      "approved_unpaid": 180,
+      "same_request_once": true,
+      "stock_hpp_journals_unchanged": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "REPORT_READY",
+      "confidence": {
+        "info": [],
+        "as_of": "2026-10-20",
+        "engine": "PERIOD_READINESS_V1",
+        "filing": null,
+        "status": "READY",
+        "blockers": [],
+        "window_from": "2026-10-17",
+        "failed_checks": [],
+        "closed_through": "2026-10-16",
+        "warning_issue_count": "0",
+        "changed_since_filing": false,
+        "critical_issue_count": "0",
+        "pending_cost_recalc_count": "0"
+      },
+      "seed_completion": {
+        "attendance": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "d4fe4b78-704f-42a4-ad10-85425e057300",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000002",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "bca0d903-b585-4e17-ae91-b891c0b045e9",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000003",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "338dc344-0ce0-4e1f-b49c-e130647e5580",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000005",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "f03a08b9-cca6-4f99-9b1f-72a6e4b23f9b",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          }
+        ],
+        "approved": [
+          "a6000000-0000-0000-0000-000000000021"
+        ],
+        "work_payrolls": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "start": "2026-08-30",
+            "end": "2026-09-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000004",
+            "start": "2026-01-01",
+            "end": "2026-01-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000006",
+            "start": "2026-04-01",
+            "end": "2026-04-01"
+          }
+        ],
+        "refused": []
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "DRAFT_SALE",
+      "available": 40,
+      "no_gl": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "PAYMENT",
+      "cash": 200,
+      "ar": 300,
+      "revenue": 500,
+      "cogs": 300,
+      "fg": 40,
+      "fg_value": 600
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RETURN_AND_REPORT",
+      "fg": 45,
+      "fg_value": 675,
+      "cogs": 225,
+      "revenue": 375,
+      "ar": 175,
+      "cash": 200,
+      "gross_profit": 150,
+      "replay_no_second_effect": true
+    },
+    {
+      "group": "CP7_P19_TRANSPORT",
+      "case": "P19T_SEGMENT_AUTHORITY",
+      "status": "PASS",
+      "foreign_actor_manifest_segment_job_refused": true,
+      "access_epoch_change_refused": true,
+      "current_permission_loss_refuses_all_five": true,
+      "finance_refusal_equals_serve": true,
+      "stale_state_equals_serve": true,
+      "no_direct_API_path": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RECEIPT",
+      "raw_qty": 100,
+      "raw_value": 1000,
+      "supplier_ap": 1000,
+      "grni": 0
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "CUTTING",
+      "raw_qty": 40,
+      "raw_value": 400,
+      "consumed_value": 600,
+      "produced_pcs": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "SEWING",
+      "legs": [
+        30,
+        30
+      ],
+      "cost": 120,
+      "completion_ids": [
+        "88abc0be-43c6-4118-b836-78df4450082b",
+        "65af5493-8967-4692-9b85-df46cd827186"
+      ]
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "LAUNDRY_QC",
+      "laundry_legs": [
+        30,
+        30
+      ],
+      "qc": [
+        20,
+        40
+      ],
+      "fg": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "FINAL_FG",
+      "fg": 60,
+      "value": 900,
+      "hpp": 15,
+      "wip": 0,
+      "raw": 600,
+      "sewing": 120,
+      "accessory": 60,
+      "laundry": 120,
+      "current_hpp_components": {
+        "ACCESSORY": "60.000000",
+        "LABOR": "120.000000",
+        "LAUNDRY": "120.000000",
+        "MATERIAL": "600.000000"
+      },
+      "hpp_completeness": {
+        "po_id": "f7cda57d-8299-4aeb-b682-0b9d7ded77ca",
+        "po_number": "E01-a6988d7e63b0",
+        "po_status": "FINISHED",
+        "hpp_per_pcs": 15,
+        "is_adjusted": false,
+        "latest_hpp_at": "2026-10-20T19:19:48.155233+07:00",
+        "qty_basis_pcs": 60,
+        "display_status": "LENGKAP_BERDASARKAN_DATA_SAAT_INI",
+        "pending_reasons": [],
+        "current_hpp_total": 900,
+        "engine_cost_state": "ACTUAL",
+        "pending_reason_count": 0
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "NOTA_PAYROLL",
+      "note": "b5c6a68a-4200-46b4-8508-d404f516f6e2",
+      "payroll": "8390bbea-a8ae-4309-9225-ed0161acedcb",
+      "labor": 120,
+      "accessory_reimbursement": 60,
+      "approved_unpaid": 180,
+      "same_request_once": true,
+      "stock_hpp_journals_unchanged": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "REPORT_READY",
+      "confidence": {
+        "info": [],
+        "as_of": "2026-10-20",
+        "engine": "PERIOD_READINESS_V1",
+        "filing": null,
+        "status": "READY",
+        "blockers": [],
+        "window_from": "2026-10-17",
+        "failed_checks": [],
+        "closed_through": "2026-10-16",
+        "warning_issue_count": "0",
+        "changed_since_filing": false,
+        "critical_issue_count": "0",
+        "pending_cost_recalc_count": "0"
+      },
+      "seed_completion": {
+        "attendance": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "54cb4aba-8eb8-4d4e-aa30-96b27768336a",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000002",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "1b3b3b13-47b3-4106-a761-1b85179f195f",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000003",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "105b77f5-250b-445b-9f58-52c1af24d1a0",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000005",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "b0302b23-97be-4b93-87b5-d3c364d875a3",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          }
+        ],
+        "approved": [
+          "a6000000-0000-0000-0000-000000000021"
+        ],
+        "work_payrolls": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "start": "2026-08-30",
+            "end": "2026-09-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000004",
+            "start": "2026-01-01",
+            "end": "2026-01-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000006",
+            "start": "2026-04-01",
+            "end": "2026-04-01"
+          }
+        ],
+        "refused": []
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "DRAFT_SALE",
+      "available": 40,
+      "no_gl": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "PAYMENT",
+      "cash": 200,
+      "ar": 300,
+      "revenue": 500,
+      "cogs": 300,
+      "fg": 40,
+      "fg_value": 600
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RETURN_AND_REPORT",
+      "fg": 45,
+      "fg_value": 675,
+      "cogs": 225,
+      "revenue": 375,
+      "ar": 175,
+      "cash": 200,
+      "gross_profit": 150,
+      "replay_no_second_effect": true
+    },
+    {
+      "group": "CP7_P19_TRANSPORT",
+      "case": "P19T_JOB_IDENTITY_REFUSALS",
+      "status": "PASS",
+      "ordinary_capture_UUID_adopted_without_recompute": true,
+      "changed_query_refused": true,
+      "unknown_UUID_refused": true,
+      "missing_UUID_refused": true,
+      "foreign_or_missing_run_refused": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RECEIPT",
+      "raw_qty": 100,
+      "raw_value": 1000,
+      "supplier_ap": 1000,
+      "grni": 0
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "CUTTING",
+      "raw_qty": 40,
+      "raw_value": 400,
+      "consumed_value": 600,
+      "produced_pcs": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "SEWING",
+      "legs": [
+        30,
+        30
+      ],
+      "cost": 120,
+      "completion_ids": [
+        "e339bab5-a360-4d13-9e97-b16254d80ce0",
+        "6ecd3155-53bf-4d77-9ae9-ac72c0be5dbd"
+      ]
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "LAUNDRY_QC",
+      "laundry_legs": [
+        30,
+        30
+      ],
+      "qc": [
+        20,
+        40
+      ],
+      "fg": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "FINAL_FG",
+      "fg": 60,
+      "value": 900,
+      "hpp": 15,
+      "wip": 0,
+      "raw": 600,
+      "sewing": 120,
+      "accessory": 60,
+      "laundry": 120,
+      "current_hpp_components": {
+        "ACCESSORY": "60.000000",
+        "LABOR": "120.000000",
+        "LAUNDRY": "120.000000",
+        "MATERIAL": "600.000000"
+      },
+      "hpp_completeness": {
+        "po_id": "2a35b031-0da8-469f-bcf4-5998588f67aa",
+        "po_number": "E01-6b97c59a38ba",
+        "po_status": "FINISHED",
+        "hpp_per_pcs": 15,
+        "is_adjusted": false,
+        "latest_hpp_at": "2026-10-20T19:19:52.006252+07:00",
+        "qty_basis_pcs": 60,
+        "display_status": "LENGKAP_BERDASARKAN_DATA_SAAT_INI",
+        "pending_reasons": [],
+        "current_hpp_total": 900,
+        "engine_cost_state": "ACTUAL",
+        "pending_reason_count": 0
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "NOTA_PAYROLL",
+      "note": "d7fe9d8b-3ea6-4b59-a48e-8f4d1ff2e3e0",
+      "payroll": "d26fb072-cc87-4922-901c-03876ab3169b",
+      "labor": 120,
+      "accessory_reimbursement": 60,
+      "approved_unpaid": 180,
+      "same_request_once": true,
+      "stock_hpp_journals_unchanged": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "REPORT_READY",
+      "confidence": {
+        "info": [],
+        "as_of": "2026-10-20",
+        "engine": "PERIOD_READINESS_V1",
+        "filing": null,
+        "status": "READY",
+        "blockers": [],
+        "window_from": "2026-10-17",
+        "failed_checks": [],
+        "closed_through": "2026-10-16",
+        "warning_issue_count": "0",
+        "changed_since_filing": false,
+        "critical_issue_count": "0",
+        "pending_cost_recalc_count": "0"
+      },
+      "seed_completion": {
+        "attendance": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "4af5e166-a1c6-43e2-ad6f-6d0075c03636",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000002",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "5b526e7d-8182-400b-ac9e-b67808cd4fc4",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000003",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "fc408318-610e-47ba-ad3a-5fbd56dcc0d0",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000005",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "e52ae110-0190-4afb-b146-86133ea8ffae",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          }
+        ],
+        "approved": [
+          "a6000000-0000-0000-0000-000000000021"
+        ],
+        "work_payrolls": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "start": "2026-08-30",
+            "end": "2026-09-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000004",
+            "start": "2026-01-01",
+            "end": "2026-01-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000006",
+            "start": "2026-04-01",
+            "end": "2026-04-01"
+          }
+        ],
+        "refused": []
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "DRAFT_SALE",
+      "available": 40,
+      "no_gl": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "PAYMENT",
+      "cash": 200,
+      "ar": 300,
+      "revenue": 500,
+      "cogs": 300,
+      "fg": 40,
+      "fg_value": 600
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RETURN_AND_REPORT",
+      "fg": 45,
+      "fg_value": 675,
+      "cogs": 225,
+      "revenue": 375,
+      "ar": 175,
+      "cash": 200,
+      "gross_profit": 150,
+      "replay_no_second_effect": true
+    },
+    {
+      "group": "CP7_P19_TRANSPORT",
+      "case": "P19T_FINANCE_DEFERRED_NO_BOOK_READ",
+      "status": "PASS",
+      "operational_capture_serve_job_manifest_segments_read_no_book_table": true,
+      "book_tables": [
+        "journal_lines",
+        "account_daily_balances",
+        "cash_accounts"
+      ],
+      "book_reads_operational": {
+        "journal_lines": 5228,
+        "account_daily_balances": 1183,
+        "cash_accounts": 425
+      },
+      "book_reads_after_full_control": {
+        "journal_lines": 5656,
+        "account_daily_balances": 1259,
+        "cash_accounts": 435
+      },
+      "not_loaded_is_unknown_not_zero": true,
+      "full_path_unchanged_and_still_protected": true,
+      "operational_rights_suffice_for_operational_run": true,
+      "Native_business_unchanged": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RECEIPT",
+      "raw_qty": 100,
+      "raw_value": 1000,
+      "supplier_ap": 1000,
+      "grni": 0
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "CUTTING",
+      "raw_qty": 40,
+      "raw_value": 400,
+      "consumed_value": 600,
+      "produced_pcs": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "SEWING",
+      "legs": [
+        30,
+        30
+      ],
+      "cost": 120,
+      "completion_ids": [
+        "9c2f613e-6790-48ce-b152-5500a6acb387",
+        "2af50170-ce17-4927-b4ee-3cc74ede45d1"
+      ]
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "LAUNDRY_QC",
+      "laundry_legs": [
+        30,
+        30
+      ],
+      "qc": [
+        20,
+        40
+      ],
+      "fg": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "FINAL_FG",
+      "fg": 60,
+      "value": 900,
+      "hpp": 15,
+      "wip": 0,
+      "raw": 600,
+      "sewing": 120,
+      "accessory": 60,
+      "laundry": 120,
+      "current_hpp_components": {
+        "ACCESSORY": "60.000000",
+        "LABOR": "120.000000",
+        "LAUNDRY": "120.000000",
+        "MATERIAL": "600.000000"
+      },
+      "hpp_completeness": {
+        "po_id": "21386ae4-5cb2-405b-b7d0-df4cee194e67",
+        "po_number": "E01-9e44c5f02584",
+        "po_status": "FINISHED",
+        "hpp_per_pcs": 15,
+        "is_adjusted": false,
+        "latest_hpp_at": "2026-10-20T19:19:57.190091+07:00",
+        "qty_basis_pcs": 60,
+        "display_status": "LENGKAP_BERDASARKAN_DATA_SAAT_INI",
+        "pending_reasons": [],
+        "current_hpp_total": 900,
+        "engine_cost_state": "ACTUAL",
+        "pending_reason_count": 0
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "NOTA_PAYROLL",
+      "note": "e67a9f15-bd89-4dc6-bd87-64e2b34c1752",
+      "payroll": "ab3930cd-f772-4e45-b1eb-d58505630b39",
+      "labor": 120,
+      "accessory_reimbursement": 60,
+      "approved_unpaid": 180,
+      "same_request_once": true,
+      "stock_hpp_journals_unchanged": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "REPORT_READY",
+      "confidence": {
+        "info": [],
+        "as_of": "2026-10-20",
+        "engine": "PERIOD_READINESS_V1",
+        "filing": null,
+        "status": "READY",
+        "blockers": [],
+        "window_from": "2026-10-17",
+        "failed_checks": [],
+        "closed_through": "2026-10-16",
+        "warning_issue_count": "0",
+        "changed_since_filing": false,
+        "critical_issue_count": "0",
+        "pending_cost_recalc_count": "0"
+      },
+      "seed_completion": {
+        "attendance": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "6a3985cf-0f77-4004-a620-1de9eb93430c",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000002",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "39300159-c180-4ceb-98b8-bd98bc3117e6",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000003",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "3282dace-047e-4d6b-b0cd-f78531f93d7f",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000005",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "83ac32cf-1a73-4c38-8369-281ba30a617f",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          }
+        ],
+        "approved": [
+          "a6000000-0000-0000-0000-000000000021"
+        ],
+        "work_payrolls": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "start": "2026-08-30",
+            "end": "2026-09-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000004",
+            "start": "2026-01-01",
+            "end": "2026-01-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000006",
+            "start": "2026-04-01",
+            "end": "2026-04-01"
+          }
+        ],
+        "refused": []
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "DRAFT_SALE",
+      "available": 40,
+      "no_gl": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "PAYMENT",
+      "cash": 200,
+      "ar": 300,
+      "revenue": 500,
+      "cogs": 300,
+      "fg": 40,
+      "fg_value": 600
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RETURN_AND_REPORT",
+      "fg": 45,
+      "fg_value": 675,
+      "cogs": 225,
+      "revenue": 375,
+      "ar": 175,
+      "cash": 200,
+      "gross_profit": 150,
+      "replay_no_second_effect": true
+    },
+    {
+      "group": "CP7_P19_TRANSPORT",
+      "case": "P19T_FINANCE_MODE_IDENTITY",
+      "status": "PASS",
+      "one_UUID_one_mode_capture_and_job": true,
+      "same_mode_UUID_adopted": true,
+      "other_mode_run_fails_job_not_mixed": true,
+      "only_two_modes": true,
+      "no_direct_API_path": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RECEIPT",
+      "raw_qty": 100,
+      "raw_value": 1000,
+      "supplier_ap": 1000,
+      "grni": 0
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "CUTTING",
+      "raw_qty": 40,
+      "raw_value": 400,
+      "consumed_value": 600,
+      "produced_pcs": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "SEWING",
+      "legs": [
+        30,
+        30
+      ],
+      "cost": 120,
+      "completion_ids": [
+        "4f313f2f-ec26-41a2-9f1b-9c0bb1806a2f",
+        "7af58f06-d3e0-4f48-a375-f70439641885"
+      ]
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "LAUNDRY_QC",
+      "laundry_legs": [
+        30,
+        30
+      ],
+      "qc": [
+        20,
+        40
+      ],
+      "fg": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "FINAL_FG",
+      "fg": 60,
+      "value": 900,
+      "hpp": 15,
+      "wip": 0,
+      "raw": 600,
+      "sewing": 120,
+      "accessory": 60,
+      "laundry": 120,
+      "current_hpp_components": {
+        "ACCESSORY": "60.000000",
+        "LABOR": "120.000000",
+        "LAUNDRY": "120.000000",
+        "MATERIAL": "600.000000"
+      },
+      "hpp_completeness": {
+        "po_id": "93842a75-3eac-4552-bcc7-cd8681a5268b",
+        "po_number": "E01-1c7524838b29",
+        "po_status": "FINISHED",
+        "hpp_per_pcs": 15,
+        "is_adjusted": false,
+        "latest_hpp_at": "2026-10-20T19:20:16.617021+07:00",
+        "qty_basis_pcs": 60,
+        "display_status": "LENGKAP_BERDASARKAN_DATA_SAAT_INI",
+        "pending_reasons": [],
+        "current_hpp_total": 900,
+        "engine_cost_state": "ACTUAL",
+        "pending_reason_count": 0
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "NOTA_PAYROLL",
+      "note": "c1ef66cb-7e92-4480-936a-b559a8530bd3",
+      "payroll": "371fa6d2-5634-4cde-b183-c9abeb9282bd",
+      "labor": 120,
+      "accessory_reimbursement": 60,
+      "approved_unpaid": 180,
+      "same_request_once": true,
+      "stock_hpp_journals_unchanged": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "REPORT_READY",
+      "confidence": {
+        "info": [],
+        "as_of": "2026-10-20",
+        "engine": "PERIOD_READINESS_V1",
+        "filing": null,
+        "status": "READY",
+        "blockers": [],
+        "window_from": "2026-10-17",
+        "failed_checks": [],
+        "closed_through": "2026-10-16",
+        "warning_issue_count": "0",
+        "changed_since_filing": false,
+        "critical_issue_count": "0",
+        "pending_cost_recalc_count": "0"
+      },
+      "seed_completion": {
+        "attendance": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "15b303ae-b30b-4acb-9bc2-854347ff836d",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000002",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "9ec49a85-dfd0-41b0-b735-da0bf3ad9e9a",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000003",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "9d535554-8a69-4bed-a562-1cea935a8c60",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000005",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "8c6244f6-4a15-47f3-89ca-eebe257d443b",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          }
+        ],
+        "approved": [
+          "a6000000-0000-0000-0000-000000000021"
+        ],
+        "work_payrolls": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "start": "2026-08-30",
+            "end": "2026-09-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000004",
+            "start": "2026-01-01",
+            "end": "2026-01-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000006",
+            "start": "2026-04-01",
+            "end": "2026-04-01"
+          }
+        ],
+        "refused": []
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "DRAFT_SALE",
+      "available": 40,
+      "no_gl": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "PAYMENT",
+      "cash": 200,
+      "ar": 300,
+      "revenue": 500,
+      "cogs": 300,
+      "fg": 40,
+      "fg_value": 600
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RETURN_AND_REPORT",
+      "fg": 45,
+      "fg_value": 675,
+      "cogs": 225,
+      "revenue": 375,
+      "ar": 175,
+      "cash": 200,
+      "gross_profit": 150,
+      "replay_no_second_effect": true
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_P19_TRANSPORT",
+      "case": "P19T_RACE_TWO_RUNS_ONE_ORIGINAL",
+      "status": "PASS",
+      "two_concurrent_workers_one_computation_one_Original": true,
+      "results": [
+        {
+          "query": {
+            "from_date": "2026-10-19",
+            "group_mode": "AS_SOLD",
+            "through_date": "2026-10-19"
+          },
+          "state": "DONE",
+          "run_id": "c22d3640-9032-4673-85d8-aed22759a35c",
+          "failure": null,
+          "attempts": 1,
+          "request_id": "310537d0-3a04-4862-a106-e6a7d8ad50bc",
+          "started_at": "2026-10-20T12:20:19.208528Z",
+          "finished_at": "2026-10-20T12:20:19.728062Z",
+          "requested_at": "2026-10-20T12:20:19.208528Z",
+          "apply_enabled": false,
+          "production_go": false,
+          "contract_version": "cp7.native-analysis-job.v1"
+        },
+        {
+          "query": {
+            "from_date": "2026-10-19",
+            "group_mode": "AS_SOLD",
+            "through_date": "2026-10-19"
+          },
+          "state": "DONE",
+          "run_id": "c22d3640-9032-4673-85d8-aed22759a35c",
+          "failure": null,
+          "attempts": 1,
+          "request_id": "310537d0-3a04-4862-a106-e6a7d8ad50bc",
+          "started_at": "2026-10-20T12:20:19.208528Z",
+          "finished_at": "2026-10-20T12:20:19.728062Z",
+          "requested_at": "2026-10-20T12:20:19.208528Z",
+          "apply_enabled": false,
+          "production_go": false,
+          "contract_version": "cp7.native-analysis-job.v1"
+        }
+      ],
+      "copy_runtime": {
+        "stage": "EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK",
+        "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+        "full_family_acceptance": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RECEIPT",
+      "raw_qty": 100,
+      "raw_value": 1000,
+      "supplier_ap": 1000,
+      "grni": 0
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "CUTTING",
+      "raw_qty": 40,
+      "raw_value": 400,
+      "consumed_value": 600,
+      "produced_pcs": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "SEWING",
+      "legs": [
+        30,
+        30
+      ],
+      "cost": 120,
+      "completion_ids": [
+        "34724f8e-b301-4fb1-83f9-2cf94f6fb71a",
+        "96173881-99e1-4e1e-b823-ef232bcfbe88"
+      ]
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "LAUNDRY_QC",
+      "laundry_legs": [
+        30,
+        30
+      ],
+      "qc": [
+        20,
+        40
+      ],
+      "fg": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "FINAL_FG",
+      "fg": 60,
+      "value": 900,
+      "hpp": 15,
+      "wip": 0,
+      "raw": 600,
+      "sewing": 120,
+      "accessory": 60,
+      "laundry": 120,
+      "current_hpp_components": {
+        "ACCESSORY": "60.000000",
+        "LABOR": "120.000000",
+        "LAUNDRY": "120.000000",
+        "MATERIAL": "600.000000"
+      },
+      "hpp_completeness": {
+        "po_id": "bbc8dcbd-6ddc-4fd4-b054-286c21cf849b",
+        "po_number": "E01-04e52d404fed",
+        "po_status": "FINISHED",
+        "hpp_per_pcs": 15,
+        "is_adjusted": false,
+        "latest_hpp_at": "2026-10-20T19:20:28.827679+07:00",
+        "qty_basis_pcs": 60,
+        "display_status": "LENGKAP_BERDASARKAN_DATA_SAAT_INI",
+        "pending_reasons": [],
+        "current_hpp_total": 900,
+        "engine_cost_state": "ACTUAL",
+        "pending_reason_count": 0
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "NOTA_PAYROLL",
+      "note": "b19c25dc-d95f-40e1-8df5-68443cd29817",
+      "payroll": "1804fe99-f1bc-4724-9e4d-61cb51f3ed9d",
+      "labor": 120,
+      "accessory_reimbursement": 60,
+      "approved_unpaid": 180,
+      "same_request_once": true,
+      "stock_hpp_journals_unchanged": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "REPORT_READY",
+      "confidence": {
+        "info": [],
+        "as_of": "2026-10-20",
+        "engine": "PERIOD_READINESS_V1",
+        "filing": null,
+        "status": "READY",
+        "blockers": [],
+        "window_from": "2026-10-17",
+        "failed_checks": [],
+        "closed_through": "2026-10-16",
+        "warning_issue_count": "0",
+        "changed_since_filing": false,
+        "critical_issue_count": "0",
+        "pending_cost_recalc_count": "0"
+      },
+      "seed_completion": {
+        "attendance": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "7aacb8f0-1283-461f-bbd2-b1bf3492969c",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000002",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "843521a5-3b8f-4197-8279-a76e5f70cec2",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000003",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "1cfe1790-9717-4a41-a48f-ebe12fae054c",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000005",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "5d9ef41d-7750-4864-8736-88fecad2009c",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          }
+        ],
+        "approved": [
+          "a6000000-0000-0000-0000-000000000021"
+        ],
+        "work_payrolls": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "start": "2026-08-30",
+            "end": "2026-09-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000004",
+            "start": "2026-01-01",
+            "end": "2026-01-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000006",
+            "start": "2026-04-01",
+            "end": "2026-04-01"
+          }
+        ],
+        "refused": []
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "DRAFT_SALE",
+      "available": 40,
+      "no_gl": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "PAYMENT",
+      "cash": 200,
+      "ar": 300,
+      "revenue": 500,
+      "cogs": 300,
+      "fg": 40,
+      "fg_value": 600
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RETURN_AND_REPORT",
+      "fg": 45,
+      "fg_value": 675,
+      "cogs": 225,
+      "revenue": 375,
+      "ar": 175,
+      "cash": 200,
+      "gross_profit": 150,
+      "replay_no_second_effect": true
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_P19_TRANSPORT",
+      "case": "P19T_RACE_LIMIT_STOPS_THEN_CONTINUES",
+      "status": "PASS",
+      "status_read_RUNNING_while_worker_waits": true,
+      "existing_limit_kind_stops_worker": true,
+      "stopped": {
+        "query": {
+          "from_date": "2026-10-19",
+          "group_mode": "AS_SOLD",
+          "through_date": "2026-10-19"
+        },
+        "state": "FAILED",
+        "run_id": null,
+        "failure": {
+          "code": "CP7_ANALYSIS_JOB_STOPPED",
+          "sqlstate": "57014"
+        },
+        "attempts": 1,
+        "request_id": "8c6576d2-bff4-4da1-8162-c5436609c9fe",
+        "started_at": "2026-10-20T12:20:31.433602Z",
+        "finished_at": "2026-10-20T12:20:34.464037Z",
+        "requested_at": "2026-10-20T12:20:31.433602Z",
+        "apply_enabled": false,
+        "production_go": false,
+        "contract_version": "cp7.native-analysis-job.v1"
+      },
+      "failed_state_only_committed": true,
+      "same_UUID_continued_attempt2": {
+        "query": {
+          "from_date": "2026-10-19",
+          "group_mode": "AS_SOLD",
+          "through_date": "2026-10-19"
+        },
+        "state": "DONE",
+        "run_id": "447b7eca-d0d4-43a2-9e9e-5a9ced1a03a8",
+        "failure": null,
+        "attempts": 2,
+        "request_id": "8c6576d2-bff4-4da1-8162-c5436609c9fe",
+        "started_at": "2026-10-20T12:20:34.487450Z",
+        "finished_at": "2026-10-20T12:20:34.999573Z",
+        "requested_at": "2026-10-20T12:20:31.433602Z",
+        "apply_enabled": false,
+        "production_go": false,
+        "contract_version": "cp7.native-analysis-job.v1"
+      },
+      "copy_runtime": {
+        "stage": "EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK",
+        "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+        "full_family_acceptance": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RECEIPT",
+      "raw_qty": 100,
+      "raw_value": 1000,
+      "supplier_ap": 1000,
+      "grni": 0
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "CUTTING",
+      "raw_qty": 40,
+      "raw_value": 400,
+      "consumed_value": 600,
+      "produced_pcs": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "SEWING",
+      "legs": [
+        30,
+        30
+      ],
+      "cost": 120,
+      "completion_ids": [
+        "29ca5987-a116-494c-be58-b38e605d44e6",
+        "e895f19e-d9e9-4741-984a-db1c97d09378"
+      ]
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "LAUNDRY_QC",
+      "laundry_legs": [
+        30,
+        30
+      ],
+      "qc": [
+        20,
+        40
+      ],
+      "fg": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "FINAL_FG",
+      "fg": 60,
+      "value": 900,
+      "hpp": 15,
+      "wip": 0,
+      "raw": 600,
+      "sewing": 120,
+      "accessory": 60,
+      "laundry": 120,
+      "current_hpp_components": {
+        "ACCESSORY": "60.000000",
+        "LABOR": "120.000000",
+        "LAUNDRY": "120.000000",
+        "MATERIAL": "600.000000"
+      },
+      "hpp_completeness": {
+        "po_id": "813edf7a-d074-4152-b46a-87ea6a452d90",
+        "po_number": "E01-cc56c197ea3a",
+        "po_status": "FINISHED",
+        "hpp_per_pcs": 15,
+        "is_adjusted": false,
+        "latest_hpp_at": "2026-10-20T19:20:43.835057+07:00",
+        "qty_basis_pcs": 60,
+        "display_status": "LENGKAP_BERDASARKAN_DATA_SAAT_INI",
+        "pending_reasons": [],
+        "current_hpp_total": 900,
+        "engine_cost_state": "ACTUAL",
+        "pending_reason_count": 0
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "NOTA_PAYROLL",
+      "note": "dc6e4048-13df-4129-944b-035d675f0720",
+      "payroll": "5ca2c03d-5f4e-4d2b-934e-0a317da3dda2",
+      "labor": 120,
+      "accessory_reimbursement": 60,
+      "approved_unpaid": 180,
+      "same_request_once": true,
+      "stock_hpp_journals_unchanged": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "REPORT_READY",
+      "confidence": {
+        "info": [],
+        "as_of": "2026-10-20",
+        "engine": "PERIOD_READINESS_V1",
+        "filing": null,
+        "status": "READY",
+        "blockers": [],
+        "window_from": "2026-10-17",
+        "failed_checks": [],
+        "closed_through": "2026-10-16",
+        "warning_issue_count": "0",
+        "changed_since_filing": false,
+        "critical_issue_count": "0",
+        "pending_cost_recalc_count": "0"
+      },
+      "seed_completion": {
+        "attendance": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "e2a5f334-b128-49bc-b3df-8e3f65a27b3b",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000002",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "75bf7d17-6140-4709-9087-b1a8e40b5755",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000003",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "dbcd96dc-9515-4d7e-ad51-fd9f52451c42",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000005",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "67cb3f14-5d69-49e7-ae70-bd383ef13c45",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          }
+        ],
+        "approved": [
+          "a6000000-0000-0000-0000-000000000021"
+        ],
+        "work_payrolls": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "start": "2026-08-30",
+            "end": "2026-09-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000004",
+            "start": "2026-01-01",
+            "end": "2026-01-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000006",
+            "start": "2026-04-01",
+            "end": "2026-04-01"
+          }
+        ],
+        "refused": []
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "DRAFT_SALE",
+      "available": 40,
+      "no_gl": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "PAYMENT",
+      "cash": 200,
+      "ar": 300,
+      "revenue": 500,
+      "cogs": 300,
+      "fg": 40,
+      "fg_value": 600
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RETURN_AND_REPORT",
+      "fg": 45,
+      "fg_value": 675,
+      "cogs": 225,
+      "revenue": 375,
+      "ar": 175,
+      "cash": 200,
+      "gross_profit": 150,
+      "replay_no_second_effect": true
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_P19_TRANSPORT",
+      "case": "P19T_RACE_REVOKE_WHILE_WAITING",
+      "status": "PASS",
+      "permission_revoked_while_worker_waited_refused_before_effect": true,
+      "job_left_waiting": true,
+      "copy_runtime": {
+        "stage": "EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK",
+        "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+        "full_family_acceptance": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RECEIPT",
+      "raw_qty": 100,
+      "raw_value": 1000,
+      "supplier_ap": 1000,
+      "grni": 0
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "CUTTING",
+      "raw_qty": 40,
+      "raw_value": 400,
+      "consumed_value": 600,
+      "produced_pcs": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "SEWING",
+      "legs": [
+        30,
+        30
+      ],
+      "cost": 120,
+      "completion_ids": [
+        "f135d927-db69-474a-81a0-ee6f413564dd",
+        "5d45eaba-2320-400a-b3c6-5200603a4bc4"
+      ]
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "LAUNDRY_QC",
+      "laundry_legs": [
+        30,
+        30
+      ],
+      "qc": [
+        20,
+        40
+      ],
+      "fg": 60
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "FINAL_FG",
+      "fg": 60,
+      "value": 900,
+      "hpp": 15,
+      "wip": 0,
+      "raw": 600,
+      "sewing": 120,
+      "accessory": 60,
+      "laundry": 120,
+      "current_hpp_components": {
+        "ACCESSORY": "60.000000",
+        "LABOR": "120.000000",
+        "LAUNDRY": "120.000000",
+        "MATERIAL": "600.000000"
+      },
+      "hpp_completeness": {
+        "po_id": "0ab43e64-ccba-4bcc-bdfd-169db3b40911",
+        "po_number": "E01-83532839b45f",
+        "po_status": "FINISHED",
+        "hpp_per_pcs": 15,
+        "is_adjusted": false,
+        "latest_hpp_at": "2026-10-20T19:20:58.356535+07:00",
+        "qty_basis_pcs": 60,
+        "display_status": "LENGKAP_BERDASARKAN_DATA_SAAT_INI",
+        "pending_reasons": [],
+        "current_hpp_total": 900,
+        "engine_cost_state": "ACTUAL",
+        "pending_reason_count": 0
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "NOTA_PAYROLL",
+      "note": "c3618ce5-2c27-48b2-849c-bff5adcba3ca",
+      "payroll": "115434c8-5968-42c4-a7de-f7ededec3779",
+      "labor": 120,
+      "accessory_reimbursement": 60,
+      "approved_unpaid": 180,
+      "same_request_once": true,
+      "stock_hpp_journals_unchanged": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "REPORT_READY",
+      "confidence": {
+        "info": [],
+        "as_of": "2026-10-20",
+        "engine": "PERIOD_READINESS_V1",
+        "filing": null,
+        "status": "READY",
+        "blockers": [],
+        "window_from": "2026-10-17",
+        "failed_checks": [],
+        "closed_through": "2026-10-16",
+        "warning_issue_count": "0",
+        "changed_since_filing": false,
+        "critical_issue_count": "0",
+        "pending_cost_recalc_count": "0"
+      },
+      "seed_completion": {
+        "attendance": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "fc4b55d6-0e25-4ffd-a6b8-2c22b7d1b464",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000002",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "3bb41c51-51d1-470b-b2cb-e101e09467ca",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000003",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "8ef0e5b3-85fe-4514-80bf-3fcd26b687df",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000005",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-17",
+                "end": "2026-10-20",
+                "period_id": "07f54fdf-1bc5-49b7-b7c8-cf34d847448d",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          }
+        ],
+        "approved": [
+          "a6000000-0000-0000-0000-000000000021"
+        ],
+        "work_payrolls": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "start": "2026-08-30",
+            "end": "2026-09-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000004",
+            "start": "2026-01-01",
+            "end": "2026-01-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000006",
+            "start": "2026-04-01",
+            "end": "2026-04-01"
+          }
+        ],
+        "refused": []
+      }
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "DRAFT_SALE",
+      "available": 40,
+      "no_gl": true
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "PAYMENT",
+      "cash": 200,
+      "ar": 300,
+      "revenue": 500,
+      "cogs": 300,
+      "fg": 40,
+      "fg_value": 600
+    },
+    {
+      "label": "CP7_E01_CHECKPOINT",
+      "checkpoint": "RETURN_AND_REPORT",
+      "fg": 45,
+      "fg_value": 675,
+      "cogs": 225,
+      "revenue": 375,
+      "ar": 175,
+      "cash": 200,
+      "gross_profit": 150,
+      "replay_no_second_effect": true
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_P19_TRANSPORT",
+      "case": "P19T_HTTP_JOB_TRANSPORT",
+      "status": "PASS",
+      "real_Auth_request_run_get_manifest_segments": true,
+      "actual_HTTP_run_ms": 507.658,
+      "assembled_equals_actual_HTTP_serve": true,
+      "foreign_403": true,
+      "foreign_job_unknown": true,
+      "anonymous_refused": [
+        401,
+        401,
+        401,
+        401,
+        401
+      ],
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_P19_TRANSPORT",
+      "case": "P19T_HTTP_REVOKED",
+      "status": "PASS",
+      "deactivated_user_all_five_403": true,
+      "no_new_effect": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_P19_TRANSPORT",
+      "case": "P19T_HTTP_FINANCE_ON_DEMAND",
+      "status": "PASS",
+      "real_Auth_operational_capture_and_job_without_finance": true,
+      "full_capture_still_carries_owner_report": true,
+      "one_UUID_one_mode": true,
+      "anonymous_refused": [
+        401,
+        401
+      ],
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_P19_TRANSPORT_BROWSER",
+      "case": "P19T_BROWSER_DESKTOP_RELOAD_RECOVERY",
+      "status": "PASS",
+      "background_status_shown_with_WIB_start": "Sedang dihitung sejak jam 19.21.24 WIB (20 Okt 2026).",
+      "lost_committed_run_reply_recovered_after_reload": true,
+      "one_Original": true,
+      "no_second_worker_after_reload": true,
+      "segments_read": 1,
+      "business_unchanged": true,
+      "no_horizontal_scroll": true,
+      "screenshots": [
+        "P19T_DESKTOP_LOST_REPLY.png",
+        "P19T_DESKTOP_RESULT.png"
+      ],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_P19_TRANSPORT_BROWSER",
+      "case": "P19T_BROWSER_MOBILE_BACKGROUND",
+      "status": "PASS",
+      "background_status_shown_with_WIB_start": "Sedang dihitung sejak jam 19.21.32 WIB (20 Okt 2026).",
+      "lost_committed_run_reply_recovered_after_reload": false,
+      "one_Original": true,
+      "no_second_worker_after_reload": false,
+      "segments_read": 1,
+      "business_unchanged": true,
+      "no_horizontal_scroll": true,
+      "screenshots": [
+        "P19T_MOBILE_RESULT.png"
+      ],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_P19_TRANSPORT_BROWSER",
+      "case": "P19T_BROWSER_FINANCE_ON_DEMAND",
+      "status": "PASS",
+      "default_capture_operational_only": true,
+      "not_loaded_stated_never_zero": true,
+      "explicit_full_capture_carries_owner_report": true,
+      "two_runs": true,
+      "business_unchanged": true,
+      "screenshots": [
+        "P19T_FINANCE_NOT_LOADED.png",
+        "P19T_FINANCE_LOADED.png"
+      ],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "label": "CP7_P19_TRANSPORT",
+      "status": "PASS",
+      "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+      "observed_case_count": 15,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "error": null,
+      "traceback": null
+    }
+  ],
+  "production_go": false
+}

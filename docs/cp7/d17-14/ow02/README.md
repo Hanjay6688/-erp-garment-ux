@@ -1,7 +1,9 @@
 # OW-02 — proses server, kandidat penulis
 
 Dasar: `0bde7153dbf06238bde89999454dd98c33cf81c5`. Kandidat audit `55c885d1` tetap beku.
-Status **BELUM SELESAI** sampai kualifikasi Native dan browser berikut lulus pada commit ini.
+Status **SELESAI TERBUKTI pada cakupan OW-02** di kandidat produk
+`2ad56e147a180c3fb2c433aed53cadb6a421f434`: Native, balapan, HTTP dan browser
+**32/32 PASS**. Pemasangan operasional tetap ditahan sampai CP7C.
 Tidak ada jadwal dipasang di hosted, pengiriman WA, atau perubahan data Enteng.
 
 ## Kontrak dan implementasi
@@ -104,4 +106,21 @@ Semua baris hasil dan traceback awal disimpan dalam `CI_39411967722_FIRST_FAILUR
   keluaran tetap sama. Trigger dan pengaman OWNER tidak diubah.
 
 Diagnosis sumber dikonfirmasi pemeriksa internal Sol Max sebelum perbaikan.
-Perubahan ini hanya alat uji; hasil Native perbaikannya masih menunggu CI baru.
+Perubahan ini hanya alat uji; hasil Native perbaikannya tercatat di bawah.
+
+## Kualifikasi perbaikan — 2ad56e14
+
+Run `39420750772`, job `118620792070`: **32/32 PASS** pada kandidat persis
+`2ad56e147a180c3fb2c433aed53cadb6a421f434`. Receipt seluruh kasus:
+`CI_39420750772.json`; hash sumber terpasang
+`b4adfb3a3f60693427841adff357b65d6819cf51e3208a8bb00ba9f7d858044d`.
+Pemeriksaan pemulihan CP6 dan advisor lulus. Empat INCOMPLETE awal tetap disimpan;
+tidak diganti atau disembunyikan oleh hasil ini.
+
+Seluruh 13 Native, 13 balapan, dua HTTP dan empat browser lulus. Termasuk
+penutupan nyata tiga tab laporan/pengingat/analisis pada desktop dan HP,
+penyelesaian oleh pg_cron di salinan sekali pakai, buka ulang UUID/run/hash
+yang sama tanpa pekerjaan ganda, pencabutan izin sebelum/di tengah langkah,
+rollback keluaran, tiga percobaan timeout dan pemulihan ketiga identitas sesi.
+Pengiriman/claim WA tetap nol pada skenario proses lain. Bukti ini tidak
+mengizinkan pemasangan jadwal ke Enteng atau mengubah `production_go:false`.

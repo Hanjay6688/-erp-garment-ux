@@ -46,8 +46,11 @@ def main():
    jobs=cur.execute("select coalesce(jsonb_agg(jsonb_build_object('request_id',j.request_id,'state',j.state,'run_id',j.run_id)order by j.created_at),'[]')from cp7_analysis_stage.jobs j where j.actor=%s",(p['actor'],)).fetchone()[0]
    pages=cur.execute('select count(*)from cp7_analysis_stage.pages p join cp7_analysis_stage.jobs j on j.run_id=p.run_id where j.actor=%s',(p['actor'],)).fetchone()[0]
    out=dict(jobs=jobs,pages=pages,analysis_count=cur.execute('select count(*)from cp7_analysis_native.runs where actor=%s',(p['actor'],)).fetchone()[0],business=cases.b.boundary.snapshot(cur))
-  elif op=='update_schedule':
-   plan=cur.execute('select revision,config from cp7_schedule_native.plans order by revision desc limit 1').fetchone();s=cases.previous.supply.capture(cur,date.fromisoformat(p['today']));payload=cases.schedule.payload(cur,s,str(plan[0]));payload['config']=plan[1];payload['config']['unit_minutes']='4';payload['reason']='Explicit separate Native browser metadata change';out=cases.schedule.save(cur,payload)
+  elif op in('update_schedule','review_schedule'):
+   plan=cur.execute('select revision,config from cp7_schedule_native.plans order by revision desc limit 1').fetchone();s=cases.previous.supply.capture(cur,date.fromisoformat(p['today']));payload=cases.schedule.payload(cur,s,str(plan[0]));payload['config']=plan[1]
+   if op=='update_schedule':payload['config']['unit_minutes']='4'
+   payload['reason']='Explicit separate Native browser metadata change'if op=='update_schedule'else'OW03 same selected work re-reviewed after the actual browser profile save; not factory calendar acceptance'
+   out=cases.schedule.save(cur,payload)
   elif op in('deactivate','restore'):
    cur.execute('update erp.app_users set is_active=%s where auth_user_id=%s',(op=='restore',p['actor']));out=dict(status='PASS')
   else:raise ValueError('UNKNOWN_P14_NATIVE_BROWSER_ACTION')
