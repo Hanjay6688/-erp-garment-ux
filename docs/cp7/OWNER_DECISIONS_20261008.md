@@ -842,3 +842,12 @@ potongan selesai, statusnya keluar sendiri di potongan itu (wajar / lebih sediki
 belum cukup), dengan rentang wajar per jenis barang dari riwayat pabrik. Dicatat sebagai OW-16 di
 `docs/cp7/OPEN_WORK_D17_14_20261020.md`. Arti "jenis barang" (penulis menafsirkan: model/pola produk yang dipotong)
 ditanyakan ke owner.
+
+Lanjutan. Pertanyaan penulis: ""jenis barang" maksudnya per model celana (misalnya Chino dan Cargo dihitung terpisah), ya
+atau tidak? Kalau tidak, sebutkan pembagiannya."
+
+Owner (persis): "per jenis bahan dengan pola dong kan dia hasilin ukurannya range juga"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): rentang wajar dikelompokkan per pasangan jenis bahan +
+pola, dan dinilai untuk rentang ukuran yang dihasilkan pola itu (bukan satu angka total), karena satu pola menghasilkan
+beberapa ukuran.
