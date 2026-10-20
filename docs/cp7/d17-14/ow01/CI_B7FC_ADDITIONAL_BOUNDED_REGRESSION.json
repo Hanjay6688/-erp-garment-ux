@@ -1,0 +1,513 @@
+{
+  "candidate": "b7fc541ca2b0221865ed7982155e844e1a9bed80",
+  "run_id": 39449898770,
+  "scope": "Additional bounded regressions read from their actual completed GitHub logs; not a whole workflow success or latency/OW12 proof",
+  "jobs": [
+    {
+      "job_id": 118721611808,
+      "summary": {
+        "label": "CP7_K6_PROOF_RUNNER",
+        "status": "PASS",
+        "source_sha256": "85211549a91f40635482943472996c3a80917fe23a7f1486ee8e4641931634b6",
+        "observed_case_count": 10,
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "error": null,
+        "traceback": null
+      },
+      "cases": [
+        {
+          "case": "K6P_PASS_PROVES_FINISHED_HISTORY",
+          "status": "PASS"
+        },
+        {
+          "case": "K6P_CANCEL_CORRECT_BACKDATE_REPROVEN_BY_SERVER",
+          "status": "PASS"
+        },
+        {
+          "case": "K6P_LIMIT_REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "case": "K6P_SCHEDULE_DEFINED_PRIVATE",
+          "status": "PASS"
+        },
+        {
+          "case": "K6P_RACE_SECOND_TICK_NEVER_WAITS",
+          "status": "PASS"
+        },
+        {
+          "case": "K6P_RACE_WINDOW_STOPPED_THEN_SKIPPED",
+          "status": "PASS"
+        },
+        {
+          "case": "K6P_RACE_CAPTURE_DURING_WINDOW",
+          "status": "PASS"
+        },
+        {
+          "case": "K6P_RACE_PG_CRON_FINISHES_PASS",
+          "status": "PASS"
+        },
+        {
+          "case": "K6P_HTTP_TICK_NOT_REACHABLE",
+          "status": "PASS"
+        },
+        {
+          "case": "K6P_HTTP_CAPTURE_USES_SERVER_PROOFS",
+          "status": "PASS"
+        }
+      ],
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    },
+    {
+      "job_id": 118721611858,
+      "summary": {
+        "label": "CP7_K3_CLEANUP",
+        "status": "PASS",
+        "source_sha256": "85211549a91f40635482943472996c3a80917fe23a7f1486ee8e4641931634b6",
+        "observed_case_count": 25,
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "error": null,
+        "traceback": null
+      },
+      "cases": [
+        {
+          "case": "K3C_CLEANED_ONLY_TEMPORARY",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_REOPEN_AFTER_CLEANUP",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_PLAN_V2_AFTER_CLEANUP",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_REPORT_V2_AFTER_CLEANUP",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_AI_AND_REMINDERS_AFTER_CLEANUP",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_FAILED_CLEANUP_KEEPS_RESULT_RETRIED",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_ONLY_DONE_KEPT_RUNS",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_DOCUMENTS_AND_RETENTION_AFTER_CLEANUP",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_SCHEDULE_DEFINED_PRIVATE",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_RACE_TWO_TICKS_ONE_LOG",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_RACE_BUSY_TABLE_RETRIED",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_RACE_PG_CRON_FIRES",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_RACE_NIGHTLY_BACKUP_VERIFIED",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_RACE_CRON_TWO_DATABASES",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_RACE_BACKUP_RETRY_SAME_SECOND",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_RACE_CLEANUP_BESIDE_RUNNING_STEP",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_RACE_BACKUP_SCRATCH_NEVER_DROPS_ANOTHER_DATABASE",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_RACE_BACKUP_VERIFIED_UNDER_WRITES",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_RACE_SCHEDULE_INSTALLER_REHEARSAL",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_RACE_BACKUP_SCRATCH_OWNERSHIP_BY_OID",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_RACE_BACKUP_PLAIN_MARK_COPIED_ONTO_FOREIGN_KEPT",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_HTTP_REOPEN_AFTER_CLEANUP",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_HTTP_TICK_NOT_REACHABLE",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_BROWSER_DESKTOP_REOPEN_AFTER_CLEANUP",
+          "status": "PASS"
+        },
+        {
+          "case": "K3C_BROWSER_MOBILE_REOPEN_AFTER_CLEANUP",
+          "status": "PASS"
+        }
+      ],
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    },
+    {
+      "job_id": 118721611872,
+      "summary": {
+        "label": "CP7_P19_REMINDER_V2",
+        "status": "PASS",
+        "source_sha256": "85211549a91f40635482943472996c3a80917fe23a7f1486ee8e4641931634b6",
+        "observed_case_count": 16,
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "error": null,
+        "traceback": null
+      },
+      "cases": [
+        {
+          "case": "P19M_SET_STEPS_SEAL",
+          "status": "PASS"
+        },
+        {
+          "case": "P19M_RESOLVED_AFTER_SNAPSHOT_NOT_SENT",
+          "status": "PASS"
+        },
+        {
+          "case": "P19M_STILL_OPEN_SENT_ONCE",
+          "status": "PASS"
+        },
+        {
+          "case": "P19M_PARTIAL_AND_THRESHOLD",
+          "status": "PASS"
+        },
+        {
+          "case": "P19M_FABRIC_HELD_ON_MATERIAL_CHANGE",
+          "status": "PASS"
+        },
+        {
+          "case": "P19M_AR_PAID_NOT_SENT",
+          "status": "PASS"
+        },
+        {
+          "case": "P19M_POLICY_AND_DESTINATION",
+          "status": "PASS"
+        },
+        {
+          "case": "P19M_REQUEST_ONE_UUID",
+          "status": "PASS"
+        },
+        {
+          "case": "P19M_AUTHORITY_AND_V1_APART",
+          "status": "PASS"
+        },
+        {
+          "case": "P19M_RACE_TWO_CLAIMS_ONE_CLAIM",
+          "status": "PASS"
+        },
+        {
+          "case": "P19M_RACE_FG_COMMITTED_WHILE_WAITING",
+          "status": "PASS"
+        },
+        {
+          "case": "P19M_RACE_TWO_STEPS_ONE_UNIT",
+          "status": "PASS"
+        },
+        {
+          "case": "P19M_HTTP_FLOW",
+          "status": "PASS"
+        },
+        {
+          "case": "P19M_HTTP_REVOKED",
+          "status": "PASS"
+        },
+        {
+          "case": "P19M_BROWSER_DESKTOP_REMINDERS",
+          "status": "PASS"
+        },
+        {
+          "case": "P19M_BROWSER_MOBILE_REMINDERS",
+          "status": "PASS"
+        }
+      ],
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    },
+    {
+      "job_id": 118721612036,
+      "summary": {
+        "label": "CP7_P19_AI_V2",
+        "status": "PASS",
+        "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+        "observed_case_count": 9,
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "error": null,
+        "traceback": null
+      },
+      "cases": [
+        {
+          "case": "P19A_BRIEF_EQUALS_INDEX",
+          "status": "PASS"
+        },
+        {
+          "case": "P19A_FIELDS_AND_BOUNDS",
+          "status": "PASS"
+        },
+        {
+          "case": "P19A_STALE_SNAPSHOT_LABELLED",
+          "status": "PASS"
+        },
+        {
+          "case": "P19A_ACCESS_AND_NO_FINANCE",
+          "status": "PASS"
+        },
+        {
+          "case": "P19A_RACE_BRIEF_WHILE_STOCK_COMMITS",
+          "status": "PASS"
+        },
+        {
+          "case": "P19A_HTTP_FLOW",
+          "status": "PASS"
+        },
+        {
+          "case": "P19A_HTTP_REVOKED",
+          "status": "PASS"
+        },
+        {
+          "case": "P19A_BROWSER_DESKTOP_AI",
+          "status": "PASS"
+        },
+        {
+          "case": "P19A_BROWSER_MOBILE_AI",
+          "status": "PASS"
+        }
+      ],
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    },
+    {
+      "job_id": 118721612292,
+      "summary": {
+        "label": "CP7_PL5_HISTORY_YIELD",
+        "status": "PASS",
+        "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+        "observed_case_count": 20,
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "error": null,
+        "traceback": null
+      },
+      "cases": [
+        {
+          "case": "PL5H_PENDING_WITHOUT_POLICY",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_POLICY_SIGNED_VERSIONED",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_POLICY_VALUES_AND_AUTHORITY",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_PRODUCT_SIZE_SUFFICIENT",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_MODEL_FALLBACK_SAME_MODEL",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_INSUFFICIENT_NO_VALUE",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_NEVER_CROSS_MODEL",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_NEVER_100_PERCENT",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_WILSON_EXACT",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_CANCEL_CORRECT_BACKDATE",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_WINDOW_FINISH_DATE",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_LIMIT_200_UNDER_8S",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_PLAN_USES_HISTORY_LIVE",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_CATALOG_PRIVATE",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_RACE_SAME_REVISION",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_RACE_SAME_REQUEST_TWO_SESSIONS",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_HTTP_FLOW",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_HTTP_REVOKED",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_BROWSER_DESKTOP_POLICY",
+          "status": "PASS"
+        },
+        {
+          "case": "PL5H_BROWSER_MOBILE_POLICY",
+          "status": "PASS"
+        }
+      ],
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    },
+    {
+      "job_id": 118721612376,
+      "summary": {
+        "label": "CP7_K2_RETENTION",
+        "status": "PASS",
+        "source_sha256": "85211549a91f40635482943472996c3a80917fe23a7f1486ee8e4641931634b6",
+        "observed_case_count": 10,
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "error": null,
+        "traceback": null
+      },
+      "cases": [
+        {
+          "case": "K2_KEPT_SEVEN_DAYS_LABELLED",
+          "status": "PASS"
+        },
+        {
+          "case": "K2_EXPIRED_REFUSED_EVERYWHERE",
+          "status": "PASS"
+        },
+        {
+          "case": "K2_RUNNING_NEVER_EXPIRES",
+          "status": "PASS"
+        },
+        {
+          "case": "K2_PURGE_ONLY_EXPIRED_TEMPORARY",
+          "status": "PASS"
+        },
+        {
+          "case": "K2_PURGE_KEEPS_DOCUMENT_RUNS",
+          "status": "PASS"
+        },
+        {
+          "case": "K2_PURGE_PRIVATE_ONCE",
+          "status": "PASS"
+        },
+        {
+          "case": "K2_RACE_TWO_PURGES_ONE_LOG",
+          "status": "PASS"
+        },
+        {
+          "case": "K2_HTTP_EXPIRED_REFUSED",
+          "status": "PASS"
+        },
+        {
+          "case": "K2_BROWSER_DESKTOP_RETENTION",
+          "status": "PASS"
+        },
+        {
+          "case": "K2_BROWSER_MOBILE_RETENTION",
+          "status": "PASS"
+        }
+      ],
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    }
+  ],
+  "pending": [
+    {
+      "job_id": 118721612248,
+      "name": "p19-scale5",
+      "status": "IN_PROGRESS_AT_READ"
+    },
+    {
+      "job_id": 118721611968,
+      "name": "p19-transport11",
+      "status": "FAILED_BEFORE_SUITE_PORT_54322_IN_USE",
+      "rerun_request": "403 workflow containing this job still running; defer retry until completion"
+    }
+  ],
+  "production_go": false
+}

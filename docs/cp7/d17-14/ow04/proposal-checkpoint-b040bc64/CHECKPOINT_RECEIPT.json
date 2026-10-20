@@ -1,0 +1,14 @@
+{
+  "classification": "BYTE_EXACT_INERT_PROPOSAL_CHECKPOINT_NOT_INSTALLED_NOT_NATIVE",
+  "product_candidate": "b040bc6492d2184efad0b9a06c1dd4e2a10b9053",
+  "source_manifest_sha256": "341e1ae42ba5b60a654753fc2fb4695cee78f69f7069299ee3d4aabd5aa7469a",
+  "archive_sha256": "ba9e940190cd5e9a59f0196057513ebf1470bff3a800f1f524b1d5a1d1ac6a2f",
+  "archive_bytes": 352049,
+  "logical_files_restored": 144,
+  "all_original_hashes_verified_before_archive": true,
+  "all_logical_aliases_materialized_in_archive": true,
+  "ui_40_pass_evidence_limit": "Reported synthetic result; pinned final log contains only RUN header. This checkpoint does not promote it to fully captured runtime evidence.",
+  "active_product_imports": false,
+  "production_go": false,
+  "archive_readback_every_file_sha256_match": true
+}

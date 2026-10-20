@@ -1,0 +1,67 @@
+{
+  "scope": "SYNTHETIC_ORACLE_CONTROL_SOURCE_ONLY_NOT_NATIVE",
+  "status": "PASS",
+  "checks_count": 9,
+  "checks": [
+    {
+      "case": "VALID_KNOWN",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "status": "PASS"
+    },
+    {
+      "case": "MALFORMED_REASON",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "status": "PASS"
+    },
+    {
+      "case": "MALFORMED_ECONOMIC_STATE",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "status": "PASS"
+    },
+    {
+      "case": "MALFORMED_REMAINING",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "status": "PASS"
+    },
+    {
+      "case": "MALFORMED_DUE_DATE",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "status": "PASS"
+    },
+    {
+      "case": "MALFORMED_LABEL",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "status": "PASS"
+    },
+    {
+      "case": "MALFORMED_SOURCE_HASH",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "status": "PASS"
+    },
+    {
+      "case": "MALFORMED_AS_OF",
+      "expected": "REJECT",
+      "observed": "REJECT",
+      "status": "PASS"
+    },
+    {
+      "case": "VALID_UNKNOWN_WITHOUT_VALUE_KEY",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "status": "PASS"
+    }
+  ],
+  "module": "/workspace/scratch/9442228ed2dc/ow01-proposals/all-kinds/cp7_wa_all_kinds_transport_cases.py",
+  "module_sha256": "29b45d3ca5c4dba23ba0a931e26bcdde1ce6964467eee5e921df941bbe7fd945",
+  "control_source_sha256": "bc01382f8e08ba4e913edb782b903c9952cba5baeeae97a23cc97ba87398bd79",
+  "database_executed": false,
+  "Native_executed": false,
+  "provider_executed": false
+}

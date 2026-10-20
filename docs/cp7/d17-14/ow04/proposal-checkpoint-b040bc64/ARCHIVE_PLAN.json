@@ -1,0 +1,1274 @@
+{
+  "schema_version": "ow04.checkpoint-archive-plan.v1",
+  "classification": "INERT_UNINSTALLED_PROPOSALS_SOURCE_PROOF_AND_SYNTHETIC_EVIDENCE_NOT_NATIVE_OR_FEATURE_COMPLETION",
+  "proposal_root": "/workspace/scratch/9442228ed2dc/ow04-proposals",
+  "archive_path_basis": "All relative paths are relative to proposal_root; root chooses the inert docs destination. No active repository or product file was edited.",
+  "created_at_utc": "2026-10-20T16:37:58.089415+00:00",
+  "selection_policy": {
+    "goal": "Smallest evidence-complete checkpoint of final proposals, frozen expectations, reproduction sources, source traces, final receipts and meaningful first failures/counters.",
+    "duplicates": "Archive each SHA256 content once; logical aliases reference canonical content. Materialize alias paths only if later reproducing a receipt/tool requires them.",
+    "excluded": "__pycache__, bytecode, node_modules/dependencies, runtime DB/images, temporary fragments, empty routine stderr, redundant successful stdout, superseded intermediate attempts already covered by final results and preserved first red.",
+    "no_action_authorized": "No installer execution, Native database startup/query, product edit or assertion that OW04 is complete is authorized by this plan."
+  },
+  "summary": {
+    "candidate_non_runtime_files": 179,
+    "candidate_bytes": 3857698,
+    "logical_durable_paths": 144,
+    "canonical_files_to_copy": 137,
+    "canonical_bytes_to_copy": 2172490,
+    "identical_content_aliases": 7,
+    "not_selected_scratch_files": 35,
+    "categories": {
+      "proposal": 35,
+      "source_proof": 24,
+      "firstfailure": 18,
+      "synthetic": 60
+    }
+  },
+  "entries": [
+    {
+      "relative_path": "admission/01_typed_context_and_preclaim.proposal.sql",
+      "bytes": 11029,
+      "sha256": "e3ab07e16093483d03a2a0b371321430a7f89cc9017d10c52ec2095459f5f226",
+      "kind": "proposal",
+      "purpose": "Typed scope, request preclaim, owning bridge and exact Native admission transforms; universal non-null causal floor is withdrawn.",
+      "status": "PAUSED_TYPED_PRIOR_ABSENCE_AND_RLS_OWNER_BOUNDARIES"
+    },
+    {
+      "relative_path": "admission/02_owning_wrapper.proposal.sql",
+      "bytes": 13513,
+      "sha256": "b1d0dc40457ff8124f57a6b5b6abccb16159ad74108681a124df35e27fc46b03",
+      "kind": "proposal",
+      "purpose": "Typed scope, request preclaim, owning bridge and exact Native admission transforms; universal non-null causal floor is withdrawn.",
+      "status": "PAUSED_TYPED_PRIOR_ABSENCE_AND_RLS_OWNER_BOUNDARIES"
+    },
+    {
+      "relative_path": "admission/03_native_admission_transform.py",
+      "bytes": 12299,
+      "sha256": "c5466fd2fbd0752d3871169c26516c7384953661c9e604caae65fc2bb641493d",
+      "kind": "proposal",
+      "purpose": "Typed scope, request preclaim, owning bridge and exact Native admission transforms; universal non-null causal floor is withdrawn.",
+      "status": "PAUSED_TYPED_PRIOR_ABSENCE_AND_RLS_OWNER_BOUNDARIES"
+    },
+    {
+      "relative_path": "admission/04_static_proof.py",
+      "bytes": 7261,
+      "sha256": "2fc08bec58a4e3b8c66a94ad75d40e46a1bc3bff4cd0589d02e743529fb91903",
+      "kind": "proposal",
+      "purpose": "Typed scope, request preclaim, owning bridge and exact Native admission transforms; universal non-null causal floor is withdrawn.",
+      "status": "PAUSED_TYPED_PRIOR_ABSENCE_AND_RLS_OWNER_BOUNDARIES"
+    },
+    {
+      "relative_path": "admission/CAUSAL_ABSENCE_COUNTER.json",
+      "bytes": 1700,
+      "sha256": "5c5ef309ad6e2bf58610bf6d972f6785f88196ee11c07562ef6eb169a71e5b79",
+      "kind": "source_proof",
+      "purpose": "Root source counter withdrawing universal date-floor assumption for genuine no-journal physical history.",
+      "status": "OPEN_TYPED_ABSENCE_BOUNDARY"
+    },
+    {
+      "relative_path": "admission/EXPECTED.json",
+      "bytes": 3446,
+      "sha256": "61bcffa4efeb9a03da679ec183afab1235b524a33d08131bafadef387bd40188",
+      "kind": "proposal",
+      "purpose": "Typed scope, request preclaim, owning bridge and exact Native admission transforms; universal non-null causal floor is withdrawn.",
+      "status": "PAUSED_TYPED_PRIOR_ABSENCE_AND_RLS_OWNER_BOUNDARIES"
+    },
+    {
+      "relative_path": "admission/FIRST_STATIC_FAILURE.json",
+      "bytes": 536,
+      "sha256": "9da86ac199b161e38092b2ffeb3a7eb741b908d95fa67c272a3491096467588a",
+      "kind": "firstfailure",
+      "purpose": "First Native embedded-body terminal-anchor extractor failure and narrow correction explanation.",
+      "status": "FIRST_FAILURE_PRESERVED"
+    },
+    {
+      "relative_path": "admission/README.md",
+      "bytes": 20885,
+      "sha256": "12d68ccec3c6bba8c55eaab80ff9b415ed0aa080a69f32340dfe81933d757612",
+      "kind": "proposal",
+      "purpose": "Typed scope, request preclaim, owning bridge and exact Native admission transforms; universal non-null causal floor is withdrawn.",
+      "status": "PAUSED_TYPED_PRIOR_ABSENCE_AND_RLS_OWNER_BOUNDARIES"
+    },
+    {
+      "relative_path": "admission/STATIC_RESULT_BEFORE_CAUSAL_ABSENCE_COUNTER.json",
+      "bytes": 5307,
+      "sha256": "7815d8c9f6a88b6b975dcea3db671599f4ffb8d4574aca4927b14a0548c9b767",
+      "kind": "synthetic",
+      "purpose": "Historical limited static transform receipt before typed causal-absence counter; not current installation clearance.",
+      "status": "STALE_LIMITED_STATIC_RESULT_WITH_WITHDRAWAL"
+    },
+    {
+      "relative_path": "contract-counter/EXPECTED.json",
+      "bytes": 2096,
+      "sha256": "611ab80b1dc12f28c69f87fa887c618eafe2fff80467717862049fbb151e4f26",
+      "kind": "synthetic",
+      "purpose": "Independent Decimal dated-credit counter model, literal expectation and result; no Native source authority.",
+      "status": "PURE_MODEL_SOURCE_ONLY"
+    },
+    {
+      "relative_path": "contract-counter/MODEL_RESULT.json",
+      "bytes": 1839,
+      "sha256": "c1fea98d9cde0c3f770f9601e10999584766eb1b6d8c35ff72617c3861bbf931",
+      "kind": "synthetic",
+      "purpose": "Independent Decimal dated-credit counter model, literal expectation and result; no Native source authority.",
+      "status": "PURE_MODEL_SOURCE_ONLY"
+    },
+    {
+      "relative_path": "contract-counter/dated_credit_model.py",
+      "bytes": 9741,
+      "sha256": "7883ba9980e44ef0d39e87f72489ed66eb0c03a897fe767f9a94576fec5dcc94",
+      "kind": "synthetic",
+      "purpose": "Independent Decimal dated-credit counter model, literal expectation and result; no Native source authority.",
+      "status": "PURE_MODEL_SOURCE_ONLY"
+    },
+    {
+      "relative_path": "kernel/EXPECTED.json",
+      "bytes": 53759,
+      "sha256": "5d496a937c989cfc5d5b12aaa53b882ca0925c78901183840dc4e7fb68ba5841",
+      "kind": "synthetic",
+      "purpose": "Final pure two-axis recognition/capacity kernel, frozen literals, executable oracle, result and limits.",
+      "status": "PURE_ARITHMETIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "kernel/EXPECTED_RECEIPT.json",
+      "bytes": 321,
+      "sha256": "afec30c7a08521828c7d32078bb8daaeed932dfe634f8662757b66f199c0d39f",
+      "kind": "synthetic",
+      "purpose": "Final pure two-axis recognition/capacity kernel, frozen literals, executable oracle, result and limits.",
+      "status": "PURE_ARITHMETIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "kernel/README.md",
+      "bytes": 8876,
+      "sha256": "a52f58a0c7fd28732d72d785f11c1919583a1655872f9d5d5fce08ecdbc13b93",
+      "kind": "synthetic",
+      "purpose": "Final pure two-axis recognition/capacity kernel, frozen literals, executable oracle, result and limits.",
+      "status": "PURE_ARITHMETIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "kernel/RESULT.json",
+      "bytes": 32296,
+      "sha256": "c89e6079958628f20fcd11dce61431e5800ee00c0c6bc4ea8fdaaea5ab42ad9f",
+      "kind": "synthetic",
+      "purpose": "Final pure two-axis recognition/capacity kernel, frozen literals, executable oracle, result and limits.",
+      "status": "PURE_ARITHMETIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "kernel/kernel.sql",
+      "bytes": 17566,
+      "sha256": "f531f50d5a1c7ddc0a2f22f607be5ba0625a2e0388af3e7a4c6d129bf82e15fc",
+      "kind": "synthetic",
+      "purpose": "Final pure two-axis recognition/capacity kernel, frozen literals, executable oracle, result and limits.",
+      "status": "PURE_ARITHMETIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "kernel/oracle.mjs",
+      "bytes": 15993,
+      "sha256": "985b1d5b973e8252ea51061e721d6ced9c81a750c7adc55bcb87ad7a17c075ca",
+      "kind": "synthetic",
+      "purpose": "Final pure two-axis recognition/capacity kernel, frozen literals, executable oracle, result and limits.",
+      "status": "PURE_ARITHMETIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "kernel/ordinal/BASELINE_PRIVATE_REVERSE.source.txt",
+      "bytes": 1297,
+      "sha256": "7efe9aabce2ad657e21835721737281a00ae489fb38f66cdb0d91450c216ee47",
+      "kind": "source_proof",
+      "purpose": "Accepted baseline/private-reverse clock rewrites, exact paired-poster transform and independent source-floor review; not installed capture.",
+      "status": "STATIC_SOURCE_ONLY_NOT_NATIVE"
+    },
+    {
+      "relative_path": "kernel/ordinal/EXPECTED.json",
+      "bytes": 23309,
+      "sha256": "cbcaf0fe121a6e651af01086e444ca824665d27a7da1cf06b544b3e7031b95fc",
+      "kind": "synthetic",
+      "purpose": "Independent ordinal/source-prefix literals and execution against unchanged pure kernel.",
+      "status": "PURE_ARITHMETIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "kernel/ordinal/EXPECTED_RECEIPT.json",
+      "bytes": 278,
+      "sha256": "4a8ae390fbfb396eebe660115581d4a6ce496c25d8aec00e0ae9fa69a0d57715",
+      "kind": "synthetic",
+      "purpose": "Independent ordinal/source-prefix literals and execution against unchanged pure kernel.",
+      "status": "PURE_ARITHMETIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "kernel/ordinal/PAIRED_TRANSFORM_BODY.diff",
+      "bytes": 1919,
+      "sha256": "1e2c53b7256b62a0c1e5579a255e3de7c0abb857a7b8ec5617a3ee7457a87171",
+      "kind": "source_proof",
+      "purpose": "Accepted baseline/private-reverse clock rewrites, exact paired-poster transform and independent source-floor review; not installed capture.",
+      "status": "STATIC_SOURCE_ONLY_NOT_NATIVE"
+    },
+    {
+      "relative_path": "kernel/ordinal/PAIRED_TRANSFORM_STATIC_RESULT.json",
+      "bytes": 1768,
+      "sha256": "cfd79eb2dbe503c58c8dcb0d4ae234af358a2aa47692e66157ec60b6700d767e",
+      "kind": "source_proof",
+      "purpose": "Accepted baseline/private-reverse clock rewrites, exact paired-poster transform and independent source-floor review; not installed capture.",
+      "status": "STATIC_SOURCE_ONLY_NOT_NATIVE"
+    },
+    {
+      "relative_path": "kernel/ordinal/PEER_RECHECK.json",
+      "bytes": 1044,
+      "sha256": "4a5d7ef4187a177062a145cacfa9cd6376c3ca4d94f3246709aa61899932ff76",
+      "kind": "source_proof",
+      "purpose": "Accepted baseline/private-reverse clock rewrites, exact paired-poster transform and independent source-floor review; not installed capture.",
+      "status": "STATIC_SOURCE_ONLY_NOT_NATIVE"
+    },
+    {
+      "relative_path": "kernel/ordinal/PRIVATE_REVERSE_DECLARED_CLOCK_BODY.txt",
+      "bytes": 1167,
+      "sha256": "56a649ecaaa5a0127b58758035cfcddf25a7c47773c6fd815ee4867af75f6ab1",
+      "kind": "source_proof",
+      "purpose": "Accepted baseline/private-reverse clock rewrites, exact paired-poster transform and independent source-floor review; not installed capture.",
+      "status": "STATIC_SOURCE_ONLY_NOT_NATIVE"
+    },
+    {
+      "relative_path": "kernel/ordinal/PRIVATE_REVERSE_SOURCE_RECEIPT.json",
+      "bytes": 1142,
+      "sha256": "958e1cc8c78d1f5f5a2bdc96d4830b1dc77ad725d0e4a16855da37a87bc1fdc6",
+      "kind": "source_proof",
+      "purpose": "Accepted baseline/private-reverse clock rewrites, exact paired-poster transform and independent source-floor review; not installed capture.",
+      "status": "STATIC_SOURCE_ONLY_NOT_NATIVE"
+    },
+    {
+      "relative_path": "kernel/ordinal/RESULT.json",
+      "bytes": 11980,
+      "sha256": "9d54380bec3d50d7b9617022fa0de7672d2e7cc20c9d5277ce7c0b69a77e0873",
+      "kind": "synthetic",
+      "purpose": "Independent ordinal/source-prefix literals and execution against unchanged pure kernel.",
+      "status": "PURE_ARITHMETIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "kernel/ordinal/SOURCE_DATE_FLOOR_REVIEW.md",
+      "bytes": 8503,
+      "sha256": "406aa096d7371fd986315f0db56e6a239fe21f5cc83bdfdbd419d109cfa2cb69",
+      "kind": "source_proof",
+      "purpose": "Accepted baseline/private-reverse clock rewrites, exact paired-poster transform and independent source-floor review; not installed capture.",
+      "status": "STATIC_SOURCE_ONLY_NOT_NATIVE"
+    },
+    {
+      "relative_path": "kernel/ordinal/check_expected.mjs",
+      "bytes": 9896,
+      "sha256": "7e21856c87f7fa9aeb6795612485280a758aa021f1f9604f36ef933c2f4db687",
+      "kind": "synthetic",
+      "purpose": "Independent ordinal/source-prefix literals and execution against unchanged pure kernel.",
+      "status": "PURE_ARITHMETIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "ledger/01_immutable_facts.proposal.sql",
+      "bytes": 17049,
+      "sha256": "62383030bf27b70c5c07f948c69329be6f8229c314097e7d3c02293cc8c929c6",
+      "kind": "proposal",
+      "purpose": "Final immutable cohorts/components/mechanical-parts and UUID-only paired-poster proposal with exact Native copy transforms; installer refusal retained.",
+      "status": "UNINSTALLED_TYPED_PRIOR_ABSENCE_INTEGRATION_REQUIRED"
+    },
+    {
+      "relative_path": "ledger/02_uuid_poster.proposal.sql",
+      "bytes": 22740,
+      "sha256": "d9bfca1d97113e8aacfbb5f29d5dcb1d4d3cbdc5c950073943de1bd2d6be9728",
+      "kind": "proposal",
+      "purpose": "Final immutable cohorts/components/mechanical-parts and UUID-only paired-poster proposal with exact Native copy transforms; installer refusal retained.",
+      "status": "UNINSTALLED_TYPED_PRIOR_ABSENCE_INTEGRATION_REQUIRED"
+    },
+    {
+      "relative_path": "ledger/03_native_copy_transform.py",
+      "bytes": 11560,
+      "sha256": "d6d88307d213c678a394fce8c040966f9539dea04908ff871531709fe981b1c4",
+      "kind": "proposal",
+      "purpose": "Final immutable cohorts/components/mechanical-parts and UUID-only paired-poster proposal with exact Native copy transforms; installer refusal retained.",
+      "status": "UNINSTALLED_TYPED_PRIOR_ABSENCE_INTEGRATION_REQUIRED"
+    },
+    {
+      "relative_path": "ledger/FINAL_RECEIPT.json",
+      "bytes": 795,
+      "sha256": "a2d32b9ad1ff9ba57ebf416cb8ae207c3ce2ff82fffbf28ad75ad8ecce36a0e2",
+      "kind": "proposal",
+      "purpose": "Final immutable cohorts/components/mechanical-parts and UUID-only paired-poster proposal with exact Native copy transforms; installer refusal retained.",
+      "status": "UNINSTALLED_TYPED_PRIOR_ABSENCE_INTEGRATION_REQUIRED"
+    },
+    {
+      "relative_path": "ledger/FIRST_HELPER_FAILURE.json",
+      "bytes": 681,
+      "sha256": "5e8275b7105c5af69142e0b6e325b02e1db49cab287136ce3a42bf3ed090e395",
+      "kind": "firstfailure",
+      "purpose": "First proposed SQL compilation and static release-extractor failures, retained without rewriting into successes.",
+      "status": "FIRST_FAILURE_PRESERVED"
+    },
+    {
+      "relative_path": "ledger/FIRST_STATIC_FAILURE.json",
+      "bytes": 488,
+      "sha256": "c1022f2ab1c1fbfbf1521eeae02ebce569b9b1511f122dfb3e7649399e7c3014",
+      "kind": "firstfailure",
+      "purpose": "First proposed SQL compilation and static release-extractor failures, retained without rewriting into successes.",
+      "status": "FIRST_FAILURE_PRESERVED"
+    },
+    {
+      "relative_path": "ledger/HELPER_EXPECTED.json",
+      "bytes": 767,
+      "sha256": "73afc37ac89b1dac0793bb5c2054d218fdfd9e44d93932f95806e0ed86bf699e",
+      "kind": "synthetic",
+      "purpose": "Pinned scalar/DDL/ancestry helper checks and exact static release transform evidence; no Native posting.",
+      "status": "ISOLATED_AND_STATIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "ledger/HELPER_RESULT.json",
+      "bytes": 3342,
+      "sha256": "76b724d984a0857fc1bab4c6c8ea4c44884ecc0cc733f4450054c7a8d5044542",
+      "kind": "synthetic",
+      "purpose": "Pinned scalar/DDL/ancestry helper checks and exact static release transform evidence; no Native posting.",
+      "status": "ISOLATED_AND_STATIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "ledger/README.md",
+      "bytes": 23161,
+      "sha256": "858bce3eee1dc534b1d5dcdad97ee19f2b3961a3410eb1e3f8f9b8dd832a0194",
+      "kind": "proposal",
+      "purpose": "Final immutable cohorts/components/mechanical-parts and UUID-only paired-poster proposal with exact Native copy transforms; installer refusal retained.",
+      "status": "UNINSTALLED_TYPED_PRIOR_ABSENCE_INTEGRATION_REQUIRED"
+    },
+    {
+      "relative_path": "ledger/STATIC_TRANSFORM_RESULT.json",
+      "bytes": 1768,
+      "sha256": "be5ba8a2a35eff42d19669bf1302bcc1a292de70cff20d6a381d2d712d522cab",
+      "kind": "synthetic",
+      "purpose": "Pinned scalar/DDL/ancestry helper checks and exact static release transform evidence; no Native posting.",
+      "status": "ISOLATED_AND_STATIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "ledger/check_helpers.mjs",
+      "bytes": 6863,
+      "sha256": "4fc4d6644f27104a80cb0fa74a423bc25461a5c16a6f8a7054bb72a08c518a73",
+      "kind": "synthetic",
+      "purpose": "Pinned scalar/DDL/ancestry helper checks and exact static release transform evidence; no Native posting.",
+      "status": "ISOLATED_AND_STATIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "native/EXPECTED.json",
+      "bytes": 19866,
+      "sha256": "f6d7efdde1a409094b8c5485fb7942209175bce1d869e8c05f1a1d097b7cadde",
+      "kind": "proposal",
+      "purpose": "Six expected Native funding/date source fixtures and static Python/literal/source checks; setup/probe modules remain unexecuted against Native.",
+      "status": "SOURCE_PREPARED_STATIC_ONLY_NOT_NATIVE"
+    },
+    {
+      "relative_path": "native/README.md",
+      "bytes": 7817,
+      "sha256": "ce82bdf92eab00425b7b24be5ba7ccd53b3f2b3ac8f36b7ce6d27e321c09a8a4",
+      "kind": "proposal",
+      "purpose": "Six expected Native funding/date source fixtures and static Python/literal/source checks; setup/probe modules remain unexecuted against Native.",
+      "status": "SOURCE_PREPARED_STATIC_ONLY_NOT_NATIVE"
+    },
+    {
+      "relative_path": "native/SOURCE_CHECKS.json",
+      "bytes": 1259,
+      "sha256": "4090dc2d4cf66c74b19177239233cb3bdb08fe3b16b37bbc396b7f069ca29a7a",
+      "kind": "proposal",
+      "purpose": "Six expected Native funding/date source fixtures and static Python/literal/source checks; setup/probe modules remain unexecuted against Native.",
+      "status": "SOURCE_PREPARED_STATIC_ONLY_NOT_NATIVE"
+    },
+    {
+      "relative_path": "native/cash-refund-source/CASH_REFUND_SOURCE_TRACE.md",
+      "bytes": 8650,
+      "sha256": "aa9d77176c1ac30ec16ae3d7840fb92b7895989f16e19ad27d5ca38d0956cade",
+      "kind": "source_proof",
+      "purpose": "Independent current Native frozen-HPP, no-journal, refund cash-reader/negative-guard source traces and locked initials.",
+      "status": "SOURCE_TRACE_NOT_RUNTIME"
+    },
+    {
+      "relative_path": "native/cash-refund-source/INITIAL.json",
+      "bytes": 5410,
+      "sha256": "a38d74c3bcc52c6d4fad4db2c5e0e2f484b2fbeb3260c7abac40d1a5fc6d27e0",
+      "kind": "source_proof",
+      "purpose": "Independent current Native frozen-HPP, no-journal, refund cash-reader/negative-guard source traces and locked initials.",
+      "status": "SOURCE_TRACE_NOT_RUNTIME"
+    },
+    {
+      "relative_path": "native/cash-refund-source/SOURCE_CHECKS.json",
+      "bytes": 516,
+      "sha256": "68dcbd938bc13d8de6a0e28bcdd41d82d6d4fa442374f1547037050ed78ab5de",
+      "kind": "source_proof",
+      "purpose": "Independent current Native frozen-HPP, no-journal, refund cash-reader/negative-guard source traces and locked initials.",
+      "status": "SOURCE_TRACE_NOT_RUNTIME"
+    },
+    {
+      "relative_path": "native/check_proposal.py",
+      "bytes": 3535,
+      "sha256": "3e98f792da83bc165faebc23b07e3fc4a7e8361b9b7d076e8e55e9f5cd5652a0",
+      "kind": "proposal",
+      "purpose": "Six expected Native funding/date source fixtures and static Python/literal/source checks; setup/probe modules remain unexecuted against Native.",
+      "status": "SOURCE_PREPARED_STATIC_ONLY_NOT_NATIVE"
+    },
+    {
+      "relative_path": "native/cp7_ow04_native_source_fixture.py",
+      "bytes": 24587,
+      "sha256": "776ce28bb295d9fa9bc2f4c34e1abcff15b203316617aae580bf5b3ba9e0d0f7",
+      "kind": "proposal",
+      "purpose": "Six expected Native funding/date source fixtures and static Python/literal/source checks; setup/probe modules remain unexecuted against Native.",
+      "status": "SOURCE_PREPARED_STATIC_ONLY_NOT_NATIVE"
+    },
+    {
+      "relative_path": "native/source-counter/HPP_SOURCE_TRACE.json",
+      "bytes": 13299,
+      "sha256": "91661166d20247cf2284895df0ef6ce460a2163e5563f73ccccb9f95c9492d92",
+      "kind": "source_proof",
+      "purpose": "Independent current Native frozen-HPP, no-journal, refund cash-reader/negative-guard source traces and locked initials.",
+      "status": "SOURCE_TRACE_NOT_RUNTIME"
+    },
+    {
+      "relative_path": "native/source-counter/HPP_SOURCE_TRACE.md",
+      "bytes": 5741,
+      "sha256": "d551f4c1eac98985b115d63ed4a4ebf8710b00168fdadb6689ea688b5746d17c",
+      "kind": "source_proof",
+      "purpose": "Independent current Native frozen-HPP, no-journal, refund cash-reader/negative-guard source traces and locked initials.",
+      "status": "SOURCE_TRACE_NOT_RUNTIME"
+    },
+    {
+      "relative_path": "native/source-counter/INITIAL.json",
+      "bytes": 5365,
+      "sha256": "3d76c62ed5c39a4305ffa1c931998aeca3464da1568cfcd7fd0accf28f2a4dec",
+      "kind": "source_proof",
+      "purpose": "Independent current Native frozen-HPP, no-journal, refund cash-reader/negative-guard source traces and locked initials.",
+      "status": "SOURCE_TRACE_NOT_RUNTIME"
+    },
+    {
+      "relative_path": "native/zero-financial-history/CONDITIONAL_RECOST_EXPECTED.json",
+      "bytes": 4570,
+      "sha256": "f03a13cfa65fe881d5d31b3dd52a6326a69265132145a4fb6db12b34cd42fe3b",
+      "kind": "source_proof",
+      "purpose": "Genuine public zero-value physical source recipe and separate genuine OPENING/recost/HPP-only return counter; Python prepared, never Native executed.",
+      "status": "SOURCE_PROVEN_EXPECTATIONS_RUNTIME_UNEXECUTED"
+    },
+    {
+      "relative_path": "native/zero-financial-history/EXPECTED.json",
+      "bytes": 6430,
+      "sha256": "2d1e67cff03bf3cf6a746f60d7aa87aedcd67693702b87d132d30d14d19d6443",
+      "kind": "source_proof",
+      "purpose": "Genuine public zero-value physical source recipe and separate genuine OPENING/recost/HPP-only return counter; Python prepared, never Native executed.",
+      "status": "SOURCE_PROVEN_EXPECTATIONS_RUNTIME_UNEXECUTED"
+    },
+    {
+      "relative_path": "native/zero-financial-history/README.md",
+      "bytes": 2448,
+      "sha256": "ef992c6729079061f12fba06910f7130501be1a8cab7d9eb2cc73a7643835233",
+      "kind": "source_proof",
+      "purpose": "Genuine public zero-value physical source recipe and separate genuine OPENING/recost/HPP-only return counter; Python prepared, never Native executed.",
+      "status": "SOURCE_PROVEN_EXPECTATIONS_RUNTIME_UNEXECUTED"
+    },
+    {
+      "relative_path": "native/zero-financial-history/cp7_ow04_zero_financial_history_source.py",
+      "bytes": 7608,
+      "sha256": "efed97f65fede7de9ca0bf090e97fd4dcbb3dbda2c197ec37330ba371fc71c3d",
+      "kind": "source_proof",
+      "purpose": "Genuine public zero-value physical source recipe and separate genuine OPENING/recost/HPP-only return counter; Python prepared, never Native executed.",
+      "status": "SOURCE_PROVEN_EXPECTATIONS_RUNTIME_UNEXECUTED"
+    },
+    {
+      "relative_path": "ordinal-tests/EXPECTED.json",
+      "bytes": 53385,
+      "sha256": "5a47a026f386f9fb66570260731ddff6480d6674db2049cca029effcd0e475db",
+      "kind": "synthetic",
+      "purpose": "Independent Decimal ordinal/attribution oracle and frozen results; does not authorize supplied Native events.",
+      "status": "PURE_MODEL_SOURCE_ONLY"
+    },
+    {
+      "relative_path": "ordinal-tests/README.md",
+      "bytes": 1913,
+      "sha256": "958b0678cebcb3ad52607b2b3a607fb9f4559c20560b5d806f6649b9ea2ec028",
+      "kind": "synthetic",
+      "purpose": "Independent Decimal ordinal/attribution oracle and frozen results; does not authorize supplied Native events.",
+      "status": "PURE_MODEL_SOURCE_ONLY"
+    },
+    {
+      "relative_path": "ordinal-tests/RESULT.json",
+      "bytes": 2153,
+      "sha256": "259bf199346fe6aa972d3693e8e180da4c188a96ab4b8433ff943a029b60e316",
+      "kind": "synthetic",
+      "purpose": "Independent Decimal ordinal/attribution oracle and frozen results; does not authorize supplied Native events.",
+      "status": "PURE_MODEL_SOURCE_ONLY"
+    },
+    {
+      "relative_path": "ordinal-tests/ordinal_oracle.py",
+      "bytes": 11699,
+      "sha256": "b6792fc438db56b1a5ada11e8556554925e9f9357a3edd096d43da84c387101f",
+      "kind": "synthetic",
+      "purpose": "Independent Decimal ordinal/attribution oracle and frozen results; does not authorize supplied Native events.",
+      "status": "PURE_MODEL_SOURCE_ONLY"
+    },
+    {
+      "relative_path": "ordinal-wrapper/EXPECTED.json",
+      "bytes": 87912,
+      "sha256": "1f29d7ca7e8a488d59c0f9c9aa351e2b4952cf22da3eb66c6387c0f21617c12f",
+      "kind": "synthetic",
+      "purpose": "Final pure family-target-minus-all-retained-I wrapper and independent locked vectors; pending operation binding remains owning integration.",
+      "status": "PURE_ARITHMETIC_NOT_AUTHORITY"
+    },
+    {
+      "relative_path": "ordinal-wrapper/EXPECTED_RECEIPT.json",
+      "bytes": 414,
+      "sha256": "bcf932afe4a294804aeb8ed8dcdc7c71c91a35fab907c7995992fc594bbee73b",
+      "kind": "synthetic",
+      "purpose": "Final pure family-target-minus-all-retained-I wrapper and independent locked vectors; pending operation binding remains owning integration.",
+      "status": "PURE_ARITHMETIC_NOT_AUTHORITY"
+    },
+    {
+      "relative_path": "ordinal-wrapper/README.md",
+      "bytes": 13888,
+      "sha256": "a3bfcec0811d65be438f0f94433bbc844ef8159ef7fcee30c436b83d447fdd2a",
+      "kind": "synthetic",
+      "purpose": "Final pure family-target-minus-all-retained-I wrapper and independent locked vectors; pending operation binding remains owning integration.",
+      "status": "PURE_ARITHMETIC_NOT_AUTHORITY"
+    },
+    {
+      "relative_path": "ordinal-wrapper/RESULT.json",
+      "bytes": 68040,
+      "sha256": "b03c15dae83373d88b530df8451d661c0852b4d32cd197e0b22695cd2bd4794a",
+      "kind": "synthetic",
+      "purpose": "Final pure family-target-minus-all-retained-I wrapper and independent locked vectors; pending operation binding remains owning integration.",
+      "status": "PURE_ARITHMETIC_NOT_AUTHORITY"
+    },
+    {
+      "relative_path": "ordinal-wrapper/oracle.mjs",
+      "bytes": 17772,
+      "sha256": "6d4f116a7356ce97f80cb9fbfd9b6e631f7c18b2a34a2e36debe3e1e86fedc9d",
+      "kind": "synthetic",
+      "purpose": "Final pure family-target-minus-all-retained-I wrapper and independent locked vectors; pending operation binding remains owning integration.",
+      "status": "PURE_ARITHMETIC_NOT_AUTHORITY"
+    },
+    {
+      "relative_path": "ordinal-wrapper/root-magnitude/EXPECTED.json",
+      "bytes": 4334,
+      "sha256": "9e62b8738a6f201bc143f86d62aad0b6a5949371e427046c68605963f2860c8e",
+      "kind": "synthetic",
+      "purpose": "Frozen Native-M/+M/+M/-2M arithmetic counter, exact mechanical split and zero spendable capacity proof.",
+      "status": "PURE_SUPPLIED_VECTOR_ARITHMETIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "ordinal-wrapper/root-magnitude/EXPECTED_RECEIPT.json",
+      "bytes": 350,
+      "sha256": "f18756dd7d800558d281faf9229d07f34c483f8dd1970a358e49c94dc661ba57",
+      "kind": "synthetic",
+      "purpose": "Frozen Native-M/+M/+M/-2M arithmetic counter, exact mechanical split and zero spendable capacity proof.",
+      "status": "PURE_SUPPLIED_VECTOR_ARITHMETIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "ordinal-wrapper/root-magnitude/README.md",
+      "bytes": 2224,
+      "sha256": "9665d2a464705523dd77effb235b232d53d1bfe32767efb0d3f3d48faca5b7d6",
+      "kind": "synthetic",
+      "purpose": "Frozen Native-M/+M/+M/-2M arithmetic counter, exact mechanical split and zero spendable capacity proof.",
+      "status": "PURE_SUPPLIED_VECTOR_ARITHMETIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "ordinal-wrapper/root-magnitude/RESULT.json",
+      "bytes": 23039,
+      "sha256": "f0cc7cdefb256a61b36dbdf02b6d11ffdfbc1018eeffce205517ef103618614c",
+      "kind": "synthetic",
+      "purpose": "Frozen Native-M/+M/+M/-2M arithmetic counter, exact mechanical split and zero spendable capacity proof.",
+      "status": "PURE_SUPPLIED_VECTOR_ARITHMETIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "ordinal-wrapper/root-magnitude/oracle.mjs",
+      "bytes": 7255,
+      "sha256": "c388eee53ecd7c123af118c1e32b42c7e3ad24264c728e43cc63be8c180a9c29",
+      "kind": "synthetic",
+      "purpose": "Frozen Native-M/+M/+M/-2M arithmetic counter, exact mechanical split and zero spendable capacity proof.",
+      "status": "PURE_SUPPLIED_VECTOR_ARITHMETIC_NOT_NATIVE"
+    },
+    {
+      "relative_path": "ordinal-wrapper/source-review/EXPECTED.json",
+      "bytes": 2943,
+      "sha256": "3fd5015e8f7d5e714ea0eca34f28c1706f0205e2c4742b50667eb2f56faa0670",
+      "kind": "source_proof",
+      "purpose": "Independent actual-SQL boundary review and qualified repair recheck; old minimal registered fixture is not positive authority proof.",
+      "status": "ISOLATED_SOURCE_RECHECK_NOT_NATIVE"
+    },
+    {
+      "relative_path": "ordinal-wrapper/source-review/EXPECTED_RECEIPT.json",
+      "bytes": 262,
+      "sha256": "233efbd6359731cf03bbd211f4031a9ada53df95257fad556d4278e13f1524ec",
+      "kind": "source_proof",
+      "purpose": "Independent actual-SQL boundary review and qualified repair recheck; old minimal registered fixture is not positive authority proof.",
+      "status": "ISOLATED_SOURCE_RECHECK_NOT_NATIVE"
+    },
+    {
+      "relative_path": "ordinal-wrapper/source-review/FIRST_BOUNDARY_COUNTER.json",
+      "bytes": 584,
+      "sha256": "aae8a3fda2d7bb4605ed9c74ad6252f59631fce2efa2999d3059e0449ede3822",
+      "kind": "firstfailure",
+      "purpose": "Frozen original collector and first independent unsafe-acceptance counter evidence, including seven monetary/date/member holes.",
+      "status": "FIRST_UNSAFE_ACCEPTANCES_PRESERVED"
+    },
+    {
+      "relative_path": "ordinal-wrapper/source-review/INITIAL_BOUNDARY_RESULT.json",
+      "bytes": 14208,
+      "sha256": "b5ec62d808b0e4462ee9e94a3f1a7e454c1d2504e6eebb094d19cf5425f6773a",
+      "kind": "firstfailure",
+      "purpose": "Frozen original collector and first independent unsafe-acceptance counter evidence, including seven monetary/date/member holes.",
+      "status": "FIRST_UNSAFE_ACCEPTANCES_PRESERVED"
+    },
+    {
+      "relative_path": "ordinal-wrapper/source-review/README.md",
+      "bytes": 4618,
+      "sha256": "48f40695359d26a6aa1fcebd2772b0340307fd3de9028d25420e89e8a54cf90e",
+      "kind": "source_proof",
+      "purpose": "Independent actual-SQL boundary review and qualified repair recheck; old minimal registered fixture is not positive authority proof.",
+      "status": "ISOLATED_SOURCE_RECHECK_NOT_NATIVE"
+    },
+    {
+      "relative_path": "ordinal-wrapper/source-review/REPAIRED_BOUNDARY_RESULT.json",
+      "bytes": 7163,
+      "sha256": "3ad710d8004c97a8694a708af8dffa501d46b76e4aebe0704665b1d625c8e754",
+      "kind": "source_proof",
+      "purpose": "Independent actual-SQL boundary review and qualified repair recheck; old minimal registered fixture is not positive authority proof.",
+      "status": "ISOLATED_SOURCE_RECHECK_NOT_NATIVE"
+    },
+    {
+      "relative_path": "ordinal-wrapper/source-review/REPAIR_REVIEW.json",
+      "bytes": 927,
+      "sha256": "ab89622a6cf04db2433beec22a25857d332cac0bf0301968715f7da6b39000fc",
+      "kind": "source_proof",
+      "purpose": "Independent actual-SQL boundary review and qualified repair recheck; old minimal registered fixture is not positive authority proof.",
+      "status": "ISOLATED_SOURCE_RECHECK_NOT_NATIVE"
+    },
+    {
+      "relative_path": "ordinal-wrapper/source-review/check_source_boundary.mjs",
+      "bytes": 10027,
+      "sha256": "61a997b37e387cd2dd7fac529819b11e9f4e603b819f504826b50f508386a76d",
+      "kind": "source_proof",
+      "purpose": "Independent actual-SQL boundary review and qualified repair recheck; old minimal registered fixture is not positive authority proof.",
+      "status": "ISOLATED_SOURCE_RECHECK_NOT_NATIVE"
+    },
+    {
+      "relative_path": "ordinal-wrapper/wrapper.sql",
+      "bytes": 21084,
+      "sha256": "ed66c7f09433956d18368b7a804b1b04f0dcb7f9e0457686400421a849d671d1",
+      "kind": "synthetic",
+      "purpose": "Final pure family-target-minus-all-retained-I wrapper and independent locked vectors; pending operation binding remains owning integration.",
+      "status": "PURE_ARITHMETIC_NOT_AUTHORITY"
+    },
+    {
+      "relative_path": "readers/01_current_reader_capability.proposal.sql",
+      "bytes": 10503,
+      "sha256": "d621f6b145f975c7b2460a068ee51beb3b1c135b38a56c938a6b0916f87c5bc5",
+      "kind": "proposal",
+      "purpose": "Current actual-invoice E capability/ACL assignment and full signed materialization inspector; source-plan/provenance/owning callbacks deliberately remain absent.",
+      "status": "UNINSTALLED_CALLBACKS_AND_NATIVE_PROOF_REQUIRED"
+    },
+    {
+      "relative_path": "readers/02_materialized_profile.proposal.sql",
+      "bytes": 26820,
+      "sha256": "eb61c0db0f4efe77ae9e926b972a802edb76abcf3028ce8d963a91c2410a7ff0",
+      "kind": "proposal",
+      "purpose": "Current actual-invoice E capability/ACL assignment and full signed materialization inspector; source-plan/provenance/owning callbacks deliberately remain absent.",
+      "status": "UNINSTALLED_CALLBACKS_AND_NATIVE_PROOF_REQUIRED"
+    },
+    {
+      "relative_path": "readers/EXPECTED.json",
+      "bytes": 1667,
+      "sha256": "f6a387b9eb6ce89690e411a1d8b6456ec67fb1d9a0cb0acd16544c2a043f01a7",
+      "kind": "synthetic",
+      "purpose": "Frozen reader capability and actual-validator synthetic controls, including signed ADJUSTMENTs, pending-part refusals, completion stages and recost10-to0 control.",
+      "status": "MECHANICAL_SYNTHETIC_12_AND_42_NOT_AUTHORITY"
+    },
+    {
+      "relative_path": "readers/MATERIALIZATION_README.md",
+      "bytes": 12063,
+      "sha256": "c83ec353158d68cf428c1a6e0e035f6eee0678923ff2833aa67927c33581e3b8",
+      "kind": "proposal",
+      "purpose": "Current actual-invoice E capability/ACL assignment and full signed materialization inspector; source-plan/provenance/owning callbacks deliberately remain absent.",
+      "status": "UNINSTALLED_CALLBACKS_AND_NATIVE_PROOF_REQUIRED"
+    },
+    {
+      "relative_path": "readers/MATERIALIZED_ADDITIONAL_EXPECTED.json",
+      "bytes": 379,
+      "sha256": "6e6a8f709307ed238d48ffb9bdc329b52a048b527308ff5758b3ec570a69f718",
+      "kind": "synthetic",
+      "purpose": "Frozen reader capability and actual-validator synthetic controls, including signed ADJUSTMENTs, pending-part refusals, completion stages and recost10-to0 control.",
+      "status": "MECHANICAL_SYNTHETIC_12_AND_42_NOT_AUTHORITY"
+    },
+    {
+      "relative_path": "readers/MATERIALIZED_ADDITIONAL_RECEIPT.json",
+      "bytes": 138,
+      "sha256": "ae47672d6a938df6db7e55b40e73925a36991a082c8261154240fc12ba8f3a6b",
+      "kind": "synthetic",
+      "purpose": "Frozen reader capability and actual-validator synthetic controls, including signed ADJUSTMENTs, pending-part refusals, completion stages and recost10-to0 control.",
+      "status": "MECHANICAL_SYNTHETIC_12_AND_42_NOT_AUTHORITY"
+    },
+    {
+      "relative_path": "readers/MATERIALIZED_ATTEMPT_06.json",
+      "bytes": 6827,
+      "sha256": "51019ef65417e4d621aceaba6c9648eff7cc09d440e005b392a6c288731ebf4b",
+      "kind": "firstfailure",
+      "purpose": "First validator setup failure and first Native-storage mechanical split/cent-line mismatch after 33 earlier observations; final repaired receipt retained separately.",
+      "status": "FIRST_SETUP_AND_STORAGE_SPLIT_FAILURES_PRESERVED"
+    },
+    {
+      "relative_path": "readers/MATERIALIZED_EXPECTED.json",
+      "bytes": 3408,
+      "sha256": "266b91424d6ce2581030f923af06306a618a59e66e6d767d2fd0dec387b172df",
+      "kind": "synthetic",
+      "purpose": "Frozen reader capability and actual-validator synthetic controls, including signed ADJUSTMENTs, pending-part refusals, completion stages and recost10-to0 control.",
+      "status": "MECHANICAL_SYNTHETIC_12_AND_42_NOT_AUTHORITY"
+    },
+    {
+      "relative_path": "readers/MATERIALIZED_EXPECTED_RECEIPT.json",
+      "bytes": 186,
+      "sha256": "bf6face752141795b33a587f9c22cba4b7bc56550250350a2700f6d33bd8b050",
+      "kind": "synthetic",
+      "purpose": "Frozen reader capability and actual-validator synthetic controls, including signed ADJUSTMENTs, pending-part refusals, completion stages and recost10-to0 control.",
+      "status": "MECHANICAL_SYNTHETIC_12_AND_42_NOT_AUTHORITY"
+    },
+    {
+      "relative_path": "readers/MATERIALIZED_FIRST_FAILURE.json",
+      "bytes": 1192,
+      "sha256": "5a270f838bc0a2b3acc65cbf7170290b07e7ef75ebe4c8c6a175d4a8067e1e87",
+      "kind": "firstfailure",
+      "purpose": "First validator setup failure and first Native-storage mechanical split/cent-line mismatch after 33 earlier observations; final repaired receipt retained separately.",
+      "status": "FIRST_SETUP_AND_STORAGE_SPLIT_FAILURES_PRESERVED"
+    },
+    {
+      "relative_path": "readers/MATERIALIZED_RECOST_EXPECTED.json",
+      "bytes": 454,
+      "sha256": "4b4c9ea33437944f524f19aeaf5facaaeec258aa66f041bba719d4dd41564c15",
+      "kind": "synthetic",
+      "purpose": "Frozen reader capability and actual-validator synthetic controls, including signed ADJUSTMENTs, pending-part refusals, completion stages and recost10-to0 control.",
+      "status": "MECHANICAL_SYNTHETIC_12_AND_42_NOT_AUTHORITY"
+    },
+    {
+      "relative_path": "readers/MATERIALIZED_RECOST_RECEIPT.json",
+      "bytes": 142,
+      "sha256": "ffcc56f38fea3ace788ac1a684000726c1cdda61891bd1a30db8ce425bdb08a1",
+      "kind": "synthetic",
+      "purpose": "Frozen reader capability and actual-validator synthetic controls, including signed ADJUSTMENTs, pending-part refusals, completion stages and recost10-to0 control.",
+      "status": "MECHANICAL_SYNTHETIC_12_AND_42_NOT_AUTHORITY"
+    },
+    {
+      "relative_path": "readers/MATERIALIZED_RESULT.json",
+      "bytes": 8410,
+      "sha256": "66e7ac473b3c558900bf387c5dd96516442b85f0d6ce7c8a1081abfabdeaaaae",
+      "kind": "synthetic",
+      "purpose": "Frozen reader capability and actual-validator synthetic controls, including signed ADJUSTMENTs, pending-part refusals, completion stages and recost10-to0 control.",
+      "status": "MECHANICAL_SYNTHETIC_12_AND_42_NOT_AUTHORITY"
+    },
+    {
+      "relative_path": "readers/README.md",
+      "bytes": 12965,
+      "sha256": "7a084199075a8852a3c44a566f5fe92089e3071228755c4c2994c8e1b63242e3",
+      "kind": "proposal",
+      "purpose": "Current actual-invoice E capability/ACL assignment and full signed materialization inspector; source-plan/provenance/owning callbacks deliberately remain absent.",
+      "status": "UNINSTALLED_CALLBACKS_AND_NATIVE_PROOF_REQUIRED"
+    },
+    {
+      "relative_path": "readers/RESULT.json",
+      "bytes": 1647,
+      "sha256": "0e9c56afc55ea22b33899533655b7e351bfb520f92909d809d5e31b21b1a42ac",
+      "kind": "synthetic",
+      "purpose": "Frozen reader capability and actual-validator synthetic controls, including signed ADJUSTMENTs, pending-part refusals, completion stages and recost10-to0 control.",
+      "status": "MECHANICAL_SYNTHETIC_12_AND_42_NOT_AUTHORITY"
+    },
+    {
+      "relative_path": "readers/capability-proof.mjs",
+      "bytes": 13316,
+      "sha256": "7bc298925746e7d8a372044dc993615f0eb93f694f3b94467a8097347afd41be",
+      "kind": "synthetic",
+      "purpose": "Frozen reader capability and actual-validator synthetic controls, including signed ADJUSTMENTs, pending-part refusals, completion stages and recost10-to0 control.",
+      "status": "MECHANICAL_SYNTHETIC_12_AND_42_NOT_AUTHORITY"
+    },
+    {
+      "relative_path": "readers/materialization-proof.mjs",
+      "bytes": 25993,
+      "sha256": "bad1d5cb2374815c0000edc175ff0ad1bb3586a8ce6ec2fadcff0bc2d956c6f9",
+      "kind": "synthetic",
+      "purpose": "Frozen reader capability and actual-validator synthetic controls, including signed ADJUSTMENTs, pending-part refusals, completion stages and recost10-to0 control.",
+      "status": "MECHANICAL_SYNTHETIC_12_AND_42_NOT_AUTHORITY"
+    },
+    {
+      "relative_path": "source/EXPECTED.json",
+      "bytes": 1720,
+      "sha256": "246524a69b9b9ebf0d6ce1f812c873e765444201545564983b8899475ba413f8",
+      "kind": "synthetic",
+      "purpose": "Expected-first actual proposed SQL exercised on selected exact Native DDL and synthetic rows: final 28/28; includes true absence, HPP-only dates, all signed legs and allocation10/return0.",
+      "status": "ISOLATED_SQL_28_OF_28_NOT_NATIVE"
+    },
+    {
+      "relative_path": "source/EXTENDED_ATTEMPT_01.json",
+      "bytes": 133143,
+      "sha256": "b5ff4f580f6f0a154633848416925dc2b1088a27abe947e35af3552202f5f95f",
+      "kind": "firstfailure",
+      "purpose": "First immutable-member/NOJ exercise preserving scale-sensitive proof-digest refusal and fixture PK issue before narrow repair.",
+      "status": "FIRST_PROOF_HASH_FAILURE_NOT_NATIVE"
+    },
+    {
+      "relative_path": "source/EXTENDED_ATTEMPT_05.json",
+      "bytes": 299153,
+      "sha256": "5f9ce84ca38977ea065e0ee5406ab89cab4cd23b8c24c446a13b2cec01f9c1f4",
+      "kind": "firstfailure",
+      "purpose": "First Native-shaped correction case accepted without required neutral/effective legs; retained as omission counter, later final suite requires/refuses missing legs.",
+      "status": "EARLY_UNSAFE_OMISSION_ACCEPTANCE_PRESERVED"
+    },
+    {
+      "relative_path": "source/FINAL_RECEIPT.json",
+      "bytes": 1849,
+      "sha256": "d29f4295e81b404c2fdb57b3a8a397ce250a061b0918963232096df7b90efb68",
+      "kind": "proposal",
+      "purpose": "Final actual base-journal collector, STABLE immutable member proof, completed typed causal info and NO_JOURNAL schema delta; no owning authority API.",
+      "status": "UNINSTALLED_COMPLETED_FACTS_ONLY_PRIOR_SEAL_MISSING"
+    },
+    {
+      "relative_path": "source/INITIAL_RESULT.json",
+      "bytes": 50394,
+      "sha256": "a8a8b5923bf1e3d279042e586d24ccc842fbb90d6d0e81e1e8fd6af436761799",
+      "kind": "firstfailure",
+      "purpose": "Original own collector snapshot and first four reproduced unsafe acceptances; same content as independently reviewed source snapshot.",
+      "status": "FIRST_UNSAFE_ACCEPTANCES_PRESERVED"
+    },
+    {
+      "relative_path": "source/INITIAL_SOURCE.sql",
+      "bytes": 30587,
+      "sha256": "0c3888366f89aabd85af0432b6d0e815c923cddb3d3ee9d1769febfa4be683e4",
+      "kind": "firstfailure",
+      "purpose": "Original own collector snapshot and first four reproduced unsafe acceptances; same content as independently reviewed source snapshot.",
+      "status": "FIRST_UNSAFE_ACCEPTANCES_PRESERVED"
+    },
+    {
+      "relative_path": "source/ISOLATED_REGISTRY.sql",
+      "bytes": 3584,
+      "sha256": "bcbb95b77119525706d21cea7084075bdf297eb203f2acfa91a0a025b92b30cd",
+      "kind": "synthetic",
+      "purpose": "Expected-first actual proposed SQL exercised on selected exact Native DDL and synthetic rows: final 28/28; includes true absence, HPP-only dates, all signed legs and allocation10/return0.",
+      "status": "ISOLATED_SQL_28_OF_28_NOT_NATIVE"
+    },
+    {
+      "relative_path": "source/ISOLATED_TABLES.sql",
+      "bytes": 13057,
+      "sha256": "eb5b830ac6f89389c685cb5e1a796a06a349bb524d6bd334564fcbfe4ed19b7e",
+      "kind": "synthetic",
+      "purpose": "Expected-first actual proposed SQL exercised on selected exact Native DDL and synthetic rows: final 28/28; includes true absence, HPP-only dates, all signed legs and allocation10/return0.",
+      "status": "ISOLATED_SQL_28_OF_28_NOT_NATIVE"
+    },
+    {
+      "relative_path": "source/ISOLATED_TABLES_RECEIPT.json",
+      "bytes": 4022,
+      "sha256": "4a60b0e8a696ebc7c56cf4c0f1ae14717a4668416799b7203dc1d68730ec523a",
+      "kind": "synthetic",
+      "purpose": "Expected-first actual proposed SQL exercised on selected exact Native DDL and synthetic rows: final 28/28; includes true absence, HPP-only dates, all signed legs and allocation10/return0.",
+      "status": "ISOLATED_SQL_28_OF_28_NOT_NATIVE"
+    },
+    {
+      "relative_path": "source/MEMBER_EXPECTED.json",
+      "bytes": 1591,
+      "sha256": "3ae654bbc239d5bec964e06690b74b851bb0c028d07ce23855904669e5f9d38c",
+      "kind": "synthetic",
+      "purpose": "Expected-first actual proposed SQL exercised on selected exact Native DDL and synthetic rows: final 28/28; includes true absence, HPP-only dates, all signed legs and allocation10/return0.",
+      "status": "ISOLATED_SQL_28_OF_28_NOT_NATIVE"
+    },
+    {
+      "relative_path": "source/NO_JOURNAL_SCHEMA_DIFF.proposal.sql",
+      "bytes": 4673,
+      "sha256": "bed7aea0c7eab97c3917444aac5ea21e167b7ca0dfea4a92d4150124f21baa45",
+      "kind": "proposal",
+      "purpose": "Final actual base-journal collector, STABLE immutable member proof, completed typed causal info and NO_JOURNAL schema delta; no owning authority API.",
+      "status": "UNINSTALLED_COMPLETED_FACTS_ONLY_PRIOR_SEAL_MISSING"
+    },
+    {
+      "relative_path": "source/README.md",
+      "bytes": 14480,
+      "sha256": "c2af71273a7df6b989861dec5cd11126da5cb0befe1e3e7a5f01cb3e6a378a25",
+      "kind": "proposal",
+      "purpose": "Final actual base-journal collector, STABLE immutable member proof, completed typed causal info and NO_JOURNAL schema delta; no owning authority API.",
+      "status": "UNINSTALLED_COMPLETED_FACTS_ONLY_PRIOR_SEAL_MISSING"
+    },
+    {
+      "relative_path": "source/REPAIR_ATTEMPT_01.json",
+      "bytes": 287,
+      "sha256": "24113a7e67c1737acb4bff7014b9b92329ef6357fa9bdb166f6df5359a68b8b9",
+      "kind": "firstfailure",
+      "purpose": "Small first selected-Native-DDL fixture setup and proposed SQL compilation failures; neither is Native runtime evidence.",
+      "status": "FIRST_SETUP_OR_COMPILE_FAILURE_PRESERVED"
+    },
+    {
+      "relative_path": "source/RESULT.json",
+      "bytes": 401056,
+      "sha256": "16d2ced333e2aa1fe2108dd39626ab9b4fb0d5982a9398984651ac1e6d2fec45",
+      "kind": "synthetic",
+      "purpose": "Expected-first actual proposed SQL exercised on selected exact Native DDL and synthetic rows: final 28/28; includes true absence, HPP-only dates, all signed legs and allocation10/return0.",
+      "status": "ISOLATED_SQL_28_OF_28_NOT_NATIVE"
+    },
+    {
+      "relative_path": "source/SETUP_ATTEMPT_01.json",
+      "bytes": 597,
+      "sha256": "44983ec61b8b2efbca67a25cb2f97e671fb54e31bdaa7240d72de8de54cc0cad",
+      "kind": "firstfailure",
+      "purpose": "Small first selected-Native-DDL fixture setup and proposed SQL compilation failures; neither is Native runtime evidence.",
+      "status": "FIRST_SETUP_OR_COMPILE_FAILURE_PRESERVED"
+    },
+    {
+      "relative_path": "source/absence-proof.sql",
+      "bytes": 8168,
+      "sha256": "079a76d64bdfe99051566d4053cdfc1740aded2d6c5a43aeae85feead483ad0c",
+      "kind": "proposal",
+      "purpose": "Final actual base-journal collector, STABLE immutable member proof, completed typed causal info and NO_JOURNAL schema delta; no owning authority API.",
+      "status": "UNINSTALLED_COMPLETED_FACTS_ONLY_PRIOR_SEAL_MISSING"
+    },
+    {
+      "relative_path": "source/build_isolated_fixture.py",
+      "bytes": 3794,
+      "sha256": "4a3d3f7aa8dd6adc1ba0aed6aa73cc6bb4c072b5915cfe5e01521f3a8cca1f42",
+      "kind": "synthetic",
+      "purpose": "Expected-first actual proposed SQL exercised on selected exact Native DDL and synthetic rows: final 28/28; includes true absence, HPP-only dates, all signed legs and allocation10/return0.",
+      "status": "ISOLATED_SQL_28_OF_28_NOT_NATIVE"
+    },
+    {
+      "relative_path": "source/check_source.mjs",
+      "bytes": 28803,
+      "sha256": "8588814e7b9290edbcaa5e9f25c5dc2a90903a266e293cf3f9c325cd9c867faf",
+      "kind": "synthetic",
+      "purpose": "Expected-first actual proposed SQL exercised on selected exact Native DDL and synthetic rows: final 28/28; includes true absence, HPP-only dates, all signed legs and allocation10/return0.",
+      "status": "ISOLATED_SQL_28_OF_28_NOT_NATIVE"
+    },
+    {
+      "relative_path": "source/member-proof.sql",
+      "bytes": 22614,
+      "sha256": "565e4e8643323442eadad2d6d1e65fdf1750da1675a2c68cc28187add17c1205",
+      "kind": "proposal",
+      "purpose": "Final actual base-journal collector, STABLE immutable member proof, completed typed causal info and NO_JOURNAL schema delta; no owning authority API.",
+      "status": "UNINSTALLED_COMPLETED_FACTS_ONLY_PRIOR_SEAL_MISSING"
+    },
+    {
+      "relative_path": "source/native_probe.py",
+      "bytes": 3121,
+      "sha256": "055f5086a53bd4c5e116620e41a7fb3c165efe42e87dba73f5ab22bb9f3174aa",
+      "kind": "proposal",
+      "purpose": "Compiled callable existing-harness legal SALE1000->unpaid RETURN200->PAY500 collector probe; never connected, installed or executed.",
+      "status": "NATIVE_PROBE_PREPARED_NOT_EXECUTED"
+    },
+    {
+      "relative_path": "source/source.sql",
+      "bytes": 52866,
+      "sha256": "8a75d58f1cd2f522e81176d225a89b756e0c449b97c98217a6838fed8d0d82db",
+      "kind": "proposal",
+      "purpose": "Final actual base-journal collector, STABLE immutable member proof, completed typed causal info and NO_JOURNAL schema delta; no owning authority API.",
+      "status": "UNINSTALLED_COMPLETED_FACTS_ONLY_PRIOR_SEAL_MISSING"
+    },
+    {
+      "relative_path": "ui/EXPECTED.json",
+      "bytes": 2777,
+      "sha256": "51f2776ac7b8337b268431dc358a314146df180165a100555d06d83424ec9ea0",
+      "kind": "proposal",
+      "purpose": "Final uninstalled strict quote/parser/recovery wire source and literal tests; universal READY floor needs typed-prior-absence correction.",
+      "status": "PAUSED_TYPED_ABSENCE_AND_REAL_API_UNIMPLEMENTED"
+    },
+    {
+      "relative_path": "ui/EXPECTED_COUNTER_REVIEW.json",
+      "bytes": 1224,
+      "sha256": "cd10e311a4af68e2dff8d8d7fa1b490aa63f6f8d400813dbb7bce93e4daf651f",
+      "kind": "proposal",
+      "purpose": "Final uninstalled strict quote/parser/recovery wire source and literal tests; universal READY floor needs typed-prior-absence correction.",
+      "status": "PAUSED_TYPED_ABSENCE_AND_REAL_API_UNIMPLEMENTED"
+    },
+    {
+      "relative_path": "ui/EXPECTED_DATE_PAIR_COUNTER.json",
+      "bytes": 2007,
+      "sha256": "198ba8b461537128344971802ec9811683ea633933d4f5555e8671dfe7b28c68",
+      "kind": "proposal",
+      "purpose": "Final uninstalled strict quote/parser/recovery wire source and literal tests; universal READY floor needs typed-prior-absence correction.",
+      "status": "PAUSED_TYPED_ABSENCE_AND_REAL_API_UNIMPLEMENTED"
+    },
+    {
+      "relative_path": "ui/EXPECTED_NUMERIC_COUNTER.json",
+      "bytes": 1155,
+      "sha256": "2dcbdc7129ed3cef33df4077d715825d7bf392b8c4c9f052d6ae0b03d2959687",
+      "kind": "proposal",
+      "purpose": "Final uninstalled strict quote/parser/recovery wire source and literal tests; universal READY floor needs typed-prior-absence correction.",
+      "status": "PAUSED_TYPED_ABSENCE_AND_REAL_API_UNIMPLEMENTED"
+    },
+    {
+      "relative_path": "ui/QUOTE_UI_CONTRACT.md",
+      "bytes": 19767,
+      "sha256": "eefb95cb7297598d372ae79e51b69e66ec504950d6642e8645fa5bd4e7dc1377",
+      "kind": "proposal",
+      "purpose": "Final uninstalled strict quote/parser/recovery wire source and literal tests; universal READY floor needs typed-prior-absence correction.",
+      "status": "PAUSED_TYPED_ABSENCE_AND_REAL_API_UNIMPLEMENTED"
+    },
+    {
+      "relative_path": "ui/RESULT.json",
+      "bytes": 7428,
+      "sha256": "6239f19f64179dc776e0813dfc925d9600848d6ab6165244184d65cca3ba2888",
+      "kind": "synthetic",
+      "purpose": "Receipt-pinned UI historical synthetic stages; final receipt reports 40 tests but final log only contains RUN header, and empty typecheck logs are not standalone pass proof.",
+      "status": "REPORTED_SYNTHETIC_WITH_LOG_LIMIT_AND_NEW_COUNTER_OPEN"
+    },
+    {
+      "relative_path": "ui/before-date-pair-RESULT.json",
+      "bytes": 5750,
+      "sha256": "cd3eb40c901da170340284404f38db0c15f5c6165cee7ccfa5fad755999b6cc1",
+      "kind": "synthetic",
+      "purpose": "Receipt-pinned UI historical synthetic stages; final receipt reports 40 tests but final log only contains RUN header, and empty typecheck logs are not standalone pass proof.",
+      "status": "REPORTED_SYNTHETIC_WITH_LOG_LIMIT_AND_NEW_COUNTER_OPEN"
+    },
+    {
+      "relative_path": "ui/before-date-pair-final-tests.log",
+      "bytes": 5172,
+      "sha256": "684d9752eb9d9010e4ce720ebb10b5f2310c08e1267551d949a10dd348ad60bd",
+      "kind": "synthetic",
+      "purpose": "Receipt-pinned UI historical synthetic stages; final receipt reports 40 tests but final log only contains RUN header, and empty typecheck logs are not standalone pass proof.",
+      "status": "REPORTED_SYNTHETIC_WITH_LOG_LIMIT_AND_NEW_COUNTER_OPEN"
+    },
+    {
+      "relative_path": "ui/before-floor-final-tests.log",
+      "bytes": 4129,
+      "sha256": "551a0d2c8049af8c2997e1181666f3dece6aa420d92a253215211eb1cd7e9c42",
+      "kind": "synthetic",
+      "purpose": "Receipt-pinned UI historical synthetic stages; final receipt reports 40 tests but final log only contains RUN header, and empty typecheck logs are not standalone pass proof.",
+      "status": "REPORTED_SYNTHETIC_WITH_LOG_LIMIT_AND_NEW_COUNTER_OPEN"
+    },
+    {
+      "relative_path": "ui/before-numeric-final-tests.log",
+      "bytes": 4473,
+      "sha256": "26406155816da7fef6b8bddbce0e6ded058796966f03287813315796198bb5b0",
+      "kind": "synthetic",
+      "purpose": "Receipt-pinned UI historical synthetic stages; final receipt reports 40 tests but final log only contains RUN header, and empty typecheck logs are not standalone pass proof.",
+      "status": "REPORTED_SYNTHETIC_WITH_LOG_LIMIT_AND_NEW_COUNTER_OPEN"
+    },
+    {
+      "relative_path": "ui/date-pair-counter-first-red.log",
+      "bytes": 9528,
+      "sha256": "18e75212b8d8bf79f0b73f9b2634eea7dcadafc3b58af2702a7391f61872e9e3",
+      "kind": "firstfailure",
+      "purpose": "Original TypeScript narrowing failures and causal-floor, unbounded-cent, date-pair/WIB expected-red tests.",
+      "status": "FIRST_FAILURES_PRESERVED_NO_NATIVE_OR_BROWSER_PROOF"
+    },
+    {
+      "relative_path": "ui/date-pair-typecheck-first.log",
+      "bytes": 97,
+      "sha256": "a606e6c3cc612454b312524a9b5d86f3b5f6988dc775c729d679e7931d222466",
+      "kind": "firstfailure",
+      "purpose": "Original TypeScript narrowing failures and causal-floor, unbounded-cent, date-pair/WIB expected-red tests.",
+      "status": "FIRST_FAILURES_PRESERVED_NO_NATIVE_OR_BROWSER_PROOF"
+    },
+    {
+      "relative_path": "ui/final-tests.log",
+      "bytes": 66,
+      "sha256": "5c4dac6e078d7e25da66d0fcf0bc21ed74d9de3adc50f465ec125bfdfa3341a3",
+      "kind": "synthetic",
+      "purpose": "Receipt-pinned UI historical synthetic stages; final receipt reports 40 tests but final log only contains RUN header, and empty typecheck logs are not standalone pass proof.",
+      "status": "REPORTED_SYNTHETIC_WITH_LOG_LIMIT_AND_NEW_COUNTER_OPEN"
+    },
+    {
+      "relative_path": "ui/first-tests.log",
+      "bytes": 4129,
+      "sha256": "577514ab5c086cafd837e111fab896b3714dd79937300912a15744a65a47d34c",
+      "kind": "synthetic",
+      "purpose": "Receipt-pinned UI historical synthetic stages; final receipt reports 40 tests but final log only contains RUN header, and empty typecheck logs are not standalone pass proof.",
+      "status": "REPORTED_SYNTHETIC_WITH_LOG_LIMIT_AND_NEW_COUNTER_OPEN"
+    },
+    {
+      "relative_path": "ui/floor-counter-first-red.log",
+      "bytes": 5353,
+      "sha256": "adc775478eae6a5f6715da10e7bfbd1ee36a8d937a4458ef3e7c2060b7c29a96",
+      "kind": "firstfailure",
+      "purpose": "Original TypeScript narrowing failures and causal-floor, unbounded-cent, date-pair/WIB expected-red tests.",
+      "status": "FIRST_FAILURES_PRESERVED_NO_NATIVE_OR_BROWSER_PROOF"
+    },
+    {
+      "relative_path": "ui/numeric-counter-first-red.log",
+      "bytes": 7278,
+      "sha256": "ed92917de1a5a4307ed2619a670c790bccd5bb1dbbe53c159f33e82e511579aa",
+      "kind": "firstfailure",
+      "purpose": "Original TypeScript narrowing failures and causal-floor, unbounded-cent, date-pair/WIB expected-red tests.",
+      "status": "FIRST_FAILURES_PRESERVED_NO_NATIVE_OR_BROWSER_PROOF"
+    },
+    {
+      "relative_path": "ui/salesReturnSettlementProposal.test.ts",
+      "bytes": 19317,
+      "sha256": "4389c0c0bc5c4e919fc21e85a2f6618b0af1be30ee59d057bd966b3e8a00c4e1",
+      "kind": "proposal",
+      "purpose": "Final uninstalled strict quote/parser/recovery wire source and literal tests; universal READY floor needs typed-prior-absence correction.",
+      "status": "PAUSED_TYPED_ABSENCE_AND_REAL_API_UNIMPLEMENTED"
+    },
+    {
+      "relative_path": "ui/salesReturnSettlementProposal.ts",
+      "bytes": 23325,
+      "sha256": "bb2c59a88f35ff9340e9d6ed4dbcbffd85d92a9d300bed9fc4d6a26c6e0b957c",
+      "kind": "proposal",
+      "purpose": "Final uninstalled strict quote/parser/recovery wire source and literal tests; universal READY floor needs typed-prior-absence correction.",
+      "status": "PAUSED_TYPED_ABSENCE_AND_REAL_API_UNIMPLEMENTED"
+    },
+    {
+      "relative_path": "ui/typecheck-final.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "synthetic",
+      "purpose": "Receipt-pinned UI historical synthetic stages; final receipt reports 40 tests but final log only contains RUN header, and empty typecheck logs are not standalone pass proof.",
+      "status": "REPORTED_SYNTHETIC_WITH_LOG_LIMIT_AND_NEW_COUNTER_OPEN"
+    },
+    {
+      "relative_path": "ui/typecheck-first.log",
+      "bytes": 188,
+      "sha256": "db0afcfabe72917d22fcae0b34b0ac83d8de9696de9d01f65467084e9da707df",
+      "kind": "firstfailure",
+      "purpose": "Original TypeScript narrowing failures and causal-floor, unbounded-cent, date-pair/WIB expected-red tests.",
+      "status": "FIRST_FAILURES_PRESERVED_NO_NATIVE_OR_BROWSER_PROOF"
+    },
+    {
+      "relative_path": "ui/vitest.config.mjs",
+      "bytes": 383,
+      "sha256": "7520a130ee19b1b96ffce0865a2858ca1d00a9564361df208861287d428aaf2f",
+      "kind": "proposal",
+      "purpose": "Final uninstalled strict quote/parser/recovery wire source and literal tests; universal READY floor needs typed-prior-absence correction.",
+      "status": "PAUSED_TYPED_ABSENCE_AND_REAL_API_UNIMPLEMENTED"
+    }
+  ],
+  "identical_content_aliases": [
+    {
+      "relative_path": "admission/STATIC_RESULT.json",
+      "bytes": 5307,
+      "sha256": "7815d8c9f6a88b6b975dcea3db671599f4ffb8d4574aca4927b14a0548c9b767",
+      "kind": "synthetic",
+      "purpose": "Historical limited static transform receipt before typed causal-absence counter; not current installation clearance.",
+      "status": "STALE_LIMITED_STATIC_RESULT_WITH_WITHDRAWAL",
+      "canonical_relative_path": "admission/STATIC_RESULT_BEFORE_CAUSAL_ABSENCE_COUNTER.json",
+      "archive_action": "REFERENCE_IDENTICAL_CANONICAL_CONTENT_DO_NOT_COPY_BYTES"
+    },
+    {
+      "relative_path": "ordinal-wrapper/OWN8_LOCKED_EXPECTED.json",
+      "bytes": 23309,
+      "sha256": "cbcaf0fe121a6e651af01086e444ca824665d27a7da1cf06b544b3e7031b95fc",
+      "kind": "synthetic",
+      "purpose": "Final pure family-target-minus-all-retained-I wrapper and independent locked vectors; pending operation binding remains owning integration.",
+      "status": "PURE_ARITHMETIC_NOT_AUTHORITY",
+      "canonical_relative_path": "kernel/ordinal/EXPECTED.json",
+      "archive_action": "REFERENCE_IDENTICAL_CANONICAL_CONTENT_DO_NOT_COPY_BYTES"
+    },
+    {
+      "relative_path": "ordinal-wrapper/PEER15_LOCKED_EXPECTED.json",
+      "bytes": 53385,
+      "sha256": "5a47a026f386f9fb66570260731ddff6480d6674db2049cca029effcd0e475db",
+      "kind": "synthetic",
+      "purpose": "Final pure family-target-minus-all-retained-I wrapper and independent locked vectors; pending operation binding remains owning integration.",
+      "status": "PURE_ARITHMETIC_NOT_AUTHORITY",
+      "canonical_relative_path": "ordinal-tests/EXPECTED.json",
+      "archive_action": "REFERENCE_IDENTICAL_CANONICAL_CONTENT_DO_NOT_COPY_BYTES"
+    },
+    {
+      "relative_path": "ordinal-wrapper/source-review/source-reviewed.sql",
+      "bytes": 30587,
+      "sha256": "0c3888366f89aabd85af0432b6d0e815c923cddb3d3ee9d1769febfa4be683e4",
+      "kind": "firstfailure",
+      "purpose": "Frozen original collector and first independent unsafe-acceptance counter evidence, including seven monetary/date/member holes.",
+      "status": "FIRST_UNSAFE_ACCEPTANCES_PRESERVED",
+      "canonical_relative_path": "source/INITIAL_SOURCE.sql",
+      "archive_action": "REFERENCE_IDENTICAL_CANONICAL_CONTENT_DO_NOT_COPY_BYTES"
+    },
+    {
+      "relative_path": "ui/before-date-pair-typecheck-final.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "synthetic",
+      "purpose": "Receipt-pinned UI historical synthetic stages; final receipt reports 40 tests but final log only contains RUN header, and empty typecheck logs are not standalone pass proof.",
+      "status": "REPORTED_SYNTHETIC_WITH_LOG_LIMIT_AND_NEW_COUNTER_OPEN",
+      "canonical_relative_path": "ui/typecheck-final.log",
+      "archive_action": "REFERENCE_IDENTICAL_CANONICAL_CONTENT_DO_NOT_COPY_BYTES"
+    },
+    {
+      "relative_path": "ui/before-floor-typecheck-final.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "synthetic",
+      "purpose": "Receipt-pinned UI historical synthetic stages; final receipt reports 40 tests but final log only contains RUN header, and empty typecheck logs are not standalone pass proof.",
+      "status": "REPORTED_SYNTHETIC_WITH_LOG_LIMIT_AND_NEW_COUNTER_OPEN",
+      "canonical_relative_path": "ui/typecheck-final.log",
+      "archive_action": "REFERENCE_IDENTICAL_CANONICAL_CONTENT_DO_NOT_COPY_BYTES"
+    },
+    {
+      "relative_path": "ui/before-numeric-typecheck-final.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "synthetic",
+      "purpose": "Receipt-pinned UI historical synthetic stages; final receipt reports 40 tests but final log only contains RUN header, and empty typecheck logs are not standalone pass proof.",
+      "status": "REPORTED_SYNTHETIC_WITH_LOG_LIMIT_AND_NEW_COUNTER_OPEN",
+      "canonical_relative_path": "ui/typecheck-final.log",
+      "archive_action": "REFERENCE_IDENTICAL_CANONICAL_CONTENT_DO_NOT_COPY_BYTES"
+    }
+  ],
+  "published_receipt_reference_checks": [
+    {
+      "receipt": "ledger/FINAL_RECEIPT.json",
+      "all_logical_references_present_and_matching": true,
+      "reference_count": 7,
+      "exceptions": []
+    },
+    {
+      "receipt": "source/FINAL_RECEIPT.json",
+      "all_logical_references_present_and_matching": true,
+      "reference_count": 16,
+      "exceptions": []
+    },
+    {
+      "receipt": "ui/RESULT.json",
+      "all_logical_references_present_and_matching": true,
+      "reference_count": 23,
+      "exceptions": []
+    }
+  ],
+  "known_blockers_and_limits": [
+    {
+      "id": "TYPED_PRIOR_CAUSAL_ABSENCE",
+      "status": "OPEN",
+      "detail": "Admission01 and UI READY universal non-null floor were withdrawn. Real net0/HPP0 SALE and RETURN can have no journal. DATED actual ancestors retain their real books; known causal absence must be separately proven and never filled with a fake date."
+    },
+    {
+      "id": "PRIOR_ABSENCE_VS_PROJECTED_HPP",
+      "status": "OPEN",
+      "detail": "Genuine free SALE/noJ then accepted recost can produce a new refund0 HPP-only RETURN journal. Prior causal SALE/RETURN absence does not imply projected NO_JOURNAL. Do not use unrelated HPP-sync/funding books as the causal floor; current cumulative Native HPP and lawful date projection remain required."
+    },
+    {
+      "id": "SEALED_PRIOR_VS_COMPLETED_NATIVE_FACTS",
+      "status": "OPEN",
+      "detail": "Seal protected prior ancestor/projection proof at native_return_enter while own row is DRAFT. AH marks RETURN POSTED and freezes HPP before its new journal call, so completed return_fact/causal info cannot authorize that in-flight row. Exact own-scope projection exclusion and projected-to-actual random UUID binding are still owning integration."
+    },
+    {
+      "id": "OWNING_AUTHORITY_RLS_AND_REQUEST_COMPOSITION",
+      "status": "OPEN",
+      "detail": "No public quote/settle API or complete coordinator is implemented. Preserve inner request preclaim-before-FG, exact low owner/ACL/RLS capabilities and post-wait/replay authority. Do not infer postgres RLS bypass or broaden Native context admission."
+    },
+    {
+      "id": "LEGACY_ORDER_AND_BASE_QUALIFICATION",
+      "status": "OPEN",
+      "detail": "Old unregistered returns lack immutable total family order/replay header facts. NEW_POST requires a protected serialized immutable assignment receipt. Qualified LEGACY_BASE/backfill remains a direction, not an implemented permissive fallback."
+    },
+    {
+      "id": "COMPLETE_FINANCIAL_PROFILE_AND_CONSUMPTION",
+      "status": "OPEN",
+      "detail": "Full actual U/apply/restore collector, source-plan semantic verifier, operation provenance/materializer, protected pending-plan versus prior-I binding, future joint capacity, nonnegative AR/E checks, complete canonical consumers/detectors and consumer undo remain integration requirements. Signed zero-current cohorts and >Native-line components cannot be collapsed or capped."
+    },
+    {
+      "id": "FINAL_FACT_CLOSURE_AND_NATIVE_PROOF",
+      "status": "OPEN",
+      "detail": "Final closure must prove actual objects/receipts/status/account/cash/both-date profiles without live contexts or reauthorizing a recorded actor at COMMIT. Whole Native copy/capture/verify/restore and actual Native/RLS/HTTP/race/browser runtime verification are unexecuted for OW04. Archive is inert, not a half-install or paid-feature completion."
+    },
+    {
+      "id": "UI_FINAL_LOG_CAVEAT",
+      "status": "EVIDENCE_LIMIT",
+      "detail": "ui/RESULT.json reports 40 synthetic tests passing and its referenced hashes match current files, but ui/final-tests.log is only66 bytes of Vitest RUN header, with no test/result summary. Preserve the self-reported receipt plus exact log without upgrading it to corroborated test execution. Empty typecheck stdout similarly relies on the reported receipt exit status."
+    }
+  ],
+  "excluded_large_redundant_snapshots": [
+    "source/ABSENCE_ATTEMPT_01.json",
+    "source/ASSERTION_ATTEMPT_01.json",
+    "source/EXTENDED_ATTEMPT_02.json",
+    "source/EXTENDED_ATTEMPT_03.json",
+    "source/EXTENDED_ATTEMPT_04.json",
+    "source/EXTENDED_ATTEMPT_06.json"
+  ],
+  "first_red_selection_notes": [
+    "Initial collector source+own and independent unsafe-acceptance results are retained, with one identical source file referenced by alias.",
+    "source/EXTENDED_ATTEMPT_01 retains first proof-scale failure; EXTENDED_ATTEMPT_05 retains missing required restatement acceptance before fix. Later final 28-case source receipt is separate.",
+    "readers/MATERIALIZED_FIRST_FAILURE plus Native-storage split attempt06 are retained; repeated fixture-only compile/setup attempts are omitted.",
+    "All explicit UI floor/numeric/date first-red logs and original typecheck failures are retained. Receipt-pinned historical UI witnesses remain limited to their recorded stage."
+  ]
+}
