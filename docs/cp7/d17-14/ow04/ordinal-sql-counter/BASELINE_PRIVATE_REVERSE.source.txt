@@ -1,0 +1,7 @@
+-- BASELINE FIXTURE SOURCE ONLY; not current pg_get_functiondef/runtime proof.
+CREATE OR REPLACE FUNCTION erp._cp3_r4_reverse_journal_internal(p_journal_entry_id uuid, p_reason text)
+ RETURNS uuid
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public'
+AS $function$ DECLARE v_old erp.journal_entries%ROWTYPE;v_new_id uuid;v_lines jsonb; BEGIN PERFORM erp.require_internal(); SELECT * INTO v_old FROM erp.journal_entries WHERE id=p_journal_entry_id FOR UPDATE; IF v_old.id IS NULL OR v_old.status<>'POSTED' THEN RAISE EXCEPTION 'Only posted journal can be reversed'; END IF; SELECT jsonb_agg(jsonb_build_object('account_id',jl.account_id,'debit',jl.credit,'credit',jl.debit,'description','Reversal: '||COALESCE(jl.description,''),'customer_id',jl.customer_id,'vendor_id',jl.vendor_id,'contractor_id',jl.contractor_id,'po_id',jl.po_id,'product_id',jl.product_id)) INTO v_lines FROM erp.journal_lines jl WHERE jl.journal_entry_id=p_journal_entry_id; v_new_id:=erp.post_journal('JOURNAL_REVERSAL',p_journal_entry_id,CURRENT_DATE,'Reversal: '||v_old.description||' | '||p_reason,v_lines); UPDATE erp.journal_entries SET status='REVERSED' WHERE id=p_journal_entry_id; UPDATE erp.journal_entries SET reversal_of_id=p_journal_entry_id WHERE id=v_new_id; RETURN v_new_id; END; $function$;

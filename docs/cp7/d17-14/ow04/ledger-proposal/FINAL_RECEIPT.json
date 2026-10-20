@@ -1,0 +1,13 @@
+{
+  "scope": "UNINSTALLED_OW04_LEDGER_PROPOSAL",
+  "native_execution_proven": false,
+  "files": {
+    "01_immutable_facts.proposal.sql": "62383030bf27b70c5c07f948c69329be6f8229c314097e7d3c02293cc8c929c6",
+    "02_uuid_poster.proposal.sql": "d9bfca1d97113e8aacfbb5f29d5dcb1d4d3cbdc5c950073943de1bd2d6be9728",
+    "03_native_copy_transform.py": "d6d88307d213c678a394fce8c040966f9539dea04908ff871531709fe981b1c4",
+    "README.md": "858bce3eee1dc534b1d5dcdad97ee19f2b3961a3410eb1e3f8f9b8dd832a0194",
+    "HELPER_EXPECTED.json": "73afc37ac89b1dac0793bb5c2054d218fdfd9e44d93932f95806e0ed86bf699e",
+    "HELPER_RESULT.json": "76b724d984a0857fc1bab4c6c8ea4c44884ecc0cc733f4450054c7a8d5044542",
+    "STATIC_TRANSFORM_RESULT.json": "be5ba8a2a35eff42d19669bf1302bcc1a292de70cff20d6a381d2d712d522cab"
+  }
+}

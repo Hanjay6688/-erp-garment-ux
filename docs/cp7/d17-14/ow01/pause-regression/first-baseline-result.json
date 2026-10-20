@@ -1,0 +1,81 @@
+{
+  "classification": "SYNTHETIC_PGLITE_ACTUAL_SQL_MODULE_SELECTION_ONLY",
+  "source_path": "/workspace/scratch/9442228ed2dc/ow01-proposals/pause/source-6efdcd78.sql",
+  "proves_native_source": false,
+  "proves_real_auth_or_acl": false,
+  "proves_concurrency": false,
+  "proves_pg_net_or_provider": false,
+  "proves_whatsapp_delivery": false,
+  "stubs": [
+    "owner_access",
+    "vault_key_present"
+  ],
+  "fixtures": "synthetic alert/settings/outbox rows; accepted/unknown states are not provider receipts",
+  "cases": [
+    {
+      "name": "FIRST_RETENTION_WA_OFF_THEN_EXPLICIT_ENABLE_SAME_ROUND_ZERO",
+      "status": "FAIL",
+      "observed": {
+        "before": {
+          "id": 1,
+          "round": 0,
+          "state": "PENDING",
+          "reason": null,
+          "item_id": "f31d32f8-a5b9-4394-a453-749cf8a2c688",
+          "attempts": 0,
+          "item_kind": "ALERT",
+          "queued_at": "2026-10-21T00:20:22.845+09:00",
+          "alert_kind": "ACCESSORY_NEED",
+          "settled_at": null,
+          "dispatch_id": null,
+          "item_episode": "1"
+        },
+        "paused": {
+          "id": 1,
+          "round": 0,
+          "state": "DISABLED",
+          "reason": "WA_OFF",
+          "item_id": "f31d32f8-a5b9-4394-a453-749cf8a2c688",
+          "attempts": 0,
+          "item_kind": "ALERT",
+          "queued_at": "2026-10-21T00:20:22.845+09:00",
+          "alert_kind": "ACCESSORY_NEED",
+          "settled_at": "2026-10-21T00:20:22.848+09:00",
+          "dispatch_id": null,
+          "item_episode": "1"
+        }
+      },
+      "error": "WA_OFF must retain the new accessory first-delivery candidate\n+ actual - expected\n\n+ 'DISABLED'\n- 'PENDING'\n"
+    }
+  ],
+  "status": "FAIL",
+  "source_sha256": "bb03bede5a32fa019c48575983349c2d8b3d37a7e1f64a451cf796d705c059c0",
+  "actual_function_sha256": {
+    "guard_append_only": "624b1749b3698500388a40cbecb71ef512a3fc2b4ed75a74dc5a3ba26b6c396a",
+    "guard_alert": "3c22266497c6e776b29b0b5c9a75809454376126055d2b3ce869e800d8bd1bea",
+    "queue_alert": "58efaadc674ca7087c1894fa516db0a7ff00d7d3662e863952b65a94275dc687",
+    "guard_outbox": "c03158bb81c63acd94acd95bc3d9035f0385c4d6598719aa5de2f1a323c9f3cc",
+    "current_settings": "a4efa773d45c03b5703c5669fa84d3fa5bd76c12141473bd4cb6b2ee2a80810d",
+    "jwt": "2a4cdbe0450ca5e85071f32f8651a07d2bf73f3e652e6eb5c3f87149d92c146b",
+    "uid": "29ee4acb852fce3111a5fee4d6385222bb7af4c7c555b19189360336178c28b7",
+    "require_owner": "dd4b736b30a67b7e02a0d0c667bd0cb21e6e5249ec98b6889916ac379e14fa56",
+    "defaults": "ed2400b304c9f017729f5ed8a604b1f4c1adb682f32011c2d751a4472d3436a5",
+    "settings_json": "7f0d3ceadbc8f8a6418389b95a05cb76762c1b05ed844d735ed3f1443ede7d93",
+    "wa_settings_save": "570d4596c9c1b0d01ff51edebbddd1bebe5bbaea1d47d21b25efc01fdb7d71e0",
+    "apply_one": "20a7d6c24738b00e9510fafe590159388d1840bf81e0267fccf8a8ec5cdc7b55",
+    "queue_repeats": "6b39ee410051a9a8cb7b193bd799531595b85632086a76d5bb8577f0a886a381"
+  },
+  "actual_fragment_sha256": {
+    "offUpdates": "ff7bb96891db89360ce58a076faf8e34a84965cd445073d721e776e1982af339",
+    "kindUpdates": "52f2a3ccf1bac0d5f070151bc09ecb620e1a15ce57ea1d475167f5cf45f7b1f3",
+    "checkKinds": "827b51fa7d26d8bceb7d204cfc2698a9ad468406f9f7c24f3fda35078b581263",
+    "digestIds": "1343a507e32e348b85dc08477702dbea6e3a42c2193d1057111b17c2e822c506",
+    "instantIds": "0a327fdd271c184fa8b88088d1b69be9d578c0bad18b8199b6004ef8c0a9f126",
+    "pendingSql": "69f91c00fd27b38b6a3b03478240a804c5a898fbf8d813aba5fe3c3c55def005"
+  },
+  "first_failure": {
+    "case": "FIRST_RETENTION_WA_OFF_THEN_EXPLICIT_ENABLE_SAME_ROUND_ZERO",
+    "message": "WA_OFF must retain the new accessory first-delivery candidate\n+ actual - expected\n\n+ 'DISABLED'\n- 'PENDING'\n",
+    "code": "ERR_ASSERTION"
+  }
+}

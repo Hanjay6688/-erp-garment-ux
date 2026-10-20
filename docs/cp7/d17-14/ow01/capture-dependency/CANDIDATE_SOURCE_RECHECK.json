@@ -1,0 +1,8 @@
+{
+  "scope": "SOURCE_ONLY_NARROW_FIX_RECHECK",
+  "native_execution_proven": false,
+  "files": {
+    "scripts/cp7-src/reminders/accessory-source.sql": "6c5c5723f0d1e6d5036371b1ab6bcfde86c8ed568513bf07a606b6aba003346c",
+    "scripts/cp7_reminder_v2_bundle.py": "8af91741561ad69c52c6a14b06c5965f7ed215ba7083bbe9b12e3f9fb173eedf"
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "artifact_kind": "STANDALONE_DECIMAL_RECTANGLE_MODEL_RESULT_NOT_NATIVE",
+  "expected_sha256": "5a47a026f386f9fb66570260731ddff6480d6674db2049cca029effcd0e475db",
+  "fixture_count": 15,
+  "checks": 330,
+  "status": "PASS",
+  "native_executed": false,
+  "sql_kernel_executed": false,
+  "product_installed": false,
+  "source_authority_proven": false,
+  "registration_checks_are_model_only": true,
+  "results": [
+    {
+      "id": "ORD01_SIBLING_BASE",
+      "status": "PASS",
+      "arithmetic_only": true
+    },
+    {
+      "id": "ORD02_SIBLING_INVERSE_REATTRIBUTES",
+      "status": "PASS",
+      "arithmetic_only": true
+    },
+    {
+      "id": "ORD03_SIBLING_CONSUMER_DEPENDENCY",
+      "status": "PASS",
+      "arithmetic_only": true
+    },
+    {
+      "id": "ORD04_FUNDING_INVERSE_ALL_FAMILIES",
+      "status": "PASS",
+      "arithmetic_only": true
+    },
+    {
+      "id": "ORD05_K0_NONEMPTY_HISTORY",
+      "status": "PASS",
+      "arithmetic_only": true
+    },
+    {
+      "id": "ORD06_EMPTY_FAMILY_PRECEDES_SIBLING",
+      "status": "PASS",
+      "arithmetic_only": true
+    },
+    {
+      "id": "ORD07_EMPTY_LATER_FUNDING_SIGNED_K0",
+      "status": "PASS",
+      "arithmetic_only": true
+    },
+    {
+      "id": "ORD08_TWO_EMPTY_FAMILIES_LATER_FUNDING",
+      "status": "PASS",
+      "arithmetic_only": true
+    },
+    {
+      "id": "ORD09_COHORT_NEGATIVE_POOL_POSITIVE",
+      "status": "PASS",
+      "arithmetic_only": true
+    },
+    {
+      "id": "ORD10_COHORT_POSITIVE_CONTROL",
+      "status": "PASS",
+      "arithmetic_only": true
+    },
+    {
+      "id": "ORD11_FAMILY_INVERSE_BAD_BOOK_COUNTER",
+      "status": "PASS",
+      "arithmetic_only": true
+    },
+    {
+      "id": "ORD12_ORDINAL_MUTATION_REJECTED",
+      "status": "PASS",
+      "arithmetic_only": true
+    },
+    {
+      "id": "ORD13_EMPTY_REGISTRATION_REPLAY",
+      "status": "PASS",
+      "arithmetic_only": true
+    },
+    {
+      "id": "ORD14_FAMILY_INVERSE_GOOD_BOOK_CONTROL",
+      "status": "PASS",
+      "arithmetic_only": true
+    },
+    {
+      "id": "ORD15_GROSS_FUNDING_AUTHORITY_COUNTER",
+      "status": "PASS",
+      "arithmetic_only": true
+    }
+  ]
+}

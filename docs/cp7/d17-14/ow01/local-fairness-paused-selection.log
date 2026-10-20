@@ -1,0 +1,112 @@
+{
+  "case_id": "OW01_SYNTHETIC_HELD_REVIEW_RECHECK_FAIRNESS",
+  "fixture_kind": "SYNTHETIC_SOURCE_MODULE_SELECTION_ONLY",
+  "source_path": "/workspace/scratch/9442228ed2dc/erp-d1714/scripts/cp7-src/alerts/alerts.sql",
+  "source_sha256": "3421dbf9494380d5676ead6f7369bec7a09c79a4e85ad0236f61aa38234da113",
+  "analysis_recheck_sha256": "52d1a68686e3d2c0452aea9e0eabe0799f13eb7091ee219c670de214ca835560",
+  "instant_selector_sha256": "fdf8896382071624d992ebdfb75f1e7b3dcf70f301e3e4d79f549578d8ca0027",
+  "digest_selector_sha256": "1343a507e32e348b85dc08477702dbea6e3a42c2193d1057111b17c2e822c506",
+  "variant": "ACTUAL_CANDIDATE",
+  "proves_provider_delivery": false,
+  "proves_native_source": false,
+  "results": [
+    {
+      "mode": "INSTANT",
+      "cap": 20,
+      "expectedTick": 2,
+      "result": "PASS",
+      "eligibleReachedTick": 2,
+      "heldEpisodesPreserved": 20,
+      "traces": [
+        {
+          "tick": 1,
+          "firstSelected": "b0000000-0000-4000-8000-000000000001",
+          "checked": 20,
+          "unchecked": 1,
+          "ok": [],
+          "sendable": []
+        },
+        {
+          "tick": 2,
+          "firstSelected": "b0000000-0000-4000-8000-000000000021",
+          "checked": 20,
+          "unchecked": 1,
+          "ok": [
+            "b0000000-0000-4000-8000-000000000021"
+          ],
+          "sendable": [
+            21
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "DIGEST",
+      "cap": 20,
+      "expectedTick": 2,
+      "result": "PASS",
+      "eligibleReachedTick": 2,
+      "heldEpisodesPreserved": 20,
+      "traces": [
+        {
+          "tick": 1,
+          "firstSelected": "b0000000-0000-4000-8000-000000000001",
+          "checked": 20,
+          "unchecked": 1,
+          "ok": [],
+          "sendable": []
+        },
+        {
+          "tick": 2,
+          "firstSelected": "b0000000-0000-4000-8000-000000000021",
+          "checked": 20,
+          "unchecked": 1,
+          "ok": [
+            "b0000000-0000-4000-8000-000000000021"
+          ],
+          "sendable": [
+            21
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "DIGEST",
+      "cap": 10,
+      "expectedTick": 3,
+      "result": "PASS",
+      "eligibleReachedTick": 3,
+      "heldEpisodesPreserved": 20,
+      "traces": [
+        {
+          "tick": 1,
+          "firstSelected": "b0000000-0000-4000-8000-000000000001",
+          "checked": 10,
+          "unchecked": 11,
+          "ok": [],
+          "sendable": []
+        },
+        {
+          "tick": 2,
+          "firstSelected": "b0000000-0000-4000-8000-000000000011",
+          "checked": 10,
+          "unchecked": 11,
+          "ok": [],
+          "sendable": []
+        },
+        {
+          "tick": 3,
+          "firstSelected": "b0000000-0000-4000-8000-000000000021",
+          "checked": 10,
+          "unchecked": 11,
+          "ok": [
+            "b0000000-0000-4000-8000-000000000021"
+          ],
+          "sendable": [
+            21
+          ]
+        }
+      ]
+    }
+  ]
+}

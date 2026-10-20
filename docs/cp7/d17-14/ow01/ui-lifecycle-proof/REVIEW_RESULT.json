@@ -1,0 +1,34 @@
+{
+  "current_head": "a1067531dc070c7f3eaaf074165f52253eb788ae",
+  "proposal_sha256": "89640e131799d07c1fcf69f8050c137b47df64e097bfb113673e1472dfc87987",
+  "original_assertion_lines_removed": 0,
+  "old_direct_declarations_retained": true,
+  "new_tests": 2,
+  "current_dom_result": {
+    "tests_passed": 27,
+    "tests_failed": 0,
+    "log": "local-dom-first.log"
+  },
+  "typecheck": {
+    "exit_code": 0,
+    "log": "local-typecheck.log"
+  },
+  "baseline_ui_control": {
+    "baseline": "6efdcd787e07355e7ae68d53244a88fb905ad7f8",
+    "product_scope": "Only waContract.ts from baseline; other component modules current",
+    "old_tests_passed": 25,
+    "new_tests_failed": 2,
+    "log": "local-dom-baseline-counterfactual.log",
+    "valid_alias_proof": "counterfactual-manifest.json"
+  },
+  "patch_apply_check": 1,
+  "patch_reverse_check": 0,
+  "product_file_sha256": {
+    "src/waContract.ts": "cecca8b2803ad2a0d2271da004cd6c1e5ab0078d3338839128df51fd04ccde32",
+    "src/SystemRemindersPanel.tsx": "6bb16b816f0663c7dd2fa02013d9353ce9076dd5fee34d81b0edb84e05cbce0a",
+    "scripts/cp7-src/alerts/alerts.sql": "79f66864855d8f9c24ae67690196302c4266a2b895dbb26ba60e2af9b1b48810",
+    "scripts/cp7_alert_bundle.py": "844f78953362ff9db60f340ea5691c56732d79770b446a85506268d0192cc0cf"
+  },
+  "write_scope": "Only /workspace/scratch/9442228ed2dc/ow01-proposals/ui/lifecycle; no active repo edits by this reviewer.",
+  "sender_review": "Source-only; exact predecessor/current interval, pause clearing, digest allOPEN and current-kind pending coverage reviewed; no Native/provider/runtime claim."
+}

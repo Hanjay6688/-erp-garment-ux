@@ -1,0 +1,47 @@
+{
+  "reason": "Preserve original whitespace and first-result bytes as data without adding text-diff whitespace failures; no expected or result changed. gzip -dc restores the original bytes.",
+  "entries": [
+    {
+      "original_path": "docs/cp7/d17-14/ow01/local-pause-ui-integrated.log",
+      "gzip_path": "docs/cp7/d17-14/ow01/local-pause-ui-integrated.log.gz",
+      "uncompressed_sha256": "8a85147c15c7b17085405c3bb4a89a0fba89b7054503d2b3c9ec0fc9785fcb9d",
+      "uncompressed_bytes": 230
+    },
+    {
+      "original_path": "docs/cp7/d17-14/ow01/ui-lifecycle-proof/local-dom-baseline-counterfactual.log",
+      "gzip_path": "docs/cp7/d17-14/ow01/ui-lifecycle-proof/local-dom-baseline-counterfactual.log.gz",
+      "uncompressed_sha256": "f750e336e78c8ebbadc13cef638f4cbc7e5a04bb772ab6f48d9861e268c480ba",
+      "uncompressed_bytes": 8306
+    },
+    {
+      "original_path": "docs/cp7/d17-14/ow01/ui-lifecycle-proof/local-dom-baseline-harness-first.log",
+      "gzip_path": "docs/cp7/d17-14/ow01/ui-lifecycle-proof/local-dom-baseline-harness-first.log.gz",
+      "uncompressed_sha256": "b3884dbdecd78a1a3ea458e11e2a5a851e434415fa9305dfe5b8d3329805f1bc",
+      "uncompressed_bytes": 6051
+    },
+    {
+      "original_path": "docs/cp7/d17-14/ow01/ui-lifecycle-proof/local-dom-first.log",
+      "gzip_path": "docs/cp7/d17-14/ow01/ui-lifecycle-proof/local-dom-first.log.gz",
+      "uncompressed_sha256": "7d034363a683dcc1f61838f19e1ac8d8be3aba5831aa75227bc56291a70d5710",
+      "uncompressed_bytes": 6049
+    },
+    {
+      "original_path": "docs/cp7/d17-14/ow01/ui-lifecycle-proof/paused-notice-dom.patch",
+      "gzip_path": "docs/cp7/d17-14/ow01/ui-lifecycle-proof/paused-notice-dom.patch.gz",
+      "uncompressed_sha256": "89640e131799d07c1fcf69f8050c137b47df64e097bfb113673e1472dfc87987",
+      "uncompressed_bytes": 9595
+    },
+    {
+      "original_path": "docs/cp7/d17-14/ow04/ordinal-sql-counter/PAIRED_TRANSFORM_BODY.diff",
+      "gzip_path": "docs/cp7/d17-14/ow04/ordinal-sql-counter/PAIRED_TRANSFORM_BODY.diff.gz",
+      "uncompressed_sha256": "1e2c53b7256b62a0c1e5579a255e3de7c0abb857a7b8ec5617a3ee7457a87171",
+      "uncompressed_bytes": 1919
+    },
+    {
+      "original_path": "docs/cp7/d17-14/ow04/ordinal-sql-counter/PRIVATE_REVERSE_DECLARED_CLOCK_BODY.txt",
+      "gzip_path": "docs/cp7/d17-14/ow04/ordinal-sql-counter/PRIVATE_REVERSE_DECLARED_CLOCK_BODY.txt.gz",
+      "uncompressed_sha256": "56a649ecaaa5a0127b58758035cfcddf25a7c47773c6fd815ee4867af75f6ab1",
+      "uncompressed_bytes": 1167
+    }
+  ]
+}

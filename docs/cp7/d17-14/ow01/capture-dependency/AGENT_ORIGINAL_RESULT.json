@@ -1,0 +1,51 @@
+{
+  "scope": "ISOLATED_EXACT_AFTER_SNAPSHOT_ACL_ONLY",
+  "native_execution_proven": false,
+  "expected_sha256": "60ee9859324e9626559f14067532da8388d1bb85fff128beb51458255ed0af3d",
+  "source_sha256": {
+    "/workspace/scratch/9442228ed2dc/erp-d1714/scripts/cp7-src/plan-native/staged.sql": "a174f75f7829b83d1f6c27b151e059e37b78093cfe577a28c0ac112d443ab1e5",
+    "/workspace/scratch/9442228ed2dc/erp-d1714/scripts/cp7-src/reminders/accessory-source.sql": "52f43a2784fbee6dcb83b850b0c85b4337b5a42863b205ae8f1cd2a999df15e0",
+    "/workspace/scratch/9442228ed2dc/erp-d1714/scripts/cp7_reminder_v2_bundle.py": "862d0adba18b6aa23daad39a80452abd99f640c52c3cdbd1eb74d6fb0efebda2"
+  },
+  "helper_sha256": "92288a6570200407a6f0a6638067b7975e8633d599ff8a836ceeebed8d675056",
+  "observations": [
+    {
+      "name": "initial_privileges",
+      "observed": {
+        "schema_usage": true,
+        "intents_columns_select": true,
+        "helper_execute": false
+      }
+    },
+    {
+      "name": "empty_query_without_execute",
+      "observed": {
+        "sqlstate": "42501",
+        "message": "permission denied for function after_snapshot"
+      }
+    },
+    {
+      "name": "one_row_query_without_execute",
+      "observed": {
+        "sqlstate": "42501",
+        "message": "permission denied for function after_snapshot"
+      }
+    },
+    {
+      "name": "one_row_narrow_execute_control",
+      "observed": "1"
+    },
+    {
+      "name": "control_did_not_add_writes_or_role_membership",
+      "observed": {
+        "capture_table_write": false,
+        "capture_writer_membership": false
+      }
+    },
+    {
+      "name": "empty_narrow_execute_control",
+      "observed": "0"
+    }
+  ],
+  "status": "PASS"
+}

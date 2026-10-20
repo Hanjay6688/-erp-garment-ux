@@ -1,0 +1,21 @@
+{
+  "classification": "POST_INDEPENDENT_LOCK_PEER_EXPECTED_REVIEW",
+  "native_executed": false,
+  "formal_external_proof": false,
+  "own_expected_sha256": "cbcaf0fe121a6e651af01086e444ca824665d27a7da1cf06b544b3e7031b95fc",
+  "peer_expected_sha256": "5a47a026f386f9fb66570260731ddff6480d6674db2049cca029effcd0e475db",
+  "peer_result_sha256": "259bf199346fe6aa972d3693e8e180da4c188a96ab4b8433ff943a029b60e316",
+  "arithmetic_conflicts_found": [],
+  "overlaps": [
+    "later funding400 signed net-zero history",
+    "immutable empty-family registration",
+    "inverse-book-before-original source refusal",
+    "per-cohort capacity rather than pooling"
+  ],
+  "retained_distinct_own_controls": [
+    "consumer inverse23 does not repair deficit22 despite current recovery",
+    "four-atom true joint capacity100 despite current and separate margins200",
+    "qualified root SALE and return-family floor versus active-leaf resolver"
+  ],
+  "source_floor_scope": "conditional source authority, not pure arithmetic or current Native execution proof"
+}

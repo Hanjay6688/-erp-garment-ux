@@ -1,0 +1,7 @@
+{
+  "scope": "STATIC_RELEASE_TRANSFORM_ONLY",
+  "native_execution_proven": false,
+  "failure": "ValueError: static release post_sales_return: expected exactly one definition",
+  "cause": "Static extractor initially required a semicolon after $function$, but 20ah wraps the definition inside EXECUTE $definition$.",
+  "correction": "Accept the release definition's optional trailing semicolon. Exact body anchors and authoritative pg_get_functiondef capture requirements are unchanged."
+}

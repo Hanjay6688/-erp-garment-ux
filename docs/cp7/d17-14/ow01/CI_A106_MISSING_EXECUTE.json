@@ -1,0 +1,439 @@
+{
+  "candidate": "a1067531dc070c7f3eaaf074165f52253eb788ae",
+  "product_source_candidate": "6efdcd787e07355e7ae68d53244a88fb905ad7f8",
+  "run_id": 39446129227,
+  "job_id": 118708414268,
+  "summary": {
+    "label": "CP7_WA_FORWARD",
+    "status": "INCOMPLETE",
+    "source_sha256": "5c74e0f9698c8a21faea9645769312d549273e34fa935d98c1449773030af77a",
+    "observed_case_count": 77,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "error": null,
+    "traceback": null
+  },
+  "nonpass": [
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED",
+      "status": "INCOMPLETE",
+      "error": "('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': 'aa45660c-a033-430f-8eb2-a7c238d810c1', 'outcome': 'ANALYSIS_RUN_FAILED'})",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 806, in analysis_gap\n    outs = drain(cur)\n           ^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 326, in drain\n    raise AssertionError(('WAF_ANALYSIS_RUN_FAILED', outs, out))\nAssertionError: ('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': 'aa45660c-a033-430f-8eb2-a7c238d810c1', 'outcome': 'ANALYSIS_RUN_FAILED'})\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_ANALYSIS_AUTOMATIC_RUN",
+      "status": "INCOMPLETE",
+      "error": "('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': '3048f12e-77eb-4553-9f27-c48a7f1fd202', 'outcome': 'ANALYSIS_RUN_FAILED'})",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 880, in analysis_automatic\n    assert drain(cur)[-1] == 'ANALYSIS_CHECKED'\n           ^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 326, in drain\n    raise AssertionError(('WAF_ANALYSIS_RUN_FAILED', outs, out))\nAssertionError: ('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': '3048f12e-77eb-4553-9f27-c48a7f1fd202', 'outcome': 'ANALYSIS_RUN_FAILED'})\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_ACCESSORY_NEED_NATIVE_UNKNOWN_FORWARDED",
+      "status": "INCOMPLETE",
+      "error": "('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': '18523e43-b0c3-4d3f-a523-b6368a7fb033', 'outcome': 'ANALYSIS_RUN_FAILED'})",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 369, in unknown_forwarded\n    x = prepared(cur, today, wa)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 237, in prepared\n    return _stage(cur, today, wa, f, s, source_subject, policy=policy, policy_enabled=policy_enabled, enabled=enabled,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 211, in _stage\n    x['ticks'] = wa.drain(cur)\n                 ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 326, in drain\n    raise AssertionError(('WAF_ANALYSIS_RUN_FAILED', outs, out))\nAssertionError: ('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': '18523e43-b0c3-4d3f-a523-b6368a7fb033', 'outcome': 'ANALYSIS_RUN_FAILED'})\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_ACCESSORY_NEED_MISSING_EMPTY",
+      "status": "INCOMPLETE",
+      "error": "('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': '20c31adc-fccf-4e57-8341-72f698306c17', 'outcome': 'ANALYSIS_RUN_FAILED'})",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 392, in missing_empty\n    x = prepared(cur, today, wa, mode='MISSING')\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 237, in prepared\n    return _stage(cur, today, wa, f, s, source_subject, policy=policy, policy_enabled=policy_enabled, enabled=enabled,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 211, in _stage\n    x['ticks'] = wa.drain(cur)\n                 ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 326, in drain\n    raise AssertionError(('WAF_ANALYSIS_RUN_FAILED', outs, out))\nAssertionError: ('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': '20c31adc-fccf-4e57-8341-72f698306c17', 'outcome': 'ANALYSIS_RUN_FAILED'})\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_ACCESSORY_NEED_BOM_SUCCESSOR",
+      "status": "INCOMPLETE",
+      "error": "('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': '8f6588d2-0d6f-4d30-8f4a-49ec22eb516c', 'outcome': 'ANALYSIS_RUN_FAILED'})",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 415, in bom_successor\n    x = prepared(cur, today, wa)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 237, in prepared\n    return _stage(cur, today, wa, f, s, source_subject, policy=policy, policy_enabled=policy_enabled, enabled=enabled,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 211, in _stage\n    x['ticks'] = wa.drain(cur)\n                 ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 326, in drain\n    raise AssertionError(('WAF_ANALYSIS_RUN_FAILED', outs, out))\nAssertionError: ('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': '8f6588d2-0d6f-4d30-8f4a-49ec22eb516c', 'outcome': 'ANALYSIS_RUN_FAILED'})\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_ACCESSORY_NEED_CURRENT_PERMISSIONS",
+      "status": "INCOMPLETE",
+      "error": "('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': '5dc39897-bc43-497c-bc8b-9c398238a834', 'outcome': 'ANALYSIS_RUN_FAILED'})",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 455, in current_permissions\n    x = prepared(cur, today, wa)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 237, in prepared\n    return _stage(cur, today, wa, f, s, source_subject, policy=policy, policy_enabled=policy_enabled, enabled=enabled,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 211, in _stage\n    x['ticks'] = wa.drain(cur)\n                 ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 326, in drain\n    raise AssertionError(('WAF_ANALYSIS_RUN_FAILED', outs, out))\nAssertionError: ('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': '5dc39897-bc43-497c-bc8b-9c398238a834', 'outcome': 'ANALYSIS_RUN_FAILED'})\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_ACCESSORY_NEED_ISSUE_NOT_INSTALLATION_RESOLVED",
+      "status": "INCOMPLETE",
+      "error": "('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': '9229e4f4-f3d9-429f-a10c-1a1ecdbf6b45', 'outcome': 'ANALYSIS_RUN_FAILED'})",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 527, in issue_not_installed_resolved\n    x = prepared(cur, today, wa, issue80=True)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 237, in prepared\n    return _stage(cur, today, wa, f, s, source_subject, policy=policy, policy_enabled=policy_enabled, enabled=enabled,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 211, in _stage\n    x['ticks'] = wa.drain(cur)\n                 ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 326, in drain\n    raise AssertionError(('WAF_ANALYSIS_RUN_FAILED', outs, out))\nAssertionError: ('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': '9229e4f4-f3d9-429f-a10c-1a1ecdbf6b45', 'outcome': 'ANALYSIS_RUN_FAILED'})\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "CP7_WA_FORWARD",
+      "case": "WAF_ACCESSORY_NEED_POLICY_REPLAY_DEDUP",
+      "status": "INCOMPLETE",
+      "error": "('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': 'e128ac3b-de11-406d-8027-b5c3e8e93c55', 'outcome': 'ANALYSIS_RUN_FAILED'})",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 557, in policy_replay_dedup\n    x = prepared(cur, today, wa, policy=state != 'UNCONFIGURED', policy_enabled=False)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 237, in prepared\n    return _stage(cur, today, wa, f, s, source_subject, policy=policy, policy_enabled=policy_enabled, enabled=enabled,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 211, in _stage\n    x['ticks'] = wa.drain(cur)\n                 ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 326, in drain\n    raise AssertionError(('WAF_ANALYSIS_RUN_FAILED', outs, out))\nAssertionError: ('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': 'e128ac3b-de11-406d-8027-b5c3e8e93c55', 'outcome': 'ANALYSIS_RUN_FAILED'})\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_ACCESSORY_NEED_TWO_TICKS_ONE_RECEIPT",
+      "status": "INCOMPLETE",
+      "error": "('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': 'bdcb6273-c073-4517-9a59-447421da0564', 'outcome': 'ANALYSIS_RUN_FAILED'})",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 153, in strict_rows\n    row=run_one(i,key,operation)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 189, in run_one\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 112, in two_ticks_one_receipt\n    x = prepared()\n        ^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 106, in prepared\n    return _committed(tools, lambda cur: accessory.prepared(cur, today, wa))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 43, in _committed\n    out = operation(cur)\n          ^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 106, in <lambda>\n    return _committed(tools, lambda cur: accessory.prepared(cur, today, wa))\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 237, in prepared\n    return _stage(cur, today, wa, f, s, source_subject, policy=policy, policy_enabled=policy_enabled, enabled=enabled,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 211, in _stage\n    x['ticks'] = wa.drain(cur)\n                 ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 326, in drain\n    raise AssertionError(('WAF_ANALYSIS_RUN_FAILED', outs, out))\nAssertionError: ('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': 'bdcb6273-c073-4517-9a59-447421da0564', 'outcome': 'ANALYSIS_RUN_FAILED'})\n",
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_ACCESSORY_NEED_BOM_CHANGE_DURING_WAIT",
+      "status": "INCOMPLETE",
+      "error": "('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': '38ff800e-49c0-4e6f-8f58-097906b53316', 'outcome': 'ANALYSIS_RUN_FAILED'})",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 153, in strict_rows\n    row=run_one(i,key,operation)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 189, in run_one\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 217, in <lambda>\n    return list(zip(RACE_IDS, (two_ticks_one_receipt, lambda: native_wait(False), lambda: native_wait(True))))\n                                                              ^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 143, in native_wait\n    x = prepared()\n        ^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 106, in prepared\n    return _committed(tools, lambda cur: accessory.prepared(cur, today, wa))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 43, in _committed\n    out = operation(cur)\n          ^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 106, in <lambda>\n    return _committed(tools, lambda cur: accessory.prepared(cur, today, wa))\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 237, in prepared\n    return _stage(cur, today, wa, f, s, source_subject, policy=policy, policy_enabled=policy_enabled, enabled=enabled,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 211, in _stage\n    x['ticks'] = wa.drain(cur)\n                 ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 326, in drain\n    raise AssertionError(('WAF_ANALYSIS_RUN_FAILED', outs, out))\nAssertionError: ('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': '38ff800e-49c0-4e6f-8f58-097906b53316', 'outcome': 'ANALYSIS_RUN_FAILED'})\n",
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "case": "WAF_RACE_ACCESSORY_NEED_ACCESS_REVOKED_DURING_WAIT",
+      "status": "INCOMPLETE",
+      "error": "('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': 'e6c47b90-0cc5-471f-a135-c1af145c5113', 'outcome': 'ANALYSIS_RUN_FAILED'})",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 153, in strict_rows\n    row=run_one(i,key,operation)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 189, in run_one\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 217, in <lambda>\n    return list(zip(RACE_IDS, (two_ticks_one_receipt, lambda: native_wait(False), lambda: native_wait(True))))\n                                                                                          ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 143, in native_wait\n    x = prepared()\n        ^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 106, in prepared\n    return _committed(tools, lambda cur: accessory.prepared(cur, today, wa))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 43, in _committed\n    out = operation(cur)\n          ^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 106, in <lambda>\n    return _committed(tools, lambda cur: accessory.prepared(cur, today, wa))\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 237, in prepared\n    return _stage(cur, today, wa, f, s, source_subject, policy=policy, policy_enabled=policy_enabled, enabled=enabled,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_cases.py\", line 211, in _stage\n    x['ticks'] = wa.drain(cur)\n                 ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 326, in drain\n    raise AssertionError(('WAF_ANALYSIS_RUN_FAILED', outs, out))\nAssertionError: ('WAF_ANALYSIS_RUN_FAILED', ['CONDITION_SET_STEP', 'ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': 'e6c47b90-0cc5-471f-a135-c1af145c5113', 'outcome': 'ANALYSIS_RUN_FAILED'})\n",
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_WA_FORWARD",
+      "case": "WAF_HTTP_ACCESSORY_NEED_SETTINGS_LOST_REPLY_REVOKED_REPLAY",
+      "status": "INCOMPLETE",
+      "error": "('WAF_ANALYSIS_RUN_FAILED', ['ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': 'bebff19b-73b4-4ba0-8b0b-ecf3f598d490', 'outcome': 'ANALYSIS_RUN_FAILED'})",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 153, in strict_rows\n    row=run_one(i,key,operation)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 325, in <lambda>\n    report['cases'],refusal=strict_rows('AUDITOR_HTTP_'+phase.upper(),planned,lambda i,key,operation:operation(),HTTP_DB,('authenticator',),\n                                                                                                     ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 271, in settings_lost_reply_revoked_replay\n    wa.drain(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 326, in drain\n    raise AssertionError(('WAF_ANALYSIS_RUN_FAILED', outs, out))\nAssertionError: ('WAF_ANALYSIS_RUN_FAILED', ['ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': 'bebff19b-73b4-4ba0-8b0b-ecf3f598d490', 'outcome': 'ANALYSIS_RUN_FAILED'})\n",
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_WA_FORWARD_BROWSER",
+      "case": "WAF_BROWSER_ACCESSORY_NEED_DESKTOP",
+      "status": "INCOMPLETE",
+      "error": "Error: Command failed: python ../auditor/scripts/cp7_wa_forward_browser_fixture.py accessory_need_collect\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_wa_forward_browser_fixture.py\", line 249, in <module>\n    main()\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_wa_forward_browser_fixture.py\", line 140, in main\n    out = committed(target, lambda cur: accessory_transport.browser_collect(cur, p, wa))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_wa_forward_browser_fixture.py\", line 49, in committed\n    out = op(cur)\n          ^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_wa_forward_browser_fixture.py\", line 140, in <lambda>\n    out = committed(target, lambda cur: accessory_transport.browser_collect(cur, p, wa))\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 311, in browser_collect\n    ticks = wa.drain(cur)\n            ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 326, in drain\n    raise AssertionError(('WAF_ANALYSIS_RUN_FAILED', outs, out))\nAssertionError: ('WAF_ANALYSIS_RUN_FAILED', ['ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': '9729189a-0a5f-4a1c-8d33-2ee2598e7d40', 'outcome': 'ANALYSIS_RUN_FAILED'})\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_browser.mjs:15:34)\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_browser.mjs:71:19)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_WA_FORWARD_BROWSER",
+      "case": "WAF_BROWSER_ACCESSORY_NEED_MOBILE",
+      "status": "INCOMPLETE",
+      "error": "Error: Command failed: python ../auditor/scripts/cp7_wa_forward_browser_fixture.py accessory_need_collect\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_wa_forward_browser_fixture.py\", line 249, in <module>\n    main()\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_wa_forward_browser_fixture.py\", line 140, in main\n    out = committed(target, lambda cur: accessory_transport.browser_collect(cur, p, wa))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_wa_forward_browser_fixture.py\", line 49, in committed\n    out = op(cur)\n          ^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_wa_forward_browser_fixture.py\", line 140, in <lambda>\n    out = committed(target, lambda cur: accessory_transport.browser_collect(cur, p, wa))\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_transport_cases.py\", line 311, in browser_collect\n    ticks = wa.drain(cur)\n            ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 326, in drain\n    raise AssertionError(('WAF_ANALYSIS_RUN_FAILED', outs, out))\nAssertionError: ('WAF_ANALYSIS_RUN_FAILED', ['ANALYSIS_RUN_FAILED'], {'job': 'ANALYSIS', 'ran': True, 'error': '42501 permission denied for function after_snapshot', 'run_id': '226c2cfa-9f3c-4bc2-8b4b-b028361bfab4', 'outcome': 'ANALYSIS_RUN_FAILED'})\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_browser.mjs:15:34)\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_accessory_browser.mjs:71:19)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-20",
+        "before": "2026-10-20",
+        "after": "2026-10-20"
+      }
+    }
+  ],
+  "groups": [
+    {
+      "group": "CP7_WA_FORWARD",
+      "planned": [
+        "WAF_COLLECT_WAITS_FOR_OWNER_SETTINGS",
+        "WAF_FABRIC_EQUALS_WAREHOUSE_SUMMARY",
+        "WAF_AR_AP_FROM_ACCEPTED_SOURCES",
+        "WAF_OWNER_REMINDERS_ONLY_WHEN_DUE",
+        "WAF_SEND_ONE_REQUEST_EXACT_TEXT",
+        "WAF_ROLLBACK_QUEUES_NOTHING",
+        "WAF_RESOLVED_BEFORE_SEND_NOT_SENT",
+        "WAF_ANSWERS_ACCEPTED_REFUSED_UNKNOWN",
+        "WAF_PACING_BURST_QUIET_DIGEST_REPEAT",
+        "WAF_OFF_OR_NO_KEY_SENDS_NOTHING",
+        "WAF_KEY_WRITE_ONLY_AND_MASKED",
+        "WAF_PRIVACY_AND_LIST_PERMISSIONS",
+        "WAF_TICKS_PRIVATE_AND_LIMITED",
+        "WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED",
+        "WAF_ANALYSIS_AUTOMATIC_RUN",
+        "WAF_FG_REORDER_POINT_FORWARDED",
+        "WAF_FG_RESOLVED_BEFORE_SEND",
+        "WAF_FABRIC_REORDER_POINT_FORWARDED",
+        "WAF_ACCESSORY_REORDER_POINT_FORWARDED",
+        "SS1_FORMULA_FROM_POSTED_SALES",
+        "SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND",
+        "SS1_LEAD_TIME_MEASURED_FROM_PRODUCTION",
+        "SS1_DAYS_BUFFER_NOT_STACKED",
+        "SS1_SETTINGS_SERVICE_LEVEL_AND_WINDOW",
+        "SS1_MANUAL_POINT_REPLACES_AND_CLEARS",
+        "SS1_NOT_ENOUGH_DATA_NEVER_GUESSES",
+        "SS1_REVERSED_SALE_NOT_DEMAND",
+        "SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION",
+        "SS1_SOURCE_AND_ACCESS",
+        "SS1_VOLUME_2000_ITEMS_EVERY_MINUTE",
+        "SS2_FABRIC_FORMULA_FROM_CUTTING_USE",
+        "SS2_FABRIC_OUT_OF_STOCK_DAYS_NOT_ZERO_USE",
+        "SS2_FABRIC_REVERSED_ISSUE_NOT_USE",
+        "SS2_FABRIC_MINIMUM_STAYS_BELOW_MINIMUM",
+        "SS2_FABRIC_ON_ORDER_COUNTS_TOWARD_POSITION",
+        "SS2_NO_LEAD_TIME_NEVER_GUESSES",
+        "SS3_ACCESSORY_USAGE_SHOWN_NO_FORMULA",
+        "SS3_SERVICE_ZONES_NOT_FREE_STOCK",
+        "SS3_ACCESSORY_MANUAL_MINIMUM_ZERO_NEVER",
+        "SS3_MATERIAL_SOURCE_AND_ACCESS",
+        "SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE",
+        "WAF_OTHER_OPENING_AR_AP",
+        "WAF_OTHER_PAYROLL_PAYMENT_INVERSE",
+        "WAF_OTHER_ACCESSORY_ALLOCATION_NOT_SETTLEMENT",
+        "WAF_OTHER_LAUNDRY_PAYMENT_INVERSE",
+        "WAF_OTHER_LAUNDRY_OPENING_UNKNOWN",
+        "WAF_OTHER_NARROWER_PERMISSIONS",
+        "WAF_OTHER_ALL_DOMAINS_SUMMARY_PRIVATE",
+        "WAF_ACCESSORY_NEED_NATIVE_UNKNOWN_FORWARDED",
+        "WAF_ACCESSORY_NEED_MISSING_EMPTY",
+        "WAF_ACCESSORY_NEED_BOM_SUCCESSOR",
+        "WAF_ACCESSORY_NEED_CURRENT_PERMISSIONS",
+        "WAF_ACCESSORY_NEED_ISSUE_NOT_INSTALLATION_RESOLVED",
+        "WAF_ACCESSORY_NEED_POLICY_REPLAY_DEDUP"
+      ],
+      "final": {
+        "WAF_COLLECT_WAITS_FOR_OWNER_SETTINGS": "PASS",
+        "WAF_FABRIC_EQUALS_WAREHOUSE_SUMMARY": "PASS",
+        "WAF_AR_AP_FROM_ACCEPTED_SOURCES": "PASS",
+        "WAF_OWNER_REMINDERS_ONLY_WHEN_DUE": "PASS",
+        "WAF_SEND_ONE_REQUEST_EXACT_TEXT": "PASS",
+        "WAF_ROLLBACK_QUEUES_NOTHING": "PASS",
+        "WAF_RESOLVED_BEFORE_SEND_NOT_SENT": "PASS",
+        "WAF_ANSWERS_ACCEPTED_REFUSED_UNKNOWN": "PASS",
+        "WAF_PACING_BURST_QUIET_DIGEST_REPEAT": "PASS",
+        "WAF_OFF_OR_NO_KEY_SENDS_NOTHING": "PASS",
+        "WAF_KEY_WRITE_ONLY_AND_MASKED": "PASS",
+        "WAF_PRIVACY_AND_LIST_PERMISSIONS": "PASS",
+        "WAF_TICKS_PRIVATE_AND_LIMITED": "PASS",
+        "WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED": "INCOMPLETE",
+        "WAF_ANALYSIS_AUTOMATIC_RUN": "INCOMPLETE",
+        "WAF_FG_REORDER_POINT_FORWARDED": "PASS",
+        "WAF_FG_RESOLVED_BEFORE_SEND": "PASS",
+        "WAF_FABRIC_REORDER_POINT_FORWARDED": "PASS",
+        "WAF_ACCESSORY_REORDER_POINT_FORWARDED": "PASS",
+        "SS1_FORMULA_FROM_POSTED_SALES": "PASS",
+        "SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND": "PASS",
+        "SS1_LEAD_TIME_MEASURED_FROM_PRODUCTION": "PASS",
+        "SS1_DAYS_BUFFER_NOT_STACKED": "PASS",
+        "SS1_SETTINGS_SERVICE_LEVEL_AND_WINDOW": "PASS",
+        "SS1_MANUAL_POINT_REPLACES_AND_CLEARS": "PASS",
+        "SS1_NOT_ENOUGH_DATA_NEVER_GUESSES": "PASS",
+        "SS1_REVERSED_SALE_NOT_DEMAND": "PASS",
+        "SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION": "PASS",
+        "SS1_SOURCE_AND_ACCESS": "PASS",
+        "SS1_VOLUME_2000_ITEMS_EVERY_MINUTE": "PASS",
+        "SS2_FABRIC_FORMULA_FROM_CUTTING_USE": "PASS",
+        "SS2_FABRIC_OUT_OF_STOCK_DAYS_NOT_ZERO_USE": "PASS",
+        "SS2_FABRIC_REVERSED_ISSUE_NOT_USE": "PASS",
+        "SS2_FABRIC_MINIMUM_STAYS_BELOW_MINIMUM": "PASS",
+        "SS2_FABRIC_ON_ORDER_COUNTS_TOWARD_POSITION": "PASS",
+        "SS2_NO_LEAD_TIME_NEVER_GUESSES": "PASS",
+        "SS3_ACCESSORY_USAGE_SHOWN_NO_FORMULA": "PASS",
+        "SS3_SERVICE_ZONES_NOT_FREE_STOCK": "PASS",
+        "SS3_ACCESSORY_MANUAL_MINIMUM_ZERO_NEVER": "PASS",
+        "SS3_MATERIAL_SOURCE_AND_ACCESS": "PASS",
+        "SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE": "PASS",
+        "WAF_OTHER_OPENING_AR_AP": "PASS",
+        "WAF_OTHER_PAYROLL_PAYMENT_INVERSE": "PASS",
+        "WAF_OTHER_ACCESSORY_ALLOCATION_NOT_SETTLEMENT": "PASS",
+        "WAF_OTHER_LAUNDRY_PAYMENT_INVERSE": "PASS",
+        "WAF_OTHER_LAUNDRY_OPENING_UNKNOWN": "PASS",
+        "WAF_OTHER_NARROWER_PERMISSIONS": "PASS",
+        "WAF_OTHER_ALL_DOMAINS_SUMMARY_PRIVATE": "PASS",
+        "WAF_ACCESSORY_NEED_NATIVE_UNKNOWN_FORWARDED": "INCOMPLETE",
+        "WAF_ACCESSORY_NEED_MISSING_EMPTY": "INCOMPLETE",
+        "WAF_ACCESSORY_NEED_BOM_SUCCESSOR": "INCOMPLETE",
+        "WAF_ACCESSORY_NEED_CURRENT_PERMISSIONS": "INCOMPLETE",
+        "WAF_ACCESSORY_NEED_ISSUE_NOT_INSTALLATION_RESOLVED": "INCOMPLETE",
+        "WAF_ACCESSORY_NEED_POLICY_REPLAY_DEDUP": "INCOMPLETE"
+      },
+      "missing": [],
+      "status": "INCOMPLETE"
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_WA_FORWARD",
+      "planned": [
+        "WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE",
+        "WAF_RACE_COLLECT_AND_SEND_OPEN_ONCE",
+        "WAF_RACE_FAKE_CALLMEBOT_END_TO_END",
+        "WAF_RACE_PG_CRON_RUNS_TICKS",
+        "WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK",
+        "WAF_RACE_MATERIAL_BUSY_RECHECKS_LIVE_STOCK",
+        "WAF_RACE_ACCESSORY_NEED_TWO_TICKS_ONE_RECEIPT",
+        "WAF_RACE_ACCESSORY_NEED_BOM_CHANGE_DURING_WAIT",
+        "WAF_RACE_ACCESSORY_NEED_ACCESS_REVOKED_DURING_WAIT"
+      ],
+      "final": {
+        "WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE": "PASS",
+        "WAF_RACE_COLLECT_AND_SEND_OPEN_ONCE": "PASS",
+        "WAF_RACE_FAKE_CALLMEBOT_END_TO_END": "PASS",
+        "WAF_RACE_PG_CRON_RUNS_TICKS": "PASS",
+        "WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK": "PASS",
+        "WAF_RACE_MATERIAL_BUSY_RECHECKS_LIVE_STOCK": "PASS",
+        "WAF_RACE_ACCESSORY_NEED_TWO_TICKS_ONE_RECEIPT": "INCOMPLETE",
+        "WAF_RACE_ACCESSORY_NEED_BOM_CHANGE_DURING_WAIT": "INCOMPLETE",
+        "WAF_RACE_ACCESSORY_NEED_ACCESS_REVOKED_DURING_WAIT": "INCOMPLETE"
+      },
+      "missing": []
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_WA_FORWARD",
+      "planned": [
+        "WAF_HTTP_OWNER_SETS_UP_AND_TESTS",
+        "WAF_HTTP_OTHERS_REFUSED",
+        "WAF_HTTP_FG_REORDER_SCREEN",
+        "WAF_HTTP_MATERIAL_REORDER_SCREEN",
+        "WAF_HTTP_ACCESSORY_NEED_SETTINGS_LOST_REPLY_REVOKED_REPLAY"
+      ],
+      "final": {
+        "WAF_HTTP_OWNER_SETS_UP_AND_TESTS": "PASS",
+        "WAF_HTTP_OTHERS_REFUSED": "PASS",
+        "WAF_HTTP_FG_REORDER_SCREEN": "PASS",
+        "WAF_HTTP_MATERIAL_REORDER_SCREEN": "PASS",
+        "WAF_HTTP_ACCESSORY_NEED_SETTINGS_LOST_REPLY_REVOKED_REPLAY": "INCOMPLETE"
+      },
+      "missing": []
+    },
+    {
+      "group": "AUDITOR_BROWSER_CP7_WA_FORWARD_BROWSER",
+      "planned": [
+        "WAF_BROWSER_DESKTOP_OWNER_SETS_UP_TESTS_AND_FORWARDS",
+        "WAF_BROWSER_MOBILE_OWNER_SETS_UP_TESTS_AND_FORWARDS",
+        "WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA",
+        "WAF_BROWSER_FG_REORDER_DESKTOP",
+        "WAF_BROWSER_FG_REORDER_MOBILE",
+        "WAF_BROWSER_MATERIAL_REORDER_DESKTOP",
+        "WAF_BROWSER_MATERIAL_REORDER_MOBILE",
+        "WAF_BROWSER_ACCESSORY_NEED_DESKTOP",
+        "WAF_BROWSER_ACCESSORY_NEED_MOBILE"
+      ],
+      "final": {
+        "WAF_BROWSER_DESKTOP_OWNER_SETS_UP_TESTS_AND_FORWARDS": "PASS",
+        "WAF_BROWSER_MOBILE_OWNER_SETS_UP_TESTS_AND_FORWARDS": "PASS",
+        "WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA": "PASS",
+        "WAF_BROWSER_FG_REORDER_DESKTOP": "PASS",
+        "WAF_BROWSER_FG_REORDER_MOBILE": "PASS",
+        "WAF_BROWSER_MATERIAL_REORDER_DESKTOP": "PASS",
+        "WAF_BROWSER_MATERIAL_REORDER_MOBILE": "PASS",
+        "WAF_BROWSER_ACCESSORY_NEED_DESKTOP": "INCOMPLETE",
+        "WAF_BROWSER_ACCESSORY_NEED_MOBILE": "INCOMPLETE"
+      },
+      "status": "RUN_COMPLETE",
+      "console_errors": 0,
+      "users_created": 9,
+      "auth_cleanup_failures": [],
+      "enteng_requests_answered_by_loopback": 0,
+      "enteng_route_errors": []
+    }
+  ],
+  "disposition": "Exact runtime42501 after_snapshot; selector no longer fails. Narrow EXECUTE grant+manifest+positive verification applied in next candidate. No expected relaxed."
+}

@@ -1,0 +1,10 @@
+{
+  "variant": "BASELINE_WA_CONTRACT_ONLY_OTHER_PRODUCT_SOURCE_CURRENT",
+  "baseline": "6efdcd787e07355e7ae68d53244a88fb905ad7f8",
+  "baseline_wa_contract_sha256": "f4a4dacfa5639daf11c9c72e2463e9fac0f6bfbd8eabc443d0ae8b4c0db6a953",
+  "current_wa_contract_sha256": "cecca8b2803ad2a0d2271da004cd6c1e5ab0078d3338839128df51fd04ccde32",
+  "exit_code": 1,
+  "alias": "./waContract to proposal-local full baseline module; applies to the real SystemRemindersPanel and test imports",
+  "earlier_invalid_harness": "local-dom-baseline-harness-first.log: replacing the test-tree symlink did not replace realpath component imports; no baseline conclusion from that run",
+  "scope": "DOM regression control; no Native/backend/provider execution."
+}

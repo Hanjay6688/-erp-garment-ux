@@ -1,0 +1,21 @@
+{
+  "scope": "ISOLATED_PROPOSAL_DDL_AND_SCALAR_HELPERS_ONLY",
+  "native_execution_proven": false,
+  "accepted_cents": [
+    ["0", "0.00"],
+    ["-0.01", "-0.01"],
+    ["0.01", "0.01"],
+    ["999999999999999999.99", "999999999999999999.99"],
+    ["1999999999999999999.98", "1999999999999999999.98"]
+  ],
+  "refused_cents": ["0.001", "-0.001", "NaN", "Infinity", "-Infinity"],
+  "native_cent_hash_is_idempotent": true,
+  "native_typmod_counter": "0.00",
+  "positive_split": ["999999999999999999.99", "999999999999999999.99"],
+  "negative_split": ["-999999999999999999.99", "-999999999999999999.99"],
+  "raw_amount_post_overload_count": 0,
+  "journal_protection": [
+    [1, true], [2, true], [3, true], [4, false],
+    [5, false], [6, false], [7, true], [8, true]
+  ]
+}

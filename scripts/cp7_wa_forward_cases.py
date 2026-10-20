@@ -46,6 +46,8 @@ import cp7_alert_bundle as bundle
 import cp7_stock_formula_cases as formula
 import cp7_wa_accessory_cases as accessory
 import cp7_wa_accessory_transport_cases as accessory_transport
+import cp7_wa_accessory_pause_cases as accessory_pause
+import cp7_wa_authority_race_cases as authority_races
 
 b = auth.b
 IDS = dict(
@@ -57,9 +59,9 @@ IDS = dict(
             # SS-1 (D17-8/D17-9): finished goods at or under their reorder point, and the formula itself (cp7_stock_formula_cases).
             'WAF_FG_REORDER_POINT_FORWARDED', 'WAF_FG_RESOLVED_BEFORE_SEND',
             # SS-2, SS-3: fabric on the formula and accessories at or under their point.
-            'WAF_FABRIC_REORDER_POINT_FORWARDED', 'WAF_ACCESSORY_REORDER_POINT_FORWARDED'] + formula.NATIVE_IDS + ['WAF_OTHER_OPENING_AR_AP', 'WAF_OTHER_PAYROLL_PAYMENT_INVERSE', 'WAF_OTHER_ACCESSORY_ALLOCATION_NOT_SETTLEMENT', 'WAF_OTHER_LAUNDRY_PAYMENT_INVERSE', 'WAF_OTHER_LAUNDRY_OPENING_UNKNOWN', 'WAF_OTHER_NARROWER_PERMISSIONS', 'WAF_OTHER_ALL_DOMAINS_SUMMARY_PRIVATE'] + list(accessory.NATIVE_IDS),
+            'WAF_FABRIC_REORDER_POINT_FORWARDED', 'WAF_ACCESSORY_REORDER_POINT_FORWARDED'] + formula.NATIVE_IDS + ['WAF_OTHER_OPENING_AR_AP', 'WAF_OTHER_PAYROLL_PAYMENT_INVERSE', 'WAF_OTHER_ACCESSORY_ALLOCATION_NOT_SETTLEMENT', 'WAF_OTHER_LAUNDRY_PAYMENT_INVERSE', 'WAF_OTHER_LAUNDRY_OPENING_UNKNOWN', 'WAF_OTHER_NARROWER_PERMISSIONS', 'WAF_OTHER_ALL_DOMAINS_SUMMARY_PRIVATE'] + list(accessory.NATIVE_IDS) + list(accessory_pause.NATIVE_IDS),
     races=['WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE', 'WAF_RACE_COLLECT_AND_SEND_OPEN_ONCE', 'WAF_RACE_FAKE_CALLMEBOT_END_TO_END',
-           'WAF_RACE_PG_CRON_RUNS_TICKS', 'WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK', 'WAF_RACE_MATERIAL_BUSY_RECHECKS_LIVE_STOCK'] + list(accessory_transport.RACE_IDS),
+           'WAF_RACE_PG_CRON_RUNS_TICKS', 'WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK', 'WAF_RACE_MATERIAL_BUSY_RECHECKS_LIVE_STOCK'] + list(accessory_transport.RACE_IDS) + list(authority_races.RACE_IDS),
     http=['WAF_HTTP_OWNER_SETS_UP_AND_TESTS', 'WAF_HTTP_OTHERS_REFUSED', 'WAF_HTTP_FG_REORDER_SCREEN', 'WAF_HTTP_MATERIAL_REORDER_SCREEN'] + list(accessory_transport.HTTP_IDS),
     # WA-4b: scripts/cp7_wa_forward_browser.mjs (real Auth, PostgREST and UI on the browser copy; fake CallMeBot only).
     browser=['WAF_BROWSER_DESKTOP_OWNER_SETS_UP_TESTS_AND_FORWARDS', 'WAF_BROWSER_MOBILE_OWNER_SETS_UP_TESTS_AND_FORWARDS',
@@ -68,7 +70,7 @@ IDS = dict(
 )
 REQUIRED = {key: len(value) for key, value in IDS.items()}
 EXPECTED = sum(REQUIRED.values())
-DECLARED = 77
+DECLARED = 86
 CONTRACT = 'cp7.wa.forward.v1'
 FUNCTIONS = ('erp_cp7_get_alerts_v1', 'erp_cp7_get_wa_settings_v1', 'erp_cp7_save_wa_settings_v1', 'erp_cp7_set_wa_key_v1',
              'erp_cp7_send_wa_test_v1', 'erp_cp7_resolve_wa_dispatch_v1',
@@ -1071,8 +1073,8 @@ def cases(cur, today):
              analysis_automatic, fg_forwarded, fg_resolved_before_send, fabric_forwarded, accessory_forwarded]
     named += [op for _, op in formula.cases(cur, today)]
     original = list(zip(IDS['native'][:len(named)], named)) + obligation_cases(cur, today)
-    assert len(original) == len(IDS['native']) - len(accessory.NATIVE_IDS)
-    planned = original + accessory.cases(cur, today, sys.modules[__name__])
+    assert len(original) == len(IDS['native']) - len(accessory.NATIVE_IDS) - len(accessory_pause.NATIVE_IDS)
+    planned = original + accessory.cases(cur, today, sys.modules[__name__]) + accessory_pause.cases(cur, today, sys.modules[__name__])
     assert [key for key, _ in planned] == IDS['native'], 'OW01_NATIVE_CASE_REGISTRATION_CHANGED'
     return planned
 
@@ -1314,7 +1316,7 @@ def races(tools, today):
                     next_tick_evaluates=after[0])
 
     original = list(zip(IDS['races'][:6], (two_sends, collect_and_send, end_to_end, pg_cron_ticks, fg_busy_recheck, material_busy_recheck)))
-    planned = original + accessory_transport.races(tools, today, sys.modules[__name__])
+    planned = original + accessory_transport.races(tools, today, sys.modules[__name__]) + authority_races.races(tools, today, sys.modules[__name__])
     assert [key for key, _ in planned] == IDS['races'], 'OW01_RACE_CASE_REGISTRATION_CHANGED'
     return planned
 

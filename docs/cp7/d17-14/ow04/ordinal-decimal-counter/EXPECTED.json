@@ -1,0 +1,1829 @@
+{
+  "artifact_kind": "EXPECTED_FIRST_SYNTHETIC_ORDINAL_CONTRACT",
+  "frozen_before_oracle": true,
+  "source_head_observed": "a1067531dc070c7f3eaaf074165f52253eb788ae",
+  "source_kernel_sha256": "f531f50d5a1c7ddc0a2f22f607be5ba0625a2e0388af3e7a4c6d129bf82e15fc",
+  "source_design_sha256": "9d6ec7dd905b624468c67c1df34bb035d6268f572c52b3528a81ae2e060e9ab4",
+  "rule": "T_i = F(SALE + funding + return families with ordinal <= i) - F(SALE + funding + return families with ordinal < i)",
+  "source_fact_inclusion": "economic_date <= e AND transaction_date <= b; original and inverse remain distinct signed events",
+  "immutable_registration": "family_id, original source identity and ordinal retained even when initial components are empty; inverses do not deregister",
+  "money_format": "exact signed decimal strings; synthetic units, no Native source hashes or chart account claim",
+  "negative_capacity_policy": "no borrowing from sibling cohorts; all relevant future rectangles must support a proposed consumer",
+  "native_executed": false,
+  "product_installed": false,
+  "source_authority_proven": false,
+  "fixture_count": 15,
+  "cases": [
+    {
+      "id": "ORD01_SIBLING_BASE",
+      "note": "The immutable ordinal assigns both returns their own 100; source retrieval order has no authority.",
+      "base_events": [
+        {
+          "id": "SALE",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY",
+          "kind": "FUNDING",
+          "amount": "900.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        }
+      ],
+      "families": [
+        {
+          "family_id": "A",
+          "ordinal": 1,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "A_RETURN",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            }
+          ]
+        },
+        {
+          "family_id": "B",
+          "ordinal": 2,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "B_RETURN",
+              "kind": "NET",
+              "amount": "-100.00",
+              "economic_date": "2026-10-20",
+              "transaction_date": "2026-10-20"
+            }
+          ]
+        }
+      ],
+      "consumptions": [],
+      "expected": {
+        "families": {
+          "A": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19"
+              }
+            ],
+            "net_current_k": "100.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          },
+          "B": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-20",
+                "transaction_date": "2026-10-20"
+              }
+            ],
+            "net_current_k": "100.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          }
+        },
+        "family_sum": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ],
+        "source_current_f": "200.00",
+        "source_authority_admissible": true,
+        "kernel_arithmetic_accepts": true,
+        "shuffle_invariant": true
+      }
+    },
+    {
+      "id": "ORD02_SIBLING_INVERSE_REATTRIBUTES",
+      "note": "A inverse changes the supported recognition of A and B; retain old components and append both contras.",
+      "base_events": [
+        {
+          "id": "SALE",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY",
+          "kind": "FUNDING",
+          "amount": "900.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        }
+      ],
+      "families": [
+        {
+          "family_id": "A",
+          "ordinal": 1,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "A_RETURN",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            },
+            {
+              "id": "A_INVERSE",
+              "kind": "NET",
+              "amount": "200.00",
+              "economic_date": "2026-10-21",
+              "transaction_date": "2026-10-21",
+              "inverse_of": "A_RETURN"
+            }
+          ]
+        },
+        {
+          "family_id": "B",
+          "ordinal": 2,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "B_RETURN",
+              "kind": "NET",
+              "amount": "-100.00",
+              "economic_date": "2026-10-20",
+              "transaction_date": "2026-10-20"
+            }
+          ]
+        }
+      ],
+      "consumptions": [],
+      "expected": {
+        "families": {
+          "A": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19"
+              },
+              {
+                "amount": "-100.00",
+                "economic_date": "2026-10-21",
+                "transaction_date": "2026-10-21"
+              }
+            ],
+            "net_current_k": "0.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          },
+          "B": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-20",
+                "transaction_date": "2026-10-20"
+              },
+              {
+                "amount": "-100.00",
+                "economic_date": "2026-10-21",
+                "transaction_date": "2026-10-21"
+              }
+            ],
+            "net_current_k": "0.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          }
+        },
+        "family_sum": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          },
+          {
+            "amount": "-200.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          }
+        ],
+        "source_current_f": "0.00",
+        "source_authority_admissible": true,
+        "kernel_arithmetic_accepts": true,
+        "adjustments": {
+          "A": [
+            {
+              "amount": "-100.00",
+              "economic_date": "2026-10-21",
+              "transaction_date": "2026-10-21"
+            }
+          ],
+          "B": [
+            {
+              "amount": "-100.00",
+              "economic_date": "2026-10-21",
+              "transaction_date": "2026-10-21"
+            }
+          ]
+        }
+      },
+      "initial_families": {
+        "A": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          }
+        ],
+        "B": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ORD03_SIBLING_CONSUMER_DEPENDENCY",
+      "note": "A inverse cannot erase B credit already consumed; the negative B capacity requires explicit dependent handling.",
+      "base_events": [
+        {
+          "id": "SALE",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY",
+          "kind": "FUNDING",
+          "amount": "900.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        }
+      ],
+      "families": [
+        {
+          "family_id": "A",
+          "ordinal": 1,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "A_RETURN",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            },
+            {
+              "id": "A_INVERSE",
+              "kind": "NET",
+              "amount": "200.00",
+              "economic_date": "2026-10-21",
+              "transaction_date": "2026-10-21",
+              "inverse_of": "A_RETURN"
+            }
+          ]
+        },
+        {
+          "family_id": "B",
+          "ordinal": 2,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "B_RETURN",
+              "kind": "NET",
+              "amount": "-100.00",
+              "economic_date": "2026-10-20",
+              "transaction_date": "2026-10-20"
+            }
+          ]
+        }
+      ],
+      "consumptions": [
+        {
+          "family_id": "B",
+          "id": "B_APPLY",
+          "kind": "CONSUMPTION",
+          "amount": "100.00",
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-20"
+        }
+      ],
+      "expected": {
+        "families": {
+          "A": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19"
+              },
+              {
+                "amount": "-100.00",
+                "economic_date": "2026-10-21",
+                "transaction_date": "2026-10-21"
+              }
+            ],
+            "net_current_k": "0.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          },
+          "B": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-20",
+                "transaction_date": "2026-10-20"
+              },
+              {
+                "amount": "-100.00",
+                "economic_date": "2026-10-21",
+                "transaction_date": "2026-10-21"
+              }
+            ],
+            "net_current_k": "0.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          }
+        },
+        "family_sum": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          },
+          {
+            "amount": "-200.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          }
+        ],
+        "source_current_f": "0.00",
+        "source_authority_admissible": false,
+        "authority_reason": "DEPENDENT_B_CONSUMER",
+        "kernel_arithmetic_accepts": true,
+        "capacities": [
+          {
+            "family_id": "B",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20",
+            "new_consumption_amount": "0.00",
+            "balance_at_pair": "0.00",
+            "current_balance": "-100.00",
+            "future_minimum_balance": "-100.00",
+            "source_prefixes_nonnegative": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "ORD04_FUNDING_INVERSE_ALL_FAMILIES",
+      "note": "Funding inverse appends a contra to each supported family, retaining original funding facts.",
+      "base_events": [
+        {
+          "id": "SALE",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY",
+          "kind": "FUNDING",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY_INVERSE",
+          "kind": "FUNDING",
+          "amount": "-1000.00",
+          "economic_date": "2026-10-21",
+          "transaction_date": "2026-10-21",
+          "inverse_of": "PAY"
+        }
+      ],
+      "families": [
+        {
+          "family_id": "A",
+          "ordinal": 1,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "A_RETURN",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            }
+          ]
+        },
+        {
+          "family_id": "B",
+          "ordinal": 2,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "B_RETURN",
+              "kind": "NET",
+              "amount": "-100.00",
+              "economic_date": "2026-10-20",
+              "transaction_date": "2026-10-20"
+            }
+          ]
+        }
+      ],
+      "consumptions": [],
+      "expected": {
+        "families": {
+          "A": {
+            "components": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19"
+              },
+              {
+                "amount": "-200.00",
+                "economic_date": "2026-10-21",
+                "transaction_date": "2026-10-21"
+              }
+            ],
+            "net_current_k": "0.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          },
+          "B": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-20",
+                "transaction_date": "2026-10-20"
+              },
+              {
+                "amount": "-100.00",
+                "economic_date": "2026-10-21",
+                "transaction_date": "2026-10-21"
+              }
+            ],
+            "net_current_k": "0.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          }
+        },
+        "family_sum": [
+          {
+            "amount": "200.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          },
+          {
+            "amount": "-300.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          }
+        ],
+        "source_current_f": "0.00",
+        "source_authority_admissible": true,
+        "kernel_arithmetic_accepts": true,
+        "adjustments": {
+          "A": [
+            {
+              "amount": "-200.00",
+              "economic_date": "2026-10-21",
+              "transaction_date": "2026-10-21"
+            }
+          ],
+          "B": [
+            {
+              "amount": "-100.00",
+              "economic_date": "2026-10-21",
+              "transaction_date": "2026-10-21"
+            }
+          ]
+        }
+      },
+      "initial_families": {
+        "A": [
+          {
+            "amount": "200.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          }
+        ],
+        "B": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ORD05_K0_NONEMPTY_HISTORY",
+      "note": "Current K zero does not erase dated recognition or remove explicit account/cohort choice.",
+      "base_events": [
+        {
+          "id": "SALE",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY",
+          "kind": "FUNDING",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY_INVERSE",
+          "kind": "FUNDING",
+          "amount": "-1000.00",
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-20",
+          "inverse_of": "PAY"
+        }
+      ],
+      "families": [
+        {
+          "family_id": "A",
+          "ordinal": 1,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "A_RETURN",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            }
+          ]
+        }
+      ],
+      "consumptions": [],
+      "expected": {
+        "families": {
+          "A": {
+            "components": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19"
+              },
+              {
+                "amount": "-200.00",
+                "economic_date": "2026-10-20",
+                "transaction_date": "2026-10-20"
+              }
+            ],
+            "net_current_k": "0.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          }
+        },
+        "family_sum": [
+          {
+            "amount": "200.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "-200.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ],
+        "source_current_f": "0.00",
+        "source_authority_admissible": true,
+        "kernel_arithmetic_accepts": true,
+        "capacities": [
+          {
+            "family_id": "A",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19",
+            "new_consumption_amount": "0.00",
+            "balance_at_pair": "200.00",
+            "current_balance": "0.00",
+            "future_minimum_balance": "0.00",
+            "source_prefixes_nonnegative": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "ORD06_EMPTY_FAMILY_PRECEDES_SIBLING",
+      "note": "A initially has no credit, but registration A1 is required to attribute the later B recognition.",
+      "base_events": [
+        {
+          "id": "SALE",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY",
+          "kind": "FUNDING",
+          "amount": "900.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        }
+      ],
+      "families": [
+        {
+          "family_id": "A",
+          "ordinal": 1,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "A_RETURN",
+              "kind": "NET",
+              "amount": "-100.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            }
+          ]
+        },
+        {
+          "family_id": "B",
+          "ordinal": 2,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "B_RETURN",
+              "kind": "NET",
+              "amount": "-100.00",
+              "economic_date": "2026-10-20",
+              "transaction_date": "2026-10-20"
+            }
+          ]
+        }
+      ],
+      "consumptions": [],
+      "expected": {
+        "families": {
+          "A": {
+            "components": [],
+            "net_current_k": "0.00",
+            "has_recognition_effect": false,
+            "registration_required": true,
+            "explicit_recognition_account_required": false
+          },
+          "B": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-20",
+                "transaction_date": "2026-10-20"
+              }
+            ],
+            "net_current_k": "100.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          }
+        },
+        "family_sum": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ],
+        "source_current_f": "100.00",
+        "source_authority_admissible": true,
+        "kernel_arithmetic_accepts": true,
+        "forgotten_empty_family_wrong_b_components": []
+      }
+    },
+    {
+      "id": "ORD07_EMPTY_LATER_FUNDING_SIGNED_K0",
+      "note": "A registered empty family acquires a signed, net-zero vector after legitimate later funding; no hidden account default.",
+      "base_events": [
+        {
+          "id": "SALE",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY",
+          "kind": "FUNDING",
+          "amount": "500.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY_INVERSE",
+          "kind": "FUNDING",
+          "amount": "-500.00",
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-20",
+          "inverse_of": "PAY"
+        },
+        {
+          "id": "PAY_LATER",
+          "kind": "FUNDING",
+          "amount": "400.00",
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-19"
+        }
+      ],
+      "families": [
+        {
+          "family_id": "A",
+          "ordinal": 1,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "A_RETURN",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            }
+          ]
+        }
+      ],
+      "consumptions": [],
+      "expected": {
+        "families": {
+          "A": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19"
+              },
+              {
+                "amount": "-100.00",
+                "economic_date": "2026-10-20",
+                "transaction_date": "2026-10-20"
+              }
+            ],
+            "net_current_k": "0.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          }
+        },
+        "family_sum": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ],
+        "source_current_f": "0.00",
+        "source_authority_admissible": true,
+        "kernel_arithmetic_accepts": true,
+        "adjustments": {
+          "A": [
+            {
+              "amount": "100.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            },
+            {
+              "amount": "-100.00",
+              "economic_date": "2026-10-20",
+              "transaction_date": "2026-10-20"
+            }
+          ]
+        },
+        "capacities": [
+          {
+            "family_id": "A",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19",
+            "new_consumption_amount": "0.00",
+            "balance_at_pair": "100.00",
+            "current_balance": "0.00",
+            "future_minimum_balance": "0.00",
+            "source_prefixes_nonnegative": true
+          }
+        ],
+        "account_choice_when_first_nonempty": "EXPLICIT_OR_REFUSE_WITH_CLEAR_UNDO_PATH"
+      },
+      "initial_families": {
+        "A": []
+      },
+      "initial_base_omit_ids": [
+        "PAY_LATER"
+      ]
+    },
+    {
+      "id": "ORD08_TWO_EMPTY_FAMILIES_LATER_FUNDING",
+      "note": "Later funding must revisit both immutable empty registrations, rather than assigning the whole vector to the latest return.",
+      "base_events": [
+        {
+          "id": "SALE",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY",
+          "kind": "FUNDING",
+          "amount": "500.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY_INVERSE",
+          "kind": "FUNDING",
+          "amount": "-500.00",
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-20",
+          "inverse_of": "PAY"
+        },
+        {
+          "id": "PAY_LATER",
+          "kind": "FUNDING",
+          "amount": "400.00",
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-19"
+        }
+      ],
+      "families": [
+        {
+          "family_id": "A",
+          "ordinal": 1,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "A_RETURN",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            }
+          ]
+        },
+        {
+          "family_id": "B",
+          "ordinal": 2,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "B_RETURN",
+              "kind": "NET",
+              "amount": "-100.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            }
+          ]
+        }
+      ],
+      "consumptions": [],
+      "expected": {
+        "families": {
+          "A": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19"
+              },
+              {
+                "amount": "-100.00",
+                "economic_date": "2026-10-20",
+                "transaction_date": "2026-10-20"
+              }
+            ],
+            "net_current_k": "0.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          },
+          "B": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19"
+              },
+              {
+                "amount": "-100.00",
+                "economic_date": "2026-10-20",
+                "transaction_date": "2026-10-20"
+              }
+            ],
+            "net_current_k": "0.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          }
+        },
+        "family_sum": [
+          {
+            "amount": "200.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "-200.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ],
+        "source_current_f": "0.00",
+        "source_authority_admissible": true,
+        "kernel_arithmetic_accepts": true,
+        "adjustments": {
+          "A": [
+            {
+              "amount": "100.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            },
+            {
+              "amount": "-100.00",
+              "economic_date": "2026-10-20",
+              "transaction_date": "2026-10-20"
+            }
+          ],
+          "B": [
+            {
+              "amount": "100.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            },
+            {
+              "amount": "-100.00",
+              "economic_date": "2026-10-20",
+              "transaction_date": "2026-10-20"
+            }
+          ]
+        }
+      },
+      "initial_families": {
+        "A": [],
+        "B": []
+      },
+      "initial_base_omit_ids": [
+        "PAY_LATER"
+      ]
+    },
+    {
+      "id": "ORD09_COHORT_NEGATIVE_POOL_POSITIVE",
+      "note": "Credit capacity belongs to its cohort even when customer/account pooled balance is positive.",
+      "base_events": [
+        {
+          "id": "SALE",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY",
+          "kind": "FUNDING",
+          "amount": "900.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        }
+      ],
+      "families": [
+        {
+          "family_id": "A",
+          "ordinal": 1,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "A_RETURN",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            }
+          ]
+        },
+        {
+          "family_id": "B",
+          "ordinal": 2,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "B_RETURN",
+              "kind": "NET",
+              "amount": "-100.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            }
+          ]
+        }
+      ],
+      "consumptions": [
+        {
+          "family_id": "A",
+          "id": "A_APPLY",
+          "kind": "CONSUMPTION",
+          "amount": "150.00",
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-19"
+        }
+      ],
+      "expected": {
+        "families": {
+          "A": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19"
+              }
+            ],
+            "net_current_k": "100.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          },
+          "B": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19"
+              }
+            ],
+            "net_current_k": "100.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          }
+        },
+        "family_sum": [
+          {
+            "amount": "200.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          }
+        ],
+        "source_current_f": "200.00",
+        "source_authority_admissible": false,
+        "authority_reason": "NEGATIVE_A_CAPACITY_NO_BORROWING_B",
+        "kernel_arithmetic_accepts": true,
+        "capacities": [
+          {
+            "family_id": "A",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19",
+            "new_consumption_amount": "0.00",
+            "balance_at_pair": "-50.00",
+            "current_balance": "-50.00",
+            "future_minimum_balance": "-50.00",
+            "source_prefixes_nonnegative": false
+          },
+          {
+            "family_id": "B",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19",
+            "new_consumption_amount": "0.00",
+            "balance_at_pair": "100.00",
+            "current_balance": "100.00",
+            "future_minimum_balance": "100.00",
+            "source_prefixes_nonnegative": true
+          }
+        ],
+        "pooled_current_balance": "50.00"
+      }
+    },
+    {
+      "id": "ORD10_COHORT_POSITIVE_CONTROL",
+      "note": "Independent cohort capacities permit valid consumers without borrowing or aggregate-only checking.",
+      "base_events": [
+        {
+          "id": "SALE",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY",
+          "kind": "FUNDING",
+          "amount": "900.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        }
+      ],
+      "families": [
+        {
+          "family_id": "A",
+          "ordinal": 1,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "A_RETURN",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            }
+          ]
+        },
+        {
+          "family_id": "B",
+          "ordinal": 2,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "B_RETURN",
+              "kind": "NET",
+              "amount": "-100.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            }
+          ]
+        }
+      ],
+      "consumptions": [
+        {
+          "family_id": "A",
+          "id": "A_APPLY",
+          "kind": "CONSUMPTION",
+          "amount": "50.00",
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-19"
+        },
+        {
+          "family_id": "B",
+          "id": "B_APPLY",
+          "kind": "CONSUMPTION",
+          "amount": "50.00",
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-19"
+        }
+      ],
+      "expected": {
+        "families": {
+          "A": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19"
+              }
+            ],
+            "net_current_k": "100.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          },
+          "B": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19"
+              }
+            ],
+            "net_current_k": "100.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          }
+        },
+        "family_sum": [
+          {
+            "amount": "200.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          }
+        ],
+        "source_current_f": "200.00",
+        "source_authority_admissible": true,
+        "kernel_arithmetic_accepts": true,
+        "capacities": [
+          {
+            "family_id": "A",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19",
+            "new_consumption_amount": "0.00",
+            "balance_at_pair": "50.00",
+            "current_balance": "50.00",
+            "future_minimum_balance": "50.00",
+            "source_prefixes_nonnegative": true
+          },
+          {
+            "family_id": "B",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19",
+            "new_consumption_amount": "0.00",
+            "balance_at_pair": "50.00",
+            "current_balance": "50.00",
+            "future_minimum_balance": "50.00",
+            "source_prefixes_nonnegative": true
+          }
+        ],
+        "pooled_current_balance": "100.00"
+      }
+    },
+    {
+      "id": "ORD11_FAMILY_INVERSE_BAD_BOOK_COUNTER",
+      "note": "Each event has book>=economic and aggregate F remains nonnegative; inverse book before original book nevertheless creates unsupported negative B rectangles.",
+      "base_events": [
+        {
+          "id": "SALE",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY",
+          "kind": "FUNDING",
+          "amount": "900.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        }
+      ],
+      "families": [
+        {
+          "family_id": "A",
+          "ordinal": 1,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "A_RETURN",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-18",
+              "transaction_date": "2026-10-18"
+            }
+          ]
+        },
+        {
+          "family_id": "B",
+          "ordinal": 2,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "B_RETURN",
+              "kind": "NET",
+              "amount": "-100.00",
+              "economic_date": "2026-10-18",
+              "transaction_date": "2026-10-20"
+            },
+            {
+              "id": "B_INVERSE",
+              "kind": "NET",
+              "amount": "100.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19",
+              "inverse_of": "B_RETURN"
+            }
+          ]
+        }
+      ],
+      "consumptions": [],
+      "expected": {
+        "families": {
+          "A": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-18",
+                "transaction_date": "2026-10-18"
+              }
+            ],
+            "net_current_k": "100.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          },
+          "B": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-18",
+                "transaction_date": "2026-10-20"
+              },
+              {
+                "amount": "-100.00",
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19"
+              }
+            ],
+            "net_current_k": "0.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          }
+        },
+        "family_sum": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-18",
+            "transaction_date": "2026-10-18"
+          },
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-18",
+            "transaction_date": "2026-10-20"
+          },
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          }
+        ],
+        "source_current_f": "100.00",
+        "source_authority_admissible": false,
+        "authority_reason": "INVERSE_BOOK_BEFORE_ORIGINAL_BOOK",
+        "kernel_arithmetic_accepts": true,
+        "capacities": [
+          {
+            "family_id": "B",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19",
+            "new_consumption_amount": "0.00",
+            "balance_at_pair": "-100.00",
+            "current_balance": "0.00",
+            "future_minimum_balance": "-100.00",
+            "source_prefixes_nonnegative": false
+          }
+        ],
+        "aggregate_source_prefixes_nonnegative": true
+      }
+    },
+    {
+      "id": "ORD12_ORDINAL_MUTATION_REJECTED",
+      "note": "Total recognition remains 200 under a fraudulent ordinal swap; immutable per-family attribution is the necessary guard.",
+      "base_events": [
+        {
+          "id": "SALE",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY",
+          "kind": "FUNDING",
+          "amount": "900.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        }
+      ],
+      "families": [
+        {
+          "family_id": "A",
+          "ordinal": 1,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "A_RETURN",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            }
+          ]
+        },
+        {
+          "family_id": "B",
+          "ordinal": 2,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "B_RETURN",
+              "kind": "NET",
+              "amount": "-100.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            }
+          ]
+        }
+      ],
+      "consumptions": [],
+      "expected": {
+        "families": {
+          "A": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19"
+              }
+            ],
+            "net_current_k": "100.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          },
+          "B": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19"
+              }
+            ],
+            "net_current_k": "100.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          }
+        },
+        "family_sum": [
+          {
+            "amount": "200.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          }
+        ],
+        "source_current_f": "200.00",
+        "source_authority_admissible": true,
+        "kernel_arithmetic_accepts": true,
+        "registration_replay": "SAME_IDENTITY_NO_INSERT",
+        "registration_mutations": "REJECT",
+        "swapped_ordinal_wrong_vectors": {
+          "A": [
+            {
+              "amount": "200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            }
+          ],
+          "B": []
+        }
+      },
+      "registry_mutations": [
+        {
+          "family_id": "A",
+          "ordinal": 2
+        },
+        {
+          "family_id": "B",
+          "ordinal": 1
+        }
+      ]
+    },
+    {
+      "id": "ORD13_EMPTY_REGISTRATION_REPLAY",
+      "note": "An empty recognition vector is still an immutable registered family; identical retry is no-op, altered source or ordinal must fail.",
+      "base_events": [
+        {
+          "id": "SALE",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY",
+          "kind": "FUNDING",
+          "amount": "500.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY_INVERSE",
+          "kind": "FUNDING",
+          "amount": "-500.00",
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-20",
+          "inverse_of": "PAY"
+        }
+      ],
+      "families": [
+        {
+          "family_id": "A",
+          "ordinal": 1,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "A_RETURN",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            }
+          ]
+        }
+      ],
+      "consumptions": [],
+      "expected": {
+        "families": {
+          "A": {
+            "components": [],
+            "net_current_k": "0.00",
+            "has_recognition_effect": false,
+            "registration_required": true,
+            "explicit_recognition_account_required": false
+          }
+        },
+        "family_sum": [],
+        "source_current_f": "0.00",
+        "source_authority_admissible": true,
+        "kernel_arithmetic_accepts": true,
+        "registration_replay": "SAME_IDENTITY_NO_INSERT",
+        "registration_mutations": "REJECT"
+      },
+      "registry_mutations": [
+        {
+          "family_id": "A",
+          "ordinal": 2
+        },
+        {
+          "family_id": "A",
+          "source_event_id": "DIFFERENT_RETURN"
+        }
+      ]
+    },
+    {
+      "id": "ORD14_FAMILY_INVERSE_GOOD_BOOK_CONTROL",
+      "note": "Retaining the original source book floor removes the negative B rectangle; the future contra still leaves zero spendable B capacity.",
+      "base_events": [
+        {
+          "id": "SALE",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY",
+          "kind": "FUNDING",
+          "amount": "900.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        }
+      ],
+      "families": [
+        {
+          "family_id": "A",
+          "ordinal": 1,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "A_RETURN",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-18",
+              "transaction_date": "2026-10-18"
+            }
+          ]
+        },
+        {
+          "family_id": "B",
+          "ordinal": 2,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "B_RETURN",
+              "kind": "NET",
+              "amount": "-100.00",
+              "economic_date": "2026-10-18",
+              "transaction_date": "2026-10-20"
+            },
+            {
+              "id": "B_INVERSE",
+              "kind": "NET",
+              "amount": "100.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-20",
+              "inverse_of": "B_RETURN"
+            }
+          ]
+        }
+      ],
+      "consumptions": [],
+      "expected": {
+        "families": {
+          "A": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-18",
+                "transaction_date": "2026-10-18"
+              }
+            ],
+            "net_current_k": "100.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          },
+          "B": {
+            "components": [
+              {
+                "amount": "100.00",
+                "economic_date": "2026-10-18",
+                "transaction_date": "2026-10-20"
+              },
+              {
+                "amount": "-100.00",
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-20"
+              }
+            ],
+            "net_current_k": "0.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          }
+        },
+        "family_sum": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-18",
+            "transaction_date": "2026-10-18"
+          },
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-18",
+            "transaction_date": "2026-10-20"
+          },
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-20"
+          }
+        ],
+        "source_current_f": "100.00",
+        "source_authority_admissible": true,
+        "kernel_arithmetic_accepts": true,
+        "capacities": [
+          {
+            "family_id": "B",
+            "economic_date": "2026-10-18",
+            "transaction_date": "2026-10-20",
+            "new_consumption_amount": "0.00",
+            "balance_at_pair": "100.00",
+            "current_balance": "0.00",
+            "future_minimum_balance": "0.00",
+            "source_prefixes_nonnegative": true
+          }
+        ],
+        "aggregate_source_prefixes_nonnegative": true
+      }
+    },
+    {
+      "id": "ORD15_GROSS_FUNDING_AUTHORITY_COUNTER",
+      "note": "Ordinal telescoping subtracts nonzero F_base; arithmetic must not launder pre-return funding above gross.",
+      "base_events": [
+        {
+          "id": "SALE",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY",
+          "kind": "FUNDING",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        },
+        {
+          "id": "PAY_INVERSE",
+          "kind": "FUNDING",
+          "amount": "-1000.00",
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-20",
+          "inverse_of": "PAY"
+        },
+        {
+          "id": "PAY_UNSUPPORTED",
+          "kind": "FUNDING",
+          "amount": "800.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18"
+        }
+      ],
+      "families": [
+        {
+          "family_id": "A",
+          "ordinal": 1,
+          "registered_even_when_empty": true,
+          "events": [
+            {
+              "id": "A_RETURN",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19"
+            }
+          ]
+        }
+      ],
+      "consumptions": [],
+      "expected": {
+        "families": {
+          "A": {
+            "components": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19"
+              },
+              {
+                "amount": "-200.00",
+                "economic_date": "2026-10-20",
+                "transaction_date": "2026-10-20"
+              }
+            ],
+            "net_current_k": "0.00",
+            "has_recognition_effect": true,
+            "registration_required": true,
+            "explicit_recognition_account_required": true
+          }
+        },
+        "family_sum": [
+          {
+            "amount": "200.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "-200.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ],
+        "base_f_components": [
+          {
+            "amount": "800.00",
+            "economic_date": "2026-10-18",
+            "transaction_date": "2026-10-18"
+          },
+          {
+            "amount": "-800.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ],
+        "source_f_components": [
+          {
+            "amount": "800.00",
+            "economic_date": "2026-10-18",
+            "transaction_date": "2026-10-18"
+          },
+          {
+            "amount": "200.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "-1000.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ],
+        "source_current_f": "0.00",
+        "source_authority_admissible": false,
+        "authority_reason": "FUNDING_ABOVE_RECOGNIZED_GROSS",
+        "kernel_arithmetic_accepts": true,
+        "telescoping_identity": "SUM_T_i = F_ALL_MINUS_F_BASE; equality to F_ALL additionally needs valid zero F_BASE"
+      }
+    }
+  ]
+}

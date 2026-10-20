@@ -1,0 +1,64 @@
+{
+  "scope": "UNINSTALLED_WA_CURRENT_AUTHORITY_RACE_PROPOSAL",
+  "native_execution_proven": false,
+  "disposable_database_only": "cp6_auditor_race",
+  "copy_per_registered_race": "actual cp6_auditor_modes.py175-194 rebuilds the copy before each registered closure; preparation requires an empty dispatch history",
+  "source_counter": {
+    "source": "scripts/cp7-src/alerts/alerts.sql",
+    "reviewed_before_authority_fix_sha256": "3421dbf9494380d5676ead6f7369bec7a09c79a4e85ad0236f61aa38234da113",
+    "fact": "require_owner before a blocking lock does not authorize a write or cached replay after revocation commits during that wait",
+    "original_locations": {
+      "settings": "wa_settings_save:1184-1191",
+      "key": "wa_key_set:1239-1245",
+      "test": "wa_test:1255-1259",
+      "resolve": "wa_resolve:1275-1288; cached replay originally precedes its target row lock"
+    }
+  },
+  "race_ids": [
+    "WAF_RACE_WA_SETTINGS_NEW_REVOKED_AFTER_WAIT",
+    "WAF_RACE_WA_SETTINGS_REPLAY_REVOKED_AFTER_WAIT",
+    "WAF_RACE_WA_KEY_NEW_REVOKED_AFTER_WAIT",
+    "WAF_RACE_WA_KEY_REPLAY_REVOKED_AFTER_WAIT",
+    "WAF_RACE_WA_TEST_NEW_REVOKED_AFTER_WAIT",
+    "WAF_RACE_WA_TEST_REPLAY_REVOKED_AFTER_WAIT",
+    "WAF_RACE_WA_RESOLVE_NEW_REVOKED_AFTER_WAIT",
+    "WAF_RACE_WA_RESOLVE_REPLAY_REVOKED_AFTER_WAIT"
+  ],
+  "initial": {
+    "fresh_fixture_owner": "active OWNER, verified through the actual public WA settings RPC",
+    "existing_owners": "preexisting OWNER rows captured before the fixture and at least one remains active",
+    "replay": "same exact UUID and arguments whose first real public RPC committed before the race",
+    "new": "request UUID has no committed receipt before the race",
+    "transport": "existing fake CallMeBot address only; no provider worker is started"
+  },
+  "waits": {
+    "SETTINGS": "actual CP7:WA:SETTINGS advisory transaction lock",
+    "KEY": "actual CP7:WA:SETTINGS advisory transaction lock",
+    "TEST": "actual CP7:WA:TEST advisory transaction lock",
+    "RESOLVE": "actual target cp7_alert_native.dispatches row FOR UPDATE, including the committed replay branch"
+  },
+  "interleaving": [
+    "Commit the fixture and, for replay cases, the original public operation.",
+    "Holder acquires the actual lock used by the operation.",
+    "Worker starts the exact public RPC as the initially active fixture owner.",
+    "Independent observer proves holder PID is in pg_blocking_pids(worker PID) with wait_event_type Lock.",
+    "A third transaction retires only the fresh fixture app_user and commits; existing owner rows stay unchanged and active.",
+    "Holder rolls back, releasing its lock without a business mutation.",
+    "Worker must fail with SQLSTATE42501 and CP7_WA_OWNER_ONLY, then roll back."
+  ],
+  "final": {
+    "rpc": "no receipt returned, even for committed replay",
+    "refusal_sqlstate": "42501",
+    "refusal_message": "CP7_WA_OWNER_ONLY",
+    "unchanged": [
+      "all WA settings revisions and request receipts",
+      "all key events and encrypted Vault secret fingerprint",
+      "dispatches, outbox, dispatch_items, transport, ticks and source state",
+      "queued pg_net requests and stored provider responses",
+      "every preexisting OWNER row"
+    ],
+    "intentional_fixture_delta": "the fresh app_user is inactive; it is not reactivated or replaced",
+    "resolve_fixture": "real public TEST dispatch; TEST_CLOCK_OVERRIDE ages only that queue timestamp11minutes, then real reconcile yields UNKNOWN without a fabricated provider answer",
+    "limits": "source proposal only until the closed disposable Native harness actually runs all eight IDs; no HTTP, provider delivery, browser or hosted claim"
+  }
+}

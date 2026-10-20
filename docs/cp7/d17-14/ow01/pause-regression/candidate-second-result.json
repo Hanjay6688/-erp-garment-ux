@@ -1,0 +1,177 @@
+{
+  "classification": "SYNTHETIC_PGLITE_ACTUAL_SQL_MODULE_SELECTION_ONLY",
+  "source_path": "/workspace/scratch/9442228ed2dc/ow01-proposals/pause/source-candidate-first.sql",
+  "proves_native_source": false,
+  "proves_real_auth_or_acl": false,
+  "proves_concurrency": false,
+  "proves_pg_net_or_provider": false,
+  "proves_whatsapp_delivery": false,
+  "stubs": [
+    "owner_access",
+    "vault_key_present"
+  ],
+  "fixtures": "synthetic alert/settings/outbox rows; accepted/unknown states are not provider receipts",
+  "cases": [
+    {
+      "name": "FIRST_RETENTION_WA_OFF_THEN_EXPLICIT_ENABLE_SAME_ROUND_ZERO",
+      "status": "PASS",
+      "observed": {
+        "before": {
+          "id": 1,
+          "round": 0,
+          "state": "PENDING",
+          "reason": null,
+          "item_id": "82047a45-a75d-4e35-8815-ebe4f3c9352f",
+          "attempts": 0,
+          "item_kind": "ALERT",
+          "queued_at": "2026-10-21T00:20:49.787+09:00",
+          "alert_kind": "ACCESSORY_NEED",
+          "settled_at": null,
+          "dispatch_id": null,
+          "item_episode": "1"
+        },
+        "paused": {
+          "id": 1,
+          "round": 0,
+          "state": "PENDING",
+          "reason": "WA_OFF",
+          "item_id": "82047a45-a75d-4e35-8815-ebe4f3c9352f",
+          "attempts": 0,
+          "item_kind": "ALERT",
+          "queued_at": "2026-10-21T00:20:49.787+09:00",
+          "alert_kind": "ACCESSORY_NEED",
+          "settled_at": null,
+          "dispatch_id": null,
+          "item_episode": "1"
+        },
+        "resumed": {
+          "id": 1,
+          "round": 0,
+          "state": "DISPATCHED",
+          "reason": null,
+          "item_id": "82047a45-a75d-4e35-8815-ebe4f3c9352f",
+          "attempts": 1,
+          "item_kind": "ALERT",
+          "queued_at": "2026-10-21T00:20:49.787+09:00",
+          "alert_kind": "ACCESSORY_NEED",
+          "settled_at": null,
+          "dispatch_id": 1,
+          "item_episode": "1"
+        }
+      }
+    },
+    {
+      "name": "GLOBAL_OFF_REASONS_RETAIN_ACCESSORY_LEGACY_TERMINAL_AND_HISTORY_UNCHANGED",
+      "status": "PASS",
+      "observed": {
+        "traces": [
+          {
+            "reason": "NOT_CONFIGURED",
+            "accessory": "PENDING",
+            "legacy": "DISABLED"
+          },
+          {
+            "reason": "WA_OFF",
+            "accessory": "PENDING",
+            "legacy": "DISABLED"
+          },
+          {
+            "reason": "PHONE_MISSING",
+            "accessory": "PENDING",
+            "legacy": "DISABLED"
+          },
+          {
+            "reason": "KEY_MISSING",
+            "accessory": "PENDING",
+            "legacy": "DISABLED"
+          }
+        ],
+        "accepted_unknown_dispatched_and_old_terminal_unchanged": true
+      }
+    },
+    {
+      "name": "KIND_OFF_PAUSE_AND_REFRESH_KEEP_ONE_EPISODE_ROUND_ZERO",
+      "status": "PASS",
+      "observed": {
+        "same_episode_and_round_after_source_refresh": true,
+        "legacy_kind_off_terminal": true
+      }
+    },
+    {
+      "name": "QUEUED_REPEAT_HONORS_CURRENT_ZERO_NOT_DUE_NOW_DUE_AND_IMMEDIATE_PREDECESSOR",
+      "status": "PASS",
+      "observed": {
+        "phases": [
+          {
+            "repeat_minutes": 0,
+            "instant_eligible": false,
+            "reason": "REPEAT_OFF"
+          },
+          {
+            "repeat_minutes": 120,
+            "instant_eligible": false,
+            "reason": "REPEAT_NOT_DUE"
+          },
+          {
+            "repeat_minutes": 60,
+            "instant_eligible": true,
+            "reason": null
+          }
+        ],
+        "one_queued_repeat_only": true,
+        "older_accepted_cannot_replace_immediate_predecessor": true
+      }
+    },
+    {
+      "name": "ACTUAL_THREE_SEND_FILTERS_EXCLUDE_OFF_REPEATS_AND_REQUIRE_FRESH_OK",
+      "status": "PASS",
+      "observed": {
+        "check_kinds": [
+          "ACCESSORY_NEED",
+          "AR_DUE",
+          "PRODUCTION_GAP"
+        ],
+        "off_kind_not_checked_or_selected": "37465226-9a03-44d6-b353-a09af2c1d163",
+        "instant_excludes_current_repeat_zero": true,
+        "fresh_ok_and_failed_whitelists_preserved": true,
+        "digest_independent": true
+      }
+    },
+    {
+      "name": "ACTUAL_SETTINGS_CAS_REPLAY_AND_APPEND_ONLY_GUARDS",
+      "status": "PASS",
+      "observed": {
+        "exact_request_replay_one_revision": true,
+        "changed_request_and_stale_revision_refused": true,
+        "append_only_guard_executed": true
+      }
+    }
+  ],
+  "status": "PASS",
+  "source_sha256": "289c022c88da909f2a65ac0be2d6c1b756fbb504742d621e17513eb46f26d953",
+  "actual_function_sha256": {
+    "guard_append_only": "624b1749b3698500388a40cbecb71ef512a3fc2b4ed75a74dc5a3ba26b6c396a",
+    "guard_alert": "3c22266497c6e776b29b0b5c9a75809454376126055d2b3ce869e800d8bd1bea",
+    "queue_alert": "58efaadc674ca7087c1894fa516db0a7ff00d7d3662e863952b65a94275dc687",
+    "guard_outbox": "c03158bb81c63acd94acd95bc3d9035f0385c4d6598719aa5de2f1a323c9f3cc",
+    "current_settings": "a4efa773d45c03b5703c5669fa84d3fa5bd76c12141473bd4cb6b2ee2a80810d",
+    "ts_key": "54c6808b25a204e350ac997b8c959f138a16dbee4ee1ba8fa9a90d55d4a2c27d",
+    "jwt": "2a4cdbe0450ca5e85071f32f8651a07d2bf73f3e652e6eb5c3f87149d92c146b",
+    "uid": "29ee4acb852fce3111a5fee4d6385222bb7af4c7c555b19189360336178c28b7",
+    "require_owner": "dd4b736b30a67b7e02a0d0c667bd0cb21e6e5249ec98b6889916ac379e14fa56",
+    "defaults": "ed2400b304c9f017729f5ed8a604b1f4c1adb682f32011c2d751a4472d3436a5",
+    "settings_json": "7f0d3ceadbc8f8a6418389b95a05cb76762c1b05ed844d735ed3f1443ede7d93",
+    "wa_settings_save": "968845a67173d2a9d647e31472877f1b84cffecb3d84e47f1d8e1487d69b87fd",
+    "apply_one": "20a7d6c24738b00e9510fafe590159388d1840bf81e0267fccf8a8ec5cdc7b55",
+    "queue_repeats": "6b39ee410051a9a8cb7b193bd799531595b85632086a76d5bb8577f0a886a381",
+    "waiting_eligible": "0d136471536c8ab3362a12c28d980deec7a3c546c0d528a4566cf757db7feae5"
+  },
+  "actual_fragment_sha256": {
+    "offUpdates": "bcd417401ababebdb4f88cf7ea92c1cc87d12859e65ea947e91b091380b512d0",
+    "kindUpdates": "1cb947768da3015567ab8847b28cfd39f99c375d381a859ebdcd5c3d6e56e2ba",
+    "checkKinds": "8bae893bda4e5b3374e7e84eb6e0c3642e52fc572735061872382ed7f16012f5",
+    "digestIds": "1343a507e32e348b85dc08477702dbea6e3a42c2193d1057111b17c2e822c506",
+    "instantIds": "e2663c5dfecc7f23ae077330f2435681bb41ae6e3c0ba83ccbae8d0d7e96675e",
+    "pendingSql": "f518ff6241ef7dae41cccbce4540c3274ab1d1aabce48622d3defaf94de402d8"
+  }
+}

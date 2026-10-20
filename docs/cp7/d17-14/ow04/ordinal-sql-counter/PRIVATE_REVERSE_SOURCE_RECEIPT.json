@@ -1,0 +1,15 @@
+{
+  "classification": "BASELINE_FIXTURE_AND_DECLARED_SOURCE_REWRITE_TRACE_ONLY",
+  "native_executed": false,
+  "current_runtime_body_captured": false,
+  "baseline_fixture": "/workspace/scratch/9442228ed2dc/erp-d1714/supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz",
+  "baseline_fixture_sha256": "7aa808a3060bb878fab6b311ba031b9d91d2f12f7268bcc67ea0b88e0974b7ae",
+  "extracted_source": "/workspace/scratch/9442228ed2dc/ow04-proposals/kernel/ordinal/BASELINE_PRIVATE_REVERSE.source.txt",
+  "extracted_baseline_body_sha256": "9fd145d03a13f4c3092842b52923dd8a71ca1d30bdc775f71bfd08658796ce78",
+  "declared_clock_rewritten_body_sha256": "230a546c081d940e789d6e8e2ad3a9f9d31f8eb0e34cfa6c197cf3b04a7bdac4",
+  "accepted_20ac_current_function_definition_sha256": "2996d1c16396768097306556b5916ba93996d2ff451f3c5e7cd35deea7a3ac6f",
+  "not_a_digest_equivalence_claim": true,
+  "prospective_poster_rechecked_sha256": "d9bfca1d97113e8aacfbb5f29d5dcb1d4d3cbdc5c950073943de1bd2d6be9728",
+  "prospective_return_hook_requires": "cp7_credit.return_causal_book_floor(return_uuid)",
+  "prospective_floor_helper_implementation_claimed": false
+}

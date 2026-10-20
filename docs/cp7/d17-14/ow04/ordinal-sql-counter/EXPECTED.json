@@ -1,0 +1,789 @@
+{
+  "classification": "INDEPENDENT_LITERAL_ORDINAL_AND_PAIRED_FLOOR_EXPECTATIONS",
+  "native_executed": false,
+  "product_modified": false,
+  "new_api_proposed": false,
+  "source_candidate": "754f387a04a6b81a8b750db24184444a41bec9df",
+  "definitions": {
+    "ordinal": "immutable causal Native-post registration, corrections preserve root ordinal",
+    "target": "T_i=F(base+families1..i)-F(base+families1..i-1)",
+    "base_condition": "F(noReturns)=0 at every joint prefix",
+    "family_condition": "every family cumulative NET <=0 at every joint prefix",
+    "adjustment": "target exact-pair components minus all retained signed cohort components",
+    "consumption": "positive consumes, negative real inverse restores; every cohort must remain nonnegative at every affected joint prefix"
+  },
+  "fixtures": [
+    {
+      "name": "funding400_backdated_after_500_and_real_inverse_creates_net_zero_history",
+      "base_before": [
+        {
+          "id": "sale",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-17",
+          "transaction_date": "2026-10-17",
+          "source_sha256": "ba035f85f9940573672c622a3bccf3d407ee2b4a9af55fb8017ffc204e244624"
+        },
+        {
+          "id": "pay500",
+          "kind": "FUNDING",
+          "amount": "500.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18",
+          "source_sha256": "da982f97e25fd14ec20d20a7e74e0d29a7619c9016b143699e902a3d7cb343ff"
+        },
+        {
+          "id": "inverse500",
+          "kind": "FUNDING",
+          "amount": "-500.00",
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-20",
+          "source_sha256": "147dea44930a2e8565e67bcf7856422ca473eb41266ee479e0178981263cd917"
+        }
+      ],
+      "families_before": [
+        {
+          "root_return_id": "R1",
+          "ordinal": 1,
+          "events": [
+            {
+              "id": "return1",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19",
+              "source_sha256": "cb2eb06b116de99d6b580276fdc64990abfbbd106f07ac86351992a48753c769"
+            }
+          ]
+        }
+      ],
+      "source_added": [
+        {
+          "id": "pay400",
+          "kind": "FUNDING",
+          "amount": "400.00",
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-19",
+          "source_sha256": "9e5b1a27900cde29f6786352fdaa8b1eafbfaa7293cbcbbef3996ad1efb140da"
+        }
+      ],
+      "retained_components": {
+        "R1": []
+      },
+      "expected_targets": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ]
+      },
+      "expected_adjustments": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ]
+      },
+      "expected_current_faces": {
+        "R1": "0.00"
+      },
+      "expected_has_recognition_effect": {
+        "R1": true
+      },
+      "expected_empty_registration_preserved": true,
+      "expected_new_cohort_account_choice_required": [
+        "R1"
+      ],
+      "capacity_controls": [
+        {
+          "cohort": "R1",
+          "proposed_pair": [
+            "2026-10-19",
+            "2026-10-19"
+          ],
+          "minimum_available": "0.00",
+          "requested_pair_balance": "100.00",
+          "current_balance": "0.00",
+          "positive_consumption_1_supported": false
+        }
+      ]
+    },
+    {
+      "name": "first_empty_family_later_positive_current_entitlement",
+      "base_before": [
+        {
+          "id": "sale",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-17",
+          "transaction_date": "2026-10-17",
+          "source_sha256": "ba035f85f9940573672c622a3bccf3d407ee2b4a9af55fb8017ffc204e244624"
+        },
+        {
+          "id": "pay500",
+          "kind": "FUNDING",
+          "amount": "500.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18",
+          "source_sha256": "da982f97e25fd14ec20d20a7e74e0d29a7619c9016b143699e902a3d7cb343ff"
+        }
+      ],
+      "families_before": [
+        {
+          "root_return_id": "R1",
+          "ordinal": 1,
+          "events": [
+            {
+              "id": "return1",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19",
+              "source_sha256": "cb2eb06b116de99d6b580276fdc64990abfbbd106f07ac86351992a48753c769"
+            }
+          ]
+        }
+      ],
+      "source_added": [
+        {
+          "id": "pay400",
+          "kind": "FUNDING",
+          "amount": "400.00",
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-20",
+          "source_sha256": "9e5b1a27900cde29f6786352fdaa8b1eafbfaa7293cbcbbef3996ad1efb140da"
+        }
+      ],
+      "retained_components": {
+        "R1": []
+      },
+      "expected_targets": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ]
+      },
+      "expected_adjustments": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ]
+      },
+      "expected_current_faces": {
+        "R1": "100.00"
+      },
+      "expected_has_recognition_effect": {
+        "R1": true
+      },
+      "expected_empty_registration_preserved": true,
+      "expected_new_cohort_account_choice_required": [
+        "R1"
+      ]
+    },
+    {
+      "name": "empty_first_family_keeps_ordinal_when_later_family_already_has_face",
+      "base_before": [
+        {
+          "id": "sale",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-17",
+          "transaction_date": "2026-10-17",
+          "source_sha256": "ba035f85f9940573672c622a3bccf3d407ee2b4a9af55fb8017ffc204e244624"
+        },
+        {
+          "id": "pay500",
+          "kind": "FUNDING",
+          "amount": "500.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18",
+          "source_sha256": "da982f97e25fd14ec20d20a7e74e0d29a7619c9016b143699e902a3d7cb343ff"
+        }
+      ],
+      "families_before": [
+        {
+          "root_return_id": "R1",
+          "ordinal": 1,
+          "events": [
+            {
+              "id": "return1",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19",
+              "source_sha256": "cb2eb06b116de99d6b580276fdc64990abfbbd106f07ac86351992a48753c769"
+            }
+          ]
+        },
+        {
+          "root_return_id": "R2",
+          "ordinal": 2,
+          "events": [
+            {
+              "id": "return2",
+              "kind": "NET",
+              "amount": "-400.00",
+              "economic_date": "2026-10-20",
+              "transaction_date": "2026-10-20",
+              "source_sha256": "625aa812b3238b105ee9c7826f3f48f6f0064f3076960cef2581e1e24576d4be"
+            }
+          ]
+        }
+      ],
+      "source_added": [
+        {
+          "id": "pay400",
+          "kind": "FUNDING",
+          "amount": "400.00",
+          "economic_date": "2026-10-21",
+          "transaction_date": "2026-10-21",
+          "source_sha256": "9e5b1a27900cde29f6786352fdaa8b1eafbfaa7293cbcbbef3996ad1efb140da"
+        }
+      ],
+      "retained_components": {
+        "R1": [],
+        "R2": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ]
+      },
+      "expected_targets": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          }
+        ],
+        "R2": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          },
+          {
+            "amount": "300.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          }
+        ]
+      },
+      "expected_adjustments": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          }
+        ],
+        "R2": [
+          {
+            "amount": "300.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          }
+        ]
+      },
+      "expected_current_faces": {
+        "R1": "100.00",
+        "R2": "400.00"
+      },
+      "expected_new_cohort_account_choice_required": [
+        "R1"
+      ],
+      "expected_original_faces_unchanged": {
+        "R2": "100.00"
+      }
+    },
+    {
+      "name": "cohort1_consumer_cannot_silently_borrow_cohort2_after_funding_inverse",
+      "base_before": [
+        {
+          "id": "sale",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-17",
+          "transaction_date": "2026-10-17",
+          "source_sha256": "ba035f85f9940573672c622a3bccf3d407ee2b4a9af55fb8017ffc204e244624"
+        },
+        {
+          "id": "pay800",
+          "kind": "FUNDING",
+          "amount": "800.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18",
+          "source_sha256": "797bc39435ba16a7a7783091615e8bbd19d8afb0dde5f1a8c1a1a9291682b18f"
+        },
+        {
+          "id": "pay100",
+          "kind": "FUNDING",
+          "amount": "100.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18",
+          "source_sha256": "484015707784171c2d935740d9bc4c2f45548db5d0e358ed34d54ef15b806c81"
+        }
+      ],
+      "families_before": [
+        {
+          "root_return_id": "R1",
+          "ordinal": 1,
+          "events": [
+            {
+              "id": "return1",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19",
+              "source_sha256": "cb2eb06b116de99d6b580276fdc64990abfbbd106f07ac86351992a48753c769"
+            }
+          ]
+        },
+        {
+          "root_return_id": "R2",
+          "ordinal": 2,
+          "events": [
+            {
+              "id": "return2",
+              "kind": "NET",
+              "amount": "-100.00",
+              "economic_date": "2026-10-20",
+              "transaction_date": "2026-10-20",
+              "source_sha256": "625aa812b3238b105ee9c7826f3f48f6f0064f3076960cef2581e1e24576d4be"
+            }
+          ]
+        }
+      ],
+      "source_added": [
+        {
+          "id": "inverse100",
+          "kind": "FUNDING",
+          "amount": "-100.00",
+          "economic_date": "2026-10-22",
+          "transaction_date": "2026-10-22",
+          "source_sha256": "969b5ce2b6c58cf4fe61e570407eedd57893ab419a8ed620ce386eadc5c92bf1"
+        }
+      ],
+      "retained_components": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          }
+        ],
+        "R2": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ]
+      },
+      "consumptions": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          }
+        ],
+        "R2": []
+      },
+      "expected_targets": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-22",
+            "transaction_date": "2026-10-22"
+          }
+        ],
+        "R2": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ]
+      },
+      "expected_adjustments": {
+        "R1": [
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-22",
+            "transaction_date": "2026-10-22"
+          }
+        ],
+        "R2": []
+      },
+      "expected_current_faces": {
+        "R1": "0.00",
+        "R2": "100.00"
+      },
+      "expected_current_available": {
+        "R1": "-100.00",
+        "R2": "100.00"
+      },
+      "expected_global_current_available": "0.00",
+      "expected_mutation_supported": false,
+      "reason": "cohort1 joint capacity becomes negative even though customer aggregate is nonnegative",
+      "expected_original_faces_unchanged": {
+        "R1": "100.00",
+        "R2": "100.00"
+      }
+    },
+    {
+      "name": "later_consumer_inverse_does_not_repair_intervening_cohort_shortfall",
+      "base_before": [
+        {
+          "id": "sale",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-17",
+          "transaction_date": "2026-10-17",
+          "source_sha256": "ba035f85f9940573672c622a3bccf3d407ee2b4a9af55fb8017ffc204e244624"
+        },
+        {
+          "id": "pay800",
+          "kind": "FUNDING",
+          "amount": "800.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18",
+          "source_sha256": "797bc39435ba16a7a7783091615e8bbd19d8afb0dde5f1a8c1a1a9291682b18f"
+        },
+        {
+          "id": "pay100",
+          "kind": "FUNDING",
+          "amount": "100.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18",
+          "source_sha256": "484015707784171c2d935740d9bc4c2f45548db5d0e358ed34d54ef15b806c81"
+        }
+      ],
+      "families_before": [
+        {
+          "root_return_id": "R1",
+          "ordinal": 1,
+          "events": [
+            {
+              "id": "return1",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19",
+              "source_sha256": "cb2eb06b116de99d6b580276fdc64990abfbbd106f07ac86351992a48753c769"
+            }
+          ]
+        }
+      ],
+      "source_added": [
+        {
+          "id": "inverse100",
+          "kind": "FUNDING",
+          "amount": "-100.00",
+          "economic_date": "2026-10-22",
+          "transaction_date": "2026-10-22",
+          "source_sha256": "969b5ce2b6c58cf4fe61e570407eedd57893ab419a8ed620ce386eadc5c92bf1"
+        }
+      ],
+      "retained_components": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          }
+        ]
+      },
+      "consumptions": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          },
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-23",
+            "transaction_date": "2026-10-23"
+          }
+        ]
+      },
+      "expected_targets": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-22",
+            "transaction_date": "2026-10-22"
+          }
+        ]
+      },
+      "expected_adjustments": {
+        "R1": [
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-22",
+            "transaction_date": "2026-10-22"
+          }
+        ]
+      },
+      "expected_current_faces": {
+        "R1": "0.00"
+      },
+      "capacity_controls": [
+        {
+          "cohort": "R1",
+          "proposed_pair": [
+            "2026-10-21",
+            "2026-10-21"
+          ],
+          "minimum_available": "-100.00",
+          "current_balance": "0.00",
+          "requested_pair_balance": "0.00",
+          "source_prefixes_nonnegative": false
+        }
+      ],
+      "expected_mutation_supported": false,
+      "reason": "inverse on23 leaves deficit on22; checking current only would pass"
+    },
+    {
+      "name": "two_axis_second_family_has_current200_but_only100_at20_21",
+      "base_before": [
+        {
+          "id": "sale",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-17",
+          "transaction_date": "2026-10-17",
+          "source_sha256": "ba035f85f9940573672c622a3bccf3d407ee2b4a9af55fb8017ffc204e244624"
+        },
+        {
+          "id": "pay900",
+          "kind": "FUNDING",
+          "amount": "900.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18",
+          "source_sha256": "5aa9806b2acc6ce03bf71162c9345a890d0941b3e1c7b9804f4a94de3201ba65"
+        },
+        {
+          "id": "pay100",
+          "kind": "FUNDING",
+          "amount": "100.00",
+          "economic_date": "2026-10-21",
+          "transaction_date": "2026-10-21",
+          "source_sha256": "484015707784171c2d935740d9bc4c2f45548db5d0e358ed34d54ef15b806c81"
+        }
+      ],
+      "families_before": [
+        {
+          "root_return_id": "R1",
+          "ordinal": 1,
+          "events": [
+            {
+              "id": "return1",
+              "kind": "NET",
+              "amount": "-100.00",
+              "economic_date": "2026-10-20",
+              "transaction_date": "2026-10-22",
+              "source_sha256": "cb2eb06b116de99d6b580276fdc64990abfbbd106f07ac86351992a48753c769"
+            }
+          ]
+        },
+        {
+          "root_return_id": "R2",
+          "ordinal": 2,
+          "events": [
+            {
+              "id": "return2",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19",
+              "source_sha256": "625aa812b3238b105ee9c7826f3f48f6f0064f3076960cef2581e1e24576d4be"
+            }
+          ]
+        }
+      ],
+      "source_added": [],
+      "retained_components": {
+        "R1": [],
+        "R2": []
+      },
+      "expected_targets": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-22"
+          }
+        ],
+        "R2": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-22"
+          },
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          },
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-22"
+          }
+        ]
+      },
+      "expected_current_faces": {
+        "R1": "100.00",
+        "R2": "200.00"
+      },
+      "capacity_controls": [
+        {
+          "cohort": "R2",
+          "proposed_pair": [
+            "2026-10-20",
+            "2026-10-21"
+          ],
+          "minimum_available": "100.00",
+          "requested_pair_balance": "100.00",
+          "current_balance": "200.00",
+          "economic_margin": "200.00",
+          "book_margin": "200.00",
+          "positive_consumption_150_supported": false
+        }
+      ]
+    },
+    {
+      "name": "aggregate_valid_sources_cannot_hide_inverse_before_own_original_book",
+      "base_before": [
+        {
+          "id": "sale",
+          "kind": "NET",
+          "amount": "1000.00",
+          "economic_date": "2026-10-17",
+          "transaction_date": "2026-10-17",
+          "source_sha256": "ba035f85f9940573672c622a3bccf3d407ee2b4a9af55fb8017ffc204e244624"
+        },
+        {
+          "id": "pay1000",
+          "kind": "FUNDING",
+          "amount": "1000.00",
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-18",
+          "source_sha256": "38e8003b02ad57696c2f34f2fe3b6019c706638a4435637bbbe4911601f7dc45"
+        }
+      ],
+      "families_before": [
+        {
+          "root_return_id": "R1",
+          "ordinal": 1,
+          "events": [
+            {
+              "id": "return1",
+              "kind": "NET",
+              "amount": "-200.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-19",
+              "source_sha256": "cb2eb06b116de99d6b580276fdc64990abfbbd106f07ac86351992a48753c769"
+            }
+          ]
+        },
+        {
+          "root_return_id": "R2",
+          "ordinal": 2,
+          "events": [
+            {
+              "id": "return2",
+              "kind": "NET",
+              "amount": "-100.00",
+              "economic_date": "2026-10-19",
+              "transaction_date": "2026-10-22",
+              "source_sha256": "625aa812b3238b105ee9c7826f3f48f6f0064f3076960cef2581e1e24576d4be"
+            },
+            {
+              "id": "inverse2",
+              "kind": "NET",
+              "amount": "100.00",
+              "economic_date": "2026-10-20",
+              "transaction_date": "2026-10-20",
+              "source_sha256": "64a3696d6b90c24486224b14ffb91af5ee607fe97b08f4f6953f638704c1256c"
+            }
+          ]
+        }
+      ],
+      "source_added": [],
+      "expected_source_admission": "REFUSE",
+      "reason": "family2 cumulative NET is +100 at20/20; inverse book20 precedes original book22",
+      "expected_disallowed_target_prefix": {
+        "cohort": "R2",
+        "economic_date": "2026-10-20",
+        "transaction_date": "2026-10-20",
+        "amount": "-100.00"
+      },
+      "baseline_F_no_returns": "0.00",
+      "aggregate_net_funding_prefixes_nonnegative": true
+    },
+    {
+      "name": "replacement_return_must_retain_family_root_book_floor_after_reopen",
+      "source_pairs": {
+        "sale_root": [
+          "2026-10-17",
+          "2026-10-20"
+        ],
+        "sale_active_leaf": [
+          "2026-10-17",
+          "2026-10-17"
+        ],
+        "return_family_root": [
+          "2026-10-19",
+          "2026-10-22"
+        ]
+      },
+      "proposed_return_economic_date": "2026-10-19",
+      "current_resolver_result": "2026-10-19",
+      "expected_return_transaction_date": "2026-10-22",
+      "candidate_current_leaf_only_date": "2026-10-19",
+      "expected_current_leaf_only_supported": false,
+      "reason": "current leaf and current period do not preserve root SALE/return-family provenance floors"
+    }
+  ]
+}

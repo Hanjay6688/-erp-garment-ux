@@ -1,0 +1,11 @@
+{
+  "base_file_sha256": "10b7b7e372648118382a2df94702e403e884022ffaf5868d85ba78fb6a8d3eaf",
+  "proposed_file_sha256": "60d92503dc03ad512d0736778223ebcb8894a44736aacaebb99806e4be071de8",
+  "expected_sha256": "2967c663733b9906dd285a59d1874edc17bab1210fcd7f6ee33f8dfabb696c7b",
+  "old_direct_declarations_retained": true,
+  "added_direct_declarations": [
+    "  it('OW01_UI_10_PAUSED_FIRST_NOTICE explains pauses in both waiting states and refreshes the same first notice without a resend claim', async () => {",
+    "  it('OW01_UI_11_REPEAT_WAIT_AND_DELIVERY_STATES distinguishes paused repeats, actual retries and authoritative delivery states', async () => {"
+  ],
+  "scope": "Test and expected-document proposal only; no active repository writes."
+}

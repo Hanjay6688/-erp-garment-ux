@@ -32,7 +32,7 @@ FUNCTIONS={
   'guard_outbox','owner_access','queue_alert','queue_manual','queue_repeats','reconcile','record_tick','require_owner','resolve_one','send_tick',
   'wa_key_set','wa_resolve','wa_settings_read','wa_settings_save','wa_test')},
  **{name:(ROLE,True,'s')for name in('alerts_read','analysis_row','analysis_status','ap_source','ar_source','current_settings','fabric_source',
-  'in_quiet','item_line','label','num','other_source','outbox_items','render','require_tick_limit','rp','settings_json','tgl','ts_key','uid','jwt')},
+  'in_quiet','item_line','label','num','other_source','outbox_items','render','require_tick_limit','rp','settings_json','tgl','ts_key','uid','jwt','waiting_eligible')},
  'analysis_open':(ROLE,True,'i'),'defaults':(ROLE,True,'i'),'schedules':(ROLE,False,'i'),
  'vault_key_present':('postgres',True,'s'),'vault_key_write':('postgres',True,'v'),'wa_post':('postgres',True,'v'),'wa_response':('postgres',True,'s')}
 KEY_FUNCTIONS=('vault_key_present()','vault_key_write(text)','wa_post(text,text)','wa_response(bigint)')

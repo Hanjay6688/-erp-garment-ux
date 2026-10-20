@@ -1,0 +1,9 @@
+# Expected sebelum perubahan lifecycle
+
+Sumber keputusan D17-5 meminta semua isi reminder langsung forward untuk realtime; D17-14 OW01 meminta seluruh jenis tercakup. Dua pemeriksa membuktikan sumber lama secara independen: terminal KIND_OFF/DISABLED kehilangan jalur instant sesudah opt-in, walau alert tetap OPEN. Perbedaan tafsir diselesaikan lewat kontrak tersebut; tidak ada owner yang meminta first delivery hilang selamanya. Ini inferensi implementasi, bukan kutipan kebijakan rearm history.
+
+Perbaikan dibatasi jenis ACCESSORY_NEED yang baru dan belum dipasang ke hosted. Baris menunggu jenis ini tetap PENDING/HELD_QUIET saat WA/key/kind dimatikan, dengan alasan jeda. Tidak mengubah history terminal lama, settings lama, atau transisi legacy. Ketika dinyalakan eksplisit, episode/outbox/round sama harus melewati fresh source, current authority/settings, quiet dan pacing sebelum kirim satu kali. UNKNOWN, DISPATCHED dan ACCEPTED tidak dijadikan pending.
+
+Expected negatif: jenis off tidak boleh memakan cap recheck20 atau masuk pend; resolved selama off tidak terkirim; source berubah tetap ditahan; pause bukan repeat pertama. Repeat round>0 juga harus tunduk repeat_minutes TERKINI dan predecessor ACCEPTED yang benar-benar sudah jatuh tempo. Menyetel0 atau memperpanjang interval menahan repeat yang sudah telanjur antre. Round0 tidak bergantung repeat. Digest tetap merangkum OPEN sesuai kontrak, terpisah dari interval instant repeat, dan menghubungkan pending yang benar-benar dicakupnya.
+
+UI menjelaskan jeda WA/kunci/kind, termasuk HELD_QUIET, bukan menulis "kirim ulang" untuk first round. Alasan pause yang sudah tidak berlaku harus dihapus sebelum label quiet/current waiting ditampilkan. Native fixture/data, provider fake, browser dan race tetap dibedakan; model SQL sintetis bukan penerimaan Native.

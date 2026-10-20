@@ -947,6 +947,15 @@ begin
  get diagnostics n=row_count;
  return n;
 end $$;
+-- New accessory notices retain their pending identity while switched off.
+-- An already queued repeat must still honor the CURRENT repeat interval;
+-- a scheduled digest independently covers open items, as before.
+create function cp7_alert_native.waiting_eligible(o cp7_alert_native.outbox,s cp7_alert_native.settings,p_at timestamptz,p_digest boolean)returns boolean
+language sql stable security definer set search_path=''set TimeZone='UTC'as $$
+ select coalesce(o.alert_kind=any(s.kinds)and(p_digest or o.alert_kind<>'ACCESSORY_NEED'or o.round=0
+  or s.repeat_minutes>0 and exists(select 1 from cp7_alert_native.outbox prior
+   where(prior.item_kind,prior.item_id,prior.item_episode,prior.round)=(o.item_kind,o.item_id,o.item_episode,o.round-1)
+    and prior.state='ACCEPTED'and prior.settled_at<=p_at-s.repeat_minutes*interval'1 minute')),false)$$;
 create function cp7_alert_native.send_tick()returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
 declare s cp7_alert_native.settings;t0 timestamptz:=clock_timestamp();prior jsonb;a jsonb;answered integer;repeats integer;
@@ -960,7 +969,8 @@ begin
  off:=case when s.revision is null then'NOT_CONFIGURED'when not s.enabled then'WA_OFF'when s.phone_e164 is null then'PHONE_MISSING'
   when not cp7_alert_native.vault_key_present()then'KEY_MISSING'end;
  if off is not null then
-  update cp7_alert_native.outbox set state='DISABLED',reason=off,settled_at=t0 where state in('PENDING','HELD_QUIET');
+  update cp7_alert_native.outbox set state='DISABLED',reason=off,settled_at=t0 where state in('PENDING','HELD_QUIET')and alert_kind<>'ACCESSORY_NEED';
+  update cp7_alert_native.outbox set reason=off where state in('PENDING','HELD_QUIET')and alert_kind='ACCESSORY_NEED';
   return cp7_alert_native.record_tick('SEND',jsonb_build_object('ran',false,'outcome',off,'answered',answered));
  end if;
  prior:=cp7_alert_native.claims_enter(s.actor);
@@ -970,7 +980,13 @@ begin
   return cp7_alert_native.record_tick('SEND',jsonb_build_object('ran',false,'outcome','OWNER_ACCESS_DENIED','answered',answered));
  end if;
  repeats:=cp7_alert_native.queue_repeats(s.repeat_minutes);
- update cp7_alert_native.outbox set state='KIND_OFF',reason='KIND_OFF',settled_at=t0 where state in('PENDING','HELD_QUIET')and not(alert_kind=any(s.kinds));
+ update cp7_alert_native.outbox set state='KIND_OFF',reason='KIND_OFF',settled_at=t0 where state in('PENDING','HELD_QUIET')and not(alert_kind=any(s.kinds))and alert_kind<>'ACCESSORY_NEED';
+ update cp7_alert_native.outbox set reason='KIND_OFF'where state in('PENDING','HELD_QUIET')and alert_kind='ACCESSORY_NEED'and not(alert_kind=any(s.kinds));
+ update cp7_alert_native.outbox o set reason=case when cp7_alert_native.waiting_eligible(o,s,t0,false)then null
+  when s.repeat_minutes=0 then'REPEAT_OFF'else'REPEAT_NOT_DUE'end
+ where o.state in('PENDING','HELD_QUIET')and o.alert_kind='ACCESSORY_NEED'and o.alert_kind=any(s.kinds)
+  and(o.reason in('WA_OFF','PHONE_MISSING','KEY_MISSING','NOT_CONFIGURED','KIND_OFF','REPEAT_OFF','REPEAT_NOT_DUE')
+   or not cp7_alert_native.waiting_eligible(o,s,t0,false));
  if cp7_alert_native.in_quiet(s.quiet_enabled,s.quiet_start,s.quiet_end,t0)then
   update cp7_alert_native.outbox set state='HELD_QUIET'where state='PENDING';
   perform cp7_alert_native.claims_leave(prior);
@@ -984,7 +1000,8 @@ begin
  if slot is not null and exists(select 1 from cp7_alert_native.dispatches x where x.kind='DIGEST'and x.digest_slot=slot)then slot:=null;end if;
  -- Every waiting item is checked against its source now; the digest checks every kind it lists.
  check_kinds:=case when slot is not null then s.kinds else
-  (select array_agg(distinct o.alert_kind)from cp7_alert_native.outbox o where o.state in('PENDING','HELD_QUIET')and o.item_kind='ALERT')end;
+  (select array_agg(distinct o.alert_kind)from cp7_alert_native.outbox o where o.state in('PENDING','HELD_QUIET')and o.item_kind='ALERT'
+   and cp7_alert_native.waiting_eligible(o,s,t0,false))end;
  res:=cp7_alert_native.collect_kinds(coalesce(check_kinds,'{}'));
  select array_agg(k)into failed from jsonb_each(res)e(k,v)where v?'error';
  -- Analysis items are checked one condition at a time within the tick's budget (all open ones for a digest, in order of
@@ -993,6 +1010,7 @@ begin
    array(select a2.id from cp7_alert_native.alerts a2 where a2.state='OPEN'and a2.kind in('PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED')and a2.kind=any(s.kinds)
     order by a2.kind,case when a2.kind='ACCESSORY_NEED'then a2.last_rechecked_at end nulls first,a2.opened_at,a2.id)
   else array(select o.item_id from cp7_alert_native.outbox o where o.state in('PENDING','HELD_QUIET')and o.alert_kind in('PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED')
+   and cp7_alert_native.waiting_eligible(o,s,t0,false)
    group by o.item_id order by
     (select a2.last_rechecked_at from cp7_alert_native.alerts a2 where a2.id=o.item_id and a2.kind='ACCESSORY_NEED')nulls first,min(o.id))end,
   t0+interval'5 seconds',case when slot is not null then s.max_items else 20 end);
@@ -1016,8 +1034,10 @@ begin
  if cp7_alert_native.in_quiet(s.quiet_enabled,s.quiet_start,s.quiet_end,send_at)then
   update cp7_alert_native.outbox set state='HELD_QUIET'where state='PENDING';
   return cp7_alert_native.record_tick('SEND',jsonb_build_object('ran',true,'outcome','HELD_QUIET','answered',answered,'repeats',repeats));end if;
+ update cp7_alert_native.outbox set state='PENDING'where alert_kind='ACCESSORY_NEED'and state='HELD_QUIET';
  select array_agg(o.id order by o.id)into pend from cp7_alert_native.outbox o
  where o.state in('PENDING','HELD_QUIET')and(o.item_kind='MANUAL_REMINDER'or not(o.alert_kind=any(coalesce(failed,'{}'))))
+  and cp7_alert_native.waiting_eligible(o,s,send_at,slot is not null)
   and(o.alert_kind not in('PRODUCTION_GAP','FABRIC_NEED','ACCESSORY_NEED')or o.item_id=any(ok));
  if slot is not null then
   select coalesce(jsonb_agg(i order by i->>'kind',i->>'title'),'[]')into items from(
@@ -1165,6 +1185,7 @@ begin
  a:=cp7_alert_native.require_owner();
  if p_request is null then raise exception 'CP7_WA_REQUEST_REQUIRED';end if;
  perform pg_advisory_xact_lock(hashtextextended('CP7:WA:SETTINGS',0));
+ a:=cp7_alert_native.require_owner();
  select*into prev from cp7_alert_native.settings x where x.request_id=p_request;
  if found then
   if prev.actor<>cp7_alert_native.uid()or prev.request_hash<>encode(sha256(convert_to(coalesce(p::text,''),'UTF8')),'hex')then
@@ -1211,6 +1232,7 @@ begin
   (p->>'repeat_minutes')::integer,(p->>'burst_after_per_day')::integer,(p->>'burst_merge_minutes')::integer,(p->>'max_items')::integer,
   (p->>'quiet_enabled')::boolean,qs,qe,(p->>'analysis_every_minutes')::integer,(p->>'analysis_start')::time,(p->>'analysis_end')::time,
   cp7_alert_native.uid(),(a->'profile'->>'id')::uuid,p_request,encode(sha256(convert_to(p::text,'UTF8')),'hex'))returning*into cur;
+ perform cp7_alert_native.require_owner();
  return jsonb_build_object('replay',false,'settings',cp7_alert_native.settings_json(cur));
 end $$;
 create function cp7_alert_native.wa_key_set(p_key text,p_request uuid)returns jsonb
@@ -1220,6 +1242,7 @@ begin
  perform cp7_alert_native.require_owner();
  if p_request is null then raise exception 'CP7_WA_REQUEST_REQUIRED';end if;
  perform pg_advisory_xact_lock(hashtextextended('CP7:WA:SETTINGS',0));
+ perform cp7_alert_native.require_owner();
  select*into e from cp7_alert_native.key_events x where x.request_id=p_request;
  if found then
   if e.actor<>cp7_alert_native.uid()then raise exception using errcode='22023',message='CP7_WA_REQUEST_REUSED';end if;
@@ -1227,6 +1250,7 @@ begin
  end if;
  perform cp7_alert_native.vault_key_write(p_key);
  insert into cp7_alert_native.key_events(actor,request_id,action)values(cp7_alert_native.uid(),p_request,'SET')returning*into e;
+ perform cp7_alert_native.require_owner();
  return jsonb_build_object('replay',false,'key_present',true,'key_set_at',e.at);
 end $$;
 create function cp7_alert_native.wa_test(p_request uuid)returns jsonb
@@ -1236,6 +1260,7 @@ begin
  perform cp7_alert_native.require_owner();
  if p_request is null then raise exception 'CP7_WA_REQUEST_REQUIRED';end if;
  perform pg_advisory_xact_lock(hashtextextended('CP7:WA:TEST',0));
+ perform cp7_alert_native.require_owner();
  select*into d from cp7_alert_native.dispatches x where x.request_id=p_request;
  if found then return jsonb_build_object('replay',true,'dispatch_id',d.id,'status',d.status);end if;
  s:=cp7_alert_native.current_settings();
@@ -1245,6 +1270,7 @@ begin
   raise exception using errcode='22023',message='CP7_WA_TEST_LIMIT';end if;
  new_id:=cp7_alert_native.dispatch('TEST',null,s.revision,s.phone_e164,
   '✅ Pesan uji ERP Enteng · '||cp7_alert_native.label(clock_timestamp())||'. Kalau pesan ini masuk, sambungan WhatsApp sudah benar.',p_request);
+ perform cp7_alert_native.require_owner();
  return jsonb_build_object('replay',false,'dispatch_id',new_id,'status','QUEUED');
 end $$;
 -- The owner says whether a message whose fate is UNKNOWN reached the phone: delivered (its items count as sent) or not
@@ -1255,8 +1281,9 @@ declare d cp7_alert_native.dispatches;outcome text;
 begin
  perform cp7_alert_native.require_owner();
  if p_request is null then raise exception 'CP7_WA_REQUEST_REQUIRED';end if;
- select*into d from cp7_alert_native.dispatches x where x.resolve_request=p_request;
- if found then
+ select*into d from cp7_alert_native.dispatches x where x.resolve_request=p_request for update;
+ perform cp7_alert_native.require_owner();
+ if d.id is not null then
   if d.resolved_by<>cp7_alert_native.uid()or d.id::text is distinct from p->>'dispatch_id'or d.resolved_outcome is distinct from p->>'outcome'then
    raise exception using errcode='22023',message='CP7_WA_REQUEST_REUSED';end if;
   return jsonb_build_object('replay',true,'dispatch_id',d.id,'resolved_outcome',d.resolved_outcome);
@@ -1266,12 +1293,14 @@ begin
  then raise exception using errcode='22023',message='CP7_WA_RESOLVE_INVALID';end if;
  outcome:=p->>'outcome';
  select*into d from cp7_alert_native.dispatches x where x.id=(p->>'dispatch_id')::bigint for update;
- if not found or d.status<>'UNKNOWN'or d.resolved_outcome is not null then raise exception using errcode='22023',message='CP7_WA_RESOLVE_NOT_UNKNOWN';end if;
+ perform cp7_alert_native.require_owner();
+ if d.id is null or d.status<>'UNKNOWN'or d.resolved_outcome is not null then raise exception using errcode='22023',message='CP7_WA_RESOLVE_NOT_UNKNOWN';end if;
  update cp7_alert_native.dispatches set resolved_outcome=outcome,resolved_by=cp7_alert_native.uid(),resolved_at=clock_timestamp(),resolve_request=p_request where id=d.id;
  update cp7_alert_native.outbox set state=case when outcome='DELIVERED'then'ACCEPTED'else'PENDING'end,
   dispatch_id=case when outcome='DELIVERED'then dispatch_id end,settled_at=case when outcome='DELIVERED'then settled_at end,
   reason=case when outcome='NOT_DELIVERED'then'OWNER_NOT_DELIVERED'end
  where dispatch_id=d.id and state='UNKNOWN';
+ perform cp7_alert_native.require_owner();
  return jsonb_build_object('replay',false,'dispatch_id',d.id,'resolved_outcome',outcome);
 end $$;
 

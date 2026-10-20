@@ -1,0 +1,46 @@
+{
+  "kind": "EXPECTED_BEFORE_EXECUTION_PURE_INTEGER_CENT_MODEL_NOT_ERP",
+  "source_pin": "754f387a04a6b81a8b750db24184444a41bec9df",
+  "amount_unit": "rupiah shown as exact decimal strings; executable converts to integer cents",
+  "date_unit": "synthetic ordered business-day coordinates; not production dates or cutover fixtures",
+  "cases": {
+    "CROSSING_PAYMENT_BOOK_ORDER": {
+      "components": [[20, 21, "200.00"]],
+      "economic20_AR_credit": ["0.00", "200.00"],
+      "book20_AR_credit": ["700.00", "0.00"],
+      "current_AR_credit": ["0.00", "200.00"],
+      "wrong_per_payment_fifo_book20_AR_credit": ["800.00", "100.00"]
+    },
+    "SIGNED_WITHOUT_SOURCE_REVERSAL": {
+      "components": [[1, 3, "200.00"], [2, 2, "200.00"], [2, 3, "-200.00"]],
+      "current_new_credit": "200.00",
+      "joint_new_credit": {"1,2": "0.00", "1,3": "200.00", "2,2": "200.00", "2,3": "200.00"},
+      "new_credit_economic1": "200.00",
+      "new_credit_book2": "200.00",
+      "spend200_at_1_2": "REJECT",
+      "spend200_at_1_3": "ALLOW",
+      "then_another200_at_2_2": "REJECT",
+      "positive_component_sum_is_not_current_entitlement": "400.00"
+    },
+    "ZERO_CURRENT_CREDIT_WITH_HISTORICAL_RECOGNITION": {
+      "components": [[19, 19, "200.00"], [20, 20, "-200.00"]],
+      "current_new_credit": "0.00",
+      "economic19_AR_credit": ["0.00", "200.00"],
+      "economic20_AR_credit": ["800.00", "0.00"],
+      "book19_AR_credit": ["0.00", "200.00"],
+      "book20_AR_credit": ["800.00", "0.00"],
+      "spend200_at_19_19_recorded_after20": "REJECT"
+    },
+    "RETURN_SUPPORT_DEPENDENCY": {
+      "funding": "900.00",
+      "returnA": "200.00",
+      "issueA": "100.00",
+      "returnB": "100.00",
+      "issueB": "100.00",
+      "after_undo_A_correct_total_issuance": "0.00",
+      "after_undo_A_retaining_issueB": "UNSUPPORTED_100.00",
+      "required_dependency": "issueB depends on returnA support, not only original payment"
+    }
+  },
+  "does_not_prove": ["Native source admission", "journals posted", "cash availability", "permissions", "locking", "rollback", "feature complete"]
+}

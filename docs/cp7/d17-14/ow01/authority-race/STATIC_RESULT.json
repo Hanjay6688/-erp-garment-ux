@@ -1,0 +1,23 @@
+{
+  "scope": "AST_AND_EXTRACTED_ORIGINAL_REGISTRATION_ONLY",
+  "status": "PASS",
+  "native_execution_proven": false,
+  "database_calls": 0,
+  "case_bodies_run": 0,
+  "declared_and_registered_race_ids": [
+    "WAF_RACE_WA_SETTINGS_NEW_REVOKED_AFTER_WAIT",
+    "WAF_RACE_WA_SETTINGS_REPLAY_REVOKED_AFTER_WAIT",
+    "WAF_RACE_WA_KEY_NEW_REVOKED_AFTER_WAIT",
+    "WAF_RACE_WA_KEY_REPLAY_REVOKED_AFTER_WAIT",
+    "WAF_RACE_WA_TEST_NEW_REVOKED_AFTER_WAIT",
+    "WAF_RACE_WA_TEST_REPLAY_REVOKED_AFTER_WAIT",
+    "WAF_RACE_WA_RESOLVE_NEW_REVOKED_AFTER_WAIT",
+    "WAF_RACE_WA_RESOLVE_REPLAY_REVOKED_AFTER_WAIT"
+  ],
+  "module_top_level_only_imports_literals_and_definitions": true,
+  "files": {
+    "EXPECTED.json": "cb496f241195bd0561ab1c7602bff342d8a78ac60da8b92578fc689e8a4c8778",
+    "cp7_wa_authority_race_cases.py": "b502b80b0e8d8ef773f79636b46fb421a3932000b99f1ed93c1f5c3486731e24",
+    "INTEGRATION.md": "4e1b425e411db9b65e7a41a857c4bd9d61bf03862fc1a8431c01663abf1f93c1"
+  }
+}

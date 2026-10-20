@@ -1,0 +1,416 @@
+{
+  "classification": "ISOLATED_ORDINAL_EXPECTATION_RECHECK_EXISTING_KERNEL",
+  "native_executed": false,
+  "product_modified": false,
+  "new_sql_api_added": false,
+  "expected_sha256": "cbcaf0fe121a6e651af01086e444ca824665d27a7da1cf06b544b3e7031b95fc",
+  "kernel_sql_sha256": "f531f50d5a1c7ddc0a2f22f607be5ba0625a2e0388af3e7a4c6d129bf82e15fc",
+  "results": [
+    {
+      "name": "funding400_backdated_after_500_and_real_inverse_creates_net_zero_history",
+      "classification": "PURE_TARGET_ADJUSTMENT_AND_CAPACITY_MATCH_LITERAL",
+      "targets": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ]
+      },
+      "adjustments": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ]
+      },
+      "current_faces": {
+        "R1": "0.00"
+      },
+      "current_available": {
+        "R1": "0.00"
+      },
+      "cohort_prefixes_nonnegative": {
+        "R1": true
+      },
+      "capacity_results": [
+        {
+          "economic_date": "2026-10-19",
+          "kernel_version": "ow04-2d-difference-v1",
+          "limiting_pairs": [
+            {
+              "economic_date": "2026-10-20",
+              "transaction_date": "2026-10-20"
+            }
+          ],
+          "current_balance": "0.00",
+          "contract_version": "ow04.pure-credit-capacity.v1",
+          "transaction_date": "2026-10-19",
+          "components_sha256": "32946969870b525f4e8f6a7ac50641f2ac090c7bb987190e6ce5e9b331362a01",
+          "minimum_available": "0.00",
+          "consumptions_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "requested_pair_balance": "100.00",
+          "source_prefixes_nonnegative": true
+        }
+      ],
+      "source_admission_and_account_authority_implemented": false
+    },
+    {
+      "name": "first_empty_family_later_positive_current_entitlement",
+      "classification": "PURE_TARGET_ADJUSTMENT_AND_CAPACITY_MATCH_LITERAL",
+      "targets": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ]
+      },
+      "adjustments": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ]
+      },
+      "current_faces": {
+        "R1": "100.00"
+      },
+      "current_available": {
+        "R1": "100.00"
+      },
+      "cohort_prefixes_nonnegative": {
+        "R1": true
+      },
+      "capacity_results": [],
+      "source_admission_and_account_authority_implemented": false
+    },
+    {
+      "name": "empty_first_family_keeps_ordinal_when_later_family_already_has_face",
+      "classification": "PURE_TARGET_ADJUSTMENT_AND_CAPACITY_MATCH_LITERAL",
+      "targets": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          }
+        ],
+        "R2": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          },
+          {
+            "amount": "300.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          }
+        ]
+      },
+      "adjustments": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          }
+        ],
+        "R2": [
+          {
+            "amount": "300.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          }
+        ]
+      },
+      "current_faces": {
+        "R1": "100.00",
+        "R2": "400.00"
+      },
+      "current_available": {
+        "R1": "100.00",
+        "R2": "400.00"
+      },
+      "cohort_prefixes_nonnegative": {
+        "R1": true,
+        "R2": true
+      },
+      "capacity_results": [],
+      "source_admission_and_account_authority_implemented": false
+    },
+    {
+      "name": "cohort1_consumer_cannot_silently_borrow_cohort2_after_funding_inverse",
+      "classification": "PURE_TARGET_ADJUSTMENT_AND_CAPACITY_MATCH_LITERAL",
+      "targets": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-22",
+            "transaction_date": "2026-10-22"
+          }
+        ],
+        "R2": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ]
+      },
+      "adjustments": {
+        "R1": [
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-22",
+            "transaction_date": "2026-10-22"
+          }
+        ],
+        "R2": []
+      },
+      "current_faces": {
+        "R1": "0.00",
+        "R2": "100.00"
+      },
+      "current_available": {
+        "R1": "-100.00",
+        "R2": "100.00"
+      },
+      "cohort_prefixes_nonnegative": {
+        "R1": false,
+        "R2": true
+      },
+      "capacity_results": [],
+      "source_admission_and_account_authority_implemented": false
+    },
+    {
+      "name": "later_consumer_inverse_does_not_repair_intervening_cohort_shortfall",
+      "classification": "PURE_TARGET_ADJUSTMENT_AND_CAPACITY_MATCH_LITERAL",
+      "targets": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-22",
+            "transaction_date": "2026-10-22"
+          }
+        ]
+      },
+      "adjustments": {
+        "R1": [
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-22",
+            "transaction_date": "2026-10-22"
+          }
+        ]
+      },
+      "current_faces": {
+        "R1": "0.00"
+      },
+      "current_available": {
+        "R1": "0.00"
+      },
+      "cohort_prefixes_nonnegative": {
+        "R1": false
+      },
+      "capacity_results": [
+        {
+          "economic_date": "2026-10-21",
+          "kernel_version": "ow04-2d-difference-v1",
+          "limiting_pairs": [
+            {
+              "economic_date": "2026-10-22",
+              "transaction_date": "2026-10-22"
+            },
+            {
+              "economic_date": "2026-10-22",
+              "transaction_date": "2026-10-23"
+            },
+            {
+              "economic_date": "2026-10-23",
+              "transaction_date": "2026-10-22"
+            }
+          ],
+          "current_balance": "0.00",
+          "contract_version": "ow04.pure-credit-capacity.v1",
+          "transaction_date": "2026-10-21",
+          "components_sha256": "121e6f106e9a512d34a71c681364b916202003c3da1327baf1c0df7c24d8f911",
+          "minimum_available": "-100.00",
+          "consumptions_sha256": "e5111683bde676f1d7ceebcc1f24e1767a13f4e7e419903caf7e3a005601523d",
+          "requested_pair_balance": "0.00",
+          "source_prefixes_nonnegative": false
+        }
+      ],
+      "source_admission_and_account_authority_implemented": false
+    },
+    {
+      "name": "two_axis_second_family_has_current200_but_only100_at20_21",
+      "classification": "PURE_TARGET_ADJUSTMENT_AND_CAPACITY_MATCH_LITERAL",
+      "targets": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-22"
+          }
+        ],
+        "R2": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-22"
+          },
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          },
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-22"
+          }
+        ]
+      },
+      "adjustments": {
+        "R1": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-22"
+          }
+        ],
+        "R2": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-22"
+          },
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          },
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-22"
+          }
+        ]
+      },
+      "current_faces": {
+        "R1": "100.00",
+        "R2": "200.00"
+      },
+      "current_available": {
+        "R1": "100.00",
+        "R2": "200.00"
+      },
+      "cohort_prefixes_nonnegative": {
+        "R1": true,
+        "R2": true
+      },
+      "capacity_results": [
+        {
+          "economic_date": "2026-10-20",
+          "kernel_version": "ow04-2d-difference-v1",
+          "limiting_pairs": [
+            {
+              "economic_date": "2026-10-20",
+              "transaction_date": "2026-10-21"
+            }
+          ],
+          "current_balance": "200.00",
+          "contract_version": "ow04.pure-credit-capacity.v1",
+          "transaction_date": "2026-10-21",
+          "components_sha256": "4c20cbffe7363668e36b610e182372994949d85554d484ee9f8006ddffaf9f16",
+          "minimum_available": "100.00",
+          "consumptions_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "requested_pair_balance": "100.00",
+          "source_prefixes_nonnegative": true
+        }
+      ],
+      "source_admission_and_account_authority_implemented": false
+    },
+    {
+      "name": "aggregate_valid_sources_cannot_hide_inverse_before_own_original_book",
+      "classification": "EXPECTED_SOURCE_ADMISSION_REFUSAL",
+      "positive_family_prefix": {
+        "family": "R2",
+        "economic_date": "2026-10-20",
+        "transaction_date": "2026-10-20",
+        "net": "100.00"
+      },
+      "disallowed_target_prefix": {
+        "cohort": "R2",
+        "economic_date": "2026-10-20",
+        "transaction_date": "2026-10-20",
+        "amount": "-100.00"
+      },
+      "raw_kernel_targets": {
+        "R1": [
+          {
+            "amount": "200.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          }
+        ],
+        "R2": [
+          {
+            "amount": "100.00",
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-22"
+          },
+          {
+            "amount": "-100.00",
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ]
+      }
+    },
+    {
+      "name": "replacement_return_must_retain_family_root_book_floor_after_reopen",
+      "classification": "STATIC_DATE_EXPRESSION_COUNTER_MATCHES_LITERAL",
+      "candidate_book_date": "2026-10-19",
+      "expected_root_bound_book_date": "2026-10-22"
+    }
+  ]
+}

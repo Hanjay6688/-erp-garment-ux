@@ -1,0 +1,93 @@
+{
+  "artifact_kind": "EXPECTED_FIRST_NATIVE_CASE_PROPOSAL_NOT_EXECUTED",
+  "native_case_id": "WAF_ACCESSORY_NEED_PAUSE_RESUME",
+  "source_fixture": "accepted Native target100 projectedWIP7, gap93, BOM2 -> ASSUMED gross186, coverage UNKNOWN; same prepared helper",
+  "retained_cases_unchanged": 77,
+  "proposed_total": 78,
+  "proposed_native_total": 55,
+  "subcases": [
+    {
+      "id": "INITIAL_PAUSE_RESUME",
+      "expected": [
+        "initial OPEN one PENDING round0 attempts0",
+        "kind off: queue0, same OPEN id/episode and same pending outbox/round0/attempt0",
+        "WA off: queue0, same OPEN id/episode and same pending outbox/round0/attempt0",
+        "enable kind+WA: exactly one pg_net queue request, same outbox round0 attempt1",
+        "fresh checked_at, review20keys, ASSUMED186 and three UNKNOWN/null facts",
+        "first notice has no repeat label",
+        "synthetic acceptance then off/on immediately: queue0, one ACCEPTED round0 attempt1, no round1"
+      ]
+    },
+    {
+      "id": "SOURCE_CHANGE_WHILE_OFF",
+      "expected": [
+        "BOM successor qty3 uses real Native BF command while WA off",
+        "off remains same pending round0 attempt0",
+        "reenable old snapshot: queue0, same OPEN episode and same waiting item; changed-source reason",
+        "fresh staged analysis gross279 refreshes same alert/episode/outbox",
+        "fresh valid recheck sends once as round0, no repeat label",
+        "old staged result remains immutable ASSUMED186+UNKNOWN"
+      ]
+    },
+    {
+      "id": "SOURCE_RESOLVED_WHILE_OFF",
+      "expected": [
+        "real Native found FG93 while WA off",
+        "off remains same pending round0 attempt0",
+        "reenable: queue0, alert resolves, same outbox RESOLVED_BEFORE_SEND attempt0 and no dispatch",
+        "old staged result still immutable ASSUMED186+UNKNOWN"
+      ]
+    },
+    {
+      "id": "QUEUED_REPEAT_CURRENT_POLICY",
+      "expected": [
+        "accept first notice",
+        "TEST_CLOCK_OVERRIDE only own WA accepted/dispatch timestamps age61min",
+        "WA own quiet with repeat60 queues one HELD_QUIET round1 attempt0",
+        "WA off and repeat0 preserves same pending/held round1",
+        "enable with repeat0 queues0, reasonREPEAT_OFF, no new round",
+        "increase current repeat120 at accepted age61: queue0 reasonREPEAT_NOT_DUE",
+        "current repeat60 after due: exactly one same round1 request attempt1 with repeat label",
+        "accept round1 then tick: no immediate round2"
+      ]
+    },
+    {
+      "id": "UNKNOWN_PROVIDER_PAUSE_RESUME",
+      "expected": [
+        "one first instant round0 queue request before synthetic provider timeout",
+        "SYNTHETIC timed_out provider answer reconciles same dispatch and outbox to UNKNOWN, attempts1",
+        "kindoff, WAoff, kindon+WAon produce0new instant requests; same OPEN id/episode",
+        "same single UNKNOWN outbox id, round0, attempts1, original dispatch id; no round1",
+        "digest_times[] isolates automatic instant retry control; owner resolution not fabricated",
+        "immutable original staged gross186/UNKNOWN retained"
+      ]
+    },
+    {
+      "id": "SCHEDULED_DIGEST_PENDING_LINKAGE",
+      "fixture_branches": [
+        "fresh accessory kind unselected at a due digest slot",
+        "fresh accessory kind selected at a due digest slot"
+      ],
+      "expected": [
+        "derive actual current WIB minute and use existing WA saved_at\u22125min TEST_CLOCK_OVERRIDE; no invented Native date",
+        "repeat_minutes0 for both branches, independent of scheduled digest",
+        "unselected current accessory kind:0HTTP, same OPEN episode and pending/held round0 attempts0 no dispatch link",
+        "selected current accessory kind:one DIGEST HTTP request, no instant request, body review+ASSUMED186+UNKNOWN and no repeat label",
+        "source checked_at advances and exact20key raw accessory detail remains current",
+        "same pending outboxid round0 becomesDISPATCHED attempts1 and links exactly once via dispatch_items",
+        "synthetic acceptance settles same row; same-slot tick produces0extra request and no new round",
+        "old staged result immutable; WA-only scheduling fixtures do not modify Native quantities"
+      ]
+    }
+  ],
+  "limitations": [
+    "proposal syntax/source-facade checks only",
+    "pg_net requests in savepoint; provider response is explicitly synthetic",
+    "no Native runtime or actual provider transport claim",
+    "no product/role/guard mutation",
+    "legacy cases retained verbatim",
+    "The isolated one-case78 declaration is historical; root combined authority-race declaration86 supersedes it without changing this Native case ID or business expected values."
+  ],
+  "supersedes_contract_sha256": "37310a09ad7b5b15f8f4c79324fa1cb261377356d3b48b9428219e70bd873863",
+  "extension_authorized_by_writer": true
+}

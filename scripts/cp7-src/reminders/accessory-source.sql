@@ -1,5 +1,6 @@
 -- OW-01: one coherent current observation, not an authorization to buy.
 -- No ERP mutation privilege is given to the capture/reminder roles.
+grant execute on function cp7_plan_native.after_snapshot(xid,timestamptz,timestamptz,pg_snapshot)to cp7_capture;
 grant usage on schema cp7_reminder_native to postgres;
 grant execute on function cp7_reminder_native.staged_authority(uuid,text[])to postgres;
 create function cp7_reminder_native.accessory_category_locks(p_run uuid,p_target text)returns void

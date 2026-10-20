@@ -50,6 +50,8 @@ const sendableSql = capture(/(select array_agg\(o\.id order by o\.id\)into pend 
   .replace('into pend ', '')
   .replace("coalesce(failed,'{}')", "coalesce($2::text[],'{}')")
   .replace('any(ok)', 'any($1::uuid[])')
+  .replaceAll('cp7_alert_native.waiting_eligible(o,s,send_at,slot is not null)', `cp7_alert_native.waiting_eligible(o,jsonb_populate_record(null::cp7_alert_native.settings,'{"kinds":["ACCESSORY_NEED"],"repeat_minutes":1440}'),clock_timestamp(),false)`)
+instantOrder = instantOrder.replaceAll('cp7_alert_native.waiting_eligible(o,s,t0,false)', `cp7_alert_native.waiting_eligible(o,jsonb_populate_record(null::cp7_alert_native.settings,'{"kinds":["ACCESSORY_NEED"],"repeat_minutes":1440}'),clock_timestamp(),false)`)
 const id = n => `b0000000-0000-4000-8000-${String(n).padStart(12, '0')}`
 
 async function exercise(mode, cap, expectedTick) {
@@ -58,9 +60,11 @@ async function exercise(mode, cap, expectedTick) {
     await db.exec(`create schema cp7_alert_native; create schema erp; create schema source_stub;
       create table erp.materials(id uuid primary key, material_name text);
       ${actualTable('alerts')}
+      ${actualTable('settings')}
       create unique index alerts_one_open on cp7_alert_native.alerts(kind,subject_key)where state='OPEN';
       create table cp7_alert_native.outbox(id bigint primary key,item_kind text,item_id uuid,
-        alert_kind text,state text,reason text);
+        alert_kind text,state text,reason text,item_episode text,round integer default 0,settled_at timestamptz);
+      ${definition('waiting_eligible')}
       create table source_stub.outcomes(condition_key text primary key,verdict text,eligibility text,reason text);
       create table source_stub.attempts(seq bigint generated always as identity,condition_key text);
       create function public.erp_cp7_recheck_reminder_v2(p_run uuid,p_key text)returns jsonb
@@ -92,7 +96,7 @@ async function exercise(mode, cap, expectedTick) {
       await db.query(`insert into cp7_alert_native.alerts(id,kind,subject_key,episode,title,detail,party_names,source_hash,opened_at)
         values($1,'ACCESSORY_NEED',$2,1,$3,$4::jsonb,'[]'::jsonb,$5,'2026-10-20T00:00:00Z')`,
       [id(n), key, `Synthetic accessory review ${n}`, JSON.stringify(detail), 'a'.repeat(64)])
-      await db.query(`insert into cp7_alert_native.outbox values($1,'ALERT',$2,'ACCESSORY_NEED','PENDING',null)`, [n, id(n)])
+      await db.query(`insert into cp7_alert_native.outbox(id,item_kind,item_id,alert_kind,state,reason)values($1,'ALERT',$2,'ACCESSORY_NEED','PENDING',null)`, [n, id(n)])
       const changed = n <= 10
       await db.query('insert into source_stub.outcomes values($1,$2,$3,$4)', [key,
         changed ? 'CHANGED_REVIEW_REQUIRED' : 'REVIEW_REQUIRED_NOW',

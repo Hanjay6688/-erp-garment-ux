@@ -1,0 +1,312 @@
+{
+  "classification": "INTERNAL_WRITER_TWO_AXIS_COMPONENT_PROPOSAL",
+  "source_candidate": "754f387a04a6b81a8b750db24184444a41bec9df",
+  "native_executed": false,
+  "production_planner_implemented": false,
+  "source_journals_modified": false,
+  "results": [
+    {
+      "name": "A_future_cash",
+      "status": "MODEL_MATCHES_LITERAL_EXPECTED",
+      "components": [
+        {
+          "amount": "200",
+          "economic": 20,
+          "book": 20
+        }
+      ],
+      "profiles": {
+        "economic": {
+          "19": {
+            "AR": "800",
+            "issued_credit": "0"
+          },
+          "20": {
+            "AR": "0",
+            "issued_credit": "200"
+          }
+        },
+        "book": {
+          "19": {
+            "AR": "800",
+            "issued_credit": "0"
+          },
+          "20": {
+            "AR": "0",
+            "issued_credit": "200"
+          }
+        }
+      }
+    },
+    {
+      "name": "B_split_cash",
+      "status": "MODEL_MATCHES_LITERAL_EXPECTED",
+      "components": [
+        {
+          "amount": "100",
+          "economic": 19,
+          "book": 19
+        },
+        {
+          "amount": "100",
+          "economic": 20,
+          "book": 20
+        }
+      ],
+      "profiles": {
+        "economic": {
+          "19": {
+            "AR": "0",
+            "issued_credit": "100"
+          },
+          "20": {
+            "AR": "0",
+            "issued_credit": "200"
+          }
+        },
+        "book": {
+          "19": {
+            "AR": "0",
+            "issued_credit": "100"
+          },
+          "20": {
+            "AR": "0",
+            "issued_credit": "200"
+          }
+        }
+      }
+    },
+    {
+      "name": "reopened_full",
+      "status": "MODEL_MATCHES_LITERAL_EXPECTED",
+      "components": [
+        {
+          "amount": "200",
+          "economic": 19,
+          "book": 20
+        }
+      ],
+      "profiles": {
+        "economic": {
+          "19": {
+            "AR": "0",
+            "issued_credit": "200"
+          },
+          "20": {
+            "AR": "0",
+            "issued_credit": "200"
+          }
+        },
+        "book": {
+          "19": {
+            "AR": "800",
+            "issued_credit": "0"
+          },
+          "20": {
+            "AR": "0",
+            "issued_credit": "200"
+          }
+        }
+      }
+    },
+    {
+      "name": "reopened_split",
+      "status": "MODEL_MATCHES_LITERAL_EXPECTED",
+      "components": [
+        {
+          "amount": "100",
+          "economic": 19,
+          "book": 20
+        },
+        {
+          "amount": "100",
+          "economic": 20,
+          "book": 20
+        }
+      ],
+      "profiles": {
+        "economic": {
+          "19": {
+            "AR": "0",
+            "issued_credit": "100"
+          },
+          "20": {
+            "AR": "0",
+            "issued_credit": "200"
+          }
+        },
+        "book": {
+          "19": {
+            "AR": "800",
+            "issued_credit": "0"
+          },
+          "20": {
+            "AR": "0",
+            "issued_credit": "200"
+          }
+        }
+      }
+    },
+    {
+      "name": "crossing_funding_book_order",
+      "status": "MODEL_MATCHES_LITERAL_EXPECTED",
+      "components": [
+        {
+          "amount": "200",
+          "economic": 20,
+          "book": 21
+        }
+      ],
+      "profiles": {
+        "economic": {
+          "20": {
+            "AR": "0",
+            "issued_credit": "200"
+          },
+          "21": {
+            "AR": "0",
+            "issued_credit": "200"
+          }
+        },
+        "book": {
+          "20": {
+            "AR": "700",
+            "issued_credit": "0"
+          },
+          "21": {
+            "AR": "0",
+            "issued_credit": "200"
+          }
+        }
+      }
+    },
+    {
+      "name": "funding_reversal_already_recorded",
+      "status": "MODEL_MATCHES_LITERAL_EXPECTED",
+      "components": [
+        {
+          "amount": "200",
+          "economic": 19,
+          "book": 19
+        },
+        {
+          "amount": "-100",
+          "economic": 20,
+          "book": 20
+        }
+      ],
+      "profiles": {
+        "economic": {
+          "19": {
+            "AR": "0",
+            "issued_credit": "200"
+          },
+          "20": {
+            "AR": "0",
+            "issued_credit": "100"
+          }
+        },
+        "book": {
+          "19": {
+            "AR": "0",
+            "issued_credit": "200"
+          },
+          "20": {
+            "AR": "0",
+            "issued_credit": "100"
+          }
+        }
+      }
+    },
+    {
+      "name": "sale_book_floor_bound",
+      "status": "MODEL_MATCHES_LITERAL_EXPECTED",
+      "components": [
+        {
+          "amount": "100",
+          "economic": 19,
+          "book": 20
+        }
+      ],
+      "profiles": {
+        "economic": {
+          "19": {
+            "AR": "0",
+            "issued_credit": "100"
+          },
+          "20": {
+            "AR": "0",
+            "issued_credit": "100"
+          }
+        },
+        "book": {
+          "19": {
+            "AR": "0",
+            "issued_credit": "0"
+          },
+          "20": {
+            "AR": "0",
+            "issued_credit": "100"
+          }
+        }
+      }
+    },
+    {
+      "name": "sale_book_floor_missing_refused",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "SOURCE_NET_BEFORE_SALE"
+    },
+    {
+      "name": "unpaid",
+      "status": "MODEL_MATCHES_LITERAL_EXPECTED",
+      "components": [],
+      "profiles": {
+        "economic": {
+          "19": {
+            "AR": "800",
+            "issued_credit": "0"
+          },
+          "20": {
+            "AR": "800",
+            "issued_credit": "0"
+          }
+        },
+        "book": {
+          "19": {
+            "AR": "800",
+            "issued_credit": "0"
+          },
+          "20": {
+            "AR": "800",
+            "issued_credit": "0"
+          }
+        }
+      }
+    },
+    {
+      "name": "exact_cents",
+      "status": "MODEL_MATCHES_LITERAL_EXPECTED",
+      "components": [
+        {
+          "amount": "100.01",
+          "economic": 19,
+          "book": 19
+        }
+      ],
+      "profiles": {
+        "economic": {
+          "19": {
+            "AR": "0",
+            "issued_credit": "100.01"
+          }
+        },
+        "book": {
+          "19": {
+            "AR": "0",
+            "issued_credit": "100.01"
+          }
+        }
+      }
+    }
+  ]
+}

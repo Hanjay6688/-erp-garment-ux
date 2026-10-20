@@ -5,6 +5,7 @@ import cp7_obligation_report_bundle as previous
 ROOT=previous.ROOT
 ROLES=previous.ROLES
 GRANTS={k:set(v)for k,v in previous.GRANTS.items()}
+GRANTS.setdefault('cp7_capture',set()).add('cp7_plan_native.after_snapshot(xid,timestamp with time zone,timestamp with time zone,pg_snapshot)')
 # The live recheck counts the plans of a target recorded after a snapshot: their recording time and row transaction.
 TABLE_GRANTS={**previous.TABLE_GRANTS,'cp7_capture':{**previous.TABLE_GRANTS['cp7_capture'],
  'cp7_plan_native.intents':'SELECT(id,target_key,cutting_group_id,recorded_at,xmin)'}}
@@ -42,6 +43,7 @@ def verify(cur):
  # explicit own-run capability, not inherited private capture-table rights.
  assert cur.execute("select has_schema_privilege('postgres','cp7_reminder_native','USAGE')and "
   "has_function_privilege('postgres','cp7_reminder_native.staged_authority(uuid,text[])','EXECUTE')").fetchone()[0]
+ assert cur.execute("select has_function_privilege('cp7_capture','cp7_plan_native.after_snapshot(xid,timestamp with time zone,timestamp with time zone,pg_snapshot)','EXECUTE')").fetchone()[0]
  for column in('id','target_key','cutting_group_id','recorded_at','xmin'):
   assert cur.execute("select has_column_privilege('cp7_capture','cp7_plan_native.intents',%s,'SELECT')",(column,)).fetchone()[0],column
  for column in('actor','core_hash','request_id','draft_id'):

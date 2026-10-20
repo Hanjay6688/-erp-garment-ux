@@ -1,0 +1,17 @@
+{
+  "scope": "ISOLATED_EXACT_AFTER_SNAPSHOT_ACL_ONLY",
+  "native_execution_proven": false,
+  "before": {
+    "schema_usage": true,
+    "intents_columns_select": true,
+    "helper_execute": false,
+    "empty_query": {"sqlstate": "42501", "message": "permission denied for function after_snapshot"},
+    "one_row_query": {"sqlstate": "42501", "message": "permission denied for function after_snapshot"}
+  },
+  "narrow_execute_control": {
+    "empty_query_count": "0",
+    "one_row_query_count": "1",
+    "capture_table_write": false,
+    "capture_writer_membership": false
+  }
+}

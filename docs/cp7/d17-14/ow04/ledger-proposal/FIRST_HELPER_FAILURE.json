@@ -1,0 +1,19 @@
+{
+  "scope": "ISOLATED_PROPOSAL_DDL_AND_SCALAR_HELPERS_ONLY",
+  "native_execution_proven": false,
+  "expected_sha256": "830998557a80d6d0287aa244be170b92661226f1d3cf62fc892c9b58794dadbd",
+  "source_sha256": {
+    "01_immutable_facts.proposal.sql": "0de114913f95c32893492876a0355e31ef5cf8c3cd7f11750c6ddd2ac55cb312",
+    "02_uuid_poster.proposal.sql": "19a1948cc09032d2524c392a333b12003f7553cc50ccb3c813e053698c933272"
+  },
+  "cases": [
+    {
+      "name": "01_immutable_facts.proposal.sql",
+      "status": "DDL_CREATED_WITHOUT_AUTHORITY_STUBS"
+    }
+  ],
+  "status": "FAIL",
+  "step": "02_uuid_poster.proposal.sql",
+  "message": "syntax error at end of input",
+  "code": "42601"
+}

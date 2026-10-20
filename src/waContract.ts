@@ -634,9 +634,15 @@ const disabledReason: Record<string, string> = {
 }
 export function waChip(wa: AlertWa | null): { label: string; tone: 'ok' | 'wait' | 'off' | 'bad' } {
   if (!wa) return { label: 'WA: belum tercatat', tone: 'off' }
+  if (wa.state === 'PENDING' || wa.state === 'HELD_QUIET') {
+    if (wa.reason === 'KIND_OFF') return { label: 'WA: ditahan, jenis dimatikan', tone: 'off' }
+    if (wa.reason && disabledReason[wa.reason]) return { label: disabledReason[wa.reason].replace('tidak dikirim', 'ditahan'), tone: 'off' }
+    if (wa.reason === 'REPEAT_OFF') return { label: 'WA: pengulangan dimatikan', tone: 'off' }
+    if (wa.reason === 'REPEAT_NOT_DUE') return { label: 'WA: menunggu jadwal pengulangan', tone: 'wait' }
+  }
   switch (wa.state) {
     case 'ACCEPTED': return { label: wa.round > 0 ? `WA: terkirim (ulangan ke-${wa.round})` : 'WA: terkirim', tone: 'ok' }
-    case 'PENDING': return { label: wa.reason ? 'WA: menunggu kirim ulang' : 'WA: menunggu', tone: 'wait' }
+    case 'PENDING': return { label: wa.round > 0 || ['OWNER_NOT_DELIVERED', 'PROVIDER_REFUSED', 'TRANSPORT_FAILED'].includes(wa.reason ?? '') ? 'WA: menunggu kirim ulang' : 'WA: menunggu', tone: 'wait' }
     case 'HELD_QUIET': return { label: 'WA: jam tenang', tone: 'wait' }
     case 'DISPATCHED': return { label: 'WA: sedang dikirim', tone: 'wait' }
     case 'UNKNOWN': return { label: 'WA: belum pasti', tone: 'bad' }

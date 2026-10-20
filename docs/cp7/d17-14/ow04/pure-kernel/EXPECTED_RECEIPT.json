@@ -1,0 +1,8 @@
+{
+  "phase": "EXPECTED_LITERALS_WRITTEN_BEFORE_SQL_OR_DRIVER_EXECUTION",
+  "file": "/workspace/scratch/9442228ed2dc/ow04-proposals/kernel/EXPECTED.json",
+  "sha256": "5d496a937c989cfc5d5b12aaa53b882ca0925c78901183840dc4e7fb68ba5841",
+  "planning_fixtures": 23,
+  "capacity_fixtures": 12,
+  "invalid_input_fixtures": 17
+}

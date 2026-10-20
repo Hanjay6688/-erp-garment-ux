@@ -123,6 +123,22 @@ function accessoryAlertsReply(extra: Record<string, unknown> = {}) {
   return reply
 }
 const accessoryRow = () => field<HTMLElement>(`[aria-label="Pengingat sistem ${ACCESSORY_TITLE}"]`)
+
+// OW01_UI_10..11: PAUSE_RESUME_UI_EXPECTED.md was written before execution.
+// Each case has a separate source subject and row identity, never a synthetic
+// click on an unavailable control. Keep all twenty review fields unchanged.
+function accessoryLifecycleReply(states: { caseId: string; wa: ReturnType<typeof waState> }[]) {
+  const reply = accessoryAlertsReply()
+  reply.rows = states.map(({ caseId, wa }, n) => {
+    const d = accessoryNeedDetail({ target_key: `${id(1001 + n)}:${id(1101 + n)}` })
+    return row(1201 + n, 'ACCESSORY_NEED', `${ACCESSORY_TITLE} · ${caseId}`, d, {
+      subject_key: `ACCESSORY_NEED:${d.target_key}:${d.category_key}`, wa,
+    })
+  })
+  return reply
+}
+const accessoryLifecycleRow = (caseId: string) => field<HTMLElement>(`[aria-label="Pengingat sistem ${ACCESSORY_TITLE} · ${caseId}"]`)
+
 const accessRefusal = (status: number) => ({ data: null, error: {
   status, code: status === 401 ? 'PGRST301' : '42501', message: 'Current source read refused', details: null, hint: null,
 } })
@@ -875,6 +891,83 @@ describe('Reminder tabs: Pengingat sistem and Sambungan WhatsApp (WA-4)', () => 
     await act(async () => { complete({ data: structuredClone(reply), error: null }) }); await settle()
     expect(reads).toBe(3)
     expectAccessoryFactsRetired(status)
+  })
+
+
+  it('OW01_UI_10_PAUSED_FIRST_NOTICE explains pauses in both waiting states and refreshes the same first notice without a resend claim', async () => {
+    const reasons = [
+      { reason: 'WA_OFF', label: 'WA: ditahan, WhatsApp mati' },
+      { reason: 'PHONE_MISSING', label: 'WA: ditahan, nomor belum diisi' },
+      { reason: 'KEY_MISSING', label: 'WA: ditahan, kunci belum ada' },
+      { reason: 'NOT_CONFIGURED', label: 'WA: ditahan, belum diatur' },
+      { reason: 'KIND_OFF', label: 'WA: ditahan, jenis dimatikan' },
+    ]
+    const cases = ['PENDING', 'HELD_QUIET'].flatMap(state => reasons.map(({ reason, label }) => ({
+      caseId: `${state}_${reason}`, state, label, wa: waState(state, { reason }),
+    })))
+    const reply = accessoryLifecycleReply(cases), before = structuredClone(reply.rows)
+    const fake = server({ alertsData: reply })
+    expect(() => parseSystemAlerts(reply, { owner: true })).not.toThrow()
+    await mount(); await tab('Pengingat sistem')
+    expect(panel(ACCESSORY_KIND_LABEL).querySelectorAll('li.csys-row')).toHaveLength(10)
+    for (const c of cases) {
+      const item = accessoryLifecycleRow(c.caseId), chip = item.querySelector('.csys-wa')
+      expect(chip?.textContent, c.caseId).toBe(c.label)
+      expect(chip?.classList.contains('off'), c.caseId).toBe(true)
+      expect(item.textContent, c.caseId).toContain('jumlah tambahan belum diketahui')
+      expect(item.textContent, c.caseId).toContain('kebutuhan BOM (perkiraan) 186 PCS')
+      expect(item.textContent, c.caseId).not.toMatch(/kirim ulang|WA: jam tenang|perlu dibeli|tambahan 0/)
+    }
+
+    // The server later reports that the pause is no longer applicable. Refresh
+    // the same public rows; no fresh episode, repeat or browser mutation occurs.
+    for (const item of reply.rows) item.wa = { ...(item.wa as ReturnType<typeof waState>), reason: null }
+    await click('Muat ulang pengingat sistem')
+    for (const [n, c] of cases.entries()) {
+      expect(reply.rows[n]).toMatchObject({ id: before[n].id, subject_key: before[n].subject_key, episode: 1, wa: { round: 0 } })
+      const chip = accessoryLifecycleRow(c.caseId).querySelector('.csys-wa')
+      expect(chip?.textContent, c.caseId).toBe(c.state === 'HELD_QUIET' ? 'WA: jam tenang' : 'WA: menunggu')
+      expect(chip?.classList.contains('wait'), c.caseId).toBe(true)
+      expect(accessoryLifecycleRow(c.caseId).textContent, c.caseId).not.toMatch(/WA: ditahan|kirim ulang/)
+    }
+    expect(calls(fake, 'erp_cp7_get_alerts_v1')).toHaveLength(2)
+    expect(fake.calls.some(([name]) => /erp_cp7_(save|set|send|resolve)_/.test(name))).toBe(false)
+  })
+
+  it('OW01_UI_11_REPEAT_WAIT_AND_DELIVERY_STATES distinguishes paused repeats, actual retries and authoritative delivery states', async () => {
+    const cases = [
+      ...['PENDING', 'HELD_QUIET'].flatMap(state => [
+        { caseId: `${state}_REPEAT_OFF`, wa: waState(state, { round: 1, reason: 'REPEAT_OFF' }), label: 'WA: pengulangan dimatikan', tone: 'off' },
+        { caseId: `${state}_REPEAT_NOT_DUE`, wa: waState(state, { round: 1, reason: 'REPEAT_NOT_DUE' }), label: 'WA: menunggu jadwal pengulangan', tone: 'wait' },
+      ]),
+      { caseId: 'FIRST_PENDING', wa: waState('PENDING'), label: 'WA: menunggu', tone: 'wait' },
+      { caseId: 'SOURCE_RECHECK_UNPROVEN', wa: waState('PENDING', { reason: 'RECHECK_UNKNOWN' }), label: 'WA: menunggu', tone: 'wait' },
+      { caseId: 'QUIET_CURRENT', wa: waState('HELD_QUIET'), label: 'WA: jam tenang', tone: 'wait' },
+      ...['PROVIDER_REFUSED', 'TRANSPORT_FAILED', 'OWNER_NOT_DELIVERED'].map(reason => ({
+        caseId: `ACTUAL_RETRY_${reason}`, wa: waState('PENDING', { reason }), label: 'WA: menunggu kirim ulang', tone: 'wait',
+      })),
+      { caseId: 'ORDINARY_REPEAT', wa: waState('PENDING', { round: 1 }), label: 'WA: menunggu kirim ulang', tone: 'wait' },
+      { caseId: 'ACCEPTED_FIRST', wa: waState('ACCEPTED', { reason: 'KIND_OFF', dispatch_id: 101, dispatch_status: 'PROVIDER_ACCEPTED', settled_at: NOW }), label: 'WA: terkirim', tone: 'ok' },
+      { caseId: 'ACCEPTED_REPEAT', wa: waState('ACCEPTED', { round: 1, reason: 'REPEAT_OFF', dispatch_id: 102, dispatch_status: 'PROVIDER_ACCEPTED', settled_at: NOW }), label: 'WA: terkirim (ulangan ke-1)', tone: 'ok' },
+      { caseId: 'UNKNOWN_REMAINS_UNKNOWN', wa: waState('UNKNOWN', { reason: 'WA_OFF', dispatch_id: 103, dispatch_status: 'UNKNOWN', settled_at: NOW }), label: 'WA: belum pasti', tone: 'bad' },
+      { caseId: 'DISPATCHED_REMAINS_IN_FLIGHT', wa: waState('DISPATCHED', { reason: 'KIND_OFF', dispatch_id: 104, dispatch_status: 'QUEUED' }), label: 'WA: sedang dikirim', tone: 'wait' },
+      { caseId: 'LEGACY_TERMINAL_KIND_OFF', wa: waState('KIND_OFF', { reason: 'KIND_OFF', settled_at: NOW }), label: 'WA: jenis dimatikan', tone: 'off' },
+      { caseId: 'LEGACY_TERMINAL_DISABLED', wa: waState('DISABLED', { reason: 'WA_OFF', settled_at: NOW }), label: 'WA: tidak dikirim, WhatsApp mati', tone: 'off' },
+    ]
+    const reply = accessoryLifecycleReply(cases), before = structuredClone(reply)
+    const fake = server({ alertsData: reply })
+    expect(() => parseSystemAlerts(reply, { owner: true })).not.toThrow()
+    await mount(); await tab('Pengingat sistem')
+    expect(panel(ACCESSORY_KIND_LABEL).querySelectorAll('li.csys-row')).toHaveLength(cases.length)
+    for (const c of cases) {
+      const item = accessoryLifecycleRow(c.caseId), chip = item.querySelector('.csys-wa')
+      expect(chip?.textContent, c.caseId).toBe(c.label)
+      expect(chip?.classList.contains(c.tone), c.caseId).toBe(true)
+      expect(item.textContent, c.caseId).toContain('jumlah tambahan belum diketahui')
+      expect(item.textContent, c.caseId).not.toMatch(/perlu dibeli|tambahan 0/)
+    }
+    expect(reply).toEqual(before)
+    expect(fake.calls.some(([name]) => /erp_cp7_(save|set|send|resolve)_/.test(name))).toBe(false)
   })
 
   it('shows the server refusal in words when the connection read is refused', async () => {

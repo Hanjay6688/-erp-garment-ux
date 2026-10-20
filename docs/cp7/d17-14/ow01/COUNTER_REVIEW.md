@@ -23,8 +23,24 @@ Bukti lokal baru: 58/58 parser+DOM, TypeScript, source/access/CSS, 71 fungsi PLp
 
 Run frontend luas pertama: 191 berkas lulus, 34 gagal; 1880 test lulus, 51 gagal, 30 skipped. Sebagian besar memerlukan PostgreSQL Native/non-root yang tidak tersedia di lingkungan ini. Satu kegagalan berbeda berasal dari gzip bukti lama yang belum dimaterialisasi oleh sparse checkout; file dikembalikan byte-identik dari HEAD dan test itu sendiri kemudian lulus. Tidak ada expected diubah dan tidak ada native-failure dinyatakan hijau lewat skip. Detail pertama disimpan di local-all-frontend-first.log.
 
+## Pemeriksaan silang berikutnya: lifecycle dan authority
+
+- Dua penilaian awal independen sama-sama membuktikan first notice terminal tidak kembali setelah opt-in. Tafsir awal satu pemeriksa bahwa itu disengaja ditarik setelah dibandingkan dengan D17-5/D17-14. Perbaikan hanya new ACCESSORY_NEED: pertahankan pending, bukan tulis ulang terminal history atau membuat repeat baru. Legacy tetap.
+- Pemeriksa lain menangkap repeat yang sudah antre lalu setting diubah0/interval diperpanjang. Ditambah current interval + exact predecessor ACCEPTED pada semua tahap instant; digest tetap terpisah. Model actual SQL mempertahankan kegagalan kausal kode6efd dan enam kontrol candidate lulus; bukan Native/provider.
+- UI review menangkap first-round provider-refused retry yang sempat berubah label; tiga alasan retry nyata dipertahankan. Dua DOM tambahan lulus bersama seluruh25 lama; baseline UI module lulus25/gagal2 baru. Root gabungan parser/DOM60 PASS.
+- Race review menangkap HELD_QUIET usang setelah quiet dimatikan; new-kind dinormalisasi PENDING setelah current settings/quiet gate. UNKNOWN/DISPATCHED/ACCEPTED tetap tidak diubah.
+- Current owner semula hanya dicek sebelum lock pada settings/key/test/resolve. Ditambah cek sesudah wait dan sebelum commit; cached resolve ikut row lock. Delapan kasus race dideklarasikan sebelum Native run, tidak diklaim sudah lulus.
+- Root sempat menyisipkan PERFORM di antara SELECT dan IF FOUND untuk resolve. Peer menunjukkan FOUND tertimpa; root mengganti dengan nullability primary key. Ini kesalahan patch writer yang dikoreksi sebelum dipush, bukan kegagalan lingkungan.
+- Root menduga helper outbox memakai item_episode, tetapi kedua peer menunjuk alias episode pada helper aktual; dugaan ditarik, expected tidak diganti.
+- Integration proposal agen sempat lupa IDS Python dan DECLARED, walau JSON diubah. Peer menangkapnya; root memakai import aktual untuk membandingkan exact IDS/count terhadap manifest, bukan percaya source-check proposal.
+- CI a106/run39446129227/job118708414268 mengonfirmasi42501 after_snapshot pada14 slot yang tersisa,63 PASS/14 INCOMPLETE; selector baru mencapai source check. Peer sudah mereproduksi dengan exact helper, termasuk tabel kosong, dan menemukan EXECUTE cp7_capture belum diberikan. Grant sempit + GRANTS manifest + verify assertion dipasang; tidak menghapus guard/expected. Seluruh bukti pertama tetap disimpan.
+
 Native77 (54 Native/9 race/5 HTTP/9 browser) dideklarasikan sebelum eksekusi; seluruh65 ID lama dipertahankan. Sampai receipt CI ditulis: Native baru, provider fake, browser asli, pemulihan, dan kecepatan perjalanan pengguna BELUM TERBUKTI. product_go/production_go tetap false; Enteng dan WA nyata tidak disentuh.
 
 ## Koreksi sesudah CI pertama
 
 Kandidat754f387a, WA run39440200668/job118687701608 attempt1 gagal pada verifier hak postgres, observed cases0. Summary asli+traceback dipertahankan di CI_39440200668_FIRST_FAILURE.json; full Original tetap pada artefak/run GitHub. Stack smoke job118687702412 lulus, tetapi tidak menguji helper aksesori. Tidak ada expected kasus yang diubah. Perbaikan helper dan verifier terikat dependency baru perlu Native ulang; bukan klaim masalah lingkungan atau sekadar menghapus assert.
+
+Final copied-file peer pins: pause f76d151d965f90db5e3c767e539dec7fb59cd2b4dcd34071537b6e6fac73c879; authority b502b80b0e8d8ef773f79636b46fb421a3932000b99f1ed93c1f5c3486731e24. Peer membaca ulang byte-identik dengan sumber proposal. Root import exact metadata86 lulus; registration-only membangun1+8closures tanpa database/case execution. UNKNOWN dan DIGEST punya subkasus baru, bukan diasumsikan tercakup oleh legacy. Root sempat menduga shared-copy TEST rate akan bentrok; runner modes.py175–194 ternyata membangun ulang setiap registered race. Dugaan ditarik, tidak ada limit produk atau timestamp TEST lama diubah. Hanya target UNKNOWN milik fixture sendiri di-age11menit dengan label.
+
+Sebagian raw log/patch/source snapshot mempunyai whitespace asli yang harus dipertahankan. File itu dikompresi byte-exact, bukan dibersihkan atau ditulis ulang. Manifest EXACT_RAW_EVIDENCE_GZIP.json mengunci path, jumlah byte dan SHA256 hasil dekompresi; gzip -dc memulihkan isi asli. Git text whitespace checks dapat berjalan tanpa menutupi kegagalan atau mengubah hasil pertama.

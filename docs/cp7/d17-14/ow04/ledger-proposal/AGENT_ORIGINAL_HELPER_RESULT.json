@@ -1,0 +1,146 @@
+{
+  "scope": "ISOLATED_PROPOSAL_DDL_AND_SCALAR_HELPERS_ONLY",
+  "native_execution_proven": false,
+  "expected_sha256": "73afc37ac89b1dac0793bb5c2054d218fdfd9e44d93932f95806e0ed86bf699e",
+  "source_sha256": {
+    "01_immutable_facts.proposal.sql": "62383030bf27b70c5c07f948c69329be6f8229c314097e7d3c02293cc8c929c6",
+    "02_uuid_poster.proposal.sql": "d9bfca1d97113e8aacfbb5f29d5dcb1d4d3cbdc5c950073943de1bd2d6be9728"
+  },
+  "cases": [
+    {
+      "name": "01_immutable_facts.proposal.sql",
+      "status": "DDL_CREATED_WITHOUT_AUTHORITY_STUBS"
+    },
+    {
+      "name": "02_uuid_poster.proposal.sql",
+      "status": "DDL_CREATED_WITHOUT_AUTHORITY_STUBS"
+    },
+    {
+      "name": "accept_cent_0",
+      "status": "PASS",
+      "observed": "0.00"
+    },
+    {
+      "name": "accept_cent_-0.01",
+      "status": "PASS",
+      "observed": "-0.01"
+    },
+    {
+      "name": "accept_cent_0.01",
+      "status": "PASS",
+      "observed": "0.01"
+    },
+    {
+      "name": "accept_cent_999999999999999999.99",
+      "status": "PASS",
+      "observed": "999999999999999999.99"
+    },
+    {
+      "name": "accept_cent_1999999999999999999.98",
+      "status": "PASS",
+      "observed": "1999999999999999999.98"
+    },
+    {
+      "name": "refuse_cent_0.001",
+      "status": "EXPECTED_REFUSAL",
+      "sqlstate": "23514"
+    },
+    {
+      "name": "refuse_cent_-0.001",
+      "status": "EXPECTED_REFUSAL",
+      "sqlstate": "23514"
+    },
+    {
+      "name": "refuse_cent_NaN",
+      "status": "EXPECTED_REFUSAL",
+      "sqlstate": "23514"
+    },
+    {
+      "name": "refuse_cent_Infinity",
+      "status": "EXPECTED_REFUSAL",
+      "sqlstate": "23514"
+    },
+    {
+      "name": "refuse_cent_-Infinity",
+      "status": "EXPECTED_REFUSAL",
+      "sqlstate": "23514"
+    },
+    {
+      "name": "native_typmod_counter",
+      "status": "COUNTER_CONFIRMED",
+      "observed": "0.00"
+    },
+    {
+      "name": "native_cent_hash_idempotence",
+      "status": "PASS"
+    },
+    {
+      "name": "positive_split",
+      "status": "PASS",
+      "observed": [
+        "999999999999999999.99",
+        "999999999999999999.99"
+      ]
+    },
+    {
+      "name": "negative_split",
+      "status": "PASS",
+      "observed": [
+        "-999999999999999999.99",
+        "-999999999999999999.99"
+      ]
+    },
+    {
+      "name": "component_uuid_only_signature",
+      "status": "PASS",
+      "signatures": [
+        "cp7_credit.post_component(uuid)"
+      ]
+    },
+    {
+      "name": "journal_protection_1",
+      "status": "PASS",
+      "observed": true
+    },
+    {
+      "name": "journal_protection_2",
+      "status": "PASS",
+      "observed": true
+    },
+    {
+      "name": "journal_protection_3",
+      "status": "PASS",
+      "observed": true
+    },
+    {
+      "name": "journal_protection_4",
+      "status": "PASS",
+      "observed": false
+    },
+    {
+      "name": "journal_protection_5",
+      "status": "PASS",
+      "observed": false
+    },
+    {
+      "name": "journal_protection_6",
+      "status": "PASS",
+      "observed": false
+    },
+    {
+      "name": "journal_protection_7",
+      "status": "PASS",
+      "observed": true
+    },
+    {
+      "name": "journal_protection_8",
+      "status": "PASS",
+      "observed": true
+    },
+    {
+      "name": "no_native_or_authority_writers",
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS"
+}

@@ -1,0 +1,31 @@
+{
+  "scope": "STATIC_RELEASE_TRANSFORM_ONLY",
+  "native_execution_proven": false,
+  "not_an_installer": true,
+  "results": [
+    {
+      "file": "/workspace/scratch/9442228ed2dc/erp-d1714/supabase/release/cp6-t3/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+      "function": "post_journal",
+      "raw_release_definition_sha256": "2ed9fff0b124833aa5db20b5869f07888d52bbffef76b928d0e095eb0f6155aa",
+      "raw_release_body_sha256": "325b0d433b6391f049f252604a4ffeabd3db7f26b943cef77394b5850cdd6f3d",
+      "transformed_body_sha256": "9072ded43dd75bbc167b4a86633f521cd7e64d0c5551a683acb325166799d333",
+      "duplicate_anchor_rejected": true
+    },
+    {
+      "file": "/workspace/scratch/9442228ed2dc/erp-d1714/supabase/release/cp6-t3/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql",
+      "function": "post_sales_return",
+      "raw_release_definition_sha256": "29c92d88c9b5da2debc2c66cbd1bf415308f8e69449b371c1f83e6438b2b9499",
+      "raw_release_body_sha256": "d498e7090e64f641f65f322e047edb8f179ace65d416fa16916d6083ae904848",
+      "transformed_body_sha256": "8db2b21cf86282a34a5bfaea3feb2080b23ab60dbeb8014c1999f092211cfc62",
+      "duplicate_anchor_rejected": true
+    },
+    {
+      "file": "/workspace/scratch/9442228ed2dc/erp-d1714/supabase/release/cp6-t3/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "function": "reverse_journal",
+      "raw_release_definition_sha256": "24407ec79902e2365a902bfa62e56884269f9de74787d9a5383466524f25ec41",
+      "raw_release_body_sha256": "4ef41fc502d938eda5f3e6588a61605292ca32799e2fd22db4c19d01297f1cd7",
+      "transformed_body_sha256": "302af73224a54af2d0f49b98a7dbe494e055717149e20e4a5b3d8e69939bff94",
+      "duplicate_anchor_rejected": true
+    }
+  ]
+}

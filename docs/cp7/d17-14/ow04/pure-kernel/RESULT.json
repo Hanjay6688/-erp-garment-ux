@@ -1,0 +1,988 @@
+{
+  "classification": "ISOLATED_PGLITE_PURE_ARITHMETIC_PROPOSAL",
+  "source_candidate": "754f387a04a6b81a8b750db24184444a41bec9df",
+  "native_executed": false,
+  "authoritative_source_collector_implemented": false,
+  "product_schema_modified": false,
+  "product_installer_provided": false,
+  "pglite_module": "/workspace/scratch/9442228ed2dc/sql-dev/node_modules/@electric-sql/pglite/dist/index.js",
+  "postgresql_version": "PostgreSQL 18.6 (PGlite 0.5.10) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.5 (1db513782be24469589d7cb8a1f1834e9a33f271), 32-bit",
+  "expected_sha256": "5d496a937c989cfc5d5b12aaa53b882ca0925c78901183840dc4e7fb68ba5841",
+  "sql_sha256": "f531f50d5a1c7ddc0a2f22f607be5ba0625a2e0388af3e7a4c6d129bf82e15fc",
+  "driver_sha256": "e427007312b4cf6cf7cf67d6319d048988472e74609f03e419f18f7bb9b84996",
+  "counts": {
+    "planning": 23,
+    "capacity": 12,
+    "invalid_inputs": 17,
+    "total": 57
+  },
+  "results": [
+    {
+      "name": "A_future_cash",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [
+        {
+          "amount": "200.00",
+          "corners": {
+            "d_here": "200.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "0.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-20",
+          "previous_economic_date": "2026-10-19",
+          "previous_transaction_date": "2026-10-19"
+        }
+      ],
+      "net_current_k": "200.00",
+      "has_recognition_effect": true
+    },
+    {
+      "name": "B_split_cash",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [
+        {
+          "amount": "100.00",
+          "corners": {
+            "d_here": "100.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "0.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-19",
+          "previous_economic_date": "2026-10-18",
+          "previous_transaction_date": "2026-10-18"
+        },
+        {
+          "amount": "100.00",
+          "corners": {
+            "d_here": "200.00",
+            "d_prev_both": "100.00",
+            "d_prev_economic": "100.00",
+            "d_prev_transaction": "100.00"
+          },
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-20",
+          "previous_economic_date": "2026-10-19",
+          "previous_transaction_date": "2026-10-19"
+        }
+      ],
+      "net_current_k": "200.00",
+      "has_recognition_effect": true
+    },
+    {
+      "name": "reopened_full",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [
+        {
+          "amount": "200.00",
+          "corners": {
+            "d_here": "200.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "0.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-20",
+          "previous_economic_date": "2026-10-18",
+          "previous_transaction_date": "2026-10-19"
+        }
+      ],
+      "net_current_k": "200.00",
+      "has_recognition_effect": true
+    },
+    {
+      "name": "reopened_split",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [
+        {
+          "amount": "100.00",
+          "corners": {
+            "d_here": "100.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "0.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-20",
+          "previous_economic_date": "2026-10-18",
+          "previous_transaction_date": "2026-10-19"
+        },
+        {
+          "amount": "100.00",
+          "corners": {
+            "d_here": "200.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "100.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-20",
+          "previous_economic_date": "2026-10-19",
+          "previous_transaction_date": "2026-10-19"
+        }
+      ],
+      "net_current_k": "200.00",
+      "has_recognition_effect": true
+    },
+    {
+      "name": "crossing_funding_book_order",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [
+        {
+          "amount": "200.00",
+          "corners": {
+            "d_here": "200.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "0.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-21",
+          "previous_economic_date": "2026-10-19",
+          "previous_transaction_date": "2026-10-20"
+        }
+      ],
+      "net_current_k": "200.00",
+      "has_recognition_effect": true
+    },
+    {
+      "name": "funding_reversal_already_recorded",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [
+        {
+          "amount": "200.00",
+          "corners": {
+            "d_here": "200.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "0.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-19",
+          "previous_economic_date": "2026-10-18",
+          "previous_transaction_date": "2026-10-18"
+        },
+        {
+          "amount": "-100.00",
+          "corners": {
+            "d_here": "100.00",
+            "d_prev_both": "200.00",
+            "d_prev_economic": "200.00",
+            "d_prev_transaction": "200.00"
+          },
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-20",
+          "previous_economic_date": "2026-10-19",
+          "previous_transaction_date": "2026-10-19"
+        }
+      ],
+      "net_current_k": "100.00",
+      "has_recognition_effect": true
+    },
+    {
+      "name": "sale_book_floor_bound",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [
+        {
+          "amount": "100.00",
+          "corners": {
+            "d_here": "100.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "0.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-20",
+          "previous_economic_date": "2026-10-18",
+          "previous_transaction_date": null
+        }
+      ],
+      "net_current_k": "100.00",
+      "has_recognition_effect": true
+    },
+    {
+      "name": "sale_book_floor_missing_refused",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "SOURCE_NET_BEFORE_SALE",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "crossing600_400_funding",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [
+        {
+          "amount": "200.00",
+          "corners": {
+            "d_here": "200.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "0.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-22",
+          "previous_economic_date": "2026-10-19",
+          "previous_transaction_date": "2026-10-20"
+        }
+      ],
+      "net_current_k": "200.00",
+      "has_recognition_effect": true
+    },
+    {
+      "name": "signed_without_reversals",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [
+        {
+          "amount": "200.00",
+          "corners": {
+            "d_here": "200.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "0.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-18",
+          "transaction_date": "2026-10-20",
+          "previous_economic_date": "2026-10-17",
+          "previous_transaction_date": "2026-10-19"
+        },
+        {
+          "amount": "200.00",
+          "corners": {
+            "d_here": "200.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "0.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-19",
+          "previous_economic_date": "2026-10-18",
+          "previous_transaction_date": "2026-10-17"
+        },
+        {
+          "amount": "-200.00",
+          "corners": {
+            "d_here": "200.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "200.00",
+            "d_prev_transaction": "200.00"
+          },
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-20",
+          "previous_economic_date": "2026-10-18",
+          "previous_transaction_date": "2026-10-19"
+        }
+      ],
+      "net_current_k": "200.00",
+      "has_recognition_effect": true
+    },
+    {
+      "name": "zero_current_nonempty_recognition",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [
+        {
+          "amount": "200.00",
+          "corners": {
+            "d_here": "200.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "0.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-19",
+          "previous_economic_date": "2026-10-18",
+          "previous_transaction_date": "2026-10-18"
+        },
+        {
+          "amount": "-200.00",
+          "corners": {
+            "d_here": "0.00",
+            "d_prev_both": "200.00",
+            "d_prev_economic": "200.00",
+            "d_prev_transaction": "200.00"
+          },
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-20",
+          "previous_economic_date": "2026-10-19",
+          "previous_transaction_date": "2026-10-19"
+        }
+      ],
+      "net_current_k": "0.00",
+      "has_recognition_effect": true
+    },
+    {
+      "name": "other_return_boundary",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [
+        {
+          "amount": "100.00",
+          "corners": {
+            "d_here": "100.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "0.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-19",
+          "previous_economic_date": "2026-10-18",
+          "previous_transaction_date": "2026-10-18"
+        },
+        {
+          "amount": "100.00",
+          "corners": {
+            "d_here": "200.00",
+            "d_prev_both": "100.00",
+            "d_prev_economic": "100.00",
+            "d_prev_transaction": "100.00"
+          },
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-20",
+          "previous_economic_date": "2026-10-19",
+          "previous_transaction_date": "2026-10-19"
+        }
+      ],
+      "net_current_k": "200.00",
+      "has_recognition_effect": true
+    },
+    {
+      "name": "cohort_joint_capacity",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [
+        {
+          "amount": "100.00",
+          "corners": {
+            "d_here": "100.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "0.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-19",
+          "previous_economic_date": "2026-10-18",
+          "previous_transaction_date": "2026-10-18"
+        },
+        {
+          "amount": "100.00",
+          "corners": {
+            "d_here": "200.00",
+            "d_prev_both": "100.00",
+            "d_prev_economic": "100.00",
+            "d_prev_transaction": "100.00"
+          },
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-22",
+          "previous_economic_date": "2026-10-19",
+          "previous_transaction_date": "2026-10-21"
+        },
+        {
+          "amount": "100.00",
+          "corners": {
+            "d_here": "200.00",
+            "d_prev_both": "100.00",
+            "d_prev_economic": "100.00",
+            "d_prev_transaction": "100.00"
+          },
+          "economic_date": "2026-10-21",
+          "transaction_date": "2026-10-21",
+          "previous_economic_date": "2026-10-20",
+          "previous_transaction_date": "2026-10-19"
+        },
+        {
+          "amount": "-100.00",
+          "corners": {
+            "d_here": "200.00",
+            "d_prev_both": "100.00",
+            "d_prev_economic": "200.00",
+            "d_prev_transaction": "200.00"
+          },
+          "economic_date": "2026-10-21",
+          "transaction_date": "2026-10-22",
+          "previous_economic_date": "2026-10-20",
+          "previous_transaction_date": "2026-10-21"
+        }
+      ],
+      "net_current_k": "200.00",
+      "has_recognition_effect": true
+    },
+    {
+      "name": "unpaid",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [],
+      "net_current_k": "0.00",
+      "has_recognition_effect": false
+    },
+    {
+      "name": "exact_cents",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [
+        {
+          "amount": "100.01",
+          "corners": {
+            "d_here": "100.01",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "0.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-19",
+          "previous_economic_date": "2026-10-18",
+          "previous_transaction_date": "2026-10-18"
+        }
+      ],
+      "net_current_k": "100.01",
+      "has_recognition_effect": true
+    },
+    {
+      "name": "empty_vectors",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [],
+      "net_current_k": "0.00",
+      "has_recognition_effect": false
+    },
+    {
+      "name": "compound_return_and_funding_inverse",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [
+        {
+          "amount": "200.00",
+          "corners": {
+            "d_here": "200.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "0.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-19",
+          "transaction_date": "2026-10-19",
+          "previous_economic_date": "2026-10-18",
+          "previous_transaction_date": "2026-10-18"
+        },
+        {
+          "amount": "-100.00",
+          "corners": {
+            "d_here": "100.00",
+            "d_prev_both": "200.00",
+            "d_prev_economic": "200.00",
+            "d_prev_transaction": "200.00"
+          },
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-20",
+          "previous_economic_date": "2026-10-19",
+          "previous_transaction_date": "2026-10-19"
+        }
+      ],
+      "net_current_k": "100.00",
+      "has_recognition_effect": true
+    },
+    {
+      "name": "negative_plan_from_return_inverse",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [
+        {
+          "amount": "-200.00",
+          "corners": {
+            "d_here": "-200.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "0.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-20",
+          "previous_economic_date": "2026-10-19",
+          "previous_transaction_date": "2026-10-19"
+        }
+      ],
+      "net_current_k": "-200.00",
+      "has_recognition_effect": true
+    },
+    {
+      "name": "compound_funding_replacement_no_transient_prefix_check",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [],
+      "net_current_k": "0.00",
+      "has_recognition_effect": false
+    },
+    {
+      "name": "adding_funding_changes_recognition",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_RAW_PREFIX_ORACLE",
+      "components": [
+        {
+          "amount": "100.00",
+          "corners": {
+            "d_here": "100.00",
+            "d_prev_both": "0.00",
+            "d_prev_economic": "0.00",
+            "d_prev_transaction": "0.00"
+          },
+          "economic_date": "2026-10-20",
+          "transaction_date": "2026-10-20",
+          "previous_economic_date": "2026-10-19",
+          "previous_transaction_date": "2026-10-19"
+        }
+      ],
+      "net_current_k": "100.00",
+      "has_recognition_effect": true
+    },
+    {
+      "name": "before_negative_net_cannot_be_repaired_by_added",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "SOURCE_NET_BEFORE_SALE",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "before_negative_funding_cannot_be_repaired_by_added",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "NEGATIVE_SOURCE_FUNDING",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "negative_funding_at_crossing_prefix",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "NEGATIVE_SOURCE_FUNDING",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "crossing_margins_do_not_establish_joint_credit",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_ORTHANT_ORACLE",
+      "observed": {
+        "economic_date": "2026-10-18",
+        "kernel_version": "ow04-2d-difference-v1",
+        "limiting_pairs": [
+          {
+            "economic_date": "2026-10-18",
+            "transaction_date": "2026-10-19"
+          }
+        ],
+        "current_balance": "200.00",
+        "contract_version": "ow04.pure-credit-capacity.v1",
+        "transaction_date": "2026-10-19",
+        "components_sha256": "98828b6a411bc3946c1e44073c233ef94329cbb85b1a0032cb8d0b4bb9155166",
+        "minimum_available": "0.00",
+        "consumptions_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "requested_pair_balance": "0.00",
+        "source_prefixes_nonnegative": true
+      }
+    },
+    {
+      "name": "first_crossing_support_can_be_spent",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_ORTHANT_ORACLE",
+      "observed": {
+        "economic_date": "2026-10-18",
+        "kernel_version": "ow04-2d-difference-v1",
+        "limiting_pairs": [
+          {
+            "economic_date": "2026-10-18",
+            "transaction_date": "2026-10-20"
+          },
+          {
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-20"
+          }
+        ],
+        "current_balance": "200.00",
+        "contract_version": "ow04.pure-credit-capacity.v1",
+        "transaction_date": "2026-10-20",
+        "components_sha256": "98828b6a411bc3946c1e44073c233ef94329cbb85b1a0032cb8d0b4bb9155166",
+        "minimum_available": "200.00",
+        "consumptions_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "requested_pair_balance": "200.00",
+        "source_prefixes_nonnegative": true
+      }
+    },
+    {
+      "name": "alternative_crossing_support_can_be_spent",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_ORTHANT_ORACLE",
+      "observed": {
+        "economic_date": "2026-10-19",
+        "kernel_version": "ow04-2d-difference-v1",
+        "limiting_pairs": [
+          {
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          },
+          {
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-20"
+          }
+        ],
+        "current_balance": "200.00",
+        "contract_version": "ow04.pure-credit-capacity.v1",
+        "transaction_date": "2026-10-19",
+        "components_sha256": "98828b6a411bc3946c1e44073c233ef94329cbb85b1a0032cb8d0b4bb9155166",
+        "minimum_available": "200.00",
+        "consumptions_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "requested_pair_balance": "200.00",
+        "source_prefixes_nonnegative": true
+      }
+    },
+    {
+      "name": "second_crossing_spend_blocked_at_future_joint_pair",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_ORTHANT_ORACLE",
+      "observed": {
+        "economic_date": "2026-10-19",
+        "kernel_version": "ow04-2d-difference-v1",
+        "limiting_pairs": [
+          {
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-20"
+          }
+        ],
+        "current_balance": "0.00",
+        "contract_version": "ow04.pure-credit-capacity.v1",
+        "transaction_date": "2026-10-19",
+        "components_sha256": "98828b6a411bc3946c1e44073c233ef94329cbb85b1a0032cb8d0b4bb9155166",
+        "minimum_available": "0.00",
+        "consumptions_sha256": "d060854c23ed409a026d3deb6d7cd6438c2e013a6b90ebfde462054eff1b5a8c",
+        "requested_pair_balance": "200.00",
+        "source_prefixes_nonnegative": true
+      }
+    },
+    {
+      "name": "historical_positive_zero_current_cannot_be_spent",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_ORTHANT_ORACLE",
+      "observed": {
+        "economic_date": "2026-10-19",
+        "kernel_version": "ow04-2d-difference-v1",
+        "limiting_pairs": [
+          {
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ],
+        "current_balance": "0.00",
+        "contract_version": "ow04.pure-credit-capacity.v1",
+        "transaction_date": "2026-10-19",
+        "components_sha256": "e8f5da8698bce892d9b50fa3998726b084f8175acc936ce47c5dbead5d82352a",
+        "minimum_available": "0.00",
+        "consumptions_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "requested_pair_balance": "200.00",
+        "source_prefixes_nonnegative": true
+      }
+    },
+    {
+      "name": "restored_current_not_available_through_intervening_use",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_ORTHANT_ORACLE",
+      "observed": {
+        "economic_date": "2026-10-19",
+        "kernel_version": "ow04-2d-difference-v1",
+        "limiting_pairs": [
+          {
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          },
+          {
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-21"
+          },
+          {
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-20"
+          }
+        ],
+        "current_balance": "100.00",
+        "contract_version": "ow04.pure-credit-capacity.v1",
+        "transaction_date": "2026-10-19",
+        "components_sha256": "cbfdbf2b1dc614bf4a9b94ba8ccb891d25d4f4c51b8675c4b687599059e8824a",
+        "minimum_available": "0.00",
+        "consumptions_sha256": "98890b7d201c2e6f2c9ea4414f08b028c9fd56a88c23426df9395340d6971ab6",
+        "requested_pair_balance": "100.00",
+        "source_prefixes_nonnegative": true
+      }
+    },
+    {
+      "name": "later_consumption_inverse_restores_capacity",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_ORTHANT_ORACLE",
+      "observed": {
+        "economic_date": "2026-10-21",
+        "kernel_version": "ow04-2d-difference-v1",
+        "limiting_pairs": [
+          {
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          }
+        ],
+        "current_balance": "100.00",
+        "contract_version": "ow04.pure-credit-capacity.v1",
+        "transaction_date": "2026-10-21",
+        "components_sha256": "cbfdbf2b1dc614bf4a9b94ba8ccb891d25d4f4c51b8675c4b687599059e8824a",
+        "minimum_available": "100.00",
+        "consumptions_sha256": "98890b7d201c2e6f2c9ea4414f08b028c9fd56a88c23426df9395340d6971ab6",
+        "requested_pair_balance": "100.00",
+        "source_prefixes_nonnegative": true
+      }
+    },
+    {
+      "name": "cohort_current_and_margins_cannot_replace_joint_minimum",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_ORTHANT_ORACLE",
+      "observed": {
+        "economic_date": "2026-10-20",
+        "kernel_version": "ow04-2d-difference-v1",
+        "limiting_pairs": [
+          {
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-21"
+          }
+        ],
+        "current_balance": "200.00",
+        "contract_version": "ow04.pure-credit-capacity.v1",
+        "transaction_date": "2026-10-21",
+        "components_sha256": "509dd756ff3fca7bd9f5c1dfaa020ee7cdcb4422238c332db9a17a8250011d25",
+        "minimum_available": "100.00",
+        "consumptions_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "requested_pair_balance": "100.00",
+        "source_prefixes_nonnegative": true
+      }
+    },
+    {
+      "name": "negative_credit_preserved_without_clamping",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_ORTHANT_ORACLE",
+      "observed": {
+        "economic_date": "2026-10-19",
+        "kernel_version": "ow04-2d-difference-v1",
+        "limiting_pairs": [
+          {
+            "economic_date": "2026-10-20",
+            "transaction_date": "2026-10-20"
+          }
+        ],
+        "current_balance": "-100.00",
+        "contract_version": "ow04.pure-credit-capacity.v1",
+        "transaction_date": "2026-10-19",
+        "components_sha256": "cd4c8988bb80b215cd87fadaf7770336ebf22374974f75fb4918953b6bd845a9",
+        "minimum_available": "-100.00",
+        "consumptions_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "requested_pair_balance": "100.00",
+        "source_prefixes_nonnegative": false
+      }
+    },
+    {
+      "name": "unbound_inverse_is_not_proven_by_arithmetic_prefix_flag",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_ORTHANT_ORACLE",
+      "observed": {
+        "economic_date": "2026-10-21",
+        "kernel_version": "ow04-2d-difference-v1",
+        "limiting_pairs": [
+          {
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          }
+        ],
+        "current_balance": "100.00",
+        "contract_version": "ow04.pure-credit-capacity.v1",
+        "transaction_date": "2026-10-21",
+        "components_sha256": "0fdca76173b2f68f1ba575776104d94e4ac71b7707a2f201be6de8fd66c2c42a",
+        "minimum_available": "100.00",
+        "consumptions_sha256": "cb84d07abaf863b63743311bfa6d0ee2698f15e087931855f0436bce2eb7c1bf",
+        "requested_pair_balance": "100.00",
+        "source_prefixes_nonnegative": true
+      }
+    },
+    {
+      "name": "empty_movement_vectors",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_ORTHANT_ORACLE",
+      "observed": {
+        "economic_date": "2026-10-19",
+        "kernel_version": "ow04-2d-difference-v1",
+        "limiting_pairs": [
+          {
+            "economic_date": "2026-10-19",
+            "transaction_date": "2026-10-19"
+          }
+        ],
+        "current_balance": "0.00",
+        "contract_version": "ow04.pure-credit-capacity.v1",
+        "transaction_date": "2026-10-19",
+        "components_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "minimum_available": "0.00",
+        "consumptions_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "requested_pair_balance": "0.00",
+        "source_prefixes_nonnegative": true
+      }
+    },
+    {
+      "name": "earlier_negative_balance_flag_survives_later_recovery",
+      "status": "MATCHES_LITERAL_EXPECTED_AND_ORTHANT_ORACLE",
+      "observed": {
+        "economic_date": "2026-10-21",
+        "kernel_version": "ow04-2d-difference-v1",
+        "limiting_pairs": [
+          {
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21"
+          }
+        ],
+        "current_balance": "100.00",
+        "contract_version": "ow04.pure-credit-capacity.v1",
+        "transaction_date": "2026-10-21",
+        "components_sha256": "28b2a28405f1fd4357a3f0603249d2175b8b0b8e814d7eaed747bfde86ca98f8",
+        "minimum_available": "100.00",
+        "consumptions_sha256": "b856691651268fd1fd26a10a25493cd71453425a2c146485a18591dcf30c2f8a",
+        "requested_pair_balance": "100.00",
+        "source_prefixes_nonnegative": false
+      }
+    },
+    {
+      "name": "fractional_cent",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "EXACT_CENTS_REQUIRED",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "json_number_money",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "EXACT_CENTS_REQUIRED",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "money_exponent",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "EXACT_CENTS_REQUIRED",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "money_nan",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "EXACT_CENTS_REQUIRED",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "money_infinity",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "EXACT_CENTS_REQUIRED",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "noncanonical_date",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "CANONICAL_DATE_REQUIRED",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "invalid_calendar_date",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "CANONICAL_DATE_REQUIRED",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "year_zero",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "CANONICAL_DATE_REQUIRED",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "book_before_economic",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "BOOK_BEFORE_ECONOMIC",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "invalid_kind",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "SOURCE_KIND_REQUIRED",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "bad_source_hash",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "SOURCE_SHA256_REQUIRED",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "blank_id",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "EVENT_ID_REQUIRED",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "extra_source_key",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "SOURCE_EVENT_FIELDS_REQUIRED",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "duplicate_before_id",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "DUPLICATE_EVENT_ID",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "duplicate_added_id",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "DUPLICATE_EVENT_ID",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "before_not_array",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "SOURCE_EVENT_ARRAY_REQUIRED",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "added_null",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "SOURCE_EVENT_ARRAY_REQUIRED",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "normalization_hash_dependency_and_immutability_controls",
+      "status": "PASS",
+      "audited_functions": [
+        {
+          "proname": "canonical_date_v1",
+          "provolatile": "i",
+          "prosecdef": false
+        },
+        {
+          "proname": "credit_capacity_v1",
+          "provolatile": "i",
+          "prosecdef": false
+        },
+        {
+          "proname": "exact_amount_v1",
+          "provolatile": "i",
+          "prosecdef": false
+        },
+        {
+          "proname": "normalize_events_v1",
+          "provolatile": "i",
+          "prosecdef": false
+        },
+        {
+          "proname": "recognition_plan_v1",
+          "provolatile": "i",
+          "prosecdef": false
+        },
+        {
+          "proname": "vector_sha256_v1",
+          "provolatile": "i",
+          "prosecdef": false
+        }
+      ],
+      "arbitrary_precision_cent_control": "0.01"
+    },
+    {
+      "name": "duplicate_movement_across_roles",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "DUPLICATE_EVENT_ID",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "capacity_fractional_cent",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "EXACT_CENTS_REQUIRED",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "capacity_pair_book_before_economic",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "BOOK_BEFORE_ECONOMIC",
+      "sqlstate": "22023"
+    },
+    {
+      "name": "capacity_invalid_requested_date",
+      "status": "EXPECTED_REFUSAL",
+      "reason": "CANONICAL_DATE_REQUIRED",
+      "sqlstate": "22023"
+    }
+  ]
+}
