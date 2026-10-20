@@ -45,7 +45,11 @@ laporan r5 di `CROSS_AUDIT.md`. Paket ini satu kandidat untuk ketiga auditor, da
   Benchmark, Aksesori & Harga Mandor).
 - **`CI_RECEIPT.json`:** MENUNGGU — dibuat dengan `scripts/cp7_ci_receipt.py` sesudah semua run selesai.
 - **Run merah:** MENUNGGU — `RED_RUNS_VS_R6.json`.
-- **Kasus CP17:** MENUNGGU.
+- **Kasus CP17:** run 39385547471, job 118504391137: 345 kasus yang dideklarasikan PASS (Native 165, race 39, HTTP 27,
+  browser 57, browser build Enteng 57). Di grup build Enteng 1.377 permintaan ke alamat proyek Enteng dijawab API lokal
+  runner; 1 jawaban tidak sampai karena halamannya sudah ditutup saat kasus selesai ("Request context disposed"; r4: 2, r5: 0,
+  `b1649535`: 1, `3b7bb381`: 5): satu bacaan `erp_cp7_get_material_transfers_v1`. Ke-57 kasus tetap PASS. Suite CP17 tidak
+  memasang modul stok minimum; modul dipasang bersama seluruh lapisan CP7 saat CP7C.
 - **Kasus WA dan stok minimum:** MENUNGGU (58 kasus yang dideklarasikan: Native 41, termasuk 22 kasus `SS1_*`/`SS2_*`/`SS3_*`;
   race 6; HTTP 4; browser 7).
 - **P19 pada `3b7bb381` (riwayat):** run 39368267401 percobaan pertama: job p19-scale5 INCOMPLETE pada

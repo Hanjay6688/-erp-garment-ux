@@ -53,7 +53,7 @@ YANG DIUJI ULANG (temuanmu → klaim penulis; uji dengan kasusmu sendiri, angka 
   savepoint yang dibatalkan, jadi panggilan bersarang memakai grafik lama; (3) nilai buku persis di kedua grafik: PO 120/0/0
   → 96/24/0 → 108/12/0, siklus +24/−12, NULL untuk jurnal yang tidak ada, jawaban banyak baris dan kosong; (4) satu PREPARE
   manual lintas ganti pemetaan FG_INVENTORY dengan auto-prepare mati: 120 → 0 → 120; (5) ke-167 keluaran detektor disimpan
-  per fase di kontrol. CP17 run CP17RUN_PENDING pada kandidat 55c885d1: 345 kasus PASS. Ulangi dengan oracle-mu sendiri; nilai yang kamu harapkan tidak diganti.
+  per fase di kontrol. CP17 run 39385547471 pada kandidat 55c885d1: 345 kasus PASS. Ulangi dengan oracle-mu sendiri; nilai yang kamu harapkan tidak diganti.
 
 JUGA PERIKSA (bukan temuanmu, dan regresi di sekitarnya)
 - R6-02 (owner D17-3..D17-7) Pengingat sistem dan penerusan ke WhatsApp owner lewat CallMeBot: modul CP7 baru

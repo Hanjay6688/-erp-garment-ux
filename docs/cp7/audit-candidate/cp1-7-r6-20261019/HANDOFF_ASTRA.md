@@ -57,7 +57,7 @@ JUGA PERIKSA (bukan temuanmu, dan regresi di sekitarnya)
   savepoint yang dibatalkan, jadi panggilan bersarang memakai grafik lama; (3) nilai buku persis di kedua grafik: PO 120/0/0
   → 96/24/0 → 108/12/0, siklus +24/−12, NULL untuk jurnal yang tidak ada, jawaban banyak baris dan kosong; (4) satu PREPARE
   manual lintas ganti pemetaan FG_INVENTORY dengan auto-prepare mati: 120 → 0 → 120; (5) ke-167 keluaran detektor disimpan
-  per fase di kontrol. CP17 run CP17RUN_PENDING pada kandidat 55c885d1: 345 kasus PASS.
+  per fase di kontrol. CP17 run 39385547471 pada kandidat 55c885d1: 345 kasus PASS.
 - R6-02 (owner D17-3..D17-7) Pengingat sistem dan penerusan ke WhatsApp owner lewat CallMeBot: modul CP7 baru
   cp7_alert_native (scripts/cp7-src/alerts/alerts.sql, pemasang scripts/cp7_alert_bundle.py, desain
   docs/cp7/WA_CALLMEBOT_DESIGN_20261019.md) dan layar Reminder tab Pengingat sistem dan Sambungan WhatsApp (src/waContract.ts,
