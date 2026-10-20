@@ -1,0 +1,22 @@
+{
+  "candidate_commit": "c0a63312db57627ea029008c2f5ab6e4027e0d87",
+  "run_id": 39468743267,
+  "job_id": 118786907826,
+  "status": "INCOMPLETE",
+  "observed_native_cases": 0,
+  "classification": "TEST_ENVIRONMENT_MISSING_PINNED_DEPENDENCY",
+  "error": "ModuleNotFoundError: No module named 'jsonschema'",
+  "expected_not_changed": true,
+  "product_changed_for_fix": false,
+  "fix": "Use existing F05/P19 pin jsonschema==4.25.1; import entire actual new qualifier before rebuilding disposable database.",
+  "first_failure_excerpt": [
+    "2026-10-20T17:48:51.3609369Z ##[group]Run python '../auditor/scripts/cp7_ow04_probe.py'",
+    "2026-10-20T17:48:51.3609753Z \u001b[36;1mpython '../auditor/scripts/cp7_ow04_probe.py'\u001b[0m",
+    "2026-10-20T17:48:51.7795028Z Traceback (most recent call last):",
+    "2026-10-20T17:48:51.7795808Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_ow04_probe.py\", line 15, in <module>",
+    "2026-10-20T17:48:51.7797237Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 14, in <module>",
+    "2026-10-20T17:48:51.7798346Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_analysis_cases.py\", line 11, in <module>",
+    "2026-10-20T17:48:51.7800513Z ModuleNotFoundError: No module named 'jsonschema'"
+  ],
+  "production_go": false
+}
