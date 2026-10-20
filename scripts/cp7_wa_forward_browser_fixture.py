@@ -12,6 +12,11 @@ state     read back: the latest settings row, whether the Vault key equals the o
           never printed), dispatches, alerts with their outbox state, the fake server's requests after an index, and the
           kinds a user may read (the permissions of the source screens).
 restore   the pg_net worker back to its default database.
+fg        SS-1 (owner D17-8, D17-9): one new finished good whose free stock is at or under its formula reorder point, made
+          with the Native commands of cp7_stock_formula_cases (stock found at opname, PATTERN sold and posted over the 30
+          complete WIB days before today, planning profile lead time 7 days): its ids, label, the oracle's point and its
+          free stock. Today is the copy's WIB date.
+fg_state  read back: the item's evaluation row (to_jsonb of cp7_stock_formula.evaluations) and its latest manual point row.
 The answer on stdout is JSON only; nothing else is printed, and no key appears in it."""
 from contextlib import redirect_stdout
 from urllib.parse import urlparse
@@ -22,6 +27,7 @@ import time
 
 import psycopg
 
+import cp7_stock_formula_cases as formula
 import cp7_wa_forward_cases as wa
 
 RESET_ORDER = ('dispatch_items', 'outbox', 'dispatches', 'alerts', 'key_events', 'source_state', 'ticks', 'analysis_runs',
@@ -134,6 +140,41 @@ def main():
                             alerts=[dict(kind=a[0], subject=a[1], title=a[2], state=a[3], outbox=a[4]) for a in al], visible=vis)
             out = committed(target, state)
             out['fake'] = wa.fake_log()[int(p.get('after', 0)):]
+        elif op == 'fg':
+            def fg(cur):
+                today = cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
+                stock = int(p.get('stock', 140))
+
+                def made():
+                    f = formula.item(cur, today, stock)
+                    formula.sell_days(cur, f, today, formula.PATTERN)
+                    formula.profile(cur, f, lead_days=7)
+                    return f
+                f = with_erp_usage(cur, made)
+                # The oracle uses the settings in force on the copy (none saved: 95% and 30 days). PATTERN covers the 30 days
+                # before today; a shorter window reads only its last days, with the stock left before them.
+                s = cur.execute('select cp7_stock_formula.current_settings()').fetchone()[0]
+                window, cut = int(s['window_days']), 30 - int(s['window_days'])
+                assert 14 <= window <= 30, ('WAF_FG_FIXTURE_WINDOW_OVER_30', s)
+                o = formula.oracle(stock - sum(formula.PATTERN[:cut]), formula.PATTERN[cut:], today, window=window, lead=7, level=s['service_level'])
+                free = stock - sum(formula.PATTERN)
+                assert o['basis'] == 'FORMULA' and free <= o['point'], ('WAF_FG_FIXTURE_NOT_AT_OR_UNDER', free, o)
+                wa.b.api.admin(cur)
+                name, size = cur.execute('select p.product_name::text,s.size_code::text from erp.products p join erp.sizes s on s.id=p.size_id where p.id=%s',
+                                         (f['product'],)).fetchone()
+                return dict(product_id=f['product'], root_id=f['product'], size_id=f['size'], sku=f['sku'], target_key=f['target'], product_name=name,
+                            size_code=size, label=name + ' ' + size, point=o['point'], free=free, today=str(today), label_note='TEST_FIXTURE SS-1')
+            out = committed(target, fg)
+        elif op == 'fg_state':
+            def fg_state(cur):
+                wa.b.api.admin(cur)
+                key = str(p['target_key'])
+                e = cur.execute('select to_jsonb(e) from cp7_stock_formula.evaluations e where e.target_key=%s', (key,)).fetchone()
+                m = cur.execute('select revision,reorder_point_pcs,reason from cp7_stock_formula.manual_points where root_id=%s order by revision desc limit 1',
+                                (key.split(':')[0],)).fetchone()
+                return dict(evaluation=None if e is None else e[0],
+                            manual=None if m is None else dict(revision=m[0], reorder_point_pcs=m[1], reason=m[2]))
+            out = committed(target, fg_state)
         elif op == 'restore':
             worker(target, None)
             out = dict(worker='default')

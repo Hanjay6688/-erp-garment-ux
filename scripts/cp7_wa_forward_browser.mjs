@@ -15,8 +15,9 @@ const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_
 const PHONE='+620000000000',KEY='FAKEKEY-WA3B'
 const OWNER_RPCS=['erp_cp7_get_wa_settings_v1','erp_cp7_save_wa_settings_v1','erp_cp7_set_wa_key_v1','erp_cp7_send_wa_test_v1','erp_cp7_resolve_wa_dispatch_v1']
 const RPCS=['erp_cp7_get_alerts_v1',...OWNER_RPCS]
-const KIND_LABEL={FABRIC_BELOW_MINIMUM:'Stok kain di bawah minimum',AR_DUE:'Piutang pelanggan jatuh tempo',AP_DUE:'Tagihan supplier jatuh tempo',
- PRODUCTION_GAP:'Kekurangan produksi (dari analisis)',FABRIC_NEED:'Kain perlu dibeli (dari analisis)'}
+// SS-1: the server shows FG_AT_REORDER_POINT to every account with warehouse.fg.view, so the admin case needs its group name.
+const KIND_LABEL={FABRIC_BELOW_MINIMUM:'Stok kain di bawah minimum',FG_AT_REORDER_POINT:'Stok barang jadi menipis',AR_DUE:'Piutang pelanggan jatuh tempo',
+ AP_DUE:'Tagihan supplier jatuh tempo',PRODUCTION_GAP:'Kekurangan produksi (dari analisis)',FABRIC_NEED:'Kain perlu dibeli (dari analisis)'}
 async function openSidebar(page){const open=page.getByRole('button',{name:'Buka menu',exact:true});if(await open.isVisible())await open.click()}
 async function openReminders(ui,page){
  await openSidebar(page)
@@ -26,10 +27,10 @@ async function openReminders(ui,page){
 }
 async function shot(ui,page,name){await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'cp6-proof/t3/'+name,fullPage:true});return name}
 // Every request to the module's public functions (body as sent) and every answer (status and text), in order.
-function watch(page){
+function watch(page,names=RPCS){
  const sent=[],answers=[]
- page.on('request',r=>{const name=RPCS.find(n=>r.url().endsWith('/rpc/'+n));if(name)sent.push({name,body:r.postData()??''})})
- page.on('response',r=>{const name=RPCS.find(n=>r.url().endsWith('/rpc/'+n));if(name)answers.push({name,status:r.status(),text:r.text().catch(()=>'')})})
+ page.on('request',r=>{const name=names.find(n=>r.url().endsWith('/rpc/'+n));if(name)sent.push({name,body:r.postData()??''})})
+ page.on('response',r=>{const name=names.find(n=>r.url().endsWith('/rpc/'+n));if(name)answers.push({name,status:r.status(),text:r.text().catch(()=>'')})})
  const texts=async()=>{for(const a of answers)if(typeof a.text!=='string')a.text=await a.text;return answers}
  return{sent,answers,texts}
 }
@@ -162,7 +163,95 @@ async function adminJourney(ui){
  }catch(e){await page.screenshot({path:'cp6-proof/t3/WAF_ADMIN_FAILURE.png',fullPage:true}).catch(()=>{});throw e}
  finally{try{fixture('restore',{})}catch{/* the case already failed; the copy is dropped after the run */}await user.context.close()}
 }
+// SS-1 (owner D17-8, D17-9): Titik pesan ulang on Ringkasan Barang Jadi, real UI, Auth and PostgREST on the browser copy. The
+// fixture makes one finished good at or under its formula point with the Native commands (cp7_stock_formula_cases: stock
+// found at opname, PATTERN sold and posted, profile lead time 7 days); the owner presses "Hitung sekarang", finds it by SKU,
+// sees "Perlu produksi" with the fixture's free stock and the oracle's point, sets a manual point one under the free stock
+// (the item becomes "Aman"; the evaluation says MANUAL at manual revision 1), then removes it (the formula point again,
+// revision 2). Desktop 1440 px and phone 390 px, no horizontal page scroll.
+const FG_RPCS=['erp_cp7_get_fg_reorder_v1','erp_cp7_refresh_fg_reorder_v1','erp_cp7_save_fg_reorder_manual_v1','erp_cp7_save_stock_formula_settings_v1']
+const whole=n=>new Intl.NumberFormat('id-ID').format(n),pcs=n=>whole(n)+' pcs'
+async function openFgSummary(ui,page){
+ await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).waitFor({state:'attached'})
+ await openSidebar(page)
+ const link=page.getByRole('button',{name:'• Ringkasan Barang Jadi',exact:true})
+ if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).click()
+ await link.click();await ui.expect(page.getByRole('heading',{name:'Barang jadi',exact:true})).toBeVisible()
+}
+const noScroll=(ui,page)=>ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
+async function fgReorderJourney(ui,mobile){
+ const suffix=mobile?'MOBILE':'DESKTOP',shots=[],reason='WAF FG browser '+suffix.toLowerCase()
+ const item=fixture('fg',{stock:140})
+ assert.ok(Number.isInteger(item.point)&&Number.isInteger(item.free)&&item.free>=2&&item.free<=item.point,JSON.stringify(item))
+ const manual=item.free-1
+ const user=await ui.login('OWNER',{label:'waf-fg-'+suffix.toLowerCase(),mobile}),page=user.page,w=watch(page,FG_RPCS)
+ let panel=null
+ try{
+  mkdirSync('cp6-proof/t3',{recursive:true})
+  await openFgSummary(ui,page)
+  panel=page.getByRole('region',{name:'Titik pesan ulang',exact:true})
+  await ui.expect(panel.getByRole('heading',{name:'Titik pesan ulang (safety stock)',exact:true})).toBeVisible()
+  // Hitung sekarang: the server evaluates every item now, then the list is read again.
+  await panel.getByRole('button',{name:'Hitung sekarang',exact:true}).click()
+  await ui.expect(panel.getByRole('status').filter({hasText:'Selesai dihitung '})).toBeVisible()
+  await ui.expect(panel.locator('.cfr-run').first()).toContainText(/Dihitung \d/)
+  await panel.getByLabel('Cari barang untuk titik pesan ulang',{exact:true}).fill(item.sku)
+  await panel.getByRole('button',{name:'Cari',exact:true}).click()
+  const row=panel.getByRole('article',{name:`Titik pesan ulang ${item.label} (SKU ${item.sku})`,exact:true})
+  const chip=row.locator('.cfr-chip'),free=row.locator('[data-cfr="free"]'),point=row.locator('[data-cfr="point"]')
+  await ui.expect(row).toBeVisible()
+  await ui.expect(chip).toHaveText('Perlu produksi');await ui.expect(free).toHaveText(pcs(item.free));await ui.expect(point).toHaveText(pcs(item.point))
+  await ui.expect(row.locator('[data-cfr="wip"]')).toHaveText('0 pcs')
+  await ui.expect(row.getByText('Asal angka: rumus',{exact:true})).toBeVisible()
+  await row.getByText('Rincian rumus',{exact:true}).click()
+  await ui.expect(row.locator('.cfr-formula')).toContainText('Lama produksi: 7 hari (dari profil perencanaan).')
+  await ui.expect(row.locator('.cfr-formula')).toContainText(`dibulatkan ke atas = ${pcs(item.point)}.`)
+  if(mobile)await noScroll(ui,page)
+  shots.push(await shot(ui,page,`WAF_FG_${suffix}_AT_OR_BELOW.png`))
+  // A manual point one under the free stock: the item is no longer at or under its point.
+  await row.getByRole('button',{name:'Atur angka manual',exact:true}).click()
+  const form=row.getByRole('group',{name:'Angka manual',exact:true})
+  await form.getByLabel('Titik pesan ulang manual (pcs)',{exact:true}).fill(String(manual))
+  await form.getByLabel('Alasan angka manual',{exact:true}).fill(reason)
+  if(mobile)await noScroll(ui,page)
+  await form.getByRole('button',{name:'Simpan angka manual',exact:true}).click()
+  await ui.expect(row.getByRole('status').filter({hasText:`Angka manual tersimpan: ${whole(manual)} pcs`})).toBeVisible()
+  await ui.expect(chip).toHaveText('Aman');await ui.expect(point).toHaveText(pcs(manual))
+  await ui.expect(row.getByText(`Asal angka: angka manual (rumus: ${whole(item.point)})`,{exact:true})).toBeVisible()
+  let st=fixture('fg_state',{target_key:item.target_key})
+  assert.deepEqual([st.evaluation.basis,st.evaluation.point,st.evaluation.manual_point,st.evaluation.formula_point,st.evaluation.state,st.manual.revision,
+   st.manual.reorder_point_pcs,st.manual.reason],['MANUAL',manual,manual,item.point,'ABOVE',1,manual,reason],JSON.stringify(st))
+  if(mobile)await noScroll(ui,page)
+  shots.push(await shot(ui,page,`WAF_FG_${suffix}_MANUAL.png`))
+  // Removed: the formula's point again.
+  await row.getByRole('button',{name:'Atur angka manual',exact:true}).click()
+  await form.getByLabel('Alasan angka manual',{exact:true}).fill(reason+' selesai')
+  await form.getByRole('button',{name:'Hapus angka manual',exact:true}).click()
+  await ui.expect(row.getByRole('status').filter({hasText:'Angka manual dihapus'})).toBeVisible()
+  await ui.expect(chip).toHaveText('Perlu produksi');await ui.expect(point).toHaveText(pcs(item.point))
+  await ui.expect(row.getByText('Asal angka: rumus',{exact:true})).toBeVisible()
+  st=fixture('fg_state',{target_key:item.target_key})
+  assert.deepEqual([st.evaluation.basis,st.evaluation.point,st.evaluation.manual_point,st.evaluation.state,st.manual.revision,st.manual.reorder_point_pcs],
+   ['FORMULA',item.point,null,'AT_OR_BELOW',2,null],JSON.stringify(st))
+  if(mobile)await noScroll(ui,page)
+  shots.push(await shot(ui,page,`WAF_FG_${suffix}_FORMULA_AGAIN.png`))
+  // Exactly the payloads of the two saves, each with its own request id; no refused answer on the way.
+  const answers=await w.texts()
+  assert.equal(answers.filter(a=>a.status>=400).length,0,JSON.stringify(answers.filter(a=>a.status>=400).map(a=>[a.name,a.status,a.text.slice(0,300)])))
+  const saves=w.sent.filter(r=>r.name==='erp_cp7_save_fg_reorder_manual_v1').map(r=>JSON.parse(r.body))
+  assert.deepEqual(saves.map(s=>s.p_payload),[{root_id:item.root_id,expected_revision:0,reorder_point_pcs:manual,reason},
+   {root_id:item.root_id,expected_revision:1,reorder_point_pcs:null,reason:reason+' selesai'}])
+  assert.equal(new Set(saves.map(s=>s.p_request)).size,2)
+  assert.equal(w.sent.filter(r=>r.name==='erp_cp7_refresh_fg_reorder_v1').length,1)
+  return{status:'PASS',phone:mobile,sku:item.sku,free:item.free,formula_point:item.point,manual_point:manual,chips:['Perlu produksi','Aman','Perlu produksi'],
+   basis_after_manual:'MANUAL',manual_revisions:[1,2],formula_point_after_removal:item.point,distinct_request_ids:2,no_horizontal_scroll:true,screenshots:shots,
+   label:'TEST_FIXTURE SS-1 item; real Auth and PostgREST'}
+ }catch(e){writeFileSync(`cp6-proof/t3/WAF_FG_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),text:await (panel??page.locator('body')).innerText().catch(()=>'')},null,2))
+  await page.screenshot({path:`cp6-proof/t3/WAF_FG_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
+ finally{await user.context.close()}
+}
 export function cases(ui){
  return[['WAF_BROWSER_DESKTOP_OWNER_SETS_UP_TESTS_AND_FORWARDS',()=>ownerJourney(ui,false)],['WAF_BROWSER_MOBILE_OWNER_SETS_UP_TESTS_AND_FORWARDS',()=>ownerJourney(ui,true)],
-  ['WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA',()=>adminJourney(ui)]]
+  ['WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA',()=>adminJourney(ui)],['WAF_BROWSER_FG_REORDER_DESKTOP',()=>fgReorderJourney(ui,false)],
+  ['WAF_BROWSER_FG_REORDER_MOBILE',()=>fgReorderJourney(ui,true)]]
 }
