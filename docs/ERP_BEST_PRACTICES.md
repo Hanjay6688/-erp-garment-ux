@@ -247,6 +247,11 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     KNOWN-R2-POOL-UI, ASTRA-C17-07, owner D16-1)
 29b. **Bila auditor memberi tingkat berbeda untuk akar yang sama, dipakai tingkat yang lebih tinggi.** (R3-01: Astra S1,
     Sol S2; R3-04: Sol S1, Astra S2)
+29c. **Rumus atau fitur yang "disiapkan, belum aktif" punya pemilik dan diangkat ke owner di setiap laporan sampai
+    diputuskan.** Riset 28 Sep menyiapkan rumus safety stock "tidak aktif otomatis"; ERP menyimpan tempat angkanya dan
+    layar demo menghitungnya, tetapi rumus itu tidak pernah disambungkan ke data dan tidak diangkat lagi, sampai owner
+    bertanya tiga minggu kemudian (D17-8, D17-9). Setiap butir "belum aktif" masuk daftar terbuka di laporan, dengan apa
+    yang kurang untuk mengaktifkannya.
 
 ## Daftar periksa sebelum penulis menyerahkan kandidat
 
@@ -286,6 +291,7 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Batas jam hanya menahan pekerjaan baru; kasus yang menyentuh jendela jam lulus pada jam berapa pun CI berjalan (E25m).
 - [ ] Pelaku data uji dipilih dari aturan pelaku modul yang dipanggil (E25n).
 - [ ] Pemantau CI memakai SHA penuh dan mencetak berapa run yang ia lihat (E25o).
+- [ ] Setiap rumus/fitur "disiapkan, belum aktif" tercantum di daftar terbuka laporan, dengan apa yang kurang (29c).
 - [ ] Rantai diuji mulai dari data yang dibuat di layar (C11–C12).
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
   dipicu (E19–E20, E19a).

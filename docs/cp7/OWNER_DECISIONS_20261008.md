@@ -712,3 +712,16 @@ dibandingkan dengan angka itu tiap menit seperti stok kain, dan yang kena langsu
 analisis besar. Fakta yang diluruskan penulis di chat: minimum kain saat ini angka manual di data master kain; untuk barang
 jadi ERP sudah menyimpan tempat angka titik pesan ulang manual dan rumus rekomendasinya, tetapi rumus itu belum disambungkan
 ke data penjualan (`erp_get_fg_stock_explainability_v1` menjawab `BELUM_CUKUP_DATA`) dan belum ada layarnya.
+
+### D17-9 (owner ke penulis Claude, 20 Okt 2026 WIB, sambungkan rumus stok)
+
+Usulan penulis: `docs/cp7/wa/PROPOSAL_SAFETY_STOCK_R6_20261020.md` (safety stock barang jadi, kain dan aksesori dengan rumus
+pakar, peringatan WA tiap menit, sebelum paket r6 dikirim). Owner sebelumnya: "Lama kirim supplier cenderung gak ada data ke
+record pula".
+
+Owner (persis): "Konek in lah rumus rumus itu penting loh, kenapa writer gak hubungi itu sama sekali ya??"
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): usulan disetujui; rumus safety stock/titik pesan ulang
+disambungkan ke data ERP untuk barang jadi, kain dan aksesori, lalu ke Pengingat sistem dan WA, sebelum paket r6 dikirim.
+Lama kirim supplier menjadi isian per bahan karena tidak tercatat. Penulis menjelaskan di chat mengapa rumus belum
+tersambung (riset 28 Sep: "tidak aktif otomatis", lalu tidak diangkat lagi ke owner).
