@@ -231,6 +231,10 @@ export type PreconnectDatabase = {
       erp_cp7_get_fg_adjustments_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_save_fg_adjustment_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string | null }; Returns: Json }
       erp_cp7_get_fg_v1: { Args: { p_query: Json }; Returns: Json }
+      erp_cp7_get_fg_reorder_v1: { Args: { p_query: Json }; Returns: Json }
+      erp_cp7_refresh_fg_reorder_v1: { Args: Record<PropertyKey, never>; Returns: Json }
+      erp_cp7_save_fg_reorder_manual_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_save_stock_formula_settings_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_warehouse_summary_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_fg_ledger_v2: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_fg_ledger_v1: { Args: { p_query: Json }; Returns: Json }

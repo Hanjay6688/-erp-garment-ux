@@ -1,0 +1,48 @@
+/* SS-1: Titik pesan ulang on Ringkasan Barang Jadi. A dark panel like the stock section above it (inputs and buttons from
+   .cproc); every coloured box sets its own text colour (best practice D17a), and every row wraps or stacks at phone width
+   (390 px) without hiding overflow (D17). */
+.cfr-panel { display: grid; gap: 14px; min-width: 0; }
+.cfr h2 { margin: 4px 0 8px; font-size: 20px; color: #f4f6fb; }
+.cfr h3 { margin: 0; font-size: 17px; color: #f4f6fb; overflow-wrap: anywhere; }
+.cfr p { margin: 0; overflow-wrap: anywhere; }
+.cfr-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+.cfr-head > div:first-child { flex: 1 1 320px; min-width: 0; display: grid; gap: 6px; }
+.cfr-run { color: #dfe5f1 !important; }
+.cfr-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.cfr-note { padding: 10px 12px; border-radius: 10px; }
+.cfr-note.ok { color: #b6f2d6 !important; background: rgba(82, 180, 143, .14); }
+.cfr-note.bad { color: #ffd0d0 !important; background: rgba(239, 124, 124, .14); }
+.cfr-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.cfr-filters button { flex: 1 1 170px; }
+.cfr .cfr-filters button.active[aria-pressed="true"] { background: #24345a; border-color: #7c8dff; color: #f1f3ff; }
+.cfr-search { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; align-items: end; }
+.cfr-none { color: #c3cbdb !important; }
+.cfr-list { display: grid; gap: 12px; min-width: 0; }
+.cfr-row { display: grid; gap: 10px; min-width: 0; padding: 14px; border: 1px solid #354159; border-radius: 12px; background: #131c2c; color: #f4f6fb; }
+.cfr-row > header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+.cfr-row > header > div { min-width: 0; display: grid; gap: 2px; }
+.cfr-row small { color: #c3cbdb !important; overflow-wrap: anywhere; }
+.cfr-chip { padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; max-width: 100%; overflow-wrap: anywhere; }
+.cfr-chip.warn { background: #5a3410; color: #ffe1b8; }
+.cfr-chip.ok { background: #123b2e; color: #b6f2d6; }
+.cfr-chip.off { background: #2a3448; color: #dbe2ef; }
+.cfr-row dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 10px; }
+.cfr-row dl > div { min-width: 0; padding: 8px 10px; border-radius: 9px; background: #182338; }
+.cfr-row dt { font-size: 12px; color: #c3cbdb; }
+.cfr-row dd { margin: 4px 0 0; font-size: 19px; font-weight: 650; color: #f4f6fb; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.cfr-why { color: #f1dcab !important; }
+.cfr-source { color: #dfe5f1 !important; font-size: 13px; }
+.cfr-formula summary { cursor: pointer; color: #dfe5f1; font-size: 13px; }
+.cfr-formula ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; color: #dfe5f1; font-size: 13px; overflow-wrap: anywhere; }
+.cfr-manual { padding: 12px; border: 1px solid #46516a; border-radius: 10px; background: #0f1726; }
+.cfr-manual fieldset, .cfr-settings fieldset { gap: 12px !important; }
+.cfr-manual legend { padding: 0; font-weight: 700; color: #f4f6fb; }
+.cfr-problem { color: #f1dcab !important; }
+.cfr-settings { display: grid; gap: 10px; padding: 14px; border: 1px solid #354159; border-radius: 12px; min-width: 0; }
+.cfr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px; }
+.cfr-wide { grid-column: 1 / -1; }
+@media (max-width: 640px) {
+  .cfr-search { grid-template-columns: 1fr; }
+  .cfr-row { padding: 12px; }
+  .cfr-row dd { font-size: 17px; }
+}
