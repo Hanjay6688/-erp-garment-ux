@@ -34,16 +34,20 @@ Dasar: keputusan owner D17-4, D17-5, D17-7, D17-8 (kutipan persis di `docs/cp7/O
 
 ## 3. Kain: minimum dengan rumus
 
-- Rumus sama: pemakaian kain per hari (dari catatan potong) × lama kirim supplier (dari tanggal pesan ke tanggal terima)
-  + safety stock rumus pakar.
+- Rumus sama: pemakaian kain per hari (dari catatan potong) × lama kirim supplier + safety stock rumus pakar.
+- Lama kirim supplier tidak tercatat di ERP (owner 20 Okt: "Lama kirim supplier cenderung gak ada data ke record pula";
+  diperiksa: ERP hanya mencatat penerimaan barang, tidak ada pesanan ke supplier dengan tanggal pesan). Jadi lama kirim
+  menjadi isian "lama kirim (hari)" per kain di data master, diisi saat dipakai. Kosong berarti rumus tidak jalan untuk
+  kain itu: dipakai angka minimum manual bila ada, kalau tidak, kain itu ditandai "belum diatur" dan tidak berbunyi.
 - Angka minimum yang sekarang diisi manual di data kain tetap bisa dipakai dan menggantikan rumus.
 - Peringatan "stok kain di bawah minimum" yang sudah ada tetap jalan, memakai angka rumus bila tidak ada angka manual.
 - Kebutuhan kain dari rencana produksi (analisis) tetap seperti sekarang.
 
 ## 4. Aksesori
 
-- Safety stock dengan rumus yang sama seperti kain (pemakaian per hari × lama kirim + safety stock), angka manual bisa,
-  dan peringatan WA "aksesori menipis" tiap menit.
+- Safety stock dengan rumus yang sama seperti kain (pemakaian per hari × lama kirim + safety stock), dengan isian
+  "lama kirim (hari)" per aksesori di data master (alasan sama dengan kain), angka manual bisa, dan peringatan WA
+  "aksesori menipis" tiap menit.
 - Kebutuhan aksesori dari rencana produksi ikut diteruskan ke WA. Untuk itu dibuat pengecekan ulang ke stok aksesori
   terbaru sebelum pesan dikirim (sekarang modul pengingat belum punya pengecekan ini, jadi kebutuhan aksesori tidak pernah
   diteruskan).
@@ -78,8 +82,10 @@ Dasar: keputusan owner D17-4, D17-5, D17-7, D17-8 (kutipan persis di `docs/cp7/O
 - **Hitung ulang saat berubah:** modul peringatan tidak mengubah tabel Native. Angka rumus disimpan di tabel CP7 sendiri dan
   dihitung ulang hanya untuk barang yang punya gerakan baru sejak hitungan terakhir (cara deteksi perubahan yang sudah
   dipakai analisis bertahap).
-- **Belum diperiksa:** lama kirim supplier untuk kain dan aksesori (tanggal pesan ke tanggal terima), pemakaian aksesori per
-  hari, dan pembagian barang yang sedang diproduksi (dicatat per model dan ukuran) ke SKU akhir.
+- **Lama kirim supplier:** tidak tercatat (tidak ada tabel pesanan ke supplier; hanya `lead_time_days` kosong di tabel
+  penjelasan stok). Menjadi isian per kain/aksesori, lihat bagian 3 dan 4.
+- **Belum diperiksa:** pemakaian aksesori per hari, dan pembagian barang yang sedang diproduksi (dicatat per model dan ukuran)
+  ke SKU akhir.
 
 ## Tidak termasuk
 
