@@ -1,6 +1,8 @@
 # Paket uji ulang r6 CP1–CP7 (atas audit r5 `17fa2507`, WhatsApp D17-3..D17-7, stok minimum D17-8..D17-12)
 
-**Status: BELUM SIAP DIKIRIM — kandidat `55c885d1`, kualifikasi masih berjalan (bagian Kandidat).** Dua kandidat sebelumnya
+**Status: BELUM SIAP DIKIRIM — kandidat `55c885d1` sudah dikualifikasi (bagian Kandidat), tetapi pemeriksaan D17-13
+(`../../D17_13_PENUNDAAN_PENULIS_20261020.md`) menemukan tiga hal yang tidak sesuai keputusan owner; menunggu keputusan owner
+apakah dibetulkan dulu.** Dua kandidat sebelumnya
 tidak dikirim: `b1649535` (owner meminta rumus titik pesan ulang disambungkan dulu, D17-9) dan `3b7bb381` (sebelum dikirim
 owner memutuskan aksesori memakai batas minimum manual dan kain memakai satu judul pengingat, D17-10, lalu isian hitung
 batas minimum aksesori di aplikasi, D17-12).
@@ -52,7 +54,11 @@ laporan r5 di `CROSS_AUDIT.md`. Paket ini satu kandidat untuk ketiga auditor, da
   dipakai `b1649535` dan `3b7bb381` (`scripts/cp6_bf_combined_modes.py` / `scripts/cp6_bf_vendor_browser.mjs`: 104 kasus,
   26 race, 9 HTTP, 31 browser). Run itu **tidak** dihitung sebagai skenario lengkap. Skenario lengkap dijalankan ulang
   dengan berkas yang benar: run 39396888098 di `c512a178` (sesudah `55c885d1` hanya `docs/` yang berubah:
-  `git diff --name-only 55c885d1 c512a178`). Hasil: MENUNGGU. Best practice E25w.
+  `git diff --name-only 55c885d1 c512a178`). Hasil (job 118541720668): INCOMPLETE, sama dengan `b1649535` dan `3b7bb381`:
+  104 kasus, 26 race, 9 HTTP PASS; browser 27 PASS dan 4 INCOMPLETE yang sama dengan alasan yang sama (`READINESS_BROWSER`
+  desktop/HP: fungsi `erp_cp7_get_recost_queue_v1` dan `erp_cp7_get_hpp_pools_v1` tidak ada di tumpukan CP6 skenario ini;
+  `BF_BROWSER:SALES_MANUAL_13` desktop/HP: isian ukuran tidak tampil). Berkas skenario dan hash-nya sama persis dengan run
+  kandidat sebelumnya. Best practice E25w.
 - **Kasus CP17:** run 39385547471, job 118504391137: 345 kasus yang dideklarasikan PASS (Native 165, race 39, HTTP 27,
   browser 57, browser build Enteng 57). Di grup build Enteng 1.377 permintaan ke alamat proyek Enteng dijawab API lokal
   runner; 1 jawaban tidak sampai karena halamannya sudah ditutup saat kasus selesai ("Request context disposed"; r4: 2, r5: 0,
