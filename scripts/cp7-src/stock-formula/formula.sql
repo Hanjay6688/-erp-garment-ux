@@ -56,7 +56,8 @@ create table cp7_stock_formula.evaluations(
 create table cp7_stock_formula.runs(
  id boolean primary key default true check(id),computed_at timestamptz not null,window_from date not null,window_through date not null,
  settings_revision bigint not null,service_level numeric not null,window_days integer not null,items integer not null,
- at_or_below integer not null,wip_read integer not null,millis integer not null);
+ at_or_below integer not null,wip_read integer not null,materials integer not null,materials_at_or_below integer not null,
+ millis integer not null);
 do $$declare t text;begin
  foreach t in array array['settings','manual_points','wip_models','evaluations','runs']loop
   execute format('alter table cp7_stock_formula.%I owner to cp7_capture',t);
@@ -125,6 +126,7 @@ create function cp7_stock_formula.compute(p_at timestamptz,p_budget interval)ret
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'set jit=off as $$
 declare cfg jsonb:=cp7_stock_formula.current_settings();sl numeric;zv numeric;w integer;today date;d0 date;t0 timestamptz;t1 timestamptz;
  started timestamptz:=clock_timestamp();deadline timestamptz:=clock_timestamp()+p_budget;mdl record;got jsonb;wip_read integer:=0;n_items integer;n_low integer;
+ mats jsonb;
 begin
  sl:=(cfg->>'service_level')::numeric;zv:=cp7_stock_formula.z(sl);w:=(cfg->>'window_days')::integer;
  today:=(p_at at time zone'Asia/Jakarta')::date;d0:=today-w;
@@ -260,12 +262,16 @@ begin
  update cp7_stock_formula.evaluations e set wip_pcs=s.wip_pcs,wip_status=s.wip_status,wip_reason=s.wip_reason,state=s.state,changed_at=p_at
  from s where s.target_key=e.target_key and(e.wip_pcs,e.wip_status,e.wip_reason,e.state)is distinct from(s.wip_pcs,s.wip_status,s.wip_reason,s.state);
  select count(*),count(*)filter(where state='AT_OR_BELOW')into n_items,n_low from cp7_stock_formula.evaluations;
- insert into cp7_stock_formula.runs as x(id,computed_at,window_from,window_through,settings_revision,service_level,window_days,items,at_or_below,wip_read,millis)
- values(true,p_at,d0,today-1,(cfg->>'revision')::bigint,sl,w,n_items,n_low,wip_read,(extract(epoch from clock_timestamp()-p_at)*1000)::integer)
+ mats:=cp7_stock_formula.compute_materials(p_at);
+ insert into cp7_stock_formula.runs as x(id,computed_at,window_from,window_through,settings_revision,service_level,window_days,items,at_or_below,wip_read,
+  materials,materials_at_or_below,millis)
+ values(true,p_at,d0,today-1,(cfg->>'revision')::bigint,sl,w,n_items,n_low,wip_read,(mats->>'materials')::integer,(mats->>'materials_at_or_below')::integer,
+  (extract(epoch from clock_timestamp()-p_at)*1000)::integer)
  on conflict(id)do update set computed_at=excluded.computed_at,window_from=excluded.window_from,window_through=excluded.window_through,
   settings_revision=excluded.settings_revision,service_level=excluded.service_level,window_days=excluded.window_days,items=excluded.items,
-  at_or_below=excluded.at_or_below,wip_read=excluded.wip_read,millis=excluded.millis;
- return jsonb_build_object('computed_at',p_at,'items',n_items,'at_or_below',n_low,'wip_read',wip_read);
+  at_or_below=excluded.at_or_below,wip_read=excluded.wip_read,materials=excluded.materials,materials_at_or_below=excluded.materials_at_or_below,
+  millis=excluded.millis;
+ return jsonb_build_object('computed_at',p_at,'items',n_items,'at_or_below',n_low,'wip_read',wip_read)||mats;
 end $$;
 
 -- An item as Pengingat sistem shows it (an evaluation row as jsonb): the numbers only, no time, so the alert is refreshed
@@ -282,16 +288,16 @@ language sql stable security definer set search_path=''set TimeZone='UTC'as $$
    'service_level',case when e->>'basis'='FORMULA'and e->>'buffer_mode'='STATISTICAL'then p_level::text end),
   'party_names','[]'::jsonb)$$;
 -- The source of FG_AT_REORDER_POINT for cp7_alert_native, read with the identity of the owner who saved the WhatsApp
--- settings: the Ringkasan Barang Jadi permission. The caller that takes the module lock evaluates every item; a caller
--- that finds it held (the other tick, or an owner's save) checks the items at or under their point in the last
--- evaluation against the free stock now, with that evaluation's point and in-production read, and writes nothing.
+-- settings: the Ringkasan Barang Jadi permission. The first source of a tick that takes the module lock evaluates every
+-- item (ensure_computed, materials.sql); a caller that finds it held (the other tick, or an owner's save) checks the
+-- items at or under their point in the last evaluation against the free stock now, with that evaluation's point and
+-- in-production read, and writes nothing.
 create function cp7_stock_formula.fg_source()returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
 declare r jsonb;lvl numeric:=(cp7_stock_formula.current_settings()->>'service_level')::numeric;t timestamptz:=clock_timestamp();
 begin
  if erp.has_permission('warehouse.fg.view')is not true then raise exception using errcode='42501',message='CP7_FORMULA_FG_SOURCE_DENIED';end if;
- if pg_try_advisory_xact_lock(hashtextextended('CP7:FORMULA:FG',0))then
-  perform cp7_stock_formula.compute(t,interval'2 seconds');
+ if cp7_stock_formula.ensure_computed()then
   select jsonb_build_object(
    'rows',coalesce(jsonb_agg(cp7_stock_formula.alert_row(to_jsonb(e),lvl)order by e.sku,e.target_key)filter(where e.state='AT_OR_BELOW'),'[]'),
    'states',coalesce(jsonb_object_agg(e.target_key,case when e.state='ABOVE'then'ABOVE_REORDER_POINT'else'NO_REORDER_POINT'end)

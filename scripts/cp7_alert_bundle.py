@@ -51,18 +51,29 @@ CALLS=('public.erp_cp7_get_sales_v1(jsonb)','public.erp_cp7_read_reminder_condit
 JOB_COLUMNS=('actor','captured_at','created_at','query','run_id','state')
 CALLMEBOT='https://api.callmebot.com/whatsapp.php'
 OUTSIDERS=('anon','authenticated','service_role','cp7_capture','cp7_reminder','cp7_payable_read')
-# SS-1 (D17-8/D17-9): the finished-goods reorder point (stock-formula/formula.sql), installed before alerts.sql, whose
-# collector reads it through cp7_stock_formula.fg_source(). Schema cp7_stock_formula is owned by cp7_capture (the role
-# that already reads the FG stock, sales, production and WIP sources and the planning profile); no new Native read.
-FORMULA='scripts/cp7-src/stock-formula/formula.sql'
+# SS-1 (D17-8/D17-9): the reorder point of finished goods (stock-formula/formula.sql), fabric and accessories
+# (stock-formula/materials.sql), installed before alerts.sql, whose collector reads them through
+# cp7_stock_formula.fg_source() and material_source(text). Schema cp7_stock_formula is owned by cp7_capture (the role that
+# already reads the FG stock, sales, production and WIP sources, material stock and commitments, and the planning profile);
+# the only new Native reads are four columns of erp.material_stock_movements and two of erp.fabric_master_profiles.
+FORMULA=('scripts/cp7-src/stock-formula/formula.sql','scripts/cp7-src/stock-formula/materials.sql')
 FORMULA_SCHEMA='cp7_stock_formula'
-FORMULA_TABLES=('evaluations','manual_points','runs','settings','wip_models')
-FORMULA_FUNCTIONS={'access_now':'v','alert_row':'s','append_only':'v','compute':'v','current_settings':'s','fg_source':'v','model_wip':'v',
- 'open_groups':'s','refresh':'v','save_manual':'v','save_settings':'v','workspace':'v','z':'i'}
+FORMULA_TABLES=('evaluations','manual_points','material_evaluations','material_settings','runs','settings','wip_models')
+FORMULA_FUNCTIONS={'access_now':'v','alert_row':'s','append_only':'v','compute':'v','compute_materials':'v','current_settings':'s',
+ 'ensure_computed':'v','fg_source':'v','material_access_now':'v','material_alert_row':'s','material_refresh':'v','material_source':'v',
+ 'material_workspace':'v','model_wip':'v','open_groups':'s','refresh':'v','save_manual':'v','save_material':'v','save_settings':'v',
+ 'workspace':'v','z':'i'}
+FORMULA_JIT_OFF=('compute','compute_materials')
+FORMULA_ALERT_CALLS=('cp7_stock_formula.fg_source()','cp7_stock_formula.material_source(text)')
 FORMULA_PUBLIC={'public.erp_cp7_get_fg_reorder_v1(jsonb)':'v','public.erp_cp7_refresh_fg_reorder_v1()':'v',
- 'public.erp_cp7_save_fg_reorder_manual_v1(jsonb,uuid)':'v','public.erp_cp7_save_stock_formula_settings_v1(jsonb,uuid)':'v'}
-def extension():return previous.extension()+'\n'+(ROOT/FORMULA).read_text()+'\n'+(ROOT/'scripts/cp7-src/alerts/alerts.sql').read_text()
-def bundle():return previous.bundle()+'\n'+(ROOT/FORMULA).read_text()+'\n'+(ROOT/'scripts/cp7-src/alerts/alerts.sql').read_text()
+ 'public.erp_cp7_save_fg_reorder_manual_v1(jsonb,uuid)':'v','public.erp_cp7_save_stock_formula_settings_v1(jsonb,uuid)':'v',
+ 'public.erp_cp7_get_material_reorder_v1(jsonb)':'v','public.erp_cp7_refresh_material_reorder_v1(text)':'v',
+ 'public.erp_cp7_save_material_reorder_v1(jsonb,uuid)':'v'}
+FORMULA_COLUMNS={'erp.material_stock_movements':('id','movement_type','reversal_of_id','source_type'),
+ 'erp.fabric_master_profiles':('material_id','minimum_stock_qty')}
+def formula_sql():return '\n'.join((ROOT/name).read_text()for name in FORMULA)
+def extension():return previous.extension()+'\n'+formula_sql()+'\n'+(ROOT/'scripts/cp7-src/alerts/alerts.sql').read_text()
+def bundle():return previous.bundle()+'\n'+formula_sql()+'\n'+(ROOT/'scripts/cp7-src/alerts/alerts.sql').read_text()
 def verify(cur):
  previous.verify(cur)
  verify_formula(cur)
@@ -77,10 +88,9 @@ def verify_formula(cur):
  assert sorted(r[1]for r in rows)==sorted(FORMULA_FUNCTIONS),rows
  for sig,name,owner,definer,volatility,config in rows:
   assert(owner,definer,volatility,config)==('cp7_capture',True,FORMULA_FUNCTIONS[name],
-   ['search_path=""','TimeZone=UTC']+(['jit=off']if name=='compute'else[])),sig
+   ['search_path=""','TimeZone=UTC']+(['jit=off']if name in FORMULA_JIT_OFF else[])),sig
   for who in('anon','authenticated','service_role','cp7_reminder','cp7_payable_read'):assert not one("select has_function_privilege(%s,%s,'EXECUTE')",who,sig),(who,sig)
-  if name!='fg_source':assert not one("select has_function_privilege(%s,%s,'EXECUTE')",ROLE,sig),sig
- assert one("select has_function_privilege(%s,'cp7_stock_formula.fg_source()','EXECUTE')",ROLE)
+  assert one("select has_function_privilege(%s,%s,'EXECUTE')",ROLE,sig)==(sig in FORMULA_ALERT_CALLS),sig
  tables=cur.execute("select c.relname,pg_get_userbyid(c.relowner),c.relrowsecurity from pg_class c join pg_namespace n on n.oid=c.relnamespace "
   "where n.nspname=%s and c.relkind in('r','p','v','m','f')order by 1",(FORMULA_SCHEMA,)).fetchall()
  assert[t[0]for t in tables]==list(FORMULA_TABLES),tables
@@ -91,7 +101,13 @@ def verify_formula(cur):
   for who in('anon','authenticated','service_role',ROLE,'cp7_reminder'):
    assert not one("select has_table_privilege(%s,%s,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')",who,FORMULA_SCHEMA+'.'+name),(who,name)
  assert set(cur.execute("select c.relname,t.tgname from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace "
-  "where n.nspname=%s and not t.tgisinternal",(FORMULA_SCHEMA,)).fetchall())=={('settings','settings_append_only'),('manual_points','manual_points_append_only')}
+  "where n.nspname=%s and not t.tgisinternal",(FORMULA_SCHEMA,)).fetchall())=={('settings','settings_append_only'),
+  ('manual_points','manual_points_append_only'),('material_settings','material_settings_append_only')}
+ # The column reads added for materials (on top of those cp7_capture already had there): readable, none writable.
+ for table,names in FORMULA_COLUMNS.items():
+  for name in names:assert one("select has_column_privilege('cp7_capture',%s,%s,'SELECT')",table,name),(table,name)
+  assert not one("select exists(select 1 from pg_attribute a where a.attrelid=%s::regclass and a.attnum>0 and not a.attisdropped "
+   "and has_column_privilege('cp7_capture',a.attrelid,a.attnum,'INSERT,UPDATE,REFERENCES'))",table),table
  for sig,volatility in FORMULA_PUBLIC.items():
   assert cur.execute("select pg_get_userbyid(proowner),prosecdef,provolatile::text,proconfig from pg_proc where oid=%s::regprocedure",(sig,)).fetchone()==(
    'cp7_capture',True,volatility,['search_path=""']),sig
@@ -148,7 +164,7 @@ def verify_alert(cur):
   "join pg_namespace n on n.oid=p.pronamespace cross join lateral aclexplode(p.proacl)x where x.grantee=%s::regrole and x.privilege_type='EXECUTE'"
   "and n.nspname<>%s and p.proowner<>%s::regrole order by 1",(ROLE,SCHEMA,ROLE)).fetchall()
  assert[r[0]for r in granted]==sorted(CALLS+tuple(GRANTS[ROLE])+('cp7_reminder_native.payable_source()','cp7_reminder_native.receivable_source()',
-  'cp7_stock_formula.fg_source()')),granted
+  )+FORMULA_ALERT_CALLS),granted
  assert not one("select exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='cp7_analysis_stage'"
   "and has_table_privilege(%s,c.oid,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER'))",ROLE)
  columns=cur.execute("select a.attname from pg_attribute a where a.attrelid='cp7_analysis_stage.jobs'::regclass and a.attnum>0 and not a.attisdropped "

@@ -79,3 +79,11 @@ begin
  return jsonb_build_object('rows','[]'::jsonb,'states','{}'::jsonb);
 end$f$;
 revoke all on function cp7_stock_formula.fg_source()from public,anon,authenticated,service_role;
+create function cp7_stock_formula.material_source(p_type text)returns jsonb language plpgsql volatile security definer set search_path=''as $f$
+begin
+ if p_type='FABRIC'and(erp.has_permission('warehouse.material.view')is not true or erp.has_permission('master.fabric.view')is not true)
+  or p_type='ACCESSORY'and erp.has_permission('warehouse.accessory.view')is not true then
+  raise exception using errcode='42501',message='CP7_FORMULA_MATERIAL_SOURCE_DENIED';end if;
+ return jsonb_build_object('rows','[]'::jsonb,'states','{}'::jsonb);
+end$f$;
+revoke all on function cp7_stock_formula.material_source(text)from public,anon,authenticated,service_role;
