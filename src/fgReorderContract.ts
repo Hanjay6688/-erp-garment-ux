@@ -94,7 +94,7 @@ function settings(v: unknown, what: string): ReorderSettings {
 const levelOfNumber = (v: unknown, what: string): ServiceLevel => v === 0.9 ? '0.90' : v === 0.95 ? '0.95' : v === 0.99 ? '0.99' : fail(what)
 function run(v: unknown): ReorderRun {
   const what = 'hitungan terakhir', o = obj(v, what)
-  // The same run also evaluates fabric and accessories (materials, materials_at_or_below); their screens come later.
+  // The same run also evaluates fabric and accessories (materials, materials_at_or_below; materialReorderContract.ts).
   keys(o, ['computed_at', 'window_from', 'window_through', 'settings_revision', 'service_level', 'window_days', 'items', 'at_or_below', 'wip_read', 'materials',
     'materials_at_or_below', 'millis'], what)
   const from = day(o.window_from, what), through = day(o.window_through, what)
@@ -106,6 +106,8 @@ function run(v: unknown): ReorderRun {
     || r.materialsAtOrBelow > r.materials) fail(what)
   return r
 }
+/** The shared pieces of the reorder contracts: materialReorderContract.ts parses its workspace with the same rules and words. */
+export const reorderWire = { fail, obj, str, maybeStr, bool, instant, maybeInstant, count, maybeCount, uuidText, decimal, maybeDecimal, oneOf, keys, settings, run }
 
 const rowKeys = ['target_key', 'root_id', 'size_id', 'model_id', 'product_id', 'sku', 'product_name', 'size_code', 'free_pcs', 'sales_pcs', 'counted_days',
   'sale_days', 'daily_mean', 'daily_sd', 'lead_days', 'lead_basis', 'lead_lots', 'lead_groups', 'buffer_mode', 'buffer_days', 'z', 'safety_pcs', 'formula_point',

@@ -235,6 +235,9 @@ export type PreconnectDatabase = {
       erp_cp7_refresh_fg_reorder_v1: { Args: Record<PropertyKey, never>; Returns: Json }
       erp_cp7_save_fg_reorder_manual_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_save_stock_formula_settings_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_get_material_reorder_v1: { Args: { p_query: Json }; Returns: Json }
+      erp_cp7_refresh_material_reorder_v1: { Args: { p_material_type: string }; Returns: Json }
+      erp_cp7_save_material_reorder_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_warehouse_summary_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_fg_ledger_v2: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_fg_ledger_v1: { Args: { p_query: Json }; Returns: Json }

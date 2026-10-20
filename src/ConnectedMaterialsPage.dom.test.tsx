@@ -6,6 +6,7 @@ import ConnectedMaterialsPage from './ConnectedMaterialsPage'
 import { parseMaterials, parseMaterialLedger, parseMaterialTransfers } from './materialContract'
 import { readProductionRecovery } from './productionRecovery'
 import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
+import { materialWire } from '../tests/fixtures/materialReorder'
 const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
 vi.mock('./auth/AuthProvider',()=>({useAuth:()=>state.auth}))
@@ -48,5 +49,12 @@ describe('material transfer connected boundary',()=>{
  it('retires stale actions and keeps writers locked when committed reload fails',async()=>{const s=server();await mount();await selectTransfer();const old=button('Sahkan perpindahan stok');s.failRead=true;await click('Sahkan perpindahan stok');expect(container.textContent).toContain('Aksi sudah tersimpan');expect(container.textContent).not.toContain('Sahkan perpindahan stok');await act(async()=>old.click());expect(writes()).toHaveLength(1);s.failRead=false;await click('Muat ulang');expect(container.textContent).toContain('Stok sudah dipindahkan')})
  it('keeps a malformed success uncertain instead of clearing the request',async()=>{const s=server();await mount();await selectTransfer();s.wrong=true;await click('Sahkan perpindahan stok');expect(readProductionRecovery('disposable:actor-1').pending.MATERIALS).toBeTruthy();expect(button('Sahkan perpindahan stok').disabled).toBe(true)})
  it('rejects money in an operational response before rendering',async()=>{const a=state.auth as typeof recoveryIdentity;a.identity.permissions=a.identity.permissions.filter(p=>p!=='finance.hpp.view');server(false);await mount();expect(container.textContent).not.toContain('Rp');expect(()=>parseMaterials(stock(),false)).toThrow();expect(()=>parseMaterials(stock(false),false)).not.toThrow()})
+ it('shows Titik pesan ulang kain below the stock only with the Kain & Benchmark key the server asks for (SS-2)',async()=>{
+  server();await mount();expect(container.querySelector('[aria-label="Titik pesan ulang kain"]')).toBeNull();expect(client.rpc.mock.calls.some(([n])=>n==='erp_cp7_get_material_reorder_v1')).toBe(false)
+  await act(async()=>root.unmount());root=createRoot(container);client.rpc.mockReset();(state.auth as typeof recoveryIdentity).identity.permissions.push('master.fabric.view')
+  server();const original=client.rpc.getMockImplementation()!;client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>name==='erp_cp7_get_material_reorder_v1'?{data:materialWire(undefined,args.p_query as object),error:null}:original(name,args))
+  await mount();const panel=container.querySelector('[aria-label="Titik pesan ulang kain"]')!;expect(panel.textContent).toContain('Katun 1');expect(panel.closest('.cmat')).toBeNull()
+  expect(container.querySelector('section.cmat')!.compareDocumentPosition(panel)&Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+ })
  it('refuses truncated totals/detail and preserves the full server ledger prefix',()=>{const w=stock();expect(()=>parseMaterials({...w,page:{...w.page,total:'2'}},true)).toThrow();const t=transfers(false,true);expect(()=>parseMaterialTransfers({...t,detail:{...t.detail,line_count:'2'}})).toThrow();const l={contract_version:'cp7.material-ledger.v1',material_id:id,roll_id:id,location_id:id,read_at:at,financial_captured:false,history_basis:'CURRENT_RESTATED_NOT_AS_KNOWN',page:{...page([{movement_id:doc,physical_at:at,recorded_at:at,movement_type:'TRANSFER_OUT',qty_signed:'-4.000000',running_qty:'6.000000',source_type:'MATERIAL_TRANSFER',source_id:doc,reversal_of_id:null,note:null}]),total:'2',next_offset:1,limit:1}};expect(parseMaterialLedger(l,false).page.rows[0].running_qty).toBe('6.000000');expect(()=>parseMaterialLedger({...l,history_basis:'AS_KNOWN'},false)).toThrow()})
 })

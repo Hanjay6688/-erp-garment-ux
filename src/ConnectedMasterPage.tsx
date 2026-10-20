@@ -8,6 +8,7 @@ import { useProductionMutation, type ProductionMutationHandlers } from './usePro
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import MaterialNamePanel from './MaterialNamePanel'
 import WorkRatePanel from './WorkRatePanel'
+import MaterialReorderPanel from './MaterialReorderPanel'
 import {
   blockerText, emptyForm, fieldsPayload, formFromEntity, formProblems, kindLabels, locationTypeLabels, masterFields, masterPayload,
   parseMasterWorkspace, policyAt, rupiah, supplierTypeLabels, usageLabels, validateMasterOutcome, wibDay,
@@ -41,13 +42,15 @@ export default function ConnectedMasterPage({ view }: { view: ConnectedMasterVie
   const pickMandor = useCallback((id: string | null, token: string | null) =>
     setMandor(old => old?.id === id && old?.token === token ? old : id && token ? { id, token } : null), [])
   useEffect(() => { setKind(config.kinds[0]); setMandor(null) }, [view]) // eslint-disable-line react-hooks/exhaustive-deps
-  return <section className="cmd-page" aria-label={config.title}>
+  return <><section className="cmd-page" aria-label={config.title}>
     <header className="cmd-hero"><span>{config.eyebrow}</span><h1>{config.title}</h1><p>{config.description}</p></header>
     {config.kinds.length > 1 ? <div className="cmd-tabs" role="tablist">{config.kinds.map(k =>
       <button type="button" role="tab" key={k} aria-selected={kind === k} onClick={() => setKind(k)}>{kindLabels[k].plural}</button>)}</div> : null}
     <MasterPanel key={`${view}:${kind}`} kind={kind} onSelected={kind === 'MANDOR' ? pickMandor : undefined}/>
     {view === 'master-workforce' ? <WorkRatePanel contractorId={mandor?.id ?? null} contractorVersion={mandor?.token ?? null}/> : null}
   </section>
+    {/* SS-2/SS-3: lama kirim (and an accessory's manual number) is filled per material here, as on the warehouse pages. */}
+    {view === 'master-fabric' ? <MaterialReorderPanel materialType="FABRIC"/> : view === 'master-accessory' ? <MaterialReorderPanel materialType="ACCESSORY"/> : null}</>
 }
 
 type Mode = 'VIEW' | 'CREATE' | 'EDIT' | 'DEACTIVATE' | 'REACTIVATE' | 'SET_BENCHMARK' | 'SET_MANDOR_PRICE'

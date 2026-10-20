@@ -12,6 +12,7 @@ import { ACCESSORY_POLICY_KEYS, ACTION_LABEL, POLICY_LABEL, PURPOSE_LABEL, SERVI
   type AccessoryPolicyKey, type AccessoryServiceWorkspace, type Purpose, type ServiceAction, type ServiceLot, type ZoneKind } from './accessoryService'
 import type { Json } from './types/database.preconnect'
 import './initial-import.css'
+import MaterialReorderPanel from './MaterialReorderPanel'
 
 type Tab = 'stock' | 'record' | 'returns' | 'documents' | 'settings'
 type Filters = { query: string; location_id: string; page: number; action: string; status: string; document_id: string; card: [string, string] | null;
@@ -80,7 +81,7 @@ function ServiceWorkspace() {
   const locked = mutation.writerLocked || loading || mutation.busy
   const canStock = identity.permissions.includes('warehouse.stock.adjust')
   const pages = (total: number) => Math.max(1, Math.ceil(total / 25))
-  return <section className="initial-import">
+  return <><section className="initial-import">
     <header className="panel initial-import-heading"><div><div className="eyebrow">GUDANG · AKSESORI</div><h1>Pemakaian & Pengembalian Aksesori</h1>
       <p>Stok siap pakai, pos servis, barang kembali yang menunggu pemeriksaan, titipan belum dinilai, dan barang rusak ditampilkan terpisah. Setiap transaksi memakai waktu fisik WIB dan dapat dibatalkan dengan transaksi kebalikan tertaut.</p></div>
       <button type="button" disabled={mutation.busy || loading} onClick={() => void load()}>Muat ulang</button></header>
@@ -114,7 +115,7 @@ function ServiceWorkspace() {
       {tab === 'documents' && <Documents data={data} locked={locked} filters={filters.current} query={query} setQuery={setQuery} refresh={refresh} send={send} pages={pages}/>}
       {tab === 'settings' && <Settings data={data} locked={locked} send={send}/>}
     </>}
-  </section>
+  </section><MaterialReorderPanel materialType="ACCESSORY"/></>
 }
 
 function lotLabel(l: ServiceLot) {

@@ -13,6 +13,7 @@ import type { Json } from './types/database.preconnect'
 import './procurement-connected.css'
 import './materials-connected.css'
 import MaterialNamePanel from './MaterialNamePanel'
+import MaterialReorderPanel from './MaterialReorderPanel'
 
 const statusLabel = { DRAFT: 'Draft', POSTED: 'Sudah dipindahkan', REVERSED: 'Dibatalkan' }
 const availabilityLabel = { ON_HAND: 'Tersedia', EMPTY: 'Habis', REVIEW_REQUIRED: 'Perlu diperiksa', MATERIAL_INACTIVE: 'Bahan nonaktif', LOCATION_INACTIVE: 'Gudang nonaktif', SPECIAL_ZONE: 'Zona khusus', LOCATION_REVIEW: 'Periksa lokasi' }
@@ -85,7 +86,7 @@ function MaterialsWorkspace({initialTransferId}:{initialTransferId:string|null})
   }:null
   const write=(action:string,document:Json,version:string|null)=>run(action,{document,expected_version:version},null,handlers)
   const openRoll=(r:MaterialBalance)=>{if(r.quality==='CONFLICT')return;requested.current.roll={material_id:r.material_id,roll_id:r.roll_id,location_id:r.location_id,location_name:r.location_name,unit_code:r.unit_code,roll_number:r.roll_number??r.material_name};requested.current.ledgerOffset=0;void load()}
-  return <section className="cproc cmat"><header className="panel cproc-heading"><div><div className="eyebrow">GUDANG · BAHAN & ROLL</div><h1>Bahan & roll</h1><p>Lihat stok bahan per gudang, telusuri mutasinya, dan catat perpindahan barang.</p></div><button disabled={mutation.busy||loading} onClick={()=>void load()}>Muat ulang</button></header>
+  return <><section className="cproc cmat"><header className="panel cproc-heading"><div><div className="eyebrow">GUDANG · BAHAN & ROLL</div><h1>Bahan & roll</h1><p>Lihat stok bahan per gudang, telusuri mutasinya, dan catat perpindahan barang.</p></div><button disabled={mutation.busy||loading} onClick={()=>void load()}>Muat ulang</button></header>
     <ProductionRecoveryNotice recovery={{...mutation,notice:mutation.notice?'Data stok dan transfer sudah diperbarui.':'',...(mutation.pending&&!mutation.corruptedEnvelope?{error:'Hasil pencatatan belum diketahui. Periksa hasil transaksi dengan data kiriman yang masih tersimpan.',blockReason:''}:{})}} onReconcile={()=>reconcile(handlers)} className="panel"/>
     {error?<p className="panel" role="alert">{error}</p>:null}
     <nav className="cmat-tabs" aria-label="Tampilan bahan"><button aria-pressed={tab==='stock'} onClick={()=>setTab('stock')}>Stok per gudang</button><button aria-pressed={tab==='transfer'} onClick={()=>setTab('transfer')}>Transfer gudang</button></nav>
@@ -115,5 +116,5 @@ function MaterialsWorkspace({initialTransferId}:{initialTransferId:string|null})
       <aside className="panel cmat-transfer-detail">{current?<><div className="eyebrow">DOKUMEN TRANSFER</div><h2>{current.number}</h2><span className={`cproc-status ${current.status.toLowerCase()}`}>{statusLabel[current.status]}</span><p>{current.from_location_name} → {current.to_location_name}</p><p>{current.status==='DRAFT'?'Draft belum mengubah stok.':current.status==='POSTED'?'Stok sudah dipindahkan sesuai dokumen.':'Transfer sudah dibatalkan dengan mutasi pembalik.'}</p>{current.items.map(i=><article className="cproc-item" key={i.id}><h3>{i.material_name}</h3><strong>{numberText(i.qty)} {i.unit_code}</strong><small>{i.roll_number??'Tanpa roll'}</small>{i.notes?<p>{i.notes}</p>:null}</article>)}
       {current.status!=='REVERSED'?<div className="cproc-review"><label>Catatan pemeriksaan atau pembatalan<input aria-label="Catatan transfer" value={reason} disabled={locked} onChange={e=>setReason(e.target.value)}/></label>{current.status==='DRAFT'?<button className="primary-btn" disabled={locked||!transfers?.capabilities.transfer||!reason.trim()} onClick={()=>void write('POST_TRANSFER',{transfer_id:current.id,change_reason:reason.trim()},current.row_version)}>Sahkan perpindahan stok</button>:transfers?.capabilities.reverse_transfer?<><label className="cmat-check"><input type="checkbox" checked={confirmReverse} disabled={locked} onChange={e=>setConfirmReverse(e.target.checked)}/>Saya sudah memeriksa alasan pembatalan transfer ini.</label><button disabled={locked||!reason.trim()||!confirmReverse} onClick={()=>void write('REVERSE_TRANSFER',{transfer_id:current.id,change_reason:reason.trim()},current.row_version)}>Batalkan transfer</button><small>Pembatalan memerlukan barang yang masih tersedia di tujuan. Pemakaian lanjutan harus diselesaikan terlebih dahulu.</small></>:null}</div>:null}</>:<><h2>Periksa transfer</h2><p>Pilih dokumen untuk melihat rincian, mengesahkan, atau membatalkan transfer.</p></>}</aside></div>
     </>}
-  </section>
+  </section><MaterialReorderPanel materialType="FABRIC"/></>
 }
