@@ -1,0 +1,14 @@
+{
+  "kind": "MODEL_REPRODUCTION_NOT_NATIVE_OR_PRODUCT_TEST",
+  "source_product": "4e3c98b3ce04427c65c7bc7c1b21ec3bdacfea71",
+  "command": "python docs/cp7/d17-14/ow04/temporal_counter_model.py",
+  "python": "3.12.14",
+  "script_sha256": "a29a9bc2940f6ee57ff8570bd3fd2998c72d0a9963c2b582119eb5f05f4bde61",
+  "result_sha256": "ce1b8692afa24949f9d0b256fdf5dc013337f95df7ec7f538f844d927f0be5e6",
+  "expected_declared_before_execution": "Literal cutoffs in temporal_counter_model.py before execution, from source assessment; reopened1000 variant differs from narrative900+100 which remains source-only",
+  "model_cases": 5,
+  "native_executed": false,
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false
+}

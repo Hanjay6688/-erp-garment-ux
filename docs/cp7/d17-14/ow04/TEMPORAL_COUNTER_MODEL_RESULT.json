@@ -1,0 +1,166 @@
+{
+  "kind": "STANDALONE_DECIMAL_DATED_LEDGER_MODEL_NOT_ERP_RUNTIME",
+  "source_candidate": "4e3c98b3ce04427c65c7bc7c1b21ec3bdacfea71",
+  "cases": [
+    {
+      "case": "A_OPEN",
+      "status": "MODEL_COUNTER_CONFIRMED_NOT_NATIVE",
+      "derived_component_fixture": {
+        "economic_day": {
+          "19": [
+            "800",
+            "0"
+          ],
+          "20": [
+            "0",
+            "200"
+          ]
+        },
+        "book_day": {
+          "19": [
+            "800",
+            "0"
+          ],
+          "20": [
+            "0",
+            "200"
+          ]
+        }
+      },
+      "wrong_single_date_economic19_AR_credit": [
+        "1000",
+        "200"
+      ]
+    },
+    {
+      "case": "B_OPEN",
+      "status": "MODEL_COUNTER_CONFIRMED_NOT_NATIVE",
+      "derived_component_fixture": {
+        "economic_day": {
+          "19": [
+            "0",
+            "100"
+          ],
+          "20": [
+            "0",
+            "200"
+          ]
+        },
+        "book_day": {
+          "19": [
+            "0",
+            "100"
+          ],
+          "20": [
+            "0",
+            "200"
+          ]
+        }
+      },
+      "wrong_single_date_economic19_AR_credit": [
+        "100",
+        "200"
+      ]
+    },
+    {
+      "case": "A_CLOSED19",
+      "status": "MODEL_COUNTER_CONFIRMED_NOT_NATIVE",
+      "derived_component_fixture": {
+        "economic_day": {
+          "19": [
+            "800",
+            "0"
+          ],
+          "20": [
+            "0",
+            "200"
+          ]
+        },
+        "book_day": {
+          "19": [
+            "1000",
+            "0"
+          ],
+          "20": [
+            "0",
+            "200"
+          ]
+        }
+      },
+      "wrong_single_date_economic19_AR_credit": [
+        "1000",
+        "200"
+      ]
+    },
+    {
+      "case": "B_CLOSED19",
+      "status": "MODEL_COUNTER_CONFIRMED_NOT_NATIVE",
+      "derived_component_fixture": {
+        "economic_day": {
+          "19": [
+            "0",
+            "100"
+          ],
+          "20": [
+            "0",
+            "200"
+          ]
+        },
+        "book_day": {
+          "19": [
+            "100",
+            "0"
+          ],
+          "20": [
+            "0",
+            "200"
+          ]
+        }
+      },
+      "wrong_single_date_economic19_AR_credit": [
+        "100",
+        "200"
+      ]
+    },
+    {
+      "case": "REOPENED_PAIR_REQUIRED",
+      "status": "MODEL_COUNTER_CONFIRMED_NOT_NATIVE",
+      "derived_component_fixture": {
+        "economic_day": [
+          [
+            "0",
+            "200"
+          ],
+          [
+            "0",
+            "200"
+          ]
+        ],
+        "book_day": [
+          [
+            "800",
+            "0"
+          ],
+          [
+            "0",
+            "200"
+          ]
+        ]
+      },
+      "wrong_ordinary19_book19_AR_credit": [
+        "1000",
+        "200"
+      ],
+      "wrong_ordinary20_economic19_AR_credit": [
+        "-200",
+        "0"
+      ]
+    }
+  ],
+  "observed_model_case_count": 5,
+  "planner_implemented": false,
+  "native_executed": false,
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false
+}

@@ -145,3 +145,15 @@ Perselisihan satu-tanggal diselesaikan lewat sumber/aritmetika, bukan voting.
 Implementasi credit dated components/paired posting dan seluruh Native oracle
 masih terbuka. Tiga temuan awal UI/token/fixture sudah memiliki runtime sesuai
 receipt masing-masing; kesepakatan internal sendiri tidak dihitung bukti PASS.
+
+E01 source-counter menemukan satu browser lain masih mengandalkan waktu
+otomatis. Alat diperkuat pada5ae dengan isian eksplisit tanpa mengubah angka
+bisnis; reviewer memeriksa urutan produksi, batas WIB, jendela laporan dan
+replay dua tab. Native/HTTP/browser kemudian4/4 PASS sekali jalan, restore/
+advisor PASS. Produk tetap4e, bundlea7305cfc… cocok; receipt ada di ow04.
+
+Reproducer Decimal lima contoh tanggal cocok expected dan stdout tersimpan;
+reviewer menemukan satu ketidaktepatan deskripsi: narasi buka ulang900+100
+berbeda dari model1000. Writer menandai kedua varian secara terpisah,
+tanpa mengubah expected model;900+100 tetap belum dijalankan sebagai model.
+Model ini bukan bukti Native, penulis tanggal berpasangan atau fitur selesai.

@@ -109,3 +109,24 @@ Dua pemeriksa Sol Max menilai counter secara independen sebelum bertukar
 temuan. Writer membaca ulang anchor jurnal/tanggal dan laporan; penyelesaian
 berasal dari sumber itu, bukan voting. Tidak ada runtime baru untuk counter,
 tidak ada fitur kredit selesai, dan tidak ada penerimaan produksi.
+
+## Reproduksi aritmetika terpisah
+
+Expected A/B dan periode tertutup di atas telah ditulis sebelum reproducer dibuat.
+Jalankan `python docs/cp7/d17-14/ow04/temporal_counter_model.py` dari root repo.
+`TEMPORAL_COUNTER_MODEL_RESULT.json` memuat5 contoh model Decimal: A/B buku
+terbuka, A/B buku tertutup19, dan **varian lunas1000** setelah buka ulang.
+Pada varian kelima, pembayaran1000 ekonomi18/buku20 dan retur200 ekonomi19/
+buku19 memerlukan kredit200 ekonomi19/buku20: akhir19 ekonomi AR0/kredit200,
+buku AR800/kredit0; akhir20 kedua dasar AR0/kredit200. Literal expected ini
+ditulis pada reproducer sebelum eksekusinya, sesuai penilaian sumber awal.
+Ini berbeda dari contoh900+100 pada bagian buka ulang di atas, yang belum
+dijalankan sebagai model tersendiri. Pemeriksa menemukan ketidaktepatan
+deskripsi awal; penjelasan diperbaiki tanpa mengubah angka/expected reproducer.
+Setiap jurnal model seimbang; saldo pada19/20 dibanding literal expected;
+rancangan satu tanggal sengaja menghasilkan selisih yang dicatat. Bagian
+bertanggal adalah input fixture yang dinyatakan, bukan algoritme penerbitan.
+
+Ini reproduksi aritmetika yang dapat diulang, **bukan eksekusi fungsi Native,
+penulis pasangan tanggal, atau bukti original journal produk tidak berubah**.
+Kelima golden serta varian900+100 tetap harus dibawa ke Native saat fitur diimplementasikan.

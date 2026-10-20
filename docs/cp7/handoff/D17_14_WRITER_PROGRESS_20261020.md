@@ -168,3 +168,30 @@ OW-01 kebutuhan aksesori dari rencana masih ditelusuri: sumber saat ini
 menandai tambahan pembelian UNKNOWN bila pemasangan/alokasi fisik belum
 terbukti. D17-14 mengizinkan forwarding seluruh pengingat, termasuk keadaan
 perlu diperiksa; tidak boleh mengganti UNKNOWN dengan kebutuhan bruto atau0.
+
+## Checkpoint penutup — E01 dan reproduksi tanggal
+
+Publikasi5ae9979c, tree4050507b, hanya memperkuat alat E01/workflow cabang
+dan menyimpan bukti; produk tetap identik4e. Pencarian semua browser form
+retur menemukan E01 masih mengandalkan default waktu. Writer menambah
+isian operator dan assertion waktu/review/readback, tanpa mengubah seluruh
+expected uang/stok/HPP, replay UUID atau pagar tab kedua. Source review
+dan kontrol tengah malam lulus; tidak diklaim pernah ada kegagalan Native
+E01 sebelum perubahan alat tersebut.
+
+E01 kemudian **4/4 PASS sekali jalan**, run39433112026/job118663009654,
+alat5ae/produk4e; restore/advisor PASS; sourcehasha7305cfc… cocok bundle.
+Desktop/HP menghasilkan FG45/nilai675, kas200, AR175, pendapatan375,
+COGS225 dan laba kotor150. Receipt ow04/CI_39433112026_E01.json.
+
+Counter tanggal kini mempunyai reproducer Decimal terpisah5 contoh;
+hasil/skrip diikat SHA256 pada TEMPORAL_COUNTER_MODEL_RECEIPT.json.
+Ini model, bukan penulis kredit atau Native. Pemeriksa menemukan deskripsi
+varian buka ulang900+100 tidak sama dengan model1000; penjelasan diperbaiki,
+angka/expected model tetap, varian900+100 tetap source-only.
+
+Scope WA kebutuhan aksesori, fingerprint/race dan expected UNKNOWN yang
+harus dijaga sudah dipetakan di ow01/ACCESSORY_NEED_NEXT_SCOPE.md, belum
+diimplementasikan. Semua butir daftar selain OW-02/03 tetap terbuka sesuai
+statusnya; waktu fisik tidak menutup OW-04, dan pengukuran tidak menutup OW-12.
+Handoff checkpoint terkini: HANDOFF_WRITER_5AE9979C_CHECKPOINT.md.

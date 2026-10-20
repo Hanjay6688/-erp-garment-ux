@@ -217,6 +217,36 @@
   "paid_return_temporal_counter": {
     "status": "SOURCE_CONFIRMED_DESIGN_COUNTER_NOT_RUNTIME",
     "evidence": "ow04/TEMPORAL_COUNTER_20261020.md",
-    "scope": "Current-state P+U-I is insufficient for economic/book date histories; single-date issuance design rejected before implementation"
-  }
+    "scope": "Current-state P+U-I is insufficient for economic/book date histories; single-date issuance design rejected before implementation",
+    "arithmetic_reproducer": {
+      "model_case_count": 5,
+      "kind": "MODEL_ONLY_NOT_NATIVE",
+      "receipt": "ow04/TEMPORAL_COUNTER_MODEL_RECEIPT.json",
+      "reopened900_plus100_variant": "SOURCE_ONLY_NOT_MODEL_EXECUTED"
+    }
+  },
+  "E01_explicit_time_cross_qualification": {
+    "tool_candidate": "5ae9979cb60f18b6db47524441f6ac6f7787d8e6",
+    "product_candidate": "4e3c98b3ce04427c65c7bc7c1b21ec3bdacfea71",
+    "status": "PASS",
+    "run_id": 39433112026,
+    "run_attempt": 1,
+    "job_id": 118663009654,
+    "observed_case_count": 4,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "source_sha256": "a7305cfc9ceacd5a2637a02f82f958d274c42a6af2c4031352fb31fcc43042c1",
+    "evidence": "ow04/CI_39433112026_E01.json",
+    "unchanged_expected": {
+      "FG": "45",
+      "FG_value": "675",
+      "cash": "200",
+      "AR": "175",
+      "revenue": "375",
+      "COGS": "225",
+      "gross_profit": "150"
+    },
+    "paid_return_settlement_coverage": false
+  },
+  "latest_writer_handoff": "../handoff/HANDOFF_WRITER_5AE9979C_CHECKPOINT.md"
 }

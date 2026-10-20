@@ -71,3 +71,14 @@ pada desktop/HP, termasuk replay dan tab kedua. Tetap produksi60PCS/HPP15,
 jual20×25, bayar200, retur5/nilai125: FG45/nilai675, kas200, AR175,
 pendapatan375, COGS225, laba kotor150. Seluruh assertion lama tetap.
 Jumlah kasus E01 tidak diubah; hasil Native lanjutan belum tersedia di titik ini.
+
+Hasil kemudian tersedia pada alat `5ae9979cb60f18b6db47524441f6ac6f7787d8e6`,
+produk4e3c98b3 byte-identik: run39433112026 attempt1/job118663009654,
+**4/4 PASS sekali jalan** (Native1/HTTP1/browser2), restore/advisor PASS.
+Bundle `a7305cfc9ceacd5a2637a02f82f958d274c42a6af2c4031352fb31fcc43042c1`
+cocok komposisi lokal. Kedua browser mempertahankan tepat angka expected
+di atas dan assertion waktu; HP mempertahankan replay UUID identik serta
+tab kedua tanpa penulisan ganda. Receipt: `CI_39433112026_E01.json`.
+Reproduksi persis mengikuti `.github/workflows/cp7-f03-e01.yml` pada5ae.
+Ini tidak mengubah kasus E01 menjadi retur lunas: bayar200, nilai tersisa
+sebelum retur300, setelah retur125 masih AR175, sehingga kredit tidak terbit.
