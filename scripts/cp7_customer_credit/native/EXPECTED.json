@@ -1,0 +1,627 @@
+{
+  "artifact_kind": "EXPECTED_FIRST_NATIVE_SOURCE_FIXTURE_AND_FUTURE_TEST_MAP_NOT_EXECUTED",
+  "candidate": "b7fc541ca2b0221865ed7982155e844e1a9bed80",
+  "paid_product_source_unchanged_from": "754f387a04a6b81a8b750db24184444a41bec9df",
+  "native_executed": false,
+  "feature_installed": false,
+  "positive_settlement_PASS_claimed": false,
+  "dates": {
+    "anchor": "D0 = actual Native Asia/Jakarta today minus7days; shifts only fixture input calendar, never any stored journal",
+    "literal_offsets_days": {
+      "D-2": -2,
+      "D-1": -1,
+      "D0": 0,
+      "D1": 1,
+      "D2": 2,
+      "D3": 3
+    },
+    "stock_physical": [
+      "D-1",
+      "08:00:00.123456+07:00"
+    ],
+    "sale_physical": [
+      "D0",
+      "10:00:00.123456+07:00"
+    ],
+    "payment_physical": [
+      "D1",
+      "11:00:00.123456+07:00"
+    ],
+    "return_physical": [
+      "D2",
+      "12:00:00.123456+07:00"
+    ]
+  },
+  "fixture_inputs": {
+    "found_qty": "10",
+    "found_explicit_unit_value": "10.00",
+    "sale_qty": "5",
+    "unit_price": "200.00",
+    "discount": "0.00",
+    "return_qty": "1",
+    "return_value": "200.00",
+    "grade": "GRADE_A",
+    "one_selected_original_allocation": true
+  },
+  "date_profiles": {
+    "OPEN": {
+      "initial_closed_through": "D-2",
+      "posting_closed_through": "D-2",
+      "reopen_to": null,
+      "sale_pair": [
+        "D0",
+        "D0"
+      ],
+      "payment_pair": [
+        "D1",
+        "D1"
+      ],
+      "current_return_resolver": "D2",
+      "required_return_pair": [
+        "D2",
+        "D2"
+      ],
+      "required_credit_components_paid1000": [
+        {
+          "amount": "200.00",
+          "economic": "D2",
+          "book": "D2"
+        }
+      ],
+      "required_credit_components_paid900": [
+        {
+          "amount": "100.00",
+          "economic": "D2",
+          "book": "D2"
+        }
+      ]
+    },
+    "CLOSED": {
+      "initial_closed_through": "D-2",
+      "posting_closed_through": "D2",
+      "reopen_to": null,
+      "sale_pair": [
+        "D0",
+        "D3"
+      ],
+      "payment_pair": [
+        "D1",
+        "D3"
+      ],
+      "current_return_resolver": "D3",
+      "required_return_pair": [
+        "D2",
+        "D3"
+      ],
+      "required_credit_components_paid1000": [
+        {
+          "amount": "200.00",
+          "economic": "D2",
+          "book": "D3"
+        }
+      ],
+      "required_credit_components_paid900": [
+        {
+          "amount": "100.00",
+          "economic": "D2",
+          "book": "D3"
+        }
+      ]
+    },
+    "REOPENED": {
+      "initial_closed_through": "D-2",
+      "posting_closed_through": "D2",
+      "reopen_to": "D-2",
+      "sale_pair": [
+        "D0",
+        "D3"
+      ],
+      "payment_pair": [
+        "D1",
+        "D3"
+      ],
+      "current_return_resolver": "D2",
+      "required_return_pair": [
+        "D2",
+        "D3"
+      ],
+      "required_credit_components_paid1000": [
+        {
+          "amount": "200.00",
+          "economic": "D2",
+          "book": "D3"
+        }
+      ],
+      "required_credit_components_paid900": [
+        {
+          "amount": "100.00",
+          "economic": "D2",
+          "book": "D3"
+        }
+      ]
+    }
+  },
+  "fixtures": [
+    {
+      "fixture_id": "OW04_SOURCE_1000_OPEN",
+      "payment_amount": "1000.00",
+      "profile": "OPEN",
+      "pre_return": {
+        "gross": "1000.00",
+        "return_total": "0.00",
+        "net": "1000.00",
+        "P": "1000.00",
+        "U": "0.00",
+        "I": "0.00",
+        "E": "1000.00",
+        "AR": "0.00",
+        "bank_from_fixture": "1000.00",
+        "sale_status": "PAID",
+        "payment_status": "POSTED",
+        "source_gradeA_qty": "5",
+        "destination_qty": "0",
+        "source_unit_hpp": "10.00",
+        "source_value": "50.00",
+        "cogs": "50.00"
+      },
+      "future_credit": {
+        "return_total": "200.00",
+        "net": "800.00",
+        "P": "1000.00",
+        "U": "0.00",
+        "I": "200.00",
+        "E": "800.00",
+        "AR": "0.00",
+        "credit_remaining": "200.00",
+        "liability_credit": "200.00",
+        "bank_from_fixture": "1000.00",
+        "source_gradeA_qty": "5",
+        "destination_gradeA_qty": "1",
+        "FG_total_qty": "6",
+        "FG_total_value": "60.00",
+        "cogs": "40.00",
+        "revenue": "800.00",
+        "gross_profit": "760.00"
+      },
+      "future_full_refund": {
+        "credit_issued": "200.00",
+        "refund_amount": "200.00",
+        "I_after_refund": "200.00",
+        "E": "800.00",
+        "AR": "0.00",
+        "credit_remaining": "0.00",
+        "liability_credit": "0.00",
+        "bank_from_fixture": "800.00",
+        "stock_and_HPP_same_as_credit": true
+      },
+      "required_payment_immutability": [
+        "full_native_payment_header_including_POSTED_status",
+        "immutable_posting_fact",
+        "original_journal_header_including_both_dates_posting_at_and_POSTED_status",
+        "every_original_journal_line_all_dimensions",
+        "reversal_facts_stay_empty"
+      ],
+      "legacy_omitted_choice": {
+        "outcome": "REFUSE_ATOMIC",
+        "error_contains": "membuat pembayaran customer melebihi nilai penjualan tersisa",
+        "return_rows_added": 0,
+        "stock_GL_payment_changes": 0
+      }
+    },
+    {
+      "fixture_id": "OW04_SOURCE_1000_CLOSED",
+      "payment_amount": "1000.00",
+      "profile": "CLOSED",
+      "pre_return": {
+        "gross": "1000.00",
+        "return_total": "0.00",
+        "net": "1000.00",
+        "P": "1000.00",
+        "U": "0.00",
+        "I": "0.00",
+        "E": "1000.00",
+        "AR": "0.00",
+        "bank_from_fixture": "1000.00",
+        "sale_status": "PAID",
+        "payment_status": "POSTED",
+        "source_gradeA_qty": "5",
+        "destination_qty": "0",
+        "source_unit_hpp": "10.00",
+        "source_value": "50.00",
+        "cogs": "50.00"
+      },
+      "future_credit": {
+        "return_total": "200.00",
+        "net": "800.00",
+        "P": "1000.00",
+        "U": "0.00",
+        "I": "200.00",
+        "E": "800.00",
+        "AR": "0.00",
+        "credit_remaining": "200.00",
+        "liability_credit": "200.00",
+        "bank_from_fixture": "1000.00",
+        "source_gradeA_qty": "5",
+        "destination_gradeA_qty": "1",
+        "FG_total_qty": "6",
+        "FG_total_value": "60.00",
+        "cogs": "40.00",
+        "revenue": "800.00",
+        "gross_profit": "760.00"
+      },
+      "future_full_refund": {
+        "credit_issued": "200.00",
+        "refund_amount": "200.00",
+        "I_after_refund": "200.00",
+        "E": "800.00",
+        "AR": "0.00",
+        "credit_remaining": "0.00",
+        "liability_credit": "0.00",
+        "bank_from_fixture": "800.00",
+        "stock_and_HPP_same_as_credit": true
+      },
+      "required_payment_immutability": [
+        "full_native_payment_header_including_POSTED_status",
+        "immutable_posting_fact",
+        "original_journal_header_including_both_dates_posting_at_and_POSTED_status",
+        "every_original_journal_line_all_dimensions",
+        "reversal_facts_stay_empty"
+      ],
+      "legacy_omitted_choice": {
+        "outcome": "REFUSE_ATOMIC",
+        "error_contains": "membuat pembayaran customer melebihi nilai penjualan tersisa",
+        "return_rows_added": 0,
+        "stock_GL_payment_changes": 0
+      }
+    },
+    {
+      "fixture_id": "OW04_SOURCE_1000_REOPENED",
+      "payment_amount": "1000.00",
+      "profile": "REOPENED",
+      "pre_return": {
+        "gross": "1000.00",
+        "return_total": "0.00",
+        "net": "1000.00",
+        "P": "1000.00",
+        "U": "0.00",
+        "I": "0.00",
+        "E": "1000.00",
+        "AR": "0.00",
+        "bank_from_fixture": "1000.00",
+        "sale_status": "PAID",
+        "payment_status": "POSTED",
+        "source_gradeA_qty": "5",
+        "destination_qty": "0",
+        "source_unit_hpp": "10.00",
+        "source_value": "50.00",
+        "cogs": "50.00"
+      },
+      "future_credit": {
+        "return_total": "200.00",
+        "net": "800.00",
+        "P": "1000.00",
+        "U": "0.00",
+        "I": "200.00",
+        "E": "800.00",
+        "AR": "0.00",
+        "credit_remaining": "200.00",
+        "liability_credit": "200.00",
+        "bank_from_fixture": "1000.00",
+        "source_gradeA_qty": "5",
+        "destination_gradeA_qty": "1",
+        "FG_total_qty": "6",
+        "FG_total_value": "60.00",
+        "cogs": "40.00",
+        "revenue": "800.00",
+        "gross_profit": "760.00"
+      },
+      "future_full_refund": {
+        "credit_issued": "200.00",
+        "refund_amount": "200.00",
+        "I_after_refund": "200.00",
+        "E": "800.00",
+        "AR": "0.00",
+        "credit_remaining": "0.00",
+        "liability_credit": "0.00",
+        "bank_from_fixture": "800.00",
+        "stock_and_HPP_same_as_credit": true
+      },
+      "required_payment_immutability": [
+        "full_native_payment_header_including_POSTED_status",
+        "immutable_posting_fact",
+        "original_journal_header_including_both_dates_posting_at_and_POSTED_status",
+        "every_original_journal_line_all_dimensions",
+        "reversal_facts_stay_empty"
+      ],
+      "legacy_omitted_choice": {
+        "outcome": "REFUSE_ATOMIC",
+        "error_contains": "membuat pembayaran customer melebihi nilai penjualan tersisa",
+        "return_rows_added": 0,
+        "stock_GL_payment_changes": 0
+      }
+    },
+    {
+      "fixture_id": "OW04_SOURCE_900_OPEN",
+      "payment_amount": "900.00",
+      "profile": "OPEN",
+      "pre_return": {
+        "gross": "1000.00",
+        "return_total": "0.00",
+        "net": "1000.00",
+        "P": "900.00",
+        "U": "0.00",
+        "I": "0.00",
+        "E": "900.00",
+        "AR": "100.00",
+        "bank_from_fixture": "900.00",
+        "sale_status": "PARTIAL_PAID",
+        "payment_status": "POSTED",
+        "source_gradeA_qty": "5",
+        "destination_qty": "0",
+        "source_unit_hpp": "10.00",
+        "source_value": "50.00",
+        "cogs": "50.00"
+      },
+      "future_credit": {
+        "return_total": "200.00",
+        "net": "800.00",
+        "P": "900.00",
+        "U": "0.00",
+        "I": "100.00",
+        "E": "800.00",
+        "AR": "0.00",
+        "credit_remaining": "100.00",
+        "liability_credit": "100.00",
+        "bank_from_fixture": "900.00",
+        "source_gradeA_qty": "5",
+        "destination_gradeA_qty": "1",
+        "FG_total_qty": "6",
+        "FG_total_value": "60.00",
+        "cogs": "40.00",
+        "revenue": "800.00",
+        "gross_profit": "760.00"
+      },
+      "future_full_refund": {
+        "credit_issued": "100.00",
+        "refund_amount": "100.00",
+        "I_after_refund": "100.00",
+        "E": "800.00",
+        "AR": "0.00",
+        "credit_remaining": "0.00",
+        "liability_credit": "0.00",
+        "bank_from_fixture": "800.00",
+        "stock_and_HPP_same_as_credit": true
+      },
+      "required_payment_immutability": [
+        "full_native_payment_header_including_POSTED_status",
+        "immutable_posting_fact",
+        "original_journal_header_including_both_dates_posting_at_and_POSTED_status",
+        "every_original_journal_line_all_dimensions",
+        "reversal_facts_stay_empty"
+      ],
+      "legacy_omitted_choice": {
+        "outcome": "REFUSE_ATOMIC",
+        "error_contains": "membuat pembayaran customer melebihi nilai penjualan tersisa",
+        "return_rows_added": 0,
+        "stock_GL_payment_changes": 0
+      }
+    },
+    {
+      "fixture_id": "OW04_SOURCE_900_CLOSED",
+      "payment_amount": "900.00",
+      "profile": "CLOSED",
+      "pre_return": {
+        "gross": "1000.00",
+        "return_total": "0.00",
+        "net": "1000.00",
+        "P": "900.00",
+        "U": "0.00",
+        "I": "0.00",
+        "E": "900.00",
+        "AR": "100.00",
+        "bank_from_fixture": "900.00",
+        "sale_status": "PARTIAL_PAID",
+        "payment_status": "POSTED",
+        "source_gradeA_qty": "5",
+        "destination_qty": "0",
+        "source_unit_hpp": "10.00",
+        "source_value": "50.00",
+        "cogs": "50.00"
+      },
+      "future_credit": {
+        "return_total": "200.00",
+        "net": "800.00",
+        "P": "900.00",
+        "U": "0.00",
+        "I": "100.00",
+        "E": "800.00",
+        "AR": "0.00",
+        "credit_remaining": "100.00",
+        "liability_credit": "100.00",
+        "bank_from_fixture": "900.00",
+        "source_gradeA_qty": "5",
+        "destination_gradeA_qty": "1",
+        "FG_total_qty": "6",
+        "FG_total_value": "60.00",
+        "cogs": "40.00",
+        "revenue": "800.00",
+        "gross_profit": "760.00"
+      },
+      "future_full_refund": {
+        "credit_issued": "100.00",
+        "refund_amount": "100.00",
+        "I_after_refund": "100.00",
+        "E": "800.00",
+        "AR": "0.00",
+        "credit_remaining": "0.00",
+        "liability_credit": "0.00",
+        "bank_from_fixture": "800.00",
+        "stock_and_HPP_same_as_credit": true
+      },
+      "required_payment_immutability": [
+        "full_native_payment_header_including_POSTED_status",
+        "immutable_posting_fact",
+        "original_journal_header_including_both_dates_posting_at_and_POSTED_status",
+        "every_original_journal_line_all_dimensions",
+        "reversal_facts_stay_empty"
+      ],
+      "legacy_omitted_choice": {
+        "outcome": "REFUSE_ATOMIC",
+        "error_contains": "membuat pembayaran customer melebihi nilai penjualan tersisa",
+        "return_rows_added": 0,
+        "stock_GL_payment_changes": 0
+      }
+    },
+    {
+      "fixture_id": "OW04_SOURCE_900_REOPENED",
+      "payment_amount": "900.00",
+      "profile": "REOPENED",
+      "pre_return": {
+        "gross": "1000.00",
+        "return_total": "0.00",
+        "net": "1000.00",
+        "P": "900.00",
+        "U": "0.00",
+        "I": "0.00",
+        "E": "900.00",
+        "AR": "100.00",
+        "bank_from_fixture": "900.00",
+        "sale_status": "PARTIAL_PAID",
+        "payment_status": "POSTED",
+        "source_gradeA_qty": "5",
+        "destination_qty": "0",
+        "source_unit_hpp": "10.00",
+        "source_value": "50.00",
+        "cogs": "50.00"
+      },
+      "future_credit": {
+        "return_total": "200.00",
+        "net": "800.00",
+        "P": "900.00",
+        "U": "0.00",
+        "I": "100.00",
+        "E": "800.00",
+        "AR": "0.00",
+        "credit_remaining": "100.00",
+        "liability_credit": "100.00",
+        "bank_from_fixture": "900.00",
+        "source_gradeA_qty": "5",
+        "destination_gradeA_qty": "1",
+        "FG_total_qty": "6",
+        "FG_total_value": "60.00",
+        "cogs": "40.00",
+        "revenue": "800.00",
+        "gross_profit": "760.00"
+      },
+      "future_full_refund": {
+        "credit_issued": "100.00",
+        "refund_amount": "100.00",
+        "I_after_refund": "100.00",
+        "E": "800.00",
+        "AR": "0.00",
+        "credit_remaining": "0.00",
+        "liability_credit": "0.00",
+        "bank_from_fixture": "800.00",
+        "stock_and_HPP_same_as_credit": true
+      },
+      "required_payment_immutability": [
+        "full_native_payment_header_including_POSTED_status",
+        "immutable_posting_fact",
+        "original_journal_header_including_both_dates_posting_at_and_POSTED_status",
+        "every_original_journal_line_all_dimensions",
+        "reversal_facts_stay_empty"
+      ],
+      "legacy_omitted_choice": {
+        "outcome": "REFUSE_ATOMIC",
+        "error_contains": "membuat pembayaran customer melebihi nilai penjualan tersisa",
+        "return_rows_added": 0,
+        "stock_GL_payment_changes": 0
+      }
+    }
+  ],
+  "source_authority_limits": [
+    "Initial period cutoff is the retained labelled administrative disposable fixture, not proof of a legal financial close/filing. Reopen itself uses the actual Native owner command.",
+    "REOPENED requires a narrow proven source-book floor for RETURN and recognition. If no such hook exists, refuse atomically; do not call the positive profile PASS.",
+    "Source manifest captures actual Native rows/status/date pairs and hashes; it is not a product authority collector or permission proof.",
+    "New quote RPC has tentative signature public.erp_cp7_get_sales_return_settlement_quote_v1(jsonb); payload shape and RETURN_SETTLEMENT action are not implemented or invented by this fixture.",
+    "Choose an actual valid LIABILITY/CREDIT account explicitly. Do not create a default account, migration batch, expiry or fake bank funding."
+  ],
+  "retain_unchanged": [
+    "P11_RETURN_PAID_REFUSAL and its inverse-payment then ordinary-return control",
+    "existing P11 payment/return/correction suites",
+    "existing E01 production chain; this found-stock fixture does not replace its HPP proof"
+  ],
+  "test_map_classification": "14 proposed risk cases, not registered, executed or accepted; six source-fixture variants are not extra feature-case executions",
+  "proposed_required_counts": {
+    "native": 7,
+    "http": 2,
+    "races": 3,
+    "browser": 2
+  },
+  "proposed_case_mapping": {
+    "native": [
+      {
+        "id": "OW04_PAID_CREDIT_REFUND",
+        "risk": "Fully paid1000 return200 explicit CREDIT/REFUND200; raw payment unchanged, exact stock/HPP/GL"
+      },
+      {
+        "id": "OW04_PARTIAL_CREDIT_REFUND",
+        "risk": "Paid900 return200 creates only100; prevent refund/credit200 or double deduction of I"
+      },
+      {
+        "id": "OW04_UNPAID_ORDINARY_CONTROL",
+        "risk": "Unpaid return200 reduces AR1000 to800; no hidden cohort/account and old ordinary path retained"
+      },
+      {
+        "id": "OW04_TWO_DATE_REOPEN_FLOORS",
+        "risk": "CLOSED and REOPENED fixtures retain actual sale/payment books; return and recognition cannot move earlier after reopen"
+      },
+      {
+        "id": "OW04_CREDIT_CONSUMER_UNDO",
+        "risk": "Partial apply+refund and linked inverses; I unchanged while spent/refunded; per-cohort/joint-date capacity and same-customer destination"
+      },
+      {
+        "id": "OW04_SOURCE_CORRECTION_DEPENDENCIES",
+        "risk": "Return/payment/note correction retains original signed journals and immutable root attribution; active dependent consumption blocks atomically; undo restores eligibility"
+      },
+      {
+        "id": "OW04_REPLAY_FINAL_POST_ROLLBACK",
+        "risk": "Exact UUID replay, changed body rejection, last refund-journal fault rolls back return+credit+cash+stock+envelope; no partial positive PASS"
+      }
+    ],
+    "http": [
+      {
+        "id": "OW04_HTTP_QUOTE_SETTLE_LOST_REPLY",
+        "risk": "Real Auth quote then explicit settlement, discard reply, same UUID exact outcome and one source set"
+      },
+      {
+        "id": "OW04_HTTP_REVOKED_REPLAY",
+        "risk": "Current view/post/cash authority checked before cached outcome; 401/403 exact no residue and stale source"
+      }
+    ],
+    "races": [
+      {
+        "id": "OW04_RACE_SOURCE_PERIOD_CHANGED",
+        "risk": "Observed real lock wait then funding/return/period changes; stale quote fails or fully recomputes exact source pairs atomically"
+      },
+      {
+        "id": "OW04_RACE_TWO_CREDIT_CONSUMERS",
+        "risk": "Concurrent apply/refund on one cohort; final dated capacity and bank conservation; no customer-pool borrowing"
+      },
+      {
+        "id": "OW04_RACE_REVOKED_AFTER_WAIT",
+        "risk": "Observed owning-lock wait, revoke exact source or cash permission, resumed request has zero effects"
+      }
+    ],
+    "browser": [
+      {
+        "id": "OW04_BROWSER_DESKTOP",
+        "risk": "Pay before return, explicit physical time/mode/account, quote/refetch recovery, apply/refund/undo source links"
+      },
+      {
+        "id": "OW04_BROWSER_MOBILE",
+        "risk": "Same journey at390px; actual server values, stale quote response/403 freezes dependent writers"
+      }
+    ]
+  }
+}

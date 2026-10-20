@@ -17,13 +17,17 @@ import cp6_t3_package_run as package
 from cp6_t3_aligned_install import advisors,advisor_delta
 OUT=bundle.ROOT/'cp6-proof/t3/CP7_P11_SALES_READ.json'
 
-def verify(cur):
+def verify(cur,customer_credit=False):
  result=p09.verify(cur)
  payment_correction.verify(cur)
  got=cur.execute("select p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_sales'").fetchall()
  expected={n:('cp7_sales_read',False,'s') for n in ('access_now','header','workspace','review_token','form_options','cash_workspace','return_workspace')}
  expected['validate_draft']=('cp7_sales_read',False,'i');expected['validate_payment']=('cp7_sales_read',False,'i');expected['validate_return']=('cp7_sales_read',False,'i')
  expected.update(command_access=('cp7_sales_read',True,'s'),command_allowed=('cp7_sales_read',False,'s'),apply_command=('postgres',True,'v'),command=('cp7_sales_write',False,'v'))
+ # OW04's owning qualifier declares these two narrow capabilities explicitly.
+ # The original qualifier retains its exact original inventory by default.
+ if customer_credit:
+  expected.update(preclaim_credit_return=('cp7_sales_write',True,'v'),execute_preclaimed_credit_return=('cp7_sales_write',True,'v'))
  assert {x[0] for x in got}==set(expected)
  for name,owner,secdef,vol,config in got:assert (owner,secdef,vol)==expected[name] and config==['search_path=""'],name
  for sig,who,vol in [('public.erp_cp7_get_sales_v1(jsonb)','cp7_sales_read','s'),('public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)','cp7_sales_write','v'),('public.erp_cp7_get_sales_form_v1(jsonb)','cp7_sales_read','s'),('public.erp_cp7_get_sales_cash_v1(jsonb)','cp7_sales_read','s'),('public.erp_cp7_get_sales_returns_v1(jsonb)','cp7_sales_read','s')]:

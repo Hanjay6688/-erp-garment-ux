@@ -1,0 +1,870 @@
+{
+  "classification": "LITERAL_EXPECTED_BEFORE_TEST_IMPLEMENTATION_NOT_NATIVE_EXECUTION",
+  "native_executed": false,
+  "initial_case_count": 12,
+  "normal_recovery_envelope": {
+    "domain": "SALES",
+    "action": "RETURN_SETTLEMENT",
+    "payload_keys": [
+      "document",
+      "expected_version"
+    ],
+    "expectedVersion": null
+  },
+  "proposed_quote_signature": "public.erp_cp7_get_sales_return_settlement_quote_v1(jsonb)",
+  "proposed_settle_signature": "public.erp_cp7_settle_sales_return_v1(jsonb,uuid,text)",
+  "required_credit_account_fixture": "ADMINISTRATIVE_DISPOSABLE_MASTER_FIXTURE: explicit unique empty active/postable LIABILITY/CREDIT COA, inserted as test master under admin like existing bank/location masters; no opening balance/journal, import batch, default, cash/mapping/prepayment/BB link. Actual quote must independently return eligibility proof.",
+  "cash_fixture": "Existing Native source fixture bank master, funded only by this actual original payment.",
+  "book_date_policy": "Expected two-axis pairs are assertions of actual server plan/journals. REOPENED ordinary resolver D2 is a negative comparator, never an input override.",
+  "source_pins": {
+    "native/cp7_ow04_native_source_fixture.py": "776ce28bb295d9fa9bc2f4c34e1abcff15b203316617aae580bf5b3ba9e0d0f7",
+    "native/EXPECTED.json": "f6d7efdde1a409094b8c5485fb7942209175bce1d869e8c05f1a1d097b7cadde",
+    "ui/salesReturnSettlementProposal.ts": "fa9e916cdfddeae72cfe842d4dd40c74a257f541396fa9ea55f09694ad7463cf",
+    "ui/QUOTE_UI_CONTRACT.md": "67df486736ed4fb98a5cd4685e303e57bc316550ae443e68021903e30d87a06c",
+    "ledger/01_immutable_facts.proposal.sql": "62383030bf27b70c5c07f948c69329be6f8229c314097e7d3c02293cc8c929c6",
+    "readers/02_materialized_profile.proposal.sql": "eb61c0db0f4efe77ae9e926b972a802edb76abcf3028ce8d963a91c2410a7ff0"
+  },
+  "cases": [
+    {
+      "id": "OW04_INITIAL_1000_OPEN_CREDIT",
+      "source_fixture_id": "OW04_SOURCE_1000_OPEN",
+      "paid": "1000.00",
+      "profile": "OPEN",
+      "mode": "CREDIT",
+      "before": {
+        "gross_total": "1000.00",
+        "return_total": "0.00",
+        "net_total": "1000.00",
+        "payments_received": "1000.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "0.00",
+        "effective_paid": "1000.00",
+        "receivable_remaining": "0.00"
+      },
+      "after": {
+        "gross_total": "1000.00",
+        "return_total": "200.00",
+        "net_total": "800.00",
+        "payments_received": "1000.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "200.00",
+        "effective_paid": "800.00",
+        "receivable_remaining": "0.00"
+      },
+      "current_credit_amount": "200.00",
+      "recognition_components": [
+        {
+          "amount": "200.00",
+          "economic": "D2",
+          "book": "D2"
+        }
+      ],
+      "return_pair": [
+        "D2",
+        "D2"
+      ],
+      "prior_causal_book_floor": "D0",
+      "ordinary_return_resolver": "D2",
+      "refund_physical_input": null,
+      "refund_pair": null,
+      "refund_amount": "0.00",
+      "credit_remaining": "200.00",
+      "liability_credit": "200.00",
+      "bank_from_fixture": "1000.00",
+      "FG_qty": "6",
+      "FG_value": "60.00",
+      "return_qty": "1",
+      "return_unit_hpp": "10.00",
+      "return_value": "200.00",
+      "return_hpp": "10.00",
+      "revenue": "800.00",
+      "COGS": "40.00",
+      "family_count": 1,
+      "cohort_count": 1,
+      "plan_count": 1,
+      "component_count": 1,
+      "part_count": 1,
+      "return_journal_count": 1,
+      "recognition_journal_count": 1,
+      "refund_event_count": 0,
+      "refund_journal_count": 0,
+      "source_payment_must_remain_full_byte_equal": true,
+      "original_sale_journal_must_remain_full_byte_equal": true,
+      "same_UUID_replay_additional_effects": 0
+    },
+    {
+      "id": "OW04_INITIAL_1000_OPEN_REFUND",
+      "source_fixture_id": "OW04_SOURCE_1000_OPEN",
+      "paid": "1000.00",
+      "profile": "OPEN",
+      "mode": "REFUND",
+      "before": {
+        "gross_total": "1000.00",
+        "return_total": "0.00",
+        "net_total": "1000.00",
+        "payments_received": "1000.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "0.00",
+        "effective_paid": "1000.00",
+        "receivable_remaining": "0.00"
+      },
+      "after": {
+        "gross_total": "1000.00",
+        "return_total": "200.00",
+        "net_total": "800.00",
+        "payments_received": "1000.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "200.00",
+        "effective_paid": "800.00",
+        "receivable_remaining": "0.00"
+      },
+      "current_credit_amount": "200.00",
+      "recognition_components": [
+        {
+          "amount": "200.00",
+          "economic": "D2",
+          "book": "D2"
+        }
+      ],
+      "return_pair": [
+        "D2",
+        "D2"
+      ],
+      "prior_causal_book_floor": "D0",
+      "ordinary_return_resolver": "D2",
+      "refund_physical_input": [
+        "D2",
+        "13:00:00.654321+07:00"
+      ],
+      "refund_pair": [
+        "D2",
+        "D2"
+      ],
+      "refund_amount": "200.00",
+      "credit_remaining": "0.00",
+      "liability_credit": "0.00",
+      "bank_from_fixture": "800.00",
+      "FG_qty": "6",
+      "FG_value": "60.00",
+      "return_qty": "1",
+      "return_unit_hpp": "10.00",
+      "return_value": "200.00",
+      "return_hpp": "10.00",
+      "revenue": "800.00",
+      "COGS": "40.00",
+      "family_count": 1,
+      "cohort_count": 1,
+      "plan_count": 1,
+      "component_count": 1,
+      "part_count": 1,
+      "return_journal_count": 1,
+      "recognition_journal_count": 1,
+      "refund_event_count": 1,
+      "refund_journal_count": 1,
+      "source_payment_must_remain_full_byte_equal": true,
+      "original_sale_journal_must_remain_full_byte_equal": true,
+      "same_UUID_replay_additional_effects": 0
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_CREDIT",
+      "source_fixture_id": "OW04_SOURCE_1000_CLOSED",
+      "paid": "1000.00",
+      "profile": "CLOSED",
+      "mode": "CREDIT",
+      "before": {
+        "gross_total": "1000.00",
+        "return_total": "0.00",
+        "net_total": "1000.00",
+        "payments_received": "1000.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "0.00",
+        "effective_paid": "1000.00",
+        "receivable_remaining": "0.00"
+      },
+      "after": {
+        "gross_total": "1000.00",
+        "return_total": "200.00",
+        "net_total": "800.00",
+        "payments_received": "1000.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "200.00",
+        "effective_paid": "800.00",
+        "receivable_remaining": "0.00"
+      },
+      "current_credit_amount": "200.00",
+      "recognition_components": [
+        {
+          "amount": "200.00",
+          "economic": "D2",
+          "book": "D3"
+        }
+      ],
+      "return_pair": [
+        "D2",
+        "D3"
+      ],
+      "prior_causal_book_floor": "D3",
+      "ordinary_return_resolver": "D3",
+      "refund_physical_input": null,
+      "refund_pair": null,
+      "refund_amount": "0.00",
+      "credit_remaining": "200.00",
+      "liability_credit": "200.00",
+      "bank_from_fixture": "1000.00",
+      "FG_qty": "6",
+      "FG_value": "60.00",
+      "return_qty": "1",
+      "return_unit_hpp": "10.00",
+      "return_value": "200.00",
+      "return_hpp": "10.00",
+      "revenue": "800.00",
+      "COGS": "40.00",
+      "family_count": 1,
+      "cohort_count": 1,
+      "plan_count": 1,
+      "component_count": 1,
+      "part_count": 1,
+      "return_journal_count": 1,
+      "recognition_journal_count": 1,
+      "refund_event_count": 0,
+      "refund_journal_count": 0,
+      "source_payment_must_remain_full_byte_equal": true,
+      "original_sale_journal_must_remain_full_byte_equal": true,
+      "same_UUID_replay_additional_effects": 0
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_REFUND",
+      "source_fixture_id": "OW04_SOURCE_1000_CLOSED",
+      "paid": "1000.00",
+      "profile": "CLOSED",
+      "mode": "REFUND",
+      "before": {
+        "gross_total": "1000.00",
+        "return_total": "0.00",
+        "net_total": "1000.00",
+        "payments_received": "1000.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "0.00",
+        "effective_paid": "1000.00",
+        "receivable_remaining": "0.00"
+      },
+      "after": {
+        "gross_total": "1000.00",
+        "return_total": "200.00",
+        "net_total": "800.00",
+        "payments_received": "1000.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "200.00",
+        "effective_paid": "800.00",
+        "receivable_remaining": "0.00"
+      },
+      "current_credit_amount": "200.00",
+      "recognition_components": [
+        {
+          "amount": "200.00",
+          "economic": "D2",
+          "book": "D3"
+        }
+      ],
+      "return_pair": [
+        "D2",
+        "D3"
+      ],
+      "prior_causal_book_floor": "D3",
+      "ordinary_return_resolver": "D3",
+      "refund_physical_input": [
+        "D2",
+        "13:00:00.654321+07:00"
+      ],
+      "refund_pair": [
+        "D2",
+        "D3"
+      ],
+      "refund_amount": "200.00",
+      "credit_remaining": "0.00",
+      "liability_credit": "0.00",
+      "bank_from_fixture": "800.00",
+      "FG_qty": "6",
+      "FG_value": "60.00",
+      "return_qty": "1",
+      "return_unit_hpp": "10.00",
+      "return_value": "200.00",
+      "return_hpp": "10.00",
+      "revenue": "800.00",
+      "COGS": "40.00",
+      "family_count": 1,
+      "cohort_count": 1,
+      "plan_count": 1,
+      "component_count": 1,
+      "part_count": 1,
+      "return_journal_count": 1,
+      "recognition_journal_count": 1,
+      "refund_event_count": 1,
+      "refund_journal_count": 1,
+      "source_payment_must_remain_full_byte_equal": true,
+      "original_sale_journal_must_remain_full_byte_equal": true,
+      "same_UUID_replay_additional_effects": 0
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_CREDIT",
+      "source_fixture_id": "OW04_SOURCE_1000_REOPENED",
+      "paid": "1000.00",
+      "profile": "REOPENED",
+      "mode": "CREDIT",
+      "before": {
+        "gross_total": "1000.00",
+        "return_total": "0.00",
+        "net_total": "1000.00",
+        "payments_received": "1000.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "0.00",
+        "effective_paid": "1000.00",
+        "receivable_remaining": "0.00"
+      },
+      "after": {
+        "gross_total": "1000.00",
+        "return_total": "200.00",
+        "net_total": "800.00",
+        "payments_received": "1000.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "200.00",
+        "effective_paid": "800.00",
+        "receivable_remaining": "0.00"
+      },
+      "current_credit_amount": "200.00",
+      "recognition_components": [
+        {
+          "amount": "200.00",
+          "economic": "D2",
+          "book": "D3"
+        }
+      ],
+      "return_pair": [
+        "D2",
+        "D3"
+      ],
+      "prior_causal_book_floor": "D3",
+      "ordinary_return_resolver": "D2",
+      "refund_physical_input": null,
+      "refund_pair": null,
+      "refund_amount": "0.00",
+      "credit_remaining": "200.00",
+      "liability_credit": "200.00",
+      "bank_from_fixture": "1000.00",
+      "FG_qty": "6",
+      "FG_value": "60.00",
+      "return_qty": "1",
+      "return_unit_hpp": "10.00",
+      "return_value": "200.00",
+      "return_hpp": "10.00",
+      "revenue": "800.00",
+      "COGS": "40.00",
+      "family_count": 1,
+      "cohort_count": 1,
+      "plan_count": 1,
+      "component_count": 1,
+      "part_count": 1,
+      "return_journal_count": 1,
+      "recognition_journal_count": 1,
+      "refund_event_count": 0,
+      "refund_journal_count": 0,
+      "source_payment_must_remain_full_byte_equal": true,
+      "original_sale_journal_must_remain_full_byte_equal": true,
+      "same_UUID_replay_additional_effects": 0
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_REFUND",
+      "source_fixture_id": "OW04_SOURCE_1000_REOPENED",
+      "paid": "1000.00",
+      "profile": "REOPENED",
+      "mode": "REFUND",
+      "before": {
+        "gross_total": "1000.00",
+        "return_total": "0.00",
+        "net_total": "1000.00",
+        "payments_received": "1000.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "0.00",
+        "effective_paid": "1000.00",
+        "receivable_remaining": "0.00"
+      },
+      "after": {
+        "gross_total": "1000.00",
+        "return_total": "200.00",
+        "net_total": "800.00",
+        "payments_received": "1000.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "200.00",
+        "effective_paid": "800.00",
+        "receivable_remaining": "0.00"
+      },
+      "current_credit_amount": "200.00",
+      "recognition_components": [
+        {
+          "amount": "200.00",
+          "economic": "D2",
+          "book": "D3"
+        }
+      ],
+      "return_pair": [
+        "D2",
+        "D3"
+      ],
+      "prior_causal_book_floor": "D3",
+      "ordinary_return_resolver": "D2",
+      "refund_physical_input": [
+        "D2",
+        "13:00:00.654321+07:00"
+      ],
+      "refund_pair": [
+        "D2",
+        "D3"
+      ],
+      "refund_amount": "200.00",
+      "credit_remaining": "0.00",
+      "liability_credit": "0.00",
+      "bank_from_fixture": "800.00",
+      "FG_qty": "6",
+      "FG_value": "60.00",
+      "return_qty": "1",
+      "return_unit_hpp": "10.00",
+      "return_value": "200.00",
+      "return_hpp": "10.00",
+      "revenue": "800.00",
+      "COGS": "40.00",
+      "family_count": 1,
+      "cohort_count": 1,
+      "plan_count": 1,
+      "component_count": 1,
+      "part_count": 1,
+      "return_journal_count": 1,
+      "recognition_journal_count": 1,
+      "refund_event_count": 1,
+      "refund_journal_count": 1,
+      "source_payment_must_remain_full_byte_equal": true,
+      "original_sale_journal_must_remain_full_byte_equal": true,
+      "same_UUID_replay_additional_effects": 0
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_CREDIT",
+      "source_fixture_id": "OW04_SOURCE_900_OPEN",
+      "paid": "900.00",
+      "profile": "OPEN",
+      "mode": "CREDIT",
+      "before": {
+        "gross_total": "1000.00",
+        "return_total": "0.00",
+        "net_total": "1000.00",
+        "payments_received": "900.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "0.00",
+        "effective_paid": "900.00",
+        "receivable_remaining": "100.00"
+      },
+      "after": {
+        "gross_total": "1000.00",
+        "return_total": "200.00",
+        "net_total": "800.00",
+        "payments_received": "900.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "100.00",
+        "effective_paid": "800.00",
+        "receivable_remaining": "0.00"
+      },
+      "current_credit_amount": "100.00",
+      "recognition_components": [
+        {
+          "amount": "100.00",
+          "economic": "D2",
+          "book": "D2"
+        }
+      ],
+      "return_pair": [
+        "D2",
+        "D2"
+      ],
+      "prior_causal_book_floor": "D0",
+      "ordinary_return_resolver": "D2",
+      "refund_physical_input": null,
+      "refund_pair": null,
+      "refund_amount": "0.00",
+      "credit_remaining": "100.00",
+      "liability_credit": "100.00",
+      "bank_from_fixture": "900.00",
+      "FG_qty": "6",
+      "FG_value": "60.00",
+      "return_qty": "1",
+      "return_unit_hpp": "10.00",
+      "return_value": "200.00",
+      "return_hpp": "10.00",
+      "revenue": "800.00",
+      "COGS": "40.00",
+      "family_count": 1,
+      "cohort_count": 1,
+      "plan_count": 1,
+      "component_count": 1,
+      "part_count": 1,
+      "return_journal_count": 1,
+      "recognition_journal_count": 1,
+      "refund_event_count": 0,
+      "refund_journal_count": 0,
+      "source_payment_must_remain_full_byte_equal": true,
+      "original_sale_journal_must_remain_full_byte_equal": true,
+      "same_UUID_replay_additional_effects": 0
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_REFUND",
+      "source_fixture_id": "OW04_SOURCE_900_OPEN",
+      "paid": "900.00",
+      "profile": "OPEN",
+      "mode": "REFUND",
+      "before": {
+        "gross_total": "1000.00",
+        "return_total": "0.00",
+        "net_total": "1000.00",
+        "payments_received": "900.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "0.00",
+        "effective_paid": "900.00",
+        "receivable_remaining": "100.00"
+      },
+      "after": {
+        "gross_total": "1000.00",
+        "return_total": "200.00",
+        "net_total": "800.00",
+        "payments_received": "900.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "100.00",
+        "effective_paid": "800.00",
+        "receivable_remaining": "0.00"
+      },
+      "current_credit_amount": "100.00",
+      "recognition_components": [
+        {
+          "amount": "100.00",
+          "economic": "D2",
+          "book": "D2"
+        }
+      ],
+      "return_pair": [
+        "D2",
+        "D2"
+      ],
+      "prior_causal_book_floor": "D0",
+      "ordinary_return_resolver": "D2",
+      "refund_physical_input": [
+        "D2",
+        "13:00:00.654321+07:00"
+      ],
+      "refund_pair": [
+        "D2",
+        "D2"
+      ],
+      "refund_amount": "100.00",
+      "credit_remaining": "0.00",
+      "liability_credit": "0.00",
+      "bank_from_fixture": "800.00",
+      "FG_qty": "6",
+      "FG_value": "60.00",
+      "return_qty": "1",
+      "return_unit_hpp": "10.00",
+      "return_value": "200.00",
+      "return_hpp": "10.00",
+      "revenue": "800.00",
+      "COGS": "40.00",
+      "family_count": 1,
+      "cohort_count": 1,
+      "plan_count": 1,
+      "component_count": 1,
+      "part_count": 1,
+      "return_journal_count": 1,
+      "recognition_journal_count": 1,
+      "refund_event_count": 1,
+      "refund_journal_count": 1,
+      "source_payment_must_remain_full_byte_equal": true,
+      "original_sale_journal_must_remain_full_byte_equal": true,
+      "same_UUID_replay_additional_effects": 0
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_CREDIT",
+      "source_fixture_id": "OW04_SOURCE_900_CLOSED",
+      "paid": "900.00",
+      "profile": "CLOSED",
+      "mode": "CREDIT",
+      "before": {
+        "gross_total": "1000.00",
+        "return_total": "0.00",
+        "net_total": "1000.00",
+        "payments_received": "900.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "0.00",
+        "effective_paid": "900.00",
+        "receivable_remaining": "100.00"
+      },
+      "after": {
+        "gross_total": "1000.00",
+        "return_total": "200.00",
+        "net_total": "800.00",
+        "payments_received": "900.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "100.00",
+        "effective_paid": "800.00",
+        "receivable_remaining": "0.00"
+      },
+      "current_credit_amount": "100.00",
+      "recognition_components": [
+        {
+          "amount": "100.00",
+          "economic": "D2",
+          "book": "D3"
+        }
+      ],
+      "return_pair": [
+        "D2",
+        "D3"
+      ],
+      "prior_causal_book_floor": "D3",
+      "ordinary_return_resolver": "D3",
+      "refund_physical_input": null,
+      "refund_pair": null,
+      "refund_amount": "0.00",
+      "credit_remaining": "100.00",
+      "liability_credit": "100.00",
+      "bank_from_fixture": "900.00",
+      "FG_qty": "6",
+      "FG_value": "60.00",
+      "return_qty": "1",
+      "return_unit_hpp": "10.00",
+      "return_value": "200.00",
+      "return_hpp": "10.00",
+      "revenue": "800.00",
+      "COGS": "40.00",
+      "family_count": 1,
+      "cohort_count": 1,
+      "plan_count": 1,
+      "component_count": 1,
+      "part_count": 1,
+      "return_journal_count": 1,
+      "recognition_journal_count": 1,
+      "refund_event_count": 0,
+      "refund_journal_count": 0,
+      "source_payment_must_remain_full_byte_equal": true,
+      "original_sale_journal_must_remain_full_byte_equal": true,
+      "same_UUID_replay_additional_effects": 0
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_REFUND",
+      "source_fixture_id": "OW04_SOURCE_900_CLOSED",
+      "paid": "900.00",
+      "profile": "CLOSED",
+      "mode": "REFUND",
+      "before": {
+        "gross_total": "1000.00",
+        "return_total": "0.00",
+        "net_total": "1000.00",
+        "payments_received": "900.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "0.00",
+        "effective_paid": "900.00",
+        "receivable_remaining": "100.00"
+      },
+      "after": {
+        "gross_total": "1000.00",
+        "return_total": "200.00",
+        "net_total": "800.00",
+        "payments_received": "900.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "100.00",
+        "effective_paid": "800.00",
+        "receivable_remaining": "0.00"
+      },
+      "current_credit_amount": "100.00",
+      "recognition_components": [
+        {
+          "amount": "100.00",
+          "economic": "D2",
+          "book": "D3"
+        }
+      ],
+      "return_pair": [
+        "D2",
+        "D3"
+      ],
+      "prior_causal_book_floor": "D3",
+      "ordinary_return_resolver": "D3",
+      "refund_physical_input": [
+        "D2",
+        "13:00:00.654321+07:00"
+      ],
+      "refund_pair": [
+        "D2",
+        "D3"
+      ],
+      "refund_amount": "100.00",
+      "credit_remaining": "0.00",
+      "liability_credit": "0.00",
+      "bank_from_fixture": "800.00",
+      "FG_qty": "6",
+      "FG_value": "60.00",
+      "return_qty": "1",
+      "return_unit_hpp": "10.00",
+      "return_value": "200.00",
+      "return_hpp": "10.00",
+      "revenue": "800.00",
+      "COGS": "40.00",
+      "family_count": 1,
+      "cohort_count": 1,
+      "plan_count": 1,
+      "component_count": 1,
+      "part_count": 1,
+      "return_journal_count": 1,
+      "recognition_journal_count": 1,
+      "refund_event_count": 1,
+      "refund_journal_count": 1,
+      "source_payment_must_remain_full_byte_equal": true,
+      "original_sale_journal_must_remain_full_byte_equal": true,
+      "same_UUID_replay_additional_effects": 0
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_CREDIT",
+      "source_fixture_id": "OW04_SOURCE_900_REOPENED",
+      "paid": "900.00",
+      "profile": "REOPENED",
+      "mode": "CREDIT",
+      "before": {
+        "gross_total": "1000.00",
+        "return_total": "0.00",
+        "net_total": "1000.00",
+        "payments_received": "900.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "0.00",
+        "effective_paid": "900.00",
+        "receivable_remaining": "100.00"
+      },
+      "after": {
+        "gross_total": "1000.00",
+        "return_total": "200.00",
+        "net_total": "800.00",
+        "payments_received": "900.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "100.00",
+        "effective_paid": "800.00",
+        "receivable_remaining": "0.00"
+      },
+      "current_credit_amount": "100.00",
+      "recognition_components": [
+        {
+          "amount": "100.00",
+          "economic": "D2",
+          "book": "D3"
+        }
+      ],
+      "return_pair": [
+        "D2",
+        "D3"
+      ],
+      "prior_causal_book_floor": "D3",
+      "ordinary_return_resolver": "D2",
+      "refund_physical_input": null,
+      "refund_pair": null,
+      "refund_amount": "0.00",
+      "credit_remaining": "100.00",
+      "liability_credit": "100.00",
+      "bank_from_fixture": "900.00",
+      "FG_qty": "6",
+      "FG_value": "60.00",
+      "return_qty": "1",
+      "return_unit_hpp": "10.00",
+      "return_value": "200.00",
+      "return_hpp": "10.00",
+      "revenue": "800.00",
+      "COGS": "40.00",
+      "family_count": 1,
+      "cohort_count": 1,
+      "plan_count": 1,
+      "component_count": 1,
+      "part_count": 1,
+      "return_journal_count": 1,
+      "recognition_journal_count": 1,
+      "refund_event_count": 0,
+      "refund_journal_count": 0,
+      "source_payment_must_remain_full_byte_equal": true,
+      "original_sale_journal_must_remain_full_byte_equal": true,
+      "same_UUID_replay_additional_effects": 0
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_REFUND",
+      "source_fixture_id": "OW04_SOURCE_900_REOPENED",
+      "paid": "900.00",
+      "profile": "REOPENED",
+      "mode": "REFUND",
+      "before": {
+        "gross_total": "1000.00",
+        "return_total": "0.00",
+        "net_total": "1000.00",
+        "payments_received": "900.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "0.00",
+        "effective_paid": "900.00",
+        "receivable_remaining": "100.00"
+      },
+      "after": {
+        "gross_total": "1000.00",
+        "return_total": "200.00",
+        "net_total": "800.00",
+        "payments_received": "900.00",
+        "credit_applied": "0.00",
+        "credit_recognized": "100.00",
+        "effective_paid": "800.00",
+        "receivable_remaining": "0.00"
+      },
+      "current_credit_amount": "100.00",
+      "recognition_components": [
+        {
+          "amount": "100.00",
+          "economic": "D2",
+          "book": "D3"
+        }
+      ],
+      "return_pair": [
+        "D2",
+        "D3"
+      ],
+      "prior_causal_book_floor": "D3",
+      "ordinary_return_resolver": "D2",
+      "refund_physical_input": [
+        "D2",
+        "13:00:00.654321+07:00"
+      ],
+      "refund_pair": [
+        "D2",
+        "D3"
+      ],
+      "refund_amount": "100.00",
+      "credit_remaining": "0.00",
+      "liability_credit": "0.00",
+      "bank_from_fixture": "800.00",
+      "FG_qty": "6",
+      "FG_value": "60.00",
+      "return_qty": "1",
+      "return_unit_hpp": "10.00",
+      "return_value": "200.00",
+      "return_hpp": "10.00",
+      "revenue": "800.00",
+      "COGS": "40.00",
+      "family_count": 1,
+      "cohort_count": 1,
+      "plan_count": 1,
+      "component_count": 1,
+      "part_count": 1,
+      "return_journal_count": 1,
+      "recognition_journal_count": 1,
+      "refund_event_count": 1,
+      "refund_journal_count": 1,
+      "source_payment_must_remain_full_byte_equal": true,
+      "original_sale_journal_must_remain_full_byte_equal": true,
+      "same_UUID_replay_additional_effects": 0
+    }
+  ],
+  "fixture_authorization": "Root clarified before test implementation that disposable master insert is authorized; only Native business writes must use accepted writers. Monetary/date/replay literals unchanged."
+}
