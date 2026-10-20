@@ -1,0 +1,39 @@
+{
+  "classification": "PURE_EXACT_NATIVE_SOURCE_TRANSFORM_NOT_RUNTIME",
+  "results": [
+    {
+      "function": "post_sales_payment",
+      "status": "PASS",
+      "only_complete_and_its_final_authority_check_moved": true,
+      "remaining_statements_identical": true,
+      "callback_after_header_audit_and_native_tail": true,
+      "unknown_terminal_refused": true
+    },
+    {
+      "function": "reverse_sales_payment",
+      "status": "PASS",
+      "only_complete_and_its_final_authority_check_moved": true,
+      "remaining_statements_identical": true,
+      "callback_after_header_audit_and_native_tail": true,
+      "unknown_terminal_refused": true
+    },
+    {
+      "function": "reverse_sales_return",
+      "status": "PASS",
+      "only_complete_and_its_final_authority_check_moved": true,
+      "remaining_statements_identical": true,
+      "callback_after_header_audit_and_native_tail": true,
+      "unknown_terminal_refused": true
+    },
+    {
+      "function": "reverse_sale",
+      "status": "PASS",
+      "only_complete_and_its_final_authority_check_moved": false,
+      "remaining_statements_identical": true,
+      "callback_after_header_audit_and_native_tail": true,
+      "unknown_terminal_refused": true
+    }
+  ],
+  "admission_sha256": "e597a46cad0252cf703276f20ebe071c734778811f97dedf97d81ed9048f4dfc",
+  "native_empty_callback_sha256": "68f458c7e061b3c7161e5c1525c678defc343869c766a60d9a5139366f414173"
+}

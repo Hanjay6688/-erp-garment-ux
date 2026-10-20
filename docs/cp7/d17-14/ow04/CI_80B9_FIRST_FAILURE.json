@@ -1,0 +1,295 @@
+{
+  "classification": "FIRST_EXPANDED_NATIVE_FAILURE_PRESERVED",
+  "candidate": "80b97175bb7e29189af115dd24e1580330d8a660",
+  "tree": "fa1f3b880a84945dc274aa6c37e208bc084436cf",
+  "run_id": 39486961564,
+  "job_id": 118849751690,
+  "counts": {
+    "PASS": 42,
+    "INCOMPLETE": 2
+  },
+  "summary": {
+    "label": "CP7_OW04_NATIVE_EMPTY",
+    "status": "INCOMPLETE",
+    "expected_case_count": 44,
+    "observed_case_count": 44,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "error": null,
+    "traceback": null,
+    "restore_error": null
+  },
+  "cases": [
+    {
+      "id": "OW04_INITIAL_1000_OPEN_CREDIT",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_INITIAL_1000_OPEN_REFUND",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_CREDIT",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_REFUND",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_CREDIT",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_REFUND",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_CREDIT",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_REFUND",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_CREDIT",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_REFUND",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_CREDIT",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_REFUND",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_LIFECYCLE",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_SPLIT_GRADES",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_ALLOCATION_CAP",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_FIELDS",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_PAID_REFUSAL",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_DATE_LOCATION",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_REPLAY",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_SOURCE_CHANGE",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_PERMISSIONS",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_PAGES",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_RETURN_CONSUMED",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_READ_DRAFT_CANCEL",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_READ_NATIVE_LIFECYCLE",
+      "status": "INCOMPLETE",
+      "error": "CP7_NATIVE_EMPTY_FINAL_AR_OR_STATUS\nCONTEXT:  PL/pgSQL function cp7_credit.assert_native_empty_closed_v1(uuid) line 34 at RAISE\nSQL statement \"SELECT cp7_credit.assert_native_empty_closed_v1(o.operation_id)\"\nPL/pgSQL function cp7_credit.native_empty_source_complete_v1(text,uuid) line 24 at PERFORM\nSQL statement \"SELECT cp7_credit.native_empty_source_complete_v1(p_action,p_source)\"\nPL/pgSQL function cp7_credit.native_source_complete(text,uuid) line 5 at PERFORM\nSQL statement \"SELECT cp7_credit.native_source_complete('PAYMENT_REVERSE',p_payment_id)\"\nPL/pgSQL function reverse_sales_payment(uuid,text) line 58 at PERFORM"
+    },
+    {
+      "id": "P11_READ_EXACT_CENTS",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_READ_FINANCIAL_REDACTION",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_READ_PRIVATE_READ_ONLY",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_READ_COMPLETE_PAGES",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_READ_QUERY_REFUSAL",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "P11_READ_EMPTY_MISSING",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "F03_E01_NATIVE_60_TO_CASH_RETURN",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N01",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N02",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N03",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N04",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N05",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N06",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N07",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N08",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N09",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N10",
+      "status": "INCOMPLETE",
+      "error": "CP7_NATIVE_EMPTY_FINAL_AR_OR_STATUS\nCONTEXT:  PL/pgSQL function cp7_credit.assert_native_empty_closed_v1(uuid) line 34 at RAISE\nSQL statement \"SELECT cp7_credit.assert_native_empty_closed_v1(o.operation_id)\"\nPL/pgSQL function cp7_credit.native_empty_source_complete_v1(text,uuid) line 24 at PERFORM\nSQL statement \"SELECT cp7_credit.native_empty_source_complete_v1(p_action,p_source)\"\nPL/pgSQL function cp7_credit.native_source_complete(text,uuid) line 5 at PERFORM\nSQL statement \"SELECT cp7_credit.native_source_complete('PAYMENT_REVERSE',p_payment_id)\"\nPL/pgSQL function reverse_sales_payment(uuid,text) line 58 at PERFORM"
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N11",
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N12",
+      "status": "PASS",
+      "error": null
+    }
+  ],
+  "first_failures": [
+    {
+      "group": "CP7_OW04_NATIVE_EMPTY",
+      "case": "P11_READ_NATIVE_LIFECYCLE",
+      "status": "INCOMPLETE",
+      "error": "CP7_NATIVE_EMPTY_FINAL_AR_OR_STATUS\nCONTEXT:  PL/pgSQL function cp7_credit.assert_native_empty_closed_v1(uuid) line 34 at RAISE\nSQL statement \"SELECT cp7_credit.assert_native_empty_closed_v1(o.operation_id)\"\nPL/pgSQL function cp7_credit.native_empty_source_complete_v1(text,uuid) line 24 at PERFORM\nSQL statement \"SELECT cp7_credit.native_empty_source_complete_v1(p_action,p_source)\"\nPL/pgSQL function cp7_credit.native_source_complete(text,uuid) line 5 at PERFORM\nSQL statement \"SELECT cp7_credit.native_source_complete('PAYMENT_REVERSE',p_payment_id)\"\nPL/pgSQL function reverse_sales_payment(uuid,text) line 58 at PERFORM",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_sales_cases.py\", line 47, in lifecycle\n    native(cur,'select erp.reverse_sales_payment(%s,%s)',(p,'P11 payment inverse control'));native(cur,'select erp.reverse_sales_return(%s,%s)',(r,'P11 return inverse control'));native(cur,'select erp.reverse_sale(%s,%s)',(f['sale'],'P11 sale inverse control'))\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_sales_cases.py\", line 22, in native\n    b.chain.production.owner(cur);r=cur.execute(sql,args).fetchone()[0];b.api.admin(cur);return r\n                                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_NATIVE_EMPTY_FINAL_AR_OR_STATUS\nCONTEXT:  PL/pgSQL function cp7_credit.assert_native_empty_closed_v1(uuid) line 34 at RAISE\nSQL statement \"SELECT cp7_credit.assert_native_empty_closed_v1(o.operation_id)\"\nPL/pgSQL function cp7_credit.native_empty_source_complete_v1(text,uuid) line 24 at PERFORM\nSQL statement \"SELECT cp7_credit.native_empty_source_complete_v1(p_action,p_source)\"\nPL/pgSQL function cp7_credit.native_source_complete(text,uuid) line 5 at PERFORM\nSQL statement \"SELECT cp7_credit.native_source_complete('PAYMENT_REVERSE',p_payment_id)\"\nPL/pgSQL function reverse_sales_payment(uuid,text) line 58 at PERFORM\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    },
+    {
+      "group": "CP7_OW04_NATIVE_EMPTY",
+      "case": "OW04_NATIVE_EMPTY_N10",
+      "status": "INCOMPLETE",
+      "error": "CP7_NATIVE_EMPTY_FINAL_AR_OR_STATUS\nCONTEXT:  PL/pgSQL function cp7_credit.assert_native_empty_closed_v1(uuid) line 34 at RAISE\nSQL statement \"SELECT cp7_credit.assert_native_empty_closed_v1(o.operation_id)\"\nPL/pgSQL function cp7_credit.native_empty_source_complete_v1(text,uuid) line 24 at PERFORM\nSQL statement \"SELECT cp7_credit.native_empty_source_complete_v1(p_action,p_source)\"\nPL/pgSQL function cp7_credit.native_source_complete(text,uuid) line 5 at PERFORM\nSQL statement \"SELECT cp7_credit.native_source_complete('PAYMENT_REVERSE',p_payment_id)\"\nPL/pgSQL function reverse_sales_payment(uuid,text) line 58 at PERFORM",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_customer_credit/native-empty/cp7_ow04_native_empty_cases.py\", line 293, in <lambda>\n    return [(name,lambda operation=operation:isolated_case(operation))for name,operation in zip(IDS,ops)]\n                                             ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_customer_credit/native-empty/cp7_ow04_native_empty_cases.py\", line 134, in isolated_case\n    result=operation()\n           ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_customer_credit/native-empty/cp7_ow04_native_empty_cases.py\", line 253, in inverses\n    native(cur,sql,args,null_human)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_customer_credit/native-empty/cp7_ow04_native_empty_cases.py\", line 95, in native\n    return source.native(cur, sql, args)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_sales_cases.py\", line 22, in native\n    b.chain.production.owner(cur);r=cur.execute(sql,args).fetchone()[0];b.api.admin(cur);return r\n                                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_NATIVE_EMPTY_FINAL_AR_OR_STATUS\nCONTEXT:  PL/pgSQL function cp7_credit.assert_native_empty_closed_v1(uuid) line 34 at RAISE\nSQL statement \"SELECT cp7_credit.assert_native_empty_closed_v1(o.operation_id)\"\nPL/pgSQL function cp7_credit.native_empty_source_complete_v1(text,uuid) line 24 at PERFORM\nSQL statement \"SELECT cp7_credit.native_empty_source_complete_v1(p_action,p_source)\"\nPL/pgSQL function cp7_credit.native_source_complete(text,uuid) line 5 at PERFORM\nSQL statement \"SELECT cp7_credit.native_source_complete('PAYMENT_REVERSE',p_payment_id)\"\nPL/pgSQL function reverse_sales_payment(uuid,text) line 58 at PERFORM\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-21",
+        "before": "2026-10-21",
+        "after": "2026-10-21"
+      }
+    }
+  ],
+  "runtime_log": {
+    "path": "CI_80B9_FIRST_RUNTIME.log.gz",
+    "raw_bytes": 1874354,
+    "raw_sha256": "5c42e44c210c6d244a130adddf495881da8d42d44e9e73bd820609fb46c18e3e",
+    "gzip_bytes": 252019,
+    "gzip_sha256": "85c28eef343c5baca3748d03141d97d7eeb0099ffb4602b7f420d400acbefbdc"
+  },
+  "disposition": "SOURCE_COMPLETION_FAILURE_DISPOSITION.md",
+  "production_go": false,
+  "feature_complete": false,
+  "audit_complete": false
+}

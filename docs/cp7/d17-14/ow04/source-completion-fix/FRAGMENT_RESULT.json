@@ -1,0 +1,67 @@
+{
+  "classification": "ISOLATED_ACTUAL_SQL_FRAGMENTS_NOT_NATIVE_POSTING_OR_AUTHORITY",
+  "status": "PASS",
+  "count": 9,
+  "cases": [
+    {
+      "function": "post_sales_payment",
+      "position": "OLD_MIDPOINT",
+      "status": "PASS",
+      "observed_refusal": "CP7_NATIVE_EMPTY_FINAL_AR_OR_STATUS"
+    },
+    {
+      "function": "post_sales_payment",
+      "position": "FINAL_TAIL",
+      "status": "PASS",
+      "observed_refusal": null
+    },
+    {
+      "function": "reverse_sales_payment",
+      "position": "OLD_MIDPOINT",
+      "status": "PASS",
+      "observed_refusal": "CP7_NATIVE_EMPTY_FINAL_AR_OR_STATUS"
+    },
+    {
+      "function": "reverse_sales_payment",
+      "position": "FINAL_TAIL",
+      "status": "PASS",
+      "observed_refusal": null
+    },
+    {
+      "function": "reverse_sales_return",
+      "position": "OLD_MIDPOINT",
+      "status": "PASS",
+      "observed_refusal": "CP7_NATIVE_EMPTY_FINAL_AR_OR_STATUS"
+    },
+    {
+      "function": "reverse_sales_return",
+      "position": "FINAL_TAIL",
+      "status": "PASS",
+      "observed_refusal": null
+    },
+    {
+      "negative": {
+        "net": -1,
+        "paid": 0
+      },
+      "status": "PASS",
+      "observed_refusal": "CP7_NATIVE_EMPTY_FINAL_AR_OR_STATUS"
+    },
+    {
+      "negative": {
+        "net": 60,
+        "paid": -1
+      },
+      "status": "PASS",
+      "observed_refusal": "CP7_NATIVE_EMPTY_FINAL_AR_OR_STATUS"
+    },
+    {
+      "negative": {
+        "net": 60,
+        "paid": 61
+      },
+      "status": "PASS",
+      "observed_refusal": "CP7_NATIVE_EMPTY_FINAL_AR_OR_STATUS"
+    }
+  ]
+}

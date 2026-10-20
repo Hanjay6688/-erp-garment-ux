@@ -68,13 +68,13 @@ def fixture(cur, today, *, cost='10', closed=False, gross='80'):
     return f
 
 
-def pay(cur, f, amount='30', at=None):
+def pay(cur, f, amount='30', at=None, null_human=False):
     b.api.admin(cur)
     ident=str(cur.execute("insert into erp.sales_payments(sale_id,payment_number,"
         "payment_date,amount,cash_account_id,payment_method,status)"
         "values(%s,%s,%s,%s,%s,'BANK_TRANSFER','DRAFT')returning id",
         (f['sale'],'EMPTY-PAY-'+uuid.uuid4().hex[:10],at or f['at']['payment'],amount,f['bank'])).fetchone()[0])
-    source.native(cur,'select erp.post_sales_payment(%s)',(ident,))
+    native(cur,'select erp.post_sales_payment(%s)',(ident,),null_human)
     return ident
 
 
@@ -247,16 +247,29 @@ def cases(cur, today, *, before_helpers, reapply_overlay):
         for null_human in (False,True):
             f=fixture(cur,today);p=pay(cur,f);r=draft_return(cur,f);post(cur,r,null_human);o=registered(cur,f,r)
             if null_human:assert o['principal']['auth_uid']is None and o['principal']['kind']=='DATABASE_SESSION'
-            for sql,args in [('select erp.reverse_sales_payment(%s,%s)',(p,'Native EMPTY payment inverse')),
-                ('select erp.reverse_sales_return(%s,%s)',(r,'Native EMPTY return inverse')),
-                ('select erp.reverse_sale(%s,%s)',(f['sale'],'Native EMPTY sale inverse'))]:
-                native(cur,sql,args,null_human)
-                registered(cur,f,r)
+            native(cur,'select erp.reverse_sales_payment(%s,%s)',(p,'Native EMPTY payment inverse'),null_human)
+            registered(cur,f,r)
+            assert source.read(cur,f)['detail']['status']=='POSTED'
+            # Exercise a payment after the family exists and a PAID→PARTIAL
+            # return inverse. Use the current actual instant, after the old
+            # payment inverse, so no earlier joint-cut excess is invented.
+            at=cur.execute('select clock_timestamp()').fetchone()[0]
+            q=pay(cur,f,'60',at,null_human)
+            registered(cur,f,r)
+            assert source.read(cur,f)['detail']['status']=='PAID'
+            native(cur,'select erp.reverse_sales_return(%s,%s)',(r,'Native EMPTY return inverse'),null_human)
+            registered(cur,f,r)
+            detail=source.read(cur,f)['detail']
+            assert detail['status']=='PARTIAL_PAID' and detail['financial']['open_balance']=='20.00'
+            native(cur,'select erp.reverse_sales_payment(%s,%s)',(q,'Native EMPTY later payment inverse'),null_human)
+            registered(cur,f,r)
+            native(cur,'select erp.reverse_sale(%s,%s)',(f['sale'],'Native EMPTY sale inverse'),null_human)
+            registered(cur,f,r)
             assert cmd.accounts(cur)==f['before_sale']
             assert cur.execute('select cached_qty_pcs from erp.fg_lots where id=%s',(f['lot'],)).fetchone()[0]==10
             operation_ids.append(o['operation_id'])
         return dict(native_payment_return_sale_inverses=True,neutral_gl=True,physical_stock10=True,
-            null_human_inverses=True,original_operation_ids=operation_ids)
+            null_human_inverses=True,payment_after_family=True,return_inverse_paid_to_partial=True,original_operation_ids=operation_ids)
 
     def credit():
         gold=next(x for x in initial.expected()['cases']if x['id']=='OW04_INITIAL_1000_OPEN_CREDIT')

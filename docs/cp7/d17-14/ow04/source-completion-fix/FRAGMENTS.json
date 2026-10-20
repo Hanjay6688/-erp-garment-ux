@@ -1,0 +1,20 @@
+{
+  "updates": [
+    {
+      "function": "post_sales_payment",
+      "update": "  update erp.sales_headers\n  set status=case when v_paid=v_total then 'PAID' else 'PARTIAL_PAID' end\n  where id=h.id;",
+      "record": "h"
+    },
+    {
+      "function": "reverse_sales_payment",
+      "update": "  update erp.sales_headers\n  set status=case when v_paid=v_total and v_total>=0 then 'PAID'\n    when v_paid>0 and v_paid<v_total then 'PARTIAL_PAID' else 'POSTED' end\n  where id=h.id;",
+      "record": "h"
+    },
+    {
+      "function": "reverse_sales_return",
+      "update": "  update erp.sales_headers\n  set status=case when v_paid=v_total then 'PAID' when v_paid>0 and v_paid<v_total then 'PARTIAL_PAID' else 'POSTED' end\n  where id=s.id;",
+      "record": "s"
+    }
+  ],
+  "unchanged_final_predicate": "  if net<0 or paid<0 or paid>net or h.status is distinct from(case when paid=net then'PAID'when paid>0 then'PARTIAL_PAID'else'POSTED'end)then\n   raise exception 'CP7_NATIVE_EMPTY_FINAL_AR_OR_STATUS';end if;"
+}

@@ -62,8 +62,12 @@ def post_payment(body):
     out = once(out, '  if v_paid>=v_total then',
         '  v_paid:=cp7_credit.current_effective_paid(h.id);\n  if v_paid>=v_total then')
     out = once(out, '  v_paid:=v_paid+v_amount;',
-        "  perform cp7_credit.native_source_complete('PAYMENT',p_payment_id);\n  perform erp.require_internal();"
-        '\n  v_paid:=cp7_credit.current_effective_paid(h.id);')
+        '  v_paid:=cp7_credit.current_effective_paid(h.id);')
+    # The Native payment row is already POSTED at the amount calculation,
+    # but the invoice status is updated afterward. Complete the source only
+    # after that original header/audit tail, never at the intermediate state.
+    out = before_terminal_end(out, "perform cp7_credit.native_source_complete('PAYMENT',p_payment_id);"
+        '\n  perform erp.require_internal();')
     return out
 
 
@@ -71,11 +75,10 @@ def reverse_payment(body):
     out = once(body, '  perform erp.require_owner_admin();',
         '  perform erp.require_owner_admin();\n' + FG + '\n  perform erp.require_owner_admin();'
         "\n  perform cp7_credit.native_source_enter('PAYMENT_REVERSE',p_payment_id);\n  perform erp.require_owner_admin();")
-    anchor = "  update erp.sales_payments set status='REVERSED' where id=p.id;"
-    out = once(out, anchor, anchor + "\n  perform cp7_credit.native_source_complete('PAYMENT_REVERSE',p_payment_id);"
-        '\n  perform erp.require_owner_admin();')
     out = once(out, '  if v_paid>v_total then',
         '  v_paid:=cp7_credit.current_effective_paid(h.id);\n  if v_paid>v_total then')
+    out = before_terminal_end(out, "perform cp7_credit.native_source_complete('PAYMENT_REVERSE',p_payment_id);"
+        '\n  perform erp.require_owner_admin();')
     return out
 
 
@@ -104,11 +107,10 @@ def prepayment_outer(body):
 def reverse_return(body):
     out = once(body, FG, FG + '\n  perform erp.require_owner_admin();'
         "\n  perform cp7_credit.native_source_enter('RETURN_REVERSE',p_return_id);\n  perform erp.require_owner_admin();")
-    anchor = '  select erp.sale_net_total(s.id)::numeric(20,2) into v_total;'
-    out = once(out, anchor, "  perform cp7_credit.native_source_complete('RETURN_REVERSE',p_return_id);"
-        '\n  perform erp.require_owner_admin();\n' + anchor)
     anchor = "  from erp.sales_payments where sale_id=s.id and status='POSTED';"
     out = once(out, anchor, anchor + '\n  v_paid:=cp7_credit.current_effective_paid(s.id);')
+    out = before_terminal_end(out, "perform cp7_credit.native_source_complete('RETURN_REVERSE',p_return_id);"
+        '\n  perform erp.require_owner_admin();')
     return out
 
 

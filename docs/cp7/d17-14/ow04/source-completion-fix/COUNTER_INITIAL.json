@@ -1,0 +1,182 @@
+{
+  "contract_version": "ow04.source-completion-fix.counter.initial.v1",
+  "recorded_at_utc": "2026-10-20T20:06:08.140615+00:00",
+  "head": "80b97175bb7e29189af115dd24e1580330d8a660",
+  "review_type": "INTERNAL_WRITER_SOURCE_REVIEW_ONLY",
+  "initial_before_peer_exchange": true,
+  "scope": "Two exact local diffs; three actual release Native source bodies; actual private-copy derivation paths and source/EMPTY completion consumers. No product edits, database connections, child agents or Native runs.",
+  "files": [
+    {
+      "path": "scripts/cp7_customer_credit/admission/03_native_admission_transform.py",
+      "baseline_sha256": "c5466fd2fbd0752d3871169c26516c7384953661c9e604caae65fc2bb641493d",
+      "candidate_sha256": "e597a46cad0252cf703276f20ebe071c734778811f97dedf97d81ed9048f4dfc"
+    },
+    {
+      "path": "scripts/cp7_customer_credit/native-empty/cp7_ow04_native_empty_cases.py",
+      "baseline_sha256": "c8fe32dca9c2953d242377040d95a477a682322d8eeba17e3fa65abc92d7bd37",
+      "candidate_sha256": "60c22fc9c09ac8630fd3aaf7b65d8be5c256429ff41e5a365c0ebaf30c9dcf29"
+    }
+  ],
+  "supporting_source_pins": [
+    {
+      "path": "scripts/cp7_customer_credit/integration/derive_plan.py",
+      "sha256": "056b1477e5ef83b4837db0158b94bf5cb34ee052bab2aa4b9201a57ba2c9fd44"
+    },
+    {
+      "path": "scripts/cp7_customer_credit/coordinator/06_finish_and_closed_routes.sql",
+      "sha256": "cd486b197eb165505cb488f6aa08ed2886dfb7e05dc3371be9aba9b3a9aeb928"
+    },
+    {
+      "path": "scripts/cp7_customer_credit/native-empty/01_native_empty_facts.sql",
+      "sha256": "ec3a102ffc65cc8dfcff294706c5cdacedc749b62320ea6c307c00dcd4696584"
+    },
+    {
+      "path": "scripts/cp7_customer_credit/native-empty/02_native_empty_callbacks.sql",
+      "sha256": "68f458c7e061b3c7161e5c1525c678defc343869c766a60d9a5139366f414173"
+    },
+    {
+      "path": "scripts/cp7_customer_credit/native-empty/04_exact_overlays.sql",
+      "sha256": "08af7ed38e9211e39a699bd9182b379b9c8c390b87ee10d14c97485f25fc5aa0"
+    },
+    {
+      "path": "scripts/cp7_customer_credit/native-empty/EXPECTED.json",
+      "sha256": "5e713283516288011b6c8ccdff4af85d3df3c077e771e36de2b2bc2c16abfd3b"
+    }
+  ],
+  "reported_failure_not_reproduced_here": {
+    "run": "39486961564",
+    "job": "118849751690",
+    "parent_reported": "Native44 42 PASS / 2 INCOMPLETE; P11_READ_NATIVE_LIFECYCLE and N10 encounter CP7_NATIVE_EMPTY_FINAL_AR_OR_STATUS during payment inverse"
+  },
+  "expected": [
+    "Complete PAYMENT, PAYMENT_REVERSE and RETURN_REVERSE only after the original final header/HPP/audit statements; keep source scope live until then.",
+    "Current effective paid remains evaluated before original money/header guards; no original payment, source, cash, chronology, immutable-fact, stock/HPP or audit statement is dropped.",
+    "Retain current Native authority before/after waits, exact early replay and final authority after completion; failures remain atomic.",
+    "The strict factual final status/AR validator and frozen N10 expectations remain unchanged; strengthen N10 with real later payment and PAID-to-PARTIAL return inverse for both owner and NULL-human Native calls."
+  ],
+  "findings": [
+    {
+      "topic": "Cause and timing",
+      "assessment": "CLEAR",
+      "evidence": "20ap post_sales_payment sets payment POSTED before recalculating paid, then updates sales_headers. 20ap reverse_sales_payment sets payment REVERSED before recalculating/guarding paid, then updates sales_headers and inserts audit. 20ac reverse_sales_return reverses physical/journal/return state, syncs non-PO, updates sales_headers, then completes PO HPP baseline/sync/assert and audit. The old transformed callbacks ran before these tails; all three new callbacks are terminal immediately before the final original END.",
+      "consequence": "Final factual closure now observes the final Native header/HPP/audit state rather than the intermediate payment/return status. No strict validator was relaxed."
+    },
+    {
+      "topic": "Current-E, locks and live scope",
+      "assessment": "CLEAR",
+      "evidence": "Entry callback positions and FG-first placement are unchanged. post_payment still reads current_effective_paid before its original no-remaining and exceeds-receivable guards and after payment POSTED before original header CASE. reverse_payment still reads it before the unsupported-overpayment guard; reverse_return still reads it after POSTED payment aggregate before the original header CASE. Scope INSERT is at entry and deletion remains inside completion; moving completion keeps that source scope alive through the original tail.",
+      "consequence": "The midpoint is not mislabeled complete. Original FG/source/header/financial locks remain transaction-held and no new earlier-order lock hook was added by the diff."
+    },
+    {
+      "topic": "Private inverse composition",
+      "assessment": "CLEAR",
+      "evidence": "integration/derive_plan.py _private_body dispatches cp7_note.reverse_sales_payment and both cp7_note/cp7_sales_return_correction.reverse_sales_return through the same admission.reverse_payment/reverse_return functions. Exact private require_context checks, internal inverse calls, original historical HPP clock rewrites, and immutable helper_sources are retained.",
+      "consequence": "The timing fix applies to actual derived inverse paths, not only public Native functions. Unsupported participating credit/correction cases remain refused by unchanged source admission."
+    },
+    {
+      "topic": "Current authority / replay / atomicity",
+      "assessment": "CLEAR",
+      "evidence": "Entry authority calls and after-entry rechecks are unchanged; each moved completion is followed by the same require_internal/require_owner_admin. Existing REVERSED early RETURN branches remain before completion, while source_enter recognizes finished operations before scope insertion. Completion still validates current authority/principal and exact action/source before factual checks; EMPTY completion deletes scope then invokes unchanged assert_native_empty_closed_v1. No exception handler, savepoint, commit or permissive completion fallback is introduced.",
+      "consequence": "A terminal factual or authority refusal raises in the same command transaction and cannot retain intermediate journals/status/audit/scope effects as a successful operation. This is source reasoning, not an executed rollback test."
+    },
+    {
+      "topic": "N10 strengthening",
+      "assessment": "CLEAR",
+      "evidence": "Gross80 / original payment30 / refund20 leaves net60. Original payment inverse leaves P0 and header POSTED. A new real Native payment60 at current clock occurs after that inverse, leaves net60/P60/PAID. Return inverse restores net80/P60/PARTIAL_PAID and expected AR20. Later payment inverse restores P0, then sale inverse must restore full GL baseline and stock10. Existing registered() still forces exact factual closure and zero temporary scopes after every step; frozen EXPECTED.json is unchanged.",
+      "consequence": "The added cycle exercises PAYMENT completion after family registration and RETURN_REVERSE PAID-to-PARTIAL final status, without weakening the existing inverse or final neutralization oracle. Both owner and NULL-human branches use native() for the added payment and all inverses. Initial setup payment remains ordinary owner setup, as before."
+    }
+  ],
+  "pure_source_transform_controls": {
+    "classification": "STATIC_SOURCE_TRANSFORM_ONLY_NOT_NATIVE",
+    "passed": 6,
+    "total": 6,
+    "controls": [
+      {
+        "identity": "erp.post_sales_payment",
+        "scope": "PURE_TRANSFORM_OF_SOURCE_DERIVED_RELEASE_BODY_NOT_LIVE_NATIVE_CAPTURE",
+        "source_body_sha256": "f64994eb51e518e9a760f9ffee080751267930e34cf7c7a5708a1feea05fac48",
+        "old_transformed_sha256": "c615ab8a9ec3f50f2b4029721373cd32129c8543756059e57a8d8cffebac470d",
+        "new_transformed_sha256": "5d6ad62f082ec44916fe835c3814b027ee982382c107b8619a6281873b1a8a1f",
+        "only_completion_authority_pair_moved": true,
+        "completion_terminal": true,
+        "original_guard_and_replay_retained": true
+      },
+      {
+        "identity": "erp.reverse_sales_payment",
+        "scope": "PURE_TRANSFORM_OF_SOURCE_DERIVED_RELEASE_BODY_NOT_LIVE_NATIVE_CAPTURE",
+        "source_body_sha256": "6b1c45ec4b3a3557379ec99ed16f4bd5b1beeb3307b54ad533e97d85f85c2ade",
+        "old_transformed_sha256": "2196ac37dfdedd12e03324dd6b6abfbfdd0b9432ea627f3d812a9c7c30036906",
+        "new_transformed_sha256": "4f0b9ccba29023f9769f86401551bfcfafa1e98c7c2d18cb23ec1b85cc867bf3",
+        "only_completion_authority_pair_moved": true,
+        "completion_terminal": true,
+        "original_guard_and_replay_retained": true
+      },
+      {
+        "identity": "cp7_note.reverse_sales_payment",
+        "scope": "PURE_TRANSFORM_OF_SOURCE_DERIVED_RELEASE_BODY_NOT_LIVE_NATIVE_CAPTURE",
+        "source_body_sha256": "31b6b5fd15bba402b2e01d72cc1f77b95e40daf589a27646ce93892871fb0101",
+        "old_transformed_sha256": "06d3735706a630ee4fbe7a8be59dadb455ada21a3c342ca10276f9aaaf68e318",
+        "new_transformed_sha256": "be5f8325222adaebee523ff0093a85fdbf2241f297b693a1a4063a213529440a",
+        "only_completion_authority_pair_moved": true,
+        "completion_terminal": true,
+        "original_guard_and_replay_retained": true
+      },
+      {
+        "identity": "erp.reverse_sales_return",
+        "scope": "PURE_TRANSFORM_OF_SOURCE_DERIVED_RELEASE_BODY_NOT_LIVE_NATIVE_CAPTURE",
+        "source_body_sha256": "36a387b0dee2cf551b1fb636ff7ff9a4fb61575961cda3b35eb215ff468924d5",
+        "old_transformed_sha256": "fdc15b62959a05ffe68547cb96e1d8d28916f5cb044d13d42ad87498eb91accc",
+        "new_transformed_sha256": "98ca71077c28212f9009de1408110634fdcfd54119a652fe54bd7aad032f6e05",
+        "only_completion_authority_pair_moved": true,
+        "completion_terminal": true,
+        "original_guard_and_replay_retained": true
+      },
+      {
+        "identity": "cp7_note.reverse_sales_return",
+        "scope": "PURE_TRANSFORM_OF_SOURCE_DERIVED_RELEASE_BODY_NOT_LIVE_NATIVE_CAPTURE",
+        "source_body_sha256": "a66cf2dd861c11f5588685f107c8a73bc2ca0ff6f7c3376f9e97761bb910f758",
+        "old_transformed_sha256": "4c40ea7093abfa3d67e7107129649da2df6a65def98ea0dede9826a263bee389",
+        "new_transformed_sha256": "7f2eecbc9d563e67b273246ffcbfdc5809b2c11f53fcfe396f355d5799629f8a",
+        "only_completion_authority_pair_moved": true,
+        "completion_terminal": true,
+        "original_guard_and_replay_retained": true
+      },
+      {
+        "identity": "cp7_sales_return_correction.reverse_sales_return",
+        "scope": "PURE_TRANSFORM_OF_SOURCE_DERIVED_RELEASE_BODY_NOT_LIVE_NATIVE_CAPTURE",
+        "source_body_sha256": "646a856581029fbd4acdeb39ff0e1270e3b82ad0f655761fdf5844ebfeb7413d",
+        "old_transformed_sha256": "49a0da57f0a8524fc62058c9b3b881e3d5d574d6f3b51b2b087f4fda7ca8c2f6",
+        "new_transformed_sha256": "b3efbd46599c334974e9ab91984c1913c16e5999b3008d5dc3f156b6f35b4268",
+        "only_completion_authority_pair_moved": true,
+        "completion_terminal": true,
+        "original_guard_and_replay_retained": true
+      }
+    ],
+    "meaning": "After removal of the identical completion+final-authority pair, old/new generated bodies are whitespace-equivalent for three Native and three source-derived private inverse bodies. New pair is uniquely terminal; original replay, private context and key guard strings retained."
+  },
+  "scenarios": [
+    {
+      "scenario": "PAYMENT_REVERSE changes P30 to P0 while old header remains PARTIAL_PAID before final CASE",
+      "expected": "Do not call factual final-header closure at the intermediate point; update header POSTED, write audit, then strict completion."
+    },
+    {
+      "scenario": "PAYMENT60 after registered empty family with net60",
+      "expected": "Current-E must enforce real remaining receivable, original Native posts actual journal/fact/payment/header PAID, then strict completion."
+    },
+    {
+      "scenario": "RETURN_REVERSE with net60/P60 PAID before inverse",
+      "expected": "Original stock/journal/HPP mutations and header net80/P60 PARTIAL_PAID complete before strict final AR/status closure."
+    },
+    {
+      "scenario": "Already REVERSED payment/return replay",
+      "expected": "Original Native early return remains; unchanged entry handles finished state without inserting a source scope that would require tail completion."
+    },
+    {
+      "scenario": "Tail authority or factual validation fails",
+      "expected": "Exception propagates atomically; no relaxed final validator or success path. Runtime rollback not executed by this reviewer."
+    }
+  ],
+  "concrete_blocker_found": false,
+  "disposition": "CLEAR_WITHIN_REQUESTED_SOURCE_SCOPE",
+  "limits": "No actual Native execution/capture, live private body introspection, role concurrency test or production audit. Pure controls use actual pinned release source and source-backed private copier rules, and must not be represented as live Native qualification."
+}

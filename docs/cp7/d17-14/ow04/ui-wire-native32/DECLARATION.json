@@ -1,0 +1,7 @@
+{
+  "classification": "UI_PARSER_VS_REUSED_NATIVE32_WIRE_NOT_NEW_NATIVE_OR_BROWSER",
+  "native_candidate": "3f7e0329eb296d98ad8ea0fcdffc1e93e8bd34b0",
+  "run": 39485291311,
+  "job": 118844009987,
+  "expected": "All12 real server quotes and outcomes parse; frontend command document exactly equals the actual settled envelope; contradictory money, wrong outcome digest and changed source version reject. Same unmodified proposal parser, no RPC/DB/browser."
+}
