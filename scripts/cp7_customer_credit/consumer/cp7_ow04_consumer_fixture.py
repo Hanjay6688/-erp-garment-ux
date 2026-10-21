@@ -115,6 +115,13 @@ def prepare(cur,today,initial_mode='CREDIT'):
     ar=native.cmd.mapping(cur,'AR_CUSTOMER')
     pair=dict(source=source,target=target,credit=credit,initial_result=outcome,initial_actual=actual,
               ar=dict(source=ar,target=ar),classification='ACTUAL_FIXTURE_SETUP_WITH_SUPPLIED_CURSOR_NOT_CONSUMER_EXECUTION_PROOF')
+    if initial_mode=='REFUND':
+        # The initial cash event has its own explicit physical instant (13:00),
+        # distinct from the source return (12:00). A later undo must name and
+        # follow that actual immutable cash event, not merely the return clock.
+        at=cur.execute('select physical_at from cp7_credit.initial_refund_operations where id=%s and cohort_id=%s',
+                       (outcome['refund_event_id'],outcome['credit_id'])).fetchone()[0]
+        pair['initial_refund_physical_at']=at.isoformat()
     # Bind the test's AR IDs to both actual original SALE journals now; later
     # observations use these saved IDs, not a changed current mapping.
     for f in(source['f'],target):

@@ -20,6 +20,8 @@ assert len(IDS)==9
 
 def payload(pair,action='APPLY',amount='80.00',original=None):
     physical=(datetime.fromisoformat(pair['source']['physical']['returned'])+timedelta(minutes=5)).isoformat()
+    if action=='UNDO'and original is not None and str(original)==str(pair['initial_result'].get('refund_event_id')):
+        physical=(datetime.fromisoformat(pair['initial_refund_physical_at'])+timedelta(minutes=5)).isoformat()
     return dict(action=action,cohort_id=pair['initial_result']['credit_id']if action!='UNDO'else None,
         target_sale_id=str(pair['target']['sale'])if action=='APPLY'else None,cash_account_id=None,
         restores_event_id=str(original)if original is not None else None,amount=amount if action!='UNDO'else None,
