@@ -1,0 +1,60 @@
+{
+  "candidate": "a45084cee8bf4740c5a9399876397578b31a52e5",
+  "tree": "fc37e5eff3768ced568c74085435e58872191c88",
+  "status": "PASS_BOUNDED_USED_RESTORE_AND_UNCHANGED_NATIVE87_TRANSPORT",
+  "actual_counts": {
+    "used_restore_scenarios": 1,
+    "used_restore_steps": 5,
+    "HTTP": 18,
+    "retained_races": 6,
+    "source_races": 2,
+    "browser": 5
+  },
+  "Native87_reused_not_rerun": true,
+  "original_json_report_files": 24,
+  "all_three_zip_digests_client_verified": true,
+  "separate_administrative_source": {
+    "path": "scripts/cp7_ow04_restore_bundle.py",
+    "git_blob": "f022dedc4a35d8938de92cb69aeed805d41e14eb",
+    "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00",
+    "native_runtime_covered": false,
+    "own_actual_restore_runtime_pass": true
+  },
+  "groups": [
+    {
+      "group": "used-restore",
+      "run_id": 39618524514,
+      "job_id": 119285493743,
+      "artifact_id": 12354281447,
+      "artifact_zip_sha256": "14867bda86f7723f787841ef1481b5c9f7d90a94ca248dfdddb70e5f2002d83b",
+      "artifact_zip_client_verified": true,
+      "zip_bytes": 3368332,
+      "original_json_bytes_preserved": true
+    },
+    {
+      "group": "http",
+      "run_id": 39618524648,
+      "job_id": 119285494916,
+      "artifact_id": 12355415012,
+      "artifact_zip_sha256": "cd54dc66a076d6deff3bfbfc17503010216407f90282ef69ea078fc15be959e1",
+      "artifact_zip_client_verified": true,
+      "zip_bytes": 5033096,
+      "original_json_bytes_preserved": true
+    },
+    {
+      "group": "browser",
+      "run_id": 39618524923,
+      "job_id": 119285495842,
+      "artifact_id": 12352969821,
+      "artifact_zip_sha256": "4e461ee013ab628d94dd0c16b563f4e0d0e6980fc1c8f8a1bbe6dfa5ed5c10d8",
+      "artifact_zip_client_verified": true,
+      "zip_bytes": 12603570,
+      "original_json_bytes_preserved": true
+    }
+  ],
+  "formal_CP7C_started": false,
+  "APPLY_UNDO_implemented": false,
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false
+}

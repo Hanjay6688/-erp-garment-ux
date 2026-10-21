@@ -1,0 +1,158 @@
+{
+  "group": "browser",
+  "run_id": 39618524923,
+  "job_id": 119285495842,
+  "artifact_id": 12352969821,
+  "artifact_zip_sha256": "4e461ee013ab628d94dd0c16b563f4e0d0e6980fc1c8f8a1bbe6dfa5ed5c10d8",
+  "artifact_zip_client_verified": true,
+  "zip_bytes": 12603570,
+  "original_json_bytes_preserved": true,
+  "files": [
+    {
+      "archive_member": "ALIGNED_CHAIN.json",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "raw_bytes": 17536,
+      "raw_sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+      "gzip_bytes": 4768,
+      "gzip_sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75",
+      "label": "T3_PREP",
+      "status": "PASS_ALIGNED_CHAIN_TO_AB",
+      "steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    {
+      "archive_member": "CP7_OW04_BROWSER.json",
+      "file": "CP7_OW04_BROWSER.json.gz",
+      "raw_bytes": 425430,
+      "raw_sha256": "ee7e13c993c076f8a3f9fc4bfd7d41b6d8fdc61d35d26f1adbe44def3bd5572d",
+      "gzip_bytes": 34230,
+      "gzip_sha256": "71ab01ac6fd399bc54e0d5b91aaba6a2faa9a1ca4efe03d184924179752b8e55",
+      "label": "CP7_OW04_BROWSER",
+      "status": "PASS",
+      "candidate_commit": "a45084cee8bf4740c5a9399876397578b31a52e5",
+      "cp6_restored": true
+    },
+    {
+      "archive_member": "OW04_BROWSER_HOST_1.json",
+      "file": "OW04_BROWSER_HOST_1.json.gz",
+      "raw_bytes": 60889,
+      "raw_sha256": "a9c93f8161b1be344c2b2482c3f6121fe360ed3dde95bf641609f1f22facd5d5",
+      "gzip_bytes": 6390,
+      "gzip_sha256": "7ddddd38ceeb35fbdc2a2b63cebc0f57186b9cf2234d3408906b70ff9feaee37",
+      "label": "AUDITOR_SCENARIO",
+      "status": "RUN_COMPLETE"
+    },
+    {
+      "archive_member": "T3_BACKUP_RESTORE_DRILL.json",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "raw_bytes": 10402,
+      "raw_sha256": "c3513cd60b14293d5f8716698c99bb16dd2e98801ddd148d3241c816aab68c71",
+      "gzip_bytes": 1809,
+      "gzip_sha256": "554664946fca90303b5ebb49e89634a6c2473dde46565148134f736551774973",
+      "label": "T3_PREP_BACKUP_RESTORE_DRILL",
+      "status": "RESTORED_SAME_MEANING"
+    },
+    {
+      "archive_member": "T3_PACKAGE_FILES_INSTALL.json",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "label": "T3_PREP_RELEASE_PACKAGE_INSTALL",
+      "status": "ALL_FILES_INSTALLED"
+    },
+    {
+      "archive_member": "T3_PACKAGE_INSTALL.json",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360437,
+      "raw_sha256": "492b3ae8236751c8105ba4fe1ad7131fd6a40aa7a328130538c4bdbcb574a877",
+      "gzip_bytes": 11410,
+      "gzip_sha256": "8855b678e3dec12e94f1458000530addb91029456bc3cabec5e980e52bfbb48b",
+      "label": "T3_PREP",
+      "status": "ALL_STAGES_INSTALLED"
+    }
+  ],
+  "auxiliary_metadata_only": [
+    {
+      "archive_member": "ow04-browser-fixtures/04276056-8c7b-4563-87c7-0e86b168c1b4.json",
+      "file": "ow04-browser-fixtures/04276056-8c7b-4563-87c7-0e86b168c1b4.json.gz",
+      "raw_bytes": 6884845,
+      "raw_sha256": "693cda81afa9ad100eca3d688dc2d429bac2d57560a8c8db1abe0b6e8fae6b51",
+      "gzip_bytes": 1352538,
+      "gzip_sha256": "978330a6e657054827d98828db80d26be9af4d1d20caa7b073b0b378540f994f"
+    },
+    {
+      "archive_member": "ow04-browser-fixtures/12f724dc-e1cd-453b-b49d-7d6a0cd97c15.json",
+      "file": "ow04-browser-fixtures/12f724dc-e1cd-453b-b49d-7d6a0cd97c15.json.gz",
+      "raw_bytes": 6885643,
+      "raw_sha256": "0548c19134d8dfe4e2d01689447415fa2d1aa4c2ee7d78fce16f55a706aed617",
+      "gzip_bytes": 1353071,
+      "gzip_sha256": "c02bfcd57f3d715ee066ccd131c2bc800344d04e9bd1803b47221ae31f826951"
+    },
+    {
+      "archive_member": "ow04-browser-fixtures/13b88df7-66e3-4153-a39d-a205a70c38c8.json",
+      "file": "ow04-browser-fixtures/13b88df7-66e3-4153-a39d-a205a70c38c8.json.gz",
+      "raw_bytes": 6886896,
+      "raw_sha256": "8c0700e34ab4177d3e8bb1c061ebdd668ae837b1602e12e21ccf6ae734f3f3b4",
+      "gzip_bytes": 1353677,
+      "gzip_sha256": "a933e55313431bd3430af40d480965c9e24d83b004be62ba4ba579d49825c225"
+    },
+    {
+      "archive_member": "ow04-browser-fixtures/a8b0df21-04f9-41ce-8e32-ed865dbce1dd.json",
+      "file": "ow04-browser-fixtures/a8b0df21-04f9-41ce-8e32-ed865dbce1dd.json.gz",
+      "raw_bytes": 6885879,
+      "raw_sha256": "65bef4ae5f057e45053bcacbe367a93ff3be5eefa1c93c0d8230e809c3d63e96",
+      "gzip_bytes": 1353094,
+      "gzip_sha256": "dcaaa8cdc582d8b2ec05810736ac8b682e02a25a00e769c1a77a05db9612d82e"
+    },
+    {
+      "archive_member": "ow04-browser-fixtures/c787ab56-a3b2-45be-86b9-fb158a398c76.json",
+      "file": "ow04-browser-fixtures/c787ab56-a3b2-45be-86b9-fb158a398c76.json.gz",
+      "raw_bytes": 6885988,
+      "raw_sha256": "f595d0c4618421cdff7840c1601ce579c8b3bae8587dac0afeb5bafdc6b1aecc",
+      "gzip_bytes": 1353261,
+      "gzip_sha256": "3afd1cfd04f2c1e7811f22f6aa9c4836cb491f4004b3cabcea90e1f92510f1e7"
+    }
+  ]
+}
