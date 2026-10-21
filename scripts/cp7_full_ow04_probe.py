@@ -24,16 +24,20 @@ from cp6_t3_aligned_install import advisors, advisor_delta
 
 assert core.SIGNED_SOURCE, 'FULL_INSTALL_QUALIFIER_REQUIRES_EXPLICIT_SIGNED_SOURCE'
 DEPENDENCIES = '--credit-dependencies' in sys.argv[1:]
+NATIVE_FRACTIONAL = '--native-fractional-hpp' in sys.argv[1:]
+assert not NATIVE_FRACTIONAL or DEPENDENCIES, 'NATIVE_FRACTIONAL_RETAINS_ALL_NATIVE73_CASES'
 if DEPENDENCIES:
     from cp7_customer_credit.readers import cp7_ow04_credit_dependency_cases as dependency_cases
-LABEL = 'CP7_FULL_OW04_DEPENDENCIES_NATIVE' if DEPENDENCIES else 'CP7_FULL_OW04_NATIVE'
+if NATIVE_FRACTIONAL:
+    import cp7_ow04_native_fractional_cases as native_fractional
+LABEL = 'CP7_FULL_OW04_NATIVE_FRACTIONAL' if NATIVE_FRACTIONAL else 'CP7_FULL_OW04_DEPENDENCIES_NATIVE' if DEPENDENCIES else 'CP7_FULL_OW04_NATIVE'
 OUT = full.ROOT/'cp6-proof/t3'/f'{LABEL}.json'
-DECLARATION_PATH = full.ROOT/'docs/cp7/d17-14/ow04'/('CREDIT_DEPENDENCY_NATIVE_QUALIFICATION.json' if DEPENDENCIES else 'FULL_INSTALL_QUALIFICATION.json')
+DECLARATION_PATH = full.ROOT/'docs/cp7/d17-14/ow04'/('DIRECT_NATIVE_FRACTIONAL_QUALIFICATION.json' if NATIVE_FRACTIONAL else 'CREDIT_DEPENDENCY_NATIVE_QUALIFICATION.json' if DEPENDENCIES else 'FULL_INSTALL_QUALIFICATION.json')
 DECLARATION_BYTES = DECLARATION_PATH.read_bytes()
 DECLARATION = json.loads(DECLARATION_BYTES)
 USED_GUARD_ID = 'OW04_FULL_USED_INSTALL_ROLLBACK_REFUSED'
-IDS = core.IDS+(USED_GUARD_ID,)+(dependency_cases.IDS if DEPENDENCIES else ())
-assert DECLARATION['expected_count'] == len(IDS) == (73 if DEPENDENCIES else 64)
+IDS = core.IDS+(USED_GUARD_ID,)+(dependency_cases.IDS if DEPENDENCIES else ())+(native_fractional.IDS if NATIVE_FRACTIONAL else ())
+assert DECLARATION['expected_count'] == len(IDS) == (87 if NATIVE_FRACTIONAL else 73 if DEPENDENCIES else 64)
 assert tuple(DECLARATION['required_case_ids']) == IDS
 STATE = None
 package, native, p09 = core.package, core.native, core.p09
@@ -84,6 +88,8 @@ def cases(cur, today):
     result = retained+[(USED_GUARD_ID,lambda:used_install_guard(cur,today))]
     if DEPENDENCIES:
         result += dependency_cases.cases(cur,today)
+    if NATIVE_FRACTIONAL:
+        result += native_fractional.cases(cur,today)
     assert tuple(name for name,_ in result) == IDS, 'FULL_PREDECLARED_CASE_SET_CHANGED'
     return result
 
@@ -99,6 +105,8 @@ def qualification_sources():
     paths=[Path(__file__).resolve()]
     if DEPENDENCIES:
         paths.append(Path(dependency_cases.__file__).resolve())
+    if NATIVE_FRACTIONAL:
+        paths.extend([Path(native_fractional.__file__).resolve(),Path(native_fractional.__file__).with_name('NATIVE_EXPECTED.json').resolve()])
     return {str(path.relative_to(full.ROOT.resolve())):hashlib.sha256(path.read_bytes()).hexdigest()
             for path in paths}
 
@@ -109,7 +117,7 @@ def run():
         candidate_commit=subprocess.check_output(['git','-C',str(full.ROOT),'rev-parse','HEAD'],text=True).strip(),
         source_manifest=full.source_manifest(),production_go=False,feature_complete=False,
         independent_acceptance=False,qualification_only=True,hosted=False,
-        scope='FULL_OWNING_INSTALL_PREUSE_RESTORE_NATIVE63_AND_USED_ROLLBACK_GUARD',
+        scope='FULL_OWNING_INSTALL_PREUSE_RESTORE_NATIVE87_RETAINED73_AND_DIRECT_NATIVE_FRACTIONAL14' if NATIVE_FRACTIONAL else 'FULL_OWNING_INSTALL_PREUSE_RESTORE_NATIVE63_AND_USED_ROLLBACK_GUARD',
         retained_native_declaration_sha256=hashlib.sha256(core.DECLARATION_BYTES).hexdigest(),
         qualification_source_sha256=qualification_sources())
     installed = False
@@ -174,7 +182,7 @@ def run():
 
 
 if __name__ == '__main__':
-    if sys.argv[1:] not in (['--signed-source'],['--signed-source','--credit-dependencies']):
-        raise SystemExit('Only --signed-source with optional --credit-dependencies is supported')
+    if sys.argv[1:] not in (['--signed-source'],['--signed-source','--credit-dependencies'],['--signed-source','--credit-dependencies','--native-fractional-hpp']):
+        raise SystemExit('Only --signed-source with optional --credit-dependencies and --native-fractional-hpp is supported')
     package._writer_runtime = lambda browser_mode=False:run()
     package.run('install')

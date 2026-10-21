@@ -17,7 +17,7 @@ revoke all on cp7_credit.opening_return_hpp_work_v1 from public,anon,authenticat
 
 create function cp7_credit.opening_return_hpp_owner_v1(p_return uuid)returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
-declare w cp7_credit.initial_return_work;n cp7_credit.return_native_scope;r erp.sales_returns;
+declare w cp7_credit.initial_return_work;n cp7_credit.return_native_scope;r erp.sales_returns;direct_record jsonb;
 begin
  select *into strict r from erp.sales_returns where id=p_return;
  select *into w from cp7_credit.initial_return_work where backend_pid=pg_backend_pid()and transaction_id=txid_current();
@@ -36,20 +36,42 @@ begin
   return jsonb_build_object('kind','CP7_RETURN','operation_id',w.operation_id,'actor',w.actor,'request_id',w.request_id,
    'return_id',p_return,'sale_id',w.source_sale_id,'customer_id',r.customer_id,'projection_sha256',w.projection_sha256);
  end if;
- -- Direct Native EMPTY and all other existing contexts retain the original
- -- trigger. This adapter claims only the CP7 source-sealed initial return.
+ -- Native EMPTY has its own actual principal/operation, never a made-up CP7
+ -- actor or request. Its full HPP source and lock set were sealed before
+ -- Native reached period SHARE, under Native's original FG admission.
+ if to_regclass('cp7_credit.native_empty_work')is not null then
+  execute 'select to_jsonb(nw)from cp7_credit.native_empty_work nw where nw.backend_pid=pg_backend_pid()and nw.transaction_id=txid_current()and nw.source_return_id=$1'
+   into direct_record using p_return;
+  if direct_record is not null then
+   perform cp7_credit.assert_native_empty_work_v1(p_return);
+   if direct_record->>'phase'<>'GUARDED'or r.status<>'POSTED'
+    or direct_record->'posting_lines'<>'null'::jsonb or jsonb_typeof(direct_record->'guard_values')is distinct from'object'
+    or(direct_record#>>'{projected_kernel,has_recognition_effect}')::boolean then
+    raise exception 'CP7_CREDIT_OPENING_HPP_NATIVE_EMPTY_GUARDED_OWNER_REQUIRED';end if;
+   perform erp.require_internal();
+   return jsonb_build_object('kind','NATIVE_EMPTY_RETURN','operation_id',direct_record->'operation_id',
+    'return_id',p_return,'sale_id',r.sale_id,'customer_id',r.customer_id,
+    'principal_sha256',direct_record->'principal_sha256','hpp_sha256',ow04_source_proposal.sha(direct_record->'hpp_projection'));
+  end if;
+ end if;
  return null;
 end $$;
 
 create function cp7_credit.defer_opening_return_hpp_v1(p_return uuid,p_old text,p_new text)returns boolean
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
-declare owner_fact jsonb;lots uuid[];w cp7_credit.initial_return_work;g jsonb;
+declare owner_fact jsonb;lots uuid[];w cp7_credit.initial_return_work;g jsonb;hpp jsonb;
 begin
  if p_old is distinct from'DRAFT'or p_new is distinct from'POSTED'then return false;end if;
  owner_fact:=cp7_credit.opening_return_hpp_owner_v1(p_return);
  if owner_fact is null then return false;end if;
- select *into strict w from cp7_credit.initial_return_work where return_id=p_return;
- for g in select value from jsonb_array_elements(w.projection#>'{hpp,groups}')loop
+ if owner_fact->>'kind'='NATIVE_EMPTY_RETURN'then
+  execute 'select nw.hpp_projection from cp7_credit.native_empty_work nw where nw.source_return_id=$1 and nw.backend_pid=pg_backend_pid()and nw.transaction_id=txid_current()'
+   into strict hpp using p_return;
+ else
+  select *into strict w from cp7_credit.initial_return_work where return_id=p_return;
+  hpp:=w.projection->'hpp';
+ end if;
+ for g in select value from jsonb_array_elements(hpp->'groups')loop
   if cp7_credit.initial_opening_hpp_source_v1((g->>'product_id')::uuid,(g->>'po_id')::uuid)is distinct from g->'opening_source'then
    raise exception 'CP7_CREDIT_OPENING_HPP_SEALED_SOURCE_CHANGED';end if;
  end loop;
@@ -58,7 +80,7 @@ begin
   where i.return_id=p_return and l.lot_origin='OPENING'
    and exists(select 1 from erp.opening_lot_hpp_gl_state s where s.lot_id=l.id))x;
  if lots is null then return false;end if;
- if exists(select 1 from unnest(lots)as candidate(lot_id)where not((w.projection#>'{hpp,locked_lot_ids}')?candidate.lot_id::text))then
+ if exists(select 1 from unnest(lots)as candidate(lot_id)where not((hpp->'locked_lot_ids')?candidate.lot_id::text))then
   raise exception 'CP7_CREDIT_OPENING_HPP_LOT_OUTSIDE_SEALED_LOCKS';end if;
  insert into cp7_credit.opening_return_hpp_work_v1 values(p_return,pg_backend_pid(),txid_current(),owner_fact,lots);
  return true;

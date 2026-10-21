@@ -1,8 +1,8 @@
 {
   "classification": "UNQUALIFIED_ATOMIC_DEVELOPMENT_NATIVE_EMPTY",
   "files": {
-    "01_native_empty_facts.sql": "ec3a102ffc65cc8dfcff294706c5cdacedc749b62320ea6c307c00dcd4696584",
-    "02_native_empty_callbacks.sql": "68f458c7e061b3c7161e5c1525c678defc343869c766a60d9a5139366f414173",
+    "01_native_empty_facts.sql": "7a749f27a386633c6533a1c46e5d6b28ab5f8275083a206cba1f4556225b52c1",
+    "02_native_empty_callbacks.sql": "2bd8216c22b4308fd4b7f259bd2d6e41edb512a3c0b7a86368fd679e45cb5027",
     "04_exact_overlays.sql": "bea5faafa415600a9b1973654fe6c0c4c449256ed8bb8fb8698a3ff62b026ad9",
     "OVERLAY_MANIFEST.json": "2c1463de1987b403ebcd46678c515f1b446f6e78a9ae9ee119419c34161ab3b4",
     "EXPECTED.json": "5e713283516288011b6c8ccdff4af85d3df3c077e771e36de2b2bc2c16abfd3b",

@@ -45,7 +45,7 @@ end $$;
 create function cp7_credit.native_empty_enter_v1(p_return uuid)returns void
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
 declare r erp.sales_returns;h erp.sales_headers;src jsonb;before_events jsonb;draft jsonb;prior jsonb;added jsonb:='[]';k jsonb;
- principal jsonb;period jsonb;amount numeric;economic date;book date;op uuid:=gen_random_uuid();
+ principal jsonb;period jsonb;amount numeric;economic date;book date;op uuid:=gen_random_uuid();hpp jsonb;hpp_input jsonb;
 begin
  -- This is reentrant with Native's identical FG lock, before all source rows.
  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
@@ -74,6 +74,18 @@ begin
   raise exception 'CP7_NATIVE_EMPTY_SOURCE_VECTOR_INCOMPLETE';end if;
  perform cp7_credit.assert_zero_excess_v1(before_events);
  draft:=cp7_credit.native_empty_draft_v1(p_return);
+ -- The same source-derived full-vector calculator owns both return routes.
+ -- Lock every sibling lot/version/cache and inventory destination BEFORE
+ -- Native's period/CASH admission. No later callback discovers a new lock.
+ select jsonb_build_object('sale_id',r.sale_id,'items',jsonb_agg(jsonb_build_object(
+  'allocation_id',di->'sale_stock_allocation_id','location_id',di->'location_id',
+  'qty_pcs',di->'qty_pcs','quality_grade',di->'quality_grade','refund_amount',di->'refund_amount')order by di->>'id'))
+ into hpp_input from jsonb_array_elements(draft->'items')di;
+ hpp:=cp7_credit.initial_hpp_projection_v1(hpp_input);
+ perform 1 from erp.accounting_account_mappings where mapping_key in('FG_INVENTORY','COGS','OTHER_EXPENSE','OTHER_INCOME')order by mapping_key for share;
+ perform 1 from erp.chart_accounts where id in(select(mv->>'account_id')::uuid from jsonb_array_elements(hpp#>'{account_facts,mappings}')mv)order by id for share;
+ if cp7_credit.initial_hpp_account_facts_v1()is distinct from hpp->'account_facts'then
+  raise exception 'CP7_NATIVE_EMPTY_HPP_ACCOUNT_CHANGED';end if;
  select sum(refund_amount)into amount from erp.sales_return_items where return_id=p_return;
  if amount is null or amount<0 then raise exception 'CP7_NATIVE_EMPTY_DRAFT_AMOUNT';end if;
  perform cp7_credit.cent_text(amount::cp7_credit.cent_amount);
@@ -91,9 +103,9 @@ begin
  k:=ow04_pure_kernel.recognition_plan_v1(before_events,added);
  principal:=cp7_credit.native_empty_principal_v1();perform cp7_credit.assert_native_empty_principal_v1(principal);
  insert into cp7_credit.native_empty_work(operation_id,backend_pid,transaction_id,source_return_id,source_sale_id,principal,principal_sha256,
-  source_snapshot,preserved_source,before_events,draft_manifest,prior_causal,period_snapshot,projected_events,projected_kernel,phase)
+  source_snapshot,preserved_source,before_events,draft_manifest,prior_causal,period_snapshot,projected_events,projected_kernel,hpp_projection,phase)
  values(op,pg_backend_pid(),txid_current(),p_return,r.sale_id,principal,ow04_source_proposal.sha(principal),src,
-  cp7_credit.initial_preserved_source_v1(r.sale_id,r.id),before_events,draft,prior,period,added,k,'ENTERED');
+  cp7_credit.initial_preserved_source_v1(r.sale_id,r.id),before_events,draft,prior,period,added,k,hpp,'ENTERED');
  -- The original Native paid guard is deliberately still reached for P>net.
  -- A nonempty K0 temporal target is rejected by guard_v1 instead of minting I.
  perform erp.require_internal();
@@ -118,6 +130,18 @@ begin
   or cp7_credit.native_empty_prior_v1(w.source_sale_id)is distinct from w.prior_causal
   or(select to_jsonb(p)from erp.accounting_period_control p where singleton_id=1)is distinct from w.period_snapshot then
   raise exception 'CP7_NATIVE_EMPTY_SOURCE_OR_PERIOD_CHANGED';end if;
+ if jsonb_typeof(w.hpp_projection->'groups')is distinct from'array'
+  or jsonb_typeof(w.hpp_projection->'locked_lot_ids')is distinct from'array'
+  or cp7_credit.initial_hpp_account_facts_v1()is distinct from w.hpp_projection->'account_facts'
+  or(select coalesce(jsonb_agg(hv.id order by hv.id),'[]')from erp.hpp_versions hv
+   where(w.hpp_projection->'locked_lot_ids')?hv.lot_id::text)is distinct from w.hpp_projection->'locked_hpp_version_ids'
+  or exists(select 1 from jsonb_array_elements(w.hpp_projection->'groups')hg
+   where(select coalesce(jsonb_agg(fl.id order by fl.id),'[]')from erp.fg_lots fl where
+    ((hg->>'po_id')::uuid is not null and fl.po_id=(hg->>'po_id')::uuid and fl.lot_origin in('PRODUCTION','CONVERSION'))
+    or((hg->>'po_id')::uuid is null and fl.po_id is null and fl.product_id=(hg->>'product_id')::uuid and fl.lot_origin<>'VOIDED_PRODUCTION'))
+   is distinct from(select coalesce(jsonb_agg((hl->>'lot_id')::uuid order by(hl->>'lot_id')::uuid),'[]')
+    from jsonb_array_elements(hg#>'{before_profile,lots}')hl))then
+  raise exception 'CP7_NATIVE_EMPTY_HPP_LOCK_MANIFEST_CHANGED';end if;
 end $$;
 
 create function cp7_credit.native_empty_guard_v1(p_return uuid,p_refund numeric,p_net_after numeric,p_raw_paid numeric)returns numeric
@@ -199,7 +223,7 @@ end $$;
 
 create function cp7_credit.native_empty_complete_v1(p_return uuid,p_refund numeric,p_net_after numeric)returns numeric
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
-declare w cp7_credit.native_empty_work;fact jsonb;actual_events jsonb;k jsonb;assignment jsonb;member jsonb;objects jsonb;
+declare w cp7_credit.native_empty_work;fact jsonb;actual_events jsonb;k jsonb;assignment jsonb;member jsonb;objects jsonb;hpp_group jsonb;actual_target jsonb;
  family uuid:=gen_random_uuid();marker uuid:=gen_random_uuid();previous uuid;ordinal bigint;uid uuid;journal jsonb;reconciled jsonb;raw_paid numeric;
 begin
  perform cp7_credit.assert_native_empty_work_v1(p_return);
@@ -207,6 +231,16 @@ begin
  if w.phase<>'GUARDED'or(w.guard_values->>'refund',w.guard_values->>'net_after')is distinct from
   (cp7_credit.cent_text(p_refund),cp7_credit.cent_text(p_net_after))or w.posting_lines is not null then
   raise exception 'CP7_NATIVE_EMPTY_COMPLETION_TOTALS_CHANGED';end if;
+ for hpp_group in select value from jsonb_array_elements(w.hpp_projection->'groups')loop
+  if(hpp_group->>'po_id')::uuid is null then
+   perform erp.assert_non_po_product_hpp_target_book_v2620f((hpp_group->>'product_id')::uuid);
+   select to_jsonb(nt)into strict actual_target from erp.compute_non_po_product_hpp_targets_v2620f((hpp_group->>'product_id')::uuid)nt;
+  else
+   perform erp.assert_po_hpp_target_book_v2620e((hpp_group->>'po_id')::uuid);
+   select to_jsonb(nt)into strict actual_target from erp.compute_po_hpp_gl_targets_v2620d((hpp_group->>'po_id')::uuid)nt;
+  end if;
+  if actual_target is distinct from hpp_group->'after_target'then raise exception 'CP7_NATIVE_EMPTY_ACTUAL_HPP_TARGET_CHANGED';end if;
+ end loop;
  fact:=ow04_source_proposal.return_fact_v1(p_return);
  if fact->>'sale_id'<>w.source_sale_id::text or fact->>'family_root_sale_id'<>w.source_sale_id::text then
   raise exception 'CP7_NATIVE_EMPTY_ACTUAL_FAMILY_CHANGED';end if;
@@ -244,10 +278,10 @@ begin
   union all select cp7_credit.materialized_fact('MEMBER',m.return_id,to_jsonb(m))from cp7_credit.return_family_members m where m.return_id=p_return)s;
  insert into cp7_credit.native_empty_operations(operation_id,source_return_id,source_sale_id,family_id,family_ordinal,backend_pid,transaction_id,
   principal,principal_sha256,draft_manifest,draft_sha256,source_snapshot,source_sha256,preserved_source,before_events,prior_causal,period_snapshot,
-  projected_events,projected_kernel,actual_fact,actual_physical,actual_events,actual_kernel,actual_original_journal,assignment_proof,materialization_id,actual_objects,actual_objects_sha256)
+  projected_events,projected_kernel,hpp_projection,actual_fact,actual_physical,actual_events,actual_kernel,actual_original_journal,assignment_proof,materialization_id,actual_objects,actual_objects_sha256)
  values(w.operation_id,p_return,w.source_sale_id,family,ordinal,w.backend_pid,w.transaction_id,w.principal,w.principal_sha256,w.draft_manifest,
   ow04_source_proposal.sha(w.draft_manifest),w.source_snapshot,ow04_source_proposal.sha(w.source_snapshot),w.preserved_source,w.before_events,w.prior_causal,w.period_snapshot,
-  w.projected_events,w.projected_kernel,fact,cp7_credit.native_empty_physical_v1(p_return),actual_events,k,journal,assignment,marker,objects,ow04_source_proposal.sha(objects));
+  w.projected_events,w.projected_kernel,w.hpp_projection,fact,cp7_credit.native_empty_physical_v1(p_return),actual_events,k,journal,assignment,marker,objects,ow04_source_proposal.sha(objects));
  perform cp7_credit.verify_native_empty_member_v1(p_return);
  reconciled:=ow04_ordinal_wrapper.reconcile_v1(cp7_credit.initial_ordinal_input_v1(w.source_sale_id));
  if not(reconciled->>'arithmetic_supported')::boolean or exists(select 1 from jsonb_array_elements(reconciled->'families')f

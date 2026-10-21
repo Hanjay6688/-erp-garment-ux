@@ -1,0 +1,500 @@
+{
+  "contract_version": "ow04.direct-native-fractional-hpp.expected.v1",
+  "classification": "EXPECTED_BEFORE_NATIVE_EXECUTION",
+  "expected_count": 14,
+  "retained_fractional_expected_sha256": "f53001d8ec87289a7fc7ca1a6f69752f994480418256923133329e6395a37d4c",
+  "route": "Actual erp.post_sales_return(uuid); all new return amounts0 preserve the fully paid source and require no credit choice.",
+  "limits": [
+    "Administrative Native DRAFT entry is explicit; not a browser/operator input claim.",
+    "No APPLY, consumer undo, positive cohort correction or production acceptance."
+  ],
+  "cases": [
+    {
+      "id": "OW04_NATIVE_HPP_NONPO_SECOND_RETURN_CARRY",
+      "source_case_id": "OW04_HPP_NONPO_SECOND_RETURN_CARRY",
+      "before": [
+        [
+          "1.00",
+          "0.33",
+          "0.67",
+          "0.00"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "0.67",
+          "0.33",
+          "0.00"
+        ]
+      ],
+      "delta": [
+        [
+          "0.34",
+          "-0.34",
+          "0.00"
+        ]
+      ],
+      "owned_before": [
+        1
+      ],
+      "owned_after": [
+        2
+      ]
+    },
+    {
+      "id": "OW04_NATIVE_HPP_PO_SECOND_RETURN_CARRY",
+      "source_case_id": "OW04_HPP_PO_SECOND_RETURN_CARRY",
+      "before": [
+        [
+          "1.00",
+          "0.33",
+          "0.67",
+          "0.00"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "0.67",
+          "0.33",
+          "0.00"
+        ]
+      ],
+      "delta": [
+        [
+          "0.34",
+          "-0.34",
+          "0.00"
+        ]
+      ],
+      "owned_before": [
+        1
+      ],
+      "owned_after": [
+        2
+      ]
+    },
+    {
+      "id": "OW04_NATIVE_HPP_NONPO_OTHER_POSITIVE",
+      "source_case_id": "OW04_HPP_NONPO_OTHER_POSITIVE",
+      "before": [
+        [
+          "1.00",
+          "0.00",
+          "0.67",
+          "0.33"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "0.33",
+          "0.33",
+          "0.34"
+        ]
+      ],
+      "delta": [
+        [
+          "0.33",
+          "-0.34",
+          "0.01"
+        ]
+      ],
+      "owned_before": [
+        0
+      ],
+      "owned_after": [
+        1
+      ]
+    },
+    {
+      "id": "OW04_NATIVE_HPP_NONPO_OTHER_NEGATIVE",
+      "source_case_id": "OW04_HPP_NONPO_OTHER_NEGATIVE",
+      "before": [
+        [
+          "1.00",
+          "0.33",
+          "0.33",
+          "0.34"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "0.67",
+          "0.00",
+          "0.33"
+        ]
+      ],
+      "delta": [
+        [
+          "0.34",
+          "-0.33",
+          "-0.01"
+        ]
+      ],
+      "owned_before": [
+        1
+      ],
+      "owned_after": [
+        2
+      ]
+    },
+    {
+      "id": "OW04_NATIVE_HPP_PO_OTHER_POSITIVE",
+      "source_case_id": "OW04_HPP_PO_OTHER_POSITIVE",
+      "before": [
+        [
+          "1.00",
+          "0.00",
+          "0.67",
+          "0.33"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "0.33",
+          "0.33",
+          "0.34"
+        ]
+      ],
+      "delta": [
+        [
+          "0.33",
+          "-0.34",
+          "0.01"
+        ]
+      ],
+      "owned_before": [
+        0
+      ],
+      "owned_after": [
+        1
+      ]
+    },
+    {
+      "id": "OW04_NATIVE_HPP_PO_OTHER_NEGATIVE",
+      "source_case_id": "OW04_HPP_PO_OTHER_NEGATIVE",
+      "before": [
+        [
+          "1.00",
+          "0.33",
+          "0.33",
+          "0.34"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "0.67",
+          "0.00",
+          "0.33"
+        ]
+      ],
+      "delta": [
+        [
+          "0.34",
+          "-0.33",
+          "-0.01"
+        ]
+      ],
+      "owned_before": [
+        1
+      ],
+      "owned_after": [
+        2
+      ]
+    },
+    {
+      "id": "OW04_NATIVE_HPP_TWO_LOTS_ONE_PO",
+      "source_case_id": "OW04_HPP_TWO_LOTS_ONE_PO",
+      "before": [
+        [
+          "2.00",
+          "1.33",
+          "0.67",
+          "0.00"
+        ]
+      ],
+      "after": [
+        [
+          "2.00",
+          "2.00",
+          "0.00",
+          "0.00"
+        ]
+      ],
+      "delta": [
+        [
+          "0.67",
+          "-0.67",
+          "0.00"
+        ]
+      ],
+      "owned_before": [
+        2,
+        2
+      ],
+      "owned_after": [
+        3,
+        3
+      ]
+    },
+    {
+      "id": "OW04_NATIVE_HPP_TWO_LOTS_SAME_NONPO_PRODUCT",
+      "source_case_id": "OW04_HPP_TWO_LOTS_SAME_NONPO_PRODUCT",
+      "before": [
+        [
+          "2.00",
+          "1.34",
+          "0.66",
+          "0.00"
+        ]
+      ],
+      "after": [
+        [
+          "2.00",
+          "2.00",
+          "0.00",
+          "0.00"
+        ]
+      ],
+      "delta": [
+        [
+          "0.66",
+          "-0.66",
+          "0.00"
+        ]
+      ],
+      "owned_before": [
+        2,
+        2
+      ],
+      "owned_after": [
+        3,
+        3
+      ]
+    },
+    {
+      "id": "OW04_NATIVE_HPP_NONPO_FG_ZERO_HPP_JOURNAL",
+      "source_case_id": "OW04_HPP_NONPO_FG_ZERO_HPP_JOURNAL",
+      "before": [
+        [
+          "0.01",
+          "0.00",
+          "0.01",
+          "0.00"
+        ]
+      ],
+      "after": [
+        [
+          "0.01",
+          "0.00",
+          "0.00",
+          "0.01"
+        ]
+      ],
+      "delta": [
+        [
+          "0.00",
+          "-0.01",
+          "0.01"
+        ]
+      ],
+      "owned_before": [
+        0
+      ],
+      "owned_after": [
+        1
+      ]
+    },
+    {
+      "id": "OW04_NATIVE_HPP_PO_FG_ZERO_REOPENED_HPP_JOURNAL",
+      "source_case_id": "OW04_HPP_PO_FG_ZERO_REOPENED_HPP_JOURNAL",
+      "before": [
+        [
+          "0.01",
+          "0.00",
+          "0.01",
+          "0.00"
+        ]
+      ],
+      "after": [
+        [
+          "0.01",
+          "0.00",
+          "0.00",
+          "0.01"
+        ]
+      ],
+      "delta": [
+        [
+          "0.00",
+          "-0.01",
+          "0.01"
+        ]
+      ],
+      "owned_before": [
+        0
+      ],
+      "owned_after": [
+        1
+      ]
+    },
+    {
+      "id": "OW04_NATIVE_HPP_TWO_ALLOCATIONS_SAME_LOT_GROUPED",
+      "source_case_id": "OW04_HPP_TWO_ALLOCATIONS_SAME_LOT_GROUPED",
+      "before": [
+        [
+          "1.00",
+          "0.33",
+          "0.67",
+          "0.00"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "1.00",
+          "0.00",
+          "0.00"
+        ]
+      ],
+      "delta": [
+        [
+          "0.67",
+          "-0.67",
+          "0.00"
+        ]
+      ],
+      "owned_before": [
+        1
+      ],
+      "owned_after": [
+        3
+      ]
+    },
+    {
+      "id": "OW04_NATIVE_HPP_DEBITS_PER_GROUP_BEFORE_NETTING",
+      "source_case_id": "OW04_HPP_DEBITS_PER_GROUP_BEFORE_NETTING",
+      "before": [
+        [
+          "1.00",
+          "0.00",
+          "0.67",
+          "0.33"
+        ],
+        [
+          "1.00",
+          "0.33",
+          "0.33",
+          "0.34"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "0.33",
+          "0.33",
+          "0.34"
+        ],
+        [
+          "1.00",
+          "0.67",
+          "0.00",
+          "0.33"
+        ]
+      ],
+      "delta": [
+        [
+          "0.33",
+          "-0.34",
+          "0.01"
+        ],
+        [
+          "0.34",
+          "-0.33",
+          "-0.01"
+        ]
+      ],
+      "owned_before": [
+        0,
+        1
+      ],
+      "owned_after": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "OW04_NATIVE_HPP_NULL_HUMAN",
+      "source_case_id": "OW04_HPP_NONPO_SECOND_RETURN_CARRY",
+      "before": [
+        [
+          "1.00",
+          "0.33",
+          "0.67",
+          "0.00"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "0.67",
+          "0.33",
+          "0.00"
+        ]
+      ],
+      "delta": [
+        [
+          "0.34",
+          "-0.34",
+          "0.00"
+        ]
+      ],
+      "owned_before": [
+        1
+      ],
+      "owned_after": [
+        2
+      ],
+      "null_human": true
+    },
+    {
+      "id": "OW04_NATIVE_HPP_DIAGNOSTIC_ATOMIC",
+      "source_case_id": "OW04_HPP_NONPO_SECOND_RETURN_CARRY",
+      "before": [
+        [
+          "1.00",
+          "0.33",
+          "0.67",
+          "0.00"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "0.67",
+          "0.33",
+          "0.00"
+        ]
+      ],
+      "delta": [
+        [
+          "0.34",
+          "-0.34",
+          "0.00"
+        ]
+      ],
+      "owned_before": [
+        1
+      ],
+      "owned_after": [
+        2
+      ],
+      "diagnostic_failure": true
+    }
+  ]
+}

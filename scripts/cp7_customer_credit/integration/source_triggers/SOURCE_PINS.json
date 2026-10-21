@@ -1,7 +1,7 @@
 {
   "format": "OW04_BOUNDED_TRIGGER_SOURCE_PINS_PROPOSAL_V1",
   "classification": "STATIC_SOURCE_DERIVED_NOT_NATIVE_EXECUTION",
-  "source_commit": "559dd5f9407a032999c33471db1883f60040e09d",
+  "source_commit": "d11bcab6854bb4c2156d13fc030f81d8ce1e51da",
   "database_calls": 0,
   "tables": [
     "erp.sales_headers",
@@ -228,7 +228,7 @@
     "scripts/cp7_customer_credit/coordinator/02_initial_projection.sql": "9202f27d33d32f8dbf04838d5e4540c2aa20a5e74475bb99f30730cb0f3b696c",
     "scripts/cp7_customer_credit/coordinator/03_native_initial_callbacks.sql": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843",
     "scripts/cp7_customer_credit/coordinator/03_opening_hpp_diagnostics.sql": "18fc33e4a88dc211fe7a99fb3dd39251618ed7eda006cacb5d7ab29bfddd7c25",
-    "scripts/cp7_customer_credit/coordinator/03_opening_return_hpp.sql": "d79e6e05446352ff8beb6ab97933514b51bad2392b86d372a1fdca7af1372043",
+    "scripts/cp7_customer_credit/coordinator/03_opening_return_hpp.sql": "4b3fcd102114691f8029e43befb58f3be90fcabb25f4476874eb471b7af79cba",
     "scripts/cp7_customer_credit/coordinator/04_register_and_materialize.sql": "abf523b1ba7a9e2d9f1aa8825b1e2c74cec160d2be726db71e2f2f8176ad7ff0",
     "scripts/cp7_customer_credit/coordinator/05_factual_profile.sql": "a11a072b8e0fffbea380063787e752814893089ef9066bcc541b5984221bb16d",
     "scripts/cp7_customer_credit/coordinator/06_finish_and_closed_routes.sql": "0dc8fb0f81e5a1787fe29e5a0585b8ca8138915dbb79f536d76051eb9c3ae27e",
@@ -240,7 +240,7 @@
     "scripts/cp7_customer_credit/kernel/kernel.sql": "f531f50d5a1c7ddc0a2f22f607be5ba0625a2e0388af3e7a4c6d129bf82e15fc",
     "scripts/cp7_customer_credit/ledger/01_immutable_facts.proposal.sql": "62383030bf27b70c5c07f948c69329be6f8229c314097e7d3c02293cc8c929c6",
     "scripts/cp7_customer_credit/ledger/02_uuid_poster.proposal.sql": "7ab2fc6f5cb700c2284e58921bd6e59fbe731a0064457f5031116d61aa30baf8",
-    "scripts/cp7_customer_credit/native-empty/01_native_empty_facts.sql": "ec3a102ffc65cc8dfcff294706c5cdacedc749b62320ea6c307c00dcd4696584",
+    "scripts/cp7_customer_credit/native-empty/01_native_empty_facts.sql": "7a749f27a386633c6533a1c46e5d6b28ab5f8275083a206cba1f4556225b52c1",
     "scripts/cp7_customer_credit/ordinal-wrapper/wrapper.sql": "ed66c7f09433956d18368b7a804b1b04f0dcb7f9e0457686400421a849d671d1",
     "scripts/cp7_customer_credit/readers/01_current_reader_capability.proposal.sql": "104853e41bd3cfa79af47d09c7f6ad9d45ff10fb00756b5b57ea71d137d94773",
     "scripts/cp7_customer_credit/readers/02_materialized_profile.proposal.sql": "317e689b3b2e738889e86a62dc130fa3ee2f128750f95d5264cd56084fce8575",
@@ -8529,7 +8529,7 @@
           "initially_deferred": false,
           "validated": true,
           "source": "scripts/cp7_customer_credit/native-empty/01_native_empty_facts.sql",
-          "source_line": 45,
+          "source_line": 46,
           "source_fragment": "source_return_id uuid not null unique references erp.sales_returns(id)"
         },
         {
@@ -8586,7 +8586,7 @@
           "initially_deferred": false,
           "validated": true,
           "source": "scripts/cp7_customer_credit/native-empty/01_native_empty_facts.sql",
-          "source_line": 45,
+          "source_line": 46,
           "source_fragment": "source_sale_id uuid not null references erp.sales_headers(id)"
         },
         {

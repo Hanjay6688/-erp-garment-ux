@@ -1,0 +1,43 @@
+{
+  "candidate_commit": "5647784e8bdb477b5155c5d10fcf9bf4cf94b439",
+  "candidate_tree": "fa395825502983bbc8cbc8a93d92bd87e42aa166",
+  "classification": "LOCAL_SOURCE_AND_COMPILE_NOT_NATIVE_OR_RELEASE_ACCEPTANCE",
+  "declared_case_count": 87,
+  "unique_case_count": 87,
+  "new_direct_native_case_count": 14,
+  "compile": {
+    "classification": "LOCAL_PGLITE_EMPTY_COMPOSITE_TYPES_COMPILE_ONLY_NOT_NATIVE",
+    "compiled": 20,
+    "status": "PASS"
+  },
+  "compile_source_sha256": {
+    "scripts/cp7_customer_credit/native-empty/02_native_empty_callbacks.sql": "2bd8216c22b4308fd4b7f259bd2d6e41edb512a3c0b7a86368fd679e45cb5027",
+    "scripts/cp7_customer_credit/coordinator/03_opening_return_hpp.sql": "4b3fcd102114691f8029e43befb58f3be90fcabb25f4476874eb471b7af79cba"
+  },
+  "declaration_sha256": "043c448bda467ac83075cd48e61ff0845e8219af28d67b9b4f1c1d02fba8a972",
+  "qualification_sources": {
+    "scripts/cp7_full_ow04_probe.py": "f13f9002ab507c6b393f36ddd7fa30e6602a30a893616ca67ec4f79a07c9e13a",
+    "scripts/cp7_customer_credit/readers/cp7_ow04_credit_dependency_cases.py": "fd46cb8e473fa7fb0e245f656db91b6e993c21ce658fde2b9fe746e7823114b6",
+    "scripts/cp7_customer_credit/hpp-fractional/cp7_ow04_native_fractional_cases.py": "eee40d109c5e39c81fe3aefbbbecfd0c97abbc15b3726a641d6434b38a2d7991",
+    "scripts/cp7_customer_credit/hpp-fractional/NATIVE_EXPECTED.json": "6bd414a898814d15e89e68d28022c5ee0fff99b6c92808184ea8fd7f22e4d7f3"
+  },
+  "predecessor_sql_sha256": "e7701eaada592cfd74a8555cf4cdcb7df8d180448213d3bbf5698c3bfa025127",
+  "native_execution_status": "NOT_STARTED_PUSH_BLOCKED_BY_AUTOMATIC_APPROVAL_REVIEW",
+  "first_local_compile_harness_failure": {
+    "cause": "Local empty-type compiler mistakenly included SQL-language functions requiring real columns; stopped at backend_pid missing.",
+    "disposition": "Compiler now selects only PL/pgSQL definitions as the repository compile-check contract requires. Not a product/Native failure."
+  },
+  "sparse_checkout_materialization": {
+    "missing_file": "docs/cp7/evidence/p00/CP7_P00_CATALOGUE.json.gz",
+    "disposition": "Materialized retained accepted bytes after both SHA256 and exact HEAD Git-blob match; predecessor source admission then rerun."
+  },
+  "auto_review": {
+    "action": "git push -u origin codex/ow04-lifecycle-20261021",
+    "reason": "Potentially sensitive ERP source/workflow disclosure; personal-context authorization summary was not accepted as direct user authorization.",
+    "workaround_attempted": false
+  },
+  "native_case_results": [],
+  "production_go": false,
+  "audit_complete": false,
+  "feature_complete": false
+}
