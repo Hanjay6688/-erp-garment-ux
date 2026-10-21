@@ -1,0 +1,49 @@
+{
+  "classification": "PURE_ACTUAL_SOURCE_INSPECTOR_NOT_BROWSER_OR_DB",
+  "database_calls": 0,
+  "status": "PASS",
+  "count": 7,
+  "inspector_sha256": "366ee169e4980618d292dad31af3a7bbb30c3ffad3fc88ffb91f6aa8685138b9",
+  "rows": [
+    {
+      "id": "exact_active13_and_shared2",
+      "status": "PASS",
+      "observed": "ACCEPTED"
+    },
+    {
+      "id": "active_product_bytes_changed",
+      "status": "PASS",
+      "observed": "REFUSED",
+      "reason": "('OW04_BROWSER_ACTIVE_SOURCE_CHANGED', 'src/SalesReturnPanel.tsx')"
+    },
+    {
+      "id": "missing_active_path",
+      "status": "PASS",
+      "observed": "REFUSED",
+      "reason": "OW04_BROWSER_ACTIVE_SOURCE_MANIFEST_CHANGED"
+    },
+    {
+      "id": "unknown_active_path",
+      "status": "PASS",
+      "observed": "REFUSED",
+      "reason": "OW04_BROWSER_ACTIVE_SOURCE_MANIFEST_CHANGED"
+    },
+    {
+      "id": "shared_recovery_bytes_changed",
+      "status": "PASS",
+      "observed": "REFUSED",
+      "reason": "('OW04_BROWSER_BASE_SOURCE_CHANGED', 'src/useProductionMutation.ts')"
+    },
+    {
+      "id": "historical_escrow_changed",
+      "status": "PASS",
+      "observed": "REFUSED",
+      "reason": "OW04_BROWSER_ESCROW_GZIP_CHANGED"
+    },
+    {
+      "id": "historical_escrow_path_retained",
+      "status": "PASS",
+      "observed": "ACCEPTED"
+    }
+  ]
+}

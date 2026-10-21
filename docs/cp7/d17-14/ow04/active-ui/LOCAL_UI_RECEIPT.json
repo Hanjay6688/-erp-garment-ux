@@ -1,0 +1,1117 @@
+{
+  "classification": "WRITER_LOCAL_DOM_AND_BUILD_NOT_NATIVE_HTTP_OR_BROWSER",
+  "unique_case_count": 182,
+  "counts": {
+    "PASS": 182
+  },
+  "cases": [
+    {
+      "file": "ConnectedCustomerHistoryPage.dom.test.tsx",
+      "name": "Riwayat Pelanggan on real data (R3-03) an answer for the previous account does not replace the current one",
+      "status": "passed",
+      "run": "history_retest"
+    },
+    {
+      "file": "ConnectedCustomerHistoryPage.dom.test.tsx",
+      "name": "Riwayat Pelanggan on real data (R3-03) asks for the history permission and calls nothing without it",
+      "status": "passed",
+      "run": "history_retest"
+    },
+    {
+      "file": "ConnectedCustomerHistoryPage.dom.test.tsx",
+      "name": "Riwayat Pelanggan on real data (R3-03) downloads only the rows on screen, and only with sales.history.export",
+      "status": "passed",
+      "run": "history_retest"
+    },
+    {
+      "file": "ConnectedCustomerHistoryPage.dom.test.tsx",
+      "name": "Riwayat Pelanggan on real data (R3-03) keeps a spreadsheet formula in a document number as text",
+      "status": "passed",
+      "run": "history_retest"
+    },
+    {
+      "file": "ConnectedCustomerHistoryPage.dom.test.tsx",
+      "name": "Riwayat Pelanggan on real data (R3-03) keeps original payment1000 separate from effective settlement800 after return credit200",
+      "status": "passed",
+      "run": "history_retest"
+    },
+    {
+      "file": "ConnectedCustomerHistoryPage.dom.test.tsx",
+      "name": "Riwayat Pelanggan on real data (R3-03) pages the timeline newer and older with the server offsets",
+      "status": "passed",
+      "run": "history_retest"
+    },
+    {
+      "file": "ConnectedCustomerHistoryPage.dom.test.tsx",
+      "name": "Riwayat Pelanggan on real data (R3-03) refuses an answer that carries amounts the account may not see, or lacks them when it may",
+      "status": "passed",
+      "run": "history_retest"
+    },
+    {
+      "file": "ConnectedCustomerHistoryPage.dom.test.tsx",
+      "name": "Riwayat Pelanggan on real data (R3-03) says plainly when the server refuses or the history cannot be placed, without numbers",
+      "status": "passed",
+      "run": "history_retest"
+    },
+    {
+      "file": "ConnectedCustomerHistoryPage.dom.test.tsx",
+      "name": "Riwayat Pelanggan on real data (R3-03) searches customers, opens one and shows its events newest first with balances",
+      "status": "passed",
+      "run": "history_retest"
+    },
+    {
+      "file": "ConnectedCustomerHistoryPage.dom.test.tsx",
+      "name": "Riwayat Pelanggan on real data (R3-03) shows the events without any amount when the account lacks finance.ar.view",
+      "status": "passed",
+      "run": "history_retest"
+    },
+    {
+      "file": "ConnectedCustomerHistoryPage.dom.test.tsx",
+      "name": "customer history contract WIB date follows Jakarta time, not the device",
+      "status": "passed",
+      "run": "history_retest"
+    },
+    {
+      "file": "ConnectedCustomerHistoryPage.dom.test.tsx",
+      "name": "customer history contract accepts the facade answer and rejects unknown keys, broken sums, order and pages",
+      "status": "passed",
+      "run": "history_retest"
+    },
+    {
+      "file": "ConnectedReceivablesPage.dom.test.tsx",
+      "name": "native invoice receivables source an old actor response cannot replace the current actor source",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedReceivablesPage.dom.test.tsx",
+      "name": "native invoice receivables source browses the owned full list and sorts only current source records without rewriting money",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedReceivablesPage.dom.test.tsx",
+      "name": "native invoice receivables source does not repaint a pending previous query after the input has changed",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedReceivablesPage.dom.test.tsx",
+      "name": "native invoice receivables source keeps complete document pagination and refetches the selected invoice on the next page",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedReceivablesPage.dom.test.tsx",
+      "name": "native invoice receivables source keeps money above safe integer precision and does not suppress native invoice credit",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedReceivablesPage.dom.test.tsx",
+      "name": "native invoice receivables source never presents draft or cancelled totals as posted receivables",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedReceivablesPage.dom.test.tsx",
+      "name": "native invoice receivables source opens the exact source invoice through navigation, and retires source actions when facts retire",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedReceivablesPage.dom.test.tsx",
+      "name": "native invoice receivables source rejects hidden financial fields, wrong selection, incomplete pages and mismatched status",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedReceivablesPage.dom.test.tsx",
+      "name": "native invoice receivables source renders source invoice/return/payment/balance and historical SKU without any financial writer",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedReceivablesPage.dom.test.tsx",
+      "name": "native invoice receivables source retires amounts after failed refresh and requires both current invoice and AR permissions",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedReceivablesPage.dom.test.tsx",
+      "name": "native invoice receivables source retires old source on search/status edits and refresh uses the entered filter with cleared selection",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "P11 invoice source boundary does not label a draft total as posted AR",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "P11 invoice source boundary ignores an old pending response after current authority remounts",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "P11 invoice source boundary keeps exact versions and source price arithmetic",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "P11 invoice source boundary keeps sort local and sends browse and filters through the owned current source reader",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "P11 invoice source boundary names active downstream types at the selected invoice and refuses a premature reversal without blocking atomic edit",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "P11 invoice source boundary never sends or renders a write and hides finance for operations",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "P11 invoice source boundary re-reads an opened source invoice and never treats receivables navigation as a business write",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "P11 invoice source boundary refuses invalid or mismatched opened invoice identity before showing any old source action",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "P11 invoice source boundary rejects wrong balances, hidden finance, missing lines and wrong pages",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "P11 invoice source boundary renders real fields then clears source and money after failed refresh",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "P11 reviewed native draft commands rejects a success receipt for a different document or wrong transition",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "P11 reviewed native draft commands requires review and binds POST to exact invoice, bigint revision and token",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "P11 reviewed native draft commands retains and reconciles the identical request after a lost commit reply and remount",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "owning atomic sale-chain recovery commits through one outer boundary and recovers exactly the same request after a lost reply and remount",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "owning atomic sale-chain recovery holds an incomplete committed reply for same-UUID verification and never treats one child as success",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "owning atomic sale-chain recovery offers chain cancellation only with the complete current owning permissions",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "owning historical note correction keeps unsent correction quantities and reason while locking its retired source",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "owning historical note correction opens a real form, sends exact source/version and retires it for the replacement",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "owning historical note correction preserves the exact Native microsecond and accepts equivalent timezone rendering",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "owning historical note correction recovers an uncertain correction with the identical UUID and payload after reload",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "owning historical note correction rejects unrelated source, changed effective date and a broken revision chain",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "owning historical note correction retires current invoice facts and a held correction history after the shared source is invalidated",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "owning historical note correction shows the immutable correction actor with its current profile name and clears it after current denial",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "payment correction owning command and recovery routing with declared server stand-ins retains the exact lost-reply envelope across remount and a current-access refusal, then reconciles it once",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesPage.dom.test.tsx",
+      "name": "payment correction owning command and recovery routing with declared server stand-ins routes the reviewed edit to one owning endpoint and retires the old form after source refresh",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesSettlement.dom.test.tsx",
+      "name": "OW04 real parent/section/recovery wiring with explicit mocked server contracts bumps parent generation for same UUID re-selection so changed eligibility can be requoted and reviewed",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesSettlement.dom.test.tsx",
+      "name": "OW04 real parent/section/recovery wiring with explicit mocked server contracts keeps a wrong-quote success uncertain and validates the frozen digest on replay",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesSettlement.dom.test.tsx",
+      "name": "OW04 real parent/section/recovery wiring with explicit mocked server contracts keeps physical time blank and blocks native form-submit from bypassing the quote",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesSettlement.dom.test.tsx",
+      "name": "OW04 real parent/section/recovery wiring with explicit mocked server contracts quotes a truly empty unpaid credit plan and still sends null settlement through the fixed wrapper",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesSettlement.dom.test.tsx",
+      "name": "OW04 real parent/section/recovery wiring with explicit mocked server contracts retains exact envelope across lost reply/remount/replay denial, then reconciles without an in-memory quote",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesSettlement.dom.test.tsx",
+      "name": "OW04 real parent/section/recovery wiring with explicit mocked server contracts retires source facts on a current quote403 and never falls back to the legacy RETURN route",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesSettlement.dom.test.tsx",
+      "name": "OW04 real parent/section/recovery wiring with explicit mocked server contracts retires the committed form and keeps all writers locked until authoritative reload succeeds",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesSettlement.dom.test.tsx",
+      "name": "OW04 real parent/section/recovery wiring with explicit mocked server contracts retires the old intent synchronously when a draft input changes before React renders the next generation",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesSettlement.dom.test.tsx",
+      "name": "OW04 real parent/section/recovery wiring with explicit mocked server contracts routes CREDIT to fixed facade and refreshes E800/AR0 while raw payment history stays P1000",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "ConnectedSalesSettlement.dom.test.tsx",
+      "name": "OW04 real parent/section/recovery wiring with explicit mocked server contracts routes REFUND to fixed facade and refreshes E800/AR0 while raw payment history stays P1000",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnPanel.dom.test.tsx",
+      "name": "P11 selected-allocation physical return binds recovery to exact return identity and refuses false invoice reversal",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnPanel.dom.test.tsx",
+      "name": "P11 selected-allocation physical return binds separate grades and destinations to original allocations without client HPP",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnPanel.dom.test.tsx",
+      "name": "P11 selected-allocation physical return filters the loaded return page without changing physical lines, source order or dispatching a writer",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnPanel.dom.test.tsx",
+      "name": "P11 selected-allocation physical return inverse requires selecting a posted original return and a new reason",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnPanel.dom.test.tsx",
+      "name": "P11 selected-allocation physical return keeps entered values but locks effects on failed refresh and stale invoice",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnPanel.dom.test.tsx",
+      "name": "P11 selected-allocation physical return keeps history visible without offering unauthorized write or legacy-only inverse",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnPanel.dom.test.tsx",
+      "name": "P11 selected-allocation physical return prevents repeating the selected allocation, enforces its cap and requires explicit refund even at zero",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnPanel.dom.test.tsx",
+      "name": "P11 selected-allocation physical return rejects stale source, incomplete history, impossible capacity and injected cost",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnPanel.dom.test.tsx",
+      "name": "P11 selected-allocation physical return requires an explicitly entered goods-return time before dispatch and preserves that WIB instant",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnPanel.dom.test.tsx",
+      "name": "P11 selected-allocation physical return retains entered lines and review across owning history renders with the same read ticket callbacks",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events COUNTER_SAME_ACCOUNT_CHANGED_FACTS CASH retires old eligibility even when the selected UUID is unchanged",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events COUNTER_SAME_ACCOUNT_CHANGED_FACTS CREDIT retires old eligibility even when the selected UUID is unchanged",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM01 begins with explicit blanks and no account fetch or invented amount",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM02 cannot quote an incomplete draft or inconsistent controlled source/choice",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM03 searches and pages actual credit choices without selecting the first account",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM04 retires facts and review before a deferred controlled-parent choice update",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM05 requires final review and emits only the exact frozen CREDIT payload once",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM05b names the exact chosen accounts and separate return/refund dates in the final review label",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM06 selects real cash and independent explicit WIB time without an editable refund amount or book date",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM07/08 accepts prior ABSENT with projected journal=false without invented floor or settlement",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM07/08 accepts prior ABSENT with projected journal=true without invented floor or settlement",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM08b retains DATED prior proof for a current-HPP0 no-journal return",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM09 keeps K0 historical recognition explicit and never treats negative adjustment as cash refund",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM10 displays unbounded exact signed values and P/U/I/E/AR separately",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM11 shows UNAVAILABLE as unknown, with no numeric0 or fallback intent",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM12 refuses blocked DEPENDENCY_BLOCKED without intent",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM12 refuses blocked PERIOD_CHANGED without intent",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM12 refuses blocked REFUND_PERMISSION_REQUIRED without intent",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM12 refuses blocked REFUND_ZERO_CURRENT_AMOUNT without intent",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM13 retires financial and account facts on current HTTP401 without leaking raw error",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM13 retires financial and account facts on current HTTP403 without leaking raw error",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM13b retires an already reviewed quote when the current account read returns42501",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM14 discards old A→B→A replies and preserves the newer quoted result",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM15 discards late account pages after a source ticket changes",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM15b checks the latest actual parent ticket at submit even without a rerender",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM16 synchronously hides financial/source/account facts on authority transition and rejects its late page",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM17 retires and locks on locked, without restoring old review on unlock",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM17 retires and locks on pendingEnvelope, without restoring old review on unlock",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM17 retires and locks on stale, without restoring old review on unlock",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM17b keeps the locally handed-off uncertain intent locked across later prop edits",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "SalesReturnSettlementSection.dom.test.tsx",
+      "name": "OW04 uninstalled controlled React settlement section, real jsdom events DOM18 rejects a malformed current response without rendering private raw reply or falling back",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "client action lists follow the server routers ACCESSORY_SERVICE accepts every router action",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "client action lists follow the server routers LAUNDRY_BD accepts every router action",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "only known statement errors retire an initial request keeps uncertainty for {\"code\":\"08006\"}",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "only known statement errors retire an initial request keeps uncertainty for {\"code\":\"53300\"}",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "only known statement errors retire an initial request keeps uncertainty for {\"code\":\"57P01\"}",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "only known statement errors retire an initial request keeps uncertainty for {\"code\":\"PGRST000\"}",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "only known statement errors retire an initial request keeps uncertainty for {\"code\":\"XX000\"}",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "only known statement errors retire an initial request keeps uncertainty for {\"status\":400}",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "only known statement errors retire an initial request keeps uncertainty for {\"status\":403}",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "only known statement errors retire an initial request keeps uncertainty for {\"status\":408}",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "only known statement errors retire an initial request keeps uncertainty for {\"status\":429}",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "only known statement errors retire an initial request keeps uncertainty for {\"status\":503}",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "only known statement errors retire an initial request recognizes initial database rejection 22P02",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "only known statement errors retire an initial request recognizes initial database rejection 23514",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "only known statement errors retire an initial request recognizes initial database rejection 40001",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "only known statement errors retire an initial request recognizes initial database rejection 40P01",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "only known statement errors retire an initial request recognizes initial database rejection 42501",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "only known statement errors retire an initial request recognizes initial database rejection P0001",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "recovery storage is durable and isolated changes the read generation even after an envelope is resolved",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "recovery storage is durable and isolated distinguishes storage failure from an empty envelope",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "recovery storage is durable and isolated never overwrites or clears another pending UUID",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "recovery storage is durable and isolated quarantines corrupt storage  without deleting it",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "recovery storage is durable and isolated quarantines corrupt storage [] without deleting it",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "recovery storage is durable and isolated quarantines corrupt storage null without deleting it",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "recovery storage is durable and isolated quarantines corrupt storage { without deleting it",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "recovery storage is durable and isolated quarantines corrupt storage {\"action\":\"HOLD_BS\",\"payload\":{\"bs_case_id\":\"case-1\",\"change_reason\":\"Verifikasi fisik\"},\"expectedVersion\":1,\"id\":\"00000000-0000-4000-8000-000000000001\",\"createdAt\":\"2026-09-21T00:00:00Z\",\"fingerprint\":\"wrong\"} without deleting it",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "recovery storage is durable and isolated quarantines corrupt storage {\"action\":\"HOLD_BS\",\"payload\":{\"bs_case_id\":\"case-1\",\"change_reason\":\"Verifikasi fisik\"},\"expectedVersion\":1,\"id\":\"00000000-0000-4000-8000-000000000001\",\"createdAt\":\"yesterday\",\"fingerprint\":\"{\\\"action\\\":\\\"HOLD_BS\\\",\\\"payload\\\":{\\\"bs_case_id\\\":\\\"case-1\\\",\\\"change_reason\\\":\\\"Verifikasi fisik\\\"},\\\"expectedVersion\\\":1}\"} without deleting it",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "recovery storage is durable and isolated quarantines corrupt storage {\"action\":\"HOLD_BS\",\"payload\":{\"bs_case_id\":\"case-1\",\"change_reason\":\"Verifikasi fisik\"},\"expectedVersion\":1,\"id\":\"bad\",\"createdAt\":\"2026-09-21T00:00:00Z\",\"fingerprint\":\"{\\\"action\\\":\\\"HOLD_BS\\\",\\\"payload\\\":{\\\"bs_case_id\\\":\\\"case-1\\\",\\\"change_reason\\\":\\\"Verifikasi fisik\\\"},\\\"expectedVersion\\\":1}\"} without deleting it",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "recovery storage is durable and isolated retains the exact legacy envelope and isolates actors and projects",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "productionRecovery.test.ts",
+      "name": "recovery storage is durable and isolated retains the original envelope when remove fails",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only PF01 accepts proved prior absence and a genuinely physical zero-money NO_JOURNAL return",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only PF02 accepts prior absence before OPENING0/freeSALE/recost10 produces a new HPP-only return journal",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only PF03 retains a real HPP-only dated ancestor floor even when all customer money totals are zero",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only PF04 keeps the dated ancestor when recost10to0 yields a NO_JOURNAL child despite original allocation10",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only PF05 keeps incomplete or forged prior history UNAVAILABLE without a numeric or READY fallback",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only accepts WIB date for 2026-10-19T17:05:00Z and preserves earlier historical component dates",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only accepts WIB date for 2026-10-20T00:05:00+07:00 and preserves earlier historical component dates",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only accepts exact server aggregate/currentK/component amounts above one Native journal line",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only accepts genuinely empty ordinary returns only after quote, including NO_JOURNAL zeroR/zeroHPP",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only binds the independent refund economic date to its explicit WIB physical instant",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only keeps account pagination typed and does not select the first server-vetted account",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only keeps initial mode/accounts blank and requires a quote for every return",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only never turns unavailable lineage into an empty/zero quote",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only never uses net-zero current money to bypass a nonempty signed recognition plan with prior ABSENT",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only preserves the existing Native bound on each user return refund input",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only refuses READY DATED JOURNAL_EXPECTED without the independently proved causal floor",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only refuses READY DATED NO_JOURNAL without the independently proved causal floor",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only refuses READY claims after current record/recognition/refund capability is lost",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only refuses missing prior proof even when every current financial total is zero",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects NO_JOURNAL with invented book date",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects READY COMPONENT book date before its own economic date",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects READY REFUND book date before its own economic date",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects READY RETURN book date before its own economic date",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects a one-cent component mismatch above JavaScript safe integer range",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects an economic return date guessed from UTC for 2026-10-19T17:05:00Z",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects an economic return date guessed from UTC for 2026-10-20T00:05:00+07:00",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects an old quote after authority_scope changes",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects an old quote after generation changes",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects an old quote after input_identity changes",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects an old quote after parent_ticket changes",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects changed draft echo",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects component sum mismatch",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects contradictory paid label",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects duplicate pair",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects invalid calendar day",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects missing key",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects negative zero",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects numeric money",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects short hash",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects typed prior proof: ABSENT with an invented floor",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects typed prior proof: DATED without its real floor",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects typed prior proof: missing proof digest",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects typed prior proof: short proof digest",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects typed prior proof: unknown source classified as absent",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects typed prior proof: unscoped global absence",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects unknown key",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only rejects wrong source version",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only requires explicit account/cohort for nonempty +200/-200 even when currentK is zero",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only requires explicit review and blocks all pending/lost-reply writers without replacing the envelope",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only requires independent explicit refund time/account and sends no client settlement amount or date pair",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only retains exact large signed cancellation with a nonempty zero-current cohort",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only retains original payment1000 and displays server currentK200/effective800/AR0",
+      "status": "passed",
+      "run": "initial"
+    },
+    {
+      "file": "salesReturnSettlementContract.test.ts",
+      "name": "OW04 proposed quote/parser/state contract only validates receipt after reload from the unchanged envelope without the in-memory quote",
+      "status": "passed",
+      "run": "initial"
+    }
+  ],
+  "source_sha256": {
+    "src/SalesReturnSettlementSection.tsx": "10bbbb88162a62ebffa84a8d62cae17343e80bb364108cb64499174387144472",
+    "src/salesReturnSettlementContract.ts": "fa9e916cdfddeae72cfe842d4dd40c74a257f541396fa9ea55f09694ad7463cf",
+    "src/SalesReturnPanel.tsx": "81bf2b9c5443e1ca3350a5d9d7783445ebd2395c81122d8476a747e8b07bcd19",
+    "src/ConnectedSalesPage.tsx": "0a623a7e95619326caf1153b8dc78d74613198d0f7d7eed33f7d62d32c109d41",
+    "src/ConnectedReceivablesPage.tsx": "69d8a2f68515e0e3e678000548d1b83a945fcc90a397de2e43d8fc943bbe0a41",
+    "src/ConnectedCustomerHistoryPage.tsx": "e59dff6fd4d14b5a8e75c392f964ca13becf5bba5cc5447fa81b7393bdad9973",
+    "src/productionRecovery.ts": "b49466183db2d2e7d5f04f20bbf4a076c98235f87f71b9fb5b182748192c4705",
+    "src/types/database.preconnect.ts": "a1e4bd8de4ff17b089f921e16ca99125bb2615f4b318a15161c0460cffb32ace",
+    "scripts/check-source-ownership.mjs": "c88710042165260429acc945180c13ee4dcb01e9af53109d8dfc28bf462feaf0",
+    "scripts/check-access-catalog.mjs": "f415aaf70b315220a845e15c87fd9492d066b37b1681cdd6afcc1160f1962906"
+  },
+  "build": "PASS",
+  "source_access_css": "PASS",
+  "secret_scan": "PASS",
+  "production_go": false
+}

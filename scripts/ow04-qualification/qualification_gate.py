@@ -8,14 +8,23 @@ def require(root,candidate,step_outcomes=None):
     expected_dir=Path(__file__).resolve().parent
     binding_bytes=(expected_dir/'QUALIFIED_CORE.json').read_bytes()
     binding=json.loads(binding_bytes)
-    assert binding.get('status')=='PASS'and binding.get('native_case_count')in(44,58),'OW04_FINAL_NATIVE_NOT_QUALIFIED'
+    assert binding.get('status')=='PASS'and binding.get('native_case_count')==63,'OW04_FINAL_SIGNED_SOURCE_NATIVE63_NOT_QUALIFIED'
     expected_binding=dict(**binding,binding_sha256=hashlib.sha256(binding_bytes).hexdigest())
     counts={};reports={}
     for label,file,group,declaration,count in (
-        ('HTTP','CP7_OW04_HTTP.json','http','EXPECTED.json',8),
+        ('HTTP','CP7_OW04_HTTP.json','http','EXPECTED.json',14),
         ('RACES','CP7_OW04_RACES.json','races','RACE_EXPECTED.json',6)):
         declaration_bytes=(expected_dir/declaration).read_bytes()
         ids=[r['id']for r in json.loads(declaration_bytes)['cases']]
+        initial_ids=list(ids)
+        source_ids=[]
+        if label=='HTTP':
+            source_bytes=(expected_dir/'SOURCE_HTTP_EXPECTED.json').read_bytes()
+            assert hashlib.sha256(source_bytes).hexdigest()=='58ee491c469a08ede6c3751353cd4a373804c4df6898cf447f8f93b75d167140','OW04_FINAL_SOURCE_DECLARATION_CHANGED'
+            source=json.loads(source_bytes)
+            source_ids=[r['id']for r in source['cases']]
+            assert len(initial_ids)==8 and len(source_ids)==6 and source['required_native_count']==63,'OW04_FINAL_SOURCE_DECLARATION_COUNT'
+            ids+=source_ids
         assert len(ids)==len(set(ids))==count,('OW04_FINAL_DECLARATION_CHANGED',label)
         report=json.loads((Path(root)/file).read_text());runtime=report.get(group,{})
         rows=runtime.get('cases'if label=='HTTP'else'races',{})
@@ -25,12 +34,46 @@ def require(root,candidate,step_outcomes=None):
         assert report.get('core_directory_tree')==binding['core_directory_tree'],('OW04_FINAL_CORE_CHANGED',label)
         assert report.get('native_probe_blob')==binding['native_probe_blob'],('OW04_FINAL_NATIVE_PROBE_CHANGED',label)
         assert report.get('status')=='PASS'and report.get('expected_case_count')==count and report.get('observed_case_count')==count,('OW04_FINAL_INCOMPLETE',label)
+        assert report.get('required_case_ids')==ids,('OW04_FINAL_REQUIRED_CASE_IDS',label)
         assert report.get('cp6_restored')is True and report.get('advisor_gate')is True,('OW04_FINAL_RESTORE_OR_ADVISOR',label)
         assert runtime.get('status')in('PASS','RUN_COMPLETE')and runtime.get('counts')=={'PASS':count},('OW04_FINAL_COUNTS',label)
         assert set(rows)==set(ids)and all(r.get('status')=='PASS'for r in rows.values()),('OW04_FINAL_CASE_SET',label)
         assert runtime.get('database_remaining')==0,('OW04_FINAL_DATABASE_REMAINS',label)
         if label=='HTTP':
+            assert report.get('source_predeclared_case_sha256')==hashlib.sha256(source_bytes).hexdigest(),'OW04_FINAL_SOURCE_DECLARATION_HASH'
+            assert report.get('initial_required_case_ids')==initial_ids and report.get('source_required_case_ids')==source_ids,'OW04_FINAL_SOURCE_SUBGROUP_MEMBERSHIP'
+            assert report.get('expected_subgroup_counts')=={'INITIAL':8,'SOURCE':6},'OW04_FINAL_SOURCE_SUBGROUP_COUNTS'
+            for key,name in (('http_cases_sha256','cp7_ow04_http_cases.py'),('source_http_cases_sha256','cp7_ow04_source_http_cases.py'),
+                             ('http_composition_sha256','cp7_ow04_all_http_cases.py'),('transport_probe_sha256','transport_probe.py')):
+                assert report.get(key)==hashlib.sha256((expected_dir/name).read_bytes()).hexdigest(),('OW04_FINAL_HTTP_IMPLEMENTATION_CHANGED',key)
             assert(runtime.get('auth_counts')or{}).get('restored')is True and not runtime.get('cleanup_failures'), 'OW04_FINAL_AUTH_NOT_RESTORED'
+        else:
+            source_race_bytes=(expected_dir/'SOURCE_RACE_EXPECTED.json').read_bytes()
+            assert hashlib.sha256(source_race_bytes).hexdigest()=='6d1ccc9252446a2cd99b4b605fea5328e195c06cf3cb8e485bbc4544de2d8fb1','OW04_FINAL_SOURCE_RACE_DECLARATION_CHANGED'
+            source_race_declaration=json.loads(source_race_bytes)
+            source_race_ids=[r['id']for r in source_race_declaration['cases']]
+            assert source_race_declaration['required_actual_native_case_count']==63 \
+                and len(source_race_ids)==len(set(source_race_ids))==2 and not(set(source_race_ids)&set(ids)),'OW04_FINAL_SOURCE_RACE_DECLARATION_COUNT'
+            assert report.get('source_predeclared_case_sha256')==hashlib.sha256(source_race_bytes).hexdigest(),'OW04_FINAL_SOURCE_RACE_DECLARATION_HASH'
+            assert report.get('source_proposal_source_candidate')==source_race_declaration['candidate'],'OW04_FINAL_SOURCE_RACE_PROPOSAL_PROVENANCE'
+            preserved={name:source_race_declaration[field]for name,field in(
+                ('old6_cases_sha256','preserved_old6_cases_sha256'),('old6_expected_sha256','preserved_old6_expected_sha256'),
+                ('signed_expected_sha256','preserved_signed_expected_sha256'),('zero_difference_expected_sha256','preserved_zero_difference_expected_sha256'))}
+            assert report.get('preserved_source_race_inputs')==preserved,'OW04_FINAL_SOURCE_RACE_PRESERVED_INPUTS_CHANGED'
+            assert report.get('race_cases_sha256')==preserved['old6_cases_sha256']==hashlib.sha256((expected_dir/'cp7_ow04_race_cases.py').read_bytes()).hexdigest(),'OW04_FINAL_RETAINED_RACE_IMPLEMENTATION_CHANGED'
+            assert hashlib.sha256(declaration_bytes).hexdigest()==preserved['old6_expected_sha256'],'OW04_FINAL_RETAINED_RACE_DECLARATION_CHANGED'
+            assert report.get('transport_entry_sha256')==hashlib.sha256((expected_dir/'transport_probe.py').read_bytes()).hexdigest(),'OW04_FINAL_RACE_TRANSPORT_ENTRY_CHANGED'
+            assert report.get('source_required_case_ids')==source_race_ids \
+                and report.get('expected_source_case_count')==report.get('observed_source_case_count')==2 \
+                and report.get('expected_subgroup_counts')=={'RETAINED':6,'SOURCE':2} \
+                and report.get('expected_total_case_count')==report.get('observed_total_case_count')==8,'OW04_FINAL_SOURCE_RACE_COUNTS'
+            source_runtime=report.get('source_races',{});source_rows=source_runtime.get('races',{})
+            assert source_runtime.get('status')in('PASS','RUN_COMPLETE')and source_runtime.get('counts')=={'PASS':2} \
+                and set(source_rows)==set(source_race_ids)and all(r.get('status')=='PASS'for r in source_rows.values()),'OW04_FINAL_SOURCE_RACE_CASE_SET'
+            assert source_runtime.get('database_remaining')==0,'OW04_FINAL_SOURCE_RACE_DATABASE_REMAINS'
+            for key,name in(('source_race_cases_sha256','cp7_ow04_source_inverse_race_cases.py'),('race_probe_sha256','race_probe.py')):
+                assert report.get(key)==hashlib.sha256((expected_dir/name).read_bytes()).hexdigest(),('OW04_FINAL_SOURCE_RACE_IMPLEMENTATION_CHANGED',key)
+            counts['SOURCE_RACES']=2
         package_dir=Path(root).parent/'ow04-http-completed'if label=='HTTP'else Path(root)
         package_bytes=(package_dir/'T3_PACKAGE_INSTALL.json').read_bytes()
         package=json.loads(package_bytes);package_gate=package.get('gate',{})

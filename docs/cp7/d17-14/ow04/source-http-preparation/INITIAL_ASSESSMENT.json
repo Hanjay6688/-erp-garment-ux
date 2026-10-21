@@ -1,0 +1,45 @@
+{
+  "classification": "INDEPENDENT_INITIAL_LOCKED_READ_ONLY_SOURCE_HTTP_COUNTER",
+  "locked_at_utc": "2026-10-21T04:14:50.353451+00:00",
+  "candidate": "17e9d5876964b76abb4ec04c925a7794ee1f5ec4",
+  "other_current_reviewer_conclusions_read": false,
+  "database_calls": 0,
+  "network_calls": 0,
+  "product_edits": 0,
+  "proposal_sha256": {
+    "cp7_ow04_source_http_cases.py": "905ea22b7e1b3d00e6759cb3491f0dcc319e0b29343e1c2a2f81a87aa93441bc",
+    "SOURCE_HTTP_EXPECTED.json": "58ee491c469a08ede6c3751353cd4a373804c4df6898cf447f8f93b75d167140",
+    "cp7_ow04_all_http_cases.py": "82efbf92160b08277792d27bb50abbe55ae59722fb443f727fe9f38df384a886",
+    "ENTRY_CHANGES.md": "22e0e8e5bf6b21827eb532b812a29e5cfa2d558422e614d00b29699df1150746"
+  },
+  "initial_conclusion": "No demonstrated actor/fake-response/skip or money/stock literal mismatch. One narrow refusal-oracle gap: consumer DETAIL uses any/subset and does not check source IDs; tighten to the exact actual six-field row/list without changing money expectations.",
+  "observations": [
+    {
+      "id": "HTTP-I1",
+      "source": "proposal47-52,85-115,126-148,178-250; actual HttpUser at cp6_auditor_modes.py:226-230,275-289",
+      "finding": "New source request/op/ADJ plan actors are asserted against real user.auth_user_id. Source inverse and replay are actual user.rpc calls. Fixed SQL OPERATOR assertions occur only in retained zero setup, explicitly before real HTTP inverse. No fixed OPERATOR assertion found on new HTTP operation."
+    },
+    {
+      "id": "HTTP-I2",
+      "source": "proposal135-141; signed native267-369; proposal178-243",
+      "finding": "Committed positive assertions reuse full Native after-profile/rawGL/actualinverse/ADJpair/exactJdelta/oldfacts/stock/payment checks on fresh SQL connection. Zero similarly checks before frozen setup, after full profile, exact Native-only inverse and stock6/value60, all financial tables unchanged, empty own plans/objects/marker/seals, mandatory op+completion. Public status and financial read checked by real HTTP."
+    },
+    {
+      "id": "HTTP-I3",
+      "source": "SOURCE_HTTP_EXPECTED.json vs actual native EXPECTED.json and ZERO_DIFF_EXPECTED.json",
+      "finding": "Frozen native SHA9b038e877372848b4e7f86695107d6e99695013b4e443ecda55e1fa6e989dffd and0eaa6829643dc5675c4d854a75ea855486bc78db6d8aa54c2d09d803945c2a7a unchanged. Exact before/after profiles for2positive+zero and consumed before match byte-independent literal JSON values. Six IDs unique; combined IDs8+6 exact14."
+    },
+    {
+      "id": "HTTP-C1",
+      "source": "proposalconsumed():310-312; product03_source_requests.sql:162-167",
+      "expected": "Consumer DETAIL equals all actual blocked rows, each exactly event_id/cohort_id/event_kind/journal_id/source_sale_id/source_return_id.",
+      "observed": "any(all(four_fields...)) accepts an extra bogus consumer row and accepts absent/wrong source_sale_id/source_return_id. Actual product emits sixfields orderedbyeventid.",
+      "minimal_correction": "Build expected six-field object from actual event+actualcohort, assert detail==[expected] for this one-event fixture (or exact Counter canonical fullobjects); no monetary expected changes."
+    },
+    {
+      "id": "HTTP-I4",
+      "source": "initial HTTP snapshot17-33; harnessstrict_rows137-165; composition12-15; ENTRY_CHANGES",
+      "finding": "Snapshot includes dynamic all-table inventory/rawJSON within four new schemas plus cp7_sales.requests/command_context and ERP boundary. Refusals/replay require exact snapshot equality. Registration returns sixactualcallables; no SKIP branch or fallback PASS found. Harness invokes every planned row, catches failures asINCOMPLETE and rejectsduplicateIDs. RequiredNative63/finalHTTP14 gates are instructions still to integrate; proposal status remainsUNEXECUTED."
+    }
+  ]
+}

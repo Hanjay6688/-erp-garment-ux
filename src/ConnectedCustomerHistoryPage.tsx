@@ -49,7 +49,7 @@ function invoiceLine(i:HistoryInvoice,amounts:boolean){
  if(!amounts||!i.financial)return head
  const f=i.financial
  if(f.state!=='ACTIVE_RECEIVABLE'||f.open_balance===null)return `${head} · nilai ${rp(f.gross_total)}, bukan piutang aktif`
- return `${head} · nilai ${rp(f.gross_total)} · retur ${rp(f.return_total)} · dibayar ${rp(f.paid_total)} · ${balanceLabel(f.open_balance).toLowerCase()} ${rp(f.open_balance)}`
+ return `${head} · nilai ${rp(f.gross_total)} · retur ${rp(f.return_total)} · pelunasan efektif ${rp(f.paid_total)} · ${balanceLabel(f.open_balance).toLowerCase()} ${rp(f.open_balance)}`
 }
 
 // The rows on screen only, for a spreadsheet. Text that a spreadsheet would run as a formula is kept as text.
@@ -140,7 +140,7 @@ function Workspace(){
      <h2>{detail.customer.name}</h2>
      <p>{detail.customer.code}{detail.customer.is_active?'':' · nonaktif'} · {detail.customer.counts.invoices} invoice · {detail.customer.counts.payments} pembayaran · {detail.customer.counts.returns} retur · {detail.customer.counts.cancellations} pembatalan</p>
      {showAmounts&&detail.customer.financial?<div className="chistory-totals" aria-label={`Ringkasan uang ${detail.customer.name}`}>
-      {([['invoice_total','Nilai invoice aktif'],['return_total','Retur tercatat'],['paid_total','Pembayaran tercatat']] as const).map(([key,label])=><div className="cproc-total" key={key}><span>{label}</span><strong>{rp(detail.customer.financial![key])}</strong></div>)}
+      {([['invoice_total','Nilai invoice aktif'],['return_total','Retur tercatat'],['paid_total','Pelunasan efektif']] as const).map(([key,label])=><div className="cproc-total" key={key}><span>{label}</span><strong>{rp(detail.customer.financial![key])}</strong></div>)}
       <div className="cproc-total"><span>{balanceLabel(detail.customer.financial.open_balance)}</span><strong>{rp(detail.customer.financial.open_balance)}</strong></div>
      </div>:null}
      <p className="chistory-note">Kondisi dokumen sekarang, dibaca {formatCp6WibDateTime(detail.read_at)}. {showAmounts?'Sisa tagihan menjumlahkan invoice aktif pelanggan ini; saldo awal dan penyesuaian buku yang tidak berasal dari invoice diperiksa melalui laporan keuangan.':''}</p>

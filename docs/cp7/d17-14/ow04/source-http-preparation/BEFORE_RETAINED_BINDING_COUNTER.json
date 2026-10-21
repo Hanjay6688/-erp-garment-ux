@@ -1,0 +1,307 @@
+{
+  "classification": "SYNTHETIC_ACTUAL_FUNCTION_NOT_RUNTIME",
+  "status": "COUNTEREXAMPLE",
+  "database_calls": 0,
+  "rows": [
+    {
+      "id": "retained_race_hash_wrong",
+      "accepted": true,
+      "answer": {
+        "label": "OW04_HTTP_RACE_FINAL",
+        "status": "PASS",
+        "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "counts": {
+          "HTTP": 14,
+          "SOURCE_RACES": 2,
+          "RACES": 6
+        },
+        "native_reused_candidate": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "native_reused_case_count": 63,
+        "native_rerun": false,
+        "reports": {
+          "HTTP": {
+            "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "core": "cccccccccccccccccccccccccccccccccccccccc",
+            "package_gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true,
+              "writer_runtime": true
+            },
+            "package_sha256": "e051da48ae096b67b7dd837d982efd2813db1d71943883888511d8c677fa0b7f"
+          },
+          "RACES": {
+            "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "core": "cccccccccccccccccccccccccccccccccccccccc",
+            "package_gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true,
+              "writer_runtime": true
+            },
+            "package_sha256": "e051da48ae096b67b7dd837d982efd2813db1d71943883888511d8c677fa0b7f"
+          }
+        },
+        "step_outcomes": {
+          "HTTP": "success",
+          "RACES": "success"
+        },
+        "feature_complete": false,
+        "audit_complete": false,
+        "production_go": false
+      }
+    },
+    {
+      "id": "retained_race_hash_missing",
+      "accepted": true,
+      "answer": {
+        "label": "OW04_HTTP_RACE_FINAL",
+        "status": "PASS",
+        "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "counts": {
+          "HTTP": 14,
+          "SOURCE_RACES": 2,
+          "RACES": 6
+        },
+        "native_reused_candidate": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "native_reused_case_count": 63,
+        "native_rerun": false,
+        "reports": {
+          "HTTP": {
+            "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "core": "cccccccccccccccccccccccccccccccccccccccc",
+            "package_gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true,
+              "writer_runtime": true
+            },
+            "package_sha256": "e051da48ae096b67b7dd837d982efd2813db1d71943883888511d8c677fa0b7f"
+          },
+          "RACES": {
+            "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "core": "cccccccccccccccccccccccccccccccccccccccc",
+            "package_gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true,
+              "writer_runtime": true
+            },
+            "package_sha256": "e051da48ae096b67b7dd837d982efd2813db1d71943883888511d8c677fa0b7f"
+          }
+        },
+        "step_outcomes": {
+          "HTTP": "success",
+          "RACES": "success"
+        },
+        "feature_complete": false,
+        "audit_complete": false,
+        "production_go": false
+      }
+    },
+    {
+      "id": "transport_entry_hash_wrong",
+      "accepted": true,
+      "answer": {
+        "label": "OW04_HTTP_RACE_FINAL",
+        "status": "PASS",
+        "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "counts": {
+          "HTTP": 14,
+          "SOURCE_RACES": 2,
+          "RACES": 6
+        },
+        "native_reused_candidate": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "native_reused_case_count": 63,
+        "native_rerun": false,
+        "reports": {
+          "HTTP": {
+            "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "core": "cccccccccccccccccccccccccccccccccccccccc",
+            "package_gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true,
+              "writer_runtime": true
+            },
+            "package_sha256": "e051da48ae096b67b7dd837d982efd2813db1d71943883888511d8c677fa0b7f"
+          },
+          "RACES": {
+            "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "core": "cccccccccccccccccccccccccccccccccccccccc",
+            "package_gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true,
+              "writer_runtime": true
+            },
+            "package_sha256": "e051da48ae096b67b7dd837d982efd2813db1d71943883888511d8c677fa0b7f"
+          }
+        },
+        "step_outcomes": {
+          "HTTP": "success",
+          "RACES": "success"
+        },
+        "feature_complete": false,
+        "audit_complete": false,
+        "production_go": false
+      }
+    },
+    {
+      "id": "transport_entry_hash_missing",
+      "accepted": true,
+      "answer": {
+        "label": "OW04_HTTP_RACE_FINAL",
+        "status": "PASS",
+        "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "counts": {
+          "HTTP": 14,
+          "SOURCE_RACES": 2,
+          "RACES": 6
+        },
+        "native_reused_candidate": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "native_reused_case_count": 63,
+        "native_rerun": false,
+        "reports": {
+          "HTTP": {
+            "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "core": "cccccccccccccccccccccccccccccccccccccccc",
+            "package_gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true,
+              "writer_runtime": true
+            },
+            "package_sha256": "e051da48ae096b67b7dd837d982efd2813db1d71943883888511d8c677fa0b7f"
+          },
+          "RACES": {
+            "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "core": "cccccccccccccccccccccccccccccccccccccccc",
+            "package_gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true,
+              "writer_runtime": true
+            },
+            "package_sha256": "e051da48ae096b67b7dd837d982efd2813db1d71943883888511d8c677fa0b7f"
+          }
+        },
+        "step_outcomes": {
+          "HTTP": "success",
+          "RACES": "success"
+        },
+        "feature_complete": false,
+        "audit_complete": false,
+        "production_go": false
+      }
+    },
+    {
+      "id": "retained_race_bytes_changed",
+      "accepted": true,
+      "answer": {
+        "label": "OW04_HTTP_RACE_FINAL",
+        "status": "PASS",
+        "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "counts": {
+          "HTTP": 14,
+          "SOURCE_RACES": 2,
+          "RACES": 6
+        },
+        "native_reused_candidate": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "native_reused_case_count": 63,
+        "native_rerun": false,
+        "reports": {
+          "HTTP": {
+            "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "core": "cccccccccccccccccccccccccccccccccccccccc",
+            "package_gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true,
+              "writer_runtime": true
+            },
+            "package_sha256": "e051da48ae096b67b7dd837d982efd2813db1d71943883888511d8c677fa0b7f"
+          },
+          "RACES": {
+            "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "core": "cccccccccccccccccccccccccccccccccccccccc",
+            "package_gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true,
+              "writer_runtime": true
+            },
+            "package_sha256": "e051da48ae096b67b7dd837d982efd2813db1d71943883888511d8c677fa0b7f"
+          }
+        },
+        "step_outcomes": {
+          "HTTP": "success",
+          "RACES": "success"
+        },
+        "feature_complete": false,
+        "audit_complete": false,
+        "production_go": false
+      }
+    },
+    {
+      "id": "retained_declaration_bytes_changed",
+      "accepted": true,
+      "answer": {
+        "label": "OW04_HTTP_RACE_FINAL",
+        "status": "PASS",
+        "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "counts": {
+          "HTTP": 14,
+          "SOURCE_RACES": 2,
+          "RACES": 6
+        },
+        "native_reused_candidate": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "native_reused_case_count": 63,
+        "native_rerun": false,
+        "reports": {
+          "HTTP": {
+            "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "core": "cccccccccccccccccccccccccccccccccccccccc",
+            "package_gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true,
+              "writer_runtime": true
+            },
+            "package_sha256": "e051da48ae096b67b7dd837d982efd2813db1d71943883888511d8c677fa0b7f"
+          },
+          "RACES": {
+            "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "core": "cccccccccccccccccccccccccccccccccccccccc",
+            "package_gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true,
+              "writer_runtime": true
+            },
+            "package_sha256": "e051da48ae096b67b7dd837d982efd2813db1d71943883888511d8c677fa0b7f"
+          }
+        },
+        "step_outcomes": {
+          "HTTP": "success",
+          "RACES": "success"
+        },
+        "feature_complete": false,
+        "audit_complete": false,
+        "production_go": false
+      }
+    }
+  ]
+}

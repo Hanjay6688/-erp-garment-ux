@@ -1,0 +1,46 @@
+{
+  "classification": "FINAL_BOUNDED_GATE_REREAD_STATIC_AND_PURE_NOT_NATIVE_HTTP_ACCEPTANCE",
+  "at_utc": "2026-10-21T04:26:00.432978+00:00",
+  "database_calls": 0,
+  "network_calls": 0,
+  "product_edits": 0,
+  "sha256": {
+    ".github/workflows/cp7-ow04-http.yml": "102c4844073726069aa5cd88394ddff75c5ef009c36870cfa3c0a1836cf29804",
+    ".github/workflows/cp7-ow04-browser.yml": "5864bdf980822c4c91a93031ffe19592d9e102d62a598b556b40c705892294a1",
+    "scripts/ow04-qualification/transport_probe.py": "fca4c3fbd2f006c6af326e13ed4a88e7fa417e5609ac75cdb8251929775036d8",
+    "scripts/ow04-qualification/qualification_gate.py": "494f19731078e6d000b18f1aa79f35f0fc58dfa31ee2bfa3191217be5ecdc99e",
+    "scripts/ow04-qualification/native_binding_recheck.py": "546573889e5ceb496c6981a1351b93493ad69bb6049678734ef0910337766f97",
+    "scripts/ow04-qualification/final_binding_recheck.py": "26c456c169b6db927cc2a1401a665e5a5f0394c7be2b4ceb3c949ff358856b44",
+    "scripts/ow04-qualification/QUALIFIED_CORE.json": "acaa8d9770ffed8bd23fefbc387fed190df5d8dd657ad1c320d0d73a1b15536c",
+    "scripts/ow04-qualification/cp7_ow04_source_http_cases.py": "1cfe5ee32367f0915c29747f401b0bd3f1987324bb0cddeb39fb6dd6e0f6b177",
+    "scripts/ow04-qualification/SOURCE_HTTP_EXPECTED.json": "58ee491c469a08ede6c3751353cd4a373804c4df6898cf447f8f93b75d167140"
+  },
+  "controls": {
+    "native_binding": {
+      "status": "PASS",
+      "count": 28
+    },
+    "HTTP_race_final_gate": {
+      "status": "PASS",
+      "count": 19
+    }
+  },
+  "real_run_old58_beforeconnect_control": {
+    "outcome": "REFUSED",
+    "reason": "OW04_HTTP_SIGNED_SOURCE_NATIVE63_REQUIRED",
+    "connection_attempts": 0
+  },
+  "workflow_preflight": "HTTP14 + SIGNED_SOURCE Native63 checks; both workflows include codex/ow04-source-http-20261021",
+  "final_gate": "Exact8+6 declarations, orderedrequiredIDs, unique14, individualallPASS, implementationhashes,63binding, Authcleanup,restore/advisor/package gates. Existingrace6 remains exact.",
+  "qualified_core_actual": {
+    "native_case_count": 58,
+    "candidate": "3a667e938bb1485a0f4206483d107b6ac76e347d",
+    "sha256": "acaa8d9770ffed8bd23fefbc387fed190df5d8dd657ad1c320d0d73a1b15536c"
+  },
+  "conclusion": "No further deterministic blocker in bounded current transport gates/controls. Previous stale8/44workflow and58/8positivecontrol issues corrected. RealHTTP14 remains blocked until genuinecompleteNative63 receipt and exactdependency/core/probe alignment are bound.",
+  "limitations": [
+    "Syntheticcontrols execute actual extracted functions with labelledtemporaryfiles/fakegitinputs; they are not Native/HTTP acceptance.",
+    "No genuineNative63receipt inspectedorcreated. Parent run39543633310 remains independentpendingNativeevidence; firstCLIrefusal is not product acceptance.",
+    "No sourcebrowser/raceorfeaturecompleteclaim."
+  ]
+}

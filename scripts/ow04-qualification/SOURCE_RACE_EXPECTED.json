@@ -1,0 +1,82 @@
+{
+  "contract_version": "ow04.source-inverse-race-expected.v1",
+  "classification": "PREDECLARED_TWO_ACTUAL_SQL_SESSION_RACES_UNEXECUTED_PROPOSAL",
+  "candidate": "978488c29851b102b153be3c5979d3e7b51ab89c",
+  "native_executed": false,
+  "race_executed": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "required_actual_native_case_count": 63,
+  "case_count": 2,
+  "preserved_signed_expected_sha256": "9b038e877372848b4e7f86695107d6e99695013b4e443ecda55e1fa6e989dffd",
+  "preserved_zero_difference_expected_sha256": "0eaa6829643dc5675c4d854a75ea855486bc78db6d8aa54c2d09d803945c2a7a",
+  "preserved_old6_cases_sha256": "e1b098bf0f9c9b54b66289eabe871e5488f40f42d070c38a3e58d5a5a8ccb400",
+  "preserved_old6_expected_sha256": "7472ecc59d32e837ff882a8991c4f55226a3afb152887760f3d237f8101b3802",
+  "frozen_native_gold_id": "OW04_SIGNED_RETURN_REVERSE_UNCONSUMED_CREDIT",
+  "fixture": "signed._setup(cur,today,'CREDIT'): genuine retained Native found-stock/sale/payment, public quote+settle CREDIT, then actual public erp_cp7_save_sale_v1 RETURN_REVERSE with live cmd.review payload/version. Setup COMMIT is visible to both sessions on a fresh disposable race copy.",
+  "before": {
+    "gross": "1000.00", "net": "800.00", "P": "1000.00", "U": "0.00", "I": "200.00", "E": "800.00",
+    "AR": "0.00", "liability_credit": "200.00", "C": "0.00", "cash": "1000.00",
+    "stock_qty": "6", "stock_value": "60.00", "sale_status": "PAID", "return_status": "POSTED", "payment_status": "POSTED"
+  },
+  "after": {
+    "gross": "1000.00", "net": "1000.00", "P": "1000.00", "U": "0.00", "I": "0.00", "E": "1000.00",
+    "AR": "0.00", "liability_credit": "0.00", "C": "0.00", "cash": "1000.00",
+    "stock_qty": "5", "stock_value": "50.00", "sale_status": "PAID", "return_status": "REVERSED", "payment_status": "POSTED"
+  },
+  "counts_and_money": {
+    "new_native_inverse_journals": 1,
+    "new_recognition_adjustment_plans": 1,
+    "adjustment_net": "-200.00",
+    "new_recognition_components": 1,
+    "new_recognition_parts": 1,
+    "new_recognition_journals": 1,
+    "adjustment_AR_credit": "200.00",
+    "adjustment_liability_debit": "200.00",
+    "new_total_journals": 2,
+    "new_stock_inverses": 1,
+    "stock_inverse_qty": "-1",
+    "stock_inverse_unit_hpp": "10.00",
+    "cash_delta": "0.00",
+    "new_consumptions": 0,
+    "new_HPP_versions_or_events": 0,
+    "new_request_rows_for_raced_UUIDs": 1,
+    "source_operations": 1,
+    "source_operation_plan_links": 1,
+    "source_operation_part_seals": 1,
+    "source_operation_completions": 1,
+    "remaining_source_work_or_sales_command_context": 0,
+    "final_header_version_increment": 1
+  },
+  "cases": [
+    {
+      "id": "OW04_SOURCE_RACE_SAME_UUID_RETURN_REVERSE",
+      "request_schedule": "Same actual actor, request UUID, action, payload and expected_version. Holder completes the entire public command and deferred constraints, retains its transaction, then the worker calls the same public command in another SQL session.",
+      "contention": {"kind": "BLOCKED", "holder_blocks_worker": true},
+      "holder_commits": true,
+      "worker": {"ok": true, "response_exactly_equals_holder": true},
+      "actual_error_order": "Pending cp7_sales.requests key/row wait -> fresh command authority -> cached completed outcome; before apply_command and old review/source-status checks.",
+      "complete_final_state_equals_committed_holder_state": true,
+      "additional_worker_effects": 0
+    },
+    {
+      "id": "OW04_SOURCE_RACE_DISTINCT_UUID_STALE_RETURN_REVERSE",
+      "request_schedule": "Same actual actor/action/source/review payload/expected_version, distinct actual request UUIDs. Holder completes the entire public command and deferred constraints, retains its transaction, then worker inserts its own pending request and waits on shared FG in apply_command.",
+      "contention": {"kind": "BLOCKED", "holder_blocks_worker": true},
+      "holder_commits": true,
+      "worker": {"ok": false, "sqlstate": "P0001", "message": "CP7_SALES_REVIEW_CHANGED"},
+      "actual_error_order": "FG wait -> refreshed payments/returns/header/children and current authority -> stale header row_version/review_token -> CP7_SALES_REVIEW_CHANGED; before RETURN source status and source_request_enter_v1.",
+      "loser_request_and_command_context_rolled_back": true,
+      "loser_source_operation_plan_completion_journal_stock_effects": 0,
+      "complete_final_state_equals_committed_holder_state": true,
+      "additional_worker_effects": 0
+    }
+  ],
+  "date_rule": "Retain signed helper lawful actual inverse pair and exact signed vectors/dimensions. Explicit unchanged Jakarta business-day precondition across the race; no frozen clock or fabricated date/token.",
+  "scope_limits": [
+    "Only when executed: two actual public-SQL sessions on a fresh disposable copy per race; authenticated SQL identity fixtures, not real Auth/PostgREST/browser.",
+    "Native63 PASS and exact candidate/core/probe/dependency/receipt binding are a separate mandatory gate before opening a race database.",
+    "Old six race cases/oracles remain byte-exact and are not relabelled as these two cases.",
+    "No backend-termination, rollback-holder, lost successful HTTP reply, server-crash, or production evidence is claimed by these two races."
+  ]
+}

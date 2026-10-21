@@ -1,0 +1,207 @@
+{
+  "classification": "SYNTHETIC_REAL_FUNCTION_BINDING_GUARDS_NOT_NATIVE_OR_HTTP",
+  "status": "PASS",
+  "count": 28,
+  "transport_source_sha256": "fca4c3fbd2f006c6af326e13ed4a88e7fa417e5609ac75cdb8251929775036d8",
+  "checker_source_sha256": "546573889e5ceb496c6981a1351b93493ad69bb6049678734ef0910337766f97",
+  "results": [
+    {
+      "id": "valid44",
+      "status": "PASS",
+      "expected_acceptance": true,
+      "observed_acceptance": true,
+      "rejection": null
+    },
+    {
+      "id": "valid58",
+      "status": "PASS",
+      "expected_acceptance": true,
+      "observed_acceptance": true,
+      "rejection": null
+    },
+    {
+      "id": "unsupported32",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_NOT_QUALIFIED"
+    },
+    {
+      "id": "binding_incomplete",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_NOT_QUALIFIED"
+    },
+    {
+      "id": "core_changed",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_CORE_CHANGED"
+    },
+    {
+      "id": "probe_changed",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_PROBE_CHANGED"
+    },
+    {
+      "id": "product_dependency_changed",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "('OW04_HTTP_QUALIFIED_DEPENDENCY_CHANGED', ['scripts/cp7-src/sales/read.sql'])"
+    },
+    {
+      "id": "receipt_hash_changed",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_RECEIPT_CHANGED"
+    },
+    {
+      "id": "receipt_candidate_changed",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_BINDING_INVALID"
+    },
+    {
+      "id": "receipt_tree_changed",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_BINDING_INVALID"
+    },
+    {
+      "id": "observed_count_changed",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_RESTORE_OR_COUNT_INVALID"
+    },
+    {
+      "id": "restore_failed",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_RESTORE_OR_COUNT_INVALID"
+    },
+    {
+      "id": "advisor_failed",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_RESTORE_OR_COUNT_INVALID"
+    },
+    {
+      "id": "missing_case",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_CASE_SET_INVALID"
+    },
+    {
+      "id": "duplicate_case",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_CASE_SET_INVALID"
+    },
+    {
+      "id": "failed_case",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_CASE_SET_INVALID"
+    },
+    {
+      "id": "declaration_hash_changed",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_DECLARATION_CHANGED"
+    },
+    {
+      "id": "package_gate_failed",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_PACKAGE_INCOMPLETE"
+    },
+    {
+      "id": "package_gate_missing",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_PACKAGE_INCOMPLETE"
+    },
+    {
+      "id": "workflow_failed",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_WORKFLOW_NOT_SUCCESS"
+    },
+    {
+      "id": "run_changed",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_WORKFLOW_NOT_SUCCESS"
+    },
+    {
+      "id": "valid63",
+      "status": "PASS",
+      "expected_acceptance": true,
+      "observed_acceptance": true,
+      "rejection": null
+    },
+    {
+      "id": "fake58_relabelled63",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_CASE_SET_INVALID"
+    },
+    {
+      "id": "missing_zero_difference63",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_CASE_SET_INVALID"
+    },
+    {
+      "id": "declaration_hash_changed63",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_DECLARATION_CHANGED"
+    },
+    {
+      "id": "workflow_failed63",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_WORKFLOW_NOT_SUCCESS"
+    },
+    {
+      "id": "job_changed63",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_NATIVE_WORKFLOW_NOT_SUCCESS"
+    },
+    {
+      "id": "core_changed63",
+      "status": "PASS",
+      "expected_acceptance": false,
+      "observed_acceptance": false,
+      "rejection": "OW04_HTTP_CORE_CHANGED"
+    }
+  ],
+  "database_calls": 0,
+  "Native_executed": false
+}

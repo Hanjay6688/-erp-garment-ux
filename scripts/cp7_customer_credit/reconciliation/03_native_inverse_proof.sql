@@ -221,8 +221,8 @@ begin
   raise exception 'CP7_CREDIT_SOURCE_INVERSE_SNAPSHOT_INCOMPLETE';end if;
  sale_id:=(p_before#>>'{sale,id}')::uuid;
  if sale_id is null or p_actual#>>'{sale,id}'is distinct from sale_id::text
-  or p_before->'sale'-array['status','row_version','updated_at']is distinct from
-     p_actual->'sale'-array['status','row_version','updated_at']then
+  or (p_before->'sale')-array['status','row_version','updated_at']is distinct from
+     (p_actual->'sale')-array['status','row_version','updated_at']then
   raise exception 'CP7_CREDIT_SOURCE_INVERSE_SALE_IDENTITY_CHANGED';end if;
  -- The exact bounded hook is BEFORE Native's only sale-header UPDATE.
  -- NATIVE_TRIGGER_TRACE records no child-parent touch and the assembler must
@@ -474,8 +474,8 @@ begin
   raise exception 'CP7_CREDIT_SOURCE_TERMINAL_ACTUAL_INVERSE_REQUIRED';end if;
  version_before:=(p_native#>>'{sale,row_version}')::bigint;
  version_after:=(p_final#>>'{sale,row_version}')::bigint;
- if p_native->'sale'-array['status','row_version','updated_at']is distinct from
-    p_final->'sale'-array['status','row_version','updated_at']
+ if (p_native->'sale')-array['status','row_version','updated_at']is distinct from
+    (p_final->'sale')-array['status','row_version','updated_at']
   or version_before is null or version_after is distinct from version_before+1
   or(p_final#>>'{sale,updated_at}')::timestamptz is distinct from j.posting_at then
   raise exception 'CP7_CREDIT_SOURCE_TERMINAL_HEADER_NATIVE_TRIGGER_CHANGED';end if;

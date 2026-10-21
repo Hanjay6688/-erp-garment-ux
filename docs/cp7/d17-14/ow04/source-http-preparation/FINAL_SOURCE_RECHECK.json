@@ -1,0 +1,50 @@
+{
+  "classification": "BOUNDED_STATIC_AND_PURE_ASSERTION_COUNTER_NOT_HTTP_NATIVE_EXECUTION",
+  "at_utc": "2026-10-21T04:18:14.521601+00:00",
+  "candidate_baseline": "17e9d5876964b76abb4ec04c925a7794ee1f5ec4",
+  "database_calls": 0,
+  "network_calls": 0,
+  "product_edits": 0,
+  "sha256": {
+    "cp7_ow04_source_http_cases.py": "1cfe5ee32367f0915c29747f401b0bd3f1987324bb0cddeb39fb6dd6e0f6b177",
+    "SOURCE_HTTP_EXPECTED.json": "58ee491c469a08ede6c3751353cd4a373804c4df6898cf447f8f93b75d167140",
+    "cp7_ow04_all_http_cases.py": "d94f77402aece5dbc69fcab7d6840df24dc1faa90d3c4fbe052aa56ff944f502",
+    "transport_probe.py": "fca4c3fbd2f006c6af326e13ed4a88e7fa417e5609ac75cdb8251929775036d8",
+    "qualification_gate.py": "3e3115256c17741108f3d884c5c0cac1dac5a2c59a323bf11d6eaab26a640721",
+    "final_binding_recheck.py": "528257316853a9852179c90bfbf48768d382c19b9340a5cd5fb56393c811618b",
+    "native_binding_recheck.py": "546573889e5ceb496c6981a1351b93493ad69bb6049678734ef0910337766f97"
+  },
+  "preserved": {
+    "cp7_ow04_http_cases.py": {
+      "byte_equal_to_candidate17e9": true,
+      "sha256": "b557397344120a7e77cd05b1ff161da4a047320c3362e7059cf4f8992213463d"
+    },
+    "EXPECTED.json": {
+      "byte_equal_to_candidate17e9": true,
+      "sha256": "a91685c5d3b043af1839555fa694f643742a48ddd618d855bda4b676a5513d7d"
+    },
+    "cp7_ow04_race_cases.py": {
+      "byte_equal_to_candidate17e9": true,
+      "sha256": "e1b098bf0f9c9b54b66289eabe871e5488f40f42d070c38a3e58d5a5a8ccb400"
+    },
+    "RACE_EXPECTED.json": {
+      "byte_equal_to_candidate17e9": true,
+      "sha256": "7472ecc59d32e837ff882a8991c4f55226a3afb152887760f3d237f8101b3802"
+    }
+  },
+  "frozen_native_sha256": {
+    "EXPECTED.json": "9b038e877372848b4e7f86695107d6e99695013b4e443ecda55e1fa6e989dffd",
+    "ZERO_DIFF_EXPECTED.json": "0eaa6829643dc5675c4d854a75ea855486bc78db6d8aa54c2d09d803945c2a7a"
+  },
+  "HTTP_C1": "FIXED: five pure expression controls match expected on exact integrated assert; original accepted-bad preserved in CONSUMER_DETAIL_COUNTER.json",
+  "registration": "Six unique source IDs plus eight byte-preserved initial IDs;14orderedunique actualcallables. No SKIP or syntheticresponse fallback.",
+  "actors": "Actual HttpUser.auth_user_id bound to persisted source owning request, source materialization and each new ADJ plan. Fixed OPERATOR calls limited to genuine retained setup/read helpers; source inverse/review/replay are actualuser.rpc.",
+  "committed_oracles": "Positive rawmoney/stock/actual inverse +separateADJ exactpair/fulljournal/newIDset/old immutable facts; zero retains allfinancial facts, exactlyonephysical/HPPinverse, mandatoryemptyoperation+completion; freshSQLconnections observeafterHTTPcommit.",
+  "refusals": "ExactHTTPstatus+SQLSTATE+message, six-fieldconsumerDETAIL, full ERPboundary+all dynamically inventoried newprivate tables+CP7requests snapshots exact unchanged. Changedrequest variants andrevokedfresh/cached realAuth calls covered.",
+  "remaining_integration_items_at_read": [
+    ".github/workflows/cp7-ow04-http.yml107\u2013108 still assert old8 HTTP and44 Native IDs, must update for14/63 before transport launch.",
+    "final_binding_recheck.py positivecontrol still constructs58/8 baseline; actualrequire()63/14 makes it refuse. Update syntheticbaseline/counterset as planned.",
+    "QUALIFIED_CORE.json intentionally still58 until genuine Native63 receipt exists; HTTP14run explicitly requires63 beforeDB. Do not fabricatebinding."
+  ],
+  "runtime_limit": "No real HTTP/Auth/PostgREST, DB, Native63 or CI executed by this counter. Genuine Native63 job remains root-owned; source6 does not qualify source UI/race/consumer undo/positiveactivation."
+}

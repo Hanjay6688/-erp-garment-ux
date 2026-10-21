@@ -1,0 +1,45 @@
+{
+  "candidate": "8ed949bb4c0ebaacae5cf83653174799936374f4",
+  "run_id": 39553532036,
+  "job_id": 119067883100,
+  "artifact_id": 12325225487,
+  "summary": {
+    "label": "CP7_OW04_SIGNED_SOURCE",
+    "status": "INCOMPLETE",
+    "expected_case_count": 63,
+    "observed_case_count": 63,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "error": null,
+    "traceback": null,
+    "restore_error": null
+  },
+  "counts": {
+    "PASS": 59,
+    "INCOMPLETE": 4
+  },
+  "failed_cases": [
+    {
+      "id": "OW04_SIGNED_RETURN_REVERSE_UNCONSUMED_CREDIT",
+      "error": "invalid input syntax for type json\nLINE 2:   or p_before->'sale'-array['status','row_version','updated_...\n                       ^\nDETAIL:  Token \"sale\" is invalid.\nQUERY:  sale_id is null or p_actual#>>'{sale,id}'is distinct from sale_id::text\n  or p_before->'sale'-array['status','row_version','updated_at']is distinct from\n     p_actual->'sale'-array['status','row_version','updated_at']\nCONTEXT:  JSON data, line 1: sale\nPL/pgSQL function cp7_credit.source_inverse_proof_v1(jsonb,jsonb,text,uuid) line 25 at IF\nPL/pgSQL function cp7_credit.assert_source_actual_v1(uuid) line 16 at assignment\nPL/pgSQL function cp7_credit.source_operation_native_reconcile_v1(text,uuid) line 7 at assignment\nSQL statement \"SELECT cp7_credit.source_operation_native_reconcile_v1('RETURN_REVERSE',p_return_id)\"\nPL/pgSQL function reverse_sales_return(uuid,text) line 90 at PERFORM\nSQL statement \"SELECT erp.reverse_sales_return(return_id,btrim(p_payload->>'change_reason'))\"\nPL/pgSQL function cp7_sales.apply_command(text,jsonb,uuid,text) line 66 at PERFORM\nPL/pgSQL assignment \"r:=cp7_sales.apply_command(p_action,p_payload,p_request,p_expected)\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 26 at assignment\nSQL function \"erp_cp7_save_sale_v1\" statement 1"
+    },
+    {
+      "id": "OW04_SIGNED_PAYMENT_REVERSE_UNCONSUMED_CREDIT",
+      "error": "invalid input syntax for type json\nLINE 2:   or p_before->'sale'-array['status','row_version','updated_...\n                       ^\nDETAIL:  Token \"sale\" is invalid.\nQUERY:  sale_id is null or p_actual#>>'{sale,id}'is distinct from sale_id::text\n  or p_before->'sale'-array['status','row_version','updated_at']is distinct from\n     p_actual->'sale'-array['status','row_version','updated_at']\nCONTEXT:  JSON data, line 1: sale\nPL/pgSQL function cp7_credit.source_inverse_proof_v1(jsonb,jsonb,text,uuid) line 25 at IF\nPL/pgSQL assignment \"proof:=cp7_credit.source_inverse_proof_v1(w.before_source,actual,w.action,w.source_id)\"\nPL/pgSQL function cp7_credit.assert_source_actual_v1(uuid) line 16 at assignment\nPL/pgSQL assignment \"actual:=cp7_credit.assert_source_actual_v1(w.operation_id)\"\nPL/pgSQL function cp7_credit.source_operation_native_reconcile_v1(text,uuid) line 7 at assignment\nSQL statement \"SELECT cp7_credit.source_operation_native_reconcile_v1('PAYMENT_REVERSE',p_payment_id)\"\nPL/pgSQL function reverse_sales_payment(uuid,text) line 62 at PERFORM\nSQL statement \"SELECT erp.reverse_sales_payment(payment_id,btrim(p_payload->>'change_reason'))\"\nPL/pgSQL function cp7_sales.apply_command(text,jsonb,uuid,text) line 47 at PERFORM\nPL/pgSQL assignment \"r:=cp7_sales.apply_command(p_action,p_payload,p_request,p_expected)\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 26 at assignment\nSQL function \"erp_cp7_save_sale_v1\" statement 1"
+    },
+    {
+      "id": "OW04_SIGNED_REVOKED_AUTHORITY_DENIES_FRESH_AND_REPLAY",
+      "error": "invalid input syntax for type json\nLINE 2:   or p_before->'sale'-array['status','row_version','updated_...\n                       ^\nDETAIL:  Token \"sale\" is invalid.\nQUERY:  sale_id is null or p_actual#>>'{sale,id}'is distinct from sale_id::text\n  or p_before->'sale'-array['status','row_version','updated_at']is distinct from\n     p_actual->'sale'-array['status','row_version','updated_at']\nCONTEXT:  JSON data, line 1: sale\nPL/pgSQL function cp7_credit.source_inverse_proof_v1(jsonb,jsonb,text,uuid) line 25 at IF\nPL/pgSQL assignment \"proof:=cp7_credit.source_inverse_proof_v1(w.before_source,actual,w.action,w.source_id)\"\nPL/pgSQL function cp7_credit.assert_source_actual_v1(uuid) line 16 at assignment\nPL/pgSQL assignment \"actual:=cp7_credit.assert_source_actual_v1(w.operation_id)\"\nPL/pgSQL function cp7_credit.source_operation_native_reconcile_v1(text,uuid) line 7 at assignment\nSQL statement \"SELECT cp7_credit.source_operation_native_reconcile_v1('RETURN_REVERSE',p_return_id)\"\nPL/pgSQL function reverse_sales_return(uuid,text) line 90 at PERFORM\nSQL statement \"SELECT erp.reverse_sales_return(return_id,btrim(p_payload->>'change_reason'))\"\nPL/pgSQL function cp7_sales.apply_command(text,jsonb,uuid,text) line 66 at PERFORM\nPL/pgSQL assignment \"r:=cp7_sales.apply_command(p_action,p_payload,p_request,p_expected)\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 26 at assignment\nSQL function \"erp_cp7_save_sale_v1\" statement 1"
+    },
+    {
+      "id": "OW04_SIGNED_ZERO_DIFF_EARLIER_ZERO_RETURN_REVERSE",
+      "error": "invalid input syntax for type json\nLINE 2:   or p_before->'sale'-array['status','row_version','updated_...\n                       ^\nDETAIL:  Token \"sale\" is invalid.\nQUERY:  sale_id is null or p_actual#>>'{sale,id}'is distinct from sale_id::text\n  or p_before->'sale'-array['status','row_version','updated_at']is distinct from\n     p_actual->'sale'-array['status','row_version','updated_at']\nCONTEXT:  JSON data, line 1: sale\nPL/pgSQL function cp7_credit.source_inverse_proof_v1(jsonb,jsonb,text,uuid) line 25 at IF\nPL/pgSQL assignment \"proof:=cp7_credit.source_inverse_proof_v1(w.before_source,actual,w.action,w.source_id)\"\nPL/pgSQL function cp7_credit.assert_source_actual_v1(uuid) line 16 at assignment\nPL/pgSQL assignment \"actual:=cp7_credit.assert_source_actual_v1(w.operation_id)\"\nPL/pgSQL function cp7_credit.source_operation_native_reconcile_v1(text,uuid) line 7 at assignment\nSQL statement \"SELECT cp7_credit.source_operation_native_reconcile_v1('RETURN_REVERSE',p_return_id)\"\nPL/pgSQL function reverse_sales_return(uuid,text) line 90 at PERFORM\nSQL statement \"SELECT erp.reverse_sales_return(return_id,btrim(p_payload->>'change_reason'))\"\nPL/pgSQL function cp7_sales.apply_command(text,jsonb,uuid,text) line 66 at PERFORM\nPL/pgSQL assignment \"r:=cp7_sales.apply_command(p_action,p_payload,p_request,p_expected)\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 26 at assignment\nSQL function \"erp_cp7_save_sale_v1\" statement 1"
+    }
+  ],
+  "source_snapshot_restored": true,
+  "production_go": false,
+  "files": {
+    "CASES.json.gz": "b2fc2ce530b3cc870e1dae0ebac5de498fcee9af39ef11cac42f481c7570bd74",
+    "RUNTIME.log.gz": "e754d1e9197c397728e7e9b8d703f291a4f8d9446eac02bf344e3daa5cd8b36b"
+  }
+}

@@ -1,0 +1,39 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> erp-garment-ux@0.1.2 prebuild
+> node scripts/build-preflight.mjs && npm run check:source && npm run check:access && npm run check:css
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> erp-garment-ux@0.1.2 check:source
+> node scripts/check-source-ownership.mjs
+
+Source ownership passed: 342 runtime files, 291 owned RPC boundaries, no orphan or direct table access.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> erp-garment-ux@0.1.2 check:access
+> node scripts/check-access-catalog.mjs
+
+Production recovery ownership passed: shared envelope, lock and stale-read generation including procurement exact version transport.
+WhatsApp connection passed: in-memory request ids, write-only key from an uncontrolled input, nothing stored or logged.
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+291 !== 289
+
+    at file:///workspace/scratch/05009cca93f2/erp/scripts/check-access-catalog.mjs:271:8
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 291,
+  expected: 289,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

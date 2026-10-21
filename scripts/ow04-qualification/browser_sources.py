@@ -1,4 +1,4 @@
-"""Exact escrow UI composition for an isolated CI checkout, never deployment."""
+"""Exact active or historical escrow UI in isolated CI, never deployment."""
 from contextlib import contextmanager
 from pathlib import Path
 import gzip,hashlib,io,json,re,subprocess,tarfile
@@ -9,6 +9,9 @@ CHANGED={'src/SalesReturnPanel.tsx','src/ConnectedSalesPage.tsx','src/production
  'src/types/database.preconnect.ts','src/ConnectedSalesSettlement.dom.test.tsx',
  'src/SalesReturnSettlementSection.tsx','src/SalesReturnSettlementSection.dom.test.tsx',
  'src/salesReturnSettlementContract.ts','src/salesReturnSettlementContract.test.ts'}
+ACTIVE_PATHS=CHANGED|{'src/ConnectedReceivablesPage.tsx','src/ConnectedReceivablesPage.dom.test.tsx',
+ 'src/ConnectedCustomerHistoryPage.tsx','src/ConnectedCustomerHistoryPage.dom.test.tsx'}
+ACTIVE_MANIFEST=Path(__file__).with_name('ACTIVE_UI_SOURCE.json')
 def sha(data):return hashlib.sha256(data).hexdigest()
 def inspect_sources():
     archive=json.loads((ESCROW/'ARCHIVE.json').read_bytes())
@@ -26,9 +29,15 @@ def inspect_sources():
     for name,value in data.items():
         assert len(value)==manifest['files'][name]['bytes']and sha(value)==manifest['files'][name]['sha256'],name
     bases=json.loads(data['BASE_MANIFEST.json'])['read_only_source_snapshot']
+    active=json.loads(ACTIVE_MANIFEST.read_bytes())if ACTIVE_MANIFEST.exists()else None
+    if active is not None:
+        assert active.get('format')=='ow04.active-ui-source.v1'and set(active.get('files',{}))==ACTIVE_PATHS,'OW04_BROWSER_ACTIVE_SOURCE_MANIFEST_CHANGED'
+        for name,want in active['files'].items():
+            assert sha((ROOT/name).read_bytes())==want,('OW04_BROWSER_ACTIVE_SOURCE_CHANGED',name)
     before={}
     for name,expected in bases.items():
         if not name.startswith('src/'):continue
+        if active is not None and name in ACTIVE_PATHS:continue
         value=(ROOT/name).read_bytes()
         assert sha(value)==expected['sha256'],('OW04_BROWSER_BASE_SOURCE_CHANGED',name)
         before[name]=sha(value)
@@ -36,14 +45,26 @@ def inspect_sources():
     for name in PATCHES:
         changed.update(re.findall(r'^\+\+\+ b/(.+)$',data[name].decode(),re.M))
     assert changed==CHANGED,('OW04_BROWSER_PATCH_PATH_CHANGED',sorted(changed))
-    return dict(archive_sha256=sha(compressed),members_verified=53,
-      patch_sha256={n:sha(data[n])for n in PATCHES},base_source_sha256=before),data
+    source=dict(archive_sha256=sha(compressed),members_verified=53,
+      patch_sha256={n:sha(data[n])for n in PATCHES},base_source_sha256=before)
+    if active is not None:source.update(active_UI_sha256=active['files'],active_manifest_sha256=sha(ACTIVE_MANIFEST.read_bytes()))
+    return source,data
 @contextmanager
 def applied_sources(report):
     source,data=inspect_sources()
     # Refuse a live/dirty checkout, including already-present prerequisites.
     status=subprocess.check_output(['git','status','--porcelain','--','src'],cwd=ROOT,text=True)
     assert status=='','OW04_BROWSER_REQUIRES_CLEAN_DISPOSABLE_FRONTEND_CHECKOUT'
+    if 'active_UI_sha256'in source:
+        report.update(source,applied_UI_sha256=source['active_UI_sha256'],
+            composition='ACTIVE_PRODUCT_UI_WITH_ATOMIC_QUALIFIED_BACKEND_ON_DISPOSABLE_COPY_ONLY')
+        try:
+            yield
+        finally:
+            assert all(sha((ROOT/name).read_bytes())==want for name,want in source['active_UI_sha256'].items()),'OW04_BROWSER_ACTIVE_SOURCE_MUTATED'
+            assert subprocess.check_output(['git','status','--porcelain','--','src'],cwd=ROOT,text=True)=='','OW04_BROWSER_ACTIVE_CHECKOUT_MUTATED'
+            report.update(frontend_source_unchanged=True,frontend_source_restored=True)
+        return
     backups={p:(ROOT/p).read_bytes()if(ROOT/p).exists()else None for p in CHANGED}
     report.update(source)
     try:

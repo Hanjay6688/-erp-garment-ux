@@ -4,6 +4,7 @@ name: CP7 OW04 Real Browser Settlement and Recovery Qualification
     branches:
     - cp7/integration
     - astra/d17-14-20261020
+    - codex/ow04-source-http-20261021
     paths:
     - scripts/ow04-qualification/**
     - .github/workflows/cp7-ow04-browser.yml

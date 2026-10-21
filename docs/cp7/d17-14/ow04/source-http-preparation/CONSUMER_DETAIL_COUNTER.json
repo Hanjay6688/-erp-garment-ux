@@ -1,0 +1,78 @@
+{
+  "classification": "PURE_ASSERTION_COUNTER_NOT_HTTP_OR_NATIVE_EXECUTION",
+  "database_calls": 0,
+  "cases": [
+    {
+      "guard": "original",
+      "case": "exact",
+      "expected": true,
+      "observed": true,
+      "ok": true
+    },
+    {
+      "guard": "original",
+      "case": "extra_bogus_row",
+      "expected": false,
+      "observed": true,
+      "ok": false
+    },
+    {
+      "guard": "original",
+      "case": "wrong_source_sale",
+      "expected": false,
+      "observed": true,
+      "ok": false
+    },
+    {
+      "guard": "original",
+      "case": "missing_source_return",
+      "expected": false,
+      "observed": true,
+      "ok": false
+    },
+    {
+      "guard": "original",
+      "case": "duplicate_actual",
+      "expected": false,
+      "observed": true,
+      "ok": false
+    },
+    {
+      "guard": "corrected",
+      "case": "exact",
+      "expected": true,
+      "observed": true,
+      "ok": true
+    },
+    {
+      "guard": "corrected",
+      "case": "extra_bogus_row",
+      "expected": false,
+      "observed": false,
+      "ok": true
+    },
+    {
+      "guard": "corrected",
+      "case": "wrong_source_sale",
+      "expected": false,
+      "observed": false,
+      "ok": true
+    },
+    {
+      "guard": "corrected",
+      "case": "missing_source_return",
+      "expected": false,
+      "observed": false,
+      "ok": true
+    },
+    {
+      "guard": "corrected",
+      "case": "duplicate_actual",
+      "expected": false,
+      "observed": false,
+      "ok": true
+    }
+  ],
+  "original_expression": "any((all((row[key] == value for key, value in dict(event_id=event['id'], cohort_id=event['cohort_id'], event_kind='REFUND', journal_id=event['journal_id']).items())) for row in detail))",
+  "corrected_expression": "detail == [dict(event_id=event['id'], cohort_id=event['cohort_id'], event_kind='REFUND', journal_id=event['journal_id'], source_sale_id=cohort['source_sale_id'], source_return_id=cohort['source_return_id'])]"
+}

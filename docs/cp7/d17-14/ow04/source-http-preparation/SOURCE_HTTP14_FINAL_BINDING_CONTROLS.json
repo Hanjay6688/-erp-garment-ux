@@ -1,0 +1,166 @@
+{
+  "classification": "SYNTHETIC_ACTUAL_FUNCTION_NOT_RUNTIME",
+  "status": "PASS",
+  "count": 19,
+  "gate_source_sha256": "494f19731078e6d000b18f1aa79f35f0fc58dfa31ee2bfa3191217be5ecdc99e",
+  "database_calls": 0,
+  "rows": [
+    {
+      "id": "valid",
+      "accepted": true,
+      "answer": {
+        "label": "OW04_HTTP_RACE_FINAL",
+        "status": "PASS",
+        "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "counts": {
+          "HTTP": 14,
+          "RACES": 6
+        },
+        "native_reused_candidate": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "native_reused_case_count": 63,
+        "native_rerun": false,
+        "reports": {
+          "HTTP": {
+            "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "core": "cccccccccccccccccccccccccccccccccccccccc",
+            "package_gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true,
+              "writer_runtime": true
+            },
+            "package_sha256": "e051da48ae096b67b7dd837d982efd2813db1d71943883888511d8c677fa0b7f"
+          },
+          "RACES": {
+            "candidate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "core": "cccccccccccccccccccccccccccccccccccccccc",
+            "package_gate": {
+              "installed": true,
+              "primary_unchanged": true,
+              "backup_restore_drill": true,
+              "security_advisors": true,
+              "writer_runtime": true
+            },
+            "package_sha256": "e051da48ae096b67b7dd837d982efd2813db1d71943883888511d8c677fa0b7f"
+          }
+        },
+        "step_outcomes": {
+          "HTTP": "success",
+          "RACES": "success"
+        },
+        "feature_complete": false,
+        "audit_complete": false,
+        "production_go": false
+      }
+    },
+    {
+      "id": "binding_incomplete",
+      "accepted": false,
+      "error": "OW04_FINAL_SIGNED_SOURCE_NATIVE63_NOT_QUALIFIED",
+      "error_type": "AssertionError"
+    },
+    {
+      "id": "binding_unsupported32",
+      "accepted": false,
+      "error": "OW04_FINAL_SIGNED_SOURCE_NATIVE63_NOT_QUALIFIED",
+      "error_type": "AssertionError"
+    },
+    {
+      "id": "reports_reused44_current_binding63",
+      "accepted": false,
+      "error": "('OW04_FINAL_NATIVE_BINDING_CHANGED', 'HTTP')",
+      "error_type": "AssertionError"
+    },
+    {
+      "id": "report_declaration_hash_wrong",
+      "accepted": false,
+      "error": "('OW04_FINAL_DECLARATION_HASH_CHANGED', 'HTTP')",
+      "error_type": "AssertionError"
+    },
+    {
+      "id": "binding_old58",
+      "accepted": false,
+      "error": "OW04_FINAL_SIGNED_SOURCE_NATIVE63_NOT_QUALIFIED",
+      "error_type": "AssertionError"
+    },
+    {
+      "id": "only_old8_HTTP_rows",
+      "accepted": false,
+      "error": "('OW04_FINAL_INCOMPLETE', 'HTTP')",
+      "error_type": "AssertionError"
+    },
+    {
+      "id": "missing_source_HTTP_ID",
+      "accepted": false,
+      "error": "('OW04_FINAL_CASE_SET', 'HTTP')",
+      "error_type": "AssertionError"
+    },
+    {
+      "id": "source_group_collides_initial",
+      "accepted": false,
+      "error": "OW04_FINAL_SOURCE_SUBGROUP_MEMBERSHIP",
+      "error_type": "AssertionError"
+    },
+    {
+      "id": "source_subgroup_count_wrong",
+      "accepted": false,
+      "error": "OW04_FINAL_SOURCE_SUBGROUP_COUNTS",
+      "error_type": "AssertionError"
+    },
+    {
+      "id": "source_declaration_changed",
+      "accepted": false,
+      "error": "OW04_FINAL_SOURCE_DECLARATION_CHANGED",
+      "error_type": "AssertionError"
+    },
+    {
+      "id": "source_declaration_hash_wrong",
+      "accepted": false,
+      "error": "OW04_FINAL_SOURCE_DECLARATION_HASH",
+      "error_type": "AssertionError"
+    },
+    {
+      "id": "source_module_changed",
+      "accepted": false,
+      "error": "('OW04_FINAL_HTTP_IMPLEMENTATION_CHANGED', 'source_http_cases_sha256')",
+      "error_type": "AssertionError"
+    },
+    {
+      "id": "auth_not_restored",
+      "accepted": false,
+      "error": "OW04_FINAL_AUTH_NOT_RESTORED",
+      "error_type": "AssertionError"
+    },
+    {
+      "id": "cleanup_failure",
+      "accepted": false,
+      "error": "OW04_FINAL_AUTH_NOT_RESTORED",
+      "error_type": "AssertionError"
+    },
+    {
+      "id": "source_case_failed",
+      "accepted": false,
+      "error": "('OW04_FINAL_CASE_SET', 'HTTP')",
+      "error_type": "AssertionError"
+    },
+    {
+      "id": "required_ID_list_missing_source",
+      "accepted": false,
+      "error": "('OW04_FINAL_REQUIRED_CASE_IDS', 'HTTP')",
+      "error_type": "AssertionError"
+    },
+    {
+      "id": "package_backup_gate_failed",
+      "accepted": false,
+      "error": "('OW04_FINAL_PACKAGE_GATE', 'HTTP', {'installed': True, 'primary_unchanged': True, 'backup_restore_drill': False, 'security_advisors': True, 'writer_runtime': True})",
+      "error_type": "AssertionError"
+    },
+    {
+      "id": "HTTP_command_failed",
+      "accepted": false,
+      "error": "('OW04_FINAL_COMMAND_OUTCOME', {'HTTP': 'failure', 'RACES': 'success'})",
+      "error_type": "AssertionError"
+    }
+  ]
+}

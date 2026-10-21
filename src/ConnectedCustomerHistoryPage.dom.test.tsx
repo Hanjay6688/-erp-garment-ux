@@ -76,12 +76,35 @@ describe('Riwayat Pelanggan on real data (R3-03)',()=>{
   expect(items.map(li=>li.getAttribute('data-kind'))).toEqual(['CANCELLATION','RETURN','PAYMENT','INVOICE','INVOICE'])
   expect(items[0].textContent).toContain('Draf invoice INV-1-D2 dibatalkan');expect(items[1].textContent).toContain('Retur RET-1');expect(items[1].textContent).toContain('Rp20')
   expect(items[2].textContent).toContain('Pembayaran PAY-1');expect(items[2].textContent).toContain('Transfer bank');expect(items[2].textContent).toContain('Rp30')
-  expect(items[4].textContent).toContain('4 pcs · Gudang FG · Dibayar sebagian');expect(items[4].textContent).toContain('retur Rp20 · dibayar Rp30 · sisa tagihan Rp30')
+  expect(items[4].textContent).toContain('4 pcs · Gudang FG · Dibayar sebagian');expect(items[4].textContent).toContain('retur Rp20 · pelunasan efektif Rp30 · sisa tagihan Rp30')
   expect(items[3].textContent).toContain('nilai Rp40, bukan piutang aktif')
   expect(items[0].querySelector('time')!.textContent).toMatch(/WIB$/)
   const totals=container.querySelector('[aria-label="Ringkasan uang Toko Sumber Rejeki"]')!.textContent
-  for(const t of ['Nilai invoice aktifRp80','Retur tercatatRp20','Pembayaran tercatatRp30','Sisa tagihanRp30'])expect(totals).toContain(t)
+  for(const t of ['Nilai invoice aktifRp80','Retur tercatatRp20','Pelunasan efektifRp30','Sisa tagihanRp30'])expect(totals).toContain(t)
   expect(new Set(mock.rpc.mock.calls.map(c=>c[0]))).toEqual(new Set(['erp_cp7_get_customer_history_v1']))
+ })
+ it('keeps original payment1000 separate from effective settlement800 after return credit200',async()=>{
+  mock.rpc.mockImplementation((_n:string,{p_query}:{p_query:Q})=>{
+   const d=answer(p_query,true)
+   if('customer'in d){
+    Object.assign(d.customer.financial!,{invoice_total:'1000.00',return_total:'200.00',net_total:'800.00',paid_total:'800.00',open_balance:'0.00'})
+    for(const invoice of d.invoices)if(invoice.id===sale){invoice.status='PAID';Object.assign(invoice.financial!,{gross_total:'1000.00',return_total:'200.00',net_total:'800.00',paid_total:'800.00',open_balance:'0.00'})}
+    for(const event of d.timeline.rows){
+     if(event.kind==='PAYMENT')event.financial!.amount='1000.00'
+     if(event.kind==='RETURN')event.financial!.amount='200.00'
+     if(event.kind==='INVOICE'&&event.document_id===sale){event.status='PAID';event.financial!.amount='1000.00'}
+    }
+   }
+   return Promise.resolve({data:d,error:null})
+  })
+  await mount();await pick()
+  const totals=container.querySelector('[aria-label="Ringkasan uang Toko Sumber Rejeki"]')!.textContent
+  expect(totals).toContain('Pelunasan efektifRp800');expect(totals).not.toContain('Pembayaran tercatat')
+  const paymentRow=timeline().querySelector('[data-kind="PAYMENT"]')!
+  expect(paymentRow.querySelector('strong')!.textContent).toBe('Pembayaran PAY-1')
+  expect(paymentRow.querySelector('b')!.textContent).toBe('Rp1.000')
+  expect(paymentRow.querySelector('div')!.textContent).toContain('pelunasan efektif Rp800')
+  expect(timeline().querySelector('[data-kind="INVOICE"][data-document-id="'+sale+'"]')?.textContent??timeline().textContent).toContain('pelunasan efektif Rp800')
  })
  it('shows the events without any amount when the account lacks finance.ar.view',async()=>{
   identity(['sales.history.view']);mock.rpc.mockImplementation((_n:string,{p_query}:{p_query:Q})=>Promise.resolve({data:answer(p_query,false),error:null}))

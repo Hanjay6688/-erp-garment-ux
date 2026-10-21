@@ -1,0 +1,214 @@
+{
+  "classification": "FINAL_READ_ONLY_SOURCE_METADATA_VERDICT_NOT_NATIVE_ACCEPTANCE",
+  "at_utc": "2026-10-21T04:36:53.191738+00:00",
+  "database_calls": 0,
+  "network_calls": 0,
+  "product_edits": 0,
+  "source_sha256": {
+    "build_source_pins.py": "dc39bacd8fd5beb2d40bb3acac8ced0ff4f29a34e1731981e52a0eb416bdf026",
+    "trigger_guard.py": "f34ba95fa976e654b1cec34d5fb2718170029b185801e6320f8659d80f98a684",
+    "SOURCE_PINS.json": "965c1e1b6af9e854b9219a851eceb64ee4a459107358c70a6e6b937d49b88162"
+  },
+  "repository_pin_count": 355,
+  "repository_pin_mismatches": [],
+  "source_owned_all_phase_fresh4": {
+    "VERIFIED_PREDECESSOR": {
+      "cp7_installment.guard_journal()": {
+        "source_fields_match_independent_derivation": true,
+        "owner": "cp7_installment_read",
+        "acl": [
+          {
+            "grantee": "cp7_installment_read",
+            "grantable": false,
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantee": "postgres",
+            "grantable": false,
+            "privilege": "EXECUTE"
+          }
+        ],
+        "config": [
+          "search_path=\"\""
+        ]
+      },
+      "cp7_kasbon.guard_journal()": {
+        "source_fields_match_independent_derivation": true,
+        "owner": "postgres",
+        "acl": [
+          {
+            "grantee": "postgres",
+            "grantable": false,
+            "privilege": "EXECUTE"
+          }
+        ],
+        "config": [
+          "search_path=\"\""
+        ]
+      },
+      "cp7_cutover.guard_journal()": {
+        "source_fields_match_independent_derivation": true,
+        "owner": "postgres",
+        "acl": [
+          {
+            "grantee": "postgres",
+            "grantable": false,
+            "privilege": "EXECUTE"
+          }
+        ],
+        "config": [
+          "search_path=\"\""
+        ]
+      },
+      "cp7_cutover.guard_movement()": {
+        "source_fields_match_independent_derivation": true,
+        "owner": "postgres",
+        "acl": [
+          {
+            "grantee": "postgres",
+            "grantable": false,
+            "privilege": "EXECUTE"
+          }
+        ],
+        "config": [
+          "search_path=\"\""
+        ]
+      }
+    },
+    "OW04_COMPOSED": {
+      "cp7_installment.guard_journal()": {
+        "source_fields_match_independent_derivation": true,
+        "owner": "cp7_installment_read",
+        "acl": [
+          {
+            "grantee": "cp7_installment_read",
+            "grantable": false,
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantee": "postgres",
+            "grantable": false,
+            "privilege": "EXECUTE"
+          }
+        ],
+        "config": [
+          "search_path=\"\""
+        ]
+      },
+      "cp7_kasbon.guard_journal()": {
+        "source_fields_match_independent_derivation": true,
+        "owner": "postgres",
+        "acl": [
+          {
+            "grantee": "postgres",
+            "grantable": false,
+            "privilege": "EXECUTE"
+          }
+        ],
+        "config": [
+          "search_path=\"\""
+        ]
+      },
+      "cp7_cutover.guard_journal()": {
+        "source_fields_match_independent_derivation": true,
+        "owner": "postgres",
+        "acl": [
+          {
+            "grantee": "postgres",
+            "grantable": false,
+            "privilege": "EXECUTE"
+          }
+        ],
+        "config": [
+          "search_path=\"\""
+        ]
+      },
+      "cp7_cutover.guard_movement()": {
+        "source_fields_match_independent_derivation": true,
+        "owner": "postgres",
+        "acl": [
+          {
+            "grantee": "postgres",
+            "grantable": false,
+            "privilege": "EXECUTE"
+          }
+        ],
+        "config": [
+          "search_path=\"\""
+        ]
+      }
+    },
+    "OW04_COMPOSED_NATIVE_EMPTY": {
+      "cp7_installment.guard_journal()": {
+        "source_fields_match_independent_derivation": true,
+        "owner": "cp7_installment_read",
+        "acl": [
+          {
+            "grantee": "cp7_installment_read",
+            "grantable": false,
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantee": "postgres",
+            "grantable": false,
+            "privilege": "EXECUTE"
+          }
+        ],
+        "config": [
+          "search_path=\"\""
+        ]
+      },
+      "cp7_kasbon.guard_journal()": {
+        "source_fields_match_independent_derivation": true,
+        "owner": "postgres",
+        "acl": [
+          {
+            "grantee": "postgres",
+            "grantable": false,
+            "privilege": "EXECUTE"
+          }
+        ],
+        "config": [
+          "search_path=\"\""
+        ]
+      },
+      "cp7_cutover.guard_journal()": {
+        "source_fields_match_independent_derivation": true,
+        "owner": "postgres",
+        "acl": [
+          {
+            "grantee": "postgres",
+            "grantable": false,
+            "privilege": "EXECUTE"
+          }
+        ],
+        "config": [
+          "search_path=\"\""
+        ]
+      },
+      "cp7_cutover.guard_movement()": {
+        "source_fields_match_independent_derivation": true,
+        "owner": "postgres",
+        "acl": [
+          {
+            "grantee": "postgres",
+            "grantable": false,
+            "privilege": "EXECUTE"
+          }
+        ],
+        "config": [
+          "search_path=\"\""
+        ]
+      }
+    }
+  },
+  "complete_predecessor_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+  "actual_controls": {
+    "count": 17,
+    "status": "PASS",
+    "artifact": "FINAL_ACTUAL_SOURCE_METADATA_CONTROLS.json"
+  },
+  "verdict": "No further deterministic blocker in the reviewed two-file ACL/source-metadata correction. Exactly one additional postgres EXECUTE grantee is required by existing installment source; other3 unchanged; owner/config/body checks and complete ACL equality remain strict. Actual database ACLs were not edited or used to derive expectations.",
+  "initial_corpus_separate": true,
+  "native_boundary": "Parent reports run39543633310/job119036787018 failed beforeOW04install at expectedACL mismatch; no NativecasePASS claim. Root owns preservedfailurefiles and actualfutureCI. No localPG18metadataexecution used."
+}

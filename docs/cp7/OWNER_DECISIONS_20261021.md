@@ -21,3 +21,17 @@ melewati CP7/CP7.5, izin pemasangan, atau GO produksi. Tanggal yang dimaksud
 22–23Oktober2026 WIB. Penilaian writer: persiapan sudah ada sebagian, tetapi
 memulai CP7C penuh tanggal itu belum dapat dijanjikan dari bukti/backlog kini.
 OW01–03 selesai terbukti pada lingkupnya;13butir lain tetap terbuka.
+
+## D21-2 — keberatan atas status selesai dan scope yang tampak membengkak
+
+Owner (persis):
+
+> gw bingung kenapa lama banget? belom lama cp7 udah selesai, gw tanya update tentang pengingat wa, suddenly langsung menggila gini jobdesc nya? aneh banget
+
+Akibat untuk laporan writer: bedakan penutupan paket/putaran uji dari kebutuhan
+CP7 yang benar-benar selesai. Jelaskan pekerjaan yang baru diminta, kebutuhan
+lama yang ditemukan belum tuntas, dan catatan lama yang ternyata sudah basi.
+Tiga belas baris terbuka bukan bukti bahwa semuanya perlu pembangunan besar;
+sebagian adalah pemeriksaan yang belum dilakukan. Jangan memperluas scope
+tanpa kebutuhan/keputusan owner dan jangan menjadikan status/checkpoint
+sebagai alasan berhenti. D17-14/15 tetap daftar kerja yang berlaku.

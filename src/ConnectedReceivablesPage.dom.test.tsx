@@ -47,7 +47,7 @@ describe('native invoice receivables source',()=>{
   expect(container.textContent).toContain('Rp30');expect(container.textContent).toContain('HISTORICAL');expect(container.textContent).toContain('Jatuh tempo 2026-10-29')
   expect(container.textContent).toContain('Kondisi dokumen sekarang');expect(container.textContent).toContain('Saldo awal dan penyesuaian buku')
   const detail=container.querySelector('[aria-label="Rincian sumber piutang"]')!
-  for(const label of ['Nilai invoice','Retur tercatat','Pembayaran tercatat','Sisa tagihan'])expect(detail.textContent).toContain(label)
+  for(const label of ['Nilai invoice','Retur tercatat','Pelunasan efektif','Sisa tagihan'])expect(detail.textContent).toContain(label)
   expect(mock.rpc.mock.calls.every(([name])=>name==='erp_cp7_get_sales_v1')).toBe(true)
  })
  it('keeps money above safe integer precision and does not suppress native invoice credit',async()=>{

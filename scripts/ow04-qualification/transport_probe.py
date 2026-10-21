@@ -1,4 +1,4 @@
-"""Eight real Auth/HTTP cases on the exact qualified OW04 core, disposable only.
+"""Fourteen real Auth/HTTP cases on the exact qualified OW04 core, disposable only.
 
 This imports the separately qualified Native core verifier/installer; it does not rerun
 or relabel historical Native evidence. The tested core identity is explicit.
@@ -7,12 +7,14 @@ from pathlib import Path
 import hashlib,json,os,subprocess,sys,traceback
 REPO=Path(os.environ.get('ERP_REPO',Path(__file__).resolve().parents[2])).resolve()
 sys.path.insert(0,str(REPO/'scripts'))
-# The existing complete Native EMPTY mode selects the same atomic backend.
+# The complete signed-source mode selects the same atomic qualified backend.
 # This entry point itself accepts no connection/authority/mode overrides.
 if len(sys.argv)>1:raise SystemExit('OW04 HTTP entry accepts no arguments')
-sys.argv.append('--native-empty')
+sys.argv.append('--signed-source')
 import cp7_ow04_probe as core
-import cp7_ow04_http_cases as http_cases
+import cp7_ow04_http_cases as initial_http
+import cp7_ow04_source_http_cases as source_http
+import cp7_ow04_all_http_cases as http_cases
 import cp6_auditor_modes as modes
 import psycopg
 from cp6_t3_aligned_install import advisors,advisor_delta
@@ -20,7 +22,11 @@ p09,package,credit=core.p09,core.package,core.credit
 OUT=p09.bundle.ROOT/'cp6-proof/t3/CP7_OW04_HTTP.json'
 DECLARATION_BYTES=Path(__file__).with_name('EXPECTED.json').read_bytes()
 DECLARATION=json.loads(DECLARATION_BYTES)
-assert tuple(x['id']for x in DECLARATION['cases'])==http_cases.IDS and len(http_cases.IDS)==8
+assert tuple(x['id']for x in DECLARATION['cases'])==initial_http.IDS and len(initial_http.IDS)==8
+SOURCE_DECLARATION_BYTES=Path(__file__).with_name('SOURCE_HTTP_EXPECTED.json').read_bytes()
+SOURCE_DECLARATION=source_http.expected()
+assert tuple(x['id']for x in SOURCE_DECLARATION['cases'])==source_http.IDS and len(source_http.IDS)==6
+assert http_cases.IDS==initial_http.IDS+source_http.IDS and len(http_cases.IDS)==len(set(http_cases.IDS))==14
 
 
 def git(*args):
@@ -31,7 +37,7 @@ def qualified_core():
     binding_path=Path(__file__).with_name('QUALIFIED_CORE.json')
     value=json.loads(binding_path.read_bytes())
     count=value['native_case_count']
-    assert value['status']=='PASS'and count in(44,58),'OW04_HTTP_NATIVE_NOT_QUALIFIED'
+    assert value['status']=='PASS'and count in(44,58,63),'OW04_HTTP_NATIVE_NOT_QUALIFIED'
     assert git('rev-parse','HEAD:scripts/cp7_customer_credit')==value['core_directory_tree'],'OW04_HTTP_CORE_CHANGED'
     assert git('rev-parse','HEAD:scripts/cp7_ow04_probe.py')==value['native_probe_blob'],'OW04_HTTP_NATIVE_PROBE_CHANGED'
     changed=git('diff','--name-only',value['candidate'],'--','scripts','src','supabase').splitlines()
@@ -44,10 +50,11 @@ def qualified_core():
         and summary['status']=='PASS'and actual['counts']=={'PASS':count},'OW04_HTTP_NATIVE_BINDING_INVALID'
     assert summary['expected_case_count']==summary['observed_case_count']==count \
         and summary['cp6_restored']is True and summary['advisor_gate']is True,'OW04_HTTP_NATIVE_RESTORE_OR_COUNT_INVALID'
-    declaration_name='NATIVE_FRACTIONAL_QUALIFICATION.json'if count==58 else'NATIVE_EMPTY_QUALIFICATION.json'
+    declaration_name={44:'NATIVE_EMPTY_QUALIFICATION.json',58:'NATIVE_FRACTIONAL_QUALIFICATION.json',
+                      63:'NATIVE_SIGNED_SOURCE_QUALIFICATION.json'}[count]
     declaration_path=REPO/'docs/cp7/d17-14/ow04'/declaration_name
     declaration_bytes=declaration_path.read_bytes();declaration=json.loads(declaration_bytes)
-    if count==58:
+    if count in(58,63):
         assert value['qualification_declaration']=='docs/cp7/d17-14/ow04/'+declaration_name \
             and value['qualification_declaration_sha256']==hashlib.sha256(declaration_bytes).hexdigest(),'OW04_HTTP_NATIVE_DECLARATION_CHANGED'
         gates=actual['package_gate']
@@ -66,15 +73,21 @@ def run():
     # Fail before opening a connection if any previously qualified product or
     # installer dependency differs. Only this explicit qualification may differ.
     reused=qualified_core()
-    report=dict(label='CP7_OW04_HTTP',status='INCOMPLETE',expected_case_count=8,required_case_ids=list(http_cases.IDS),
+    assert reused['native_case_count']==63,'OW04_HTTP_SIGNED_SOURCE_NATIVE63_REQUIRED'
+    report=dict(label='CP7_OW04_HTTP',status='INCOMPLETE',expected_case_count=14,required_case_ids=list(http_cases.IDS),
         candidate_commit=git('rev-parse','HEAD'),core_directory_tree=git('rev-parse','HEAD:scripts/cp7_customer_credit'),
         native_probe_blob=git('rev-parse','HEAD:scripts/cp7_ow04_probe.py'),source_sha256=credit.source_files(native_empty=True),
         qualification_only=True,independent_acceptance=False,production_go=False,feature_complete=False,
         predeclared_case_sha256=hashlib.sha256(DECLARATION_BYTES).hexdigest(),
-        http_cases_sha256=hashlib.sha256(Path(http_cases.__file__).read_bytes()).hexdigest(),
+        http_cases_sha256=hashlib.sha256(Path(initial_http.__file__).read_bytes()).hexdigest(),
+        source_predeclared_case_sha256=hashlib.sha256(SOURCE_DECLARATION_BYTES).hexdigest(),
+        source_http_cases_sha256=hashlib.sha256(Path(source_http.__file__).read_bytes()).hexdigest(),
+        http_composition_sha256=hashlib.sha256(Path(http_cases.__file__).read_bytes()).hexdigest(),
+        initial_required_case_ids=list(initial_http.IDS),source_required_case_ids=list(source_http.IDS),
+        expected_subgroup_counts={'INITIAL':8,'SOURCE':6},
         transport_probe_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         reused_native_binding=reused,
-        scope='REAL_AUTH_PUBLIC_POSTGREST_INITIAL_SETTLEMENT_COMMIT_REPLAY_PERMISSION_AND_ATOMIC_REFUSALS',
+        scope='REAL_AUTH_PUBLIC_POSTGREST_INITIAL8_PLUS_SIGNED_SOURCE6',
         limits=['Native qualification is separate evidence; no inference from this HTTP group','No browser/race/crash recovery proof','No default installation or production deployment'])
     installed=False;originals={}
     try:
@@ -107,7 +120,7 @@ def run():
         group=report.get('http',{});report['observed_case_count']=sum(group.get('counts',{}).values())
         report['required_case_ids_pass']=set(group.get('cases',{}))==set(http_cases.IDS)
         if not report.get('error')and report.get('cp6_restored')and report.get('advisor_gate') \
-            and group.get('status')in('PASS','RUN_COMPLETE')and group.get('counts')=={'PASS':8} \
+            and group.get('status')in('PASS','RUN_COMPLETE')and group.get('counts')=={'PASS':14} \
             and report['required_case_ids_pass']and group.get('database_remaining',1)==0 \
             and(group.get('auth_counts')or{}).get('restored')and not group.get('cleanup_failures'):
             report['status']='PASS'

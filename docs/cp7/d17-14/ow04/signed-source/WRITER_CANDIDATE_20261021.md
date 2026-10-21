@@ -1,5 +1,22 @@
 # OW04: kandidat writer untuk pembatalan sumber, 21 Oktober 2026
 
+Pembaruan takeover: cabang aktif `codex/writer-takeover-20261021`.
+Run39553532036 pada8ed949bb mengeksekusi63 kasus:59 PASS dan4 INCOMPLETE,
+restore serta advisor lulus. Empat kasus berhenti pada kesalahan prioritas
+operator JSON dalam SQL produk yang sama. Log dan receipt asli ada di
+`native-fifth-8ed949bb/`; koreksi hanya menambah tanda kurung empat operand.
+`json-operator-regression/` mereproduksi dua ekspresi lama yang gagal dan
+menjalankan sepuluh pembanding hasil koreksi pada PostgreSQL18 lokal.
+Ini belum hasil Native63 kandidat sesudah koreksi.
+
+UI retur dari escrow yang sudah ada kini dipasang di sumber aplikasi aktif.
+182 kasus DOM/kontrak unik dan build lulus; detail serta kegagalan lokal awal
+disimpan di `../active-ui/`. Ringkasan piutang/riwayat memakai label pelunasan
+efektif, sementara pembayaran asli tetap utuh. Harness browser memakai hash
+sumber aplikasi aktif, tanpa patch sementara. HTTP14, race6+2 dan browser4
+untuk kandidat ini belum dijalankan; persiapan alat bukan bukti runtime.
+Native63 baru harus lulus sebelum binding HTTP/race/browser diperbarui.
+
 Ini kandidat internal writer, belum bukti Native63, belum audit independen,
 belum OW04 lengkap, dan `production_go:false`.
 Cabang kerja `codex/ow04-reconciliation-20261021` berawal dari checkpoint
@@ -124,3 +141,20 @@ dalam child terisolasi dengan dispatcher dicatat dan semua koneksi menolak.
 Kontrol ini tidak menjalankan callback writer dan tidak menjadi Native PASS.
 Expected uang, stok dan daftar63 kasus tetap sama; kandidat perbaikan perlu
 menjalankan kualifikasi Native63 sungguhan.
+
+## Kegagalan kedua: ACL pemicu berasal dari sumber
+
+Run39543633310 pada978488c2 berhenti sebelum pemasangan OW04 dan sebelum63
+kasus berjalan. Manifest baru keliru menyatakan ACL owner-only untuk
+`cp7_installment.guard_journal()`. Sumber predecessor yang sama memindahkan
+owner ke `cp7_installment_read`, lalu secara eksplisit memberi EXECUTE kepada
+`postgres`; izin database tidak perlu diubah. Bukti asli, laporan INCOMPLETE,
+log penuh dan disposisi tersimpan di `native-second-978488c2/`.
+
+Koreksi052d5b49 menurunkan kedua izin tepat itu dari klausa sumber, menolak
+klausa yang hilang/berubah maupun izin tambahan, dan menampilkan expected vs
+actual saat guard menolak. Pemeriksa kedua mengunci derivasi sumber sebelum
+review koreksi;17 kontrol murni lulus,355 pin sumber cocok,14 overlay tetap
+byte-identik. Itu bukti alat pembanding, bukan bukti transaksi Native. Hasil
+runtime052d5b49 harus dibaca dari run39545090852 dan receipt setelah selesai;
+status berjalan atau koreksi ini sendiri tidak menjadi PASS63.
