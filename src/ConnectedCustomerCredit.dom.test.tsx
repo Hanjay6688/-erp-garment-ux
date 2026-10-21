@@ -107,6 +107,7 @@ describe('consumer UI parent/recovery with declared server contracts',()=>{
   })
   it('retires a checked intent synchronously when an input changes before the next React render',async()=>{
     await prepare();const save=button('Simpan transaksi kredit'),field=input('Nominal saldo kredit')
+    expect(field.maxLength).toBe(-1)
     await act(async()=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(field,'81');field.dispatchEvent(new Event('input',{bubbles:true}));save.click()});await flush()
     expect(sends()).toHaveLength(0);expect(summary()).toBeNull()
   })

@@ -1,0 +1,33 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/05009cca93f2/erp-ow04-consumer-ui
+
+x········
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/customerCreditContract.test.ts > bounded credit client contracts, not database qualification > accepts the Native eighteen-digit cent maximum without a new frontend money cap
+AssertionError: expected null to be '999999999999999999.99' // Object.is equality
+
+- Expected:
+"999999999999999999.99"
+
++ Received:
+null
+
+ ❯ src/customerCreditContract.test.ts:7:56
+      5| describe('bounded credit client contracts, not database qualification'…
+      6|   it('accepts the Native eighteen-digit cent maximum without a new fro…
+      7|     expect(creditAmountInput('999999999999999999.99')).toBe('999999999…
+       |                                                        ^
+      8|     expect(creditCents('999999999999999999999999999999.99')).toBe(9999…
+      9|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 passed (9)
+   Start at  22:12:04
+   Duration  267ms (transform 58ms, setup 0ms, import 74ms, tests 18ms, environment 0ms)
+

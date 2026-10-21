@@ -1,0 +1,13 @@
+{
+  "classification": "LOCAL_POSTGRESQL_RECORD_DESCRIPTOR_CONTROL_NOT_NATIVE_OR_FINANCIAL_EXECUTION",
+  "status": "PASS",
+  "first_cold_null_record_failure": {
+    "code": "55000",
+    "message": "record \"target_assignment\" is not assigned yet"
+  },
+  "warm_assigned_record_then_null_works": true,
+  "fresh_typed_null_works": true,
+  "non_null_output_identical": true,
+  "ERP_commands_executed": 0,
+  "production_go": false
+}

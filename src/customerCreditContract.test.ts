@@ -3,6 +3,10 @@ import {creditAmountInput,creditCents,creditNowInput,creditPhysicalInput,creditQ
 import {creditActor,creditBank,creditEvent,creditId,creditOutcome,creditPayload,creditReview,creditSale,creditSource,creditTarget,creditTargetRow,creditWorkspace} from '../tests/fixtures/customerCredit'
 
 describe('bounded credit client contracts, not database qualification',()=>{
+  it('accepts the Native eighteen-digit cent maximum without a new frontend money cap',()=>{
+    expect(creditAmountInput('999999999999999999.99')).toBe('999999999999999999.99')
+    expect(creditCents('999999999999999999999999999999.99')).toBe(99999999999999999999999999999999n)
+  })
   it('keeps cents and versions beyond Number precision exact',()=>{
     expect(creditAmountInput('9007199254740993,01')).toBe('9007199254740993.01')
     expect(creditCents('9007199254740993.01')).toBe(900719925474099301n)

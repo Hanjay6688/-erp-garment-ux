@@ -1,4 +1,4 @@
-name: CP7 bounded OW04 consumer workspace and product browser8
+name: CP7 bounded OW04 current consumer42
 'on':
   push:
     branches:
@@ -20,7 +20,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   phase:
-    name: Consumer fresh workspace4 and actual Auth product browser4; complete OW04 open
+    name: Current Native18 Auth14 races2 workspace4 browser4; whole OW04 open
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
@@ -167,14 +167,14 @@ jobs:
       run: "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres'\
         \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback'\
         \ \\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\n"
-    - name: Qualify four real Auth workspace and four current product browser journeys, exact isolated removal
+    - name: Qualify current Native18 Auth14 races2 workspace4 browser4 and exact isolated removal
       working-directory: writer
       run: python '../auditor/scripts/ow04-consumer-ui-qualification/consumer_ui_probe.py'
     - name: Preserve exact original JSON report bytes in a bounded compressed log receipt
       if: always()
       working-directory: auditor
       run: "python - <<'PY'\nimport base64,gzip,hashlib,json\nfrom pathlib import Path\nroot=Path('cp6-proof/t3')\nfor name\
-        \ in ('CP7_OW04_CONSUMER_WORKSPACE_BROWSER8.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
+        \ in ('CP7_OW04_CONSUMER_CURRENT42.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
         \    path=root/name\n    if not path.is_file():\n        continue\n    raw=path.read_bytes();packed=gzip.compress(raw,mtime=0)\n\
         \    print(json.dumps(dict(ow04_original_report_bytes=True,name=name,raw_bytes=len(raw),\n        raw_sha256=hashlib.sha256(raw).hexdigest(),gzip_bytes=len(packed),\n\
         \        gzip_sha256=hashlib.sha256(packed).hexdigest(),\n        gzip_base64=base64.b64encode(packed).decode('ascii'))),flush=True)\n\
@@ -186,7 +186,7 @@ jobs:
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
-        name: cp7-ow04-consumer-workspace-browser8
+        name: cp7-ow04-consumer-current42
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error

@@ -1,7 +1,7 @@
-"""Actual new workspace4 + product-browser4, on isolated copied databases only.
+"""Current Native18/Auth14/race2 + workspace4/browser4 on isolated databases.
 
-Old Native18/Auth14/race2 receipts are verified, never relabelled as new runs.
-Only two read functions extend the exactly unchanged financial definitions.
+Old receipts remain bound evidence, never relabelled. The exact optional-target
+record fix now requires the retained financial groups to run on this source.
 """
 from hashlib import sha256
 from pathlib import Path
@@ -23,20 +23,26 @@ sys.path[:0]=[str(REPO/'scripts'),str(REPO/'scripts/ow04-consumer-qualification'
 import consumer_transport_probe as transport
 sys.path.insert(0,str(HERE))
 import workspace_http_cases as business
+import selector_record_fix
+import native_consumer_cases as native_business
+sys.path.insert(0,str(REPO/'scripts/ow04-consumer-race-qualification'))
+import consumer_race_cases as race_business
+from cp7_catalog_state import exact_public_catalog
 
 consumer,predecessor=transport.consumer,transport.predecessor
 package,core,p09=transport.package,transport.core,transport.p09
 modes,psycopg=transport.modes,transport.psycopg
-OUT=predecessor.full.ROOT/'cp6-proof/t3/CP7_OW04_CONSUMER_WORKSPACE_BROWSER8.json'
+OUT=predecessor.full.ROOT/'cp6-proof/t3/CP7_OW04_CONSUMER_CURRENT42.json'
 PRODUCT=('src/CustomerCreditPanel.tsx','src/customerCreditContract.ts','src/customerCreditContract.test.ts',
  'src/ConnectedCustomerCredit.dom.test.tsx','src/ConnectedSalesPage.tsx','src/productionRecovery.ts',
  'src/types/database.preconnect.ts','src/lib/clientError.ts','tests/fixtures/customerCredit.ts',
  'scripts/check-access-catalog.mjs','scripts/check-source-ownership.mjs',
+ 'scripts/cp7_customer_credit/consumer/07_locked_projection.sql',
  'scripts/cp7_customer_credit/consumer/13_workspace.sql','scripts/cp7_customer_credit/consumer/composition.py',
  'scripts/cp7_customer_credit/consumer/local_full_ddl_compile.mjs')
 HARNESS=tuple('scripts/ow04-consumer-ui-qualification/'+name for name in
  ('EXPECTED.json','QUALIFIED_FINANCIAL_BASE.json','UI_SOURCE.json','consumer_ui_probe.py',
-  'workspace_http_cases.py','browser_fixture.py','browser_cases.mjs'))
+  'workspace_http_cases.py','browser_fixture.py','browser_cases.mjs','selector_record_fix.py'))
 
 
 def original(path,want):
@@ -68,7 +74,11 @@ def qualified_source():
     assert race['consumer_sources']==auth['consumer_sources']==native['consumer_sources']
     old=auth['consumer_sources'];now=consumer.sources()
     assert set(now)==set(old)|{'13_workspace.sql'}
-    assert all(now[k]==v for k,v in old.items()if k!='composition.py'),'CONSUMER_EXISTING_FINANCIAL_SOURCE_CHANGED'
+    assert all(now[k]==v for k,v in old.items()if k not in('composition.py','07_locked_projection.sql')),'CONSUMER_EXISTING_FINANCIAL_SOURCE_CHANGED'
+    old_selector=subprocess.check_output(['git','-C',str(REPO),'show',binding['auth_candidate']+':scripts/cp7_customer_credit/consumer/07_locked_projection.sql'],text=True)
+    assert sha256(old_selector.encode()).hexdigest()==old['07_locked_projection.sql']
+    assert selector_record_fix.derive(old_selector)==(consumer.HERE/'07_locked_projection.sql').read_text(),\
+        'CONSUMER_SELECTOR_CHANGE_NOT_EXACT_TYPED_OPTIONAL_TARGET_FIX'
     # Admit exactly the two source-declared readonly function additions, not a
     # wildcard exception for installer changes or a relaxed financial callback.
     old_text=subprocess.check_output(['git','-C',str(REPO),'show',binding['auth_candidate']+':scripts/cp7_customer_credit/consumer/composition.py'],text=True)
@@ -87,12 +97,18 @@ def qualified_source():
     assert not transport.git('status','--porcelain','--','src','scripts/cp7_customer_credit','scripts/ow04-consumer-ui-qualification','tests/fixtures/customerCredit.ts')
     assert len(consumer.new_function_names())==47
     declaration=business.expected()
+    assert tuple(native['required_case_ids'])==native_business.IDS and len(native_business.IDS)==18
+    assert tuple(auth['required_case_ids'])==transport.business.IDS and len(transport.business.IDS)==14
+    assert tuple(race['required_case_ids'])==race_business.IDS and len(race_business.IDS)==2
+    race_business.expected();transport.business.expected()
+    assert sha256(Path(native_business.__file__).read_bytes()).hexdigest()==native['case_source_sha256']
     assert tuple(re.findall(r"\['(OW04_CONSUMER_BROWSER_[A-Z_]+)'",(HERE/'browser_cases.mjs').read_text()))==business.BROWSER_IDS
     return dict(binding=binding,original_financial_sources=old,new_sources=now,
                 ui_source_manifest_sha256=sha256(manifest_raw).hexdigest(),ui_source_files=manifest['files'],
                 declaration_sha256=business.EXPECTED_SHA256,expected_http=declaration['http_case_ids'],
-                expected_browser=declaration['browser_case_ids'],financial_SQL_callbacks_unchanged=True,
-                old_Native18_Auth14_race2_rerun=False)
+                expected_browser=declaration['browser_case_ids'],financial_source_delta='EXACT_TYPED_OPTIONAL_TARGET_RECORD_BINDING_FIX_ONLY',
+                posting_projection_permission_date_and_money_expressions_unchanged=True,
+                retained_current_source_groups_scheduled=dict(Native=18,Auth_HTTP=14,SQL_races=2))
 
 
 def group_pass(group,ids,browser=False):
@@ -106,10 +122,11 @@ def group_pass(group,ids,browser=False):
 def run():
     accepted=qualified_source()
     assert os.environ.get('AUDITOR_UI_MODE')=='ENTENG','CURRENT_PRODUCT_ENTENG_LOOPBACK_BUILD_REQUIRED'
-    report=dict(label='CP7_OW04_CONSUMER_WORKSPACE_BROWSER8',status='INCOMPLETE',candidate_commit=transport.git('rev-parse','HEAD'),
-        expected_case_count=8,expected_http_count=4,expected_browser_count=4,source_binding=accepted,
+    report=dict(label='CP7_OW04_CONSUMER_CURRENT42',status='INCOMPLETE',candidate_commit=transport.git('rev-parse','HEAD'),
+        expected_case_count=42,expected_native_count=18,expected_retained_http_count=14,expected_race_count=2,
+        expected_http_count=4,expected_browser_count=4,source_binding=accepted,
         consumer_sources=consumer.sources(),scope='NEW_READONLY_WORKSPACE_AND_CURRENT_PRODUCT_BROWSER_RECOVERY',
-        Native18_rerun=False,Auth14_rerun=False,SQL_race2_rerun=False,Native87_rerun=False,
+        Native18_rerun=True,Auth14_rerun=True,SQL_race2_rerun=True,Native87_rerun=False,
         production_go=False,formal_CP7C_started=False,feature_complete=False,independent_acceptance=False,hosted=False)
     installed=False
     try:
@@ -123,6 +140,11 @@ def run():
             report['consumer_installed_verification']=transport.verify(cur)
             conn.commit();installed=True
         report['advisors_with_consumer']=transport.advisors(package.boundary.PG)
+        with exact_public_catalog(predecessor.native,retain_raw=True)as catalog:
+            report['native']=predecessor.native.strict_group('CP7_CURRENT_CONSUMER_NATIVE18',native_business.cases,transport.verify)
+        report['native_public_catalog_comparison']=catalog
+        report['retained_http']=modes.run_http(transport.business,transport.verify,'ow04_consumer_current_http14')
+        report['races']=modes.run_races(race_business,transport.verify,'ow04_consumer_current_race2')
         report['http']=modes.run_http(business,transport.verify,'ow04_consumer_workspace4')
         previous_hosts=set(Path(tempfile.gettempdir()).glob('cp6-auditor-browser-*'))
         report['browser']=modes.run_browser(HERE/'browser_cases.mjs',transport.verify,'ow04_consumer_browser4')
@@ -155,8 +177,16 @@ def run():
                 report['advisor_disposition']=core.advisor_disposition(report['advisor_delta'],report['verified_predecessor_info_manifest'])
                 report['advisor_gate']=report['advisor_disposition']['gate']
             except Exception as error:report.update(restore_error=str(error),restore_traceback=traceback.format_exc(),cp6_restored=False,advisor_gate=False)
-        report['observed_case_count']=sum(sum(report.get(k,{}).get('counts',{}).values())for k in('http','browser'))
+        report['observed_case_count']=sum(sum(report.get(k,{}).get('counts',{}).values())for k in('native','retained_http','races','http','browser'))
+        current_native=report.get('native',{});current_races=report.get('races',{})
+        report['retained_native_current_source_pass']=current_native.get('status')=='PASS'and current_native.get('counts')=={'PASS':18}\
+            and set(current_native.get('cases',{}))==set(native_business.IDS)and all(r['full_boundary_restored']and r['public_schema_unchanged']\
+            and r['session_leaks']=={'advisory_locks':0,'advisory_lock_keys':[],'other_sessions':[]}for r in current_native.get('cases',{}).values())
+        report['retained_races_current_source_pass']=current_races.get('status')in('PASS','RUN_COMPLETE')and current_races.get('counts')=={'PASS':2}\
+            and set(current_races.get('races',{}))==set(race_business.IDS)and current_races.get('database_remaining',1)==0
         if not report.get('error')and report.get('cp6_restored')and report.get('advisor_gate')and report['frontend_source_unchanged']\
+            and report['retained_native_current_source_pass']and report['retained_races_current_source_pass']\
+            and group_pass(report.get('retained_http',{}),transport.business.IDS)\
             and group_pass(report.get('http',{}),business.IDS)and group_pass(report.get('browser',{}),business.BROWSER_IDS,True)\
             and report.get('actual_product_browser_loopback_proven'):
             report['status']='PASS'

@@ -7,7 +7,8 @@ end $not_an_installer$;
 create function cp7_credit.consumer_selection_v1(p jsonb)returns jsonb
 language plpgsql stable security definer set search_path=''set TimeZone='UTC'as $$
 declare ch cp7_credit.cohorts;old cp7_credit.consumption_events;kind text;amount numeric;
- target uuid;cash uuid;original uuid;source_assignment record;target_assignment record;
+ target uuid;cash uuid;original uuid;source_assignment record;
+ target_customer uuid;target_root uuid;target_leaf uuid;target_status text;
 begin
  kind:=cp7_credit.consumer_payload_kind_v1(p);
  if p->>'action'='UNDO'then
@@ -26,18 +27,19 @@ begin
   or(source_assignment.root_sale_id,source_assignment.current_leaf_id)is distinct from(ch.source_sale_id,ch.source_sale_id)then
   raise exception 'CP7_CREDIT_CONSUMER_SOURCE_CORRECTION_ADAPTER_REQUIRED';end if;
  if target is not null then
-  select *into strict target_assignment from cp7_credit.current_leaf_assignment(target);
-  if target_assignment.customer_id<>ch.customer_id or target_assignment.root_sale_id=source_assignment.root_sale_id then
+  select a.customer_id,a.root_sale_id,a.current_leaf_id,a.requested_status
+   into strict target_customer,target_root,target_leaf,target_status from cp7_credit.current_leaf_assignment(target)a;
+  if target_customer<>ch.customer_id or target_root=source_assignment.root_sale_id then
    raise exception 'CP7_CREDIT_CONSUMER_DISTINCT_SAME_CUSTOMER_TARGET_REQUIRED';end if;
-  if target_assignment.requested_status not in('POSTED','PARTIAL_PAID','PAID')
-   or(target_assignment.root_sale_id,target_assignment.current_leaf_id)is distinct from(target,target)then
+  if target_status not in('POSTED','PARTIAL_PAID','PAID')
+   or(target_root,target_leaf)is distinct from(target,target)then
    raise exception 'CP7_CREDIT_CONSUMER_TARGET_CORRECTION_ADAPTER_REQUIRED';end if;
  end if;
  return jsonb_build_object('action',p->>'action','event_kind',kind,'cohort_id',ch.id,'customer_id',ch.customer_id,
   'source_sale_id',ch.source_sale_id,'source_root_sale_id',source_assignment.root_sale_id,
   'source_current_leaf_id',source_assignment.current_leaf_id,'target_sale_id',target,
-  'target_root_sale_id',case when target is not null then target_assignment.root_sale_id end,
-  'target_current_leaf_id',case when target is not null then target_assignment.current_leaf_id end,
+  'target_root_sale_id',target_root,
+  'target_current_leaf_id',target_leaf,
   'cash_account_id',cash,'restores_event_id',original,'amount',cp7_credit.cent_text(amount::cp7_credit.cent_amount));
 end $$;
 

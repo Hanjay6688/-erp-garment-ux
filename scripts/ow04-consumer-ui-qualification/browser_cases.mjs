@@ -29,7 +29,7 @@ async function journey(ui,today,kind){
  const panel=()=>page.getByRole('region',{name:'Saldo kredit pelanggan',exact:true})
  const result=()=>page.getByRole('region',{name:'Pemeriksaan transaksi kredit',exact:true})
  const reconcile=()=>page.getByRole('button',{name:'Reconcile transaksi',exact:true})
- let outcome,args,proof,revoked=false,lostError,otherControls
+ let outcome,args,proof,revoked=false,lostError,otherControls,saveStarted=null
  page.on('request',r=>{if(r.url().endsWith('/rpc/erp_cp7_customer_credit_command_v1'))requests.push(r.postDataJSON())})
  const verify=()=>fixture('verify',{fixture:f.fixture,fixture_sha256:f.fixture_sha256,args,outcome,actor:user.user.id,review:reviews.at(-1),review_input:reviewInputs.at(-1)})
  async function load(name,kind){
@@ -39,8 +39,11 @@ async function journey(ui,today,kind){
   assert.equal(response.status(),200,await response.text());const data=await response.json()
   assert.equal(data.kind,kind);assert.equal(data.actor_scope_id,user.user.id);assert.equal(data.read_only,true);assert.equal(data.business_DML,false)
   reads.push({query:response.request().postDataJSON().p_query,data})
+  const marker={COHORTS:'data-credit-cohort-id',TARGETS:'data-credit-target-id',CASH:'data-credit-cash-id',EVENTS:'data-credit-event-id'}[kind]
+  await ui.expect(panel().locator('['+marker+']')).toHaveCount(data.page.rows.length)
+  const elapsed=performance.now()-started
   assert.deepEqual(fixture('snapshot'),before,'Actual workspace navigation performed business/private DML')
-  timings.push({operation:'workspace_'+kind,milliseconds:performance.now()-started})
+  timings.push({operation:'workspace_to_visible_'+kind,milliseconds:elapsed})
   return data
  }
  async function quote(){
@@ -49,13 +52,13 @@ async function journey(ui,today,kind){
   await panel().getByRole('button',{name:'Periksa transaksi kredit',exact:true}).click();const response=await waiting
   assert.equal(response.status(),200,await response.text());const data=await response.json()
   reviews.push(data);reviewInputs.push(response.request().postDataJSON().p_payload)
-  assert.deepEqual(fixture('snapshot'),before,'Actual consumer quote performed business/private DML')
   assert.equal(data.selection.action,action);assert.equal(data.selection.cohort_id,f.cohort_id)
   assert.equal(data.available_credit_after,action==='UNDO'?'200.00':'120.00')
   await ui.expect(result()).toBeVisible()
   await ui.expect(result()).toContainText('Saldo sesudah transaksi ini: Rp'+(action==='UNDO'?'200':'120'))
   await ui.expect(result()).toContainText('tanggal transaksi '+data.economic_date+' · tanggal buku '+data.transaction_date)
   timings.push({operation:'quote_to_visible_review',milliseconds:performance.now()-started})
+  assert.deepEqual(fixture('snapshot'),before,'Actual consumer quote performed business/private DML')
   await result().getByLabel('Transaksi kredit sudah diperiksa',{exact:true}).check()
   await ui.expect(result().getByRole('button',{name:'Simpan transaksi kredit',exact:true})).toBeEnabled()
  }
@@ -91,6 +94,11 @@ async function journey(ui,today,kind){
   await panel().getByLabel('Alasan tindakan saldo kredit',{exact:true}).fill(f.prospective_payload.reason)
   await quote()
   if(kind==='LOST'){
+   const amount=panel().getByLabel('Nominal saldo kredit',{exact:true})
+   // A legitimate Native-sized amount must never lose its last cent in an
+   // HTML maxlength. It exceeds this fixture's target, so no save is allowed.
+   await amount.fill('999999999999999999.99');await ui.expect(amount).toHaveValue('999999999999999999.99')
+   await ui.expect(result()).toHaveCount(0);await ui.expect(panel().getByRole('button',{name:'Periksa transaksi kredit',exact:true})).toBeDisabled()
    await panel().getByLabel('Nominal saldo kredit',{exact:true}).fill('81.00');await ui.expect(result()).toHaveCount(0)
    await panel().getByLabel('Nominal saldo kredit',{exact:true}).fill('80.00');await ui.expect(result()).toHaveCount(0)
    assert.equal(requests.length,0);await quote()
@@ -126,14 +134,14 @@ async function journey(ui,today,kind){
    for(const request of requests)assert.deepEqual(request,args)
    proof=verify();assert.equal(proof.status,'PASS')
   }else{
-   const started=performance.now(),waiting=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_customer_credit_command_v1'))
+   saveStarted=performance.now();const waiting=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_customer_credit_command_v1'))
    await result().getByRole('button',{name:'Simpan transaksi kredit',exact:true}).click();const response=await waiting
    assert.equal(response.status(),200,await response.text());outcome=await response.json();args=response.request().postDataJSON()
    await ui.expect(panel()).toHaveCount(0);await ui.expect.poll(()=>envelope(page)).toEqual([])
-   timings.push({operation:'save_to_authoritative_refreshed_UI',milliseconds:performance.now()-started})
    assert.equal(requests.length,1);proof=verify();assert.equal(proof.status,'PASS')
   }
   await ui.expect(page.getByRole('button',{name:'Saldo kredit pelanggan',exact:true})).toBeEnabled()
+  if(saveStarted!==null)timings.push({operation:'save_to_authoritative_refreshed_UI_with_readback',milliseconds:performance.now()-saveStarted})
   await page.getByRole('button',{name:'Saldo kredit pelanggan',exact:true}).click()
   const fresh=await load('Periksa saldo dari retur','COHORTS')
   assert.equal(fresh.page.rows.find(r=>r.id===f.cohort_id).available_credit,action==='UNDO'?'200.00':'120.00')

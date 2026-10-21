@@ -57,7 +57,7 @@ function closed(v:unknown,keys:readonly string[]) {
   return row
 }
 export function creditCents(v:unknown):bigint {
-  if(typeof v!=='string' || !/^-?(0|[1-9][0-9]{0,19})\.[0-9]{2}$/.test(v) || v==='-0.00')return fail()
+  if(typeof v!=='string' || !/^-?(0|[1-9][0-9]*)\.[0-9]{2}$/.test(v) || v==='-0.00')return fail()
   const [a,b]=v.replace(/^-/,'').split('.')
   return (BigInt(a)*100n+BigInt(b))*(v.startsWith('-')?-1n:1n)
 }
@@ -83,7 +83,7 @@ function versions(v:unknown):Record<string,string> {
 
 export function creditAmountInput(raw:string):string|null {
   const value=raw.trim().replace(',','.')
-  if(!/^(0|[1-9][0-9]{0,15})(?:\.[0-9]{1,2})?$/.test(value))return null
+  if(!/^(0|[1-9][0-9]*)(?:\.[0-9]{1,2})?$/.test(value))return null
   const [a,b='']=value.split('.'),exact=`${a}.${b.padEnd(2,'0')}`
   return creditCents(exact)>0n?exact:null
 }

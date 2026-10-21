@@ -1,0 +1,163 @@
+{
+  "artifact_zip_sha256": "e3a0a32e2a739ea04383453d5ffdf5fd3d68d09d9e2c3d0e6b27da75b0c7de84",
+  "artifact_zip_client_verified": true,
+  "zip_bytes": 10411239,
+  "original_json_bytes_preserved": true,
+  "files": [
+    {
+      "archive_member": "ALIGNED_CHAIN.json",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "raw_bytes": 17536,
+      "raw_sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+      "gzip_bytes": 4768,
+      "gzip_sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75",
+      "label": "T3_PREP",
+      "status": "PASS_ALIGNED_CHAIN_TO_AB",
+      "steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    {
+      "archive_member": "CONSUMER_BROWSER_HOST_1.json",
+      "file": "CONSUMER_BROWSER_HOST_1.json.gz",
+      "raw_bytes": 8704,
+      "raw_sha256": "0805abb3b06e5f89a81bfecabce9fc12ddc76c74eb44290015dae4d585700ff4",
+      "gzip_bytes": 1690,
+      "gzip_sha256": "bccf1a1f69c506ddba25128c706dfa254310ff72152dc228f63e8239f79b2820",
+      "label": "AUDITOR_SCENARIO",
+      "status": "RUN_COMPLETE"
+    },
+    {
+      "archive_member": "CONSUMER_BROWSER_INITIAL_UNDO_FAILURE.json",
+      "file": "CONSUMER_BROWSER_INITIAL_UNDO_FAILURE.json.gz",
+      "raw_bytes": 15566,
+      "raw_sha256": "e9c70e58ccfcb6d0aa62191b6ef8383b04ef6847d8f82a13396319ac37fec1b0",
+      "gzip_bytes": 3296,
+      "gzip_sha256": "9c635c7330771d1703fa2ddbebd5945582d17d09a079a0eb40e93bd36edbbaa1",
+      "error": "AssertionError [ERR_ASSERTION]: {\"code\":\"55000\",\"details\":\"The tuple structure of a not-yet-assigned record is indeterminate.\",\"hint\":null,\"message\":\"record \\\"target_assignment\\\" is not assigned yet\"}\n\n500 !== 200\n"
+    },
+    {
+      "archive_member": "CONSUMER_BROWSER_REFUND_FAILURE.json",
+      "file": "CONSUMER_BROWSER_REFUND_FAILURE.json.gz",
+      "raw_bytes": 26488,
+      "raw_sha256": "a48e90cee4b404788b10528eef43e77d085ffecb01821a2e84ec006e71cc499c",
+      "gzip_bytes": 4295,
+      "gzip_sha256": "c1edbb25523668eb73d0240cf3dadb097808b5666778c7cdb92c2014590d8d6c",
+      "error": "AssertionError [ERR_ASSERTION]: {\"code\":\"55000\",\"details\":\"The tuple structure of a not-yet-assigned record is indeterminate.\",\"hint\":null,\"message\":\"record \\\"target_assignment\\\" is not assigned yet\"}\n\n500 !== 200\n"
+    },
+    {
+      "archive_member": "CP7_OW04_CONSUMER_WORKSPACE_BROWSER8.json",
+      "file": "CP7_OW04_CONSUMER_WORKSPACE_BROWSER8.json.gz",
+      "raw_bytes": 286113,
+      "raw_sha256": "6a41857e9b45967085a3c442bb473716acb290ab45e739c9d0d0a826fe4b1286",
+      "gzip_bytes": 16652,
+      "gzip_sha256": "788a370f3e8a4fde047774d55f68713ac96a9d60294f9f0ed885ebd68732ece8",
+      "label": "CP7_OW04_CONSUMER_WORKSPACE_BROWSER8",
+      "status": "INCOMPLETE",
+      "candidate_commit": "f41acbaee77ef20b3a498317103d2d16b9507ce0",
+      "cp6_restored": true,
+      "hosted": false
+    },
+    {
+      "archive_member": "T3_BACKUP_RESTORE_DRILL.json",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "raw_bytes": 10402,
+      "raw_sha256": "5f4cc13337406bf6a634121a7e95223a8d7ce2a049dfd31f45e8fa56030c127f",
+      "gzip_bytes": 1809,
+      "gzip_sha256": "c2936a55368b435f0bba5d7c846d31b6eddba9c6a5835c858bf4024b9ceacb1a",
+      "label": "T3_PREP_BACKUP_RESTORE_DRILL",
+      "status": "RESTORED_SAME_MEANING"
+    },
+    {
+      "archive_member": "T3_PACKAGE_FILES_INSTALL.json",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "label": "T3_PREP_RELEASE_PACKAGE_INSTALL",
+      "status": "ALL_FILES_INSTALLED"
+    },
+    {
+      "archive_member": "T3_PACKAGE_INSTALL.json",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360441,
+      "raw_sha256": "280f54cc65964b1b437c6a10dfa5cdf082dd30c7871092492f76438ea45aebcb",
+      "gzip_bytes": 11382,
+      "gzip_sha256": "4e26cd2c3134075348ce47033ae892e69e314c027009771852a32bf849947448",
+      "label": "T3_PREP",
+      "status": "ALL_STAGES_INSTALLED"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/113d6a70-2fcd-4e5b-a27a-a98ecf0f9afd.json",
+      "file": "consumer-browser-fixtures/113d6a70-2fcd-4e5b-a27a-a98ecf0f9afd.json.gz",
+      "raw_bytes": 7011363,
+      "raw_sha256": "b79b2a73db8d50bce18d161d4fbd7a007c0cd8876b8dafac41a5e2a1f035ff64",
+      "gzip_bytes": 1368330,
+      "gzip_sha256": "003db2a1ee99c981edba7d78830203ec3925caefd52037cfef9fbc099e877bea"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/1d073321-56a6-4801-968b-0b0a4730343d.json",
+      "file": "consumer-browser-fixtures/1d073321-56a6-4801-968b-0b0a4730343d.json.gz",
+      "raw_bytes": 7002677,
+      "raw_sha256": "7c230e2710333dedac3ad95931fdca49f723d19f31a992d36668be8ec2483467",
+      "gzip_bytes": 1366713,
+      "gzip_sha256": "ad0e1271b234769bb6abcb898e724040bb0a5b7e2d381249d9c184f84f7c0277"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/3264de9e-e2f6-4965-bd4c-9c40eceab90a.json",
+      "file": "consumer-browser-fixtures/3264de9e-e2f6-4965-bd4c-9c40eceab90a.json.gz",
+      "raw_bytes": 7003296,
+      "raw_sha256": "b8373aee12a89f83a3d7ddf1a48ef87259bdf7ec3e69fd9624dd01b05ddbae58",
+      "gzip_bytes": 1367157,
+      "gzip_sha256": "6b727275d55a17c353f285c79273a15e02d390bc2436d27fe7ea7a8f922f2d44"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/68ab99c1-96ef-4f6f-8d7b-aefad52eaff6.json",
+      "file": "consumer-browser-fixtures/68ab99c1-96ef-4f6f-8d7b-aefad52eaff6.json.gz",
+      "raw_bytes": 7004154,
+      "raw_sha256": "6acc57b7bd77885b470cfe7933a9bb51eee572ab53831083a4c8f19f24f21fee",
+      "gzip_bytes": 1367633,
+      "gzip_sha256": "9cef9a95f315087e73132c577553899b77fa0fcb643f618edadcb3e1f69a8061"
+    }
+  ]
+}
