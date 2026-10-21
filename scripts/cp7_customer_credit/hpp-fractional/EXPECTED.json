@@ -1,0 +1,742 @@
+{
+  "contract_version": "ow04.fractional-hpp-native-expected.v1",
+  "classification": "EXPECTED_FIRST_LITERAL_NATIVE_PROPOSAL_NOT_EXECUTED",
+  "native_executed": false,
+  "production_go": false,
+  "expected_case_count": 14,
+  "hpp_amount_semantics": "Sum of positive debit amounts of each complete signed HPP group vector BEFORE netting groups; this scalar is not FG delta or valuation authority.",
+  "vector_order": [
+    "hpp_total_cost",
+    "fg_value",
+    "cogs_value",
+    "other_out_value"
+  ],
+  "return_pair_default": [
+    "D2",
+    "D2"
+  ],
+  "fixture_policy": {
+    "lot_basis": 3,
+    "initial_opening_unit": "0.000000",
+    "native_opening_correction_unit_for_total_1": "0.333333333333333333333333",
+    "native_opening_correction_unit_for_total_0_01": "0.003333333333333333333333",
+    "native_opening_correction_unit_for_total_2": "0.666666666666666666666667",
+    "unit_snapshot_for_total_1": "0.333333",
+    "unit_snapshot_for_total_0_01": "0.003333",
+    "unit_snapshot_for_total_2": "0.666667",
+    "nonpo": "Administrative DRAFT opening inputs, followed by unchanged Native post_opening_balance and genuine Native post_opening_hpp_correction; never INSERT/UPDATE posted HPP, stock or journals.",
+    "po": "Actual Native initial-import WIP, amount-only source1.00/qty3 or2.00/qty6, then Native WIP_OUTPUT3 per lot; accessory_cost_included=true; no fabricated production history.",
+    "two_lot_allocation": "Public CREATE holding draft2, public CREATE+POST target sale2, public CANCEL holding draft; real FIFO allocates1 from each lot.",
+    "other_out": "Public FG adjustment SAVE and POST, qty_signed=-1 at an explicit time after stock and before sale.",
+    "prior_return": "An actual ordinary public RETURN1/refund0 creates the real initial EMPTY family before the reviewed second return.",
+    "dates": "Use retained Native calendar binding; import cutoff is separately labelled administrative disposable input. No stored dates are rewritten.",
+    "money": "Every sale is fully funded through the retained public PAYMENT writer at unit_price20.00. HPP-only returns choose settlement=null; financial returns choose CREDIT explicitly."
+  },
+  "cases": [
+    {
+      "id": "OW04_HPP_NONPO_SECOND_RETURN_CARRY",
+      "kind": "NONPO",
+      "lot_total": "1.000000",
+      "lots": 1,
+      "sale_qty": "3",
+      "allocation_count": 1,
+      "prior_zero_value_return": true,
+      "adjustment_qty": "0",
+      "duplicate_sale_lines": false,
+      "before": [
+        [
+          "1.00",
+          "0.33",
+          "0.67",
+          "0.00"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "0.67",
+          "0.33",
+          "0.00"
+        ]
+      ],
+      "delta": [
+        [
+          "0.34",
+          "-0.34",
+          "0.00"
+        ]
+      ],
+      "hpp_amount": "0.34",
+      "return_amount": "20.00",
+      "family_ordinal": "2",
+      "mode": "CREDIT",
+      "profile": "OPEN",
+      "owned_before": [
+        1
+      ],
+      "owned_after": [
+        2
+      ]
+    },
+    {
+      "id": "OW04_HPP_PO_SECOND_RETURN_CARRY",
+      "kind": "PO",
+      "lot_total": "1.000000",
+      "lots": 1,
+      "sale_qty": "3",
+      "allocation_count": 1,
+      "prior_zero_value_return": true,
+      "adjustment_qty": "0",
+      "duplicate_sale_lines": false,
+      "before": [
+        [
+          "1.00",
+          "0.33",
+          "0.67",
+          "0.00"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "0.67",
+          "0.33",
+          "0.00"
+        ]
+      ],
+      "delta": [
+        [
+          "0.34",
+          "-0.34",
+          "0.00"
+        ]
+      ],
+      "hpp_amount": "0.34",
+      "return_amount": "20.00",
+      "family_ordinal": "2",
+      "mode": "CREDIT",
+      "profile": "OPEN",
+      "owned_before": [
+        1
+      ],
+      "owned_after": [
+        2
+      ]
+    },
+    {
+      "id": "OW04_HPP_NONPO_OTHER_POSITIVE",
+      "kind": "NONPO",
+      "lot_total": "1.000000",
+      "lots": 1,
+      "sale_qty": "2",
+      "allocation_count": 1,
+      "prior_zero_value_return": false,
+      "adjustment_qty": "-1",
+      "duplicate_sale_lines": false,
+      "before": [
+        [
+          "1.00",
+          "0.00",
+          "0.67",
+          "0.33"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "0.33",
+          "0.33",
+          "0.34"
+        ]
+      ],
+      "delta": [
+        [
+          "0.33",
+          "-0.34",
+          "0.01"
+        ]
+      ],
+      "hpp_amount": "0.34",
+      "return_amount": "20.00",
+      "family_ordinal": "1",
+      "mode": "CREDIT",
+      "profile": "OPEN",
+      "owned_before": [
+        0
+      ],
+      "owned_after": [
+        1
+      ]
+    },
+    {
+      "id": "OW04_HPP_NONPO_OTHER_NEGATIVE",
+      "kind": "NONPO",
+      "lot_total": "1.000000",
+      "lots": 1,
+      "sale_qty": "1",
+      "allocation_count": 1,
+      "prior_zero_value_return": false,
+      "adjustment_qty": "-1",
+      "duplicate_sale_lines": false,
+      "before": [
+        [
+          "1.00",
+          "0.33",
+          "0.33",
+          "0.34"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "0.67",
+          "0.00",
+          "0.33"
+        ]
+      ],
+      "delta": [
+        [
+          "0.34",
+          "-0.33",
+          "-0.01"
+        ]
+      ],
+      "hpp_amount": "0.34",
+      "return_amount": "20.00",
+      "family_ordinal": "1",
+      "mode": "CREDIT",
+      "profile": "OPEN",
+      "owned_before": [
+        1
+      ],
+      "owned_after": [
+        2
+      ]
+    },
+    {
+      "id": "OW04_HPP_PO_OTHER_POSITIVE",
+      "kind": "PO",
+      "lot_total": "1.000000",
+      "lots": 1,
+      "sale_qty": "2",
+      "allocation_count": 1,
+      "prior_zero_value_return": false,
+      "adjustment_qty": "-1",
+      "duplicate_sale_lines": false,
+      "before": [
+        [
+          "1.00",
+          "0.00",
+          "0.67",
+          "0.33"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "0.33",
+          "0.33",
+          "0.34"
+        ]
+      ],
+      "delta": [
+        [
+          "0.33",
+          "-0.34",
+          "0.01"
+        ]
+      ],
+      "hpp_amount": "0.34",
+      "return_amount": "20.00",
+      "family_ordinal": "1",
+      "mode": "CREDIT",
+      "profile": "OPEN",
+      "owned_before": [
+        0
+      ],
+      "owned_after": [
+        1
+      ]
+    },
+    {
+      "id": "OW04_HPP_PO_OTHER_NEGATIVE",
+      "kind": "PO",
+      "lot_total": "1.000000",
+      "lots": 1,
+      "sale_qty": "1",
+      "allocation_count": 1,
+      "prior_zero_value_return": false,
+      "adjustment_qty": "-1",
+      "duplicate_sale_lines": false,
+      "before": [
+        [
+          "1.00",
+          "0.33",
+          "0.33",
+          "0.34"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "0.67",
+          "0.00",
+          "0.33"
+        ]
+      ],
+      "delta": [
+        [
+          "0.34",
+          "-0.33",
+          "-0.01"
+        ]
+      ],
+      "hpp_amount": "0.34",
+      "return_amount": "20.00",
+      "family_ordinal": "1",
+      "mode": "CREDIT",
+      "profile": "OPEN",
+      "owned_before": [
+        1
+      ],
+      "owned_after": [
+        2
+      ]
+    },
+    {
+      "id": "OW04_HPP_TWO_LOTS_ONE_PO",
+      "kind": "PO",
+      "lot_total": "1.000000",
+      "lots": 2,
+      "sale_qty": "2",
+      "allocation_count": 2,
+      "prior_zero_value_return": false,
+      "adjustment_qty": "0",
+      "duplicate_sale_lines": false,
+      "before": [
+        [
+          "2.00",
+          "1.33",
+          "0.67",
+          "0.00"
+        ]
+      ],
+      "after": [
+        [
+          "2.00",
+          "2.00",
+          "0.00",
+          "0.00"
+        ]
+      ],
+      "delta": [
+        [
+          "0.67",
+          "-0.67",
+          "0.00"
+        ]
+      ],
+      "hpp_amount": "0.67",
+      "return_amount": "40.00",
+      "family_ordinal": "1",
+      "mode": "CREDIT",
+      "profile": "OPEN",
+      "owned_before": [
+        2,
+        2
+      ],
+      "owned_after": [
+        3,
+        3
+      ]
+    },
+    {
+      "id": "OW04_HPP_TWO_LOTS_SAME_NONPO_PRODUCT",
+      "kind": "NONPO",
+      "lot_total": "1.000000",
+      "lots": 2,
+      "sale_qty": "2",
+      "allocation_count": 2,
+      "prior_zero_value_return": false,
+      "adjustment_qty": "0",
+      "duplicate_sale_lines": false,
+      "before": [
+        [
+          "2.00",
+          "1.34",
+          "0.66",
+          "0.00"
+        ]
+      ],
+      "after": [
+        [
+          "2.00",
+          "2.00",
+          "0.00",
+          "0.00"
+        ]
+      ],
+      "delta": [
+        [
+          "0.66",
+          "-0.66",
+          "0.00"
+        ]
+      ],
+      "hpp_amount": "0.66",
+      "return_amount": "40.00",
+      "family_ordinal": "1",
+      "mode": "CREDIT",
+      "profile": "OPEN",
+      "owned_before": [
+        2,
+        2
+      ],
+      "owned_after": [
+        3,
+        3
+      ]
+    },
+    {
+      "id": "OW04_HPP_NONPO_FG_ZERO_HPP_JOURNAL",
+      "kind": "NONPO",
+      "lot_total": "0.010000",
+      "lots": 1,
+      "sale_qty": "2",
+      "allocation_count": 1,
+      "prior_zero_value_return": false,
+      "adjustment_qty": "-1",
+      "duplicate_sale_lines": false,
+      "before": [
+        [
+          "0.01",
+          "0.00",
+          "0.01",
+          "0.00"
+        ]
+      ],
+      "after": [
+        [
+          "0.01",
+          "0.00",
+          "0.00",
+          "0.01"
+        ]
+      ],
+      "delta": [
+        [
+          "0.00",
+          "-0.01",
+          "0.01"
+        ]
+      ],
+      "hpp_amount": "0.01",
+      "return_amount": "0.00",
+      "family_ordinal": "1",
+      "mode": null,
+      "profile": "OPEN",
+      "owned_before": [
+        0
+      ],
+      "owned_after": [
+        1
+      ]
+    },
+    {
+      "id": "OW04_HPP_PO_FG_ZERO_REOPENED_HPP_JOURNAL",
+      "kind": "PO",
+      "lot_total": "0.010000",
+      "lots": 1,
+      "sale_qty": "2",
+      "allocation_count": 1,
+      "prior_zero_value_return": false,
+      "adjustment_qty": "-1",
+      "duplicate_sale_lines": false,
+      "before": [
+        [
+          "0.01",
+          "0.00",
+          "0.01",
+          "0.00"
+        ]
+      ],
+      "after": [
+        [
+          "0.01",
+          "0.00",
+          "0.00",
+          "0.01"
+        ]
+      ],
+      "delta": [
+        [
+          "0.00",
+          "-0.01",
+          "0.01"
+        ]
+      ],
+      "hpp_amount": "0.01",
+      "return_amount": "0.00",
+      "family_ordinal": "1",
+      "mode": null,
+      "profile": "REOPENED",
+      "return_pair": [
+        "D2",
+        "D3"
+      ],
+      "owned_before": [
+        0
+      ],
+      "owned_after": [
+        1
+      ]
+    },
+    {
+      "id": "OW04_HPP_POSITIVE_SNAPSHOT_ZERO_VECTOR_REFUSED",
+      "kind": "NONPO",
+      "lot_total": "0.010000",
+      "lots": 1,
+      "sale_qty": "1",
+      "allocation_count": 1,
+      "prior_zero_value_return": false,
+      "adjustment_qty": "0",
+      "duplicate_sale_lines": false,
+      "before": [
+        [
+          "0.01",
+          "0.01",
+          "0.00",
+          "0.00"
+        ]
+      ],
+      "hypothetical_after_if_unproved": [
+        [
+          "0.01",
+          "0.01",
+          "0.00",
+          "0.00"
+        ]
+      ],
+      "hypothetical_delta_if_unproved": [
+        [
+          "0.00",
+          "0.00",
+          "0.00"
+        ]
+      ],
+      "return_amount": "0.00",
+      "mode": null,
+      "profile": "OPEN",
+      "owned_before": [
+        2
+      ],
+      "refusal": "CP7_CREDIT_POSITIVE_HPP_ZERO_VECTOR_UNPROVEN",
+      "refusal_routes": [
+        "public quote",
+        "public settle with syntactically valid but deliberately non-authoritative zero digest"
+      ],
+      "rows_after_refusal": "exact_before_snapshot"
+    },
+    {
+      "id": "OW04_HPP_NATIVE_RECOST_STALE_QUOTE_REFUSED",
+      "kind": "NONPO",
+      "lot_total": "1.000000",
+      "lots": 1,
+      "sale_qty": "3",
+      "allocation_count": 1,
+      "prior_zero_value_return": false,
+      "adjustment_qty": "0",
+      "duplicate_sale_lines": false,
+      "before_old_quote": [
+        [
+          "1.00",
+          "0.00",
+          "1.00",
+          "0.00"
+        ]
+      ],
+      "old_hpp_amount": "0.33",
+      "recost_total": "2.000000",
+      "before": [
+        [
+          "2.00",
+          "0.00",
+          "2.00",
+          "0.00"
+        ]
+      ],
+      "after": [
+        [
+          "2.00",
+          "0.67",
+          "1.33",
+          "0.00"
+        ]
+      ],
+      "delta": [
+        [
+          "0.67",
+          "-0.67",
+          "0.00"
+        ]
+      ],
+      "hpp_amount": "0.67",
+      "return_amount": "20.00",
+      "family_ordinal": "1",
+      "mode": "CREDIT",
+      "profile": "OPEN",
+      "owned_before": [
+        0
+      ],
+      "owned_after": [
+        1
+      ],
+      "refusal": "CP7_CREDIT_COMPLETE_QUOTE_CHANGED",
+      "stale_refusal_baseline": "snapshot AFTER the lawful Native recost; recost is not a partial failed-settlement effect",
+      "fresh_recovery": "same reviewed legacy draft/request UUID after the wholly rolled-back stale attempt, fresh quote digest"
+    },
+    {
+      "id": "OW04_HPP_TWO_ALLOCATIONS_SAME_LOT_GROUPED",
+      "kind": "NONPO",
+      "lot_total": "1.000000",
+      "lots": 1,
+      "sale_qty": "2",
+      "allocation_count": 2,
+      "prior_zero_value_return": false,
+      "adjustment_qty": "0",
+      "duplicate_sale_lines": true,
+      "before": [
+        [
+          "1.00",
+          "0.33",
+          "0.67",
+          "0.00"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "1.00",
+          "0.00",
+          "0.00"
+        ]
+      ],
+      "delta": [
+        [
+          "0.67",
+          "-0.67",
+          "0.00"
+        ]
+      ],
+      "hpp_amount": "0.67",
+      "return_amount": "40.00",
+      "family_ordinal": "1",
+      "mode": "CREDIT",
+      "profile": "OPEN",
+      "owned_before": [
+        1
+      ],
+      "owned_after": [
+        3
+      ]
+    },
+    {
+      "id": "OW04_HPP_DEBITS_PER_GROUP_BEFORE_NETTING",
+      "kind": "TWO_NONPO_PRODUCTS",
+      "lot_total": "1.000000",
+      "lots": 2,
+      "sale_qty": "3",
+      "allocation_count": 2,
+      "prior_zero_value_return": false,
+      "adjustment_qty": "-1_PER_PRODUCT",
+      "duplicate_sale_lines": false,
+      "before": [
+        [
+          "1.00",
+          "0.00",
+          "0.67",
+          "0.33"
+        ],
+        [
+          "1.00",
+          "0.33",
+          "0.33",
+          "0.34"
+        ]
+      ],
+      "after": [
+        [
+          "1.00",
+          "0.33",
+          "0.33",
+          "0.34"
+        ],
+        [
+          "1.00",
+          "0.67",
+          "0.00",
+          "0.33"
+        ]
+      ],
+      "delta": [
+        [
+          "0.33",
+          "-0.34",
+          "0.01"
+        ],
+        [
+          "0.34",
+          "-0.33",
+          "-0.01"
+        ]
+      ],
+      "hpp_amount": "0.68",
+      "net_vector": [
+        "0.67",
+        "-0.67",
+        "0.00"
+      ],
+      "net_positive_debits_are_not_scalar": "0.67",
+      "return_amount": "40.00",
+      "family_ordinal": "1",
+      "mode": "CREDIT",
+      "profile": "OPEN",
+      "owned_before": [
+        0,
+        1
+      ],
+      "owned_after": [
+        1,
+        2
+      ]
+    }
+  ],
+  "required_each_success": [
+    "Actual before Native target equals actual before book and frozen literal vector",
+    "Public quote is read-only, READY and binds full SHA256 values",
+    "Public hpp_amount equals sum positive debits per complete group, before cross-group netting",
+    "Actual Native SALES_RETURN journal matches the exact signed account/product/PO/customer multiset and date pair",
+    "Actual after Native target equals actual after book and frozen literal vector",
+    "Every original journal, payment fact/header, allocation, HPP version and pre-existing stock movement is byte-identical across settlement",
+    "Return physical microseconds, chosen allocation, lot, destination and grade remain exact",
+    "Original envelope plus UUID replays the identical outcome without a second row or accounting/stock/private effect",
+    "Force all deferred constraints before rollback; no leaked private scope",
+    "No browser/HTTP/race/production/complete-OW04 acceptance is inferred"
+  ],
+  "revision": {
+    "supersedes_expected_sha256": "007fc0cf2ef00ff2abd385a6bc02c0e3df36d1bcfd0a3cb60d889acdcf4d2a52",
+    "reason": "Root source counter before any Native runtime: positive-snapshot zero-vector refusal must be the genuine NO_JOURNAL candidate (refund0, settlementnull). Financial refund20 would already require its own journal and would not isolate the no-journal proof boundary. All HPP source/target vectors and other13 cases remain literal-identical.",
+    "native_executed_before_revision": false,
+    "changed_case_id": "OW04_HPP_POSITIVE_SNAPSHOT_ZERO_VECTOR_REFUSED",
+    "changed_input_fields": {
+      "return_amount": [
+        "20.00",
+        "0.00"
+      ],
+      "mode": [
+        "CREDIT",
+        null
+      ]
+    }
+  }
+}

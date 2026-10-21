@@ -1,0 +1,229 @@
+{
+  "contract_version": "ow04.fractional-hpp-independent-expectations.v1",
+  "status": "INTERNAL_WRITER_REVIEW_PROPOSAL_ONLY",
+  "review_source_head": "1ccc80281de09c9610486b386d9a950584bc0a41",
+  "prior_browser_checkpoint": "142beaea",
+  "evidence": {
+    "database_executed": false,
+    "product_files_modified": false,
+    "expected_values": "Literal independent source-derived values; checked with fractions.Fraction and half-away-from-zero rounding, not calculated by the product implementation.",
+    "production_go": false,
+    "external_audit": false
+  },
+  "notation": {
+    "target_order": ["hpp_total_cost", "fg_value", "cogs_value", "other_out_value"],
+    "delta_order": ["fg_value", "cogs_value", "other_out_value"],
+    "delta_sign": "debit minus credit",
+    "money": "Exact signed two-decimal strings; no float comparison.",
+    "fraction": "A/B denotes the exact explanatory rational input. Product arithmetic must match the accepted Native numeric expressions and their operation order.",
+    "lot_fields": ["lot", "current_hpp_total_cost", "qty_basis_pcs", "raw_total_after_conversion", "owned_qty", "net_sold_qty", "return_qty"],
+    "hpp_amount": "Sum of positive debit-side HPP vector entries within each group, then summed across groups. It is neither unit HPP nor FG delta."
+  },
+  "cases": [
+    {
+      "id": "HPP01_THIRDS_FIRST_RETURN",
+      "grouping": "ONE_PO_OR_ONE_NONPO_LOT",
+      "lots": [["A", "1.00", 3, "1.00", 0, 3, 1]],
+      "before_target": ["1.00", "0.00", "1.00", "0.00"],
+      "after_target": ["1.00", "0.33", "0.67", "0.00"],
+      "delta": ["0.33", "-0.33", "0.00"],
+      "hpp_amount": "0.33",
+      "hpp_lines": [["FG_INVENTORY", "0.33", "0.00"], ["COGS", "0.00", "0.33"]]
+    },
+    {
+      "id": "HPP02_THIRDS_SECOND_RETURN",
+      "grouping": "ONE_PO_OR_ONE_NONPO_LOT",
+      "lots": [["A", "1.00", 3, "1.00", 1, 2, 1]],
+      "before_target": ["1.00", "0.33", "0.67", "0.00"],
+      "after_target": ["1.00", "0.67", "0.33", "0.00"],
+      "delta": ["0.34", "-0.34", "0.00"],
+      "hpp_amount": "0.34",
+      "hpp_lines": [["FG_INVENTORY", "0.34", "0.00"], ["COGS", "0.00", "0.34"]],
+      "reject_alternative": "Rounded unit .33 multiplied by q would understate this return by .01."
+    },
+    {
+      "id": "HPP03_THIRDS_FINAL_RETURN",
+      "grouping": "ONE_PO_OR_ONE_NONPO_LOT",
+      "lots": [["A", "1.00", 3, "1.00", 2, 1, 1]],
+      "before_target": ["1.00", "0.67", "0.33", "0.00"],
+      "after_target": ["1.00", "1.00", "0.00", "0.00"],
+      "delta": ["0.33", "-0.33", "0.00"],
+      "hpp_amount": "0.33",
+      "hpp_lines": [["FG_INVENTORY", "0.33", "0.00"], ["COGS", "0.00", "0.33"]]
+    },
+    {
+      "id": "HPP04_OTHER_EXPENSE_CENT",
+      "grouping": "ONE_PO_OR_ONE_NONPO_LOT",
+      "lots": [["A", "1.00", 3, "1.00", 0, 2, 1]],
+      "physical_context": "One remaining piece was disposed through a real Native path; do not fabricate its journal or overwrite HPP.",
+      "before_target": ["1.00", "0.00", "0.67", "0.33"],
+      "after_target": ["1.00", "0.33", "0.33", "0.34"],
+      "delta": ["0.33", "-0.34", "0.01"],
+      "hpp_amount": "0.34",
+      "hpp_lines": [["FG_INVENTORY", "0.33", "0.00"], ["COGS", "0.00", "0.34"], ["OTHER_EXPENSE", "0.01", "0.00"]]
+    },
+    {
+      "id": "HPP05_OTHER_INCOME_CENT",
+      "grouping": "ONE_PO_OR_ONE_NONPO_LOT",
+      "lots": [["A", "1.00", 3, "1.00", 1, 1, 1]],
+      "physical_context": "One piece remains owned, one is sold, one has a real other-outflow disposition.",
+      "before_target": ["1.00", "0.33", "0.33", "0.34"],
+      "after_target": ["1.00", "0.67", "0.00", "0.33"],
+      "delta": ["0.34", "-0.33", "-0.01"],
+      "hpp_amount": "0.34",
+      "hpp_lines": [["FG_INVENTORY", "0.34", "0.00"], ["COGS", "0.00", "0.33"], ["OTHER_INCOME", "0.00", "0.01"]]
+    },
+    {
+      "id": "HPP06_ZERO_FG_NONZERO_HPP_JOURNAL",
+      "grouping": "ONE_PO_OR_ONE_NONPO_LOT",
+      "lots": [["A", "1.00", 200, "1.00", 0, 1, 1]],
+      "return_amount": "0.00",
+      "physical_context": "199 pieces have legitimate other outflow; current per-piece HPP is exactly .005.",
+      "before_target": ["1.00", "0.00", "0.01", "0.99"],
+      "after_target": ["1.00", "0.00", "0.00", "1.00"],
+      "delta": ["0.00", "-0.01", "0.01"],
+      "hpp_amount": "0.01",
+      "hpp_lines": [["COGS", "0.00", "0.01"], ["OTHER_EXPENSE", "0.01", "0.00"]],
+      "journal_effect": "JOURNAL_EXPECTED",
+      "reject_alternative": "FG delta or rounded per-unit amount cannot determine journal presence."
+    },
+    {
+      "id": "HPP07_TWO_LOTS_SAME_PO_POOL",
+      "grouping": "PO_P",
+      "lots": [["A", "1.00", 3, "1.00", 2, 1, 1], ["B", "1.00", 3, "1.00", 2, 1, 1]],
+      "before_target": ["2.00", "1.33", "0.67", "0.00"],
+      "after_target": ["2.00", "2.00", "0.00", "0.00"],
+      "delta": ["0.67", "-0.67", "0.00"],
+      "hpp_amount": "0.67",
+      "hpp_lines": [["FG_INVENTORY", "0.67", "0.00"], ["COGS", "0.00", "0.67"]],
+      "reject_alternative": "Summing per-lot-rounded PO targets gives .66; summing same-before per-allocation marginals can give .68."
+    },
+    {
+      "id": "HPP08_TWO_LOTS_SAME_NONPO_PRODUCT",
+      "grouping": "NONPO_PRODUCT_X",
+      "lots": [["A", "1.00", 3, "1.00", 2, 1, 1], ["B", "1.00", 3, "1.00", 2, 1, 1]],
+      "before_target": ["2.00", "1.34", "0.66", "0.00"],
+      "after_target": ["2.00", "2.00", "0.00", "0.00"],
+      "delta": ["0.66", "-0.66", "0.00"],
+      "hpp_amount": "0.66",
+      "hpp_lines": [["FG_INVENTORY", "0.66", "0.00"], ["COGS", "0.00", "0.66"]],
+      "reject_alternative": "Pooling raw non-PO lots before rounding gives .67 and violates Native."
+    },
+    {
+      "id": "HPP09_TWO_SEPARATE_PO_GROUPS",
+      "grouping": "SEPARATE_PO_P_AND_Q",
+      "lots": [["P:A", "1.00", 3, "1.00", 2, 1, 1], ["Q:B", "1.00", 3, "1.00", 2, 1, 1]],
+      "groups": [
+        {"group": "P", "before_target": ["1.00", "0.67", "0.33", "0.00"], "after_target": ["1.00", "1.00", "0.00", "0.00"], "delta": ["0.33", "-0.33", "0.00"], "hpp_amount": "0.33"},
+        {"group": "Q", "before_target": ["1.00", "0.67", "0.33", "0.00"], "after_target": ["1.00", "1.00", "0.00", "0.00"], "delta": ["0.33", "-0.33", "0.00"], "hpp_amount": "0.33"}
+      ],
+      "hpp_amount": "0.66",
+      "reject_alternative": "Do not pool distinct POs, even for one product or one return. Preserve po_id dimensions on all four HPP account mappings."
+    },
+    {
+      "id": "HPP10_TWO_ALLOCATIONS_SAME_LOT_ONE_RETURN",
+      "grouping": "ONE_PO_OR_ONE_NONPO_LOT",
+      "lots": [["A", "1.00", 3, "1.00", 1, 2, 2]],
+      "allocation_returns": [["allocation-1", "A", 1], ["allocation-2", "A", 1]],
+      "before_target": ["1.00", "0.33", "0.67", "0.00"],
+      "after_target": ["1.00", "1.00", "0.00", "0.00"],
+      "delta": ["0.67", "-0.67", "0.00"],
+      "hpp_amount": "0.67",
+      "hpp_lines": [["FG_INVENTORY", "0.67", "0.00"], ["COGS", "0.00", "0.67"]],
+      "reject_alternative": "Both .34 same-before marginals total .68, which is wrong. Project all q jointly once."
+    },
+    {
+      "id": "HPP11_NONPO_CONVERSION_ADJUSTED_RAW_TOTAL",
+      "grouping": "NONPO_SOURCE_PRODUCT_X",
+      "lots": [["A", "1.00", 3, "2/3", 1, 1, 1]],
+      "conversion": "One piece from A has moved through a posted, sourced, admitted conversion to another product; current source unit remains 1/3.",
+      "before_target": ["0.67", "0.34", "0.33", "0.00"],
+      "after_target": ["0.67", "0.67", "0.00", "0.00"],
+      "delta": ["0.33", "-0.33", "0.00"],
+      "hpp_amount": "0.33",
+      "hpp_lines": [["FG_INVENTORY", "0.33", "0.00"], ["COGS", "0.00", "0.33"]],
+      "reject_alternative": "Replacing conversion-adjusted raw_total by hv.total_cost gives wrong delta +.34/-.33/-.01."
+    },
+    {
+      "id": "HPP12_HALF_CENT_CROSSES_ZERO_WITH_DOCUMENTED_GAIN",
+      "grouping": "PO_P",
+      "lots": [["A", "0.01", 1, "0.01", 0, 1, 1], ["B", "0.01", 2, "0.01", 3, 0, 0]],
+      "physical_context": "B has a real documented +1 FG adjustment; do not invent stock or journal rows. Selected return A already has an exact-cent unit cost.",
+      "before_target": ["0.02", "0.01", "0.01", "0.00"],
+      "after_target": ["0.02", "0.03", "0.00", "-0.01"],
+      "delta": ["0.02", "-0.01", "-0.01"],
+      "hpp_amount": "0.02",
+      "hpp_lines": [["FG_INVENTORY", "0.02", "0.00"], ["COGS", "0.00", "0.01"], ["OTHER_INCOME", "0.00", "0.01"]],
+      "reject_alternative": "round(+.005,2)=+.01 but round(-.005,2)=-.01; integral-cent translation is not universal across zero."
+    },
+    {
+      "id": "HPP13_TRUE_ZERO_VECTOR_POSITIVE_STORED_SNAPSHOT_BOUNDARY",
+      "grouping": "ONE_PO_OR_ONE_NONPO_LOT",
+      "lots": [["A", "1.00", 300, "1.00", 0, 3, 1]],
+      "return_amount": "0.00",
+      "native_stored_unit_snapshot": "0.003333",
+      "before_target": ["1.00", "0.00", "0.01", "0.99"],
+      "after_target": ["1.00", "0.00", "0.01", "0.99"],
+      "delta": ["0.00", "0.00", "0.00"],
+      "hpp_amount": "0.00",
+      "hpp_lines": [],
+      "current_support_expectation": "REFUSE_ATOMICALLY_UNTIL_BOUND_POSITIVE_SNAPSHOT_NO_JOURNAL_PROOF_EXISTS",
+      "residue": "No posted return, stock movement, family/member, journal, HPP event/version, credit/refund, completion, or ambient scope survives refusal.",
+      "reject_alternative": "A zero rounded vector alone is not historical proof for NO_JOURNAL. Do not weaken the existing zero-snapshot member predicate."
+    },
+    {
+      "id": "HPP14_HPP_VERSION_CHANGED_AFTER_QUOTE",
+      "grouping": "ONE_PO_OR_ONE_NONPO_LOT",
+      "old_version": {
+        "hpp_version": "V1",
+        "lots": [["A", "1.00", 3, "1.00", 1, 2, 1]],
+        "before_target": ["1.00", "0.33", "0.67", "0.00"],
+        "after_target": ["1.00", "0.67", "0.33", "0.00"],
+        "delta": ["0.34", "-0.34", "0.00"],
+        "hpp_amount": "0.34"
+      },
+      "new_version_after_legitimate_recost_and_book_sync": {
+        "hpp_version": "V2",
+        "lots": [["A", "2.00", 3, "2.00", 1, 2, 1]],
+        "before_target": ["2.00", "0.67", "1.33", "0.00"],
+        "after_target": ["2.00", "1.33", "0.67", "0.00"],
+        "delta": ["0.66", "-0.66", "0.00"],
+        "hpp_amount": "0.66"
+      },
+      "old_quote_expectation": "REFUSE_WITH_ZERO_RESIDUE",
+      "fresh_quote_expectation": "Bind V2 and exact .66 vector; never use sale allocation snapshot or V1 unit for current target."
+    },
+    {
+      "id": "HPP15_ACTUAL_BOOK_DRIFT_WITH_MATCHING_PO_STATE",
+      "grouping": "PO_P",
+      "before_target": ["1.00", "0.33", "0.67", "0.00"],
+      "saved_po_state": ["1.00", "0.33", "0.67", "0.00"],
+      "actual_before_book": ["1.00", "0.34", "0.66", "0.00"],
+      "expectation": "REFUSE_QUOTE_AND_POST_WITH_ZERO_RESIDUE",
+      "reject_alternative": "Equal saved state and target, or equal total source value, cannot replace equality of each actual-book account. Do not hide preexisting drift in the return journal."
+    }
+  ],
+  "source_and_concurrency_expectations": [
+    {"id": "SRC01_ALL_LOTS_PO", "scenario": "Return allocation belongs to product X/lot A in PO P; sibling lot B belongs to product Y in the same PO.", "expected": "Both A and B, all eligible production/conversion lots, base-production qty/cost, BE PO extra sources and actual P book are included and sealed; never restrict P target sources to X."},
+    {"id": "SRC02_ALL_LOTS_NONPO", "scenario": "Return allocation belongs to nonPO product X/lot A; nonselected lot B also belongs to X.", "expected": "All X nonPO lot targets are included after per-lot rounding. Each current HPP version and conversion-adjusted raw_total source is bound."},
+    {"id": "SRC03_UNSELECTED_VERSION_SAME_AMOUNT", "scenario": "After quote, sibling B gets a legitimate successor HPP version with identical total_cost/basis and the same resulting numeric targets.", "expected": "Old quote refuses because complete source identity/version changed. Numeric equality is insufficient."},
+    {"id": "SRC04_GROUP_SET_EXPANSION", "scenario": "During discovery/lock acquisition a new eligible lot or conversion edge appears in a selected group.", "expected": "Final locked source set must equal the reread complete source set. Refuse/rebuild before period lock; never silently seal an incomplete set or acquire earlier-order locks in callbacks."},
+    {"id": "SRC05_REPLAY_AFTER_RECOST", "scenario": "An initial return committed with V1 and delta .34; later a permitted recost changes current HPP to V2.", "expected": "Same request/key/payload recovers original immutable completion, .34 historical journal and IDs. Extra stock/HPP/journal/credit/refund count and amount are zero. Current authorization still applies."},
+    {"id": "SRC06_KEY_DIFFERENT_PAYLOAD", "scenario": "Reuse the same request key with a changed return, settlement choice, quote or expected version.", "expected": "Refuse with zero new effects."},
+    {"id": "SRC07_COMPETING_SAME_CAPACITY", "scenario": "Two separately reviewed returns compete for the final allowed allocation pieces.", "expected": "Canonical FG/source serialization permits one commit; loser refuses stale/capacity change with zero residue. It must not reuse its old vector against the winner's after state."}
+  ],
+  "unchanged_refusal_matrix": [
+    {"input": "negative current HPP total/unit", "expected": "REFUSE_ATOMICALLY"},
+    {"input": "NaN or nonfinite source numeric", "expected": "REFUSE_ATOMICALLY; retain explicit finite check after removing unit cent_amount coercion"},
+    {"input": "current HPP qty_basis_pcs <= 0", "expected": "REFUSE_ATOMICALLY"},
+    {"input": "selected lot owned quantity < 0", "expected": "REFUSE_ATOMICALLY"},
+    {"input": "joint lot return quantity > current sold-minus-posted-returns", "expected": "REFUSE_ATOMICALLY"},
+    {"input": "allocation return > its remaining original allocation capacity", "expected": "AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION; preserve this retained Native refusal before later aggregate checks"},
+    {"input": "VOIDED_PRODUCTION, changed sale/product/lot source, inactive or wrong-kind destination", "expected": "REFUSE_ATOMICALLY"},
+    {"input": "unadmitted nonPO conversion or broken conversion lineage", "expected": "REFUSE_ATOMICALLY"},
+    {"input": "before target differs from actual book or saved PO state", "expected": "REFUSE_ATOMICALLY"},
+    {"input": "positive COGS delta, negative FG delta, nonzero source-total delta, unbalanced vector", "expected": "REFUSE_ATOMICALLY; do not repair by rounding unit cost or assigning remainder to a chosen allocation"},
+    {"input": "stale source/period/account/authority/quote binding", "expected": "REFUSE_ATOMICALLY; retained full bindings are not relaxed"}
+  ],
+  "runtime_acceptance_boundary": "These are proposed literal expectations, not completed Native/browser evidence. Run through real permitted Native source writers, then owning quote/command, exact journal/stock/target-book readback, replay and atomic refusal checks on the single composed candidate. Existing Native44/browser4 unit10 scope is unchanged."
+}

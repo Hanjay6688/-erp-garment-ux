@@ -1,0 +1,77 @@
+{
+  "classification": "READ_ONLY_SOURCE_DERIVATION_NOT_RUNTIME_ATTESTATION",
+  "native_execution_proven": false,
+  "sources": [
+    {
+      "identity": "erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)",
+      "last_explicit_definition_source": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "source_file_sha256": "eab866385d3a462aea5815dc5069d5d7a774f7aa88c43d983c665469f4469465",
+      "raw_body_sha256": "bfcf2373d079b4c83ad80c0e183004582b5a013a501e23a95a3c976ce47b6bdd",
+      "source_derived_final_body_sha256": "00d43f50037e277b6eae966523e9d1d7c87423013dc282fedfec206056bb069b",
+      "r5_wrapped_literal_calls": 6,
+      "expected_owner": "postgres",
+      "expected_security_definer": true,
+      "expected_volatility": "s",
+      "actual_runtime_capture_observed": false
+    },
+    {
+      "identity": "erp.compute_po_hpp_gl_book_v2620d(uuid)",
+      "last_explicit_definition_source": "supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql",
+      "source_file_sha256": "eab866385d3a462aea5815dc5069d5d7a774f7aa88c43d983c665469f4469465",
+      "raw_body_sha256": "64bd4d606e5ab90d4a7b31497c904504bad1045d78b7d1b895f93f292b079e03",
+      "source_derived_final_body_sha256": "64bd4d606e5ab90d4a7b31497c904504bad1045d78b7d1b895f93f292b079e03",
+      "r5_wrapped_literal_calls": 0,
+      "expected_owner": "postgres",
+      "expected_security_definer": true,
+      "expected_volatility": "s",
+      "actual_runtime_capture_observed": false
+    },
+    {
+      "identity": "erp.compute_po_hpp_gl_book_v2620e(uuid)",
+      "last_explicit_definition_source": "supabase/release/cp6-t3/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "source_file_sha256": "70503bb0247c811e066830ba752960a50b7afdfdb4c0c7697dee9a265ef1778a",
+      "raw_body_sha256": "aa3c3df56d2ba0d478a6a61c4443e154c0f6f60b22abfda744f24223976bed6d",
+      "source_derived_final_body_sha256": "e4e5dd17097409fde8f15e10abf2108661c088c656fb2255553014d6c2785919",
+      "r5_wrapped_literal_calls": 8,
+      "expected_owner": "postgres",
+      "expected_security_definer": true,
+      "expected_volatility": "s",
+      "actual_runtime_capture_observed": false
+    }
+  ],
+  "r5_source": "scripts/cp7_report_accounts_bundle.py",
+  "r5_source_sha256": "d99e964b8c827dc027074a81cc0a44b8973bc41d445aa2e011a4e91d697c3797",
+  "private_helpers": [
+    {
+      "identity": "cp7_credit.initial_po_hpp_lifecycle_amount_v1(uuid,uuid,uuid,uuid)",
+      "parameters": [
+        "p_journal",
+        "p_po",
+        "p_fg",
+        "p_cogs"
+      ],
+      "body_sha256": "bea5bf7229078fa0d8de6364dc08cf6311041bf2f9d1e811a39cba9deca7409e",
+      "account_literal_replacements": 6
+    },
+    {
+      "identity": "cp7_credit.initial_po_hpp_book_v1(uuid,uuid,uuid,uuid,uuid)",
+      "parameters": [
+        "p_po",
+        "p_fg",
+        "p_cogs",
+        "p_expense",
+        "p_income"
+      ],
+      "body_sha256": "3b4af627b66175eae255ee9c21f3f8e0b8df1416f9dc8184be41b3acf7c96175",
+      "account_literal_replacements": 8,
+      "historical_helper_replacements": 1,
+      "return_keys": [
+        "hpp_total_cost",
+        "fg_value",
+        "cogs_value",
+        "other_out_value"
+      ]
+    }
+  ],
+  "proposal_sql_sha256": "b340f61dad12aa132560c368ffa8175cd19e1a01c20aaa9d48db80c4e544d69e"
+}

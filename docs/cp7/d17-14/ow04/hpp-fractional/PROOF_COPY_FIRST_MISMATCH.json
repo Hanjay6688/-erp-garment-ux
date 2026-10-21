@@ -1,0 +1,10 @@
+{
+  "classification": "PRE_RUNTIME_PROOF_COPY_HASH_MISMATCH_CORRECTED_NOT_NATIVE_TEST",
+  "first_expected_sha256": "007fc0cf2ef00ff2abd385a6bc02c0e3df36d1bcfd0a3cb60d889acdcf4d2a52",
+  "first_observed_sha256": "8c98f92d171e4ca33aaf67aabf0aa197742f1476056aa2eb132e872f2ad6f940",
+  "first_assertion": "DO_NOT_REWRITE_INITIAL_EXPECTED",
+  "reason": "Captured current proposal was labelled initial while external proposal was being revised; use verified archived initial bytes",
+  "archive": "EXPECTED_INITIAL_007fc0cf.json",
+  "verified_archive_sha256": "007fc0cf2ef00ff2abd385a6bc02c0e3df36d1bcfd0a3cb60d889acdcf4d2a52",
+  "Native_executed": false
+}

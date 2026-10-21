@@ -3,7 +3,8 @@
 Predeclared: 12 explicit CREDIT/REFUND cases, all 11 unchanged P11 return
 controls, all 8 unchanged P11 read/Native source controls, and E01 (32 Native).
 An explicit --native-empty mode adds12 declared direct-Native cases atomically.
-Neither mode claims browser, race, complete OW04, or production acceptance.
+--fractional-hpp reruns those44 plus14 independently frozen HPP cases (58).
+No mode claims browser, race, complete OW04, or production acceptance.
 """
 import hashlib
 import json
@@ -24,15 +25,17 @@ from cp6_t3_aligned_install import advisors, advisor_delta
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parent
 sys.path[:0] = [str(HERE / 'cp7_customer_credit/initial-settlement'), str(HERE / 'cp7_customer_credit/native'),
-               str(HERE / 'cp7_customer_credit/native-empty')]
+               str(HERE / 'cp7_customer_credit/native-empty'),
+               str(HERE / 'cp7_customer_credit/hpp-fractional')]
 import cp7_ow04_initial_settlement_cases as initial
 from cp7_customer_credit.integration import owning_bundle as credit
 
 p09 = predecessor.p09
 package = predecessor.package
 native = predecessor.native
-NATIVE_EMPTY = '--native-empty' in sys.argv[1:]
-LABEL = 'CP7_OW04_NATIVE_EMPTY' if NATIVE_EMPTY else 'CP7_OW04_INITIAL'
+FRACTIONAL_HPP = '--fractional-hpp' in sys.argv[1:]
+NATIVE_EMPTY = '--native-empty' in sys.argv[1:] or FRACTIONAL_HPP
+LABEL = 'CP7_OW04_FRACTIONAL_HPP' if FRACTIONAL_HPP else 'CP7_OW04_NATIVE_EMPTY' if NATIVE_EMPTY else 'CP7_OW04_INITIAL'
 OUT = p09.bundle.ROOT / ('cp6-proof/t3/'+LABEL+'.json')
 RETURN_IDS = tuple('P11_RETURN_' + x for x in ('LIFECYCLE','SPLIT_GRADES','ALLOCATION_CAP','FIELDS',
     'PAID_REFUSAL','DATE_LOCATION','REPLAY','SOURCE_CHANGE','PERMISSIONS','PAGES','CONSUMED'))
@@ -42,10 +45,13 @@ BASE_IDS = tuple(initial.NATIVE_IDS) + RETURN_IDS + READ_IDS + ('F03_E01_NATIVE_
 assert len(BASE_IDS) == len(set(BASE_IDS)) == 32
 if NATIVE_EMPTY:
     import cp7_ow04_native_empty_cases as empty_cases
-IDS = BASE_IDS + (empty_cases.IDS if NATIVE_EMPTY else ())
-EXPECTED_COUNT = 44 if NATIVE_EMPTY else 32
+if FRACTIONAL_HPP:
+    import cp7_ow04_fractional_hpp_cases as fractional_hpp
+IDS = BASE_IDS + (empty_cases.IDS if NATIVE_EMPTY else ()) + (fractional_hpp.IDS if FRACTIONAL_HPP else ())
+EXPECTED_COUNT = 58 if FRACTIONAL_HPP else 44 if NATIVE_EMPTY else 32
 assert len(IDS) == len(set(IDS)) == EXPECTED_COUNT
-DECLARATION_BYTES = (REPO/('docs/cp7/d17-14/ow04/NATIVE_EMPTY_QUALIFICATION.json' if NATIVE_EMPTY
+DECLARATION_BYTES = (REPO/('docs/cp7/d17-14/ow04/NATIVE_FRACTIONAL_QUALIFICATION.json' if FRACTIONAL_HPP
+                         else 'docs/cp7/d17-14/ow04/NATIVE_EMPTY_QUALIFICATION.json' if NATIVE_EMPTY
                          else 'docs/cp7/d17-14/ow04/NATIVE_INITIAL_QUALIFICATION.json')).read_bytes()
 DECLARATION = json.loads(DECLARATION_BYTES)
 assert DECLARATION['expected_count']==EXPECTED_COUNT and tuple(DECLARATION['required_case_ids'])==IDS, 'OW04_DECLARED_CASES_CHANGED'
@@ -92,6 +98,8 @@ def cases(cur, today):
         before = [x['definition'] for x in STATE['native_empty']['before_helpers'].values()]
         selected += empty_cases.cases(cur,today,before_helpers=before,
             reapply_overlay=lambda cursor:cursor.execute(credit._actual_sql('native-empty/04_exact_overlays.sql'),prepare=False))
+    if FRACTIONAL_HPP:
+        selected += fractional_hpp.cases(cur, today)
     assert tuple(name for name, _ in selected) == IDS, 'OW04_PREDECLARED_CASE_SET_CHANGED'
     return selected
 
@@ -150,14 +158,23 @@ def install_predecessor(cur, report):
     return originals
 
 
+def qualification_source_files():
+    result = credit.source_files(native_empty=NATIVE_EMPTY)
+    if FRACTIONAL_HPP:
+        for name in ('EXPECTED.json', 'cp7_ow04_fractional_hpp_cases.py'):
+            result['hpp-fractional/'+name] = hashlib.sha256((Path(fractional_hpp.__file__).parent/name).read_bytes()).hexdigest()
+    return result
+
+
 def run():
     global STATE
     report = dict(label=LABEL,status='INCOMPLETE',expected_case_count=EXPECTED_COUNT,
         required_case_ids=list(IDS),production_go=False,independent_acceptance=False,
         feature_complete=False,browser_proven=False,races_proven=False,
-        scope='EXPLICIT_INITIAL_SETTLEMENT_NATIVE_EMPTY_AND_RETAINED_CONTROLS' if NATIVE_EMPTY
+        scope='EXPLICIT_FRACTIONAL_HPP_AND_UNCHANGED_NATIVE44_REGRESSIONS' if FRACTIONAL_HPP
+            else 'EXPLICIT_INITIAL_SETTLEMENT_NATIVE_EMPTY_AND_RETAINED_CONTROLS' if NATIVE_EMPTY
             else 'EXPLICIT_INITIAL_NATIVE_SETTLEMENT_AND_UNCHANGED_P11_RETURN_E01_REGRESSIONS',
-        source_sha256=credit.source_files(native_empty=NATIVE_EMPTY),
+        source_sha256=qualification_source_files(),
         candidate_commit=subprocess.run(['git','-C',str(REPO),'rev-parse','HEAD'],check=True,capture_output=True,text=True).stdout.strip(),
         open_contract_blockers=([] if NATIVE_EMPTY else ['DIRECT_NATIVE_NEW_EMPTY_FAMILY_REGISTRATION'])+
             ['CORRECTED_FAMILY_RECONCILIATION','CREDIT_APPLY_AND_CONSUMER_UNDO','HTTP_BROWSER_RACE_AND_RECOVERY'],
@@ -223,7 +240,7 @@ def run():
 
 
 if __name__ == '__main__':
-    if sys.argv[1:] not in ([],['--native-empty']):
-        raise SystemExit('Only the explicit --native-empty qualification option is supported')
+    if sys.argv[1:] not in ([],['--native-empty'],['--fractional-hpp']):
+        raise SystemExit('Only explicit --native-empty or --fractional-hpp qualification options are supported')
     package._writer_runtime = lambda browser_mode=False:run()
     package.run('install')

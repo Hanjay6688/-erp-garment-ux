@@ -1,0 +1,18 @@
+{
+  "classification": "UNCHANGED_RETAINED_COST10_FIXTURE_AND_EXPECTED_BYTES",
+  "source_commit": "b147cff8cdda4145eebe147f12ebcdac53659e83",
+  "files": {
+    "scripts/cp7_customer_credit/native/cp7_ow04_native_source_fixture.py": "4984926b221df459e6e88c2f282da3e553d4810d177208ea489c9c3b1d264497",
+    "scripts/cp7_customer_credit/native/EXPECTED.json": "f6d7efdde1a409094b8c5485fb7942209175bce1d869e8c05f1a1d097b7cadde",
+    "scripts/cp7_customer_credit/native/CALENDAR_BINDING_V2.json": "216f2e6d2f1c812454f965e13a24a72fd57a10f5c7a25a30f246e5d7bc6918ae",
+    "scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py": "6d4e2389e0090333ae076fc3091ec4333492e886e08fc1a96c4eea9282f93602",
+    "scripts/cp7_customer_credit/initial-settlement/EXPECTED.json": "acb42395ea5e679c0b059be56ecceadc6b0cd5d5de70686f4c089ad9b5e95888",
+    "scripts/cp7_customer_credit/native-empty/cp7_ow04_native_empty_cases.py": "60c22fc9c09ac8630fd3aaf7b65d8be5c256429ff41e5a365c0ebaf30c9dcf29",
+    "scripts/cp7_customer_credit/native-empty/EXPECTED.json": "5e713283516288011b6c8ccdff4af85d3df3c077e771e36de2b2bc2c16abfd3b",
+    "scripts/cp7_sales_return_cases.py": "abe194d5e2fbc3f425a9ae4b2deda19acf26519f758c099764dec07e8cb5f360",
+    "scripts/cp7_sales_cases.py": "c76d05c381f712d50e61ab1d8efa367981e7619a842581fecc21a73ed9b6e185",
+    "scripts/cp7_f03_e01_cases.py": "047589187f07dc9380410399178bfab1d4ecd03fc674e98dcd7e0e2baf26db07",
+    "scripts/cp7_note_correction_cases.py": "1f6bfff2974b865d54600dec4fd515bd8b931efdd737c19e50eb8b1a094f604c",
+    "scripts/cp7_fg_adjustment_cases.py": "fc8b7e19efbed8623c653549241e2274938301170479419be888a09326c04cca"
+  }
+}

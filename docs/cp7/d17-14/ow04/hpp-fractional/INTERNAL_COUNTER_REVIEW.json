@@ -1,0 +1,21 @@
+{
+  "classification": "INTERNAL_WRITER_SOURCE_COUNTER_REVIEW_NOT_EXTERNAL_AUDIT",
+  "reviewers": ["hpp_contract_counter", "hpp_integration_counter", "hpp_native_fixtures"],
+  "configured_helper_model": "gpt-6.1-sol",
+  "configured_helper_reasoning": "max",
+  "initial_assessments_locked_before_cross_discussion": true,
+  "product_writer": "root only",
+  "findings": [
+    {"id":"C1","scenario":"PO saved state differs from reconciled actual book/target","disposition":"retain exact five-field refusal and bind saved state","verification":"source recheck and synthetic cache-drift refusal; Native qualification pending"},
+    {"id":"C2","scenario":"Sibling adjustment and inverse restore numbers but change actual lineage","disposition":"bind full movement/allocation/return/conversion/cost/book support hashes","verification":"source recheck and synthetic unchanged-number/different-support control; Native qualification pending"},
+    {"id":"C3","scenario":"Local PLpgSQL x conflicts with initial draft SRF alias","disposition":"explicit draft_item.value in source discovery","verification":"source recheck and executed synthetic projection; Native qualification pending"},
+    {"id":"C4","scenario":"Mapping/master changes after account lookup and before outer lock","disposition":"bind used four UUIDs to full facts and exact reread after ordered outer locks","verification":"source recheck; two-connection race not yet qualified"},
+    {"id":"C5","scenario":"Ledger-only mutation between separate READ COMMITTED book/profile statements","disposition":"bracket calculation with complete support hash equality","verification":"source recheck; timed two-connection interleaving not yet qualified"},
+    {"id":"I1","scenario":"Positive raw unit rounds to legitimate zero physical snapshot","disposition":"NO_JOURNAL refusal uses actual current six-decimal snapshot, not raw target unit","verification":"source recheck; real precision-boundary qualification pending"}
+  ],
+  "arithmetic_literal_review": "PO/nonPO boundaries, cumulative grouping, both OTHER signs, FG-zero vector, conversion-adjusted source and half-cent sign crossing reviewed",
+  "unresolved_review_disagreements": [],
+  "source_review_is_runtime_acceptance": false,
+  "external_audit": false,
+  "production_go": false
+}

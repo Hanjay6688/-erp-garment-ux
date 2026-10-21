@@ -71,36 +71,108 @@ begin
   (select jsonb_agg(to_jsonb(m)order by m.mapping_key)from erp.accounting_account_mappings m where m.account_id=a.id),'[]'));
 end $$;
 
--- Exact marginal of accepted BE target formulas for selected lot costs that
--- are exact cents. Adding q physical returned/owned pieces moves q*cost from
--- COGS to FG; integral cents commute with both BE rounding expressions. The
--- full current target/book must agree first. Unsupported fractional costs
--- refuse rather than approximate the Native cumulative target.
+-- Hypothetical cumulative BE targets. PO rounds AFTER pooling its lots;
+-- non-PO rounds EACH lot before pooling by product. Movement snapshots are
+-- deliberately not the calculator: their six decimals are physical history.
+-- The complete raw inputs are retained in the private, source-bound quote.
+create function cp7_credit.initial_hpp_targets_v1(p_product uuid,p_po uuid,p_items jsonb,p_after boolean)returns jsonb
+language sql stable security definer set search_path=''set TimeZone='UTC'as $$
+ with requested as(
+  select (x->>'lot_id')::uuid lot_id,sum((x->>'qty_pcs')::numeric)qty
+  from jsonb_array_elements(p_items)x group by (x->>'lot_id')::uuid
+ ),lot_source as(
+  select fl.id lot_id,fl.product_id,fl.po_id,fl.lot_origin,fl.initial_qty_pcs,
+   to_jsonb(fl)lot_source,to_jsonb(hv)hpp_source,
+   case when coalesce(hv.qty_basis_pcs,0)>0 then hv.total_cost/hv.qty_basis_pcs else 0 end::numeric unit_raw,
+   case when p_po is not null then case when fl.lot_origin='PRODUCTION' then coalesce(hv.total_cost,0)else 0 end
+    else (case when fl.lot_origin<>'CONVERSION'or exists(select 1 from erp.product_conversion_allocations a
+      join erp.product_conversions c on c.id=a.conversion_id where a.destination_lot_id=fl.id and c.status='POSTED')
+      then coalesce(hv.total_cost,0)else 0 end)-coalesce((select sum(a.qty_pcs*(hv.total_cost/nullif(hv.qty_basis_pcs,0)))
+       from erp.product_conversion_allocations a join erp.product_conversions c on c.id=a.conversion_id
+       where a.source_lot_id=fl.id and c.status='POSTED'),0)end::numeric raw_total
+  from erp.fg_lots fl left join erp.hpp_versions hv on hv.lot_id=fl.id and hv.is_current
+  where (p_po is not null and fl.po_id=p_po and fl.lot_origin in('PRODUCTION','CONVERSION'))
+   or(p_po is null and fl.po_id is null and fl.product_id=p_product and fl.lot_origin<>'VOIDED_PRODUCTION')
+ ),facts as(
+  select l.*,coalesce(q.qty,0)::numeric requested_qty,m.owned_qty,s.sold_qty,r.returned_qty,
+   (m.owned_qty+case when p_after then coalesce(q.qty,0)else 0 end)::numeric owned_after,
+   (s.sold_qty-r.returned_qty-case when p_after then coalesce(q.qty,0)else 0 end)::numeric net_sold_after
+  from lot_source l left join requested q on q.lot_id=l.lot_id
+  cross join lateral(select(coalesce(sum(m.qty_signed),0)+coalesce(sum(abs(m.qty_signed))filter(
+   where m.movement_type='SALE_RESERVE'and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id)),0))::numeric owned_qty
+   from erp.fg_stock_movements m where m.lot_id=l.lot_id)m
+  cross join lateral(select coalesce(sum(a.qty_pcs),0)::numeric sold_qty from erp.sale_stock_allocations a
+   join erp.sales_items i on i.id=a.sale_item_id join erp.sales_headers h on h.id=i.sale_id
+   where a.lot_id=l.lot_id and h.status in('POSTED','PARTIAL_PAID','PAID'))s
+  cross join lateral(select coalesce(sum(i.qty_pcs),0)::numeric returned_qty from erp.sales_return_items i
+   join erp.sales_returns h on h.id=i.return_id where i.lot_id=l.lot_id and h.status='POSTED')r
+ ),extra as(select case when p_po is null then 0 else erp.be_po_extra_v1(p_po)end::numeric amount),cents as(
+  select round(f.raw_total,2)::numeric hpp,round(f.raw_total-greatest(f.owned_after,0)*f.unit_raw,2)::numeric total_out,
+   round(greatest(f.net_sold_after,0)*f.unit_raw,2)::numeric cogs from facts f where p_po is null
+  union all
+  select round(coalesce(sum(f.raw_total),0)+(select amount from extra),2)::numeric,
+   round(coalesce(sum(f.raw_total),0)+(select amount from extra)-coalesce(sum(greatest(f.owned_after,0)*f.unit_raw),0),2)::numeric,
+   round(coalesce(sum(greatest(f.net_sold_after,0)*f.unit_raw),0),2)::numeric
+  from facts f having p_po is not null
+ ),target as(
+  select coalesce(sum(hpp),0)::numeric hpp_total_cost,coalesce(sum(hpp-total_out),0)::numeric fg_value,
+   coalesce(sum(cogs),0)::numeric cogs_value,coalesce(sum(total_out-cogs),0)::numeric other_out_value from cents
+ )select jsonb_build_object('target',to_jsonb(t)||case when p_po is null then'{}'::jsonb else jsonb_build_object(
+   'base_output_qty',(select coalesce(sum(initial_qty_pcs),0)from facts where lot_origin='PRODUCTION'))end,
+  'lots',(select coalesce(jsonb_agg(to_jsonb(f)order by f.lot_id),'[]')from facts f),
+  'po_extra',(select amount from extra),'conversions',(select coalesce(jsonb_agg(jsonb_build_object(
+   'allocation',to_jsonb(a),'conversion',to_jsonb(c))order by a.id),'[]')from erp.product_conversion_allocations a
+   join erp.product_conversions c on c.id=a.conversion_id where a.source_lot_id in(select lot_id from facts)
+    or a.destination_lot_id in(select lot_id from facts)))from target t
+$$;
+
+-- Full target AFTER the entire return minus authoritative BEFORE book. A
+-- scalar cannot stand in for the signed FG/COGS/OTHER vector. Public v1's
+-- hpp_amount is its positive debit magnitude per group, before cross-group
+-- netting; it is NOT qty*unit-cost or the returned inventory value.
 create function cp7_credit.initial_hpp_projection_v1(p_legacy jsonb)returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
 declare x jsonb;a record;r record;t record;b record;cost numeric;owned numeric;sold numeric;returned numeric;
  hpp numeric:=0;items jsonb:='[]';groups jsonb:='[]';lines jsonb:='[]';group_amount numeric;
+ products uuid[];pos uuid[];lots uuid[];versions uuid[];fresh_lots uuid[];fresh_versions uuid[];
+ before_profile jsonb;after_profile jsonb;before_target jsonb;after_target jsonb;actual_book jsonb;saved_state jsonb;account_facts jsonb;source_support jsonb;
+ delta_fg numeric;delta_cogs numeric;delta_other numeric;fg_account uuid;cogs_account uuid;expense_account uuid;income_account uuid;
 begin
+ select array_agg(distinct i.product_id order by i.product_id),array_agg(distinct fl.po_id order by fl.po_id)filter(where fl.po_id is not null)
+ into products,pos from jsonb_array_elements(p_legacy->'items')as draft_item(value)join erp.sale_stock_allocations sa on sa.id=(draft_item.value->>'allocation_id')::uuid
+  join erp.sales_items i on i.id=sa.sale_item_id join erp.fg_lots fl on fl.id=sa.lot_id;
+ pos:=coalesce(pos,'{}'::uuid[]);
+ select coalesce(array_agg(id order by id),'{}'::uuid[])into lots from erp.fg_lots where product_id=any(products)or po_id=any(pos);
+ select coalesce(array_agg(id order by id),'{}'::uuid[])into versions from erp.hpp_versions where lot_id=any(lots);
  perform 1 from erp.locations where id in(select(value->>'location_id')::uuid from jsonb_array_elements(p_legacy->'items'))order by id for share;
  perform 1 from erp.fg_inventory_balances inv where exists(select 1 from jsonb_array_elements(p_legacy->'items')draft_item
   join erp.sale_stock_allocations sa on sa.id=(draft_item->>'allocation_id')::uuid join erp.sales_items si on si.id=sa.sale_item_id
   where inv.product_id=si.product_id and inv.location_id=(draft_item->>'location_id')::uuid and inv.quality_grade=draft_item->>'quality_grade')
   order by inv.product_id,inv.location_id,inv.quality_grade for update;
- perform 1 from erp.fg_lots where product_id in(select i.product_id from erp.sale_stock_allocations sa
-  join erp.sales_items i on i.id=sa.sale_item_id where sa.id in(select(value->>'allocation_id')::uuid from jsonb_array_elements(p_legacy->'items')))order by id for update;
- perform 1 from erp.hpp_versions where lot_id in(select fl.id from erp.fg_lots fl where fl.product_id in(select i.product_id
-  from erp.sale_stock_allocations sa join erp.sales_items i on i.id=sa.sale_item_id
-  where sa.id in(select(value->>'allocation_id')::uuid from jsonb_array_elements(p_legacy->'items'))))order by id for share;
- perform 1 from erp.po_hpp_gl_state where po_id in(select distinct fl.po_id from erp.fg_lots fl join erp.sale_stock_allocations sa on sa.lot_id=fl.id
-  where sa.id in(select(value->>'allocation_id')::uuid from jsonb_array_elements(p_legacy->'items')))order by po_id for update;
+ -- Include PO siblings even when another product owns them. Never acquire
+ -- newly discovered earlier-order rows from the completion callback.
+ perform 1 from erp.fg_lots where id=any(lots)order by id for update;
+ perform 1 from erp.hpp_versions where id=any(versions)order by id for share;
+ perform 1 from erp.po_hpp_gl_state where po_id=any(pos)order by po_id for update;
+ select coalesce(array_agg(id order by id),'{}'::uuid[])into fresh_lots from erp.fg_lots where product_id=any(products)or po_id=any(pos);
+ select coalesce(array_agg(id order by id),'{}'::uuid[])into fresh_versions from erp.hpp_versions where lot_id=any(fresh_lots);
+ if fresh_lots is distinct from lots or fresh_versions is distinct from versions then raise exception 'CP7_CREDIT_HPP_LOCK_SET_CHANGED';end if;
+ account_facts:=cp7_credit.initial_hpp_account_facts_v1();
+ fg_account:=cp7_credit.account_by_mapping_v1('FG_INVENTORY');cogs_account:=cp7_credit.account_by_mapping_v1('COGS');
+ expense_account:=cp7_credit.account_by_mapping_v1('OTHER_EXPENSE');income_account:=cp7_credit.account_by_mapping_v1('OTHER_INCOME');
+ if exists(select 1 from jsonb_array_elements(account_facts->'mappings')as mapped(value)where(mapped.value->>'account_id')::uuid is distinct from
+  case mapped.value->>'mapping_key'when'FG_INVENTORY'then fg_account when'COGS'then cogs_account when'OTHER_EXPENSE'then expense_account else income_account end)then
+  raise exception 'CP7_CREDIT_HPP_ACCOUNT_SOURCE_CHANGED';end if;
  for x in select value from jsonb_array_elements(p_legacy->'items')loop
-  select sa.*,i.sale_id,i.product_id,fl.po_id,fl.lot_origin,hv.id hpp_id,hv.total_cost,hv.qty_basis_pcs into strict a
+  select sa.*,i.sale_id,i.product_id,fl.po_id,fl.lot_origin,hv.id hpp_id,hv.total_cost,hv.qty_basis_pcs,hv.hpp_per_pcs current_unit_snapshot into strict a
    from erp.sale_stock_allocations sa join erp.sales_items i on i.id=sa.sale_item_id join erp.fg_lots fl on fl.id=sa.lot_id
    join erp.hpp_versions hv on hv.lot_id=fl.id and hv.is_current where sa.id=(x->>'allocation_id')::uuid;
   if a.sale_id<>(p_legacy->>'sale_id')::uuid or a.qty_basis_pcs<=0 or a.lot_origin='VOIDED_PRODUCTION'
    or not exists(select 1 from erp.locations where id=(x->>'location_id')::uuid and is_active and location_type='FG_WAREHOUSE')then
    raise exception 'CP7_CREDIT_RETURN_SOURCE_OR_DESTINATION_CHANGED';end if;
-  cost:=a.total_cost/a.qty_basis_pcs;perform cp7_credit.cent_text(cost::cp7_credit.cent_amount);
+  if a.total_cost::text in('NaN','Infinity','-Infinity')or a.current_unit_snapshot::text in('NaN','Infinity','-Infinity')then
+   raise exception 'CP7_CREDIT_NONFINITE_HPP_SOURCE';end if;
+  cost:=a.total_cost/a.qty_basis_pcs;
   if cost<0 then raise exception 'CP7_CREDIT_NEGATIVE_HPP_SOURCE';end if;
   select coalesce(sum(m.qty_signed),0)+coalesce(sum(abs(m.qty_signed))filter(where m.movement_type='SALE_RESERVE'
    and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id)),0)into owned
@@ -115,41 +187,77 @@ begin
     where rr.status='POSTED'and ri.sale_stock_allocation_id=a.id),0)then raise exception 'AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION';end if;
   if owned<0 or sold-returned<(select sum((v->>'qty_pcs')::numeric)from jsonb_array_elements(p_legacy->'items')v
    join erp.sale_stock_allocations s on s.id=(v->>'allocation_id')::uuid where s.lot_id=a.lot_id)then raise exception 'CP7_CREDIT_RETURN_QTY_SOURCE_INVALID';end if;
-  group_amount:=(x->>'qty_pcs')::numeric*cost;hpp:=hpp+group_amount;
   items:=items||jsonb_build_array(x||jsonb_build_object('product_id',a.product_id,'lot_id',a.lot_id,'po_id',a.po_id,
-   'hpp_version_id',a.hpp_id,'unit_hpp',cp7_credit.cent_text(cost),'hpp_amount',cp7_credit.cent_text(group_amount)));
+   'hpp_version_id',a.hpp_id,'unit_hpp_raw',cost::text,'unit_hpp_snapshot',a.current_unit_snapshot::text));
  end loop;
- for r in select distinct (z->>'product_id')::uuid product_id,(z->>'po_id')::uuid po_id from jsonb_array_elements(items)z
+ for r in select distinct case when z->>'po_id'is null then(z->>'product_id')::uuid end product_id,
+  (z->>'po_id')::uuid po_id from jsonb_array_elements(items)z
   order by po_id nulls first,product_id loop
+  saved_state:=null;
+  source_support:=cp7_credit.initial_hpp_support_v1(r.product_id,r.po_id);
   if r.po_id is null then
    select *into strict t from erp.compute_non_po_product_hpp_targets_v2620f(r.product_id);
-   select coalesce(sum(l.debit-l.credit)filter(where l.account_id=cp7_credit.account_by_mapping_v1('FG_INVENTORY')),0)fg_value,
-    coalesce(sum(l.debit-l.credit)filter(where l.account_id=cp7_credit.account_by_mapping_v1('COGS')),0)cogs_value,
-    coalesce(sum(l.debit-l.credit)filter(where l.account_id in(cp7_credit.account_by_mapping_v1('OTHER_EXPENSE'),cp7_credit.account_by_mapping_v1('OTHER_INCOME'))),0)other_out_value
+   select coalesce(sum(l.debit-l.credit)filter(where l.account_id=fg_account),0)fg_value,
+    coalesce(sum(l.debit-l.credit)filter(where l.account_id=cogs_account),0)cogs_value,
+    coalesce(sum(l.debit-l.credit)filter(where l.account_id in(expense_account,income_account)),0)other_out_value
    into b from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id left join erp.journal_entries o on o.id=j.reversal_of_id
     where l.product_id=r.product_id and l.po_id is null and j.status in('POSTED','REVERSED')
      and(j.source_type<>'PRODUCT_CONVERSION'or erp.be_nonpo_admitted_v1(j.source_id))
      and(j.source_type<>'JOURNAL_REVERSAL'or o.source_type is distinct from'PRODUCT_CONVERSION'or erp.be_nonpo_admitted_v1(o.source_id));
    if round(t.fg_value,2)<>b.fg_value or round(t.cogs_value,2)<>b.cogs_value or round(t.other_out_value,2)<>b.other_out_value then
     raise exception 'CP7_CREDIT_HPP_TARGET_BOOK_NOT_RECONCILED';end if;
-   select sum((z->>'hpp_amount')::numeric)into group_amount from jsonb_array_elements(items)z where(z->>'product_id')::uuid=r.product_id and z->'po_id'='null';
+   actual_book:=to_jsonb(b)||jsonb_build_object('hpp_total_cost',b.fg_value+b.cogs_value+b.other_out_value);
   else
-   -- PO groups are emitted once below; Native refresh will use this same
-   -- already-locked target/book state, without late source acquisition.
-   if exists(select 1 from jsonb_array_elements(groups)g where(g->>'po_id')::uuid=r.po_id)then continue;end if;
+   -- PO groups are emitted once, and the source is the actual Native book
+   -- reader's safe private equivalent, not the possibly stale cache alone.
    select *into strict t from erp.compute_po_hpp_gl_targets_v2620d(r.po_id);
-   select *into strict b from erp.po_hpp_gl_state where po_id=r.po_id;
+   select to_jsonb(st)into strict saved_state from erp.po_hpp_gl_state st where st.po_id=r.po_id;
+   if t.base_output_qty is distinct from(saved_state->>'base_output_qty')::integer
+    or t.hpp_total_cost is distinct from(saved_state->>'hpp_total_cost')::numeric
+    or t.fg_value is distinct from(saved_state->>'fg_value')::numeric or t.cogs_value is distinct from(saved_state->>'cogs_value')::numeric
+    or t.other_out_value is distinct from(saved_state->>'other_out_value')::numeric then
+    raise exception 'CP7_CREDIT_HPP_TARGET_BOOK_NOT_RECONCILED';end if;
+   actual_book:=cp7_credit.initial_po_hpp_book_v1(r.po_id,fg_account,cogs_account,expense_account,income_account);
+   select (actual_book->>'hpp_total_cost')::numeric hpp_total_cost,(actual_book->>'fg_value')::numeric fg_value,
+    (actual_book->>'cogs_value')::numeric cogs_value,(actual_book->>'other_out_value')::numeric other_out_value into b;
    if round(t.hpp_total_cost,2)<>b.hpp_total_cost or round(t.fg_value,2)<>b.fg_value or round(t.cogs_value,2)<>b.cogs_value
     or round(t.other_out_value,2)<>b.other_out_value then raise exception 'CP7_CREDIT_HPP_TARGET_BOOK_NOT_RECONCILED';end if;
-   select sum((z->>'hpp_amount')::numeric)into group_amount from jsonb_array_elements(items)z where(z->>'po_id')::uuid=r.po_id;
   end if;
+  before_profile:=cp7_credit.initial_hpp_targets_v1(r.product_id,r.po_id,items,false);
+  after_profile:=cp7_credit.initial_hpp_targets_v1(r.product_id,r.po_id,items,true);
+  before_target:=before_profile->'target';after_target:=after_profile->'target';
+  if before_target is distinct from to_jsonb(t)then raise exception 'CP7_CREDIT_HPP_CANONICAL_TARGET_MISMATCH';end if;
+  if exists(select 1 from jsonb_array_elements(before_profile->'lots')f where(f->>'unit_raw')::text in('NaN','Infinity','-Infinity')
+   or(f->>'raw_total')::text in('NaN','Infinity','-Infinity')or(f->>'unit_raw')::numeric<0
+   or(f->>'owned_qty')::numeric<0 or(f->>'sold_qty')::numeric-(f->>'returned_qty')::numeric<(f->>'requested_qty')::numeric)then
+   raise exception 'CP7_CREDIT_RETURN_QTY_SOURCE_INVALID';end if;
+  delta_fg:=(after_target->>'fg_value')::numeric-b.fg_value;
+  delta_cogs:=(after_target->>'cogs_value')::numeric-b.cogs_value;
+  delta_other:=(after_target->>'other_out_value')::numeric-b.other_out_value;
+  if cp7_credit.initial_hpp_support_v1(r.product_id,r.po_id)is distinct from source_support then
+   raise exception 'CP7_CREDIT_HPP_SUPPORT_CHANGED_DURING_READ';end if;
+  if delta_fg+delta_cogs+delta_other<>0 or(after_target->>'hpp_total_cost')::numeric<>(before_target->>'hpp_total_cost')::numeric
+   or r.po_id is not null and(delta_fg<0 or delta_cogs>0)then raise exception 'CP7_CREDIT_HPP_VECTOR_NOT_CONSERVED';end if;
+  group_amount:=greatest(delta_fg,0)+greatest(delta_cogs,0)+greatest(delta_other,0);hpp:=hpp+group_amount;
   groups:=groups||jsonb_build_array(jsonb_build_object('product_id',case when r.po_id is null then r.product_id end,'po_id',r.po_id,
-   'amount',cp7_credit.cent_text(group_amount),'before_target',to_jsonb(t),'before_book',to_jsonb(b)));
-  if group_amount<>0 then lines:=lines||jsonb_build_array(
-   jsonb_strip_nulls(jsonb_build_object('mapping_key','FG_INVENTORY','debit',group_amount,'credit',0,'product_id',case when r.po_id is null then r.product_id end,'po_id',r.po_id)),
-   jsonb_strip_nulls(jsonb_build_object('mapping_key','COGS','debit',0,'credit',group_amount,'product_id',case when r.po_id is null then r.product_id end,'po_id',r.po_id)));end if;
+   'amount',cp7_credit.cent_text(group_amount),'before_target',before_target,'after_target',after_target,'before_book',actual_book,'before_saved_state',saved_state,
+   'before_profile',before_profile,'after_profile',after_profile,'source_support',source_support,
+   'delta',jsonb_build_object('fg_value',delta_fg,'cogs_value',delta_cogs,'other_out_value',delta_other)));
+  for x in select *from jsonb_array_elements(jsonb_build_array(
+   jsonb_build_object('mapping_key','FG_INVENTORY','signed_amount',delta_fg),jsonb_build_object('mapping_key','COGS','signed_amount',delta_cogs),
+   jsonb_build_object('mapping_key',case when delta_other>0 then'OTHER_EXPENSE'else'OTHER_INCOME'end,'signed_amount',delta_other)))loop
+   if(x->>'signed_amount')::numeric<>0 then lines:=lines||jsonb_build_array(jsonb_strip_nulls(jsonb_build_object(
+    'mapping_key',x->>'mapping_key','debit',greatest((x->>'signed_amount')::numeric,0),'credit',greatest(-(x->>'signed_amount')::numeric,0),
+    'product_id',case when r.po_id is null then r.product_id end,'po_id',r.po_id)));end if;
+  end loop;
  end loop;
- return jsonb_build_object('items',items,'groups',groups,'hpp_amount',cp7_credit.cent_text(hpp),'lines',lines);
+ -- The existing source-bound NO_JOURNAL reader proves physical snapshot0.
+ -- Do not silently widen it for positive-cost stock with a zero cent vector.
+ if hpp=0 and(select coalesce(sum((v->>'refund_amount')::numeric),0)from jsonb_array_elements(items)v)=0
+  and exists(select 1 from jsonb_array_elements(items)v where(v->>'unit_hpp_snapshot')::numeric>0)then
+  raise exception 'CP7_CREDIT_POSITIVE_HPP_ZERO_VECTOR_UNPROVEN';end if;
+ return jsonb_build_object('items',items,'groups',groups,'hpp_amount',cp7_credit.cent_text(hpp),'lines',lines,
+  'locked_lot_ids',to_jsonb(lots),'locked_hpp_version_ids',to_jsonb(versions),'account_facts',account_facts);
 end $$;
 
 create function cp7_credit.component_movements_v1(p_kernel jsonb)returns jsonb
@@ -241,6 +349,10 @@ begin
   where mapping_key in('AR_CUSTOMER','SALES_REVENUE','FG_INVENTORY','COGS','OTHER_EXPENSE','OTHER_INCOME'))
   or id=(p_choice->>'credit_account_id')::uuid or id in(select coa_account_id from erp.cash_accounts where id=(p_choice->>'cash_account_id')::uuid)order by id for share;
  perform 1 from erp.cash_accounts where id=(p_choice->>'cash_account_id')::uuid for share;
+ -- The HPP book was read before these globally ordered account locks. Prove
+ -- that every mapping/master used for it is still precisely the locked one.
+ if cp7_credit.initial_hpp_account_facts_v1()is distinct from hpp->'account_facts'then
+  raise exception 'CP7_CREDIT_HPP_ACCOUNT_SOURCE_CHANGED';end if;
  mode:=p_choice->>'mode';
  if p_choice->>'credit_account_id'is not null then credit:=cp7_credit.credit_account_facts_v1((p_choice->>'credit_account_id')::uuid);end if;
  if p_choice->>'cash_account_id'is not null then cash:=cp7_credit.cash_account_facts_v1((p_choice->>'cash_account_id')::uuid);end if;
