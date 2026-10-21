@@ -40,6 +40,8 @@ create table erp.journal_entries(id uuid,source_type text,source_id uuid,status 
 create table erp.journal_lines(id uuid,journal_entry_id uuid,account_id uuid,product_id uuid,po_id uuid,debit numeric,credit numeric);
 create table erp.po_wip_close_events(po_id uuid,journal_entry_id uuid,residual_amount numeric);
 create table erp.po_hpp_gl_state(po_id uuid,base_output_qty integer,hpp_total_cost numeric,fg_value numeric,cogs_value numeric,other_out_value numeric);
+create table erp.opening_lot_hpp_gl_state(lot_id uuid,current_hpp numeric);
+create table erp.opening_hpp_corrections(id uuid,lot_id uuid,hpp_version_id uuid);
 create table erp.locations(id uuid,is_active boolean,location_type text);
 create table erp.fg_inventory_balances(product_id uuid,location_id uuid,quality_grade text);
 create table erp.accounting_account_mappings(mapping_key text,account_id uuid);
@@ -51,7 +53,7 @@ from erp.be_conversion_cost_events_v1 e join erp.be_conversion_cost_sources_v1 c
 join erp.be_conversion_sources_v1 s on s.conversion_id=c.conversion_id join erp.fg_lots l on l.id=s.source_lot_id
 where l.po_id=p$$;
 create function erp.be_nonpo_admitted_v1(p uuid)returns boolean language sql stable as $$select exists(select 1 from erp.product_conversions c where c.id=p and c.status='POSTED')$$;`)
-for(const name of ['initial_po_hpp_lifecycle_amount_v1','initial_po_hpp_book_v1','initial_hpp_account_facts_v1','initial_hpp_support_v1'])
+for(const name of ['initial_po_hpp_lifecycle_amount_v1','initial_po_hpp_book_v1','initial_hpp_account_facts_v1','initial_hpp_support_v1','initial_opening_hpp_source_v1'])
  await db.exec(extract(bookSource,'cp7_credit.'+name,'$function$'))
 for(const name of ['account_by_mapping_v1','initial_hpp_targets_v1','initial_hpp_projection_v1'])
  await db.exec(extract(projectionSource,'cp7_credit.'+name,'$$'))
@@ -118,6 +120,15 @@ const check=async(gold,mode,sourceLots=gold.lots)=>{
   const actualLines=projected.lines.map(l=>[l.mapping_key,money(l.debit),money(l.credit)]).sort()
   assert.deepEqual(actualLines,[...gold.hpp_lines].sort(),gold.id+' complete lines')
   const beforeSupport=(await one('select cp7_credit.initial_hpp_support_v1($1,$2)p',[product,po])).p
+  if(!po){
+   const openingBefore=(await one('select cp7_credit.initial_opening_hpp_source_v1($1,null)p',[product])).p
+   const selectedLot=items[0].lot_id
+   await db.query('insert into erp.opening_lot_hpp_gl_state values($1,.333333)',[selectedLot])
+   const openingAfter=(await one('select cp7_credit.initial_opening_hpp_source_v1($1,null)p',[product])).p
+   assert.notDeepEqual(openingAfter,openingBefore,'State presence must alter opening source seal')
+   await db.query('insert into erp.opening_hpp_corrections values($1,$2,$3)',[randomUUID(),selectedLot,randomUUID()])
+   assert.notDeepEqual((await one('select cp7_credit.initial_opening_hpp_source_v1($1,null)p',[product])).p,openingAfter,'Correction history must alter opening source seal')
+  }
   const ownDraft=randomUUID(),selected=items[0]
   await db.query("insert into erp.sales_returns values($1,'DRAFT')",[ownDraft])
   await db.query('insert into erp.sales_return_items values($1,$2,$3,1,$4)',[randomUUID(),ownDraft,selected.lot_id,selected.allocation_id])

@@ -1,0 +1,19 @@
+{
+  "classification": "EXACT_NATIVE_DIAGNOSTIC_TAIL_STATIC_REVIEW",
+  "native_executed": false,
+  "database_calls": 0,
+  "native_original_body_sha256": "59d22a90beecddbe2cd4ca8cd246493c61f2ec9ad882311e7f974819cd117a1e",
+  "native_pin_matches": true,
+  "native_tail_sha256": "f9882c78a1214cdb53f054e629805debb15c97cd9d8a72358b6acb9cff339f1e",
+  "private_tail_sha256": "f9882c78a1214cdb53f054e629805debb15c97cd9d8a72358b6acb9cff339f1e",
+  "tail_byte_exact": true,
+  "private_source_sha256": "18fc33e4a88dc211fe7a99fb3dd39251618ed7eda006cacb5d7ab29bfddd7c25",
+  "forbidden_monetary_calls_present": [],
+  "mutating_statements": [
+    [
+      "insert into",
+      "erp.opening_lot_hpp_gl_state"
+    ]
+  ],
+  "expected_sha256": "f53001d8ec87289a7fc7ca1a6f69752f994480418256923133329e6395a37d4c"
+}

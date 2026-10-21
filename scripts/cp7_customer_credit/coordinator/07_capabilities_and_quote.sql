@@ -107,7 +107,7 @@ do $private_functions$declare sig text;begin
  'initial_base_events_v1(uuid,uuid)','initial_preserved_source_v1(uuid,uuid)','assert_zero_excess_v1(jsonb)','initial_event_semantics_v1(jsonb)','review_before_own_draft_v1(uuid,uuid)',
  'has_ow04_participation_v1(uuid)','is_unchanged_native_return_v1(uuid)',
  'account_by_mapping_v1(text)','credit_account_facts_v1(uuid)','cash_account_facts_v1(uuid)','initial_hpp_projection_v1(jsonb)',
- 'initial_hpp_targets_v1(uuid,uuid,jsonb,boolean)','initial_po_hpp_lifecycle_amount_v1(uuid,uuid,uuid,uuid)','initial_po_hpp_book_v1(uuid,uuid,uuid,uuid,uuid)','initial_hpp_support_v1(uuid,uuid)','initial_hpp_account_facts_v1()',
+ 'initial_hpp_targets_v1(uuid,uuid,jsonb,boolean)','initial_po_hpp_lifecycle_amount_v1(uuid,uuid,uuid,uuid)','initial_po_hpp_book_v1(uuid,uuid,uuid,uuid,uuid)','initial_hpp_support_v1(uuid,uuid)','initial_hpp_account_facts_v1()','initial_opening_hpp_source_v1(uuid,uuid)',
  'component_movements_v1(jsonb)','initial_refund_book_plan_v1(jsonb,numeric,timestamp with time zone,date,date)','build_initial_return_v1(jsonb,text,jsonb)','build_initial_return_for_draft_v1(jsonb,text,jsonb,uuid)',
  'initial_choice_v1(jsonb)','initial_line_semantics_v1(jsonb)','assert_initial_work_v1(uuid,boolean)','assert_return_owner_context(uuid)',
  'seal_return_settlement(uuid)','assert_sealed_return_source(uuid)','native_return_enter(uuid)','native_return_guard(uuid,numeric,numeric,numeric)',

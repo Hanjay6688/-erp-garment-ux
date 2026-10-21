@@ -1,0 +1,71 @@
+{
+  "scope": "STATIC_RELEASE_ANCHORS_ONLY",
+  "native_execution_proven": false,
+  "not_an_installer": true,
+  "results": [
+    {
+      "identity": "erp.post_sales_return(uuid)",
+      "release": "20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql",
+      "raw_release_definition_sha256": "29c92d88c9b5da2debc2c66cbd1bf415308f8e69449b371c1f83e6438b2b9499",
+      "raw_release_body_sha256": "d498e7090e64f641f65f322e047edb8f179ace65d416fa16916d6083ae904848",
+      "transformed_body_sha256": "e1594707de7e086a58701aa2e4ac096ebba51b63d3020c2beef73463c444a7ec",
+      "duplicate_anchor_refused": true
+    },
+    {
+      "identity": "erp.post_sales_payment(uuid)",
+      "release": "20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "raw_release_definition_sha256": "97abb97d884ebea734634b4fb111d29da890d0cb1938b6a937e937b464964732",
+      "raw_release_body_sha256": "f64994eb51e518e9a760f9ffee080751267930e34cf7c7a5708a1feea05fac48",
+      "transformed_body_sha256": "5d6ad62f082ec44916fe835c3814b027ee982382c107b8619a6281873b1a8a1f",
+      "duplicate_anchor_refused": true
+    },
+    {
+      "identity": "erp.reverse_sales_payment(uuid,text)",
+      "release": "20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "raw_release_definition_sha256": "174638edb87d27297074102d998224cb6fc3731e442e435a5db375a6a0f783e3",
+      "raw_release_body_sha256": "6b1c45ec4b3a3557379ec99ed16f4bd5b1beeb3307b54ad533e97d85f85c2ade",
+      "transformed_body_sha256": "4f0b9ccba29023f9769f86401551bfcfafa1e98c7c2d18cb23ec1b85cc867bf3",
+      "duplicate_anchor_refused": true
+    },
+    {
+      "identity": "erp.manage_initial_prepayment_v1(jsonb)",
+      "release": "20260925010000_erp_v2_6_20ba_cp6_audit_closure.sql",
+      "raw_release_definition_sha256": "63ef5f874161bf738746050ab972a3bac5f14de7f9f18692e74c40649ff93db3",
+      "raw_release_body_sha256": "ca489e52ac09993f5d74a42b133f8d6f1170e1860c81c25bd8a34bbe35f5b7a6",
+      "transformed_body_sha256": "5fc016fe72b0841c1e29fbc1d270d53b661365564b794b9e822eb8d87f1d7735",
+      "duplicate_anchor_refused": true
+    },
+    {
+      "identity": "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+      "release": "20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
+      "raw_release_definition_sha256": "f97b596da7357142d2f316c660e571ad3f5e967ad94ebffb9ffab15b2c1081c2",
+      "raw_release_body_sha256": "37dd8e108424b29fe031bcfa0dd68ab8a95c390c7fcea56215c1405ec5526608",
+      "transformed_body_sha256": "53f479794796cdef4084d31aeb2fe74fb316eabdd745e171f7000bf47a2a5f1a",
+      "duplicate_anchor_refused": true
+    },
+    {
+      "identity": "erp.reverse_sales_return(uuid,text)",
+      "release": "20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+      "raw_release_definition_sha256": "68b1c0723a855b51466815a10335ca0bb3aebd468a81db965776370b96fcad83",
+      "raw_release_body_sha256": "36a387b0dee2cf551b1fb636ff7ff9a4fb61575961cda3b35eb215ff468924d5",
+      "transformed_body_sha256": "98ca71077c28212f9009de1408110634fdcfd54119a652fe54bd7aad032f6e05",
+      "duplicate_anchor_refused": true
+    },
+    {
+      "identity": "erp.reverse_sale(uuid,text)",
+      "release": "20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+      "raw_release_definition_sha256": "063069b5e611a7f829a02e882223e9bf1aa47802c56f09e003425742a782972e",
+      "raw_release_body_sha256": "c702a9f7bb920ae58e9b03591ee72a545c16d7aab1cd1b008e82b0be1c239d31",
+      "transformed_body_sha256": "3efbdb6bea7c6aa5f633d4d9d2fb6e0cce65c9c4388cd4ccbde826d8b289feb2",
+      "duplicate_anchor_refused": true
+    },
+    {
+      "identity": "erp.sync_opening_hpp_after_return_status()",
+      "release": "20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+      "raw_release_definition_sha256": "e31aed569bd68f66710494d69583e59309a6c6704f4085dd7c95648cbd80a2d1",
+      "raw_release_body_sha256": "5bd16275dc867461f672526766b7ea0f999f8a7ce8a2ab4760a750d02d811a01",
+      "transformed_body_sha256": "40a03b82a48d686a69b9424734544f3ca35754edd3fd4aad29dacf46e294bd3d",
+      "duplicate_anchor_refused": true
+    }
+  ]
+}

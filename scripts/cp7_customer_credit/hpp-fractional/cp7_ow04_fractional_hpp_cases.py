@@ -53,7 +53,7 @@ PRIVATE_SCHEMAS = ('cp7_credit', 'cp7_sales', 'ow04_ordinal_wrapper',
                    'ow04_source_proposal', 'ow04_pure_kernel')
 SCOPES = ('initial_return_work', 'source_mutation_scope', 'execution_context',
           'return_native_scope', 'return_command_scope', 'posting_scope',
-          'initial_refund_posting_scope')
+          'initial_refund_posting_scope', 'opening_return_hpp_work_v1')
 HPP_KEYS = ('FG_INVENTORY', 'COGS', 'OTHER_EXPENSE', 'OTHER_INCOME')
 
 
@@ -626,6 +626,56 @@ def _refuse_unchanged(cur, f, operation, code):
     return error
 
 
+def _opening_failure_controls(cur, f, query, envelope):
+    """Labelled disposable cache/trigger/work-scope fault injection only.
+
+    No economic fixture or monetary expected is rewritten. Each injection is
+    rolled back before the genuine Native settlement and before source verify.
+    """
+    controls = {}
+    b.api.admin(cur)
+    prior_return = cur.execute('select id from erp.sales_returns where sale_id=%s order by id limit 1',
+                               (f['sale'],)).fetchone()[0]
+    for old, new in ((None, 'POSTED'), ('DRAFT', None), ('POSTED', 'REVERSED'), ('DRAFT', 'DRAFT')):
+        assert cur.execute('select cp7_credit.defer_opening_return_hpp_v1(%s,%s,%s)',
+                           (prior_return, old, new)).fetchone() == (False,)
+    assert cur.execute("select cp7_credit.defer_opening_return_hpp_v1(%s,'DRAFT','POSTED')",
+                       (prior_return,)).fetchone() == (False,)
+    controls['unowned_and_nonexact_transitions_do_not_defer'] = True
+    with nf.isolated(cur):
+        # Same money and same HPP version; changing only the activation cache
+        # must still invalidate the complete reviewed source binding.
+        cur.execute("update erp.opening_lot_hpp_gl_state set updated_at=updated_at-interval '1 microsecond'where lot_id=%s",
+                    (f['lot'],))
+        changed = nf.call_quote(cur, query)
+        assert changed['binding']['quote_sha256'] != envelope['document']['quote_sha256']
+        controls['cache_only_stale_quote_refusal'] = _refuse_unchanged(cur, f,
+            lambda: initial._settle(cur, envelope, uuid.uuid4()), 'CP7_CREDIT_COMPLETE_QUOTE_CHANGED')
+    with nf.isolated(cur):
+        # Fail only the diagnostic write AFTER the actual Native journal.
+        # The owning SQL statement must roll back stock, journal, family and
+        # request together; no receipt from a partial transaction is accepted.
+        cur.execute("create function pg_temp.ow04_refuse_opening_diagnostic()returns trigger language plpgsql as $$"
+            "begin if not exists(select 1 from erp.journal_entries j join cp7_credit.opening_return_hpp_work_v1 w "
+            "on j.source_id=w.return_id where j.source_type='SALES_RETURN'and w.backend_pid=pg_backend_pid()"
+            "and w.transaction_id=txid_current())then raise exception 'OW04_TEST_DIAGNOSTIC_BEFORE_NATIVE_JOURNAL';end if;"
+            "raise exception 'OW04_TEST_OPENING_DIAGNOSTIC_WRITE_REFUSED';end $$", prepare=False)
+        cur.execute('create trigger ow04_test_opening_diagnostic_refusal before update on erp.opening_lot_hpp_gl_state '
+            'for each row execute function pg_temp.ow04_refuse_opening_diagnostic()', prepare=False)
+        controls['diagnostic_failure_atomic_rollback'] = _refuse_unchanged(cur, f,
+            lambda: initial._settle(cur, envelope, uuid.uuid4()), 'OW04_TEST_OPENING_DIAGNOSTIC_WRITE_REFUSED')
+    with nf.isolated(cur):
+        def leak():
+            cur.execute('insert into cp7_credit.opening_return_hpp_work_v1 values(%s,pg_backend_pid(),txid_current(),%s,%s::uuid[])',
+                (prior_return, json.dumps(dict(kind='LABELLED_DISPOSABLE_LEAK_INJECTION')), [f['lot']]))
+            cur.execute('update cp7_credit.opening_return_hpp_work_v1 set backend_pid=backend_pid+1 where return_id=%s',
+                        (prior_return,))
+            cur.execute('set constraints all immediate')
+        controls['updated_work_witness_cannot_escape_deferred_closure'] = _refuse_unchanged(cur, f,
+            leak, 'CP7_CREDIT_OPENING_HPP_DEFERRED_SCOPE_LEAK')
+    return controls
+
+
 def _run(cur, today, gold):
     _require_installed(cur)
     with nf.isolated(cur):
@@ -671,6 +721,7 @@ def _run(cur, today, gold):
             assert quote['binding']['quote_sha256'] != old_quote['binding']['quote_sha256']
             assert quote['binding']['projection_sha256'] != old_quote['binding']['projection_sha256']
         envelope = _envelope(query, quote)
+        opening_controls = _opening_failure_controls(cur, f, query, envelope) if gold['id'] == IDS[0] else None
         frozen = copy.deepcopy(envelope)
         before = _preserved(cur, f)
         result = initial._settle(cur, envelope, request)
@@ -687,6 +738,7 @@ def _run(cur, today, gold):
             source_groups=f['groups'], source_recost=f.get('source_recost'), before_targets=before_targets,
             frozen_literal_delta=gold['delta'], quote=quote, outcome=result, actual=actual,
             old_quote=old_quote, stale_refusal=refusal,
+            opening_failure_controls=opening_controls,
             original_payment_and_all_prior_journals_byte_equal=True,
             replay_same_outcome=True, replay_additional_effects=0, deferred_constraints_forced=True)
 

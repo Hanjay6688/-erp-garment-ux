@@ -1,0 +1,8 @@
+{
+  "classification": "SOURCE_ONLY_INTERNAL_COUNTER_NO_DATABASE_OR_RUNTIME",
+  "native_sync_body_sha256": "59d22a90beecddbe2cd4ca8cd246493c61f2ec9ad882311e7f974819cd117a1e",
+  "original_trigger_body_sha256": "5bd16275dc867461f672526766b7ea0f999f8a7ce8a2ab4760a750d02d811a01",
+  "diagnostic_tail_byte_equal": true,
+  "diagnostic_tail_sha256": "a18f1660895f97549dd3dce98a73e0a16e57f5d313da4c8b6a3e9fdf32fe5783",
+  "expected_sha256": "f53001d8ec87289a7fc7ca1a6f69752f994480418256923133329e6395a37d4c"
+}

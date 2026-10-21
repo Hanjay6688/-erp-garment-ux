@@ -49,6 +49,8 @@ SQL_FILES = (
     'coordinator/01_coordinator_facts.sql', 'coordinator/02_hpp_book.sql',
     'coordinator/02_initial_projection.sql',
     'coordinator/03_native_initial_callbacks.sql',
+    'coordinator/03_opening_return_hpp.sql',
+    'coordinator/03_opening_hpp_diagnostics.sql',
     'coordinator/04_register_and_materialize.sql', 'coordinator/05_factual_profile.sql',
     'coordinator/06_finish_and_closed_routes.sql',
     'coordinator/07_capabilities_and_quote.sql', 'coordinator/08_outer_wrapper.sql',
@@ -205,6 +207,36 @@ def _view_capture(cur):
     return {'definition': row[0], 'owner': row[1], 'acl': row[2], 'options': row[3]}
 
 
+def _opening_trigger_capture(cur):
+    """Bind the real unchanged trigger attachment, not only its function."""
+    rows = cur.execute("select t.oid::text,n.nspname,c.relname,t.tgname,t.tgenabled::text,t.tgtype::integer,"
+        "t.tgisinternal,t.tgnargs,t.tgconstraint::text,t.tgdeferrable,t.tginitdeferred,"
+        "pg_get_expr(t.tgqual,t.tgrelid),encode(t.tgargs,'hex'),"
+        "array(select a.attname::text from pg_attribute a where a.attrelid=t.tgrelid and a.attnum=any(t.tgattr)order by a.attnum),"
+        "pg_get_triggerdef(t.oid,false),pg_get_userbyid(c.relowner) "
+        "from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace "
+        "where t.tgfoid='erp.sync_opening_hpp_after_return_status()'::regprocedure order by t.oid").fetchall()
+    if len(rows) != 1:
+        raise ValueError('OW04_OPENING_RETURN_TRIGGER_ATTACHMENT_SET_CHANGED')
+    row = rows[0]
+    expected = ('erp','sales_returns','trg_sync_opening_hpp_after_return_status','O',17,
+        False,0,'0',False,False,None,'',['status'],
+        'CREATE TRIGGER trg_sync_opening_hpp_after_return_status AFTER UPDATE OF status ON erp.sales_returns '
+        'FOR EACH ROW EXECUTE FUNCTION erp.sync_opening_hpp_after_return_status()', 'postgres')
+    if row[1:] != expected:
+        raise ValueError('OW04_OPENING_RETURN_TRIGGER_ATTACHMENT_CHANGED')
+    return row
+
+
+def _opening_pending_capture(cur):
+    return cur.execute("select c.relname,pg_get_userbyid(c.relowner),c.relrowsecurity,c.relforcerowsecurity,"
+        "(select jsonb_agg(jsonb_build_array(k.conname,k.contype,k.condeferrable,k.condeferred,k.convalidated,"
+        "pg_get_constraintdef(k.oid,false))order by k.conname)from pg_constraint k where k.conrelid=c.oid),"
+        "(select jsonb_agg(jsonb_build_array(t.tgname,t.tgenabled,pg_get_triggerdef(t.oid,false))order by t.tgname)"
+        "from pg_trigger t where t.tgrelid=c.oid and not t.tgisinternal)from pg_class c "
+        "where c.oid='cp7_credit.opening_return_hpp_work_v1'::regclass").fetchone()
+
+
 @contextmanager
 def _postgres_reader(cur):
     """Measure visibility as the actual private guard owner, not installer."""
@@ -229,6 +261,8 @@ def install(cur, predecessor_verify, predecessor_functions, *, native_empty=Fals
     refunds = load('ow04_integrated_refund_plan', ROOT / 'refund/02_native_refund_transform.py')
     approval, receipt = _predecessor_approval(cur, assembly, predecessor_verify, predecessor_functions)
     payment_link_before = _payment_link_metadata(cur)
+    opening_trigger_before = _opening_trigger_capture(cur)
+    opening_diagnostic_before = assembly._capture(cur, 'erp.sync_opening_lot_hpp_to_gl(uuid,date)')
     captures = assembly.capture_verified(cur, approval, REPO)
     plan = assembly.derive_plan(captures, approval)
     reader_before = {sig: assembly._capture(cur, sig) for sig in readers.TRANSFORMS}
@@ -298,6 +332,9 @@ def install(cur, predecessor_verify, predecessor_functions, *, native_empty=Fals
         context_proof=context_proof, refund_proof=refund_proof,
         source_sha256=expected_sources)
     state['payment_link_before'] = payment_link_before
+    state['opening_trigger_before'] = opening_trigger_before
+    state['opening_diagnostic_before'] = opening_diagnostic_before
+    state['opening_pending_inventory'] = _opening_pending_capture(cur)
     state['private_inventory'] = _private_inventory(cur)
     verify(cur, state)
     if native_empty:
@@ -325,6 +362,12 @@ def verify(cur, state):
         raise ValueError('OW04_PRIVATE_FUNCTION_TABLE_OR_ACL_CHANGED')
     if _payment_link_metadata(cur)!=state['payment_link_before']:
         raise ValueError('OW04_PREDECESSOR_PAYMENT_LINK_ACL_CHANGED')
+    if _opening_trigger_capture(cur) != state['opening_trigger_before']:
+        raise ValueError('OW04_OPENING_RETURN_TRIGGER_ATTACHMENT_CHANGED')
+    if assembly._capture(cur, 'erp.sync_opening_lot_hpp_to_gl(uuid,date)') != state['opening_diagnostic_before']:
+        raise ValueError('OW04_OPENING_HPP_ORIGINAL_DIAGNOSTIC_CHANGED')
+    if _opening_pending_capture(cur) != state['opening_pending_inventory']:
+        raise ValueError('OW04_OPENING_HPP_PENDING_CLOSURE_CHANGED')
     for sig, target in state['reader_targets'].items():
         actual = assembly._capture(cur, sig)
         expected = state['reader_before'][sig]
@@ -371,6 +414,11 @@ def uninstall(cur, state):
     for schema in NEW_SCHEMAS:
         if cur.execute('select to_regnamespace(%s)is not null', (schema,)).fetchone()[0]:
             raise ValueError('OW04_UNINSTALL_SCHEMA_REMAINS')
+    if _opening_trigger_capture(cur) != state['opening_trigger_before']:
+        raise ValueError('OW04_UNINSTALL_OPENING_RETURN_TRIGGER_CHANGED')
+    assembly = load('ow04_uninstalled_native_capture', ROOT / 'integration/derive_plan.py')
+    if assembly._capture(cur, 'erp.sync_opening_lot_hpp_to_gl(uuid,date)') != state['opening_diagnostic_before']:
+        raise ValueError('OW04_UNINSTALL_OPENING_HPP_DIAGNOSTIC_CHANGED')
     for sig in NEW_PUBLIC + NEW_ERP + NEW_SALES:
         if cur.execute('select to_regprocedure(%s)is not null', (sig,)).fetchone()[0]:
             raise ValueError('OW04_UNINSTALL_FUNCTION_REMAINS')

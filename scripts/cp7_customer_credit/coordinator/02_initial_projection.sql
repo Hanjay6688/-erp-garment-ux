@@ -135,7 +135,7 @@ language plpgsql volatile security definer set search_path=''set TimeZone='UTC'a
 declare x jsonb;a record;r record;t record;b record;cost numeric;owned numeric;sold numeric;returned numeric;
  hpp numeric:=0;items jsonb:='[]';groups jsonb:='[]';lines jsonb:='[]';group_amount numeric;
  products uuid[];pos uuid[];lots uuid[];versions uuid[];fresh_lots uuid[];fresh_versions uuid[];
- before_profile jsonb;after_profile jsonb;before_target jsonb;after_target jsonb;actual_book jsonb;saved_state jsonb;account_facts jsonb;source_support jsonb;
+ before_profile jsonb;after_profile jsonb;before_target jsonb;after_target jsonb;actual_book jsonb;saved_state jsonb;account_facts jsonb;source_support jsonb;opening_source jsonb;
  delta_fg numeric;delta_cogs numeric;delta_other numeric;fg_account uuid;cogs_account uuid;expense_account uuid;income_account uuid;
 begin
  select array_agg(distinct i.product_id order by i.product_id),array_agg(distinct fl.po_id order by fl.po_id)filter(where fl.po_id is not null)
@@ -153,6 +153,8 @@ begin
  -- newly discovered earlier-order rows from the completion callback.
  perform 1 from erp.fg_lots where id=any(lots)order by id for update;
  perform 1 from erp.hpp_versions where id=any(versions)order by id for share;
+ perform 1 from erp.opening_lot_hpp_gl_state where lot_id=any(lots)order by lot_id for update;
+ perform 1 from erp.opening_hpp_corrections where lot_id=any(lots)order by id for share;
  perform 1 from erp.po_hpp_gl_state where po_id=any(pos)order by po_id for update;
  select coalesce(array_agg(id order by id),'{}'::uuid[])into fresh_lots from erp.fg_lots where product_id=any(products)or po_id=any(pos);
  select coalesce(array_agg(id order by id),'{}'::uuid[])into fresh_versions from erp.hpp_versions where lot_id=any(fresh_lots);
@@ -195,6 +197,7 @@ begin
   order by po_id nulls first,product_id loop
   saved_state:=null;
   source_support:=cp7_credit.initial_hpp_support_v1(r.product_id,r.po_id);
+  opening_source:=cp7_credit.initial_opening_hpp_source_v1(r.product_id,r.po_id);
   if r.po_id is null then
    select *into strict t from erp.compute_non_po_product_hpp_targets_v2620f(r.product_id);
    select coalesce(sum(l.debit-l.credit)filter(where l.account_id=fg_account),0)fg_value,
@@ -236,12 +239,14 @@ begin
   delta_other:=(after_target->>'other_out_value')::numeric-b.other_out_value;
   if cp7_credit.initial_hpp_support_v1(r.product_id,r.po_id)is distinct from source_support then
    raise exception 'CP7_CREDIT_HPP_SUPPORT_CHANGED_DURING_READ';end if;
+  if cp7_credit.initial_opening_hpp_source_v1(r.product_id,r.po_id)is distinct from opening_source then
+   raise exception 'CP7_CREDIT_OPENING_HPP_SOURCE_CHANGED_DURING_READ';end if;
   if delta_fg+delta_cogs+delta_other<>0 or(after_target->>'hpp_total_cost')::numeric<>(before_target->>'hpp_total_cost')::numeric
    or r.po_id is not null and(delta_fg<0 or delta_cogs>0)then raise exception 'CP7_CREDIT_HPP_VECTOR_NOT_CONSERVED';end if;
   group_amount:=greatest(delta_fg,0)+greatest(delta_cogs,0)+greatest(delta_other,0);hpp:=hpp+group_amount;
   groups:=groups||jsonb_build_array(jsonb_build_object('product_id',case when r.po_id is null then r.product_id end,'po_id',r.po_id,
    'amount',cp7_credit.cent_text(group_amount),'before_target',before_target,'after_target',after_target,'before_book',actual_book,'before_saved_state',saved_state,
-   'before_profile',before_profile,'after_profile',after_profile,'source_support',source_support,
+   'before_profile',before_profile,'after_profile',after_profile,'source_support',source_support,'opening_source',opening_source,
    'delta',jsonb_build_object('fg_value',delta_fg,'cogs_value',delta_cogs,'other_out_value',delta_other)));
   for x in select *from jsonb_array_elements(jsonb_build_array(
    jsonb_build_object('mapping_key','FG_INVENTORY','signed_amount',delta_fg),jsonb_build_object('mapping_key','COGS','signed_amount',delta_cogs),

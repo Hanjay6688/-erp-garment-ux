@@ -334,7 +334,7 @@ def verify_installed(cur, plan, trusted_approved_manifest):
     if _helper_rows(cur) != plan['immutable_helper_sources']:
         raise ValueError('OW04_IMMUTABLE_HELPER_BASELINE_CHANGED')
     return {'contract_version': 'ow04.native-install-verification.v1',
-            'plan_sha256': digest(canonical(plan)), 'functions_verified': 19,
+            'plan_sha256': digest(canonical(plan)), 'functions_verified': len(plan['entries']),
             'original_poster_unchanged': True, 'immutable_helper_sources_unchanged': True}
 
 
@@ -354,7 +354,7 @@ class _LegacyDefinitionView:
         plan = _checked_plan(plan, manifest)
         plan_sha = digest(canonical(plan))
         if proof != {'contract_version': 'ow04.native-install-verification.v1',
-                     'plan_sha256': plan_sha, 'functions_verified': 19,
+                     'plan_sha256': plan_sha, 'functions_verified': len(plan['entries']),
                      'original_poster_unchanged': True, 'immutable_helper_sources_unchanged': True}:
             raise ValueError('OW04_LEGACY_VIEW_REQUIRES_EXACT_LIVE_PROOF')
         self.cur, self.reads = cur, []

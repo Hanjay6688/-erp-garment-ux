@@ -1,0 +1,17 @@
+{
+  "classification": "SOURCE_DERIVED_DIAGNOSTICS_ONLY_NOT_RUNTIME_PROOF",
+  "native_identity": "erp.sync_opening_lot_hpp_to_gl(uuid,date)",
+  "native_source_path": "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+  "native_body_sha256": "59d22a90beecddbe2cd4ca8cd246493c61f2ec9ad882311e7f974819cd117a1e",
+  "native_tail_sha256": "f9882c78a1214cdb53f054e629805debb15c97cd9d8a72358b6acb9cff339f1e",
+  "private_file": "scripts/cp7_customer_credit/coordinator/03_opening_hpp_diagnostics.sql",
+  "private_file_sha256": "18fc33e4a88dc211fe7a99fb3dd39251618ed7eda006cacb5d7ab29bfddd7c25",
+  "exact_native_tail": true,
+  "financial_and_global_conversion_calls_removed": true,
+  "required_guards": [
+    "typed own pending return",
+    "original Native source basis delta exactly zero",
+    "actual Native full target equals book"
+  ],
+  "production_go": false
+}

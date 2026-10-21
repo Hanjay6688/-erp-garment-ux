@@ -42,7 +42,8 @@ def post_return(body):
         "cp7_credit.post_return_journal('SALES_RETURN',h.id,")
     # Run for both the journal and legitimate journal-free Native branches.
     anchor = "      'Sales return from customer · cumulative exact HPP target',v_lines);\n  end if;"
-    out = once(out, anchor, anchor + '\n  v_paid:=cp7_credit.native_return_complete(h.id,v_refund,v_net_total);'
+    out = once(out, anchor, anchor + '\n  perform cp7_credit.flush_opening_return_hpp_v1(h.id);'
+        '\n  v_paid:=cp7_credit.native_return_complete(h.id,v_refund,v_net_total);'
         '\n  perform erp.require_internal();')
     out = before_terminal_end(out, 'perform cp7_credit.native_return_leave(h.id);\n  perform erp.require_internal();')
     if body.count(REFUSAL) != out.count(REFUSAL) or body.count(REFUSAL) != 1:
@@ -53,6 +54,15 @@ def post_return(body):
         if body.count(guard) != out.count(guard) or not body.count(guard):
             raise ValueError('OW04_NATIVE_RETURN_GUARD_CHANGED')
     return out
+
+
+def opening_return_status(body):
+    # Preserve the accepted trigger's invoker metadata and entire original
+    # loop. Only a typed, actually guarded DRAFT->POSTED return can defer it.
+    if digest(body) != '5bd16275dc867461f672526766b7ea0f999f8a7ce8a2ab4760a750d02d811a01':
+        raise ValueError('OW04_OPENING_RETURN_TRIGGER_PREDECESSOR_CHANGED')
+    anchor = '  if new.status is not distinct from old.status then return new; end if;'
+    return once(body, anchor, anchor + '\n  if cp7_credit.defer_opening_return_hpp_v1(new.id,old.status::text,new.status::text)then return new;end if;')
 
 
 def post_payment(body):
@@ -197,6 +207,7 @@ SPECS = (
  ('erp.save_initial_import_action_v1(text,jsonb,uuid)','20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql','save_initial_import_action_v1',prepayment_outer),
  ('erp.reverse_sales_return(uuid,text)','20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql','reverse_sales_return',reverse_return),
  ('erp.reverse_sale(uuid,text)','20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql','reverse_sale',reverse_sale),
+ ('erp.sync_opening_hpp_after_return_status()','20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql','sync_opening_hpp_after_return_status',opening_return_status),
 )
 
 

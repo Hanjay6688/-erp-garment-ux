@@ -1,0 +1,27 @@
+{
+  "classification": "INDEPENDENT_WRITER_INTERNAL_INITIAL_RISKS",
+  "recorded_at": "2026-10-21T02:02:14.142345+00:00",
+  "other_reviewer_conclusions_received": false,
+  "initial_hashes": {
+    "scripts/cp7_customer_credit/admission/03_native_admission_transform.py": "e597a46cad0252cf703276f20ebe071c734778811f97dedf97d81ed9048f4dfc",
+    "scripts/cp7_customer_credit/integration/derive_plan.py": "056b1477e5ef83b4837db0158b94bf5cb34ee052bab2aa4b9201a57ba2c9fd44",
+    "scripts/cp7_customer_credit/integration/owning_bundle.py": "9ced5c884c3d2302304f0b13401ad2d96c5e07674983ba644cf07959d8467363",
+    "scripts/cp7_customer_credit/coordinator/03_native_initial_callbacks.sql": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843",
+    "scripts/cp7_customer_credit/coordinator/04_register_and_materialize.sql": "9c3ca9d1be3f76237d7b6c6415cc42c4b4fdefe559441b323274e1a0694cc0a3",
+    "scripts/cp7_customer_credit/native-empty/02_native_empty_callbacks.sql": "68f458c7e061b3c7161e5c1525c678defc343869c766a60d9a5139366f414173",
+    "scripts/cp7_customer_credit/native-empty/04_exact_overlays.sql": "08af7ed38e9211e39a699bd9182b379b9c8c390b87ee10d14c97485f25fc5aa0",
+    "scripts/cp7_customer_credit/hpp-fractional/EXPECTED.json": "f53001d8ec87289a7fc7ca1a6f69752f994480418256923133329e6395a37d4c"
+  },
+  "source_observation": "Original trigger runs sync_opening_lot_hpp_to_gl immediately on any sales_returns status change and has no SECURITY DEFINER. Native admission currently adds return_complete only after journal branch; trigger is not in NATIVE/SPECS capture census.",
+  "risks": [
+    "Trigger must enter exact capture/approval/derive/install/verify/uninstall census; preserve metadata, trigger identity and trigger binding. Do not replace entire trigger ad hoc with unapproved source.",
+    "Trigger is SECURITY INVOKER and private scope tables are RLS-denied; direct table predicates under owning callback role may be invisible. A private postgres-owned helper with no public/Native admission should perform precise gate if needed; preserve metadata of Native trigger.",
+    "Deferral must check exact DRAFT->POSTED and exact return/sale/customer + current PID/tx/actor, phase ENTERED, native scope completed=false and guard values already nonnull. Neither a stray initial row nor alone native_empty_owns_return can waive sync.",
+    "Native EMPTY predicate must verify phase GUARDED, actual current principal plus principal hash and exact return/sale. Null human auth must remain supported only by current existing Native principal rules.",
+    "After Native journal and before completion/registration, assert actual Native target/book equal using correct PO/nonPO readers; then run original opening diagnostic sync under same authoritative period/economic semantics and assert no extra journal or stock effects.",
+    "Do not call whole trigger routine without NEW/OLD outside trigger. Extract exact original per-lot loop semantics into controlled helper or reproduce loop via approved transform and retain all original nonowned/inverse behavior.",
+    "Any bypass or diagnostic error must abort the whole Native/public transaction, leaving no materialization/family/credit/payment/stock/journal/scope residue; no exception swallowing or release-before-check.",
+    "New source and transformed trigger dependencies must be hash-bound in source_files and final native58 source identity; f530 monetary expected bytes remain untouched."
+  ],
+  "initial_verdict": "PLANNED_DIRECTION_PLAUSIBLE; NEED_ACTUAL_TRANSFORM_AND_ATOMIC_CONTROL_PROOFS_BEFORE_NEW_CI"
+}

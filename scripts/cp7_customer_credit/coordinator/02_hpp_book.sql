@@ -217,6 +217,20 @@ language sql stable security definer set search_path=''set TimeZone='UTC'as $fun
    select m.account_id from erp.accounting_account_mappings m where m.mapping_key in('FG_INVENTORY','COGS','OTHER_EXPENSE','OTHER_INCOME'))))
 $function$;
 
+-- These rows decide whether the opening-lot status trigger is active and
+-- whether it represents a pending source correction. Seal presence/absence
+-- and complete history independently of the numeric cumulative target.
+create function cp7_credit.initial_opening_hpp_source_v1(p_product uuid,p_po uuid)returns jsonb
+language sql stable security definer set search_path=''set TimeZone='UTC'as $function$
+ with lots as(select l.id from erp.fg_lots l where l.lot_origin='OPENING'
+  and((p_po is null and l.po_id is null and l.product_id=p_product)or(p_po is not null and l.po_id=p_po)))
+ select jsonb_build_object('states',(select coalesce(jsonb_agg(to_jsonb(s)order by s.lot_id),'[]')
+  from erp.opening_lot_hpp_gl_state s where s.lot_id in(select id from lots)),
+  'corrections',(select coalesce(jsonb_agg(to_jsonb(c)order by c.id),'[]')from erp.opening_hpp_corrections c where c.lot_id in(select id from lots)))
+$function$;
+alter function cp7_credit.initial_opening_hpp_source_v1(uuid,uuid)owner to postgres;
+revoke all on function cp7_credit.initial_opening_hpp_source_v1(uuid,uuid)from public,anon,authenticated,service_role,cp7_capture,cp7_sales_read,cp7_sales_write;
+
 -- A numerically unchanged sibling adjustment/reversal is still a different
 -- source. Seal actual rows, not only balances. Own transient return DRAFTs
 -- are deliberately excluded from the before-source profile.
