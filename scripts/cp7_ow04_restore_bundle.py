@@ -41,10 +41,10 @@ def _acl(column, owner, kind):
 QUERIES = {
  'schemas': "select n.nspname,jsonb_build_array(pg_get_userbyid(n.nspowner),"+_acl('n.nspacl','n.nspowner','n')+")from pg_namespace n where "+NAMESPACE,
  'relations': "select n.nspname||'.'||c.relname,jsonb_build_array(pg_get_userbyid(c.relowner),c.relkind,c.relpersistence,c.relrowsecurity,c.relforcerowsecurity,c.relispartition,c.relreplident,c.reloptions,c.relispopulated,case when c.relkind in('v','m')then pg_get_viewdef(c.oid,false)else null end,pg_get_partkeydef(c.oid),pg_get_expr(c.relpartbound,c.oid),case when c.relkind='S'then "+_acl('c.relacl','c.relowner','s')+"else "+_acl('c.relacl','c.relowner','r')+"end)from pg_class c join pg_namespace n on n.oid=c.relnamespace where "+NAMESPACE,
- 'columns': "select n.nspname||'.'||c.relname||':'||a.attnum::text,jsonb_build_array(a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attisdropped,a.attidentity,a.attgenerated,a.attstorage,a.attcompression,a.attstattarget,a.attoptions,a.attfdwoptions,a.attcollation::regcollation::text,a.attacl::text[],pg_get_expr(d.adbin,d.adrelid))from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attnum>0 and "+NAMESPACE,
+ 'columns': "select n.nspname||'.'||c.relname||':'||a.attname,jsonb_build_array(a.attname,row_number()over(partition by c.oid order by a.attnum),format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,a.attstorage,a.attcompression,a.attstattarget,a.attoptions,a.attfdwoptions,a.attcollation::regcollation::text,a.attacl::text[],pg_get_expr(d.adbin,d.adrelid))from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attnum>0 and not a.attisdropped and "+NAMESPACE,
  'constraints': "select n.nspname||'.'||coalesce(c.relname,t.typname)||':'||k.conname,jsonb_build_array(k.contype,k.condeferrable,k.condeferred,k.convalidated,k.conislocal,k.coninhcount,k.connoinherit,pg_get_constraintdef(k.oid,false))from pg_constraint k join pg_namespace n on n.oid=k.connamespace left join pg_class c on c.oid=k.conrelid left join pg_type t on t.oid=k.contypid where "+NAMESPACE,
  'indexes': "select n.nspname||'.'||c.relname,jsonb_build_array(pg_get_indexdef(i.indexrelid),i.indisvalid,i.indisready,i.indislive,i.indisclustered,i.indisreplident)from pg_index i join pg_class c on c.oid=i.indexrelid join pg_namespace n on n.oid=c.relnamespace where "+NAMESPACE,
- 'triggers': "select n.nspname||'.'||c.relname||':'||case when t.tgisinternal then k.conname||':'||t.tgfoid::regprocedure::text||':'||t.tgtype::text else t.tgname end,jsonb_build_array(t.tgisinternal,t.tgenabled,t.tgtype,t.tgnargs,encode(t.tgargs,'hex'),t.tgattr::text,t.tgdeferrable,t.tginitdeferred,t.tgfoid::regprocedure::text,pg_get_expr(t.tgqual,t.tgrelid,false),t.tgoldtable,t.tgnewtable,k.conname,case when t.tgconstrrelid=0 then null else t.tgconstrrelid::regclass::text end,case when t.tgparentid=0 then null else (select p.tgname from pg_trigger p where p.oid=t.tgparentid)end)from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace left join pg_constraint k on k.oid=t.tgconstraint where "+NAMESPACE,
+ 'triggers': "select n.nspname||'.'||c.relname||':'||case when t.tgisinternal then k.conname||':'||t.tgfoid::regprocedure::text||':'||t.tgtype::text else t.tgname end,jsonb_build_array(t.tgisinternal,t.tgenabled,t.tgtype,t.tgnargs,encode(t.tgargs,'hex'),coalesce((select jsonb_agg(a.attname order by x.ord)from unnest(t.tgattr::smallint[])with ordinality x(attnum,ord)join pg_attribute a on a.attrelid=t.tgrelid and a.attnum=x.attnum),'[]'::jsonb),t.tgdeferrable,t.tginitdeferred,t.tgfoid::regprocedure::text,case when t.tgisinternal then null else pg_get_triggerdef(t.oid,false)end,t.tgoldtable,t.tgnewtable,k.conname,case when t.tgconstrrelid=0 then null else t.tgconstrrelid::regclass::text end,case when t.tgparentid=0 then null else (select p.tgname from pg_trigger p where p.oid=t.tgparentid)end)from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace left join pg_constraint k on k.oid=t.tgconstraint where "+NAMESPACE,
  'functions': "select p.oid::regprocedure::text,jsonb_build_array(pg_get_functiondef(p.oid),pg_get_userbyid(p.proowner),l.lanname,p.prokind,p.prosecdef,p.proleakproof,p.proisstrict,p.proretset,p.provolatile,p.proparallel,p.procost::text,p.prorows::text,p.proconfig,p.proargnames,p.proargmodes,pg_get_function_arguments(p.oid),pg_get_function_result(p.oid),p.prosupport::regprocedure::text,"+_acl('p.proacl','p.proowner','f')+")from pg_proc p join pg_namespace n on n.oid=p.pronamespace join pg_language l on l.oid=p.prolang where p.prokind<>'a'and "+NAMESPACE,
  'aggregates': "select p.oid::regprocedure::text,to_jsonb(a)from pg_proc p join pg_namespace n on n.oid=p.pronamespace join pg_aggregate a on a.aggfnoid=p.oid where "+NAMESPACE,
  'types': "select t.oid::regtype::text,jsonb_build_array(pg_get_userbyid(t.typowner),t.typtype,t.typcategory,t.typispreferred,t.typisdefined,t.typnotnull,case when t.typbasetype=0 then null else format_type(t.typbasetype,t.typtypmod)end,t.typdefault,t.typcollation::regcollation::text,"+_acl('t.typacl','t.typowner','t')+")from pg_type t join pg_namespace n on n.oid=t.typnamespace where "+NAMESPACE,
@@ -93,7 +93,9 @@ def _catalog_rows(cur):
     result={}
     with _catalog(cur):
         for kind,query in QUERIES.items():
-            rows=cur.execute(query).fetchall()
+            try:rows=cur.execute(query).fetchall()
+            except Exception as error:
+                raise ValueError('OW04_RESTORE_CATALOG_QUERY_FAILED: '+kind+': '+str(error))from error
             if kind=='aggregates'and rows:
                 raise ValueError('OW04_RESTORE_UNSUPPORTED_USER_AGGREGATE')
             values=dict(rows)
@@ -157,7 +159,7 @@ def _portable(catalog):
     result=deepcopy(catalog)
     for kind,indexes in (('constraints',(-1,)),('indexes',(0,)),
                          ('relations',(9,)),('policies',(-2,-1)),
-                         ('columns',(-1,)),('rules',(-1,))):
+                         ('columns',(-1,)),('rules',(-1,)),('triggers',(9,))):
         for row in result.get(kind,{}).values():
             for index in indexes:row[index]=_normal(row[index])
     return result

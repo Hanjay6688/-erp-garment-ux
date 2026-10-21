@@ -1,0 +1,13 @@
+{
+  "classification": "LOCAL_PGLITE_AND_REAL_FUNCTION_METADATA_CONTROLS_NOT_NATIVE",
+  "status": "PASS",
+  "query_kinds": 22,
+  "instances": 2,
+  "old_query_failure_reproduced": true,
+  "old_new_trigger_roundtrip_equal": true,
+  "dropped_column_active_ordinal_equal": true,
+  "changed_trigger_condition_refused": true,
+  "reordered_active_column_refused": true,
+  "changed_function_body_refused": true,
+  "restore_module_sha256": "b372f4f50efb35b77106642ce5b229756aa214c1d42837c5689a015239c1129d"
+}
