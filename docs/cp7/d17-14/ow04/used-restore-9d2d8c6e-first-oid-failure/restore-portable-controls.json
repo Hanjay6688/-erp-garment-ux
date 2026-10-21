@@ -1,0 +1,15 @@
+{
+  "classification": "LOCAL_PGLITE_AND_SOURCE_CONTROLS_NOT_NATIVE_RESTORE",
+  "portable_instances_equal": true,
+  "catalog_kinds": 21,
+  "controls": [
+    "functions_drift_refused",
+    "schemas_drift_refused",
+    "policies_drift_refused",
+    "roles_drift_refused",
+    "changed_constraint_values_refused",
+    "invalid_manifest_refused_before_io",
+    "invalid_manifest_refused_before_io"
+  ],
+  "status": "PASS"
+}

@@ -3,7 +3,8 @@
 The exact already-qualified product is installed unchanged. Actual CREDIT and
 REFUND operations are committed, dumped and restored to a fresh database. A
 restored reader must agree, and a restored owning source inverse plus replay
-must work. Source OID seals are not disabled/replaced to obtain a PASS.
+must work. A source-attested offline restore binding validates the complete
+backup before regenerating its strict local OID seal; it never disables it.
 Only this private disposable cluster and its two fixed test DB names are used.
 """
 from pathlib import Path
@@ -14,6 +15,7 @@ import transport_probe as transport
 import full_backend
 import cp7_p21_full_rehearsal_probe as old_drill
 import cp6_t3_backup_restore_drill as drill
+import cp7_ow04_restore_bundle as restore_bundle
 
 core=transport.core
 signed=core.signed_source
@@ -164,7 +166,13 @@ def run():
                 administrative_harness_users_seeded=seeded,test_usage_grant_revoked=granted))
         used_data=drill.data_hashes(SOURCE)
         used_profile=_database_profile(SOURCE)
-        old_drill.dump(SOURCE,USED_DUMP)
+        with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
+            backup,backup_sha=restore_bundle.export_manifest(cur,state)
+            # SHARE locks stay held while pg_dump takes the used backup.
+            old_drill.dump(SOURCE,USED_DUMP)
+            conn.rollback()
+        OUT.with_name('OW04_USED_RESTORE_MANIFEST.json').write_text(json.dumps(backup,indent=2)+'\n')
+        report['trusted_backup_manifest_sha256']=backup_sha
         restored=_restore(USED_DUMP,RESTORED,used_profile)
         assert restored['only_pg_cron_errors'],('USED_RESTORE_DUMP_ERRORS',restored)
         restored_data=drill.data_hashes(RESTORED)
@@ -173,6 +181,17 @@ def run():
             all_schema_table_hashes_equal=True,table_count=len(used_data)))
         with psycopg.connect(drill.url(RESTORED))as conn,conn.cursor()as cur:
             assert cur.execute('select current_database()').fetchone()==(RESTORED,)
+            cur.execute('savepoint before_restore_binding')
+            try:cur.execute('select cp7_credit.assert_source_native_trigger_census_v1()')
+            except psycopg.errors.RaiseException as error:
+                assert str(error).splitlines()[0]=='CP7_CREDIT_SOURCE_NATIVE_TRIGGER_CENSUS_CHANGED'
+                cur.execute('rollback to savepoint before_restore_binding')
+            else:raise AssertionError('USED_RESTORE_ORIGINAL_LOCAL_OID_SEAL_UNEXPECTEDLY_ACCEPTED')
+            cur.execute('release savepoint before_restore_binding')
+            binding=restore_bundle.rebind_restored(cur,backup,backup_sha,expected_database=RESTORED)
+            conn.commit()
+            report['steps'].append(dict(step='VERIFIED_RESTORE_CENSUS_REBIND',status='PASS',
+                original_raw_oid_guard_refused=True,administrative_product_binding=binding))
             granted,_=_foundation(cur)
             for x,credit,result,actual,wanted in fixtures:
                 nf.b.api.admin(cur)

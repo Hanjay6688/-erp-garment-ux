@@ -5,6 +5,7 @@ name: CP7 OW04 Used Credit Refund Backup Restore Qualification
     - codex/ow04-lifecycle-20261021
     paths:
     - scripts/ow04-qualification/used_restore_probe.py
+    - scripts/cp7_ow04_restore_bundle.py
     - docs/cp7/d17-14/ow04/USED_RESTORE_QUALIFICATION.json
     - .github/workflows/cp7-ow04-used-restore.yml
   workflow_dispatch: {}

@@ -1,0 +1,130 @@
+{
+  "artifact_zip_sha256": "5d2337fd10574825ec3baf2e606586686095d1ccd999c3cdc6ab6bfd5b5b9c95",
+  "artifact_zip_client_verified": true,
+  "zip_bytes": 1631097,
+  "original_json_bytes_preserved": true,
+  "files": [
+    {
+      "archive_member": "ALIGNED_CHAIN.json",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "raw_bytes": 17536,
+      "raw_sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+      "gzip_bytes": 4768,
+      "gzip_sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75",
+      "label": "T3_PREP",
+      "status": "PASS_ALIGNED_CHAIN_TO_AB",
+      "steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    {
+      "archive_member": "CP7_OW04_USED_RESTORE.json",
+      "file": "CP7_OW04_USED_RESTORE.json.gz",
+      "raw_bytes": 54574,
+      "raw_sha256": "d9305cadf9a180b47e7c2fcf7a1290ff8ead95086af404d6e358278f53a26cb3",
+      "gzip_bytes": 12777,
+      "gzip_sha256": "1f91e9bc935e9cef3bd75784dfd7a60c93f8810601fab33642d35f2c37bb33de",
+      "label": "CP7_OW04_USED_RESTORE",
+      "status": "INCOMPLETE",
+      "candidate_commit": "9d2d8c6eb4cbdda9925870e57e3f5e380439eb99",
+      "cp6_restored": true,
+      "error": "CP7_CREDIT_SOURCE_NATIVE_TRIGGER_CENSUS_CHANGED\nCONTEXT:  PL/pgSQL function cp7_credit.assert_source_native_trigger_census_v1() line 90 at RAISE\nSQL statement \"SELECT cp7_credit.assert_source_native_trigger_census_v1()\"\nPL/pgSQL function cp7_credit.source_request_enter_v1(text,jsonb,uuid,text) line 14 at PERFORM\nSQL statement \"SELECT cp7_credit.source_request_enter_v1(p_action,p_payload,p_request,p_expected)\"\nPL/pgSQL function cp7_sales.apply_command(text,jsonb,uuid,text) line 65 at PERFORM\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 26 at assignment\nSQL function \"erp_cp7_save_sale_v1\" statement 1",
+      "scenario_id": "OW04_USED_CREDIT_REFUND_RESTORE_CONTINUE",
+      "hosted": false,
+      "native_rerun": false,
+      "steps": [
+        {
+          "step": "COMMITTED_CREDIT_AND_REFUND",
+          "status": "PASS"
+        },
+        {
+          "step": "DUMP_AND_FRESH_RESTORE",
+          "status": "PASS"
+        },
+        {
+          "step": "RESTORED_CREDIT_AND_REFUND_READS",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "archive_member": "T3_BACKUP_RESTORE_DRILL.json",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "raw_bytes": 1470,
+      "raw_sha256": "1410388c2f9fe3927a79bebc1fcfaa8842b4ba6d34a018aa37f8dc0740769571",
+      "gzip_bytes": 645,
+      "gzip_sha256": "e6f2ef6c1772b3340afffa62744b1a1a078bda56cf89f9331c9a7f5ae2c37453",
+      "label": "T3_PREP_BACKUP_RESTORE_DRILL",
+      "status": "RESTORED_IDENTICAL"
+    },
+    {
+      "archive_member": "T3_PACKAGE_FILES_INSTALL.json",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "label": "T3_PREP_RELEASE_PACKAGE_INSTALL",
+      "status": "ALL_FILES_INSTALLED"
+    },
+    {
+      "archive_member": "T3_PACKAGE_INSTALL.json",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360401,
+      "raw_sha256": "f8a36c99f1dfb144d2ed42dccc8c90098fd0f073eea43d7fca50b0109b630307",
+      "gzip_bytes": 11397,
+      "gzip_sha256": "cea3df7ebb6fa767bc0da2067e798acc6f635cd63b5e9144b26afc924ede0370",
+      "label": "T3_PREP",
+      "status": "ALL_STAGES_INSTALLED"
+    }
+  ],
+  "candidate_commit": "9d2d8c6eb4cbdda9925870e57e3f5e380439eb99",
+  "candidate_tree": "820a0c312710d53a8f8b0670a09076fb8ee16fc9",
+  "run_id": 39604038746,
+  "job_id": 119235546578,
+  "artifact_id": 12348300828,
+  "status": "INCOMPLETE_FIRST_RESTORED_SOURCE_OID_FAILURE_PRESERVED",
+  "all_641_table_hashes_equal": true,
+  "all_four_source_and_restored_reads_equal": true,
+  "cp6_restored": true,
+  "production_go": false
+}
