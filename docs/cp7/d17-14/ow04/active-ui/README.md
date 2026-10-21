@@ -44,7 +44,11 @@ composition; default product installation and active-source real-browser
 qualification still need to be joined and proved. The browser harness now
 accepts the exact 13-file active-source manifest and verifies the two shared
 unchanged prerequisites plus the original escrow. Its seven local source
-controls pass; actual browser execution on this composition is still pending.
+controls pass. Actual91f71ce7 browser execution now passes4/4, run39570791212/
+job119124147294, with real Auth, loopback-served product responses, exact active
+source hashes and an unchanged frontend checkout. The combined runtime receipt
+is `../CI_91F7_NATIVE63_REUSED_HTTP_RACE_BROWSER_PASS.json`. Default complete
+installation remains separate and open.
 
 OW04 remains open for the explicitly listed backend/customer-credit lifecycle
 gaps, complete composition, dependency routes and the2s save target. Nothing

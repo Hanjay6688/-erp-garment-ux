@@ -11,12 +11,17 @@ paket, seluruh pemulihan kasus, restore CP6 dan advisor lulus. Receipt tepat:
 `docs/cp7/d17-14/ow04/CI_E928_NATIVE63_PASS.json`. Hasil59/63 pada99695e10
 adalah kegagalan historis yang tetap dipreservasi.
 UI retur kini ada di sumber aplikasi aktif,182 kasus lokal unik dan build lulus.
-Pada8a683ef2, real Auth/HTTP14/14 dan retained race6/6 lulus. Dua source race
-berhenti pada pembanding JSON beda tipe angka; empat browser berhenti sebelum
-fixture karena rujukan modul salah. Keduanya diperbaiki hanya di alat kualifikasi;
-14 kontrol lokal mereproduksi kegagalan lama dan tetap menolak perubahan HPP.
-Run penuh belum lulus; bukti asli di `docs/cp7/d17-14/ow04/runtime-8a683ef2/`.
-Scope OW04 masih terbuka, production_go=false. Receipt menentukan hasil terbaru.
+Kandidat91f71ce7 kini juga lulus14/14 real Auth/HTTP,6/6 retained race,
+2/2 source race dan4/4 browser pada UI produk aktif. Run39570791319/
+job119124148708 dan run39570791212/job119124147294 selesai sukses; semua gate
+paket/restore/advisor/Auth cleanup lulus. Native63 e9287cf3 dipakai ulang dengan
+binding tepat, bukan dilabel ulang. Receipt gabungan:
+`docs/cp7/d17-14/ow04/CI_91F7_NATIVE63_REUSED_HTTP_RACE_BROWSER_PASS.json`.
+Kegagalan asli8a683ef2 dan kedua log penuh tetap dipreservasi. Koreksi alat uji
+memakai pembaca desimal yang sama dan helper awal browser yang tepat; seluruh
+oracle dan8 pembanding HPP tetap. Save mobile terbaru1447,675ms, desktop
+1174,594ms adalah pengamatan terbatas, bukan penerimaan kinerja ERP global.
+OW04 keseluruhan tetap terbuka; production_go=false.
 
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan—termasuk laporan—stok, dan HPP adalah raja.

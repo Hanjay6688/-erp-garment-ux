@@ -1,0 +1,379 @@
+{
+  "classification": "ACTUAL_AUTH_HTTP_SQL_RACES_ACTIVE_PRODUCT_BROWSER_WITH_REUSED_NATIVE63",
+  "candidate": "91f71ce70728d8dbc9eea422edb87435dfe81b61",
+  "tree": "82f45be6c7c02c8e468b2f26a0b5ed13c4ceaf82",
+  "native_reused": {
+    "candidate": "e9287cf3b8656064acb0225249ab99e5f2d79cd8",
+    "run_id": 39564520538,
+    "job_id": 119103485023,
+    "count": 63,
+    "native_rerun": false,
+    "receipt": "docs/cp7/d17-14/ow04/CI_E928_NATIVE63_PASS.json",
+    "receipt_sha256": "889c28f8419de6e81c770851797bbf1184f42a024e3575ee4782309e33bb7501",
+    "binding_sha256": "a8c66b3192d7a3b2d061f33e25f574b0f2d911ddbab182c679af5c2c5cd1c59d"
+  },
+  "workflows": {
+    "HTTP_RACES": {
+      "run_id": 39570791319,
+      "job_id": 119124148708,
+      "conclusion": "success",
+      "artifact_id": 12332900435,
+      "artifact_bytes": 5018095,
+      "artifact_sha256": "ff45bff85acf05baab554913b1fde606490cb0c6cc60b7351a0fb23e517d19b2"
+    },
+    "BROWSER": {
+      "run_id": 39570791212,
+      "job_id": 119124147294,
+      "conclusion": "success",
+      "artifact_id": 12332376673,
+      "artifact_bytes": 9941458,
+      "artifact_sha256": "ea623862a193a16c6fe91d76812c59426a42286bcb804db9ebb959410fa9cb30"
+    }
+  },
+  "counts": {
+    "HTTP": 14,
+    "RETAINED_RACES": 6,
+    "SOURCE_RACES": 2,
+    "BROWSER": 4
+  },
+  "case_sets": {
+    "HTTP": [
+      {
+        "id": "OW04_HTTP_CREDIT_COMMIT_REPLAY",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_HTTP_REFUND_COMMIT_REPLAY",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_HTTP_CHANGED_PAYLOAD_REFUSAL",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_HTTP_REVOKED_REPLAY_REFUSAL",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_HTTP_QUOTE_DIGEST_REFUSAL",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_HTTP_RESERVED_PLAN_REFUSAL",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_HTTP_ANON_REFUSAL",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_HTTP_NON_OWNER_REFUND_REFUSAL",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_HTTP_SOURCE_RETURN_REVERSE_CREDIT_COMMIT_REPLAY",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_HTTP_SOURCE_PAYMENT_REVERSE_CREDIT_COMMIT_REPLAY",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_HTTP_SOURCE_ZERO_DIFF_RETURN_REVERSE_COMMIT_REPLAY",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_HTTP_SOURCE_REVOKED_AUTHORITY_FRESH_AND_REPLAY",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_HTTP_SOURCE_CONSUMED_REFUND_RETURN_REVERSE_REFUSAL",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_HTTP_SOURCE_CHANGED_REQUEST_REFUSAL",
+        "status": "PASS"
+      }
+    ],
+    "RETAINED_RACES": [
+      {
+        "id": "OW04_RACE_DISTINCT_REQUESTS_ONE_SETTLEMENT",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_RACE_SAME_REQUEST_REPLAY",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_RACE_CHANGED_REQUEST_REFUSAL",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_RACE_REVOKED_AFTER_FG_WAIT",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_RACE_HOLDER_ROLLBACK_RECOVERY",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_RACE_BACKEND_TERMINATION_RECOVERY",
+        "status": "PASS"
+      }
+    ],
+    "SOURCE_RACES": [
+      {
+        "id": "OW04_SOURCE_RACE_SAME_UUID_RETURN_REVERSE",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_SOURCE_RACE_DISTINCT_UUID_STALE_RETURN_REVERSE",
+        "status": "PASS"
+      }
+    ],
+    "BROWSER": [
+      {
+        "id": "OW04_BROWSER_CREDIT_LOST_REPLY_DESKTOP",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_BROWSER_REFUND_MOBILE",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_BROWSER_QUOTE_EDIT_FENCE",
+        "status": "PASS"
+      },
+      {
+        "id": "OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK",
+        "status": "PASS"
+      }
+    ]
+  },
+  "package_gates": {
+    "BROWSER": {
+      "gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "run_identity": {
+        "label": "T3_PREP",
+        "tool_head": "91f71ce70728d8dbc9eea422edb87435dfe81b61",
+        "product_ref": "99695e103f6ec3c604f38419e65722e08013c02c",
+        "product_paths": [
+          "supabase/migrations",
+          "supabase/dev",
+          "supabase/release",
+          "supabase/rollbacks",
+          "src"
+        ],
+        "run_id": "39570791212",
+        "run_attempt": "1",
+        "workflow": "CP7 OW04 Real Browser Settlement and Recovery Qualification",
+        "job": "phase",
+        "event": "push",
+        "github_sha": "91f71ce70728d8dbc9eea422edb87435dfe81b61",
+        "release_evidence": false,
+        "production_go": false,
+        "mode": "install"
+      },
+      "product_paths_diff_vs_candidate": []
+    },
+    "HTTP": {
+      "gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "run_identity": {
+        "label": "T3_PREP",
+        "tool_head": "91f71ce70728d8dbc9eea422edb87435dfe81b61",
+        "product_ref": "99695e103f6ec3c604f38419e65722e08013c02c",
+        "product_paths": [
+          "supabase/migrations",
+          "supabase/dev",
+          "supabase/release",
+          "supabase/rollbacks",
+          "src"
+        ],
+        "run_id": "39570791319",
+        "run_attempt": "1",
+        "workflow": "CP7 OW04 Real Auth HTTP and SQL Recovery Qualification",
+        "job": "phase",
+        "event": "push",
+        "github_sha": "91f71ce70728d8dbc9eea422edb87435dfe81b61",
+        "release_evidence": false,
+        "production_go": false,
+        "mode": "install"
+      },
+      "product_paths_diff_vs_candidate": []
+    },
+    "RACES": {
+      "gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "run_identity": {
+        "label": "T3_PREP",
+        "tool_head": "91f71ce70728d8dbc9eea422edb87435dfe81b61",
+        "product_ref": "99695e103f6ec3c604f38419e65722e08013c02c",
+        "product_paths": [
+          "supabase/migrations",
+          "supabase/dev",
+          "supabase/release",
+          "supabase/rollbacks",
+          "src"
+        ],
+        "run_id": "39570791319",
+        "run_attempt": "1",
+        "workflow": "CP7 OW04 Real Auth HTTP and SQL Recovery Qualification",
+        "job": "phase",
+        "event": "push",
+        "github_sha": "91f71ce70728d8dbc9eea422edb87435dfe81b61",
+        "release_evidence": false,
+        "production_go": false,
+        "mode": "install"
+      },
+      "product_paths_diff_vs_candidate": []
+    }
+  },
+  "all_cp6_restored": true,
+  "all_advisor_gates": true,
+  "real_Auth_users_restored": true,
+  "all_disposable_databases_removed": true,
+  "active_UI_sha256": {
+    "src/ConnectedCustomerHistoryPage.dom.test.tsx": "26eaf34df4891f1c064b7775265cfdea9b6341e2c2ed82f3b20300f7fc205e84",
+    "src/ConnectedCustomerHistoryPage.tsx": "e59dff6fd4d14b5a8e75c392f964ca13becf5bba5cc5447fa81b7393bdad9973",
+    "src/ConnectedReceivablesPage.dom.test.tsx": "9d1361e0bb5f85183c0158ff957ac674115a2bfe189e434401694e5c306e7b6a",
+    "src/ConnectedReceivablesPage.tsx": "69d8a2f68515e0e3e678000548d1b83a945fcc90a397de2e43d8fc943bbe0a41",
+    "src/ConnectedSalesPage.tsx": "0a623a7e95619326caf1153b8dc78d74613198d0f7d7eed33f7d62d32c109d41",
+    "src/ConnectedSalesSettlement.dom.test.tsx": "551f4d6cdbba7c5b72ccdd8b4042bd6198c7722fa2558017848386dbb4b5a437",
+    "src/SalesReturnPanel.tsx": "81bf2b9c5443e1ca3350a5d9d7783445ebd2395c81122d8476a747e8b07bcd19",
+    "src/SalesReturnSettlementSection.dom.test.tsx": "88020cddd6eb0e2b53ef67016dc1578c9d30c8cedc64560151c77ae44e93968b",
+    "src/SalesReturnSettlementSection.tsx": "10bbbb88162a62ebffa84a8d62cae17343e80bb364108cb64499174387144472",
+    "src/productionRecovery.ts": "b49466183db2d2e7d5f04f20bbf4a076c98235f87f71b9fb5b182748192c4705",
+    "src/salesReturnSettlementContract.test.ts": "f44a830e4c0490a38d4f87636ed42e818a4dd30aad3d5869f24b0168e0df3164",
+    "src/salesReturnSettlementContract.ts": "fa9e916cdfddeae72cfe842d4dd40c74a257f541396fa9ea55f09694ad7463cf",
+    "src/types/database.preconnect.ts": "a1e4bd8de4ff17b089f921e16ca99125bb2615f4b318a15161c0460cffb32ace"
+  },
+  "active_UI_unchanged": true,
+  "UI_timings": [
+    {
+      "case": "OW04_BROWSER_CREDIT_LOST_REPLY_DESKTOP",
+      "mobile": false,
+      "measurements": [
+        {
+          "operation": "quote_to_complete_result",
+          "milliseconds": 381.28889999999956
+        }
+      ],
+      "scope": "Scoped initial settlement journeys; no whole ERP performance acceptance"
+    },
+    {
+      "case": "OW04_BROWSER_REFUND_MOBILE",
+      "mobile": true,
+      "measurements": [
+        {
+          "operation": "quote_to_complete_result",
+          "milliseconds": 245.9162359999973
+        },
+        {
+          "operation": "save_to_verified_authoritative_UI",
+          "milliseconds": 1447.6751089999998
+        }
+      ],
+      "scope": "Scoped initial settlement journeys; no whole ERP performance acceptance"
+    },
+    {
+      "case": "OW04_BROWSER_QUOTE_EDIT_FENCE",
+      "mobile": false,
+      "measurements": [
+        {
+          "operation": "quote_to_complete_result",
+          "milliseconds": 365.8393159999978
+        },
+        {
+          "operation": "quote_to_complete_result",
+          "milliseconds": 351.5605609999984
+        },
+        {
+          "operation": "save_to_verified_authoritative_UI",
+          "milliseconds": 1174.5944109999982
+        }
+      ],
+      "scope": "Scoped initial settlement journeys; no whole ERP performance acceptance"
+    },
+    {
+      "case": "OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK",
+      "mobile": false,
+      "measurements": [
+        {
+          "operation": "quote_to_complete_result",
+          "milliseconds": 320.7208959999989
+        }
+      ],
+      "scope": "Scoped initial settlement journeys; no whole ERP performance acceptance"
+    }
+  ],
+  "evidence_files": {
+    "docs/cp7/d17-14/ow04/runtime-91f71ce7/BROWSER_REPORT.json.gz": {
+      "sha256": "b8ba4ce55d3585e66b43a8a151643a5ca9875b9c4f1ccd399b1306d27b187d4e",
+      "original_sha256": "c92d3962d5f378e07d21230afa2107dc8ab18c3097dee4be9990bf6e42391e4f",
+      "zip_member": "CP7_OW04_BROWSER.json"
+    },
+    "docs/cp7/d17-14/ow04/runtime-91f71ce7/BROWSER_HOST_1.json.gz": {
+      "sha256": "1390b6edfa269728e5376d05ec4a56dae58d97380727fb57ee722012ab1bdc82",
+      "original_sha256": "bc83ddefcc76789cf761dea5ae22627461ae46c5f6c2b5fa1b8514b49a3cfc8f",
+      "zip_member": "OW04_BROWSER_HOST_1.json"
+    },
+    "docs/cp7/d17-14/ow04/runtime-91f71ce7/BROWSER_PACKAGE.json.gz": {
+      "sha256": "a31ca0cbdf8c23753a02c2699427fc8149ceb6057725e2326c84a54386d9cb3b",
+      "original_sha256": "02c0f6a79ddd534958ccfd62801b7b1d95e34319dd2d54c6493a8a5eeb653f96",
+      "zip_member": "T3_PACKAGE_INSTALL.json"
+    },
+    "docs/cp7/d17-14/ow04/runtime-91f71ce7/HTTP_REPORT.json.gz": {
+      "sha256": "e866a014f17bc47fecb8f7c5b94ad23205b68ca5ac5b576bf4e052d4208b5f9e",
+      "original_sha256": "4104c5532fac492c76a653a7d2546b68fb927a2395846a7115ab563277d511c3",
+      "zip_member": "ow04-http-completed/CP7_OW04_HTTP.json"
+    },
+    "docs/cp7/d17-14/ow04/runtime-91f71ce7/HTTP_PACKAGE.json.gz": {
+      "sha256": "8e97517c4ec65120d51e5b613c79a89829fd186b88b038aa571ff7218b0f3d8f",
+      "original_sha256": "7974c3dbf5c3d88b8df9527080893f6259cf6167fc6c373b153612d5f4cba8f6",
+      "zip_member": "ow04-http-completed/T3_PACKAGE_INSTALL.json"
+    },
+    "docs/cp7/d17-14/ow04/runtime-91f71ce7/RACES_REPORT.json.gz": {
+      "sha256": "91c762907ae5b99390849acb5b406cdcb76da50629209e7c060aef4ab0746910",
+      "original_sha256": "a3b4955b0b54b1e90d8567c0ea495cf5eaef369068eb4240869a8e92fc77ea8a",
+      "zip_member": "t3/CP7_OW04_RACES.json"
+    },
+    "docs/cp7/d17-14/ow04/runtime-91f71ce7/RACES_PACKAGE.json.gz": {
+      "sha256": "8e97517c4ec65120d51e5b613c79a89829fd186b88b038aa571ff7218b0f3d8f",
+      "original_sha256": "7974c3dbf5c3d88b8df9527080893f6259cf6167fc6c373b153612d5f4cba8f6",
+      "zip_member": "t3/T3_PACKAGE_INSTALL.json"
+    },
+    "docs/cp7/d17-14/ow04/runtime-91f71ce7/FINAL_GATE.json.gz": {
+      "sha256": "6ccaf2d3ff0891e12fbd16fac3ac3840d3c79bb67460a04311b1ce2ebe6431bc",
+      "original_sha256": "678bb2be1967777945ba15867731a41f0eaa15c31b2562140f3950717180d62c",
+      "zip_member": "t3/OW04_HTTP_RACE_FINAL.json"
+    }
+  },
+  "preserved_first_transport_failures": "docs/cp7/d17-14/ow04/runtime-8a683ef2/RECEIPT.json",
+  "limits": [
+    "Declared initial/EMPTY/fractional/source-inverse subset only; complete OW04 remains open",
+    "Browser4 proves initial settlement/recovery, not browser source-inverse journeys",
+    "Two normal save/readback observations below2s are scoped observations, not whole ERP performance acceptance",
+    "Default complete product installation and broader source/cohort/APPLY/consumer-undo paths remain open",
+    "Internal writer qualification, not independent audit, hosted installation or production GO"
+  ],
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false
+}

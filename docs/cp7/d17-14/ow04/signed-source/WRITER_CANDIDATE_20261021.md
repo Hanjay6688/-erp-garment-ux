@@ -4,8 +4,10 @@ Hasil terbaru: **Native63 pada e9287cf3 lulus63/63**, run39564520538,
 job119103485023, workflow sukses dan semua lima gate paket lulus. Receipt
 `../CI_E928_NATIVE63_PASS.json` mengikat kandidat/tree, seluruh ID, source hash,
 restore/advisor dan artefak asli. Bagian kegagalan di bawah adalah riwayat;
-tidak menggantikan hasil terbaru. HTTP14/race6+2/browser4 kandidat ini masih
-perlu dibuktikan. OW04 dan komposisi installer produk tetap belum lengkap.
+tidak menggantikan hasil terbaru. Kualifikasi91f71ce7 pada core e9287cf3
+juga lulus HTTP14/race6+2/browser4 pada UI produk aktif; receipt gabungan
+`../CI_91F7_NATIVE63_REUSED_HTTP_RACE_BROWSER_PASS.json` mencatat kedua workflow
+sukses dan seluruh gate. OW04 dan komposisi installer produk tetap belum lengkap.
 
 Pembaruan takeover: cabang aktif `codex/writer-takeover-20261021`.
 Run39553532036 pada8ed949bb mengeksekusi63 kasus:59 PASS dan4 INCOMPLETE,
