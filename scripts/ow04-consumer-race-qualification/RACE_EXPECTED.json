@@ -1,0 +1,48 @@
+{
+  "classification": "PREDECLARED_SQL_CONSUMER_RACES_NOT_EXECUTED_NOT_REAL_AUTH",
+  "expected_count": 2,
+  "original_consumer_nine_sha256": "437c6b2f0fe338e96a4880b6acff01e6af2f79d4f9d8ef0de29c0b4676be22ac",
+  "expected_after": {
+    "source": {
+      "gross": "1000.00",
+      "net": "800.00",
+      "P": "1000.00",
+      "U": "0.00",
+      "I": "200.00",
+      "E": "800.00",
+      "AR": "0.00",
+      "available_credit": "120.00",
+      "net_consumption": "80.00"
+    },
+    "target": {
+      "gross": "500.00",
+      "net": "500.00",
+      "P": "0.00",
+      "U": "80.00",
+      "I": "0.00",
+      "E": "80.00",
+      "AR": "420.00"
+    },
+    "cash": "1000.00"
+  },
+  "cases": [
+    {
+      "id": "OW04_CONSUMER_RACE_SAME_UUID_APPLY",
+      "same_UUID": true,
+      "expected_worker": "IDENTICAL_COMMITTED_REPLAY_WITH_ONE_EFFECT"
+    },
+    {
+      "id": "OW04_CONSUMER_RACE_DISTINCT_UUID_STALE_APPLY",
+      "same_UUID": false,
+      "expected_worker": {
+        "ok": false,
+        "sqlstate": "P0001",
+        "message": "CP7_CREDIT_CONSUMER_REVIEW_CHANGED"
+      }
+    }
+  ],
+  "actual_holder_blocks_worker_required": true,
+  "real_connections_required": true,
+  "executed": false,
+  "production_go": false
+}

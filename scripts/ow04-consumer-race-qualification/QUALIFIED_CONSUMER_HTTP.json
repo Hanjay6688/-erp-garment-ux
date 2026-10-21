@@ -1,0 +1,21 @@
+{
+  "classification": "EXACT_ACTUAL_CONSUMER_HTTP14_SOURCE_BINDING_NOT_NEW_AUTH_NATIVE_OR_BROWSER_EXECUTION",
+  "status": "PASS",
+  "http_case_count": 14,
+  "candidate": "f48b76a68f9607caca47c83d590f7d0a0190e23e",
+  "tree": "41077f536789ae250bfb1977d8a3fbccb586aed2",
+  "run_id": 39658580463,
+  "job_id": 119425297892,
+  "artifact_id": 12373760556,
+  "artifact_zip_sha256": "6068875023ccd1ebf04b0b3f64ff4206a1fe9bf013ebf609489e2d55ef2231a2",
+  "original_report": "docs/cp7/d17-14/ow04/consumer-http14-f48b76a6-pass/CP7_OW04_CONSUMER_HTTP14.json.gz",
+  "original_report_sha256": "0a2fffd3beadfb281ddbde5de5ed49a0338cb1d169ce4bcb15dd38e1c085c880",
+  "Native18_rerun": false,
+  "Native87_rerun": false,
+  "SQL_races_qualified": false,
+  "browser_qualified": false,
+  "independent_acceptance": false,
+  "feature_complete": false,
+  "production_go": false,
+  "formal_CP7C_started": false
+}
