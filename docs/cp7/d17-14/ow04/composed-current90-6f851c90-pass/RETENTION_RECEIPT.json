@@ -1,0 +1,53 @@
+{
+  "original_artifact_id": 12380784701,
+  "original_zip_sha256": "ec228903e7650082dd42dcfc4331892225e2f7986261e99ec4ad40a1847f66d1",
+  "client_verified": true,
+  "files": [
+    {
+      "file": "ALIGNED_CHAIN.json.gz",
+      "compression": "GZIP_mtime0",
+      "raw_bytes": 17536,
+      "raw_sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+      "compressed_bytes": 4768,
+      "compressed_sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75",
+      "original_json_bytes_preserved": true
+    },
+    {
+      "file": "CP7_OW04_COMPOSED_CURRENT_NATIVE90.json.xz",
+      "compression": "XZ",
+      "raw_bytes": 26717705,
+      "raw_sha256": "a6149331588110e92229625475f9d3f77a09df74fda369af33a3ebc92ded0ae1",
+      "compressed_bytes": 275992,
+      "compressed_sha256": "0c79bfed3776acc963184850746690eb72dfba20dd24c51020e88127b53ae21a",
+      "original_json_bytes_preserved": true
+    },
+    {
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "compression": "GZIP_mtime0",
+      "raw_bytes": 10402,
+      "raw_sha256": "4fb1066c224f6789d7e5e8824d5ace1cf08c125db1774533c44bb102eb01f15a",
+      "compressed_bytes": 1810,
+      "compressed_sha256": "3695384da014af04a8d0ea357f35d8ef3883cd2f53e9f4ccad92dff66499165a",
+      "original_json_bytes_preserved": true
+    },
+    {
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "compression": "GZIP_mtime0",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "compressed_bytes": 255,
+      "compressed_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_json_bytes_preserved": true
+    },
+    {
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "compression": "GZIP_mtime0",
+      "raw_bytes": 360421,
+      "raw_sha256": "3dc06dbd8ced20806c26b15d01335d602f5f60db0b7ee78f297c3002ca9836e7",
+      "compressed_bytes": 11396,
+      "compressed_sha256": "c3620105f01b885ba56fd5afb552f5a6954d96be995a5b6e3341926109949338",
+      "original_json_bytes_preserved": true
+    }
+  ],
+  "financial_JSON_reserialized": false
+}

@@ -1,4 +1,12 @@
-# Complete composed owner — current Native90 pending
+# Complete composed owner — current Native90 actual PASS
+
+Actual candidate `6f851c90` passed90/90 on run39673081885/job119475752329,
+with both complete pre-use removals, all CP6 restore components and advisors.
+Original byte-streams, hashes, exact count disposition and scope:
+[composed-current90-6f851c90-pass](../composed-current90-6f851c90-pass/README.md).
+The implementation/declaration notes below were written before execution.
+General OW04 adapters, release adoption, whole ERP performance and CP7C remain open.
+
 
 This adds a separate administrative product API; it does not change the default
 installer, old qualification module, consumer SQL, Native arithmetic or dates.
