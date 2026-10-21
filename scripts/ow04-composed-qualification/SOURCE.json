@@ -1,0 +1,12 @@
+{
+  "classification": "EXACT_COMPOSED_INSTALLER_AND_QUALIFICATION_ADDITIONS_NOT_EXECUTION",
+  "base_candidate": "da6a5454dba94d102a0c5c1214d7d427da7079dd",
+  "files": {
+    "scripts/cp7_consumer_owning_install.py": "74c9209b9cd32e4c583c2e25b66076ada972fa1dcce39f0ea4fa7669f150e5e9",
+    "scripts/ow04-composed-qualification/composed_probe.py": "7241fec3caec31525d4cc7c70855648edb55768fa225543389bebc43e59d2e56",
+    "scripts/ow04-composed-qualification/EXPECTED.json": "fb923c279e9703180a129c03647e97138a5fb88d24c619bf40dfdc543c6aff5f",
+    ".github/workflows/cp7-ow04-composed.yml": "8ef48038a001cecafc6bbab94a79bf864ed7c5e88dc2cdac6dea003e8e2be28b"
+  },
+  "financial_SQL_modified": false,
+  "existing_product_oracle_modified": false
+}
