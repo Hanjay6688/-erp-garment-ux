@@ -1,0 +1,401 @@
+{
+  "contract_version": "ow04.consumer-command.literal-arithmetic.v1",
+  "classification": "PREIMPLEMENTATION_LITERAL_EXPECTATIONS_NOT_NATIVE_OR_IMPLEMENTED_FEATURE",
+  "independent_audit": false,
+  "existing_accepted_contract": "docs/cp7/d17-14/ow04/ledger-proposal/README.md",
+  "scope": "Existing OW04 APPLY and named dependent undo backlog; not a new owner policy or new CP7C task.",
+  "fixture_contract": {
+    "same_customer": true,
+    "source_credit_liability": "ACTUAL_SELECTED_SOURCE_COHORT_ACCOUNT",
+    "target_AR": "ACTUAL_TARGET_SALE_JOURNAL_ACCOUNT_NOT_NEW_DEFAULT",
+    "Native_payments": "PRESERVE_ORIGINAL_POSTED_PAYMENT_FACTS",
+    "source_and_target": "DISTINCT_CURRENT_LEAF_INVOICES_WITH_COMPLETE_LINEAGE",
+    "source_recognition": "200.00",
+    "target_net": "500.00",
+    "money_values": "EXACT_CENTS_DECIMAL_STRINGS",
+    "case_dates": "Bound to actual lawful Native fixture calendar; no caller-supplied arbitrary book date."
+  },
+  "cases": [
+    {
+      "id": "OW04_CONSUMER_APPLY_80",
+      "operations": [
+        {
+          "action": "APPLY",
+          "amount": "80.00",
+          "event": "A"
+        }
+      ],
+      "expected": {
+        "source": {
+          "gross": "1000.00",
+          "net": "800.00",
+          "P": "1000.00",
+          "U": "0.00",
+          "I": "200.00",
+          "E": "800.00",
+          "AR": "0.00",
+          "available_credit": "120.00",
+          "net_consumption": "80.00"
+        },
+        "target": {
+          "gross": "500.00",
+          "net": "500.00",
+          "P": "0.00",
+          "U": "80.00",
+          "I": "0.00",
+          "E": "80.00",
+          "AR": "420.00"
+        },
+        "cash": "1000.00"
+      },
+      "journal": {
+        "debit_credit_liability": "80.00",
+        "credit_target_actual_AR": "80.00"
+      },
+      "stock_and_HPP_unchanged": true
+    },
+    {
+      "id": "OW04_CONSUMER_TWO_APPLIES_80_120",
+      "operations": [
+        {
+          "action": "APPLY",
+          "amount": "80.00",
+          "event": "A"
+        },
+        {
+          "action": "APPLY",
+          "amount": "120.00",
+          "event": "B"
+        }
+      ],
+      "expected": {
+        "source": {
+          "gross": "1000.00",
+          "net": "800.00",
+          "P": "1000.00",
+          "U": "0.00",
+          "I": "200.00",
+          "E": "800.00",
+          "AR": "0.00",
+          "available_credit": "0.00",
+          "net_consumption": "200.00"
+        },
+        "target": {
+          "gross": "500.00",
+          "net": "500.00",
+          "P": "0.00",
+          "U": "200.00",
+          "I": "0.00",
+          "E": "200.00",
+          "AR": "300.00"
+        },
+        "cash": "1000.00"
+      },
+      "recognition_unchanged": true,
+      "native_payment_rows_unchanged": true
+    },
+    {
+      "id": "OW04_CONSUMER_OVERDRAW_ONE_CENT",
+      "initial_consumptions": [
+        "80.00",
+        "120.00"
+      ],
+      "operations": [
+        {
+          "action": "APPLY",
+          "amount": "0.01",
+          "event": "C"
+        }
+      ],
+      "expected_outcome": "ATOMIC_REFUSAL",
+      "expected": {
+        "source": {
+          "gross": "1000.00",
+          "net": "800.00",
+          "P": "1000.00",
+          "U": "0.00",
+          "I": "200.00",
+          "E": "800.00",
+          "AR": "0.00",
+          "available_credit": "0.00",
+          "net_consumption": "200.00"
+        },
+        "target": {
+          "gross": "500.00",
+          "net": "500.00",
+          "P": "0.00",
+          "U": "200.00",
+          "I": "0.00",
+          "E": "200.00",
+          "AR": "300.00"
+        },
+        "cash": "1000.00"
+      }
+    },
+    {
+      "id": "OW04_CONSUMER_UNDO_EXACT_APPLY_A",
+      "initial_consumptions": [
+        "80.00",
+        "120.00"
+      ],
+      "operations": [
+        {
+          "action": "UNDO",
+          "restores_event": "A",
+          "derived_amount": "-80.00",
+          "event": "UA"
+        }
+      ],
+      "expected": {
+        "source": {
+          "gross": "1000.00",
+          "net": "800.00",
+          "P": "1000.00",
+          "U": "0.00",
+          "I": "200.00",
+          "E": "800.00",
+          "AR": "0.00",
+          "available_credit": "80.00",
+          "net_consumption": "120.00"
+        },
+        "target": {
+          "gross": "500.00",
+          "net": "500.00",
+          "P": "0.00",
+          "U": "120.00",
+          "I": "0.00",
+          "E": "120.00",
+          "AR": "380.00"
+        },
+        "cash": "1000.00"
+      },
+      "journal": {
+        "debit_target_actual_AR": "80.00",
+        "credit_credit_liability": "80.00"
+      },
+      "original_events_and_journals_retained": true
+    },
+    {
+      "id": "OW04_CONSUMER_APPLY_LOST_REPLY_REPLAY",
+      "operations": [
+        {
+          "action": "APPLY",
+          "amount": "80.00",
+          "event": "A"
+        },
+        {
+          "action": "REPLAY_SAME_UUID_AND_PAYLOAD",
+          "event": "A"
+        }
+      ],
+      "expected": {
+        "source": {
+          "gross": "1000.00",
+          "net": "800.00",
+          "P": "1000.00",
+          "U": "0.00",
+          "I": "200.00",
+          "E": "800.00",
+          "AR": "0.00",
+          "available_credit": "120.00",
+          "net_consumption": "80.00"
+        },
+        "target": {
+          "gross": "500.00",
+          "net": "500.00",
+          "P": "0.00",
+          "U": "80.00",
+          "I": "0.00",
+          "E": "80.00",
+          "AR": "420.00"
+        },
+        "cash": "1000.00"
+      },
+      "expected_apply_effects": 1,
+      "expected_apply_events": 1
+    },
+    {
+      "id": "OW04_CONSUMER_UNDO_LOST_REPLY_REPLAY",
+      "initial_consumptions": [
+        "80.00",
+        "120.00"
+      ],
+      "operations": [
+        {
+          "action": "UNDO",
+          "restores_event": "A",
+          "derived_amount": "-80.00",
+          "event": "UA"
+        },
+        {
+          "action": "REPLAY_SAME_UUID_AND_PAYLOAD",
+          "event": "UA"
+        }
+      ],
+      "expected": {
+        "source": {
+          "gross": "1000.00",
+          "net": "800.00",
+          "P": "1000.00",
+          "U": "0.00",
+          "I": "200.00",
+          "E": "800.00",
+          "AR": "0.00",
+          "available_credit": "80.00",
+          "net_consumption": "120.00"
+        },
+        "target": {
+          "gross": "500.00",
+          "net": "500.00",
+          "P": "0.00",
+          "U": "120.00",
+          "I": "0.00",
+          "E": "120.00",
+          "AR": "380.00"
+        },
+        "cash": "1000.00"
+      },
+      "expected_inverse_effects": 1
+    },
+    {
+      "id": "OW04_CONSUMER_SECOND_UNDO_SAME_ORIGINAL",
+      "initial_consumptions": [
+        "80.00",
+        "120.00",
+        "-80.00"
+      ],
+      "operations": [
+        {
+          "action": "UNDO_NEW_UUID_SAME_ORIGINAL",
+          "restores_event": "A",
+          "event": "UA2"
+        }
+      ],
+      "expected_outcome": "ATOMIC_REFUSAL",
+      "expected": {
+        "source": {
+          "gross": "1000.00",
+          "net": "800.00",
+          "P": "1000.00",
+          "U": "0.00",
+          "I": "200.00",
+          "E": "800.00",
+          "AR": "0.00",
+          "available_credit": "80.00",
+          "net_consumption": "120.00"
+        },
+        "target": {
+          "gross": "500.00",
+          "net": "500.00",
+          "P": "0.00",
+          "U": "120.00",
+          "I": "0.00",
+          "E": "120.00",
+          "AR": "380.00"
+        },
+        "cash": "1000.00"
+      }
+    },
+    {
+      "id": "OW04_CONSUMER_SOURCE_INVERSE_AFTER_ALL_UNDONE",
+      "initial_consumptions": [
+        "80.00",
+        "120.00",
+        "-80.00",
+        "-120.00"
+      ],
+      "operations": [
+        {
+          "action": "SOURCE_RETURN_REVERSE",
+          "timing": "ACTUAL_CURRENT_LAWFUL_INVERSE_AFTER_UNDO"
+        }
+      ],
+      "expected": {
+        "source": {
+          "gross": "1000.00",
+          "net": "1000.00",
+          "P": "1000.00",
+          "U": "0.00",
+          "I": "0.00",
+          "E": "1000.00",
+          "AR": "0.00",
+          "available_credit": "0.00",
+          "net_consumption": "0.00"
+        },
+        "target": {
+          "gross": "500.00",
+          "net": "500.00",
+          "P": "0.00",
+          "U": "0.00",
+          "I": "0.00",
+          "E": "0.00",
+          "AR": "500.00"
+        },
+        "cash": "1000.00"
+      },
+      "signed_consumption_history_retained": true,
+      "recognition": {
+        "initial": "200.00",
+        "linked_adjustment": "-200.00",
+        "net": "0.00"
+      }
+    },
+    {
+      "id": "OW04_CONSUMER_HISTORICAL_RESTATEMENT_STILL_FUNDS_PRIOR_USE",
+      "initial_consumptions": [
+        {
+          "amount": "200.00",
+          "pair": [
+            "D2",
+            "D2"
+          ]
+        },
+        {
+          "amount": "-200.00",
+          "pair": [
+            "D3",
+            "D3"
+          ]
+        }
+      ],
+      "operations": [
+        {
+          "action": "HISTORICAL_SOURCE_RESTATEMENT_REMOVING_RECOGNITION",
+          "pair": [
+            "D2",
+            "D2"
+          ]
+        }
+      ],
+      "expected_outcome": "ATOMIC_REFUSAL",
+      "reason": "Current net consumption zero does not erase the actual earlier dated consumption; all future joint prefixes must remain funded.",
+      "expected_at_joint_D2": {
+        "recognition": "0.00",
+        "consumption": "200.00",
+        "balance": "-200.00"
+      }
+    }
+  ],
+  "expected_numeric_case_count": 9,
+  "required_admission_and_closure": [
+    "Current source/target/AR management rights are rechecked after every lock wait; cash refund also retains explicit cash-out authority.",
+    "All affected source/target sales, incoming applications, return families and cohorts are collected and locked before period SHARE; changed lock manifest aborts.",
+    "Source and target authoritative before profiles must already reconcile with Native journals; UNKNOWN never becomes zero.",
+    "Positive use and its one full linked inverse preserve original event, customer, cohort, kind, amount and dimensions; arbitrary negative input or partial invented inverse is refused.",
+    "Signed recognition I remains separate from consumption C and incoming U; never count an original and its inverse twice.",
+    "Every affected family target and all retained I reconcile by exact economic/book pair, including zero-effect families; any new required account/mode needs explicit fresh review.",
+    "All later economic/book and joint cutoffs remain nonnegative; net current use zero alone does not authorize a historical correction.",
+    "Existing positive/negative recognition and consumption journals and their Native reversal ancestry remain protected from generic reversal.",
+    "Atomic rejection preserves all source/target stock, HPP, GL, AR, liability, cash, private ledgers and request receipts; no private scope survives commit.",
+    "Exact UUID replay has one effect and rechecks current authority; changed payload with same UUID is refused.",
+    "Complete product, public readers/detectors, Data API admission, actual browser entry and performance must be qualified before whole OW04 completion."
+  ],
+  "limits": [
+    "These are frozen arithmetic inputs before implementation, not executable Native cases or a Native count increase.",
+    "The implementation still has incoming-application and multi-consumer provenance refusals; they must be replaced by complete verified routes, not disabled.",
+    "The later historical-restatement case requires its real bound correction route; it is not permission to invent a book date or remove a source guard."
+  ],
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false
+}

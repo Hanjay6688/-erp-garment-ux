@@ -23,8 +23,8 @@
   "production_go": false,
   "separate_administrative_source": {
     "path": "scripts/cp7_ow04_restore_bundle.py",
-    "git_blob": "5286619bd288eebad5d35d22c99403bfcaf7f203",
-    "sha256": "b372f4f50efb35b77106642ce5b229756aa214c1d42837c5689a015239c1129d",
+    "git_blob": "e809f612cb6b8c6bbb81ce2ea84d185ae5d6a143",
+    "sha256": "0b2f6b752ac65adf3a87673eb34f377695077ddf56723d73dca0c76a3b7df11c",
     "native_runtime_covered": false,
     "classification": "SEPARATE_ADMIN_RESTORE_REQUIRES_OWN_ACTUAL_RUNTIME"
   }
