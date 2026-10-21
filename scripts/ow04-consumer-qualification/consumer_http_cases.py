@@ -202,7 +202,8 @@ def http_cases(http,today):
     def overdraw():
         user=owner();pair=prepared(http,today);first=quoted(http,user,payload(pair));committed(http,user,first)
         apply(user,pair,'120.00');bad=copy.deepcopy(first);bad['p_payload']['amount']='0.01'
-        refused(http,user,{**bad,'p_request':str(uuid.uuid4())},'INSUFFICIENT_DATED_SOURCE_CAPACITY')
+        denied=refused(http,user,{**bad,'p_request':str(uuid.uuid4())},'CP7_CREDIT_CONSUMER_INSUFFICIENT_DATED_SOURCE_CAPACITY')
+        assert denied['code']=='P0001'
         assert profiles(http,pair)==basic.GOLD['cases'][2]['expected']
         return dict(status='PASS',one_cent_overdraw_refused_atomically=True,observed=profiles(http,pair))
     def initial_refund_undo():
