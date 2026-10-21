@@ -51,4 +51,10 @@ def derive(captures, once):
         "    and exists(select 1 from jsonb_array_elements(op#>'{before_financial_profile,actual_objects}')old\n"
         "     where old=x));",
         'exact historical financial-object membership and current immutable hash')
+    identity = 'cp7_payment_correction.apply(jsonb,uuid,text)'
+    result[identity] = once(captures[identity]['definition'],
+        ' lock table erp.accounting_account_mappings in share mode;',
+        ' perform cp7_credit.consumer_payment_restatement_preflight_v1(p,p_request,p_expected);\n'
+        ' lock table erp.accounting_account_mappings in share mode;',
+        'actual pending Native correction, after original CAS/eligibility and before financial effects')
     return result

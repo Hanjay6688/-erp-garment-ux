@@ -1,7 +1,8 @@
-"""First eight frozen consumer arithmetic cases on actual Native writers.
+"""Frozen consumer arithmetic cases on actual Native writer entry points.
 
-These are a bounded subset. History-restatement case9,
-general families/corrections/HPP, real Auth/HTTP, browser and races remain open.
+These are a bounded subset. Case9 is an actual bound unsafe-correction refusal
+preflight, not a successful general correction adapter. General families/
+corrections/HPP, real Auth/HTTP, browser and races remain open.
 Importing performs no connection, fixture setup, installation or commit.
 """
 from datetime import datetime,timedelta
@@ -13,8 +14,8 @@ import cp7_ow04_consumer_fixture as fixture
 
 native=fixture.native
 GOLD=fixture.expected()
-IDS=tuple(row['id']for row in GOLD['cases'][:8])
-assert len(IDS)==8
+IDS=tuple(row['id']for row in GOLD['cases'])
+assert len(IDS)==9
 
 
 def payload(pair,action='APPLY',amount='80.00',original=None):
@@ -159,4 +160,51 @@ def source_inverse_after_all_undone(cur,today):
 
 def cases(cur,today):
     return [(name,lambda index=index:one_case(cur,today,index))for index,name in enumerate(IDS[:7])]+[
-        (IDS[7],lambda:source_inverse_after_all_undone(cur,today))]
+        (IDS[7],lambda:source_inverse_after_all_undone(cur,today)),
+        (IDS[8],lambda:historical_restatement_refuses(cur,today))]
+
+
+def historical_restatement_refuses(cur,today):
+    from decimal import Decimal
+    import cp7_payment_correction_cases as correction
+    with native.isolated(cur):
+        pair=fixture.prepare(cur,today);gold=GOLD['cases'][8]
+        applied,_,_=apply(cur,pair,'200.00')
+        p=payload(pair,'UNDO',original=applied['consumption_event_id'])
+        p['physical_at']=pair['source']['dates']['D3']+'T00:00:00.123456+07:00'
+        command(cur,review(cur,p),uuid.uuid4())
+        native.b.api.admin(cur)
+        cohort=pair['initial_result']['credit_id'];d2=pair['source']['dates']['D2'];d3=pair['source']['dates']['D3']
+        events=cur.execute('select id,amount,economic_date::text,transaction_date::text,source_sha256 from cp7_credit.consumption_events where cohort_id=%s order by amount',
+                           (cohort,)).fetchall()
+        assert [(r[1],r[2],r[3])for r in events]==[(Decimal('-200.00'),d3,d3),(Decimal('200.00'),d2,d2)]
+        assert fixture.profiles(cur,pair)==fixture.INITIAL
+        intent,version=correction.payload(cur,pair['source']['f'],amount='800.00');request=uuid.uuid4()
+        def snapshot():
+            state=observation(cur,pair)
+            state['actual_correction_private']={name:native._array(cur,'cp7_payment_correction.'+name,'true',())
+                                                for name in('requests','context','links')}
+            return state
+        before=snapshot()
+        refusal=fixture.signed._refuse(cur,lambda:correction.correct(cur,intent,version,request),
+            'P0001','CP7_CREDIT_RESTATEMENT_HISTORICAL_CAPACITY_NEGATIVE')
+        assert snapshot()==before,'HISTORICAL_RESTATEMENT_REFUSAL_CHANGED_NATIVE_PRIVATE_OR_CASH_FACTS'
+        detail=json.loads(refusal['detail'],parse_float=Decimal)
+        assert detail['actual_pending_native_correction']is True and detail['request_id']==str(request)
+        assert detail['original_amount']=='1000.00'and detail['replacement_amount']=='800.00'
+        family=detail['family'];capacity=family['target_full_prefix_capacity']
+        assert capacity['source_prefixes_nonnegative']is False and Decimal(capacity['minimum_available'])==Decimal('-200.00')
+        assert dict(economic_date=d2,transaction_date=d2)in capacity['limiting_pairs']
+        actual_c=detail['actual_signed_consumptions']
+        assert sorted((e['id'],Decimal(e['amount']),e['economic_date'],e['transaction_date'],e['source_sha256'])for e in actual_c)==sorted(
+            ('consumption:'+str(e[0]),e[1],e[2],e[3],e[4])for e in events)
+        i_at_d2=sum((Decimal(e['amount'])for e in family['source_target']['components']if e['economic_date']<=d2 and e['transaction_date']<=d2),Decimal(0))
+        c_at_d2=sum((Decimal(e['amount'])for e in actual_c if e['economic_date']<=d2 and e['transaction_date']<=d2),Decimal(0))
+        observed=dict(recognition=format(i_at_d2,'.2f'),consumption=format(c_at_d2,'.2f'),balance=format(i_at_d2-c_at_d2,'.2f'))
+        assert observed==gold['expected_at_joint_D2']
+        assert sum((Decimal(e['amount'])for e in actual_c),Decimal(0))==0
+        cur.execute('set constraints all immediate');cur.execute('set constraints all deferred')
+        return dict(status='PASS',id=gold['id'],expected_at_joint_D2=gold['expected_at_joint_D2'],observed_at_joint_D2=observed,
+            actual_pending_Native_payment_correction_refused=True,complete_refusal=refusal,
+            net_consumption_zero_does_not_remove_history=True,full_boundary_unchanged_on_refusal=True,
+            successful_correction_adapter_qualified=False,full_consumer_feature_complete=False,production_go=False)

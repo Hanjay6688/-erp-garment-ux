@@ -128,6 +128,37 @@
           false
         ]
       ]
+    },
+    "cp7_payment_correction.apply(jsonb,uuid,text)": {
+      "definition_sha256": "40a9aa49c29e2cea8619e3fb0711cc4ac55fc6dfb6c590bd6b778f64fc39689c",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "kind": "f",
+      "security_definer": true,
+      "leakproof": false,
+      "strict": false,
+      "returns_set": false,
+      "volatility": "v",
+      "parallel": "u",
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "return_type": "jsonb",
+      "privileges": [
+        [
+          "cp7_sales_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
     }
   }
 }

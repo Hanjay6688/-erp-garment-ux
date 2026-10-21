@@ -101,10 +101,11 @@ def profiles(cur,pair):
     return result
 
 
-def prepare(cur,today):
-    """Future Native setup only; registration must not call this function."""
+def prepare(cur,today,initial_mode='CREDIT'):
+    """Actual owning setup only when called by an isolated Native case."""
     expected()
-    source,credit,outcome,actual=signed._setup(cur,today,'CREDIT')
+    assert initial_mode in('CREDIT','REFUND')
+    source,credit,outcome,actual=signed._setup(cur,today,initial_mode)
     native.b.api.admin(cur)
     target=native.note.stock(cur,today,10,datetime.fromisoformat(source['physical']['stock']))
     target['customer']=source['f']['customer']
@@ -121,7 +122,11 @@ def prepare(cur,today):
         assert cur.execute("select count(*)from erp.journal_entries j join erp.journal_lines l on l.journal_entry_id=j.id "
             "where j.source_type='SALE'and j.source_id=%s and j.reversal_of_id is null and l.account_id=%s "
             'and l.customer_id=%s and l.debit=%s and l.credit=0',(f['sale'],ar,f['customer'],gross)).fetchone()[0]==1
-    assert profiles(cur,pair)==INITIAL
+    initial=json.loads(json.dumps(INITIAL))
+    if initial_mode=='REFUND':
+        initial['source'].update(available_credit='0.00',net_consumption='200.00')
+        initial['cash']='800.00'
+    assert profiles(cur,pair)==initial
     assert native.payment_snapshot(cur,source['f']['payment'])==source['payment_before']
     assert cur.execute('select count(*)from erp.sales_payments where sale_id=%s',(target['sale'],)).fetchone()[0]==0
     cur.execute('set constraints all immediate');cur.execute('set constraints all deferred')

@@ -1,0 +1,263 @@
+{
+  "classification": "PREIMPLEMENTATION_LITERAL_REFUND_EXPECTATIONS_NOT_NATIVE_OR_INDEPENDENT_ACCEPTANCE",
+  "frozen_original_nine_sha256": "437c6b2f0fe338e96a4880b6acff01e6af2f79d4f9d8ef0de29c0b4676be22ac",
+  "expected_numeric_case_count": 9,
+  "cases": [
+    {
+      "id": "OW04_CONSUMER_REFUND_80",
+      "expected": {
+        "source": {
+          "gross": "1000.00",
+          "net": "800.00",
+          "P": "1000.00",
+          "U": "0.00",
+          "I": "200.00",
+          "E": "800.00",
+          "AR": "0.00",
+          "available_credit": "120.00",
+          "net_consumption": "80.00"
+        },
+        "target": {
+          "gross": "500.00",
+          "net": "500.00",
+          "P": "0.00",
+          "U": "0.00",
+          "I": "0.00",
+          "E": "0.00",
+          "AR": "500.00"
+        },
+        "cash": "920.00"
+      },
+      "atomic_refusal": false,
+      "initial_mode": "CREDIT"
+    },
+    {
+      "id": "OW04_CONSUMER_TWO_REFUNDS_80_120",
+      "expected": {
+        "source": {
+          "gross": "1000.00",
+          "net": "800.00",
+          "P": "1000.00",
+          "U": "0.00",
+          "I": "200.00",
+          "E": "800.00",
+          "AR": "0.00",
+          "available_credit": "0.00",
+          "net_consumption": "200.00"
+        },
+        "target": {
+          "gross": "500.00",
+          "net": "500.00",
+          "P": "0.00",
+          "U": "0.00",
+          "I": "0.00",
+          "E": "0.00",
+          "AR": "500.00"
+        },
+        "cash": "800.00"
+      },
+      "atomic_refusal": false,
+      "initial_mode": "CREDIT"
+    },
+    {
+      "id": "OW04_CONSUMER_REFUND_OVERDRAW_ONE_CENT",
+      "expected": {
+        "source": {
+          "gross": "1000.00",
+          "net": "800.00",
+          "P": "1000.00",
+          "U": "0.00",
+          "I": "200.00",
+          "E": "800.00",
+          "AR": "0.00",
+          "available_credit": "0.00",
+          "net_consumption": "200.00"
+        },
+        "target": {
+          "gross": "500.00",
+          "net": "500.00",
+          "P": "0.00",
+          "U": "0.00",
+          "I": "0.00",
+          "E": "0.00",
+          "AR": "500.00"
+        },
+        "cash": "800.00"
+      },
+      "atomic_refusal": true,
+      "initial_mode": "CREDIT"
+    },
+    {
+      "id": "OW04_CONSUMER_UNDO_EXACT_REFUND_A",
+      "expected": {
+        "source": {
+          "gross": "1000.00",
+          "net": "800.00",
+          "P": "1000.00",
+          "U": "0.00",
+          "I": "200.00",
+          "E": "800.00",
+          "AR": "0.00",
+          "available_credit": "80.00",
+          "net_consumption": "120.00"
+        },
+        "target": {
+          "gross": "500.00",
+          "net": "500.00",
+          "P": "0.00",
+          "U": "0.00",
+          "I": "0.00",
+          "E": "0.00",
+          "AR": "500.00"
+        },
+        "cash": "880.00"
+      },
+      "atomic_refusal": false,
+      "initial_mode": "CREDIT"
+    },
+    {
+      "id": "OW04_CONSUMER_REFUND_LOST_REPLY_REPLAY",
+      "expected": {
+        "source": {
+          "gross": "1000.00",
+          "net": "800.00",
+          "P": "1000.00",
+          "U": "0.00",
+          "I": "200.00",
+          "E": "800.00",
+          "AR": "0.00",
+          "available_credit": "120.00",
+          "net_consumption": "80.00"
+        },
+        "target": {
+          "gross": "500.00",
+          "net": "500.00",
+          "P": "0.00",
+          "U": "0.00",
+          "I": "0.00",
+          "E": "0.00",
+          "AR": "500.00"
+        },
+        "cash": "920.00"
+      },
+      "atomic_refusal": false,
+      "initial_mode": "CREDIT"
+    },
+    {
+      "id": "OW04_CONSUMER_REFUND_UNDO_LOST_REPLY_REPLAY",
+      "expected": {
+        "source": {
+          "gross": "1000.00",
+          "net": "800.00",
+          "P": "1000.00",
+          "U": "0.00",
+          "I": "200.00",
+          "E": "800.00",
+          "AR": "0.00",
+          "available_credit": "80.00",
+          "net_consumption": "120.00"
+        },
+        "target": {
+          "gross": "500.00",
+          "net": "500.00",
+          "P": "0.00",
+          "U": "0.00",
+          "I": "0.00",
+          "E": "0.00",
+          "AR": "500.00"
+        },
+        "cash": "880.00"
+      },
+      "atomic_refusal": false,
+      "initial_mode": "CREDIT"
+    },
+    {
+      "id": "OW04_CONSUMER_SECOND_REFUND_UNDO_SAME_ORIGINAL",
+      "expected": {
+        "source": {
+          "gross": "1000.00",
+          "net": "800.00",
+          "P": "1000.00",
+          "U": "0.00",
+          "I": "200.00",
+          "E": "800.00",
+          "AR": "0.00",
+          "available_credit": "80.00",
+          "net_consumption": "120.00"
+        },
+        "target": {
+          "gross": "500.00",
+          "net": "500.00",
+          "P": "0.00",
+          "U": "0.00",
+          "I": "0.00",
+          "E": "0.00",
+          "AR": "500.00"
+        },
+        "cash": "880.00"
+      },
+      "atomic_refusal": true,
+      "initial_mode": "CREDIT"
+    },
+    {
+      "id": "OW04_CONSUMER_UNDO_INITIAL_FULL_REFUND",
+      "expected": {
+        "source": {
+          "gross": "1000.00",
+          "net": "800.00",
+          "P": "1000.00",
+          "U": "0.00",
+          "I": "200.00",
+          "E": "800.00",
+          "AR": "0.00",
+          "available_credit": "200.00",
+          "net_consumption": "0.00"
+        },
+        "target": {
+          "gross": "500.00",
+          "net": "500.00",
+          "P": "0.00",
+          "U": "0.00",
+          "I": "0.00",
+          "E": "0.00",
+          "AR": "500.00"
+        },
+        "cash": "1000.00"
+      },
+      "atomic_refusal": false,
+      "initial_mode": "REFUND"
+    },
+    {
+      "id": "OW04_CONSUMER_SOURCE_INVERSE_AFTER_INITIAL_REFUND_UNDONE",
+      "expected": {
+        "source": {
+          "gross": "1000.00",
+          "net": "1000.00",
+          "P": "1000.00",
+          "U": "0.00",
+          "I": "0.00",
+          "E": "1000.00",
+          "AR": "0.00",
+          "available_credit": "0.00",
+          "net_consumption": "0.00"
+        },
+        "target": {
+          "gross": "500.00",
+          "net": "500.00",
+          "P": "0.00",
+          "U": "0.00",
+          "I": "0.00",
+          "E": "0.00",
+          "AR": "500.00"
+        },
+        "cash": "1000.00"
+      },
+      "atomic_refusal": false,
+      "initial_mode": "REFUND"
+    }
+  ],
+  "Native_executed": false,
+  "independent_acceptance": false,
+  "feature_complete": false,
+  "production_go": false
+}
