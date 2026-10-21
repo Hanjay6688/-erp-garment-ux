@@ -1,0 +1,20 @@
+{
+  "classification": "EXACT_ACTUAL_BOUNDED_CONSUMER_NATIVE18_BINDING_NOT_NATIVE87_OR_TRANSPORT_EXECUTION",
+  "status": "PASS",
+  "native_case_count": 18,
+  "candidate": "d847fef89af01abbef377bd7f41f4361b736001a",
+  "tree": "d678683804f5169267dba9ab62f5faa517bc3846",
+  "run_id": 39652981572,
+  "job_id": 119405852913,
+  "artifact_id": 12369869780,
+  "artifact_zip_sha256": "e3da96572539d5317b6d10fe5dc1cd1716836e071089bb946beffc18914ba23b",
+  "original_report": "docs/cp7/d17-14/ow04/consumer18-d847fef8-pass/CP7_OW04_CONSUMER_NATIVE_18.json.gz",
+  "original_report_sha256": "bd851967d72d2892966c222ecc74bab15412dce7c820e4a14ac324bcb2fa6913",
+  "successful_general_correction_adapter_qualified": false,
+  "Native87_rerun": false,
+  "HTTP_browser_race_qualified": false,
+  "independent_acceptance": false,
+  "feature_complete": false,
+  "production_go": false,
+  "formal_CP7C_started": false
+}

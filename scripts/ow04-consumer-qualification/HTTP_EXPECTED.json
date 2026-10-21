@@ -1,0 +1,29 @@
+{
+  "classification": "PREDECLARED_REAL_AUTH_HTTP_CASES_NOT_EXECUTED_NOT_INDEPENDENT_ACCEPTANCE",
+  "expected_count": 14,
+  "required_case_ids": [
+    "OW04_CONSUMER_HTTP_APPLY_COMMIT_REPLAY",
+    "OW04_CONSUMER_HTTP_REFUND_COMMIT_REPLAY",
+    "OW04_CONSUMER_HTTP_APPLY_NAMED_UNDO_REPLAY",
+    "OW04_CONSUMER_HTTP_REFUND_NAMED_UNDO_REPLAY",
+    "OW04_CONSUMER_HTTP_CHANGED_REQUEST_REFUSAL",
+    "OW04_CONSUMER_HTTP_STALE_REVIEW_REFUSAL",
+    "OW04_CONSUMER_HTTP_ANON_REFUSAL",
+    "OW04_CONSUMER_HTTP_REVOKED_FRESH_REPLAY_REFUSAL",
+    "OW04_CONSUMER_HTTP_RESERVED_BOOK_DATE_REFUSAL",
+    "OW04_CONSUMER_HTTP_UNDO_AMOUNT_REFUSAL",
+    "OW04_CONSUMER_HTTP_SECOND_UNDO_REFUSAL",
+    "OW04_CONSUMER_HTTP_NON_OWNER_REFUND_REFUSAL",
+    "OW04_CONSUMER_HTTP_OVERDRAW_ATOMIC_REFUSAL",
+    "OW04_CONSUMER_HTTP_INITIAL_REFUND_NAMED_UNDO_REPLAY"
+  ],
+  "original_frozen_nine_sha256": "437c6b2f0fe338e96a4880b6acff01e6af2f79d4f9d8ef0de29c0b4676be22ac",
+  "frozen_refund_nine_sha256": "eed6e700cfabc301f76a74819fc5b614b6b20da16af6d8f97f05ee9d10d7b762",
+  "financial_expectations": "Reuse exact source/receiving/cash literals in original consumer9 and separately frozen refund9; no expected monetary or date field changed",
+  "actual_Auth_required": true,
+  "real_PostgREST_required": true,
+  "Native_rerun": false,
+  "browser_or_races": false,
+  "executed": false,
+  "production_go": false
+}
