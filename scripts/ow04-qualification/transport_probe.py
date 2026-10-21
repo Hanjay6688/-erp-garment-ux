@@ -42,13 +42,13 @@ def qualified_core():
     binding_path=Path(__file__).with_name('QUALIFIED_CORE.json')
     value=json.loads(binding_path.read_bytes())
     count=value['native_case_count']
-    assert value['status']=='PASS'and count in(44,58,63,73),'OW04_HTTP_NATIVE_NOT_QUALIFIED'
+    assert value['status']=='PASS'and count in(44,58,63,73,87),'OW04_HTTP_NATIVE_NOT_QUALIFIED'
     assert git('rev-parse','HEAD:scripts/cp7_customer_credit')==value['core_directory_tree'],'OW04_HTTP_CORE_CHANGED'
     assert git('rev-parse','HEAD:scripts/cp7_ow04_probe.py')==value['native_probe_blob'],'OW04_HTTP_NATIVE_PROBE_CHANGED'
     changed=git('diff','--name-only',value['candidate'],'--','scripts','src','supabase').splitlines()
     assert all(p.startswith('scripts/ow04-qualification/')for p in changed),('OW04_HTTP_QUALIFIED_DEPENDENCY_CHANGED',changed)
-    if count==73:
-        assert value.get('classification')=='REUSED_FULL_NATIVE73_RUNTIME_EXACT_CORE_BINDING_NOT_NEW_TRANSPORT_EXECUTION','OW04_HTTP_FULL_BINDING_CLASS_CHANGED'
+    if count in(73,87):
+        assert value.get('classification')==f'REUSED_FULL_NATIVE{count}_RUNTIME_EXACT_CORE_BINDING_NOT_NEW_TRANSPORT_EXECUTION','OW04_HTTP_FULL_BINDING_CLASS_CHANGED'
         assert git('rev-parse','HEAD:scripts/cp7_full_owning_install.py')==value['owning_installer_blob'],'OW04_HTTP_FULL_OWNING_INSTALLER_CHANGED'
         assert git('rev-parse','HEAD:scripts/cp7_full_ow04_probe.py')==value['native_full_probe_blob'],'OW04_HTTP_FULL_NATIVE_PROBE_CHANGED'
     receipt=(REPO/value['receipt']).read_bytes()
@@ -60,10 +60,11 @@ def qualified_core():
     assert summary['expected_case_count']==summary['observed_case_count']==count \
         and summary['cp6_restored']is True and summary['advisor_gate']is True,'OW04_HTTP_NATIVE_RESTORE_OR_COUNT_INVALID'
     declaration_name={44:'NATIVE_EMPTY_QUALIFICATION.json',58:'NATIVE_FRACTIONAL_QUALIFICATION.json',
-                      63:'NATIVE_SIGNED_SOURCE_QUALIFICATION.json',73:'CREDIT_DEPENDENCY_NATIVE_QUALIFICATION.json'}[count]
+                      63:'NATIVE_SIGNED_SOURCE_QUALIFICATION.json',73:'CREDIT_DEPENDENCY_NATIVE_QUALIFICATION.json',
+                      87:'DIRECT_NATIVE_FRACTIONAL_QUALIFICATION.json'}[count]
     declaration_path=REPO/'docs/cp7/d17-14/ow04'/declaration_name
     declaration_bytes=declaration_path.read_bytes();declaration=json.loads(declaration_bytes)
-    if count in(58,63,73):
+    if count in(58,63,73,87):
         assert value['qualification_declaration']=='docs/cp7/d17-14/ow04/'+declaration_name \
             and value['qualification_declaration_sha256']==hashlib.sha256(declaration_bytes).hexdigest(),'OW04_HTTP_NATIVE_DECLARATION_CHANGED'
         gates=actual['package_gate']
@@ -75,7 +76,7 @@ def qualified_core():
     assert declaration['expected_count']==len(expected_ids)==len(set(expected_ids))==count \
         and len(rows)==count and{r['id']for r in rows}==set(expected_ids) \
         and all(r['status']=='PASS'for r in rows),'OW04_HTTP_NATIVE_CASE_SET_INVALID'
-    if count==73:
+    if count in(73,87):
         old_name='docs/cp7/d17-14/ow04/FULL_INSTALL_QUALIFICATION.json'
         old_bytes=(REPO/old_name).read_bytes();old_declaration=json.loads(old_bytes)
         assert value.get('retained_native64_declaration')==old_name and value.get('retained_native64_declaration_sha256')==hashlib.sha256(old_bytes).hexdigest(),'OW04_HTTP_RETAINED_NATIVE64_DECLARATION_CHANGED'
@@ -85,6 +86,16 @@ def qualified_core():
         assert composed.get('retained_case_count')==64 and composed.get('additional_readonly_case_count')==9 and composed.get('preuse_exact_CP6_restore')is True and composed.get('used_rollback_refused')is True,'OW04_HTTP_FULL_NATIVE_COMPOSITION_INCOMPLETE'
         assert all(r.get('full_boundary_restored')is True and r.get('public_schema_unchanged')is True
             and r.get('session_leaks')=={'advisory_locks':0,'advisory_lock_keys':[],'other_sessions':[]}for r in rows),'OW04_HTTP_FULL_NATIVE_BOUNDARY_NOT_RESTORED'
+        if count==87:
+            retained_name='docs/cp7/d17-14/ow04/CREDIT_DEPENDENCY_NATIVE_QUALIFICATION.json'
+            retained_bytes=(REPO/retained_name).read_bytes();retained=json.loads(retained_bytes)
+            assert value.get('retained_native73_declaration')==retained_name and value.get('retained_native73_declaration_sha256')==hashlib.sha256(retained_bytes).hexdigest(),'OW04_HTTP_RETAINED_NATIVE73_DECLARATION_CHANGED'
+            assert retained['expected_count']==len(retained['required_case_ids'])==73 and expected_ids[:73]==retained['required_case_ids'],'OW04_HTTP_RETAINED_NATIVE73_CASE_SET_CHANGED'
+            native_expected=(REPO/'scripts/cp7_customer_credit/hpp-fractional/NATIVE_EXPECTED.json').read_bytes()
+            native_expected_sha=hashlib.sha256(native_expected).hexdigest()
+            assert declaration.get('retained_native73_declaration_sha256')==hashlib.sha256(retained_bytes).hexdigest(),'OW04_HTTP_NATIVE87_RETENTION_PROOF_CHANGED'
+            assert declaration.get('direct_native_fractional_expected_sha256')==native_expected_sha and composed.get('direct_native_fractional_expected_sha256')==native_expected_sha,'OW04_HTTP_NATIVE87_EXPECTED_CHANGED'
+            assert composed.get('additional_direct_native_case_count')==14 and expected_ids[73:]==[r['id']for r in json.loads(native_expected)['cases']],'OW04_HTTP_NATIVE87_DIRECT_CASES_INCOMPLETE'
     return dict(**value,binding_sha256=hashlib.sha256(binding_path.read_bytes()).hexdigest())
 
 
@@ -92,7 +103,7 @@ def run():
     # Fail before opening a connection if any previously qualified product or
     # installer dependency differs. Only this explicit qualification may differ.
     reused=qualified_core()
-    assert reused['native_case_count']==73,'OW04_HTTP_FULL_NATIVE73_REQUIRED'
+    assert reused['native_case_count']==87,'OW04_HTTP_FULL_NATIVE87_REQUIRED'
     report=dict(label='CP7_OW04_HTTP',status='INCOMPLETE',expected_case_count=18,required_case_ids=list(http_cases.IDS),
         candidate_commit=git('rev-parse','HEAD'),core_directory_tree=git('rev-parse','HEAD:scripts/cp7_customer_credit'),
         native_probe_blob=git('rev-parse','HEAD:scripts/cp7_ow04_probe.py'),source_sha256=credit.source_files(native_empty=True),

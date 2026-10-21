@@ -8,8 +8,8 @@ def require(root,candidate,step_outcomes=None):
     expected_dir=Path(__file__).resolve().parent
     binding_bytes=(expected_dir/'QUALIFIED_CORE.json').read_bytes()
     binding=json.loads(binding_bytes)
-    assert binding.get('status')=='PASS'and binding.get('native_case_count')in(63,73),'OW04_FINAL_NATIVE_NOT_QUALIFIED'
-    full=binding['native_case_count']==73
+    assert binding.get('status')=='PASS'and binding.get('native_case_count')in(63,73,87),'OW04_FINAL_NATIVE_NOT_QUALIFIED'
+    full=binding['native_case_count']in(73,87)
     expected_binding=dict(**binding,binding_sha256=hashlib.sha256(binding_bytes).hexdigest())
     counts={};reports={}
     for label,file,group,declaration,count in (

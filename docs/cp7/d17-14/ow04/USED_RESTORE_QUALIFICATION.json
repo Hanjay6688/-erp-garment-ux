@@ -1,0 +1,22 @@
+{
+  "contract_version": "ow04.used-installation-backup-restore.qualification.v1",
+  "classification": "PREDECLARED_DISPOSABLE_ONLY_NOT_EXECUTED",
+  "scenario_id": "OW04_USED_CREDIT_REFUND_RESTORE_CONTINUE",
+  "expected_scenario_count": 1,
+  "required_steps": [
+    "COMMITTED_CREDIT_AND_REFUND",
+    "DUMP_AND_FRESH_RESTORE",
+    "RESTORED_CREDIT_AND_REFUND_READS",
+    "RESTORED_OWNING_WRITE_AND_REPLAY"
+  ],
+  "required_native_case_count": 87,
+  "required_cp6_exact_restore": true,
+  "oracle": "Existing retained CREDIT/REFUND literal initial settlement facts, existing signed-source inverse expected.json and unchanged full-table backup hashes. No fresh OID seal is blessed or disabled by this probe.",
+  "limits": [
+    "Synthetic administrative masters and Native Auth fixtures, not browser entry or real Auth HTTP proof.",
+    "No hosted/live provider/deployment or complete OW04 acceptance."
+  ],
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false
+}

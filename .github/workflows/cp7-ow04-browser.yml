@@ -7,6 +7,7 @@ name: CP7 OW04 Real Browser Settlement and Recovery Qualification
     - codex/ow04-source-http-20261021
     - codex/writer-takeover-20261021
     - codex/ow04-credit-dependencies-20261021
+    - codex/ow04-lifecycle-20261021
     paths:
     - scripts/ow04-qualification/**
     - .github/workflows/cp7-ow04-browser.yml

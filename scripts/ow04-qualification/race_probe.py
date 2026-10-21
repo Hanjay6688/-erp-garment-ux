@@ -30,7 +30,7 @@ def run():
     # Fail before opening a connection if any previously qualified product or
     # installer dependency differs. Only this explicit qualification may differ.
     reused=transport_backend.qualified_core()
-    assert reused['native_case_count']==73,'OW04_SOURCE_RACE_ACTUAL_FULL_NATIVE73_REQUIRED'
+    assert reused['native_case_count']==87,'OW04_SOURCE_RACE_ACTUAL_FULL_NATIVE87_REQUIRED'
     retained=source_race_cases.assert_retained_bytes(REPO)
     report=dict(label='CP7_OW04_RACES',status='INCOMPLETE',expected_case_count=6,required_case_ids=list(race_cases.IDS),
         candidate_commit=git('rev-parse','HEAD'),core_directory_tree=git('rev-parse','HEAD:scripts/cp7_customer_credit'),

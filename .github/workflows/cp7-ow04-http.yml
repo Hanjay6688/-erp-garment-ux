@@ -7,6 +7,7 @@ name: CP7 OW04 Real Auth HTTP and SQL Recovery Qualification
     - codex/ow04-source-http-20261021
     - codex/writer-takeover-20261021
     - codex/ow04-credit-dependencies-20261021
+    - codex/ow04-lifecycle-20261021
     paths:
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/ow04-qualification/**
@@ -107,10 +108,10 @@ jobs:
     - name: Check qualifier imports before rebuilding the disposable database
       working-directory: writer
       run: |
-        ERP_REPO=../auditor PYTHONPATH=../auditor/scripts:../auditor/scripts/ow04-qualification python -c "import transport_probe as p; assert p.qualified_core()['native_case_count']==73 and len(p.http_cases.IDS)==18; print('OW04_HTTP14_IMPORT_ADMISSION_PASS_NOT_EXECUTED')"
+        ERP_REPO=../auditor PYTHONPATH=../auditor/scripts:../auditor/scripts/ow04-qualification python -c "import transport_probe as p; assert p.qualified_core()['native_case_count']==87 and len(p.http_cases.IDS)==18; print('OW04_HTTP18_IMPORT_ADMISSION_PASS_NOT_EXECUTED')"
         ERP_REPO=../auditor PYTHONPATH=../auditor/scripts:../auditor/scripts/ow04-qualification python -c "import transport_probe as p; assert p.core.SIGNED_SOURCE and len(p.core.IDS)==63; print('OW04_REUSED_NATIVE63_IMPORT_ADMISSION_PASS_NOT_EXECUTED')"
         ERP_REPO=../auditor PYTHONPATH=../auditor/scripts:../auditor/scripts/ow04-qualification python -c "import race_probe as r; r.transport_backend.qualified_core(); assert len(r.race_cases.races(None,None))==6; print('OW04_RACE_IMPORT_ADMISSION_PASS_NOT_EXECUTED')"
-        ERP_REPO=../auditor PYTHONPATH=../auditor/scripts:../auditor/scripts/ow04-qualification python -c "import race_probe as r; assert r.transport_backend.qualified_core()['native_case_count']==73; assert len(r.source_race_cases.races(None,None))==2; print('OW04_SOURCE_RACE2_IMPORT_ADMISSION_PASS_NOT_EXECUTED')"
+        ERP_REPO=../auditor PYTHONPATH=../auditor/scripts:../auditor/scripts/ow04-qualification python -c "import race_probe as r; assert r.transport_backend.qualified_core()['native_case_count']==87; assert len(r.source_race_cases.races(None,None))==2; print('OW04_SOURCE_RACE2_IMPORT_ADMISSION_PASS_NOT_EXECUTED')"
         PYTHONDONTWRITEBYTECODE=1 python ../auditor/scripts/ow04-qualification/native_binding_recheck.py
         PYTHONDONTWRITEBYTECODE=1 python ../auditor/scripts/ow04-qualification/final_binding_recheck.py
         ERP_REPO=../auditor PYTHONPATH=../auditor/scripts:../auditor/scripts/ow04-qualification python ../auditor/scripts/ow04-qualification/fixture_recheck.py
@@ -209,7 +210,7 @@ jobs:
           'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
           'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
           cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'
-    - name: Install exact Native73-qualified full product and qualify eighteen real Auth HTTP cases
+    - name: Install exact Native87-qualified full product and qualify eighteen real Auth HTTP cases
       working-directory: writer
       run: python '../auditor/scripts/ow04-qualification/transport_probe.py'
       id: http_settlement

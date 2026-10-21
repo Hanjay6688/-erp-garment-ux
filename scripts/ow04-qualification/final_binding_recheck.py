@@ -20,13 +20,13 @@ sha=lambda raw:hashlib.sha256(raw).hexdigest()
 
 
 def exercise(mutation):
-    control_id=mutation;full=mutation.startswith('full73:')
+    control_id=mutation;full87=mutation.startswith('full87:');full=mutation.startswith(('full73:','full87:'))
     if full:mutation=mutation.split(':',1)[1]
     with tempfile.TemporaryDirectory(prefix='SYNTHETIC-ow04-final-source-gate-')as folder:
         base=Path(folder);expected=base/'scripts/ow04-qualification';proof=base/'proof/t3';old_package=proof.parent/'ow04-http-completed'
         for directory in(expected,proof,old_package):directory.mkdir(parents=True,exist_ok=True)
         candidate='a'*40
-        binding=dict(status='PASS',native_case_count=73 if full else 63,candidate='b'*40,core_directory_tree='c'*40,native_probe_blob='d'*40)
+        binding=dict(status='PASS',native_case_count=87 if full87 else 73 if full else 63,candidate='b'*40,core_directory_tree='c'*40,native_probe_blob='d'*40)
         if mutation=='binding_incomplete':binding['status']='INCOMPLETE'
         if mutation=='binding_unsupported32':binding['native_case_count']=32
         if mutation=='binding_old58':binding['native_case_count']=58
@@ -157,8 +157,14 @@ if __name__=='__main__':
         'full_owning_source_wrong','binding_native64','native_reuse63_wrong',
         'HTTP_command_failed','RACES_command_failed','source_race_failed',
         'dependency_declaration_changed','dependency_count_wrong'))
+    names+=tuple('full87:'+name for name in(
+        'valid','only_old14_HTTP_rows','missing_dependency_HTTP_ID','dependency_hash_wrong',
+        'dependency_module_changed','dependency_ID_collides_initial','full_backend_hash_wrong',
+        'full_owning_source_wrong','binding_native64','native_reuse63_wrong',
+        'HTTP_command_failed','RACES_command_failed','source_race_failed',
+        'dependency_declaration_changed','dependency_count_wrong'))
     rows=[exercise(name)for name in names]
-    assert all(row['accepted']is(row['id']in('valid','full73:valid'))
+    assert all(row['accepted']is(row['id']in('valid','full73:valid','full87:valid'))
         and(row['accepted']or row['error_type']=='AssertionError')for row in rows),rows
     print(json.dumps(dict(classification='SYNTHETIC_ACTUAL_FUNCTION_NOT_RUNTIME',status='PASS',count=len(rows),
         gate_source_sha256=sha(SOURCE.read_bytes()),database_calls=0,rows=rows),indent=2))

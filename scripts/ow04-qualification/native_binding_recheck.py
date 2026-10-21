@@ -23,7 +23,8 @@ def exercise(count,mutation=None):
         root=Path(folder);entry=root/'scripts/ow04-qualification/transport_probe.py'
         entry.parent.mkdir(parents=True)
         name={44:'NATIVE_EMPTY_QUALIFICATION.json',58:'NATIVE_FRACTIONAL_QUALIFICATION.json',
-              63:'NATIVE_SIGNED_SOURCE_QUALIFICATION.json',73:'CREDIT_DEPENDENCY_NATIVE_QUALIFICATION.json'}[count]
+              63:'NATIVE_SIGNED_SOURCE_QUALIFICATION.json',73:'CREDIT_DEPENDENCY_NATIVE_QUALIFICATION.json',
+              87:'DIRECT_NATIVE_FRACTIONAL_QUALIFICATION.json'}[count]
         declaration=(REPO/'docs/cp7/d17-14/ow04'/name).read_bytes()
         target=root/'docs/cp7/d17-14/ow04'/name;target.parent.mkdir(parents=True);target.write_bytes(declaration)
         ids=json.loads(declaration)['required_case_ids']
@@ -38,16 +39,24 @@ def exercise(count,mutation=None):
             receipt='docs/cp7/d17-14/ow04/NATIVE_SYNTHETIC_CONTROL.json',
             qualification_declaration='docs/cp7/d17-14/ow04/'+name,qualification_declaration_sha256=sha(declaration))
         git_values=dict(core=binding['core_directory_tree'],probe=binding['native_probe_blob'],changes='scripts/ow04-qualification/native_binding_recheck.py')
-        if count==73:
+        if count in(73,87):
             old_name='docs/cp7/d17-14/ow04/FULL_INSTALL_QUALIFICATION.json'
             old_bytes=(REPO/old_name).read_bytes();(root/old_name).write_bytes(old_bytes)
-            binding.update(classification='REUSED_FULL_NATIVE73_RUNTIME_EXACT_CORE_BINDING_NOT_NEW_TRANSPORT_EXECUTION',
+            binding.update(classification=f'REUSED_FULL_NATIVE{count}_RUNTIME_EXACT_CORE_BINDING_NOT_NEW_TRANSPORT_EXECUTION',
                 owning_installer_blob='e'*40,native_full_probe_blob='f'*40,
                 retained_native64_declaration=old_name,retained_native64_declaration_sha256=sha(old_bytes))
             git_values.update(owning='e'*40,full_probe='f'*40)
             receipt['full_composition']=dict(owning_installer_blob='e'*40,native_full_probe_blob='f'*40,
                 retained_case_count=64,additional_readonly_case_count=9,
                 preuse_exact_CP6_restore=True,used_rollback_refused=True)
+            if count==87:
+                retained_name='docs/cp7/d17-14/ow04/CREDIT_DEPENDENCY_NATIVE_QUALIFICATION.json'
+                retained_bytes=(REPO/retained_name).read_bytes();(root/retained_name).write_bytes(retained_bytes)
+                native_name='scripts/cp7_customer_credit/hpp-fractional/NATIVE_EXPECTED.json'
+                native_bytes=(REPO/native_name).read_bytes();(root/native_name).parent.mkdir(parents=True)
+                (root/native_name).write_bytes(native_bytes)
+                binding.update(retained_native73_declaration=retained_name,retained_native73_declaration_sha256=sha(retained_bytes))
+                receipt['full_composition'].update(additional_direct_native_case_count=14,direct_native_fractional_expected_sha256=sha(native_bytes))
         override={}
         if mutation:mutation(binding,receipt,git_values,override)
         raw=(json.dumps(receipt,sort_keys=True)+'\n').encode()
@@ -130,6 +139,25 @@ additional=(
 )
 controls+=additional
 CONTROL_IDS+=tuple(row[0]for row in additional)
+
+native87=(
+    ('valid87',87,None,True),
+    ('fake73_relabelled87',87,lambda b,r,g,o:r.__setitem__('cases',r['cases'][:73]),False),
+    ('missing_direct_native87',87,lambda b,r,g,o:r['cases'].pop(),False),
+    ('direct_native_case_failed87',87,lambda b,r,g,o:r['cases'][-1].__setitem__('status','INCOMPLETE'),False),
+    ('direct_native_count_wrong87',87,lambda b,r,g,o:r['full_composition'].__setitem__('additional_direct_native_case_count',13),False),
+    ('direct_native_expected_changed87',87,lambda b,r,g,o:r['full_composition'].__setitem__('direct_native_fractional_expected_sha256','0'*64),False),
+    ('retained73_declaration_changed87',87,edit('binding','retained_native73_declaration_sha256','0'*64),False),
+    ('wrong_class87',87,edit('binding','classification','REUSED_FULL_NATIVE73_RUNTIME_EXACT_CORE_BINDING_NOT_NEW_TRANSPORT_EXECUTION'),False),
+    ('core_changed87',87,edit('git','core','0'*40),False),
+    ('full_installer_changed87',87,edit('git','owning','0'*40),False),
+    ('full_probe_changed87',87,edit('git','full_probe','0'*40),False),
+    ('preuse_restore_unproven87',87,lambda b,r,g,o:r['full_composition'].__setitem__('preuse_exact_CP6_restore',False),False),
+    ('workflow_failed87',87,edit('receipt','workflow_conclusion','failure'),False),
+    ('native_boundary_leaked87',87,lambda b,r,g,o:r['cases'][-1]['session_leaks'].__setitem__('advisory_locks',1),False),
+)
+controls+=native87
+CONTROL_IDS+=tuple(row[0]for row in native87)
 
 assert tuple(row[0]for row in controls)==CONTROL_IDS
 results=[]

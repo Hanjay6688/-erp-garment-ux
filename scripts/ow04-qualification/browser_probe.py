@@ -21,7 +21,7 @@ assert len(IDS)==len(set(IDS))==5
 def run():
     assert os.environ.get('AUDITOR_UI_MODE')=='ENTENG','OW04_BROWSER_ENTENG_LOOPBACK_BUILD_REQUIRED'
     reused=transport.qualified_core()
-    assert reused['native_case_count']==73,'OW04_BROWSER_ACTUAL_FULL_NATIVE73_REQUIRED'
+    assert reused['native_case_count']==87,'OW04_BROWSER_ACTUAL_FULL_NATIVE87_REQUIRED'
     source,_=browser_sources.inspect_sources()
     report=dict(label='CP7_OW04_BROWSER',status='INCOMPLETE',expected_case_count=5,
       required_case_ids=list(IDS),candidate_commit=transport.git('rev-parse','HEAD'),
