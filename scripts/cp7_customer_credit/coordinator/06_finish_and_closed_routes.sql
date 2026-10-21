@@ -137,6 +137,9 @@ begin
  elsif p_action='RETURN_REVERSE'then select sale_id,status='REVERSED'into strict sale,finished from erp.sales_returns where id=p_source;
  elsif p_action='SALE_REVERSE'then select id,status='REVERSED'into strict sale,finished from erp.sales_headers where id=p_source;
  else raise exception 'CP7_CREDIT_SOURCE_ACTION_UNIMPLEMENTED';end if;
+ if cp7_credit.source_operation_owns_v1(p_action,p_source)then
+  perform cp7_credit.source_operation_native_enter_v1(p_action,p_source);return;
+ end if;
  if not cp7_credit.has_ow04_participation_v1(sale)then return;end if;
  -- Original Native require_internal/owner checks still surround this callback.
  a:=cp7_sales.command_access(p_action);
@@ -154,6 +157,9 @@ create function cp7_credit.native_source_complete(p_action text,p_source uuid)re
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
 declare s cp7_credit.source_mutation_scope;sale uuid;
 begin
+ if cp7_credit.source_operation_owns_v1(p_action,p_source)then
+  perform cp7_credit.source_operation_native_complete_v1(p_action,p_source);return;
+ end if;
  select *into s from cp7_credit.source_mutation_scope where backend_pid=pg_backend_pid()and transaction_id=txid_current()and actor=auth.uid();
  if s.source_id is null then
   if p_action in('PAYMENT','PAYMENT_REVERSE')then select sale_id into strict sale from erp.sales_payments where id=p_source;
@@ -216,8 +222,13 @@ end $$;
 
 create function cp7_credit.enforce_initial_return_closure_v1()returns trigger
 language plpgsql security definer set search_path=''set TimeZone='UTC'as $$
-declare operation uuid;row jsonb:=to_jsonb(new);family uuid;plan uuid;
+declare operation uuid;source_operation uuid;row jsonb:=to_jsonb(new);family uuid;plan uuid;
 begin
+ if tg_table_name in('financial_materializations','financial_materialization_objects')then
+  select operation_id into source_operation from cp7_credit.source_operation_materializations_v1
+   where financial_marker_id=(case when tg_table_name='financial_materializations'then row->>'id'else row->>'materialization_id'end)::uuid;
+  if source_operation is not null then perform cp7_credit.assert_source_operation_closed_v1(source_operation);return null;end if;
+ end if;
  if tg_table_name in('initial_return_materializations','initial_return_completions')then operation:=(row->>'operation_id')::uuid;
  elsif tg_table_name='initial_refund_operations'then select operation_id into operation from cp7_credit.initial_return_materializations where refund_operation_id=(row->>'id')::uuid;
  elsif tg_table_name='financial_materializations'then select operation_id into operation from cp7_credit.initial_return_materializations where materialization_id=(row->>'id')::uuid or refund_operation_id=(row->>'id')::uuid;
@@ -236,6 +247,8 @@ begin
    when'plan_dependencies'then plan:=(row->>'plan_id')::uuid;
    else raise exception 'CP7_CREDIT_CLOSURE_TABLE_UNRECOGNIZED';
   end case;
+  select operation_id into source_operation from cp7_credit.source_operation_plans_v1 where plan_id=plan;
+  if source_operation is not null then perform cp7_credit.assert_source_operation_closed_v1(source_operation);return null;end if;
   select operation_id into operation from cp7_credit.initial_return_materializations where family_id=family or plan_id=plan;
  end if;
  if operation is null then raise exception 'CP7_CREDIT_UNOWNED_IMMUTABLE_FACT';end if;

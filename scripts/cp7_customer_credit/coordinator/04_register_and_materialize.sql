@@ -5,6 +5,7 @@ language plpgsql volatile security definer set search_path=''set TimeZone='UTC'a
 declare p cp7_credit.recognition_plans;w cp7_credit.initial_return_work;e cp7_credit.execution_context;
 begin
  select *into strict p from cp7_credit.recognition_plans where id=p_plan;
+ if p.plan_kind='ADJUSTMENT'then perform cp7_credit.assert_source_adjustment_owner_v1(p.id);return;end if;
  select *into strict w from cp7_credit.initial_return_work where plan_id=p.id and backend_pid=pg_backend_pid()and transaction_id=txid_current()and actor=auth.uid();
  perform cp7_credit.assert_return_owner_context(w.return_id);
  select *into strict e from cp7_credit.execution_context where backend_pid=pg_backend_pid()and transaction_id=txid_current()and actor=auth.uid();

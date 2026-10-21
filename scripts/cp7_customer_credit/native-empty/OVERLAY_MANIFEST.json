@@ -4,11 +4,11 @@
   "frozen_sources": {
     "coordinator/01_coordinator_facts.sql": "4741483e2a61056a6e2365cfcc43e65d83c4ab9d1c8fd6fa77d33eda26b7af99",
     "coordinator/03_native_initial_callbacks.sql": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843",
-    "coordinator/04_register_and_materialize.sql": "9c3ca9d1be3f76237d7b6c6415cc42c4b4fdefe559441b323274e1a0694cc0a3",
-    "coordinator/05_factual_profile.sql": "b264aefe2d69411a8ed2e7b30cf75271eaa008a795af0897e7887df5c3d08449",
-    "coordinator/06_finish_and_closed_routes.sql": "cd486b197eb165505cb488f6aa08ed2886dfb7e05dc3371be9aba9b3a9aeb928",
+    "coordinator/04_register_and_materialize.sql": "abf523b1ba7a9e2d9f1aa8825b1e2c74cec160d2be726db71e2f2f8176ad7ff0",
+    "coordinator/05_factual_profile.sql": "a11a072b8e0fffbea380063787e752814893089ef9066bcc541b5984221bb16d",
+    "coordinator/06_finish_and_closed_routes.sql": "0dc8fb0f81e5a1787fe29e5a0585b8ca8138915dbb79f536d76051eb9c3ae27e",
     "source/member-proof.sql": "565e4e8643323442eadad2d6d1e65fdf1750da1675a2c68cc28187add17c1205",
-    "ledger/02_uuid_poster.proposal.sql": "d9bfca1d97113e8aacfbb5f29d5dcb1d4d3cbdc5c950073943de1bd2d6be9728"
+    "ledger/02_uuid_poster.proposal.sql": "7ab2fc6f5cb700c2284e58921bd6e59fbe731a0064457f5031116d61aa30baf8"
   },
   "overlays": [
     {
@@ -78,7 +78,7 @@
     {
       "identity": "cp7_credit.native_return_complete(uuid,numeric,numeric)",
       "source": "coordinator/04_register_and_materialize.sql",
-      "source_sha256": "9c3ca9d1be3f76237d7b6c6415cc42c4b4fdefe559441b323274e1a0694cc0a3",
+      "source_sha256": "abf523b1ba7a9e2d9f1aa8825b1e2c74cec160d2be726db71e2f2f8176ad7ff0",
       "before_body_sha256": "a98db4b645991db1b6b3d93ad614edb54382c57a2395b184eb1b45f052d970f1",
       "after_body_sha256": "c1a5364f55920b4a49a257a91662ed534f54e4fd362a7e78bf4b63d0b198b0fa",
       "overlay_definition_sha256": "d39355bb180812143428b9932fd42114740e0de85d7b2c43a12e9fb13d62ce98",
@@ -94,7 +94,7 @@
     {
       "identity": "cp7_credit.native_return_leave(uuid)",
       "source": "coordinator/06_finish_and_closed_routes.sql",
-      "source_sha256": "cd486b197eb165505cb488f6aa08ed2886dfb7e05dc3371be9aba9b3a9aeb928",
+      "source_sha256": "0dc8fb0f81e5a1787fe29e5a0585b8ca8138915dbb79f536d76051eb9c3ae27e",
       "before_body_sha256": "507136a7bbcce2e2234ba6f82d6038a4891ad7bb37521e695782c27b3d52a11f",
       "after_body_sha256": "88bfd39dc16feb3208e7961f41205487e0810234b9b7e7e9cf7fefa5f7956805",
       "overlay_definition_sha256": "7bba8332ba9624e98b39fcc9db63831e654af64f0bae533bca1e8e24926e720f",
@@ -110,7 +110,7 @@
     {
       "identity": "cp7_credit.assert_bound_post(text,uuid,date,jsonb)",
       "source": "ledger/02_uuid_poster.proposal.sql",
-      "source_sha256": "d9bfca1d97113e8aacfbb5f29d5dcb1d4d3cbdc5c950073943de1bd2d6be9728",
+      "source_sha256": "7ab2fc6f5cb700c2284e58921bd6e59fbe731a0064457f5031116d61aa30baf8",
       "before_body_sha256": "0a6cef4f65c8b0ad0f380f13a312c1688bd82075df2605de51f20c9c46ec3334",
       "after_body_sha256": "c4a8bd54e31e51b8a340d7a39620f91357836350aef60bd73d1479edece83a69",
       "overlay_definition_sha256": "da4ac5af5043d16f5df002f400855fb0937bd9feaded6f279549377e44acea0c",
@@ -142,7 +142,7 @@
     {
       "identity": "cp7_credit.bound_audit_context()",
       "source": "ledger/02_uuid_poster.proposal.sql",
-      "source_sha256": "d9bfca1d97113e8aacfbb5f29d5dcb1d4d3cbdc5c950073943de1bd2d6be9728",
+      "source_sha256": "7ab2fc6f5cb700c2284e58921bd6e59fbe731a0064457f5031116d61aa30baf8",
       "before_body_sha256": "0fe9f09937ad330668a17aac3a4fc3f2fd35c210832be9c5f29b856440147c16",
       "after_body_sha256": "43313fa1cbaeb0c5beb4b5262099bd793d6131b56c7e2010272ab6f22181d021",
       "overlay_definition_sha256": "6f550cef6a84f7f16350ad3f21808b61d1e8250a85db63af1eb64001a4557bac",
@@ -174,10 +174,10 @@
     {
       "identity": "cp7_credit.assert_financial_materialization_provenance(jsonb)",
       "source": "coordinator/05_factual_profile.sql",
-      "source_sha256": "b264aefe2d69411a8ed2e7b30cf75271eaa008a795af0897e7887df5c3d08449",
-      "before_body_sha256": "46e77f70b9b341b887d40dc40762728451eedad26989a156f67ccb82e8c96cd8",
-      "after_body_sha256": "60b095983aa91e0da0fe576964f9029531964994a648ac4e5525128d26b8b8df",
-      "overlay_definition_sha256": "f938aa6c8bb52bd145f84ad323a1c77352ce7036439b420e4d6bfbc67ebb4aef",
+      "source_sha256": "a11a072b8e0fffbea380063787e752814893089ef9066bcc541b5984221bb16d",
+      "before_body_sha256": "564734f5709cfc9529b41688b3f7f82fcf3f833e822f04f4616a6e9a1ad24f33",
+      "after_body_sha256": "1019fb496d57a6398724a9a6e723c9eeeb3058b62227ae76e6973054b436241c",
+      "overlay_definition_sha256": "d8bda61c0fc3f9e568ace15461f97a1648b8a1c255d2aed22dc575af7e8db419",
       "owner": "postgres",
       "security_definer": true,
       "volatility": "s",
@@ -190,10 +190,10 @@
     {
       "identity": "cp7_credit.enforce_initial_return_closure_v1()",
       "source": "coordinator/06_finish_and_closed_routes.sql",
-      "source_sha256": "cd486b197eb165505cb488f6aa08ed2886dfb7e05dc3371be9aba9b3a9aeb928",
-      "before_body_sha256": "2051012dc3db458b7628057fcd53fa3778d402686082fee561f8eaa8a52e507f",
-      "after_body_sha256": "c75fd7523ef9dea5a0d2e5199b30e064b9520091fc932c66d94f8db6f714abac",
-      "overlay_definition_sha256": "4e10f983d618e29274c5257e8b41d5b1f55d6ae9f3279d75b90c173fe8826f53",
+      "source_sha256": "0dc8fb0f81e5a1787fe29e5a0585b8ca8138915dbb79f536d76051eb9c3ae27e",
+      "before_body_sha256": "8b6bb6b8a241be53e2855554c758759fb156e59696b7ca336ddeef5644bec59c",
+      "after_body_sha256": "b301528b37ce188a2eddb935d30c7a81d2c09291a41531112a6e11f3811a606f",
+      "overlay_definition_sha256": "e05b103629adff91c93611325c25120ebbb2a566eaf06179bec216def7ecf810",
       "owner": "postgres",
       "security_definer": true,
       "volatility": "v",
@@ -206,10 +206,10 @@
     {
       "identity": "cp7_credit.native_source_enter(text,uuid)",
       "source": "coordinator/06_finish_and_closed_routes.sql",
-      "source_sha256": "cd486b197eb165505cb488f6aa08ed2886dfb7e05dc3371be9aba9b3a9aeb928",
-      "before_body_sha256": "79dca590fcfef839036dacffe80666672c2d5954ffe1f7fa3f91e9016b2e4f6e",
-      "after_body_sha256": "af6aa84d35a2508aed842b94af5da557d5ebcb9c1061a4ada01086d43b29a83a",
-      "overlay_definition_sha256": "171ddc1dc7939ee99feb074109421b96b4898f1df19188a320a452276c31da5b",
+      "source_sha256": "0dc8fb0f81e5a1787fe29e5a0585b8ca8138915dbb79f536d76051eb9c3ae27e",
+      "before_body_sha256": "3c1ed9947d1a9e785334aa9cd6fde9f02564c93b7074376830277104c96f5cbe",
+      "after_body_sha256": "0438fa7d6431c338087fce0bbdeca861794ff12f29cf05442cac2df2dee35b96",
+      "overlay_definition_sha256": "24ac407fcfa560567ab4ff3d78d42a447d24e7c59d803f6cf3826203497badd5",
       "owner": "postgres",
       "security_definer": true,
       "volatility": "v",
@@ -222,10 +222,10 @@
     {
       "identity": "cp7_credit.native_source_complete(text,uuid)",
       "source": "coordinator/06_finish_and_closed_routes.sql",
-      "source_sha256": "cd486b197eb165505cb488f6aa08ed2886dfb7e05dc3371be9aba9b3a9aeb928",
-      "before_body_sha256": "d801713c8d7e837da350c25c7d329a612a747bc73667ffd3789f20d9b5a5050f",
-      "after_body_sha256": "619fc7318ec592e60cd622eae5675044eff2203290a12c23c2ebb473db75497a",
-      "overlay_definition_sha256": "41ce844228c64a1bae3fae4211b28b306bb390beb9b4bca46e9af33c4cc3777c",
+      "source_sha256": "0dc8fb0f81e5a1787fe29e5a0585b8ca8138915dbb79f536d76051eb9c3ae27e",
+      "before_body_sha256": "519f15aaf60c712d971a72cbfc13583446cdd2b03a4f05af058032864985be1b",
+      "after_body_sha256": "ae171ba49223c9562374b4cfb55a194738dfcb1ad1d30bd3740bbbc20eb5bada",
+      "overlay_definition_sha256": "b33c105dc42fa50ed9fcba67833f96b6d9ebb46993a7a7e68533e6d297ed78f4",
       "owner": "postgres",
       "security_definer": true,
       "volatility": "v",
@@ -236,5 +236,5 @@
       "acl": "unchanged by CREATE OR REPLACE; no outsider EXEC before or after"
     }
   ],
-  "generated_sql_sha256": "08af7ed38e9211e39a699bd9182b379b9c8c390b87ee10d14c97485f25fc5aa0"
+  "generated_sql_sha256": "bea5faafa415600a9b1973654fe6c0c4c449256ed8bb8fb8698a3ff62b026ad9"
 }

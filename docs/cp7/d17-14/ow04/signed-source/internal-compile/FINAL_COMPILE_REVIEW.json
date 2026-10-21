@@ -1,0 +1,301 @@
+{
+  "classification": "INTERNAL_WRITER_LOCAL_COMPILE_COUNTER_NOT_NATIVE_OR_BUSINESS_QUALIFICATION",
+  "scope": "Actual reconciliation01..07 including native_inverse_proof and base coordinator, ledger/source/reader dependencies. No product edits; no real database/network/Supabase.",
+  "engine": [
+    {
+      "version": "PostgreSQL 18.6 (PGlite 0.5.10) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.5 (1db513782be24469589d7cb8a1f1834e9a33f271), 32-bit",
+      "check_function_bodies": "on"
+    }
+  ],
+  "initial_scope_lock": "INITIAL_ASSESSMENT.json",
+  "product_error": {
+    "id": "SQL-COMPILE-01",
+    "status": "FIXED_BY_ROOT_AND_VALIDATOR_RECHECKED",
+    "file": "reconciliation/03_native_inverse_proof.sql",
+    "function": "cp7_credit.source_inverse_proof_v1(jsonb,jsonb,text,uuid)",
+    "first_source_sha256": "693ec404d8691a370b4e9cfecaafc9b4373a0e12cccc69d3bf019cf705255f3e",
+    "error": {
+      "sqlstate": "42601",
+      "message": "syntax error at end of input",
+      "statement_position": 10711
+    },
+    "exact_triggering_source": "if old_event->>'kind'is distinct from case when p_action='RETURN_REVERSE'then'NET'else'FUNDING'end",
+    "specific_fix": "if old_event->>'kind'is distinct from (case when p_action='RETURN_REVERSE'then'NET'else'FUNDING'end)",
+    "fixed_source_sha256": "c445cd8bcb3efed3d0de569b9f3c942b09e097b8192f805ba341435807362d02",
+    "first_error_preservation": [
+      "attempt01/FIRST_ERRORS.json",
+      "attempt01/FIRST_COMMAND_OUTPUT.log",
+      "attempt01/compile_input.json",
+      "attempt02/FIRST_ERRORS.json",
+      "attempt02/SECOND_COMMAND_OUTPUT.log"
+    ],
+    "root_product_edit": true,
+    "reviewer_product_edit": false
+  },
+  "actual_validator_results": {
+    "actual_product_functions": 223,
+    "functions_validator_compiled": 223,
+    "unresolved_product_functions": 0,
+    "new_reconciliation_functions": 50,
+    "functions_by_file": {
+      "kernel/kernel.sql": 6,
+      "ordinal-wrapper/wrapper.sql": 7,
+      "ledger/01_immutable_facts.proposal.sql": 4,
+      "ledger/02_uuid_poster.proposal.sql": 10,
+      "source/source.sql": 11,
+      "source/member-proof.sql": 4,
+      "source/absence-proof.sql": 2,
+      "readers/01_current_reader_capability.proposal.sql": 5,
+      "readers/02_materialized_profile.proposal.sql": 5,
+      "admission/01_typed_context_and_preclaim.proposal.sql": 4,
+      "admission/02_owning_wrapper.proposal.sql": 4,
+      "refund/01_initial_refund.proposal.sql": 16,
+      "coordinator/01_coordinator_facts.sql": 7,
+      "coordinator/02_hpp_book.sql": 5,
+      "coordinator/02_initial_projection.sql": 9,
+      "coordinator/03_native_initial_callbacks.sql": 10,
+      "coordinator/03_opening_return_hpp.sql": 4,
+      "coordinator/03_opening_hpp_diagnostics.sql": 1,
+      "coordinator/04_register_and_materialize.sql": 8,
+      "coordinator/05_factual_profile.sql": 5,
+      "coordinator/06_finish_and_closed_routes.sql": 8,
+      "coordinator/07_capabilities_and_quote.sql": 4,
+      "coordinator/08_outer_wrapper.sql": 1,
+      "coordinator/09_public_facades.sql": 5,
+      "reconciliation/02_reconciliation_inputs.sql": 3,
+      "reconciliation/03_source_requests.sql": 7,
+      "reconciliation/03_native_inverse_proof.sql": 7,
+      "reconciliation/04_source_binding.sql": 11,
+      "reconciliation/05_source_adjustments.sql": 11,
+      "reconciliation/06_source_coordinator.sql": 6,
+      "reconciliation/07_source_closure.sql": 5,
+      "native-empty/01_native_empty_facts.sql": 9,
+      "native-empty/02_native_empty_callbacks.sql": 19
+    },
+    "check_function_bodies": "on throughout; dump SET check_function_bodies=false was NEVER executed",
+    "dependency_strategy": "Actual product type/domain/table statements and actual function bodies validated to a dependency fixed point; not assembler-order proof.",
+    "additional_product_syntax_type_interface_errors_found": 0
+  },
+  "harness_declarations": {
+    "native_source_schema_sha256": "861b23c0e7602fae4a83448080337f4857ded52deaf6301b4599a74aec5ca270",
+    "native_schema_origin": "hpp-3a667-native58-pass.zip CLONE_install.source-erp.sql; additional AP/BE schema declarations taken from actual release SQL",
+    "actual_native_type_scope": "Column types and unique/primary keys; business defaults/checks/data/triggers/policies not restored.",
+    "external_native_signatures": "Actual Native headers/argument types/return types with bodies that RAISE COMPILE_ONLY_STANDIN_NEVER_NATIVE_OR_BUSINESS_PROOF; external prior CP7 helpers use same raising rule.",
+    "auth_standins": "auth.uid/auth.jwt raise COMPILE_ONLY_AUTH_STANDIN; no actor/admission behavior tested.",
+    "standins_total": 776,
+    "remaining_non_function_compile_harness_gaps": [
+      {
+        "id": "supabase/release/cp6-t3/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql:native-table:12",
+        "kind": "native_table_actual_types_only",
+        "last_error": {
+          "id": "supabase/release/cp6-t3/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql:native-table:12",
+          "kind": "native_table_actual_types_only",
+          "stage": "native_type_scaffold",
+          "pass": 2,
+          "message": "relation \"erp.cp6_v2620an_rollback_capsule\" does not exist",
+          "code": "42P01",
+          "position": "54"
+        }
+      },
+      {
+        "id": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql:native-table:15",
+        "kind": "native_table_actual_types_only",
+        "last_error": {
+          "id": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql:native-table:15",
+          "kind": "native_table_actual_types_only",
+          "stage": "native_type_scaffold",
+          "pass": 2,
+          "message": "relation \"erp.cp6_v2620an_rollback_capsule\" does not exist",
+          "code": "42P01",
+          "position": "54"
+        }
+      },
+      {
+        "id": "readers/01_current_reader_capability.proposal.sql:7",
+        "kind": "other",
+        "last_error": {
+          "id": "readers/01_current_reader_capability.proposal.sql:7",
+          "kind": "other",
+          "stage": "actual_product_metadata",
+          "pass": 2,
+          "message": "role \"cp7_credit_visible_read\" already exists",
+          "code": "42710"
+        }
+      },
+      {
+        "id": "coordinator/02_hpp_book.sql:1",
+        "kind": "actual_product_do",
+        "last_error": {
+          "id": "coordinator/02_hpp_book.sql:1",
+          "kind": "actual_product_do",
+          "stage": "actual_product_metadata",
+          "pass": 2,
+          "message": "CP7_CREDIT_PO_HPP_NATIVE_READER_SOURCE_CHANGED: erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)",
+          "code": "P0001",
+          "where": "PL/pgSQL function inline_code_block line 6 at RAISE"
+        }
+      },
+      {
+        "id": "coordinator/03_opening_hpp_diagnostics.sql:1",
+        "kind": "actual_product_do",
+        "last_error": {
+          "id": "coordinator/03_opening_hpp_diagnostics.sql:1",
+          "kind": "actual_product_do",
+          "stage": "actual_product_metadata",
+          "pass": 2,
+          "message": "CP7_CREDIT_OPENING_HPP_DIAGNOSTIC_SOURCE_CHANGED",
+          "code": "P0001",
+          "where": "PL/pgSQL function inline_code_block line 6 at RAISE"
+        }
+      },
+      {
+        "id": "coordinator/07_capabilities_and_quote.sql:6",
+        "kind": "actual_product_do",
+        "last_error": {
+          "id": "coordinator/07_capabilities_and_quote.sql:6",
+          "kind": "actual_product_do",
+          "stage": "actual_product_metadata",
+          "pass": 2,
+          "message": "CP7_CREDIT_WRITE_ROLE_METADATA",
+          "code": "P0001",
+          "where": "PL/pgSQL function inline_code_block line 6 at RAISE"
+        }
+      },
+      {
+        "id": "coordinator/07_capabilities_and_quote.sql:12",
+        "kind": "other",
+        "last_error": {
+          "id": "coordinator/07_capabilities_and_quote.sql:12",
+          "kind": "other",
+          "stage": "actual_product_metadata",
+          "pass": 2,
+          "message": "function cp7_sales.validate_return(jsonb, boolean) does not exist",
+          "code": "42883"
+        }
+      },
+      {
+        "id": "coordinator/07_capabilities_and_quote.sql:13",
+        "kind": "other",
+        "last_error": {
+          "id": "coordinator/07_capabilities_and_quote.sql:13",
+          "kind": "other",
+          "stage": "actual_product_metadata",
+          "pass": 2,
+          "message": "function cp7_credit.assert_no_ambient_native_context() does not exist",
+          "code": "42883"
+        }
+      }
+    ],
+    "gap_interpretation": "Two unused rollback-capsule LIKE tables lack an older release capsule; six metadata/pin/grant checks correctly reject compiler stand-ins/precreated roles or generated helper omissions. None is classified as a product function syntax failure or a passed installation.",
+    "full_native_installation_claim": false,
+    "native_business_execution_claim": false
+  },
+  "executed_actual_pure_function_controls": {
+    "classification": "Actual real pure SQL functions on synthetic input; not Native/source completeness or admission proof",
+    "tests": [
+      "RETURN_REVERSE: canonical6 one component -200.00 at actual-labelled current pair supplied by synthetic input",
+      "Retained INITIAL200 plus prior ADJ-50 and truthful synthetic prior funding inverse: canonical6 one component -150.00",
+      "Earlier zero-money return inverse plus later INITIAL200: both family differences empty"
+    ],
+    "result": "3 PASS",
+    "artifact": "PURE_FUNCTION_EXECUTION.json"
+  },
+  "row_shape_reflection": {
+    "field_references_checked": 1366,
+    "confirmed_errors": 0,
+    "false_dynamic_SQL_alias_matches": 2,
+    "artifact": "COMPOSITE_ROW_FIELD_ADJUDICATION.json",
+    "limit": "Static declaration-to-catalog reflection; not every PL/pgSQL branch/SQL expression was executed."
+  },
+  "compiled_source_files_sha256": {
+    "kernel/kernel.sql": "f531f50d5a1c7ddc0a2f22f607be5ba0625a2e0388af3e7a4c6d129bf82e15fc",
+    "ordinal-wrapper/wrapper.sql": "ed66c7f09433956d18368b7a804b1b04f0dcb7f9e0457686400421a849d671d1",
+    "ledger/01_immutable_facts.proposal.sql": "62383030bf27b70c5c07f948c69329be6f8229c314097e7d3c02293cc8c929c6",
+    "ledger/02_uuid_poster.proposal.sql": "7ab2fc6f5cb700c2284e58921bd6e59fbe731a0064457f5031116d61aa30baf8",
+    "source/NO_JOURNAL_SCHEMA_DIFF.proposal.sql": "bed7aea0c7eab97c3917444aac5ea21e167b7ca0dfea4a92d4150124f21baa45",
+    "source/source.sql": "dd091f3896929d46587634f70545eea26ffd0ac9a516ffac79d90d4e5b80a729",
+    "source/member-proof.sql": "565e4e8643323442eadad2d6d1e65fdf1750da1675a2c68cc28187add17c1205",
+    "source/absence-proof.sql": "079a76d64bdfe99051566d4053cdfc1740aded2d6c5a43aeae85feead483ad0c",
+    "readers/01_current_reader_capability.proposal.sql": "104853e41bd3cfa79af47d09c7f6ad9d45ff10fb00756b5b57ea71d137d94773",
+    "readers/02_materialized_profile.proposal.sql": "317e689b3b2e738889e86a62dc130fa3ee2f128750f95d5264cd56084fce8575",
+    "reconciliation/01_source_operation_facts.sql": "01fd6745c69d942841e26892ddcf7aa89d0b0c2aa911ea2d5b89ac6be5761fab",
+    "admission/01_typed_context_and_preclaim.proposal.sql": "44fe8bfae73aecdd85a332f328a4b7dfd6331fa40764025462772a701c9ddb08",
+    "admission/02_owning_wrapper.proposal.sql": "16d93266a9a9c721ec582e62e10db0deccfe7c39724215b955912dfc092f7511",
+    "refund/01_initial_refund.proposal.sql": "d273107f12f1d063005ed0a250d55dde529b725bdf41e8091193046aa0b27410",
+    "coordinator/01_coordinator_facts.sql": "4741483e2a61056a6e2365cfcc43e65d83c4ab9d1c8fd6fa77d33eda26b7af99",
+    "coordinator/02_hpp_book.sql": "a9e3ee39b51bb1cbadb9a4f8570b3bae3ddabf83cd589c29e32b71424b4b2391",
+    "coordinator/02_initial_projection.sql": "9202f27d33d32f8dbf04838d5e4540c2aa20a5e74475bb99f30730cb0f3b696c",
+    "coordinator/03_native_initial_callbacks.sql": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843",
+    "coordinator/03_opening_return_hpp.sql": "d79e6e05446352ff8beb6ab97933514b51bad2392b86d372a1fdca7af1372043",
+    "coordinator/03_opening_hpp_diagnostics.sql": "18fc33e4a88dc211fe7a99fb3dd39251618ed7eda006cacb5d7ab29bfddd7c25",
+    "coordinator/04_register_and_materialize.sql": "abf523b1ba7a9e2d9f1aa8825b1e2c74cec160d2be726db71e2f2f8176ad7ff0",
+    "coordinator/05_factual_profile.sql": "a11a072b8e0fffbea380063787e752814893089ef9066bcc541b5984221bb16d",
+    "coordinator/06_finish_and_closed_routes.sql": "0dc8fb0f81e5a1787fe29e5a0585b8ca8138915dbb79f536d76051eb9c3ae27e",
+    "coordinator/07_capabilities_and_quote.sql": "4e78155e601b80e5752e7f0f9fb578bd76a8e44f16c3acb822b2b54d0db5df32",
+    "coordinator/08_outer_wrapper.sql": "2e94d859e620dab81aae4b053918f5408c196ded8b571a12d5ef33f827c72c44",
+    "coordinator/09_public_facades.sql": "bb873a9e4d297c8cf1b8e062ece1fa79d39b8411146a1b31787b32b919a74d56",
+    "reconciliation/02_reconciliation_inputs.sql": "e68bddefdf3390162d222eba2cf4014dec7ac781a0d60db434f0f61ccceaba42",
+    "reconciliation/03_source_requests.sql": "d0a0d1b10a9644eaf963d070ed4e0c5b86f33bb917cb5048ab65b36ddab15eb5",
+    "reconciliation/03_native_inverse_proof.sql": "c445cd8bcb3efed3d0de569b9f3c942b09e097b8192f805ba341435807362d02",
+    "reconciliation/04_source_binding.sql": "f292b52b4d471d82a4804c2a9f54b9fadff621d2b5402798dc613a2aaa6f4f35",
+    "reconciliation/05_source_adjustments.sql": "5432e67f9d64eb068f47c38318a7532837298a75b0db66a6b5bd2dfc469e9bbb",
+    "reconciliation/06_source_coordinator.sql": "9bbcf546e2c19df58e46f0fb2a3d47874d628b6e5ab23b6599dc83e68ab35122",
+    "reconciliation/07_source_closure.sql": "b5950e046932dcddcfd8a8bb703ab412ec7eba008b6fa1667d1557bf7498b33b",
+    "native-empty/01_native_empty_facts.sql": "ec3a102ffc65cc8dfcff294706c5cdacedc749b62320ea6c307c00dcd4696584",
+    "native-empty/02_native_empty_callbacks.sql": "68f458c7e061b3c7161e5c1525c678defc343869c766a60d9a5139366f414173"
+  },
+  "current_source_files_sha256": {
+    "kernel/kernel.sql": "f531f50d5a1c7ddc0a2f22f607be5ba0625a2e0388af3e7a4c6d129bf82e15fc",
+    "ordinal-wrapper/wrapper.sql": "ed66c7f09433956d18368b7a804b1b04f0dcb7f9e0457686400421a849d671d1",
+    "ledger/01_immutable_facts.proposal.sql": "62383030bf27b70c5c07f948c69329be6f8229c314097e7d3c02293cc8c929c6",
+    "ledger/02_uuid_poster.proposal.sql": "7ab2fc6f5cb700c2284e58921bd6e59fbe731a0064457f5031116d61aa30baf8",
+    "source/NO_JOURNAL_SCHEMA_DIFF.proposal.sql": "bed7aea0c7eab97c3917444aac5ea21e167b7ca0dfea4a92d4150124f21baa45",
+    "source/source.sql": "dd091f3896929d46587634f70545eea26ffd0ac9a516ffac79d90d4e5b80a729",
+    "source/member-proof.sql": "565e4e8643323442eadad2d6d1e65fdf1750da1675a2c68cc28187add17c1205",
+    "source/absence-proof.sql": "079a76d64bdfe99051566d4053cdfc1740aded2d6c5a43aeae85feead483ad0c",
+    "readers/01_current_reader_capability.proposal.sql": "104853e41bd3cfa79af47d09c7f6ad9d45ff10fb00756b5b57ea71d137d94773",
+    "readers/02_materialized_profile.proposal.sql": "317e689b3b2e738889e86a62dc130fa3ee2f128750f95d5264cd56084fce8575",
+    "reconciliation/01_source_operation_facts.sql": "01fd6745c69d942841e26892ddcf7aa89d0b0c2aa911ea2d5b89ac6be5761fab",
+    "admission/01_typed_context_and_preclaim.proposal.sql": "44fe8bfae73aecdd85a332f328a4b7dfd6331fa40764025462772a701c9ddb08",
+    "admission/02_owning_wrapper.proposal.sql": "16d93266a9a9c721ec582e62e10db0deccfe7c39724215b955912dfc092f7511",
+    "refund/01_initial_refund.proposal.sql": "d273107f12f1d063005ed0a250d55dde529b725bdf41e8091193046aa0b27410",
+    "coordinator/01_coordinator_facts.sql": "4741483e2a61056a6e2365cfcc43e65d83c4ab9d1c8fd6fa77d33eda26b7af99",
+    "coordinator/02_hpp_book.sql": "a9e3ee39b51bb1cbadb9a4f8570b3bae3ddabf83cd589c29e32b71424b4b2391",
+    "coordinator/02_initial_projection.sql": "9202f27d33d32f8dbf04838d5e4540c2aa20a5e74475bb99f30730cb0f3b696c",
+    "coordinator/03_native_initial_callbacks.sql": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843",
+    "coordinator/03_opening_return_hpp.sql": "d79e6e05446352ff8beb6ab97933514b51bad2392b86d372a1fdca7af1372043",
+    "coordinator/03_opening_hpp_diagnostics.sql": "18fc33e4a88dc211fe7a99fb3dd39251618ed7eda006cacb5d7ab29bfddd7c25",
+    "coordinator/04_register_and_materialize.sql": "abf523b1ba7a9e2d9f1aa8825b1e2c74cec160d2be726db71e2f2f8176ad7ff0",
+    "coordinator/05_factual_profile.sql": "a11a072b8e0fffbea380063787e752814893089ef9066bcc541b5984221bb16d",
+    "coordinator/06_finish_and_closed_routes.sql": "0dc8fb0f81e5a1787fe29e5a0585b8ca8138915dbb79f536d76051eb9c3ae27e",
+    "coordinator/07_capabilities_and_quote.sql": "4e78155e601b80e5752e7f0f9fb578bd76a8e44f16c3acb822b2b54d0db5df32",
+    "coordinator/08_outer_wrapper.sql": "2e94d859e620dab81aae4b053918f5408c196ded8b571a12d5ef33f827c72c44",
+    "coordinator/09_public_facades.sql": "bb873a9e4d297c8cf1b8e062ece1fa79d39b8411146a1b31787b32b919a74d56",
+    "reconciliation/02_reconciliation_inputs.sql": "e68bddefdf3390162d222eba2cf4014dec7ac781a0d60db434f0f61ccceaba42",
+    "reconciliation/03_source_requests.sql": "d0a0d1b10a9644eaf963d070ed4e0c5b86f33bb917cb5048ab65b36ddab15eb5",
+    "reconciliation/03_native_inverse_proof.sql": "c445cd8bcb3efed3d0de569b9f3c942b09e097b8192f805ba341435807362d02",
+    "reconciliation/04_source_binding.sql": "f292b52b4d471d82a4804c2a9f54b9fadff621d2b5402798dc613a2aaa6f4f35",
+    "reconciliation/05_source_adjustments.sql": "5432e67f9d64eb068f47c38318a7532837298a75b0db66a6b5bd2dfc469e9bbb",
+    "reconciliation/06_source_coordinator.sql": "9bbcf546e2c19df58e46f0fb2a3d47874d628b6e5ab23b6599dc83e68ab35122",
+    "reconciliation/07_source_closure.sql": "b5950e046932dcddcfd8a8bb703ab412ec7eba008b6fa1667d1557bf7498b33b",
+    "native-empty/01_native_empty_facts.sql": "ec3a102ffc65cc8dfcff294706c5cdacedc749b62320ea6c307c00dcd4696584",
+    "native-empty/02_native_empty_callbacks.sql": "68f458c7e061b3c7161e5c1525c678defc343869c766a60d9a5139366f414173"
+  },
+  "changes_after_compiled_capture": [],
+  "commands": [
+    "python /workspace/scratch/9442228ed2dc/ow04-next-scope-proposal/integration/sql_compile_review/build_harness.py",
+    "node /workspace/scratch/9442228ed2dc/ow04-next-scope-proposal/integration/sql_compile_review/compile.mjs"
+  ],
+  "limits": [
+    "PGlite is PostgreSQL18.6, not the exact Native CI server version.",
+    "PL/pgSQL CREATE validates grammar and declared types, but many embedded SQL expressions bind only when executed.",
+    "No Native sales/stock/payment posting, authorization, lock/race, deferred owning closure or live trigger/source guard was exercised.",
+    "The assembler and regenerated NativeEMPTY overlays still require actual installation and Native63 CI."
+  ],
+  "product_edits": 0,
+  "real_database_connections": 0,
+  "local_ephemeral_pglite_instances": 3,
+  "network_calls": 0,
+  "nested_agents": 0,
+  "production_go": false
+}

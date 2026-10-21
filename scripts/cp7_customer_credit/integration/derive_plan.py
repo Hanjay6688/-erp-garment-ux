@@ -38,6 +38,7 @@ def _load(name, path):
 
 admission = _load('ow04_assembler_admission', HERE.parent / 'admission/03_native_admission_transform.py')
 ledger = _load('ow04_assembler_ledger', HERE.parent / 'ledger/03_native_copy_transform.py')
+source_command = _load('ow04_assembler_source_command', HERE / 'source_command_transform.py')
 NATIVE = tuple(s[0] for s in admission.SPECS)
 NOTE_NATIVE = (
     'erp.reverse_fg_movement(uuid,text)',
@@ -51,8 +52,8 @@ PRIVATE = tuple(s.replace('erp.', 'cp7_note.', 1) for s in NOTE_NATIVE) + tuple(
 POSTER = ledger.POST_JOURNAL_IDENTITY
 REVERSE = ledger.REVERSE_JOURNAL_IDENTITY
 BOUND = 'cp7_credit._post_journal_bound(text,uuid,date,text,jsonb)'
-REQUIRED = NATIVE + PRIVATE + (POSTER, REVERSE)
-TARGETS = NATIVE + PRIVATE + (BOUND, REVERSE)
+REQUIRED = NATIVE + PRIVATE + (POSTER, REVERSE, source_command.IDENTITY)
+TARGETS = NATIVE + PRIVATE + (BOUND, REVERSE, source_command.IDENTITY)
 LEGACY_FILES = ('scripts/cp7_note_correction_verify.py',
                 'scripts/cp7_sales_return_correction_bundle.py')
 FKEYS = {'identity', 'definition', 'body', 'owner', 'acl', 'security_definer', 'volatility', 'config'}
@@ -230,6 +231,8 @@ def derive_plan(captures, trusted_approved_manifest):
             changed = ledger.post_body(old['body'])
         elif identity == REVERSE:
             changed = ledger.reverse_body(old['body'])
+        elif identity == source_command.IDENTITY:
+            changed = source_command.apply_command(old['body'])
         else:
             raise ValueError('OW04_UNDECLARED_TRANSFORM')
         new_definition = admission.once(old['definition'], old['body'], changed)

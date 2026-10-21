@@ -17,11 +17,11 @@ BASE = Path(os.environ.get('ERP_REPO', Path(__file__).resolve().parents[3])) / '
 PINS = {
     "coordinator/01_coordinator_facts.sql": "4741483e2a61056a6e2365cfcc43e65d83c4ab9d1c8fd6fa77d33eda26b7af99",
     "coordinator/03_native_initial_callbacks.sql": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843",
-    "coordinator/04_register_and_materialize.sql": "9c3ca9d1be3f76237d7b6c6415cc42c4b4fdefe559441b323274e1a0694cc0a3",
-    "coordinator/05_factual_profile.sql": "b264aefe2d69411a8ed2e7b30cf75271eaa008a795af0897e7887df5c3d08449",
-    "coordinator/06_finish_and_closed_routes.sql": "cd486b197eb165505cb488f6aa08ed2886dfb7e05dc3371be9aba9b3a9aeb928",
+    "coordinator/04_register_and_materialize.sql": "abf523b1ba7a9e2d9f1aa8825b1e2c74cec160d2be726db71e2f2f8176ad7ff0",
+    "coordinator/05_factual_profile.sql": "a11a072b8e0fffbea380063787e752814893089ef9066bcc541b5984221bb16d",
+    "coordinator/06_finish_and_closed_routes.sql": "0dc8fb0f81e5a1787fe29e5a0585b8ca8138915dbb79f536d76051eb9c3ae27e",
     "source/member-proof.sql": "565e4e8643323442eadad2d6d1e65fdf1750da1675a2c68cc28187add17c1205",
-    "ledger/02_uuid_poster.proposal.sql": "d9bfca1d97113e8aacfbb5f29d5dcb1d4d3cbdc5c950073943de1bd2d6be9728"
+    "ledger/02_uuid_poster.proposal.sql": "7ab2fc6f5cb700c2284e58921bd6e59fbe731a0064457f5031116d61aa30baf8"
 }
 
 def digest(s: str) -> str:

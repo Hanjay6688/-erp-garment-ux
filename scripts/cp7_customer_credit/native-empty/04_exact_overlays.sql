@@ -82,7 +82,7 @@ do $frozen_predecessors$begin
   and not has_function_privilege('service_role',p.oid,'EXECUTE'))then
   raise exception 'OW04_NATIVE_EMPTY_FROZEN_HELPER_OR_METADATA_CHANGED: ow04_source_proposal.verify_return_member_v1(uuid)';end if;
  if not exists(select 1 from pg_proc p where p.oid='cp7_credit.assert_financial_materialization_provenance(jsonb)'::regprocedure
-  and encode(pg_catalog.sha256(convert_to(p.prosrc,'UTF8')),'hex')='46e77f70b9b341b887d40dc40762728451eedad26989a156f67ccb82e8c96cd8'
+  and encode(pg_catalog.sha256(convert_to(p.prosrc,'UTF8')),'hex')='564734f5709cfc9529b41688b3f7f82fcf3f833e822f04f4616a6e9a1ad24f33'
   and p.proowner='postgres'::regrole and p.prosecdef and p.provolatile='s'
   and p.proconfig@>array['search_path=""','TimeZone=UTC']
   and not has_function_privilege('authenticated',p.oid,'EXECUTE')
@@ -90,7 +90,7 @@ do $frozen_predecessors$begin
   and not has_function_privilege('service_role',p.oid,'EXECUTE'))then
   raise exception 'OW04_NATIVE_EMPTY_FROZEN_HELPER_OR_METADATA_CHANGED: cp7_credit.assert_financial_materialization_provenance(jsonb)';end if;
  if not exists(select 1 from pg_proc p where p.oid='cp7_credit.enforce_initial_return_closure_v1()'::regprocedure
-  and encode(pg_catalog.sha256(convert_to(p.prosrc,'UTF8')),'hex')='2051012dc3db458b7628057fcd53fa3778d402686082fee561f8eaa8a52e507f'
+  and encode(pg_catalog.sha256(convert_to(p.prosrc,'UTF8')),'hex')='8b6bb6b8a241be53e2855554c758759fb156e59696b7ca336ddeef5644bec59c'
   and p.proowner='postgres'::regrole and p.prosecdef and p.provolatile='v'
   and p.proconfig@>array['search_path=""','TimeZone=UTC']
   and not has_function_privilege('authenticated',p.oid,'EXECUTE')
@@ -98,7 +98,7 @@ do $frozen_predecessors$begin
   and not has_function_privilege('service_role',p.oid,'EXECUTE'))then
   raise exception 'OW04_NATIVE_EMPTY_FROZEN_HELPER_OR_METADATA_CHANGED: cp7_credit.enforce_initial_return_closure_v1()';end if;
  if not exists(select 1 from pg_proc p where p.oid='cp7_credit.native_source_enter(text,uuid)'::regprocedure
-  and encode(pg_catalog.sha256(convert_to(p.prosrc,'UTF8')),'hex')='79dca590fcfef839036dacffe80666672c2d5954ffe1f7fa3f91e9016b2e4f6e'
+  and encode(pg_catalog.sha256(convert_to(p.prosrc,'UTF8')),'hex')='3c1ed9947d1a9e785334aa9cd6fde9f02564c93b7074376830277104c96f5cbe'
   and p.proowner='postgres'::regrole and p.prosecdef and p.provolatile='v'
   and p.proconfig@>array['search_path=""','TimeZone=UTC']
   and not has_function_privilege('authenticated',p.oid,'EXECUTE')
@@ -106,7 +106,7 @@ do $frozen_predecessors$begin
   and not has_function_privilege('service_role',p.oid,'EXECUTE'))then
   raise exception 'OW04_NATIVE_EMPTY_FROZEN_HELPER_OR_METADATA_CHANGED: cp7_credit.native_source_enter(text,uuid)';end if;
  if not exists(select 1 from pg_proc p where p.oid='cp7_credit.native_source_complete(text,uuid)'::regprocedure
-  and encode(pg_catalog.sha256(convert_to(p.prosrc,'UTF8')),'hex')='d801713c8d7e837da350c25c7d329a612a747bc73667ffd3789f20d9b5a5050f'
+  and encode(pg_catalog.sha256(convert_to(p.prosrc,'UTF8')),'hex')='519f15aaf60c712d971a72cbfc13583446cdd2b03a4f05af058032864985be1b'
   and p.proowner='postgres'::regrole and p.prosecdef and p.provolatile='v'
   and p.proconfig@>array['search_path=""','TimeZone=UTC']
   and not has_function_privilege('authenticated',p.oid,'EXECUTE')
@@ -519,6 +519,8 @@ begin
     or not exists(select 1 from cp7_credit.return_families rf where rf.id=m.family_id and rf.first_return_id=m.source_return_id
      and rf.family_ordinal=m.family_ordinal and rf.actor=m.actor and rf.request_id=m.request_id)then
     raise exception 'CP7_CREDIT_INITIAL_PROVENANCE_CHANGED';end if;
+  elsif exists(select 1 from cp7_credit.source_operation_materializations_v1 where financial_marker_id=f.id)then
+   perform cp7_credit.assert_source_materialization_v1((select operation_id from cp7_credit.source_operation_materializations_v1 where financial_marker_id=f.id));
   else
    select *into strict o from cp7_credit.initial_refund_operations where id=f.id;
    select *into strict m from cp7_credit.initial_return_materializations where refund_operation_id=o.id;
@@ -533,10 +535,15 @@ end $$;
 
 create or replace function cp7_credit.enforce_initial_return_closure_v1()returns trigger
 language plpgsql security definer set search_path=''set TimeZone='UTC'as $$
-declare operation uuid;row jsonb:=to_jsonb(new);family uuid;plan uuid;
+declare operation uuid;source_operation uuid;row jsonb:=to_jsonb(new);family uuid;plan uuid;
 begin
  operation:=cp7_credit.native_empty_closure_id_v1(tg_table_name,to_jsonb(new));
  if operation is not null then perform cp7_credit.assert_native_empty_closed_v1(operation);return null;end if;
+ if tg_table_name in('financial_materializations','financial_materialization_objects')then
+  select operation_id into source_operation from cp7_credit.source_operation_materializations_v1
+   where financial_marker_id=(case when tg_table_name='financial_materializations'then row->>'id'else row->>'materialization_id'end)::uuid;
+  if source_operation is not null then perform cp7_credit.assert_source_operation_closed_v1(source_operation);return null;end if;
+ end if;
  if tg_table_name in('initial_return_materializations','initial_return_completions')then operation:=(row->>'operation_id')::uuid;
  elsif tg_table_name='initial_refund_operations'then select operation_id into operation from cp7_credit.initial_return_materializations where refund_operation_id=(row->>'id')::uuid;
  elsif tg_table_name='financial_materializations'then select operation_id into operation from cp7_credit.initial_return_materializations where materialization_id=(row->>'id')::uuid or refund_operation_id=(row->>'id')::uuid;
@@ -555,6 +562,8 @@ begin
    when'plan_dependencies'then plan:=(row->>'plan_id')::uuid;
    else raise exception 'CP7_CREDIT_CLOSURE_TABLE_UNRECOGNIZED';
   end case;
+  select operation_id into source_operation from cp7_credit.source_operation_plans_v1 where plan_id=plan;
+  if source_operation is not null then perform cp7_credit.assert_source_operation_closed_v1(source_operation);return null;end if;
   select operation_id into operation from cp7_credit.initial_return_materializations where family_id=family or plan_id=plan;
  end if;
  if operation is null then raise exception 'CP7_CREDIT_UNOWNED_IMMUTABLE_FACT';end if;
@@ -570,6 +579,9 @@ begin
  elsif p_action='RETURN_REVERSE'then select sale_id,status='REVERSED'into strict sale,finished from erp.sales_returns where id=p_source;
  elsif p_action='SALE_REVERSE'then select id,status='REVERSED'into strict sale,finished from erp.sales_headers where id=p_source;
  else raise exception 'CP7_CREDIT_SOURCE_ACTION_UNIMPLEMENTED';end if;
+ if cp7_credit.source_operation_owns_v1(p_action,p_source)then
+  perform cp7_credit.source_operation_native_enter_v1(p_action,p_source);return;
+ end if;
  if not cp7_credit.has_ow04_participation_v1(sale)then return;end if;
  -- Original Native require_internal/owner checks still surround this callback.
  a:=cp7_sales.command_access(p_action);
@@ -589,6 +601,9 @@ declare s cp7_credit.source_mutation_scope;sale uuid;
 begin
  if exists(select 1 from cp7_credit.native_empty_source_scope where backend_pid=pg_backend_pid()and transaction_id=txid_current())
   or cp7_credit.native_empty_is_direct_v1()then perform cp7_credit.native_empty_source_complete_v1(p_action,p_source);return;end if;
+ if cp7_credit.source_operation_owns_v1(p_action,p_source)then
+  perform cp7_credit.source_operation_native_complete_v1(p_action,p_source);return;
+ end if;
  select *into s from cp7_credit.source_mutation_scope where backend_pid=pg_backend_pid()and transaction_id=txid_current()and actor=auth.uid();
  if s.source_id is null then
   if p_action in('PAYMENT','PAYMENT_REVERSE')then select sale_id into strict sale from erp.sales_payments where id=p_source;

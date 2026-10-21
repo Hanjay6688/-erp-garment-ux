@@ -1,0 +1,543 @@
+{
+  "classification": "ACTUAL_PURE_SQL_FUNCTION_EXECUTION_SYNTHETIC_INPUT_NOT_NATIVE_BUSINESS_PROOF",
+  "tests": [
+    {
+      "id": "ACTUAL_PURE_RETURN_REVERSE_MINUS200",
+      "status": "PASS",
+      "kernel": {
+        "support": [
+          {
+            "id": "inverse",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          {
+            "id": "pay",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          {
+            "id": "return",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          {
+            "id": "sale",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ],
+        "components": [
+          {
+            "amount": "-200.00",
+            "corners": {
+              "d_here": "-200.00",
+              "d_prev_both": "0.00",
+              "d_prev_economic": "0.00",
+              "d_prev_transaction": "0.00"
+            },
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21",
+            "previous_economic_date": "2026-10-19",
+            "previous_transaction_date": "2026-10-19"
+          }
+        ],
+        "added_events": [
+          {
+            "id": "inverse",
+            "kind": "NET",
+            "amount": "200.00",
+            "economic_date": "2026-10-21",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "transaction_date": "2026-10-21"
+          },
+          {
+            "id": "return",
+            "kind": "NET",
+            "amount": "-200.00",
+            "economic_date": "2026-10-19",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "transaction_date": "2026-10-19"
+          }
+        ],
+        "before_events": [
+          {
+            "id": "pay",
+            "kind": "FUNDING",
+            "amount": "1000.00",
+            "economic_date": "2026-10-18",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "transaction_date": "2026-10-18"
+          },
+          {
+            "id": "sale",
+            "kind": "NET",
+            "amount": "1000.00",
+            "economic_date": "2026-10-17",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "transaction_date": "2026-10-17"
+          }
+        ],
+        "net_current_k": "-200.00",
+        "kernel_version": "ow04-2d-difference-v1",
+        "contract_version": "ow04.family-adjustment-plan.v1",
+        "after_source_sha256": "3b39ebcb97995d11a220c540d0fd6a889155534e6002a50a9e0c8ce0c4812a3b",
+        "full_family_binding": {
+          "plan_kind": "ADJUSTMENT",
+          "registration": {
+            "ordinal": "1",
+            "family_id": "F1",
+            "first_return_id": "R1",
+            "registration_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          },
+          "source_target": {
+            "support": [
+              {
+                "id": "inverse",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              {
+                "id": "pay",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              {
+                "id": "return",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              {
+                "id": "sale",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            ],
+            "components": [
+              {
+                "amount": "200.00",
+                "corners": {
+                  "d_here": "200.00",
+                  "d_prev_both": "0.00",
+                  "d_prev_economic": "0.00",
+                  "d_prev_transaction": "0.00"
+                },
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19",
+                "previous_economic_date": "2026-10-18",
+                "previous_transaction_date": "2026-10-18"
+              },
+              {
+                "amount": "-200.00",
+                "corners": {
+                  "d_here": "0.00",
+                  "d_prev_both": "200.00",
+                  "d_prev_economic": "200.00",
+                  "d_prev_transaction": "200.00"
+                },
+                "economic_date": "2026-10-21",
+                "transaction_date": "2026-10-21",
+                "previous_economic_date": "2026-10-19",
+                "previous_transaction_date": "2026-10-19"
+              }
+            ],
+            "added_events": [
+              {
+                "id": "inverse",
+                "kind": "NET",
+                "amount": "200.00",
+                "economic_date": "2026-10-21",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "transaction_date": "2026-10-21"
+              },
+              {
+                "id": "return",
+                "kind": "NET",
+                "amount": "-200.00",
+                "economic_date": "2026-10-19",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "transaction_date": "2026-10-19"
+              }
+            ],
+            "before_events": [
+              {
+                "id": "pay",
+                "kind": "FUNDING",
+                "amount": "1000.00",
+                "economic_date": "2026-10-18",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "transaction_date": "2026-10-18"
+              },
+              {
+                "id": "sale",
+                "kind": "NET",
+                "amount": "1000.00",
+                "economic_date": "2026-10-17",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "transaction_date": "2026-10-17"
+              }
+            ],
+            "net_current_k": "0.00",
+            "kernel_version": "ow04-2d-difference-v1",
+            "contract_version": "ow04.pure-recognition-plan.v1",
+            "after_source_sha256": "3b39ebcb97995d11a220c540d0fd6a889155534e6002a50a9e0c8ce0c4812a3b",
+            "before_source_sha256": "12786f6b43f43f3a9c15ab334f35267244a7219142367a37872a0d896ae45701",
+            "has_recognition_effect": true
+          },
+          "component_basis": "FAMILY_TARGET_MINUS_ALL_SUPPLIED_RETAINED_RECOGNITION",
+          "target_net_current": "0.00",
+          "cohort_input_sha256": "0102bde3e53bf5c4c81381b20f7ed4d875b99e4687edf7ebe48e9d729d045c91",
+          "consumptions_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "arithmetic_supported": true,
+          "retained_net_current": "200.00",
+          "source_target_sha256": "2ab03f8a68b27b342a9be05a27fa432c6a29b670811ec34ca4bf40b1fcf5fd08",
+          "reconciliation_sha256": "a735ad0fd0b8e6ade6e30ece53bbec7c970003eefa0f00818e4371e8418dc0bc",
+          "registration_required": true,
+          "source_authority_proven": false,
+          "has_reconciliation_effect": true,
+          "reconciliation_components": [
+            {
+              "amount": "-200.00",
+              "corners": {
+                "d_here": "-200.00",
+                "d_prev_both": "0.00",
+                "d_prev_economic": "0.00",
+                "d_prev_transaction": "0.00"
+              },
+              "economic_date": "2026-10-21",
+              "target_amount": "-200.00",
+              "retained_amount": "0.00",
+              "transaction_date": "2026-10-21",
+              "previous_economic_date": "2026-10-19",
+              "previous_transaction_date": "2026-10-19"
+            }
+          ],
+          "needs_cohort_configuration": false,
+          "reconciliation_net_current": "-200.00",
+          "retained_recognition_sha256": "d89e7b7511c45b44b6749f80fc82b0468cd0af2eceae02e64770f66141cdc04b",
+          "target_full_prefix_capacity": {
+            "economic_date": "2026-10-19",
+            "kernel_version": "ow04-2d-difference-v1",
+            "limiting_pairs": [
+              {
+                "economic_date": "2026-10-21",
+                "transaction_date": "2026-10-21"
+              }
+            ],
+            "current_balance": "0.00",
+            "contract_version": "ow04.pure-credit-capacity.v1",
+            "transaction_date": "2026-10-19",
+            "components_sha256": "db0f6af55bf97ca4a2e2c07eb74b87a7c85a6f194c10b6b529ed0e9ce3de186a",
+            "minimum_available": "0.00",
+            "consumptions_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "requested_pair_balance": "200.00",
+            "source_prefixes_nonnegative": true
+          },
+          "retained_full_prefix_capacity": {
+            "economic_date": "2026-10-19",
+            "kernel_version": "ow04-2d-difference-v1",
+            "limiting_pairs": [
+              {
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19"
+              }
+            ],
+            "current_balance": "200.00",
+            "contract_version": "ow04.pure-credit-capacity.v1",
+            "transaction_date": "2026-10-19",
+            "components_sha256": "e0c838cabeb87a6562b5f8528e6feb0d892b059e6a29e8dfea334dc6c78ff7f9",
+            "minimum_available": "200.00",
+            "consumptions_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "requested_pair_balance": "200.00",
+            "source_prefixes_nonnegative": true
+          },
+          "supplied_retained_history_present": true
+        },
+        "before_source_sha256": "12786f6b43f43f3a9c15ab334f35267244a7219142367a37872a0d896ae45701",
+        "has_recognition_effect": true
+      }
+    },
+    {
+      "id": "ACTUAL_PURE_RETAINED_INITIAL200_AND_ADJ_MINUS50",
+      "status": "PASS",
+      "kernel": {
+        "support": [
+          {
+            "id": "inverse",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          {
+            "id": "pay",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          {
+            "id": "prior-paid-inverse",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          {
+            "id": "return",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          {
+            "id": "sale",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ],
+        "components": [
+          {
+            "amount": "-150.00",
+            "corners": {
+              "d_here": "-150.00",
+              "d_prev_both": "0.00",
+              "d_prev_economic": "0.00",
+              "d_prev_transaction": "0.00"
+            },
+            "economic_date": "2026-10-21",
+            "transaction_date": "2026-10-21",
+            "previous_economic_date": "2026-10-20",
+            "previous_transaction_date": "2026-10-20"
+          }
+        ],
+        "added_events": [
+          {
+            "id": "inverse",
+            "kind": "NET",
+            "amount": "200.00",
+            "economic_date": "2026-10-21",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "transaction_date": "2026-10-21"
+          },
+          {
+            "id": "return",
+            "kind": "NET",
+            "amount": "-200.00",
+            "economic_date": "2026-10-19",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "transaction_date": "2026-10-19"
+          }
+        ],
+        "before_events": [
+          {
+            "id": "pay",
+            "kind": "FUNDING",
+            "amount": "1000.00",
+            "economic_date": "2026-10-18",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "transaction_date": "2026-10-18"
+          },
+          {
+            "id": "prior-paid-inverse",
+            "kind": "FUNDING",
+            "amount": "-50.00",
+            "economic_date": "2026-10-20",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "transaction_date": "2026-10-20"
+          },
+          {
+            "id": "sale",
+            "kind": "NET",
+            "amount": "1000.00",
+            "economic_date": "2026-10-17",
+            "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "transaction_date": "2026-10-17"
+          }
+        ],
+        "net_current_k": "-150.00",
+        "kernel_version": "ow04-2d-difference-v1",
+        "contract_version": "ow04.family-adjustment-plan.v1",
+        "after_source_sha256": "1debffa0d151198b9800249233bdc211fab6dc50644f34b46b6c434986e4b0f9",
+        "full_family_binding": {
+          "plan_kind": "ADJUSTMENT",
+          "registration": {
+            "ordinal": "1",
+            "family_id": "F1",
+            "first_return_id": "R1",
+            "registration_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          },
+          "source_target": {
+            "support": [
+              {
+                "id": "inverse",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              {
+                "id": "pay",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              {
+                "id": "prior-paid-inverse",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              {
+                "id": "return",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              {
+                "id": "sale",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            ],
+            "components": [
+              {
+                "amount": "200.00",
+                "corners": {
+                  "d_here": "200.00",
+                  "d_prev_both": "0.00",
+                  "d_prev_economic": "0.00",
+                  "d_prev_transaction": "0.00"
+                },
+                "economic_date": "2026-10-19",
+                "transaction_date": "2026-10-19",
+                "previous_economic_date": "2026-10-18",
+                "previous_transaction_date": "2026-10-18"
+              },
+              {
+                "amount": "-50.00",
+                "corners": {
+                  "d_here": "150.00",
+                  "d_prev_both": "200.00",
+                  "d_prev_economic": "200.00",
+                  "d_prev_transaction": "200.00"
+                },
+                "economic_date": "2026-10-20",
+                "transaction_date": "2026-10-20",
+                "previous_economic_date": "2026-10-19",
+                "previous_transaction_date": "2026-10-19"
+              },
+              {
+                "amount": "-150.00",
+                "corners": {
+                  "d_here": "0.00",
+                  "d_prev_both": "150.00",
+                  "d_prev_economic": "150.00",
+                  "d_prev_transaction": "150.00"
+                },
+                "economic_date": "2026-10-21",
+                "transaction_date": "2026-10-21",
+                "previous_economic_date": "2026-10-20",
+                "previous_transaction_date": "2026-10-20"
+              }
+            ],
+            "added_events": [
+              {
+                "id": "inverse",
+                "kind": "NET",
+                "amount": "200.00",
+                "economic_date": "2026-10-21",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "transaction_date": "2026-10-21"
+              },
+              {
+                "id": "return",
+                "kind": "NET",
+                "amount": "-200.00",
+                "economic_date": "2026-10-19",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "transaction_date": "2026-10-19"
+              }
+            ],
+            "before_events": [
+              {
+                "id": "pay",
+                "kind": "FUNDING",
+                "amount": "1000.00",
+                "economic_date": "2026-10-18",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "transaction_date": "2026-10-18"
+              },
+              {
+                "id": "prior-paid-inverse",
+                "kind": "FUNDING",
+                "amount": "-50.00",
+                "economic_date": "2026-10-20",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "transaction_date": "2026-10-20"
+              },
+              {
+                "id": "sale",
+                "kind": "NET",
+                "amount": "1000.00",
+                "economic_date": "2026-10-17",
+                "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "transaction_date": "2026-10-17"
+              }
+            ],
+            "net_current_k": "0.00",
+            "kernel_version": "ow04-2d-difference-v1",
+            "contract_version": "ow04.pure-recognition-plan.v1",
+            "after_source_sha256": "1debffa0d151198b9800249233bdc211fab6dc50644f34b46b6c434986e4b0f9",
+            "before_source_sha256": "c958f8abedbea1dd7ca839d05de2d9081582d2bc0879fe9f2bdbabef79672a26",
+            "has_recognition_effect": true
+          },
+          "component_basis": "FAMILY_TARGET_MINUS_ALL_SUPPLIED_RETAINED_RECOGNITION",
+          "target_net_current": "0.00",
+          "cohort_input_sha256": "3a146a19304f58bb9f2556654b22d59aa6d82068b2d6866b0f4d5e8e5d232c07",
+          "consumptions_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "arithmetic_supported": true,
+          "retained_net_current": "150.00",
+          "source_target_sha256": "240abdb2d864bdf7c65f5a891542d9120025b23fb1acb32497f515338ad06a51",
+          "reconciliation_sha256": "34ebf390d3efec2132d5d23206eb3bcb1de751216caceede36d32ec9d7d7be9e",
+          "registration_required": true,
+          "source_authority_proven": false,
+          "has_reconciliation_effect": true,
+          "reconciliation_components": [
+            {
+              "amount": "-150.00",
+              "corners": {
+                "d_here": "-150.00",
+                "d_prev_both": "0.00",
+                "d_prev_economic": "0.00",
+                "d_prev_transaction": "0.00"
+              },
+              "economic_date": "2026-10-21",
+              "target_amount": "-150.00",
+              "retained_amount": "0.00",
+              "transaction_date": "2026-10-21",
+              "previous_economic_date": "2026-10-20",
+              "previous_transaction_date": "2026-10-20"
+            }
+          ],
+          "needs_cohort_configuration": false,
+          "reconciliation_net_current": "-150.00",
+          "retained_recognition_sha256": "ebe9ce0a9ffdcac9ba2cd3a08997f359737614ae82046454454abfae395a6a76",
+          "target_full_prefix_capacity": {
+            "economic_date": "2026-10-19",
+            "kernel_version": "ow04-2d-difference-v1",
+            "limiting_pairs": [
+              {
+                "economic_date": "2026-10-21",
+                "transaction_date": "2026-10-21"
+              }
+            ],
+            "current_balance": "0.00",
+            "contract_version": "ow04.pure-credit-capacity.v1",
+            "transaction_date": "2026-10-19",
+            "components_sha256": "ea81824e74244b8ff4929a7fa4589eff6673ac0e26d1d8ea40c0b5793d293372",
+            "minimum_available": "0.00",
+            "consumptions_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "requested_pair_balance": "200.00",
+            "source_prefixes_nonnegative": true
+          },
+          "retained_full_prefix_capacity": {
+            "economic_date": "2026-10-19",
+            "kernel_version": "ow04-2d-difference-v1",
+            "limiting_pairs": [
+              {
+                "economic_date": "2026-10-20",
+                "transaction_date": "2026-10-20"
+              }
+            ],
+            "current_balance": "150.00",
+            "contract_version": "ow04.pure-credit-capacity.v1",
+            "transaction_date": "2026-10-19",
+            "components_sha256": "c9c7761e905a16190a15e951087041a838bd7be4b6dd9f508be27bc788df8251",
+            "minimum_available": "150.00",
+            "consumptions_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "requested_pair_balance": "200.00",
+            "source_prefixes_nonnegative": true
+          },
+          "supplied_retained_history_present": true
+        },
+        "before_source_sha256": "c958f8abedbea1dd7ca839d05de2d9081582d2bc0879fe9f2bdbabef79672a26",
+        "has_recognition_effect": true
+      }
+    },
+    {
+      "id": "ACTUAL_PURE_ZERO_DIFF_EARLY_ZERO_RETURN",
+      "status": "PASS",
+      "family_count": 2
+    }
+  ]
+}

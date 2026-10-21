@@ -1,0 +1,41 @@
+{
+  "classification": "LOCAL_EPHEMERAL_POSTGRES18_RENDERER_SYNTAX_AND_CATALOGUE_REFUSAL_ONLY",
+  "engine": "PostgreSQL 18.6 (PGlite 0.5.10) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.5 (1db513782be24469589d7cb8a1f1834e9a33f271), 32-bit",
+  "production_go": false,
+  "native_executed": false,
+  "money_rows": 0,
+  "real_database_connections": 0,
+  "runtime_input_sha256": "109fb9a9267adf6435a052a04e35e0ec73c14c1934fee5b1f1500a437ef47c5c",
+  "results": [
+    {
+      "id": "ACTUAL_CAPTURE_QUERY_ON_LABELLED_EMPTY_SCAFFOLD",
+      "status": "PASS",
+      "native": false
+    },
+    {
+      "id": "ACTUAL_RENDERED_RUNTIME_FUNCTION_VALIDATOR",
+      "status": "PASS",
+      "check_function_bodies": "on",
+      "expected_digest": "explicit zero compiler placeholder; never installer input"
+    },
+    {
+      "id": "ACTUAL_RUNTIME_WRONG_CATALOGUE_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "sqlstate": "P0001",
+        "message": "CP7_CREDIT_SOURCE_NATIVE_TRIGGER_CENSUS_CHANGED"
+      }
+    },
+    {
+      "id": "ACTUAL_PG_JSONB_HASH_HELPER_SYNTHETIC_MODEL",
+      "status": "PASS",
+      "sha256_pg": "b04da5567356bc13613fb1960e09f92336a3c3aa40a8afca79ca113b5743395b",
+      "native": false
+    }
+  ],
+  "limits": [
+    "Empty labelled six-table scaffold, not accepted ERP installation.",
+    "Explicit zero expected digest exercises refusal only; real installer computes PG-canonical digest from source-validated actual snapshot.",
+    "No payment, stock, locking concurrency, actor authorization or Native63 acceptance."
+  ]
+}

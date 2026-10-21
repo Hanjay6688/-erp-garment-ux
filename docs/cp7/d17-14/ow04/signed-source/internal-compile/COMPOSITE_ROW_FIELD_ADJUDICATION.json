@@ -1,0 +1,41 @@
+{
+  "classification": "ACTUAL_CATALOG_ROW_FIELD_REFLECTION_NOT_FULL_PLPGSQL_RUNTIME",
+  "checkedFields": 1366,
+  "missingFields": [
+    {
+      "statement": "source/source.sql:12",
+      "variable": "f",
+      "table": "erp.sales_payment_posting_facts",
+      "field": "family_ordinal"
+    },
+    {
+      "statement": "source/source.sql:12",
+      "variable": "f",
+      "table": "erp.sales_payment_posting_facts",
+      "field": "family_root_sale_id"
+    }
+  ],
+  "adjudication": [
+    {
+      "reported": {
+        "statement": "source/source.sql:12",
+        "variable": "f",
+        "table": "erp.sales_payment_posting_facts",
+        "field": "family_ordinal"
+      },
+      "status": "FALSE_POSITIVE_DYNAMIC_SQL_STRING_ALIAS",
+      "evidence": "ow04_source_proposal.locked_source_family EXECUTE string declares SQL alias f for cp7_credit.return_families; it does not read a family_ordinal/family_root_sale_id field from PL variable f of Native payment-posting-facts type."
+    },
+    {
+      "reported": {
+        "statement": "source/source.sql:12",
+        "variable": "f",
+        "table": "erp.sales_payment_posting_facts",
+        "field": "family_root_sale_id"
+      },
+      "status": "FALSE_POSITIVE_DYNAMIC_SQL_STRING_ALIAS",
+      "evidence": "ow04_source_proposal.locked_source_family EXECUTE string declares SQL alias f for cp7_credit.return_families; it does not read a family_ordinal/family_root_sale_id field from PL variable f of Native payment-posting-facts type."
+    }
+  ],
+  "confirmed_declared_row_field_errors": 0
+}

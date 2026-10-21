@@ -243,8 +243,12 @@ def render_guards(receipt):
         own_only.append(query + (' and not(' + own + ')' if spec['name']=='cp7_sales.command_context' else ''))
     body1 = 'if exists(' + ' union all '.join(no_ambient) + ")then raise exception using errcode='42501',message='CP7_CREDIT_AMBIENT_CONTEXT_REFUSED';end if;"
     body2 = "if p_sale is null or(select count(*)from cp7_sales.command_context c where c.backend_pid=pg_catalog.pg_backend_pid()and c.transaction_id=pg_catalog.txid_current()and " + own + ")<>1 or exists(" + ' union all '.join(own_only) + ")then raise exception using errcode='42501',message='CP7_CREDIT_ONLY_OWN_RETURN_CONTEXT_REQUIRED';end if;"
-    def function(name, args, body):
-        sig = 'cp7_credit.' + name + ('(uuid)' if args else '()')
+    def function(name, args, body, types='uuid'):
+        sig = 'cp7_credit.' + name + ('(' + types + ')' if args else '()')
         return "create function cp7_credit." + name + '(' + args + ")returns void language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $context_guard$begin " + body + 'end $context_guard$;\n' + 'alter function ' + sig + ' owner to postgres;\nrevoke all on function ' + sig + ' from public,anon,authenticated,service_role,cp7_capture,cp7_sales_read,cp7_sales_write;\n'
+    source_body = body2.replace("'RETURN'::text", 'p_action').replace(
+        'if p_sale is null or', "if p_action is null or p_action not in('RETURN_REVERSE','PAYMENT_REVERSE')or p_sale is null or").replace(
+        'CP7_CREDIT_ONLY_OWN_RETURN_CONTEXT_REQUIRED', 'CP7_CREDIT_ONLY_OWN_SOURCE_CONTEXT_REQUIRED')
     return dict(no_ambient=function('assert_no_ambient_native_context','',body1),
-        only_own_return=function('assert_only_own_return_native_context','p_sale uuid',body2))
+        only_own_return=function('assert_only_own_return_native_context','p_sale uuid',body2),
+        only_own_source=function('assert_only_own_sales_source_context_v1','p_sale uuid,p_action text',source_body,'uuid,text'))

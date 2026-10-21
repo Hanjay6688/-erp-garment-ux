@@ -86,6 +86,7 @@ def reverse_payment(body):
         '  perform erp.require_owner_admin();\n' + FG + '\n  perform erp.require_owner_admin();'
         "\n  perform cp7_credit.native_source_enter('PAYMENT_REVERSE',p_payment_id);\n  perform erp.require_owner_admin();")
     out = once(out, '  if v_paid>v_total then',
+        "  perform cp7_credit.source_operation_native_reconcile_v1('PAYMENT_REVERSE',p_payment_id);\n"
         '  v_paid:=cp7_credit.current_effective_paid(h.id);\n  if v_paid>v_total then')
     out = before_terminal_end(out, "perform cp7_credit.native_source_complete('PAYMENT_REVERSE',p_payment_id);"
         '\n  perform erp.require_owner_admin();')
@@ -118,7 +119,9 @@ def reverse_return(body):
     out = once(body, FG, FG + '\n  perform erp.require_owner_admin();'
         "\n  perform cp7_credit.native_source_enter('RETURN_REVERSE',p_return_id);\n  perform erp.require_owner_admin();")
     anchor = "  from erp.sales_payments where sale_id=s.id and status='POSTED';"
-    out = once(out, anchor, anchor + '\n  v_paid:=cp7_credit.current_effective_paid(s.id);')
+    out = once(out, anchor, anchor +
+        "\n  perform cp7_credit.source_operation_native_reconcile_v1('RETURN_REVERSE',p_return_id);"
+        '\n  v_paid:=cp7_credit.current_effective_paid(s.id);')
     out = before_terminal_end(out, "perform cp7_credit.native_source_complete('RETURN_REVERSE',p_return_id);"
         '\n  perform erp.require_owner_admin();')
     return out

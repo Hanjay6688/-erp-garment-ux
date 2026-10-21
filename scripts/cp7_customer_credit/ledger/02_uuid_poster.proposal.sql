@@ -17,9 +17,9 @@ end $not_an_installer$;
 -- never just the active leaf or a max of unrelated funding/reversal journals)
 -- _post_journal_bound(text,uuid,date,text,jsonb) -> uuid (exact private Native copy)
 -- Their absence is an integration error, NEVER permission to post.
--- This prototype's concrete component validator admits INITIAL only. A future
--- ADJUSTMENT requires the authoritative per-family target-minus-retained-I
--- binding protocol described in README.md; raw invoice delta is NOT sufficient.
+-- INITIAL retains its exact validator below. ADJUSTMENT delegates only to
+-- the complete source-operation per-family target-minus-all-retained-I
+-- protocol; a raw invoice delta or live scope alone is never sufficient.
 
 -- Hash the exact same cent-line representation Native post_journal stores.
 -- This is needed for a scope checked both before and after its canonicalizer:
@@ -80,6 +80,7 @@ begin
  select *into strict c from cp7_credit.recognition_components where id=p_component;
  select *into strict p from cp7_credit.recognition_plans where id=c.plan_id;
  select *into strict h from cp7_credit.cohorts where id=p.cohort_id;
+ if p.plan_kind='ADJUSTMENT'then perform cp7_credit.validate_source_adjustment_component_v1(p_component);return;end if;
  if p.plan_kind<>'INITIAL'then raise exception 'CP7_CREDIT_BOUND_ADJUSTMENT_PROTOCOL_REQUIRED';end if;
  perform cp7_credit.assert_owner_context(p.id);
  -- Rebuilder must acquire/verify full source locks, read fresh after waits,
@@ -262,6 +263,7 @@ begin
    raise exception 'CP7_CREDIT_POSTED_PAIR_CHANGED';end if;
   insert into cp7_credit.component_journals values(q.id,j,c.economic_date,c.transaction_date,
    cp7_credit.native_lines_sha256(lines),statement_timestamp());
+  if p.plan_kind='ADJUSTMENT'then perform cp7_credit.seal_source_operation_part_v1(q.id);end if;
   receipt:=receipt||jsonb_build_array(jsonb_build_object('part_id',q.id,'journal_id',j));
   delete from cp7_credit.posting_scope where backend_pid=pg_backend_pid()and transaction_id=txid_current();
  end loop;

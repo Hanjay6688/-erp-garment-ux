@@ -1,0 +1,115 @@
+{
+  "status": "READ_ONLY_SOURCE_COMPOSITION_RECHECK_ONLY",
+  "database_used": false,
+  "native_executed": false,
+  "sql_compiled_by_this_reviewer": false,
+  "generated14_exact_rebuild_equal": true,
+  "manifest_exact_rebuild_equal": true,
+  "declarations_file_hash_checks_pass": true,
+  "overlay_count": 14,
+  "generated_sha256": "bea5faafa415600a9b1973654fe6c0c4c449256ed8bb8fb8698a3ff62b026ad9",
+  "regenerated_native_empty_source_materialization_branch_preserved": true,
+  "regenerated_native_empty_source_deferred_dispatch_branches_preserved": 2,
+  "overlays": [
+    {
+      "identity": "cp7_credit.is_unchanged_native_return_v1(uuid)",
+      "before": "a53cf43cf44362cfd1701c2b9e8e67b61b3e912534e8ec2ba5ed06f106c5b493",
+      "after": "61f530cd4845e914fd120de04e457aa53defa49089a804d830af154ca479c733",
+      "preservation": "explicit pre-existing false return specialization; not a source reconciliation branch"
+    },
+    {
+      "identity": "cp7_credit.native_return_enter(uuid)",
+      "before": "b6f61de7cb23a5da66c771e2e4a5b5d6cc963ebcc2543dcde563be50fa4e583a",
+      "after": "49b18bc56535551d01fe16e2edfc015129c285a148f109c864e349362e44475b",
+      "preservation": "exact entire evolved original body suffix after one additive outer-BEGIN prefix"
+    },
+    {
+      "identity": "cp7_credit.native_return_guard(uuid,numeric,numeric,numeric)",
+      "before": "1d37cc37540a982f7c8bfbf19b6945f8ae4b8d93a4a85f0e6dbd534d8b39f200",
+      "after": "d4f348e655416593a15173fa663fbc21f43b4565b97204b3a2b51c6eef22ddd0",
+      "preservation": "exact entire evolved original body suffix after one additive outer-BEGIN prefix"
+    },
+    {
+      "identity": "cp7_credit.post_return_journal(text,uuid,date,text,jsonb)",
+      "before": "dcd2dd2737a249f6b0fff9fd30765be5e5d7bef61a55f52c802b6184722cf140",
+      "after": "f4f54419fdb260fad118513f4a418786e5a1cda4d300dafd03d71768a47cd5ff",
+      "preservation": "exact entire evolved original body suffix after one additive outer-BEGIN prefix"
+    },
+    {
+      "identity": "cp7_credit.native_return_complete(uuid,numeric,numeric)",
+      "before": "a98db4b645991db1b6b3d93ad614edb54382c57a2395b184eb1b45f052d970f1",
+      "after": "c1a5364f55920b4a49a257a91662ed534f54e4fd362a7e78bf4b63d0b198b0fa",
+      "preservation": "exact entire evolved original body suffix after one additive outer-BEGIN prefix"
+    },
+    {
+      "identity": "cp7_credit.native_return_leave(uuid)",
+      "before": "507136a7bbcce2e2234ba6f82d6038a4891ad7bb37521e695782c27b3d52a11f",
+      "after": "88bfd39dc16feb3208e7961f41205487e0810234b9b7e7e9cf7fefa5f7956805",
+      "preservation": "exact entire evolved original body suffix after one additive outer-BEGIN prefix"
+    },
+    {
+      "identity": "cp7_credit.assert_bound_post(text,uuid,date,jsonb)",
+      "before": "0a6cef4f65c8b0ad0f380f13a312c1688bd82075df2605de51f20c9c46ec3334",
+      "after": "c4a8bd54e31e51b8a340d7a39620f91357836350aef60bd73d1479edece83a69",
+      "preservation": "exact entire evolved original body suffix after one additive outer-BEGIN prefix"
+    },
+    {
+      "identity": "cp7_credit.bound_book_date(text,uuid,date,jsonb)",
+      "before": "e00a52b3cf7e05120f1df0c1ee7cab21f815b77b447bfb4c02d90a7bd4d66b62",
+      "after": "9dcccea911e21f30a67790e3bebd826e15b0550fd3bb28313a0fcce768061e5b",
+      "preservation": "exact entire evolved original body suffix after one additive outer-BEGIN prefix"
+    },
+    {
+      "identity": "cp7_credit.bound_audit_context()",
+      "before": "0fe9f09937ad330668a17aac3a4fc3f2fd35c210832be9c5f29b856440147c16",
+      "after": "43313fa1cbaeb0c5beb4b5262099bd793d6131b56c7e2010272ab6f22181d021",
+      "preservation": "exact entire evolved original body suffix after one additive outer-BEGIN prefix"
+    },
+    {
+      "identity": "ow04_source_proposal.verify_return_member_v1(uuid)",
+      "before": "d9332a1ed9b54187ef57c3879b92ad89c0f177e7530171f22244ddacc45559ce",
+      "after": "6be9a9dcaff58c88ce3a03b40e017d2c24f4848fa13a9b255e49c7331ac6cd00",
+      "preservation": "exact entire evolved original body suffix after one additive outer-BEGIN prefix"
+    },
+    {
+      "identity": "cp7_credit.assert_financial_materialization_provenance(jsonb)",
+      "before": "564734f5709cfc9529b41688b3f7f82fcf3f833e822f04f4616a6e9a1ad24f33",
+      "after": "1019fb496d57a6398724a9a6e723c9eeeb3058b62227ae76e6973054b436241c",
+      "preservation": "exact entire evolved original body suffix after one additive outer-BEGIN prefix"
+    },
+    {
+      "identity": "cp7_credit.enforce_initial_return_closure_v1()",
+      "before": "8b6bb6b8a241be53e2855554c758759fb156e59696b7ca336ddeef5644bec59c",
+      "after": "b301528b37ce188a2eddb935d30c7a81d2c09291a41531112a6e11f3811a606f",
+      "preservation": "exact entire evolved original body suffix after one additive outer-BEGIN prefix"
+    },
+    {
+      "identity": "cp7_credit.native_source_enter(text,uuid)",
+      "before": "3c1ed9947d1a9e785334aa9cd6fde9f02564c93b7074376830277104c96f5cbe",
+      "after": "0438fa7d6431c338087fce0bbdeca861794ff12f29cf05442cac2df2dee35b96",
+      "preservation": "exact entire evolved original body suffix after one additive outer-BEGIN prefix"
+    },
+    {
+      "identity": "cp7_credit.native_source_complete(text,uuid)",
+      "before": "519f15aaf60c712d971a72cbfc13583446cdd2b03a4f05af058032864985be1b",
+      "after": "ae171ba49223c9562374b4cfb55a194738dfcb1ad1d30bd3740bbbc20eb5bada",
+      "preservation": "exact entire evolved original body suffix after one additive outer-BEGIN prefix"
+    }
+  ],
+  "snapshot_sha256": {
+    "scripts/cp7_customer_credit/reconciliation/04_source_binding.sql": "f292b52b4d471d82a4804c2a9f54b9fadff621d2b5402798dc613a2aaa6f4f35",
+    "scripts/cp7_customer_credit/reconciliation/05_source_adjustments.sql": "5432e67f9d64eb068f47c38318a7532837298a75b0db66a6b5bd2dfc469e9bbb",
+    "scripts/cp7_customer_credit/reconciliation/06_source_coordinator.sql": "9bbcf546e2c19df58e46f0fb2a3d47874d628b6e5ab23b6599dc83e68ab35122",
+    "scripts/cp7_customer_credit/reconciliation/07_source_closure.sql": "b5950e046932dcddcfd8a8bb703ab412ec7eba008b6fa1667d1557bf7498b33b",
+    "scripts/cp7_customer_credit/coordinator/05_factual_profile.sql": "a11a072b8e0fffbea380063787e752814893089ef9066bcc541b5984221bb16d",
+    "scripts/cp7_customer_credit/coordinator/06_finish_and_closed_routes.sql": "0dc8fb0f81e5a1787fe29e5a0585b8ca8138915dbb79f536d76051eb9c3ae27e",
+    "scripts/cp7_customer_credit/native-empty/04_exact_overlays.sql": "bea5faafa415600a9b1973654fe6c0c4c449256ed8bb8fb8698a3ff62b026ad9",
+    "scripts/cp7_customer_credit/native-empty/OVERLAY_MANIFEST.json": "2c1463de1987b403ebcd46678c515f1b446f6e78a9ae9ee119419c34161ab3b4",
+    "scripts/cp7_customer_credit/native-empty/build_exact_overlays.py": "0b93a61876263fc3a93d11b49919ccd7505e9f6980e154587598d58add520312"
+  },
+  "limits": [
+    "Pure Python read-only builder and declarations only; no installer or Native function was invoked.",
+    "Exact source preservation is not Native63 runtime or transaction-closure proof."
+  ],
+  "builder_algorithm_ast_equals_HEAD_excluding_PINS_assignment": true
+}

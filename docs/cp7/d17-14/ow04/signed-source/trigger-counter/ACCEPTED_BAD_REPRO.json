@@ -1,0 +1,62 @@
+{
+  "classification": "PURE_SYNTHETIC_METADATA_NOT_NATIVE_EXECUTION",
+  "database_calls": 0,
+  "guard": "/workspace/scratch/9442228ed2dc/ow04-next-scope-proposal/native-inverse-proof/trigger-guard/trigger_guard.py",
+  "cases": [
+    {
+      "case": "legal predecessor -> OW04",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "detail": {
+        "before": "VERIFIED_PREDECESSOR",
+        "after": "OW04_COMPOSED",
+        "source_validated": true
+      },
+      "ok": true
+    },
+    {
+      "case": "legal OW04 -> EMPTY",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "detail": {
+        "before": "OW04_COMPOSED",
+        "after": "OW04_COMPOSED_NATIVE_EMPTY",
+        "source_validated": true
+      },
+      "ok": true
+    },
+    {
+      "case": "legal EMPTY -> predecessor",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "detail": {
+        "before": "OW04_COMPOSED_NATIVE_EMPTY",
+        "after": "VERIFIED_PREDECESSOR",
+        "source_validated": true
+      },
+      "ok": true
+    },
+    {
+      "case": "recreate common predecessor FK+RI IDs",
+      "expected": "REFUSE",
+      "observed": "ACCEPT",
+      "detail": {
+        "before": "VERIFIED_PREDECESSOR",
+        "after": "OW04_COMPOSED",
+        "source_validated": true
+      },
+      "ok": false
+    },
+    {
+      "case": "recreate common RI attachments only",
+      "expected": "REFUSE",
+      "observed": "ACCEPT",
+      "detail": {
+        "before": "VERIFIED_PREDECESSOR",
+        "after": "OW04_COMPOSED",
+        "source_validated": true
+      },
+      "ok": false
+    }
+  ]
+}

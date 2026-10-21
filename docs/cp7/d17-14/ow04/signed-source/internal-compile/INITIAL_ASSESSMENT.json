@@ -1,0 +1,111 @@
+{
+  "classification": "LOCAL_EPHEMERAL_COMPILE_ONLY_REVIEW_INITIAL_LOCK",
+  "source_files": {
+    "scripts/cp7_customer_credit/reconciliation/01_source_operation_facts.sql": {
+      "sha256": "01fd6745c69d942841e26892ddcf7aa89d0b0c2aa911ea2d5b89ac6be5761fab",
+      "bytes": 6963
+    },
+    "scripts/cp7_customer_credit/reconciliation/02_reconciliation_inputs.sql": {
+      "sha256": "e68bddefdf3390162d222eba2cf4014dec7ac781a0d60db434f0f61ccceaba42",
+      "bytes": 4598
+    },
+    "scripts/cp7_customer_credit/reconciliation/03_native_inverse_proof.sql": {
+      "sha256": "693ec404d8691a370b4e9cfecaafc9b4373a0e12cccc69d3bf019cf705255f3e",
+      "bytes": 38514
+    },
+    "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql": {
+      "sha256": "d0a0d1b10a9644eaf963d070ed4e0c5b86f33bb917cb5048ab65b36ddab15eb5",
+      "bytes": 21016
+    },
+    "scripts/cp7_customer_credit/reconciliation/04_source_binding.sql": {
+      "sha256": "f292b52b4d471d82a4804c2a9f54b9fadff621d2b5402798dc613a2aaa6f4f35",
+      "bytes": 30019
+    },
+    "scripts/cp7_customer_credit/reconciliation/05_source_adjustments.sql": {
+      "sha256": "5432e67f9d64eb068f47c38318a7532837298a75b0db66a6b5bd2dfc469e9bbb",
+      "bytes": 33463
+    },
+    "scripts/cp7_customer_credit/reconciliation/06_source_coordinator.sql": {
+      "sha256": "9bbcf546e2c19df58e46f0fb2a3d47874d628b6e5ab23b6599dc83e68ab35122",
+      "bytes": 17083
+    },
+    "scripts/cp7_customer_credit/reconciliation/07_source_closure.sql": {
+      "sha256": "b5950e046932dcddcfd8a8bb703ab412ec7eba008b6fa1667d1557bf7498b33b",
+      "bytes": 9272
+    },
+    "scripts/cp7_customer_credit/coordinator/01_coordinator_facts.sql": {
+      "sha256": "4741483e2a61056a6e2365cfcc43e65d83c4ab9d1c8fd6fa77d33eda26b7af99",
+      "bytes": 14844
+    },
+    "scripts/cp7_customer_credit/coordinator/02_hpp_book.sql": {
+      "sha256": "a9e3ee39b51bb1cbadb9a4f8570b3bae3ddabf83cd589c29e32b71424b4b2391",
+      "bytes": 15772
+    },
+    "scripts/cp7_customer_credit/coordinator/02_initial_projection.sql": {
+      "sha256": "9202f27d33d32f8dbf04838d5e4540c2aa20a5e74475bb99f30730cb0f3b696c",
+      "bytes": 42785
+    },
+    "scripts/cp7_customer_credit/coordinator/03_native_initial_callbacks.sql": {
+      "sha256": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843",
+      "bytes": 19852
+    },
+    "scripts/cp7_customer_credit/coordinator/03_opening_hpp_diagnostics.sql": {
+      "sha256": "18fc33e4a88dc211fe7a99fb3dd39251618ed7eda006cacb5d7ab29bfddd7c25",
+      "bytes": 5479
+    },
+    "scripts/cp7_customer_credit/coordinator/03_opening_return_hpp.sql": {
+      "sha256": "d79e6e05446352ff8beb6ab97933514b51bad2392b86d372a1fdca7af1372043",
+      "bytes": 7663
+    },
+    "scripts/cp7_customer_credit/coordinator/04_register_and_materialize.sql": {
+      "sha256": "abf523b1ba7a9e2d9f1aa8825b1e2c74cec160d2be726db71e2f2f8176ad7ff0",
+      "bytes": 24917
+    },
+    "scripts/cp7_customer_credit/coordinator/05_factual_profile.sql": {
+      "sha256": "a11a072b8e0fffbea380063787e752814893089ef9066bcc541b5984221bb16d",
+      "bytes": 22669
+    },
+    "scripts/cp7_customer_credit/coordinator/06_finish_and_closed_routes.sql": {
+      "sha256": "0dc8fb0f81e5a1787fe29e5a0585b8ca8138915dbb79f536d76051eb9c3ae27e",
+      "bytes": 24657
+    },
+    "scripts/cp7_customer_credit/coordinator/07_capabilities_and_quote.sql": {
+      "sha256": "4e78155e601b80e5752e7f0f9fb578bd76a8e44f16c3acb822b2b54d0db5df32",
+      "bytes": 10612
+    },
+    "scripts/cp7_customer_credit/coordinator/08_outer_wrapper.sql": {
+      "sha256": "2e94d859e620dab81aae4b053918f5408c196ded8b571a12d5ef33f827c72c44",
+      "bytes": 6506
+    },
+    "scripts/cp7_customer_credit/coordinator/09_public_facades.sql": {
+      "sha256": "bb873a9e4d297c8cf1b8e062ece1fa79d39b8411146a1b31787b32b919a74d56",
+      "bytes": 7496
+    },
+    "scripts/cp7_customer_credit/ledger/01_immutable_facts.proposal.sql": {
+      "sha256": "62383030bf27b70c5c07f948c69329be6f8229c314097e7d3c02293cc8c929c6",
+      "bytes": 17049
+    },
+    "scripts/cp7_customer_credit/ledger/02_uuid_poster.proposal.sql": {
+      "sha256": "7ab2fc6f5cb700c2284e58921bd6e59fbe731a0064457f5031116d61aa30baf8",
+      "bytes": 22942
+    },
+    "scripts/cp7_customer_credit/ordinal-wrapper/wrapper.sql": {
+      "sha256": "ed66c7f09433956d18368b7a804b1b04f0dcb7f9e0457686400421a849d671d1",
+      "bytes": 21084
+    },
+    "scripts/cp7_customer_credit/source/source.sql": {
+      "sha256": "dd091f3896929d46587634f70545eea26ffd0ac9a516ffac79d90d4e5b80a729",
+      "bytes": 53005
+    }
+  },
+  "initial_risks": [
+    "Actual SQL-language bodies require real table row shapes and referenced callable signatures; build minimal actual schema scaffold rather than disable validation.",
+    "PL/pgSQL CREATE validates grammar but prepares many SQL statements only at first execution; catalog and synthetic branch probes must be labelled separately.",
+    "Harness stand-ins, if required, cannot establish Native or business behavior."
+  ],
+  "database_target": "Only fresh local PGlite ephemeral instance; no network or Supabase",
+  "check_function_bodies": "on required",
+  "other_reviewer_conclusions_received_for_this_scope": false,
+  "product_edits": 0,
+  "nested_agents": 0
+}

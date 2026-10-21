@@ -1,0 +1,200 @@
+{
+  "contract_version": "ow04.signed-source-native-fixture-expected.v1",
+  "classification": "EXPECTED_FROZEN_BEFORE_NATIVE_CI_UNEXECUTED_PROPOSAL",
+  "native_executed": false,
+  "production_go": false,
+  "baseline_candidate": "3a667e938bb1485a0f4206483d107b6ac76e347d",
+  "case_count": 4,
+  "source_fixture": "Unchanged native.prepared1000OPEN -> public quote+settle CREDIT/REFUND, real found-stock sale/payment, no posted DML or invented funding.",
+  "date_rule": "Source inverse economic_date=transaction_date=Jakarta business date of its actual posting_at, during the current Native OPEN command. New signed recognition uses exactly that actual inverse pair. No user-selected inverse date or clock manipulation.",
+  "before_credit": {
+    "gross": "1000.00",
+    "net": "800.00",
+    "P": "1000.00",
+    "U": "0.00",
+    "I": "200.00",
+    "E": "800.00",
+    "AR": "0.00",
+    "liability_credit": "200.00",
+    "C": "0.00",
+    "cash": "1000.00",
+    "stock_qty": "6",
+    "stock_value": "60.00",
+    "sale_status": "PAID",
+    "return_status": "POSTED",
+    "payment_status": "POSTED"
+  },
+  "cases": [
+    {
+      "id": "OW04_SIGNED_RETURN_REVERSE_UNCONSUMED_CREDIT",
+      "action": "RETURN_REVERSE",
+      "setup_mode": "CREDIT",
+      "before": {
+        "gross": "1000.00",
+        "net": "800.00",
+        "P": "1000.00",
+        "U": "0.00",
+        "I": "200.00",
+        "E": "800.00",
+        "AR": "0.00",
+        "liability_credit": "200.00",
+        "C": "0.00",
+        "cash": "1000.00",
+        "stock_qty": "6",
+        "stock_value": "60.00",
+        "sale_status": "PAID",
+        "return_status": "POSTED",
+        "payment_status": "POSTED"
+      },
+      "after": {
+        "gross": "1000.00",
+        "net": "1000.00",
+        "P": "1000.00",
+        "U": "0.00",
+        "I": "0.00",
+        "E": "1000.00",
+        "AR": "0.00",
+        "liability_credit": "0.00",
+        "C": "0.00",
+        "cash": "1000.00",
+        "stock_qty": "5",
+        "stock_value": "50.00",
+        "sale_status": "PAID",
+        "return_status": "REVERSED",
+        "payment_status": "POSTED"
+      },
+      "adjustment": {
+        "plan_kind": "ADJUSTMENT",
+        "net": "-200.00",
+        "component_count": 1,
+        "part_count": 1,
+        "journal_count": 1,
+        "AR_credit": "200.00",
+        "liability_debit": "200.00"
+      },
+      "source_inverse_count": 1,
+      "new_total_journal_count": 2,
+      "cash_delta": "0.00",
+      "new_stock_reversal_count": 1,
+      "initial_net_amount_stays": "200.00",
+      "original_recognition_status_stays": "POSTED",
+      "new_consumption_count": 0,
+      "replay_additional_effects": 0
+    },
+    {
+      "id": "OW04_SIGNED_PAYMENT_REVERSE_UNCONSUMED_CREDIT",
+      "action": "PAYMENT_REVERSE",
+      "setup_mode": "CREDIT",
+      "before": {
+        "gross": "1000.00",
+        "net": "800.00",
+        "P": "1000.00",
+        "U": "0.00",
+        "I": "200.00",
+        "E": "800.00",
+        "AR": "0.00",
+        "liability_credit": "200.00",
+        "C": "0.00",
+        "cash": "1000.00",
+        "stock_qty": "6",
+        "stock_value": "60.00",
+        "sale_status": "PAID",
+        "return_status": "POSTED",
+        "payment_status": "POSTED"
+      },
+      "after": {
+        "gross": "1000.00",
+        "net": "800.00",
+        "P": "0.00",
+        "U": "0.00",
+        "I": "0.00",
+        "E": "0.00",
+        "AR": "800.00",
+        "liability_credit": "0.00",
+        "C": "0.00",
+        "cash": "0.00",
+        "stock_qty": "6",
+        "stock_value": "60.00",
+        "sale_status": "POSTED",
+        "return_status": "POSTED",
+        "payment_status": "REVERSED"
+      },
+      "adjustment": {
+        "plan_kind": "ADJUSTMENT",
+        "net": "-200.00",
+        "component_count": 1,
+        "part_count": 1,
+        "journal_count": 1,
+        "AR_credit": "200.00",
+        "liability_debit": "200.00"
+      },
+      "source_inverse_count": 1,
+      "new_total_journal_count": 2,
+      "cash_delta": "-1000.00",
+      "new_stock_reversal_count": 0,
+      "initial_net_amount_stays": "200.00",
+      "original_recognition_status_stays": "POSTED",
+      "new_consumption_count": 0,
+      "replay_additional_effects": 0
+    },
+    {
+      "id": "OW04_SIGNED_REVOKED_AUTHORITY_DENIES_FRESH_AND_REPLAY",
+      "setup_mode": "CREDIT",
+      "establish_completed_action": "RETURN_REVERSE",
+      "revocation": "Administrative disposable authority fixture: preserve another actual OWNER then deactivate actual command actor. Snapshot after revocation.",
+      "attempts": [
+        {
+          "kind": "CACHED_SAME_UUID_RETURN_REVERSE",
+          "sqlstate": "42501",
+          "message": "CP7_SALES_ACCESS_DENIED"
+        },
+        {
+          "kind": "FRESH_UUID_PAYMENT_REVERSE",
+          "sqlstate": "42501",
+          "message": "CP7_SALES_ACCESS_DENIED"
+        }
+      ],
+      "all_business_private_request_effects_unchanged": true
+    },
+    {
+      "id": "OW04_SIGNED_CONSUMED_REFUND_BLOCKS_RETURN_REVERSE",
+      "action": "RETURN_REVERSE",
+      "setup_mode": "REFUND",
+      "before": {
+        "gross": "1000.00",
+        "net": "800.00",
+        "P": "1000.00",
+        "U": "0.00",
+        "I": "200.00",
+        "E": "800.00",
+        "AR": "0.00",
+        "liability_credit": "0.00",
+        "C": "200.00",
+        "cash": "800.00",
+        "stock_qty": "6",
+        "stock_value": "60.00",
+        "sale_status": "PAID",
+        "return_status": "POSTED",
+        "payment_status": "POSTED"
+      },
+      "sqlstate": "P0001",
+      "message": "CP7_CREDIT_SOURCE_CONSUMERS_REQUIRE_UNDO",
+      "required_detail_fields": [
+        "event_id",
+        "cohort_id",
+        "event_kind",
+        "journal_id"
+      ],
+      "required_detail_values": [
+        "ACTUAL_CONSUMER_EVENT_UUID",
+        "ACTUAL_COHORT_UUID",
+        "REFUND",
+        "ACTUAL_CONSUMER_JOURNAL_UUID"
+      ],
+      "all_business_private_request_effects_unchanged": true,
+      "cash_delta": "0.00",
+      "new_journal_count": 0,
+      "new_stock_reversal_count": 0
+    }
+  ]
+}

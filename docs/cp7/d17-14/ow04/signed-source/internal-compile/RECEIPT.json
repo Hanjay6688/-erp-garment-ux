@@ -1,0 +1,90 @@
+{
+  "classification": "INTERNAL_LOCAL_SYNTAX_PROOF_NOT_NATIVE_INSTALLATION",
+  "production_go": false,
+  "files": [
+    {
+      "source": "INITIAL_ASSESSMENT.json",
+      "stored_path": "docs/cp7/d17-14/ow04/signed-source/internal-compile/INITIAL_ASSESSMENT.json",
+      "raw_bytes": 5257,
+      "raw_sha256": "a4195ef2423437f16ed0bef1e41c9682f00b32a284c24e5c743ee42848bff85e",
+      "stored_sha256": "a4195ef2423437f16ed0bef1e41c9682f00b32a284c24e5c743ee42848bff85e"
+    },
+    {
+      "source": "FINAL_COMPILE_REVIEW.json",
+      "stored_path": "docs/cp7/d17-14/ow04/signed-source/internal-compile/FINAL_COMPILE_REVIEW.json",
+      "raw_bytes": 18901,
+      "raw_sha256": "54edb559ebd02e5e1e1e0b0779f857b1edfac01f4d27abca6d7b3fb1fe24e84f",
+      "stored_sha256": "54edb559ebd02e5e1e1e0b0779f857b1edfac01f4d27abca6d7b3fb1fe24e84f"
+    },
+    {
+      "source": "PURE_FUNCTION_EXECUTION.json",
+      "stored_path": "docs/cp7/d17-14/ow04/signed-source/internal-compile/PURE_FUNCTION_EXECUTION.json",
+      "raw_bytes": 21847,
+      "raw_sha256": "7371a7d438a9ff9d79beaab5438f372d34f4418c51fab6261e25b4662251d1a3",
+      "stored_sha256": "7371a7d438a9ff9d79beaab5438f372d34f4418c51fab6261e25b4662251d1a3"
+    },
+    {
+      "source": "COMPOSITE_ROW_FIELD_ADJUDICATION.json",
+      "stored_path": "docs/cp7/d17-14/ow04/signed-source/internal-compile/COMPOSITE_ROW_FIELD_ADJUDICATION.json",
+      "raw_bytes": 1545,
+      "raw_sha256": "9606d2c2171e48249cf81af6ba228b8620a5f27d8a5e857120b27703d7247657",
+      "stored_sha256": "9606d2c2171e48249cf81af6ba228b8620a5f27d8a5e857120b27703d7247657"
+    },
+    {
+      "source": "attempt01/FIRST_ERRORS.json",
+      "stored_path": "docs/cp7/d17-14/ow04/signed-source/internal-compile/attempt01/FIRST_ERRORS.json",
+      "raw_bytes": 206275,
+      "raw_sha256": "abdef55831e5acda7271e072ed3114aa1293f7e116d1b718f8b5a7f6b0ea63d5",
+      "stored_sha256": "abdef55831e5acda7271e072ed3114aa1293f7e116d1b718f8b5a7f6b0ea63d5"
+    },
+    {
+      "source": "attempt01/FIRST_COMMAND_OUTPUT.log",
+      "stored_path": "docs/cp7/d17-14/ow04/signed-source/internal-compile/attempt01/FIRST_COMMAND_OUTPUT.log.gz",
+      "raw_bytes": 1152,
+      "raw_sha256": "a059251054aaf653fefa0f1a0eca2f441d0d5b6b27c466ba6d1ac19c314fe76b",
+      "stored_sha256": "96cf63e9fd9329b835a81211fa1a3aabdd6c842f70b6e7a7c8fba97d61334b8a"
+    },
+    {
+      "source": "attempt01/compile_input.json",
+      "stored_path": "docs/cp7/d17-14/ow04/signed-source/internal-compile/attempt01/compile_input.json.gz",
+      "raw_bytes": 1309844,
+      "raw_sha256": "20f8da37e5e97cc4d3e261a50c5daeb27cda34694685286bc69d659aca1045af",
+      "stored_sha256": "ce19edc43775a72b821ecffacc38fe6d778bc7ee5a3b0fd58e54026bc17cb5e7"
+    },
+    {
+      "source": "attempt02/FIRST_ERRORS.json",
+      "stored_path": "docs/cp7/d17-14/ow04/signed-source/internal-compile/attempt02/FIRST_ERRORS.json",
+      "raw_bytes": 60708,
+      "raw_sha256": "673de31f8c9133c7b1b482a89d192421ee81f0b0790c740db26835e7c6fe4b10",
+      "stored_sha256": "673de31f8c9133c7b1b482a89d192421ee81f0b0790c740db26835e7c6fe4b10"
+    },
+    {
+      "source": "attempt02/SECOND_COMMAND_OUTPUT.log",
+      "stored_path": "docs/cp7/d17-14/ow04/signed-source/internal-compile/attempt02/SECOND_COMMAND_OUTPUT.log.gz",
+      "raw_bytes": 1189,
+      "raw_sha256": "2797b89abaa2556ee3f1751d57a4f3c94cd277b5b51a7abdf3025b2e60040d4b",
+      "stored_sha256": "d77db5bc918e3f36f9f8192a4f2a5e169c6fb14e2f608ce2f15e0ac9aac33cdf"
+    },
+    {
+      "source": "build_harness.py",
+      "stored_path": "docs/cp7/d17-14/ow04/signed-source/internal-compile/build_harness.py",
+      "raw_bytes": 5990,
+      "raw_sha256": "b821a9886a4240fb9de45a0682697000c9bd68f010c8a0922144da8363f2b64f",
+      "stored_sha256": "b821a9886a4240fb9de45a0682697000c9bd68f010c8a0922144da8363f2b64f"
+    },
+    {
+      "source": "compile.mjs",
+      "stored_path": "docs/cp7/d17-14/ow04/signed-source/internal-compile/compile.mjs",
+      "raw_bytes": 8268,
+      "raw_sha256": "96e2ed69e3db4a349e467d174a26486f866c1d114ba97545050df500bb43f28b",
+      "stored_sha256": "96e2ed69e3db4a349e467d174a26486f866c1d114ba97545050df500bb43f28b"
+    },
+    {
+      "source": "sqlsplit.py",
+      "stored_path": "docs/cp7/d17-14/ow04/signed-source/internal-compile/sqlsplit.py",
+      "raw_bytes": 1269,
+      "raw_sha256": "fd03c9fe938bafc70f89d1e043d66594336dcd5cf6f7cff4e1c57a17763cc2ef",
+      "stored_sha256": "fd03c9fe938bafc70f89d1e043d66594336dcd5cf6f7cff4e1c57a17763cc2ef"
+    }
+  ]
+}

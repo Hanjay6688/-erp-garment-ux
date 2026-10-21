@@ -1,0 +1,52 @@
+{
+  "classification": "INDEPENDENT_INITIAL_ASSESSMENT_LOCKED_STATIC_ONLY",
+  "locked_at_utc": "2026-10-21T03:59:03.064322+00:00",
+  "other_current_trigger_guard_conclusions_read": false,
+  "database_calls": 0,
+  "network_calls": 0,
+  "product_edits": 0,
+  "reviewed_sha256": {
+    "trigger_guard.py": "fa06ac77dd69431abcde3f1cd2815d1427e0c20da4e753d3a5d9fececbc8c5a8",
+    "capture.sql": "0ec6af17788d09a3f30ffc2adffa2f6a8e46dae8d1879664669f91995fe91f38",
+    "SOURCE_PINS.json": "21d54b68026b4d4795e942f43e9fc9b85bbfcc1f81d41d3b4c102912d8e72199",
+    "build_source_pins.py": "54e150b4b516d7f3af530a8b8f6fa57fcfbb8d3f0c3b152f40beed96d810565d"
+  },
+  "bounded_initial_conclusion": "No deterministic RI identity, deferrability, selected-relation canonicalization or phase-count defect demonstrated for the current closed source set. The guard is source/metadata qualification only, not Native or arbitrary dynamic-SQL acceptance.",
+  "locked_observations": [
+    {
+      "id": "TG-I1",
+      "source": "capture.sql:30-58; trigger_guard.py:76-92,113-132",
+      "expected": "Every ordinary and RI attachment on all six selected tables must be source-qualified; later captures exact, including OIDs.",
+      "observed": "Capture has no enabled/internal filter. RI expected trigger types/check-vs-action referenced relation and noaction-only deferrability are explicit. Current source phase FK counts99/117/119 yield RI counts210/246/250. Qualified raw namespace+proname is used consistently by capture and expected; RI mixed-case spelling is not SQL-executed as an identifier.",
+      "status": "BOUNDED_NO_MISMATCH_SEEN"
+    },
+    {
+      "id": "TG-I2",
+      "source": "build_source_pins.py:36-56,125-139,278-290",
+      "expected": "Unsupported selected-table DDL must either be an explicit source limitation or failclosed; never treat absence of parser output as proof of no DDL.",
+      "observed": "Pure helper repro: named ALTER ADD CONSTRAINT FK is extracted; unnamed ALTER ADD FOREIGN KEY and dynamic DDL return[] silently; NOT newline DEFERRABLE is misread true. Current relevant newFKs are direct inline CREATE TABLE, while the unnamed cross-private FK is outside selected scope. Runtime full catalogue census still rejects any omitted live FK/trigger.",
+      "status": "PARSER_LIMITATION_NOT_CURRENT_NATIVE_BLOCKER"
+    },
+    {
+      "id": "TG-I3",
+      "source": "SOURCE_PINS.json accepted_P00.runtime; capture.sql:79-85; trigger_guard.py:30-35",
+      "expected": "Do not infer PG17.6 support from PG18 compiler or accept other versions implicitly if current qualification is17.6-only.",
+      "observed": "AcceptedP00 runtime isPG17.6. Capture uses availablePG17 catalog fields, but captures/validates no server_version_num. Need explicit recorded supported-version check if enforcing exactly Native17.6. NoSQLwasexecuted.",
+      "status": "SUPPORT_BOUNDARY"
+    },
+    {
+      "id": "TG-I4",
+      "source": "build_source_pins.py:292-305; integrated declarations()",
+      "expected": "All repository source pins must match final integrated sources before installer runs.",
+      "observed": "At this read,354pins contain2WIP mismatches: integration/owning_bundle.py and reconciliation/03_source_requests.sql. Integrated declarations will refuse; regenerate after final root edits, not relax it.",
+      "status": "KNOWN_WIP_REFRESH_REQUIRED"
+    },
+    {
+      "id": "TG-I5",
+      "source": "integrated trigger_guard.py:38-59; reconciliation/03_source_requests.sql:132-135",
+      "expected": "Catalogue equality freezes a measured catalogue state, with accurately bounded DDL visibility.",
+      "observed": "Runtime locks six tables ROW EXCLUSIVE and rereads complete catalogue. That blocks conflicting table/trigger DDL, but is not a lock on pg_proc ALTER FUNCTION/ACL changes or transitive dynamic-SQL callgraph. Only runtime call currently found is request-enter. Do not claim continuous function-DDL isolation/nativegraph acceptance.",
+      "status": "LIVE_METADATA_ONLY_LIMIT"
+    }
+  ]
+}

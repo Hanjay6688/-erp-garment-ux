@@ -143,6 +143,9 @@ begin
  ordinal_result:=ow04_ordinal_wrapper.reconcile_v1(cp7_credit.initial_ordinal_input_v1(p_sale));
  if not(ordinal_result->>'arithmetic_supported')::boolean or exists(select 1 from jsonb_array_elements(ordinal_result->'families')f
   where(f->>'has_reconciliation_effect')::boolean)then raise exception 'CP7_CREDIT_CURRENT_ORDINAL_RECONCILIATION_REQUIRED';end if;
+ if exists(select 1 from cp7_credit.source_operation_materializations_v1 where sale_id=p_sale)then
+  perform cp7_credit.assert_reconciled_source_profile_v1(p_sale,p_actual);return;
+ end if;
  select count(*)into n from cp7_credit.cohorts c join cp7_credit.return_families f on f.id=c.family_id where f.family_root_sale_id=p_sale;
  if n=0 then
   perform cp7_credit.assert_zero_excess_v1(events);
@@ -215,6 +218,8 @@ begin
     or not exists(select 1 from cp7_credit.return_families rf where rf.id=m.family_id and rf.first_return_id=m.source_return_id
      and rf.family_ordinal=m.family_ordinal and rf.actor=m.actor and rf.request_id=m.request_id)then
     raise exception 'CP7_CREDIT_INITIAL_PROVENANCE_CHANGED';end if;
+  elsif exists(select 1 from cp7_credit.source_operation_materializations_v1 where financial_marker_id=f.id)then
+   perform cp7_credit.assert_source_materialization_v1((select operation_id from cp7_credit.source_operation_materializations_v1 where financial_marker_id=f.id));
   else
    select *into strict o from cp7_credit.initial_refund_operations where id=f.id;
    select *into strict m from cp7_credit.initial_return_materializations where refund_operation_id=o.id;

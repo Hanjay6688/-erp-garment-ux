@@ -1,0 +1,75 @@
+{
+  "classification": "READ_ONLY_STATIC_SOURCE_RECHECK_NOT_NATIVE_EXECUTION",
+  "at_utc": "2026-10-21T04:02:34.486538+00:00",
+  "database_calls": 0,
+  "product_edits": 0,
+  "sha256": {
+    "scripts/cp7_customer_credit/integration/source_triggers/trigger_guard.py": "2825427bd42096cabaab983a10194143e96d9868c5a4755dee97307315fe6635",
+    "scripts/cp7_customer_credit/integration/source_triggers/capture.sql": "0ec6af17788d09a3f30ffc2adffa2f6a8e46dae8d1879664669f91995fe91f38",
+    "scripts/cp7_customer_credit/integration/source_triggers/SOURCE_PINS.json": "1854ee71da08fada854f90efcfda79ed66a509306b7b049c4a6311a381f4c81b",
+    "scripts/cp7_customer_credit/integration/source_triggers/build_source_pins.py": "54e150b4b516d7f3af530a8b8f6fa57fcfbb8d3f0c3b152f40beed96d810565d",
+    "scripts/cp7_customer_credit/integration/owning_bundle.py": "bd2910dd841db10af9a2a346596a5453791c55f85a010737045e683259d980bc",
+    "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql": "9cea83e59f7dd923ae4f182b8126615bad7a274a31765ce4dbff19b41f16a116",
+    "scripts/cp7_customer_credit/reconciliation/06_source_coordinator.sql": "ba06b0bf5134ce189d04b819fe0ef14554a462e2ccacbf58b5c1da0ae9383ce1"
+  },
+  "source_pin_count": 355,
+  "source_pin_mismatches_during_root_final_regeneration": [
+    "scripts/cp7_customer_credit/integration/owning_bundle.py",
+    "scripts/cp7_customer_credit/reconciliation/06_source_coordinator.sql"
+  ],
+  "corrected_synthetic_cases": [
+    {
+      "case": "legal predecessor -> OW04",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "detail": {
+        "before": "VERIFIED_PREDECESSOR",
+        "after": "OW04_COMPOSED",
+        "source_validated": true
+      },
+      "ok": true
+    },
+    {
+      "case": "legal OW04 -> EMPTY",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "detail": {
+        "before": "OW04_COMPOSED",
+        "after": "OW04_COMPOSED_NATIVE_EMPTY",
+        "source_validated": true
+      },
+      "ok": true
+    },
+    {
+      "case": "legal EMPTY -> predecessor",
+      "expected": "ACCEPT",
+      "observed": "ACCEPT",
+      "detail": {
+        "before": "OW04_COMPOSED_NATIVE_EMPTY",
+        "after": "VERIFIED_PREDECESSOR",
+        "source_validated": true
+      },
+      "ok": true
+    },
+    {
+      "case": "recreate common predecessor FK+RI IDs",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "detail": "OW04_BOUNDED_TRIGGER_GUARD_PREEXISTING_FK_OR_RI_RECREATED: foreign_keys {\"columns\":[\"adjustment_journal_entry_id\"],\"deferrable\":false,\"delete_action\":\"a\",\"initially_deferred\":false,\"match_type\":\"s\",\"parent\":\"erp.journal_entries\",\"parent_columns\":[\"id\"],\"relation\":\"erp.supplier_cent_posting_facts\",\"update_action\":\"a\",\"validated\":true}",
+      "ok": true
+    },
+    {
+      "case": "recreate common RI attachments only",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "detail": "OW04_BOUNDED_TRIGGER_GUARD_PREEXISTING_FK_OR_RI_RECREATED: triggers {\"columns\":[\"adjustment_journal_entry_id\"],\"deferrable\":false,\"delete_action\":\"a\",\"initially_deferred\":false,\"match_type\":\"s\",\"parent\":\"erp.journal_entries\",\"parent_columns\":[\"id\"],\"relation\":\"erp.supplier_cent_posting_facts\",\"update_action\":\"a\",\"validated\":true}",
+      "ok": true
+    }
+  ],
+  "positive_transition_and_negative_recreation_all_expected": true,
+  "new_runtime_assertion_sites": [
+    "source_request_enter_v1 before own pending request/source effects",
+    "source_native_complete_v1 after actual Native terminal phase before final_snapshot capture"
+  ],
+  "runtime_hash_binding": "Installer invokes PostgreSQL cp7_credit.pg_jsonb_sha256 on exact source-validated capture; rendered function uses same PG helper and same capture SQL; whole capture retained for state verify/uninstall. No Python JSON hash substituted."
+}

@@ -44,6 +44,7 @@ SQL_FILES = (
     'source/member-proof.sql', 'source/absence-proof.sql',
     'readers/01_current_reader_capability.proposal.sql',
     'readers/02_materialized_profile.proposal.sql',
+    'reconciliation/01_source_operation_facts.sql',
     'admission/01_typed_context_and_preclaim.proposal.sql',
     'admission/02_owning_wrapper.proposal.sql', 'refund/01_initial_refund.proposal.sql',
     'coordinator/01_coordinator_facts.sql', 'coordinator/02_hpp_book.sql',
@@ -55,6 +56,13 @@ SQL_FILES = (
     'coordinator/06_finish_and_closed_routes.sql',
     'coordinator/07_capabilities_and_quote.sql', 'coordinator/08_outer_wrapper.sql',
     'coordinator/09_public_facades.sql',
+    'reconciliation/02_reconciliation_inputs.sql',
+    'reconciliation/03_source_requests.sql',
+    'reconciliation/03_native_inverse_proof.sql',
+    'reconciliation/04_source_binding.sql',
+    'reconciliation/05_source_adjustments.sql',
+    'reconciliation/06_source_coordinator.sql',
+    'reconciliation/07_source_closure.sql',
 )
 NEW_SCHEMAS = ('cp7_credit', 'ow04_ordinal_wrapper', 'ow04_source_proposal', 'ow04_pure_kernel')
 NEW_ROLES = ('cp7_credit_write', 'cp7_credit_visible_read')
@@ -162,7 +170,13 @@ def _private_inventory(cur):
 
 
 def source_files(native_empty=False):
-    names = SQL_FILES
+    names = SQL_FILES + ('integration/source_command_transform.py',
+                         'integration/source_triggers/trigger_guard.py',
+                         'integration/source_triggers/capture.sql',
+                         'integration/source_triggers/SOURCE_PINS.json',
+                         'integration/source_triggers/build_source_pins.py',
+                         'integration/typed_context_inventory.py',
+                         'integration/derive_plan.py',)
     if native_empty:
         names += ('native-empty/01_native_empty_facts.sql','native-empty/02_native_empty_callbacks.sql',
                   'native-empty/04_exact_overlays.sql','native-empty/OVERLAY_MANIFEST.json',
@@ -251,6 +265,31 @@ def _postgres_reader(cur):
             cur.execute("select set_config('role',%s,true)", (previous,))
 
 
+def _source_trigger_capture(cur, guard):
+    previous=cur.execute('show search_path').fetchone()[0]
+    cur.execute("select set_config('search_path','',true)")
+    try:
+        with _postgres_reader(cur):
+            return guard.capture(cur)
+    finally:
+        if cur.connection.info.transaction_status != TransactionStatus.INERROR:
+            cur.execute("select set_config('search_path',%s,true)",(previous,))
+
+
+def _source_trigger_install_phase(cur, state, guard, manifest, phase):
+    before=state['source_triggers']
+    actual=_source_trigger_capture(cur,guard)
+    guard.expected_transition(before['installed'],actual,manifest,before['phase'],phase)
+    # PostgreSQL computes its own jsonb canonical hash. Python's JSON encoding
+    # is not PostgreSQL's text codec. Keep the full checked capture in state,
+    # while the callable guard stores its exact digest instead of 450KB SQL.
+    expected_sha=cur.execute('select cp7_credit.pg_jsonb_sha256(%s::jsonb)',(canonical(actual),)).fetchone()[0]
+    runtime=guard.render_runtime_guard(actual,manifest,phase,expected_sha)
+    cur.execute(runtime,prepare=False)
+    before.update(installed=actual,phase=phase,runtime_definition_sha256=digest(runtime),runtime_capture_sha256_pg=expected_sha,
+        proof=guard.validate_source(actual,manifest,phase))
+
+
 def install(cur, predecessor_verify, predecessor_functions, *, native_empty=False):
     """Execute in caller's SINGLE transaction; no commit and no partial mode."""
     for schema in NEW_SCHEMAS:
@@ -260,6 +299,10 @@ def install(cur, predecessor_verify, predecessor_functions, *, native_empty=Fals
     readers = load('ow04_integrated_reader_plan', ROOT / 'readers/03_reader_transforms.py')
     refunds = load('ow04_integrated_refund_plan', ROOT / 'refund/02_native_refund_transform.py')
     approval, receipt = _predecessor_approval(cur, assembly, predecessor_verify, predecessor_functions)
+    trigger_guard=load('ow04_integrated_source_trigger_guard',ROOT/'integration/source_triggers/trigger_guard.py')
+    trigger_manifest=trigger_guard.declarations(REPO)
+    trigger_before=_source_trigger_capture(cur,trigger_guard)
+    trigger_guard.validate_source(trigger_before,trigger_manifest,'VERIFIED_PREDECESSOR')
     payment_link_before = _payment_link_metadata(cur)
     opening_trigger_before = _opening_trigger_capture(cur)
     opening_diagnostic_before = assembly._capture(cur, 'erp.sync_opening_lot_hpp_to_gl(uuid,date)')
@@ -304,6 +347,7 @@ def install(cur, predecessor_verify, predecessor_functions, *, native_empty=Fals
             cur.execute(PAYMENT_LINK_LOCK_SQL, prepare=False)
             cur.execute(refusal_guards['no_ambient'], prepare=False)
             cur.execute(refusal_guards['only_own_return'], prepare=False)
+            cur.execute(refusal_guards['only_own_source'], prepare=False)
         cur.execute(_actual_sql(name), prepare=False)
     cur.execute("create function cp7_credit.return_causal_book_floor(p_return uuid)returns date "
         "language sql volatile security definer set search_path=''as $$ "
@@ -330,11 +374,13 @@ def install(cur, predecessor_verify, predecessor_functions, *, native_empty=Fals
         view_after=view_installed['definition'], view_derived=view_after,
         view_canonical_sha256=digest(view_installed['definition']),
         context_proof=context_proof, refund_proof=refund_proof,
-        source_sha256=expected_sources)
+        source_sha256=expected_sources,native_empty_requested=native_empty)
     state['payment_link_before'] = payment_link_before
     state['opening_trigger_before'] = opening_trigger_before
     state['opening_diagnostic_before'] = opening_diagnostic_before
     state['opening_pending_inventory'] = _opening_pending_capture(cur)
+    state['source_triggers']=dict(before=trigger_before,installed=trigger_before,phase='VERIFIED_PREDECESSOR')
+    _source_trigger_install_phase(cur,state,trigger_guard,trigger_manifest,'OW04_COMPOSED')
     state['private_inventory'] = _private_inventory(cur)
     verify(cur, state)
     if native_empty:
@@ -345,18 +391,25 @@ def install(cur, predecessor_verify, predecessor_functions, *, native_empty=Fals
         _finalize_private_owners(cur)
         for schema in NEW_SCHEMAS:
             cur.execute('revoke all on all functions in schema ' + schema + ' from public,anon,authenticated,service_role,cp7_capture')
+        _source_trigger_install_phase(cur,state,trigger_guard,trigger_manifest,'OW04_COMPOSED_NATIVE_EMPTY')
         state['private_inventory'] = _private_inventory(cur)
         verify(cur, state)
     return state
 
 
 def verify(cur, state):
+    if source_files(native_empty=state['native_empty_requested'])!=state['source_sha256']:
+        raise ValueError('OW04_QUALIFIED_SOURCE_FILES_CHANGED')
     assembly = load('ow04_integrated_native_plan', ROOT / 'integration/derive_plan.py')
     proof = assembly.verify_installed(cur, state['plan'], state['approval'])
     legacy = assembly.verify_legacy_composed(cur, state['plan'], state['approval'], REPO)
     contexts = load('ow04_integrated_context_inventory', ROOT / 'integration/typed_context_inventory.py')
     with _postgres_reader(cur):
         context_verification = contexts.verify(cur, REPO, state['context_proof']['typed_census'])
+    trigger_guard=load('ow04_verify_source_trigger_guard',ROOT/'integration/source_triggers/trigger_guard.py')
+    trigger_manifest=trigger_guard.declarations(REPO)
+    trigger_proof=trigger_guard.verify_unchanged(_source_trigger_capture(cur,trigger_guard),
+        state['source_triggers']['installed'],trigger_manifest,state['source_triggers']['phase'])
     private_inventory = _private_inventory(cur)
     if private_inventory != state['private_inventory']:
         raise ValueError('OW04_PRIVATE_FUNCTION_TABLE_OR_ACL_CHANGED')
@@ -398,7 +451,7 @@ def verify(cur, state):
     return {'classification':'INTERNAL_WRITER_NATIVE_CANDIDATE_VERIFICATION','native':proof,
             'legacy_composition':legacy,'context_inventory':context_verification,
             'private_inventory_sha256':digest(canonical(private_inventory)),
-            'native_empty':empty_proof,'production_go':False}
+            'native_empty':empty_proof,'source_triggers':trigger_proof,'production_go':False}
 
 
 def uninstall(cur, state):
@@ -411,6 +464,12 @@ def uninstall(cur, state):
         cur.execute('drop function if exists ' + sig + ' cascade')
     for schema in NEW_SCHEMAS: cur.execute('drop schema ' + schema + ' cascade')
     for role in NEW_ROLES: cur.execute('drop owned by ' + role + ' cascade;drop role ' + role, prepare=False)
+    trigger_guard=load('ow04_uninstall_source_trigger_guard',ROOT/'integration/source_triggers/trigger_guard.py')
+    trigger_manifest=trigger_guard.declarations(REPO)
+    restored_triggers=_source_trigger_capture(cur,trigger_guard)
+    trigger_guard.expected_transition(state['source_triggers']['installed'],restored_triggers,trigger_manifest,
+        state['source_triggers']['phase'],'VERIFIED_PREDECESSOR')
+    trigger_guard.verify_unchanged(restored_triggers,state['source_triggers']['before'],trigger_manifest,'VERIFIED_PREDECESSOR')
     for schema in NEW_SCHEMAS:
         if cur.execute('select to_regnamespace(%s)is not null', (schema,)).fetchone()[0]:
             raise ValueError('OW04_UNINSTALL_SCHEMA_REMAINS')

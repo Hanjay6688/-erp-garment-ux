@@ -1,0 +1,44 @@
+{
+  "classification": "PURE_IMPORT_AND_EXACT_OVERLAY_CONTROLS_NOT_NATIVE_EXECUTION",
+  "native_executed": false,
+  "production_go": false,
+  "source_sha256": {
+    "scripts/cp7_customer_credit/native-empty/build_exact_overlays.py": "0b93a61876263fc3a93d11b49919ccd7505e9f6980e154587598d58add520312",
+    "scripts/cp7_customer_credit/native-empty/OVERLAY_MANIFEST.json": "2c1463de1987b403ebcd46678c515f1b446f6e78a9ae9ee119419c34161ab3b4",
+    "scripts/cp7_ow04_probe.py": "5819e81c58507e162e5c802fee01a4000549f035a5a1d211676058de679e101e"
+  },
+  "controls": [
+    {
+      "id": "PURE_IMPORT_32",
+      "status": "PASS",
+      "label": "CP7_OW04_INITIAL",
+      "db_connections": 0
+    },
+    {
+      "id": "PURE_IMPORT_44",
+      "status": "PASS",
+      "label": "CP7_OW04_NATIVE_EMPTY",
+      "db_connections": 0
+    },
+    {
+      "id": "PURE_IMPORT_58",
+      "status": "PASS",
+      "label": "CP7_OW04_FRACTIONAL_HPP",
+      "db_connections": 0
+    },
+    {
+      "id": "PURE_IMPORT_63",
+      "status": "PASS",
+      "label": "CP7_OW04_SIGNED_SOURCE",
+      "db_connections": 0
+    },
+    {
+      "id": "CURRENT14_BUILD_BYTE_EXACT_AND_MANIFEST",
+      "status": "PASS"
+    },
+    {
+      "id": "CURRENT_SOURCE_TAMPER_REFUSED",
+      "status": "PASS"
+    }
+  ]
+}

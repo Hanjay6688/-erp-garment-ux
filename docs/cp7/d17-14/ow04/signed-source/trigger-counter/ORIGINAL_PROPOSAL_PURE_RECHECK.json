@@ -1,0 +1,101 @@
+{
+  "classification": "PURE_SYNTHETIC_CATALOG_MODEL_NOT_NATIVE_EXECUTION",
+  "database_calls": 0,
+  "source_phase_models": [
+    {
+      "phase": "VERIFIED_PREDECESSOR",
+      "ordinary_attachments": 25,
+      "ordinary_functions": 18,
+      "internal_attachments": 210,
+      "foreign_keys": 99,
+      "capture_sha256": "1aa93080ea996c7e8f4553bdb47186e3b2042df569cf1072f0a69ded77b3bd81",
+      "classification": "SOURCE_AND_METADATA_ONLY_NOT_NATIVE_EXECUTION"
+    },
+    {
+      "phase": "OW04_COMPOSED",
+      "ordinary_attachments": 25,
+      "ordinary_functions": 18,
+      "internal_attachments": 246,
+      "foreign_keys": 117,
+      "capture_sha256": "d16a58d29462c6087a5f360dfb9f759bc72b93596e1801c0ca2d528cfc56b00b",
+      "classification": "SOURCE_AND_METADATA_ONLY_NOT_NATIVE_EXECUTION"
+    },
+    {
+      "phase": "OW04_COMPOSED_NATIVE_EMPTY",
+      "ordinary_attachments": 25,
+      "ordinary_functions": 18,
+      "internal_attachments": 250,
+      "foreign_keys": 119,
+      "capture_sha256": "daa2df0d033588f4ec351e8027772427d2e0f8c415cdf57cf859a302153d5680",
+      "classification": "SOURCE_AND_METADATA_ONLY_NOT_NATIVE_EXECUTION"
+    }
+  ],
+  "negative_cases": [
+    {
+      "case": "unknown ordinary attachment",
+      "refused": true,
+      "error": "OW04_BOUNDED_TRIGGER_GUARD_ORDINARY_ATTACHMENT_SET: [('erp.fg_stock_movements', 'UNREVIEWED_EXTRA')]"
+    },
+    {
+      "case": "disabled known trigger",
+      "refused": true,
+      "error": "OW04_BOUNDED_TRIGGER_GUARD_ORDINARY_ATTACHMENT_FIELD: ('erp.sales_headers', 'trg_sales_row_version') enabled"
+    },
+    {
+      "case": "changed bump function body",
+      "refused": true,
+      "error": "OW04_BOUNDED_TRIGGER_GUARD_FUNCTION_BODY_SHA256: erp.bump_row_version()"
+    },
+    {
+      "case": "unknown function target",
+      "refused": true,
+      "error": "OW04_BOUNDED_TRIGGER_GUARD_ORDINARY_ATTACHMENT_FIELD: ('erp.sales_headers', 'trg_sales_touch') function"
+    },
+    {
+      "case": "changed owner",
+      "refused": true,
+      "error": "OW04_BOUNDED_TRIGGER_GUARD_FUNCTION_OWNER: erp.touch_updated_at()"
+    },
+    {
+      "case": "changed config",
+      "refused": true,
+      "error": "OW04_BOUNDED_TRIGGER_GUARD_FUNCTION_CONFIG: erp.touch_updated_at()"
+    },
+    {
+      "case": "extra FK",
+      "refused": true,
+      "error": "OW04_BOUNDED_TRIGGER_GUARD_FOREIGN_KEY_SOURCE_CENSUS"
+    },
+    {
+      "case": "missing internal attachment",
+      "refused": true,
+      "error": "OW04_BOUNDED_TRIGGER_GUARD_INTERNAL_ATTACHMENT_SOURCE_CENSUS"
+    },
+    {
+      "case": "foreign RI implementation",
+      "refused": true,
+      "error": "OW04_BOUNDED_TRIGGER_GUARD_UNKNOWN_INTERNAL_FUNCTION: pg_catalog.RI_FKey_cascade_del()"
+    },
+    {
+      "case": "changed RI C entry",
+      "refused": true,
+      "error": "OW04_BOUNDED_TRIGGER_GUARD_RI_INTERNAL_ENTRY_POINT: pg_catalog.RI_FKey_cascade_del()"
+    },
+    {
+      "case": "changed argument",
+      "refused": true,
+      "error": "OW04_BOUNDED_TRIGGER_GUARD_ORDINARY_ATTACHMENT_FIELD: ('erp.sales_headers', 'trg_sales_touch') argument_count"
+    },
+    {
+      "case": "rewrite rule",
+      "refused": true,
+      "error": "OW04_BOUNDED_TRIGGER_GUARD_RELATION_METADATA_OR_RULES: erp.sales_headers"
+    },
+    {
+      "case": "raw catalog OID drift after initial acceptance",
+      "refused": true
+    }
+  ],
+  "install_uninstall_source_delta_model": "PASS",
+  "native_execution_proven": false
+}

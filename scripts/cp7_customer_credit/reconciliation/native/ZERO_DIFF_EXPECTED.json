@@ -1,0 +1,106 @@
+{
+  "contract_version": "ow04.signed-source-zero-difference-native-expected.v1",
+  "classification": "EXPECTED_FROZEN_BEFORE_NATIVE_CI_UNEXECUTED_PROPOSAL",
+  "native_executed": false,
+  "production_go": false,
+  "baseline_candidate": "3a667e938bb1485a0f4206483d107b6ac76e347d",
+  "preserved_four_case_expected_sha256": "9b038e877372848b4e7f86695107d6e99695013b4e443ecda55e1fa6e989dffd",
+  "case_count": 1,
+  "id": "OW04_SIGNED_ZERO_DIFF_EARLIER_ZERO_RETURN_REVERSE",
+  "setup": "Genuine prepared1000OPEN. Ordinary public RETURN qty1 refund0.00 at D1 after actual payment; then public quote+settle qty1 refund200.00 CREDIT at D2. No fabricated posted money/source rows.",
+  "date_rule": "Actual earlier zero return pair D1/D1; later return and initial recognition D2/D2. Native inverse uses actual current Jakarta posting day/day, without a caller date override.",
+  "family_ordinals": {
+    "ordinary_zero_return": "1",
+    "later_credit_return": "2"
+  },
+  "before": {
+    "gross": "1000.00",
+    "net": "800.00",
+    "P": "1000.00",
+    "U": "0.00",
+    "I": "200.00",
+    "E": "800.00",
+    "AR": "0.00",
+    "liability_credit": "200.00",
+    "C": "0.00",
+    "cash": "1000.00",
+    "stock_qty": "7",
+    "stock_value": "70.00",
+    "sale_status": "PAID",
+    "return_status": "POSTED",
+    "payment_status": "POSTED"
+  },
+  "after": {
+    "gross": "1000.00",
+    "net": "800.00",
+    "P": "1000.00",
+    "U": "0.00",
+    "I": "200.00",
+    "E": "800.00",
+    "AR": "0.00",
+    "liability_credit": "200.00",
+    "C": "0.00",
+    "cash": "1000.00",
+    "stock_qty": "6",
+    "stock_value": "60.00",
+    "sale_status": "PAID",
+    "return_status": "POSTED",
+    "payment_status": "POSTED"
+  },
+  "source_return_status_after": {
+    "ordinary_zero_return": "REVERSED",
+    "later_credit_return": "POSTED"
+  },
+  "source_native_inverse": {
+    "count": 1,
+    "GL": [
+      "Dr COGS 10.00",
+      "Cr FG_INVENTORY 10.00"
+    ],
+    "cash_delta": "0.00",
+    "AR_delta": "0.00",
+    "liability_delta": "0.00",
+    "revenue_delta": "0.00"
+  },
+  "recognition": {
+    "family1_target": [],
+    "family1_retained_I": [],
+    "family1_difference": [],
+    "family2_target": [
+      "+200.00@D2/D2"
+    ],
+    "family2_retained_I": [
+      "+200.00@D2/D2"
+    ],
+    "family2_difference": []
+  },
+  "new_counts": {
+    "recognition_plans": 0,
+    "recognition_components": 0,
+    "component_parts": 0,
+    "component_journals": 0,
+    "recognition_journals": 0,
+    "consumptions": 0,
+    "financial_materializations": 0,
+    "source_operation_materializations": 1,
+    "source_operation_completions": 1,
+    "source_operation_plans": 0,
+    "source_operation_part_seals": 0,
+    "stock_reversals": 1,
+    "all_journals": 1
+  },
+  "source_operation": {
+    "action": "RETURN_REVERSE",
+    "source": "actual ordinary zero return UUID",
+    "operation_ordinal": "1",
+    "predecessor_operation_id": null,
+    "plan_manifest": [],
+    "actual_objects": [],
+    "financial_marker_id": null,
+    "before_and_actual_all_family_differences": [],
+    "real_outer_request_receipt_and_completion_required": true
+  },
+  "immutable": "All old private financial/source facts preserved; original zero-return journal only lawful POSTED->REVERSED; original later return, payment and initial recognition journals/rows remain byte-equal.",
+  "same_UUID_replay_additional_effects": 0,
+  "optional_fake_historical_baseline_control": "Not implemented by this fixture: root owns exact helper/guard details. Forged funding1000->800 plus omitted retainedI must refuse using fresh historical-source reconstruction, not merely pure-wrapper self-consistency."
+}
