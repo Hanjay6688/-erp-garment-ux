@@ -59,6 +59,11 @@ def exercise(count,mutation=None):
                 receipt['full_composition'].update(additional_direct_native_case_count=14,direct_native_fractional_expected_sha256=sha(native_bytes))
         override={}
         if mutation:mutation(binding,receipt,git_values,override)
+        if 'admin_source'in override:
+            admin=root/'scripts/cp7_ow04_restore_bundle.py'
+            admin.write_bytes(override['admin_source'])
+        if 'admin_declaration'in override:
+            (root/'docs/cp7/d17-14/ow04/USED_RESTORE_QUALIFICATION.json').write_text(json.dumps(override['admin_declaration']))
         raw=(json.dumps(receipt,sort_keys=True)+'\n').encode()
         (root/binding['receipt']).write_bytes(raw)
         binding['receipt_sha256']=override.get('receipt_sha256',sha(raw))
@@ -68,6 +73,7 @@ def exercise(count,mutation=None):
             if args==('rev-parse','HEAD:scripts/cp7_ow04_probe.py'):return git_values['probe']
             if args==('rev-parse','HEAD:scripts/cp7_full_owning_install.py'):return git_values['owning']
             if args==('rev-parse','HEAD:scripts/cp7_full_ow04_probe.py'):return git_values['full_probe']
+            if args==('rev-parse','HEAD:scripts/cp7_ow04_restore_bundle.py'):return git_values['admin_blob']
             assert args==('diff','--name-only',binding['candidate'],'--','scripts','src','supabase'),args
             return git_values['changes']
         namespace=dict(Path=Path,json=json,hashlib=hashlib,REPO=root,git=git,__file__=str(entry))
@@ -158,6 +164,34 @@ native87=(
 )
 controls+=native87
 CONTROL_IDS+=tuple(row[0]for row in native87)
+
+
+def admin_source(change=None):
+    def mutation(b,r,g,o):
+        data=b'"""Administrative restore source, synthetic binding control only."""\n'
+        path='scripts/cp7_ow04_restore_bundle.py'
+        g.update(changes=path,admin_blob='9'*40)
+        o['admin_source']=data
+        o['admin_declaration']=dict(required_native_case_count=87,expected_scenario_count=1,
+            required_restore_module=path,scenario_id='OW04_USED_CREDIT_REFUND_RESTORE_CONTINUE',
+            separate_administrative_source=dict(path=path,git_blob='9'*40,sha256=sha(data),
+                native_runtime_covered=False,classification='SEPARATE_ADMIN_RESTORE_REQUIRES_OWN_ACTUAL_RUNTIME'))
+        if change:change(b,r,g,o)
+    return mutation
+
+
+admin_controls=(
+    ('separate_admin_exact_source87',87,admin_source(),True),
+    ('separate_admin_blob_changed87',87,admin_source(lambda b,r,g,o:g.__setitem__('admin_blob','0'*40)),False),
+    ('separate_admin_bytes_changed87',87,admin_source(lambda b,r,g,o:o.__setitem__('admin_source',b'changed')),False),
+    ('separate_admin_native_coverage_faked87',87,admin_source(lambda b,r,g,o:o['admin_declaration']['separate_administrative_source'].__setitem__('native_runtime_covered',True)),False),
+    ('separate_admin_missing87',87,admin_source(lambda b,r,g,o:o.pop('admin_source')),False),
+    ('separate_admin_wrong_declaration87',87,admin_source(lambda b,r,g,o:o['admin_declaration'].__setitem__('required_native_case_count',73)),False),
+    ('separate_admin_unknown_script87',87,admin_source(lambda b,r,g,o:g.__setitem__('changes',g['changes']+'\nscripts/unqualified.py')),False),
+    ('separate_admin_not_historical73',73,admin_source(),False),
+)
+controls+=admin_controls
+CONTROL_IDS+=tuple(row[0]for row in admin_controls)
 
 assert tuple(row[0]for row in controls)==CONTROL_IDS
 results=[]

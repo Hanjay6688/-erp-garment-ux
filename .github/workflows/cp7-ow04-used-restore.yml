@@ -154,7 +154,12 @@ jobs:
     - name: Remove disposable database
       if: always()
       working-directory: base
-      run: supabase stop --workdir cp5-local --no-backup
+      run: |
+        if command -v supabase >/dev/null 2>&1; then
+          supabase stop --workdir cp5-local --no-backup
+        else
+          echo 'Disposable database setup was not reached; CLI is absent.'
+        fi
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:

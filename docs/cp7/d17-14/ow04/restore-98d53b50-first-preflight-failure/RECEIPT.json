@@ -1,0 +1,43 @@
+{
+  "candidate": "98d53b501105f0b6cf8288ff3007e87c12eff9d2",
+  "tree": "8b898b4a285854e1716e2ce6de157d0c71094bc8",
+  "status": "PREFLIGHT_REFUSED_BEFORE_DATABASE_STARTED",
+  "cause": "Explicit product dependency gate rejected new administrative restore source outside qualification directory.",
+  "logs": [
+    {
+      "name": "USED_RESTORE",
+      "run_id": 39607496026,
+      "job_id": 119247381579,
+      "file": "USED_RESTORE.job119247381579.log.gz",
+      "decoded_utf8_bytes": 176288,
+      "decoded_utf8_sha256": "2435fe16452804712d7402acfda2556cfa5a9abc7fa0d7ef8e325090623a3bad",
+      "gzip_bytes": 22125,
+      "gzip_sha256": "e2e91ab81fc6066ea95a9cf94c8b6b4ecad7da226269526b3369d67b72eefcbd",
+      "native_or_transport_cases_executed": 0
+    },
+    {
+      "name": "HTTP",
+      "run_id": 39607496292,
+      "job_id": 119247382724,
+      "file": "HTTP.job119247382724.log.gz",
+      "decoded_utf8_bytes": 184948,
+      "decoded_utf8_sha256": "1ac1f7737781197165823246c51cfd72c58a78487a6b23c959a8ef99bbb0bce4",
+      "gzip_bytes": 24129,
+      "gzip_sha256": "915dcd541360fbce704757b7e1bc0546f4ba0c5ec827bb9f533b59757d3488cf",
+      "native_or_transport_cases_executed": 0
+    },
+    {
+      "name": "BROWSER",
+      "run_id": 39607496123,
+      "job_id": 119247383667,
+      "file": "BROWSER.job119247383667.log.gz",
+      "decoded_utf8_bytes": 178510,
+      "decoded_utf8_sha256": "da00f00503acd8711af8977fb8e6db4285227abf71dbf9e7d0f8d8a95669e919",
+      "gzip_bytes": 22479,
+      "gzip_sha256": "afafb6d9857dfea04f44aecb47cecc5924a58d20dac4f504a6deee6111159c3a",
+      "native_or_transport_cases_executed": 0
+    }
+  ],
+  "log_representation": "Complete decoded UTF8 text returned by GitHub job-log API, unchanged bytes reencoded as UTF8; not claimed to be original raw ZIP.",
+  "production_go": false
+}

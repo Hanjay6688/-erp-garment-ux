@@ -32,6 +32,17 @@ def exercise(mutation):
         if mutation=='binding_old58':binding['native_case_count']=58
         if mutation=='binding_native64':binding['native_case_count']=64
         binding_bytes=(json.dumps(binding)+'\n').encode();(expected/'QUALIFIED_CORE.json').write_bytes(binding_bytes)
+        admin=None
+        if mutation.startswith('admin_'):
+            data=b'"""Synthetic administrative restore control only."""\n'
+            admin=dict(path='scripts/cp7_ow04_restore_bundle.py',sha256=sha(data),
+                git_blob=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest(),
+                native_runtime_covered=False,classification='SEPARATE_ADMIN_RESTORE_REQUIRES_OWN_ACTUAL_RUNTIME')
+            if mutation=='admin_native_coverage_faked':admin['native_runtime_covered']=True
+            (base/admin['path']).write_bytes(data+b'changed'if mutation=='admin_source_changed'else data)
+            declared=base/'docs/cp7/d17-14/ow04/USED_RESTORE_QUALIFICATION.json'
+            declared.parent.mkdir(parents=True)
+            declared.write_text(json.dumps({'separate_administrative_source':admin}))
         for name in (*IMPLEMENTATIONS.values(),*RACE_IMPLEMENTATIONS.values()):(expected/name).write_bytes((SOURCE.parent/name).read_bytes())
         source_bytes=(SOURCE.parent/'SOURCE_HTTP_EXPECTED.json').read_bytes();(expected/'SOURCE_HTTP_EXPECTED.json').write_bytes(source_bytes)
         source_ids=[r['id']for r in json.loads(source_bytes)['cases']]
@@ -55,6 +66,8 @@ def exercise(mutation):
             initial_ids=[r['id']for r in json.loads(raw)['cases']];ids=initial_ids+source_ids if label=='HTTP'else initial_ids
             if full and label=='HTTP':ids+=dependency_ids
             reused=dict(**copy.deepcopy(binding),binding_sha256=sha(binding_bytes))
+            if admin is not None and mutation!='admin_receipt_missing':
+                reused['separately_bound_administrative_source']=copy.deepcopy(admin)
             report=dict(candidate_commit=candidate,core_directory_tree=binding['core_directory_tree'],native_probe_blob=binding['native_probe_blob'],
                 status='PASS',expected_case_count=count,observed_case_count=count,required_case_ids=ids,cp6_restored=True,advisor_gate=True,
                 reused_native_binding=reused,predeclared_case_sha256=sha(raw))
@@ -163,8 +176,9 @@ if __name__=='__main__':
         'full_owning_source_wrong','binding_native64','native_reuse63_wrong',
         'HTTP_command_failed','RACES_command_failed','source_race_failed',
         'dependency_declaration_changed','dependency_count_wrong'))
+    names+=tuple('full87:'+name for name in('admin_valid','admin_source_changed','admin_native_coverage_faked','admin_receipt_missing'))
     rows=[exercise(name)for name in names]
-    assert all(row['accepted']is(row['id']in('valid','full73:valid','full87:valid'))
+    assert all(row['accepted']is(row['id']in('valid','full73:valid','full87:valid','full87:admin_valid'))
         and(row['accepted']or row['error_type']=='AssertionError')for row in rows),rows
     print(json.dumps(dict(classification='SYNTHETIC_ACTUAL_FUNCTION_NOT_RUNTIME',status='PASS',count=len(rows),
         gate_source_sha256=sha(SOURCE.read_bytes()),database_calls=0,rows=rows),indent=2))

@@ -46,7 +46,29 @@ def qualified_core():
     assert git('rev-parse','HEAD:scripts/cp7_customer_credit')==value['core_directory_tree'],'OW04_HTTP_CORE_CHANGED'
     assert git('rev-parse','HEAD:scripts/cp7_ow04_probe.py')==value['native_probe_blob'],'OW04_HTTP_NATIVE_PROBE_CHANGED'
     changed=git('diff','--name-only',value['candidate'],'--','scripts','src','supabase').splitlines()
-    assert all(p.startswith('scripts/ow04-qualification/')for p in changed),('OW04_HTTP_QUALIFIED_DEPENDENCY_CHANGED',changed)
+    extra=[p for p in changed if not p.startswith('scripts/ow04-qualification/')]
+    # This administrative API is not imported by the ordinary qualified
+    # product. It has its OWN exact source binding and actual restore proof;
+    # Native87 never gets relabelled as having executed it. Every pre-existing
+    # product/installer dependency above/below still has to be byte exact.
+    admin_path='scripts/cp7_ow04_restore_bundle.py'
+    separate_admin=None
+    if extra:
+        assert count==87 and extra==[admin_path],('OW04_HTTP_QUALIFIED_DEPENDENCY_CHANGED',changed)
+        declared=REPO/'docs/cp7/d17-14/ow04/USED_RESTORE_QUALIFICATION.json'
+        assert declared.is_file(),'OW04_ADMIN_RESTORE_DECLARATION_REQUIRED'
+        admin_declaration=json.loads(declared.read_bytes())
+        assert admin_declaration.get('required_native_case_count')==87 \
+            and admin_declaration.get('expected_scenario_count')==1 \
+            and admin_declaration.get('required_restore_module')==admin_path \
+            and admin_declaration.get('scenario_id')=='OW04_USED_CREDIT_REFUND_RESTORE_CONTINUE','OW04_ADMIN_RESTORE_DECLARATION_CHANGED'
+        admin=admin_declaration.get('separate_administrative_source',{})
+        assert admin.get('path')==admin_path and admin.get('native_runtime_covered')is False \
+            and admin.get('classification')=='SEPARATE_ADMIN_RESTORE_REQUIRES_OWN_ACTUAL_RUNTIME','OW04_ADMIN_RESTORE_SCOPE_CHANGED'
+        assert (REPO/admin_path).is_file(),'OW04_ADMIN_RESTORE_SOURCE_MISSING'
+        assert git('rev-parse','HEAD:'+admin_path)==admin.get('git_blob') \
+            and hashlib.sha256((REPO/admin_path).read_bytes()).hexdigest()==admin.get('sha256'),'OW04_ADMIN_RESTORE_SOURCE_CHANGED'
+        separate_admin=admin
     if count in(73,87):
         assert value.get('classification')==f'REUSED_FULL_NATIVE{count}_RUNTIME_EXACT_CORE_BINDING_NOT_NEW_TRANSPORT_EXECUTION','OW04_HTTP_FULL_BINDING_CLASS_CHANGED'
         assert git('rev-parse','HEAD:scripts/cp7_full_owning_install.py')==value['owning_installer_blob'],'OW04_HTTP_FULL_OWNING_INSTALLER_CHANGED'
@@ -96,7 +118,9 @@ def qualified_core():
             assert declaration.get('retained_native73_declaration_sha256')==hashlib.sha256(retained_bytes).hexdigest(),'OW04_HTTP_NATIVE87_RETENTION_PROOF_CHANGED'
             assert declaration.get('direct_native_fractional_expected_sha256')==native_expected_sha and composed.get('direct_native_fractional_expected_sha256')==native_expected_sha,'OW04_HTTP_NATIVE87_EXPECTED_CHANGED'
             assert composed.get('additional_direct_native_case_count')==14 and expected_ids[73:]==[r['id']for r in json.loads(native_expected)['cases']],'OW04_HTTP_NATIVE87_DIRECT_CASES_INCOMPLETE'
-    return dict(**value,binding_sha256=hashlib.sha256(binding_path.read_bytes()).hexdigest())
+    result=dict(**value,binding_sha256=hashlib.sha256(binding_path.read_bytes()).hexdigest())
+    if separate_admin is not None:result['separately_bound_administrative_source']=separate_admin
+    return result
 
 
 def run():

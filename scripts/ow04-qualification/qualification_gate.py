@@ -11,6 +11,19 @@ def require(root,candidate,step_outcomes=None):
     assert binding.get('status')=='PASS'and binding.get('native_case_count')in(63,73,87),'OW04_FINAL_NATIVE_NOT_QUALIFIED'
     full=binding['native_case_count']in(73,87)
     expected_binding=dict(**binding,binding_sha256=hashlib.sha256(binding_bytes).hexdigest())
+    admin_path=expected_dir.parent/'cp7_ow04_restore_bundle.py'
+    if admin_path.is_file():
+        declared=expected_dir.parents[1]/'docs/cp7/d17-14/ow04/USED_RESTORE_QUALIFICATION.json'
+        assert declared.is_file()and binding['native_case_count']==87,'OW04_FINAL_ADMIN_RESTORE_DECLARATION_REQUIRED'
+        admin=json.loads(declared.read_bytes()).get('separate_administrative_source',{})
+        raw=admin_path.read_bytes()
+        blob=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+        assert admin.get('path')=='scripts/cp7_ow04_restore_bundle.py' \
+            and admin.get('native_runtime_covered')is False \
+            and admin.get('classification')=='SEPARATE_ADMIN_RESTORE_REQUIRES_OWN_ACTUAL_RUNTIME' \
+            and admin.get('sha256')==hashlib.sha256(raw).hexdigest() \
+            and admin.get('git_blob')==blob,'OW04_FINAL_ADMIN_RESTORE_SOURCE_CHANGED'
+        expected_binding['separately_bound_administrative_source']=admin
     counts={};reports={}
     for label,file,group,declaration,count in (
         ('HTTP','CP7_OW04_HTTP.json','http','EXPECTED.json',18 if full else 14),
