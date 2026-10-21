@@ -30,7 +30,7 @@ async function journey(ui,today){
   return data
  }
  async function reverse(initial){
-  await page.getByRole('button',{name:'Retur invoice',exact:true}).click()
+  if(await returns().count()===0)await page.getByRole('button',{name:'Retur fisik invoice',exact:true}).click()
   await returns().locator('[data-return-id="'+initial.return_id+'"]').getByRole('button',{name:'Koreksi retur '+initial.return_number,exact:true}).click()
   await ui.expect(returns()).toContainText('Periksa riwayat kredit')
   await returns().getByLabel('Alasan tindakan retur',{exact:true}).fill('Pembatalan retur asal setelah pengembalian uang diperiksa')
@@ -47,6 +47,8 @@ async function journey(ui,today){
   const initial=proof('initial',sourceArgs)
   const before=await dependencies('1');assert.equal(before.dependencies[0].event_id,f.original_event_id)
   await ui.expect(page.getByRole('list',{name:'Langkah membatalkan penggunaan saldo kredit'})).toBeVisible()
+  await page.getByRole('button',{name:'Buka retur asal '+initial.return_number,exact:true}).click()
+  await ui.expect(returns()).toBeVisible()
   const denied=await reverse(initial)
   assert.equal(denied.status(),400)
   assert.equal((await denied.json()).message,'CP7_CREDIT_SOURCE_CONSUMERS_REQUIRE_UNDO')
@@ -82,7 +84,7 @@ async function journey(ui,today){
   const final=proof('verify_inverse',{...sourceArgs,undone_sha256:seal.undone_sha256,args:accepted.request().postDataJSON(),outcome:acceptedOutcome,actor:user.user.id})
   assert.equal(final.status,'PASS')
   await source();await dependencies('0')
-  await page.getByRole('button',{name:'Retur invoice',exact:true}).click()
+  await page.getByRole('button',{name:'Retur fisik invoice',exact:true}).click()
   await ui.expect(returns().locator('[data-return-id="'+initial.return_id+'"]')).toContainText(initial.return_number+' · Dibatalkan')
   await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
   assert.equal(writes.length,3)

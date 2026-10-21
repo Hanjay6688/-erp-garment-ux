@@ -88,7 +88,7 @@ export function normalizeClientError(error: unknown): ClientAppError {
   }
 
   const creditMessages: Record<string,string> = {
-    cp7_credit_source_consumers_require_undo: 'Masih ada pemakaian saldo kredit atau pengembalian uang yang aktif. Buka Saldo kredit pelanggan → Periksa riwayat kredit, batalkan transaksi terkait, lalu muat ulang invoice sebelum memeriksa pembatalan dokumen asal.',
+    cp7_credit_source_consumers_require_undo: 'Masih ada pemakaian saldo kredit atau pengembalian uang yang aktif. Tutup formulir transaksi, lalu buka Saldo kredit pelanggan → Periksa riwayat kredit, batalkan transaksi terkait, dan muat ulang invoice sebelum memeriksa pembatalan dokumen asal.',
     cp7_credit_consumer_review_changed: 'Saldo, invoice tujuan, rekening, atau hak akses berubah. Muat ulang invoice lalu periksa kembali transaksi kredit.',
     cp7_credit_workspace_source_changed: 'Invoice sumber berubah. Muat ulang invoice sebelum memeriksa saldo kredit.',
     cp7_credit_workspace_list_changed: 'Daftar saldo atau tujuan berubah saat berpindah halaman. Periksa kembali daftar dari halaman pertama.',

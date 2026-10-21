@@ -2,13 +2,13 @@
   "classification": "EXACT_GUIDED_SOURCE_UI_AND_ONE_BROWSER_QUALIFIER_NO_FINANCIAL_SQL_EDITS",
   "base": "36309f8fbf5c0281ae51749f11ab9017a5875ef7",
   "files": {
-    "src/SalesCreditDependencies.tsx": "4c336abc72a28194558e330725c31cfca1065afdac3528229267303cfacf64f4",
-    "src/SalesReturnPanel.tsx": "f0fe71f0ad3ce23aba061a7669397a1c199456374637c14dc0bd18c5f9851062",
-    "src/lib/clientError.ts": "74bcdcddeacf11e1378529944154a193b186df2e6aad0cbc410cbec450d53b2f",
+    "src/SalesCreditDependencies.tsx": "f33bb90a99484e2afec29784bb60f9453c7e7032c685cea0a6f9bdf7045138a1",
+    "src/SalesReturnPanel.tsx": "d660a0d344f12e75f8b9e027787942c929ce74f57827af53aafc5e62a53791c6",
+    "src/lib/clientError.ts": "4ce7972b515296e5b0d953162ef371e4582e240c14dcb4868573b26035d00d0e",
     "scripts/ow04-source-inverse-ui-qualification/EXPECTED.json": "cada5c84aeb43223aaec07bec21ab3edee8279e659b0d6afa1a87bf4881f3216",
     "scripts/ow04-source-inverse-ui-qualification/source_probe.py": "cc9c389eb359140cecff7022c7bde079f8c8a3f70646b277f9060a4d8ac73e1a",
     "scripts/ow04-source-inverse-ui-qualification/source_fixture.py": "f4b6a7d6338e8270e476107a000e131d766416cb6fe2833a205586e1c31f0d43",
-    "scripts/ow04-source-inverse-ui-qualification/browser_cases.mjs": "d744c84970d60db365296b3214b9aaf9b561ae385ad80a5683bb004d32178bed",
+    "scripts/ow04-source-inverse-ui-qualification/browser_cases.mjs": "9c68f403fb48b59dd8d13e107cc48db3d3090c676f2388f5019ea5aba8665124",
     ".github/workflows/cp7-ow04-source-inverse-ui.yml": "fd15110acd511d91d647260b55b342fc43a1c1e63f7c826abbbf5b034bf25aaa"
   }
 }

@@ -50,7 +50,7 @@ export default function SalesCreditDependencies({source,current,locked}:{source:
     {data ? <>
       <p>{data.page.total} penggunaan saldo kredit aktif.</p>
       {data.page.total !== '0' ? <ol aria-label="Langkah membatalkan penggunaan saldo kredit">
-        <li>Buka retur asal pada daftar berikut, lalu buka Saldo kredit pelanggan pada invoice asal.</li>
+        <li>Buka retur asal pada daftar berikut. Tutup formulir dengan Tutup retur invoice, lalu buka Saldo kredit pelanggan pada invoice asal.</li>
         <li>Pilih Periksa riwayat kredit, lalu Periksa pembatalan pada pemakaian saldo atau pengembalian uang yang terkait.</li>
         <li>Isi waktu transaksi WIB dan alasan, periksa pembatalan penuh, lalu simpan. Nilai dan rekening mengikuti transaksi asli.</li>
         <li>Muat ulang invoice dan periksa penggunaan saldo kredit lagi sebelum membatalkan retur atau pembayaran asal.</li>
