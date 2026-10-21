@@ -1,0 +1,83 @@
+{
+  "classification": "LOCAL_RUNTIME_RECREATED_AFTER_EXPIRED_PREVIOUS_WORKSPACE",
+  "pglite_package_version": "0.5.11",
+  "erp_dependency_files_changed": false,
+  "Native_cases_added": 0,
+  "checks": [
+    {
+      "label": "GRAPH",
+      "result": {
+        "classification": "LOCAL_PGLITE_SYNTHETIC_GRAPH_ONLY_NOT_NATIVE_OR_FINANCIAL_COMMAND",
+        "status": "PASS",
+        "check_count": 10,
+        "checks": [
+          "BIDIRECTIONAL_CYCLE_TERMINATES_WITH_ALL_MEMBERS",
+          "CONNECTED_START_NODES_HAVE_IDENTICAL_FACT_CAPTURE",
+          "SIGNED_UNDO_AND_REFUND_HISTORY_RETAINED",
+          "FULLY_UNDONE_APPLICATION_REMAINS_A_DEPENDENCY",
+          "HISTORICAL_TARGET_AND_CORRECTED_LEAF_BOTH_INCLUDED",
+          "ISOLATED_INVOICE_HAS_ONLY_ITS_ACTUAL_COHORT",
+          "CROSS_CUSTOMER_EDGE_REFUSED",
+          "WRONG_COHORT_SOURCE_ROOT_REFUSED",
+          "UNKNOWN_DOCUMENT_REFUSED",
+          "AUTHENTICATED_CANNOT_EXECUTE_PRIVATE_GRAPH"
+        ],
+        "full_owning_command_implemented": false,
+        "Native_cases_added": 0,
+        "production_go": false
+      }
+    },
+    {
+      "label": "DOCUMENT_AR",
+      "result": {
+        "classification": "LOCAL_PGLITE_SYNTHETIC_LEDGER_FOR_EXACT_FIXTURE_QUERY_ONLY_NOT_NATIVE_BUSINESS_EXECUTION",
+        "status": "PASS",
+        "check_count": 6,
+        "checks": [
+          "SEPARATE_SOURCE_ZERO_AND_TARGET500_SAME_CUSTOMER",
+          "APPLY80_AFFECTS_ONLY_NAMED_TARGET_AR",
+          "SECOND_APPLY120_RETAINS_FIRST80",
+          "LINKED_EVENT_REVERSE_NEGATIVE_USE_RESTORES_TARGET_AR",
+          "UNRELATED_SAME_CUSTOMER_INVOICE_EXCLUDED",
+          "NATIVE_RETURN_INVERSE_AND_SIGNED_RECOGNITION_RETAINED_ONCE"
+        ],
+        "consumer_prepare_executed": false,
+        "consumer_command_implemented": false,
+        "Native_cases_added": 0,
+        "production_go": false
+      }
+    },
+    {
+      "label": "OPERATION_FACTS",
+      "result": {
+        "classification": "LOCAL_PGLITE_PRIVATE_DDL_AND_SYNTHETIC_CONSTRAINTS_WITH_DUMMY_PROVENANCE_NOT_NATIVE_OR_SOURCE_PROOF",
+        "status": "PASS",
+        "check_count": 17,
+        "checks": [
+          "ALL_FIVE_TABLES_HAVE_RLS",
+          "ALL_OUTSIDER_TABLE_RIGHTS_DENIED",
+          "OUTER_WRITER_HAS_NO_FINANCIAL_FACT_DML",
+          "SYNTHETIC_COMPLETE_SHAPE_ACCEPTED_NOT_SOURCE_AUTHORITY",
+          "ZERO_AMOUNT_REFUSED",
+          "SUBCENT_AMOUNT_REFUSED",
+          "NONFINITE_AMOUNT_REFUSED",
+          "WRONG_NEGATIVE_ACTION_REFUSED",
+          "UNDO_WITHOUT_ORIGINAL_REFUSED",
+          "UNDO_WITH_POSITIVE_AMOUNT_REFUSED",
+          "MISSING_TARGET_REFUSED",
+          "APPLY_WITH_CASH_REFUSED",
+          "LIABILITY_AR_COLLISION_REFUSED",
+          "BOOK_BEFORE_ECONOMIC_REFUSED",
+          "PHYSICAL_WIB_PAIR_MISMATCH_REFUSED",
+          "POSTGRES_UPDATE_DELETE_TRUNCATE_OF_OPERATIONS_REFUSED",
+          "SECOND_OPERATION_FOR_SAME_ACTOR_UUID_REFUSED"
+        ],
+        "financial_command_implemented": false,
+        "complete_deferred_closure_implemented": false,
+        "installer_loads_fragment": false,
+        "Native_cases_added": 0,
+        "production_go": false
+      }
+    }
+  ]
+}

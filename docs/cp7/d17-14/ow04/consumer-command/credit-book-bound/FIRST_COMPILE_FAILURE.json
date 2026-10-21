@@ -1,0 +1,8 @@
+{
+  "classification": "LOCAL_PGLITE_COMPILE_REFUSAL_BEFORE_CASE_EXECUTION_NOT_NATIVE",
+  "status": "FIRST_FAILURE_PRESERVED",
+  "error": "syntax error at or near day",
+  "source_sha256": "6d916b8deda375df435086e45382440ed5987613824e7af780c79fa2594bb919",
+  "pglite_package_version": "0.5.11",
+  "Native_cases_executed": 0
+}
