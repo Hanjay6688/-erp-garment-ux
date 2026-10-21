@@ -1,0 +1,108 @@
+{
+  "classification": "ACTUAL_MAIN_CLI_DISPATCH_ONLY_NOT_NATIVE_EXECUTION",
+  "status": "PASS",
+  "probe_sha256": "22bf41a67d3a4e42c48cc753938d0e7d39885ebf773d0111b4a620b323ed5a36",
+  "control_count": 7,
+  "database_calls": 0,
+  "writer_runtime_calls": 0,
+  "native_executed": false,
+  "production_go": false,
+  "controls": [
+    {
+      "arguments": [],
+      "expected_count": 32,
+      "status": "PASS",
+      "actual": {
+        "accepted": true,
+        "case_count": 32,
+        "label": "CP7_OW04_INITIAL",
+        "dispatches": [
+          "install"
+        ]
+      }
+    },
+    {
+      "arguments": [
+        "--native-empty"
+      ],
+      "expected_count": 44,
+      "status": "PASS",
+      "actual": {
+        "accepted": true,
+        "case_count": 44,
+        "label": "CP7_OW04_NATIVE_EMPTY",
+        "dispatches": [
+          "install"
+        ]
+      }
+    },
+    {
+      "arguments": [
+        "--fractional-hpp"
+      ],
+      "expected_count": 58,
+      "status": "PASS",
+      "actual": {
+        "accepted": true,
+        "case_count": 58,
+        "label": "CP7_OW04_FRACTIONAL_HPP",
+        "dispatches": [
+          "install"
+        ]
+      }
+    },
+    {
+      "arguments": [
+        "--signed-source"
+      ],
+      "expected_count": 63,
+      "status": "PASS",
+      "actual": {
+        "accepted": true,
+        "case_count": 63,
+        "label": "CP7_OW04_SIGNED_SOURCE",
+        "dispatches": [
+          "install"
+        ]
+      }
+    },
+    {
+      "arguments": [
+        "--unknown"
+      ],
+      "expected_count": null,
+      "status": "PASS",
+      "actual": {
+        "accepted": false,
+        "message": "Only explicit --native-empty, --fractional-hpp or --signed-source qualification options are supported",
+        "dispatches": []
+      }
+    },
+    {
+      "arguments": [
+        "--signed-source",
+        "--fractional-hpp"
+      ],
+      "expected_count": null,
+      "status": "PASS",
+      "actual": {
+        "accepted": false,
+        "message": "Only explicit --native-empty, --fractional-hpp or --signed-source qualification options are supported",
+        "dispatches": []
+      }
+    },
+    {
+      "arguments": [
+        "--signed-source",
+        "extra"
+      ],
+      "expected_count": null,
+      "status": "PASS",
+      "actual": {
+        "accepted": false,
+        "message": "Only explicit --native-empty, --fractional-hpp or --signed-source qualification options are supported",
+        "dispatches": []
+      }
+    }
+  ]
+}

@@ -111,6 +111,7 @@ jobs:
         PYTHONPATH=../auditor/scripts python -c "import sys; sys.argv.append('--native-empty'); import cp7_ow04_probe; assert len(cp7_ow04_probe.IDS)==44; print('OW04_NATIVE_EMPTY_IMPORT_ADMISSION_PASS_NATIVE_NOT_EXECUTED')"
         PYTHONPATH=../auditor/scripts python -c "import sys; sys.argv.append('--fractional-hpp'); import cp7_ow04_probe; assert len(cp7_ow04_probe.IDS)==58; print('OW04_FRACTIONAL_HPP_IMPORT_ADMISSION_PASS_NATIVE_NOT_EXECUTED')"
         PYTHONPATH=../auditor/scripts python -c "import sys; sys.argv.append('--signed-source'); import cp7_ow04_probe; assert len(cp7_ow04_probe.IDS)==63; print('OW04_SIGNED_SOURCE_IMPORT_ADMISSION_PASS_NATIVE_NOT_EXECUTED')"
+        PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=../auditor/scripts python ../auditor/scripts/cp7_customer_credit/reconciliation/native/cli_admission_recheck.py
     - name: Install candidate browser dependencies
       working-directory: auditor
       run: |

@@ -1,0 +1,66 @@
+{
+  "classification": "FIRST_NATIVE63_ATTEMPT_HARNESS_CLI_ADMISSION_DEFECT_BEFORE_PRODUCT_INSTALL",
+  "status": "INCOMPLETE",
+  "candidate": "17e9d5876964b76abb4ec04c925a7794ee1f5ec4",
+  "tree": "327815ad5aef09ff74870bd0f9e83c97ceabd499",
+  "run_id": 39542503493,
+  "job_id": 119033203293,
+  "workflow_conclusion": "failure",
+  "expected_native_count": 63,
+  "observed_native_count": 0,
+  "native_executed": false,
+  "production_go": false,
+  "first_error": "Only explicit --native-empty or --fractional-hpp qualification options are supported",
+  "first_error_utc": "2026-10-21T04:13:29.7777055Z",
+  "cause": "Probe import accepted SIGNED_SOURCE, but actual __main__ option allowlist omitted --signed-source. package.run never invoked.",
+  "disposition": "Add exact allowed CLI option; regression executes actual __main__ in isolated child with package dispatcher recorded and all DB connections refusing. Do not weaken monetary/case expectations.",
+  "log": {
+    "path": "job.log.gz",
+    "decoded_utf8_bytes": 236687,
+    "decoded_utf8_sha256": "acb0094f7939666cd105c04869f180cd1409b8206c920b95d08ad40e26951d7d"
+  },
+  "artifact": {
+    "id": 12320361564,
+    "bytes": 1605718,
+    "sha256": "2af85ed8a70aaf526f1f98d4c4df838bc38018f9be122dfc6ceb71d4c4c2b846",
+    "expires_at": "2026-11-20T04:13:35Z",
+    "members": [
+      {
+        "name": "ALIGNED_CHAIN.json",
+        "bytes": 17536,
+        "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+      },
+      {
+        "name": "CLONE_install.connection-fence.txt",
+        "bytes": 494,
+        "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+      },
+      {
+        "name": "CLONE_install.clone-erp.sql",
+        "bytes": 5385623,
+        "sha256": "d79276d126637bc55eec2318d63d3c130f64660e6e23309a86a6ffa5cdd43c63"
+      },
+      {
+        "name": "CLONE_install.database-identity.txt",
+        "bytes": 3074,
+        "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+      },
+      {
+        "name": "CLONE_install.source-erp.sql",
+        "bytes": 5385623,
+        "sha256": "d79276d126637bc55eec2318d63d3c130f64660e6e23309a86a6ffa5cdd43c63"
+      },
+      {
+        "name": "CLONE_install.txt",
+        "bytes": 291,
+        "sha256": "5f994a19d53524fa169170b05015ce82ac3979d96be0f967a4afb3f9fc255bc9"
+      }
+    ],
+    "archive_embedded": false
+  },
+  "limits": [
+    "No source product behavior ran; not a product transaction PASS or FAIL.",
+    "Six artifact members contain only aligned-chain/clone preparation, no Native63 report.",
+    "Native63 must execute on the corrected candidate; no receipt rebinding permitted."
+  ]
+}

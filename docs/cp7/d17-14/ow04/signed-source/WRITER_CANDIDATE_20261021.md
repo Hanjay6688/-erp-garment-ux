@@ -112,3 +112,15 @@ APPLY dan undo konsumen, koreksi nota/retur yang lebih luas, UI lengkap, serta
 HTTP/race/browser sumber baru masih terbuka. Regresi baru harus dibuktikan pada
 commit yang sama; kode hijau subset ini tidak menutup OW04 atau D17-14 seluruhnya.
 Sesudah checkpoint disimpan, writer melanjutkan backlog terotorisasi.
+
+## Kegagalan CI pertama dan perbaikan alat uji
+
+Run39542503493 pada17e9d587 berhenti di allowlist argumen __main__, sebelum
+package.run dan sebelum transaksi Native. Opsi signed-source sudah dikenali
+saat import, tetapi terlewat pada allowlist pemanggilan langsung. Log penuh,
+identitas artefak dan disposisinya disimpan di native-first-17e9d587/.
+Allowlist diperbaiki; tujuh kontrol mengeksekusi __main__ yang sebenarnya
+dalam child terisolasi dengan dispatcher dicatat dan semua koneksi menolak.
+Kontrol ini tidak menjalankan callback writer dan tidak menjadi Native PASS.
+Expected uang, stok dan daftar63 kasus tetap sama; kandidat perbaikan perlu
+menjalankan kualifikasi Native63 sungguhan.

@@ -175,7 +175,8 @@ def qualification_source_files():
             result['hpp-fractional/'+name] = hashlib.sha256((Path(fractional_hpp.__file__).parent/name).read_bytes()).hexdigest()
     if SIGNED_SOURCE:
         for name in ('EXPECTED.json', 'cp7_ow04_signed_source_cases.py',
-                     'ZERO_DIFF_EXPECTED.json', 'cp7_ow04_signed_zero_difference_cases.py'):
+                     'ZERO_DIFF_EXPECTED.json', 'cp7_ow04_signed_zero_difference_cases.py',
+                     'cli_admission_recheck.py'):
             result['reconciliation/native/'+name] = hashlib.sha256((Path(signed_source.__file__).parent/name).read_bytes()).hexdigest()
     return result
 
@@ -258,7 +259,7 @@ def run():
 
 
 if __name__ == '__main__':
-    if sys.argv[1:] not in ([],['--native-empty'],['--fractional-hpp']):
-        raise SystemExit('Only explicit --native-empty or --fractional-hpp qualification options are supported')
+    if sys.argv[1:] not in ([],['--native-empty'],['--fractional-hpp'],['--signed-source']):
+        raise SystemExit('Only explicit --native-empty, --fractional-hpp or --signed-source qualification options are supported')
     package._writer_runtime = lambda browser_mode=False:run()
     package.run('install')
