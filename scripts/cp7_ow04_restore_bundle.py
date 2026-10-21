@@ -42,7 +42,7 @@ QUERIES = {
  'schemas': "select n.nspname,jsonb_build_array(pg_get_userbyid(n.nspowner),"+_acl('n.nspacl','n.nspowner','n')+")from pg_namespace n where "+NAMESPACE,
  'relations': "select n.nspname||'.'||c.relname,jsonb_build_array(pg_get_userbyid(c.relowner),c.relkind,c.relpersistence,c.relrowsecurity,c.relforcerowsecurity,c.relispartition,c.relreplident,c.reloptions,c.relispopulated,case when c.relkind in('v','m')then pg_get_viewdef(c.oid,false)else null end,pg_get_partkeydef(c.oid),pg_get_expr(c.relpartbound,c.oid),case when c.relkind='S'then "+_acl('c.relacl','c.relowner','s')+"else "+_acl('c.relacl','c.relowner','r')+"end)from pg_class c join pg_namespace n on n.oid=c.relnamespace where "+NAMESPACE,
  'columns': "select n.nspname||'.'||c.relname||':'||a.attname,jsonb_build_array(a.attname,row_number()over(partition by c.oid order by a.attnum),format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,a.attstorage,a.attcompression,a.attstattarget,a.attoptions,a.attfdwoptions,a.attcollation::regcollation::text,a.attacl::text[],pg_get_expr(d.adbin,d.adrelid))from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attnum>0 and not a.attisdropped and "+NAMESPACE,
- 'constraints': "select n.nspname||'.'||coalesce(c.relname,t.typname)||':'||k.conname,jsonb_build_array(k.contype,k.condeferrable,k.condeferred,k.convalidated,k.conislocal,k.coninhcount,k.connoinherit,pg_get_constraintdef(k.oid,false))from pg_constraint k join pg_namespace n on n.oid=k.connamespace left join pg_class c on c.oid=k.conrelid left join pg_type t on t.oid=k.contypid where "+NAMESPACE,
+ 'constraints': "select n.nspname||'.'||coalesce(c.relname,t.typname)||':'||k.conname,jsonb_build_array(k.contype,k.condeferrable,k.condeferred,k.convalidated,k.conislocal,k.coninhcount,k.connoinherit,(select pn.nspname||'.'||pc.relname||':'||pk.conname from pg_constraint pk join pg_class pc on pc.oid=pk.conrelid join pg_namespace pn on pn.oid=pc.relnamespace where pk.oid=k.conparentid),case when k.conindid=0 then null else k.conindid::regclass::text end,c.oid::regclass::text,pg_get_constraintdef(k.oid,false))from pg_constraint k join pg_namespace n on n.oid=k.connamespace left join pg_class c on c.oid=k.conrelid left join pg_type t on t.oid=k.contypid where "+NAMESPACE,
  'indexes': "select n.nspname||'.'||c.relname,jsonb_build_array(pg_get_indexdef(i.indexrelid),i.indisvalid,i.indisready,i.indislive,i.indisclustered,i.indisreplident)from pg_index i join pg_class c on c.oid=i.indexrelid join pg_namespace n on n.oid=c.relnamespace where "+NAMESPACE,
  # CASE must stay text: PostgreSQL name would truncate a long RI identity to63 bytes.
  'triggers': "select n.nspname||'.'||c.relname||':'||case when t.tgisinternal then k.conrelid::regclass::text||':'||k.conname||':'||t.tgfoid::regprocedure::text||':'||t.tgtype::text else t.tgname::text end,jsonb_build_array(t.tgisinternal,t.tgenabled,t.tgtype,t.tgnargs,encode(t.tgargs,'hex'),coalesce((select jsonb_agg(a.attname order by x.ord)from unnest(t.tgattr::smallint[])with ordinality x(attnum,ord)join pg_attribute a on a.attrelid=t.tgrelid and a.attnum=x.attnum),'[]'::jsonb),t.tgdeferrable,t.tginitdeferred,t.tgfoid::regprocedure::text,case when t.tgisinternal then null else pg_get_triggerdef(t.oid,false)end,t.tgoldtable,t.tgnewtable,k.conname,case when t.tgconstrrelid=0 then null else t.tgconstrrelid::regclass::text end,case when t.tgparentid=0 then null else (select p.tgname from pg_trigger p where p.oid=t.tgparentid)end,k.conrelid::regclass::text)from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace left join pg_constraint k on k.oid=t.tgconstraint where "+NAMESPACE,
@@ -58,7 +58,7 @@ QUERIES = {
  'event_triggers': "select e.evtname,jsonb_build_array(e.evtevent,pg_get_userbyid(e.evtowner),e.evtfoid::regprocedure::text,e.evtenabled,e.evttags)from pg_event_trigger e",
  'rules': "select n.nspname||'.'||c.relname||':'||r.rulename,jsonb_build_array(r.ev_type,r.ev_enabled,r.is_instead,pg_get_ruledef(r.oid,false))from pg_rewrite r join pg_class c on c.oid=r.ev_class join pg_namespace n on n.oid=c.relnamespace where "+NAMESPACE,
  'inheritance': "select i.inhrelid::regclass::text||':'||i.inhseqno::text,to_jsonb(i.inhparent::regclass::text)from pg_inherits i join pg_class c on c.oid=i.inhrelid join pg_namespace n on n.oid=c.relnamespace where "+NAMESPACE,
- 'default_privileges': "select pg_get_userbyid(d.defaclrole)||':'||coalesce(n.nspname,'GLOBAL')||':'||d.defaclobjtype::text,"+_acl('d.defaclacl','d.defaclrole','r')+"from pg_default_acl d left join pg_namespace n on n.oid=d.defaclnamespace",
+ 'default_privileges': "select pg_get_userbyid(d.defaclrole)||':'||coalesce(n.nspname,'GLOBAL')||':'||d.defaclobjtype::text,"+_acl('d.defaclacl','d.defaclrole','r')+"from pg_default_acl d left join pg_namespace n on n.oid=d.defaclnamespace where d.defaclnamespace=0 or("+NAMESPACE+")",
  'database_authority': "select 'CURRENT',jsonb_build_array(pg_get_userbyid(d.datdba),pg_encoding_to_char(d.encoding),d.datcollate,d.datctype,d.datconnlimit,d.datistemplate,d.datallowconn,"+_acl('d.datacl','d.datdba','d')+",(select jsonb_agg(jsonb_build_array(case when s.setrole=0 then 'DATABASE'else pg_get_userbyid(s.setrole)end,encode(sha256(convert_to(s.setconfig::text,'UTF8')),'hex'))order by s.setrole)from pg_db_role_setting s where s.setdatabase=d.oid))from pg_database d where d.datname=current_database()",
  'type_implementation': "select t.oid::regtype::text,jsonb_build_array(t.typlen,t.typbyval,t.typdelim,t.typalign,t.typstorage,t.typndims,t.typrelid::regclass::text,t.typelem::regtype::text,t.typarray::regtype::text,t.typsubscript::regprocedure::text,t.typinput::regprocedure::text,t.typoutput::regprocedure::text,t.typreceive::regprocedure::text,t.typsend::regprocedure::text,t.typmodin::regprocedure::text,t.typmodout::regprocedure::text,t.typanalyze::regprocedure::text)from pg_type t join pg_namespace n on n.oid=t.typnamespace where "+NAMESPACE,
  'sequence_ownership': "select c.oid::regclass::text,jsonb_build_array(d.deptype,d.refobjid::regclass::text,a.attname)from pg_class c join pg_namespace n on n.oid=c.relnamespace join pg_depend d on d.classid='pg_class'::regclass and d.objid=c.oid and d.refclassid='pg_class'::regclass and d.deptype in('a','i')left join pg_attribute a on a.attrelid=d.refobjid and a.attnum=d.refobjsubid where c.relkind='S'and "+NAMESPACE,
@@ -163,6 +163,20 @@ def _portable(catalog):
                          ('columns',(-1,)),('rules',(-1,)),('triggers',(9,))):
         for row in result.get(kind,{}).values():
             for index in indexes:row[index]=_normal(row[index])
+    # pg_dump creates a partition PK as a local PK before attaching its index.
+    # connoinherit then remains true, whereas CREATE TABLE PARTITION OF leaves
+    # it false. Normalize only that flag after proving BOTH table and index
+    # attachment to the exact captured parent constraint. CHECK constraints,
+    # unattached PKs and every other constraint field stay exact.
+    for row in result.get('constraints',{}).values():
+        parent=result.get('constraints',{}).get(row[7])
+        if(row[0]=='p'and parent is not None and parent[0]=='p'
+           and row[4]is False and row[5]==1 and row[8]and row[9]
+           and result.get('inheritance',{}).get(row[8]+':1')==parent[8]
+           and result.get('inheritance',{}).get(row[9]+':1')==parent[9]
+           and result.get('relations',{}).get(row[8],[None]*6)[5]is True
+           and result.get('relations',{}).get(row[9],[None]*6)[5]is True):
+            row[6]=False
     return result
 
 
@@ -173,14 +187,18 @@ def rebind_restored(cur,backup,expected_sha256,*,expected_database):
     if backup.get('contract_version')!=VERSION or backup.get('sources')!=_sources()or backup.get('excluded_schemas')!=EXCLUDED:
         raise ValueError('OW04_RESTORE_SOURCE_OR_CONTRACT_CHANGED')
     identity=_authority(cur)
-    if identity['database']!=expected_database or identity==backup['source_identity']:
+    if identity['database']!=expected_database or identity['database_oid']==backup['source_identity']['database_oid']:
         raise ValueError('OW04_RESTORE_FRESH_EXPECTED_DATABASE_REQUIRED')
     _lock_tables(cur)
     actual=_catalog_rows(cur)
     portable_actual,portable_expected=_portable(actual),_portable(backup['catalog'])
     if portable_actual!=portable_expected:
         differences={kind:sorted(k for k in set(portable_actual.get(kind,{}))|set(portable_expected.get(kind,{}))if portable_actual.get(kind,{}).get(k)!=portable_expected.get(kind,{}).get(k))for kind in set(portable_actual)|set(portable_expected)}
-        raise ValueError('OW04_RESTORE_CATALOG_CHANGED: '+canonical({k:v for k,v in differences.items()if v}))
+        names={k:v for k,v in differences.items()if v}
+        # Privilege/constraint diagnostics carry no function bodies or GUCs.
+        details={kind:{key:dict(expected=portable_expected.get(kind,{}).get(key),actual=portable_actual.get(kind,{}).get(key))
+            for key in names[kind]}for kind in ('schemas','constraints','default_privileges')if kind in names}
+        raise ValueError('OW04_RESTORE_CATALOG_CHANGED: '+canonical(dict(objects=names,details=details)))
     before=_data(cur)
     if before!=backup['data']:raise ValueError('OW04_RESTORE_BUSINESS_ROWS_OR_SEQUENCE_CHANGED')
     guard=product.credit.load('ow04_restore_source_guard',product.credit.ROOT/'integration/source_triggers/trigger_guard.py')

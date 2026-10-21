@@ -1,0 +1,23 @@
+{
+  "classification": "LOCAL_PGLITE18_PLATFORM_METADATA_AND_EXACT_AST_ACL_SQL_NOT_NATIVE17_OR_BUSINESS_FLOW",
+  "status": "PASS",
+  "checks": [
+    "ACTUAL_PARTITION_PK_DDL_DIFFERENCE_REPRODUCED",
+    "ONLY_PROVEN_ATTACHED_PK_CONNOINHERIT_NORMALIZED",
+    "CRON_DEFAULT_ACL_MATCHES_DECLARED_EXCLUSION",
+    "EXACT_AST_SCHEMA_OWNER_GRANTOR_GRANT_OPTION_RESTORED",
+    "ROGUE_SCHEMA_GRANT_REMOVED",
+    "DETACHED_INDEX_NOT_NORMALIZED",
+    "DETACHED_TABLE_NOT_NORMALIZED",
+    "LOCAL_PK_FLAG_CHANGE_REFUSED",
+    "CHANGED_PK_DEFINITION_REFUSED",
+    "PARENT_PK_CHANGE_REFUSED"
+  ],
+  "check_count": 10,
+  "PG18_NOT_NULL_constraints_omitted_in_local_comparison_only": true,
+  "product_capture_omits_no_constraint": true,
+  "functions_owners_grants_not_normalized": true,
+  "restore_module_sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00",
+  "Native_cases_added": 0,
+  "production_go": false
+}

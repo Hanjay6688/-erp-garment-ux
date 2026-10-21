@@ -30,6 +30,20 @@ OUT=product.ROOT/'cp6-proof/t3/CP7_OW04_USED_RESTORE.json'
 DECLARATION_BYTES=(product.ROOT/'docs/cp7/d17-14/ow04/USED_RESTORE_QUALIFICATION.json').read_bytes()
 DECLARATION=json.loads(DECLARATION_BYTES)
 assert DECLARATION['expected_scenario_count']==1 and DECLARATION['required_native_case_count']==87
+PLATFORM_SCHEMAS=('graphql','graphql_public')
+
+
+def _platform_schema_authority(cur):
+    """Exact source grants for two extension-created platform schemas."""
+    result={}
+    for name,owner in cur.execute('select nspname,pg_get_userbyid(nspowner)from pg_namespace '
+            'where nspname=any(%s::text[])order by nspname',(list(PLATFORM_SCHEMAS),)).fetchall():
+        grants=cur.execute("select case when a.grantee=0 then'PUBLIC'else pg_get_userbyid(a.grantee)end,"
+            'a.privilege_type,a.is_grantable,pg_get_userbyid(a.grantor)from pg_namespace n '
+            "cross join lateral aclexplode(coalesce(n.nspacl,acldefault('n',n.nspowner)))a "
+            'where n.nspname=%s order by 1,2,3,4',(name,)).fetchall()
+        result[name]=dict(owner=owner,grants=grants)
+    return result
 
 
 def _database_profile(db):
@@ -44,7 +58,8 @@ def _database_profile(db):
             'from pg_db_role_setting s join pg_database d on d.oid=s.setdatabase '
             'where d.datname=current_database()order by 1 nulls first').fetchall()
         assert owner=='postgres'and all(row[3]==owner for row in grants),'USED_RESTORE_SOURCE_DATABASE_AUTHORITY_CHANGED'
-        return dict(owner=owner,encoding=encoding,collate=collate,ctype=ctype,limit=limit,grants=grants,settings=settings)
+        return dict(owner=owner,encoding=encoding,collate=collate,ctype=ctype,limit=limit,
+            grants=grants,settings=settings,platform_schemas=_platform_schema_authority(cur))
 
 
 def _restore(path,db,profile):
@@ -75,10 +90,30 @@ def _restore(path,db,profile):
                 else:
                     command=sql.SQL('alter role {} in database {} set {} to {}').format(sql.Identifier(role),sql.Identifier(db),sql.Identifier(key),sql.Literal(value))
                 cur.execute(command)
+        # pg_graphql creates these schemas during CREATE EXTENSION. Replay the
+        # source backup's exact owner/grants; do not treat privilege drift as
+        # portable equality. This is an explicit caller restore step, before
+        # the product API attests metadata and changes its sole OID seal.
+        original_user=cur.execute('select current_user').fetchone()[0]
+        for name,wanted in profile['platform_schemas'].items():
+            assert name in PLATFORM_SCHEMAS and all(g[3]==wanted['owner']for g in wanted['grants'])
+            current=actual['platform_schemas'][name]
+            cur.execute(sql.SQL('alter schema {} owner to {}').format(sql.Identifier(name),sql.Identifier(wanted['owner'])))
+            cur.execute(sql.SQL('set local role {}').format(sql.Identifier(wanted['owner'])))
+            for grantee in sorted({'PUBLIC',current['owner'],wanted['owner']}|{g[0]for g in current['grants']}):
+                principal=sql.SQL('public')if grantee=='PUBLIC'else sql.Identifier(grantee)
+                cur.execute(sql.SQL('revoke all privileges on schema {} from {} cascade').format(sql.Identifier(name),principal))
+            for grantee,privilege,grantable,grantor in wanted['grants']:
+                assert privilege in('CREATE','USAGE')and grantor==wanted['owner']
+                principal=sql.SQL('public')if grantee=='PUBLIC'else sql.Identifier(grantee)
+                cur.execute(sql.SQL('grant {} on schema {} to {}{}').format(sql.SQL(privilege),sql.Identifier(name),principal,
+                    sql.SQL(' with grant option'if grantable else'')))
+            cur.execute(sql.SQL('set local role {}').format(sql.Identifier(original_user)))
         conn.commit()
     assert _database_profile(db)==profile,'USED_RESTORE_DATABASE_OWNER_ACL_OR_SETTINGS_CHANGED'
     return dict(exit=result.returncode,error_count=len(errors),unexplained=unexplained[:40],
-        only_pg_cron_errors=not unexplained,database_owner_acl_and_settings_preserved=True)
+        only_pg_cron_errors=not unexplained,database_owner_acl_and_settings_preserved=True,
+        platform_schema_authority_restored=sorted(profile['platform_schemas']))
 
 
 def _roles(cur):
