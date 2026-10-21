@@ -282,6 +282,15 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     (170 kasus). Sebelum dispatch, baca baris `SCENARIO_PATH`/`BROWSER_PATH` (atau masukan lain) di log run pembanding dan
     pakai yang sama; sesudah run, cocokkan jumlah kasus dengan run pembanding sebelum menyebutnya lulus. (r6, 20 Okt)
 
+25x. **Data opsional di PL/pgSQL tetap mempunyai tipe pasti sejak pemanggilan pertama.** `RECORD` yang hanya diisi
+    ketika invoice tujuan ada dapat gagal dengan SQLSTATE55000 saat cabang JSON/CASE disiapkan, walaupun permintaan kas
+    tidak memilih invoice tujuan. Pemanggilan sebelumnya pada sesi yang sama dapat menutupi cacat ini. Pakai variabel
+    nullable bertipe kolom yang eksplisit dan pertahankan seluruh penjaga identitas/uang/tanggal. Uji pada sesi baru:
+    tujuan kosong dahulu, tujuan ada dahulu lalu kosong, dan hasil dengan tujuan yang sama. REFUND dan pembatalan
+    refund pertama gagal pada UI8 `f41acbae`; kontrol reproduksi membedakan backend dingin dari hangat, dan sumber
+    `da6a5454` lulus current42 tanpa mengganti oracle. Bukti: `cp7/d17-14/ow04/consumer-ui-selector-record-fix/` dan
+    `cp7/d17-14/ow04/consumer-current42-da6a5454-pass/`. (WR-OW04-UI8-55000, 22 Okt)
+
 ## F. Proses audit
 
 26. **Minimal tiga auditor independen, tanpa saling intip sampai laporan dikunci.** Putaran `dfab13bf`: delapan akar
