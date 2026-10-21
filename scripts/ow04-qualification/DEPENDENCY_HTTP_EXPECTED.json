@@ -1,0 +1,25 @@
+{
+  "contract_version": "ow04.credit-dependency-http.v1",
+  "classification": "PREDECLARED_REAL_AUTH_HTTP_NOT_YET_EXECUTED",
+  "required_full_native_count": 73,
+  "case_count": 4,
+  "cases": [
+    {
+      "id": "OW04_HTTP_DEPENDENCY_REFUND_DOCUMENT"
+    },
+    {
+      "id": "OW04_HTTP_DEPENDENCY_CREDIT_PROVEN_EMPTY"
+    },
+    {
+      "id": "OW04_HTTP_DEPENDENCY_REVOKED_AND_ANON_DENIED"
+    },
+    {
+      "id": "OW04_HTTP_DEPENDENCY_STALE_AND_QUERY_REFUSED"
+    }
+  ],
+  "preserved_initial_count": 8,
+  "preserved_source_count": 6,
+  "total_http_count": 18,
+  "product_responses_mocked": false,
+  "production_go": false
+}

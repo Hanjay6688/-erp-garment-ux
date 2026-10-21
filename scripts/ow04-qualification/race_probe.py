@@ -10,6 +10,7 @@ import cp7_ow04_race_cases as race_cases
 import cp7_ow04_source_inverse_race_cases as source_race_cases
 import cp6_auditor_modes as modes
 import psycopg
+import full_backend
 from cp6_t3_aligned_install import advisors,advisor_delta
 p09,package,credit=core.p09,core.package,core.credit
 OUT=p09.bundle.ROOT/'cp6-proof/t3/CP7_OW04_RACES.json'
@@ -29,7 +30,7 @@ def run():
     # Fail before opening a connection if any previously qualified product or
     # installer dependency differs. Only this explicit qualification may differ.
     reused=transport_backend.qualified_core()
-    assert reused['native_case_count']==63,'OW04_SOURCE_RACE_ACTUAL_NATIVE63_REQUIRED'
+    assert reused['native_case_count']==73,'OW04_SOURCE_RACE_ACTUAL_FULL_NATIVE73_REQUIRED'
     retained=source_race_cases.assert_retained_bytes(REPO)
     report=dict(label='CP7_OW04_RACES',status='INCOMPLETE',expected_case_count=6,required_case_ids=list(race_cases.IDS),
         candidate_commit=git('rev-parse','HEAD'),core_directory_tree=git('rev-parse','HEAD:scripts/cp7_customer_credit'),
@@ -39,6 +40,7 @@ def run():
         race_cases_sha256=hashlib.sha256(Path(race_cases.__file__).read_bytes()).hexdigest(),
         race_probe_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         transport_entry_sha256=hashlib.sha256(Path(transport_backend.__file__).read_bytes()).hexdigest(),
+        full_backend_sha256=hashlib.sha256(Path(full_backend.__file__).read_bytes()).hexdigest(),
         reused_native_binding=reused,
         source_predeclared_case_sha256=hashlib.sha256(SOURCE_DECLARATION_BYTES).hexdigest(),
         source_race_cases_sha256=hashlib.sha256(Path(source_race_cases.__file__).read_bytes()).hexdigest(),
@@ -52,29 +54,25 @@ def run():
         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
             p09.wip.policy.bf.verified(cur)
             before=core.restore_state.capture(cur,package.boundary.snapshot,core.predecessor.public_state,p09.functions);conn.rollback()
-            originals=core.install_predecessor(cur,report)
+            originals=full_backend.install(cur,report)
             report['verified_predecessor_info_manifest']=core.predecessor_info_manifest(cur)
-            core.STATE=credit.install(cur,core.predecessor.verify,p09.functions,native_empty=True)
-            p09.INSTALLED_FUNCTIONS=p09.functions(cur)
-            report['integrated_source_verification']=core.verify(cur)
+            report['integrated_source_verification']=full_backend.verify(cur)
             conn.commit();installed=True;conn.rollback()
         report['advisors_with_cp7']=advisors(package.boundary.PG)
-        report['races']=modes.run_races(race_cases,core.verify,'cp7_ow04_settlement')
+        report['races']=modes.run_races(race_cases,full_backend.verify,'cp7_ow04_settlement')
         if report['races'].get('database_remaining',1)!=0:
             raise ValueError('OW04_SOURCE_RACES_REFUSE_RETAINED_DATABASE_NOT_REMOVED')
         # This is a separately declared group, with its own fresh copied DB per
         # case. Old-six IDs, assertions and report counts stay unchanged. The
         # actual Native63 gate above owns runtime eligibility; candidate978 in
         # the frozen source declaration is explicitly proposal provenance.
-        report['source_races']=modes.run_races(source_race_cases,core.verify,'cp7_ow04_source_inverse')
+        report['source_races']=modes.run_races(source_race_cases,full_backend.verify,'cp7_ow04_source_inverse')
     except Exception as error:report.update(error=str(error),traceback=traceback.format_exc())
     finally:
         if installed:
             try:
                 with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
-                    credit.uninstall(cur,core.STATE)
-                    for definition in originals.values():cur.execute(definition,prepare=False)
-                    for role in core.predecessor.bundle.ROLES:cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
+                    full_backend.uninstall(cur,originals)
                     conn.commit()
                     report['cp6_restored']=core.restore_state.prove(cur,before,package.boundary.snapshot,core.predecessor.public_state,p09.functions,report)
                     conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()

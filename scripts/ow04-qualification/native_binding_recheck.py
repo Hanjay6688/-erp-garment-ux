@@ -23,20 +23,31 @@ def exercise(count,mutation=None):
         root=Path(folder);entry=root/'scripts/ow04-qualification/transport_probe.py'
         entry.parent.mkdir(parents=True)
         name={44:'NATIVE_EMPTY_QUALIFICATION.json',58:'NATIVE_FRACTIONAL_QUALIFICATION.json',
-              63:'NATIVE_SIGNED_SOURCE_QUALIFICATION.json'}[count]
+              63:'NATIVE_SIGNED_SOURCE_QUALIFICATION.json',73:'CREDIT_DEPENDENCY_NATIVE_QUALIFICATION.json'}[count]
         declaration=(REPO/'docs/cp7/d17-14/ow04'/name).read_bytes()
         target=root/'docs/cp7/d17-14/ow04'/name;target.parent.mkdir(parents=True);target.write_bytes(declaration)
         ids=json.loads(declaration)['required_case_ids']
         receipt=dict(candidate='a'*40,tree='b'*40,run_id=100,job_id=200,workflow_conclusion='success',
             counts={'PASS':count},summary=dict(status='PASS',expected_case_count=count,
                 observed_case_count=count,cp6_restored=True,advisor_gate=True),
-            cases=[dict(id=ident,status='PASS')for ident in ids],
+            cases=[dict(id=ident,status='PASS',full_boundary_restored=True,public_schema_unchanged=True,
+                session_leaks={'advisory_locks':0,'advisory_lock_keys':[],'other_sessions':[]})for ident in ids],
             package_gate={key:True for key in('installed','primary_unchanged','backup_restore_drill','security_advisors','writer_runtime')})
         binding=dict(status='PASS',native_case_count=count,candidate=receipt['candidate'],tree=receipt['tree'],
             run_id=100,job_id=200,core_directory_tree='c'*40,native_probe_blob='d'*40,
             receipt='docs/cp7/d17-14/ow04/NATIVE_SYNTHETIC_CONTROL.json',
             qualification_declaration='docs/cp7/d17-14/ow04/'+name,qualification_declaration_sha256=sha(declaration))
         git_values=dict(core=binding['core_directory_tree'],probe=binding['native_probe_blob'],changes='scripts/ow04-qualification/native_binding_recheck.py')
+        if count==73:
+            old_name='docs/cp7/d17-14/ow04/FULL_INSTALL_QUALIFICATION.json'
+            old_bytes=(REPO/old_name).read_bytes();(root/old_name).write_bytes(old_bytes)
+            binding.update(classification='REUSED_FULL_NATIVE73_RUNTIME_EXACT_CORE_BINDING_NOT_NEW_TRANSPORT_EXECUTION',
+                owning_installer_blob='e'*40,native_full_probe_blob='f'*40,
+                retained_native64_declaration=old_name,retained_native64_declaration_sha256=sha(old_bytes))
+            git_values.update(owning='e'*40,full_probe='f'*40)
+            receipt['full_composition']=dict(owning_installer_blob='e'*40,native_full_probe_blob='f'*40,
+                retained_case_count=64,additional_readonly_case_count=9,
+                preuse_exact_CP6_restore=True,used_rollback_refused=True)
         override={}
         if mutation:mutation(binding,receipt,git_values,override)
         raw=(json.dumps(receipt,sort_keys=True)+'\n').encode()
@@ -46,6 +57,8 @@ def exercise(count,mutation=None):
         def git(*args):
             if args==('rev-parse','HEAD:scripts/cp7_customer_credit'):return git_values['core']
             if args==('rev-parse','HEAD:scripts/cp7_ow04_probe.py'):return git_values['probe']
+            if args==('rev-parse','HEAD:scripts/cp7_full_owning_install.py'):return git_values['owning']
+            if args==('rev-parse','HEAD:scripts/cp7_full_ow04_probe.py'):return git_values['full_probe']
             assert args==('diff','--name-only',binding['candidate'],'--','scripts','src','supabase'),args
             return git_values['changes']
         namespace=dict(Path=Path,json=json,hashlib=hashlib,REPO=root,git=git,__file__=str(entry))
@@ -98,6 +111,26 @@ controls=(
     ('workflow_failed63',63,edit('receipt','workflow_conclusion','failure'),False),
     ('job_changed63',63,edit('receipt','job_id',999),False),
     ('core_changed63',63,edit('git','core','e'*40),False))
+
+additional=(
+    ('valid73',73,None,True),
+    ('fake63_relabelled73',73,lambda b,r,g,o:r.__setitem__('cases',r['cases'][:63]),False),
+    ('missing_dependency73',73,lambda b,r,g,o:r['cases'].pop(),False),
+    ('full_installer_changed73',73,edit('git','owning','0'*40),False),
+    ('full_probe_changed73',73,edit('git','full_probe','0'*40),False),
+    ('full_composition_changed73',73,lambda b,r,g,o:r['full_composition'].__setitem__('owning_installer_blob','0'*40),False),
+    ('preuse_restore_unproven73',73,lambda b,r,g,o:r['full_composition'].__setitem__('preuse_exact_CP6_restore',False),False),
+    ('used_rollback_unproven73',73,lambda b,r,g,o:r['full_composition'].__setitem__('used_rollback_refused',False),False),
+    ('private_boundary_changed73',73,lambda b,r,g,o:r['cases'][0].__setitem__('full_boundary_restored',False),False),
+    ('public_catalog_changed73',73,lambda b,r,g,o:r['cases'][0].__setitem__('public_schema_unchanged',False),False),
+    ('advisory_lock_leak73',73,lambda b,r,g,o:r['cases'][0]['session_leaks'].__setitem__('advisory_locks',1),False),
+    ('other_session_leak73',73,lambda b,r,g,o:r['cases'][0]['session_leaks'].__setitem__('other_sessions',[12345]),False),
+    ('retained64_declaration_changed73',73,edit('binding','retained_native64_declaration_sha256','0'*64),False),
+    ('readonly_case_failed73',73,lambda b,r,g,o:r['cases'][-1].__setitem__('status','INCOMPLETE'),False),
+)
+controls+=additional
+CONTROL_IDS+=tuple(row[0]for row in additional)
+
 assert tuple(row[0]for row in controls)==CONTROL_IDS
 results=[]
 for ident,count,mutation,want_pass in controls:

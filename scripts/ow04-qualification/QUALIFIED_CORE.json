@@ -13,5 +13,7 @@
   "receipt": "docs/cp7/d17-14/ow04/dependency-bb3e4f64-native73-pass/RECEIPT.json",
   "receipt_sha256": "4cd2ee192bd7f9a4e312211c95d4a96be38f310eede5d835d6bdfc640c9dd0c4",
   "qualification_declaration": "docs/cp7/d17-14/ow04/CREDIT_DEPENDENCY_NATIVE_QUALIFICATION.json",
-  "qualification_declaration_sha256": "d835ad1b4a7b919bfce48f7b899627dd68e774c9798121c4cd6d18665a8be0e2"
+  "qualification_declaration_sha256": "d835ad1b4a7b919bfce48f7b899627dd68e774c9798121c4cd6d18665a8be0e2",
+  "retained_native64_declaration": "docs/cp7/d17-14/ow04/FULL_INSTALL_QUALIFICATION.json",
+  "retained_native64_declaration_sha256": "0a422c7e8973569c7fb1b1878811199da9d4321eb91524feb636e69d53f5e6da"
 }

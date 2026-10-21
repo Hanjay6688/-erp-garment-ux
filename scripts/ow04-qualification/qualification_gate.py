@@ -8,11 +8,12 @@ def require(root,candidate,step_outcomes=None):
     expected_dir=Path(__file__).resolve().parent
     binding_bytes=(expected_dir/'QUALIFIED_CORE.json').read_bytes()
     binding=json.loads(binding_bytes)
-    assert binding.get('status')=='PASS'and binding.get('native_case_count')==63,'OW04_FINAL_SIGNED_SOURCE_NATIVE63_NOT_QUALIFIED'
+    assert binding.get('status')=='PASS'and binding.get('native_case_count')in(63,73),'OW04_FINAL_NATIVE_NOT_QUALIFIED'
+    full=binding['native_case_count']==73
     expected_binding=dict(**binding,binding_sha256=hashlib.sha256(binding_bytes).hexdigest())
     counts={};reports={}
     for label,file,group,declaration,count in (
-        ('HTTP','CP7_OW04_HTTP.json','http','EXPECTED.json',14),
+        ('HTTP','CP7_OW04_HTTP.json','http','EXPECTED.json',18 if full else 14),
         ('RACES','CP7_OW04_RACES.json','races','RACE_EXPECTED.json',6)):
         declaration_bytes=(expected_dir/declaration).read_bytes()
         ids=[r['id']for r in json.loads(declaration_bytes)['cases']]
@@ -25,6 +26,13 @@ def require(root,candidate,step_outcomes=None):
             source_ids=[r['id']for r in source['cases']]
             assert len(initial_ids)==8 and len(source_ids)==6 and source['required_native_count']==63,'OW04_FINAL_SOURCE_DECLARATION_COUNT'
             ids+=source_ids
+            if full:
+                dependency_bytes=(expected_dir/'DEPENDENCY_HTTP_EXPECTED.json').read_bytes()
+                dependency=json.loads(dependency_bytes)
+                dependency_ids=[r['id']for r in dependency['cases']]
+                assert dependency['required_full_native_count']==73 and dependency['case_count']==len(dependency_ids)==4 and dependency['total_http_count']==18,'OW04_FINAL_DEPENDENCY_DECLARATION_COUNT'
+                assert not(set(dependency_ids)&set(ids)),'OW04_FINAL_DEPENDENCY_ID_COLLISION'
+                ids+=dependency_ids
         assert len(ids)==len(set(ids))==count,('OW04_FINAL_DECLARATION_CHANGED',label)
         report=json.loads((Path(root)/file).read_text());runtime=report.get(group,{})
         rows=runtime.get('cases'if label=='HTTP'else'races',{})
@@ -42,10 +50,14 @@ def require(root,candidate,step_outcomes=None):
         if label=='HTTP':
             assert report.get('source_predeclared_case_sha256')==hashlib.sha256(source_bytes).hexdigest(),'OW04_FINAL_SOURCE_DECLARATION_HASH'
             assert report.get('initial_required_case_ids')==initial_ids and report.get('source_required_case_ids')==source_ids,'OW04_FINAL_SOURCE_SUBGROUP_MEMBERSHIP'
-            assert report.get('expected_subgroup_counts')=={'INITIAL':8,'SOURCE':6},'OW04_FINAL_SOURCE_SUBGROUP_COUNTS'
+            assert report.get('expected_subgroup_counts')==({'INITIAL':8,'SOURCE':6,'DEPENDENCY':4}if full else{'INITIAL':8,'SOURCE':6}),'OW04_FINAL_SOURCE_SUBGROUP_COUNTS'
             for key,name in (('http_cases_sha256','cp7_ow04_http_cases.py'),('source_http_cases_sha256','cp7_ow04_source_http_cases.py'),
                              ('http_composition_sha256','cp7_ow04_all_http_cases.py'),('transport_probe_sha256','transport_probe.py')):
                 assert report.get(key)==hashlib.sha256((expected_dir/name).read_bytes()).hexdigest(),('OW04_FINAL_HTTP_IMPLEMENTATION_CHANGED',key)
+            if full:
+                assert report.get('dependency_predeclared_case_sha256')==hashlib.sha256(dependency_bytes).hexdigest(),'OW04_FINAL_DEPENDENCY_DECLARATION_HASH'
+                assert report.get('dependency_required_case_ids')==dependency_ids,'OW04_FINAL_DEPENDENCY_CASE_SET'
+                assert report.get('dependency_http_cases_sha256')==hashlib.sha256((expected_dir/'cp7_ow04_dependency_http_cases.py').read_bytes()).hexdigest(),'OW04_FINAL_DEPENDENCY_IMPLEMENTATION_CHANGED'
             assert(runtime.get('auth_counts')or{}).get('restored')is True and not runtime.get('cleanup_failures'), 'OW04_FINAL_AUTH_NOT_RESTORED'
         else:
             source_race_bytes=(expected_dir/'SOURCE_RACE_EXPECTED.json').read_bytes()
@@ -74,6 +86,9 @@ def require(root,candidate,step_outcomes=None):
             for key,name in(('source_race_cases_sha256','cp7_ow04_source_inverse_race_cases.py'),('race_probe_sha256','race_probe.py')):
                 assert report.get(key)==hashlib.sha256((expected_dir/name).read_bytes()).hexdigest(),('OW04_FINAL_SOURCE_RACE_IMPLEMENTATION_CHANGED',key)
             counts['SOURCE_RACES']=2
+        if full:
+            assert report.get('full_backend_sha256')==hashlib.sha256((expected_dir/'full_backend.py').read_bytes()).hexdigest(),('OW04_FINAL_FULL_BACKEND_IMPLEMENTATION_CHANGED',label)
+            assert (report.get('full_owning_source_manifest')or{}).get('predecessor_sql_sha256')=='e7701eaada592cfd74a8555cf4cdcb7df8d180448213d3bbf5698c3bfa025127',('OW04_FINAL_FULL_PREDECESSOR_NOT_INSTALLED',label)
         package_dir=Path(root).parent/'ow04-http-completed'if label=='HTTP'else Path(root)
         package_bytes=(package_dir/'T3_PACKAGE_INSTALL.json').read_bytes()
         package=json.loads(package_bytes);package_gate=package.get('gate',{})
