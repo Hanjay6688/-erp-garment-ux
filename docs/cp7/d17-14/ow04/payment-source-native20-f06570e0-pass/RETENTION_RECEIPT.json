@@ -1,0 +1,13 @@
+{
+  "classification": "LOSSLESS_ORIGINAL_NATIVE20_PASS_REPORT_CONTAINER_CHANGE_ONLY",
+  "raw_name": "CP7_OW04_PAYMENT_SOURCE_NATIVE20.json",
+  "raw_bytes": 4924912,
+  "raw_sha256": "bf6dc8a76bace20ab41c99fb7266e4266c268b8db8dfc3a418c49a62d0cc585e",
+  "xz_bytes": 31088,
+  "xz_sha256": "1c6d04e4e1cf26b074089c8babca27623ed09a8d089e47881cc18b0821410fa3",
+  "zip_bytes": 2124029,
+  "zip_sha256": "4217ee87631da25376cc9f7fe890435c3effd48d36dba3ab7d5aaf598830b255",
+  "original_gzip_raw_sha256_verified": true,
+  "JSON_reserialized": false,
+  "production_go": false
+}
