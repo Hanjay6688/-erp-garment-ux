@@ -1,0 +1,93 @@
+{
+  "http_race-CP7_OW04_HTTP.json.gz": {
+    "zip_member": "t3/CP7_OW04_HTTP.json",
+    "raw_bytes": 312318,
+    "raw_sha256": "f08eade6d602fae698c0e90e88f775abc5317726c161dea7d017e01deb5e59e9",
+    "gzip_bytes": 22190,
+    "gzip_sha256": "229a35bd7de2afd67a58a0f40cff7858b55815a356dde6838ee437f7b27c6924"
+  },
+  "http_race-CP7_OW04_RACES.json.gz": {
+    "zip_member": "t3/CP7_OW04_RACES.json",
+    "raw_bytes": 316899,
+    "raw_sha256": "7f2208a9d0aa8197fc381cf18d10f1a04e018422492d45036bd7636e3878950a",
+    "gzip_bytes": 21282,
+    "gzip_sha256": "e4c7f6da5f9ec29109a64fcd8010bc161bfc71bad9ddeb2a97a72a42567c5e72"
+  },
+  "http_race-ALIGNED_CHAIN.json.gz": {
+    "zip_member": "t3/ALIGNED_CHAIN.json",
+    "raw_bytes": 17536,
+    "raw_sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "gzip_bytes": 4768,
+    "gzip_sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75"
+  },
+  "http_race-T3_PACKAGE_INSTALL.json.gz": {
+    "zip_member": "t3/T3_PACKAGE_INSTALL.json",
+    "raw_bytes": 360432,
+    "raw_sha256": "8132ce2c93141cfac98d2fde36abaa26467241b9883222a1c55cbb9f29a84544",
+    "gzip_bytes": 11409,
+    "gzip_sha256": "5a5f3ec728259b81f18173d998fead213092661508235bf27e1ef2b2369a077f"
+  },
+  "http_race-T3_PACKAGE_FILES_INSTALL.json.gz": {
+    "zip_member": "t3/T3_PACKAGE_FILES_INSTALL.json",
+    "raw_bytes": 1806,
+    "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "gzip_bytes": 255,
+    "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+  },
+  "http_race-T3_BACKUP_RESTORE_DRILL.json.gz": {
+    "zip_member": "t3/T3_BACKUP_RESTORE_DRILL.json",
+    "raw_bytes": 10402,
+    "raw_sha256": "1babcb408fa39e1203ea4b6e3b72b89dd88bb42dbb448ece7527b92ededa2630",
+    "gzip_bytes": 1810,
+    "gzip_sha256": "b90e6c6f28c01b960c093a81632e58600e7f6f90554d4f91a34144dfb95e4274"
+  },
+  "http_race-OW04_HTTP_RACE_FINAL.json.gz": {
+    "zip_member": "t3/OW04_HTTP_RACE_FINAL.json",
+    "raw_bytes": 1336,
+    "raw_sha256": "ae0a2dc0869dd78dabfb8d6e838d9e7426ea5572537a425a354430a6c37b0c4c",
+    "gzip_bytes": 470,
+    "gzip_sha256": "0ac5b2f19803289827f2a78aa1d797c50ee66ffb09632b6258a9d2011a751377"
+  },
+  "browser-CP7_OW04_BROWSER.json.gz": {
+    "zip_member": "CP7_OW04_BROWSER.json",
+    "raw_bytes": 381088,
+    "raw_sha256": "1c823dead5018a4d17d591dea38c535f2c874dfddeb5131b127e246cc97197aa",
+    "gzip_bytes": 26756,
+    "gzip_sha256": "085ea78d2f7bbc20204c95e5f7b1f0f9ceac27358b9827fc7a11891d744ecb7c"
+  },
+  "browser-ALIGNED_CHAIN.json.gz": {
+    "zip_member": "ALIGNED_CHAIN.json",
+    "raw_bytes": 17536,
+    "raw_sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "gzip_bytes": 4768,
+    "gzip_sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75"
+  },
+  "browser-T3_PACKAGE_INSTALL.json.gz": {
+    "zip_member": "T3_PACKAGE_INSTALL.json",
+    "raw_bytes": 360437,
+    "raw_sha256": "e9f52b58484250d8989792d1440521e05c8274119cb89c2c9b577e4114496e5e",
+    "gzip_bytes": 11410,
+    "gzip_sha256": "101227f62a43c89e2ddb3f0794a7305e035e640602a82639d1b4fe9a73edd678"
+  },
+  "browser-T3_PACKAGE_FILES_INSTALL.json.gz": {
+    "zip_member": "T3_PACKAGE_FILES_INSTALL.json",
+    "raw_bytes": 1806,
+    "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "gzip_bytes": 255,
+    "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+  },
+  "browser-T3_BACKUP_RESTORE_DRILL.json.gz": {
+    "zip_member": "T3_BACKUP_RESTORE_DRILL.json",
+    "raw_bytes": 10402,
+    "raw_sha256": "177725ade056620b91630553cc95b3dd709cbb1a9e17b0e40d57ac0fff69428b",
+    "gzip_bytes": 1809,
+    "gzip_sha256": "a34928d478d99b3bb83ebc1cb603fa07511706f76f9eb2a75af4a625b618bc29"
+  },
+  "browser-OW04_BROWSER_HOST_1.json.gz": {
+    "zip_member": "OW04_BROWSER_HOST_1.json",
+    "raw_bytes": 46274,
+    "raw_sha256": "56be30c2f9d38c9186afff2630306e4f75482510e48a13cc1c5ee5c5dfc5c2e1",
+    "gzip_bytes": 5163,
+    "gzip_sha256": "8b3bb64c13671d38cd84e3b49e29be3576094b37bf663a901653a103882e0a12"
+  }
+}

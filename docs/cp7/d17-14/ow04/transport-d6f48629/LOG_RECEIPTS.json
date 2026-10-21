@@ -1,0 +1,14 @@
+{
+  "http_race": {
+    "raw_bytes": 356962,
+    "raw_sha256": "e83d1e5afafde9a5d61de5e07b58477d707de653198a5053bbbb010ba5177614",
+    "gzip_bytes": 55176,
+    "gzip_sha256": "6251a153d5e6676c43a40efd7ba8f39e0c99ad987fe5845477fa93dbfee3de92"
+  },
+  "browser": {
+    "raw_bytes": 301333,
+    "raw_sha256": "7bd4c61630535e84b8e5d89dda3e4e20fc9f3dc5492b08f2eab64a83bf5e2bf7",
+    "gzip_bytes": 45267,
+    "gzip_sha256": "79a8735b287a00e5c1b0799d863323fdba7e50862374dc0a46dfd4a51d575ee3"
+  }
+}

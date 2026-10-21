@@ -1,0 +1,429 @@
+{
+  "classification": "ACTUAL_GITHUB_HTTP_RACE_BROWSER_RUNTIME_REUSING_NATIVE58",
+  "candidate": "d6f48629de480647b0c46f08e70bd89c6520644f",
+  "candidate_tree": "51b2865d0911e673424875ade5917fb38a6eb82d",
+  "native_candidate": "3a667e938bb1485a0f4206483d107b6ac76e347d",
+  "native_receipt": "CI_3A667_NATIVE58_PASS.json",
+  "workflows": [
+    {
+      "kind": "http_race",
+      "run_id": 39533912590,
+      "job_id": 119005982799,
+      "conclusion": "success",
+      "artifact_id": 12316886964,
+      "artifact_bytes": 4907210,
+      "artifact_sha256": "ee1616183ad0e76963a1f4270a83f64404fc4400a04ee0f7a51201533e4ea5df",
+      "package_gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "reports": [
+        {
+          "label": "CP7_OW04_HTTP",
+          "status": "PASS",
+          "expected_case_count": 8,
+          "observed_case_count": 8,
+          "core_directory_tree": "65539d2ccc3a0973727310e6c501077da7bbc07b",
+          "native_probe_blob": "2b84e0bac62cee18bd95928133e4c163feef75a7",
+          "reused_native_binding": {
+            "classification": "REUSED_NATIVE58_RUNTIME_EXACT_CORE_BINDING_NOT_NEW_TRANSPORT_EXECUTION",
+            "candidate": "3a667e938bb1485a0f4206483d107b6ac76e347d",
+            "tree": "a48bb1ebed975ef297fdc41aec2f712d9aebc5b8",
+            "run_id": 39532484310,
+            "job_id": 119001397111,
+            "status": "PASS",
+            "native_case_count": 58,
+            "core_directory_tree": "65539d2ccc3a0973727310e6c501077da7bbc07b",
+            "native_probe_blob": "2b84e0bac62cee18bd95928133e4c163feef75a7",
+            "receipt": "docs/cp7/d17-14/ow04/CI_3A667_NATIVE58_PASS.json",
+            "receipt_sha256": "fe8aaee63e86f98e93964bcc2d1958149440075655cd80b8847cabbeea81e9a2",
+            "qualification_declaration": "docs/cp7/d17-14/ow04/NATIVE_FRACTIONAL_QUALIFICATION.json",
+            "qualification_declaration_sha256": "cf99eed6af683603c3f42dafc120884a4c49e805b2c10865b047ac3c9c2c5d41",
+            "binding_sha256": "acaa8d9770ffed8bd23fefbc387fed190df5d8dd657ad1c320d0d73a1b15536c"
+          },
+          "cp6_restored": true,
+          "restore_raw_public_equal": true,
+          "advisor_gate": true,
+          "restore_components": {
+            "erp_platform_auth_schema_acl": true,
+            "all_public_catalog_members_and_row_hashes": true,
+            "erp_public_auth_function_definitions_owners_acls": true
+          },
+          "cases": {
+            "OW04_HTTP_CREDIT_COMMIT_REPLAY": {
+              "status": "PASS",
+              "session_leaks": []
+            },
+            "OW04_HTTP_REFUND_COMMIT_REPLAY": {
+              "status": "PASS",
+              "session_leaks": []
+            },
+            "OW04_HTTP_CHANGED_PAYLOAD_REFUSAL": {
+              "status": "PASS",
+              "session_leaks": []
+            },
+            "OW04_HTTP_REVOKED_REPLAY_REFUSAL": {
+              "status": "PASS",
+              "session_leaks": []
+            },
+            "OW04_HTTP_QUOTE_DIGEST_REFUSAL": {
+              "status": "PASS",
+              "session_leaks": []
+            },
+            "OW04_HTTP_RESERVED_PLAN_REFUSAL": {
+              "status": "PASS",
+              "session_leaks": []
+            },
+            "OW04_HTTP_ANON_REFUSAL": {
+              "status": "PASS",
+              "session_leaks": []
+            },
+            "OW04_HTTP_NON_OWNER_REFUND_REFUSAL": {
+              "status": "PASS",
+              "session_leaks": []
+            }
+          }
+        },
+        {
+          "label": "CP7_OW04_RACES",
+          "status": "PASS",
+          "expected_case_count": 6,
+          "observed_case_count": 6,
+          "core_directory_tree": "65539d2ccc3a0973727310e6c501077da7bbc07b",
+          "native_probe_blob": "2b84e0bac62cee18bd95928133e4c163feef75a7",
+          "reused_native_binding": {
+            "classification": "REUSED_NATIVE58_RUNTIME_EXACT_CORE_BINDING_NOT_NEW_TRANSPORT_EXECUTION",
+            "candidate": "3a667e938bb1485a0f4206483d107b6ac76e347d",
+            "tree": "a48bb1ebed975ef297fdc41aec2f712d9aebc5b8",
+            "run_id": 39532484310,
+            "job_id": 119001397111,
+            "status": "PASS",
+            "native_case_count": 58,
+            "core_directory_tree": "65539d2ccc3a0973727310e6c501077da7bbc07b",
+            "native_probe_blob": "2b84e0bac62cee18bd95928133e4c163feef75a7",
+            "receipt": "docs/cp7/d17-14/ow04/CI_3A667_NATIVE58_PASS.json",
+            "receipt_sha256": "fe8aaee63e86f98e93964bcc2d1958149440075655cd80b8847cabbeea81e9a2",
+            "qualification_declaration": "docs/cp7/d17-14/ow04/NATIVE_FRACTIONAL_QUALIFICATION.json",
+            "qualification_declaration_sha256": "cf99eed6af683603c3f42dafc120884a4c49e805b2c10865b047ac3c9c2c5d41",
+            "binding_sha256": "acaa8d9770ffed8bd23fefbc387fed190df5d8dd657ad1c320d0d73a1b15536c"
+          },
+          "cp6_restored": true,
+          "restore_raw_public_equal": true,
+          "advisor_gate": true,
+          "restore_components": {
+            "erp_platform_auth_schema_acl": true,
+            "all_public_catalog_members_and_row_hashes": true,
+            "erp_public_auth_function_definitions_owners_acls": true
+          },
+          "cases": {
+            "OW04_RACE_DISTINCT_REQUESTS_ONE_SETTLEMENT": {
+              "status": "PASS",
+              "session_leaks": []
+            },
+            "OW04_RACE_SAME_REQUEST_REPLAY": {
+              "status": "PASS",
+              "session_leaks": []
+            },
+            "OW04_RACE_CHANGED_REQUEST_REFUSAL": {
+              "status": "PASS",
+              "session_leaks": []
+            },
+            "OW04_RACE_REVOKED_AFTER_FG_WAIT": {
+              "status": "PASS",
+              "session_leaks": []
+            },
+            "OW04_RACE_HOLDER_ROLLBACK_RECOVERY": {
+              "status": "PASS",
+              "session_leaks": []
+            },
+            "OW04_RACE_BACKEND_TERMINATION_RECOVERY": {
+              "status": "PASS",
+              "session_leaks": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "browser",
+      "run_id": 39533912618,
+      "job_id": 119005983062,
+      "conclusion": "success",
+      "artifact_id": 12317136431,
+      "artifact_bytes": 9942886,
+      "artifact_sha256": "e098646555a5bd964704f8e3fe9349b1fa50639ad77fed6adc5c49d4beba2050",
+      "package_gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "reports": [
+        {
+          "label": "CP7_OW04_BROWSER",
+          "status": "PASS",
+          "expected_case_count": 4,
+          "observed_case_count": 4,
+          "core_directory_tree": "65539d2ccc3a0973727310e6c501077da7bbc07b",
+          "native_probe_blob": "2b84e0bac62cee18bd95928133e4c163feef75a7",
+          "reused_native_binding": {
+            "classification": "REUSED_NATIVE58_RUNTIME_EXACT_CORE_BINDING_NOT_NEW_TRANSPORT_EXECUTION",
+            "candidate": "3a667e938bb1485a0f4206483d107b6ac76e347d",
+            "tree": "a48bb1ebed975ef297fdc41aec2f712d9aebc5b8",
+            "run_id": 39532484310,
+            "job_id": 119001397111,
+            "status": "PASS",
+            "native_case_count": 58,
+            "core_directory_tree": "65539d2ccc3a0973727310e6c501077da7bbc07b",
+            "native_probe_blob": "2b84e0bac62cee18bd95928133e4c163feef75a7",
+            "receipt": "docs/cp7/d17-14/ow04/CI_3A667_NATIVE58_PASS.json",
+            "receipt_sha256": "fe8aaee63e86f98e93964bcc2d1958149440075655cd80b8847cabbeea81e9a2",
+            "qualification_declaration": "docs/cp7/d17-14/ow04/NATIVE_FRACTIONAL_QUALIFICATION.json",
+            "qualification_declaration_sha256": "cf99eed6af683603c3f42dafc120884a4c49e805b2c10865b047ac3c9c2c5d41",
+            "binding_sha256": "acaa8d9770ffed8bd23fefbc387fed190df5d8dd657ad1c320d0d73a1b15536c"
+          },
+          "cp6_restored": true,
+          "restore_raw_public_equal": true,
+          "advisor_gate": true,
+          "restore_components": {
+            "erp_platform_auth_schema_acl": true,
+            "all_public_catalog_members_and_row_hashes": true,
+            "erp_public_auth_function_definitions_owners_acls": true
+          },
+          "cases": {
+            "OW04_BROWSER_CREDIT_LOST_REPLY_DESKTOP": {
+              "status": "PASS",
+              "session_leaks": []
+            },
+            "OW04_BROWSER_REFUND_MOBILE": {
+              "status": "PASS",
+              "session_leaks": []
+            },
+            "OW04_BROWSER_QUOTE_EDIT_FENCE": {
+              "status": "PASS",
+              "session_leaks": []
+            },
+            "OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK": {
+              "status": "PASS",
+              "session_leaks": []
+            }
+          }
+        }
+      ],
+      "real_browser_host": {
+        "real_auth": true,
+        "product_responses_mocked": false,
+        "enteng_requests_answered_by_loopback": 108,
+        "enteng_route_errors": [],
+        "blocked_requests": 0,
+        "auth_cleanup_failures": [],
+        "console_errors": [],
+        "enteng_build": {
+          "runtime_mode": "UAT_AUTH_SIMULATION",
+          "supabase_origin": "https://siimvrusnzxexizpyoib.supabase.co",
+          "browser_key": "placeholder, not a project key"
+        }
+      },
+      "frontend": {
+        "archive_sha256": "09d063ce179be6f579aa561fb9ca7dd32841ecb838fef1199a7e7ca66e33d349",
+        "members_verified": 53,
+        "patch_sha256": {
+          "ui-parent-prerequisites.patch": "3b6838b18ede2d447a09ca54b0c3d6182f6394823cc00114d43af8488804d2b9",
+          "ui-parent-integration.patch": "62aeb04fa131541806827062dc0f3b3e64d027de70279a1078e904f971dbc9d9"
+        },
+        "base_source_sha256": {
+          "src/SalesReturnPanel.tsx": "4c4a22edc03fe9337c86f3ec15048de0c08685146f54a7e3271bb1ecf7c86f95",
+          "src/ConnectedSalesPage.tsx": "1737ea4bcd65982a46f14addd6a9450a2a58f8dd6d94e5252eafe74b2127f180",
+          "src/productionRecovery.ts": "0c759c3d2a62eea4066ae04b963777c6276b30a836ae4d40b7857416a79f3342",
+          "src/types/database.preconnect.ts": "85d8c08bca1abf26a57b411c10418ba3b4e857944080857a2a42c8d9a46e8fb9",
+          "src/useProductionMutation.ts": "6d2fe37e9fc47c9dee67951165415230002341bbaa23b1cd5433401f7681e8ed",
+          "src/salesReadContract.ts": "f51e1de4b71bc85f459200040e67fbc13ca96d72e5207ecbd9a025aaeb09fa2b"
+        },
+        "applied_UI_sha256": {
+          "src/ConnectedSalesPage.tsx": "0a623a7e95619326caf1153b8dc78d74613198d0f7d7eed33f7d62d32c109d41",
+          "src/ConnectedSalesSettlement.dom.test.tsx": "551f4d6cdbba7c5b72ccdd8b4042bd6198c7722fa2558017848386dbb4b5a437",
+          "src/SalesReturnPanel.tsx": "81bf2b9c5443e1ca3350a5d9d7783445ebd2395c81122d8476a747e8b07bcd19",
+          "src/SalesReturnSettlementSection.dom.test.tsx": "88020cddd6eb0e2b53ef67016dc1578c9d30c8cedc64560151c77ae44e93968b",
+          "src/SalesReturnSettlementSection.tsx": "508f863f9652e503846a6c9495266c879f7f3a2443868c0e7403289b4010e5a9",
+          "src/productionRecovery.ts": "b49466183db2d2e7d5f04f20bbf4a076c98235f87f71b9fb5b182748192c4705",
+          "src/salesReturnSettlementContract.test.ts": "f44a830e4c0490a38d4f87636ed42e818a4dd30aad3d5869f24b0168e0df3164",
+          "src/salesReturnSettlementContract.ts": "fa9e916cdfddeae72cfe842d4dd40c74a257f541396fa9ea55f09694ad7463cf",
+          "src/types/database.preconnect.ts": "a1e4bd8de4ff17b089f921e16ca99125bb2615f4b318a15161c0460cffb32ace"
+        },
+        "composition": "EXACT_ESCROW_UI_WITH_ATOMIC_QUALIFIED_BACKEND_ON_DISPOSABLE_COPY_ONLY",
+        "frontend_source_restored": true
+      }
+    }
+  ],
+  "timings": [
+    {
+      "case": "OW04_BROWSER_CREDIT_LOST_REPLY_DESKTOP",
+      "operation": "quote_to_complete_result",
+      "milliseconds": 498.7014330000002,
+      "owner_target_ms": 1000,
+      "within_target": true
+    },
+    {
+      "case": "OW04_BROWSER_REFUND_MOBILE",
+      "operation": "quote_to_complete_result",
+      "milliseconds": 310.3718700000027,
+      "owner_target_ms": 1000,
+      "within_target": true
+    },
+    {
+      "case": "OW04_BROWSER_REFUND_MOBILE",
+      "operation": "save_to_verified_authoritative_UI",
+      "milliseconds": 2041.7260749999987,
+      "owner_target_ms": 2000,
+      "within_target": false
+    },
+    {
+      "case": "OW04_BROWSER_QUOTE_EDIT_FENCE",
+      "operation": "quote_to_complete_result",
+      "milliseconds": 417.2071610000021,
+      "owner_target_ms": 1000,
+      "within_target": true
+    },
+    {
+      "case": "OW04_BROWSER_QUOTE_EDIT_FENCE",
+      "operation": "quote_to_complete_result",
+      "milliseconds": 332.4383340000022,
+      "owner_target_ms": 1000,
+      "within_target": true
+    },
+    {
+      "case": "OW04_BROWSER_QUOTE_EDIT_FENCE",
+      "operation": "save_to_verified_authoritative_UI",
+      "milliseconds": 1647.6446509999987,
+      "owner_target_ms": 2000,
+      "within_target": true
+    },
+    {
+      "case": "OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK",
+      "operation": "quote_to_complete_result",
+      "milliseconds": 415.9408540000004,
+      "owner_target_ms": 1000,
+      "within_target": true
+    }
+  ],
+  "feature_complete": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "limits": [
+    "Initial settlement journeys only; source inverses and later consumers remain open.",
+    "Race tests use authenticated SQL fixture and two real sessions, not real Auth.",
+    "Real browser uses exact escrow frontend on disposable copy; no Enteng writes.",
+    "Business PASS does not imply performance acceptance; save 2041.726075 ms exceeds 2000 ms."
+  ],
+  "log_receipts": {
+    "http_race": {
+      "raw_bytes": 356962,
+      "raw_sha256": "e83d1e5afafde9a5d61de5e07b58477d707de653198a5053bbbb010ba5177614",
+      "gzip_bytes": 55176,
+      "gzip_sha256": "6251a153d5e6676c43a40efd7ba8f39e0c99ad987fe5845477fa93dbfee3de92"
+    },
+    "browser": {
+      "raw_bytes": 301333,
+      "raw_sha256": "7bd4c61630535e84b8e5d89dda3e4e20fc9f3dc5492b08f2eab64a83bf5e2bf7",
+      "gzip_bytes": 45267,
+      "gzip_sha256": "79a8735b287a00e5c1b0799d863323fdba7e50862374dc0a46dfd4a51d575ee3"
+    }
+  },
+  "artifact_members": {
+    "http_race-CP7_OW04_HTTP.json.gz": {
+      "zip_member": "t3/CP7_OW04_HTTP.json",
+      "raw_bytes": 312318,
+      "raw_sha256": "f08eade6d602fae698c0e90e88f775abc5317726c161dea7d017e01deb5e59e9",
+      "gzip_bytes": 22190,
+      "gzip_sha256": "229a35bd7de2afd67a58a0f40cff7858b55815a356dde6838ee437f7b27c6924"
+    },
+    "http_race-CP7_OW04_RACES.json.gz": {
+      "zip_member": "t3/CP7_OW04_RACES.json",
+      "raw_bytes": 316899,
+      "raw_sha256": "7f2208a9d0aa8197fc381cf18d10f1a04e018422492d45036bd7636e3878950a",
+      "gzip_bytes": 21282,
+      "gzip_sha256": "e4c7f6da5f9ec29109a64fcd8010bc161bfc71bad9ddeb2a97a72a42567c5e72"
+    },
+    "http_race-ALIGNED_CHAIN.json.gz": {
+      "zip_member": "t3/ALIGNED_CHAIN.json",
+      "raw_bytes": 17536,
+      "raw_sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+      "gzip_bytes": 4768,
+      "gzip_sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75"
+    },
+    "http_race-T3_PACKAGE_INSTALL.json.gz": {
+      "zip_member": "t3/T3_PACKAGE_INSTALL.json",
+      "raw_bytes": 360432,
+      "raw_sha256": "8132ce2c93141cfac98d2fde36abaa26467241b9883222a1c55cbb9f29a84544",
+      "gzip_bytes": 11409,
+      "gzip_sha256": "5a5f3ec728259b81f18173d998fead213092661508235bf27e1ef2b2369a077f"
+    },
+    "http_race-T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "zip_member": "t3/T3_PACKAGE_FILES_INSTALL.json",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "http_race-T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "zip_member": "t3/T3_BACKUP_RESTORE_DRILL.json",
+      "raw_bytes": 10402,
+      "raw_sha256": "1babcb408fa39e1203ea4b6e3b72b89dd88bb42dbb448ece7527b92ededa2630",
+      "gzip_bytes": 1810,
+      "gzip_sha256": "b90e6c6f28c01b960c093a81632e58600e7f6f90554d4f91a34144dfb95e4274"
+    },
+    "http_race-OW04_HTTP_RACE_FINAL.json.gz": {
+      "zip_member": "t3/OW04_HTTP_RACE_FINAL.json",
+      "raw_bytes": 1336,
+      "raw_sha256": "ae0a2dc0869dd78dabfb8d6e838d9e7426ea5572537a425a354430a6c37b0c4c",
+      "gzip_bytes": 470,
+      "gzip_sha256": "0ac5b2f19803289827f2a78aa1d797c50ee66ffb09632b6258a9d2011a751377"
+    },
+    "browser-CP7_OW04_BROWSER.json.gz": {
+      "zip_member": "CP7_OW04_BROWSER.json",
+      "raw_bytes": 381088,
+      "raw_sha256": "1c823dead5018a4d17d591dea38c535f2c874dfddeb5131b127e246cc97197aa",
+      "gzip_bytes": 26756,
+      "gzip_sha256": "085ea78d2f7bbc20204c95e5f7b1f0f9ceac27358b9827fc7a11891d744ecb7c"
+    },
+    "browser-ALIGNED_CHAIN.json.gz": {
+      "zip_member": "ALIGNED_CHAIN.json",
+      "raw_bytes": 17536,
+      "raw_sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+      "gzip_bytes": 4768,
+      "gzip_sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75"
+    },
+    "browser-T3_PACKAGE_INSTALL.json.gz": {
+      "zip_member": "T3_PACKAGE_INSTALL.json",
+      "raw_bytes": 360437,
+      "raw_sha256": "e9f52b58484250d8989792d1440521e05c8274119cb89c2c9b577e4114496e5e",
+      "gzip_bytes": 11410,
+      "gzip_sha256": "101227f62a43c89e2ddb3f0794a7305e035e640602a82639d1b4fe9a73edd678"
+    },
+    "browser-T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "zip_member": "T3_PACKAGE_FILES_INSTALL.json",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "browser-T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "zip_member": "T3_BACKUP_RESTORE_DRILL.json",
+      "raw_bytes": 10402,
+      "raw_sha256": "177725ade056620b91630553cc95b3dd709cbb1a9e17b0e40d57ac0fff69428b",
+      "gzip_bytes": 1809,
+      "gzip_sha256": "a34928d478d99b3bb83ebc1cb603fa07511706f76f9eb2a75af4a625b618bc29"
+    },
+    "browser-OW04_BROWSER_HOST_1.json.gz": {
+      "zip_member": "OW04_BROWSER_HOST_1.json",
+      "raw_bytes": 46274,
+      "raw_sha256": "56be30c2f9d38c9186afff2630306e4f75482510e48a13cc1c5ee5c5dfc5c2e1",
+      "gzip_bytes": 5163,
+      "gzip_sha256": "8b3bb64c13671d38cd84e3b49e29be3576094b37bf663a901653a103882e0a12"
+    }
+  }
+}

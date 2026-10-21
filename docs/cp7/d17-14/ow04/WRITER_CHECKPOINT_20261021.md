@@ -24,13 +24,21 @@ independen serta bantahan/disposisinya berada di `hpp-fractional/`.
 
 Receipt `CI_3A667_NATIVE58_PASS.json` mengikat commit/tree/perintah/run/job,
 58 status kasus,5 gerbang paket, hash artefak dan laporan/log lengkap. Bukti
-HTTP8+race6 kandidat6f318261 dan browser4 kandidat142beaea adalah bukti lama;
-pengujian ulang terhadap backend3a667 disiapkan dengan QUALIFIED_CORE baru.
-Jangan menganggap keberhasilan lama otomatis membuktikan backend baru.
+HTTP8+race6 kandidat6f318261 dan browser4 kandidat142beaea tetap bukti lama.
+Pengujian ulang terhadap backend3a667 dengan QUALIFIED_CORE Native58 telah
+lulus pada kandidat d6f48629: HTTP8 dan race6 run39533912590/job119005982799;
+browser4 run39533912618/job119005983062. Kedua paket lulus5/5 gerbang,
+restore CP6/public penuh dan advisor. Receipt baru
+`CI_D6F48629_HTTP_RACE_BROWSER_PASS.json` mengikat hasil tersebut, artefak,
+laporan/log lengkap, konfigurasi Auth dan batas fixture race. Browser memakai
+build Enteng dan Auth sungguhan pada salinan sekali pakai;108 permintaan ke
+alamat Enteng dijawab loopback, tanpa mock respons produk, tanpa kegagalan
+cleanup Auth, tanpa galat console, dan sumber frontend dikembalikan persis.
 
 ## Pekerjaan yang terus berjalan
 
-- Kualifikasi HTTP8/race6/browser4 dengan binding backend Native58.
+- Kualifikasi HTTP8/race6/browser4 dengan binding backend Native58 selesai
+  terbatas pada initial settlement; bukan bukti source inverse/consumer baru.
 - Rekonsiliasi signed seluruh keluarga retur pada koreksi/pembatalan sumber:
   target per ordinal dikurangi seluruh retained actual I pada pasangan tanggal
   sebenarnya. Awal implementasi: RETURN_REVERSE atas CREDIT belum dipakai,
@@ -42,7 +50,9 @@ Jangan menganggap keberhasilan lama otomatis membuktikan backend baru.
 
 Direct Native EMPTY fractional HPP belum diklaim diperbaiki, matriks konversi
 semua kombinasi dan skala/performa belum dibuktikan. Target transaksi2detik
-dan laporan3detik tetap target; pengukuran browser lama2003,692ms dicatat
-sebagai melampaui2000ms. Tidak ada feature_complete, penerimaan audit atau
+dan laporan3detik tetap target; pengukuran browser lama2003,692ms tetap
+tersimpan. Run baru mencatat quote310,37–498,70ms dan simpan1647,64ms serta
+2041,73ms; simpan mobile terakhir masih melampaui2000ms.
+Tidak ada feature_complete, penerimaan audit atau
 production_go. Kandidat55c885d1 tetap beku; Enteng, main, cp7/integration,
 WA nyata dan Drive tidak disentuh.
