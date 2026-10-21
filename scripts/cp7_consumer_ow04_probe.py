@@ -1,4 +1,4 @@
-"""Bounded Native consumer7 on the actual qualified owning predecessor.
+"""Bounded Native consumer8 on the actual qualified owning predecessor.
 
 No hosted connection, provider, production install, CP7C rollout, full consumer
 acceptance or retrospective Native87 claim. The same closed disposable package
@@ -27,7 +27,7 @@ import composition as consumer
 import native_basic_cases as business
 
 package,native,p09=predecessor.package,predecessor.native,predecessor.p09
-LABEL='CP7_OW04_CONSUMER_NATIVE_BASIC7'
+LABEL='CP7_OW04_CONSUMER_NATIVE_BASIC8'
 OUT=predecessor.full.ROOT/'cp6-proof/t3'/f'{LABEL}.json'
 STATE=None
 
@@ -40,13 +40,13 @@ def verify(cur):
 
 def run():
     global STATE
-    report=dict(label=LABEL,status='INCOMPLETE',expected_case_count=7,required_case_ids=list(business.IDS),
+    report=dict(label=LABEL,status='INCOMPLETE',expected_case_count=8,required_case_ids=list(business.IDS),
         candidate_commit=subprocess.check_output(['git','-C',str(predecessor.full.ROOT),'rev-parse','HEAD'],text=True).strip(),
         qualified_predecessor_native_count=87,predecessor_native87_rerun=False,
         frozen_nine_arithmetic_sha256=business.fixture.EXPECTED_SHA256,
         consumer_sources=consumer.sources(),case_source_sha256=sha256(Path(business.__file__).read_bytes()).hexdigest(),
         fixture_source_sha256=sha256(Path(business.fixture.__file__).read_bytes()).hexdigest(),
-        scope='BOUNDED_FIRST_SEVEN_LITERAL_CONSUMER_CASES_ON_ACTUAL_NATIVE_WRITERS',
+        scope='BOUNDED_FIRST_EIGHT_LITERAL_CONSUMER_CASES_ON_ACTUAL_NATIVE_WRITERS',
         full_nine_case_consumer_acceptance=False,source_inverse_and_historical_restatement_qualified=False,
         real_Auth_HTTP_browser_race_qualified=False,formal_CP7C_started=False,
         production_go=False,feature_complete=False,independent_acceptance=False,qualification_only=True,hosted=False)
@@ -89,7 +89,7 @@ def run():
         report['observed_case_count']=sum(group.get('counts',{}).values())
         report['required_case_ids_pass']=set(group.get('cases',{}))==set(business.IDS)
         if not report.get('error')and report.get('cp6_restored')and report.get('advisor_gate')and report.get('required_case_ids_pass') \
-            and group.get('status')=='PASS'and group.get('counts')=={'PASS':7}and group.get('database_remaining',0)==0:
+            and group.get('status')=='PASS'and group.get('counts')=={'PASS':8}and group.get('database_remaining',0)==0:
             report['status']='PASS'
         OUT.parent.mkdir(parents=True,exist_ok=True)
         OUT.write_text(json.dumps(report,indent=2,default=str)+'\n')

@@ -31,9 +31,10 @@ await exec('ACTUAL_CURRENT_READER_DECLARATIONS',strip(read('../readers/01_curren
 await exec('ACTUAL_MATERIALIZED_READER_DECLARATIONS',strip(read('../readers/02_materialized_profile.proposal.sql')));
 await exec('ACTUAL_INITIAL_TABLE_DECLARATIONS',strip(read('../coordinator/01_coordinator_facts.sql').split('-- Fixed factual reader.')[0]));
 await exec('ACTUAL_REFUND_TABLE_DECLARATIONS',strip(read('../refund/01_initial_refund.proposal.sql').split('-- Separate, closed, one-call scope.')[0]));
+await exec('ACTUAL_SOURCE_OPERATION_FACT_DECLARATIONS',strip(read('../reconciliation/01_source_operation_facts.sql')));
 await exec('ACTUAL_REFUND_DATE_HELPER','create function cp7_credit.refund_physical_text'+read('../refund/01_initial_refund.proposal.sql').split('create function cp7_credit.refund_physical_text')[1].split('create function cp7_credit.initial_refund_proof_shape')[0]);
 await exec('ACTUAL_NATIVE_CENT_HELPERS',read('../ledger/02_uuid_poster.proposal.sql').split('create function cp7_credit.native_cent_lines')[1].split('-- Private per-part')[0].replace(/^/,'create function cp7_credit.native_cent_lines'));
-const accepted=JSON.parse(gunzipSync(readFileSync(acceptedPath))),pins=JSON.parse(read('SOURCE_PINS.json'));
+const accepted=JSON.parse(gunzipSync(readFileSync(acceptedPath))),pins={functions:{...JSON.parse(read('SOURCE_PINS.json')).functions,...JSON.parse(read('SOURCE_HISTORY_PINS.json')).functions}};
 for(const[signature,pin]of Object.entries(pins.functions)){
  const definition=accepted.catalog.functions[signature][0];assert.equal(createHash('sha256').update(definition).digest('hex'),pin.definition_sha256);
  await exec('ACCEPTED_PREDECESSOR_'+signature,definition);
@@ -42,12 +43,12 @@ for(const[signature,pin]of Object.entries(pins.functions)){
 // Restore validation before any new consumer DDL or derivation is compiled.
 await exec('ENABLE_NEW_FUNCTION_BODY_VALIDATION','set check_function_bodies=on');
 await exec('PRIVATE_SCHEMA_OWNER_CREATE',`grant usage on schema cp7_credit to cp7_credit_write;grant create on schema cp7_credit,public to cp7_credit_write;`);
-for(const name of ['01_dependency_graph.sql','02_operation_facts.sql','04_credit_book_bound.sql','05_event_data.sql','06_access_and_requests.sql','07_locked_projection.sql','08_owning_command.sql','09_deferred_closure.sql','10_capabilities.sql'])await exec(name,strip(read(name)));
+for(const name of ['01_dependency_graph.sql','02_operation_facts.sql','04_credit_book_bound.sql','05_event_data.sql','06_access_and_requests.sql','07_locked_projection.sql','08_owning_command.sql','09_deferred_closure.sql','10_capabilities.sql','11_source_history.sql'])await exec(name,strip(read(name)));
 const derived=JSON.parse(readFileSync(derivedPath,'utf8'));
 for(const[signature,definition]of Object.entries(derived))await exec('DERIVED_'+signature,definition);
 await exec('ACTUAL_DERIVED_NATIVE_CONSUMER_POSTER',readFileSync(posterPath,'utf8'));
 await exec('REMOVE_TEMPORARY_CREATE',`revoke create on schema cp7_credit,public from cp7_credit_write;`);
-assert.equal(copies,215);assert.equal(Object.keys(derived).length,7);
+assert.equal(copies,215);assert.equal(Object.keys(derived).length,12);
 assert.equal((await db.query("select current_setting('check_function_bodies')as enabled")).rows[0].enabled,'on');
-console.log(JSON.stringify({classification:'LOCAL_PGLITE_ALIGNED_ERP_SCHEMA_AND_ACTUAL_CP7_DDL_WITH_AUTH_STORAGE_STUBS_COMPILE_ONLY_NOT_NATIVE_OR_BUSINESS_EXECUTION',status:'PASS',completed,aligned_schema_sha256:createHash('sha256').update(raw).digest('hex'),copy_sections_omitted:copies,check_function_bodies_enabled:true,actual_consumer_SQL_files_compiled:9,actual_source_derivations_compiled:7,actual_derived_native_poster_compiled:true,financial_command_executed:false,Native_cases_added:0,production_go:false}));
+console.log(JSON.stringify({classification:'LOCAL_PGLITE_ALIGNED_ERP_SCHEMA_AND_ACTUAL_CP7_DDL_WITH_AUTH_STORAGE_STUBS_COMPILE_ONLY_NOT_NATIVE_OR_BUSINESS_EXECUTION',status:'PASS',completed,aligned_schema_sha256:createHash('sha256').update(raw).digest('hex'),copy_sections_omitted:copies,check_function_bodies_enabled:true,actual_consumer_SQL_files_compiled:10,actual_source_derivations_compiled:12,actual_derived_native_poster_compiled:true,financial_command_executed:false,Native_cases_added:0,production_go:false}));
 }catch(e){console.error(JSON.stringify({status:'FAIL_LOCAL_DDL_COMPILE',completed,error:e.message,query:e.query?.slice(0,300)}));process.exitCode=1}finally{await db.close()}

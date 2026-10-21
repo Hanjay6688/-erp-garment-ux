@@ -1,6 +1,6 @@
-"""First seven frozen consumer arithmetic cases on actual Native writers.
+"""First eight frozen consumer arithmetic cases on actual Native writers.
 
-These are a bounded subset. Source inverse/history-restatement cases8/9,
+These are a bounded subset. History-restatement case9,
 general families/corrections/HPP, real Auth/HTTP, browser and races remain open.
 Importing performs no connection, fixture setup, installation or commit.
 """
@@ -13,8 +13,8 @@ import cp7_ow04_consumer_fixture as fixture
 
 native=fixture.native
 GOLD=fixture.expected()
-IDS=tuple(row['id']for row in GOLD['cases'][:7])
-assert len(IDS)==7
+IDS=tuple(row['id']for row in GOLD['cases'][:8])
+assert len(IDS)==8
 
 
 def payload(pair,action='APPLY',amount='80.00',original=None):
@@ -111,5 +111,52 @@ def one_case(cur,today,index):
             full_consumer_feature_complete=False,production_go=False)
 
 
+def source_inverse_after_all_undone(cur,today):
+    with native.isolated(cur):
+        pair=fixture.prepare(cur,today);gold=GOLD['cases'][7]
+        first,_,_=apply(cur,pair,'80.00');second,_,_=apply(cur,pair,'120.00')
+        p,v=fixture.signed._intent(cur,pair['source'],pair['initial_result'],'RETURN_REVERSE')
+        before=observation(cur,pair)
+        fixture.signed._refuse(cur,lambda:native.cmd.command(cur,'RETURN_REVERSE',p,v,uuid.uuid4()),
+                              'P0001','CP7_CREDIT_SOURCE_CONSUMERS_REQUIRE_UNDO')
+        assert observation(cur,pair)==before,'ACTIVE_CONSUMER_SOURCE_REFUSAL_CHANGED_STATE'
+        for original in (first,second):
+            e=review(cur,payload(pair,'UNDO',original=original['consumption_event_id']))
+            command(cur,e,uuid.uuid4())
+        native.b.api.admin(cur)
+        cohort=pair['initial_result']['credit_id']
+        history=native._array(cur,'cp7_credit.consumption_events','cohort_id=%s',(cohort,))
+        assert len(history['document'])==4
+        journals={str(e['journal_id']):native.journal(cur,e['journal_id'])for e in history['document']}
+        original_return_id=pair['initial_result']['return_id']
+        old_return=cur.execute("select id from erp.journal_entries where source_type='SALES_RETURN'and source_id=%s and reversal_of_id is null",
+                               (original_return_id,)).fetchone()[0]
+        original_return=native.journal(cur,old_return)
+        p,v=fixture.signed._intent(cur,pair['source'],pair['initial_result'],'RETURN_REVERSE');request=uuid.uuid4()
+        result=native.cmd.command(cur,'RETURN_REVERSE',p,v,request)
+        fixture.signed._assert_request(cur,'RETURN_REVERSE',p,v,request,result)
+        assert result['return_status']=='REVERSED'
+        inverse=fixture.signed._assert_actual_inverse(cur,original_return)
+        observed=fixture.profiles(cur,pair)
+        assert observed==gold['expected'],(gold['id'],observed,gold['expected'])
+        assert native._array(cur,'cp7_credit.consumption_events','cohort_id=%s',(cohort,))==history
+        for ident,old in journals.items():assert native.journal(cur,ident)==old,'SOURCE_INVERSE_CHANGED_CONSUMER_JOURNAL'
+        assert native.payment_snapshot(cur,pair['source']['f']['payment'])==pair['source']['payment_before']
+        plans=cur.execute("select plan_kind,net_amount from cp7_credit.recognition_plans where cohort_id=%s order by plan_kind",(cohort,)).fetchall()
+        from decimal import Decimal
+        assert plans==[('ADJUSTMENT',Decimal('-200.00')),('INITIAL',Decimal('200.00'))],plans
+        cur.execute('set constraints all immediate');cur.execute('set constraints all deferred')
+        before=observation(cur,pair)
+        assert native.cmd.command(cur,'RETURN_REVERSE',p,v,request)==result
+        assert observation(cur,pair)==before,'SOURCE_INVERSE_REPLAY_CREATED_ANOTHER_EFFECT'
+        cur.execute('set constraints all immediate');cur.execute('set constraints all deferred')
+        return dict(status='PASS',id=gold['id'],expected=gold['expected'],observed=observed,
+            signed_consumption_history_retained=True,actual_Native_inverse=inverse,
+            exact_named_undo_required=True,original_consumer_journals_retained=True,
+            recognition=gold['recognition'],same_source_request_replay_one_effect=True,
+            full_consumer_feature_complete=False,production_go=False)
+
+
 def cases(cur,today):
-    return [(name,lambda index=index:one_case(cur,today,index))for index,name in enumerate(IDS)]
+    return [(name,lambda index=index:one_case(cur,today,index))for index,name in enumerate(IDS[:7])]+[
+        (IDS[7],lambda:source_inverse_after_all_undone(cur,today))]

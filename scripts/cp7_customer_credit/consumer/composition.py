@@ -17,9 +17,10 @@ import sys
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[2]
 PINS = json.loads((HERE / 'SOURCE_PINS.json').read_text())['functions']
+PINS = {**PINS, **json.loads((HERE / 'SOURCE_HISTORY_PINS.json').read_text())['functions']}
 SQL_FILES = ('01_dependency_graph.sql','02_operation_facts.sql','04_credit_book_bound.sql',
              '05_event_data.sql','06_access_and_requests.sql','07_locked_projection.sql',
-             '08_owning_command.sql','09_deferred_closure.sql','10_capabilities.sql')
+             '08_owning_command.sql','09_deferred_closure.sql','10_capabilities.sql','11_source_history.sql')
 ROOT_HELPER = 'cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb)'
 PUBLIC = ('public.erp_cp7_get_customer_credit_review_v1(jsonb)',
           'public.erp_cp7_customer_credit_command_v1(jsonb,uuid,jsonb)')
@@ -43,6 +44,7 @@ triggers = load('ow04_consumer_source_triggers', HERE.parent/'integration/source
 trigger_builder = load('ow04_consumer_fk_source', HERE.parent/'integration/source_triggers/build_source_pins.py')
 owning = load('ow04_consumer_qualified_owning', HERE.parent/'integration/owning_bundle.py')
 once = poster.native.once
+source_history = load('ow04_consumer_source_history_transform', HERE/'source_history_transform.py')
 
 
 def digest(value):
@@ -168,11 +170,13 @@ end $consumer_roots$;"""
      and((j.source_type='CP7_CUSTOMER_CREDIT_APPLY'and ce.event_kind='APPLY'and ce.amount>0 and ce.restores_event_id is null)
       or(j.source_type='CP7_CUSTOMER_CREDIT_EVENT_REVERSE'and ce.amount<0 and ce.restores_event_id is not null))))then""",
         'orphan admission before zero-participation fast path')
+    result.update(source_history.derive(captures,once))
     return result
 
 
 def sources():
-    names=SQL_FILES+('03_native_consumer_transform.py','SOURCE_PINS.json','composition.py')
+    names=SQL_FILES+('03_native_consumer_transform.py','SOURCE_PINS.json','SOURCE_HISTORY_PINS.json',
+                    'source_history_transform.py','composition.py')
     return {name:digest((HERE/name).read_text())for name in names}
 
 
