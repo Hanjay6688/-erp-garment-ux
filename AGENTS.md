@@ -36,6 +36,9 @@ pemeriksaan yang secara khusus ditugaskan kepada reviewer.
 
 ## Integrasi, bukti, dan batas peran
 
+- Arahan owner terbaru21 Okt2026: default bekerja sendiri; bila diperlukan,
+  gunakan paling banyak satu pemeriksa untuk langsung mengecek pekerjaan
+  integrator. Jangan menambah tim besar hanya untuk mempercepat secara dugaan.
 - Satu writer/integrator mengubah produk; pembantu diberi scope terbatas.
   Penilaian awal pemeriksa dikunci sebelum menerima kesimpulan pemeriksa lain,
   lalu saling counter memakai skenario, expected kontrak, observed dan bukti.

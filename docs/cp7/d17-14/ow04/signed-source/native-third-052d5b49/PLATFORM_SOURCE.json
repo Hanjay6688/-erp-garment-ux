@@ -1,0 +1,12 @@
+{
+  "repository": "supabase/postgres",
+  "ref": "17.6.1.165",
+  "path": "Dockerfile-17",
+  "url": "https://github.com/supabase/postgres/blob/17.6.1.165/Dockerfile-17",
+  "git_blob": "b79dd3787c0914321b688dfa01c02bc6101d3522",
+  "source_sha256": "4eff99fc93e2c4957d2a866249602f28c3f270f4d9cf775e0be1659e0ba26ff3",
+  "relevant_clause": "ENV POSTGRES_USER=supabase_admin",
+  "bootstrap_role_oid": 10,
+  "classification": "UPSTREAM_SOURCE_NOT_OBSERVED_RUNTIME_ROW",
+  "note": "Native52 failure did not print actual metadata; owner is a source-derived diagnosis pending Native63 rerun."
+}

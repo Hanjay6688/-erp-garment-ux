@@ -1,0 +1,110 @@
+{
+  "classification": "PURE_SOURCE_METADATA_NOT_NATIVE",
+  "status": "PASS",
+  "count": 17,
+  "database_calls": 0,
+  "guard_sha256": "aaa356506d4dd013682e3d36d10cc9c75782dc07f96c87e4f70f13b5bb864592",
+  "cases": [
+    {
+      "case": "BEFORE_valid_supabase_bootstrap_owner_rejected",
+      "status": "PASS",
+      "expected": "REFUSED",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_UNKNOWN_INTERNAL_FUNCTION: pg_catalog.RI_FKey_noaction_del()"
+    },
+    {
+      "case": "AFTER_exact_supabase_bootstrap_model",
+      "status": "PASS",
+      "expected": "ACCEPTED"
+    },
+    {
+      "case": "ordinary_postgres_is_not_system_owner",
+      "status": "PASS",
+      "expected": "REFUSED",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_UNKNOWN_INTERNAL_FUNCTION: {'function': 'pg_catalog.RI_FKey_cascade_del()', 'expected_owner': 'supabase_admin', 'expected_owner_oid': 10, 'actual': {'owner': 'postgres', 'owner_oid': 10, 'language': 'internal', 'security_definer': False, 'config': [], 'input_arguments': '', 'result': 'trigger'}}"
+    },
+    {
+      "case": "browser_is_not_system_owner",
+      "status": "PASS",
+      "expected": "REFUSED",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_UNKNOWN_INTERNAL_FUNCTION: {'function': 'pg_catalog.RI_FKey_cascade_del()', 'expected_owner': 'supabase_admin', 'expected_owner_oid': 10, 'actual': {'owner': 'authenticated', 'owner_oid': 10, 'language': 'internal', 'security_definer': False, 'config': [], 'input_arguments': '', 'result': 'trigger'}}"
+    },
+    {
+      "case": "lookalike_role_different_oid",
+      "status": "PASS",
+      "expected": "REFUSED",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_UNKNOWN_INTERNAL_FUNCTION: {'function': 'pg_catalog.RI_FKey_cascade_del()', 'expected_owner': 'supabase_admin', 'expected_owner_oid': 10, 'actual': {'owner': 'supabase_admin', 'owner_oid': 10010, 'language': 'internal', 'security_definer': False, 'config': [], 'input_arguments': '', 'result': 'trigger'}}"
+    },
+    {
+      "case": "plpgsql_is_not_internal",
+      "status": "PASS",
+      "expected": "REFUSED",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_UNKNOWN_INTERNAL_FUNCTION: {'function': 'pg_catalog.RI_FKey_cascade_del()', 'expected_owner': 'supabase_admin', 'expected_owner_oid': 10, 'actual': {'owner': 'supabase_admin', 'owner_oid': 10, 'language': 'plpgsql', 'security_definer': False, 'config': [], 'input_arguments': '', 'result': 'trigger'}}"
+    },
+    {
+      "case": "security_definer_changed",
+      "status": "PASS",
+      "expected": "REFUSED",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_UNKNOWN_INTERNAL_FUNCTION: {'function': 'pg_catalog.RI_FKey_cascade_del()', 'expected_owner': 'supabase_admin', 'expected_owner_oid': 10, 'actual': {'owner': 'supabase_admin', 'owner_oid': 10, 'language': 'internal', 'security_definer': True, 'config': [], 'input_arguments': '', 'result': 'trigger'}}"
+    },
+    {
+      "case": "function_configuration_changed",
+      "status": "PASS",
+      "expected": "REFUSED",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_UNKNOWN_INTERNAL_FUNCTION: {'function': 'pg_catalog.RI_FKey_cascade_del()', 'expected_owner': 'supabase_admin', 'expected_owner_oid': 10, 'actual': {'owner': 'supabase_admin', 'owner_oid': 10, 'language': 'internal', 'security_definer': False, 'config': ['search_path=public'], 'input_arguments': '', 'result': 'trigger'}}"
+    },
+    {
+      "case": "function_arguments_changed",
+      "status": "PASS",
+      "expected": "REFUSED",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_UNKNOWN_INTERNAL_FUNCTION: {'function': 'pg_catalog.RI_FKey_cascade_del()', 'expected_owner': 'supabase_admin', 'expected_owner_oid': 10, 'actual': {'owner': 'supabase_admin', 'owner_oid': 10, 'language': 'internal', 'security_definer': False, 'config': [], 'input_arguments': 'p_id uuid', 'result': 'trigger'}}"
+    },
+    {
+      "case": "function_result_changed",
+      "status": "PASS",
+      "expected": "REFUSED",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_UNKNOWN_INTERNAL_FUNCTION: {'function': 'pg_catalog.RI_FKey_cascade_del()', 'expected_owner': 'supabase_admin', 'expected_owner_oid': 10, 'actual': {'owner': 'supabase_admin', 'owner_oid': 10, 'language': 'internal', 'security_definer': False, 'config': [], 'input_arguments': '', 'result': 'boolean'}}"
+    },
+    {
+      "case": "builtin_entry_point_changed",
+      "status": "PASS",
+      "expected": "REFUSED",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_RI_INTERNAL_ENTRY_POINT: pg_catalog.RI_FKey_cascade_del()"
+    },
+    {
+      "case": "disabled_RI_refused",
+      "status": "PASS",
+      "expected": "REFUSED",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_INTERNAL_TRIGGER_SHAPE: SOURCE_MODEL_RI_3030"
+    },
+    {
+      "case": "extra_RI_argument_refused",
+      "status": "PASS",
+      "expected": "REFUSED",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_INTERNAL_TRIGGER_SHAPE: SOURCE_MODEL_RI_3030"
+    },
+    {
+      "case": "condition_on_RI_refused",
+      "status": "PASS",
+      "expected": "REFUSED",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_INTERNAL_TRIGGER_SHAPE: SOURCE_MODEL_RI_3030"
+    },
+    {
+      "case": "missing_FK_still_refused",
+      "status": "PASS",
+      "expected": "REFUSED",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_FOREIGN_KEY_SOURCE_CENSUS: {'missing': [{'identity': '{\"columns\":[\"value_journal_id\"],\"deferrable\":false,\"delete_action\":\"a\",\"initially_deferred\":false,\"match_type\":\"s\",\"parent\":\"erp.journal_entries\",\"parent_columns\":[\"id\"],\"relation\":\"erp.bb_opening_sale_return_receipts_v1\",\"update_action\":\"a\",\"validated\":true}', 'count': 1}], 'unknown': []}"
+    },
+    {
+      "case": "missing_RI_still_refused",
+      "status": "PASS",
+      "expected": "REFUSED",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_INTERNAL_ATTACHMENT_SOURCE_CENSUS: {'missing': [{'identity': ('erp.journal_entries', '{\"columns\":[\"adjustment_journal_entry_id\"],\"deferrable\":false,\"delete_action\":\"a\",\"initially_deferred\":false,\"match_type\":\"s\",\"parent\":\"erp.journal_entries\",\"parent_columns\":[\"id\"],\"relation\":\"erp.supplier_cent_posting_facts\",\"update_action\":\"a\",\"validated\":true}', 'pg_catalog.RI_FKey_noaction_del()', 9, False, False, 'erp.supplier_cent_posting_facts'), 'count': 1}], 'unknown': []}"
+    },
+    {
+      "case": "ordinary_ERP_owner_stays_source_owned",
+      "status": "PASS",
+      "expected": "REFUSED",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_FUNCTION_OWNER: cp7_installment.guard_journal()"
+    }
+  ]
+}

@@ -13,6 +13,12 @@ HERE = Path(__file__).resolve().parent
 CAPTURE_SQL = (HERE/'capture.sql').read_text()
 SEMANTIC_FK = ('relation','columns','parent','parent_columns','update_action',
     'delete_action','match_type','deferrable','initially_deferred','validated')
+# Supabase postgres:17.6.1.165 initializes its cluster with
+# POSTGRES_USER=supabase_admin (upstream Dockerfile-17). Built-in pg_catalog
+# functions belong to that bootstrap role, independently of ERP table owners.
+# This is one exact platform owner, not an owner inferred from first capture.
+RI_BUILTIN_OWNER = 'supabase_admin'
+RI_BUILTIN_OWNER_OID = 10
 
 
 def canonical(value):
@@ -161,8 +167,11 @@ def validate_source(snapshot, manifest, phase_name):
         c=tr['constraint']
         if not c or c['type']!='f'or not c['semantic']:fail('UNKNOWN_INTERNAL_CONSTRAINT',tr['name'])
         fn=functions.get(tr['function'])
-        if fn is None or not tr['function'].startswith('pg_catalog.RI_FKey_')or fn['language']!='internal'or fn['owner']!='postgres'or fn['security_definer']or fn['config']or fn['input_arguments']or fn['result']!='trigger':
-            fail('UNKNOWN_INTERNAL_FUNCTION',tr['function'])
+        if fn is None or not tr['function'].startswith('pg_catalog.RI_FKey_')or fn['language']!='internal'or fn['owner']!=RI_BUILTIN_OWNER or fn['owner_oid']!=RI_BUILTIN_OWNER_OID or fn['security_definer']or fn['config']or fn['input_arguments']or fn['result']!='trigger':
+            fail('UNKNOWN_INTERNAL_FUNCTION',dict(function=tr['function'],
+                expected_owner=RI_BUILTIN_OWNER,expected_owner_oid=RI_BUILTIN_OWNER_OID,
+                actual=None if fn is None else {k:fn[k]for k in
+                ('owner','owner_oid','language','security_definer','config','input_arguments','result')}))
         # Pin the actual built-in C entry name as well as its qualified SQL
         # identity; a user-created PL/pgSQL function cannot masquerade here.
         if fn['body']!=tr['function'].split('.',1)[1][:-2]:fail('RI_INTERNAL_ENTRY_POINT',tr['function'])

@@ -5,6 +5,7 @@ name: CP7 OW04 Settlement, Signed Source and Native EMPTY Qualification
     - cp7/integration
     - astra/d17-14-20261020
     - codex/ow04-reconciliation-20261021
+    - codex/writer-takeover-20261021
     paths:
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_ow04_*

@@ -1,0 +1,17 @@
+{
+  "candidate": "052d5b4958ff0f74b998e9cc4d312baeafc0d82a",
+  "run_id": 39545090852,
+  "job_id": 119041351478,
+  "status": "INCOMPLETE",
+  "expected_case_count": 63,
+  "observed_case_count": 0,
+  "first_error": "OW04_BOUNDED_TRIGGER_GUARD_UNKNOWN_INTERNAL_FUNCTION: pg_catalog.RI_FKey_noaction_del()",
+  "artifact_id": 12321596665,
+  "artifact_zip_sha256": "3731b7cfc94038063a9d29fd1df18b9d5f9c7690edc3b0796ac432f607b7969e",
+  "files": {
+    "CP7_OW04_SIGNED_SOURCE.json.gz": "c833bfef781481203fe54f0fbac0e218635eed950c16e26d87b1f3eda095bf03",
+    "RUNTIME.log.gz": "0fa66ab3d0f4a47c852148789d6d14349af26673e0acbbabe76d89132e017885",
+    "T3_PACKAGE_INSTALL.json.gz": "768b7fc6aec62032b32bfd321a652e7f518c1b3af4048c3381c1d33b2bf740bd"
+  },
+  "production_go": false
+}
