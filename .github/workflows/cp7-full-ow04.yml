@@ -109,7 +109,7 @@ jobs:
       working-directory: writer
       run: |
         PYTHONPATH=../auditor/scripts python -c "import cp7_full_owning_install as full; assert full.source_manifest()['credit_sources']; print('FULL_INSTALL_IMPORT_ADMITTED_NATIVE_NOT_EXECUTED')"
-        PYTHONPATH=../auditor/scripts python -c "import sys; sys.argv.extend(['--signed-source','--credit-dependencies']); import cp7_full_ow04_probe as p; assert len(p.IDS)==73; print('FULL_INSTALL_NATIVE73_DECLARATION_ADMITTED_NATIVE_NOT_EXECUTED')"
+        PYTHONPATH=../auditor/scripts python -c "import sys; sys.argv.extend(['--signed-source','--credit-dependencies']); import cp7_full_ow04_probe as p; assert len(p.IDS)==73; assert len(p.qualification_sources())==2; print('FULL_INSTALL_NATIVE73_DECLARATION_AND_SOURCE_PATHS_ADMITTED_NATIVE_NOT_EXECUTED')"
         PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=../auditor/scripts python ../auditor/scripts/cp7_full_install_recheck.py
     - name: Install candidate browser dependencies
       working-directory: auditor

@@ -1,0 +1,64 @@
+{
+  "classification": "PRESERVED_FIRST_FAILURE_NOT_NATIVE_ACCEPTANCE",
+  "candidate": "b28c38ff8f4a77f979d39a81866d82a918a2d801",
+  "tree": "dc735210bc643a8616b51bdd1a0bd7e4b9ebbfa9",
+  "run_id": 39581841438,
+  "job_id": 119161068453,
+  "workflow_conclusion": "failure",
+  "expected_native_cases": 73,
+  "observed_native_cases": 0,
+  "frontend": {
+    "test_files_pass": 6,
+    "tests_pass": 113,
+    "build": true,
+    "source_ownership": true,
+    "access_ownership": true,
+    "owned_rpc_boundaries": 292
+  },
+  "error": "'/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_full_ow04_probe.py' is not in the subpath of '/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor'",
+  "package_gate": {
+    "installed": false,
+    "primary_unchanged": true,
+    "backup_restore_drill": false,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cause": "Path(__file__) retains writer/../auditor when launched from the writer checkout; relative_to needs resolve first. Failure occurred constructing provenance, before the Native installer/cases.",
+  "correction": "Resolve both input file paths and repository root, factor a no-DB qualification_sources helper and execute it during preflight. Product SQL, manifests and expected case IDs unchanged.",
+  "original_reports": [
+    {
+      "ow04_original_report_bytes": true,
+      "name": "T3_PACKAGE_INSTALL.json",
+      "raw_bytes": 361146,
+      "raw_sha256": "1da20265071a7f5bc094da04fa7cd7b39d77092f0d86c20cb67549485e4411f3",
+      "gzip_bytes": 11494,
+      "gzip_sha256": "fdbaa5c2572958239d4422f124df2f8419bf0417d6a89cc82d7fb6087b5daafa",
+      "gzip_bytes_client_hash_verified": true
+    },
+    {
+      "ow04_original_report_bytes": true,
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "gzip_bytes_client_hash_verified": true
+    }
+  ],
+  "original_job_log": {
+    "utf8_bytes": 310334,
+    "sha256": "4a26f10101cc41a703cf03b714b4849e2fc38671f8fa0d8b3735c495134adfd7",
+    "git_blob_sha": "bbe336ba2a2c04d6c4ac1c52eb229391d9b6d8b0"
+  },
+  "artifacts": [
+    {
+      "id": 12337386469,
+      "bytes": 1617953,
+      "digest": "sha256:38389244d01fb84c66164da4bf56fb28ca5d7ce75c415cd1d2fcd534a2609f5e",
+      "zip_bytes_client_verified": false
+    }
+  ],
+  "production_go": false,
+  "feature_complete": false,
+  "audit_complete": false
+}

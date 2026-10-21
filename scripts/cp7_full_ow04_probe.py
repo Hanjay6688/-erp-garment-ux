@@ -94,6 +94,14 @@ def verify(cur):
     return full.verify(cur, STATE)
 
 
+
+def qualification_sources():
+    paths=[Path(__file__).resolve()]
+    if DEPENDENCIES:
+        paths.append(Path(dependency_cases.__file__).resolve())
+    return {str(path.relative_to(full.ROOT.resolve())):hashlib.sha256(path.read_bytes()).hexdigest()
+            for path in paths}
+
 def run():
     global STATE
     report = dict(label=LABEL,status='INCOMPLETE',expected_case_count=len(IDS),
@@ -103,8 +111,7 @@ def run():
         independent_acceptance=False,qualification_only=True,hosted=False,
         scope='FULL_OWNING_INSTALL_PREUSE_RESTORE_NATIVE63_AND_USED_ROLLBACK_GUARD',
         retained_native_declaration_sha256=hashlib.sha256(core.DECLARATION_BYTES).hexdigest(),
-        qualification_source_sha256={str(Path(__file__).relative_to(full.ROOT)):hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-            **({str(Path(dependency_cases.__file__).relative_to(full.ROOT)):hashlib.sha256(Path(dependency_cases.__file__).read_bytes()).hexdigest()} if DEPENDENCIES else {})})
+        qualification_source_sha256=qualification_sources())
     installed = False
     try:
         with psycopg.connect(package.boundary.ADMIN) as conn, conn.cursor() as cur:
