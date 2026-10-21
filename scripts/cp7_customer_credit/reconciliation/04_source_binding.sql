@@ -214,8 +214,9 @@ begin
  if retained_before is distinct from retained_after or m.actual_ordinal_input->>'family_root_sale_id'<>m.sale_id::text
   or m.before_ordinal_input->>'family_root_sale_id'<>m.sale_id::text then
   raise exception 'CP7_CREDIT_SOURCE_RETAINED_BASELINE_CHANGED';end if;
- select coalesce(sum((e->>'amount')::numeric),0)into before_i
-  from jsonb_array_elements(m.before_ordinal_input->'families')f,lateral jsonb_array_elements(f->'retained_recognition')e;
+ select coalesce(sum((recognition_rows.recognition_value->>'amount')::numeric),0)into before_i
+  from jsonb_array_elements(m.before_ordinal_input->'families')family_rows(family_value),
+   lateral jsonb_array_elements(family_rows.family_value->'retained_recognition')recognition_rows(recognition_value);
  if m.before_financial_profile->>'actual_objects_sha256'is distinct from cp7_credit.pg_jsonb_sha256(m.before_financial_profile->'actual_objects')
   or(m.before_financial_profile->>'I')::numeric is distinct from before_i
   or(m.before_financial_profile->>'U')::numeric is distinct from 0::numeric

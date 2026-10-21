@@ -1,0 +1,729 @@
+{
+  "candidate": "99695e103f6ec3c604f38419e65722e08013c02c",
+  "tree": "9a579af97c9cedf76c69ed7678cad34852c8ebba",
+  "run_id": 39556213910,
+  "job_id": 119076469335,
+  "artifact_id": 12325548667,
+  "artifact_sha256": "26d1bc3fd43a186ace8933ff193a42a903e3053e53d03ac744a027627b9ad70c",
+  "summary": {
+    "label": "CP7_OW04_SIGNED_SOURCE",
+    "status": "INCOMPLETE",
+    "expected_case_count": 63,
+    "observed_case_count": 63,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "error": null,
+    "traceback": null,
+    "restore_error": null
+  },
+  "counts": {
+    "PASS": 59,
+    "INCOMPLETE": 4
+  },
+  "cases": [
+    {
+      "id": "OW04_INITIAL_1000_OPEN_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_OPEN_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_LIFECYCLE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_SPLIT_GRADES",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_ALLOCATION_CAP",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_FIELDS",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_PAID_REFUSAL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_DATE_LOCATION",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_REPLAY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_SOURCE_CHANGE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_PERMISSIONS",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_PAGES",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_CONSUMED",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_DRAFT_CANCEL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_NATIVE_LIFECYCLE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_EXACT_CENTS",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_FINANCIAL_REDACTION",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_PRIVATE_READ_ONLY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_COMPLETE_PAGES",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_QUERY_REFUSAL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_EMPTY_MISSING",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "F03_E01_NATIVE_60_TO_CASH_RETURN",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N01",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N02",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N03",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N04",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N05",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N06",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N07",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N08",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N09",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N10",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N11",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N12",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NONPO_SECOND_RETURN_CARRY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_PO_SECOND_RETURN_CARRY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NONPO_OTHER_POSITIVE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NONPO_OTHER_NEGATIVE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_PO_OTHER_POSITIVE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_PO_OTHER_NEGATIVE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_TWO_LOTS_ONE_PO",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_TWO_LOTS_SAME_NONPO_PRODUCT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NONPO_FG_ZERO_HPP_JOURNAL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_PO_FG_ZERO_REOPENED_HPP_JOURNAL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_POSITIVE_SNAPSHOT_ZERO_VECTOR_REFUSED",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NATIVE_RECOST_STALE_QUOTE_REFUSED",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_TWO_ALLOCATIONS_SAME_LOT_GROUPED",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_DEBITS_PER_GROUP_BEFORE_NETTING",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_SIGNED_RETURN_REVERSE_UNCONSUMED_CREDIT",
+      "status": "INCOMPLETE",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "error": "column reference \"f\" is ambiguous\nLINE 1: ..._input->'families')f,lateral jsonb_array_elements(f->'retain...\n                                                             ^\nDETAIL:  It could refer to either a PL/pgSQL variable or a table column.\nQUERY:  select coalesce(sum((e->>'amount')::numeric),0)                from jsonb_array_elements(m.before_ordinal_input->'families')f,lateral jsonb_array_elements(f->'retained_recognition')e\nCONTEXT:  PL/pgSQL function cp7_credit.assert_source_materialization_v1(uuid) line 31 at SQL statement\nSQL statement \"SELECT cp7_credit.assert_source_materialization_v1(m.operation_id)\"\nPL/pgSQL function cp7_credit.assert_reconciled_source_profile_v1(uuid,jsonb) line 12 at PERFORM\nSQL statement \"SELECT cp7_credit.assert_reconciled_source_profile_v1(p_sale,p_actual)\"\nPL/pgSQL function cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb) line 16 at PERFORM\nSQL statement \"select cp7_credit.assert_current_source_plan_profile($1,$2,$3,$4)\"\nPL/pgSQL function cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid) line 18 at EXECUTE\nSQL statement \"SELECT cp7_credit.assert_current_materialized_profile(w.sale_id,w.sale_id,w.sale_id)\"\nPL/pgSQL function cp7_credit.materialize_source_operation_v1(uuid) line 38 at PERFORM\nSQL statement \"SELECT cp7_credit.materialize_source_operation_v1(w.operation_id)\"\nPL/pgSQL function cp7_credit.source_operation_native_reconcile_v1(text,uuid) line 13 at PERFORM\nSQL statement \"SELECT cp7_credit.source_operation_native_reconcile_v1('RETURN_REVERSE',p_return_id)\"\nPL/pgSQL function reverse_sales_return(uuid,text) line 90 at PERFORM\nSQL statement \"SELECT erp.reverse_sales_return(return_id,btrim(p_payload->>'change_reason'))\"\nPL/pgSQL function cp7_sales.apply_command(text,jsonb,uuid,text) line 66 at PERFORM\nPL/pgSQL assignment \"r:=cp7_sales.apply_command(p_action,p_payload,p_request,p_expected)\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 26 at assignment\nSQL function \"erp_cp7_save_sale_v1\" statement 1"
+    },
+    {
+      "id": "OW04_SIGNED_PAYMENT_REVERSE_UNCONSUMED_CREDIT",
+      "status": "INCOMPLETE",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "error": "column reference \"f\" is ambiguous\nLINE 1: ..._input->'families')f,lateral jsonb_array_elements(f->'retain...\n                                                             ^\nDETAIL:  It could refer to either a PL/pgSQL variable or a table column.\nQUERY:  select coalesce(sum((e->>'amount')::numeric),0)                from jsonb_array_elements(m.before_ordinal_input->'families')f,lateral jsonb_array_elements(f->'retained_recognition')e\nCONTEXT:  PL/pgSQL function cp7_credit.assert_source_materialization_v1(uuid) line 31 at SQL statement\nSQL statement \"SELECT cp7_credit.assert_source_materialization_v1(m.operation_id)\"\nPL/pgSQL function cp7_credit.assert_reconciled_source_profile_v1(uuid,jsonb) line 12 at PERFORM\nSQL statement \"SELECT cp7_credit.assert_reconciled_source_profile_v1(p_sale,p_actual)\"\nPL/pgSQL function cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb) line 16 at PERFORM\nSQL statement \"select cp7_credit.assert_current_source_plan_profile($1,$2,$3,$4)\"\nPL/pgSQL function cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid) line 18 at EXECUTE\nSQL statement \"SELECT cp7_credit.assert_current_materialized_profile(w.sale_id,w.sale_id,w.sale_id)\"\nPL/pgSQL function cp7_credit.materialize_source_operation_v1(uuid) line 38 at PERFORM\nSQL statement \"SELECT cp7_credit.materialize_source_operation_v1(w.operation_id)\"\nPL/pgSQL function cp7_credit.source_operation_native_reconcile_v1(text,uuid) line 13 at PERFORM\nSQL statement \"SELECT cp7_credit.source_operation_native_reconcile_v1('PAYMENT_REVERSE',p_payment_id)\"\nPL/pgSQL function reverse_sales_payment(uuid,text) line 62 at PERFORM\nSQL statement \"SELECT erp.reverse_sales_payment(payment_id,btrim(p_payload->>'change_reason'))\"\nPL/pgSQL function cp7_sales.apply_command(text,jsonb,uuid,text) line 47 at PERFORM\nPL/pgSQL assignment \"r:=cp7_sales.apply_command(p_action,p_payload,p_request,p_expected)\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 26 at assignment\nSQL function \"erp_cp7_save_sale_v1\" statement 1"
+    },
+    {
+      "id": "OW04_SIGNED_REVOKED_AUTHORITY_DENIES_FRESH_AND_REPLAY",
+      "status": "INCOMPLETE",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "error": "column reference \"f\" is ambiguous\nLINE 1: ..._input->'families')f,lateral jsonb_array_elements(f->'retain...\n                                                             ^\nDETAIL:  It could refer to either a PL/pgSQL variable or a table column.\nQUERY:  select coalesce(sum((e->>'amount')::numeric),0)                from jsonb_array_elements(m.before_ordinal_input->'families')f,lateral jsonb_array_elements(f->'retained_recognition')e\nCONTEXT:  PL/pgSQL function cp7_credit.assert_source_materialization_v1(uuid) line 31 at SQL statement\nSQL statement \"SELECT cp7_credit.assert_source_materialization_v1(m.operation_id)\"\nPL/pgSQL function cp7_credit.assert_reconciled_source_profile_v1(uuid,jsonb) line 12 at PERFORM\nSQL statement \"SELECT cp7_credit.assert_reconciled_source_profile_v1(p_sale,p_actual)\"\nPL/pgSQL function cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb) line 16 at PERFORM\nSQL statement \"select cp7_credit.assert_current_source_plan_profile($1,$2,$3,$4)\"\nPL/pgSQL function cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid) line 18 at EXECUTE\nSQL statement \"SELECT cp7_credit.assert_current_materialized_profile(w.sale_id,w.sale_id,w.sale_id)\"\nPL/pgSQL function cp7_credit.materialize_source_operation_v1(uuid) line 38 at PERFORM\nSQL statement \"SELECT cp7_credit.materialize_source_operation_v1(w.operation_id)\"\nPL/pgSQL function cp7_credit.source_operation_native_reconcile_v1(text,uuid) line 13 at PERFORM\nSQL statement \"SELECT cp7_credit.source_operation_native_reconcile_v1('RETURN_REVERSE',p_return_id)\"\nPL/pgSQL function reverse_sales_return(uuid,text) line 90 at PERFORM\nSQL statement \"SELECT erp.reverse_sales_return(return_id,btrim(p_payload->>'change_reason'))\"\nPL/pgSQL function cp7_sales.apply_command(text,jsonb,uuid,text) line 66 at PERFORM\nPL/pgSQL assignment \"r:=cp7_sales.apply_command(p_action,p_payload,p_request,p_expected)\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 26 at assignment\nSQL function \"erp_cp7_save_sale_v1\" statement 1"
+    },
+    {
+      "id": "OW04_SIGNED_CONSUMED_REFUND_BLOCKS_RETURN_REVERSE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_SIGNED_ZERO_DIFF_EARLIER_ZERO_RETURN_REVERSE",
+      "status": "INCOMPLETE",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "error": "column reference \"f\" is ambiguous\nLINE 1: ..._input->'families')f,lateral jsonb_array_elements(f->'retain...\n                                                             ^\nDETAIL:  It could refer to either a PL/pgSQL variable or a table column.\nQUERY:  select coalesce(sum((e->>'amount')::numeric),0)                from jsonb_array_elements(m.before_ordinal_input->'families')f,lateral jsonb_array_elements(f->'retained_recognition')e\nCONTEXT:  PL/pgSQL function cp7_credit.assert_source_materialization_v1(uuid) line 31 at SQL statement\nSQL statement \"SELECT cp7_credit.assert_source_materialization_v1(m.operation_id)\"\nPL/pgSQL function cp7_credit.assert_reconciled_source_profile_v1(uuid,jsonb) line 12 at PERFORM\nSQL statement \"SELECT cp7_credit.assert_reconciled_source_profile_v1(p_sale,p_actual)\"\nPL/pgSQL function cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb) line 16 at PERFORM\nSQL statement \"select cp7_credit.assert_current_source_plan_profile($1,$2,$3,$4)\"\nPL/pgSQL function cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid) line 18 at EXECUTE\nSQL statement \"SELECT cp7_credit.assert_current_materialized_profile(w.sale_id,w.sale_id,w.sale_id)\"\nPL/pgSQL function cp7_credit.materialize_source_operation_v1(uuid) line 38 at PERFORM\nSQL statement \"SELECT cp7_credit.materialize_source_operation_v1(w.operation_id)\"\nPL/pgSQL function cp7_credit.source_operation_native_reconcile_v1(text,uuid) line 13 at PERFORM\nSQL statement \"SELECT cp7_credit.source_operation_native_reconcile_v1('RETURN_REVERSE',p_return_id)\"\nPL/pgSQL function reverse_sales_return(uuid,text) line 90 at PERFORM\nSQL statement \"SELECT erp.reverse_sales_return(return_id,btrim(p_payload->>'change_reason'))\"\nPL/pgSQL function cp7_sales.apply_command(text,jsonb,uuid,text) line 66 at PERFORM\nPL/pgSQL assignment \"r:=cp7_sales.apply_command(p_action,p_payload,p_request,p_expected)\"\nPL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 26 at assignment\nSQL function \"erp_cp7_save_sale_v1\" statement 1"
+    }
+  ],
+  "production_go": false,
+  "original_report_sha256": "6ae8b672c49ced976f1fa2ebe0c9148c04e4b4f396895e0126777178a369186c",
+  "runtime_log_sha256": "eb616a6bec9cea6f848d3b6a04eaad51b2a31d2a6388c721d93ef28925939bed",
+  "files": {
+    "ORIGINAL_REPORT.json.gz": "6c8e84a08dd3dd17b798b878309addd565f25287af58723f3f0e7183ad4d248e",
+    "RUNTIME.log.gz": "91707b19c912a1ff0d03149ec0ba3482a1c875df7a942a4ff87e4530975b9cc3"
+  }
+}

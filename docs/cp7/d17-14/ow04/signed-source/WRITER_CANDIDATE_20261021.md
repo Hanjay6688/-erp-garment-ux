@@ -17,6 +17,15 @@ sumber aplikasi aktif, tanpa patch sementara. HTTP14, race6+2 dan browser4
 untuk kandidat ini belum dijalankan; persiapan alat bukan bukti runtime.
 Native63 baru harus lulus sebelum binding HTTP/race/browser diperbarui.
 
+Run berikutnya39556213910 pada99695e10 tetap59 PASS/4 INCOMPLETE. Koreksi
+operator JSON terlewati; sekarang empat kasus yang sama berhenti pada alias SQL
+`f` yang bertabrakan dengan variabel financial-materialization di helper akhir.
+Alias dibuat eksplisit tanpa mengubah agregat. Pemeriksaan lokal mengeksekusi
+statement asli: kegagalan lama42702 direproduksi dan tujuh vektor koreksi lulus.
+Pemindai benturan juga memeriksa36 fungsi dalam keenam berkas sumber terkait;
+temuan asli terdeteksi dan hasil sesudah koreksi bersih. Bukti lengkap run ada
+di `native-sixth-99695e10/`. Kualifikasi Native baru tetap wajib.
+
 Ini kandidat internal writer, belum bukti Native63, belum audit independen,
 belum OW04 lengkap, dan `production_go:false`.
 Cabang kerja `codex/ow04-reconciliation-20261021` berawal dari checkpoint

@@ -1,0 +1,47 @@
+{
+  "classification": "STATIC_ALIAS_SCAN_NOT_NATIVE_RUNTIME",
+  "before_detected": [
+    "cp7_credit.assert_source_materialization_v1 ['f']",
+    "functions 7"
+  ],
+  "after_files": [
+    {
+      "path": "scripts/cp7_customer_credit/reconciliation/03_native_inverse_proof.sql",
+      "sha256": "9fb7ca993d770ee18a29a1038f5cf1e11c389ad33e7e133a062a31d6298ba442",
+      "functions": 5,
+      "collisions": []
+    },
+    {
+      "path": "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql",
+      "sha256": "9cea83e59f7dd923ae4f182b8126615bad7a274a31765ce4dbff19b41f16a116",
+      "functions": 3,
+      "collisions": []
+    },
+    {
+      "path": "scripts/cp7_customer_credit/reconciliation/04_source_binding.sql",
+      "sha256": "21bcf036fdfbf7c6e9d6afe8c98c7a8888f8f92ef7ac8c34ef9fccd627139510",
+      "functions": 7,
+      "collisions": []
+    },
+    {
+      "path": "scripts/cp7_customer_credit/reconciliation/05_source_adjustments.sql",
+      "sha256": "5432e67f9d64eb068f47c38318a7532837298a75b0db66a6b5bd2dfc469e9bbb",
+      "functions": 11,
+      "collisions": []
+    },
+    {
+      "path": "scripts/cp7_customer_credit/reconciliation/06_source_coordinator.sql",
+      "sha256": "ba06b0bf5134ce189d04b819fe0ef14554a462e2ccacbf58b5c1da0ae9383ce1",
+      "functions": 6,
+      "collisions": []
+    },
+    {
+      "path": "scripts/cp7_customer_credit/reconciliation/07_source_closure.sql",
+      "sha256": "b5950e046932dcddcfd8a8bb703ab412ec7eba008b6fa1667d1557bf7498b33b",
+      "functions": 4,
+      "collisions": []
+    }
+  ],
+  "functions": 36,
+  "production_go": false
+}

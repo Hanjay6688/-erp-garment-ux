@@ -1,7 +1,7 @@
 {
   "format": "OW04_BOUNDED_TRIGGER_SOURCE_PINS_PROPOSAL_V1",
   "classification": "STATIC_SOURCE_DERIVED_NOT_NATIVE_EXECUTION",
-  "source_commit": "8ed949bb4c0ebaacae5cf83653174799936374f4",
+  "source_commit": "99695e103f6ec3c604f38419e65722e08013c02c",
   "database_calls": 0,
   "tables": [
     "erp.sales_headers",
@@ -248,7 +248,7 @@
     "scripts/cp7_customer_credit/reconciliation/02_reconciliation_inputs.sql": "e68bddefdf3390162d222eba2cf4014dec7ac781a0d60db434f0f61ccceaba42",
     "scripts/cp7_customer_credit/reconciliation/03_native_inverse_proof.sql": "9fb7ca993d770ee18a29a1038f5cf1e11c389ad33e7e133a062a31d6298ba442",
     "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql": "9cea83e59f7dd923ae4f182b8126615bad7a274a31765ce4dbff19b41f16a116",
-    "scripts/cp7_customer_credit/reconciliation/04_source_binding.sql": "f292b52b4d471d82a4804c2a9f54b9fadff621d2b5402798dc613a2aaa6f4f35",
+    "scripts/cp7_customer_credit/reconciliation/04_source_binding.sql": "21bcf036fdfbf7c6e9d6afe8c98c7a8888f8f92ef7ac8c34ef9fccd627139510",
     "scripts/cp7_customer_credit/reconciliation/05_source_adjustments.sql": "5432e67f9d64eb068f47c38318a7532837298a75b0db66a6b5bd2dfc469e9bbb",
     "scripts/cp7_customer_credit/reconciliation/06_source_coordinator.sql": "ba06b0bf5134ce189d04b819fe0ef14554a462e2ccacbf58b5c1da0ae9383ce1",
     "scripts/cp7_customer_credit/reconciliation/07_source_closure.sql": "b5950e046932dcddcfd8a8bb703ab412ec7eba008b6fa1667d1557bf7498b33b",

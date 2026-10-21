@@ -1,0 +1,62 @@
+{
+  "classification": "LOCAL_ACTUAL_PRODUCT_STATEMENT_IN_SYNTHETIC_PLPGSQL_CONTEXT_NOT_NATIVE_PROOF",
+  "version": "PostgreSQL 18.6 (PGlite 0.5.10) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.5 (1db513782be24469589d7cb8a1f1834e9a33f271), 32-bit",
+  "source": "scripts/cp7_customer_credit/reconciliation/04_source_binding.sql",
+  "before_candidate": "99695e103f6ec3c604f38419e65722e08013c02c",
+  "tests": [
+    {
+      "id": "BEFORE_REPRODUCES_ACTUAL_ALIAS_COLLISION",
+      "status": "PASS",
+      "observed_error": {
+        "code": "42702",
+        "message": "column reference \"f\" is ambiguous"
+      }
+    },
+    {
+      "id": "NO_FAMILIES",
+      "status": "PASS",
+      "expected": "0",
+      "observed": "0"
+    },
+    {
+      "id": "EMPTY_RECOGNITION",
+      "status": "PASS",
+      "expected": "0",
+      "observed": "0"
+    },
+    {
+      "id": "INITIAL200",
+      "status": "PASS",
+      "expected": "200.00",
+      "observed": "200.00"
+    },
+    {
+      "id": "RETAINED_INITIAL200_ADJ_MINUS50",
+      "status": "PASS",
+      "expected": "150.00",
+      "observed": "150.00"
+    },
+    {
+      "id": "RETAINED_FULL_CANCELLATION",
+      "status": "PASS",
+      "expected": "0.00",
+      "observed": "0.00"
+    },
+    {
+      "id": "MULTIPLE_FAMILIES",
+      "status": "PASS",
+      "expected": "250.00",
+      "observed": "250.00"
+    },
+    {
+      "id": "EXACT_LARGE_CANCELLATION",
+      "status": "PASS",
+      "expected": "0.01",
+      "observed": "0.01"
+    }
+  ],
+  "passed": 8,
+  "database_network_calls": 0,
+  "production_go": false,
+  "after_source_sha256": "21bcf036fdfbf7c6e9d6afe8c98c7a8888f8f92ef7ac8c34ef9fccd627139510"
+}
