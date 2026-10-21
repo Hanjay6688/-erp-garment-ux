@@ -1,0 +1,116 @@
+{
+  "classification": "PREDECLARED_CONSUMER_WORKSPACE_AUTH_AND_PRODUCT_BROWSER_NOT_EXECUTED",
+  "original_nine_sha256": "437c6b2f0fe338e96a4880b6acff01e6af2f79d4f9d8ef0de29c0b4676be22ac",
+  "refund_nine_sha256": "eed6e700cfabc301f76a74819fc5b614b6b20da16af6d8f97f05ee9d10d7b762",
+  "http_case_ids": [
+    "OW04_CONSUMER_WORKSPACE_FRESH_READONLY_PAGES",
+    "OW04_CONSUMER_WORKSPACE_APPLY_NAMED_UNDO_HISTORY",
+    "OW04_CONSUMER_WORKSPACE_INITIAL_REFUND_UNDO_HISTORY",
+    "OW04_CONSUMER_WORKSPACE_ACCESS_STALE_AND_PAGE_LEASE_REFUSALS"
+  ],
+  "browser_case_ids": [
+    "OW04_CONSUMER_BROWSER_APPLY_LOST_REPLY_DESKTOP",
+    "OW04_CONSUMER_BROWSER_REFUND_MOBILE",
+    "OW04_CONSUMER_BROWSER_INITIAL_REFUND_UNDO_MOBILE",
+    "OW04_CONSUMER_BROWSER_REVOKED_PENDING_REPLAY"
+  ],
+  "initial_credit": {
+    "source": {
+      "gross": "1000.00",
+      "net": "800.00",
+      "P": "1000.00",
+      "U": "0.00",
+      "I": "200.00",
+      "E": "800.00",
+      "AR": "0.00",
+      "available_credit": "200.00",
+      "net_consumption": "0.00"
+    },
+    "target": {
+      "gross": "500.00",
+      "net": "500.00",
+      "P": "0.00",
+      "U": "0.00",
+      "I": "0.00",
+      "E": "0.00",
+      "AR": "500.00"
+    },
+    "cash": "1000.00"
+  },
+  "after_apply80": {
+    "source": {
+      "gross": "1000.00",
+      "net": "800.00",
+      "P": "1000.00",
+      "U": "0.00",
+      "I": "200.00",
+      "E": "800.00",
+      "AR": "0.00",
+      "available_credit": "120.00",
+      "net_consumption": "80.00"
+    },
+    "target": {
+      "gross": "500.00",
+      "net": "500.00",
+      "P": "0.00",
+      "U": "80.00",
+      "I": "0.00",
+      "E": "80.00",
+      "AR": "420.00"
+    },
+    "cash": "1000.00"
+  },
+  "after_refund80": {
+    "source": {
+      "gross": "1000.00",
+      "net": "800.00",
+      "P": "1000.00",
+      "U": "0.00",
+      "I": "200.00",
+      "E": "800.00",
+      "AR": "0.00",
+      "available_credit": "120.00",
+      "net_consumption": "80.00"
+    },
+    "target": {
+      "gross": "500.00",
+      "net": "500.00",
+      "P": "0.00",
+      "U": "0.00",
+      "I": "0.00",
+      "E": "0.00",
+      "AR": "500.00"
+    },
+    "cash": "920.00"
+  },
+  "after_named_full_undo": {
+    "source": {
+      "gross": "1000.00",
+      "net": "800.00",
+      "P": "1000.00",
+      "U": "0.00",
+      "I": "200.00",
+      "E": "800.00",
+      "AR": "0.00",
+      "available_credit": "200.00",
+      "net_consumption": "0.00"
+    },
+    "target": {
+      "gross": "500.00",
+      "net": "500.00",
+      "P": "0.00",
+      "U": "0.00",
+      "I": "0.00",
+      "E": "0.00",
+      "AR": "500.00"
+    },
+    "cash": "1000.00"
+  },
+  "positive_amount": "80.00",
+  "initial_refund_amount": "200.00",
+  "fixture_period": "EXISTING_OPEN_PAIR",
+  "browser_physical": "EXPLICIT_PROSPECTIVE_INPUT_AFTER_SOURCE_ROUNDED_UP_TO_MILLISECONDS_ONLY",
+  "money_dates_and_owning_guards_changed": false,
+  "production_go": false,
+  "formal_CP7C_started": false
+}

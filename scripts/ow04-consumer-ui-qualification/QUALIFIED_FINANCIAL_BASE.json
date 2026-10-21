@@ -1,0 +1,17 @@
+{
+  "classification": "ACTUAL_AUTH14_AND_SQL_RACE2_WITH_EXACT_NATIVE18_FINANCIAL_SOURCE_NOT_NEW_UI_QUALIFICATION",
+  "race_candidate": "0635156cc06842c59d5e2eb403a956c65f54b8d4",
+  "race_tree": "f0d4e16f42f6e02087e63f1370ff6bbdc6612cb0",
+  "race_original_report": "docs/cp7/d17-14/ow04/consumer-race2-0635156c-pass/CP7_OW04_CONSUMER_SQL_RACE2.json.gz",
+  "race_original_report_sha256": "f25f75ddeee4e889b2a1164c902a0db7dd6964045c90b32b3fb34e6ec51c09bc",
+  "auth_candidate": "f48b76a68f9607caca47c83d590f7d0a0190e23e",
+  "auth_tree": "41077f536789ae250bfb1977d8a3fbccb586aed2",
+  "auth_original_report": "docs/cp7/d17-14/ow04/consumer-http14-f48b76a6-pass/CP7_OW04_CONSUMER_HTTP14.json.gz",
+  "auth_original_report_sha256": "0a2fffd3beadfb281ddbde5de5ed49a0338cb1d169ce4bcb15dd38e1c085c880",
+  "native_candidate": "d847fef89af01abbef377bd7f41f4361b736001a",
+  "native_count": 18,
+  "auth_count": 14,
+  "race_count": 2,
+  "production_go": false,
+  "formal_CP7C_started": false
+}

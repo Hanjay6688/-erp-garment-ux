@@ -21,10 +21,11 @@ PINS = {**PINS, **json.loads((HERE / 'SOURCE_HISTORY_PINS.json').read_text())['f
 SQL_FILES = ('01_dependency_graph.sql','02_operation_facts.sql','04_credit_book_bound.sql',
              '05_event_data.sql','06_access_and_requests.sql','07_locked_projection.sql',
              '08_owning_command.sql','09_deferred_closure.sql','10_capabilities.sql','11_source_history.sql',
-             '12_payment_restatement_preflight.sql')
+             '12_payment_restatement_preflight.sql','13_workspace.sql')
 ROOT_HELPER = 'cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb)'
 PUBLIC = ('public.erp_cp7_get_customer_credit_review_v1(jsonb)',
-          'public.erp_cp7_customer_credit_command_v1(jsonb,uuid,jsonb)')
+          'public.erp_cp7_customer_credit_command_v1(jsonb,uuid,jsonb)',
+          'public.erp_cp7_get_customer_credit_workspace_v1(jsonb)')
 TABLES=('consumer_requests_v1','consumer_execution_context','consumer_operations_v1',
         'consumer_posting_scope_v1','consumer_completions_v1')
 

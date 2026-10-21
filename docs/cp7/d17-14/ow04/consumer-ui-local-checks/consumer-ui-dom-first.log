@@ -1,0 +1,24 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/05009cca93f2/erp-ow04-consumer-ui
+
+
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ConnectedCustomerCredit.dom.test.tsx [ src/ConnectedCustomerCredit.dom.test.tsx ]
+SyntaxError: Cannot call vi.hoisted() inside vi.hoisted(): both methods are hoisted to the top of the file and not actually called inside each other.
+     10| var _jsxFileName = "/workspace/scratch/05009cca93f2/erp-ow04-consumer-…
+     11| import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
+     12| const auth = vi.hoisted(() => ({ current: null })), client = vi.hoiste…
+       |                                                              ^
+     13| vi.mock("./auth/AuthProvider", () => ({ useAuth: () => auth.current })…
+     14| vi.mock("./lib/supabase", () => ({ getUatSupabaseClient: () => client …
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  21:46:57
+   Duration  521ms (transform 0ms, setup 0ms, import 0ms, tests 0ms, environment 325ms)
+

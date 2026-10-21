@@ -87,6 +87,18 @@ export function normalizeClientError(error: unknown): ClientAppError {
     return new ClientAppError('VERSION_CONFLICT', 'Data berubah di perangkat lain. Muat ulang sebelum menyimpan.')
   }
 
+  const creditMessages: Record<string,string> = {
+    cp7_credit_consumer_review_changed: 'Saldo, invoice tujuan, rekening, atau hak akses berubah. Muat ulang invoice lalu periksa kembali transaksi kredit.',
+    cp7_credit_workspace_source_changed: 'Invoice sumber berubah. Muat ulang invoice sebelum memeriksa saldo kredit.',
+    cp7_credit_workspace_list_changed: 'Daftar saldo atau tujuan berubah saat berpindah halaman. Periksa kembali daftar dari halaman pertama.',
+    cp7_credit_consumer_insufficient_dated_source_capacity: 'Saldo kredit pada tanggal transaksi belum cukup. Periksa nominal, waktu, dan riwayat pemakaian saldo.',
+    cp7_credit_consumer_original_already_undone: 'Transaksi kredit ini sudah dibatalkan. Muat ulang invoice dan periksa riwayat kredit.',
+    cp7_credit_consumer_undo_before_original_physical: 'Waktu pembatalan tidak boleh mendahului transaksi kredit aslinya. Periksa waktu di riwayat kredit.',
+    cp7_credit_consumer_physical_source_date_invalid: 'Waktu transaksi kredit harus sesudah retur sumber dan tidak boleh di masa depan. Periksa waktu transaksi WIB.',
+    cp7_credit_consumer_physical_before_target: 'Waktu pemakaian saldo tidak boleh mendahului invoice tujuan. Periksa waktu transaksi WIB.',
+  }
+  if (creditMessages[rawMessage]) return new ClientAppError('REJECTED',creditMessages[rawMessage])
+
   const periodMessages: Record<string,string> = {
     cp7_period_review_changed: 'Periode, kesiapan, atau saldo berubah sejak diperiksa. Periksa ulang sebelum melanjutkan.',
     cp7_period_not_closed: 'Belum ada periode tertutup yang dapat dibuka kembali.',
