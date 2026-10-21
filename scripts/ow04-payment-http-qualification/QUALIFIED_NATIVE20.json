@@ -1,0 +1,10 @@
+{
+  "classification": "EXACT_ACTUAL_NATIVE20_FINANCIAL_SOURCE_BINDING_NOT_INTEROP_QUALIFICATION",
+  "candidate_commit": "f06570e045d720e9bd7806858b7dd08fb7e45522",
+  "run_id": 39691797336,
+  "job_id": 119539510024,
+  "original_report": "docs/cp7/d17-14/ow04/payment-source-native20-f06570e0-pass/CP7_OW04_PAYMENT_SOURCE_NATIVE20.json.xz",
+  "original_report_sha256": "bf6dc8a76bace20ab41c99fb7266e4266c268b8db8dfc3a418c49a62d0cc585e",
+  "Native20_rerun": false,
+  "production_go": false
+}
