@@ -1,0 +1,19 @@
+{
+  "classification": "LOCAL_PGLITE_COMPILE_AND_CLOSED_MISSING_COORDINATOR_CONTROL_NOT_NATIVE_EXECUTION",
+  "status": "PASS",
+  "compiled_actual_derived_function": true,
+  "metadata": {
+    "owner": "postgres",
+    "prosecdef": true,
+    "provolatile": "v",
+    "proconfig": [
+      "search_path=erp, public"
+    ]
+  },
+  "outsider_execute_denied": true,
+  "missing_coordinator_refused_before_Native_guard_or_writes": true,
+  "consumer_command_implemented": false,
+  "Native_cases_added": 0,
+  "production_go": false,
+  "transform_source_sha256": "0239b43383765a8fa965fdfe06917bf3c29489cb2af18527928ee633b5b42a60"
+}

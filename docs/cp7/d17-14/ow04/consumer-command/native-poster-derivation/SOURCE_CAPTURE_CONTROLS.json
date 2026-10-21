@@ -1,0 +1,57 @@
+{
+  "classification": "ACTUAL_NATIVE17_MANIFEST_CAPTURE_DERIVATION_AND_LOCAL_SQL_CONTROLS_NOT_CONSUMER_EXECUTION",
+  "status": "PASS",
+  "source_manifest_run": 39618524514,
+  "source_manifest_artifact": 12354281447,
+  "source_capture_definition_sha256": "1f4b630c00147f88d195b3b365114eaecc60fdf3141859c384056423ae39f824",
+  "controls": [
+    "changed_definition",
+    "changed_body",
+    "wrong_owner",
+    "extra_execute",
+    "changed_security",
+    "changed_volatility",
+    "changed_search_path",
+    "duplicate_body",
+    "missing_native_admission",
+    "changed_resolver",
+    "missing_shift_audit",
+    "raw_release_not_installed_capture"
+  ],
+  "control_count": 12,
+  "receipt": {
+    "source_identity": "erp.post_journal(text,uuid,date,text,jsonb)",
+    "source_definition_sha256": "1f4b630c00147f88d195b3b365114eaecc60fdf3141859c384056423ae39f824",
+    "source_owner": "postgres",
+    "source_acl": [
+      "postgres=X/postgres",
+      "service_role=X/postgres"
+    ],
+    "source_security_definer": true,
+    "source_volatility": "v",
+    "source_config": [
+      "search_path=erp, public"
+    ],
+    "target_identity": "cp7_credit._post_consumer_bound_v1(text,uuid,date,text,jsonb)",
+    "expected_target_definition_sha256": "5abe380e5164a53ff5bc2544fed3da8001c7b8e9b20a25055a06f96f7263b8fb",
+    "target_owner": "postgres",
+    "target_acl": [
+      "postgres=X/postgres"
+    ],
+    "target_security_definer": true,
+    "target_volatility": "v",
+    "target_config": [
+      "search_path=erp, public"
+    ],
+    "native_execution_proven": false,
+    "derived_sql_sha256": "1120b71aa3aa1ddcfc4be63362f8d586ed2a7e2a6bbbf2ae47290b0162b76254",
+    "exact_installed_capture_required": true,
+    "original_Native_replaced": false,
+    "original_Native_require_internal_retained": true,
+    "complete_owning_consumer_callbacks_required": true,
+    "financial_command_implemented": false
+  },
+  "Native_cases_added": 0,
+  "production_go": false,
+  "transform_source_sha256": "0239b43383765a8fa965fdfe06917bf3c29489cb2af18527928ee633b5b42a60"
+}
