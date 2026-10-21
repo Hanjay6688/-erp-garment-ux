@@ -8,7 +8,7 @@ operation=sys.argv[1]if len(sys.argv)==2 else None
 sys.argv=sys.argv[:1]
 import transport_probe as transport
 import psycopg
-http_cases=transport.http_cases
+http_cases=transport.initial_http
 initial=http_cases.initial
 nf=initial.native
 OUT=transport.REPO/'cp6-proof/t3/ow04-browser-fixtures'

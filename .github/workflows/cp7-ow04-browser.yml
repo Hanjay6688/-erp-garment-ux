@@ -105,6 +105,7 @@ jobs:
       working-directory: writer
       run: |
         ERP_REPO=../auditor PYTHONPATH=../auditor/scripts:../auditor/scripts/ow04-qualification python -c "import browser_probe as b; b.transport.qualified_core(); source,_=b.browser_sources.inspect_sources(); assert source['members_verified']==53 and len(b.IDS)==4; print('OW04_BROWSER_IMPORT_ESCROW_ADMISSION_PASS_NOT_EXECUTED')"
+        ERP_REPO=../auditor PYTHONPATH=../auditor/scripts:../auditor/scripts/ow04-qualification python ../auditor/scripts/ow04-qualification/fixture_recheck.py
     - name: Install candidate browser dependencies
       working-directory: auditor
       run: |

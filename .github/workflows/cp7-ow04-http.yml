@@ -112,6 +112,7 @@ jobs:
         ERP_REPO=../auditor PYTHONPATH=../auditor/scripts:../auditor/scripts/ow04-qualification python -c "import race_probe as r; assert r.transport_backend.qualified_core()['native_case_count']==63; assert len(r.source_race_cases.races(None,None))==2; print('OW04_SOURCE_RACE2_IMPORT_ADMISSION_PASS_NOT_EXECUTED')"
         PYTHONDONTWRITEBYTECODE=1 python ../auditor/scripts/ow04-qualification/native_binding_recheck.py
         PYTHONDONTWRITEBYTECODE=1 python ../auditor/scripts/ow04-qualification/final_binding_recheck.py
+        ERP_REPO=../auditor PYTHONPATH=../auditor/scripts:../auditor/scripts/ow04-qualification python ../auditor/scripts/ow04-qualification/fixture_recheck.py
     - name: Install candidate browser dependencies
       working-directory: auditor
       run: |

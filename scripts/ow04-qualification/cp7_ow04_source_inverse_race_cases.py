@@ -120,7 +120,11 @@ def _operation(cur,fixture,request,result,evidence,requests):
         source_proof['inverse_journal_id'],source_proof['additional_native_hpp_sync_effects'])==(
         'ow04.native-source-inverse-proof.v1',ACTION,fixture['initial_result']['return_id'],
         evidence['source_inverse']['document']['header']['id'],0)
-    current_source=cur.execute('select cp7_credit.source_native_snapshot_v1(%s)',(f['sale'],)).fetchone()[0]
+    # The sealed rows above use Native's exact-decimal JSON parser. Read the
+    # current snapshot through that same parser: psycopg's default JSON decoder
+    # converts numeric JSON to float and cannot equal an exact-decimal snapshot.
+    current_source=native._raw(cur,'select cp7_credit.source_native_snapshot_v1(%s)',
+                              (f['sale'],))['document']
     # Raw events/versions/corrections must remain exact in the actual B/N/Z
     # seals AND a fresh current table read. HPP book vectors legitimately
     # change by the proven source inverse; do not compare those as unchanged.

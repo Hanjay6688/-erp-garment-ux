@@ -11,8 +11,12 @@ paket, seluruh pemulihan kasus, restore CP6 dan advisor lulus. Receipt tepat:
 `docs/cp7/d17-14/ow04/CI_E928_NATIVE63_PASS.json`. Hasil59/63 pada99695e10
 adalah kegagalan historis yang tetap dipreservasi.
 UI retur kini ada di sumber aplikasi aktif,182 kasus lokal unik dan build lulus.
-HTTP14/race6+2/browser4 belum diuji terhadap kandidat ini. Scope OW04 masih
-terbuka dan production_go=false. Identitas/bukti rinci mengikuti receipt run.
+Pada8a683ef2, real Auth/HTTP14/14 dan retained race6/6 lulus. Dua source race
+berhenti pada pembanding JSON beda tipe angka; empat browser berhenti sebelum
+fixture karena rujukan modul salah. Keduanya diperbaiki hanya di alat kualifikasi;
+14 kontrol lokal mereproduksi kegagalan lama dan tetap menolak perubahan HPP.
+Run penuh belum lulus; bukti asli di `docs/cp7/d17-14/ow04/runtime-8a683ef2/`.
+Scope OW04 masih terbuka, production_go=false. Receipt menentukan hasil terbaru.
 
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan—termasuk laporan—stok, dan HPP adalah raja.
