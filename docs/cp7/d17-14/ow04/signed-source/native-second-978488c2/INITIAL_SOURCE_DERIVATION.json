@@ -1,0 +1,146 @@
+{
+  "classification": "INDEPENDENT_SOURCE_DERIVED_FRESH4_METADATA_LOCKED_NO_DB_EXECUTION",
+  "locked_at_utc": "2026-10-21T04:30:33.035860+00:00",
+  "candidate": "978488c29851b102b153be3c5979d3e7b51ab89c",
+  "database_calls": 0,
+  "network_calls": 0,
+  "product_edits": 0,
+  "full_source_review": "Read exact full source files and searched predecessor source tree for later grants/revokes/metadata changes. No live ACL input used.",
+  "expected": [
+    {
+      "identity": "cp7_installment.guard_journal()",
+      "owner": "cp7_installment_read",
+      "acl": [
+        {
+          "grantee": "cp7_installment_read",
+          "privilege": "EXECUTE",
+          "grantable": false
+        },
+        {
+          "grantee": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        }
+      ],
+      "source": "scripts/cp7-src/payroll/installments.sql",
+      "anchors": [
+        102,
+        103,
+        377,
+        379,
+        380,
+        392
+      ],
+      "language": "plpgsql",
+      "volatility": "v",
+      "security_definer": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "input_arguments": "",
+      "result": "trigger",
+      "source_sha256": "743406d68778c3d2ba812ff189765f7e7b6cc1ba9a39fe30ef1ce55095a9fa8e"
+    },
+    {
+      "identity": "cp7_kasbon.guard_journal()",
+      "owner": "postgres",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        }
+      ],
+      "source": "scripts/cp7-src/payroll/kasbon.sql",
+      "anchors": [
+        179,
+        180,
+        324,
+        326,
+        327,
+        330,
+        331
+      ],
+      "language": "plpgsql",
+      "volatility": "v",
+      "security_definer": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "input_arguments": "",
+      "result": "trigger",
+      "source_sha256": "c12b20581c7c2f92e81a96aa4468f8280fcea47808f4d9495460eef9554f1749"
+    },
+    {
+      "identity": "cp7_cutover.guard_journal()",
+      "owner": "postgres",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        }
+      ],
+      "source": "scripts/cp7-src/cutover/cutover.sql",
+      "anchors": [
+        86,
+        87,
+        238,
+        249,
+        250,
+        252,
+        253,
+        254
+      ],
+      "language": "plpgsql",
+      "volatility": "v",
+      "security_definer": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "input_arguments": "",
+      "result": "trigger",
+      "source_sha256": "53c08afdc5f7e350682015a7989e8c49d6a91024feb4f301604d5e86f538dd74"
+    },
+    {
+      "identity": "cp7_cutover.guard_movement()",
+      "owner": "postgres",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        }
+      ],
+      "source": "scripts/cp7-src/cutover/cutover.sql",
+      "anchors": [
+        97,
+        98,
+        239,
+        249,
+        250,
+        252,
+        253,
+        254
+      ],
+      "language": "plpgsql",
+      "volatility": "v",
+      "security_definer": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "input_arguments": "",
+      "result": "trigger",
+      "source_sha256": "53c08afdc5f7e350682015a7989e8c49d6a91024feb4f301604d5e86f538dd74"
+    }
+  ],
+  "minimal_correction": "Only installment guard gains explicit postgres EXECUTE,false in source expected ACL. Keep ownerread+postgres exactly; no otherrole/public/WITHGRANTOPTION or actualpermissionchange. Otherfresh3 unchanged.",
+  "reported_failure": {
+    "run_id": "39543633310",
+    "job_id": "119036787018",
+    "message": "FUNCTION_ACL cp7_installment.guard_journal",
+    "source": "parent-reported CI failure; no actual catalogue snapshot file provided yet"
+  },
+  "preserved_pre_correction_manifest_sha256": "88e349e18e2578d99ca5279997fade0637ee9952f17f53c38cb9cd6812b09b13",
+  "diagnostics_proposal": "Keep guard exception codes; include structured identity/phase/sourceanchors expected/actual and Counter missing/unexpected for ACL,FK,RI. Persist full first-failure rawcapture separately; never alterexpectedfromit."
+}

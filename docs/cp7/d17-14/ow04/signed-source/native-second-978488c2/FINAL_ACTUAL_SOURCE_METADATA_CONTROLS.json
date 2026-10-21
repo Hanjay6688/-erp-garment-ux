@@ -1,0 +1,271 @@
+{
+  "classification": "PURE_SOURCE_METADATA_NOT_PG_OR_NATIVE_EXECUTION",
+  "database_calls": 0,
+  "status": "PASS",
+  "count": 17,
+  "cases": [
+    {
+      "case": "cp7_installment.guard_journal()",
+      "status": "PASS",
+      "acl": [
+        {
+          "grantee": "cp7_installment_read",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ]
+    },
+    {
+      "case": "cp7_kasbon.guard_journal()",
+      "status": "PASS",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ]
+    },
+    {
+      "case": "cp7_cutover.guard_journal()",
+      "status": "PASS",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ]
+    },
+    {
+      "case": "cp7_cutover.guard_movement()",
+      "status": "PASS",
+      "acl": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ]
+    },
+    {
+      "case": "grant_missing",
+      "status": "PASS",
+      "refusal": "SOURCE_INSTALLMENT_POSTGRES_EXECUTE_GRANT_CHANGED"
+    },
+    {
+      "case": "grant_comment_only",
+      "status": "PASS",
+      "refusal": "SOURCE_INSTALLMENT_POSTGRES_EXECUTE_GRANT_CHANGED"
+    },
+    {
+      "case": "grant_different_role",
+      "status": "PASS",
+      "refusal": "SOURCE_INSTALLMENT_POSTGRES_EXECUTE_GRANT_CHANGED"
+    },
+    {
+      "case": "grant_grant_option",
+      "status": "PASS",
+      "refusal": "SOURCE_INSTALLMENT_POSTGRES_EXECUTE_GRANT_CHANGED"
+    },
+    {
+      "case": "grant_duplicate",
+      "status": "PASS",
+      "refusal": "SOURCE_INSTALLMENT_POSTGRES_EXECUTE_GRANT_CHANGED"
+    },
+    {
+      "case": "source_corrected_synthetic_catalogue",
+      "status": "PASS"
+    },
+    {
+      "case": "unknown_authenticated",
+      "status": "PASS",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_FUNCTION_ACL: {'function': 'cp7_installment.guard_journal()', 'expected': [{'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'postgres', 'privilege': 'EXECUTE', 'grantable': False}], 'actual': [{'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'postgres', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'authenticated', 'privilege': 'EXECUTE', 'grantable': False}]}",
+      "detail": {
+        "function": "cp7_installment.guard_journal()",
+        "expected": [
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "postgres",
+            "privilege": "EXECUTE",
+            "grantable": false
+          }
+        ],
+        "actual": [
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "postgres",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "authenticated",
+            "privilege": "EXECUTE",
+            "grantable": false
+          }
+        ]
+      }
+    },
+    {
+      "case": "unexpected_grant_option",
+      "status": "PASS",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_FUNCTION_ACL: {'function': 'cp7_installment.guard_journal()', 'expected': [{'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'postgres', 'privilege': 'EXECUTE', 'grantable': False}], 'actual': [{'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'postgres', 'privilege': 'EXECUTE', 'grantable': True}]}",
+      "detail": {
+        "function": "cp7_installment.guard_journal()",
+        "expected": [
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "postgres",
+            "privilege": "EXECUTE",
+            "grantable": false
+          }
+        ],
+        "actual": [
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "postgres",
+            "privilege": "EXECUTE",
+            "grantable": true
+          }
+        ]
+      }
+    },
+    {
+      "case": "missing_postgres",
+      "status": "PASS",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_FUNCTION_ACL: {'function': 'cp7_installment.guard_journal()', 'expected': [{'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'postgres', 'privilege': 'EXECUTE', 'grantable': False}], 'actual': [{'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}]}",
+      "detail": {
+        "function": "cp7_installment.guard_journal()",
+        "expected": [
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "postgres",
+            "privilege": "EXECUTE",
+            "grantable": false
+          }
+        ],
+        "actual": [
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          }
+        ]
+      }
+    },
+    {
+      "case": "duplicate_acl",
+      "status": "PASS",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_FUNCTION_ACL: {'function': 'cp7_installment.guard_journal()', 'expected': [{'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'postgres', 'privilege': 'EXECUTE', 'grantable': False}], 'actual': [{'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'postgres', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}]}",
+      "detail": {
+        "function": "cp7_installment.guard_journal()",
+        "expected": [
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "postgres",
+            "privilege": "EXECUTE",
+            "grantable": false
+          }
+        ],
+        "actual": [
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "postgres",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          }
+        ]
+      }
+    },
+    {
+      "case": "missing_FK_exact_delta",
+      "status": "PASS",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_FOREIGN_KEY_SOURCE_CENSUS: {'missing': [{'identity': '{\"columns\":[\"value_journal_id\"],\"deferrable\":false,\"delete_action\":\"a\",\"initially_deferred\":false,\"match_type\":\"s\",\"parent\":\"erp.journal_entries\",\"parent_columns\":[\"id\"],\"relation\":\"erp.bb_opening_sale_return_receipts_v1\",\"update_action\":\"a\",\"validated\":true}', 'count': 1}], 'unknown': []}",
+      "detail": {
+        "missing": [
+          {
+            "identity": "{\"columns\":[\"value_journal_id\"],\"deferrable\":false,\"delete_action\":\"a\",\"initially_deferred\":false,\"match_type\":\"s\",\"parent\":\"erp.journal_entries\",\"parent_columns\":[\"id\"],\"relation\":\"erp.bb_opening_sale_return_receipts_v1\",\"update_action\":\"a\",\"validated\":true}",
+            "count": 1
+          }
+        ],
+        "unknown": []
+      }
+    },
+    {
+      "case": "duplicate_FK_exact_delta",
+      "status": "PASS",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_FOREIGN_KEY_SOURCE_CENSUS: {'missing': [], 'unknown': [{'identity': '{\"columns\":[\"adjustment_journal_entry_id\"],\"deferrable\":false,\"delete_action\":\"a\",\"initially_deferred\":false,\"match_type\":\"s\",\"parent\":\"erp.journal_entries\",\"parent_columns\":[\"id\"],\"relation\":\"erp.supplier_cent_posting_facts\",\"update_action\":\"a\",\"validated\":true}', 'count': 1}]}",
+      "detail": {
+        "missing": [],
+        "unknown": [
+          {
+            "identity": "{\"columns\":[\"adjustment_journal_entry_id\"],\"deferrable\":false,\"delete_action\":\"a\",\"initially_deferred\":false,\"match_type\":\"s\",\"parent\":\"erp.journal_entries\",\"parent_columns\":[\"id\"],\"relation\":\"erp.supplier_cent_posting_facts\",\"update_action\":\"a\",\"validated\":true}",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "case": "missing_RI_exact_delta",
+      "status": "PASS",
+      "refusal": "OW04_BOUNDED_TRIGGER_GUARD_INTERNAL_ATTACHMENT_SOURCE_CENSUS: {'missing': [{'identity': ('erp.journal_entries', '{\"columns\":[\"adjustment_journal_entry_id\"],\"deferrable\":false,\"delete_action\":\"a\",\"initially_deferred\":false,\"match_type\":\"s\",\"parent\":\"erp.journal_entries\",\"parent_columns\":[\"id\"],\"relation\":\"erp.supplier_cent_posting_facts\",\"update_action\":\"a\",\"validated\":true}', 'pg_catalog.RI_FKey_noaction_del()', 9, False, False, 'erp.supplier_cent_posting_facts'), 'count': 1}], 'unknown': []}",
+      "detail": {
+        "missing": [
+          {
+            "identity": [
+              "erp.journal_entries",
+              "{\"columns\":[\"adjustment_journal_entry_id\"],\"deferrable\":false,\"delete_action\":\"a\",\"initially_deferred\":false,\"match_type\":\"s\",\"parent\":\"erp.journal_entries\",\"parent_columns\":[\"id\"],\"relation\":\"erp.supplier_cent_posting_facts\",\"update_action\":\"a\",\"validated\":true}",
+              "pg_catalog.RI_FKey_noaction_del()",
+              9,
+              false,
+              false,
+              "erp.supplier_cent_posting_facts"
+            ],
+            "count": 1
+          }
+        ],
+        "unknown": []
+      }
+    }
+  ],
+  "builder_sha256": "dc39bacd8fd5beb2d40bb3acac8ced0ff4f29a34e1731981e52a0eb416bdf026",
+  "guard_sha256": "f34ba95fa976e654b1cec34d5fb2718170029b185801e6320f8659d80f98a684"
+}

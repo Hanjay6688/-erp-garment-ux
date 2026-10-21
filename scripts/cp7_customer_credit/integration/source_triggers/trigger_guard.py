@@ -77,6 +77,11 @@ def _index(rows,key):
     return found
 
 
+def _counter_difference(actual,expected):
+    return dict(missing=[dict(identity=k,count=n)for k,n in(expected-actual).items()],
+                unknown=[dict(identity=k,count=n)for k,n in(actual-expected).items()])
+
+
 def _ordinary_functions(snapshot, phase):
     wanted={x['identity']:x for x in phase['functions']}
     actual=_index(snapshot['functions'],lambda r:r['identity'])
@@ -88,7 +93,8 @@ def _ordinary_functions(snapshot, phase):
         for key in ('owner','language','security_definer','volatility','config',
                     'result','input_arguments','body_sha256'):
             if got[key]!=expected[key]:fail('FUNCTION_'+key.upper(),identity)
-        if sorted(got['acl'],key=canonical)!=sorted(expected['acl'],key=canonical):fail('FUNCTION_ACL',identity)
+        if sorted(got['acl'],key=canonical)!=sorted(expected['acl'],key=canonical):
+            fail('FUNCTION_ACL',dict(function=identity,expected=expected['acl'],actual=got['acl']))
         if expected['definition_sha256']is not None and got['definition_sha256']!=expected['definition_sha256']:
             fail('FUNCTION_DEFINITION',identity)
         if sha256(got['definition'].encode()).hexdigest()!=got['definition_sha256']or sha256(got['body'].encode()).hexdigest()!=got['body_sha256']:
@@ -143,8 +149,10 @@ def validate_source(snapshot, manifest, phase_name):
             if field not in skip and actual[key].get(field)!=value:
                 fail('ORDINARY_ATTACHMENT_FIELD',str(key)+' '+field)
     functions=_ordinary_functions(snapshot,phase)
-    if Counter(fk_key(r['semantic'])for r in snapshot['foreign_keys'])!=Counter(fk_key(r)for r in phase['foreign_keys']):
-        fail('FOREIGN_KEY_SOURCE_CENSUS')
+    actual_fks=Counter(fk_key(r['semantic'])for r in snapshot['foreign_keys'])
+    expected_fks=Counter(fk_key(r)for r in phase['foreign_keys'])
+    if actual_fks!=expected_fks:
+        fail('FOREIGN_KEY_SOURCE_CENSUS',_counter_difference(actual_fks,expected_fks))
     internals=[]
     for tr in snapshot['triggers']:
         if not tr['internal']:continue
@@ -160,7 +168,9 @@ def validate_source(snapshot, manifest, phase_name):
         if fn['body']!=tr['function'].split('.',1)[1][:-2]:fail('RI_INTERNAL_ENTRY_POINT',tr['function'])
         internals.append((tr['relation'],fk_key(c['semantic']),tr['function'],tr['trigger_type'],
             tr['deferrable'],tr['initially_deferred'],tr['referenced_relation']))
-    if Counter(internals)!=_ri_expected(manifest,phase):fail('INTERNAL_ATTACHMENT_SOURCE_CENSUS')
+    expected_internals=_ri_expected(manifest,phase)
+    if Counter(internals)!=expected_internals:
+        fail('INTERNAL_ATTACHMENT_SOURCE_CENSUS',_counter_difference(Counter(internals),expected_internals))
     attached={x['function']for x in snapshot['triggers']}
     if set(functions)!=attached:fail('FUNCTION_CAPTURE_SET')
     return dict(phase=phase_name,ordinary_attachments=len(actual),ordinary_functions=len(phase['functions']),

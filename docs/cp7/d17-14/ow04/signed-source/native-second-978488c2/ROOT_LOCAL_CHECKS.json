@@ -1,0 +1,16 @@
+{
+  "classification": "ROOT_SOURCE_AND_CLI_CHECKS_NOT_NATIVE_EXECUTION",
+  "status": "PASS",
+  "database_calls": 0,
+  "source_pins_verified": 355,
+  "closed_exact_overlays_byte_identical": 14,
+  "actual_main_cli_dispatch_controls": 7,
+  "missing_source_grant_refused": true,
+  "native_executed": false,
+  "production_go": false,
+  "files_sha256": {
+    "scripts/cp7_customer_credit/integration/source_triggers/build_source_pins.py": "dc39bacd8fd5beb2d40bb3acac8ced0ff4f29a34e1731981e52a0eb416bdf026",
+    "scripts/cp7_customer_credit/integration/source_triggers/trigger_guard.py": "f34ba95fa976e654b1cec34d5fb2718170029b185801e6320f8659d80f98a684",
+    "scripts/cp7_customer_credit/integration/source_triggers/SOURCE_PINS.json": "965c1e1b6af9e854b9219a851eceb64ee4a459107358c70a6e6b937d49b88162"
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "classification": "SECOND_NATIVE63_ATTEMPT_SOURCE_EXPECTED_ACL_DEFECT_BEFORE_OW04_INSTALL",
+  "status": "INCOMPLETE",
+  "candidate": "978488c29851b102b153be3c5979d3e7b51ab89c",
+  "tree": "17c2e200aa57dd7162aec40350ecf2fffa58efd1",
+  "run_id": 39543633310,
+  "job_id": 119036787018,
+  "workflow_conclusion": "failure",
+  "expected_native_count": 63,
+  "observed_native_count": 0,
+  "native_executed": false,
+  "production_go": false,
+  "first_error": "OW04_BOUNDED_TRIGGER_GUARD_FUNCTION_ACL: cp7_installment.guard_journal()",
+  "cause": "Source manifest incorrectly declared owner-only ACL for cp7_installment.guard_journal(). Existing predecessor source transfers ownership to cp7_installment_read then explicitly grants EXECUTE on all cp7_installment functions to postgres. No database permission change is required.",
+  "disposition": "Derive the exact read+postgres EXECUTE ACL from the existing literal source grant; reject a missing/changed grant and unknown privileges. Add exact expected/actual diagnostic for ACL and missing/unknown Counter diagnostics for FK/RI. Independent reviewer derives all four fresh function ACLs from full generated predecessor.",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "log": {
+    "path": "job.log.gz",
+    "decoded_utf8_bytes": 274917,
+    "decoded_utf8_sha256": "3f9d6685b6ff0fc917e8a7578061ced46d8b24b2c5e76c688d772070fb9c55a3"
+  },
+  "artifact": {
+    "id": 12320866363,
+    "bytes": 1630511,
+    "sha256": "aff03e2234c0d3fc58c537795fddd52eba1819e4eb65887d7fa1d9809b117f63",
+    "expires_at": "2026-11-20T04:26:41Z",
+    "members": [
+      {
+        "name": "ALIGNED_CHAIN.json",
+        "bytes": 17536,
+        "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+      },
+      {
+        "name": "CLONE_install.clone-erp.sql",
+        "bytes": 5385611,
+        "sha256": "304f75045e3f6c2cc61febad643518d862460f391f3eee9c9a77025b626ebab0"
+      },
+      {
+        "name": "CLONE_install.connection-fence.txt",
+        "bytes": 494,
+        "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+      },
+      {
+        "name": "CLONE_install.database-identity.txt",
+        "bytes": 3074,
+        "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+      },
+      {
+        "name": "CLONE_install.source-erp.sql",
+        "bytes": 5385611,
+        "sha256": "304f75045e3f6c2cc61febad643518d862460f391f3eee9c9a77025b626ebab0"
+      },
+      {
+        "name": "CLONE_install.txt",
+        "bytes": 291,
+        "sha256": "c0e71de5ac760ffa0848983d29a22d68d44fc09422273553b04003ecfac0607a"
+      },
+      {
+        "name": "CP7_OW04_SIGNED_SOURCE.json",
+        "bytes": 44555,
+        "sha256": "90628cf231becbbea67700a7043ef6142fbe0869bed8d643b0eeaa7457723c8c"
+      },
+      {
+        "name": "T3_BACKUP_RESTORE_DRILL.json",
+        "bytes": 10524,
+        "sha256": "d87e4c4e7f2f1b069eeaa05236bccf3d3abc14f83ed35ee53921ef48b1be8096"
+      },
+      {
+        "name": "T3_PACKAGE_FILES_INSTALL.json",
+        "bytes": 1806,
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+      },
+      {
+        "name": "T3_PACKAGE_INSTALL.json",
+        "bytes": 360450,
+        "sha256": "5ffb152729f8baa452212cfca329cdad0ff81b7b5909277ad317fe501712ccc5"
+      }
+    ],
+    "archive_embedded": false
+  },
+  "limits": [
+    "No new source-inverse business case ran; zero Native63 cases means no product transaction PASS.",
+    "Baseline package installed, but writer_runtime gate was false after the source expected ACL refusal.",
+    "Next candidate must execute all 63 declared cases; original expected money and old failures remain intact."
+  ]
+}

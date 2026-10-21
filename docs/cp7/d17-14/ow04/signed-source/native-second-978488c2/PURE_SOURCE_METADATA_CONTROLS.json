@@ -1,0 +1,425 @@
+{
+  "classification": "PURE_SOURCE_METADATA_AND_DIAGNOSTIC_CONTROLS_NOT_PG_OR_NATIVE_EXECUTION",
+  "database_calls": 0,
+  "source_builder_sha256": "dc39bacd8fd5beb2d40bb3acac8ced0ff4f29a34e1731981e52a0eb416bdf026",
+  "guard_sha256": "f34ba95fa976e654b1cec34d5fb2718170029b185801e6320f8659d80f98a684",
+  "count": 15,
+  "status": "PASS",
+  "cases": [
+    {
+      "case": "cp7_installment.guard_journal()",
+      "expected": [
+        {
+          "grantee": "cp7_installment_read",
+          "privilege": "EXECUTE",
+          "grantable": false
+        },
+        {
+          "grantee": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        }
+      ],
+      "actual_source_helper": [
+        {
+          "grantee": "cp7_installment_read",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "case": "cp7_kasbon.guard_journal()",
+      "expected": [
+        {
+          "grantee": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        }
+      ],
+      "actual_source_helper": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "case": "cp7_cutover.guard_journal()",
+      "expected": [
+        {
+          "grantee": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        }
+      ],
+      "actual_source_helper": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "case": "cp7_cutover.guard_movement()",
+      "expected": [
+        {
+          "grantee": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        }
+      ],
+      "actual_source_helper": [
+        {
+          "grantee": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "case": "grant_missing",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "reason": "SOURCE_INSTALLMENT_POSTGRES_EXECUTE_GRANT_CHANGED",
+      "ok": true
+    },
+    {
+      "case": "grant_comment_only",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "reason": "SOURCE_INSTALLMENT_POSTGRES_EXECUTE_GRANT_CHANGED",
+      "ok": true
+    },
+    {
+      "case": "grant_different_role",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "reason": "SOURCE_INSTALLMENT_POSTGRES_EXECUTE_GRANT_CHANGED",
+      "ok": true
+    },
+    {
+      "case": "grant_grant_option",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "reason": "SOURCE_INSTALLMENT_POSTGRES_EXECUTE_GRANT_CHANGED",
+      "ok": true
+    },
+    {
+      "case": "grant_duplicate",
+      "expected": "REFUSE",
+      "observed": "REFUSE",
+      "reason": "SOURCE_INSTALLMENT_POSTGRES_EXECUTE_GRANT_CHANGED",
+      "ok": true
+    },
+    {
+      "case": "source_corrected_metadata_model",
+      "ok": true,
+      "proof": {
+        "phase": "VERIFIED_PREDECESSOR",
+        "ordinary_attachments": 25,
+        "ordinary_functions": 18,
+        "internal_attachments": 210,
+        "foreign_keys": 99,
+        "capture_sha256": "29545343e9bc35b8ad8eeab899ece7186a1492ca5bfba62e3bb0567c90c5587a",
+        "classification": "SOURCE_AND_METADATA_ONLY_NOT_NATIVE_EXECUTION"
+      }
+    },
+    {
+      "case": "unknown_authenticated",
+      "ok": true,
+      "rejection": "OW04_BOUNDED_TRIGGER_GUARD_FUNCTION_ACL: {'function': 'cp7_installment.guard_journal()', 'expected': [{'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'postgres', 'privilege': 'EXECUTE', 'grantable': False}], 'actual': [{'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'postgres', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'authenticated', 'privilege': 'EXECUTE', 'grantable': False}]}",
+      "diagnostic": {
+        "kind": "FUNCTION_ACL",
+        "phase": "VERIFIED_PREDECESSOR",
+        "identity": "cp7_installment.guard_journal()",
+        "source": "scripts/cp7-src/payroll/installments.sql",
+        "source_definition_sha256": "42667985b254695d3dbbad42bdb935b7b17f201c6a2bece9a4a25b79448e111f",
+        "actual_function_oid": 1002,
+        "expected": [
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "postgres",
+            "privilege": "EXECUTE",
+            "grantable": false
+          }
+        ],
+        "actual": [
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "postgres",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "authenticated",
+            "privilege": "EXECUTE",
+            "grantable": false
+          }
+        ],
+        "difference": {
+          "equal": false,
+          "expected_count": 2,
+          "actual_count": 3,
+          "missing": [],
+          "unexpected": [
+            {
+              "row": {
+                "grantable": false,
+                "grantee": "authenticated",
+                "privilege": "EXECUTE"
+              },
+              "count": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "unexpected_grant_option",
+      "ok": true,
+      "rejection": "OW04_BOUNDED_TRIGGER_GUARD_FUNCTION_ACL: {'function': 'cp7_installment.guard_journal()', 'expected': [{'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'postgres', 'privilege': 'EXECUTE', 'grantable': False}], 'actual': [{'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'postgres', 'privilege': 'EXECUTE', 'grantable': True}]}",
+      "diagnostic": {
+        "kind": "FUNCTION_ACL",
+        "phase": "VERIFIED_PREDECESSOR",
+        "identity": "cp7_installment.guard_journal()",
+        "source": "scripts/cp7-src/payroll/installments.sql",
+        "source_definition_sha256": "42667985b254695d3dbbad42bdb935b7b17f201c6a2bece9a4a25b79448e111f",
+        "actual_function_oid": 1002,
+        "expected": [
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "postgres",
+            "privilege": "EXECUTE",
+            "grantable": false
+          }
+        ],
+        "actual": [
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "postgres",
+            "privilege": "EXECUTE",
+            "grantable": true
+          }
+        ],
+        "difference": {
+          "equal": false,
+          "expected_count": 2,
+          "actual_count": 2,
+          "missing": [
+            {
+              "row": {
+                "grantable": false,
+                "grantee": "postgres",
+                "privilege": "EXECUTE"
+              },
+              "count": 1
+            }
+          ],
+          "unexpected": [
+            {
+              "row": {
+                "grantable": true,
+                "grantee": "postgres",
+                "privilege": "EXECUTE"
+              },
+              "count": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "missing_postgres",
+      "ok": true,
+      "rejection": "OW04_BOUNDED_TRIGGER_GUARD_FUNCTION_ACL: {'function': 'cp7_installment.guard_journal()', 'expected': [{'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'postgres', 'privilege': 'EXECUTE', 'grantable': False}], 'actual': [{'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}]}",
+      "diagnostic": {
+        "kind": "FUNCTION_ACL",
+        "phase": "VERIFIED_PREDECESSOR",
+        "identity": "cp7_installment.guard_journal()",
+        "source": "scripts/cp7-src/payroll/installments.sql",
+        "source_definition_sha256": "42667985b254695d3dbbad42bdb935b7b17f201c6a2bece9a4a25b79448e111f",
+        "actual_function_oid": 1002,
+        "expected": [
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "postgres",
+            "privilege": "EXECUTE",
+            "grantable": false
+          }
+        ],
+        "actual": [
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          }
+        ],
+        "difference": {
+          "equal": false,
+          "expected_count": 2,
+          "actual_count": 1,
+          "missing": [
+            {
+              "row": {
+                "grantable": false,
+                "grantee": "postgres",
+                "privilege": "EXECUTE"
+              },
+              "count": 1
+            }
+          ],
+          "unexpected": []
+        }
+      }
+    },
+    {
+      "case": "duplicate_acl",
+      "ok": true,
+      "rejection": "OW04_BOUNDED_TRIGGER_GUARD_FUNCTION_ACL: {'function': 'cp7_installment.guard_journal()', 'expected': [{'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'postgres', 'privilege': 'EXECUTE', 'grantable': False}], 'actual': [{'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'postgres', 'privilege': 'EXECUTE', 'grantable': False}, {'grantee': 'cp7_installment_read', 'privilege': 'EXECUTE', 'grantable': False}]}",
+      "diagnostic": {
+        "kind": "FUNCTION_ACL",
+        "phase": "VERIFIED_PREDECESSOR",
+        "identity": "cp7_installment.guard_journal()",
+        "source": "scripts/cp7-src/payroll/installments.sql",
+        "source_definition_sha256": "42667985b254695d3dbbad42bdb935b7b17f201c6a2bece9a4a25b79448e111f",
+        "actual_function_oid": 1002,
+        "expected": [
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "postgres",
+            "privilege": "EXECUTE",
+            "grantable": false
+          }
+        ],
+        "actual": [
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "postgres",
+            "privilege": "EXECUTE",
+            "grantable": false
+          },
+          {
+            "grantee": "cp7_installment_read",
+            "privilege": "EXECUTE",
+            "grantable": false
+          }
+        ],
+        "difference": {
+          "equal": false,
+          "expected_count": 2,
+          "actual_count": 3,
+          "missing": [],
+          "unexpected": [
+            {
+              "row": {
+                "grantable": false,
+                "grantee": "cp7_installment_read",
+                "privilege": "EXECUTE"
+              },
+              "count": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "exact_missing_FK_diagnostic",
+      "ok": true,
+      "diagnostic": {
+        "kind": "FOREIGN_KEY_SOURCE_CENSUS",
+        "phase": "VERIFIED_PREDECESSOR",
+        "difference": {
+          "equal": false,
+          "expected_count": 99,
+          "actual_count": 98,
+          "missing": [
+            {
+              "row": {
+                "columns": [
+                  "value_journal_id"
+                ],
+                "deferrable": false,
+                "delete_action": "a",
+                "initially_deferred": false,
+                "match_type": "s",
+                "parent": "erp.journal_entries",
+                "parent_columns": [
+                  "id"
+                ],
+                "relation": "erp.bb_opening_sale_return_receipts_v1",
+                "update_action": "a",
+                "validated": true
+              },
+              "count": 1
+            }
+          ],
+          "unexpected": []
+        },
+        "expected_sources": [
+          {
+            "semantic": {
+              "relation": "erp.bb_opening_sale_return_receipts_v1",
+              "columns": [
+                "value_journal_id"
+              ],
+              "parent": "erp.journal_entries",
+              "parent_columns": [
+                "id"
+              ],
+              "update_action": "a",
+              "delete_action": "a",
+              "match_type": "s",
+              "deferrable": false,
+              "initially_deferred": false,
+              "validated": true
+            },
+            "source": "supabase/release/cp6-t3/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql",
+            "source_line": 266,
+            "source_fragment": "value_journal_id uuid references erp.journal_entries(id)"
+          }
+        ],
+        "actual_constraints": []
+      }
+    }
+  ]
+}

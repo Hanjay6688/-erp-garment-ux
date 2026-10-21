@@ -154,6 +154,20 @@ def source_function(sql, identity):
     return m[0][0], m[0][2]
 
 
+def fresh_trigger_acl(sql, identity, owner):
+    # Closed fresh trigger set, derived from its actual ownership/grant source.
+    # Installment's owner loop transfers to its read role, then the existing
+    # explicit schema-wide grant additionally authorizes postgres. Neither
+    # permission is learned from a live mismatch or installed by this builder.
+    principals={owner}
+    if identity=='cp7_installment.guard_journal()':
+        clause=r'\bgrant\s+execute\s+on\s+all\s+functions\s+in\s+schema\s+cp7_installment\s+to\s+postgres\s*;'
+        if len(re.findall(clause,masked(sql),re.I))!=1:
+            raise ValueError('SOURCE_INSTALLMENT_POSTGRES_EXECUTE_GRANT_CHANGED')
+        principals.add('postgres')
+    return sorted([dict(grantee=p,grantable=False,privilege='EXECUTE')for p in principals],key=canonical)
+
+
 def attachment(definition, source, owner='postgres'):
     # Controlled source set: ordinary row triggers, no WHEN/ARGS/transition
     # tables/constraints. Refuse grammar expansion instead of normalizing it.
@@ -242,11 +256,12 @@ def build(repo, p00_path, archive_path):
         ('cp7_cutover.guard_movement()', 'scripts/cp7-src/cutover/cutover.sql', 'postgres'),
     )
     for identity, file, owner in fresh:
-        fragment, body = source_function((repo / file).read_text(), identity)
+        source_text=(repo/file).read_text()
+        fragment, body = source_function(source_text, identity)
         if sql.count(fragment) != 1:
             raise ValueError('FRESH_TRIGGER_SOURCE_NOT_IN_EXACT_PREDECESSOR: ' + identity)
         fns.append(dict(identity=identity, owner=owner, language='plpgsql', security_definer=True,
-            volatility='v', config=['search_path=""'], acl=[dict(grantee=owner, grantable=False, privilege='EXECUTE')],
+            volatility='v', config=['search_path=""'], acl=fresh_trigger_acl(source_text,identity,owner),
             result='trigger', input_arguments='', body_sha256=digest(body), definition_sha256=None,
             source=file, source_definition=fragment, source_definition_sha256=digest(fragment)))
     for m in re.finditer(r'\bcreate\s+trigger\s+[^;]*?\bon\s+(erp\.\w+)\b[^;]*;', masked(sql), re.I | re.S):
