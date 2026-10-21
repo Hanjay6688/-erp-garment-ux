@@ -1,5 +1,11 @@
 # Aturan untuk Claude di repo ini
 
+## Kerangka kerja berkelanjutan (owner21 Okt2026)
+
+Baca dan ikuti `AGENTS.md`. Checkpoint disimpan dan dilaporkan, lalu pekerjaan
+yang sudah diotorisasi diteruskan sampai scope selesai; permintaan status atau
+checkpoint tidak menjadi alasan mengakhiri giliran dan menunggu "lanjut" lagi.
+
 ## Laporan ke owner (aturan owner, 8 Okt 2026)
 
 Owner: "RULE BUAT CLAUDE KASIH REPORT AFTER WORK itu jelas bahasa manusia."
