@@ -94,8 +94,6 @@ def install(cur, predecessor_verified, catalog_reader):
         cur.execute(transform.preflight_definition())
         for _, text in fragments():
             cur.execute(text)
-        for definition in definitions.values():
-            cur.execute(definition)
         existing_oids = set(catalog_before)
         new_rows = cur.execute("select p.oid::text,p.oid::regprocedure::text,n.nspname||'.'||p.proname from pg_proc p join pg_namespace n on n.oid=p.pronamespace where p.oid<>all(%s::oid[])",
             (list(existing_oids),)).fetchall()
@@ -104,6 +102,14 @@ def install(cur, predecessor_verified, catalog_reader):
         for _, sig, _ in new_rows:
             cur.execute('alter function '+sig+' owner to postgres')
             cur.execute('revoke all on function '+sig+' from public,anon,authenticated,service_role,cp7_capture,cp7_sales_read,cp7_sales_write,cp7_credit_write')
+    # Use the same actual installer authority that just replaced this exact
+    # cp7_payment_correction.apply in the qualified consumer stage. postgres
+    # owns that function but has only USAGE on its schema in this Native stack;
+    # forcing SET ROLE postgres here loses the installer's existing CREATE
+    # authority. CREATE OR REPLACE preserves every captured owner/ACL. No new
+    # schema privilege is granted or retained.
+    for definition in definitions.values():
+        cur.execute(definition)
     after = catalog_reader(cur)
     _admit_catalog(before, after, {row[1] for row in new_rows})
     state = dict(sources=source_manifest, captures=captures, definitions=definitions,
@@ -146,11 +152,11 @@ def uninstall_preuse(cur, state, catalog_reader):
     for table in TABLES:
         if cur.execute('select count(*)from cp7_credit.'+table).fetchone()[0]:
             raise ValueError('CP7_FULL_ROLLBACK_AFTER_USE_REQUIRES_BACKUP_RESTORE')
+    for sig, original in state['captures'].items():
+        cur.execute(original['definition'])
     with consumer.as_owner(cur,'postgres'):
         for table in TABLES:
             cur.execute('drop table cp7_credit.'+table)
-        for sig, original in state['captures'].items():
-            cur.execute(original['definition'])
         for sig in reversed(state['new_signatures']):
             cur.execute('drop function '+sig)
         for key in sorted(CONSTRAINTS):
