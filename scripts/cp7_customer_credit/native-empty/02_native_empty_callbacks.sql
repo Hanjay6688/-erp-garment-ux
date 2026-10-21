@@ -232,11 +232,12 @@ begin
   (cp7_credit.cent_text(p_refund),cp7_credit.cent_text(p_net_after))or w.posting_lines is not null then
   raise exception 'CP7_NATIVE_EMPTY_COMPLETION_TOTALS_CHANGED';end if;
  for hpp_group in select value from jsonb_array_elements(w.hpp_projection->'groups')loop
+  -- Native has posted the exact journal, but refreshes its PO baseline in
+  -- the original tail AFTER this callback. Compare the actual target now;
+  -- the complete target/book/cache assertions run in leave after that tail.
   if(hpp_group->>'po_id')::uuid is null then
-   perform erp.assert_non_po_product_hpp_target_book_v2620f((hpp_group->>'product_id')::uuid);
    select to_jsonb(nt)into strict actual_target from erp.compute_non_po_product_hpp_targets_v2620f((hpp_group->>'product_id')::uuid)nt;
   else
-   perform erp.assert_po_hpp_target_book_v2620e((hpp_group->>'po_id')::uuid);
    select to_jsonb(nt)into strict actual_target from erp.compute_po_hpp_gl_targets_v2620d((hpp_group->>'po_id')::uuid)nt;
   end if;
   if actual_target is distinct from hpp_group->'after_target'then raise exception 'CP7_NATIVE_EMPTY_ACTUAL_HPP_TARGET_CHANGED';end if;
@@ -347,7 +348,7 @@ end $$;
 
 create function cp7_credit.native_empty_leave_v1(p_return uuid)returns void
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
-declare w cp7_credit.native_empty_work;h erp.sales_headers;manifest jsonb;net numeric;paid numeric;
+declare w cp7_credit.native_empty_work;h erp.sales_headers;manifest jsonb;net numeric;paid numeric;hpp_group jsonb;actual_target jsonb;
 begin
  perform cp7_credit.assert_native_empty_work_v1(p_return);
  select *into strict w from cp7_credit.native_empty_work where source_return_id=p_return;
@@ -357,6 +358,18 @@ begin
  net:=(w.guard_values->>'net_after')::numeric;paid:=(w.guard_values->>'raw_paid')::numeric;
  if h.status is distinct from(case when paid=net then'PAID'when paid>0 and paid<net then'PARTIAL_PAID'else'POSTED'end)then
   raise exception 'CP7_NATIVE_EMPTY_FINAL_HEADER_STATUS';end if;
+ -- This callback is bound before the exact Native terminal END: all Native
+ -- PO baseline refreshes and its own complete book checks have now run.
+ for hpp_group in select value from jsonb_array_elements(w.hpp_projection->'groups')loop
+  if(hpp_group->>'po_id')::uuid is null then
+   perform erp.assert_non_po_product_hpp_target_book_v2620f((hpp_group->>'product_id')::uuid);
+   select to_jsonb(nt)into strict actual_target from erp.compute_non_po_product_hpp_targets_v2620f((hpp_group->>'product_id')::uuid)nt;
+  else
+   perform erp.assert_po_hpp_target_book_v2620e((hpp_group->>'po_id')::uuid);
+   select to_jsonb(nt)into strict actual_target from erp.compute_po_hpp_gl_targets_v2620d((hpp_group->>'po_id')::uuid)nt;
+  end if;
+  if actual_target is distinct from hpp_group->'after_target'then raise exception 'CP7_NATIVE_EMPTY_FINAL_HPP_TARGET_CHANGED';end if;
+ end loop;
  manifest:=jsonb_build_object('contract_version','ow04.native-empty-return-completion.v1','operation_id',w.operation_id,
   'source_sale_id',w.source_sale_id,'source_return_id',p_return,'return_status','POSTED','header_status',h.status,
   'net_after',cp7_credit.cent_text(net),'raw_paid',cp7_credit.cent_text(paid),'actual_fact',ow04_source_proposal.return_fact_v1(p_return),

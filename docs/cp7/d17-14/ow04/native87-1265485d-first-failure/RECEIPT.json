@@ -1,0 +1,1113 @@
+{
+  "candidate": "1265485d481bb5889361636044869f6a5f11def6",
+  "tree": "1fe7c3fa101fab83d0741b0492de6fc456a00d8c",
+  "run_id": 39596280530,
+  "job_id": 119209262190,
+  "workflow_conclusion": "failure",
+  "summary": {
+    "status": "INCOMPLETE",
+    "expected_case_count": 87,
+    "observed_case_count": 87,
+    "cp6_restored": true,
+    "advisor_gate": true
+  },
+  "counts": {
+    "PASS": 82,
+    "INCOMPLETE": 5
+  },
+  "retained73_all_pass": true,
+  "new_direct_native": {
+    "PASS": 9,
+    "INCOMPLETE": 5
+  },
+  "cases": [
+    {
+      "id": "OW04_INITIAL_1000_OPEN_CREDIT",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_OPEN_REFUND",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_CREDIT",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_REFUND",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_CREDIT",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_REFUND",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_CREDIT",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_REFUND",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_CREDIT",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_REFUND",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_CREDIT",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_REFUND",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_LIFECYCLE",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_SPLIT_GRADES",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_ALLOCATION_CAP",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_FIELDS",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_PAID_REFUSAL",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_DATE_LOCATION",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_REPLAY",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_SOURCE_CHANGE",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_PERMISSIONS",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_PAGES",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_CONSUMED",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_DRAFT_CANCEL",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_NATIVE_LIFECYCLE",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_EXACT_CENTS",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_FINANCIAL_REDACTION",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_PRIVATE_READ_ONLY",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_COMPLETE_PAGES",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_QUERY_REFUSAL",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_EMPTY_MISSING",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "F03_E01_NATIVE_60_TO_CASH_RETURN",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N01",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N02",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N03",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N04",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N05",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N06",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N07",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N08",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N09",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N10",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N11",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N12",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NONPO_SECOND_RETURN_CARRY",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_PO_SECOND_RETURN_CARRY",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NONPO_OTHER_POSITIVE",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NONPO_OTHER_NEGATIVE",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_PO_OTHER_POSITIVE",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_PO_OTHER_NEGATIVE",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_TWO_LOTS_ONE_PO",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_TWO_LOTS_SAME_NONPO_PRODUCT",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NONPO_FG_ZERO_HPP_JOURNAL",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_PO_FG_ZERO_REOPENED_HPP_JOURNAL",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_POSITIVE_SNAPSHOT_ZERO_VECTOR_REFUSED",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NATIVE_RECOST_STALE_QUOTE_REFUSED",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_TWO_ALLOCATIONS_SAME_LOT_GROUPED",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_DEBITS_PER_GROUP_BEFORE_NETTING",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_SIGNED_RETURN_REVERSE_UNCONSUMED_CREDIT",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_SIGNED_PAYMENT_REVERSE_UNCONSUMED_CREDIT",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_SIGNED_REVOKED_AUTHORITY_DENIES_FRESH_AND_REPLAY",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_SIGNED_CONSUMED_REFUND_BLOCKS_RETURN_REVERSE",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_SIGNED_ZERO_DIFF_EARLIER_ZERO_RETURN_REVERSE",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_FULL_USED_INSTALL_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_REFUND_DOCUMENT",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_CREDIT_PROVEN_EMPTY",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_CURRENT_PERMISSIONS",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_INACTIVE_ACTOR",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_STALE_VERSION_AND_REVIEW",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_MALFORMED_QUERY",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_MISSING_SOURCE",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_NEXT_PAGE",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_PRIVATE_AND_ANON_DENIED",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_HPP_NONPO_SECOND_RETURN_CARRY",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_HPP_PO_SECOND_RETURN_CARRY",
+      "status": "INCOMPLETE",
+      "error": "PO_HPP_TARGET_BOOK_MISMATCH_V2620E for PO 9d25584c-e089-4850-854d-b2835a527ec7\nCONTEXT:  PL/pgSQL function erp.assert_po_hpp_target_book_v2620e(uuid) line 28 at RAISE\nSQL statement \"SELECT erp.assert_po_hpp_target_book_v2620e((hpp_group->>'po_id')::uuid)\"\nPL/pgSQL function cp7_credit.native_empty_complete_v1(uuid,numeric,numeric) line 15 at PERFORM\nPL/pgSQL function cp7_credit.native_return_complete(uuid,numeric,numeric) line 4 at RETURN\nPL/pgSQL function post_sales_return(uuid) line 214 at assignment",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_HPP_NONPO_OTHER_POSITIVE",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_HPP_NONPO_OTHER_NEGATIVE",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_HPP_PO_OTHER_POSITIVE",
+      "status": "INCOMPLETE",
+      "error": "PO_HPP_TARGET_BOOK_MISMATCH_V2620E for PO 93680b63-debf-40a7-8795-d9e046bd7942\nCONTEXT:  PL/pgSQL function erp.assert_po_hpp_target_book_v2620e(uuid) line 28 at RAISE\nSQL statement \"SELECT erp.assert_po_hpp_target_book_v2620e((hpp_group->>'po_id')::uuid)\"\nPL/pgSQL function cp7_credit.native_empty_complete_v1(uuid,numeric,numeric) line 15 at PERFORM\nSQL expression \"cp7_credit.native_empty_complete_v1(p_return,p_refund,p_net_after)\"\nPL/pgSQL function cp7_credit.native_return_complete(uuid,numeric,numeric) line 4 at RETURN\nPL/pgSQL assignment \"v_paid:=cp7_credit.native_return_complete(h.id,v_refund,v_net_total)\"\nPL/pgSQL function post_sales_return(uuid) line 214 at assignment",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_HPP_PO_OTHER_NEGATIVE",
+      "status": "INCOMPLETE",
+      "error": "PO_HPP_TARGET_BOOK_MISMATCH_V2620E for PO 18adb0bc-0e4e-483e-b597-1d6428b8fdad\nCONTEXT:  PL/pgSQL function erp.assert_po_hpp_target_book_v2620e(uuid) line 28 at RAISE\nSQL statement \"SELECT erp.assert_po_hpp_target_book_v2620e((hpp_group->>'po_id')::uuid)\"\nPL/pgSQL function cp7_credit.native_empty_complete_v1(uuid,numeric,numeric) line 15 at PERFORM\nSQL expression \"cp7_credit.native_empty_complete_v1(p_return,p_refund,p_net_after)\"\nPL/pgSQL function cp7_credit.native_return_complete(uuid,numeric,numeric) line 4 at RETURN\nPL/pgSQL assignment \"v_paid:=cp7_credit.native_return_complete(h.id,v_refund,v_net_total)\"\nPL/pgSQL function post_sales_return(uuid) line 214 at assignment",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_HPP_TWO_LOTS_ONE_PO",
+      "status": "INCOMPLETE",
+      "error": "PO_HPP_TARGET_BOOK_MISMATCH_V2620E for PO fd452edb-baa2-44f0-9f85-cb0c4cdb52b6\nCONTEXT:  PL/pgSQL function erp.assert_po_hpp_target_book_v2620e(uuid) line 28 at RAISE\nSQL statement \"SELECT erp.assert_po_hpp_target_book_v2620e((hpp_group->>'po_id')::uuid)\"\nPL/pgSQL function cp7_credit.native_empty_complete_v1(uuid,numeric,numeric) line 15 at PERFORM\nSQL expression \"cp7_credit.native_empty_complete_v1(p_return,p_refund,p_net_after)\"\nPL/pgSQL function cp7_credit.native_return_complete(uuid,numeric,numeric) line 4 at RETURN\nPL/pgSQL assignment \"v_paid:=cp7_credit.native_return_complete(h.id,v_refund,v_net_total)\"\nPL/pgSQL function post_sales_return(uuid) line 214 at assignment",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_HPP_TWO_LOTS_SAME_NONPO_PRODUCT",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_HPP_NONPO_FG_ZERO_HPP_JOURNAL",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_HPP_PO_FG_ZERO_REOPENED_HPP_JOURNAL",
+      "status": "INCOMPLETE",
+      "error": "PO_HPP_TARGET_BOOK_MISMATCH_V2620E for PO be2a7598-b425-44c9-b231-25283cf1cd2f\nCONTEXT:  PL/pgSQL function erp.assert_po_hpp_target_book_v2620e(uuid) line 28 at RAISE\nSQL statement \"SELECT erp.assert_po_hpp_target_book_v2620e((hpp_group->>'po_id')::uuid)\"\nPL/pgSQL function cp7_credit.native_empty_complete_v1(uuid,numeric,numeric) line 15 at PERFORM\nSQL expression \"cp7_credit.native_empty_complete_v1(p_return,p_refund,p_net_after)\"\nPL/pgSQL function cp7_credit.native_return_complete(uuid,numeric,numeric) line 4 at RETURN\nPL/pgSQL assignment \"v_paid:=cp7_credit.native_return_complete(h.id,v_refund,v_net_total)\"\nPL/pgSQL function post_sales_return(uuid) line 214 at assignment",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_HPP_TWO_ALLOCATIONS_SAME_LOT_GROUPED",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_HPP_DEBITS_PER_GROUP_BEFORE_NETTING",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_HPP_NULL_HUMAN",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_HPP_DIAGNOSTIC_ATOMIC",
+      "status": "PASS",
+      "error": null,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    }
+  ],
+  "artifact": {
+    "id": 12344736172,
+    "size_in_bytes": 4409018,
+    "sha256": "41eb58bf9dbc2618898d41f31d572dea554a6b5ea2b3ca315522dd77d8eab683",
+    "downloaded": true,
+    "client_sha256_verified": true
+  },
+  "original_reports": [
+    {
+      "name": "CP7_FULL_OW04_NATIVE_FRACTIONAL.json.gz",
+      "raw_bytes": 25714457,
+      "raw_sha256": "365a172edffbc57e3f34df964f6f56437b7126b220cd1bc8b27499441cb1a721",
+      "gzip_bytes": 2783276,
+      "gzip_sha256": "9be080361f55bd2c41c61fd889c163cfc6401222762b9b407d2160565cb063f5"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "raw_bytes": 10402,
+      "raw_sha256": "7587c28d34e4cc2170ec1ee06852c042f811a97b41e6d9c5ca93414e8778c778",
+      "gzip_bytes": 1809,
+      "gzip_sha256": "519a1a63877ea32cdd4d26bd6e2076bd7507043502e0252b40e62e44d8b4d181"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360448,
+      "raw_sha256": "c6f74e8984dc41fa4d21f6984a13b71ed9e3035611e0e966ff2737418be01909",
+      "gzip_bytes": 11415,
+      "gzip_sha256": "fb3ab91de832d673c49a11621dbb91c01087ef33321600773ab7568b28f245ff"
+    }
+  ],
+  "job_log_retrieval": "Connector returned Transport closed twice; no raw job log claimed. Full original reports recovered from client-verified original ZIP.",
+  "diagnosis": "New completion callback checks PO target/book/cache before the unchanged Native tail refreshes its PO baseline. Five PO cases stop at the new early assertion; all73 retained and9 other new cases pass.",
+  "correction": "Keep exact actual-target comparison at completion; run original full Native target/book/cache assertions and the same sealed target comparison in the owning leave callback after the unchanged Native tail.",
+  "qualification_only": true,
+  "feature_complete": false,
+  "audit_complete": false,
+  "production_go": false
+}

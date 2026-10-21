@@ -1,7 +1,7 @@
 {
   "format": "OW04_BOUNDED_TRIGGER_SOURCE_PINS_PROPOSAL_V1",
   "classification": "STATIC_SOURCE_DERIVED_NOT_NATIVE_EXECUTION",
-  "source_commit": "d11bcab6854bb4c2156d13fc030f81d8ce1e51da",
+  "source_commit": "1265485d481bb5889361636044869f6a5f11def6",
   "database_calls": 0,
   "tables": [
     "erp.sales_headers",
