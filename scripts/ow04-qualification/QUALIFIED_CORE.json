@@ -1,15 +1,17 @@
 {
-  "classification": "REUSED_NATIVE63_RUNTIME_EXACT_CORE_BINDING_NOT_NEW_TRANSPORT_EXECUTION",
-  "candidate": "e9287cf3b8656064acb0225249ab99e5f2d79cd8",
-  "tree": "5f6eb8a1ec6dc71398655105e4dace8b5a31dd7d",
-  "run_id": 39564520538,
-  "job_id": 119103485023,
+  "classification": "REUSED_FULL_NATIVE73_RUNTIME_EXACT_CORE_BINDING_NOT_NEW_TRANSPORT_EXECUTION",
+  "candidate": "bb3e4f64129deeaaf47aec71e8c87703d6d94906",
+  "tree": "c446bc89179d2010bda69cc50f81f3e3897f412c",
+  "run_id": 39582964613,
+  "job_id": 119164804150,
   "status": "PASS",
-  "native_case_count": 63,
-  "core_directory_tree": "4d443d8c0893047458d52ce6ea9aeec1045f299b",
+  "native_case_count": 73,
+  "core_directory_tree": "52b091d10415bc02f6f4c8b782efe3b9c3b0d4cd",
   "native_probe_blob": "421126a6cdec99c63aee53fc9a49c8efb48dba22",
-  "receipt": "docs/cp7/d17-14/ow04/CI_E928_NATIVE63_PASS.json",
-  "receipt_sha256": "889c28f8419de6e81c770851797bbf1184f42a024e3575ee4782309e33bb7501",
-  "qualification_declaration": "docs/cp7/d17-14/ow04/NATIVE_SIGNED_SOURCE_QUALIFICATION.json",
-  "qualification_declaration_sha256": "59a86fec487a4f435b4182c798fb4dadbf7a9412a1d1987f5feb198678d60cb1"
+  "owning_installer_blob": "2526259a250ff0a47964ce28050283f379ef29f4",
+  "native_full_probe_blob": "4e2df7faef6c5bc79a8925a86d3221cb0563b0c0",
+  "receipt": "docs/cp7/d17-14/ow04/dependency-bb3e4f64-native73-pass/RECEIPT.json",
+  "receipt_sha256": "4cd2ee192bd7f9a4e312211c95d4a96be38f310eede5d835d6bdfc640c9dd0c4",
+  "qualification_declaration": "docs/cp7/d17-14/ow04/CREDIT_DEPENDENCY_NATIVE_QUALIFICATION.json",
+  "qualification_declaration_sha256": "d835ad1b4a7b919bfce48f7b899627dd68e774c9798121c4cd6d18665a8be0e2"
 }

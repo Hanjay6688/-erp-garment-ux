@@ -1,0 +1,941 @@
+{
+  "classification": "ACTUAL_FULL_OWNING_NATIVE73_PASS_NOT_TRANSPORT_OR_RELEASE_ACCEPTANCE",
+  "candidate": "bb3e4f64129deeaaf47aec71e8c87703d6d94906",
+  "tree": "c446bc89179d2010bda69cc50f81f3e3897f412c",
+  "run_id": 39582964613,
+  "job_id": 119164804150,
+  "workflow_conclusion": "success",
+  "summary": {
+    "label": "CP7_FULL_OW04_DEPENDENCIES_NATIVE",
+    "status": "PASS",
+    "expected_case_count": 73,
+    "observed_case_count": 73,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "error": null,
+    "restore_error": null
+  },
+  "counts": {
+    "PASS": 73
+  },
+  "cases": [
+    {
+      "id": "OW04_INITIAL_1000_OPEN_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_OPEN_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_LIFECYCLE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_SPLIT_GRADES",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_ALLOCATION_CAP",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_FIELDS",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_PAID_REFUSAL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_DATE_LOCATION",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_REPLAY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_SOURCE_CHANGE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_PERMISSIONS",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_PAGES",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_CONSUMED",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_DRAFT_CANCEL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_NATIVE_LIFECYCLE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_EXACT_CENTS",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_FINANCIAL_REDACTION",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_PRIVATE_READ_ONLY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_COMPLETE_PAGES",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_QUERY_REFUSAL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_EMPTY_MISSING",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "F03_E01_NATIVE_60_TO_CASH_RETURN",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N01",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N02",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N03",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N04",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N05",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N06",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N07",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N08",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N09",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N10",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N11",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N12",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NONPO_SECOND_RETURN_CARRY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_PO_SECOND_RETURN_CARRY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NONPO_OTHER_POSITIVE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NONPO_OTHER_NEGATIVE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_PO_OTHER_POSITIVE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_PO_OTHER_NEGATIVE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_TWO_LOTS_ONE_PO",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_TWO_LOTS_SAME_NONPO_PRODUCT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NONPO_FG_ZERO_HPP_JOURNAL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_PO_FG_ZERO_REOPENED_HPP_JOURNAL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_POSITIVE_SNAPSHOT_ZERO_VECTOR_REFUSED",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NATIVE_RECOST_STALE_QUOTE_REFUSED",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_TWO_ALLOCATIONS_SAME_LOT_GROUPED",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_DEBITS_PER_GROUP_BEFORE_NETTING",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_SIGNED_RETURN_REVERSE_UNCONSUMED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_SIGNED_PAYMENT_REVERSE_UNCONSUMED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_SIGNED_REVOKED_AUTHORITY_DENIES_FRESH_AND_REPLAY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_SIGNED_CONSUMED_REFUND_BLOCKS_RETURN_REVERSE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_SIGNED_ZERO_DIFF_EARLIER_ZERO_RETURN_REVERSE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_FULL_USED_INSTALL_ROLLBACK_REFUSED",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_REFUND_DOCUMENT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_CREDIT_PROVEN_EMPTY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_CURRENT_PERMISSIONS",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_INACTIVE_ACTOR",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_STALE_VERSION_AND_REVIEW",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_MALFORMED_QUERY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_MISSING_SOURCE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_NEXT_PAGE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_DEPENDENCY_PRIVATE_AND_ANON_DENIED",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    }
+  ],
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "package_run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "bb3e4f64129deeaaf47aec71e8c87703d6d94906",
+    "product_ref": "c571825eb3609034aca4b7538a1b8af81a4efd1b",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "39582964613",
+    "run_attempt": "1",
+    "workflow": "CP7 Full Owning Installer and Credit Dependencies Qualification",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "bb3e4f64129deeaaf47aec71e8c87703d6d94906",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "qualification_declaration": "docs/cp7/d17-14/ow04/CREDIT_DEPENDENCY_NATIVE_QUALIFICATION.json",
+  "qualification_declaration_sha256": "d835ad1b4a7b919bfce48f7b899627dd68e774c9798121c4cd6d18665a8be0e2",
+  "full_composition": {
+    "owning_installer_blob": "2526259a250ff0a47964ce28050283f379ef29f4",
+    "native_full_probe_blob": "4e2df7faef6c5bc79a8925a86d3221cb0563b0c0",
+    "predecessor_sql_sha256": "e7701eaada592cfd74a8555cf4cdcb7df8d180448213d3bbf5698c3bfa025127",
+    "preuse_exact_CP6_restore": true,
+    "used_rollback_refused": true,
+    "retained_case_count": 64,
+    "additional_readonly_case_count": 9
+  },
+  "core_directory_tree": "52b091d10415bc02f6f4c8b782efe3b9c3b0d4cd",
+  "native_probe_blob": "421126a6cdec99c63aee53fc9a49c8efb48dba22",
+  "frontend": {
+    "tests_pass": 113,
+    "test_files_pass": 6,
+    "build": true,
+    "source_ownership": true,
+    "access_ownership": true,
+    "owned_rpc_boundaries": 292,
+    "scope": "Actual candidate CI unit/DOM/build, not browser proof"
+  },
+  "original_reports": [
+    {
+      "ow04_original_report_bytes": true,
+      "name": "CP7_FULL_OW04_DEPENDENCIES_NATIVE.json",
+      "raw_bytes": 21954040,
+      "raw_sha256": "ac703aefedc6127c9452d5b778d16a562d1e5673310ea6ab6abd2cb4bdccbe61",
+      "gzip_bytes": 2383976,
+      "gzip_sha256": "baa3477c6ab4af8539e1549b787e0db17f5ae58e7733a1230e9c5b6ea56a42ae",
+      "path": "docs/cp7/d17-14/ow04/dependency-bb3e4f64-native73-pass/CP7_FULL_OW04_DEPENDENCIES_NATIVE.json.gz",
+      "gzip_bytes_client_sha256_verified": true
+    },
+    {
+      "ow04_original_report_bytes": true,
+      "name": "T3_PACKAGE_INSTALL.json",
+      "raw_bytes": 360441,
+      "raw_sha256": "ccfb96f6bec4dba036bfee14b6e6ff3fdf2e61d1123f7d8d6795e177922a69e1",
+      "gzip_bytes": 11414,
+      "gzip_sha256": "e711313e8912e67264ce1f70b94983baa3915f3d4d4153e4a0f4fbfcf285e166",
+      "path": "docs/cp7/d17-14/ow04/dependency-bb3e4f64-native73-pass/T3_PACKAGE_INSTALL.json.gz",
+      "gzip_bytes_client_sha256_verified": true
+    },
+    {
+      "ow04_original_report_bytes": true,
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "raw_bytes": 10402,
+      "raw_sha256": "20fa56fe4bdef976dfcd9349ff8374d9db3aca275c32f12e564cb0a256c3711e",
+      "gzip_bytes": 1807,
+      "gzip_sha256": "740229d48054830ed3abd4b78602dd955f223229246d3739e6f580edb23c1e70",
+      "path": "docs/cp7/d17-14/ow04/dependency-bb3e4f64-native73-pass/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_bytes_client_sha256_verified": true
+    },
+    {
+      "ow04_original_report_bytes": true,
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "path": "docs/cp7/d17-14/ow04/dependency-bb3e4f64-native73-pass/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_bytes_client_sha256_verified": true
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 12339086911,
+      "name": "cp7-full-ow04-native",
+      "bytes": 4008701,
+      "digest": "sha256:ff1c075fdf45759b38f8a0409478bfecced751495b8c91f4fa9bedade845bc23",
+      "zip_bytes_client_verified": false
+    }
+  ],
+  "original_job_log": {
+    "utf8_bytes": 7494329,
+    "sha256": "1d092a1b83c0ace6f89034d98f31f5d2fbfc7552b2186f9be453e64e4fdd8f84",
+    "note": "Original report gzip bytes and unmodified Native JSON case lines preserved separately; this digest covers the full fetched log."
+  },
+  "preserved_first_failure": "docs/cp7/d17-14/ow04/dependency-b28c38ff-first-failure/RECEIPT.json",
+  "limits": [
+    "Native73 includes the existing64 exact cases plus nine readonly/access cases; variants inside cases are not counted separately.",
+    "No new real Auth/HTTP, race, or browser acceptance yet.",
+    "APPLY and consumer undo, broader reconciliation, default legacy P21 adapter and used-credit backup/restore remain open."
+  ],
+  "production_go": false,
+  "feature_complete": false,
+  "audit_complete": false
+}

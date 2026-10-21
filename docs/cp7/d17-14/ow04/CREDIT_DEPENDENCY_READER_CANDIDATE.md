@@ -1,3 +1,14 @@
+# Rincian penggunaan kredit — Native73 lulus, transport belum diterima
+
+Status terbaru: bb3e4f64 run39582964613/job119164804150 lulus73/73,
+113 UI/DOM dan build; seluruh restore/advisor/lima gate paket lulus.
+Receipt dan empat laporan asli: dependency-bb3e4f64-native73-pass/.
+Kegagalan pertama b28 tetap0 Native dan dipreservasi terpisah.
+Kelanjutan real Auth/HTTP/race/browser memakai bukti Native73 tepat,
+belum menjadi bukti bahwa tahap transport sudah lulus.
+
+## Catatan draft terdahulu
+
 # Rincian penggunaan kredit — kandidat, belum diterima Native
 
 Draft lokal dipulihkan lewat GitHub API setelah executor environment_offline409.
