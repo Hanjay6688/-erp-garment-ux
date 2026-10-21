@@ -1,0 +1,23 @@
+{
+  "candidate": "1c9a437348a0aeb3feed435b3090f50aa19ac5de",
+  "run_id": 39552633770,
+  "job_id": 119065066879,
+  "artifact_id": 12324880035,
+  "expected_case_count": 63,
+  "observed_case_count": 0,
+  "status": "INCOMPLETE",
+  "actual_ri_metadata": {
+    "owner": "supabase_admin",
+    "owner_oid": "10",
+    "language": "internal",
+    "security_definer": false,
+    "config": [],
+    "input_arguments": "",
+    "result": "trigger"
+  },
+  "production_go": false,
+  "files": {
+    "FAILURE_SUMMARY.json": "ad406025fa73474cfb2d9194e45f4cdbb6752ddc01d9ab448658f7ceaeae9564",
+    "RUNTIME.log.gz": "2efe8cbe63c7dfde1c42e5eb666b06a248cce7017f53d1a839c21103dd4b949c"
+  }
+}

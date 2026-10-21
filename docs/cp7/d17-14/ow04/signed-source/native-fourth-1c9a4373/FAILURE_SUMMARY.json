@@ -1,0 +1,11 @@
+{
+  "label": "CP7_OW04_SIGNED_SOURCE",
+  "status": "INCOMPLETE",
+  "expected_case_count": 63,
+  "observed_case_count": 0,
+  "cp6_restored": null,
+  "advisor_gate": null,
+  "error": "OW04_BOUNDED_TRIGGER_GUARD_UNKNOWN_INTERNAL_FUNCTION: {'function': 'pg_catalog.RI_FKey_noaction_del()', 'expected_owner': 'supabase_admin', 'expected_owner_oid': 10, 'actual': {'owner': 'supabase_admin', 'owner_oid': '10', 'language': 'internal', 'security_definer': False, 'config': [], 'input_arguments': '', 'result': 'trigger'}}",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_ow04_probe.py\", line 210, in run\n    STATE = credit.install(cur,predecessor.verify,p09.functions,native_empty=NATIVE_EMPTY)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_customer_credit/integration/owning_bundle.py\", line 305, in install\n    trigger_guard.validate_source(trigger_before,trigger_manifest,'VERIFIED_PREDECESSOR')\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_customer_credit/integration/source_triggers/trigger_guard.py\", line 171, in validate_source\n    fail('UNKNOWN_INTERNAL_FUNCTION',dict(function=tr['function'],\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_customer_credit/integration/source_triggers/trigger_guard.py\", line 33, in fail\n    raise ValueError('OW04_BOUNDED_TRIGGER_GUARD_' + reason + (': '+str(detail)if detail else''))\nValueError: OW04_BOUNDED_TRIGGER_GUARD_UNKNOWN_INTERNAL_FUNCTION: {'function': 'pg_catalog.RI_FKey_noaction_del()', 'expected_owner': 'supabase_admin', 'expected_owner_oid': 10, 'actual': {'owner': 'supabase_admin', 'owner_oid': '10', 'language': 'internal', 'security_definer': False, 'config': [], 'input_arguments': '', 'result': 'trigger'}}\n",
+  "restore_error": null
+}

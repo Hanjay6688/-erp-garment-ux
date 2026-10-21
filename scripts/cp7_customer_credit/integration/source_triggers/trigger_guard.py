@@ -167,7 +167,9 @@ def validate_source(snapshot, manifest, phase_name):
         c=tr['constraint']
         if not c or c['type']!='f'or not c['semantic']:fail('UNKNOWN_INTERNAL_CONSTRAINT',tr['name'])
         fn=functions.get(tr['function'])
-        if fn is None or not tr['function'].startswith('pg_catalog.RI_FKey_')or fn['language']!='internal'or fn['owner']!=RI_BUILTIN_OWNER or fn['owner_oid']!=RI_BUILTIN_OWNER_OID or fn['security_definer']or fn['config']or fn['input_arguments']or fn['result']!='trigger':
+        # PostgreSQL jsonb serializes the oid type as text; the source-only
+        # model historically used a JSON integer. Both must mean exactly10.
+        if fn is None or not tr['function'].startswith('pg_catalog.RI_FKey_')or fn['language']!='internal'or fn['owner']!=RI_BUILTIN_OWNER or str(fn['owner_oid'])!=str(RI_BUILTIN_OWNER_OID) or fn['security_definer']or fn['config']or fn['input_arguments']or fn['result']!='trigger':
             fail('UNKNOWN_INTERNAL_FUNCTION',dict(function=tr['function'],
                 expected_owner=RI_BUILTIN_OWNER,expected_owner_oid=RI_BUILTIN_OWNER_OID,
                 actual=None if fn is None else {k:fn[k]for k in

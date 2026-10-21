@@ -10,7 +10,7 @@ import sys
 import types
 
 HERE = Path(__file__).resolve().parent
-REPO = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else HERE.parents[6]
+REPO = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else HERE.parents[5]
 GUARD = REPO / 'scripts/cp7_customer_credit/integration/source_triggers/trigger_guard.py'
 spec = importlib.util.spec_from_file_location('ri_owner_current_guard', GUARD)
 guard = importlib.util.module_from_spec(spec)
@@ -46,10 +46,24 @@ def refuses(module, name, value, reason):
 refuses(before, 'BEFORE_valid_supabase_bootstrap_owner_rejected', snapshot, 'UNKNOWN_INTERNAL_FUNCTION')
 guard.validate_source(snapshot, manifest, 'VERIFIED_PREDECESSOR')
 cases.append(dict(case='AFTER_exact_supabase_bootstrap_model', status='PASS', expected='ACCEPTED'))
+text_oid = deepcopy(snapshot)
+for fn in text_oid['functions']:
+    if fn['identity'].startswith('pg_catalog.RI_FKey_'):
+        fn['owner_oid'] = '10'
+prior = types.ModuleType('ri_owner_first_fix_guard')
+prior.__file__ = str(GUARD)
+previous = subprocess.check_output(['git','show','1c9a4373:' + str(GUARD.relative_to(REPO))],cwd=REPO,text=True)
+exec(compile(previous,str(GUARD),'exec'),prior.__dict__)
+refuses(prior,'BEFORE_actual_json_oid_text_rejected',text_oid,'UNKNOWN_INTERNAL_FUNCTION')
+guard.validate_source(text_oid,manifest,'VERIFIED_PREDECESSOR')
+cases.append(dict(case='AFTER_actual_json_oid_text_accepted',status='PASS',expected='ACCEPTED'))
 for name, field, value, reason in (
     ('ordinary_postgres_is_not_system_owner', 'owner', 'postgres', 'UNKNOWN_INTERNAL_FUNCTION'),
     ('browser_is_not_system_owner', 'owner', 'authenticated', 'UNKNOWN_INTERNAL_FUNCTION'),
     ('lookalike_role_different_oid', 'owner_oid', 10010, 'UNKNOWN_INTERNAL_FUNCTION'),
+    ('float_oid_not_canonical', 'owner_oid', 10.0, 'UNKNOWN_INTERNAL_FUNCTION'),
+    ('boolean_oid_refused', 'owner_oid', True, 'UNKNOWN_INTERNAL_FUNCTION'),
+    ('noncanonical_oid_text_refused', 'owner_oid', '010', 'UNKNOWN_INTERNAL_FUNCTION'),
     ('plpgsql_is_not_internal', 'language', 'plpgsql', 'UNKNOWN_INTERNAL_FUNCTION'),
     ('security_definer_changed', 'security_definer', True, 'UNKNOWN_INTERNAL_FUNCTION'),
     ('function_configuration_changed', 'config', ['search_path=public'], 'UNKNOWN_INTERNAL_FUNCTION'),
@@ -80,6 +94,6 @@ changed = deepcopy(snapshot)
 next(f for f in changed['functions'] if f['identity'] in ordinary)['owner'] = 'supabase_admin'
 refuses(guard, 'ordinary_ERP_owner_stays_source_owned', changed, 'FUNCTION_OWNER')
 
-assert len(cases) == 17
+assert len(cases) == 22
 print(json.dumps(dict(classification='PURE_SOURCE_METADATA_NOT_NATIVE', status='PASS', count=len(cases),
     database_calls=0, guard_sha256=sha256(GUARD.read_bytes()).hexdigest(), cases=cases), indent=2))
