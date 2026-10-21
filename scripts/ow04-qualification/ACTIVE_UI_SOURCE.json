@@ -8,12 +8,17 @@
     "src/ConnectedReceivablesPage.tsx": "69d8a2f68515e0e3e678000548d1b83a945fcc90a397de2e43d8fc943bbe0a41",
     "src/ConnectedSalesPage.tsx": "0a623a7e95619326caf1153b8dc78d74613198d0f7d7eed33f7d62d32c109d41",
     "src/ConnectedSalesSettlement.dom.test.tsx": "551f4d6cdbba7c5b72ccdd8b4042bd6198c7722fa2558017848386dbb4b5a437",
+    "src/SalesCreditDependencies.dom.test.tsx": "fb026abd62e0a3fd027e44227713b7442fec3c48051e8fb0096e0297be66b15e",
+    "src/SalesCreditDependencies.tsx": "57b2958f81a960dc0a789ba14072a3bfb97bf0e7f6cb07d67311854e04a2f7c5",
+    "src/SalesInvoiceDependencies.tsx": "c79523e17e37bc3d05ef1f13503ab5a25a8c61044665778c60ae80a6b3b13582",
     "src/SalesReturnPanel.tsx": "81bf2b9c5443e1ca3350a5d9d7783445ebd2395c81122d8476a747e8b07bcd19",
     "src/SalesReturnSettlementSection.dom.test.tsx": "88020cddd6eb0e2b53ef67016dc1578c9d30c8cedc64560151c77ae44e93968b",
     "src/SalesReturnSettlementSection.tsx": "10bbbb88162a62ebffa84a8d62cae17343e80bb364108cb64499174387144472",
     "src/productionRecovery.ts": "b49466183db2d2e7d5f04f20bbf4a076c98235f87f71b9fb5b182748192c4705",
+    "src/salesCreditDependenciesContract.test.ts": "886ba20e7be71f49b936e98877243ab4cde8959a9078be660a105cd29c5480f8",
+    "src/salesCreditDependenciesContract.ts": "1c0026a3226107c34de38b690919c401dcfd5fcbde4f9c9f2969b191953895de",
     "src/salesReturnSettlementContract.test.ts": "f44a830e4c0490a38d4f87636ed42e818a4dd30aad3d5869f24b0168e0df3164",
     "src/salesReturnSettlementContract.ts": "fa9e916cdfddeae72cfe842d4dd40c74a257f541396fa9ea55f09694ad7463cf",
-    "src/types/database.preconnect.ts": "a1e4bd8de4ff17b089f921e16ca99125bb2615f4b318a15161c0460cffb32ace"
+    "src/types/database.preconnect.ts": "626da41da714ec48dbc0a32dc52ee66e83b706d8b32f43aedbcdd30c9745333a"
   }
 }

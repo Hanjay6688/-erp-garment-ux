@@ -1,4 +1,4 @@
-"""Exact real HTTP qualification: preserved initial8 plus new source6."""
+"""Exact real HTTP qualification: preserved initial8/source6 plus readonly4."""
 import cp7_ow04_http_cases as initial_http
 import cp7_ow04_source_http_cases as source_http
 import cp7_ow04_dependency_http_cases as dependency_http

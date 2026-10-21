@@ -1,4 +1,4 @@
-"""Fourteen real Auth/HTTP cases on the exact qualified OW04 core, disposable only.
+"""Eighteen real Auth/HTTP cases on the exact qualified OW04 core, disposable only.
 
 This imports the separately qualified Native core verifier/installer; it does not rerun
 or relabel historical Native evidence. The tested core identity is explicit.

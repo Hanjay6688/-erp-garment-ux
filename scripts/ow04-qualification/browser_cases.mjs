@@ -39,7 +39,7 @@ export async function assertNoStaleInvoiceFacts(ui,page){
  await ui.expect(page.getByRole('region',{name:'Penyelesaian nilai retur',exact:true})).toHaveCount(0)
 }
 async function journey(ui,today,kind){
- const mobile=kind==='REFUND',mode=mobile?'REFUND':'CREDIT',f=fixture('prepare',{today,mode})
+ const mobile=kind==='REFUND'||kind==='DEPENDENCIES',mode=mobile?'REFUND':'CREDIT',f=fixture('prepare',{today,mode})
  const user=await ui.login('OWNER',{label:'ow04-browser-'+kind.toLowerCase(),mobile,timezoneId:'America/Los_Angeles'})
  const page=user.page,requests=[],quotes=[],quoteInputs=[],otherPages=[],timings=[]
  const detail=()=>page.getByRole('complementary',{name:'Rincian invoice',exact:true})
@@ -216,6 +216,39 @@ async function journey(ui,today,kind){
   const proof=fixture('verify',{fixture:f.fixture,serialized_fixture_sha256:f.serialized_fixture_sha256,args:firstArgs,outcome:first,quote:quotes.at(-1),quote_input:quoteInputs.at(-1)})
   assert.equal(proof.status,'PASS')
   assert.equal(requests.length,kind==='LOST'?2:kind==='REVOKED'?3:1)
+  let dependencyDocument=null
+  if(kind==='DEPENDENCIES'){
+   const before=fixture('snapshot')
+   const usage=page.getByRole('region',{name:'Penggunaan saldo kredit '+f.invoice.number,exact:true})
+   const next=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_get_sales_credit_dependencies_v1'))
+   await usage.getByRole('button',{name:'Lihat penggunaan saldo kredit',exact:true}).click()
+   const dependencyResponse=await next;assert.equal(dependencyResponse.status(),200)
+   const dependency=await dependencyResponse.json(),query=dependencyResponse.request().postDataJSON().p_query
+   assert.equal(query.sale_id,f.invoice.id);assert.equal(query.expected_version,first.row_version)
+   assert.equal(dependency.actor_scope_id,user.user.id)
+   assert.equal(dependency.read_only,true);assert.equal(dependency.business_DML,false)
+   assert.equal(dependency.source.review_token,query.review_token)
+   assert.equal(dependency.page.total,'1');assert.equal(dependency.dependencies.length,1)
+   const row=dependency.dependencies[0]
+   assert.equal(row.event_id,first.refund_event_id);assert.equal(row.source_return_id,first.return_id)
+   assert.equal(row.source_sale_id,f.invoice.id);assert.equal(row.kind,'REFUND')
+   assert.equal(row.amount,f.credit_amount)
+   assert.deepEqual([row.economic_date,row.book_date],f.refund_pair)
+   assert.equal(row.source_return_number,f.query.return_payload.return_number)
+   await ui.expect(usage.locator('[data-credit-dependency-id="'+row.event_id+'"]')).toBeVisible()
+   await ui.expect(usage).toContainText('Tanggal transaksi '+f.refund_pair[0]+' · tanggal buku '+f.refund_pair[1])
+   assert.deepEqual(fixture('snapshot'),before,'Readonly credit dependency UI changed business/private facts')
+   await ui.expect(panel().locator('[data-return-id="'+first.return_id+'"][data-source-selected="true"]')).toHaveCount(0)
+   const opened=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_resolve_transaction_source_v1'))
+   await usage.getByRole('button',{name:'Buka retur asal '+row.source_return_number,exact:true}).click()
+   const sourceResponse=await opened;assert.equal(sourceResponse.status(),200)
+   assert.deepEqual(sourceResponse.request().postDataJSON().p_source,{source_type:'SALES_RETURN',source_id:first.return_id})
+   await ui.expect(panel().locator('[data-return-id="'+first.return_id+'"][data-source-selected="true"]')).toBeVisible()
+   assert.deepEqual(fixture('snapshot'),before,'Opening the linked return changed business/private facts')
+   dependencyDocument={actual_Auth_HTTP_readonly:true,actor_scope_matched:true,
+    event_id:row.event_id,return_id:row.source_return_id,source_document_opened_and_focused:true,
+    complete_original_dates_and_amount:true,business_and_private_snapshots_unchanged:true}
+  }
   if(mobile)await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
   await page.screenshot({path:'cp6-proof/t3/OW04_BROWSER_'+kind+'.png',fullPage:true})
   return{status:'PASS',real_Auth_and_Enteng_build_loopback:true,mode,mobile,request_count:requests.length,
@@ -224,7 +257,7 @@ async function journey(ui,today,kind){
    positive_other_domain_controls_then_global_pending_lock:kind==='LOST'||kind==='REVOKED',
    actual_replay_revocation_and_failed_postcommit_reload_lock:kind==='REVOKED',
    quote_A_B_A_retires_review_requires_new_request:kind==='EDIT',
-   strict_original_money_date_stock_HPP:proof,complete_UI_timings:timings,
+   strict_original_money_date_stock_HPP:proof,complete_UI_timings:timings,dependency_document:dependencyDocument,
    timing_scope:'Scoped initial settlement journeys; no whole ERP performance acceptance',production_go:false}
  }catch(error){
   writeFileSync('cp6-proof/t3/OW04_BROWSER_'+kind+'_FAILURE.json',JSON.stringify({
@@ -243,5 +276,6 @@ export function cases(ui,today){return[
  ['OW04_BROWSER_CREDIT_LOST_REPLY_DESKTOP',()=>journey(ui,today,'LOST')],
  ['OW04_BROWSER_REFUND_MOBILE',()=>journey(ui,today,'REFUND')],
  ['OW04_BROWSER_QUOTE_EDIT_FENCE',()=>journey(ui,today,'EDIT')],
- ['OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK',()=>journey(ui,today,'REVOKED')]
+ ['OW04_BROWSER_PENDING_REVOCATION_RELOAD_LOCK',()=>journey(ui,today,'REVOKED')],
+ ['OW04_BROWSER_REFUND_DEPENDENCY_DOCUMENT',()=>journey(ui,today,'DEPENDENCIES')]
 ]}

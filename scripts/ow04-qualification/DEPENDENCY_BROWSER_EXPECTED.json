@@ -1,0 +1,23 @@
+{
+  "contract_version": "ow04.credit-dependency-browser.v1",
+  "classification": "PREDECLARED_REAL_AUTH_BROWSER_NOT_YET_EXECUTED",
+  "required_full_native_count": 73,
+  "retained_browser_count": 4,
+  "case_count": 1,
+  "total_browser_count": 5,
+  "cases": [
+    {
+      "id": "OW04_BROWSER_REFUND_DEPENDENCY_DOCUMENT",
+      "kind": "REFUND_READ_AND_SOURCE_NAVIGATION",
+      "assertions": [
+        "real Auth and real loopback REST responses",
+        "exact refund event and original return document",
+        "exact amount and economic/book date pair",
+        "actual return source resolver call and focused return row",
+        "complete business/private snapshots unchanged"
+      ]
+    }
+  ],
+  "product_responses_mocked": false,
+  "production_go": false
+}

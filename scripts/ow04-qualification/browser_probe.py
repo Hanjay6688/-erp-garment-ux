@@ -1,4 +1,4 @@
-"""Real browser4, exact active/historical UI and qualified atomic backend; copied DB only."""
+"""Real browser5, exact active/historical UI and qualified atomic backend; copied DB only."""
 from pathlib import Path
 import hashlib,json,os,shutil,sys,tempfile,traceback
 if len(sys.argv)>1:raise SystemExit('OW04 browser entry accepts no arguments')
@@ -12,19 +12,25 @@ psycopg=transport.psycopg
 OUT=p09.bundle.ROOT/'cp6-proof/t3/CP7_OW04_BROWSER.json'
 EXPECTED_BYTES=Path(__file__).with_name('BROWSER_EXPECTED.json').read_bytes()
 assert hashlib.sha256(EXPECTED_BYTES).hexdigest()=='498f1943b91704d916268d0fe0a3f5caa1924199484de512626b72847170424f'
-IDS=tuple(c['id']for c in json.loads(EXPECTED_BYTES)['cases'])
-assert len(IDS)==len(set(IDS))==4
+DEPENDENCY_EXPECTED_BYTES=Path(__file__).with_name('DEPENDENCY_BROWSER_EXPECTED.json').read_bytes()
+assert hashlib.sha256(DEPENDENCY_EXPECTED_BYTES).hexdigest()=='01df0c5fce587c713f2ef6c61a5d3c557b19ccef5b468c720eaa81d6a4b97183','OW04_BROWSER_DEPENDENCY_DECLARATION_CHANGED'
+DEPENDENCY_EXPECTED=json.loads(DEPENDENCY_EXPECTED_BYTES)
+assert DEPENDENCY_EXPECTED['required_full_native_count']==73 and DEPENDENCY_EXPECTED['case_count']==1 and DEPENDENCY_EXPECTED['total_browser_count']==5
+IDS=tuple(c['id']for c in json.loads(EXPECTED_BYTES)['cases'])+tuple(c['id']for c in DEPENDENCY_EXPECTED['cases'])
+assert len(IDS)==len(set(IDS))==5
 def run():
     assert os.environ.get('AUDITOR_UI_MODE')=='ENTENG','OW04_BROWSER_ENTENG_LOOPBACK_BUILD_REQUIRED'
     reused=transport.qualified_core()
     assert reused['native_case_count']==73,'OW04_BROWSER_ACTUAL_FULL_NATIVE73_REQUIRED'
     source,_=browser_sources.inspect_sources()
-    report=dict(label='CP7_OW04_BROWSER',status='INCOMPLETE',expected_case_count=4,
+    report=dict(label='CP7_OW04_BROWSER',status='INCOMPLETE',expected_case_count=5,
       required_case_ids=list(IDS),candidate_commit=transport.git('rev-parse','HEAD'),
       core_directory_tree=reused['core_directory_tree'],native_probe_blob=reused['native_probe_blob'],
       reused_native_binding=reused,predeclared_case_sha256=hashlib.sha256(EXPECTED_BYTES).hexdigest(),
+      dependency_predeclared_case_sha256=hashlib.sha256(DEPENDENCY_EXPECTED_BYTES).hexdigest(),
+      expected_subgroup_counts={'RETAINED':4,'DEPENDENCY':1},
       implementation_sha256={n:hashlib.sha256(Path(__file__).with_name(n).read_bytes()).hexdigest()
-        for n in('browser_probe.py','browser_sources.py','browser_fixture.py','browser_cases.mjs')},
+        for n in('browser_probe.py','browser_sources.py','browser_fixture.py','browser_cases.mjs','full_backend.py')},
       frontend=source,scope=('REAL_AUTH_ENTENG_LOOPBACK_ACTIVE_PRODUCT_UI_INITIAL_SETTLEMENT_BROWSER'
         if 'active_UI_sha256'in source else'REAL_AUTH_ENTENG_LOOPBACK_EXACT_ESCROW_INITIAL_SETTLEMENT_BROWSER'),
       production_go=False,independent_acceptance=False,feature_complete=False)
@@ -70,7 +76,7 @@ def run():
         group=report.get('browser',{});rows=group.get('cases',{})
         report['observed_case_count']=len(rows)
         if not report.get('error')and report.get('cp6_restored')is True and report.get('advisor_gate')is True \
-            and group.get('status')in('PASS','RUN_COMPLETE')and group.get('counts')=={'PASS':4} \
+            and group.get('status')in('PASS','RUN_COMPLETE')and group.get('counts')=={'PASS':5} \
             and set(rows)==set(IDS)and all(r.get('status')=='PASS'for r in rows.values()) \
             and group.get('real_auth')is True and group.get('host_exit')==0 and group.get('host_status')=='RUN_COMPLETE' \
             and group.get('database_remaining',1)==0 and(group.get('auth_counts')or{}).get('restored')is True \

@@ -11,6 +11,7 @@ CHANGED={'src/SalesReturnPanel.tsx','src/ConnectedSalesPage.tsx','src/production
  'src/salesReturnSettlementContract.ts','src/salesReturnSettlementContract.test.ts'}
 ACTIVE_PATHS=CHANGED|{'src/ConnectedReceivablesPage.tsx','src/ConnectedReceivablesPage.dom.test.tsx',
  'src/ConnectedCustomerHistoryPage.tsx','src/ConnectedCustomerHistoryPage.dom.test.tsx'}
+ACTIVE_PATHS|={'src/SalesCreditDependencies.tsx','src/SalesCreditDependencies.dom.test.tsx','src/salesCreditDependenciesContract.ts','src/salesCreditDependenciesContract.test.ts','src/SalesInvoiceDependencies.tsx'}
 ACTIVE_MANIFEST=Path(__file__).with_name('ACTIVE_UI_SOURCE.json')
 def sha(data):return hashlib.sha256(data).hexdigest()
 def inspect_sources():
