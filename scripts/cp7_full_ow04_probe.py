@@ -23,14 +23,17 @@ from cp7_catalog_state import exact_public_catalog
 from cp6_t3_aligned_install import advisors, advisor_delta
 
 assert core.SIGNED_SOURCE, 'FULL_INSTALL_QUALIFIER_REQUIRES_EXPLICIT_SIGNED_SOURCE'
-LABEL = 'CP7_FULL_OW04_NATIVE'
+DEPENDENCIES = '--credit-dependencies' in sys.argv[1:]
+if DEPENDENCIES:
+    from cp7_customer_credit.readers import cp7_ow04_credit_dependency_cases as dependency_cases
+LABEL = 'CP7_FULL_OW04_DEPENDENCIES_NATIVE' if DEPENDENCIES else 'CP7_FULL_OW04_NATIVE'
 OUT = full.ROOT/'cp6-proof/t3'/f'{LABEL}.json'
-DECLARATION_PATH = full.ROOT/'docs/cp7/d17-14/ow04/FULL_INSTALL_QUALIFICATION.json'
+DECLARATION_PATH = full.ROOT/'docs/cp7/d17-14/ow04'/('CREDIT_DEPENDENCY_NATIVE_QUALIFICATION.json' if DEPENDENCIES else 'FULL_INSTALL_QUALIFICATION.json')
 DECLARATION_BYTES = DECLARATION_PATH.read_bytes()
 DECLARATION = json.loads(DECLARATION_BYTES)
 USED_GUARD_ID = 'OW04_FULL_USED_INSTALL_ROLLBACK_REFUSED'
-IDS = core.IDS+(USED_GUARD_ID,)
-assert DECLARATION['expected_count'] == len(IDS) == 64
+IDS = core.IDS+(USED_GUARD_ID,)+(dependency_cases.IDS if DEPENDENCIES else ())
+assert DECLARATION['expected_count'] == len(IDS) == (73 if DEPENDENCIES else 64)
 assert tuple(DECLARATION['required_case_ids']) == IDS
 STATE = None
 package, native, p09 = core.package, core.native, core.p09
@@ -79,6 +82,8 @@ def cases(cur, today):
     retained += core.fractional_hpp.cases(cur,today)+core.signed_source.cases(cur,today) \
         +core.signed_zero.cases(cur,today)
     result = retained+[(USED_GUARD_ID,lambda:used_install_guard(cur,today))]
+    if DEPENDENCIES:
+        result += dependency_cases.cases(cur,today)
     assert tuple(name for name,_ in result) == IDS, 'FULL_PREDECLARED_CASE_SET_CHANGED'
     return result
 
@@ -97,7 +102,9 @@ def run():
         source_manifest=full.source_manifest(),production_go=False,feature_complete=False,
         independent_acceptance=False,qualification_only=True,hosted=False,
         scope='FULL_OWNING_INSTALL_PREUSE_RESTORE_NATIVE63_AND_USED_ROLLBACK_GUARD',
-        retained_native_declaration_sha256=hashlib.sha256(core.DECLARATION_BYTES).hexdigest())
+        retained_native_declaration_sha256=hashlib.sha256(core.DECLARATION_BYTES).hexdigest(),
+        qualification_source_sha256={str(Path(__file__).relative_to(full.ROOT)):hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            **({str(Path(dependency_cases.__file__).relative_to(full.ROOT)):hashlib.sha256(Path(dependency_cases.__file__).read_bytes()).hexdigest()} if DEPENDENCIES else {})})
     installed = False
     try:
         with psycopg.connect(package.boundary.ADMIN) as conn, conn.cursor() as cur:
@@ -160,7 +167,7 @@ def run():
 
 
 if __name__ == '__main__':
-    if sys.argv[1:] != ['--signed-source']:
-        raise SystemExit('Only explicit --signed-source qualification is supported')
+    if sys.argv[1:] not in (['--signed-source'],['--signed-source','--credit-dependencies']):
+        raise SystemExit('Only --signed-source with optional --credit-dependencies is supported')
     package._writer_runtime = lambda browser_mode=False:run()
     package.run('install')
