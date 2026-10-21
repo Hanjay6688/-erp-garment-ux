@@ -1,0 +1,9 @@
+{
+  "classification": "ACTUAL_SUCCESSFUL_NATIVE_RECEIPT_BINDING_CHECK_NO_NEW_NATIVE_HTTP_OR_BROWSER",
+  "candidate": "e9287cf3b8656064acb0225249ab99e5f2d79cd8",
+  "native_count": 63,
+  "binding_sha256": "a8c66b3192d7a3b2d061f33e25f574b0f2d911ddbab182c679af5c2c5cd1c59d",
+  "status": "PASS",
+  "database_calls": 0,
+  "production_go": false
+}

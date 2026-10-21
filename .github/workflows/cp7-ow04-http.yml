@@ -5,6 +5,7 @@ name: CP7 OW04 Real Auth HTTP and SQL Recovery Qualification
     - cp7/integration
     - astra/d17-14-20261020
     - codex/ow04-source-http-20261021
+    - codex/writer-takeover-20261021
     paths:
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/ow04-qualification/**

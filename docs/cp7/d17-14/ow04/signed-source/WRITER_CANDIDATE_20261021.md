@@ -1,5 +1,12 @@
 # OW04: kandidat writer untuk pembatalan sumber, 21 Oktober 2026
 
+Hasil terbaru: **Native63 pada e9287cf3 lulus63/63**, run39564520538,
+job119103485023, workflow sukses dan semua lima gate paket lulus. Receipt
+`../CI_E928_NATIVE63_PASS.json` mengikat kandidat/tree, seluruh ID, source hash,
+restore/advisor dan artefak asli. Bagian kegagalan di bawah adalah riwayat;
+tidak menggantikan hasil terbaru. HTTP14/race6+2/browser4 kandidat ini masih
+perlu dibuktikan. OW04 dan komposisi installer produk tetap belum lengkap.
+
 Pembaruan takeover: cabang aktif `codex/writer-takeover-20261021`.
 Run39553532036 pada8ed949bb mengeksekusi63 kasus:59 PASS dan4 INCOMPLETE,
 restore serta advisor lulus. Empat kasus berhenti pada kesalahan prioritas
@@ -26,7 +33,7 @@ Pemindai benturan juga memeriksa36 fungsi dalam keenam berkas sumber terkait;
 temuan asli terdeteksi dan hasil sesudah koreksi bersih. Bukti lengkap run ada
 di `native-sixth-99695e10/`. Kualifikasi Native baru tetap wajib.
 
-Ini kandidat internal writer, belum bukti Native63, belum audit independen,
+Ini kandidat internal writer dengan bukti subset Native63, belum audit independen,
 belum OW04 lengkap, dan `production_go:false`.
 Cabang kerja `codex/ow04-reconciliation-20261021` berawal dari checkpoint
 `81da8181f428fa790b812d90a86832913ef5424d`; kandidat yang harus diperiksa adalah

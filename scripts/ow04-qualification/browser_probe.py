@@ -1,4 +1,4 @@
-"""Real browser4, exact escrow UI and separately qualified atomic backend; copied DB only."""
+"""Real browser4, exact active/historical UI and qualified atomic backend; copied DB only."""
 from pathlib import Path
 import hashlib,json,os,shutil,sys,tempfile,traceback
 if len(sys.argv)>1:raise SystemExit('OW04 browser entry accepts no arguments')
@@ -23,7 +23,8 @@ def run():
       reused_native_binding=reused,predeclared_case_sha256=hashlib.sha256(EXPECTED_BYTES).hexdigest(),
       implementation_sha256={n:hashlib.sha256(Path(__file__).with_name(n).read_bytes()).hexdigest()
         for n in('browser_probe.py','browser_sources.py','browser_fixture.py','browser_cases.mjs')},
-      frontend=source,scope='REAL_AUTH_ENTENG_LOOPBACK_EXACT_ESCROW_INITIAL_SETTLEMENT_BROWSER',
+      frontend=source,scope=('REAL_AUTH_ENTENG_LOOPBACK_ACTIVE_PRODUCT_UI_INITIAL_SETTLEMENT_BROWSER'
+        if 'active_UI_sha256'in source else'REAL_AUTH_ENTENG_LOOPBACK_EXACT_ESCROW_INITIAL_SETTLEMENT_BROWSER'),
       production_go=False,independent_acceptance=False,feature_complete=False)
     installed=False;originals={}
     try:

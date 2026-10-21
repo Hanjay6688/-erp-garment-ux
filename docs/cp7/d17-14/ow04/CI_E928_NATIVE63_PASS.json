@@ -1,0 +1,824 @@
+{
+  "classification": "ACTUAL_NATIVE63_SIGNED_SOURCE_RUNTIME_NOT_TRANSPORT_OR_FEATURE_COMPLETION",
+  "candidate": "e9287cf3b8656064acb0225249ab99e5f2d79cd8",
+  "tree": "5f6eb8a1ec6dc71398655105e4dace8b5a31dd7d",
+  "run_id": 39564520538,
+  "job_id": 119103485023,
+  "workflow_conclusion": "success",
+  "artifact_id": 12329676680,
+  "artifact_bytes": 3571815,
+  "artifact_sha256": "8e58401b61206255d6a1b385ae76e7d44d8fe485cf4e5b1a8a75d7531c3b0806",
+  "summary": {
+    "status": "PASS",
+    "expected_case_count": 63,
+    "observed_case_count": 63,
+    "cp6_restored": true,
+    "advisor_gate": true
+  },
+  "counts": {
+    "PASS": 63
+  },
+  "cases": [
+    {
+      "id": "OW04_INITIAL_1000_OPEN_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_OPEN_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_CLOSED_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_1000_REOPENED_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_OPEN_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_CLOSED_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_INITIAL_900_REOPENED_REFUND",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_LIFECYCLE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_SPLIT_GRADES",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_ALLOCATION_CAP",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_FIELDS",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_PAID_REFUSAL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_DATE_LOCATION",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_REPLAY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_SOURCE_CHANGE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_PERMISSIONS",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_PAGES",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_RETURN_CONSUMED",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_DRAFT_CANCEL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_NATIVE_LIFECYCLE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_EXACT_CENTS",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_FINANCIAL_REDACTION",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_PRIVATE_READ_ONLY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_COMPLETE_PAGES",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_QUERY_REFUSAL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "P11_READ_EMPTY_MISSING",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "F03_E01_NATIVE_60_TO_CASH_RETURN",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N01",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N02",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N03",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N04",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N05",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N06",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N07",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N08",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N09",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N10",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N11",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_NATIVE_EMPTY_N12",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NONPO_SECOND_RETURN_CARRY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_PO_SECOND_RETURN_CARRY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NONPO_OTHER_POSITIVE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NONPO_OTHER_NEGATIVE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_PO_OTHER_POSITIVE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_PO_OTHER_NEGATIVE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_TWO_LOTS_ONE_PO",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_TWO_LOTS_SAME_NONPO_PRODUCT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NONPO_FG_ZERO_HPP_JOURNAL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_PO_FG_ZERO_REOPENED_HPP_JOURNAL",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_POSITIVE_SNAPSHOT_ZERO_VECTOR_REFUSED",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_NATIVE_RECOST_STALE_QUOTE_REFUSED",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_TWO_ALLOCATIONS_SAME_LOT_GROUPED",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_HPP_DEBITS_PER_GROUP_BEFORE_NETTING",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_SIGNED_RETURN_REVERSE_UNCONSUMED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_SIGNED_PAYMENT_REVERSE_UNCONSUMED_CREDIT",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_SIGNED_REVOKED_AUTHORITY_DENIES_FRESH_AND_REPLAY",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_SIGNED_CONSUMED_REFUND_BLOCKS_RETURN_REVERSE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "id": "OW04_SIGNED_ZERO_DIFF_EARLIER_ZERO_RETURN_REVERSE",
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    }
+  ],
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "package_run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "e9287cf3b8656064acb0225249ab99e5f2d79cd8",
+    "product_ref": "99695e103f6ec3c604f38419e65722e08013c02c",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "39564520538",
+    "run_attempt": "1",
+    "workflow": "CP7 OW04 Settlement, Signed Source and Native EMPTY Qualification",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "e9287cf3b8656064acb0225249ab99e5f2d79cd8",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "package_product_paths_diff_vs_candidate": [],
+  "complete_boundary_restored": true,
+  "qualification_declaration_sha256": "59a86fec487a4f435b4182c798fb4dadbf7a9412a1d1987f5feb198678d60cb1",
+  "source_sha256": {
+    "kernel/kernel.sql": "f531f50d5a1c7ddc0a2f22f607be5ba0625a2e0388af3e7a4c6d129bf82e15fc",
+    "ordinal-wrapper/wrapper.sql": "ed66c7f09433956d18368b7a804b1b04f0dcb7f9e0457686400421a849d671d1",
+    "ledger/01_immutable_facts.proposal.sql": "62383030bf27b70c5c07f948c69329be6f8229c314097e7d3c02293cc8c929c6",
+    "ledger/02_uuid_poster.proposal.sql": "7ab2fc6f5cb700c2284e58921bd6e59fbe731a0064457f5031116d61aa30baf8",
+    "source/NO_JOURNAL_SCHEMA_DIFF.proposal.sql": "bed7aea0c7eab97c3917444aac5ea21e167b7ca0dfea4a92d4150124f21baa45",
+    "source/source.sql": "dd091f3896929d46587634f70545eea26ffd0ac9a516ffac79d90d4e5b80a729",
+    "source/member-proof.sql": "565e4e8643323442eadad2d6d1e65fdf1750da1675a2c68cc28187add17c1205",
+    "source/absence-proof.sql": "079a76d64bdfe99051566d4053cdfc1740aded2d6c5a43aeae85feead483ad0c",
+    "readers/01_current_reader_capability.proposal.sql": "104853e41bd3cfa79af47d09c7f6ad9d45ff10fb00756b5b57ea71d137d94773",
+    "readers/02_materialized_profile.proposal.sql": "317e689b3b2e738889e86a62dc130fa3ee2f128750f95d5264cd56084fce8575",
+    "reconciliation/01_source_operation_facts.sql": "01fd6745c69d942841e26892ddcf7aa89d0b0c2aa911ea2d5b89ac6be5761fab",
+    "admission/01_typed_context_and_preclaim.proposal.sql": "44fe8bfae73aecdd85a332f328a4b7dfd6331fa40764025462772a701c9ddb08",
+    "admission/02_owning_wrapper.proposal.sql": "16d93266a9a9c721ec582e62e10db0deccfe7c39724215b955912dfc092f7511",
+    "refund/01_initial_refund.proposal.sql": "d273107f12f1d063005ed0a250d55dde529b725bdf41e8091193046aa0b27410",
+    "coordinator/01_coordinator_facts.sql": "4741483e2a61056a6e2365cfcc43e65d83c4ab9d1c8fd6fa77d33eda26b7af99",
+    "coordinator/02_hpp_book.sql": "a9e3ee39b51bb1cbadb9a4f8570b3bae3ddabf83cd589c29e32b71424b4b2391",
+    "coordinator/02_initial_projection.sql": "9202f27d33d32f8dbf04838d5e4540c2aa20a5e74475bb99f30730cb0f3b696c",
+    "coordinator/03_native_initial_callbacks.sql": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843",
+    "coordinator/03_opening_return_hpp.sql": "d79e6e05446352ff8beb6ab97933514b51bad2392b86d372a1fdca7af1372043",
+    "coordinator/03_opening_hpp_diagnostics.sql": "18fc33e4a88dc211fe7a99fb3dd39251618ed7eda006cacb5d7ab29bfddd7c25",
+    "coordinator/04_register_and_materialize.sql": "abf523b1ba7a9e2d9f1aa8825b1e2c74cec160d2be726db71e2f2f8176ad7ff0",
+    "coordinator/05_factual_profile.sql": "a11a072b8e0fffbea380063787e752814893089ef9066bcc541b5984221bb16d",
+    "coordinator/06_finish_and_closed_routes.sql": "0dc8fb0f81e5a1787fe29e5a0585b8ca8138915dbb79f536d76051eb9c3ae27e",
+    "coordinator/07_capabilities_and_quote.sql": "4e78155e601b80e5752e7f0f9fb578bd76a8e44f16c3acb822b2b54d0db5df32",
+    "coordinator/08_outer_wrapper.sql": "2e94d859e620dab81aae4b053918f5408c196ded8b571a12d5ef33f827c72c44",
+    "coordinator/09_public_facades.sql": "bb873a9e4d297c8cf1b8e062ece1fa79d39b8411146a1b31787b32b919a74d56",
+    "reconciliation/02_reconciliation_inputs.sql": "e68bddefdf3390162d222eba2cf4014dec7ac781a0d60db434f0f61ccceaba42",
+    "reconciliation/03_source_requests.sql": "9cea83e59f7dd923ae4f182b8126615bad7a274a31765ce4dbff19b41f16a116",
+    "reconciliation/03_native_inverse_proof.sql": "9fb7ca993d770ee18a29a1038f5cf1e11c389ad33e7e133a062a31d6298ba442",
+    "reconciliation/04_source_binding.sql": "21bcf036fdfbf7c6e9d6afe8c98c7a8888f8f92ef7ac8c34ef9fccd627139510",
+    "reconciliation/05_source_adjustments.sql": "5432e67f9d64eb068f47c38318a7532837298a75b0db66a6b5bd2dfc469e9bbb",
+    "reconciliation/06_source_coordinator.sql": "ba06b0bf5134ce189d04b819fe0ef14554a462e2ccacbf58b5c1da0ae9383ce1",
+    "reconciliation/07_source_closure.sql": "b5950e046932dcddcfd8a8bb703ab412ec7eba008b6fa1667d1557bf7498b33b",
+    "integration/source_command_transform.py": "7569fa4459b138114b6127ad7c2f62e1694ceba46c64863deeabe6ab32c0453a",
+    "integration/source_triggers/trigger_guard.py": "7de2a8cc7761487d77e03bb77f4333f7a52ed61b9fa5ccc33ea3f52965661ab9",
+    "integration/source_triggers/capture.sql": "0ec6af17788d09a3f30ffc2adffa2f6a8e46dae8d1879664669f91995fe91f38",
+    "integration/source_triggers/SOURCE_PINS.json": "6d509b7876a5e613eb336e51ee53a11c626d5879021f77919aceda360b5bc973",
+    "integration/source_triggers/build_source_pins.py": "dc39bacd8fd5beb2d40bb3acac8ced0ff4f29a34e1731981e52a0eb416bdf026",
+    "integration/typed_context_inventory.py": "2635024dcc7236eb9f3c8fc84572bc2dbd1e25d437a81a847c70af86b1f89407",
+    "integration/derive_plan.py": "1aa44a3cbc6a053e211fda54eca7ba6cdcea446977cf2bba348966875dd7cc66",
+    "native-empty/01_native_empty_facts.sql": "ec3a102ffc65cc8dfcff294706c5cdacedc749b62320ea6c307c00dcd4696584",
+    "native-empty/02_native_empty_callbacks.sql": "68f458c7e061b3c7161e5c1525c678defc343869c766a60d9a5139366f414173",
+    "native-empty/04_exact_overlays.sql": "bea5faafa415600a9b1973654fe6c0c4c449256ed8bb8fb8698a3ff62b026ad9",
+    "native-empty/OVERLAY_MANIFEST.json": "2c1463de1987b403ebcd46678c515f1b446f6e78a9ae9ee119419c34161ab3b4",
+    "native-empty/SOURCE_PINS.json": "0f74264ddb42346730f79591bb46b39d2e01c70b69382275eb5b0005b5d97f9f",
+    "native-empty/EXPECTED.json": "5e713283516288011b6c8ccdff4af85d3df3c077e771e36de2b2bc2c16abfd3b",
+    "native-empty/cp7_ow04_native_empty_cases.py": "60c22fc9c09ac8630fd3aaf7b65d8be5c256429ff41e5a365c0ebaf30c9dcf29",
+    "integration/native_empty_bundle.py": "909caab9e62242cd50ebc20e4c5116b9f2041b4bebe7774eccf1d73aa06fbcee",
+    "hpp-fractional/EXPECTED.json": "f53001d8ec87289a7fc7ca1a6f69752f994480418256923133329e6395a37d4c",
+    "hpp-fractional/cp7_ow04_fractional_hpp_cases.py": "ac0b59556ae8b91e9019da9f676dcbf5debaae058213820a27f715d23c294956",
+    "reconciliation/native/EXPECTED.json": "9b038e877372848b4e7f86695107d6e99695013b4e443ecda55e1fa6e989dffd",
+    "reconciliation/native/cp7_ow04_signed_source_cases.py": "82831d767c85199ab182c21aa5a56fe46e7cba0c7e70ccba6c89477b755de640",
+    "reconciliation/native/ZERO_DIFF_EXPECTED.json": "0eaa6829643dc5675c4d854a75ea855486bc78db6d8aa54c2d09d803945c2a7a",
+    "reconciliation/native/cp7_ow04_signed_zero_difference_cases.py": "2ab77357978c4a5109d76607d81e97b9350a8178e17398d051761a2d8c5da83f",
+    "reconciliation/native/cli_admission_recheck.py": "b6a5c93148ee2eb2f8c5b1c084612e81916254ca4a7f42849d577260c4fcbed0"
+  },
+  "evidence_files": {
+    "docs/cp7/d17-14/ow04/signed-source/native-e9287cf3-pass/ORIGINAL_REPORT.json.gz": {
+      "sha256": "4acfe877e770300d32b8bc0a7514241bc01f6bdba144aab4a6bede445421e800",
+      "uncompressed_sha256": "670552d0aadbea44b03a593647301e08f09309ef19da77d5041e08db93c98643"
+    },
+    "docs/cp7/d17-14/ow04/signed-source/native-e9287cf3-pass/T3_PACKAGE_INSTALL.json.gz": {
+      "sha256": "79a358e8b7ef5ca0893a70acd8929648b02badb6125982ad8bf2e8f96d149502",
+      "uncompressed_sha256": "8fb53b908ef968afa464721c35e8f63b845165d1be1b9040f73e6ee447348eb7"
+    }
+  },
+  "limits": [
+    "Exact Native63 candidate only; no new Auth/HTTP/browser/race proof",
+    "Source inverse subset: unconsumed CREDIT and the frozen zero-difference case; broader OW04 remains open",
+    "Active UI has separate local DOM/build results; default product installation remains open",
+    "Not independent audit or production deployment"
+  ],
+  "feature_complete": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "command": "python scripts/cp7_ow04_probe.py --signed-source"
+}

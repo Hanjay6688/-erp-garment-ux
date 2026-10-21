@@ -5,6 +5,15 @@ catat konteks personal proyek, keputusan, daftar kerja, slogan dan aturan,
 lalu lanjutkan tugas yang tersisa. Mandat ini memindahkan integrasi kepada
 writer sesi ini; hasil review internal tidak menjadi audit independen.
 
+Status terkini21 Oktober: kandidat kode `e9287cf3` tersimpan di cabang takeover,
+Native63 run39564520538/job119103485023 selesai sukses,63/63 PASS. Lima gate
+paket, seluruh pemulihan kasus, restore CP6 dan advisor lulus. Receipt tepat:
+`docs/cp7/d17-14/ow04/CI_E928_NATIVE63_PASS.json`. Hasil59/63 pada99695e10
+adalah kegagalan historis yang tetap dipreservasi.
+UI retur kini ada di sumber aplikasi aktif,182 kasus lokal unik dan build lulus.
+HTTP14/race6+2/browser4 belum diuji terhadap kandidat ini. Scope OW04 masih
+terbuka dan production_go=false. Identitas/bukti rinci mengikuti receipt run.
+
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan—termasuk laporan—stok, dan HPP adalah raja.
 
@@ -57,13 +66,19 @@ putusan runtime selalu mengikuti kandidat/receipt yang tepat.
 - Worktree baru `codex/writer-takeover-20261021` berawal tepat052d5b49.
  Perubahan HTTP/race yang belum di-commit di worktree source-http dipreservasi
  ke worktree baru, beserta diff asli; worktree asal tidak ditimpa.
-- Empat file UI untracked di erp-d1714 adalah bytes escrow yang sama, belum
- menjadi UI produk. Root menyimpan lokasi/sumbernya untuk promosi terkontrol.
+- Saat takeover, empat file UI untracked di erp-d1714 adalah bytes escrow yang
+ sama. Kini sembilan berkas escrow/prasyarat telah dipromosikan ke sumber
+ aplikasi aktif pada99695e10; worktree lama dan escrow asli tetap utuh.
 - Kandidat audit55c885d1a12336905e433e05852b99be4d933f74 tetap beku.
  main/cp7/integration/Enteng/legacy/Cloudflare/Drive/WA nyata tidak diubah.
 - Run39545090852 kini selesai gagal,0/63 kasus berjalan. Detail dan koreksi
  sumber pemilik fungsi RI di `d17-14/ow04/signed-source/native-third-052d5b49/`.
- Jangan membawa status "CI masih berjalan" dari chat lama sebagai keadaan kini.
+ Pada1c9a4373 juga0/63 karena tipe OID dalam JSON, lalu8ed949bb dan99695e10
+ masing-masing59/63 karena dua cacat SQL produk berurutan. Empat kegagalan itu
+ berada pada jalur source inverse yang sama. Koreksi kedua ada di e9287cf3;
+ 12 kontrol ekspresi JSON,8 kontrol agregat serta pemindai36 fungsi lulus
+ lokal. Bukti asli dipreservasi. Native e9287cf3 kini benar-benar63/63 lulus;
+ pemeriksaan lokal dan run lama tetap lapisan bukti tersendiri.
 
 ## Daftar kerja dan urutan
 
@@ -74,7 +89,12 @@ OW03 isian kelipatan→profil sama→analisis154/154.
 Pemasangan/live tetap gate terpisah. Header kumulatif lama yang masih menyebut
 OW01/ACCESSORY_NEED belum dibuat tidak mengalahkan ledger/receipt ini.
 
-Tiga belas butir tetap terbuka:
+Tiga belas butir ledger lama tetap terbuka. Ini bukan13 fitur besar yang baru
+diminta karena WA: sebagian memerlukan perbaikan/pembuktian implementasi yang
+sudah ada. Pertanyaan owner tentang pengingat tidak memperluas scope. OW01
+tetap selesai pada scope fake-provider99/99; instalasi WA nyata milik CP7C.
+
+Daftar terbuka:
 OW04 retur lunas/kredit/refund/HPP/koreksi dan dependensi;
 OW05 koreksi mandor sesudah dijahit beserta upah/nota/payroll/HPP;
 OW06 satu transfer supplier lintas penerimaan/tagihan;
