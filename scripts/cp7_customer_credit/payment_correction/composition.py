@@ -13,6 +13,13 @@ from cp7_customer_credit.payment_correction import transform
 
 HERE = Path(__file__).resolve().parent
 TABLES = ('payment_source_context_v1', 'payment_source_legs_v1')
+INDEXES = {
+ 'cp7_credit.payment_source_context_v1_pkey',
+ 'cp7_credit.payment_source_context_v1_backend_pid_transaction_id_key',
+ 'cp7_credit.payment_source_context_v1_actor_request_id_key',
+ 'cp7_credit.payment_source_legs_v1_pkey',
+ 'cp7_credit.payment_source_legs_v1_replacement_id_key',
+}
 CONSTRAINTS = {f'cp7_credit.{name}:{name}_action_check' for name in
     ('source_operation_work_v1', 'source_operation_materializations_v1')}
 OLD_CHECK = "CHECK ((action = ANY (ARRAY['RETURN_REVERSE'::text, 'PAYMENT_REVERSE'::text])))"
@@ -67,13 +74,31 @@ def _admit_catalog(before, after, new_signatures):
                 raise ValueError('OW04_PAYMENT_SOURCE_UNDECLARED_EXISTING_CATALOG_DELTA: '+group+':'+key)
             if group == 'functions' and key in new_signatures:
                 continue
+            if group in ('relations','indexes') and key in INDEXES:
+                continue
+            if group == 'columns' and key.split(':',1)[0] in INDEXES:
+                continue
+            if group == 'type_implementation':
+                for table in TABLES:
+                    relation = 'cp7_credit.'+table
+                    expected_row = [-1,False,',','d','x',0,relation,'-',relation+'[]','-',
+                        'record_in(cstring,oid,integer)','record_out(record)',
+                        'record_recv(internal,oid,integer)','record_send(record)','-','-','-']
+                    expected_array = [-1,False,',','d','x',0,'-',relation,'-',
+                        'array_subscript_handler(internal)','array_in(cstring,oid,integer)',
+                        'array_out(anyarray)','array_recv(internal,oid,integer)',
+                        'array_send(anyarray)','-','-','array_typanalyze(internal)']
+                    if key == relation and new == expected_row or key == relation+'[]' and new == expected_array:
+                        break
+                else:
+                    raise ValueError('OW04_PAYMENT_SOURCE_UNDECLARED_TYPE_IMPLEMENTATION: '+key)
+                continue
             # Exactly two source-declared private relations and their Native
             # automatic type/index/constraint/policy/trigger objects, no FK to
             # or new trigger on any existing relation or ERP parent.
             if group in ('relations','columns','constraints','indexes','triggers','policies','types') and any(
                 key == 'cp7_credit.'+table or key == 'cp7_credit.'+table+'[]'
-                or key.startswith('cp7_credit.'+table+':') or
-                group in ('relations','indexes') and key.startswith('cp7_credit.'+table+'_') for table in TABLES):
+                or key.startswith('cp7_credit.'+table+':') for table in TABLES):
                 continue
             raise ValueError('OW04_PAYMENT_SOURCE_UNDECLARED_NEW_CATALOG_OBJECT: '+group+':'+key)
 

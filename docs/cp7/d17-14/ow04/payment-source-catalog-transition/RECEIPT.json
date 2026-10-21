@@ -1,0 +1,64 @@
+{
+  "classification": "LOCAL_ALIGNED_POSTGRES_ACTUAL_DDL_CATALOG_TRANSITION_NOT_NATIVE_BUSINESS_OR_PRIVILEGE_QUALIFICATION",
+  "status": "PASS",
+  "catalog_groups": 22,
+  "Native_cases_added": 0,
+  "financial_command_executed": false,
+  "old_actual_source_refusal_reproduced": "OW04_PAYMENT_SOURCE_UNDECLARED_NEW_CATALOG_OBJECT: columns:cp7_credit.payment_source_context_v1_actor_request_id_key:actor",
+  "changed_groups": {
+    "relations": {
+      "new": 7,
+      "changed": 0
+    },
+    "columns": {
+      "new": 31,
+      "changed": 0
+    },
+    "constraints": {
+      "new": 24,
+      "changed": 2
+    },
+    "indexes": {
+      "new": 5,
+      "changed": 0
+    },
+    "triggers": {
+      "new": 4,
+      "changed": 0
+    },
+    "functions": {
+      "new": 21,
+      "changed": 20
+    },
+    "types": {
+      "new": 4,
+      "changed": 0
+    },
+    "policies": {
+      "new": 2,
+      "changed": 0
+    },
+    "type_implementation": {
+      "new": 4,
+      "changed": 0
+    }
+  },
+  "sensitivity_controls": [
+    {
+      "id": "REPLACED_EXISTING_FUNCTION_METADATA",
+      "refused": true,
+      "error": "OW04_PAYMENT_SOURCE_UNDECLARED_EXISTING_CATALOG_DELTA: functions:erp.require_internal()"
+    },
+    {
+      "id": "WRONG_ROW_TYPE_INPUT_HANDLER",
+      "refused": true,
+      "error": "OW04_PAYMENT_SOURCE_UNDECLARED_TYPE_IMPLEMENTATION: cp7_credit.payment_source_context_v1"
+    }
+  ],
+  "raw_catalog_bytes": 10930123,
+  "raw_catalog_sha256": "2458762462e8e4d79ba76c77188889f05dd56662ba659506fe823e2d005daed0",
+  "xz_bytes": 416432,
+  "xz_sha256": "05081d55e1910752536c178607f465c5d0d3e804fbd9a8f95fc638907c4543a2",
+  "full_original_bytes_preserved": true,
+  "production_go": false
+}
