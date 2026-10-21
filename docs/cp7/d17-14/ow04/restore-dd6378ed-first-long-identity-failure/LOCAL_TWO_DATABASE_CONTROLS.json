@@ -1,0 +1,17 @@
+{
+  "classification": "LOCAL_PGLITE_METADATA_NOT_NATIVE",
+  "status": "PASS",
+  "instances": 2,
+  "query_kinds": 22,
+  "old_identity_collision_reproduced": true,
+  "full_catalog_equal": true,
+  "source_only_dropped_column": true,
+  "distinct_object_oids": true,
+  "same_fk_name_on_two_children": true,
+  "long_constraint_names_untruncated": true,
+  "self_referencing_fk": true,
+  "old_new_when_trigger": true,
+  "changed_fk_action_refused": true,
+  "trigger_count": 21,
+  "restore_module_sha256": "93e66a2174a7483de10b4285982691110e163ac058f2927020bc121beef6a753"
+}

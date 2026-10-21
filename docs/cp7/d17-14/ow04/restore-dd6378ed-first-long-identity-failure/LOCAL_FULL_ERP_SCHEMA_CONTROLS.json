@@ -1,0 +1,33 @@
+{
+  "classification": "LOCAL_PGLITE_ALIGNED_ERP_SCHEMA_ONLY_WITH_AUTH_STORAGE_STUBS_NOT_NATIVE_OR_BUSINESS_FLOW",
+  "status": "PASS",
+  "dump_copy_sections_omitted": 215,
+  "previous_truncated_case_duplicate_count": 1016,
+  "catalog_group_counts": {
+    "schemas": 5,
+    "relations": 880,
+    "columns": 3899,
+    "constraints": 2839,
+    "indexes": 607,
+    "triggers": 2411,
+    "functions": 536,
+    "aggregates": 0,
+    "types": 534,
+    "enums": 0,
+    "sequences": 6,
+    "policies": 190,
+    "extensions": 1,
+    "roles": 20,
+    "memberships": 3,
+    "event_triggers": 0,
+    "rules": 50,
+    "inheritance": 0,
+    "default_privileges": 0,
+    "database_authority": 1,
+    "type_implementation": 534,
+    "sequence_ownership": 4
+  },
+  "duplicate_identities": {},
+  "all22queries_executed": true,
+  "restore_module_sha256": "93e66a2174a7483de10b4285982691110e163ac058f2927020bc121beef6a753"
+}
