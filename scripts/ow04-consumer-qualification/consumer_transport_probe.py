@@ -12,6 +12,11 @@ import subprocess
 import sys
 import traceback
 
+# Qualification must not generate untracked bytecode inside the exact financial
+# source tree it verifies. Keep the clean-tree guard strict; change the runner,
+# not what the source gate is willing to accept.
+sys.dont_write_bytecode=True
+
 REPO=Path(os.environ.get('ERP_REPO',Path(__file__).resolve().parents[2])).resolve()
 HERE=Path(__file__).resolve().parent
 if sys.argv[1:]:raise SystemExit('Consumer real Auth HTTP entry accepts no arguments')
