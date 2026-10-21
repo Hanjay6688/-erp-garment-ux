@@ -1,0 +1,25 @@
+{
+  "classification": "LOCAL_COMPILE_ONLY_ORIGINAL_LOG_BYTES_NOT_NATIVE_EXECUTION",
+  "records": [
+    {
+      "name": "first.jsonl",
+      "bytes": 4269,
+      "sha256": "415c9910cd6e6346d9bd73ddf011ed5e59e00d232d27bf928229e6b0bf941740"
+    },
+    {
+      "name": "second.jsonl",
+      "bytes": 4642,
+      "sha256": "ea7680ea3b5a9da25ac895b912f281310128314cb9085b3f29aa9ac7d33e8d4a"
+    },
+    {
+      "name": "third.jsonl",
+      "bytes": 5077,
+      "sha256": "6ab74a2de0a80285e64e93a2d6abe29552ad15baea3f4c1afafc1ae4e69b8b78"
+    }
+  ],
+  "first_failure": "Local compiler supplied a CREATE helper instead of its actual CREATE OR REPLACE capture. Runtime adapter unchanged.",
+  "second_failure": "Local compiler had not loaded accepted terminal-header dependency. Dependency loaded exactly; checks remain on.",
+  "third_result": "All 6 new fragments and 20 new derivations compile with the existing full consumer stage and check_function_bodies=on. No Native financial command executed.",
+  "Native_cases_added": 0,
+  "production_go": false
+}

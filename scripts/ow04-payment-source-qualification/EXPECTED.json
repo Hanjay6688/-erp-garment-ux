@@ -1,0 +1,50 @@
+{
+  "classification": "PREDECLARED_NATIVE20_RETAINED18_AND_TWO_BOUNDED_OWNING_CORRECTIONS_NOT_EXECUTION",
+  "original_basic9_sha256": "437c6b2f0fe338e96a4880b6acff01e6af2f79d4f9d8ef0de29c0b4676be22ac",
+  "original_refund9_sha256": "eed6e700cfabc301f76a74819fc5b614b6b20da16af6d8f97f05ee9d10d7b762",
+  "expected_count": 20,
+  "retained_count": 18,
+  "same_original_bank_method_number_physical_instant": true,
+  "original_economic_and_book_pair_open": true,
+  "literal_amounts_predeclared_before_implementation_in": "docs/cp7/d17-14/ow04/payment-correction-next/PREIMPLEMENTATION_LITERAL_EXPECTATIONS.json",
+  "positive": [
+    {
+      "id": "OW04_PAYMENT_CORRECT_ACTIVE_APPLY80_P1000_TO900",
+      "action": "APPLY",
+      "original_payment": "1000.00",
+      "replacement_payment": "900.00",
+      "before": {
+        "source": {"gross":"1000.00","net":"800.00","P":"1000.00","U":"0.00","I":"200.00","E":"800.00","AR":"0.00","available_credit":"120.00","net_consumption":"80.00"},
+        "target": {"gross":"500.00","net":"500.00","P":"0.00","U":"80.00","I":"0.00","E":"80.00","AR":"420.00"},
+        "cash":"1000.00"
+      },
+      "after": {
+        "source": {"gross":"1000.00","net":"800.00","P":"900.00","U":"0.00","I":"100.00","E":"800.00","AR":"0.00","available_credit":"20.00","net_consumption":"80.00"},
+        "target": {"gross":"500.00","net":"500.00","P":"0.00","U":"80.00","I":"0.00","E":"80.00","AR":"420.00"},
+        "cash":"900.00"
+      }
+    },
+    {
+      "id": "OW04_PAYMENT_CORRECT_ACTIVE_REFUND80_P1000_TO900",
+      "action": "REFUND",
+      "original_payment": "1000.00",
+      "replacement_payment": "900.00",
+      "before": {
+        "source": {"gross":"1000.00","net":"800.00","P":"1000.00","U":"0.00","I":"200.00","E":"800.00","AR":"0.00","available_credit":"120.00","net_consumption":"80.00"},
+        "target": {"gross":"500.00","net":"500.00","P":"0.00","U":"0.00","I":"0.00","E":"0.00","AR":"500.00"},
+        "cash":"920.00"
+      },
+      "after": {
+        "source": {"gross":"1000.00","net":"800.00","P":"900.00","U":"0.00","I":"100.00","E":"800.00","AR":"0.00","available_credit":"20.00","net_consumption":"80.00"},
+        "target": {"gross":"500.00","net":"500.00","P":"0.00","U":"0.00","I":"0.00","E":"0.00","AR":"500.00"},
+        "cash":"820.00"
+      },
+      "inverse_half_cash_from_actual_inverse_vector": "-80.00"
+    }
+  ],
+  "required_controls_in_each_positive_case": ["late_link_failure_rolls_back_all_facts", "exact_completed_request_replay_zero_effects", "changed_payload_same_UUID_refused", "distinct_UUID_stale_version_refused", "original_payment_money_posting_fact_and_journal_payload_retained", "original_signed_consumer_and_journal_retained", "stock_HPP_lot_identity_unchanged", "actual_closed_parent_source_operation", "used_complete_removal_refused_before_DDL"],
+  "original_historical_negative_case9_unchanged": true,
+  "Native90_and_current42_not_relabelled_as_rerun": true,
+  "formal_CP7C_started": false,
+  "production_go": false
+}
