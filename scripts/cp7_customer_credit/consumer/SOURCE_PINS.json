@@ -1,0 +1,210 @@
+{
+  "classification": "ACTUAL_QUALIFIED_A45084_SOURCE_PINS_FOR_ISOLATED_CONSUMER_DERIVATION_NOT_CONSUMER_QUALIFICATION",
+  "actual_source_commit": "a45084cee8bf4740c5a9399876397578b31a52e5",
+  "trusted_used_manifest_sha256": "bd5b983081e260fcc42af7c16f965937255f957948dcbf8adfa13571f3b0236a",
+  "functions": {
+    "erp.require_internal()": {
+      "definition_sha256": "1bca1d2171f134250c877e3f1941fd3e0d821ec726da72cabc06d33cb27e4dfd",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "kind": "f",
+      "security_definer": true,
+      "leakproof": false,
+      "strict": false,
+      "returns_set": false,
+      "volatility": "v",
+      "parallel": "u",
+      "config": [
+        "search_path=\"\""
+      ],
+      "return_type": "void",
+      "privileges": [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    },
+    "erp.post_journal(text,uuid,date,text,jsonb)": {
+      "definition_sha256": "1f4b630c00147f88d195b3b365114eaecc60fdf3141859c384056423ae39f824",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "kind": "f",
+      "security_definer": true,
+      "leakproof": false,
+      "strict": false,
+      "returns_set": false,
+      "volatility": "v",
+      "parallel": "u",
+      "config": [
+        "search_path=erp, public"
+      ],
+      "return_type": "uuid",
+      "privileges": [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    },
+    "cp7_credit.initial_base_events_v1(uuid,uuid)": {
+      "definition_sha256": "aaed5c895bb0f21365cb42f142e6c360860547bee5220c1988755d7e360a54a2",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "kind": "f",
+      "security_definer": true,
+      "leakproof": false,
+      "strict": false,
+      "returns_set": false,
+      "volatility": "s",
+      "parallel": "u",
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "return_type": "jsonb",
+      "privileges": [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    },
+    "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)": {
+      "definition_sha256": "f4ba2b12b1db02f9828f9e7263ffc54a6df092dcb526b7d5c9bf8c06d2507159",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "kind": "f",
+      "security_definer": true,
+      "leakproof": false,
+      "strict": false,
+      "returns_set": false,
+      "volatility": "s",
+      "parallel": "u",
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "return_type": "void",
+      "privileges": [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    },
+    "cp7_credit.assert_financial_materialization_provenance(jsonb)": {
+      "definition_sha256": "976c1726b17e3aa65c29ac47395b653ca6e1caf5ed7568f3463ff8eeed42fd9c",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "kind": "f",
+      "security_definer": true,
+      "leakproof": false,
+      "strict": false,
+      "returns_set": false,
+      "volatility": "s",
+      "parallel": "u",
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "return_type": "void",
+      "privileges": [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    },
+    "cp7_credit.enforce_initial_return_closure_v1()": {
+      "definition_sha256": "a76972a432dbc232e1f83d4c6fe692939e31dcc534766399e7848f325a2c2ad9",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "kind": "f",
+      "security_definer": true,
+      "leakproof": false,
+      "strict": false,
+      "returns_set": false,
+      "volatility": "v",
+      "parallel": "u",
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "return_type": "trigger",
+      "privileges": [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    },
+    "erp._cp7_current_credit_adjustment(uuid)": {
+      "definition_sha256": "4492c8099f8c7c827f41d72e656526eb1b0df91aaf7cd1cb34aa04b969c9a832",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "kind": "f",
+      "security_definer": true,
+      "leakproof": false,
+      "strict": false,
+      "returns_set": false,
+      "volatility": "s",
+      "parallel": "u",
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "return_type": "numeric",
+      "privileges": [
+        [
+          "cp7_credit_visible_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_sales_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    }
+  }
+}

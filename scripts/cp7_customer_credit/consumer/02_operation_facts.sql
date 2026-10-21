@@ -15,7 +15,7 @@ create table cp7_credit.consumer_requests_v1(
  response jsonb check(response is null or jsonb_typeof(response)='object'),
  primary key(actor,request_id)
 );
-create table cp7_credit.consumer_command_context_v1(
+create table cp7_credit.consumer_execution_context(
  backend_pid integer not null,transaction_id bigint not null,actor uuid not null,
  request_id uuid not null,action text not null check(action in('APPLY','REFUND','UNDO')),
  phase text not null check(phase in('CLAIMED','LOCKED','POSTING','MATERIALIZED','COMPLETE')),
@@ -91,7 +91,7 @@ create table cp7_credit.consumer_operations_v1(
  check(economic_date=(physical_at at time zone'Asia/Jakarta')::date),
  check(transaction_date>=economic_date)
 );
-alter table cp7_credit.consumer_command_context_v1 add foreign key(operation_id)
+alter table cp7_credit.consumer_execution_context add foreign key(operation_id)
  references cp7_credit.consumer_operations_v1(id)deferrable initially deferred;
 
 -- A one-call scope binds the exact actual Native journal request. It does not
@@ -126,14 +126,14 @@ create table cp7_credit.consumer_completions_v1(
 );
 
 do $private$declare name text;begin
- foreach name in array array['consumer_requests_v1','consumer_command_context_v1',
+ foreach name in array array['consumer_requests_v1','consumer_execution_context',
   'consumer_operations_v1','consumer_posting_scope_v1','consumer_completions_v1']loop
   execute format('alter table cp7_credit.%I owner to postgres',name);
   execute format('alter table cp7_credit.%I enable row level security',name);
   execute format('create policy no_direct_access on cp7_credit.%I for all to public using(false)with check(false)',name);
   execute format('revoke all on cp7_credit.%I from public,anon,authenticated,service_role,cp7_capture,cp7_sales_read,cp7_sales_write,cp7_credit_write',name);
  end loop;
- foreach name in array array['consumer_requests_v1','consumer_command_context_v1']loop
+ foreach name in array array['consumer_requests_v1','consumer_execution_context']loop
   execute format('alter table cp7_credit.%I owner to cp7_credit_write',name);
   execute format('grant select on cp7_credit.%I to postgres',name);
  end loop;
@@ -142,6 +142,12 @@ do $private$declare name text;begin
   execute format('create trigger immutable_truncate before truncate on cp7_credit.%I for each statement execute function cp7_credit.immutable_fact()',name);
  end loop;
 end $private$;
+
+-- The postgres sealer advances this outer-owned context but cannot mint an
+-- outer request. The name ends in _context so the unchanged Native one-probe
+-- guard verifier can census its exact typed branch with its existing grammar.
+grant update(phase,operation_id)on cp7_credit.consumer_execution_context to postgres;
+grant trigger on cp7_credit.consumer_requests_v1,cp7_credit.consumer_execution_context to postgres;
 
 -- No success-placeholder trigger is supplied. Before installation, the owning
 -- bundle must implement and attach complete context-free deferred closure for

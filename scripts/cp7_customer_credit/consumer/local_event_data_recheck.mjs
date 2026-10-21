@@ -48,6 +48,22 @@ await db.exec(fragment(readers,'create function cp7_credit.current_leaf_assignme
 await db.exec(fragment(refund,'create function cp7_credit.initial_refund_lines','create function cp7_credit.initial_refund_cash_snapshot'));
 await db.exec(fragment(refund,'create function cp7_credit.verify_initial_refund_journal','-- Sole writer entry'));
 await db.exec(strip(read('05_event_data.sql')));
+// The complete coordinator/grants are intentionally absent. Compile the real
+// eight bodies, then exercise only the pure payload validator. Never provide
+// successful authority/source/closure substitutes for the missing callbacks.
+await db.exec(strip(read('06_access_and_requests.sql')).split('do $private$')[0]);
+const accessChecks=[];
+const payload={action:'APPLY',cohort_id:id(9),target_sale_id:id(2),cash_account_id:null,restores_event_id:null,
+ amount:'80.00',physical_at:'2026-10-20T10:00:00+07:00',reason:'Explicit synthetic payload only',reference:null};
+const validate=(p,quote)=>db.query('select cp7_credit.validate_consumer_payload_v1($1::jsonb,$2)',[JSON.stringify(p),quote]);
+await validate(payload,false);await validate({...payload,quote_sha256:'0'.repeat(64)},true);accessChecks.push('EXPLICIT_APPLY_AND_BOUND_QUOTE_PAYLOAD_ACCEPTED');
+await validate({...payload,action:'REFUND',target_sale_id:null,cash_account_id:id(105)},false);accessChecks.push('REFUND_REQUIRES_EXPLICIT_CASH_CHOICE');
+const undo={...payload,action:'UNDO',cohort_id:null,target_sale_id:null,amount:null,restores_event_id:id(20)};await validate(undo,false);accessChecks.push('UNDO_NAMES_ONE_ORIGINAL_WITHOUT_DERIVED_AMOUNT_OR_DIMENSIONS');
+for(const[name,changes]of[['ZERO',{amount:'0.00'}],['NEGATIVE',{amount:'-1.00'}],['SUBCENT',{amount:'0.001'}],['NONFINITE',{amount:'NaN'}],['NUMBER_INSTEAD_OF_DECIMAL_STRING',{amount:80}],['FREE_BOOK_DATE',{transaction_date:'2026-10-20'}],['BLANK_PHYSICAL',{physical_at:''}],['RELATIVE_PHYSICAL',{physical_at:'now+07:00'}],['ZONELESS_PHYSICAL',{physical_at:'2026-10-20T10:00:00'}],['NONCANONICAL_REASON',{reason:' untrimmed reason '}],['MISSING_TARGET',{target_sale_id:null}],['APPLY_CASH',{cash_account_id:id(105)}],['UNREQUESTED_ORIGINAL',{restores_event_id:id(20)}]]){await refuse(()=>validate({...payload,...changes},false),/CP7_CREDIT_CONSUMER_/);accessChecks.push(name+'_REFUSED')}
+await refuse(()=>validate({...undo,amount:'-80.00'},false),/UNDO_NAMES_ORIGINAL_ONLY/);accessChecks.push('UNDO_CANNOT_SUPPLY_ITS_OWN_NEGATIVE_MONEY');
+await refuse(()=>validate({...payload,quote_sha256:'bad'},true),/PAYLOAD_FIELDS/);accessChecks.push('INVALID_QUOTE_BINDING_REFUSED');
+await refuse(()=>validate({...payload,quote_sha256:'0'.repeat(64)},false),/PAYLOAD_FIELDS/);accessChecks.push('QUOTE_QUERY_CANNOT_SMUGGLE_BOUND_SAVE_FIELDS');
+checks.push('EIGHT_COMMAND_CALLBACK_BODIES_COMPILE_WITHOUT_PERMISSION_OR_CLOSURE_STUBS');
 checks.push('ACTUAL_CONSUMER_DDL_AND_FIVE_STABLE_PRIVATE_FUNCTIONS_COMPILE');
 await insert('erp.customers',{id:id(1)});
 for(const n of [1,2,3])await insert('erp.sales_headers',{id:id(n),customer_id:id(1),status:n===1?'PAID':'POSTED',sale_date:'2026-10-19T00:00:00+07:00'});
@@ -128,5 +144,5 @@ await db.exec('begin');try{await db.query("update erp.sales_headers set status='
 await refuse(()=>json('select cp7_credit.consumer_active_events_v1($1)as v',[id(999)]),/query returned no rows/);checks.push('UNKNOWN_COHORT_CANNOT_BECOME_ZERO_ACTIVE_USE');
 const meta=await rows("select oid::regprocedure::text as signature,provolatile from pg_proc where pronamespace='cp7_credit'::regnamespace and proname in('consumer_invoice_ar_source_v1','consumer_operation_lines_v1','consumer_event_data_v1','consumer_incoming_funding_v1','consumer_active_events_v1')");assert.equal(meta.length,5);assert.ok(meta.every(x=>x.provolatile==='s'));
 for(const role of ['anon','authenticated','service_role','cp7_capture','cp7_sales_read','cp7_sales_write','cp7_credit_write'])for(const f of meta)assert.equal((await one('select has_function_privilege($1,$2,\'EXECUTE\')as allowed',[role,f.signature])).allowed,false);checks.push('ALL_FIVE_STABLE_FUNCTIONS_DENY_OUTSIDER_AND_OUTER_EXECUTE');
-console.log(JSON.stringify({classification:'LOCAL_PGLITE_EXTRACTED_REAL_CONSUMER_DDL_AND_EVENT_VALIDATOR_WITH_SYNTHETIC_NATIVE_SHAPED_LEDGER_NOT_NATIVE_EXECUTION',status:'PASS',check_count:checks.length,checks,initial_refund_adapter_executed:true,source_authority_proven:false,complete_financial_operation_proven:false,consumer_command_implemented:false,Native_cases_added:0,production_go:false}));
+console.log(JSON.stringify({classification:'LOCAL_PGLITE_EXTRACTED_REAL_CONSUMER_DDL_EVENT_DATA_AND_PURE_REQUEST_SHAPE_WITH_SYNTHETIC_NATIVE_SHAPED_LEDGER_NOT_NATIVE_EXECUTION',status:'PASS',check_count:checks.length,checks,pure_payload_check_count:accessChecks.length,pure_payload_checks:accessChecks,owning_command_executed:false,initial_refund_adapter_executed:true,source_authority_proven:false,complete_financial_operation_proven:false,consumer_command_implemented:false,Native_cases_added:0,production_go:false}));
 }catch(e){console.error(JSON.stringify({status:'FAIL_LOCAL_CONTROL',checks_completed:checks,error:e.message,query:e.query?.slice(0,300)}));process.exitCode=1}finally{await db.close()}

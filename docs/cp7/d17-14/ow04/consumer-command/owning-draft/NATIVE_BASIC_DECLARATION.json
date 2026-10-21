@@ -1,0 +1,22 @@
+{
+  "classification": "BOUNDED_SEVEN_NATIVE_CASE_DECLARATION_FULL_CONSUMER_STILL_OPEN",
+  "expected_count": 7,
+  "required_case_ids": [
+    "OW04_CONSUMER_APPLY_80",
+    "OW04_CONSUMER_TWO_APPLIES_80_120",
+    "OW04_CONSUMER_OVERDRAW_ONE_CENT",
+    "OW04_CONSUMER_UNDO_EXACT_APPLY_A",
+    "OW04_CONSUMER_APPLY_LOST_REPLY_REPLAY",
+    "OW04_CONSUMER_UNDO_LOST_REPLY_REPLAY",
+    "OW04_CONSUMER_SECOND_UNDO_SAME_ORIGINAL"
+  ],
+  "frozen_nine_arithmetic_sha256": "437c6b2f0fe338e96a4880b6acff01e6af2f79d4f9d8ef0de29c0b4676be22ac",
+  "remaining_literal_cases": [
+    "OW04_CONSUMER_SOURCE_INVERSE_AFTER_ALL_UNDONE",
+    "OW04_CONSUMER_HISTORICAL_RESTATEMENT_STILL_FUNDS_PRIOR_USE"
+  ],
+  "Native_execution_proven": false,
+  "feature_complete": false,
+  "production_go": false,
+  "formal_CP7C_started": false
+}
