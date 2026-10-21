@@ -63,6 +63,7 @@ SQL_FILES = (
     'reconciliation/05_source_adjustments.sql',
     'reconciliation/06_source_coordinator.sql',
     'reconciliation/07_source_closure.sql',
+    'readers/04_credit_dependencies.sql',
 )
 NEW_SCHEMAS = ('cp7_credit', 'ow04_ordinal_wrapper', 'ow04_source_proposal', 'ow04_pure_kernel')
 NEW_ROLES = ('cp7_credit_write', 'cp7_credit_visible_read')
@@ -74,6 +75,7 @@ NEW_ERP = (
 NEW_PUBLIC = (
     'public.erp_cp7_settle_sales_return_v1(jsonb,uuid,text)',
     'public.erp_cp7_get_sales_return_settlement_quote_v1(jsonb)',
+    'public.erp_cp7_get_sales_credit_dependencies_v1(jsonb)',
 )
 NEW_SALES = (
     'cp7_sales.execute_preclaimed_credit_return(uuid,jsonb,text)',
@@ -434,10 +436,15 @@ def verify(cur, state):
         for schema in NEW_SCHEMAS:
             if cur.execute('select has_schema_privilege(%s,%s,\'USAGE\')', (role,schema)).fetchone()[0]:
                 raise ValueError('OW04_PRIVATE_SCHEMA_EXPOSED')
-    for sig, owner in zip(NEW_PUBLIC, ('cp7_credit_write','cp7_sales_read')):
+    public_contracts = (
+        ('cp7_credit_write','v'), ('cp7_sales_read','v'), ('cp7_sales_read','s'),
+    )
+    if len(NEW_PUBLIC) != len(public_contracts):
+        raise ValueError('OW04_PUBLIC_FACADE_CONTRACT_SET_CHANGED')
+    for sig, (owner, volatility) in zip(NEW_PUBLIC, public_contracts):
         row = cur.execute("select pg_get_userbyid(proowner),prosecdef,provolatile::text,proconfig "
             "from pg_proc where oid=%s::regprocedure", (sig,)).fetchone()
-        if row != (owner,True,'v',['search_path=""','TimeZone=UTC']):
+        if row != (owner,True,volatility,['search_path=""','TimeZone=UTC']):
             raise ValueError('OW04_PUBLIC_FACADE_METADATA_CHANGED')
         if not cur.execute("select has_function_privilege('authenticated',%s,'EXECUTE')", (sig,)).fetchone()[0]:
             raise ValueError('OW04_PUBLIC_FACADE_MISSING')

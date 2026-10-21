@@ -155,6 +155,7 @@ export type PreconnectDatabase = {
       erp_cp7_get_sales_form_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_save_sale_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string | null }; Returns: Json }
       erp_cp7_get_sales_return_settlement_quote_v1: { Args: { p_query: Json }; Returns: Json }
+      erp_cp7_get_sales_credit_dependencies_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_settle_sales_return_v1: { Args: { p_payload: Json; p_request: string; p_expected: string }; Returns: Json }
       erp_cp7_get_cutting_correction_v1: { Args: { p_group: string }; Returns: Json }
       erp_cp7_reopen_cutting_v1: { Args: { p_payload: Json; p_request: string; p_expected: string }; Returns: Json }

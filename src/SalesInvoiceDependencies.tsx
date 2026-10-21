@@ -10,6 +10,7 @@ import {parseSalesCash,type SalesCash} from './salesCashContract'
 import {parseSalesReturns,type SalesReturnRead,type SalesReturnRecord} from './salesReturnContract'
 import type {SalesRead} from './salesReadContract'
 import TransactionSourceLink from './TransactionSourceNavigation'
+import SalesCreditDependencies from './SalesCreditDependencies'
 
 type Source=NonNullable<SalesRead['detail']>
 type Captured={scope:string;payments:SalesCash|null;returns:SalesReturnRead<SalesReturnRecord>|null}
@@ -57,5 +58,6 @@ export default function SalesInvoiceDependencies({source,current,locked}:{source
    {!returns.rows.some(r=>r.status==='POSTED')?<p>Halaman ini tidak menampilkan retur aktif.</p>:null}
    <div className="cproc-pagination"><button type="button" disabled={busy||returns.offset===0} onClick={()=>void load(payments?.offset??0,Math.max(0,returns.offset-25))}>Penghalang retur sebelumnya</button><button type="button" disabled={busy||returns.next_offset===null} onClick={()=>void load(payments?.offset??0,returns.next_offset??0)}>Penghalang retur berikutnya</button></div>
   </section>:null}
+  <SalesCreditDependencies source={source} current={current} locked={locked}/>
  </section>
 }
