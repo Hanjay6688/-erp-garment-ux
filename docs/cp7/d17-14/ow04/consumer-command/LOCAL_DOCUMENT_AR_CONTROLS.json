@@ -1,0 +1,19 @@
+{
+  "classification": "LOCAL_PGLITE_SYNTHETIC_LEDGER_FOR_EXACT_FIXTURE_QUERY_ONLY_NOT_NATIVE_BUSINESS_EXECUTION",
+  "status": "PASS",
+  "check_count": 6,
+  "checks": [
+    "SEPARATE_SOURCE_ZERO_AND_TARGET500_SAME_CUSTOMER",
+    "APPLY80_AFFECTS_ONLY_NAMED_TARGET_AR",
+    "SECOND_APPLY120_RETAINS_FIRST80",
+    "LINKED_EVENT_REVERSE_NEGATIVE_USE_RESTORES_TARGET_AR",
+    "UNRELATED_SAME_CUSTOMER_INVOICE_EXCLUDED",
+    "NATIVE_RETURN_INVERSE_AND_SIGNED_RECOGNITION_RETAINED_ONCE"
+  ],
+  "consumer_prepare_executed": false,
+  "consumer_command_implemented": false,
+  "Native_cases_added": 0,
+  "production_go": false,
+  "source_fixture_sha256": "0329df549e3a7832f8a046dcbb9f8706b3dd79274422ace67395c35bcf9ddb0a",
+  "control_driver_sha256": "71b031127eb2b868eec19c5145696ae6a42f078f03dea9fe24d004ca8eea66c2"
+}
