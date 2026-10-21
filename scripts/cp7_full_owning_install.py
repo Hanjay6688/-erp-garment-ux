@@ -128,7 +128,7 @@ def private_rows(cur):
     """
     tables = cur.execute("select n.nspname,c.relname from pg_class c "
         "join pg_namespace n on n.oid=c.relnamespace where c.relkind in('r','p') "
-        "and (n.nspname like 'cp7\\_%' or n.nspname=any(%s::text[])) order by 1,2",
+        "and (left(n.nspname,4)='cp7_' or n.nspname=any(%s::text[])) order by 1,2",
         (list(credit.NEW_SCHEMAS),)).fetchall()
     result = {}
     for schema, table in tables:

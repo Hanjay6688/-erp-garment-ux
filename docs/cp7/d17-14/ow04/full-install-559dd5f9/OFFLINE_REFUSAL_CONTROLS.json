@@ -1,0 +1,13 @@
+{
+  "classification": "OFFLINE_CLIENT_AND_REFUSAL_CONTROLS_NOT_NATIVE",
+  "database_calls": 0,
+  "controls": {
+    "original_literal_percent_failure_reproduced": true,
+    "actual_row_guard_queries_client_parsed": true,
+    "same_count_changed_content_refused": true,
+    "new_table_refused": true,
+    "missing_table_refused": true
+  },
+  "passed": 5,
+  "native_executed": false
+}

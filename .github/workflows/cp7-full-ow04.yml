@@ -6,6 +6,7 @@ name: CP7 Full Owning Installer and OW04 Qualification
     paths:
     - scripts/cp7_full_owning_install.py
     - scripts/cp7_full_ow04_probe.py
+    - scripts/cp7_full_install_recheck.py
     - docs/cp7/d17-14/ow04/FULL_INSTALL_QUALIFICATION.json
     - .github/workflows/cp7-full-ow04.yml
   workflow_dispatch: {}
@@ -104,6 +105,7 @@ jobs:
       run: |
         PYTHONPATH=../auditor/scripts python -c "import cp7_full_owning_install as full; assert full.source_manifest()['credit_sources']; print('FULL_INSTALL_IMPORT_ADMITTED_NATIVE_NOT_EXECUTED')"
         PYTHONPATH=../auditor/scripts python -c "import sys; sys.argv.append('--signed-source'); import cp7_full_ow04_probe as p; assert len(p.IDS)==64; print('FULL_INSTALL_NATIVE64_DECLARATION_ADMITTED_NATIVE_NOT_EXECUTED')"
+        PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=../auditor/scripts python ../auditor/scripts/cp7_full_install_recheck.py
     - name: Install candidate browser dependencies
       working-directory: auditor
       run: |

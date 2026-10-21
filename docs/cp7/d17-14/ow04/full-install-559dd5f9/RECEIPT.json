@@ -1,0 +1,21 @@
+{
+  "candidate": "559dd5f9407a032999c33471db1883f60040e09d",
+  "tree": "264191f72a75c804196175f8df07c29056c6993f",
+  "run_id": 39575195553,
+  "job_id": 119138875319,
+  "workflow_conclusion": "failure",
+  "observed_native_cases": 0,
+  "expected_native_cases": 64,
+  "failure": "only '%s', '%b', '%t' are allowed as placeholders, got '%''",
+  "artifact": {
+    "id": 12334157492,
+    "bytes": 1624617,
+    "sha256": "05f42ca175a285f7bf4c2303f73e8e0748d74374aeaab426382514ad9bcb4dfc"
+  },
+  "raw_job_log": {
+    "bytes": 270377,
+    "sha256": "49de53c6bb70a78c2a0401ddd41e533866c7a413a2f06bf9732489582acebeaf"
+  },
+  "source_changed_to_pass": false,
+  "production_go": false
+}

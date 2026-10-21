@@ -41,6 +41,18 @@ dipulihkan dari blob HEAD, SHA256
 `274a0f8649ddb4d22887c65f7da1757a92e62e650fb572009af34194a960da2a`;
 setelah itu generator/import lulus. Tidak ada isi katalog/oracle diganti.
 
+Uji pertama559dd5f9, run39575195553/job119138875319, berhenti sebelum
+kasus Native(0/64): psycopg membaca persen literal pada query berparameter
+sebagai placeholder. Seluruh SQL owning OW04 telah terpasang dan diperiksa
+sebelum query administrative row guard ini, tetapi itu bukan PASS64.
+Transaksi instalasi gagal belum di-commit. Kegagalan/report asli, seluruh
+laporan paket dan log lengkap disimpan pada `full-install-559dd5f9/`.
+Koreksi memakai perbandingan prefix literal `left(n.nspname,4)='cp7_'`;
+set schema yang diikutkan tidak berubah. Lima kontrol offline memakai
+parser psycopg asli, mereproduksi error lama dan membuktikan penolakan
+sebelum DROP saat hash isi berubah walaupun jumlah baris tetap. Ini bukan
+Native execution. Suite64 dan restore tetap wajib dijalankan ulang.
+
 Receipt Native63 e928 dan transport91f tetap bukti kandidat masing-masing.
 Kandidat full ini memerlukan hasil baru, bukan pelabelan ulang receipt lama.
 OW04 lebih luas, performa global, audit dan pemasangan tetap terbuka;
