@@ -1,4 +1,11 @@
-# Guided source return inverse — implementation, real browser pending
+# Guided source return inverse — actual browser PASS1/1
+
+Candidatecad04c14, run39679552406/job119498142611 passed the separately declared
+real mobile journey, complete restoration, real Auth cleanup and advisors.
+[Original reports and exact scope](../source-inverse-ui1-cad04c14-pass/README.md).
+The first failed selector result remains in the sibling144fbc52 folder.
+Implementation/declaration notes below predate execution.
+
 
 Unchanged financial SQL and complete owning installer from actual Native90
 `6f851c90` and current42 `da6a5454`. Neither group is rerun or relabelled as a

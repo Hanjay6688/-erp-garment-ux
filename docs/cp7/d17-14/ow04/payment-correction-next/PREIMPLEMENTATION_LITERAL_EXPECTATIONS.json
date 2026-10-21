@@ -1,0 +1,72 @@
+{
+  "classification": "PREIMPLEMENTATION_LITERAL_PENDING_PAYMENT_CORRECTION_EXPECTATIONS_NOT_EXECUTION_OR_OWNER_POLICY",
+  "purpose": "Existing OW04 source correction work; successful adapter not implemented or admitted",
+  "original_payment": "1000.00",
+  "replacement_payment": "900.00",
+  "same_cash_account_method_number_and_physical_instant": true,
+  "first_vertical_original_economic_and_book_pair_open": true,
+  "positive": [
+    {
+      "action": "APPLY",
+      "amount": "80.00",
+      "before": {
+        "source_net": "800.00",
+        "P": "1000.00",
+        "I": "200.00",
+        "C": "80.00",
+        "available": "120.00",
+        "AR": "0.00",
+        "cash": "1000.00",
+        "target_P": "0.00",
+        "target_U": "80.00",
+        "target_AR": "420.00"
+      },
+      "after": {
+        "source_net": "800.00",
+        "P": "900.00",
+        "I": "100.00",
+        "C": "80.00",
+        "available": "20.00",
+        "AR": "0.00",
+        "cash": "900.00",
+        "target_P": "0.00",
+        "target_U": "80.00",
+        "target_AR": "420.00"
+      }
+    },
+    {
+      "action": "REFUND",
+      "amount": "80.00",
+      "before": {
+        "source_net": "800.00",
+        "P": "1000.00",
+        "I": "200.00",
+        "C": "80.00",
+        "available": "120.00",
+        "AR": "0.00",
+        "cash": "920.00",
+        "target_P": "0.00",
+        "target_U": "0.00",
+        "target_AR": "500.00"
+      },
+      "after": {
+        "source_net": "800.00",
+        "P": "900.00",
+        "I": "100.00",
+        "C": "80.00",
+        "available": "20.00",
+        "AR": "0.00",
+        "cash": "820.00",
+        "target_P": "0.00",
+        "target_U": "0.00",
+        "target_AR": "500.00"
+      }
+    }
+  ],
+  "existing_negative_case9_unchanged": "Original1000\u2192800 after C200 atD2 and exactUNDO200 atD3 must still refuse historical negative capacity atD2 with every original expected amount/date unchanged",
+  "first_vertical_not_general_completion": true,
+  "Native_cases_added": 0,
+  "production_go": false,
+  "original_payment_money_identity_and_posting_facts_retained": true,
+  "Native_original_status_transition_to_REVERSED_permitted": true
+}

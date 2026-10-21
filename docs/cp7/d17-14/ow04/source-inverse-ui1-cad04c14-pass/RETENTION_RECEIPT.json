@@ -1,0 +1,89 @@
+{
+  "artifact_id": 12384190739,
+  "zip_sha256": "e99471c0f97a2526c691421cfcd2487abfc792c146c533e4fe27ac1c07a56d9c",
+  "client_verified": true,
+  "files": [
+    {
+      "file": "ALIGNED_CHAIN.json.gz",
+      "compression": "GZIP_mtime0",
+      "raw_bytes": 17536,
+      "raw_sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+      "compressed_bytes": 4768,
+      "compressed_sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75",
+      "original_JSON_bytes_preserved": true
+    },
+    {
+      "file": "CP7_OW04_SOURCE_INVERSE_UI1.json.gz",
+      "compression": "GZIP_mtime0",
+      "raw_bytes": 252726,
+      "raw_sha256": "d34ecdd707ba1d2682ad65bfa03e87fb4361397203ec73253ccfc93a3e32eb35",
+      "compressed_bytes": 10827,
+      "compressed_sha256": "15ead5e174c5e1fc8daaac869b3a7b81e92b827c856397cdee7be0f14d1413fd",
+      "original_JSON_bytes_preserved": true
+    },
+    {
+      "file": "SOURCE_INVERSE_BROWSER_HOST_1.json.gz",
+      "compression": "GZIP_mtime0",
+      "raw_bytes": 2485,
+      "raw_sha256": "c408994b5ce545f472e783845b16f4fe094020e6f200ce2361ba8436e42c8629",
+      "compressed_bytes": 954,
+      "compressed_sha256": "61940746dad69e67ae9ee364810c7b903569029832f78d4a717424ccdbd2e472",
+      "original_JSON_bytes_preserved": true
+    },
+    {
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "compression": "GZIP_mtime0",
+      "raw_bytes": 10402,
+      "raw_sha256": "c31b313ec3ad1b1d9ae03a1f961191a30a34bdb701b53ff6c74c6f5ec7846a5e",
+      "compressed_bytes": 1809,
+      "compressed_sha256": "d8495b781cb92f5507b0036c6a3680216bdd6a90a4b3c1a806007d32cae5c36e",
+      "original_JSON_bytes_preserved": true
+    },
+    {
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "compression": "GZIP_mtime0",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "compressed_bytes": 255,
+      "compressed_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_JSON_bytes_preserved": true
+    },
+    {
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "compression": "GZIP_mtime0",
+      "raw_bytes": 360425,
+      "raw_sha256": "5d91a144b0c665a48e16430f16492c2ae2aabb63df36a1b4b0c6dd8ca31f29c0",
+      "compressed_bytes": 11367,
+      "compressed_sha256": "67d93eb4e5de1b3c3d9906da468cf24aac10870b21d9a7af7607c84a4b402b69",
+      "original_JSON_bytes_preserved": true
+    },
+    {
+      "file": "consumer-browser-fixtures/152a4ccf-d049-416f-a7a8-6687faa13b4e.json.xz",
+      "compression": "XZ",
+      "raw_bytes": 7010265,
+      "raw_sha256": "fb59d79870fa9e7bf8e4f8038703a2dd18a5128f014df13e8e32a2b573f6168e",
+      "compressed_bytes": 465532,
+      "compressed_sha256": "cbf449536104814524dd842bc38b5d6fab77ec0f435cd79923eae6bb502aa758",
+      "original_JSON_bytes_preserved": true
+    },
+    {
+      "file": "source-inverse-ui-fixtures/152a4ccf-d049-416f-a7a8-6687faa13b4e.initial.json.xz",
+      "compression": "XZ",
+      "raw_bytes": 7678986,
+      "raw_sha256": "8515fc29e146603070995788c54430620ed4656b212aa73f36101bf7f11d3bd8",
+      "compressed_bytes": 492752,
+      "compressed_sha256": "88420cb09e981575ea7d1c8d93784204bd4e4720c2e8369368a5ec91de9c5db1",
+      "original_JSON_bytes_preserved": true
+    },
+    {
+      "file": "source-inverse-ui-fixtures/152a4ccf-d049-416f-a7a8-6687faa13b4e.undone.json.gz",
+      "compression": "GZIP_mtime0",
+      "raw_bytes": 20698,
+      "raw_sha256": "1c8c64f5547da669de21726503e9b07d75201158873352b0ead368d7f31294bf",
+      "compressed_bytes": 3842,
+      "compressed_sha256": "c2b5872b62bbe9c6bc9d9961bfc75e3decff307c604bff9d80215354e2dcdb24",
+      "original_JSON_bytes_preserved": true
+    }
+  ],
+  "financial_JSON_reserialized": false
+}
