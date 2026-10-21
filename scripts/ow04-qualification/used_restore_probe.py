@@ -95,8 +95,19 @@ def _foundation(cur):
     if granted:cur.execute('grant usage on schema erp to authenticated')
     seeded=not cur.execute('select count(*)from erp.app_users').fetchone()[0]
     if seeded:core.native.api.seed(cur)
-    cur.execute("set local timezone='Asia/Jakarta';set local statement_timeout='240s';set local lock_timeout='8s'")
+    # Native's retained fixture and the Data API use UTC sessions. Review
+    # tokens include jsonb timestamp text, so both sides of a restore must use
+    # the same session zone. Business/economic dates are explicitly WIB.
+    cur.execute("set local timezone='UTC';set local statement_timeout='240s';set local lock_timeout='8s'")
     return granted,seeded
+
+
+def _compare_read(cur,x,credit,result,wanted,report,phase):
+    actual=_read(cur,x,credit,result)
+    report.setdefault('readback_comparisons',[]).append(dict(phase=phase,
+        sale_id=x['f']['sale'],session_timezone=cur.execute('show timezone').fetchone()[0],
+        equal=actual==wanted,expected=wanted,actual=actual))
+    assert actual==wanted,'USED_RESTORE_AUTHORITATIVE_READ_CHANGED'
 
 
 def run():
@@ -136,6 +147,10 @@ def run():
             cur.execute('set constraints all immediate')
             if granted:cur.execute('revoke usage on schema erp from authenticated')
             conn.commit()
+            for x,credit,result,actual,wanted in fixtures:
+                nf.b.api.admin(cur)
+                _compare_read(cur,x,credit,result,wanted,report,'SOURCE_AFTER_BOTH_FIXTURES_COMMITTED')
+            nf.b.api.admin(cur)
             assert product.private_rows(cur)!=state['seeded_private_rows']
             held=product.private_rows(cur)
             try:product.rollback_preuse(cur,state)
@@ -161,7 +176,7 @@ def run():
             granted,_=_foundation(cur)
             for x,credit,result,actual,wanted in fixtures:
                 nf.b.api.admin(cur)
-                assert _read(cur,x,credit,result)==wanted,'USED_RESTORE_AUTHORITATIVE_READ_CHANGED'
+                _compare_read(cur,x,credit,result,wanted,report,'FRESH_RESTORED')
             report['steps'].append(dict(step='RESTORED_CREDIT_AND_REFUND_READS',status='PASS'))
             x,credit,result,actual,_=fixtures[0]
             action='RETURN_REVERSE'
