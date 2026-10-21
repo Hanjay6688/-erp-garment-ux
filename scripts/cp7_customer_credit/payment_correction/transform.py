@@ -7,7 +7,8 @@ import re
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-SQL_FILES = ('01_facts.sql', '02_actual_proof.sql', '03_owning_callbacks.sql', '04_completion.sql')
+SQL_FILES = ('01_facts.sql', '02_actual_proof.sql', '03_owning_callbacks.sql', '04_completion.sql',
+             '05_consumer_continuation.sql')
 CHANGED = (
  'cp7_payment_correction.apply(jsonb,uuid,text)',
  'erp.post_sales_payment(uuid)', 'erp._cp7_current_credit_adjustment(uuid)',
@@ -21,6 +22,7 @@ CHANGED = (
  'cp7_credit.source_snapshot_base_events_v1(jsonb)', 'cp7_credit.assert_simple_native_base_v1(uuid)',
  'cp7_credit.assert_source_actual_v1(uuid)', 'cp7_credit.assert_source_materialization_v1(uuid)',
  'cp7_credit.source_completion_manifest_v1(uuid)', 'cp7_credit.assert_source_operation_closed_v1(uuid)',
+ 'cp7_credit.consumer_execute_v1(uuid)', 'cp7_credit.assert_reconciled_source_profile_v1(uuid,jsonb)',
 )
 
 
@@ -167,4 +169,15 @@ def derive(captures):
     anchor = ' select *into strict q from cp7_sales.requests where actor=m.actor and request_id=m.request_id;'
     result[sig] = once(result[sig], anchor,
         " if m.action='PAYMENT_CORRECT'then perform cp7_credit.assert_payment_source_closed_v1(m.operation_id);return;end if;\n"+anchor)
+    sig = 'cp7_credit.consumer_execute_v1(uuid)'
+    anchor = "  update erp.sales_headers set status=case when effective=net then'PAID'when effective>0 then'PARTIAL_PAID'else'POSTED'end where id=header.id;"
+    result[sig] = once(result[sig], anchor,
+        anchor+'\n  perform cp7_credit.payment_consumer_header_capture_v1(o.id,header.id,to_jsonb(header));')
+    sig = 'cp7_credit.assert_reconciled_source_profile_v1(uuid,jsonb)'
+    result[sig] = once(result[sig],
+        'cp7_credit.source_semantic_snapshot_v1(m.before_source)\n   is distinct from cp7_credit.source_semantic_snapshot_v1(last_source)',
+        'not cp7_credit.payment_consumer_source_continues_v1(p_sale,\n   cp7_credit.source_semantic_snapshot_v1(last_source),cp7_credit.source_semantic_snapshot_v1(m.before_source))')
+    result[sig] = once(result[sig],
+        'cp7_credit.source_document_snapshot_v1(p_sale)\n  is distinct from cp7_credit.source_semantic_snapshot_v1(last_source)',
+        'not cp7_credit.payment_consumer_source_continues_v1(p_sale,\n  cp7_credit.source_semantic_snapshot_v1(last_source),cp7_credit.source_document_snapshot_v1(p_sale))')
     return result

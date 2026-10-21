@@ -1,13 +1,5 @@
 name: CP7 OW04 real owning payment correction Native20
 'on':
-  push:
-    branches:
-    - codex/ow04-payment-correction-20261022
-    paths:
-    - scripts/cp7_payment_source_owning_install.py
-    - scripts/cp7_customer_credit/payment_correction/**
-    - scripts/ow04-payment-source-qualification/**
-    - .github/workflows/cp7-ow04-payment-source.yml
   workflow_dispatch: {}
 permissions:
   contents: read

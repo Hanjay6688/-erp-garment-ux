@@ -1,0 +1,8 @@
+{
+  "original_raw_bytes": 261595,
+  "original_raw_sha256": "7e4c45472f98cc00dbc0dddcc228ec90dd3bc6be820e2e700c3b34bcd4ec2d04",
+  "file": "CP7_OW04_PAYMENT_SOURCE_HTTP16.json.xz",
+  "xz_bytes": 12736,
+  "xz_sha256": "071afb1da6b0c259af418539d3d1530eb28e3ea8143db1989fb5f0e1baf8d78c",
+  "roundtrip_exact": true
+}

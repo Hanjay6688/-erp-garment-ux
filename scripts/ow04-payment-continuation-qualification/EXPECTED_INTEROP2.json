@@ -1,0 +1,87 @@
+{
+  "classification": "PREDECLARED_NEXT_INTEROPERABILITY_EXPECTATIONS_NOT_IMPLEMENTATION_OR_EXECUTION",
+  "same_initial_Native20_gold_sha256": "92c411cf225d7c54a53445f603fedfac8102ac6cbdce9fd9558b45d701f8d38c",
+  "cases": [
+    {
+      "id": "OW04_PAYMENT_CORRECT_THEN_APPLY20_UNDO20_UNDO80_SOURCE_INVERSE",
+      "initial_action": "APPLY",
+      "after_correct": {
+        "I": "100.00",
+        "C": "80.00",
+        "available": "20.00",
+        "source_P": "900.00",
+        "target_P": "0.00",
+        "target_U": "80.00",
+        "target_AR": "420.00",
+        "cash": "900.00"
+      },
+      "after_spend20": {
+        "I": "100.00",
+        "C": "100.00",
+        "available": "0.00",
+        "source_P": "900.00",
+        "target_P": "0.00",
+        "target_U": "100.00",
+        "target_AR": "400.00",
+        "cash": "900.00"
+      }
+    },
+    {
+      "id": "OW04_PAYMENT_CORRECT_THEN_REFUND20_UNDO20_UNDO80_SOURCE_INVERSE",
+      "initial_action": "REFUND",
+      "after_correct": {
+        "I": "100.00",
+        "C": "80.00",
+        "available": "20.00",
+        "source_P": "900.00",
+        "target_P": "0.00",
+        "target_U": "0.00",
+        "target_AR": "500.00",
+        "cash": "820.00"
+      },
+      "after_spend20": {
+        "I": "100.00",
+        "C": "100.00",
+        "available": "0.00",
+        "source_P": "900.00",
+        "target_P": "0.00",
+        "target_U": "0.00",
+        "target_AR": "500.00",
+        "cash": "800.00"
+      }
+    }
+  ],
+  "after_both_named_full_undos": {
+    "source_net": "800.00",
+    "source_P": "900.00",
+    "I": "100.00",
+    "C": "0.00",
+    "available": "100.00",
+    "source_AR": "0.00",
+    "target_P": "0.00",
+    "target_U": "0.00",
+    "target_AR": "500.00",
+    "cash": "900.00"
+  },
+  "final_after_actual_RETURN_REVERSE": {
+    "source_net": "1000.00",
+    "source_P": "900.00",
+    "I": "0.00",
+    "C": "0.00",
+    "available": "0.00",
+    "source_AR": "100.00",
+    "target_P": "0.00",
+    "target_U": "0.00",
+    "target_AR": "500.00",
+    "cash": "900.00"
+  },
+  "signed_consumption_count": 4,
+  "first_correction_historical_consumption_count": 1,
+  "later_return_inverse_historical_consumption_count": 4,
+  "same_original_correction_UUID_replay_after_later_source_inverse_returns_own_original_receipt_zero_effects": true,
+  "original_payment_and_original_consumer_journal_payloads_immutable": true,
+  "actual_Native_stock_HPP_return_inverse_required": true,
+  "current_active_C_source_reverse_still_refuses": true,
+  "no_actual_execution_yet": true,
+  "production_go": false
+}

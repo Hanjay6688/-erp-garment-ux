@@ -33,7 +33,7 @@ if(catalogInput){
 }
 for(const[name,sql]of paymentFragments)await exec('PAYMENT_SOURCE_'+name,sql);
 for(const[name,sql]of Object.entries(paymentDerived))await exec('PAYMENT_SOURCE_DERIVED_'+name,sql);
-assert.equal(Object.keys(paymentDerived).length,20);
+assert.equal(Object.keys(paymentDerived).length,22);
 if(catalogInput){
  const rows=(await db.query("select p.oid::regprocedure::text as signature,n.nspname||'.'||p.proname as name from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname||'.'||p.proname=any($1::text[])",[catalogInput.new_function_names])).rows;
  assert.equal(rows.length,catalogInput.new_function_names.length);

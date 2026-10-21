@@ -12,13 +12,15 @@ from cp7_customer_credit.consumer import composition as consumer
 from cp7_customer_credit.payment_correction import transform
 
 HERE = Path(__file__).resolve().parent
-TABLES = ('payment_source_context_v1', 'payment_source_legs_v1')
+TABLES = ('payment_source_context_v1', 'payment_source_legs_v1', 'payment_consumer_headers_v1')
 INDEXES = {
  'cp7_credit.payment_source_context_v1_pkey',
  'cp7_credit.payment_source_context_v1_backend_pid_transaction_id_key',
  'cp7_credit.payment_source_context_v1_actor_request_id_key',
  'cp7_credit.payment_source_legs_v1_pkey',
  'cp7_credit.payment_source_legs_v1_replacement_id_key',
+ 'cp7_credit.payment_consumer_headers_v1_pkey',
+ 'cp7_credit.payment_consumer_headers_v1_sale_id_before_row_version_key',
 }
 CONSTRAINTS = {f'cp7_credit.{name}:{name}_action_check' for name in
     ('source_operation_work_v1', 'source_operation_materializations_v1')}
@@ -93,7 +95,7 @@ def _admit_catalog(before, after, new_signatures):
                 else:
                     raise ValueError('OW04_PAYMENT_SOURCE_UNDECLARED_TYPE_IMPLEMENTATION: '+key)
                 continue
-            # Exactly two source-declared private relations and their Native
+            # Exactly the source-declared private relations and their Native
             # automatic type/index/constraint/policy/trigger objects, no FK to
             # or new trigger on any existing relation or ERP parent.
             if group in ('relations','columns','constraints','indexes','triggers','policies','types') and any(

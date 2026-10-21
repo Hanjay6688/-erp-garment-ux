@@ -1,0 +1,8 @@
+{
+  "original_raw_bytes": 934575,
+  "original_raw_sha256": "845074735b713b9457df2cfa3270bac1e78542f8096b8cd084dd20d683b740ec",
+  "file": "CP7_OW04_PAYMENT_SOURCE_INTEROP2.json.xz",
+  "xz_bytes": 24488,
+  "xz_sha256": "80ec6b536ba83096bb149ebb8128671d1985394f42ca4f5400165398fa6c6070",
+  "roundtrip_exact": true
+}
