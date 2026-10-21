@@ -1,0 +1,25 @@
+{
+  "kind": "WRITER_INTERNAL_INDEPENDENT_INITIAL_ASSESSMENT",
+  "recorded_at": "2026-10-21T01:49:25.226469+00:00",
+  "other_reviewer_conclusions_received_for_this_scope": false,
+  "captured_hashes": {
+    "captured_at": "2026-10-21T01:48:41.361237+00:00",
+    "files": {
+      "transport_probe.py": "52a546da3a606b09c561f299332afa6c6ba5ee8ebc5b3b321964ffc63dce4ae5",
+      "race_probe.py": "2e22206113d7cba8ca3ff975b5199b2acc7850b8fa8558547e4016119b1edce3",
+      "browser_probe.py": "b1ef586f757d5504b718b3ab99bf749796f46d017cbef96711fdfc4bfc32c14d",
+      "qualification_gate.py": "28c6fc3ef68ef514aa61cf73edb635b8f18e7ff7813c819bd8ac0c7a90ae5953",
+      "native_binding_recheck.py": "7feb43055b02cf732c66fdbd8f3beed024b87ce2f6c9c9b69960b15d8b6935a1"
+    },
+    "conclusions_from_other_reviewers_received": false
+  },
+  "initial_findings": [
+    "HTTP8/race6/browser4 case files and declarations are not edited by the pending five-file diff.",
+    "qualified_core adds counts58 alongside44 with complete case-set, restore/advisor, receipt tree, five package gates, declaration digest and success/run/job checks.",
+    "Old44 binding remains untouched and should reject current changed core/probe before any DB connection.",
+    "Potential gap to investigate: qualified_core proves native58 declaration against binding self-declared hash, but does not yet visibly tie that declaration digest to the actual Native receipt predeclared_case_sha256.",
+    "Potential gap to investigate: final HTTP/race gate reads current binding but does not compare per-report reused_native_binding or predeclared_case_sha256 to it/current declarations.",
+    "Potential dependency gap to investigate: gitdiff guards only scripts/src/supabase; root package/build config paths are outside that set and browser_sources.py may cover those independently."
+  ],
+  "initial_verdict": "REVIEW_IN_PROGRESS_PENDING_CONCRETE_SYNTHETIC_REPRODUCTION; no false58 receipt created."
+}

@@ -1,13 +1,15 @@
 {
-  "classification": "REUSED_NATIVE44_EVIDENCE_EXACT_CORE_BINDING_NOT_NEW_HTTP_EXECUTION",
-  "candidate": "ef98e6e65c13322bf08e6f704e511bdbb03a07a8",
-  "tree": "7f4b094916bd27c4b6f8a6978b6dacd570ff121a",
-  "run_id": 39489386389,
-  "job_id": 118858149684,
+  "classification": "REUSED_NATIVE58_RUNTIME_EXACT_CORE_BINDING_NOT_NEW_TRANSPORT_EXECUTION",
+  "candidate": "3a667e938bb1485a0f4206483d107b6ac76e347d",
+  "tree": "a48bb1ebed975ef297fdc41aec2f712d9aebc5b8",
+  "run_id": 39532484310,
+  "job_id": 119001397111,
   "status": "PASS",
-  "native_case_count": 44,
-  "core_directory_tree": "07064b179f82e6827020074d0dc9707fbe5bd76e",
-  "native_probe_blob": "b82ad1f28fcb8b19db2a2892960151bba01df56c",
-  "receipt": "docs/cp7/d17-14/ow04/CI_EF98_NATIVE44_PASS.json",
-  "receipt_sha256": "6f7f8ef24a2b8fa1e5dd741314825fbf2ec199ae4ebf7f6fa1b79cd35a3cfe79"
+  "native_case_count": 58,
+  "core_directory_tree": "65539d2ccc3a0973727310e6c501077da7bbc07b",
+  "native_probe_blob": "2b84e0bac62cee18bd95928133e4c163feef75a7",
+  "receipt": "docs/cp7/d17-14/ow04/CI_3A667_NATIVE58_PASS.json",
+  "receipt_sha256": "fe8aaee63e86f98e93964bcc2d1958149440075655cd80b8847cabbeea81e9a2",
+  "qualification_declaration": "docs/cp7/d17-14/ow04/NATIVE_FRACTIONAL_QUALIFICATION.json",
+  "qualification_declaration_sha256": "cf99eed6af683603c3f42dafc120884a4c49e805b2c10865b047ac3c9c2c5d41"
 }

@@ -1,4 +1,4 @@
-"""Real browser4, exact escrow UI and unchanged atomic Native44 backend; copied DB only."""
+"""Real browser4, exact escrow UI and separately qualified atomic backend; copied DB only."""
 from pathlib import Path
 import hashlib,json,os,shutil,sys,tempfile,traceback
 if len(sys.argv)>1:raise SystemExit('OW04 browser entry accepts no arguments')
@@ -20,7 +20,7 @@ def run():
     report=dict(label='CP7_OW04_BROWSER',status='INCOMPLETE',expected_case_count=4,
       required_case_ids=list(IDS),candidate_commit=transport.git('rev-parse','HEAD'),
       core_directory_tree=reused['core_directory_tree'],native_probe_blob=reused['native_probe_blob'],
-      reused_native44_binding=reused,predeclared_case_sha256=hashlib.sha256(EXPECTED_BYTES).hexdigest(),
+      reused_native_binding=reused,predeclared_case_sha256=hashlib.sha256(EXPECTED_BYTES).hexdigest(),
       implementation_sha256={n:hashlib.sha256(Path(__file__).with_name(n).read_bytes()).hexdigest()
         for n in('browser_probe.py','browser_sources.py','browser_fixture.py','browser_cases.mjs')},
       frontend=source,scope='REAL_AUTH_ENTENG_LOOPBACK_EXACT_ESCROW_INITIAL_SETTLEMENT_BROWSER',

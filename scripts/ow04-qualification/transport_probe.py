@@ -1,6 +1,6 @@
 """Eight real Auth/HTTP cases on the exact qualified OW04 core, disposable only.
 
-This imports the existing Native44 core verifier/installer; it does not rerun
+This imports the separately qualified Native core verifier/installer; it does not rerun
 or relabel historical Native evidence. The tested core identity is explicit.
 """
 from pathlib import Path
@@ -30,7 +30,8 @@ def git(*args):
 def qualified_core():
     binding_path=Path(__file__).with_name('QUALIFIED_CORE.json')
     value=json.loads(binding_path.read_bytes())
-    assert value['status']=='PASS'and value['native_case_count']==44,'OW04_HTTP_NATIVE44_NOT_QUALIFIED'
+    count=value['native_case_count']
+    assert value['status']=='PASS'and count in(44,58),'OW04_HTTP_NATIVE_NOT_QUALIFIED'
     assert git('rev-parse','HEAD:scripts/cp7_customer_credit')==value['core_directory_tree'],'OW04_HTTP_CORE_CHANGED'
     assert git('rev-parse','HEAD:scripts/cp7_ow04_probe.py')==value['native_probe_blob'],'OW04_HTTP_NATIVE_PROBE_CHANGED'
     changed=git('diff','--name-only',value['candidate'],'--','scripts','src','supabase').splitlines()
@@ -38,7 +39,26 @@ def qualified_core():
     receipt=(REPO/value['receipt']).read_bytes()
     assert hashlib.sha256(receipt).hexdigest()==value['receipt_sha256'],'OW04_HTTP_NATIVE_RECEIPT_CHANGED'
     actual=json.loads(receipt)
-    assert actual['candidate']==value['candidate']and actual['summary']['status']=='PASS'and actual['counts']=={'PASS':44},'OW04_HTTP_NATIVE_BINDING_INVALID'
+    summary=actual['summary']
+    assert actual['candidate']==value['candidate']and actual['tree']==value['tree'] \
+        and summary['status']=='PASS'and actual['counts']=={'PASS':count},'OW04_HTTP_NATIVE_BINDING_INVALID'
+    assert summary['expected_case_count']==summary['observed_case_count']==count \
+        and summary['cp6_restored']is True and summary['advisor_gate']is True,'OW04_HTTP_NATIVE_RESTORE_OR_COUNT_INVALID'
+    declaration_name='NATIVE_FRACTIONAL_QUALIFICATION.json'if count==58 else'NATIVE_EMPTY_QUALIFICATION.json'
+    declaration_path=REPO/'docs/cp7/d17-14/ow04'/declaration_name
+    declaration_bytes=declaration_path.read_bytes();declaration=json.loads(declaration_bytes)
+    if count==58:
+        assert value['qualification_declaration']=='docs/cp7/d17-14/ow04/'+declaration_name \
+            and value['qualification_declaration_sha256']==hashlib.sha256(declaration_bytes).hexdigest(),'OW04_HTTP_NATIVE_DECLARATION_CHANGED'
+        gates=actual['package_gate']
+        assert set(gates)=={'installed','primary_unchanged','backup_restore_drill','security_advisors','writer_runtime'} \
+            and all(v is True for v in gates.values()),'OW04_HTTP_NATIVE_PACKAGE_INCOMPLETE'
+        assert actual['workflow_conclusion']=='success'and actual['run_id']==value['run_id'] \
+            and actual['job_id']==value['job_id'],'OW04_HTTP_NATIVE_WORKFLOW_NOT_SUCCESS'
+    expected_ids=declaration['required_case_ids'];rows=actual['cases']
+    assert declaration['expected_count']==len(expected_ids)==len(set(expected_ids))==count \
+        and len(rows)==count and{r['id']for r in rows}==set(expected_ids) \
+        and all(r['status']=='PASS'for r in rows),'OW04_HTTP_NATIVE_CASE_SET_INVALID'
     return dict(**value,binding_sha256=hashlib.sha256(binding_path.read_bytes()).hexdigest())
 
 
@@ -53,9 +73,9 @@ def run():
         predeclared_case_sha256=hashlib.sha256(DECLARATION_BYTES).hexdigest(),
         http_cases_sha256=hashlib.sha256(Path(http_cases.__file__).read_bytes()).hexdigest(),
         transport_probe_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-        reused_native44_binding=reused,
+        reused_native_binding=reused,
         scope='REAL_AUTH_PUBLIC_POSTGREST_INITIAL_SETTLEMENT_COMMIT_REPLAY_PERMISSION_AND_ATOMIC_REFUSALS',
-        limits=['Native44 is separate evidence; no inference from this HTTP group','No browser/race/crash recovery proof','No default installation or production deployment'])
+        limits=['Native qualification is separate evidence; no inference from this HTTP group','No browser/race/crash recovery proof','No default installation or production deployment'])
     installed=False;originals={}
     try:
         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:

@@ -33,9 +33,9 @@ def run():
         race_cases_sha256=hashlib.sha256(Path(race_cases.__file__).read_bytes()).hexdigest(),
         race_probe_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         transport_entry_sha256=hashlib.sha256(Path(transport_backend.__file__).read_bytes()).hexdigest(),
-        reused_native44_binding=reused,
+        reused_native_binding=reused,
         scope='ACTUAL_PUBLIC_SQL_CONCURRENCY_AND_UNCOMMITTED_BACKEND_LOSS_RECOVERY',
-        limits=['Native44 is separate evidence; no inference from this HTTP group','Authenticated SQL fixtures, not real Auth or browser','Backend-loss case aborts an uncommitted transaction, not a committed lost HTTP reply or whole-server crash','No default installation or production deployment'])
+        limits=['Native qualification is separate evidence; no inference from this SQL race group','Authenticated SQL fixtures, not real Auth or browser','Backend-loss case aborts an uncommitted transaction, not a committed lost HTTP reply or whole-server crash','No default installation or production deployment'])
     installed=False;originals={}
     try:
         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:

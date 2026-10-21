@@ -6,16 +6,22 @@ import hashlib,json,os,subprocess,sys
 def require(root,candidate,step_outcomes=None):
     assert step_outcomes=={'HTTP':'success','RACES':'success'},('OW04_FINAL_COMMAND_OUTCOME',step_outcomes)
     expected_dir=Path(__file__).resolve().parent
-    binding=json.loads((expected_dir/'QUALIFIED_CORE.json').read_text())
+    binding_bytes=(expected_dir/'QUALIFIED_CORE.json').read_bytes()
+    binding=json.loads(binding_bytes)
+    assert binding.get('status')=='PASS'and binding.get('native_case_count')in(44,58),'OW04_FINAL_NATIVE_NOT_QUALIFIED'
+    expected_binding=dict(**binding,binding_sha256=hashlib.sha256(binding_bytes).hexdigest())
     counts={};reports={}
     for label,file,group,declaration,count in (
         ('HTTP','CP7_OW04_HTTP.json','http','EXPECTED.json',8),
         ('RACES','CP7_OW04_RACES.json','races','RACE_EXPECTED.json',6)):
-        ids=[r['id']for r in json.loads((expected_dir/declaration).read_text())['cases']]
+        declaration_bytes=(expected_dir/declaration).read_bytes()
+        ids=[r['id']for r in json.loads(declaration_bytes)['cases']]
         assert len(ids)==len(set(ids))==count,('OW04_FINAL_DECLARATION_CHANGED',label)
         report=json.loads((Path(root)/file).read_text());runtime=report.get(group,{})
         rows=runtime.get('cases'if label=='HTTP'else'races',{})
         assert report.get('candidate_commit')==candidate,('OW04_FINAL_CANDIDATE_CHANGED',label)
+        assert report.get('reused_native_binding')==expected_binding,('OW04_FINAL_NATIVE_BINDING_CHANGED',label)
+        assert report.get('predeclared_case_sha256')==hashlib.sha256(declaration_bytes).hexdigest(),('OW04_FINAL_DECLARATION_HASH_CHANGED',label)
         assert report.get('core_directory_tree')==binding['core_directory_tree'],('OW04_FINAL_CORE_CHANGED',label)
         assert report.get('native_probe_blob')==binding['native_probe_blob'],('OW04_FINAL_NATIVE_PROBE_CHANGED',label)
         assert report.get('status')=='PASS'and report.get('expected_case_count')==count and report.get('observed_case_count')==count,('OW04_FINAL_INCOMPLETE',label)
@@ -33,7 +39,8 @@ def require(root,candidate,step_outcomes=None):
         counts[label]=count;reports[label]=dict(candidate=report['candidate_commit'],core=report['core_directory_tree'])
         reports[label].update(package_gate=package_gate,package_sha256=hashlib.sha256(package_bytes).hexdigest())
     return dict(label='OW04_HTTP_RACE_FINAL',status='PASS',candidate=candidate,counts=counts,
-        native44_reused_candidate=binding['candidate'],native44_rerun=False,reports=reports,step_outcomes=step_outcomes,
+        native_reused_candidate=binding['candidate'],native_reused_case_count=binding['native_case_count'],native_rerun=False,
+        reports=reports,step_outcomes=step_outcomes,
         feature_complete=False,audit_complete=False,production_go=False)
 
 

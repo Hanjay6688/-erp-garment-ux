@@ -1,0 +1,67 @@
+{
+  "classification": "WRITER_INTERNAL_REVIEW_SYNTHETIC_COUNTEREXAMPLES_NOT_NATIVE_OR_HTTP",
+  "completed_at": "2026-10-21T01:53:53.744815+00:00",
+  "initial_locked_before_other_review_conclusions": true,
+  "verdict": "TWO_FINAL_AGGREGATION_PROOF_GAPS_TO_FIX_BEFORE_TRANSPORT_PUSH",
+  "findings": [
+    {
+      "id": "OW04_TRANSPORT_BINDING_COUNTER_01",
+      "severity": "P2_PROOF_INTEGRITY",
+      "status": "OPEN",
+      "file": "scripts/ow04-qualification/qualification_gate.py",
+      "lines": "9,18-20,35-37",
+      "problem": "Final gate can claim reuse of Native58 without requiring a qualified current binding or matching the binding actually recorded by either runtime group.",
+      "expected": "Reject INCOMPLETE/unsupported binding and reject either report if its full reused_native_binding differs from current binding bytes plus binding_sha256. Native reuse metadata in final result must describe the evidence each group actually used.",
+      "observed": "Extracted real require() returns PASS for binding.status=INCOMPLETE, binding.native_case_count=32, and reports.reused_native_binding.native_case_count=44 with current binding.native_case_count=58. Case IDs/counts/statuses, same candidate/core/probe, restorations, successful step outcomes and package gates all otherwise valid.",
+      "reproduction": "PYTHONDONTWRITEBYTECODE=1 python /workspace/scratch/9442228ed2dc/hpp-final-fixture-counter/transport-review/reproduce_final_gate.py; see SYNTHETIC rows binding_incomplete,binding_unsupported32,reports_reused44_current_binding58.",
+      "fix": "Read QUALIFIED_CORE.json bytes once. Require status PASS and native_case_count in(44,58). Construct current reused=dict(**binding,binding_sha256=sha256(binding_bytes).hexdigest()). For EACH HTTP/RACES report require report.get(\"reused_native_binding\")==current reused before accepting counts or claiming reuse. Keep all old8/6 assertions untouched.",
+      "qualification": "The runtime entries do validate qualified_core before DB use; this is a final evidence aggregation gap, not evidence of failed actual Native/HTTP runtime. Some gap predates the rebind but newly generic native_reused_case_count can now report32 or mislabel44 as58.",
+      "related_guard": "native_binding_recheck.py tests qualified_core only; its21 controls do not execute qualification_gate.require(). Add actual require controls for these cases."
+    },
+    {
+      "id": "OW04_TRANSPORT_BINDING_COUNTER_02",
+      "severity": "P2_PROOF_INTEGRITY",
+      "status": "OPEN",
+      "file": "scripts/ow04-qualification/qualification_gate.py",
+      "lines": "14-24",
+      "problem": "Final gate checks the case ID set but ignores the emitted declaration byte digest, so changed predeclared numerical or behavioral expectations with unchanged IDs can be accepted.",
+      "expected": "Each report predeclared_case_sha256 equals SHA256 of exact current EXPECTED.json or RACE_EXPECTED.json bytes used by the gate.",
+      "observed": "Real require() returns PASS when both report.predeclared_case_sha256 values are64 zeros while report IDs/status/counts remain otherwise valid. The pending runtime entries already emit the correct digest; only final comparison is missing.",
+      "reproduction": "Same script, SYNTHETIC row report_declaration_hash_wrong.",
+      "fix": "Read current declaration bytes once per group, derive IDs from those same bytes, require report.get(\"predeclared_case_sha256\")==sha256(declaration_bytes).hexdigest(). Add actual require wrong-digest control. Do not change declarations or old case oracles.",
+      "qualification": "Inherited final aggregation gap, not an altered oracle in this pending diff."
+    }
+  ],
+  "final_source_hashes": {
+    "transport_probe.py": "52a546da3a606b09c561f299332afa6c6ba5ee8ebc5b3b321964ffc63dce4ae5",
+    "race_probe.py": "2e22206113d7cba8ca3ff975b5199b2acc7850b8fa8558547e4016119b1edce3",
+    "browser_probe.py": "b1ef586f757d5504b718b3ab99bf749796f46d017cbef96711fdfc4bfc32c14d",
+    "qualification_gate.py": "28c6fc3ef68ef514aa61cf73edb635b8f18e7ff7813c819bd8ac0c7a90ae5953",
+    "native_binding_recheck.py": "7feb43055b02cf732c66fdbd8f3beed024b87ce2f6c9c9b69960b15d8b6935a1"
+  },
+  "source_unchanged_since_initial_capture": true,
+  "confirmed_good": [
+    "HTTP8/race6/browser4 case files and all three expected files byte-equal HEAD.",
+    "Transport/race/browser entries still run same groups and install identical Native-empty atomic backend; selecting native-empty rather than fractional-hpp is correct because fractional flag adds qualification fixtures only.",
+    "qualified_core supports44/58 and rejects mismatched core/probe/dependencies, receipt hash/candidate/tree, counts/case-set, restore/advisors, and for58 declaration hash/package gates/workflow/run/job.",
+    "Actual old44 binding currently rejects OW04_HTTP_CORE_CHANGED before any DB connection; no false receipt generated.",
+    "Five pending files retain runtime success/cleanup/restore/package gates.",
+    "Native binding21-control checker is correctly labelled synthetic and executes real qualified_core AST; it does not qualify runtime or final aggregate gate."
+  ],
+  "potential_initial_checks_disposition": {
+    "native_receipt_declaration_digest": "Current case-set equality, current product/probe identity and digest-pinned receipt are verified; actual fresh receipt creation remains roots responsibility. No additional current defect asserted here.",
+    "root_build_dependency_scope": "Git guard covers scripts/src/supabase; no concrete pending out-of-scope product dependency change found. Browser separately verifies exact escrow and source restore. No additional finding asserted."
+  },
+  "db_connected": false,
+  "native_executed": false,
+  "HTTP_executed": false,
+  "repo_edited_by_reviewer": false,
+  "output_files": [
+    "INITIAL_HASHES.json",
+    "INITIAL_ASSESSMENT.json",
+    "initial.diff",
+    "CURRENT_BINDING_AND_ORACLES.json",
+    "REPRODUCTION_RESULT.json",
+    "reproduce_final_gate.py"
+  ]
+}

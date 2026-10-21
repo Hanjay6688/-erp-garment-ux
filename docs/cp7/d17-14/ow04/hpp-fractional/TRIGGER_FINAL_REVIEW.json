@@ -1,0 +1,80 @@
+{
+  "classification": "WRITER_INTERNAL_SOURCE_COUNTER_REVIEW_NOT_EXTERNAL_AUDIT_OR_NATIVE_RESULT",
+  "completed_at": "2026-10-21T02:18:52.505892+00:00",
+  "verdict": "NO_CONCRETE_SOURCE_OR_FIXTURE_BLOCKER_FOR_PUBLISHING_NEW_CANDIDATE_AND_NATIVE58_CI",
+  "blocking_findings": [],
+  "initial_assessment_locked_before_other_review_conclusions": true,
+  "final_source_sha256": {
+    "scripts/cp7_customer_credit/admission/03_native_admission_transform.py": "1f7351d1a74f5851817d26d5237ddc3891b8b92124538a90af1afba3fe357e49",
+    "scripts/cp7_customer_credit/integration/derive_plan.py": "22a3d9d83cbf68361a13635474372e5b542b19ad99bc3193077a2a0351aaceaf",
+    "scripts/cp7_customer_credit/integration/owning_bundle.py": "ee050019b9d1435258a45a9a3400ab57f1131b5ea1c80a98a453eb22b5c7c6c8",
+    "scripts/cp7_customer_credit/coordinator/02_hpp_book.sql": "a9e3ee39b51bb1cbadb9a4f8570b3bae3ddabf83cd589c29e32b71424b4b2391",
+    "scripts/cp7_customer_credit/coordinator/02_initial_projection.sql": "9202f27d33d32f8dbf04838d5e4540c2aa20a5e74475bb99f30730cb0f3b696c",
+    "scripts/cp7_customer_credit/coordinator/03_opening_return_hpp.sql": "d79e6e05446352ff8beb6ab97933514b51bad2392b86d372a1fdca7af1372043",
+    "scripts/cp7_customer_credit/coordinator/03_opening_hpp_diagnostics.sql": "18fc33e4a88dc211fe7a99fb3dd39251618ed7eda006cacb5d7ab29bfddd7c25",
+    "scripts/cp7_customer_credit/coordinator/07_capabilities_and_quote.sql": "4e78155e601b80e5752e7f0f9fb578bd76a8e44f16c3acb822b2b54d0db5df32",
+    "scripts/cp7_customer_credit/hpp-fractional/cp7_ow04_fractional_hpp_cases.py": "ac0b59556ae8b91e9019da9f676dcbf5debaae058213820a27f715d23c294956",
+    "scripts/cp7_customer_credit/hpp-fractional/EXPECTED.json": "f53001d8ec87289a7fc7ca1a6f69752f994480418256923133329e6395a37d4c"
+  },
+  "scope": "CP7 ORDINARY/REVIEWED_SETTLEMENT opening-HPP status ordering only; direct Native EMPTY trigger retains original behavior; direct-Native fractional repair not claimed.",
+  "resolved_counters": [
+    {
+      "id": "TRIGGER_COUNTER_GLOBAL_NATIVE_SYNC",
+      "observed_source": "Latest BE sync_non_po_product_hpp_to_gl may invoke global be_nonpo_sync_all/prepare and alter unrelated conversion HPP/journals. Product-scoped support comparison would miss unrelated product effects.",
+      "disposition": "RESOLVED: typed path invokes private diagnostic-only exact Native tail instead of full monetary/conversion sync; no global sync/post_journal/GUC calls."
+    },
+    {
+      "id": "TRIGGER_COUNTER_EXACT_STATUS_NULL",
+      "disposition": "RESOLVED: p_old/p_new use IS DISTINCT FROM, NULL returnsfalse; nonowned/exact and nonexact transitions tested in _opening_failure_controls."
+    },
+    {
+      "id": "TRIGGER_COUNTER_UPDATED_WITNESS_CLOSURE",
+      "disposition": "RESOLVED: pending witness closure AFTER INSERT OR UPDATE; control updates PID before forcing constraints, which INSERT-only closure would miss."
+    },
+    {
+      "id": "TRIGGER_COUNTER_PREPERIOD_CACHE_IDENTITY",
+      "disposition": "RESOLVED: complete current opening states/correction history sealed in projection; rows locked before period; unchanged cost but updated_at-only drift changes quote hash and stale settlement refuses."
+    },
+    {
+      "id": "TRIGGER_COUNTER_FUNCTION_COUNT",
+      "disposition": "RESOLVED: new Native trigger enters SPECS\u2192approved capture\u2192exact plan\u2192install/verify/restore, and functions_verified uses len(plan.entries) consistently."
+    }
+  ],
+  "checks": [
+    {
+      "scope": "Assembler and metadata",
+      "observed": "Trigger original loop byte-identical after the one inserted defer guard. Exact source body5bd16275 pin. Changed Native post_return order is guard\u2192POSTED\u2192Native journal\u2192flush\u2192completion. Trigger function metadata preserved; real attachment captures singleton erp.sales_returns AFTER UPDATE OF status enabledO, row type17, no extra args/qualifier/deferral/foreignbinding. Native sync original body/metadata remains captured and compared at verify/uninstall; old functions restored before private dependencies dropped.",
+      "evidence": "STATIC_TRANSFORM_AND_ATTACHMENT_CONTROLS.json"
+    },
+    {
+      "scope": "Diagnostics",
+      "observed": "BE original body59d22a90 matches static source pin and Native diagnostics tail equals private tail byte-for-byteSHAf9882c78. New helper secdefpostgres/volatile/search_path empty/UTC; body mutates only opening_lot_hpp_gl_state via exact Native upsert, checks source-basiszero plus Native full-vector target/book before/after. Native original remains unchanged.",
+      "evidence": "EXACT_DIAGNOSTIC_TAIL_CHECK.json"
+    },
+    {
+      "scope": "Typed owner/witness isolation",
+      "observed": "CP7 actual current actor/pending inner/outer request/Native context revalidated; ENTERED phase, exact return/sale/customer/origin/source/projection hashes and actual guard values required; n.completed=false. Projection seals complete opening metadata, selectedlots subset of already-heldlot set. Fresh private RLS-denied postgres witness stores exact owner/lotset and PID/tx; flush revalidates it after actualJ and deletes it before completion. All external execute rights revoked; no Native admission added."
+    },
+    {
+      "scope": "Source timing",
+      "observed": "initial_preserved_source excludes ownreturn/events/J and permitted mutable sale fields, so legitimate postJ guard still compares original source. Full HPP support baseline is taken after ownJ immediately around diagnostics; intentionally excludes only opening diagnostic state from that local comparison. Sealed opening source identity is checked before diagnostic cache mutation."
+    },
+    {
+      "scope": "New controls and psycopg ordering",
+      "observed": "IDS[0] has real prior_return. All control injections nested inside nf.isolated; auth.refused creates its own savepoint, catches psycopg.Error, rolls back before admin restore/release. Cache-only stale quote gets newdigest/exact quote-changed refusal. pg_temp cache BEFORE UPDATE fault lives only inside its outer savepoint and raises from diagnostic write, then full _observe equality proves rollback. PID-moved witness forcedconstraints failure proves UPDATE closure. Each injected scope/DDL is rolled back before real settlement and core sourceverify. Real settlement then uses all unchanged monetary/stock/journal/payment/preservation/replay assertions. Pending table added to SCOPES. Final fault trigger also directly checks own Native SALES_RETURN journal exists, so a prematurely invoked diagnostic fails with a different expected code."
+    },
+    {
+      "scope": "Expected and JSON integrity",
+      "observed": "f530 expected bytes and14IDs unchanged. New opening_source values are backend-generated full JSON states/corrections nested only in bound private projection; public wire closed-key assertions unchanged. Intentional malformed owner_fact leak row clearly labelled fault injection and can never become financial evidence."
+    }
+  ],
+  "optional_nonblocking_strengthening": "APPLIED before final source capture: fault trigger now asserts actual own SALES_RETURN journal exists via current PID/tx pending witness, with distinct OW04_TEST_DIAGNOSTIC_BEFORE_NATIVE_JOURNAL failure if not. Reviewed fixtureac0b5955.",
+  "runtime_limits": [
+    "No DB connection or Native execution by reviewer.",
+    "Actual trigger attachment SQL/deparsing/config, auth/ACL visibility, constraints, rollback, new14 execution and old44 regressions remain root CI gates.",
+    "No HTTP/browser/race/complete-OW04/audit/production_go result inferred."
+  ],
+  "repo_edited_by_reviewer": false,
+  "database_calls": 0,
+  "native_executed": false
+}

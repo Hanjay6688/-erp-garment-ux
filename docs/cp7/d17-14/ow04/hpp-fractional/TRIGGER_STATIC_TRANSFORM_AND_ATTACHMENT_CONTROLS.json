@@ -1,0 +1,68 @@
+{
+  "classification": "SYNTHETIC_REAL_FUNCTION_STATIC_TRANSFORM_AND_ATTACHMENT_GUARDS_NOT_NATIVE",
+  "database_calls": 0,
+  "native_executed": false,
+  "checks": [
+    {
+      "id": "exact_original_loop_retained",
+      "pass_": true
+    },
+    {
+      "id": "source_drift",
+      "pass_": true
+    },
+    {
+      "id": "duplicate_body",
+      "pass_": true
+    },
+    {
+      "id": "guard_status_journal_flush_completion_order",
+      "pass_": true,
+      "positions": {
+        "guard": 5739,
+        "posted": 6092,
+        "journal": 11278,
+        "flush": 11475,
+        "complete": 11531
+      }
+    }
+  ],
+  "attachment_controls": [
+    {
+      "id": "valid",
+      "expected_acceptance": true,
+      "accepted": true,
+      "changed_result_column": null
+    },
+    {
+      "id": "disabled",
+      "expected_acceptance": false,
+      "accepted": false,
+      "changed_result_column": 4
+    },
+    {
+      "id": "before_not_after",
+      "expected_acceptance": false,
+      "accepted": false,
+      "changed_result_column": 5
+    },
+    {
+      "id": "foreign_table",
+      "expected_acceptance": false,
+      "accepted": false,
+      "changed_result_column": 2
+    },
+    {
+      "id": "wrong_columns",
+      "expected_acceptance": false,
+      "accepted": false,
+      "changed_result_column": 13
+    },
+    {
+      "id": "duplicate_attachment",
+      "expected_acceptance": false,
+      "accepted": false
+    }
+  ],
+  "trigger_in_capture_census": true
+}
