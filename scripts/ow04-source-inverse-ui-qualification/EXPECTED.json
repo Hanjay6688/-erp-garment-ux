@@ -1,0 +1,47 @@
+{
+  "classification": "PREIMPLEMENTATION_LITERAL_GUIDED_SOURCE_INVERSE_EXPECTATIONS_NOT_EXECUTION",
+  "case_ids": [
+    "OW04_SOURCE_REFUND_UNDO_RETURN_REVERSE_MOBILE"
+  ],
+  "expected_count": 1,
+  "initial": {
+    "gross": "1000.00",
+    "net": "800.00",
+    "P": "1000.00",
+    "I": "200.00",
+    "C": "200.00",
+    "available": "0.00",
+    "AR": "0.00",
+    "cash": "800.00"
+  },
+  "after_named_undo": {
+    "gross": "1000.00",
+    "net": "800.00",
+    "P": "1000.00",
+    "I": "200.00",
+    "C": "0.00",
+    "available": "200.00",
+    "AR": "0.00",
+    "cash": "1000.00"
+  },
+  "after_source_inverse": {
+    "gross": "1000.00",
+    "net": "1000.00",
+    "P": "1000.00",
+    "I": "0.00",
+    "C": "0.00",
+    "available": "0.00",
+    "AR": "0.00",
+    "cash": "1000.00"
+  },
+  "original_REFUND_and_named_UNDO_journals_retained": true,
+  "actual_source_return_journal_and_stock_linked_inverse_required": true,
+  "before_undo_source_inverse_must_refuse_atomically": true,
+  "fresh_dependency_pages_active_before_empty_after_undo": true,
+  "same_source_inverse_UI_retry_after_named_undo": true,
+  "post_use_whole_snapshot_readback_required": true,
+  "product_Auth_and_HTTP_responses_mocked": false,
+  "financial_SQL_changed": false,
+  "formal_CP7C_started": false,
+  "production_go": false
+}

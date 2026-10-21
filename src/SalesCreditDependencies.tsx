@@ -49,6 +49,12 @@ export default function SalesCreditDependencies({source,current,locked}:{source:
     {problem ? <p role="alert">{problem} Penggunaan saldo kredit belum dapat dipastikan.</p> : null}
     {data ? <>
       <p>{data.page.total} penggunaan saldo kredit aktif.</p>
+      {data.page.total !== '0' ? <ol aria-label="Langkah membatalkan penggunaan saldo kredit">
+        <li>Buka retur asal pada daftar berikut, lalu buka Saldo kredit pelanggan pada invoice asal.</li>
+        <li>Pilih Periksa riwayat kredit, lalu Periksa pembatalan pada pemakaian saldo atau pengembalian uang yang terkait.</li>
+        <li>Isi waktu transaksi WIB dan alasan, periksa pembatalan penuh, lalu simpan. Nilai dan rekening mengikuti transaksi asli.</li>
+        <li>Muat ulang invoice dan periksa penggunaan saldo kredit lagi sebelum membatalkan retur atau pembayaran asal.</li>
+      </ol> : null}
       {data.dependencies.map(row=><article className="cproc-item" key={row.event_id} data-credit-dependency-id={row.event_id}>
         <strong>{row.kind === 'REFUND' ? 'Pengembalian uang' : 'Pemakaian saldo kredit'} · Rp{numberText(row.amount)}</strong>
         <p>Retur {row.source_return_number} · invoice asal {row.source_sale_number}</p>
