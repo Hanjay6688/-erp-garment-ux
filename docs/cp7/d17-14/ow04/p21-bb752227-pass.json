@@ -1,0 +1,278 @@
+{
+  "status": "PASS",
+  "candidate": "bb7522273a8de41e63b53b33549a2a0aa8c4f1f7",
+  "run_id": 39749850579,
+  "job_id": 119727373442,
+  "steps": [
+    {
+      "step": "COMMITTED_CURRENT_APPLY_REFUND_CORRECTION_CHAINS",
+      "status": "PASS"
+    },
+    {
+      "step": "EXACT_FULL_DUMP_AND_FRESH_RESTORE",
+      "status": "PASS",
+      "every_table_hash_equal": true,
+      "table_count": 650,
+      "every_catalog_data_and_sequence_bound": true
+    },
+    {
+      "step": "RESTORE_BINDING_REFUSAL_CONTROLS",
+      "status": "PASS"
+    },
+    {
+      "step": "VERIFIED_CURRENT_CENSUS_REBIND",
+      "status": "PASS"
+    },
+    {
+      "step": "EXACT_RESTORED_READS_AND_OLD_RECEIPT_REPLAYS",
+      "status": "PASS",
+      "exact_authoritative_reads": true,
+      "old_and_current_eight_receipts_replayed": true
+    },
+    {
+      "step": "RESTORED_NAMED_UNDOS_AND_RETURN_INVERSES",
+      "status": "PASS"
+    }
+  ],
+  "p21_adapter_steps": [
+    {
+      "step": "CURRENT_INSTALL_1",
+      "status": "PASS",
+      "all22_catalog_groups_verified": true
+    },
+    {
+      "step": "EXACT_PREUSE_ROLLBACK",
+      "status": "PASS",
+      "complete_removal": {
+        "status": "COMPLETE_PAYMENT_SOURCE_PREUSE_REMOVED",
+        "payment": {
+          "status": "PAYMENT_SOURCE_UNUSED_STAGE_EXACTLY_REMOVED",
+          "financial_facts_deleted": false
+        },
+        "predecessor_restored_verification": {
+          "classification": "SOURCE_VALIDATED_COMPLETE_COMPOSED_CATALOG_NOT_RAW_LEGACY_PASS",
+          "catalog_groups": 22,
+          "catalog_members": 27607,
+          "exact_catalog_sha256": "f97deaee934dc77fa758d88c257b53f9c50cd7826a712cdb5067ac21b0e8ef68",
+          "consumer": {
+            "status": "VERIFIED_SOURCE_AND_METADATA_NOT_NATIVE_EXECUTION",
+            "new_function_count": 48,
+            "Native_cases_added": 0,
+            "production_go": false
+          },
+          "predecessor_verified_before_source_derived_extension": true,
+          "legacy_definitions_projected": false,
+          "production_go": false,
+          "feature_complete": false,
+          "independent_acceptance": false
+        },
+        "predecessor_removed": {
+          "status": "COMPLETE_COMPOSED_PREUSE_REMOVED",
+          "consumer": {
+            "status": "EXACT_PREUSE_RESTORE",
+            "financial_facts_deleted": false,
+            "production_go": false
+          },
+          "predecessor_restored_verification": {
+            "stage": "FULL_CP7_WITH_OW04",
+            "credit": {
+              "classification": "INTERNAL_WRITER_NATIVE_CANDIDATE_VERIFICATION",
+              "native": {
+                "contract_version": "ow04.native-install-verification.v1",
+                "plan_sha256": "c33c475ff291e52375325fa696d9f51587436cfe83695195ec3e0f0617b1d257",
+                "functions_verified": 21,
+                "original_poster_unchanged": true,
+                "immutable_helper_sources_unchanged": true
+              },
+              "legacy_composition": {
+                "classification": "COMPOSED_LEGACY_VERIFICATION_NOT_RAW_LEGACY_PASS",
+                "live_proof": {
+                  "contract_version": "ow04.native-install-verification.v1",
+                  "plan_sha256": "c33c475ff291e52375325fa696d9f51587436cfe83695195ec3e0f0617b1d257",
+                  "functions_verified": 21,
+                  "original_poster_unchanged": true,
+                  "immutable_helper_sources_unchanged": true
+                },
+                "direct_legacy_first_failures": [
+                  {
+                    "verifier": "scripts/cp7_note_correction_verify.py",
+                    "direct_legacy_assertion": "(('NOTE_NATIVE_DEFINITION_CHANGED', 'erp.reverse_journal(uuid,text)'),)"
+                  },
+                  {
+                    "verifier": "scripts/cp7_sales_return_correction_bundle.py",
+                    "direct_legacy_assertion": "(('cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)', 'Undeclared private Native delta'),)"
+                  }
+                ],
+                "projected_definition_reads": [
+                  [
+                    "erp.reverse_journal(uuid,text)",
+                    "erp.reverse_sale(uuid,text)",
+                    "erp.reverse_sales_return(uuid,text)",
+                    "erp.reverse_sales_payment(uuid,text)"
+                  ],
+                  [
+                    "cp7_sales_return_correction.reverse_fg_movement(uuid,text)",
+                    "cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)",
+                    "erp.reverse_journal(uuid,text)",
+                    "cp7_sales_return_correction.reverse_journal(uuid,text)",
+                    "erp.reverse_sales_return(uuid,text)",
+                    "cp7_sales_return_correction.reverse_sales_return(uuid,text)"
+                  ]
+                ],
+                "legacy_results": [
+                  {
+                    "owning_note_source_sha256": "e76810c17c1f6e7f03539dcf6d6897965672d1f666bfcc2207f2ebe8739268a4",
+                    "accepted_six_native_helpers_unchanged": true,
+                    "exact_owner_report_read_delta": true,
+                    "native_owner_report_original_sha256": "f82a4589d05a8282ead7491d67aa6107fbd763a37690bd65276f740d7885e303",
+                    "native_owner_report_overlay_sha256": "1c751785b8a64b13b6d10d5023938055db255ba9c1fb09f4ffceaa21197a9dd1",
+                    "private_helpers_not_callable": true,
+                    "original_financial_and_stock_rules_retained": true,
+                    "production_go": false
+                  },
+                  {
+                    "private_return_atomic_Native_inverse_post": true,
+                    "all4_Native_helpers_unchanged": true,
+                    "exact_private_derivation": true,
+                    "source_links_immutable": true,
+                    "no_app_ERP_DML": true
+                  }
+                ],
+                "immutable_baselines_rewritten": false
+              },
+              "context_inventory": {
+                "contract_version": "ow04.typed-context-census-verified.v1",
+                "contexts": 30,
+                "catalog_sha256": "bc6b55b7c8715e4e5d011fa01bed5821ad439283f029639b33c5ef431bddc5fb",
+                "exact_new_schema_exclusions": [
+                  "cp7_credit",
+                  "ow04_ordinal_wrapper",
+                  "ow04_source_proposal",
+                  "ow04_pure_kernel"
+                ],
+                "plan_reader": {
+                  "signature": "cp7_credit._has_ambient_plan_apply_scope()",
+                  "owner": "cp7_plan_writer",
+                  "predicate_sha256": "db420f714d536a9d06c24b58cc751e0f3b5fcfd06aa834e14b043f9663ca92a2",
+                  "private_acl_exact": true
+                }
+              },
+              "private_inventory_sha256": "fb40f203d2cf848ee7916d1db125634af27569e6e35bc3750810b90fd4311802",
+              "native_empty": {
+                "classification": "SOURCE_AND_METADATA_VERIFICATION_NOT_NATIVE_EXECUTION",
+                "overlays": 14,
+                "relations": 7,
+                "production_go": false
+              },
+              "source_triggers": {
+                "phase": "OW04_COMPOSED_NATIVE_EMPTY",
+                "ordinary_attachments": 25,
+                "ordinary_functions": 18,
+                "internal_attachments": 250,
+                "foreign_keys": 119,
+                "capture_sha256": "dcd331f28f265e4bf5f78d209d5448caf1ade8a3303ed52886217cb534273520",
+                "classification": "SOURCE_AND_METADATA_ONLY_NOT_NATIVE_EXECUTION"
+              },
+              "production_go": false
+            },
+            "alerts": {
+              "stage": "WA_SYSTEM_REMINDERS_AND_WHATSAPP_FORWARDING_BUILT_NOT_INSTALLED_NO_KEY_NO_SCHEDULE",
+              "source_sha256": "e7701eaada592cfd74a8555cf4cdcb7df8d180448213d3bbf5698c3bfa025127",
+              "full_family_acceptance": false,
+              "real_message_sent": false
+            },
+            "production_go": false,
+            "feature_complete": false,
+            "independent_acceptance": false
+          },
+          "used_guard_before_any_uninstall": true,
+          "financial_facts_deleted": false,
+          "production_go": false
+        },
+        "used_guard_before_any_uninstall": true,
+        "financial_facts_deleted": false,
+        "production_go": false,
+        "p21_original_all22_catalog_groups_equal": true,
+        "catalog_comparison_not_normalized": true
+      },
+      "all_catalog_data_and_sequences_equal_preinstall": true
+    },
+    {
+      "step": "CURRENT_REINSTALL",
+      "status": "PASS",
+      "all22_portable_catalog_groups_equal": true,
+      "both_exact_local_OID_censuses_verified": true,
+      "seeded_private_counts_equal": true
+    },
+    {
+      "step": "COMMITTED_SUPPLIER_AND_STAGED_ANALYSIS",
+      "status": "PASS",
+      "supplier_payment_created": "c77627de-c4da-4833-aa00-b971d75411a8",
+      "remaining_after": "900.00",
+      "staged_request": "a9652e45-94e0-439a-8002-b52d255ee20e",
+      "staged_run": "378a6f91-64d7-4cbc-82b3-5c4fc7865345",
+      "staged_units": 18,
+      "staged_pages": 1,
+      "staged_targets": 7,
+      "staged_identity_hash": "c992b1d345eec06ff94f29047f231d675056b9e50c7dd3c59e7ec955870b4297",
+      "committed_with_current_OW04_chains": true
+    }
+  ],
+  "required_steps_pass": true,
+  "p21_adapter_steps_pass": true,
+  "default_P21_entrypoint_exercised": true,
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "known_remaining_report_boundary": {
+    "owner_open_work": "OW-08",
+    "reason": "Legacy readiness AR checks use Native P without the verified credit U-I adjustment.",
+    "actual_legacy_checks": [
+      [
+        "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH",
+        "CRITICAL",
+        2
+      ],
+      [
+        "V2620H_CUSTOMER_AR_STATUS_MISMATCH",
+        "CRITICAL",
+        3
+      ],
+      [
+        "V268_AR_GL_SUBLEDGER_MISMATCH",
+        "CRITICAL",
+        1
+      ]
+    ],
+    "expected_legacy_checks": [
+      [
+        "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH",
+        "CRITICAL",
+        2
+      ],
+      [
+        "V2620H_CUSTOMER_AR_STATUS_MISMATCH",
+        "CRITICAL",
+        3
+      ],
+      [
+        "V268_AR_GL_SUBLEDGER_MISMATCH",
+        "CRITICAL",
+        1
+      ]
+    ],
+    "report_readiness_after_credit_not_claimed_READY": true,
+    "original_report_checks_and_E01_READY_assertions_not_changed": true
+  },
+  "trusted_backup_manifest_sha256": "3f14e7ffbe148434a67f776c300ea3793bd6c5baa805ad237d97c43202058a89",
+  "raw_report": {
+    "bytes": 277049,
+    "sha256": "74791e3de5ddc87cee53fb22452cb46d83ac299a87ba11b7fc18838889ccd049"
+  },
+  "artifact": {
+    "id": 12413288654,
+    "bytes": 3422668,
+    "sha256": "b09523be2b1de4c1134ef4b4a8787689c3745d476e551e8f33d68d7df2689d1f"
+  },
+  "formal_CP7C_started": false,
+  "production_go": false
+}

@@ -66,7 +66,7 @@ def race(http,today,index):
             finally:
                 holder.rollback()
         answers=[future.result(timeout=60)for future in futures]
-    winners=[i for i,r in enumerate(answers)if r['status']==20]
+    winners=[i for i,r in enumerate(answers)if r['status']==200]
     assert len(winners)==1,answers
     win=winners[0];lose=1-win
     result=credit.response(answers[win])

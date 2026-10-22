@@ -1,0 +1,49 @@
+{
+  "status": "INCOMPLETE",
+  "candidate_product": "36a6b880d789452dbe4096fd4c401430bba1a5cb",
+  "qualification_commit": "51a416fecefa8b10250a8e1cbdbb2bd716447527",
+  "run_id": 39751251396,
+  "job_id": 119732087513,
+  "counts": {
+    "INCOMPLETE": 2
+  },
+  "first_failure": "HTTP success selector compared status20 instead of200. Both real reply pairs contained one200 and one400 CP7_CREDIT_CONSUMER_REVIEW_CHANGED. Remaining financial/stock/replay assertions were not reached.",
+  "first_failure_excerpt": "winners=[i for i,r in enumerate(answers)if r['status']==20]; assert len(winners)==1,answers",
+  "actual_reply_statuses": {
+    "OW04_REAL_AUTH_TWO_USERS_APPLY80_STALE_ONE_EFFECT": [
+      {
+        "status": 200,
+        "message": null
+      },
+      {
+        "status": 400,
+        "message": "CP7_CREDIT_CONSUMER_REVIEW_CHANGED"
+      }
+    ],
+    "OW04_REAL_AUTH_TWO_USERS_REFUND80_STALE_ONE_EFFECT": [
+      {
+        "status": 200,
+        "message": null
+      },
+      {
+        "status": 400,
+        "message": "CP7_CREDIT_CONSUMER_REVIEW_CHANGED"
+      }
+    ]
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "raw_report": {
+    "bytes": 271160,
+    "sha256": "f6c53b264c6402b14dd40645c409fcb5bc8256b51c53eccf1b7022828df90954"
+  },
+  "artifact": {
+    "id": 12413952666,
+    "bytes": 1637096,
+    "sha256": "584a36288b439448866cae6e4a563b966f8c319bef70fe4a99c3b4fb5c29da71"
+  },
+  "gold_unchanged": true,
+  "product_code_unchanged": true,
+  "formal_CP7C_started": false,
+  "production_go": false
+}

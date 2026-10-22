@@ -11,7 +11,7 @@ Writer hanya bekerja di `astra/d17-14-integrasi`; cabang lama dipertahankan.
 |3. Kredit ke invoice berikutnya dan pembatalan tanpa saldo ganda |Native32 lulus APPLY/REFUND/UNDO bernama; HTTP18 dan browser9 pada sumber527 sudah lulus |18HTTP dan9browser sudah lulus pada36a6b880; dua uji pengguna berbeda masih dibenahi |
 |4. Stok/HPP retur termasuk saldo awal; jurnal seimbang |Native63/87/90 mencakup fondasi retur/HPP; Native32 terkini membuktikan koreksi pembayaran tidak mengubah stok/HPP |14 vektor langsung Native serta14 vektor uang/kredit/HPP asli kini lulus pada36a6b880; bukan klaim mengulang90 |
 |5. Koreksi dua arah, beberapa angkatan, histori dan petunjuk pembalikan |Native32 lulus1000→900→1000 dan inverses; petunjuk di browser pernah diuji |Dua perjalanan tambahan membuktikan empat generasi1000→900→1000→950→1000. Itu satu kelompok retur; beberapa kelompok retur berbeda pada invoice yang sama belum diklaim |
-|6. Native, dua penulis, HTTP Auth, desktop/HP, P21 di salinan |Native32 terkini lulus; bukti18HTTP/8balapan SQL/9browser sumber527; full restore6/6 langkah pada1e8e1b0d |P21 bawaan baru dialihkan ke pemasang terkini; pasang/copot sebelum pakai/pasang ulang/pakai/pulihkan harus lulus, serta transport sumber8c perlu diuji |
+|6. Native, dua penulis, HTTP Auth, desktop/HP, P21 di salinan |Native32 terkini lulus; bukti18HTTP/8balapan SQL/9browser sumber527; full restore6/6 langkah pada1e8e1b0d |P21 lengkap kini lulus pada bb752227;18HTTP/9browser/8SQL juga lulus pada sumber keuangan yang sama. Dua pengguna Auth berbeda masih diuji ulang |
 |7. Temuan di luar daftar menjadi batas tersisa |Batas tercatat di bawah |Tidak memperpanjang OW-04 dengan penyelidikan lain |
 
 ## Bukti baru dan cara menguji
@@ -61,6 +61,12 @@ Writer hanya bekerja di `astra/d17-14-integrasi`; cabang lama dipertahankan.
   Dua contoh baru ini memakai ID/gold tersendiri; belum dinyatakan lulus.
 - [14 vektor retur dengan kredit bernilai dan HPP saldo awal/PO lulus](monetary-hpp14-793bb51f-pass.json),
   run39748075152/job119721445604, produk beku36a6b880; seluruh CP6/advisor/pembersihan lulus.
+
+- [P21 lengkap lulus](p21-bb752227-pass.json), run39749850579/job119727373442: pasang/copot/pasang ulang,
+  dua rantai tersimpan, pembayaran supplier, analisis bertahap, enam langkah restore, bacaan/replay/pembalikan, CP6 dan advisor.
+  Batas tanda kesiapan laporan OW-08 tetap dipertahankan dan dibandingkan setelah restore.
+- [Uji dua pengguna pertama tetap INCOMPLETE](auth2-51a416fe-first-failure.json): skrip salah membandingkan status berhasil20 dengan200.
+  Perbaikan hanya pembanding respons; gold uang, pesan penolakan, pengamatan dua penulis, stok/HPP dan replay tetap.
 
 ## Batas tersisa
 
