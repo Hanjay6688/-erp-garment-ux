@@ -13,6 +13,7 @@ name: CP7 OW13b Complete Factory History
 permissions:
   contents: read
   actions: read
+  packages: read
 concurrency:
   group: cp7-ow13b-history-${{ github.run_id }}
   cancel-in-progress: false
@@ -115,6 +116,16 @@ jobs:
         PYTHONPATH=scripts python -c "import cp6_au_trial; cp6_au_trial.source()"
 
         mkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}
+
+        '
+    - name: Authenticate read-only GHCR image pulls
+      env:
+        GHCR_USER: ${{ github.actor }}
+        GHCR_TOKEN: ${{ github.token }}
+      shell: bash
+      run: 'set -euo pipefail
+
+        printf ''%s'' "$GHCR_TOKEN" | docker login ghcr.io --username "$GHCR_USER" --password-stdin
 
         '
     - name: Start disposable database
