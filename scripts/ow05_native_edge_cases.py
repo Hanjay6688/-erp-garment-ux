@@ -26,16 +26,29 @@ def repost(cur,g,choice='NEW',qty=4):
 def cases(cur,today):
     def pool_order():
         g=n.fixture(cur,today,False);day=g['day']
-        p=nota.payload(cur,dict(contractor=g['mandor']),today);p.update(period_start=str(day),period_end=str(today))
+        p=nota.payload(cur,dict(contractor=g['mandor']),today);p.update(period_start=str(day),period_end=str(day))
         note=nota.act(cur,'POST',nota.command(cur,'SAVE',p));pid=note['payroll_id']
-        attendance=hp.attendance_payroll(cur,g['mandor'],'OW05-HPP-'+uuid.uuid4().hex[:8],day)
+        # Native forbids overlapping payroll periods for one contractor. Add
+        # actual attendance to this same note/payroll instead of inventing a
+        # second, overlapping attendance-only settlement.
+        c=hp.cp17();s,bc=c.s,c.bc;tag='OW05-HPP-'+uuid.uuid4().hex[:8]
+        hp.set_closed(cur,day-timedelta(days=1))
+        worker=s.native(cur,'select public.erp_save_worker_roster_v1(%s::jsonb,%s,null)',(json.dumps(dict(
+            contractor_id=g['mandor'],worker_code=tag,worker_name=tag,job_description='Jahit',pay_scheme='DAILY',
+            initial_daily_rate=1000,rate_effective_from=str(day),joined_at=str(day),is_active=True,reason=n.REASON)),uuid.uuid4()))
+        period=s.native(cur,'select public.erp_save_attendance_period_v1(%s::jsonb,%s,null,false)',(json.dumps(dict(
+            contractor_id=g['mandor'],period_number=tag+'-ATT',period_start=str(day),period_end=str(day),pay_date=str(day),
+            reason=n.REASON,attendance=[dict(worker_id=str(bc.awp.find(worker,'worker_id')),attendance_date=str(day),status='PRESENT')])),uuid.uuid4()))
+        s.native(cur,'select public.erp_post_attendance_period_v1(%s,%s,%s,%s)',(bc.awp.find(period,'period_id'),n.REASON,uuid.uuid4(),bc.awp.find(period,'row_version')))
+        payroll.act(cur,'PREPARE',payroll.doc(cur,pid));payroll.act(cur,'APPROVE',payroll.doc(cur,pid))
+        assert D(payroll.doc(cur,pid)['attendance_total'])==D('1000.00')and D(payroll.doc(cur,pid)['net_payable'])==D('1016.00')
         hp.policy(cur,g['mandor'],day-timedelta(days=1));actor=hp.owner(cur)
         preview=hp.read(cur,actor,day,day)['preview'];made=hp.save(cur,actor,'CREATE',hp.create_body(preview))
         hp.save(cur,actor,'ACTIVATE',hp.pool_body(hp.facade_pool(cur,actor,made['pool_id']),'OW05 active HPP fixture'))
         assert hp.active_view(cur,g['po'])==D('1000.00')
         w=n.workspace(cur,g['po']);kinds=[b['kind']for b in w['blockers']]
         assert kinds.index('ATTENDANCE_POOL')<kinds.index('PAYROLL')<kinds.index('SEWING')<kinds.index('WORK')<kinds.index('WORK_JOURNAL'),kinds
-        n.auth.refused(cur,lambda:payroll.act(cur,'CANCEL',payroll.doc(cur,attendance)),'PAYROLL_CONSUMED_BY_ACTIVE_HPP_POOL')
+        n.auth.refused(cur,lambda:payroll.act(cur,'CANCEL',payroll.doc(cur,pid)),'PAYROLL_CONSUMED_BY_ACTIVE_HPP_POOL')
         n.auth.refused(cur,lambda:n.old.sewing_command(cur,n.old.sewing_workspace(cur,g),event=g['terminal']),'ACTIVE')
         hp.save(cur,actor,'CANCEL',hp.pool_body(hp.facade_pool(cur,actor,made['pool_id']),'OW05 cancel HPP before wage inverse'))
         assert hp.active_view(cur,g['po'])==0
@@ -46,7 +59,7 @@ def cases(cur,today):
         assert n.balance(cur,g['po'],'WIP')==g['base_wip']+D('24.00')
         assert n.balance(cur,g['po'],'CONTRACTOR_PAYABLE',g['mandor'])==0
         assert n.balance(cur,g['po'],'CONTRACTOR_PAYABLE',g['target'])==D('-24.00')
-        assert payroll.doc(cur,attendance)['status']=='APPROVED'
+        assert payroll.doc(cur,pid)['status']=='REVERSED'
         return dict(status='PASS',HPP_active_cost='1000.00',HPP_after_native_cancel='0.00',
             actual_inverse_order=['ATTENDANCE_POOL','PAYROLL','SEWING'],old_payable_for_PO='0.00',
             new_payable_for_PO='24.00',old_attendance_not_reassigned=True,Native_pool_journal_and_old_wages_retained=True)

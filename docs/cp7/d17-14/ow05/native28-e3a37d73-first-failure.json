@@ -1,0 +1,62 @@
+{
+  "classification": "COMPACT_ACTUAL_NATIVE28_FIRST_FAILURE_NOT_PASS",
+  "status": "INCOMPLETE",
+  "candidate_commit": "e3a37d7308468d2c9983519ff55230aab9ffb2e5",
+  "run_id": 39781655300,
+  "job_id": 119834157712,
+  "counts": {
+    "PASS": 27,
+    "INCOMPLETE": 1
+  },
+  "case_status": {
+    "OW05_ACTIVE_WAGE_GUIDANCE": "PASS",
+    "OW05_NATIVE_SUCCESSOR_OLD_RATE": "PASS",
+    "OW05_NATIVE_SUCCESSOR_NEW_RATE": "PASS",
+    "OW05_LOST_REPLY_REPLAY": "PASS",
+    "OW05_CHANGED_UUID_REFUSED": "PASS",
+    "OW05_STALE_REVIEW_REFUSED": "PASS",
+    "OW05_INACTIVE_TARGET_REFUSED": "PASS",
+    "OW05_LATE_NATIVE_POST_ATOMIC": "PASS",
+    "OW05_PRIVATE_CAPABILITY_DENIED": "PASS",
+    "OW05_HISTORY_IMMUTABLE": "PASS",
+    "OW05_SECOND_MANDOR_NEW_RATE_SAME_PHYSICAL_TIME": "PASS",
+    "OW05_SECOND_MANDOR_OLD_RATE_SAME_PHYSICAL_TIME": "PASS",
+    "OW05_UNPAID_NOTA_CANCEL_CORRECT_REPOST": "PASS",
+    "OW05_PAID_NOTA_REVERSE_CASH_CORRECT_REPAY": "PASS",
+    "OW05_HPP_POOL_BEFORE_NOTA_AND_SEWING_INVERSES": "INCOMPLETE",
+    "OW05_TWO_POSTED_PICKUPS_ONE_PO_ALL_REPLACED": "PASS",
+    "OW05_CORRECTED_MANDOR_WAVE_SKU_NATIVE56": "PASS",
+    "CP17_R3_09_SAME_RATE_NO_CHOICE": "PASS",
+    "CP17_R3_09_CHANGED_RATE_NEEDS_CHOICE": "PASS",
+    "CP17_R3_09_CHOOSE_OLD_PAYS_LOCKED_RATE": "PASS",
+    "CP17_R3_09_CHOOSE_NEW_PAYS_THROUGH_REVISION": "PASS",
+    "CP17_R3_09_ALWAYS_NEW_SWITCH": "PASS",
+    "CP17_R3_09_SWITCH_REFUSALS_AND_ACCESS": "PASS",
+    "CP17_R3_09_CANCEL_NEW_RATE_RECORD": "PASS",
+    "CP17_R3_09_NEW_RATE_WAGE_TO_PAYROLL_AND_DETECTORS": "PASS",
+    "CP17_R3_09_WAVE_CHOICE_PER_SKU": "PASS",
+    "CP17_R3_09_DECLARED_NATIVE_DELTAS_AND_RESTORE_REFUSAL": "PASS",
+    "CP17_R3_09_REVISIONS_IMMUTABLE_AND_PRIVATE": "PASS"
+  },
+  "first_failure": {
+    "case": "OW05_HPP_POOL_BEFORE_NOTA_AND_SEWING_INVERSES",
+    "phase": "fixture creation before pool or correction",
+    "error": "Payroll period overlaps another active payroll for this contractor",
+    "source_line": "ow05_native_edge_cases.py31 -> hp.attendance_payroll insert",
+    "fix": "Use actual worker/attendance writers on the existing note payroll, one exact Native period; keep HPP1000, combined payroll1016 and successor wage24 gold"
+  },
+  "all_cases_full_boundary_restored": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "original_report": {
+    "bytes": 6648113,
+    "sha256": "bd44a8994fa8229b3aca776fa5b8f8c3cfe2085f90e07269bf626786d70f825e"
+  },
+  "artifact": {
+    "id": 12426884025,
+    "zip_bytes": 2300797,
+    "zip_sha256": "2e6a0de1809328038e9aa53d10f4286c01ed20cbe509572cc561a5792c6a19d4"
+  },
+  "OW05_complete": false,
+  "production_go": false
+}
