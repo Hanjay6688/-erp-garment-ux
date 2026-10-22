@@ -8,16 +8,8 @@ import { readProductionRecovery } from './productionRecovery'
 import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
 const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
-// OW-09 declared document-reader stand-in: whatever a test serves, the wrapper applies the requested status to the rows
-// and echoes the whole-list shape the reader applied before paging (a test that serves its own list is left as is).
-const reader=vi.hoisted(()=>({rpc:async(name:string,args:Record<string,unknown>)=>{
- const r=await client.rpc(name,args),q=((args??{}).p_query??{}) as Record<string,unknown>
- if(name!=='erp_cp7_get_material_counts_v1'||!r?.data?.page||!('order' in q)||'list' in r.data.page)return r
- const rows=(r.data.page.rows as {status:string}[]).filter(x=>!q.status||x.status===q.status)
- return {...r,data:{...r.data,page:{...r.data.page,rows,total:q.status?String(rows.length):r.data.page.total,list:{q:q.q,status:q.status,order:q.order}}}}
-}}))
 vi.mock('./auth/AuthProvider',()=>({useAuth:()=>state.auth}))
-vi.mock('./lib/supabase',()=>({getUatSupabaseClient:()=>reader}))
+vi.mock('./lib/supabase',()=>({getUatSupabaseClient:()=>client}))
 const id='11111111-1111-4111-8111-111111111111',doc='22222222-2222-4222-8222-222222222222',at='2026-09-29T03:00:03.123456Z',token='a'.repeat(32)
 const page=(rows:unknown[])=>({rows,total:String(rows.length),offset:0,limit:25,next_offset:null})
 function stock(finance=true){return {contract_version:'cp7.material-workspace.v1',kind:'LIVE_MATERIAL_LEDGER',read_at:at,quantity_basis:'POSTED_PHYSICAL_LEDGER_CURRENT_KNOWLEDGE',financial_captured:finance,capabilities:{transfer:true,reverse_transfer:true},totals_by_unit:[{unit_code:'PCS',qty:'10',quality:'KNOWN'}],page:page([{material_id:id,material_sku:'BUTTON',material_name:'Kancing',material_type:'ACCESSORY',unit_code:'PCS',roll_id:null,roll_number:null,location_id:id,location_name:'Gudang',qty:'10',last_movement_at:at,quality:'KNOWN',availability:'ON_HAND',...(finance?{valuation:{state:'KNOWN',unit_cost:'10',value:'100',basis:'CURRENT_MATERIAL_MOVING_AVERAGE'}}:{})}])}}
@@ -41,36 +33,12 @@ function server(finance=true){const s={posted:false,lose:false,failRead:false,ef
 });return s}
 async function select(){await act(async()=>container.querySelector<HTMLButtonElement>('.cproc-receipt')!.click());await flush();await check()}
 async function form(){await click('Hitung Kancing');await fill('Nomor hitung fisik','COUNT-NEW');await fill('Waktu hitung WIB','2026-09-29T10:00');await fill('Jumlah fisik bahan','8');await fill('Catatan hitung fisik','Hitung ulang dan foto gudang');await click('Periksa selisih')}
-it('keeps whole-list status filtering separate from stock and does not create a count or business write',async()=>{
- server();await mount()
- const status=container.querySelector<HTMLSelectElement>('[aria-label="Status dokumen hitung fisik"]')!
- await act(async()=>{status.value='POSTED';status.dispatchEvent(new Event('change',{bubbles:true}))});await flush();expect(container.querySelectorAll('.cproc-receipt')).toHaveLength(0);expect(container.textContent).toContain('Saldo sekarang 10');expect(writes()).toHaveLength(0)
- expect(client.rpc.mock.calls.filter(([n])=>n==='erp_cp7_get_material_counts_v1').at(-1)![1].p_query).toMatchObject({offset:0,status:'POSTED',order:'SOURCE'})
+it('keeps current-page status filtering separate from stock and does not create a count or business write',async()=>{
+ server();await mount();const count=client.rpc.mock.calls.length
+ const status=container.querySelector<HTMLSelectElement>('[aria-label="Status halaman hitung fisik"]')!
+ await act(async()=>{status.value='POSTED';status.dispatchEvent(new Event('change',{bubbles:true}))});expect(container.querySelectorAll('.cproc-receipt')).toHaveLength(0);expect(container.textContent).toContain('Saldo sekarang 10');expect(client.rpc.mock.calls).toHaveLength(count);expect(writes()).toHaveLength(0)
  const tools=container.querySelector('[aria-label="Cari, browse, urutkan dan filter dokumen hitung fisik"]')!,browse=[...tools.querySelectorAll('button')].find(b=>b.textContent==='Browse semua')!
  await act(async()=>browse.click());await flush();expect(status.value).toBe('');expect(container.querySelectorAll('.cproc-receipt')).toHaveLength(1);expect(writes()).toHaveLength(0)
-})
-describe('OW-09 count document list',()=>{
- it('searches, filters and orders every document through the reader and restarts at the first page',async()=>{
-  const many=Array.from({length:31},(_,i)=>({...(countDocs(true).page.rows[0] as {status:string}),id:`77777777-7777-4777-8777-${String(i).padStart(12,'0')}`,number:`CNT-${i+1}`,status:(['DRAFT','POSTED','REVERSED'] as const)[i%3]}))
-  const serve=(q:Record<string,unknown>)=>{const all=many.filter(d=>(!q.status||d.status===q.status)&&(!q.q||d.number.toLowerCase().includes(String(q.q).toLowerCase())));if(q.order!=='SOURCE')all.sort((a,b)=>(q.order==='LABEL_DESC'?-1:1)*a.number.localeCompare(b.number,'id',{numeric:true}))
-   const off=Number(q.offset),w=countDocs(true);Object.assign(w.page,{rows:all.slice(off,off+25),total:String(all.length),offset:off,next_offset:off+25<all.length?off+25:null,list:{q:q.q,status:q.status,order:q.order}});return w}
-  server();const original=client.rpc.getMockImplementation()!
-  client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>name==='erp_cp7_get_material_counts_v1'?{data:serve(args.p_query as Record<string,unknown>),error:null}:original(name,args))
-  await mount();const last=()=>client.rpc.mock.calls.filter(([n])=>n==='erp_cp7_get_material_counts_v1').at(-1)![1].p_query,numbers=()=>[...container.querySelectorAll('.cproc-receipt strong')].map(e=>e.textContent).filter(t=>t?.startsWith('CNT-'))
-  expect(last()).toMatchObject({q:'',offset:0,limit:25,status:null,order:'SOURCE'});expect(numbers()).toHaveLength(25);expect(container.textContent).toContain('31 pemeriksaan cocok dengan pencarian dan filter')
-  expect(container.textContent).toContain('Filter dan urutan berlaku untuk seluruh hasil, termasuk halaman lain');expect(container.textContent).not.toContain('Filter dan urutan hanya mengatur halaman')
-  await click('Pemeriksaan berikutnya');expect(last().offset).toBe(25);expect(numbers()).toHaveLength(6)
-  await act(async()=>{const s=container.querySelector<HTMLSelectElement>('[aria-label="Urutkan dokumen hitung fisik"]')!;s.value='LABEL_DESC';s.dispatchEvent(new Event('change',{bubbles:true}))});await flush()
-  expect(last()).toMatchObject({offset:0,order:'LABEL_DESC'});expect(numbers()).toEqual(serve(last()).page.rows.map(d=>(d as {number:string}).number));expect(numbers()[0]).toBe('CNT-31')
-  await act(async()=>{const s=container.querySelector<HTMLSelectElement>('[aria-label="Status dokumen hitung fisik"]')!;s.value='REVERSED';s.dispatchEvent(new Event('change',{bubbles:true}))});await flush()
-  expect(last()).toMatchObject({offset:0,status:'REVERSED',order:'LABEL_DESC'});expect(numbers()).toHaveLength(10);expect(container.textContent).toContain('10 pemeriksaan cocok')
-  await act(async()=>[...container.querySelector(`[aria-label="Cari, browse, urutkan dan filter dokumen hitung fisik"]`)!.querySelectorAll('button')].find(b=>b.textContent==='Browse semua')!.click());await flush();expect(last()).toMatchObject({offset:0,q:'',status:null,order:'SOURCE'});expect(numbers()).toHaveLength(25)
-  expect(client.rpc.mock.calls.some(([n])=>n==='erp_cp7_save_material_count_v1')).toBe(false)
-  const list={q:'',status:'POSTED' as const,order:'LABEL_ASC' as const},good=serve({...list,offset:0});expect(parseCounts(good,true,list).page.total).toBe('10')
-  const variants:((w:ReturnType<typeof serve>)=>void)[]=[w=>{delete (w.page as {list?:unknown}).list},w=>{(w.page as unknown as {list:Record<string,unknown>}).list.status=null},w=>{(w.page as unknown as {list:Record<string,unknown>}).list.order='SOURCE'},w=>{(w.page as unknown as {list:Record<string,unknown>}).list.more=1},w=>{(w.page.rows[0] as {status:string}).status='DRAFT'}]
-  for(const change of variants){const w=structuredClone(good);change(w);expect(()=>parseCounts(w,true,list)).toThrow()}
-  expect(()=>parseCounts(good,true)).toThrow() // an echo nobody asked for is refused
- })
 })
 function multiServer(edit=false){
  server();const original=client.rpc.getMockImplementation()!

@@ -1,4 +1,4 @@
-import RecordTools,{type RecordPageOrder} from './RecordTools'
+import RecordTools,{orderRecordPage,type RecordPageOrder} from './RecordTools'
 import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {isConnectedRuntime} from './config/runtime'
@@ -8,7 +8,7 @@ import {cp6WibDateTimeInput,formatCp6WibDateTime} from './cp6BusinessTime'
 import {useProductionMutation,type ProductionMutationHandlers} from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import {formatReceiptDecimal as numberText} from './procurementContract'
-import {notaObject,parseNotaWorkspace,parseNotaOutcome,type NotaCard,type NotaDocument,type NotaNoteList,type NotaPayroll,type NotaWorkspace} from './notaContract'
+import {notaObject,parseNotaWorkspace,parseNotaOutcome,type NotaCard,type NotaDocument,type NotaPayroll,type NotaWorkspace} from './notaContract'
 import type {Json} from './types/database.preconnect'
 import './procurement-connected.css'
 import './nota-connected.css'
@@ -25,24 +25,23 @@ function Workspace(){
  const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi nota belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),finance=identity.permissions.includes('finance.payroll.view')
  const mutation=useProductionMutation('FG_NOTA'),{beginRead,finishRead,isReadCurrent,run,reconcile}=mutation
- const [docOrder,setDocOrder]=useState<RecordPageOrder>('SOURCE'),[docStatus,setDocStatus]=useState<NotaNoteList['status']>(null)
+ const [docOrder,setDocOrder]=useState<RecordPageOrder>('SOURCE'),[docStatus,setDocStatus]=useState('')
  const [sources,setSources]=useState<NotaWorkspace<NotaCard>|null>(null),[docs,setDocs]=useState<NotaWorkspace<NotaDocument>|null>(null),[detail,setDetail]=useState<NotaDocument|null>(null)
  const [form,setForm]=useState<Form|null>(null),[dirty,setDirty]=useState(false),[review,setReview]=useState(false),[reason,setReason]=useState('Komponen dan tujuan payroll sudah diperiksa')
  const [search,setSearch]=useState(''),[docSearch,setDocSearch]=useState(''),[loading,setLoading]=useState(false),[error,setError]=useState(''),[drop,setDrop]=useState(false)
- // OW-09: search, status and order of saved notes go to the reader, which applies them to the whole list before paging.
- const request=useRef({q:'',offset:0,docQ:'',docOffset:0,docStatus:null as NotaNoteList['status'],docOrder:'SOURCE' as RecordPageOrder,selected:null as string|null,refreshEdit:false}),sequence=useRef(0),drag=useRef<NotaCard|null>(null)
+ const request=useRef({q:'',offset:0,docQ:'',docOffset:0,selected:null as string|null,refreshEdit:false}),sequence=useRef(0),drag=useRef<NotaCard|null>(null)
  const fromNote=(n:NotaDocument):Form=>({id:n.id,version:n.row_version,contractor:n.contractor_id,contractorName:n.contractor_name,date:n.note_date,start:n.period_start,end:n.period_end,target:n.target_payroll_id,notes:n.notes,cards:n.cards})
  const load=useCallback(async()=>{
   const q={...request.current},s=++sequence.current,ticket=beginRead();setLoading(true);setSources(null);setDocs(null);setDetail(null);setReview(false);setError('');drag.current=null
   try{
    const results=await Promise.allSettled([
     client.rpc('erp_cp7_get_nota_workspace_v1',{p_section:'SOURCES',p_query:{q:q.q,offset:q.offset,limit:25}}),
-    client.rpc('erp_cp7_get_nota_workspace_v1',{p_section:'NOTES',p_query:{q:q.docQ,offset:q.docOffset,limit:25,status:q.docStatus,order:q.docOrder}}),
+    client.rpc('erp_cp7_get_nota_workspace_v1',{p_section:'NOTES',p_query:{q:q.docQ,offset:q.docOffset,limit:25}}),
     ...(q.selected?[client.rpc('erp_cp7_get_nota_workspace_v1',{p_section:'NOTES',p_query:{id:q.selected}})]:[]),
    ])
    if(s!==sequence.current||!isReadCurrent(ticket))return false
    const responses=results.map(r=>{if(r.status!=='fulfilled')throw r.reason;if(r.value.error)throw r.value.error;return r.value.data})
-   const st=parseNotaWorkspace(responses[0],'SOURCES'),ds=parseNotaWorkspace(responses[1],'NOTES',{q:q.docQ,status:q.docStatus,order:q.docOrder}),dt=q.selected?parseNotaWorkspace(responses[2],'NOTES'):null
+   const st=parseNotaWorkspace(responses[0],'SOURCES'),ds=parseNotaWorkspace(responses[1],'NOTES'),dt=q.selected?parseNotaWorkspace(responses[2],'NOTES'):null
    if(st.financial_captured!==finance||ds.financial_captured!==finance||st.can_post!==ds.can_post||st.page.offset!==q.offset||ds.page.offset!==q.docOffset||dt&&(dt.financial_captured!==finance||dt.can_post!==st.can_post||dt.page.rows.length!==1||dt.page.rows[0].id!==q.selected))throw Error('Akses, dokumen, atau halaman berubah. Muat ulang nota.')
    const selected=dt?.page.rows[0]??null;setSources(st);setDocs(ds);setDetail(selected)
    if(q.refreshEdit){setForm(selected?.status==='DRAFT'?fromNote(selected):null);setDirty(false);request.current.refreshEdit=false}
@@ -59,7 +58,6 @@ function Workspace(){
  const locked=loading||mutation.writerLocked,canWrite=sources?.can_post===true&&docs?.can_post===true
  const stale=Boolean(form?.id&&(!detail||detail.id!==form.id||detail.row_version!==form.version||detail.status!=='DRAFT'))
  const write=(action:string,document:Json,version:string|null)=>run(action,{document,expected_version:version},null,handlers)
- const notes=(change:Partial<typeof request.current>)=>{Object.assign(request.current,change,{docOffset:0});void load()}
  const add=(c:NotaCard)=>{
   if(locked||!canWrite||c.claimed_by_note&&c.claimed_by_note!==form?.id||form?.cards.some(x=>x.card_key===c.card_key))return
   if(form&&form.contractor!==c.contractor_id){setError('Satu nota untuk satu mandor. Simpan draft ini atau mulai nota baru untuk mandor tersebut.');return}
@@ -101,10 +99,10 @@ function Workspace(){
      <div className="cnota-actions"><button className="primary-btn" disabled={locked||!canWrite||dirty||stale||!review||reason.trim().length<5} onClick={()=>void write('POST',{id:detail.id,change_reason:reason.trim()},detail.row_version)}>Posting ke payroll</button><button disabled={locked||!canWrite||dirty||stale||!review||reason.trim().length<5} onClick={()=>void write('VOID',{id:detail.id,change_reason:reason.trim()},detail.row_version)}>Batalkan draft</button></div>{dirty?<small>Simpan perubahan draft sebelum melanjutkan.</small>:null}</>:null}
    </section>:null}
   </section></div>
-  <section className="panel cnota-history"><h2>Nota tersimpan</h2><RecordTools title="nota mandor" orderScope="ALL_MATCHING" busy={loading||mutation.busy} order={docOrder} onOrder={value=>{setDocOrder(value);notes({docOrder:value})}} submitLabel="Cari nota" onSubmit={e=>{e.preventDefault();notes({docQ:docSearch.trim()})}}
-   onBrowse={()=>{setDocSearch('');setDocStatus(null);setDocOrder('SOURCE');notes({docQ:'',docStatus:null,docOrder:'SOURCE'})}}
-   search={<label>Cari nota atau mandor<input aria-label="Cari nota tersimpan" value={docSearch} maxLength={120} onChange={e=>{++sequence.current;setDocs(null);setLoading(false);setDocSearch(e.target.value)}}/></label>} filters={<label>Status nota<select aria-label="Status nota tersimpan" value={docStatus??''} onChange={e=>{const value=(['DRAFT','POSTED','VOID'] as const).find(x=>x===e.target.value)??null;setDocStatus(value);notes({docStatus:value})}}><option value="">Semua status</option>{Object.entries(statusLabel).map(([key,label])=><option key={key} value={key}>{label}</option>)}</select></label>}/>
-{docs?<p>{docs.page.total} nota cocok dengan pencarian dan filter; halaman ini menampilkan {docs.page.rows.length}.</p>:null}{docs?.page.rows.map(n=><button key={n.id} className="cnota-note-row" disabled={loading||mutation.busy} onClick={()=>open(n)}><span><strong>{n.contractor_name}</strong><small>{n.note_date} · {n.note_number}</small></span><span>{statusLabel[n.status]}{n.amount!==undefined?<strong>Rp{numberText(n.amount)}</strong>:null}</span></button>)}{docs&&!docs.page.rows.length?<p>Belum ada nota yang cocok.</p>:null}{docs?<Pager label="nota" page={docs.page} disabled={loading||mutation.busy} change={offset=>{request.current.docOffset=offset;void load()}}/>:null}</section>
+  <section className="panel cnota-history"><h2>Nota tersimpan</h2><RecordTools title="nota mandor" filterScope="PAGE" busy={loading||mutation.busy} order={docOrder} onOrder={setDocOrder} submitLabel="Cari nota" onSubmit={e=>{e.preventDefault();request.current.docQ=docSearch.trim();request.current.docOffset=0;void load()}}
+   onBrowse={()=>{setDocSearch('');setDocStatus('');setDocOrder('SOURCE');request.current.docQ='';request.current.docOffset=0;void load()}}
+   search={<label>Cari nota atau mandor<input aria-label="Cari nota tersimpan" value={docSearch} maxLength={120} onChange={e=>{++sequence.current;setDocs(null);setLoading(false);setDocSearch(e.target.value)}}/></label>} filters={<label>Status pada halaman<select aria-label="Status nota pada halaman" value={docStatus} onChange={e=>setDocStatus(e.target.value)}><option value="">Semua status pada halaman</option>{Object.entries(statusLabel).map(([key,label])=><option key={key} value={key}>{label}</option>)}</select></label>}/>
+{orderRecordPage(docs?.page.rows.filter(n=>!docStatus||n.status===docStatus),docOrder,n=>n.note_number).map(n=><button key={n.id} className="cnota-note-row" disabled={loading||mutation.busy} onClick={()=>open(n)}><span><strong>{n.contractor_name}</strong><small>{n.note_date} · {n.note_number}</small></span><span>{statusLabel[n.status]}{n.amount!==undefined?<strong>Rp{numberText(n.amount)}</strong>:null}</span></button>)}{docs&&!docs.page.rows.length?<p>Belum ada nota yang cocok.</p>:null}{docs?<Pager label="nota" page={docs.page} disabled={loading||mutation.busy} change={offset=>{request.current.docOffset=offset;void load()}}/>:null}</section>
  </section>
 }
 function SourceCard({card:c,snapshot=false}:{card:NotaCard;snapshot?:boolean}){

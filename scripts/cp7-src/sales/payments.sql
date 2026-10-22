@@ -1,7 +1,4 @@
 -- Source-bound cash receipt reader and immutable command validation.
--- OW-09 (owner D17-16): optional payment_q/payment_status/payment_order
--- filter and order the payment history of the invoice before the page is cut;
--- the echo appears only when one of those keys is sent (old calls unchanged).
 -- This increment supports ordinary cash/bank payments only. Opening advances
 -- and allocation replacements retain their separate accepted native workflows.
 grant select on erp.cash_accounts to cp7_sales_read;
@@ -33,34 +30,24 @@ end $$;
 create function cp7_sales.cash_workspace(p_query jsonb) returns jsonb
 language plpgsql stable security invoker set search_path='' as $$
 declare h erp.sales_headers;ident uuid;po integer;pn integer;bo integer;bn integer;q text;payments jsonb;banks jsonb;pt bigint;bt bigint;can_create boolean;
- pq text;ps text;pord text;listed boolean;
 begin
  if not cp7_sales.access_now() or not erp.has_permission('sales.payment.view') then raise exception using errcode='42501',message='CP7_SALES_CASH_DENIED';end if;
  if jsonb_typeof(p_query) is distinct from 'object' or not p_query ? 'sale_id'
-  or exists(select 1 from jsonb_object_keys(p_query) x where x not in('sale_id','payment_offset','payment_limit','bank_q','bank_offset','bank_limit','payment_q','payment_status','payment_order'))
-  or exists(select 1 from jsonb_each(p_query) e where e.key in('sale_id','bank_q','payment_q','payment_order') and jsonb_typeof(e.value)<>'string')
-  or(p_query?'payment_status' and jsonb_typeof(p_query->'payment_status') not in('string','null'))
+  or exists(select 1 from jsonb_object_keys(p_query) x where x not in('sale_id','payment_offset','payment_limit','bank_q','bank_offset','bank_limit'))
+  or exists(select 1 from jsonb_each(p_query) e where e.key in('sale_id','bank_q') and jsonb_typeof(e.value)<>'string')
   or exists(select 1 from jsonb_each(p_query) e where e.key in('payment_offset','payment_limit','bank_offset','bank_limit') and(jsonb_typeof(e.value)<>'number' or e.value::text!~'^[0-9]{1,7}$')) then raise exception 'CP7_SALES_CASH_QUERY';end if;
  ident:=(p_query->>'sale_id')::uuid;po:=coalesce((p_query->>'payment_offset')::integer,0);pn:=coalesce((p_query->>'payment_limit')::integer,25);bo:=coalesce((p_query->>'bank_offset')::integer,0);bn:=coalesce((p_query->>'bank_limit')::integer,25);q:=btrim(coalesce(p_query->>'bank_q',''));
- pq:=btrim(coalesce(p_query->>'payment_q',''));ps:=p_query->>'payment_status';pord:=coalesce(p_query->>'payment_order','SOURCE');listed:=p_query?|array['payment_q','payment_status','payment_order'];
- if ident is null or po not between 0 and 1000000 or bo not between 0 and 1000000 or pn not between 1 and 100 or bn not between 1 and 100 or length(q)>120
-  or length(pq)>120 or(ps is not null and ps not in('DRAFT','POSTED','REVERSED'))or pord not in('SOURCE','LABEL_ASC','LABEL_DESC')then raise exception 'CP7_SALES_CASH_QUERY';end if;
+ if ident is null or po not between 0 and 1000000 or bo not between 0 and 1000000 or pn not between 1 and 100 or bn not between 1 and 100 or length(q)>120 then raise exception 'CP7_SALES_CASH_QUERY';end if;
  select * into h from erp.sales_headers where id=ident;if h.id is null then raise exception 'CP7_SALES_NOT_FOUND';end if;
- -- Count, order and page read the same matching set; the label order is
- -- natural with the source order (date desc, id) as tie-breaker.
- with matching as materialized(select y as doc from erp.sales_payments y where y.sale_id=ident and(ps is null or y.status=ps)
-   and(pq='' or strpos(lower(concat_ws(' ',y.payment_number,y.reference_number,y.notes,(select ca.cash_account_name from erp.cash_accounts ca where ca.id=y.cash_account_id))),lower(pq))>0)),
-  keyed as(select mt.doc,case when pord<>'SOURCE'then(select coalesce(string_agg(case when nat.part[1]~'^[0-9]'then lpad(length(ltrim(nat.part[1],'0'))::text,10,'0')||ltrim(nat.part[1],'0')else lower(nat.part[1])end,''order by nat.pos),'')from regexp_matches((mt.doc).payment_number,'[0-9]+|[^0-9]+','g')with ordinality nat(part,pos))end label_key from matching mt),
-  ordered as materialized(select kd.doc,row_number()over(order by case when pord='LABEL_ASC'then kd.label_key end collate "C",case when pord='LABEL_DESC'then kd.label_key end collate "C" desc,(kd.doc).payment_date desc,(kd.doc).id)rn from keyed kd)
- select(select count(*)from matching),coalesce((select jsonb_agg(jsonb_build_object('id',(x.doc).id,'number',(x.doc).payment_number,'physical_at',(x.doc).payment_date,'amount',(x.doc).amount::text,'cash_account_id',(x.doc).cash_account_id,'cash_account_name',(select cash_account_name from erp.cash_accounts where id=(x.doc).cash_account_id),'method',(x.doc).payment_method,'reference',(x.doc).reference_number,'notes',(x.doc).notes,'status',(x.doc).status,'replaces_payment_id',(x.doc).replaces_payment_id) order by x.rn)
-  from(select * from ordered order by rn limit pn offset po)x),'[]') into pt,payments;
+ select count(*) into pt from erp.sales_payments where sale_id=ident;
+ select coalesce(jsonb_agg(jsonb_build_object('id',x.id,'number',x.payment_number,'physical_at',x.payment_date,'amount',x.amount::text,'cash_account_id',x.cash_account_id,'cash_account_name',(select cash_account_name from erp.cash_accounts where id=x.cash_account_id),'method',x.payment_method,'reference',x.reference_number,'notes',x.notes,'status',x.status,'replaces_payment_id',x.replaces_payment_id) order by x.payment_date desc,x.id),'[]') into payments
+ from(select * from erp.sales_payments where sale_id=ident order by payment_date desc,id limit pn offset po)x;
  can_create:=erp.has_permission('sales.payment.create') and erp.has_permission('sales.payment.post');
  with eligible as materialized(select id,cash_account_code,cash_account_name,account_kind from erp.cash_accounts where is_active and can_create and(q='' or strpos(lower(concat_ws(' ',cash_account_code,cash_account_name)),lower(q))>0)),
  sliced as(select * from eligible order by cash_account_code,id limit bn offset bo)
  select(select count(*) from eligible),coalesce((select jsonb_agg(jsonb_build_object('id',id,'code',cash_account_code,'name',cash_account_name,'kind',account_kind) order by cash_account_code,id) from sliced),'[]') into bt,banks;
  return jsonb_build_object('contract_version','cp7.sales-cash.v1','sale_id',ident,'row_version',h.row_version::text,'review_token',cp7_sales.review_token(ident),
-  'payments',jsonb_build_object('rows',payments,'total',pt::text,'offset',po,'limit',pn,'next_offset',case when po+jsonb_array_length(payments)<pt then po+jsonb_array_length(payments) else null end)
-   ||case when listed then jsonb_build_object('list',jsonb_build_object('q',pq,'status',ps,'order',pord))else'{}'::jsonb end,
+  'payments',jsonb_build_object('rows',payments,'total',pt::text,'offset',po,'limit',pn,'next_offset',case when po+jsonb_array_length(payments)<pt then po+jsonb_array_length(payments) else null end),
   'cash_accounts',jsonb_build_object('rows',banks,'total',bt::text,'offset',bo,'limit',bn,'next_offset',case when bo+jsonb_array_length(banks)<bt then bo+jsonb_array_length(banks) else null end));
 end $$;
 create function public.erp_cp7_get_sales_cash_v1(p_query jsonb) returns jsonb

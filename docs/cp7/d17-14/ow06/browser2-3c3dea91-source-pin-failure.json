@@ -1,0 +1,11 @@
+{
+ "run": 39848539599,
+ "attempt": 1,
+ "job": 120068222903,
+ "head": "3c3dea91",
+ "label": "CP7_OW06_REAL_BROWSER2",
+ "failed_step": "Admit exact OW06 browser source and financial predecessor before DB",
+ "cases_run": 0,
+ "cause": "Source pin, not product: the OW-08b failed-wash merge (3c3dea91) added the SET_FAILED_WASH_PRICE action to src/productionRecovery.ts, which the OW06 browser qualification pins; the admission refused before any database or journey started (found locally with the same pin check).",
+ "fix": "Only that one pin refreshed; the journey re-runs on the new source. The four OW-04 UI pin files that also hash changed files were left untouched: their probes are bound to frozen OW-04 candidates (changed-set checks against the candidate commit), so they qualify those candidates only."
+}

@@ -37,25 +37,17 @@ begin
  if exists(select 1 from jsonb_array_elements(p->'items') as return_line(value) group by return_line.value->>'allocation_id' having count(*)>1) then raise exception 'CP7_SALES_RETURN_DUPLICATE_ALLOCATION';end if;
 end $$;
 
--- OW-09 (owner D17-16): for kind RETURNS, optional history_q (number, notes,
--- SKU, lot, warehouse, line notes), history_status and history_order apply to
--- the whole return history before the page is cut; the echo appears only when
--- one of those keys is sent, so old calls keep their exact answer.
 create function cp7_sales.return_workspace(p_query jsonb) returns jsonb
 language plpgsql stable security invoker set search_path='' as $$
 declare h erp.sales_headers;ident uuid;kind text;q text;off integer;n integer;total bigint;rows jsonb;
- hq text;hs text;ho text;listed boolean;too_large boolean;
 begin
  if not cp7_sales.access_now() or not erp.has_permission('sales.return.view') then raise exception using errcode='42501',message='CP7_SALES_RETURN_DENIED';end if;
  if jsonb_typeof(p_query) is distinct from 'object' or not p_query ?& array['sale_id','kind']
-  or exists(select 1 from jsonb_object_keys(p_query) k where k not in('sale_id','kind','q','offset','limit','history_q','history_status','history_order'))
-  or exists(select 1 from jsonb_each(p_query) e where e.key in('sale_id','kind','q','history_q','history_order') and jsonb_typeof(e.value)<>'string')
-  or(p_query?'history_status' and jsonb_typeof(p_query->'history_status') not in('string','null'))
+  or exists(select 1 from jsonb_object_keys(p_query) k where k not in('sale_id','kind','q','offset','limit'))
+  or exists(select 1 from jsonb_each(p_query) e where e.key in('sale_id','kind','q') and jsonb_typeof(e.value)<>'string')
   or exists(select 1 from jsonb_each(p_query) e where e.key in('offset','limit') and(jsonb_typeof(e.value)<>'number' or e.value::text!~'^[0-9]{1,7}$')) then raise exception 'CP7_SALES_RETURN_QUERY';end if;
  ident:=(p_query->>'sale_id')::uuid;kind:=p_query->>'kind';q:=btrim(coalesce(p_query->>'q',''));off:=coalesce((p_query->>'offset')::integer,0);n:=coalesce((p_query->>'limit')::integer,25);
- hq:=btrim(coalesce(p_query->>'history_q',''));hs:=p_query->>'history_status';ho:=coalesce(p_query->>'history_order','SOURCE');listed:=p_query?|array['history_q','history_status','history_order'];
- if ident is null or kind is null or kind not in('ALLOCATIONS','RETURNS','LOCATIONS') or off not between 0 and 1000000 or n not between 1 and 100 or length(q)>120
-  or listed and kind<>'RETURNS' or length(hq)>120 or(hs is not null and hs not in('DRAFT','POSTED','REVERSED'))or ho not in('SOURCE','LABEL_ASC','LABEL_DESC')then raise exception 'CP7_SALES_RETURN_QUERY';end if;
+ if ident is null or kind is null or kind not in('ALLOCATIONS','RETURNS','LOCATIONS') or off not between 0 and 1000000 or n not between 1 and 100 or length(q)>120 then raise exception 'CP7_SALES_RETURN_QUERY';end if;
  select * into h from erp.sales_headers where id=ident;if h.id is null then raise exception 'CP7_SALES_NOT_FOUND';end if;
  if kind='ALLOCATIONS' then
   with sources as materialized(
@@ -72,24 +64,13 @@ begin
   sliced as(select * from eligible order by location_name,id limit n offset off)
   select(select count(*) from eligible),coalesce((select jsonb_agg(jsonb_build_object('id',id,'name',location_name) order by location_name,id) from sliced),'[]') into total,rows;
  else
-  -- Count, order, size guard and page read the same matching history; the
-  -- label order is natural with the source order (physical_at desc, id) as tie-breaker.
-  with matching as materialized(select y as doc from erp.sales_returns y where y.sale_id=ident and(q='' or strpos(lower(y.return_number),lower(q))>0)
-    and(hs is null or y.status=hs)
-    and(hq='' or strpos(lower(concat_ws(' ',y.return_number,y.notes)),lower(hq))>0
-     or exists(select 1 from erp.sales_return_items si join erp.products sp on sp.id=si.product_id join erp.fg_lots sl on sl.id=si.lot_id join erp.locations sw on sw.id=si.location_id
-      where si.return_id=y.id and strpos(lower(concat_ws(' ',sp.sku,sl.lot_number,sw.location_name,si.notes)),lower(hq))>0))),
-   keyed as(select mt.doc,case when ho<>'SOURCE'then(select coalesce(string_agg(case when nat.part[1]~'^[0-9]'then lpad(length(ltrim(nat.part[1],'0'))::text,10,'0')||ltrim(nat.part[1],'0')else lower(nat.part[1])end,''order by nat.pos),'')from regexp_matches((mt.doc).return_number,'[0-9]+|[^0-9]+','g')with ordinality nat(part,pos))end label_key from matching mt),
-   ordered as materialized(select kd.doc,row_number()over(order by case when ho='LABEL_ASC'then kd.label_key end collate "C",case when ho='LABEL_DESC'then kd.label_key end collate "C" desc,(kd.doc).physical_at desc,(kd.doc).id)rn from keyed kd),
-   sliced as materialized(select * from ordered order by rn limit n offset off)
-  select(select count(*)from matching),coalesce((select bool_or((select count(*) from erp.sales_return_items i where i.return_id=(z.doc).id)>100)from sliced z),false),
-   coalesce((select jsonb_agg(jsonb_build_object('id',(x.doc).id,'number',(x.doc).return_number,'physical_at',(x.doc).physical_at,'status',(x.doc).status,'notes',(x.doc).notes,'line_count',(select count(*)::text from erp.sales_return_items i where i.return_id=(x.doc).id),'items',
-   (select coalesce(jsonb_agg(jsonb_build_object('id',i.id,'allocation_id',i.sale_stock_allocation_id,'product_sku',p.sku,'lot_number',fl.lot_number,'location_id',i.location_id,'location_name',l.location_name,'qty_pcs',i.qty_pcs::text,'quality_grade',i.quality_grade,'refund_amount',i.refund_amount::text,'notes',i.notes) order by i.id),'[]') from erp.sales_return_items i join erp.products p on p.id=i.product_id join erp.fg_lots fl on fl.id=i.lot_id join erp.locations l on l.id=i.location_id where i.return_id=(x.doc).id)) order by x.rn)from sliced x),'[]')
-  into total,too_large,rows;
-  if too_large then raise exception 'CP7_SALES_RETURN_DOCUMENT_TOO_LARGE';end if;
+  if exists(select 1 from(select id from erp.sales_returns where sale_id=ident and(q='' or strpos(lower(return_number),lower(q))>0) order by physical_at desc,id limit n offset off)x where(select count(*) from erp.sales_return_items i where i.return_id=x.id)>100) then raise exception 'CP7_SALES_RETURN_DOCUMENT_TOO_LARGE';end if;
+  select count(*) into total from erp.sales_returns where sale_id=ident and(q='' or strpos(lower(return_number),lower(q))>0);
+  select coalesce(jsonb_agg(jsonb_build_object('id',x.id,'number',x.return_number,'physical_at',x.physical_at,'status',x.status,'notes',x.notes,'line_count',(select count(*)::text from erp.sales_return_items i where i.return_id=x.id),'items',
+   (select coalesce(jsonb_agg(jsonb_build_object('id',i.id,'allocation_id',i.sale_stock_allocation_id,'product_sku',p.sku,'lot_number',fl.lot_number,'location_id',i.location_id,'location_name',l.location_name,'qty_pcs',i.qty_pcs::text,'quality_grade',i.quality_grade,'refund_amount',i.refund_amount::text,'notes',i.notes) order by i.id),'[]') from erp.sales_return_items i join erp.products p on p.id=i.product_id join erp.fg_lots fl on fl.id=i.lot_id join erp.locations l on l.id=i.location_id where i.return_id=x.id)) order by x.physical_at desc,x.id),'[]') into rows
+  from(select * from erp.sales_returns where sale_id=ident and(q='' or strpos(lower(return_number),lower(q))>0) order by physical_at desc,id limit n offset off)x;
  end if;
- return jsonb_build_object('contract_version','cp7.sales-returns.v1','kind',kind,'sale_id',ident,'row_version',h.row_version::text,'review_token',cp7_sales.review_token(ident),'page',jsonb_build_object('rows',rows,'total',total::text,'offset',off,'limit',n,'next_offset',case when off+jsonb_array_length(rows)<total then off+jsonb_array_length(rows) else null end)
-  ||case when listed then jsonb_build_object('list',jsonb_build_object('q',hq,'status',hs,'order',ho))else'{}'::jsonb end);
+ return jsonb_build_object('contract_version','cp7.sales-returns.v1','kind',kind,'sale_id',ident,'row_version',h.row_version::text,'review_token',cp7_sales.review_token(ident),'page',jsonb_build_object('rows',rows,'total',total::text,'offset',off,'limit',n,'next_offset',case when off+jsonb_array_length(rows)<total then off+jsonb_array_length(rows) else null end));
 end $$;
 create function public.erp_cp7_get_sales_returns_v1(p_query jsonb) returns jsonb
 language sql stable security definer set search_path='' as $$select cp7_sales.return_workspace(p_query)$$;

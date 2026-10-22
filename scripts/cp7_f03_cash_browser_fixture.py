@@ -46,9 +46,7 @@ def main():
         elif op=='verify-pages':
             # Exact native response comparison includes every journal/source,
             # signed cent, economic/accounting date and linked inverse identity.
-            # OW-09: the page always sends its whole-period list (here the
-            # default one), so the native read uses exactly that list too.
-            expected=[cases.analysis.read(cur,dict(p['query'],offset=offset,limit=25,entry_q='',entry_status=None,entry_order='SOURCE')) for offset in (0,25)]
+            expected=[cases.analysis.read(cur,dict(p['query'],offset=offset,limit=25)) for offset in (0,25)]
             for actual,native in zip(p['pages'],expected):
                 actual=dict(actual);native=dict(native);actual.pop('captured_at');native.pop('captured_at');assert actual==native
             assert len(p['pages'])==2 and [len(x['cash']['entries']['rows']) for x in p['pages']]==[25,8]

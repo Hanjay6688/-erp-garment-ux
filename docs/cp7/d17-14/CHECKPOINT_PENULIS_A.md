@@ -1,9 +1,14 @@
 # Checkpoint penulis A (cabang `claude/d17-14-uang`)
 
-Aturan owner 22 Okt 2026: "update pake perlahan pake checkpoint ... biar kalo token abis ga sayang." Jadi: kerja bertahap, setiap
-langkah selesai langsung di-commit dan di-push, berkas ini diperbarui, paling banyak dua pembantu jalan bersamaan.
+Aturan owner 22 Okt 2026: "update pake perlahan pake checkpoint ... biar kalo token abis ga sayang", lalu: "selagi masih banyak
+ya lu pake banyak orang gapapa, kalo udah tipis lu baru slowing down ... jangan tiba tiba di stop". Jadi: setiap langkah selesai
+langsung di-commit dan di-push dan berkas ini diperbarui; selama kuota banyak boleh banyak pembantu; pembantu yang sudah jalan
+tidak dihentikan; baru diperlambat bila kuota menipis. Owner: yang dilihat kuota 5 jam (bila habis semua langsung berhenti).
+Sisa kuota tidak terlihat dari sesi, jadi patokannya jam: jendela sekarang mulai sekitar 20.00 UTC 22 Okt, habis sekitar
+01.00 UTC 23 Okt. Pengingat terjadwal: 00.10 UTC mode hemat (tidak memulai pekerjaan besar baru, gabung dan push semua commit
+pembantu, perbarui berkas ini), 01.10 UTC jalan normal lagi.
 
-Diperbarui: 22 Okt 2026, 20.35 UTC (23 Okt 03.35 WIB).
+Diperbarui: 22 Okt 2026, 20.50 UTC (23 Okt 03.50 WIB).
 
 ## Sudah terbukti (uji database penuh atau browser lulus)
 
@@ -18,22 +23,24 @@ Diperbarui: 22 Okt 2026, 20.35 UTC (23 Okt 03.35 WIB).
 
 | Butir | Keadaan |
 |---|---|
-| OW-12a modul angka keuangan | Native7 di `47688e63` (run 39847548230) sedang jalan; dua kegagalan pasang sebelumnya dicatat di `ow12/` |
-| OW-08b 2.20 cuci gagal tanpa tarif | Native11 di `3c3dea91` (run 39848501244) sedang jalan |
-| OW-06 layar transfer supplier | Browser2 di `3c3dea91` (run 39848539599) sedang jalan |
+| OW-12a modul angka keuangan | Native7 `47688e63` run 39847548230 berhenti di "Start disposable database" (server CI); dijalankan ulang sekali |
+| OW-08b 2.20 cuci gagal tanpa tarif | Native11 `3c3dea91` run 39848501244 berhenti di pemeriksaan sumber sebelum database; log sedang dibaca |
+| OW-06 layar transfer supplier | Browser2 `3c3dea91` berhenti di pin `src/productionRecovery.ts` (berubah karena cuci gagal); pin diperbarui `ed4818b3`, diantrekan ulang |
 | OW-09 urut/saring seluruh hasil, 7 layar | Digabung (`24149f41`); 11 workflow diantrekan bertahap oleh `ciqueue.sh` (scratchpad) |
 
 ## Belum selesai / berikutnya (urutan kerja)
 
 1. Catat hasil tiga run di atas (lulus: berkas bukti; gagal: simpan kegagalan pertama, betulkan).
 2. OW-08b 2.21 koreksi barang jadi di QC: pembantu sedang bekerja di `claude/d17-14-ow08b-qc` (lokal).
-3. OW-04b retur berulang dengan kredit: pembantu sedang bekerja di `claude/d17-14-ow04b` (lokal). Sesudah digabung, pin UI OW-04
-   (`scripts/ow04-*/SOURCE.json`, `ACTIVE_UI_SOURCE.json`) harus diperbarui karena OW-09 mengubah `src/SalesReturnPanel.tsx`.
-4. OW-09 layar ke-8 (Nota Ambil Aksesori): butuh tahap Native untuk `erp.get_accessory_issue_workspace_v1` (offset, status,
-   urutan, jumlah). Ditunda sampai salah satu pembantu di atas selesai.
+3. OW-04b retur berulang dengan kredit: pembantu sedang bekerja di `claude/d17-14-ow04b` (lokal). Pin UI OW-04 lama
+   (`scripts/ow04-*/SOURCE.json`, `ACTIVE_UI_SOURCE.json`) terikat ke kandidat OW-04 yang dibekukan, jadi tidak diubah; OW-04b
+   butuh kualifikasi sendiri.
+4. OW-09 layar ke-8 (Nota Ambil Aksesori): pembantu sedang membuat tahap Native untuk `erp.get_accessory_issue_workspace_v1`
+   (offset, status, urutan, jumlah) di `claude/d17-14-ow09` (lokal).
 5. Penggabungan harian 17.00 WIB 23 Okt ke `astra/d17-14-integrasi` (pengingat terjadwal 09.35 UTC). Pembanding vitest: base
    50 gagal/2102, gabungan uji 50 gagal/2146, tidak ada kegagalan baru; ke-50 itu uji `tests/cp7/families` yang menolak root.
-6. OW-15: rantai linear tahap, P21 untuk OW-06/OW-08a, sambungan B untuk OW-12a.
+6. OW-15: rantai linear tahap, P21 untuk OW-06/OW-08a, sambungan B untuk OW-12a. Pembantu perencana sedang menyusun rencana
+   rinci (urutan tahap, tumpang tindih fungsi, pin yang harus dibuat ulang).
 
 ## Menunggu Bos
 

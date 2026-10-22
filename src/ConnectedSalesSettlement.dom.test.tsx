@@ -45,19 +45,16 @@ function quote(q:QuoteInput):any{
 }
 function receipt(request:string,payload:any){return{contract_version:'cp7.sales-return-settlement-outcome.v1',kind:'COMMITTED_OUTCOME',action:'RETURN_SETTLEMENT',request_id:request,sale_id:sale,return_id:id(20),return_status:'POSTED',row_version:afterVersion,family_ordinal:'1',credit_id:payload.settlement?id(21):null,refund_event_id:payload.settlement?.mode==='REFUND'?id(22):null,quote_sha256:wrongReceipt?sha(7):payload.quote_sha256,projection_sha256:sha(5),actual_manifest_sha256:sha(3),projection_actual_proof_sha256:sha(4),production_go:false}}
 function allow(){const a=structuredClone(recoveryIdentity);a.identity.permissions.push('sales.invoice.view','finance.ar.view','sales.return.view','sales.return.create','sales.return.post','sales.payment.view');state.auth=a}
-// OW-09: declared reader stand-ins echo the whole-invoice history list they applied, like the readers do.
-const historyList=<T extends {page:object}>(r:T,q:Record<string,unknown>)=>{if('history_order' in q)Object.assign(r.page,{list:{q:q.history_q,status:q.history_status,order:q.history_order}});return r}
-const paymentList=(q:Record<string,unknown>)=>'payment_order' in q?{list:{q:q.payment_q,status:q.payment_status,order:q.payment_order}}:{}
 let root:Root,container:HTMLDivElement
 beforeEach(()=>{
   Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});localStorage.clear();Object.defineProperty(navigator,'locks',{configurable:true,value:{request:async(_name:string,_options:unknown,callback:(lock:unknown)=>Promise<unknown>)=>callback({})}})
   committed=unpaid=loseReply=lost=replayDenied=wrongReceipt=reloadFails=quoteDenied=false;accountFacts=5;quoteRefusal=settleRefusal=null;allow();client.rpc.mockReset()
   client.rpc.mockImplementation(async(name,args)=>{
     if(name==='erp_cp7_get_sales_v1')return reloadFails&&committed?{data:null,error:{message:'Authoritative read unavailable'}}:{data:workspace(Boolean(args.p_query.sale_id)),error:null}
-    if(name==='erp_cp7_get_sales_returns_v1')return{data:historyList(returns(args.p_query.kind),args.p_query),error:null}
+    if(name==='erp_cp7_get_sales_returns_v1')return{data:returns(args.p_query.kind),error:null}
     if(name==='erp_cp7_get_sales_return_settlement_quote_v1'){if(quoteRefusal)return{data:null,error:quoteRefusal};if(quoteDenied)return{data:null,error:{status:403,code:'42501',message:'PRIVATE source revoked'}};return{data:args.p_query.kind==='ACCOUNT_OPTIONS'?options(args.p_query):quote(args.p_query),error:null}}
     if(name==='erp_cp7_settle_sales_return_v1'){if(settleRefusal)return{data:null,error:settleRefusal};if(replayDenied)return{data:null,error:{code:'42501',message:'CP7_CREDIT_ACCESS_CHANGED'}};committed=true;if(loseReply&&!lost){lost=true;throw Error('Declared lost response after committed settlement')}return{data:receipt(args.p_request,args.p_payload),error:null}}
-    if(name==='erp_cp7_get_sales_cash_v1')return{data:{contract_version:'cp7.sales-cash.v1',sale_id:sale,row_version:committed?afterVersion:version,review_token:committed?afterReview:reviewToken,payments:{rows:[structuredClone(originalPayment)],total:'1',offset:0,limit:25,next_offset:null,...paymentList(args.p_query)},cash_accounts:{rows:[],total:'0',offset:0,limit:25,next_offset:null}},error:null}
+    if(name==='erp_cp7_get_sales_cash_v1')return{data:{contract_version:'cp7.sales-cash.v1',sale_id:sale,row_version:committed?afterVersion:version,review_token:committed?afterReview:reviewToken,payments:{rows:[structuredClone(originalPayment)],total:'1',offset:0,limit:25,next_offset:null},cash_accounts:{rows:[],total:'0',offset:0,limit:25,next_offset:null}},error:null}
     throw Error(`Unowned test route ${name}`)
   })
   container=document.createElement('div');document.body.append(container);root=createRoot(container)
