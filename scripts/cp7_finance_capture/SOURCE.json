@@ -1,0 +1,26 @@
+{
+ "classification": "OW12A_STAGED_OFFICIAL_FINANCE_CAPTURE_NATIVE_STAGE",
+ "files": {
+  ".github/workflows/cp7-ow12a-finance-native.yml": "6da78b36f9ce275a8f0fead3293697e9058273d040b386384b83431c3406bf21",
+  "scripts/cp7_finance_capture/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "scripts/cp7_finance_capture/cases.py": "1fc0ffb9da0014354c86bb1dabc13d3344f735103424d184da0e9ab991652a84",
+  "scripts/cp7_finance_capture/composition.py": "eedcc6e7b902ddf9c247fcd27f1349211788d5a1b378476955afba3dfafd8449",
+  "scripts/cp7_finance_capture/native_delta.py": "0f8c5c9067d1a545e01226ab8230ac78165c939ec5708d1460425dd1a45178ab",
+  "scripts/cp7_finance_capture/native_probe.py": "a538cbe43bb2af9b37d98cf410a925b25f2411ecb069fb1aab52790bacb16b21",
+  "scripts/cp7_finance_capture/finance_capture.sql": "c6704e726c5fbc7a6e9b8ae266075ec6777e8b7f6bc6d7b10ddc074f3706d8bb"
+ },
+ "case_ids": [
+  "OW12A_CAPTURE_SAME_FIGURES_AS_FINANCE_REPORT",
+  "OW12A_CAPTURE_REFUSES_BOOK_CHANGE_DURING_SCAN",
+  "OW12A_CAPTURE_ACCESS_AND_PRIVACY",
+  "OW12A_REPORT_V2_FINANCE_THROUGH_CAPTURE",
+  "OW12A_REPORT_V2_DEFERRED_UNCHANGED",
+  "OW12A_RUNNER_STEPS_CAPTURE_AS_ITS_ACTOR"
+ ],
+ "native_original": {
+  "name": "CP7_OW05_NATIVE28_GUIDANCE_WHOLE_PO_WAVE.json",
+  "bytes": 6646642,
+  "sha256": "9e4732a171faff7175a03b895daca09bcb1dc54a53003cb300d979c858d1143c"
+ },
+ "OW12a_complete": false
+}
