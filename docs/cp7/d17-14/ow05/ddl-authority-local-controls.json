@@ -1,0 +1,13 @@
+{
+  "classification": "LOCAL_PGLITE_NONSUPERUSER_INSTALLER_SCHEMA_CREATE_REPRO_NOT_NATIVE_BUSINESS",
+  "status": "PASS",
+  "original_UNIQUE_failure_reproduced": true,
+  "table_owner_usage_insufficient_for_unique_index": true,
+  "owner_scoped_temporary_CREATE_allows_constraint": true,
+  "CREATE_revoked_before_commit": true,
+  "original_schema_ACL_exactly_restored": true,
+  "application_privileges_added": false,
+  "Native_financial_cases_added": 0,
+  "OW05_complete": false,
+  "production_go": false
+}

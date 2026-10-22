@@ -7,7 +7,9 @@ still applies except to this command's private, current-transaction capability.
 """
 from hashlib import sha256
 from pathlib import Path
+from contextlib import contextmanager
 import re
+from psycopg.pq import TransactionStatus
 
 import cp7_payment_source_owning_install as predecessor
 
@@ -55,6 +57,36 @@ def patched_revision(original):
             raise ValueError('OW05_RATE_REVISION_PREDECESSOR_SOURCE_CHANGED')
         original = original.replace(anchor, change, 1)
     return original
+
+
+@contextmanager
+def revision_schema_ddl(cur):
+    """Temporary installer CREATE, revoked before any installed state is exposed.
+
+    The old schema belongs to cp7_cutting_read. Its table/function owner
+    postgres has USAGE, but CREATE INDEX (including UNIQUE) also needs schema
+    CREATE. No browser/service/capture role receives an additional privilege.
+    An error rolls the grant back with the enclosing atomic install/uninstall.
+    """
+    actor, owner, acl, allowed = cur.execute("""select current_user,pg_get_userbyid(n.nspowner),n.nspacl::text,
+        has_schema_privilege(current_user,n.oid,'CREATE')from pg_namespace n
+        where n.nspname='cp7_cutting_correction'""").fetchone()
+    if actor != 'postgres' or owner != 'cp7_cutting_read':
+        raise ValueError('OW05_REVISION_SCHEMA_INSTALLER_AUTHORITY_CHANGED')
+    if not allowed:
+        cur.execute('set local role cp7_cutting_read')
+        cur.execute('grant create on schema cp7_cutting_correction to postgres')
+        cur.execute('set local role postgres')
+    try:
+        yield
+    finally:
+        if cur.connection.info.transaction_status != TransactionStatus.INERROR:
+            if not allowed:
+                cur.execute('set local role cp7_cutting_read')
+                cur.execute('revoke create on schema cp7_cutting_correction from postgres')
+                cur.execute('set local role postgres')
+            if cur.execute("select nspacl::text from pg_namespace where nspname='cp7_cutting_correction'").fetchone()[0] != acl:
+                raise ValueError('OW05_REVISION_SCHEMA_ORIGINAL_ACL_NOT_RESTORED')
 
 
 def _admit(before, after, definitions, functions):
@@ -110,20 +142,19 @@ def install(cur):
         previous = predecessor.install(cur)
         proof = predecessor.verify(cur, previous)
         before = predecessor.catalog._catalog_rows(cur)
-        # The verified capture already contains the exact definitions under
-        # catalog authority. The delegated installer has no runtime USAGE on
-        # the old private schema; never grant that merely to resolve regprocedure.
+        # Preserve the exact definitions from the already verified full capture.
         originals = {sig:before['functions'][sig][0] for sig in (NATIVE,REVISION)}
         definitions = {NATIVE:patched(originals[NATIVE]),REVISION:patched_revision(originals[REVISION])}
         if before['constraints'][REVISION_TABLE+':'+REVISION_KEY][-1] != OLD_UNIQUE:
             raise ValueError('OW05_RATE_REVISION_UNIQUENESS_SOURCE_CHANGED')
         with predecessor.payment.consumer.as_owner(cur, 'postgres'):
             cur.execute((ROOT/'contractor.sql').read_text(), prepare=False)
-            cur.execute('alter table '+REVISION_TABLE+' add column mandor_generation uuid')
-            cur.execute('alter table '+REVISION_TABLE+' drop constraint '+REVISION_KEY)
-            cur.execute('alter table '+REVISION_TABLE+' add constraint '+REVISION_KEY+' '+NEW_UNIQUE)
-            for definition in definitions.values():
-                cur.execute(definition, prepare=False)
+            with revision_schema_ddl(cur):
+                cur.execute('alter table '+REVISION_TABLE+' add column mandor_generation uuid')
+                cur.execute('alter table '+REVISION_TABLE+' drop constraint '+REVISION_KEY)
+                cur.execute('alter table '+REVISION_TABLE+' add constraint '+REVISION_KEY+' '+NEW_UNIQUE)
+                for definition in definitions.values():
+                    cur.execute(definition, prepare=False)
         after = predecessor.catalog._catalog_rows(cur)
         functions = set(after['functions']) - set(before['functions'])
         names = set(re.findall(r'create function ([a-z_0-9.]+)\(', (ROOT/'contractor.sql').read_text()))
@@ -173,11 +204,12 @@ def rollback_preuse(cur, state):
             cur.execute('lock table '+SCHEMA+'.'+table+' in access exclusive mode')
         if predecessor.base.private_rows(cur) != state['seeded_private_rows']:
             raise ValueError('CP7_FULL_ROLLBACK_AFTER_USE_REQUIRES_BACKUP_RESTORE')
-        for original in state['originals'].values():
-            cur.execute(original, prepare=False)
-        cur.execute('alter table '+REVISION_TABLE+' drop constraint '+REVISION_KEY)
-        cur.execute('alter table '+REVISION_TABLE+' add constraint '+REVISION_KEY+' '+OLD_UNIQUE)
-        cur.execute('alter table '+REVISION_TABLE+' drop column mandor_generation')
+        with predecessor.payment.consumer.as_owner(cur,'postgres'), revision_schema_ddl(cur):
+            for original in state['originals'].values():
+                cur.execute(original, prepare=False)
+            cur.execute('alter table '+REVISION_TABLE+' drop constraint '+REVISION_KEY)
+            cur.execute('alter table '+REVISION_TABLE+' add constraint '+REVISION_KEY+' '+OLD_UNIQUE)
+            cur.execute('alter table '+REVISION_TABLE+' drop column mandor_generation')
         for sig in PUBLIC:
             cur.execute('drop function '+sig)
         # All 22 groups were checked above: the cascade can only remove this
