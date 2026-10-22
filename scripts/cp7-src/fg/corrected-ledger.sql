@@ -42,12 +42,18 @@ language sql stable security invoker set search_path=''as $$
  from prefix p left join erp.customers c on c.id=p.customer_id
 $$;
 
+-- OW-09 (owner D17-16): optional movement_type and order apply to the whole
+-- searched movement list before the page is cut. Balances keep the complete
+-- chronological prefix. The echo (with the position's movement types) appears
+-- only when one of those keys is sent, so old calls keep their exact answer.
 create function cp7_fg.corrected_ledger(p_query jsonb)returns jsonb
 language plpgsql stable security invoker set search_path=''as $$
 declare a jsonb;purpose text;q text;off integer;n integer;pid uuid;lid uuid;location uuid;grade text;
  from_at timestamptz;to_at timestamptz;rows jsonb;total bigint;header jsonb;balances jsonb;cost jsonb;
+ move_type text;move_order text;listed boolean;move_types jsonb;
 begin
- if jsonb_typeof(p_query)is distinct from 'object'or exists(select 1 from jsonb_object_keys(p_query)k where k not in('purpose','product_id','lot_id','location_id','quality_grade','q','from','to','offset','limit'))
+ if jsonb_typeof(p_query)is distinct from 'object'or exists(select 1 from jsonb_object_keys(p_query)k where k not in('purpose','product_id','lot_id','location_id','quality_grade','q','from','to','offset','limit','movement_type','order'))
+  or(p_query ? 'order'and jsonb_typeof(p_query->'order')<>'string')
   or not p_query ?& array['product_id','lot_id','location_id','quality_grade']
   or exists(select 1 from jsonb_each(p_query)e where e.key not in('offset','limit')and jsonb_typeof(e.value)not in('string','null'))
   or(p_query ? 'offset'and(jsonb_typeof(p_query->'offset')<>'number'or(p_query->>'offset')!~'^[0-9]{1,7}$'))
@@ -56,6 +62,8 @@ begin
  a:=cp7_fg.access_now(purpose);pid:=(p_query->>'product_id')::uuid;lid:=(p_query->>'lot_id')::uuid;location:=(p_query->>'location_id')::uuid;grade:=p_query->>'quality_grade';
  q:=btrim(coalesce(p_query->>'q',''));off:=coalesce((p_query->>'offset')::integer,0);n:=coalesce((p_query->>'limit')::integer,25);
  from_at:=(p_query->>'from')::timestamptz;to_at:=(p_query->>'to')::timestamptz;
+ move_type:=p_query->>'movement_type';move_order:=coalesce(p_query->>'order','SOURCE');listed:=p_query?|array['movement_type','order'];
+ if(move_type is not null and move_type!~'^[A-Z][A-Z_]{0,39}$')or move_order not in('SOURCE','LABEL_ASC','LABEL_DESC')then raise exception 'CP7_FG_QUERY';end if;
  if pid is null or location is null or grade is null or length(grade)>40 or length(q)>120 or off not between 0 and 1000000 or n not between 1 and 100
   or(from_at is not null and not isfinite(from_at))or(to_at is not null and(not isfinite(to_at)or to_at>statement_timestamp()))
   or(from_at is not null and to_at is not null and from_at>=to_at)then raise exception 'CP7_FG_QUERY';end if;
@@ -64,23 +72,30 @@ begin
  into header from cp7_fg.positions('',true)x where x.product_id=pid and x.lot_id is not distinct from lid and x.location_id=location and x.quality_grade=grade;
  if header is null then raise exception using errcode='P0002',message='CP7_FG_POSITION_UNAVAILABLE';end if;
  if a->'can_value'='true'::jsonb then cost:=cp7_fg.lot_value(lid,1);end if;
+ -- Count, order and page read the same filtered movements; the label order is
+ -- natural with the chronological order (physical, recorded, id) as tie-breaker.
  with complete as materialized(select value r from cp7_fg.corrected_ledger_rows(pid,lid,location,grade)value),
  filtered as materialized(select r from complete where(from_at is null or(r->>'physical_at')::timestamptz>=from_at)
   and(to_at is null or(r->>'physical_at')::timestamptz<to_at)
-  and(q=''or strpos(lower(concat_ws(' ',r->>'source_type',r->>'source_id',r->>'customer_name',r->>'notes',r->>'movement_type',r->>'commercial_sku_at_transaction')),lower(q))>0)),
- page as(select r from filtered order by(r->>'physical_at')::timestamptz,(r->>'recorded_at')::timestamptz,r->>'id'limit n offset off)
+  and(q=''or strpos(lower(concat_ws(' ',r->>'source_type',r->>'source_id',r->>'customer_name',r->>'notes',r->>'movement_type',r->>'commercial_sku_at_transaction')),lower(q))>0)
+  and(move_type is null or r->>'movement_type'=move_type)),
+ keyed as(select fr.r,case when move_order<>'SOURCE'then(select coalesce(string_agg(case when nat.part[1]~'^[0-9]'then lpad(length(ltrim(nat.part[1],'0'))::text,10,'0')||ltrim(nat.part[1],'0')else lower(nat.part[1])end,''order by nat.pos),'')from regexp_matches(concat(fr.r->>'commercial_sku_at_transaction',' ',coalesce(fr.r->>'customer_name',''),' ',fr.r->>'movement_type'),'[0-9]+|[^0-9]+','g')with ordinality nat(part,pos))end label_key from filtered fr),
+ ordered as materialized(select kd.r,row_number()over(order by case when move_order='LABEL_ASC'then kd.label_key end collate "C",case when move_order='LABEL_DESC'then kd.label_key end collate "C" desc,(kd.r->>'physical_at')::timestamptz,(kd.r->>'recorded_at')::timestamptz,kd.r->>'id')rn from keyed kd),
+ page as(select r,rn from ordered order by rn limit n offset off)
  select(select count(*)from filtered),
   coalesce(jsonb_agg(r||case when a->'can_value'='true'::jsonb then jsonb_build_object('valuation',jsonb_build_object('state',cost->'state',
    'unit_cost',case when cost->>'state'='KNOWN'then cost->>'unit_cost'end,'basis','CURRENT_RESTATED_MOVEMENT_SNAPSHOT'))else '{}'::jsonb end
-   order by(r->>'physical_at')::timestamptz,(r->>'recorded_at')::timestamptz,r->>'id'),'[]'),
+   order by rn),'[]'),
   (select jsonb_build_object('available_qty',coalesce(sum((r->>'qty_signed')::numeric),0)::text,
    'reserved_qty',coalesce(sum((r->>'reservation_delta')::numeric),0)::text,'physical_qty',coalesce(sum((r->>'physical_delta')::numeric),0)::text,
    'quality',case when bool_or((r->>'available_balance')::numeric<0 or(r->>'reserved_balance')::numeric<0 or(r->>'physical_balance')::numeric<0)then 'CONFLICT'else 'KNOWN'end)
-   from complete where to_at is null or(r->>'physical_at')::timestamptz<to_at)
- into total,rows,balances from page;
+   from complete where to_at is null or(r->>'physical_at')::timestamptz<to_at),
+  (select coalesce(jsonb_agg(kinds.movement_type order by kinds.movement_type collate "C"),'[]')from(select distinct r->>'movement_type' movement_type from complete)kinds)
+ into total,rows,balances,move_types from page;
  return jsonb_build_object('contract_version','cp7.fg-ledger.v2','purpose',purpose,'read_at',statement_timestamp(),'knowledge','CURRENT','financial_captured',a->'can_value',
   'position',header,'balances',balances,'balance_basis','COMPLETE_CHRONOLOGICAL_PREFIX_BEFORE_SEARCH_AND_PAGE',
-  'page',jsonb_build_object('rows',rows,'total',total::text,'offset',off,'limit',n,'next_offset',case when off+jsonb_array_length(rows)<total then off+jsonb_array_length(rows)else null end));
+  'page',jsonb_build_object('rows',rows,'total',total::text,'offset',off,'limit',n,'next_offset',case when off+jsonb_array_length(rows)<total then off+jsonb_array_length(rows)else null end)
+   ||case when listed then jsonb_build_object('list',jsonb_build_object('q',q,'movement_type',move_type,'order',move_order,'movement_types',move_types))else'{}'::jsonb end);
 end $$;
 create function public.erp_cp7_get_fg_ledger_v2(p_query jsonb)returns jsonb
 language sql stable security definer set search_path=''as $$select cp7_fg.corrected_ledger(p_query)$$;

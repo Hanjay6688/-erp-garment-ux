@@ -5,20 +5,31 @@ language sql stable security invoker set search_path='' as $$
   'managed_count',exists(select 1 from cp7_material.count_documents where adjustment_id=h.id),
   'line_count',(select count(*)::text from erp.material_adjustment_items where adjustment_id=h.id))
 $$;
+-- OW-09 (owner D17-16): optional status and order apply to the whole matching
+-- document list before the page is cut; the echo appears only when one of
+-- those keys is sent, so old calls keep their exact answer.
 create function cp7_material.count_workspace(p_query jsonb) returns jsonb
 language plpgsql stable security invoker set search_path='' as $$
 declare a jsonb;q text;n integer;off integer;chosen uuid;total bigint;rows jsonb;detail jsonb:=null;h erp.material_adjustments;items jsonb;proof jsonb;editable jsonb:=null;
+ doc_status text;doc_order text;listed boolean;
 begin
  a:=cp7_material.access_now();
- if jsonb_typeof(p_query) is distinct from 'object' or exists(select 1 from jsonb_object_keys(p_query) k where k not in('q','limit','offset','adjustment_id'))
-  or exists(select 1 from jsonb_each(p_query) e where e.key in('q','adjustment_id') and jsonb_typeof(e.value) not in('string','null'))
+ if jsonb_typeof(p_query) is distinct from 'object' or exists(select 1 from jsonb_object_keys(p_query) k where k not in('q','limit','offset','adjustment_id','status','order'))
+  or exists(select 1 from jsonb_each(p_query) e where e.key in('q','adjustment_id','status') and jsonb_typeof(e.value) not in('string','null'))
+  or(p_query ? 'order' and jsonb_typeof(p_query->'order')<>'string')
   or(p_query ? 'limit' and (jsonb_typeof(p_query->'limit')<>'number' or (p_query->>'limit')!~'^[0-9]{1,3}$'))
   or(p_query ? 'offset' and (jsonb_typeof(p_query->'offset')<>'number' or (p_query->>'offset')!~'^[0-9]{1,7}$')) then raise exception 'CP7_COUNT_QUERY';end if;
  q:=btrim(coalesce(p_query->>'q',''));n:=coalesce((p_query->>'limit')::integer,25);off:=coalesce((p_query->>'offset')::integer,0);chosen:=(p_query->>'adjustment_id')::uuid;
- if length(q)>120 or n not between 1 and 100 or off not between 0 and 1000000 then raise exception 'CP7_COUNT_QUERY';end if;
- select count(*) into total from erp.material_adjustments doc where q='' or strpos(lower(doc.adjustment_number),lower(q))>0;
- select coalesce(jsonb_agg(cp7_material.count_header(x) order by x.physical_at desc,x.id),'[]') into rows
- from (select * from erp.material_adjustments doc where q='' or strpos(lower(doc.adjustment_number),lower(q))>0 order by physical_at desc,id limit n offset off) x;
+ doc_status:=p_query->>'status';doc_order:=coalesce(p_query->>'order','SOURCE');listed:=p_query?|array['status','order'];
+ if length(q)>120 or n not between 1 and 100 or off not between 0 and 1000000
+  or(doc_status is not null and doc_status not in('DRAFT','POSTED','REVERSED'))or doc_order not in('SOURCE','LABEL_ASC','LABEL_DESC') then raise exception 'CP7_COUNT_QUERY';end if;
+ -- Count, order and page read the same matching documents; the label order is
+ -- natural with the source order (physical_at desc, id) as tie-breaker.
+ with matching as materialized(select doc from erp.material_adjustments doc where(q='' or strpos(lower(doc.adjustment_number),lower(q))>0)and(doc_status is null or doc.status=doc_status)),
+  keyed as(select mt.doc,case when doc_order<>'SOURCE'then(select coalesce(string_agg(case when nat.part[1]~'^[0-9]'then lpad(length(ltrim(nat.part[1],'0'))::text,10,'0')||ltrim(nat.part[1],'0')else lower(nat.part[1])end,''order by nat.pos),'')from regexp_matches((mt.doc).adjustment_number,'[0-9]+|[^0-9]+','g')with ordinality nat(part,pos))end label_key from matching mt),
+  ordered as materialized(select kd.doc,row_number()over(order by case when doc_order='LABEL_ASC'then kd.label_key end collate "C",case when doc_order='LABEL_DESC'then kd.label_key end collate "C" desc,(kd.doc).physical_at desc,(kd.doc).id)rn from keyed kd)
+ select(select count(*)from matching),coalesce((select jsonb_agg(cp7_material.count_header(x.doc) order by x.rn)from(select * from ordered order by rn limit n offset off)x),'[]')
+ into total,rows;
  if chosen is not null then
   select * into h from erp.material_adjustments where id=chosen;
   if not found then raise exception 'CP7_COUNT_NOT_FOUND';end if;
@@ -55,7 +66,8 @@ begin
  end if;
  return jsonb_build_object('contract_version','cp7.material-counts.v1','read_at',statement_timestamp(),'financial_captured',a->'can_value',
   'capabilities',jsonb_build_object('adjust',a->'can_adjust','reverse',a->'can_reverse'),
-  'page',jsonb_build_object('rows',rows,'total',total::text,'offset',off,'limit',n,'next_offset',case when off+jsonb_array_length(rows)<total then off+jsonb_array_length(rows) else null end),'detail',detail);
+  'page',jsonb_build_object('rows',rows,'total',total::text,'offset',off,'limit',n,'next_offset',case when off+jsonb_array_length(rows)<total then off+jsonb_array_length(rows) else null end)
+   ||case when listed then jsonb_build_object('list',jsonb_build_object('q',q,'status',doc_status,'order',doc_order))else'{}'::jsonb end,'detail',detail);
 end $$;
 create function public.erp_cp7_get_material_counts_v1(p_query jsonb) returns jsonb
 language sql stable security definer set search_path='' as $$select cp7_material.count_workspace(p_query)$$;
