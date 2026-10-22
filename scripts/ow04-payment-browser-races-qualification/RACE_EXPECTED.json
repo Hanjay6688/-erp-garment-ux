@@ -1,0 +1,120 @@
+{
+  "classification": "PREEXECUTION_ACTUAL_SQL_RACE_GOLD_NOT_QUALIFICATION",
+  "expected_count": 6,
+  "retained_consumer_race_count": 2,
+  "owning_payment_race_count": 4,
+  "cases": [
+    {
+      "id": "OW04_PAYMENT_RACE_SAME_UUID_CORRECT900",
+      "holder_expected": {
+        "source_net": "800.00",
+        "source_P": "900.00",
+        "I": "100.00",
+        "C": "80.00",
+        "available": "20.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "80.00",
+        "target_AR": "420.00",
+        "cash": "900.00"
+      },
+      "worker_error": null,
+      "final_expected": {
+        "source_net": "800.00",
+        "source_P": "900.00",
+        "I": "100.00",
+        "C": "80.00",
+        "available": "20.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "80.00",
+        "target_AR": "420.00",
+        "cash": "900.00"
+      }
+    },
+    {
+      "id": "OW04_PAYMENT_RACE_DISTINCT_UUID_STALE_CORRECT900",
+      "holder_expected": {
+        "source_net": "800.00",
+        "source_P": "900.00",
+        "I": "100.00",
+        "C": "80.00",
+        "available": "20.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "80.00",
+        "target_AR": "420.00",
+        "cash": "900.00"
+      },
+      "worker_error": "CP7_SALES_REVIEW_CHANGED",
+      "final_expected": {
+        "source_net": "800.00",
+        "source_P": "900.00",
+        "I": "100.00",
+        "C": "80.00",
+        "available": "20.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "80.00",
+        "target_AR": "420.00",
+        "cash": "900.00"
+      }
+    },
+    {
+      "id": "OW04_PAYMENT_RACE_CONSUMER20_HOLDS_CORRECTION_STALE",
+      "holder_expected": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "100.00",
+        "available": "100.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "100.00",
+        "target_AR": "400.00",
+        "cash": "1000.00"
+      },
+      "worker_error": "CP7_SALES_REVIEW_CHANGED",
+      "final_expected": {
+        "source_net": "800.00",
+        "source_P": "900.00",
+        "I": "100.00",
+        "C": "100.00",
+        "available": "0.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "100.00",
+        "target_AR": "400.00",
+        "cash": "900.00"
+      }
+    },
+    {
+      "id": "OW04_PAYMENT_RACE_CORRECTION_HOLDS_CONSUMER20_STALE",
+      "holder_expected": {
+        "source_net": "800.00",
+        "source_P": "900.00",
+        "I": "100.00",
+        "C": "80.00",
+        "available": "20.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "80.00",
+        "target_AR": "420.00",
+        "cash": "900.00"
+      },
+      "worker_error": "CP7_CREDIT_CONSUMER_REVIEW_CHANGED",
+      "final_expected": {
+        "source_net": "800.00",
+        "source_P": "900.00",
+        "I": "100.00",
+        "C": "100.00",
+        "available": "0.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "100.00",
+        "target_AR": "400.00",
+        "cash": "900.00"
+      }
+    }
+  ]
+}

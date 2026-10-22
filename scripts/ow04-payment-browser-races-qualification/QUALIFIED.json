@@ -1,0 +1,15 @@
+{
+  "classification": "ACTUAL_NATIVE22_AND_HTTP16_EQUAL_FINANCIAL_SOURCE_BINDING",
+  "native22_candidate": "e830604509210377f19c24b49c2fe22cc7476b6b",
+  "http16_candidate": "365c2df32b95c1f4c1824f4a984c8d18bdee5e36",
+  "reports": {
+    "native22": {
+      "file": "docs/cp7/d17-14/ow04/payment-source-native22-e8306045-pass-http16-second-result/native22-phase/CP7_OW04_PAYMENT_SOURCE_NATIVE22.json.xz",
+      "raw_sha256": "f775a742b14fe546e393c8663e473a7ad9fdf0ed93bae18b5b50b9ef1d9bf3ab"
+    },
+    "http16": {
+      "file": "docs/cp7/d17-14/ow04/payment-source-http16-365c2df3-pass/CP7_OW04_PAYMENT_SOURCE_HTTP16.json.xz",
+      "raw_sha256": "1761b61a8bcbad3cc26349a611ae2404fac32a9863ed890be2583b5013e96b4f"
+    }
+  }
+}
