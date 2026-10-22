@@ -20,7 +20,7 @@ export const WINDOW_MAX = 365
 export const MIN_COUNTED_DAYS = 14
 
 export type ReorderBasis = 'MANUAL' | 'FORMULA' | 'NOT_ENOUGH_DATA' | 'NO_SALES'
-export type ReorderReason = 'NO_POSTED_SALES_IN_WINDOW' | 'FEWER_THAN_14_COUNTED_DAYS' | 'NO_LEAD_TIME'
+export type ReorderReason = 'NO_POSTED_SALES_IN_WINDOW' | 'FEWER_THAN_14_COUNTED_DAYS' | 'NO_LEAD_TIME' | 'PROFILE_MINIMUM_NOT_MET'
 export type WipStatus = 'COMPLETE' | 'UNKNOWN' | 'NOT_READ'
 export type ReorderState = 'AT_OR_BELOW' | 'ABOVE' | 'NO_POINT'
 export type ReorderSettings = { revision: number; serviceLevel: ServiceLevel; windowDays: number; reason: string | null; savedAt: string | null }
@@ -112,7 +112,7 @@ export const reorderWire = { fail, obj, str, maybeStr, bool, instant, maybeInsta
 const rowKeys = ['target_key', 'root_id', 'size_id', 'model_id', 'product_id', 'sku', 'product_name', 'size_code', 'free_pcs', 'sales_pcs', 'counted_days',
   'sale_days', 'daily_mean', 'daily_sd', 'lead_days', 'lead_basis', 'lead_lots', 'lead_groups', 'buffer_mode', 'buffer_days', 'z', 'safety_pcs', 'formula_point',
   'manual_point', 'manual_revision', 'point', 'basis', 'reason', 'wip_pcs', 'wip_status', 'wip_reason', 'state', 'changed_at'] as const
-const reasons = ['NO_POSTED_SALES_IN_WINDOW', 'FEWER_THAN_14_COUNTED_DAYS', 'NO_LEAD_TIME'] as const
+const reasons = ['NO_POSTED_SALES_IN_WINDOW', 'FEWER_THAN_14_COUNTED_DAYS', 'NO_LEAD_TIME', 'PROFILE_MINIMUM_NOT_MET'] as const
 function row(v: unknown, list: boolean): ReorderRow {
   const what = 'barang', o = obj(v, what)
   keys(o, list ? [...rowKeys, 'wip_read_at'] : rowKeys, what)
@@ -136,7 +136,7 @@ function row(v: unknown, list: boolean): ReorderRow {
     || (r.manualPoint !== null) !== (r.basis === 'MANUAL') || (r.manualPoint !== null && r.manualRevision === null)) fail('titik pesan ulang')
   // compute(): the reason says why there is no formula basis, and only then.
   if (pointed ? r.reason !== null : r.basis === 'NO_SALES' ? r.reason !== 'NO_POSTED_SALES_IN_WINDOW'
-    : r.reason !== 'FEWER_THAN_14_COUNTED_DAYS' && r.reason !== 'NO_LEAD_TIME') fail('alasan')
+    : r.reason !== 'FEWER_THAN_14_COUNTED_DAYS' && r.reason !== 'NO_LEAD_TIME' && r.reason !== 'PROFILE_MINIMUM_NOT_MET') fail('alasan')
   // In production: a number exactly when COMPLETE; any other status says why.
   if ((r.wipStatus === 'COMPLETE') !== (r.wipPcs !== null) || (r.wipStatus === 'COMPLETE') !== (r.wipReason === null)) fail('sedang diproduksi')
   if ((r.state === 'NO_POINT') !== (r.point === null || r.point <= 0)) fail('status')
@@ -296,6 +296,7 @@ export function reorderChip(r: ReorderRow, windowDays: number): ReorderChip {
 /** Why the formula has no number yet, with what to fill in (best practice D18); null when it has one. */
 export function reorderReasonText(r: ReorderRow): string | null {
   if (r.reason === 'FEWER_THAN_14_COUNTED_DAYS') return `Belum cukup data: baru ${r.countedDays} hari tercatat, perlu ${MIN_COUNTED_DAYS}.`
+  if (r.reason === 'PROFILE_MINIMUM_NOT_MET') return 'Riwayat belum memenuhi minimal hari di profil perencanaan. Periksa aturan target produk ini.'
   if (r.reason === 'NO_LEAD_TIME') return 'Belum cukup data: lama produksi belum ada, karena belum ada 3 kali produksi model ini. Isi lama produksi di profil perencanaan '
     + '(tombol "Data permintaan & stok" di atas, lalu "Atur target", kolom "Waktu proses pilihan") atau isi angka manual.'
   return null
@@ -319,12 +320,15 @@ export function reorderWipNote(r: ReorderRow): string | null {
 }
 /** The formula of one item, one line per step, in plain words. */
 export function reorderFormulaLines(r: ReorderRow, windowDays: number, level: ServiceLevel): string[] {
+  // Explicit per-product statistical profiles may differ from the general setting.
+  // These are the server's three fixed z labels, not a second calculation.
+  const effectiveLevel:ServiceLevel=({'1.2816':'0.90','1.6449':'0.95','2.3263':'0.99'}as Record<string,ServiceLevel>)[r.z]??level
   const lead = r.leadDays === null ? 'Lama produksi: belum ada.'
     : `Lama produksi: ${formatReorderUpTo2(r.leadDays)} hari (${r.leadBasis === 'MEASURED'
       ? `diukur dari ${formatReorderWhole(r.leadLots ?? 0)} lot dari ${formatReorderWhole(r.leadGroups ?? 0)} potongan` : 'dari profil perencanaan'}).`
   const safety = r.safetyPcs === null ? 'Cadangan: belum bisa dihitung.'
     : r.bufferMode === 'DAYS' ? `Cadangan: rata-rata × ${formatReorderUpTo2(r.bufferDays ?? '0')} hari = ${formatReorderUpTo2(r.safetyPcs)} pcs (cadangan hari dari profil perencanaan).`
-    : `Cadangan: ${formatReorderQty(r.z)} × naik-turun × √lama produksi = ${formatReorderUpTo2(r.safetyPcs)} pcs (tingkat layanan ${servicePercent(level)}%).`
+    : `Cadangan: ${formatReorderQty(r.z)} × naik-turun × √lama produksi = ${formatReorderUpTo2(r.safetyPcs)} pcs (tingkat layanan ${servicePercent(effectiveLevel)}%).`
   return [
     `Rata-rata jual per hari: ${r.dailyMean === null ? 'belum ada' : `${formatReorderTwo(r.dailyMean)} pcs`}.`,
     `Naik-turun penjualan per hari: ${r.dailySd === null ? 'belum ada' : `${formatReorderTwo(r.dailySd)} pcs`}.`,

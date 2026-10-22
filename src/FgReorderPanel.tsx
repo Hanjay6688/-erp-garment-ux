@@ -147,7 +147,7 @@ export default function FgReorderPanel() {
         <div className="eyebrow">GUDANG · BARANG JADI · PENGINGAT STOK</div>
         <h2>Titik pesan ulang (safety stock)</h2>
         <p>Titik pesan ulang = rata-rata jual per hari × lama produksi + cadangan. Dihitung dari penjualan yang sudah diposting {formatReorderWhole(windowDays)} hari
-          terakhir (hari stok kosong tidak dihitung) dengan tingkat layanan {servicePercent(level)}%. Kalau stok bebas ditambah yang sedang diproduksi sudah sama atau
+          terakhir (hari stok kosong tidak dihitung) dengan tingkat layanan {servicePercent(level)}%. Ini aturan umum; pilihan cadangan dan tingkat layanan khusus produk mengikuti profil perencanaan. Kalau stok bebas ditambah yang sedang diproduksi sudah sama atau
           di bawah angka ini, muncul pengingat "Stok barang jadi menipis" di Reminder › Pengingat sistem, dan diteruskan ke WhatsApp Bos bila Sambungan WhatsApp menyala.</p>
         {data ? <p className="cfr-run">{run ? <>Dihitung {formatCp6WibDateTime(run.computedAt)} (penjualan {formatWaDay(run.windowFrom)} sampai {formatWaDay(run.windowThrough)}).</>
           : <>Belum pernah dihitung. Server menghitungnya tiap menit sesudah pengingat WhatsApp diatur (Owner menyimpan pengaturan di Reminder › Sambungan WhatsApp

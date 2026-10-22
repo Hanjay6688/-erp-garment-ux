@@ -45,3 +45,28 @@ Rincian target bukan izin memulai produksi. Keuangan/HPP, data Enteng dan branch
 
 Acuan modul ROP yang sudah ada: Chris Caplice, MIT ESD.260, Inventory Management: Probabilistic Demand, slide5–7/9/13,
 https://ocw.mit.edu/courses/esd-260j-logistics-systems-fall-2006/resources/lect11/ .
+
+
+## Pilihan cadangan statistik sudah tersambung (23 Okt WIB)
+
+Form profil menyediakan cadangan hari atau variasi permintaan; tingkat layanan statistik dipilih eksplisit
+90/95/99%, tanpa angka aktif bawaan dari penulis. Mode/statistik tersimpan bersama UUID sebelum kirim dan
+tidak berubah saat balasan hilang atau sumber baru dimuat. Kedua mode tidak dijumlahkan. Pilihan ini memakai
+konfigurasi profil yang sama pada target dan ROP; Z/penjelasan ROP menyebut layanan efektif produk, walaupun
+pengaturan umum berbeda. Cadangan statistik memakai stddev_samp hari AVAILABLE, kernel tetap meminta14 hari.
+
+Lima kelompok SQL aktual (ERP/history/identity adapter) lulus: direkt/bertahap sama, pembanding Decimal80digit
+untuk14hari bergantian0/10 menghasilkan ROP30 dan target77, sedangkan DAYS2 menghasilkan ROP25/target60.
+Profil95% atas pengaturan umum90% terbukti pada compute ROP sebenarnya;6 penolakan mode/duplikasi cadangan,
+UUID/body berubah, kurang hari dan hasil legacy penuh juga diperiksa.108 uji klien/DOM lulus, TypeScript/CSS
+dan gerbang sumber beku lulus. Kegagalan pertama tetap disimpan. **Ini belum Native/ujung rantai/pemulihan.**
+
+Tahap di scripts/cp7_target_policy_stage mempunyai4 body/invers saja, tanpa objek/privilege baru. A memasang
+di atas tahap produksi B. Kontrak dan hash di STATISTICAL_CONTRACT.md/MANIFEST.json; bukti statistical-local.json
+dan statistical-client.json. Pilihan statistik tidak menutup gap sumber/lead dan kredit WIP pada paragraf
+sisa di atas. Native286 a753ebc2 terpisah, tidak mencakup perubahan statistik.
+
+Kontrol tambahan: minimum profil20 hari atas14 hari tersedia membuat ROP belum diketahui, dengan
+alasan minimal profil belum terpenuhi; tidak diganti0 atau salah disebut kekurangan14 hari.
+Fixture baris compute sebenarnya diuji oleh parser dan pesan klien. Cadangan DAYS eksplisit
+memerlukan angka hari (0 sah); konfigurasi lama yang null tetap dipertahankan.

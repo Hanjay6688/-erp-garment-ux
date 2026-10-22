@@ -194,3 +194,20 @@ API tahap, delta1schema/1reader/2body, invers dan batas bukti di ow12b/README.md
 memakai penjaga setelah-pakai global (capture dapat bertahan setelah job dipurge). Enam gap registry
 sebelumnya tetap permintaan A; tidak ada pasangan RPC baru dari caller ini. Kontrak OW12a di A16bf8e56
 sama dengan b91a60b. Native286 pengganti4eaf6bce/run39865429494 sedang berjalan secara terpisah.
+
+
+## 09 — OW10 pilihan cadangan profil (B,23 Okt WIB)
+
+Kontrak sebelum caller di ow10/STATISTICAL_CONTRACT.md. Tahap cp7_target_policy_stage mengganti tepat4
+badan setelah cp7_production_stage: profile.apply, baseline.build, staged.baseline_rows, stock_formula.compute.
+Tidak ada objek/kolom/grant/endpoint baru. Payload profil lama dipertahankan; pasangan buffer_mode/service_level
+baru dipilih eksplisit. Cadangan statistik mengambil total/jumlah hari/simpangan dari hari AVAILABLE yang sama,
+memakai kernel target-unified-2, tidak ditambah cadangan hari. ROP menghormati mode/layanan eksplisit profil
+dan menampilkan layanan efektif per baris. Profil lama memakai perilaku lama. Hasil langsung statistik v2;
+v1 tetap dibaca.108 uji klien/DOM +5 kelompok SQL aktual dengan adapter terkontrol lulus; bukan Native.
+A memasang tahap/invers/admission22 di atas produksi B dengan global use guard; rollback lokal menolak
+profil yang sudah memakai kunci baru. B tidak mengubah dasar beku atau pemasang A.
+
+OW10 masih OPEN: periode/sumber permintaan serta lead terukur/asumsi belum seragam; WIP mentah per-model
+pada pengingat masih harus diganti suplai relevan dari satu alokasi global. Tidak mengklaim itu beres dari
+uji kernel/opsi statistik. Native286 yang berjalan a753ebc2/run39868830130 tidak memuat tahap statistik ini.

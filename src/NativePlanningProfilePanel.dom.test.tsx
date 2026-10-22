@@ -16,6 +16,34 @@ beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});client
 afterEach(async()=>{await act(async()=>root.unmount());container.remove();localStorage.clear();vi.restoreAllMocks()})
 async function render(query=planningQuery){await act(async()=>root.render(<NativePlanningProfilePanel product={product} query={query} onSourceReadStart={start} onSourceReadEnd={end} onClose={close}/>))}
 async function click(label:string){const b=[...container.querySelectorAll('button')].find(b=>b.textContent===label)!;await act(async()=>b.click())}
+async function choose(label:string,value:string){const s=container.querySelector<HTMLSelectElement>(`[aria-label="${label}"]`)!;expect(s).toBeTruthy();await act(async()=>{s.value=value;s.dispatchEvent(new Event('change',{bubbles:true}))})}
+it('saves one explicit variation buffer and recovers the same policy/UUID after response loss despite a newer profile',async()=>{
+ const own=profileWire(true)as any;Object.assign(own.rows[0].config,{mean_mode:'OWN_AVAILABLE_HISTORY',daily_pcs:null,buffer_days:'2'})
+ let writes=0,newer=false
+ client.rpc.mockImplementation(async(name:string,args:any)=>{
+  if(name==='erp_cp7_get_planning_profiles_v1'){const w=structuredClone(own);if(newer)w.rows[0].revision='2';return{data:w,error:null}}
+  writes++;return writes===1?{data:null,error:Error('reply lost')}:{data:{...outcome(args.p_request),revision:'2'},error:null}
+ })
+ await render();await choose('Cara menghitung cadangan','STATISTICAL');await choose('Tingkat layanan target','0.95');await fill('Alasan aturan target','Pakai variasi yang diperiksa')
+ expect(container.querySelector('[aria-label="Cadangan waktu (hari kalender)"]')).toBeNull();await click('Simpan aturan target')
+ const sent=structuredClone(client.rpc.mock.calls.find(([name])=>name==='erp_cp7_save_planning_profile_v1')![1])
+ expect(sent.p_payload.config).toMatchObject({buffer_mode:'STATISTICAL',service_level:'0.95',buffer_days:null,mean_mode:'OWN_AVAILABLE_HISTORY'})
+ expect(readPlanningRequest(scope).pending?.payload.config).toEqual(sent.p_payload.config)
+ newer=true;await act(async()=>root.unmount());root=createRoot(container);await render();await click('Ulangi simpan aturan yang sama')
+ expect(client.rpc.mock.calls.filter(([name])=>name==='erp_cp7_save_planning_profile_v1')[1][1]).toEqual(sent)
+ expect(readPlanningRequest(scope).pending).toBeNull();expect(container.textContent).toContain('Aturan tersimpan')
+})
+it('does not invent a service target and keeps a dirty statistical choice until the user adopts the newer profile',async()=>{
+ const own=profileWire(true)as any;Object.assign(own.rows[0].config,{mean_mode:'OWN_AVAILABLE_HISTORY',daily_pcs:null})
+ client.rpc.mockResolvedValue({data:own,error:null});await render();await choose('Cara menghitung cadangan','STATISTICAL')
+ expect(container.querySelector<HTMLSelectElement>('[aria-label="Tingkat layanan target"]')!.value).toBe('')
+ await choose('Tingkat layanan target','0.95')
+ const next=structuredClone(own);next.rows[0].revision='2';Object.assign(next.rows[0].config,{buffer_mode:'STATISTICAL',service_level:'0.99',buffer_days:null})
+ client.rpc.mockResolvedValue({data:next,error:null});await click('Muat aturan terbaru')
+ expect(container.querySelector<HTMLSelectElement>('[aria-label="Tingkat layanan target"]')!.value).toBe('0.95')
+ expect(container.textContent).toContain('Isianmu masih ada');await click('Gunakan aturan terbaru')
+ expect(container.querySelector<HTMLSelectElement>('[aria-label="Tingkat layanan target"]')!.value).toBe('0.99')
+})
 it('shows separate authoritative trigger, horizon demand and one buffer without treating target as permission to start production',async()=>{
  client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>({data:name==='erp_cp7_get_planning_profiles_v1'?profileWire(true):unifiedBaselineWire(args.p_request),error:null}))
  await render();await click('Hitung target dari ERP')

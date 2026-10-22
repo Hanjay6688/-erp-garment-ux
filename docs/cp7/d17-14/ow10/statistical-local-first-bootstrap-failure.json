@@ -1,0 +1,9 @@
+{
+  "classification": "LOCAL_FIXTURE_BOOT_FAILURE",
+  "tested_cases": 0,
+  "compiled_product_bodies": 4,
+  "error": "42601 cannot insert multiple commands into a prepared statement",
+  "fix": "Split two parameterized fixture inserts; no product SQL changed.",
+  "first_log_sha256": "54a0a78b71ae3478fe51db920e4f37180a5ee4a449b36316bb135acde50bb7e5",
+  "Native_evidence": false
+}
