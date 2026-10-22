@@ -1,0 +1,23 @@
+{
+  "status": "INCOMPLETE",
+  "candidate_commit": "86bfc11f48d9915cfa3bb23115aa679430aa854e",
+  "run_id": 39772361098,
+  "job_id": 119802781658,
+  "observed_case_count": 0,
+  "error": "permission denied for schema cp7_cutting_correction",
+  "first_traceback_excerpt": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_contractor_correction/native_probe.py\", line 72, in run\n    STATE=product.install(cur)\n          ^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_contractor_correction/composition.py\", line 122, in install\n    cur.execute('alter table '+REVISION_TABLE+' add constraint '+REVISION_KEY+' '+NEW_UNIQUE)\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied for schema cp7_cutting_correction\n",
+  "classification": "INSTALLER_PRIVATE_SCHEMA_LOOKUP_REFUSED_BEFORE_CASES",
+  "raw_report": {
+    "bytes": 5187,
+    "sha256": "87446a0384c5f83bf37d1430386f6a05a056aeaa06404b4ace9389abbf9deae3"
+  },
+  "artifact": {
+    "id": 12423750391,
+    "bytes": 1621655,
+    "sha256": "130810b6d1dcfcb4492a9aba3d3725bf82a30a2821f9819947af3087bf2e848a"
+  },
+  "cases_not_reclassified_PASS": true,
+  "broader_schema_grants_added": false,
+  "OW05_complete": false,
+  "production_go": false
+}

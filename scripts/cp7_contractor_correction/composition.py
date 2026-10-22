@@ -110,8 +110,10 @@ def install(cur):
         previous = predecessor.install(cur)
         proof = predecessor.verify(cur, previous)
         before = predecessor.catalog._catalog_rows(cur)
-        originals = {sig:cur.execute('select pg_get_functiondef(%s::regprocedure)',(sig,)).fetchone()[0]
-                     for sig in (NATIVE,REVISION)}
+        # The verified capture already contains the exact definitions under
+        # catalog authority. The delegated installer has no runtime USAGE on
+        # the old private schema; never grant that merely to resolve regprocedure.
+        originals = {sig:before['functions'][sig][0] for sig in (NATIVE,REVISION)}
         definitions = {NATIVE:patched(originals[NATIVE]),REVISION:patched_revision(originals[REVISION])}
         if before['constraints'][REVISION_TABLE+':'+REVISION_KEY][-1] != OLD_UNIQUE:
             raise ValueError('OW05_RATE_REVISION_UNIQUENESS_SOURCE_CHANGED')
