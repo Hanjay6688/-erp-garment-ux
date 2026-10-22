@@ -140,5 +140,8 @@ language sql stable security definer set search_path=''as $$
  from(select cp7_fg_correction_source.qc_blockers_v1(p_qc)b)s
 $$;
 
+-- The owner matters (both run as SECURITY DEFINER inside postgres-owned Native functions): state it, whoever installs.
+alter function cp7_fg_correction_source.qc_blockers_v1(uuid)owner to postgres;
+alter function cp7_fg_correction_source.qc_blocker_text_v1(uuid)owner to postgres;
 revoke all on function cp7_fg_correction_source.qc_blockers_v1(uuid),cp7_fg_correction_source.qc_blocker_text_v1(uuid)
  from public,anon,authenticated,service_role,cp7_capture;
