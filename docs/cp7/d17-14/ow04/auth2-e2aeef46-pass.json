@@ -1,0 +1,136 @@
+{
+  "classification": "COMPACT_ACTUAL_DISTINCT_AUTH2_RECEIPT_NOT_RAW_LOG",
+  "status": "PASS",
+  "qualification_commit": "e2aeef462d1f393222bda303cddc763a35c3ca97",
+  "product_commit": "36a6b880d789452dbe4096fd4c401430bba1a5cb",
+  "run_id": 39761252503,
+  "job_id": 119765697767,
+  "counts": {
+    "PASS": 2
+  },
+  "case_results": {
+    "OW04_REAL_AUTH_TWO_USERS_APPLY80_STALE_ONE_EFFECT": {
+      "status": "PASS",
+      "two_distinct_real_Auth_users": true,
+      "actual_PostgREST_commands": true,
+      "global_writer_lock_released_before_results": true,
+      "one_request_operation_consumption_and_journal_only": true,
+      "loser_error": "CP7_CREDIT_CONSUMER_REVIEW_CHANGED",
+      "winner_replay_zero_effect": true,
+      "loser_replay_refused_without_effect": true,
+      "original_payment_stock_HPP_retained": true,
+      "expected": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "80.00",
+        "available": "120.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "80.00",
+        "target_AR": "420.00",
+        "cash": "1000.00"
+      },
+      "observed": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "80.00",
+        "available": "120.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "80.00",
+        "target_AR": "420.00",
+        "cash": "1000.00"
+      },
+      "product_timeouts_unchanged": true,
+      "both_backends_actually_observed_waiting": true
+    },
+    "OW04_REAL_AUTH_TWO_USERS_REFUND80_STALE_ONE_EFFECT": {
+      "status": "PASS",
+      "two_distinct_real_Auth_users": true,
+      "actual_PostgREST_commands": true,
+      "global_writer_lock_released_before_results": true,
+      "one_request_operation_consumption_and_journal_only": true,
+      "loser_error": "CP7_CREDIT_CONSUMER_REVIEW_CHANGED",
+      "winner_replay_zero_effect": true,
+      "loser_replay_refused_without_effect": true,
+      "original_payment_stock_HPP_retained": true,
+      "expected": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "80.00",
+        "available": "120.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "0.00",
+        "target_AR": "500.00",
+        "cash": "920.00"
+      },
+      "observed": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "80.00",
+        "available": "120.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "0.00",
+        "target_AR": "500.00",
+        "cash": "920.00"
+      },
+      "product_timeouts_unchanged": true,
+      "both_backends_actually_observed_waiting": true
+    }
+  },
+  "source_declaration": {
+    "actual_Native32_same_source": {
+      "candidate": "8c437dbe0d6e62e246b2cf0cda75fb6c19330357",
+      "raw_sha256": "9a66b07743087e107e3d7d9298d9e517b786077f848cee79ffc326a8246c3a50",
+      "actual_counts": {
+        "PASS": 32
+      },
+      "financial_source_equal": true,
+      "run_id": 39734958661,
+      "job_id": 119678374447,
+      "Native32_actually_rerun_here": false
+    },
+    "retained_same_source_Auth18_browser9": {
+      "run_id": 39746622801,
+      "job_id": 119716563410,
+      "raw_sha256": "77e1847a2a2b445dadf275a3cba4f00caa72253bd75ce3e65767c3cc221df7b2",
+      "passed_HTTP_cases": 18,
+      "passed_browser_cases": 9,
+      "original_combined_status": "INCOMPLETE",
+      "old_two150_cases_not_reclassified": true
+    },
+    "frozen_product_commit": "36a6b880d789452dbe4096fd4c401430bba1a5cb",
+    "qualification_commit": "e2aeef462d1f393222bda303cddc763a35c3ca97"
+  },
+  "raw_report": {
+    "bytes": 268103,
+    "sha256": "1d69ad3dfb9392f640d22911d5780f2a6ecb39a048c9269f85c19384229fae81"
+  },
+  "artifact": {
+    "id": 12418641534,
+    "bytes": 1636211,
+    "sha256": "e3626414f79d1af762252fdcce12b8fe29c7a938a538c6c71f50ea495c5585e8"
+  },
+  "cleanup": {
+    "Auth_counts_restored": true,
+    "remaining_copy_databases": 0,
+    "session_leaks": false,
+    "complete_preuse_removal": true,
+    "cp6_restored": true,
+    "raw_public_equal": true,
+    "advisor_gate": true
+  },
+  "original_failed_cases_not_reclassified": true,
+  "first_failure_receipt": "auth2-51a416fe-first-failure.json",
+  "gold_money_and_product_budgets_unchanged": true,
+  "Native32_and_retained27_rerun_here": false,
+  "formal_CP7C_started": false,
+  "production_go": false,
+  "independent_audit": false
+}
