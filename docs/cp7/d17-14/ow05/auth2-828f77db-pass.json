@@ -1,0 +1,56 @@
+{
+  "classification": "COMPACT_ACTUAL_REAL_AUTH2_RECEIPT_NOT_RAW_LOG",
+  "status": "PASS",
+  "candidate_commit": "828f77dba02e5784e3fc3ca5f7cf3eaffa096cb2",
+  "product_commit": "48813d8bd685e960a6fb10070de8c0971d174753",
+  "run_id": 39776833947,
+  "job_id": 119817807315,
+  "counts": {
+    "PASS": 2
+  },
+  "case_results": {
+    "OW05_REAL_AUTH_UNDO_CORRECT_NEW_RATE_AND_NOTA24": {
+      "status": "PASS",
+      "real_Auth": true,
+      "actual_PostgREST_inverse_correction_repost_and_nota": true,
+      "old_mandor_payable": "0.00",
+      "new_mandor_payable": "24.00",
+      "new_nota_payroll": "24.00",
+      "correction_stock_HPP_unchanged": true,
+      "old_history_retained": true,
+      "winner_replay_zero_effect": true,
+      "fixture_master_data_created_in_browser": false,
+      "product_budgets_unchanged": true,
+      "production_go": false
+    },
+    "OW05_TWO_DISTINCT_AUTH_USERS_SAME_PO_ONE_EFFECT": {
+      "status": "PASS",
+      "two_distinct_real_Auth_users": true,
+      "one_success_one_stale_review": true,
+      "one_history_request_and_posted_pickup_only": true,
+      "winner_replay_zero_effect": true,
+      "loser_replay_zero_effect": true,
+      "stock_HPP_and_old_payments_unchanged": true,
+      "product_budgets_unchanged": true,
+      "production_go": false
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "cleanup_failures": false,
+  "auth_counts_restored": true,
+  "database_remaining": 0,
+  "original_report": {
+    "name": "CP7_OW05_REAL_AUTH2.json",
+    "bytes": 259134,
+    "sha256": "0fc7b91c5a0eddb90e69ae2fbf783b03b2a2060d061e0c9ee6992e7acda9b6ac"
+  },
+  "artifact": {
+    "id": 12425541629,
+    "zip_bytes": 1632198,
+    "zip_sha256": "1d0c79ceb87fac36ab79dba0d9246b3690c37e4103823359963d1e5faadfc47e"
+  },
+  "OW05_complete": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

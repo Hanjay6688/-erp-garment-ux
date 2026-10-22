@@ -1,0 +1,24 @@
+{
+  "contract_version": "ow05.real-browser2-source.v1",
+  "case_ids": [
+    "OW05_DESKTOP_NATIVE_UNDO_CORRECT_REPOST_NEW24",
+    "OW05_MOBILE390_NATIVE_UNDO_CORRECT_REPOST_NEW24"
+  ],
+  "files": {
+    "scripts/ow05-browser-qualification/fixture.py": "4bbcdd9f644d5774bbb613a78444e1792b67f1b51d89c2c02960695469f1e7ae",
+    "scripts/ow05-browser-qualification/browser.mjs": "e27ca50e3be678acafed2e8146bfdad974433f4aeb833f6f614b2c7361d0e537",
+    "scripts/ow05-browser-qualification/probe.py": "08288b062a1b40c79dbc87837192bd3c112a18bf4b9528f2a39d0af0d3efd6e1",
+    "scripts/ow04-payment-current-qualification/copy_authority.py": "cfdc3b899e335dd13a9456242ed5158b718ac5c56d9b1ebf06c4571eda2cc7a2",
+    ".github/workflows/cp7-ow05-browser.yml": "484cf847ea077daea920f95f2872e29233ebd296f5a8b1bf029791e124aba3e9"
+  },
+  "fixture_creation": "Native SQL on cp6_auditor_browser only",
+  "journey_writes": "actual UI -> actual GoTrue/PostgREST",
+  "money_gold": {
+    "old_mandor_payable": "0.00",
+    "new_mandor_payable": "24.00",
+    "WIP_increment": "24.00"
+  },
+  "product_budgets_unchanged": true,
+  "OW05_complete": false,
+  "production_go": false
+}
