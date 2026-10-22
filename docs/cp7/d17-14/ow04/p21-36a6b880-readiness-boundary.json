@@ -1,0 +1,228 @@
+{
+  "status": "INCOMPLETE",
+  "candidate": "36a6b880d789452dbe4096fd4c401430bba1a5cb",
+  "run_id": 39746622985,
+  "job_id": 119716564121,
+  "error": "E01_REPORT_NOT_READY",
+  "p21_adapter_steps": [
+    {
+      "step": "CURRENT_INSTALL_1",
+      "status": "PASS",
+      "all22_catalog_groups_verified": true
+    },
+    {
+      "step": "EXACT_PREUSE_ROLLBACK",
+      "status": "PASS",
+      "complete_removal": {
+        "status": "COMPLETE_PAYMENT_SOURCE_PREUSE_REMOVED",
+        "payment": {
+          "status": "PAYMENT_SOURCE_UNUSED_STAGE_EXACTLY_REMOVED",
+          "financial_facts_deleted": false
+        },
+        "predecessor_restored_verification": {
+          "classification": "SOURCE_VALIDATED_COMPLETE_COMPOSED_CATALOG_NOT_RAW_LEGACY_PASS",
+          "catalog_groups": 22,
+          "catalog_members": 27607,
+          "exact_catalog_sha256": "f48624c4aaeb2bf21d8323c7d82656e8e7a83bb69ffe11cc8019d47a1c7d3b62",
+          "consumer": {
+            "status": "VERIFIED_SOURCE_AND_METADATA_NOT_NATIVE_EXECUTION",
+            "new_function_count": 48,
+            "Native_cases_added": 0,
+            "production_go": false
+          },
+          "predecessor_verified_before_source_derived_extension": true,
+          "legacy_definitions_projected": false,
+          "production_go": false,
+          "feature_complete": false,
+          "independent_acceptance": false
+        },
+        "predecessor_removed": {
+          "status": "COMPLETE_COMPOSED_PREUSE_REMOVED",
+          "consumer": {
+            "status": "EXACT_PREUSE_RESTORE",
+            "financial_facts_deleted": false,
+            "production_go": false
+          },
+          "predecessor_restored_verification": {
+            "stage": "FULL_CP7_WITH_OW04",
+            "credit": {
+              "classification": "INTERNAL_WRITER_NATIVE_CANDIDATE_VERIFICATION",
+              "native": {
+                "contract_version": "ow04.native-install-verification.v1",
+                "plan_sha256": "c33c475ff291e52375325fa696d9f51587436cfe83695195ec3e0f0617b1d257",
+                "functions_verified": 21,
+                "original_poster_unchanged": true,
+                "immutable_helper_sources_unchanged": true
+              },
+              "legacy_composition": {
+                "classification": "COMPOSED_LEGACY_VERIFICATION_NOT_RAW_LEGACY_PASS",
+                "live_proof": {
+                  "contract_version": "ow04.native-install-verification.v1",
+                  "plan_sha256": "c33c475ff291e52375325fa696d9f51587436cfe83695195ec3e0f0617b1d257",
+                  "functions_verified": 21,
+                  "original_poster_unchanged": true,
+                  "immutable_helper_sources_unchanged": true
+                },
+                "direct_legacy_first_failures": [
+                  {
+                    "verifier": "scripts/cp7_note_correction_verify.py",
+                    "direct_legacy_assertion": "(('NOTE_NATIVE_DEFINITION_CHANGED', 'erp.reverse_journal(uuid,text)'),)"
+                  },
+                  {
+                    "verifier": "scripts/cp7_sales_return_correction_bundle.py",
+                    "direct_legacy_assertion": "(('cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)', 'Undeclared private Native delta'),)"
+                  }
+                ],
+                "projected_definition_reads": [
+                  [
+                    "erp.reverse_journal(uuid,text)",
+                    "erp.reverse_sale(uuid,text)",
+                    "erp.reverse_sales_return(uuid,text)",
+                    "erp.reverse_sales_payment(uuid,text)"
+                  ],
+                  [
+                    "cp7_sales_return_correction.reverse_fg_movement(uuid,text)",
+                    "cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)",
+                    "erp.reverse_journal(uuid,text)",
+                    "cp7_sales_return_correction.reverse_journal(uuid,text)",
+                    "erp.reverse_sales_return(uuid,text)",
+                    "cp7_sales_return_correction.reverse_sales_return(uuid,text)"
+                  ]
+                ],
+                "legacy_results": [
+                  {
+                    "owning_note_source_sha256": "e76810c17c1f6e7f03539dcf6d6897965672d1f666bfcc2207f2ebe8739268a4",
+                    "accepted_six_native_helpers_unchanged": true,
+                    "exact_owner_report_read_delta": true,
+                    "native_owner_report_original_sha256": "f82a4589d05a8282ead7491d67aa6107fbd763a37690bd65276f740d7885e303",
+                    "native_owner_report_overlay_sha256": "1c751785b8a64b13b6d10d5023938055db255ba9c1fb09f4ffceaa21197a9dd1",
+                    "private_helpers_not_callable": true,
+                    "original_financial_and_stock_rules_retained": true,
+                    "production_go": false
+                  },
+                  {
+                    "private_return_atomic_Native_inverse_post": true,
+                    "all4_Native_helpers_unchanged": true,
+                    "exact_private_derivation": true,
+                    "source_links_immutable": true,
+                    "no_app_ERP_DML": true
+                  }
+                ],
+                "immutable_baselines_rewritten": false
+              },
+              "context_inventory": {
+                "contract_version": "ow04.typed-context-census-verified.v1",
+                "contexts": 30,
+                "catalog_sha256": "0a51e319bacba8779e2db8338db5a47a392ca7f14b6121e1226f47b3c84dd03b",
+                "exact_new_schema_exclusions": [
+                  "cp7_credit",
+                  "ow04_ordinal_wrapper",
+                  "ow04_source_proposal",
+                  "ow04_pure_kernel"
+                ],
+                "plan_reader": {
+                  "signature": "cp7_credit._has_ambient_plan_apply_scope()",
+                  "owner": "cp7_plan_writer",
+                  "predicate_sha256": "db420f714d536a9d06c24b58cc751e0f3b5fcfd06aa834e14b043f9663ca92a2",
+                  "private_acl_exact": true
+                }
+              },
+              "private_inventory_sha256": "bc971c9815f1ba4c7a25ae87f5a907bf7973aa59dbc216afe6e9c5c906db3f9d",
+              "native_empty": {
+                "classification": "SOURCE_AND_METADATA_VERIFICATION_NOT_NATIVE_EXECUTION",
+                "overlays": 14,
+                "relations": 7,
+                "production_go": false
+              },
+              "source_triggers": {
+                "phase": "OW04_COMPOSED_NATIVE_EMPTY",
+                "ordinary_attachments": 25,
+                "ordinary_functions": 18,
+                "internal_attachments": 250,
+                "foreign_keys": 119,
+                "capture_sha256": "e63bbbb491c170a8c780fff56c7a12ffb2c8620ba1191edfe43fb9ab7937936d",
+                "classification": "SOURCE_AND_METADATA_ONLY_NOT_NATIVE_EXECUTION"
+              },
+              "production_go": false
+            },
+            "alerts": {
+              "stage": "WA_SYSTEM_REMINDERS_AND_WHATSAPP_FORWARDING_BUILT_NOT_INSTALLED_NO_KEY_NO_SCHEDULE",
+              "source_sha256": "e7701eaada592cfd74a8555cf4cdcb7df8d180448213d3bbf5698c3bfa025127",
+              "full_family_acceptance": false,
+              "real_message_sent": false
+            },
+            "production_go": false,
+            "feature_complete": false,
+            "independent_acceptance": false
+          },
+          "used_guard_before_any_uninstall": true,
+          "financial_facts_deleted": false,
+          "production_go": false
+        },
+        "used_guard_before_any_uninstall": true,
+        "financial_facts_deleted": false,
+        "production_go": false,
+        "p21_original_all22_catalog_groups_equal": true,
+        "catalog_comparison_not_normalized": true
+      },
+      "all_catalog_data_and_sequences_equal_preinstall": true
+    },
+    {
+      "step": "CURRENT_REINSTALL",
+      "status": "PASS",
+      "all22_portable_catalog_groups_equal": true,
+      "both_exact_local_OID_censuses_verified": true,
+      "seeded_private_counts_equal": true
+    }
+  ],
+  "p21_preuse_catalog_comparison": {
+    "all22_groups_equal": true,
+    "changed_members": {},
+    "before_sha256": "0990201e99f2c7ccd9c7a0575c3744263f61f3f79b5ce7e18417b958843e0a7a",
+    "after_sha256": "0990201e99f2c7ccd9c7a0575c3744263f61f3f79b5ce7e18417b958843e0a7a"
+  },
+  "p21_preuse_data_comparison": {
+    "equal": true,
+    "changed_tables": {}
+  },
+  "p21_reinstall_catalog_comparison": {
+    "equal": true,
+    "changed_members": {},
+    "first_sha256": "47d3bba3cd8b92ff6e4875b2ec4aa858efb069b91c49f24aef6289355a24cfce",
+    "second_sha256": "47d3bba3cd8b92ff6e4875b2ec4aa858efb069b91c49f24aef6289355a24cfce"
+  },
+  "required_restore_steps_executed": [],
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "first_failure_excerpt": "dump.load.real_workload -> bridge.prepare -> worksheet.journey -> production -> payroll_source -> ready_report: E01_REPORT_NOT_READY",
+  "known_legacy_report_checks": [
+    {
+      "code": "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH",
+      "count": 2
+    },
+    {
+      "code": "V2620H_CUSTOMER_AR_STATUS_MISMATCH",
+      "count": 3
+    },
+    {
+      "code": "V268_AR_GL_SUBLEDGER_MISMATCH",
+      "count": 1
+    }
+  ],
+  "financial_check_source": {
+    "current": "82e0f45d264507679d8a6bbf0915dea8752f9868cec3602ad3e8756bb15cb167",
+    "pre_scope": "e151310a11ca78fd4289a789131968fc9c1d1cdb5279cd780509315e66ede6ad"
+  },
+  "scope_decision": "Record old P-only financial readiness checks in existing OW-08 under owner criterion7. Preserve the original E01 READY assertions before creating OW04 credit; capture actual blocked legacy checks after credit and compare them exactly across full restore. No business detector or frozen six restore steps changed.",
+  "raw_report": {
+    "bytes": 230429,
+    "sha256": "7b144b4d6bd90b7334f9cab74b92b39faef5cca11704e664bb6130eeac0ba123"
+  },
+  "artifact": {
+    "id": 12412311444,
+    "bytes": 1633809,
+    "sha256": "6540e7c95927482d3947645d8bb1d59d1494980016bc2be9c1ee56a14137400b"
+  },
+  "production_go": false,
+  "formal_CP7C_started": false
+}

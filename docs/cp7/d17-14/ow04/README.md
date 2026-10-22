@@ -48,6 +48,13 @@ Writer hanya bekerja di `astra/d17-14-integrasi`; cabang lama dipertahankan.
   `python scripts/ow04-final-qualification/native_generations_probe.py`;
   P21 bawaan: `python scripts/cp7_p21_full_rehearsal_probe.py`.
 
+- Kode36a6b880: [14 vektor stok/HPP lulus](opening-hpp14-36a6b880-pass.json) dan [8 balapan SQL lulus](sql8-36a6b880-pass.json).
+  Keduanya membersihkan salinan dan memulihkan CP6/advisor. Uji HPP ini langsung Native dengan nilai uang retur nol;14 vektor asli dengan kredit bernilai berjalan terpisah.
+- [P21 berikutnya](p21-36a6b880-readiness-boundary.json) lulus pasang, copot dengan seluruh katalog/data sama, dan pasang ulang;
+  pembuat contoh E01 mengasumsikan laporan global READY setelah kredit OW04 telah dibuat. Pemeriksa laporan lama belum mengurangi/menambah kredit.
+  Batas ini masuk [OW-08](../ow08/README.md), sesuai syarat7 owner. Pembuat contoh E01 tetap diuji READY sebelum kredit;
+  tanda laporan sesudah kredit tetap dicatat dan wajib sama setelah restore. Belum ada klaim P21 lengkap lulus.
+
 ## Batas tersisa
 
 Kecepatan simpan belum mencapai2detik. Observasi terisolasi sumber8c adalah
@@ -55,6 +62,10 @@ koreksi12,00detik dan pemakaian kredit9,09detik; satu pemeriksaan lengkap
 terjadwal menggantikan10 pemanggilan berulang, sementara pemeriksaan lengkap
 lain tetap ada. Batas aplikasi8detik/8MB tetap. Pengukuran ini bukan uji
 kecepatan browser atau penerimaan skala pabrik OW-12.
+
+Pemeriksa kesiapan laporan lama masih menandai piutang yang sah sesudah kredit: perhitungannya memakai pembayaran P tanpa penyesuaian U-I.
+Akibatnya tanda kesiapan laporan tetap BLOCKED; perbaikan pembaca pemeriksa ini belum dikerjakan dan masuk OW-08 yang sudah terbuka.
+Uang/AR literal pada kasus Native tetap diperiksa terpisah; tidak ada klaim seluruh laporan READY.
 
 Adapter pembayaran masih dibatasi pada sumber/kelompok retur yang telah
 didukung: pemetaan kelompok baru, riwayat kredit masuk yang lebih luas,

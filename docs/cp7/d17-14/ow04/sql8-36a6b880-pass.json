@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "candidate": "36a6b880d789452dbe4096fd4c401430bba1a5cb",
+  "run_id": 39746622801,
+  "job_id": 119716563804,
+  "counts": {
+    "PASS": 8
+  },
+  "required_case_ids_pass": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "copy_catalog_admissions": [
+    {
+      "all22_groups_equal_original_install": true,
+      "exact_catalog_sha256": "c4f980483bb44358e9279105798cc5068937562db3a249209cb9900373b366b8"
+    },
+    {
+      "all22_groups_equal_original_install": true,
+      "exact_catalog_sha256": "c4f980483bb44358e9279105798cc5068937562db3a249209cb9900373b366b8"
+    },
+    {
+      "all22_groups_equal_original_install": true,
+      "exact_catalog_sha256": "c4f980483bb44358e9279105798cc5068937562db3a249209cb9900373b366b8"
+    },
+    {
+      "all22_groups_equal_original_install": true,
+      "exact_catalog_sha256": "c4f980483bb44358e9279105798cc5068937562db3a249209cb9900373b366b8"
+    },
+    {
+      "all22_groups_equal_original_install": true,
+      "exact_catalog_sha256": "c4f980483bb44358e9279105798cc5068937562db3a249209cb9900373b366b8"
+    },
+    {
+      "all22_groups_equal_original_install": true,
+      "exact_catalog_sha256": "c4f980483bb44358e9279105798cc5068937562db3a249209cb9900373b366b8"
+    },
+    {
+      "all22_groups_equal_original_install": true,
+      "exact_catalog_sha256": "c4f980483bb44358e9279105798cc5068937562db3a249209cb9900373b366b8"
+    },
+    {
+      "all22_groups_equal_original_install": true,
+      "exact_catalog_sha256": "c4f980483bb44358e9279105798cc5068937562db3a249209cb9900373b366b8"
+    }
+  ],
+  "scope": "SQL fixtures, not two distinct real Auth users; separate Auth20/browser9 still running.",
+  "raw_report": {
+    "bytes": 323287,
+    "sha256": "c3725cf5460e590b28f6e152935435c89017d8a13c1384bca369eb731f257418"
+  },
+  "artifact": {
+    "id": 12412001724,
+    "bytes": 1638589,
+    "sha256": "a6b1b03d45804f12b3a2d253c77db0410aebb3ac33c8e2a3b29a8e441b14f6e1"
+  },
+  "production_go": false,
+  "formal_CP7C_started": false
+}

@@ -110,7 +110,7 @@
   },
   "files": {
     ".github/workflows/cp7-ow04-final-p21-generations.yml": "3b88a82bd5a82bb3844d8544204d48ac9dfe8a463715b08db918908e3624658f",
-    "scripts/cp7_p21_current_ow04_rehearsal_probe.py": "a12ab8dabe7c5f8677201d53bb7126c4f008833b493fd8538ae5ff6174944a92",
+    "scripts/cp7_p21_current_ow04_rehearsal_probe.py": "2025a4cdec01b9870be3ee2927b00e81ca691721848952cca3e794caee8d3706",
     "scripts/cp7_p21_full_rehearsal_probe.py": "ad959c3ec9db6adcb1e50710b836af34c1951cd24f9896c90cbcdc86730942ee",
     "scripts/cp7_p21_ow04_adapter.py": "3b0a1caba3167070344f04bedc55ed1fa814acf879c1383a673b5a48aaa3e038",
     "scripts/ow04-final-qualification/EXPECTED_GENERATIONS.json": "8c7ef442fb93eeb3de1392408c4d764acc7b707e4957d713921ddd01ffc7574c",
@@ -124,7 +124,10 @@
     "scripts/ow04-final-qualification/http20_cases.py": "bf8a4f47a14f76a7e5e96ac3835e59529bacf884f78b3ceb66899ce358519e22",
     "scripts/ow04-final-qualification/http_browser_probe.py": "c09d075af0ebc7a1374864c3449474871d8a9c380cf912b7d936e4bc43d32463",
     "scripts/ow04-final-qualification/sql_races_probe.py": "cf101d38a71415bbce11c04c7402350e3221c8acded7a6412e7d2d1b48222587",
-    "scripts/ow04-final-qualification/opening_hpp_probe.py": "0952e8805cdf78650a9bd32460774d46306ca342baabdf204d3a8bb71dca098b"
+    "scripts/ow04-final-qualification/opening_hpp_probe.py": "0952e8805cdf78650a9bd32460774d46306ca342baabdf204d3a8bb71dca098b",
+    ".github/workflows/cp7-ow04-opening-credit-hpp.yml": "5e32b0360e096ca1d6e405ece980fa9ed0eb7051c50ed31007a19a3256a4a878",
+    "scripts/ow04-opening-credit-hpp-qualification/probe.py": "89b14f3f3f49bb0e40d9e0214643d75a09531e8e1bc1223569ee147deeb199a1",
+    "scripts/ow04-opening-credit-hpp-qualification/SOURCE.json": "4b77ba95aa04324b612633574d1e503109a7c5569bd2c38089b9b13adcadffc2"
   },
   "unchanged_expectations": {
     "scripts/ow04-consumer-closure-qualification/EXPECTED.json": "29baa7ae2ebf4a72e798614ec71ddebcd37176935e43770771826179722d0e1c",

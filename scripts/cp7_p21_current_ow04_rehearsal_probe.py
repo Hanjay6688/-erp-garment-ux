@@ -31,6 +31,13 @@ PRE_DUMP='/tmp/p21_current_ow04_pre.dump'
 USED_DUMP='/tmp/p21_current_ow04_used.dump'
 LEGACY_USE={}
 P21_STEPS=('CURRENT_INSTALL_1','EXACT_PREUSE_ROLLBACK','CURRENT_REINSTALL','COMMITTED_SUPPLIER_AND_STAGED_ANALYSIS')
+LEGACY_AR_CHECKS=('V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH',
+    'V2620H_CUSTOMER_AR_STATUS_MISMATCH','V268_AR_GL_SUBLEDGER_MISMATCH')
+
+
+def legacy_ar_checks(cur):
+    return cur.execute('select check_name,severity,issue_count from erp.run_v268_financial_report_checks() '
+        'where check_name=any(%s::text[])order by check_name',(list(LEGACY_AR_CHECKS),)).fetchall()
 
 
 def admitted():
@@ -93,19 +100,40 @@ def p21_install_cycle(cur,report):
     return second
 
 
-def legacy_use(cur,today,report):
+def legacy_prepare(cur,today,report):
     # Preserve the two real use examples of the earlier full P21 rehearsal.
     # They use Native fixtures; this is not an Auth/browser or speed claim.
     fixture=dump.create.funded(cur,today)
     paid=dump.create.command(cur,dump.create.payload(cur,fixture,'100.00'))
     assert paid['status']=='POSTED'and paid['remaining_after']=='900.00',paid
+    # This unchanged E01 builder asserts global report READY at each of its
+    # Native production steps. Run those baseline assertions before adding
+    # OW04 credit. Its legacy readiness detector still omits U-I; that known
+    # report-adapter boundary belongs to the already-open financial checks
+    # item. Preserve and compare its blocked result after actual credit use.
     dump.load.real_workload(cur,today)
+    checks=legacy_ar_checks(cur)
+    assert checks==[(name,'CRITICAL',0)for name in LEGACY_AR_CHECKS],checks
+    LEGACY_USE.update(payment_id=paid['payment_id'],remaining_after=paid['remaining_after'])
+    report['legacy_readiness_before_OW04_credit']=checks
+
+
+def legacy_use(cur,today,report):
     key,first_job,done,calls=dump.staged.staged_done(cur,today)
     original,pages,shape=dump.staged.fetch(cur,done['run_id'])
     basic.native.b.api.admin(cur)
-    LEGACY_USE.update(ready=True,payment_id=paid['payment_id'],run_id=done['run_id'])
+    LEGACY_USE.update(ready=True,run_id=done['run_id'])
+    checks=legacy_ar_checks(cur)
+    expected=[(LEGACY_AR_CHECKS[0],'CRITICAL',2),(LEGACY_AR_CHECKS[1],'CRITICAL',3),
+        (LEGACY_AR_CHECKS[2],'CRITICAL',1)]
+    assert checks==expected,('P21_LEGACY_READINESS_BOUNDARY_CHANGED',checks)
+    report['known_remaining_report_boundary']=dict(owner_open_work='OW-08',
+        reason='Legacy readiness AR checks use Native P without the verified credit U-I adjustment.',
+        actual_legacy_checks=checks,expected_legacy_checks=expected,
+        report_readiness_after_credit_not_claimed_READY=True,
+        original_report_checks_and_E01_READY_assertions_not_changed=True)
     report['p21_adapter_steps'].append(dict(step=P21_STEPS[3],status='PASS',
-        supplier_payment_created=paid['payment_id'],remaining_after=paid['remaining_after'],
+        supplier_payment_created=LEGACY_USE['payment_id'],remaining_after=LEGACY_USE['remaining_after'],
         staged_request=str(key),staged_run=done['run_id'],staged_units=len(calls),
         staged_pages=shape['page_count'],staged_targets=shape['targets_total'],
         staged_identity_hash=pages['identity_hash'],committed_with_current_OW04_chains=True))
@@ -127,6 +155,7 @@ def read(cur,item,phase='FIXTURE_PREPARATION'):
         actual['legacy_supplier_payment']=cur.execute('select to_jsonb(p)from erp.supplier_payments p where id=%s',
             (LEGACY_USE['payment_id'],)).fetchone()[0]
         assert actual['legacy_supplier_payment']is not None
+        actual['legacy_financial_integrity_checks']=legacy_ar_checks(cur)
     return actual
 
 
@@ -154,6 +183,7 @@ def run():
             state=p21_install_cycle(cur,report);installed=True;new_roles=database._roles(cur)-before_roles;conn.commit()
             granted,seeded=database._foundation(cur)
             today=cur.execute("select(statement_timestamp()at time zone'Asia/Jakarta')::date").fetchone()[0]
+            legacy_prepare(cur,today,report)
             fixtures=[prepare(cur,today,index,gold)for index in range(2)]
             legacy_use(cur,today,report)
             cur.execute('set constraints all immediate')

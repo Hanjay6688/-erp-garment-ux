@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "candidate": "36a6b880d789452dbe4096fd4c401430bba1a5cb",
+  "run_id": 39746622801,
+  "job_id": 119716563875,
+  "counts": {
+    "PASS": 14
+  },
+  "required_case_ids_pass": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "scope": "Direct Native return stock/HPP vectors including opening/PO, zero monetary return; separate original nonzero credit HPP14 run pending.",
+  "raw_report": {
+    "bytes": 4641851,
+    "sha256": "63ea33131266097e61079dec322200fe21d0b50cdc8d738921c2327ecf55f437"
+  },
+  "artifact": {
+    "id": 12411534102,
+    "bytes": 2103451,
+    "sha256": "3e90ef6d653d75b7efe434a0bbf737d70d296d9c9923bdf3610089afd8f69832"
+  },
+  "production_go": false,
+  "formal_CP7C_started": false
+}
