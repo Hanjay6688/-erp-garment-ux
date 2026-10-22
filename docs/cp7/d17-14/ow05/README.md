@@ -24,3 +24,5 @@ Masih harus dituntaskan: uji nota/payroll dibayar dan belum dibayar, pool/nota a
 Tidak mengubah main, kandidat audit55c885d1, Enteng, database hosted/produksi atau WA nyata; CP7C formal belum dimulai.
 
 Layar baru tersedia dari WIP & Jahit (termasuk baris riwayat selesai): satu panel per PO, pengunci berurutan, mandor pengganti, alasan, konfirmasi dan petunjuk catat ulang. Pemulihan respons hilang memakai UUID yang sama. [Uji klien75](client75-recovered-pass.json) mencakup6 kasus baru dan69 uji terkait yang lama; ini DOM tiruan, bukan Auth/browser nyata.
+
+Berikutnya14 kasus: sepuluh awal diulang bersama4 kasus baru untuk nota/payroll belum dibayar, dibayar→balik uang→bayar mandor yang benar, serta dua koreksi mandor pada waktu jahit asli dengan pilihan tarif OLD/NEW. Nilai yang dituntut16,00/24,00/32,00 tetap; belum ada klaim empat kasus baru lulus. Produk SQL tidak diubah untuk menjalankan pembanding ini.

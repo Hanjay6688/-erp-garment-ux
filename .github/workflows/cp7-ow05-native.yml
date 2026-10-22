@@ -1,4 +1,4 @@
-name: CP7 OW05 initial Mandor correction Native qualification
+name: CP7 OW05 Mandor correction extended Native qualification
 'on':
   push:
     branches:
@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   native:
-    name: Actual OW05 initial Native10
+    name: Actual OW05 extended Native14
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
@@ -149,14 +149,14 @@ jobs:
       run: "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres'\
         \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback'\
         \ \\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\n"
-    - name: Execute actual OW05 successor and refusal Native10
+    - name: Execute OW05 original10 plus second-correction and nota/payroll4
       working-directory: writer
       run: python '../auditor/scripts/cp7_contractor_correction/native_probe.py'
     - name: Preserve exact original JSON report bytes in a bounded compressed log receipt
       if: always()
       working-directory: auditor
       run: "python - <<'PY'\nimport base64,gzip,hashlib,json\nfrom pathlib import Path\nroot=Path('cp6-proof/t3')\nfor name\
-        \ in ('CP7_OW05_INITIAL_NATIVE10.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
+        \ in ('CP7_OW05_EXTENDED_NATIVE14.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
         \    path=root/name\n    if not path.is_file():\n        continue\n    raw=path.read_bytes();packed=gzip.compress(raw,mtime=0)\n\
         \    print(json.dumps(dict(ow05_original_report_bytes=True,name=name,raw_bytes=len(raw),\n        raw_sha256=hashlib.sha256(raw).hexdigest(),gzip_bytes=len(packed),\n\
         \        gzip_sha256=hashlib.sha256(packed).hexdigest(),\n        gzip_base64=base64.b64encode(packed).decode('ascii'))),flush=True)\n\
@@ -168,7 +168,7 @@ jobs:
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
-        name: cp7-ow05-initial-native10
+        name: cp7-ow05-extended-native14
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error

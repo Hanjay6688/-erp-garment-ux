@@ -19,7 +19,7 @@ from cp7_contractor_correction import composition as product, native_cases as bu
 
 control = framework.control
 previous, native, package, core, p09 = framework.previous, framework.native, framework.package, framework.core, framework.p09
-LABEL = 'CP7_OW05_INITIAL_NATIVE10'
+LABEL = 'CP7_OW05_EXTENDED_NATIVE14'
 OUT = REPO/'cp6-proof/t3'/f'{LABEL}.json'
 STATE = None
 
@@ -33,7 +33,7 @@ def admitted():
     pins = json.loads((HERE/'SOURCE.json').read_bytes())
     for path,digest in pins['files'].items():
         assert sha256((REPO/path).read_bytes()).hexdigest()==digest, ('OW05_DECLARED_SOURCE_CHANGED',path)
-    assert pins['case_ids']==list(business.IDS) and len(business.IDS)==10
+    assert pins['case_ids']==list(business.IDS) and len(business.IDS)==14
     assert not subprocess.check_output(['git','-C',str(REPO),'status','--porcelain','--','scripts/cp7_contractor_correction'],text=True).strip()
     return dict(predecessor_Native32_financial_sources_equal=True, Native32_rerun=False,
                 raw_sha256=sha256(raw).hexdigest(), declared_source=pins)
@@ -52,7 +52,7 @@ def run():
     global STATE
     report = dict(label=LABEL,status='INCOMPLETE',source_declaration=admitted(),
         qualification_commit=subprocess.check_output(['git','-C',str(REPO),'rev-parse','HEAD'],text=True).strip(),
-        expected_case_count=10,required_case_ids=list(business.IDS),formal_CP7C_started=False,
+        expected_case_count=len(business.IDS),required_case_ids=list(business.IDS),formal_CP7C_started=False,
         OW05_complete=False,production_go=False,independent_acceptance=False)
     installed=False
     try:
@@ -88,7 +88,7 @@ def run():
         group=report.get('native',{})
         report['observed_case_count']=sum(group.get('counts',{}).values())
         report['required_case_ids_pass']=set(group.get('cases',{}))==set(business.IDS) and all(c['status']=='PASS'for c in group.get('cases',{}).values())
-        if not report.get('error')and report.get('cp6_restored')and report.get('advisor_gate')and report['required_case_ids_pass']and group.get('counts')=={'PASS':10}:
+        if not report.get('error')and report.get('cp6_restored')and report.get('advisor_gate')and report['required_case_ids_pass']and group.get('counts')=={'PASS':len(business.IDS)}:
             report['status']='PASS'
         OUT.parent.mkdir(parents=True,exist_ok=True)
         OUT.write_text(json.dumps(report,indent=2,default=str)+'\n')
