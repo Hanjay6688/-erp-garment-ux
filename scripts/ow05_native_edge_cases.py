@@ -56,9 +56,10 @@ def cases(cur,today):
         w=n.workspace(cur,g['po']);kinds=[b['kind']for b in w['blockers']]
         assert kinds.index('ATTENDANCE_POOL')<kinds.index('PAYROLL')<kinds.index('SEWING')<kinds.index('WORK')<kinds.index('WORK_JOURNAL'),kinds
         n.auth.refused(cur,lambda:payroll.act(cur,'CANCEL',payroll.doc(cur,pid)),'PAYROLL_CONSUMED_BY_ACTIVE_HPP_POOL')
-        n.auth.refused(cur,lambda:n.old.sewing_command(cur,n.old.sewing_workspace(cur,g),event=g['terminal']),'ACTIVE')
+        n.auth.refused(cur,lambda:n.old.sewing_command(cur,n.old.sewing_workspace(cur,g),event=g['terminal']),'CP7_SEWING_CANCEL_BLOCKED: IN_PAYROLL')
         hp.save(cur,actor,'CANCEL',hp.pool_body(hp.facade_pool(cur,actor,made['pool_id']),'OW05 cancel HPP before wage inverse'))
         assert hp.active_view(cur,g['po'])==0
+        n.auth.refused(cur,lambda:n.old.sewing_command(cur,n.old.sewing_workspace(cur,g),event=g['terminal']),'CP7_SEWING_CANCEL_BLOCKED: IN_PAYROLL')
         payroll.act(cur,'CANCEL',payroll.doc(cur,pid))
         n.old.sewing_command(cur,n.old.sewing_workspace(cur,g),event=g['terminal'])
         assert n.workspace(cur,g['po'])['eligible']

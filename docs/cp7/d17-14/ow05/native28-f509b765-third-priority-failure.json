@@ -1,0 +1,37 @@
+{
+  "classification": "COMPACT_ACTUAL_NATIVE28_THIRD_ERROR_PRIORITY_FAILURE_NOT_PASS",
+  "status": "INCOMPLETE",
+  "candidate_commit": "f509b765371921322a584219dbfef183098cc4b9",
+  "run_id": 39785069106,
+  "job_id": 119845967466,
+  "counts": {
+    "PASS": 27,
+    "INCOMPLETE": 1
+  },
+  "failure": {
+    "case": "OW05_HPP_POOL_BEFORE_NOTA_AND_SEWING_INVERSES",
+    "phase": "expected first blocker while both note/payroll and HPP are active",
+    "actual": "CP7_SEWING_CANCEL_BLOCKED: IN_PAYROLL",
+    "incorrect_expected_substring": "ACTIVE",
+    "observed_before_failure": [
+      "labor16 attendance1000 payroll1016",
+      "active pool1000",
+      "workspace pool before payroll before sewing",
+      "Native payroll cancel refused PAYROLL_CONSUMED_BY_ACTIVE_HPP_POOL"
+    ],
+    "qualifier_fix": "Assert the actual precise IN_PAYROLL priority while nota owns wage, before and after pool cancel; then cancel payroll and undo sewing. Keep all money, atomicity, Native pool refusal and successor24 oracles unchanged."
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "original_report": {
+    "bytes": 6648820,
+    "sha256": "51001fff51bf4a7e2fdeef1efcc6b87a141178300b0822745e144444eeec31ce"
+  },
+  "artifact": {
+    "id": 12428448386,
+    "zip_bytes": 2301119,
+    "zip_sha256": "9b557c420999ad641a8aff58cc77595a64eff573c310c82482361d23cf8adf79"
+  },
+  "OW05_complete": false,
+  "production_go": false
+}
