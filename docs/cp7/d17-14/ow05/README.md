@@ -1,6 +1,6 @@
 # Koreksi mandor sesudah jahit — OW-05
 
-Belum selesai. Native25 lulus (14 alur koreksi dan 11 uji tarif lama yang dipertahankan); dua alur Auth nyata juga lulus, termasuk nota24 dan dua pengguna bersamaan. Layar komputer/HP, pemulihan sesudah dipakai dan integrasi pemasangan masih dituntaskan.
+Belum selesai. Native28 lulus: 14 alur koreksi, 3 alur HPP/seluruh PO/per SKU dan 11 uji tarif lama yang dipertahankan. Hak pengguna, layar komputer/HP dan pemulihan lengkap sedang diuji pada produk yang sama; bukti lama dan seluruh kegagalan awal tetap disimpan.
 
 Dasar: keputusan owner D17-14 butir4 dan arahan22 Oktober; urutan tetap OW-05→OW-06→OW-07/08.
 
@@ -42,3 +42,5 @@ Percobaan25 pada86bfc11 berhenti sebelum kasus (0 tercapai): [kegagalan pertama]
 [Native25 pada48813d8b lulus](native25-48813d8b-pass.json), run39775272404/job119812507098:14 alur OW-05 dan11 uji tarif R3 yang tidak diubah, seluruh25 PASS,22 kelompok katalog/pencopotan/CP6/advisor lulus. Dua kegagalan pemasangan sebelumnya tetap dicatat; hak CREATE sementara sudah kembali persis ke ACL asli. Uji login nyata berikutnya mengikat laporan asli Native25 ini dan sumber yang sama sebelum database dipakai; dua kasus HTTP belum diklaim lulus.
 
 [Bukti Auth nyata2](auth2-828f77db-pass.json): dua pengguna GoTrue berbeda, dua backend benar-benar menunggu kunci, tepat satu koreksi; nota baru24, mandor lama0, stok/HPP tetap. Asli tersimpan privat, pembuktian uang dari jurnal Native; bukan pengujian pembuatan master melalui layar.
+
+[Bukti Native28 saat ini](native28-current-pass.json): urutan pool HPP → nota/gaji → hasil jahit berjalan melalui pembalikan Native, 2 pembagian dalam satu PO diganti seluruhnya, dan upah SKU53 menjadi56 tanpa menimpa riwayat. Pemulihan P21 tetap mempertahankan seluruh 10 langkah lama dan menambah3 langkah mandor.

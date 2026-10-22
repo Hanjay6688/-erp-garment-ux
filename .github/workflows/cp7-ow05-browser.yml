@@ -92,17 +92,11 @@ jobs:
         \ len(names)==1;raw=z.read(names[0])\nassert len(raw)==8166263 and hashlib.sha256(raw).hexdigest()=='9a66b07743087e107e3d7d9298d9e517b786077f848cee79ffc326a8246c3a50'\n\
         target=p/'ow04-native32-original.json';target.write_bytes(raw)\nwith open(os.environ['GITHUB_ENV'],'a')as f:f.write('OW04_NATIVE32_ORIGINAL_REPORT='+str(target)+'\\\
         n')\nprint('ACTUAL_NATIVE32_ORIGINAL_BYTES_VERIFIED_NO_PRODUCT_EXECUTION')\nPY\n"
-    - name: Fetch exact actual OW05 Native25 original before Auth DB
+    - name: Fetch and verify qualified actual Native28 original before DB
       env:
         GH_TOKEN: ${{ github.token }}
-      shell: bash
-      working-directory: writer
-      run: "set -euo pipefail\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12424642000/zip > \"$RUNNER_TEMP/ow05-native25.zip\"\
-        \npython - <<'PY25'\nimport hashlib,os,zipfile\nfrom pathlib import Path\np=Path(os.environ['RUNNER_TEMP'])/'ow05-native25.zip';b=p.read_bytes()\n\
-        assert len(b)==2230758 and hashlib.sha256(b).hexdigest()=='2d5966c42c53e77afa3ece1d2215ef2a1563462b7b1735d92ff9bec48e544f3a'\n\
-        with zipfile.ZipFile(p)as z:\n n='CP7_OW05_NATIVE25_ASSIGNMENT_GENERATIONS.json';raw=z.read(n)\nassert len(raw)==5985156\
-        \ and hashlib.sha256(raw).hexdigest()=='2a8e3c0e87e957077b2cf0f83c09cf79502f4c15e6a97cf651b550cbb948b9ab'\nout=Path(os.environ['RUNNER_TEMP'])/'OW05_NATIVE25_ORIGINAL.json';out.write_bytes(raw)\n\
-        with open(os.environ['GITHUB_ENV'],'a')as f:f.write('OW05_NATIVE25_ORIGINAL_REPORT='+str(out)+'\\n')\nPY25\n"
+      working-directory: auditor
+      run: python scripts/ow05_native_original.py
     - name: Admit exact OW05 Auth source and financial predecessor before DB
       working-directory: writer
       run: ERP_REPO=../auditor PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=../auditor/scripts:../auditor/scripts/ow05-browser-qualification

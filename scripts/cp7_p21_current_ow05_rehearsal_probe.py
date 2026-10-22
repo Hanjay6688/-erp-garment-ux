@@ -17,7 +17,6 @@ spec=importlib.util.spec_from_file_location('p21_current_restore_helpers',REPO/'
 helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)
 import cp7_p21_ow05_adapter as adapter
 import cp7_ow05_restore as ow05_restore
-from cp7_contractor_correction import native_probe as native_control
 import mandor_fixture
 
 product=adapter.owner
@@ -44,7 +43,17 @@ def legacy_ar_checks(cur):
 
 
 def admitted():
-    predecessor=native_control.admitted()
+    # The legacy restore helper already admitted its closed CLI flags. Do not
+    # import a second CLI entry point with a conflicting argv contract.
+    declared=json.loads((REPO/'scripts/cp7_contractor_correction/SOURCE.json').read_bytes())
+    for path,digest in declared['files'].items():
+        assert sha256((REPO/path).read_bytes()).hexdigest()==digest,('OW05_DECLARED_SOURCE_CHANGED',path)
+    base_raw=Path(os.environ['OW04_NATIVE32_ORIGINAL_REPORT']).read_bytes()
+    assert len(base_raw)==8166263 and sha256(base_raw).hexdigest()=='9a66b07743087e107e3d7d9298d9e517b786077f848cee79ffc326a8246c3a50'
+    base=json.loads(base_raw)
+    assert base['status']=='PASS'and base['native']['counts']=={'PASS':32}
+    assert base['cp6_restored']and base['advisor_gate']and base['required_case_ids_pass']
+    assert base['current_financial_sources']==product.predecessor.sources()
     pins=json.loads((HERE/'SOURCE.json').read_bytes())
     for path,digest in pins['files'].items():
         assert sha256((REPO/path).read_bytes()).hexdigest()==digest,('OW05_P21_SOURCE_CHANGED',path)
@@ -53,7 +62,8 @@ def admitted():
     actual=json.loads(raw)
     assert actual['status']=='PASS'and actual['native']['counts']=={'PASS':28}and actual['required_case_ids_pass']
     assert actual['cp6_restored']and actual['advisor_gate']
-    assert actual['source_declaration']['declared_source']==predecessor['declared_source']
+    assert len(actual['native']['cases'])==28 and all(c['status']=='PASS'for c in actual['native']['cases'].values())
+    assert actual['source_declaration']['declared_source']==declared
     raw=(HERE/'EXPECTED_P21_RESTORE.json').read_bytes()
     assert sha256(raw).hexdigest()=='643081adcec37ffd3c4d83c25e7522522da634e81cb8af551796202c16bc2cf9'
     assert pins['OW05_steps']==list(OW05_STEPS)

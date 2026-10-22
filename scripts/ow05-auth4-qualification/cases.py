@@ -39,7 +39,7 @@ def permission(http,role,restore=None):
         conn.commit();return result
 
 def rights(http,today):
-    user=http.login('OWNER',label='ow05-rights');g=retained.prepare(http,today,True)
+    user=http.login('ADMIN',label='ow05-rights');g=retained.prepare(http,today,True)
     args=retained.command_args(retained.quote(user,g),g);before=retained.fp(http,g);removed=None
     with http.connect()as conn,conn.cursor()as cur:
         role=n.one(cur,'select role_id from erp.app_users where auth_user_id=%s',(user.auth_user_id,));conn.rollback()

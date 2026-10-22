@@ -48,7 +48,7 @@ async function journey(ui,today,mobile){
  waiting=page.waitForResponse(rpc(correctionRpc))
  await correction().getByRole('button',{name:'Ganti pembagian ke mandor yang benar',exact:true}).click()
  const changed=await response(waiting);assert.equal(changed.status,'PICKUPS_REPLACED');assert.equal(changed.sewing_repost_required,true)
- await expect(correction().getByRole('status')).toContainText('Catat ulang hasil jahit')
+ await expect(page.locator('.cwip-sewing-done')).toContainText('Catat ulang hasil jahit')
  const assigned=fixed('observe',{fixture:f})
  assert.deepEqual(assigned.preserved,undone.preserved)
  assert.equal(assigned.current_mandor,f.target);assert.equal(assigned.old_pickup_status,'REVERSED')

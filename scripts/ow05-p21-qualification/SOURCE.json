@@ -1,0 +1,41 @@
+{
+  "contract_version": "ow05.current-full-p21-source.v1",
+  "files": {
+    "scripts/ow05-p21-qualification/mandor_fixture.py": "6ee213465d2d898efd469fe3ab92cd2a4d1fc30b4746c0967fc97f0c2429e860",
+    "scripts/ow05-p21-qualification/EXPECTED_P21_RESTORE.json": "643081adcec37ffd3c4d83c25e7522522da634e81cb8af551796202c16bc2cf9",
+    "scripts/ow05-p21-qualification/README.md": "1327e806fee1efce97b476d28567c4acfb2a261790ec301bcfb64f9c694780d7",
+    "scripts/cp7_p21_current_ow05_rehearsal_probe.py": "d2905cf73ce4947e412b87252fb0ef033fb793eb5748b23323d61fde34d4fb06",
+    "scripts/cp7_p21_ow05_adapter.py": "b141d62f99b90d0026e4a3c7e38adaa91d33e63bebf1907584babfeb67ff6a29",
+    "scripts/cp7_ow05_restore.py": "2ac2d87a5a45c0e57893cd79a1479840e9fea9ea6d610e106043545a7048a977",
+    "scripts/cp7_p21_full_rehearsal_probe.py": "849968a4cbc636bed3d4c24a880bc0207dc6aa24642a1a8a6dddd441bce93b53",
+    ".github/workflows/cp7-ow04-final-p21.yml": "1859dbb3df868379cc1a9a97dc1981f4149ff7d2d42f68bf39e6a52a71d1ab1b",
+    "scripts/cp7_p21_current_ow04_rehearsal_probe.py": "2025a4cdec01b9870be3ee2927b00e81ca691721848952cca3e794caee8d3706",
+    "scripts/ow04-payment-used-restore-qualification/probe.py": "f3c3e1be7ff9230a516427e97073199ed9fbf6220bcc8880f1d6a8c8483f181b",
+    "scripts/ow04-payment-used-restore-qualification/restore_database.py": "dd1f9eacecaf3b933e64866c449881187a0670148b54b4d3562bef3d63bd28bc",
+    "scripts/ow04-final-qualification/EXPECTED_P21_RESTORE.json": "643081adcec37ffd3c4d83c25e7522522da634e81cb8af551796202c16bc2cf9",
+    "scripts/cp7_ow04_restore_bundle.py": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00",
+    "scripts/cp6_t3_backup_restore_drill.py": "dc64f7c2079cfff2aa585d8edbc6474a185913f042576fc3cc65dfc870dca94f",
+    "scripts/ow05_native_original.py": "bb2030de3d8041c1dbeffef691335056869494c0929fe5e1d3b0678992ff60a0",
+    "docs/cp7/d17-14/ow05/native28-current-pass.json": "1d25fbbdcdeea6791a7d04b45ac0bb1a17f3629a29a727284fc6796248c08308"
+  },
+  "native_original": {
+    "name": "CP7_OW05_NATIVE28_GUIDANCE_WHOLE_PO_WAVE.json",
+    "bytes": 6646642,
+    "sha256": "9e4732a171faff7175a03b895daca09bcb1dc54a53003cb300d979c858d1143c"
+  },
+  "OW05_steps": [
+    "COMMITTED_OW05_MANDOR_NEW24_AND_NOTA",
+    "RESTORED_OW05_EXACT_READS_AND_FOUR_RECEIPT_REPLAYS",
+    "RESTORED_OW05_NAMED_INVERSES_NEXT_ASSIGNMENT"
+  ],
+  "old_expectation_sha256": "643081adcec37ffd3c4d83c25e7522522da634e81cb8af551796202c16bc2cf9",
+  "literal_money": {
+    "committed_new_mandor_and_nota": "24.00",
+    "after_restored_named_inverse_and_next_assignment": "16.00",
+    "previous_mandor_after_inverse": "0.00"
+  },
+  "retained_original_steps": 10,
+  "added_OW05_steps": 3,
+  "OW05_complete": false,
+  "production_go": false
+}

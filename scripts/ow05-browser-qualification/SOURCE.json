@@ -1,16 +1,26 @@
 {
-  "contract_version": "ow05.real-browser2-source.v1",
+  "contract_version": "ow05.real-browser2-current-native28-source.v2",
   "case_ids": [
     "OW05_DESKTOP_NATIVE_UNDO_CORRECT_REPOST_NEW24",
     "OW05_MOBILE390_NATIVE_UNDO_CORRECT_REPOST_NEW24"
   ],
   "files": {
     "scripts/ow05-browser-qualification/fixture.py": "4bbcdd9f644d5774bbb613a78444e1792b67f1b51d89c2c02960695469f1e7ae",
-    "scripts/ow05-browser-qualification/browser.mjs": "e27ca50e3be678acafed2e8146bfdad974433f4aeb833f6f614b2c7361d0e537",
-    "scripts/ow05-browser-qualification/probe.py": "08288b062a1b40c79dbc87837192bd3c112a18bf4b9528f2a39d0af0d3efd6e1",
+    "scripts/ow05-browser-qualification/browser.mjs": "9029c9d953fecfeddc32c340a3505c62323eea6c7669ee62c0e5648b6c5269c5",
+    "scripts/ow05-browser-qualification/probe.py": "e321f2ba562cad2c9ccecbaf4fe166a7cb21a7c71caf6953cb60d749b0a8c76a",
     "scripts/ow04-payment-current-qualification/copy_authority.py": "cfdc3b899e335dd13a9456242ed5158b718ac5c56d9b1ebf06c4571eda2cc7a2",
-    ".github/workflows/cp7-ow05-browser.yml": "125e8c976694337a95ccb296ec676e03c5d2c1f69455614291632c3ef08108be",
-    "src/types/database.preconnect.ts": "10e34d4fb1e17a41824e0b04e9b27898cc1f125fc6001df30680ca5fb8641190"
+    ".github/workflows/cp7-ow05-browser.yml": "e7677c2f1b6724e902b9e5b235eb43428046b340720c2e9befafc47e9381c0d1",
+    "src/types/database.preconnect.ts": "10e34d4fb1e17a41824e0b04e9b27898cc1f125fc6001df30680ca5fb8641190",
+    "src/MandorCorrectionPanel.tsx": "da6c79bacffc1704c5ca6db300a5a496c6e2c5a375991b0ac63ccb2f46a26da7",
+    "src/MandorCorrectionPanel.dom.test.tsx": "c14c5614d9c35b9c566894a427e4033df3bf57c09ca9b5e40a8a766865381741",
+    "src/ConnectedWipStatusPage.tsx": "ee9ba1317dea44240030548c77ad058066e479e02a5b867606f654cb8c8c9d18",
+    "src/SewingCompletionPanel.tsx": "82cd0e8302da95f67f6f8d0bb1113b1bb5e41136ab426ac0af5d9d78a8c6ce14",
+    "src/mandorCorrectionContract.ts": "9aa14c184dfe3609ecdd8970e48c99d559f0b03787d7ea9d3f805b41aa0f38f4",
+    "src/sewingCompletionContract.ts": "e7f958db5ef367b9304e0bed1a7376f8c4ff0da6ecef207ffe8a46f3b3f82860",
+    "src/lib/mandorCorrectionMessages.ts": "91d78db933cfefd5de1f52732389423cf5208212690a2a9cba318792aa84ac8f",
+    "src/lib/clientError.ts": "2dced6bcbd1dd81aabee729abfc2e0729789f10f9ea06474fc7bef428f167b96",
+    "scripts/ow05_native_original.py": "bb2030de3d8041c1dbeffef691335056869494c0929fe5e1d3b0678992ff60a0",
+    "docs/cp7/d17-14/ow05/native28-current-pass.json": "1d25fbbdcdeea6791a7d04b45ac0bb1a17f3629a29a727284fc6796248c08308"
   },
   "fixture_creation": "Native SQL on cp6_auditor_browser only",
   "journey_writes": "actual UI -> actual GoTrue/PostgREST",
@@ -21,5 +31,11 @@
   },
   "product_budgets_unchanged": true,
   "OW05_complete": false,
-  "production_go": false
+  "production_go": false,
+  "native_original": {
+    "name": "CP7_OW05_NATIVE28_GUIDANCE_WHOLE_PO_WAVE.json",
+    "bytes": 6646642,
+    "sha256": "9e4732a171faff7175a03b895daca09bcb1dc54a53003cb300d979c858d1143c"
+  },
+  "next_step_notice": "Required visible parent WIP page notice after actual card unmount/reload; original instruction unchanged"
 }

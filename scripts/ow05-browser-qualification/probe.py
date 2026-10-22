@@ -31,18 +31,19 @@ STATE=None
 
 def admitted():
     predecessor=setup.admitted()
-    raw=Path(os.environ['OW05_NATIVE25_ORIGINAL_REPORT']).read_bytes()
-    assert len(raw)==5985156 and sha256(raw).hexdigest()=='2a8e3c0e87e957077b2cf0f83c09cf79502f4c15e6a97cf651b550cbb948b9ab'
+    pins=json.loads((HERE/'SOURCE.json').read_bytes())
+    proof=pins['native_original']
+    raw=Path(os.environ['OW05_NATIVE28_ORIGINAL_REPORT']).read_bytes()
+    assert len(raw)==proof['bytes']and sha256(raw).hexdigest()==proof['sha256']
     old=json.loads(raw)
-    assert old['status']=='PASS'and old['native']['counts']=={'PASS':25}and old['required_case_ids_pass']
+    assert old['status']=='PASS'and old['native']['counts']=={'PASS':28}and old['required_case_ids_pass']
     assert old['cp6_restored']and old['advisor_gate']
     assert old['source_declaration']['declared_source']==json.loads((REPO/'scripts/cp7_contractor_correction/SOURCE.json').read_bytes())
-    pins=json.loads((HERE/'SOURCE.json').read_bytes())
     for path,digest in pins['files'].items():
         assert sha256((REPO/path).read_bytes()).hexdigest()==digest,('OW05_BROWSER_SOURCE_CHANGED',path)
     assert pins['case_ids']==list(IDS)and len(IDS)==2
     assert not subprocess.check_output(['git','-C',str(REPO),'status','--porcelain','--',str(HERE)],text=True).strip()
-    return dict(predecessor_source_binding=predecessor,qualifier_source=pins,Native25_rerun_here=False)
+    return dict(predecessor_source_binding=predecessor,qualifier_source=pins,Native28_rerun_here=False)
 
 def verify(cur):
     if STATE is None:raise ValueError('OW05_BROWSER_INSTALLATION_REQUIRED')

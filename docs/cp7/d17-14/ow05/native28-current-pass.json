@@ -1,0 +1,165 @@
+{
+  "classification": "COMPACT_ACTUAL_NATIVE28_RECEIPT_NOT_RAW_LOG",
+  "status": "PASS",
+  "candidate_commit": "56830738640a356ceab9bc1a958881b28990bbf4",
+  "product_commit": "e3a37d7308468d2c9983519ff55230aab9ffb2e5",
+  "run_id": 39786776421,
+  "job_id": 119851971167,
+  "counts": {
+    "PASS": 28
+  },
+  "own_original_cases": 14,
+  "own_normal_flow_cases": 3,
+  "retained_R3_oracles_unchanged": 11,
+  "case_status": {
+    "OW05_ACTIVE_WAGE_GUIDANCE": "PASS",
+    "OW05_NATIVE_SUCCESSOR_OLD_RATE": "PASS",
+    "OW05_NATIVE_SUCCESSOR_NEW_RATE": "PASS",
+    "OW05_LOST_REPLY_REPLAY": "PASS",
+    "OW05_CHANGED_UUID_REFUSED": "PASS",
+    "OW05_STALE_REVIEW_REFUSED": "PASS",
+    "OW05_INACTIVE_TARGET_REFUSED": "PASS",
+    "OW05_LATE_NATIVE_POST_ATOMIC": "PASS",
+    "OW05_PRIVATE_CAPABILITY_DENIED": "PASS",
+    "OW05_HISTORY_IMMUTABLE": "PASS",
+    "OW05_SECOND_MANDOR_NEW_RATE_SAME_PHYSICAL_TIME": "PASS",
+    "OW05_SECOND_MANDOR_OLD_RATE_SAME_PHYSICAL_TIME": "PASS",
+    "OW05_UNPAID_NOTA_CANCEL_CORRECT_REPOST": "PASS",
+    "OW05_PAID_NOTA_REVERSE_CASH_CORRECT_REPAY": "PASS",
+    "OW05_HPP_POOL_BEFORE_NOTA_AND_SEWING_INVERSES": "PASS",
+    "OW05_TWO_POSTED_PICKUPS_ONE_PO_ALL_REPLACED": "PASS",
+    "OW05_CORRECTED_MANDOR_WAVE_SKU_NATIVE56": "PASS",
+    "CP17_R3_09_SAME_RATE_NO_CHOICE": "PASS",
+    "CP17_R3_09_CHANGED_RATE_NEEDS_CHOICE": "PASS",
+    "CP17_R3_09_CHOOSE_OLD_PAYS_LOCKED_RATE": "PASS",
+    "CP17_R3_09_CHOOSE_NEW_PAYS_THROUGH_REVISION": "PASS",
+    "CP17_R3_09_ALWAYS_NEW_SWITCH": "PASS",
+    "CP17_R3_09_SWITCH_REFUSALS_AND_ACCESS": "PASS",
+    "CP17_R3_09_CANCEL_NEW_RATE_RECORD": "PASS",
+    "CP17_R3_09_NEW_RATE_WAGE_TO_PAYROLL_AND_DETECTORS": "PASS",
+    "CP17_R3_09_WAVE_CHOICE_PER_SKU": "PASS",
+    "CP17_R3_09_DECLARED_NATIVE_DELTAS_AND_RESTORE_REFUSAL": "PASS",
+    "CP17_R3_09_REVISIONS_IMMUTABLE_AND_PRIVATE": "PASS"
+  },
+  "normal_flow_results": {
+    "OW05_HPP_POOL_BEFORE_NOTA_AND_SEWING_INVERSES": {
+      "status": "PASS",
+      "HPP_active_cost": "1000.00",
+      "HPP_after_native_cancel": "0.00",
+      "actual_inverse_order": [
+        "ATTENDANCE_POOL",
+        "PAYROLL",
+        "SEWING"
+      ],
+      "old_payable_for_PO": "0.00",
+      "new_payable_for_PO": "24.00",
+      "old_attendance_not_reassigned": true,
+      "Native_pool_journal_and_old_wages_retained": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_TWO_POSTED_PICKUPS_ONE_PO_ALL_REPLACED": {
+      "status": "PASS",
+      "whole_PO_groups": 2,
+      "all_old_pickups_reversed": 2,
+      "all_successors_posted": 2,
+      "original_pickup_times_and_quantities": true,
+      "old_payable": "0.00",
+      "new_payable": "48.00",
+      "sewn_pcs": 8,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_CORRECTED_MANDOR_WAVE_SKU_NATIVE56": {
+      "status": "PASS",
+      "old_wage": "53.00",
+      "new_wage": "56.00",
+      "SKU_A_pcs": 2,
+      "SKU_B_pcs": 1,
+      "original_wave_binding_and_physical_time": true,
+      "original_two_work_rows_retained": true,
+      "old_payable": "0.00",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    }
+  },
+  "all_cases_full_boundary_restored": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "declared_source": {
+    "contract_version": "ow05.bounded-guidance-locks-and-native28-source.v4",
+    "predecessor_integration": "2668af3268bebf0c1a2d79d8574511676805ec66",
+    "case_ids": [
+      "OW05_ACTIVE_WAGE_GUIDANCE",
+      "OW05_NATIVE_SUCCESSOR_OLD_RATE",
+      "OW05_NATIVE_SUCCESSOR_NEW_RATE",
+      "OW05_LOST_REPLY_REPLAY",
+      "OW05_CHANGED_UUID_REFUSED",
+      "OW05_STALE_REVIEW_REFUSED",
+      "OW05_INACTIVE_TARGET_REFUSED",
+      "OW05_LATE_NATIVE_POST_ATOMIC",
+      "OW05_PRIVATE_CAPABILITY_DENIED",
+      "OW05_HISTORY_IMMUTABLE",
+      "OW05_SECOND_MANDOR_NEW_RATE_SAME_PHYSICAL_TIME",
+      "OW05_SECOND_MANDOR_OLD_RATE_SAME_PHYSICAL_TIME",
+      "OW05_UNPAID_NOTA_CANCEL_CORRECT_REPOST",
+      "OW05_PAID_NOTA_REVERSE_CASH_CORRECT_REPAY"
+    ],
+    "files": {
+      "scripts/cp7_contractor_correction/__init__.py": "d83608911c079a8d5e0d7278d1a766b947644ed1f8eda1cfc02d9e7c62883202",
+      "scripts/cp7_contractor_correction/contractor.sql": "c8397e9595b464e351004d37778283ff17864766e59860fafa5e3bcb65522c27",
+      "scripts/cp7_contractor_correction/composition.py": "9b7c7de7758f333f9ee75f0601bdbf68b6f4a13a61fd659af4f3038d1ee25438",
+      "scripts/cp7_contractor_correction/native_cases.py": "1c11253cbe0e3d45f2609fb2210aebda02ae580e4766ae5842fdbbb8d4023746",
+      "scripts/cp7_contractor_correction/native_probe.py": "cee3ecd38d197413a14308467147c3e6d31768854bf616a1b212c19a78e17206",
+      ".github/workflows/cp7-ow05-native.yml": "715a4decd5c3176d924d6ce9ccccf04e887e8f7deb73bb74c8b09a8e0da59823",
+      "scripts/cp7_r3_rate_cases.py": "240ca31bbc9746a6a0071ba100ae1e33168bacafe869bd348c35927e429e3873",
+      "scripts/ow05_native_edge_cases.py": "0dce9716d272757c321356509872beb40e20e1277f30578befb69f5034aa0eda"
+    },
+    "literal_money": {
+      "old_wage_four_pcs": "16.00",
+      "after_named_inverse_old_payable": "0.00",
+      "repost_locked_rate_four_pcs": "16.00",
+      "repost_new_mandor_rate_four_pcs": "24.00",
+      "second_correction_new_mandor_at_original_time": "32.00",
+      "nota_and_net_cash_if_paid": "16.00",
+      "HPP_pool_cost_before_cancel": "1000.00",
+      "two_groups_four_pcs_each_NEW": "48.00",
+      "wave_two_A_one_B_NEW": "56.00"
+    },
+    "Native32_rerun": false,
+    "OW05_complete": false,
+    "production_go": false,
+    "retained_rate_case_ids": [
+      "CP17_R3_09_SAME_RATE_NO_CHOICE",
+      "CP17_R3_09_CHANGED_RATE_NEEDS_CHOICE",
+      "CP17_R3_09_CHOOSE_OLD_PAYS_LOCKED_RATE",
+      "CP17_R3_09_CHOOSE_NEW_PAYS_THROUGH_REVISION",
+      "CP17_R3_09_ALWAYS_NEW_SWITCH",
+      "CP17_R3_09_SWITCH_REFUSALS_AND_ACCESS",
+      "CP17_R3_09_CANCEL_NEW_RATE_RECORD",
+      "CP17_R3_09_NEW_RATE_WAGE_TO_PAYROLL_AND_DETECTORS",
+      "CP17_R3_09_WAVE_CHOICE_PER_SKU",
+      "CP17_R3_09_DECLARED_NATIVE_DELTAS_AND_RESTORE_REFUSAL",
+      "CP17_R3_09_REVISIONS_IMMUTABLE_AND_PRIVATE"
+    ],
+    "edge_case_ids": [
+      "OW05_HPP_POOL_BEFORE_NOTA_AND_SEWING_INVERSES",
+      "OW05_TWO_POSTED_PICKUPS_ONE_PO_ALL_REPLACED",
+      "OW05_CORRECTED_MANDOR_WAVE_SKU_NATIVE56"
+    ]
+  },
+  "original_report": {
+    "name": "CP7_OW05_NATIVE28_GUIDANCE_WHOLE_PO_WAVE.json",
+    "bytes": 6646642,
+    "sha256": "9e4732a171faff7175a03b895daca09bcb1dc54a53003cb300d979c858d1143c"
+  },
+  "artifact": {
+    "id": 12429866259,
+    "zip_bytes": 2299975,
+    "zip_sha256": "e535167c095e46ee5dee1e054bf75ab7cb32a875d7773bbeb87918631fef014a"
+  },
+  "OW05_complete": false,
+  "independent_acceptance": false,
+  "formal_CP7C_started": false,
+  "production_go": false
+}
