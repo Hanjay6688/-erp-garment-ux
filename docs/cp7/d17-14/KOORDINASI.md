@@ -55,3 +55,32 @@ Setiap checkpoint mencatat dasar/kandidat, berkas/fungsi berubah, bukti, kegagal
 Uji silang memakai commit yang pasti dan tempat kerja/database uji terpisah. Log besar dan konteks personal tetap privat.
 Jadwal17.00 WIB dan estimasi7–8 hari berasal dari rencana A; belum ada otomatisasi penggabungan atau janji durasi
 yang dibuktikan oleh sesi ini. Hanya A yang menggabung dan memperbarui paket auditor dari hasil gabungan yang diuji.
+
+## B/20261023-03 — implementasi OW13b dan OW16; sambungan yang diperlukan A
+
+B sudah menulis kode, bukan hanya persiapan. OW13b menghapus batas201 kandidat pada history_source sambil mempertahankan
+batch50, proof Native/current-facts, pembanding per model dan Wilson tepat. Bukti lokal BEFORE/AFTER di ow13b; kualifikasi
+Native20 pertama19 PASS/1 INCOMPLETE akibat SKU fixture terlalu panjang, diperbaiki hanya nama contoh. Run berikutnya
+0 kasus akibat pembatasan unduh image; kegagalan asli tetap disimpan. Pengerjaan berlanjut, belum klaim OW13b selesai.
+
+OW16 sumber `scripts/cp7-src/cutting-yield/automatic-status.sql`, layar `src/NativeCuttingStatusPanel.tsx`, kontrak
+`src/nativeCuttingStatus.ts`, tersambung dari `ConnectedCuttingPage`. Tidak mengubah folder uang/HPP atau pemasang A.
+11 uji SQL lokal dan34 unit/DOM lulus; rincian/batas di ow16/README. Belum merupakan bukti Native/HTTP/browser/restore.
+
+Permintaan untuk A selaku integrator:
+
+1. Tambahkan sumber automatic-status.sql setelah planning/cutting-yield dan principal cp7_capture/cp7_policy tersedia.
+   Ajarkan pemilik pemasangan/rollback/pemulihan/katalog22 tentang schema cp7_cutting_status, dua tabel, empat trigger,
+   tujuh fungsi privat dan tiga wrapper publik. Jangan menurunkan standar pemeriksa lama.
+2. Daftarkan tiga wrapper status dalam sensus route/capability sesuai pemeriksaan server dan kontrak yang tertutup;
+   salin tiga tipe Args/Returns dari addon typed di nativeCuttingStatus.ts bila disatukan ke preconnect bersama.
+3. `scripts/check-source-ownership.mjs` milik integrasi: tambahkan tepat tiga pasangan file/RPC baru. Baseline sendiri
+   juga sudah merah untuk tiga RPC MandorCorrection (diverifikasi pada checkout sebelum OW16). Usulan enam entri tepat
+   di ow16/SHARED_INTEGRATION.patch; A menerapkan setelah membandingkan sumber, tanpa menghapus pemeriksaan.
+4. Delegasi metadata yang dinyatakan SQL: SELECT policy hanya cp7_capture; helper fields/utc hanya cp7_policy;
+   pembaca metadata Native material_name dan size.sort_order. Tidak ada grant writer ERP. Semua ACL/schema/tipe baru
+   perlu masuk komposisi dan bukti pasang/pulih gabungan. Versi usulan baru tidak mengubah Native writer/history.
+
+Permintaan ini tidak menghalangi B menguji tahap OW16 secara terpisah dan mengerjakan bagian produksi/perencanaan lain.
+Tidak ada keputusan owner baru tentang angka cakupan/minimum atau umur koreksi. Default fitur tidak diaktifkan lewat
+fallback atau angka fixture. Butir selesai keseluruhan tetap5/16 sampai kebutuhan dan alurnya benar-benar terbukti.

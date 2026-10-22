@@ -1,0 +1,15 @@
+--- a/scripts/check-source-ownership.mjs
++++ b/scripts/check-source-ownership.mjs
+@@ -223,6 +223,12 @@
+   'src/NativePlanningProfilePanel.tsx:erp_cp7_capture_baseline_v1',
+   'src/NativePlanningProfilePanel.tsx:erp_cp7_read_baseline_v1',
+   'src/NativeDemandHistoryPanel.tsx:erp_cp7_capture_demand_history_v1',
++  'src/NativeCuttingStatusPanel.tsx:erp_cp7_get_cutting_status_policy_request_v1',
++  'src/NativeCuttingStatusPanel.tsx:erp_cp7_get_cutting_status_v1',
++  'src/NativeCuttingStatusPanel.tsx:erp_cp7_save_cutting_status_policy_v1',
++  'src/MandorCorrectionPanel.tsx:erp_cp7_correct_mandor_v1',
++  'src/MandorCorrectionPanel.tsx:erp_cp7_get_mandor_correction_v1',
++  'src/MandorCorrectionPanel.tsx:erp_cp7_get_sewing_completion_v1',
+   'src/NativeCuttingYieldPanel.tsx:erp_cp7_capture_cutting_yield_v1',
+   'src/NativeCuttingYieldPanel.tsx:erp_cp7_read_cutting_yield_v1',
+   'src/NativeCuttingInputsPanel.tsx:erp_cp7_get_cutting_input_workspace_v1',
