@@ -5,8 +5,9 @@ ya lu pake banyak orang gapapa, kalo udah tipis lu baru slowing down ... jangan 
 langsung di-commit dan di-push dan berkas ini diperbarui; selama kuota banyak boleh banyak pembantu; pembantu yang sudah jalan
 tidak dihentikan; baru diperlambat bila kuota menipis. Owner: yang dilihat kuota 5 jam (bila habis semua langsung berhenti).
 Sisa kuota tidak terlihat dari sesi, jadi patokannya jam: jendela sekarang mulai sekitar 20.00 UTC 22 Okt, habis sekitar
-01.00 UTC 23 Okt. Owner: mode hemat mulai 1 jam 40 menit sebelum reset (sesi sebelumnya habis 55 menit sebelum reset).
-Pengingat terjadwal: 23.20 UTC 22 Okt mode hemat (tidak memulai pekerjaan besar baru, gabung dan push semua commit
+01.00 UTC 23 Okt. Hitungan dari layar Usage Bos (03.35 WIB): sesi 47% terpakai, reset 4 jam 25 menit lagi (01.00 UTC);
+laju sekitar 1,3% per menit dengan 4–5 pembantu, jadi habis sekitar 21.15 UTC. Patokan mode hemat: sekitar 80% terpakai.
+Pengingat terjadwal: 20.58 UTC mode hemat (tidak memulai pekerjaan besar baru, gabung dan push semua commit
 pembantu, perbarui berkas ini), 01.10 UTC jalan normal lagi.
 
 Diperbarui: 22 Okt 2026, 20.45 UTC (23 Okt 03.45 WIB).
