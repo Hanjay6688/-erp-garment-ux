@@ -59,8 +59,21 @@ def p21_install_cycle(cur,report):
     steps=report.setdefault('p21_adapter_steps',[])
     steps.append(dict(step=P21_STEPS[0],status='PASS',all22_catalog_groups_verified=True))
     removed=adapter.rollback_preuse(cur,first)
-    assert restore.catalog._catalog_rows(cur)==before_catalog,'P21_CURRENT_PREUSE_CATALOG_NOT_EXACT'
-    assert restore.catalog._data(cur)==before_data,'P21_CURRENT_PREUSE_DATA_OR_SEQUENCE_NOT_EXACT'
+    after_catalog=restore.catalog._catalog_rows(cur);after_data=restore.catalog._data(cur)
+    changed={kind:{key:dict(expected=before_catalog.get(kind,{}).get(key),
+        actual=after_catalog.get(kind,{}).get(key))
+        for key in sorted(set(before_catalog.get(kind,{}))|set(after_catalog.get(kind,{})))
+        if before_catalog.get(kind,{}).get(key)!=after_catalog.get(kind,{}).get(key)}
+        for kind in sorted(set(before_catalog)|set(after_catalog))
+        if before_catalog.get(kind)!=after_catalog.get(kind)}
+    report['p21_preuse_catalog_comparison']=dict(all22_groups_equal=not changed,
+        changed_members=changed,before_sha256=restore.catalog.digest(before_catalog),
+        after_sha256=restore.catalog.digest(after_catalog))
+    report['p21_preuse_data_comparison']=dict(equal=after_data==before_data,
+        changed_tables={key:dict(expected=before_data.get(key),actual=after_data.get(key))
+        for key in sorted(set(before_data)|set(after_data))if before_data.get(key)!=after_data.get(key)})
+    assert not changed,'P21_CURRENT_PREUSE_CATALOG_NOT_EXACT'
+    assert after_data==before_data,'P21_CURRENT_PREUSE_DATA_OR_SEQUENCE_NOT_EXACT'
     steps.append(dict(step=P21_STEPS[1],status='PASS',complete_removal=removed,
         all_catalog_data_and_sequences_equal_preinstall=True))
     second=adapter.install(cur);adapter.verify(cur,second)
@@ -228,6 +241,21 @@ def run():
                     report['cp6_restored']=previous.restore_state.prove(cur,before,package.boundary.snapshot,core.predecessor.public_state,p09.functions,report)
                     conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
                 report['baseline_restore']=restored
+                report['baseline_advisors_equal']=advisors(package.boundary.PG)==report['baseline_advisors']
+            except Exception as error:report.update(cp6_restored=False,restore_error=str(error),restore_traceback=traceback.format_exc())
+        elif before is not None and pre_dumped:
+            # A failed install cycle has not committed. Prove the caller's
+            # transaction rollback independently, without claiming a dump was
+            # restored or marking any unexecuted P21 step as passed.
+            try:
+                assert drill.data_hashes(database.SOURCE)==pre_data
+                with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
+                    assert database._roles(cur)==before_roles
+                    report['cp6_restored']=previous.restore_state.prove(cur,before,package.boundary.snapshot,
+                        core.predecessor.public_state,p09.functions,report)
+                    conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
+                report['baseline_restore']=dict(status='UNCOMMITTED_INSTALL_CYCLE_ROLLED_BACK',
+                    dump_restoration_executed=False,data_and_roles_exact=True)
                 report['baseline_advisors_equal']=advisors(package.boundary.PG)==report['baseline_advisors']
             except Exception as error:report.update(cp6_restored=False,restore_error=str(error),restore_traceback=traceback.format_exc())
         for path in(PRE_DUMP,USED_DUMP):drill.docker('rm','-f',path,check=False)

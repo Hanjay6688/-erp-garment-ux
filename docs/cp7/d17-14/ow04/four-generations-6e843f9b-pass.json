@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "candidate": "6e843f9bbb6a0a334c454a907dd95b5a555b256c",
+  "run_id": 39741995021,
+  "job_id": 119701210253,
+  "cases": {
+    "PASS": 2
+  },
+  "required_case_ids_pass": true,
+  "source_cohorts_per_case": 1,
+  "correction_generations_per_case": 4,
+  "multiple_distinct_return_cohorts_qualified": false,
+  "complete_preuse_removal": "COMPLETE_PAYMENT_SOURCE_PREUSE_REMOVED",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "raw_report": {
+    "bytes": 929345,
+    "sha256": "3d20e0eb529858c31ec9fd18dceaa17dfad53a089a885df45a02012581679fc1"
+  },
+  "artifact": {
+    "id": 12409819969,
+    "bytes": 1705950,
+    "sha256": "4614c83ac0c7d35c588e4cafcdb3ebf8574d6701c848f5a1b7f4f92ad59dd43b"
+  },
+  "financial_source_binding": {
+    "candidate": "8c437dbe0d6e62e246b2cf0cda75fb6c19330357",
+    "raw_sha256": "9a66b07743087e107e3d7d9298d9e517b786077f848cee79ffc326a8246c3a50",
+    "actual_counts": {
+      "PASS": 32
+    },
+    "financial_source_equal": true,
+    "run_id": 39734958661,
+    "job_id": 119678374447,
+    "Native32_actually_rerun_here": false
+  },
+  "formal_CP7C_started": false,
+  "production_go": false
+}

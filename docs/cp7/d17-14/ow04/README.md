@@ -24,8 +24,15 @@ Writer hanya bekerja di `astra/d17-14-integrasi`; cabang lama dipertahankan.
   [run39730341474/job119663686362](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39730341474/job/119663686362).
   Dua rantai sudah tersimpan;649 tabel cocok;8 replay tidak mengubah data;
   UNDO dan pembalikan retur lulus. Ini belum bukti P21 baru atau sumber8c.
-- Kandidat berikut: `.github/workflows/cp7-ow04-final-p21-generations.yml`
-  menjalankan dua perjalanan empat generasi dan P21 bawaan di database sekali pakai.
+- Empat generasi koreksi: [kuitansi2/2 lulus](four-generations-6e843f9b-pass.json),
+  [run39741995021/job119701210253](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39741995021/job/119701210253).
+  APPLY dan REFUND lulus1000→900→1000→950→1000; histori, replay, stok/HPP, pembalikan dan pemulihan CP6 lulus.
+  Setiap perjalanan tetap satu kelompok retur; beberapa kelompok berbeda belum dibuktikan.
+- P21 pertama: [kegagalan yang dipertahankan](p21-6e843f9b-first-failure.json),
+  [run39741995021/job119701209927](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39741995021/job/119701209927).
+  Pemasangan lulus, lalu kesamaan katalog setelah pencopotan gagal. P21 belum lulus.
+  Pemeriksaan berikut merekam semua perbedaan dan membuktikan rollback transaksi gagal; patokan tetap.
+  `.github/workflows/cp7-ow04-final-p21.yml` mengulang P21 saja.
   P21 mempertahankan pemakaian pembayaran supplier dan analisis bertahap dari
   rehearsal lama, ditambah dua rantai kredit/refund dan pemeriksaan penuh sesudah restore.
 - Log lengkap baru berada di artifact Actions dan arsip privat owner.

@@ -1,14 +1,5 @@
 name: CP7 OW04 final correction generations and default P21 rehearsal
 'on':
-  push:
-    branches:
-    - astra/d17-14-integrasi
-    paths:
-    - scripts/ow04-final-qualification/**
-    - scripts/cp7_p21_ow04_adapter.py
-    - scripts/cp7_p21_current_ow04_rehearsal_probe.py
-    - scripts/cp7_p21_full_rehearsal_probe.py
-    - .github/workflows/cp7-ow04-final-p21-generations.yml
   workflow_dispatch: {}
 permissions:
   contents: read

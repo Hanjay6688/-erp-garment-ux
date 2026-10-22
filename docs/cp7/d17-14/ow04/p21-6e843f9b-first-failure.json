@@ -1,0 +1,30 @@
+{
+  "status": "INCOMPLETE",
+  "candidate": "6e843f9bbb6a0a334c454a907dd95b5a555b256c",
+  "run_id": 39741995021,
+  "job_id": 119701209927,
+  "error": "P21_CURRENT_PREUSE_CATALOG_NOT_EXACT",
+  "first_failure_excerpt": "assert restore.catalog._catalog_rows(cur)==before_catalog,'P21_CURRENT_PREUSE_CATALOG_NOT_EXACT'",
+  "p21_adapter_steps": [
+    {
+      "step": "CURRENT_INSTALL_1",
+      "status": "PASS",
+      "all22_catalog_groups_verified": true
+    }
+  ],
+  "required_restore_steps_executed": [],
+  "cp6_restoration_proved_by_this_inner_report": false,
+  "outer_backup_drill_status": "RESTORED_SAME_MEANING",
+  "raw_report": {
+    "bytes": 212964,
+    "sha256": "1b539f987fc86e53591bd685ce874a0bed1a4f246055ffc29a8b72cb9b664405"
+  },
+  "artifact": {
+    "id": 12410037498,
+    "bytes": 1631454,
+    "sha256": "2baeafa2808f2394c215dd07d0cc9809bb70a815fbeb4aebebb97819512dcc1e"
+  },
+  "next_attempt": "Record every catalog difference without relaxing equality; independently prove rollback of the uncommitted install cycle.",
+  "formal_CP7C_started": false,
+  "production_go": false
+}
