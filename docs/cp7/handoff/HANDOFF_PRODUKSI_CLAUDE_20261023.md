@@ -7,8 +7,8 @@ Konteks personal tetap privat. Slogan: VENI. VIDI. VICI. ERP. Reliable data adal
 ## Titik ambil terbaru
 
 Perbaikan pembacaan desimal Native sudah di5113c133. Uji server gabungan pengganti dipin ke
-**4eaf6bce69ddcb52b89c8d24446ce5466825ac78**, run39865429494; hasil masih menunggu Original.
-Sumber beku tetap tepat. Jangan menganggap Native286 lulus dari109/113 pada kandidat sebelumnya.
+**4eaf6bce69ddcb52b89c8d24446ce5466825ac78**, run39865429494: paket pertama113/113 PASS; paket kedua0 kasus karena clone sudah dihapus runner pertama.
+Sumber beku tetap tepat. Native286 belum lulus; perbaikan berikutnya membuat clone baru sebelum paket2–6 dan menyimpan Original paket per folder.
 
 OW12b sekarang memiliki caller dan layar, belum Native atau bukti±3.600 barang. Baca
 [README OW12b](../d17-14/ow12b/README.md) dan kontraknya. A memasang `cp7_analysis_finance_bridge`
@@ -112,3 +112,12 @@ Penyimpanan sebenarnya berhasil, tetapi klien menolak `39.3200000000000000` sebe
 Perbaikan memeriksa presisi bermakna sesudah normalisasi tanpa pembulatan; referensi CAS tetap teks asli.
 Fixture jawaban Native yang sama dipakai pada uji simpan dan muat ulang, termasuk penolakan digit nyata berlebih.
 Uji terarah56/56 lulus (termasuk17 kontrol analisis); Native286 pengganti belum diklaim.
+
+
+Original4eaf6bc sudah dibaca: Native61/61, dua pengguna34/34, HTTP7/7 dan browser11/11, total113/113;
+ID tepat, gerbang22 sebelum pakai, sumber beku, pemulihan/advisor lulus. Receipt ow14b/4eaf6bc-native113-pass.json.
+Lima paket berikutnya173 kasus belum diuji di kandidat ini. Kegagalan alat: retained package sengaja
+dropcp6_rollback pada finally; sequence belum membuat clone berikutnya. Perbaikannya memakai skrip
+clone beku milik writerca7f095, memeriksa SHA berkas, memakai alamat loopback persis dan batas5 menit.
+Original T3/package/backup tiap suite dipindah ke folder tersendiri sebelum paket berikutnya, supaya
+tidak tertimpa. Tiga uji pengatur urutan lulus; ini bukan pengganti Native. A module/install tidak diedit.

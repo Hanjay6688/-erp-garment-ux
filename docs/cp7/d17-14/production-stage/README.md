@@ -45,3 +45,19 @@ klien/server dan pin privat kini mempertahankan6 angka tanpa pembulatan (manual_
 masuk admisi/invers). Pesan minimum terpilih mempertahankan angkanya. Form tanpa pilihan eksplisit mempertahankan
 penjelasan Master lama ditambah keterangan referensi/aturan aktif; assertion browser lama tidak dihapus.
 Lokal8 kelompok SQL bahan/pemulihan plus5 kelompok kernel lulus; pemeriksaan server tahap baru masih menunggu.
+
+
+## Sesudah Original4eaf6bc
+
+Paket OW14b113 sekarang PASS pada4eaf6bce69ddcb52b89c8d24446ce5466825ac78/run39865429494/job120126319220.
+ID kasus tepat; Native61, dua pengguna34, HTTP7, browser11; pemulihan/advisor dan22-group preuse gate PASS.
+Receipt di ../ow14b/4eaf6bc-native113-pass.json. Pengatur gabungan masih INCOMPLETE: paket kedua0 kasus
+karena cp6_t3_package_run.run menghapus cp6_rollback di finally, juga saat PASS. Lima suite173 belum jalan.
+Kegagalan pertama di4eaf6bc-first-clone-boundary.json.
+
+Sequence berikutnya mereklon AB primer yang tetap utuh dengan skrip clone milik writerca7f095 sebelum
+masing-masing suite2–6. Writer HEAD/byte skrip dikunci; koneksi hanya allowlist loopback disposable.
+Penolakan clone menghentikan sequence sebelum suite berikutnya. Original T3_*.json dipindah ke folder
+suite-NN-probe setelah setiap proses; file Native utama tetap bernama unik. Upload complete-json harus
+rekursif agar Original paket pertama tidak hilang/ditimpa. Tidak mengubah runner/bundle/pemasang A.
+Tiga uji pengatur urutan mereproduksi penghapusan database, kegagalan clone dan writer berubah.

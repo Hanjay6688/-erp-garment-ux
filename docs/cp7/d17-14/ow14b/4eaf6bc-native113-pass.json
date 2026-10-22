@@ -1,0 +1,31 @@
+{
+  "candidate": "4eaf6bce69ddcb52b89c8d24446ce5466825ac78",
+  "run_id": 39865429494,
+  "job_id": 120126319220,
+  "status": "PASS",
+  "scope": "FIRST_SUITE_OW14B_113_ONLY_NOT_AGGREGATE286",
+  "source_sha256": "e7701eaada592cfd74a8555cf4cdcb7df8d180448213d3bbf5698c3bfa025127",
+  "observed_case_count": 113,
+  "counts": {
+    "native": 61,
+    "races": 34,
+    "http": 7,
+    "browser": 11
+  },
+  "exact_declared_ids_all_pass": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "preuse_22_groups_exactly_restored": true,
+  "Original": {
+    "bytes": 13689935,
+    "sha256": "44f6d594dd8fd7dd72ef6443a593c7b403a1bb39707d69fbb99ac7fecadbe776"
+  },
+  "artifact": {
+    "id": 12464662774,
+    "bytes": 1430816,
+    "sha256": "e77d660b71691e43eb2e135d6f7611cf4217b685f0cf38d96ee95e5a3d3f600b"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_A_chain_qualified": false
+}

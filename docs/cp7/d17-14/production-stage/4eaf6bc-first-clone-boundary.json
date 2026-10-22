@@ -1,0 +1,23 @@
+{
+  "candidate": "4eaf6bce69ddcb52b89c8d24446ce5466825ac78",
+  "run_id": 39865429494,
+  "job_id": 120126319220,
+  "status": "INCOMPLETE",
+  "completed_suite_cases": 113,
+  "completed_suites": 1,
+  "remaining_suites": 5,
+  "remaining_case_budget": 173,
+  "second_suite_cases": 0,
+  "failure": "Second package install found no cp6_rollback: the first retained package runner drops its disposable clone in finally. Sequence failed to reclone the unchanged aligned AB primary before next suite.",
+  "first_failure_preserved": true,
+  "product_113_result": "PASS",
+  "error_excerpt": "FATAL: database cp6_rollback does not exist",
+  "primary_unchanged": true,
+  "fix_required": "Use the existing pinned disposable clone script after each restored suite, before starting the next. Preserve per-suite package/backup Originals under unique paths.",
+  "artifact": {
+    "id": 12464662774,
+    "bytes": 1430816,
+    "sha256": "e77d660b71691e43eb2e135d6f7611cf4217b685f0cf38d96ee95e5a3d3f600b"
+  },
+  "production_go": false
+}
