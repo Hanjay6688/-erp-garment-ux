@@ -16,7 +16,7 @@ const sale='11111111-1111-4111-8111-111111111111',payment='22222222-2222-4222-82
 const source:NonNullable<SalesRead['detail']>={id:sale,number:'INV-1',customer_id:sale,customer_name:'Toko',location_id:sale,location_name:'FG',physical_at:'2026-09-28T03:00:00Z',due_date:null,status:'PARTIAL_PAID',row_version:'9007199254740993',notes:null,payment_terms:null,line_count:'1',qty_pcs:'4',reserved_qty:'0',returned_qty:'0',review_token:'a'.repeat(32),items:[],financial:{basis:'CURRENT_NATIVE_DOCUMENT',state:'ACTIVE_RECEIVABLE',gross_total:'80.00',return_total:'0.00',net_total:'80.00',paid_total:'30.01',open_balance:'49.99'}}
 const paymentDocument={id:payment,number:'PAY-1',physical_at:'2025-09-28T04:00:59.123456+00:00',amount:'30.01',cash_account_id:bank,cash_account_name:'Bank utama',method:'BANK_TRANSFER',reference:'REF-1',notes:'Catatan utuh',status:'POSTED' as const,replaces_payment_id:null}
 const link={original_id:old,replacement_id:payment,sale_id:sale,actor_scope_id:sale,request_id:request,reason:'Koreksi pertama setelah pemeriksaan',recorded_at:'2026-09-29T04:00:00Z',time_restatement:null}
-const response=():PaymentCorrectionWorkspace=>({contract_version:'cp7.sales-payment-correction-workspace.v1',captured_at:'2026-09-29T04:00:00Z',sale_id:sale,row_version:source.row_version,review_token:source.review_token!,document:structuredClone(paymentDocument),eligible:true,previous:null,next:null,cash_accounts:{rows:[{id:bank,code:'BANK-1',name:'Bank utama',kind:'BANK'}],total:'1',offset:0,limit:25,next_offset:null}})
+const response=():PaymentCorrectionWorkspace=>({contract_version:'cp7.sales-payment-correction-workspace.v2',captured_at:'2026-09-29T04:00:00Z',sale_id:sale,row_version:source.row_version,review_token:source.review_token!,document:structuredClone(paymentDocument),eligible:true,replacement_capacity:{maximum_amount:'80.00',basis:'ORDINARY_RECEIVABLE',source_sale_id:sale,payment_id:payment,row_version:source.row_version},previous:null,next:null,cash_accounts:{rows:[{id:bank,code:'BANK-1',name:'Bank utama',kind:'BANK'}],total:'1',offset:0,limit:25,next_offset:null}})
 let root:Root,container:HTMLDivElement;const saved=vi.fn()
 beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});mock.rpc.mockReset();saved.mockReset();const a=structuredClone(recoveryIdentity);a.identity.permissions.push('sales.invoice.view','finance.ar.view','sales.payment.view','sales.payment.create','sales.payment.post','sales.payment.reverse');mock.auth=a;mock.rpc.mockResolvedValue({data:response(),error:null});container=document.createElement('div');document.body.append(container);root=createRoot(container)})
 afterEach(async()=>{await act(async()=>root.unmount());container.remove()})
@@ -28,6 +28,28 @@ async function fill(label:string,value:string){await act(async()=>{const e=input
 async function click(e:HTMLElement){await act(async()=>e.click());await flush()}
 async function review(){await fill('Alasan koreksi pembayaran','Nominal diperiksa dan diperbaiki');await click(input('Koreksi pembayaran sudah diperiksa'))}
 describe('ordinary payment correction component and strict server stand-ins',()=>{
+ it('restores1000 after900 with zero AR using the exact server return-cohort bound',async()=>{
+  const current={...paymentDocument,amount:'900.00'},s={...source,status:'PAID' as const,financial:{...source.financial!,gross_total:'1000.00',return_total:'200.00',net_total:'800.00',paid_total:'800.00',open_balance:'0.00'}}
+  const w=response();w.document=current;w.replacement_capacity={maximum_amount:'1000.00',basis:'EXISTING_RETURN_COHORT',source_sale_id:sale,payment_id:payment,row_version:s.row_version}
+  w.previous={link,document:{...paymentDocument,id:old,status:'REVERSED',amount:'1000.00'}}
+  mock.rpc.mockResolvedValue({data:w,error:null})
+  await act(async()=>root.render(<SalesPaymentCorrectionPanel source={s} payment={current} edit={false} locked={false} stale={false} onClose={()=>{}} onSave={saved}/>));await flush()
+  await click(button('Pulihkan isi pembayaran sebelum koreksi'));await review()
+  expect(input('Nominal koreksi pembayaran').value).toBe('1000.00');expect(button('Simpan koreksi pembayaran').disabled).toBe(false)
+  await click(button('Simpan koreksi pembayaran'));expect(saved.mock.calls[0][1].replacement).toMatchObject({amount:'1000.00',payment_date:current.physical_at,cash_account_id:bank,payment_method:current.method})
+  await fill('Nominal koreksi pembayaran','1000.01');await review();expect(button('Simpan koreksi pembayaran').disabled).toBe(true)
+  await fill('Nominal koreksi pembayaran','950.00');await fill('Waktu koreksi pembayaran WIB','2025-09-29T12:31');await review();expect(button('Simpan koreksi pembayaran').disabled).toBe(true)
+ })
+ it('keeps an unavailable capacity unknown and rejects another source or review epoch',async()=>{
+  const w=response();w.replacement_capacity=null;mock.rpc.mockResolvedValue({data:w,error:null});await mount();await fill('Nominal koreksi pembayaran','20.01');await review()
+  expect(button('Simpan koreksi pembayaran').disabled).toBe(true);expect(container.textContent).toContain('Batas koreksi belum tersedia')
+  for(const capacity of [
+   {...response().replacement_capacity!,source_sale_id:old},{...response().replacement_capacity!,payment_id:old},
+   {...response().replacement_capacity!,row_version:'9007199254740994'},
+   {...response().replacement_capacity!,maximum_amount:'80.001'},{...response().replacement_capacity!,maximum_amount:'0.00'},
+   {...response().replacement_capacity!,maximum_amount:'9999999999999999999.99'},
+   {...response().replacement_capacity!,basis:'UNVERIFIED'}])expect(()=>parsePaymentCorrectionWorkspace({...response(),replacement_capacity:capacity},source,payment)).toThrow()
+ })
  it('emits one reviewed intent with exact source revision and original microseconds',async()=>{
   await mount();expect(saved).not.toHaveBeenCalled();expect(button('Simpan koreksi pembayaran').disabled).toBe(true);await fill('Nominal koreksi pembayaran','20,01');await review();await click(button('Simpan koreksi pembayaran'))
   expect(saved).toHaveBeenCalledOnce();expect(saved).toHaveBeenCalledWith('PAYMENT_CORRECT',{sale_id:sale,payment_id:payment,review_token:source.review_token,change_reason:'Nominal diperiksa dan diperbaiki',replacement:{payment_number:'PAY-1',payment_date:paymentDocument.physical_at,amount:'20.01',cash_account_id:bank,payment_method:'BANK_TRANSFER',reference_number:'REF-1',notes:'Catatan utuh'}},source.row_version)

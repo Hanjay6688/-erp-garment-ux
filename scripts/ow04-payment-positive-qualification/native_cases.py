@@ -49,6 +49,10 @@ def one_case(cur,today,index,last_link_failure):
         if gold['spend_second20']:
             second,_,_=use(cur,pair,'20.00');consumers.append(second)
             originals[second['consumption_event_id']]=native.journal(cur,second['journal_id'])
+        workspace=correction.workspace(cur,source,payment_id=lowered['payment_id'])
+        assert workspace['contract_version']=='cp7.sales-payment-correction-workspace.v2'
+        assert workspace['replacement_capacity']==dict(maximum_amount='1000.00',basis='EXISTING_RETURN_COHORT',
+            source_sale_id=str(source['sale']),payment_id=lowered['payment_id'],row_version=workspace['row_version'])
         up,version_up=correction.payload(cur,source,amount='1000.00',payment_id=lowered['payment_id'])
         before=basic.observation(cur,pair)
         over=deepcopy(up);over['replacement']['amount']='1000.01'

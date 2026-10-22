@@ -1,7 +1,8 @@
-import {parseSalesPayment,parseSalesCashAccountPage,type SalesPayment,type SalesCashAccount} from './salesCashContract'
+import {parseSalesPayment,parseSalesCashAccountPage,salesCashAmount,salesCashCents,type SalesPayment,type SalesCashAccount} from './salesCashContract'
 export type PaymentCorrectionLink={original_id:string;replacement_id:string;sale_id:string;actor_scope_id:string;request_id:string;reason:string;recorded_at:string;time_restatement:null|{neutral_journal_id:string;neutral_number:string;neutral_economic_date:string;neutral_transaction_date:string;effective_journal_id:string;effective_number:string;effective_economic_date:string;effective_transaction_date:string}}
 type Relative={link:PaymentCorrectionLink;document:SalesPayment}
-export type PaymentCorrectionWorkspace={contract_version:'cp7.sales-payment-correction-workspace.v1';captured_at:string;sale_id:string;row_version:string;review_token:string;document:SalesPayment;eligible:boolean;previous:Relative|null;next:Relative|null;cash_accounts:{rows:SalesCashAccount[];total:string;offset:number;limit:number;next_offset:number|null}}
+export type PaymentCorrectionCapacity={maximum_amount:string;basis:'ORDINARY_RECEIVABLE'|'EXISTING_RETURN_COHORT';source_sale_id:string;payment_id:string;row_version:string}
+export type PaymentCorrectionWorkspace={contract_version:'cp7.sales-payment-correction-workspace.v2';captured_at:string;sale_id:string;row_version:string;review_token:string;document:SalesPayment;eligible:boolean;replacement_capacity:PaymentCorrectionCapacity|null;previous:Relative|null;next:Relative|null;cash_accounts:{rows:SalesCashAccount[];total:string;offset:number;limit:number;next_offset:number|null}}
 const fail=():never=>{throw Error('Data koreksi pembayaran berubah atau belum lengkap. Muat ulang invoice sebelum melanjutkan.')}
 const id=(v:unknown):v is string=>typeof v==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v)
 const timestamp=(v:unknown):v is string=>typeof v==='string'&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?(?:Z|[+-]\d{2}:\d{2})$/.test(v)&&Number.isFinite(Date.parse(v))
@@ -19,13 +20,18 @@ function link(v:unknown,saleId:string){
  return r as unknown as PaymentCorrectionLink
 }
 export function parsePaymentCorrectionWorkspace(v:unknown,source:{id:string;row_version:string;review_token?:string},paymentId:string,bankOffset=0):PaymentCorrectionWorkspace{
- const r=closed(v,['contract_version','captured_at','sale_id','row_version','review_token','document','eligible','previous','next','cash_accounts'])
- if(r.contract_version!=='cp7.sales-payment-correction-workspace.v1'||!timestamp(r.captured_at)||r.sale_id!==source.id||r.row_version!==source.row_version||r.review_token!==source.review_token||!text(r.review_token)||!/^[a-f0-9]{32}$/.test(r.review_token)||typeof r.eligible!=='boolean')fail()
+ const r=closed(v,['contract_version','captured_at','sale_id','row_version','review_token','document','eligible','replacement_capacity','previous','next','cash_accounts'])
+ if(r.contract_version!=='cp7.sales-payment-correction-workspace.v2'||!timestamp(r.captured_at)||r.sale_id!==source.id||r.row_version!==source.row_version||r.review_token!==source.review_token||!text(r.review_token)||!/^[a-f0-9]{32}$/.test(r.review_token)||typeof r.eligible!=='boolean')fail()
  const document=parseSalesPayment(r.document);if(document.id!==paymentId||!timestamp(document.physical_at))fail()
  for(const key of ['previous','next']as const){if(r[key]===null)continue;const rel=closed(r[key],['link','document']),l=link(rel.link,source.id),d=parseSalesPayment(rel.document)
   if(!['POSTED','REVERSED'].includes(d.status)||key==='previous'&&(l.replacement_id!==paymentId||l.original_id!==d.id||d.status!=='REVERSED')||key==='next'&&(l.original_id!==paymentId||l.replacement_id!==d.id||document.status!=='REVERSED'))fail()
  }
  if(r.eligible&&(document.status!=='POSTED'||document.cash_account_id===null||document.replaces_payment_id!==null||!['CASH','BANK_TRANSFER'].includes(document.method??'')||r.next!==null))fail()
+ if(r.replacement_capacity!==null){
+  const c=closed(r.replacement_capacity,['maximum_amount','basis','source_sale_id','payment_id','row_version'])
+  if(!r.eligible||!text(c.maximum_amount)||salesCashAmount(c.maximum_amount)!==c.maximum_amount||salesCashCents(c.maximum_amount)<=0n
+   ||!['ORDINARY_RECEIVABLE','EXISTING_RETURN_COHORT'].includes(String(c.basis))||c.source_sale_id!==source.id||c.payment_id!==document.id||c.row_version!==r.row_version)fail()
+ }
  parseSalesCashAccountPage(r.cash_accounts,bankOffset)
  return r as unknown as PaymentCorrectionWorkspace
 }

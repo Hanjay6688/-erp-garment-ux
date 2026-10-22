@@ -27,8 +27,29 @@ missed a semicolon between copied PostgreSQL definitions. Both original local
 reports are retained. The corrected harness passed33 checks without relaxing
 the product or equivalence oracle.
 
-This draft is based on positive-correction candidat ed96bb101, whose actual
-Native26 run was still pending when this draft was made. No Native/HTTP/UI or
+This draft is based on positive-correction candidate d96bb101, whose actual
+Native26 subsequently passed26/26. No Native/HTTP/UI or
 performance result is claimed for this new binding body. Old source receipts
 cannot qualify it. Further operand sharing and measured qualification remain
 necessary before any speed improvement or wholeOW04 completion is reported.
+
+The current next candidate also shares one canonical actual operation, plan
+ID vector and computed before input inside each STABLE materialization proof.
+Four private factual calculators are derived from the freshly verified source;
+the original UUID helpers remain unchanged. Actual journal/consumer/support,
+before/after ordinal, object membership and all later proof comparisons remain.
+No stored cache, skip flag or capability is added. Local body checks and all22
+catalog groups passed with25 derivations/30 private functions; the33 binding
+projection checks still passed. Worker financial equivalence requires the
+actual retained26 qualification, which is being repeated.
+
+The payment-correction reader now supplies a v2 source/payment/version-bound
+amount limit. One supported existing return cohort can restore900-to1000
+with zero AR; unsupported/unavailable limits remain null. The UI consumes the
+server limit, keeps the fixed source date/account/method and requires an amount
+change in this bounded return path. The existing ordinary editing behavior is
+retained. Tests include the actual former zero-AR UI blocker, wrong source/
+version limits, one cent over limit, unknown capacity and stale/locked UI.
+Five component suites passed65 tests, TypeScript and the complete placeholder
+Enteng production build/ownership/secret scan passed. These are local stand-ins;
+actual Auth/browser qualification on this new source remains required.

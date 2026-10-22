@@ -25,7 +25,15 @@ CHANGED = (
  'cp7_credit.consumer_execute_v1(uuid)', 'cp7_credit.assert_reconciled_source_profile_v1(uuid,jsonb)',
  'cp7_credit.validate_source_adjustment_component_v1(uuid)',
  'cp7_credit.source_operation_binding_payload_v1(uuid)',
+ 'cp7_payment_correction.workspace(jsonb)',
 )
+HISTORY_CLONES = ('cp7_credit.source_historical_plan_ids_v1(uuid)',
+    'cp7_credit.source_historical_ordinal_input_v1(uuid,boolean)',
+    'cp7_credit.source_historical_objects_v1(uuid)')
+HISTORY_HELPERS = ('cp7_credit.payment_source_historical_plan_ids_v1',
+    'cp7_credit.payment_source_historical_consumers_v1',
+    'cp7_credit.payment_source_historical_input_v1',
+    'cp7_credit.payment_source_historical_objects_v1')
 
 
 def once(text, old, new):
@@ -93,10 +101,90 @@ def ambient_definition(inventory):
     return "create function cp7_credit.payment_source_ambient_guard_v1(p_sale uuid)returns void language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $payment_ambient$"+body+'$payment_ambient$;'
 
 
+def history_operand_definitions(captures, clones):
+    """Fresh factual calculators sharing an already canonical actual operation.
+
+    They carry no capability, posting route or stored cache. The protected
+    verifier obtains the binding from actual rows and supplies its own fresh
+    plan IDs and before input. Original UUID interfaces remain unchanged.
+    """
+    if set(clones) != set(HISTORY_CLONES):
+        raise ValueError('OW04_PAYMENT_HISTORY_CLONE_SOURCE_SET_CHANGED')
+    out = []
+    def helper(text, old_header, new_header):
+        name, parameters = old_header[:-1].split('(', 1)
+        parameter_pattern = r',\s*'.join(re.escape(p.strip()).replace(r'\ ', r'\s+') for p in parameters.split(','))
+        pattern = r'\bcreate\s+(?:or\s+replace\s+)?function\s+'+re.escape(name)+r'\(\s*'+parameter_pattern+r'\s*\)'
+        text, count = re.subn(pattern, lambda _: 'CREATE FUNCTION '+new_header, text, flags=re.I)
+        if count != 1:
+            raise ValueError('OW04_PAYMENT_HISTORY_EXACT_CLONE_HEADER_CHANGED: '+old_header)
+        return once(text, "op:=cp7_credit.source_operation_binding_payload_v1(p_operation)->'operation';", 'op:=p_op;')
+    text = helper(clones[HISTORY_CLONES[0]]['definition'],
+        'cp7_credit.source_historical_plan_ids_v1(p_operation uuid)',
+        'cp7_credit.payment_source_historical_plan_ids_v1(p_op jsonb)')
+    out.append(text)
+    # Retain the exact PAYMENT_CORRECT-specific historical consumer contract.
+    text = derive(captures)['cp7_credit.consumer_source_historical_v1(uuid,uuid)']
+    text = helper(text, 'cp7_credit.consumer_source_historical_v1(p_operation uuid, p_family uuid)',
+        'cp7_credit.payment_source_historical_consumers_v1(p_op jsonb, p_family uuid)')
+    out.append(text)
+    text = helper(clones[HISTORY_CLONES[1]]['definition'],
+        'cp7_credit.source_historical_ordinal_input_v1(p_operation uuid, p_after boolean)',
+        'cp7_credit.payment_source_historical_input_v1(p_op jsonb, p_after boolean, p_plans uuid[])')
+    text = once(text, 'declare op jsonb;', 'declare consumers jsonb;op jsonb;')
+    text = once(text, 'plans:=cp7_credit.source_historical_plan_ids_v1(p_operation);', 'plans:=p_plans;')
+    text = once(text, 'perform cp7_credit.consumer_source_historical_v1(p_operation,f.id);',
+        'consumers:=cp7_credit.payment_source_historical_consumers_v1(op,f.id);')
+    text = once(text, 'cp7_credit.consumer_source_historical_v1(p_operation,f.id)', 'consumers')
+    out.append(text)
+    text = helper(clones[HISTORY_CLONES[2]]['definition'],
+        'cp7_credit.source_historical_objects_v1(p_operation uuid)',
+        'cp7_credit.payment_source_historical_objects_v1(p_op jsonb, p_plans uuid[], p_before_input jsonb)')
+    text = once(text, 'plans:=cp7_credit.source_historical_plan_ids_v1(p_operation);', 'plans:=p_plans;')
+    text = once(text, "cp7_credit.source_historical_ordinal_input_v1(p_operation,false)->'families'", "p_before_input->'families'")
+    out.append(text)
+    for text in out:
+        body = re.search(r'\bas\s+(\$[a-zA-Z0-9_]*\$)([\s\S]*?)\1\s*;?\s*$', text, re.I)
+        if body is None or re.search(r'\bp_operation\b', body.group(2)):
+            raise ValueError('OW04_PAYMENT_HISTORY_UNBOUND_OLD_ARGUMENT')
+    return out
+
+
 def derive(captures):
     if set(captures) != set(CHANGED):
         raise ValueError('OW04_PAYMENT_SOURCE_CAPTURE_SET_CHANGED')
     result = {sig: row['definition'] for sig, row in captures.items()}
+    sig = 'cp7_payment_correction.workspace(jsonb)'
+    result[sig] = once(result[sig], 'eligible boolean;a jsonb;',
+        "eligible boolean;a jsonb;capacity jsonb;maximum numeric;basis text;lots uuid[];g jsonb;")
+    result[sig] = once(result[sig], ' select *into prev from cp7_payment_correction.links',
+        " -- A current statement snapshot supplies the amount bound; the owning\n"
+        " -- command still rechecks all rights, locks, facts and joint cuts.\n"
+        " if eligible and erp.has_permission('finance.ar.view')and erp.has_permission('sales.invoice.view')then\n"
+        "  maximum:=original.amount+erp.sale_net_total(h.id)-cp7_credit.current_effective_paid(h.id);basis:='ORDINARY_RECEIVABLE';\n"
+        "  if cp7_credit.has_ow04_participation_v1(h.id)then\n"
+        "   perform cp7_credit.assert_current_materialized_profile(h.id,h.id,h.id);\n"
+        "   g:=cp7_credit.consumer_joined_graph_v1(h.id,null);\n"
+        "   select coalesce(array_agg(distinct lot),'{}')into lots from jsonb_array_elements_text(g->'sale_ids')s(sale_id)\n"
+        "    cross join lateral unnest(cp7_credit.source_hpp_lot_ids_v1(s.sale_id::uuid))lot;\n"
+        "   if(select count(*)from cp7_credit.cohorts where source_sale_id=h.id)=1\n"
+        "    and not exists(select 1 from cp7_credit.consumption_events where event_kind='APPLY'and target_sale_id=h.id)\n"
+        "    and not exists(select 1 from erp.opening_lot_hpp_gl_state where lot_id=any(lots))\n"
+        "    and not exists(select 1 from erp.fg_lots where id=any(lots)and(po_id is not null or lot_origin='CONVERSION'))\n"
+        "    and exists(select 1 from erp.journal_entries j where j.source_type='SALES_PAYMENT'and j.source_id=original.id\n"
+        "     and j.reversal_of_id is null and j.status='POSTED'\n"
+        "     and j.economic_date=(original.payment_date at time zone'Asia/Jakarta')::date\n"
+        "     and j.transaction_date=j.economic_date and erp.resolve_accounting_transaction_date(j.economic_date)=j.transaction_date)then\n"
+        "    maximum:=coalesce((select sum(i.line_total)from erp.sales_items i where i.sale_id=h.id),0)\n"
+        "     -coalesce((select sum(p.amount)from erp.sales_payments p where p.sale_id=h.id and p.status='POSTED'and p.id<>original.id),0);\n"
+        "    basis:='EXISTING_RETURN_COHORT';\n"
+        "   else maximum:=null;end if;\n"
+        "  end if;\n"
+        "  if maximum>0 then capacity:=jsonb_build_object('maximum_amount',cp7_credit.cent_text(least(maximum,cp7_credit.native_journal_cent_max())::cp7_credit.cent_amount),\n"
+        "   'basis',basis,'source_sale_id',h.id,'payment_id',original.id,'row_version',h.row_version::text);end if;\n"
+        " end if;\n select *into prev from cp7_payment_correction.links")
+    result[sig] = once(result[sig], "'cp7.sales-payment-correction-workspace.v1'", "'cp7.sales-payment-correction-workspace.v2'")
+    result[sig] = once(result[sig], "'eligible',coalesce(eligible,false),'previous'", "'eligible',coalesce(eligible,false),'replacement_capacity',capacity,'previous'")
     sig = 'cp7_credit.source_operation_binding_payload_v1(uuid)'
     fields = ('operation_id','operation_ordinal','predecessor_operation_id','backend_pid','transaction_id',
         'actor','request_id','action','sale_id','source_id','expected_version','payload','payload_sha256','authority_snapshot',
@@ -204,6 +292,21 @@ def derive(captures):
     result[sig] = once(result[sig], 'cp7_credit.source_inverse_proof_v1(w.before_source,actual,w.action,w.source_id)',
         'cp7_credit.source_owned_actual_proof_v1(w.operation_id,w.before_source,actual,w.action,w.source_id)')
     sig = 'cp7_credit.assert_source_materialization_v1(uuid)'
+    result[sig] = once(result[sig], 'declare m cp7_credit.source_operation_materializations_v1;',
+        'declare historical_op jsonb;historical_plans uuid[];historical_before jsonb;historical_after jsonb;historical_objects jsonb;\n m cp7_credit.source_operation_materializations_v1;')
+    result[sig] = once(result[sig], ' binding:=cp7_credit.source_operation_binding_sha256_v1(m.operation_id);',
+        " historical_op:=cp7_credit.source_operation_binding_payload_v1(m.operation_id)->'operation';\n"
+        " binding:=cp7_credit.pg_jsonb_sha256(jsonb_build_object('contract_version','ow04.source-operation-input-binding.v1','operation',historical_op));\n"
+        " historical_plans:=cp7_credit.payment_source_historical_plan_ids_v1(historical_op);\n"
+        " historical_before:=cp7_credit.payment_source_historical_input_v1(historical_op,false,historical_plans);\n"
+        " historical_after:=cp7_credit.payment_source_historical_input_v1(historical_op,true,historical_plans);\n"
+        " historical_objects:=cp7_credit.payment_source_historical_objects_v1(historical_op,historical_plans,historical_before);")
+    result[sig] = once(result[sig], 'cp7_credit.source_materialization_manifest_v1(m.operation_id)',
+        "jsonb_build_object('contract_version','ow04.source-operation-actual-manifest.v1','operation_id',m.operation_id,"
+        "'source_binding_sha256',binding,'financial_marker_id',m.financial_marker_id,'actual_objects',m.actual_objects)")
+    result[sig] = once(result[sig], 'cp7_credit.source_historical_ordinal_input_v1(m.operation_id,false)', 'historical_before')
+    result[sig] = once(result[sig], 'cp7_credit.source_historical_ordinal_input_v1(m.operation_id,true)', 'historical_after')
+    result[sig] = once(result[sig], 'cp7_credit.source_historical_objects_v1(m.operation_id)', 'historical_objects')
     result[sig] = once(result[sig], 'or p.net_amount>=0 or sp.full_family_result',
         "or(p.net_amount>=0 and m.action<>'PAYMENT_CORRECT')or sp.full_family_result")
     result[sig] = once(result[sig], "where(x->>'amount')::numeric>=0)",

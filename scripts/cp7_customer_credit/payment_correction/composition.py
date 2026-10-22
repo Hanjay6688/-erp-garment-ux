@@ -49,6 +49,7 @@ def new_function_names():
     text = '\n'.join(s for _, s in fragments())
     names = re.findall(r'\bcreate function (cp7_credit\.[a-z0-9_]+)\(', text)
     names += ['cp7_credit.payment_source_preflight_v1', 'cp7_credit.payment_source_ambient_guard_v1']
+    names += list(transform.HISTORY_HELPERS)
     if len(names) != len(set(names)):
         raise ValueError('OW04_PAYMENT_SOURCE_NEW_FUNCTION_DECLARATION_DUPLICATE')
     return set(names)
@@ -117,6 +118,7 @@ def install(cur, predecessor_verified, catalog_reader):
     if any(cur.execute('select to_regclass(%s)is not null', ('cp7_credit.'+name,)).fetchone()[0] for name in TABLES):
         raise ValueError('OW04_PAYMENT_SOURCE_ALREADY_INSTALLED')
     captures = {sig:consumer.capture(cur, sig) for sig in transform.CHANGED}
+    history_clones = {sig:consumer.capture(cur, sig) for sig in transform.HISTORY_CLONES}
     catalog_before = consumer.function_catalog(cur)
     definitions = transform.derive(captures)
     source_manifest = sources()
@@ -125,6 +127,8 @@ def install(cur, predecessor_verified, catalog_reader):
         cur.execute(transform.ambient_definition(inventory))
         cur.execute(transform.preflight_definition())
         for _, text in fragments():
+            cur.execute(text)
+        for text in transform.history_operand_definitions(captures, history_clones):
             cur.execute(text)
         existing_oids = set(catalog_before)
         new_rows = cur.execute("select p.oid::text,p.oid::regprocedure::text,n.nspname||'.'||p.proname from pg_proc p join pg_namespace n on n.oid=p.pronamespace where p.oid<>all(%s::oid[])",

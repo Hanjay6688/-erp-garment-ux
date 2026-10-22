@@ -35,7 +35,7 @@ OUT=REPO/'cp6-proof/t3'/f'{LABEL}.json'
 
 def admitted():
     source=json.loads((HERE/'SOURCE.json').read_bytes())
-    assert source['base_candidate']=='127099ac1e0f74d15e802fd5b0e0d4caa5db4db5'
+    assert source['base_candidate']=='e97386c36ef585af14e8a82d03f947eb8a615a6f'
     assert source['product_sources']==product.sources()
     for path,expected in source['files'].items():
         assert sha256((REPO/path).read_bytes()).hexdigest()==expected,('NATIVE22_SOURCE_CHANGED',path)
@@ -53,6 +53,12 @@ def admitted():
     first=json.loads(raw)
     assert first['status']=='INCOMPLETE'and first['native']['counts']=={'INCOMPLETE':2}
     assert all('CP7_CREDIT_CURRENT_SIGNED_SOURCE_CHANGED'in row['error']for row in first['native']['cases'].values())
+    raw=lzma.decompress((REPO/'docs/cp7/d17-14/ow04/payment-native26-d96bb101-pass/CP7_OW04_PAYMENT_SOURCE_NATIVE26_POSITIVE.json.xz').read_bytes())
+    assert sha256(raw).hexdigest()=='d4cc5959e88085936245b7aed59ed0a2d839cd9f4d258db5e9d6c63e01b16f18'
+    baseline=json.loads(raw)
+    assert baseline['status']=='PASS'and baseline['native']['counts']=={'PASS':26}
+    assert baseline['cp6_restored']and baseline['advisor_gate']and baseline['required_case_ids_pass']
+    assert set(baseline['native']['cases'])==set(IDS)
     assert len(IDS)==26 and len(set(IDS))==26
     return source
 
@@ -65,7 +71,7 @@ def run():
     report=dict(label=LABEL,status='INCOMPLETE',expected_case_count=26,required_case_ids=list(IDS),
         candidate_commit=subprocess.check_output(['git','-C',str(REPO),'rev-parse','HEAD'],text=True).strip(),
         source_declaration=binding,actual_financial_sources=product.sources(),
-        literal_expectations=business.expected(),retained22_rerun=True,previous_Native22_HTTP16_SQLraces6_is_current_acceptance=False,formal_CP7C_started=False,
+        literal_expectations=business.expected(),retained22_rerun=True,previous_Native26_is_current_acceptance=False,formal_CP7C_started=False,
         real_Auth_HTTP_browser_races_qualified=False,production_go=False,feature_complete=False,hosted=False)
     installed=False
     try:

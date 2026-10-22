@@ -5,7 +5,7 @@ import {getUatSupabaseClient} from './lib/supabase'
 import {normalizeClientError} from './lib/clientError'
 import {cp6WibDateTimeInput,cp6WibPhysicalTimeToIso,formatCp6WibDateTime} from './cp6BusinessTime'
 import {formatReceiptDecimal} from './procurementContract'
-import {salesCashAmount,salesCashCents,signedSalesCashCents,type SalesPayment} from './salesCashContract'
+import {salesCashAmount,salesCashCents,type SalesPayment} from './salesCashContract'
 import {parsePaymentCorrectionWorkspace,type PaymentCorrectionWorkspace} from './salesPaymentCorrectionContract'
 import TransactionSourceLink from './TransactionSourceNavigation'
 import type {SalesRead} from './salesReadContract'
@@ -31,10 +31,12 @@ export default function SalesPaymentCorrectionPanel({source,payment,edit:initial
  const canCorrect=['OWNER','ADMIN'].includes(identity.profile.role)&&['sales.invoice.view','finance.ar.view','sales.payment.view','sales.payment.create','sales.payment.post','sales.payment.reverse'].every(p=>identity.permissions.includes(p))
  const disabled=locked||stale||busy||!data,original=data?.document,exact=salesCashAmount(amount)
  const physical=timeEdited?cp6WibPhysicalTimeToIso(at):restoredAt??original?.physical_at??null
- const available=source.financial?.open_balance,maximum=available!==null&&available!==undefined&&original?signedSalesCashCents(available)+salesCashCents(original.amount):null
+ const capacity=data?.replacement_capacity,maximum=capacity?salesCashCents(capacity.maximum_amount):null
+ const fixedSource=capacity?.basis==='EXISTING_RETURN_COHORT'
+ const sourceTermsMatch=!fixedSource||Boolean(original&&physical===original.physical_at&&bank?.id===original.cash_account_id&&method===original.method&&exact!==null&&salesCashCents(exact)!==salesCashCents(original.amount))
  const validAmount=exact!==null&&salesCashCents(exact)>0n&&maximum!==null&&salesCashCents(exact)<=maximum
  const changed=original&&(exact!==null&&salesCashCents(exact)!==salesCashCents(original.amount)||physical!==original.physical_at||bank?.id!==original.cash_account_id||method!==original.method||(reference||null)!==original.reference||(notes||null)!==original.notes)
- const valid=!disabled&&canCorrect&&data?.eligible&&Boolean(changed)&&validAmount&&physical&&bank&&['CASH','BANK_TRANSFER'].includes(method)&&reason.trim().length>=5&&review
+ const valid=!disabled&&canCorrect&&data?.eligible&&sourceTermsMatch&&Boolean(changed)&&validAmount&&physical&&bank&&['CASH','BANK_TRANSFER'].includes(method)&&reason.trim().length>=5&&review
  const save=()=>{if(!valid||!original||!source.review_token)return
   onSave('PAYMENT_CORRECT',{sale_id:source.id,payment_id:original.id,review_token:source.review_token,change_reason:reason.trim(),replacement:{payment_number:original.number,payment_date:physical!,amount:exact!,cash_account_id:bank!.id,payment_method:method,reference_number:reference||null,notes:notes||null}},source.row_version)
  }
@@ -56,7 +58,9 @@ export default function SalesPaymentCorrectionPanel({source,payment,edit:initial
   {edit&&canCorrect&&data?.eligible?<form aria-label="Edit pembayaran pelanggan" onSubmit={e=>{e.preventDefault();save()}} onChange={()=>setReview(false)}><fieldset className="cproc-fieldset" disabled={disabled}>
    <p>Pembayaran lama dibalik dan pengganti dicatat dalam satu tindakan. Jika salah satu langkah ditolak, seluruh koreksi dibatalkan. Pengganti mendapat nomor K dengan jejak ke pembayaran asal.</p>
    <div className="cproc-grid"><label>Nominal diterima<input aria-label="Nominal koreksi pembayaran" inputMode="decimal" value={amount} onChange={e=>setAmount(e.target.value)}/></label><label>Waktu pembayaran · WIB<input aria-label="Waktu koreksi pembayaran WIB" type="datetime-local" value={at} onChange={e=>{setAt(e.target.value);setTimeEdited(true);setRestoredAt(null)}}/></label><label>Metode<select aria-label="Metode koreksi pembayaran" value={method} onChange={e=>setMethod(e.target.value)}><option value="BANK_TRANSFER">Transfer bank</option><option value="CASH">Tunai</option></select></label></div>
-   {maximum!==null?<p>Batas nominal pengganti {money((maximum/100n).toString()+'.'+(maximum%100n).toString().padStart(2,'0'))} sesuai pembayaran yang diganti dan sisa invoice.</p>:null}
+   {maximum!==null?<p>Batas nominal pengganti {money(capacity!.maximum_amount)} sesuai sumber invoice yang diperiksa.</p>:<p role="alert">Batas koreksi belum tersedia. Muat ulang sumber sebelum melanjutkan.</p>}
+   {fixedSource?<p>Saldo retur ikut diperiksa saat nominal pembayaran dikoreksi. Gunakan waktu, rekening, dan metode pembayaran yang sama.</p>:null}
+   {fixedSource&&!sourceTermsMatch?<p role="alert">Ubah nominal pembayaran dan pertahankan waktu, rekening, serta metode asal untuk koreksi saldo retur ini.</p>:null}
    {amount&&!validAmount?<p role="alert">Isi nominal positif dengan maksimal dua desimal, sesuai batas pengganti.</p>:null}
    <div className="cproc-search"><label>Cari kas atau rekening<input aria-label="Cari rekening koreksi pembayaran" value={search} maxLength={120} onChange={e=>setSearch(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();query.current={bank_q:search.trim(),bank_offset:0};void load()}}}/></label><button type="button" onClick={()=>{query.current={bank_q:search.trim(),bank_offset:0};void load()}}>Cari rekening koreksi pembayaran</button></div>
    <section aria-label="Rekening koreksi pembayaran">{data.cash_accounts.rows.map(b=><button className="cproc-receipt" type="button" key={b.id} aria-pressed={bank?.id===b.id} onClick={()=>{setBank({id:b.id,name:b.name});setReview(false)}}><span><strong>{b.code} · {b.name}</strong><small>{b.kind}</small></span></button>)}{data.cash_accounts.rows.length===0?<p>Tidak ada rekening aktif sesuai pencarian.</p>:null}<div className="cproc-pagination"><span>Total {data.cash_accounts.total} rekening</span><button type="button" disabled={data.cash_accounts.offset===0} onClick={()=>{query.current.bank_offset=Math.max(0,data.cash_accounts.offset-25);void load()}}>Rekening koreksi sebelumnya</button><button type="button" disabled={data.cash_accounts.next_offset===null} onClick={()=>{query.current.bank_offset=data.cash_accounts.next_offset??0;void load()}}>Rekening koreksi berikutnya</button></div></section>

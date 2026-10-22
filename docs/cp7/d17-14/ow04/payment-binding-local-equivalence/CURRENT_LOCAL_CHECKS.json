@@ -1,0 +1,17 @@
+{
+  "classification": "WRITER_LOCAL_CHECKS_NOT_REAL_AUTH_OR_NATIVE_ACCEPTANCE",
+  "component_suites": 5,
+  "component_tests_passed": 65,
+  "typescript_build": "PASS",
+  "enteng_placeholder_production_build": "PASS",
+  "source_access_CSS_ownership": "PASS",
+  "client_secret_scan": "PASS",
+  "full_local_DDL_body_check": "PASS",
+  "current_derivations": 25,
+  "current_private_functions": 30,
+  "complete_catalog_groups": 22,
+  "exact_projection_equivalence_checks_passed": 33,
+  "actual_financial_Native_execution": false,
+  "actual_performance_pass": false,
+  "production_go": false
+}

@@ -1,16 +1,18 @@
 {
-  "classification": "CLOSED_CHANGED_FINANCIAL_SOURCE_RETAINED22_AND_PREDECLARED_POSITIVE4",
-  "base_candidate": "127099ac1e0f74d15e802fd5b0e0d4caa5db4db5",
+  "classification": "CLOSED_CURRENT_FINANCIAL_SOURCE_SHARED_OPERANDS_AND_SOURCE_BOUND_READ_LIMIT_RETAINED26_RERUN",
+  "base_candidate": "e97386c36ef585af14e8a82d03f947eb8a615a6f",
   "files": {
-    ".github/workflows/cp7-ow04-payment-positive.yml": "4cce7f0db2ee1cbdde6947a4b48cdc3bb2642e4cf6ebeb9d3aa93c367909fb98",
-    "scripts/cp7_customer_credit/payment_correction/03_owning_callbacks.sql": "ac680a2c3d2e265c2884dbef774bdae3633ee42acf9f51b8b25fe7b61fbf1360",
-    "scripts/cp7_customer_credit/payment_correction/06_replacement_admission.sql": "b6102c3aa3cdbd577f9f6ef28ac529647dc9dd4850ab22072a3b180450200892",
-    "scripts/cp7_customer_credit/payment_correction/local_full_ddl_compile.mjs": "5de16100fe8ffcf42dbaa2f132b73ed81062e9d5b525ae55aadad5ca02498e59",
-    "scripts/cp7_customer_credit/payment_correction/transform.py": "99690553718a6f72f574cbabc914c1b01e6ca6f5ea31c56ba8c0758c92899518",
-    "scripts/ow04-payment-positive-qualification/EXPECTED.json": "6e0791fc821da214832a8f488f247a2f8f5ca12900d00c8cd32560e9f431fe13",
-    "scripts/ow04-payment-positive-qualification/README.md": "f6cfedd4c787731509108124f22de7db7a4e771625904345666fa754a92af0f5",
-    "scripts/ow04-payment-positive-qualification/native26_probe.py": "de2e8572772d9201e197a160bf6ca9341647e3b500ba6df6c5224994154012d0",
-    "scripts/ow04-payment-positive-qualification/native_cases.py": "4481ecb0595f413a97157adc752f2335a2a95aa5fae089eee593b6a7f6e23d7a"
+    ".github/workflows/cp7-ow04-payment-positive.yml": "2d35daf92d1019644febb3cb70bf6d8de51148c35107aa57aee9c2d914e4f461",
+    "scripts/cp7_customer_credit/payment_correction/composition.py": "e80227e2c73852e02ab2dfddfa54994d08e6adfb4932a983db25960d9bc6ec8b",
+    "scripts/cp7_customer_credit/payment_correction/local_full_ddl_compile.mjs": "c7980c90198fb032fc07552d731484ad647b30ddb680d89f9207dfffde4fc5b5",
+    "scripts/cp7_customer_credit/payment_correction/transform.py": "fe87209309dc38bf62cc9cf01fc9de62751f8fadbdd52b31bdb1b0b5e45d6b76",
+    "scripts/ow04-payment-binding-qualification/README.md": "bf7a3dc55abb121fa3edf6e0b7bf0625f6c06b1cf11d5efffc7c9ac2d64994dd",
+    "scripts/ow04-payment-positive-qualification/native26_probe.py": "30d9284c79e36003501832b5f6870c7ded30dd2db6c6e3c6e7eafa7dafc26ebf",
+    "scripts/ow04-payment-positive-qualification/native_cases.py": "92dbb6600fce09a7f4bd6b8f4b11bd65bb6ec8d9fbf94457281a505ad39fcef6",
+    "src/ConnectedSalesPage.dom.test.tsx": "63930b927549568dc753f8ae8ef1f205ada0c0dc968e7433824191e6bcf63a99",
+    "src/SalesPaymentCorrectionPanel.dom.test.tsx": "021615905fdb6afe52ee692e4ccaeb943316254b95462003cc94f757fab9263d",
+    "src/SalesPaymentCorrectionPanel.tsx": "b9cac06a85be637f83274e95ca86e89571c51ecbf9915173a248ba4280c07510",
+    "src/salesPaymentCorrectionContract.ts": "2205550540ebbc3d282bbb86b1ce903c225858331db260e61e0e03bd4651a06b"
   },
   "product_sources": {
     "installer_sha256": "52de3debc64b578da53ae58d5844a04a4523e43c743577772375f7a998f78512",
@@ -115,10 +117,11 @@
       "04_completion.sql": "1a45a483e774404896017b28886efe4b75669bbd57560d5a0873a078ebf59a7d",
       "05_consumer_continuation.sql": "3b53a04bc7787e8effa917dcb5645634b7d69205f276a45e3bfdd0d7a81e2b42",
       "06_replacement_admission.sql": "b6102c3aa3cdbd577f9f6ef28ac529647dc9dd4850ab22072a3b180450200892",
-      "transform.py": "99690553718a6f72f574cbabc914c1b01e6ca6f5ea31c56ba8c0758c92899518",
-      "composition.py": "5fe0abb651d8c438a6176240b1bf8cdf3b889fee8a17c96cceac4a8616c09e30"
+      "transform.py": "fe87209309dc38bf62cc9cf01fc9de62751f8fadbdd52b31bdb1b0b5e45d6b76",
+      "composition.py": "e80227e2c73852e02ab2dfddfa54994d08e6adfb4932a983db25960d9bc6ec8b"
     }
   },
-  "actual_transport_UI_performance_qualified": false,
+  "previous_Native26_is_current_acceptance": false,
+  "real_Auth_browser_performance_qualified": false,
   "production_go": false
 }
