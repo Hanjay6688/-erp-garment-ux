@@ -210,7 +210,10 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     `postgres` dilewati diam-diam (hanya peringatan), lalu fungsi milik peran itu gagal saat dipanggil. Setiap modul baru
     punya uji pasang-pakai-copot sebagai `postgres` di stack bersih; jangan bergantung pada hak di skema milik Supabase
     yang tidak bisa diteruskan `postgres`. (WA-3a, CI 39271239303 dan 39271994388; lihat
-    `docs/cp7/wa/CP7C_INSTALL_FINDINGS_20261019.md`)
+    `docs/cp7/wa/CP7C_INSTALL_FINDINGS_20261019.md`) Tahap yang menyerahkan objek ke peran CP7 yang sudah ada juga kena di
+    alat uji Native, karena peran itu dibuat `supabase_admin`: beri `postgres` keanggotaan SET+INHERIT atas peran itu hanya
+    di dalam transaksi pasang, cabut sebelum katalog dibaca lagi, dan biarkan DDL tetap berjalan sebagai `postgres`.
+    (OW-12a, CI 39845868506 di `176dcf38`)
 25k. **Server palsu dan alat uji juga tidak boleh mencetak kunci, walau kuncinya palsu.** Server CallMeBot palsu WA-3
     mencetak `apikey` ke log; gerbang CodeQL menolaknya (`py/clear-text-logging-sensitive-data`). Jangan longgarkan
     gerbang: server palsu menerima kunci uji yang diharapkan lewat variabel lingkungan dan hanya mencetak `key_ok`

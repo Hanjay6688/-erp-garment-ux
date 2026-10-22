@@ -63,6 +63,27 @@ def function_ddl(cur,signature,captured):
     with as_role(cur,owner):yield
 
 
+@contextmanager
+def handover(cur):
+    """Let the postgres installer hand objects to the two existing CP7 roles, for this transaction only.
+
+    A CP7C install as postgres creates cp7_capture and cp7_finance_read with createrole_self_grant='set, inherit', so
+    postgres is a member of them with SET and INHERIT (E25j). The Native harness creates them as supabase_admin, so
+    postgres is not (Native7 176dcf38: "must be able to SET ROLE"). Where that membership is missing, the session
+    superuser grants exactly it on exactly these roles and revokes it before the catalog is read again; the DDL itself
+    still runs as postgres and the role owners."""
+    granted=[]
+    for role in(OWNER,FINANCE_READER):
+        if cur.execute("select pg_has_role('postgres',%s,'SET')and pg_has_role('postgres',%s,'USAGE')",(role,role)).fetchone()[0]:continue
+        if not cur.execute('select rolsuper from pg_roles where rolname=current_user').fetchone()[0]:
+            raise ValueError('OW12A_INSTALLER_CANNOT_HAND_OVER: '+role)
+        cur.execute(sql.SQL('grant {} to postgres with inherit true, set true').format(sql.Identifier(role)));granted.append(role)
+    try:yield granted
+    finally:
+        if cur.connection.info.transaction_status!=TransactionStatus.INERROR:
+            for role in granted:cur.execute(sql.SQL('revoke {} from postgres').format(sql.Identifier(role)))
+
+
 def admit_catalog(before,after,definitions,new_functions):
     if set(before)!=set(after)or len(before)!=22:raise ValueError('OW12A_COMPLETE_CATALOG_GROUPS_CHANGED')
     for group in before:
@@ -87,7 +108,7 @@ def install(cur):
         CAPTURED.clear();CAPTURED.update(originals)  # diagnostic copy if an anchor no longer matches
         definitions=native_delta.patched(originals)
         text=(ROOT/'finance_capture.sql').read_text();compare=(ROOT/'report_compare.sql').read_text()
-        with POSTGRES(cur,'postgres'):
+        with handover(cur),POSTGRES(cur,'postgres'):
             cur.execute(text,prepare=False);cur.execute(compare,prepare=False)
             for signature,definition in definitions.items():
                 with function_ddl(cur,signature,before):cur.execute(definition,prepare=False)
@@ -142,7 +163,7 @@ def rollback_preuse(cur,state):
     with atomic(cur):
         verify(cur,state)
         if cur.execute('select exists(select 1 from cp7_finance_capture.captures)').fetchone()[0]:raise ValueError('OW12A_USED_STATE_PRESENT')
-        with POSTGRES(cur,'postgres'):
+        with handover(cur),POSTGRES(cur,'postgres'):
             for signature,original in state['originals'].items():
                 with function_ddl(cur,signature,state['before']):cur.execute(original,prepare=False)
             cur.execute('drop function '+PUBLIC_COMPARE);cur.execute('drop function '+COMPARE)
