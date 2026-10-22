@@ -1,0 +1,56 @@
+{
+  "classification": "VERIFIED_EXACT_ORIGINAL_JSON_RETENTION_NOT_NEW_BUSINESS_EXECUTION",
+  "source": {
+    "label": "restore_third",
+    "artifact": 12403239313,
+    "zip_sha": "984e225350d4cd6778258b73b03ccc4a8c7340c22c6e1c8a326b04c8a0555428",
+    "candidate": "5f9ec874aca0c46c04f3e99e0f9c5a806facb2fc",
+    "run": 39726910637,
+    "job": 119652799856,
+    "target": "docs/cp7/d17-14/ow04/payment-used-restore-5f9ec874-third",
+    "main": "CP7_OW04_PAYMENT_CURRENT_USED_RESTORE.json",
+    "raw_sha": "4d66f1cca47ddfa366f4b1d7d2289472ccb41fbc8d83597bf3e5cc7cc05e476f",
+    "expected_count": 6
+  },
+  "zip_bytes": 3426927,
+  "original_json_count": 6,
+  "raw_original_bytes": 19488821,
+  "all_raw_roundtrips_verified": true,
+  "records": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "raw_bytes": 17536,
+      "raw_sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "name": "CP7_OW04_PAYMENT_CURRENT_USED_RESTORE.json",
+      "raw_bytes": 194673,
+      "raw_sha256": "4d66f1cca47ddfa366f4b1d7d2289472ccb41fbc8d83597bf3e5cc7cc05e476f"
+    },
+    {
+      "name": "PAYMENT_USED_RESTORE_MANIFEST.json",
+      "raw_bytes": 18912887,
+      "raw_sha256": "481cb323e8c14aba64887977becafecb14ebef5e5909e78ad884d767128a1d31"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "raw_bytes": 1470,
+      "raw_sha256": "aaa55712d2264cfb682540d07bddace5534ad1a20d38bcb9d82d534801648560"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "raw_bytes": 360449,
+      "raw_sha256": "d11e0454331a8fdb02a0d730521aeaadbc89326cdd987a4956f5a1670bd221ce"
+    }
+  ],
+  "archive": {
+    "file": "ALL_ORIGINAL_JSON.tar.xz",
+    "bytes": 1187096,
+    "sha256": "4a0d8fde75ede913b634c42ac7e7acda70841112b9dc62bf9e5b901ad924f86e"
+  }
+}

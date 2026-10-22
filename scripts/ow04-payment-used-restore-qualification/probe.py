@@ -1,5 +1,6 @@
 """Committed current payment/consumer chains through a full fresh DB restore."""
 from copy import deepcopy
+from datetime import datetime
 from hashlib import sha256
 from pathlib import Path
 import gzip,importlib.util,json,lzma,subprocess,sys,traceback,uuid
@@ -28,11 +29,12 @@ OUT=REPO/'cp6-proof/t3'/f'{LABEL}.json'
 PRE_DUMP='/tmp/ow04_payment_pre.dump'
 USED_DUMP='/tmp/ow04_payment_used.dump'
 EXPECTED_SHA256='643081adcec37ffd3c4d83c25e7522522da634e81cb8af551796202c16bc2cf9'
+READ_OBSERVATIONS=[]
 
 
 def admitted():
     declaration=json.loads((HERE/'SOURCE.json').read_bytes())
-    assert declaration['base_candidate']=='9a754f8fdb65dc69365c28b127263f21ef028bfc'
+    assert declaration['base_candidate']=='272bebdde544dfe4e187e20bae661d21316c79f7'
     assert declaration['product_sources']==product.sources()
     assert declaration['restore_sources']==restore.sources()
     for path,digest in declaration['files'].items():
@@ -59,6 +61,12 @@ def admitted():
     assert second['status']=='INCOMPLETE'and len(second['restore_controls'])==5
     assert all(row['status']=='PASS'for row in second['restore_controls'])
     assert second['cp6_restored']and second['baseline_advisors_equal']
+    third_raw=gzip.decompress((REPO/'docs/cp7/d17-14/ow04/payment-used-restore-5f9ec874-third/CP7_OW04_PAYMENT_CURRENT_USED_RESTORE.json.gz').read_bytes())
+    assert sha256(third_raw).hexdigest()=='4d66f1cca47ddfa366f4b1d7d2289472ccb41fbc8d83597bf3e5cc7cc05e476f'
+    third=json.loads(third_raw)
+    assert third['status']=='INCOMPLETE'and len(third['steps'])==4
+    assert third['steps'][-1]['step']=='VERIFIED_CURRENT_CENSUS_REBIND'
+    assert third['cp6_restored']and third['baseline_advisors_equal']
     gold=(HERE/'EXPECTED.json').read_bytes();assert sha256(gold).hexdigest()==EXPECTED_SHA256
     return dict(candidate=native['candidate_commit'],raw_sha256=sha256(raw).hexdigest(),
         actual_counts=native['native']['counts'],financial_source_equal=True),json.loads(gold)
@@ -70,12 +78,33 @@ def profile(cur,pair):
         available=s['available_credit'],source_AR=s['AR'],target_P=t['P'],target_U=t['U'],target_AR=t['AR'],cash=values['cash'])
 
 
-def read(cur,item):
-    pair=item['pair']
-    return dict(profile=profile(cur,pair),workspace=payment.workspace(cur,pair['source']['f'],payment_id=item['up_result']['payment_id']),
+def differences(expected,actual,path=''):
+    if isinstance(expected,dict)and isinstance(actual,dict):
+        return [value for key in sorted(set(expected)|set(actual))for value in differences(expected.get(key),actual.get(key),path+'.'+key)]
+    if isinstance(expected,(list,tuple))and isinstance(actual,(list,tuple)):
+        if len(expected)!=len(actual):return [path+'.length']
+        return [value for index,(a,b)in enumerate(zip(expected,actual))for value in differences(a,b,path+'['+str(index)+']')]
+    return []if expected==actual else[path]
+
+
+def read(cur,item,phase='FIXTURE_PREPARATION'):
+    pair=item['pair'];actual_profile=profile(cur,pair)
+    before=cur.execute('select statement_timestamp()').fetchone()[0]
+    workspace=payment.workspace(cur,pair['source']['f'],payment_id=item['up_result']['payment_id'])
+    after=cur.execute('select statement_timestamp()').fetchone()[0]
+    # Native's workspace contract sets this one observation field from
+    # statement_timestamp(). Validate and retain it; it is not a transaction
+    # physical/economic/book clock or a stored receipt/freshness token.
+    captured=workspace.pop('captured_at')
+    assert isinstance(captured,str)
+    parsed=datetime.fromisoformat(captured.replace('Z','+00:00'))
+    assert parsed.tzinfo is not None and before<=parsed<=after
+    READ_OBSERVATIONS.append(dict(phase=phase,sale_id=str(pair['source']['f']['sale']),
+        captured_at=captured,database_before=before.isoformat(),database_after=after.isoformat(),
+        actual_observation_clock_verified=True))
+    return dict(profile=actual_profile,workspace=workspace,
         original_P1000=payment.payment_fact(cur,pair['source']['f']['payment']),
         original_P900=payment.payment_fact(cur,item['down_result']['payment_id']))
-
 
 def prepare(cur,today,index,gold):
     pair=basic.fixture.prepare(cur,today);source=pair['source']['f']
@@ -133,7 +162,8 @@ def run():
         scenario_id=gold['scenario_id'],expected_scenario_count=1,actual_Native26_binding=native_binding,
         current_financial_sources=product.sources(),administrative_restore_sources=restore.sources(),
         Native26_rerun=False,real_Auth_browser_not_claimed=True,formal_CP7C_started=False,
-        qualification_only=True,hosted=False,production_go=False,feature_complete=False,steps=[])
+        qualification_only=True,hosted=False,production_go=False,feature_complete=False,steps=[],
+        read_observations=READ_OBSERVATIONS,only_validated_workspace_observation_time_separate_from_business_comparison=True)
     before=None;before_roles=set();new_roles=set();pre_dumped=False;installed=False
     try:
         assert drill.SOURCE==database.SOURCE=='cp6_rollback'and drill.CONTAINER=='supabase_db_cp5-local'
@@ -152,6 +182,14 @@ def run():
             cur.execute('set constraints all immediate')
             if granted:cur.execute('revoke usage on schema erp from authenticated')
             conn.commit();product.verify(cur,state)
+            # Take the trusted business read baseline on the source after both
+            # fixtures and their account choices exist, before dump/restore.
+            for index,item in enumerate(fixtures):
+                actual=read(cur,item,'SOURCE_AFTER_BOTH_COMMITTED')
+                report.setdefault('source_baseline_changes',[]).append(dict(fixture=index,
+                    changed_paths=differences(item['before_read'],actual)))
+                assert actual['profile']==gold['before_restore_profiles'][index]
+                item['before_read']=actual
             held=product.base.private_rows(cur)
             try:product.rollback_preuse(cur,state)
             except ValueError as error:assert str(error)==product.predecessor.USED_ERROR
@@ -184,7 +222,12 @@ def run():
             rebound=restore.rebind_restored(cur,backup,digest,expected_database=database.RESTORED);conn.commit()
             report['steps'].append(dict(step=gold['required_steps'][3],status='PASS',binding=rebound))
             granted,_=database._foundation(cur)
-            for item in fixtures:assert read(cur,item)==item['before_read']
+            for index,item in enumerate(fixtures):
+                actual=read(cur,item,'FRESH_RESTORED');wanted=item['before_read']
+                changed=differences(wanted,actual)
+                report.setdefault('readback_comparisons',[]).append(dict(fixture=index,
+                    expected=wanted,actual=actual,changed_paths=changed))
+                assert not changed,'CURRENT_RESTORE_AUTHORITATIVE_BUSINESS_READ_CHANGED: '+json.dumps(changed)
             held=restore.catalog._data(cur)
             for item in fixtures:
                 for envelope,request,result in zip(item['consumer_envelopes'],item['consumer_requests'],item['consumers']):
