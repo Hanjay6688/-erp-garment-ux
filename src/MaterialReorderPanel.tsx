@@ -156,7 +156,7 @@ function Panel({ materialType,readOnlySummary }: { materialType: MaterialType;re
         {readOnlySummary ? <>
           <p>Seluruh gudang, dari perhitungan yang juga dipakai panel kain dan Pengingat sistem/WhatsApp. Pencarian gudang di atas tidak menyaring daftar kain ini.</p>
           <p>Stok fisik, pesanan yang belum diterima, dan perkiraan kebutuhan ditampilkan terpisah. Titik pesan ulang adalah ambang pengingat, bukan jumlah stok atau jumlah yang harus dibeli.</p>
-          {counts?<p>{formatReorderWhole(counts.items)} kain: {formatReorderWhole(counts.formula)} memakai rumus, {formatReorderWhole(counts.manual)} memakai minimum dari Kain &amp; Benchmark;
+          {counts?<p>{formatReorderWhole(counts.items)} kain: {formatReorderWhole(counts.formula)} memakai rumus, {formatReorderWhole(counts.manual)} memakai minimum lama;
             {' '}{formatReorderWhole(counts.notEnoughData+counts.noUsage)} belum mempunyai rumus yang cukup datanya. {formatReorderWhole(counts.atOrBelow)} perlu diperhatikan.</p>:null}
         </> : fabric ? <>
           <p>Titik pesan ulang = rata-rata pakai per hari × lama kirim + cadangan. Dihitung dari pemakaian yang sudah diposting {formatReorderWhole(windowDays)} hari
@@ -164,7 +164,8 @@ function Panel({ materialType,readOnlySummary }: { materialType: MaterialType;re
           <p>Pemakaian kain = dikeluarkan untuk potong dikurangi sisa yang kembali, pemakaian pabrik, dan bahan ke mandor. Kain yang sudah dipesan (PO terbuka)
             ikut dihitung. Minimum lama dari Master Data › Kain & Benchmark tetap terlihat sebagai referensi. Pilih satu aturan per kain: minimum lama
             yang diperiksa, atau rumus. Sebelum ada pilihan baru, aturan sebelumnya tetap berlaku. Lama kirim (hari) dari supplier diisi per kain
-            oleh Owner atau Admin, karena ERP belum mencatatnya. Kalau sisa ditambah yang dipesan sudah sama atau di bawah titik ini, muncul pengingat "Stok kain
+            oleh Owner atau Admin, karena ERP belum mencatatnya. Aturan rumus membandingkan sisa ditambah yang dipesan dengan titik pesan ulang
+            (sama atau di bawahnya). Minimum lama membandingkan stok fisik saja (di bawahnya). Hanya aturan aktif yang menentukan kapan muncul pengingat "Stok kain
             di bawah minimum" di Reminder › Pengingat sistem, diteruskan ke WhatsApp Bos bila Sambungan WhatsApp menyala. Tingkat layanan dan jumlah hari diatur
             di Gudang › Ringkasan Barang Jadi.</p>
         </> : <>

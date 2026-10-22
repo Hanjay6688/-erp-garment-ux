@@ -147,3 +147,9 @@ Lanjutan checkpoint: pemulihan klien sudah terpasang;44 uji klien/DOM lulus. Set
 sebelum pengiriman, hasil belum jelas memagari pilihan lain atas bahan yang sama, current403 menyembunyikan fakta
 tanpa membuang permintaan. Penolakan pasti sebelum INSERT boleh ditutup, jaringan/403 tidak dijadikan kepastian.
 Kualifikasi Native/HTTP/browser/pasang-pulih serta uji tunggu/revokasi tetap belum diklaim.
+
+
+OW14b lanjutan23 Okt WIB: B menambah Native113 (99 kontrol lama +14), tanpa mengubah bundle/pemasang/registry milik A.
+Kontrak dan workflow ada di scope B. Lulus lokal44/44 +SQL6 +TypeScript/CSS; hasil server113 masih menunggu Original.
+Pesan pengingat minimum yang dipilih membandingkan stok fisik dan menyebut minimum lama, tidak menyebut minimum rumus.
+Permintaan pemasang tiga kolom, inventaris satuan/referensi dan label Master milik A di bagian06 tetap berlaku.

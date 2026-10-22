@@ -27,7 +27,7 @@ await db.exec(block(source,'cp7_stock_formula.compute_materials'))
 // Only this boundary is an adapter: the local fixture contains no FG module.
 await db.exec("create function cp7_stock_formula.compute(timestamptz,interval)returns jsonb language sql as $$select cp7_stock_formula.compute_materials($1)$$;")
 for(const name of['ensure_computed','material_access_now','save_material','material_alert_row','material_source'])await db.exec(block(source,'cp7_stock_formula.'+name))
-for(const name of['fabric_source','fabric_kind_source'])await db.exec(block(alerts,'cp7_alert_native.'+name))
+for(const name of['num','rp','tgl','item_line','fabric_source','fabric_kind_source'])await db.exec(block(alerts,'cp7_alert_native.'+name))
 await db.exec([
  "insert into erp.locations values('22222222-2222-4222-8222-222222222222','RAW_MATERIAL_WAREHOUSE',true);",
  "insert into erp.materials values('33333333-3333-4333-8333-333333333333','FABRIC','LOCAL-RULE','Controlled fabric','YD',true);",
@@ -60,7 +60,15 @@ await test('OW14B_SELECTED_LEGACY_IS_PINNED_AND_REPLAY_IS_EXACT',async()=>{
  const replay=await save(2,'LEGACY_MINIMUM','900',id);assert.equal(replay.replay,true);assert.equal(replay.revision,3)
  await assert.rejects(()=>save(2,'FORMULA','900',id),/CP7_FORMULA_REQUEST_REUSED/)
  await save(3,undefined);const e=await evaluation();assert.equal(e.fabric_rule,'LEGACY_MINIMUM');assert.equal(Number(e.point),900);assert.equal(Number(e.legacy_minimum_qty),1000)
- const r=await combined();assert.equal(r.rows.length,1);assert.equal(r.rows[0].detail.reorder_point_qty,'900.0000');return{chosen_legacy:'900',current_reference:'1000',older_client_preserves_choice:true,exact_replay:true,one_reminder:true}
+ const r=await combined();assert.equal(r.rows.length,1);assert.equal(r.rows[0].detail.reorder_point_qty,'900.0000')
+ const item={...r.rows[0],kind:'FABRIC_BELOW_MINIMUM'}
+ const line=await value('select cp7_alert_native.item_line($1::jsonb,$2::text)v',[JSON.stringify(item),'AMOUNT'])
+ assert.ok(line.includes('minimum lama yang dipilih 900'),line)
+ assert.ok(!line.includes('minimum rumus')&&!line.includes('dipesan'),line)
+ const long={...item,detail:{...item.detail,name:'SYNTHETIC_LABEL_ONLY '.repeat(40)}}
+ const bounded=await value('select cp7_alert_native.item_line($1::jsonb,$2::text)v',[JSON.stringify(long),'AMOUNT'])
+ assert.ok(bounded.length<=256&&bounded.endsWith('minimum lama yang dipilih 900 YD'),bounded)
+ return{chosen_legacy:'900',current_reference:'1000',older_client_preserves_choice:true,exact_replay:true,one_reminder:true}
 })
 await test('OW14B_ZERO_REFERENCE_IS_EXPLICITLY_DISABLED_NOT_UNKNOWN',async()=>{
  await db.exec('update erp.fabric_master_profiles set minimum_stock_qty=0');await save(4,'LEGACY_MINIMUM','0')

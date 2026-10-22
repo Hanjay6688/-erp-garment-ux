@@ -2,7 +2,7 @@
   "classification": "LOCAL_ACTUAL_SQL_WITH_CONTROLLED_ERP_AND_IDENTITY_ADAPTER_NOT_NATIVE",
   "status": "PASS",
   "source_sha256": "01b66b4e4544e5ac558bdbec8564642922881f3f1946a2aa500bae75693f8eb5",
-  "alert_source_sha256": "a11a92e8909827c6c00ec8a8e436a461d57b8312a9bacc4390c0c19c61c13aee",
+  "alert_source_sha256": "d45a40e6b2580019b22131be38e08eed4bf54253ec0740e9169e4329755cd4ae",
   "cases": [
     {
       "id": "OW14B_PREVIOUS_RULE_RETAINED_UNTIL_EXPLICIT_CHOICE",

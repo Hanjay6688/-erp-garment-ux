@@ -37,3 +37,22 @@ A/integrator: inventaris minimum lama saat pemasangan, cocokkan identitas/satuan
 menghapus atau memindahkan nilai Enteng otomatis. Tambahkan kolom ke pemasang/upgrade/rollback/pemulihan sesuai sumber
 ini. Label fakta minimum pada ConnectedMasterPage.tsx ("Stok minimum") perlu menjadi "Referensi minimum lama";
 berkas di luar scope B itu tidak diubah sepihak. Pemasangan bersama, registry OW16 dan modul angka A tetap milik A.
+
+
+Kandidat kualifikasi berikutnya menambahkan113 kasus: semua99 kontrol sebelumnya tetap dipanggil tanpa diubah,
+ditambah6 Native,4 dua sesi/tunggu akses,2 HTTP dan2 perjalanan browser. Kontrak tertutup ada di CONTRACT.json;
+entry point cp7_ow14b_rule_probe.py. Workflow OW14 memakai satu pekerjaan113, pemasang/pemeriksa/pemulih milik A
+berjalan sebagaimana sebelumnya; tidak ada pelonggaran katalog, batas waktu, oracle lama atau izin.
+
+Dua perjalanan komputer/HP menyimpan pilihan rumus, sengaja menghilangkan balasan sesudah server menjawab200,
+memuat ulang aplikasi, menolak pilihan berbeda selama hasil belum jelas, mengirim ulang UUID/isi sama, lalu memilih
+minimum lama. Balasan kedua juga dihilangkan; akses akun dicabut nyata, fakta disembunyikan dan intent dipertahankan,
+kemudian akses dipulihkan untuk mengambil hasil lama. Pemeriksaan Native memisahkan minimum0 dari unknown,
+membuktikan pin tidak mengikuti perubahan referensi, dan membandingkan stok fisik saja saat sumber sedang sibuk.
+Ini rencana kasus yang sudah ditulis, belum klaim hasil Native113 sampai Original lengkap dibaca.
+
+Pesan pengingat untuk minimum lama yang dipilih kini menyebut aturan itu, tanpa menyebut minimum rumus atau
+mengurangi dengan PO yang belum diterima. Kontrol panjang nama memangkas label, mempertahankan angka/aturan;
+label panjang bersifat SYNTHETIC_LABEL_ONLY. Kegagalan pertama sebelum perbaikan disimpan di
+local-first-wa-wording-failure.json. Enam kelompok SQL lokal kembali lulus;44 uji klien/DOM, TypeScript/CSS lulus.
+Assertion teks lama tetap dipertahankan; kegagalan wording penjelasan singkat juga disimpan sebelum diperbaiki.

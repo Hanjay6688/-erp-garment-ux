@@ -59,3 +59,9 @@ Prioritas A tetap OW06, OW08a/OW07/OW08b/OW09/OW12a dan integrasi/auditor menuru
 Catatan kontinuitas: folder kerja lokal sempat kehilangan metadata Git dan draft OW10. Commit terbit tetap aman;
 draft dipulihkan pada clone baru, SHA SQL inti cocok69ddf72c8212550cc4a5ef52eac2df11bcac7aef8432b897758d15cc4ab93f18,
 SQL/49 uji klien/TypeScript/CSS dijalankan lagi. Pengambilalihan memakai GitHub, bukan path lokal/sesi lama.
+
+
+Lanjutan OW14b: kandidat berikutnya memasang entry point Native113 dengan semua99 kontrol WA lama tetap wajib;
+kontrak di ow14b/CONTRACT.json. Uji lokal44/44, TypeScript/CSS dan6 kelompok SQL lulus. Pesan minimum lama kini
+menyebut aturan yang benar; kegagalan pertama disimpan. Native113 belum dinyatakan lulus dari uji lokal, dan OW14b
+belum dinyatakan selesai atau siap digabung. Jangan mengambil WIP ini sebagai izin memasang ke Enteng.

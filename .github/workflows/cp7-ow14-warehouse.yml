@@ -1,4 +1,4 @@
-name: CP7 OW14a Warehouse Fabric and Retained WA Controls
+name: CP7 OW14 Fabric Rules and Retained WA Controls
 'on':
   push:
     branches:
@@ -9,6 +9,15 @@ name: CP7 OW14a Warehouse Fabric and Retained WA Controls
     - src/warehouse-summary.css
     - src/MaterialReorderPanel.tsx
     - src/materialReorderContract.ts
+    - src/materialReorderRequests.ts
+    - src/fg-reorder.css
+    - scripts/cp7_ow14b_rule_cases.py
+    - scripts/cp7_ow14b_rule_probe.py
+    - scripts/cp7_ow14b_rule_browser.mjs
+    - scripts/cp7_ow14b_rule_browser_fixture.py
+    - scripts/cp7_f05_analysis_probe.py
+    - docs/cp7/d17-14/ow14b/CONTRACT.json
+    - scripts/cp7-src/alerts/**
     - scripts/cp7_wa_forward_browser.mjs
     - scripts/cp7-src/stock-formula/**
     - scripts/cp7-src/baseline/target.sql
@@ -31,8 +40,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - suite: ow14a-wa99
-          probe: cp7_wa_forward_probe.py
+        - suite: ow14b-native113
+          probe: cp7_ow14b_rule_probe.py
           timeout: 180
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
@@ -191,7 +200,7 @@ jobs:
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
-        name: ow14a-${{ matrix.suite }}
+        name: ow14-${{ matrix.suite }}
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error
@@ -199,7 +208,7 @@ jobs:
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
-        name: ow14a-${{ matrix.suite }}-complete-json
+        name: ow14-${{ matrix.suite }}-complete-json
         path: auditor/cp6-proof/t3/*.json
         retention-days: 30
         if-no-files-found: error

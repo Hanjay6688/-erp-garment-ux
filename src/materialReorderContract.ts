@@ -351,7 +351,8 @@ export function materialFormulaLines(r: MaterialRow, windowDays: number, level: 
     r.formulaPoint === null ? 'Hasil rumus: belum ada.'
       : `Hasil rumus: rata-rata × lama kirim + cadangan, dibulatkan ke atas = ${q(r.formulaPoint)}.`,
   ]
-  if (r.manualSource === 'FABRIC_MINIMUM') lines.push(`Kain ini memakai angka minimum dari Master Data › Kain & Benchmark (${q(r.manualPoint ?? '0')}), `
+  if (r.fabricRule === 'LEGACY_MINIMUM') lines.push(`Aturan aktif memakai minimum lama yang dipilih (${q(r.manualPoint ?? '0')}): pengingat muncul bila stok fisik di bawah angka itu. Pesanan yang belum diterima tidak mengurangi pengingat ini.`)
+  else if (r.manualSource === 'FABRIC_MINIMUM') lines.push(`Kain ini memakai angka minimum dari Master Data › Kain & Benchmark (${q(r.manualPoint ?? '0')}), `
     + 'bukan hasil rumus: pengingat "Stok kain di bawah minimum" muncul bila stok di bawah angka itu.')
   return lines
 }

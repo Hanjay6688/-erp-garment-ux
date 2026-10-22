@@ -1,0 +1,7 @@
+{
+  "classification": "LOCAL_DOM",
+  "case": "shows each fabric with its numbers, basis and status in plain words, the window from the settings",
+  "observed": "43 PASS, 1 FAIL: retained assertion expects muncul pengingat; new explanation said membuat pengingat",
+  "resolution": "Keep the retained assertion unchanged; explanation now says Hanya aturan aktif yang menentukan kapan muncul pengingat. Formula/legacy comparison explanation retained.",
+  "production_go": false
+}

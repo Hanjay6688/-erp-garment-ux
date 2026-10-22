@@ -338,10 +338,10 @@ begin
  into r from low y;
  return r;
 end $$;
--- Owner D17-10: the fabric reminder is one kind. Fabrics with a minimum in Kain & Benchmark come from fabric_source()
--- (the Ringkasan Gudang rule, unchanged); fabrics without one come from the formula (cp7_stock_formula.material_source,
--- stock + on order <= the formula's number), whose state for a fabric with a minimum (MANUAL_MINIMUM_IN_FORCE) is left to
--- fabric_source(). The two sets never share a fabric.
+-- D17-10/D17-16: one fabric reminder. An explicit selected rule comes from
+-- material_source (FORMULA uses physical + on-order <= point; selected legacy
+-- uses physical < pinned point). Only an unselected legacy rule delegates to
+-- fabric_source. The old reference must never resurrect a second active rule.
 create function cp7_alert_native.fabric_kind_source()returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
 declare f jsonb:=cp7_stock_formula.material_source('FABRIC');m jsonb:=cp7_alert_native.fabric_source();
@@ -772,6 +772,14 @@ language sql stable security definer set search_path=''set TimeZone='UTC'as $$
    ||case when p->'detail'->>'remaining_state'='KNOWN'then cp7_alert_native.rp(p->'detail'->>'remaining')else'nilai belum diketahui'end
    ||case when p->'detail'->>'state'='DATA_REVIEW'then', perlu diperiksa'
      else', jatuh tempo '||cp7_alert_native.tgl(p->'detail'->>'due_date')end suffix)x)
+ when p->>'kind'='FABRIC_BELOW_MINIMUM'and p->'detail'->>'basis'='MANUAL'and p->'detail'?'reorder_point_qty'then(
+  -- Selected legacy compares physical stock only. Keep its rule and quantities
+  -- intact even when the material label fills the message budget.
+  select case when length(label||suffix)<=256 then label||suffix
+   else left(label,greatest(0,255-length(suffix)))||'…'||suffix end
+  from(select coalesce(p->'detail'->>'name','?')label,': sisa '
+   ||cp7_alert_native.num(p->'detail'->>'free_qty')||' '||coalesce(p->'detail'->>'unit_code','')
+   ||', minimum lama yang dipilih '||cp7_alert_native.num(p->'detail'->>'reorder_point_qty')||' '||coalesce(p->'detail'->>'unit_code','')suffix)x)
  else left(case p->>'kind'
   when'FABRIC_BELOW_MINIMUM'then case when p->'detail'?'reorder_point_qty'then(p->'detail'->>'name')||': sisa '
     ||cp7_alert_native.num(p->'detail'->>'free_qty')||' '||coalesce(p->'detail'->>'unit_code','')
