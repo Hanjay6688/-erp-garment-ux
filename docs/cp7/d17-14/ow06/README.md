@@ -26,5 +26,6 @@ Hasil final: f764c508, run39808778963/job119929044980, enam kontrol grup dan emp
 |---|---|---|---|
 | Login Auth nyata, hak dan rebutan (Auth4) | `b9456b5a` | 39825964400 percobaan 3 / 120015131365 | **4/4 PASS**. Artefak `cp7-ow06-real-auth4`, 1.633.962 byte, sha256 `35d0e3453989303e55456c1723bbf75562e170ef9597cee7bcf62997d95d68a4`. Percobaan 1 (`33581706`) 1/4: tiga kesalahan uji (perbandingan teks angka, kode penolakan sesudah menunggu, peran STAFF tidak aktif), bukti `auth4-33581706-first-failure.json`; percobaan 2 berhenti di langkah menyalakan database uji |
 | Browser desktop + HP (Browser2) | `eda58db5` | 39831356518 | Berhenti di langkah menyalakan database uji (server CI). Dua kegagalan sebelumnya karena uji (`browser2-*-first-failure.json`) sudah dibetulkan; dijalankan ulang |
+| Browser desktop + HP (Browser2) | `77a48da6` | 39835578930 | Semua angka uang benar (bank, bayar per penerimaan, koreksi, pembatalan); gagal di satu harapan uji: layar sengaja mengurutkan baris menurut kode penerimaan, uji mengira urutan ketik. Uji dibetulkan, bukti `browser2-77a48da6-allocation-order-failure.json`; dijalankan ulang |
 
 Belum selesai: Browser2 lulus, pemulihan sesudah dipakai (P21) dan sambungan ke pemasang bawaan.

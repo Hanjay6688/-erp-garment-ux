@@ -6,6 +6,7 @@ CP7_KASBON, and it answers every other family exactly as the patched reader does
 """
 from datetime import timedelta
 import json
+import re
 import uuid
 
 import psycopg
@@ -104,13 +105,29 @@ def cases(cur,today):
         return dict(status='PASS',unknown_kasbon=unknown,non_owner_admin=denied,role_has_payroll_view='finance.payroll.view'in perms)
 
     def unchanged():
-        # Every other journal family the database holds resolves exactly as the original OW06 reader resolved it.
+        # Every other family resolves exactly as the original OW06 reader resolved it: a real document for every journal
+        # family the database holds after a finished PO chain, an approved payroll and a kasbon are written through their
+        # own writers, and an unknown id for every family the original reader dispatches on. (Native4 1f9fd987 showed the
+        # bare fixture holds only two journal families, so a count over existing rows proved too little.)
         b.api.admin(cur)
-        rows=cur.execute("""select distinct on(source_type)source_type,source_id from erp.journal_entries
-            where source_id is not null and source_type<>'CP7_KASBON'order by source_type,created_at desc,id""").fetchall()
-        checked={}
-        for kind,source in rows:
-            def read(kind=kind,source=source):
+        families="select distinct source_type from erp.journal_entries where source_id is not null and source_type<>'CP7_KASBON'"
+        bare={k for k,in cur.execute(families).fetchall()}
+        f=c17.finish_fixture(cur,today,label='OW08B-FAM');b.api.admin(cur)
+        c17.finish_command(cur,c17.finish_workspace(cur,f['po']),reason='OW08b PO selesai');b.api.admin(cur)
+        assert c17.po_state(cur,f['po'])['status']=='FINISHED'
+        given(cur,today,'150.00')
+        rows=cur.execute("""select distinct on(j.source_type)j.source_type,j.source_id from erp.journal_entries j
+            where j.source_id is not null and j.source_type<>'CP7_KASBON'
+             and not(j.source_type='JOURNAL_REVERSAL'and exists(select 1 from erp.journal_entries o
+              where o.id=j.source_id and o.source_type='CP7_KASBON'))
+            order by j.source_type,j.created_at desc,j.id""").fetchall()
+        body=ORIGINALS[native_delta.SOURCE]
+        dispatched=set(re.findall(r"kind ?= ?'([A-Z][A-Z0-9_]+)'",body))
+        for group in re.findall(r"kind ?in ?\(([^)]*)\)",body):dispatched|=set(re.findall(r"'([A-Z][A-Z0-9_]+)'",group))
+        assert 'CP7_KASBON'not in dispatched and{'JOURNAL_REVERSAL','SALE','SALES_PAYMENT','MISC_FINANCE','PAYROLL_INSTALLMENT',
+            'MATERIAL_PURCHASE','LAUNDRY_DELIVERY','QC_INSPECTION','REWORK_ORDER'}<=dispatched,sorted(dispatched)
+        def compare(kind,source):
+            def read():
                 point='ow08b_read_'+uuid.uuid4().hex;cur.execute('savepoint '+point)
                 try:
                     r=resolve(cur,kind,source);cur.execute('release savepoint '+point);return r
@@ -122,9 +139,12 @@ def cases(cur,today):
             finally:cur.execute('rollback to savepoint '+name);cur.execute('release savepoint '+name);b.api.admin(cur)
             before=original(cur,read)
             assert('refused'in now)==('refused'in before)and(now==before if'refused'in now else same(now,before)),(kind,now,before)
-            checked[kind]=now.get('status',now.get('refused'))
-        assert len(checked)>=10,checked
-        return dict(status='PASS',families_compared=len(checked),results=checked)
+            return now.get('status',now.get('refused'))
+        real={kind:compare(kind,source)for kind,source in rows}
+        unknown={kind:compare(kind,uuid.uuid4())for kind in sorted(dispatched)}
+        assert set(real)>bare,(sorted(bare),sorted(real))  # the chain's own families were compared on real documents
+        return dict(status='PASS',real_document_families=real,unknown_id_families=len(unknown),
+            families_before_chain=sorted(bare))
 
     operations=(give,cancel,rights,unchanged)
     assert len(operations)==len(IDS)
