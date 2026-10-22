@@ -115,9 +115,10 @@ def cases(cur,today):
                     check(lambda o:payments.cash(cur,f,payment_offset=o,payment_limit=3,payment_q=q,payment_status=status,payment_order=order),lambda r:r['payments'],3,ordered(keep,order,source),dict(q=q,status=status,order=order));combos+=1
         for bad in (dict(payment_status='PAID'),dict(payment_order='NEWEST'),dict(payment_q=None)):
             payments.auth.refused(cur,lambda:payments.cash(cur,f,**bad),'CP7_SALES_CASH_QUERY')
-        subject,role=payments.auth.custom_actor(cur);cur.execute("insert into erp.app_role_permissions(role_id,permission_key) values(%s,'finance.ar.view')",(role,))
-        payments.auth.refused(cur,lambda:payments.cash(cur,f,subject,payment_order='LABEL_ASC'),'CP7_SALES_CASH_DENIED')
         assert b.boundary.snapshot(cur)==before
+        # Access is unchanged: an actor without payment view is refused before any list work.
+        subject,role=payments.auth.custom_actor(cur);cur.execute("insert into erp.app_role_permissions(role_id,permission_key) values(%s,'finance.ar.view')",(role,))
+        denied=b.boundary.snapshot(cur);payments.auth.refused(cur,lambda:payments.cash(cur,f,subject,payment_order='LABEL_ASC'),'CP7_SALES_CASH_DENIED');assert b.boundary.snapshot(cur)==denied
         return dict(status='PASS',payments=len(rows),reversed=2,page_rows=3,combinations=combos,natural_order_and_tie_on_7_and_07=True,old_call_shape_and_order=True,access_unchanged=True,no_business_side_effect=True)
 
     def invoice_returns():
