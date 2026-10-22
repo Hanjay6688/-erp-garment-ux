@@ -1,0 +1,48 @@
+{
+ "contract_version": "ow06.real-browser2-current-native10-source.v1",
+ "case_ids": [
+  "OW06_DESKTOP_TRANSFER_TWO_RECEIPTS_LOST_REPLY_CORRECT_REVERSE",
+  "OW06_MOBILE390_TRANSFER_TWO_RECEIPTS_CORRECT_REVERSE"
+ ],
+ "files": {
+  "scripts/ow06-browser-qualification/fixture.py": "0cef237c7f1ad1137947128a6afcbb7da29b4aab5e027b29cfc1c5c13b327050",
+  "scripts/ow06-browser-qualification/browser.mjs": "44a5e0e4e56232553a534d9940ea80f516ea0588eb737dd239dce4ff39367649",
+  "scripts/ow06-browser-qualification/probe.py": "289b8ccaaf6bac70b3dad68a3cd34ec9eaef650ee5d44023059759b7b7b134da",
+  "scripts/ow04-payment-current-qualification/copy_authority.py": "cfdc3b899e335dd13a9456242ed5158b718ac5c56d9b1ebf06c4571eda2cc7a2",
+  ".github/workflows/cp7-ow06-browser.yml": "8ec473c6c5507f39fbf760229660ea6c2f4ac27f2e0dcf09e8155bc3b44992fb",
+  "src/SupplierTransferPanel.tsx": "01c41af780509669810edd8669bb1fa7b02867b8f6d716627eeb1fe4f0812186",
+  "src/SupplierTransferPanel.dom.test.tsx": "6d4941351aa42c0619e9392a00ffaff4932a4bd097d8121e03ddb02d30e8091d",
+  "src/supplierTransferContract.ts": "2c5782cb17742fbedf91f2d8053846ec1d280ca8838bbbc237211fc0d345f967",
+  "src/ConnectedProcurementPage.tsx": "cdc86d94895c10b7d153a8b0b77525dbcaa9e22e8c7a8579c0e6e6aef692b3e7",
+  "src/SupplierPaymentPanel.tsx": "ea651795b3311760e135467f03bd64a969195f01080c6128e21a1e9d87a9cfcc",
+  "src/supplierPaymentContract.ts": "f87a13c9541bdcd05950c042645d3bb108361569871846e435373bc8ab9736cd",
+  "src/productionRecovery.ts": "f0110e2a108e08669882de19c078849c4780a36d6e8a92d38ef349f0ceb33234",
+  "src/types/database.preconnect.ts": "becc24cbdaede960661101e4752231d6fb962014e303efef65b967d87b12aaa8",
+  "src/transactionSource.ts": "3ab0b92f335159608df116fd3f51605e4b4b32b45ac78818e007b0394ce1a708",
+  "scripts/ow05_native_original.py": "bb2030de3d8041c1dbeffef691335056869494c0929fe5e1d3b0678992ff60a0",
+  "scripts/ow06_native_original.py": "c90803ae5cd225a5a4d134ab18198612585d901312995652d17f440914e795a3",
+  "docs/cp7/d17-14/ow05/native28-current-pass.json": "1d25fbbdcdeea6791a7d04b45ac0bb1a17f3629a29a727284fc6796248c08308",
+  "docs/cp7/d17-14/ow06/CHECKPOINT.json": "25f5c94de0f6d86fc1d0afcd42e3884280b09e501f3d781f84719c0e8dbbbb4c"
+ },
+ "fixture_creation": "Native SQL on cp6_auditor_browser only; ERP USAGE for the fixture actor granted and revoked inside the fixture transaction",
+ "journey_writes": "actual UI -> actual GoTrue/PostgREST",
+ "money_gold": {
+  "create": "400.00+600.00",
+  "bank_after_create": "-1000.00",
+  "correction": "250.00+500.00",
+  "bank_after_correction": "-750.00",
+  "bank_after_reverse": "0.00"
+ },
+ "native_original": {
+  "name": "CP7_OW05_NATIVE28_GUIDANCE_WHOLE_PO_WAVE.json",
+  "bytes": 6646642,
+  "sha256": "9e4732a171faff7175a03b895daca09bcb1dc54a53003cb300d979c858d1143c"
+ },
+ "ow06_native_original": {
+  "name": "CP7_OW06_SUPPLIER_TRANSFER_NATIVE10.json",
+  "bytes": 2700991,
+  "sha256": "6a95968609a6f691a6fc6afabe9f36859a3025e8ae0cf5836b4b33f0756b4e16"
+ },
+ "OW06_complete": false,
+ "production_go": false
+}

@@ -7,7 +7,7 @@
   "OW06_REAL_AUTH_ROLE_WITHOUT_PAY_RIGHT_DENIED_NO_EFFECT"
  ],
  "files": {
-  "scripts/ow06-auth-qualification/cases.py": "9279b77e68c8bcb5890610fa3cf3977bb90adf44e3a6659a6c6322d4cd9556ff",
+  "scripts/ow06-auth-qualification/cases.py": "805d7194ce1b041387821a750a5642c9ba3315010ccfd513c3ee9c1a32afc3fe",
   "scripts/ow06-auth-qualification/probe.py": "68ca6387b5ec0c53cc65b42e595e36f778cc58e67e0f96bc605fe69c09c6c868",
   "scripts/ow04-payment-current-qualification/copy_authority.py": "cfdc3b899e335dd13a9456242ed5158b718ac5c56d9b1ebf06c4571eda2cc7a2",
   ".github/workflows/cp7-ow06-auth.yml": "ea1910e25376c2b3dce2e0834cb7a662e882d30daae4b8287e626288e5e77ef7",

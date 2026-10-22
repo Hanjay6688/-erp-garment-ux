@@ -27,8 +27,16 @@ def body(reply):
 
 
 def prepare(http,today):
+    # The retained fixture writers run as the signed-in fixture actor; like the supplier payment browser fixture, ERP
+    # USAGE is granted and revoked inside this one fixture transaction, so the committed catalog is unchanged.
     with http.connect()as conn,conn.cursor()as cur:
-        f=t.fixture(cur,today);f['at']=t.single.at(cur);t.b.api.admin(cur);conn.commit()
+        had=cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
+        acl=cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()[0]
+        if not had:cur.execute('grant usage on schema erp to authenticated')
+        f=t.fixture(cur,today);f['at']=t.single.at(cur);t.b.api.admin(cur)
+        if not had:cur.execute('revoke usage on schema erp from authenticated')
+        assert cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()[0]==acl
+        conn.commit()
     return f
 
 
