@@ -30,3 +30,7 @@ Owner: "RULE BUAT CLAUDE KASIH REPORT AFTER WORK itu jelas bahasa manusia."
 - Selama kuota sesi 5 jam masih banyak, jalan normal dan boleh banyak pembantu. Bila mulai tipis (patokan sekitar 80% terpakai),
   masuk mode hemat: jangan mulai pekerjaan baru, gabung dan push hasil yang ada. Sesudah reset, jalan normal lagi.
 - Pembantu yang sudah jalan jangan dihentikan tiba-tiba ("jangan stop tiba tiba pembantu yg udah jalan"), termasuk saat mode hemat.
+- Jangan mulai pembantu baru bila sudah mode hemat, atau bila diperkirakan pekerjaannya tidak selesai sebelum mode hemat;
+  hindari token percuma yang terpotong kuota 5 jam. Saat mode hemat, pembantu yang jalan diminta merapikan diri (selesaikan
+  langkah, commit, berhenti dengan laporan), bukan dihentikan paksa.
+- Kuota mingguan: boleh dipakai sampai habis sebelum reset Kamis; menjelang habis, serah terima ke Astra.

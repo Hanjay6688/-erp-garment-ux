@@ -7,6 +7,8 @@ tidak dihentikan; baru diperlambat bila kuota menipis. Owner: yang dilihat kuota
 Sisa kuota tidak terlihat dari sesi, jadi patokannya jam: jendela sekarang mulai sekitar 20.00 UTC 22 Okt, habis sekitar
 01.00 UTC 23 Okt. Hitungan dari layar Usage Bos (03.35 WIB): sesi 47% terpakai, reset 4 jam 25 menit lagi (01.00 UTC);
 laju sekitar 1,3% per menit dengan 4–5 pembantu, jadi habis sekitar 21.15 UTC. Patokan mode hemat: sekitar 80% terpakai.
+Owner: jangan mulai pembantu baru bila tidak akan selesai sebelum mode hemat. Kuota mingguan boleh habis sebelum reset Kamis
+29 Okt 00.59 WIB; perkiraan habis Senin 27 Okt pagi; pengingat serah terima ke Astra Minggu 26 Okt 11.40 UTC (18.40 WIB).
 Pengingat terjadwal: 20.58 UTC mode hemat (tidak memulai pekerjaan besar baru, gabung dan push semua commit
 pembantu, perbarui berkas ini), 01.10 UTC jalan normal lagi.
 
