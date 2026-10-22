@@ -176,7 +176,8 @@ describe('Transfer contract', () => {
   })
   it('builds the payload in exact cents and refuses duplicates', () => {
     const base = { action: 'CREATE' as const, supplier_id: supplier, review_token: 'f'.repeat(32), reason: 'Transfer gabungan', cash_account_id: bank, payment_date: '2026-10-01T03:00:00.000Z' }
-    expect(supplierTransferPayload(base, [{ purchase_id: receiptId(2), amount: '0.20' }, { purchase_id: receiptId(1), amount: '0.10' }])?.amount).toBe('0.30')
+    const made = supplierTransferPayload(base, [{ purchase_id: receiptId(2), amount: '0.20' }, { purchase_id: receiptId(1), amount: '0.10' }])
+    expect(made?.action === 'CREATE' ? made.amount : null).toBe('0.30')
     expect(supplierTransferPayload(base, [{ purchase_id: receiptId(1), amount: '0.10' }, { purchase_id: receiptId(1), amount: '0.20' }])).toBeNull()
     expect(supplierTransferPayload(base, [{ purchase_id: receiptId(1), amount: '0.00' }])).toBeNull()
   })

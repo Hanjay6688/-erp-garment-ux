@@ -11,7 +11,7 @@
   "scripts/ow04-payment-current-qualification/copy_authority.py": "cfdc3b899e335dd13a9456242ed5158b718ac5c56d9b1ebf06c4571eda2cc7a2",
   ".github/workflows/cp7-ow06-browser.yml": "8ec473c6c5507f39fbf760229660ea6c2f4ac27f2e0dcf09e8155bc3b44992fb",
   "src/SupplierTransferPanel.tsx": "01c41af780509669810edd8669bb1fa7b02867b8f6d716627eeb1fe4f0812186",
-  "src/SupplierTransferPanel.dom.test.tsx": "6d4941351aa42c0619e9392a00ffaff4932a4bd097d8121e03ddb02d30e8091d",
+  "src/SupplierTransferPanel.dom.test.tsx": "4089c1821dbda1b6ffcca71f0c1028b742575f9e602ac098dbf5f5698d90b453",
   "src/supplierTransferContract.ts": "2c5782cb17742fbedf91f2d8053846ec1d280ca8838bbbc237211fc0d345f967",
   "src/ConnectedProcurementPage.tsx": "cdc86d94895c10b7d153a8b0b77525dbcaa9e22e8c7a8579c0e6e6aef692b3e7",
   "src/SupplierPaymentPanel.tsx": "ea651795b3311760e135467f03bd64a969195f01080c6128e21a1e9d87a9cfcc",
