@@ -32,7 +32,7 @@ EXPECTED_SHA256='643081adcec37ffd3c4d83c25e7522522da634e81cb8af551796202c16bc2cf
 
 def admitted():
     declaration=json.loads((HERE/'SOURCE.json').read_bytes())
-    assert declaration['base_candidate']=='642d7a00981e3a57f0c660e3df9de1c26e701988'
+    assert declaration['base_candidate']=='9a754f8fdb65dc69365c28b127263f21ef028bfc'
     assert declaration['product_sources']==product.sources()
     assert declaration['restore_sources']==restore.sources()
     for path,digest in declaration['files'].items():
@@ -53,6 +53,12 @@ def admitted():
     first=json.loads(first_raw)
     assert first['status']=='INCOMPLETE'and 'LAST_ACTIVE_OWNER_PROTECTED'in first['error']
     assert first['cp6_restored']and first['baseline_advisors_equal']
+    second_raw=gzip.decompress((REPO/'docs/cp7/d17-14/ow04/payment-used-restore-c3faae84-second/CP7_OW04_PAYMENT_CURRENT_USED_RESTORE.json.gz').read_bytes())
+    assert sha256(second_raw).hexdigest()=='c60c186c567b107d36354ceebed84ed804e638c0f38070533262d37e7ee416d5'
+    second=json.loads(second_raw)
+    assert second['status']=='INCOMPLETE'and len(second['restore_controls'])==5
+    assert all(row['status']=='PASS'for row in second['restore_controls'])
+    assert second['cp6_restored']and second['baseline_advisors_equal']
     gold=(HERE/'EXPECTED.json').read_bytes();assert sha256(gold).hexdigest()==EXPECTED_SHA256
     return dict(candidate=native['candidate_commit'],raw_sha256=sha256(raw).hexdigest(),
         actual_counts=native['native']['counts'],financial_source_equal=True),json.loads(gold)
@@ -90,7 +96,7 @@ def prepare(cur,today,index,gold):
     return item
 
 
-def refusal_controls(cur,backup,digest,controls):
+def refusal_controls(cur,backup,digest,controls,request):
     def refused(name,call,message):
         cur.execute('savepoint restore_control')
         try:call()
@@ -108,10 +114,15 @@ def refusal_controls(cur,backup,digest,controls):
         restore.rebind_restored(cur,backup,digest,expected_database=database.RESTORED)
     refused('ACTUAL_FUNCTION_METADATA_DRIFT',metadata,'PAYMENT_RESTORE_CATALOG_CHANGED')
     def rows():
-        cur.execute("update erp.app_users set full_name=case when full_name='OW04_RESTORE_DRIFT'then'OW04_RESTORE_DRIFT_2'else'OW04_RESTORE_DRIFT'end where auth_user_id=%s",(basic.native.auth.base.OPERATOR_AUTH,));assert cur.rowcount==1
+        # A real retained receipt is business data too. Its deferred guard is
+        # rolled back with this savepoint; no audited Native master UPDATE or
+        # nontransactional audit sequence is used by the fault fixture.
+        cur.execute("update cp7_credit.consumer_requests_v1 set response=response||'{\"restore_fault\":true}'::jsonb where actor=%s and request_id=%s",(basic.native.auth.base.OPERATOR_AUTH,request));assert cur.rowcount==1
         restore.rebind_restored(cur,backup,digest,expected_database=database.RESTORED)
     refused('ACTUAL_BUSINESS_ROW_DRIFT',rows,'PAYMENT_RESTORE_BUSINESS_ROWS_OR_SEQUENCE_CHANGED')
-    assert restore.catalog._data(cur)==backup['data']
+    actual_data=restore.catalog._data(cur)
+    residue={key:dict(expected=backup['data'].get(key),actual=actual_data.get(key))for key in set(actual_data)|set(backup['data'])if actual_data.get(key)!=backup['data'].get(key)}
+    assert not residue,'RESTORE_CONTROL_ROLLBACK_DATA_OR_SEQUENCE_RESIDUE: '+json.dumps(residue,sort_keys=True)
     assert restore.catalog._portable(restore.catalog._catalog_rows(cur))==restore.catalog._portable(backup['catalog'])
     return controls
 
@@ -168,7 +179,7 @@ def run():
                 assert error.diag.message_primary=='CP7_CREDIT_SOURCE_NATIVE_TRIGGER_CENSUS_CHANGED';cur.execute('rollback to savepoint raw_oid_guard')
             else:raise AssertionError('CURRENT_RESTORE_OLD_LOCAL_OID_SEAL_UNEXPECTEDLY_ACCEPTED')
             cur.execute('release savepoint raw_oid_guard')
-            controls=refusal_controls(cur,backup,digest,report.setdefault('restore_controls',[]))
+            controls=refusal_controls(cur,backup,digest,report.setdefault('restore_controls',[]),fixtures[0]['consumer_requests'][0])
             report['steps'].append(dict(step=gold['required_steps'][2],status='PASS',original_raw_oid_guard_refused=True,controls=controls))
             rebound=restore.rebind_restored(cur,backup,digest,expected_database=database.RESTORED);conn.commit()
             report['steps'].append(dict(step=gold['required_steps'][3],status='PASS',binding=rebound))

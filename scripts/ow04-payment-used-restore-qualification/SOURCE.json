@@ -1,12 +1,12 @@
 {
-  "classification": "CURRENT_USED_RESTORE_FIRST_FAILURE_RETAINED_OWNER_PROTECTION_FIXTURE_FIX",
-  "base_candidate": "642d7a00981e3a57f0c660e3df9de1c26e701988",
+  "classification": "CURRENT_USED_RESTORE_TWO_FAILURES_RETAINED_PRIVATE_RECEIPT_DRIFT_FIXTURE",
+  "base_candidate": "9a754f8fdb65dc69365c28b127263f21ef028bfc",
   "files": {
     ".github/workflows/cp7-ow04-payment-used-restore-current.yml": "417f25424f56ea2ee8ba4cba19b5de8e62777577ed193366413d87c6f9783444",
     "scripts/cp7_payment_source_restore.py": "0cc15ce66b63a72a06f4691c1d9c35173ce13804bd3a2350b9272e70cbbd2b88",
     "scripts/ow04-payment-used-restore-qualification/EXPECTED.json": "643081adcec37ffd3c4d83c25e7522522da634e81cb8af551796202c16bc2cf9",
     "scripts/ow04-payment-used-restore-qualification/README.md": "eb3962149e0caea783cdb4d4a12d29f2fbd8a3142471ba1e85a832886dfe21ce",
-    "scripts/ow04-payment-used-restore-qualification/probe.py": "4a3af07344a06f95c947f3d2e94e961f4bccd561799763a8e7af8d55f02b6dd2",
+    "scripts/ow04-payment-used-restore-qualification/probe.py": "0f8d57d48e2bd804b0fc3570e6fc9a9e99d9e720944fb959e26fd2e4c2aa78c7",
     "scripts/ow04-payment-used-restore-qualification/restore_database.py": "dd1f9eacecaf3b933e64866c449881187a0670148b54b4d3562bef3d63bd28bc"
   },
   "product_sources": {
