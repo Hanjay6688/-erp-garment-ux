@@ -7,7 +7,8 @@ tidak dihentikan; baru diperlambat bila kuota menipis. Owner: yang dilihat kuota
 Sisa kuota tidak terlihat dari sesi, jadi patokannya jam: jendela sekarang mulai sekitar 20.00 UTC 22 Okt, habis sekitar
 01.00 UTC 23 Okt. Hitungan dari layar Usage Bos (03.35 WIB): sesi 47% terpakai, reset 4 jam 25 menit lagi (01.00 UTC);
 laju sekitar 1,3% per menit dengan 4–5 pembantu, jadi habis sekitar 21.15 UTC. Patokan mode hemat: sekitar 80% terpakai.
-Owner: jangan mulai pembantu baru bila tidak akan selesai sebelum mode hemat. Kuota mingguan boleh habis sebelum reset Kamis
+Owner: jangan mulai pembantu baru bila tidak yakin selesai sebelum kuota habis (boleh selesai di dalam mode hemat). Mode hemat
+jendela berikutnya sekitar 2 jam 20 menit sebelum reset (pengingat 03.50 UTC). Kuota mingguan boleh habis sebelum reset Kamis
 29 Okt 00.59 WIB; perkiraan habis Senin 27 Okt pagi; pengingat serah terima ke Astra Minggu 26 Okt 11.40 UTC (18.40 WIB).
 Pengingat terjadwal: 20.58 UTC mode hemat (tidak memulai pekerjaan besar baru, gabung dan push semua commit
 pembantu, perbarui berkas ini), 01.10 UTC jalan normal lagi.
@@ -37,9 +38,11 @@ Diperbarui: 22 Okt 2026, 20.50 UTC (23 Okt 03.50 WIB).
 1. Catat hasil tiga run di atas (lulus: berkas bukti; gagal: simpan kegagalan pertama, betulkan).
 2. OW-08b 2.21 koreksi barang jadi di QC: digabung (`5be35e60`), Native9 dikirim di `2927dd25`; browser OW-05b dan OW-06 diulang
    karena `src/transactionSource.ts` berubah (diantrekan).
-3. OW-04b retur berulang dengan kredit: pembantu sedang bekerja di `claude/d17-14-ow04b` (lokal). Pin UI OW-04 lama
-   (`scripts/ow04-*/SOURCE.json`, `ACTIVE_UI_SOURCE.json`) terikat ke kandidat OW-04 yang dibekukan, jadi tidak diubah; OW-04b
-   butuh kualifikasi sendiri.
+3. OW-04b retur berulang dengan kredit: bagian 3–4 digabung (`6ff98674`, tahap `scripts/cp7_credit_followups/`, workflow
+   `cp7-ow04b-native.yml` belum pernah jalan; daftarkan dengan push non-skip yang menyentuh foldernya). Bagian 1–2 BELUM:
+   retur kedua / retur pada invoice yang dibayar kredit, dan Edit retur / Benerin nota pada invoice berkredit; produk kredit
+   OW04 dan semua pemeriksanya sengaja satu-kohort, perlu tahap multi-kohort dengan bukti (lihat `ow04/OW04B.md`). Juga celah
+   lama: bayar sisa invoice yang sebagian dibayar kredit masih ditolak (sekarang dengan alasan jelas).
 4. OW-09 layar ke-8 (Nota Ambil Aksesori): pembantu sedang membuat tahap Native untuk `erp.get_accessory_issue_workspace_v1`
    (offset, status, urutan, jumlah) di `claude/d17-14-ow09` (lokal).
 5. Penggabungan harian 17.00 WIB 23 Okt ke `astra/d17-14-integrasi` (pengingat terjadwal 09.35 UTC). Pembanding vitest: base
