@@ -2,11 +2,13 @@
 import {useEffect, useMemo, useRef, useState} from 'react'
 import {cp6WibDateTimeInput, cp6WibPhysicalTimeToIso} from './cp6BusinessTime'
 import {formatReceiptDecimal} from './procurementContract'
+import {isUnansweredFailure} from './lib/clientError'
+import {creditRefusalMessage, serverRefusalCode} from './lib/creditRefusalMessages'
 import {
   acceptQuote, blankChoice, canCommit, commitIntent, emptyQuoteUi, inputIdentity,
   parseQuoteInput, parseSettlementAccountOptions, parseSettlementQuote, retireQuote, startQuote,
   type AccountOptions, type AccountOptionsQuery, type DraftChoice, type Issue,
-  type Quote, type QuoteInput, type QuoteUi, type ReadContext, type RecoveryPayload, type Source,
+  type Quote, type QuoteInput, type QuoteReply, type QuoteUi, type ReadContext, type RecoveryPayload, type Source,
 } from './salesReturnSettlementContract'
 
 export type SettlementSectionProps<TTicket> = {
@@ -75,6 +77,20 @@ function accessRefused(error: unknown): boolean {
   const e = error as {status?: unknown; code?: unknown}
   return e.status === 401 || e.status === 403 || e.status === '401' || e.status === '403' || e.code === '42501'
 }
+/** OW-04b part 3: a refused read names the reason and the next step, never only "belum dapat diperiksa".
+ * Raw server text is never shown; only a bare server code may be named, so the user can report it. */
+function readRefusal(error: unknown, what: 'QUOTE' | 'OPTIONS'): string {
+  if (accessRefused(error)) return what === 'QUOTE' ? 'Akses sumber retur berubah. Muat ulang invoice dan hak akses.' : 'Akses akun retur berubah. Muat ulang invoice dan hak akses.'
+  const e = error && typeof error === 'object' ? error as {message?: unknown; details?: unknown} : {}
+  const named = creditRefusalMessage(e.message, e.details)
+  if (named) return named
+  const label = what === 'QUOTE' ? 'Pemeriksaan retur' : 'Pencarian akun retur'
+  if (isUnansweredFailure(error)) return `Server belum menjawab ${label.toLowerCase()}. Periksa koneksi, lalu ${what === 'QUOTE' ? 'tekan Periksa penyelesaian retur' : 'cari akun'} lagi.`
+  const code = serverRefusalCode(e.message)
+  return code ? `${label} ditolak server (kode ${code}). Muat ulang invoice lalu coba lagi; bila kode yang sama muncul lagi, beri tahu admin dengan kode ini.`
+    : `${label} ditolak server tanpa kode yang dapat dibaca. Muat ulang invoice lalu coba lagi; bila berulang, beri tahu admin.`
+}
+const unreadable = (what: 'QUOTE' | 'OPTIONS') => `${what === 'QUOTE' ? 'Jawaban pemeriksaan retur' : 'Daftar akun'} dari server tidak lengkap atau tidak sesuai, jadi tidak ditampilkan. Muat ulang invoice lalu coba lagi; bila berulang, beri tahu admin.`
 
 export default function SalesReturnSettlementSection<TTicket>(props: SettlementSectionProps<TTicket>) {
   const ticketSequence = useRef(0)
@@ -125,16 +141,15 @@ export default function SalesReturnSettlementSection<TTicket>(props: SettlementS
     if (!current(s) || !s.validInput || !s.context) return
     const request = ++quoteRequest.current, query = structuredClone(s.validInput), started = startQuote(s.context)
     setProblem(null); setQuote({fence: s.fence, ui: started})
-    try {
-      const raw = await s.getQuote(query)
-      if (request !== quoteRequest.current || !sameRender(s)) return
-      if (!current(s)) { refuse(s, 'Sumber invoice berubah. Muat ulang invoice sebelum memeriksa retur.'); return }
-      const reply = parseSettlementQuote(raw, query)
-      setQuote({fence: s.fence, ui: acceptQuote(started, s.context, latest.current.context!, reply)})
-    } catch (error) {
-      if (request !== quoteRequest.current || !sameRender(s)) return
-      refuse(s, accessRefused(error) ? 'Akses sumber retur berubah. Muat ulang invoice dan hak akses.' : 'Sumber penyelesaian retur belum dapat diperiksa. Muat ulang invoice.')
+    let raw: unknown, reply: QuoteReply
+    try { raw = await s.getQuote(query) } catch (error) {
+      if (request === quoteRequest.current && sameRender(s)) refuse(s, readRefusal(error, 'QUOTE'))
+      return
     }
+    if (request !== quoteRequest.current || !sameRender(s)) return
+    if (!current(s)) { refuse(s, 'Sumber invoice berubah. Muat ulang invoice sebelum memeriksa retur.'); return }
+    try { reply = parseSettlementQuote(raw, query) } catch { refuse(s, unreadable('QUOTE')); return }
+    setQuote({fence: s.fence, ui: acceptQuote(started, s.context, latest.current.context!, reply)})
   }
   const loadOptions = async (kind: Kind, offset: number) => {
     const s = latest.current
@@ -143,16 +158,15 @@ export default function SalesReturnSettlementSection<TTicket>(props: SettlementS
     const query: AccountOptionsQuery = {kind: 'ACCOUNT_OPTIONS', sale_id: s.source.sale_id, expected_version: s.source.row_version,
       review_token: s.source.review_token, account_kind: kind, q: search[kind].trim(), offset, limit: 25}
     setPages(old => ({...old, [kind]: {fence: s.fence, request, loading: true, reply: null}}))
-    try {
-      const raw = await s.getAccountOptions(query)
-      if (request !== optionRequest.current[kind] || !sameRender(s)) return
-      if (!current(s)) { refuse(s, 'Sumber invoice berubah. Muat ulang invoice sebelum memilih akun.'); return }
-      const reply = parseSettlementAccountOptions(raw, query)
-      setPages(old => ({...old, [kind]: {fence: s.fence, request, loading: false, reply}}))
-    } catch (error) {
-      if (request !== optionRequest.current[kind] || !sameRender(s)) return
-      refuse(s, accessRefused(error) ? 'Akses akun retur berubah. Muat ulang invoice dan hak akses.' : 'Pilihan akun belum dapat diperiksa. Muat ulang invoice.')
+    let raw: unknown, reply: AccountOptions
+    try { raw = await s.getAccountOptions(query) } catch (error) {
+      if (request === optionRequest.current[kind] && sameRender(s)) refuse(s, readRefusal(error, 'OPTIONS'))
+      return
     }
+    if (request !== optionRequest.current[kind] || !sameRender(s)) return
+    if (!current(s)) { refuse(s, 'Sumber invoice berubah. Muat ulang invoice sebelum memilih akun.'); return }
+    try { reply = parseSettlementAccountOptions(raw, query) } catch { refuse(s, unreadable('OPTIONS')); return }
+    setPages(old => ({...old, [kind]: {fence: s.fence, request, loading: false, reply}}))
   }
   const chooseAccount = (kind: Kind, id: string, page: Page) => {
     const s = latest.current

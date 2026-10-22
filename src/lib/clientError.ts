@@ -5,6 +5,7 @@ import { reminderV2Message } from './reminderV2Messages'
 import { analysisRetentionMessage } from './analysisRetentionMessages'
 import { masterMessage } from './masterMessages'
 import { mandorCorrectionMessage } from './mandorCorrectionMessages'
+import { creditRefusalMessage } from './creditRefusalMessages'
 
 export type ClientErrorCode =
   | 'AUTH_FAILED'
@@ -102,6 +103,9 @@ export function normalizeClientError(error: unknown): ClientAppError {
     cp7_credit_consumer_physical_before_target: 'Waktu pemakaian saldo tidak boleh mendahului invoice tujuan. Periksa waktu transaksi WIB.',
   }
   if (creditMessages[rawMessage]) return new ClientAppError('REJECTED',creditMessages[rawMessage])
+  // OW-04b part 3: a retained credit refusal names its reason (server DETAIL) and the next step.
+  const creditRefusal = creditRefusalMessage(candidate.message, candidate.details)
+  if (creditRefusal) return new ClientAppError('REJECTED', creditRefusal)
 
   const periodMessages: Record<string,string> = {
     cp7_period_review_changed: 'Periode, kesiapan, atau saldo berubah sejak diperiksa. Periksa ulang sebelum melanjutkan.',

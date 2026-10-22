@@ -1,0 +1,42 @@
+{
+ "classification": "OW04B_CREDIT_REFUSALS_NAMED_REFUND_CASH_GUARD_AND_CONCURRENT_UNDO_NATIVE_STAGE",
+ "files": {
+  ".github/workflows/cp7-ow04b-native.yml": "7a2929cab3f655c3183f56fca9380391b7c61cf3bc5889415a954101e4d7f83c",
+  "scripts/cp7_credit_followups/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "scripts/cp7_credit_followups/cases.py": "3c73087668a61004b8607f4102b0cc9cbb7162a1f4fd0845450713d8e9f93726",
+  "scripts/cp7_credit_followups/composition.py": "b4d1e752a42e883942e39c001f9e7356956130b458140e4e7cd0d833e3054251",
+  "scripts/cp7_credit_followups/followups.sql": "ab81500c710b8a37824f6126b7fc47ed2771137671dfecbc968560b316a07b9a",
+  "scripts/cp7_credit_followups/local_check.py": "8f4f43bf42d91cb3b0367f4217891ecb87f2013e3edef19fe450037a1572099b",
+  "scripts/cp7_credit_followups/native_delta.py": "972cc6f4b797b3a23ac9dff07029a17db17f73ccc140e6fbb8714c6459fb93c8",
+  "scripts/cp7_credit_followups/native_probe.py": "4218f0e17f5c67e79abd17471ee3f6e7b04ba4a9907442bb795a153f72bbde91"
+ },
+ "case_ids": [
+  "OW04B_FIRST_RETURN_QUOTES_UNCHANGED",
+  "OW04B_SECOND_RETURN_NAMES_PRIOR_CREDIT_RETURN",
+  "OW04B_RETURN_ON_CREDIT_PAID_INVOICE_NAMES_REASON",
+  "OW04B_EDIT_RETUR_ON_CREDIT_INVOICE_NAMES_REASON",
+  "OW04B_PAYMENT_ON_CREDIT_PAID_INVOICE_NAMES_REASON",
+  "OW04B_BENERIN_NOTA_ON_CREDIT_INVOICES_NAMES_REASON",
+  "OW04B_REFUND_EMPTY_BANK_REFUSED_NO_EFFECT_THEN_FUNDED",
+  "OW04B_REFUND_BANK_FUNDED_AFTER_REFUND_DATE_REFUSED",
+  "OW04B_CONSUMER_REFUND_EMPTY_BANK_REFUSED_NO_EFFECT_THEN_FUNDED"
+ ],
+ "race_ids": [
+  "OW04B_RACE_TWO_UNDO_APPLY_DISTINCT_UUID",
+  "OW04B_RACE_TWO_UNDO_APPLY_SAME_UUID",
+  "OW04B_RACE_TWO_UNDO_INITIAL_REFUND_DISTINCT_UUID"
+ ],
+ "native_original": {
+  "name": "CP7_OW05_NATIVE28_GUIDANCE_WHOLE_PO_WAVE.json",
+  "bytes": 6646642,
+  "sha256": "9e4732a171faff7175a03b895daca09bcb1dc54a53003cb300d979c858d1143c"
+ },
+ "retest_items": {
+  "part3_refusal_names_reason_and_next_step": "SERVER_DETAIL_IN_THIS_STAGE_CLIENT_TEXT_IN_SRC",
+  "part4_refund_refused_without_effect_when_bank_short": true,
+  "part4_two_concurrent_undo": true,
+  "part1_second_return_or_credit_paid_invoice_settles": false,
+  "part2_return_correction_and_note_revision_with_credit": false
+ },
+ "OW04b_complete": false
+}
