@@ -1,0 +1,27 @@
+{
+ "classification": "OW07_CLOSE_WAITS_FOR_UNDIVIDED_HPP_POOLS_NATIVE_STAGE",
+ "files": {
+  ".github/workflows/cp7-ow07-native.yml": "2825edbe8248b85e19bde09293bfe4d3223641a1f73feea00f477122b9ef0595",
+  "scripts/cp7_hpp_close/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "scripts/cp7_hpp_close/cases.py": "2a6d549fa8917b3b63e367824df46d279648986bada5c4f651a4f4e9f921bb26",
+  "scripts/cp7_hpp_close/composition.py": "37c28bb37db106093fb2931083b3d8559247a90a147ff74ad0ebaeaa8f240d25",
+  "scripts/cp7_hpp_close/native_delta.py": "25f0769977070acfa641929d8310e4fae42ce0a69fc953472efa68699b4c05ea",
+  "scripts/cp7_hpp_close/native_probe.py": "8e3370d1f37b9bf88f8fdc15b8d51a3bf5c2c652d9531a8f7970df44478e4e4e",
+  "scripts/cp7_hpp_close/hpp_close.sql": "05a2526c1666a825be1108202af142ad95559c7fb0a288af43f72c5d1c160480"
+ },
+ "case_ids": [
+  "OW07_POCKET_DAILY_USAGE_HOLDS_CLOSE_UNTIL_DIVIDED",
+  "OW07_POCKET_OPENING_USAGE_HOLDS_CLOSE_UNTIL_DIVIDED",
+  "OW07_ATTENDANCE_POOL_HOLDS_CLOSE_UNTIL_ACTIVE",
+  "OW07_ATTENDANCE_POLICY_MISSING_HOLDS_CLOSE",
+  "OW07_ATTENDANCE_SOURCE_UNCLEAR_HOLDS_CLOSE",
+  "OW07_ATTENDANCE_ZERO_OUTPUT_REPORTED_NOT_BLOCKING",
+  "OW07_FINISHED_PO_POOL_ACTIVATE_CANCEL_LEAVES_NO_WIP"
+ ],
+ "native_original": {
+  "name": "CP7_OW05_NATIVE28_GUIDANCE_WHOLE_PO_WAVE.json",
+  "bytes": 6646642,
+  "sha256": "9e4732a171faff7175a03b895daca09bcb1dc54a53003cb300d979c858d1143c"
+ },
+ "OW07_complete": false
+}

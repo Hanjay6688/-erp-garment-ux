@@ -19,3 +19,21 @@ Sumber yang harus diperbaiki saat OW-08: erp.run_v268_financial_report_checks() 
 Saat diperbaiki: pertahankan seluruh pemeriksa lain, nama/kadar temuan, tanggal dan filing lama; verifikasi CURRENT yang terkoreksi, zero-participation legacy, pemakaian/pembatalan kredit, dua arah koreksi, serta penolakan jurnal/fakta tak beralas. Ulangi Native dan transport yang memang sumbernya berubah. Tidak mengarang kebijakan dan tidak mengubah laporan lama yang sudah diarsip.
 
 Lihat [kegagalan P21 yang dipertahankan](../ow04/p21-36a6b880-readiness-boundary.json); tidak ada log mentah baru di repo.
+
+## OW-08a — pemeriksa laporan memakai kredit pelanggan (penulis A, 23 Okt 2026)
+
+Dikerjakan sebagai tahap `scripts/cp7_report_credit/` di atas produk OW-05 yang sudah lulus. Dua pembaca di atas diganti
+dengan perubahan terhitung (`native_delta.py`): bayar efektif tiap invoice = pembayaran + kredit masuk − kredit terbit
+(`erp._cp7_current_credit_adjustment`, dibaca sekali per pemeriksaan). Invoice tanpa kredit hasilnya sama persis. Bila
+kredit sebuah invoice tidak bisa dibuktikan, laporan tidak error tetapi muncul temuan kritis baru
+`CP7_CUSTOMER_CREDIT_REPORT_UNPROVEN`. Pemeriksa lain, nama dan kadar temuan tidak berubah.
+
+| Bukti | Hasil |
+|---|---|
+| Run CI | 39817748051 percobaan 2, job 119966636081, kepala `d38f6ee6` (produk OW-05 `5e4b4c1c`); percobaan 1 gagal sebelum uji karena batas unduh image (infrastruktur) |
+| Native6 | PASS 6/6: tanpa kredit sama dengan pembaca lama; kredit terbit dan dipakai READY; uang kembali READY; pakai lalu batal READY; selisih asli (status PAID palsu, GL +0,01) tetap tertangkap; kredit tak terbukti memblokir tanpa error |
+| Pulih | Copot sebelum dipakai mengembalikan katalog persis; bukti pemulihan CP6 dan gerbang advisor lulus |
+| Laporan asli | `CP7_OW08A_REPORT_CREDIT_NATIVE6.json` 1.807.336 byte, sha256 `1f13604f358be7ee1375c49a335b174d7de5ddc196cddb28fbf785a16dabe2d8`; artifact 12444192203 |
+
+Belum: dirangkai ke pemasang bawaan (P21 akan berubah dari BLOCKED 2/3/1 menjadi 0/0/0, pengetatan) saat penggabungan;
+OW-08b (kasbon dari buku besar, piutang vendor laundry, cuci gagal tanpa tarif, koreksi FG di QC) belum dikerjakan.
