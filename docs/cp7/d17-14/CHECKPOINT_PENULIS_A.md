@@ -43,8 +43,11 @@ Diperbarui: 22 Okt 2026, 21.00 UTC (23 Okt 04.00 WIB), mode hemat.
    retur kedua / retur pada invoice yang dibayar kredit, dan Edit retur / Benerin nota pada invoice berkredit; produk kredit
    OW04 dan semua pemeriksanya sengaja satu-kohort, perlu tahap multi-kohort dengan bukti (lihat `ow04/OW04B.md`). Juga celah
    lama: bayar sisa invoice yang sebagian dibayar kredit masih ditolak (sekarang dengan alasan jelas).
-4. OW-09 layar ke-8 (Nota Ambil Aksesori): pembantu sedang membuat tahap Native untuk `erp.get_accessory_issue_workspace_v1`
-   (offset, status, urutan, jumlah) di `claude/d17-14-ow09` (lokal).
+4. OW-09: tahap `scripts/cp7_ow09_lists/` (8 pembaca termasuk aksesori, Native8, workflow `cp7-ow09-native.yml`) sudah
+   di cabang ini (`15fb2a69`, `00385161`), belum pernah jalan di CI (daftarkan dengan push non-skip, sesudah login ghcr bila
+   uji coba OW-12a berhasil). Bagian layar (`d8cd1960`, `2a0a6fb4`) masih di cabang lokal `claude/d17-14-ow09-stage`; digabung
+   hanya sesudah Native8 lulus, karena layar baru mengirim kunci yang ditolak pembaca dasar tanpa tahap ini. Sisa: README
+   `ow09/README.md`, cek F04/F05 gagal di base (`cp7_analysis_native.rounded_suggestion` tidak ada, area B), `check-*.mjs`.
 5. Penggabungan harian 17.00 WIB 23 Okt ke `astra/d17-14-integrasi` (pengingat terjadwal 09.35 UTC). Pembanding vitest: base
    50 gagal/2102, gabungan uji 50 gagal/2146, tidak ada kegagalan baru; ke-50 itu uji `tests/cp7/families` yang menolak root.
 6. OW-15: rantai linear tahap, P21 untuk OW-06/OW-08a, sambungan B untuk OW-12a. Pembantu perencana sedang menyusun rencana
@@ -70,7 +73,7 @@ OW05b browser bila run 39851046496 juga gagal.
   2.19 piutang vendor laundry (menunggu Bos); OW-15 rantai (rencana `ow15/RENCANA_OW15.md`).
 - Untuk B: 9 berkas `scripts/cp7-src` di `astra/d17-14-produksi` harus kembali ke byte beku dan perubahannya jadi tahap
   (permintaan di `KOORDINASI.md`, E25j2). Sampai itu cabang B tidak digabung ke integrasi apa adanya.
-- Cabang lokal pembantu yang belum di-push (hanya di mesin ini): `claude/d17-14-ow09` (OW-09 tahap, sedang dirapikan).
+- Cabang lokal pembantu yang belum di-push (hanya di mesin ini): `claude/d17-14-ow09-stage` (bagian layar OW-09).
   Semua cabang pembantu lain sudah digabung ke `claude/d17-14-uang`.
 
 ## Menunggu Bos
