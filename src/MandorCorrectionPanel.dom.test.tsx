@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { act } from 'react'
+import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import MandorCorrectionPanel from './MandorCorrectionPanel'
@@ -77,6 +77,19 @@ describe('koreksi mandor sesudah jahit', () => {
     serve(workspace(), args => result(args, { po_id: target }))
     await mount(); await click('Koreksi mandor sesudah jahit'); await fill(); await click('Ganti pembagian ke mandor yang benar')
     expect(onCommitted).not.toHaveBeenCalled(); expect(container.textContent).not.toContain('pembagian diganti ke mandor yang benar')
+  })
+  it('hands the next sewing step to the page before the loading refresh unmounts the panel', async () => {
+    serve(workspace(), result)
+    function Page() {
+      const [version, setVersion] = useState(0), [notice, setNotice] = useState('')
+      return <><p role="status" aria-label="Hasil koreksi PO">{notice}</p><MandorCorrectionPanel key={version} groupId={group} groupVersion={7} parentReady
+        onCommitted={async message => { setNotice(message); setVersion(v => v + 1) }}/></>
+    }
+    await act(async () => root.render(<Page/>)); await settle()
+    await click('Koreksi mandor sesudah jahit'); await fill(); await click('Ganti pembagian ke mandor yang benar')
+    expect(container.querySelector('[aria-label="Hasil koreksi PO"]')?.textContent).toContain('Catat ulang hasil jahit')
+    expect(container.querySelector('[aria-label="Hasil koreksi PO"]')?.textContent).toContain('Riwayat upah dan nota lama tetap tersimpan')
+    expect(button('Koreksi mandor sesudah jahit')).toBeTruthy()
   })
   it('cancels the confirmation as soon as the target changes', async () => {
     serve(); await mount(); await click('Koreksi mandor sesudah jahit'); await fill()

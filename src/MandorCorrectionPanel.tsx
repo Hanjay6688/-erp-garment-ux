@@ -19,7 +19,7 @@ const documentNames: Record<string, string> = {
   REWORK: 'Rework', BS: 'Kasus BS', SCRAP: 'Scrap', PICKUP_DRAFT: 'Draft pembagian', GROUP_STATE: 'Status potongan', WIP_HISTORY: 'Riwayat WIP',
 }
 export default function MandorCorrectionPanel({ groupId, groupVersion, parentReady, onCommitted }: {
-  groupId: string; groupVersion: number; parentReady: boolean; onCommitted: () => Promise<void>
+  groupId: string; groupVersion: number; parentReady: boolean; onCommitted: (message: string) => Promise<void>
 }) {
   const { runtime, identity } = useAuth()
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') throw new Error('Sesi koreksi mandor belum siap.')
@@ -29,7 +29,7 @@ export default function MandorCorrectionPanel({ groupId, groupVersion, parentRea
   const allowed = ['OWNER', 'ADMIN'].includes(identity.profile.role) && permissions.every(p => hasPermission(identity, p))
   const bound = `${groupId}:${groupVersion}:${recovery.scope}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`
   const live = useRef(bound); live.current = bound
-  const serial = useRef(0), committed = useRef(false)
+  const serial = useRef(0), committed = useRef(false), outcome = useRef('')
   const [open, setOpen] = useState(false), [data, setData] = useState<MandorCorrectionWorkspace | null>(null)
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [done, setDone] = useState('')
   const [target, setTarget] = useState(''), [reason, setReason] = useState(''), [reviewed, setReviewed] = useState(false)
@@ -64,10 +64,11 @@ export default function MandorCorrectionPanel({ groupId, groupVersion, parentRea
     retire: (value: unknown, e: ProductionEnvelope) => {
       const result = validateMandorCorrection(value, e); committed.current = true
       setData(null); setReviewed(false); setTarget(''); setReason('')
-      setDone(`${result.poNumber}: ${result.pickupCount} pembagian diganti ke mandor yang benar. Catat ulang hasil jahit di WIP & Jahit dengan waktu fisik aslinya, periksa tarif, lalu susun ulang nota. Riwayat upah dan nota lama tetap tersimpan.`)
+      outcome.current = `${result.poNumber}: ${result.pickupCount} pembagian diganti ke mandor yang benar. Catat ulang hasil jahit di WIP & Jahit dengan waktu fisik aslinya, periksa tarif, lalu susun ulang nota. Riwayat upah dan nota lama tetap tersimpan.`
+      setDone(outcome.current)
     },
     reload: async () => {
-      if (committed.current) { setOpen(false); await onCommitted(); return true }
+      if (committed.current) { setOpen(false); await onCommitted(outcome.current); return true }
       return load()
     },
   }

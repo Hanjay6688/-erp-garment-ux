@@ -1,0 +1,28 @@
+{
+  "classification": "COMPACT_ACTUAL_BROWSER_NEXT_STEP_FIRST_FAILURE_NOT_PASS",
+  "status": "INCOMPLETE",
+  "candidate_commit": "587acf7848b2afec870b644964207ae47f457008",
+  "run_id": 39780999078,
+  "job_id": 119831912021,
+  "observed_case_count": 2,
+  "case_status": {
+    "OW05_DESKTOP_NATIVE_UNDO_CORRECT_REPOST_NEW24": "INCOMPLETE",
+    "OW05_MOBILE390_NATIVE_UNDO_CORRECT_REPOST_NEW24": "INCOMPLETE"
+  },
+  "failure": "Both actual desktop and phone complete sewing REVERSE and mandor correction, then the next sewing-step notice disappears on the real page loading/unmount",
+  "actual_product_fix": "Send next-step text to parent WIP page before reload; parent retains it while the card unmounts",
+  "replacement_assertion": "Visible parent page notice after reload; preserve Catat ulang hasil jahit and original history instruction",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "original_report": {
+    "bytes": 261577,
+    "sha256": "476e898fb73a08bbf6dd5386501f0624f723f941a86c84c3d872d2908e52203d"
+  },
+  "artifact": {
+    "id": 12426893238,
+    "zip_bytes": 1632730,
+    "zip_sha256": "6745bba84eece89cb269490276d835d1152447a68a0968ccaf5c576209c26033"
+  },
+  "OW05_complete": false,
+  "production_go": false
+}
