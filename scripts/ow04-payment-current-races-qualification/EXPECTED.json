@@ -1,0 +1,42 @@
+{
+  "classification": "PREEXECUTION_CURRENT_SQL_RACES8_NOT_REAL_AUTH_NOT_QUALIFICATION",
+  "expected_count": 8,
+  "retained6_sha256": "aa13e7a0a972bc4a500976ab9a983be0a2b5a0baf6eabd13917b8530132b14c5",
+  "positive_restore_cases": [
+    {
+      "id": "OW04_CURRENT_RACE_SAME_UUID_RESTORE1000",
+      "same_UUID": true,
+      "worker_error": null,
+      "expected": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "100.00",
+        "available": "100.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "100.00",
+        "target_AR": "400.00",
+        "cash": "1000.00"
+      }
+    },
+    {
+      "id": "OW04_CURRENT_RACE_DISTINCT_UUID_STALE_RESTORE1000",
+      "same_UUID": false,
+      "worker_error": "CP7_SALES_REVIEW_CHANGED",
+      "expected": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "100.00",
+        "available": "100.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "100.00",
+        "target_AR": "400.00",
+        "cash": "1000.00"
+      }
+    }
+  ],
+  "production_go": false
+}
