@@ -860,3 +860,33 @@ Owner (persis): "nomor 2 emang dari total tapi dia harus lihat dari range ukuran
 Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): yang dinilai tetap total pcs hasil potong, tetapi rentang
 wajarnya dibedakan menurut rentang ukuran pola (pola ukuran jumbo dan pola ukuran kecil punya rentang wajar sendiri), di
 dalam kelompok jenis bahan + pola. Ini mengoreksi ringkasan lanjutan pertama di atas ("bukan satu angka total").
+
+### D17-16 (owner ke penulis Claude, 22 Okt 2026 WIB, semua butir tetap lingkup; cara implementasi diperhalus)
+
+Pertanyaan penulis (chat, atas `docs/cp7/PEMBAGIAN_DUA_PENULIS_20261022.md`): "1. Daftar "tunda / sederhanakan / tidak
+perlu" di atas disetujui? Ya atau tidak? 2. Apakah kejadian ini ada di pabrik: kelebihan bayar ke laundry yang harus
+dikembalikan vendor, atau cuci gagal sebelum tarif vendor diketahui? Ya atau tidak untuk masing-masing."
+
+Owner (persis):
+
+> Bisa, Bos. Semua kebutuhan tetap ada; yang diperhalus itu cara kerjanya supaya sesuai data, nggak dobel hitung, dan gampang dipakai. Ini arahan buat writer:
+> Jangan hapus atau menunda seluruh fitur karena concern tadi. Refine implementasinya seperti ini:
+>
+> * Bayar supplier sekali untuk banyak penerimaan: satu transaksi kas/bank, dengan rincian alokasi ke masing-masing utang. Dukung bayar sebagian, sisa utang, dan pembatalan yang konsisten.
+> * Urut/saring seluruh data: berlaku pada seluruh hasil pencarian, termasuk lintas halaman; angka total dan ekspor mengikuti filter yang sama.
+> * Status hasil potong: tetap ada, mengikuti kejadian fisik dan progres proses; pengguna bisa memahami apa yang selesai dan apa yang masih tertunda.
+> * Model perkiraan pintar: tetap disediakan dengan pemilihan metode berdasarkan kecukupan data. Saat data minim, gunakan metode dasar dan jelaskan keterbatasannya; metode lebih kompleks baru dipakai jika bisa dibuktikan lebih baik lewat pengujian terhadap riwayat. Jangan menjanjikan akurasi yang belum terbukti.
+> * Produk baru memakai produk serupa: sistem boleh menyarankan kandidat beserta alasan kemiripannya, lalu pengguna mengonfirmasi atau memilih sendiri. Hasilnya diberi label perkiraan berbasis produk pembanding; kalau tidak ada pembanding layak, nyatakan data belum cukup.
+> * Target produksi dengan cadangan: gunakan satu mesin perhitungan yang menyatukan kebutuhan, stok tersedia, WIP yang relevan, pesanan, lama produksi, dan cadangan. Bedakan kapan perlu produksi dengan berapa jumlahnya, serta tampilkan rincian agar cadangan tidak dihitung dua kali.
+> * Keuangan/HPP dalam analisis skala pabrik: tetap tersedia memakai sumber perhitungan resmi yang sama dengan laporan. Hasil operasional boleh muncul lebih dulu, sementara bagian keuangan menunjukkan progres dan status kelengkapannya. Kesimpulan yang membutuhkan laba atau biaya harus menunggu angka tersebut siap; pembanding periode dan optimasi kecepatan tetap dikerjakan.
+> * Analisis awal otomatis: jalankan setelah data serta konfigurasi minimum siap. Kalau belum siap, tampilkan apa yang kurang dan tombol melengkapinya; hindari analisis berulang tanpa perubahan data.
+> * Kain berumus di Ringkasan Gudang: tetap tampil sebagai ringkasan singkat yang bisa dibuka rinciannya, memakai sumber yang sama dengan Pengingat, WA, dan panel titik pesan ulang. Bedakan jelas stok fisik dengan perkiraan kebutuhan.
+> * Angka minimum lama di Enteng: tetap tersedia sebagai referensi konfigurasi lama dan diperiksa saat pemasangan. Jelaskan angka mana yang aktif; jangan biarkan aturan lama dan baru berjalan bersamaan tanpa keputusan yang jelas.
+> * Saran potong di form Buat Potongan: tampilkan rekomendasi dari mesin yang sama dengan panel rencana, lengkap dengan waktu analisis dan alasannya. Pengguna dapat menerapkan atau mengubah jumlah; sistem memeriksa ulang ketersediaan serta kelayakan saat transaksi disimpan.
+>
+> Semua tetap masuk scope. Yang menunggu kecukupan data hanya aktivasi metode yang memang membutuhkan data tersebut, bukan keberadaan fiturnya. Implementasi boleh bertahap, tetapi bagian yang belum dibuat tetap dicatat terbuka; jangan dinyatakan selesai hanya karena ada tampilan atau fallback. astra udah selesai check point, baca dan lakukan pembagian ulang dengan poin baru ini, dan apakah ini masuk akal buat lu?
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): saran "tunda/sederhanakan/tidak perlu" di dokumen
+pembagian ditolak; semua butir tetap lingkup dengan cara implementasi di atas. Pertanyaan 2 (laundry kelebihan bayar, cuci
+gagal) tidak dijawab per butir; karena "Semua tetap masuk scope", butir OW-08 itu dikerjakan. Pembagian dua penulis disusun
+ulang di `docs/cp7/PEMBAGIAN_DUA_PENULIS_20261022.md` (versi 2).

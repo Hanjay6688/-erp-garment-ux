@@ -1,124 +1,107 @@
-# Pembagian kerja dua penulis untuk sisa D17-14 (22 Okt 2026)
+# Pembagian kerja dua penulis untuk sisa D17-14 — versi 2 (22 Okt 2026)
 
-Owner (persis): "abis ini astra bakal siapin handoff untuk lu takeover pekerjaannya, lu siapin scope pekerjaannya kalo gitu
-kalo mau pake 2 writer biar efektif dan tetap reliable data adalah dewa, laporan dll adalah raja. lu jelasin sedetil
-mungkin pembagiannya hindari ada tabrakan yang malah memperpanjang lagi urusan penulisan erp ini, btw kalo yg lu lewati
-ini gak usa disentuh sama sekali sbenernya aman aman aja gak buat erp? apa kerugian dan keuntungan dari fitur terlewat
-ini? ada poin yang bisa gausah dikerjakan karena overengineeres"
+Dasar: D17-14 (daftar kerja), D17-15 (status hasil potong) dan **D17-16** (semua butir tetap lingkup, cara implementasi
+diperhalus), kutipan persis di `docs/cp7/OWNER_DECISIONS_20261008.md`. Versi 1 dokumen ini menyarankan beberapa butir
+ditunda atau dihapus; owner menolaknya di D17-16, jadi saran itu dicabut.
 
-Prinsip: data yang benar nomor satu, laporan nomor dua; kecepatan kerja tidak boleh mengorbankan keduanya. Status per
-22 Okt (cabang `astra/d17-14-integrasi`, `0fd3e781`): OW-01..OW-05 dinyatakan selesai oleh penulis, OW-06 sedang
-dikerjakan, OW-07..OW-16 belum. Penilaian Claude atas OW-04: belum selesai bagi owner (lihat A2).
+Prinsip owner: "reliable data adalah dewa, laporan dll adalah raja". Yang menunggu kecukupan data hanya **aktivasi**
+metode yang butuh data, bukan keberadaan fiturnya. Bagian yang belum dibuat tetap dicatat terbuka; tampilan atau
+cadangan (fallback) bukan bukti selesai.
 
-## 1. Aman atau tidak bila butir tertentu tidak dikerjakan
+## 1. Titik awal (serah-terima Astra, `astra/d17-14-integrasi` `01c5f856`)
 
-Patokan: apakah butir itu bisa membuat **uang, stok, HPP, atau laporan salah atau menyesatkan**. Kalau ya: wajib.
-Kalau hanya membuat kerja lebih repot atau rencana kurang tajam: boleh ditunda, dengan kerugian yang jelas.
+- Dinyatakan selesai oleh penulis (belum diaudit): OW-01 WA, OW-02 proses server, OW-03 kelipatan produksi, OW-04 retur,
+  OW-05 koreksi mandor (`docs/cp7/d17-14/SELESAI_UNTUK_DIUJI.md`).
+- OW-06 bayar supplier: mesin di belakang (backend) lulus 10/10 (`docs/cp7/d17-14/ow06/CHECKPOINT.json`), belum ada layar,
+  belum di pemasang bawaan, belum uji login/dua pengguna/layar/pasang-pulih.
+- Laporan keuangan sesudah retur bersaldo kredit masih BLOCKED (tiga pemeriksa lama) — dicatat di OW-08.
+- Batas lama yang tetap terbuka: SQL langsung oleh pengguna login bisa membuat draf dan memanggil penulis supplier
+  Native tanpa hak `finance.ap.pay` (FABLE-012, ditunda ke CP7C oleh D14-9; harus dicabut sebelum jalur dipakai).
+- Serah-terima Astra menulis "satu writer". Owner (D17-16) meminta pembagian dua penulis; dokumen ini yang berlaku.
 
-| Butir | Kalau tidak dikerjakan | Keuntungan bila dikerjakan | Saran Claude |
+## 2. Pembagian per butir dengan cara implementasi D17-16
+
+**Penulis A = Claude** (uang, stok, HPP, laporan; sekaligus penggabung). **Penulis B = Astra** (daftar, produksi,
+perencanaan, gudang).
+
+| ID | Butir dan cara implementasi (D17-16) | Penulis | Syarat selesai yang dibuktikan |
 |---|---|---|---|
-| Sisa retur: laporan keuangan menandai saldo kredit sah sebagai selisih | Laporan keuangan tidak bisa dipercaya/dinyatakan siap setelah ada retur bersaldo kredit | Laporan benar | **Wajib** |
-| Sisa retur: satu uji gabungan lulus utuh; koreksi 12 dtk, pakai kredit 9 dtk | Bukti belum utuh; pengguna menunggu lama | Bukti bersih; kerja lebih cepat | **Wajib** (bukti); kecepatan sebaiknya |
-| OW-07 cek HPP: tutup buku saat kain kantong/absen belum dibagi; sisa WIP PO selesai | Kalau celahnya ada, HPP bisa salah tanpa ketahuan | Kepastian HPP | **Wajib** (cek dulu; perbaikan hanya bila celah terbukti) |
-| OW-06 satu transfer untuk banyak penerimaan | Data tetap benar (dicatat per penerimaan), tapi satu transfer bank jadi beberapa catatan; cocokkan rekening bank lebih repot, rawan salah pecah | Kas cocok 1:1 dengan rekening bank | **Penting** |
-| OW-09 urut/saring seluruh data di 8 layar | Data aman, tapi daftar panjang bisa menyesatkan ("tidak ada" padahal ada di halaman lain) | Pencarian dan urutan benar | **Penting** |
-| OW-08 jurnal kasbon bisa dibuka dari buku besar | Data aman; hanya tidak bisa diklik | Kenyamanan | Ringan, kerjakan |
-| OW-08 piutang ke vendor laundry, cuci gagal tanpa tarif, koreksi barang jadi lain di QC | Bila kejadiannya ada di pabrik: tidak bisa dicatat lengkap | Catatan lengkap | **Tanya owner apakah kejadiannya ada**; kerjakan yang ada |
-| OW-16 status hasil potong | Pemborosan kain tidak terlihat otomatis | Deteksi potong tidak wajar | **Kerjakan** (permintaan owner D17-15) |
-| OW-10 target produksi dengan cadangan | Target = rata-rata jual × hari, tanpa cadangan | Lebih jarang kehabisan | **Sederhanakan**: pakai titik pesan ulang barang jadi yang sudah ada (sudah memuat variasi permintaan dan lama produksi) sebagai cadangan, bukan rumus kedua — mencegah cadangan ganda |
-| OW-12 skala pabrik: pembanding periode lalu di laporan | Laporan tidak membandingkan dengan periode lalu | Laporan lebih berguna | **Kerjakan** |
-| OW-12 skala pabrik: keuangan/HPP di dalam analisis bertahap | Analisis skala pabrik tanpa angka keuangan; angka keuangan tetap ada di Laporan & Tutup Buku | Satu layar lengkap | **Tunda** (dobel dengan laporan keuangan yang sudah ada); keputusan owner |
-| OW-12 kecepatan | Lambat | Cepat | Kerjakan, tanpa mengubah hasil hitung |
-| OW-11 model perkiraan pintar (SES/Holt/Croston dipakai bila terbukti) | Rencana pakai rata-rata sederhana atau angka manual | Lebih tepat bila ada pola tren/musim | **Tunda**: Enteng baru mulai; histori penjualan belum cukup untuk membuktikan model lebih baik, jadi hasilnya tetap jatuh ke rata-rata |
-| OW-11 produk baru pakai pola produk serupa | SKU baru "belum diketahui" kecuali diisi manual | Rencana awal produk baru | **Sederhanakan**: pengguna memilih sendiri "mirip produk X" (dasar pemilihan jelas), tanpa pemilihan otomatis |
-| OW-13 analisis otomatis sebelum analisis pertama | Cukup jalankan analisis sekali saat mulai pakai | — | **Tidak perlu** |
-| OW-13 yield histori >200 grup jadi "belum diketahui" | Produk yang paling sering dipotong justru tanpa yield histori | Yield tepat untuk produk utama | **Kerjakan** (kecil) |
-| OW-13 saran potong di form Buat Potongan | Saran ada di panel rencana, bukan di form | Kenyamanan | **Tunda** |
-| OW-14 angka minimum manual lama di Enteng | Dicek saat pemasangan (baca saja); kalau ada, diketik ulang | — | **Jadikan langkah daftar pemasangan CP7C**, bukan pekerjaan program |
-| OW-14 kain berumus di Ringkasan Gudang | Sudah tampil di Pengingat, WA dan panel titik pesan ulang | — | **Tidak perlu** |
-| OW-15 paket auditor satu versi | Tidak bisa diaudit | — | **Wajib** |
+| A1 | Uji ulang OW-04 dan OW-05 | A | Run pembanding dicek, uji klien lokal, alur dibaca ulang |
+| OW-08a | Laporan keuangan sesudah saldo kredit pelanggan: pemeriksa laporan mengenal kredit yang sah tanpa melonggarkan selisih lain | A | Laporan READY pada fixture retur bersaldo kredit; selisih yang benar tetap tertangkap |
+| OW-07 | Cek HPP: tutup buku tertahan bila kain kantong/absen belum dibagi; sisa WIP PO selesai ditutup saat pool absen aktif belakangan | A | Celah dibuktikan ada/tidak dengan kasus; bila ada, dibetulkan dan diuji |
+| OW-06 | Bayar supplier: **satu transaksi kas/bank**, rincian alokasi ke masing-masing utang; **bayar sebagian dan sisa utang**; pembatalan/koreksi konsisten (melanjutkan checkpoint Astra) | A | Layar Pembelian & Penerimaan; alokasi lintas halaman; jumlah sen tepat; login nyata, dua pengguna, layar komputer/HP; pasang/pulih |
+| OW-08b | Jurnal kasbon bisa dibuka dari buku besar; piutang ke vendor laundry; cuci gagal sebelum tarif diketahui; koreksi barang jadi lain di QC | A | Alur aplikasi tiap kejadian terbukti; riwayat tetap |
+| OW-09 | Urut/saring **atas seluruh hasil pencarian**, lintas halaman; **angka total dan ekspor** memakai filter yang sama — komponen bersama `src/RecordTools.tsx` dan 8 layar | A | Jumlah hasil, total, perpindahan halaman dan ekspor (di layar yang punya ekspor) konsisten pada data di atas satu halaman |
+| OW-12a | Keuangan/HPP di analisis skala pabrik: **sumber perhitungan resmi yang sama dengan laporan** (modul baru milik A, dipanggil analisis); hasil operasional tampil dulu, bagian keuangan menunjukkan progres dan kelengkapan; kesimpulan laba/biaya menunggu angka siap; **pembanding periode lalu** di laporan | A (modul angka + laporan) | ±3.600 barang dengan angka keuangan/HPP sama persis dengan laporan; pembanding periode |
+| OW-15 | Penggabungan harian dan paket auditor satu versi | A | Kualifikasi penuh; 21 gagal CP6 dan 4 kasus layar tetap gagal dengan pembanding; pemetaan uji pengganti layar yang dipensiunkan |
+| OW-16 | Status hasil potong: **mengikuti kejadian fisik dan progres proses**; jelas apa yang selesai dan yang tertunda; rentang wajar per jenis bahan + pola + rentang ukuran, riwayat seluruh pabrik | B | Status keluar sendiri saat potong selesai; layar komputer/HP; nilai batas dari owner |
+| OW-10 | Target produksi: **satu mesin hitung** (kebutuhan, stok tersedia, WIP relevan, pesanan, lama produksi, cadangan) — termasuk menyatukan titik pesan ulang barang jadi yang sudah ada; bedakan **kapan perlu produksi** dan **berapa jumlahnya**; rincian ditampilkan agar cadangan tidak dobel | B | Pembanding dihitung terpisah; tidak ada hitung ganda stok/WIP/rencana; hasil lama berubah hanya di tempat yang dijelaskan |
+| OW-11a | Model perkiraan: **pemilihan metode menurut kecukupan data**; data minim = metode dasar + penjelasan keterbatasan; metode kompleks dipakai hanya bila **terbukti lebih baik lewat uji terhadap riwayat**; tidak menjanjikan akurasi | B | Uji mundur dengan pembanding; label metode dan alasannya tampil |
+| OW-11b | Produk baru: sistem menyarankan **kandidat produk serupa dengan alasan kemiripan**, pengguna mengonfirmasi atau memilih sendiri; label "perkiraan berbasis produk pembanding"; tanpa pembanding layak = "data belum cukup" | B | Saran, konfirmasi, label dan keadaan "data belum cukup" terbukti |
+| OW-12b | Kecepatan analisis skala pabrik tanpa mengubah hasil hitung; memasang panggilan ke modul angka A (OW-12a) | B | Ukuran waktu sebelum/sesudah; hasil identik |
+| OW-13a | Analisis awal otomatis **setelah data dan konfigurasi minimum siap**; bila belum, tampil apa yang kurang + tombol melengkapinya; tidak mengulang analisis tanpa perubahan data | B | Tiga keadaan terbukti: belum siap, siap → jalan sekali, tanpa perubahan → tidak diulang |
+| OW-13b | Yield histori lebih dari 200 grup tidak lagi "belum diketahui" | B | Kasus di atas 200 grup |
+| OW-13c | Saran potong di form Buat Potongan: **dari mesin yang sama dengan panel rencana**, dengan waktu analisis dan alasan; pengguna menerapkan atau mengubah jumlah; **cek ulang ketersediaan dan kelayakan saat simpan** | B | Saran sama dengan panel rencana; simpan menolak bila sudah tidak layak |
+| OW-14a | Kain berumus di Ringkasan Gudang: ringkasan singkat yang bisa dibuka; **sumber sama** dengan Pengingat/WA/panel; **stok fisik dibedakan dari perkiraan kebutuhan** | B | Angka sama dengan sumber pengingat; label jelas |
+| OW-14b | Angka minimum lama di Enteng: tersedia sebagai **referensi konfigurasi lama**, diperiksa saat pemasangan; tampil **angka mana yang aktif**; aturan lama dan baru tidak berjalan bersamaan tanpa keputusan | B (tampilan dan aturan) + A (langkah daftar pemasangan) | Satu aturan aktif yang jelas; referensi lama terbaca saja |
 
-Kesimpulan: tanpa butir yang ditunda, **data uang, stok dan HPP tetap aman** karena penjaga lama tetap jalan; yang
-wajib hanyalah sisa retur (laporan), cek HPP (OW-07) dan paket auditor. Butir lain menambah kenyamanan atau ketajaman
-rencana.
+Perkiraan beban: A sekitar 7 hari kerja, B sekitar 7 hari kerja, berjalan bersamaan; total sekitar 7–8 hari kerja
+termasuk penggabungan dan paket auditor. Perkiraan kasar; OW-10, OW-11 dan kecepatan OW-12 paling tidak pasti.
 
-## 2. Pembagian kerja
-
-Dua penulis, dibagi menurut **bagian aplikasi dan berkas**, bukan menurut butir. Penulis A = Claude (uang, stok, HPP,
-laporan, sekaligus penggabung). Penulis B = Astra (daftar, produksi, perencanaan, pengingat).
-
-### Penulis A — Claude
-
-| Urutan | Pekerjaan |
-|---|---|
-| A1 | Uji ulang OW-04 dan OW-05 sesudah serah-terima Astra (bukan audit) |
-| A2 | Sisa retur: pemeriksa kesiapan laporan keuangan mengenal saldo kredit yang sah tanpa melonggarkan selisih lain; satu uji gabungan lulus utuh; kecepatan koreksi/pemakaian kredit tanpa mengubah hasil |
-| A3 | OW-07 cek HPP (kain kantong, absen, sisa WIP PO selesai, tutup buku) |
-| A4 | OW-06 satu transfer ke banyak penerimaan (melanjutkan pekerjaan Astra yang sedang berjalan) |
-| A5 | OW-08 jurnal kasbon + butir yang owner nyatakan memang terjadi |
-| A6 | OW-09 untuk 3 layar uang: `ConnectedCashLedgerPage`, `SalesPaymentPanel`, `SalesReturnPanel` — sesudah komponen bersama dari B (B1) digabung |
-| A7 | Penggabungan harian dan OW-15 paket auditor |
-
-### Penulis B — Astra
-
-| Urutan | Pekerjaan |
-|---|---|
-| B0 | Serah-terima pekerjaan berjalan (OW-06) ke A, dengan titik simpan yang jelas |
-| B1 | OW-09 komponen bersama `src/RecordTools.tsx` (urut/saring di server sebelum dibagi halaman, jumlah hasil konsisten) + 5 layar: `ConnectedNotaPage`, `ConnectedAccessoryIssuePage`, `ConnectedFgAdjustmentPage`, `ConnectedFgStockPage`, `ConnectedMaterialCountPage`. Gabungkan `RecordTools` paling awal |
-| B2 | OW-16 status hasil potong (per jenis bahan + pola + rentang ukuran, otomatis saat selesai potong) |
-| B3 | OW-13 yield histori >200 grup |
-| B4 | OW-10 target produksi (versi sesuai keputusan owner) |
-| B5 | OW-12 kecepatan dan pembanding periode lalu; bagian angka keuangan/HPP (bila owner tetap meminta) baru dimulai sesudah A2 digabung |
-| B6 | OW-11 bila owner tetap meminta (versi sesuai keputusan owner) |
-
-### Kepemilikan berkas
+## 3. Kepemilikan berkas (mencegah tabrakan)
 
 | Pemilik | Berkas |
 |---|---|
-| A | `scripts/cp7_customer_credit/**`; `scripts/cp7-src/{invoices,finance,hpp-pool,transactions,sales,payroll,supplier-returns}/**`; layar uang dan keuangan (`ConnectedCashLedgerPage`, `SalesPaymentPanel`, `SalesReturnPanel`, `CustomerCreditPanel`, `ConnectedSalesPage`, `ConnectedReceivablesPage`, `ConnectedCustomerHistoryPage`, layar bayar supplier/hutang, layar keuangan, pool HPP, tutup buku); workflow dan deklarasi uji untuk bagian itu |
-| B | `src/RecordTools.tsx` dan 5 layar B1; `scripts/cp7-src/{cutting-yield,planning,baseline,demand,model-native,models,plan-native,stock-formula,alerts,reminders,ops,snapshot}/**`; `src/ConnectedCuttingPage.tsx`, `src/NativeCutting*`, `src/Native*Analysis*`, `src/NativeStaged*`, `src/NativePlanning*`, `src/NativeModelEvaluation*`, layar pengingat/WA; workflow dan deklarasi uji untuk bagian itu |
-| Bersama (pakai aturan di bawah) | `src/App.tsx`; tipe hasil generator `src/types/database*.ts`; `package.json` dan lock; pemasang dan bundle (`scripts/cp7_*bundle*.py`, pemasang P21 bawaan); daftar workflow kualifikasi; `docs/cp7/OPEN_WORK_D17_14_20261020.md`; `docs/cp7/OWNER_DECISIONS_20261008.md`; `docs/ERP_BEST_PRACTICES.md`; migrasi Native `supabase/**` |
+| A | `scripts/cp7_customer_credit/**`, `scripts/cp7_supplier_transfer/**`; `scripts/cp7-src/{invoices,finance,hpp-pool,transactions,sales,payroll,supplier-returns}/**`; modul baru angka keuangan untuk analisis (mis. `scripts/cp7-src/planning/finance-capture.sql`) dan `planning/report-staged.sql`; `src/RecordTools.tsx` dan 8 layar OW-09 (`ConnectedCashLedgerPage`, `SalesPaymentPanel`, `SalesReturnPanel`, `ConnectedNotaPage`, `ConnectedAccessoryIssuePage`, `ConnectedFgAdjustmentPage`, `ConnectedFgStockPage`, `ConnectedMaterialCountPage`); layar uang/keuangan/HPP/tutup buku/Pembelian & Penerimaan; workflow dan deklarasi uji bagian itu |
+| B | `scripts/cp7-src/{cutting-yield,planning (kecuali dua berkas milik A di atas),baseline,demand,model-native,models,plan-native,stock-formula,warehouse-summary,alerts,reminders,ops,snapshot}/**`; `src/ConnectedCuttingPage.tsx`, `src/NativeCutting*`, `src/Native*Analysis*`, `src/NativeStaged*` (kecuali panel laporan bertahap: koordinasi), `src/NativePlanning*`, `src/NativeModelEvaluation*`, `src/NativePlanDraftPanel.tsx`, layar Ringkasan Gudang dan titik pesan ulang; workflow dan deklarasi uji bagian itu |
+| Hanya penggabung (A) | Pemasang dan bundle (`scripts/cp7_*bundle*.py`, pemasang P21 bawaan), tipe hasil generator `src/types/database*.ts`, daftar workflow kualifikasi, migrasi Native `supabase/**` |
+| Bersama dengan aturan | `src/App.tsx`, `package.json` dan lock, `docs/cp7/OPEN_WORK_D17_14_20261020.md`, `docs/cp7/OWNER_DECISIONS_20261008.md`, `docs/ERP_BEST_PRACTICES.md`, `docs/cp7/d17-14/SELESAI_UNTUK_DIUJI.md` |
 
-Aturan berkas bersama:
-1. Pemasang/bundle, tipe hasil generator, daftar workflow kualifikasi dan `supabase/**` hanya diubah penggabung (A).
-   B menulis permintaannya di `docs/cp7/d17-14/KOORDINASI.md` (berkas apa, kenapa).
-2. `App.tsx` dan `package.json`: perubahan kecil dalam commit tersendiri berlabel `[bersama]`, dicatat di
-   `KOORDINASI.md` pada hari yang sama. Tidak menambah paket npm tanpa persetujuan penggabung.
-3. `OPEN_WORK`: masing-masing hanya mengubah baris butirnya sendiri. `OWNER_DECISIONS` dan `ERP_BEST_PRACTICES`: hanya
-   menambah di akhir, dalam commit tersendiri.
-4. Butuh perubahan di berkas milik penulis lain: minta lewat `KOORDINASI.md`, jangan diubah sendiri.
+Aturan:
+1. Mengubah berkas milik penulis lain: minta lewat `docs/cp7/d17-14/KOORDINASI.md` (berkas, alasan, bentuk perubahan).
+   Penggabung atau pemiliknya yang menulis.
+2. Berkas bersama: commit kecil tersendiri berlabel `[bersama]`, dicatat di `KOORDINASI.md` hari itu. `OPEN_WORK` dan
+   `SELESAI_UNTUK_DIUJI` hanya baris butir sendiri; `OWNER_DECISIONS` dan `ERP_BEST_PRACTICES` hanya menambah di akhir.
+   Tanpa paket npm baru kecuali disetujui penggabung.
+3. Titik temu yang sudah diketahui:
+   - OW-12: A membuat modul angka keuangan/HPP dengan kontrak tertulis di `KOORDINASI.md`; B hanya menambah panggilan
+     ke modul itu di analisis bertahap. A tidak mengubah `analysis-stages.sql`; B tidak mengubah modul angka A.
+   - OW-10 dan OW-13c memakai mesin yang sama (milik B); OW-16 dan OW-13c sama-sama di halaman Potongan (milik B).
+   - OW-09 layar Nota/aksesori/barang jadi/hitung fisik milik B untuk hal lain; untuk OW-09 hanya A yang mengubah bagian
+     daftar/urut/saring di layar itu, dicatat di `KOORDINASI.md` sebelum mulai.
+   - OW-14b: B membuat tampilan dan aturan "angka aktif"; A menambah langkah pemeriksaan ke daftar pemasangan.
 
-### Cabang dan penggabungan
+## 4. Cabang, penggabungan, dan uji silang
 
-- Dasar: titik simpan serah-terima Astra di `astra/d17-14-integrasi`. Cabang kerja A: `claude/d17-14-uang`; B:
-  `astra/d17-14-produksi`. Cabang gabungan tetap `astra/d17-14-integrasi`, hanya digabung oleh A.
-- Setiap hari pukul 17.00 WIB: kedua penulis mendorong pekerjaannya dan menulis satu baris status. A menggabung keduanya
-  (merge, tanpa rebase atau paksa), lalu menjalankan typecheck, uji klien, pemeriksa sumber dan suite yang tersentuh
-  hari itu. Yang merah karena perubahan baru tidak ikut digabung sampai dibetulkan pemilik bagiannya.
-- Setiap dua hari, dan sebelum paket auditor: kualifikasi penuh (±117 workflow + skenario CP6 lengkap) pada cabang
-  gabungan, dibandingkan dengan pembanding sebelumnya.
-- Ketergantungan: B5 bagian keuangan/HPP menunggu A2 digabung; A6 menunggu B1 (`RecordTools`) digabung. Selain itu
-  kedua penulis berjalan tanpa saling menunggu.
+- Dasar: `astra/d17-14-integrasi` `01c5f856`. Cabang kerja A: `claude/d17-14-uang`; B: `astra/d17-14-produksi`. Cabang
+  gabungan tetap `astra/d17-14-integrasi`, hanya digabung oleh A (merge, tanpa rebase atau dorongan paksa).
+- Setiap hari pukul 17.00 WIB: kedua penulis mendorong pekerjaan dan menulis satu baris status bahasa sehari-hari. A
+  menggabung, lalu menjalankan typecheck, uji klien, pemeriksa sumber dan suite yang tersentuh. Perubahan yang membuat
+  merah tidak digabung sampai dibetulkan pemiliknya.
+- Setiap dua hari dan sebelum paket: kualifikasi penuh (±117 workflow + skenario CP6 lengkap dengan masukan yang sama
+  dengan pembanding) di cabang gabungan, dibandingkan dengan pembanding sebelumnya.
+- Ketergantungan: OW-12b (panggilan modul angka) menunggu OW-12a; OW-12a menunggu OW-08a. Selain itu tidak saling tunggu.
+- Butir yang dinyatakan selesai dicatat di `SELESAI_UNTUK_DIUJI.md`; penulis yang lain menguji ulang sebelum paket.
+  Audit tetap oleh Fable atau Sol.
+- Bukti di repo hanya ringkasan dan potongan kegagalan pertama; log lengkap di artifact. Kegagalan pertama disimpan;
+  pemeriksaan lama tidak dilonggarkan; nilai kebijakan tidak dikarang.
 
-### Standar selesai dan uji silang
+## 5. Nilai yang masih perlu keputusan owner (diajukan dengan usulan, saat butirnya dikerjakan)
 
-- Selesai = kebutuhan owner terpenuhi dan alurnya terbukti (database, dua pengguna bersamaan, login sungguhan, layar
-  komputer dan HP, pasang/pulihkan bila menyentuh pemasangan). Kegagalan pertama disimpan ringkas; pemeriksaan lama
-  tidak dilonggarkan; nilai kebijakan tidak dikarang.
-- Setiap butir yang dinyatakan selesai dicatat di `docs/cp7/d17-14/SELESAI_UNTUK_DIUJI.md`; penulis yang lain menguji
-  ulang sebelum paket. Audit tetap oleh Fable atau Sol.
-- Bukti di repo hanya ringkasan dan potongan kegagalan pertama; log lengkap di artifact GitHub Actions.
+1. OW-16: seberapa lebar batas "wajar" dan minimal berapa kali potong sebelum status keluar.
+2. OW-10: tingkat layanan target produksi bila berbeda dari titik pesan ulang barang jadi (bawaan 95%, D17-9).
+3. OW-11a: syarat metode dianggap "lebih baik" pada uji terhadap riwayat.
+4. D17-13 2.17: batas umur koreksi HPP/harga (bila owner ingin ada batas).
 
-## 3. Keputusan owner yang dibutuhkan di awal
+## 6. Kotak untuk owner (salin ke sesi Astra)
 
-1. Butir yang disarankan "tunda/tidak perlu/sederhanakan" di bagian 1 disetujui atau tidak.
-2. Apakah kejadian berikut ada di pabrik: kelebihan bayar ke laundry yang harus dikembalikan vendor; cuci gagal sebelum
-   tarif vendor diketahui; koreksi barang jadi di QC selain yang sudah ada.
-3. Untuk status hasil potong: seberapa lebar batas "wajar" dan minimal berapa kali potong sebelum status keluar
-   (penulis mengajukan usulan, owner memutuskan).
-4. Bila OW-10 tidak disederhanakan: tingkat layanan target produksi. Bila OW-11 tetap: syarat model dianggap lebih baik.
-
-## 4. Perkiraan waktu (kasar)
-
-- Dengan saran bagian 1 diterima: sekitar 4–5 hari kerja dengan dua penulis, termasuk penggabungan dan paket auditor.
-- Lingkup penuh tanpa penyederhanaan: sekitar 7–8 hari kerja dengan dua penulis.
+````text
+Astra, owner memutuskan dua penulis (D17-16). Baca docs/cp7/PEMBAGIAN_DUA_PENULIS_20261022.md versi 2 di cabang
+claude/new-session-deapao. Kamu Penulis B: OW-16, OW-10, OW-11a, OW-11b, OW-12b, OW-13a, OW-13b, OW-13c, OW-14a,
+OW-14b (tampilan dan aturan), dengan cara implementasi persis seperti tabel bagian 2 (kata-kata owner D17-16).
+Buat cabang astra/d17-14-produksi dari astra/d17-14-integrasi 01c5f856. Ubah hanya berkas milik B (bagian 3);
+butuh berkas lain: tulis di docs/cp7/d17-14/KOORDINASI.md. Jangan menggabung ke astra/d17-14-integrasi; Claude yang
+menggabung tiap hari 17.00 WIB. Uang, stok, HPP, laporan, OW-06, OW-07, OW-08, OW-09 dan paket auditor dikerjakan
+Claude. Aturan lama tetap: selesai hanya bila kebutuhan owner terbukti berjalan; kegagalan pertama disimpan; nilai
+kebijakan tidak dikarang; bukti besar tidak masuk repo; status ke owner dua kalimat bahasa sehari-hari.
+````
