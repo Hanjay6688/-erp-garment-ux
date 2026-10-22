@@ -17,18 +17,6 @@ describe('record tools preserve the authorized source',()=>{
   const select=host.querySelector<HTMLSelectElement>('[aria-label="Urutkan halaman invoice"]')!
   await act(async()=>{select.value='LABEL_DESC';select.dispatchEvent(new Event('change',{bubbles:true}))});expect(order).toHaveBeenCalledWith('LABEL_DESC');expect(submit).not.toHaveBeenCalled()
  })
- it('labels the scope honestly: whole-result screens say so, page-only screens keep their page wording',async()=>{
-  const tools=(props:{filterScope?:'ALL_MATCHING'|'PAGE';searchScope?:'ALL_MATCHING'|'PAGE';orderScope?:'ALL_MATCHING'|'PAGE'})=><RecordTools title="nota" busy={false} order="SOURCE" onOrder={()=>{}} onBrowse={()=>{}} onSubmit={e=>e.preventDefault()} submitLabel="Cari" search={<input aria-label="q"/>} filters={<select aria-label="s"/>} {...props}/>
-  await act(async()=>root.render(tools({orderScope:'ALL_MATCHING'})))
-  expect(host.querySelector('[aria-label="Urutkan nota"]')).not.toBeNull();expect(host.querySelector('[aria-label="Urutkan halaman nota"]')).toBeNull()
-  expect(host.textContent).toContain('Urutkan semua hasil');expect(host.textContent).toContain('Filter dan urutan berlaku untuk seluruh hasil, termasuk halaman lain; jumlah hasil mengikuti filter yang sama.');expect(host.textContent).not.toContain('halaman yang sedang tampil')
-  await act(async()=>root.render(tools({filterScope:'PAGE'})))
-  expect(host.querySelector('[aria-label="Urutkan halaman nota"]')).not.toBeNull();expect(host.textContent).toContain('Urutkan halaman ini');expect(host.textContent).toContain('Filter dan urutan hanya mengatur halaman yang sedang tampil.')
-  await act(async()=>root.render(tools({})))
-  expect(host.textContent).toContain('Urutan hanya mengatur halaman yang sedang tampil.');expect(host.textContent).not.toContain('Filter dan urutan')
-  await act(async()=>root.render(tools({searchScope:'PAGE',filterScope:'PAGE'})))
-  expect(host.textContent).toContain('Pencarian hanya menelusuri halaman yang sedang tampil.')
- })
  it('does not mutate source order or detach exact balances, revisions, identities and selected records',()=>{
   const a=Object.freeze({id:'one',name:'INV-10',balance:'9007199254740993.01',revision:'9007199254740999'}),b=Object.freeze({id:'two',name:'INV-2',balance:'9007199254740991.99',revision:'9007199254740997'})
   const source=Object.freeze([a,b]),ordered=orderRecordPage(source,'LABEL_ASC',r=>r.name)

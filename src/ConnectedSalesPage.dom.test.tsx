@@ -173,14 +173,12 @@ function paymentOutcome(key:string){return{contract_version:'cp7.sales-payment-c
 function editedInvoice(selected:boolean,committed:boolean){const w=data(true,selected);if(committed){for(const r of [...w.page.rows,...(w.detail?[w.detail]:[])]){r.row_version='9007199254740994';r.financial!.paid_total='20.00';r.financial!.open_balance='40.00'}if(w.detail)w.detail.review_token='b'.repeat(32)}return w}
 function allowPaymentEdit(){const a=structuredClone(recoveryIdentity);a.identity.permissions.push('sales.invoice.view','finance.ar.view','sales.payment.view','sales.payment.create','sales.payment.post','sales.payment.reverse');state.auth=a}
 async function openPaymentEdit(){await mount();await click(container.querySelector<HTMLButtonElement>('.cproc-receipt')!);await click(button('Pembayaran invoice'));await click(button('Edit pembayaran PAY-1'));await fillInvoice('Nominal koreksi pembayaran','20.00');await fillInvoice('Alasan koreksi pembayaran','Nominal pembayaran diperbaiki');await click(container.querySelector<HTMLInputElement>('[aria-label="Koreksi pembayaran sudah diperiksa"]')!)}
-// OW-09: the declared cash reader stand-in echoes the payment history list it applied, like the reader does.
-const paymentList=(q:Record<string,unknown>)=>'payment_order' in q?{list:{q:q.payment_q,status:q.payment_status,order:q.payment_order}}:{}
 describe('payment correction owning command and recovery routing with declared server stand-ins',()=>{
  it('routes the reviewed edit to one owning endpoint and retires the old form after source refresh',async()=>{
   allowPaymentEdit();let committed=false
   client.rpc.mockImplementation(async(name,args)=>{
    if(name==='erp_cp7_get_sales_v1')return{data:editedInvoice(!!args.p_query.sale_id,committed),error:null}
-   if(name==='erp_cp7_get_sales_cash_v1')return{data:{contract_version:'cp7.sales-cash.v1',sale_id:id,row_version:'9007199254740993',review_token:'a'.repeat(32),payments:{rows:[paymentDocument],total:'1',offset:0,limit:25,next_offset:null,...paymentList(args.p_query)},cash_accounts:paymentWorkspace().cash_accounts},error:null}
+   if(name==='erp_cp7_get_sales_cash_v1')return{data:{contract_version:'cp7.sales-cash.v1',sale_id:id,row_version:'9007199254740993',review_token:'a'.repeat(32),payments:{rows:[paymentDocument],total:'1',offset:0,limit:25,next_offset:null},cash_accounts:paymentWorkspace().cash_accounts},error:null}
    if(name==='erp_cp7_get_sales_payment_correction_v1')return{data:paymentWorkspace(),error:null}
    if(name==='erp_cp7_correct_sales_payment_v1'){committed=true;return{data:paymentOutcome(args.p_request),error:null}}throw Error('Unowned payment-edit RPC')
   });await openPaymentEdit();await click(button('Simpan koreksi pembayaran'))
@@ -191,7 +189,7 @@ describe('payment correction owning command and recovery routing with declared s
   allowPaymentEdit();let committed=false,lost=false,revoked=false
   client.rpc.mockImplementation(async(name,args)=>{
    if(name==='erp_cp7_get_sales_v1')return{data:editedInvoice(!!args.p_query.sale_id,committed),error:null}
-   if(name==='erp_cp7_get_sales_cash_v1')return{data:{contract_version:'cp7.sales-cash.v1',sale_id:id,row_version:'9007199254740993',review_token:'a'.repeat(32),payments:{rows:[paymentDocument],total:'1',offset:0,limit:25,next_offset:null,...paymentList(args.p_query)},cash_accounts:paymentWorkspace().cash_accounts},error:null}
+   if(name==='erp_cp7_get_sales_cash_v1')return{data:{contract_version:'cp7.sales-cash.v1',sale_id:id,row_version:'9007199254740993',review_token:'a'.repeat(32),payments:{rows:[paymentDocument],total:'1',offset:0,limit:25,next_offset:null},cash_accounts:paymentWorkspace().cash_accounts},error:null}
    if(name==='erp_cp7_get_sales_payment_correction_v1')return{data:paymentWorkspace(),error:null}
    if(name==='erp_cp7_correct_sales_payment_v1'){if(revoked)return{data:null,error:{code:'42501',message:'CP7_SALES_WRITE_DENIED'}};committed=true;if(!lost){lost=true;throw Error('Actual reply stand-in lost after commit')}return{data:paymentOutcome(args.p_request),error:null}}throw Error('Unowned payment recovery RPC')
   });await openPaymentEdit();await click(button('Simpan koreksi pembayaran'));const scope=`${recoveryIdentity.runtime.projectRef}:${recoveryIdentity.identity.profile.id}`,original=structuredClone(readProductionRecovery(scope).pending.SALES);expect(original?.action).toBe('PAYMENT_CORRECT')

@@ -1,15 +1,12 @@
 import { materialObject, type MaterialPage } from './materialContract'
 import type { Json } from './types/database.preconnect'
-import {sameRecordList,type RecordList} from './recordList'
 export type CountPreviewLine = { material_id:string; material_sku:string; material_name:string; unit_code:string; roll_id:string|null; roll_number:string|null; system_qty:string; physical_qty:string; qty_signed:string; basis_token:string }
 export type CountPreview = { contract_version:'cp7.material-count-preview.v1'; read_at:string; location_id:string; physical_at:string; basis:'POSTED_PHYSICAL_AT_COUNT_CURRENT_KNOWLEDGE'; items:CountPreviewLine[] }
 export type CountRow = { id:string; number:string; location_id:string|null; location_name:string|null; physical_at:string; reason_code:string; status:'DRAFT'|'POSTED'|'REVERSED'; row_version:string; notes:string|null; managed_count:boolean; line_count:string }
 export type CountItem = { id:string; material_id:string; material_sku:string; material_name:string; unit_code:string; roll_id:string|null; roll_number:string|null; qty_signed:string; physical_qty:string|null; notes:string|null; valuation?:{input_unit_cost:string|null;restated_value:string|null;basis:'CURRENT_RESTATED_DOCUMENT_NOT_STOCK'} }
 export type CountEditItem = Pick<CountItem,'material_id'|'material_sku'|'material_name'|'unit_code'|'roll_id'|'roll_number'|'notes'> & {physical_qty:string;input_unit_cost?:string|null}
 export type CountDetail = CountRow & {items:CountItem[];edit:{physical_qty:string;input_unit_cost?:string|null}|{items:CountEditItem[]}|null}
-/** OW-09: count documents searched by number, filtered by status and ordered over the whole list before paging. */
-export type CountList = RecordList<CountRow['status']>
-export type CountWorkspace = {contract_version:'cp7.material-counts.v1';read_at:string;financial_captured:boolean;capabilities:{adjust:boolean;reverse:boolean};page:MaterialPage<CountRow>&{list?:CountList};detail:CountDetail|null}
+export type CountWorkspace = {contract_version:'cp7.material-counts.v1';read_at:string;financial_captured:boolean;capabilities:{adjust:boolean;reverse:boolean};page:MaterialPage<CountRow>;detail:CountDetail|null}
 export type CountChoice = Pick<CountPreviewLine,'material_id'|'material_sku'|'material_name'|'unit_code'|'roll_id'|'roll_number'> & {material_type:string}
 export type CountIdentity = Omit<CountChoice,'material_type'> & {location_id:string;location_name:string}
 export type CountOptions = {contract_version:'cp7.material-count-options.v1';selection_basis:'REGISTERED_IDENTITY_NOT_STOCK';read_at:string;location_id:string;location_name:string;query:string;page:MaterialPage<CountChoice>}
@@ -47,14 +44,14 @@ export function parseCountPreview(v:unknown):CountPreview {
 }
 const headerKeys=['id','number','location_id','location_name','physical_at','reason_code','status','row_version','notes','managed_count','line_count']
 function header(v:unknown,detail=false){const r=closed(v,[...headerKeys,...(detail?['items','edit']:[])]);if(!id(r.id)||r.location_id!==null&&!id(r.location_id)||!nullable(r.location_name)||![r.number,r.reason_code].every(text)||!at(r.physical_at)||!['DRAFT','POSTED','REVERSED'].includes(String(r.status))||!version(r.row_version)||!nullable(r.notes)||typeof r.managed_count!=='boolean'||!whole(r.line_count))fail();return r}
-export function parseCounts(v:unknown,finance:boolean,list?:CountList):CountWorkspace {
+export function parseCounts(v:unknown,finance:boolean):CountWorkspace {
  const w=closed(v,['contract_version','read_at','financial_captured','capabilities','page','detail'])
  if(w.contract_version!=='cp7.material-counts.v1'||!at(w.read_at)||w.financial_captured!==finance)fail()
  const c=closed(w.capabilities,['adjust','reverse']);if(Object.values(c).some(v=>typeof v!=='boolean')||c.reverse&&!c.adjust)fail()
- const p=closed(w.page,['rows','total','offset','limit','next_offset',...(list?['list']:[])]);if(list&&!sameRecordList(p.list,list))fail();if(!Array.isArray(p.rows)||!whole(p.total)||!Number.isSafeInteger(p.offset)||Number(p.offset)<0||!Number.isSafeInteger(p.limit)||Number(p.limit)<1||Number(p.limit)>100||(p.rows as unknown[]).length>Number(p.limit))fail()
+ const p=closed(w.page,['rows','total','offset','limit','next_offset']);if(!Array.isArray(p.rows)||!whole(p.total)||!Number.isSafeInteger(p.offset)||Number(p.offset)<0||!Number.isSafeInteger(p.limit)||Number(p.limit)<1||Number(p.limit)>100||(p.rows as unknown[]).length>Number(p.limit))fail()
  const rows=p.rows as unknown[],end=BigInt(Number(p.offset))+BigInt(rows.length),total=BigInt(String(p.total))
  if(rows.length&&end>total||end<total&&p.next_offset===null||p.next_offset!==null&&(p.next_offset!==Number(p.offset)+rows.length||!rows.length||end>=total))fail()
- const ids=rows.map(x=>{const r=header(x);if(list?.status&&r.status!==list.status)fail();return r.id});if(new Set(ids).size!==ids.length)fail()
+ const ids=rows.map(x=>header(x).id);if(new Set(ids).size!==ids.length)fail()
  if(w.detail!==null){const d=header(w.detail,true);if(!Array.isArray(d.items)||d.items.length>100||String(d.items.length)!==d.line_count)fail()
   const keys=(d.items as unknown[]).map(v=>{const r=closed(v,['id','material_id','material_sku','material_name','unit_code','roll_id','roll_number','qty_signed','physical_qty','notes',...(finance?['valuation']:[])]);if(!id(r.id)||!id(r.material_id)||r.roll_id!==null&&!id(r.roll_id)||!nullable(r.roll_number)||![r.material_sku,r.material_name,r.unit_code].every(text)||!exact(r.qty_signed)||r.physical_qty!==null&&!exact(r.physical_qty)||!nullable(r.notes))fail()
    if(finance){const a=closed(r.valuation,['input_unit_cost','restated_value','basis']);if(a.basis!=='CURRENT_RESTATED_DOCUMENT_NOT_STOCK'||a.input_unit_cost!==null&&!exact(a.input_unit_cost)||a.restated_value!==null&&!exact(a.restated_value))fail()}return r.id})

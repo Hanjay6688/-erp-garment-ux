@@ -29,8 +29,7 @@ def main():
             assert actual['contract_version']=='cp7.fg-ledger.v2'
             position=cases.position(p)
             cases.x04.fg.p02.actor(cur)
-            # OW-09: the card always sends its whole-card list (here the default one), so the native read uses it too.
-            query=dict(product_id=position['product'],lot_id=position['lot'],location_id=position['location'],quality_grade='GRADE_A',purpose='CARD',limit=25,offset=0,q='',movement_type=None,order='SOURCE')
+            query=dict(product_id=position['product'],lot_id=position['lot'],location_id=position['location'],quality_grade='GRADE_A',purpose='CARD',limit=25,offset=0)
             expected=cur.execute('select public.erp_cp7_get_fg_ledger_v2(%s::jsonb)',(json.dumps(query),)).fetchone()[0]
             cases.b.api.admin(cur)
             assert cases.x04.canonical_card(actual['page'])==cases.x04.canonical_card(expected['page'])

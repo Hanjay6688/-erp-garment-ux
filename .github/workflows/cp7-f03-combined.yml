@@ -6,7 +6,6 @@ name: CP7 F03 Combined Stack
     paths:
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_f03_*
-    - scripts/cp7_ow09_*
     - scripts/cp7-src/**
     - scripts/cp7_*bundle.py
     - src/**
