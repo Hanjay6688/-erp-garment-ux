@@ -105,6 +105,9 @@ jobs:
       uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
       with:
         version: 2.116.0
+    - name: Check the exact first Native material save response before database work
+      working-directory: auditor
+      run: npx vitest run src/materialFirstNativeRule.test.ts
     - name: Record proposed source and prepare isolated proof paths
       id: source_scope
       working-directory: writer
