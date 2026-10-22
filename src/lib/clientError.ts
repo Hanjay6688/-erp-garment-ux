@@ -73,7 +73,7 @@ export function normalizeClientError(error: unknown): ClientAppError {
   }
   const planV2 = planV2Message(candidate.message, candidate.details)
   const mandor = mandorCorrectionMessage(candidate.message)
-  if (mandor) return new ClientAppError('REJECTED', mandor)
+  if (mandor) return new ClientAppError(code === '55P03' ? 'RETRYABLE_CONFLICT' : 'REJECTED', mandor, code === '55P03')
   if (planV2) return new ClientAppError('REJECTED', planV2)
   const reportV2 = reportV2Message(candidate.message)
   if (reportV2) return new ClientAppError('REJECTED', reportV2)

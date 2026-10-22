@@ -1,10 +1,11 @@
-name: CP7 OW05 assignment generation and retained rate Native qualification
+name: CP7 OW05 guidance whole PO wave and retained rate Native qualification
 'on':
   push:
     branches:
     - astra/d17-14-integrasi
     paths:
     - scripts/cp7_contractor_correction/**
+    - scripts/ow05_native_edge_cases.py
     - .github/workflows/cp7-ow05-native.yml
   workflow_dispatch: {}
 permissions:
@@ -15,7 +16,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   native:
-    name: Actual OW05 Native25 with unchanged retained R3 oracles
+    name: Actual OW05 Native28 with unchanged retained R3 oracles
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
@@ -156,7 +157,7 @@ jobs:
       if: always()
       working-directory: auditor
       run: "python - <<'PY'\nimport base64,gzip,hashlib,json\nfrom pathlib import Path\nroot=Path('cp6-proof/t3')\nfor name\
-        \ in ('CP7_OW05_NATIVE25_ASSIGNMENT_GENERATIONS.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
+        \ in ('CP7_OW05_NATIVE28_GUIDANCE_WHOLE_PO_WAVE.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
         \    path=root/name\n    if not path.is_file():\n        continue\n    raw=path.read_bytes();packed=gzip.compress(raw,mtime=0)\n\
         \    print(json.dumps(dict(ow05_original_report_bytes=True,name=name,raw_bytes=len(raw),\n        raw_sha256=hashlib.sha256(raw).hexdigest(),gzip_bytes=len(packed),\n\
         \        gzip_sha256=hashlib.sha256(packed).hexdigest(),\n        gzip_base64=base64.b64encode(packed).decode('ascii'))),flush=True)\n\
@@ -168,7 +169,7 @@ jobs:
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
-        name: cp7-ow05-native25-assignment-generations
+        name: cp7-ow05-native28-guidance-whole-po-wave
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error

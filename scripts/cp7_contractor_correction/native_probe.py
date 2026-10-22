@@ -17,11 +17,12 @@ from cp7_catalog_state import exact_public_catalog
 from cp6_t3_aligned_install import advisors, advisor_delta
 from cp7_contractor_correction import composition as product, native_cases as business
 import cp7_r3_rate_cases as retained_rates
+import ow05_native_edge_cases as edge
 
 control = framework.control
 previous, native, package, core, p09 = framework.previous, framework.native, framework.package, framework.core, framework.p09
-IDS = business.IDS+tuple(retained_rates.NATIVE)
-LABEL = 'CP7_OW05_NATIVE25_ASSIGNMENT_GENERATIONS'
+IDS = business.IDS+edge.IDS+tuple(retained_rates.NATIVE)
+LABEL = 'CP7_OW05_NATIVE28_GUIDANCE_WHOLE_PO_WAVE'
 OUT = REPO/'cp6-proof/t3'/f'{LABEL}.json'
 STATE = None
 
@@ -36,7 +37,8 @@ def admitted():
     for path,digest in pins['files'].items():
         assert sha256((REPO/path).read_bytes()).hexdigest()==digest, ('OW05_DECLARED_SOURCE_CHANGED',path)
     assert pins['case_ids']==list(business.IDS) and len(business.IDS)==14
-    assert pins['retained_rate_case_ids']==retained_rates.NATIVE and len(IDS)==len(set(IDS))==25
+    assert pins['retained_rate_case_ids']==retained_rates.NATIVE and len(IDS)==len(set(IDS))==28
+    assert pins['edge_case_ids']==list(edge.IDS)and len(edge.IDS)==3
     assert not subprocess.check_output(['git','-C',str(REPO),'status','--porcelain','--','scripts/cp7_contractor_correction'],text=True).strip()
     return dict(predecessor_Native32_financial_sources_equal=True, Native32_rerun=False,
                 raw_sha256=sha256(raw).hexdigest(), declared_source=pins)
@@ -52,7 +54,7 @@ def verify(cur):
 
 
 def cases(cur,today):
-    result=business.cases(cur,today)+retained_rates.cases(cur,today)
+    result=business.cases(cur,today)+edge.cases(cur,today)+retained_rates.cases(cur,today)
     assert tuple(key for key,_ in result)==IDS
     return result
 

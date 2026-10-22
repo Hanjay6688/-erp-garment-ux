@@ -111,11 +111,11 @@ language sql stable security definer set search_path=''as $$
    from erp.payroll_settlements ps where ps.status<>'REVERSED'and(
     exists(select 1 from erp.payroll_work_items wi where wi.payroll_id=ps.id and wi.po_id=p_po)
     or exists(select 1 from erp.payroll_reimbursements ri where ri.payroll_id=ps.id and ri.po_id=p_po))
-  union all select jsonb_build_object('order',30,'kind','ATTENDANCE_POOL','id',ap.id,'number',ap.pool_number,
+  union all select jsonb_build_object('order',15,'kind','ATTENDANCE_POOL','id',ap.id,'number',ap.pool_number,
    'step','Batalkan pool HPP absen yang memakai hasil jahit ini melalui layar Pool HPP.')
    from erp.attendance_hpp_pools ap where ap.status='ACTIVE'and exists(
     select 1 from erp.attendance_hpp_pool_allocations aa where aa.pool_id=ap.id and aa.po_id=p_po)
-  union all select distinct jsonb_build_object('order',30,'kind','POCKET_POOL','id',pd.pool_id,
+  union all select distinct jsonb_build_object('order',15,'kind','POCKET_POOL','id',pd.pool_id,
    'step','Batalkan pembagian kain kantong yang memakai PO ini melalui layar Kain Kantong.')
    from erp.pocket_period_destinations pd where pd.po_id=p_po and erp.pocket_period_active_v1(pd.pool_id)
   union all select jsonb_build_object('order',40,'kind','QC','id',qh.id,'number',qh.inspection_number,'status',qh.status,
@@ -132,10 +132,10 @@ language sql stable security definer set search_path=''as $$
    'step','Batalkan hasil Selesai Dijahit dari layar WIP & Jahit; upah/jurnal dibalik melalui penulis yang sama.')
    from erp.sewing_terminal_events st where st.po_id=p_po and st.event_kind='SELESAI_DIJAHIT'
     and not exists(select 1 from erp.sewing_terminal_events rv where rv.reversal_of_id=st.id)
-  union all select jsonb_build_object('order',60,'kind','WORK','id',we.id,'number',we.completion_number,'status',we.status,
+  union all select jsonb_build_object('order',65,'kind','WORK','id',we.id,'number',we.completion_number,'status',we.status,
    'step','Balik hasil kerja/upah melalui layar WIP & Jahit; hapus draft hasil kerja. Riwayat lama tetap tersimpan.')
    from erp.work_completion_events we where we.po_id=p_po and we.status<>'REVERSED'
-  union all select jsonb_build_object('order',60,'kind','WORK_JOURNAL','id',je.id,'number',je.journal_number,
+  union all select jsonb_build_object('order',66,'kind','WORK_JOURNAL','id',je.id,'number',je.journal_number,
    'step','Selesaikan pembalikan upah dari dokumen hasil kerja asalnya; jurnal tidak boleh dibalik terpisah.')
    from erp.journal_entries je join erp.work_completion_events we on we.id=je.source_id
    where we.po_id=p_po and je.source_type='WORK_COMPLETION'and je.status='POSTED'
@@ -273,14 +273,17 @@ begin
  select *into strict v_old from cp7_contractor_correction.requests_v1 rq where rq.actor=auth.uid()and rq.request_id=p_request for update;
  if v_old.payload is distinct from p then raise exception 'CP7_MANDOR_CORRECTION_REQUEST_CHANGED';end if;
  if v_old.response is not null then return v_old.response;end if;
- -- Match the cutting-flow lock order before the Native group/PO writers.
+ -- Legacy sewing takes flow/rows before its Native financial writer. Never
+ -- wait for those while holding the global envelope: refuse atomically so
+ -- that writer can finish and the operator can obtain a fresh review.
  for v_group in select *from erp.cutting_groups cg where cg.po_id=(p->>'po_id')::uuid order by cg.id loop
-  perform pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group.id::text,0));end loop;
- perform 1 from erp.cutting_groups cg where cg.po_id=(p->>'po_id')::uuid order by cg.id for update;
- select *into v_po from erp.production_orders po where po.id=(p->>'po_id')::uuid for update;
+  if not pg_try_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group.id::text,0))then
+   raise exception using errcode='55P03',message='CP7_MANDOR_CORRECTION_BUSY';end if;end loop;
+ perform 1 from erp.cutting_groups cg where cg.po_id=(p->>'po_id')::uuid order by cg.id for update nowait;
+ select *into v_po from erp.production_orders po where po.id=(p->>'po_id')::uuid for update nowait;
  if v_po.id is null then raise exception 'CP7_MANDOR_CORRECTION_NOT_FOUND';end if;
  perform 1 from erp.cutting_pickups pk join erp.cutting_groups cg on cg.id=pk.cutting_group_id
-  where cg.po_id=v_po.id order by pk.id for update of pk;
+  where cg.po_id=v_po.id order by pk.id for update of pk nowait;
  if cp7_contractor_correction.access_now_v1()is distinct from v_access then
   raise exception using errcode='42501',message='CP7_MANDOR_CORRECTION_ACCESS_CHANGED';end if;
  v_source:=cp7_contractor_correction.snapshot_v1(v_po.id);

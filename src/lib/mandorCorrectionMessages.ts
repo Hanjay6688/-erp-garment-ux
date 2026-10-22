@@ -1,4 +1,5 @@
 const messages: Record<string, string> = {
+  CP7_MANDOR_CORRECTION_BUSY: 'PO sedang dipakai proses lain. Tunggu prosesnya selesai, lalu periksa ulang dokumen pengunci sebelum mencoba lagi.',
   CP7_MANDOR_CORRECTION_STALE_REVIEW: 'Dokumen PO atau data mandor berubah. Periksa ulang dokumen pengunci dan pilih mandor lagi.',
   CP7_MANDOR_CORRECTION_REQUEST_CHANGED: 'Isi koreksi berbeda dari permintaan yang sudah tersimpan. Periksa hasil permintaan lama sebelum membuat koreksi lain.',
   CP7_MANDOR_CORRECTION_DEPENDENCIES: 'Masih ada dokumen yang mengunci mandor. Periksa ulang daftar pengunci dan balik dokumen asal sesuai urutannya.',

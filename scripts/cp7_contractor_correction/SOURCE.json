@@ -1,5 +1,5 @@
 {
-  "contract_version": "ow05.assignment-generations-native-source.v3",
+  "contract_version": "ow05.bounded-guidance-locks-and-native28-source.v4",
   "predecessor_integration": "2668af3268bebf0c1a2d79d8574511676805ec66",
   "case_ids": [
     "OW05_ACTIVE_WAGE_GUIDANCE",
@@ -19,12 +19,13 @@
   ],
   "files": {
     "scripts/cp7_contractor_correction/__init__.py": "d83608911c079a8d5e0d7278d1a766b947644ed1f8eda1cfc02d9e7c62883202",
-    "scripts/cp7_contractor_correction/contractor.sql": "0e38f33989b1d60456d4d0318c1b8c04bd89b6b47acab8c3a6b8a0ea71bfc62d",
+    "scripts/cp7_contractor_correction/contractor.sql": "c8397e9595b464e351004d37778283ff17864766e59860fafa5e3bcb65522c27",
     "scripts/cp7_contractor_correction/composition.py": "9b7c7de7758f333f9ee75f0601bdbf68b6f4a13a61fd659af4f3038d1ee25438",
     "scripts/cp7_contractor_correction/native_cases.py": "1c11253cbe0e3d45f2609fb2210aebda02ae580e4766ae5842fdbbb8d4023746",
-    "scripts/cp7_contractor_correction/native_probe.py": "e9b753b823470778773ac2378e1a54a4a5d6a45c9e08c3b651f85c56a9805a35",
-    ".github/workflows/cp7-ow05-native.yml": "0d81f67702eb601afc0023bbe39da84676ddf845c74f5758cdc8b8fc14bc77c3",
-    "scripts/cp7_r3_rate_cases.py": "240ca31bbc9746a6a0071ba100ae1e33168bacafe869bd348c35927e429e3873"
+    "scripts/cp7_contractor_correction/native_probe.py": "cee3ecd38d197413a14308467147c3e6d31768854bf616a1b212c19a78e17206",
+    ".github/workflows/cp7-ow05-native.yml": "715a4decd5c3176d924d6ce9ccccf04e887e8f7deb73bb74c8b09a8e0da59823",
+    "scripts/cp7_r3_rate_cases.py": "240ca31bbc9746a6a0071ba100ae1e33168bacafe869bd348c35927e429e3873",
+    "scripts/ow05_native_edge_cases.py": "3445281d457417deaff769c952ca42fc2c1382dc18f751487fbc7b6dcc232755"
   },
   "literal_money": {
     "old_wage_four_pcs": "16.00",
@@ -32,7 +33,10 @@
     "repost_locked_rate_four_pcs": "16.00",
     "repost_new_mandor_rate_four_pcs": "24.00",
     "second_correction_new_mandor_at_original_time": "32.00",
-    "nota_and_net_cash_if_paid": "16.00"
+    "nota_and_net_cash_if_paid": "16.00",
+    "HPP_pool_cost_before_cancel": "1000.00",
+    "two_groups_four_pcs_each_NEW": "48.00",
+    "wave_two_A_one_B_NEW": "56.00"
   },
   "Native32_rerun": false,
   "OW05_complete": false,
@@ -49,5 +53,10 @@
     "CP17_R3_09_WAVE_CHOICE_PER_SKU",
     "CP17_R3_09_DECLARED_NATIVE_DELTAS_AND_RESTORE_REFUSAL",
     "CP17_R3_09_REVISIONS_IMMUTABLE_AND_PRIVATE"
+  ],
+  "edge_case_ids": [
+    "OW05_HPP_POOL_BEFORE_NOTA_AND_SEWING_INVERSES",
+    "OW05_TWO_POSTED_PICKUPS_ONE_PO_ALL_REPLACED",
+    "OW05_CORRECTED_MANDOR_WAVE_SKU_NATIVE56"
   ]
 }
