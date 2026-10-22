@@ -31,10 +31,14 @@ Writer hanya bekerja di `astra/d17-14-integrasi`; cabang lama dipertahankan.
 - P21 pertama: [kegagalan yang dipertahankan](p21-6e843f9b-first-failure.json),
   [run39741995021/job119701209927](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39741995021/job/119701209927).
   Pemasangan lulus, lalu kesamaan katalog setelah pencopotan gagal. P21 belum lulus.
-  Pemeriksaan berikut merekam semua perbedaan dan membuktikan rollback transaksi gagal; patokan tetap.
+  [Pemeriksaan rinci](p21-48584c1a-diagnostic-failure.json) menemukan dua representasi katalog dari satu tampilan piutang yang berubah saat SQL dibaca lalu ditulis ulang.
+  Data, urutan nomor, hak akses dan CP6 sama. Adapter memulihkan definisi asli; kesamaan penuh22 kelompok tetap diwajibkan.
+  Reproduksi/perbaikan lokal lulus; uji P21 lengkap berikutnya belum diklaim lulus.
   `.github/workflows/cp7-ow04-final-p21.yml` mengulang P21 saja.
   P21 mempertahankan pemakaian pembayaran supplier dan analisis bertahap dari
   rehearsal lama, ditambah dua rantai kredit/refund dan pemeriksaan penuh sesudah restore.
+- Kandidat transport terkini menyiapkan18 kasus HTTP lama ditambah2 balapan dua pengguna Auth berbeda,9 browser desktop/HP,8 balapan SQL,
+  serta14 vektor saldo awal/HPP yang tetap beku. Belum dinyatakan lulus sebelum hasil run tersedia.
 - Log lengkap baru berada di artifact Actions dan arsip privat owner.
   Repo hanya memuat kuitansi ringkas dan potongan kegagalan pertama.
   Semua data uji berasal dari stack lokal sekali pakai; tidak ada data produksi.

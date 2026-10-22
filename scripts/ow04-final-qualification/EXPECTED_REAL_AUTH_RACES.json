@@ -1,0 +1,41 @@
+{
+  "classification": "FROZEN_BEFORE_EXECUTION_TWO_DISTINCT_REAL_AUTH_USERS",
+  "cases": [
+    {
+      "id": "OW04_REAL_AUTH_TWO_USERS_APPLY150_ONE_EFFECT",
+      "action": "APPLY",
+      "amount": "150.00",
+      "loser_error": "CP7_CREDIT_CONSUMER_REVIEW_CHANGED",
+      "expected": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "150.00",
+        "available": "50.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "150.00",
+        "target_AR": "350.00",
+        "cash": "1000.00"
+      }
+    },
+    {
+      "id": "OW04_REAL_AUTH_TWO_USERS_REFUND150_ONE_EFFECT",
+      "action": "REFUND",
+      "amount": "150.00",
+      "loser_error": "CP7_CREDIT_CONSUMER_REVIEW_CHANGED",
+      "expected": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "150.00",
+        "available": "50.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "0.00",
+        "target_AR": "500.00",
+        "cash": "850.00"
+      }
+    }
+  ]
+}

@@ -78,7 +78,15 @@ def p21_install_cycle(cur,report):
         all_catalog_data_and_sequences_equal_preinstall=True))
     second=adapter.install(cur);adapter.verify(cur,second)
     cur.execute('select cp7_credit.assert_source_native_trigger_census_v1()')
-    assert reinstall_catalog(second['installed_catalog'])==first_catalog,'P21_CURRENT_REINSTALL_CATALOG_CHANGED'
+    second_catalog=reinstall_catalog(second['installed_catalog'])
+    reinstall_changed={kind:{key:dict(expected=first_catalog[kind].get(key),actual=second_catalog[kind].get(key))
+        for key in sorted(set(first_catalog[kind])|set(second_catalog[kind]))
+        if first_catalog[kind].get(key)!=second_catalog[kind].get(key)}
+        for kind in first_catalog if first_catalog[kind]!=second_catalog[kind]}
+    report['p21_reinstall_catalog_comparison']=dict(equal=not reinstall_changed,
+        changed_members=reinstall_changed,first_sha256=restore.catalog.digest(first_catalog),
+        second_sha256=restore.catalog.digest(second_catalog))
+    assert not reinstall_changed,'P21_CURRENT_REINSTALL_CATALOG_CHANGED'
     assert {k:v[0]for k,v in second['seeded_private_rows'].items()}==first_counts
     steps.append(dict(step=P21_STEPS[2],status='PASS',all22_portable_catalog_groups_equal=True,
         both_exact_local_OID_censuses_verified=True,seeded_private_counts_equal=True))

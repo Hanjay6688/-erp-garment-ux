@@ -1,0 +1,39 @@
+{
+  "candidate": "48584c1a9a6576c0fa023f59746ea2a3e114f5b7",
+  "run_id": 39745059026,
+  "job_id": 119711347650,
+  "status": "INCOMPLETE",
+  "error": "P21_CURRENT_PREUSE_CATALOG_NOT_EXACT",
+  "changed_catalog_members": {
+    "relations": [
+      "erp.v_customer_receivables"
+    ],
+    "rules": [
+      "erp.v_customer_receivables:_RETURN"
+    ]
+  },
+  "catalog_before_sha256": "0990201e99f2c7ccd9c7a0575c3744263f61f3f79b5ce7e18417b958843e0a7a",
+  "catalog_after_sha256": "d057c270328b360971f66d0a8b1ae6c9804befd252243b3ece4246ee46e67cf6",
+  "every_data_table_and_sequence_equal": true,
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "first_failure_cause": "pg_get_viewdef renders an implicit varchar-array to text-array coercion as explicit; reparsing moves the cast into every array element. Only the view definition and its SELECT rule differ; metadata, ACL, data and sequences are exact.",
+  "repair": "P21 administrative adapter recognizes only the two exact declared drifted members, recreates the captured original using the original implicit cast, then requires exact equality of every member in all22 catalog groups. No catalog normalization or ignored definition.",
+  "local_full_view_roundtrip_check": {
+    "status": "PASS_LOCAL_ONLY",
+    "first_failure_reproduced": true,
+    "original_full_view_and_rule_exact_after_repair": true,
+    "P21_runtime_pass": false
+  },
+  "raw_report": {
+    "bytes": 228014,
+    "sha256": "9b70f878fb33c06e11b853a70edde8e5e9f861973ffe699c5c6b1a7a30160c65"
+  },
+  "artifact": {
+    "id": 12410668814,
+    "bytes": 1632996,
+    "sha256": "72931ec47b6a16b6488063600779ff99a27bbda6db422bb3a3ae9f6f4017ceb9"
+  },
+  "formal_CP7C_started": false,
+  "production_go": false
+}
