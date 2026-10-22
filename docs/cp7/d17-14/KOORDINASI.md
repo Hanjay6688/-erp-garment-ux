@@ -164,9 +164,19 @@ Gerbang `cp7_payment_source_owning_install.sources()==SOURCE.json/product_source
 mengubah pin. Kegagalan sebelum pemindahan disimpan. Native tata letak tahap belum diklaim.
 
 Kontrak B→A: apply/verify/admit_catalog/rollback_preuse dengan state sebelum; A memegang transaksi, envelope lock,
-penjaga setelah-pakai global dan komposisi ujung rantai. Katalog hanya18 badan/3 kolom/4 constraint; rollback
+penjaga setelah-pakai global dan komposisi ujung rantai. Katalog hanya18 badan/3 kolom/4 constraint/1 perubahan presisi privat; rollback
 memeriksa policy terpakai sebelum DDL pertama. Tidak ada pemasang atau bundle A yang diubah. A memasang OW16
 sesudah delta ini dan menerapkan registry yang diminta sebelumnya. Lihat production-stage/README.md.
 
 Rencana probe B286 memakai satu lingkungan, enam suite lama secara berurutan dengan pemulihan wajib. Angka kasus
 lama tidak dilonggarkan. Sumber OW12a sudah tersedia; sambungan OW12b masih pekerjaan B berikutnya, di atas tahap A.
+
+
+Perbaikan sesudah Original460ada9:108/113 lulus;1 Native dan4 layar belum lulus, pemulihan/advisor lulus.
+Kegagalan pertama di ow14b/460ada9-first-native113.json, Original lengkap privat. NULL pilihan lama sempat
+menghilangkan satu tanda delegasi; sekarang kondisi pilihan eksplisit memakai Boolean pasti. Pencatat permintaan
+klien juga menolak referensi Native enam desimal sebelum RPC; Master Native memang menerima6 desimal. Validator
+klien/server dan pin privat kini mempertahankan6 angka tanpa pembulatan (manual_point18,4 →20,6; metadata ini
+masuk admisi/invers). Pesan minimum terpilih mempertahankan angkanya. Form tanpa pilihan eksplisit mempertahankan
+penjelasan Master lama ditambah keterangan referensi/aturan aktif; assertion browser lama tidak dihapus.
+Lokal8 kelompok SQL bahan/pemulihan plus5 kelompok kernel lulus; pemeriksaan server tahap baru masih menunggu.

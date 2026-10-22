@@ -50,8 +50,19 @@ def _row(cur, signature):
 
 
 def _columns(cur):
-    return cur.execute("select c.oid::regclass::text||'.'||a.attname from pg_attribute a join pg_class c on c.oid=a.attrelid "
+    return cur.execute("select n.nspname||'.'||c.relname||'.'||a.attname from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace "
                        "where c.oid=any(%s::regclass[])and a.attnum>0 and not a.attisdropped order by 1", (list(TABLES),)).fetchall()
+
+
+def _material_metadata(cur):
+    names=sorted(NEW_COLUMNS | {'cp7_stock_formula.material_settings.manual_point'})
+    columns=cur.execute("select n.nspname||'.'||c.relname||'.'||a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,"
+                        "a.attidentity::text,a.attgenerated::text,a.attacl::text,pg_get_expr(d.adbin,d.adrelid) "
+                        "from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum "
+                        "where a.attnum>0 and not a.attisdropped and n.nspname||'.'||c.relname||'.'||a.attname=any(%s)order by 1", (names,)).fetchall()
+    constraints=cur.execute("select n.nspname||'.'||c.relname||':'||k.conname,pg_get_constraintdef(k.oid),k.convalidated,k.condeferrable "
+                           "from pg_constraint k join pg_class c on c.oid=k.conrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname||'.'||c.relname||':'||k.conname=any(%s)order by 1", (sorted(CONSTRAINTS),)).fetchall()
+    return dict(columns=[list(x)for x in columns],constraints=[list(x)for x in constraints])
 
 
 def extension(include_paths=None):
@@ -80,8 +91,17 @@ def apply(cur, include_paths=None):
     columns = any(x['path']=='stock-formula/materials.sql'for x in selected)
     if columns and NEW_COLUMNS & {r[0] for r in _columns(cur)}:
         raise ValueError('CP7_PRODUCTION_STAGE_ALREADY_PRESENT')
+    material_before=_material_metadata(cur)if columns else None
+    if columns and [(x[0],x[1])for x in material_before['columns']] != [('cp7_stock_formula.material_settings.manual_point','numeric(18,4)')]:
+        raise ValueError('CP7_PRODUCTION_PREDECESSOR_PRECISION_CHANGED')
     cur.execute(extension(include_paths), prepare=False)
-    state = dict(sources=src, functions=before, columns=columns)
+    material_after=_material_metadata(cur)if columns else None
+    if columns:
+        types={x[0]:x[1]for x in material_after['columns']}
+        if types!={'cp7_stock_formula.material_settings.manual_point':'numeric(20,6)','cp7_stock_formula.material_settings.fabric_rule':'text',
+                  'cp7_stock_formula.material_evaluations.legacy_minimum_qty':'numeric','cp7_stock_formula.material_evaluations.fabric_rule':'text'} or len(material_after['constraints'])!=4:
+            raise ValueError('CP7_PRODUCTION_COLUMN_OR_CONSTRAINT_SHAPE_CHANGED')
+    state = dict(sources=src, functions=before, columns=columns, material_before=material_before, material_after=material_after)
     verify(cur, state)
     return state
 
@@ -96,6 +116,8 @@ def verify(cur, state):
         r = _row(cur, signature)
         if sha256(r[1].encode()).hexdigest() != item['after_body_sha256'] or r[2:] != state['functions'][signature][2:]:
             raise ValueError('CP7_PRODUCTION_FUNCTION_OR_AUTHORITY_CHANGED: '+signature)
+    if state['columns'] and _material_metadata(cur)!=state['material_after']:
+        raise ValueError('CP7_PRODUCTION_PRIVATE_METADATA_CHANGED')
     if state['columns'] and not NEW_COLUMNS <= {r[0]for r in _columns(cur)}:
         raise ValueError('CP7_PRODUCTION_PRIVATE_COLUMNS_CHANGED')
     return dict(stage=MANIFEST['contract'], changed_functions=len(state['functions']), new_columns=sorted(NEW_COLUMNS)if state['columns']else[],
@@ -118,6 +140,9 @@ def admit_catalog(before, after, state):
                         continue
             if group == 'columns' and old is None and new is not None and key.replace(':','.',1) in NEW_COLUMNS:
                 continue
+            if group == 'columns' and key=='cp7_stock_formula.material_settings:manual_point' and state['columns']:
+                if old is not None and new is not None and old[2]=='numeric(18,4)' and new[2]=='numeric(20,6)' and old[:2]==new[:2] and old[3:]==new[3:]:
+                    continue
             if group == 'constraints' and old is None and new is not None and key in CONSTRAINTS:
                 continue
             raise ValueError('CP7_PRODUCTION_UNDECLARED_CATALOG_DELTA: '+group+':'+key)
@@ -134,6 +159,8 @@ def rollback_preuse(cur, state):
         cur.execute((ROOT/'sql/rollback-columns.sql').read_text(), prepare=False)
     if state['columns'] and {r[0]for r in _columns(cur)} & NEW_COLUMNS:
         raise ValueError('CP7_PRODUCTION_PRIVATE_COLUMNS_NOT_RESTORED')
+    if state['columns'] and _material_metadata(cur)!=state['material_before']:
+        raise ValueError('CP7_PRODUCTION_PRIVATE_METADATA_NOT_RESTORED')
     for signature in state['functions']:
         if _row(cur, signature) != state['functions'][signature]:
             raise ValueError('CP7_PRODUCTION_FUNCTION_NOT_RESTORED: '+signature)

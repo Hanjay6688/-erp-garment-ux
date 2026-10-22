@@ -9,3 +9,6 @@ alter table cp7_stock_formula.material_evaluations
  add column legacy_minimum_qty numeric,
  add column fabric_rule text,
  add constraint ow14b_evaluation_rule check(fabric_rule in('LEGACY_MINIMUM','FORMULA'));
+
+-- Native Master permits six decimals. Pin its value without four-place rounding.
+alter table cp7_stock_formula.material_settings alter column manual_point type numeric(20,6);

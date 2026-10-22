@@ -277,6 +277,7 @@ function Row({ r, type, windowDays, level, canManage, locked, writing, draft, no
           <option value="FORMULA">Pakai rumus</option>
           <option value="LEGACY_MINIMUM" disabled={r.legacyMinimumQty===null}>Pakai minimum lama yang diperiksa</option>
         </select></label>
+        {r.fabricRule===null?<p>Angka minimum diatur di Master Data › Kain &amp; Benchmark. Angka lama itu ditampilkan sebagai referensi baca saja; pilih aturan aktif kain di panel ini.</p>:null}
         <p className="cfr-source">Referensi minimum lama: {r.legacyMinimumQty===null?'belum tersedia':q(r.legacyMinimumQty)} (baca saja).
           {' '}{draft.fabricRule==='LEGACY_MINIMUM'?'Angka ini akan menjadi minimum yang dipilih. Perubahan referensi sesudahnya tidak mengubah pilihan ini.':draft.fabricRule==='FORMULA'?'Hanya rumus yang akan mengatur pengingat kain ini.':'Mengubah lama kirim mempertahankan aturan dan minimum yang sudah dipilih.'}</p>
         {reason}{check}{actions}

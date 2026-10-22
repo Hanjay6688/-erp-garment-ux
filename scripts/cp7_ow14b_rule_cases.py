@@ -172,13 +172,14 @@ def cases(cur, today):
         assert formula.refused(cur, lambda: save(cur, payload(f, rule='LEGACY_MINIMUM'), subject=staff))[0] == '42501'
         a = formula.accessory(cur, today, 300)
         assert formula.refused(cur, lambda: save(cur, payload(a), subject=owner)) == ('22023', 'CP7_FORMULA_MATERIAL_INVALID')
-        save(cur, payload(f, rule='LEGACY_MINIMUM'), subject=owner)
+        reference(cur, f, '500.123456')
+        save(cur, payload(f, rule='LEGACY_MINIMUM', reference='500.123456'), subject=owner)
         w = formula.material_workspace(cur, owner, material_type='FABRIC', q=f['sku'])
         assert w['contract_version'] == 'cp7.material-reorder.v2', w
         row = next(x for x in w['page']['rows'] if x['material_id'] == f['material'])
         assert row['fabric_rule'] == 'LEGACY_MINIMUM', row
         for key in ('point', 'manual_point', 'legacy_minimum_qty'):
-            assert isinstance(row[key], str) and D(row[key]) == 500, (key, row)
+            assert isinstance(row[key], str) and D(row[key]) == D('500.123456'), (key, row)
         for who in ('anon', 'authenticated', 'service_role'):
             assert not formula.one(cur, "select has_schema_privilege(%s,'cp7_stock_formula','USAGE')", (who,)), who
         return dict(status='PASS', read_only_staff_denied=True, accessory_scope_closed=True, exact_decimal_wire=True,

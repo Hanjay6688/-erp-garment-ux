@@ -1,10 +1,20 @@
 {
   "classification": "LOCAL_ACTUAL_SQL_WITH_CONTROLLED_ERP_AND_IDENTITY_ADAPTER_NOT_NATIVE",
   "status": "PASS",
-  "source_sha256": "58c0cd44e7270aa10c67f08be0c276962ed4daf88e35daafc16278e310dc4f92",
-  "alert_source_sha256": "23274622444e88cee1ca66ddfb1b2e91b0af17a56f0de1c88666e51911d125ec",
+  "source_sha256": "56b0d14c2edb1bfcfad53af8bbe9d007ee30cf84f2750ec57bacc7600aa9252d",
+  "alert_source_sha256": "e49ef91dd8f193c8024efebaccfd291f99524db6e27be0c1dea8d591fc5bc815",
   "source_layout": "FROZEN_PREDECESSOR_PLUS_COUNTED_PRODUCTION_STAGE",
   "cases": [
+    {
+      "id": "OW14B_LOCAL_SCHEMA_PREUSE_ROUNDTRIP",
+      "status": "PASS",
+      "observed": {
+        "actual_upgrade_and_inverse": true,
+        "old_private_row_hash_unchanged": true,
+        "columns_constraints_and_precision_restored": true,
+        "full_Native_22_groups_not_claimed": true
+      }
+    },
     {
       "id": "OW14B_PREVIOUS_RULE_RETAINED_UNTIL_EXPLICIT_CHOICE",
       "status": "PASS",
@@ -57,6 +67,15 @@
         "current_denial_refuses": true,
         "old_settings_immutable": true,
         "native_lock_wait_race_not_claimed": true
+      }
+    },
+    {
+      "id": "OW14B_SIX_DECIMAL_PIN_AND_POSTUSE_ROLLBACK_REFUSAL",
+      "status": "PASS",
+      "observed": {
+        "six_place_Native_reference_pinned_without_rounding": true,
+        "exact_rule_in_message": true,
+        "used_policy_not_dropped": true
       }
     }
   ],

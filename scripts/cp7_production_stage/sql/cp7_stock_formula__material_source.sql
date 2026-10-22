@@ -11,17 +11,17 @@ begin
  if cp7_stock_formula.ensure_computed()then
   select jsonb_build_object(
    'rows',coalesce(jsonb_agg(cp7_stock_formula.material_alert_row(to_jsonb(e),lvl)order by e.sku,e.material_id)
-    filter(where e.state='AT_OR_BELOW'and(p_type='ACCESSORY'or e.basis='FORMULA'or e.fabric_rule='LEGACY_MINIMUM')),'[]'),
+    filter(where e.state='AT_OR_BELOW'and(p_type='ACCESSORY'or e.basis='FORMULA'or e.fabric_rule is not distinct from'LEGACY_MINIMUM')),'[]'),
    'states',coalesce(jsonb_object_agg(e.material_id::text,case when e.manual_source='FABRIC_MINIMUM'and e.fabric_rule is null then'MANUAL_MINIMUM_IN_FORCE'
      when e.state='ABOVE'then'ABOVE_REORDER_POINT'else'NO_REORDER_POINT'end)
-    filter(where not(e.state='AT_OR_BELOW'and(p_type='ACCESSORY'or e.basis='FORMULA'or e.fabric_rule='LEGACY_MINIMUM'))),'{}'))
+    filter(where not(e.state='AT_OR_BELOW'and(p_type='ACCESSORY'or e.basis='FORMULA'or e.fabric_rule is not distinct from'LEGACY_MINIMUM'))),'{}'))
   into r from cp7_stock_formula.material_evaluations e where e.material_type=p_type;
   return r;
  end if;
  -- Busy: the materials at or under their point in the last evaluation, against the stock now (same locations), with that
  -- evaluation's point and on-order quantity.
  with low as(select e.*,to_jsonb(e)j from cp7_stock_formula.material_evaluations e
-   where e.material_type=p_type and e.state='AT_OR_BELOW'and(p_type='ACCESSORY'or e.basis='FORMULA'or e.fabric_rule='LEGACY_MINIMUM')),
+   where e.material_type=p_type and e.state='AT_OR_BELOW'and(p_type='ACCESSORY'or e.basis='FORMULA'or e.fabric_rule is not distinct from'LEGACY_MINIMUM')),
  live as(select l.material_id,l.sku,l.point,l.on_order_qty,l.manual_source,l.j,coalesce((select sum(s.qty_signed)from erp.material_stock_movements s
    left join erp.locations x on x.id=s.location_id where s.material_id=l.material_id and s.physical_at<=t and s.system_created_at<=t
     and(p_type='FABRIC'or(x.location_type='RAW_MATERIAL_WAREHOUSE'and x.is_active
@@ -34,5 +34,5 @@ begin
  return jsonb_set(r,'{states}',(r->'states')||coalesce((select jsonb_object_agg(e.material_id::text,case when e.manual_source='FABRIC_MINIMUM'and e.fabric_rule is null
    then'MANUAL_MINIMUM_IN_FORCE'when e.state='ABOVE'then'ABOVE_REORDER_POINT'else'NO_REORDER_POINT'end)
   from cp7_stock_formula.material_evaluations e where e.material_type=p_type
-   and not(e.state='AT_OR_BELOW'and(p_type='ACCESSORY'or e.basis='FORMULA'or e.fabric_rule='LEGACY_MINIMUM'))),'{}'));
+   and not(e.state='AT_OR_BELOW'and(p_type='ACCESSORY'or e.basis='FORMULA'or e.fabric_rule is not distinct from'LEGACY_MINIMUM'))),'{}'));
 end $$;

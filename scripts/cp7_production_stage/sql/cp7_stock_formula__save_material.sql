@@ -10,7 +10,7 @@ begin
   or((p?'fabric_rule')is distinct from(p?'expected_legacy_minimum_qty'))
   or(p?'fabric_rule'and(jsonb_typeof(p->'fabric_rule')is distinct from'string'or p->>'fabric_rule'not in('LEGACY_MINIMUM','FORMULA')))
   or(p?'expected_legacy_minimum_qty'and(jsonb_typeof(p->'expected_legacy_minimum_qty')not in('string','null')
-   or coalesce(p->>'expected_legacy_minimum_qty','0')!~'^[0-9]{1,14}(\.[0-9]{1,4})?$'))
+   or coalesce(p->>'expected_legacy_minimum_qty','0')!~'^[0-9]{1,14}(\.[0-9]{1,6})?$'))
   or jsonb_typeof(p->'material_id')<>'string'or(p->>'material_id')!~'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
   or jsonb_typeof(p->'expected_revision')<>'number'or(p->>'expected_revision')!~'^[0-9]{1,9}$'
   or jsonb_typeof(p->'lead_days')not in('string','null')or coalesce(p->>'lead_days','1')!~'^[0-9]{1,3}(\.[0-9]{1,2})?$'

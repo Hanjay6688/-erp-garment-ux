@@ -16,7 +16,7 @@ function request(raw:unknown,type:MaterialType):MaterialRequest{
   buffer:maybeText(p.buffer_days??null),reason:text(p.reason),...(choice?{fabricRule:choice as FabricRule}:{})}
  if(type==='FABRIC'&&p.manual_point!==null)bad()
  let legacy:string|null|undefined
- if(choice){legacy=p.expected_legacy_minimum_qty===null?null:text(p.expected_legacy_minimum_qty);if(legacy!==null&&!/^[0-9]{1,14}(\.[0-9]{1,4})?$/.test(legacy))bad()}
+ if(choice){legacy=p.expected_legacy_minimum_qty===null?null:text(p.expected_legacy_minimum_qty);if(legacy!==null&&!/^[0-9]{1,14}(\.[0-9]{1,6})?$/.test(legacy))bad()}
  const payload=materialPayload({materialId:w.uuidText(p.material_id,'catatan penyimpanan bahan'),settingRevision:w.count(p.expected_revision,'catatan penyimpanan bahan'),legacyMinimumQty:legacy},type,draft)
  const a=payload as unknown as Record<string,unknown>
  if(Object.keys(a).sort().join('|')!==Object.keys(p).sort().join('|')||Object.keys(a).some(k=>a[k]!==p[k]))bad()

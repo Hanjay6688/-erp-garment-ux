@@ -1,0 +1,8 @@
+{
+  "classification": "LOCAL_CLIENT_REGRESSION",
+  "case": "first Native-format fabric choice with revision0 and reference500.000000",
+  "observed": "persistMaterialRequest refuses the envelope before RPC",
+  "reason": "Native Master accepts up to6 decimals; recovery helper accepted only4",
+  "source": "scripts/cp7-src/master/master.sql minimum_stock_qty validator",
+  "production_go": false
+}

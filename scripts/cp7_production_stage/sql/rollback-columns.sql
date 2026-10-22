@@ -7,3 +7,5 @@ do $$begin
 end $$;
 alter table cp7_stock_formula.material_settings drop column fabric_rule;
 alter table cp7_stock_formula.material_evaluations drop column legacy_minimum_qty,drop column fabric_rule;
+
+alter table cp7_stock_formula.material_settings alter column manual_point type numeric(18,4);

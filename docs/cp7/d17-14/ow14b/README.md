@@ -56,3 +56,15 @@ mengurangi dengan PO yang belum diterima. Kontrol panjang nama memangkas label, 
 label panjang bersifat SYNTHETIC_LABEL_ONLY. Kegagalan pertama sebelum perbaikan disimpan di
 local-first-wa-wording-failure.json. Enam kelompok SQL lokal kembali lulus;44 uji klien/DOM, TypeScript/CSS lulus.
 Assertion teks lama tetap dipertahankan; kegagalan wording penjelasan singkat juga disimpan sebelum diperbaiki.
+
+
+Original460ada9 menunjukkan108/113 lulus: Native60/61, dua sesi34/34, HTTP7/7, browser7/11;
+pemulihan/advisor lulus. Satu kasus lama menangkap NULL pada pemilahan sumber; dua layar lama menangkap
+penjelasan Master yang hilang; dua layar baru berhenti sebelum RPC karena referensi Native6 desimal.
+Semua kegagalan pertama ditahan, tidak disebut sebagai hasil lulus. Perbaikan bekerja di tahap
+scripts/cp7_production_stage; sembilan cp7-src sekarang beku lagi sesuai permintaan A.
+
+Pin minimum mempertahankan6 angka yang diterima penulis Master Native, memakai numeric(20,6) privat dan validator
+6 desimal. Invers mengembalikan numeric(18,4), ditahan sebelum DDL bila ada pilihan eksplisit. Uji lokal baru
+membuktikan baris privat lama tetap persis sesudah upgrade/invers, pin900.123456 tidak dibulatkan, dan pilihan
+terpakai menolak pembuangan. 8 kelompok lokal adalah adapter SQL, bukan kualifikasi Native baru.

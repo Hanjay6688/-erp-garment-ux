@@ -15,7 +15,7 @@ Status OW16 tetap modul terpisah cp7_ow16_status_install.py; A memasangnya di at
 
 Antarmuka untuk komposisi A: apply(cur) mengembalikan state sebelum pemasangan; verify(cur,state)
 memeriksa badan serta owner/ACL/security/config/type persis; admit_catalog(before,after,state)
-hanya menerima18 badan/3 kolom/4 constraint di22 kelompok. rollback_preuse(cur,state) memulihkan DDL
+hanya menerima18 badan/3 kolom/4 constraint/1 perubahan presisi privat di22 kelompok. rollback_preuse(cur,state) memulihkan DDL
 sebelum dan menghapus kolom; A WAJIB memegang transaksi/envelope lock serta penjaga setelah-pakai global sebelum
 pemanggilan. Pilihan minimum eksplisit sendiri juga menahan rollback sebelum DDL pertama.
 Tidak ada koneksi, commit, pemasangan bawaan, penjadwalan, atau pemasangan Enteng dari modul ini.
@@ -35,3 +35,13 @@ suite berikutnya. Menghindari unduhan lingkungan yang sama enam kali; runtime, b
 A belum diberi klaim sambungan rantai ujungnya selesai. Rantai OW15 tetap dikomposisi A; proof286 terisolasi
 juga tidak akan menggantikan P21 rantai, pemeriksaan gabungan, atau audit Fable/Sol. OW10 sumber permintaan/WIP
 relevan tetap terbuka; pemindahan tahap tidak menutup kebutuhan bisnis itu. Status induk tetap5/16.
+
+
+Perbaikan sesudah Original460ada9:108/113 lulus;1 Native dan4 layar belum lulus, pemulihan/advisor lulus.
+Kegagalan pertama di ow14b/460ada9-first-native113.json, Original lengkap privat. NULL pilihan lama sempat
+menghilangkan satu tanda delegasi; sekarang kondisi pilihan eksplisit memakai Boolean pasti. Pencatat permintaan
+klien juga menolak referensi Native enam desimal sebelum RPC; Master Native memang menerima6 desimal. Validator
+klien/server dan pin privat kini mempertahankan6 angka tanpa pembulatan (manual_point18,4 →20,6; metadata ini
+masuk admisi/invers). Pesan minimum terpilih mempertahankan angkanya. Form tanpa pilihan eksplisit mempertahankan
+penjelasan Master lama ditambah keterangan referensi/aturan aktif; assertion browser lama tidak dihapus.
+Lokal8 kelompok SQL bahan/pemulihan plus5 kelompok kernel lulus; pemeriksaan server tahap baru masih menunggu.

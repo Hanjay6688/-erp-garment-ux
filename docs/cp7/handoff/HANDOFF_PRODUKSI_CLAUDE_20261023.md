@@ -78,3 +78,13 @@ Kualifikasi lama tetap sah sebagai bukti bundle terisolasi, bukan bukti rantai g
 Kontrak angka A OW12a sekarang sudah ditemukan pada cabang A b91a60b:
 docs/cp7/d17-14/ow12/KONTRAK_OW12A.md (cp7.finance-capture.v1). Jadi ketergantungan kontrak sudah tersedia;
 sambungan OW12b belum dibuat dan harus di atas tahap OW12a A, bukan lewat perubahan dasar beku.
+
+
+Perbaikan sesudah Original460ada9:108/113 lulus;1 Native dan4 layar belum lulus, pemulihan/advisor lulus.
+Kegagalan pertama di ow14b/460ada9-first-native113.json, Original lengkap privat. NULL pilihan lama sempat
+menghilangkan satu tanda delegasi; sekarang kondisi pilihan eksplisit memakai Boolean pasti. Pencatat permintaan
+klien juga menolak referensi Native enam desimal sebelum RPC; Master Native memang menerima6 desimal. Validator
+klien/server dan pin privat kini mempertahankan6 angka tanpa pembulatan (manual_point18,4 →20,6; metadata ini
+masuk admisi/invers). Pesan minimum terpilih mempertahankan angkanya. Form tanpa pilihan eksplisit mempertahankan
+penjelasan Master lama ditambah keterangan referensi/aturan aktif; assertion browser lama tidak dihapus.
+Lokal8 kelompok SQL bahan/pemulihan plus5 kelompok kernel lulus; pemeriksaan server tahap baru masih menunggu.

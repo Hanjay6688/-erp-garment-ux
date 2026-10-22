@@ -26,7 +26,21 @@ await db.exec([
  "create function cp7_stock_formula.append_only()returns trigger language plpgsql as $$begin raise exception 'CP7_FORMULA_APPEND_ONLY';end$$;",
 ].join('\n'))
 await db.exec(frozen.slice(frozen.indexOf('create table cp7_stock_formula.material_settings('),frozen.indexOf('-- Every active fabric')))
-await db.exec(await readFile('scripts/cp7_production_stage/sql/upgrade.sql','utf8'))
+const upgrade=await readFile('scripts/cp7_production_stage/sql/upgrade.sql','utf8'),rollbackColumns=await readFile('scripts/cp7_production_stage/sql/rollback-columns.sql','utf8')
+const schemaFacts=async()=>(await db.query(`select jsonb_build_object(
+ 'columns',(select jsonb_agg(jsonb_build_array(c.relname,a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull)order by c.relname,a.attnum)from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='cp7_stock_formula'and c.relname in('material_settings','material_evaluations')and a.attnum>0 and not a.attisdropped),
+ 'constraints',(select jsonb_agg(jsonb_build_array(c.relname,k.conname,pg_get_constraintdef(k.oid))order by c.relname,k.conname)from pg_constraint k join pg_class c on c.oid=k.conrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='cp7_stock_formula'and c.relname in('material_settings','material_evaluations')))v`)).rows[0].v
+// An existing four-place accessory setting survives a real schema upgrade/inverse.
+await db.exec('begin')
+await db.exec("insert into cp7_stock_formula.material_settings(material_id,revision,lead_days,manual_point,reason,actor,request_id,request_hash)values('44444444-4444-4444-8444-444444444444',1,6,123.4567,'PREDECESSOR_ADAPTER_SETTING','11111111-1111-4111-8111-111111111111',gen_random_uuid(),repeat('0',64))")
+const schemaBefore=await schemaFacts(),rowBefore=(await db.query('select md5(row_to_json(s)::text)v from cp7_stock_formula.material_settings s')).rows[0].v
+await db.exec(upgrade)
+assert.equal((await db.query('select manual_point=123.4567::numeric and fabric_rule is null v from cp7_stock_formula.material_settings')).rows[0].v,true)
+await db.exec(rollbackColumns)
+assert.deepEqual(await schemaFacts(),schemaBefore)
+assert.equal((await db.query('select md5(row_to_json(s)::text)v from cp7_stock_formula.material_settings s')).rows[0].v,rowBefore)
+await db.exec('rollback')
+await db.exec(upgrade)
 await db.exec(block(source,'cp7_stock_formula.compute_materials'))
 // Only this boundary is an adapter: the local fixture contains no FG module.
 await db.exec("create function cp7_stock_formula.compute(timestamptz,interval)returns jsonb language sql as $$select cp7_stock_formula.compute_materials($1)$$;")
@@ -43,9 +57,10 @@ const value=async(sql,args=[])=>(await db.query(sql,args)).rows[0].v
 const evaluation=()=>value('select to_jsonb(e)v from cp7_stock_formula.material_evaluations e')
 const save=(revision,choice,expected='800',id=crypto.randomUUID(),lead='6')=>value('select cp7_stock_formula.save_material($1::jsonb,$2::uuid)v',[JSON.stringify({material_id:'33333333-3333-4333-8333-333333333333',expected_revision:revision,lead_days:lead,manual_point:null,reason:'Explicit controlled-adapter choice',...(choice?{fabric_rule:choice,expected_legacy_minimum_qty:expected}:{})}),id])
 const combined=()=>value('select cp7_alert_native.fabric_kind_source()v')
-const results=[];async function test(id,fn){try{results.push({id,status:'PASS',observed:await fn()})}catch(e){results.push({id,status:'FAIL',error:String(e.stack).slice(0,1800)})}}
+const results=[{id:'OW14B_LOCAL_SCHEMA_PREUSE_ROUNDTRIP',status:'PASS',observed:{actual_upgrade_and_inverse:true,old_private_row_hash_unchanged:true,columns_constraints_and_precision_restored:true,full_Native_22_groups_not_claimed:true}}];async function test(id,fn){try{results.push({id,status:'PASS',observed:await fn()})}catch(e){results.push({id,status:'FAIL',error:String(e.stack).slice(0,1800)})}}
 await test('OW14B_PREVIOUS_RULE_RETAINED_UNTIL_EXPLICIT_CHOICE',async()=>{
  await save(0);const e=await evaluation();assert.equal(e.fabric_rule,null);assert.equal(Number(e.point),800);assert.equal(Number(e.formula_point),60);assert.equal(Number(e.legacy_minimum_qty),800)
+ const delegate=await value("select cp7_stock_formula.material_source('FABRIC')v");assert.equal(delegate.states['33333333-3333-4333-8333-333333333333'],'MANUAL_MINIMUM_IN_FORCE')
  const r=await combined();assert.equal(r.rows.length,1);assert.equal(r.rows[0].detail.minimum_qty,'800');return{free:'700',legacy_active:'800',inactive_formula:'60',one_reminder:true}
 })
 await test('OW14B_FORMULA_CHOICE_DOES_NOT_RESURRECT_LEGACY_ALERT',async()=>{
@@ -64,7 +79,7 @@ await test('OW14B_SELECTED_LEGACY_IS_PINNED_AND_REPLAY_IS_EXACT',async()=>{
  const replay=await save(2,'LEGACY_MINIMUM','900',id);assert.equal(replay.replay,true);assert.equal(replay.revision,3)
  await assert.rejects(()=>save(2,'FORMULA','900',id),/CP7_FORMULA_REQUEST_REUSED/)
  await save(3,undefined);const e=await evaluation();assert.equal(e.fabric_rule,'LEGACY_MINIMUM');assert.equal(Number(e.point),900);assert.equal(Number(e.legacy_minimum_qty),1000)
- const r=await combined();assert.equal(r.rows.length,1);assert.equal(r.rows[0].detail.reorder_point_qty,'900.0000')
+ const r=await combined();assert.equal(r.rows.length,1);assert.equal(r.rows[0].detail.reorder_point_qty,'900.000000')
  const item={...r.rows[0],kind:'FABRIC_BELOW_MINIMUM'}
  const line=await value('select cp7_alert_native.item_line($1::jsonb,$2::text)v',[JSON.stringify(item),'AMOUNT'])
  assert.ok(line.includes('minimum lama yang dipilih 900'),line)
@@ -84,6 +99,17 @@ await test('OW14B_CURRENT_ACCESS_AND_APPEND_ONLY',async()=>{
  assert.equal(await value('select count(*)::integer v from cp7_stock_formula.material_settings'),6)
  await assert.rejects(()=>db.exec('delete from cp7_stock_formula.material_settings'),/CP7_FORMULA_APPEND_ONLY/)
  return{current_denial_refuses:true,old_settings_immutable:true,native_lock_wait_race_not_claimed:true}
+})
+await test('OW14B_SIX_DECIMAL_PIN_AND_POSTUSE_ROLLBACK_REFUSAL',async()=>{
+ await db.exec('update erp.fabric_master_profiles set minimum_stock_qty=900.123456')
+ await save(6,'LEGACY_MINIMUM','900.123456')
+ const e=await evaluation();assert.equal(Number(e.manual_point),900.123456);assert.equal(Number(e.point),900.123456)
+ const r=await combined(),item={...r.rows[0],kind:'FABRIC_BELOW_MINIMUM'}
+ const line=await value('select cp7_alert_native.item_line($1::jsonb,$2::text)v',[JSON.stringify(item),'AMOUNT'])
+ assert.ok(line.endsWith('minimum lama yang dipilih 900,123456 YD'),line)
+ await assert.rejects(()=>db.exec(rollbackColumns),/CP7_PRODUCTION_STAGE_AFTER_USE_REQUIRES_BACKUP_RESTORE/)
+ assert.equal((await evaluation()).fabric_rule,'LEGACY_MINIMUM');assert.equal(Number((await evaluation()).point),900.123456)
+ return{six_place_Native_reference_pinned_without_rounding:true,exact_rule_in_message:true,used_policy_not_dropped:true}
 })
 const report={classification:'LOCAL_ACTUAL_SQL_WITH_CONTROLLED_ERP_AND_IDENTITY_ADAPTER_NOT_NATIVE',status:results.every(x=>x.status==='PASS')?'PASS':'FAIL',
  source_sha256:createHash('sha256').update(source).digest('hex'),alert_source_sha256:createHash('sha256').update(alerts).update(Object.values(staged).join('\n')).digest('hex'),source_layout:'FROZEN_PREDECESSOR_PLUS_COUNTED_PRODUCTION_STAGE',cases:results,OW14b_complete:false,production_go:false}

@@ -15,8 +15,8 @@ language sql stable security definer set search_path=''set TimeZone='UTC'as $$
   select case when length(label||suffix)<=256 then label||suffix
    else left(label,greatest(0,255-length(suffix)))||'…'||suffix end
   from(select coalesce(p->'detail'->>'name','?')label,': sisa '
-   ||cp7_alert_native.num(p->'detail'->>'free_qty')||' '||coalesce(p->'detail'->>'unit_code','')
-   ||', minimum lama yang dipilih '||cp7_alert_native.num(p->'detail'->>'reorder_point_qty')||' '||coalesce(p->'detail'->>'unit_code','')suffix)x)
+   ||replace(trim_scale((p->'detail'->>'free_qty')::numeric)::text,'.',',')||' '||coalesce(p->'detail'->>'unit_code','')
+   ||', minimum lama yang dipilih '||replace(trim_scale((p->'detail'->>'reorder_point_qty')::numeric)::text,'.',',')||' '||coalesce(p->'detail'->>'unit_code','')suffix)x)
  else left(case p->>'kind'
   when'FABRIC_BELOW_MINIMUM'then case when p->'detail'?'reorder_point_qty'then(p->'detail'->>'name')||': sisa '
     ||cp7_alert_native.num(p->'detail'->>'free_qty')||' '||coalesce(p->'detail'->>'unit_code','')
