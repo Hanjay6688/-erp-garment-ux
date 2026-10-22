@@ -80,10 +80,13 @@ def ids(row,key):
     return [u['id']for u in row['reference'].get(key,[])]if key=='usages'else row['reference'].get(key,[])
 
 
-def preflight_refuses(cur,day,code):
-    """The close screen's own read names the blocker, and the close command refuses it with no effect."""
+def preflight_refuses(cur,day,code,match=lambda row:True):
+    """The close screen's own read names this case's blocker, and the close command refuses it with no effect.
+
+    The shared aligned copy already holds other approved attendance periods outside any pool; those rightly block
+    too, so a case selects its own row by reference instead of assuming it is the only one of its code."""
     r=period.read(cur,day)
-    found=[x for x in r['preflight']['blockers']if x['code']==code]
+    found=[x for x in r['preflight']['blockers']if x['code']==code and match(x)]
     assert r['preflight']['status']=='BLOCKED'and len(found)==1,r['preflight']
     before=b.boundary.snapshot(cur)
     auth.refused(cur,lambda:period.command(cur,'CLOSE',period.intent(r)),'CLOSE_BLOCKED')
@@ -177,7 +180,7 @@ def cases(cur,today):
         assert row[0]['severity']=='POLICY'and row[0]['impact_date']==str(day)and row[0]['reference']['amount']=='1000.00'and row[0]['reference']['active_pools']==[],row
         assert'HPP & Rekalkulasi'in row[0]['reason'],row
         assert all(f['payroll']not in ids(r,'payroll_ids')for r in readiness(cur,day-timedelta(days=1))['rows'])
-        shown=preflight_refuses(cur,day,'ATTENDANCE_POOL_NOT_ACTIVE')
+        shown=preflight_refuses(cur,day,'ATTENDANCE_POOL_NOT_ACTIVE',lambda x:f['payroll']in(x.get('reference')or{}).get('payroll_ids',[]))
         o,pool=pool_cycle(cur,day,REASON+' pool absen')
         assert any(f['payroll']in ids(r,'payroll_ids')for r in readiness(cur,day)['rows']),'DRAFT_MUST_STILL_HOLD'
         hp.save(cur,o,'ACTIVATE',hp.pool_body(hp.facade_pool(cur,o,pool),REASON+' aktifkan pool'))
