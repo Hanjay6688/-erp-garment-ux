@@ -88,3 +88,13 @@ klien/server dan pin privat kini mempertahankan6 angka tanpa pembulatan (manual_
 masuk admisi/invers). Pesan minimum terpilih mempertahankan angkanya. Form tanpa pilihan eksplisit mempertahankan
 penjelasan Master lama ditambah keterangan referensi/aturan aktif; assertion browser lama tidak dihapus.
 Lokal8 kelompok SQL bahan/pemulihan plus5 kelompok kernel lulus; pemeriksaan server tahap baru masih menunggu.
+
+
+Pembaruan Original tahap **cebb4bb** (run39859229686/job120105301344): gerbang sumber beku dan
+apply/rollback/reapply22 kelompok lulus. Paket pertama109/113 PASS (Native61, dua pengguna34, HTTP7,
+layar7); empat layar INCOMPLETE, pemulihan/advisor lulus. Lima paket berikutnya173 kasus belum dijalankan.
+Receipt `production-stage/cebb4bb-first-native286.json`; Original lengkap terpisah, tidak dimasukkan ke Git.
+Penyimpanan sebenarnya berhasil, tetapi klien menolak `39.3200000000000000` sebelum membuang nol padding.
+Perbaikan memeriksa presisi bermakna sesudah normalisasi tanpa pembulatan; referensi CAS tetap teks asli.
+Fixture jawaban Native yang sama dipakai pada uji simpan dan muat ulang, termasuk penolakan digit nyata berlebih.
+Uji terarah56/56 lulus (termasuk17 kontrol analisis); Native286 pengganti belum diklaim.

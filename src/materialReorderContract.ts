@@ -93,7 +93,11 @@ export function moqDays(moq: string, usageMonth: string): string {
 const positive = (v: string) => compareDecimal(v, '0') > 0
 function row(v: unknown, type: MaterialType, modern=false): MaterialRow {
   const what = 'bahan', o = w.obj(v, what); w.keys(o, modern ? [...rowKeys,'legacy_minimum_qty','fabric_rule'] : rowKeys, what)
-  const exactQty=(v:unknown)=>typeof v==='string'&&/^(0|[1-9][0-9]{0,29})(\.[0-9]{1,12})?$/.test(v)?v:fail(what)
+  // PostgreSQL numeric division preserves padding (e.g. 39.3200000000000000).
+  // Check the meaningful precision after removing only trailing zeros. Keep
+  // the original wire text for a reference CAS; never round a real digit.
+  const exactQty=(v:unknown)=>typeof v==='string'&&/^(0|[1-9][0-9]{0,29})(\.[0-9]{1,40})?$/.test(v)
+    &&/^(0|[1-9][0-9]{0,29})(\.[0-9]{1,12})?$/.test(canonical(v))?v:fail(what)
   const selectedQty=(v:unknown)=>v===null?null:modern?canonical(exactQty(v)):w.decimal(v,what)
   const r: MaterialRow = {
     materialId: w.uuidText(o.material_id, what), materialType: w.oneOf(o.material_type, ['FABRIC', 'ACCESSORY'] as const, what), sku: w.str(o.sku, what),
