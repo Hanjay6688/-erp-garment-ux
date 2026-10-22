@@ -27,7 +27,12 @@ def run():
    internal_before=cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]
    originals['erp.require_owner_admin()']=cur.execute("select pg_get_functiondef('erp.require_owner_admin()'::regprocedure)").fetchone()[0]
    bundle.predecessor.predecessor.note_report.capture(cur,originals)
-   cur.execute(bundle.predecessor.predecessor.extension()+'\n'+bundle.predecessor.extension()+'\n'+bundle.extension(),prepare=False);after=p09.functions(cur)
+   cur.execute(bundle.predecessor.predecessor.extension()+'\n'+bundle.predecessor.extension()+'\n'+bundle.extension(),prepare=False)
+   import cp7_production_stage as production_stage
+   stage_paths=['baseline/target.sql', 'planning/baseline-source.sql']
+   report['production_stage']=production_stage.rehearse(cur,stage_paths)
+   report['production_stage']['delta_sha256']=hashlib.sha256(production_stage.extension(stage_paths).encode()).hexdigest()
+   after=p09.functions(cur)
    path=cur.execute('show search_path').fetchone()[0];cur.execute("select set_config('search_path','',true)");grants={}
    for principal,signatures in bundle.GRANTS.items():
     for signature in signatures:

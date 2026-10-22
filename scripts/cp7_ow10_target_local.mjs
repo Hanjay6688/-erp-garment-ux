@@ -7,6 +7,7 @@ const {PGlite}=await import(process.env.CP7_PGLITE_MODULE??'@electric-sql/pglite
 const db=new PGlite()
 await db.exec('create role cp7_capture nologin;create role anon nologin;create role authenticated nologin;create role service_role nologin;')
 for(const path of['wip/bootstrap.sql','demand/bootstrap.sql','wip/matching.sql','baseline/target.sql','baseline/allocation.sql'])await db.exec(await readFile('scripts/cp7-src/'+path,'utf8'))
+for(const name of['cp7_baseline__target.sql','cp7_baseline__net.sql'])await db.exec(await readFile('scripts/cp7_production_stage/sql/'+name,'utf8'))
 const before=execFileSync('git',['show','245b59505274ab7df6d15ed5d63080267da42988:scripts/cp7-src/baseline/target.sql'],{encoding:'utf8'})
 await db.exec(before.slice(0,before.indexOf('-- Supply here')).replace('cp7_baseline.target(v','cp7_baseline.target_before(v'))
 await db.exec(before.slice(before.indexOf('create function cp7_baseline.net(')).replace('cp7_baseline.net(v','cp7_baseline.net_before(v'))
@@ -88,6 +89,6 @@ await test('OW10_ONE_GLOBAL_ALLOCATION_TWO_VARIANTS_TWO_HORIZONS',async()=>{
   at_lead_boundary_included:true,equality_still_at_point:true,confirmed_other_variant_excluded:true,unknown_not_safe:true,identical_replay_not_double_counted:true,legacy_net_identical_full_JSON:12}
 })
 const report={classification:'LOCAL_ACTUAL_KERNEL_SQL_NOT_NATIVE_OR_HTTP',status:results.every(r=>r.status==='PASS')?'PASS':'FAIL',
- source_sha256:createHash('sha256').update(await readFile('scripts/cp7-src/baseline/target.sql')).digest('hex'),cases:results,OW10_complete:false,production_go:false}
+ source_sha256:createHash('sha256').update(await readFile('scripts/cp7_production_stage/sql/cp7_baseline__target.sql')).update(await readFile('scripts/cp7_production_stage/sql/cp7_baseline__net.sql')).digest('hex'),source_layout:'FROZEN_PREDECESSOR_PLUS_COUNTED_PRODUCTION_STAGE',cases:results,OW10_complete:false,production_go:false}
 await mkdir('docs/cp7/d17-14/ow10',{recursive:true});await writeFile('docs/cp7/d17-14/ow10/local-kernel.json',JSON.stringify(report,null,2)+'\n')
 console.log(JSON.stringify(report,null,2));await db.close();if(report.status!=='PASS')process.exitCode=1

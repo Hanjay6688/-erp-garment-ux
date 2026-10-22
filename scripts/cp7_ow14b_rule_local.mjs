@@ -3,8 +3,11 @@ import {readFile,writeFile,mkdir} from 'node:fs/promises'
 import {createHash} from 'node:crypto'
 import assert from 'node:assert/strict'
 const {PGlite}=await import(process.env.CP7_PGLITE_MODULE??'@electric-sql/pglite')
-const db=new PGlite(),source=await readFile('scripts/cp7-src/stock-formula/materials.sql','utf8'),alerts=await readFile('scripts/cp7-src/alerts/alerts.sql','utf8')
-const block=(sql,name)=>{const start=sql.indexOf('create function '+name+'(');assert.ok(start>=0,name);const end=sql.indexOf('$$;',sql.indexOf('as $$',start)+5);assert.ok(end>start,name);return sql.slice(start,end+3)}
+const db=new PGlite(),frozen=await readFile('scripts/cp7-src/stock-formula/materials.sql','utf8'),alerts=await readFile('scripts/cp7-src/alerts/alerts.sql','utf8')
+const stageNames=['cp7_stock_formula.compute_materials','cp7_stock_formula.material_source','cp7_stock_formula.material_workspace','cp7_stock_formula.save_material','cp7_alert_native.fabric_kind_source','cp7_alert_native.item_line']
+const staged=Object.fromEntries(await Promise.all(stageNames.map(async name=>[name,(await readFile('scripts/cp7_production_stage/sql/'+name.replace('.','__')+'.sql','utf8')).replace('create or replace function','create function')])))
+const source=frozen+'\n'+Object.values(staged).join('\n')
+const block=(sql,name)=>{const start=sql.lastIndexOf('create function '+name+'(');assert.ok(start>=0,name);const end=sql.indexOf('$$;',sql.indexOf('as $$',start)+5);assert.ok(end>start,name);return sql.slice(start,end+3)}
 await db.exec([
  "create role cp7_capture nologin;create role anon nologin;create role authenticated nologin;create role service_role nologin;",
  "create schema erp;create schema auth;create schema cp7_stock_formula authorization cp7_capture;create schema cp7_alert_native authorization cp7_capture;",
@@ -22,12 +25,13 @@ await db.exec([
  "create function cp7_stock_formula.z(numeric)returns numeric language sql as $$select 1.6449::numeric$$;",
  "create function cp7_stock_formula.append_only()returns trigger language plpgsql as $$begin raise exception 'CP7_FORMULA_APPEND_ONLY';end$$;",
 ].join('\n'))
-await db.exec(source.slice(source.indexOf('create table cp7_stock_formula.material_settings('),source.indexOf('-- Every active fabric')))
+await db.exec(frozen.slice(frozen.indexOf('create table cp7_stock_formula.material_settings('),frozen.indexOf('-- Every active fabric')))
+await db.exec(await readFile('scripts/cp7_production_stage/sql/upgrade.sql','utf8'))
 await db.exec(block(source,'cp7_stock_formula.compute_materials'))
 // Only this boundary is an adapter: the local fixture contains no FG module.
 await db.exec("create function cp7_stock_formula.compute(timestamptz,interval)returns jsonb language sql as $$select cp7_stock_formula.compute_materials($1)$$;")
 for(const name of['ensure_computed','material_access_now','save_material','material_alert_row','material_source'])await db.exec(block(source,'cp7_stock_formula.'+name))
-for(const name of['num','rp','tgl','item_line','fabric_source','fabric_kind_source'])await db.exec(block(alerts,'cp7_alert_native.'+name))
+for(const name of['num','rp','tgl','item_line','fabric_source','fabric_kind_source'])await db.exec(block(alerts+'\n'+Object.values(staged).join('\n'),'cp7_alert_native.'+name))
 await db.exec([
  "insert into erp.locations values('22222222-2222-4222-8222-222222222222','RAW_MATERIAL_WAREHOUSE',true);",
  "insert into erp.materials values('33333333-3333-4333-8333-333333333333','FABRIC','LOCAL-RULE','Controlled fabric','YD',true);",
@@ -82,5 +86,5 @@ await test('OW14B_CURRENT_ACCESS_AND_APPEND_ONLY',async()=>{
  return{current_denial_refuses:true,old_settings_immutable:true,native_lock_wait_race_not_claimed:true}
 })
 const report={classification:'LOCAL_ACTUAL_SQL_WITH_CONTROLLED_ERP_AND_IDENTITY_ADAPTER_NOT_NATIVE',status:results.every(x=>x.status==='PASS')?'PASS':'FAIL',
- source_sha256:createHash('sha256').update(source).digest('hex'),alert_source_sha256:createHash('sha256').update(alerts).digest('hex'),cases:results,OW14b_complete:false,production_go:false}
+ source_sha256:createHash('sha256').update(source).digest('hex'),alert_source_sha256:createHash('sha256').update(alerts).update(Object.values(staged).join('\n')).digest('hex'),source_layout:'FROZEN_PREDECESSOR_PLUS_COUNTED_PRODUCTION_STAGE',cases:results,OW14b_complete:false,production_go:false}
 await mkdir('docs/cp7/d17-14/ow14b',{recursive:true});await writeFile('docs/cp7/d17-14/ow14b/local-rule.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));await db.close();if(report.status!=='PASS')process.exitCode=1

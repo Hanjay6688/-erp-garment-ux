@@ -1,0 +1,7 @@
+{
+  "classification": "STATIC_OWNING_CHAIN_SOURCE_GATE_BEFORE_B_RELOCATION",
+  "observed": "ValueError: CP7_FULL_PREDECESSOR_SQL_SOURCE_CHANGED",
+  "A_request_commit": "b91a60b19494e0ed161a8fb4d53b9fc8b12cb951",
+  "qualification_460ada9_is_disposable_bundle_not_full_chain": true,
+  "production_go": false
+}

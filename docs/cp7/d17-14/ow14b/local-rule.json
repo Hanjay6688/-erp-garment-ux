@@ -1,8 +1,9 @@
 {
   "classification": "LOCAL_ACTUAL_SQL_WITH_CONTROLLED_ERP_AND_IDENTITY_ADAPTER_NOT_NATIVE",
   "status": "PASS",
-  "source_sha256": "01b66b4e4544e5ac558bdbec8564642922881f3f1946a2aa500bae75693f8eb5",
-  "alert_source_sha256": "d45a40e6b2580019b22131be38e08eed4bf54253ec0740e9169e4329755cd4ae",
+  "source_sha256": "58c0cd44e7270aa10c67f08be0c276962ed4daf88e35daafc16278e310dc4f92",
+  "alert_source_sha256": "23274622444e88cee1ca66ddfb1b2e91b0af17a56f0de1c88666e51911d125ec",
+  "source_layout": "FROZEN_PREDECESSOR_PLUS_COUNTED_PRODUCTION_STAGE",
   "cases": [
     {
       "id": "OW14B_PREVIOUS_RULE_RETAINED_UNTIL_EXPLICIT_CHOICE",

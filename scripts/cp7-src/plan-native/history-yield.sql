@@ -234,11 +234,9 @@ end $$;
 -- a proof under the current kernel captured inside the window (an earlier
 -- proof proves an earlier finish). Product+size first: pools of the target's
 -- size whose posted QC all went to the target's root; then every pool of the
--- model's groups. Read the complete candidate set in bounded batches; the
--- WIP reader's per-call limit must not become a limit on factory history
--- (D17-14 OW13b, D17-16). Sufficient means at least min_groups groups and
--- min_cut_pcs cut pieces at the level. A failed batch never yields a partial
--- estimate: the existing UNKNOWN path still applies to the whole result.
+-- model's groups. More than 200 candidates at a level leaves that level
+-- unknown, as the WIP read does. Sufficient means at least min_groups groups
+-- and min_cut_pcs cut pieces at the level.
 create function cp7_plan_native.history_source(p_target text,p_model uuid)returns jsonb
 language plpgsql stable security definer set search_path=''set TimeZone='UTC'as $$
 declare a jsonb;pol cp7_yield_policy.policies%rowtype;clk timestamptz:=clock_timestamp();root uuid;size uuid;kernel text;first_day date;
@@ -274,13 +272,15 @@ begin
     and exists(select 1 from cp7_supply_native.exhaustion_proofs x where x.group_id=g.id and x.kernel_version=kernel and x.captured_at>=w_start)
     and exists(select 1 from erp.qc_inspection_items i join erp.qc_inspections q on q.id=i.inspection_id join erp.products p on p.id=i.final_product_id
      where i.cutting_group_id=g.id and q.status='POSTED'and coalesce(p.identity_root_id,p.id)=root and p.size_id=size)
-   order by g.id)x;
+   order by g.id limit 201)x;
   select coalesce(array_agg(x.id order by x.id),'{}'::uuid[]),count(*)into m_ids,m_n from(
    select g.id from erp.cutting_groups g join erp.production_orders po on po.id=g.po_id
    where po.model_id=p_model and g.material_issue_posted and g.cut_at<=clk
     and exists(select 1 from cp7_supply_native.exhaustion_proofs x where x.group_id=g.id and x.kernel_version=kernel and x.captured_at>=w_start)
-   order by g.id)x;
+   order by g.id limit 201)x;
   foreach lvl in array array['PRODUCT_SIZE','MODEL']loop
+   if lvl='PRODUCT_SIZE'and ps_n>200 or lvl='MODEL'and m_n>200 then
+    lv:=lv||jsonb_build_array(jsonb_build_object('level',lvl,'status','UNKNOWN','reason','HISTORY_GROUP_LIMIT'));continue;end if;
    if lvl='MODEL'and chosen is not null then
     lv:=lv||jsonb_build_array(jsonb_build_object('level',lvl,'status','NOT_EVALUATED','reason','PRODUCT_SIZE_SUFFICIENT'));continue;end if;
    todo:=array(select x from unnest(case when lvl='PRODUCT_SIZE'then ps_ids else m_ids end)x where not x=any(done)order by x);

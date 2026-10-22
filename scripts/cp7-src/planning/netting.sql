@@ -28,7 +28,7 @@ $$;
 
 create function cp7_netting_native.fingerprint(c jsonb)returns text
 language sql immutable security invoker set search_path=''set TimeZone='UTC'as $$
- select encode(extensions.digest(convert_to(jsonb_build_object('net_kernel','net-dual-horizon-2','work_source',cp7_schedule_native.fingerprint(c),
+ select encode(extensions.digest(convert_to(jsonb_build_object('work_source',cp7_schedule_native.fingerprint(c),
   'matching_products',c->'matching_products')::text,'UTF8'),'sha256'),'hex')
 $$;
 
@@ -443,10 +443,9 @@ begin
      'eta',eta->'at','eligible',true,'refs',p->'refs'));
    end loop;
    supplies:=to_jsonb(supply_list);directed_edges:=to_jsonb(edge_list);
-   net:=cp7_baseline.net(jsonb_build_object('contract_version','cp7.net-input.v2','snapshot_id',wip->'snapshot_id',
+   net:=cp7_baseline.net(jsonb_build_object('contract_version','cp7.net-input.v1','snapshot_id',wip->'snapshot_id',
     'scope_id','GLOBAL_NATIVE_PLANNING','scenario_id',coalesce(c->'schedule'->'plan_id',to_jsonb('unreviewed-'||hash)),
     'target_key',r->'target_key','size_id',r->'size_id','deadline',t->'deadline',
-    'lead_deadline',t->'helps_at','reorder_point_pcs',r->'target'->'reorder_point_pcs',
     'target_pcs',r->'target'->'target_pcs','available_fg_pcs',r->'available_fg_pcs','supplies',supplies,'refs',r->'refs'));
    gap:=(net->>'q_base_pcs')::numeric;directed:=coalesce((net->>'directed_on_time_pcs')::numeric,0);
    candidate:=coalesce((net->>'candidate_on_time_pcs')::numeric,0);

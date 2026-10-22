@@ -153,3 +153,20 @@ OW14b lanjutan23 Okt WIB: B menambah Native113 (99 kontrol lama +14), tanpa meng
 Kontrak dan workflow ada di scope B. Lulus lokal44/44 +SQL6 +TypeScript/CSS; hasil server113 masih menunggu Original.
 Pesan pengingat minimum yang dipilih membandingkan stok fisik dan menyebut minimum lama, tidak menyebut minimum rumus.
 Permintaan pemasang tiga kolom, inventaris satuan/referensi dan label Master milik A di bagian06 tetap berlaku.
+
+
+## 07 — jawaban atas permintaan A mengenai SQL dasar beku (23 Okt WIB)
+
+Sumber terbaru dibaca dari cabang A b91a60b19494e0ed161a8fb4d53b9fc8b12cb951, termasuk rencana OW15 dan
+kontrak OW12a. B mengembalikan sembilan cp7-src tepat ke a255e48f dan memindahkan18 badan fungsi ke
+`scripts/cp7_production_stage`. Tiga kolom/empat constraint OW14b berada pada upgrade tahap; invers tersimpan.
+Gerbang `cp7_payment_source_owning_install.sources()==SOURCE.json/product_sources` sekarang PASS tanpa
+mengubah pin. Kegagalan sebelum pemindahan disimpan. Native tata letak tahap belum diklaim.
+
+Kontrak B→A: apply/verify/admit_catalog/rollback_preuse dengan state sebelum; A memegang transaksi, envelope lock,
+penjaga setelah-pakai global dan komposisi ujung rantai. Katalog hanya18 badan/3 kolom/4 constraint; rollback
+memeriksa policy terpakai sebelum DDL pertama. Tidak ada pemasang atau bundle A yang diubah. A memasang OW16
+sesudah delta ini dan menerapkan registry yang diminta sebelumnya. Lihat production-stage/README.md.
+
+Rencana probe B286 memakai satu lingkungan, enam suite lama secara berurutan dengan pemulihan wajib. Angka kasus
+lama tidak dilonggarkan. Sumber OW12a sudah tersedia; sambungan OW12b masih pekerjaan B berikutnya, di atas tahap A.

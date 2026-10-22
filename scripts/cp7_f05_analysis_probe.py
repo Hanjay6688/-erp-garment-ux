@@ -313,7 +313,13 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
    internal_before=cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]
    originals['erp.require_owner_admin()']=cur.execute("select pg_get_functiondef('erp.require_owner_admin()'::regprocedure)").fetchone()[0]
    f03.note_report.capture(cur,originals)
-   cur.execute(f03.extension()+'\n'+planning.extension()+'\n'+baseline.extension()+'\n'+supply.extension()+'\n'+schedule.extension()+'\n'+bundle.predecessor.extension()+'\n'+bundle.extension()+'\n'+extra,prepare=False);after=p09.functions(cur)
+   cur.execute(f03.extension()+'\n'+planning.extension()+'\n'+baseline.extension()+'\n'+supply.extension()+'\n'+schedule.extension()+'\n'+bundle.predecessor.extension()+'\n'+bundle.extension()+'\n'+extra,prepare=False)
+   if wa_forward or ow13_complete_history or ow16_status or p19_staged:
+    import cp7_production_stage as production_stage
+    stage_paths=None if wa_forward else [x['path']for x in production_stage.MANIFEST['files']if not x['path'].startswith(('stock-formula/','alerts/'))]
+    report['production_stage']=production_stage.rehearse(cur,stage_paths)
+    report['production_stage']['delta_sha256']=hashlib.sha256(production_stage.extension(stage_paths).encode()).hexdigest()
+   after=p09.functions(cur)
    path=cur.execute('show search_path').fetchone()[0];cur.execute("select set_config('search_path','',true)");grants={}
    for principal,signatures in candidate.GRANTS.items():
     for signature in signatures:

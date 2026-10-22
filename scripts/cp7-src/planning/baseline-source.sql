@@ -42,7 +42,7 @@ declare h jsonb;r jsonb;cfg jsonb;p jsonb;stock jsonb;estimate jsonb;target json
  profiles jsonb;profiles_repeated jsonb;stocks jsonb;stocks_repeated jsonb;policies jsonb;
 begin
  h:=cp7_planning.history_build(c,q);
- hash:=encode(extensions.digest(convert_to(jsonb_build_object('target_kernel','target-unified-2','native',c->'facts','profiles',c->'profiles','production_policies',c->'production_policies'->'rows')::text,'UTF8'),'sha256'),'hex');
+ hash:=encode(extensions.digest(convert_to(jsonb_build_object('native',c->'facts','profiles',c->'profiles','production_policies',c->'production_policies'->'rows')::text,'UTF8'),'sha256'),'hex');
  for r in select value from jsonb_array_elements(h->'history'->'rows')order by value->>'target_key'loop
   root:=split_part(r->>'target_key',':',1);
   if profiles is null then
@@ -69,12 +69,10 @@ begin
    'scope_id','GLOBAL_CURRENT_PHYSICAL_ROOTS','target_key',r->>'target_key','size_id',r->>'size_id',
    'minimum_own_available_days',coalesce(cfg->'minimum_available_days','"1"'::jsonb),
    'own',case when cfg is null then null else own end,'analog',null,'manual',manual,'refs',refs||profile_refs));
-  target:=cp7_baseline.target(jsonb_build_object('contract_version','cp7.target-input.v2','snapshot_id',hash,
-   'scope_id','GLOBAL_CURRENT_PHYSICAL_ROOTS','mode','DAYS',
-   'daily_total_pcs',case when estimate->>'basis'='OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE'then own->'available_total_pcs'else estimate->'daily_pcs'end,
-   'counted_days',case when estimate->>'basis'='OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE'then own->'available_days'else'"1"'::jsonb end,
-   'daily_sd',null,'service_level',null,'lead_days',cfg->'lead_days','review_days',cfg->'review_days','buffer_days',cfg->'buffer_days',
-   'refs',refs||profile_refs));
+  target:=cp7_baseline.target(jsonb_build_object('contract_version','cp7.target-input.v1','snapshot_id',hash,
+   'scope_id','GLOBAL_CURRENT_PHYSICAL_ROOTS','mode','DAYS','daily_mean',estimate->'daily_pcs',
+   'lead_days',cfg->'lead_days','review_days',cfg->'review_days','buffer_days',cfg->'buffer_days',
+   'quantile',null,'horizon_samples','[]'::jsonb,'refs',refs||profile_refs));
   -- (value->'members')?root: string array elements, object keys, or the string itself.
   if policies is null then
    select coalesce(jsonb_object_agg(f.k,f.v),'{}')into policies
@@ -109,7 +107,7 @@ begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_private.access_now();select *into r from cp7_baseline_native.runs where id=p_run and actor=(a->>'actor')::uuid;
  if r.id is null then raise exception using errcode='42501',message='CP7_BASELINE_RUN_UNAVAILABLE';end if;
- c:=cp7_baseline_native.source();hash:=encode(extensions.digest(convert_to(jsonb_build_object('target_kernel','target-unified-2','native',c->'facts','profiles',c->'profiles','production_policies',c->'production_policies'->'rows')::text,'UTF8'),'sha256'),'hex');
+ c:=cp7_baseline_native.source();hash:=encode(extensions.digest(convert_to(jsonb_build_object('native',c->'facts','profiles',c->'profiles','production_policies',c->'production_policies'->'rows')::text,'UTF8'),'sha256'),'hex');
  outcome:=r.result||jsonb_build_object('run_id',r.id,'request_id',r.request_id,'source_state',
   case when c->>'status'='COMPLETE'and hash=r.dependency_hash then 'UNCHANGED'else 'ARCHIVED_STALE'end);
  if cp7_private.access_now()is distinct from a then raise exception using errcode='42501',message='CP7_BASELINE_ACCESS_CHANGED';end if;

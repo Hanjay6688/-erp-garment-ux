@@ -188,24 +188,16 @@ begin
    mn.revision manual_revision,mn.reorder_point_pcs manual_point
   from items i left join bal b on b.root_id=i.root_id left join stats st on st.root_id=i.root_id
   left join lead ld on ld.model_id=i.model_id left join prof pf on pf.root_id=i.root_id left join man mn on mn.root_id=i.root_id),
- target_kernel as materialized(
-  -- OW10: ROP is the L horizon of the production target kernel (review=0).
-  -- Supply/WIP allocation remains separate; no stock is subtracted here.
+ formula as(
   select c.*,zv z,
    case when c.sales_pcs>0 and c.counted>=14 and c.lead_days is not null then
-    cp7_baseline.target(jsonb_build_object('contract_version','cp7.target-input.v2','snapshot_id',md5(p_at::text),
-     'scope_id','GLOBAL_CURRENT_PHYSICAL_ROOTS','mode',c.buffer_mode,'daily_total_pcs',c.sales_pcs::text,
-     'counted_days',c.counted::text,'daily_sd',case when c.buffer_mode='STATISTICAL'then coalesce(c.sd,0)::text end,
-     'lead_days',c.lead_days::text,'review_days','0','buffer_days',case when c.buffer_mode='DAYS'then c.buffer_days::text end,
-     'service_level',case when c.buffer_mode='STATISTICAL'then sl::text end,
-     'refs',jsonb_build_array(jsonb_build_object('kind','PHYSICAL_PRODUCT_VERSION','id',c.product_id::text,'revision',p_at::text))))end kernel
+    case c.buffer_mode when'DAYS'then c.mean*c.buffer_days else zv*coalesce(c.sd,0)*sqrt(c.lead_days)end end safety
   from calc c),
- formula as(
-  select k.*,(k.kernel->>'lead_safety_pcs')::numeric safety from target_kernel k),
  final as(
   -- Exact: total x lead / counted days (multiply before dividing), never the rounded mean times the lead time; a DAYS
   -- buffer is one product (total x (lead + buffer) / counted), so a whole number of pieces is never pushed up by one.
-  select f.*,(f.kernel->>'reorder_point_pcs')::integer formula_point,
+  select f.*,case when f.safety is not null then case f.buffer_mode when'DAYS'then ceil(f.sales_pcs*(f.lead_days+f.buffer_days)/f.counted)
+    else ceil(f.sales_pcs*f.lead_days/f.counted+f.safety)end::integer end formula_point,
    case when f.manual_point is not null then'MANUAL'when f.sales_pcs<=0 then'NO_SALES'when f.counted<14 or f.lead_days is null then'NOT_ENOUGH_DATA'
     else'FORMULA'end basis,
    case when f.manual_point is not null then null when f.sales_pcs<=0 then'NO_POSTED_SALES_IN_WINDOW'when f.counted<14 then'FEWER_THAN_14_COUNTED_DAYS'

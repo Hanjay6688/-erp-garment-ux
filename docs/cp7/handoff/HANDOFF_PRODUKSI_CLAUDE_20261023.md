@@ -4,7 +4,7 @@ Pembagian tetap D17-16 versi2: Claude/A uang, stok, HPP, laporan dan integrator;
 Cabang A `claude/d17-14-uang`, B `astra/d17-14-produksi`, integrasi hanya dipegang A. Main/frozen/Enteng tidak diubah.
 Konteks personal tetap privat. Slogan: VENI. VIDI. VICI. ERP. Reliable data adalah dewa; keuangan/stok/HPP adalah raja.
 
-Versi hasil yang sudah teruji untuk diambil A: **3f0e545cc6d6948ac5d0f1052bb55cc971ab530a**.
+Bukti bundle terisolasi lama (belum tahap rantai A): **3f0e545cc6d6948ac5d0f1052bb55cc971ab530a**.
 
 | Bagian | Bukti yang sudah dibaca dari Original |
 |---|---|
@@ -65,3 +65,16 @@ Lanjutan OW14b: kandidat berikutnya memasang entry point Native113 dengan semua9
 kontrak di ow14b/CONTRACT.json. Uji lokal44/44, TypeScript/CSS dan6 kelompok SQL lulus. Pesan minimum lama kini
 menyebut aturan yang benar; kegagalan pertama disimpan. Native113 belum dinyatakan lulus dari uji lokal, dan OW14b
 belum dinyatakan selesai atau siap digabung. Jangan mengambil WIP ini sebagai izin memasang ke Enteng.
+
+
+Pembaruan arsitektur23 Okt WIB: A di b91a60b meminta sembilan cp7-src dasar beku dikembalikan; permintaan
+tersebut sudah ditangani pada WIP berikutnya. Semua18 perubahan badan tersimpan sebagai delta/invers di
+scripts/cp7_production_stage; tiga kolom/empat constraint OW14b menjadi upgrade tahap. Gerbang sumber rantai
+OW04 yang semula gagal sekarang lulus tepat, tanpa mengubah pin beku. A membaca
+`docs/cp7/d17-14/production-stage/README.md` untuk API state/admission/rollback dan daftar asal perubahan.
+WIP tahap belum siap digabung; A memasang delta setelah ujung rantainya, lalu modul status OW16 dan registry.
+Kualifikasi lama tetap sah sebagai bukti bundle terisolasi, bukan bukti rantai gabungan lulus.
+
+Kontrak angka A OW12a sekarang sudah ditemukan pada cabang A b91a60b:
+docs/cp7/d17-14/ow12/KONTRAK_OW12A.md (cp7.finance-capture.v1). Jadi ketergantungan kontrak sudah tersedia;
+sambungan OW12b belum dibuat dan harus di atas tahap OW12a A, bukan lewat perubahan dasar beku.

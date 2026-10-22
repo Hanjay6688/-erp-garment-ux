@@ -338,24 +338,16 @@ begin
  into r from low y;
  return r;
 end $$;
--- D17-10/D17-16: one fabric reminder. An explicit selected rule comes from
--- material_source (FORMULA uses physical + on-order <= point; selected legacy
--- uses physical < pinned point). Only an unselected legacy rule delegates to
--- fabric_source. The old reference must never resurrect a second active rule.
+-- Owner D17-10: the fabric reminder is one kind. Fabrics with a minimum in Kain & Benchmark come from fabric_source()
+-- (the Ringkasan Gudang rule, unchanged); fabrics without one come from the formula (cp7_stock_formula.material_source,
+-- stock + on order <= the formula's number), whose state for a fabric with a minimum (MANUAL_MINIMUM_IN_FORCE) is left to
+-- fabric_source(). The two sets never share a fabric.
 create function cp7_alert_native.fabric_kind_source()returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
-declare f jsonb:=cp7_stock_formula.material_source('FABRIC');m jsonb:=cp7_alert_native.fabric_source();
+declare m jsonb:=cp7_alert_native.fabric_source();f jsonb:=cp7_stock_formula.material_source('FABRIC');
 begin
- -- The current evaluation owns the explicit choice. The Native legacy rule
- -- only fills subjects it still delegates, including during a busy recheck;
- -- it cannot resurrect a reference minimum after FORMULA was selected.
- return jsonb_build_object('rows',(f->'rows')||coalesce((select jsonb_agg(x)from jsonb_array_elements(m->'rows')x
-   where(f->'states'->>(x->>'subject_key')is null or f->'states'->>(x->>'subject_key')='MANUAL_MINIMUM_IN_FORCE')
-    and not exists(select 1 from jsonb_array_elements(f->'rows')y where y->>'subject_key'=x->>'subject_key')),'[]'::jsonb),
-  'states',coalesce((select jsonb_object_agg(e.key,e.value)from jsonb_each(f->'states')e where e.value<>'"MANUAL_MINIMUM_IN_FORCE"'::jsonb),'{}')||
-   coalesce((select jsonb_object_agg(e.key,e.value)from jsonb_each(m->'states')e
-    where(f->'states'->>e.key is null or f->'states'->>e.key='MANUAL_MINIMUM_IN_FORCE')
-     and not exists(select 1 from jsonb_array_elements(f->'rows')y where y->>'subject_key'=e.key)),'{}'));
+ return jsonb_build_object('rows',(m->'rows')||(f->'rows'),
+  'states',coalesce((select jsonb_object_agg(e.key,e.value)from jsonb_each(f->'states')e where e.value<>'"MANUAL_MINIMUM_IN_FORCE"'::jsonb),'{}')||(m->'states'));
 end $$;
 -- Receivables: cp7_reminder_native.receivable_source() (finance.ar.view), open while DUE_TODAY or OVERDUE.
 create function cp7_alert_native.ar_source()returns jsonb
@@ -772,14 +764,6 @@ language sql stable security definer set search_path=''set TimeZone='UTC'as $$
    ||case when p->'detail'->>'remaining_state'='KNOWN'then cp7_alert_native.rp(p->'detail'->>'remaining')else'nilai belum diketahui'end
    ||case when p->'detail'->>'state'='DATA_REVIEW'then', perlu diperiksa'
      else', jatuh tempo '||cp7_alert_native.tgl(p->'detail'->>'due_date')end suffix)x)
- when p->>'kind'='FABRIC_BELOW_MINIMUM'and p->'detail'->>'basis'='MANUAL'and p->'detail'?'reorder_point_qty'then(
-  -- Selected legacy compares physical stock only. Keep its rule and quantities
-  -- intact even when the material label fills the message budget.
-  select case when length(label||suffix)<=256 then label||suffix
-   else left(label,greatest(0,255-length(suffix)))||'…'||suffix end
-  from(select coalesce(p->'detail'->>'name','?')label,': sisa '
-   ||cp7_alert_native.num(p->'detail'->>'free_qty')||' '||coalesce(p->'detail'->>'unit_code','')
-   ||', minimum lama yang dipilih '||cp7_alert_native.num(p->'detail'->>'reorder_point_qty')||' '||coalesce(p->'detail'->>'unit_code','')suffix)x)
  else left(case p->>'kind'
   when'FABRIC_BELOW_MINIMUM'then case when p->'detail'?'reorder_point_qty'then(p->'detail'->>'name')||': sisa '
     ||cp7_alert_native.num(p->'detail'->>'free_qty')||' '||coalesce(p->'detail'->>'unit_code','')
