@@ -25,6 +25,14 @@ used installation:
 Rehearsal evidence only: not the P21 release receipt (that needs a P20-accepted candidate, installed T2 parity and
 the owner's release decision). Nothing here touches a hosted database.
 """
+# The default disposable P21 path must exercise the current full OW04 owner.
+# Keep the historical helpers below importable for immutable old receipts and
+# for dump/read helpers; executing this entry point no longer selects the old
+# pre-consumer installer.
+if __name__=='__main__':
+    from cp7_p21_current_ow04_rehearsal_probe import main
+    raise SystemExit(main())
+
 import hashlib,json,traceback,uuid
 from datetime import date
 import psycopg

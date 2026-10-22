@@ -1,0 +1,99 @@
+{
+  "classification": "PREDECLARED_FOUR_LINKED_PAYMENT_CORRECTION_GENERATIONS_NOT_NEW_COHORT_ACCEPTANCE",
+  "correction_amounts": [
+    "900.00",
+    "1000.00",
+    "950.00",
+    "1000.00"
+  ],
+  "cases": [
+    {
+      "id": "OW04_FOUR_CORRECTION_GENERATIONS_APPLY",
+      "mode": "APPLY",
+      "after_each": [
+        {
+          "P": "900.00",
+          "I": "100.00",
+          "C": "80.00",
+          "available": "20.00"
+        },
+        {
+          "P": "1000.00",
+          "I": "200.00",
+          "C": "100.00",
+          "available": "100.00"
+        },
+        {
+          "P": "950.00",
+          "I": "150.00",
+          "C": "100.00",
+          "available": "50.00"
+        },
+        {
+          "P": "1000.00",
+          "I": "200.00",
+          "C": "100.00",
+          "available": "100.00"
+        }
+      ],
+      "final_after_named_undos_and_return_inverse": {
+        "source_net": "1000.00",
+        "source_P": "1000.00",
+        "I": "0.00",
+        "C": "0.00",
+        "available": "0.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "0.00",
+        "target_AR": "500.00",
+        "cash": "1000.00"
+      }
+    },
+    {
+      "id": "OW04_FOUR_CORRECTION_GENERATIONS_REFUND",
+      "mode": "REFUND",
+      "after_each": [
+        {
+          "P": "900.00",
+          "I": "100.00",
+          "C": "80.00",
+          "available": "20.00"
+        },
+        {
+          "P": "1000.00",
+          "I": "200.00",
+          "C": "100.00",
+          "available": "100.00"
+        },
+        {
+          "P": "950.00",
+          "I": "150.00",
+          "C": "100.00",
+          "available": "50.00"
+        },
+        {
+          "P": "1000.00",
+          "I": "200.00",
+          "C": "100.00",
+          "available": "100.00"
+        }
+      ],
+      "final_after_named_undos_and_return_inverse": {
+        "source_net": "1000.00",
+        "source_P": "1000.00",
+        "I": "0.00",
+        "C": "0.00",
+        "available": "0.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "0.00",
+        "target_AR": "500.00",
+        "cash": "1000.00"
+      }
+    }
+  ],
+  "required_exact_UUID_replay_count_per_case": 4,
+  "source_cohort_count_per_case": 1,
+  "multiple_distinct_return_cohorts_not_claimed": true,
+  "production_go": false
+}

@@ -116,6 +116,13 @@
       "behind_by": 0,
       "total_commits": 64,
       "merge_base": "4d5f9990e3985a49767dec74d4103642c9ba9790"
+    },
+    {
+      "branch": "astra/d17-14-20261020",
+      "sha": "81da8181f428fa790b812d90a86832913ef5424d",
+      "status": "ahead",
+      "ahead_by": 84,
+      "behind_by": 0
     }
   ],
   "archive": {
@@ -605,7 +612,7 @@
       "sha256": "4ebad597dae015687ca6c5196ec113cb1a8231aae870ec2046f9633581845cab"
     }
   ],
-  "active_writer_branch": "codex/ow04-payment-binding-20261022",
+  "active_writer_branch": "astra/d17-14-integrasi",
   "product_source_at_review": "527ed740647724abc06368b29744ed721193599a",
   "additional_feature_product_code_in_divergent_commits": false,
   "pending_branch_disposition": {
@@ -614,5 +621,9 @@
     "payment-correction": "retain exact first failure and old helper; current9 browser qualifier supersedes historical7; current source/status supersede older qualified helper"
   },
   "public_history_not_rewritten": true,
-  "main_frozen_auditor_hosted_untouched": true
+  "main_frozen_auditor_hosted_untouched": true,
+  "consolidation_merge_commit": "be346bedec1b462769fbf2aeb19270da1d4c82dd",
+  "integration_created_from": "8c437dbe0d6e62e246b2cf0cda75fb6c19330357",
+  "historical_unmerged_commits_included": 5,
+  "all14_original_writer_branch_heads_included": true
 }

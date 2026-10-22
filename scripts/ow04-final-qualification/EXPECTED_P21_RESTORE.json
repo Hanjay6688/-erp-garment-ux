@@ -1,0 +1,57 @@
+{
+  "classification": "PREEXECUTION_CURRENT_USED_DATABASE_RESTORE_NOT_CP7C_OR_ACCEPTANCE",
+  "scenario_id": "OW04_CURRENT_COMMITTED_APPLY_REFUND_PAYMENT_CHAIN_RESTORE",
+  "expected_scenario_count": 1,
+  "fixture_actions": [
+    "APPLY",
+    "REFUND"
+  ],
+  "positive_gold_sha256": "6e0791fc821da214832a8f488f247a2f8f5ca12900d00c8cd32560e9f431fe13",
+  "before_restore_profiles": [
+    {
+      "source_net": "800.00",
+      "source_P": "1000.00",
+      "I": "200.00",
+      "C": "100.00",
+      "available": "100.00",
+      "source_AR": "0.00",
+      "target_P": "0.00",
+      "target_U": "100.00",
+      "target_AR": "400.00",
+      "cash": "1000.00"
+    },
+    {
+      "source_net": "800.00",
+      "source_P": "1000.00",
+      "I": "200.00",
+      "C": "100.00",
+      "available": "100.00",
+      "source_AR": "0.00",
+      "target_P": "0.00",
+      "target_U": "0.00",
+      "target_AR": "500.00",
+      "cash": "900.00"
+    }
+  ],
+  "after_all_named_undos_and_return_inverse": {
+    "source_net": "1000.00",
+    "source_P": "1000.00",
+    "I": "0.00",
+    "C": "0.00",
+    "available": "0.00",
+    "source_AR": "0.00",
+    "target_P": "0.00",
+    "target_U": "0.00",
+    "target_AR": "500.00",
+    "cash": "1000.00"
+  },
+  "required_steps": [
+    "COMMITTED_CURRENT_APPLY_REFUND_CORRECTION_CHAINS",
+    "EXACT_FULL_DUMP_AND_FRESH_RESTORE",
+    "RESTORE_BINDING_REFUSAL_CONTROLS",
+    "VERIFIED_CURRENT_CENSUS_REBIND",
+    "EXACT_RESTORED_READS_AND_OLD_RECEIPT_REPLAYS",
+    "RESTORED_NAMED_UNDOS_AND_RETURN_INVERSES"
+  ],
+  "production_go": false
+}
