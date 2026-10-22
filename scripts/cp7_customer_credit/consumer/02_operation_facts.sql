@@ -15,6 +15,15 @@ create table cp7_credit.consumer_requests_v1(
  response jsonb check(response is null or jsonb_typeof(response)='object'),
  primary key(actor,request_id)
 );
+-- Pending work only, never a successful-proof cache or posting capability.
+-- A fresh UUID preserves the deferred event's identity even after an earlier
+-- SET CONSTRAINTS drained the same request in this transaction.
+create table cp7_credit.consumer_validation_queue_v1(
+ queue_id uuid primary key default gen_random_uuid(),
+ backend_pid integer not null,transaction_id bigint not null,
+ actor uuid not null,request_id uuid not null,
+ unique(backend_pid,transaction_id,actor,request_id)
+);
 create table cp7_credit.consumer_execution_context(
  backend_pid integer not null,transaction_id bigint not null,actor uuid not null,
  request_id uuid not null,action text not null check(action in('APPLY','REFUND','UNDO')),
@@ -127,7 +136,8 @@ create table cp7_credit.consumer_completions_v1(
 
 do $private$declare name text;begin
  foreach name in array array['consumer_requests_v1','consumer_execution_context',
-  'consumer_operations_v1','consumer_posting_scope_v1','consumer_completions_v1']loop
+  'consumer_operations_v1','consumer_posting_scope_v1','consumer_completions_v1',
+  'consumer_validation_queue_v1']loop
   execute format('alter table cp7_credit.%I owner to postgres',name);
   execute format('alter table cp7_credit.%I enable row level security',name);
   execute format('create policy no_direct_access on cp7_credit.%I for all to public using(false)with check(false)',name);

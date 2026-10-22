@@ -1,0 +1,23 @@
+{
+  "classification": "LOCAL_COMPILATION_AND_SOURCE_INTEGRITY_ONLY_NOT_NATIVE_EXECUTION",
+  "status": "PASS",
+  "consumer_SQL_files": 12,
+  "consumer_derivations": 13,
+  "payment_source_fragments": 6,
+  "unchanged_current_verified_payment_helpers": 6,
+  "payment_derivations": 25,
+  "check_function_bodies": true,
+  "complete_consumer_assertion_byte_equal": true,
+  "old_literal_expectations_unchanged": true,
+  "queue_implementation_sources": {
+    "scripts/cp7_customer_credit/consumer/02_operation_facts.sql": "832c79e3d46aeb12d8ddacd20b368864836f2675811ea369ff4c7e14177efee7",
+    "scripts/cp7_customer_credit/consumer/09_deferred_closure.sql": "186d1d15fab55f8e52e06b36af9d8eb31e710c60b1320e4e06a0655b4ad7b61f",
+    "scripts/cp7_customer_credit/consumer/composition.py": "224a3435afc299b57ee9f8a2170131d0913224aa30c04338c2898a1f046dfe21",
+    "scripts/cp7_customer_credit/payment_correction/05_consumer_continuation.sql": "e73dec3249d77d849166deb8ddb8419dadb79dddf02a8c916712e10b26beefed"
+  },
+  "consumer_compile_log_sha256": "44541f076750a7d8d2ee0c9129e2d8013e7075e11013e5be545416e04b4249e3",
+  "payment_compile_log_sha256": "0f1872427b7028eafef7782edbe858f16519582241eaff3bb263233457844319",
+  "Native_cases_executed": 0,
+  "performance_acceptance": false,
+  "production_go": false
+}

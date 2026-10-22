@@ -120,8 +120,13 @@ create function cp7_credit.enforce_payment_consumer_header_v1()returns trigger
 language plpgsql security definer set search_path=''set TimeZone='UTC'as $$
 begin
  perform cp7_credit.payment_consumer_header_proof_v1(new.operation_id);
- perform cp7_credit.assert_consumer_closed_v1(new.operation_id);
  return null;
 end $$;
+-- Every actual header insert also schedules the same full consumer proof.
+-- Keep the header-specific deferred proof; avoid duplicating full closure for
+-- each header when the operation is already pending. A later insert following
+-- SET CONSTRAINTS still schedules a fresh complete validation.
+create trigger payment_consumer_header_queue after insert on cp7_credit.payment_consumer_headers_v1
+ for each row execute function cp7_credit.enforce_consumer_closed_v1();
 create constraint trigger payment_consumer_header_closed after insert on cp7_credit.payment_consumer_headers_v1
  deferrable initially deferred for each row execute function cp7_credit.enforce_payment_consumer_header_v1();

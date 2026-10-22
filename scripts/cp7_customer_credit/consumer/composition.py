@@ -27,7 +27,7 @@ PUBLIC = ('public.erp_cp7_get_customer_credit_review_v1(jsonb)',
           'public.erp_cp7_customer_credit_command_v1(jsonb,uuid,jsonb)',
           'public.erp_cp7_get_customer_credit_workspace_v1(jsonb)')
 TABLES=('consumer_requests_v1','consumer_execution_context','consumer_operations_v1',
-        'consumer_posting_scope_v1','consumer_completions_v1')
+        'consumer_posting_scope_v1','consumer_completions_v1','consumer_validation_queue_v1')
 
 
 def load(name, path):
@@ -332,7 +332,7 @@ def verify(cur,state):
     if state['sources']!=sources()or function_catalog(cur)!=state['catalog_after']:
         raise ValueError('OW04_CONSUMER_COMPOSITION_SOURCE_OR_FUNCTION_CATALOG_CHANGED')
     tables=table_catalog(cur)
-    if len(tables)!=5 or tables!=state['table_catalog']:
+    if len(tables)!=len(TABLES) or tables!=state['table_catalog']:
         raise ValueError('OW04_CONSUMER_PRIVATE_TABLE_METADATA_CHANGED')
     for name,owner,acl,rls,force,*_ in tables:
         expected_owner='cp7_credit_write'if name in('consumer_requests_v1','consumer_execution_context')else'postgres'
@@ -370,7 +370,7 @@ def verify(cur,state):
 def uninstall_preuse(cur,state):
     """Only after all measured cases rolled back. Used financial facts refuse."""
     verify(cur,state)
-    tables=('consumer_completions_v1','consumer_posting_scope_v1','consumer_execution_context',
+    tables=('consumer_validation_queue_v1','consumer_completions_v1','consumer_posting_scope_v1','consumer_execution_context',
             'consumer_operations_v1','consumer_requests_v1')
     for name in tables:
         if cur.execute('select exists(select 1 from cp7_credit.'+name+')').fetchone()[0]:

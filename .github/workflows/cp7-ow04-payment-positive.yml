@@ -1,15 +1,5 @@
 name: CP7 OW04 Native26 current shared proof and server correction bound
 'on':
-  push:
-    branches:
-    - codex/ow04-payment-binding-20261022
-    paths:
-    - scripts/ow04-payment-positive-qualification/**
-    - scripts/cp7_customer_credit/payment_correction/**
-    - .github/workflows/cp7-ow04-payment-positive.yml
-    - scripts/ow04-payment-binding-qualification/**
-    - src/SalesPaymentCorrectionPanel.tsx
-    - src/salesPaymentCorrectionContract.ts
   workflow_dispatch: {}
 permissions:
   contents: read

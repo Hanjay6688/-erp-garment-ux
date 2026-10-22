@@ -99,28 +99,63 @@ end $$;
 
 create function cp7_credit.enforce_consumer_closed_v1()returns trigger
 language plpgsql security definer set search_path=''set TimeZone='UTC'as $$
-declare row jsonb:=to_jsonb(new);operation uuid;
+declare fact jsonb:=to_jsonb(new);queued_actor uuid;queued_request uuid;
 begin
- if tg_table_name in('consumer_operations_v1','consumer_completions_v1')then
-  operation:=(case when tg_table_name='consumer_operations_v1'then row->>'id'else row->>'operation_id'end)::uuid;
+ if tg_table_schema<>'cp7_credit'or tg_op not in('INSERT','UPDATE')
+  or tg_when<>'AFTER'or tg_level<>'ROW'or tg_table_name not in
+   ('consumer_requests_v1','consumer_operations_v1','consumer_completions_v1',
+    'consumer_execution_context','consumer_posting_scope_v1','payment_consumer_headers_v1')then
+  raise exception 'CP7_CREDIT_CONSUMER_VALIDATION_QUEUE_CHANGED';end if;
+ if tg_table_name in('consumer_completions_v1','payment_consumer_headers_v1')then
+  select o.actor,o.request_id into strict queued_actor,queued_request
+   from cp7_credit.consumer_operations_v1 o where o.id=(fact->>'operation_id')::uuid;
  else
-  select id into strict operation from cp7_credit.consumer_operations_v1
-   where actor=(row->>'actor')::uuid and request_id=(row->>'request_id')::uuid;
+  queued_actor:=(fact->>'actor')::uuid;queued_request:=(fact->>'request_id')::uuid;
  end if;
+ if queued_actor is null or queued_request is null then
+  raise exception 'CP7_CREDIT_CONSUMER_VALIDATION_QUEUE_CHANGED';end if;
+ insert into cp7_credit.consumer_validation_queue_v1(backend_pid,transaction_id,actor,request_id)
+  values(pg_backend_pid(),txid_current(),queued_actor,queued_request)
+  on conflict(backend_pid,transaction_id,actor,request_id)do nothing;
+ return null;
+end $$;
+
+create function cp7_credit.drain_consumer_closed_v1()returns trigger
+language plpgsql security definer set search_path=''set TimeZone='UTC'as $$
+declare pending cp7_credit.consumer_validation_queue_v1;operation uuid;removed bigint;
+begin
+ if tg_table_schema<>'cp7_credit'or tg_table_name<>'consumer_validation_queue_v1'
+  or tg_op<>'INSERT'or tg_when<>'AFTER'or tg_level<>'ROW'then
+  raise exception 'CP7_CREDIT_CONSUMER_VALIDATION_QUEUE_CHANGED';end if;
+ select *into pending from cp7_credit.consumer_validation_queue_v1 q
+  where q.queue_id=new.queue_id for update;
+ if not found or to_jsonb(pending)is distinct from to_jsonb(new)
+  or pending.backend_pid is distinct from pg_backend_pid()
+  or pending.transaction_id is distinct from txid_current()then
+  raise exception 'CP7_CREDIT_CONSUMER_VALIDATION_QUEUE_CHANGED';end if;
+ select o.id into strict operation from cp7_credit.consumer_operations_v1 o
+  where o.actor=pending.actor and o.request_id=pending.request_id;
+ -- The unchanged complete historical/current proof always runs. Coalescing
+ -- pending events never substitutes a hash, flag or earlier successful result.
  perform cp7_credit.assert_consumer_closed_v1(operation);
+ delete from cp7_credit.consumer_validation_queue_v1 q where q.queue_id=pending.queue_id;
+ get diagnostics removed=row_count;
+ if removed<>1 then raise exception 'CP7_CREDIT_CONSUMER_VALIDATION_QUEUE_CHANGED';end if;
  return null;
 end $$;
 
 do $deferred$declare name text;begin
  foreach name in array array['consumer_requests_v1','consumer_operations_v1','consumer_completions_v1',
   'consumer_execution_context','consumer_posting_scope_v1']loop
-  execute format('create constraint trigger consumer_closed after insert or update on cp7_credit.%I deferrable initially deferred for each row execute function cp7_credit.enforce_consumer_closed_v1()',name);
+  execute format('create trigger consumer_closed after insert or update on cp7_credit.%I for each row execute function cp7_credit.enforce_consumer_closed_v1()',name);
  end loop;
 end $deferred$;
+create constraint trigger consumer_closed after insert on cp7_credit.consumer_validation_queue_v1
+ deferrable initially deferred for each row execute function cp7_credit.drain_consumer_closed_v1();
 
 do $private$declare sig text;begin
  foreach sig in array array['consumer_outcome_v1(uuid,jsonb,jsonb)','consumer_completed_operation_v1(uuid,uuid,jsonb)',
- 'assert_consumer_closed_v1(uuid)','enforce_consumer_closed_v1()']loop
+ 'assert_consumer_closed_v1(uuid)','enforce_consumer_closed_v1()','drain_consumer_closed_v1()']loop
   execute'alter function cp7_credit.'||sig||' owner to postgres';
   execute'revoke all on function cp7_credit.'||sig||' from public,anon,authenticated,service_role,cp7_capture,cp7_sales_read,cp7_sales_write,cp7_credit_write';
  end loop;
