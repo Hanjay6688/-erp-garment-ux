@@ -1,0 +1,37 @@
+{
+ "contract_version": "ow06.real-auth4-current-source.v1",
+ "case_ids": [
+  "OW06_REAL_AUTH_CREATE_REPLAY_CORRECT_REVERSE_EXACT_CASH",
+  "OW06_REAL_AUTH_RIGHT_REVOKED_WHILE_WAITING_REFUSED_ATOMICALLY",
+  "OW06_TWO_DISTINCT_AUTH_USERS_SAME_RECEIPTS_ONE_EFFECT",
+  "OW06_REAL_AUTH_ROLE_WITHOUT_PAY_RIGHT_DENIED_NO_EFFECT"
+ ],
+ "files": {
+  "scripts/ow06-auth-qualification/cases.py": "9279b77e68c8bcb5890610fa3cf3977bb90adf44e3a6659a6c6322d4cd9556ff",
+  "scripts/ow06-auth-qualification/probe.py": "68ca6387b5ec0c53cc65b42e595e36f778cc58e67e0f96bc605fe69c09c6c868",
+  "scripts/ow04-payment-current-qualification/copy_authority.py": "cfdc3b899e335dd13a9456242ed5158b718ac5c56d9b1ebf06c4571eda2cc7a2",
+  ".github/workflows/cp7-ow06-auth.yml": "ea1910e25376c2b3dce2e0834cb7a662e882d30daae4b8287e626288e5e77ef7",
+  "scripts/ow05_native_original.py": "bb2030de3d8041c1dbeffef691335056869494c0929fe5e1d3b0678992ff60a0",
+  "scripts/ow06_native_original.py": "c90803ae5cd225a5a4d134ab18198612585d901312995652d17f440914e795a3",
+  "docs/cp7/d17-14/ow05/native28-current-pass.json": "1d25fbbdcdeea6791a7d04b45ac0bb1a17f3629a29a727284fc6796248c08308",
+  "docs/cp7/d17-14/ow06/CHECKPOINT.json": "25f5c94de0f6d86fc1d0afcd42e3884280b09e501f3d781f84719c0e8dbbbb4c"
+ },
+ "native_original": {
+  "name": "CP7_OW05_NATIVE28_GUIDANCE_WHOLE_PO_WAVE.json",
+  "bytes": 6646642,
+  "sha256": "9e4732a171faff7175a03b895daca09bcb1dc54a53003cb300d979c858d1143c"
+ },
+ "ow06_native_original": {
+  "name": "CP7_OW06_SUPPLIER_TRANSFER_NATIVE10.json",
+  "bytes": 2700991,
+  "sha256": "6a95968609a6f691a6fc6afabe9f36859a3025e8ae0cf5836b4b33f0756b4e16"
+ },
+ "permission_test_actor": "ADMIN (OWNER protected role intentionally grants every permission)",
+ "literal_money": {
+  "create": "400.00+600.00",
+  "correction": "250.00+500.00",
+  "race_bank": "-1000.00"
+ },
+ "OW06_complete": false,
+ "production_go": false
+}
