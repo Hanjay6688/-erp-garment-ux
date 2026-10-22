@@ -1,0 +1,62 @@
+{
+  "classification": "COMPACT_ACTUAL_NATIVE28_SECOND_FIXTURE_FAILURE_NOT_PASS",
+  "status": "INCOMPLETE",
+  "candidate_commit": "2557f653ca51bfc64c3691714cd176d18483cd55",
+  "run_id": 39783215975,
+  "job_id": 119839503474,
+  "counts": {
+    "PASS": 27,
+    "INCOMPLETE": 1
+  },
+  "case_status": {
+    "OW05_ACTIVE_WAGE_GUIDANCE": "PASS",
+    "OW05_NATIVE_SUCCESSOR_OLD_RATE": "PASS",
+    "OW05_NATIVE_SUCCESSOR_NEW_RATE": "PASS",
+    "OW05_LOST_REPLY_REPLAY": "PASS",
+    "OW05_CHANGED_UUID_REFUSED": "PASS",
+    "OW05_STALE_REVIEW_REFUSED": "PASS",
+    "OW05_INACTIVE_TARGET_REFUSED": "PASS",
+    "OW05_LATE_NATIVE_POST_ATOMIC": "PASS",
+    "OW05_PRIVATE_CAPABILITY_DENIED": "PASS",
+    "OW05_HISTORY_IMMUTABLE": "PASS",
+    "OW05_SECOND_MANDOR_NEW_RATE_SAME_PHYSICAL_TIME": "PASS",
+    "OW05_SECOND_MANDOR_OLD_RATE_SAME_PHYSICAL_TIME": "PASS",
+    "OW05_UNPAID_NOTA_CANCEL_CORRECT_REPOST": "PASS",
+    "OW05_PAID_NOTA_REVERSE_CASH_CORRECT_REPAY": "PASS",
+    "OW05_HPP_POOL_BEFORE_NOTA_AND_SEWING_INVERSES": "INCOMPLETE",
+    "OW05_TWO_POSTED_PICKUPS_ONE_PO_ALL_REPLACED": "PASS",
+    "OW05_CORRECTED_MANDOR_WAVE_SKU_NATIVE56": "PASS",
+    "CP17_R3_09_SAME_RATE_NO_CHOICE": "PASS",
+    "CP17_R3_09_CHANGED_RATE_NEEDS_CHOICE": "PASS",
+    "CP17_R3_09_CHOOSE_OLD_PAYS_LOCKED_RATE": "PASS",
+    "CP17_R3_09_CHOOSE_NEW_PAYS_THROUGH_REVISION": "PASS",
+    "CP17_R3_09_ALWAYS_NEW_SWITCH": "PASS",
+    "CP17_R3_09_SWITCH_REFUSALS_AND_ACCESS": "PASS",
+    "CP17_R3_09_CANCEL_NEW_RATE_RECORD": "PASS",
+    "CP17_R3_09_NEW_RATE_WAGE_TO_PAYROLL_AND_DETECTORS": "PASS",
+    "CP17_R3_09_WAVE_CHOICE_PER_SKU": "PASS",
+    "CP17_R3_09_DECLARED_NATIVE_DELTAS_AND_RESTORE_REFUSAL": "PASS",
+    "CP17_R3_09_REVISIONS_IMMUTABLE_AND_PRIVATE": "PASS"
+  },
+  "failure": {
+    "case": "OW05_HPP_POOL_BEFORE_NOTA_AND_SEWING_INVERSES",
+    "phase": "payroll amount assertion before any HPP pool or mandor correction",
+    "error": "AssertionError, old fixture omitted actual values",
+    "source_line": "ow05_native_edge_cases.py44",
+    "diagnosis_from_Native_source": "n.old.mandor_row explicitly seeds attendance_required=false; Native recalculate_payroll includes attendance only when this master field is true",
+    "fix": "Explicit synthetic attendance-enabled master, as retained hp.contractor() seeds; one payroll; unchanged literal labor16 attendance1000 net1016 pool1000 successor24. Print all actual amounts on future failure."
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "original_report": {
+    "bytes": 6646961,
+    "sha256": "70c690f13d11f9a8f932b827c50ee33c0410321de4bb3b9ef8185ded429ad364"
+  },
+  "artifact": {
+    "id": 12426919393,
+    "zip_bytes": 2300426,
+    "zip_sha256": "5457926a9c2f656997d09aa82a742ee642820b345627da9941bcd9aa21c4aeaa"
+  },
+  "OW05_complete": false,
+  "production_go": false
+}

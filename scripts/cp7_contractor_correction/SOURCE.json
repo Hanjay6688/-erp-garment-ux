@@ -25,7 +25,7 @@
     "scripts/cp7_contractor_correction/native_probe.py": "cee3ecd38d197413a14308467147c3e6d31768854bf616a1b212c19a78e17206",
     ".github/workflows/cp7-ow05-native.yml": "715a4decd5c3176d924d6ce9ccccf04e887e8f7deb73bb74c8b09a8e0da59823",
     "scripts/cp7_r3_rate_cases.py": "240ca31bbc9746a6a0071ba100ae1e33168bacafe869bd348c35927e429e3873",
-    "scripts/ow05_native_edge_cases.py": "7bf013c9bf422bff0bf5624f9e0499c54b8713d91b79e68f1f39c0f6f0655e5e"
+    "scripts/ow05_native_edge_cases.py": "b2e71ce872e390f0dbc51072c6abfaf6134eaf07f29bad9e3e7316c97c754209"
   },
   "literal_money": {
     "old_wage_four_pcs": "16.00",

@@ -26,6 +26,11 @@ def repost(cur,g,choice='NEW',qty=4):
 def cases(cur,today):
     def pool_order():
         g=n.fixture(cur,today,False);day=g['day']
+        # Explicit synthetic master setup, as retained hp.contractor() seeds
+        # attendance_required=true. n.fixture() otherwise creates a work-only
+        # Mandor (false), whose Native payroll correctly omits attendance.
+        n.auth.b.api.admin(cur)
+        cur.execute('update erp.contractors set attendance_required=true where id=%s',(g['mandor'],))
         p=nota.payload(cur,dict(contractor=g['mandor']),today);p.update(period_start=str(day),period_end=str(day))
         note=nota.act(cur,'POST',nota.command(cur,'SAVE',p));pid=note['payroll_id']
         # Native forbids overlapping payroll periods for one contractor. Add
@@ -41,7 +46,9 @@ def cases(cur,today):
             reason=n.REASON,attendance=[dict(worker_id=str(bc.awp.find(worker,'worker_id')),attendance_date=str(day),status='PRESENT')])),uuid.uuid4()))
         s.native(cur,'select public.erp_post_attendance_period_v1(%s,%s,%s,%s)',(bc.awp.find(period,'period_id'),n.REASON,uuid.uuid4(),bc.awp.find(period,'row_version')))
         payroll.act(cur,'PREPARE',payroll.doc(cur,pid));payroll.act(cur,'APPROVE',payroll.doc(cur,pid))
-        assert D(payroll.doc(cur,pid)['attendance_total'])==D('1000.00')and D(payroll.doc(cur,pid)['net_payable'])==D('1016.00')
+        totals=payroll.doc(cur,pid)
+        assert (D(totals['labor_total']),D(totals['attendance_total']),D(totals['net_payable']))==(D('16.00'),D('1000.00'),D('1016.00')),{
+            k:totals[k]for k in('labor_total','attendance_total','net_payable')}
         hp.policy(cur,g['mandor'],day-timedelta(days=1));actor=hp.owner(cur)
         preview=hp.read(cur,actor,day,day)['preview'];made=hp.save(cur,actor,'CREATE',hp.create_body(preview))
         hp.save(cur,actor,'ACTIVATE',hp.pool_body(hp.facade_pool(cur,actor,made['pool_id']),'OW05 active HPP fixture'))
