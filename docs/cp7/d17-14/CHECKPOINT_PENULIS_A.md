@@ -3,7 +3,10 @@
 Aturan owner 22 Okt 2026: "update pake perlahan pake checkpoint ... biar kalo token abis ga sayang", lalu: "selagi masih banyak
 ya lu pake banyak orang gapapa, kalo udah tipis lu baru slowing down ... jangan tiba tiba di stop". Jadi: setiap langkah selesai
 langsung di-commit dan di-push dan berkas ini diperbarui; selama kuota banyak boleh banyak pembantu; pembantu yang sudah jalan
-tidak dihentikan; baru diperlambat bila kuota menipis.
+tidak dihentikan; baru diperlambat bila kuota menipis. Owner: yang dilihat kuota 5 jam (bila habis semua langsung berhenti).
+Sisa kuota tidak terlihat dari sesi, jadi patokannya jam: jendela sekarang mulai sekitar 20.00 UTC 22 Okt, habis sekitar
+01.00 UTC 23 Okt. Pengingat terjadwal: 00.10 UTC mode hemat (tidak memulai pekerjaan besar baru, gabung dan push semua commit
+pembantu, perbarui berkas ini), 01.10 UTC jalan normal lagi.
 
 Diperbarui: 22 Okt 2026, 20.50 UTC (23 Okt 03.50 WIB).
 
