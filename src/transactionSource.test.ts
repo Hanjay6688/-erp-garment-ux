@@ -4,6 +4,22 @@ const source='11111111-1111-4111-8111-111111111111',parent='22222222-2222-4222-8
 const ref={source_type:'SALES_PAYMENT',source_id:source}
 const receipt=()=>({contract_version:'cp7.transaction-source.v1',actor_scope_id:actor,source:{...ref},status:'AVAILABLE',document:{domain:'SALE',route:'sales-payments',id:parent,number:'INV-26',status:'PARTIAL_PAID',revision:'9007199254740993',focus:{kind:'SALES_PAYMENT',id:source,page_offset:25}},read_at:'2026-10-03T04:00:00.123456Z',business_DML:false})
 describe('exact transaction source boundaries',()=>{
+ it('opens a kasbon journal and its inverse at the kasbon in its Mandor list (OW-08b)',()=>{
+  const mandor='44444444-4444-4444-8444-444444444444'
+  for(const kind of ['CP7_KASBON','JOURNAL_REVERSAL']){
+   const r=receipt();r.source={source_type:kind,source_id:source}
+   Object.assign(r.document,{domain:'KASBON',route:'finance-payroll',id:kind==='CP7_KASBON'?source:parent,number:'KB-1',status:'GIVEN',revision:null,
+    focus:{kind:'KASBON',id:kind==='CP7_KASBON'?source:parent,parent_id:mandor,page_offset:0}})
+   expect(parseTransactionSource(r,r.source,actor).document).toMatchObject({domain:'KASBON',route:'finance-payroll',focus:{kind:'KASBON',parent_id:mandor}})
+   for(const bad of [{focus:null},{route:'finance-journal'},{revision:'3'},{focus:{kind:'KASBON',id:parent===r.document.id?source:parent,parent_id:mandor,page_offset:0}},
+     {focus:{kind:'KASBON',id:r.document.id,parent_id:mandor,page_offset:25}},{focus:{kind:'KASBON',id:r.document.id,page_offset:0}},
+     {focus:{kind:'PAYROLL_INSTALLMENT',id:r.document.id,page_offset:0}}]){
+    const c=structuredClone(r);Object.assign(c.document,bad);expect(()=>parseTransactionSource(c,r.source,actor)).toThrow()}
+  }
+  const direct=receipt();direct.source={source_type:'CP7_KASBON',source_id:source}
+  Object.assign(direct.document,{domain:'KASBON',route:'finance-payroll',id:parent,number:'KB-1',status:'GIVEN',revision:null,focus:{kind:'KASBON',id:parent,parent_id:mandor,page_offset:0}})
+  expect(()=>parseTransactionSource(direct,direct.source,actor)).toThrow()
+ })
  it('binds every Laundry receipt child to its actual parent and unpaged embedded receipt',()=>{
   for(const kind of ['LAUNDRY_RECEIPT','LAUNDRY_RECEIPT_LINE','LAUNDRY_RECEIPT_BATCH_SIZE_LINE']){
    const r=receipt();r.source={source_type:kind,source_id:source};Object.assign(r.document,{domain:'LAUNDRY',route:'laundry',focus:{kind:'LAUNDRY_RECEIPT',id:source,page_offset:0}})

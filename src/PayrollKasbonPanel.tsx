@@ -12,9 +12,12 @@ const rupiah = (v: string) => { const [whole, cents = '00'] = v.split('.'); retu
 const rp = (c: bigint) => rupiah(kasbonAmountText(c))
 type Form = { action: KasbonAction; kasbon: Kasbon | null }
 
+export type KasbonFocus = { id: string; number: string; contractorId: string }
+
 // D14-6 kasbon tunai for the contractor of the selected payroll: give cash, cut it from a payroll draft, cancel unused.
-export default function PayrollKasbonPanel({ contractorId, payrollId, parentReady, onChanged }: {
-  contractorId: string | null; payrollId: string | null; parentReady: boolean; onChanged: () => Promise<unknown>
+// OW-08b: opened from a kasbon journal in the ledger, it shows that Mandor's kasbon list at once with the kasbon marked.
+export default function PayrollKasbonPanel({ contractorId, payrollId, parentReady, onChanged, focus = null }: {
+  contractorId: string | null; payrollId: string | null; parentReady: boolean; onChanged: () => Promise<unknown>; focus?: KasbonFocus | null
 }) {
   const { runtime, identity } = useAuth()
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') throw new Error('Sesi kasbon belum siap.')
@@ -23,7 +26,7 @@ export default function PayrollKasbonPanel({ contractorId, payrollId, parentRead
   const allowed = ['OWNER', 'ADMIN'].includes(identity.profile.role) && identity.permissions.includes('finance.payroll.view')
   const [data, setData] = useState<KasbonWorkspace | null>(null), [busy, setBusy] = useState(false), [error, setError] = useState(''), [done, setDone] = useState('')
   const [form, setForm] = useState<Form | null>(null), [amount, setAmount] = useState(''), [date, setDate] = useState(''), [bank, setBank] = useState('')
-  const [reason, setReason] = useState(''), [reviewed, setReviewed] = useState(false), [open, setOpen] = useState(false)
+  const [reason, setReason] = useState(''), [reviewed, setReviewed] = useState(false), [open, setOpen] = useState(Boolean(focus))
   const seq = useRef(0), latestRead = useRef<Promise<boolean>>(Promise.resolve(false))
   const read = useCallback(async () => {
     const ticket = beginRead(), n = ++seq.current
@@ -112,10 +115,11 @@ export default function PayrollKasbonPanel({ contractorId, payrollId, parentRead
     <header className="cpay-actions"><h2>Kasbon tunai{data ? ` · ${data.contractor.name}` : ''}</h2>{open ? <button disabled={busy || mutation.busy} onClick={() => void load()}>Muat ulang kasbon</button> : <button disabled={!parentReady} onClick={() => { setOpen(true); setDone('') }}>Lihat kasbon mandor ini</button>}</header>
     <ProductionRecoveryNotice recovery={mutation} className="cpay-action" onReconcile={() => reconcile(handlers)} reconcileLabel="Periksa status kasbon" />
     {done ? <p role="status">{done}</p> : null}{error ? <p role="alert">{error}</p> : null}{busy ? <p role="status">Memuat kasbon…</p> : null}
+    {data && focus ? <p role="status">{data.advances.some(k => k.id === focus.id) ? `Dibuka dari buku besar: kasbon ${focus.number}.` : `Kasbon ${focus.number} tidak ada di daftar mandor ini. Muat ulang kasbon.`}</p> : null}
     {data ? <>
       <p>Kasbon adalah uang yang diberikan sebelum upah jadi utang. Kasbon dipotong dari payroll draf mandor ini; yang dibayar tunai hanya sisa gajinya.</p>
       {data.can_write ? <button className="primary-btn" disabled={locked} onClick={() => start('GIVE')}>Beri kasbon</button> : null}
-      {data.advances.length ? <div className="cpay-lines">{data.advances.map(k => <article className="cpay-line" key={k.id}>
+      {data.advances.length ? <div className="cpay-lines">{data.advances.map(k => <article className="cpay-line" key={k.id} aria-current={focus?.id === k.id ? 'true' : undefined} aria-label={`Kasbon ${k.number}`}>
         <header><strong>{k.number} · {rupiah(k.amount)}</strong><strong>{k.status === 'CANCELLED' ? 'Dibatalkan' : `Sisa ${rupiah(k.free)}`}</strong></header>
         <p>{k.advance_date} · {k.reason}</p>
         <p>Sudah terpotong {rupiah(k.recovered)} · Dipesan di payroll {rupiah(k.reserved)}</p>

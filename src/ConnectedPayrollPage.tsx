@@ -10,7 +10,7 @@ import {parsePayrollRead,parsePayrollOutcome,type PayrollAction,type PayrollCash
 import {useProductionMutation,type ProductionMutationHandlers} from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import PayrollInstallmentPanel from './PayrollInstallmentPanel'
-import PayrollKasbonPanel from './PayrollKasbonPanel'
+import PayrollKasbonPanel,{type KasbonFocus} from './PayrollKasbonPanel'
 import type {InstallmentDocument} from './payrollInstallmentContract'
 import {financialRecoveryBlocked,useFinancialRecoveryGate} from './useFinancialRecoveryGate'
 import type {Json} from './types/database.preconnect'
@@ -21,13 +21,15 @@ const sections=[['WORK','Upah pekerjaan'],['ATTENDANCE','Absensi'],['REIMBURSEME
 const statuses:Record<string,string>={DRAFT:'Draft',CALCULATED:'Sudah dihitung',REVIEW:'Dalam pemeriksaan',APPROVED:'Disetujui',PAID:'Lunas',REVERSED:'Dibatalkan'}
 const money=(v:string)=>`Rp${numberText(v)}`
 export default function ConnectedPayrollPage(){
- const {runtime,identity}=useAuth(),source=useTransactionSource('PAYROLL')
+ const {runtime,identity}=useAuth(),source=useTransactionSource('PAYROLL'),kasbon=useTransactionSource('KASBON')
  if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED'||!identity.permissions.includes('finance.payroll.view'))return <section className="panel" role="alert">Hak melihat payroll diperlukan.</section>
- return <Workspace key={`${source?.key??'menu'}:${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}initialPayrollId={source?.document.id??null}/>
+ // A kasbon journal opened from the ledger lands here with that kasbon focused in its Mandor's list.
+ const focus=kasbon?.document.focus?.kind==='KASBON'?{id:kasbon.document.id,number:kasbon.document.number,contractorId:kasbon.document.focus.parent_id}:null
+ return <Workspace key={`${source?.key??kasbon?.key??'menu'}:${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}initialPayrollId={source?.document.id??null} kasbonFocus={focus}/>
 }
 import RecordTools,{orderRecordPage,type RecordPageOrder} from './RecordTools'
 
-function Workspace({initialPayrollId}:{initialPayrollId:string|null}){
+function Workspace({initialPayrollId,kasbonFocus}:{initialPayrollId:string|null;kasbonFocus:KasbonFocus|null}){
  const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi payroll belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),[data,setData]=useState<PayrollRead|null>(null),[detail,setDetail]=useState<PayrollRead|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[q,setQ]=useState(''),[status,setStatus]=useState('')
  const mutation=useProductionMutation('PAYROLL'),{beginRead,finishRead,isReadCurrent,run,reconcile}=mutation
@@ -95,7 +97,8 @@ function Workspace({initialPayrollId}:{initialPayrollId:string|null}){
     <div className="cpay-lines">{detail.page.rows.map(v=>detail.section==='NOTES'?<Note key={v.id} value={v as NotaDocument}/>:<Line key={v.id} section={detail.section} value={v as PayrollLine}/>)}{!detail.page.rows.length?<p>Belum ada rincian dalam bagian ini.</p>:null}</div><Pager label="Rincian" page={detail.page} busy={busy||mutation.busy} change={offset=>{requested.current.detailOffset=offset;void load()}}/>
    </>:<p>Pilih mandor dan periode untuk menelusuri perhitungan serta nota sumber.</p>}</section></div>
   <PayrollInstallmentPanel parentReady={Boolean(data&&(!selectedId||detail)&&!busy&&!blocked)}payrollId={selectedId}readRevision={readRevision}onRetire={retire}onReload={load}onTarget={onPaymentTarget}onSource={onPaymentSource}/>
-  <PayrollKasbonPanel contractorId={detail?.document?.contractor_id??null} payrollId={selectedId} parentReady={Boolean(data&&detail&&!busy&&!blocked)} onChanged={load}/>
+  {kasbonFocus&&!selectedId?<PayrollKasbonPanel contractorId={kasbonFocus.contractorId} payrollId={null} parentReady={Boolean(data&&!busy&&!blocked)} onChanged={load} focus={kasbonFocus}/>
+   :<PayrollKasbonPanel contractorId={detail?.document?.contractor_id??null} payrollId={selectedId} parentReady={Boolean(data&&detail&&!busy&&!blocked)} onChanged={load}/>}
  </section>
 }
 function Pager({label,page,busy,change}:{label:string;page:{total:string;offset:number;next_offset:number|null};busy:boolean;change:(n:number)=>void}){return <div className="cproc-pagination"><span>Total {page.total}</span><button disabled={busy||!page.offset} onClick={()=>change(Math.max(0,page.offset-25))}>{label} sebelumnya</button><button disabled={busy||page.next_offset===null} onClick={()=>change(page.next_offset??0)}>{label} berikutnya</button></div>}

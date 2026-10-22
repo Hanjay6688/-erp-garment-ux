@@ -109,6 +109,22 @@ describe('kasbon tunai (owner D14-6)', () => {
     expect(container.querySelector<HTMLInputElement>('[aria-label="Nominal kasbon"]')!.value).toBe('2500.00')
     await type('Nominal kasbon', '2500.01'); expect(container.textContent).toContain('Potongan melebihi sisa kasbon (Rp2.500,00).')
   })
+  it('opens straight at the kasbon a ledger journal points to, without a selected payroll (OW-08b)', async () => {
+    client.rpc.mockResolvedValue({ data: workspace([advance(), advance({ id: payroll.replace('2222', '5555'), number: 'KB-LAIN' })]), error: null })
+    await act(async () => root.render(<PayrollKasbonPanel contractorId={contractor} payrollId={null} parentReady onChanged={onChanged}
+      focus={{ id: kas, number: 'KB-20261014-ABC123', contractorId: contractor }}/>)); await settle()
+    expect(client.rpc).toHaveBeenCalledExactlyOnceWith('erp_cp7_get_kasbon_v1', { p_contractor: contractor })
+    expect(container.textContent).toContain('Dibuka dari buku besar: kasbon KB-20261014-ABC123.')
+    expect(container.querySelector('[aria-current="true"]')?.getAttribute('aria-label')).toBe('Kasbon KB-20261014-ABC123')
+    expect(container.textContent).not.toContain('Potong dari payroll')
+    expect(button('Batalkan kasbon KB-20261014-ABC123')).toBeTruthy()
+  })
+  it('says so when the focused kasbon is no longer in that Mandor list', async () => {
+    client.rpc.mockResolvedValue({ data: workspace([]), error: null })
+    await act(async () => root.render(<PayrollKasbonPanel contractorId={contractor} payrollId={null} parentReady onChanged={onChanged}
+      focus={{ id: kas, number: 'KB-HILANG', contractorId: contractor }}/>)); await settle()
+    expect(container.textContent).toContain('Kasbon KB-HILANG tidak ada di daftar mandor ini.')
+  })
   it('reads amounts as exact cents', () => {
     expect(kasbonCents('2500')).toBe(250000n); expect(kasbonCents('12,5')).toBe(1250n); expect(kasbonCents('1.234')).toBeNull(); expect(kasbonCents('-1')).toBeNull()
   })
