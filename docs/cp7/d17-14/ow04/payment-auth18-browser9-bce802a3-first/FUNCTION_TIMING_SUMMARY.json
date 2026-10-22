@@ -1,0 +1,794 @@
+{
+  "derived_not_original": true,
+  "source_main_sha256": "2e5a7641d9f0f58411a42c439e821bd8fa91db7d006635c83ebb0789e912dd8a",
+  "no_performance_acceptance": true,
+  "includes_concurrent_background_reads": true,
+  "cases": {
+    "OW04_PAYMENT_CURRENT_UI_APPLY80_CORRECT900_LOST_REPLY_APPLY20": {
+      "functionProfile": {
+        "diagnostic_only": true,
+        "application_latency_acceptance": false,
+        "includes_concurrent_background_requests": true,
+        "track_functions_before": "all",
+        "track_functions_after": "all",
+        "top_self": [
+          {
+            "name": "cp7_credit.pg_jsonb_sha256(jsonb)",
+            "calls": 25939,
+            "total_ms": 2943.880000000001,
+            "self_ms": 2943.880000000001
+          },
+          {
+            "name": "cp7_credit.current_materialized_objects(uuid,uuid,uuid)",
+            "calls": 572,
+            "total_ms": 2570.33,
+            "self_ms": 1357.9319999999998
+          },
+          {
+            "name": "ow04_source_proposal.canonical_json_v1(jsonb)",
+            "calls": 233807,
+            "total_ms": 1277.0390000000007,
+            "self_ms": 1277.0390000000007
+          },
+          {
+            "name": "ow04_source_proposal.financial_journal_payload(uuid,uuid)",
+            "calls": 13648,
+            "total_ms": 1285.3029999999999,
+            "self_ms": 1158.4490000000005
+          },
+          {
+            "name": "ow04_pure_kernel.normalize_events_v1(jsonb,boolean)",
+            "calls": 8912,
+            "total_ms": 1606.924,
+            "self_ms": 1148.23
+          },
+          {
+            "name": "cp7_credit.consumer_event_data_v1(uuid)",
+            "calls": 1009,
+            "total_ms": 3347.879999999999,
+            "self_ms": 1026.6640000000002
+          },
+          {
+            "name": "cp7_credit.cent_text(cp7_credit.cent_amount)",
+            "calls": 28046,
+            "total_ms": 1001.3490000000002,
+            "self_ms": 1001.3490000000002
+          },
+          {
+            "name": "cp7_credit.materialized_journal_payload(uuid)",
+            "calls": 10997,
+            "total_ms": 844.1109999999999,
+            "self_ms": 844.1109999999999
+          },
+          {
+            "name": "cp7_credit.source_inverse_proof_v1(jsonb,jsonb,text,uuid)",
+            "calls": 222,
+            "total_ms": 1409.2530000000006,
+            "self_ms": 646.729
+          },
+          {
+            "name": "cp7_credit.current_leaf_assignment(uuid)",
+            "calls": 5839,
+            "total_ms": 548.972,
+            "self_ms": 548.972
+          },
+          {
+            "name": "ow04_pure_kernel.recognition_plan_v1(jsonb,jsonb)",
+            "calls": 1064,
+            "total_ms": 1267.955,
+            "self_ms": 533.6880000000001
+          },
+          {
+            "name": "cp7_credit.source_snapshot_base_events_v1(jsonb)",
+            "calls": 888,
+            "total_ms": 1983.5480000000002,
+            "self_ms": 529.716
+          },
+          {
+            "name": "cp7_credit.payment_source_actual_proof_v1(uuid,jsonb,jsonb)",
+            "calls": 222,
+            "total_ms": 4180.219,
+            "self_ms": 516.1639999999999
+          },
+          {
+            "name": "cp7_credit.source_rows_v1(jsonb)",
+            "calls": 5994,
+            "total_ms": 461.0129999999999,
+            "self_ms": 461.0129999999999
+          },
+          {
+            "name": "cp7_credit.assert_source_materialization_v1(uuid)",
+            "calls": 222,
+            "total_ms": 12714.655999999999,
+            "self_ms": 393.7790000000001
+          },
+          {
+            "name": "ow04_pure_kernel.canonical_date_v1(text)",
+            "calls": 44328,
+            "total_ms": 380.501,
+            "self_ms": 380.501
+          },
+          {
+            "name": "ow04_source_proposal.sha(jsonb)",
+            "calls": 13141,
+            "total_ms": 1549.2420000000002,
+            "self_ms": 272.203
+          },
+          {
+            "name": "cp7_credit.initial_base_events_v1(uuid,uuid)",
+            "calls": 462,
+            "total_ms": 2009.8790000000026,
+            "self_ms": 267.933
+          },
+          {
+            "name": "ow04_pure_kernel.vector_sha256_v1(jsonb)",
+            "calls": 12016,
+            "total_ms": 233.4179999999999,
+            "self_ms": 233.4179999999999
+          },
+          {
+            "name": "cp7_credit.consumer_actual_manifest_v1(uuid)",
+            "calls": 240,
+            "total_ms": 1289.7209999999995,
+            "self_ms": 197.61400000000003
+          },
+          {
+            "name": "ow04_pure_kernel.credit_capacity_v1(jsonb,jsonb,text,text)",
+            "calls": 1040,
+            "total_ms": 609.9790000000003,
+            "self_ms": 184.71500000000015
+          },
+          {
+            "name": "ow04_ordinal_wrapper.reconcile_v1(jsonb)",
+            "calls": 534,
+            "total_ms": 3050.7879999999986,
+            "self_ms": 173.13699999999994
+          },
+          {
+            "name": "cp7_credit.consumer_invoice_ar_source_v1(uuid)",
+            "calls": 1045,
+            "total_ms": 249.20900000000006,
+            "self_ms": 159.37099999999998
+          },
+          {
+            "name": "cp7_credit.source_inverse_vector_v1(jsonb,boolean)",
+            "calls": 1998,
+            "total_ms": 618.489,
+            "self_ms": 154.093
+          },
+          {
+            "name": "cp7_credit.source_operation_binding_payload_v1(uuid)",
+            "calls": 222,
+            "total_ms": 150.27100000000007,
+            "self_ms": 150.27100000000007
+          },
+          {
+            "name": "cp7_credit.payment_source_historical_input_v1(jsonb,boolean,uuid[])",
+            "calls": 444,
+            "total_ms": 2568.885,
+            "self_ms": 149.17200000000003
+          },
+          {
+            "name": "cp7_credit.native_cent_lines(jsonb)",
+            "calls": 4438,
+            "total_ms": 142.26999999999992,
+            "self_ms": 142.26999999999992
+          },
+          {
+            "name": "cp7_credit.payment_source_historical_objects_v1(jsonb,uuid[],jsonb)",
+            "calls": 222,
+            "total_ms": 1124.291,
+            "self_ms": 139.059
+          },
+          {
+            "name": "ow04_ordinal_wrapper._component_difference_v1(jsonb,jsonb)",
+            "calls": 508,
+            "total_ms": 136.889,
+            "self_ms": 136.889
+          },
+          {
+            "name": "ow04_ordinal_wrapper.normalize_input_v1(jsonb)",
+            "calls": 534,
+            "total_ms": 650.912,
+            "self_ms": 131.65200000000004
+          },
+          {
+            "name": "ow04_source_proposal.cents(numeric)",
+            "calls": 27424,
+            "total_ms": 127.904,
+            "self_ms": 127.904
+          },
+          {
+            "name": "cp7_credit.assert_simple_native_base_v1(uuid)",
+            "calls": 86,
+            "total_ms": 710.0279999999993,
+            "self_ms": 119.53899999999999
+          },
+          {
+            "name": "cp7_credit.materialized_fact(text,uuid,jsonb)",
+            "calls": 7564,
+            "total_ms": 452.231,
+            "self_ms": 110.12600000000003
+          },
+          {
+            "name": "cp7_credit.source_native_terminal_header_v1(jsonb,jsonb,uuid)",
+            "calls": 222,
+            "total_ms": 105.82399999999998,
+            "self_ms": 105.82399999999998
+          },
+          {
+            "name": "cp7_credit.payment_source_historical_consumers_v1(jsonb,uuid)",
+            "calls": 444,
+            "total_ms": 1523.6999999999998,
+            "self_ms": 104.019
+          },
+          {
+            "name": "cp7_credit.source_stored_plan_manifest_v1(uuid)",
+            "calls": 222,
+            "total_ms": 146.685,
+            "self_ms": 101.80600000000001
+          },
+          {
+            "name": "cp7_credit.payment_time_pair_v1(jsonb,jsonb,uuid,uuid,uuid)",
+            "calls": 222,
+            "total_ms": 1044.594,
+            "self_ms": 96.84299999999999
+          },
+          {
+            "name": "ow04_pure_kernel.exact_amount_v1(jsonb)",
+            "calls": 21124,
+            "total_ms": 96.161,
+            "self_ms": 96.161
+          },
+          {
+            "name": "cp7_credit.assert_consumer_operation_input_v1(uuid)",
+            "calls": 68,
+            "total_ms": 235.485,
+            "self_ms": 89.582
+          },
+          {
+            "name": "ow04_source_proposal.verify_return_member_v1(uuid)",
+            "calls": 128,
+            "total_ms": 202.29399999999987,
+            "self_ms": 79.30500000000006
+          }
+        ],
+        "top_total": [
+          {
+            "name": "cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid)",
+            "calls": 64,
+            "total_ms": 15967.226999999992,
+            "self_ms": 10.202000000000012
+          },
+          {
+            "name": "cp7_credit.assert_consumer_closed_v1(uuid)",
+            "calls": 15,
+            "total_ms": 14306.475999999999,
+            "self_ms": 24.269000000000005
+          },
+          {
+            "name": "cp7_credit.assert_source_materialization_v1(uuid)",
+            "calls": 222,
+            "total_ms": 12714.655999999999,
+            "self_ms": 393.7790000000001
+          },
+          {
+            "name": "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)",
+            "calls": 64,
+            "total_ms": 11102.185999999994,
+            "self_ms": 10.352000000000004
+          },
+          {
+            "name": "cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb)",
+            "calls": 86,
+            "total_ms": 10607.596000000005,
+            "self_ms": 8.490999999999985
+          },
+          {
+            "name": "cp7_credit.enforce_consumer_closed_v1()",
+            "calls": 10,
+            "total_ms": 9533.34,
+            "self_ms": 1.7539999999999996
+          },
+          {
+            "name": "cp7_credit.consumer_invoice_profile_v1(uuid)",
+            "calls": 32,
+            "total_ms": 8743.967999999999,
+            "self_ms": 4.930999999999997
+          },
+          {
+            "name": "cp7_credit.assert_reconciled_source_profile_v1(uuid,jsonb)",
+            "calls": 64,
+            "total_ms": 8552.188000000002,
+            "self_ms": 7.471999999999998
+          },
+          {
+            "name": "cp7_credit.assert_financial_materialization_provenance(jsonb)",
+            "calls": 94,
+            "total_ms": 6552.191999999999,
+            "self_ms": 29.631
+          },
+          {
+            "name": "cp7_credit.consumer_command_v1(jsonb,uuid,jsonb)",
+            "calls": 1,
+            "total_ms": 6020.262999999999,
+            "self_ms": 1.9800000000000004
+          },
+          {
+            "name": "cp7_credit.consumer_execute_v1(uuid)",
+            "calls": 1,
+            "total_ms": 5066.842000000001,
+            "self_ms": 9.987000000000002
+          },
+          {
+            "name": "cp7_credit.consumer_source_vectors_v1(uuid)",
+            "calls": 20,
+            "total_ms": 4908.767999999999,
+            "self_ms": 5.330999999999996
+          },
+          {
+            "name": "cp7_credit.source_owned_actual_proof_v1(uuid,jsonb,jsonb,text,uuid)",
+            "calls": 222,
+            "total_ms": 4185.791000000001,
+            "self_ms": 5.571999999999999
+          },
+          {
+            "name": "cp7_credit.payment_source_actual_proof_v1(uuid,jsonb,jsonb)",
+            "calls": 222,
+            "total_ms": 4180.219,
+            "self_ms": 516.1639999999999
+          },
+          {
+            "name": "cp7_credit.assert_source_completion_v1(uuid)",
+            "calls": 64,
+            "total_ms": 3816.652,
+            "self_ms": 30.90299999999999
+          },
+          {
+            "name": "cp7_credit.consumer_event_data_v1(uuid)",
+            "calls": 1009,
+            "total_ms": 3347.879999999999,
+            "self_ms": 1026.6640000000002
+          },
+          {
+            "name": "ow04_ordinal_wrapper.reconcile_v1(jsonb)",
+            "calls": 534,
+            "total_ms": 3050.7879999999986,
+            "self_ms": 173.13699999999994
+          },
+          {
+            "name": "cp7_credit.pg_jsonb_sha256(jsonb)",
+            "calls": 25939,
+            "total_ms": 2943.880000000001,
+            "self_ms": 2943.880000000001
+          },
+          {
+            "name": "cp7_credit.enforce_initial_return_closure_v1()",
+            "calls": 3,
+            "total_ms": 2883.958999999999,
+            "self_ms": 0.3400000000000034
+          },
+          {
+            "name": "cp7_credit.current_materialized_objects(uuid,uuid,uuid)",
+            "calls": 572,
+            "total_ms": 2570.33,
+            "self_ms": 1357.9319999999998
+          }
+        ]
+      },
+      "lostReplyTrace": {
+        "route_started": true,
+        "response_parsed": true,
+        "reply_aborted": true,
+        "response_status": 200,
+        "fetch_elapsed_ms": 12983.858411000023
+      },
+      "secondReplyTrace": {
+        "route_started": true,
+        "response_parsed": true,
+        "reply_aborted": true,
+        "response_status": 200,
+        "fetch_elapsed_ms": 19403.67533
+      },
+      "restoreTrace": {
+        "route_started": false,
+        "response_parsed": false,
+        "reply_aborted": false
+      }
+    },
+    "OW04_CURRENT_UI_APPLY100_RESTORE1000_LOST_REPLY": {
+      "functionProfile": {
+        "diagnostic_only": true,
+        "application_latency_acceptance": false,
+        "includes_concurrent_background_requests": true,
+        "track_functions_before": "all",
+        "track_functions_after": "all",
+        "top_self": [
+          {
+            "name": "cp7_credit.pg_jsonb_sha256(jsonb)",
+            "calls": 25939,
+            "total_ms": 2894.1059999999998,
+            "self_ms": 2894.1059999999998
+          },
+          {
+            "name": "cp7_credit.current_materialized_objects(uuid,uuid,uuid)",
+            "calls": 572,
+            "total_ms": 2607.8110000000015,
+            "self_ms": 1400.3509999999987
+          },
+          {
+            "name": "ow04_source_proposal.canonical_json_v1(jsonb)",
+            "calls": 233807,
+            "total_ms": 1278.5820000000003,
+            "self_ms": 1278.5820000000003
+          },
+          {
+            "name": "ow04_pure_kernel.normalize_events_v1(jsonb,boolean)",
+            "calls": 8912,
+            "total_ms": 1613.3419999999987,
+            "self_ms": 1150.8099999999995
+          },
+          {
+            "name": "ow04_source_proposal.financial_journal_payload(uuid,uuid)",
+            "calls": 13648,
+            "total_ms": 1226.6679999999997,
+            "self_ms": 1096.3099999999995
+          },
+          {
+            "name": "cp7_credit.consumer_event_data_v1(uuid)",
+            "calls": 1009,
+            "total_ms": 3292.2520000000004,
+            "self_ms": 1044.9000000000005
+          },
+          {
+            "name": "cp7_credit.cent_text(cp7_credit.cent_amount)",
+            "calls": 28046,
+            "total_ms": 1002.9889999999996,
+            "self_ms": 1002.9889999999996
+          },
+          {
+            "name": "cp7_credit.materialized_journal_payload(uuid)",
+            "calls": 10997,
+            "total_ms": 909.3000000000002,
+            "self_ms": 909.3000000000002
+          },
+          {
+            "name": "cp7_credit.source_inverse_proof_v1(jsonb,jsonb,text,uuid)",
+            "calls": 222,
+            "total_ms": 1439.9490000000005,
+            "self_ms": 667.7640000000001
+          },
+          {
+            "name": "ow04_pure_kernel.recognition_plan_v1(jsonb,jsonb)",
+            "calls": 1064,
+            "total_ms": 1272.7240000000002,
+            "self_ms": 533.3860000000004
+          },
+          {
+            "name": "cp7_credit.payment_source_actual_proof_v1(uuid,jsonb,jsonb)",
+            "calls": 222,
+            "total_ms": 4203.716,
+            "self_ms": 520.4649999999997
+          },
+          {
+            "name": "cp7_credit.current_leaf_assignment(uuid)",
+            "calls": 5839,
+            "total_ms": 502.16400000000067,
+            "self_ms": 502.16400000000067
+          },
+          {
+            "name": "cp7_credit.source_snapshot_base_events_v1(jsonb)",
+            "calls": 888,
+            "total_ms": 1950.146999999999,
+            "self_ms": 482.43499999999995
+          },
+          {
+            "name": "cp7_credit.source_rows_v1(jsonb)",
+            "calls": 5994,
+            "total_ms": 460.2679999999996,
+            "self_ms": 460.2679999999996
+          },
+          {
+            "name": "cp7_credit.assert_source_materialization_v1(uuid)",
+            "calls": 222,
+            "total_ms": 12712.508000000002,
+            "self_ms": 401.88700000000017
+          },
+          {
+            "name": "ow04_pure_kernel.canonical_date_v1(text)",
+            "calls": 44328,
+            "total_ms": 383.55200000000013,
+            "self_ms": 383.55200000000013
+          },
+          {
+            "name": "ow04_source_proposal.sha(jsonb)",
+            "calls": 13141,
+            "total_ms": 1559.0529999999999,
+            "self_ms": 280.4699999999998
+          },
+          {
+            "name": "cp7_credit.initial_base_events_v1(uuid,uuid)",
+            "calls": 462,
+            "total_ms": 1941.5010000000002,
+            "self_ms": 236.32400000000052
+          },
+          {
+            "name": "ow04_pure_kernel.vector_sha256_v1(jsonb)",
+            "calls": 12016,
+            "total_ms": 228.4720000000002,
+            "self_ms": 228.4720000000002
+          },
+          {
+            "name": "cp7_credit.consumer_actual_manifest_v1(uuid)",
+            "calls": 240,
+            "total_ms": 1280.2679999999991,
+            "self_ms": 199.7130000000002
+          },
+          {
+            "name": "ow04_pure_kernel.credit_capacity_v1(jsonb,jsonb,text,text)",
+            "calls": 1040,
+            "total_ms": 609.1620000000003,
+            "self_ms": 183.02299999999968
+          },
+          {
+            "name": "ow04_ordinal_wrapper.reconcile_v1(jsonb)",
+            "calls": 534,
+            "total_ms": 3047.447,
+            "self_ms": 171.32100000000014
+          },
+          {
+            "name": "cp7_credit.consumer_invoice_ar_source_v1(uuid)",
+            "calls": 1045,
+            "total_ms": 249.19100000000003,
+            "self_ms": 164.28600000000006
+          },
+          {
+            "name": "cp7_credit.source_inverse_vector_v1(jsonb,boolean)",
+            "calls": 1998,
+            "total_ms": 619.2660000000005,
+            "self_ms": 153.34699999999998
+          },
+          {
+            "name": "cp7_credit.source_operation_binding_payload_v1(uuid)",
+            "calls": 222,
+            "total_ms": 151.30999999999995,
+            "self_ms": 151.30999999999995
+          },
+          {
+            "name": "cp7_credit.payment_source_historical_input_v1(jsonb,boolean,uuid[])",
+            "calls": 444,
+            "total_ms": 2523.8920000000016,
+            "self_ms": 146.46500000000003
+          },
+          {
+            "name": "cp7_credit.native_cent_lines(jsonb)",
+            "calls": 4438,
+            "total_ms": 140.3119999999999,
+            "self_ms": 140.3119999999999
+          },
+          {
+            "name": "cp7_credit.payment_source_historical_objects_v1(jsonb,uuid[],jsonb)",
+            "calls": 222,
+            "total_ms": 1136.464,
+            "self_ms": 138.63
+          },
+          {
+            "name": "ow04_ordinal_wrapper._component_difference_v1(jsonb,jsonb)",
+            "calls": 508,
+            "total_ms": 136.80700000000002,
+            "self_ms": 136.80700000000002
+          },
+          {
+            "name": "ow04_source_proposal.cents(numeric)",
+            "calls": 27424,
+            "total_ms": 131.42000000000007,
+            "self_ms": 131.42000000000007
+          },
+          {
+            "name": "ow04_ordinal_wrapper.normalize_input_v1(jsonb)",
+            "calls": 534,
+            "total_ms": 650.0969999999998,
+            "self_ms": 130.45699999999988
+          },
+          {
+            "name": "cp7_credit.assert_simple_native_base_v1(uuid)",
+            "calls": 86,
+            "total_ms": 708.5210000000006,
+            "self_ms": 125.40600000000018
+          },
+          {
+            "name": "cp7_credit.materialized_fact(text,uuid,jsonb)",
+            "calls": 7564,
+            "total_ms": 450.3989999999999,
+            "self_ms": 107.81900000000007
+          },
+          {
+            "name": "cp7_credit.payment_source_historical_consumers_v1(jsonb,uuid)",
+            "calls": 444,
+            "total_ms": 1497.621000000001,
+            "self_ms": 103.12399999999991
+          },
+          {
+            "name": "cp7_credit.source_native_terminal_header_v1(jsonb,jsonb,uuid)",
+            "calls": 222,
+            "total_ms": 102.93799999999999,
+            "self_ms": 102.93799999999999
+          },
+          {
+            "name": "cp7_credit.source_stored_plan_manifest_v1(uuid)",
+            "calls": 222,
+            "total_ms": 146.33799999999997,
+            "self_ms": 101.39599999999996
+          },
+          {
+            "name": "cp7_credit.payment_time_pair_v1(jsonb,jsonb,uuid,uuid,uuid)",
+            "calls": 222,
+            "total_ms": 1045.527,
+            "self_ms": 100.21399999999994
+          },
+          {
+            "name": "ow04_pure_kernel.exact_amount_v1(jsonb)",
+            "calls": 21124,
+            "total_ms": 96.957,
+            "self_ms": 96.957
+          },
+          {
+            "name": "cp7_credit.assert_consumer_operation_input_v1(uuid)",
+            "calls": 68,
+            "total_ms": 228.16499999999996,
+            "self_ms": 85.24600000000004
+          },
+          {
+            "name": "ow04_source_proposal.verify_return_member_v1(uuid)",
+            "calls": 128,
+            "total_ms": 199.47000000000025,
+            "self_ms": 80.9380000000001
+          }
+        ],
+        "top_total": [
+          {
+            "name": "cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid)",
+            "calls": 64,
+            "total_ms": 15909.913000000015,
+            "self_ms": 10.246999999999986
+          },
+          {
+            "name": "cp7_credit.assert_consumer_closed_v1(uuid)",
+            "calls": 15,
+            "total_ms": 14266.184999999998,
+            "self_ms": 23.491000000000014
+          },
+          {
+            "name": "cp7_credit.assert_source_materialization_v1(uuid)",
+            "calls": 222,
+            "total_ms": 12712.508000000002,
+            "self_ms": 401.88700000000017
+          },
+          {
+            "name": "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)",
+            "calls": 64,
+            "total_ms": 11019.187999999995,
+            "self_ms": 10.130000000000024
+          },
+          {
+            "name": "cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb)",
+            "calls": 86,
+            "total_ms": 10526.868999999992,
+            "self_ms": 8.329000000000065
+          },
+          {
+            "name": "cp7_credit.enforce_consumer_closed_v1()",
+            "calls": 10,
+            "total_ms": 9518.408,
+            "self_ms": 1.8659999999999997
+          },
+          {
+            "name": "cp7_credit.consumer_invoice_profile_v1(uuid)",
+            "calls": 32,
+            "total_ms": 8725.495000000003,
+            "self_ms": 4.901000000000003
+          },
+          {
+            "name": "cp7_credit.assert_reconciled_source_profile_v1(uuid,jsonb)",
+            "calls": 64,
+            "total_ms": 8498.080999999998,
+            "self_ms": 7.122
+          },
+          {
+            "name": "cp7_credit.assert_financial_materialization_provenance(jsonb)",
+            "calls": 94,
+            "total_ms": 6574.7880000000005,
+            "self_ms": 31.00999999999999
+          },
+          {
+            "name": "cp7_credit.consumer_command_v1(jsonb,uuid,jsonb)",
+            "calls": 1,
+            "total_ms": 6006.892,
+            "self_ms": 1.9190000000000005
+          },
+          {
+            "name": "cp7_credit.consumer_execute_v1(uuid)",
+            "calls": 1,
+            "total_ms": 5054.325999999999,
+            "self_ms": 10.566000000000003
+          },
+          {
+            "name": "cp7_credit.consumer_source_vectors_v1(uuid)",
+            "calls": 20,
+            "total_ms": 4904.894999999997,
+            "self_ms": 5.429000000000002
+          },
+          {
+            "name": "cp7_credit.source_owned_actual_proof_v1(uuid,jsonb,jsonb,text,uuid)",
+            "calls": 222,
+            "total_ms": 4206.231,
+            "self_ms": 2.5139999999999993
+          },
+          {
+            "name": "cp7_credit.payment_source_actual_proof_v1(uuid,jsonb,jsonb)",
+            "calls": 222,
+            "total_ms": 4203.716,
+            "self_ms": 520.4649999999997
+          },
+          {
+            "name": "cp7_credit.assert_source_completion_v1(uuid)",
+            "calls": 64,
+            "total_ms": 3782.542999999998,
+            "self_ms": 31.279999999999973
+          },
+          {
+            "name": "cp7_credit.consumer_event_data_v1(uuid)",
+            "calls": 1009,
+            "total_ms": 3292.2520000000004,
+            "self_ms": 1044.9000000000005
+          },
+          {
+            "name": "ow04_ordinal_wrapper.reconcile_v1(jsonb)",
+            "calls": 534,
+            "total_ms": 3047.447,
+            "self_ms": 171.32100000000014
+          },
+          {
+            "name": "cp7_credit.pg_jsonb_sha256(jsonb)",
+            "calls": 25939,
+            "total_ms": 2894.1059999999998,
+            "self_ms": 2894.1059999999998
+          },
+          {
+            "name": "cp7_credit.enforce_initial_return_closure_v1()",
+            "calls": 3,
+            "total_ms": 2838.019000000004,
+            "self_ms": 0.3580000000000041
+          },
+          {
+            "name": "cp7_credit.current_materialized_objects(uuid,uuid,uuid)",
+            "calls": 572,
+            "total_ms": 2607.8110000000015,
+            "self_ms": 1400.3509999999987
+          }
+        ]
+      },
+      "lostReplyTrace": {
+        "route_started": true,
+        "response_parsed": true,
+        "reply_aborted": true,
+        "response_status": 200,
+        "fetch_elapsed_ms": 13134.784084999992
+      },
+      "secondReplyTrace": {
+        "route_started": true,
+        "response_parsed": true,
+        "reply_aborted": true,
+        "response_status": 200,
+        "fetch_elapsed_ms": 19350.334604999982
+      },
+      "restoreTrace": {
+        "route_started": true,
+        "response_parsed": true,
+        "reply_aborted": true,
+        "response_status": 200,
+        "fetch_elapsed_ms": 28732.482917000016
+      }
+    }
+  }
+}

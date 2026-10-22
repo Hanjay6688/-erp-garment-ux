@@ -1,0 +1,258 @@
+{
+  "artifact_zip_sha256": "4646965187ef58f2d8d2b49a73ed4754e9002b09e661610c0bd723420fc006fd",
+  "artifact_zip_client_verified": true,
+  "zip_bytes": 22333346,
+  "original_json_bytes_preserved": true,
+  "files": [
+    {
+      "archive_member": "ALIGNED_CHAIN.json",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "raw_bytes": 17536,
+      "raw_sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+      "gzip_bytes": 4768,
+      "gzip_sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75",
+      "label": "T3_PREP",
+      "status": "PASS_ALIGNED_CHAIN_TO_AB",
+      "steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    {
+      "archive_member": "CP7_OW04_PAYMENT_CURRENT_HTTP18_BROWSER9.json",
+      "file": "CP7_OW04_PAYMENT_CURRENT_HTTP18_BROWSER9.json.gz",
+      "raw_bytes": 407079,
+      "raw_sha256": "2e5a7641d9f0f58411a42c439e821bd8fa91db7d006635c83ebb0789e912dd8a",
+      "gzip_bytes": 29944,
+      "gzip_sha256": "e6ad1975b74107e4e2db20bded8623d78ac1e425799744686f6335fe0c4b3443",
+      "label": "CP7_OW04_PAYMENT_CURRENT_HTTP18_BROWSER9",
+      "status": "INCOMPLETE",
+      "candidate_commit": "bce802a3254b6d63e10781a80b29e43d6c4342fc",
+      "cp6_restored": true,
+      "hosted": false
+    },
+    {
+      "archive_member": "CURRENT_HOST_0.json",
+      "file": "CURRENT_HOST_0.json.gz",
+      "raw_bytes": 51817,
+      "raw_sha256": "bb00d8da132d6abdc89844f32f11af88e850e4e2b6c537f2248743d0af831f6a",
+      "gzip_bytes": 6267,
+      "gzip_sha256": "4bb5601888d9798e87df6e2228471937cd36ce520e2c5622cc58a04d8971fb56",
+      "label": "AUDITOR_SCENARIO",
+      "status": "RUN_COMPLETE"
+    },
+    {
+      "archive_member": "PAYMENT_CURRENT_REFUND_RESTORE_FAILURE.json",
+      "file": "PAYMENT_CURRENT_REFUND_RESTORE_FAILURE.json.gz",
+      "raw_bytes": 16614,
+      "raw_sha256": "6b42c0c3afb1c3ec448ba796655c4164c5bfabbc81b9e8755baa25de08fc788a",
+      "gzip_bytes": 2989,
+      "gzip_sha256": "9093f1282773902ce9da6207818702c95cd3d98ebf8ae687ed386a50d9eb68f3",
+      "error": "TimeoutError: locator.click: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.sidebar .nav-main').filter({ hasText: 'Penjualan' })\n    - locator resolved to <button class=\"nav-main \">\u2026</button>\n  - attempting click action\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - element is outside of the viewport\n    - retrying click action\n    - waiting 20ms\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - element is outside of the viewport\n    - retrying click action\n      - waiting 100ms\n    38 \u00d7 waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - element is outside of the viewport\n     - retrying click action\n       - waiting 500ms\n"
+    },
+    {
+      "archive_member": "T3_BACKUP_RESTORE_DRILL.json",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "raw_bytes": 10402,
+      "raw_sha256": "d28bbe27a5c9fd9bbe5532a7e82656faffc6c0cf76e7e6cfa99ca5e5c76d547b",
+      "gzip_bytes": 1808,
+      "gzip_sha256": "318c0687a08a75368b671b1693c3d523255b20c372f39c0939e53f08ba437421",
+      "label": "T3_PREP_BACKUP_RESTORE_DRILL",
+      "status": "RESTORED_SAME_MEANING"
+    },
+    {
+      "archive_member": "T3_PACKAGE_FILES_INSTALL.json",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "label": "T3_PREP_RELEASE_PACKAGE_INSTALL",
+      "status": "ALL_FILES_INSTALLED"
+    },
+    {
+      "archive_member": "T3_PACKAGE_INSTALL.json",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360435,
+      "raw_sha256": "777ccc45a8d67c42a6bd97a5e59fc9b62d24f16bd726721ea60c5ad8e18a6c39",
+      "gzip_bytes": 11408,
+      "gzip_sha256": "810e14bc00983694e9df0b2d4fcb58dbd8403e4cb4171ffd3461fff42656cebe",
+      "label": "T3_PREP",
+      "status": "ALL_STAGES_INSTALLED"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/18c69249-ff97-4123-a68f-c0a53054736c.json",
+      "file": "consumer-browser-fixtures/18c69249-ff97-4123-a68f-c0a53054736c.json.gz",
+      "raw_bytes": 7007388,
+      "raw_sha256": "7bee49ab30abf7450362024330b4416c699b6f1832e49b40f383c1572642f385",
+      "gzip_bytes": 1369610,
+      "gzip_sha256": "6148785a2d6393c2ba81b07eb44769b877bde5baa151186282e671673a08b7db"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/00dbd216-0df4-48fb-8c32-ea36a0e3e13c.json",
+      "file": "consumer-browser-fixtures/00dbd216-0df4-48fb-8c32-ea36a0e3e13c.json.gz",
+      "raw_bytes": 7012360,
+      "raw_sha256": "f5544570928a0a502bfa317d9babb4e811bce1411d64f426f9cf2274174a07cc",
+      "gzip_bytes": 1368930,
+      "gzip_sha256": "93ee97f19489f4e4390736e1da3c8d92aecc96a4ca537e5b3c4ea1d545063879"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/545e4342-52f5-4b4e-a229-6ea45d6f7d82.json",
+      "file": "consumer-browser-fixtures/545e4342-52f5-4b4e-a229-6ea45d6f7d82.json.gz",
+      "raw_bytes": 7003339,
+      "raw_sha256": "d4c6a1089b2091af59a4c55a04a57244d5c75ed65ae15f5089ae1b874fedb576",
+      "gzip_bytes": 1367164,
+      "gzip_sha256": "a3fc372f61f8c78127a64ff6be1c8fa44effd708c08b26e06ee2b6fdfe5ec8a2"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/1fe2193e-9dec-4d12-8075-f7a803ab81f7.json",
+      "file": "consumer-browser-fixtures/1fe2193e-9dec-4d12-8075-f7a803ab81f7.json.gz",
+      "raw_bytes": 7002660,
+      "raw_sha256": "47f0b98cc4376161b02301cb86b055ace6980e0128632c1b9f3ac2868982ecc7",
+      "gzip_bytes": 1366751,
+      "gzip_sha256": "ff38faea4164edc3f8bb6f13d960825b3fca08bc680e03843b1bfa158bd7c306"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/60e18a5e-b63b-4216-a87d-028caba0ef76.json",
+      "file": "consumer-browser-fixtures/60e18a5e-b63b-4216-a87d-028caba0ef76.json.gz",
+      "raw_bytes": 7004222,
+      "raw_sha256": "fc08ad6944d6ab47597fc689d22334ac26e3b64bf37b1477ceb38e4b1cbcd8d2",
+      "gzip_bytes": 1367691,
+      "gzip_sha256": "897fbb3e9efa2d5c1cde542b8bf8c4a57776a82836adac69028ca383217bd4f7"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/6844009b-e86a-43cf-8a89-d5db4cf5564c.json",
+      "file": "consumer-browser-fixtures/6844009b-e86a-43cf-8a89-d5db4cf5564c.json.gz",
+      "raw_bytes": 7006505,
+      "raw_sha256": "85182769d963bea92ded52e4aee011fbab5b51c6f3465cf9113cbd949040620d",
+      "gzip_bytes": 1369005,
+      "gzip_sha256": "75a162e3bdc2cab4e8f91f8203e4e4e634b40a54811f4b3cd731a1dab98116a4"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/9d4e317c-133d-48be-93a9-8c93449331ea.json",
+      "file": "consumer-browser-fixtures/9d4e317c-133d-48be-93a9-8c93449331ea.json.gz",
+      "raw_bytes": 7005893,
+      "raw_sha256": "5e2efa4cc060e2fa360d5a7f4c622cd49476c81025c8a8af1a11b3a8ebae7781",
+      "gzip_bytes": 1368665,
+      "gzip_sha256": "d18042cdd94ac6e7fa95f446dc6b07edc2032a254fa35120a989ce765f1687ab"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/cce72d2c-647c-46f0-ba9b-8fba92ed1a28.json",
+      "file": "consumer-browser-fixtures/cce72d2c-647c-46f0-ba9b-8fba92ed1a28.json.gz",
+      "raw_bytes": 7011407,
+      "raw_sha256": "d114b1c0f89a331dad5cf56e76945b2ad4865260a506c2df8e56c4f00edb25f9",
+      "gzip_bytes": 1368372,
+      "gzip_sha256": "2dbe9d33184c00c9b658e7f6a3936d01df58b65778814a9aca14bee188308af0"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/d5593551-2026-45a2-8ba0-56360599e262.json",
+      "file": "consumer-browser-fixtures/d5593551-2026-45a2-8ba0-56360599e262.json.gz",
+      "raw_bytes": 7005275,
+      "raw_sha256": "b42c6a59bb8291f7ff4058374d15185e31c12b6cd8472acfe8bc46f2e5c1885b",
+      "gzip_bytes": 1368342,
+      "gzip_sha256": "60ccc8de4fde50584125e27640f90f295f5592bb811ca6abad66b4e933dc369a"
+    },
+    {
+      "archive_member": "payment-current-browser-fixtures/18c69249-ff97-4123-a68f-c0a53054736c.json",
+      "file": "payment-current-browser-fixtures/18c69249-ff97-4123-a68f-c0a53054736c.json.gz",
+      "raw_bytes": 16921,
+      "raw_sha256": "6cc23a7ae71988c24d37a6e65c723db8f7924fde72de960b5041556379e80370",
+      "gzip_bytes": 3546,
+      "gzip_sha256": "9d8eea40f9eb0a4e03150dc19477809cac34edc474ded4fbcd51eec63f1d8d1a"
+    },
+    {
+      "archive_member": "payment-current-browser-fixtures/6844009b-e86a-43cf-8a89-d5db4cf5564c.json",
+      "file": "payment-current-browser-fixtures/6844009b-e86a-43cf-8a89-d5db4cf5564c.json.gz",
+      "raw_bytes": 16947,
+      "raw_sha256": "b172c8a6b99e9966adcfffd40bbddfd0f52232c7f79213452d07f5356ab09b97",
+      "gzip_bytes": 3506,
+      "gzip_sha256": "72a133acfd62f1cc4d7104b867c7bda12766b65fa89840a0b2fd024e0f3d7e23"
+    },
+    {
+      "archive_member": "payment-current-browser-fixtures/9d4e317c-133d-48be-93a9-8c93449331ea.json",
+      "file": "payment-current-browser-fixtures/9d4e317c-133d-48be-93a9-8c93449331ea.json.gz",
+      "raw_bytes": 16921,
+      "raw_sha256": "c258bbe838dc24e439d4a966794cb741631751cb08a6752f3ddc76eaca025e4a",
+      "gzip_bytes": 3539,
+      "gzip_sha256": "71fca774d872155f041b673a354cfe8c0982ef732af18c9f321c30fbffde0eaf"
+    },
+    {
+      "archive_member": "payment-current-browser-fixtures/d5593551-2026-45a2-8ba0-56360599e262.json",
+      "file": "payment-current-browser-fixtures/d5593551-2026-45a2-8ba0-56360599e262.json.gz",
+      "raw_bytes": 16947,
+      "raw_sha256": "34b8c4413abb43375ed9dd47f236a0caa5af0a6ea51e0e85e3d35f509d315820",
+      "gzip_bytes": 3522,
+      "gzip_sha256": "7589ceb662a0604384f37280579e9f7055d0e7293b9031f69919ef6be275a4a5"
+    },
+    {
+      "archive_member": "payment-restore-browser-fixtures/18c69249-ff97-4123-a68f-c0a53054736c.json",
+      "file": "payment-restore-browser-fixtures/18c69249-ff97-4123-a68f-c0a53054736c.json.gz",
+      "raw_bytes": 25435,
+      "raw_sha256": "59bc5a3d90ab62498e4b951a4ce528f4b86d6d370a88dc6152801ba19d18f8cf",
+      "gzip_bytes": 4688,
+      "gzip_sha256": "98bb5cd41eee20fb44854920741c7a2914ed62236c2f677a6f33f03c2c825ead"
+    },
+    {
+      "archive_member": "payment-restore-browser-fixtures/6844009b-e86a-43cf-8a89-d5db4cf5564c.json",
+      "file": "payment-restore-browser-fixtures/6844009b-e86a-43cf-8a89-d5db4cf5564c.json.gz",
+      "raw_bytes": 25483,
+      "raw_sha256": "eacaf4797e4ec5fb1d643a0135427d7979305ac0bf16ae9936f9fe3899bdace8",
+      "gzip_bytes": 4665,
+      "gzip_sha256": "6078d5b9a31cd6689d113a302586694fcb2ba6e6f5289985774663a073549f14"
+    },
+    {
+      "archive_member": "source-inverse-ui-fixtures/00dbd216-0df4-48fb-8c32-ea36a0e3e13c.initial.json",
+      "file": "source-inverse-ui-fixtures/00dbd216-0df4-48fb-8c32-ea36a0e3e13c.initial.json.gz",
+      "raw_bytes": 10236843,
+      "raw_sha256": "7f56231e034b8515d649d5feedb2a1c0309d6d360182e086bc8e40b040fa7188",
+      "gzip_bytes": 1710481,
+      "gzip_sha256": "c1790dc956c313ba1f02fb034291e814e7e4876a49bf5fa0adeb245c5147f31e"
+    },
+    {
+      "archive_member": "source-inverse-ui-fixtures/00dbd216-0df4-48fb-8c32-ea36a0e3e13c.undone.json",
+      "file": "source-inverse-ui-fixtures/00dbd216-0df4-48fb-8c32-ea36a0e3e13c.undone.json.gz",
+      "raw_bytes": 20712,
+      "raw_sha256": "6b00f11ddd84efdb88acb872c251f2d6c49eaae96337781b06ba596a49b3ce4b",
+      "gzip_bytes": 3831,
+      "gzip_sha256": "9b4d290d72aa0d8040294c2b9719ea40c839208cc212f49ab65e7041a66c8387"
+    }
+  ]
+}

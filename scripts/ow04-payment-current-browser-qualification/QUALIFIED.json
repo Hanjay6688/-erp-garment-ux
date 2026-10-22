@@ -1,0 +1,19 @@
+{
+  "classification": "ACTUAL_CURRENT_NATIVE26_HTTP18_PHASE_SQL8_EQUAL_FINANCIAL_SOURCES_NOT_BROWSER_PASS",
+  "HTTP18_report_overall_status": "INCOMPLETE",
+  "Native26_HTTP18_SQL8_rerun": false,
+  "reports": {
+    "Native26": {
+      "file": "docs/cp7/d17-14/ow04/payment-native26-527ed740-pass/CP7_OW04_PAYMENT_SOURCE_NATIVE26_POSITIVE.json.xz",
+      "raw_sha256": "4f2e6a3ec2d325d2b10a00abc823e1177a1c4e9dbbaa0445a397966d7dddab91"
+    },
+    "HTTP18_phase": {
+      "file": "docs/cp7/d17-14/ow04/payment-auth18-browser9-bce802a3-first/CP7_OW04_PAYMENT_CURRENT_HTTP18_BROWSER9.json.xz",
+      "raw_sha256": "2e5a7641d9f0f58411a42c439e821bd8fa91db7d006635c83ebb0789e912dd8a"
+    },
+    "SQL8": {
+      "file": "docs/cp7/d17-14/ow04/payment-sql8-e6ba59d0-pass/CP7_OW04_PAYMENT_CURRENT_SQL8.json.gz",
+      "raw_sha256": "98927b6d2393fa29e0f96413a14e0dac0523beb5a9782135590456ff9087e503"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "candidate": "bce802a3254b6d63e10781a80b29e43d6c4342fc",
+  "tree": "b59ee5ba804c3d6ff9acc762fb026a7427751976",
+  "run_id": 39716599740,
+  "job_id": 119620074201,
+  "artifact_id": 12399884591,
+  "zip_sha256": "4646965187ef58f2d8d2b49a73ed4754e9002b09e661610c0bd723420fc006fd",
+  "zip_bytes": 22333346,
+  "all_original_json_count": 24,
+  "all_original_json_raw_bytes": 74300947,
+  "all_original_json_exact_byte_roundtrip_verified": true,
+  "archive": {
+    "file": "ALL_ORIGINAL_JSON.tar.xz",
+    "bytes": 672052,
+    "sha256": "4d4a57d47ae445d757e48f7f6afe3ad687e6f5ec74c5fb451b0dc23ed05faebe"
+  },
+  "original_failure_png": {
+    "file": "PAYMENT_CURRENT_REFUND_RESTORE_FAILURE.png",
+    "bytes": 96333,
+    "sha256": "0b3925d6ba01cb8471f1f940cc66eddb084d269cc08b4f0b2ee355e78a8a110e"
+  },
+  "Native26_actual_raw_binding": "4f2e6a3ec2d325d2b10a00abc823e1177a1c4e9dbbaa0445a397966d7dddab91",
+  "same_financial_source_verified": true,
+  "http_counts": {
+    "PASS": 18
+  },
+  "browser_counts": {
+    "PASS": 8,
+    "INCOMPLETE": 1
+  },
+  "production_go": false
+}

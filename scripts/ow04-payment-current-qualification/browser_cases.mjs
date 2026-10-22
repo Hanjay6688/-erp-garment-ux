@@ -6,8 +6,16 @@ const fixed=(op,p)=>helper('ow04-consumer-ui-qualification/browser_fixture.py',o
 const proof=(op,p)=>helper('ow04-payment-browser-races-qualification/browser_fixture.py',op,p)
 const restoredProof=(op,p)=>helper('ow04-payment-current-qualification/browser_restore_fixture.py',op,p)
 const isRpc=name=>r=>r.url().endsWith('/rpc/'+name)
-async function menu(page){
- const toggle=page.getByRole('button',{name:'Buka menu',exact:true});if(await toggle.isVisible())await toggle.click()
+async function menu(page,mobile){
+ // A reload can resolve before React has mounted the responsive header.
+ // Wait for the actual opener rather than sampling visibility once and
+ // trying to click the translated, closed mobile sidebar.
+ const sidebar=page.locator('.sidebar')
+ if(mobile){
+  const toggle=page.getByRole('button',{name:'Buka menu',exact:true})
+  await toggle.waitFor({state:'visible'})
+  if(!await sidebar.evaluate(element=>element.classList.contains('sidebar-open')))await toggle.click()
+ }else await sidebar.waitFor({state:'visible'})
  const link=page.getByRole('button',{name:'• Pembayaran Pelanggan',exact:true})
  if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Penjualan'}).click()
  await link.click()
@@ -26,7 +34,7 @@ async function journey(ui,today,action,restore=false){
  page.on('request',r=>{if(isRpc(correctionRpc)(r)||isRpc(creditRpc)(r))requests.push({rpc:r.url().split('/').at(-1),args:r.postDataJSON()})})
  const observed=(op,args,outcome)=>proof(op,{fixture:f.fixture,fixture_sha256:f.fixture_sha256,actor:user.user.id,args,outcome})
  async function source(){
-  await menu(page);await page.getByLabel('Cari invoice',{exact:true}).fill(f.source_number)
+  await menu(page,mobile);await page.getByLabel('Cari invoice',{exact:true}).fill(f.source_number)
   await page.getByRole('button',{name:'Cari invoice',exact:true}).click()
   await page.locator('[aria-label="Daftar invoice"] .cproc-receipt').filter({hasText:f.source_number}).click()
  }
@@ -95,7 +103,7 @@ async function journey(ui,today,action,restore=false){
    assert.equal(commandError,undefined,commandError);assert.ok(completed);assert.ok(commandArgs)
    observed('second20',commandArgs,completed)
    await ui.expect(page.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeEnabled()
-   await page.reload();await menu(page)
+   await page.reload();await menu(page,mobile)
    waiting=page.waitForResponse(isRpc(creditRpc),{timeout:60000})
    await page.getByRole('button',{name:'Reconcile transaksi',exact:true}).click()
    const response=await waiting;assert.equal(response.status(),200,await response.text())
@@ -149,7 +157,7 @@ async function journey(ui,today,action,restore=false){
    assert.equal(lostReplyTrace.reply_aborted,true)
    observed('correction',args,corrected)
    await ui.expect(page.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeEnabled()
-   await page.reload();await menu(page)
+   await page.reload();await menu(page,mobile)
    const waiting=page.waitForResponse(isRpc(correctionRpc));await page.getByRole('button',{name:'Reconcile transaksi',exact:true}).click()
    const response=await waiting;assert.equal(response.status(),200,await response.text());assert.deepEqual(await response.json(),corrected);assert.deepEqual(response.request().postDataJSON(),args)
   }else{
@@ -183,7 +191,7 @@ async function journey(ui,today,action,restore=false){
    final=restoredProof('restored1000',{...proofArgs,args:restoreArgs,outcome:restored})
    journeyProgress.restoration={args:restoreArgs,outcome:restored,proof:final}
    await ui.expect(page.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeEnabled()
-   await page.reload();await menu(page)
+   await page.reload();await menu(page,mobile)
    const waiting=page.waitForResponse(isRpc(correctionRpc),{timeout:60000});await page.getByRole('button',{name:'Reconcile transaksi',exact:true}).click()
    const response=await waiting;assert.equal(response.status(),200,await response.text());assert.deepEqual(await response.json(),restored);assert.deepEqual(response.request().postDataJSON(),restoreArgs)
    final=restoredProof('restored1000',{...proofArgs,args:restoreArgs,outcome:restored});journeyProgress.restoration.exact_replay_completed=true
