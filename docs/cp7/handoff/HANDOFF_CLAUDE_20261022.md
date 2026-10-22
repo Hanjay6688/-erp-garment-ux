@@ -1,6 +1,6 @@
 # Takeover writer ERP oleh Claude — 22 Oktober2026 WIB
 
-Instruksi owner terbaru (persis): "selesain sampe checkpoint berikutnya, siapin handoff takeover by claude ya, kinerja lu ampas, selalu stuck setelah kerja 20an menit, gpt emang gak di desain buat coding panjang ya?"
+Kutipan instruksi owner terbaru yang menentukan scope: "selesain sampe checkpoint berikutnya, siapin handoff takeover by claude ya". Pesan lengkap tetap disimpan dalam konteks privat.
 
 Owner meminta pergantian writer sesudah checkpoint ini. Jangan menambah writer/agent lain atau mengerjakan cabang lain; sesudah Claude mulai, sesi ini tidak menulis kode bersamaan.
 
@@ -57,7 +57,7 @@ Kegagalan awal Native28, browser, Auth dan laundry/FG tetap tersimpan dan tidak 
 
 Dasar bisnis tetap D17-14 butir5 pada register keputusan owner: satu transfer ke beberapa penerimaan/tagihan, jumlah alokasi sama dengan pembayaran, kas keluar sekali, pembatalan/koreksi konsisten.
 
-Status/run/hash akhir ditulis di `docs/cp7/d17-14/ow06/CHECKPOINT.json` setelah uji selesai. **OW06_complete=false; hitungan tetap5/16.** Baca README folder itu untuk cakupan yang dibatasi.
+**Checkpoint lulus10/10** pada f764c5080991690bac443ecfe0f9171c77a0307e, tree34c35fe3cce0b02e31abba94bd6a303f7ac76e7a, run39808778963/job119929044980. Status per kasus, hash asli dan batas ada di `docs/cp7/d17-14/ow06/CHECKPOINT.json`. **OW06_complete=false; hitungan tetap5/16.** Baca README folder itu untuk cakupan yang dibatasi.
 
 Produk terpisah di `scripts/cp7_supplier_transfer/`; workflow `.github/workflows/cp7-ow06-native.yml`. Pemasang bawaan dan UI belum diubah, sehingga kode ini belum aktif pada aplikasi yang diwariskan. Tidak ada pemasangan hosted.
 
@@ -65,7 +65,7 @@ Desain: parent transfer+alokasi privat; Native supplier_payments tetap satu per 
 
 Sembilan fungsi lama diturunkan secara ketat di `native_delta.py`: post/reverse supplier payment, reverse_journal, payment_detail, reverse_payment_locked, supplier correction.apply, Native financial detector, receipt-correction blockers, transaction-source resolver. Metadata/ACL fungsi lama tetap; helper privat hanya diberi EXECUTE sempit ke pemilik pembaca lama, bukan pengguna. Komposisi membandingkan seluruh22 kelompok, tidak memproyeksikan definisi lama ke pemeriksa baru; tidak menambah trigger ERP.
 
-Uji finite10: enam kontrol grup baru + empat oracle pembayaran tunggal lama yang berkas/expected-nya tidak diubah. Asli hasil CI dan kegagalan awal harus dipertahankan. Native runner membatalkan tiap kasus: pemeriksa deferred milik transfer dipaksa IMMEDIATE untuk membuktikan batas COMMIT, kemudian dikembalikan DEFERRED; ini belum bukti restore database yang sudah dipakai.
+Uji finite10 seluruhnya PASS: enam kontrol grup baru + empat oracle pembayaran tunggal lama yang berkas/expected-nya tidak diubah. Pembayaran400+600 tepat satu kas1000, pembalikan kas net0, empat koreksi dengan nominal akhir900, bank kosong menolak tanpa sisa; detektor korupsi satu sen0→1→0 dan penolakan pencopotan sesudah dipakai lulus. Seluruh22 katalog/pencopotan/CP6/advisor kembali tepat. Asli hasil CI dan kegagalan awal harus dipertahankan. Native runner membatalkan tiap kasus: pemeriksa deferred milik transfer dipaksa IMMEDIATE untuk membuktikan batas COMMIT, kemudian dikembalikan DEFERRED; ini belum bukti restore database yang sudah dipakai.
 
 ### Langkah Claude sesudah mengambil alih
 
@@ -107,3 +107,11 @@ Git push CLI di sesi ini tidak punya auth; publisher GitHub API memverifikasi bl
 `ERP_WRITER_CONTEXT_20261021.txt` memuat seluruh28 dokumen konteks awal,7 aliran takeover dan versi checkpoint berurutan, termasuk konteks personal/owner. Jangan mengunggahnya ke repo publik. Ringkasan handoff ini menuntun urutan baca; ia tidak menggantikan berkas konteks lengkap.
 
 Setelah Claude mengakui takeover, hanya Claude yang menulis. Owner cukup memberikan paket dan kotak instruksi di atas; tidak perlu mengulang keputusan yang sudah tersimpan.
+
+## Catatan run lama dan kegagalan pemasangan
+
+Dua hasil asli0 kasus dipertahankan: 39803289633 (postgres tidak punya CREATE pada schema pemilik pembaca) dan39807454686 (helper role OW04 sengaja hanya mengizinkan role milik OW04). Perbaikan final memakai helper OW06 sendiri dengan daftar fungsi/pemilik schema lama yang tepat, SET LOCAL ROLE terbatas dan ACL asli kembali persis di transaksi yang sama; helper OW04 tidak dilonggarkan. Tidak ada perubahan nominal/expected untuk membuat lulus.
+
+Run39804712826/job119914712281 pada versi lama bef6b782 masih dilaporkan IN_PROGRESS pada pemasangan alat sebelum kasus saat penyerahan; log belum tersedia. Versi itu belum punya helper owner final dan tidak dipakai menutup checkpoint. Ini job server yang sudah dikirim, bukan chat yang terus bekerja. Claude cukup mencatat hasil akhirnya ketika tersedia; jangan mererun. Workflow terkini sudah membatasi pemasangan dependensi8menit dan hanya menerima psql/pg_dump/pg_restore versi17 yang diperiksa; kunci tanda tangan lama tetap persis.
+
+Batas lama yang jangan disembunyikan: kasus CURRENT_ACCESS yang dipertahankan mencatat SQL langsung authenticated bisa membuat DRAFT dan memanggil penulis supplier Native tanpa finance.ap.pay; seluruh observasi dibatalkan. Ini belum dibetulkan oleh OW06. Aplikasi/PostgREST hanya mengekspos public, bukan schema erp; jangan menyamakan batas jalur aplikasi itu dengan bukti bahwa seluruh akses SQL langsung sudah tertutup. Detail asli tetap di CHECKPOINT dan audit keterpaparan masih terbuka.

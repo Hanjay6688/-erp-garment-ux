@@ -1,0 +1,330 @@
+{
+  "classification": "BOUNDED_OW06_NATIVE_BACKEND_CHECKPOINT_NOT_FULL_FEATURE_OR_INDEPENDENT_AUDIT",
+  "status": "PASS",
+  "candidate_commit": "f764c5080991690bac443ecfe0f9171c77a0307e",
+  "candidate_tree": "34c35fe3cce0b02e31abba94bd6a303f7ac76e7a",
+  "run_id": 39808778963,
+  "job_id": 119929044980,
+  "completed_at_WIB": "2026-10-22T23:04:47.934708+07:00",
+  "counts": {
+    "PASS": 10
+  },
+  "cases": {
+    "OW06_ONE_TRANSFER_TWO_RECEIPTS_EXACT_CASH": {
+      "status": "PASS",
+      "allocation_amounts": [
+        "400.00",
+        "600.00"
+      ],
+      "one_actual_cash_credit": "1000.00",
+      "one_journal_two_lines": true,
+      "two_Native_AP_children": true,
+      "same_UUID_replay_no_effect": true,
+      "stock_HPP_unchanged": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    },
+    "OW06_REQUEST_AND_ALLOCATION_REFUSALS_ATOMIC": {
+      "status": "PASS",
+      "refusals": {
+        "sum": "CP7_SUPPLIER_TRANSFER_ALLOCATION_TOTAL",
+        "duplicate": "CP7_SUPPLIER_TRANSFER_DUPLICATE_RECEIPT",
+        "zero": "CP7_SUPPLIER_TRANSFER_FIELDS",
+        "extra": "CP7_SUPPLIER_TRANSFER_FIELDS",
+        "over": "CP7_SUPPLIER_TRANSFER_EXCEEDS_REMAINING",
+        "future": "CP7_SUPPLIER_TRANSFER_DATE_FUTURE",
+        "changed_UUID": "CP7_SUPPLIER_TRANSFER_REQUEST_CHANGED",
+        "stale": "CP7_SUPPLIER_TRANSFER_STALE_REVIEW"
+      },
+      "all_refusals_exact_zero_effect": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    },
+    "OW06_REVERSE_WHOLE_TRANSFER_NO_INDIVIDUAL_CHILD": {
+      "status": "PASS",
+      "all_allocations_reversed": true,
+      "one_exact_Native_journal_inverse": true,
+      "cash_net": "0.00",
+      "old_child_route_refused": true,
+      "replay_no_effect": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    },
+    "OW06_FOUR_CORRECTIONS_RETAIN_ECONOMIC_DATES": {
+      "status": "PASS",
+      "corrections": 4,
+      "original_and_successors_retained": true,
+      "exact_current_cash": "900.00",
+      "old_economic_date_preserved": true,
+      "Native_current_reversal_and_two_exact_date_restatements": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    },
+    "OW06_EMPTY_BANK_AND_LAST_POST_FAILURE_ATOMIC": {
+      "status": "PASS",
+      "empty_bank_refused": "CP7_CASH_NEGATIVE: saldo BC bank (BC4A5355A1E4) menjadi minus -1000.00 pada tanggal 2026-10-22 atau sesudahnya (tanggal ekonomi). Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.",
+      "last_post_failure_rolls_back_both_children_parent_request_journal": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    },
+    "OW06_NATIVE_DETECTOR_ZERO_ONE_ZERO_AND_USED_ROLLBACK_REFUSAL": {
+      "status": "PASS",
+      "read_only_detector_counts": [
+        0,
+        1,
+        0
+      ],
+      "actual_one_cent_Native_child_corruption_detected": true,
+      "used_rollback_refused_before_DDL_no_facts_deleted": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    },
+    "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": {
+      "status": "PASS",
+      "workspace_AP_token_banks": true,
+      "Native_post_AP_SUPPLIER_debit_cash_credit": true,
+      "same_UUID_replay_no_second_effect": true,
+      "changed_payload_refused": "CP7_SUPPLIER_PAYMENT_REQUEST_CHANGED",
+      "stale_review_refused": "CP7_SUPPLIER_PAYMENT_STALE_REVIEW",
+      "settled_exactly_paid_status": true,
+      "nothing_payable_refused": "CP7_SUPPLIER_PAYMENT_NOTHING_PAYABLE",
+      "stock_HPP_unchanged": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    },
+    "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": {
+      "status": "PASS",
+      "refusals": {
+        "over": "CP7_SUPPLIER_PAYMENT_EXCEEDS_REMAINING",
+        "future": "CP7_SUPPLIER_PAYMENT_DATE_FUTURE",
+        "before_receipt": "CP7_SUPPLIER_PAYMENT_BEFORE_RECEIPT",
+        "inactive_bank": "CP7_SUPPLIER_PAYMENT_CASH_ACCOUNT_INACTIVE",
+        "no_cents": "CP7_SUPPLIER_PAYMENT_CREATE_FIELDS",
+        "zero": "CP7_SUPPLIER_PAYMENT_CREATE_FIELDS",
+        "short_note": "CP7_SUPPLIER_PAYMENT_CREATE_FIELDS",
+        "extra_field": "CP7_SUPPLIER_PAYMENT_CREATE_FIELDS",
+        "unknown_receipt": "CP7_SUPPLIER_PAYMENT_RECEIPT_NOT_FOUND"
+      },
+      "Native_payments_journals_requests_cash_stock_unchanged": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    },
+    "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": {
+      "status": "PASS",
+      "ADMIN_without_pay_reads_but_cannot_pay": "CP7_SUPPLIER_PAYMENT_CREATE_DENIED",
+      "service_role_refused": "CP7_INVOICE_ACCESS_DENIED",
+      "private_apply_not_executable": "permission denied for schema cp7_supplier_payment_create",
+      "legacy_hosted_direct_path_observation": {
+        "authenticated_direct_draft_insert": "ALLOWED",
+        "native_post_without_finance_ap_pay": "POSTED",
+        "rolled_back": true,
+        "app_http_surface": "PostgREST exposes public only; erp tables are not an application route"
+      },
+      "ADMIN_with_pay_records": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    },
+    "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": {
+      "status": "PASS",
+      "private_context_cleared": true,
+      "no_App_private_schema_or_ERP_DML": true,
+      "payment_id": "9c4046fa-bb7b-41bf-a0a6-7c6c7c1ff1ea",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    }
+  },
+  "complete_installed_verification": {
+    "status": "OW06_EXACT_SOURCE_AND_ALL22_CATALOG_GROUPS_VERIFIED",
+    "Native_changed_functions": [
+      "erp.post_supplier_payment(uuid)",
+      "erp.reverse_supplier_payment(uuid,text)",
+      "erp.reverse_journal(uuid,text)",
+      "cp7_invoice.payment_detail(uuid,jsonb)",
+      "cp7_invoice.reverse_payment_locked(jsonb)",
+      "cp7_supplier_payment_correction.apply(jsonb,uuid)",
+      "erp.run_v267_financial_truth_checks()",
+      "cp7_receipt_fix.blockers(uuid)",
+      "cp7_transaction_source.resolve(jsonb)"
+    ],
+    "ERP_trigger_attachments_unchanged": true,
+    "one_real_cash_journal_per_transfer": true,
+    "private_parent_allocation_links": true,
+    "default_installer_or_UI_changed": false,
+    "OW06_complete": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "preuse_removal_status": "OW06_PREUSE_EXACT_RESTORE",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "all_case_boundaries_and_public_schemas_restored": true,
+  "all_case_sessions_clean": true,
+  "original_report": {
+    "name": "CP7_OW06_SUPPLIER_TRANSFER_NATIVE10.json",
+    "bytes": 2700991,
+    "sha256": "6a95968609a6f691a6fc6afabe9f36859a3025e8ae0cf5836b4b33f0756b4e16"
+  },
+  "artifact": {
+    "id": 12440350206,
+    "zip_bytes": 1889529,
+    "zip_sha256": "cac0bb229250867c0fe1e930d39c05cabe477a265a226a2f230bbb39be32715a"
+  },
+  "local_original_report": "ow06-native10-f764c508-pass.json",
+  "additional_original_archives": [
+    "ow06-native10-39b415c3-second-install-failure.zip",
+    "ow06-native10-f764c508-pass.zip"
+  ],
+  "prior_attempts": [
+    {
+      "commit": "0fd3e781f65394d7284e406f1f3bf9fc825e0516",
+      "run_id": 39803289633,
+      "job_id": 119909685371,
+      "status": "INCOMPLETE",
+      "observed_cases": 0,
+      "error": "permission denied for schema cp7_invoice",
+      "receipt": "native10-0fd3e781-first-failure.json"
+    },
+    {
+      "commit": "39b415c36fddb2dba83f8656cfa037e565d49ee4",
+      "run_id": 39807454686,
+      "job_id": 119924364125,
+      "status": "INCOMPLETE",
+      "observed_cases": 0,
+      "error": "OW04_CONSUMER_UNTRUSTED_PRIVATE_OWNER",
+      "receipt": "native10-39b415c3-second-install-failure.json"
+    },
+    {
+      "commit": "bef6b7823f87996355b00f3e1b78a3ff0116837b",
+      "run_id": 39804712826,
+      "job_id": 119914712281,
+      "status": "IN_PROGRESS_LAST_OBSERVED",
+      "last_observed_step": "Install pinned disposable runtime before any Native case",
+      "disposition": "Obsolete version without final OW06 owner helper. Server job still reported running at takeover; no pass claimed, no rerun needed, retain its eventual result. Does not write application sources or production."
+    }
+  ],
+  "retained_oracle_source": {
+    "file": "scripts/cp7_supplier_payment_create_cases.py",
+    "bytes": 17794,
+    "sha256": "ac07bfdb55751b5e8da86e599eec1bf97e870768c39c930af3a76d871a19c292",
+    "byte_equal_to_qualified_OW05": true
+  },
+  "remaining": [
+    "Connected closed TypeScript contract and transfer UI with whole-parent actions",
+    "Actual GoTrue/PostgREST rights after waiting, concurrent users and replay",
+    "Actual desktop/mobile390 operator journeys and GL drill",
+    "Used-state OW06 dump/restore/rebind/tamper/replay/inverse/successor and default P21 integration",
+    "Source-reader/detector impact review and independent audit"
+  ],
+  "default_installer_or_UI_changed": false,
+  "overall_completed_items": 5,
+  "overall_total_items": 16,
+  "OW06_complete": false,
+  "production_go": false,
+  "formal_CP7C_started": false,
+  "independent_acceptance": false,
+  "known_legacy_boundary": {
+    "retained_current_access_case": "Raw authenticated SQL could create a DRAFT and call the legacy Native supplier poster without finance.ap.pay; the observation was rolled back. It remains recorded as an existing boundary, not fixed by OW06.",
+    "application_surface": "The connected application exposes public through PostgREST; erp schema tables/functions are not an application HTTP route.",
+    "new_stage": "No additional App ERP DML or private transfer grant is introduced; independent exposure/audit checks remain open."
+  }
+}

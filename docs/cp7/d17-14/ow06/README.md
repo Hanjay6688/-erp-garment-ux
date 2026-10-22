@@ -1,6 +1,6 @@
 # OW-06 — satu transfer supplier ke beberapa penerimaan
 
-Checkpoint yang sedang diselesaikan: mesin pembayaran, pembatalan dan koreksi di database sekali pakai. Ini belum menyelesaikan OW-06: layar nyata, hak/race melalui login, pemulihan sesudah dipakai dan pemasangan bawaan masih menjadi pekerjaan Claude. Jumlah pekerjaan selesai tetap5/16.
+Checkpoint mesin pembayaran, pembatalan dan koreksi lulus10/10 pada database sekali pakai: [bukti dan batas](CHECKPOINT.json). Ini belum menyelesaikan OW-06: layar nyata, hak/race melalui login, pemulihan sesudah dipakai dan pemasangan bawaan masih menjadi pekerjaan Claude. Jumlah pekerjaan selesai tetap5/16.
 
 Dasar owner D17-14 butir5: satu transfer dialokasikan ke beberapa penerimaan/tagihan, jumlah alokasi sama dengan pembayaran, kas keluar tercatat sekali, pembatalan/koreksi konsisten. Tidak ada FIFO, rekening perantara atau angka kebijakan baru.
 
@@ -17,3 +17,5 @@ Uji checkpoint: enam kasus baru (uang400+600=1000; penolakan atomik/replay; pemb
 Pemeriksaan lokal hanya lulus kompilasi tipe Native, bentuk masukan, jumlah alokasi dan penolakan draf tanpa kapabilitas. Tidak dihitung sebagai bukti jurnal Native. Hasil CI dan kegagalan pertama dicatat terpisah setelah selesai.
 
 Batas tetap: tidak menyentuh main, kandidat auditor55c885d1, Enteng, database hosted/produksi atau WA nyata. CP7C formal belum mulai. Laporan sesudah kredit pelanggan masih BLOCKED di OW-08.
+
+Hasil final: f764c508, run39808778963/job119929044980, enam kontrol grup dan empat oracle lama semuanya PASS. Seluruh22 kelompok, pencopotan sebelum dipakai, pengembalian CP6 dan advisor lulus. Dua kegagalan pemasangan asli tetap disimpan; satu run versi lama masih dilaporkan berjalan pada persiapan alat dan tidak dipakai sebagai bukti. Claude mengambil alih sisa OW06 sesuai handoff; jangan menambah hitungan selesai menjadi6 sebelum layar, hak/race, perjalanan nyata serta pemulihan sesudah dipakai terbukti.
