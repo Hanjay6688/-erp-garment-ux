@@ -1,0 +1,41 @@
+{
+  "all5_original_primary_JSONs_preserved": true,
+  "raw_roundtrips_verified": true,
+  "stored": [
+    {
+      "file": "ALIGNED_CHAIN.json.gz",
+      "raw_bytes": 17536,
+      "raw_sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+      "packed_bytes": 4768,
+      "packed_sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75"
+    },
+    {
+      "file": "CP7_OW04_PAYMENT_SOURCE_NATIVE26_POSITIVE.json.xz",
+      "raw_bytes": 6257647,
+      "raw_sha256": "d4cc5959e88085936245b7aed59ed0a2d839cd9f4d258db5e9d6c63e01b16f18",
+      "packed_bytes": 32164,
+      "packed_sha256": "c3bdac05a495426818171082e552be4e7a85e1531ff38edb50d8a6b16e3ae1ef"
+    },
+    {
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "raw_bytes": 10402,
+      "raw_sha256": "775d28992d41919391c337299ae0cc64afcbecf694fe0f29e96ae845ffa2da7a",
+      "packed_bytes": 1809,
+      "packed_sha256": "4fda9d41031149f76041aea132a9049c36729d678d76c27231da18d2f23077f8"
+    },
+    {
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "packed_bytes": 255,
+      "packed_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    {
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360435,
+      "raw_sha256": "125a14ab3dbb9e08baa8fc0e40db535512051ae2b5c591bb6bcf3b7ffb80e8aa",
+      "packed_bytes": 11411,
+      "packed_sha256": "150ff4c8b194d6c96a43b5ea908b1d9bad1326eb0339ec8a84197ef2ca5db05c"
+    }
+  ]
+}
